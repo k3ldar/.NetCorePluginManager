@@ -13,18 +13,16 @@
  *
  *  Copyright (c) 2018 Simon Carter.  All Rights Reserved.
  *
- *  Product:  Server Manager
+ *  Product:  SharedPluginFeatures
  *  
- *  File: ServiceMessage.cs
+ *  File: IMemoryCache.cs
  *
  *  Purpose:  
  *
  *  Date        Name                Reason
- *  22/09/2018  Simon Carter        Initially Created
+ *  29/09/2018  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using System;
-
 using Shared.Classes;
 
 

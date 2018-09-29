@@ -13,22 +13,30 @@
  *
  *  Copyright (c) 2018 Simon Carter.  All Rights Reserved.
  *
- *  Product:  SharedPluginFeatures
+ *  Product:  Demo Website Plugin
  *  
- *  File: SharedPluginFeatures.cs
+ *  File: ServicesController.cs
  *
  *  Purpose:  
  *
  *  Date        Name                Reason
- *  29/09/2018  Simon Carter        Initially Created
+ *  22/09/2018  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using System.Collections.Generic;
+using Microsoft.AspNetCore.Mvc;
 
-namespace SharedPluginFeatures
+namespace DemoWebsitePlugin.Controllers
 {
-    public interface ISharedPluginHelper
+    public class ServicesController : Controller
     {
-        List<MainMenuItem> BuildMainMenu();
+        public IActionResult Index()
+        {
+            return View();
+        }
+
+        public IActionResult Middleware()
+        {
+            return View();
+        }
     }
 }

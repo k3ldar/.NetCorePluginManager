@@ -13,22 +13,40 @@
  *
  *  Copyright (c) 2018 Simon Carter.  All Rights Reserved.
  *
- *  Product:  SharedPluginFeatures
+ *  Product:  Demo Website Plugin
  *  
- *  File: SharedPluginFeatures.cs
+ *  File: ShowServiceMenuItem.cs
  *
  *  Purpose:  
  *
  *  Date        Name                Reason
- *  29/09/2018  Simon Carter        Initially Created
+ *  22/09/2018  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using System.Collections.Generic;
+using System;
 
-namespace SharedPluginFeatures
+namespace DemoWebsitePlugin.Classes
 {
-    public interface ISharedPluginHelper
+    public class ShowServiceMenuItem : SharedPluginFeatures.MainMenuItem
     {
-        List<MainMenuItem> BuildMainMenu();
+        public override string Area()
+        {
+            return String.Empty;
+        }
+
+        public override string Controller()
+        {
+            return "Services";
+        }
+
+        public override string Action()
+        {
+            return "Index";
+        }
+
+        public override string Name()
+        {
+            return "Plugin Services";
+        }
     }
 }

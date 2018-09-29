@@ -13,22 +13,31 @@
  *
  *  Copyright (c) 2018 Simon Carter.  All Rights Reserved.
  *
- *  Product:  SharedPluginFeatures
+ *  Product:  Demo Website Plugin
  *  
- *  File: SharedPluginFeatures.cs
+ *  File: Program.cs
  *
  *  Purpose:  
  *
  *  Date        Name                Reason
- *  29/09/2018  Simon Carter        Initially Created
+ *  22/09/2018  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using System.Collections.Generic;
 
-namespace SharedPluginFeatures
+using Microsoft.AspNetCore;
+using Microsoft.AspNetCore.Hosting;
+
+namespace DemoRazorWebsitePlugin
 {
-    public interface ISharedPluginHelper
+    public class Program
     {
-        List<MainMenuItem> BuildMainMenu();
+        public static void Main(string[] args)
+        {
+            CreateWebHostBuilder(args).Build().Run();
+        }
+
+        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
+            WebHost.CreateDefaultBuilder(args)
+                .UseStartup<Startup>();
     }
 }
