@@ -23,18 +23,37 @@
  *  22/09/2018  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+using System;
+
 using Microsoft.AspNetCore.Mvc;
+
+using Shared.Classes;
 
 namespace DemoWebsitePlugin.Controllers
 {
     public class ServicesController : Controller
     {
-        public IActionResult Index()
+        public IActionResult Middleware()
         {
             return View();
         }
 
-        public IActionResult Middleware()
+        public IActionResult Api()
+        {
+            return View();
+        }
+
+        public IActionResult DependencyInjection()
+        {
+            return View();
+        }
+
+        public IActionResult Website()
+        {
+            return View();
+        }
+
+        public IActionResult Custom()
         {
             return View();
         }

@@ -15,19 +15,19 @@
  *
  *  Product:  Demo Website Plugin
  *  
- *  File: ShowServiceMenuItem.cs
+ *  File: CustomPluginMenuItem.cs
  *
  *  Purpose:  
  *
  *  Date        Name                Reason
- *  22/09/2018  Simon Carter        Initially Created
+ *  01/10/2018  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
 
 namespace DemoWebsitePlugin.Classes
 {
-    public class ShowServiceMenuItem : SharedPluginFeatures.MainMenuItem
+    public class CustomPluginMenuItem : SharedPluginFeatures.MainMenuItem
     {
         public override string Area()
         {
@@ -41,12 +41,12 @@ namespace DemoWebsitePlugin.Classes
 
         public override string Action()
         {
-            return "Index";
+            return "Custom";
         }
 
         public override string Name()
         {
-            return "Plugin Services";
+            return "Custom Plugins";
         }
     }
 }

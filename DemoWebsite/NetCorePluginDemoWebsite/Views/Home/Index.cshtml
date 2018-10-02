@@ -1,0 +1,68 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div>
+    <h3>What is AspNetCore Plugin Manager</h3>
+    <p>The plugin manager is an ASP.Net Core plugin manager which can be used to extend any Core website.</p>
+    <p>There are both built in extensions and the ability to add custom extensions. Built in extensions allow developers to quickly and easily add:</p>
+    <ul>
+        <li><a href="/Services/Middleware">Middleware extensions.</a></li>
+        <li><a href="/Services/ApiController">Api controllers</a></li>
+        <li><a href="/Services/DependencyInjection">Services for DI</a></li>
+        <li><a href="/Services/Website">Entire ASP.Net Core sub websites</a></li>
+    </ul>
+    <p><a href="/Services/Custom">Custom extensions</a> allow a host application to extend it's own interface, or expose inner workings that plugins can exploit, examples of which are:</p>
+    <ul>
+        <li>Add menu items</li>
+        <li>Add buttons to a home page</li>
+        <li>Add marketing functionality in terms of rotating carousel images.</li>
+        <li>Customize internal web pages.</li>
+    </ul>
+</div>
+<div>
+    <h3>Supported Development Principles</h3>
+    <p>Plugin technology is a nutural proponent to the SOLID principles of software development, each plugin has a single purpose and the host can be extended without being directly modified.</p>
+    <p>With each plugin having a single purpose, developers can focus on individual aspects of the entire project.</p>
+</div>
+<div>
+    <h3>Benefits</h3>
+    <p>
+        Typically a software developer, or a team of developers within a software house will develop multiple solutions for many clients,
+        each of those solutions will have many shared aspects, such as:
+    </p>
+    <ul>
+        <li>Customer Management</li>
+        <li>Log in</li>
+        <li>Marketing</li>
+        <li>Product Display</li>
+        <li>Invoicing and Accounting</li>
+        <li>Product Management</li>
+    </ul>
+    <p>
+        By utilising plugin technology in conjunction with the DRY principle, time to live from conception to release can be dramatically
+        reduced.  Whether it be adding a "Customer Management" plugin which is shared amongst many websites, to developing a single "Log In" plugin
+        which can also be shared between projects.  Once a plugin has been developed and tested it can be deployed simply by being
+        loaded into the host application using the Plugin Manager.
+    </p>
+    <p>There are many other benefits to using plugin technology within a website, they include:</p>
+    <ul>
+        <li>Extendable.  A website can be extended dynamically without recompiling or rebuilding the host site.</li>
+        <li>Paralell Development.  Teams of developers can work on different aspects of the project, in paralell.</li>
+        <li>Reuse code.  Once a plugin has been developed and tested, it can be re-utilised in other projects.</li>
+        <li>Quickly isolate and solve problems within a system.</li>
+    </ul>
+</div>
+<div>
+    <h3>How it works</h3>
+    <p>The Plugin Manager exposes four static methods via the PluginManagerService class</p>
+    <ul>
+        <li>Initialise.  Initialises the Plugin Manager, loads all plugins.</li>
+        <li>Configure.  Allows plugins to configure the request pipleine.</li>
+        <li>ConfigureServices.  Allows plugins to add services to the host application.</li>
+        <li>GetPluginClasses.  Retrieves an instance of class T from all plugins.</li>
+    </ul>
+    <p>These four methods allow a host application to interact with all plugins.</p>
+    <p>The following image shows how the plugins relate to the host application.</p>
+    <img src="~/images/PluginTechnology.png" />
+</div>

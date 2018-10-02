@@ -16,19 +16,34 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Remove="Views\Services\Index.cshtml" />
+    <Content Remove="Views\Services\Api.cshtml" />
+    <Content Remove="Views\Services\Custom.cshtml" />
+    <Content Remove="Views\Services\DependencyInjection.cshtml" />
+    <Content Remove="Views\Services\Middleware.cshtml" />
+    <Content Remove="Views\Services\Website.cshtml" />
     <Content Remove="wwwroot\css\site.css" />
-    <Content Remove="wwwroot\images\banner1.svg" />
+    <Content Remove="wwwroot\css\vs.css" />
+    <Content Remove="wwwroot\images\CustomPlugin.png" />
+    <Content Remove="wwwroot\images\EmbeddedResources.png" />
     <Content Remove="wwwroot\images\PluginTechnology.png" />
+    <Content Remove="wwwroot\js\highlight.pack.js" />
+    <Content Remove="wwwroot\js\Highlight\pack.js" />
     <Content Remove="wwwroot\js\site.js" />
     <Content Remove="wwwroot\lib\bootstrap\dist\js\bootstrap.js" />
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Views\Services\Index.cshtml" />
+    <EmbeddedResource Include="Views\Services\Api.cshtml" />
+    <EmbeddedResource Include="Views\Services\Custom.cshtml" />
+    <EmbeddedResource Include="Views\Services\DependencyInjection.cshtml" />
+    <EmbeddedResource Include="Views\Services\Middleware.cshtml" />
+    <EmbeddedResource Include="Views\Services\Website.cshtml" />
     <EmbeddedResource Include="wwwroot\css\site.css" />
-    <EmbeddedResource Include="wwwroot\images\banner1.svg" />
+    <EmbeddedResource Include="wwwroot\css\vs.css" />
+    <EmbeddedResource Include="wwwroot\images\CustomPlugin.png" />
+    <EmbeddedResource Include="wwwroot\images\EmbeddedResources.png" />
     <EmbeddedResource Include="wwwroot\images\PluginTechnology.png" />
+    <EmbeddedResource Include="wwwroot\js\Highlight\pack.js" />
     <EmbeddedResource Include="wwwroot\js\site.js" />
     <EmbeddedResource Include="wwwroot\lib\bootstrap\dist\js\bootstrap.js" />
   </ItemGroup>
@@ -36,6 +51,7 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.1" />
+    <PackageReference Include="SC.Shared.Library.Core" Version="2.6.1" />
   </ItemGroup>
 
   <ItemGroup>

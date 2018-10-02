@@ -13,27 +13,40 @@
  *
  *  Copyright (c) 2018 Simon Carter.  All Rights Reserved.
  *
- *  Product:  MemoryCachePlugin
+ *  Product:  Demo Website Plugin
  *  
- *  File: MemoryClassPluginSettings.cs
+ *  File: DependencyInjectionMenuItem.cs
  *
  *  Purpose:  
  *
  *  Date        Name                Reason
- *  22/09/2018  Simon Carter        Initially Created
+ *  01/10/2018  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+using System;
 
-namespace MemoryCache.Plugin
+namespace DemoWebsitePlugin.Classes
 {
-    public class MemoryClassPluginSettings
+    public class DependencyInjectionMenuItem : SharedPluginFeatures.MainMenuItem
     {
-        #region Properties
+        public override string Area()
+        {
+            return String.Empty;
+        }
 
-        public int DefaultCacheDuration { get; set; }
+        public override string Controller()
+        {
+            return "Services";
+        }
 
-        public int ShortCacheDuration { get; set; }
+        public override string Action()
+        {
+            return "DependencyInjection";
+        }
 
-        #endregion Properties
+        public override string Name()
+        {
+            return "Dependency Injection";
+        }
     }
 }

@@ -73,6 +73,11 @@ namespace AspNetCore.PluginManager
                 {
                     if (String.IsNullOrEmpty(file) || !File.Exists(file))
                     {
+                        if (!String.IsNullOrEmpty(file))
+                        {
+                            _logger.AddToLog($"Could not find plugin: {file}");
+                        }
+
                         continue;
                     }
 

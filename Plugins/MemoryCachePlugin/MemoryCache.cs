@@ -57,9 +57,6 @@ namespace MemoryCache.Plugin
 
             _cacheShort = new CacheManager("Website Internal Short Cache", 
                 new TimeSpan(0, settings.ShortCacheDuration == 0 ? 5 : settings.ShortCacheDuration, 0));
-
-            _cacheSession = new CacheManager("Website Session Cache", 
-                new TimeSpan(0, settings.SessionCacheDuration < 30 ? 30 :settings.SessionCacheDuration, 0), true, false);
         }
 
         #endregion Constructors
