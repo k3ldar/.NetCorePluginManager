@@ -41,8 +41,6 @@ namespace MemoryCache.Plugin
 
         private readonly CacheManager _cache;
 
-        private readonly CacheManager _cacheSession;
-
         #endregion Private Members
 
         #region Constructors

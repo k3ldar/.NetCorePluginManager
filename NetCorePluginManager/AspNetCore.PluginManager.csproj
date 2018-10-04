@@ -10,7 +10,7 @@
     <Copyright>Copyright (c) 2018.  Simon Carter.  All rights reserved.</Copyright>
     <RepositoryUrl>https://github.com/k3ldar/.NetCorePluginManager</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
-    <PackageTags>plugin manager middleware api di dependency injection</PackageTags>
+    <PackageTags>net core plugin manager middleware api di dependency injection</PackageTags>
     <PackageProjectUrl>https://wordpress.com/post/sicarterblog.wordpress.com/451</PackageProjectUrl>
     <PackageLicenseUrl>https://github.com/k3ldar/.NetCorePluginManager/blob/master/LICENSE</PackageLicenseUrl>
     <PackageReleaseNotes>Version 1</PackageReleaseNotes>
