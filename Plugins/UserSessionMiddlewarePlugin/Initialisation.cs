@@ -25,9 +25,9 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
 
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.DependencyInjection;
 
 using Shared.Classes;
 
@@ -48,7 +48,9 @@ namespace UserSessionMiddleware.Plugin
         #region Internal Static Properties
 
         internal static IServiceProvider GetServiceProvider { get; private set; }
+
         internal static ILogger GetLogger { get; private set; }
+
 
         #endregion Internal Static Properties
 
@@ -57,9 +59,6 @@ namespace UserSessionMiddleware.Plugin
         public void Initialise(ILogger logger)
         {
             GetLogger = logger ?? throw new ArgumentNullException(nameof(logger));
-
-            ThreadManager.Initialise();
-            UserSessionManager.InitialiseSessionManager(new TimeSpan(0, 30, 0));
         }
 
         public void Finalise()

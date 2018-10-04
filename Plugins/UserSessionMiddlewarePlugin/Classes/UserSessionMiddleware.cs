@@ -52,16 +52,23 @@ namespace UserSessionMiddleware.Plugin
         {
             _next = next;
 
-            UserSessionSettings settings = GetUserSessionSettings();
+            UserSessionSettings Settings = GetUserSessionSettings();
 
-            if (!String.IsNullOrWhiteSpace(settings.CookieName))
-                _cookieName = settings.CookieName;
+            Settings.SessionTimeout = Shared.Utilities.CheckMinMax(Settings.SessionTimeout, 15, 200);
 
-            if (!String.IsNullOrWhiteSpace(settings.EncryptionKey))
-                _cookieEncryptionKey = settings.EncryptionKey;
+            ThreadManager.Initialise();
+            UserSessionManager.InitialiseSessionManager(new TimeSpan(0, (int)Settings.SessionTimeout, 0));
 
-            if (!String.IsNullOrWhiteSpace(settings.StaticFileExtensions))
-                _staticFileExtension = settings.StaticFileExtensions;
+            SessionHelper.InitSessionHelper();
+
+            if (!String.IsNullOrWhiteSpace(Settings.CookieName))
+                _cookieName = Settings.CookieName;
+
+            if (!String.IsNullOrWhiteSpace(Settings.EncryptionKey))
+                _cookieEncryptionKey = Settings.EncryptionKey;
+
+            if (!String.IsNullOrWhiteSpace(Settings.StaticFileExtensions))
+                _staticFileExtension = Settings.StaticFileExtensions;
         }
 
         #endregion Constructors
@@ -114,7 +121,8 @@ namespace UserSessionMiddleware.Plugin
             }
             catch (Exception error)
             {
-                Initialisation.GetLogger.AddToLog(error, System.Reflection.MethodBase.GetCurrentMethod().Name);
+                if (Initialisation.GetLogger != null)
+                    Initialisation.GetLogger.AddToLog(error, System.Reflection.MethodBase.GetCurrentMethod().Name);
             }
             finally
             {
@@ -165,7 +173,8 @@ namespace UserSessionMiddleware.Plugin
             }
             catch (Exception err)
             {
-                Initialisation.GetLogger.AddToLog(err);
+                if (Initialisation.GetLogger != null)
+                    Initialisation.GetLogger.AddToLog(err, System.Reflection.MethodBase.GetCurrentMethod().Name);
             }
 
             return (null);

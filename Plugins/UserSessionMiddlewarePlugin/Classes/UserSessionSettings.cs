@@ -34,5 +34,7 @@ namespace UserSessionMiddleware.Plugin
         public string CookieName { get; set; }
 
         public string EncryptionKey { get; set; }
+
+        public uint SessionTimeout { get; set; }
     }
 }

@@ -5,6 +5,14 @@
     <AssemblyName>UserSessionMiddleware.Plugin</AssemblyName>
     <RootNamespace>UserSessionMiddleware.Plugin</RootNamespace>
     <LangVersion>latest</LangVersion>
+    <RepositoryUrl>https://github.com/k3ldar/.NetCorePluginManager</RepositoryUrl>
+    <PackageLicenseUrl>https://github.com/k3ldar/.NetCorePluginManager/blob/master/LICENSE</PackageLicenseUrl>
+    <Copyright>Copyright (c) 2018.  Simon Carter.  All rights reserved.</Copyright>
+    <Authors>Simon Carter</Authors>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageReleaseNotes>DotNetCore User Session Manager Middleware Version 1</PackageReleaseNotes>
+    <PackageTags>asp net core plugin manager user session manager middleware plugin</PackageTags>
+    <Description>User Session Manager middleware retains user session information within ASP.Net Core websites.</Description>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -18,12 +26,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AspNetCore.PluginManager" Version="1.0.0" />
     <PackageReference Include="SC.Shared.Library.Core" Version="2.6.1" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\..\NetCorePluginManager\AspNetCore.PluginManager.csproj" />
-    <ProjectReference Include="..\SharedPluginFeatures\SharedPluginFeatures.csproj" />
+    <PackageReference Include="SharedPluginFeatures" Version="1.0.1" />
   </ItemGroup>
 
 </Project>
