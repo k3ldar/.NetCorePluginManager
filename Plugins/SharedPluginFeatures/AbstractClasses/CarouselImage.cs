@@ -33,6 +33,6 @@ namespace SharedPluginFeatures
 
         public abstract string Url();
 
-        public abstract int Position();
+        public abstract int SortOrder();
     }
 }

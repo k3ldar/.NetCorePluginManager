@@ -36,5 +36,7 @@ namespace SharedPluginFeatures
         public abstract string Action();
 
         public abstract string Name();
+
+        public abstract int SortOrder();
     }
 }
