@@ -3,6 +3,16 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
     <LangVersion>latest</LangVersion>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Description>Contains generic interfaces and abstract classes for sharing between ASPNetCore.PluginManager module and generic plugins</Description>
+    <Copyright>Copyright (c) 2018.  Simon Carter.  All rights reserved.</Copyright>
+    <PackageLicenseUrl>https://github.com/k3ldar/.NetCorePluginManager/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/k3ldar/.NetCorePluginManager</PackageProjectUrl>
+    <PackageTags>asp net core plugin manager shared classes interfaces</PackageTags>
+    <PackageReleaseNotes>Include GeoIp and UserSession service interfaces</PackageReleaseNotes>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    <Version>1.0.1</Version>
+    <FileVersion>1.0.0.0</FileVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
