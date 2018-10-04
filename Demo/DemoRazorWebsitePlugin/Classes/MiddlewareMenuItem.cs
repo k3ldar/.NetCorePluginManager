@@ -48,5 +48,10 @@ namespace DemoWebsitePlugin.Classes
         {
             return "Middleware";
         }
+
+        public override int SortOrder()
+        {
+            return (2);
+        }
     }
 }

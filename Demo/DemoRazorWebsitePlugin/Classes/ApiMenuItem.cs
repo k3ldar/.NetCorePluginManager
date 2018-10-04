@@ -48,5 +48,10 @@ namespace DemoWebsitePlugin.Classes
         {
             return "Api Plugin";
         }
+
+        public override int SortOrder()
+        {
+            return (1);
+        }
     }
 }

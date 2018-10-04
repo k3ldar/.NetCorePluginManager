@@ -48,5 +48,10 @@ namespace DemoWebsitePlugin.Classes
         {
             return "Custom Plugins";
         }
+
+        public override int SortOrder()
+        {
+            return (10);
+        }
     }
 }

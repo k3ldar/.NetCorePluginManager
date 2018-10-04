@@ -48,5 +48,10 @@ namespace DemoWebsitePlugin.Classes
         {
             return "Dependency Injection";
         }
+
+        public override int SortOrder()
+        {
+            return (2);
+        }
     }
 }
