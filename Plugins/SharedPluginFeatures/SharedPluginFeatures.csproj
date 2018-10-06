@@ -9,9 +9,9 @@
     <PackageLicenseUrl>https://github.com/k3ldar/.NetCorePluginManager/blob/master/LICENSE</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/k3ldar/.NetCorePluginManager</PackageProjectUrl>
     <PackageTags>asp net core plugin manager shared classes interfaces</PackageTags>
-    <PackageReleaseNotes>Include GeoIp and UserSession service interfaces</PackageReleaseNotes>
+    <PackageReleaseNotes>Include Spider Attribute</PackageReleaseNotes>
     <AssemblyVersion>1.0.0.0</AssemblyVersion>
-    <Version>1.0.1</Version>
+    <Version>1.0.2</Version>
     <FileVersion>1.0.0.0</FileVersion>
   </PropertyGroup>
 
