@@ -15,7 +15,7 @@
  *
  *  Product:  AspNetCore.PluginManager.DemoWebsite
  *  
- *  File: Logger.cs
+ *  File: HostPlugin.cs
  *
  *  Purpose:  
  *
@@ -23,22 +23,45 @@
  *  22/09/2018  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using System;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace AspNetCore.PluginManager.DemoWebsite.Classes
 {
-    public class Logger : AspNetCore.PluginManager.ILogger
+    public class HostPlugin : IPlugin, IPluginVersion
     {
-        public void AddToLog(string data)
+        #region IPlugin Methods
+
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            
         }
 
-        public void AddToLog(Exception exception)
+        public void ConfigureServices(IServiceCollection services)
         {
+            
         }
 
-        public void AddToLog(Exception exception, string data)
+        public void Finalise()
         {
+            
         }
+
+        public void Initialise(ILogger logger)
+        {
+            
+        }
+
+        #endregion IPlugin Methods
+
+        #region IPluginVersion Methods
+
+        public ushort GetVersion()
+        {
+            return (1);
+        }
+
+        #endregion IPluginVersion Methods
     }
 }
