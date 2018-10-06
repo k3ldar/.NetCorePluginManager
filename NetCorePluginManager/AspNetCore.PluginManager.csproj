@@ -13,7 +13,8 @@
     <PackageTags>net core plugin manager middleware api di dependency injection</PackageTags>
     <PackageProjectUrl>https://wordpress.com/post/sicarterblog.wordpress.com/451</PackageProjectUrl>
     <PackageLicenseUrl>https://github.com/k3ldar/.NetCorePluginManager/blob/master/LICENSE</PackageLicenseUrl>
-    <PackageReleaseNotes>Version 1</PackageReleaseNotes>
+    <PackageReleaseNotes>Introduce new methods to query plugins for classes containing attributes and non instantiated class/interface types</PackageReleaseNotes>
+    <Version>1.0.1</Version>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

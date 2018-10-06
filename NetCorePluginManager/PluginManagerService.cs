@@ -67,6 +67,9 @@ namespace AspNetCore.PluginManager
                 if (_pluginConfiguration.Disabled)
                     return (false);
 
+                // attempt to load the host
+                _pluginManagerInstance.LoadPlugin(Assembly.GetEntryAssembly(), false);
+
                 // are any plugins specifically mentioned in the config, load them
                 // first so we have some control on the load order
                 foreach (string file in _pluginConfiguration.PluginFiles)
@@ -129,9 +132,19 @@ namespace AspNetCore.PluginManager
             _pluginManagerInstance.ConfigureServices(services);
         }
 
+        public static List<Type> GetPluginClassTypes<T>()
+        {
+            return (_pluginManagerInstance.GetPluginClassTypes<T>());
+        }
+
         public static List<T> GetPluginClasses<T>()
         {
             return (_pluginManagerInstance.GetPluginClasses<T>());
+        }
+
+        public static List<Type> GetPluginTypesWithAttribute<T>()
+        {
+            return (_pluginManagerInstance.GetPluginTypesWithAttribute<T>());
         }
 
         #endregion Static Methods

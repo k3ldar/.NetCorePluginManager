@@ -27,6 +27,7 @@ using System;
 using System.Reflection;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -70,53 +71,74 @@ namespace AspNetCore.PluginManager
         /// <summary>
         /// Loads and configures an individual plugin
         /// </summary>
+        /// <param name="assembly"></param>
+        /// <param name="extractResources"></param>
+        internal void LoadPlugin(in Assembly assembly, in bool extractResources)
+        {
+            if (assembly == null)
+                throw new ArgumentNullException(nameof(assembly));
+
+            string assemblyName = Path.GetFileName(assembly.Location);
+
+            if (String.IsNullOrEmpty(assemblyName))
+            {
+                assemblyName = assembly.ManifestModule.ScopeName; 
+            }
+
+            PluginSetting pluginSetting = GetPluginSetting(assemblyName);
+
+            if (pluginSetting.Disabled)
+                return;
+
+            foreach (Type type in assembly.GetTypes())
+            {
+                try
+                {
+                    if (type.GetInterface("IPlugin") != null)
+                    {
+                        IPlugin pluginService = (IPlugin)Activator.CreateInstance(type);
+
+                        if (extractResources && !pluginSetting.PreventExtractResources)
+                        {
+                            ExtractResources(assembly, pluginSetting);
+                        }
+
+                        IPluginModule pluginModule = new IPluginModule()
+                        {
+                            Assembly = assembly,
+                            Module = assemblyName,
+                            Plugin = pluginService
+                        };
+
+                        IPluginVersion version = GetPluginClass<IPluginVersion>(pluginModule);
+
+                        pluginModule.Version = version == null ? (ushort)1 :
+                            GetMinMaxValue(version.GetVersion(), 1, MaxPluginVersion);
+
+                        pluginModule.Plugin.Initialise(_logger);
+
+                        _plugins.Add(assemblyName, pluginModule);
+
+                        // only interested in first reference of IPlugin
+                        break;
+                    }
+                }
+                catch (Exception typeLoader)
+                {
+                    _logger.AddToLog(typeLoader, $"{assembly.FullName}{MethodBase.GetCurrentMethod().Name}");
+                }
+            }
+        }
+
+        /// <summary>
+        /// Loads and configures an individual plugin
+        /// </summary>
         /// <param name="pluginName"></param>
         internal void LoadPlugin(in string pluginName)
         {
             try
             {
-                PluginSetting pluginSetting = GetPluginSetting(pluginName);
-
-                if (pluginSetting.Disabled)
-                    return;
-
-                Assembly pluginAssembly = LoadAssembly(pluginName);
-
-                foreach (Type type in pluginAssembly.GetTypes())
-                {
-                    try
-                    {
-                        if (type.GetInterface("IPlugin") != null)
-                        {
-                            IPlugin pluginService = (IPlugin)Activator.CreateInstance(type);
-
-                            if (!pluginSetting.PreventExtractResources)
-                            {
-                                ExtractResources(pluginAssembly, pluginSetting);
-                            }
-
-                            IPluginModule pluginModule = new IPluginModule()
-                            {
-                                Assembly = pluginAssembly,
-                                Module = pluginName,
-                                Plugin = pluginService
-                            };
-
-                            IPluginVersion version = GetPluginClass<IPluginVersion>(pluginModule);
-
-                            pluginModule.Version = version == null ? (ushort)1 : 
-                                GetMinMaxValue(version.GetVersion(), 1, MaxPluginVersion);
-
-                            pluginModule.Plugin.Initialise(_logger);
-
-                            _plugins.Add(pluginName, pluginModule);
-                        }
-                    }
-                    catch (Exception typeLoader)
-                    {
-                        _logger.AddToLog(typeLoader, $"{pluginName}{MethodBase.GetCurrentMethod().Name}");
-                    }
-                }
+                LoadPlugin(LoadAssembly(pluginName), true);
             }
             catch (Exception error)
             {
@@ -165,7 +187,106 @@ namespace AspNetCore.PluginManager
         }
 
         /// <summary>
-        /// Retreives a specific type of class which inherits from a specific class 
+        /// Retrieves the non instantiated classes which have attribute T, or if any of
+        /// the methods or properties have attribute T
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        internal List<Type> GetPluginTypesWithAttribute<T>()
+        {
+            List<Type> Result = new List<Type>();
+
+            foreach (KeyValuePair<string, IPluginModule> plugin in _plugins)
+            {
+                try
+                {
+                    foreach (Type type in plugin.Value.Assembly.GetTypes())
+                    {
+                        try
+                        {
+                            if (type.GetCustomAttributes().Where(t => t.GetType() == typeof(T)).FirstOrDefault() != null)
+                            {
+                                Result.Add(type);
+                                continue;
+                            }
+
+                            if (type.IsClass || type.IsInterface)
+                            {
+                                // cycle through all properties and methods to see if they have the attibute
+                                foreach (MethodInfo method in type.GetMethods())
+                                {
+                                    if (method.GetCustomAttributes().Where(t => t.GetType() == typeof(T)).FirstOrDefault() != null)
+                                    {
+                                        Result.Add(type);
+                                        break;
+                                    }
+                                }
+
+                                foreach (PropertyInfo property in type.GetProperties())
+                                {
+                                    if (property.GetCustomAttributes().Where(t => t.GetType() == typeof(T)).FirstOrDefault() != null)
+                                    {
+                                        Result.Add(type);
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                        catch (Exception typeLoader)
+                        {
+                            _logger.AddToLog(typeLoader, $"{plugin.Value.Module}{MethodBase.GetCurrentMethod().Name}");
+                        }
+                    }
+                }
+                catch (Exception error)
+                {
+                    _logger.AddToLog(error, $"{plugin.Value.Module}{MethodBase.GetCurrentMethod().Name}");
+                }
+            }
+
+            return (Result);
+        }
+
+        /// <summary>
+        /// Retrieves the non instantiated classes which inherit from T or implement 
+        /// interface T
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        internal List<Type> GetPluginClassTypes<T>()
+        {
+            List<Type> Result = new List<Type>();
+
+            foreach (KeyValuePair<string, IPluginModule> plugin in _plugins)
+            {
+                try
+                {
+                    foreach (Type type in plugin.Value.Assembly.GetTypes())
+                    {
+                        try
+                        {
+                            if ((type.GetInterface(typeof(T).Name) != null) || (type.IsSubclassOf(typeof(T))))
+                            {
+                                Result.Add(type);
+                            }
+                        }
+                        catch (Exception typeLoader)
+                        {
+                            _logger.AddToLog(typeLoader, $"{plugin.Value.Module}{MethodBase.GetCurrentMethod().Name}");
+                        }
+                    }
+                }
+                catch (Exception error)
+                {
+                    _logger.AddToLog(error, $"{plugin.Value.Module}{MethodBase.GetCurrentMethod().Name}");
+                }
+            }
+
+            return (Result);
+        }
+
+        /// <summary>
+        /// Retreives an instantiated specific type of class which inherits from a specific class 
         /// or interface from within the plugin modules
         /// </summary>
         /// <typeparam name="T">Type of interface/class</typeparam>
