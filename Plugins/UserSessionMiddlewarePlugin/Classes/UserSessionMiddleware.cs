@@ -24,6 +24,7 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
+using static System.IO.Path;
 using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Http;
@@ -42,7 +43,7 @@ namespace UserSessionMiddleware.Plugin
         private readonly RequestDelegate _next;
         private readonly string _cookieName = "user_session";
         private readonly string _cookieEncryptionKey = "Dfklaosre;lnfsdl;jlfaeu;dkkfcaskxcd3jf";
-        private readonly string _staticFileExtension = ".ico;.css;.js;.svg;.jpg;.jpeg;.gif;.png;.eot;";
+        private readonly string _staticFileExtension = ".less;.ico;.css;.js;.svg;.jpg;.jpeg;.gif;.png;.eot;";
 
         #endregion Private Members
 
@@ -80,7 +81,7 @@ namespace UserSessionMiddleware.Plugin
             try
             {
                 // if it's a static file, don't add user session data to the context
-                if (_staticFileExtension.Contains($"{context.Request.Path.ToString().ToLower()};"))
+                if (_staticFileExtension.Contains($"{GetExtension(context.Request.Path.ToString().ToLower())};"))
                     return;
 
                 string cookieSessionID;
