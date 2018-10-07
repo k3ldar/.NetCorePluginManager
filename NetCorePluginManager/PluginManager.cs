@@ -323,6 +323,28 @@ namespace AspNetCore.PluginManager
             return (Result);
         }
 
+        /// <summary>
+        /// Determines whether a plugin is loaded, and retrieves the version
+        /// </summary>
+        /// <param name="pluginLibraryName"></param>
+        /// <param name="version"></param>
+        /// <returns></returns>
+        internal bool PluginLoaded(in string pluginLibraryName, out int version)
+        {
+            version = -1;
+
+            foreach (KeyValuePair<string, IPluginModule> plugin in _plugins)
+            {
+                if (plugin.Value.Module.EndsWith(pluginLibraryName, StringComparison.CurrentCultureIgnoreCase))
+                {
+                    version = plugin.Value.Version;
+                    return (true);
+                }
+            }
+
+            return (false);
+        }
+
         #endregion Internal Methods
 
         #region IDisposable Methods

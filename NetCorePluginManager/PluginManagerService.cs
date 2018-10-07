@@ -115,6 +115,9 @@ namespace AspNetCore.PluginManager
 
         public static void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            if (_logger == null)
+                throw new InvalidOperationException("Plugin Manager has not been initialised.");
+
             if (app == null)
                 throw new ArgumentNullException(nameof(app));
 
@@ -126,6 +129,9 @@ namespace AspNetCore.PluginManager
 
         public static void ConfigureServices(IServiceCollection services)
         {
+            if (_logger == null)
+                throw new InvalidOperationException("Plugin Manager has not been initialised.");
+
             if (services == null)
                 throw new ArgumentNullException(nameof(services));
 
@@ -134,17 +140,34 @@ namespace AspNetCore.PluginManager
 
         public static List<Type> GetPluginClassTypes<T>()
         {
+            if (_logger == null)
+                throw new InvalidOperationException("Plugin Manager has not been initialised.");
+
             return (_pluginManagerInstance.GetPluginClassTypes<T>());
         }
 
         public static List<T> GetPluginClasses<T>()
         {
+            if (_logger == null)
+                throw new InvalidOperationException("Plugin Manager has not been initialised.");
+
             return (_pluginManagerInstance.GetPluginClasses<T>());
         }
 
         public static List<Type> GetPluginTypesWithAttribute<T>()
         {
+            if (_logger == null)
+                throw new InvalidOperationException("Plugin Manager has not been initialised.");
+
             return (_pluginManagerInstance.GetPluginTypesWithAttribute<T>());
+        }
+
+        public static bool PluginLoaded(in string pluginLibraryName, out int version)
+        {
+            if (_logger == null)
+                throw new InvalidOperationException("Plugin Manager has not been initialised.");
+
+            return (_pluginManagerInstance.PluginLoaded(pluginLibraryName, out version));
         }
 
         #endregion Static Methods

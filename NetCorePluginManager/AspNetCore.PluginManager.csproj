@@ -14,7 +14,7 @@
     <PackageProjectUrl>https://wordpress.com/post/sicarterblog.wordpress.com/451</PackageProjectUrl>
     <PackageLicenseUrl>https://github.com/k3ldar/.NetCorePluginManager/blob/master/LICENSE</PackageLicenseUrl>
     <PackageReleaseNotes>Introduce new methods to query plugins for classes containing attributes and non instantiated class/interface types</PackageReleaseNotes>
-    <Version>1.0.1</Version>
+    <Version>1.0.2</Version>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
