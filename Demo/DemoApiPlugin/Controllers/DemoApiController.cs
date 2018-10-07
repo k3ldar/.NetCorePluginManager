@@ -33,6 +33,7 @@ using Shared.Classes;
 namespace DemoApiPlugin.Controllers
 {
     [Route("api/DemoApi")]
+    [DenySpider]
     [ApiController]
     public class DemoApiController : ControllerBase
     {
@@ -51,6 +52,21 @@ namespace DemoApiPlugin.Controllers
         }
 
         #endregion Constructors
+
+        [HttpGet]
+        [Route("/api/Demo/", Name = "About")]
+        public string About()
+        {
+            return ("Test");
+        }
+
+        [HttpGet]
+        [Route("/api/Demo/About1")]
+        [DenySpider]
+        public string About1()
+        {
+            return ("Test");
+        }
 
         // GET api/values
         [HttpGet]

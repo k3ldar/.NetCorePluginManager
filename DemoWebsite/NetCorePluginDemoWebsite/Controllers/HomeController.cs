@@ -62,11 +62,13 @@ namespace AspNetCore.PluginManager.DemoWebsite.Controllers
             return View();
         }
 
+        [DenySpider]
         public IActionResult Privacy()
         {
             return View();
         }
 
+        [DenySpider("*")]
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
