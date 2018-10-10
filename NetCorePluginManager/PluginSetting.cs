@@ -56,6 +56,8 @@ namespace AspNetCore.PluginManager
 
         public bool ReplaceExistingResources { get; set; }
 
+        public string Version { get; set; }
+
         #endregion Properties
     }
 }

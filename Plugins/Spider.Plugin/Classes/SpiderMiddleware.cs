@@ -116,11 +116,15 @@ namespace Spider.Plugin
 
                                 foreach (DeniedRoute deniedRoute in _deniedSpiderRoutes)
                                 {
-                                    if (userSession.IsBot && 
+                                    if (userSession.IsBot &&
                                         deniedRoute.Route.StartsWith(route) &&
                                         (
                                             deniedRoute.UserAgent == "*" ||
+#if NETCORE2_0
                                             userSession.UserAgent.Contains(deniedRoute.UserAgent, StringComparison.CurrentCultureIgnoreCase)
+#else 
+                                            userSession.UserAgent.ToLower().Contains(deniedRoute.UserAgent.ToLower())
+#endif
                                         ))
                                     {
                                         context.Response.StatusCode = 403;

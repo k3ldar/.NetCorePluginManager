@@ -25,6 +25,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Reflection;
 using System.IO;
 
@@ -39,12 +40,11 @@ namespace AspNetCore.PluginManager
     {
         #region Private Members
 
+        private const string LatestVersion = "latest";
+
         private static PluginManager _pluginManagerInstance;
-
         private static ILogger _logger;
-
         private static PluginSettings _pluginConfiguration;
-
         private static string _currentPath;
 
         #endregion Private Members
@@ -74,17 +74,22 @@ namespace AspNetCore.PluginManager
                 // first so we have some control on the load order
                 foreach (string file in _pluginConfiguration.PluginFiles)
                 {
-                    if (String.IsNullOrEmpty(file) || !File.Exists(file))
-                    {
-                        if (!String.IsNullOrEmpty(file))
-                        {
-                            _logger.AddToLog($"Could not find plugin: {file}");
-                        }
+                    string pluginFile = file;
 
-                        continue;
+                    if (String.IsNullOrEmpty(pluginFile) || !File.Exists(pluginFile))
+                    {
+                        if (!String.IsNullOrEmpty(pluginFile) && !FindPlugin(ref pluginFile, GetPluginSetting(pluginFile)))
+                        {
+                            if (!String.IsNullOrEmpty(pluginFile))
+                            {
+                                _logger.AddToLog($"Could not find plugin: {pluginFile}");
+                            }
+
+                            continue;
+                        }
                     }
 
-                    _pluginManagerInstance.LoadPlugin(file);
+                    _pluginManagerInstance.LoadPlugin(pluginFile);
                 }
 
                 // load generic plugins next, if any exist
@@ -173,6 +178,73 @@ namespace AspNetCore.PluginManager
         #endregion Static Methods
 
         #region Private Static Methods
+
+        private static bool FindPlugin(ref string pluginFile, in PluginSetting pluginSetting)
+        {
+            string pluginSearchPath = AddTrailingBackSlash(Path.Combine(_currentPath, _pluginConfiguration.PluginSearchPath));
+
+            if (!String.IsNullOrEmpty(pluginSearchPath) && Directory.Exists(pluginSearchPath))
+            {
+                if (String.IsNullOrEmpty(pluginSetting.Version))
+                    pluginSetting.Version = LatestVersion;
+
+                string[] searchFiles = Directory.GetFiles(pluginSearchPath, pluginFile, SearchOption.AllDirectories);
+
+                if (searchFiles.Length == 0)
+                    return (false);
+
+                if (searchFiles.Length == 1)
+                {
+                    pluginFile = searchFiles[0];
+                    return (true);
+                }
+
+                return (GetSpecificVersion(searchFiles, pluginSetting.Version, ref pluginFile));
+            }
+
+            return (false);
+        }
+
+        private static bool GetSpecificVersion(string[] searchFiles, in string version, ref string pluginFile)
+        {
+            // get list of all version info
+            List<FileInfo> fileVersions = new List<FileInfo>();
+
+            foreach (string file in searchFiles)
+                fileVersions.Add(new FileInfo(file));
+
+            fileVersions.Sort(new FileVersionComparison());
+
+            // are we after the latest version
+            if (version == LatestVersion)
+            {
+                pluginFile = fileVersions[fileVersions.Count -1].FullName;
+                return (true);
+            }
+
+            // look for specific version
+            foreach (FileInfo fileInfo in fileVersions)
+            {
+                if (FileVersionInfo.GetVersionInfo(fileInfo.FullName).FileVersion.ToString().StartsWith(version))
+                {
+                    pluginFile = fileInfo.FullName;
+                    return (true);
+                }
+            }
+
+            return (false);
+        }
+
+        private static PluginSetting GetPluginSetting(in string pluginName)
+        {
+            foreach (PluginSetting setting in _pluginConfiguration.Plugins)
+            {
+                if (pluginName.EndsWith(setting.Name))
+                    return (setting);
+            }
+
+            return (new PluginSetting(pluginName));
+        }
 
         private static string AddTrailingBackSlash(in string path)
         {

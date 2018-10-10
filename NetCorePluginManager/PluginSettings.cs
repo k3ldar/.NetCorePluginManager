@@ -34,6 +34,8 @@ namespace AspNetCore.PluginManager
 
         public string PluginPath { get; set; }
 
+        public string PluginSearchPath { get; set; }
+
         public string SystemFiles { get; set; }
 
         public string CSSLocation { get; set; }
