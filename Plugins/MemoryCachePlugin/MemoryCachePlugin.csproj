@@ -1,10 +1,19 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <TargetFrameworks>netcoreapp2.1;net461</TargetFrameworks>
     <RootNamespace>MemoryCache.Plugin</RootNamespace>
     <AssemblyName>MemoryCache.Plugin</AssemblyName>
     <LangVersion>latest</LangVersion>
+    <Authors>Simon Carter</Authors>
+    <Company>Simon Carter</Company>
+    <Description>Highly optimised memory cache plugin for AspNetCore.PluginManager</Description>
+    <Copyright>Copyright (c) 2018.  Simon Carter.  All rights reserved.</Copyright>
+    <PackageLicenseUrl>https://github.com/k3ldar/.NetCorePluginManager/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/k3ldar/.NetCorePluginManager</PackageProjectUrl>
+    <PackageTags>asp net core plugin manager memory cache</PackageTags>
+    <PackageReleaseNotes>Version 1</PackageReleaseNotes>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

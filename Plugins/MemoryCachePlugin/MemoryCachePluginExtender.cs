@@ -1,4 +1,4 @@
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+﻿/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  *  .Net Core Plugin Manager is distributed under the GNU General Public License version 3 and  
  *  is also available under alternative licenses negotiated directly with Simon Carter.  
  *  If you obtained Service Manager under the GPL, then the GPL applies to all loadable 
@@ -15,7 +15,7 @@
  *
  *  Product:  MemoryCachePlugin
  *  
- *  File: Initialisation.cs
+ *  File: MemoryCachePluginExtender.cs
  *
  *  Purpose:  
  *
@@ -24,45 +24,16 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
 
-using AspNetCore.PluginManager;
+using SharedPluginFeatures;
 
 namespace MemoryCache.Plugin
 {
-    public class Initialisation : IPlugin
+    public static class MemoryCachePluginExtender
     {
-        #region Constructors
-
-        public Initialisation()
+        public static void UseMemoryCache(this IServiceCollection services)
         {
+            services.AddSingleton<IMemoryCache, MemoryCache>();
         }
-
-        #endregion Constructors
-
-        #region IPlugin Methods
-
-        public void Initialise(ILogger logger)
-        {
-
-        }
-
-        public void Finalise()
-        {
-
-        }
-
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
-        {
-            
-        }
-
-        public void ConfigureServices(IServiceCollection services)
-        {
-            services.UseMemoryCache();
-        }
-
-        #endregion IPlugin Methods
     }
 }

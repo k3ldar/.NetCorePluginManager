@@ -21,6 +21,8 @@
  *
  *  Date        Name                Reason
  *  22/09/2018  Simon Carter        Initially Created
+ *  10/10/2018  Simon Carter        Move thread initialisation to constructor, better 
+ *                                  validation of short memory cache at start
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
@@ -47,6 +49,8 @@ namespace MemoryCache.Plugin
 
         public MemoryCache()
         {
+            ThreadManager.Initialise();
+
             MemoryClassPluginSettings settings = GetCacheSettings();
 
             // create the caches
@@ -54,7 +58,7 @@ namespace MemoryCache.Plugin
                 new TimeSpan(0, settings.DefaultCacheDuration < 30 ? 120 : settings.DefaultCacheDuration, 0));
 
             _cacheShort = new CacheManager("Website Internal Short Cache", 
-                new TimeSpan(0, settings.ShortCacheDuration == 0 ? 5 : settings.ShortCacheDuration, 0));
+                new TimeSpan(0, settings.ShortCacheDuration < 1 ? 5 : settings.ShortCacheDuration, 0));
         }
 
         #endregion Constructors
