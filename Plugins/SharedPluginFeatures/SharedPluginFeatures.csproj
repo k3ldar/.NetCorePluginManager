@@ -1,7 +1,7 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <TargetFrameworks>netcoreapp2.1;net461</TargetFrameworks>
     <LangVersion>latest</LangVersion>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Description>Contains generic interfaces and abstract classes for sharing between ASPNetCore.PluginManager module and generic plugins</Description>
@@ -11,8 +11,10 @@
     <PackageTags>asp net core plugin manager shared classes interfaces</PackageTags>
     <PackageReleaseNotes>Include Spider Attribute</PackageReleaseNotes>
     <AssemblyVersion>1.0.0.0</AssemblyVersion>
-    <Version>1.0.4</Version>
+    <Version>1.0.5</Version>
     <FileVersion>1.0.0.0</FileVersion>
+    <Authors>Simon Carter</Authors>
+    <Company>Simon Carter</Company>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -26,7 +28,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="SC.Shared.Library.Core" Version="2.6.1" />
+    <PackageReference Include="SC.Shared.Library.Core" Version="2.6.2" />
   </ItemGroup>
 
 </Project>

@@ -1,7 +1,7 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <TargetFrameworks>netcoreapp2.1;net461</TargetFrameworks>
     <AssemblyName>UserSessionMiddleware.Plugin</AssemblyName>
     <RootNamespace>UserSessionMiddleware.Plugin</RootNamespace>
     <LangVersion>latest</LangVersion>
@@ -13,7 +13,7 @@
     <PackageReleaseNotes>DotNetCore User Session Manager Middleware Version 1</PackageReleaseNotes>
     <PackageTags>asp net core plugin manager user session manager middleware plugin</PackageTags>
     <Description>User Session Manager middleware retains user session information within ASP.Net Core websites.</Description>
-    <Version>1.0.1</Version>
+    <Version>1.0.2</Version>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -27,9 +27,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AspNetCore.PluginManager" Version="1.0.2" />
-    <PackageReference Include="SC.Shared.Library.Core" Version="2.6.1" />
-    <PackageReference Include="SharedPluginFeatures" Version="1.0.4" />
+    <PackageReference Include="AspNetCore.PluginManager" Version="1.0.4" />
+    <PackageReference Include="SC.Shared.Library.Core" Version="2.6.2" />
+    <PackageReference Include="SharedPluginFeatures" Version="1.0.5" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.1.2" />
   </ItemGroup>
 
 </Project>

@@ -1,7 +1,7 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <TargetFrameworks>netcoreapp2.1;net461</TargetFrameworks>
     <LangVersion>latest</LangVersion>
     <Authors>Simon Carter</Authors>
     <Company>Simon CarterSimon Carter</Company>
@@ -13,6 +13,7 @@
     <PackageTags>asp net core plugin manager deny spider middleware plugin</PackageTags>
     <PackageReleaseNotes>Version 1</PackageReleaseNotes>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Version>1.0.1</Version>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -24,9 +25,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AspNetCore.PluginManager" Version="1.0.2" />
+    <PackageReference Include="AspNetCore.PluginManager" Version="1.0.4" />
     <PackageReference Include="Microsoft.AspNetCore.Routing" Version="2.1.1" />
-    <PackageReference Include="SharedPluginFeatures" Version="1.0.4" />
+    <PackageReference Include="SharedPluginFeatures" Version="1.0.5" />
   </ItemGroup>
 
 </Project>
