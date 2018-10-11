@@ -78,7 +78,10 @@ namespace AspNetCore.PluginManager
             if (assembly == null)
                 throw new ArgumentNullException(nameof(assembly));
 
-            string assemblyName = Path.GetFileName(assembly.Location);
+            string assemblyName = Path.GetFileName(assembly.ManifestModule.ScopeName);
+
+            if (_plugins.ContainsKey(assemblyName))
+                return;
 
             if (String.IsNullOrEmpty(assemblyName))
             {
