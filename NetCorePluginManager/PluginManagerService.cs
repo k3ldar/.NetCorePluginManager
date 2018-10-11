@@ -59,7 +59,10 @@ namespace AspNetCore.PluginManager
             {
                 _pluginManagerInstance = new PluginManager(logger, GetPluginSettings());
 
-                _currentPath = Directory.GetCurrentDirectory();
+                _currentPath = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
+
+                if (_currentPath.StartsWith(Directory.GetCurrentDirectory(), StringComparison.CurrentCultureIgnoreCase))
+                    _currentPath = Directory.GetCurrentDirectory();
 
                 //load config and get settings
                 _pluginConfiguration = GetPluginSettings();
@@ -181,14 +184,17 @@ namespace AspNetCore.PluginManager
 
         private static bool FindPlugin(ref string pluginFile, in PluginSetting pluginSetting)
         {
-            string pluginSearchPath = AddTrailingBackSlash(Path.Combine(_currentPath, _pluginConfiguration.PluginSearchPath));
+            string pluginSearchPath = _pluginConfiguration.PluginSearchPath;
+
+            if (String.IsNullOrEmpty(pluginSearchPath) || !Directory.Exists(pluginSearchPath))
+                pluginSearchPath = AddTrailingBackSlash(_currentPath);
 
             if (!String.IsNullOrEmpty(pluginSearchPath) && Directory.Exists(pluginSearchPath))
             {
                 if (String.IsNullOrEmpty(pluginSetting.Version))
                     pluginSetting.Version = LatestVersion;
 
-                string[] searchFiles = Directory.GetFiles(pluginSearchPath, pluginFile, SearchOption.AllDirectories);
+                string[] searchFiles = Directory.GetFiles(pluginSearchPath, Path.GetFileName(pluginFile), SearchOption.AllDirectories);
 
                 if (searchFiles.Length == 0)
                     return (false);
