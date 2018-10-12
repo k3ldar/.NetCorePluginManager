@@ -90,8 +90,10 @@ namespace Spider.Plugin
         {
             try
             {
-                if (!_processStaticFiles &&
-                    _staticFileExtensions.Contains($"{GetExtension(context.Request.Path.ToString().ToLower())};"))
+                string fileExtension = GetExtension(context.Request.Path.ToString().ToLower());
+
+                if (!_processStaticFiles &&  !String.IsNullOrEmpty(fileExtension) &&
+                    _staticFileExtensions.Contains($"{fileExtension};"))
                 {
                     await _next(context);
                     return;
