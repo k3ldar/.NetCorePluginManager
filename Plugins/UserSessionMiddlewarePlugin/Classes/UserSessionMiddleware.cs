@@ -80,8 +80,10 @@ namespace UserSessionMiddleware.Plugin
         {
             try
             {
+                string fileExtension = GetExtension(context.Request.Path.ToString().ToLower());
+
                 // if it's a static file, don't add user session data to the context
-                if (_staticFileExtension.Contains($"{GetExtension(context.Request.Path.ToString().ToLower())};"))
+                if (!String.IsNullOrEmpty(fileExtension) && _staticFileExtension.Contains($"{fileExtension};"))
                     return;
 
                 string cookieSessionID;
