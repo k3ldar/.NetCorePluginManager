@@ -6,7 +6,7 @@ https://sicarterblog.wordpress.com/2018/10/02/asp-net-core-plugin-manager/
 # ASPNetCore.PluginManager
 Version 1 now available from Nuget:
 
-PM> Install-Package AspNetCore.PluginManager -Version 1.0.5
+PM> Install-Package AspNetCore.PluginManager -Version 1.0.6
 
 https://www.nuget.org/packages/AspNetCore.PluginManager/
 
