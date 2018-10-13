@@ -17,7 +17,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DemoApiPlugin", "Demo\DemoA
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DemoWebsitePlugin", "Demo\DemoRazorWebsitePlugin\DemoWebsitePlugin.csproj", "{AF334AD9-8D32-4F71-9B0B-F9DEF77C3C98}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spider.Plugin", "Plugins\Spider.Plugin\Spider.Plugin.csproj", "{E0D3D833-7812-494B-9F1B-3AA63F02F9D9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Spider.Plugin", "Plugins\Spider.Plugin\Spider.Plugin.csproj", "{E0D3D833-7812-494B-9F1B-3AA63F02F9D9}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ManagedRoute.Plugin", "Plugins\ManagedRoute.Plugin\ManagedRoute.Plugin.csproj", "{B3C224A3-3935-4329-BD35-C259A183ADFD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -57,6 +59,10 @@ Global
 		{E0D3D833-7812-494B-9F1B-3AA63F02F9D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E0D3D833-7812-494B-9F1B-3AA63F02F9D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E0D3D833-7812-494B-9F1B-3AA63F02F9D9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B3C224A3-3935-4329-BD35-C259A183ADFD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B3C224A3-3935-4329-BD35-C259A183ADFD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B3C224A3-3935-4329-BD35-C259A183ADFD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B3C224A3-3935-4329-BD35-C259A183ADFD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>netcoreapp2.1;net461</TargetFrameworks>
+    <LangVersion>latest</LangVersion>
+    <Authors>Simon Carter</Authors>
+    <Company>Simon Carter</Company>
+    <Description>Highly optimised request manager for AspNetCore.PluginManager</Description>
+    <Copyright>Copyright (c) 2018.  Simon Carter.  All rights reserved.</Copyright>
+    <PackageLicenseUrl>https://github.com/k3ldar/.NetCorePluginManager/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/k3ldar/.NetCorePluginManager</PackageProjectUrl>
+    <PackageTags>asp net core plugin manager requests</PackageTags>
+    <PackageReleaseNotes>Version 1</PackageReleaseNotes>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AspNetCore.PluginManager" Version="1.0.6" />
+    <PackageReference Include="SharedPluginFeatures" Version="1.0.9" />
+  </ItemGroup>
+
+</Project>
