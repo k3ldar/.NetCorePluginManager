@@ -19,6 +19,8 @@ PM> Install-Package MemoryCache.Plugin -Version 1.0.0
 
 https://www.nuget.org/packages/MemoryCache.Plugin/
 
+See https://github.com/k3ldar/.NetCorePluginManager/wiki/Memory-Cache-Plugin for setup and configuration.
+
 # User Session Middleware
 Version 1 now available from Nuget:
 
@@ -26,9 +28,13 @@ PM> Install-Package UserSessionMiddleware.Plugin -Version 1.0.3
 
 https://www.nuget.org/packages/UserSessionMiddleware.Plugin/
 
+See https://github.com/k3ldar/.NetCorePluginManager/wiki/User-Session-Manager-Middleware for setup and configuration.
+
 # Deny Spider
 Version 1 now available from Nuget:
 
 PM > Install-Package Spider.Plugin -Version 1.0.2
 
 https://www.nuget.org/packages/Spider.Plugin/
+
+See https://github.com/k3ldar/.NetCorePluginManager/wiki/Spider-Plugin-Middleware for setup and configuration.
