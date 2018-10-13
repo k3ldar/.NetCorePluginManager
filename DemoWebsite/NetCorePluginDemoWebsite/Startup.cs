@@ -52,6 +52,9 @@ namespace AspNetCore.PluginManager.DemoWebsite
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // Allow plugin manager to configure all services in each plugin
+            PluginManagerService.ConfigureServices(services);
+
             SessionHelper.InitSessionHelper();
 
             services.Configure<CookiePolicyOptions>(options =>
@@ -72,9 +75,6 @@ namespace AspNetCore.PluginManager.DemoWebsite
 
             services.AddLogging();
 
-
-            // Allow plugin manager to configure all services in each plugiin
-            PluginManagerService.ConfigureServices(services);
 
             // register internal types so we can load them or DI them into other classes later
             services.AddSingleton<ISharedPluginHelper, SharedPluginHelper>();

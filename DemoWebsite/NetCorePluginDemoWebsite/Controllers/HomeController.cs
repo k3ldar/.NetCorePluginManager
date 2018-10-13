@@ -32,6 +32,8 @@ using AspNetCore.PluginManager.DemoWebsite.Models;
 
 using SharedPluginFeatures;
 
+using Shared.Classes;
+
 namespace AspNetCore.PluginManager.DemoWebsite.Controllers
 {
     public class HomeController : Controller
@@ -54,6 +56,9 @@ namespace AspNetCore.PluginManager.DemoWebsite.Controllers
 
         public IActionResult Index()
         {
+            UserSession session = (UserSession)HttpContext.Items["UserSession"];
+            ViewBag.Username = String.IsNullOrEmpty(session.UserName) ? "Guest" : session.UserName;
+
             return View();
         }
 

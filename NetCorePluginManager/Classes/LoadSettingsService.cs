@@ -15,39 +15,41 @@
  *
  *  Product:  AspNetCore.PluginManager
  *  
- *  File: PluginSettings.cs
+ *  File: LoadSettingsService.cs
  *
  *  Purpose:  
  *
  *  Date        Name                Reason
- *  22/09/2018  Simon Carter        Initially Created
+ *  13/10/2018  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using System.Collections.Generic;
+using System;
+using System.IO;
 
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 
-namespace AspNetCore.PluginManager
+using SharedPluginFeatures;
+
+namespace AspNetCore.PluginManager.Classes
 {
-    public sealed class PluginSettings
+    public class LoadSettingsService<T> : ILoadSettingsService<T>
     {
-        public bool Disabled { get; set; }
+        public T LoadSettings(in string jsonFile, in string name)
+        {
+            ConfigurationBuilder builder = new ConfigurationBuilder();
+            IConfigurationBuilder configBuilder = builder.SetBasePath(Path.GetDirectoryName(jsonFile));
+            configBuilder.AddJsonFile(jsonFile);
+            IConfigurationRoot config = builder.Build();
+            T Result = (T)Activator.CreateInstance(typeof(T));
+            config.GetSection(name).Bind(Result);
 
-        public string PluginPath { get; set; }
+            return (Result);
+        }
 
-        public string PluginSearchPath { get; set; }
-
-        public string SystemFiles { get; set; }
-
-        public string CSSLocation { get; set; }
-
-        public string JScriptLocation { get; set; }
-
-        public bool PreventAreas { get; set; }
-
-        public bool DisableRouteDataService { get; set; }
-
-        public List<string> PluginFiles { get; set; }
-
-        public List<PluginSetting> Plugins { get; set; }
+        public T LoadSettings(in string name)
+        {
+            return (LoadSettings(Path.Combine(Directory.GetCurrentDirectory(), "appsettings.json"), name));
+        }
     }
 }

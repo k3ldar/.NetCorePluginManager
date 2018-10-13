@@ -34,6 +34,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
+using SharedPluginFeatures;
+
 namespace AspNetCore.PluginManager
 {
     public static class PluginManagerService
@@ -57,15 +59,16 @@ namespace AspNetCore.PluginManager
 
             try
             {
-                _pluginManagerInstance = new PluginManager(logger, GetPluginSettings());
+                //load config and get settings
+                ILoadSettingsService<PluginSettings> loadSettingsService = new Classes.LoadSettingsService<PluginSettings>();
+                _pluginConfiguration = loadSettingsService.LoadSettings("PluginConfiguration");
+
+                _pluginManagerInstance = new PluginManager(logger, _pluginConfiguration);
 
                 _currentPath = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
 
                 if (_currentPath.StartsWith(Directory.GetCurrentDirectory(), StringComparison.CurrentCultureIgnoreCase))
                     _currentPath = Directory.GetCurrentDirectory();
-
-                //load config and get settings
-                _pluginConfiguration = GetPluginSettings();
 
                 if (_pluginConfiguration.Disabled)
                     return (false);
@@ -142,6 +145,10 @@ namespace AspNetCore.PluginManager
 
             if (services == null)
                 throw new ArgumentNullException(nameof(services));
+
+            if (!_pluginConfiguration.DisableRouteDataService)
+                services.AddSingleton<IRouteDataService, Classes.RouteDataServices>();
+
 
             _pluginManagerInstance.ConfigureServices(services);
         }
@@ -270,18 +277,6 @@ namespace AspNetCore.PluginManager
             }
 
             return (AddTrailingBackSlash(_currentPath) + "Plugins\\");
-        }
-
-        private static PluginSettings GetPluginSettings()
-        {
-            ConfigurationBuilder builder = new ConfigurationBuilder();
-            IConfigurationBuilder configBuilder = builder.SetBasePath(Directory.GetCurrentDirectory());
-            configBuilder.AddJsonFile("appsettings.json");
-            IConfigurationRoot config = builder.Build();
-            PluginSettings Result = new PluginSettings();
-            config.GetSection("PluginConfiguration").Bind(Result);
-            
-            return (Result);
         }
 
         #endregion Private Static Methods
