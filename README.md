@@ -10,6 +10,8 @@ PM> Install-Package AspNetCore.PluginManager -Version 1.0.6
 
 https://www.nuget.org/packages/AspNetCore.PluginManager/
 
+See https://github.com/k3ldar/.NetCorePluginManager/wiki/Plugin-Manager-Setup-and-Configuration for setup and configuration.
+
 # Memory Cache Plugin
 Version 1 now available from Nuget:
 
