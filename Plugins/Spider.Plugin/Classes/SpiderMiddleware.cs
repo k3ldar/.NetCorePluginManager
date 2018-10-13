@@ -21,6 +21,7 @@
  *
  *  Date        Name                Reason
  *  29/09/2018  Simon Carter        Initially Created
+ *  13/10/2018  Simon Carter
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
@@ -31,14 +32,12 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-using Microsoft.AspNetCore.Mvc.Abstractions;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.Extensions.Configuration;
 
 using static AspNetCore.PluginManager.PluginManagerService;
 
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 
 using Shared.Classes;
 
@@ -62,17 +61,21 @@ namespace Spider.Plugin
 
         #region Constructors
 
-        public SpiderMiddleware(RequestDelegate next, IActionDescriptorCollectionProvider routeProvider)
+        public SpiderMiddleware(RequestDelegate next, IActionDescriptorCollectionProvider routeProvider, 
+            IRouteDataService routeDataService)
         {
             if (routeProvider == null)
                 throw new ArgumentNullException(nameof(routeProvider));
+
+            if (routeDataService == null)
+                throw new ArgumentNullException(nameof(routeDataService));
 
             _next = next;
 
             _userSessionManagerLoaded = PluginLoaded("UserSessionMiddleware.Plugin.dll", out int version);
 
             _deniedSpiderRoutes = new List<DeniedRoute>();
-            LoadSpiderData(routeProvider);
+            LoadSpiderData(routeProvider, routeDataService);
 
             SpiderSettings settings = GetSpiderSettings();
 
@@ -167,7 +170,8 @@ namespace Spider.Plugin
             return (Result);
         }
 
-        private void LoadSpiderData(IActionDescriptorCollectionProvider routeProvider)
+        private void LoadSpiderData(IActionDescriptorCollectionProvider routeProvider,
+            IRouteDataService routeDataService)
         {
             string spiderTextFile = String.Empty;
             List<Type> spiderAttributes = GetPluginTypesWithAttribute<DenySpiderAttribute>();
@@ -187,7 +191,7 @@ namespace Spider.Plugin
 
                     if (attribute != null)
                     {
-                        string route = GetRouteFromClass(type, routeProvider);
+                        string route = routeDataService.GetRouteFromClass(type, routeProvider);
 
                         if (String.IsNullOrEmpty(route))
                             continue;
@@ -210,7 +214,7 @@ namespace Spider.Plugin
 
                         if (attribute != null)
                         {
-                            string route = GetRouteFromMethod(method, routeProvider);
+                            string route = routeDataService.GetRouteFromMethod(method, routeProvider);
 
                             if (String.IsNullOrEmpty(route))
                                 continue;
@@ -228,65 +232,6 @@ namespace Spider.Plugin
             }
 
             _spiderData = Encoding.UTF8.GetBytes(spiderTextFile);
-        }
-
-        private string GetRouteFromClass(Type type, IActionDescriptorCollectionProvider routeProvider)
-        {
-            // does the class have a route attribute
-            RouteAttribute classRouteAttribute = (RouteAttribute)type.GetCustomAttributes(true)
-                .Where(r => r.GetType() == typeof(RouteAttribute)).FirstOrDefault();
-
-            if (classRouteAttribute != null && !String.IsNullOrEmpty(classRouteAttribute.Template))
-            {
-                return (classRouteAttribute.Template);
-            }
-
-            var route = routeProvider.ActionDescriptors.Items.Where(ad => ad
-                .DisplayName.StartsWith(type.FullName, StringComparison.CurrentCultureIgnoreCase)).FirstOrDefault();
-
-            if (route == null)
-                return (String.Empty);
-
-            if (route.AttributeRouteInfo != null)
-            {
-                return ($"/{route.AttributeRouteInfo.Template}/{route.AttributeRouteInfo.Name}");
-            }
-
-            return (String.Empty);
-        }
-
-        private string GetRouteFromMethod(in MethodInfo method, in IActionDescriptorCollectionProvider routeProvider)
-        {
-            // does the class have a route attribute
-            RouteAttribute classRouteAttribute = (RouteAttribute)method.GetCustomAttributes(true)
-                .Where(r => r.GetType() == typeof(RouteAttribute)).FirstOrDefault();
-
-            if (classRouteAttribute != null && !String.IsNullOrEmpty(classRouteAttribute.Template))
-            {
-                return (classRouteAttribute.Template);
-            }
-
-            string routeName = $"{method.DeclaringType.ToString()}.{method.Name}";
-
-            ActionDescriptor route = routeProvider.ActionDescriptors.Items.Where(ad => ad
-                .DisplayName.StartsWith(routeName, StringComparison.CurrentCultureIgnoreCase)).FirstOrDefault();
-
-            if (route == null)
-                return (String.Empty);
-
-            if (route.AttributeRouteInfo != null)
-            {
-                return ($"/{route.AttributeRouteInfo.Template}/{route.AttributeRouteInfo.Name}");
-            }
-
-            if (route.RouteValues["controller"].ToString() == DefaultController)
-            {
-                return ($"/{route.RouteValues["action"]}");
-            }
-            else
-            {
-                return ($"/{route.RouteValues["controller"]}/{route.RouteValues["action"]}");
-            }
         }
 
         #endregion Private Methods
