@@ -51,7 +51,7 @@ namespace MemoryCache.Plugin
         {
             ThreadManager.Initialise();
 
-            MemoryClassPluginSettings settings = GetCacheSettings();
+            MemoryClassPluginSettings settings = GetSettings();
 
             // create the caches
             _cache = new CacheManager("Website Internal Cache", 
@@ -85,7 +85,7 @@ namespace MemoryCache.Plugin
 
         #region Private Methods
 
-        private static MemoryClassPluginSettings GetCacheSettings()
+        private MemoryClassPluginSettings GetSettings()
         {
             ConfigurationBuilder builder = new ConfigurationBuilder();
             IConfigurationBuilder configBuilder = builder.SetBasePath(System.IO.Directory.GetCurrentDirectory());
