@@ -39,7 +39,7 @@ namespace UserSessionMiddleware.Plugin
 {
     /// <summary>
     /// The purpose of this static class is to provide a conduit to integrating with the user session
-    /// and obtaining geo ip data, if required
+    /// and obtaining customer user session data or geo ip data, if required
     /// </summary>
     internal static class SessionHelper
     {

@@ -30,6 +30,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 
+using SharedPluginFeatures;
+
 using Shared.Classes;
 
 namespace UserSessionMiddleware.Plugin
@@ -53,7 +55,7 @@ namespace UserSessionMiddleware.Plugin
         {
             _next = next;
 
-            UserSessionSettings Settings = GetUserSessionSettings();
+            UserSessionSettings Settings = GetSettings();
 
             Settings.SessionTimeout = Shared.Utilities.CheckMinMax(Settings.SessionTimeout, 15, 200);
 
@@ -183,7 +185,7 @@ namespace UserSessionMiddleware.Plugin
             return (null);
         }
 
-        private UserSessionSettings GetUserSessionSettings()
+        private UserSessionSettings GetSettings()
         {
             ConfigurationBuilder builder = new ConfigurationBuilder();
             IConfigurationBuilder configBuilder = builder.SetBasePath(System.IO.Directory.GetCurrentDirectory());
