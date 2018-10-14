@@ -44,7 +44,7 @@ namespace AspNetCore.PluginManager
 
         private const string LatestVersion = "latest";
 
-        private static PluginManager _pluginManagerInstance;
+        internal static PluginManager _pluginManagerInstance;
         private static ILogger _logger;
         private static PluginSettings _pluginConfiguration;
         private static string _currentPath;
@@ -149,40 +149,11 @@ namespace AspNetCore.PluginManager
             if (!_pluginConfiguration.DisableRouteDataService)
                 services.AddSingleton<IRouteDataService, Classes.RouteDataServices>();
 
+            services.AddSingleton<IPluginClassesService, PluginServices>();
+            services.AddSingleton<IPluginHelperService, PluginServices>();
+            services.AddSingleton<IPluginTypesService, PluginServices>();
 
             _pluginManagerInstance.ConfigureServices(services);
-        }
-
-        public static List<Type> GetPluginClassTypes<T>()
-        {
-            if (_logger == null)
-                throw new InvalidOperationException("Plugin Manager has not been initialised.");
-
-            return (_pluginManagerInstance.GetPluginClassTypes<T>());
-        }
-
-        public static List<T> GetPluginClasses<T>()
-        {
-            if (_logger == null)
-                throw new InvalidOperationException("Plugin Manager has not been initialised.");
-
-            return (_pluginManagerInstance.GetPluginClasses<T>());
-        }
-
-        public static List<Type> GetPluginTypesWithAttribute<T>()
-        {
-            if (_logger == null)
-                throw new InvalidOperationException("Plugin Manager has not been initialised.");
-
-            return (_pluginManagerInstance.GetPluginTypesWithAttribute<T>());
-        }
-
-        public static bool PluginLoaded(in string pluginLibraryName, out int version)
-        {
-            if (_logger == null)
-                throw new InvalidOperationException("Plugin Manager has not been initialised.");
-
-            return (_pluginManagerInstance.PluginLoaded(pluginLibraryName, out version));
         }
 
         #endregion Static Methods

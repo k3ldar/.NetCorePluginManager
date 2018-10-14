@@ -13,7 +13,7 @@
  *
  *  Copyright (c) 2018 Simon Carter.  All Rights Reserved.
  *
- *  Product:  AspNetCore.PluginManager
+ *  Product:  SharedPluginFeatures
  *  
  *  File: IPluginVersion.cs
  *
@@ -21,11 +21,12 @@
  *
  *  Date        Name                Reason
  *  22/09/2018  Simon Carter        Initially Created
+ *  14/10/2018  Simon Carter        Move to SharedPluginFeatures
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
 
-namespace AspNetCore.PluginManager
+namespace SharedPluginFeatures
 {
     public interface IPluginVersion
     {

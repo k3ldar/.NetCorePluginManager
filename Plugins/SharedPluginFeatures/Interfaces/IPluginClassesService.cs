@@ -13,30 +13,25 @@
  *
  *  Copyright (c) 2018 Simon Carter.  All Rights Reserved.
  *
- *  Product:  AspNetCore.PluginManager
+ *  Product:  SharedPluginFeatures
  *  
- *  File: IPlugin.cs
+ *  File: IPluginClassesService.cs
  *
- *  Purpose:  
+ *  Purpose:  Provides interface for retrieving plugin specific data from the plugin manager
  *
  *  Date        Name                Reason
- *  22/09/2018  Simon Carter        Initially Created
+ *  14/10/2018  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.DependencyInjection;
+using System;
+using System.Collections.Generic;
 
-namespace AspNetCore.PluginManager
+namespace SharedPluginFeatures
 {
-    public interface IPlugin
+    public interface IPluginClassesService
     {
-        void Initialise(ILogger logger);
+        List<T> GetPluginClasses<T>();
 
-        void Finalise();
-
-        void Configure(IApplicationBuilder app, IHostingEnvironment env);
-
-        void ConfigureServices(IServiceCollection services);
+        List<Type> GetPluginClassTypes<T>();
     }
 }

@@ -23,7 +23,7 @@
  *  22/09/2018  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using AspNetCore.PluginManager;
+using SharedPluginFeatures;
 
 namespace MemoryCache.Plugin.Classes
 {

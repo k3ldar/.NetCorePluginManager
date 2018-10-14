@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netcoreapp2.1;net461</TargetFrameworks>
+    <TargetFrameworks>netcoreapp2.1</TargetFrameworks>
     <AssemblyName>UserSessionMiddleware.Plugin</AssemblyName>
     <RootNamespace>UserSessionMiddleware.Plugin</RootNamespace>
     <LangVersion>latest</LangVersion>
@@ -27,9 +27,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AspNetCore.PluginManager" Version="1.0.6" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.1.1" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="2.1.1" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.1.1" />
     <PackageReference Include="SC.Shared.Library.Core" Version="2.6.2" />
-    <PackageReference Include="SharedPluginFeatures" Version="1.0.9" />
+    <PackageReference Include="SharedPluginFeatures" Version="1.0.11" />
   </ItemGroup>
 
   <ItemGroup>

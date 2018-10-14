@@ -25,9 +25,11 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
 
+using SharedPluginFeatures;
+
 namespace AspNetCore.PluginManager.DemoWebsite.Classes
 {
-    public class Logger : AspNetCore.PluginManager.ILogger
+    public class Logger : ILogger
     {
         public void AddToLog(string data)
         {

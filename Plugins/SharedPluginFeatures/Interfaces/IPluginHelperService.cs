@@ -13,57 +13,21 @@
  *
  *  Copyright (c) 2018 Simon Carter.  All Rights Reserved.
  *
- *  Product:  AspNetCore.PluginManager.DemoWebsite
+ *  Product:  SharedPluginFeatures
  *  
- *  File: HostPlugin.cs
+ *  File: IPluginHelperService.cs
  *
- *  Purpose:  
+ *  Purpose:  Provides interface for retrieving plugin specific data from the plugin manager
  *
  *  Date        Name                Reason
- *  22/09/2018  Simon Carter        Initially Created
+ *  14/10/2018  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.DependencyInjection;
 
-using SharedPluginFeatures;
-
-namespace AspNetCore.PluginManager.DemoWebsite.Classes
+namespace SharedPluginFeatures
 {
-    public class HostPlugin : IPlugin, IPluginVersion
+    public interface IPluginHelperService
     {
-        #region IPlugin Methods
-
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
-        {
-            
-        }
-
-        public void ConfigureServices(IServiceCollection services)
-        {
-            
-        }
-
-        public void Finalise()
-        {
-            
-        }
-
-        public void Initialise(ILogger logger)
-        {
-            
-        }
-
-        #endregion IPlugin Methods
-
-        #region IPluginVersion Methods
-
-        public ushort GetVersion()
-        {
-            return (1);
-        }
-
-        #endregion IPluginVersion Methods
+        bool PluginLoaded(in string pluginLibraryName, out int version);
     }
 }

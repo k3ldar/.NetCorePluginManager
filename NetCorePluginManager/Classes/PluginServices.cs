@@ -15,28 +15,53 @@
  *
  *  Product:  AspNetCore.PluginManager
  *  
- *  File: FileVersionComparison.cs
+ *  File: PluginServices.cs
  *
  *  Purpose:  
  *
  *  Date        Name                Reason
- *  28/09/2018  Simon Carter        Initially Created
+ *  14/10/2018  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Diagnostics;
+
+using SharedPluginFeatures;
 
 namespace AspNetCore.PluginManager
 {
-    internal sealed class FileVersionComparison : Comparer<FileInfo>
+    public sealed class PluginServices : IPluginClassesService, IPluginHelperService, IPluginTypesService
     {
-        public override int Compare(FileInfo x, FileInfo y)
-        {
-            FileVersionInfo versionX = FileVersionInfo.GetVersionInfo(x.FullName);
-            FileVersionInfo versionY = FileVersionInfo.GetVersionInfo(y.FullName);
+        #region IPluginClassesService Methods
 
-            return (versionX.FileVersion.CompareTo(versionY.FileVersion));
+        public List<Type> GetPluginClassTypes<T>()
+        {
+            return (PluginManagerService._pluginManagerInstance.GetPluginClassTypes<T>());
         }
+
+        public List<T> GetPluginClasses<T>()
+        {
+            return (PluginManagerService._pluginManagerInstance.GetPluginClasses<T>());
+        }
+
+        #endregion IPluginClassesService Methods
+
+        #region IPluginTypesService Methods
+
+        public List<Type> GetPluginTypesWithAttribute<T>()
+        {
+            return (PluginManagerService._pluginManagerInstance.GetPluginTypesWithAttribute<T>());
+        }
+
+        #endregion IPluginTypesService Methods
+
+        #region IPluginHelperService Methods
+
+        public bool PluginLoaded(in string pluginLibraryName, out int version)
+        {
+            return (PluginManagerService._pluginManagerInstance.PluginLoaded(pluginLibraryName, out version));
+        }
+
+        #endregion IPluginHelperService Methods
     }
 }

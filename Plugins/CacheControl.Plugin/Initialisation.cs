@@ -29,7 +29,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 
-using AspNetCore.PluginManager;
+using SharedPluginFeatures;
 
 namespace CacheControl.Plugin
 {

@@ -33,6 +33,8 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 
+using SharedPluginFeatures;
+
 #pragma warning disable IDE0034
 
 namespace AspNetCore.PluginManager

@@ -35,8 +35,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.Extensions.Configuration;
 
-using static AspNetCore.PluginManager.PluginManagerService;
-
 using Microsoft.AspNetCore.Http;
 
 using Shared.Classes;
@@ -62,7 +60,8 @@ namespace Spider.Plugin
         #region Constructors
 
         public SpiderMiddleware(RequestDelegate next, IActionDescriptorCollectionProvider routeProvider, 
-            IRouteDataService routeDataService)
+            IRouteDataService routeDataService, IPluginHelperService pluginHelperService,
+            IPluginTypesService pluginTypesService)
         {
             if (routeProvider == null)
                 throw new ArgumentNullException(nameof(routeProvider));
@@ -70,12 +69,15 @@ namespace Spider.Plugin
             if (routeDataService == null)
                 throw new ArgumentNullException(nameof(routeDataService));
 
+            if (pluginHelperService == null)
+                throw new ArgumentNullException(nameof(pluginHelperService));
+
             _next = next;
 
-            _userSessionManagerLoaded = PluginLoaded("UserSessionMiddleware.Plugin.dll", out int version);
+            _userSessionManagerLoaded = pluginHelperService.PluginLoaded("UserSessionMiddleware.Plugin.dll", out int version);
 
             _deniedSpiderRoutes = new List<DeniedRoute>();
-            LoadSpiderData(routeProvider, routeDataService);
+            LoadSpiderData(routeProvider, routeDataService, pluginTypesService);
 
             SpiderSettings settings = GetSpiderSettings();
 
@@ -171,10 +173,10 @@ namespace Spider.Plugin
         }
 
         private void LoadSpiderData(IActionDescriptorCollectionProvider routeProvider,
-            IRouteDataService routeDataService)
+            IRouteDataService routeDataService, IPluginTypesService pluginTypesService)
         {
             string spiderTextFile = String.Empty;
-            List<Type> spiderAttributes = GetPluginTypesWithAttribute<DenySpiderAttribute>();
+            List<Type> spiderAttributes = pluginTypesService.GetPluginTypesWithAttribute<DenySpiderAttribute>();
 
             if (spiderAttributes.Count == 0)
             {
