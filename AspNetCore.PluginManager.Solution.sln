@@ -17,7 +17,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DemoApiPlugin", "Demo\DemoA
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DemoWebsitePlugin", "Demo\DemoRazorWebsitePlugin\DemoWebsitePlugin.csproj", "{AF334AD9-8D32-4F71-9B0B-F9DEF77C3C98}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spider.Plugin", "Plugins\Spider.Plugin\Spider.Plugin.csproj", "{E0D3D833-7812-494B-9F1B-3AA63F02F9D9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Spider.Plugin", "Plugins\Spider.Plugin\Spider.Plugin.csproj", "{E0D3D833-7812-494B-9F1B-3AA63F02F9D9}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CacheControl.Plugin", "Plugins\CacheControl.Plugin\CacheControl.Plugin.csproj", "{C8EBCDA5-39DE-4DC4-A774-5B4545350B5D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -57,6 +59,10 @@ Global
 		{E0D3D833-7812-494B-9F1B-3AA63F02F9D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E0D3D833-7812-494B-9F1B-3AA63F02F9D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E0D3D833-7812-494B-9F1B-3AA63F02F9D9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C8EBCDA5-39DE-4DC4-A774-5B4545350B5D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C8EBCDA5-39DE-4DC4-A774-5B4545350B5D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C8EBCDA5-39DE-4DC4-A774-5B4545350B5D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C8EBCDA5-39DE-4DC4-A774-5B4545350B5D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
