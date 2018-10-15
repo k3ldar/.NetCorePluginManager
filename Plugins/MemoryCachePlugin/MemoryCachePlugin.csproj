@@ -27,12 +27,17 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="SharedPluginFeatures" Version="1.0.11" />
-    <ProjectReference Include="..\..\NetCorePluginManager\AspNetCore.PluginManager.csproj" />
-    <ProjectReference Include="..\SharedPluginFeatures\SharedPluginFeatures.csproj" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.1.1" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="2.1.1" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.1.1" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <PackageReference Include="SharedPluginFeatures" Version="1.0.11" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <ProjectReference Include="..\SharedPluginFeatures\SharedPluginFeatures.csproj" />
   </ItemGroup>
 
 </Project>
