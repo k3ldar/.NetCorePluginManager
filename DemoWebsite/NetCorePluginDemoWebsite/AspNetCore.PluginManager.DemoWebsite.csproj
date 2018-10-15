@@ -32,9 +32,12 @@
     <PackageReference Include="SharedPluginFeatures" Version="1.0.11" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\..\NetCorePluginManager\AspNetCore.PluginManager.csproj" />
-    <ProjectReference Include="..\..\Plugins\SharedPluginFeatures\SharedPluginFeatures.csproj" />
+  <ItemGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <PackageReference Include="SharedPluginFeatures" Version="1.0.11" />
   </ItemGroup>
 
+  <ItemGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <ProjectReference Include="..\..\Plugins\SharedPluginFeatures\SharedPluginFeatures.csproj" />
+    <ProjectReference Include="..\..\NetCorePluginManager\AspNetCore.PluginManager.csproj" />
+  </ItemGroup>
 </Project>

@@ -52,7 +52,6 @@
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.1" />
     <PackageReference Include="SC.Shared.Library.Core" Version="2.6.2" />
-    <PackageReference Include="SharedPluginFeatures" Version="1.0.11" />
   </ItemGroup>
 
   <ItemGroup>

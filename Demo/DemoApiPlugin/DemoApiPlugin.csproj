@@ -27,7 +27,6 @@
   <ItemGroup>
     <ProjectReference Include="..\..\NetCorePluginManager\AspNetCore.PluginManager.csproj" />
     <ProjectReference Include="..\..\Plugins\SharedPluginFeatures\SharedPluginFeatures.csproj" />
-    <PackageReference Include="SharedPluginFeatures" Version="1.0.11" />
   </ItemGroup>
 
 </Project>
