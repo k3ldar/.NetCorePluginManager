@@ -29,10 +29,10 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="SC.Shared.Library.Core" Version="2.6.2" />
-    <PackageReference Include="SharedPluginFeatures" Version="1.0.11" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <PackageReference Include="AspNetCore.PluginManager" Version="1.0.6" />
     <PackageReference Include="SharedPluginFeatures" Version="1.0.11" />
   </ItemGroup>
 
