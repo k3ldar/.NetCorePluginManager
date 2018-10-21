@@ -30,9 +30,12 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 
+using SharedPluginFeatures;
+using static SharedPluginFeatures.Enums;
+
 namespace CacheControl.Plugin
 {
-    public class CacheControlMiddleware
+    public class CacheControlMiddleware : BaseMiddleware
     {
         #region Private Members
 
@@ -66,7 +69,7 @@ namespace CacheControl.Plugin
                 if (_disabled)
                     return;
 
-                string routeLowered = context.Request.Path.ToString().ToLower();
+                string routeLowered = RouteLowered(context);
 
                 if (_ignoredRoutes.Contains(routeLowered))
                     return;
@@ -89,7 +92,7 @@ namespace CacheControl.Plugin
             catch (Exception error)
             {
                 if (Initialisation.GetLogger != null)
-                    Initialisation.GetLogger.AddToLog(error, System.Reflection.MethodBase.GetCurrentMethod().Name);
+                    Initialisation.GetLogger.AddToLog(LogLevel.Error, error, System.Reflection.MethodBase.GetCurrentMethod().Name);
             }
             finally
             {

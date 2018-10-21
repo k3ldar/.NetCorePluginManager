@@ -31,12 +31,13 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 
 using SharedPluginFeatures;
+using static SharedPluginFeatures.Enums;
 
 using Shared.Classes;
 
 namespace UserSessionMiddleware.Plugin
 {
-    public sealed class UserSessionMiddleware
+    public sealed class UserSessionMiddleware : BaseMiddleware
     {
         #region Private Members
 
@@ -127,7 +128,7 @@ namespace UserSessionMiddleware.Plugin
             catch (Exception error)
             {
                 if (Initialisation.GetLogger != null)
-                    Initialisation.GetLogger.AddToLog(error, System.Reflection.MethodBase.GetCurrentMethod().Name);
+                    Initialisation.GetLogger.AddToLog(LogLevel.Error, error, System.Reflection.MethodBase.GetCurrentMethod().Name);
             }
             finally
             {
@@ -179,7 +180,7 @@ namespace UserSessionMiddleware.Plugin
             catch (Exception err)
             {
                 if (Initialisation.GetLogger != null)
-                    Initialisation.GetLogger.AddToLog(err, System.Reflection.MethodBase.GetCurrentMethod().Name);
+                    Initialisation.GetLogger.AddToLog(LogLevel.Error, err, System.Reflection.MethodBase.GetCurrentMethod().Name);
             }
 
             return (null);

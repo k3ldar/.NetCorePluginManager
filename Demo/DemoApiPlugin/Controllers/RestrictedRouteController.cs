@@ -13,20 +13,34 @@
  *
  *  Copyright (c) 2018 Simon Carter.  All Rights Reserved.
  *
- *  Product:  SharedPluginFeatures
+ *  Product:  Demo Api Plugin
  *  
- *  File: RequestManagerMiddlewareExtender.cs
+ *  File: DemoApiController.cs
  *
  *  Purpose:  
  *
  *  Date        Name                Reason
- *  29/09/2018  Simon Carter        Initially Created
+ *  22/09/2018  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+using System;
+using System.Collections.Generic;
+using Microsoft.AspNetCore.Mvc;
 
-namespace RequestManager.Plugin
+using SharedPluginFeatures;
+using Shared.Classes;
+
+namespace DemoApiPlugin.Controllers
 {
-    class RequestManagerMiddlewareExtender
+    [ApiController]
+    [RestrictedIpRoute("RestrictedRouteRemote")]
+    [Route("/api/Restricted/")]
+    public class RestrictedRouteController : ControllerBase
     {
+        [HttpGet]
+        public string About()
+        {
+            return ("Test");
+        }
     }
 }

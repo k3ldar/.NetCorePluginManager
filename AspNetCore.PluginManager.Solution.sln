@@ -21,6 +21,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Spider.Plugin", "Plugins\Sp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CacheControl.Plugin", "Plugins\CacheControl.Plugin\CacheControl.Plugin.csproj", "{C8EBCDA5-39DE-4DC4-A774-5B4545350B5D}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RestrictIp.Plugin", "Plugins\RestrictIp.Plugin\RestrictIp.Plugin.csproj", "{FDF3ED1B-5126-442A-9C37-D8F86D4B9160}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -63,6 +65,10 @@ Global
 		{C8EBCDA5-39DE-4DC4-A774-5B4545350B5D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C8EBCDA5-39DE-4DC4-A774-5B4545350B5D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C8EBCDA5-39DE-4DC4-A774-5B4545350B5D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FDF3ED1B-5126-442A-9C37-D8F86D4B9160}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FDF3ED1B-5126-442A-9C37-D8F86D4B9160}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FDF3ED1B-5126-442A-9C37-D8F86D4B9160}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FDF3ED1B-5126-442A-9C37-D8F86D4B9160}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
