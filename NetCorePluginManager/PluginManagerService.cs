@@ -89,7 +89,7 @@ namespace AspNetCore.PluginManager
                         {
                             if (!String.IsNullOrEmpty(pluginFile))
                             {
-                                _logger.AddToLog(LogLevel.Warning, $"Could not find plugin: {pluginFile}");
+                                _logger.AddToLog(LogLevel.PluginLoadFailed, $"Could not find plugin: {pluginFile}");
                             }
 
                             continue;

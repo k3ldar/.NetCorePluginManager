@@ -28,10 +28,27 @@ using System.Collections.Generic;
 
 using SharedPluginFeatures;
 
+using Shared.Classes;
+
 namespace AspNetCore.PluginManager
 {
     public sealed class PluginServices : IPluginClassesService, IPluginHelperService, IPluginTypesService
     {
+        #region Private Members
+
+        private object _lockObject;
+
+        #endregion Private Members
+
+        #region Constructors
+
+        public PluginServices()
+        {
+            _lockObject = new object();
+        }
+
+        #endregion Constructors
+
         #region IPluginClassesService Methods
 
         public List<Type> GetPluginClassTypes<T>()

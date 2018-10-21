@@ -48,7 +48,15 @@ namespace SharedPluginFeatures
 
             IpRestricted = 9,
 
-            IpRestrictedError = 10
+            IpRestrictedError = 10,
+
+            UserSessionManagerError = 11,
+
+            SpiderError = 12,
+
+            SpiderRouteError = 13,
+
+            CacheControlError = 14,
         }
     }
 }

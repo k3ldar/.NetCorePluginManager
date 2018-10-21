@@ -56,7 +56,7 @@ namespace UserSessionMiddleware.Plugin
         {
             _next = next;
 
-            UserSessionSettings Settings = GetSettings();
+            UserSessionSettings Settings = GetSettings<UserSessionSettings>("UserSessionConfiguration");
 
             Settings.SessionTimeout = Shared.Utilities.CheckMinMax(Settings.SessionTimeout, 15, 200);
 
@@ -83,7 +83,7 @@ namespace UserSessionMiddleware.Plugin
         {
             try
             {
-                string fileExtension = GetExtension(context.Request.Path.ToString().ToLower());
+                string fileExtension = base.RouteFileExtension(context);
 
                 // if it's a static file, don't add user session data to the context
                 if (!String.IsNullOrEmpty(fileExtension) && _staticFileExtension.Contains($"{fileExtension};"))
@@ -128,7 +128,8 @@ namespace UserSessionMiddleware.Plugin
             catch (Exception error)
             {
                 if (Initialisation.GetLogger != null)
-                    Initialisation.GetLogger.AddToLog(LogLevel.Error, error, System.Reflection.MethodBase.GetCurrentMethod().Name);
+                    Initialisation.GetLogger.AddToLog(LogLevel.UserSessionManagerError, error, 
+                        System.Reflection.MethodBase.GetCurrentMethod().Name);
             }
             finally
             {
@@ -180,22 +181,11 @@ namespace UserSessionMiddleware.Plugin
             catch (Exception err)
             {
                 if (Initialisation.GetLogger != null)
-                    Initialisation.GetLogger.AddToLog(LogLevel.Error, err, System.Reflection.MethodBase.GetCurrentMethod().Name);
+                    Initialisation.GetLogger.AddToLog(LogLevel.UserSessionManagerError, err, 
+                        System.Reflection.MethodBase.GetCurrentMethod().Name);
             }
 
             return (null);
-        }
-
-        private UserSessionSettings GetSettings()
-        {
-            ConfigurationBuilder builder = new ConfigurationBuilder();
-            IConfigurationBuilder configBuilder = builder.SetBasePath(System.IO.Directory.GetCurrentDirectory());
-            configBuilder.AddJsonFile("appsettings.json");
-            IConfigurationRoot config = builder.Build();
-            UserSessionSettings Result = new UserSessionSettings();
-            config.GetSection("UserSessionConfiguration").Bind(Result);
-
-            return (Result);
         }
 
         #endregion Private Methods

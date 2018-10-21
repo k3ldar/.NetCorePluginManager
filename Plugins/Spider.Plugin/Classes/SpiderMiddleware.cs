@@ -80,7 +80,7 @@ namespace Spider.Plugin
             _deniedSpiderRoutes = new List<DeniedRoute>();
             LoadSpiderData(routeProvider, routeDataService, pluginTypesService);
 
-            SpiderSettings settings = GetSpiderSettings();
+            SpiderSettings settings = GetSettings<SpiderSettings>("Spider.Plugin");
 
             _processStaticFiles = settings.ProcessStaticFiles;
 
@@ -142,7 +142,7 @@ namespace Spider.Plugin
                             }
                             catch (Exception err)
                             {
-                                Initialisation.GetLogger.AddToLog(LogLevel.Error, err, MethodBase.GetCurrentMethod().Name);
+                                Initialisation.GetLogger.AddToLog(LogLevel.SpiderRouteError, err, MethodBase.GetCurrentMethod().Name);
                             }
                         }
                     }
@@ -153,25 +153,13 @@ namespace Spider.Plugin
             catch (Exception error)
             {
                 if (Initialisation.GetLogger != null)
-                    Initialisation.GetLogger.AddToLog(LogLevel.Error, error, MethodBase.GetCurrentMethod().Name);
+                    Initialisation.GetLogger.AddToLog(LogLevel.SpiderError, error, MethodBase.GetCurrentMethod().Name);
             }
         }
 
         #endregion Public Methods
 
         #region Private Methods
-
-        private SpiderSettings GetSpiderSettings()
-        {
-            ConfigurationBuilder builder = new ConfigurationBuilder();
-            IConfigurationBuilder configBuilder = builder.SetBasePath(System.IO.Directory.GetCurrentDirectory());
-            configBuilder.AddJsonFile("appsettings.json");
-            IConfigurationRoot config = builder.Build();
-            SpiderSettings Result = new SpiderSettings();
-            config.GetSection("Spider.Plugin").Bind(Result);
-
-            return (Result);
-        }
 
         private void LoadSpiderData(IActionDescriptorCollectionProvider routeProvider,
             IRouteDataService routeDataService, IPluginTypesService pluginTypesService)
