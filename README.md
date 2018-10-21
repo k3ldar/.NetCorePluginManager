@@ -45,3 +45,9 @@ PM > Install-Package Spider.Plugin -Version 1.0.2
 https://www.nuget.org/packages/Spider.Plugin/
 
 See https://github.com/k3ldar/.NetCorePluginManager/wiki/Spider-Plugin-Middleware for setup and configuration.
+
+# Restrict Ip
+Automatically restricts a route to specific Ip Addresses.
+
+https://github.com/k3ldar/.NetCorePluginManager/wiki/Restrict-Ip-Address-Plugin
+

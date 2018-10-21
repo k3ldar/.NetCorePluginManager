@@ -34,6 +34,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 
 using SharedPluginFeatures;
+using static SharedPluginFeatures.Enums;
 
 #pragma warning disable IDE0034
 
@@ -130,7 +131,7 @@ namespace AspNetCore.PluginManager
                 }
                 catch (Exception typeLoader)
                 {
-                    _logger.AddToLog(typeLoader, $"{assembly.FullName}{MethodBase.GetCurrentMethod().Name}");
+                    _logger.AddToLog(LogLevel.PluginLoadError, typeLoader, $"{assembly.FullName}{MethodBase.GetCurrentMethod().Name}");
                 }
             }
         }
@@ -147,7 +148,7 @@ namespace AspNetCore.PluginManager
             }
             catch (Exception error)
             {
-                _logger.AddToLog(error, $"{pluginName}{MethodBase.GetCurrentMethod().Name}");
+                _logger.AddToLog(LogLevel.PluginLoadError, error, $"{pluginName}{MethodBase.GetCurrentMethod().Name}");
             }
         }
 
@@ -166,7 +167,7 @@ namespace AspNetCore.PluginManager
                 }
                 catch (Exception error)
                 {
-                    _logger.AddToLog(error, $"{plugin.Key}{MethodBase.GetCurrentMethod().Name}");
+                    _logger.AddToLog(LogLevel.Error, error, $"{plugin.Key}{MethodBase.GetCurrentMethod().Name}");
                 }
             }
         }
@@ -186,7 +187,7 @@ namespace AspNetCore.PluginManager
                 }
                 catch (Exception error)
                 {
-                    _logger.AddToLog(error, $"{plugin.Key}{MethodBase.GetCurrentMethod().Name}");
+                    _logger.AddToLog(LogLevel.PluginConfigureError, error, $"{plugin.Key}{MethodBase.GetCurrentMethod().Name}");
                 }
             }
         }
@@ -239,13 +240,13 @@ namespace AspNetCore.PluginManager
                         }
                         catch (Exception typeLoader)
                         {
-                            _logger.AddToLog(typeLoader, $"{plugin.Value.Module}{MethodBase.GetCurrentMethod().Name}");
+                            _logger.AddToLog(LogLevel.Error, typeLoader, $"{plugin.Value.Module}{MethodBase.GetCurrentMethod().Name}");
                         }
                     }
                 }
                 catch (Exception error)
                 {
-                    _logger.AddToLog(error, $"{plugin.Value.Module}{MethodBase.GetCurrentMethod().Name}");
+                    _logger.AddToLog(LogLevel.Error, error, $"{plugin.Value.Module}{MethodBase.GetCurrentMethod().Name}");
                 }
             }
 
@@ -277,13 +278,13 @@ namespace AspNetCore.PluginManager
                         }
                         catch (Exception typeLoader)
                         {
-                            _logger.AddToLog(typeLoader, $"{plugin.Value.Module}{MethodBase.GetCurrentMethod().Name}");
+                            _logger.AddToLog(LogLevel.Error, typeLoader, $"{plugin.Value.Module}{MethodBase.GetCurrentMethod().Name}");
                         }
                     }
                 }
                 catch (Exception error)
                 {
-                    _logger.AddToLog(error, $"{plugin.Value.Module}{MethodBase.GetCurrentMethod().Name}");
+                    _logger.AddToLog(LogLevel.Error, error, $"{plugin.Value.Module}{MethodBase.GetCurrentMethod().Name}");
                 }
             }
 
@@ -315,13 +316,13 @@ namespace AspNetCore.PluginManager
                         }
                         catch (Exception typeLoader)
                         {
-                            _logger.AddToLog(typeLoader, $"{plugin.Value.Module}{MethodBase.GetCurrentMethod().Name}");
+                            _logger.AddToLog(LogLevel.Error, typeLoader, $"{plugin.Value.Module}{MethodBase.GetCurrentMethod().Name}");
                         }
                     }
                 }
                 catch (Exception error)
                 {
-                    _logger.AddToLog(error, $"{plugin.Value.Module}{MethodBase.GetCurrentMethod().Name}");
+                    _logger.AddToLog(LogLevel.Error, error, $"{plugin.Value.Module}{MethodBase.GetCurrentMethod().Name}");
                 }
             }
 
@@ -367,7 +368,7 @@ namespace AspNetCore.PluginManager
                 }
                 catch (Exception error)
                 {
-                    _logger.AddToLog(error, $"{plugin.Key}{MethodBase.GetCurrentMethod().Name}");
+                    _logger.AddToLog(LogLevel.Error, error, $"{plugin.Key}{MethodBase.GetCurrentMethod().Name}");
                 }
             }
         }
@@ -414,13 +415,13 @@ namespace AspNetCore.PluginManager
                     }
                     catch (Exception typeLoader)
                     {
-                        _logger.AddToLog(typeLoader, $"{pluginModule.Module}{MethodBase.GetCurrentMethod().Name}");
+                        _logger.AddToLog(LogLevel.Error, typeLoader, $"{pluginModule.Module}{MethodBase.GetCurrentMethod().Name}");
                     }
                 }
             }
             catch (Exception error)
             {
-                _logger.AddToLog(error, $"{pluginModule.Module}{MethodBase.GetCurrentMethod().Name}");
+                _logger.AddToLog(LogLevel.Error, error, $"{pluginModule.Module}{MethodBase.GetCurrentMethod().Name}");
             }
 
             return (default(T));
@@ -527,7 +528,7 @@ namespace AspNetCore.PluginManager
             }
             catch (Exception error)
             {
-                _logger.AddToLog(error, $"{MethodBase.GetCurrentMethod().Name}");
+                _logger.AddToLog(LogLevel.Error, error, $"{MethodBase.GetCurrentMethod().Name}");
             }
 
             return (null);

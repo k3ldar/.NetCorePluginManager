@@ -15,18 +15,37 @@
  *
  *  Product:  SharedPluginFeatures
  *  
- *  File: RequestManagerMiddlewareExtender.cs
+ *  File: RestrictedIpRouteAttribute.cs
  *
- *  Purpose:  
+ *  Purpose:  Restricted Ip Route attribute
  *
  *  Date        Name                Reason
  *  29/09/2018  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+using System;
 
-namespace RequestManager.Plugin
+namespace SharedPluginFeatures
 {
-    class RequestManagerMiddlewareExtender
+    [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
+    public sealed class RestrictedIpRouteAttribute  :  Attribute
     {
+        #region Constructors
+
+        public RestrictedIpRouteAttribute(string profileName)
+        {
+            if (String.IsNullOrEmpty(profileName))
+                throw new ArgumentNullException(nameof(profileName));
+
+            ProfileName = profileName;
+        }
+
+        #endregion Constructors
+
+        #region Properties
+
+        public string ProfileName { get; private set; }
+
+        #endregion Properties
     }
 }

@@ -35,6 +35,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 using SharedPluginFeatures;
+using static SharedPluginFeatures.Enums;
 
 namespace AspNetCore.PluginManager
 {
@@ -88,7 +89,7 @@ namespace AspNetCore.PluginManager
                         {
                             if (!String.IsNullOrEmpty(pluginFile))
                             {
-                                _logger.AddToLog($"Could not find plugin: {pluginFile}");
+                                _logger.AddToLog(LogLevel.Warning, $"Could not find plugin: {pluginFile}");
                             }
 
                             continue;
@@ -117,7 +118,7 @@ namespace AspNetCore.PluginManager
             }
             catch (Exception error)
             {
-                _logger.AddToLog(error, $"{MethodBase.GetCurrentMethod().Name}");
+                _logger.AddToLog(LogLevel.PluginConfigureError, error, $"{MethodBase.GetCurrentMethod().Name}");
                 return (false);
             }
 
