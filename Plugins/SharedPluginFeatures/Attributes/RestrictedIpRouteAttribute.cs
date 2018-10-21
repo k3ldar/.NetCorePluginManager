@@ -13,43 +13,38 @@
  *
  *  Copyright (c) 2018 Simon Carter.  All Rights Reserved.
  *
- *  Product:  RestrictIp.Plugin
+ *  Product:  SharedPluginFeatures
  *  
- *  File: RestrictedRoutes.cs
+ *  File: RestrictedIpRouteAttribute.cs
  *
- *  Purpose:  
+ *  Purpose:  Restricted Ip Route attribute
  *
  *  Date        Name                Reason
- *  16/10/2018  Simon Carter        Initially Created
+ *  29/09/2018  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
 
-namespace RestrictIp.Plugin
+namespace SharedPluginFeatures
 {
-    internal sealed class RestrictedRoute
+    [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
+    public sealed class RestrictedIpRouteAttribute  :  Attribute
     {
         #region Constructors
 
-        internal RestrictedRoute(in string route, in string userAgent)
+        public RestrictedIpRouteAttribute(string profileName)
         {
-            if (string.IsNullOrEmpty(route))
-                throw new ArgumentNullException(nameof(route));
+            if (String.IsNullOrEmpty(profileName))
+                throw new ArgumentNullException(nameof(profileName));
 
-            if (String.IsNullOrEmpty(userAgent))
-                throw new ArgumentNullException(nameof(userAgent));
-
-            Route = route;
-            UserAgent = userAgent;
+            ProfileName = profileName;
         }
 
         #endregion Constructors
 
         #region Properties
 
-        internal string Route { get; set; }
-
-        internal string UserAgent { get; set; }
+        public string ProfileName { get; private set; }
 
         #endregion Properties
     }

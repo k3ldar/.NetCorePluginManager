@@ -15,18 +15,40 @@
  *
  *  Product:  SharedPluginFeatures
  *  
- *  File: RequestManagerMiddlewareExtender.cs
+ *  File: Enums.cs
  *
- *  Purpose:  
+ *  Purpose:  Shared Enum Values
  *
  *  Date        Name                Reason
- *  29/09/2018  Simon Carter        Initially Created
+ *  19/10/2018  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-namespace RequestManager.Plugin
+namespace SharedPluginFeatures
 {
-    class RequestManagerMiddlewareExtender
+    public class Enums
     {
+        public enum LogLevel
+        {
+            Information = 1,
+
+            Warning = 2,
+
+            Error = 3,
+
+            Critical = 4,
+
+            PluginLoadSuccess = 5,
+
+            PluginLoadFailed = 6,
+
+            PluginLoadError = 7,
+
+            PluginConfigureError = 8,
+
+            IpRestricted = 9,
+
+            IpRestrictedError = 10
+        }
     }
 }

@@ -25,8 +25,6 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
 using System.Collections.Generic;
-using static System.IO.Path;
-using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
@@ -39,20 +37,29 @@ using Microsoft.AspNetCore.Http;
 using Shared.Classes;
 
 using SharedPluginFeatures;
+using static SharedPluginFeatures.Enums;
 
 namespace RestrictIp.Plugin
 {
-    public sealed class RestrictIpMiddleware
+    public sealed class RestrictIpMiddleware : BaseMiddleware
     {
+        #region Constants
+
+        private const string ProfileNotFound = "The requested restriction profile '{0}' was not found!  " +
+            "Route '{1}' will be restricted to localhost only";
+        private const string RouteRestricted = "Profile '{0}' is restricting route '{1}' to Ip Address {2}";
+        private const string RouteForbidden = "Ip Address '{0}' forbidden to access route '{1}'";
+        private const string LocalHost = "localhost";
+        private const string RestrictedIpDisabled = "RestrictIp Middleware is disabled";
+
+        #endregion Constants
+
         #region Private Members
 
-        private byte[] _spiderData;
-        private readonly List<RestrictedRoute> _deniedSpiderRoutes;
-        private readonly bool _userSessionManagerLoaded;
-        private readonly string DefaultController = "Home";
+        private readonly Dictionary<string, List<string>> _restrictedRoutes;
         private readonly RequestDelegate _next;
-        private readonly bool _processStaticFiles;
-        private readonly string _staticFileExtensions = ".less;.ico;.css;.js;.svg;.jpg;.jpeg;.gif;.png;.eot;";
+        private readonly HashSet<string> _localIpAddresses;
+        private readonly bool _disabled;
 
         #endregion Private Members
 
@@ -72,18 +79,16 @@ namespace RestrictIp.Plugin
                 throw new ArgumentNullException(nameof(pluginHelperService));
 
             _next = next;
+            _localIpAddresses = new HashSet<string>();
+            _restrictedRoutes = new Dictionary<string, List<string>>();
+            GetLocalIpAddresses(_localIpAddresses);
+            RestrictIpSettings settings = GetSettings<RestrictIpSettings>("RestrictedIpRoutes.Plugin");
+            _disabled = settings.Disabled;
 
-            _userSessionManagerLoaded = pluginHelperService.PluginLoaded("UserSessionMiddleware.Plugin.dll", out int version);
+            if (_disabled)
+                Initialisation.GetLogger.AddToLog(LogLevel.Information, RestrictedIpDisabled);
 
-            _deniedSpiderRoutes = new List<RestrictedRoute>();
-            LoadSpiderData(routeProvider, routeDataService, pluginTypesService);
-
-            RestrictIpSettings settings = GetSpiderSettings();
-
-            _processStaticFiles = settings.ProcessStaticFiles;
-
-            if (!String.IsNullOrEmpty(settings.StaticFileExtensions))
-                _staticFileExtensions = settings.StaticFileExtensions;
+            LoadRestrictedIpRouteData(routeProvider, routeDataService, pluginTypesService, settings);
         }
 
         #endregion Constructors
@@ -92,66 +97,55 @@ namespace RestrictIp.Plugin
 
         public async Task Invoke(HttpContext context)
         {
+            bool passRequestOn = true;
+
             try
             {
-                string fileExtension = GetExtension(context.Request.Path.ToString().ToLower());
-
-                if (!_processStaticFiles &&  !String.IsNullOrEmpty(fileExtension) &&
-                    _staticFileExtensions.Contains($"{fileExtension};"))
-                {
-                    await _next(context);
+                if (_disabled)
                     return;
-                }
 
-                string route = context.Request.Path.ToString().ToLower();
+                string route = RouteLowered(context);
 
-                if (route.EndsWith("/robots.txt"))
-                {
-                    context.Response.StatusCode = 200;
-                    context.Response.Body.Write(_spiderData, 0, _spiderData.Length);
-                }
-                else
-                {
-                    if (_userSessionManagerLoaded)
-                    {
-                        if (context.Items.ContainsKey("UserSession"))
-                        {
-                            try
-                            {
-                                UserSession userSession = (UserSession)context.Items["UserSession"];
+                string userIpAddress = GetIpAddress(context);
+                bool isLocalAddress = _localIpAddresses.Contains(userIpAddress);
 
-                                foreach (RestrictedRoute deniedRoute in _deniedSpiderRoutes)
-                                {
-                                    if (userSession.IsBot &&
-                                        deniedRoute.Route.StartsWith(route) &&
-                                        (
-                                            deniedRoute.UserAgent == "*" ||
-#if NETCORE2_0
-                                            userSession.UserAgent.Contains(deniedRoute.UserAgent, StringComparison.CurrentCultureIgnoreCase)
-#else 
-                                            userSession.UserAgent.ToLower().Contains(deniedRoute.UserAgent.ToLower())
+#if !DEBUG
+                // always allow local connections
+                if (isLocalAddress)
+                    return;
 #endif
-                                        ))
-                                    {
-                                        context.Response.StatusCode = 403;
-                                        return;
-                                    }
-                                }
-                            }
-                            catch (Exception err)
-                            {
-                                Initialisation.GetLogger.AddToLog(err);
-                            }
-                        }
-                    }
 
-                    await _next(context);
+                foreach (KeyValuePair<string, List<string>> restrictedRoute in _restrictedRoutes)
+                {
+                    if (route.StartsWith(restrictedRoute.Key))
+                    {
+                        foreach (string restrictedIp in restrictedRoute.Value)
+                        {
+                            if ((isLocalAddress && restrictedIp == LocalHost) || (String.IsNullOrEmpty(restrictedIp)))
+                                return;
+
+                            if (userIpAddress.StartsWith(restrictedIp))
+                                return;
+                        }
+
+                        // if we get here, we are in a restricted route and ip does not match, so fail with forbidden
+                        passRequestOn = false;
+                        context.Response.StatusCode = 403;
+                        Initialisation.GetLogger.AddToLog(LogLevel.IpRestricted,
+                            String.Format(RouteForbidden, userIpAddress, route));
+                    }
                 }
+
             }
             catch (Exception error)
             {
                 if (Initialisation.GetLogger != null)
-                    Initialisation.GetLogger.AddToLog(error, MethodBase.GetCurrentMethod().Name);
+                    Initialisation.GetLogger.AddToLog(LogLevel.IpRestrictedError, error, MethodBase.GetCurrentMethod().Name);
+            }
+            finally
+            {
+                if (passRequestOn)
+                    await _next(context);
             }
         }
 
@@ -159,80 +153,56 @@ namespace RestrictIp.Plugin
 
         #region Private Methods
 
-        private RestrictIpSettings GetSpiderSettings()
+        private void LoadRestrictedIpRouteData(in IActionDescriptorCollectionProvider routeProvider,
+            in IRouteDataService routeDataService, in IPluginTypesService pluginTypesService, 
+            in RestrictIpSettings settings)
         {
-            ConfigurationBuilder builder = new ConfigurationBuilder();
-            IConfigurationBuilder configBuilder = builder.SetBasePath(System.IO.Directory.GetCurrentDirectory());
-            configBuilder.AddJsonFile("appsettings.json");
-            IConfigurationRoot config = builder.Build();
-            RestrictIpSettings Result = new RestrictIpSettings();
-            config.GetSection("Spider.Plugin").Bind(Result);
+            List<Type> classesWithIpAttributes = pluginTypesService.GetPluginTypesWithAttribute<RestrictedIpRouteAttribute>();
 
-            return (Result);
-        }
-
-        private void LoadSpiderData(IActionDescriptorCollectionProvider routeProvider,
-            IRouteDataService routeDataService, IPluginTypesService pluginTypesService)
-        {
-            string spiderTextFile = String.Empty;
-            List<Type> spiderAttributes = pluginTypesService.GetPluginTypesWithAttribute<DenySpiderAttribute>();
-
-            if (spiderAttributes.Count == 0)
+            // Cycle through all classes and methods which have the restricted route attribute
+            foreach (Type type in classesWithIpAttributes)
             {
-                spiderTextFile = "# Allow all from Spider.Plugin\r\n\r\nUser-agent: *";
-            }
-            else
-            {
-                // Cycle through all classes and methods which have the spider attribute
-                foreach (Type type in spiderAttributes)
+                foreach (Attribute attribute in type.GetCustomAttributes())
                 {
-                    // is it a class attribute
-                    DenySpiderAttribute attribute = (DenySpiderAttribute)type.GetCustomAttributes(true)
-                        .Where(a => a.GetType() == typeof(DenySpiderAttribute)).FirstOrDefault();
-
-                    if (attribute != null)
+                    if (attribute.GetType() == typeof(RestrictedIpRouteAttribute))
                     {
+                        RestrictedIpRouteAttribute restrictedIpRouteAttribute = (RestrictedIpRouteAttribute)attribute;
+
                         string route = routeDataService.GetRouteFromClass(type, routeProvider);
 
                         if (String.IsNullOrEmpty(route))
                             continue;
 
-                        if (!String.IsNullOrEmpty(attribute.Comment))
-                            spiderTextFile += $"# {attribute.Comment}\r\n\r\n";
+                        // if the route ends with / remove it
+                        if (route[route.Length - 1] == '/')
+                            route = route.Substring(0, route.Length - 1);
 
-                        spiderTextFile += $"User-agent: {attribute.UserAgent}\r\n";
-                        spiderTextFile += $"Disallow: /{route}/\r\n\r\n";
+                        if (!_restrictedRoutes.ContainsKey(route.ToLower()))
+                            _restrictedRoutes.Add(route.ToLower(), new List<string>());
 
-                        _deniedSpiderRoutes.Add(new RestrictedRoute($"/{route.ToLower()}/", attribute.UserAgent));
-                    }
-
-                    // look for specific method disallows
-
-                    foreach (MethodInfo method in type.GetMethods())
-                    {
-                        attribute = (DenySpiderAttribute)method.GetCustomAttributes(true)
-                            .Where(a => a.GetType() == typeof(DenySpiderAttribute)).FirstOrDefault();
-
-                        if (attribute != null)
+                        if (settings.RouteRestrictions.ContainsKey(restrictedIpRouteAttribute.ProfileName))
                         {
-                            string route = routeDataService.GetRouteFromMethod(method, routeProvider);
+                            foreach (string ipAddress in settings.RouteRestrictions[restrictedIpRouteAttribute.ProfileName].Split(';'))
+                            {
+                                if (String.IsNullOrEmpty(ipAddress))
+                                    continue;
 
-                            if (String.IsNullOrEmpty(route))
-                                continue;
+                                _restrictedRoutes[route.ToLower()].Add(ipAddress.Replace("*", String.Empty));
 
-                            if (!String.IsNullOrEmpty(attribute.Comment))
-                                spiderTextFile += $"# {attribute.Comment}\r\n\r\n";
-
-                            spiderTextFile += $"User-agent: {attribute.UserAgent}\r\n";
-                            spiderTextFile += $"Disallow: {route}\r\n\r\n";
-
-                            _deniedSpiderRoutes.Add(new RestrictedRoute($"{route.ToLower()}", attribute.UserAgent));
+                                Initialisation.GetLogger.AddToLog(LogLevel.Information, 
+                                    String.Format(RouteRestricted, restrictedIpRouteAttribute.ProfileName,
+                                        route, ipAddress));
+                            }
+                        }
+                        else
+                        {
+                            Initialisation.GetLogger.AddToLog(LogLevel.Warning,
+                                String.Format(ProfileNotFound, restrictedIpRouteAttribute.ProfileName, route));
+                            _restrictedRoutes[route.ToLower()].Add(LocalHost);
                         }
                     }
                 }
             }
-
-            _spiderData = Encoding.UTF8.GetBytes(spiderTextFile);
         }
 
         #endregion Private Methods

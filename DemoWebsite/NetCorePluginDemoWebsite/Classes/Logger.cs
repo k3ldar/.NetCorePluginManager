@@ -26,21 +26,31 @@
 using System;
 
 using SharedPluginFeatures;
+using static SharedPluginFeatures.Enums;
 
 namespace AspNetCore.PluginManager.DemoWebsite.Classes
 {
     public class Logger : ILogger
     {
-        public void AddToLog(string data)
+        public void AddToLog(in LogLevel logLevel, in string data)
         {
+#if TRACE
+            System.Diagnostics.Trace.WriteLine($"{logLevel.ToString()} {data}");
+#endif
         }
 
-        public void AddToLog(Exception exception)
+        public void AddToLog(in LogLevel logLevel, in Exception exception)
         {
+#if TRACE
+            System.Diagnostics.Trace.WriteLine($"{logLevel.ToString()} {exception.Message}");
+#endif
         }
 
-        public void AddToLog(Exception exception, string data)
+        public void AddToLog(in LogLevel logLevel, in Exception exception, string data)
         {
+#if TRACE
+            System.Diagnostics.Trace.WriteLine($"{logLevel.ToString()} {exception.Message}\r\n{data}");
+#endif
         }
     }
 }

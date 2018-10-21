@@ -26,14 +26,16 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
 
+using static SharedPluginFeatures.Enums;
+
 namespace SharedPluginFeatures
 {
     public interface ILogger
     {
-        void AddToLog(string data);
+        void AddToLog(in LogLevel logLevel, in string data);
 
-        void AddToLog(Exception exception);
+        void AddToLog(in LogLevel logLevel, in Exception exception);
 
-        void AddToLog(Exception exception, string data);
+        void AddToLog(in LogLevel logLevel, in Exception exception, string data);
     }
 }

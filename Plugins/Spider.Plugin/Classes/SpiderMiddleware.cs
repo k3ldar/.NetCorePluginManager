@@ -40,10 +40,11 @@ using Microsoft.AspNetCore.Http;
 using Shared.Classes;
 
 using SharedPluginFeatures;
+using static SharedPluginFeatures.Enums;
 
 namespace Spider.Plugin
 {
-    public sealed class SpiderMiddleware
+    public sealed class SpiderMiddleware : BaseMiddleware
     {
         #region Private Members
 
@@ -95,7 +96,7 @@ namespace Spider.Plugin
         {
             try
             {
-                string fileExtension = GetExtension(context.Request.Path.ToString().ToLower());
+                string fileExtension = RouteFileExtension(context);
 
                 if (!_processStaticFiles &&  !String.IsNullOrEmpty(fileExtension) &&
                     _staticFileExtensions.Contains($"{fileExtension};"))
@@ -104,7 +105,7 @@ namespace Spider.Plugin
                     return;
                 }
 
-                string route = context.Request.Path.ToString().ToLower();
+                string route = RouteLowered(context);
 
                 if (route.EndsWith("/robots.txt"))
                 {
@@ -141,7 +142,7 @@ namespace Spider.Plugin
                             }
                             catch (Exception err)
                             {
-                                Initialisation.GetLogger.AddToLog(err);
+                                Initialisation.GetLogger.AddToLog(LogLevel.Error, err, MethodBase.GetCurrentMethod().Name);
                             }
                         }
                     }
@@ -152,7 +153,7 @@ namespace Spider.Plugin
             catch (Exception error)
             {
                 if (Initialisation.GetLogger != null)
-                    Initialisation.GetLogger.AddToLog(error, MethodBase.GetCurrentMethod().Name);
+                    Initialisation.GetLogger.AddToLog(LogLevel.Error, error, MethodBase.GetCurrentMethod().Name);
             }
         }
 

@@ -20,19 +20,29 @@
  *  Purpose:  
  *
  *  Date        Name                Reason
- *  29/09/2018  Simon Carter        Initially Created
+ *  19/10/2018  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+using System.Collections.Generic;
 
 namespace RestrictIp.Plugin
 {
     public class RestrictIpSettings
     {
+        #region Constructors
+
+        public RestrictIpSettings()
+        {
+            RouteRestrictions = new Dictionary<string, string>();
+        }
+
+        #endregion Constructors
+
         #region Properties
 
-        public bool ProcessStaticFiles { get; set; }
+        public bool Disabled { get; set; }
 
-        public string StaticFileExtensions { get; set; }
+        public Dictionary<string, string> RouteRestrictions { get; set; }
 
         #endregion Properties
     }
