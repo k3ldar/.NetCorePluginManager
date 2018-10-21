@@ -55,7 +55,7 @@ namespace CacheControl.Plugin
             _routePaths = new Dictionary<string, CacheControlRoute>();
             _ignoredRoutes = new HashSet<string>();
 
-            LoadSettings(GetSettings());
+            LoadSettings(GetSettings<CacheControlSettings>("CacheControlRoute"));
         }
 
         #endregion Constructors
@@ -92,7 +92,8 @@ namespace CacheControl.Plugin
             catch (Exception error)
             {
                 if (Initialisation.GetLogger != null)
-                    Initialisation.GetLogger.AddToLog(LogLevel.Error, error, System.Reflection.MethodBase.GetCurrentMethod().Name);
+                    Initialisation.GetLogger.AddToLog(LogLevel.CacheControlError, error, 
+                        System.Reflection.MethodBase.GetCurrentMethod().Name);
             }
             finally
             {
@@ -123,18 +124,6 @@ namespace CacheControl.Plugin
                     _routePaths.Add(route.ToLower(), keyValue.Value);
                 }
             }
-        }
-
-        private CacheControlSettings GetSettings()
-        {
-            ConfigurationBuilder builder = new ConfigurationBuilder();
-            IConfigurationBuilder configBuilder = builder.SetBasePath(System.IO.Directory.GetCurrentDirectory());
-            configBuilder.AddJsonFile("appsettings.json");
-            IConfigurationRoot config = builder.Build();
-            CacheControlSettings Result = new CacheControlSettings();
-            config.GetSection("CacheControlRoute").Bind(Result);
-
-            return (Result);
         }
 
         #endregion Private Methods

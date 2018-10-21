@@ -94,7 +94,10 @@ namespace AspNetCore.PluginManager
             PluginSetting pluginSetting = GetPluginSetting(assemblyName);
 
             if (pluginSetting.Disabled)
+            {
+                _logger.AddToLog(LogLevel.Warning, "PluginManager is disabled");
                 return;
+            }
 
             foreach (Type type in assembly.GetTypes())
             {
@@ -124,6 +127,9 @@ namespace AspNetCore.PluginManager
                         pluginModule.Plugin.Initialise(_logger);
 
                         _plugins.Add(assemblyName, pluginModule);
+
+                        _logger.AddToLog(LogLevel.PluginLoadSuccess, assemblyName);
+
 
                         // only interested in first reference of IPlugin
                         break;
@@ -167,7 +173,7 @@ namespace AspNetCore.PluginManager
                 }
                 catch (Exception error)
                 {
-                    _logger.AddToLog(LogLevel.Error, error, $"{plugin.Key}{MethodBase.GetCurrentMethod().Name}");
+                    _logger.AddToLog(LogLevel.PluginConfigureError, error, $"{plugin.Key}{MethodBase.GetCurrentMethod().Name}");
                 }
             }
         }
@@ -528,7 +534,7 @@ namespace AspNetCore.PluginManager
             }
             catch (Exception error)
             {
-                _logger.AddToLog(LogLevel.Error, error, $"{MethodBase.GetCurrentMethod().Name}");
+                _logger.AddToLog(LogLevel.PluginLoadError, error, $"{MethodBase.GetCurrentMethod().Name}");
             }
 
             return (null);

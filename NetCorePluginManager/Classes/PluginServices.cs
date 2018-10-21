@@ -32,12 +32,10 @@ using Shared.Classes;
 
 namespace AspNetCore.PluginManager
 {
-    public sealed class PluginServices : IPluginClassesService, IPluginHelperService, IPluginTypesService,
-        IPluginNotificationManager
+    public sealed class PluginServices : IPluginClassesService, IPluginHelperService, IPluginTypesService
     {
         #region Private Members
 
-        private List<IPluginNotification> _pluginNotifications;
         private object _lockObject;
 
         #endregion Private Members
@@ -47,7 +45,6 @@ namespace AspNetCore.PluginManager
         public PluginServices()
         {
             _lockObject = new object();
-            _pluginNotifications = new List<IPluginNotification>();
         }
 
         #endregion Constructors
@@ -83,79 +80,5 @@ namespace AspNetCore.PluginManager
         }
 
         #endregion IPluginHelperService Methods
-
-        #region IPluginNotificationManager Methods
-
-        void IPluginNotificationManager.Add(in IPluginNotification notification)
-        {
-            if (notification == null)
-                throw new ArgumentNullException(nameof(notification));
-
-            using (TimedLock.Lock(_lockObject))
-            {
-                _pluginNotifications.Add(notification);
-            }
-        }
-
-        void IPluginNotificationManager.Remove(in IPluginNotification notification)
-        {
-            if (notification == null)
-                throw new ArgumentNullException(nameof(notification));
-
-            using (TimedLock.Lock(_lockObject))
-            {
-                _pluginNotifications.Remove(notification);
-            }
-        }
-
-        internal void PluginLoaded(in string plugin, in ushort version)
-        {
-            if (String.IsNullOrEmpty(plugin))
-                throw new ArgumentNullException(nameof(plugin));
-
-            using (TimedLock.Lock(_lockObject))
-            {
-                foreach (IPluginNotification notification in _pluginNotifications)
-                {
-                    notification.PluginLoaded(plugin, version);
-                }
-            }
-        }
-
-        internal void PlugnLoadFailed(in string plugin, in string error)
-        {
-            if (String.IsNullOrEmpty(plugin))
-                throw new ArgumentNullException(nameof(plugin));
-
-            if (String.IsNullOrEmpty(error))
-                throw new ArgumentNullException(nameof(error));
-
-            using (TimedLock.Lock(_lockObject))
-            {
-                foreach (IPluginNotification notification in _pluginNotifications)
-                {
-                    notification.PlugnLoadFailed(plugin, error);
-                }
-            }
-        }
-
-        internal void PluginLoadError(in string plugin, in string message)
-        {
-            if (String.IsNullOrEmpty(plugin))
-                throw new ArgumentNullException(nameof(plugin));
-
-            if (String.IsNullOrEmpty(message))
-                throw new ArgumentNullException(nameof(message));
-
-            using (TimedLock.Lock(_lockObject))
-            {
-                foreach (IPluginNotification notification in _pluginNotifications)
-                {
-                    notification.PluginLoadError(plugin, message);
-                }
-            }
-        }
-
-        #endregion IPluginNotificationManager Methods
     }
 }
