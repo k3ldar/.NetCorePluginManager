@@ -13,65 +13,39 @@
  *
  *  Copyright (c) 2018 Simon Carter.  All Rights Reserved.
  *
- *  Product:  SharedPluginFeatures
+ *  Product:  GeoIpPlugin
  *  
- *  File: Enums.cs
+ *  File: GeoIpPluginSettings.cs
  *
- *  Purpose:  Shared Enum Values
+ *  Purpose:  
  *
  *  Date        Name                Reason
- *  19/10/2018  Simon Carter        Initially Created
+ *  22/10/2018  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+using SharedPluginFeatures;
 
-namespace SharedPluginFeatures
+namespace GeoIp.Plugin
 {
-    public class Enums
+    public class GeoIpPluginSettings
     {
-        public enum LogLevel
+        #region Constructors
+
+        public GeoIpPluginSettings()
         {
-            Information = 1,
-
-            Warning = 2,
-
-            Error = 3,
-
-            Critical = 4,
-
-            PluginLoadSuccess = 5,
-
-            PluginLoadFailed = 6,
-
-            PluginLoadError = 7,
-
-            PluginConfigureError = 8,
-
-            IpRestricted = 9,
-
-            IpRestrictedError = 10,
-
-            UserSessionManagerError = 11,
-
-            SpiderError = 12,
-
-            SpiderRouteError = 13,
-
-            CacheControlError = 14,
-
-            GeoIpStackError = 15,
+            IpStack = new IpStackSettings();
         }
 
-        public enum GeoIpProvider
-        {
-            /// <summary>
-            /// No Geo Ip Provider
-            /// </summary>
-            None = 0,
+        #endregion Constructors
 
-            /// <summary>
-            /// IpStack https://ipstack.com/
-            /// </summary>
-            IpStack = 1,
-        }
+        #region Properties
+
+        public string Webnet77CSVData { get; set; }
+
+        public Enums.GeoIpProvider GeoIpProvider { get; set; }
+
+        public IpStackSettings IpStack { get; set; }
+
+        #endregion Properties
     }
 }

@@ -23,6 +23,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CacheControl.Plugin", "Plug
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RestrictIp.Plugin", "Plugins\RestrictIp.Plugin\RestrictIp.Plugin.csproj", "{FDF3ED1B-5126-442A-9C37-D8F86D4B9160}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GeoIpPlugin", "Plugins\GeoIpPlugin\GeoIpPlugin.csproj", "{D254CFDC-302C-450A-9C8F-FD0130D68A2E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -69,6 +71,10 @@ Global
 		{FDF3ED1B-5126-442A-9C37-D8F86D4B9160}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FDF3ED1B-5126-442A-9C37-D8F86D4B9160}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FDF3ED1B-5126-442A-9C37-D8F86D4B9160}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D254CFDC-302C-450A-9C8F-FD0130D68A2E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D254CFDC-302C-450A-9C8F-FD0130D68A2E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D254CFDC-302C-450A-9C8F-FD0130D68A2E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D254CFDC-302C-450A-9C8F-FD0130D68A2E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

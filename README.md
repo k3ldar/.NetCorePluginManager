@@ -51,3 +51,8 @@ Automatically restricts a route to specific Ip Addresses.
 
 https://github.com/k3ldar/.NetCorePluginManager/wiki/Restrict-Ip-Address-Plugin
 
+# Geo Ip
+Integrates GeoIp services for internal use, or use with User Session Middleware
+
+https://github.com/k3ldar/.NetCorePluginManager/wiki/Geo-Ip-Plugin
+

@@ -15,63 +15,20 @@
  *
  *  Product:  SharedPluginFeatures
  *  
- *  File: Enums.cs
+ *  File: IGeoIpData.cs
  *
- *  Purpose:  Shared Enum Values
+ *  Purpose:  Provides interface for retrievin geo ip data
  *
  *  Date        Name                Reason
- *  19/10/2018  Simon Carter        Initially Created
+ *  22/10/2018  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 namespace SharedPluginFeatures
 {
-    public class Enums
+    public interface IGeoIpProvider
     {
-        public enum LogLevel
-        {
-            Information = 1,
-
-            Warning = 2,
-
-            Error = 3,
-
-            Critical = 4,
-
-            PluginLoadSuccess = 5,
-
-            PluginLoadFailed = 6,
-
-            PluginLoadError = 7,
-
-            PluginConfigureError = 8,
-
-            IpRestricted = 9,
-
-            IpRestrictedError = 10,
-
-            UserSessionManagerError = 11,
-
-            SpiderError = 12,
-
-            SpiderRouteError = 13,
-
-            CacheControlError = 14,
-
-            GeoIpStackError = 15,
-        }
-
-        public enum GeoIpProvider
-        {
-            /// <summary>
-            /// No Geo Ip Provider
-            /// </summary>
-            None = 0,
-
-            /// <summary>
-            /// IpStack https://ipstack.com/
-            /// </summary>
-            IpStack = 1,
-        }
+        bool GetIpAddressDetails(in string ipAddress, out string countryCode, out string region,
+            out string cityName, out decimal latitude, out decimal longitude);
     }
 }

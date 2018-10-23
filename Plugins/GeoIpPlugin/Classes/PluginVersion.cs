@@ -13,65 +13,25 @@
  *
  *  Copyright (c) 2018 Simon Carter.  All Rights Reserved.
  *
- *  Product:  SharedPluginFeatures
+ *  Product:  GeoIpPlugin
  *  
- *  File: Enums.cs
+ *  File: PluginVersion.cs
  *
- *  Purpose:  Shared Enum Values
+ *  Purpose:  
  *
  *  Date        Name                Reason
- *  19/10/2018  Simon Carter        Initially Created
+ *  22/10/2018  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+using SharedPluginFeatures;
 
-namespace SharedPluginFeatures
+namespace GeoIp.Plugin
 {
-    public class Enums
+    public class PluginVersion : IPluginVersion
     {
-        public enum LogLevel
+        public ushort GetVersion()
         {
-            Information = 1,
-
-            Warning = 2,
-
-            Error = 3,
-
-            Critical = 4,
-
-            PluginLoadSuccess = 5,
-
-            PluginLoadFailed = 6,
-
-            PluginLoadError = 7,
-
-            PluginConfigureError = 8,
-
-            IpRestricted = 9,
-
-            IpRestrictedError = 10,
-
-            UserSessionManagerError = 11,
-
-            SpiderError = 12,
-
-            SpiderRouteError = 13,
-
-            CacheControlError = 14,
-
-            GeoIpStackError = 15,
-        }
-
-        public enum GeoIpProvider
-        {
-            /// <summary>
-            /// No Geo Ip Provider
-            /// </summary>
-            None = 0,
-
-            /// <summary>
-            /// IpStack https://ipstack.com/
-            /// </summary>
-            IpStack = 1,
+            return (1);
         }
     }
 }
