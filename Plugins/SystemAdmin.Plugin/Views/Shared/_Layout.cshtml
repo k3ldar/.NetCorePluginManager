@@ -1,10 +1,13 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.Extensions.DependencyInjection;
+@using SharedPluginFeatures;
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - SystemAdmin.Plugin</title>
-
+    <title>@ViewData["Title"] - sa</title>
+</head>
+<body>
     <environment include="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
         <link rel="stylesheet" href="~/css/site.css" />
@@ -15,8 +18,7 @@
               asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
         <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
     </environment>
-</head>
-<body>
+
     <nav class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
@@ -26,25 +28,28 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a asp-page="/Index" class="navbar-brand">SystemAdmin.Plugin</a>
+                <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">System Admin</a>
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li><a asp-page="/Index">Home</a></li>
-                    <li><a asp-page="/About">About</a></li>
-                    <li><a asp-page="/Contact">Contact</a></li>
+                    @{
+                        // dynamically add menu items from plugins
+                        ISystemAdminHelperService sysAdminHelper = Startup.GetServiceProvider.GetRequiredService<ISystemAdminHelperService>();
+                        foreach (SystemAdminMainMenu menuItem in sysAdminHelper.GetSystemAdminMainMenu())
+                        {
+                            <li><a asp-area="@menuItem.Area()" asp-controller="@menuItem.Controller()" asp-action="@menuItem.Action()">@menuItem.Name()</a></li>
+                        }
+                    }
                 </ul>
             </div>
         </div>
     </nav>
 
-    <partial name="_CookieConsentPartial" />
-
     <div class="container body-content">
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; 2018 - SystemAdmin.Plugin</p>
+            <p>&copy; 2018 - sa</p>
         </footer>
     </div>
 

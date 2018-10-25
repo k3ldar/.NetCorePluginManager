@@ -547,6 +547,9 @@ namespace AspNetCore.PluginManager
         /// <returns></returns>
         private PluginSetting GetPluginSetting(in string pluginName)
         {
+            if (_pluginSettings == null || _pluginSettings.PluginFiles == null)
+                return (new PluginSetting(pluginName));
+
             foreach (PluginSetting setting in _pluginSettings.Plugins)
             {
                 if (pluginName.EndsWith(setting.Name))

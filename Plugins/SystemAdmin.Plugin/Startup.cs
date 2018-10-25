@@ -10,6 +10,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
+using SharedPluginFeatures;
+using MemoryCache.Plugin;
+
 namespace SystemAdmin.Plugin
 {
     public class Startup
@@ -21,6 +24,8 @@ namespace SystemAdmin.Plugin
 
         public IConfiguration Configuration { get; }
 
+        public static IServiceProvider GetServiceProvider { get; private set; }
+
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
@@ -31,8 +36,17 @@ namespace SystemAdmin.Plugin
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
+            AspNetCore.PluginManager.PluginManagerService.ConfigureServices(services);
+
+            services.AddSingleton<ISystemAdminHelperService, SystemAdminHelper>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+            services.UseMemoryCache();
+
+            // grab an instance of the service provider so we can dynamically generate 
+            // objects from the service provider
+            GetServiceProvider = services.BuildServiceProvider();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -47,6 +61,8 @@ namespace SystemAdmin.Plugin
                 app.UseExceptionHandler("/Error");
                 app.UseHsts();
             }
+
+            AspNetCore.PluginManager.PluginManagerService.Configure(app, env);
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();

@@ -15,71 +15,22 @@
  *
  *  Product:  SharedPluginFeatures
  *  
- *  File: Enums.cs
+ *  File: SystemAdminSubMenu.cs
  *
- *  Purpose:  Shared Enum Values
+ *  Purpose:  System Admin Plugin Sub Main Menu
  *
  *  Date        Name                Reason
- *  19/10/2018  Simon Carter        Initially Created
+ *  24/10/2018  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+using System;
+using System.Collections.Generic;
+using System.Text;
 
 namespace SharedPluginFeatures
 {
-    public class Enums
+    public abstract class SystemAdminSubMenu : SystemAdminMainMenu
     {
-        public enum LogLevel
-        {
-            Information = 1,
-
-            Warning = 2,
-
-            Error = 3,
-
-            Critical = 4,
-
-            PluginLoadSuccess = 5,
-
-            PluginLoadFailed = 6,
-
-            PluginLoadError = 7,
-
-            PluginConfigureError = 8,
-
-            IpRestricted = 9,
-
-            IpRestrictedError = 10,
-
-            UserSessionManagerError = 11,
-
-            SpiderError = 12,
-
-            SpiderRouteError = 13,
-
-            CacheControlError = 14,
-
-            GeoIpStackError = 15,
-        }
-
-        public enum GeoIpProvider
-        {
-            /// <summary>
-            /// No Geo Ip Provider
-            /// </summary>
-            None = 0,
-
-            /// <summary>
-            /// IpStack https://ipstack.com/
-            /// </summary>
-            IpStack = 1,
-        }
-
-        public enum SystemAdminMenuType
-        {
-            Text = 1,
-
-            Grid = 2
-        }
-
+        public abstract string ParentMenuName();
     }
 }

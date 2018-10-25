@@ -34,7 +34,7 @@ using SharedPluginFeatures;
 
 namespace GeoIp.Plugin
 {
-    public class GeoIpService : IGeoIpDataService
+    public class GeoIpService : BaseCoreClass, IGeoIpDataService
     {
         #region Private Members
 
@@ -50,7 +50,7 @@ namespace GeoIp.Plugin
 
         public GeoIpService()
         {
-            _geoIpSettings = GetSettings();
+            _geoIpSettings = GetSettings<GeoIpPluginSettings>("GeoIpPluginConfiguration");
 
             if (System.IO.File.Exists(_geoIpSettings.Webnet77CSVData))
             {
@@ -226,18 +226,6 @@ namespace GeoIp.Plugin
             }
 
             return (null);
-        }
-
-        private GeoIpPluginSettings GetSettings()
-        {
-            ConfigurationBuilder builder = new ConfigurationBuilder();
-            IConfigurationBuilder configBuilder = builder.SetBasePath(System.IO.Directory.GetCurrentDirectory());
-            configBuilder.AddJsonFile("appsettings.json");
-            IConfigurationRoot config = builder.Build();
-            GeoIpPluginSettings Result = new GeoIpPluginSettings();
-            config.GetSection("GeoIpPluginConfiguration").Bind(Result);
-
-            return (Result);
         }
 
         #endregion Private Methods

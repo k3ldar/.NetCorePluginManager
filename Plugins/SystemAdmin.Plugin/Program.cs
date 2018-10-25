@@ -8,12 +8,16 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
+using SystemAdmin.Plugin.Classes;
+
 namespace SystemAdmin.Plugin
 {
     public class Program
     {
         public static void Main(string[] args)
         {
+            AspNetCore.PluginManager.PluginManagerService.Initialise(new Logger());
+
             CreateWebHostBuilder(args).Build().Run();
         }
 

@@ -13,22 +13,27 @@
     <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
   </PropertyGroup>
 
-  <ItemGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <PackageReference Include="SharedPluginFeatures" Version="1.0.11" />
-  </ItemGroup>
-
-  <ItemGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <ProjectReference Include="..\SharedPluginFeatures\SharedPluginFeatures.csproj" />
-  </ItemGroup>
-
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.1.2" PrivateAssets="All" />
   </ItemGroup>
 
+  <ItemGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <PackageReference Include="MemoryCache.Plugin" Version="1.0.0" />
+    <PackageReference Include="AspNetCore.PluginManager" Version="1.0.6" />
+    <PackageReference Include="SharedPluginFeatures" Version="1.0.11" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <ProjectReference Include="..\..\NetCorePluginManager\AspNetCore.PluginManager.csproj" />
+    <ProjectReference Include="..\SharedPluginFeatures\SharedPluginFeatures.csproj" />
+    <ProjectReference Include="..\MemoryCachePlugin\MemoryCachePlugin.csproj" />
+  </ItemGroup>
+
   <ItemGroup>
     <Folder Include="Models\" />
     <Folder Include="Controllers\" />
+    <Folder Include="wwwroot\images\" />
   </ItemGroup>
 
 </Project>

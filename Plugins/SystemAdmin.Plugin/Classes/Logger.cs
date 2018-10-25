@@ -13,73 +13,44 @@
  *
  *  Copyright (c) 2018 Simon Carter.  All Rights Reserved.
  *
- *  Product:  SharedPluginFeatures
+ *  Product:  AspNetCore.PluginManager.DemoWebsite
  *  
- *  File: Enums.cs
+ *  File: Logger.cs
  *
- *  Purpose:  Shared Enum Values
+ *  Purpose:  
  *
  *  Date        Name                Reason
- *  19/10/2018  Simon Carter        Initially Created
+ *  25/10/2018  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+using System;
 
-namespace SharedPluginFeatures
+using SharedPluginFeatures;
+using static SharedPluginFeatures.Enums;
+
+namespace SystemAdmin.Plugin.Classes
 {
-    public class Enums
+    public class Logger : ILogger
     {
-        public enum LogLevel
+        public void AddToLog(in LogLevel logLevel, in string data)
         {
-            Information = 1,
-
-            Warning = 2,
-
-            Error = 3,
-
-            Critical = 4,
-
-            PluginLoadSuccess = 5,
-
-            PluginLoadFailed = 6,
-
-            PluginLoadError = 7,
-
-            PluginConfigureError = 8,
-
-            IpRestricted = 9,
-
-            IpRestrictedError = 10,
-
-            UserSessionManagerError = 11,
-
-            SpiderError = 12,
-
-            SpiderRouteError = 13,
-
-            CacheControlError = 14,
-
-            GeoIpStackError = 15,
+#if TRACE
+            System.Diagnostics.Trace.WriteLine($"{logLevel.ToString()} {data}");
+#endif
         }
 
-        public enum GeoIpProvider
+        public void AddToLog(in LogLevel logLevel, in Exception exception)
         {
-            /// <summary>
-            /// No Geo Ip Provider
-            /// </summary>
-            None = 0,
-
-            /// <summary>
-            /// IpStack https://ipstack.com/
-            /// </summary>
-            IpStack = 1,
+#if TRACE
+            System.Diagnostics.Trace.WriteLine($"{logLevel.ToString()} {exception.Message}");
+#endif
         }
 
-        public enum SystemAdminMenuType
+        public void AddToLog(in LogLevel logLevel, in Exception exception, string data)
         {
-            Text = 1,
-
-            Grid = 2
+#if TRACE
+            System.Diagnostics.Trace.WriteLine($"{logLevel.ToString()} {exception.Message}\r\n{data}");
+#endif
         }
-
     }
 }

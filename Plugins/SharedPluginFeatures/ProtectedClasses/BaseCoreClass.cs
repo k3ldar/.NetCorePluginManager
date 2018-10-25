@@ -15,71 +15,47 @@
  *
  *  Product:  SharedPluginFeatures
  *  
- *  File: Enums.cs
+ *  File: BaseCoreClass.cs
  *
- *  Purpose:  Shared Enum Values
+ *  Purpose:  Base Core Class
  *
  *  Date        Name                Reason
- *  19/10/2018  Simon Carter        Initially Created
+ *  24/10/2018  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+using System;
+
+using Microsoft.Extensions.Configuration;
 
 namespace SharedPluginFeatures
 {
-    public class Enums
+    public class BaseCoreClass
     {
-        public enum LogLevel
+        #region Protected Methods
+
+        protected T GetSettings<T>(in string jsonFile, in string sectionName)
         {
-            Information = 1,
+            if (String.IsNullOrEmpty(jsonFile))
+                throw new ArgumentNullException(nameof(jsonFile));
 
-            Warning = 2,
+            if (String.IsNullOrEmpty(sectionName))
+                throw new ArgumentNullException(nameof(sectionName));
 
-            Error = 3,
+            ConfigurationBuilder builder = new ConfigurationBuilder();
+            IConfigurationBuilder configBuilder = builder.SetBasePath(System.IO.Directory.GetCurrentDirectory());
+            configBuilder.AddJsonFile(jsonFile);
+            IConfigurationRoot config = builder.Build();
+            T Result = (T)Activator.CreateInstance(typeof(T));
+            config.GetSection(sectionName).Bind(Result);
 
-            Critical = 4,
-
-            PluginLoadSuccess = 5,
-
-            PluginLoadFailed = 6,
-
-            PluginLoadError = 7,
-
-            PluginConfigureError = 8,
-
-            IpRestricted = 9,
-
-            IpRestrictedError = 10,
-
-            UserSessionManagerError = 11,
-
-            SpiderError = 12,
-
-            SpiderRouteError = 13,
-
-            CacheControlError = 14,
-
-            GeoIpStackError = 15,
+            return (Result);
         }
 
-        public enum GeoIpProvider
+        protected T GetSettings<T>(in string sectionName)
         {
-            /// <summary>
-            /// No Geo Ip Provider
-            /// </summary>
-            None = 0,
-
-            /// <summary>
-            /// IpStack https://ipstack.com/
-            /// </summary>
-            IpStack = 1,
+            return (GetSettings<T>("appsettings.json", sectionName));
         }
 
-        public enum SystemAdminMenuType
-        {
-            Text = 1,
-
-            Grid = 2
-        }
-
+        #endregion Protected Methods
     }
 }

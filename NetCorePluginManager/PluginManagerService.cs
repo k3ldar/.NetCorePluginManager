@@ -74,6 +74,9 @@ namespace AspNetCore.PluginManager
                 if (_pluginConfiguration.Disabled)
                     return (false);
 
+                // Load ourselves
+                _pluginManagerInstance.LoadPlugin(Assembly.GetExecutingAssembly(), false);
+
                 // attempt to load the host
                 _pluginManagerInstance.LoadPlugin(Assembly.GetEntryAssembly(), false);
 
@@ -109,14 +112,14 @@ namespace AspNetCore.PluginManager
 
                     foreach (string file in pluginFiles)
                     {
-                        if (String.IsNullOrEmpty(file) || !File.Exists(file))
+                        if (String.IsNullOrEmpty(file) || !File.Exists(file)) 
                             continue;
 
                         _pluginManagerInstance.LoadPlugin(file);
                     }
                 }
             }
-            catch (Exception error)
+            catch (Exception error) 
             {
                 _logger.AddToLog(LogLevel.PluginConfigureError, error, $"{MethodBase.GetCurrentMethod().Name}");
                 return (false);
