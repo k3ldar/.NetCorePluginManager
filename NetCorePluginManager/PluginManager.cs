@@ -72,11 +72,20 @@ namespace AspNetCore.PluginManager
         #region Internal Methods
 
         /// <summary>
+        /// Returns all loaded plugin data
+        /// </summary>
+        /// <returns></returns>
+        internal Dictionary<string, IPluginModule> GetLoadedPlugins()
+        {
+            return (_plugins);
+        }
+
+        /// <summary>
         /// Loads and configures an individual plugin
         /// </summary>
         /// <param name="assembly"></param>
         /// <param name="extractResources"></param>
-        internal void LoadPlugin(in Assembly assembly, in bool extractResources)
+        internal void LoadPlugin(in Assembly assembly, in string fileLocation, in bool extractResources)
         {
             if (assembly == null)
                 throw new ArgumentNullException(nameof(assembly));
@@ -124,6 +133,21 @@ namespace AspNetCore.PluginManager
                         pluginModule.Version = version == null ? (ushort)1 :
                             GetMinMaxValue(version.GetVersion(), 1, MaxPluginVersion);
 
+                        try
+                        {
+                            string file = Path.GetFullPath(
+                                String.IsNullOrEmpty(assembly.Location) ? fileLocation : assembly.Location);
+
+                            if (File.Exists(file))
+                                pluginModule.FileVersion = System.Diagnostics.FileVersionInfo.GetVersionInfo(file).FileVersion;
+                            else
+                                pluginModule.FileVersion = "unknown";
+                        }
+                        catch (Exception err)
+                        {
+                            pluginModule.FileVersion = "unknown";
+                        }
+
                         pluginModule.Plugin.Initialise(_logger);
 
                         _plugins.Add(assemblyName, pluginModule);
@@ -137,7 +161,8 @@ namespace AspNetCore.PluginManager
                 }
                 catch (Exception typeLoader)
                 {
-                    _logger.AddToLog(LogLevel.PluginLoadError, typeLoader, $"{assembly.FullName}{MethodBase.GetCurrentMethod().Name}");
+                    _logger.AddToLog(LogLevel.PluginLoadError, typeLoader, 
+                        $"{assembly.FullName}{MethodBase.GetCurrentMethod().Name}");
                 }
             }
         }
@@ -150,7 +175,7 @@ namespace AspNetCore.PluginManager
         {
             try
             {
-                LoadPlugin(LoadAssembly(pluginName), true);
+                LoadPlugin(LoadAssembly(pluginName), pluginName, true);
             }
             catch (Exception error)
             {
@@ -341,15 +366,18 @@ namespace AspNetCore.PluginManager
         /// <param name="pluginLibraryName"></param>
         /// <param name="version"></param>
         /// <returns></returns>
-        internal bool PluginLoaded(in string pluginLibraryName, out int version)
+        internal bool PluginLoaded(in string pluginLibraryName, out int version, out string module)
         {
             version = -1;
+            module = pluginLibraryName;
 
             foreach (KeyValuePair<string, IPluginModule> plugin in _plugins)
             {
                 if (plugin.Value.Module.EndsWith(pluginLibraryName, StringComparison.CurrentCultureIgnoreCase))
                 {
                     version = plugin.Value.Version;
+                    module = plugin.Value.Assembly.Location;
+
                     return (true);
                 }
             }
@@ -439,10 +467,10 @@ namespace AspNetCore.PluginManager
         /// <param name="resourceName"></param>
         /// <param name="pluginSetting"></param>
         /// <returns></returns>
-        private string GetLiveFilePath(in string resourceName, in PluginSetting pluginSetting)
+        private string GetLiveFilePath(in string assemblyName, in string resourceName, in PluginSetting pluginSetting)
         {
             // remove the first part of the name which is the library
-            string Result = resourceName.Substring(resourceName.IndexOf(".") + 1);
+            string Result = resourceName.Replace(assemblyName, String.Empty);
 
             int lastIndex = Result.LastIndexOf('.');
 
@@ -461,6 +489,8 @@ namespace AspNetCore.PluginManager
         /// <param name="pluginSetting"></param>
         private void ExtractResources(in Assembly pluginAssembly, in PluginSetting pluginSetting)
         {
+            string assemblyName = pluginAssembly.FullName.Split(',')[0] + ".";
+
             foreach (string resource in pluginAssembly.GetManifestResourceNames())
             {
                 if (String.IsNullOrEmpty(resource))
@@ -468,7 +498,7 @@ namespace AspNetCore.PluginManager
 
                 using (Stream stream = pluginAssembly.GetManifestResourceStream(resource))
                 {
-                    string resourceFileName = GetLiveFilePath(resource, pluginSetting);
+                    string resourceFileName = GetLiveFilePath(assemblyName, resource, pluginSetting);
 
                     if (File.Exists(resourceFileName) && !pluginSetting.ReplaceExistingResources)
                         continue;
@@ -502,7 +532,12 @@ namespace AspNetCore.PluginManager
             if (!File.Exists(assemblyName))
                 throw new ArgumentException(nameof(assemblyName));
 
-            return (Assembly.Load(File.ReadAllBytes(assemblyName)));
+            string assembly = assemblyName;
+
+            if (!Path.IsPathRooted(assembly))
+                assembly = Path.GetFullPath(assembly);
+
+            return (Assembly.LoadFrom(assembly));
         }
 
         /// <summary>

@@ -31,6 +31,14 @@ namespace SharedPluginFeatures
     {
         List<SystemAdminMainMenu> GetSystemAdminMainMenu();
 
-        List<SystemAdminSubMenu> GetSystemAdminSubMenuItems(in SystemAdminMainMenu mainMenu);
+        SystemAdminMainMenu GetSystemAdminDefaultMainMenu();
+
+        SystemAdminMainMenu GetSystemAdminMainMenu(in int id);
+
+        List<SystemAdminSubMenu> GetSubMenuItems();
+
+        List<SystemAdminSubMenu> GetSubMenuItems(in string mainMenuName);
+
+        SystemAdminSubMenu GetSubMenuItem(in int id);
     }
 }

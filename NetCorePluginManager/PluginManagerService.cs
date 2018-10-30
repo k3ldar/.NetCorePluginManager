@@ -21,6 +21,8 @@
  *
  *  Date        Name                Reason
  *  22/09/2018  Simon Carter        Initially Created
+ *  27/10/2018  Simon Carter        Change internal plugin to internal property
+ *  27/10/2018  Simon Carter        Add thread management as used by multiple plugins
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
@@ -31,7 +33,6 @@ using System.IO;
 
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 using SharedPluginFeatures;
@@ -45,7 +46,7 @@ namespace AspNetCore.PluginManager
 
         private const string LatestVersion = "latest";
 
-        internal static PluginManager _pluginManagerInstance;
+        private static PluginManager _pluginManagerInstance;
         private static ILogger _logger;
         private static PluginSettings _pluginConfiguration;
         private static string _currentPath;
@@ -57,6 +58,8 @@ namespace AspNetCore.PluginManager
         public static bool Initialise(ILogger logger)
         {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+
+            ThreadManagerInitialisation.Initialise(logger);
 
             try
             {
@@ -75,31 +78,35 @@ namespace AspNetCore.PluginManager
                     return (false);
 
                 // Load ourselves
-                _pluginManagerInstance.LoadPlugin(Assembly.GetExecutingAssembly(), false);
+                _pluginManagerInstance.LoadPlugin(Assembly.GetExecutingAssembly(), String.Empty, false);
 
                 // attempt to load the host
-                _pluginManagerInstance.LoadPlugin(Assembly.GetEntryAssembly(), false);
+                _pluginManagerInstance.LoadPlugin(Assembly.GetEntryAssembly(), String.Empty, false);
 
                 // are any plugins specifically mentioned in the config, load them
                 // first so we have some control on the load order
-                foreach (string file in _pluginConfiguration.PluginFiles)
+
+                if (_pluginConfiguration.PluginFiles != null)
                 {
-                    string pluginFile = file;
-
-                    if (String.IsNullOrEmpty(pluginFile) || !File.Exists(pluginFile))
+                    foreach (string file in _pluginConfiguration.PluginFiles)
                     {
-                        if (!String.IsNullOrEmpty(pluginFile) && !FindPlugin(ref pluginFile, GetPluginSetting(pluginFile)))
+                        string pluginFile = file;
+
+                        if (String.IsNullOrEmpty(pluginFile) || !File.Exists(pluginFile))
                         {
-                            if (!String.IsNullOrEmpty(pluginFile))
+                            if (!String.IsNullOrEmpty(pluginFile) && !FindPlugin(ref pluginFile, GetPluginSetting(pluginFile)))
                             {
-                                _logger.AddToLog(LogLevel.PluginLoadFailed, $"Could not find plugin: {pluginFile}");
+                                if (!String.IsNullOrEmpty(pluginFile))
+                                {
+                                    _logger.AddToLog(LogLevel.PluginLoadFailed, $"Could not find plugin: {pluginFile}");
+                                }
+
+                                continue;
                             }
-
-                            continue;
                         }
-                    }
 
-                    _pluginManagerInstance.LoadPlugin(pluginFile);
+                        _pluginManagerInstance.LoadPlugin(pluginFile);
+                    }
                 }
 
                 // load generic plugins next, if any exist
@@ -139,6 +146,10 @@ namespace AspNetCore.PluginManager
             if (env == null)
                 throw new ArgumentNullException(nameof(env));
 
+
+            if (_pluginConfiguration.Disabled)
+                return;
+
             _pluginManagerInstance.Configure(app, env);
         }
 
@@ -149,6 +160,9 @@ namespace AspNetCore.PluginManager
 
             if (services == null)
                 throw new ArgumentNullException(nameof(services));
+
+            if (_pluginConfiguration.Disabled)
+                return;
 
             if (!_pluginConfiguration.DisableRouteDataService)
                 services.AddSingleton<IRouteDataService, Classes.RouteDataServices>();
@@ -161,6 +175,15 @@ namespace AspNetCore.PluginManager
         }
 
         #endregion Static Methods
+
+        #region Internal Static Methods
+
+        internal static PluginManager GetPluginManager()
+        {
+            return (_pluginManagerInstance);
+        }
+
+        #endregion Internal Static Methods
 
         #region Private Static Methods
 

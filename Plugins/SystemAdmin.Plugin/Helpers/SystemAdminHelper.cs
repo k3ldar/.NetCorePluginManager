@@ -40,7 +40,8 @@ namespace SystemAdmin.Plugin
         #region Constants
 
         private const string SystemAdminMainMenuCache = "System Admin Main Menu Cache";
-        private const string SystemAdminSubMenuCache = "System Admin Sub Menu Cache - {0}";
+        private const string SystemAdminMainMenu = "System Admin Main Menu {0}";
+        private const string SystemAdminSubMenu = "System Admin Sub Menu {0}";
 
         #endregion Constants
 
@@ -69,37 +70,102 @@ namespace SystemAdmin.Plugin
 
             if (cache == null)
             {
-                cache = new CacheItem(SystemAdminMainMenuCache, _pluginClassesService.GetPluginClasses<SystemAdminMainMenu>());
+                int uniqueId = 0;
+
+                List<SystemAdminMainMenu> menuItems = _pluginClassesService.GetPluginClasses<SystemAdminMainMenu>();
+                List<SystemAdminSubMenu> allSubMenuItems = _pluginClassesService.GetPluginClasses<SystemAdminSubMenu>();
+
+                // get sub menu items
+                foreach (SystemAdminMainMenu menu in menuItems)
+                {
+                    menu.UniqueId = ++uniqueId;
+                    menu.ChildMenuItems = new List<SystemAdminSubMenu>();
+
+                    foreach(SystemAdminSubMenu subMenu in allSubMenuItems)
+                    {
+                        if (subMenu.ParentMenuName() == menu.Name())
+                            menu.ChildMenuItems.Add(subMenu);
+                    }
+
+                    _memoryCache.GetCache().Add(String.Format(SystemAdminMainMenu, menu.UniqueId), 
+                        new CacheItem(String.Format(SystemAdminMainMenu, menu.UniqueId), menu));
+
+                    foreach (SystemAdminSubMenu subMenu in menu.ChildMenuItems)
+                    {
+                        subMenu.UniqueId = ++uniqueId;
+                        subMenu.ParentMenu = menu;
+
+                        _memoryCache.GetCache().Add(String.Format(SystemAdminSubMenu, subMenu.UniqueId),
+                            new CacheItem(String.Format(SystemAdminSubMenu, subMenu.UniqueId), subMenu));
+                    }
+
+                    menu.ChildMenuItems.Sort();
+                }
+
+                menuItems.Sort();
+
+                cache = new CacheItem(SystemAdminMainMenuCache, menuItems);
                 _memoryCache.GetCache().Add(SystemAdminMainMenuCache, cache);
             }
 
             return ((List<SystemAdminMainMenu>)cache.Value);
         }
 
-        public List<SystemAdminSubMenu> GetSystemAdminSubMenuItems(in SystemAdminMainMenu mainMenu)
+        public SystemAdminMainMenu GetSystemAdminDefaultMainMenu()
         {
-            if (mainMenu == null)
-                throw new ArgumentNullException(nameof(mainMenu));
+            return (GetSystemAdminMainMenu()[0]);
+        }
 
-            string cacheName = String.Format(SystemAdminSubMenuCache, mainMenu.Name());
+        public SystemAdminMainMenu GetSystemAdminMainMenu(in int id)
+        {
+            // get from memory if available
+            CacheItem cacheItem = _memoryCache.GetCache().Get(String.Format(SystemAdminMainMenu, id));
 
-            CacheItem cache = _memoryCache.GetCache().Get(cacheName);
+            if (cacheItem != null)
+                return ((SystemAdminMainMenu)cacheItem.Value);
 
-            if (cache == null)
+            // not in memory try looping all items
+            foreach (SystemAdminMainMenu menu in GetSystemAdminMainMenu())
             {
-                List<SystemAdminSubMenu> subMenuItems = _pluginClassesService.GetPluginClasses<SystemAdminSubMenu>();
-
-                for (int i = subMenuItems.Count -1; i >= 0; i--)
-                {
-                    if (!subMenuItems[i].ParentMenuName().Equals(mainMenu.Name()))
-                        subMenuItems.RemoveAt(i);
-                }
-
-                cache = new CacheItem(cacheName, subMenuItems);
-                _memoryCache.GetCache().Add(cacheName, cache);
+                if (menu.UniqueId == id)
+                    return (menu);
             }
 
-            return ((List<SystemAdminSubMenu>)cache.Value);
+            return (null);
+        }
+
+        public List<SystemAdminSubMenu> GetSubMenuItems()
+        {
+            List<SystemAdminMainMenu> allMenuItems = GetSystemAdminMainMenu();
+
+            if (allMenuItems.Count > 0)
+                return (allMenuItems[0].ChildMenuItems);
+
+            return (new List<SystemAdminSubMenu>());
+        }
+
+        public List<SystemAdminSubMenu> GetSubMenuItems(in string mainMenuName)
+        {
+            List<SystemAdminMainMenu> allMenuItems = GetSystemAdminMainMenu();
+
+            foreach (SystemAdminMainMenu menuItem in allMenuItems)
+            {
+                if (menuItem.Name().Equals(mainMenuName))
+                    return (menuItem.ChildMenuItems);
+            }
+
+            return (new List<SystemAdminSubMenu>());
+        }
+
+        public SystemAdminSubMenu GetSubMenuItem(in int id)
+        {
+            // get from memory if available
+            CacheItem cacheItem = _memoryCache.GetCache().Get(String.Format(SystemAdminSubMenu, id));
+
+            if (cacheItem != null)
+                return ((SystemAdminSubMenu)cacheItem.Value);
+
+            return (null);
         }
 
         #endregion ISystemAdminHelperService Methods

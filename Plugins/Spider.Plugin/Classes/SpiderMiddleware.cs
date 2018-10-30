@@ -154,6 +154,8 @@ namespace Spider.Plugin
             {
                 if (Initialisation.GetLogger != null)
                     Initialisation.GetLogger.AddToLog(LogLevel.SpiderError, error, MethodBase.GetCurrentMethod().Name);
+
+                throw;
             }
         }
 

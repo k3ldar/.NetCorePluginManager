@@ -36,6 +36,8 @@ using Microsoft.Extensions.DependencyInjection;
 
 using SharedPluginFeatures;
 
+using AspNetCore.PluginManager;
+
 namespace AspNetCore.PluginManager.DemoWebsite
 {
     public class Startup
@@ -83,7 +85,8 @@ namespace AspNetCore.PluginManager.DemoWebsite
             // objects from the service provider
             GetServiceProvider = services.BuildServiceProvider();
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
+                .ConfigurePluginManager(); 
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

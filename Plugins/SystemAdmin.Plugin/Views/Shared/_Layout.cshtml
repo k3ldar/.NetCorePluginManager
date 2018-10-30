@@ -10,13 +10,13 @@
 <body>
     <environment include="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
-        <link rel="stylesheet" href="~/css/site.css" />
+        <link rel="stylesheet" href="~/css/SystemAdmin.css" />
     </environment>
     <environment exclude="Development">
         <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/css/bootstrap.min.css"
               asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
               asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
-        <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
+        <link rel="stylesheet" href="~/css/SystemAdmin.css" asp-append-version="true" />
     </environment>
 
     <nav class="navbar navbar-inverse navbar-fixed-top">
@@ -28,7 +28,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">System Admin</a>
+                <a asp-area="" asp-controller="SystemAdmin" asp-action="Index" class="navbar-brand">System Admin</a>
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
@@ -37,7 +37,7 @@
                         ISystemAdminHelperService sysAdminHelper = Startup.GetServiceProvider.GetRequiredService<ISystemAdminHelperService>();
                         foreach (SystemAdminMainMenu menuItem in sysAdminHelper.GetSystemAdminMainMenu())
                         {
-                            <li><a asp-area="@menuItem.Area()" asp-controller="@menuItem.Controller()" asp-action="@menuItem.Action()">@menuItem.Name()</a></li>
+                            <li><a asp-area="@menuItem.Area()" asp-controller="@menuItem.Controller()" asp-action="@menuItem.Action()" asp-route-id="@menuItem.UniqueId">@menuItem.Name()</a></li>
                         }
                     }
                 </ul>

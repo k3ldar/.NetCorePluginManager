@@ -38,8 +38,6 @@ namespace SystemAdmin.Plugin
 
             AspNetCore.PluginManager.PluginManagerService.ConfigureServices(services);
 
-            services.AddSingleton<ISystemAdminHelperService, SystemAdminHelper>();
-
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             services.UseMemoryCache();
@@ -71,7 +69,7 @@ namespace SystemAdmin.Plugin
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    template: "{controller=SystemAdmin}/{action=Index}/{id?}");
             });
         }
     }

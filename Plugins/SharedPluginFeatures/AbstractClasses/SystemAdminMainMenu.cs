@@ -29,16 +29,78 @@ using System.Text;
 
 namespace SharedPluginFeatures
 {
-    public abstract class SystemAdminMainMenu
+    public abstract class SystemAdminMainMenu : IComparable<SystemAdminMainMenu>
     {
-        public abstract string Area();
+        #region Public virtual Methods
 
-        public abstract string Controller();
+        public virtual string Area()
+        {
+            return (String.Empty);
+        }
 
-        public abstract string Action();
+        public virtual string Controller()
+        {
+            return ("SystemAdmin");
+        }
+
+        public virtual string Action()
+        {
+            return ("Index");
+        }
+
+        #endregion Public virtual Methods
+
+        #region Public Abstract Methods
 
         public abstract string Name();
 
         public abstract int SortOrder();
+
+        public abstract Enums.SystemAdminMenuType MenuType();
+
+        public abstract string Data();
+
+        public abstract string Image();
+
+        #endregion Public Abstract Methods
+
+        #region Public Virtual Methods
+
+        public virtual string BackColor()
+        {
+            return ("#707B7C");
+        }
+
+        public virtual string ForeColor()
+        {
+            return ("white");
+        }
+
+        #endregion Public Virtual Methods
+
+        #region IComparable Methods
+
+        public int CompareTo(SystemAdminMainMenu compareTo)
+        {
+            if (compareTo == null)
+                return (1);
+
+            int Result = SortOrder().CompareTo(compareTo.SortOrder());
+
+            if (Result == 0)
+                return (Name().CompareTo(compareTo.Name()));
+
+            return (Result);
+        }
+
+        #endregion IComparable
+
+        #region Properties
+
+        public List<SystemAdminSubMenu> ChildMenuItems { get; set; }
+
+        public int UniqueId { get; set; }
+
+        #endregion Properties
     }
 }

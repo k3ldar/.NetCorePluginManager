@@ -3,6 +3,9 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
     <LangVersion>latest</LangVersion>
+    <RazorCompileOnBuild>false</RazorCompileOnBuild>
+    <MvcRazorExcludeRefAssembliesFromPublish>false</MvcRazorExcludeRefAssembliesFromPublish>
+    <PreserveCompilationContext>true</PreserveCompilationContext>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -14,8 +17,23 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="Views\SystemAdmin\Grid.cshtml" />
+    <Content Remove="Views\SystemAdmin\Index.cshtml" />
+    <Content Remove="wwwroot\css\SystemAdmin.css" />
+    <Content Remove="wwwroot\images\Setting-icon.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Views\SystemAdmin\Grid.cshtml" />
+    <EmbeddedResource Include="Views\SystemAdmin\Index.cshtml" />
+    <EmbeddedResource Include="wwwroot\css\SystemAdmin.css" />
+    <EmbeddedResource Include="wwwroot\images\Setting-icon.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.1.2" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.5" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
@@ -28,12 +46,6 @@
     <ProjectReference Include="..\..\NetCorePluginManager\AspNetCore.PluginManager.csproj" />
     <ProjectReference Include="..\SharedPluginFeatures\SharedPluginFeatures.csproj" />
     <ProjectReference Include="..\MemoryCachePlugin\MemoryCachePlugin.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Models\" />
-    <Folder Include="Controllers\" />
-    <Folder Include="wwwroot\images\" />
   </ItemGroup>
 
 </Project>

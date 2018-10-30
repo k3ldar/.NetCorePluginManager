@@ -53,12 +53,12 @@ namespace AspNetCore.PluginManager
 
         public List<Type> GetPluginClassTypes<T>()
         {
-            return (PluginManagerService._pluginManagerInstance.GetPluginClassTypes<T>());
+            return (PluginManagerService.GetPluginManager().GetPluginClassTypes<T>());
         }
 
         public List<T> GetPluginClasses<T>()
         {
-            return (PluginManagerService._pluginManagerInstance.GetPluginClasses<T>());
+            return (PluginManagerService.GetPluginManager().GetPluginClasses<T>());
         }
 
         #endregion IPluginClassesService Methods
@@ -67,7 +67,7 @@ namespace AspNetCore.PluginManager
 
         public List<Type> GetPluginTypesWithAttribute<T>()
         {
-            return (PluginManagerService._pluginManagerInstance.GetPluginTypesWithAttribute<T>());
+            return (PluginManagerService.GetPluginManager().GetPluginTypesWithAttribute<T>());
         }
 
         #endregion IPluginTypesService Methods
@@ -76,7 +76,7 @@ namespace AspNetCore.PluginManager
 
         public bool PluginLoaded(in string pluginLibraryName, out int version)
         {
-            return (PluginManagerService._pluginManagerInstance.PluginLoaded(pluginLibraryName, out version));
+            return (PluginManagerService.GetPluginManager().PluginLoaded(pluginLibraryName, out version, out string module));
         }
 
         #endregion IPluginHelperService Methods
