@@ -28,7 +28,6 @@ using System.Collections.Generic;
 
 using Microsoft.AspNetCore.Http;
 
-
 namespace SharedPluginFeatures
 {
     public class BaseMiddleware : BaseCoreClass

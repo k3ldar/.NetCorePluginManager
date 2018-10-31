@@ -20,6 +20,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Plugin\**" />
+    <Content Remove="Plugin\**" />
+    <EmbeddedResource Remove="Plugin\**" />
+    <None Remove="Plugin\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Remove="Views\SystemAdmin\Grid.cshtml" />
     <Content Remove="Views\SystemAdmin\Index.cshtml" />
     <Content Remove="wwwroot\css\SystemAdmin.css" />

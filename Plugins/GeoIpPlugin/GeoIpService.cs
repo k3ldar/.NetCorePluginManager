@@ -28,8 +28,6 @@ using System.Collections.Generic;
 
 using Shared.Classes;
 
-using Microsoft.Extensions.Configuration;
-
 using SharedPluginFeatures;
 
 namespace GeoIp.Plugin

@@ -36,8 +36,6 @@ using Microsoft.Extensions.DependencyInjection;
 
 using SharedPluginFeatures;
 
-using AspNetCore.PluginManager;
-
 namespace AspNetCore.PluginManager.DemoWebsite
 {
     public class Startup

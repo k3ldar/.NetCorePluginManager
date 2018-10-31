@@ -17,7 +17,8 @@
  *  
  *  File: PluginFeatureProvider.cs
  *
- *  Purpose:  
+ *  Purpose:  Ensures loaded modules can be found, if loaded dynamically using plugin manager
+ *  Original unmodified source: https://github.com/dotnet/core-setup/issues/2981#issuecomment-322572374
  *
  *  Date        Name                Reason
  *  30/10/2018  Simon Carter        Initially Created

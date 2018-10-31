@@ -23,12 +23,9 @@
  *  22/09/2018  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using System;
-using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 
 using SharedPluginFeatures;
-using Shared.Classes;
 
 namespace DemoApiPlugin.Controllers
 {

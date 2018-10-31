@@ -102,7 +102,7 @@ namespace SystemAdmin.Plugin.Classes
         {
             using (TimedLock.Lock(_lockObject))
             {
-                string Result = "Date Time|Log Level|Message|Error";
+                string Result = "Log Level|Date Time|Message|Error";
 
                 foreach (LogData logData in _logData)
                 {

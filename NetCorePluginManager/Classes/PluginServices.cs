@@ -28,8 +28,6 @@ using System.Collections.Generic;
 
 using SharedPluginFeatures;
 
-using Shared.Classes;
-
 namespace AspNetCore.PluginManager
 {
     public sealed class PluginServices : IPluginClassesService, IPluginHelperService, IPluginTypesService

@@ -29,8 +29,6 @@ using System;
 
 using Shared.Classes;
 
-using Microsoft.Extensions.Configuration;
-
 using SharedPluginFeatures;
 
 namespace MemoryCache.Plugin

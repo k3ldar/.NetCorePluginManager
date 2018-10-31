@@ -56,3 +56,5 @@ Integrates GeoIp services for internal use, or use with User Session Middleware
 
 https://github.com/k3ldar/.NetCorePluginManager/wiki/Geo-Ip-Plugin
 
+# System Admin
+Displays Application specific system data

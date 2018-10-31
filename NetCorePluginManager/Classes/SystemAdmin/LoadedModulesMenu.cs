@@ -25,12 +25,15 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using System.IO;
 
 using SharedPluginFeatures;
 
 namespace AspNetCore.PluginManager.Classes.SystemAdmin
 {
-    public class LoadedPluginsMenu : SystemAdminSubMenu
+    public sealed class LoadedModulesMenu : SystemAdminSubMenu
     {
         public override string Action()
         {
@@ -56,20 +59,46 @@ namespace AspNetCore.PluginManager.Classes.SystemAdmin
         {
             Dictionary<string, IPluginModule> plugins = PluginManagerService.GetPluginManager().GetLoadedPlugins();
 
-            string Result = "Module|Plugin Version|FileVersion";
+            string Result = "Module|FileVersion";
+            Dictionary<string, string> files = new Dictionary<string, string>();
 
-            foreach (KeyValuePair<string, IPluginModule> keyValuePair in plugins)
+            foreach (Assembly assembly in AppDomain.CurrentDomain.GetAssemblies())
             {
-                Result += $"\r{keyValuePair.Value.Module}|{keyValuePair.Value.Version.ToString()}|" +
-                    $"{keyValuePair.Value.FileVersion}";
+                string fileVersion = String.Empty;
+                string file = String.Empty;
+                try
+                {
+                    string path = String.IsNullOrEmpty(assembly.Location) ? assembly.CodeBase : assembly.Location;
+
+                    if (path.StartsWith("file:///"))
+                        path = path.Substring(8);
+
+                    file = Path.GetFullPath(path);
+
+                    if (File.Exists(file))
+                        fileVersion = System.Diagnostics.FileVersionInfo.GetVersionInfo(file).FileVersion;
+
+                    file = Path.GetFileName(file);
+                }
+                catch (NotSupportedException)
+                {
+                    
+                }
+
+
+                if (!files.ContainsKey(file))
+                    files.Add(file, fileVersion);
             }
+
+            foreach (KeyValuePair<string, string> valuePair in files.OrderBy(key => key.Value.ToLower()))
+                Result += $"\r{valuePair.Key}|{valuePair.Value}";
 
             return (Result);
         }
 
         public override string Name()
         {
-            return ("Loaded Plugins");
+            return ("Loaded Modules");
         }
 
         public override string ParentMenuName()
