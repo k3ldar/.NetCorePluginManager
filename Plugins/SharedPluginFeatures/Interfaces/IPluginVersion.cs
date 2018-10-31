@@ -24,7 +24,6 @@
  *  14/10/2018  Simon Carter        Move to SharedPluginFeatures
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using System;
 
 namespace SharedPluginFeatures
 {

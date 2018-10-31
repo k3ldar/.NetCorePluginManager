@@ -38,5 +38,7 @@ namespace AspNetCore.PluginManager
         internal IPlugin Plugin { get; set; }
 
         internal ushort Version { get; set; }
+
+        internal string FileVersion { get; set; }
     }
 }

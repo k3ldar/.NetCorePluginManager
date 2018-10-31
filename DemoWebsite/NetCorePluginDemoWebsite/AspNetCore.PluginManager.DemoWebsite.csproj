@@ -6,6 +6,7 @@
     <Version>1.0.1</Version>
     <PackageReleaseNotes>Introduce new methods to query plugins for classes containing attributes and non instantiated class/interface types</PackageReleaseNotes>
     <Description></Description>
+    <MvcRazorCompileOnPublish>false</MvcRazorCompileOnPublish>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -19,11 +20,27 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Plugin\**" />
+    <Content Remove="Plugin\**" />
+    <EmbeddedResource Remove="Plugin\**" />
+    <None Remove="Plugin\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="Views\SystemAdmin\Grid.cshtml" />
+    <Content Remove="Views\SystemAdmin\Index.cshtml" />
+    <Content Remove="wwwroot\css\SystemAdmin.css" />
     <Content Remove="wwwroot\images\PluginTechnology.png" />
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Include="wwwroot\images\PluginTechnology.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Views\SystemAdmin\Grid.cshtml" />
+    <None Include="Views\SystemAdmin\Index.cshtml" />
+    <None Include="wwwroot\css\SystemAdmin.css" />
   </ItemGroup>
 
   <ItemGroup>

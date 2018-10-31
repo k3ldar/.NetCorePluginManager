@@ -21,6 +21,7 @@
  *
  *  Date        Name                Reason
  *  14/10/2018  Simon Carter        Initially Created
+ *  27/10/2018  Simon Carter        Add Locking to dictionary
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
@@ -28,9 +29,11 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Configuration;
+
+using Shared.Classes;
 
 using SharedPluginFeatures;
+
 using static SharedPluginFeatures.Enums;
 
 namespace CacheControl.Plugin
@@ -44,6 +47,7 @@ namespace CacheControl.Plugin
         private readonly Dictionary<string, CacheControlRoute> _routePaths;
         private readonly HashSet<string> _ignoredRoutes;
         private bool _disabled;
+        private object _lockObject = new object();
 
         #endregion Private Members
 
@@ -71,8 +75,11 @@ namespace CacheControl.Plugin
 
                 string routeLowered = RouteLowered(context);
 
-                if (_ignoredRoutes.Contains(routeLowered))
-                    return;
+                using (TimedLock.Lock(_lockObject))
+                {
+                    if (_ignoredRoutes.Contains(routeLowered))
+                        return;
+                }
 
                 if (!context.Response.Headers.ContainsKey("Cache-Control"))
                 {
@@ -87,7 +94,10 @@ namespace CacheControl.Plugin
                     }
                 }
 
-                _ignoredRoutes.Add(routeLowered);
+                using (TimedLock.Lock(_lockObject))
+                {
+                    _ignoredRoutes.Add(routeLowered);
+                }
             }
             catch (Exception error)
             {

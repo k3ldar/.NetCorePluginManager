@@ -27,12 +27,10 @@ using System;
 using System.Collections.Generic;
 
 using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Configuration;
-
 
 namespace SharedPluginFeatures
 {
-    public class BaseMiddleware
+    public class BaseMiddleware : BaseCoreClass
     {
         #region Constants
 
@@ -96,29 +94,6 @@ namespace SharedPluginFeatures
                     ipAddressList.Add(ip);
 
             ipAddressList.Add("0.0.0.0");
-        }
-
-        protected T GetSettings<T>(in string jsonFile, in string sectionName)
-        {
-            if (String.IsNullOrEmpty(jsonFile))
-                throw new ArgumentNullException(nameof(jsonFile));
-
-            if (String.IsNullOrEmpty(sectionName))
-                throw new ArgumentNullException(nameof(sectionName));
-
-            ConfigurationBuilder builder = new ConfigurationBuilder();
-            IConfigurationBuilder configBuilder = builder.SetBasePath(System.IO.Directory.GetCurrentDirectory());
-            configBuilder.AddJsonFile(jsonFile);
-            IConfigurationRoot config = builder.Build();
-            T Result = (T)Activator.CreateInstance(typeof(T));
-            config.GetSection(sectionName).Bind(Result);
-
-            return (Result);
-        }
-
-        protected T GetSettings<T>(in string sectionName)
-        {
-            return (GetSettings<T>("appsettings.json", sectionName));
         }
 
         #endregion Protected Methods

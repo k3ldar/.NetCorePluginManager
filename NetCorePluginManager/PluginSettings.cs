@@ -25,7 +25,6 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System.Collections.Generic;
 
-
 namespace AspNetCore.PluginManager
 {
     public sealed class PluginSettings

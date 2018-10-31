@@ -30,8 +30,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-using Shared.Classes; 
-
 namespace DemoRazorWebsitePlugin
 {
     public class Startup
@@ -40,6 +38,7 @@ namespace DemoRazorWebsitePlugin
         {
             Configuration = configuration;
         }
+
 
         public IConfiguration Configuration { get; }
 

@@ -1,0 +1,51 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <RazorCompileOnBuild>false</RazorCompileOnBuild>
+    <MvcRazorExcludeRefAssembliesFromPublish>false</MvcRazorExcludeRefAssembliesFromPublish>
+    <PreserveCompilationContext>true</PreserveCompilationContext>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Remove="Views\SystemAdmin\Grid.cshtml" />
+    <Content Remove="Views\SystemAdmin\Index.cshtml" />
+    <Content Remove="wwwroot\css\SystemAdmin.css" />
+    <Content Remove="wwwroot\images\Setting-icon.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Views\SystemAdmin\Grid.cshtml" />
+    <EmbeddedResource Include="Views\SystemAdmin\Index.cshtml" />
+    <EmbeddedResource Include="wwwroot\css\SystemAdmin.css" />
+    <EmbeddedResource Include="wwwroot\images\Setting-icon.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.1.2" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.5" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <PackageReference Include="MemoryCache.Plugin" Version="1.0.0" />
+    <PackageReference Include="AspNetCore.PluginManager" Version="1.0.6" />
+    <PackageReference Include="SharedPluginFeatures" Version="1.0.11" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <ProjectReference Include="..\..\NetCorePluginManager\AspNetCore.PluginManager.csproj" />
+    <ProjectReference Include="..\SharedPluginFeatures\SharedPluginFeatures.csproj" />
+    <ProjectReference Include="..\MemoryCachePlugin\MemoryCachePlugin.csproj" />
+  </ItemGroup>
+
+</Project>

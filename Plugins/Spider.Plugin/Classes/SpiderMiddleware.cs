@@ -26,14 +26,12 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
 using System.Collections.Generic;
-using static System.IO.Path;
 using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Mvc.Infrastructure;
-using Microsoft.Extensions.Configuration;
 
 using Microsoft.AspNetCore.Http;
 
@@ -154,6 +152,8 @@ namespace Spider.Plugin
             {
                 if (Initialisation.GetLogger != null)
                     Initialisation.GetLogger.AddToLog(LogLevel.SpiderError, error, MethodBase.GetCurrentMethod().Name);
+
+                throw;
             }
         }
 

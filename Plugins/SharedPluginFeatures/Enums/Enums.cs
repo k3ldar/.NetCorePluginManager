@@ -59,6 +59,8 @@ namespace SharedPluginFeatures
             CacheControlError = 14,
 
             GeoIpStackError = 15,
+
+            ThreadManager = 16,
         }
 
         public enum GeoIpProvider
@@ -73,5 +75,17 @@ namespace SharedPluginFeatures
             /// </summary>
             IpStack = 1,
         }
+
+        public enum SystemAdminMenuType
+        {
+            FirstChild = 0,
+
+            Text = 1,
+
+            Grid = 2,
+
+            PartialView = 3,
+        }
+
     }
 }
