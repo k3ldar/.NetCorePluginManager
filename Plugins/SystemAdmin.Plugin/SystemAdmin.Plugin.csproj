@@ -1,11 +1,19 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <TargetFrameworks>netcoreapp2.1</TargetFrameworks>
     <LangVersion>latest</LangVersion>
+    <Version>1.0.12</Version>
     <RazorCompileOnBuild>false</RazorCompileOnBuild>
-    <MvcRazorExcludeRefAssembliesFromPublish>false</MvcRazorExcludeRefAssembliesFromPublish>
-    <PreserveCompilationContext>true</PreserveCompilationContext>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Description>System admin plugin asp net core plugin manager.  display internal statistics</Description>
+    <Authors>Simon Carter</Authors>
+    <Company>Simon Carter</Company>
+    <Copyright>Copyright (c) 2018.  Simon Carter.  All rights reserved.</Copyright>
+    <PackageLicenseUrl>https://github.com/k3ldar/.NetCorePluginManager/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/k3ldar/.NetCorePluginManager</PackageProjectUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>asp net core plugin manager system admin internal statistics</PackageTags>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -37,9 +45,9 @@
   </ItemGroup>
 
   <ItemGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <PackageReference Include="MemoryCache.Plugin" Version="1.0.0" />
-    <PackageReference Include="AspNetCore.PluginManager" Version="1.0.6" />
-    <PackageReference Include="SharedPluginFeatures" Version="1.0.11" />
+    <PackageReference Include="MemoryCache.Plugin" Version="1.0.12" />
+    <PackageReference Include="AspNetCore.PluginManager" Version="1.0.12" />
+    <PackageReference Include="SharedPluginFeatures" Version="1.0.12" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

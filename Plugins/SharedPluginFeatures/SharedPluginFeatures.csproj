@@ -9,9 +9,9 @@
     <PackageLicenseUrl>https://github.com/k3ldar/.NetCorePluginManager/blob/master/LICENSE</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/k3ldar/.NetCorePluginManager</PackageProjectUrl>
     <PackageTags>asp net core plugin manager shared classes interfaces</PackageTags>
-    <PackageReleaseNotes>Plugin Manager interfaces added</PackageReleaseNotes>
+    <PackageReleaseNotes>Shared Modules</PackageReleaseNotes>
     <AssemblyVersion>1.0.0.0</AssemblyVersion>
-    <Version>1.0.11</Version>
+    <Version>1.0.12</Version>
     <FileVersion>1.0.0.0</FileVersion>
     <Authors>Simon Carter</Authors>
     <Company>Simon Carter</Company>
