@@ -33,7 +33,6 @@ using Shared.Classes;
 
 using SharedPluginFeatures;
 
-using AspNetCore.PluginManager;
 
 namespace UserSessionMiddleware.Plugin
 {
@@ -50,6 +49,7 @@ namespace UserSessionMiddleware.Plugin
         private const byte _maximumLoadInterfaceAttempts = 10;
         private static IGeoIpDataService _geoIpInstance;
         private static IUserSessionService _userSessionService;
+        private static IPluginClassesService _pluginClasses { get; set; }
 
         #endregion Private Static Members
 
@@ -63,6 +63,9 @@ namespace UserSessionMiddleware.Plugin
             UserSessionManager.Instance.OnSessionRetrieve += UserSession_OnSessionRetrieve;
             UserSessionManager.Instance.OnSessionSave += UserSession_OnSessionSave;
             UserSessionManager.Instance.IPAddressDetails += UserSession_IPAddressDetails;
+
+            _pluginClasses = Initialisation.GetServiceProvider.GetRequiredService<IPluginClassesService>();
+
         }
 
         internal static void UserSession_IPAddressDetails(object sender, IpAddressArgs e)
@@ -177,7 +180,7 @@ namespace UserSessionMiddleware.Plugin
             if (_geoIpInstance != null)
                 return (true);
 
-            List<IGeoIpDataService> geoIpList = PluginManagerService.GetPluginClasses<IGeoIpDataService>();
+            List<IGeoIpDataService> geoIpList = _pluginClasses.GetPluginClasses<IGeoIpDataService>();
 
             if (geoIpList.Count == 0)
                 return (false);
@@ -209,7 +212,7 @@ namespace UserSessionMiddleware.Plugin
             if (_userSessionService != null)
                 return (true);
 
-            List<IUserSessionService> userSessions = PluginManagerService.GetPluginClasses<IUserSessionService>();
+            List<IUserSessionService> userSessions = _pluginClasses.GetPluginClasses<IUserSessionService>();
 
             if (userSessions.Count == 0)
                 return (false);

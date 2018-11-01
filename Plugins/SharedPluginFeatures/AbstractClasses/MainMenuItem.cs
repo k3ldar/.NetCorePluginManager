@@ -23,8 +23,6 @@
  *  29/09/2018  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using System;
-
 namespace SharedPluginFeatures
 {
     public abstract class MainMenuItem

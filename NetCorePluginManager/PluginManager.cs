@@ -33,6 +33,9 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 
+using SharedPluginFeatures;
+using static SharedPluginFeatures.Enums;
+
 #pragma warning disable IDE0034
 
 namespace AspNetCore.PluginManager
@@ -69,11 +72,20 @@ namespace AspNetCore.PluginManager
         #region Internal Methods
 
         /// <summary>
+        /// Returns all loaded plugin data
+        /// </summary>
+        /// <returns></returns>
+        internal Dictionary<string, IPluginModule> GetLoadedPlugins()
+        {
+            return (_plugins);
+        }
+
+        /// <summary>
         /// Loads and configures an individual plugin
         /// </summary>
         /// <param name="assembly"></param>
         /// <param name="extractResources"></param>
-        internal void LoadPlugin(in Assembly assembly, in bool extractResources)
+        internal void LoadPlugin(in Assembly assembly, in string fileLocation, in bool extractResources)
         {
             if (assembly == null)
                 throw new ArgumentNullException(nameof(assembly));
@@ -91,7 +103,10 @@ namespace AspNetCore.PluginManager
             PluginSetting pluginSetting = GetPluginSetting(assemblyName);
 
             if (pluginSetting.Disabled)
+            {
+                _logger.AddToLog(LogLevel.Warning, "PluginManager is disabled");
                 return;
+            }
 
             foreach (Type type in assembly.GetTypes())
             {
@@ -118,9 +133,27 @@ namespace AspNetCore.PluginManager
                         pluginModule.Version = version == null ? (ushort)1 :
                             GetMinMaxValue(version.GetVersion(), 1, MaxPluginVersion);
 
+                        try
+                        {
+                            string file = Path.GetFullPath(
+                                String.IsNullOrEmpty(assembly.Location) ? fileLocation : assembly.Location);
+
+                            if (File.Exists(file))
+                                pluginModule.FileVersion = System.Diagnostics.FileVersionInfo.GetVersionInfo(file).FileVersion;
+                            else
+                                pluginModule.FileVersion = "unknown";
+                        }
+                        catch (Exception err)
+                        {
+                            pluginModule.FileVersion = "unknown";
+                        }
+
                         pluginModule.Plugin.Initialise(_logger);
 
                         _plugins.Add(assemblyName, pluginModule);
+
+                        _logger.AddToLog(LogLevel.PluginLoadSuccess, assemblyName);
+
 
                         // only interested in first reference of IPlugin
                         break;
@@ -128,7 +161,8 @@ namespace AspNetCore.PluginManager
                 }
                 catch (Exception typeLoader)
                 {
-                    _logger.AddToLog(typeLoader, $"{assembly.FullName}{MethodBase.GetCurrentMethod().Name}");
+                    _logger.AddToLog(LogLevel.PluginLoadError, typeLoader, 
+                        $"{assembly.FullName}{MethodBase.GetCurrentMethod().Name}");
                 }
             }
         }
@@ -141,11 +175,11 @@ namespace AspNetCore.PluginManager
         {
             try
             {
-                LoadPlugin(LoadAssembly(pluginName), true);
+                LoadPlugin(LoadAssembly(pluginName), pluginName, true);
             }
             catch (Exception error)
             {
-                _logger.AddToLog(error, $"{pluginName}{MethodBase.GetCurrentMethod().Name}");
+                _logger.AddToLog(LogLevel.PluginLoadError, error, $"{pluginName}{MethodBase.GetCurrentMethod().Name}");
             }
         }
 
@@ -164,7 +198,7 @@ namespace AspNetCore.PluginManager
                 }
                 catch (Exception error)
                 {
-                    _logger.AddToLog(error, $"{plugin.Key}{MethodBase.GetCurrentMethod().Name}");
+                    _logger.AddToLog(LogLevel.PluginConfigureError, error, $"{plugin.Key}{MethodBase.GetCurrentMethod().Name}");
                 }
             }
         }
@@ -184,7 +218,7 @@ namespace AspNetCore.PluginManager
                 }
                 catch (Exception error)
                 {
-                    _logger.AddToLog(error, $"{plugin.Key}{MethodBase.GetCurrentMethod().Name}");
+                    _logger.AddToLog(LogLevel.PluginConfigureError, error, $"{plugin.Key}{MethodBase.GetCurrentMethod().Name}");
                 }
             }
         }
@@ -237,13 +271,13 @@ namespace AspNetCore.PluginManager
                         }
                         catch (Exception typeLoader)
                         {
-                            _logger.AddToLog(typeLoader, $"{plugin.Value.Module}{MethodBase.GetCurrentMethod().Name}");
+                            _logger.AddToLog(LogLevel.Error, typeLoader, $"{plugin.Value.Module}{MethodBase.GetCurrentMethod().Name}");
                         }
                     }
                 }
                 catch (Exception error)
                 {
-                    _logger.AddToLog(error, $"{plugin.Value.Module}{MethodBase.GetCurrentMethod().Name}");
+                    _logger.AddToLog(LogLevel.Error, error, $"{plugin.Value.Module}{MethodBase.GetCurrentMethod().Name}");
                 }
             }
 
@@ -275,13 +309,13 @@ namespace AspNetCore.PluginManager
                         }
                         catch (Exception typeLoader)
                         {
-                            _logger.AddToLog(typeLoader, $"{plugin.Value.Module}{MethodBase.GetCurrentMethod().Name}");
+                            _logger.AddToLog(LogLevel.Error, typeLoader, $"{plugin.Value.Module}{MethodBase.GetCurrentMethod().Name}");
                         }
                     }
                 }
                 catch (Exception error)
                 {
-                    _logger.AddToLog(error, $"{plugin.Value.Module}{MethodBase.GetCurrentMethod().Name}");
+                    _logger.AddToLog(LogLevel.Error, error, $"{plugin.Value.Module}{MethodBase.GetCurrentMethod().Name}");
                 }
             }
 
@@ -313,13 +347,13 @@ namespace AspNetCore.PluginManager
                         }
                         catch (Exception typeLoader)
                         {
-                            _logger.AddToLog(typeLoader, $"{plugin.Value.Module}{MethodBase.GetCurrentMethod().Name}");
+                            _logger.AddToLog(LogLevel.Error, typeLoader, $"{plugin.Value.Module}{MethodBase.GetCurrentMethod().Name}");
                         }
                     }
                 }
                 catch (Exception error)
                 {
-                    _logger.AddToLog(error, $"{plugin.Value.Module}{MethodBase.GetCurrentMethod().Name}");
+                    _logger.AddToLog(LogLevel.Error, error, $"{plugin.Value.Module}{MethodBase.GetCurrentMethod().Name}");
                 }
             }
 
@@ -332,15 +366,18 @@ namespace AspNetCore.PluginManager
         /// <param name="pluginLibraryName"></param>
         /// <param name="version"></param>
         /// <returns></returns>
-        internal bool PluginLoaded(in string pluginLibraryName, out int version)
+        internal bool PluginLoaded(in string pluginLibraryName, out int version, out string module)
         {
             version = -1;
+            module = pluginLibraryName;
 
             foreach (KeyValuePair<string, IPluginModule> plugin in _plugins)
             {
                 if (plugin.Value.Module.EndsWith(pluginLibraryName, StringComparison.CurrentCultureIgnoreCase))
                 {
                     version = plugin.Value.Version;
+                    module = plugin.Value.Assembly.Location;
+
                     return (true);
                 }
             }
@@ -365,7 +402,7 @@ namespace AspNetCore.PluginManager
                 }
                 catch (Exception error)
                 {
-                    _logger.AddToLog(error, $"{plugin.Key}{MethodBase.GetCurrentMethod().Name}");
+                    _logger.AddToLog(LogLevel.Error, error, $"{plugin.Key}{MethodBase.GetCurrentMethod().Name}");
                 }
             }
         }
@@ -412,13 +449,13 @@ namespace AspNetCore.PluginManager
                     }
                     catch (Exception typeLoader)
                     {
-                        _logger.AddToLog(typeLoader, $"{pluginModule.Module}{MethodBase.GetCurrentMethod().Name}");
+                        _logger.AddToLog(LogLevel.Error, typeLoader, $"{pluginModule.Module}{MethodBase.GetCurrentMethod().Name}");
                     }
                 }
             }
             catch (Exception error)
             {
-                _logger.AddToLog(error, $"{pluginModule.Module}{MethodBase.GetCurrentMethod().Name}");
+                _logger.AddToLog(LogLevel.Error, error, $"{pluginModule.Module}{MethodBase.GetCurrentMethod().Name}");
             }
 
             return (default(T));
@@ -430,10 +467,10 @@ namespace AspNetCore.PluginManager
         /// <param name="resourceName"></param>
         /// <param name="pluginSetting"></param>
         /// <returns></returns>
-        private string GetLiveFilePath(in string resourceName, in PluginSetting pluginSetting)
+        private string GetLiveFilePath(in string assemblyName, in string resourceName, in PluginSetting pluginSetting)
         {
             // remove the first part of the name which is the library
-            string Result = resourceName.Substring(resourceName.IndexOf(".") + 1);
+            string Result = resourceName.Replace(assemblyName, String.Empty);
 
             int lastIndex = Result.LastIndexOf('.');
 
@@ -452,6 +489,8 @@ namespace AspNetCore.PluginManager
         /// <param name="pluginSetting"></param>
         private void ExtractResources(in Assembly pluginAssembly, in PluginSetting pluginSetting)
         {
+            string assemblyName = pluginAssembly.FullName.Split(',')[0] + ".";
+
             foreach (string resource in pluginAssembly.GetManifestResourceNames())
             {
                 if (String.IsNullOrEmpty(resource))
@@ -459,7 +498,7 @@ namespace AspNetCore.PluginManager
 
                 using (Stream stream = pluginAssembly.GetManifestResourceStream(resource))
                 {
-                    string resourceFileName = GetLiveFilePath(resource, pluginSetting);
+                    string resourceFileName = GetLiveFilePath(assemblyName, resource, pluginSetting);
 
                     if (File.Exists(resourceFileName) && !pluginSetting.ReplaceExistingResources)
                         continue;
@@ -493,7 +532,12 @@ namespace AspNetCore.PluginManager
             if (!File.Exists(assemblyName))
                 throw new ArgumentException(nameof(assemblyName));
 
-            return (Assembly.Load(File.ReadAllBytes(assemblyName)));
+            string assembly = assemblyName;
+
+            if (!Path.IsPathRooted(assembly))
+                assembly = Path.GetFullPath(assembly);
+
+            return (Assembly.LoadFrom(assembly));
         }
 
         /// <summary>
@@ -525,7 +569,7 @@ namespace AspNetCore.PluginManager
             }
             catch (Exception error)
             {
-                _logger.AddToLog(error, $"{MethodBase.GetCurrentMethod().Name}");
+                _logger.AddToLog(LogLevel.PluginLoadError, error, $"{MethodBase.GetCurrentMethod().Name}");
             }
 
             return (null);
@@ -538,6 +582,9 @@ namespace AspNetCore.PluginManager
         /// <returns></returns>
         private PluginSetting GetPluginSetting(in string pluginName)
         {
+            if (_pluginSettings == null || _pluginSettings.PluginFiles == null)
+                return (new PluginSetting(pluginName));
+
             foreach (PluginSetting setting in _pluginSettings.Plugins)
             {
                 if (pluginName.EndsWith(setting.Name))

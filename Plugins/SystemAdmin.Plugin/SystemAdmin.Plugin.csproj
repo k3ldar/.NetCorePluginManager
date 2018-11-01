@@ -1,0 +1,59 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFrameworks>netcoreapp2.1</TargetFrameworks>
+    <LangVersion>latest</LangVersion>
+    <Version>1.0.12</Version>
+    <RazorCompileOnBuild>false</RazorCompileOnBuild>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Description>System admin plugin asp net core plugin manager.  display internal statistics</Description>
+    <Authors>Simon Carter</Authors>
+    <Company>Simon Carter</Company>
+    <Copyright>Copyright (c) 2018.  Simon Carter.  All rights reserved.</Copyright>
+    <PackageLicenseUrl>https://github.com/k3ldar/.NetCorePluginManager/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/k3ldar/.NetCorePluginManager</PackageProjectUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>asp net core plugin manager system admin internal statistics</PackageTags>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Remove="Views\SystemAdmin\Grid.cshtml" />
+    <Content Remove="Views\SystemAdmin\Index.cshtml" />
+    <Content Remove="wwwroot\css\SystemAdmin.css" />
+    <Content Remove="wwwroot\images\Setting-icon.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Views\SystemAdmin\Grid.cshtml" />
+    <EmbeddedResource Include="Views\SystemAdmin\Index.cshtml" />
+    <EmbeddedResource Include="wwwroot\css\SystemAdmin.css" />
+    <EmbeddedResource Include="wwwroot\images\Setting-icon.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.1.2" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.5" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <PackageReference Include="MemoryCache.Plugin" Version="1.0.12" />
+    <PackageReference Include="AspNetCore.PluginManager" Version="1.0.12" />
+    <PackageReference Include="SharedPluginFeatures" Version="1.0.12" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <ProjectReference Include="..\..\NetCorePluginManager\AspNetCore.PluginManager.csproj" />
+    <ProjectReference Include="..\SharedPluginFeatures\SharedPluginFeatures.csproj" />
+    <ProjectReference Include="..\MemoryCachePlugin\MemoryCachePlugin.csproj" />
+  </ItemGroup>
+
+</Project>

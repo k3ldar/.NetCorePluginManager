@@ -26,26 +26,23 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
 using System.Collections.Generic;
-using static System.IO.Path;
 using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Mvc.Infrastructure;
-using Microsoft.Extensions.Configuration;
-
-using static AspNetCore.PluginManager.PluginManagerService;
 
 using Microsoft.AspNetCore.Http;
 
 using Shared.Classes;
 
 using SharedPluginFeatures;
+using static SharedPluginFeatures.Enums;
 
 namespace Spider.Plugin
 {
-    public sealed class SpiderMiddleware
+    public sealed class SpiderMiddleware : BaseMiddleware
     {
         #region Private Members
 
@@ -62,7 +59,8 @@ namespace Spider.Plugin
         #region Constructors
 
         public SpiderMiddleware(RequestDelegate next, IActionDescriptorCollectionProvider routeProvider, 
-            IRouteDataService routeDataService)
+            IRouteDataService routeDataService, IPluginHelperService pluginHelperService,
+            IPluginTypesService pluginTypesService)
         {
             if (routeProvider == null)
                 throw new ArgumentNullException(nameof(routeProvider));
@@ -70,14 +68,17 @@ namespace Spider.Plugin
             if (routeDataService == null)
                 throw new ArgumentNullException(nameof(routeDataService));
 
+            if (pluginHelperService == null)
+                throw new ArgumentNullException(nameof(pluginHelperService));
+
             _next = next;
 
-            _userSessionManagerLoaded = PluginLoaded("UserSessionMiddleware.Plugin.dll", out int version);
+            _userSessionManagerLoaded = pluginHelperService.PluginLoaded("UserSessionMiddleware.Plugin.dll", out int version);
 
             _deniedSpiderRoutes = new List<DeniedRoute>();
-            LoadSpiderData(routeProvider, routeDataService);
+            LoadSpiderData(routeProvider, routeDataService, pluginTypesService);
 
-            SpiderSettings settings = GetSpiderSettings();
+            SpiderSettings settings = GetSettings<SpiderSettings>("Spider.Plugin");
 
             _processStaticFiles = settings.ProcessStaticFiles;
 
@@ -93,7 +94,7 @@ namespace Spider.Plugin
         {
             try
             {
-                string fileExtension = GetExtension(context.Request.Path.ToString().ToLower());
+                string fileExtension = RouteFileExtension(context);
 
                 if (!_processStaticFiles &&  !String.IsNullOrEmpty(fileExtension) &&
                     _staticFileExtensions.Contains($"{fileExtension};"))
@@ -102,7 +103,7 @@ namespace Spider.Plugin
                     return;
                 }
 
-                string route = context.Request.Path.ToString().ToLower();
+                string route = RouteLowered(context);
 
                 if (route.EndsWith("/robots.txt"))
                 {
@@ -139,7 +140,7 @@ namespace Spider.Plugin
                             }
                             catch (Exception err)
                             {
-                                Initialisation.GetLogger.AddToLog(err);
+                                Initialisation.GetLogger.AddToLog(LogLevel.SpiderRouteError, err, MethodBase.GetCurrentMethod().Name);
                             }
                         }
                     }
@@ -150,7 +151,9 @@ namespace Spider.Plugin
             catch (Exception error)
             {
                 if (Initialisation.GetLogger != null)
-                    Initialisation.GetLogger.AddToLog(error, MethodBase.GetCurrentMethod().Name);
+                    Initialisation.GetLogger.AddToLog(LogLevel.SpiderError, error, MethodBase.GetCurrentMethod().Name);
+
+                throw;
             }
         }
 
@@ -158,23 +161,11 @@ namespace Spider.Plugin
 
         #region Private Methods
 
-        private SpiderSettings GetSpiderSettings()
-        {
-            ConfigurationBuilder builder = new ConfigurationBuilder();
-            IConfigurationBuilder configBuilder = builder.SetBasePath(System.IO.Directory.GetCurrentDirectory());
-            configBuilder.AddJsonFile("appsettings.json");
-            IConfigurationRoot config = builder.Build();
-            SpiderSettings Result = new SpiderSettings();
-            config.GetSection("Spider.Plugin").Bind(Result);
-
-            return (Result);
-        }
-
         private void LoadSpiderData(IActionDescriptorCollectionProvider routeProvider,
-            IRouteDataService routeDataService)
+            IRouteDataService routeDataService, IPluginTypesService pluginTypesService)
         {
             string spiderTextFile = String.Empty;
-            List<Type> spiderAttributes = GetPluginTypesWithAttribute<DenySpiderAttribute>();
+            List<Type> spiderAttributes = pluginTypesService.GetPluginTypesWithAttribute<DenySpiderAttribute>();
 
             if (spiderAttributes.Count == 0)
             {

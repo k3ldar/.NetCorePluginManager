@@ -23,11 +23,7 @@
  *  22/09/2018  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using System;
-
 using Microsoft.AspNetCore.Mvc;
-
-using Shared.Classes;
 
 namespace DemoWebsitePlugin.Controllers
 {

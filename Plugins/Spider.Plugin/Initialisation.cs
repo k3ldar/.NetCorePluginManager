@@ -29,7 +29,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 
-using AspNetCore.PluginManager;
+using SharedPluginFeatures;
 
 namespace Spider.Plugin
 {

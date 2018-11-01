@@ -29,13 +29,11 @@ using System;
 
 using Shared.Classes;
 
-using Microsoft.Extensions.Configuration;
-
 using SharedPluginFeatures;
 
 namespace MemoryCache.Plugin
 {
-    public class MemoryCache : IMemoryCache
+    public class MemoryCache : BaseCoreClass, IMemoryCache
     {
         #region Private Members
 
@@ -51,7 +49,7 @@ namespace MemoryCache.Plugin
         {
             ThreadManager.Initialise();
 
-            MemoryClassPluginSettings settings = GetSettings();
+            MemoryClassPluginSettings settings = GetSettings<MemoryClassPluginSettings>("MemoryCachePluginConfiguration");
 
             // create the caches
             _cache = new CacheManager("Website Internal Cache", 
@@ -82,21 +80,5 @@ namespace MemoryCache.Plugin
         }
 
         #endregion Public Methods
-
-        #region Private Methods
-
-        private MemoryClassPluginSettings GetSettings()
-        {
-            ConfigurationBuilder builder = new ConfigurationBuilder();
-            IConfigurationBuilder configBuilder = builder.SetBasePath(System.IO.Directory.GetCurrentDirectory());
-            configBuilder.AddJsonFile("appsettings.json");
-            IConfigurationRoot config = builder.Build();
-            MemoryClassPluginSettings Result = new MemoryClassPluginSettings();
-            config.GetSection("MemoryCachePluginConfiguration").Bind(Result);
-
-            return (Result);
-        }
-
-        #endregion Private Methods
     }
 }

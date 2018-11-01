@@ -29,9 +29,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 
-using Shared.Classes;
-
-using AspNetCore.PluginManager;
+using SharedPluginFeatures;
 
 namespace UserSessionMiddleware.Plugin
 {

@@ -13,22 +13,37 @@
  *
  *  Copyright (c) 2018 Simon Carter.  All Rights Reserved.
  *
- *  Product:  AspNetCore.PluginManager
+ *  Product:  CacheControl Plugin
  *  
- *  File: IPluginVersion.cs
+ *  File: CacheControlSettings.cs
  *
  *  Purpose:  
  *
  *  Date        Name                Reason
- *  22/09/2018  Simon Carter        Initially Created
+ *  14/10/2018  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using System;
+using System.Collections.Generic;
 
-namespace AspNetCore.PluginManager
+namespace CacheControl.Plugin
 {
-    public interface IPluginVersion
+    public class CacheControlSettings
     {
-        ushort GetVersion();
+        #region Constructors
+
+        public CacheControlSettings()
+        {
+            CacheControlRoutes = new Dictionary<string, CacheControlRoute>();
+        }
+
+        #endregion Constructors
+
+        #region Properties
+
+        public bool Disabled { get; set; }
+
+        public Dictionary<string, CacheControlRoute> CacheControlRoutes { get; set; }
+
+        #endregion Properties
     }
 }

@@ -21,6 +21,8 @@
  *
  *  Date        Name                Reason
  *  22/09/2018  Simon Carter        Initially Created
+ *  27/10/2018  Simon Carter        Change internal plugin to internal property
+ *  27/10/2018  Simon Carter        Add thread management as used by multiple plugins
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
@@ -31,10 +33,10 @@ using System.IO;
 
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 using SharedPluginFeatures;
+using static SharedPluginFeatures.Enums;
 
 namespace AspNetCore.PluginManager
 {
@@ -57,6 +59,8 @@ namespace AspNetCore.PluginManager
         {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
+            ThreadManagerInitialisation.Initialise(logger);
+
             try
             {
                 //load config and get settings
@@ -73,29 +77,36 @@ namespace AspNetCore.PluginManager
                 if (_pluginConfiguration.Disabled)
                     return (false);
 
+                // Load ourselves
+                _pluginManagerInstance.LoadPlugin(Assembly.GetExecutingAssembly(), String.Empty, false);
+
                 // attempt to load the host
-                _pluginManagerInstance.LoadPlugin(Assembly.GetEntryAssembly(), false);
+                _pluginManagerInstance.LoadPlugin(Assembly.GetEntryAssembly(), String.Empty, false);
 
                 // are any plugins specifically mentioned in the config, load them
                 // first so we have some control on the load order
-                foreach (string file in _pluginConfiguration.PluginFiles)
+
+                if (_pluginConfiguration.PluginFiles != null)
                 {
-                    string pluginFile = file;
-
-                    if (String.IsNullOrEmpty(pluginFile) || !File.Exists(pluginFile))
+                    foreach (string file in _pluginConfiguration.PluginFiles)
                     {
-                        if (!String.IsNullOrEmpty(pluginFile) && !FindPlugin(ref pluginFile, GetPluginSetting(pluginFile)))
+                        string pluginFile = file;
+
+                        if (String.IsNullOrEmpty(pluginFile) || !File.Exists(pluginFile))
                         {
-                            if (!String.IsNullOrEmpty(pluginFile))
+                            if (!String.IsNullOrEmpty(pluginFile) && !FindPlugin(ref pluginFile, GetPluginSetting(pluginFile)))
                             {
-                                _logger.AddToLog($"Could not find plugin: {pluginFile}");
+                                if (!String.IsNullOrEmpty(pluginFile))
+                                {
+                                    _logger.AddToLog(LogLevel.PluginLoadFailed, $"Could not find plugin: {pluginFile}");
+                                }
+
+                                continue;
                             }
-
-                            continue;
                         }
-                    }
 
-                    _pluginManagerInstance.LoadPlugin(pluginFile);
+                        _pluginManagerInstance.LoadPlugin(pluginFile);
+                    }
                 }
 
                 // load generic plugins next, if any exist
@@ -108,16 +119,16 @@ namespace AspNetCore.PluginManager
 
                     foreach (string file in pluginFiles)
                     {
-                        if (String.IsNullOrEmpty(file) || !File.Exists(file))
+                        if (String.IsNullOrEmpty(file) || !File.Exists(file)) 
                             continue;
 
                         _pluginManagerInstance.LoadPlugin(file);
                     }
                 }
             }
-            catch (Exception error)
+            catch (Exception error) 
             {
-                _logger.AddToLog(error, $"{MethodBase.GetCurrentMethod().Name}");
+                _logger.AddToLog(LogLevel.PluginConfigureError, error, $"{MethodBase.GetCurrentMethod().Name}");
                 return (false);
             }
 
@@ -135,6 +146,10 @@ namespace AspNetCore.PluginManager
             if (env == null)
                 throw new ArgumentNullException(nameof(env));
 
+
+            if (_pluginConfiguration.Disabled)
+                return;
+
             _pluginManagerInstance.Configure(app, env);
         }
 
@@ -146,46 +161,29 @@ namespace AspNetCore.PluginManager
             if (services == null)
                 throw new ArgumentNullException(nameof(services));
 
+            if (_pluginConfiguration.Disabled)
+                return;
+
             if (!_pluginConfiguration.DisableRouteDataService)
                 services.AddSingleton<IRouteDataService, Classes.RouteDataServices>();
 
+            services.AddSingleton<IPluginClassesService, PluginServices>();
+            services.AddSingleton<IPluginHelperService, PluginServices>();
+            services.AddSingleton<IPluginTypesService, PluginServices>();
 
             _pluginManagerInstance.ConfigureServices(services);
         }
 
-        public static List<Type> GetPluginClassTypes<T>()
-        {
-            if (_logger == null)
-                throw new InvalidOperationException("Plugin Manager has not been initialised.");
-
-            return (_pluginManagerInstance.GetPluginClassTypes<T>());
-        }
-
-        public static List<T> GetPluginClasses<T>()
-        {
-            if (_logger == null)
-                throw new InvalidOperationException("Plugin Manager has not been initialised.");
-
-            return (_pluginManagerInstance.GetPluginClasses<T>());
-        }
-
-        public static List<Type> GetPluginTypesWithAttribute<T>()
-        {
-            if (_logger == null)
-                throw new InvalidOperationException("Plugin Manager has not been initialised.");
-
-            return (_pluginManagerInstance.GetPluginTypesWithAttribute<T>());
-        }
-
-        public static bool PluginLoaded(in string pluginLibraryName, out int version)
-        {
-            if (_logger == null)
-                throw new InvalidOperationException("Plugin Manager has not been initialised.");
-
-            return (_pluginManagerInstance.PluginLoaded(pluginLibraryName, out version));
-        }
-
         #endregion Static Methods
+
+        #region Internal Static Methods
+
+        internal static PluginManager GetPluginManager()
+        {
+            return (_pluginManagerInstance);
+        }
+
+        #endregion Internal Static Methods
 
         #region Private Static Methods
 

@@ -13,26 +13,25 @@
  *
  *  Copyright (c) 2018 Simon Carter.  All Rights Reserved.
  *
- *  Product:  AspNetCore.PluginManager
+ *  Product:  SharedPluginFeatures
  *  
- *  File: ILogger.cs
+ *  File: IPluginClassesService.cs
  *
- *  Purpose:  
+ *  Purpose:  Provides interface for retrieving plugin specific data from the plugin manager
  *
  *  Date        Name                Reason
- *  22/09/2018  Simon Carter        Initially Created
+ *  14/10/2018  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
+using System.Collections.Generic;
 
-namespace AspNetCore.PluginManager
+namespace SharedPluginFeatures
 {
-    public interface ILogger
+    public interface IPluginClassesService
     {
-        void AddToLog(string data);
+        List<T> GetPluginClasses<T>();
 
-        void AddToLog(Exception exception);
-
-        void AddToLog(Exception exception, string data);
+        List<Type> GetPluginClassTypes<T>();
     }
 }

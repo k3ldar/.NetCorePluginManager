@@ -23,8 +23,9 @@
  *  22/09/2018  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using System;
 using System.Reflection;
+
+using SharedPluginFeatures;
 
 namespace AspNetCore.PluginManager
 {
@@ -37,5 +38,7 @@ namespace AspNetCore.PluginManager
         internal IPlugin Plugin { get; set; }
 
         internal ushort Version { get; set; }
+
+        internal string FileVersion { get; set; }
     }
 }

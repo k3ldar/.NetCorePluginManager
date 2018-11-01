@@ -13,30 +13,22 @@
  *
  *  Copyright (c) 2018 Simon Carter.  All Rights Reserved.
  *
- *  Product:  AspNetCore.PluginManager
+ *  Product:  SharedPluginFeatures
  *  
- *  File: IPlugin.cs
+ *  File: IGeoIpData.cs
  *
- *  Purpose:  
+ *  Purpose:  Provides interface for retrievin geo ip data
  *
  *  Date        Name                Reason
- *  22/09/2018  Simon Carter        Initially Created
+ *  22/10/2018  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.DependencyInjection;
 
-namespace AspNetCore.PluginManager
+namespace SharedPluginFeatures
 {
-    public interface IPlugin
+    public interface IGeoIpProvider
     {
-        void Initialise(ILogger logger);
-
-        void Finalise();
-
-        void Configure(IApplicationBuilder app, IHostingEnvironment env);
-
-        void ConfigureServices(IServiceCollection services);
+        bool GetIpAddressDetails(in string ipAddress, out string countryCode, out string region,
+            out string cityName, out decimal latitude, out decimal longitude);
     }
 }

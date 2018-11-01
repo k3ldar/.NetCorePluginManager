@@ -46,14 +46,16 @@ namespace AspNetCore.PluginManager.DemoWebsite.Helpers
         #region Private Methods
 
         private readonly IMemoryCache _memoryCache;
+        private readonly IPluginClassesService _pluginClassesService;
 
         #endregion Private Methods
 
         #region Constructors
 
-        public SharedPluginHelper(IMemoryCache memoryCache)
+        public SharedPluginHelper(IMemoryCache memoryCache, IPluginClassesService pluginClassesService)
         {
             _memoryCache = memoryCache ?? throw new ArgumentNullException(nameof(memoryCache));
+            _pluginClassesService = pluginClassesService ?? throw new ArgumentNullException(nameof(pluginClassesService));
         }
 
         #endregion Constructors
@@ -64,7 +66,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Helpers
 
             if (cache == null)
             {
-                cache = new CacheItem(MainMenuCache, PluginManagerService.GetPluginClasses<MainMenuItem>());
+                cache = new CacheItem(MainMenuCache, _pluginClassesService.GetPluginClasses<MainMenuItem>());
                 _memoryCache.GetCache().Add(MainMenuCache, cache);
             }
 
