@@ -29,6 +29,7 @@
     <Content Remove="Views\SystemAdmin\Index.cshtml" />
     <Content Remove="Views\SystemAdmin\Map.cshtml" />
     <Content Remove="Views\SystemAdmin\Text.cshtml" />
+    <Content Remove="Views\SystemAdmin\TextEx.cshtml" />
     <Content Remove="wwwroot\css\SystemAdmin.css" />
     <Content Remove="wwwroot\images\Setting-icon.png" />
   </ItemGroup>
@@ -38,6 +39,7 @@
     <EmbeddedResource Include="Views\SystemAdmin\Index.cshtml" />
     <EmbeddedResource Include="Views\SystemAdmin\Map.cshtml" />
     <EmbeddedResource Include="Views\SystemAdmin\Text.cshtml" />
+    <EmbeddedResource Include="Views\SystemAdmin\TextEx.cshtml" />
     <EmbeddedResource Include="wwwroot\css\SystemAdmin.css" />
     <EmbeddedResource Include="wwwroot\images\Setting-icon.png" />
   </ItemGroup>

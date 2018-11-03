@@ -31,5 +31,7 @@ namespace SystemAdmin.Plugin
         public string GoogleMapApiKey { get; set; }
 
         public bool ShowAppSettingsJson { get; set; }
+
+        public bool DisableFormattedText { get; set; }
     }
 }

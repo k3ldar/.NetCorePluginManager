@@ -94,6 +94,16 @@ namespace SystemAdmin.Plugin.Controllers
             return (View(new TextViewModel(subMenu)));
         }
 
+        public IActionResult TextEx(int id)
+        {
+            SystemAdminSubMenu subMenu = _systemAdminHelperService.GetSubMenuItem(id);
+
+            if (subMenu == null)
+                return (Redirect("/SystemAdmin"));
+
+            return (View(new TextExViewModel(subMenu)));
+        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error ()
         {

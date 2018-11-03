@@ -13,25 +13,28 @@
  *
  *  Copyright (c) 2018 Simon Carter.  All Rights Reserved.
  *
- *  Product:  AspNetCore.PluginManager.DemoWebsite
+ *  Product:  SharedPluginFeatures
  *  
- *  File: AppSettingsJsonMenu.cs
+ *  File: UserDetailsMenu.cs
  *
- *  Purpose:  Menu to show appsettings.json
+ *  Purpose:  Class for containing User session sales by country statistics
  *
  *  Date        Name                Reason
- *  03/11/2018  Simon Carter        Initially Created
+ *  29/10/2018  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
-using System.IO;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text;
+
+using Shared.Classes;
 
 using SharedPluginFeatures;
 
-namespace SystemAdmin.Plugin.Classes
+namespace UserSessionMiddleware.Plugin.Classes.SystemAdmin
 {
-    public class AppSettingsJsonMenu : SystemAdminSubMenu
+    public sealed class PageVisitMenu : SystemAdminSubMenu
     {
         public override string Action()
         {
@@ -50,32 +53,41 @@ namespace SystemAdmin.Plugin.Classes
 
         public override Enums.SystemAdminMenuType MenuType()
         {
-            return (Enums.SystemAdminMenuType.Text);
+            return (Enums.SystemAdminMenuType.Grid);
         }
 
         public override string Data()
         {
-            SystemAdminSettings settings = GetSettings<SystemAdminSettings>("SystemAdmin");
+            StringBuilder Result = new StringBuilder("Page|Total Visits");
+            Dictionary<string, uint> pageVisits = new Dictionary<string, uint>();
 
-            if (!settings.ShowAppSettingsJson)
-                return ("Viewing appsettings.json has been disabled");
-
-            using (StreamReader rdr = new StreamReader("appsettings.json"))
+            foreach (UserSession session in UserSessionManager.Clone)
             {
-                StringBuilder Result = new StringBuilder();
+                foreach (PageViewData page in session.Pages)
+                {
+                    if (!pageVisits.ContainsKey(page.URL))
+                        pageVisits.Add(page.URL, 0);
 
-                return (rdr.ReadToEnd());
+                    pageVisits[page.URL]++;
+                }
             }
+
+            foreach (KeyValuePair<string, uint> kvp in pageVisits)
+            {
+                Result.Append($"\r{kvp.Key}|{kvp.Value}");
+            }
+
+            return (Result.ToString().Trim());
         }
 
         public override string Name()
         {
-            return ("appsettings.json");
+            return ("Active Page Views");
         }
 
         public override string ParentMenuName()
         {
-            return ("System");
+            return ("User Sessions");
         }
 
         public override int SortOrder()
@@ -86,6 +98,14 @@ namespace SystemAdmin.Plugin.Classes
         public override string Image()
         {
             return (String.Empty);
+        }
+
+        public override string BackColor()
+        {
+            if (ParentMenu != null)
+                return (ParentMenu.BackColor());
+
+            return ("#3498DB");
         }
     }
 }

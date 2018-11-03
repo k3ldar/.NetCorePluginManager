@@ -117,3 +117,11 @@ div:empty {
     font-size: 12px;
     font-weight: normal;
 }
+    .textBlock h2 {
+        font-size: 16px;
+        font-weight:600;
+    }
+    .textBlock h3 {
+        font-size: 14px;
+        font-weight: 600;
+    }

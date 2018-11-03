@@ -15,7 +15,7 @@
  *
  *  Product:  SystemAdmin.Plugin
  *  
- *  File: TextViewModel.cs
+ *  File: TextExViewModel.cs
  *
  *  Purpose:  
  *
@@ -24,58 +24,28 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
-using System.Text;
 
 using SharedPluginFeatures;
 
 namespace SystemAdmin.Plugin.Models
 {
-    public sealed class TextViewModel
+    public sealed class TextExViewModel : BaseCoreClass
     {
         #region Constructors
 
-        public TextViewModel(SystemAdminSubMenu subMenu)
+        public TextExViewModel(SystemAdminSubMenu subMenu)
         {
             if (subMenu == null)
                 throw new ArgumentNullException(nameof(subMenu));
 
             Title = subMenu.Name();
 
-            StringBuilder newData = new StringBuilder();
+            SystemAdminSettings settings = GetSettings<SystemAdminSettings>("SystemAdmin");
 
-            string data = subMenu.Data();
-
-            for (int i = 0; i < data.Length; i++)
-            {
-                char character = data[i];
-
-                switch (character)
-                {
-                    case ' ':
-                        newData.Append("&nbsp;");
-                        break;
-                    case '\t':
-                        newData.Append("&nbsp;&nbsp;&nbsp;&nbsp;");
-                        break;
-                    case '\n':
-                        newData.Append("<br />");
-                        break;
-                    case '<':
-                        newData.Append("&lt;");
-                        break;
-                    case '>':
-                        newData.Append("&gt;");
-                        break;
-                    case '\r':
-                        break;
-                    default:
-                        newData.Append(character);
-                        break;
-                }
-            }
-
-
-            Text = newData.ToString();
+            if (settings.DisableFormattedText)
+                Text = "Formatted Text is not enabed";
+            else
+                Text = subMenu.Data();
 
             BreadCrumb = $"<ul><li><a href=\"/SystemAdmin/\">System Admin</a></li><li><a href=\"/SystemAdmin/Index/" +
                 $"{subMenu.ParentMenu.UniqueId}\">{subMenu.ParentMenu.Name()}</a></li><li>{Title}</li></ul>";
