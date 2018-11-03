@@ -28,7 +28,7 @@ using System.Collections.Generic;
 
 namespace SharedPluginFeatures
 {
-    public abstract class SystemAdminMainMenu : IComparable<SystemAdminMainMenu>
+    public abstract class SystemAdminMainMenu : BaseCoreClass, IComparable<SystemAdminMainMenu>
     {
         #region Public virtual Methods
 

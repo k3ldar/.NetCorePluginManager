@@ -1,0 +1,116 @@
+﻿/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ *  .Net Core Plugin Manager is distributed under the GNU General Public License version 3 and  
+ *  is also available under alternative licenses negotiated directly with Simon Carter.  
+ *  If you obtained Service Manager under the GPL, then the GPL applies to all loadable 
+ *  Service Manager modules used on your system as well. The GPL (version 3) is 
+ *  available at https://opensource.org/licenses/GPL-3.0
+ *
+ *  This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ *  without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ *  See the GNU General Public License for more details.
+ *
+ *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
+ *
+ *  Copyright (c) 2018 Simon Carter.  All Rights Reserved.
+ *
+ *  Product:  AspNetCore.PluginManager.DemoWebsite
+ *  
+ *  File: AppSettingsJsonMenu.cs
+ *
+ *  Purpose:  Menu to show appsettings.json
+ *
+ *  Date        Name                Reason
+ *  03/11/2018  Simon Carter        Initially Created
+ *
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+using System;
+using System.IO;
+using System.Text;
+
+using SharedPluginFeatures;
+
+namespace SystemAdmin.Plugin.Classes
+{
+    public class AppSettingsJsonMenu : SystemAdminSubMenu
+    {
+        public override string Action()
+        {
+            return (String.Empty);
+        }
+
+        public override string Area()
+        {
+            return (String.Empty);
+        }
+
+        public override string Controller()
+        {
+            return (String.Empty);
+        }
+
+        public override Enums.SystemAdminMenuType MenuType()
+        {
+            return (Enums.SystemAdminMenuType.Text);
+        }
+
+        public override string Data()
+        {
+            SystemAdminSettings settings = GetSettings<SystemAdminSettings>("SystemAdmin");
+
+            if (!settings.ShowAppSettingsJson)
+                return ("Viewing appsettings.json has been disabled");
+
+            using (StreamReader rdr = new StreamReader("appsettings.json"))
+            {
+                StringBuilder Result = new StringBuilder();
+
+                string fileContents = rdr.ReadToEnd();
+
+                for (int i = 0; i < fileContents.Length; i++)
+                {
+                    char character = fileContents[i];
+
+                    switch (character)
+                    {
+                        case ' ':
+                            Result.Append("&nbsp;");
+                            break;
+                        case '\t':
+                            Result.Append("&nbsp;&nbsp;&nbsp;&nbsp;");
+                            break;
+                        case '\n':
+                            Result.Append("<br />");
+                            break;
+                        case '\r':
+                            break;
+                        default:
+                            Result.Append(character);
+                            break;
+                    }
+                }
+
+                return (Result.ToString());
+            }
+        }
+
+        public override string Name()
+        {
+            return ("appsettings.json");
+        }
+
+        public override string ParentMenuName()
+        {
+            return ("System");
+        }
+
+        public override int SortOrder()
+        {
+            return (0);
+        }
+
+        public override string Image()
+        {
+            return (String.Empty);
+        }
+    }
+}

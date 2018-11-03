@@ -28,6 +28,7 @@
     <Content Remove="Views\SystemAdmin\Grid.cshtml" />
     <Content Remove="Views\SystemAdmin\Index.cshtml" />
     <Content Remove="Views\SystemAdmin\Map.cshtml" />
+    <Content Remove="Views\SystemAdmin\Text.cshtml" />
     <Content Remove="wwwroot\css\SystemAdmin.css" />
     <Content Remove="wwwroot\images\Setting-icon.png" />
   </ItemGroup>
@@ -36,6 +37,7 @@
     <EmbeddedResource Include="Views\SystemAdmin\Grid.cshtml" />
     <EmbeddedResource Include="Views\SystemAdmin\Index.cshtml" />
     <EmbeddedResource Include="Views\SystemAdmin\Map.cshtml" />
+    <EmbeddedResource Include="Views\SystemAdmin\Text.cshtml" />
     <EmbeddedResource Include="wwwroot\css\SystemAdmin.css" />
     <EmbeddedResource Include="wwwroot\images\Setting-icon.png" />
   </ItemGroup>
@@ -47,6 +49,7 @@
   </ItemGroup>
 
   <ItemGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <PackageReference Include="RestrictIp.Plugin" Version="1.0.12" />
     <PackageReference Include="MemoryCache.Plugin" Version="1.0.12" />
     <PackageReference Include="AspNetCore.PluginManager" Version="1.0.12" />
     <PackageReference Include="SharedPluginFeatures" Version="1.0.12" />
@@ -56,6 +59,7 @@
     <ProjectReference Include="..\..\NetCorePluginManager\AspNetCore.PluginManager.csproj" />
     <ProjectReference Include="..\SharedPluginFeatures\SharedPluginFeatures.csproj" />
     <ProjectReference Include="..\MemoryCachePlugin\MemoryCachePlugin.csproj" />
+    <ProjectReference Include="..\RestrictIp.Plugin\RestrictIp.Plugin.csproj" />
   </ItemGroup>
 
 </Project>

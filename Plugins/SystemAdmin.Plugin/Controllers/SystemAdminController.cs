@@ -34,6 +34,7 @@ using SharedPluginFeatures;
 
 namespace SystemAdmin.Plugin.Controllers
 {
+    [RestrictedIpRoute("SystemAdminRoute")]
     public class SystemAdminController : Controller
     {
         #region Private Members
@@ -81,6 +82,16 @@ namespace SystemAdmin.Plugin.Controllers
                 return (Redirect("/SystemAdmin/"));
 
             return (View(new MapViewModel(subMenu)));
+        }
+
+        public IActionResult Text(int id)
+        {
+            SystemAdminSubMenu subMenu = _systemAdminHelperService.GetSubMenuItem(id);
+
+            if (subMenu == null)
+                return (Redirect("/SystemAdmin"));
+
+            return (View(new TextViewModel(subMenu)));
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

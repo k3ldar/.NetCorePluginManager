@@ -87,6 +87,8 @@ namespace SharedPluginFeatures
             PartialView = 3,
 
             Map = 4,
+
+            FormattedText = 5,
         }
 
     }

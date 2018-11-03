@@ -15,21 +15,48 @@
  *
  *  Product:  SystemAdmin.Plugin
  *  
- *  File: SystemAdminSettings.cs
+ *  File: GridViewModel.cs
  *
- *  Purpose:  SystemAdmin Settings
+ *  Purpose:  
  *
  *  Date        Name                Reason
  *  28/10/2018  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+using System;
+using System.Collections.Generic;
 
-namespace SystemAdmin.Plugin
+using SharedPluginFeatures;
+
+namespace SystemAdmin.Plugin.Models
 {
-    public class SystemAdminSettings
+    public sealed class TextViewModel
     {
-        public string GoogleMapApiKey { get; set; }
+        #region Constructors
 
-        public bool ShowAppSettingsJson { get; set; }
+        public TextViewModel(SystemAdminSubMenu subMenu)
+        {
+            if (subMenu == null)
+                throw new ArgumentNullException(nameof(subMenu));
+
+            Title = subMenu.Name();
+
+            Text = subMenu.Data().Replace("\r", "<br />");
+
+            BreadCrumb = $"<ul><li><a href=\"/SystemAdmin/\">System Admin</a></li><li><a href=\"/SystemAdmin/Index/" +
+                $"{subMenu.ParentMenu.UniqueId}\">{subMenu.ParentMenu.Name()}</a></li><li>{Title}</li></ul>";
+        }
+
+        #endregion Constructors
+
+        #region Public Properties
+
+        public string Title { get; set; }
+
+        public string BreadCrumb { get; set; }
+
+        public string Text { get; private set; }
+
+        #endregion Public Properties
     }
 }
