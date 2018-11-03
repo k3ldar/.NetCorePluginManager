@@ -145,7 +145,7 @@ namespace AspNetCore.PluginManager
                         }
                         catch (Exception err)
                         {
-                            pluginModule.FileVersion = "unknown";
+                            _logger.AddToLog(LogLevel.PluginLoadError, err, $"Failed to get version information {assembly.FullName}");
                         }
 
                         pluginModule.Plugin.Initialise(_logger);

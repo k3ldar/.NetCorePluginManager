@@ -85,6 +85,8 @@ namespace SharedPluginFeatures
             Grid = 2,
 
             PartialView = 3,
+
+            Map = 4,
         }
 
     }

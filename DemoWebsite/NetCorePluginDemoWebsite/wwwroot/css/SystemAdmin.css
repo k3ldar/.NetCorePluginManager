@@ -119,3 +119,7 @@ div:empty {
                     color: #01447e;
                     text-decoration: underline;
                 }
+
+.mapLegend p img {
+    padding-bottom: 10px;
+}

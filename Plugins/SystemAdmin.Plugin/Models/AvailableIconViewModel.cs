@@ -87,6 +87,8 @@ namespace SystemAdmin.Plugin.Models
                     return ($"/SystemAdmin/Text/{menu.UniqueId}");
                 case Enums.SystemAdminMenuType.PartialView:
                     return ($"/SystemAdmin/View/{menu.UniqueId}");
+                case Enums.SystemAdminMenuType.Map:
+                    return ($"/SystemAdmin/Map/{menu.UniqueId}");
             }
 
             throw new InvalidOperationException();

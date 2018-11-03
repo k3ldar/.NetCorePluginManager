@@ -25,7 +25,6 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 
 using Shared.Classes;
@@ -34,8 +33,10 @@ using SharedPluginFeatures;
 
 namespace UserSessionMiddleware.Plugin.Classes.SystemAdmin
 {
-    public sealed class SalesByCountry : SystemAdminSubMenu
+    public sealed class CurrentUserLocationMenu : SystemAdminSubMenu
     {
+        #region Overridden Methods
+
         public override string Action()
         {
             return (String.Empty);
@@ -53,48 +54,17 @@ namespace UserSessionMiddleware.Plugin.Classes.SystemAdmin
 
         public override Enums.SystemAdminMenuType MenuType()
         {
-            return (Enums.SystemAdminMenuType.Grid);
+            return (Enums.SystemAdminMenuType.Map);
         }
 
         public override string Data()
         {
-            StringBuilder Result = new StringBuilder("Country|Total Sales|Value\r");
-            List<UserSession> sessions = UserSessionManager.Clone;
-            List<SessionStatistics> statistics = new List<SessionStatistics>();
-
-
-            foreach (UserSession session in sessions)
-            {
-                if (session.CurrentSale <= 0)
-                    continue;
-
-                string countryCode = String.IsNullOrEmpty(session.CountryCode) ? "ZZ" : session.CountryCode;
-                SessionStatistics stats = statistics.Where(s => s.IsBot == session.IsBot &&
-                    s.CountryCode.Equals(countryCode)).FirstOrDefault();
-
-                if (stats == null)
-                {
-                    stats = new SessionStatistics(countryCode);
-                    statistics.Add(stats);
-                }
-
-                stats.Count++;
-                stats.Value += session.CurrentSale;
-            }
-
-            foreach (SessionStatistics stats in statistics)
-            {
-                Result.Append(stats.CountryCode + "|");
-                Result.Append(stats.Count.ToString() + "|");
-                Result.Append(stats.Value.ToString("G") + "\r");
-            }
-
-            return (Result.ToString().Trim());
+            return (GetUserMapData());
         }
 
         public override string Name()
         {
-            return ("Sales by Country");
+            return ("Map of Visitors");
         }
 
         public override string ParentMenuName()
@@ -119,5 +89,69 @@ namespace UserSessionMiddleware.Plugin.Classes.SystemAdmin
 
             return ("#3498DB");
         }
+
+        #endregion Overridden Methods
+
+        #region Private Methods
+
+        private string GetUserMapData()
+        {
+            string Result = String.Empty;
+
+            foreach (UserSession session in UserSessionManager.Clone)
+            {
+                Result += String.Format("['{0}\\rUser: {3}\\rConverted: {4}\\rMobile: {5}\\rReferrer: {6}" + 
+                    "\\rCountry: {9}\\rCity: {10}\\rTotal Pages: {11}\\rTotal Time: {12} (s)', {1}, {2}, {7}, {8}, {13}, '{14}'],",
+                    session.IPAddress,
+                    session.Latitude,
+                    session.Longitude,
+                    String.IsNullOrEmpty(session.UserName) ? "Unknown" : session.UserName,
+                    session.CurrentSale > 0.00m ? "Yes" : "No",
+                    session.IsMobileDevice ? "Yes" : "No",
+                    session.Referal.ToString(),
+                    session.IsBot ? 1 : 2, // 7 bot
+                    session.CurrentSale > 0.00m ? 1 : 2, // 8 sale
+                    session.CountryCode,
+                    session.CityName,
+                    session.Pages.Count,
+                    session.TotalTime,
+                    session.Bounced ? 1 : 2,
+                    GetImageName(session));
+            }
+
+            if (Result.EndsWith(","))
+                Result = Result.Substring(0, Result.Length - 1);
+
+            return (Result);
+        }
+
+        private string GetImageName(UserSession session)
+        {
+            if (session.IsBot)
+                return ("orange");
+
+            if (session.Bounced)
+                return ("yellow");
+
+            if (session.CurrentSale > 0.00m)
+            {
+                if (session.IsMobileDevice)
+                    return ("grn-pushpin");
+                else
+                    return ("blue-pushpin");
+            }
+
+            if (!String.IsNullOrEmpty(session.UserEmail))
+            {
+                if (session.IsMobileDevice)
+                    return ("green-dot");
+                else
+                    return ("green");
+            }
+
+            return ("blue");
+        }
+
+        #endregion Private Methods
     }
 }
