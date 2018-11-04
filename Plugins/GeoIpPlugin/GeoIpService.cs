@@ -59,8 +59,8 @@ namespace GeoIp.Plugin
                 ThreadManager.ThreadStart(loadWebNet77DataThread, "Load GeoIp Data", System.Threading.ThreadPriority.Highest);
             }
 
-            // create the caches
-            _geoIpCache = new CacheManager("GeoIp Data Cache", new TimeSpan(24, 0, 0, 0), true, false);
+            // create the cache
+            _geoIpCache = new CacheManager("GeoIp Data Cache", new TimeSpan(365, 0, 0, 0), true, false);
         }
 
         #endregion Constructors
