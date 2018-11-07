@@ -39,6 +39,7 @@ namespace SieraDeltaGeoIp.Plugin
 
         public long _memoryMilliseconds;
         public long _databaseMilliseconds;
+        public long _cacheMilliseconds;
         private uint _recordsLoaded;
         private TimeSpan _loadTime;
         private uint _memoryRetrieveQuickest;
@@ -49,6 +50,10 @@ namespace SieraDeltaGeoIp.Plugin
         private uint _databaseRetrieveSlowest;
         private double _databaseRetrieveAverage;
         private uint _databaseRetrievedCount;
+        private uint _cacheRetrieveQuickest;
+        private uint _cacheRetrieveSlowest;
+        private double _cacheRetrieveAverage;
+        private uint _cacheRetrievedCount;
 
         #endregion Private Members
 
@@ -60,6 +65,8 @@ namespace SieraDeltaGeoIp.Plugin
             _databaseRetrieveSlowest = uint.MinValue;
             _memoryRetrieveQuickest = uint.MaxValue;
             _memoryRetrieveSlowest = uint.MinValue;
+            _cacheRetrieveSlowest = uint.MinValue;
+            _cacheRetrieveQuickest = uint.MaxValue;
         }
 
         #endregion Constructors
@@ -97,6 +104,11 @@ namespace SieraDeltaGeoIp.Plugin
             return (_loadTime);
         }
 
+        uint IGeoIpStatistics.RecordsLoaded()
+        {
+            return (_recordsLoaded);
+        }
+
         double IGeoIpStatistics.MemoryRetrieveAverage()
         {
             return (_memoryRetrieveAverage);
@@ -123,9 +135,30 @@ namespace SieraDeltaGeoIp.Plugin
             return (_memoryRetrieveSlowest);
         }
 
-        uint IGeoIpStatistics.RecordsLoaded()
+        double IGeoIpStatistics.CacheRetrieveAverage()
         {
-            return (_recordsLoaded);
+            return (_cacheRetrieveAverage);
+        }
+
+        uint IGeoIpStatistics.CacheRetrievedCount()
+        {
+            return (_cacheRetrievedCount);
+        }
+
+        uint IGeoIpStatistics.CacheRetrieveQuickest()
+        {
+            if (_cacheRetrieveQuickest == uint.MaxValue)
+                return (0);
+
+            return (_cacheRetrieveQuickest);
+        }
+
+        uint IGeoIpStatistics.CacheRetrieveSlowest()
+        {
+            if (_cacheRetrieveSlowest == uint.MinValue)
+                return (0);
+
+            return (_cacheRetrieveSlowest);
         }
 
         #endregion IGeoIpStatistics Methods
@@ -165,6 +198,24 @@ namespace SieraDeltaGeoIp.Plugin
                     _memoryRetrieveSlowest = newMilliSeconds;
 
                 _memoryRetrieveAverage = _memoryMilliseconds / _databaseRetrievedCount;
+            }
+        }
+
+        public void CacheRetrieve(in long milliseconds)
+        {
+            using (TimedLock.Lock(_lockObject))
+            {
+                uint newMilliSeconds = milliseconds < 0 ? 0 : (uint)milliseconds;
+                _cacheRetrievedCount++;
+                _cacheMilliseconds += milliseconds;
+
+                if (milliseconds < _cacheRetrieveQuickest)
+                    _cacheRetrieveQuickest = newMilliSeconds;
+
+                if (milliseconds > _cacheRetrieveSlowest)
+                    _cacheRetrieveSlowest = newMilliSeconds;
+
+                _cacheRetrieveAverage = _cacheMilliseconds / _cacheRetrievedCount;
             }
         }
 

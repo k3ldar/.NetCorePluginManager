@@ -11,7 +11,7 @@
     <Copyright>Copyright (c) 2018.  Simon Carter.  All rights reserved.</Copyright>
     <PackageLicenseUrl>https://github.com/k3ldar/.NetCorePluginManager/blob/master/LICENSE</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/k3ldar/.NetCorePluginManager</PackageProjectUrl>
-    <PackageTags>asp net core plugin manager geo ip</PackageTags>
+    <PackageTags>asp net core plugin manager sieradelta geo ip</PackageTags>
     <PackageReleaseNotes></PackageReleaseNotes>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Version>1.0.12</Version>

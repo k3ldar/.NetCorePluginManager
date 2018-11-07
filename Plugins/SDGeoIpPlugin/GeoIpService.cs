@@ -89,8 +89,12 @@ namespace SieraDeltaGeoIp.Plugin
             }
 
             _geoIpProvider = dataThread as IGeoIpProvider;
-            dataThread.ThreadFinishing += Thread_ThreadFinishing;
-            ThreadManager.ThreadStart(dataThread, "Load GeoIp Data", System.Threading.ThreadPriority.Highest);
+
+            if (_geoIpSettings.CacheAllData)
+            {
+                dataThread.ThreadFinishing += Thread_ThreadFinishing;
+                ThreadManager.ThreadStart(dataThread, "Load GeoIp Data", System.Threading.ThreadPriority.Highest);
+            }
 
             // create the cache
             _geoIpCache = new CacheManager("GeoIp Data Cache", new TimeSpan(24, 0, 0), true, false);
@@ -203,6 +207,7 @@ namespace SieraDeltaGeoIp.Plugin
                     }
                 }
 
+                // if not found in database
                 if (geoCacheItem == null)
                     return (false);
 
@@ -212,7 +217,7 @@ namespace SieraDeltaGeoIp.Plugin
                 cityName = city.CityName;
                 latitude = city.Latitude;
                 longitude = city.Longitude;
-                uniqueID = -1;
+                uniqueID = city.IpUniqueID;
 
                 return (true);
             }
@@ -221,7 +226,7 @@ namespace SieraDeltaGeoIp.Plugin
                 sw.Stop();
 
                 if (geoCacheItem != null)
-                    _geoIpStatistics.MemoryRetrieve(sw.ElapsedMilliseconds);
+                    _geoIpStatistics.CacheRetrieve(sw.ElapsedMilliseconds);
             }
         }
 

@@ -51,6 +51,14 @@ namespace SharedPluginFeatures
 
         uint DatabaseRetrievedCount();
 
+        uint CacheRetrieveQuickest();
+
+        uint CacheRetrieveSlowest();
+
+        double CacheRetrieveAverage();
+
+        uint CacheRetrievedCount();
+
         #endregion Properties
     }
 }

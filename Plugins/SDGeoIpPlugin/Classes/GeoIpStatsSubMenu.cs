@@ -61,7 +61,11 @@ namespace SieraDeltaGeoIp.Plugin.Classes
             Result += $"Memory Average|{_geoIpStatistics.MemoryRetrieveAverage()} ms\r";
             Result += $"Memory Quickest|{_geoIpStatistics.MemoryRetrieveQuickest()} ms\r";
             Result += $"Memory Slowest|{_geoIpStatistics.MemoryRetrieveSlowest()} ms\r";
-            Result += $"Memory Retrieve Count|{_geoIpStatistics.MemoryRetrievedCount()}";
+            Result += $"Memory Retrieve Count|{_geoIpStatistics.MemoryRetrievedCount()}\r";
+            Result += $"Cache Average|{_geoIpStatistics.CacheRetrieveAverage()} ms\r";
+            Result += $"Cache Quickest|{_geoIpStatistics.CacheRetrieveQuickest()} ms\r";
+            Result += $"Cache Slowest|{_geoIpStatistics.CacheRetrieveSlowest()} ms\r";
+            Result += $"Cache Retrieve Count|{_geoIpStatistics.CacheRetrievedCount()}";
 
             return (Result);
         }
