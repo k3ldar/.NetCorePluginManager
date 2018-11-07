@@ -51,13 +51,17 @@ namespace GeoIp.Plugin
         /// <param name="ipUniqueID"></param>
         /// <returns></returns>
         public bool GetIpAddressDetails(in string ipAddress, out string countryCode, out string region,
-            out string cityName, out decimal latitude, out decimal longitude)
+            out string cityName, out decimal latitude, out decimal longitude, out long uniqueId,
+            out long ipFrom, out long ipTo)
         {
             countryCode = "ZZ";
             region = String.Empty;
             cityName = String.Empty;
             latitude = -1;
             longitude = -1;
+            uniqueId = -1;
+            ipFrom = 0;
+            ipTo = 0;
 
             System.Net.WebClient wc = new System.Net.WebClient();
             try

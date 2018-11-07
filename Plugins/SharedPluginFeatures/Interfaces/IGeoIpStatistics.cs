@@ -15,21 +15,50 @@
  *
  *  Product:  SharedPluginFeatures
  *  
- *  File: IGeoIpData.cs
+ *  File: IGeoIpStatistics.cs
  *
- *  Purpose:  Provides interface for retrievin geo ip data
+ *  Purpose:  Provides interface for retrieving geo ip data
  *
  *  Date        Name                Reason
- *  22/10/2018  Simon Carter        Initially Created
+ *  07/11/2018  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+using System;
 
 namespace SharedPluginFeatures
 {
-    public interface IGeoIpProvider
+    public interface IGeoIpStatistics
     {
-        bool GetIpAddressDetails(in string ipAddress, out string countryCode, out string region,
-            out string cityName, out decimal latitude, out decimal longitude, out long uniqueId,
-            out long ipFrom, out long ipTo);
+        #region Properties
+
+        uint RecordsLoaded();
+
+        TimeSpan LoadTime();
+
+        uint MemoryRetrieveQuickest();
+
+        uint MemoryRetrieveSlowest();
+
+        double MemoryRetrieveAverage();
+
+        uint MemoryRetrievedCount();
+
+        uint DatabaseRetrieveQuickest();
+
+        uint DatabaseRetrieveSlowest();
+
+        double DatabaseRetrieveAverage();
+
+        uint DatabaseRetrievedCount();
+
+        uint CacheRetrieveQuickest();
+
+        uint CacheRetrieveSlowest();
+
+        double CacheRetrieveAverage();
+
+        uint CacheRetrievedCount();
+
+        #endregion Properties
     }
 }
