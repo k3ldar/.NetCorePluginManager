@@ -21,6 +21,7 @@
  *
  *  Date        Name                Reason
  *  19/10/2018  Simon Carter        Initially Created
+ *  04/11/2018  Simon Carter        Add Sieradelta GeoIp options to geoip enum
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -74,6 +75,21 @@ namespace SharedPluginFeatures
             /// IpStack https://ipstack.com/
             /// </summary>
             IpStack = 1,
+
+            /// <summary>
+            /// MySql Database
+            /// </summary>
+            MySql = 2,
+
+            /// <summary>
+            /// MS Sql Server Database
+            /// </summary>
+            MSSql = 3,
+
+            /// <summary>
+            /// Firebird database
+            /// </summary>
+            Firebird = 4,
         }
 
         public enum SystemAdminMenuType

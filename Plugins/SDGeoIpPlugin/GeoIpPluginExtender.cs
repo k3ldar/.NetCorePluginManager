@@ -13,23 +13,27 @@
  *
  *  Copyright (c) 2018 Simon Carter.  All Rights Reserved.
  *
- *  Product:  SharedPluginFeatures
+ *  Product:  SieraDeltaGeoIpPlugin
  *  
- *  File: IGeoIpData.cs
+ *  File: GeoIpPluginExtender.cs
  *
- *  Purpose:  Provides interface for retrievin geo ip data
+ *  Purpose:  
  *
  *  Date        Name                Reason
- *  22/10/2018  Simon Carter        Initially Created
+ *  04/11/2018  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+using Microsoft.Extensions.DependencyInjection;
 
-namespace SharedPluginFeatures
+using SharedPluginFeatures;
+
+namespace SieraDeltaGeoIp.Plugin
 {
-    public interface IGeoIpProvider
+    public static class GeoIpPluginExtender
     {
-        bool GetIpAddressDetails(in string ipAddress, out string countryCode, out string region,
-            out string cityName, out decimal latitude, out decimal longitude, out long uniqueId,
-            out long ipFrom, out long ipTo);
+        public static void UseSieraDeltaGeoIpService(this IServiceCollection services)
+        {
+            services.AddSingleton<IGeoIpDataService, GeoIpService>();
+        }
     }
 }

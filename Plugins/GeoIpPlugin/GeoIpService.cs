@@ -104,7 +104,7 @@ namespace GeoIp.Plugin
                     if (provider != null)
                     {
                         memoryIp.IsComplete = provider.GetIpAddressDetails(ipAddress, out countryCode, out region,
-                            out cityName, out latitude, out longitude);
+                            out cityName, out latitude, out longitude, out ipUniqueID, out long ipFrom, out long ipTo);
                     }
 
                     memoryIp.CountryCode = countryCode;
@@ -159,9 +159,10 @@ namespace GeoIp.Plugin
                 }
 
                 if (provider != null && 
-                    provider.GetIpAddressDetails(ipAddress, out countryCode, out region, out cityName, out latitude, out longitude))
+                    provider.GetIpAddressDetails(ipAddress, out countryCode, out region, 
+                        out cityName, out latitude, out longitude, out ipUniqueID, out long ipFrom, out long ipTo))
                 {
-                    _geoIpCache.Add(ipAddress, new CacheItem(ipAddress, new IpCity(0, 0, countryCode)
+                    _geoIpCache.Add(ipAddress, new CacheItem(ipAddress, new IpCity(ipFrom, ipTo, countryCode)
                     {
                         Region = region,
                         CityName = cityName,

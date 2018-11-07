@@ -175,7 +175,11 @@ namespace AspNetCore.PluginManager
         {
             try
             {
-                LoadPlugin(LoadAssembly(pluginName), pluginName, true);
+
+                PluginSetting setting = GetPluginSetting(pluginName);
+
+                if (setting != null && !setting.Disabled)
+                    LoadPlugin(LoadAssembly(pluginName), pluginName, true);
             }
             catch (Exception error)
             {
@@ -585,9 +589,11 @@ namespace AspNetCore.PluginManager
             if (_pluginSettings == null || _pluginSettings.PluginFiles == null)
                 return (new PluginSetting(pluginName));
 
+            string name = Path.GetFileName(pluginName);
+
             foreach (PluginSetting setting in _pluginSettings.Plugins)
             {
-                if (pluginName.EndsWith(setting.Name))
+                if (setting.Name.EndsWith(name, StringComparison.CurrentCultureIgnoreCase))
                     return (setting);
             }
 

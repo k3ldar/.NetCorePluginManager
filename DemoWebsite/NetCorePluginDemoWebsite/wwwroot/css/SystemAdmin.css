@@ -116,15 +116,15 @@ div:empty {
     font-family: Arial, Helvetica, sans-serif;
     font-size: 12px;
     font-weight: normal;
-};
-            }
-
-            .bc ul li a {
-                color: #0275d8;
-                text-decoration: none;
-            }
-
-                .bc ul li a:hover {
+}
+    .textBlock h2 {
+        font-size: 16px;
+        font-weight:600;
+    }
+    .textBlock h3 {
+        font-size: 14px;
+        font-weight: 600;
+    }i a:hover {
                     color: #01447e;
                     text-decoration: underline;
                 }
