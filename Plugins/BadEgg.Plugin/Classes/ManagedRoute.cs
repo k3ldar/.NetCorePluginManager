@@ -13,57 +13,44 @@
  *
  *  Copyright (c) 2018 Simon Carter.  All Rights Reserved.
  *
- *  Product:  AspNetCore.PluginManager.DemoWebsite
+ *  Product:  BadEgg.Plugin
  *  
- *  File: HostPlugin.cs
+ *  File: ManagedRoutes.cs
  *
- *  Purpose:  
+ *  Purpose:  Manages routes which are checked for sql injection attacks
  *
  *  Date        Name                Reason
- *  22/09/2018  Simon Carter        Initially Created
+ *  08/11/2018  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.DependencyInjection;
+using System;
 
-using SharedPluginFeatures;
-
-namespace AspNetCore.PluginManager.DemoWebsite.Classes
+namespace BadEgg.Plugin
 {
-    public class HostPlugin : IPlugin, IPluginVersion
+    internal sealed class ManagedRoute
     {
-        #region IPlugin Methods
+        #region Constructors
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        internal ManagedRoute(in string route, in bool validateQueryFields, in bool validateFormFields)
         {
-            
+            if (String.IsNullOrEmpty(route))
+                throw new ArgumentNullException(nameof(route));
+
+            Route = route;
+            ValidateFormFields = validateFormFields;
+            ValidateQueryFields = validateQueryFields;
         }
 
-        public void ConfigureServices(IServiceCollection services)
-        {
-            services.AddSingleton<IIpValidation, IPValidation>();   
-        }
+        #endregion Constructors
 
-        public void Finalise()
-        {
-            
-        }
+        #region Properties
 
-        public void Initialise(ILogger logger)
-        {
-            
-        }
+        internal string Route { get; set; }
 
-        #endregion IPlugin Methods
+        internal bool ValidateQueryFields { get; set; }
 
-        #region IPluginVersion Methods
+        internal bool ValidateFormFields { get; set; }
 
-        public ushort GetVersion()
-        {
-            return (1);
-        }
-
-        #endregion IPluginVersion Methods
+        #endregion Properties
     }
 }

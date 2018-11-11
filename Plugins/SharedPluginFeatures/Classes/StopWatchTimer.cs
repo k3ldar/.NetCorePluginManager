@@ -13,57 +13,58 @@
  *
  *  Copyright (c) 2018 Simon Carter.  All Rights Reserved.
  *
- *  Product:  AspNetCore.PluginManager.DemoWebsite
+ *  Product:  SharedPluginFeatures
  *  
- *  File: HostPlugin.cs
+ *  File: StopWatchTimer.cs
  *
- *  Purpose:  
+ *  Purpose:  Timer for perfomance counting
  *
  *  Date        Name                Reason
- *  22/09/2018  Simon Carter        Initially Created
+ *  10/11/2018  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.DependencyInjection;
+using System;
+using System.Diagnostics;
 
-using SharedPluginFeatures;
-
-namespace AspNetCore.PluginManager.DemoWebsite.Classes
+namespace SharedPluginFeatures
 {
-    public class HostPlugin : IPlugin, IPluginVersion
+    public struct StopWatchTimer : IDisposable
     {
-        #region IPlugin Methods
+        #region Private Members
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        private Stopwatch _stopwatch;
+        private Timings _timings;
+
+        #endregion Private Members
+
+        #region Constructors
+
+        public StopWatchTimer(in Timings timings)
         {
-            
+            _timings = timings ?? throw new ArgumentNullException(nameof(timings));
+            _stopwatch = new Stopwatch();
+            _stopwatch.Start();
         }
 
-        public void ConfigureServices(IServiceCollection services)
+        #endregion Constructors
+
+        #region Static Methods
+
+        public static StopWatchTimer Initialise(in Timings timings)
         {
-            services.AddSingleton<IIpValidation, IPValidation>();   
+            return (new StopWatchTimer(timings));
         }
 
-        public void Finalise()
+        #endregion Static Methods
+
+        #region IDisposable Methods
+
+        public void Dispose()
         {
-            
+            _stopwatch.Stop();
+            _timings.Increment(_stopwatch);
         }
 
-        public void Initialise(ILogger logger)
-        {
-            
-        }
-
-        #endregion IPlugin Methods
-
-        #region IPluginVersion Methods
-
-        public ushort GetVersion()
-        {
-            return (1);
-        }
-
-        #endregion IPluginVersion Methods
+        #endregion IDisposable Methods
     }
 }

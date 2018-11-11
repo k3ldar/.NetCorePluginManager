@@ -13,57 +13,31 @@
  *
  *  Copyright (c) 2018 Simon Carter.  All Rights Reserved.
  *
- *  Product:  AspNetCore.PluginManager.DemoWebsite
+ *  Product:  BadEgg.Plugin
  *  
- *  File: HostPlugin.cs
+ *  File: BadEggSettings.cs
  *
  *  Purpose:  
  *
  *  Date        Name                Reason
- *  22/09/2018  Simon Carter        Initially Created
+ *  08/11/2018  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.DependencyInjection;
 
-using SharedPluginFeatures;
-
-namespace AspNetCore.PluginManager.DemoWebsite.Classes
+namespace BadEgg.Plugin
 {
-    public class HostPlugin : IPlugin, IPluginVersion
+    public class BadEggSettings
     {
-        #region IPlugin Methods
+        #region Properties
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
-        {
-            
-        }
+        public uint ConnectionTimeOut { get; set; }
 
-        public void ConfigureServices(IServiceCollection services)
-        {
-            services.AddSingleton<IIpValidation, IPValidation>();   
-        }
+        public uint ConnectionsPerMinute { get; set; }
 
-        public void Finalise()
-        {
-            
-        }
+        public int BannedResponseCode { get; set; }
 
-        public void Initialise(ILogger logger)
-        {
-            
-        }
+        public int TooManyRequestResponseCode { get; set; }
 
-        #endregion IPlugin Methods
-
-        #region IPluginVersion Methods
-
-        public ushort GetVersion()
-        {
-            return (1);
-        }
-
-        #endregion IPluginVersion Methods
+        #endregion Properties
     }
 }

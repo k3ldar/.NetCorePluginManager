@@ -13,57 +13,45 @@
  *
  *  Copyright (c) 2018 Simon Carter.  All Rights Reserved.
  *
- *  Product:  AspNetCore.PluginManager.DemoWebsite
+ *  Product:  SharedPluginFeatures
  *  
- *  File: HostPlugin.cs
+ *  File: BadEggAttribute.cs
  *
  *  Purpose:  
  *
  *  Date        Name                Reason
- *  22/09/2018  Simon Carter        Initially Created
+ *  08/11/2018  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.DependencyInjection;
+using System;
 
-using SharedPluginFeatures;
-
-namespace AspNetCore.PluginManager.DemoWebsite.Classes
+namespace SharedPluginFeatures
 {
-    public class HostPlugin : IPlugin, IPluginVersion
+    [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
+    public sealed class BadEggAttribute : Attribute
     {
-        #region IPlugin Methods
+        #region Constructors
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public BadEggAttribute()
+            : this(true, true)
         {
-            
+
         }
 
-        public void ConfigureServices(IServiceCollection services)
+        public BadEggAttribute(bool validateQuery, bool validateForm)
         {
-            services.AddSingleton<IIpValidation, IPValidation>();   
+            ValidateQueryFields = validateQuery;
+            ValidateFormFields = validateForm;
         }
 
-        public void Finalise()
-        {
-            
-        }
+        #endregion Constructors
 
-        public void Initialise(ILogger logger)
-        {
-            
-        }
+        #region Properties
 
-        #endregion IPlugin Methods
+        public bool ValidateQueryFields { get; private set; }
 
-        #region IPluginVersion Methods
+        public bool ValidateFormFields { get; private set; }
 
-        public ushort GetVersion()
-        {
-            return (1);
-        }
-
-        #endregion IPluginVersion Methods
+        #endregion Properties
     }
 }

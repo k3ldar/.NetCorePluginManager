@@ -1,4 +1,4 @@
-﻿/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  *  .Net Core Plugin Manager is distributed under the GNU General Public License version 3 and  
  *  is also available under alternative licenses negotiated directly with Simon Carter.  
  *  If you obtained Service Manager under the GPL, then the GPL applies to all loadable 
@@ -13,57 +13,67 @@
  *
  *  Copyright (c) 2018 Simon Carter.  All Rights Reserved.
  *
- *  Product:  AspNetCore.PluginManager.DemoWebsite
+ *  Product:  BadEgg.Plugin
  *  
- *  File: HostPlugin.cs
+ *  File: Initialisation.cs
  *
  *  Purpose:  
  *
  *  Date        Name                Reason
- *  22/09/2018  Simon Carter        Initially Created
+ *  08/11/2018  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+using System;
+
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 
 using SharedPluginFeatures;
 
-namespace AspNetCore.PluginManager.DemoWebsite.Classes
+namespace BadEgg.Plugin
 {
-    public class HostPlugin : IPlugin, IPluginVersion
+    public sealed class Initialisation : IPlugin
     {
-        #region IPlugin Methods
+        #region Constructors
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public Initialisation()
         {
-            
         }
 
-        public void ConfigureServices(IServiceCollection services)
+        #endregion Constructors
+
+        #region Internal Static Properties
+
+        internal static IServiceProvider GetServiceProvider { get; private set; }
+
+        internal static ILogger GetLogger { get; private set; }
+
+        #endregion Internal Static Properties
+
+        #region IPlugin Methods
+
+        public void Initialise(ILogger logger)
         {
-            services.AddSingleton<IIpValidation, IPValidation>();   
+            GetLogger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
         public void Finalise()
         {
-            
+
         }
 
-        public void Initialise(ILogger logger)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            
+            app.UseMiddleware<BadEggMiddleware>();
+        }
+
+        public void ConfigureServices(IServiceCollection services)
+        {
+            services.AddSingleton<IIpManagement, IpManagement>();
+            GetServiceProvider = services.BuildServiceProvider();
         }
 
         #endregion IPlugin Methods
-
-        #region IPluginVersion Methods
-
-        public ushort GetVersion()
-        {
-            return (1);
-        }
-
-        #endregion IPluginVersion Methods
     }
 }

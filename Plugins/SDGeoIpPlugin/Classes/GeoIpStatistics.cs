@@ -167,7 +167,7 @@ namespace SieraDeltaGeoIp.Plugin
 
         public void DatabaseRetrieve(in long milliseconds)
         {
-            using (TimedLock.Lock(_lockObject))
+            using (TimedLock lck = TimedLock.Lock(_lockObject))
             {
                 uint newMilliSeconds = milliseconds < 0 ? 0 : (uint)milliseconds;
                 _databaseRetrievedCount++;
@@ -185,7 +185,7 @@ namespace SieraDeltaGeoIp.Plugin
 
         public void MemoryRetrieve(in long milliseconds)
         {
-            using (TimedLock.Lock(_lockObject))
+            using (TimedLock lck = TimedLock.Lock(_lockObject))
             {
                 uint newMilliSeconds = milliseconds < 0 ? 0 : (uint)milliseconds;
                 _memoryRetrievedCount++;
@@ -203,7 +203,7 @@ namespace SieraDeltaGeoIp.Plugin
 
         public void CacheRetrieve(in long milliseconds)
         {
-            using (TimedLock.Lock(_lockObject))
+            using (TimedLock lck = TimedLock.Lock(_lockObject))
             {
                 uint newMilliSeconds = milliseconds < 0 ? 0 : (uint)milliseconds;
                 _cacheRetrievedCount++;
@@ -221,7 +221,7 @@ namespace SieraDeltaGeoIp.Plugin
 
         public void Retrieve(in long milliseconds, in uint recordCount)
         {
-            using (TimedLock.Lock(_lockObject))
+            using (TimedLock lck = TimedLock.Lock(_lockObject))
             {
                 _recordsLoaded = recordCount;
                 _loadTime = new TimeSpan(0, 0, 0, 0, Convert.ToInt32(milliseconds));
