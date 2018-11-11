@@ -61,3 +61,10 @@ https://github.com/k3ldar/.NetCorePluginManager/wiki/Geo-Ip-Plugin
 
 # System Admin
 Displays Application specific system data
+
+# Bad Egg
+Nobody likes it when people don't play fair, the bad egg plugin is designed to complete 2 functions.
+
+the first is to restrict the maximum connections per minute for an Ip Address.
+The second is to look at query strings and form input values, and determine whether the connection is attempting to use Sql injection techniques.  This provides a "probability" and it is down to the host application to white/black list Ip addresses.
+
