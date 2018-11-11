@@ -29,6 +29,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SystemAdmin.Plugin", "Plugi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SieraDeltaGeoIpPlugin", "Plugins\SDGeoIpPlugin\SieraDeltaGeoIpPlugin.csproj", "{7D05CB90-EA96-4CE9-A15D-11828DD68F9D}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BadEgg.Plugin", "Plugins\BadEgg.Plugin\BadEgg.Plugin.csproj", "{5959741F-4BEA-45FD-ACBE-0B088A1AA50E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -87,6 +89,10 @@ Global
 		{7D05CB90-EA96-4CE9-A15D-11828DD68F9D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7D05CB90-EA96-4CE9-A15D-11828DD68F9D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7D05CB90-EA96-4CE9-A15D-11828DD68F9D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5959741F-4BEA-45FD-ACBE-0B088A1AA50E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5959741F-4BEA-45FD-ACBE-0B088A1AA50E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5959741F-4BEA-45FD-ACBE-0B088A1AA50E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5959741F-4BEA-45FD-ACBE-0B088A1AA50E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

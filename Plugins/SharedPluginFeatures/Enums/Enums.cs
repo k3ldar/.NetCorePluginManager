@@ -24,6 +24,7 @@
  *  04/11/2018  Simon Carter        Add Sieradelta GeoIp options to geoip enum
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+using System;
 
 namespace SharedPluginFeatures
 {
@@ -105,6 +106,73 @@ namespace SharedPluginFeatures
             Map = 4,
 
             FormattedText = 5,
+        }
+
+        /// <summary>
+        /// Validate Request Results
+        /// </summary>
+        [Flags]
+        public enum ValidateRequestResult
+        {
+            /// <summary>
+            /// State unknown
+            /// </summary>
+            Undetermined = 1,
+
+            /// <summary>
+            /// Ip has too many requests
+            /// </summary>
+            TooManyRequests = 2,
+
+            /// <summary>
+            /// Enough keywords to suggest may be a SQL injection attack
+            /// </summary>
+            PossibleSQLInjectionAttack = 4,
+
+            /// <summary>
+            /// Enough keywords to determine this is a SQL injection attack
+            /// </summary>
+            SQLInjectionAttack = 8,
+
+            /// <summary>
+            /// Determines that the request is probably generated from a spider or bot
+            /// </summary>
+            PossibleSpiderBot = 16,
+
+            /// <summary>
+            /// Determines that the request is generated from a spider or bot
+            /// </summary>
+            SpiderBot = 32,
+
+            /// <summary>
+            /// Enough keywords to suggest this maybe a hack attempt
+            /// </summary>
+            PossibleHackAttempt = 64,
+
+            /// <summary>
+            /// Enough keywords to determine this is a hack attempt
+            /// </summary>
+            HackAttempt = 128,
+
+            /// <summary>
+            /// IP Address is white listed
+            /// </summary>
+            IPWhiteListed = 256,
+
+            /// <summary>
+            /// IP Address is black listed
+            /// </summary>
+            IPBlackListed = 512,
+
+            /// <summary>
+            /// IP address is a search engine
+            /// </summary>
+            SearchEngine = 1024,
+
+            /// <summary>
+            /// A Ban has been requested on the IP Address
+            /// </summary>
+            BanRequested = 2048,
         }
 
     }

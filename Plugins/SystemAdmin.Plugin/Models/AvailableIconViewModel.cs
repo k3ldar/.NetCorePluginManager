@@ -68,6 +68,12 @@ namespace SystemAdmin.Plugin.Models
 
         public string ProcessImage(in string imageName)
         {
+            switch (imageName)
+            {
+                case "badegg":
+                    return ("/images/badegg.png");
+            }
+
             if (String.IsNullOrEmpty(imageName))
                 return ("/images/setting-icon.png");
 
