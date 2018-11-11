@@ -15,55 +15,45 @@
  *
  *  Product:  AspNetCore.PluginManager.DemoWebsite
  *  
- *  File: HostPlugin.cs
+ *  File: IPValidation.cs
  *
  *  Purpose:  
  *
  *  Date        Name                Reason
- *  22/09/2018  Simon Carter        Initially Created
+ *  11/11/2018  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.DependencyInjection;
+using System;
 
 using SharedPluginFeatures;
 
 namespace AspNetCore.PluginManager.DemoWebsite.Classes
 {
-    public class HostPlugin : IPlugin, IPluginVersion
+    public class IPValidation : IIpValidation
     {
-        #region IPlugin Methods
+        #region IIpValidation Methods
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void ConnectionAdd(in string ipAddress)
         {
-            
+
         }
 
-        public void ConfigureServices(IServiceCollection services)
+        public bool ConnectionBan(in string ipAddress, in double hits, in ulong requests, in TimeSpan duration)
         {
-            services.AddSingleton<IIpValidation, IPValidation>();   
+            // don't ban
+            return (false);
         }
 
-        public void Finalise()
+        public void ConnectionRemove(in string ipAddress, in double hits, in ulong requests, in TimeSpan duration)
         {
-            
+
         }
 
-        public void Initialise(ILogger logger)
+        public void ConnectionReport(in string ipAddress, in string queryString, in Enums.ValidateRequestResult validation)
         {
-            
+
         }
 
-        #endregion IPlugin Methods
-
-        #region IPluginVersion Methods
-
-        public ushort GetVersion()
-        {
-            return (1);
-        }
-
-        #endregion IPluginVersion Methods
+        #endregion IIpValidation Methods
     }
 }

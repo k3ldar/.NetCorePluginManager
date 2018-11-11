@@ -21,12 +21,15 @@
  *
  *  Date        Name                Reason
  *  19/10/2018  Simon Carter        Initially Created
+ *  11/11/2018  Simon Carter        Add Methods to get user session and logged in status
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
 using System.Collections.Generic;
 
 using Microsoft.AspNetCore.Http;
+
+using Shared.Classes;
 
 namespace SharedPluginFeatures
 {
@@ -40,6 +43,28 @@ namespace SharedPluginFeatures
         #endregion Constants
 
         #region Protected Methods
+
+        protected UserSession GetUserSession(in HttpContext context)
+        {
+            if (context.Items.ContainsKey("UserSession"))
+            {
+                return ((UserSession)context.Items["UserSession"]);
+            }
+
+            return (null);
+        }
+
+        protected bool IsUserLoggedIn(in HttpContext context)
+        {
+            UserSession session = GetUserSession(context);
+
+            if (session != null)
+            {
+                return (!String.IsNullOrEmpty(session.UserEmail));
+            }
+
+            return (false);
+        }
 
         protected string RouteLowered(in HttpContext context)
         {

@@ -24,11 +24,9 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
-using static System.IO.Path;
 using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Configuration;
 
 using SharedPluginFeatures;
 using static SharedPluginFeatures.Enums;

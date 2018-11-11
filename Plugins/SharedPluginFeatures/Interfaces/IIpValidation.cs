@@ -13,57 +13,30 @@
  *
  *  Copyright (c) 2018 Simon Carter.  All Rights Reserved.
  *
- *  Product:  AspNetCore.PluginManager.DemoWebsite
+ *  Product:  SharedPluginFeatures
  *  
- *  File: HostPlugin.cs
+ *  File: IIpValidation.cs
  *
- *  Purpose:  
+ *  Purpose:  Provides interface for Managing Ip connections
  *
  *  Date        Name                Reason
- *  22/09/2018  Simon Carter        Initially Created
+ *  05/11/2018  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.DependencyInjection;
+using System;
 
-using SharedPluginFeatures;
+using static SharedPluginFeatures.Enums;
 
-namespace AspNetCore.PluginManager.DemoWebsite.Classes
+namespace SharedPluginFeatures
 {
-    public class HostPlugin : IPlugin, IPluginVersion
+    public interface IIpValidation
     {
-        #region IPlugin Methods
+        void ConnectionAdd(in string ipAddress);
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
-        {
-            
-        }
+        void ConnectionRemove(in string ipAddress, in double hits, in ulong requests, in TimeSpan duration);
 
-        public void ConfigureServices(IServiceCollection services)
-        {
-            services.AddSingleton<IIpValidation, IPValidation>();   
-        }
+        void ConnectionReport(in string ipAddress, in string queryString, in ValidateRequestResult validation);
 
-        public void Finalise()
-        {
-            
-        }
-
-        public void Initialise(ILogger logger)
-        {
-            
-        }
-
-        #endregion IPlugin Methods
-
-        #region IPluginVersion Methods
-
-        public ushort GetVersion()
-        {
-            return (1);
-        }
-
-        #endregion IPluginVersion Methods
+        bool ConnectionBan(in string ipAddress, in double hits, in ulong requests, in TimeSpan duration); 
     }
 }

@@ -70,6 +70,7 @@ namespace BadEgg.Plugin
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSingleton<IIpManagement, IpManagement>();
             GetServiceProvider = services.BuildServiceProvider();
         }
 

@@ -43,12 +43,9 @@ namespace BadEgg.Plugin.WebDefender
         /// Constructor
         /// </summary>
         /// <param name="ipAddress">Address of client</param>
-        internal IpConnectionInfo(string ipAddress)
+        internal IpConnectionInfo(in string ipAddress)
+            : this (ipAddress, DateTime.Now)
         {
-            Created = DateTime.Now;
-            IPAddress = ipAddress;
-            Text = String.Empty;
-            UserAgents = String.Empty;
         }
 
 
@@ -56,10 +53,10 @@ namespace BadEgg.Plugin.WebDefender
         /// Constructor
         /// </summary>
         /// <param name="ipAddress">Address of client</param>
-        internal IpConnectionInfo(string ipAddress, DateTime start)
+        internal IpConnectionInfo(in string ipAddress, in DateTime start)
         {
             Created = start;
-            IPAddress = ipAddress == "::1" ? "127.0.0.1" : ipAddress;
+            IPAddress = ipAddress;
             Text = String.Empty;
             UserAgents = String.Empty;
         }
@@ -81,17 +78,17 @@ namespace BadEgg.Plugin.WebDefender
         /// <summary>
         /// DateTime last entry was made
         /// </summary>
-        public DateTime LastEntry { get; set; }
+        public DateTime LastEntry { get; internal set; }
 
         /// <summary>
         /// Number of requests made
         /// </summary>
-        public ulong Requests { get; set; }
+        public ulong Requests { get; internal set; }
 
         /// <summary>
         /// Results for the connection
         /// </summary>
-        public ValidateRequestResult Results { get; set; }
+        public ValidateRequestResult Results { get; internal set; }
 
         /// <summary>
         /// Unique text being scanned
@@ -110,7 +107,7 @@ namespace BadEgg.Plugin.WebDefender
         /// <summary>
         /// Increments the number of requests
         /// </summary>
-        internal void AddRequest(string RequestInformation, string UserAgent)
+        internal void AddRequest(in string RequestInformation, in string UserAgent)
         {
             Requests++;
             LastEntry = DateTime.Now;

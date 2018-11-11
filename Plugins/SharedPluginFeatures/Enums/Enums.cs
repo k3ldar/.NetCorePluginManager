@@ -157,12 +157,12 @@ namespace SharedPluginFeatures
             /// <summary>
             /// IP Address is white listed
             /// </summary>
-            IPWhiteListed = 256,
+            IpWhiteListed = 256,
 
             /// <summary>
             /// IP Address is black listed
             /// </summary>
-            IPBlackListed = 512,
+            IpBlackListed = 512,
 
             /// <summary>
             /// IP address is a search engine

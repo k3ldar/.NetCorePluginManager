@@ -100,7 +100,7 @@ namespace SystemAdmin.Plugin.Classes
 
         public override string Data()
         {
-            using (TimedLock.Lock(_lockObject))
+            using (TimedLock lck = TimedLock.Lock(_lockObject))
             {
                 string Result = "Log Level|Date Time|Message|Error";
 
@@ -145,7 +145,7 @@ namespace SystemAdmin.Plugin.Classes
 
         private void AddLogData(in LogData logData)
         {
-            using (TimedLock.Lock(_lockObject))
+            using (TimedLock lck = TimedLock.Lock(_lockObject))
             {
                 _logData.Enqueue(logData);
 

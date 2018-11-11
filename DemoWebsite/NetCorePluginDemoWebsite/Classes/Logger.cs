@@ -32,6 +32,8 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
 {
     public class Logger : ILogger
     {
+        #region ILogger Methods
+
         public void AddToLog(in LogLevel logLevel, in string data)
         {
 #if TRACE
@@ -52,5 +54,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
             System.Diagnostics.Trace.WriteLine($"{logLevel.ToString()} {exception.Message}\r\n{data}");
 #endif
         }
+
+        #endregion ILogger Methods
     }
 }
