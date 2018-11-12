@@ -34,7 +34,7 @@ using SharedPluginFeatures;
 
 namespace UserSessionMiddleware.Plugin.Classes.SystemAdmin
 {
-    public class SalesByCountry : SystemAdminSubMenu
+    public sealed class SalesByCountry : SystemAdminSubMenu
     {
         public override string Action()
         {

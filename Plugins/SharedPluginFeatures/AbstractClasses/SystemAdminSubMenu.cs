@@ -27,7 +27,7 @@ using System;
 
 namespace SharedPluginFeatures
 {
-    public abstract class SystemAdminSubMenu : IComparable<SystemAdminSubMenu>
+    public abstract class SystemAdminSubMenu : BaseCoreClass, IComparable<SystemAdminSubMenu>
     {
         #region Public Abstract Methods
 

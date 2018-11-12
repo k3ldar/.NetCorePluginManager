@@ -1,31 +1,4 @@
-﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification\ 
-for details on configuring this project to bundle and minify static web assets. */
-body {
-    padding-top: 50px;
-    padding-bottom: 20px;
-}
-
-/* Wrapping element */
-/* Set some basic padding to keep content from hitting the edges */
-.body-content {
-    padding-left: 15px;
-    padding-right: 15px;
-}
-
-
-/* QR code generator */
-#qrCode {
-    margin: 15px;
-}
-
-/* Hide/rearrange for smaller screens */
-@media screen and (max-width: 767px) {
-    /* Hide captions */
-    .carousel-caption {
-        display: none;
-    }
-}
-
+﻿
 .systemIcon {
     width: 150px;
     height: 200px;
@@ -119,3 +92,36 @@ div:empty {
                     color: #01447e;
                     text-decoration: underline;
                 }
+
+.mapContent {
+    height: 500px;
+}
+
+.mapLegend {
+    float: left;
+}
+    .mapLegend p img {
+        padding-bottom: 10px;
+    }
+
+.googleMap {
+   float: right;
+   overflow: hidden;
+   height: 500px;
+   width: 800px;
+   padding-bottom: 10px;
+}
+
+.textBlock {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    font-weight: normal;
+}
+    .textBlock h2 {
+        font-size: 16px;
+        font-weight:600;
+    }
+    .textBlock h3 {
+        font-size: 14px;
+        font-weight: 600;
+    }

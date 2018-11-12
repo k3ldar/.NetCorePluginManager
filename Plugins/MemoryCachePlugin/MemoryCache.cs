@@ -37,9 +37,9 @@ namespace MemoryCache.Plugin
     {
         #region Private Members
 
-        private readonly CacheManager _cacheShort;
+        private static CacheManager _cacheShort;
 
-        private readonly CacheManager _cache;
+        private static CacheManager _cache;
 
         #endregion Private Members
 
@@ -52,11 +52,13 @@ namespace MemoryCache.Plugin
             MemoryClassPluginSettings settings = GetSettings<MemoryClassPluginSettings>("MemoryCachePluginConfiguration");
 
             // create the caches
-            _cache = new CacheManager("Website Internal Cache", 
-                new TimeSpan(0, settings.DefaultCacheDuration < 30 ? 120 : settings.DefaultCacheDuration, 0));
+            if (_cache == null)
+                _cache = new CacheManager("Website Internal Cache", 
+                    new TimeSpan(0, settings.DefaultCacheDuration < 30 ? 120 : settings.DefaultCacheDuration, 0));
 
-            _cacheShort = new CacheManager("Website Internal Short Cache", 
-                new TimeSpan(0, settings.ShortCacheDuration < 1 ? 5 : settings.ShortCacheDuration, 0));
+            if (_cacheShort == null)
+                _cacheShort = new CacheManager("Website Internal Short Cache", 
+                    new TimeSpan(0, settings.ShortCacheDuration < 1 ? 5 : settings.ShortCacheDuration, 0));
         }
 
         #endregion Constructors

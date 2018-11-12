@@ -75,7 +75,7 @@ namespace CacheControl.Plugin
 
                 string routeLowered = RouteLowered(context);
 
-                using (TimedLock.Lock(_lockObject))
+                using (TimedLock lck = TimedLock.Lock(_lockObject))
                 {
                     if (_ignoredRoutes.Contains(routeLowered))
                         return;
@@ -94,7 +94,7 @@ namespace CacheControl.Plugin
                     }
                 }
 
-                using (TimedLock.Lock(_lockObject))
+                using (TimedLock lck = TimedLock.Lock(_lockObject))
                 {
                     _ignoredRoutes.Add(routeLowered);
                 }

@@ -29,6 +29,7 @@ namespace SharedPluginFeatures
     public interface IGeoIpProvider
     {
         bool GetIpAddressDetails(in string ipAddress, out string countryCode, out string region,
-            out string cityName, out decimal latitude, out decimal longitude);
+            out string cityName, out decimal latitude, out decimal longitude, out long uniqueId,
+            out long ipFrom, out long ipTo);
     }
 }

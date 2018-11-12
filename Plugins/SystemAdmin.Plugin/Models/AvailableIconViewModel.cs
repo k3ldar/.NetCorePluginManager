@@ -68,6 +68,12 @@ namespace SystemAdmin.Plugin.Models
 
         public string ProcessImage(in string imageName)
         {
+            switch (imageName)
+            {
+                case "badegg":
+                    return ("/images/badegg.png");
+            }
+
             if (String.IsNullOrEmpty(imageName))
                 return ("/images/setting-icon.png");
 
@@ -87,6 +93,10 @@ namespace SystemAdmin.Plugin.Models
                     return ($"/SystemAdmin/Text/{menu.UniqueId}");
                 case Enums.SystemAdminMenuType.PartialView:
                     return ($"/SystemAdmin/View/{menu.UniqueId}");
+                case Enums.SystemAdminMenuType.Map:
+                    return ($"/SystemAdmin/Map/{menu.UniqueId}");
+                case Enums.SystemAdminMenuType.FormattedText:
+                    return ($"/SystemAdmin/TextEx/{menu.UniqueId}");
             }
 
             throw new InvalidOperationException();

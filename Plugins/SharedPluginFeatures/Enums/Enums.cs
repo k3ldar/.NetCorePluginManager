@@ -21,8 +21,10 @@
  *
  *  Date        Name                Reason
  *  19/10/2018  Simon Carter        Initially Created
+ *  04/11/2018  Simon Carter        Add Sieradelta GeoIp options to geoip enum
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+using System;
 
 namespace SharedPluginFeatures
 {
@@ -74,6 +76,21 @@ namespace SharedPluginFeatures
             /// IpStack https://ipstack.com/
             /// </summary>
             IpStack = 1,
+
+            /// <summary>
+            /// MySql Database
+            /// </summary>
+            MySql = 2,
+
+            /// <summary>
+            /// MS Sql Server Database
+            /// </summary>
+            MSSql = 3,
+
+            /// <summary>
+            /// Firebird database
+            /// </summary>
+            Firebird = 4,
         }
 
         public enum SystemAdminMenuType
@@ -85,6 +102,77 @@ namespace SharedPluginFeatures
             Grid = 2,
 
             PartialView = 3,
+
+            Map = 4,
+
+            FormattedText = 5,
+        }
+
+        /// <summary>
+        /// Validate Request Results
+        /// </summary>
+        [Flags]
+        public enum ValidateRequestResult
+        {
+            /// <summary>
+            /// State unknown
+            /// </summary>
+            Undetermined = 1,
+
+            /// <summary>
+            /// Ip has too many requests
+            /// </summary>
+            TooManyRequests = 2,
+
+            /// <summary>
+            /// Enough keywords to suggest may be a SQL injection attack
+            /// </summary>
+            PossibleSQLInjectionAttack = 4,
+
+            /// <summary>
+            /// Enough keywords to determine this is a SQL injection attack
+            /// </summary>
+            SQLInjectionAttack = 8,
+
+            /// <summary>
+            /// Determines that the request is probably generated from a spider or bot
+            /// </summary>
+            PossibleSpiderBot = 16,
+
+            /// <summary>
+            /// Determines that the request is generated from a spider or bot
+            /// </summary>
+            SpiderBot = 32,
+
+            /// <summary>
+            /// Enough keywords to suggest this maybe a hack attempt
+            /// </summary>
+            PossibleHackAttempt = 64,
+
+            /// <summary>
+            /// Enough keywords to determine this is a hack attempt
+            /// </summary>
+            HackAttempt = 128,
+
+            /// <summary>
+            /// IP Address is white listed
+            /// </summary>
+            IpWhiteListed = 256,
+
+            /// <summary>
+            /// IP Address is black listed
+            /// </summary>
+            IpBlackListed = 512,
+
+            /// <summary>
+            /// IP address is a search engine
+            /// </summary>
+            SearchEngine = 1024,
+
+            /// <summary>
+            /// A Ban has been requested on the IP Address
+            /// </summary>
+            BanRequested = 2048,
         }
 
     }
