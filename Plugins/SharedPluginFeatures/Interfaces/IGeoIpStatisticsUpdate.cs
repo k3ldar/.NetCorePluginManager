@@ -30,12 +30,6 @@ namespace SharedPluginFeatures
     {
         #region Methods
 
-        void CacheRetrieve(in long milliseconds);
-
-        void MemoryRetrieve(in long milliseconds);
-
-        void DatabaseRetrieve(in long milliseconds);
-
         void Retrieve(in long milliseconds, in uint recordCount);
 
         #endregion Methods

@@ -13,28 +13,47 @@
  *
  *  Copyright (c) 2018 Simon Carter.  All Rights Reserved.
  *
- *  Product:  SharedPluginFeatures
+ *  Product:  AspNetCore.PluginManager
  *  
- *  File: IGeoIpStatistics.cs
+ *  File: TimingsMainMenu.cs
  *
- *  Purpose:  Provides interface for retrieving geo ip data
+ *  Purpose:  
  *
  *  Date        Name                Reason
- *  07/11/2018  Simon Carter        Initially Created
+ *  14/11/2018  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
 
-namespace SharedPluginFeatures
+using SharedPluginFeatures;
+
+namespace AspNetCore.PluginManager.Classes.SystemAdmin
 {
-    public interface IGeoIpStatistics
+    class TimingsMainMenu : SystemAdminMainMenu
     {
-        #region Properties
+        public override string Data()
+        {
+            return (String.Empty);
+        }
 
-        uint RecordsLoaded();
+        public override Enums.SystemAdminMenuType MenuType()
+        {
+            return (Enums.SystemAdminMenuType.FirstChild);
+        }
 
-        TimeSpan LoadTime();
+        public override string Name()
+        {
+            return ("Timings");
+        }
 
-        #endregion Properties
+        public override int SortOrder()
+        {
+            return (0);
+        }
+
+        public override string Image()
+        {
+            return (String.Empty);
+        }
     }
 }

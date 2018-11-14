@@ -69,39 +69,45 @@ namespace CacheControl.Plugin
 
         public async Task Invoke(HttpContext context)
         {
-            using (StopWatchTimer stopwatchTimer = StopWatchTimer.Initialise(_timings))
+            try
             {
                 if (_disabled)
                     return;
 
-                string routeLowered = RouteLowered(context);
-
-                using (TimedLock lck = TimedLock.Lock(_lockObject))
+                using (StopWatchTimer stopwatchTimer = StopWatchTimer.Initialise(_timings))
                 {
-                    if (_ignoredRoutes.Contains(routeLowered))
-                        return;
-                }
+                    string routeLowered = RouteLowered(context);
 
-                if (!context.Response.Headers.ContainsKey("Cache-Control"))
-                {
-
-                    foreach (KeyValuePair<string, CacheControlRoute> keyValuePair in _routePaths)
+                    using (TimedLock lck = TimedLock.Lock(_lockObject))
                     {
-                        if (routeLowered.StartsWith(keyValuePair.Key))
-                        {
-                            context.Response.Headers.Add("Cache-Control", $"max-age={keyValuePair.Value.CacheValue}");
+                        if (_ignoredRoutes.Contains(routeLowered))
                             return;
+                    }
+
+                    if (!context.Response.Headers.ContainsKey("Cache-Control"))
+                    {
+
+                        foreach (KeyValuePair<string, CacheControlRoute> keyValuePair in _routePaths)
+                        {
+                            if (routeLowered.StartsWith(keyValuePair.Key))
+                            {
+                                context.Response.Headers.Add("Cache-Control", $"max-age={keyValuePair.Value.CacheValue}");
+                                return;
+                            }
                         }
                     }
-                }
 
-                using (TimedLock lck = TimedLock.Lock(_lockObject))
-                {
-                    _ignoredRoutes.Add(routeLowered);
+                    using (TimedLock lck = TimedLock.Lock(_lockObject))
+                    {
+                        _ignoredRoutes.Add(routeLowered);
+                    }
                 }
             }
 
-            await _next(context);
+            finally
+            {
+                await _next(context);
+            }
         }
 
         #endregion Public Methods

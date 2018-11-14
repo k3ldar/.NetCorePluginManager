@@ -45,6 +45,7 @@ namespace UserSessionMiddleware.Plugin
         private readonly string _cookieName = "user_session";
         private readonly string _cookieEncryptionKey = "Dfklaosre;lnfsdl;jlfaeu;dkkfcaskxcd3jf";
         private readonly string _staticFileExtension = ".less;.ico;.css;.js;.svg;.jpg;.jpeg;.gif;.png;.eot;";
+        internal static Timings _timings = new Timings();
 
         #endregion Private Members
 
@@ -79,14 +80,17 @@ namespace UserSessionMiddleware.Plugin
 
         public async Task Invoke(HttpContext context)
         {
-            try
+            string fileExtension = base.RouteFileExtension(context);
+
+            // if it's a static file, don't add user session data to the context
+            if (!String.IsNullOrEmpty(fileExtension) && _staticFileExtension.Contains($"{fileExtension};"))
             {
-                string fileExtension = base.RouteFileExtension(context);
+                await _next(context);
+                return;
+            }
 
-                // if it's a static file, don't add user session data to the context
-                if (!String.IsNullOrEmpty(fileExtension) && _staticFileExtension.Contains($"{fileExtension};"))
-                    return;
-
+            using (StopWatchTimer stopwatchTimer = StopWatchTimer.Initialise(_timings))
+            {
                 string cookieSessionID;
                 CookieOptions options = new CookieOptions()
                 {
@@ -123,16 +127,8 @@ namespace UserSessionMiddleware.Plugin
 
                 context.Items.Add("UserSession", userSession);
             }
-            catch (Exception error)
-            {
-                if (Initialisation.GetLogger != null)
-                    Initialisation.GetLogger.AddToLog(LogLevel.UserSessionManagerError, error, 
-                        System.Reflection.MethodBase.GetCurrentMethod().Name);
-            }
-            finally
-            {
-                await _next(context);
-            }
+
+            await _next(context);
         }
 
         #endregion Public Methods

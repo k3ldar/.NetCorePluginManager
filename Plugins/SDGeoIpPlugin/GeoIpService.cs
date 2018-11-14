@@ -45,6 +45,9 @@ namespace SieraDeltaGeoIp.Plugin
         private readonly IGeoIpStatisticsUpdate _geoIpStatistics;
         private IpCity[] _geoIpCityData;
         private List<IpCity> _tempIpCity = new List<IpCity>();
+        internal static Timings _timingsIpCache = new Timings();
+        internal static Timings _timingsIpMemory = new Timings();
+        internal static Timings _timingsIpDatabase = new Timings();
 
         #endregion Private Members
 
@@ -117,19 +120,9 @@ namespace SieraDeltaGeoIp.Plugin
             if (_geoIpCityData != null)
             {
                 IpCity memoryIp = null;
-                Stopwatch sw = new Stopwatch();
-                try
+                using (StopWatchTimer stopwatchTimer = StopWatchTimer.Initialise(_timingsIpMemory))
                 {
-                    sw.Start();
                     memoryIp = GetMemoryCity(ipAddress);
-                    sw.Stop();
-                }
-                finally
-                {
-                    if (memoryIp != null)
-                    {
-                        _geoIpStatistics.MemoryRetrieve(sw.ElapsedMilliseconds);
-                    }
                 }
 
                 if (memoryIp != null && !memoryIp.IsComplete)
@@ -170,10 +163,8 @@ namespace SieraDeltaGeoIp.Plugin
             out string cityName, out decimal latitude, out decimal longitude, out long uniqueID)
         {
             CacheItem geoCacheItem = null;
-            Stopwatch sw = new Stopwatch();
-            try
+            using (StopWatchTimer stopwatchTimer = StopWatchTimer.Initialise(_timingsIpCache))
             {
-                sw.Start();
                 countryCode = "ZZ";
                 region = String.Empty;
                 cityName = String.Empty;
@@ -183,51 +174,36 @@ namespace SieraDeltaGeoIp.Plugin
 
                 // Check to see if we have the ip in memory, if we do return that, if not, try and get it from ip provider
                 geoCacheItem = _geoIpCache.Get(ipAddress);
+            }
 
-                if (geoCacheItem == null)
+            if (geoCacheItem == null)
+            {
+                using (StopWatchTimer stopwatchDatabase = StopWatchTimer.Initialise(_timingsIpDatabase))
                 {
-                    Stopwatch dbSW = new Stopwatch();
-                    try
+                    if (_geoIpProvider != null &&
+                        _geoIpProvider.GetIpAddressDetails(ipAddress, out countryCode,
+                            out region, out cityName, out latitude, out longitude, out uniqueID, out long ipFrom, out long ipTo))
                     {
-                        dbSW.Start();
-
-                        if (_geoIpProvider != null &&
-                            _geoIpProvider.GetIpAddressDetails(ipAddress, out countryCode,
-                                out region, out cityName, out latitude, out longitude, out uniqueID, out long ipFrom, out long ipTo))
-                        {
-                            _geoIpCache.Add(ipAddress, new CacheItem(ipAddress, new IpCity(uniqueID, countryCode, region, cityName,
-                                latitude, longitude, ipFrom, ipTo)));
-                            return (true);
-                        }
-                    }
-                    finally
-                    {
-                        dbSW.Stop();
-                        _geoIpStatistics.DatabaseRetrieve(dbSW.ElapsedMilliseconds);
+                        _geoIpCache.Add(ipAddress, new CacheItem(ipAddress, new IpCity(uniqueID, countryCode, region, cityName,
+                            latitude, longitude, ipFrom, ipTo)));
+                        return (true);
                     }
                 }
-
-                // if not found in database
-                if (geoCacheItem == null)
-                    return (false);
-
-                IpCity city = (IpCity)geoCacheItem.Value;
-                countryCode = city.CountryCode;
-                region = city.Region;
-                cityName = city.CityName;
-                latitude = city.Latitude;
-                longitude = city.Longitude;
-                uniqueID = city.IpUniqueID;
-
-                return (true);
             }
-            finally
-            {
-                sw.Stop();
 
-                if (geoCacheItem != null)
-                    _geoIpStatistics.CacheRetrieve(sw.ElapsedMilliseconds);
-            }
+            // if not found in database
+            if (geoCacheItem == null)
+                return (false);
+
+            IpCity city = (IpCity)geoCacheItem.Value;
+            countryCode = city.CountryCode;
+            region = city.Region;
+            cityName = city.CityName;
+            latitude = city.Latitude;
+            longitude = city.Longitude;
+            uniqueID = city.IpUniqueID;
+
+            return (true);
         }
 
         private void Thread_ThreadFinishing(object sender, Shared.ThreadManagerEventArgs e)

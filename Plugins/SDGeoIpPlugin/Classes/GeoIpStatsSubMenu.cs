@@ -53,31 +53,19 @@ namespace SieraDeltaGeoIp.Plugin.Classes
 
             Result += $"Provider|Firebird\r";
             Result += $"Loaded Records|{_geoIpStatistics.RecordsLoaded()}\r";
-            Result += $"Load Time|{Convert.ToInt32(_geoIpStatistics.LoadTime().TotalMilliseconds)} ms\r";
-            Result += $"Database Average|{_geoIpStatistics.DatabaseRetrieveAverage()} ms\r";
-            Result += $"Database Quickest|{_geoIpStatistics.DatabaseRetrieveQuickest()} ms\r";
-            Result += $"Database Slowest|{_geoIpStatistics.DatabaseRetrieveSlowest()} ms\r";
-            Result += $"Database Retrieve Count|{_geoIpStatistics.DatabaseRetrievedCount()}\r";
-            Result += $"Memory Average|{_geoIpStatistics.MemoryRetrieveAverage()} ms\r";
-            Result += $"Memory Quickest|{_geoIpStatistics.MemoryRetrieveQuickest()} ms\r";
-            Result += $"Memory Slowest|{_geoIpStatistics.MemoryRetrieveSlowest()} ms\r";
-            Result += $"Memory Retrieve Count|{_geoIpStatistics.MemoryRetrievedCount()}\r";
-            Result += $"Cache Average|{_geoIpStatistics.CacheRetrieveAverage()} ms\r";
-            Result += $"Cache Quickest|{_geoIpStatistics.CacheRetrieveQuickest()} ms\r";
-            Result += $"Cache Slowest|{_geoIpStatistics.CacheRetrieveSlowest()} ms\r";
-            Result += $"Cache Retrieve Count|{_geoIpStatistics.CacheRetrievedCount()}";
+            Result += $"Load Time|{Convert.ToInt32(_geoIpStatistics.LoadTime().TotalMilliseconds)} ms";
 
             return (Result);
         }
 
         public override string Name()
         {
-            return ("GeoIp Statistics");
+            return ("GeoIp");
         }
 
         public override string ParentMenuName()
         {
-            return ("System");
+            return ("Timings");
         }
 
         public override int SortOrder()
@@ -87,7 +75,7 @@ namespace SieraDeltaGeoIp.Plugin.Classes
 
         public override string Image()
         {
-            return (String.Empty);
+            return ("stopwatch");
         }
     }
 }
