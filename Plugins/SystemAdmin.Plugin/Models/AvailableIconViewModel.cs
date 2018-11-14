@@ -72,6 +72,9 @@ namespace SystemAdmin.Plugin.Models
             {
                 case "badegg":
                     return ("/images/badegg.png");
+
+                case "stopwatch":
+                    return ("/images/stopwatch.png");
             }
 
             if (String.IsNullOrEmpty(imageName))

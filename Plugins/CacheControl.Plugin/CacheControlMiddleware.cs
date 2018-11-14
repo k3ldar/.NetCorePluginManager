@@ -48,6 +48,7 @@ namespace CacheControl.Plugin
         private readonly HashSet<string> _ignoredRoutes;
         private bool _disabled;
         private object _lockObject = new object();
+        internal static Timings _timings = new Timings();
 
         #endregion Private Members
 
@@ -68,7 +69,7 @@ namespace CacheControl.Plugin
 
         public async Task Invoke(HttpContext context)
         {
-            try
+            using (StopWatchTimer stopwatchTimer = StopWatchTimer.Initialise(_timings))
             {
                 if (_disabled)
                     return;
@@ -99,16 +100,8 @@ namespace CacheControl.Plugin
                     _ignoredRoutes.Add(routeLowered);
                 }
             }
-            catch (Exception error)
-            {
-                if (Initialisation.GetLogger != null)
-                    Initialisation.GetLogger.AddToLog(LogLevel.CacheControlError, error, 
-                        System.Reflection.MethodBase.GetCurrentMethod().Name);
-            }
-            finally
-            {
-                await _next(context);
-            }
+
+            await _next(context);
         }
 
         #endregion Public Methods
