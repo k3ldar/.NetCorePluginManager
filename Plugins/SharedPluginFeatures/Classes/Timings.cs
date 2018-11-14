@@ -56,7 +56,7 @@ namespace SharedPluginFeatures
         {
             get
             {
-                if (_slowest == long.MaxValue)
+                if (_slowest == long.MinValue)
                     return(0);
 
                 return (_slowest);
@@ -67,6 +67,9 @@ namespace SharedPluginFeatures
         {
             get
             {
+                if (_fastest == long.MaxValue)
+                    return (0);
+
                 return (_fastest);
             }
         }

@@ -71,11 +71,14 @@ namespace SystemAdmin.Plugin.Models
             switch (imageName)
             {
                 case "badegg":
-                    return ("/images/badegg.png");
+                    return ("/images/SystemAdmin/badegg.png");
+
+                case "stopwatch":
+                    return ("/images/SystemAdmin/stopwatch.png");
             }
 
             if (String.IsNullOrEmpty(imageName))
-                return ("/images/setting-icon.png");
+                return ("/images/SystemAdmin/setting-icon.png");
 
             return (imageName);
         }

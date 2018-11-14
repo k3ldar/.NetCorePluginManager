@@ -41,6 +41,9 @@ namespace GeoIp.Plugin
         private readonly GeoIpPluginSettings _geoIpSettings;
         private IpCity[] _geoIpCityData;
         private List<IpCity> _tempIpCity = new List<IpCity>();
+        internal static Timings _timingsIpCache = new Timings();
+        internal static Timings _timingsIpMemory = new Timings();
+        internal static Timings _timingsIpProvider = new Timings();
 
         #endregion Private Members
 
@@ -82,7 +85,12 @@ namespace GeoIp.Plugin
             // is not available.
             if (_geoIpCityData != null)
             {
-                IpCity memoryIp = GetMemoryCity(ipAddress);
+                IpCity memoryIp = null;
+
+                using (StopWatchTimer stopwatchTimer = StopWatchTimer.Initialise(_timingsIpMemory))
+                {
+                     memoryIp = GetMemoryCity(ipAddress);
+                }
 
                 if (memoryIp != null && !memoryIp.IsComplete)
                 {
@@ -139,38 +147,46 @@ namespace GeoIp.Plugin
 
             // WebNet77 data is not present, check to see if we have the ip in memory, if we do
             // return that, if not, try and get it from ip provider
-            CacheItem geoCacheItem = _geoIpCache.Get(ipAddress);
+            CacheItem geoCacheItem = null;
+
+            using (StopWatchTimer stopwatchTimer = StopWatchTimer.Initialise(_timingsIpCache))
+            {
+                geoCacheItem = _geoIpCache.Get(ipAddress);
+            }
 
             if (geoCacheItem == null)
             {
-                IGeoIpProvider provider = null;
-
-                switch (_geoIpSettings.GeoIpProvider)
+                using (StopWatchTimer stopwatchProvider = StopWatchTimer.Initialise(_timingsIpProvider))
                 {
-                    case Enums.GeoIpProvider.None:
-                        break;
+                    IGeoIpProvider provider = null;
 
-                    case Enums.GeoIpProvider.IpStack:
-                        provider = _geoIpSettings.IpStack as IGeoIpProvider;
-                        break;
-
-                    default:
-                        throw new InvalidOperationException($"Invalid GeoIpProvider Enum");
-                }
-
-                if (provider != null && 
-                    provider.GetIpAddressDetails(ipAddress, out countryCode, out region, 
-                        out cityName, out latitude, out longitude, out ipUniqueID, out long ipFrom, out long ipTo))
-                {
-                    _geoIpCache.Add(ipAddress, new CacheItem(ipAddress, new IpCity(ipFrom, ipTo, countryCode)
+                    switch (_geoIpSettings.GeoIpProvider)
                     {
-                        Region = region,
-                        CityName = cityName,
-                        Latitude = latitude,
-                        Longitude = longitude
-                    }));
+                        case Enums.GeoIpProvider.None:
+                            break;
 
-                    return (true);
+                        case Enums.GeoIpProvider.IpStack:
+                            provider = _geoIpSettings.IpStack as IGeoIpProvider;
+                            break;
+
+                        default:
+                            throw new InvalidOperationException($"Invalid GeoIpProvider Enum");
+                    }
+
+                    if (provider != null &&
+                        provider.GetIpAddressDetails(ipAddress, out countryCode, out region,
+                            out cityName, out latitude, out longitude, out ipUniqueID, out long ipFrom, out long ipTo))
+                    {
+                        _geoIpCache.Add(ipAddress, new CacheItem(ipAddress, new IpCity(ipFrom, ipTo, countryCode)
+                        {
+                            Region = region,
+                            CityName = cityName,
+                            Latitude = latitude,
+                            Longitude = longitude
+                        }));
+
+                        return (true);
+                    }
                 }
             }
 

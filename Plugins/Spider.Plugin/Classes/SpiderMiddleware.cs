@@ -53,6 +53,7 @@ namespace Spider.Plugin
         private readonly RequestDelegate _next;
         private readonly bool _processStaticFiles;
         private readonly string _staticFileExtensions = ".less;.ico;.css;.js;.svg;.jpg;.jpeg;.gif;.png;.eot;";
+        internal static Timings _timings = new Timings();
 
         #endregion Private Members
 
@@ -92,17 +93,17 @@ namespace Spider.Plugin
 
         public async Task Invoke(HttpContext context)
         {
-            try
+            string fileExtension = RouteFileExtension(context);
+
+            if (!_processStaticFiles &&  !String.IsNullOrEmpty(fileExtension) &&
+                _staticFileExtensions.Contains($"{fileExtension};"))
             {
-                string fileExtension = RouteFileExtension(context);
+                await _next(context);
+                return;
+            }
 
-                if (!_processStaticFiles &&  !String.IsNullOrEmpty(fileExtension) &&
-                    _staticFileExtensions.Contains($"{fileExtension};"))
-                {
-                    await _next(context);
-                    return;
-                }
-
+            using (StopWatchTimer stopwatchTimer = StopWatchTimer.Initialise(_timings))
+            {
                 string route = RouteLowered(context);
 
                 if (route.EndsWith("/robots.txt"))
@@ -144,17 +145,10 @@ namespace Spider.Plugin
                             }
                         }
                     }
-
-                    await _next(context);
                 }
             }
-            catch (Exception error)
-            {
-                if (Initialisation.GetLogger != null)
-                    Initialisation.GetLogger.AddToLog(LogLevel.SpiderError, error, MethodBase.GetCurrentMethod().Name);
 
-                throw;
-            }
+            await _next(context);
         }
 
         #endregion Public Methods

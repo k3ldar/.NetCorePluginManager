@@ -13,23 +13,23 @@
  *
  *  Copyright (c) 2018 Simon Carter.  All Rights Reserved.
  *
- *  Product:  BadEgg.Plugin
+ *  Product:  SieraDeltaGeoIp.Plugin
  *  
- *  File: BadEggTimingsSubMenu.cs
+ *  File: GeoIpMemoryTimingsSubMenu.cs
  *
  *  Purpose:  
  *
  *  Date        Name                Reason
- *  10/11/2018  Simon Carter        Initially Created
+ *  14/11/2018  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
 
 using SharedPluginFeatures;
 
-namespace BadEgg.Plugin.Classes.SystemAdmin
+namespace SieraDeltaGeoIp.Plugin.Classes.SystemAdmin
 {
-    public sealed class BadEggTimingsSubMenu : SystemAdminSubMenu
+    public class GeoIpMemoryTimingsSubMenu : SystemAdminSubMenu
     {
         public override string Action()
         {
@@ -50,11 +50,11 @@ namespace BadEgg.Plugin.Classes.SystemAdmin
         {
             string Result = "Setting|Value";
 
-            Result += $"\rTotal Requests|{BadEggMiddleware._timings.Requests}";
-            Result += $"\rFastest ms|{BadEggMiddleware._timings.Fastest}";
-            Result += $"\rSlowest ms|{BadEggMiddleware._timings.Slowest}";
-            Result += $"\rAverage ms|{BadEggMiddleware._timings.Average}";
-            Result += $"\rTotal ms|{BadEggMiddleware._timings.Total}";
+            Result += $"\rTotal Requests|{GeoIpService._timingsIpMemory.Requests}";
+            Result += $"\rFastest ms|{GeoIpService._timingsIpMemory.Fastest}";
+            Result += $"\rSlowest ms|{GeoIpService._timingsIpMemory.Slowest}";
+            Result += $"\rAverage ms|{GeoIpService._timingsIpMemory.Average}";
+            Result += $"\rTotal ms|{GeoIpService._timingsIpMemory.Total}";
 
             return (Result);
         }
@@ -71,7 +71,7 @@ namespace BadEgg.Plugin.Classes.SystemAdmin
 
         public override string Name()
         {
-            return ("Bad Egg");
+            return ("GeoIp Memory");
         }
 
         public override string ParentMenuName()

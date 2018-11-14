@@ -33,6 +33,7 @@
     <Content Remove="wwwroot\css\SystemAdmin.css" />
     <Content Remove="wwwroot\images\badegg.png" />
     <Content Remove="wwwroot\images\Setting-icon.png" />
+    <Content Remove="wwwroot\images\stopwatch.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -42,8 +43,9 @@
     <EmbeddedResource Include="Views\SystemAdmin\Text.cshtml" />
     <EmbeddedResource Include="Views\SystemAdmin\TextEx.cshtml" />
     <EmbeddedResource Include="wwwroot\css\SystemAdmin.css" />
-    <EmbeddedResource Include="wwwroot\images\badegg.png" />
-    <EmbeddedResource Include="wwwroot\images\Setting-icon.png" />
+    <EmbeddedResource Include="wwwroot\images\SystemAdmin\badegg.png" />
+    <EmbeddedResource Include="wwwroot\images\SystemAdmin\Setting-icon.png" />
+    <EmbeddedResource Include="wwwroot\images\SystemAdmin\stopwatch.png" />
   </ItemGroup>
 
   <ItemGroup>

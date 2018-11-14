@@ -56,6 +56,7 @@ namespace RestrictIp.Plugin
         private readonly RequestDelegate _next;
         private readonly HashSet<string> _localIpAddresses;
         private readonly bool _disabled;
+        internal static Timings _timings = new Timings();
 
         #endregion Private Members
 
@@ -100,43 +101,40 @@ namespace RestrictIp.Plugin
                 if (_disabled)
                     return;
 
-                string route = RouteLowered(context);
+                using (StopWatchTimer stopwatchTimer = StopWatchTimer.Initialise(_timings))
+                {
+                    string route = RouteLowered(context);
 
-                string userIpAddress = GetIpAddress(context);
-                bool isLocalAddress = _localIpAddresses.Contains(userIpAddress);
+                    string userIpAddress = GetIpAddress(context);
+                    bool isLocalAddress = _localIpAddresses.Contains(userIpAddress);
 
 #if !DEBUG
-                // always allow local connections
-                if (isLocalAddress)
-                    return;
+                    // always allow local connections
+                    if (isLocalAddress)
+                        return;
 #endif
 
-                foreach (KeyValuePair<string, List<string>> restrictedRoute in _restrictedRoutes)
-                {
-                    if (route.StartsWith(restrictedRoute.Key))
+                    foreach (KeyValuePair<string, List<string>> restrictedRoute in _restrictedRoutes)
                     {
-                        foreach (string restrictedIp in restrictedRoute.Value)
+                        if (route.StartsWith(restrictedRoute.Key))
                         {
-                            if ((isLocalAddress && restrictedIp == LocalHost) || (String.IsNullOrEmpty(restrictedIp)))
-                                return;
+                            foreach (string restrictedIp in restrictedRoute.Value)
+                            {
+                                if ((isLocalAddress && restrictedIp == LocalHost) || (String.IsNullOrEmpty(restrictedIp)))
+                                    return;
 
-                            if (userIpAddress.StartsWith(restrictedIp))
-                                return;
+                                if (userIpAddress.StartsWith(restrictedIp))
+                                    return;
+                            }
+
+                            // if we get here, we are in a restricted route and ip does not match, so fail with forbidden
+                            passRequestOn = false;
+                            context.Response.StatusCode = 403;
+                            Initialisation.GetLogger.AddToLog(LogLevel.IpRestricted,
+                                String.Format(RouteForbidden, userIpAddress, route));
                         }
-
-                        // if we get here, we are in a restricted route and ip does not match, so fail with forbidden
-                        passRequestOn = false;
-                        context.Response.StatusCode = 403;
-                        Initialisation.GetLogger.AddToLog(LogLevel.IpRestricted,
-                            String.Format(RouteForbidden, userIpAddress, route));
                     }
                 }
-
-            }
-            catch (Exception error)
-            {
-                if (Initialisation.GetLogger != null)
-                    Initialisation.GetLogger.AddToLog(LogLevel.IpRestrictedError, error, MethodBase.GetCurrentMethod().Name);
             }
             finally
             {

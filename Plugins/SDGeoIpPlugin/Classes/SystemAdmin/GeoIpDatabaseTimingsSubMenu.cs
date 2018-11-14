@@ -13,23 +13,23 @@
  *
  *  Copyright (c) 2018 Simon Carter.  All Rights Reserved.
  *
- *  Product:  BadEgg.Plugin
+ *  Product:  SieraDeltaGeoIp.Plugin
  *  
- *  File: BadEggTimingsSubMenu.cs
+ *  File: GeoIpDatabaseTimingsSubMenu.cs
  *
  *  Purpose:  
  *
  *  Date        Name                Reason
- *  10/11/2018  Simon Carter        Initially Created
+ *  14/11/2018  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
 
 using SharedPluginFeatures;
 
-namespace BadEgg.Plugin.Classes.SystemAdmin
+namespace SieraDeltaGeoIp.Plugin.Classes.SystemAdmin
 {
-    public sealed class BadEggTimingsSubMenu : SystemAdminSubMenu
+    public class GeoIpDatabaseTimingsSubMenu : SystemAdminSubMenu
     {
         public override string Action()
         {
@@ -50,11 +50,11 @@ namespace BadEgg.Plugin.Classes.SystemAdmin
         {
             string Result = "Setting|Value";
 
-            Result += $"\rTotal Requests|{BadEggMiddleware._timings.Requests}";
-            Result += $"\rFastest ms|{BadEggMiddleware._timings.Fastest}";
-            Result += $"\rSlowest ms|{BadEggMiddleware._timings.Slowest}";
-            Result += $"\rAverage ms|{BadEggMiddleware._timings.Average}";
-            Result += $"\rTotal ms|{BadEggMiddleware._timings.Total}";
+            Result += $"\rTotal Requests|{GeoIpService._timingsIpDatabase.Requests}";
+            Result += $"\rFastest ms|{GeoIpService._timingsIpDatabase.Fastest}";
+            Result += $"\rSlowest ms|{GeoIpService._timingsIpDatabase.Slowest}";
+            Result += $"\rAverage ms|{GeoIpService._timingsIpDatabase.Average}";
+            Result += $"\rTotal ms|{GeoIpService._timingsIpDatabase.Total}";
 
             return (Result);
         }
@@ -71,7 +71,7 @@ namespace BadEgg.Plugin.Classes.SystemAdmin
 
         public override string Name()
         {
-            return ("Bad Egg");
+            return ("GeoIp Database");
         }
 
         public override string ParentMenuName()

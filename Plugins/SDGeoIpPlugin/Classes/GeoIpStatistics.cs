@@ -50,10 +50,6 @@ namespace SieraDeltaGeoIp.Plugin
         private uint _databaseRetrieveSlowest;
         private double _databaseRetrieveAverage;
         private uint _databaseRetrievedCount;
-        private uint _cacheRetrieveQuickest;
-        private uint _cacheRetrieveSlowest;
-        private double _cacheRetrieveAverage;
-        private uint _cacheRetrievedCount;
 
         #endregion Private Members
 
@@ -65,39 +61,11 @@ namespace SieraDeltaGeoIp.Plugin
             _databaseRetrieveSlowest = uint.MinValue;
             _memoryRetrieveQuickest = uint.MaxValue;
             _memoryRetrieveSlowest = uint.MinValue;
-            _cacheRetrieveSlowest = uint.MinValue;
-            _cacheRetrieveQuickest = uint.MaxValue;
         }
 
         #endregion Constructors
 
         #region IGeoIpStatistics Methods
-
-        double IGeoIpStatistics.DatabaseRetrieveAverage()
-        {
-            return (_databaseRetrieveAverage);
-        }
-
-        uint IGeoIpStatistics.DatabaseRetrievedCount()
-        {
-            return (_databaseRetrievedCount);
-        }
-
-        uint IGeoIpStatistics.DatabaseRetrieveQuickest()
-        {
-            if (_databaseRetrieveQuickest == uint.MaxValue)
-                return (0);
-
-            return (_databaseRetrieveQuickest);
-        }
-
-        uint IGeoIpStatistics.DatabaseRetrieveSlowest()
-        {
-            if (_databaseRetrieveSlowest == uint.MinValue)
-                return (0);
-
-            return (_databaseRetrieveSlowest);
-        }
 
         TimeSpan IGeoIpStatistics.LoadTime()
         {
@@ -109,115 +77,9 @@ namespace SieraDeltaGeoIp.Plugin
             return (_recordsLoaded);
         }
 
-        double IGeoIpStatistics.MemoryRetrieveAverage()
-        {
-            return (_memoryRetrieveAverage);
-        }
-
-        uint IGeoIpStatistics.MemoryRetrievedCount()
-        {
-            return (_memoryRetrievedCount);
-        }
-
-        uint IGeoIpStatistics.MemoryRetrieveQuickest()
-        {
-            if (_memoryRetrieveQuickest == uint.MaxValue)
-                return (0);
-
-            return (_memoryRetrieveQuickest);
-        }
-
-        uint IGeoIpStatistics.MemoryRetrieveSlowest()
-        {
-            if (_memoryRetrieveSlowest == uint.MinValue)
-                return (0);
-
-            return (_memoryRetrieveSlowest);
-        }
-
-        double IGeoIpStatistics.CacheRetrieveAverage()
-        {
-            return (_cacheRetrieveAverage);
-        }
-
-        uint IGeoIpStatistics.CacheRetrievedCount()
-        {
-            return (_cacheRetrievedCount);
-        }
-
-        uint IGeoIpStatistics.CacheRetrieveQuickest()
-        {
-            if (_cacheRetrieveQuickest == uint.MaxValue)
-                return (0);
-
-            return (_cacheRetrieveQuickest);
-        }
-
-        uint IGeoIpStatistics.CacheRetrieveSlowest()
-        {
-            if (_cacheRetrieveSlowest == uint.MinValue)
-                return (0);
-
-            return (_cacheRetrieveSlowest);
-        }
-
         #endregion IGeoIpStatistics Methods
 
         #region IGeoIpStatisticsUpdate Methods
-
-        public void DatabaseRetrieve(in long milliseconds)
-        {
-            using (TimedLock lck = TimedLock.Lock(_lockObject))
-            {
-                uint newMilliSeconds = milliseconds < 0 ? 0 : (uint)milliseconds;
-                _databaseRetrievedCount++;
-                _databaseMilliseconds += milliseconds;
-
-                if (milliseconds < _databaseRetrieveQuickest)
-                    _databaseRetrieveQuickest = newMilliSeconds;
-
-                if (milliseconds > _databaseRetrieveSlowest)
-                    _databaseRetrieveSlowest = newMilliSeconds;
-
-                _databaseRetrieveAverage = _databaseMilliseconds / _databaseRetrievedCount;
-            }
-        }
-
-        public void MemoryRetrieve(in long milliseconds)
-        {
-            using (TimedLock lck = TimedLock.Lock(_lockObject))
-            {
-                uint newMilliSeconds = milliseconds < 0 ? 0 : (uint)milliseconds;
-                _memoryRetrievedCount++;
-                _memoryMilliseconds += milliseconds;
-
-                if (milliseconds < _memoryRetrieveQuickest)
-                    _memoryRetrieveQuickest = newMilliSeconds;
-
-                if (milliseconds > _memoryRetrieveSlowest)
-                    _memoryRetrieveSlowest = newMilliSeconds;
-
-                _memoryRetrieveAverage = _memoryMilliseconds / _databaseRetrievedCount;
-            }
-        }
-
-        public void CacheRetrieve(in long milliseconds)
-        {
-            using (TimedLock lck = TimedLock.Lock(_lockObject))
-            {
-                uint newMilliSeconds = milliseconds < 0 ? 0 : (uint)milliseconds;
-                _cacheRetrievedCount++;
-                _cacheMilliseconds += milliseconds;
-
-                if (milliseconds < _cacheRetrieveQuickest)
-                    _cacheRetrieveQuickest = newMilliSeconds;
-
-                if (milliseconds > _cacheRetrieveSlowest)
-                    _cacheRetrieveSlowest = newMilliSeconds;
-
-                _cacheRetrieveAverage = _cacheMilliseconds / _cacheRetrievedCount;
-            }
-        }
 
         public void Retrieve(in long milliseconds, in uint recordCount)
         {
