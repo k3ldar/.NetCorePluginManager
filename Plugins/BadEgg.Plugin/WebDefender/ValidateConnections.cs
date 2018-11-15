@@ -67,13 +67,14 @@ namespace BadEgg.Plugin.WebDefender
         /// </summary>
         private readonly string[] HackKeyWords = { "safe", "prepend", "disable", "function", "open", "allow", "include", "file",
             "proc", "self", "environ", "editor", "browser", "filemanager", "include", "connector", ".. /", "../", "file",
-            "manager", "provider", "null", "plugin", "src", "ckfinder", "core", "/ aspx /", "usg", "sa", "ved", "ei" };
+            "manager", "provider", "null", "plugin", "src", "ckfinder", "core", "/ aspx /", "usg", "sa", "ved", "ei",
+            "script" };
 
         /// <summary>
         /// Hacking phrases to find/replace
         /// </summary>
-        private readonly string[] HackFind = { "?", "_", "-", "/", "=" };
-        private readonly string[] HackReplace = { " ? ", " _ ", " - ", " / ", " = " };
+        private readonly string[] HackFind = { "?", "_", "-", "/", "=", "<", "/>" };
+        private readonly string[] HackReplace = { " ? ", " _ ", " - ", " / ", " = ", " < ", " / > " };
 
         /// <summary>
         /// Words/Chars to replace with a space in Random Word checker
