@@ -1,0 +1,22 @@
+﻿@model ErrorManager.Plugin.Models.Error.Error404Model
+@{
+    ViewData["Title"] = "Error404";
+}
+
+<h2>@Model.Title</h2>
+
+<link rel="stylesheet" href="/css/error.css" />
+
+<div class="errorMessage">
+    @if (!String.IsNullOrEmpty(Model.Image))
+    {
+        <div><img src="@Model.Image" alt="Missing Link" /></div>
+    }
+
+    @if (!String.IsNullOrEmpty(Model.Message))
+    {
+        <div>@Html.Raw(Model.Message)</div>
+    }
+
+    <p><a href="/">Click here</a> to go back to our home page.</p>
+</div>

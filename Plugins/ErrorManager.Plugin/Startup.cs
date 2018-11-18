@@ -1,4 +1,4 @@
-﻿/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  *  .Net Core Plugin Manager is distributed under the GNU General Public License version 3 and  
  *  is also available under alternative licenses negotiated directly with Simon Carter.  
  *  If you obtained Service Manager under the GPL, then the GPL applies to all loadable 
@@ -13,20 +13,16 @@
  *
  *  Copyright (c) 2018 Simon Carter.  All Rights Reserved.
  *
- *  Product:  AspNetCore.PluginManager.DemoWebsite
+ *  Product:  Error Manager Plugin
  *  
  *  File: Startup.cs
  *
  *  Purpose:  
  *
  *  Date        Name                Reason
- *  22/09/2018  Simon Carter        Initially Created
+ *  17/11/2018  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using System;
-
-using AspNetCore.PluginManager.DemoWebsite.Helpers;
-
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -34,11 +30,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-using SharedPluginFeatures;
-
-using AspNetCore.PluginManager.DemoWebsite.Classes;
-
-namespace AspNetCore.PluginManager.DemoWebsite
+namespace ErrorManager.Plugin
 {
     public class Startup
     {
@@ -47,18 +39,11 @@ namespace AspNetCore.PluginManager.DemoWebsite
             Configuration = configuration;
         }
 
-        public static IServiceProvider GetServiceProvider { get; private set; }
-
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            // Allow plugin manager to configure all services in each plugin
-            PluginManagerService.ConfigureServices(services);
-
-            SessionHelper.InitSessionHelper();
-
             services.Configure<CookiePolicyOptions>(options =>
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
@@ -66,44 +51,27 @@ namespace AspNetCore.PluginManager.DemoWebsite
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-            services.AddDistributedMemoryCache();
 
-            services.AddSession(options =>
-            {
-                // Set a short timeout for easy testing.
-                options.IdleTimeout = TimeSpan.FromSeconds(10);
-                options.Cookie.HttpOnly = false;
-            });
-
-            services.AddLogging();
-
-
-            // register internal types so we can load them or DI them into other classes later
-            services.AddSingleton<ISharedPluginHelper, SharedPluginHelper>();
-            services.AddSingleton<IErrorManager, ErrorManager>();
-
-            // grab an instance of the service provider so we can dynamically generate 
-            // objects from the service provider
-            GetServiceProvider = services.BuildServiceProvider();
-
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
-                .ConfigurePluginManager(); 
+            services.AddSingleton<SharedPluginFeatures.IErrorManager, Classes.TempErrorManager>();
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            // Allow plugin manager to configure options for all plugins
-            PluginManagerService.Configure(app, env);
+            app.UseErrorManager();
 
-            app.UseStaticFiles();
+            if (env.IsDevelopment())
+            {
 
-            if (!env.IsDevelopment())
+            }
+            else
             {
                 app.UseHsts();
             }
 
             app.UseHttpsRedirection();
+            app.UseStaticFiles();
             app.UseCookiePolicy();
 
             app.UseMvc(routes =>

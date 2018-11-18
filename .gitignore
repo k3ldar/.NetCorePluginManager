@@ -330,3 +330,5 @@ ASALocalRun/
 .mfractor/
 /DemoWebsite/NetCorePluginDemoWebsite/wwwroot/images/
 /DemoWebsite/NetCorePluginDemoWebsite/Views/Services/
+/DemoWebsite/NetCorePluginDemoWebsite/Views/Error/
+/DemoWebsite/NetCorePluginDemoWebsite/wwwroot/css/Error.css
