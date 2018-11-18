@@ -68,3 +68,10 @@ Nobody likes it when people don't play fair, the bad egg plugin is designed to c
 the first is to restrict the maximum connections per minute for an Ip Address.
 The second is to look at query strings and form input values, and determine whether the connection is attempting to use Sql injection techniques.  This provides a "probability" and it is down to the host application to white/black list Ip addresses.
 
+https://github.com/k3ldar/.NetCorePluginManager/wiki/Bad-Egg-Plugin
+
+# Error Manager
+Manages exceptions and 404 errors, allows implementation to provide a replacement for missing pages.  All other errors are notified but will not be notified again until after a timeout period, which prevents spamming on errors.
+
+https://github.com/k3ldar/.NetCorePluginManager/wiki/Error-Manager-Plugin
+
