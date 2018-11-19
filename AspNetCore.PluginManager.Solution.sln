@@ -33,6 +33,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BadEgg.Plugin", "Plugins\Ba
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ErrorManager.Plugin", "Plugins\ErrorManager.Plugin\ErrorManager.Plugin.csproj", "{F401ED7C-DB39-49C1-87C0-813887343D84}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Login.Plugin", "Plugins\Login.Plugin\Login.Plugin.csproj", "{5910317E-5481-476B-8C9E-ACC68FC34F78}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -99,6 +101,10 @@ Global
 		{F401ED7C-DB39-49C1-87C0-813887343D84}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F401ED7C-DB39-49C1-87C0-813887343D84}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F401ED7C-DB39-49C1-87C0-813887343D84}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5910317E-5481-476B-8C9E-ACC68FC34F78}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5910317E-5481-476B-8C9E-ACC68FC34F78}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5910317E-5481-476B-8C9E-ACC68FC34F78}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5910317E-5481-476B-8C9E-ACC68FC34F78}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

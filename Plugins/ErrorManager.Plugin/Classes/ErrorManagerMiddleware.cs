@@ -76,7 +76,7 @@ namespace ErrorManager.Plugin
 
             ErrorManagerSettings settings = GetSettings<ErrorManagerSettings>("ErrorManager");
 
-            _loginPage = String.IsNullOrEmpty(settings.LoginPage) ? "/Account/Login" : settings.LoginPage;
+            _loginPage = String.IsNullOrEmpty(settings.LoginPage) ? "/Login/" : settings.LoginPage;
         }
 
         #endregion Constructors
