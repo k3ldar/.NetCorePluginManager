@@ -28,6 +28,8 @@ using System;
 using System.Collections.Generic;
 
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
+
 
 using Shared.Classes;
 
@@ -43,6 +45,12 @@ namespace SharedPluginFeatures
         #endregion Constants
 
         #region Protected Methods
+
+        protected ITempDataDictionary GetTempData(in HttpContext context)
+        {
+            ITempDataDictionaryFactory factory = context.RequestServices.GetService(typeof(ITempDataDictionaryFactory)) as ITempDataDictionaryFactory;
+            return (factory.GetTempData(context));
+        }
 
         protected UserSession GetUserSession(in HttpContext context)
         {

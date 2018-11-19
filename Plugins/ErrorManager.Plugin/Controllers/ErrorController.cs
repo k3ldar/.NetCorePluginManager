@@ -98,6 +98,16 @@ namespace ErrorManager.Plugin.Controllers
             return (View(model));
         }
 
+        public IActionResult HighVolume()
+        {
+            return (View());
+        }
+
+        public IActionResult NotAcceptable()
+        {
+            return (View());
+        }
+
 #if DEBUG
         public IActionResult Raise(string s)
         {

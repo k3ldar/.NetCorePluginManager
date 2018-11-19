@@ -32,7 +32,7 @@ using System.Threading.Tasks;
 using System.Net;
 
 using Microsoft.AspNetCore.Mvc.Infrastructure;
-
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Http;
 
 using SharedPluginFeatures;
@@ -46,7 +46,7 @@ namespace ErrorManager.Plugin
 
         private readonly RequestDelegate _next;
         private readonly IErrorManager _errorManager;
-
+        private readonly string _loginPage;
         private readonly Dictionary<string, uint> _missingPageCount;
 
         private static object _lockObject = new object();
@@ -73,6 +73,10 @@ namespace ErrorManager.Plugin
                 ThreadManager.ThreadStart(_errorThreadManager, "Error Manager", ThreadPriority.Lowest);
 
             _errorCacheManager.ItemRemoved += ErrorCacheManager_ItemRemoved;
+
+            ErrorManagerSettings settings = GetSettings<ErrorManagerSettings>("ErrorManager");
+
+            _loginPage = String.IsNullOrEmpty(settings.LoginPage) ? "/Account/Login" : settings.LoginPage;
         }
 
         #endregion Constructors
@@ -85,11 +89,31 @@ namespace ErrorManager.Plugin
             {
                 await _next(context);
 
-                if (context.Response.StatusCode == 404 && !context.Response.HasStarted)
+                if (!context.Response.HasStarted)
                 {
-                    using (StopWatchTimer notFoundTimer = StopWatchTimer.Initialise(_timingsMissingPages))
+                    switch (context.Response.StatusCode)
                     {
-                        context.Response.Redirect(GetMissingPage(context), false);
+                        case 403:
+                            ITempDataDictionary tempData = GetTempData(context);
+                            tempData["ReturnUrl"] = context.Request.Path;
+                            context.Response.Redirect(_loginPage, false);
+                            break;
+
+                        case 404:
+                            using (StopWatchTimer notFoundTimer = StopWatchTimer.Initialise(_timingsMissingPages))
+                            {
+                                context.Response.Redirect(GetMissingPage(context), false);
+                                break;
+                            }
+
+                        case 406:
+                            context.Response.Redirect("/Error/NotAcceptable");
+                            break;
+
+                        case 420:
+                        case 429:
+                            context.Response.Redirect("/Error/Highvolume", false);
+                            break;
                     }
                 }
             }

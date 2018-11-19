@@ -35,6 +35,8 @@ namespace ErrorManager.Plugin
 
         public string EncryptionKey { get; set; }
 
+        public string LoginPage { get; set; }
+
         public int Count()
         {
             if (Quotes == null)

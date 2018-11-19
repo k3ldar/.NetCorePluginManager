@@ -25,14 +25,18 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="Views\Error\HighVolume.cshtml" />
     <Content Remove="Views\Error\Index.cshtml" />
+    <Content Remove="Views\Error\NotAcceptable.cshtml" />
     <Content Remove="Views\Error\NotFound404.cshtml" />
     <Content Remove="wwwroot\css\Error.css" />
     <Content Remove="wwwroot\images\Error\Default404.png" />
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="Views\Error\HighVolume.cshtml" />
     <EmbeddedResource Include="Views\Error\Index.cshtml" />
+    <EmbeddedResource Include="Views\Error\NotAcceptable.cshtml" />
     <EmbeddedResource Include="Views\Error\NotFound404.cshtml" />
     <EmbeddedResource Include="wwwroot\css\Error.css" />
     <EmbeddedResource Include="wwwroot\images\Error\Default404.png" />
