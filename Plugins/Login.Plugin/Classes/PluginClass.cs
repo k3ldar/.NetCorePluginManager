@@ -29,7 +29,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 using SharedPluginFeatures;
 
-namespace ErrorManager.Plugin.Classes
+namespace LoginPlugin.Classes
 {
     public class PluginClass : IPlugin, IPluginVersion
     {
@@ -40,7 +40,9 @@ namespace ErrorManager.Plugin.Classes
 
         public void ConfigureServices(IServiceCollection services)
         {
-            
+#if DEBUG
+            services.AddSingleton<ILoginProvider, Classes.MockLoginProvider>();
+#endif
         }
 
         public void Finalise()

@@ -15,28 +15,30 @@
  *
  *  Product:  Login Plugin
  *  
- *  File: Program.cs
+ *  File: MockLoginProvider.cs
  *
- *  Purpose:  
+ *  Purpose:  Mock ILoginProvider for tesing purpose
  *
  *  Date        Name                Reason
- *  17/11/2018  Simon Carter        Initially Created
+ *  21/11/2018  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using Microsoft.AspNetCore;
-using Microsoft.AspNetCore.Hosting;
 
-namespace LoginPlugin
+using SharedPluginFeatures;
+
+namespace LoginPlugin.Classes
 {
-    public class Program
+#if DEBUG
+    public class MockLoginProvider : ILoginProvider
     {
-        public static void Main(string[] args)
+        public Enums.LoginResult Login(in string username, in string password, in string ipAddress, in byte attempts)
         {
-            CreateWebHostBuilder(args).Build().Run();
-        }
 
-        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>();
+            if (attempts > 4)
+                return (Enums.LoginResult.AccountLocked);
+
+            return (Enums.LoginResult.InvalidCredentials);
+        }
     }
+#endif
 }

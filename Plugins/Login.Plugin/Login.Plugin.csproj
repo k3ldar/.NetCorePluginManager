@@ -14,6 +14,9 @@
     <PackageProjectUrl>https://github.com/k3ldar/.NetCorePluginManager</PackageProjectUrl>
     <RepositoryType>git</RepositoryType>
     <PackageTags>asp net core plugin manager Login Plugin</PackageTags>
+    <AssemblyName>LoginPlugin</AssemblyName>
+    <RootNamespace>LoginPlugin</RootNamespace>
+    <TypeScriptToolsVersion>3.0</TypeScriptToolsVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -26,13 +29,17 @@
 
   <ItemGroup>
     <Content Remove="Views\Login\Index.cshtml" />
+    <Content Remove="wwwroot\js\Login.js" />
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Include="Views\Login\Index.cshtml" />
+    <EmbeddedResource Include="wwwroot\js\Login.js" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="jQuery" Version="3.3.1" />
+    <PackageReference Include="jQuery.Validation" Version="1.17.0" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.1.2" PrivateAssets="All" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.5" />

@@ -13,30 +13,23 @@
  *
  *  Copyright (c) 2018 Simon Carter.  All Rights Reserved.
  *
- *  Product:  Login Plugin
+ *  Product:  SharedPluginFeatures
  *  
- *  File: Program.cs
+ *  File: ILoginProvider.cs
  *
  *  Purpose:  
  *
  *  Date        Name                Reason
- *  17/11/2018  Simon Carter        Initially Created
+ *  21/11/2018  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using Microsoft.AspNetCore;
-using Microsoft.AspNetCore.Hosting;
 
-namespace LoginPlugin
+using static SharedPluginFeatures.Enums;
+
+namespace SharedPluginFeatures
 {
-    public class Program
+    public interface ILoginProvider
     {
-        public static void Main(string[] args)
-        {
-            CreateWebHostBuilder(args).Build().Run();
-        }
-
-        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>();
+        LoginResult Login(in string username, in string password, in string ipAddress, in byte attempts);
     }
 }

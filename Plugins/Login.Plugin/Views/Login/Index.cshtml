@@ -1,11 +1,47 @@
-﻿
+﻿@model LoginPlugin.Models.LoginViewModel
+
 @{
     ViewData["Title"] = "Index";
 }
 
 <link rel="stylesheet" href="/css/login.css" />
+
 <h2>Login</h2>
 
-<div class="login">
+<script src="/js/Login.js"></script>
 
-</div>
+<div>@Html.ValidationSummary(true)</div>
+
+
+@using (Html.BeginForm("Index", "Login", FormMethod.Post))
+{
+    @Html.HiddenFor(m => m.ReturnUrl)
+
+    <div>
+        <div>
+            @Html.LabelFor(m => m.Username)
+        </div>
+        <div>
+            @Html.TextBoxFor(m => m.Username) @Html.ValidationMessageFor(m => m.Username)
+        </div>
+    </div>
+    <div>
+        <div>
+            @Html.LabelFor(m => m.Password)
+        </div>
+        <div>
+            @Html.PasswordFor(m => m.Password) @Html.ValidationMessageFor(m => m.Password)
+        </div>
+    </div>
+    <div>
+        <input type="submit" value="Login" />
+        <input id="forgotPassword" type="button" value="Forgot Password" />
+    </div>
+}
+
+<script>
+    var controls = {
+        forgotPassword: '#forgotPassword'
+    };
+    loginPlugin.init(controls);
+</script>

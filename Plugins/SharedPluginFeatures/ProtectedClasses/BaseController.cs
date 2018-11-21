@@ -117,5 +117,14 @@ namespace SharedPluginFeatures
         }
 
         #endregion Settings
+
+        #region Ip Address
+
+        protected string GetIpAddress()
+        {
+            return (HttpContext.Connection.RemoteIpAddress.ToString());
+        }
+
+        #endregion Ip Address
     }
 }

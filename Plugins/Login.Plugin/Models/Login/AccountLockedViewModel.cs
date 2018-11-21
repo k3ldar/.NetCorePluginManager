@@ -15,28 +15,35 @@
  *
  *  Product:  Login Plugin
  *  
- *  File: Program.cs
+ *  File: AccountLockedViewModel.cs
  *
  *  Purpose:  
  *
  *  Date        Name                Reason
- *  17/11/2018  Simon Carter        Initially Created
+ *  21/11/2018  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using Microsoft.AspNetCore;
-using Microsoft.AspNetCore.Hosting;
+using System;
+using System.ComponentModel.DataAnnotations;
 
-namespace LoginPlugin
+namespace LoginPlugin.Models
 {
-    public class Program
+    public sealed class AccountLockedViewModel
     {
-        public static void Main(string[] args)
+        #region Constructors
+
+        public AccountLockedViewModel()
         {
-            CreateWebHostBuilder(args).Build().Run();
+            Username = String.Empty;
         }
 
-        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>();
+        #endregion Constructors
+
+        #region Properties
+
+        [Required]
+        public string Username { get; set; }
+
+        #endregion Properties
     }
 }

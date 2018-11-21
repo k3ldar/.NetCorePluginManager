@@ -24,39 +24,124 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
-using System.IO;
 
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Hosting;
 
-using static Shared.Utilities;
+using Shared.Classes;
 
 using SharedPluginFeatures;
 
-namespace Login.Plugin.Controllers
+using LoginPlugin.Classes;
+
+using LoginPlugin.Models;
+
+namespace LoginPlugin.Controllers
 {
     public class LoginController : BaseController
     {
         #region Private Members
 
         private readonly IHostingEnvironment _hostingEnvironment;
+        private readonly ILoginProvider _loginProvider;
+
+        private static readonly CacheManager _loginCache = new CacheManager("LoginCache", new TimeSpan(0, 30, 0));
 
         #endregion Private Members
 
         #region Constructors
 
-        public LoginController(IHostingEnvironment hostingEnvironment)
+        public LoginController(IHostingEnvironment hostingEnvironment, ILoginProvider loginProvider)
         {
-            _hostingEnvironment = hostingEnvironment;
+            _hostingEnvironment = hostingEnvironment ?? throw new ArgumentNullException(nameof(hostingEnvironment));
+            _loginProvider = loginProvider ?? throw new ArgumentNullException(nameof(loginProvider));
         }
 
         #endregion Constructors
 
         #region Public Action Methods
 
-        public IActionResult Index()
+        [HttpGet]
+        public IActionResult Index(string returnUrl)
         {
-            return View();
+            LoginViewModel model = new LoginViewModel(String.IsNullOrEmpty(returnUrl) ? String.Empty : returnUrl);
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public IActionResult Index(LoginViewModel model)
+        {
+            string ipAddress = GetIpAddress();
+
+            CacheItem loginCache = _loginCache.Get(ipAddress);
+
+            if (loginCache == null)
+            {
+                loginCache = new CacheItem(ipAddress, new LoginCacheItem());
+                _loginCache.Add(ipAddress, loginCache);
+            }
+
+            LoginCacheItem loginCacheItem = (LoginCacheItem)loginCache.Value;
+            loginCacheItem.LoginAttempts++;
+
+            switch (_loginProvider.Login(model.Username, model.Password, ipAddress, loginCacheItem.LoginAttempts))
+            {
+                case Enums.LoginResult.Success:
+                    return (View());
+
+                case Enums.LoginResult.AccountLocked:
+                    return (RedirectToAction("AccountLocked", model.Username));
+
+                case Enums.LoginResult.PasswordChangeRequired:
+                    return (RedirectToAction("UpdatePassword", model.Username));
+
+                case Enums.LoginResult.InvalidCredentials:
+                    ModelState.AddModelError(String.Empty, "Invalid username or password");
+                    break;
+            }
+
+            return (View(model));
+        }
+
+        [HttpGet]
+        public IActionResult AccountLocked(string username)
+        {
+            AccountLockedViewModel model = new AccountLockedViewModel()
+            {
+                Username = String.IsNullOrEmpty(username) ? String.Empty : username
+            };
+
+            return (View(model));
+        }
+
+        [HttpPost]
+        public IActionResult AccountLocked(AccountLockedViewModel model)
+        {
+            if (model == null)
+                throw new ArgumentNullException(nameof(model));
+
+            return (View(model));
+        }
+
+        [HttpGet]
+        public IActionResult UpdatePassword(string username)
+        {
+            AccountLockedViewModel model = new AccountLockedViewModel()
+            {
+                Username = String.IsNullOrEmpty(username) ? String.Empty : username
+            };
+
+            return (View(model));
+        }
+
+        [HttpPost]
+        public IActionResult UpdatePassword(UpdatePasswordViewModel model)
+        {
+            if (model == null)
+                throw new ArgumentNullException(nameof(model));
+
+            return (View(model));
         }
 
         #endregion Public Action Methods

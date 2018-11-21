@@ -30,7 +30,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace ErrorManager.Plugin
+using SharedPluginFeatures;
+
+namespace LoginPlugin
 {
     public class Startup
     {
@@ -52,6 +54,10 @@ namespace ErrorManager.Plugin
             });
 
 
+#if DEBUG
+            services.AddSingleton<ILoginProvider, Classes.MockLoginProvider>();
+#endif
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
@@ -60,10 +66,11 @@ namespace ErrorManager.Plugin
         {
             if (env.IsDevelopment())
             {
-
+                app.UseDeveloperExceptionPage();
             }
             else
             {
+                app.UseExceptionHandler("/Home/Error");
                 app.UseHsts();
             }
 
@@ -75,7 +82,7 @@ namespace ErrorManager.Plugin
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    template: "{controller=Login}/{action=Index}/{id?}");
             });
         }
     }

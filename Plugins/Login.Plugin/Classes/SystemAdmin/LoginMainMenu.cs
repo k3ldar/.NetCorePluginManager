@@ -27,7 +27,7 @@ using System;
 
 using SharedPluginFeatures;
 
-namespace AspNetCore.PluginManager.Classes
+namespace LoginPlugin.Classes.SystemAdmin
 {
     public class LoginMainMenu : SystemAdminMainMenu
     {

@@ -15,28 +15,49 @@
  *
  *  Product:  Login Plugin
  *  
- *  File: Program.cs
+ *  File: LoginModel.cs
  *
  *  Purpose:  
  *
  *  Date        Name                Reason
- *  17/11/2018  Simon Carter        Initially Created
+ *  19/11/2018  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using Microsoft.AspNetCore;
-using Microsoft.AspNetCore.Hosting;
+using System;
+using System.ComponentModel.DataAnnotations;
 
-namespace LoginPlugin
+namespace LoginPlugin.Models
 {
-    public class Program
+    public sealed class LoginViewModel
     {
-        public static void Main(string[] args)
+        #region Constructors
+
+        public LoginViewModel()
         {
-            CreateWebHostBuilder(args).Build().Run();
+
         }
 
-        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>();
+        public LoginViewModel(string returnUrl)
+        {
+            if (returnUrl == null)
+                throw new ArgumentNullException(nameof(returnUrl));
+
+            ReturnUrl = returnUrl;
+        }
+
+        #endregion Constructors
+
+        #region Properties
+
+        public string ReturnUrl { get; set; }
+
+        [Required]
+        public string Username { get; set; }
+
+        [Required]
+        [StringLength(Constants.MaximumPasswordLength, MinimumLength = Constants.MinimumPasswordLength)]
+        public string Password { get; set; }
+
+        #endregion Properties
     }
 }

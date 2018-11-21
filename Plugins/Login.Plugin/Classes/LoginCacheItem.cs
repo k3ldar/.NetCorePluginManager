@@ -15,28 +15,35 @@
  *
  *  Product:  Login Plugin
  *  
- *  File: Program.cs
+ *  File: LoginCacheItem.cs
  *
- *  Purpose:  
+ *  Purpose:  Login Cache Item
  *
  *  Date        Name                Reason
- *  17/11/2018  Simon Carter        Initially Created
+ *  21/11/2018  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using Microsoft.AspNetCore;
-using Microsoft.AspNetCore.Hosting;
+using System;
 
-namespace LoginPlugin
+namespace LoginPlugin.Classes
 {
-    public class Program
+    public class LoginCacheItem
     {
-        public static void Main(string[] args)
+        #region Constructors
+
+        public LoginCacheItem()
         {
-            CreateWebHostBuilder(args).Build().Run();
+            FirstAttempt = DateTime.Now;
         }
 
-        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>();
+        #endregion Constructors
+
+        #region Properties
+
+        public DateTime FirstAttempt { get; private set; }
+
+        public byte LoginAttempts { get; set; }
+
+        #endregion Properties
     }
 }

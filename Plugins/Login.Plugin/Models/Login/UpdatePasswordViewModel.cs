@@ -15,55 +15,46 @@
  *
  *  Product:  Login Plugin
  *  
- *  File: LoginModel.cs
+ *  File: UpdatePasswordViewModel.cs
  *
  *  Purpose:  
  *
  *  Date        Name                Reason
- *  19/11/2018  Simon Carter        Initially Created
+ *  21/11/2018  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
+using System.ComponentModel.DataAnnotations;
 
-namespace ErrorManager.Plugin.Models.Error
+namespace LoginPlugin.Models
 {
-    public sealed class LoginModel
+    public sealed class UpdatePasswordViewModel
     {
         #region Constructors
 
-        public LoginModel()
+        public UpdatePasswordViewModel()
         {
-
-        }
-
-        public LoginModel(string title)
-        {
-            if (String.IsNullOrEmpty(title))
-                throw new ArgumentNullException(nameof(title));
-
-            Title = title;
-        }
-
-        public LoginModel(string title, string message, string image)
-            : this(title)
-        {
-            if (String.IsNullOrEmpty(title))
-                throw new ArgumentNullException(nameof(title));
-
-            Title = title;
-            Message = message;
-            Image = image;
+            Username = String.Empty;
         }
 
         #endregion Constructors
 
         #region Properties
 
-        public string Title { get; set; }
+        [Required]
+        public string Username { get; set; }
 
-        public string Message { get; set; }
+        [Required]
+        [StringLength(Constants.MaximumPasswordLength, MinimumLength = Constants.MinimumPasswordLength)]
+        public string CurrentPassword { get; set; }
 
-        public string Image { get; set; }
+        [Required]
+        [StringLength(Constants.MaximumPasswordLength, MinimumLength = Constants.MinimumPasswordLength)]
+        public string NewPassword { get; set; }
+
+        [Required]
+        [StringLength(Constants.MaximumPasswordLength, MinimumLength = Constants.MinimumPasswordLength)]
+        public string ConfirmNewPassword { get; set; }
 
         #endregion Properties
     }
