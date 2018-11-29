@@ -37,12 +37,23 @@ namespace LoginPlugin.Models
             Username = String.Empty;
         }
 
+        public AccountLockedViewModel(string username)
+        {
+            if (String.IsNullOrEmpty(username))
+                throw new ArgumentNullException(nameof(username));
+
+            Username = username;
+        }
+
         #endregion Constructors
 
         #region Properties
 
         [Required]
         public string Username { get; set; }
+
+        [Required(ErrorMessage = "Please enter the unlock code")]
+        public string UnlockCode { get; set; }
 
         #endregion Properties
     }

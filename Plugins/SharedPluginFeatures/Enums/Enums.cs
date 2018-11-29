@@ -77,7 +77,9 @@ namespace SharedPluginFeatures
 
             AccountLocked = 2,
 
-            PasswordChangeRequired = 3
+            PasswordChangeRequired = 3,
+
+            Remembered = 4
         }
 
         /// <summary>

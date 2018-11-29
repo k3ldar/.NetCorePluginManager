@@ -31,13 +31,34 @@ namespace LoginPlugin.Classes
 #if DEBUG
     public class MockLoginProvider : ILoginProvider
     {
-        public Enums.LoginResult Login(in string username, in string password, in string ipAddress, in byte attempts)
+        public Enums.LoginResult Login(in string username, in string password, in string ipAddress, 
+            in byte attempts, ref UserLoginDetails loginDetails)
         {
+            if (loginDetails.RememberMe && loginDetails.UserId == 123)
+                return Enums.LoginResult.Remembered;
+
+            if (username == "admin" && password == "password")
+            {
+                loginDetails.Username = "Administrator";
+                loginDetails.Email = "admin@nowhere.com";
+                loginDetails.UserId = 123;
+                return Enums.LoginResult.Success;
+            }
 
             if (attempts > 4)
                 return (Enums.LoginResult.AccountLocked);
 
             return (Enums.LoginResult.InvalidCredentials);
+        }
+
+        public bool UnlockAccount(in string username, in string unlockCode)
+        {
+            return (unlockCode == "123456");
+        }
+
+        public bool ForgottenPassword(in string username)
+        {
+            return (username == "admin");
         }
     }
 #endif

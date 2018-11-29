@@ -28,21 +28,27 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="Views\Login\AccountLocked.cshtml" />
+    <Content Remove="Views\Login\ForgotPassword.cshtml" />
     <Content Remove="Views\Login\Index.cshtml" />
     <Content Remove="wwwroot\js\Login.js" />
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="Views\Login\AccountLocked.cshtml" />
+    <EmbeddedResource Include="Views\Login\ForgotPassword.cshtml" />
     <EmbeddedResource Include="Views\Login\Index.cshtml" />
     <EmbeddedResource Include="wwwroot\js\Login.js" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="ApplicationSettings" Version="1.0.0.2" />
     <PackageReference Include="jQuery" Version="3.3.1" />
     <PackageReference Include="jQuery.Validation" Version="1.17.0" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.1.2" PrivateAssets="All" />
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.5" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.6" />
+    <PackageReference Include="SC.Shared.Library.Core" Version="2.6.2" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">

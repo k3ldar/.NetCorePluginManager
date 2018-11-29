@@ -16,6 +16,8 @@
 @using (Html.BeginForm("Index", "Login", FormMethod.Post))
 {
     @Html.HiddenFor(m => m.ReturnUrl)
+    @Html.HiddenFor(m => m.ShowCaptchaImage)
+    @Html.HiddenFor(m => m.ShowRememberMe)
 
     <div>
         <div>
@@ -33,6 +35,32 @@
             @Html.PasswordFor(m => m.Password) @Html.ValidationMessageFor(m => m.Password)
         </div>
     </div>
+
+    @if (Model.ShowRememberMe)
+    {
+        <div>
+            <div>
+                @Html.LabelFor(m => m.RememberMe)
+            </div>
+            <div>
+                @Html.CheckBoxFor(m => m.RememberMe) @Html.ValidationMessageFor(m => m.RememberMe)
+            </div>
+        </div>
+    }
+
+    @if (Model.ShowCaptchaImage)
+    {
+        <div>
+            <div>
+                @Html.LabelFor(m => m.CaptchaText)
+            </div>
+            <img src="/Login/GetCaptchaImage/" />
+            <div>
+                @Html.TextBoxFor(m => m.CaptchaText) @Html.ValidationMessageFor(m => m.CaptchaText)
+            </div>
+        </div>
+    }
+
     <div>
         <input type="submit" value="Login" />
         <input id="forgotPassword" type="button" value="Forgot Password" />

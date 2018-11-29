@@ -13,40 +13,27 @@
  *
  *  Copyright (c) 2018 Simon Carter.  All Rights Reserved.
  *
- *  Product:  Login Plugin
+ *  Product:  SharedPluginFeatures
  *  
- *  File: LoginCacheItem.cs
+ *  File: UserLoginDetails.cs
  *
- *  Purpose:  Login Cache Item
+ *  Purpose:  User login details
  *
  *  Date        Name                Reason
- *  21/11/2018  Simon Carter        Initially Created
+ *  10/11/2018  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using System;
 
-namespace LoginPlugin.Classes
+namespace SharedPluginFeatures
 {
-    public class LoginCacheItem
+    public sealed class UserLoginDetails
     {
-        #region Constructors
+        public long UserId { get; set; }
 
-        public LoginCacheItem()
-        {
-            FirstAttempt = DateTime.Now;
-            CaptchaText = String.Empty;
-        }
+        public string Username { get; set; }
 
-        #endregion Constructors
+        public string Email { get; set; }
 
-        #region Properties
-
-        public DateTime FirstAttempt { get; private set; }
-
-        public byte LoginAttempts { get; set; }
-
-        public string CaptchaText { get; set; }
-
-        #endregion Properties
+        public bool RememberMe { get; set; }
     }
 }

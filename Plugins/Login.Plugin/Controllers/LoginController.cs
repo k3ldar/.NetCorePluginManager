@@ -24,16 +24,17 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
+using System.IO;
 
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Hosting;
 
 using Shared.Classes;
+using static Shared.Utilities;
 
 using SharedPluginFeatures;
 
 using LoginPlugin.Classes;
-
 using LoginPlugin.Models;
 
 namespace LoginPlugin.Controllers
@@ -44,6 +45,7 @@ namespace LoginPlugin.Controllers
 
         private readonly IHostingEnvironment _hostingEnvironment;
         private readonly ILoginProvider _loginProvider;
+        private readonly LoginControllerSettings _settings;
 
         private static readonly CacheManager _loginCache = new CacheManager("LoginCache", new TimeSpan(0, 30, 0));
 
@@ -55,6 +57,7 @@ namespace LoginPlugin.Controllers
         {
             _hostingEnvironment = hostingEnvironment ?? throw new ArgumentNullException(nameof(hostingEnvironment));
             _loginProvider = loginProvider ?? throw new ArgumentNullException(nameof(loginProvider));
+            _settings = GetSettings<LoginControllerSettings>("LoginPlugin");
         }
 
         #endregion Constructors
@@ -64,7 +67,27 @@ namespace LoginPlugin.Controllers
         [HttpGet]
         public IActionResult Index(string returnUrl)
         {
-            LoginViewModel model = new LoginViewModel(String.IsNullOrEmpty(returnUrl) ? String.Empty : returnUrl);
+            // has the user been remembered?
+            if (ValidateRememberedLogin())
+            {
+                if (String.IsNullOrEmpty(returnUrl))
+                    return Redirect(_settings.LoginSuccessUrl);
+                else
+                    return (Redirect(returnUrl));
+            }
+
+            LoginViewModel model = new LoginViewModel(
+                String.IsNullOrEmpty(returnUrl) ? _settings.LoginSuccessUrl : returnUrl,
+                _settings.ShowRememberMe);
+
+
+            LoginCacheItem loginCacheItem = GetCachedLoginAttempt(false);
+
+            if (loginCacheItem != null)
+            {
+                model.ShowCaptchaImage = loginCacheItem.LoginAttempts >= _settings.CaptchaShowFailCount;
+                loginCacheItem.CaptchaText = GetRandomWord(_settings.CaptchaWordLength);
+            }
 
             return View(model);
         }
@@ -72,34 +95,49 @@ namespace LoginPlugin.Controllers
         [HttpPost]
         public IActionResult Index(LoginViewModel model)
         {
-            string ipAddress = GetIpAddress();
+            LoginCacheItem loginCacheItem = GetCachedLoginAttempt(true);
 
-            CacheItem loginCache = _loginCache.Get(ipAddress);
-
-            if (loginCache == null)
+            if (!String.IsNullOrEmpty(loginCacheItem.CaptchaText))
             {
-                loginCache = new CacheItem(ipAddress, new LoginCacheItem());
-                _loginCache.Add(ipAddress, loginCache);
+                if (!loginCacheItem.CaptchaText.Equals(model.CaptchaText))
+                    ModelState.AddModelError(String.Empty, "Invalid Validation Code");
             }
 
-            LoginCacheItem loginCacheItem = (LoginCacheItem)loginCache.Value;
             loginCacheItem.LoginAttempts++;
 
-            switch (_loginProvider.Login(model.Username, model.Password, ipAddress, loginCacheItem.LoginAttempts))
+            model.ShowCaptchaImage = loginCacheItem.LoginAttempts >= _settings.CaptchaShowFailCount;
+
+            UserLoginDetails loginDetails = new UserLoginDetails();
+
+            switch (_loginProvider.Login(model.Username, model.Password, GetIpAddress(), 
+                loginCacheItem.LoginAttempts, ref loginDetails))
             {
                 case Enums.LoginResult.Success:
-                    return (View());
+                    RemoveLoginAttempt();
+
+                    UserSession session = GetUserSession();
+
+                    if (session != null)
+                        session.Login(loginDetails.UserId, loginDetails.Username, loginDetails.Email);
+
+                    if (model.RememberMe)
+                        CookieAdd(_settings.RememberMeCookieName, Encrypt(loginDetails.UserId.ToString(), _settings.EncryptionKey), _settings.LoginDays);
+
+                    return (Redirect(model.ReturnUrl));
 
                 case Enums.LoginResult.AccountLocked:
-                    return (RedirectToAction("AccountLocked", model.Username));
+                    return (RedirectToAction("AccountLocked", new { username = model.Username }));
 
                 case Enums.LoginResult.PasswordChangeRequired:
-                    return (RedirectToAction("UpdatePassword", model.Username));
+                    return (Redirect(_settings.ChangePasswordUrl));
 
                 case Enums.LoginResult.InvalidCredentials:
                     ModelState.AddModelError(String.Empty, "Invalid username or password");
                     break;
             }
+
+            if (model.ShowCaptchaImage)
+                loginCacheItem.CaptchaText = GetRandomWord(_settings.CaptchaWordLength);
 
             return (View(model));
         }
@@ -107,10 +145,10 @@ namespace LoginPlugin.Controllers
         [HttpGet]
         public IActionResult AccountLocked(string username)
         {
-            AccountLockedViewModel model = new AccountLockedViewModel()
-            {
-                Username = String.IsNullOrEmpty(username) ? String.Empty : username
-            };
+            if (String.IsNullOrEmpty(username))
+                RedirectToAction("Index");
+
+            AccountLockedViewModel model = new AccountLockedViewModel(username);
 
             return (View(model));
         }
@@ -121,32 +159,144 @@ namespace LoginPlugin.Controllers
             if (model == null)
                 throw new ArgumentNullException(nameof(model));
 
+            if (_loginProvider.UnlockAccount(model.Username, model.UnlockCode))
+            {
+                return Redirect("/Login");
+            }
+
+            ModelState.AddModelError("", "The unlock code you entered was not valid");
+            model.UnlockCode = String.Empty;
+
             return (View(model));
         }
-
+        
         [HttpGet]
-        public IActionResult UpdatePassword(string username)
+        public IActionResult ForgotPassword()
         {
-            AccountLockedViewModel model = new AccountLockedViewModel()
-            {
-                Username = String.IsNullOrEmpty(username) ? String.Empty : username
-            };
+            ForgotPasswordViewModel model = new ForgotPasswordViewModel();
 
-            return (View(model));
+            LoginCacheItem loginCacheItem = GetCachedLoginAttempt(true);
+            loginCacheItem.CaptchaText = GetRandomWord(_settings.CaptchaWordLength);
+            model.CaptchaText = loginCacheItem.CaptchaText;
+
+            return (View());
         }
 
         [HttpPost]
-        public IActionResult UpdatePassword(UpdatePasswordViewModel model)
+        public IActionResult ForgotPassword(ForgotPasswordViewModel model)
         {
             if (model == null)
                 throw new ArgumentNullException(nameof(model));
 
+            LoginCacheItem loginCacheItem = GetCachedLoginAttempt(true);
+
+            if (!String.IsNullOrEmpty(loginCacheItem.CaptchaText))
+            {
+                if (!loginCacheItem.CaptchaText.Equals(model.CaptchaText))
+                    ModelState.AddModelError(String.Empty, "Invalid Validation Code");
+            }
+
+            if (ModelState.IsValid && _loginProvider.ForgottenPassword(model.Username))
+                    return Redirect("/Login/");
+
+            ModelState.AddModelError(String.Empty, "The username you provided could not be found.");
+
+            loginCacheItem.CaptchaText = GetRandomWord(_settings.CaptchaWordLength);
+            model.CaptchaText = loginCacheItem.CaptchaText;
+
             return (View(model));
+        }
+
+        [HttpGet]
+        public ActionResult GetCaptchaImage()
+        {
+            LoginCacheItem loginCacheItem = GetCachedLoginAttempt(false);
+
+            if (loginCacheItem == null)
+                return StatusCode(400);
+
+            CaptchaImage ci = new CaptchaImage(loginCacheItem.CaptchaText, 200, 50, "Century Schoolbook");
+            try
+            {
+                // Write the image to the response stream in JPEG format.
+                using (MemoryStream ms = new MemoryStream())
+                {
+                    ci.Image.Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);
+
+                    return File(ms.ToArray(), "image/png");
+                }
+            }
+            catch (Exception err)
+            {
+                if (!err.Message.Contains("Specified method is not supported."))
+                    throw;
+            }
+            finally
+            {
+                ci.Dispose();
+            }
+
+            return (null);
         }
 
         #endregion Public Action Methods
 
         #region Private Methods
+
+        private bool ValidateRememberedLogin()
+        {
+            if (CookieExists(_settings.RememberMeCookieName))
+            {
+                try
+                {
+                    string loginId = Decrypt(CookieValue(_settings.RememberMeCookieName, ""), _settings.EncryptionKey);
+                    UserLoginDetails loginDetails = new UserLoginDetails();
+                    loginDetails.UserId = Convert.ToInt64(loginId);
+                    loginDetails.RememberMe = true;
+                    return (_loginProvider.Login(String.Empty, String.Empty, GetIpAddress(), 0, ref loginDetails) == Enums.LoginResult.Remembered);
+                }
+                catch
+                {
+
+                }
+            }
+
+            return (false);
+        }
+
+        private void RemoveLoginAttempt()
+        {
+            string cacheId = _settings.CacheUseSession ? GetCoreSettionId() : GetIpAddress();
+
+            CacheItem loginCache = _loginCache.Get(cacheId);
+
+            if (loginCache != null)
+            {
+                _loginCache.Remove(loginCache);
+            }
+        }
+
+        private LoginCacheItem GetCachedLoginAttempt(bool createIfNotExist)
+        {
+            LoginCacheItem Result = null;
+
+            string cacheId = _settings.CacheUseSession ? GetCoreSettionId() : GetIpAddress();
+
+            CacheItem loginCache = _loginCache.Get(cacheId);
+
+            if (loginCache != null)
+            {
+                Result = (LoginCacheItem)loginCache.Value;
+            }
+            else if (createIfNotExist && loginCache == null)
+            {
+                Result = new LoginCacheItem();
+                loginCache = new CacheItem(cacheId, Result);
+                _loginCache.Add(cacheId, loginCache);
+            }
+
+            return (Result);
+        }
 
         #endregion Private Methods
     }

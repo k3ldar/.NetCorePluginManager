@@ -37,12 +37,13 @@ namespace LoginPlugin.Models
 
         }
 
-        public LoginViewModel(string returnUrl)
+        public LoginViewModel(string returnUrl, bool showRememberMe)
         {
             if (returnUrl == null)
                 throw new ArgumentNullException(nameof(returnUrl));
 
             ReturnUrl = returnUrl;
+            ShowRememberMe = showRememberMe;
         }
 
         #endregion Constructors
@@ -57,6 +58,14 @@ namespace LoginPlugin.Models
         [Required]
         [StringLength(Constants.MaximumPasswordLength, MinimumLength = Constants.MinimumPasswordLength)]
         public string Password { get; set; }
+
+        public string CaptchaText { get; set; }
+
+        public bool ShowCaptchaImage { get; set; }
+
+        public bool RememberMe { get; set; }
+
+        public bool ShowRememberMe { get; set; }
 
         #endregion Properties
     }

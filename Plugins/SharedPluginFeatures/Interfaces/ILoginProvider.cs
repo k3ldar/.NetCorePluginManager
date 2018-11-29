@@ -30,6 +30,11 @@ namespace SharedPluginFeatures
 {
     public interface ILoginProvider
     {
-        LoginResult Login(in string username, in string password, in string ipAddress, in byte attempts);
+        LoginResult Login(in string username, in string password, in string ipAddress, 
+            in byte attempts, ref UserLoginDetails loginDetails);
+
+        bool UnlockAccount(in string username, in string unlockCode);
+
+        bool ForgottenPassword(in string username);
     }
 }

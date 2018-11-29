@@ -1,0 +1,29 @@
+﻿@model LoginPlugin.Models.AccountLockedViewModel
+
+@{
+    ViewData["Title"] = "AccountLocked";
+}
+
+<h2>Account Locked</h2>
+
+<div>@Html.ValidationSummary(true)</div>
+
+
+@using (Html.BeginForm("AccountLocked", "Login", FormMethod.Post))
+{
+    @Html.HiddenFor(m => m.Username)
+    <div>
+        <p>Your account has been temporarily locked due to authentication failures.  Please enter the code that has been sent to your email to unlock your account.</p>
+    </div>
+    <div>
+        <div>
+            @Html.LabelFor(m => m.UnlockCode)
+        </div>
+        <div>
+            @Html.TextBoxFor(m => m.UnlockCode) @Html.ValidationMessageFor(m => m.UnlockCode)
+        </div>
+    </div>
+    <div>
+        <input type="submit" value="Unlock" />
+    </div>
+}
