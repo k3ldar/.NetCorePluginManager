@@ -31,6 +31,7 @@
     <Content Remove="Views\Login\AccountLocked.cshtml" />
     <Content Remove="Views\Login\ForgotPassword.cshtml" />
     <Content Remove="Views\Login\Index.cshtml" />
+    <Content Remove="wwwroot\css\Login.css" />
     <Content Remove="wwwroot\js\Login.js" />
   </ItemGroup>
 
@@ -38,6 +39,7 @@
     <EmbeddedResource Include="Views\Login\AccountLocked.cshtml" />
     <EmbeddedResource Include="Views\Login\ForgotPassword.cshtml" />
     <EmbeddedResource Include="Views\Login\Index.cshtml" />
+    <EmbeddedResource Include="wwwroot\css\Login.css" />
     <EmbeddedResource Include="wwwroot\js\Login.js" />
   </ItemGroup>
 

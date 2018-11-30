@@ -33,7 +33,7 @@ namespace LoginPlugin
         public int CaptchaShowFailCount { get; set; }
 
         [SettingRange(6, 12)]
-        [SettingDefault(6)]
+        [SettingDefault(7)]
         public int CaptchaWordLength { get; set; }
 
         [SettingDefault("/")]
@@ -49,6 +49,7 @@ namespace LoginPlugin
         [SettingDefault("RememberMe")]
         public string RememberMeCookieName { get; set; }
 
+        [SettingString(20, 60)]
         [SettingDefault("A^SSDFasdkl;fjanewrun[ca'ekd jf;z4sieurn;fdmmjf")]
         public string EncryptionKey { get; set; }
 

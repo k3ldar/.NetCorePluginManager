@@ -42,6 +42,7 @@ namespace LoginPlugin.Models
         #region Properties
 
         [Required]
+        [Display(Name = "User name or email")]
         public string Username { get; set; }
 
         [Required]

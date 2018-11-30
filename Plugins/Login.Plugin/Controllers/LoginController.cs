@@ -43,6 +43,7 @@ namespace LoginPlugin.Controllers
     {
         #region Private Members
 
+        private const string CaptchaCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
         private readonly IHostingEnvironment _hostingEnvironment;
         private readonly ILoginProvider _loginProvider;
         private readonly LoginControllerSettings _settings;
@@ -86,7 +87,7 @@ namespace LoginPlugin.Controllers
             if (loginCacheItem != null)
             {
                 model.ShowCaptchaImage = loginCacheItem.LoginAttempts >= _settings.CaptchaShowFailCount;
-                loginCacheItem.CaptchaText = GetRandomWord(_settings.CaptchaWordLength);
+                loginCacheItem.CaptchaText = GetRandomWord(_settings.CaptchaWordLength, CaptchaCharacters);
             }
 
             return View(model);
@@ -123,7 +124,7 @@ namespace LoginPlugin.Controllers
                     if (model.RememberMe)
                         CookieAdd(_settings.RememberMeCookieName, Encrypt(loginDetails.UserId.ToString(), _settings.EncryptionKey), _settings.LoginDays);
 
-                    return (Redirect(model.ReturnUrl));
+                    return Redirect(model.ReturnUrl);
 
                 case Enums.LoginResult.AccountLocked:
                     return (RedirectToAction("AccountLocked", new { username = model.Username }));
@@ -137,9 +138,9 @@ namespace LoginPlugin.Controllers
             }
 
             if (model.ShowCaptchaImage)
-                loginCacheItem.CaptchaText = GetRandomWord(_settings.CaptchaWordLength);
+                loginCacheItem.CaptchaText = GetRandomWord(_settings.CaptchaWordLength, CaptchaCharacters);
 
-            return (View(model));
+            return View(model);
         }
 
         [HttpGet]
@@ -150,7 +151,7 @@ namespace LoginPlugin.Controllers
 
             AccountLockedViewModel model = new AccountLockedViewModel(username);
 
-            return (View(model));
+            return View(model);
         }
 
         [HttpPost]
@@ -167,7 +168,7 @@ namespace LoginPlugin.Controllers
             ModelState.AddModelError("", "The unlock code you entered was not valid");
             model.UnlockCode = String.Empty;
 
-            return (View(model));
+            return View(model);
         }
         
         [HttpGet]
@@ -176,10 +177,10 @@ namespace LoginPlugin.Controllers
             ForgotPasswordViewModel model = new ForgotPasswordViewModel();
 
             LoginCacheItem loginCacheItem = GetCachedLoginAttempt(true);
-            loginCacheItem.CaptchaText = GetRandomWord(_settings.CaptchaWordLength);
+            loginCacheItem.CaptchaText = GetRandomWord(_settings.CaptchaWordLength, CaptchaCharacters);
             model.CaptchaText = loginCacheItem.CaptchaText;
 
-            return (View());
+            return View();
         }
 
         [HttpPost]
@@ -197,14 +198,17 @@ namespace LoginPlugin.Controllers
             }
 
             if (ModelState.IsValid && _loginProvider.ForgottenPassword(model.Username))
-                    return Redirect("/Login/");
+            {
+                RemoveLoginAttempt();
+                return Redirect("/Login/");
+            }
 
-            ModelState.AddModelError(String.Empty, "The username you provided could not be found.");
+            ModelState.AddModelError(String.Empty, "The details you provided could not be validated.");
 
-            loginCacheItem.CaptchaText = GetRandomWord(_settings.CaptchaWordLength);
+            loginCacheItem.CaptchaText = GetRandomWord(_settings.CaptchaWordLength, CaptchaCharacters);
             model.CaptchaText = loginCacheItem.CaptchaText;
 
-            return (View(model));
+            return View(model);
         }
 
         [HttpGet]
@@ -215,7 +219,7 @@ namespace LoginPlugin.Controllers
             if (loginCacheItem == null)
                 return StatusCode(400);
 
-            CaptchaImage ci = new CaptchaImage(loginCacheItem.CaptchaText, 200, 50, "Century Schoolbook");
+            CaptchaImage ci = new CaptchaImage(loginCacheItem.CaptchaText, 240, 60, "Century Schoolbook");
             try
             {
                 // Write the image to the response stream in JPEG format.

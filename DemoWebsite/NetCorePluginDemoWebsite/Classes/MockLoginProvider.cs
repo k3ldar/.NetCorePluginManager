@@ -26,7 +26,7 @@
 
 using SharedPluginFeatures;
 
-namespace LoginPlugin.Classes
+namespace AspNetCore.PluginManager.DemoWebsite.Classes
 {
 #if DEBUG
     public class MockLoginProvider : ILoginProvider

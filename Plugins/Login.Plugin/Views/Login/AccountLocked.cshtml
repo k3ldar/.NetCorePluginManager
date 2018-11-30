@@ -5,6 +5,7 @@
 }
 
 <h2>Account Locked</h2>
+<link rel="stylesheet" href="/css/login.css" />
 
 <div>@Html.ValidationSummary(true)</div>
 
@@ -12,18 +13,18 @@
 @using (Html.BeginForm("AccountLocked", "Login", FormMethod.Post))
 {
     @Html.HiddenFor(m => m.Username)
-    <div>
+    <div class="login-block">
         <p>Your account has been temporarily locked due to authentication failures.  Please enter the code that has been sent to your email to unlock your account.</p>
     </div>
-    <div>
-        <div>
+    <div class="login-block">
+        <div class="login-row">
             @Html.LabelFor(m => m.UnlockCode)
         </div>
-        <div>
+        <div class="login-row">
             @Html.TextBoxFor(m => m.UnlockCode) @Html.ValidationMessageFor(m => m.UnlockCode)
         </div>
     </div>
-    <div>
+    <div class="login-block">
         <input type="submit" value="Unlock" />
     </div>
 }

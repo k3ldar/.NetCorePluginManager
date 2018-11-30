@@ -15,47 +15,27 @@
  *
  *  Product:  Login Plugin
  *  
- *  File: PluginClass.cs
+ *  File: ForgotPasswordViewModel.cs
  *
- *  Purpose:  Net Core Plugin Manager Integration
+ *  Purpose:  
  *
  *  Date        Name                Reason
- *  19/11/2018  Simon Carter        Initially Created
+ *  29/11/2018  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.DependencyInjection;
+using System;
+using System.ComponentModel.DataAnnotations;
 
-using SharedPluginFeatures;
-
-namespace LoginPlugin.Classes
+namespace LoginPlugin.Models
 {
-    public class PluginClass : IPlugin, IPluginVersion
+    public sealed class ForgotPasswordViewModel
     {
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
-        {
-            
-        }
+        [Required]
+        [Display(Name = "User name or email")]
+        public string Username { get; set; }
 
-        public void ConfigureServices(IServiceCollection services)
-        {
-
-        }
-
-        public void Finalise()
-        {
-            
-        }
-
-        public ushort GetVersion()
-        {
-            return (1);
-        }
-
-        public void Initialise(ILogger logger)
-        {
-            
-        }
+        [Required]
+        [Display(Name = "Validation Code")]
+        public string CaptchaText { get; set; }
     }
 }

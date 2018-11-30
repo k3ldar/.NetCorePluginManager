@@ -1,6 +1,7 @@
 ﻿var loginPlugin = (function () {
     var _controls = {
-        forgotPassword: ''
+        btnForgotPassword: '',
+        btnSubmit: '',
     };
 
     var root = {
@@ -8,11 +9,13 @@
             _controls = controls;
 
             $(document).ready(function () {
-                $(_controls.forgotPassword).on("click", function () {
-                    window.location.replace("/Login/ForgotPassword");
-                });
+                if (_controls.btnForgotPassword !== undefined) {
+                    $(_controls.btnForgotPassword).on("click", function () {
+                        window.location.replace("/Login/ForgotPassword");
+                    });
+                }
             });
-        }
+        },
     };
 
     return root;

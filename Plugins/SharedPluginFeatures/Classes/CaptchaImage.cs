@@ -117,9 +117,10 @@ namespace SharedPluginFeatures
             // If the named font is not installed, default to a system font.
             try
             {
-                Font font = new Font(this.familyName, 12F);
-                this.familyName = familyName;
-                font.Dispose();
+                using (Font font = new Font(this.familyName, 12F))
+                {
+                    this.familyName = familyName;
+                }
             }
             catch
             {

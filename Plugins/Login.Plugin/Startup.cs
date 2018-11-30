@@ -56,10 +56,6 @@ namespace LoginPlugin
             services.AddMemoryCache();
             services.AddSession();
 
-#if DEBUG
-            services.AddSingleton<ILoginProvider, Classes.MockLoginProvider>();
-#endif
-
             services.AddMvc()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
                 .AddSessionStateTempDataProvider();

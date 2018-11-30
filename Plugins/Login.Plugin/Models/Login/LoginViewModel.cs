@@ -53,16 +53,19 @@ namespace LoginPlugin.Models
         public string ReturnUrl { get; set; }
 
         [Required]
+        [Display(Name = "User name or email")]
         public string Username { get; set; }
 
         [Required]
         [StringLength(Constants.MaximumPasswordLength, MinimumLength = Constants.MinimumPasswordLength)]
         public string Password { get; set; }
 
+        [Display(Name = "Validation Code")]
         public string CaptchaText { get; set; }
 
         public bool ShowCaptchaImage { get; set; }
 
+        [Display(Name = "Remember Me")]
         public bool RememberMe { get; set; }
 
         public bool ShowRememberMe { get; set; }

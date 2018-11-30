@@ -35,3 +35,15 @@ body {
         display: none;
     }
 }
+
+.validation-summary-errors {
+    color: red;
+}
+    .validation-summary-errors ul {
+        list-style-type: none;
+        padding-left: 0px;
+    }
+
+.field-validation-error {
+    color: red;
+}

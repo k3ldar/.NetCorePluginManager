@@ -50,9 +50,11 @@ namespace LoginPlugin.Models
         #region Properties
 
         [Required]
+        [Display(Name = "User name or email")]
         public string Username { get; set; }
 
         [Required(ErrorMessage = "Please enter the unlock code")]
+        [Display(Name = "Validation Code")]
         public string UnlockCode { get; set; }
 
         #endregion Properties
