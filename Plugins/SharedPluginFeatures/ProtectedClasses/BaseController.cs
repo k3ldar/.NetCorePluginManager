@@ -59,6 +59,11 @@ namespace SharedPluginFeatures
             return (false);
         }
 
+        protected string GetCoreSettionId()
+        {
+            return (HttpContext.Session.Id);
+        }
+
         #endregion User Sessions
 
         #region Cookies
@@ -108,7 +113,7 @@ namespace SharedPluginFeatures
             T Result = (T)Activator.CreateInstance(typeof(T));
             config.GetSection(sectionName).Bind(Result);
 
-            return (Result);
+            return (AppSettings.ValidateSettings<T>.Validate(Result));
         }
 
         protected T GetSettings<T>(in string sectionName)
@@ -117,5 +122,14 @@ namespace SharedPluginFeatures
         }
 
         #endregion Settings
+
+        #region Ip Address
+
+        protected string GetIpAddress()
+        {
+            return (HttpContext.Connection.RemoteIpAddress.ToString());
+        }
+
+        #endregion Ip Address
     }
 }

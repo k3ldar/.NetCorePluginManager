@@ -21,7 +21,8 @@
  *
  *  Date        Name                Reason
  *  19/10/2018  Simon Carter        Initially Created
- *  04/11/2018  Simon Carter        Add Sieradelta GeoIp options to geoip enum
+ *  04/11/2018  Simon Carter        Add Sieradelta GeoIp options to geoip 
+ *  21/11/2018  Simon Carter        Add Login Enums
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
@@ -65,6 +66,25 @@ namespace SharedPluginFeatures
             ThreadManager = 16,
         }
 
+        /// <summary>
+        /// Login results
+        /// </summary>
+        public enum LoginResult
+        {
+            Success = 0,
+
+            InvalidCredentials =  1,
+
+            AccountLocked = 2,
+
+            PasswordChangeRequired = 3,
+
+            Remembered = 4
+        }
+
+        /// <summary>
+        /// Geo Ip providers
+        /// </summary>
         public enum GeoIpProvider
         {
             /// <summary>
@@ -93,6 +113,9 @@ namespace SharedPluginFeatures
             Firebird = 4,
         }
 
+        /// <summary>
+        /// System Admin menu types
+        /// </summary>
         public enum SystemAdminMenuType
         {
             FirstChild = 0,

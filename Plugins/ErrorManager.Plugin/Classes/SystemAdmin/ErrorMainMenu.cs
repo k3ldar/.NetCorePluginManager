@@ -27,7 +27,7 @@ using System;
 
 using SharedPluginFeatures;
 
-namespace AspNetCore.PluginManager.Classes
+namespace ErrorManager.Plugin.Classes.SystemAdmin
 {
     public class ErrorMainMenu : SystemAdminMainMenu
     {
