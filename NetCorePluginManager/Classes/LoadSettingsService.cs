@@ -29,6 +29,8 @@ using System.IO;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
+using AppSettings;
+
 using SharedPluginFeatures;
 
 namespace AspNetCore.PluginManager.Classes
@@ -44,7 +46,7 @@ namespace AspNetCore.PluginManager.Classes
             T Result = (T)Activator.CreateInstance(typeof(T));
             config.GetSection(name).Bind(Result);
 
-            return (Result);
+            return (ValidateSettings<T>.Validate(Result));
         }
 
         public T LoadSettings(in string name)

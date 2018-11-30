@@ -81,7 +81,7 @@ namespace BadEgg.Plugin
             _managedRoutes = new List<ManagedRoute>();
             LoadRouteData(routeProvider, routeDataService, pluginTypesService);
 
-            _badEggSettings = ValidateSettings(GetSettings<BadEggSettings>("BadEgg.Plugin"));
+            _badEggSettings = GetSettings<BadEggSettings>("BadEgg.Plugin");
 
             _validateConnections = new ValidateConnections(
                 _badEggSettings.ConnectionTimeOut,
@@ -146,24 +146,6 @@ namespace BadEgg.Plugin
         #endregion Public Methods
 
         #region Private Methods
-
-        private BadEggSettings ValidateSettings(BadEggSettings settings)
-        {
-
-            if (settings.BannedResponseCode < 1)
-                settings.BannedResponseCode = 400;
-
-            if (settings.TooManyRequestResponseCode < 1)
-                settings.TooManyRequestResponseCode = 429;
-
-            if (settings.ConnectionTimeOut < 1)
-                settings.ConnectionTimeOut = 5;
-
-            if (settings.ConnectionsPerMinute < 5)
-                settings.ConnectionsPerMinute = 100;
-
-            return (settings);
-        }
 
         private void LoadRouteData(IActionDescriptorCollectionProvider routeProvider,
             IRouteDataService routeDataService, IPluginTypesService pluginTypesService)

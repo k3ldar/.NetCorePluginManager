@@ -23,18 +23,24 @@
  *  29/09/2018  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using System;
+using AppSettings;
 
 namespace UserSessionMiddleware.Plugin
 {
     public sealed class UserSessionSettings
     {
+        [SettingDefault(".less;.ico;.css;.js;.svg;.jpg;.jpeg;.gif;.png;.eot;")]
         public string StaticFileExtensions { get; set; }
 
+        [SettingDefault("user_session")]
         public string CookieName { get; set; }
 
+        [SettingDefault("Dfklaosre;lnfsdl;jlfaeu;dkkfcaskxcd3jf")]
+        [SettingString(false, 20, 60)]
         public string EncryptionKey { get; set; }
 
+        [SettingDefault(30)]
+        [SettingRange(15, 200)]
         public uint SessionTimeout { get; set; }
     }
 }

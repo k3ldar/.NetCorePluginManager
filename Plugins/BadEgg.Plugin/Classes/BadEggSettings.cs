@@ -23,6 +23,7 @@
  *  08/11/2018  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+using AppSettings;
 
 namespace BadEgg.Plugin
 {
@@ -30,12 +31,18 @@ namespace BadEgg.Plugin
     {
         #region Properties
 
+        [SettingRange(1, 300)]
+        [SettingDefault(5)]
         public uint ConnectionTimeOut { get; set; }
 
+        [SettingRange(5, uint.MaxValue)]
+        [SettingDefault(100)]
         public uint ConnectionsPerMinute { get; set; }
 
+        [SettingDefault(400)]
         public int BannedResponseCode { get; set; }
 
+        [SettingDefault(429)]
         public int TooManyRequestResponseCode { get; set; }
 
         #endregion Properties

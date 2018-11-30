@@ -25,6 +25,8 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
 
+using AppSettings;
+
 namespace ErrorManager.Plugin
 {
     public class ErrorManagerSettings
@@ -33,8 +35,12 @@ namespace ErrorManager.Plugin
 
         public string[] Quotes { get; set; }
 
+        [SettingDefault("asldfjanpsa]3;la9e4823[2oer09oecrlc")]
+        [SettingString(false, 20, 60)]
         public string EncryptionKey { get; set; }
 
+        [SettingDefault("/Login/")]
+        [SettingUri(false, UriKind.RelativeOrAbsolute)]
         public string LoginPage { get; set; }
 
         public int Count()
@@ -43,14 +49,6 @@ namespace ErrorManager.Plugin
                 return (0);
 
             return (Quotes.Length - 1);
-        }
-
-        public string GetEncryptionKey()
-        {
-            if (!String.IsNullOrEmpty(EncryptionKey))
-                return (EncryptionKey);
-
-            return ("asldfjanpsa]3;la9e4823[2oer09oecrlc");
         }
 
         public string GetQuote(int index)

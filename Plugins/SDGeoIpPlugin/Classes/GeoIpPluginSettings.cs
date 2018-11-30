@@ -42,6 +42,7 @@ namespace SieraDeltaGeoIp.Plugin
 
         public bool CacheAllData { get; set; }
 
+#warning name value pair
         public string DatabaseConnectionString { get; set; }
 
         public Enums.GeoIpProvider GeoIpProvider { get; set; }

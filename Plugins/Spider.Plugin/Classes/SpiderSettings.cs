@@ -23,6 +23,7 @@
  *  29/09/2018  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+using AppSettings;
 
  namespace Spider.Plugin
 {
@@ -32,6 +33,8 @@
 
         public bool ProcessStaticFiles { get; set; }
 
+        [SettingDefault(".less;.ico;.css;.js;.svg;.jpg;.jpeg;.gif;.png;.eot;")]
+        [SettingString(false)]
         public string StaticFileExtensions { get; set; }
 
         #endregion Properties

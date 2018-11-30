@@ -23,15 +23,19 @@
  *  28/10/2018  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+using AppSettings;
 
 namespace SystemAdmin.Plugin
 {
     public class SystemAdminSettings
     {
+        [SettingString(true, 15, 80)]
         public string GoogleMapApiKey { get; set; }
 
+        [SettingDefault(false)]
         public bool ShowAppSettingsJson { get; set; }
 
+        [SettingDefault(true)]
         public bool DisableFormattedText { get; set; }
     }
 }

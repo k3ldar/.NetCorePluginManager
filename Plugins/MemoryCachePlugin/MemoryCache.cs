@@ -54,11 +54,11 @@ namespace MemoryCache.Plugin
             // create the caches
             if (_cache == null)
                 _cache = new CacheManager("Website Internal Cache", 
-                    new TimeSpan(0, settings.DefaultCacheDuration < 30 ? 120 : settings.DefaultCacheDuration, 0));
+                    new TimeSpan(0, settings.DefaultCacheDuration, 0));
 
             if (_cacheShort == null)
                 _cacheShort = new CacheManager("Website Internal Short Cache", 
-                    new TimeSpan(0, settings.ShortCacheDuration < 1 ? 5 : settings.ShortCacheDuration, 0));
+                    new TimeSpan(0, settings.ShortCacheDuration, 0));
         }
 
         #endregion Constructors

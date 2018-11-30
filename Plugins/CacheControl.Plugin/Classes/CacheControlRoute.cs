@@ -23,13 +23,17 @@
  *  14/10/2018  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+using AppSettings;
 
 namespace CacheControl.Plugin
 {
     public sealed class CacheControlRoute
     {
+        [SettingString(false, 1, 1500)]
         public string[] Route { get; set; }
 
+        [SettingRange(1, int.MaxValue)]
+        [SettingDefault(120)]
         public int CacheMinutes { get; set; }
 
         internal string CacheValue { get; set; }

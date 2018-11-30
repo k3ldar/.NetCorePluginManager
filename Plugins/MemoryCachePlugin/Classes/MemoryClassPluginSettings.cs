@@ -23,6 +23,7 @@
  *  22/09/2018  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+using AppSettings;
 
 namespace MemoryCache.Plugin
 {
@@ -30,8 +31,12 @@ namespace MemoryCache.Plugin
     {
         #region Properties
 
+        [SettingDefault(120)]
+        [SettingRange(30, 2880)]
         public int DefaultCacheDuration { get; set; }
 
+        [SettingDefault(5)]
+        [SettingRange(1, 60)]
         public int ShortCacheDuration { get; set; }
 
         #endregion Properties

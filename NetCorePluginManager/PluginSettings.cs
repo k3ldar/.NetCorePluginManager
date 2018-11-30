@@ -25,20 +25,32 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System.Collections.Generic;
 
+using AppSettings;
+
 namespace AspNetCore.PluginManager
 {
     public sealed class PluginSettings
     {
         public bool Disabled { get; set; }
 
+        [SettingString(true)]
+        [SettingValidPath]
         public string PluginPath { get; set; }
 
+        [SettingString(true)]
+        [SettingValidPath]
         public string PluginSearchPath { get; set; }
 
+        [SettingString(true)]
+        [SettingValidPath]
         public string SystemFiles { get; set; }
 
+        [SettingString(true)]
+        [SettingValidPath]
         public string CSSLocation { get; set; }
 
+        [SettingString(true)]
+        [SettingValidPath]
         public string JScriptLocation { get; set; }
 
         public bool PreventAreas { get; set; }
