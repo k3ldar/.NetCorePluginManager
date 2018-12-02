@@ -212,6 +212,23 @@ namespace LoginPlugin.Controllers
         }
 
         [HttpGet]
+        public ActionResult Logout()
+        {
+            UserSession session = GetUserSession();
+
+            if (session != null)
+            {
+                session.UserEmail = String.Empty;
+                session.UserName = String.Empty;
+                session.UserID = 0;
+            }
+
+            CookieDelete(_settings.RememberMeCookieName);
+
+            return Redirect("/");
+        }
+
+        [HttpGet]
         public ActionResult GetCaptchaImage()
         {
             LoginCacheItem loginCacheItem = GetCachedLoginAttempt(false);

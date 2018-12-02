@@ -35,6 +35,7 @@ using AppSettings;
 
         [SettingDefault(".less;.ico;.css;.js;.svg;.jpg;.jpeg;.gif;.png;.eot;")]
         [SettingString(false)]
+        [SettingDelimitedString(';', 1)]
         public string StaticFileExtensions { get; set; }
 
         #endregion Properties

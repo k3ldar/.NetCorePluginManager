@@ -73,6 +73,12 @@ namespace SharedPluginFeatures
             return HttpContext.Request.Cookies.ContainsKey(name);
         }
 
+        protected void CookieDelete(in string name)
+        {
+            if (HttpContext.Request.Cookies.ContainsKey(name))
+                HttpContext.Response.Cookies.Append(name, String.Empty, new CookieOptions() { Expires = DateTime.Now.AddDays(-1) });
+        }
+
         protected string CookieValue(in string name, in string defaultValue = "")
         {
             if (!CookieExists(name))

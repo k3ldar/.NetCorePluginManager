@@ -40,9 +40,11 @@ namespace BadEgg.Plugin
         public uint ConnectionsPerMinute { get; set; }
 
         [SettingDefault(400)]
+        [SettingHttpResponse(HttpResponseType.ClientErrors)]
         public int BannedResponseCode { get; set; }
 
         [SettingDefault(429)]
+        [SettingHttpResponse(HttpResponseType.ClientErrors)]
         public int TooManyRequestResponseCode { get; set; }
 
         #endregion Properties

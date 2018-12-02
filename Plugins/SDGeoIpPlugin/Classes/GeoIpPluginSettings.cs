@@ -23,6 +23,8 @@
  *  04/11/2018  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+using AppSettings;
+
 using SharedPluginFeatures;
 
 namespace SieraDeltaGeoIp.Plugin
@@ -42,7 +44,8 @@ namespace SieraDeltaGeoIp.Plugin
 
         public bool CacheAllData { get; set; }
 
-#warning name value pair
+        [SettingNameValuePair(';')]
+        [SettingString(false)]
         public string DatabaseConnectionString { get; set; }
 
         public Enums.GeoIpProvider GeoIpProvider { get; set; }
