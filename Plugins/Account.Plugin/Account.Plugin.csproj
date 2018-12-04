@@ -1,0 +1,69 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFrameworks>netcoreapp2.1</TargetFrameworks>
+    <LangVersion>latest</LangVersion>
+    <Version>1.0.14</Version>
+    <RazorCompileOnBuild>false</RazorCompileOnBuild>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Description>Error Manager plugin asp net core plugin manager.</Description>
+    <Authors>Simon Carter</Authors>
+    <Company>Simon Carter</Company>
+    <Copyright>Copyright (c) 2018.  Simon Carter.  All rights reserved.</Copyright>
+    <PackageLicenseUrl>https://github.com/k3ldar/.NetCorePluginManager/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/k3ldar/.NetCorePluginManager</PackageProjectUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>asp net core plugin manager Login Plugin</PackageTags>
+    <AssemblyName>Account.Plugin</AssemblyName>
+    <RootNamespace>Account.Plugin</RootNamespace>
+    <TypeScriptToolsVersion>3.0</TypeScriptToolsVersion>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Remove="wwwroot\css\Account.css" />
+    <Content Remove="wwwroot\js\Account.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="wwwroot\css\Account.css" />
+    <EmbeddedResource Include="wwwroot\js\Account.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="ApplicationSettings" Version="1.0.1" />
+    <PackageReference Include="jQuery" Version="3.3.1" />
+    <PackageReference Include="jQuery.Validation" Version="1.17.0" />
+    <PackageReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.1.2" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.6" />
+    <PackageReference Include="SC.Shared.Library.Core" Version="2.6.2" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <PackageReference Include="RestrictIp.Plugin" Version="1.0.14" />
+    <PackageReference Include="MemoryCache.Plugin" Version="1.0.14" />
+    <PackageReference Include="AspNetCore.PluginManager" Version="1.0.14" />
+    <PackageReference Include="SharedPluginFeatures" Version="1.0.14" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <ProjectReference Include="..\..\NetCorePluginManager\AspNetCore.PluginManager.csproj" />
+    <ProjectReference Include="..\SharedPluginFeatures\SharedPluginFeatures.csproj" />
+    <ProjectReference Include="..\MemoryCachePlugin\MemoryCachePlugin.csproj" />
+    <ProjectReference Include="..\RestrictIp.Plugin\RestrictIp.Plugin.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Classes\SystemAdmin\" />
+    <Folder Include="wwwroot\images\" />
+  </ItemGroup>
+
+</Project>
