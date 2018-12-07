@@ -51,11 +51,11 @@ namespace UserSessionMiddleware.Plugin
 
         #region Constructors
 
-        public UserSessionMiddleware(RequestDelegate next)
+        public UserSessionMiddleware(RequestDelegate next, ISettingsProvider settingsProvider)
         {
             _next = next;
 
-            UserSessionSettings Settings = GetSettings<UserSessionSettings>("UserSessionConfiguration");
+            UserSessionSettings Settings = settingsProvider.GetSettings<UserSessionSettings>("UserSessionConfiguration");
 
             Settings.SessionTimeout = Shared.Utilities.CheckMinMax(Settings.SessionTimeout, 15, 200);
 

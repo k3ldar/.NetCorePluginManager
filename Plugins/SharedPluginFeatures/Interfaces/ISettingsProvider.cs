@@ -11,36 +11,26 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2012 - 2018 Simon Carter.  All Rights Reserved.
  *
- *  Product:  UserSessionMiddleware.Plugin
+ *  Product:  SharedPluginFeatues
  *  
- *  File: UserSessionSettings.cs
+ *  File: ISettingsProvider.cs
  *
  *  Purpose:  
  *
  *  Date        Name                Reason
- *  29/09/2018  Simon Carter        Initially Created
+ *  04/12/2018  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using AppSettings;
 
-namespace UserSessionMiddleware.Plugin
+
+namespace SharedPluginFeatures
 {
-    public sealed class UserSessionSettings
+    public interface ISettingsProvider
     {
-        [SettingDefault(".less;.ico;.css;.js;.svg;.jpg;.jpeg;.gif;.png;.eot;")]
-        public string StaticFileExtensions { get; set; }
+        T GetSettings<T>(in string storage, in string sectionName);
 
-        [SettingDefault("user_session")]
-        public string CookieName { get; set; }
-
-        [SettingDefault("Dfklaosre;lnfsdl;jlfaeu;dkkfcaskxcd3jf")]
-        [SettingString(false, 20, 60)]
-        public string EncryptionKey { get; set; }
-
-        [SettingDefault(30u)]
-        [SettingRange(15u, 200u)]
-        public uint SessionTimeout { get; set; }
+        T GetSettings<T>(in string sectionName);
     }
 }

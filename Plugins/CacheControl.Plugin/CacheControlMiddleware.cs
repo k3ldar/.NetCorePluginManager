@@ -54,13 +54,13 @@ namespace CacheControl.Plugin
 
         #region Constructors
 
-        public CacheControlMiddleware(RequestDelegate next)
+        public CacheControlMiddleware(RequestDelegate next, ISettingsProvider settingsProvider)
         {
             _next = next;
             _routePaths = new Dictionary<string, CacheControlRoute>();
             _ignoredRoutes = new HashSet<string>();
 
-            LoadSettings(GetSettings<CacheControlSettings>("CacheControlRoute"));
+            LoadSettings(settingsProvider.GetSettings<CacheControlSettings>("CacheControlRoute"));
         }
 
         #endregion Constructors

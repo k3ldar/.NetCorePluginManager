@@ -15,43 +15,47 @@
  *
  *  Product:  AspNetCore.PluginManager
  *  
- *  File: LoadSettingsService.cs
+ *  File: DefaultSettingProvider.cs
  *
- *  Purpose:  
+ *  Purpose:  Wrapper around appsettings.json, used only if no other provider is specified
  *
  *  Date        Name                Reason
  *  13/10/2018  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
-using System.IO;
 
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-
-using AppSettings;
+using Microsoft.AspNetCore.Http;
 
 using SharedPluginFeatures;
 
 namespace AspNetCore.PluginManager.Classes
 {
-    public class LoadSettingsService<T> : ILoadSettingsService<T>
+    public sealed class DefaultSettingProvider : ISettingsProvider
     {
-        public T LoadSettings(in string jsonFile, in string name)
+        public T GetSettings<T>(in string storage, in string sectionName)
         {
+            if (String.IsNullOrEmpty(storage))
+                throw new ArgumentNullException(nameof(storage));
+
+            if (String.IsNullOrEmpty(sectionName))
+                throw new ArgumentNullException(nameof(sectionName));
+
             ConfigurationBuilder builder = new ConfigurationBuilder();
-            IConfigurationBuilder configBuilder = builder.SetBasePath(Path.GetDirectoryName(jsonFile));
-            configBuilder.AddJsonFile(jsonFile);
+            IConfigurationBuilder configBuilder = builder.SetBasePath(System.IO.Directory.GetCurrentDirectory());
+            configBuilder.AddJsonFile(storage);
             IConfigurationRoot config = builder.Build();
             T Result = (T)Activator.CreateInstance(typeof(T));
-            config.GetSection(name).Bind(Result);
+            config.GetSection(sectionName).Bind(Result);
 
-            return ValidateSettings<T>.Validate(Result);
+            return (AppSettings.ValidateSettings<T>.Validate(Result));
         }
 
-        public T LoadSettings(in string name)
+        public T GetSettings<T>(in string sectionName)
         {
-            return (LoadSettings(Path.Combine(Directory.GetCurrentDirectory(), "appsettings.json"), name));
+            return GetSettings<T>("appsettings.json", sectionName);
         }
     }
 }

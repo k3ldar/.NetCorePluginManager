@@ -34,23 +34,26 @@ namespace AspNetCore.PluginManager
         public bool Disabled { get; set; }
 
         [SettingString(true)]
-        [SettingValidPath]
+        //[SettingValidPath]
+        [SettingDefault("%AppPath%\\Plugins")]
         public string PluginPath { get; set; }
 
         [SettingString(true)]
         [SettingValidPath]
+        [SettingDefault("%AppPath%\\Bin")]
         public string PluginSearchPath { get; set; }
 
         [SettingString(true)]
-        [SettingValidPath]
         public string SystemFiles { get; set; }
 
         [SettingString(true)]
         [SettingValidPath]
+        [SettingDefault("%AppPath%\\wwwroot\\css")]
         public string CSSLocation { get; set; }
 
         [SettingString(true)]
         [SettingValidPath]
+        [SettingDefault("%AppPath%\\wwwroot\\js")]
         public string JScriptLocation { get; set; }
 
         public bool PreventAreas { get; set; }

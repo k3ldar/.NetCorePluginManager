@@ -31,12 +31,12 @@ namespace BadEgg.Plugin
     {
         #region Properties
 
-        [SettingRange(1, 300)]
-        [SettingDefault(5)]
+        [SettingRange(1u, 300u)]
+        [SettingDefault(5u)]
         public uint ConnectionTimeOut { get; set; }
 
-        [SettingRange(5, uint.MaxValue)]
-        [SettingDefault(100)]
+        [SettingRange(5u, uint.MaxValue)]
+        [SettingDefault(100u)]
         public uint ConnectionsPerMinute { get; set; }
 
         [SettingDefault(400)]
