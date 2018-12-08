@@ -13,7 +13,7 @@
  *
  *  Copyright (c) 2018 Simon Carter.  All Rights Reserved.
  *
- *  Product:  SharedPluginFeatures
+ *  Product:  UserSessionMiddleware.Plugin
  *  
  *  File: SessionHelper.cs
  *

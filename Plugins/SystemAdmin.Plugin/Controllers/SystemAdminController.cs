@@ -34,6 +34,7 @@ using SharedPluginFeatures;
 
 namespace SystemAdmin.Plugin.Controllers
 {
+    [LoggedIn]
     [RestrictedIpRoute("SystemAdminRoute")]
     public class SystemAdminController : Controller
     {

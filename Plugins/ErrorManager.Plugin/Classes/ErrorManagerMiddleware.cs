@@ -49,7 +49,7 @@ namespace ErrorManager.Plugin
         private readonly string _loginPage;
         private readonly Dictionary<string, uint> _missingPageCount;
 
-        private static object _lockObject = new object();
+        private static readonly object _lockObject = new object();
         private static ErrorThreadManager _errorThreadManager;
 
         internal static readonly CacheManager _errorCacheManager = new CacheManager("Error Manager", new TimeSpan(1, 0, 0), true, false);

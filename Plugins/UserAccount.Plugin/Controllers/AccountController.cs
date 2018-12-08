@@ -9,6 +9,7 @@ using SharedPluginFeatures;
 namespace UserAccount.Plugin.Controllers
 {
     [LoggedIn]
+    [Route("/UserAccounts")]
     public partial class AccountController : BaseController
     {
         public IActionResult Index()

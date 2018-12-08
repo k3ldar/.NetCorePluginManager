@@ -35,7 +35,12 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
             in byte attempts, ref UserLoginDetails loginDetails)
         {
             if (loginDetails.RememberMe && loginDetails.UserId == 123)
+            {
+                loginDetails.Username = "Administrator";
+                loginDetails.Email = "admin@nowhere.com";
+                loginDetails.UserId = 123;
                 return Enums.LoginResult.Remembered;
+            }
 
             if (username == "admin" && password == "password")
             {
@@ -46,9 +51,9 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
             }
 
             if (attempts > 4)
-                return (Enums.LoginResult.AccountLocked);
+                return Enums.LoginResult.AccountLocked;
 
-            return (Enums.LoginResult.InvalidCredentials);
+            return Enums.LoginResult.InvalidCredentials;
         }
 
         public bool UnlockAccount(in string username, in string unlockCode)

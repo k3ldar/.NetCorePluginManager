@@ -49,8 +49,7 @@ namespace UserSessionMiddleware.Plugin
         private readonly string _cookieName = "user_session";
         private readonly string _cookieEncryptionKey = "Dfklaosre;lnfsdl;jlfaeu;dkkfcaskxcd3jf";
         private readonly string _staticFileExtension = ".less;.ico;.css;.js;.svg;.jpg;.jpeg;.gif;.png;.eot;";
-        private readonly Dictionary<string, string> _loggedInRoutes;
-        private readonly Dictionary<string, string> _loggedOutRoutes;
+        private readonly List<RouteData> _routeData;
         internal static Timings _timings = new Timings();
 
         #endregion Private Members
@@ -58,7 +57,7 @@ namespace UserSessionMiddleware.Plugin
         #region Constructors
 
         public UserSessionMiddleware(RequestDelegate next, IActionDescriptorCollectionProvider routeProvider,
-            IRouteDataService routeDataService, IPluginTypesService pluginTypesService)
+            IRouteDataService routeDataService, IPluginTypesService pluginTypesService, ISettingsProvider settingsProvider)
         {
             if (routeProvider == null)
                 throw new ArgumentNullException(nameof(routeProvider));
@@ -69,11 +68,14 @@ namespace UserSessionMiddleware.Plugin
             if (pluginTypesService == null)
                 throw new ArgumentNullException(nameof(pluginTypesService));
 
+            if (settingsProvider == null)
+                throw new ArgumentNullException(nameof(settingsProvider));
+
             _next = next;
 
-            _loggedInRoutes = new Dictionary<string, string>();
-            _loggedOutRoutes = new Dictionary<string, string>();
+            _routeData = new List<RouteData>();
 
+            UserSessionSettings Settings = settingsProvider.GetSettings<UserSessionSettings>("UserSessionConfiguration");
 
             Settings.SessionTimeout = Shared.Utilities.CheckMinMax(Settings.SessionTimeout, 15, 200);
 
@@ -149,8 +151,23 @@ namespace UserSessionMiddleware.Plugin
                 context.Items.Add("UserSession", userSession);
 
                 string route = RouteLowered(context);
+                bool loggedIn = !String.IsNullOrEmpty(userSession.UserName);
 
-                // is the route a loggedin route
+                // is the route a loggedin/loggedout route
+
+                foreach (RouteData routeData in _routeData)
+                {
+                    if (!routeData.LoggedIn && loggedIn && route.StartsWith(routeData.Route))
+                    {
+                        context.Response.Redirect(routeData.RedirectPath, false);
+                        return;
+                    }
+                    else if (routeData.LoggedIn && !loggedIn && route.StartsWith(routeData.Route))
+                    {
+                        context.Response.Redirect($"{routeData.RedirectPath}?returnUrl={context.Request.Path.ToString()}", false);
+                        return;
+                    }
+                }
             }
 
             await _next(context);
@@ -226,7 +243,7 @@ namespace UserSessionMiddleware.Plugin
                     if (String.IsNullOrEmpty(route))
                         continue;
 
-                    _loggedInRoutes.Add(route.ToLower(), attribute.LoginPage);
+                    _routeData.Add(new RouteData(route.ToLower(), true, attribute.LoginPage));
                 }
 
                 // look for specific method disallows
@@ -243,7 +260,7 @@ namespace UserSessionMiddleware.Plugin
                         if (String.IsNullOrEmpty(route))
                             continue;
 
-                        _loggedInRoutes.Add(route.ToLower(), attribute.LoginPage);
+                        _routeData.Add(new RouteData(route.ToLower(), true, attribute.LoginPage));
                     }
                 }
             }
@@ -268,7 +285,7 @@ namespace UserSessionMiddleware.Plugin
                     if (String.IsNullOrEmpty(route))
                         continue;
 
-                    _loggedOutRoutes.Add(route.ToLower(), attribute.RedirectPage);
+                    _routeData.Add(new RouteData(route.ToLower(), false, attribute.RedirectPage));
                 }
 
                 // look for specific method disallows
@@ -285,7 +302,7 @@ namespace UserSessionMiddleware.Plugin
                         if (String.IsNullOrEmpty(route))
                             continue;
 
-                        _loggedOutRoutes.Add(route.ToLower(), attribute.RedirectPage);
+                        _routeData.Add(new RouteData(route.ToLower(), false, attribute.RedirectPage));
                     }
                 }
             }
