@@ -45,11 +45,11 @@ namespace MemoryCache.Plugin
 
         #region Constructors
 
-        public MemoryCache()
+        public MemoryCache(ISettingsProvider settingsProvider)
         {
             ThreadManager.Initialise();
 
-            MemoryClassPluginSettings settings = GetSettings<MemoryClassPluginSettings>("MemoryCachePluginConfiguration");
+            MemoryClassPluginSettings settings = settingsProvider.GetSettings<MemoryClassPluginSettings>("MemoryCachePluginConfiguration");
 
             // create the caches
             if (_cache == null)

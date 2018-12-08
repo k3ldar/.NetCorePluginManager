@@ -32,6 +32,7 @@ using System.Linq;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 using SharedPluginFeatures;
 using static SharedPluginFeatures.Enums;
@@ -225,6 +226,9 @@ namespace AspNetCore.PluginManager
                     _logger.AddToLog(LogLevel.PluginConfigureError, error, $"{plugin.Key}{MethodBase.GetCurrentMethod().Name}");
                 }
             }
+
+            // if no plugin has registered a setting provider, add the default appsettings json provider
+            services.TryAddSingleton<ISettingsProvider, Classes.DefaultSettingProvider>();
         }
 
         /// <summary>

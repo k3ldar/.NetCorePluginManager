@@ -59,7 +59,7 @@ namespace Spider.Plugin
 
         public SpiderMiddleware(RequestDelegate next, IActionDescriptorCollectionProvider routeProvider, 
             IRouteDataService routeDataService, IPluginHelperService pluginHelperService,
-            IPluginTypesService pluginTypesService)
+            IPluginTypesService pluginTypesService, ISettingsProvider settingsProvider)
         {
             if (routeProvider == null)
                 throw new ArgumentNullException(nameof(routeProvider));
@@ -77,7 +77,7 @@ namespace Spider.Plugin
             _deniedSpiderRoutes = new List<DeniedRoute>();
             LoadSpiderData(routeProvider, routeDataService, pluginTypesService);
 
-            SpiderSettings settings = GetSettings<SpiderSettings>("Spider.Plugin");
+            SpiderSettings settings = settingsProvider.GetSettings<SpiderSettings>("Spider.Plugin");
 
             _processStaticFiles = settings.ProcessStaticFiles;
 

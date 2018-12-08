@@ -74,7 +74,6 @@ namespace UserSessionMiddleware.Plugin
             _loggedInRoutes = new Dictionary<string, string>();
             _loggedOutRoutes = new Dictionary<string, string>();
 
-            UserSessionSettings Settings = GetSettings<UserSessionSettings>("UserSessionConfiguration");
 
             Settings.SessionTimeout = Shared.Utilities.CheckMinMax(Settings.SessionTimeout, 15, 200);
 

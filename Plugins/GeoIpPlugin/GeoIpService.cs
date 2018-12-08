@@ -49,9 +49,9 @@ namespace GeoIp.Plugin
 
         #region Constructors
 
-        public GeoIpService()
+        public GeoIpService(ISettingsProvider settingsProvider)
         {
-            _geoIpSettings = GetSettings<GeoIpPluginSettings>("GeoIpPluginConfiguration");
+            _geoIpSettings = settingsProvider.GetSettings<GeoIpPluginSettings>("GeoIpPluginConfiguration");
 
             if (System.IO.File.Exists(_geoIpSettings.Webnet77CSVData))
             {

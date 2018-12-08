@@ -60,7 +60,8 @@ namespace ErrorManager.Plugin
 
         #region Constructors
 
-        public ErrorManagerMiddleware(RequestDelegate next, IErrorManager errorManager)
+        public ErrorManagerMiddleware(RequestDelegate next, IErrorManager errorManager, 
+            ISettingsProvider settingsProvider)
         {
             _next = next ?? throw new ArgumentNullException(nameof(next));
             _errorManager = errorManager ?? throw new ArgumentNullException(nameof(errorManager));
@@ -74,7 +75,7 @@ namespace ErrorManager.Plugin
 
             _errorCacheManager.ItemRemoved += ErrorCacheManager_ItemRemoved;
 
-            ErrorManagerSettings settings = GetSettings<ErrorManagerSettings>("ErrorManager");
+            ErrorManagerSettings settings = settingsProvider.GetSettings<ErrorManagerSettings>("ErrorManager");
 
             _loginPage = settings.LoginPage;
         }

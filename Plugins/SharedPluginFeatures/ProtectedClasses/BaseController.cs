@@ -104,22 +104,20 @@ namespace SharedPluginFeatures
 
         #region Settings
 
-        protected T GetSettings<T>(in string jsonFile, in string sectionName)
+        protected T GetSettings<T>(in string storageName, in string sectionName)
         {
-            if (String.IsNullOrEmpty(jsonFile))
-                throw new ArgumentNullException(nameof(jsonFile));
+            ISettingsProvider settings = (ISettingsProvider)HttpContext.RequestServices.GetService(typeof(ISettingsProvider));
+
+            if (settings == null)
+                throw new InvalidOperationException($"Unable to find ISettingsProvider");
+
+            if (String.IsNullOrEmpty(storageName))
+                throw new ArgumentNullException(nameof(storageName));
 
             if (String.IsNullOrEmpty(sectionName))
                 throw new ArgumentNullException(nameof(sectionName));
 
-            ConfigurationBuilder builder = new ConfigurationBuilder();
-            IConfigurationBuilder configBuilder = builder.SetBasePath(System.IO.Directory.GetCurrentDirectory());
-            configBuilder.AddJsonFile(jsonFile);
-            IConfigurationRoot config = builder.Build();
-            T Result = (T)Activator.CreateInstance(typeof(T));
-            config.GetSection(sectionName).Bind(Result);
-
-            return (AppSettings.ValidateSettings<T>.Validate(Result));
+            return AppSettings.ValidateSettings<T>.Validate((T)settings.GetSettings<ISettingsProvider>(storageName, sectionName));
         }
 
         protected T GetSettings<T>(in string sectionName)

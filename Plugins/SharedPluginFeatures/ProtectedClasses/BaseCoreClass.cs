@@ -48,7 +48,7 @@ namespace SharedPluginFeatures
             T Result = (T)Activator.CreateInstance(typeof(T));
             config.GetSection(sectionName).Bind(Result);
 
-            return (Result);
+            return AppSettings.ValidateSettings<T>.Validate(Result);
         }
 
         protected T GetSettings<T>(in string sectionName)
