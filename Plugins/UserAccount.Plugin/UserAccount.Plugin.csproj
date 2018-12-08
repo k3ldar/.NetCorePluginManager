@@ -1,0 +1,51 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFrameworks>netcoreapp2.1</TargetFrameworks>
+    <LangVersion>latest</LangVersion>
+    <Version>1.0.14</Version>
+    <RazorCompileOnBuild>false</RazorCompileOnBuild>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Description>User Account plugin asp net core plugin manager.</Description>
+    <Authors>Simon Carter</Authors>
+    <Company>Simon Carter</Company>
+    <Copyright>Copyright (c) 2018.  Simon Carter.  All rights reserved.</Copyright>
+    <PackageLicenseUrl>https://github.com/k3ldar/.NetCorePluginManager/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/k3ldar/.NetCorePluginManager</PackageProjectUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>asp net core plugin manager user account Plugin</PackageTags>
+    <AssemblyName>UserAccount.Plugin</AssemblyName>
+    <RootNamespace>UserAccount.Plugin</RootNamespace>
+    <TypeScriptToolsVersion>3.0</TypeScriptToolsVersion>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.1.2" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.1" />
+    <PackageReference Include="SC.Shared.Library.Core" Version="2.6.2" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <PackageReference Include="RestrictIp.Plugin" Version="1.0.14" />
+    <PackageReference Include="MemoryCache.Plugin" Version="1.0.14" />
+    <PackageReference Include="AspNetCore.PluginManager" Version="1.0.14" />
+    <PackageReference Include="SharedPluginFeatures" Version="1.0.14" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <ProjectReference Include="..\..\NetCorePluginManager\AspNetCore.PluginManager.csproj" />
+    <ProjectReference Include="..\SharedPluginFeatures\SharedPluginFeatures.csproj" />
+    <ProjectReference Include="..\MemoryCachePlugin\MemoryCachePlugin.csproj" />
+    <ProjectReference Include="..\RestrictIp.Plugin\RestrictIp.Plugin.csproj" />
+  </ItemGroup>
+
+</Project>

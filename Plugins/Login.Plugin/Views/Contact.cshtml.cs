@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace ErrorManager.Plugin.Pages
+namespace LoginPlugin.Pages
 {
     public class ContactModel : PageModel
     {

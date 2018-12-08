@@ -34,7 +34,7 @@ namespace AspNetCore.PluginManager
     {
         #region Private Members
 
-        private object _lockObject;
+        private readonly object _lockObject;
 
         #endregion Private Members
 

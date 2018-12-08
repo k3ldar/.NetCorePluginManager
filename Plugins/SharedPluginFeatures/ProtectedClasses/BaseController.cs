@@ -59,7 +59,7 @@ namespace SharedPluginFeatures
             return (false);
         }
 
-        protected string GetCoreSettionId()
+        protected string GetCoreSessionId()
         {
             return (HttpContext.Session.Id);
         }

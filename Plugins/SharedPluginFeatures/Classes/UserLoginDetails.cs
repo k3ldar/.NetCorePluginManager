@@ -28,6 +28,28 @@ namespace SharedPluginFeatures
 {
     public sealed class UserLoginDetails
     {
+        #region Constructors
+
+        public UserLoginDetails()
+        {
+
+        }
+
+        public UserLoginDetails(long userId)
+        {
+            UserId = userId;
+        }
+
+        public UserLoginDetails(in long userId, in bool rememberMe)
+            : this (userId)
+        {
+            RememberMe = rememberMe;
+        }
+
+        #endregion Constructors
+
+        #region Properties
+
         public long UserId { get; set; }
 
         public string Username { get; set; }
@@ -35,5 +57,7 @@ namespace SharedPluginFeatures
         public string Email { get; set; }
 
         public bool RememberMe { get; set; }
+
+        #endregion Properties
     }
 }

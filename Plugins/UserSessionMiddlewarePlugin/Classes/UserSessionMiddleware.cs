@@ -24,9 +24,13 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 
 using SharedPluginFeatures;
 using static SharedPluginFeatures.Enums;
@@ -45,15 +49,30 @@ namespace UserSessionMiddleware.Plugin
         private readonly string _cookieName = "user_session";
         private readonly string _cookieEncryptionKey = "Dfklaosre;lnfsdl;jlfaeu;dkkfcaskxcd3jf";
         private readonly string _staticFileExtension = ".less;.ico;.css;.js;.svg;.jpg;.jpeg;.gif;.png;.eot;";
+        private readonly Dictionary<string, string> _loggedInRoutes;
+        private readonly Dictionary<string, string> _loggedOutRoutes;
         internal static Timings _timings = new Timings();
 
         #endregion Private Members
 
         #region Constructors
 
-        public UserSessionMiddleware(RequestDelegate next)
+        public UserSessionMiddleware(RequestDelegate next, IActionDescriptorCollectionProvider routeProvider,
+            IRouteDataService routeDataService, IPluginTypesService pluginTypesService)
         {
+            if (routeProvider == null)
+                throw new ArgumentNullException(nameof(routeProvider));
+
+            if (routeDataService == null)
+                throw new ArgumentNullException(nameof(routeDataService));
+
+            if (pluginTypesService == null)
+                throw new ArgumentNullException(nameof(pluginTypesService));
+
             _next = next;
+
+            _loggedInRoutes = new Dictionary<string, string>();
+            _loggedOutRoutes = new Dictionary<string, string>();
 
             UserSessionSettings Settings = GetSettings<UserSessionSettings>("UserSessionConfiguration");
 
@@ -72,6 +91,9 @@ namespace UserSessionMiddleware.Plugin
 
             if (!String.IsNullOrWhiteSpace(Settings.StaticFileExtensions))
                 _staticFileExtension = Settings.StaticFileExtensions;
+
+            LoadLoggedInData(routeProvider, routeDataService, pluginTypesService);
+            LoadLoggedOutData(routeProvider, routeDataService, pluginTypesService);
         }
 
         #endregion Constructors
@@ -126,6 +148,10 @@ namespace UserSessionMiddleware.Plugin
                 userSession.PageView(GetAbsoluteUri(context).ToString(), referrer ?? String.Empty, false);
 
                 context.Items.Add("UserSession", userSession);
+
+                string route = RouteLowered(context);
+
+                // is the route a loggedin route
             }
 
             await _next(context);
@@ -180,6 +206,90 @@ namespace UserSessionMiddleware.Plugin
             }
 
             return (null);
+        }
+
+        private void LoadLoggedInData(IActionDescriptorCollectionProvider routeProvider,
+            IRouteDataService routeDataService, IPluginTypesService pluginTypesService)
+        {
+            List<Type> loggedInAttributes = pluginTypesService.GetPluginTypesWithAttribute<LoggedInAttribute>();
+
+            // Cycle through all classes and methods which have the spider attribute
+            foreach (Type type in loggedInAttributes)
+            {
+                // is it a class attribute
+                LoggedInAttribute attribute = (LoggedInAttribute)type.GetCustomAttributes(true)
+                    .Where(a => a.GetType() == typeof(LoggedInAttribute)).FirstOrDefault();
+
+                if (attribute != null)
+                {
+                    string route = routeDataService.GetRouteFromClass(type, routeProvider);
+
+                    if (String.IsNullOrEmpty(route))
+                        continue;
+
+                    _loggedInRoutes.Add(route.ToLower(), attribute.LoginPage);
+                }
+
+                // look for specific method disallows
+
+                foreach (MethodInfo method in type.GetMethods())
+                {
+                    attribute = (LoggedInAttribute)method.GetCustomAttributes(true)
+                        .Where(a => a.GetType() == typeof(LoggedInAttribute)).FirstOrDefault();
+
+                    if (attribute != null)
+                    {
+                        string route = routeDataService.GetRouteFromMethod(method, routeProvider);
+
+                        if (String.IsNullOrEmpty(route))
+                            continue;
+
+                        _loggedInRoutes.Add(route.ToLower(), attribute.LoginPage);
+                    }
+                }
+            }
+        }
+
+        private void LoadLoggedOutData(IActionDescriptorCollectionProvider routeProvider,
+            IRouteDataService routeDataService, IPluginTypesService pluginTypesService)
+        {
+            List<Type> loggedOutAttributes = pluginTypesService.GetPluginTypesWithAttribute<LoggedOutAttribute>();
+
+            // Cycle through all classes and methods which have the spider attribute
+            foreach (Type type in loggedOutAttributes)
+            {
+                // is it a class attribute
+                LoggedOutAttribute attribute = (LoggedOutAttribute)type.GetCustomAttributes(true)
+                    .Where(a => a.GetType() == typeof(LoggedOutAttribute)).FirstOrDefault();
+
+                if (attribute != null)
+                {
+                    string route = routeDataService.GetRouteFromClass(type, routeProvider);
+
+                    if (String.IsNullOrEmpty(route))
+                        continue;
+
+                    _loggedOutRoutes.Add(route.ToLower(), attribute.RedirectPage);
+                }
+
+                // look for specific method disallows
+
+                foreach (MethodInfo method in type.GetMethods())
+                {
+                    attribute = (LoggedOutAttribute)method.GetCustomAttributes(true)
+                        .Where(a => a.GetType() == typeof(LoggedOutAttribute)).FirstOrDefault();
+
+                    if (attribute != null)
+                    {
+                        string route = routeDataService.GetRouteFromMethod(method, routeProvider);
+
+                        if (String.IsNullOrEmpty(route))
+                            continue;
+
+                        _loggedOutRoutes.Add(route.ToLower(), attribute.RedirectPage);
+                    }
+                }
+            }
         }
 
         #endregion Private Methods

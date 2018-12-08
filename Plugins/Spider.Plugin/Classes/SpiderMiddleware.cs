@@ -32,7 +32,6 @@ using System.Text;
 using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Mvc.Infrastructure;
-
 using Microsoft.AspNetCore.Http;
 
 using Shared.Classes;
@@ -49,7 +48,6 @@ namespace Spider.Plugin
         private byte[] _spiderData;
         private readonly List<DeniedRoute> _deniedSpiderRoutes;
         private readonly bool _userSessionManagerLoaded;
-        private readonly string DefaultController = "Home";
         private readonly RequestDelegate _next;
         private readonly bool _processStaticFiles;
         private readonly string _staticFileExtensions = ".less;.ico;.css;.js;.svg;.jpg;.jpeg;.gif;.png;.eot;";

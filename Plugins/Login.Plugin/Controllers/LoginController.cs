@@ -39,6 +39,7 @@ using LoginPlugin.Models;
 
 namespace LoginPlugin.Controllers
 {
+    [LoggedOut]
     public class LoginController : BaseController
     {
         #region Private Members
@@ -115,7 +116,7 @@ namespace LoginPlugin.Controllers
             {
                 case Enums.LoginResult.Success:
                     RemoveLoginAttempt();
-
+                    
                     UserSession session = GetUserSession();
 
                     if (session != null)
@@ -271,9 +272,7 @@ namespace LoginPlugin.Controllers
                 try
                 {
                     string loginId = Decrypt(CookieValue(_settings.RememberMeCookieName, ""), _settings.EncryptionKey);
-                    UserLoginDetails loginDetails = new UserLoginDetails();
-                    loginDetails.UserId = Convert.ToInt64(loginId);
-                    loginDetails.RememberMe = true;
+                    UserLoginDetails loginDetails = new UserLoginDetails(Convert.ToInt64(loginId), true);
                     return (_loginProvider.Login(String.Empty, String.Empty, GetIpAddress(), 0, ref loginDetails) == Enums.LoginResult.Remembered);
                 }
                 catch
@@ -287,7 +286,7 @@ namespace LoginPlugin.Controllers
 
         private void RemoveLoginAttempt()
         {
-            string cacheId = _settings.CacheUseSession ? GetCoreSettionId() : GetIpAddress();
+            string cacheId = _settings.CacheUseSession ? GetCoreSessionId() : GetIpAddress();
 
             CacheItem loginCache = _loginCache.Get(cacheId);
 
@@ -301,7 +300,7 @@ namespace LoginPlugin.Controllers
         {
             LoginCacheItem Result = null;
 
-            string cacheId = _settings.CacheUseSession ? GetCoreSettionId() : GetIpAddress();
+            string cacheId = _settings.CacheUseSession ? GetCoreSessionId() : GetIpAddress();
 
             CacheItem loginCache = _loginCache.Get(cacheId);
 

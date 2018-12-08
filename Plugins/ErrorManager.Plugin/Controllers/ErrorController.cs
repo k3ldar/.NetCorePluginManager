@@ -83,14 +83,14 @@ namespace ErrorManager.Plugin.Controllers
                 if (CookieExists("Error404"))
                 {
                     // get index from cookie
-                    string cookieValue = Decrypt(CookieValue("Error404"), settings.GetEncryptionKey());
+                    string cookieValue = Decrypt(CookieValue("Error404"), settings.EncryptionKey);
                     index = StrToInt(cookieValue, 0) + 1;
                 }
 
                 if (index < 0 || index > settings.Count())
                     index = 0;
 
-                CookieAdd("Error404", Encrypt(Convert.ToString(index), settings.GetEncryptionKey()), 30);
+                CookieAdd("Error404", Encrypt(Convert.ToString(index), settings.EncryptionKey), 30);
 
                 model = new Error404Model("Page not found", settings.GetQuote(index), GetImageFile(index));
             }

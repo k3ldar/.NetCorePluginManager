@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace ErrorManager.Plugin.Pages
+namespace LoginPlugin.Pages
 {
     public class IndexModel : PageModel
     {
