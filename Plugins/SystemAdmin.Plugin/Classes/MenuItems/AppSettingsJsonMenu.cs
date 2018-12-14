@@ -27,6 +27,8 @@ using System;
 using System.IO;
 using System.Text;
 
+using Microsoft.Extensions.DependencyInjection;
+
 using SharedPluginFeatures;
 
 namespace SystemAdmin.Plugin.Classes
@@ -55,7 +57,8 @@ namespace SystemAdmin.Plugin.Classes
 
         public override string Data()
         {
-            SystemAdminSettings settings = GetSettings<SystemAdminSettings>("SystemAdmin");
+            ISettingsProvider settingsProvider = (ISettingsProvider)PluginClass.GetServiceProvider.GetRequiredService<IPluginClassesService>();
+            SystemAdminSettings settings = settingsProvider.GetSettings<SystemAdminSettings>("SystemAdmin");
 
             if (!settings.ShowAppSettingsJson)
                 return ("Viewing appsettings.json has been disabled");

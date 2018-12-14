@@ -26,6 +26,8 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 
+using SharedPluginFeatures;
+
 namespace LoginPlugin.Models
 {
     public sealed class UpdatePasswordViewModel

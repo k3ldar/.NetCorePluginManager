@@ -28,6 +28,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
+using Microsoft.Extensions.DependencyInjection;
+
 using SharedPluginFeatures;
 
 namespace SystemAdmin.Plugin.Models
@@ -45,7 +47,8 @@ namespace SystemAdmin.Plugin.Models
 
             MapLocationData = subMenu.Data();
 
-            SystemAdminSettings settings = GetSettings<SystemAdminSettings>("SystemAdmin");
+            ISettingsProvider settingsProvider = (ISettingsProvider)Classes.PluginClass.GetServiceProvider.GetRequiredService<IPluginClassesService>();
+            SystemAdminSettings settings = settingsProvider.GetSettings<SystemAdminSettings>("SystemAdmin");
 
             GoogleMapApiKey = settings.GoogleMapApiKey;
 

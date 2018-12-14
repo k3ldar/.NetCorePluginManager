@@ -66,6 +66,9 @@ namespace AspNetCore.PluginManager
         {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _pluginSettings = pluginSettings ?? throw new ArgumentNullException(nameof(pluginSettings));
+
+            if (_pluginSettings.Plugins == null)
+                _pluginSettings.Plugins = new List<PluginSetting>();
         }
 
         #endregion Constructors

@@ -49,6 +49,11 @@ namespace GeoIp.Plugin
 
         #region Constructors
 
+        public GeoIpService()
+        {
+
+        }
+
         public GeoIpService(ISettingsProvider settingsProvider)
         {
             _geoIpSettings = settingsProvider.GetSettings<GeoIpPluginSettings>("GeoIpPluginConfiguration");

@@ -23,15 +23,24 @@
  *  28/10/2018  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+using System;
+
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
+
 using SharedPluginFeatures;
 
 namespace SystemAdmin.Plugin.Classes
 {
     public class PluginClass : IPlugin, IPluginVersion
     {
+        #region Static Internal Members
+
+        internal static IServiceProvider GetServiceProvider { get; private set; }
+
+        #endregion Static Internal Members
+
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             
@@ -40,6 +49,7 @@ namespace SystemAdmin.Plugin.Classes
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddSingleton<ISystemAdminHelperService, SystemAdminHelper>();
+            GetServiceProvider = services.BuildServiceProvider();
         }
 
         public void Finalise()

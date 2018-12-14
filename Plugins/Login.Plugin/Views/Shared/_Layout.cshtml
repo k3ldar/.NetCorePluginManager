@@ -60,8 +60,11 @@
         </script>
         <script src="~/js/site.min.js" asp-append-version="true"></script>
     </environment>
+
     <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
     <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+
+    @RenderSection("Scripts", required: false)
 
     <div class="container body-content">
         @RenderBody()
@@ -70,7 +73,5 @@
             <p>&copy; 2018 - Login Plugin</p>
         </footer>
     </div>
-
-    @RenderSection("Scripts", required: false)
 </body>
 </html>

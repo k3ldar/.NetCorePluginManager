@@ -26,6 +26,8 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 
+using SharedPluginFeatures;
+
 namespace LoginPlugin.Models
 {
     public sealed class LoginViewModel
@@ -39,10 +41,7 @@ namespace LoginPlugin.Models
 
         public LoginViewModel(string returnUrl, bool showRememberMe)
         {
-            if (returnUrl == null)
-                throw new ArgumentNullException(nameof(returnUrl));
-
-            ReturnUrl = returnUrl;
+            ReturnUrl = returnUrl ??  throw new ArgumentNullException(nameof(returnUrl));
             ShowRememberMe = showRememberMe;
         }
 

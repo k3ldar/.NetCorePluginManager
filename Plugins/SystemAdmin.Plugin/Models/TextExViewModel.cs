@@ -25,6 +25,8 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
 
+using Microsoft.Extensions.DependencyInjection;
+
 using SharedPluginFeatures;
 
 namespace SystemAdmin.Plugin.Models
@@ -40,7 +42,8 @@ namespace SystemAdmin.Plugin.Models
 
             Title = subMenu.Name();
 
-            SystemAdminSettings settings = GetSettings<SystemAdminSettings>("SystemAdmin");
+            ISettingsProvider settingsProvider = (ISettingsProvider)Classes.PluginClass.GetServiceProvider.GetRequiredService<IPluginClassesService>();
+            SystemAdminSettings settings = settingsProvider.GetSettings<SystemAdminSettings>("SystemAdmin");
 
             if (settings.DisableFormattedText)
                 Text = "Formatted Text is not enabed";

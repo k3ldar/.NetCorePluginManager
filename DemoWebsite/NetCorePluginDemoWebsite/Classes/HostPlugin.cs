@@ -44,6 +44,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
         {
             services.AddSingleton<IIpValidation, IPValidation>();
             services.AddSingleton<ILoginProvider, MockLoginProvider>();
+            services.AddSingleton<IAccountProvider, MockAccountProvider>();
         }
 
         public void Finalise()

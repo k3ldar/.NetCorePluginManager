@@ -52,11 +52,19 @@ namespace SharedPluginFeatures
             UserSession session = GetUserSession();
 
             if (session != null)
-            {
                 return (!String.IsNullOrEmpty(session.UserEmail));
-            }
 
             return (false);
+        }
+
+        protected Int64 UserId()
+        {
+            UserSession session = GetUserSession();
+
+            if (session != null)
+                return session.UserID;
+
+            return (-1);
         }
 
         protected string GetCoreSessionId()
@@ -101,31 +109,6 @@ namespace SharedPluginFeatures
         }
 
         #endregion Cookies
-
-        #region Settings
-
-        protected T GetSettings<T>(in string storageName, in string sectionName)
-        {
-            ISettingsProvider settings = (ISettingsProvider)HttpContext.RequestServices.GetService(typeof(ISettingsProvider));
-
-            if (settings == null)
-                throw new InvalidOperationException($"Unable to find ISettingsProvider");
-
-            if (String.IsNullOrEmpty(storageName))
-                throw new ArgumentNullException(nameof(storageName));
-
-            if (String.IsNullOrEmpty(sectionName))
-                throw new ArgumentNullException(nameof(sectionName));
-
-            return AppSettings.ValidateSettings<T>.Validate((T)settings.GetSettings<ISettingsProvider>(storageName, sectionName));
-        }
-
-        protected T GetSettings<T>(in string sectionName)
-        {
-            return (GetSettings<T>("appsettings.json", sectionName));
-        }
-
-        #endregion Settings
 
         #region Ip Address
 
