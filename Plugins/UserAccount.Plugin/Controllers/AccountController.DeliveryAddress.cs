@@ -15,121 +15,79 @@
  *
  *  Product:  UserAccount.Plugin
  *  
- *  File: AccountController.CreateAccount.cs
+ *  File: AccountController.BillingAddress.cs
  *
- *  Purpose:  
+ *  Purpose:  Manages billing address
  *
  *  Date        Name                Reason
- *  08/12/2018  Simon Carter        Initially Created
+ *  16/12/2018  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
+using System.Collections.Generic;
+
 using Microsoft.AspNetCore.Mvc;
-
-using SharedPluginFeatures;
-
-using Shared.Classes;
-using static Shared.Utilities;
 
 using UserAccount.Plugin.Models;
 
+using Middleware;
 using static Middleware.Enums;
-using static Middleware.Constants;
+
 
 namespace UserAccount.Plugin.Controllers
 {
     public partial class AccountController
     {
-        #region Public Action Methods
+        #region Public Controller Methods
 
         [HttpGet]
-        [LoggedOut]
-        public IActionResult CreateAccount()
+        public IActionResult DeliveryAddress()
         {
-            CreateAccountViewModel model = new CreateAccountViewModel();
-            PrepareCreateAccountModel(ref model);
+            List<DeliveryAddress> deliveryAddresses = _accountProvider.GetDeliveryAddresses(UserId());
+
+            if (deliveryAddresses == null)
+                throw new InvalidOperationException(nameof(deliveryAddresses));
+
+            DeliveryAddressViewModel model = new DeliveryAddressViewModel();
+            PrepareDeliveryAddressModel(ref model, deliveryAddresses);
 
             return View(model);
         }
 
         [HttpPost]
-        [LoggedOut]
-        public IActionResult CreateAccount(CreateAccountViewModel model)
+        public IActionResult DeliveryAddress(DeliveryAddressViewModel model)
         {
             if (model == null)
                 throw new ArgumentNullException(nameof(model));
 
-            ValidateCreateAccountModel(ref model);
+            ValidateDeliveryAddressModel(ref model);
 
             if (ModelState.IsValid)
             {
-                if (_accountProvider.CreateAccount(model.Email, model.FirstName, model.Surname, 
-                    model.Password, model.Telephone, model.BusinessName, model.AddressLine1, 
-                    model.AddressLine2, model.AddressLine3, model.City, model.County, 
-                    model.Postcode, model.Country, out Int64 userId))
+                DeliveryAddress deliveryAddress = new DeliveryAddress(model.AddressId, model.BusinessName, 
+                    model.AddressLine1, model.AddressLine2, model.AddressLine3, model.City, model.County, 
+                    model.Postcode, model.Country, model.PostageCost);
+
+                if (_accountProvider.SetDeliveryAddress(UserId(), deliveryAddress))
                 {
-                    UserSession session = GetUserSession();
-
-                    if (session != null)
-                        session.Login(userId, $"{model.FirstName} {model.Surname}", model.Email);
-
-                    return Redirect("/Account/");
+                    TempData["growl"] = "Delivery address successfully updated";
+                    return RedirectToAction("Index", "Account");
                 }
-            }
 
-            PrepareCreateAccountModel(ref model);
+                ModelState.AddModelError(String.Empty, "Failed to update delivery address");
+            }
 
             return View(model);
         }
 
-        #endregion Public Action Methods
+        #endregion Public Controller Methods
 
-        #region Private Members
+        #region Private Methods
 
-        private CreateAccountCacheItem GetCachedCreateAccountAttempt(bool createIfNotExist)
+
+        private void ValidateDeliveryAddressModel(ref DeliveryAddressViewModel model)
         {
-            CreateAccountCacheItem Result = null;
-
-            string cacheId = GetIpAddress();
-
-            CacheItem loginCache = _createAccountCache.Get(cacheId);
-
-            if (loginCache != null)
-            {
-                Result = (CreateAccountCacheItem)loginCache.Value;
-            }
-            else if (createIfNotExist && loginCache == null)
-            {
-                Result = new CreateAccountCacheItem();
-                loginCache = new CacheItem(cacheId, Result);
-                _createAccountCache.Add(cacheId, loginCache);
-            }
-
-            return (Result);
-        }
-
-        private void ValidateCreateAccountModel(ref CreateAccountViewModel model)
-        {
-            CreateAccountCacheItem createAccountCacheItem = GetCachedCreateAccountAttempt(true);
-
-            if (!String.IsNullOrEmpty(createAccountCacheItem.CaptchaText))
-            {
-                if (!createAccountCacheItem.CaptchaText.Equals(model.CaptchaText))
-                    ModelState.AddModelError(String.Empty, "Invalid Validation Code");
-            }
-
-            createAccountCacheItem.CreateAttempts++;
-
-            if (createAccountCacheItem.CreateAttempts > 10)
-                ModelState.AddModelError(String.Empty, "Too many attempts, please wait 30 minutes and try again");
-
             AddressOptions addressOptions = _accountProvider.GetAddressOptions();
-
-            if (!ValidatePasswordComplexity(model.Password))
-                ModelState.AddModelError(String.Empty, "Password does not match complexity rules.");
-
-            if (!model.Password.Equals(model.ConfirmPassword))
-                ModelState.AddModelError("", "Confirm password must match Password");
 
             if (addressOptions.HasFlag(AddressOptions.AddressLine1Mandatory) && String.IsNullOrEmpty(model.AddressLine1))
                 ModelState.AddModelError(nameof(model.AddressLine1), "Address line 1 is required");
@@ -151,16 +109,12 @@ namespace UserAccount.Plugin.Controllers
 
             if (addressOptions.HasFlag(AddressOptions.BusinessNameMandatory) && String.IsNullOrEmpty(model.BusinessName))
                 ModelState.AddModelError(nameof(model.BusinessName), "Business Name is required");
-
-            if (addressOptions.HasFlag(AddressOptions.TelephoneMandatory) && String.IsNullOrEmpty(model.Telephone))
-                ModelState.AddModelError(nameof(model.Telephone), "Telephone is required");
-
-            createAccountCacheItem.CaptchaText = GetRandomWord(6, CaptchaCharacters);
-            model.CaptchaText = String.Empty;
         }
 
-        private void PrepareCreateAccountModel(ref CreateAccountViewModel model)
+        private void PrepareDeliveryAddressModel(ref DeliveryAddressViewModel model, in List<DeliveryAddress> deliveryAddresses)
         {
+            model.DeliveryAddresses = deliveryAddresses ?? throw new ArgumentNullException(nameof(deliveryAddresses));
+
             AddressOptions addressOptions = _accountProvider.GetAddressOptions();
 
             model.ShowAddressLine1 = addressOptions.HasFlag(AddressOptions.AddressLine1Show);
@@ -170,14 +124,8 @@ namespace UserAccount.Plugin.Controllers
             model.ShowCity = addressOptions.HasFlag(AddressOptions.CityShow);
             model.ShowCounty = addressOptions.HasFlag(AddressOptions.CountyShow);
             model.ShowPostcode = addressOptions.HasFlag(AddressOptions.PostCodeShow);
-            model.ShowTelephone = addressOptions.HasFlag(AddressOptions.TelephoneShow);
-
-            model.ShowCaptchaImage = true;
-
-            CreateAccountCacheItem createAccountCacheItem = GetCachedCreateAccountAttempt(true);
-            createAccountCacheItem.CaptchaText = GetRandomWord(6, CaptchaCharacters);
         }
 
-        #endregion Private Members
+        #endregion Private Methods
     }
 }

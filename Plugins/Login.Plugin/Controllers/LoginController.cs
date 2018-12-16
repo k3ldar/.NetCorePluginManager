@@ -39,6 +39,7 @@ using LoginPlugin.Models;
 
 using Middleware;
 using static Middleware.Enums;
+using static Middleware.Constants;
 
 namespace LoginPlugin.Controllers
 {
@@ -47,7 +48,6 @@ namespace LoginPlugin.Controllers
     {
         #region Private Members
 
-        private const string CaptchaCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
         private readonly IHostingEnvironment _hostingEnvironment;
         private readonly ILoginProvider _loginProvider;
         private readonly LoginControllerSettings _settings;

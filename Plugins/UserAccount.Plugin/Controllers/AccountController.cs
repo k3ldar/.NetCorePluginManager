@@ -43,7 +43,6 @@ namespace UserAccount.Plugin.Controllers
     {
         #region Private Members
 
-        private const string CaptchaCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
         private readonly ISettingsProvider _settingsProvider;
         private readonly IAccountProvider _accountProvider;
 

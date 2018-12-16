@@ -43,8 +43,4 @@
     <ProjectReference Include="..\SharedPluginFeatures\SharedPluginFeatures.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Classes\Accounts\" />
-  </ItemGroup>
-
 </Project>

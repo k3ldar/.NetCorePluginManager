@@ -24,6 +24,7 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
+using System.Collections.Generic;
 
 using static Middleware.Enums;
 
@@ -65,5 +66,23 @@ namespace Middleware
             in string county, in string postcode, in string countryCode, out Int64 userId);
 
         #endregion Create Account
+
+        #region Billing Address
+
+        bool SetBillingAddress(in Int64 userId, in Address billingAddress);
+
+        Address GetBillingAddress(in Int64 userId);
+
+        #endregion Billing Address
+
+        #region Delivery Address
+
+        bool SetDeliveryAddress(in Int64 userId, in DeliveryAddress deliveryAddress);
+
+        List<DeliveryAddress> GetDeliveryAddresses(in Int64 userId);
+
+        bool DeleteDeliveryAddress(in Int64 userId, in DeliveryAddress deliveryAddress);
+
+        #endregion Delivery Address
     }
 }

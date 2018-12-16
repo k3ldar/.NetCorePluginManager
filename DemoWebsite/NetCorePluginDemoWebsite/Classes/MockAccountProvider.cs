@@ -100,5 +100,19 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
         }
 
         #endregion Create Account
+
+        #region Billing Address
+
+        public bool SetBillingAddress(in long userId, in Address billingAddress)
+        {
+            return billingAddress.AddressLine1 == "Mike St";
+        }
+
+        public Address GetBillingAddress(in long userId)
+        {
+            return new Address(String.Empty, "Mike St", String.Empty, String.Empty, "London", String.Empty, "L1 1AA", "GB");
+        }
+
+        #endregion Billing Address
     }
 }
