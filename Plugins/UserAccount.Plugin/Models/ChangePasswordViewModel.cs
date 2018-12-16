@@ -52,7 +52,7 @@ namespace UserAccount.Plugin.Models
         #region Properties
 
         [Required]
-        [Display(Name = "User name or email")]
+        [Display(Name = "User name/email")]
         [StringLength(100, MinimumLength = 5)]
         public string Username { get; set; }
 

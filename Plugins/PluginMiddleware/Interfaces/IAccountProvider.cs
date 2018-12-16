@@ -13,23 +13,21 @@
  *
  *  Copyright (c) 2012 - 2018 Simon Carter.  All Rights Reserved.
  *
- *  Product:  SharedPluginFeatues
+ *  Product:  PluginMiddleware
  *  
  *  File: IAccountProvider.cs
  *
  *  Purpose:  User Account provider
  *
  *  Date        Name                Reason
- *  09/12/2018  Simon Carter        Initially Created
+ *  16/12/2018  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
-using System.Collections.Generic;
-using System.Text;
 
-using static SharedPluginFeatures.Enums;
+using static Middleware.Enums;
 
-namespace SharedPluginFeatures
+namespace Middleware
 {
     public interface IAccountProvider
     {
@@ -58,5 +56,14 @@ namespace SharedPluginFeatures
         bool ConfirmTelephoneNumber(in Int64 userId, in string confirmationCode);
 
         #endregion User Contact Details
+
+        #region Create Account
+
+        bool CreateAccount(in string email, in string firstName, in string surname, in string password,
+            in string telephone, in string businessName,
+            in string addressLine1, in string addressLine2, in string addressLine3, in string city,
+            in string county, in string postcode, in string countryCode, out Int64 userId);
+
+        #endregion Create Account
     }
 }

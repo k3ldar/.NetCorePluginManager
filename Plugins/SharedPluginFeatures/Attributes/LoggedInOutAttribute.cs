@@ -15,26 +15,20 @@
  *
  *  Product:  SharedPluginFeatures
  *  
- *  File: ILoginProvider.cs
+ *  File: LoggedInOutAttribute.cs
  *
- *  Purpose:  
+ *  Purpose:  Doesn't validate for logged in/out
  *
  *  Date        Name                Reason
- *  21/11/2018  Simon Carter        Initially Created
+ *  08/12/2018  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-using static SharedPluginFeatures.Enums;
+using System;
 
 namespace SharedPluginFeatures
 {
-    public interface ILoginProvider
+    [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
+    public class LoggedInOutAttribute : Attribute
     {
-        LoginResult Login(in string username, in string password, in string ipAddress, 
-            in byte attempts, ref UserLoginDetails loginDetails);
-
-        bool UnlockAccount(in string username, in string unlockCode);
-
-        bool ForgottenPassword(in string username);
     }
 }

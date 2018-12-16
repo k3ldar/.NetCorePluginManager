@@ -13,7 +13,7 @@
  *
  *  Copyright (c) 2018 Simon Carter.  All Rights Reserved.
  *
- *  Product:  SharedPluginFeatures
+ *  Product:  PluginMiddleware
  *  
  *  File: UserLoginDetails.cs
  *
@@ -21,10 +21,11 @@
  *
  *  Date        Name                Reason
  *  10/11/2018  Simon Carter        Initially Created
+ *  16/12/2018  Simon Carter        Moved to PluginMiddleware library
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-namespace SharedPluginFeatures
+namespace Middleware
 {
     public sealed class UserLoginDetails
     {

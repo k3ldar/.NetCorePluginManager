@@ -24,12 +24,10 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
-using SharedPluginFeatures;
-using static SharedPluginFeatures.Enums;
+using static Middleware.Enums;
+
+using Middleware;
 
 namespace AspNetCore.PluginManager.DemoWebsite.Classes
 {
@@ -86,7 +84,21 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
             return confirmationCode.Equals("NewTelephone");
         }
 
-
         #endregion User Contact Details
+
+        #region Create Account
+
+        public bool CreateAccount(in string email, in string firstName, in string surname, in string password, 
+            in string telephone, in string businessName, in string addressLine1, in string addressLine2, 
+            in string addressLine3, in string city, in string county, in string postcode, in string countryCode, 
+            out long userId)
+        {
+            userId = 2;
+
+
+            return true;
+        }
+
+        #endregion Create Account
     }
 }

@@ -93,6 +93,7 @@ namespace UserSessionMiddleware.Plugin
             if (!String.IsNullOrWhiteSpace(Settings.StaticFileExtensions))
                 _staticFileExtension = Settings.StaticFileExtensions;
 
+            LoadLoggedInOutData(routeProvider, routeDataService, pluginTypesService);
             LoadLoggedInData(routeProvider, routeDataService, pluginTypesService);
             LoadLoggedOutData(routeProvider, routeDataService, pluginTypesService);
         }
@@ -154,19 +155,38 @@ namespace UserSessionMiddleware.Plugin
                 bool loggedIn = !String.IsNullOrEmpty(userSession.UserName);
 
                 // is the route a loggedin/loggedout route
+                RouteData partialMatch = null;
 
                 foreach (RouteData routeData in _routeData)
                 {
-                    if (!routeData.LoggedIn && loggedIn && route.StartsWith(routeData.Route))
+                    if (routeData.Matches(route))
                     {
-                        context.Response.Redirect(routeData.RedirectPath, false);
+                        if (routeData.Ignore)
+                            partialMatch = null;
+                        else
+                            partialMatch = routeData;
+
+                        break;
+                    }
+
+                    if (partialMatch == null && route.StartsWith(routeData.Route))
+                        partialMatch = routeData;
+                }
+
+                // if we have a match check if we need to redirect
+                if (partialMatch != null)
+                {
+                    if (!partialMatch.LoggedIn && loggedIn)
+                    {
+                        context.Response.Redirect(partialMatch.RedirectPath, false);
                         return;
                     }
-                    else if (routeData.LoggedIn && !loggedIn && route.StartsWith(routeData.Route))
+                    else if (partialMatch.LoggedIn && !loggedIn)
                     {
-                        context.Response.Redirect($"{routeData.RedirectPath}?returnUrl={context.Request.Path.ToString()}", false);
+                        context.Response.Redirect($"{partialMatch.RedirectPath}?returnUrl={context.Request.Path.ToString()}", false);
                         return;
                     }
+
                 }
             }
 
@@ -303,6 +323,32 @@ namespace UserSessionMiddleware.Plugin
                             continue;
 
                         _routeData.Add(new RouteData(route.ToLower(), false, attribute.RedirectPage));
+                    }
+                }
+            }
+        }
+
+        private void LoadLoggedInOutData(IActionDescriptorCollectionProvider routeProvider,
+            IRouteDataService routeDataService, IPluginTypesService pluginTypesService)
+        {
+            List<Type> loggedInOutAttributes = pluginTypesService.GetPluginTypesWithAttribute<LoggedInOutAttribute>();
+
+            // Cycle through all classes and methods which have the spider attribute
+            foreach (Type type in loggedInOutAttributes)
+            {
+                foreach (MethodInfo method in type.GetMethods())
+                {
+                    LoggedInOutAttribute attribute = (LoggedInOutAttribute)method.GetCustomAttributes(true)
+                        .Where(a => a.GetType() == typeof(LoggedInOutAttribute)).FirstOrDefault();
+
+                    if (attribute != null)
+                    {
+                        string route = routeDataService.GetRouteFromMethod(method, routeProvider);
+
+                        if (String.IsNullOrEmpty(route))
+                            continue;
+
+                        _routeData.Add(new RouteData(route.ToLower()));
                     }
                 }
             }

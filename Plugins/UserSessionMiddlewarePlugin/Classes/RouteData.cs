@@ -42,9 +42,38 @@ namespace UserSessionMiddleware.Plugin
             Route = route;
             LoggedIn = loggedIn;
             RedirectPath = redirectPath;
+            Ignore = false;
+        }
+
+        internal RouteData(in string route)
+        {
+            if (String.IsNullOrEmpty(route))
+                throw new ArgumentNullException(nameof(route));
+
+            Route = route;
+
+            Ignore = true;
         }
 
         #endregion Constructors
+
+        #region Internal Methods
+
+        internal bool Matches(in string route)
+        {
+            if (String.IsNullOrEmpty(route))
+                throw new ArgumentNullException(nameof(route));
+
+            if (Route.Equals(route))
+                return true;
+
+            if (route.EndsWith("/") && Route.Equals(route.Substring(0, route.Length - 1)))
+                return true;
+
+            return false;
+        }
+
+        #endregion Internal Methods
 
         #region Properties
 
@@ -53,6 +82,8 @@ namespace UserSessionMiddleware.Plugin
         internal bool LoggedIn { get; private set; }
 
         internal string RedirectPath { get; private set; }
+
+        internal bool Ignore { get; private set; }
 
         #endregion Properties
     }

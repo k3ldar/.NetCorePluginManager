@@ -25,13 +25,16 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.IO;
 using Microsoft.AspNetCore.Mvc;
+
+using Shared.Classes;
 
 using SharedPluginFeatures;
 
 using UserAccount.Plugin.Models;
+
+using Middleware;
 
 namespace UserAccount.Plugin.Controllers
 {
@@ -40,17 +43,32 @@ namespace UserAccount.Plugin.Controllers
     {
         #region Private Members
 
+        private const string CaptchaCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
         private readonly ISettingsProvider _settingsProvider;
         private readonly IAccountProvider _accountProvider;
 
+        private static readonly CacheManager _createAccountCache = new CacheManager("Create Account Cache", new TimeSpan(0, 30, 0));
+
         #endregion Private Members
+
+        #region Public Static Members
+
+        public static List<Country> Countries { get; private set; }
+
+        #endregion Public Static Members
 
         #region Constructors
 
-        public AccountController(ISettingsProvider settingsProvider, IAccountProvider accountProvider)
+        public AccountController(ISettingsProvider settingsProvider, IAccountProvider accountProvider, ICountryProvider countryProvider)
         {
             _settingsProvider = settingsProvider ?? throw new ArgumentNullException(nameof(settingsProvider));
             _accountProvider = accountProvider ?? throw new ArgumentNullException(nameof(accountProvider));
+
+            if (countryProvider == null)
+                throw new ArgumentNullException(nameof(countryProvider));
+
+            if (Countries == null)
+                Countries = countryProvider.GetVisibleCountries();
         }
 
         #endregion Constructors
@@ -68,6 +86,48 @@ namespace UserAccount.Plugin.Controllers
             return View(model);
         }
 
+        [HttpGet]
+        [LoggedInOut]
+        public ActionResult GetCaptchaImage()
+        {
+            CreateAccountCacheItem createAccountCacheItem = GetCachedCreateAccountAttempt(false);
+
+            if (createAccountCacheItem == null)
+                return StatusCode(400);
+
+            CaptchaImage ci = new CaptchaImage(createAccountCacheItem.CaptchaText, 240, 60, "Century Schoolbook");
+            try
+            {
+                // Write the image to the response stream in JPEG format.
+                using (MemoryStream ms = new MemoryStream())
+                {
+                    ci.Image.Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);
+
+                    return File(ms.ToArray(), "image/png");
+                }
+            }
+            catch (Exception err)
+            {
+                if (!err.Message.Contains("Specified method is not supported."))
+                    throw;
+            }
+            finally
+            {
+                ci.Dispose();
+            }
+
+            return (null);
+        }
+
         #endregion Public Action Methods
+
+        #region Private Methods
+
+        private bool ValidatePasswordComplexity(in string password)
+        {
+            return true;
+        }
+
+        #endregion Private Methods
     }
 }

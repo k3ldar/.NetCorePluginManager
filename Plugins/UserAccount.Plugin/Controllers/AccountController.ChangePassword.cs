@@ -53,6 +53,9 @@ namespace UserAccount.Plugin.Controllers
             if (!model.NewPassword.Equals(model.ConfirmNewPassword))
                 ModelState.AddModelError(String.Empty, "New password and confirm new password do not match");
 
+            if (!ValidatePasswordComplexity(model.NewPassword))
+                ModelState.AddModelError(String.Empty, "Password does not match complexity rules.");
+
             if (ModelState.IsValid)
             {
                 if (_accountProvider.ChangePassword(GetUserSession().UserID, model.NewPassword))

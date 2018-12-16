@@ -23,15 +23,15 @@
  *  21/11/2018  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-using SharedPluginFeatures;
+using Middleware;
+using static Middleware.Enums;
 
 namespace AspNetCore.PluginManager.DemoWebsite.Classes
 {
 #if DEBUG
     public class MockLoginProvider : ILoginProvider
     {
-        public Enums.LoginResult Login(in string username, in string password, in string ipAddress, 
+        public LoginResult Login(in string username, in string password, in string ipAddress, 
             in byte attempts, ref UserLoginDetails loginDetails)
         {
             if (loginDetails.RememberMe && loginDetails.UserId == 123)
@@ -39,7 +39,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
                 loginDetails.Username = "Administrator";
                 loginDetails.Email = "admin@nowhere.com";
                 loginDetails.UserId = 123;
-                return Enums.LoginResult.Remembered;
+                return LoginResult.Remembered;
             }
 
             if (username == "admin" && password == "password")
@@ -47,13 +47,13 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
                 loginDetails.Username = "Administrator";
                 loginDetails.Email = "admin@nowhere.com";
                 loginDetails.UserId = 123;
-                return Enums.LoginResult.Success;
+                return LoginResult.Success;
             }
 
             if (attempts > 4)
-                return Enums.LoginResult.AccountLocked;
+                return LoginResult.AccountLocked;
 
-            return Enums.LoginResult.InvalidCredentials;
+            return LoginResult.InvalidCredentials;
         }
 
         public bool UnlockAccount(in string username, in string unlockCode)

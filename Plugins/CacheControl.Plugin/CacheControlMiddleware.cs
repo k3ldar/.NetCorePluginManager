@@ -47,7 +47,7 @@ namespace CacheControl.Plugin
         private readonly Dictionary<string, CacheControlRoute> _routePaths;
         private readonly HashSet<string> _ignoredRoutes;
         private bool _disabled;
-        private object _lockObject = new object();
+        private readonly object _lockObject = new object();
         internal static Timings _timings = new Timings();
 
         #endregion Private Members

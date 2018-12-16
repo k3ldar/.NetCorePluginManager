@@ -37,6 +37,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Login.Plugin", "Plugins\Log
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UserAccount.Plugin", "Plugins\UserAccount.Plugin\UserAccount.Plugin.csproj", "{B14B5FCA-F7F9-4903-84AE-A5FC928D2EA2}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PluginMiddleware", "Plugins\PluginMiddleware\PluginMiddleware.csproj", "{708ABA14-E3A2-430D-BEA9-C898D6737937}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -111,6 +113,10 @@ Global
 		{B14B5FCA-F7F9-4903-84AE-A5FC928D2EA2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B14B5FCA-F7F9-4903-84AE-A5FC928D2EA2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B14B5FCA-F7F9-4903-84AE-A5FC928D2EA2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{708ABA14-E3A2-430D-BEA9-C898D6737937}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{708ABA14-E3A2-430D-BEA9-C898D6737937}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{708ABA14-E3A2-430D-BEA9-C898D6737937}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{708ABA14-E3A2-430D-BEA9-C898D6737937}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

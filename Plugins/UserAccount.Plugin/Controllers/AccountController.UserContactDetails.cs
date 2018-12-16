@@ -35,7 +35,7 @@ using Shared.Classes;
 
 using UserAccount.Plugin.Models;
 
-using static SharedPluginFeatures.Enums;
+using static Middleware.Enums;
 
 namespace UserAccount.Plugin.Controllers
 {

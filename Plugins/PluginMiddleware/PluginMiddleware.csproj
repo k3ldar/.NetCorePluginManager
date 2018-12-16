@@ -1,0 +1,50 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>netcoreapp2.1;net461</TargetFrameworks>
+    <LangVersion>latest</LangVersion>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Description>Plugin Middleware - Business Object Layer</Description>
+    <Copyright>Copyright (c) 2018.  Simon Carter.  All rights reserved.</Copyright>
+    <PackageLicenseUrl>https://github.com/k3ldar/.NetCorePluginManager/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/k3ldar/.NetCorePluginManager</PackageProjectUrl>
+    <PackageTags>asp net core plugin manager middleware business object layer</PackageTags>
+    <PackageReleaseNotes>Shared Modules</PackageReleaseNotes>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    <Version>1.0.14</Version>
+    <FileVersion>1.0.0.0</FileVersion>
+    <Authors>Simon Carter</Authors>
+    <Company>Simon Carter</Company>
+    <AssemblyName>Middleware.Plugin</AssemblyName>
+    <RootNamespace>Middleware</RootNamespace>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
+    <DefineConstants />
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="ApplicationSettings" Version="1.1.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.2.0" />
+    <PackageReference Include="SC.Shared.Library.Core" Version="2.6.2" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <PackageReference Include="SharedPluginFeatures" Version="1.0.14" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <ProjectReference Include="..\SharedPluginFeatures\SharedPluginFeatures.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Classes\Accounts\" />
+  </ItemGroup>
+
+</Project>

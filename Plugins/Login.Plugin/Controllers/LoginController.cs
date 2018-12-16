@@ -37,6 +37,9 @@ using SharedPluginFeatures;
 using LoginPlugin.Classes;
 using LoginPlugin.Models;
 
+using Middleware;
+using static Middleware.Enums;
+
 namespace LoginPlugin.Controllers
 {
     [LoggedOut]
@@ -49,7 +52,7 @@ namespace LoginPlugin.Controllers
         private readonly ILoginProvider _loginProvider;
         private readonly LoginControllerSettings _settings;
 
-        private static readonly CacheManager _loginCache = new CacheManager("LoginCache", new TimeSpan(0, 30, 0));
+        private static readonly CacheManager _loginCache = new CacheManager("Login Cache", new TimeSpan(0, 30, 0));
 
         #endregion Private Members
 
@@ -118,7 +121,7 @@ namespace LoginPlugin.Controllers
             switch (_loginProvider.Login(model.Username, model.Password, GetIpAddress(), 
                 loginCacheItem.LoginAttempts, ref loginDetails))
             {
-                case Enums.LoginResult.Success:
+                case Middleware.Enums.LoginResult.Success:
                     RemoveLoginAttempt();
                     
                     UserSession session = GetUserSession();
@@ -131,13 +134,13 @@ namespace LoginPlugin.Controllers
 
                     return Redirect(model.ReturnUrl);
 
-                case Enums.LoginResult.AccountLocked:
+                case LoginResult.AccountLocked:
                     return (RedirectToAction("AccountLocked", new { username = model.Username }));
 
-                case Enums.LoginResult.PasswordChangeRequired:
+                case LoginResult.PasswordChangeRequired:
                     return (Redirect(_settings.ChangePasswordUrl));
 
-                case Enums.LoginResult.InvalidCredentials:
+                case LoginResult.InvalidCredentials:
                     ModelState.AddModelError(String.Empty, "Invalid username or password");
                     break;
             }
@@ -277,7 +280,7 @@ namespace LoginPlugin.Controllers
                 {
                     string loginId = Decrypt(CookieValue(_settings.RememberMeCookieName, ""), _settings.EncryptionKey);
                     UserLoginDetails loginDetails = new UserLoginDetails(Convert.ToInt64(loginId), true);
-                    bool loggedIn = _loginProvider.Login(String.Empty, String.Empty, GetIpAddress(), 0, ref loginDetails) == Enums.LoginResult.Remembered;
+                    bool loggedIn = _loginProvider.Login(String.Empty, String.Empty, GetIpAddress(), 0, ref loginDetails) == LoginResult.Remembered;
 
                     if (loggedIn)
                     {

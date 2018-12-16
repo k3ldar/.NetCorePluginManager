@@ -13,62 +13,56 @@
  *
  *  Copyright (c) 2018 Simon Carter.  All Rights Reserved.
  *
- *  Product:  AspNetCore.PluginManager.DemoWebsite
+ *  Product:  Login Plugin
  *  
- *  File: HostPlugin.cs
+ *  File: MockCountryLists.cs
  *
- *  Purpose:  
+ *  Purpose:  Mock IAccountProvider for tesing purpose
  *
  *  Date        Name                Reason
- *  22/09/2018  Simon Carter        Initially Created
+ *  14/12/2018  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.DependencyInjection;
-
-using SharedPluginFeatures;
+using System.Collections.Generic;
 
 using Middleware;
 
 namespace AspNetCore.PluginManager.DemoWebsite.Classes
 {
-    public class HostPlugin : IPlugin, IPluginVersion
+    public class MockCountryLists : ICountryProvider
     {
-        #region IPlugin Methods
-
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public Country CountryCreate(in string name, in string code, in bool visible)
         {
-            
+            return new Country(name, code, visible);
         }
 
-        public void ConfigureServices(IServiceCollection services)
+        public bool CountryDelete(Country country)
         {
-            services.AddSingleton<IIpValidation, IPValidation>();
-            services.AddSingleton<ILoginProvider, MockLoginProvider>();
-            services.AddSingleton<IAccountProvider, MockAccountProvider>();
-            services.AddSingleton<ICountryProvider, MockCountryLists>();
+            return false;
         }
 
-        public void Finalise()
+        public bool CountryUpdate(Country country)
         {
-            
+            return true;
         }
 
-        public void Initialise(ILogger logger)
+        public List<Country> GetAllCountries()
         {
-            
+            return new List<Country>()
+            {
+                new Country("England", "en", true),
+                new Country("USA", "US", true),
+                new Country("Unknown", "UK", false)
+            };
         }
 
-        #endregion IPlugin Methods
-
-        #region IPluginVersion Methods
-
-        public ushort GetVersion()
+        public List<Country> GetVisibleCountries()
         {
-            return (1);
+            return new List<Country>()
+            {
+                new Country("England", "en", true),
+                new Country("USA", "US", true),
+            };
         }
-
-        #endregion IPluginVersion Methods
     }
 }
