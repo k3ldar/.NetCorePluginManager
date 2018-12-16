@@ -23,7 +23,6 @@
  *  09/12/2018  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using AppSettings;
 
 namespace UserAccount.Plugin
 {

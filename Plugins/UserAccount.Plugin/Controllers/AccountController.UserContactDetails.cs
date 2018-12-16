@@ -24,14 +24,8 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Hosting;
-
-using SharedPluginFeatures;
-using Shared.Classes;
 
 using UserAccount.Plugin.Models;
 

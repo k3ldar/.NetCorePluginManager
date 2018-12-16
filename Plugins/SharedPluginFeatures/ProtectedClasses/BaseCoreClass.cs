@@ -23,7 +23,6 @@
  *  24/10/2018  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using System;
 
 namespace SharedPluginFeatures
 {

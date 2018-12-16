@@ -23,10 +23,8 @@
  *  12/12/2018  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using System;
-using System.ComponentModel.DataAnnotations;
 
-using SharedPluginFeatures;
+using System.ComponentModel.DataAnnotations;
 
 namespace UserAccount.Plugin.Models
 {

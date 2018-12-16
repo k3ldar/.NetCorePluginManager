@@ -34,8 +34,6 @@ using Shared.Classes;
 
 using SharedPluginFeatures;
 
-using static SharedPluginFeatures.Enums;
-
 namespace CacheControl.Plugin
 {
     public class CacheControlMiddleware : BaseMiddleware
