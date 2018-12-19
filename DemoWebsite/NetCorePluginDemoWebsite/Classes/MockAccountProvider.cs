@@ -24,10 +24,12 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
+using System.Linq;
 
 using static Middleware.Enums;
 
 using Middleware;
+using System.Collections.Generic;
 
 namespace AspNetCore.PluginManager.DemoWebsite.Classes
 {
@@ -41,6 +43,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
         }
 
         #endregion Change Password
+
         #region Address Options
 
         public AddressOptions GetAddressOptions()
@@ -114,5 +117,39 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
         }
 
         #endregion Billing Address
+
+        #region Delivery Address
+
+        public bool SetDeliveryAddress(in long userId, in DeliveryAddress deliveryAddress)
+        {
+            return true;
+        }
+
+        public List<DeliveryAddress> GetDeliveryAddresses(in long userId)
+        {
+            return new List<DeliveryAddress>()
+            {
+                new DeliveryAddress(1, String.Empty, "1 Mike St", String.Empty, String.Empty, "London", String.Empty, "L1 1AA", "GB", 5.99m),
+                new DeliveryAddress(2, String.Empty, "29 5th Avenue", String.Empty, String.Empty, "New York", String.Empty, "49210", "US", 5.99m),
+            };
+        }
+
+        public DeliveryAddress GetDeliveryAddress(in Int64 userId, in int deliveryAddressId)
+        {
+            foreach (DeliveryAddress address in GetDeliveryAddresses(userId))
+            {
+                if (address.AddressId == deliveryAddressId)
+                    return address;
+            }
+
+            return null;
+        }
+
+        public bool DeleteDeliveryAddress(in long userId, in DeliveryAddress deliveryAddress)
+        {
+            return true;
+        }
+
+        #endregion Delivery Address
     }
 }

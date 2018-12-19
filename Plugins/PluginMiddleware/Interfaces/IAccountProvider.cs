@@ -81,6 +81,8 @@ namespace Middleware
 
         List<DeliveryAddress> GetDeliveryAddresses(in Int64 userId);
 
+        DeliveryAddress GetDeliveryAddress(in Int64 userId, in int deliveryAddressId);
+
         bool DeleteDeliveryAddress(in Int64 userId, in DeliveryAddress deliveryAddress);
 
         #endregion Delivery Address

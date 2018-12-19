@@ -23,6 +23,7 @@
  *  16/12/2018  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+using System;
 using System.Collections.Generic;
 
 using Middleware;
@@ -31,23 +32,31 @@ namespace UserAccount.Plugin.Models
 {
     public sealed class DeliveryAddressViewModel
     {
+        #region Constructors
+
+        public DeliveryAddressViewModel()
+        {
+
+        }
+
+        public DeliveryAddressViewModel(List<DeliveryAddress> addresses)
+        {
+            Addresses = addresses ?? throw new ArgumentNullException(nameof(addresses));
+        }
+
+        public DeliveryAddressViewModel(List<DeliveryAddress> addresses, in string growlMessage)
+        {
+            Addresses = addresses ?? throw new ArgumentNullException(nameof(addresses));
+            GrowlMessage = growlMessage ?? throw new ArgumentNullException(nameof(growlMessage));
+        }
+
+        #endregion Constructors
+
         #region Properties
 
-        public List<DeliveryAddress> DeliveryAddresses { get; set; }
+        public List<DeliveryAddress> Addresses { get; set; }
 
-        public bool ShowBusinessName { get; set; }
-
-        public bool ShowAddressLine1 { get; set; }
-
-        public bool ShowAddressLine2 { get; set; }
-
-        public bool ShowAddressLine3 { get; set; }
-
-        public bool ShowCity { get; set; }
-
-        public bool ShowCounty { get; set; }
-
-        public bool ShowPostcode { get; set; }
+        public string GrowlMessage { get; set; }
 
         #endregion Properties
     }

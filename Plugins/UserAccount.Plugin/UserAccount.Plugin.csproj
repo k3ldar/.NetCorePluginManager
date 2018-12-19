@@ -28,7 +28,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="Views\Account\BillingAddress.cshtml" />
     <Content Remove="Views\Account\ChangePassword.cshtml" />
+    <Content Remove="Views\Account\CreateAccount.cshtml" />
+    <Content Remove="Views\Account\DeliveryAddress.cshtml" />
+    <Content Remove="Views\Account\DeliveryAddressEdit.cshtml" />
     <Content Remove="Views\Account\Index.cshtml" />
     <Content Remove="Views\Account\UserContactDetails.cshtml" />
     <Content Remove="wwwroot\css\Account.css" />
@@ -55,7 +59,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="Views\Account\BillingAddress.cshtml" />
     <EmbeddedResource Include="Views\Account\ChangePassword.cshtml" />
+    <EmbeddedResource Include="Views\Account\CreateAccount.cshtml" />
+    <EmbeddedResource Include="Views\Account\DeliveryAddress.cshtml" />
+    <EmbeddedResource Include="Views\Account\DeliveryAddressEdit.cshtml" />
     <EmbeddedResource Include="Views\Account\Index.cshtml" />
     <EmbeddedResource Include="Views\Account\UserContactDetails.cshtml" />
     <EmbeddedResource Include="wwwroot\css\Account.css" />

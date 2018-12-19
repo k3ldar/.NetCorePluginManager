@@ -43,35 +43,43 @@ namespace UserAccount.Plugin.Controllers
         [HttpGet]
         public IActionResult DeliveryAddress()
         {
-            List<DeliveryAddress> deliveryAddresses = _accountProvider.GetDeliveryAddresses(UserId());
+            string growl = TempData.ContainsKey("growl") ? TempData["growl"].ToString() : String.Empty;
+            return View(new DeliveryAddressViewModel(_accountProvider.GetDeliveryAddresses(UserId()), growl));
+        }
 
-            if (deliveryAddresses == null)
-                throw new InvalidOperationException(nameof(deliveryAddresses));
+        [HttpGet]
+        public IActionResult DeliveryAddressEdit(int id)
+        {
+            DeliveryAddress address = _accountProvider.GetDeliveryAddress(UserId(), id);
 
-            DeliveryAddressViewModel model = new DeliveryAddressViewModel();
-            PrepareDeliveryAddressModel(ref model, deliveryAddresses);
+            if (address == null)
+                return new RedirectResult("/Account/DeliveryAddress", false);
+
+            EditDeliveryAddressViewModel model = new EditDeliveryAddressViewModel();
+            PrepareDeliveryAddressModel(ref model, address);
 
             return View(model);
         }
 
         [HttpPost]
-        public IActionResult DeliveryAddress(DeliveryAddressViewModel model)
+        public IActionResult DeliveryAddressEdit(EditDeliveryAddressViewModel model)
         {
             if (model == null)
                 throw new ArgumentNullException(nameof(model));
 
-            ValidateDeliveryAddressModel(ref model);
+            if (_accountProvider.GetDeliveryAddress(UserId(), model.AddressId) == null)
+                return new RedirectResult("/Account/DeliveryAddress");
+
+            ValidateDeliveryAddressModel(model);
 
             if (ModelState.IsValid)
             {
-                DeliveryAddress deliveryAddress = new DeliveryAddress(model.AddressId, model.BusinessName, 
-                    model.AddressLine1, model.AddressLine2, model.AddressLine3, model.City, model.County, 
-                    model.Postcode, model.Country, model.PostageCost);
-
-                if (_accountProvider.SetDeliveryAddress(UserId(), deliveryAddress))
+                if (_accountProvider.SetDeliveryAddress(UserId(), new DeliveryAddress(model.AddressId, 
+                    model.Name, model.AddressLine1, model.AddressLine2, model.AddressLine3, model.City,
+                    model.County, model.Postcode, model.Country, model.PostageCost)))
                 {
                     TempData["growl"] = "Delivery address successfully updated";
-                    return RedirectToAction("Index", "Account");
+                    return new RedirectResult("/Account/DeliveryAddress", false);
                 }
 
                 ModelState.AddModelError(String.Empty, "Failed to update delivery address");
@@ -85,7 +93,7 @@ namespace UserAccount.Plugin.Controllers
         #region Private Methods
 
 
-        private void ValidateDeliveryAddressModel(ref DeliveryAddressViewModel model)
+        private void ValidateDeliveryAddressModel(in EditDeliveryAddressViewModel model)
         {
             AddressOptions addressOptions = _accountProvider.GetAddressOptions();
 
@@ -107,23 +115,30 @@ namespace UserAccount.Plugin.Controllers
             if (addressOptions.HasFlag(AddressOptions.PostCodeMandatory) && String.IsNullOrEmpty(model.Postcode))
                 ModelState.AddModelError(nameof(model.Postcode), "Postcode is required");
 
-            if (addressOptions.HasFlag(AddressOptions.BusinessNameMandatory) && String.IsNullOrEmpty(model.BusinessName))
-                ModelState.AddModelError(nameof(model.BusinessName), "Business Name is required");
+            if (addressOptions.HasFlag(AddressOptions.BusinessNameMandatory) && String.IsNullOrEmpty(model.Name))
+                ModelState.AddModelError(nameof(model.Name), "Business Name is required");
         }
 
-        private void PrepareDeliveryAddressModel(ref DeliveryAddressViewModel model, in List<DeliveryAddress> deliveryAddresses)
+        private void PrepareDeliveryAddressModel(ref EditDeliveryAddressViewModel model, in DeliveryAddress deliveryAddress)
         {
-            model.DeliveryAddresses = deliveryAddresses ?? throw new ArgumentNullException(nameof(deliveryAddresses));
-
             AddressOptions addressOptions = _accountProvider.GetAddressOptions();
 
             model.ShowAddressLine1 = addressOptions.HasFlag(AddressOptions.AddressLine1Show);
             model.ShowAddressLine2 = addressOptions.HasFlag(AddressOptions.AddressLine2Show);
             model.ShowAddressLine3 = addressOptions.HasFlag(AddressOptions.AddressLine3Show);
-            model.ShowBusinessName = addressOptions.HasFlag(AddressOptions.BusinessNameShow);
+            model.ShowName = addressOptions.HasFlag(AddressOptions.BusinessNameShow);
             model.ShowCity = addressOptions.HasFlag(AddressOptions.CityShow);
             model.ShowCounty = addressOptions.HasFlag(AddressOptions.CountyShow);
             model.ShowPostcode = addressOptions.HasFlag(AddressOptions.PostCodeShow);
+
+            model.AddressId = deliveryAddress.AddressId;
+            model.AddressLine1 = deliveryAddress.AddressLine1;
+            model.AddressLine2 = deliveryAddress.AddressLine2;
+            model.AddressLine3 = deliveryAddress.AddressLine3;
+            model.City = deliveryAddress.City;
+            model.County = deliveryAddress.County;
+            model.Postcode = deliveryAddress.Postcode;
+            model.Country = deliveryAddress.Country;
         }
 
         #endregion Private Methods

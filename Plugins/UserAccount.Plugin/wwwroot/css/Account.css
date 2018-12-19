@@ -115,3 +115,38 @@
         height: 0;
         visibility: hidden;
     }
+
+.accountGrid table {
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+    width: 100%;
+    padding: 10px 20px 10px 20px;
+}
+
+.accountGrid td, .accountGrid th {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+.accountGrid table thead tr td {
+    padding-right: 20px;
+}
+
+
+.accountGrid tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+.accountGrid tr:hover {
+    background-color: #ddd;
+}
+
+.accountGrid th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #707B7C;
+    color: white;
+}
+
