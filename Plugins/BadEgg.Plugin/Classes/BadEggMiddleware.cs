@@ -62,7 +62,8 @@ namespace BadEgg.Plugin
 
         public BadEggMiddleware(RequestDelegate next, IActionDescriptorCollectionProvider routeProvider, 
             IRouteDataService routeDataService, IPluginHelperService pluginHelperService,
-            IPluginTypesService pluginTypesService, IIpValidation ipValidation)
+            IPluginTypesService pluginTypesService, IIpValidation ipValidation, 
+            ISettingsProvider settingsProvider)
         {
             if (routeProvider == null)
                 throw new ArgumentNullException(nameof(routeProvider));
@@ -81,7 +82,7 @@ namespace BadEgg.Plugin
             _managedRoutes = new List<ManagedRoute>();
             LoadRouteData(routeProvider, routeDataService, pluginTypesService);
 
-            _badEggSettings = GetSettings<BadEggSettings>("BadEgg.Plugin");
+            _badEggSettings = settingsProvider.GetSettings<BadEggSettings>("BadEgg.Plugin");
 
             _validateConnections = new ValidateConnections(
                 _badEggSettings.ConnectionTimeOut,

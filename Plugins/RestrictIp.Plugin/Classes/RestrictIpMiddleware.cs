@@ -64,7 +64,7 @@ namespace RestrictIp.Plugin
 
         public RestrictIpMiddleware(RequestDelegate next, IActionDescriptorCollectionProvider routeProvider, 
             IRouteDataService routeDataService, IPluginHelperService pluginHelperService,
-            IPluginTypesService pluginTypesService)
+            IPluginTypesService pluginTypesService, ISettingsProvider settingsProvider)
         {
             if (routeProvider == null)
                 throw new ArgumentNullException(nameof(routeProvider));
@@ -79,7 +79,7 @@ namespace RestrictIp.Plugin
             _localIpAddresses = new HashSet<string>();
             _restrictedRoutes = new Dictionary<string, List<string>>();
             GetLocalIpAddresses(_localIpAddresses);
-            RestrictIpSettings settings = GetSettings<RestrictIpSettings>("RestrictedIpRoutes.Plugin");
+            RestrictIpSettings settings = settingsProvider.GetSettings<RestrictIpSettings>("RestrictedIpRoutes.Plugin");
             _disabled = settings.Disabled;
 
             if (_disabled)

@@ -53,12 +53,12 @@ namespace SieraDeltaGeoIp.Plugin
 
         #region Constructors
 
-        public GeoIpService()
+        public GeoIpService(ISettingsProvider settingsProvider)
         {
             _geoIpStatistics = Initialisation.GeoIpUpdate ?? throw new InvalidOperationException();
 
             ThreadManager.Initialise();
-            _geoIpSettings = GetSettings<GeoIpPluginSettings>("SieraDeltaGeoIpPluginConfiguration");
+            _geoIpSettings = settingsProvider.GetSettings<GeoIpPluginSettings>("SieraDeltaGeoIpPluginConfiguration");
 
             // if the connection string is a file, it contains the actual connection string, load it
             if (_geoIpSettings.DatabaseConnectionString.IndexOfAny(Path.GetInvalidPathChars()) == -1 &&
