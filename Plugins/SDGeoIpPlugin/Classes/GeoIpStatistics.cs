@@ -35,7 +35,7 @@ namespace SieraDeltaGeoIp.Plugin
     {
         #region Private Members
 
-        private static object _lockObject = new object();
+        private static readonly object _lockObject = new object();
 
         public long _memoryMilliseconds;
         public long _databaseMilliseconds;
@@ -48,8 +48,8 @@ namespace SieraDeltaGeoIp.Plugin
         private uint _memoryRetrievedCount;
         private uint _databaseRetrieveQuickest;
         private uint _databaseRetrieveSlowest;
-        private double _databaseRetrieveAverage;
-        private uint _databaseRetrievedCount;
+        //private double _databaseRetrieveAverage;
+        //private uint _databaseRetrievedCount;
 
         #endregion Private Members
 
