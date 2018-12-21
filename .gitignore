@@ -335,3 +335,5 @@ ASALocalRun/
 /DemoWebsite/NetCorePluginDemoWebsite/Views/Login/
 /DemoWebsite/NetCorePluginDemoWebsite/wwwroot/css/Login.css
 /DemoWebsite/NetCorePluginDemoWebsite/wwwroot/js/Login.js
+/DemoWebsite/NetCorePluginDemoWebsite/wwwroot/css/Account.css
+/DemoWebsite/NetCorePluginDemoWebsite/Views/Account/
