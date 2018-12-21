@@ -9,7 +9,7 @@
     <PackageLicenseUrl>https://github.com/k3ldar/.NetCorePluginManager/blob/master/LICENSE</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/k3ldar/.NetCorePluginManager</PackageProjectUrl>
     <PackageTags>asp net core plugin manager shared classes interfaces</PackageTags>
-    <PackageReleaseNotes>Shared Modules</PackageReleaseNotes>
+    <PackageReleaseNotes>Shared Modules for asp net core plugin manager.  Supports 2.1, 2.2 &amp; net461</PackageReleaseNotes>
     <AssemblyVersion>1.0.0.0</AssemblyVersion>
     <Version>1.1.0</Version>
     <FileVersion>1.0.0.0</FileVersion>
