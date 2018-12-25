@@ -23,11 +23,15 @@
  *  30/10/2018  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
+using static System.IO.File;
 
-using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Mvc.ApplicationParts;
 using Microsoft.AspNetCore.Mvc.Razor.Compilation;
-
+using Microsoft.Extensions.DependencyInjection;
 
 namespace AspNetCore.PluginManager
 {
@@ -35,14 +39,43 @@ namespace AspNetCore.PluginManager
     {
         public static IMvcBuilder ConfigurePluginManager(this IMvcBuilder mvcBuilder)
         {
-            mvcBuilder.ConfigureApplicationPartManager(manager =>
-             {
-                 var oldMetadataReferenceFeatureProvider = manager.FeatureProviders.First(f => f is MetadataReferenceFeatureProvider);
-                 manager.FeatureProviders.Remove(oldMetadataReferenceFeatureProvider);
-                 manager.FeatureProviders.Add(new Classes.PluginFeatureProvider());
-             });
+            ConfigurePartManager(mvcBuilder);
+            ConfigureCompiledViews(mvcBuilder);
 
-             return (mvcBuilder);
+            return mvcBuilder;
+        }
+
+        private static void ConfigurePartManager(in IMvcBuilder mvcBuilder)
+        {
+            // configure featue provider
+            mvcBuilder.ConfigureApplicationPartManager(manager =>
+            {
+                var oldMetadataReferenceFeatureProvider = manager.FeatureProviders.First(f => f is MetadataReferenceFeatureProvider);
+                manager.FeatureProviders.Remove(oldMetadataReferenceFeatureProvider);
+                manager.FeatureProviders.Add(new Classes.PluginFeatureProvider());
+            });
+        }
+
+        private static void ConfigureCompiledViews(in IMvcBuilder mvcBuilder)
+        { 
+            // configure Compiled Views
+            Dictionary<string, IPluginModule> plugins = PluginManagerService.GetPluginManager().GetLoadedPlugins();
+
+            foreach (KeyValuePair<string, IPluginModule> keyValuePair in plugins)
+            {
+                string primaryModule =  String.IsNullOrEmpty(keyValuePair.Value.Assembly.Location) ? keyValuePair.Value.Assembly.CodeBase : keyValuePair.Value.Assembly.Location;
+                string compiledViewAssembly = primaryModule.Substring(0, primaryModule.Length - 4) + ".Views.dll";
+
+                if (Exists(compiledViewAssembly))
+                {
+                    Assembly compiledViews = Assembly.LoadFrom(compiledViewAssembly);
+                    mvcBuilder.ConfigureApplicationPartManager(apm =>
+                    {
+                        foreach (var part in new CompiledRazorAssemblyApplicationPartFactory().GetApplicationParts(compiledViews))
+                            apm.ApplicationParts.Add(part);
+                    });
+                }
+            }
         }
     }
 }

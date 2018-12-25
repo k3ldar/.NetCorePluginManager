@@ -43,7 +43,10 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddSingleton<IIpValidation, IPValidation>();
+
+#if DEBUG
             services.AddSingleton<ILoginProvider, MockLoginProvider>();
+#endif
         }
 
         public void Finalise()
