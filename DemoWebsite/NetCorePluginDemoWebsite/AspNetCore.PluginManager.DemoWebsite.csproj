@@ -27,8 +27,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Remove="Views\SystemAdmin\Grid.cshtml" />
-    <Content Remove="Views\SystemAdmin\Index.cshtml" />
     <Content Remove="wwwroot\css\SystemAdmin.css" />
     <Content Remove="wwwroot\images\PluginTechnology.png" />
   </ItemGroup>
@@ -38,8 +36,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="Views\SystemAdmin\Grid.cshtml" />
-    <None Include="Views\SystemAdmin\Index.cshtml" />
     <None Include="wwwroot\css\SystemAdmin.css" />
   </ItemGroup>
 
@@ -105,5 +101,9 @@
 
   <ItemGroup>
     <Folder Include="Views\Account\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Views\SystemAdmin\" />
   </ItemGroup>
 </Project>
