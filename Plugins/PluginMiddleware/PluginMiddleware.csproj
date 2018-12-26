@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netcoreapp2.1;net461</TargetFrameworks>
+    <TargetFrameworks>netcoreapp2.2;netcoreapp2.1;net461</TargetFrameworks>
     <LangVersion>latest</LangVersion>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Description>Plugin Middleware - Business Object Layer</Description>
@@ -11,7 +11,7 @@
     <PackageTags>asp net core plugin manager middleware business object layer</PackageTags>
     <PackageReleaseNotes>Shared Modules</PackageReleaseNotes>
     <AssemblyVersion>1.0.0.0</AssemblyVersion>
-    <Version>1.0.14</Version>
+    <Version>1.2.0</Version>
     <FileVersion>1.0.0.0</FileVersion>
     <Authors>Simon Carter</Authors>
     <Company>Simon Carter</Company>
@@ -29,14 +29,26 @@
     <DefineConstants />
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(TargetFramework)' == 'net461'">
+    <DefineConstants>NET_461</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(TargetFramework)' == 'netcoreapp2.1'">
+    <DefineConstants>NET_CORE;NET_CORE_2_1</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(TargetFramework)' == 'netcoreapp2.2'">
+    <DefineConstants>NET_CORE;NET_CORE_2_2</DefineConstants>
+  </PropertyGroup>
+
   <ItemGroup>
     <PackageReference Include="ApplicationSettings" Version="1.1.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.2.0" />
-    <PackageReference Include="SC.Shared.Library.Core" Version="2.6.2" />
+    <PackageReference Include="SC.Shared.Library.Core" Version="2.7.0" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <PackageReference Include="SharedPluginFeatures" Version="1.0.14" />
+    <PackageReference Include="SharedPluginFeatures" Version="1.1.0" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

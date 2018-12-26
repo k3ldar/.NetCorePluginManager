@@ -27,6 +27,18 @@
     <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(TargetFramework)' == 'net461'">
+    <DefineConstants>NET_461</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(TargetFramework)' == 'netcoreapp2.1'">
+    <DefineConstants>NET_CORE;NET_CORE_2_1</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(TargetFramework)' == 'netcoreapp2.2'">
+    <DefineConstants>NET_CORE;NET_CORE_2_2</DefineConstants>
+  </PropertyGroup>
+
   <ItemGroup>
     <Content Remove="Views\Login\AccountLocked.cshtml" />
     <Content Remove="Views\Login\ForgotPassword.cshtml" />
@@ -232,6 +244,7 @@
     <PackageReference Include="MemoryCache.Plugin" Version="1.1.0" />
     <PackageReference Include="AspNetCore.PluginManager" Version="1.1.0" />
     <PackageReference Include="SharedPluginFeatures" Version="1.1.0" />
+    <PackageReference Include="PluginMiddleware" Version="1.1.0" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -239,6 +252,7 @@
     <ProjectReference Include="..\SharedPluginFeatures\SharedPluginFeatures.csproj" />
     <ProjectReference Include="..\MemoryCachePlugin\MemoryCachePlugin.csproj" />
     <ProjectReference Include="..\RestrictIp.Plugin\RestrictIp.Plugin.csproj" />
+    <ProjectReference Include="..\PluginMiddleware\PluginMiddleware.csproj" />
   </ItemGroup>
 
   <ItemGroup>
