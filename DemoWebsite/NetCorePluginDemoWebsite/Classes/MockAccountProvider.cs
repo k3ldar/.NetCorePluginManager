@@ -35,6 +35,12 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
 {
     public class MockAccountProvider : IAccountProvider
     {
+        #region Private Static Members
+
+        private static List<DeliveryAddress> deliveryAddresses;
+
+        #endregion Private Static Members
+
         #region Change Password
 
         public bool ChangePassword(in long userId, in string newPassword)
@@ -127,11 +133,20 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
 
         public List<DeliveryAddress> GetDeliveryAddresses(in long userId)
         {
-            return new List<DeliveryAddress>()
-            {
-                new DeliveryAddress(1, String.Empty, "1 Mike St", String.Empty, String.Empty, "London", String.Empty, "L1 1AA", "GB", 5.99m),
-                new DeliveryAddress(2, String.Empty, "29 5th Avenue", String.Empty, String.Empty, "New York", String.Empty, "49210", "US", 5.99m),
-            };
+            if (deliveryAddresses == null)
+                deliveryAddresses = new List<DeliveryAddress>()
+                    {
+                        new DeliveryAddress(1, String.Empty, "1 Mike St", String.Empty, String.Empty, "London", String.Empty, "L1 1AA", "GB", 5.99m),
+                        new DeliveryAddress(2, String.Empty, "29 5th Avenue", String.Empty, String.Empty, "New York", String.Empty, "49210", "US", 5.99m),
+                    };
+
+            return deliveryAddresses;
+        }
+
+        public bool AddDeliveryAddress(in Int64 userId, in DeliveryAddress deliveryAddress)
+        {
+            deliveryAddresses.Add(deliveryAddress);
+            return true;
         }
 
         public DeliveryAddress GetDeliveryAddress(in Int64 userId, in int deliveryAddressId)
@@ -147,6 +162,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
 
         public bool DeleteDeliveryAddress(in long userId, in DeliveryAddress deliveryAddress)
         {
+            deliveryAddresses.Remove(deliveryAddress);
             return true;
         }
 

@@ -41,6 +41,10 @@
     <DefineConstants>NET_CORE;NET_CORE_2_2</DefineConstants>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netcoreapp2.2|AnyCPU'">
+    <NoWarn>1701;1702;NU1603</NoWarn>
+  </PropertyGroup>
+
   <ItemGroup>
     <PackageReference Include="ApplicationSettings" Version="1.1.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.2.0" />

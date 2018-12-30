@@ -48,6 +48,41 @@ namespace UserAccount.Plugin.Controllers
         }
 
         [HttpGet]
+        public IActionResult DeliveryAddressAdd()
+        {
+            EditDeliveryAddressViewModel model = new EditDeliveryAddressViewModel();
+            PrepareDeliveryAddressModel(ref model, null);
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public IActionResult DeliveryAddressAdd(EditDeliveryAddressViewModel model)
+        {
+            if (model == null)
+                throw new ArgumentNullException(nameof(model));
+
+            ValidateDeliveryAddressModel(model);
+
+            if (ModelState.IsValid)
+            {
+                if (_accountProvider.AddDeliveryAddress(UserId(), new DeliveryAddress(model.AddressId,
+                    model.Name, model.AddressLine1, model.AddressLine2, model.AddressLine3, model.City,
+                    model.County, model.Postcode, model.Country, model.PostageCost)))
+                {
+                    TempData["growl"] = "Delivery address successfully created";
+                    return new RedirectResult("/Account/DeliveryAddress", false);
+                }
+
+                ModelState.AddModelError(String.Empty, "Failed to update delivery address");
+            }
+
+            PrepareDeliveryAddressModel(ref model, null);
+
+            return View(model);
+        }
+
+        [HttpGet]
         public IActionResult DeliveryAddressEdit(int id)
         {
             DeliveryAddress address = _accountProvider.GetDeliveryAddress(UserId(), id);
@@ -86,6 +121,29 @@ namespace UserAccount.Plugin.Controllers
             }
 
             return View(model);
+        }
+
+        [HttpPost]
+        public IActionResult DeliveryAddressDelete(string id)
+        {
+            if (String.IsNullOrEmpty(id))
+                throw new ArgumentNullException(nameof(id));
+
+            if (int.TryParse(id, out int addressId))
+            {
+                DeliveryAddress address = _accountProvider.GetDeliveryAddress(UserId(), addressId);
+
+                if (address == null)
+                    return new RedirectResult("/Account/DeliveryAddress", false);
+
+                _accountProvider.DeleteDeliveryAddress(UserId(), address);
+
+                TempData["growl"] = "Delivery address deleted";
+
+                return StatusCode(200);
+            }
+
+            throw new ArgumentOutOfRangeException(nameof(id));
         }
 
         #endregion Public Controller Methods
@@ -131,14 +189,17 @@ namespace UserAccount.Plugin.Controllers
             model.ShowCounty = addressOptions.HasFlag(AddressOptions.CountyShow);
             model.ShowPostcode = addressOptions.HasFlag(AddressOptions.PostCodeShow);
 
-            model.AddressId = deliveryAddress.AddressId;
-            model.AddressLine1 = deliveryAddress.AddressLine1;
-            model.AddressLine2 = deliveryAddress.AddressLine2;
-            model.AddressLine3 = deliveryAddress.AddressLine3;
-            model.City = deliveryAddress.City;
-            model.County = deliveryAddress.County;
-            model.Postcode = deliveryAddress.Postcode;
-            model.Country = deliveryAddress.Country;
+            if (deliveryAddress != null)
+            {
+                model.AddressId = deliveryAddress.AddressId;
+                model.AddressLine1 = deliveryAddress.AddressLine1;
+                model.AddressLine2 = deliveryAddress.AddressLine2;
+                model.AddressLine3 = deliveryAddress.AddressLine3;
+                model.City = deliveryAddress.City;
+                model.County = deliveryAddress.County;
+                model.Postcode = deliveryAddress.Postcode;
+                model.Country = deliveryAddress.Country;
+            }
         }
 
         #endregion Private Methods

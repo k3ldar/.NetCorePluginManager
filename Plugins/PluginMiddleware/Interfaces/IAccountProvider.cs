@@ -85,6 +85,8 @@ namespace Middleware
 
         bool DeleteDeliveryAddress(in Int64 userId, in DeliveryAddress deliveryAddress);
 
+        bool AddDeliveryAddress(in Int64 userId, in DeliveryAddress deliveryAddress);
+
         #endregion Delivery Address
     }
 }

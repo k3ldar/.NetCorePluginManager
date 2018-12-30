@@ -1,0 +1,112 @@
+﻿@model UserAccount.Plugin.Models.EditDeliveryAddressViewModel
+@{
+    ViewData["Title"] = "Add Delivery Address";
+}
+
+<h2>Add Delivery Address</h2>
+
+<link rel="stylesheet" href="/css/Account.css" />
+
+<div>@Html.ValidationSummary(true)</div>
+
+@using (Html.BeginForm("DeliveryAddressAdd", "Account", FormMethod.Post, new { id = "deliveryAddressAddForm" }))
+{
+    <div class="account-block">
+        <div class="account-row">
+            @Html.LabelFor(m => m.Country)
+        </div>
+        <div class="account-row">
+            @Html.DropDownListFor(m => m.Country, new SelectList(UserAccount.Plugin.Controllers.AccountController.Countries, "Code", "Name")) @Html.ValidationMessageFor(m => m.Country)
+        </div>
+    </div>
+
+    @if (Model.ShowName)
+    {
+        <div class="account-block">
+            <div class="account-row">
+                @Html.LabelFor(m => m.Name)
+            </div>
+            <div class="account-row">
+                @Html.TextBoxFor(m => m.Name) @Html.ValidationMessageFor(m => m.Name)
+            </div>
+        </div>
+    }
+
+    @if (Model.ShowAddressLine1)
+    {
+        <div class="account-block">
+            <div class="account-row">
+                @Html.LabelFor(m => m.AddressLine1)
+            </div>
+            <div class="account-row">
+                @Html.TextBoxFor(m => m.AddressLine1) @Html.ValidationMessageFor(m => m.AddressLine1)
+            </div>
+        </div>
+    }
+
+    @if (Model.ShowAddressLine2)
+    {
+        <div class="account-block">
+            <div class="account-row">
+                @Html.LabelFor(m => m.AddressLine2)
+            </div>
+            <div class="account-row">
+                @Html.TextBoxFor(m => m.AddressLine2) @Html.ValidationMessageFor(m => m.AddressLine2)
+            </div>
+        </div>
+    }
+
+    @if (Model.ShowAddressLine3)
+    {
+        <div class="account-block">
+            <div class="account-row">
+                @Html.LabelFor(m => m.AddressLine3)
+            </div>
+            <div class="account-row">
+                @Html.TextBoxFor(m => m.AddressLine3) @Html.ValidationMessageFor(m => m.AddressLine3)
+            </div>
+        </div>
+    }
+
+    @if (Model.ShowCity)
+    {
+        <div class="account-block">
+            <div class="account-row">
+                @Html.LabelFor(m => m.City)
+            </div>
+            <div class="account-row">
+                @Html.TextBoxFor(m => m.City) @Html.ValidationMessageFor(m => m.City)
+            </div>
+        </div>
+    }
+
+    @if (Model.ShowCounty)
+    {
+        <div class="account-block">
+            <div class="account-row">
+                @Html.LabelFor(m => m.County)
+            </div>
+            <div class="account-row">
+                @Html.TextBoxFor(m => m.County) @Html.ValidationMessageFor(m => m.County)
+            </div>
+        </div>
+    }
+
+    @if (Model.ShowPostcode)
+    {
+        <div class="account-block">
+            <div class="account-row">
+                @Html.LabelFor(m => m.Postcode)
+            </div>
+            <div class="account-row">
+                @Html.TextBoxFor(m => m.Postcode) @Html.ValidationMessageFor(m => m.Postcode)
+            </div>
+        </div>
+    }
+
+    <div class="account-block">
+        <input id="btnAddDeliveryAddress" type="submit" value="Add" />
+    </div>
+}
+
+

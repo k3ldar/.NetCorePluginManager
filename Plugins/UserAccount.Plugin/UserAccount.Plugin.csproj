@@ -36,7 +36,7 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(TargetFramework)' == 'netcoreapp2.2'">
-    <DefineConstants>NET_CORE;NET_CORE_2_2</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;NET_CORE;NET_CORE_2_2</DefineConstants>
   </PropertyGroup>
 
   <ItemGroup>
@@ -68,6 +68,7 @@
     <Content Remove="wwwroot\images\UserAccount\statisticsIcon.png" />
     <Content Remove="wwwroot\images\UserAccount\submitticketIcon.png" />
     <Content Remove="wwwroot\js\growl.js" />
+    <Content Remove="wwwroot\js\userAccount.js" />
   </ItemGroup>
 
   <ItemGroup>
@@ -99,6 +100,7 @@
     <EmbeddedResource Include="wwwroot\images\UserAccount\submitticketIcon.png" />
     <EmbeddedResource Include="wwwroot\images\UserAccount\downloadsIcon.png" />
     <EmbeddedResource Include="wwwroot\js\growl.js" />
+    <EmbeddedResource Include="wwwroot\js\userAccount.js" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp2.1'">
