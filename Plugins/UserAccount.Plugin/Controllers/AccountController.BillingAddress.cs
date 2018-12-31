@@ -30,7 +30,6 @@ using Microsoft.AspNetCore.Mvc;
 using UserAccount.Plugin.Models;
 
 using Middleware;
-using static Middleware.Enums;
 
 namespace UserAccount.Plugin.Controllers
 {
@@ -67,7 +66,7 @@ namespace UserAccount.Plugin.Controllers
 
                 if (_accountProvider.SetBillingAddress(UserId(), billingAddress))
                 {
-                    TempData["growl"] = "Billing address successfully updated";
+                    GrowlAdd("Billing address successfully updated");
                     return RedirectToAction("Index", "Account");
                 }
 

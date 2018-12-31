@@ -15,7 +15,7 @@
     <FileVersion>1.0.0.0</FileVersion>
     <Authors>Simon Carter</Authors>
     <Company>Simon Carter</Company>
-    <AssemblyName>Middleware.Plugin</AssemblyName>
+    <AssemblyName>Middleware</AssemblyName>
     <RootNamespace>Middleware</RootNamespace>
   </PropertyGroup>
 

@@ -117,5 +117,24 @@ namespace SharedPluginFeatures
         }
 
         #endregion Ip Address
+
+        #region Growl
+
+        protected string GrowlGet()
+        {
+            string Result = String.Empty;
+
+            if (TempData.ContainsKey("growl"))
+                Result = (string)TempData["growl"];
+
+            return Result;
+        }
+
+        protected void GrowlAdd(string s)
+        {
+            TempData["growl"] = s;
+        }
+
+        #endregion Growl
     }
 }

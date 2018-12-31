@@ -38,7 +38,6 @@ using LoginPlugin.Classes;
 using LoginPlugin.Models;
 
 using Middleware;
-using static Middleware.Enums;
 using static Middleware.Constants;
 
 namespace LoginPlugin.Controllers
@@ -121,7 +120,7 @@ namespace LoginPlugin.Controllers
             switch (_loginProvider.Login(model.Username, model.Password, GetIpAddress(), 
                 loginCacheItem.LoginAttempts, ref loginDetails))
             {
-                case Middleware.Enums.LoginResult.Success:
+                case LoginResult.Success:
                     RemoveLoginAttempt();
                     
                     UserSession session = GetUserSession();

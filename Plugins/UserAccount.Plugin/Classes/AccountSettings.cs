@@ -38,7 +38,7 @@ namespace UserAccount.Plugin
 
         public bool ShowDeliveryAddress { get; set; }
 
-        public bool ShowSpecialOffers { get; set; }
+        public bool ShowMarketingPreferences { get; set; }
 
         public bool ShowLicences { get; set; }
 

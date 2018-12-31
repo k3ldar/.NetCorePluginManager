@@ -24,8 +24,6 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-using static Middleware.Enums;
-
 namespace Middleware
 {
     public interface ILoginProvider

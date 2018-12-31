@@ -24,15 +24,13 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
-using System.Collections.Generic;
 
 using Microsoft.AspNetCore.Mvc;
 
 using UserAccount.Plugin.Models;
 
 using Middleware;
-using static Middleware.Enums;
-
+using Middleware.Accounts;
 
 namespace UserAccount.Plugin.Controllers
 {
@@ -43,7 +41,7 @@ namespace UserAccount.Plugin.Controllers
         [HttpGet]
         public IActionResult DeliveryAddress()
         {
-            string growl = TempData.ContainsKey("growl") ? TempData["growl"].ToString() : String.Empty;
+            string growl = GrowlGet();
             return View(new DeliveryAddressViewModel(_accountProvider.GetDeliveryAddresses(UserId()), growl));
         }
 
@@ -70,7 +68,7 @@ namespace UserAccount.Plugin.Controllers
                     model.Name, model.AddressLine1, model.AddressLine2, model.AddressLine3, model.City,
                     model.County, model.Postcode, model.Country, model.PostageCost)))
                 {
-                    TempData["growl"] = "Delivery address successfully created";
+                    GrowlAdd("Delivery address successfully created");
                     return new RedirectResult("/Account/DeliveryAddress", false);
                 }
 
@@ -113,7 +111,7 @@ namespace UserAccount.Plugin.Controllers
                     model.Name, model.AddressLine1, model.AddressLine2, model.AddressLine3, model.City,
                     model.County, model.Postcode, model.Country, model.PostageCost)))
                 {
-                    TempData["growl"] = "Delivery address successfully updated";
+                    GrowlAdd("Delivery address successfully updated");
                     return new RedirectResult("/Account/DeliveryAddress", false);
                 }
 
@@ -138,7 +136,7 @@ namespace UserAccount.Plugin.Controllers
 
                 _accountProvider.DeleteDeliveryAddress(UserId(), address);
 
-                TempData["growl"] = "Delivery address deleted";
+                GrowlAdd("Delivery address deleted");
 
                 return StatusCode(200);
             }

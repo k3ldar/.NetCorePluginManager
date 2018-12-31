@@ -58,7 +58,7 @@ namespace UserAccount.Plugin.Controllers
             {
                 if (_accountProvider.ChangePassword(GetUserSession().UserID, model.NewPassword))
                 {
-                    TempData["growl"] = "Password successfully updated";
+                    GrowlAdd("Password successfully updated");
                     return RedirectToAction("Index", "Account");
                 }
 

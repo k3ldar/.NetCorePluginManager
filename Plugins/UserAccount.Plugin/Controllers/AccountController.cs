@@ -35,6 +35,7 @@ using SharedPluginFeatures;
 using UserAccount.Plugin.Models;
 
 using Middleware;
+using Middleware.Accounts;
 
 namespace UserAccount.Plugin.Controllers
 {
@@ -77,7 +78,7 @@ namespace UserAccount.Plugin.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            string growl = TempData.ContainsKey("growl") ? TempData["growl"].ToString() : String.Empty;
+            string growl = GrowlGet();
             AccountViewModel model = new AccountViewModel(
                 _settingsProvider.GetSettings<AccountSettings>("UserAccount"),
                 growl ?? String.Empty);

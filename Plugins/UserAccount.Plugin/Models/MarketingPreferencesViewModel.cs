@@ -15,49 +15,38 @@
  *
  *  Product:  UserAccount.Plugin
  *  
- *  File: DeliveryAddressViewModel.cs
+ *  File: MarketingPreferencesViewModel.cs
  *
- *  Purpose:  Delivery Address view model
+ *  Purpose:  
  *
  *  Date        Name                Reason
- *  16/12/2018  Simon Carter        Initially Created
+ *  30/12/2018  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using System;
-using System.Collections.Generic;
-
-using Middleware.Accounts;
+using System.ComponentModel.DataAnnotations;
 
 namespace UserAccount.Plugin.Models
 {
-    public sealed class DeliveryAddressViewModel
+    public sealed class MarketingPreferencesViewModel
     {
-        #region Constructors
+        [Display(Name = "Accept offers via Email")]
+        public bool EmailOffers { get; set; }
 
-        public DeliveryAddressViewModel()
-        {
+        [Display(Name = "Accept offers via Telephone")]
+        public bool TelephoneOffers { get; set; }
 
-        }
+        [Display(Name = "Accept offers via SMS")]
+        public bool SMSOffers { get; set; }
 
-        public DeliveryAddressViewModel(List<DeliveryAddress> addresses)
-        {
-            Addresses = addresses ?? throw new ArgumentNullException(nameof(addresses));
-        }
+        [Display(Name = "Accept offers via Post")]
+        public bool PostalOffers { get; set; }
 
-        public DeliveryAddressViewModel(List<DeliveryAddress> addresses, in string growlMessage)
-        {
-            Addresses = addresses ?? throw new ArgumentNullException(nameof(addresses));
-            GrowlMessage = growlMessage ?? throw new ArgumentNullException(nameof(growlMessage));
-        }
+        public bool ShowEmail { get; set; }
 
-        #endregion Constructors
+        public bool ShowTelephone { get; set; }
 
-        #region Properties
+        public bool ShowSMS { get; set; }
 
-        public List<DeliveryAddress> Addresses { get; set; }
-
-        public string GrowlMessage { get; set; }
-
-        #endregion Properties
+        public bool ShowPostal { get; set; }
     }
 }

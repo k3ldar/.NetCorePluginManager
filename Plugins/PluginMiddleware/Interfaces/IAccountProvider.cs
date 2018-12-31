@@ -26,9 +26,7 @@
 using System;
 using System.Collections.Generic;
 
-using static Middleware.Enums;
-
-namespace Middleware
+namespace Middleware.Accounts
 {
     public interface IAccountProvider
     {
@@ -88,5 +86,15 @@ namespace Middleware
         bool AddDeliveryAddress(in Int64 userId, in DeliveryAddress deliveryAddress);
 
         #endregion Delivery Address
+
+        #region Marketing Preferences
+
+        MarketingOptions GetMarketingOptions();
+
+        Marketing GetMarketingPreferences(in Int64 userId);
+
+        bool SetMarketingPreferences(in Int64 userId, in Marketing marketing);
+
+        #endregion Marketing Preferences
     }
 }

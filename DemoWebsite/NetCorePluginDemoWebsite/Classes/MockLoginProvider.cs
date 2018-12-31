@@ -24,7 +24,6 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using Middleware;
-using static Middleware.Enums;
 
 namespace AspNetCore.PluginManager.DemoWebsite.Classes
 {

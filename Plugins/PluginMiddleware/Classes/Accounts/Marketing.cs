@@ -13,50 +13,47 @@
  *
  *  Copyright (c) 2018 Simon Carter.  All Rights Reserved.
  *
- *  Product:  UserAccount.Plugin
+ *  Product:  PluginMiddleware
  *  
- *  File: DeliveryAddressViewModel.cs
+ *  File: DeliveryAddress.cs
  *
- *  Purpose:  Delivery Address view model
+ *  Purpose:  Delivery Address
  *
  *  Date        Name                Reason
  *  16/12/2018  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using System;
-using System.Collections.Generic;
 
-using Middleware.Accounts;
-
-namespace UserAccount.Plugin.Models
+namespace Middleware.Accounts
 {
-    public sealed class DeliveryAddressViewModel
+    public sealed class Marketing
     {
         #region Constructors
 
-        public DeliveryAddressViewModel()
+        public Marketing()
         {
 
         }
 
-        public DeliveryAddressViewModel(List<DeliveryAddress> addresses)
+        public Marketing(bool email, bool telephone, bool sms, bool postal)
         {
-            Addresses = addresses ?? throw new ArgumentNullException(nameof(addresses));
-        }
-
-        public DeliveryAddressViewModel(List<DeliveryAddress> addresses, in string growlMessage)
-        {
-            Addresses = addresses ?? throw new ArgumentNullException(nameof(addresses));
-            GrowlMessage = growlMessage ?? throw new ArgumentNullException(nameof(growlMessage));
+            EmailOffers = email;
+            TelephoneOffers = telephone;
+            SMSOffers = sms;
+            PostalOffers = postal;
         }
 
         #endregion Constructors
 
         #region Properties
 
-        public List<DeliveryAddress> Addresses { get; set; }
+        public bool EmailOffers { get; set; }
 
-        public string GrowlMessage { get; set; }
+        public bool TelephoneOffers { get; set; }
+
+        public bool SMSOffers { get; set; }
+
+        public bool PostalOffers { get; set; }
 
         #endregion Properties
     }

@@ -29,7 +29,7 @@ using Microsoft.AspNetCore.Mvc;
 
 using UserAccount.Plugin.Models;
 
-using static Middleware.Enums;
+using Middleware;
 
 namespace UserAccount.Plugin.Controllers
 {
@@ -66,7 +66,7 @@ namespace UserAccount.Plugin.Controllers
             {
                 if (_accountProvider.SetUserAccountDetails(UserId(), model.FirstName, model.LastName, model.Email, model.Telephone))
                 {
-                    TempData["growl"] = "Contact details successfully updated";
+                    GrowlAdd("Contact details successfully updated");
                     return RedirectToAction("Index", "Account");
                 }
 

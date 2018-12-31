@@ -24,12 +24,10 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
-using System.Linq;
-
-using static Middleware.Enums;
+using System.Collections.Generic;
 
 using Middleware;
-using System.Collections.Generic;
+using Middleware.Accounts;
 
 namespace AspNetCore.PluginManager.DemoWebsite.Classes
 {
@@ -37,7 +35,9 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
     {
         #region Private Static Members
 
-        private static List<DeliveryAddress> deliveryAddresses;
+        private static List<DeliveryAddress> _deliveryAddresses;
+
+        private static Marketing _marketing;
 
         #endregion Private Static Members
 
@@ -133,19 +133,19 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
 
         public List<DeliveryAddress> GetDeliveryAddresses(in long userId)
         {
-            if (deliveryAddresses == null)
-                deliveryAddresses = new List<DeliveryAddress>()
+            if (_deliveryAddresses == null)
+                _deliveryAddresses = new List<DeliveryAddress>()
                     {
                         new DeliveryAddress(1, String.Empty, "1 Mike St", String.Empty, String.Empty, "London", String.Empty, "L1 1AA", "GB", 5.99m),
                         new DeliveryAddress(2, String.Empty, "29 5th Avenue", String.Empty, String.Empty, "New York", String.Empty, "49210", "US", 5.99m),
                     };
 
-            return deliveryAddresses;
+            return _deliveryAddresses;
         }
 
         public bool AddDeliveryAddress(in Int64 userId, in DeliveryAddress deliveryAddress)
         {
-            deliveryAddresses.Add(deliveryAddress);
+            _deliveryAddresses.Add(deliveryAddress);
             return true;
         }
 
@@ -162,10 +162,36 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
 
         public bool DeleteDeliveryAddress(in long userId, in DeliveryAddress deliveryAddress)
         {
-            deliveryAddresses.Remove(deliveryAddress);
+            _deliveryAddresses.Remove(deliveryAddress);
             return true;
         }
 
         #endregion Delivery Address
+
+        #region Marketing Preferences
+
+        public MarketingOptions GetMarketingOptions()
+        {
+            return MarketingOptions.ShowEmail | 
+                MarketingOptions.ShowPostal | 
+                MarketingOptions.ShowSMS | 
+                MarketingOptions.ShowTelephone;
+        }
+
+        public Marketing GetMarketingPreferences(in Int64 userId)
+        {
+            if (_marketing == null)
+                _marketing = new Marketing(true, true, false, false);
+
+            return _marketing;
+        }
+
+        public bool SetMarketingPreferences(in Int64 userId, in Marketing marketing)
+        {
+            _marketing = marketing;
+            return true;
+        }
+
+        #endregion Marketing Preferences
     }
 }

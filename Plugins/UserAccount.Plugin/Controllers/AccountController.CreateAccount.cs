@@ -33,7 +33,7 @@ using static Shared.Utilities;
 
 using UserAccount.Plugin.Models;
 
-using static Middleware.Enums;
+using Middleware;
 using static Middleware.Constants;
 
 namespace UserAccount.Plugin.Controllers

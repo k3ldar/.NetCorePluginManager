@@ -1,0 +1,57 @@
+﻿@model UserAccount.Plugin.Models.MarketingPreferencesViewModel
+@{
+    ViewData["Title"] = "Marketing Preferences";
+}
+
+<h2>Marketing Preferences</h2>
+
+<link rel="stylesheet" href="/css/Account.css" />
+
+@using (Html.BeginForm("MarketingPreferences", "Account", FormMethod.Post, new { id = "marketingPreferecesEditForm" }))
+{
+    @if (Model.ShowEmail)
+    {
+        <div class="account-block">
+            <div class="account-row">
+                @Html.LabelFor(m => m.EmailOffers)
+                @Html.CheckBoxFor(m => m.EmailOffers)
+            </div>
+        </div>
+    }
+
+    @if (Model.ShowTelephone)
+    {
+        <div class="account-block">
+            <div class="account-row">
+                @Html.LabelFor(m => m.TelephoneOffers)
+                @Html.CheckBoxFor(m => m.TelephoneOffers)
+            </div>
+        </div>
+    }
+
+    @if (Model.ShowSMS)
+    { 
+        <div class="account-block">
+            <div class="account-row">
+                @Html.LabelFor(m => m.SMSOffers)
+                @Html.CheckBoxFor(m => m.SMSOffers)
+            </div>
+        </div>
+    }
+
+    @if (Model.ShowPostal)
+    {
+        <div class="account-block">
+            <div class="account-row">
+                @Html.LabelFor(m => m.PostalOffers)
+                @Html.CheckBoxFor(m => m.PostalOffers)
+            </div>
+        </div>
+    }
+
+    <div class="account-block">
+        <div class="account-row">
+            <input id="updateMarketingPreferences" type="submit" value="Update" />
+        </div>
+    </div>
+}

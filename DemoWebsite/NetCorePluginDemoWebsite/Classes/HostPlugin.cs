@@ -30,6 +30,7 @@ using Microsoft.Extensions.DependencyInjection;
 using SharedPluginFeatures;
 
 using Middleware;
+using Middleware.Accounts;
 
 namespace AspNetCore.PluginManager.DemoWebsite.Classes
 {
