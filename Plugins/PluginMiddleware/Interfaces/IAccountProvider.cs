@@ -26,6 +26,8 @@
 using System;
 using System.Collections.Generic;
 
+using Middleware.Accounts.Orders;
+
 namespace Middleware.Accounts
 {
     public interface IAccountProvider
@@ -96,5 +98,11 @@ namespace Middleware.Accounts
         bool SetMarketingPreferences(in Int64 userId, in Marketing marketing);
 
         #endregion Marketing Preferences
+
+        #region Orders
+
+        List<Order> OrdersGet(in Int64 userId);
+
+        #endregion Orders
     }
 }

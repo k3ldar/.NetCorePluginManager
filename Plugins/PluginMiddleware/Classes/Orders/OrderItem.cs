@@ -25,7 +25,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
 
-namespace Middleware.Orders
+namespace Middleware.Accounts.Orders
 {
     public sealed class OrderItem
     {
@@ -90,7 +90,7 @@ namespace Middleware.Orders
                 decimal taxRate = (TaxRate / 100) + 1;
                 decimal totalCost = Cost * Quantity;
 
-                return totalCost + (taxRate * totalCost);
+                return (totalCost + (taxRate * totalCost)) - TotalDiscount;
             }
         }
 
@@ -112,11 +112,7 @@ namespace Middleware.Orders
         {
             get
             {
-                decimal Result = Cost * Quantity;
-
-
-
-                return Result;
+                return Cost * Quantity;
             }
         }
 
@@ -124,9 +120,16 @@ namespace Middleware.Orders
         {
             get
             {
+                if (Discount == 0)
+                    return Discount;
+
                 switch (DiscountType)
                 {
-                    case DiscountType.Percentage:
+                    case DiscountType.PercentageSubTotal:
+                        return (SubTotal / 100) * Discount;
+
+                    case DiscountType.PercentageTotal:
+                        return (Total / 100) * Discount;
 
                     case DiscountType.Value:
                         return Discount;

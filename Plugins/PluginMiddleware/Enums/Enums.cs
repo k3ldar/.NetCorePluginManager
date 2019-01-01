@@ -209,8 +209,10 @@ namespace Middleware
 
     public enum DiscountType
     {
-        Percentage = 0,
+        PercentageTotal = 0,
 
-        Value = 1
+        PercentageSubTotal= 1,
+
+        Value = 2
     }
 }

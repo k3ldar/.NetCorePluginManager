@@ -25,10 +25,9 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Globalization;
 
-namespace Middleware.Orders
+namespace Middleware.Accounts.Orders
 {
     public sealed class Order
     {
@@ -124,7 +123,19 @@ namespace Middleware.Orders
                     Result += item.Total;
 
                 return Result;
+            }
+        }
 
+        public int ItemCount
+        {
+            get
+            {
+                int Result = 0;
+
+                foreach (OrderItem item in OrderItems)
+                    Result += item.Quantity;
+
+                return Result;
             }
         }
 

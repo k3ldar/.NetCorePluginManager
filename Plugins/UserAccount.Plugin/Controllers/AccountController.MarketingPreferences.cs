@@ -15,7 +15,7 @@
  *
  *  Product:  UserAccount.Plugin
  *  
- *  File: AccountController.BillingAddress.cs
+ *  File: AccountController.MarketingPreferences.cs
  *
  *  Purpose:  Manages billing address
  *

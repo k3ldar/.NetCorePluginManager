@@ -25,9 +25,11 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 
 using Middleware;
 using Middleware.Accounts;
+using Middleware.Accounts.Orders;
 
 namespace AspNetCore.PluginManager.DemoWebsite.Classes
 {
@@ -38,6 +40,8 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
         private static List<DeliveryAddress> _deliveryAddresses;
 
         private static Marketing _marketing;
+
+        private static List<Order> _orders;
 
         #endregion Private Static Members
 
@@ -193,5 +197,36 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
         }
 
         #endregion Marketing Preferences
+
+        #region Orders
+
+        public List<Order> OrdersGet(in Int64 userId)
+        {
+            if (_orders == null)
+            {
+                _orders = new List<Order>
+                {
+                    new Order(1, DateTime.Now.AddDays(-10), 4.99m, new CultureInfo("en-US"), ProcessStatus.Dispatched,
+                    new List<OrderItem>()
+                    {
+                        new OrderItem(1, "The shining ones by David Eddings", 14.99m, 20, 1, ItemStatus.Dispatched, DiscountType.Value, 0),
+                        new OrderItem(2, "Domes of Fire by David Eddings", 12.99m, 20, 2, ItemStatus.BackOrder, DiscountType.PercentageSubTotal, 10),
+                        new OrderItem(3, "The hidden city by David Eddings", 12.99m, 20, 1, ItemStatus.OnHold, DiscountType.PercentageTotal, 10)
+                    }),
+
+                    new Order(2, DateTime.Now.AddDays(-8), 6.99m, new CultureInfo("en-GB"), ProcessStatus.Dispatched,
+                    new List<OrderItem>()
+                    {
+                        new OrderItem(4, "Mug, shiny white", 6.99m, 20, 6, ItemStatus.Dispatched, DiscountType.Value, 15),
+                        new OrderItem(5, "Dinner Plate", 7.99m, 20, 6, ItemStatus.Dispatched, DiscountType.PercentageSubTotal, 10),
+                        new OrderItem(6, "Cereal bowl", 5.99m, 20, 6, ItemStatus.Dispatched, DiscountType.PercentageTotal, 10)
+                    })
+                };
+            }
+
+            return _orders;
+        }
+
+        #endregion Orders
     }
 }

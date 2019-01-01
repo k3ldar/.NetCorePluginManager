@@ -1,0 +1,40 @@
+﻿@model UserAccount.Plugin.Models.OrdersViewModel
+@{
+    ViewData["Title"] = "Orders";
+}
+
+<h2>Orders</h2>
+
+<link rel="stylesheet" href="/css/Account.css" />
+<script src="~/js/userAccount.js"></script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+
+<div class="accountGrid">
+    <table>
+        <thead>
+            <tr>
+                <th>Order No</th>
+                <th>Date</th>
+                <th>Status</th>
+                <th>Items</th>
+                <th>Total</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (Middleware.Accounts.Orders.Order order in Model.Orders)
+            {
+            <tr>
+                <td>#@order.Id</td>
+                <td>@order.Date.ToString(System.Threading.Thread.CurrentThread.CurrentUICulture.DateTimeFormat)</td>
+                <td>@Shared.Utilities.SplitCamelCase(order.Status.ToString())</td>
+                <td>@order.ItemCount.ToString()</td>
+                <td>@Shared..  order.Total.ToString("N", order.Culture.NumberFormat)</td>
+                <td><a href="/Account/DeliveryAddressEdit/@order.Id">view</a></td>
+            </tr>
+            }
+        </tbody>
+    </table>
+</div>
