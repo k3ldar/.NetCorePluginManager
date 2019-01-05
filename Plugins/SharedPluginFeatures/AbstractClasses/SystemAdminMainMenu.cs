@@ -28,6 +28,7 @@ using System.Collections.Generic;
 
 namespace SharedPluginFeatures
 {
+    [Obsolete("This class is being removed in future version")]
     public abstract class SystemAdminMainMenu : BaseCoreClass, IComparable<SystemAdminMainMenu>
     {
         #region Public virtual Methods

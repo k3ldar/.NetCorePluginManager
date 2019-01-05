@@ -46,6 +46,7 @@ namespace UserAccount.Plugin.Controllers
 
         private readonly ISettingsProvider _settingsProvider;
         private readonly IAccountProvider _accountProvider;
+        private readonly IDownloads _downloads;
 
         private static readonly CacheManager _createAccountCache = new CacheManager("Create Account Cache", new TimeSpan(0, 30, 0));
 
@@ -59,10 +60,12 @@ namespace UserAccount.Plugin.Controllers
 
         #region Constructors
 
-        public AccountController(ISettingsProvider settingsProvider, IAccountProvider accountProvider, ICountryProvider countryProvider)
+        public AccountController(ISettingsProvider settingsProvider, IAccountProvider accountProvider, 
+            IDownloads downloads, ICountryProvider countryProvider)
         {
             _settingsProvider = settingsProvider ?? throw new ArgumentNullException(nameof(settingsProvider));
             _accountProvider = accountProvider ?? throw new ArgumentNullException(nameof(accountProvider));
+            _downloads = downloads ?? throw new ArgumentNullException(nameof(downloads));
 
             if (countryProvider == null)
                 throw new ArgumentNullException(nameof(countryProvider));

@@ -25,14 +25,12 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 using Middleware.Accounts.Orders;
 
 namespace UserAccount.Plugin.Models
 {
-    public class OrdersViewModel
+    public sealed class OrdersViewModel
     {
         #region Constructors
 

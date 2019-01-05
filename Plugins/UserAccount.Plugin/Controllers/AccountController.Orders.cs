@@ -23,11 +23,10 @@
  *  31/12/2018  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+
+using Middleware.Accounts.Orders;
 
 using UserAccount.Plugin.Models;
 
@@ -41,6 +40,19 @@ namespace UserAccount.Plugin.Controllers
         public ActionResult Orders()
         {
             OrdersViewModel model = new OrdersViewModel(_accountProvider.OrdersGet(UserId()));
+
+            return View(model);
+        }
+
+        [HttpGet]
+        public ActionResult OrderView(int id)
+        {
+            Order order = _accountProvider.OrdersGet(UserId()).Where(o => o.Id == id).FirstOrDefault();
+
+            if (order == null)
+                return RedirectToAction(nameof(Index));
+
+            OrderViewModel model = new OrderViewModel(order);
 
             return View(model);
         }

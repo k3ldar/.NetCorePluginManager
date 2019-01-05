@@ -1,0 +1,42 @@
+﻿@model UserAccount.Plugin.Models.ViewDownloadViewItem
+@{
+    ViewData["Title"] = "DownloadView";
+}
+
+<h2>Download @Model.Name</h2>
+
+<link rel="stylesheet" href="/css/Account.css" />
+
+<div class="account-block">
+    <h3>Description</h3>
+    <div class="account-row">
+        <p>@Model.Description</p>
+    </div>
+</div>
+<div class="account-block">
+    <h3>Details</h3>
+
+    @if (!String.IsNullOrEmpty(Model.Size))
+    {
+    <div class="account-row">
+        <p><span>File Size:</span>@Model.Size</p>
+    </div>
+    }
+    <div class="account-row">
+        <p><span>File Name:</span>@System.IO.Path.GetFileName(Model.Filename)</p>
+    </div>
+    @if (!String.IsNullOrEmpty(Model.Version))
+    {
+    <div class="account-row">
+        <p><span>File Version:</span>@Model.Version</p>
+    </div>
+    }
+
+    @using (Html.BeginForm("DownloadFile", "Account", FormMethod.Post))
+    {
+        @Html.HiddenFor(m => m.Id)
+        @Html.HiddenFor(m => m.Filename)
+
+        <button type="submit">Download</button>
+    }
+</div>

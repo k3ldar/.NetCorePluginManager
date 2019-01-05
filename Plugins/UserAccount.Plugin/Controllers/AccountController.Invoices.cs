@@ -13,44 +13,50 @@
  *
  *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
  *
- *  Product:  SieraDeltaGeoIpPlugin
+ *  Product:  UserAccount.Plugin
  *  
- *  File: GeoIpPluginSettings.cs
+ *  File: AccountController.Invoices.cs
  *
- *  Purpose:  
+ *  Purpose:  Manages Invoices
  *
  *  Date        Name                Reason
- *  04/11/2018  Simon Carter        Initially Created
+ *  04/01/2019  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using AppSettings;
+using System.Linq;
+using Microsoft.AspNetCore.Mvc;
 
-using SharedPluginFeatures;
+using Middleware.Accounts.Invoices;
 
-namespace SieraDeltaGeoIp.Plugin
+using UserAccount.Plugin.Models;
+
+namespace UserAccount.Plugin.Controllers
 {
-    public class GeoIpPluginSettings
+    public partial class AccountController
     {
-        #region Constructors
+        #region Public Action Methods
 
-        public GeoIpPluginSettings()
+        [HttpGet]
+        public ActionResult Invoices()
         {
+            InvoicesViewModel model = new InvoicesViewModel(_accountProvider.InvoicesGet(UserId()));
 
+            return View(model);
         }
 
-        #endregion Constructors
+        [HttpGet]
+        public ActionResult InvoiceView(int id)
+        {
+            Invoice invoice = _accountProvider.InvoicesGet(UserId()).Where(o => o.Id == id).FirstOrDefault();
 
-        #region Properties
+            if (invoice == null)
+                return RedirectToAction(nameof(Index));
 
-        public bool CacheAllData { get; set; }
+            InvoiceViewModel model = new InvoiceViewModel(invoice);
 
-        [SettingString(false)]
-        public string DatabaseConnectionString { get; set; }
+            return View(model);
+        }
 
-        public Enums.GeoIpProvider GeoIpProvider { get; set; }
-
-        public string[] CountryList { get; set; }
-
-        #endregion Properties
+        #endregion Public Action Methods
     }
 }

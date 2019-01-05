@@ -11,46 +11,43 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2012 - 2018 Simon Carter.  All Rights Reserved.
  *
- *  Product:  SieraDeltaGeoIpPlugin
+ *  Product:  PluginMiddleware
  *  
- *  File: GeoIpPluginSettings.cs
+ *  File: IDownloads.cs
  *
- *  Purpose:  
+ *  Purpose:  Download provider
  *
  *  Date        Name                Reason
- *  04/11/2018  Simon Carter        Initially Created
+ *  05/01/2019  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using AppSettings;
+using System;
+using System.Collections.Generic;
 
-using SharedPluginFeatures;
+using Middleware.Downloads;
 
-namespace SieraDeltaGeoIp.Plugin
+namespace Middleware
 {
-    public class GeoIpPluginSettings
+    public interface IDownloads
     {
-        #region Constructors
 
-        public GeoIpPluginSettings()
-        {
+        #region Downloads
 
-        }
+        /// <summary>
+        /// User download files
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        List<DownloadCategory> DownloadCategoriesGet(in Int64 userId);
 
-        #endregion Constructors
+        /// <summary>
+        /// Publicy downloadable files
+        /// </summary>
+        /// <returns></returns>
+        List<DownloadCategory> DownloadCategoriesGet();
 
-        #region Properties
-
-        public bool CacheAllData { get; set; }
-
-        [SettingString(false)]
-        public string DatabaseConnectionString { get; set; }
-
-        public Enums.GeoIpProvider GeoIpProvider { get; set; }
-
-        public string[] CountryList { get; set; }
-
-        #endregion Properties
+        #endregion Downloads
     }
 }

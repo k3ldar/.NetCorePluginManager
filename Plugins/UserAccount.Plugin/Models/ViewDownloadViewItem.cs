@@ -13,43 +13,61 @@
  *
  *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
  *
- *  Product:  SieraDeltaGeoIpPlugin
+ *  Product:  UserAccount.Plugin
  *  
- *  File: GeoIpPluginSettings.cs
+ *  File: ViewDownloadViewModel.cs
  *
- *  Purpose:  
+ *  Purpose: View a Download view model
  *
  *  Date        Name                Reason
- *  04/11/2018  Simon Carter        Initially Created
+ *  05/01/2019  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using AppSettings;
+using System;
+using System.Collections.Generic;
 
-using SharedPluginFeatures;
+using Middleware.Downloads;
 
-namespace SieraDeltaGeoIp.Plugin
+namespace UserAccount.Plugin.Models
 {
-    public class GeoIpPluginSettings
+    public class ViewDownloadViewItem
     {
         #region Constructors
 
-        public GeoIpPluginSettings()
+        public ViewDownloadViewItem()
         {
 
+        }
+
+        public ViewDownloadViewItem(in int id, in string name, in string description,
+            in string version, in string filename, in string icon, in string size)
+        {
+            Id = id;
+            Name = name;
+            Description = description;
+            Version = version;
+            Filename = filename;
+            Icon = icon;
+            Size = size;
         }
 
         #endregion Constructors
 
         #region Properties
 
-        public bool CacheAllData { get; set; }
+        public int Id { get; set; }
 
-        [SettingString(false)]
-        public string DatabaseConnectionString { get; set; }
+        public string Name { get; set; }
 
-        public Enums.GeoIpProvider GeoIpProvider { get; set; }
+        public string Description { get; set; }
 
-        public string[] CountryList { get; set; }
+        public string Version { get; set; }
+
+        public string Filename { get; set; }
+
+        public string Icon { get; set; }
+
+        public string Size { get; set; }
 
         #endregion Properties
     }

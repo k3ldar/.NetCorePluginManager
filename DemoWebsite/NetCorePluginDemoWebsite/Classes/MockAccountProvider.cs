@@ -29,7 +29,9 @@ using System.Globalization;
 
 using Middleware;
 using Middleware.Accounts;
+using Middleware.Accounts.Invoices;
 using Middleware.Accounts.Orders;
+using Middleware.Downloads;
 
 namespace AspNetCore.PluginManager.DemoWebsite.Classes
 {
@@ -42,6 +44,8 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
         private static Marketing _marketing;
 
         private static List<Order> _orders;
+
+        private static List<Invoice> _invoices;
 
         #endregion Private Static Members
 
@@ -69,7 +73,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
 
         #region User Contact Details
 
-        public bool GetUserAccountDetails(in Int64 userId, out string firstName, out string lastName, out string email, out bool emailConfirmed, 
+        public bool GetUserAccountDetails(in Int64 userId, out string firstName, out string lastName, out string email, out bool emailConfirmed,
             out string telephone, out bool telephoneConfirmed)
         {
             firstName = "Fred";
@@ -101,9 +105,9 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
 
         #region Create Account
 
-        public bool CreateAccount(in string email, in string firstName, in string surname, in string password, 
-            in string telephone, in string businessName, in string addressLine1, in string addressLine2, 
-            in string addressLine3, in string city, in string county, in string postcode, in string countryCode, 
+        public bool CreateAccount(in string email, in string firstName, in string surname, in string password,
+            in string telephone, in string businessName, in string addressLine1, in string addressLine2,
+            in string addressLine3, in string city, in string county, in string postcode, in string countryCode,
             out long userId)
         {
             userId = 2;
@@ -166,7 +170,11 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
 
         public bool DeleteDeliveryAddress(in long userId, in DeliveryAddress deliveryAddress)
         {
+            if (deliveryAddress.AddressId == 1)
+                return false;
+
             _deliveryAddresses.Remove(deliveryAddress);
+
             return true;
         }
 
@@ -176,9 +184,9 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
 
         public MarketingOptions GetMarketingOptions()
         {
-            return MarketingOptions.ShowEmail | 
-                MarketingOptions.ShowPostal | 
-                MarketingOptions.ShowSMS | 
+            return MarketingOptions.ShowEmail |
+                MarketingOptions.ShowPostal |
+                MarketingOptions.ShowSMS |
                 MarketingOptions.ShowTelephone;
         }
 
@@ -204,23 +212,24 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
         {
             if (_orders == null)
             {
-                _orders = new List<Order>
+                _orders = new List<Order>()
                 {
                     new Order(1, DateTime.Now.AddDays(-10), 4.99m, new CultureInfo("en-US"), ProcessStatus.Dispatched,
-                    new List<OrderItem>()
-                    {
-                        new OrderItem(1, "The shining ones by David Eddings", 14.99m, 20, 1, ItemStatus.Dispatched, DiscountType.Value, 0),
-                        new OrderItem(2, "Domes of Fire by David Eddings", 12.99m, 20, 2, ItemStatus.BackOrder, DiscountType.PercentageSubTotal, 10),
-                        new OrderItem(3, "The hidden city by David Eddings", 12.99m, 20, 1, ItemStatus.OnHold, DiscountType.PercentageTotal, 10)
-                    }),
+                        GetDeliveryAddresses(userId)[0], new List<OrderItem>()
+                        {
+                            new OrderItem(1, "The shining ones by David Eddings", 14.99m, 20, 1m, ItemStatus.Dispatched, DiscountType.Value, 0),
+                            new OrderItem(2, "Domes of Fire by David Eddings", 12.99m, 20, 2m, ItemStatus.BackOrder, DiscountType.PercentageSubTotal, 10),
+                            new OrderItem(3, "The hidden city by David Eddings", 12.99m, 20, 1m, ItemStatus.OnHold, DiscountType.PercentageTotal, 10),
+                            new OrderItem(4, "Bookmark", 0.99m, 20, 1m, ItemStatus.Dispatched, DiscountType.None, 0)
+                        }),
 
                     new Order(2, DateTime.Now.AddDays(-8), 6.99m, new CultureInfo("en-GB"), ProcessStatus.Dispatched,
-                    new List<OrderItem>()
-                    {
-                        new OrderItem(4, "Mug, shiny white", 6.99m, 20, 6, ItemStatus.Dispatched, DiscountType.Value, 15),
-                        new OrderItem(5, "Dinner Plate", 7.99m, 20, 6, ItemStatus.Dispatched, DiscountType.PercentageSubTotal, 10),
-                        new OrderItem(6, "Cereal bowl", 5.99m, 20, 6, ItemStatus.Dispatched, DiscountType.PercentageTotal, 10)
-                    })
+                        GetDeliveryAddresses(userId)[0], new List<OrderItem>()
+                        {
+                            new OrderItem(5, "Mug, shiny white", 6.99m, 20, 6m, ItemStatus.Dispatched, DiscountType.Value, 15),
+                            new OrderItem(6, "Dinner Plate", 7.99m, 20, 6m, ItemStatus.Dispatched, DiscountType.PercentageSubTotal, 10),
+                            new OrderItem(7, "Cereal bowl", 5.99m, 20, 6m, ItemStatus.Dispatched, DiscountType.PercentageTotal, 10)
+                        })
                 };
             }
 
@@ -228,5 +237,35 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
         }
 
         #endregion Orders
+
+        #region Invoices
+
+        public List<Invoice> InvoicesGet(in Int64 userId)
+        {
+            if (_invoices == null)
+            {
+                _invoices = new List<Invoice>()
+                {
+                    new Invoice(123, DateTime.Now.AddDays(-10), 4.99m, new CultureInfo("en-US"), ProcessStatus.Dispatched,
+                        GetDeliveryAddresses(userId)[0], new List<InvoiceItem>()
+                        {
+                            new InvoiceItem(1, "The shining ones by David Eddings", 14.99m, 20, 1m, ItemStatus.Dispatched, DiscountType.Value, 0),
+                            new InvoiceItem(4, "Bookmark", 0.99m, 20, 1m, ItemStatus.Dispatched, DiscountType.None, 0)
+                        }),
+
+                    new Invoice(234, DateTime.Now.AddDays(-8), 6.99m, new CultureInfo("en-GB"), ProcessStatus.Dispatched,
+                        GetDeliveryAddresses(userId)[0], new List<InvoiceItem>()
+                        {
+                            new InvoiceItem(5, "Mug, shiny white", 6.99m, 20, 6m, ItemStatus.Dispatched, DiscountType.Value, 15),
+                            new InvoiceItem(6, "Dinner Plate", 7.99m, 20, 6m, ItemStatus.Dispatched, DiscountType.PercentageSubTotal, 10),
+                            new InvoiceItem(7, "Cereal bowl", 5.99m, 20, 6m, ItemStatus.Dispatched, DiscountType.PercentageTotal, 10)
+                        })
+                };
+            }
+
+            return _invoices;
+        }
+
+        #endregion Invoices
     }
 }

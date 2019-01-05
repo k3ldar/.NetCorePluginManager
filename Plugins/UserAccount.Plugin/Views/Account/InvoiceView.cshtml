@@ -1,0 +1,88 @@
+﻿@model UserAccount.Plugin.Models.InvoiceViewModel
+
+@{
+    ViewData["Title"] = "View Invoice";
+}
+
+
+<h2>Invoice @Model.InvoiceId</h2>
+
+<link rel="stylesheet" href="/css/Account.css" />
+
+@if (!String.IsNullOrEmpty(Model.DeliveryAddress))
+{
+    <div class="account-block">
+        <div class="account-row">
+            @Html.LabelFor(m => m.DeliveryAddress)<br /> @Html.Raw(Model.DeliveryAddress)
+        </div>
+    </div>
+}
+<div class="account-block">
+    <div class="account-row">
+        @Html.LabelFor(m => m.Date): @Model.Date.ToString()
+    </div>
+</div>
+<div class="account-block">
+    <div class="account-row">
+        @Html.LabelFor(m => m.Status): @Shared.Utilities.SplitCamelCase(Model.Status.ToString())
+    </div>
+</div>
+<div class="account-block">
+    <div class="account-row">
+        @Html.LabelFor(m => m.SubTotal): @Shared.Utilities.FormatMoney(Model.SubTotal, Model.Culture)
+    </div>
+</div>
+<div class="account-block">
+    <div class="account-row">
+        @Html.LabelFor(m => m.Postage): @Shared.Utilities.FormatMoney(Model.Postage, Model.Culture)
+    </div>
+</div>
+<div class="account-block">
+    <div class="account-row">
+        @Html.LabelFor(m => m.Tax): @Shared.Utilities.FormatMoney(Model.Tax, Model.Culture)
+    </div>
+</div>
+<div class="account-block">
+    <div class="account-row">
+        @Html.LabelFor(m => m.Total): @Shared.Utilities.FormatMoney(Model.Total, Model.Culture)
+    </div>
+</div>
+<div class="accountGrid">
+    <table>
+        <thead>
+            <tr>
+                <th>Status</th>
+                <th>Description</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Sub Total</th>
+                <th>Tax</th>
+                <th>Discount</th>
+                <th>Cost</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (Middleware.Accounts.Invoices.InvoiceItem orderItem in Model.InvoiceItems)
+            {
+                <tr>
+                    <td>@Shared.Utilities.SplitCamelCase(orderItem.Status.ToString())</td>
+                    <td>@orderItem.Description</td>
+                    <td>@Shared.Utilities.FormatMoney(orderItem.Price, Model.Culture)</td>
+                    <td>@orderItem.Quantity.ToString()</td>
+                    <td>@Shared.Utilities.FormatMoney(orderItem.SubTotal, Model.Culture)</td>
+                    <td>@Shared.Utilities.FormatMoney(orderItem.TotalTax, Model.Culture)</td>
+                    <td>
+                        @if (orderItem.TotalDiscount == 0)
+                        {@String.Empty;
+                    }
+                    else
+                    { @Shared.Utilities.FormatMoney(orderItem.TotalDiscount, Model.Culture);
+                }
+                </td>
+                <td>@Shared.Utilities.FormatMoney(orderItem.Cost, Model.Culture)</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>
+

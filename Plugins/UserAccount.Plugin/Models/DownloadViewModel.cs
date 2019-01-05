@@ -13,43 +13,53 @@
  *
  *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
  *
- *  Product:  SieraDeltaGeoIpPlugin
+ *  Product:  UserAccount.Plugin
  *  
- *  File: GeoIpPluginSettings.cs
+ *  File: DownloadViewModel.cs
  *
- *  Purpose:  
+ *  Purpose:  Download view model
  *
  *  Date        Name                Reason
- *  04/11/2018  Simon Carter        Initially Created
+ *  05/01/2019  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using AppSettings;
+using System;
+using System.Collections.Generic;
 
-using SharedPluginFeatures;
+using Middleware.Downloads;
 
-namespace SieraDeltaGeoIp.Plugin
+namespace UserAccount.Plugin.Models
 {
-    public class GeoIpPluginSettings
+    public class DownloadViewModel
     {
         #region Constructors
 
-        public GeoIpPluginSettings()
+        public DownloadViewModel(in List<DownloadCategory> categories, in string activeCategory, 
+            in List<ViewDownloadViewItem> downloads)
         {
+            if (categories == null)
+                throw new ArgumentNullException(nameof(categories));
 
+            if (categories.Count == 0)
+                throw new ArgumentOutOfRangeException(nameof(categories));
+
+            if (String.IsNullOrEmpty(activeCategory))
+                throw new ArgumentNullException(nameof(activeCategory));
+
+            Categories = categories;
+            ActiveCategory = activeCategory;
+            Downloads = downloads ?? throw new ArgumentNullException(nameof(downloads));
         }
 
         #endregion Constructors
 
         #region Properties
 
-        public bool CacheAllData { get; set; }
+        public List<DownloadCategory> Categories { get; private set; }
 
-        [SettingString(false)]
-        public string DatabaseConnectionString { get; set; }
+        public string ActiveCategory { get; private set; }
 
-        public Enums.GeoIpProvider GeoIpProvider { get; set; }
-
-        public string[] CountryList { get; set; }
+        public List<ViewDownloadViewItem> Downloads { get; private set; }
 
         #endregion Properties
     }

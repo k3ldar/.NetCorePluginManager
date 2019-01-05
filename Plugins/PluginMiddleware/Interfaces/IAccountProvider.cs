@@ -26,6 +26,7 @@
 using System;
 using System.Collections.Generic;
 
+using Middleware.Accounts.Invoices;
 using Middleware.Accounts.Orders;
 
 namespace Middleware.Accounts
@@ -104,5 +105,11 @@ namespace Middleware.Accounts
         List<Order> OrdersGet(in Int64 userId);
 
         #endregion Orders
+
+        #region Invoices
+
+        List<Invoice> InvoicesGet(in Int64 userId);
+
+        #endregion Invoices
     }
 }

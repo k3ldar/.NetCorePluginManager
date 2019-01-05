@@ -13,9 +13,19 @@
     padding: 0 0 4px 0;
 }
 
-.accountContent {
-    padding: 10px 10px 10px 10px;
-}
+    .account-row p {
+        font-size: 14px;
+        font-weight: normal;
+    }
+
+        .account-row p span {
+            padding: 0 8px 0 0;
+            font-weight: bold;
+        }
+
+    .accountContent {
+        padding: 10px 10px 10px 10px;
+    }
 
     .accountContent ul.accountOptions {
         line-height: 1.2;
@@ -150,3 +160,78 @@
     color: white;
 }
 
+/* Style the tab */
+.accountTab {
+    overflow: hidden;
+    border: 1px solid #ccc;
+    background-color: #f1f1f1;
+}
+
+    .accountTab button {
+        background-color: #ccc;
+        float: left;
+        border: none;
+        outline: none;
+        cursor: pointer;
+        padding: 14px 16px;
+        transition: 0.3s;
+        font-size: 17px;
+        font-weight: normal;
+        margin-right: 2px;
+    }
+
+        .accountTab button:hover {
+            background-color: #ddd;
+        }
+
+        .accountTab button.active {
+            background-color: white;
+            font-weight: 400;
+        }
+
+.accountTabContent {
+    display: block;
+    padding: 6px 12px;
+    border: 1px solid #ccc;
+    border-top: none;
+}
+
+.dload {
+    width: 260px;
+    height: 180px;
+    background-color: white;
+    display: block;
+    overflow: hidden;
+    border: 1px solid #ddd;
+    padding: 8px;
+    float: left;
+    margin: 0 8px 8px 0;
+    cursor: pointer;
+    color: #000
+}
+
+    .dload .icon {
+        width: 75px;
+        height: 75px;
+        float: left;
+    }
+        .dload .icon img {
+            width: 64px;
+            height: 64px;
+            padding: 4px;
+        }
+
+    .dload h3 {
+        text-decoration: none;
+        float: right;
+        width: 167px;
+        margin: 0 0 5px 0;
+    }
+
+    .dload p {
+        font-size: 12px;
+        float: right;
+        width: 167px;
+        height: auto;
+        overflow: hidden;
+    }

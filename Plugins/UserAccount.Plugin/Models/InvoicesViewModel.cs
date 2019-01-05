@@ -13,43 +13,42 @@
  *
  *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
  *
- *  Product:  SieraDeltaGeoIpPlugin
+ *  Product:  UserAccount.Plugin
  *  
- *  File: GeoIpPluginSettings.cs
+ *  File: InvoicesViewModel.cs
  *
- *  Purpose:  
+ *  Purpose:  Invoices view model
  *
  *  Date        Name                Reason
- *  04/11/2018  Simon Carter        Initially Created
+ *  04/01/2019  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using AppSettings;
+using System;
+using System.Collections.Generic;
 
-using SharedPluginFeatures;
+using Middleware.Accounts.Invoices;
 
-namespace SieraDeltaGeoIp.Plugin
+namespace UserAccount.Plugin.Models
 {
-    public class GeoIpPluginSettings
+    public sealed class InvoicesViewModel
     {
         #region Constructors
 
-        public GeoIpPluginSettings()
+        public InvoicesViewModel()
         {
+            Invoices = new List<Invoice>();
+        }
 
+        public InvoicesViewModel(List<Invoice> invoices)
+        {
+            Invoices = invoices ?? throw new ArgumentNullException(nameof(invoices));
         }
 
         #endregion Constructors
 
         #region Properties
 
-        public bool CacheAllData { get; set; }
-
-        [SettingString(false)]
-        public string DatabaseConnectionString { get; set; }
-
-        public Enums.GeoIpProvider GeoIpProvider { get; set; }
-
-        public string[] CountryList { get; set; }
+        public List<Invoice> Invoices { get; private set; }
 
         #endregion Properties
     }

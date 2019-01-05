@@ -15,27 +15,27 @@
  *
  *  Product:  PluginMiddleware
  *  
- *  File: Order.cs
+ *  File: Invoice.cs
  *
  *  Purpose:  Contains Order Details
  *
  *  Date        Name                Reason
- *  31/12/2018  Simon Carter        Initially Created
+ *  04/01/2019  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 
-namespace Middleware.Accounts.Orders
+namespace Middleware.Accounts.Invoices
 {
-    public sealed class Order
+    public sealed class Invoice
     {
         #region Constructors
 
-        public Order(in int id, in DateTime date, in decimal postage, in CultureInfo culture, 
-            in ProcessStatus processStatus, DeliveryAddress deliveryAddress, 
-            List<OrderItem> orderItems)
+        public Invoice(in int id, in DateTime date, in decimal postage, in CultureInfo culture,
+            in ProcessStatus processStatus, DeliveryAddress deliveryAddress,
+            List<InvoiceItem> invoiceItems)
         {
             if (postage < 0)
                 throw new ArgumentOutOfRangeException(nameof(postage));
@@ -45,11 +45,11 @@ namespace Middleware.Accounts.Orders
             Postage = postage;
             Culture = culture;
             Status = processStatus;
-            OrderItems = orderItems ?? throw new ArgumentNullException(nameof(orderItems));
+            InvoiceItems = invoiceItems ?? throw new ArgumentNullException(nameof(invoiceItems));
             DeliveryAddress = deliveryAddress;
 
-            foreach (OrderItem item in OrderItems)
-                item.Order = this;
+            foreach (InvoiceItem item in InvoiceItems)
+                item.Invoice = this;
         }
 
         #endregion Constructors
@@ -68,7 +68,7 @@ namespace Middleware.Accounts.Orders
 
         public ProcessStatus Status { get; private set; }
 
-        public List<OrderItem> OrderItems { get; private set; }
+        public List<InvoiceItem> InvoiceItems { get; private set; }
 
         /// <summary>
         /// Total discount amount
@@ -79,7 +79,7 @@ namespace Middleware.Accounts.Orders
             {
                 decimal Result = 0;
 
-                foreach (OrderItem item in OrderItems)
+                foreach (InvoiceItem item in InvoiceItems)
                     Result += item.TotalDiscount;
 
                 return Result;
@@ -95,7 +95,7 @@ namespace Middleware.Accounts.Orders
             {
                 decimal Result = 0;
 
-                foreach (OrderItem item in OrderItems)
+                foreach (InvoiceItem item in InvoiceItems)
                     Result += item.Cost;
 
                 return Result;
@@ -111,7 +111,7 @@ namespace Middleware.Accounts.Orders
             {
                 decimal Result = 0;
 
-                foreach (OrderItem item in OrderItems)
+                foreach (InvoiceItem item in InvoiceItems)
                     Result += item.TotalTax;
 
                 return Result;
@@ -127,7 +127,7 @@ namespace Middleware.Accounts.Orders
             {
                 decimal Result = 0;
 
-                foreach (OrderItem item in OrderItems)
+                foreach (InvoiceItem item in InvoiceItems)
                     Result += item.Cost;
 
                 return SubTotal + Postage;
@@ -140,7 +140,7 @@ namespace Middleware.Accounts.Orders
             {
                 decimal Result = 0;
 
-                foreach (OrderItem item in OrderItems)
+                foreach (InvoiceItem item in InvoiceItems)
                     Result += item.Quantity;
 
                 return Result;

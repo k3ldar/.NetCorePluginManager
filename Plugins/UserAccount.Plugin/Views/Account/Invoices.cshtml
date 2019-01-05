@@ -1,0 +1,36 @@
+﻿@model UserAccount.Plugin.Models.InvoicesViewModel
+@{
+    ViewData["Title"] = "Invoices";
+}
+
+<h2>Orders</h2>
+
+<link rel="stylesheet" href="/css/Account.css" />
+
+<div class="accountGrid">
+    <table>
+        <thead>
+            <tr>
+                <th>Invoice No</th>
+                <th>Date</th>
+                <th>Status</th>
+                <th>Items</th>
+                <th>Total</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (Middleware.Accounts.Invoices.Invoice invoice in Model.Invoices)
+            {
+                <tr>
+                    <td>@invoice.Id</td>
+                    <td>@invoice.Date.ToString(System.Threading.Thread.CurrentThread.CurrentUICulture.DateTimeFormat)</td>
+                    <td>@Shared.Utilities.SplitCamelCase(invoice.Status.ToString())</td>
+                    <td>@invoice.ItemCount.ToString()</td>
+                    <td>@Shared.Utilities.FormatMoney(invoice.Total, invoice.Culture)</td>
+                    <td><a href="/Account/InvoiceView/@invoice.Id">view</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

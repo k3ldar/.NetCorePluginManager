@@ -15,26 +15,26 @@
  *
  *  Product:  PluginMiddleware
  *  
- *  File: OrderItem.cs
+ *  File: InvoiceItem.cs
  *
  *  Purpose:  Order Item
  *
  *  Date        Name                Reason
- *  31/12/2018  Simon Carter        Initially Created
+ *   04/01/2019  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
 
 using static Shared.Utilities;
 
-namespace Middleware.Accounts.Orders
+namespace Middleware.Accounts.Invoices
 {
-    public sealed class OrderItem
+    public sealed class InvoiceItem
     {
         #region Constructors
 
-        public OrderItem(in Int64 id, in string description, in decimal cost, 
-            in int taxRate, in decimal quantity, in ItemStatus status, in DiscountType discountType, 
+        public InvoiceItem(in Int64 id, in string description, in decimal cost,
+            in int taxRate, in decimal quantity, in ItemStatus status, in DiscountType discountType,
             in decimal discount)
         {
             if (String.IsNullOrEmpty(description))
@@ -68,7 +68,7 @@ namespace Middleware.Accounts.Orders
 
         public Int64 Id { get; private set; }
 
-        public Order Order { get; internal set; }
+        public Invoice Invoice { get; internal set; }
 
         public string Description { get; private set; }
 
@@ -92,9 +92,9 @@ namespace Middleware.Accounts.Orders
             get
             {
                 decimal taxRate = 1 + ((decimal)TaxRate / 100);
-                decimal totalCost = BankersRounding(Price * Quantity, Order.Culture.NumberFormat.NumberDecimalDigits);
+                decimal totalCost = BankersRounding(Price * Quantity, Invoice.Culture.NumberFormat.NumberDecimalDigits);
 
-                return BankersRounding(taxRate * totalCost, Order.Culture.NumberFormat.NumberDecimalDigits) - TotalDiscount;
+                return BankersRounding(taxRate * totalCost, Invoice.Culture.NumberFormat.NumberDecimalDigits) - TotalDiscount;
             }
         }
 
@@ -106,9 +106,9 @@ namespace Middleware.Accounts.Orders
             get
             {
                 decimal taxRate = 1 + ((decimal)TaxRate / 100);
-                decimal totalCost = BankersRounding(Price * Quantity, Order.Culture.NumberFormat.NumberDecimalDigits);
+                decimal totalCost = BankersRounding(Price * Quantity, Invoice.Culture.NumberFormat.NumberDecimalDigits);
 
-                return BankersRounding(taxRate * totalCost, Order.Culture.NumberFormat.NumberDecimalDigits) - totalCost;
+                return BankersRounding(taxRate * totalCost, Invoice.Culture.NumberFormat.NumberDecimalDigits) - totalCost;
             }
         }
 
@@ -116,7 +116,7 @@ namespace Middleware.Accounts.Orders
         {
             get
             {
-                return BankersRounding(Price * Quantity, Order.Culture.NumberFormat.NumberDecimalDigits);
+                return BankersRounding(Price * Quantity, Invoice.Culture.NumberFormat.NumberDecimalDigits);
             }
         }
 
@@ -133,13 +133,13 @@ namespace Middleware.Accounts.Orders
                         return 0;
 
                     case DiscountType.PercentageSubTotal:
-                        return BankersRounding((SubTotal / 100) * Discount, Order.Culture.NumberFormat.NumberDecimalDigits);
+                        return BankersRounding((SubTotal / 100) * Discount, Invoice.Culture.NumberFormat.NumberDecimalDigits);
 
                     case DiscountType.PercentageTotal:
-                        return BankersRounding(((SubTotal + TotalTax) / 100) * Discount, Order.Culture.NumberFormat.NumberDecimalDigits);
+                        return BankersRounding(((SubTotal + TotalTax) / 100) * Discount, Invoice.Culture.NumberFormat.NumberDecimalDigits);
 
                     case DiscountType.Value:
-                        return BankersRounding(Discount, Order.Culture.NumberFormat.NumberDecimalDigits);
+                        return BankersRounding(Discount, Invoice.Culture.NumberFormat.NumberDecimalDigits);
 
                     default:
                         throw new InvalidOperationException("Invalid Discount Type");
