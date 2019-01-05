@@ -64,7 +64,7 @@
   <ItemGroup>
     <PackageReference Include="ApplicationSettings" Version="1.1.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.2.0" />
-    <PackageReference Include="SC.Shared.Library.Core" Version="2.7.1" />
+    <PackageReference Include="SC.Shared.Library.Core" Version="2.7.2" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">

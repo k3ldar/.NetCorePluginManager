@@ -69,7 +69,11 @@
     <Content Remove="Views\Account\DeliveryAddressAdd.cshtml" />
     <Content Remove="Views\Account\DeliveryAddressEdit.cshtml" />
     <Content Remove="Views\Account\Index.cshtml" />
+    <Content Remove="Views\Account\Invoices.cshtml" />
+    <Content Remove="Views\Account\InvoiceView.cshtml" />
     <Content Remove="Views\Account\MarketingPreferences.cshtml" />
+    <Content Remove="Views\Account\Orders.cshtml" />
+    <Content Remove="Views\Account\OrderView.cshtml" />
     <Content Remove="Views\Account\UserContactDetails.cshtml" />
     <Content Remove="wwwroot\css\Account.css" />
     <Content Remove="wwwroot\css\growl.css" />
@@ -103,7 +107,11 @@
     <EmbeddedResource Include="Views\Account\DeliveryAddressAdd.cshtml" />
     <EmbeddedResource Include="Views\Account\DeliveryAddressEdit.cshtml" />
     <EmbeddedResource Include="Views\Account\Index.cshtml" />
+    <EmbeddedResource Include="Views\Account\Invoices.cshtml" />
+    <EmbeddedResource Include="Views\Account\InvoiceView.cshtml" />
     <EmbeddedResource Include="Views\Account\MarketingPreferences.cshtml" />
+    <EmbeddedResource Include="Views\Account\Orders.cshtml" />
+    <EmbeddedResource Include="Views\Account\OrderView.cshtml" />
     <EmbeddedResource Include="Views\Account\UserContactDetails.cshtml" />
     <EmbeddedResource Include="wwwroot\css\Account.css" />
     <EmbeddedResource Include="wwwroot\css\growl.css" />
@@ -316,7 +324,7 @@
     <PackageReference Include="jQuery.Validation" Version="1.17.0" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.0" />
-    <PackageReference Include="SC.Shared.Library.Core" Version="2.7.1" />
+    <PackageReference Include="SC.Shared.Library.Core" Version="2.7.2" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">

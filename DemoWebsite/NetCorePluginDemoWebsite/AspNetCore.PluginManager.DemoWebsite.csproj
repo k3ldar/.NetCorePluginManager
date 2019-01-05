@@ -21,9 +21,12 @@
 
   <ItemGroup>
     <Compile Remove="Plugin\**" />
+    <Compile Remove="Views\Account\**" />
     <Content Remove="Plugin\**" />
+    <Content Remove="Views\Account\**" />
     <EmbeddedResource Remove="Plugin\**" />
     <None Remove="Plugin\**" />
+    <None Remove="Views\Account\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -40,6 +43,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="FirebirdSql.Data.FirebirdClient" Version="6.4.0" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authorization" Version="2.2.0" />
@@ -85,7 +89,7 @@
     <PackageReference Include="Microsoft.AspNetCore.Razor.Language" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Runtime" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.ResponseCaching.Abstractions" Version="2.2.0" />
-    <PackageReference Include="SC.Shared.Library.Core" Version="2.7.1" />
+    <PackageReference Include="SC.Shared.Library.Core" Version="2.7.2" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
@@ -97,10 +101,6 @@
   <ItemGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <ProjectReference Include="..\..\Plugins\SharedPluginFeatures\SharedPluginFeatures.csproj" />
     <ProjectReference Include="..\..\NetCorePluginManager\AspNetCore.PluginManager.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Views\Account\" />
   </ItemGroup>
 
   <ItemGroup>
