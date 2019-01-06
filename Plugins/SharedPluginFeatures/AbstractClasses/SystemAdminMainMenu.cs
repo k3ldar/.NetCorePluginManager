@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
  *
  *  Product:  SharedPluginFeatures
  *  
@@ -28,6 +28,7 @@ using System.Collections.Generic;
 
 namespace SharedPluginFeatures
 {
+    [Obsolete("This class is being removed in future version")]
     public abstract class SystemAdminMainMenu : BaseCoreClass, IComparable<SystemAdminMainMenu>
     {
         #region Public virtual Methods

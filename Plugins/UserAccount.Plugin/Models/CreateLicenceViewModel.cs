@@ -11,30 +11,31 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
  *
- *  Product:  SharedPluginFeatures
+ *  Product:  UserAccount.Plugin
  *  
- *  File: ILoginProvider.cs
+ *  File: CreateLicenceViewModel.cs
  *
- *  Purpose:  
+ *  Purpose:  Create licence view model
  *
  *  Date        Name                Reason
- *  21/11/2018  Simon Carter        Initially Created
+ *  06/01/2019  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-using static SharedPluginFeatures.Enums;
+using System.ComponentModel.DataAnnotations;
 
-namespace SharedPluginFeatures
+
+namespace UserAccount.Plugin.Models
 {
-    public interface ILoginProvider
+    public sealed class CreateLicenceViewModel
     {
-        LoginResult Login(in string username, in string password, in string ipAddress, 
-            in byte attempts, ref UserLoginDetails loginDetails);
+        #region Properties
 
-        bool UnlockAccount(in string username, in string unlockCode);
+        [Display(Name = "Licence Type")]
+        public int LicenceType { get; set; }
 
-        bool ForgottenPassword(in string username);
+        #endregion Properties
     }
 }

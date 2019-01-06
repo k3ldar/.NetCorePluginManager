@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
  *
  *  Product:  AspNetCore.PluginManager
  *  
@@ -51,6 +51,8 @@ namespace AspNetCore.PluginManager
         private readonly Dictionary<string, IPluginModule> _plugins;
         private readonly PluginSettings _pluginSettings;
 
+        private static IServiceProvider _serviceProvider;
+
         #endregion Private Members
 
         #region Constructors
@@ -66,6 +68,9 @@ namespace AspNetCore.PluginManager
         {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _pluginSettings = pluginSettings ?? throw new ArgumentNullException(nameof(pluginSettings));
+
+            if (_pluginSettings.Plugins == null)
+                _pluginSettings.Plugins = new List<PluginSetting>();
         }
 
         #endregion Constructors
@@ -229,6 +234,8 @@ namespace AspNetCore.PluginManager
 
             // if no plugin has registered a setting provider, add the default appsettings json provider
             services.TryAddSingleton<ISettingsProvider, Classes.DefaultSettingProvider>();
+
+            _serviceProvider = services.BuildServiceProvider();
         }
 
         /// <summary>
@@ -348,9 +355,29 @@ namespace AspNetCore.PluginManager
                     {
                         try
                         {
+
                             if ((type.GetInterface(typeof(T).Name) != null) || (type.IsSubclassOf(typeof(T))))
                             {
-                                Result.Add((T)Activator.CreateInstance(type));
+                                // the only other supported constructor is one that supports only ISettingsProvider
+                                // does this type have one of those constructors
+                                ConstructorInfo settingsProviderConstructor = type.GetConstructors()
+                                    .Where(c => c.IsPublic && !c.IsStatic && c.GetParameters().Length == 1)
+                                    .FirstOrDefault();
+
+                                if (settingsProviderConstructor != null)
+                                {
+                                    if (settingsProviderConstructor.GetParameters()[0].ParameterType == typeof(ISettingsProvider))
+                                    {
+                                        Result.Add((T)Activator.CreateInstance(type,
+                                            _serviceProvider.GetRequiredService(typeof(ISettingsProvider))));
+                                    }
+                                }
+                                else
+                                { 
+                                    // does the type have a parameterless constructor?  If not then
+                                    // an exception will be raised and logged
+                                    Result.Add((T)Activator.CreateInstance(type));
+                                }
                             }
                         }
                         catch (Exception typeLoader)

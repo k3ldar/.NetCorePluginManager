@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
  *
  *  Product:  Error Manager Plugin
  *  
@@ -42,14 +42,16 @@ namespace ErrorManager.Plugin.Controllers
         #region Private Members
 
         private readonly IHostingEnvironment _hostingEnvironment;
+        private readonly ISettingsProvider _settingsProvider;
 
         #endregion Private Members
 
         #region Constructors
 
-        public ErrorController(IHostingEnvironment hostingEnvironment)
+        public ErrorController(IHostingEnvironment hostingEnvironment, ISettingsProvider settingsProvider)
         {
-            _hostingEnvironment = hostingEnvironment;
+            _hostingEnvironment = hostingEnvironment ?? throw new ArgumentNullException(nameof(hostingEnvironment));
+            _settingsProvider = settingsProvider ?? throw new ArgumentNullException(nameof(settingsProvider));
         }
 
         #endregion Constructors
@@ -66,7 +68,7 @@ namespace ErrorManager.Plugin.Controllers
             Response.StatusCode = 404;
             Error404Model model = null;
 
-            ErrorManagerSettings settings = GetSettings<ErrorManagerSettings>("ErrorManager");
+            ErrorManagerSettings settings = _settingsProvider.GetSettings<ErrorManagerSettings>("ErrorManager");
 
             if (settings.RandomQuotes)
             {

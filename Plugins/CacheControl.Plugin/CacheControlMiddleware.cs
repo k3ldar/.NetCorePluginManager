@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
  *
  *  Product:  CacheControl Plugin
  *  
@@ -34,8 +34,6 @@ using Shared.Classes;
 
 using SharedPluginFeatures;
 
-using static SharedPluginFeatures.Enums;
-
 namespace CacheControl.Plugin
 {
     public class CacheControlMiddleware : BaseMiddleware
@@ -47,7 +45,7 @@ namespace CacheControl.Plugin
         private readonly Dictionary<string, CacheControlRoute> _routePaths;
         private readonly HashSet<string> _ignoredRoutes;
         private bool _disabled;
-        private object _lockObject = new object();
+        private readonly object _lockObject = new object();
         internal static Timings _timings = new Timings();
 
         #endregion Private Members

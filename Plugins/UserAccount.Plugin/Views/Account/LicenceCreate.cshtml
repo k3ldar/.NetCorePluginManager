@@ -1,0 +1,27 @@
+﻿@model UserAccount.Plugin.Models.CreateLicenceViewModel
+
+@{
+    ViewData["Title"] = "Create Trial Licence";
+}
+
+<h2>Create Trial Licence</h2>
+
+<link rel="stylesheet" href="/css/Account.css" />
+
+@using (Html.BeginForm("LicenceCreate", "Account", FormMethod.Post, new { id = "createTrialLicenceForm" }))
+{
+    <div class="account-block">
+        <div class="account-row">
+            @Html.LabelFor(m => m.LicenceType)
+        </div>
+        <div class="account-row">
+            @Html.DropDownListFor(m => m.LicenceType, new SelectList(UserAccount.Plugin.Controllers.AccountController.LicenceTypes, "Id", "Description")) @Html.ValidationMessageFor(m => m.LicenceType)
+        </div>
+    </div>
+
+    <div class="account-block">
+        <div class="account-row">
+            <input id="btnCreateTrialLicence" type="submit" value="Create" />
+        </div>
+    </div>
+}

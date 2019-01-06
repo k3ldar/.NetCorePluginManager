@@ -1,11 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.IO;
-
-using Microsoft.Extensions.DependencyInjection;
-
 using SharedPluginFeatures;
 
 namespace SieraDeltaGeoIp.Plugin.Classes

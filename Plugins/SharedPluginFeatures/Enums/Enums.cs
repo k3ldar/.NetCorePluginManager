@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
  *
  *  Product:  SharedPluginFeatures
  *  
@@ -64,22 +64,6 @@ namespace SharedPluginFeatures
             GeoIpStackError = 15,
 
             ThreadManager = 16,
-        }
-
-        /// <summary>
-        /// Login results
-        /// </summary>
-        public enum LoginResult
-        {
-            Success = 0,
-
-            InvalidCredentials =  1,
-
-            AccountLocked = 2,
-
-            PasswordChangeRequired = 3,
-
-            Remembered = 4
         }
 
         /// <summary>
@@ -197,6 +181,5 @@ namespace SharedPluginFeatures
             /// </summary>
             BanRequested = 2048,
         }
-
     }
 }

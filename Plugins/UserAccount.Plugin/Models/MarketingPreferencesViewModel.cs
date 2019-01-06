@@ -11,29 +11,42 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
  *
- *  Product:  SharedPluginFeatures
+ *  Product:  UserAccount.Plugin
  *  
- *  File: UserLoginDetails.cs
+ *  File: MarketingPreferencesViewModel.cs
  *
- *  Purpose:  User login details
+ *  Purpose:  
  *
  *  Date        Name                Reason
- *  10/11/2018  Simon Carter        Initially Created
+ *  30/12/2018  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+using System.ComponentModel.DataAnnotations;
 
-namespace SharedPluginFeatures
+namespace UserAccount.Plugin.Models
 {
-    public sealed class UserLoginDetails
+    public sealed class MarketingPreferencesViewModel
     {
-        public long UserId { get; set; }
+        [Display(Name = "Accept offers via Email")]
+        public bool EmailOffers { get; set; }
 
-        public string Username { get; set; }
+        [Display(Name = "Accept offers via Telephone")]
+        public bool TelephoneOffers { get; set; }
 
-        public string Email { get; set; }
+        [Display(Name = "Accept offers via SMS")]
+        public bool SMSOffers { get; set; }
 
-        public bool RememberMe { get; set; }
+        [Display(Name = "Accept offers via Post")]
+        public bool PostalOffers { get; set; }
+
+        public bool ShowEmail { get; set; }
+
+        public bool ShowTelephone { get; set; }
+
+        public bool ShowSMS { get; set; }
+
+        public bool ShowPostal { get; set; }
     }
 }

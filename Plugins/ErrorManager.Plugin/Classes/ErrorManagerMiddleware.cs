@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
  *
  *  Product:  ErrorManager.Plugin
  *  
@@ -25,13 +25,8 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Net;
-
-using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Http;
 
@@ -49,7 +44,7 @@ namespace ErrorManager.Plugin
         private readonly string _loginPage;
         private readonly Dictionary<string, uint> _missingPageCount;
 
-        private static object _lockObject = new object();
+        private static readonly object _lockObject = new object();
         private static ErrorThreadManager _errorThreadManager;
 
         internal static readonly CacheManager _errorCacheManager = new CacheManager("Error Manager", new TimeSpan(1, 0, 0), true, false);

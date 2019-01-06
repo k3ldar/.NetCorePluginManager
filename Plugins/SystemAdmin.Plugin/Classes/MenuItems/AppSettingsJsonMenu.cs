@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
  *
  *  Product:  AspNetCore.PluginManager.DemoWebsite
  *  
@@ -26,6 +26,8 @@
 using System;
 using System.IO;
 using System.Text;
+
+using Microsoft.Extensions.DependencyInjection;
 
 using SharedPluginFeatures;
 
@@ -55,7 +57,8 @@ namespace SystemAdmin.Plugin.Classes
 
         public override string Data()
         {
-            SystemAdminSettings settings = GetSettings<SystemAdminSettings>("SystemAdmin");
+            ISettingsProvider settingsProvider = (ISettingsProvider)PluginClass.GetServiceProvider.GetRequiredService<IPluginClassesService>();
+            SystemAdminSettings settings = settingsProvider.GetSettings<SystemAdminSettings>("SystemAdmin");
 
             if (!settings.ShowAppSettingsJson)
                 return ("Viewing appsettings.json has been disabled");

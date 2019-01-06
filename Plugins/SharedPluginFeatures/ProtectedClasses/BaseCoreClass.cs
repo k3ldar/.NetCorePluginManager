@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
  *
  *  Product:  SharedPluginFeatures
  *  
@@ -23,9 +23,6 @@
  *  24/10/2018  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using System;
-
-using Microsoft.Extensions.Configuration;
 
 namespace SharedPluginFeatures
 {
@@ -33,28 +30,6 @@ namespace SharedPluginFeatures
     {
         #region Protected Methods
 
-        protected T GetSettings<T>(in string jsonFile, in string sectionName)
-        {
-            if (String.IsNullOrEmpty(jsonFile))
-                throw new ArgumentNullException(nameof(jsonFile));
-
-            if (String.IsNullOrEmpty(sectionName))
-                throw new ArgumentNullException(nameof(sectionName));
-
-            ConfigurationBuilder builder = new ConfigurationBuilder();
-            IConfigurationBuilder configBuilder = builder.SetBasePath(System.IO.Directory.GetCurrentDirectory());
-            configBuilder.AddJsonFile(jsonFile);
-            IConfigurationRoot config = builder.Build();
-            T Result = (T)Activator.CreateInstance(typeof(T));
-            config.GetSection(sectionName).Bind(Result);
-
-            return AppSettings.ValidateSettings<T>.Validate(Result);
-        }
-
-        protected T GetSettings<T>(in string sectionName)
-        {
-            return (GetSettings<T>("appsettings.json", sectionName));
-        }
 
         #endregion Protected Methods
     }

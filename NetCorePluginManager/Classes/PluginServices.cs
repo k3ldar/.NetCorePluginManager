@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
  *
  *  Product:  AspNetCore.PluginManager
  *  
@@ -34,7 +34,7 @@ namespace AspNetCore.PluginManager
     {
         #region Private Members
 
-        private object _lockObject;
+        private readonly object _lockObject;
 
         #endregion Private Members
 

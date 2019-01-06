@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
  *
  *  Product:  MemoryCachePlugin
  *  
@@ -48,6 +48,11 @@ namespace GeoIp.Plugin
         #endregion Private Members
 
         #region Constructors
+
+        public GeoIpService()
+        {
+
+        }
 
         public GeoIpService(ISettingsProvider settingsProvider)
         {

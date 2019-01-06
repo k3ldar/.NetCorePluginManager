@@ -1,0 +1,36 @@
+﻿@model UserAccount.Plugin.Models.OrdersViewModel
+@{
+    ViewData["Title"] = "Orders";
+}
+
+<h2>Orders</h2>
+
+<link rel="stylesheet" href="/css/Account.css" />
+
+<div class="accountGrid">
+    <table>
+        <thead>
+            <tr>
+                <th>Order No</th>
+                <th>Date</th>
+                <th>Status</th>
+                <th>Items</th>
+                <th>Total</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (Middleware.Accounts.Orders.Order order in Model.Orders)
+            {
+            <tr>
+                <td>#@order.Id</td>
+                <td>@order.Date.ToString(System.Threading.Thread.CurrentThread.CurrentUICulture.DateTimeFormat)</td>
+                <td>@Shared.Utilities.SplitCamelCase(order.Status.ToString())</td>
+                <td>@order.ItemCount.ToString()</td>
+                <td>@Shared.Utilities.FormatMoney(order.Total, order.Culture)</td>
+                <td><a href="/Account/OrderView/@order.Id">view</a></td>
+            </tr>
+            }
+        </tbody>
+    </table>
+</div>

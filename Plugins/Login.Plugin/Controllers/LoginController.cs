@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
  *
  *  Product:  Login Plugin
  *  
@@ -37,28 +37,35 @@ using SharedPluginFeatures;
 using LoginPlugin.Classes;
 using LoginPlugin.Models;
 
+using Middleware;
+using static Middleware.Constants;
+
 namespace LoginPlugin.Controllers
 {
+    [LoggedOut]
     public class LoginController : BaseController
     {
         #region Private Members
 
-        private const string CaptchaCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
         private readonly IHostingEnvironment _hostingEnvironment;
         private readonly ILoginProvider _loginProvider;
         private readonly LoginControllerSettings _settings;
 
-        private static readonly CacheManager _loginCache = new CacheManager("LoginCache", new TimeSpan(0, 30, 0));
+        private static readonly CacheManager _loginCache = new CacheManager("Login Cache", new TimeSpan(0, 30, 0));
 
         #endregion Private Members
 
         #region Constructors
 
-        public LoginController(IHostingEnvironment hostingEnvironment, ILoginProvider loginProvider)
+        public LoginController(IHostingEnvironment hostingEnvironment, ILoginProvider loginProvider, 
+            ISettingsProvider settingsProvider)
         {
+            if (settingsProvider == null)
+                throw new ArgumentNullException(nameof(settingsProvider));
+
             _hostingEnvironment = hostingEnvironment ?? throw new ArgumentNullException(nameof(hostingEnvironment));
             _loginProvider = loginProvider ?? throw new ArgumentNullException(nameof(loginProvider));
-            _settings = GetSettings<LoginControllerSettings>("LoginPlugin");
+            _settings = settingsProvider.GetSettings<LoginControllerSettings>("LoginPlugin");
         }
 
         #endregion Constructors
@@ -113,9 +120,9 @@ namespace LoginPlugin.Controllers
             switch (_loginProvider.Login(model.Username, model.Password, GetIpAddress(), 
                 loginCacheItem.LoginAttempts, ref loginDetails))
             {
-                case Enums.LoginResult.Success:
+                case LoginResult.Success:
                     RemoveLoginAttempt();
-
+                    
                     UserSession session = GetUserSession();
 
                     if (session != null)
@@ -126,13 +133,13 @@ namespace LoginPlugin.Controllers
 
                     return Redirect(model.ReturnUrl);
 
-                case Enums.LoginResult.AccountLocked:
+                case LoginResult.AccountLocked:
                     return (RedirectToAction("AccountLocked", new { username = model.Username }));
 
-                case Enums.LoginResult.PasswordChangeRequired:
+                case LoginResult.PasswordChangeRequired:
                     return (Redirect(_settings.ChangePasswordUrl));
 
-                case Enums.LoginResult.InvalidCredentials:
+                case LoginResult.InvalidCredentials:
                     ModelState.AddModelError(String.Empty, "Invalid username or password");
                     break;
             }
@@ -271,10 +278,18 @@ namespace LoginPlugin.Controllers
                 try
                 {
                     string loginId = Decrypt(CookieValue(_settings.RememberMeCookieName, ""), _settings.EncryptionKey);
-                    UserLoginDetails loginDetails = new UserLoginDetails();
-                    loginDetails.UserId = Convert.ToInt64(loginId);
-                    loginDetails.RememberMe = true;
-                    return (_loginProvider.Login(String.Empty, String.Empty, GetIpAddress(), 0, ref loginDetails) == Enums.LoginResult.Remembered);
+                    UserLoginDetails loginDetails = new UserLoginDetails(Convert.ToInt64(loginId), true);
+                    bool loggedIn = _loginProvider.Login(String.Empty, String.Empty, GetIpAddress(), 0, ref loginDetails) == LoginResult.Remembered;
+
+                    if (loggedIn)
+                    {
+                        UserSession session = GetUserSession();
+
+                        if (session != null)
+                            session.Login(loginDetails.UserId, loginDetails.Username, loginDetails.Email);
+                    }
+
+                    return loggedIn;
                 }
                 catch
                 {
@@ -287,7 +302,7 @@ namespace LoginPlugin.Controllers
 
         private void RemoveLoginAttempt()
         {
-            string cacheId = _settings.CacheUseSession ? GetCoreSettionId() : GetIpAddress();
+            string cacheId = _settings.CacheUseSession ? GetCoreSessionId() : GetIpAddress();
 
             CacheItem loginCache = _loginCache.Get(cacheId);
 
@@ -301,7 +316,7 @@ namespace LoginPlugin.Controllers
         {
             LoginCacheItem Result = null;
 
-            string cacheId = _settings.CacheUseSession ? GetCoreSettionId() : GetIpAddress();
+            string cacheId = _settings.CacheUseSession ? GetCoreSessionId() : GetIpAddress();
 
             CacheItem loginCache = _loginCache.Get(cacheId);
 

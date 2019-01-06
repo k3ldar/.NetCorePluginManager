@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
  *
  *  Product:  AspNetCore.PluginManager
  *  
@@ -30,6 +30,7 @@ using System.Linq;
 using Microsoft.AspNetCore.Mvc.Abstractions;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Controllers;
 
 using SharedPluginFeatures;
 
@@ -48,7 +49,7 @@ namespace AspNetCore.PluginManager.Classes
                 return (classRouteAttribute.Template);
             }
 
-            var route = routeProvider.ActionDescriptors.Items.Where(ad => ad
+            ActionDescriptor route = routeProvider.ActionDescriptors.Items.Where(ad => ad
                 .DisplayName.StartsWith(type.FullName, StringComparison.CurrentCultureIgnoreCase)).FirstOrDefault();
 
             if (route == null)
@@ -58,8 +59,13 @@ namespace AspNetCore.PluginManager.Classes
             {
                 return ($"/{route.AttributeRouteInfo.Template}/{route.AttributeRouteInfo.Name}");
             }
+            else if (route.AttributeRouteInfo == null)
+            {
+                ControllerActionDescriptor controllerDescriptor = route as ControllerActionDescriptor;
+                return $"/{controllerDescriptor.ControllerName}";
+            }
 
-            return (String.Empty);
+            return String.Empty;
         }
 
         public string GetRouteFromMethod(in MethodInfo method, in IActionDescriptorCollectionProvider routeProvider)

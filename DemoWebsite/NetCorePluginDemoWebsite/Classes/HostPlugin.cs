@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
  *
  *  Product:  AspNetCore.PluginManager.DemoWebsite
  *  
@@ -29,6 +29,9 @@ using Microsoft.Extensions.DependencyInjection;
 
 using SharedPluginFeatures;
 
+using Middleware;
+using Middleware.Accounts;
+
 namespace AspNetCore.PluginManager.DemoWebsite.Classes
 {
     public class HostPlugin : IPlugin, IPluginVersion
@@ -43,10 +46,11 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddSingleton<IIpValidation, IPValidation>();
-
-#if DEBUG
             services.AddSingleton<ILoginProvider, MockLoginProvider>();
-#endif
+            services.AddSingleton<IAccountProvider, MockAccountProvider>();
+            services.AddSingleton<ICountryProvider, MockCountryLists>();
+            services.AddSingleton<IDownloadProvider, MockDownloads>();
+            services.AddSingleton<ILicenceProvider, MockLicenceProvider>();
         }
 
         public void Finalise()
