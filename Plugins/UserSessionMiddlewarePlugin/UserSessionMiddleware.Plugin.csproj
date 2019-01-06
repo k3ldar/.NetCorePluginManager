@@ -13,7 +13,7 @@
     <PackageReleaseNotes>Supports net core 2.1, 2.2 and net461</PackageReleaseNotes>
     <PackageTags>asp net core plugin manager user session manager middleware plugin</PackageTags>
     <Description>User Session Manager middleware retains user session information within ASP.Net Core websites.</Description>
-    <Version>1.1.0</Version>
+    <Version>1.2.0</Version>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net461|AnyCPU'">
@@ -67,7 +67,7 @@
   </ItemGroup>
   
   <ItemGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <PackageReference Include="SharedPluginFeatures" Version="1.1.0" />  
+    <PackageReference Include="SharedPluginFeatures" Version="1.2.0" />  
   </ItemGroup>
 
   <ItemGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
