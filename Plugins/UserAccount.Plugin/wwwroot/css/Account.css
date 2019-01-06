@@ -23,6 +23,11 @@
             font-weight: bold;
         }
 
+    .account-row textarea {
+        width: 450px;
+        height: 150px;
+    }
+
     .accountContent {
         padding: 10px 10px 10px 10px;
     }
@@ -41,7 +46,9 @@
             float: left;
             margin: 0 10px 30px 10px;
             text-align: center;
-            width: 140px;
+            width: 140px !important;
+            height: 134px !important;
+            overflow: hidden;
         }
 
             .accountContent ul.accountOptions li:hover {

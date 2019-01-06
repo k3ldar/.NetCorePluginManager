@@ -31,7 +31,7 @@ using Middleware.Downloads;
 
 namespace AspNetCore.PluginManager.DemoWebsite.Classes
 {
-    public class MockDownloads : IDownloads
+    public class MockDownloads : IDownloadProvider
     {
         #region Private Static Members
 

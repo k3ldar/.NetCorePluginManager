@@ -1,0 +1,56 @@
+﻿@model UserAccount.Plugin.Models.LicenceViewModel
+@{
+    ViewData["Title"] = "Licences";
+}
+
+<h2>Licences</h2>
+
+
+<link rel="stylesheet" href="/css/Account.css" />
+<script src="~/js/userAccount.js"></script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+
+<div class="accountGrid">
+    <table>
+        <thead>
+            <tr>
+                <th>Domain/IPAddress</th>
+                <th>Licence Type</th>
+                <th>Active</th>
+                <th>Expires</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (UserAccount.Plugin.Models.ViewLicenceViewModel licence in Model.Licences)
+            {
+                <tr>
+                    <td>@licence.Domain</td>
+                    <td>@licence.LicenceType</td>
+                    <td>@licence.Active.ToString()</td>
+                    <td>@licence.Expires.ToString()</td>
+                    <td><a href="/Account/LicenceView/@licence.Id">View</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<div class="account-block">
+    <div class="account-row">
+        <input id="createTrialLicence" type="button" value="New" />
+    </div>
+</div>
+
+<script src="/js/growl.js" type="text/javascript"></script>
+<link href="/css/growl.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript">
+    var settings = {
+        updateMsg: '@Model.GrowlMessage',
+        trialLicenceUrl: '/Account/LicenceCreate/',
+        createTrialLicenceBtn: 'createTrialLicence'
+    };
+
+    userAccount.init(settings);
+</script>

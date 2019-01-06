@@ -217,4 +217,13 @@ namespace Middleware
 
         Value = 3
     }
+
+    public enum LicenceCreate
+    {
+        Success = 0,
+
+        Existing = 1,
+
+        Failed = 2
+    }
 }

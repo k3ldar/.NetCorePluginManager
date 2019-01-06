@@ -11,43 +11,31 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2012 - 2018 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
  *
- *  Product:  PluginMiddleware
+ *  Product:  UserAccount.Plugin
  *  
- *  File: IDownloads.cs
+ *  File: CreateLicenceViewModel.cs
  *
- *  Purpose:  Download provider
+ *  Purpose:  Create licence view model
  *
  *  Date        Name                Reason
- *  05/01/2019  Simon Carter        Initially Created
+ *  06/01/2019  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using System;
-using System.Collections.Generic;
 
-using Middleware.Downloads;
+using System.ComponentModel.DataAnnotations;
 
-namespace Middleware
+
+namespace UserAccount.Plugin.Models
 {
-    public interface IDownloads
+    public sealed class CreateLicenceViewModel
     {
+        #region Properties
 
-        #region Downloads
+        [Display(Name = "Licence Type")]
+        public int LicenceType { get; set; }
 
-        /// <summary>
-        /// User download files
-        /// </summary>
-        /// <param name="userId"></param>
-        /// <returns></returns>
-        List<DownloadCategory> DownloadCategoriesGet(in Int64 userId);
-
-        /// <summary>
-        /// Publicy downloadable files
-        /// </summary>
-        /// <returns></returns>
-        List<DownloadCategory> DownloadCategoriesGet();
-
-        #endregion Downloads
+        #endregion Properties
     }
 }

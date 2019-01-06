@@ -49,7 +49,8 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
             services.AddSingleton<ILoginProvider, MockLoginProvider>();
             services.AddSingleton<IAccountProvider, MockAccountProvider>();
             services.AddSingleton<ICountryProvider, MockCountryLists>();
-            services.AddSingleton<IDownloads, MockDownloads>();
+            services.AddSingleton<IDownloadProvider, MockDownloads>();
+            services.AddSingleton<ILicenceProvider, MockLicenceProvider>();
         }
 
         public void Finalise()

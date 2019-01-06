@@ -36,6 +36,7 @@ using UserAccount.Plugin.Models;
 
 using Middleware;
 using Middleware.Accounts;
+using Middleware.Accounts.Licences;
 
 namespace UserAccount.Plugin.Controllers
 {
@@ -46,7 +47,8 @@ namespace UserAccount.Plugin.Controllers
 
         private readonly ISettingsProvider _settingsProvider;
         private readonly IAccountProvider _accountProvider;
-        private readonly IDownloads _downloads;
+        private readonly IDownloadProvider _downloadProvider;
+        private readonly ILicenceProvider _licenceProvider;
 
         private static readonly CacheManager _createAccountCache = new CacheManager("Create Account Cache", new TimeSpan(0, 30, 0));
 
@@ -56,22 +58,29 @@ namespace UserAccount.Plugin.Controllers
 
         public static List<Country> Countries { get; private set; }
 
+        public static List<LicenceType> LicenceTypes { get; private set; }
+
         #endregion Public Static Members
 
         #region Constructors
 
         public AccountController(ISettingsProvider settingsProvider, IAccountProvider accountProvider, 
-            IDownloads downloads, ICountryProvider countryProvider)
+            IDownloadProvider downloadProvider, ICountryProvider countryProvider, 
+            ILicenceProvider licenceProvider)
         {
             _settingsProvider = settingsProvider ?? throw new ArgumentNullException(nameof(settingsProvider));
             _accountProvider = accountProvider ?? throw new ArgumentNullException(nameof(accountProvider));
-            _downloads = downloads ?? throw new ArgumentNullException(nameof(downloads));
+            _downloadProvider = downloadProvider ?? throw new ArgumentNullException(nameof(downloadProvider));
+            _licenceProvider = licenceProvider ?? throw new ArgumentNullException(nameof(licenceProvider));
 
             if (countryProvider == null)
                 throw new ArgumentNullException(nameof(countryProvider));
 
             if (Countries == null)
                 Countries = countryProvider.GetVisibleCountries();
+
+            if (LicenceTypes == null)
+                LicenceTypes = _licenceProvider.LicenceTypesGet();
         }
 
         #endregion Constructors
