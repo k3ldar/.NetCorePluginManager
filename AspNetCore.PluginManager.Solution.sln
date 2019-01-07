@@ -39,6 +39,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UserAccount.Plugin", "Plugi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PluginMiddleware", "Plugins\PluginMiddleware\PluginMiddleware.csproj", "{708ABA14-E3A2-430D-BEA9-C898D6737937}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CompanyPlugin", "Plugins\Company.Plugin\CompanyPlugin.csproj", "{D916B1D6-AF17-4DC4-8235-353A304ECAF2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -117,6 +119,10 @@ Global
 		{708ABA14-E3A2-430D-BEA9-C898D6737937}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{708ABA14-E3A2-430D-BEA9-C898D6737937}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{708ABA14-E3A2-430D-BEA9-C898D6737937}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D916B1D6-AF17-4DC4-8235-353A304ECAF2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D916B1D6-AF17-4DC4-8235-353A304ECAF2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D916B1D6-AF17-4DC4-8235-353A304ECAF2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D916B1D6-AF17-4DC4-8235-353A304ECAF2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
