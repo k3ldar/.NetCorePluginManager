@@ -15,32 +15,46 @@
  *
  *  Product:  Company.Plugin
  *  
- *  File: Program.cs
+ *  File: Logger.cs
  *
  *  Purpose:  
  *
  *  Date        Name                Reason
- *  07/01/2019  Simon Carter        Initially Created
+ *  08/01/2019  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using Microsoft.AspNetCore;
-using Microsoft.AspNetCore.Hosting;
+using System;
 
-using AspNetCore.PluginManager;
+using SharedPluginFeatures;
+using static SharedPluginFeatures.Enums;
 
-namespace Company.Plugin
+namespace Company.Plugin.Classes
 {
-    public class Program
+    public class Logger : ILogger
     {
-        public static void Main (string[] args)
-        {
-            AspNetCore.PluginManager.PluginManagerService.Initialise(new Classes.Logger());
+        #region ILogger Methods
 
-            CreateWebHostBuilder(args).Build().Run();
+        public void AddToLog(in LogLevel logLevel, in string data)
+        {
+#if TRACE
+            System.Diagnostics.Trace.WriteLine($"{logLevel.ToString()} {data}");
+#endif
         }
 
-        public static IWebHostBuilder CreateWebHostBuilder (string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>();
+        public void AddToLog(in LogLevel logLevel, in Exception exception)
+        {
+#if TRACE
+            System.Diagnostics.Trace.WriteLine($"{logLevel.ToString()} {exception.Message}");
+#endif
+        }
+
+        public void AddToLog(in LogLevel logLevel, in Exception exception, string data)
+        {
+#if TRACE
+            System.Diagnostics.Trace.WriteLine($"{logLevel.ToString()} {exception.Message}\r\n{data}");
+#endif
+        }
+
+        #endregion ILogger Methods
     }
 }

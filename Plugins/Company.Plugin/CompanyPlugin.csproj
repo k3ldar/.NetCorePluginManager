@@ -270,6 +270,7 @@
     <PackageReference Include="MemoryCache.Plugin" Version="1.2.0" />
     <PackageReference Include="AspNetCore.PluginManager" Version="1.2.0" />
     <PackageReference Include="SharedPluginFeatures" Version="1.2.0" />
+    <PackageReference Include="PluginMiddleware" Version="1.2.0" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -277,6 +278,7 @@
     <ProjectReference Include="..\SharedPluginFeatures\SharedPluginFeatures.csproj" />
     <ProjectReference Include="..\MemoryCachePlugin\MemoryCachePlugin.csproj" />
     <ProjectReference Include="..\RestrictIp.Plugin\RestrictIp.Plugin.csproj" />
+    <ProjectReference Include="..\PluginMiddleware\PluginMiddleware.csproj" />
   </ItemGroup>
 
   <ItemGroup>
