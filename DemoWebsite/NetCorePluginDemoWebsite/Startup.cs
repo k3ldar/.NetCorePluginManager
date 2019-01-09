@@ -86,7 +86,8 @@ namespace AspNetCore.PluginManager.DemoWebsite
             // objects from the service provider
             GetServiceProvider = services.BuildServiceProvider();
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
+            services.AddMvc()
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
                 .ConfigurePluginManager(); 
         }
 
@@ -111,7 +112,7 @@ namespace AspNetCore.PluginManager.DemoWebsite
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
-            });
+            }).UsePluginManager();
         }
     }
 }

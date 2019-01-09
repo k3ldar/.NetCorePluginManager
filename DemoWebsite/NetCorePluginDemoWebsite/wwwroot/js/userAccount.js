@@ -4,7 +4,11 @@
         deliveryAddressUrl: '',
         deleteAddressUrl: '',
         deleteAddressCreateUrl: '',
+        trialLicenceUrl: '',
         createDeliveryAddressBtn: '',
+        createTrialLicenceBtn: '',
+        licenceSendEmailUrl: '',
+        sendEmailLicenceBtn: ''
     };
 
     var root = {
@@ -19,6 +23,18 @@
             if (_settings.createDeliveryAddressBtn !== '') {
                 $('#' + _settings.createDeliveryAddressBtn).click(function () {
                     location.replace(_settings.deleteAddressCreateUrl);
+                })
+            }
+
+            if (_settings.createTrialLicenceBtn !== '') {
+                $('#' + _settings.createTrialLicenceBtn).click(function () {
+                    location.replace(_settings.trialLicenceUrl);
+                })
+            }
+
+            if (_settings.sendEmailLicenceBtn !== '') {
+                $('#' + _settings.sendEmailLicenceBtn).click(function () {
+                    location.replace(_settings.licenceSendEmailUrl);
                 })
             }
         },

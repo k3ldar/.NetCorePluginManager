@@ -33,17 +33,28 @@ using Microsoft.AspNetCore.Mvc.ApplicationParts;
 using Microsoft.AspNetCore.Mvc.Razor.Compilation;
 using Microsoft.Extensions.DependencyInjection;
 
+using SharedPluginFeatures;
+
 namespace AspNetCore.PluginManager
 {
     public static class ConfigurePluginManagerExtender
     {
+        #region Public Static Methods
+
         public static IMvcBuilder ConfigurePluginManager(this IMvcBuilder mvcBuilder)
         {
             ConfigurePartManager(mvcBuilder);
             ConfigureCompiledViews(mvcBuilder);
 
+            // allow plugins to configure MvcBuilder
+            ConfigurePlugins(mvcBuilder);
+
             return mvcBuilder;
         }
+
+        #endregion Public Static Methods
+
+        #region Private Static Methods
 
         private static void ConfigurePartManager(in IMvcBuilder mvcBuilder)
         {
@@ -77,5 +88,16 @@ namespace AspNetCore.PluginManager
                 }
             }
         }
+
+        private static void ConfigurePlugins(in IMvcBuilder mvcBuilder)
+        {
+            List<IConfigureMvcBuilder> appBuilderServices = PluginManagerService
+                .GetPluginManager().GetPluginClasses<IConfigureMvcBuilder>();
+
+            foreach (IConfigureMvcBuilder builder in appBuilderServices)
+                builder.ConfigureMvcBuilder(mvcBuilder);
+        }
+
+        #endregion Private Static Methods
     }
 }
