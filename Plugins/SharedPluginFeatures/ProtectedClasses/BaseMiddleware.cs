@@ -129,6 +129,43 @@ namespace SharedPluginFeatures
             ipAddressList.Add("0.0.0.0");
         }
 
+        #region Cookies
+
+        protected bool CookieExists(in HttpContext context, in string name)
+        {
+            return context.Request.Cookies.ContainsKey(name);
+        }
+
+        protected void CookieDelete(in HttpContext context, in string name)
+        {
+            if (context.Request.Cookies.ContainsKey(name))
+                context.Response.Cookies.Append(name, String.Empty, new CookieOptions() { Expires = DateTime.Now.AddDays(-1) });
+        }
+
+        protected string CookieValue(in HttpContext context, in string name, in string defaultValue = "")
+        {
+            if (!CookieExists(context, name))
+                return defaultValue;
+
+            return context.Request.Cookies[name];
+        }
+
+        protected void CookieAdd(in HttpContext context, in string name, in string value, in int days)
+        {
+            CookieOptions options = new CookieOptions()
+            {
+                HttpOnly = false
+            };
+
+            if (days > -1)
+                options.Expires = DateTime.Now.AddDays(days);
+
+            context.Response.Cookies.Append(name, value, options);
+        }
+
+        #endregion Cookies
+
+
         #endregion Protected Methods
     }
 }

@@ -33,7 +33,7 @@ namespace UserAccount.Plugin.Models
     {
         #region Properties
 
-        [Display(Name = "Licence Type")]
+        [Display(Name = nameof(Languages.LanguageStrings.LicenceType))]
         public int LicenceType { get; set; }
 
         #endregion Properties

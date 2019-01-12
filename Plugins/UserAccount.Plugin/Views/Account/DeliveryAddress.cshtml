@@ -4,7 +4,7 @@
     ViewData["Title"] = "DeliveryAddress";
 }
 
-<h2>Delivery Addresses</h2>
+<h2>@Languages.LanguageStrings.MyDeliveryAddresses</h2>
 
 <link rel="stylesheet" href="/css/Account.css" />
 <script src="~/js/userAccount.js"></script>
@@ -16,9 +16,9 @@
     <table>
         <thead>
             <tr>
-                <th>Address Line 1</th>
-                <th>City</th>
-                <th>Country</th>
+                <th>@Languages.LanguageStrings.AddressLine1</th>
+                <th>@Languages.LanguageStrings.City</th>
+                <th>@Languages.LanguageStrings.Country</th>
                 <th></th>
                 <th></th>
             </tr>
@@ -30,8 +30,8 @@
                     <td>@address.AddressLine1</td>
                     <td>@address.City</td>
                     <td>@address.Country</td>
-                    <td><a href="/Account/DeliveryAddressEdit/@address.AddressId">edit</a></td>
-                    <td><a href="javascript:userAccount.deleteAddress(@address.AddressId);">delete</a></td>
+                    <td><a href="/Account/DeliveryAddressEdit/@address.AddressId">@Languages.LanguageStrings.Edit</a></td>
+                    <td><a href="javascript:userAccount.deleteAddress(@address.AddressId);">@Languages.LanguageStrings.Delete</a></td>
                 </tr>
             }
         </tbody>
@@ -39,7 +39,7 @@
 </div>
 <div class="account-block">
     <div class="account-row">
-        <input id="createDeliveryAddress" type="button" value="New" />
+        <input id="createDeliveryAddress" type="button" value="@Languages.LanguageStrings.New" />
     </div>
 </div>
 

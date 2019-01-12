@@ -274,4 +274,8 @@
     <ProjectReference Include="..\RestrictIp.Plugin\RestrictIp.Plugin.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\Languages\Languages.csproj" />
+  </ItemGroup>
+
 </Project>

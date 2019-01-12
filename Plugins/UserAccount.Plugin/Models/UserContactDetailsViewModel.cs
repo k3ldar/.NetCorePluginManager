@@ -54,17 +54,17 @@ namespace UserAccount.Plugin.Models
         #region Properties
 
         [Required]
-        [Display(Name = "First Name")]
+        [Display(Name = nameof(Languages.LanguageStrings.FirstName))]
         [StringLength(50, MinimumLength = 2)]
         public string FirstName { get; set; }
 
         [Required]
-        [Display(Name = "Surname")]
+        [Display(Name = nameof(Languages.LanguageStrings.LastName))]
         [StringLength(50, MinimumLength = 2)]
         public string LastName { get; set; }
 
         [Required]
-        [Display(Name = "Email Address")]
+        [Display(Name = nameof(Languages.LanguageStrings.Email))]
         [StringLength(100, MinimumLength = 5)]
         public string Email { get; set; }
 
@@ -72,7 +72,7 @@ namespace UserAccount.Plugin.Models
 
         public bool ShowTelephone { get; set; }
 
-        [Display(Name = "Telephone")]
+        [Display(Name = nameof(Languages.LanguageStrings.Telephone))]
         [StringLength(20, MinimumLength = 0)]
         public string Telephone { get; set; }
 

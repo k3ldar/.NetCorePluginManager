@@ -49,20 +49,20 @@ namespace UserAccount.Plugin.Controllers
 		public IActionResult ChangePassword(ChangePasswordViewModel model)
         {
             if (!model.NewPassword.Equals(model.ConfirmNewPassword))
-                ModelState.AddModelError(String.Empty, "New password and confirm new password do not match");
+                ModelState.AddModelError(String.Empty, Languages.LanguageStrings.PasswordDoesNotMatch);
 
             if (!ValidatePasswordComplexity(model.NewPassword))
-                ModelState.AddModelError(String.Empty, "Password does not match complexity rules.");
+                ModelState.AddModelError(String.Empty, Languages.LanguageStrings.PasswordComplexityFailed);
 
             if (ModelState.IsValid)
             {
                 if (_accountProvider.ChangePassword(GetUserSession().UserID, model.NewPassword))
                 {
-                    GrowlAdd("Password successfully updated");
-                    return RedirectToAction("Index", "Account");
+                    GrowlAdd(Languages.LanguageStrings.PasswordUpdated);
+                    return RedirectToAction(nameof(Index), "Account");
                 }
 
-                ModelState.AddModelError(String.Empty, "Failed to change password");
+                ModelState.AddModelError(String.Empty, Languages.LanguageStrings.PasswordUpdateFailed);
             }
 
             return View(model);

@@ -83,7 +83,7 @@ namespace UserAccount.Plugin.Models
 
         public string DeliveryAddress { get; private set; }
 
-        [Display(Name = "Invoice Date")]
+        [Display(Name = nameof(Languages.LanguageStrings.InvoiceDate))]
         public DateTime Date { get; private set; }
 
         public decimal SubTotal { get; private set; }

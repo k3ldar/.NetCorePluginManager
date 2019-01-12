@@ -13,29 +13,34 @@
  *
  *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
  *
- *  Product:  Login Plugin
+ *  Product:  UserAccount.Plugin
  *  
- *  File: ForgotPasswordViewModel.cs
+ *  File: AccountController.Language.cs
  *
  *  Purpose:  
  *
  *  Date        Name                Reason
- *  29/11/2018  Simon Carter        Initially Created
+ *  12/01/2019  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Mvc;
 
-namespace LoginPlugin.Models
+using SharedPluginFeatures;
+
+namespace UserAccount.Plugin.Controllers
 {
-    public sealed class ForgotPasswordViewModel
+    public partial class AccountController
     {
-        [Required(ErrorMessage = nameof(Languages.LanguageStrings.PleaseEnterUserNameOrEmail))]
-        [Display(Name = nameof(Languages.LanguageStrings.Username))]
-        public string Username { get; set; }
+        [HttpPost]
+		[LoggedInOut]
+        public IActionResult SetLanguage(string culture, string returnUrl)
+        {
+            GetUserSession().Culture = culture;
 
-        [Required(ErrorMessage = nameof(Languages.LanguageStrings.CodeNotValid))]
-        [Display(Name = nameof(Languages.LanguageStrings.Code))]
-        public string CaptchaText { get; set; }
+#warning add a cookie
+
+            return LocalRedirect(returnUrl ?? "/");
+        }
     }
 }

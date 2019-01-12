@@ -112,10 +112,10 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AboutUs" xml:space="preserve">
     <value>About Us</value>
@@ -13228,5 +13228,257 @@ If this continues, please contact support.</comment>
   <data name="AppWebsiteSettingsSave" xml:space="preserve">
     <value>Would you like to save your changes?</value>
     <comment>Would you like to save your changes?</comment>
+  </data>
+  <data name="CodePleaseEnter" xml:space="preserve">
+    <value>Invalid Validation Code</value>
+    <comment>Invalid Validation Code</comment>
+  </data>
+  <data name="EnterUnlockCode" xml:space="preserve">
+    <value>Please enter the unlock code</value>
+    <comment>Please enter the unlock code</comment>
+  </data>
+  <data name="RememberMe" xml:space="preserve">
+    <value>Remember Me</value>
+    <comment>Remember Me</comment>
+  </data>
+  <data name="AcceptOffersSMS" xml:space="preserve">
+    <value>Accept offers via SMS</value>
+    <comment>Accept offers via SMS</comment>
+  </data>
+  <data name="AccountLocked" xml:space="preserve">
+    <value>Account Locked</value>
+    <comment>Account Locked</comment>
+  </data>
+  <data name="AccountLockedDescription" xml:space="preserve">
+    <value>Your account has been temporarily locked due to authentication failures.  Please enter the code that has been sent to your email to unlock your account.</value>
+    <comment>Your account has been temporarily locked due to authentication failures.  Please enter the code that has been sent to your email to unlock your account.</comment>
+  </data>
+  <data name="Add" xml:space="preserve">
+    <value>Add</value>
+    <comment>Add</comment>
+  </data>
+  <data name="AddressLine1Required" xml:space="preserve">
+    <value>Address line 1 is required</value>
+    <comment>Address line 1 is required</comment>
+  </data>
+  <data name="AddressLine2Required" xml:space="preserve">
+    <value>Address line 2 is required</value>
+    <comment>Address line 2 is required</comment>
+  </data>
+  <data name="AddressLine3Required" xml:space="preserve">
+    <value>Address line 3 is required</value>
+    <comment>Address line 3 is required</comment>
+  </data>
+  <data name="AffilidateProgram" xml:space="preserve">
+    <value>Affilidate Program</value>
+    <comment>Affilidate Program</comment>
+  </data>
+  <data name="BillingAddressUpdated" xml:space="preserve">
+    <value>Billing address successfully updated</value>
+    <comment>Billing address successfully updated</comment>
+  </data>
+  <data name="BusinessNameRequired" xml:space="preserve">
+    <value>Business Name is required</value>
+    <comment>Business Name is required</comment>
+  </data>
+  <data name="Careers" xml:space="preserve">
+    <value>Careers</value>
+    <comment>Careers</comment>
+  </data>
+  <data name="ChangePassword" xml:space="preserve">
+    <value>Change Password</value>
+    <comment>Change Password</comment>
+  </data>
+  <data name="CityRequired" xml:space="preserve">
+    <value>City is required</value>
+    <comment>City is required</comment>
+  </data>
+  <data name="ContactDetails" xml:space="preserve">
+    <value>User Contact Details</value>
+    <comment>User Contact Details</comment>
+  </data>
+  <data name="ContactDetailsUpdate" xml:space="preserve">
+    <value>Update Contact Details</value>
+    <comment>Update Contact Details</comment>
+  </data>
+  <data name="ContactDetailsUpdated" xml:space="preserve">
+    <value>Contact details successfully updated</value>
+    <comment>Contact details successfully updated</comment>
+  </data>
+  <data name="CookiePolicy" xml:space="preserve">
+    <value>Cookie Policy</value>
+    <comment>Cookie Policy</comment>
+  </data>
+  <data name="Cost" xml:space="preserve">
+    <value>Cost</value>
+    <comment>Cost</comment>
+  </data>
+  <data name="CountyRequired" xml:space="preserve">
+    <value>County is required</value>
+    <comment>County is required</comment>
+  </data>
+  <data name="DeliveryAddressAdd" xml:space="preserve">
+    <value>Add Delivery Address</value>
+    <comment>Add Delivery Address</comment>
+  </data>
+  <data name="DeliveryAddressCreated" xml:space="preserve">
+    <value>Delivery address successfully created</value>
+    <comment>Delivery address successfully created</comment>
+  </data>
+  <data name="DeliveryAddressDeleted" xml:space="preserve">
+    <value>Delivery address deleted</value>
+    <comment>Delivery address deleted</comment>
+  </data>
+  <data name="DeliveryAddressUpdated" xml:space="preserve">
+    <value>Delivery address successfully updated</value>
+    <comment>Delivery address successfully updated</comment>
+  </data>
+  <data name="DeliveryInformation" xml:space="preserve">
+    <value>Delivery Information</value>
+    <comment>Delivery Information</comment>
+  </data>
+  <data name="Details" xml:space="preserve">
+    <value>Details</value>
+    <comment>Details</comment>
+  </data>
+  <data name="EmailSendFailed" xml:space="preserve">
+    <value>Failed to send email</value>
+    <comment>Failed to send email</comment>
+  </data>
+  <data name="FailedToUpdateAccount" xml:space="preserve">
+    <value>Failed to update user account</value>
+    <comment>Failed to update user account</comment>
+  </data>
+  <data name="FailedToUpdateBillingAddress" xml:space="preserve">
+    <value>Failed to update billing address</value>
+    <comment>Failed to update billing address</comment>
+  </data>
+  <data name="FailedToUpdateDeliveryAddress" xml:space="preserve">
+    <value>Failed to update delivery address</value>
+    <comment>Failed to update delivery address</comment>
+  </data>
+  <data name="FileName" xml:space="preserve">
+    <value>File Name</value>
+    <comment>File Name</comment>
+  </data>
+  <data name="ForgotPasswordDescription" xml:space="preserve">
+    <value>Please enter your username or password and a temporary password will be sent to you via email.</value>
+    <comment>Please enter your username or password and a temporary password will be sent to you via email.</comment>
+  </data>
+  <data name="HighVolumeDescription" xml:space="preserve">
+    <value>We are currently experiencing an unusually high volume of traffic and unable to process your request. We apologize for any inconvenience this may cause and ask that you try again in a few moments</value>
+    <comment>We are currently experiencing an unusually high volume of traffic and unable to process your request. We apologize for any inconvenience this may cause and ask that you try again in a few moments</comment>
+  </data>
+  <data name="LicenceCreatedTrial" xml:space="preserve">
+    <value>Trial licence succesfully created</value>
+    <comment>Trial licence succesfully created</comment>
+  </data>
+  <data name="LicenceCreateTrialExists" xml:space="preserve">
+    <value>You already have a trial licence for {0}</value>
+    <comment>You already have a trial licence for {0}</comment>
+  </data>
+  <data name="LicenceCreateTrialFailed" xml:space="preserve">
+    <value>Failed to create a trial licence</value>
+    <comment>Failed to create a trial licence</comment>
+  </data>
+  <data name="LicenceTypeInvalid" xml:space="preserve">
+    <value>Invalid Licence Type</value>
+    <comment>Invalid Licence Type</comment>
+  </data>
+  <data name="LicenceUpdated" xml:space="preserve">
+    <value>Licence Updated</value>
+    <comment>Licence Updated</comment>
+  </data>
+  <data name="LicenceUpdateFailed" xml:space="preserve">
+    <value>Failed to update licence</value>
+    <comment>Failed to update licence</comment>
+  </data>
+  <data name="MarketingPreferences" xml:space="preserve">
+    <value>Marketing Preferences</value>
+    <comment>Marketing Preferences</comment>
+  </data>
+  <data name="MarketingUpdated" xml:space="preserve">
+    <value>Marketing preferences successfully updated</value>
+    <comment>Marketing preferences successfully updated</comment>
+  </data>
+  <data name="Newsletter" xml:space="preserve">
+    <value>Newsletter</value>
+    <comment>Newsletter</comment>
+  </data>
+  <data name="NotAcceptable" xml:space="preserve">
+    <value>Not Acceptable</value>
+    <comment>Not Acceptable</comment>
+  </data>
+  <data name="NotAcceptableDescription" xml:space="preserve">
+    <value>The action you attempted to perform is forbidden and not acceptable</value>
+    <comment>The action you attempted to perform is forbidden and not acceptable</comment>
+  </data>
+  <data name="NotFound404" xml:space="preserve">
+    <value>Not Found</value>
+    <comment>Not Found</comment>
+  </data>
+  <data name="OopsError" xml:space="preserve">
+    <value>Oops, an unexpected error occurred.  We have notified our engineers who will fix this problem</value>
+    <comment>Oops, an unexpected error occurred.  We have notified our engineers who will fix this problem</comment>
+  </data>
+  <data name="OrderDate" xml:space="preserve">
+    <value>Order Date</value>
+    <comment>Order Date</comment>
+  </data>
+  <data name="PasswordComplexityFailed" xml:space="preserve">
+    <value>Password does not match complexity rules.</value>
+    <comment>Password does not match complexity rules.</comment>
+  </data>
+  <data name="PasswordUpdated" xml:space="preserve">
+    <value>Password successfully updated</value>
+    <comment>Password successfully updated</comment>
+  </data>
+  <data name="PasswordUpdateFailed" xml:space="preserve">
+    <value>Failed to change password</value>
+    <comment>Failed to change password</comment>
+  </data>
+  <data name="PleaseTryAgainLater" xml:space="preserve">
+    <value>Please try again later</value>
+    <comment>Please try again later</comment>
+  </data>
+  <data name="PostcodeRequired" xml:space="preserve">
+    <value>Postcode is required</value>
+    <comment>Postcode is required</comment>
+  </data>
+  <data name="PrivacyPolicy" xml:space="preserve">
+    <value>Priacy Policy</value>
+    <comment>Priacy Policy</comment>
+  </data>
+  <data name="RequestPassword" xml:space="preserve">
+    <value>Request Password</value>
+    <comment>Request Password</comment>
+  </data>
+  <data name="ReturnsPolicy" xml:space="preserve">
+    <value>Returns Policy</value>
+    <comment>Returns Policy</comment>
+  </data>
+  <data name="TelephoneRequired" xml:space="preserve">
+    <value>Telephone is required</value>
+    <comment>Telephone is required</comment>
+  </data>
+  <data name="ToGoHome" xml:space="preserve">
+    <value>to go back to our home page</value>
+    <comment>to go back to our home page</comment>
+  </data>
+  <data name="TooManyAttempts" xml:space="preserve">
+    <value>Too many attempts, please wait 30 minutes and try again</value>
+    <comment>Too many attempts, please wait 30 minutes and try again</comment>
+  </data>
+  <data name="UnableToProcessRequest" xml:space="preserve">
+    <value>We are unable to process your request</value>
+    <comment>We are unable to process your request</comment>
+  </data>
+  <data name="Unlock" xml:space="preserve">
+    <value>Unlock</value>
+    <comment>Unlock</comment>
+  </data>
+  <data name="ViewLicence" xml:space="preserve">
+    <value>View Licence</value>
+    <comment>View Licence</comment>
   </data>
 </root>

@@ -5,7 +5,7 @@
 }
 
 
-<h2>Order #@Model.OrderId</h2>
+<h2>@Languages.LanguageStrings.Order #@Model.OrderId</h2>
 
 <link rel="stylesheet" href="/css/Account.css" />
 
@@ -51,14 +51,14 @@
     <table>
         <thead>
             <tr>
-                <th>Status</th>
-                <th>Description</th>
-                <th>Price</th>
-                <th>Quantity</th>
-                <th>Sub Total</th>
-                <th>Tax</th>
-                <th>Discount</th>
-                <th>Cost</th>
+                <th>@Languages.LanguageStrings.Status</th>
+                <th>@Languages.LanguageStrings.Description</th>
+                <th>@Languages.LanguageStrings.Price</th>
+                <th>@Languages.LanguageStrings.Quantity</th>
+                <th>@Languages.LanguageStrings.SubTotal</th>
+                <th>@Languages.LanguageStrings.VAT</th>
+                <th>@Languages.LanguageStrings.Discount</th>
+                <th>@Languages.LanguageStrings.Cost</th>
             </tr>
         </thead>
         <tbody>

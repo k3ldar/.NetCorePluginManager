@@ -25,6 +25,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -144,12 +145,14 @@ namespace UserSessionMiddleware.Plugin
                 else
                 {
                     userSession = GetUserSession(context, cookieSessionID);
+                    GetSessionCulture(context, userSession);
                 }
 
                 string referrer = context.Request.Headers["Referer"];
                 userSession.PageView(GetAbsoluteUri(context).ToString(), referrer ?? String.Empty, false);
 
                 context.Items.Add("UserSession", userSession);
+                context.Items.Add("UserCulture", userSession.Culture);
 
                 string route = RouteLowered(context);
                 bool loggedIn = !String.IsNullOrEmpty(userSession.UserName);
@@ -216,6 +219,19 @@ namespace UserSessionMiddleware.Plugin
             return (uriBuilder.Uri);
         }
 
+        private void GetSessionCulture(in HttpContext context, in UserSession userSession)
+        {
+            if (context == null)
+                throw new ArgumentNullException(nameof(context));
+
+            if (userSession == null)
+                throw new ArgumentNullException(nameof(userSession));
+
+            string defaultCulture = "en-GB";
+
+            userSession.Culture = CookieValue(context, "UserCulture", defaultCulture);
+        }
+
         private UserSession GetUserSession(in HttpContext context, in string sessionId)
         {
             if (context == null)
@@ -231,6 +247,8 @@ namespace UserSessionMiddleware.Plugin
                 UserSessionManager.Add(Result);
 
                 UserSessionManager.Instance.InitialiseSession(Result);
+
+                GetSessionCulture(context, Result);
 
                 return (Result);
             }

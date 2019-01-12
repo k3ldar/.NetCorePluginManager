@@ -29,16 +29,16 @@ namespace UserAccount.Plugin.Models
 {
     public sealed class MarketingPreferencesViewModel
     {
-        [Display(Name = "Accept offers via Email")]
+        [Display(Name = nameof(Languages.LanguageStrings.AcceptOffersEmail))]
         public bool EmailOffers { get; set; }
 
-        [Display(Name = "Accept offers via Telephone")]
+        [Display(Name = nameof(Languages.LanguageStrings.AcceptOffersTelephone))]
         public bool TelephoneOffers { get; set; }
 
-        [Display(Name = "Accept offers via SMS")]
+        [Display(Name = nameof(Languages.LanguageStrings.AcceptOffersSMS))]
         public bool SMSOffers { get; set; }
 
-        [Display(Name = "Accept offers via Post")]
+        [Display(Name = nameof(Languages.LanguageStrings.AcceptOffersPostal))]
         public bool PostalOffers { get; set; }
 
         public bool ShowEmail { get; set; }

@@ -51,20 +51,21 @@ namespace LoginPlugin.Models
 
         public string ReturnUrl { get; set; }
 
-        [Required]
-        [Display(Name = "User name or email")]
+        [Required(ErrorMessage = nameof(Languages.LanguageStrings.PleaseEnterUserNameOrEmail))]
+        [Display(Name = nameof(Languages.LanguageStrings.Username))]
         public string Username { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = nameof(Languages.LanguageStrings.PleaseEnterPassword))]
         [StringLength(Constants.MaximumPasswordLength, MinimumLength = Constants.MinimumPasswordLength)]
+        [Display(Name = nameof(Languages.LanguageStrings.Password))]
         public string Password { get; set; }
 
-        [Display(Name = "Validation Code")]
+        [Display(Name = nameof(Languages.LanguageStrings.Code))]
         public string CaptchaText { get; set; }
 
         public bool ShowCaptchaImage { get; set; }
 
-        [Display(Name = "Remember Me")]
+        [Display(Name = nameof(Languages.LanguageStrings.RememberMe))]
         public bool RememberMe { get; set; }
 
         public bool ShowRememberMe { get; set; }

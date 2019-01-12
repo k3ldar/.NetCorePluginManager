@@ -66,11 +66,11 @@ namespace UserAccount.Plugin.Controllers
 
                 if (_accountProvider.SetBillingAddress(UserId(), billingAddress))
                 {
-                    GrowlAdd("Billing address successfully updated");
-                    return RedirectToAction("Index", "Account");
+                    GrowlAdd(Languages.LanguageStrings.BillingAddressUpdated);
+                    return RedirectToAction(nameof(Index), "Account");
                 }
 
-                ModelState.AddModelError(String.Empty, "Failed to update billing address");
+                ModelState.AddModelError(String.Empty, Languages.LanguageStrings.FailedToUpdateBillingAddress);
             }
 
             return View(model);
@@ -86,25 +86,25 @@ namespace UserAccount.Plugin.Controllers
             AddressOptions addressOptions = _accountProvider.GetAddressOptions();
 
             if (addressOptions.HasFlag(AddressOptions.AddressLine1Mandatory) && String.IsNullOrEmpty(model.AddressLine1))
-                ModelState.AddModelError(nameof(model.AddressLine1), "Address line 1 is required");
+                ModelState.AddModelError(nameof(model.AddressLine1), Languages.LanguageStrings.AddressLine1Required);
 
             if (addressOptions.HasFlag(AddressOptions.AddressLine2Mandatory) && String.IsNullOrEmpty(model.AddressLine2))
-                ModelState.AddModelError(nameof(model.AddressLine2), "Address line 2 is required");
+                ModelState.AddModelError(nameof(model.AddressLine2), Languages.LanguageStrings.AddressLine2Required);
 
             if (addressOptions.HasFlag(AddressOptions.AddressLine3Mandatory) && String.IsNullOrEmpty(model.AddressLine3))
-                ModelState.AddModelError(nameof(model.AddressLine3), "Address line 3 is required");
+                ModelState.AddModelError(nameof(model.AddressLine3), Languages.LanguageStrings.AddressLine3Required);
 
             if (addressOptions.HasFlag(AddressOptions.CityMandatory) && String.IsNullOrEmpty(model.City))
-                ModelState.AddModelError(nameof(model.City), "City is required");
+                ModelState.AddModelError(nameof(model.City), Languages.LanguageStrings.CityRequired);
 
             if (addressOptions.HasFlag(AddressOptions.CountyMandatory) && String.IsNullOrEmpty(model.County))
-                ModelState.AddModelError(nameof(model.County), "County is required");
+                ModelState.AddModelError(nameof(model.County), Languages.LanguageStrings.CountyRequired);
 
             if (addressOptions.HasFlag(AddressOptions.PostCodeMandatory) && String.IsNullOrEmpty(model.Postcode))
-                ModelState.AddModelError(nameof(model.Postcode), "Postcode is required");
+                ModelState.AddModelError(nameof(model.Postcode), Languages.LanguageStrings.PostcodeRequired);
 
             if (addressOptions.HasFlag(AddressOptions.BusinessNameMandatory) && String.IsNullOrEmpty(model.BusinessName))
-                ModelState.AddModelError(nameof(model.BusinessName), "Business Name is required");
+                ModelState.AddModelError(nameof(model.BusinessName), Languages.LanguageStrings.BusinessNameRequired);
         }
 
         private void PrepareBillingAddressModel(ref BillingAddressViewModel model, in Address billingAddress)

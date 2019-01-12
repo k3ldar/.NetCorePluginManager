@@ -75,7 +75,7 @@ namespace ErrorManager.Plugin.Controllers
                 // grab a random quote
                 Random rnd = new Random(Convert.ToInt32(DateTime.Now.ToString("Hmsffff")));
                 int quote = rnd.Next(settings.Count());
-                model = new Error404Model("Page not found", settings.GetQuote(quote), GetImageFile(quote));
+                model = new Error404Model(Languages.LanguageStrings.PageNotFound, settings.GetQuote(quote), GetImageFile(quote));
             }
             else
             {
@@ -94,7 +94,7 @@ namespace ErrorManager.Plugin.Controllers
 
                 CookieAdd("Error404", Encrypt(Convert.ToString(index), settings.EncryptionKey), 30);
 
-                model = new Error404Model("Page not found", settings.GetQuote(index), GetImageFile(index));
+                model = new Error404Model(Languages.LanguageStrings.PageNotFound, settings.GetQuote(index), GetImageFile(index));
             }
 
             return (View(model));

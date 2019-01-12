@@ -45,9 +45,8 @@ namespace Languages
             for (int i = 1; i < Result.Length; i++)
             {
                 string file = files[i -1].Replace(path, String.Empty);
-
-                file = file.Substring(0, file.IndexOf("\\"));
-                Result[i] = file;
+                file = file.Substring(0, file.LastIndexOf('\\'));
+                Result[i] = file.Substring(file.LastIndexOf('\\') + 1);
             }
 
             return (Result);

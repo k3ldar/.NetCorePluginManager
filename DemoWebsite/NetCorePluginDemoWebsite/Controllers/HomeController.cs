@@ -27,6 +27,7 @@ using System;
 using System.Diagnostics;
 
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Localization;
 
 using AspNetCore.PluginManager.DemoWebsite.Models;
 
@@ -41,15 +42,17 @@ namespace AspNetCore.PluginManager.DemoWebsite.Controllers
         #region Private Members
 
         private readonly IMemoryCache _memoryCache;
+        private readonly IStringLocalizer<Languages.LanguageStrings> _localizer;
 
         #endregion Private Members
 
         #region Constructors
 
-        public HomeController(IMemoryCache memoryCache)
+        public HomeController(IMemoryCache memoryCache, IStringLocalizer<Languages.LanguageStrings> localizer)
         {
             // Memory Cache is initialised during the Plugin Manager and set to be injected in using DI
             _memoryCache = memoryCache ?? throw new ArgumentNullException(nameof(memoryCache));
+            _localizer = localizer ?? throw new ArgumentNullException(nameof(localizer));
         }
 
         #endregion Constructors

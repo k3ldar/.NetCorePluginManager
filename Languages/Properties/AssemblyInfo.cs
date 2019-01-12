@@ -34,7 +34,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Simon Carter")]
 [assembly: AssemblyProduct("Languages")]
-[assembly: AssemblyCopyright("Copyright © Simon Carter 2015 - 2017.  All rights reserved.")]
+[assembly: AssemblyCopyright("Copyright © Simon Carter 2009 - 2019.  All rights reserved.")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

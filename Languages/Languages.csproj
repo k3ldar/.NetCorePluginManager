@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netcoreapp2.2;net461;netcoreapp2.1</TargetFrameworks>
+    <TargetFrameworks>netcoreapp2.2;netcoreapp2.1;net461;net452</TargetFrameworks>
     <ApplicationIcon />
     <OutputType>Library</OutputType>
     <StartupObject />
@@ -65,7 +65,7 @@
     <DebugType>none</DebugType>
     <DebugSymbols>false</DebugSymbols>
     <DefineConstants>RELEASE;NETCOREAPP2_2;NET_CORE</DefineConstants>
-    <OutputPath>..\Builds\Shared\Release\NetCore.2.2</OutputPath>
+    <OutputPath></OutputPath>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU' AND '$(TargetFramework)' == 'net461'">
@@ -134,6 +134,21 @@
 
   <ItemGroup Condition="'$(TargetFramework)' == 'net461'">
     <PackageReference Include="System.Security.AccessControl" Version="4.5.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="LanguageStrings.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>LanguageStrings.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="LanguageStrings.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>LanguageStrings.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
 
 </Project>

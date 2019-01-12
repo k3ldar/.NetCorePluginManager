@@ -83,7 +83,7 @@ namespace UserAccount.Plugin.Models
 
         public string DeliveryAddress { get; private set; }
 
-        [Display(Name = "Order Date")]
+        [Display(Name = nameof(Languages.LanguageStrings.OrderDate))]
         public DateTime Date { get; private set; }
 
         public decimal SubTotal { get; private set; }

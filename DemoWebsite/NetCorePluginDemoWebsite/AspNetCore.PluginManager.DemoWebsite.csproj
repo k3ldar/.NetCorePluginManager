@@ -89,7 +89,7 @@
     <PackageReference Include="Microsoft.AspNetCore.Razor.Language" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Runtime" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.ResponseCaching.Abstractions" Version="2.2.0" />
-    <PackageReference Include="SC.Shared.Library.Core" Version="2.7.2" />
+    <PackageReference Include="SC.Shared.Library.Core" Version="2.7.3" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
@@ -106,6 +106,10 @@
 
   <ItemGroup>
     <Folder Include="Views\SystemAdmin\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Languages\Languages.csproj" />
   </ItemGroup>
 
 </Project>

@@ -32,47 +32,47 @@ namespace UserAccount.Plugin.Models
     {
         public bool ShowBusinessName { get; set; }
 
-        [Display(Name = "Business Name")]
+        [Display(Name = nameof(Languages.LanguageStrings.BusinessName))]
         [StringLength(20, MinimumLength = 0)]
         public string BusinessName { get; set; }
 
         public bool ShowAddressLine1 { get; set; }
 
-        [Display(Name = "Address Line 1")]
+        [Display(Name = nameof(Languages.LanguageStrings.AddressLine1))]
         [StringLength(20, MinimumLength = 0)]
         public string AddressLine1 { get; set; }
 
         public bool ShowAddressLine2 { get; set; }
 
-        [Display(Name = "Address Line 2")]
+        [Display(Name = nameof(Languages.LanguageStrings.AddressLine2))]
         [StringLength(20, MinimumLength = 0)]
         public string AddressLine2 { get; set; }
 
         public bool ShowAddressLine3 { get; set; }
 
-        [Display(Name = "Address Line 3")]
+        [Display(Name = nameof(Languages.LanguageStrings.AddressLine3))]
         [StringLength(20, MinimumLength = 0)]
         public string AddressLine3 { get; set; }
 
         public bool ShowCity { get; set; }
 
-        [Display(Name = "City")]
+        [Display(Name = nameof(Languages.LanguageStrings.City))]
         [StringLength(20, MinimumLength = 0)]
         public string City { get; set; }
 
         public bool ShowCounty { get; set; }
 
-        [Display(Name = "County")]
+        [Display(Name = nameof(Languages.LanguageStrings.County))]
         [StringLength(20, MinimumLength = 0)]
         public string County { get; set; }
 
         public bool ShowPostcode { get; set; }
 
-        [Display(Name = "Postcode")]
+        [Display(Name = nameof(Languages.LanguageStrings.Postcode))]
         [StringLength(20, MinimumLength = 0)]
         public string Postcode { get; set; }
 
-        [Display(Name = "Country")]
+        [Display(Name = nameof(Languages.LanguageStrings.Country))]
         public string Country { get; set; }
     }
 }

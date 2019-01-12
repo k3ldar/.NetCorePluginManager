@@ -3,18 +3,18 @@
     ViewData["Title"] = "DownloadView";
 }
 
-<h2>Download @Model.Name</h2>
+<h2>@Languages.LanguageStrings.Download @Model.Name</h2>
 
 <link rel="stylesheet" href="/css/Account.css" />
 
 <div class="account-block">
-    <h3>Description</h3>
+    <h3>@Languages.LanguageStrings.Description</h3>
     <div class="account-row">
         <p>@Model.Description</p>
     </div>
 </div>
 <div class="account-block">
-    <h3>Details</h3>
+    <h3>@Languages.LanguageStrings.Details</h3>
 
     @if (!String.IsNullOrEmpty(Model.Size))
     {
@@ -23,7 +23,7 @@
     </div>
     }
     <div class="account-row">
-        <p><span>File Name:</span>@System.IO.Path.GetFileName(Model.Filename)</p>
+        <p><span>@Languages.LanguageStrings.FileName:</span>@System.IO.Path.GetFileName(Model.Filename)</p>
     </div>
     @if (!String.IsNullOrEmpty(Model.Version))
     {
@@ -37,6 +37,6 @@
         @Html.HiddenFor(m => m.Id)
         @Html.HiddenFor(m => m.Filename)
 
-        <button type="submit">Download</button>
+        <button type="submit">@Languages.LanguageStrings.Download</button>
     }
 </div>

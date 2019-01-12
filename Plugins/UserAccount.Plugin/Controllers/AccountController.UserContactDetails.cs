@@ -60,17 +60,17 @@ namespace UserAccount.Plugin.Controllers
             AddressOptions addressOptions = _accountProvider.GetAddressOptions();
 
             if (addressOptions.HasFlag(AddressOptions.TelephoneMandatory) && String.IsNullOrEmpty(model.Telephone))
-                ModelState.AddModelError($"{nameof(model.Telephone)}", "Please enter a valid telephone number");
+                ModelState.AddModelError($"{nameof(model.Telephone)}", Languages.LanguageStrings.InvalidTelephoneNumber);
 
             if (ModelState.IsValid)
             {
                 if (_accountProvider.SetUserAccountDetails(UserId(), model.FirstName, model.LastName, model.Email, model.Telephone))
                 {
-                    GrowlAdd("Contact details successfully updated");
-                    return RedirectToAction("Index", "Account");
+                    GrowlAdd(Languages.LanguageStrings.ContactDetailsUpdated);
+                    return RedirectToAction(nameof(Index), "Account");
                 }
 
-                ModelState.AddModelError(String.Empty, "Failed to update user account");
+                ModelState.AddModelError(String.Empty, Languages.LanguageStrings.FailedToUpdateAccount);
             }
 
             return View(model);
