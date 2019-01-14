@@ -29,6 +29,7 @@
     <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
     <DebugType>none</DebugType>
     <DebugSymbols>false</DebugSymbols>
+    <NoWarn>1701;1702;NU1603</NoWarn>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netcoreapp2.1|AnyCPU'">
@@ -36,6 +37,7 @@
     <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
     <DebugType>full</DebugType>
     <DebugSymbols>true</DebugSymbols>
+    <NoWarn>1701;1702;NU1603</NoWarn>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netcoreapp2.1|AnyCPU'">
@@ -43,6 +45,7 @@
     <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
     <DebugType>none</DebugType>
     <DebugSymbols>false</DebugSymbols>
+    <NoWarn>1701;1702;NU1603</NoWarn>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netcoreapp2.2|AnyCPU'">
@@ -50,6 +53,7 @@
     <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
     <DebugType>full</DebugType>
     <DebugSymbols>true</DebugSymbols>
+    <NoWarn>1701;1702;NU1603</NoWarn>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netcoreapp2.2|AnyCPU'">
@@ -57,6 +61,7 @@
     <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
     <DebugType>none</DebugType>
     <DebugSymbols>false</DebugSymbols>
+    <NoWarn>1701;1702;NU1603</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>

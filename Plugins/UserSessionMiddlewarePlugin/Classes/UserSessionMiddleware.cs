@@ -47,10 +47,11 @@ namespace UserSessionMiddleware.Plugin
         private static int _cookieID;
 
         private readonly RequestDelegate _next;
-        private readonly string _cookieName = "user_session";
+        private readonly string _cookieName = Constants.DefaultSessionCookie;
         private readonly string _cookieEncryptionKey = "Dfklaosre;lnfsdl;jlfaeu;dkkfcaskxcd3jf";
-        private readonly string _staticFileExtension = ".less;.ico;.css;.js;.svg;.jpg;.jpeg;.gif;.png;.eot;";
+        private readonly string _staticFileExtension = Constants.StaticFileExtensions;
         private readonly List<RouteData> _routeData;
+        private readonly string _defaultCulture;
         internal static Timings _timings = new Timings();
 
         #endregion Private Members
@@ -76,7 +77,7 @@ namespace UserSessionMiddleware.Plugin
 
             _routeData = new List<RouteData>();
 
-            UserSessionSettings Settings = settingsProvider.GetSettings<UserSessionSettings>("UserSessionConfiguration");
+            UserSessionSettings Settings = settingsProvider.GetSettings<UserSessionSettings>(Constants.UserSessionConfiguration);
 
             Settings.SessionTimeout = Shared.Utilities.CheckMinMax(Settings.SessionTimeout, 15, 200);
 
@@ -93,6 +94,8 @@ namespace UserSessionMiddleware.Plugin
 
             if (!String.IsNullOrWhiteSpace(Settings.StaticFileExtensions))
                 _staticFileExtension = Settings.StaticFileExtensions;
+
+            _defaultCulture = Settings.DefaultCulture;
 
             LoadLoggedInOutData(routeProvider, routeDataService, pluginTypesService);
             LoadLoggedInData(routeProvider, routeDataService, pluginTypesService);
@@ -148,11 +151,11 @@ namespace UserSessionMiddleware.Plugin
                     GetSessionCulture(context, userSession);
                 }
 
-                string referrer = context.Request.Headers["Referer"];
+                string referrer = context.Request.Headers[Constants.PageReferer];
                 userSession.PageView(GetAbsoluteUri(context).ToString(), referrer ?? String.Empty, false);
 
-                context.Items.Add("UserSession", userSession);
-                context.Items.Add("UserCulture", userSession.Culture);
+                context.Items.Add(Constants.UserSession, userSession);
+                context.Items.Add(Constants.UserCulture, userSession.Culture);
 
                 string route = RouteLowered(context);
                 bool loggedIn = !String.IsNullOrEmpty(userSession.UserName);
@@ -227,9 +230,7 @@ namespace UserSessionMiddleware.Plugin
             if (userSession == null)
                 throw new ArgumentNullException(nameof(userSession));
 
-            string defaultCulture = "en-GB";
-
-            userSession.Culture = CookieValue(context, "UserCulture", defaultCulture);
+            userSession.Culture = CookieValue(context, Constants.UserCulture, _defaultCulture);
         }
 
         private UserSession GetUserSession(in HttpContext context, in string sessionId)
@@ -256,7 +257,7 @@ namespace UserSessionMiddleware.Plugin
             {
                 if (Initialisation.GetLogger != null)
                     Initialisation.GetLogger.AddToLog(LogLevel.UserSessionManagerError, err, 
-                        System.Reflection.MethodBase.GetCurrentMethod().Name);
+                        MethodBase.GetCurrentMethod().Name);
             }
 
             return (null);

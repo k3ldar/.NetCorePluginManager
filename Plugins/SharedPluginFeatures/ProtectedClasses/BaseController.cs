@@ -38,9 +38,9 @@ namespace SharedPluginFeatures
 
         protected UserSession GetUserSession()
         {
-            if (HttpContext.Items.ContainsKey("UserSession"))
+            if (HttpContext.Items.ContainsKey(Constants.UserSession))
             {
-                return ((UserSession)HttpContext.Items["UserSession"]);
+                return ((UserSession)HttpContext.Items[Constants.UserSession]);
             }
 
             return (null);

@@ -59,7 +59,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Controllers
 
         public IActionResult Index()
         {
-            UserSession session = (UserSession)HttpContext.Items["UserSession"];
+            UserSession session = (UserSession)HttpContext.Items[Constants.UserSession];
             ViewBag.Username = String.IsNullOrEmpty(session.UserName) ? "Guest" : session.UserName;
 
             return View();

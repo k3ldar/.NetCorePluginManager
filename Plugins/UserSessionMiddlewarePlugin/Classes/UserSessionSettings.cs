@@ -42,5 +42,9 @@ namespace UserSessionMiddleware.Plugin
         [SettingDefault(30u)]
         [SettingRange(15u, 200u)]
         public uint SessionTimeout { get; set; }
+
+        [SettingDefault("en-GB")]
+        [SettingString(false, 2u, 5u)]
+        public string DefaultCulture { get; set; }
     }
 }

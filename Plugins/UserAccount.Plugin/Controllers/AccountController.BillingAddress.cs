@@ -73,6 +73,8 @@ namespace UserAccount.Plugin.Controllers
                 ModelState.AddModelError(String.Empty, Languages.LanguageStrings.FailedToUpdateBillingAddress);
             }
 
+            PrepareBillingAddressModel(ref model, null);
+
             return View(model);
         }
 
@@ -112,19 +114,23 @@ namespace UserAccount.Plugin.Controllers
             AddressOptions addressOptions = _accountProvider.GetAddressOptions();
 
             model.ShowAddressLine1 = addressOptions.HasFlag(AddressOptions.AddressLine1Show);
-            model.AddressLine1 = billingAddress.AddressLine1;
             model.ShowAddressLine2 = addressOptions.HasFlag(AddressOptions.AddressLine2Show);
-            model.AddressLine3 = billingAddress.AddressLine3;
             model.ShowAddressLine3 = addressOptions.HasFlag(AddressOptions.AddressLine3Show);
-            model.AddressLine3 = billingAddress.AddressLine3;
             model.ShowBusinessName = addressOptions.HasFlag(AddressOptions.BusinessNameShow);
             model.ShowCity = addressOptions.HasFlag(AddressOptions.CityShow);
-            model.City = billingAddress.City;
             model.ShowCounty = addressOptions.HasFlag(AddressOptions.CountyShow);
-            model.County = billingAddress.County;
             model.ShowPostcode = addressOptions.HasFlag(AddressOptions.PostCodeShow);
-            model.Postcode = billingAddress.Postcode;
-            model.Country = billingAddress.Country;
+
+            if (billingAddress != null)
+            {
+                model.AddressLine1 = billingAddress.AddressLine1;
+                model.AddressLine3 = billingAddress.AddressLine3;
+                model.AddressLine3 = billingAddress.AddressLine3;
+                model.City = billingAddress.City;
+                model.County = billingAddress.County;
+                model.Postcode = billingAddress.Postcode;
+                model.Country = billingAddress.Country;
+            }
         }
 
         #endregion Private Methods
