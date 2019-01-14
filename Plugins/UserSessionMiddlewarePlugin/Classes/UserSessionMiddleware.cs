@@ -230,7 +230,7 @@ namespace UserSessionMiddleware.Plugin
             if (userSession == null)
                 throw new ArgumentNullException(nameof(userSession));
 
-            userSession.Culture = CookieValue(context, Constants.UserCulture, _defaultCulture);
+            userSession.Culture = CookieValue(context, Constants.UserCulture, _cookieEncryptionKey, _defaultCulture);
         }
 
         private UserSession GetUserSession(in HttpContext context, in string sessionId)

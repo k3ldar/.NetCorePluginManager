@@ -59,20 +59,8 @@ namespace Localization.Plugin
 
             _next = next;
 
-            //UserSessionSettings Settings = settingsProvider.GetSettings<UserSessionSettings>("UserSessionConfiguration");
             ThreadManager.Initialise();
             _cultureCache = Initialisation.CultureCache;
-
-            //SessionHelper.InitSessionHelper();
-
-            //if (!String.IsNullOrWhiteSpace(Settings.CookieName))
-            //    _cookieName = Settings.CookieName;
-
-            //if (!String.IsNullOrWhiteSpace(Settings.EncryptionKey))
-            //    _cookieEncryptionKey = Settings.EncryptionKey;
-
-            //if (!String.IsNullOrWhiteSpace(Settings.StaticFileExtensions))
-            //    _staticFileExtension = Settings.StaticFileExtensions;
         }
 
         #endregion Constructors
@@ -83,7 +71,7 @@ namespace Localization.Plugin
         {
             using (StopWatchTimer stopwatchTimer = StopWatchTimer.Initialise(_timings))
             {
-                if (context.Items.TryGetValue("UserCulture", out object sessionCulture))
+                if (context.Items.TryGetValue(Constants.UserCulture, out object sessionCulture))
                 {
                     SetUserCulture((string)sessionCulture);
                 }

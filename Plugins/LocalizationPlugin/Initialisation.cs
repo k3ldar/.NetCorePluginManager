@@ -32,7 +32,6 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc.Razor;
-using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Localization;
 
 using SharedPluginFeatures;
@@ -58,6 +57,7 @@ namespace Localization.Plugin
         internal static CacheManager CultureCache = new CacheManager("Available Cultures", new TimeSpan(24, 0, 0), true, true);
         internal static ILogger GetLogger { get; private set; }
         internal static IServiceProvider GetServiceProvider { get; private set; }
+        internal static string[] InstalledCultures { get; private set; }
 
         #endregion Internal Static Properties / Members
 
@@ -80,23 +80,24 @@ namespace Localization.Plugin
 
         public void ConfigureServices(IServiceCollection services)
         {
-            GetServiceProvider = services.BuildServiceProvider();
-
+            services.AddSingleton<ICultureProvider, CultureProvider>();
             services.AddSingleton<IStringLocalizerFactory, StringLocalizerFactory>();
+
+            GetServiceProvider = services.BuildServiceProvider();
 
             IHostingEnvironment environment = GetServiceProvider.GetRequiredService<IHostingEnvironment>();
 
-            string[] installedLanguages = LanguageWrapper.GetInstalledLanguages(environment.ContentRootPath);
+            InstalledCultures = LanguageWrapper.GetInstalledLanguages(environment.ContentRootPath);
 
             List<CultureInfo> cultures = new List<CultureInfo>();
 
-            for (int i = 1; i < installedLanguages.Length; i++)
-                cultures.Add(new CultureInfo(installedLanguages[i]));
+            for (int i = 1; i < InstalledCultures.Length; i++)
+                cultures.Add(new CultureInfo(InstalledCultures[i]));
 
             services.Configure<RequestLocalizationOptions>(
                 opts =>
                 {
-                    opts.DefaultRequestCulture = new RequestCulture(installedLanguages[0]);
+                    opts.DefaultRequestCulture = new RequestCulture(InstalledCultures[0]);
                     opts.SupportedCultures = cultures;
                     opts.SupportedUICultures = cultures;
                 });

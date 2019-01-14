@@ -49,6 +49,8 @@ namespace UserAccount.Plugin.Controllers
         private readonly IAccountProvider _accountProvider;
         private readonly IDownloadProvider _downloadProvider;
         private readonly ILicenceProvider _licenceProvider;
+        private readonly IUserCultureChangeProvider _userCultureChanged;
+        private readonly ICultureProvider _cultureProvider;
 
         private static readonly CacheManager _createAccountCache = new CacheManager("Create Account Cache", new TimeSpan(0, 30, 0));
 
@@ -66,12 +68,15 @@ namespace UserAccount.Plugin.Controllers
 
         public AccountController(ISettingsProvider settingsProvider, IAccountProvider accountProvider, 
             IDownloadProvider downloadProvider, ICountryProvider countryProvider, 
-            ILicenceProvider licenceProvider)
+            ILicenceProvider licenceProvider, IUserCultureChangeProvider userCultureChanged,
+            ICultureProvider cultureProvider)
         {
             _settingsProvider = settingsProvider ?? throw new ArgumentNullException(nameof(settingsProvider));
             _accountProvider = accountProvider ?? throw new ArgumentNullException(nameof(accountProvider));
             _downloadProvider = downloadProvider ?? throw new ArgumentNullException(nameof(downloadProvider));
             _licenceProvider = licenceProvider ?? throw new ArgumentNullException(nameof(licenceProvider));
+            _userCultureChanged = userCultureChanged ?? throw new ArgumentNullException(nameof(userCultureChanged));
+            _cultureProvider = cultureProvider ?? throw new ArgumentNullException(nameof(cultureProvider));
 
             if (countryProvider == null)
                 throw new ArgumentNullException(nameof(countryProvider));

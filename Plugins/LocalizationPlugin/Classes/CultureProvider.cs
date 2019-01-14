@@ -13,41 +13,46 @@
  *
  *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
  *
- *  Product:  UserAccount.Plugin
+ *  Product:  Localization.Plugin
  *  
- *  File: AccountController.Language.cs
+ *  File: CultureProvider.cs
  *
- *  Purpose:  
+ *  Purpose:  Implements ICultureProvider
  *
  *  Date        Name                Reason
- *  12/01/2019  Simon Carter        Initially Created
+ *  14/01/2019  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+using System;
 using System.Globalization;
-
-using Microsoft.AspNetCore.Mvc;
 
 using SharedPluginFeatures;
 
-using Shared.Classes;
-
-namespace UserAccount.Plugin.Controllers
+namespace Localization.Plugin
 {
-    public partial class AccountController
+    public class CultureProvider : ICultureProvider
     {
-        [HttpPost]
-		[LoggedInOut]
-        public IActionResult SetLanguage(string culture, string returnUrl)
+        #region ICultureProvider Methods
+
+        public string[] AvailableCultures()
         {
-            UserSession userSession = GetUserSession();
-
-            userSession.Culture = culture;
-            CultureInfo newCulture = new CultureInfo(culture);
-
-            if (_cultureProvider.IsCultureValid(newCulture))
-                _userCultureChanged.CultureChanged(HttpContext, userSession, newCulture);
-
-            return LocalRedirect(returnUrl ?? "/");
+            return Initialisation.InstalledCultures;
         }
+
+        public bool IsCultureValid(in CultureInfo cultureInfo)
+        {
+            if (cultureInfo == null)
+                throw new ArgumentNullException(nameof(cultureInfo));
+
+            foreach(string culture in Initialisation.InstalledCultures)
+            {
+                if (culture.Equals(cultureInfo.Name, StringComparison.InvariantCultureIgnoreCase))
+                    return true;
+            }
+
+            return false;
+        }
+
+        #endregion ICultureProvider Methods
     }
 }

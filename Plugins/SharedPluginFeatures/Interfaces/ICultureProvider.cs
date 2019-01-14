@@ -13,41 +13,24 @@
  *
  *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
  *
- *  Product:  UserAccount.Plugin
+ *  Product:  SharedPluginFeatures
  *  
- *  File: AccountController.Language.cs
+ *  File: ICultureProvider.cs
  *
- *  Purpose:  
+ *  Purpose:  Provides interface for Managing cultures
  *
  *  Date        Name                Reason
- *  12/01/2019  Simon Carter        Initially Created
+ *  14/01/2019  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System.Globalization;
 
-using Microsoft.AspNetCore.Mvc;
-
-using SharedPluginFeatures;
-
-using Shared.Classes;
-
-namespace UserAccount.Plugin.Controllers
+namespace SharedPluginFeatures
 {
-    public partial class AccountController
+    public interface ICultureProvider
     {
-        [HttpPost]
-		[LoggedInOut]
-        public IActionResult SetLanguage(string culture, string returnUrl)
-        {
-            UserSession userSession = GetUserSession();
+        bool IsCultureValid(in CultureInfo cultureInfo);
 
-            userSession.Culture = culture;
-            CultureInfo newCulture = new CultureInfo(culture);
-
-            if (_cultureProvider.IsCultureValid(newCulture))
-                _userCultureChanged.CultureChanged(HttpContext, userSession, newCulture);
-
-            return LocalRedirect(returnUrl ?? "/");
-        }
+        string[] AvailableCultures();
     }
 }
