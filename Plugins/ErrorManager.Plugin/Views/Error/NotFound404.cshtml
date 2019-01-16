@@ -3,7 +3,7 @@
     ViewData["Title"] = "Error404";
 }
 
-<h2>@Model.Title</h2>
+<h2>@Languages.LanguageStrings.NotFound404</h2>
 
 <link rel="stylesheet" href="/css/error.css" />
 
@@ -18,5 +18,5 @@
         <div>@Html.Raw(Model.Message)</div>
     }
 
-    <p><a href="/">Click here</a> to go back to our home page.</p>
+    <p><a href="/">@Languages.LanguageStrings.ClickHere</a> @Languages.LanguageStrings.ToGoHome</p>
 </div>

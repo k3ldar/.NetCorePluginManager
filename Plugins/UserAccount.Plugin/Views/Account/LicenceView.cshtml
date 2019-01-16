@@ -4,7 +4,7 @@
     ViewData["Title"] = "View Licence";
 }
 
-<h2>View Licence</h2>
+<h2>@Languages.LanguageStrings.ViewLicence</h2>
 
 <link rel="stylesheet" href="/css/Account.css" />
 <script src="~/js/userAccount.js"></script>
@@ -61,7 +61,7 @@
     {
         <div class="account-block">
             <div class="account-row">
-                Your product licence is below, you can copy and paste it directly into the licence page or click "send email" to have it sent to you via email.
+                @Languages.LanguageStrings.LicenceUpdateDescription
             </div>
             <div class="account-row">
                 @Html.TextAreaFor(m => m.Licence, new { @readonly = "readonly" })
@@ -70,8 +70,8 @@
     }
 
     <div class="account-block">
-        <input id="btnSendEmail" type="button" value="Send Email" />
-        <input id="btnUpdateLicence" type="submit" value="Update" />
+        <input id="btnSendEmail" type="button" value="@Languages.LanguageStrings.SendEmail" />
+        <input id="btnUpdateLicence" type="submit" value="@Languages.LanguageStrings.Update" />
     </div>
 }
 

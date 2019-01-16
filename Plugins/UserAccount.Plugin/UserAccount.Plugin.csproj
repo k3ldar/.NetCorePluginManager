@@ -329,11 +329,12 @@
 
   <ItemGroup>
     <PackageReference Include="ApplicationSettings" Version="1.1.0" />
+    <PackageReference Include="AspNetCore.PluginManager.Languages" Version="1.2.0" />
     <PackageReference Include="JQuery-Growl" Version="1.3.1.1" />
     <PackageReference Include="jQuery.Validation" Version="1.17.0" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.0" />
-    <PackageReference Include="SC.Shared.Library.Core" Version="2.7.2" />
+    <PackageReference Include="SC.Shared.Library.Core" Version="2.7.3" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
@@ -350,6 +351,11 @@
     <ProjectReference Include="..\MemoryCachePlugin\MemoryCachePlugin.csproj" />
     <ProjectReference Include="..\RestrictIp.Plugin\RestrictIp.Plugin.csproj" />
     <ProjectReference Include="..\PluginMiddleware\PluginMiddleware.csproj" />
+    <ProjectReference Include="..\..\Languages\Languages.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\LocalizationPlugin\Localization.Plugin.csproj" />
   </ItemGroup>
 
 </Project>

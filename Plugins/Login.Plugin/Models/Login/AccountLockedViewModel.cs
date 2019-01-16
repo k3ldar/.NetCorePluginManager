@@ -49,12 +49,12 @@ namespace LoginPlugin.Models
 
         #region Properties
 
-        [Required]
-        [Display(Name = "User name or email")]
+        [Required(ErrorMessage = nameof(Languages.LanguageStrings.PleaseEnterUserNameOrEmail))]
+        [Display(Name = nameof(Languages.LanguageStrings.Username))]
         public string Username { get; set; }
 
-        [Required(ErrorMessage = "Please enter the unlock code")]
-        [Display(Name = "Validation Code")]
+        [Required(ErrorMessage = nameof(Languages.LanguageStrings.EnterUnlockCode))]
+        [Display(Name = nameof(Languages.LanguageStrings.Code))]
         public string UnlockCode { get; set; }
 
         #endregion Properties

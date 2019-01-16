@@ -23,6 +23,7 @@
  *  09/12/2018  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+using AppSettings;
 
 namespace UserAccount.Plugin
 {
@@ -47,5 +48,24 @@ namespace UserAccount.Plugin
         public bool ShowAppointments { get; set; }
 
         public bool ShowDownloads { get; set; }
+
+        [SettingDefault(1)]
+        [SettingRange(0, 3)]
+        public int PasswordUppercaseCharCount { get; set; }
+
+        [SettingDefault(1)]
+        [SettingRange(0, 3)]
+        public int PasswordLowercaseCharCount { get; set; }
+
+        [SettingDefault(1)]
+        [SettingRange(0, 3)]
+        public int PasswordNumberCharCount { get; set; }
+
+        [SettingDefault(1)]
+        [SettingRange(0, 3)]
+        public int PasswordSpecialCharCount { get; set; }
+
+        [SettingDefault("£$^*()#,.<>?:;@")]
+        public string PasswordSpecialCharacters { get; set; }
     }
 }

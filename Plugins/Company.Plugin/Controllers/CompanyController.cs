@@ -55,8 +55,6 @@ namespace Company.Plugin.Controllers
             if (!_settings.ShowAbout)
                 return Redirect("/");
 
-            ViewData["Message"] = "Your application description pages.";
-
             return View();
         }
 
@@ -64,8 +62,6 @@ namespace Company.Plugin.Controllers
         {
             if (!_settings.ShowContact)
                 return Redirect("/");
-
-            ViewData["Message"] = "Your contact page.";
 
             return View();
         }

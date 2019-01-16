@@ -52,22 +52,22 @@ namespace UserAccount.Plugin.Models
         #region Properties
 
         [Required]
-        [Display(Name = "User name/email")]
+        [Display(Name = nameof(Languages.LanguageStrings.Username))]
         [StringLength(100, MinimumLength = 5)]
         public string Username { get; set; }
 
         [Required]
-        [Display(Name = "Current Password")]
+        [Display(Name = nameof(Languages.LanguageStrings.CurrentPassword))]
         [StringLength(Constants.MaximumPasswordLength, MinimumLength = Constants.MinimumPasswordLength)]
         public string CurrentPassword { get; set; }
 
         [Required]
-        [Display(Name = "New Password")]
+        [Display(Name = nameof(Languages.LanguageStrings.NewPassword))]
         [StringLength(Constants.MaximumPasswordLength, MinimumLength = Constants.MinimumPasswordLength)]
         public string NewPassword { get; set; }
 
         [Required]
-        [Display(Name = "Confirm New Password")]
+        [Display(Name = nameof(Languages.LanguageStrings.ConfirmNewPassword))]
         [StringLength(Constants.MaximumPasswordLength, MinimumLength = Constants.MinimumPasswordLength)]
         public string ConfirmNewPassword { get; set; }
 

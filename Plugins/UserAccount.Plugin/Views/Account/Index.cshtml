@@ -3,54 +3,54 @@
     ViewData["Title"] = "Account";
 }
 
-<h2>Account</h2>
+<h2>@Languages.LanguageStrings.MyAccount</h2>
 
 <link rel="stylesheet" href="/css/Account.css" />
 <script src="~/js/userAccount.js"></script>
 
 <div class="accountContent">
     <ul class="accountOptions fixed">
-        <li class="email"><a href="/Account/UserContactDetails">Contact Details</a></li>
-        <li class="password"><a href="/Account/ChangePassword">Change Password</a></li>
+        <li class="email"><a href="/Account/UserContactDetails">@Languages.LanguageStrings.ContactDetails</a></li>
+        <li class="password"><a href="/Account/ChangePassword">@Languages.LanguageStrings.ChangePassword</a></li>
 
         @if (Model.Settings.ShowBillingAddress)
         {
-            <li class="billing"><a href="/Account/BillingAddress">Billing Address</a></li>
+            <li class="billing"><a href="/Account/BillingAddress">@Languages.LanguageStrings.BillingAddress</a></li>
         }
 
         @if (Model.Settings.ShowDeliveryAddress)
         {
-            <li class="delivery"><a href="/Account/DeliveryAddress">Delivery Address</a></li>
+            <li class="delivery"><a href="/Account/DeliveryAddress">@Languages.LanguageStrings.DeliveryAddress</a></li>
         }
 
         @if (Model.Settings.ShowMarketingPreferences)
         {
-            <li class="offers"><a href="/Account/MarketingPreferences">Marketing Preferences</a></li>
+            <li class="offers"><a href="/Account/MarketingPreferences">@Languages.LanguageStrings.AppMarketing</a></li>
         }
 
         @if (Model.Settings.ShowOrders)
         {
-            <li class="orders"><a href="/Account/Orders">Orders</a></li>
+            <li class="orders"><a href="/Account/Orders">@Languages.LanguageStrings.Orders</a></li>
         }
 
         @if (Model.Settings.ShowInvoices)
         {
-            <li class="invoices"><a href="/Account/Invoices">Invoices</a></li>
+            <li class="invoices"><a href="/Account/Invoices">@Languages.LanguageStrings.Invoices</a></li>
         }
 
         @if (Model.Settings.ShowSupportTickets)
         {
-            <li class="tickets"><a href="/Account/SupportTickets">Support Tickets</a></li>
+            <li class="tickets"><a href="/Account/SupportTickets">@Languages.LanguageStrings.SupportTickets</a></li>
         }
 
         @if (Model.Settings.ShowDownloads)
         {
-            <li class="download"><a href="/Account/Downloads">Downloads</a></li>
+            <li class="download"><a href="/Account/Downloads">@Languages.LanguageStrings.Downloads</a></li>
         }
 
         @if (Model.Settings.ShowLicences)
         {
-            <li class="licence"><a href="/Account/Licences">Licenses</a></li>
+            <li class="licence"><a href="/Account/Licences">@Languages.LanguageStrings.Licences</a></li>
         }
     </ul>
 </div>

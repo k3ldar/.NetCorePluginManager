@@ -115,45 +115,45 @@ namespace UserAccount.Plugin.Controllers
             if (!String.IsNullOrEmpty(createAccountCacheItem.CaptchaText))
             {
                 if (!createAccountCacheItem.CaptchaText.Equals(model.CaptchaText))
-                    ModelState.AddModelError(String.Empty, "Invalid Validation Code");
+                    ModelState.AddModelError(String.Empty, Languages.LanguageStrings.CodeNotValid);
             }
 
             createAccountCacheItem.CreateAttempts++;
 
             if (createAccountCacheItem.CreateAttempts > 10)
-                ModelState.AddModelError(String.Empty, "Too many attempts, please wait 30 minutes and try again");
+                ModelState.AddModelError(String.Empty, Languages.LanguageStrings.TooManyAttempts);
 
             AddressOptions addressOptions = _accountProvider.GetAddressOptions();
 
             if (!ValidatePasswordComplexity(model.Password))
-                ModelState.AddModelError(String.Empty, "Password does not match complexity rules.");
+                ModelState.AddModelError(String.Empty, Languages.LanguageStrings.PasswordComplexityFailed);
 
             if (!model.Password.Equals(model.ConfirmPassword))
-                ModelState.AddModelError("", "Confirm password must match Password");
+                ModelState.AddModelError(String.Empty, Languages.LanguageStrings.PasswordDoesNotMatch);
 
             if (addressOptions.HasFlag(AddressOptions.AddressLine1Mandatory) && String.IsNullOrEmpty(model.AddressLine1))
-                ModelState.AddModelError(nameof(model.AddressLine1), "Address line 1 is required");
+                ModelState.AddModelError(nameof(model.AddressLine1), Languages.LanguageStrings.AddressLine1Required);
 
             if (addressOptions.HasFlag(AddressOptions.AddressLine2Mandatory) && String.IsNullOrEmpty(model.AddressLine2))
-                ModelState.AddModelError(nameof(model.AddressLine2), "Address line 2 is required");
+                ModelState.AddModelError(nameof(model.AddressLine2), Languages.LanguageStrings.AddressLine2Required);
 
             if (addressOptions.HasFlag(AddressOptions.AddressLine3Mandatory) && String.IsNullOrEmpty(model.AddressLine3))
-                ModelState.AddModelError(nameof(model.AddressLine3), "Address line 3 is required");
+                ModelState.AddModelError(nameof(model.AddressLine3), Languages.LanguageStrings.AddressLine3Required);
 
             if (addressOptions.HasFlag(AddressOptions.CityMandatory) && String.IsNullOrEmpty(model.City))
-                ModelState.AddModelError(nameof(model.City), "City is required");
+                ModelState.AddModelError(nameof(model.City), Languages.LanguageStrings.CityRequired);
 
             if (addressOptions.HasFlag(AddressOptions.CountyMandatory) && String.IsNullOrEmpty(model.County))
-                ModelState.AddModelError(nameof(model.County), "County is required");
+                ModelState.AddModelError(nameof(model.County), Languages.LanguageStrings.CountyRequired);
 
             if (addressOptions.HasFlag(AddressOptions.PostCodeMandatory) && String.IsNullOrEmpty(model.Postcode))
-                ModelState.AddModelError(nameof(model.Postcode), "Postcode is required");
+                ModelState.AddModelError(nameof(model.Postcode), Languages.LanguageStrings.PostcodeRequired);
 
             if (addressOptions.HasFlag(AddressOptions.BusinessNameMandatory) && String.IsNullOrEmpty(model.BusinessName))
-                ModelState.AddModelError(nameof(model.BusinessName), "Business Name is required");
+                ModelState.AddModelError(nameof(model.BusinessName), Languages.LanguageStrings.BusinessNameRequired);
 
             if (addressOptions.HasFlag(AddressOptions.TelephoneMandatory) && String.IsNullOrEmpty(model.Telephone))
-                ModelState.AddModelError(nameof(model.Telephone), "Telephone is required");
+                ModelState.AddModelError(nameof(model.Telephone), Languages.LanguageStrings.TelephoneRequired);
 
             createAccountCacheItem.CaptchaText = GetRandomWord(6, CaptchaCharacters);
             model.CaptchaText = String.Empty;

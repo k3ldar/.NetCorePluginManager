@@ -113,11 +113,11 @@ namespace Spider.Plugin
                 {
                     if (_userSessionManagerLoaded)
                     {
-                        if (context.Items.ContainsKey("UserSession"))
+                        if (context.Items.ContainsKey(Constants.UserSession))
                         {
                             try
                             {
-                                UserSession userSession = (UserSession)context.Items["UserSession"];
+                                UserSession userSession = (UserSession)context.Items[Constants.UserSession];
 
                                 foreach (DeniedRoute deniedRoute in _deniedSpiderRoutes)
                                 {

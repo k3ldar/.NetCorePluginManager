@@ -49,6 +49,8 @@ namespace UserSessionMiddleware.Plugin
 
         internal static ILogger GetLogger { get; private set; }
 
+        internal static string[] ValidCultures { get; private set; }
+
 
         #endregion Internal Static Properties
 
@@ -71,6 +73,8 @@ namespace UserSessionMiddleware.Plugin
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSingleton<IUserCultureChangeProvider, UserCultureChanged>();
+
             GetServiceProvider = services.BuildServiceProvider();
         }
 

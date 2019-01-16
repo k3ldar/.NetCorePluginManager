@@ -3,14 +3,14 @@
     ViewData["Title"] = "Downloads";
 }
 
-<h2>Downloads</h2>
+<h2>@Languages.LanguageStrings.Downloads</h2>
 
 <link rel="stylesheet" href="/css/Account.css" />
 
 <div class="accountTab">
     @foreach(Middleware.Downloads.DownloadCategory category in Model.Categories)
     {
-        string className = category.Name == Model.ActiveCategory ? "active" : "";
+        string className = category.Name == Model.ActiveCategory ? @Languages.LanguageStrings.Active : "";
         <button class="@className" onclick="window.location.href='/Account/Downloads/@category.Id';">@category.Name</button>
     }
 </div>

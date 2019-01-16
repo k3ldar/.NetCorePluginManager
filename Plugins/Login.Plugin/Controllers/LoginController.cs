@@ -108,7 +108,7 @@ namespace LoginPlugin.Controllers
             if (!String.IsNullOrEmpty(loginCacheItem.CaptchaText))
             {
                 if (!loginCacheItem.CaptchaText.Equals(model.CaptchaText))
-                    ModelState.AddModelError(String.Empty, "Invalid Validation Code");
+                    ModelState.AddModelError(String.Empty, Languages.LanguageStrings.CodeNotValid);
             }
 
             loginCacheItem.LoginAttempts++;
@@ -129,18 +129,19 @@ namespace LoginPlugin.Controllers
                         session.Login(loginDetails.UserId, loginDetails.Username, loginDetails.Email);
 
                     if (model.RememberMe)
-                        CookieAdd(_settings.RememberMeCookieName, Encrypt(loginDetails.UserId.ToString(), _settings.EncryptionKey), _settings.LoginDays);
+                        CookieAdd(_settings.RememberMeCookieName, Encrypt(loginDetails.UserId.ToString(), 
+                            _settings.EncryptionKey), _settings.LoginDays);
 
                     return Redirect(model.ReturnUrl);
 
                 case LoginResult.AccountLocked:
-                    return (RedirectToAction("AccountLocked", new { username = model.Username }));
+                    return (RedirectToAction(nameof(AccountLocked), new { username = model.Username }));
 
                 case LoginResult.PasswordChangeRequired:
                     return (Redirect(_settings.ChangePasswordUrl));
 
                 case LoginResult.InvalidCredentials:
-                    ModelState.AddModelError(String.Empty, "Invalid username or password");
+                    ModelState.AddModelError(String.Empty, Languages.LanguageStrings.InvalidUsernameOrPassword);
                     break;
             }
 
@@ -154,7 +155,7 @@ namespace LoginPlugin.Controllers
         public IActionResult AccountLocked(string username)
         {
             if (String.IsNullOrEmpty(username))
-                RedirectToAction("Index");
+                RedirectToAction(nameof(Index));
 
             AccountLockedViewModel model = new AccountLockedViewModel(username);
 
@@ -172,12 +173,12 @@ namespace LoginPlugin.Controllers
                 return Redirect("/Login");
             }
 
-            ModelState.AddModelError("", "The unlock code you entered was not valid");
+            ModelState.AddModelError(String.Empty, Languages.LanguageStrings.CodeNotValid);
             model.UnlockCode = String.Empty;
 
             return View(model);
         }
-        
+
         [HttpGet]
         public IActionResult ForgotPassword()
         {
@@ -201,7 +202,7 @@ namespace LoginPlugin.Controllers
             if (!String.IsNullOrEmpty(loginCacheItem.CaptchaText))
             {
                 if (!loginCacheItem.CaptchaText.Equals(model.CaptchaText))
-                    ModelState.AddModelError(String.Empty, "Invalid Validation Code");
+                    ModelState.AddModelError(String.Empty, Languages.LanguageStrings.CodeNotValid);
             }
 
             if (ModelState.IsValid && _loginProvider.ForgottenPassword(model.Username))
@@ -210,7 +211,7 @@ namespace LoginPlugin.Controllers
                 return Redirect("/Login/");
             }
 
-            ModelState.AddModelError(String.Empty, "The details you provided could not be validated.");
+            ModelState.AddModelError(String.Empty, Languages.LanguageStrings.InvalidUsernameOrPassword);
 
             loginCacheItem.CaptchaText = GetRandomWord(_settings.CaptchaWordLength, CaptchaCharacters);
             model.CaptchaText = loginCacheItem.CaptchaText;

@@ -43,20 +43,23 @@ namespace LoginPlugin.Models
 
         #region Properties
 
-        [Required]
-        [Display(Name = "User name or email")]
+        [Required(ErrorMessage = nameof(Languages.LanguageStrings.PleaseEnterUserNameOrEmail))]
+        [Display(Name = nameof(Languages.LanguageStrings.Username))]
         public string Username { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = nameof(Languages.LanguageStrings.PleaseEnterPassword))]
         [StringLength(Constants.MaximumPasswordLength, MinimumLength = Constants.MinimumPasswordLength)]
+        [Display(Name = nameof(Languages.LanguageStrings.CurrentPassword))]
         public string CurrentPassword { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = nameof(Languages.LanguageStrings.PleaseEnterPassword))]
         [StringLength(Constants.MaximumPasswordLength, MinimumLength = Constants.MinimumPasswordLength)]
+        [Display(Name = nameof(Languages.LanguageStrings.NewPassword))]
         public string NewPassword { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = nameof(Languages.LanguageStrings.PasswordDoesNotMatch))]
         [StringLength(Constants.MaximumPasswordLength, MinimumLength = Constants.MinimumPasswordLength)]
+        [Display(Name = nameof(Languages.LanguageStrings.ConfirmPassword))]
         public string ConfirmNewPassword { get; set; }
 
         #endregion Properties

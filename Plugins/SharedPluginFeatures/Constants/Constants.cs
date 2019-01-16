@@ -31,5 +31,17 @@ namespace SharedPluginFeatures
     {
         public const int MinimumPasswordLength = 8;
         public const int MaximumPasswordLength = 40;
+
+
+        public const string UserSession = "UserSession";
+        public const string UserCulture = "UserCulture";
+
+        public const string DefaultSessionCookie = "user_session";
+
+        public const string UserSessionConfiguration = "UserSessionConfiguration";
+
+        public const string StaticFileExtensions = ".less;.ico;.css;.js;.svg;.jpg;.jpeg;.gif;.png;.eot;";
+
+        public const string PageReferer = "Referer";
     }
 }

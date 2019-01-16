@@ -285,4 +285,8 @@
     <PackageReference Include="ApplicationSettings" Version="1.1.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\Languages\Languages.csproj" />
+  </ItemGroup>
+
 </Project>

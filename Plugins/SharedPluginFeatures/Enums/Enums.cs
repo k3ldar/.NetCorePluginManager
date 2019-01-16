@@ -64,6 +64,8 @@ namespace SharedPluginFeatures
             GeoIpStackError = 15,
 
             ThreadManager = 16,
+
+            Localization = 17,
         }
 
         /// <summary>

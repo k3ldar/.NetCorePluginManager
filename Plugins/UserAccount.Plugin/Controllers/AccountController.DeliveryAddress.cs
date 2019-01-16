@@ -68,11 +68,11 @@ namespace UserAccount.Plugin.Controllers
                     model.Name, model.AddressLine1, model.AddressLine2, model.AddressLine3, model.City,
                     model.County, model.Postcode, model.Country, model.PostageCost)))
                 {
-                    GrowlAdd("Delivery address successfully created");
+                    GrowlAdd(Languages.LanguageStrings.DeliveryAddressCreated);
                     return new RedirectResult("/Account/DeliveryAddress", false);
                 }
 
-                ModelState.AddModelError(String.Empty, "Failed to update delivery address");
+                ModelState.AddModelError(String.Empty, Languages.LanguageStrings.FailedToUpdateDeliveryAddress);
             }
 
             PrepareDeliveryAddressModel(ref model, null);
@@ -111,11 +111,11 @@ namespace UserAccount.Plugin.Controllers
                     model.Name, model.AddressLine1, model.AddressLine2, model.AddressLine3, model.City,
                     model.County, model.Postcode, model.Country, model.PostageCost)))
                 {
-                    GrowlAdd("Delivery address successfully updated");
+                    GrowlAdd(Languages.LanguageStrings.DeliveryAddressUpdated);
                     return new RedirectResult("/Account/DeliveryAddress", false);
                 }
 
-                ModelState.AddModelError(String.Empty, "Failed to update delivery address");
+                ModelState.AddModelError(String.Empty, Languages.LanguageStrings.FailedToUpdateDeliveryAddress);
             }
 
             return View(model);
@@ -136,7 +136,7 @@ namespace UserAccount.Plugin.Controllers
 
                 _accountProvider.DeleteDeliveryAddress(UserId(), address);
 
-                GrowlAdd("Delivery address deleted");
+                GrowlAdd(Languages.LanguageStrings.DeliveryAddressDeleted);
 
                 return StatusCode(200);
             }
@@ -154,25 +154,25 @@ namespace UserAccount.Plugin.Controllers
             AddressOptions addressOptions = _accountProvider.GetAddressOptions();
 
             if (addressOptions.HasFlag(AddressOptions.AddressLine1Mandatory) && String.IsNullOrEmpty(model.AddressLine1))
-                ModelState.AddModelError(nameof(model.AddressLine1), "Address line 1 is required");
+                ModelState.AddModelError(nameof(model.AddressLine1), Languages.LanguageStrings.AddressLine1Required);
 
             if (addressOptions.HasFlag(AddressOptions.AddressLine2Mandatory) && String.IsNullOrEmpty(model.AddressLine2))
-                ModelState.AddModelError(nameof(model.AddressLine2), "Address line 2 is required");
+                ModelState.AddModelError(nameof(model.AddressLine2), Languages.LanguageStrings.AddressLine2Required);
 
             if (addressOptions.HasFlag(AddressOptions.AddressLine3Mandatory) && String.IsNullOrEmpty(model.AddressLine3))
-                ModelState.AddModelError(nameof(model.AddressLine3), "Address line 3 is required");
+                ModelState.AddModelError(nameof(model.AddressLine3), Languages.LanguageStrings.AddressLine3Required);
 
             if (addressOptions.HasFlag(AddressOptions.CityMandatory) && String.IsNullOrEmpty(model.City))
-                ModelState.AddModelError(nameof(model.City), "City is required");
+                ModelState.AddModelError(nameof(model.City), Languages.LanguageStrings.CityRequired);
 
             if (addressOptions.HasFlag(AddressOptions.CountyMandatory) && String.IsNullOrEmpty(model.County))
-                ModelState.AddModelError(nameof(model.County), "County is required");
+                ModelState.AddModelError(nameof(model.County), Languages.LanguageStrings.CountyRequired);
 
             if (addressOptions.HasFlag(AddressOptions.PostCodeMandatory) && String.IsNullOrEmpty(model.Postcode))
-                ModelState.AddModelError(nameof(model.Postcode), "Postcode is required");
+                ModelState.AddModelError(nameof(model.Postcode), Languages.LanguageStrings.PostcodeRequired);
 
             if (addressOptions.HasFlag(AddressOptions.BusinessNameMandatory) && String.IsNullOrEmpty(model.Name))
-                ModelState.AddModelError(nameof(model.Name), "Business Name is required");
+                ModelState.AddModelError(nameof(model.Name), Languages.LanguageStrings.BusinessNameRequired);
         }
 
         private void PrepareDeliveryAddressModel(ref EditDeliveryAddressViewModel model, in DeliveryAddress deliveryAddress)

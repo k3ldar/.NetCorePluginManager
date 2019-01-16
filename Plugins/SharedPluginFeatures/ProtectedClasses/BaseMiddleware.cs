@@ -54,9 +54,9 @@ namespace SharedPluginFeatures
 
         protected UserSession GetUserSession(in HttpContext context)
         {
-            if (context.Items.ContainsKey("UserSession"))
+            if (context.Items.ContainsKey(Constants.UserSession))
             {
-                return ((UserSession)context.Items["UserSession"]);
+                return ((UserSession)context.Items[Constants.UserSession]);
             }
 
             return (null);
@@ -128,6 +128,89 @@ namespace SharedPluginFeatures
 
             ipAddressList.Add("0.0.0.0");
         }
+
+        #region Cookies
+
+        protected bool CookieExists(in HttpContext context, in string name)
+        {
+            if (context == null)
+                throw new ArgumentNullException(nameof(context));
+
+            if (String.IsNullOrEmpty(name))
+                throw new ArgumentNullException(nameof(name));
+
+            return context.Request.Cookies.ContainsKey(name);
+        }
+
+        protected void CookieDelete(in HttpContext context, in string name)
+        {
+            if (context == null)
+                throw new ArgumentNullException(nameof(context));
+
+            if (String.IsNullOrEmpty(name))
+                throw new ArgumentNullException(nameof(name));
+
+            if (context.Request.Cookies.ContainsKey(name))
+                context.Response.Cookies.Append(name, String.Empty, new CookieOptions() { Expires = DateTime.Now.AddDays(-1) });
+        }
+
+        protected string CookieValue(in HttpContext context, in string name, in string defaultValue = "")
+        {
+            if (context == null)
+                throw new ArgumentNullException(nameof(context));
+
+            if (String.IsNullOrEmpty(name))
+                throw new ArgumentNullException(nameof(name));
+
+            if (!CookieExists(context, name))
+                return defaultValue;
+
+            return context.Request.Cookies[name];
+        }
+
+        protected string CookieValue(in HttpContext context, in string name, in string encryptionKey, in string defaultValue = "")
+        {
+            if (context == null)
+                throw new ArgumentNullException(nameof(context));
+
+            if (String.IsNullOrEmpty(name))
+                throw new ArgumentNullException(nameof(name));
+
+            if (String.IsNullOrEmpty(encryptionKey))
+                throw new ArgumentNullException(nameof(encryptionKey));
+
+            if (!CookieExists(context, name))
+                return defaultValue;
+
+            string Result = context.Request.Cookies[name];
+
+            if (String.IsNullOrEmpty(Result))
+                return defaultValue;
+
+            return Shared.Utilities.Decrypt(Result, encryptionKey);
+        }
+
+        protected void CookieAdd(in HttpContext context, in string name, in string value, in int days)
+        {
+            if (context == null)
+                throw new ArgumentNullException(nameof(context));
+
+            if (String.IsNullOrEmpty(name))
+                throw new ArgumentNullException(nameof(name));
+
+            CookieOptions options = new CookieOptions()
+            {
+                HttpOnly = false
+            };
+
+            if (days > -1)
+                options.Expires = DateTime.Now.AddDays(days);
+
+            context.Response.Cookies.Append(name, value, options);
+        }
+
+        #endregion Cookies
+
 
         #endregion Protected Methods
     }

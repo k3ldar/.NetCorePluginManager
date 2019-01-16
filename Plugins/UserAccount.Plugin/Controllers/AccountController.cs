@@ -49,6 +49,8 @@ namespace UserAccount.Plugin.Controllers
         private readonly IAccountProvider _accountProvider;
         private readonly IDownloadProvider _downloadProvider;
         private readonly ILicenceProvider _licenceProvider;
+        private readonly IUserCultureChangeProvider _userCultureChanged;
+        private readonly ICultureProvider _cultureProvider;
 
         private static readonly CacheManager _createAccountCache = new CacheManager("Create Account Cache", new TimeSpan(0, 30, 0));
 
@@ -66,12 +68,15 @@ namespace UserAccount.Plugin.Controllers
 
         public AccountController(ISettingsProvider settingsProvider, IAccountProvider accountProvider, 
             IDownloadProvider downloadProvider, ICountryProvider countryProvider, 
-            ILicenceProvider licenceProvider)
+            ILicenceProvider licenceProvider, IUserCultureChangeProvider userCultureChanged,
+            ICultureProvider cultureProvider)
         {
             _settingsProvider = settingsProvider ?? throw new ArgumentNullException(nameof(settingsProvider));
             _accountProvider = accountProvider ?? throw new ArgumentNullException(nameof(accountProvider));
             _downloadProvider = downloadProvider ?? throw new ArgumentNullException(nameof(downloadProvider));
             _licenceProvider = licenceProvider ?? throw new ArgumentNullException(nameof(licenceProvider));
+            _userCultureChanged = userCultureChanged ?? throw new ArgumentNullException(nameof(userCultureChanged));
+            _cultureProvider = cultureProvider ?? throw new ArgumentNullException(nameof(cultureProvider));
 
             if (countryProvider == null)
                 throw new ArgumentNullException(nameof(countryProvider));
@@ -137,7 +142,29 @@ namespace UserAccount.Plugin.Controllers
 
         private bool ValidatePasswordComplexity(in string password)
         {
-            return true;
+            AccountSettings settings = _settingsProvider.GetSettings<AccountSettings>("UserAccount");
+
+            byte upperCharCount = 0;
+            byte lowerCharCount = 0;
+            byte numberCharCount = 0;
+            byte specialCharCount = 0;
+
+            foreach (char c in password)
+            {
+                if (c >= 65 && c <= 90)
+                    upperCharCount++;
+                else if (c >= 61 && c <= 122)
+                    lowerCharCount++;
+                else if (c >= 48 && c <= 57)
+                    numberCharCount++;
+                else if (settings.PasswordSpecialCharacters.Contains(c))
+                    specialCharCount++;
+            }
+
+            return upperCharCount >= settings.PasswordUppercaseCharCount &&
+                lowerCharCount >= settings.PasswordLowercaseCharCount &&
+                numberCharCount >= settings.PasswordNumberCharCount &&
+                specialCharCount >= settings.PasswordSpecialCharCount;
         }
 
         #endregion Private Methods

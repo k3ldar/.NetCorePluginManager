@@ -56,7 +56,7 @@ namespace UserAccount.Plugin.Controllers
 
                 if (_accountProvider.SetMarketingPreferences(UserId(), marketing))
                 {
-                    GrowlAdd("Marketing preferences successfully updated");
+                    GrowlAdd(Languages.LanguageStrings.MarketingUpdated);
                     return RedirectToAction(nameof(Index));
                 }
             }

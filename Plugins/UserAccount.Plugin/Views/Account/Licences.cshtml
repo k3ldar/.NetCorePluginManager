@@ -3,7 +3,7 @@
     ViewData["Title"] = "Licences";
 }
 
-<h2>Licences</h2>
+<h2>@Languages.LanguageStrings.Licences</h2>
 
 
 <link rel="stylesheet" href="/css/Account.css" />
@@ -16,10 +16,10 @@
     <table>
         <thead>
             <tr>
-                <th>Domain/IPAddress</th>
-                <th>Licence Type</th>
-                <th>Active</th>
-                <th>Expires</th>
+                <th>@Languages.LanguageStrings.LicenceDomain</th>
+                <th>@Languages.LanguageStrings.LicenceType</th>
+                <th>@Languages.LanguageStrings.Active</th>
+                <th>@Languages.LanguageStrings.Expires</th>
                 <th></th>
             </tr>
         </thead>
@@ -31,7 +31,7 @@
                     <td>@licence.LicenceType</td>
                     <td>@licence.Active.ToString()</td>
                     <td>@licence.Expires.ToString()</td>
-                    <td><a href="/Account/LicenceView/@licence.Id">View</a></td>
+                    <td><a href="/Account/LicenceView/@licence.Id">@Languages.LanguageStrings.View</a></td>
                 </tr>
             }
         </tbody>
@@ -39,7 +39,7 @@
 </div>
 <div class="account-block">
     <div class="account-row">
-        <input id="createTrialLicence" type="button" value="New" />
+        <input id="createTrialLicence" type="button" value="@Languages.LanguageStrings.New" />
     </div>
 </div>
 

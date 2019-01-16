@@ -1,7 +1,8 @@
-﻿@{
+﻿@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
+@{
     ViewData["Title"] = "About";
 }
-<h2>@ViewData["Title"]</h2>
+<h2>@Localizer[nameof(Languages.LanguageStrings.About)]</h2>
 
 <p>ASPNetCore.PluginManager is available under GNU General Public License v3.0</p>
 

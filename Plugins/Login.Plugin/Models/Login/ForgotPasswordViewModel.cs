@@ -30,12 +30,12 @@ namespace LoginPlugin.Models
 {
     public sealed class ForgotPasswordViewModel
     {
-        [Required]
-        [Display(Name = "User name or email")]
+        [Required(ErrorMessage = nameof(Languages.LanguageStrings.PleaseEnterUserNameOrEmail))]
+        [Display(Name = nameof(Languages.LanguageStrings.Username))]
         public string Username { get; set; }
 
-        [Required]
-        [Display(Name = "Validation Code")]
+        [Required(ErrorMessage = nameof(Languages.LanguageStrings.CodeNotValid))]
+        [Display(Name = nameof(Languages.LanguageStrings.Code))]
         public string CaptchaText { get; set; }
     }
 }

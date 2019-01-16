@@ -89,22 +89,23 @@ namespace UserAccount.Plugin.Controllers
             LicenceType licenceType = _licenceProvider.LicenceTypesGet().Where(l => l.Id == model.LicenceType).FirstOrDefault();
 
             if (licenceType == null)
-                ModelState.AddModelError(String.Empty, "Invalid Licence Type");
+                ModelState.AddModelError(String.Empty, Languages.LanguageStrings.LicenceTypeInvalid);
 
             if (ModelState.IsValid)
             {
                 switch (_licenceProvider.LicenceTrialCreate(UserId(), licenceType))
                 {
                     case Middleware.LicenceCreate.Existing:
-                        GrowlAdd($"You already have a trial licence for {licenceType.Description}");
+                        GrowlAdd(String.Format(Languages.LanguageStrings.LicenceCreateTrialExists,
+                            licenceType.Description));
                         break;
 
                     case Middleware.LicenceCreate.Failed:
-                        GrowlAdd("Failed to create a trial licence");
+                        GrowlAdd(Languages.LanguageStrings.LicenceCreateTrialFailed);
                         break;
 
                     case Middleware.LicenceCreate.Success:
-                        GrowlAdd("Trial licence succesfully created");
+                        GrowlAdd(Languages.LanguageStrings.LicenceCreatedTrial);
                         break;
                 }
 
@@ -121,7 +122,7 @@ namespace UserAccount.Plugin.Controllers
 
             if (!Shared.Utilities.ValidateIPAddress(model.Domain))
             {
-                ModelState.AddModelError(nameof(model.Domain), "Invalid ip address");
+                ModelState.AddModelError(nameof(model.Domain), Languages.LanguageStrings.RuleErrorIPAddressInvalid);
                 return View(nameof(LicenceView), model);
             }
 
@@ -129,12 +130,12 @@ namespace UserAccount.Plugin.Controllers
             {
                 if (_licenceProvider.LicenceUpdateDomain(UserId(), licence, model.Domain))
                 {
-                    GrowlAdd("Licence updated");
+                    GrowlAdd(Languages.LanguageStrings.LicenceUpdated);
                     return RedirectToAction(nameof(Licences));
                 }
             }
 
-            GrowlAdd("Failed to update licence");
+            GrowlAdd(Languages.LanguageStrings.LicenceUpdateFailed);
             return RedirectToAction(nameof(Licences));
         }
 
@@ -146,12 +147,12 @@ namespace UserAccount.Plugin.Controllers
             {
                 if (_licenceProvider.LicenceSendEmail(UserId(), id))
                 {
-                    GrowlAdd("Email Sent");
+                    GrowlAdd(Languages.LanguageStrings.EmailSent);
                     return RedirectToAction(nameof(Licences));
                 }
             }
 
-            GrowlAdd("Failed to send email");
+            GrowlAdd(Languages.LanguageStrings.EmailSendFailed);
             return RedirectToAction(nameof(Licences));
         }
 
