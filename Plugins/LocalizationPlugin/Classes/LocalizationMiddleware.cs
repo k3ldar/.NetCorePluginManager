@@ -24,16 +24,12 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Reflection;
 using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc.Infrastructure;
 
 using SharedPluginFeatures;
-using static SharedPluginFeatures.Enums;
 
 using Shared.Classes;
 
@@ -42,7 +38,6 @@ namespace Localization.Plugin
     public sealed class LocalizationMiddleware : BaseMiddleware
     {
         #region Private Members
-
 
         private readonly RequestDelegate _next;
         internal static Timings _timings = new Timings();

@@ -21648,6 +21648,15 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Learn More.
+        /// </summary>
+        public static string CookieLearnMore {
+            get {
+                return ResourceManager.GetString("CookieLearnMore", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to This website uses cookies to ensure you get the best experience on our website.
         /// </summary>
         public static string CookieMessage {

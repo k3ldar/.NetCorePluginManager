@@ -37,6 +37,7 @@ namespace UserAccount.Plugin.Controllers
     {
         [HttpPost]
 		[LoggedInOut]
+        [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult SetLanguage(string culture, string returnUrl)
         {
             UserSession userSession = GetUserSession();
@@ -47,7 +48,7 @@ namespace UserAccount.Plugin.Controllers
             if (_cultureProvider.IsCultureValid(newCulture))
                 _userCultureChanged.CultureChanged(HttpContext, userSession, newCulture);
 
-            return LocalRedirect(returnUrl ?? "/");
+            return Redirect(returnUrl ?? "/");
         }
     }
 }

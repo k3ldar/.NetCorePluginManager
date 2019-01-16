@@ -142,8 +142,29 @@ namespace UserAccount.Plugin.Controllers
 
         private bool ValidatePasswordComplexity(in string password)
         {
-#warning finish this
-            return true;
+            AccountSettings settings = _settingsProvider.GetSettings<AccountSettings>("UserAccount");
+
+            byte upperCharCount = 0;
+            byte lowerCharCount = 0;
+            byte numberCharCount = 0;
+            byte specialCharCount = 0;
+
+            foreach (char c in password)
+            {
+                if (c >= 65 && c <= 90)
+                    upperCharCount++;
+                else if (c >= 61 && c <= 122)
+                    lowerCharCount++;
+                else if (c >= 48 && c <= 57)
+                    numberCharCount++;
+                else if (settings.PasswordSpecialCharacters.Contains(c))
+                    specialCharCount++;
+            }
+
+            return upperCharCount >= settings.PasswordUppercaseCharCount &&
+                lowerCharCount >= settings.PasswordLowercaseCharCount &&
+                numberCharCount >= settings.PasswordNumberCharCount &&
+                specialCharCount >= settings.PasswordSpecialCharCount;
         }
 
         #endregion Private Methods

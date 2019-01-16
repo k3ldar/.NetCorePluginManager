@@ -27,10 +27,13 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Resources;
+using System.Threading;
 
 using Microsoft.Extensions.Localization;
 
 using Languages;
+
+using SharedPluginFeatures;
 
 namespace Localization.Plugin
 {
@@ -41,22 +44,15 @@ namespace Localization.Plugin
         private static readonly ResourceManager _resourceManager = new ResourceManager("Languages.LanguageStrings", 
             typeof(LanguageStrings).Assembly);
 
-        private readonly CultureInfo _resourceCulture;
-
         #endregion Private Members
 
         #region Constructors
 
-        public StringLocalizer(string culture)
-            : this (new CultureInfo(culture))
+        public StringLocalizer()
         {
 
         }
 
-        public StringLocalizer(CultureInfo culture)
-        {
-            _resourceCulture = culture ?? throw new ArgumentNullException(nameof(culture));
-        }
 
         #endregion Constructors
 
@@ -68,10 +64,11 @@ namespace Localization.Plugin
             {
                 try
                 {
-                    return new LocalizedString(name, _resourceManager.GetString(name, _resourceCulture));
+                    return new LocalizedString(name, _resourceManager.GetString(name, Thread.CurrentThread.CurrentUICulture));
                 }
-                catch
+                catch (Exception error)
                 {
+                    Initialisation.GetLogger.AddToLog(Enums.LogLevel.Localization, error, name);
                     return new LocalizedString(name, name);
                 }
             }
@@ -83,12 +80,13 @@ namespace Localization.Plugin
             {
                 try
                 {
-                    string resourceString = _resourceManager.GetString(name, _resourceCulture);
+                    string resourceString = _resourceManager.GetString(name, Thread.CurrentThread.CurrentUICulture);
                     return new LocalizedString(name, String.Format(resourceString, arguments));
                 }
-                catch
+                catch (Exception error)
                 {
-                    return new LocalizedString(name, name);
+                    Initialisation.GetLogger.AddToLog(Enums.LogLevel.Localization, error, name);
+                    return new LocalizedString(name, String.Format(name, arguments));
                 }
             }
         }

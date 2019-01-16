@@ -355,7 +355,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\LocalizationPlugin\LocalizationPlugin.csproj" />
+    <ProjectReference Include="..\LocalizationPlugin\Localization.Plugin.csproj" />
   </ItemGroup>
 
 </Project>

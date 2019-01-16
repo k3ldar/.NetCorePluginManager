@@ -41,7 +41,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PluginMiddleware", "Plugins
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CompanyPlugin", "Plugins\Company.Plugin\CompanyPlugin.csproj", "{D916B1D6-AF17-4DC4-8235-353A304ECAF2}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LocalizationPlugin", "Plugins\LocalizationPlugin\LocalizationPlugin.csproj", "{821952FF-1AB7-4126-8CAB-0AF2F5DD620B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Localization.Plugin", "Plugins\LocalizationPlugin\Localization.Plugin.csproj", "{821952FF-1AB7-4126-8CAB-0AF2F5DD620B}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Languages", "Languages\Languages.csproj", "{1858C06C-9B43-4733-8F29-8570DBEE56BD}"
 EndProject

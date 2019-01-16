@@ -178,7 +178,7 @@ namespace LoginPlugin.Controllers
 
             return View(model);
         }
-        
+
         [HttpGet]
         public IActionResult ForgotPassword()
         {

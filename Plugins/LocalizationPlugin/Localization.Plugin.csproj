@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFrameworks>netcoreapp2.2;netcoreapp2.1;net461</TargetFrameworks>
     <RootNamespace>Localization.Plugin</RootNamespace>
-    <AssemblyName>LocalizationPlugin</AssemblyName>
+    <AssemblyName>Localization.Plugin</AssemblyName>
     <LangVersion>latest</LangVersion>
     <Authors>Simon Carter</Authors>
     <Company>Simon Carter</Company>
@@ -15,6 +15,7 @@
     <PackageReleaseNotes>Supports net core 2.1, 2.2 and net461</PackageReleaseNotes>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Version>1.2.0</Version>
+    <PackageId>Localization.Plugin</PackageId>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net461|AnyCPU'">

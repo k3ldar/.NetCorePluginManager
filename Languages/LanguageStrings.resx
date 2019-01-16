@@ -13481,4 +13481,8 @@ If this continues, please contact support.</comment>
     <value>View Licence</value>
     <comment>View Licence</comment>
   </data>
+  <data name="CookieLearnMore" xml:space="preserve">
+    <value>Learn More</value>
+    <comment>Learn More</comment>
+  </data>
 </root>

@@ -112,10 +112,10 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AboutUs" xml:space="preserve">
     <value>אודותינו</value>
@@ -641,7 +641,7 @@
     <value>ידיים</value>
   </data>
   <data name="ShoppingBag" xml:space="preserve">
-    <value>סל הקניות</value>
+    <value>Shopping Bag</value>
     <comment>Shopping Bag</comment>
   </data>
   <data name="Helpdesk" xml:space="preserve">
@@ -1662,10 +1662,6 @@
     <value>Unexpected Error Occured</value>
     <comment>Unexpected Error Occured</comment>
   </data>
-  <data name="ShoppingBag" xml:space="preserve">
-    <value>Shopping Bag</value>
-    <comment>Shopping Bag</comment>
-  </data>
   <data name="Cookies" xml:space="preserve">
     <value>Cookies</value>
     <comment>Cookies</comment>
@@ -2291,7 +2287,7 @@ Do you want to continue?</comment>
     <comment>System</comment>
   </data>
   <data name="About" xml:space="preserve">
-    <value>About</value>
+    <value>אודותינו</value>
     <comment>About</comment>
   </data>
   <data name="ButtonRefresh" xml:space="preserve">

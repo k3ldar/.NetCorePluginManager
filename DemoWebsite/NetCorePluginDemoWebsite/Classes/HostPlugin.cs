@@ -32,6 +32,8 @@ using SharedPluginFeatures;
 using Middleware;
 using Middleware.Accounts;
 
+using AspNetCore.PluginManager.DemoWebsite.Helpers;
+
 namespace AspNetCore.PluginManager.DemoWebsite.Classes
 {
     public class HostPlugin : IPlugin, IPluginVersion
@@ -51,6 +53,8 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
             services.AddSingleton<ICountryProvider, MockCountryLists>();
             services.AddSingleton<IDownloadProvider, MockDownloads>();
             services.AddSingleton<ILicenceProvider, MockLicenceProvider>();
+            services.AddSingleton<ISharedPluginHelper, SharedPluginHelper>();
+            services.AddSingleton<IErrorManager, ErrorManager>();
         }
 
         public void Finalise()

@@ -35,6 +35,8 @@ namespace Localization.Plugin
     {
         #region Private Members
 
+        private const string _cacheName = "IStringLocalizerFactory";
+
         private readonly CacheManager _cacheManager;
 
         #endregion Private Members
@@ -53,13 +55,12 @@ namespace Localization.Plugin
 
         public IStringLocalizer Create(Type resourceSource)
         {
-            string cacheName = $"IStringLocalizer {System.Threading.Thread.CurrentThread.CurrentUICulture}";
-            CacheItem cacheItem = _cacheManager.Get(cacheName);
+            CacheItem cacheItem = _cacheManager.Get(_cacheName);
 
             if (cacheItem == null)
             {
-                cacheItem = new CacheItem(cacheName, new StringLocalizer(System.Threading.Thread.CurrentThread.CurrentUICulture));
-                _cacheManager.Add(cacheName, cacheItem);
+                cacheItem = new CacheItem(_cacheName, new StringLocalizer());
+                _cacheManager.Add(_cacheName, cacheItem);
             }
 
             return (IStringLocalizer)cacheItem.Value;
@@ -67,13 +68,12 @@ namespace Localization.Plugin
 
         public IStringLocalizer Create(string baseName, string location)
         {
-            string cacheName = $"IStringLocalizer {System.Threading.Thread.CurrentThread.CurrentUICulture}";
-            CacheItem cacheItem = _cacheManager.Get(cacheName);
+            CacheItem cacheItem = _cacheManager.Get(_cacheName);
 
             if (cacheItem == null)
             {
-                cacheItem = new CacheItem(cacheName, new StringLocalizer(System.Threading.Thread.CurrentThread.CurrentUICulture));
-                _cacheManager.Add(cacheName, cacheItem);
+                cacheItem = new CacheItem(_cacheName, new StringLocalizer());
+                _cacheManager.Add(_cacheName, cacheItem);
             }
 
             return (IStringLocalizer)cacheItem.Value;

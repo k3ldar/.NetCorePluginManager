@@ -1,6 +1,7 @@
 ﻿@using Microsoft.Extensions.DependencyInjection;
 @using AspNetCore.PluginManager.DemoWebsite.Helpers;
 @using SharedPluginFeatures;
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
 
 <!DOCTYPE html>
 <html>
@@ -43,7 +44,7 @@
                         }
                     }
 
-                    <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
+                    <li><a asp-area="" asp-controller="Home" asp-action="About">@Localizer[nameof(Languages.LanguageStrings.About)]</a></li>
                 </ul>
             </div>
         </div>
@@ -80,7 +81,10 @@
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; 2018 - Simon Carter.  All Rights Reserved.</p>
+            <p>&copy; 2018 - 2019 - Simon Carter.  All Rights Reserved.</p>
+            <div class="row">
+                @await Html.PartialAsync("_LanguageSelection")
+            </div>
         </footer>
     </div>
 

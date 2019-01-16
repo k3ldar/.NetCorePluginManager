@@ -34,10 +34,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-using SharedPluginFeatures;
-
-using AspNetCore.PluginManager.DemoWebsite.Classes;
-
 namespace AspNetCore.PluginManager.DemoWebsite
 {
     public class Startup
@@ -76,11 +72,6 @@ namespace AspNetCore.PluginManager.DemoWebsite
             });
 
             services.AddLogging();
-
-
-            // register internal types so we can load them or DI them into other classes later
-            services.AddSingleton<ISharedPluginHelper, SharedPluginHelper>();
-            services.AddSingleton<IErrorManager, ErrorManager>();
 
             // grab an instance of the service provider so we can dynamically generate 
             // objects from the service provider

@@ -1,12 +1,12 @@
 ﻿@model LoginPlugin.Models.LoginViewModel
-
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
 @{
     ViewData["Title"] = "Index";
 }
 
 <link rel="stylesheet" href="/css/login.css" />
 
-<h2>@Languages.LanguageStrings.Login</h2>
+<h2>@Localizer[nameof(Languages.LanguageStrings.Login)]</h2>
 
 <script src="/js/Login.js"></script>
 
@@ -64,8 +64,8 @@
     }
 
     <div class="login-block">
-        <input id="btnLogon" type="submit" value="@Languages.LanguageStrings.Login" />
-        <input id="btnForgotPassword" type="button" value="@Languages.LanguageStrings.ForgotPassword" />
+        <input id="btnLogon" type="submit" value="@Localizer[nameof(Languages.LanguageStrings.Login)]" />
+        <input id="btnForgotPassword" type="button" value="@Localizer[nameof(Languages.LanguageStrings.ForgotPassword)]" />
     </div>
 
     <div class="login-block">
@@ -73,7 +73,7 @@
             Don't have an account yet ?
         </div>
         <div class="login-row">
-            <a href="/Account/CreateAccount">@Languages.LanguageStrings.CreateAccount</a>
+            <a href="/Account/CreateAccount">@Localizer[nameof(Languages.LanguageStrings.CreateAccount)]</a>
         </div>
     </div>
 }
