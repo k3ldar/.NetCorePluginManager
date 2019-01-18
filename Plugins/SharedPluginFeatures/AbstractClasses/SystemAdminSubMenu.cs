@@ -86,7 +86,7 @@ namespace SharedPluginFeatures
 
         public int UniqueId { get; set; }
 
-        public SystemAdminMainMenu ParentMenu { get; set; }
+        //public SystemAdminMainMenu ParentMenu { get; set; }
 
         #endregion Properties
     }
