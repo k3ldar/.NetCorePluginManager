@@ -57,7 +57,7 @@ namespace SystemAdmin.Plugin.Classes
 
         public override string Data()
         {
-            ISettingsProvider settingsProvider = (ISettingsProvider)PluginClass.GetServiceProvider.GetRequiredService<IPluginClassesService>();
+            ISettingsProvider settingsProvider = (ISettingsProvider)PluginClass.GetServiceProvider.GetRequiredService<ISettingsProvider>();
             SystemAdminSettings settings = settingsProvider.GetSettings<SystemAdminSettings>("SystemAdmin");
 
             if (!settings.ShowAppSettingsJson)

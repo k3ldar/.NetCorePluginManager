@@ -67,7 +67,7 @@ namespace SystemAdmin.Plugin.Models
             }
 
             BreadCrumb = $"<ul><li><a href=\"/SystemAdmin/\">System Admin</a></li><li><a href=\"/SystemAdmin/Index/" +
-                $"{subMenu.ParentMenu.UniqueId}\">{subMenu.ParentMenu.Name()}</a></li><li>{Title}</li></ul>";
+                $"{subMenu.ParentMenu.UniqueId}\">{subMenu.ParentMenu.Name}</a></li><li>{Title}</li></ul>";
         }
 
         #endregion Constructors
