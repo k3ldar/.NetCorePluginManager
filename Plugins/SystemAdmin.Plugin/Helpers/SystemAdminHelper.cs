@@ -25,6 +25,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 using Shared.Classes;
 
@@ -72,34 +73,37 @@ namespace SystemAdmin.Plugin
             {
                 int uniqueId = 0;
 
-                List<SystemAdminMainMenu> menuItems = _pluginClassesService.GetPluginClasses<SystemAdminMainMenu>();
+                //should loop through all child items, add to a parent (create if not found) and then finally sort all parent and parent menu items
+
+                List<SystemAdminMainMenu> menuItems = new List<SystemAdminMainMenu>();
                 List<SystemAdminSubMenu> allSubMenuItems = _pluginClassesService.GetPluginClasses<SystemAdminSubMenu>();
 
                 // get sub menu items
-                foreach (SystemAdminMainMenu menu in menuItems)
+                foreach (SystemAdminSubMenu menu in allSubMenuItems)
                 {
                     menu.UniqueId = ++uniqueId;
-                    menu.ChildMenuItems = new List<SystemAdminSubMenu>();
 
-                    foreach(SystemAdminSubMenu subMenu in allSubMenuItems)
+                    // get parent menu
+                    SystemAdminMainMenu parent = menuItems.Where(p => p.Name.Equals(menu.ParentMenuName())).FirstOrDefault();
+
+                    if (parent == null)
                     {
-                        if (subMenu.ParentMenuName() == menu.Name())
-                            menu.ChildMenuItems.Add(subMenu);
+                        parent = new SystemAdminMainMenu(menu.ParentMenuName(), ++uniqueId);
+                        menuItems.Add(parent);
                     }
+
+                    menu.ParentMenu = parent;
+                    parent.ChildMenuItems.Add(menu);
 
                     _memoryCache.GetCache().Add(String.Format(SystemAdminMainMenu, menu.UniqueId), 
                         new CacheItem(String.Format(SystemAdminMainMenu, menu.UniqueId), menu));
 
-                    foreach (SystemAdminSubMenu subMenu in menu.ChildMenuItems)
-                    {
-                        subMenu.UniqueId = ++uniqueId;
-                        subMenu.ParentMenu = menu;
+                    menu.UniqueId = ++uniqueId;
 
-                        _memoryCache.GetCache().Add(String.Format(SystemAdminSubMenu, subMenu.UniqueId),
-                            new CacheItem(String.Format(SystemAdminSubMenu, subMenu.UniqueId), subMenu));
-                    }
+                    _memoryCache.GetCache().Add(String.Format(SystemAdminSubMenu, menu.UniqueId),
+                        new CacheItem(String.Format(SystemAdminSubMenu, menu.UniqueId), menu));
 
-                    menu.ChildMenuItems.Sort();
+                    parent.ChildMenuItems.Sort();
                 }
 
                 menuItems.Sort();
@@ -150,7 +154,7 @@ namespace SystemAdmin.Plugin
 
             foreach (SystemAdminMainMenu menuItem in allMenuItems)
             {
-                if (menuItem.Name().Equals(mainMenuName))
+                if (menuItem.Name.Equals(mainMenuName))
                     return (menuItem.ChildMenuItems);
             }
 

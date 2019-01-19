@@ -34,12 +34,13 @@ using static SharedPluginFeatures.Enums;
 
 namespace SystemAdmin.Plugin.Classes
 {
+    [Obsolete("Queue needs to move to another class which can be instantiated via the plugin manager")]
     public class Logger : SystemAdminSubMenu, ILogger
     {
         #region Private Members
 
         private const int _maximumMemoryItems = 100;
-        private static object _lockObject = new object();
+        private static readonly object _lockObject = new object();
         private static Queue<LogData> _logData = new Queue<LogData>();
 
         #endregion Private Members

@@ -86,11 +86,11 @@ namespace AspNetCore.PluginManager.Classes.SystemAdmin
                 }
 
 
-                if (!files.ContainsKey(file))
+                if (!String.IsNullOrEmpty(file) && !files.ContainsKey(file))
                     files.Add(file, fileVersion);
             }
 
-            foreach (KeyValuePair<string, string> valuePair in files.OrderBy(key => key.Value.ToLower()))
+            foreach (KeyValuePair<string, string> valuePair in files.OrderBy(key => key.Key.ToLower()))
                 Result += $"\r{valuePair.Key}|{valuePair.Value}";
 
             return (Result);

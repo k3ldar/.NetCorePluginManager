@@ -13,7 +13,7 @@
  *
  *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
  *
- *  Product:  SharedPluginFeatures
+ *  Product:  SystemAdmin.Plugin
  *  
  *  File: SystemAdminMainMenu.cs
  *
@@ -28,55 +28,47 @@ using System.Collections.Generic;
 
 namespace SharedPluginFeatures
 {
-    [Obsolete("This class is being removed in future version")]
-    public abstract class SystemAdminMainMenu : BaseCoreClass, IComparable<SystemAdminMainMenu>
+    public sealed class SystemAdminMainMenu : BaseCoreClass, IComparable<SystemAdminMainMenu>
     {
-        #region Public virtual Methods
+        #region Constructors
 
-        public virtual string Area()
+        public SystemAdminMainMenu(in string name, in int uniqueId)
+        {
+            Name = name;
+            UniqueId = uniqueId;
+            ChildMenuItems = new List<SystemAdminSubMenu>();
+        }
+
+        #endregion Constructors
+
+        #region Public Methods
+
+        public string Area()
         {
             return (String.Empty);
         }
 
-        public virtual string Controller()
+        public string Controller()
         {
             return ("SystemAdmin");
         }
 
-        public virtual string Action()
+        public string Action()
         {
             return ("Index");
         }
 
-        #endregion Public virtual Methods
-
-        #region Public Abstract Methods
-
-        public abstract string Name();
-
-        public abstract int SortOrder();
-
-        public abstract Enums.SystemAdminMenuType MenuType();
-
-        public abstract string Data();
-
-        public abstract string Image();
-
-        #endregion Public Abstract Methods
-
-        #region Public Virtual Methods
-
-        public virtual string BackColor()
+        public string BackColor()
         {
             return ("#707B7C");
         }
 
-        public virtual string ForeColor()
+        public string ForeColor()
         {
             return ("white");
         }
 
-        #endregion Public Virtual Methods
+        #endregion Public virtual Methods
 
         #region IComparable Methods
 
@@ -85,10 +77,10 @@ namespace SharedPluginFeatures
             if (compareTo == null)
                 return (1);
 
-            int Result = SortOrder().CompareTo(compareTo.SortOrder());
+            int Result = SortOrder.CompareTo(compareTo.SortOrder);
 
             if (Result == 0)
-                return (Name().CompareTo(compareTo.Name()));
+                return (Name.CompareTo(compareTo.Name));
 
             return (Result);
         }
@@ -100,6 +92,16 @@ namespace SharedPluginFeatures
         public List<SystemAdminSubMenu> ChildMenuItems { get; set; }
 
         public int UniqueId { get; set; }
+
+        public string Name { get; private set; }
+
+        public int SortOrder { get; set; }
+
+        public Enums.SystemAdminMenuType MenuType { get; set; }
+
+        public string Data { get; set; }
+
+        public string Image { get; set; }
 
         #endregion Properties
     }

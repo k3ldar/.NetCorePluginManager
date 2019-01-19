@@ -42,7 +42,7 @@ namespace SystemAdmin.Plugin.Models
 
             Title = subMenu.Name();
 
-            ISettingsProvider settingsProvider = (ISettingsProvider)Classes.PluginClass.GetServiceProvider.GetRequiredService<IPluginClassesService>();
+            ISettingsProvider settingsProvider = (ISettingsProvider)Classes.PluginClass.GetServiceProvider.GetRequiredService<ISettingsProvider>();
             SystemAdminSettings settings = settingsProvider.GetSettings<SystemAdminSettings>("SystemAdmin");
 
             if (settings.DisableFormattedText)
@@ -51,7 +51,7 @@ namespace SystemAdmin.Plugin.Models
                 Text = subMenu.Data();
 
             BreadCrumb = $"<ul><li><a href=\"/SystemAdmin/\">System Admin</a></li><li><a href=\"/SystemAdmin/Index/" +
-                $"{subMenu.ParentMenu.UniqueId}\">{subMenu.ParentMenu.Name()}</a></li><li>{Title}</li></ul>";
+                $"{subMenu.ParentMenu.UniqueId}\">{subMenu.ParentMenu.Name}</a></li><li>{Title}</li></ul>";
         }
 
         #endregion Constructors

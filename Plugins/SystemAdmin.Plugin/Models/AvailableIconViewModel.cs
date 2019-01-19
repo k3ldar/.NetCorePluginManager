@@ -50,7 +50,7 @@ namespace SystemAdmin.Plugin.Models
             if (mainMenu == null)
                 throw new ArgumentNullException(nameof(mainMenu));
 
-            Title = mainMenu.Name();
+            Title = mainMenu.Name;
             MenuItems = mainMenu.ChildMenuItems ?? throw new ArgumentNullException(nameof(mainMenu.ChildMenuItems));
 
             BreadCrumb = $"<ul><li><a href=\"/SystemAdmin/\">System Admin</a></li>&nbsp;&gt;&nbsp;<li>{Title}</li></ul>";

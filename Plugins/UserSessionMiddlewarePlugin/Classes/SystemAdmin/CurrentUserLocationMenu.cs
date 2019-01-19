@@ -81,9 +81,6 @@ namespace UserSessionMiddleware.Plugin.Classes.SystemAdmin
 
         public override string BackColor()
         {
-            if (ParentMenu != null)
-                return (ParentMenu.BackColor());
-
             return ("#3498DB");
         }
 
