@@ -31,7 +31,7 @@ using Shared.Classes;
 
 namespace Localization.Plugin
 {
-    public class StringLocalizerFactory : IStringLocalizerFactory
+    public sealed class StringLocalizerFactory : IStringLocalizerFactory
     {
         #region Private Members
 

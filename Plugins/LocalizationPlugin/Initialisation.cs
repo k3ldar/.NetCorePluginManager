@@ -91,7 +91,7 @@ namespace Localization.Plugin
 
             List<CultureInfo> cultures = new List<CultureInfo>();
 
-            for (int i = 1; i < InstalledCultures.Length; i++)
+            for (int i = 0; i < InstalledCultures.Length; i++)
                 cultures.Add(new CultureInfo(InstalledCultures[i]));
 
             services.Configure<RequestLocalizationOptions>(
