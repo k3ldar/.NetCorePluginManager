@@ -33,17 +33,24 @@ namespace SystemAdmin.Plugin.Models
 {
     public sealed class TextExViewModel : BaseCoreClass
     {
+        #region Private Members
+
+        private readonly ISettingsProvider _settingsProvider;
+
+        #endregion Private Members
+
         #region Constructors
 
-        public TextExViewModel(SystemAdminSubMenu subMenu)
+        public TextExViewModel(in ISettingsProvider settingsProvider, in SystemAdminSubMenu subMenu)
         {
+            _settingsProvider = settingsProvider ?? throw new ArgumentNullException(nameof(settingsProvider));
+
             if (subMenu == null)
                 throw new ArgumentNullException(nameof(subMenu));
 
             Title = subMenu.Name();
 
-            ISettingsProvider settingsProvider = (ISettingsProvider)Classes.PluginClass.GetServiceProvider.GetRequiredService<ISettingsProvider>();
-            SystemAdminSettings settings = settingsProvider.GetSettings<SystemAdminSettings>("SystemAdmin");
+            SystemAdminSettings settings = _settingsProvider.GetSettings<SystemAdminSettings>("SystemAdmin");
 
             if (settings.DisableFormattedText)
                 Text = "Formatted Text is not enabed";

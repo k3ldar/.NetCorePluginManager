@@ -41,13 +41,15 @@ namespace SystemAdmin.Plugin.Controllers
         #region Private Members
 
         private readonly ISystemAdminHelperService _systemAdminHelperService;
+        private readonly ISettingsProvider _settingsProvider;
 
         #endregion Private Members
 
         #region Constructors
 
-        public SystemAdminController(ISystemAdminHelperService systemAdminHelperService)
+        public SystemAdminController(ISettingsProvider settingsProvider, ISystemAdminHelperService systemAdminHelperService)
         {
+            _settingsProvider = settingsProvider ?? throw new ArgumentNullException(nameof(settingsProvider));
             _systemAdminHelperService = systemAdminHelperService ?? throw new ArgumentNullException(nameof(systemAdminHelperService));
         }
 
@@ -82,7 +84,7 @@ namespace SystemAdmin.Plugin.Controllers
             if (subMenu == null)
                 return (Redirect("/SystemAdmin/"));
 
-            return (View(new MapViewModel(subMenu)));
+            return (View(new MapViewModel(_settingsProvider, subMenu)));
         }
 
         public IActionResult Text(int id)
@@ -102,7 +104,7 @@ namespace SystemAdmin.Plugin.Controllers
             if (subMenu == null)
                 return (Redirect("/SystemAdmin"));
 
-            return (View(new TextExViewModel(subMenu)));
+            return (View(new TextExViewModel(_settingsProvider, subMenu)));
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

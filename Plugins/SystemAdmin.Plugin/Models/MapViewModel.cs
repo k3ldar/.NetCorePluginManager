@@ -30,20 +30,26 @@ using SharedPluginFeatures;
 
 namespace SystemAdmin.Plugin.Models
 {
-    public class MapViewModel : BaseCoreClass
+    public sealed class MapViewModel : BaseCoreClass
     {
+        #region Private Members
+
+        private readonly ISettingsProvider _settingsProvider;
+
+        #endregion Private Members
+
         #region Constructors
 
-        public MapViewModel(SystemAdminSubMenu subMenu)
+        public MapViewModel(in ISettingsProvider settingsProvider, in SystemAdminSubMenu subMenu)
         {
+            _settingsProvider = settingsProvider ?? throw new ArgumentNullException(nameof(settingsProvider));
+
             if (subMenu == null)
                 throw new ArgumentNullException(nameof(subMenu));
 
             Title = subMenu.Name();
 
             MapLocationData = subMenu.Data();
-
-            ISettingsProvider settingsProvider = (ISettingsProvider)Classes.PluginClass.GetServiceProvider.GetRequiredService<ISettingsProvider>();
             SystemAdminSettings settings = settingsProvider.GetSettings<SystemAdminSettings>("SystemAdmin");
 
             GoogleMapApiKey = settings.GoogleMapApiKey;
