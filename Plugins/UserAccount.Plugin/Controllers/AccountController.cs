@@ -93,6 +93,7 @@ namespace UserAccount.Plugin.Controllers
         #region Public Action Methods
 
         [HttpGet]
+        [Breadcrumb("/Account/Index", "Account")]
         public IActionResult Index()
         {
             string growl = GrowlGet();

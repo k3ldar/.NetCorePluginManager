@@ -125,7 +125,7 @@ namespace Spider.Plugin
                                         deniedRoute.Route.StartsWith(route) &&
                                         (
                                             deniedRoute.UserAgent == "*" ||
-#if NETCORE2_0
+#if NET_CORE
                                             userSession.UserAgent.Contains(deniedRoute.UserAgent, StringComparison.CurrentCultureIgnoreCase)
 #else 
                                             userSession.UserAgent.ToLower().Contains(deniedRoute.UserAgent.ToLower())

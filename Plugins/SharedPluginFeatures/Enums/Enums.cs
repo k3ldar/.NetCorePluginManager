@@ -66,6 +66,8 @@ namespace SharedPluginFeatures
             ThreadManager = 16,
 
             Localization = 17,
+
+            BreadcrumbError = 18,
         }
 
         /// <summary>

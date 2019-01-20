@@ -45,6 +45,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Localization.Plugin", "Plug
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Languages", "Languages\Languages.csproj", "{1858C06C-9B43-4733-8F29-8570DBEE56BD}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Breadcrumb.Plugin", "Plugins\Breadcrumb.Plugin\Breadcrumb.Plugin.csproj", "{5452B6BE-4A39-48BF-B3BC-E6AA9743A0C6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug Release|Any CPU = Debug Release|Any CPU
@@ -178,6 +180,12 @@ Global
 		{1858C06C-9B43-4733-8F29-8570DBEE56BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1858C06C-9B43-4733-8F29-8570DBEE56BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1858C06C-9B43-4733-8F29-8570DBEE56BD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5452B6BE-4A39-48BF-B3BC-E6AA9743A0C6}.Debug Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5452B6BE-4A39-48BF-B3BC-E6AA9743A0C6}.Debug Release|Any CPU.Build.0 = Release|Any CPU
+		{5452B6BE-4A39-48BF-B3BC-E6AA9743A0C6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5452B6BE-4A39-48BF-B3BC-E6AA9743A0C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5452B6BE-4A39-48BF-B3BC-E6AA9743A0C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5452B6BE-4A39-48BF-B3BC-E6AA9743A0C6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
