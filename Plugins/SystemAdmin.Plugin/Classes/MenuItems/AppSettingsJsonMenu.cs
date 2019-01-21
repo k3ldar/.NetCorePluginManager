@@ -33,8 +33,25 @@ using SharedPluginFeatures;
 
 namespace SystemAdmin.Plugin.Classes
 {
-    public class AppSettingsJsonMenu : SystemAdminSubMenu
+    public sealed class AppSettingsJsonMenu : SystemAdminSubMenu
     {
+        #region Private Members
+
+        private readonly ISettingsProvider _settingsProvider;
+
+        #endregion Private Members
+
+        #region Constructors
+
+        public AppSettingsJsonMenu(ISettingsProvider settingsProvider)
+        {
+            _settingsProvider = settingsProvider ?? throw new ArgumentNullException(nameof(settingsProvider));
+        }
+
+        #endregion Constructors
+
+        #region SystemAdminSubMenu Methods
+
         public override string Action()
         {
             return (String.Empty);
@@ -57,8 +74,7 @@ namespace SystemAdmin.Plugin.Classes
 
         public override string Data()
         {
-            ISettingsProvider settingsProvider = (ISettingsProvider)PluginClass.GetServiceProvider.GetRequiredService<ISettingsProvider>();
-            SystemAdminSettings settings = settingsProvider.GetSettings<SystemAdminSettings>("SystemAdmin");
+            SystemAdminSettings settings = _settingsProvider.GetSettings<SystemAdminSettings>("SystemAdmin");
 
             if (!settings.ShowAppSettingsJson)
                 return ("Viewing appsettings.json has been disabled");
@@ -90,5 +106,7 @@ namespace SystemAdmin.Plugin.Classes
         {
             return (String.Empty);
         }
+
+        #endregion SystemAdminSubMenu Methods
     }
 }
