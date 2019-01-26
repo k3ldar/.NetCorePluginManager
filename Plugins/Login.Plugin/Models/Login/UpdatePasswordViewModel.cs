@@ -30,7 +30,7 @@ using SharedPluginFeatures;
 
 namespace LoginPlugin.Models
 {
-    public sealed class UpdatePasswordViewModel
+    public sealed class UpdatePasswordViewModel : BaseModel
     {
         #region Constructors
 

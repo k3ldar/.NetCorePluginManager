@@ -68,7 +68,7 @@ namespace Breadcrumb.Plugin
 
         public void ConfigureServices(IServiceCollection services)
         {
-            
+            services.AddSingleton<IBreadcrumbService, BreadcrumbService>();
         }
 
         #endregion IPlugin Methods

@@ -11,35 +11,25 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2012 - 2018 Simon Carter.  All Rights Reserved.
  *
- *  Product:  AspNetCore.PluginManager.DemoWebsite
+ *  Product:  SharedPluginFeatues
  *  
- *  File: Program.cs
+ *  File: IBreadcrumbService.cs
  *
- *  Purpose:  
+ *  Purpose:  Add breadcrumbs dynamically
  *
  *  Date        Name                Reason
- *  22/09/2018  Simon Carter        Initially Created
+ *  26/01/2019  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using Microsoft.AspNetCore;
-using Microsoft.AspNetCore.Hosting;
 
-namespace AspNetCore.PluginManager.DemoWebsite
+namespace SharedPluginFeatures
 {
-    public class Program
+    public interface IBreadcrumbService
     {
-        public static void Main(string[] args)
-        {
-            // Initialise the plugin manager service
-            PluginManagerService.Initialise(new Classes.Logger());
+        void AddBreadcrumb(in string name, in string route, in bool hasParameters);
 
-            CreateWebHostBuilder(args).Build().Run();
-        }
-
-        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>();
+        void AddBreadcrumb(in string name, in string route, in string parentRoute, in bool hasParameters);
     }
 }

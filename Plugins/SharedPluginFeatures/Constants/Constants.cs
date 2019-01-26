@@ -35,6 +35,7 @@ namespace SharedPluginFeatures
 
         public const string UserSession = "UserSession";
         public const string UserCulture = "UserCulture";
+        public const string Breadcrumbs = "Breadcrumbs";
 
         public const string DefaultSessionCookie = "user_session";
 
@@ -43,5 +44,15 @@ namespace SharedPluginFeatures
         public const string StaticFileExtensions = ".less;.ico;.css;.js;.svg;.jpg;.jpeg;.gif;.png;.eot;";
 
         public const string PageReferer = "Referer";
+
+
+        public const string ForwardSlash = "/";
+
+
+        public const char ForwardSlashChar = '/';
+
+
+        public const string PluginNameLocalization = "Localization.Plugin.dll";
+        public const string PluginNameBreadcrumb = "Breadcrumb.Plugin";
     }
 }

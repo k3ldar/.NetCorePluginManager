@@ -24,17 +24,18 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
+using System.Collections.Generic;
 using System.Text;
 
 using SharedPluginFeatures;
 
 namespace SystemAdmin.Plugin.Models
 {
-    public sealed class TextViewModel
+    public sealed class TextViewModel : BaseModel
     {
         #region Constructors
 
-        public TextViewModel(SystemAdminSubMenu subMenu)
+        public TextViewModel(SystemAdminSubMenu subMenu, List<BreadcrumbItem> breadcrumbs)
         {
             if (subMenu == null)
                 throw new ArgumentNullException(nameof(subMenu));
@@ -77,8 +78,7 @@ namespace SystemAdmin.Plugin.Models
 
             Text = newData.ToString();
 
-            BreadCrumb = $"<ul><li><a href=\"/SystemAdmin/\">System Admin</a></li><li><a href=\"/SystemAdmin/Index/" +
-                $"{subMenu.ParentMenu.UniqueId}\">{subMenu.ParentMenu.Name}</a></li><li>{Title}</li></ul>";
+            Breadcrumbs = breadcrumbs;
         }
 
         #endregion Constructors
@@ -86,8 +86,6 @@ namespace SystemAdmin.Plugin.Models
         #region Public Properties
 
         public string Title { get; set; }
-
-        public string BreadCrumb { get; set; }
 
         public string Text { get; private set; }
 

@@ -32,9 +32,11 @@ using System.ComponentModel.DataAnnotations;
 using Middleware.Accounts.Orders;
 using Middleware;
 
+using SharedPluginFeatures;
+
 namespace UserAccount.Plugin.Models
 {
-    public sealed class OrderViewModel
+    public sealed class OrderViewModel : BaseModel
     {
         #region Constructors
 

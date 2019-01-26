@@ -40,11 +40,25 @@ namespace SharedPluginFeatures
         #region Constants
 
         private const string LoweredRoute = "RouteLowered";
+        private const string RouteNormal = "Route";
         private const string ExtensionLowered = "ExtensionLowered";
 
         #endregion Constants
 
         #region Protected Methods
+
+        protected Uri GetCurrentUri(in HttpContext context)
+        {
+            UriBuilder uriBuilder = new UriBuilder(context.Request.Scheme, 
+                context.Request.Host.Host.ToString(), 
+                context.Request.Host.Port.Value,
+                context.Request.Path.ToString())
+            {
+                Query = context.Request.QueryString.ToString()
+            };
+
+            return uriBuilder.Uri;
+        }
 
         protected ITempDataDictionary GetTempData(in HttpContext context)
         {
@@ -74,6 +88,21 @@ namespace SharedPluginFeatures
             return (false);
         }
 
+        protected string Route(in HttpContext context)
+        {
+            if (context == null)
+                throw new ArgumentNullException(nameof(context));
+
+            if (context.Items.ContainsKey(RouteNormal))
+                return (context.Items[RouteNormal].ToString());
+
+            string route = context.Request.Path.ToString();
+
+            context.Items.Add(RouteNormal, route);
+
+            return (route);
+        }
+
         protected string RouteLowered(in HttpContext context)
         {
             if (context == null)
@@ -82,7 +111,7 @@ namespace SharedPluginFeatures
             if (context.Items.ContainsKey(LoweredRoute))
                 return (context.Items[LoweredRoute].ToString());
 
-            string routeLowered = context.Request.Path.ToString().ToLower();
+            string routeLowered = Route(context).ToLower();
 
             context.Items.Add(LoweredRoute, routeLowered);
 

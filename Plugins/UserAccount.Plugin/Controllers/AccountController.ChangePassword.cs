@@ -38,11 +38,12 @@ namespace UserAccount.Plugin.Controllers
     public partial class AccountController : BaseController
     {
 		[HttpGet]
+        [Breadcrumb(nameof(Languages.LanguageStrings.MyPassword), nameof(AccountController), nameof(Index))]
 		public IActionResult ChangePassword()
         {
             UserSession userSession = GetUserSession();
 
-            return View(new ChangePasswordViewModel(userSession.UserEmail));
+            return View(new ChangePasswordViewModel(GetBreadcrumbs(), userSession.UserEmail));
         }
 
 		[HttpPost]
@@ -64,6 +65,8 @@ namespace UserAccount.Plugin.Controllers
 
                 ModelState.AddModelError(String.Empty, Languages.LanguageStrings.PasswordUpdateFailed);
             }
+
+            model.Breadcrumbs = GetBreadcrumbs();
 
             return View(model);
         }

@@ -50,84 +50,94 @@ namespace Company.Plugin.Controllers
 
         #region Public Controller Methods
 
+        [Breadcrumb(nameof(Languages.LanguageStrings.About))]
         public IActionResult About()
         {
             if (!_settings.ShowAbout)
                 return Redirect("/");
 
-            return View();
+            return View(new BaseModel(GetBreadcrumbs()));
         }
 
+        [Breadcrumb(nameof(Languages.LanguageStrings.Contact))]
         public IActionResult Contact()
         {
             if (!_settings.ShowContact)
                 return Redirect("/");
 
-            return View();
+            return View(new BaseModel(GetBreadcrumbs()));
         }
 
+        [Breadcrumb(nameof(Languages.LanguageStrings.Privacy))]
         public IActionResult Privacy()
         {
             if (!_settings.ShowPrivacy)
                 return Redirect("/");
 
-            return View();
+            return View(new BaseModel(GetBreadcrumbs()));
         }
 
+        [Breadcrumb(nameof(Languages.LanguageStrings.TermsAndConditions))]
         public IActionResult Terms()
         {
             if (!_settings.ShowTerms)
                 return Redirect("/");
 
-            return View();
+            return View(new BaseModel(GetBreadcrumbs()));
         }
 
+        [Breadcrumb(nameof(Languages.LanguageStrings.Cookies))]
         public IActionResult Cookies()
         {
             if (!_settings.ShowCookies)
                 return Redirect("/");
 
-            return View();
+            return View(new BaseModel(GetBreadcrumbs()));
         }
 
+        [Breadcrumb(nameof(Languages.LanguageStrings.Careers))]
         public IActionResult Careers()
         {
             if (!_settings.ShowCareers)
                 return Redirect("/");
 
-            return View();
+            return View(new BaseModel(GetBreadcrumbs()));
         }
 
+        [Breadcrumb(nameof(Languages.LanguageStrings.Returns))]
         public IActionResult Returns()
         {
             if (!_settings.ShowReturns)
                 return Redirect("/");
 
-            return View();
+            return View(new BaseModel(GetBreadcrumbs()));
         }
 
+        [Breadcrumb(nameof(Languages.LanguageStrings.Delivery))]
         public IActionResult Delivery()
         {
             if (!_settings.ShowDelivery)
                 return Redirect("/");
 
-            return View();
+            return View(new BaseModel(GetBreadcrumbs()));
         }
 
+        [Breadcrumb(nameof(Languages.LanguageStrings.Newsletter))]
         public IActionResult NewsLetter()
         {
             if (!_settings.ShowNewsletter)
                 return Redirect("/");
 
-            return View();
+            return View(new BaseModel(GetBreadcrumbs()));
         }
 
+        [Breadcrumb(nameof(Languages.LanguageStrings.Affiliate))]
         public IActionResult Affiliate()
         {
             if (!_settings.ShowAffiliates)
                 return Redirect("/");
 
-            return View();
+            return View(new BaseModel(GetBreadcrumbs()));
         }
 
         #endregion Public Controller Methods

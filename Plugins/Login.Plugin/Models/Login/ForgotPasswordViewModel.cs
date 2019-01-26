@@ -26,9 +26,11 @@
 
 using System.ComponentModel.DataAnnotations;
 
+using SharedPluginFeatures;
+
 namespace LoginPlugin.Models
 {
-    public sealed class ForgotPasswordViewModel
+    public sealed class ForgotPasswordViewModel : BaseModel
     {
         [Required(ErrorMessage = nameof(Languages.LanguageStrings.PleaseEnterUserNameOrEmail))]
         [Display(Name = nameof(Languages.LanguageStrings.Username))]

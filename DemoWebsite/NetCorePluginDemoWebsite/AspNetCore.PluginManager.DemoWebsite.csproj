@@ -31,10 +31,16 @@
 
   <ItemGroup>
     <Content Remove="wwwroot\css\SystemAdmin.css" />
+    <Content Remove="wwwroot\images\CustomPlugin.png" />
+    <Content Remove="wwwroot\images\DependencyInjection.png" />
+    <Content Remove="wwwroot\images\EmbeddedResources.png" />
     <Content Remove="wwwroot\images\PluginTechnology.png" />
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="wwwroot\images\CustomPlugin.png" />
+    <EmbeddedResource Include="wwwroot\images\DependencyInjection.png" />
+    <EmbeddedResource Include="wwwroot\images\EmbeddedResources.png" />
     <EmbeddedResource Include="wwwroot\images\PluginTechnology.png" />
   </ItemGroup>
 

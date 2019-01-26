@@ -26,9 +26,11 @@
 
 using System.ComponentModel.DataAnnotations;
 
+using SharedPluginFeatures;
+
 namespace UserAccount.Plugin.Models
 {
-    public class UserContactDetailsViewModel
+    public class UserContactDetailsViewModel : BaseModel
     {
         #region Constructors
 

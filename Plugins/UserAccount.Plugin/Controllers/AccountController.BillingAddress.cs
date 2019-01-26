@@ -40,7 +40,7 @@ namespace UserAccount.Plugin.Controllers
         #region Public Controller Methods
 
 		[HttpGet]
-        [Breadcrumb("/Account/Index", "Account", "/Account/BillingAddress", "Billing Address")]
+        [Breadcrumb(nameof(Languages.LanguageStrings.MyBillingAddress), nameof(AccountController), nameof(Index))]
 		public IActionResult BillingAddress()
         {
             Address billingAddress = _accountProvider.GetBillingAddress(UserId());
@@ -113,6 +113,8 @@ namespace UserAccount.Plugin.Controllers
 
         private void PrepareBillingAddressModel(ref BillingAddressViewModel model, in Address billingAddress)
         {
+            model.Breadcrumbs = GetBreadcrumbs();
+
             AddressOptions addressOptions = _accountProvider.GetAddressOptions();
 
             model.ShowAddressLine1 = addressOptions.HasFlag(AddressOptions.AddressLine1Show);

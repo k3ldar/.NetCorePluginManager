@@ -44,6 +44,7 @@ namespace UserAccount.Plugin.Controllers
 
         [HttpGet]
         [LoggedOut]
+        [Breadcrumb(nameof(Languages.LanguageStrings.CreateAccount), nameof(AccountController), nameof(Index))]
         public IActionResult CreateAccount()
         {
             CreateAccountViewModel model = new CreateAccountViewModel();
@@ -162,6 +163,8 @@ namespace UserAccount.Plugin.Controllers
         private void PrepareCreateAccountModel(ref CreateAccountViewModel model)
         {
             AddressOptions addressOptions = _accountProvider.GetAddressOptions();
+
+            model.Breadcrumbs = GetBreadcrumbs();
 
             model.ShowAddressLine1 = addressOptions.HasFlag(AddressOptions.AddressLine1Show);
             model.ShowAddressLine2 = addressOptions.HasFlag(AddressOptions.AddressLine2Show);

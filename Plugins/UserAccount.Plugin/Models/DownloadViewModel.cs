@@ -28,9 +28,11 @@ using System.Collections.Generic;
 
 using Middleware.Downloads;
 
+using SharedPluginFeatures;
+
 namespace UserAccount.Plugin.Models
 {
-    public class DownloadViewModel
+    public class DownloadViewModel : BaseModel
     {
         #region Constructors
 

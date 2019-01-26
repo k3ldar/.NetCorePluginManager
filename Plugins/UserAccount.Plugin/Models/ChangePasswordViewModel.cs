@@ -24,22 +24,25 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 using SharedPluginFeatures;
 
 namespace UserAccount.Plugin.Models
 {
-    public class ChangePasswordViewModel
+    public class ChangePasswordViewModel : BaseModel
     {
         #region Constructors
 
-        public ChangePasswordViewModel()
+        public ChangePasswordViewModel(in List<BreadcrumbItem> breadcrumbs)
+            : base (breadcrumbs)
         {
 
         }
 
-        public ChangePasswordViewModel(in string username)
+        public ChangePasswordViewModel(in List<BreadcrumbItem> breadcrumbs, in string username)
+            : this (breadcrumbs)
         {
             if (String.IsNullOrEmpty(username))
                 throw new ArgumentNullException(nameof(username));

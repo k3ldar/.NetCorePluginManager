@@ -38,6 +38,8 @@ using Middleware;
 using Middleware.Accounts;
 using Middleware.Accounts.Licences;
 
+#pragma warning disable IDE0017
+
 namespace UserAccount.Plugin.Controllers
 {
     [LoggedIn]
@@ -93,13 +95,15 @@ namespace UserAccount.Plugin.Controllers
         #region Public Action Methods
 
         [HttpGet]
-        [Breadcrumb("/Account/Index", "Account")]
+        [Breadcrumb(nameof(Languages.LanguageStrings.MyAccount))]
         public IActionResult Index()
         {
             string growl = GrowlGet();
             AccountViewModel model = new AccountViewModel(
                 _settingsProvider.GetSettings<AccountSettings>("UserAccount"),
                 growl ?? String.Empty);
+
+            model.Breadcrumbs = GetBreadcrumbs();
 
             return View(model);
         }

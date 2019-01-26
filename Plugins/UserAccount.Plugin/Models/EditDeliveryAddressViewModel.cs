@@ -26,9 +26,11 @@
 
 using System.ComponentModel.DataAnnotations;
 
+using SharedPluginFeatures;
+
 namespace UserAccount.Plugin.Models
 {
-    public sealed class EditDeliveryAddressViewModel
+    public sealed class EditDeliveryAddressViewModel : BaseModel
     {
         public int AddressId { get; set; }
 

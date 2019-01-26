@@ -32,6 +32,8 @@ using Microsoft.AspNetCore.Mvc;
 
 using UserAccount.Plugin.Models;
 
+using SharedPluginFeatures;
+
 using Middleware.Downloads;
 
 namespace UserAccount.Plugin.Controllers
@@ -40,6 +42,7 @@ namespace UserAccount.Plugin.Controllers
     {
         #region Public Controller Methods
 
+        [Breadcrumb(nameof(Languages.LanguageStrings.Downloads), nameof(AccountController), nameof(Index))]
         public IActionResult Downloads(int id)
         {
             List<DownloadCategory> categories = _downloadProvider.DownloadCategoriesGet(UserId());
@@ -60,9 +63,12 @@ namespace UserAccount.Plugin.Controllers
 
             DownloadViewModel model = new DownloadViewModel(categories, activeCategory.Name, downloads);
 
+            model.Breadcrumbs = GetBreadcrumbs();
+
             return View(model);
         }
 
+        [Breadcrumb(nameof(Languages.LanguageStrings.Download), nameof(AccountController), nameof(Downloads))]
         public IActionResult DownloadView(int id)
         {
             DownloadItem downloadItem = null;
@@ -88,6 +94,8 @@ namespace UserAccount.Plugin.Controllers
             ViewDownloadViewItem model = new ViewDownloadViewItem(downloadItem.Id,
                 downloadItem.Name, downloadItem.Description, downloadItem.Version, 
                 downloadItem.Filename, downloadItem.Icon, downloadItem.Size);
+
+            model.Breadcrumbs = GetBreadcrumbs();
 
             return View(model);
         }

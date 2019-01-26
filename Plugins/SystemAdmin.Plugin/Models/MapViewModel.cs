@@ -24,13 +24,13 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
-using Microsoft.Extensions.DependencyInjection;
+using System.Collections.Generic;
 
 using SharedPluginFeatures;
 
 namespace SystemAdmin.Plugin.Models
 {
-    public sealed class MapViewModel : BaseCoreClass
+    public sealed class MapViewModel : BaseModel
     {
         #region Private Members
 
@@ -40,7 +40,8 @@ namespace SystemAdmin.Plugin.Models
 
         #region Constructors
 
-        public MapViewModel(in ISettingsProvider settingsProvider, in SystemAdminSubMenu subMenu)
+        public MapViewModel(in ISettingsProvider settingsProvider, in SystemAdminSubMenu subMenu, 
+            List<BreadcrumbItem> breadcrumbs)
         {
             _settingsProvider = settingsProvider ?? throw new ArgumentNullException(nameof(settingsProvider));
 
@@ -54,8 +55,7 @@ namespace SystemAdmin.Plugin.Models
 
             GoogleMapApiKey = settings.GoogleMapApiKey;
 
-            BreadCrumb = $"<ul><li><a href=\"/SystemAdmin/\">System Admin</a></li><li><a href=\"/SystemAdmin/Index/" +
-                $"{subMenu.ParentMenu.UniqueId}\">{subMenu.ParentMenu.Name}</a></li><li>{Title}</li></ul>";
+            Breadcrumbs = breadcrumbs;
         }
 
         #endregion Constructors
@@ -67,8 +67,6 @@ namespace SystemAdmin.Plugin.Models
         public string MapLocationData { get; set; }
 
         public string Title { get; set; }
-
-        public string BreadCrumb { get; set; }
 
         #endregion Public Properties
     }

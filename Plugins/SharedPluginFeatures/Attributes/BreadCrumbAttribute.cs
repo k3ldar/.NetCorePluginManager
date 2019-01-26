@@ -24,39 +24,53 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
-using System.Collections.Generic;
 
 namespace SharedPluginFeatures
 {
-    [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
+    [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
     public sealed class BreadcrumbAttribute : Attribute
     {
         #region Constructors
 
-        public BreadcrumbAttribute(in bool home, params string[] routes)
+        public BreadcrumbAttribute(string name, string parentRoute)
         {
-            if (routes.Length == 0)
-                throw new ArgumentException(nameof(routes));
+            if (String.IsNullOrEmpty(name))
+                throw new ArgumentException(nameof(name));
 
-            Routes = new List<Breadcrumb>();
+            Name = name;
+            ParentRoute = parentRoute;
+        }
 
-            if (home)
-                Routes.Add(new Breadcrumb("Home", "/"));
-
+        public BreadcrumbAttribute(string name)
+            : this (name, String.Empty)
+        {
 
         }
 
-        public BreadcrumbAttribute(params string[] routes)
-            : this (true, routes)
+        public BreadcrumbAttribute(string name, string controllerName, string actionName)
+            : this (name, String.Empty)
         {
+            if (String.IsNullOrEmpty(controllerName))
+                throw new ArgumentNullException(nameof(controllerName));
 
+            if (String.IsNullOrEmpty(actionName))
+                throw new ArgumentNullException(nameof(actionName));
+
+            if (controllerName.EndsWith("Controller"))
+                controllerName = controllerName.Substring(0, controllerName.Length - 10);
+
+            ParentRoute = $"/{controllerName}/{actionName}";
         }
 
         #endregion Constructors
 
         #region Properties
 
-        internal List<Breadcrumb> Routes { get; set; }
+        public string Name { get; private set; }
+
+        public string ParentRoute { get; private set; }
+
+        public bool HasParams { get; set; }
 
         #endregion Properties
     }

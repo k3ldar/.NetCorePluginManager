@@ -23,10 +23,11 @@
  *  28/10/2018  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+using SharedPluginFeatures;
 
 namespace SystemAdmin.Plugin.Models
 {
-    public class ErrorViewModel
+    public class ErrorViewModel : BaseModel
     {
         public string RequestId { get; set; }
 

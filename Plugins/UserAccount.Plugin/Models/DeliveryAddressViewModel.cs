@@ -28,23 +28,30 @@ using System.Collections.Generic;
 
 using Middleware.Accounts;
 
+using SharedPluginFeatures;
+
 namespace UserAccount.Plugin.Models
 {
-    public sealed class DeliveryAddressViewModel
+    public sealed class DeliveryAddressViewModel : BaseModel
     {
         #region Constructors
 
-        public DeliveryAddressViewModel()
+        public DeliveryAddressViewModel(in List<BreadcrumbItem> breadcrumbs)
+            : base (breadcrumbs)
         {
 
         }
 
-        public DeliveryAddressViewModel(List<DeliveryAddress> addresses)
+        public DeliveryAddressViewModel(in List<BreadcrumbItem> breadcrumbs, 
+            in List<DeliveryAddress> addresses)
+            : this (breadcrumbs)
         {
             Addresses = addresses ?? throw new ArgumentNullException(nameof(addresses));
         }
 
-        public DeliveryAddressViewModel(List<DeliveryAddress> addresses, in string growlMessage)
+        public DeliveryAddressViewModel(in List<BreadcrumbItem> breadcrumbs, 
+            in List<DeliveryAddress> addresses, in string growlMessage)
+            : this (breadcrumbs)
         {
             Addresses = addresses ?? throw new ArgumentNullException(nameof(addresses));
             GrowlMessage = growlMessage ?? throw new ArgumentNullException(nameof(growlMessage));

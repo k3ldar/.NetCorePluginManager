@@ -31,12 +31,15 @@ using UserAccount.Plugin.Models;
 
 using Middleware;
 
+using SharedPluginFeatures;
+
 namespace UserAccount.Plugin.Controllers
 {
     public partial class AccountController
     {
 		[HttpGet]
-		public IActionResult UserContactDetails()
+        [Breadcrumb(nameof(Languages.LanguageStrings.MyMemberDetails), nameof(AccountController), nameof(Index))]
+        public IActionResult UserContactDetails()
         {
             if (_accountProvider.GetUserAccountDetails(UserId(), out string firstName, out string lastName, out string email,
                 out bool emailConfirmed, out string telephone, out bool telephoneConfirmed))
@@ -44,6 +47,8 @@ namespace UserAccount.Plugin.Controllers
                 UserContactDetailsViewModel model = new UserContactDetailsViewModel(firstName, lastName,
                     email, emailConfirmed, telephone, telephoneConfirmed,
                     _accountProvider.GetAddressOptions().HasFlag(AddressOptions.TelephoneShow));
+
+                model.Breadcrumbs = GetBreadcrumbs();
 
                 return View(model);
             }
@@ -72,6 +77,8 @@ namespace UserAccount.Plugin.Controllers
 
                 ModelState.AddModelError(String.Empty, Languages.LanguageStrings.FailedToUpdateAccount);
             }
+
+            model.Breadcrumbs = GetBreadcrumbs();
 
             return View(model);
         }

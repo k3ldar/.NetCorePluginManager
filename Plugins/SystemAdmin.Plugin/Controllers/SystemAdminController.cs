@@ -36,7 +36,7 @@ namespace SystemAdmin.Plugin.Controllers
 {
     [LoggedIn]
     [RestrictedIpRoute("SystemAdminRoute")]
-    public class SystemAdminController : Controller
+    public class SystemAdminController : BaseController
     {
         #region Private Members
 
@@ -62,9 +62,10 @@ namespace SystemAdmin.Plugin.Controllers
             SystemAdminMainMenu selectedMenu = _systemAdminHelperService.GetSystemAdminMainMenu(id);
 
             if (selectedMenu == null)
-                return View(new AvailableIconViewModel(_systemAdminHelperService.GetSystemAdminMainMenu()));
+                return View(new AvailableIconViewModel(_systemAdminHelperService.GetSystemAdminMainMenu(), 
+                    GetBreadcrumbs()));
 
-            return (View(new AvailableIconViewModel(selectedMenu)));
+            return (View(new AvailableIconViewModel(selectedMenu, GetBreadcrumbs())));
         }
 
         public IActionResult Grid(int id)
@@ -74,7 +75,7 @@ namespace SystemAdmin.Plugin.Controllers
             if (subMenu == null)
                 return (Redirect("/SystemAdmin/"));
 
-            return (View(new GridViewModel(subMenu)));
+            return (View(new GridViewModel(subMenu, GetBreadcrumbs())));
         }
 
         public IActionResult Map(int id)
@@ -84,7 +85,7 @@ namespace SystemAdmin.Plugin.Controllers
             if (subMenu == null)
                 return (Redirect("/SystemAdmin/"));
 
-            return (View(new MapViewModel(_settingsProvider, subMenu)));
+            return (View(new MapViewModel(_settingsProvider, subMenu, GetBreadcrumbs())));
         }
 
         public IActionResult Text(int id)
@@ -94,7 +95,7 @@ namespace SystemAdmin.Plugin.Controllers
             if (subMenu == null)
                 return (Redirect("/SystemAdmin"));
 
-            return (View(new TextViewModel(subMenu)));
+            return (View(new TextViewModel(subMenu, GetBreadcrumbs())));
         }
 
         public IActionResult TextEx(int id)
@@ -104,7 +105,7 @@ namespace SystemAdmin.Plugin.Controllers
             if (subMenu == null)
                 return (Redirect("/SystemAdmin"));
 
-            return (View(new TextExViewModel(_settingsProvider, subMenu)));
+            return (View(new TextExViewModel(_settingsProvider, subMenu, GetBreadcrumbs())));
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

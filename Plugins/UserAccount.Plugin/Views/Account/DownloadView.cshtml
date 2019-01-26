@@ -3,6 +3,8 @@
     ViewData["Title"] = "DownloadView";
 }
 
+<div class="bc">@Html.Raw(Model.BreadcrumbData())</div>
+
 <h2>@Languages.LanguageStrings.Download @Model.Name</h2>
 
 <link rel="stylesheet" href="/css/Account.css" />
@@ -18,18 +20,18 @@
 
     @if (!String.IsNullOrEmpty(Model.Size))
     {
-    <div class="account-row">
-        <p><span>File Size:</span>@Model.Size</p>
-    </div>
+        <div class="account-row">
+            <p><span>File Size:</span>@Model.Size</p>
+        </div>
     }
     <div class="account-row">
         <p><span>@Languages.LanguageStrings.FileName:</span>@System.IO.Path.GetFileName(Model.Filename)</p>
     </div>
     @if (!String.IsNullOrEmpty(Model.Version))
     {
-    <div class="account-row">
-        <p><span>File Version:</span>@Model.Version</p>
-    </div>
+        <div class="account-row">
+            <p><span>File Version:</span>@Model.Version</p>
+        </div>
     }
 
     @using (Html.BeginForm("DownloadFile", "Account", FormMethod.Post))

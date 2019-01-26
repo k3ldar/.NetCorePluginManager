@@ -30,11 +30,11 @@ using SharedPluginFeatures;
 
 namespace SystemAdmin.Plugin.Models
 {
-    public sealed class GridViewModel
+    public sealed class GridViewModel : BaseModel
     {
         #region Constructors
 
-        public GridViewModel(SystemAdminSubMenu subMenu)
+        public GridViewModel(SystemAdminSubMenu subMenu, List<BreadcrumbItem> breadcrumbs)
         {
             if (subMenu == null)
                 throw new ArgumentNullException(nameof(subMenu));
@@ -66,8 +66,7 @@ namespace SystemAdmin.Plugin.Models
                 Items.Add(line);
             }
 
-            BreadCrumb = $"<ul><li><a href=\"/SystemAdmin/\">System Admin</a></li><li><a href=\"/SystemAdmin/Index/" +
-                $"{subMenu.ParentMenu.UniqueId}\">{subMenu.ParentMenu.Name}</a></li><li>{Title}</li></ul>";
+            Breadcrumbs = breadcrumbs;
         }
 
         #endregion Constructors
@@ -79,8 +78,6 @@ namespace SystemAdmin.Plugin.Models
         public List<string[]> Items { get; set; }
 
         public string Title { get; set; }
-
-        public string BreadCrumb { get; set; }
 
         #endregion Public Properties
     }

@@ -30,7 +30,7 @@ using SharedPluginFeatures;
 
 namespace LoginPlugin.Models
 {
-    public sealed class LoginViewModel
+    public sealed class LoginViewModel : BaseModel
     {
         #region Constructors
 

@@ -23,14 +23,25 @@
  *  06/01/2019  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
+using SharedPluginFeatures;
 
 namespace UserAccount.Plugin.Models
 {
-    public sealed class CreateLicenceViewModel
+    public sealed class CreateLicenceViewModel : BaseModel
     {
+        #region Constructors
+
+        public CreateLicenceViewModel(in List<BreadcrumbItem> breadcrumbs)
+            : base (breadcrumbs)
+        {
+
+        }
+
+        #endregion Constructors
+
         #region Properties
 
         [Display(Name = nameof(Languages.LanguageStrings.LicenceType))]

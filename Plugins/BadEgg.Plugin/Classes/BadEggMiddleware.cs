@@ -52,7 +52,7 @@ namespace BadEgg.Plugin
         private readonly RequestDelegate _next;
         private readonly ValidateConnections _validateConnections;
         private readonly IIpValidation _ipValidation;
-        private readonly string _staticFileExtensions = ".less;.ico;.css;.js;.svg;.jpg;.jpeg;.gif;.png;.eot;";
+        private readonly string _staticFileExtensions = Constants.StaticFileExtensions;
         private readonly BadEggSettings _badEggSettings;
         internal static Timings _timings = new Timings();
 

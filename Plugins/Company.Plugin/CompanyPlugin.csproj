@@ -279,14 +279,11 @@
     <ProjectReference Include="..\MemoryCachePlugin\MemoryCachePlugin.csproj" />
     <ProjectReference Include="..\RestrictIp.Plugin\RestrictIp.Plugin.csproj" />
     <ProjectReference Include="..\PluginMiddleware\PluginMiddleware.csproj" />
+    <ProjectReference Include="..\..\Languages\Languages.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="ApplicationSettings" Version="1.1.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\..\Languages\Languages.csproj" />
   </ItemGroup>
 
 </Project>

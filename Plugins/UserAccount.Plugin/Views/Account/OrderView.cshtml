@@ -4,6 +4,7 @@
     ViewData["Title"] = "View Order";
 }
 
+<div class="bc">@Html.Raw(Model.BreadcrumbData())</div>
 
 <h2>@Languages.LanguageStrings.Order #@Model.OrderId</h2>
 
@@ -11,11 +12,11 @@
 
 @if (!String.IsNullOrEmpty(Model.DeliveryAddress))
 {
-<div class="account-block">
-    <div class="account-row">
-        @Html.LabelFor(m => m.DeliveryAddress)<br /> @Html.Raw(Model.DeliveryAddress)
+    <div class="account-block">
+        <div class="account-row">
+            @Html.LabelFor(m => m.DeliveryAddress)<br /> @Html.Raw(Model.DeliveryAddress)
+        </div>
     </div>
-</div>
 }
 <div class="account-block">
     <div class="account-row">
@@ -71,15 +72,17 @@
                     <td>@orderItem.Quantity.ToString()</td>
                     <td>@Shared.Utilities.FormatMoney(orderItem.SubTotal, Model.Culture)</td>
                     <td>@Shared.Utilities.FormatMoney(orderItem.TotalTax, Model.Culture)</td>
-                    <td>@if (orderItem.TotalDiscount == 0)
-                    {@String.Empty;
+                    <td>
+                        @if (orderItem.TotalDiscount == 0)
+                        {@String.Empty;
+                    }
+                    else
+                    { @Shared.Utilities.FormatMoney(orderItem.TotalDiscount, Model.Culture);
                 }
-                else
-                { @Shared.Utilities.FormatMoney(orderItem.TotalDiscount, Model.Culture);
-            }</td>
-                    <td>@Shared.Utilities.FormatMoney(orderItem.Cost, Model.Culture)</td>
-                </tr>
-            }
+                </td>
+                <td>@Shared.Utilities.FormatMoney(orderItem.Cost, Model.Culture)</td>
+            </tr>
+        }
         </tbody>
     </table>
 </div>

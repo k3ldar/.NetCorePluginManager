@@ -31,6 +31,8 @@ using Microsoft.AspNetCore.Mvc;
 
 using UserAccount.Plugin.Models;
 
+using SharedPluginFeatures;
+
 using Middleware.Accounts.Licences;
 
 namespace UserAccount.Plugin.Controllers
@@ -39,6 +41,8 @@ namespace UserAccount.Plugin.Controllers
     {
         #region Public Action Methods
 
+        [HttpGet]
+        [Breadcrumb(nameof(Languages.LanguageStrings.MyLicences), nameof(AccountController), nameof(Index))]
         public IActionResult Licences()
         {
             List<ViewLicenceViewModel> licences = new List<ViewLicenceViewModel>();
@@ -51,6 +55,8 @@ namespace UserAccount.Plugin.Controllers
             }
 
             LicenceViewModel model = new LicenceViewModel(licences, GrowlGet());
+
+            model.Breadcrumbs = GetBreadcrumbs();
 
             return View(model);
         }
@@ -71,13 +77,15 @@ namespace UserAccount.Plugin.Controllers
             if (model == null)
                 RedirectToAction(nameof(Licences));
 
+            model.Breadcrumbs = GetBreadcrumbs();
+
             return View(model);
         }
 
         [HttpGet]
         public IActionResult LicenceCreate()
         {
-            return View(new CreateLicenceViewModel());
+            return View(new CreateLicenceViewModel(GetBreadcrumbs()));
         }
 
         [HttpPost]
@@ -111,6 +119,8 @@ namespace UserAccount.Plugin.Controllers
 
                 return RedirectToAction(nameof(Licences));
             }
+
+            model.Breadcrumbs = GetBreadcrumbs();
 
             return View(model);
         }

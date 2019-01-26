@@ -13,58 +13,53 @@
  *
  *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
  *
- *  Product:  UserAccount.Plugin
+ *  Product:  Breadcrumb.Plugin
  *  
- *  File: ViewDownloadViewModel.cs
+ *  File: BreadcrumbRoute.cs
  *
- *  Purpose: View a Download view model
+ *  Purpose:  Breadcrumb routes
  *
  *  Date        Name                Reason
- *  05/01/2019  Simon Carter        Initially Created
+ *  21/01/2019  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+using System;
+using System.Collections.Generic;
+
 using SharedPluginFeatures;
 
-namespace UserAccount.Plugin.Models
+namespace Breadcrumb.Plugin
 {
-    public class ViewDownloadViewItem : BaseModel
+    internal sealed class BreadcrumbRoute
     {
         #region Constructors
 
-        public ViewDownloadViewItem()
+        internal BreadcrumbRoute(in string route, in bool hasParams)
         {
+            if (String.IsNullOrEmpty(route))
+                throw new ArgumentNullException(nameof(route));
 
-        }
+            Route = route;
+            Breadcrumbs = new List<BreadcrumbItem>(4);
+            HasParameters = hasParams;
 
-        public ViewDownloadViewItem(in int id, in string name, in string description,
-            in string version, in string filename, in string icon, in string size)
-        {
-            Id = id;
-            Name = name;
-            Description = description;
-            Version = version;
-            Filename = filename;
-            Icon = icon;
-            Size = size;
+            if (hasParams)
+                PartialRoute = $"{Route.ToLower()}/";
+            else
+                PartialRoute = route.ToLower();
         }
 
         #endregion Constructors
 
         #region Properties
 
-        public int Id { get; set; }
+        internal string Route { get; private set; }
 
-        public string Name { get; set; }
+        internal string PartialRoute { get; set; }
 
-        public string Description { get; set; }
+        internal List<BreadcrumbItem> Breadcrumbs { get; private set; }
 
-        public string Version { get; set; }
-
-        public string Filename { get; set; }
-
-        public string Icon { get; set; }
-
-        public string Size { get; set; }
+        internal bool HasParameters { get; private set; }
 
         #endregion Properties
     }

@@ -511,6 +511,15 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Api.
+        /// </summary>
+        public static string Api {
+            get {
+                return ResourceManager.GetString("Api", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Accounts.
         /// </summary>
         public static string AppAccounts {
@@ -21846,6 +21855,15 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Custom.
+        /// </summary>
+        public static string Custom {
+            get {
+                return ResourceManager.GetString("Custom", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Custom Built Websites.
         /// </summary>
         public static string CustomWebsites {
@@ -22246,6 +22264,15 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Delivery.
+        /// </summary>
+        public static string Delivery {
+            get {
+                return ResourceManager.GetString("Delivery", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Delivery Address.
         /// </summary>
         public static string DeliveryAddress {
@@ -22327,11 +22354,29 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Delivery Policy.
+        /// </summary>
+        public static string DeliveryPolicy {
+            get {
+                return ResourceManager.GetString("DeliveryPolicy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Department.
         /// </summary>
         public static string Department {
             get {
                 return ResourceManager.GetString("Department", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Dependency Injection.
+        /// </summary>
+        public static string DependencyInjection {
+            get {
+                return ResourceManager.GetString("DependencyInjection", resourceCulture);
             }
         }
         
@@ -23223,6 +23268,15 @@ namespace Languages {
         public static string HelpdeskSubmitDescription {
             get {
                 return ResourceManager.GetString("HelpdeskSubmitDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to High Volume.
+        /// </summary>
+        public static string HighVolume {
+            get {
+                return ResourceManager.GetString("HighVolume", resourceCulture);
             }
         }
         
@@ -24625,6 +24679,15 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Middleware.
+        /// </summary>
+        public static string Middleware {
+            get {
+                return ResourceManager.GetString("Middleware", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to ml.
         /// </summary>
         public static string MilliLitre {
@@ -24639,6 +24702,15 @@ namespace Languages {
         public static string Minutes {
             get {
                 return ResourceManager.GetString("Minutes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Missing Link.
+        /// </summary>
+        public static string MissingLink {
+            get {
+                return ResourceManager.GetString("MissingLink", resourceCulture);
             }
         }
         
@@ -25980,6 +26052,15 @@ namespace Languages {
         public static string PleaseViewBrochure {
             get {
                 return ResourceManager.GetString("PleaseViewBrochure", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Plugin Manager.
+        /// </summary>
+        public static string PluginManager {
+            get {
+                return ResourceManager.GetString("PluginManager", resourceCulture);
             }
         }
         

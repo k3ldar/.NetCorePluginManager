@@ -26,9 +26,11 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 
+using SharedPluginFeatures;
+
 namespace LoginPlugin.Models
 {
-    public sealed class AccountLockedViewModel
+    public sealed class AccountLockedViewModel : BaseModel
     {
         #region Constructors
 

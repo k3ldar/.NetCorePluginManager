@@ -25,6 +25,8 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using AppSettings;
 
+using SharedPluginFeatures;
+
  namespace Breadcrumb.Plugin
 {
     public class BreadcrumbSettings
@@ -33,10 +35,22 @@ using AppSettings;
 
         public bool ProcessStaticFiles { get; set; }
 
-        [SettingDefault(".less;.ico;.css;.js;.svg;.jpg;.jpeg;.gif;.png;.eot;")]
+        [SettingDefault(Constants.StaticFileExtensions)]
         [SettingString(false)]
         [SettingDelimitedString(';', 1)]
         public string StaticFileExtensions { get; set; }
+
+        [SettingDefault(nameof(Languages.LanguageStrings.Home))]
+        [SettingString(false)]
+        public string HomeName { get; set; }
+
+        [SettingDefault("Home")]
+        [SettingString(false)]
+        public string HomeController { get; set; }
+
+        [SettingDefault("Index")]
+        [SettingString(false)]
+        public string DefaultAction { get; set; }
 
         #endregion Properties
     }

@@ -26,9 +26,11 @@
 using System;
 using System.Collections.Generic;
 
+using SharedPluginFeatures;
+
 namespace UserAccount.Plugin.Models
 {
-    public class LicenceViewModel
+    public class LicenceViewModel : BaseModel
     {
         #region Constructors
 

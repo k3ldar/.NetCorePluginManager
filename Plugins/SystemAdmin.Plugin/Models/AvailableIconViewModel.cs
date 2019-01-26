@@ -30,30 +30,29 @@ using SharedPluginFeatures;
 
 namespace SystemAdmin.Plugin.Models
 {
-    public class AvailableIconViewModel
+    public class AvailableIconViewModel : BaseModel
     {
         #region Constructors
 
-        public AvailableIconViewModel()
+        public AvailableIconViewModel(List<BreadcrumbItem> breadcrumbs)
         {
-            BreadCrumb = String.Empty;
+            Breadcrumbs = breadcrumbs ?? throw new ArgumentNullException();
         }
 
-        public AvailableIconViewModel(in List<SystemAdminMainMenu> homeMenuItems)
-            : this ()
+        public AvailableIconViewModel(in List<SystemAdminMainMenu> homeMenuItems, List<BreadcrumbItem> breadcrumbs)
+            : this (breadcrumbs)
         {
             HomeIcons = homeMenuItems ?? throw new ArgumentNullException(nameof(homeMenuItems));
         }
 
-        public AvailableIconViewModel(in SystemAdminMainMenu mainMenu)
+        public AvailableIconViewModel(in SystemAdminMainMenu mainMenu, List<BreadcrumbItem> breadcrumbs)
+            : this (breadcrumbs)
         {
             if (mainMenu == null)
                 throw new ArgumentNullException(nameof(mainMenu));
 
             Title = mainMenu.Name;
             MenuItems = mainMenu.ChildMenuItems ?? throw new ArgumentNullException(nameof(mainMenu.ChildMenuItems));
-
-            BreadCrumb = $"<ul><li><a href=\"/SystemAdmin/\">System Admin</a></li>&nbsp;&gt;&nbsp;<li>{Title}</li></ul>";
         }
 
         #endregion Constructors
@@ -62,7 +61,6 @@ namespace SystemAdmin.Plugin.Models
 
         public AvailableIconViewModel ClearBreadCrumb()
         {
-            BreadCrumb = String.Empty;
             return (this);
         }
 
@@ -114,8 +112,6 @@ namespace SystemAdmin.Plugin.Models
         public List<SystemAdminSubMenu> MenuItems { get; set; }
 
         public List<SystemAdminMainMenu> HomeIcons { get; set; }
-
-        public string BreadCrumb { get; private set; }
 
         #endregion Properties
     }

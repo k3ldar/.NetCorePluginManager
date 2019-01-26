@@ -24,6 +24,7 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
+using System.Collections.Generic;
 
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
@@ -72,6 +73,20 @@ namespace SharedPluginFeatures
         }
 
         #endregion User Sessions
+
+        #region Breadcrumbs
+
+        protected List<BreadcrumbItem> GetBreadcrumbs()
+        {
+            if (HttpContext.Items.ContainsKey(Constants.Breadcrumbs))
+            {
+                return (List<BreadcrumbItem>)HttpContext.Items[Constants.Breadcrumbs];
+            }
+
+            return new List<BreadcrumbItem>();
+        }
+
+        #endregion Breadcrumbs
 
         #region Cookies
 

@@ -13,58 +13,46 @@
  *
  *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
  *
- *  Product:  UserAccount.Plugin
+ *  Product:  SharedPluginFeatures
  *  
- *  File: ViewDownloadViewModel.cs
+ *  File: BreadcrumbItem.cs
  *
- *  Purpose: View a Download view model
+ *  Purpose:  Contains breadcrumb item data 
  *
  *  Date        Name                Reason
- *  05/01/2019  Simon Carter        Initially Created
+ *  21/01/2019  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using SharedPluginFeatures;
+using System;
 
-namespace UserAccount.Plugin.Models
+namespace SharedPluginFeatures
 {
-    public class ViewDownloadViewItem : BaseModel
+    public class BreadcrumbItem
     {
         #region Constructors
 
-        public ViewDownloadViewItem()
+        public BreadcrumbItem(in string name, in string route, in bool hasParameters)
         {
+            if (String.IsNullOrEmpty(name))
+                throw new ArgumentNullException(nameof(name));
 
-        }
+            if (String.IsNullOrEmpty(route))
+                throw new ArgumentNullException(nameof(route));
 
-        public ViewDownloadViewItem(in int id, in string name, in string description,
-            in string version, in string filename, in string icon, in string size)
-        {
-            Id = id;
             Name = name;
-            Description = description;
-            Version = version;
-            Filename = filename;
-            Icon = icon;
-            Size = size;
+            Route = route;
+            HasParameters = hasParameters;
         }
 
         #endregion Constructors
 
         #region Properties
 
-        public int Id { get; set; }
+        public string Name { get; private set; }
 
-        public string Name { get; set; }
+        public string Route { get; private set; }
 
-        public string Description { get; set; }
-
-        public string Version { get; set; }
-
-        public string Filename { get; set; }
-
-        public string Icon { get; set; }
-
-        public string Size { get; set; }
+        public bool HasParameters { get; private set; }
 
         #endregion Properties
     }

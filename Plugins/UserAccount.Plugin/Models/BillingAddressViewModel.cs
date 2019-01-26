@@ -26,9 +26,11 @@
 
 using System.ComponentModel.DataAnnotations;
 
+using SharedPluginFeatures;
+
 namespace UserAccount.Plugin.Models
 {
-    public sealed class BillingAddressViewModel
+    public sealed class BillingAddressViewModel : BaseModel
     {
         public bool ShowBusinessName { get; set; }
 

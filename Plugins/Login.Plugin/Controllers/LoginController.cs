@@ -73,6 +73,7 @@ namespace LoginPlugin.Controllers
         #region Public Action Methods
 
         [HttpGet]
+        [Breadcrumb(nameof(Languages.LanguageStrings.Login))]
         public IActionResult Index(string returnUrl)
         {
             // has the user been remembered?
@@ -97,6 +98,8 @@ namespace LoginPlugin.Controllers
                 loginCacheItem.CaptchaText = GetRandomWord(_settings.CaptchaWordLength, CaptchaCharacters);
             }
 
+            model.Breadcrumbs = GetBreadcrumbs();
+
             return View(model);
         }
 
@@ -116,6 +119,8 @@ namespace LoginPlugin.Controllers
             model.ShowCaptchaImage = loginCacheItem.LoginAttempts >= _settings.CaptchaShowFailCount;
 
             UserLoginDetails loginDetails = new UserLoginDetails();
+
+            model.Breadcrumbs = GetBreadcrumbs();
 
             switch (_loginProvider.Login(model.Username, model.Password, GetIpAddress(), 
                 loginCacheItem.LoginAttempts, ref loginDetails))
@@ -152,12 +157,16 @@ namespace LoginPlugin.Controllers
         }
 
         [HttpGet]
+        [Breadcrumb(nameof(Languages.LanguageStrings.AccountLocked))]
         public IActionResult AccountLocked(string username)
         {
             if (String.IsNullOrEmpty(username))
                 RedirectToAction(nameof(Index));
 
-            AccountLockedViewModel model = new AccountLockedViewModel(username);
+            AccountLockedViewModel model = new AccountLockedViewModel(username)
+            {
+                Breadcrumbs = GetBreadcrumbs()
+            };
 
             return View(model);
         }
@@ -175,11 +184,13 @@ namespace LoginPlugin.Controllers
 
             ModelState.AddModelError(String.Empty, Languages.LanguageStrings.CodeNotValid);
             model.UnlockCode = String.Empty;
+            model.Breadcrumbs = GetBreadcrumbs();
 
             return View(model);
         }
 
         [HttpGet]
+        [Breadcrumb(nameof(Languages.LanguageStrings.ForgotPassword))]
         public IActionResult ForgotPassword()
         {
             ForgotPasswordViewModel model = new ForgotPasswordViewModel();
@@ -187,6 +198,7 @@ namespace LoginPlugin.Controllers
             LoginCacheItem loginCacheItem = GetCachedLoginAttempt(true);
             loginCacheItem.CaptchaText = GetRandomWord(_settings.CaptchaWordLength, CaptchaCharacters);
             model.CaptchaText = loginCacheItem.CaptchaText;
+            model.Breadcrumbs = GetBreadcrumbs();
 
             return View();
         }
@@ -215,11 +227,13 @@ namespace LoginPlugin.Controllers
 
             loginCacheItem.CaptchaText = GetRandomWord(_settings.CaptchaWordLength, CaptchaCharacters);
             model.CaptchaText = loginCacheItem.CaptchaText;
+            model.Breadcrumbs = GetBreadcrumbs();
 
             return View(model);
         }
 
         [HttpGet]
+        [Breadcrumb(nameof(Languages.LanguageStrings.Logout))]
         public ActionResult Logout()
         {
             UserSession session = GetUserSession();
