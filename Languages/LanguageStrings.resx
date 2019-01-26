@@ -13485,4 +13485,40 @@ If this continues, please contact support.</comment>
     <value>Learn More</value>
     <comment>Learn More</comment>
   </data>
+  <data name="Delivery" xml:space="preserve">
+    <value>Delivery</value>
+    <comment>Deliery</comment>
+  </data>
+  <data name="DeliveryPolicy" xml:space="preserve">
+    <value>Delivery Policy</value>
+    <comment>Delivery Policy</comment>
+  </data>
+  <data name="MissingLink" xml:space="preserve">
+    <value>Missing Link</value>
+    <comment>Missing Link</comment>
+  </data>
+  <data name="HighVolume" xml:space="preserve">
+    <value>High Volume</value>
+    <comment>High Volume</comment>
+  </data>
+  <data name="Api" xml:space="preserve">
+    <value>Api</value>
+    <comment>Api</comment>
+  </data>
+  <data name="Custom" xml:space="preserve">
+    <value>Custom</value>
+    <comment>Custom</comment>
+  </data>
+  <data name="DependencyInjection" xml:space="preserve">
+    <value>Dependency Injection</value>
+    <comment>Dependency Injection</comment>
+  </data>
+  <data name="Middleware" xml:space="preserve">
+    <value>Middleware</value>
+    <comment>Middleware</comment>
+  </data>
+  <data name="PluginManager" xml:space="preserve">
+    <value>Plugin Manager</value>
+    <comment>Plugin Manager</comment>
+  </data>
 </root>

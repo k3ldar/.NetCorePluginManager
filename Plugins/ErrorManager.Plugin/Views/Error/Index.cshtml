@@ -1,7 +1,10 @@
-﻿
+﻿@model SharedPluginFeatures.BaseModel
+
 @{
     ViewData["Title"] = "Index";
 }
+<div class="bc">@Html.Raw(Model.BreadcrumbData())</div>
+
 
 <link rel="stylesheet" href="/css/error.css" />
 <h2>@Languages.LanguageStrings.Error</h2>

@@ -23,14 +23,11 @@
  *  05/01/2019  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using System;
-using System.Collections.Generic;
-
-using Middleware.Downloads;
+using SharedPluginFeatures;
 
 namespace UserAccount.Plugin.Models
 {
-    public class ViewDownloadViewItem
+    public class ViewDownloadViewItem : BaseModel
     {
         #region Constructors
 

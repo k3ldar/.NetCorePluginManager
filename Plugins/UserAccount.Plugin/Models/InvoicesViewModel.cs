@@ -28,9 +28,11 @@ using System.Collections.Generic;
 
 using Middleware.Accounts.Invoices;
 
+using SharedPluginFeatures;
+
 namespace UserAccount.Plugin.Models
 {
-    public sealed class InvoicesViewModel
+    public sealed class InvoicesViewModel : BaseModel
     {
         #region Constructors
 

@@ -25,14 +25,16 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using AppSettings;
 
+using SharedPluginFeatures;
+
 namespace UserSessionMiddleware.Plugin
 {
     public sealed class UserSessionSettings
     {
-        [SettingDefault(".less;.ico;.css;.js;.svg;.jpg;.jpeg;.gif;.png;.eot;")]
+        [SettingDefault(Constants.StaticFileExtensions)]
         public string StaticFileExtensions { get; set; }
 
-        [SettingDefault("user_session")]
+        [SettingDefault(Constants.UserSession)]
         public string CookieName { get; set; }
 
         [SettingDefault("Dfklaosre;lnfsdl;jlfaeu;dkkfcaskxcd3jf")]

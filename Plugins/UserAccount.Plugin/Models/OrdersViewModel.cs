@@ -28,9 +28,11 @@ using System.Collections.Generic;
 
 using Middleware.Accounts.Orders;
 
+using SharedPluginFeatures;
+
 namespace UserAccount.Plugin.Models
 {
-    public sealed class OrdersViewModel
+    public sealed class OrdersViewModel : BaseModel
     {
         #region Constructors
 

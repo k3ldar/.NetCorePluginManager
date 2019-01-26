@@ -29,6 +29,8 @@ using Microsoft.AspNetCore.Mvc;
 
 using UserAccount.Plugin.Models;
 
+using SharedPluginFeatures;
+
 using Middleware;
 using Middleware.Accounts;
 
@@ -39,13 +41,15 @@ namespace UserAccount.Plugin.Controllers
         #region Public Controller Methods
 
         [HttpGet]
+        [Breadcrumb(nameof(Languages.LanguageStrings.MyDeliveryAddresses), nameof(AccountController), nameof(Index))]
         public IActionResult DeliveryAddress()
         {
             string growl = GrowlGet();
-            return View(new DeliveryAddressViewModel(_accountProvider.GetDeliveryAddresses(UserId()), growl));
+            return View(new DeliveryAddressViewModel(GetBreadcrumbs(), _accountProvider.GetDeliveryAddresses(UserId()), growl));
         }
 
         [HttpGet]
+        [Breadcrumb(nameof(Languages.LanguageStrings.DeliveryAddressAdd), nameof(AccountController), nameof(DeliveryAddress))]
         public IActionResult DeliveryAddressAdd()
         {
             EditDeliveryAddressViewModel model = new EditDeliveryAddressViewModel();
@@ -81,6 +85,7 @@ namespace UserAccount.Plugin.Controllers
         }
 
         [HttpGet]
+        [Breadcrumb(nameof(Languages.LanguageStrings.DeliveryAddressEdit), nameof(AccountController), nameof(DeliveryAddress))]
         public IActionResult DeliveryAddressEdit(int id)
         {
             DeliveryAddress address = _accountProvider.GetDeliveryAddress(UserId(), id);
@@ -117,6 +122,8 @@ namespace UserAccount.Plugin.Controllers
 
                 ModelState.AddModelError(String.Empty, Languages.LanguageStrings.FailedToUpdateDeliveryAddress);
             }
+
+            model.Breadcrumbs = GetBreadcrumbs();
 
             return View(model);
         }
@@ -178,6 +185,8 @@ namespace UserAccount.Plugin.Controllers
         private void PrepareDeliveryAddressModel(ref EditDeliveryAddressViewModel model, in DeliveryAddress deliveryAddress)
         {
             AddressOptions addressOptions = _accountProvider.GetAddressOptions();
+
+            model.Breadcrumbs = GetBreadcrumbs();
 
             model.ShowAddressLine1 = addressOptions.HasFlag(AddressOptions.AddressLine1Show);
             model.ShowAddressLine2 = addressOptions.HasFlag(AddressOptions.AddressLine2Show);

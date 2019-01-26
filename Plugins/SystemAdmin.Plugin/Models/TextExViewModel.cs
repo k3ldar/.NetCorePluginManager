@@ -24,14 +24,13 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
-
-using Microsoft.Extensions.DependencyInjection;
+using System.Collections.Generic;
 
 using SharedPluginFeatures;
 
 namespace SystemAdmin.Plugin.Models
 {
-    public sealed class TextExViewModel : BaseCoreClass
+    public sealed class TextExViewModel : BaseModel
     {
         #region Private Members
 
@@ -41,7 +40,8 @@ namespace SystemAdmin.Plugin.Models
 
         #region Constructors
 
-        public TextExViewModel(in ISettingsProvider settingsProvider, in SystemAdminSubMenu subMenu)
+        public TextExViewModel(in ISettingsProvider settingsProvider, in SystemAdminSubMenu subMenu,
+            List<BreadcrumbItem> breadcrumbs)
         {
             _settingsProvider = settingsProvider ?? throw new ArgumentNullException(nameof(settingsProvider));
 
@@ -57,8 +57,7 @@ namespace SystemAdmin.Plugin.Models
             else
                 Text = subMenu.Data();
 
-            BreadCrumb = $"<ul><li><a href=\"/SystemAdmin/\">System Admin</a></li><li><a href=\"/SystemAdmin/Index/" +
-                $"{subMenu.ParentMenu.UniqueId}\">{subMenu.ParentMenu.Name}</a></li><li>{Title}</li></ul>";
+            Breadcrumbs = breadcrumbs;
         }
 
         #endregion Constructors
@@ -66,8 +65,6 @@ namespace SystemAdmin.Plugin.Models
         #region Public Properties
 
         public string Title { get; set; }
-
-        public string BreadCrumb { get; set; }
 
         public string Text { get; private set; }
 

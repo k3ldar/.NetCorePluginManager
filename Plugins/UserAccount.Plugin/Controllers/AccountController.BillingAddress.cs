@@ -31,6 +31,8 @@ using UserAccount.Plugin.Models;
 
 using Middleware;
 
+using SharedPluginFeatures;
+
 namespace UserAccount.Plugin.Controllers
 {
     public partial class AccountController
@@ -38,6 +40,7 @@ namespace UserAccount.Plugin.Controllers
         #region Public Controller Methods
 
 		[HttpGet]
+        [Breadcrumb(nameof(Languages.LanguageStrings.MyBillingAddress), nameof(AccountController), nameof(Index))]
 		public IActionResult BillingAddress()
         {
             Address billingAddress = _accountProvider.GetBillingAddress(UserId());
@@ -82,7 +85,6 @@ namespace UserAccount.Plugin.Controllers
 
         #region Private Methods
 
-
         private void ValidateBillingAddressModel(ref BillingAddressViewModel model)
         {
             AddressOptions addressOptions = _accountProvider.GetAddressOptions();
@@ -111,6 +113,8 @@ namespace UserAccount.Plugin.Controllers
 
         private void PrepareBillingAddressModel(ref BillingAddressViewModel model, in Address billingAddress)
         {
+            model.Breadcrumbs = GetBreadcrumbs();
+
             AddressOptions addressOptions = _accountProvider.GetAddressOptions();
 
             model.ShowAddressLine1 = addressOptions.HasFlag(AddressOptions.AddressLine1Show);

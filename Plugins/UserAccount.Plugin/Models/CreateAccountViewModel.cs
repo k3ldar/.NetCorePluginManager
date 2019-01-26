@@ -30,7 +30,7 @@ using SharedPluginFeatures;
 
 namespace UserAccount.Plugin.Models
 {
-    public class CreateAccountViewModel
+    public class CreateAccountViewModel : BaseModel
     {
         #region Properties
 

@@ -25,9 +25,11 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System.ComponentModel.DataAnnotations;
 
+using SharedPluginFeatures;
+
 namespace UserAccount.Plugin.Models
 {
-    public sealed class MarketingPreferencesViewModel
+    public sealed class MarketingPreferencesViewModel : BaseModel
     {
         [Display(Name = nameof(Languages.LanguageStrings.AcceptOffersEmail))]
         public bool EmailOffers { get; set; }

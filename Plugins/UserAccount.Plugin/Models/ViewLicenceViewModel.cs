@@ -25,9 +25,11 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
 
+using SharedPluginFeatures;
+
 namespace UserAccount.Plugin.Models
 {
-    public class ViewLicenceViewModel
+    public class ViewLicenceViewModel : BaseModel
     {
         #region Constructors
 

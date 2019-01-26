@@ -37,7 +37,7 @@ using Shared.Classes;
 
 namespace AspNetCore.PluginManager.DemoWebsite.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
         #region Private Members
 
@@ -57,23 +57,26 @@ namespace AspNetCore.PluginManager.DemoWebsite.Controllers
 
         #endregion Constructors
 
+        [Breadcrumb(nameof(Languages.LanguageStrings.PluginManager))]
         public IActionResult Index()
         {
             UserSession session = (UserSession)HttpContext.Items[Constants.UserSession];
             ViewBag.Username = String.IsNullOrEmpty(session.UserName) ? "Guest" : session.UserName;
 
-            return View();
+            return View(new BaseModel(GetBreadcrumbs()));
         }
 
+        [Breadcrumb(nameof(Languages.LanguageStrings.About))]
         public IActionResult About()
         {
-            return View();
+            return View(new BaseModel(GetBreadcrumbs()));
         }
 
         [DenySpider]
+        [Breadcrumb(nameof(Languages.LanguageStrings.Privacy))]
         public IActionResult Privacy()
         {
-            return View();
+            return View(new BaseModel(GetBreadcrumbs()));
         }
 
         [DenySpider("*")]

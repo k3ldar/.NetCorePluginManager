@@ -25,33 +25,40 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using Microsoft.AspNetCore.Mvc;
 
+using SharedPluginFeatures;
+
 namespace DemoWebsitePlugin.Controllers
 {
-    public class ServicesController : Controller
+    public class ServicesController : BaseController
     {
+        [Breadcrumb(nameof(Languages.LanguageStrings.Middleware))]
         public IActionResult Middleware()
         {
-            return View();
+            return View(new BaseModel(GetBreadcrumbs()));
         }
 
+        [Breadcrumb(nameof(Languages.LanguageStrings.Api))]
         public IActionResult Api()
         {
             return View();
         }
 
+        [Breadcrumb(nameof(Languages.LanguageStrings.DependencyInjection))]
         public IActionResult DependencyInjection()
         {
-            return View();
+            return View(new BaseModel(GetBreadcrumbs()));
         }
 
+        [Breadcrumb(nameof(Languages.LanguageStrings.Website))]
         public IActionResult Website()
         {
-            return View();
+            return View(new BaseModel(GetBreadcrumbs()));
         }
 
+        [Breadcrumb(nameof(Languages.LanguageStrings.Custom))]
         public IActionResult Custom()
         {
-            return View();
+            return View(new BaseModel(GetBreadcrumbs()));
         }
     }
 }

@@ -30,6 +30,10 @@ using Middleware.Accounts.Orders;
 
 using UserAccount.Plugin.Models;
 
+using SharedPluginFeatures;
+
+#pragma warning disable IDE0017
+
 namespace UserAccount.Plugin.Controllers
 {
     public partial class AccountController
@@ -37,14 +41,18 @@ namespace UserAccount.Plugin.Controllers
         #region Public Action Methods
 
         [HttpGet]
+        [Breadcrumb(nameof(Languages.LanguageStrings.MyOrders), nameof(AccountController), nameof(Index))]
         public ActionResult Orders()
         {
             OrdersViewModel model = new OrdersViewModel(_accountProvider.OrdersGet(UserId()));
+
+            model.Breadcrumbs = GetBreadcrumbs();
 
             return View(model);
         }
 
         [HttpGet]
+        [Breadcrumb(nameof(Languages.LanguageStrings.ViewOrder), nameof(AccountController), nameof(Orders))]
         public ActionResult OrderView(int id)
         {
             Order order = _accountProvider.OrdersGet(UserId()).Where(o => o.Id == id).FirstOrDefault();
@@ -53,6 +61,8 @@ namespace UserAccount.Plugin.Controllers
                 return RedirectToAction(nameof(Index));
 
             OrderViewModel model = new OrderViewModel(order);
+
+            model.Breadcrumbs = GetBreadcrumbs();
 
             return View(model);
         }

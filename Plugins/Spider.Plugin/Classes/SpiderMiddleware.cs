@@ -50,7 +50,7 @@ namespace Spider.Plugin
         private readonly bool _userSessionManagerLoaded;
         private readonly RequestDelegate _next;
         private readonly bool _processStaticFiles;
-        private readonly string _staticFileExtensions = ".less;.ico;.css;.js;.svg;.jpg;.jpeg;.gif;.png;.eot;";
+        private readonly string _staticFileExtensions = Constants.StaticFileExtensions;
         internal static Timings _timings = new Timings();
 
         #endregion Private Members
@@ -125,7 +125,7 @@ namespace Spider.Plugin
                                         deniedRoute.Route.StartsWith(route) &&
                                         (
                                             deniedRoute.UserAgent == "*" ||
-#if NETCORE2_0
+#if NET_CORE
                                             userSession.UserAgent.Contains(deniedRoute.UserAgent, StringComparison.CurrentCultureIgnoreCase)
 #else 
                                             userSession.UserAgent.ToLower().Contains(deniedRoute.UserAgent.ToLower())

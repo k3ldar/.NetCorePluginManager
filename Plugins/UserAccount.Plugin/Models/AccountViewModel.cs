@@ -25,9 +25,11 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
 
+using SharedPluginFeatures;
+
 namespace UserAccount.Plugin.Models
 {
-    public class AccountViewModel
+    public class AccountViewModel : BaseModel
     {
         #region Constructors
 

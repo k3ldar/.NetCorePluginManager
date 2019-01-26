@@ -58,11 +58,13 @@ namespace ErrorManager.Plugin.Controllers
 
         #region Public Action Methods
 
+        [Breadcrumb(nameof(Languages.LanguageStrings.Error))]
         public IActionResult Index()
         {
             return View();
         }
 
+        [Breadcrumb(nameof(Languages.LanguageStrings.MissingLink))]
         public IActionResult NotFound404()
         {
             Response.StatusCode = 404;
@@ -100,11 +102,13 @@ namespace ErrorManager.Plugin.Controllers
             return (View(model));
         }
 
+        [Breadcrumb(nameof(Languages.LanguageStrings.HighVolume))]
         public IActionResult HighVolume()
         {
             return (View());
         }
 
+        [Breadcrumb(nameof(Languages.LanguageStrings.NotAcceptable))]
         public IActionResult NotAcceptable()
         {
             return (View());

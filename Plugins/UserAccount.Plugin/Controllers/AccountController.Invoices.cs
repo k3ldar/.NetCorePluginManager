@@ -28,6 +28,8 @@ using Microsoft.AspNetCore.Mvc;
 
 using Middleware.Accounts.Invoices;
 
+using SharedPluginFeatures;
+
 using UserAccount.Plugin.Models;
 
 namespace UserAccount.Plugin.Controllers
@@ -37,14 +39,18 @@ namespace UserAccount.Plugin.Controllers
         #region Public Action Methods
 
         [HttpGet]
+        [Breadcrumb(nameof(Languages.LanguageStrings.MyInvoices), nameof(AccountController), nameof(Index))]
         public ActionResult Invoices()
         {
             InvoicesViewModel model = new InvoicesViewModel(_accountProvider.InvoicesGet(UserId()));
+
+            model.Breadcrumbs = GetBreadcrumbs();
 
             return View(model);
         }
 
         [HttpGet]
+        [Breadcrumb(nameof(Languages.LanguageStrings.Invoice), nameof(AccountController), nameof(Invoices))]
         public ActionResult InvoiceView(int id)
         {
             Invoice invoice = _accountProvider.InvoicesGet(UserId()).Where(o => o.Id == id).FirstOrDefault();
@@ -53,6 +59,8 @@ namespace UserAccount.Plugin.Controllers
                 return RedirectToAction(nameof(Index));
 
             InvoiceViewModel model = new InvoiceViewModel(invoice);
+
+            model.Breadcrumbs = GetBreadcrumbs();
 
             return View(model);
         }

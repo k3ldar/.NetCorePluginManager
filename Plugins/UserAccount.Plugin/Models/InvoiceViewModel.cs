@@ -32,9 +32,11 @@ using System.ComponentModel.DataAnnotations;
 using Middleware.Accounts.Invoices;
 using Middleware;
 
+using SharedPluginFeatures;
+
 namespace UserAccount.Plugin.Models
 {
-    public class InvoiceViewModel
+    public class InvoiceViewModel : BaseModel
     {
         #region Constructors
 

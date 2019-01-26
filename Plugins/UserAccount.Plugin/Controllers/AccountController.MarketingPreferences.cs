@@ -30,6 +30,8 @@ using UserAccount.Plugin.Models;
 using Middleware;
 using Middleware.Accounts;
 
+using SharedPluginFeatures;
+
 namespace UserAccount.Plugin.Controllers
 {
     public partial class AccountController
@@ -37,7 +39,8 @@ namespace UserAccount.Plugin.Controllers
         #region Public Action Methods
 
 		[HttpGet]
-		public IActionResult MarketingPreferences()
+        [Breadcrumb(nameof(Languages.LanguageStrings.MarketingPreferences), nameof(AccountController), nameof(Index))]
+        public IActionResult MarketingPreferences()
         {
             MarketingPreferencesViewModel model = new MarketingPreferencesViewModel();
             PrepareMarketingModel(ref model, _accountProvider.GetMarketingPreferences(UserId()));
@@ -73,6 +76,8 @@ namespace UserAccount.Plugin.Controllers
 		private void PrepareMarketingModel(ref MarketingPreferencesViewModel model, in Marketing marketing)
         {
             MarketingOptions options = _accountProvider.GetMarketingOptions();
+
+            model.Breadcrumbs = GetBreadcrumbs();
 
             model.ShowEmail = options.HasFlag(MarketingOptions.ShowEmail);
             model.ShowPostal = options.HasFlag(MarketingOptions.ShowPostal);

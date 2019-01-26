@@ -25,9 +25,11 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
 
+using SharedPluginFeatures;
+
 namespace ErrorManager.Plugin.Models.Error
 {
-    public sealed class Error404Model
+    public sealed class Error404Model : BaseModel
     {
         #region Constructors
 
