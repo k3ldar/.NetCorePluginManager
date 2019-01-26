@@ -11,7 +11,7 @@
     <PackageTags>asp net core plugin manager middleware business object layer</PackageTags>
     <PackageReleaseNotes>Shared Modules</PackageReleaseNotes>
     <AssemblyVersion>1.0.0.0</AssemblyVersion>
-    <Version>1.2.0</Version>
+    <Version>1.3.0</Version>
     <FileVersion>1.0.0.0</FileVersion>
     <Authors>Simon Carter</Authors>
     <Company>Simon Carter</Company>
@@ -74,7 +74,7 @@
   </ItemGroup>
 
   <ItemGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <PackageReference Include="SharedPluginFeatures" Version="1.2.0" />
+    <PackageReference Include="SharedPluginFeatures" Version="1.3.0" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

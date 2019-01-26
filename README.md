@@ -4,7 +4,7 @@
 https://sicarterblog.wordpress.com/2018/10/02/asp-net-core-plugin-manager/
 
 ## Current Version
-Version 1.2.0
+Version 1.3.0
 
 # ASPNetCore.PluginManager
 Extend website with plugin technology.

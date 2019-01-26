@@ -27,7 +27,6 @@ using Middleware;
 
 namespace AspNetCore.PluginManager.DemoWebsite.Classes
 {
-#if DEBUG
     public class MockLoginProvider : ILoginProvider
     {
         public LoginResult Login(in string username, in string password, in string ipAddress, 
@@ -65,5 +64,4 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
             return (username == "admin");
         }
     }
-#endif
 }
