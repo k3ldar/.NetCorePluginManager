@@ -181,7 +181,7 @@ namespace SystemAdmin.Plugin
         private void RegisterBreadcrumbs(in IBreadcrumbService breadcrumbService)
         {
             string parentRoute = "/SystemAdmin";
-            breadcrumbService.AddBreadcrumb("System", parentRoute, false);
+            breadcrumbService.AddBreadcrumb("System Admin", parentRoute, false);
 
             foreach (SystemAdminMainMenu item in GetSystemAdminMainMenu())
             {

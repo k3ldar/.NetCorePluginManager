@@ -27781,6 +27781,15 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to System.
+        /// </summary>
+        public static string System {
+            get {
+                return ResourceManager.GetString("System", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to System Hooks are for staff members to get automatic notification on certain events within the system.  You can add as many system hooks as you wish and will recieve an email, with some extra details when each one is triggered..
         /// </summary>
         public static string SystemHookDescription {

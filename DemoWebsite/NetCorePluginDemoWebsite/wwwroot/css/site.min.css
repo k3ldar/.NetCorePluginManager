@@ -1,1 +1,27 @@
 body{padding-top:50px;padding-bottom:20px}.body-content{padding-left:15px;padding-right:15px}.carousel-caption p{font-size:20px;line-height:1.4}.carousel-inner .item img[src$=".svg"]{width:100%}#qrCode{margin:15px}@media screen and (max-width:767px){.carousel-caption{display:none}}
+.bc {
+padding: 8px 0px 2px 0px;
+background-color: #eee;
+height: 36px;
+}
+.bc ul {
+list-style: none;
+padding-left: 6px;
+}
+.bc ul li {
+display: inline;
+font-size: 12px;
+}
+.bc ul li + li:before {
+padding: 8px;
+color: black;
+content: "/\00a0";
+}
+.bc ul li a {
+color: #0275d8;
+text-decoration: none;
+}
+.bc ul li a:hover {
+color: #01447e;
+text-decoration: underline;
+}

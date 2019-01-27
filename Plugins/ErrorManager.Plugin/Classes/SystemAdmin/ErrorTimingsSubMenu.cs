@@ -71,12 +71,12 @@ namespace ErrorManager.Plugin.Classes.SystemAdmin
 
         public override string Name()
         {
-            return ("404 Errors");
+            return ("Errors");
         }
 
         public override string ParentMenuName()
         {
-            return ("Error Manager");
+            return ("Timings");
         }
 
         public override int SortOrder()

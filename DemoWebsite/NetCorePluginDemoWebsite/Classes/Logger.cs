@@ -39,6 +39,10 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
 #if TRACE
             System.Diagnostics.Trace.WriteLine($"{logLevel.ToString()} {data}");
 #endif
+
+#if !DEBUG
+            Shared.EventLog.Add($"{logLevel.ToString()}\t{data}");
+#endif
         }
 
         public void AddToLog(in LogLevel logLevel, in Exception exception)
@@ -46,12 +50,20 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
 #if TRACE
             System.Diagnostics.Trace.WriteLine($"{logLevel.ToString()} {exception.Message}");
 #endif
+
+#if !DEBUG
+            Shared.EventLog.Add(exception);
+#endif
         }
 
         public void AddToLog(in LogLevel logLevel, in Exception exception, string data)
         {
 #if TRACE
             System.Diagnostics.Trace.WriteLine($"{logLevel.ToString()} {exception.Message}\r\n{data}");
+#endif
+
+#if !DEBUG
+            Shared.EventLog.Add(exception, data);
 #endif
         }
 

@@ -27,12 +27,17 @@ using System;
 
 using SharedPluginFeatures;
 
+using AppSettings;
+
+#pragma warning disable IDE1006
+
 namespace GeoIp.Plugin
 {
     public class IpStackSettings : IGeoIpProvider
     {
         #region Properties
 
+        [SettingString(0, 100)]
         public string ApiKey { get; set; }
 
         #endregion Properties

@@ -26,6 +26,7 @@
     <Content Remove="wwwroot\css\site.css" />
     <Content Remove="wwwroot\css\vs.css" />
     <Content Remove="wwwroot\images\CustomPlugin.png" />
+    <Content Remove="wwwroot\images\DependencyInjection.png" />
     <Content Remove="wwwroot\images\EmbeddedResources.png" />
     <Content Remove="wwwroot\images\PluginTechnology.png" />
     <Content Remove="wwwroot\js\highlight.pack.js" />
@@ -43,6 +44,7 @@
     <EmbeddedResource Include="wwwroot\css\site.css" />
     <EmbeddedResource Include="wwwroot\css\vs.css" />
     <EmbeddedResource Include="wwwroot\images\CustomPlugin.png" />
+    <EmbeddedResource Include="wwwroot\images\DependencyInjection.png" />
     <EmbeddedResource Include="wwwroot\images\EmbeddedResources.png" />
     <EmbeddedResource Include="wwwroot\images\PluginTechnology.png" />
     <EmbeddedResource Include="wwwroot\js\Highlight\pack.js" />

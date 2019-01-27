@@ -76,7 +76,7 @@ namespace ErrorManager.Plugin.Classes.SystemAdmin
 
         public override string ParentMenuName()
         {
-            return ("Error Manager");
+            return ("Timings");
         }
 
         public override int SortOrder()

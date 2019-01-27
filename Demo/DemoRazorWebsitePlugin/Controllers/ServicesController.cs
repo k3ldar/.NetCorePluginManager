@@ -40,7 +40,7 @@ namespace DemoWebsitePlugin.Controllers
         [Breadcrumb(nameof(Languages.LanguageStrings.Api))]
         public IActionResult Api()
         {
-            return View();
+            return View(new BaseModel(GetBreadcrumbs()));
         }
 
         [Breadcrumb(nameof(Languages.LanguageStrings.DependencyInjection))]
