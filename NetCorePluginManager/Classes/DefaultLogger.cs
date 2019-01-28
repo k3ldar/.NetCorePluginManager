@@ -15,41 +15,58 @@
  *
  *  Product:  AspNetCore.PluginManager
  *  
- *  File: LoadSettingsService.cs
+ *  File: Logger.cs
  *
  *  Purpose:  
  *
  *  Date        Name                Reason
- *  13/10/2018  Simon Carter        Initially Created
+ *  28/01/2019  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
-using System.IO;
-
-using Microsoft.Extensions.Configuration;
-using AppSettings;
 
 using SharedPluginFeatures;
+using static SharedPluginFeatures.Enums;
 
 namespace AspNetCore.PluginManager.Classes
 {
-    public class LoadSettingsService : ILoadSettingsService
+    public class DefaultLogger : ILogger
     {
-        public T LoadSettings<T>(in string jsonFile, in string name)
-        {
-            ConfigurationBuilder builder = new ConfigurationBuilder();
-            IConfigurationBuilder configBuilder = builder.SetBasePath(Path.GetDirectoryName(jsonFile));
-            configBuilder.AddJsonFile(jsonFile);
-            IConfigurationRoot config = builder.Build();
-            T Result = (T)Activator.CreateInstance(typeof(T));
-            config.GetSection(name).Bind(Result);
+        #region ILogger Methods
 
-            return ValidateSettings<T>.Validate(Result);
+        public void AddToLog(in LogLevel logLevel, in string data)
+        {
+#if TRACE
+            System.Diagnostics.Trace.WriteLine($"{logLevel.ToString()} {data}");
+#endif
+
+#if !DEBUG
+            Shared.EventLog.Add($"{logLevel.ToString()}\t{data}");
+#endif
         }
 
-        public T LoadSettings<T>(in string name)
+        public void AddToLog(in LogLevel logLevel, in Exception exception)
         {
-            return (LoadSettings<T>(Path.Combine(Directory.GetCurrentDirectory(), "appsettings.json"), name));
+#if TRACE
+            System.Diagnostics.Trace.WriteLine($"{logLevel.ToString()} {exception.Message}");
+#endif
+
+#if !DEBUG
+            Shared.EventLog.Add(exception);
+#endif
         }
+
+        public void AddToLog(in LogLevel logLevel, in Exception exception, string data)
+        {
+#if TRACE
+            System.Diagnostics.Trace.WriteLine($"{logLevel.ToString()} {exception.Message}\r\n{data}");
+#endif
+
+#if !DEBUG
+            Shared.EventLog.Add(exception, data);
+#endif
+        }
+
+        #endregion ILogger Methods
     }
 }

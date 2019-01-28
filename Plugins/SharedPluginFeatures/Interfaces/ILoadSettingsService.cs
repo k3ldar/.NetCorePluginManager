@@ -26,10 +26,10 @@
 
 namespace SharedPluginFeatures
 {
-    public interface ILoadSettingsService<T>
+    public interface ILoadSettingsService
     {
-        T LoadSettings(in string jsonFile, in string name);
+        T LoadSettings<T>(in string jsonFile, in string name);
 
-        T LoadSettings(in string name);
+        T LoadSettings<T>(in string name);
     }
 }

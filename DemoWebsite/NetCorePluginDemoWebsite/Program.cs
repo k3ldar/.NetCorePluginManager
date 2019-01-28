@@ -33,7 +33,7 @@ namespace AspNetCore.PluginManager.DemoWebsite
         public static void Main(string[] args)
         {
             // Initialise the plugin manager service
-            PluginManagerService.Initialise(new Classes.Logger());
+            PluginManagerService.Initialise();
 
             CreateWebHostBuilder(args).Build().Run();
         }

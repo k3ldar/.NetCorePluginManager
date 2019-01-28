@@ -57,17 +57,29 @@ namespace AspNetCore.PluginManager
 
         public static bool Initialise(ILogger logger)
         {
-            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            return Initialise(new PluginManagerConfiguration(logger, new Classes.LoadSettingsService()));
+        }
 
-            ThreadManagerInitialisation.Initialise(logger);
+        public static bool Initialise()
+        {
+            return Initialise(new PluginManagerConfiguration());
+        }
+
+        public static bool Initialise(in PluginManagerConfiguration configuration)
+        {
+            if (configuration == null)
+                throw new ArgumentNullException(nameof(configuration));
+
+            _logger = configuration.Logger;
+
+            ThreadManagerInitialisation.Initialise(_logger);
 
             try
             {
                 //load config and get settings
-                ILoadSettingsService<PluginSettings> loadSettingsService = new Classes.LoadSettingsService<PluginSettings>();
-                _pluginConfiguration = loadSettingsService.LoadSettings("PluginConfiguration");
+                _pluginConfiguration = configuration.LoadSettingsService.LoadSettings<PluginSettings>("PluginConfiguration");
 
-                _pluginManagerInstance = new PluginManager(logger, _pluginConfiguration);
+                _pluginManagerInstance = new PluginManager(configuration.Logger, _pluginConfiguration);
 
                 _currentPath = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
 
