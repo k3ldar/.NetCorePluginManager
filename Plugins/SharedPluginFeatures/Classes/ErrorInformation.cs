@@ -39,11 +39,15 @@ namespace SharedPluginFeatures
                 throw new ArgumentNullException(nameof(errorIdentifier));
 
             ErrorIdentifier = errorIdentifier;
+
+            Date = DateTime.Now;
         }
 
         #endregion Constructors
 
         #region Properties
+
+        public DateTime Date { get; private set; }
 
         public bool Expired { get; set; }
 

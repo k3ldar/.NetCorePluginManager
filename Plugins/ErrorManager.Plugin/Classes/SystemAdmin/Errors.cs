@@ -15,21 +15,24 @@
  *
  *  Product:  ErrorManager.Plugin
  *  
- *  File: Error404TimingsSubMenu.cs
+ *  File: Errors.cs
  *
- *  Purpose:  
+ *  Purpose:  Shows a list of errors in system admin console
  *
  *  Date        Name                Reason
- *  17/11/2018  Simon Carter        Initially Created
+ *  29/01/2019  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
+using System.Collections.Generic;
+using System.Threading;
 
 using SharedPluginFeatures;
 
+
 namespace ErrorManager.Plugin.Classes.SystemAdmin
 {
-    public sealed class Error404TimingsSubMenu : SystemAdminSubMenu
+    public class Errors : SystemAdminSubMenu
     {
         public override string Action()
         {
@@ -48,22 +51,21 @@ namespace ErrorManager.Plugin.Classes.SystemAdmin
 
         public override string Data()
         {
-            string Result = "Setting|Value";
+            string Result = "Date|Error|Count";
 
-            Timings timingData = ErrorManagerMiddleware.GetMissingPageTimings();
+            List<ErrorInformation> errors = ErrorManagerMiddleware.GetErrors();
 
-            Result += $"\rTotal|{timingData.Requests}";
-            Result += $"\rFastest ms|{timingData.Fastest}";
-            Result += $"\rSlowest ms|{timingData.Slowest}";
-            Result += $"\rAverage ms|{timingData.Average}";
-            Result += $"\rTotal ms|{timingData.Total}";
+            foreach (ErrorInformation item in errors)
+            {
+                Result += $"\r{item.Date.ToString(Thread.CurrentThread.CurrentUICulture.DateTimeFormat)}|{item.Error.Message}|{item.ErrorCount}";
+            }
 
             return (Result);
         }
 
         public override string Image()
         {
-            return ("stopwatch");
+            return (String.Empty);
         }
 
         public override Enums.SystemAdminMenuType MenuType()
@@ -73,12 +75,12 @@ namespace ErrorManager.Plugin.Classes.SystemAdmin
 
         public override string Name()
         {
-            return ("404 Errors");
+            return ("Errors");
         }
 
         public override string ParentMenuName()
         {
-            return ("Timings");
+            return ("Errors");
         }
 
         public override int SortOrder()

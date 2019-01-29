@@ -109,5 +109,14 @@ namespace DemoApiPlugin.Controllers
         public void Delete(int id)
         {
         }
+
+        [HttpGet]
+        [Route("/api/ex")]
+        public void RaiseError()
+        {
+            List<string> list = null;
+
+            list.Add("oops");
+        }
     }
 }

@@ -50,11 +50,13 @@ namespace ErrorManager.Plugin.Classes.SystemAdmin
         {
             string Result = "Setting|Value";
 
-            Result += $"\rTotal|{ErrorManagerMiddleware._timingsExceptions.Requests}";
-            Result += $"\rFastest ms|{ErrorManagerMiddleware._timingsExceptions.Fastest}";
-            Result += $"\rSlowest ms|{ErrorManagerMiddleware._timingsExceptions.Slowest}";
-            Result += $"\rAverage ms|{ErrorManagerMiddleware._timingsExceptions.Average}";
-            Result += $"\rTotal ms|{ErrorManagerMiddleware._timingsExceptions.Total}";
+            Timings timingData = ErrorManagerMiddleware.GetErrorTimings();
+
+            Result += $"\rTotal|{timingData.Requests}";
+            Result += $"\rFastest ms|{timingData.Fastest}";
+            Result += $"\rSlowest ms|{timingData.Slowest}";
+            Result += $"\rAverage ms|{timingData.Average}";
+            Result += $"\rTotal ms|{timingData.Total}";
 
             return (Result);
         }

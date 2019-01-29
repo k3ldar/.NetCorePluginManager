@@ -42,14 +42,14 @@ namespace ErrorManager.Plugin
         private readonly RequestDelegate _next;
         private readonly IErrorManager _errorManager;
         private readonly string _loginPage;
-        private readonly Dictionary<string, uint> _missingPageCount;
 
-        private static readonly object _lockObject = new object();
         private static ErrorThreadManager _errorThreadManager;
 
-        internal static readonly CacheManager _errorCacheManager = new CacheManager("Error Manager", new TimeSpan(1, 0, 0), true, false);
-        internal static readonly Timings _timingsExceptions = new Timings();
-        internal static readonly Timings _timingsMissingPages = new Timings();
+        private static readonly object _lockObject = new object();
+        private static readonly Dictionary<string, uint> _missingPageCount = new Dictionary<string, uint>();
+        private static readonly CacheManager _errorCacheManager = new CacheManager("Error Manager", new TimeSpan(1, 0, 0), true, false);
+        private static readonly Timings _timingsExceptions = new Timings();
+        private static readonly Timings _timingsMissingPages = new Timings();
 
         #endregion Private Members
 
@@ -60,7 +60,6 @@ namespace ErrorManager.Plugin
         {
             _next = next ?? throw new ArgumentNullException(nameof(next));
             _errorManager = errorManager ?? throw new ArgumentNullException(nameof(errorManager));
-            _missingPageCount = new Dictionary<string, uint>();
             _errorThreadManager = new ErrorThreadManager(errorManager);
 
             ThreadManager.Initialise();
@@ -120,7 +119,7 @@ namespace ErrorManager.Plugin
                     if (ProcessException(context, exception))
                     {
                         string s = exception.Message;
-                        context.Response.Redirect("/Error/", false);
+                        context.Response.Redirect("/Error/Index/", false);
                     }
                     else
                     {
@@ -132,6 +131,45 @@ namespace ErrorManager.Plugin
         }
 
         #endregion Public Methods
+
+        #region Internal Static Methods
+
+        internal static Dictionary<string, uint> GetMissingPages()
+        {
+            using (TimedLock lck = TimedLock.Lock(_lockObject))
+            {
+                Dictionary<string, uint> Result = new Dictionary<string, uint>();
+
+                foreach (KeyValuePair<string, uint> item in _missingPageCount)
+                    Result.Add(item.Key, item.Value);
+
+                return Result;
+            }
+        }
+
+        internal static List<ErrorInformation> GetErrors()
+        {
+            List<CacheItem> cacheItems = _errorCacheManager.Items;
+
+            List<ErrorInformation> Result = new List<ErrorInformation>();
+
+            foreach (CacheItem item in cacheItems)
+                Result.Add((ErrorInformation)item.Value);
+
+            return Result;
+        }
+
+        internal static Timings GetMissingPageTimings()
+        {
+            return _timingsMissingPages;
+        }
+
+        internal static Timings GetErrorTimings()
+        {
+            return _timingsExceptions;
+        }
+
+        #endregion Internal Static Methods
 
         #region Private Methods
 

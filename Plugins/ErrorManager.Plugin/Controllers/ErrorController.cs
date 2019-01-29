@@ -61,7 +61,7 @@ namespace ErrorManager.Plugin.Controllers
         [Breadcrumb(nameof(Languages.LanguageStrings.Error))]
         public IActionResult Index()
         {
-            return View();
+            return View(new BaseModel(GetBreadcrumbs()));
         }
 
         [Breadcrumb(nameof(Languages.LanguageStrings.MissingLink))]
@@ -99,19 +99,21 @@ namespace ErrorManager.Plugin.Controllers
                 model = new Error404Model(Languages.LanguageStrings.PageNotFound, settings.GetQuote(index), GetImageFile(index));
             }
 
+            model.Breadcrumbs = GetBreadcrumbs();
+
             return (View(model));
         }
 
         [Breadcrumb(nameof(Languages.LanguageStrings.HighVolume))]
         public IActionResult HighVolume()
         {
-            return (View());
+            return (View(new BaseModel(GetBreadcrumbs())));
         }
 
         [Breadcrumb(nameof(Languages.LanguageStrings.NotAcceptable))]
         public IActionResult NotAcceptable()
         {
-            return (View());
+            return (View(new BaseModel(GetBreadcrumbs())));
         }
 
 #if DEBUG
