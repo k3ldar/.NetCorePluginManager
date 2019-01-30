@@ -13,32 +13,43 @@
  *
  *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
  *
- *  Product:  SystemAdmin.Plugin
+ *  Product:  AspNetCore.PluginManager
  *  
- *  File: Program.cs
+ *  File: LoggerQueueItem.cs
  *
- *  Purpose:  
+ *  Purpose:  ILogger queue item
  *
  *  Date        Name                Reason
- *  28/10/2018  Simon Carter        Initially Created
+ *  30/01/2019  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using Microsoft.AspNetCore;
-using Microsoft.AspNetCore.Hosting;
+using System;
 
-namespace SystemAdmin.Plugin
+using static SharedPluginFeatures.Enums;
+
+namespace AspNetCore.PluginManager.Classes
 {
-    public class Program
+    internal class LoggerQueueItem
     {
-        public static void Main(string[] args)
-        {
-            AspNetCore.PluginManager.PluginManagerService.Initialise();
+        #region Constructors
 
-            CreateWebHostBuilder(args).Build().Run();
+        internal LoggerQueueItem(in LogLevel logLevel, in string message)
+        {
+            Date = DateTime.Now;
+            Level = logLevel;
+            Message = message;
         }
 
-        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>();
+        #endregion Constructors
+
+        #region Properties
+
+        internal DateTime Date { get; private set; }
+
+        internal LogLevel Level { get; private set; }
+
+        internal string Message { get; private set; }
+
+        #endregion Properties
     }
 }

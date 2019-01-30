@@ -70,7 +70,8 @@ namespace AspNetCore.PluginManager
             if (configuration == null)
                 throw new ArgumentNullException(nameof(configuration));
 
-            _logger = configuration.Logger;
+            _logger = new Classes.LoggerStatistics();
+            Classes.LoggerStatistics.SetLogger(configuration.Logger);
 
             ThreadManagerInitialisation.Initialise(_logger);
 
@@ -79,7 +80,7 @@ namespace AspNetCore.PluginManager
                 //load config and get settings
                 _pluginConfiguration = configuration.LoadSettingsService.LoadSettings<PluginSettings>("PluginConfiguration");
 
-                _pluginManagerInstance = new PluginManager(configuration.Logger, _pluginConfiguration);
+                _pluginManagerInstance = new PluginManager(_logger, _pluginConfiguration);
 
                 _currentPath = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
 
