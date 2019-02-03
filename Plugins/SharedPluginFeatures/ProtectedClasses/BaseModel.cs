@@ -68,7 +68,35 @@ namespace SharedPluginFeatures
 
         #endregion Properties
 
+        #region Protected Methods
+
+        protected string RouteFriendlyName(in string name)
+        {
+            StringBuilder Result = new StringBuilder(name.Length);
+
+            foreach (char c in name)
+            {
+                if (c >= 65 && c <= 90)
+                    Result.Append(c);
+                else if (c >= 61 && c <= 122)
+                    Result.Append(c);
+                else if (c >= 48 && c <= 57)
+                    Result.Append(c);
+                else
+                    Result.Append("-");
+            }
+
+            return Result.ToString();
+        }
+
+        #endregion Protected Methods
+
         #region Public Methods
+
+        public string RouteText(in string text)
+        {
+            return RouteFriendlyName(text);
+        }
 
         public string BreadcrumbData()
         {

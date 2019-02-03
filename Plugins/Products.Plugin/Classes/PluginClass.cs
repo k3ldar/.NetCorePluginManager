@@ -13,14 +13,14 @@
  *
  *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
  *
- *  Product:  AspNetCore.PluginManager.DemoWebsite
+ *  Product:  Products.Plugin
  *  
- *  File: HostPlugin.cs
+ *  File: PluginClass.cs
  *
- *  Purpose:  
+ *  Purpose:  Net Core Plugin Manager Integration
  *
  *  Date        Name                Reason
- *  22/09/2018  Simon Carter        Initially Created
+ *  31/01/2019  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using Microsoft.AspNetCore.Builder;
@@ -29,17 +29,10 @@ using Microsoft.Extensions.DependencyInjection;
 
 using SharedPluginFeatures;
 
-using Middleware;
-using Middleware.Accounts;
-
-using AspNetCore.PluginManager.DemoWebsite.Helpers;
-
-namespace AspNetCore.PluginManager.DemoWebsite.Classes
+namespace ProductPlugin.Classes
 {
-    public class HostPlugin : IPlugin, IPluginVersion
+    public class PluginClass : IPlugin, IPluginVersion
     {
-        #region IPlugin Methods
-
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             
@@ -47,15 +40,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddSingleton<IIpValidation, IPValidation>();
-            services.AddSingleton<ILoginProvider, MockLoginProvider>();
-            services.AddSingleton<IAccountProvider, MockAccountProvider>();
-            services.AddSingleton<ICountryProvider, MockCountryLists>();
-            services.AddSingleton<IDownloadProvider, MockDownloads>();
-            services.AddSingleton<ILicenceProvider, MockLicenceProvider>();
-            services.AddSingleton<IProductProvider, MockProductProvider>();
-            services.AddSingleton<ISharedPluginHelper, SharedPluginHelper>();
-            services.AddSingleton<IErrorManager, ErrorManager>();
+
         }
 
         public void Finalise()
@@ -63,20 +48,14 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
             
         }
 
-        public void Initialise(ILogger logger)
-        {
-            
-        }
-
-        #endregion IPlugin Methods
-
-        #region IPluginVersion Methods
-
         public ushort GetVersion()
         {
             return (1);
         }
 
-        #endregion IPluginVersion Methods
+        public void Initialise(ILogger logger)
+        {
+            
+        }
     }
 }

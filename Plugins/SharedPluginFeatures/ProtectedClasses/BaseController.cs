@@ -29,6 +29,7 @@ using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
 
+using static Shared.Utilities;
 using Shared.Classes;
 
 namespace SharedPluginFeatures
@@ -151,5 +152,79 @@ namespace SharedPluginFeatures
         }
 
         #endregion Growl
+
+        #region Pagination
+
+        protected string BuildPagination(in int itemCount, in int itemsPerPage, in int currentPage,
+            in string page, in string parameters, in string previous, in string next)
+        {
+            string Result = "";
+            int pageCount = CheckMinMax(RoundUp(itemCount, itemsPerPage), 1, int.MaxValue);
+
+            string paginationParameters = parameters;
+
+            if (paginationParameters != "")
+            {
+                if (paginationParameters[0] != '&')
+                    paginationParameters = "&" + paginationParameters;
+            }
+
+            if (currentPage == 1 || pageCount == 1)
+                Result += String.Format("<li class=\"disabled\"><a href=\"javascript: void(0)\">&laquo; {0}</a></li>", previous);
+            else
+                Result += String.Format("<li><a href=\"{0}Page/{1}/{2}\">&laquo; {3}</a></li>", page, currentPage - 1, paginationParameters, previous);
+
+            //can only allow max of 7 items normal page and 5 for mobile
+            int startFrom = 1;
+            int endAt = pageCount;
+            int maxAllowed = GetUserSession().MobileRedirect ? 5 : 7;
+            int currPage = maxAllowed == 5 ? 2 : 4;
+            int pageOffset = maxAllowed == 5 ? 1 : 3;
+
+            if (pageCount > maxAllowed)
+            {
+                if (currentPage > currPage)
+                {
+                    if (currentPage >= pageCount)
+                    {
+                        startFrom = pageCount - maxAllowed;
+                        endAt = pageCount;
+                    }
+                    else
+                    {
+                        startFrom = currentPage - pageOffset;
+                        endAt = currentPage + pageOffset;
+
+                        if (endAt > pageCount)
+                        {
+                            startFrom = pageCount - maxAllowed;
+                            endAt = pageCount;
+                        }
+                    }
+                }
+                else
+                {
+                    startFrom = 1;
+                    endAt = maxAllowed;
+                }
+            }
+
+            for (int i = startFrom; i <= endAt; i++)
+            {
+                if (i == currentPage)
+                    Result += String.Format("<li class=\"current\"><a href=\"{0}Page/{1}/{2}\">{1}</a></li>", page, i, paginationParameters);
+                else
+                    Result += String.Format("<li><a href=\"{0}Page/{1}/{2}\">{1}</a></li>", page, i, paginationParameters);
+            }
+
+            if (currentPage >= pageCount)
+                Result += String.Format("<li class=\"disabled\"><a href=\"javascript: void(0)\">{0} &raquo;</a></li>", next);
+            else
+                Result += String.Format("<li><a href=\"{0}Page/{1}/{2}\">{3} &raquo;</a></li>", page, currentPage + 1, paginationParameters, next);
+
+            return Result;
+        }
+
+        #endregion Pagination
     }
 }
