@@ -1,11 +1,13 @@
 ﻿@model UserAccount.Plugin.Models.LicenceViewModel
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
+
 @{
     ViewData["Title"] = "Licences";
 }
 
 <div class="bc">@Html.Raw(Model.BreadcrumbData())</div>
 
-<h2>@Languages.LanguageStrings.Licences</h2>
+<h2>@Localizer[nameof(Languages.LanguageStrings.Licences)]</h2>
 
 
 <link rel="stylesheet" href="/css/Account.css" />
@@ -18,30 +20,30 @@
     <table>
         <thead>
             <tr>
-                <th>@Languages.LanguageStrings.LicenceDomain</th>
-                <th>@Languages.LanguageStrings.LicenceType</th>
-                <th>@Languages.LanguageStrings.Active</th>
-                <th>@Languages.LanguageStrings.Expires</th>
+                <th>@Localizer[nameof(Languages.LanguageStrings.LicenceDomain)]</th>
+                <th>@Localizer[nameof(Languages.LanguageStrings.LicenceType)]</th>
+                <th>@Localizer[nameof(Languages.LanguageStrings.Active)]</th>
+                <th>@Localizer[nameof(Languages.LanguageStrings.Expires)]</th>
                 <th></th>
             </tr>
         </thead>
         <tbody>
             @foreach (UserAccount.Plugin.Models.ViewLicenceViewModel licence in Model.Licences)
             {
-                <tr>
-                    <td>@licence.Domain</td>
-                    <td>@licence.LicenceType</td>
-                    <td>@licence.Active.ToString()</td>
-                    <td>@licence.Expires.ToString()</td>
-                    <td><a href="/Account/LicenceView/@licence.Id">@Languages.LanguageStrings.View</a></td>
-                </tr>
+            <tr>
+                <td>@licence.Domain</td>
+                <td>@licence.LicenceType</td>
+                <td>@licence.Active.ToString()</td>
+                <td>@licence.Expires.ToString()</td>
+                <td><a href="/Account/LicenceView/@licence.Id">@Localizer[nameof(Languages.LanguageStrings.View)]</a></td>
+            </tr>
             }
         </tbody>
     </table>
 </div>
 <div class="account-block">
     <div class="account-row">
-        <input id="createTrialLicence" type="button" value="@Languages.LanguageStrings.New" />
+        <input id="createTrialLicence" type="button" value="@Localizer[nameof(Languages.LanguageStrings.New)]" />
     </div>
 </div>
 

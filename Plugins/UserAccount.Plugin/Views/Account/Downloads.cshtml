@@ -1,19 +1,21 @@
 ﻿@model UserAccount.Plugin.Models.DownloadViewModel
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
+
 @{
     ViewData["Title"] = "Downloads";
 }
 
 <div class="bc">@Html.Raw(Model.BreadcrumbData())</div>
 
-<h2>@Languages.LanguageStrings.Downloads</h2>
+<h2>@Localizer[nameof(Languages.LanguageStrings.Downloads)]</h2>
 
 <link rel="stylesheet" href="/css/Account.css" />
 
 <div class="accountTab">
     @foreach (Middleware.Downloads.DownloadCategory category in Model.Categories)
     {
-        string className = category.Name == Model.ActiveCategory ? @Languages.LanguageStrings.Active : "";
-        <button class="@className" onclick="window.location.href='/Account/Downloads/@category.Id';">@category.Name</button>
+        string className = category.Name == Model.ActiveCategory ? Localizer[nameof(Languages.LanguageStrings.Active)].ToString() : "";
+        <button class="@Html.Raw(className)" onclick="window.location.href='/Account/Downloads/@category.Id';">@category.Name</button>
     }
 </div>
 
@@ -21,13 +23,13 @@
     <div class="account-block">
         @foreach (UserAccount.Plugin.Models.ViewDownloadViewItem download in Model.Downloads)
         {
-            <a href="/Account/DownloadView/@download.Id">
-                <div class="dload">
-                    <div class="icon"><img src="@download.Icon" border="0" /></div>
-                    <h3>@download.Name</h3>
-                    <p>@download.Description</p>
-                </div>
-            </a>
+        <a href="/Account/DownloadView/@download.Id">
+            <div class="dload">
+                <div class="icon"><img src="@download.Icon" border="0" /></div>
+                <h3>@download.Name</h3>
+                <p>@download.Description</p>
+            </div>
+        </a>
         }
     </div>
     <div class="fixed"></div>

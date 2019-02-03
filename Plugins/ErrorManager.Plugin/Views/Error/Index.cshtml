@@ -1,4 +1,5 @@
 ﻿@model SharedPluginFeatures.BaseModel
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
 
 @{
     ViewData["Title"] = "Index";
@@ -7,11 +8,11 @@
 
 
 <link rel="stylesheet" href="/css/error.css" />
-<h2>@Languages.LanguageStrings.Error</h2>
+<h2>@Localizer[nameof(Languages.LanguageStrings.Error)]</h2>
 
 <div class="errorMessage" style="height:unset;">
     <div>
-        <p>@Languages.LanguageStrings.OopsError</p>
-        <p><a href="/">@Languages.LanguageStrings.ClickHere</a> @Languages.LanguageStrings.ToGoHome</p>
+        <p>@Localizer[nameof(Languages.LanguageStrings.OopsError)]</p>
+        <p><a href="/">@Localizer[nameof(Languages.LanguageStrings.ClickHere)]</a> @Localizer[nameof(Languages.LanguageStrings.ToGoHome)]</p>
     </div>
 </div>
