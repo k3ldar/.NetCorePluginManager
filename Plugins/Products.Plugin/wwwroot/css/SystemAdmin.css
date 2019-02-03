@@ -1,0 +1,121 @@
+﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification\ 
+for details on configuring this project to bundle and minify static web assets. */
+body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+}
+
+/* Wrapping element */
+/* Set some basic padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+
+/* QR code generator */
+#qrCode {
+    margin: 15px;
+}
+
+/* Hide/rearrange for smaller screens */
+@media screen and (max-width: 767px) {
+    /* Hide captions */
+    .carousel-caption {
+        display: none;
+    }
+}
+
+.systemIcon {
+    width: 150px;
+    height: 200px;
+    margin: 20px 10px 0 0;
+    align-content:center;
+}
+    .systemIcon a {
+        text-decoration: none;
+        display: block;
+        width: 149px;
+        height: 200px;
+    }
+        .systemIcon a h3 {
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 14px;
+            margin: 0 0 5px 0;
+            padding: 8px 0 6px 14px;
+            word-break: break-word;
+            overflow: hidden;
+        }
+
+        .systemIcon a img {
+            width: 128px;
+            height: 128px;
+            margin: 5px 0 0 11px;
+        }
+
+.systemGrid table {
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+    width: 100%;
+    padding: 10px 20px 10px 20px;
+}
+
+.systemGrid td, .systemGrid th {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+    .systemGrid table thead tr td {
+        padding-right: 20px;
+    }
+
+
+.systemGrid tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+.systemGrid tr:hover {
+    background-color: #ddd;
+}
+
+.systemGrid th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #707B7C;
+    color: white;
+}
+
+div:empty {
+    display: none;
+}
+
+.bc {
+    padding: 8px 0px 2px 0px;
+    background-color: #eee;
+    height: 36px;
+}
+    .bc ul{
+        list-style: none;
+        padding-left: 6px;
+    }
+        .bc ul li {
+            display: inline;
+            font-size: 12px;
+        }
+
+            .bc ul li + li:before {
+                padding: 8px;
+                color: black;
+                content: "/\00a0";
+            }
+
+            .bc ul li a {
+                color: #0275d8;
+                text-decoration: none;
+            }
+
+                .bc ul li a:hover {
+                    color: #01447e;
+                    text-decoration: underline;
+                }

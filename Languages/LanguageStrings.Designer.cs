@@ -23074,6 +23074,15 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Free.
+        /// </summary>
+        public static string Free {
+            get {
+                return ResourceManager.GetString("Free", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to including special offers if applicable.
         /// </summary>
         public static string FreeOffers {
