@@ -51,7 +51,7 @@ namespace ProductPlugin.Models
             if (lowestPrice == 0)
                 Price = Languages.LanguageStrings.Free;
             else
-                Price = lowestPrice.ToString("C", System.Threading.Thread.CurrentThread.CurrentUICulture);
+                Price = $"{Languages.LanguageStrings.From} {lowestPrice.ToString("C", System.Threading.Thread.CurrentThread.CurrentUICulture)}";
         }
 
         #endregion Constructors

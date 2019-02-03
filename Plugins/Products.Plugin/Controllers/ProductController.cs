@@ -68,14 +68,12 @@ namespace ProductPlugin.Controllers
         #region Public Action Methods
 
         [HttpGet]
-        [Breadcrumb(nameof(LanguageStrings.Product))]
         public IActionResult Index(int? id)
         {
             return Index(String.Empty, id, 1);
         }
 
         [HttpGet]
-        [Breadcrumb(nameof(LanguageStrings.Product))]
         [Route("/Products/{groupName}/{id?}/Page/{page}/")]
         [Route("/Products/{groupName}/{id?}/")]
         public IActionResult Index(string groupName, int?id, int? page)
@@ -99,7 +97,6 @@ namespace ProductPlugin.Controllers
         }
 
         [HttpGet]
-        [Breadcrumb("{product}", nameof(ProductController), nameof(Index), HasParams = true)]
         [Route("/Product/{id}/{productName}/")]
         public IActionResult Product(int id, string productName)
         {
@@ -142,6 +139,10 @@ namespace ProductPlugin.Controllers
                     group.Id, product.NewProduct, product.BestSeller, product.LowestPrice));
             }
 
+            Result.Breadcrumbs.Clear();
+            Result.Breadcrumbs.Add(new BreadcrumbItem(LanguageStrings.Home, "/", false));
+            Result.Breadcrumbs.Add(new BreadcrumbItem(group.Description, $"/Products/{group.Id}/", false));
+
             Result.Pagination = BuildPagination(products.Count, (int)_productsPerPage, page, 
                 $"/Products/{Result.RouteText(group.Description)}/{group.Id}/", "",
                 LanguageStrings.Previous, LanguageStrings.Next);
@@ -160,13 +161,13 @@ namespace ProductPlugin.Controllers
                 modelCategories.Add(new ProductCategoryModel(item.Id, item.Description, item.Url));
             }
 
-            if (productId != 0)
+            Product product = _productProvider.GetProduct(productId);
+
+            if (product == null)
+                return null;
+
+            if (product != null)
             {
-                Product product = _productProvider.GetProduct(productId);
-
-                if (product == null)
-                    return null;
-
                 Result = new ProductModel(GetBreadcrumbs(), modelCategories, product.Id, product.ProductGroupId,
                     product.Name, product.Description, product.Features, product.VideoLink, product.Images, product.LowestPrice);
             }
@@ -174,6 +175,14 @@ namespace ProductPlugin.Controllers
             {
                 Result = new ProductModel(GetBreadcrumbs(), modelCategories);
             }
+
+            ProductGroup primaryProductGroup = _productProvider.ProductGroupGet(product.ProductGroupId);
+            Result.Breadcrumbs.Clear();
+            Result.Breadcrumbs.Add(new BreadcrumbItem(LanguageStrings.Home, "/", false));
+            Result.Breadcrumbs.Add(new BreadcrumbItem(primaryProductGroup.Description, 
+                $"/Products/{primaryProductGroup.Id}/", false));
+            Result.Breadcrumbs.Add(new BreadcrumbItem(product.Name, 
+                $"/Product/{product.Id}/{Result.RouteText(product.Name)}/", false));
 
             return Result;
         }

@@ -3,6 +3,7 @@
 
 @{
     ViewData["Title"] = "Index";
+    var image = Model.Images[0] + "_288.png";
 }
 
 <link rel="stylesheet" href="~/css/Products.css" asp-append-version="true" />
@@ -18,7 +19,7 @@
             <h1>@Model.Name</h1>
             <div class="productImg">
                 <asp:HyperLink ID="linkZoom" runat="server">
-                    <img src="/Images/Products/jbox_288.png" alt="" border="0" width="288" height="268" />
+                    <img src="~/images/Product/@image" alt="" border="0" width="288" height="268" />
                 </asp:HyperLink>
             </div>
 
