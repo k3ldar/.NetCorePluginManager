@@ -3,6 +3,20 @@
 
 https://sicarterblog.wordpress.com/2018/10/02/asp-net-core-plugin-manager/
 
+# Live Demo
+http://PluginManager.website
+
+http://PluginManager.website/SystemAdmin/
+
+http://PluginManager.website/Account/
+
+if asked to login this requires the following details:
+
+Username: admin
+Password: password
+
+It only uses mock data providers and will reset periodically
+
 ## Current Version
 Version 1.3.0
 
