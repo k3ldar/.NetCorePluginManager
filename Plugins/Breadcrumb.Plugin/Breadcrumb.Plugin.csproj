@@ -5,7 +5,7 @@
     <LangVersion>latest</LangVersion>
     <Authors>Simon Carter</Authors>
     <Company>Simon Carter</Company>
-    <Description>Plugin which generates a robots.txt file, based on DenySpider attributes on classes or methods within controllers.  If UserSessionMiddleware.Plugin is also installed, will check to see if a bot is trying to access a page it has been denied, and return a 403 forbidden result.</Description>
+    <Description>Plugin which generates breadcrumbs based on controller method attributes</Description>
     <Copyright>Copyright (c) 2018 - 2019.  Simon Carter.  All rights reserved.</Copyright>
     <PackageLicenseUrl>https://github.com/k3ldar/.NetCorePluginManager/blob/master/LICENSE</PackageLicenseUrl>
     <RepositoryUrl>https://github.com/k3ldar/.NetCorePluginManager</RepositoryUrl>
