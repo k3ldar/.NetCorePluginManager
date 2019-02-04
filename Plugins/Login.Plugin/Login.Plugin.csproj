@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
     <LangVersion>latest</LangVersion>
-    <Version>1.3.0</Version>
+    <Version>1.4.0</Version>
     <RazorCompileOnBuild>false</RazorCompileOnBuild>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Description>Error Manager plugin asp net core plugin manager.</Description>
@@ -262,12 +262,12 @@
   </ItemGroup>
 
   <ItemGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <PackageReference Include="RestrictIp.Plugin" Version="1.3.0" />
-    <PackageReference Include="MemoryCache.Plugin" Version="1.3.0" />
-    <PackageReference Include="AspNetCore.PluginManager" Version="1.3.0" />
-    <PackageReference Include="SharedPluginFeatures" Version="1.3.0" />
-    <PackageReference Include="Middleware" Version="1.3.0" />
-    <PackageReference Include="AspNetCore.PluginManager.Languages" Version="1.3.0" />
+    <PackageReference Include="RestrictIp.Plugin" Version="1.4.0" />
+    <PackageReference Include="MemoryCache.Plugin" Version="1.4.0" />
+    <PackageReference Include="AspNetCore.PluginManager" Version="1.4.0" />
+    <PackageReference Include="SharedPluginFeatures" Version="1.4.0" />
+    <PackageReference Include="Middleware" Version="1.4.0" />
+    <PackageReference Include="AspNetCore.PluginManager.Languages" Version="1.4.0" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
