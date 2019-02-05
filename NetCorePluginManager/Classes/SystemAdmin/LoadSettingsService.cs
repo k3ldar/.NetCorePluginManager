@@ -24,6 +24,7 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
+using System.Reflection;
 using System.IO;
 
 using Microsoft.Extensions.Configuration;
@@ -49,7 +50,7 @@ namespace AspNetCore.PluginManager.Classes
 
         public T LoadSettings<T>(in string name)
         {
-            return (LoadSettings<T>(Path.Combine(Directory.GetCurrentDirectory(), "appsettings.json"), name));
+            return (LoadSettings<T>(Path.Combine(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location), "appsettings.json"), name));
         }
     }
 }

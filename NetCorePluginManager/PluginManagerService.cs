@@ -77,12 +77,13 @@ namespace AspNetCore.PluginManager
 
             try
             {
+                _currentPath = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
+
                 //load config and get settings
-                _pluginConfiguration = configuration.LoadSettingsService.LoadSettings<PluginSettings>("PluginConfiguration");
+                _pluginConfiguration = configuration.LoadSettingsService.LoadSettings<PluginSettings>(
+                    Shared.Utilities.AddTrailingBackSlash(_currentPath) + "appsettings.json", "PluginConfiguration");
 
                 _pluginManagerInstance = new PluginManager(_logger, _pluginConfiguration);
-
-                _currentPath = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
 
                 if (_currentPath.StartsWith(Directory.GetCurrentDirectory(), StringComparison.CurrentCultureIgnoreCase))
                     _currentPath = Directory.GetCurrentDirectory();
