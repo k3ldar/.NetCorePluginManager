@@ -514,7 +514,7 @@ namespace AspNetCore.PluginManager
                 Result = Result.Substring(0, lastIndex).Replace(".", "\\") + Result.Substring(lastIndex);
             }
 
-            return (Path.Combine(Directory.GetCurrentDirectory(), Result));
+            return (Path.Combine(PluginManagerService.RootPath(), Result));
         }
 
         /// <summary>

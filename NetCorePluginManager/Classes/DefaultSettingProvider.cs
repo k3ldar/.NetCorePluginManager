@@ -42,7 +42,7 @@ namespace AspNetCore.PluginManager.Classes
                 throw new ArgumentNullException(nameof(sectionName));
 
             ConfigurationBuilder builder = new ConfigurationBuilder();
-            IConfigurationBuilder configBuilder = builder.SetBasePath(System.IO.Directory.GetCurrentDirectory());
+            IConfigurationBuilder configBuilder = builder.SetBasePath(PluginManagerService.RootPath());
             configBuilder.AddJsonFile(storage);
             IConfigurationRoot config = builder.Build();
             T Result = (T)Activator.CreateInstance(typeof(T));

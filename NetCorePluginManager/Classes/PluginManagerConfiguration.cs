@@ -57,6 +57,8 @@ namespace AspNetCore.PluginManager
         {
             Logger = logger ?? throw new ArgumentNullException(nameof(logger));
             LoadSettingsService = loadSettingsService ?? throw new ArgumentNullException(nameof(loadSettingsService));
+
+            CurrentPath = System.Reflection.Assembly.GetEntryAssembly().Location;
         }
 
         #endregion Constructors
@@ -66,6 +68,8 @@ namespace AspNetCore.PluginManager
         public ILogger Logger { get; private set; }
 
         public ILoadSettingsService LoadSettingsService { get; private set; }
+
+        public string CurrentPath { get; set; }
 
         #endregion Properties
     }

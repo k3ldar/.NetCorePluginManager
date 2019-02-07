@@ -49,7 +49,7 @@ namespace AspNetCore.PluginManager
         private static PluginManager _pluginManagerInstance;
         private static ILogger _logger;
         private static PluginSettings _pluginConfiguration;
-        private static string _currentPath;
+        private static string _rootPath;
 
         #endregion Private Members
 
@@ -77,16 +77,16 @@ namespace AspNetCore.PluginManager
 
             try
             {
-                _currentPath = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
+                _rootPath = configuration.CurrentPath;
 
                 //load config and get settings
                 _pluginConfiguration = configuration.LoadSettingsService.LoadSettings<PluginSettings>(
-                    Shared.Utilities.AddTrailingBackSlash(_currentPath) + "appsettings.json", "PluginConfiguration");
+                    Shared.Utilities.AddTrailingBackSlash(configuration.CurrentPath) + "appsettings.json", "PluginConfiguration");
 
                 _pluginManagerInstance = new PluginManager(_logger, _pluginConfiguration);
 
-                if (_currentPath.StartsWith(Directory.GetCurrentDirectory(), StringComparison.CurrentCultureIgnoreCase))
-                    _currentPath = Directory.GetCurrentDirectory();
+                if (_rootPath.StartsWith(Directory.GetCurrentDirectory(), StringComparison.CurrentCultureIgnoreCase))
+                    _rootPath = Directory.GetCurrentDirectory();
 
                 if (_pluginConfiguration.Disabled)
                     return (false);
@@ -197,6 +197,11 @@ namespace AspNetCore.PluginManager
             return (_pluginManagerInstance);
         }
 
+        internal static string RootPath()
+        {
+            return _rootPath;
+        }
+
         #endregion Internal Static Methods
 
         #region Private Static Methods
@@ -206,7 +211,7 @@ namespace AspNetCore.PluginManager
             string pluginSearchPath = _pluginConfiguration.PluginSearchPath;
 
             if (String.IsNullOrEmpty(pluginSearchPath) || !Directory.Exists(pluginSearchPath))
-                pluginSearchPath = AddTrailingBackSlash(_currentPath);
+                pluginSearchPath = AddTrailingBackSlash(_rootPath);
 
             if (!String.IsNullOrEmpty(pluginSearchPath) && Directory.Exists(pluginSearchPath))
             {
@@ -288,7 +293,7 @@ namespace AspNetCore.PluginManager
                 return (_pluginConfiguration.PluginPath);
             }
 
-            return (AddTrailingBackSlash(_currentPath) + "Plugins\\");
+            return (AddTrailingBackSlash(_rootPath) + "Plugins\\");
         }
 
         #endregion Private Static Methods
