@@ -25,11 +25,9 @@
             <ul class="productList fixed">
                 @foreach (var item in Model.Products)
                 {
-                    var image = @item.Images + "_178.png";
-                    
                     <li class="product">
-                        <a href="/Product/@item.Id/@item.Name/">
-                            <img src="~/images/Product/@image" alt="@item.Name" border="0" width="178" height="128" />
+                        <a href="@item.Url">
+                            <img src="~/images/Products/@item.Images" alt="@item.Name" border="0" width="178" height="128" />
                             <span class="new" style="@if (item.NewProduct) { Html.Raw("display:block;"); }">@Localizer[nameof(Languages.LanguageStrings.NewProduct)]</span>
                             <span class="best" style="@if (item.BestSeller) { Html.Raw("display:block;"); }">@Localizer[nameof(Languages.LanguageStrings.BestSeller)]</span>
                             <br />@item.Name<strong>@item.Price</strong>

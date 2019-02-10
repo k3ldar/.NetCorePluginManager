@@ -81,6 +81,14 @@ namespace ProductPlugin.Models
 
         public string Price { get; private set; }
 
+        public string Url
+        {
+            get
+            {
+                return ($"/Product/{Id}/{RouteFriendlyName(Name)}/");
+            }
+        }
+
         #endregion Properties
     }
 }

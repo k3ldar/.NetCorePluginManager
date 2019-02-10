@@ -130,7 +130,8 @@ namespace ProductPlugin.Models
 
         public string[] FeatureList()
         {
-            return Features.Split('\r', StringSplitOptions.RemoveEmptyEntries);
+            string features = Features.Replace("\n", String.Empty);
+            return features.Split('\r', StringSplitOptions.RemoveEmptyEntries);
         }
 
         #endregion Public Methods

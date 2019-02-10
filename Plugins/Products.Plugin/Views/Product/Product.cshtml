@@ -18,13 +18,13 @@
         <div class="mainContent">
             <h1>@Model.Name</h1>
             <div class="productImg">
-                <asp:HyperLink ID="linkZoom" runat="server">
-                    <img src="~/images/Product/@image" alt="" border="0" width="288" height="268" />
+                <asp:HyperLink ID="linkZoom">
+                    <img src="~/images/Products/@image" alt="" border="0" width="288" height="268" />
                 </asp:HyperLink>
             </div>
 
             <div class="productDescription">
-                @Model.Description
+                @Html.Raw(Model.Description)
             </div>
 
             <div class="productFeatures">
@@ -33,7 +33,7 @@
                     <ul>
                         @foreach (string feature in Model.FeatureList())
                         {
-                        <li>@Model.Features</li>
+                        <li>@Html.Raw(feature)</li>
                         }
                     </ul>
                 </div>
