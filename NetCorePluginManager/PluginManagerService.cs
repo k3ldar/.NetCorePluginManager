@@ -55,6 +55,7 @@ namespace AspNetCore.PluginManager
 
         #region Static Methods
 
+        [Obsolete("This method will be removed in future versions")]
         public static bool Initialise(ILogger logger)
         {
             return Initialise(new PluginManagerConfiguration(logger, new Classes.LoadSettingsService()));
