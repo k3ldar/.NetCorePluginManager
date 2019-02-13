@@ -50,7 +50,13 @@ namespace AspNetCore.PluginManager.Classes
 
         public T LoadSettings<T>(in string name)
         {
-            return (LoadSettings<T>(Path.Combine(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location), "appsettings.json"), name));
+            string path = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
+            int isDebugPos = path.IndexOf("\\bin\\debug\\", StringComparison.InvariantCultureIgnoreCase);
+
+            if (isDebugPos > -1)
+                path = path.Substring(0, isDebugPos);
+
+            return (LoadSettings<T>(Path.Combine(path, "appsettings.json"), name));
         }
     }
 }

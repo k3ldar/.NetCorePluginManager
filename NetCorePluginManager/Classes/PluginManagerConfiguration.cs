@@ -24,6 +24,7 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
+using System.IO;
 
 using SharedPluginFeatures;
 
@@ -58,7 +59,7 @@ namespace AspNetCore.PluginManager
             Logger = logger ?? throw new ArgumentNullException(nameof(logger));
             LoadSettingsService = loadSettingsService ?? throw new ArgumentNullException(nameof(loadSettingsService));
 
-            CurrentPath = System.Reflection.Assembly.GetEntryAssembly().Location;
+            CurrentPath = Directory.GetCurrentDirectory();
         }
 
         #endregion Constructors
