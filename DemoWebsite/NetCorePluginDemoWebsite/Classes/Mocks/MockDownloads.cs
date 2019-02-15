@@ -95,6 +95,34 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
             return _publicDownloads;
         }
 
+        public DownloadItem GetDownloadItem(in int fileId)
+        {
+            foreach (DownloadCategory category in DownloadCategoriesGet())
+            {
+                foreach (DownloadItem downloadItem in category.Downloads)
+                {
+                    if (downloadItem.Id == fileId)
+                        return downloadItem;
+                }
+            }
+
+            return null;
+        }
+
+        public DownloadItem GetDownloadItem(in long userId, in int fileId)
+        {
+            foreach (DownloadCategory category in DownloadCategoriesGet(userId))
+            {
+                foreach (DownloadItem downloadItem in category.Downloads)
+                {
+                    if (downloadItem.Id == fileId)
+                        return downloadItem;
+                }
+            }
+
+            return null;
+        }
+
         #endregion IDownloads
     }
 }

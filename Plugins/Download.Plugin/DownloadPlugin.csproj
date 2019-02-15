@@ -3,9 +3,8 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
     <LangVersion>latest</LangVersion>
-    <Version>1.4.2</Version>
-    <RazorCompileOnBuild>true</RazorCompileOnBuild>
-    <MvcBuildViews>true</MvcBuildViews>
+    <Version>1.4.0</Version>
+    <RazorCompileOnBuild>false</RazorCompileOnBuild>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Description>Error Manager plugin asp net core plugin manager.</Description>
     <Authors>Simon Carter</Authors>
@@ -14,10 +13,9 @@
     <PackageLicenseUrl>https://github.com/k3ldar/.NetCorePluginManager/blob/master/LICENSE</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/k3ldar/.NetCorePluginManager</PackageProjectUrl>
     <RepositoryType>git</RepositoryType>
-    <PackageTags>asp net core plugin manager Login Plugin</PackageTags>
-    <AssemblyName>ProductPlugin</AssemblyName>
-    <RootNamespace>ProductPlugin</RootNamespace>
-    <TypeScriptToolsVersion>3.0</TypeScriptToolsVersion>
+    <PackageTags>asp net core plugin manager error manager</PackageTags>
+    <AssemblyName>DownloadPlugin</AssemblyName>
+    <RootNamespace>DownloadPlugin</RootNamespace>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net461|AnyCPU'">
@@ -58,46 +56,43 @@
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netcoreapp2.2|AnyCPU'">
     <DefineConstants>NET_CORE;NET_CORE_2_2</DefineConstants>
     <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
-    <DebugType>portable</DebugType>
-    <DebugSymbols>true</DebugSymbols>
+    <DebugType>none</DebugType>
+    <DebugSymbols>false</DebugSymbols>
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Views\Login\**" />
-    <Compile Remove="Views\SystemAdmin\**" />
-    <Content Remove="Views\Login\**" />
-    <Content Remove="Views\SystemAdmin\**" />
-    <EmbeddedResource Remove="Views\Login\**" />
-    <EmbeddedResource Remove="Views\SystemAdmin\**" />
-    <None Remove="Views\Login\**" />
-    <None Remove="Views\SystemAdmin\**" />
+    <Content Remove="Views\Download\Category.cshtml" />
+    <Content Remove="Views\Download\_LeftMenu.cshtml" />
+    <Content Remove="wwwroot\css\Downloads.css" />
+    <Content Remove="wwwroot\css\Error.css" />
+    <Content Remove="wwwroot\images\Download\download.jpg" />
+    <Content Remove="wwwroot\images\Download\file.jpg" />
+    <Content Remove="wwwroot\images\Download\pdfFile.jpg" />
+    <Content Remove="wwwroot\images\Download\xlsfile.jpg" />
+    <Content Remove="wwwroot\images\Download\zipfile.jpg" />
+    <Content Remove="wwwroot\images\Error\Default404.png" />
   </ItemGroup>
 
   <ItemGroup>
-    <Content Remove="Views\Product\Index.cshtml" />
-    <Content Remove="Views\Product\Product.cshtml" />
-    <Content Remove="Views\Product\_LeftMenu.cshtml" />
-    <Content Remove="wwwroot\css\Login.css" />
-    <Content Remove="wwwroot\css\products.css" />
-    <Content Remove="wwwroot\js\Login.js" />
+    <EmbeddedResource Include="Views\Download\Category.cshtml" />
+    <EmbeddedResource Include="Views\Download\_LeftMenu.cshtml" />
+    <EmbeddedResource Include="wwwroot\css\Downloads.css" />
+    <EmbeddedResource Include="wwwroot\css\Error.css" />
+    <EmbeddedResource Include="wwwroot\images\Download\download.jpg" />
+    <EmbeddedResource Include="wwwroot\images\Download\file.jpg" />
+    <EmbeddedResource Include="wwwroot\images\Download\pdfFile.jpg" />
+    <EmbeddedResource Include="wwwroot\images\Download\xlsfile.jpg" />
+    <EmbeddedResource Include="wwwroot\images\Download\zipfile.jpg" />
+    <EmbeddedResource Include="wwwroot\images\Error\Default404.png" />
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Views\Product\Index.cshtml" />
-    <EmbeddedResource Include="Views\Product\Product.cshtml" />
-    <EmbeddedResource Include="Views\Product\_LeftMenu.cshtml" />
-    <EmbeddedResource Include="wwwroot\css\Login.css" />
-    <EmbeddedResource Include="wwwroot\css\products.css" />
-    <EmbeddedResource Include="wwwroot\js\Login.js" />
-  </ItemGroup>
-
-  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore" Version="2.2.0" />
     <PackageReference Include="ApplicationSettings" Version="1.1.0" />
-    <PackageReference Include="SC.Shared.Library.Core" Version="2.7.6" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp2.1'">
-    <PackageReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
     <PackageReference Include="Microsoft.AspNetCore" Version="2.1.2" />
     <PackageReference Include="Microsoft.AspNetCore.Antiforgery" Version="2.1.2" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.Abstractions" Version="2.1.2" />
@@ -141,7 +136,6 @@
     <PackageReference Include="Microsoft.AspNetCore.Razor.Language" Version="2.1.2" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Runtime" Version="2.1.2" />
     <PackageReference Include="Microsoft.AspNetCore.ResponseCaching.Abstractions" Version="2.1.2" />
-    <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.1.2" PrivateAssets="All" />
     <PackageReference Include="Microsoft.AspNetCore.Routing" Version="2.1.2" />
     <PackageReference Include="Microsoft.AspNetCore.Routing.Abstractions" Version="2.1.2" />
     <PackageReference Include="Microsoft.AspNetCore.Server.IISIntegration" Version="2.1.2" />
@@ -281,8 +275,8 @@
     <PackageReference Include="MemoryCache.Plugin" Version="1.4.0" />
     <PackageReference Include="AspNetCore.PluginManager" Version="1.4.4" />
     <PackageReference Include="SharedPluginFeatures" Version="1.4.0" />
-    <PackageReference Include="Middleware" Version="1.4.0" />
     <PackageReference Include="AspNetCore.PluginManager.Languages" Version="1.4.0" />
+	<PackageReference Include="Middleware" Version="1.4.0" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -290,8 +284,12 @@
     <ProjectReference Include="..\SharedPluginFeatures\SharedPluginFeatures.csproj" />
     <ProjectReference Include="..\MemoryCachePlugin\MemoryCachePlugin.csproj" />
     <ProjectReference Include="..\RestrictIp.Plugin\RestrictIp.Plugin.csproj" />
-    <ProjectReference Include="..\PluginMiddleware\PluginMiddleware.csproj" />
     <ProjectReference Include="..\..\Languages\Languages.csproj" />
+    <ProjectReference Include="..\PluginMiddleware\PluginMiddleware.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Classes\SystemAdmin\" />
   </ItemGroup>
 
 </Project>

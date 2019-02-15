@@ -96,11 +96,11 @@
     <PackageReference Include="Microsoft.AspNetCore.Razor.Runtime" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.ResponseCaching.Abstractions" Version="2.2.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.1" />
-    <PackageReference Include="SC.Shared.Library.Core" Version="2.7.3" />
+    <PackageReference Include="SC.Shared.Library.Core" Version="2.7.6" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <PackageReference Include="AspNetCore.PluginManager" Version="1.4.0" />
+    <PackageReference Include="AspNetCore.PluginManager" Version="1.4.4" />
     <PackageReference Include="SharedPluginFeatures" Version="1.4.0" />
     <PackageReference Include="Middleware" Version="1.4.0" />
     <PackageReference Include="AspNetCore.PluginManager.Languages" Version="1.4.0" />
@@ -114,10 +114,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Views\Download\" />
     <Folder Include="Views\Error\" />
     <Folder Include="Views\Login\" />
     <Folder Include="Views\Services\" />
     <Folder Include="Views\SystemAdmin\" />
+    <Folder Include="wwwroot\images\Download\" />
   </ItemGroup>
 
 </Project>

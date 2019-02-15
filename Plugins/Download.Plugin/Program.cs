@@ -11,33 +11,27 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2019 Simon Carter.  All Rights Reserved.
  *
- *  Product:  AspNetCore.PluginManager.DemoWebsite
+ *  Product:  Download Plugin
  *  
  *  File: Program.cs
  *
  *  Purpose:  
  *
  *  Date        Name                Reason
- *  22/09/2018  Simon Carter        Initially Created
+ *  11/01/2019  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 
-using AspNetCore.PluginManager.Classes;
-using AspNetCore.PluginManager.DemoWebsite.Classes;
-
-namespace AspNetCore.PluginManager.DemoWebsite
+namespace DownloadPlugin
 {
     public class Program
     {
         public static void Main(string[] args)
         {
-            // Initialise the plugin manager service
-            PluginManagerService.Initialise();
-
             CreateWebHostBuilder(args).Build().Run();
         }
 

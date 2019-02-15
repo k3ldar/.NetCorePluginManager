@@ -11,38 +11,51 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2019 Simon Carter.  All Rights Reserved.
  *
- *  Product:  AspNetCore.PluginManager.DemoWebsite
+ *  Product:  Download Plugin
  *  
- *  File: Program.cs
+ *  File: PluginClass.cs
  *
  *  Purpose:  
  *
  *  Date        Name                Reason
- *  22/09/2018  Simon Carter        Initially Created
+ *  11/01/2019  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using Microsoft.AspNetCore;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.DependencyInjection;
 
-using AspNetCore.PluginManager.Classes;
-using AspNetCore.PluginManager.DemoWebsite.Classes;
+using SharedPluginFeatures;
 
-namespace AspNetCore.PluginManager.DemoWebsite
+namespace DownloadPlugin.Classes
 {
-    public class Program
+    public class PluginClass : IPlugin, IPluginVersion
     {
-        public static void Main(string[] args)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            // Initialise the plugin manager service
-            PluginManagerService.Initialise();
 
-            CreateWebHostBuilder(args).Build().Run();
         }
 
-        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>();
+        public void ConfigureServices(IServiceCollection services)
+        {
+            
+        }
+
+        public void Finalise()
+        {
+            
+        }
+
+        public ushort GetVersion()
+        {
+            return (1);
+        }
+
+        public void Initialise(ILogger logger)
+        {
+            
+        }
     }
 }

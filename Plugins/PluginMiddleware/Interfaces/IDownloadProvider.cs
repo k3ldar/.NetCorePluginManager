@@ -36,17 +36,31 @@ namespace Middleware
         #region Downloads
 
         /// <summary>
-        /// User download files
+        /// User download file Categories
         /// </summary>
         /// <param name="userId"></param>
         /// <returns></returns>
         List<DownloadCategory> DownloadCategoriesGet(in Int64 userId);
 
         /// <summary>
-        /// Publicy downloadable files
+        /// Publicy downloadable file Categories
         /// </summary>
         /// <returns></returns>
         List<DownloadCategory> DownloadCategoriesGet();
+
+        /// <summary>
+        /// Retrieve File
+        /// </summary>
+        /// <param name="fileId"></param>
+        /// <returns></returns>
+        DownloadItem GetDownloadItem(in int fileId);
+
+        /// <summary>
+        /// Retrieve File
+        /// </summary>
+        /// <param name="fileId"></param>
+        /// <returns></returns>
+        DownloadItem GetDownloadItem(in Int64 userId, in int fileId);
 
         #endregion Downloads
     }
