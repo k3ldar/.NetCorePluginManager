@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
     <LangVersion>latest</LangVersion>
-    <Version>1.5.0</Version>
+    <Version>1.5.1</Version>
     <RazorCompileOnBuild>false</RazorCompileOnBuild>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Description>Error Manager plugin asp net core plugin manager.</Description>
