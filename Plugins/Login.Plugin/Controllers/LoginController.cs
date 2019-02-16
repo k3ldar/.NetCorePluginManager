@@ -234,6 +234,7 @@ namespace LoginPlugin.Controllers
 
         [HttpGet]
         [Breadcrumb(nameof(Languages.LanguageStrings.Logout))]
+        [LoggedIn]
         public ActionResult Logout()
         {
             UserSession session = GetUserSession();
