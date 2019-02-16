@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netcoreapp2.2;netcoreapp2.1;net461;net452</TargetFrameworks>
+    <TargetFrameworks>netcoreapp2.2;netcoreapp2.1;net461</TargetFrameworks>
     <ApplicationIcon />
     <OutputType>Library</OutputType>
     <StartupObject />
@@ -21,7 +21,7 @@
     <Copyright>Copyright © 2010 - 2019.  Simon Carter All rights reserved.</Copyright>
     <PackageId>AspNetCore.PluginManager.Languages</PackageId>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>1.4.0</Version>
+    <Version>1.5.0</Version>
     <Authors>Simon Carter</Authors>
     <PackageProjectUrl>https://github.com/k3ldar/SharedLib</PackageProjectUrl>
     <PackageTags>Language Files</PackageTags>
@@ -30,15 +30,23 @@
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU' AND '$(TargetFramework)' == 'net461'">
     <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
-    <DebugType>portable</DebugType>
+    <DebugType>Full</DebugType>
     <DebugSymbols>true</DebugSymbols>
     <DefineConstants>TRACE;DEBUG</DefineConstants>
     <OutputPath>..\Builds\Shared\Debug\Net461</OutputPath>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU' AND '$(TargetFramework)' == 'net461'">
+    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
+    <DebugType>none</DebugType>
+    <DebugSymbols>false</DebugSymbols>
+    <DefineConstants>RELEASE</DefineConstants>
+    <OutputPath>..\Builds\Shared\Release\NetCore461</OutputPath>
+  </PropertyGroup>
+
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU' AND '$(TargetFramework)' == 'netcoreapp2.1'">
     <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
-    <DebugType>portable</DebugType>
+    <DebugType>Full</DebugType>
     <DebugSymbols>true</DebugSymbols>
     <DefineConstants>TRACE;DEBUG;NETCOREAPP2_1;NET_CORE</DefineConstants>
     <OutputPath>..\Builds\Shared\Debug\NetCore.2.1</OutputPath>
@@ -54,7 +62,7 @@
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU' AND '$(TargetFramework)' == 'netcoreapp2.2'">
     <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
-    <DebugType>portable</DebugType>
+    <DebugType>Full</DebugType>
     <DebugSymbols>true</DebugSymbols>
     <DefineConstants>TRACE;DEBUG;NETCOREAPP2_2;NET_CORE</DefineConstants>
     <OutputPath></OutputPath>
@@ -63,43 +71,14 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU' AND '$(TargetFramework)' == 'netcoreapp2.2'">
     <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
     <DebugType>none</DebugType>
-    <DebugSymbols>false</DebugSymbols>
+    <DebugSymbols>true</DebugSymbols>
     <DefineConstants>RELEASE;NETCOREAPP2_2;NET_CORE</DefineConstants>
     <OutputPath></OutputPath>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU' AND '$(TargetFramework)' == 'net461'">
-    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
-    <DebugType>none</DebugType>
-    <DebugSymbols>false</DebugSymbols>
-    <DefineConstants>RELEASE</DefineConstants>
-    <OutputPath>..\Builds\Shared\Release\NetCore461</OutputPath>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netcoreapp1.0|AnyCPU'">
     <DefineConstants>TRACE</DefineConstants>
   </PropertyGroup>
-
-  <ItemGroup>
-    <Compile Remove="ZipFiles\**" />
-    <EmbeddedResource Remove="ZipFiles\**" />
-    <None Remove="ZipFiles\**" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Remove="Classes\BaseLicence.cs" />
-    <Compile Remove="Classes\BaseServiceBase.cs" />
-    <Compile Remove="Classes\ZipFiles.cs" />
-    <Compile Remove="Communication\HttpPost.cs" />
-    <Compile Remove="Communication\SendSMS.cs" />
-    <Compile Remove="Communication\WCFServer.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Remove=".gitignore" />
-    <None Remove="SharedLib.csproj.vspscc" />
-    <None Remove="SharedLib.nuspec" />
-  </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp2.2'">
     <PackageReference Include="Microsoft.AspNetCore" Version="2.2.0" />
@@ -114,7 +93,6 @@
     <PackageReference Include="Microsoft.AspNetCore.Http" Version="2.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.1.2" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.1.1" />
-    <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.5.0" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'net461'">
@@ -130,10 +108,7 @@
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />  </ItemGroup>
-
-  <ItemGroup Condition="'$(TargetFramework)' == 'net461'">
-    <PackageReference Include="System.Security.AccessControl" Version="4.5.0" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
 
   <ItemGroup>

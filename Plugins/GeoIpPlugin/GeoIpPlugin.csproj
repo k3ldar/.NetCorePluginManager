@@ -14,7 +14,7 @@
     <PackageTags>asp net core plugin manager geo ip</PackageTags>
     <PackageReleaseNotes>Supports net core 2.1, 2.2 and net461</PackageReleaseNotes>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>1.4.0</Version>
+    <Version>1.5.0</Version>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net461|AnyCPU'">
@@ -27,8 +27,8 @@
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net461|AnyCPU'">
     <DefineConstants>NET461</DefineConstants>
     <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
-    <DebugType>none</DebugType>
-    <DebugSymbols>false</DebugSymbols>
+    <DebugType>portable</DebugType>
+    <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netcoreapp2.1|AnyCPU'">
@@ -41,8 +41,8 @@
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netcoreapp2.1|AnyCPU'">
     <DefineConstants>NET_CORE;NET_CORE_2_1</DefineConstants>
     <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
-    <DebugType>none</DebugType>
-    <DebugSymbols>false</DebugSymbols>
+    <DebugType>portable</DebugType>
+    <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netcoreapp2.2|AnyCPU'">
@@ -55,8 +55,8 @@
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netcoreapp2.2|AnyCPU'">
     <DefineConstants>NET_CORE;NET_CORE_2_2</DefineConstants>
     <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
-    <DebugType>none</DebugType>
-    <DebugSymbols>false</DebugSymbols>
+    <DebugType>portable</DebugType>
+    <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
 
   <ItemGroup>
@@ -67,7 +67,7 @@
   </ItemGroup>
 
   <ItemGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <PackageReference Include="SharedPluginFeatures" Version="1.4.0" />
+    <PackageReference Include="SharedPluginFeatures" Version="1.5.0" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

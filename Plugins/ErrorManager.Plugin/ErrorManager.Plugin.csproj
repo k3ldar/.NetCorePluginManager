@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
     <LangVersion>latest</LangVersion>
-    <Version>1.4.0</Version>
+    <Version>1.5.0</Version>
     <RazorCompileOnBuild>false</RazorCompileOnBuild>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Description>Error Manager plugin asp net core plugin manager.</Description>
@@ -26,8 +26,8 @@
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net461|AnyCPU'">
     <DefineConstants>NET461</DefineConstants>
     <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
-    <DebugType>none</DebugType>
-    <DebugSymbols>false</DebugSymbols>
+    <DebugType>portable</DebugType>
+    <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netcoreapp2.1|AnyCPU'">
@@ -40,8 +40,8 @@
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netcoreapp2.1|AnyCPU'">
     <DefineConstants>NET_CORE;NET_CORE_2_1</DefineConstants>
     <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
-    <DebugType>none</DebugType>
-    <DebugSymbols>false</DebugSymbols>
+    <DebugType>portable</DebugType>
+    <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netcoreapp2.2|AnyCPU'">
@@ -54,8 +54,8 @@
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netcoreapp2.2|AnyCPU'">
     <DefineConstants>NET_CORE;NET_CORE_2_2</DefineConstants>
     <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
-    <DebugType>none</DebugType>
-    <DebugSymbols>false</DebugSymbols>
+    <DebugType>portable</DebugType>
+    <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
 
   <ItemGroup>
@@ -190,7 +190,7 @@
     <PackageReference Include="Microsoft.AspNetCore.Hosting.Abstractions" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Hosting.Server.Abstractions" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Html.Abstractions" Version="2.2.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Http" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Http" Version="2.2.2" />
     <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Http.Extensions" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="2.2.0" />
@@ -201,7 +201,7 @@
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Abstractions" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Analyzers" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.ApiExplorer" Version="2.2.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.2" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Cors" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.DataAnnotations" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Formatters.Json" Version="2.2.0" />
@@ -216,7 +216,7 @@
     <PackageReference Include="Microsoft.AspNetCore.Razor.Runtime" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.ResponseCaching.Abstractions" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
-    <PackageReference Include="Microsoft.AspNetCore.Routing" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Routing" Version="2.2.2" />
     <PackageReference Include="Microsoft.AspNetCore.Routing.Abstractions" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Server.IISIntegration" Version="2.2.1" />
     <PackageReference Include="Microsoft.AspNetCore.Server.Kestrel" Version="2.2.0" />
@@ -257,15 +257,15 @@
     <PackageReference Include="Microsoft.Extensions.Primitives" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.WebEncoders" Version="2.2.0" />
     <PackageReference Include="Microsoft.Net.Http.Headers" Version="2.2.0" />
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.1" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.2" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <PackageReference Include="RestrictIp.Plugin" Version="1.4.0" />
-    <PackageReference Include="MemoryCache.Plugin" Version="1.4.0" />
-    <PackageReference Include="AspNetCore.PluginManager" Version="1.4.4" />
-    <PackageReference Include="SharedPluginFeatures" Version="1.4.0" />
-    <PackageReference Include="AspNetCore.PluginManager.Languages" Version="1.4.0" />
+    <PackageReference Include="RestrictIp.Plugin" Version="1.5.0" />
+    <PackageReference Include="MemoryCache.Plugin" Version="1.5.0" />
+    <PackageReference Include="AspNetCore.PluginManager" Version="1.5.0" />
+    <PackageReference Include="SharedPluginFeatures" Version="1.5.0" />
+    <PackageReference Include="AspNetCore.PluginManager.Languages" Version="1.5.0" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

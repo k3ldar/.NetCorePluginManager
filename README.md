@@ -18,7 +18,7 @@ Password: password
 It only uses mock data providers and will reset periodically
 
 ## Current Version
-Version 1.4.0
+Version 1.5.0
 
 # ASPNetCore.PluginManager
 Extend website with plugin technology.

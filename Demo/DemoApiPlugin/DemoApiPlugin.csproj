@@ -70,8 +70,8 @@
   </ItemGroup>
 
   <ItemGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <PackageReference Include="AspNetCore.PluginManager" Version="1.4.4" />
-    <PackageReference Include="SharedPluginFeatures" Version="1.4.0" />
+    <PackageReference Include="AspNetCore.PluginManager" Version="1.5.0" />
+    <PackageReference Include="SharedPluginFeatures" Version="1.5.0" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

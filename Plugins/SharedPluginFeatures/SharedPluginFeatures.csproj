@@ -11,7 +11,7 @@
     <PackageTags>asp net core plugin manager shared classes interfaces</PackageTags>
     <PackageReleaseNotes>Shared Modules for asp net core plugin manager.  Supports 2.1, 2.2 &amp; net461</PackageReleaseNotes>
     <AssemblyVersion>1.0.0.0</AssemblyVersion>
-    <Version>1.4.0</Version>
+    <Version>1.5.0</Version>
     <FileVersion>1.0.0.0</FileVersion>
     <Authors>Simon Carter</Authors>
     <Company>Simon Carter</Company>
@@ -28,8 +28,8 @@
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net461|AnyCPU'">
     <DefineConstants>NET461</DefineConstants>
     <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
-    <DebugType>none</DebugType>
-    <DebugSymbols>false</DebugSymbols>
+    <DebugType>portable</DebugType>
+    <DebugSymbols>true</DebugSymbols>
     <NoWarn>1701;1702;NU1603</NoWarn>
   </PropertyGroup>
 
@@ -44,8 +44,8 @@
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netcoreapp2.1|AnyCPU'">
     <DefineConstants>NET_CORE;NET_CORE_2_1</DefineConstants>
     <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
-    <DebugType>none</DebugType>
-    <DebugSymbols>false</DebugSymbols>
+    <DebugType>portable</DebugType>
+    <DebugSymbols>true</DebugSymbols>
     <NoWarn>1701;1702;NU1603</NoWarn>
   </PropertyGroup>
 
@@ -60,8 +60,8 @@
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netcoreapp2.2|AnyCPU'">
     <DefineConstants>NET_CORE;NET_CORE_2_2</DefineConstants>
     <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
-    <DebugType>none</DebugType>
-    <DebugSymbols>false</DebugSymbols>
+    <DebugType>portable</DebugType>
+    <DebugSymbols>true</DebugSymbols>
     <NoWarn>1701;1702;NU1603</NoWarn>
   </PropertyGroup>
 

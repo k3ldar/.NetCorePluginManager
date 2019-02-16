@@ -25,6 +25,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
+using AspNetCore.PluginManager;
 
 namespace UserAccount.Plugin
 {
@@ -32,7 +33,7 @@ namespace UserAccount.Plugin
     {
         public static void Main(string[] args)
         {
-            AspNetCore.PluginManager.PluginManagerService.Initialise(new Classes.Logger());
+            PluginManagerService.Initialise();
 
             CreateWebHostBuilder(args).Build().Run();
         }

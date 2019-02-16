@@ -34,7 +34,7 @@ namespace Company.Plugin
     {
         public static void Main (string[] args)
         {
-            AspNetCore.PluginManager.PluginManagerService.Initialise(new Classes.Logger());
+            PluginManagerService.Initialise();
 
             CreateWebHostBuilder(args).Build().Run();
         }
