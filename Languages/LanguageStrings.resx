@@ -13533,4 +13533,8 @@ If this continues, please contact support.</comment>
     <value>Create</value>
     <comment>Create</comment>
   </data>
+  <data name="SystemAdmin" xml:space="preserve">
+    <value>System Admin</value>
+    <comment>System Admin</comment>
+  </data>
 </root>
