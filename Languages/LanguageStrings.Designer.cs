@@ -20613,6 +20613,15 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Auto Login.
+        /// </summary>
+        public static string AutoLogin {
+            get {
+                return ResourceManager.GetString("AutoLogin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Available Tags.
         /// </summary>
         public static string AvailableTags {
@@ -24286,6 +24295,15 @@ namespace Languages {
         public static string LoginDetailsSentByEmail {
             get {
                 return ResourceManager.GetString("LoginDetailsSentByEmail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Login Validation.
+        /// </summary>
+        public static string LoginValidation {
+            get {
+                return ResourceManager.GetString("LoginValidation", resourceCulture);
             }
         }
         
@@ -28240,6 +28258,15 @@ namespace Languages {
         public static string TimeStart {
             get {
                 return ResourceManager.GetString("TimeStart", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Timings.
+        /// </summary>
+        public static string Timings {
+            get {
+                return ResourceManager.GetString("Timings", resourceCulture);
             }
         }
         

@@ -13537,4 +13537,16 @@ If this continues, please contact support.</comment>
     <value>System Admin</value>
     <comment>System Admin</comment>
   </data>
+  <data name="AutoLogin" xml:space="preserve">
+    <value>Auto Login</value>
+    <comment>Auto Login</comment>
+  </data>
+  <data name="LoginValidation" xml:space="preserve">
+    <value>Login Validation</value>
+    <comment>Login Validation</comment>
+  </data>
+  <data name="Timings" xml:space="preserve">
+    <value>Timings</value>
+    <comment>Timings</comment>
+  </data>
 </root>

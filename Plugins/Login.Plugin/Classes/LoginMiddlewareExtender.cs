@@ -15,47 +15,23 @@
  *
  *  Product:  Login Plugin
  *  
- *  File: PluginClass.cs
+ *  File: LoginCheckSubMenu.cs
  *
- *  Purpose:  Net Core Plugin Manager Integration
+ *  Purpose:  Auto Login Timings Sub Menu
  *
  *  Date        Name                Reason
- *  19/11/2018  Simon Carter        Initially Created
+ *  17/02/2019  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.DependencyInjection;
 
-using SharedPluginFeatures;
-
-namespace LoginPlugin.Classes
+namespace LoginPlugin
 {
-    public class PluginClass : IPlugin, IPluginVersion
+    public static class LoginMiddlewareExtender
     {
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public static IApplicationBuilder UseLogin(this IApplicationBuilder builder)
         {
-            app.UseLogin();
-        }
-
-        public void ConfigureServices(IServiceCollection services)
-        {
-
-        }
-
-        public void Finalise()
-        {
-            
-        }
-
-        public ushort GetVersion()
-        {
-            return (1);
-        }
-
-        public void Initialise(ILogger logger)
-        {
-            
+            return builder.UseMiddleware<LoginMiddleware>();
         }
     }
 }
