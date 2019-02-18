@@ -123,6 +123,16 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
             return null;
         }
 
+        public void ItemDownloaded(in long userId, in int fileId)
+        {
+            // its a mock do nothing
+        }
+
+        public void ItemDownloaded(in int fileId)
+        {
+            // its a mock do nothing
+        }
+
         #endregion IDownloads
     }
 }

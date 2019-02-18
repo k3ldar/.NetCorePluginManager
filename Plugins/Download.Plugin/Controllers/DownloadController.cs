@@ -131,6 +131,13 @@ namespace DownloadPlugin.Controllers
         [Route("/Download/File/{id}/{name}")]
         public IActionResult File(int id, string name)
         {
+            UserSession userSession = GetUserSession();
+
+            if (userSession == null)
+                _downloadProvider.ItemDownloaded(id);
+            else
+                _downloadProvider.ItemDownloaded(userSession.UserID, id);
+
             DownloadItem download = _downloadProvider.GetDownloadItem(id);
 
             if (download == null)

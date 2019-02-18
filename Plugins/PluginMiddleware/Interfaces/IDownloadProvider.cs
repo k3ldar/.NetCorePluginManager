@@ -62,6 +62,19 @@ namespace Middleware
         /// <returns></returns>
         DownloadItem GetDownloadItem(in Int64 userId, in int fileId);
 
+        /// <summary>
+        /// File download by a user
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="fileId"></param>
+        void ItemDownloaded(in Int64 userId, in int fileId);
+
+        /// <summary>
+        /// File download by anyone
+        /// </summary>
+        /// <param name="fileId"></param>
+        void ItemDownloaded(in int fileId);
+
         #endregion Downloads
     }
 }
