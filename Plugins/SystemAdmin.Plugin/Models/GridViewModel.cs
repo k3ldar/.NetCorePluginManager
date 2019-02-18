@@ -61,7 +61,8 @@ namespace SystemAdmin.Plugin.Models
                 string[] line = allLines[i].Split('|');
 
                 if (line.Length != Headers.Length)
-                    throw new InvalidOperationException("column count much match header column count");
+                    throw new InvalidOperationException("column count much match header column count" +
+                        $"\r\n\r\n{subMenu.Data()}");
 
                 Items.Add(line);
             }
