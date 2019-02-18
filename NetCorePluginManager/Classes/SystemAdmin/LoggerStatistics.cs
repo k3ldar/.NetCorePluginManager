@@ -79,7 +79,7 @@ namespace AspNetCore.PluginManager.Classes
 
         public override string Data()
         {
-            StringBuilder Result = new StringBuilder("Date/Time|Log Type|Message", MaxQueueLength * 100);
+            StringBuilder Result = new StringBuilder("DateTime|Log Type|Message", MaxQueueLength * 100);
             object[] queueItems;
 
             using (TimedLock.Lock(_lockObject))

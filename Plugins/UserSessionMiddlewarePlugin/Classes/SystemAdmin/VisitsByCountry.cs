@@ -94,7 +94,7 @@ namespace UserSessionMiddleware.Plugin.Classes.SystemAdmin
 
         public override string Name()
         {
-            return ("Visits by Country");
+            return ("VisitsbyCountry");
         }
 
         public override string ParentMenuName()

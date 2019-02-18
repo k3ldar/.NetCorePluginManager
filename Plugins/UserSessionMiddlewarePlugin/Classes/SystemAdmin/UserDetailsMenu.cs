@@ -71,7 +71,7 @@ namespace UserSessionMiddleware.Plugin.Classes.SystemAdmin
                 Result.Append($"Bot: {session.IsBot}<br />");
                 Result.Append($"User Agent: {session.UserAgent}");
                 Result.Append($"Referrer: {session.InitialReferrer}<br />");
-                Result.Append($"Ip Address: {session.IPAddress}<br />");
+                Result.Append($"IP Address: {session.IPAddress}<br />");
 
                 if (!String.IsNullOrEmpty(session.UserEmail))
                 {

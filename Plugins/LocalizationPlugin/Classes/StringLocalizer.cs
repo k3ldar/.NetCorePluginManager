@@ -27,6 +27,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Resources;
+using System.Text;
 using System.Threading;
 
 using Microsoft.Extensions.Localization;
@@ -64,7 +65,20 @@ namespace Localization.Plugin
             {
                 try
                 {
-                    return new LocalizedString(name, _resourceManager.GetString(name, Thread.CurrentThread.CurrentUICulture));
+                    StringBuilder resourceName = new StringBuilder(name.Length);
+
+                    // strip out any non alpha numeric characters
+                    foreach (char c in name)
+                    {
+                        if (c >= 65 && c <= 90)
+                            resourceName.Append(c);
+                        else if (c >= 61 && c <= 122)
+                            resourceName.Append(c);
+                        else if (c >= 48 && c <= 57)
+                            resourceName.Append(c);
+                    }
+
+                    return new LocalizedString(name, _resourceManager.GetString(resourceName.ToString(), Thread.CurrentThread.CurrentUICulture));
                 }
                 catch (Exception error)
                 {

@@ -27,8 +27,6 @@ using System;
 using System.IO;
 using System.Text;
 
-using Microsoft.Extensions.DependencyInjection;
-
 using SharedPluginFeatures;
 
 namespace SystemAdmin.Plugin.Classes
@@ -89,7 +87,7 @@ namespace SystemAdmin.Plugin.Classes
 
         public override string Name()
         {
-            return ("appsettings.json");
+            return ("appsettingsjson");
         }
 
         public override string ParentMenuName()

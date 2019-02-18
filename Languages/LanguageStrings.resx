@@ -13549,4 +13549,288 @@ If this continues, please contact support.</comment>
     <value>Timings</value>
     <comment>Timings</comment>
   </data>
+  <data name="ActivePageViews" xml:space="preserve">
+    <value>Active Page Views</value>
+    <comment>Active Page Views</comment>
+  </data>
+  <data name="Age" xml:space="preserve">
+    <value>Age</value>
+    <comment>Age</comment>
+  </data>
+  <data name="appsettingsjson" xml:space="preserve">
+    <value>appsettings.json</value>
+    <comment>appsettings.json</comment>
+  </data>
+  <data name="Averagems" xml:space="preserve">
+    <value>Average ms</value>
+    <comment>Average ms</comment>
+  </data>
+  <data name="BadEgg" xml:space="preserve">
+    <value>Bad Egg</value>
+    <comment>Bad Egg</comment>
+  </data>
+  <data name="BadEggConnections" xml:space="preserve">
+    <value>Bad Egg Connections</value>
+    <comment>Bad Egg Connections</comment>
+  </data>
+  <data name="Bot" xml:space="preserve">
+    <value>Bot</value>
+    <comment>Bot</comment>
+  </data>
+  <data name="Bounced" xml:space="preserve">
+    <value>Bounced</value>
+    <comment>Bounced</comment>
+  </data>
+  <data name="Breadcrumbs" xml:space="preserve">
+    <value>Breadcrumbs</value>
+    <comment>Breadcrumbs</comment>
+  </data>
+  <data name="CacheControl" xml:space="preserve">
+    <value>Cache Control</value>
+    <comment>Cache Control</comment>
+  </data>
+  <data name="Cancelled" xml:space="preserve">
+    <value>Cancelled</value>
+    <comment>Cancelled</comment>
+  </data>
+  <data name="CityName" xml:space="preserve">
+    <value>City Name</value>
+    <comment>City Name</comment>
+  </data>
+  <data name="Created" xml:space="preserve">
+    <value>Created</value>
+    <comment>Created</comment>
+  </data>
+  <data name="Errors404" xml:space="preserve">
+    <value>404 Errors</value>
+    <comment>404 Errors</comment>
+  </data>
+  <data name="Fastestms" xml:space="preserve">
+    <value>Fastest ms</value>
+    <comment>Fastest ms</comment>
+  </data>
+  <data name="FileVersion" xml:space="preserve">
+    <value>File Version</value>
+    <comment>File Version</comment>
+  </data>
+  <data name="Firebird" xml:space="preserve">
+    <value>Firebird</value>
+    <comment>Firebird</comment>
+  </data>
+  <data name="GeoIpCache" xml:space="preserve">
+    <value>GeoIp Cache</value>
+    <comment>GeoIp Cache</comment>
+  </data>
+  <data name="GeoIpDatabase" xml:space="preserve">
+    <value>GeoIp Database</value>
+    <comment>GeoIp Database</comment>
+  </data>
+  <data name="GeoIpMemory" xml:space="preserve">
+    <value>GeoIp Memory</value>
+    <comment>GeoIp Memory</comment>
+  </data>
+  <data name="GeoIpProvider" xml:space="preserve">
+    <value>GeoIp Provider</value>
+    <comment>GeoIp Provider</comment>
+  </data>
+  <data name="HitsPerMinute" xml:space="preserve">
+    <value>Hits Per Minute</value>
+    <comment>Hits Per Minute</comment>
+  </data>
+  <data name="IsBot" xml:space="preserve">
+    <value>Is Bot</value>
+    <comment>Is Bot</comment>
+  </data>
+  <data name="ItemCount" xml:space="preserve">
+    <value>Item Count</value>
+    <comment>Item Count</comment>
+  </data>
+  <data name="LastEntry" xml:space="preserve">
+    <value>Last Entry</value>
+    <comment>Last Entry</comment>
+  </data>
+  <data name="LoadedModules" xml:space="preserve">
+    <value>Loaded Modules</value>
+    <comment>Loaded Modules</comment>
+  </data>
+  <data name="LoadedPlugins" xml:space="preserve">
+    <value>Loaded Plugins</value>
+    <comment>Loaded Plugins</comment>
+  </data>
+  <data name="LoadedRecords" xml:space="preserve">
+    <value>Loaded Records</value>
+    <comment>Loaded Records</comment>
+  </data>
+  <data name="LoadTime" xml:space="preserve">
+    <value>Load Time</value>
+    <comment>Load Time</comment>
+  </data>
+  <data name="Logs" xml:space="preserve">
+    <value>Logs</value>
+    <comment>Logs</comment>
+  </data>
+  <data name="LogType" xml:space="preserve">
+    <value>Log Type</value>
+    <comment>Log Type</comment>
+  </data>
+  <data name="MapofVisitors" xml:space="preserve">
+    <value>Map of Visitors</value>
+    <comment>Map of Visitors</comment>
+  </data>
+  <data name="MarkedForRemoval" xml:space="preserve">
+    <value>Marked For Removal</value>
+    <comment>Marked For Removal</comment>
+  </data>
+  <data name="MemoryCache" xml:space="preserve">
+    <value>Memory Cache</value>
+    <comment>Memory Cache</comment>
+  </data>
+  <data name="MissingLinks" xml:space="preserve">
+    <value>Missing Links</value>
+    <comment>Missing Links</comment>
+  </data>
+  <data name="Module" xml:space="preserve">
+    <value>Module</value>
+    <comment>Module</comment>
+  </data>
+  <data name="PagesVisited" xml:space="preserve">
+    <value>Pages Visited</value>
+    <comment>Pages Visited</comment>
+  </data>
+  <data name="PluginVersion" xml:space="preserve">
+    <value>Plugin Version</value>
+    <comment>Plugin Version</comment>
+  </data>
+  <data name="ProcessUsage" xml:space="preserve">
+    <value>Process Usage</value>
+    <comment>Process Usage</comment>
+  </data>
+  <data name="Provider" xml:space="preserve">
+    <value>Provider</value>
+    <comment>Provider</comment>
+  </data>
+  <data name="Referrer" xml:space="preserve">
+    <value>Referrer</value>
+    <comment>Referrer</comment>
+  </data>
+  <data name="RegisteredUser" xml:space="preserve">
+    <value>Registered User</value>
+    <comment>Registered User</comment>
+  </data>
+  <data name="RegisteredUserMobile" xml:space="preserve">
+    <value>Registered User (Mobile)</value>
+    <comment>Registered User (Mobile)</comment>
+  </data>
+  <data name="Requests" xml:space="preserve">
+    <value>Requests</value>
+    <comment>Requests</comment>
+  </data>
+  <data name="RestrictIp" xml:space="preserve">
+    <value>Restrict Ip</value>
+    <comment>Restrict Ip</comment>
+  </data>
+  <data name="Results" xml:space="preserve">
+    <value>Results</value>
+    <comment>Results</comment>
+  </data>
+  <data name="Sale" xml:space="preserve">
+    <value>Sale</value>
+    <comment>Sale</comment>
+  </data>
+  <data name="SaleMobile" xml:space="preserve">
+    <value>Sale (Mobile)</value>
+    <comment>Sale (Mobile)</comment>
+  </data>
+  <data name="SalesbyCountry" xml:space="preserve">
+    <value>Sales by Country</value>
+    <comment>Sales by Country</comment>
+  </data>
+  <data name="Setting" xml:space="preserve">
+    <value>Setting</value>
+    <comment>Setting</comment>
+  </data>
+  <data name="Slowestms" xml:space="preserve">
+    <value>Slowest ms</value>
+    <comment>Slowest ms</comment>
+  </data>
+  <data name="Spider" xml:space="preserve">
+    <value>Spider</value>
+    <comment>Spider</comment>
+  </data>
+  <data name="SystemUsage" xml:space="preserve">
+    <value>System Usage</value>
+    <comment>System Usage</comment>
+  </data>
+  <data name="ThreadId" xml:space="preserve">
+    <value>Thread Id</value>
+    <comment>Thread Id</comment>
+  </data>
+  <data name="Threads" xml:space="preserve">
+    <value>Threads</value>
+    <comment>Threads</comment>
+  </data>
+  <data name="TimeCreated" xml:space="preserve">
+    <value>Time Created</value>
+    <comment>Time Created</comment>
+  </data>
+  <data name="Totalms" xml:space="preserve">
+    <value>Total ms</value>
+    <comment>Total ms</comment>
+  </data>
+  <data name="TotalPageViews" xml:space="preserve">
+    <value>Total Page Views</value>
+    <comment>Total Page Views</comment>
+  </data>
+  <data name="TotalRequests" xml:space="preserve">
+    <value>Total Requests</value>
+    <comment>Total Requests</comment>
+  </data>
+  <data name="TotalSales" xml:space="preserve">
+    <value>Total Sales</value>
+    <comment>Total Sales</comment>
+  </data>
+  <data name="TotalTime" xml:space="preserve">
+    <value>Total Time</value>
+    <comment>Total Time</comment>
+  </data>
+  <data name="TotalVisitors" xml:space="preserve">
+    <value>Total Visitors</value>
+    <comment>Total Visitors</comment>
+  </data>
+  <data name="TotalVisits" xml:space="preserve">
+    <value>Total Visits</value>
+    <comment>Total Visits</comment>
+  </data>
+  <data name="Unresponsive" xml:space="preserve">
+    <value>Unresponsive</value>
+    <comment>Unresponsive</comment>
+  </data>
+  <data name="UserAgent" xml:space="preserve">
+    <value>User Agent</value>
+    <comment>User Agent</comment>
+  </data>
+  <data name="UserSession" xml:space="preserve">
+    <value>User Session</value>
+    <comment>User Session</comment>
+  </data>
+  <data name="UserSessionDetails" xml:space="preserve">
+    <value>User Session Details</value>
+    <comment>User Session Details</comment>
+  </data>
+  <data name="UserSessions" xml:space="preserve">
+    <value>User Sessions</value>
+    <comment>User Sessions</comment>
+  </data>
+  <data name="Value" xml:space="preserve">
+    <value>Value</value>
+    <comment>Value</comment>
+  </data>
+  <data name="Visitor" xml:space="preserve">
+    <value>Visitor</value>
+    <comment>Visitor</comment>
+  </data>
+  <data name="VisitsbyCountry" xml:space="preserve">
+    <value>Visits by Country</value>
+    <comment>Visits by Country</comment>
+  </data>
 </root>

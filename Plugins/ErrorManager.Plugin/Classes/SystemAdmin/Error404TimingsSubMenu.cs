@@ -73,7 +73,7 @@ namespace ErrorManager.Plugin.Classes.SystemAdmin
 
         public override string Name()
         {
-            return ("404 Errors");
+            return ("Errors404");
         }
 
         public override string ParentMenuName()
