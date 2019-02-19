@@ -114,12 +114,15 @@ namespace AspNetCore.PluginManager
                 return;
             }
 
+            bool interfaceFound = false;
+
             foreach (Type type in assembly.GetTypes())
             {
                 try
                 {
                     if (type.GetInterface("IPlugin") != null)
                     {
+                        interfaceFound = true;
                         IPlugin pluginService = (IPlugin)Activator.CreateInstance(type);
 
                         if (extractResources && !pluginSetting.PreventExtractResources)
@@ -171,6 +174,9 @@ namespace AspNetCore.PluginManager
                         $"{assembly.FullName}{MethodBase.GetCurrentMethod().Name}");
                 }
             }
+
+            if (!interfaceFound)
+                _logger.AddToLog(LogLevel.PluginConfigureError, $"{assemblyName} contains no IPlugin Interface");
         }
 
         /// <summary>
