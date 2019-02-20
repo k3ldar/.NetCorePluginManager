@@ -168,6 +168,9 @@ namespace ProductPlugin.Controllers
 
             if (product != null)
             {
+                if (_productProvider.ProductGroupGet(product.ProductGroupId) == null)
+                    return null;
+
                 Result = new ProductModel(GetBreadcrumbs(), modelCategories, product.Id, product.ProductGroupId,
                     product.Name, product.Description, product.Features, product.VideoLink, product.Images, product.LowestPrice);
             }
