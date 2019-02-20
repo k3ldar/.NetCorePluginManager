@@ -77,8 +77,4 @@
     <ProjectReference Include="..\..\Languages\Languages.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Classes\SystemAdmin\" />
-  </ItemGroup>
-
 </Project>

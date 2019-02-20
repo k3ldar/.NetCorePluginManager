@@ -40,13 +40,13 @@ namespace Localization.Plugin
         #region Private Members
 
         private readonly RequestDelegate _next;
-        internal static Timings _timings = new Timings();
+        private static readonly Timings _timings = new Timings();
         private readonly CacheManager _cultureCache;
 
         #endregion Private Members
 
         #region Constructors
-
+ 
         public LocalizationMiddleware(RequestDelegate next, ISettingsProvider settingsProvider)
         {
             if (settingsProvider == null)
@@ -76,6 +76,18 @@ namespace Localization.Plugin
         }
 
         #endregion Public Methods
+
+        #region Internal Properties
+
+        internal static Timings LocalizationTimings
+        {
+            get
+            {
+                return _timings;
+            }
+        }
+
+        #endregion Internal Properties
 
         #region Private Methods
 

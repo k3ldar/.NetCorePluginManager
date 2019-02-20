@@ -24497,6 +24497,15 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Localization.
+        /// </summary>
+        public static string Localization {
+            get {
+                return ResourceManager.GetString("Localization", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Location.
         /// </summary>
         public static string Location {
@@ -29131,6 +29140,15 @@ namespace Languages {
         public static string TradeSignupPage3D {
             get {
                 return ResourceManager.GetString("TradeSignupPage3D", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Translation Timings.
+        /// </summary>
+        public static string TranslationTimings {
+            get {
+                return ResourceManager.GetString("TranslationTimings", resourceCulture);
             }
         }
         

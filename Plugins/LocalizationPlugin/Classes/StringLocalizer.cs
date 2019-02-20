@@ -45,6 +45,8 @@ namespace Localization.Plugin
         private static readonly ResourceManager _resourceManager = new ResourceManager("Languages.LanguageStrings", 
             typeof(LanguageStrings).Assembly);
 
+        private static readonly Timings _timings = new Timings();
+
         #endregion Private Members
 
         #region Constructors
@@ -63,27 +65,30 @@ namespace Localization.Plugin
         {
             get
             {
-                try
+                using (StopWatchTimer stopwatchTimer = StopWatchTimer.Initialise(_timings))
                 {
-                    StringBuilder resourceName = new StringBuilder(name.Length);
-
-                    // strip out any non alpha numeric characters
-                    foreach (char c in name)
+                    try
                     {
-                        if (c >= 65 && c <= 90)
-                            resourceName.Append(c);
-                        else if (c >= 61 && c <= 122)
-                            resourceName.Append(c);
-                        else if (c >= 48 && c <= 57)
-                            resourceName.Append(c);
-                    }
+                        StringBuilder resourceName = new StringBuilder(name.Length);
 
-                    return new LocalizedString(name, _resourceManager.GetString(resourceName.ToString(), Thread.CurrentThread.CurrentUICulture));
-                }
-                catch (Exception error)
-                {
-                    Initialisation.GetLogger.AddToLog(Enums.LogLevel.Localization, error, name);
-                    return new LocalizedString(name, name);
+                        // strip out any non alpha numeric characters
+                        foreach (char c in name)
+                        {
+                            if (c >= 65 && c <= 90)
+                                resourceName.Append(c);
+                            else if (c >= 61 && c <= 122)
+                                resourceName.Append(c);
+                            else if (c >= 48 && c <= 57)
+                                resourceName.Append(c);
+                        }
+
+                        return new LocalizedString(name, _resourceManager.GetString(resourceName.ToString(), Thread.CurrentThread.CurrentUICulture));
+                    }
+                    catch (Exception error)
+                    {
+                        Initialisation.GetLogger.AddToLog(Enums.LogLevel.Localization, error, name);
+                        return new LocalizedString(name, name);
+                    }
                 }
             }
         }
@@ -92,15 +97,31 @@ namespace Localization.Plugin
         {
             get
             {
-                try
+                using (StopWatchTimer stopwatchTimer = StopWatchTimer.Initialise(_timings))
                 {
-                    string resourceString = _resourceManager.GetString(name, Thread.CurrentThread.CurrentUICulture);
-                    return new LocalizedString(name, String.Format(resourceString, arguments));
-                }
-                catch (Exception error)
-                {
-                    Initialisation.GetLogger.AddToLog(Enums.LogLevel.Localization, error, name);
-                    return new LocalizedString(name, String.Format(name, arguments));
+                    try
+                    {
+                        StringBuilder resourceName = new StringBuilder(name.Length);
+
+                        // strip out any non alpha numeric characters
+                        foreach (char c in name)
+                        {
+                            if (c >= 65 && c <= 90)
+                                resourceName.Append(c);
+                            else if (c >= 61 && c <= 122)
+                                resourceName.Append(c);
+                            else if (c >= 48 && c <= 57)
+                                resourceName.Append(c);
+                        }
+
+                        string resourceString = _resourceManager.GetString(resourceName.ToString(), Thread.CurrentThread.CurrentUICulture);
+                        return new LocalizedString(name, String.Format(resourceString, arguments));
+                    }
+                    catch (Exception error)
+                    {
+                        Initialisation.GetLogger.AddToLog(Enums.LogLevel.Localization, error, name);
+                        return new LocalizedString(name, String.Format(name, arguments));
+                    }
                 }
             }
         }
@@ -116,5 +137,17 @@ namespace Localization.Plugin
         }
 
         #endregion IStringLocalizer Methods
+
+        #region Internal Properties
+
+        internal static Timings LocalizationTimings
+        {
+            get
+            {
+                return _timings;
+            }
+        }
+
+        #endregion Internal Properties
     }
 }

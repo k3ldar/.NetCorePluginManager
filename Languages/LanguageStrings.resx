@@ -13833,4 +13833,12 @@ If this continues, please contact support.</comment>
     <value>Visits by Country</value>
     <comment>Visits by Country</comment>
   </data>
+  <data name="Localization" xml:space="preserve">
+    <value>Localization</value>
+    <comment>Localization</comment>
+  </data>
+  <data name="TranslationTimings" xml:space="preserve">
+    <value>Translation Timings</value>
+    <comment>Translation Timings</comment>
+  </data>
 </root>
