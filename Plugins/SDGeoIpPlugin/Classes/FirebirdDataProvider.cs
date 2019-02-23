@@ -156,7 +156,8 @@ namespace SieraDeltaGeoIp.Plugin
             try
             {
                 db.Open();
-                string SQL = "SELECT p.OPCOUNTRY, p.OPCITY, p.OPREGION, p.OPLONGITUDE, p.OPLATITUDE, p.OPID, p.OPSTARTBLOCK, p.OPENDBLOCK " +
+                string SQL = "SELECT p.OPCOUNTRY, p.OPCITY, p.OPREGION, COALESCE(p.OPLONGITUDE, 0), COALESCE(p.OPLATITUDE, 0), " +
+                    "p.OPID, p.OPSTARTBLOCK, p.OPENDBLOCK " +
                     $"FROM WD$GEO_DECODE_IP('{ipAddress}') p ";
 
                 FbTransaction tran = db.BeginTransaction();
