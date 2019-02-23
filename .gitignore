@@ -341,3 +341,5 @@ ASALocalRun/
 /Plugins/Products.Plugin/Views/SystemAdmin/
 /DemoWebsite/NetCorePluginDemoWebsite/Views/Download/
 /DemoWebsite/NetCorePluginDemoWebsite/Files/
+/DemoWebsite/NetCorePluginDemoWebsite/wwwroot/css/products.css
+/DemoWebsite/NetCorePluginDemoWebsite/Views/Product/

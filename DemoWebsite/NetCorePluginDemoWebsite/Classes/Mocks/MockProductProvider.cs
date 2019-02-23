@@ -60,7 +60,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
         {
             return new List<Product>()
             {
-                new Product(1, 1, "Product A", "This is product a", "1 year guarantee", "aBdkiff", new string[] { "geoip" }, 0),
+                new Product(1, 1, "Product A & - &", "This is product a", "1 year guarantee", "aBdkiff", new string[] { "geoip" }, 0),
                 new Product(2, 1, "Product B", "This is product b", "1 year guarantee", "aBdkiff", new string[] { "geoip" }, 0),
                 new Product(3, 1, "Product C", "This is product c", "1 year guarantee", "aBdkiff", new string[] { "geoip" }, 1.99m),
                 new Product(4, 2, "Product D", "This is product d", "1 year guarantee", "aBdkiff", new string[] { "geoip" }, 2.99m),

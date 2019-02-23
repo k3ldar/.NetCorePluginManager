@@ -73,18 +73,34 @@ namespace SharedPluginFeatures
         protected string RouteFriendlyName(in string name)
         {
             StringBuilder Result = new StringBuilder(name.Length);
+            char lastChar = ' ';
 
             foreach (char c in name)
             {
                 if (c >= 65 && c <= 90)
+                {
                     Result.Append(c);
-                else if (c >= 61 && c <= 122)
+                    lastChar = c;
+                }
+                else if (c >= 97 && c <= 122)
+                {
                     Result.Append(c);
+                    lastChar = c;
+                }
                 else if (c >= 48 && c <= 57)
+                {
                     Result.Append(c);
-                else
-                    Result.Append("-");
+                    lastChar = c;
+                }
+                else if (lastChar != Constants.Dash)
+                {
+                    Result.Append(Constants.Dash);
+                    lastChar = Constants.Dash;
+                }
             }
+
+            if (Result[Result.Length -1] == Constants.Dash)
+                Result.Length = Result.Length - 1;
 
             return Result.ToString();
         }

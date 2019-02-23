@@ -50,6 +50,7 @@ namespace SharedPluginFeatures
 
 
         public const char ForwardSlashChar = '/';
+        public const char Dash = '-';
 
 
         public const string PluginNameLocalization = "Localization.Plugin.dll";
