@@ -1,0 +1,18 @@
+Version 1.6
+===========
+
+#55 - Spider extender
+#54 - Route friendly name
+#53 - Convert DBNull to decimal
+#44 - validate product group exists
+#52 - Localization and Translation Timings
+#43 - Log if no IPlugin interface found
+#50 - Make System Admin strings translatable
+#48 - Facility to log downloads
+#51 - More detail when throwing an exception
+#46 - Login not remembered
+#49 - locaize System Admin
+#47 - Column Mismatch
+#45 - Unable to Logout
+Package Update
+#45 - Unable to Logout
