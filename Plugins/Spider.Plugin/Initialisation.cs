@@ -65,7 +65,7 @@ namespace Spider.Plugin
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            app.UseMiddleware<SpiderMiddleware>();
+            app.UseSpider();
         }
 
         public void ConfigureServices(IServiceCollection services)
