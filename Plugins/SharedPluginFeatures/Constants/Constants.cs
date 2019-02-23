@@ -52,7 +52,13 @@ namespace SharedPluginFeatures
         public const char ForwardSlashChar = '/';
 
 
-        public const string PluginNameLocalization = "Localization.Plugin.dll";
+        public const string PluginNameLocalizationDll = "Localization.Plugin.dll";
+
+
         public const string PluginNameBreadcrumb = "Breadcrumb.Plugin";
+        public const string PluginNameMarketing = "Marketing.Plugin";
+
+
+        public const string CacheMarketing = "Marketing CacheItem";
     }
 }

@@ -51,6 +51,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProductsPlugin", "Plugins\P
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DownloadPlugin", "Plugins\Download.Plugin\DownloadPlugin.csproj", "{B8EC2672-5772-4C7A-A616-D61364792744}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MarketingPlugin", "Plugins\MarketingPlugin\MarketingPlugin.csproj", "{BDBB05C1-D751-4E1D-9BFD-9638481F107A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug Release|Any CPU = Debug Release|Any CPU
@@ -202,6 +204,12 @@ Global
 		{B8EC2672-5772-4C7A-A616-D61364792744}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B8EC2672-5772-4C7A-A616-D61364792744}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B8EC2672-5772-4C7A-A616-D61364792744}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BDBB05C1-D751-4E1D-9BFD-9638481F107A}.Debug Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BDBB05C1-D751-4E1D-9BFD-9638481F107A}.Debug Release|Any CPU.Build.0 = Release|Any CPU
+		{BDBB05C1-D751-4E1D-9BFD-9638481F107A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BDBB05C1-D751-4E1D-9BFD-9638481F107A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BDBB05C1-D751-4E1D-9BFD-9638481F107A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BDBB05C1-D751-4E1D-9BFD-9638481F107A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -15,7 +15,7 @@
  *
  *  Product:  Breadcrumb.Plugin
  *  
- *  File: SpiderMiddleware.cs
+ *  File: BreadcrumbMiddleware.cs
  *
  *  Purpose:  
  *
@@ -74,7 +74,7 @@ namespace Breadcrumb.Plugin
 
             ThreadManager.Initialise();
 
-            if (pluginHelperService.PluginLoaded(Constants.PluginNameLocalization, out int version))
+            if (pluginHelperService.PluginLoaded(Constants.PluginNameLocalizationDll, out int version))
             {
                 List<IStringLocalizer> stringLocalizers = pluginClassesService.GetPluginClasses<IStringLocalizer>();
 
@@ -203,7 +203,7 @@ namespace Breadcrumb.Plugin
             Dictionary<string, BreadcrumbAttribute> allBreadcrumbs = new Dictionary<string, BreadcrumbAttribute>();
             List<Type> breadcrumbAttributes = pluginTypesService.GetPluginTypesWithAttribute<BreadcrumbAttribute>();
 
-            // Cycle through all methods which have the spider attribute
+            // Cycle through all methods which have the breadcrumb attribute
             foreach (Type type in breadcrumbAttributes)
             {
                 // is it a class attribute

@@ -13,25 +13,33 @@
  *
  *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
  *
- *  Product:  Breadcrumb.Plugin
+ *  Product:  MarketingPlugin
  *  
- *  File: BreadcrumbMiddlewareExtender.cs
+ *  File: MarketingSettings.cs
  *
- *  Purpose:  Breadcrumb middleware extender
+ *  Purpose:  
  *
  *  Date        Name                Reason
- *  20/01/2019  Simon Carter        Initially Created
+ *  21/02/2019  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using Microsoft.AspNetCore.Builder;
+using AppSettings;
 
-namespace Breadcrumb.Plugin
+using SharedPluginFeatures;
+
+ namespace MarketingPlugin
 {
-    public static class BreadcrumbMiddlewareExtender
+    public class MarketingSettings
     {
-        public static IApplicationBuilder UseBreadcrumbs(this IApplicationBuilder builder)
-        {
-            return builder.UseMiddleware<BreadcrumbMiddleware>();
-        }
+        #region Properties
+
+        public bool ProcessStaticFiles { get; set; }
+
+        [SettingDefault(Constants.StaticFileExtensions)]
+        [SettingString(false)]
+        [SettingDelimitedString(';', 1)]
+        public string StaticFileExtensions { get; set; }
+
+        #endregion Properties
     }
 }

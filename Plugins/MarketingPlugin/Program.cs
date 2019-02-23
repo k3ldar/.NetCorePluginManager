@@ -13,25 +13,37 @@
  *
  *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
  *
- *  Product:  Breadcrumb.Plugin
+ *  Product:  MarketingPlugin
  *  
- *  File: BreadcrumbMiddlewareExtender.cs
+ *  File: Program.cs
  *
- *  Purpose:  Breadcrumb middleware extender
- *
+ *  Purpose:  Marketing Program
+ *  
  *  Date        Name                Reason
- *  20/01/2019  Simon Carter        Initially Created
+ *  21/02/2019  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using Microsoft.AspNetCore.Builder;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 
-namespace Breadcrumb.Plugin
+namespace MarketingPlugin
 {
-    public static class BreadcrumbMiddlewareExtender
+    public class Program
     {
-        public static IApplicationBuilder UseBreadcrumbs(this IApplicationBuilder builder)
+        public static void Main(string[] args)
         {
-            return builder.UseMiddleware<BreadcrumbMiddleware>();
+            CreateWebHostBuilder(args).Build().Run();
         }
+
+        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
+            WebHost.CreateDefaultBuilder(args)
+                .UseStartup<Startup>();
     }
 }

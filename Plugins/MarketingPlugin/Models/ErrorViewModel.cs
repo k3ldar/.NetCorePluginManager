@@ -1,4 +1,4 @@
-﻿/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  *  .Net Core Plugin Manager is distributed under the GNU General Public License version 3 and  
  *  is also available under alternative licenses negotiated directly with Simon Carter.  
  *  If you obtained Service Manager under the GPL, then the GPL applies to all loadable 
@@ -13,25 +13,24 @@
  *
  *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
  *
- *  Product:  Breadcrumb.Plugin
+ *  Product:  MarketingPlugin
  *  
- *  File: BreadcrumbMiddlewareExtender.cs
+ *  File: MarketingViewModel.cs
  *
- *  Purpose:  Breadcrumb middleware extender
- *
+ *  Purpose:  Marketing View Model
+ *  
  *  Date        Name                Reason
- *  20/01/2019  Simon Carter        Initially Created
+ *  21/02/2019  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using Microsoft.AspNetCore.Builder;
+using System;
 
-namespace Breadcrumb.Plugin
+namespace MarketingPlugin.Models
 {
-    public static class BreadcrumbMiddlewareExtender
+    public class MarketingViewModel
     {
-        public static IApplicationBuilder UseBreadcrumbs(this IApplicationBuilder builder)
-        {
-            return builder.UseMiddleware<BreadcrumbMiddleware>();
-        }
+        public string RequestId { get; set; }
+
+        public bool ShowRequestId => !string.IsNullOrEmpty(RequestId);
     }
 }

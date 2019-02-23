@@ -13,25 +13,53 @@
  *
  *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
  *
- *  Product:  Breadcrumb.Plugin
+ *  Product:  MarketingPlugin
  *  
- *  File: BreadcrumbMiddlewareExtender.cs
+ *  File: OffersController.cs
  *
- *  Purpose:  Breadcrumb middleware extender
- *
+ *  Purpose:  Marketing Controller
+ *  
  *  Date        Name                Reason
- *  20/01/2019  Simon Carter        Initially Created
+ *  21/02/2019  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using Microsoft.AspNetCore.Builder;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using MarketingPlugin.Models;
 
-namespace Breadcrumb.Plugin
+using SharedPluginFeatures;
+
+namespace MarketingPlugin.Controllers
 {
-    public static class BreadcrumbMiddlewareExtender
+    public class OffersController : BaseController
     {
-        public static IApplicationBuilder UseBreadcrumbs(this IApplicationBuilder builder)
+        #region Private Members
+
+
+        #endregion Private Members
+
+        #region Constructors
+
+
+        #endregion Constructors
+
+        #region Public Action Methods
+
+        public IActionResult Index()
         {
-            return builder.UseMiddleware<BreadcrumbMiddleware>();
+            return View();
         }
+
+        [Route("Offers/{campaignName}/{id}/")]
+        public IActionResult Offers(string campaignName, int id)
+        {
+            return View();
+        }
+
+        #endregion Public Action Methods
     }
 }

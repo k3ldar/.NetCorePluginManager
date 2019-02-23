@@ -13,9 +13,9 @@
  *
  *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
  *
- *  Product:  Breadcrumb.Plugin
+ *  Product:  MarketingPlugin
  *  
- *  File: BreadcrumbTimingsSubMenu.cs
+ *  File: MarketingTimingsSubMenu.cs
  *
  *  Purpose:  
  *
@@ -27,9 +27,9 @@ using System;
 
 using SharedPluginFeatures;
 
-namespace Breadcrumb.Plugin.Classes.SystemAdmin
+namespace MarketingPlugin.Classes.SystemAdmin
 {
-    public sealed class BreadcrumbTimingsSubMenu : SystemAdminSubMenu
+    public sealed class MarketingTimingsSubMenu : SystemAdminSubMenu
     {
         public override string Action()
         {
@@ -50,11 +50,11 @@ namespace Breadcrumb.Plugin.Classes.SystemAdmin
         {
             string Result = "Setting|Value";
 
-            Result += $"\rTotal Requests|{BreadcrumbMiddleware._timings.Requests}";
-            Result += $"\rFastest ms|{BreadcrumbMiddleware._timings.Fastest}";
-            Result += $"\rSlowest ms|{BreadcrumbMiddleware._timings.Slowest}";
-            Result += $"\rAverage ms|{BreadcrumbMiddleware._timings.Average}";
-            Result += $"\rTotal ms|{BreadcrumbMiddleware._timings.Total}";
+            Result += $"\rTotal Requests|{MarketingMiddleware.MarketingTimings.Requests}";
+            Result += $"\rFastest ms|{MarketingMiddleware.MarketingTimings.Fastest}";
+            Result += $"\rSlowest ms|{MarketingMiddleware.MarketingTimings.Slowest}";
+            Result += $"\rAverage ms|{MarketingMiddleware.MarketingTimings.Average}";
+            Result += $"\rTotal ms|{MarketingMiddleware.MarketingTimings.Total}";
 
             return (Result);
         }
@@ -71,7 +71,7 @@ namespace Breadcrumb.Plugin.Classes.SystemAdmin
 
         public override string Name()
         {
-            return ("Breadcrumbs");
+            return ("Marketing");
         }
 
         public override string ParentMenuName()

@@ -240,6 +240,10 @@ namespace SharedPluginFeatures
 
         #endregion Cookies
 
+        #region Marketing
+
+
+        #endregion Marketing
 
         #endregion Protected Methods
     }

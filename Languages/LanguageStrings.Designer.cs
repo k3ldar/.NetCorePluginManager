@@ -24749,6 +24749,15 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Marketing.
+        /// </summary>
+        public static string Marketing {
+            get {
+                return ResourceManager.GetString("Marketing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Marketing Preferences.
         /// </summary>
         public static string MarketingPreferences {
