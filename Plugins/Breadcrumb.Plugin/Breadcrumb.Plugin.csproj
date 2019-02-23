@@ -13,7 +13,7 @@
     <PackageTags>asp net core plugin manager deny spider middleware plugin</PackageTags>
     <PackageReleaseNotes>Supports net core 2.1, 2.2 and net461</PackageReleaseNotes>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>1.5.0</Version>
+    <Version>1.6.0</Version>
     <PackageProjectUrl>https://github.com/k3ldar/.NetCorePluginManager</PackageProjectUrl>
   </PropertyGroup>
 
@@ -68,8 +68,8 @@
   </ItemGroup>
 
   <ItemGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <PackageReference Include="SharedPluginFeatures" Version="1.5.0" />
-    <PackageReference Include="AspNetCore.PluginManager.Languages" Version="1.5.0" />
+    <PackageReference Include="SharedPluginFeatures" Version="1.6.0" />
+    <PackageReference Include="AspNetCore.PluginManager.Languages" Version="1.6.0" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

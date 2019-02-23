@@ -1,5 +1,5 @@
-Version 1.6
-===========
+Version 1.6.0
+=============
 
 #55 - Spider extender
 #54 - Route friendly name

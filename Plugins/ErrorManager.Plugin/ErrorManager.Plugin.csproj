@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
     <LangVersion>latest</LangVersion>
-    <Version>1.5.0</Version>
+    <Version>1.6.0</Version>
     <RazorCompileOnBuild>false</RazorCompileOnBuild>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Description>Error Manager plugin asp net core plugin manager.</Description>
@@ -79,6 +79,22 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore" Version="2.2.0" />
     <PackageReference Include="ApplicationSettings" Version="1.1.0" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <PackageReference Include="RestrictIp.Plugin" Version="1.6.0" />
+    <PackageReference Include="MemoryCache.Plugin" Version="1.6.0" />
+    <PackageReference Include="AspNetCore.PluginManager" Version="1.6.0" />
+    <PackageReference Include="SharedPluginFeatures" Version="1.6.0" />
+    <PackageReference Include="AspNetCore.PluginManager.Languages" Version="1.6.0" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <ProjectReference Include="..\..\NetCorePluginManager\AspNetCore.PluginManager.csproj" />
+    <ProjectReference Include="..\SharedPluginFeatures\SharedPluginFeatures.csproj" />
+    <ProjectReference Include="..\MemoryCachePlugin\MemoryCachePlugin.csproj" />
+    <ProjectReference Include="..\RestrictIp.Plugin\RestrictIp.Plugin.csproj" />
+    <ProjectReference Include="..\..\Languages\Languages.csproj" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp2.1'">
@@ -258,22 +274,6 @@
     <PackageReference Include="Microsoft.Extensions.WebEncoders" Version="2.2.0" />
     <PackageReference Include="Microsoft.Net.Http.Headers" Version="2.2.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.2" />
-  </ItemGroup>
-
-  <ItemGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <PackageReference Include="RestrictIp.Plugin" Version="1.5.0" />
-    <PackageReference Include="MemoryCache.Plugin" Version="1.5.0" />
-    <PackageReference Include="AspNetCore.PluginManager" Version="1.5.0" />
-    <PackageReference Include="SharedPluginFeatures" Version="1.5.0" />
-    <PackageReference Include="AspNetCore.PluginManager.Languages" Version="1.5.0" />
-  </ItemGroup>
-
-  <ItemGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <ProjectReference Include="..\..\NetCorePluginManager\AspNetCore.PluginManager.csproj" />
-    <ProjectReference Include="..\SharedPluginFeatures\SharedPluginFeatures.csproj" />
-    <ProjectReference Include="..\MemoryCachePlugin\MemoryCachePlugin.csproj" />
-    <ProjectReference Include="..\RestrictIp.Plugin\RestrictIp.Plugin.csproj" />
-    <ProjectReference Include="..\..\Languages\Languages.csproj" />
   </ItemGroup>
 
 </Project>

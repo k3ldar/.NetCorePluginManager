@@ -14,7 +14,7 @@
     <PackageProjectUrl>https://wordpress.com/post/sicarterblog.wordpress.com/451</PackageProjectUrl>
     <PackageLicenseUrl>https://github.com/k3ldar/.NetCorePluginManager/blob/master/LICENSE</PackageLicenseUrl>
     <PackageReleaseNotes>Supports net core 2.1, 2.2 and net461</PackageReleaseNotes>
-    <Version>1.5.0</Version>
+    <Version>1.6.0</Version>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net461|AnyCPU'">
@@ -78,7 +78,7 @@
   </ItemGroup>
 
   <ItemGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <PackageReference Include="SharedPluginFeatures" Version="1.5.0" />
+    <PackageReference Include="SharedPluginFeatures" Version="1.6.0" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
