@@ -53,7 +53,7 @@ namespace SieraDeltaGeoIp.Plugin.Classes
 
         public override string Name()
         {
-            return ("GeoIp");
+            return ("GeoIP");
         }
 
         public override string ParentMenuName()
