@@ -24,9 +24,18 @@
             @foreach (string[] line in Model.Items)
             {
                 <tr>
-                    @foreach (string item in line)
-                    {
-                        <td>@Html.Raw(item.Replace("\n", "<br />"))</td>
+                    @{
+                        int colCount = 0;
+                        foreach (string item in line)
+                        {
+                            <td>@Html.Raw(item.Replace("\n", "<br />"))</td>
+                            colCount++;
+                        }
+
+                        while (colCount < Model.HeaderColumnCount)
+                        {
+                            <td></td>
+                        }
                     }
                 </tr>
             }
