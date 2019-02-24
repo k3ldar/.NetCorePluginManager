@@ -47,16 +47,14 @@ namespace SieraDeltaGeoIp.Plugin
         internal static Timings _timingsIpCache = new Timings();
         internal static Timings _timingsIpMemory = new Timings();
         internal static Timings _timingsIpDatabase = new Timings();
-        private readonly ILogger _logger;
 
         #endregion Private Members
 
         #region Constructors
 
-        public GeoIpService(ISettingsProvider settingsProvider, ILogger logger)
+        public GeoIpService(ISettingsProvider settingsProvider)
         {
             _geoIpStatistics = Initialisation.GeoIpUpdate ?? throw new InvalidOperationException();
-            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
             ThreadManager.Initialise();
             _geoIpSettings = settingsProvider.GetSettings<GeoIpPluginSettings>("SieraDeltaGeoIpPluginConfiguration");
@@ -159,7 +157,7 @@ namespace SieraDeltaGeoIp.Plugin
             }
             catch (Exception err)
             {
-                _logger.AddToLog(Enums.LogLevel.Error, err, ipAddress);
+                Initialisation.GetLogger.AddToLog(Enums.LogLevel.Error, err, ipAddress);
                 return false;
             }
         }
