@@ -47,14 +47,16 @@ namespace SieraDeltaGeoIp.Plugin
         internal static Timings _timingsIpCache = new Timings();
         internal static Timings _timingsIpMemory = new Timings();
         internal static Timings _timingsIpDatabase = new Timings();
+        private readonly ILogger _logger;
 
         #endregion Private Members
 
         #region Constructors
 
-        public GeoIpService(ISettingsProvider settingsProvider)
+        public GeoIpService(ISettingsProvider settingsProvider, ILogger logger)
         {
             _geoIpStatistics = Initialisation.GeoIpUpdate ?? throw new InvalidOperationException();
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
             ThreadManager.Initialise();
             _geoIpSettings = settingsProvider.GetSettings<GeoIpPluginSettings>("SieraDeltaGeoIpPluginConfiguration");
@@ -116,42 +118,50 @@ namespace SieraDeltaGeoIp.Plugin
             longitude = -1;
             uniqueID = -1;
 
-            if (_geoIpCityData != null)
+            try
             {
-                IpCity memoryIp = null;
-                using (StopWatchTimer stopwatchTimer = StopWatchTimer.Initialise(_timingsIpMemory))
+                if (_geoIpCityData != null)
                 {
-                    memoryIp = GetMemoryCity(ipAddress);
-                }
-
-                if (memoryIp != null && !memoryIp.IsComplete)
-                {
-                    IGeoIpProvider provider = null;
-                    switch (_geoIpSettings.GeoIpProvider)
+                    IpCity memoryIp = null;
+                    using (StopWatchTimer stopwatchTimer = StopWatchTimer.Initialise(_timingsIpMemory))
                     {
-                        case Enums.GeoIpProvider.None:
-                            memoryIp.IsComplete = true;
-                            break;
+                        memoryIp = GetMemoryCity(ipAddress);
                     }
 
-                    if (provider != null)
+                    if (memoryIp != null && !memoryIp.IsComplete)
                     {
-                        memoryIp.IsComplete = provider.GetIpAddressDetails(ipAddress, out countryCode, out region,
-                            out cityName, out latitude, out longitude, out uniqueID, out long ipFrom, out long ipTo);
+                        IGeoIpProvider provider = null;
+                        switch (_geoIpSettings.GeoIpProvider)
+                        {
+                            case Enums.GeoIpProvider.None:
+                                memoryIp.IsComplete = true;
+                                break;
+                        }
+
+                        if (provider != null)
+                        {
+                            memoryIp.IsComplete = provider.GetIpAddressDetails(ipAddress, out countryCode, out region,
+                                out cityName, out latitude, out longitude, out uniqueID, out long ipFrom, out long ipTo);
+                        }
+
+                        memoryIp.CountryCode = countryCode;
+                        memoryIp.CityName = cityName;
+                        memoryIp.Longitude = longitude;
+                        memoryIp.Latitude = latitude;
+                        memoryIp.Region = region;
+
+                        return (true);
                     }
-
-                    memoryIp.CountryCode = countryCode;
-                    memoryIp.CityName = cityName;
-                    memoryIp.Longitude = longitude;
-                    memoryIp.Latitude = latitude;
-                    memoryIp.Region = region;
-
-                    return (true);
                 }
+
+                return (GetCachedIPAddressDetails(ipAddress, out countryCode, out region,
+                    out cityName, out latitude, out longitude, out uniqueID));
             }
-
-            return (GetCachedIPAddressDetails(ipAddress, out countryCode, out region, 
-                out cityName, out latitude, out longitude, out uniqueID));
+            catch (Exception err)
+            {
+                _logger.AddToLog(Enums.LogLevel.Error, err, ipAddress);
+                return false;
+            }
         }
 
         #endregion Public Methods

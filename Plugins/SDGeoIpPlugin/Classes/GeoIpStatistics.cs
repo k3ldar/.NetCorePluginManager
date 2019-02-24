@@ -42,14 +42,6 @@ namespace SieraDeltaGeoIp.Plugin
         public long _cacheMilliseconds;
         private uint _recordsLoaded;
         private TimeSpan _loadTime;
-        private uint _memoryRetrieveQuickest;
-        private uint _memoryRetrieveSlowest;
-        private double _memoryRetrieveAverage;
-        private uint _memoryRetrievedCount;
-        private uint _databaseRetrieveQuickest;
-        private uint _databaseRetrieveSlowest;
-        //private double _databaseRetrieveAverage;
-        //private uint _databaseRetrievedCount;
 
         #endregion Private Members
 
@@ -57,10 +49,7 @@ namespace SieraDeltaGeoIp.Plugin
 
         public GeoIpStatistics()
         {
-            _databaseRetrieveQuickest = uint.MaxValue;
-            _databaseRetrieveSlowest = uint.MinValue;
-            _memoryRetrieveQuickest = uint.MaxValue;
-            _memoryRetrieveSlowest = uint.MinValue;
+
         }
 
         #endregion Constructors
