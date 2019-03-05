@@ -11,59 +11,32 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2012 - 2018 Simon Carter.  All Rights Reserved.
  *
- *  Product:  SystemAdmin.Plugin
+ *  Product:  SharedPluginFeatues
  *  
- *  File: PluginClass.cs
+ *  File: IInitialiseEvents.cs
  *
- *  Purpose:  
+ *  Purpose:  Configure Events
  *
  *  Date        Name                Reason
- *  28/10/2018  Simon Carter        Initially Created
+ *  05/03/2019  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using System;
-
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 
-using SharedPluginFeatures;
-
-namespace SystemAdmin.Plugin.Classes
+namespace SharedPluginFeatures
 {
-    public class PluginClass : IPlugin, IPluginVersion
+    public interface IInitialiseEvents
     {
-        #region Static Internal Members
+        void BeforeConfigure(in IApplicationBuilder app, in IHostingEnvironment env);
 
-        internal static IServiceProvider GetServiceProvider { get; set; }
+        void AfterConfigure(in IApplicationBuilder app, in IHostingEnvironment env);
 
-        #endregion Static Internal Members
+        void BeforeConfigureServices(in IServiceCollection services);
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
-        {
-            
-        }
-
-        public void ConfigureServices(IServiceCollection services)
-        {
-            services.AddSingleton<ISystemAdminHelperService, SystemAdminHelper>();
-        }
-
-        public void Finalise()
-        {
-            
-        }
-
-        public ushort GetVersion()
-        {
-            return (1);
-        }
-
-        public void Initialise(ILogger logger)
-        {
-            
-        }
+        void AfterConfigureServices(in IServiceCollection services);
     }
 }
