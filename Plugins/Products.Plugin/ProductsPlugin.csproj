@@ -93,7 +93,7 @@
 
   <ItemGroup>
     <PackageReference Include="ApplicationSettings" Version="1.1.0" />
-    <PackageReference Include="SC.Shared.Library.Core" Version="2.7.6" />
+    <PackageReference Include="SC.Shared.Library.Core" Version="2.8.0" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
