@@ -65,7 +65,6 @@ namespace UserSessionMiddleware.Plugin
             UserSessionManager.Instance.IPAddressDetails += UserSession_IPAddressDetails;
 
             _pluginClasses = Initialisation.GetServiceProvider.GetRequiredService<IPluginClassesService>();
-
         }
 
         internal static void UserSession_IPAddressDetails(object sender, IpAddressArgs e)
@@ -170,7 +169,7 @@ namespace UserSessionMiddleware.Plugin
 
             try
             {
-                _geoIpInstance = Initialisation.GetServiceProvider.GetRequiredService<IGeoIpDataService>();
+                _geoIpInstance = Initialisation.GetServiceProvider.GetService<IGeoIpDataService>();
             }
             catch (InvalidOperationException)
             {
@@ -202,7 +201,7 @@ namespace UserSessionMiddleware.Plugin
 
             try
             {
-                _userSessionService = Initialisation.GetServiceProvider.GetRequiredService<IUserSessionService>();
+                _userSessionService = Initialisation.GetServiceProvider.GetService<IUserSessionService>();
             }
             catch (InvalidOperationException)
             {

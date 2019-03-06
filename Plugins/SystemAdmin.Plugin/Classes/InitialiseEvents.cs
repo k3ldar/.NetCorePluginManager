@@ -43,8 +43,8 @@ namespace SystemAdmin.Plugin.Classes
         {
             PluginClass.GetServiceProvider = services.BuildServiceProvider();
 
-            IBreadcrumbService breadcrumbService = PluginClass.GetServiceProvider.GetRequiredService<IBreadcrumbService>();
-            ISystemAdminHelperService systemAdminHelper = PluginClass.GetServiceProvider.GetRequiredService<ISystemAdminHelperService>();
+            IBreadcrumbService breadcrumbService = PluginClass.GetServiceProvider.GetService<IBreadcrumbService>();
+            ISystemAdminHelperService systemAdminHelper = PluginClass.GetServiceProvider.GetService<ISystemAdminHelperService>();
 
             if (breadcrumbService != null && systemAdminHelper != null)
                 RegisterBreadcrumbs(breadcrumbService, systemAdminHelper);
