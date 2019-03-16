@@ -48,7 +48,7 @@ namespace UserAccount.Plugin.Controllers
             if (billingAddress == null)
                 throw new InvalidOperationException(nameof(billingAddress));
 
-            BillingAddressViewModel model = new BillingAddressViewModel();
+            BillingAddressViewModel model = new BillingAddressViewModel(GetBreadcrumbs(), GetCartSummary());
             PrepareBillingAddressModel(ref model, billingAddress);
 
             return View(model);
@@ -114,6 +114,7 @@ namespace UserAccount.Plugin.Controllers
         private void PrepareBillingAddressModel(ref BillingAddressViewModel model, in Address billingAddress)
         {
             model.Breadcrumbs = GetBreadcrumbs();
+            model.CartSummary = GetCartSummary();
 
             AddressOptions addressOptions = _accountProvider.GetAddressOptions();
 

@@ -24,21 +24,20 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-using System;
-using System.Collections.Generic;
-using System.Text;
-
 using Middleware.Products;
 using Middleware.ShoppingCart;
 
-namespace Middleware.Interfaces
+using SharedPluginFeatures;
+
+using Shared.Classes;
+
+namespace Middleware
 {
     public interface IShoppingCartProvider
     {
-        ShoppingCartSummary GetSummary();
-
         ShoppingCartDetail GetDetail();
 
-        int AddToCart(in ShoppingCartSummary shoppingCart, Product product, int count);
+        long AddToCart(in UserSession userSession, in ShoppingCartSummary shoppingCart, 
+            in Product product, in int count);
     }
 }

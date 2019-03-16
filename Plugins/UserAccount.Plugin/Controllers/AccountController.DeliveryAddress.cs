@@ -45,7 +45,8 @@ namespace UserAccount.Plugin.Controllers
         public IActionResult DeliveryAddress()
         {
             string growl = GrowlGet();
-            return View(new DeliveryAddressViewModel(GetBreadcrumbs(), _accountProvider.GetDeliveryAddresses(UserId()), growl));
+            return View(new DeliveryAddressViewModel(GetBreadcrumbs(), GetCartSummary(), 
+                _accountProvider.GetDeliveryAddresses(UserId()), growl));
         }
 
         [HttpGet]
@@ -93,7 +94,7 @@ namespace UserAccount.Plugin.Controllers
             if (address == null)
                 return new RedirectResult("/Account/DeliveryAddress", false);
 
-            EditDeliveryAddressViewModel model = new EditDeliveryAddressViewModel();
+            EditDeliveryAddressViewModel model = new EditDeliveryAddressViewModel(GetBreadcrumbs(), GetCartSummary());
             PrepareDeliveryAddressModel(ref model, address);
 
             return View(model);
@@ -124,6 +125,7 @@ namespace UserAccount.Plugin.Controllers
             }
 
             model.Breadcrumbs = GetBreadcrumbs();
+            model.CartSummary = GetCartSummary();
 
             return View(model);
         }
@@ -187,6 +189,7 @@ namespace UserAccount.Plugin.Controllers
             AddressOptions addressOptions = _accountProvider.GetAddressOptions();
 
             model.Breadcrumbs = GetBreadcrumbs();
+            model.CartSummary = GetCartSummary();
 
             model.ShowAddressLine1 = addressOptions.HasFlag(AddressOptions.AddressLine1Show);
             model.ShowAddressLine2 = addressOptions.HasFlag(AddressOptions.AddressLine2Show);

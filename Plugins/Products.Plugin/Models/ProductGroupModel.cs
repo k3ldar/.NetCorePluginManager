@@ -38,9 +38,10 @@ namespace ProductPlugin.Models
         {
         }
 
-        public ProductGroupModel(in List<BreadcrumbItem> breadcrumbs, in IEnumerable<ProductCategoryModel> productGroups,
+        public ProductGroupModel(in List<BreadcrumbItem> breadcrumbs, in ShoppingCartSummary cartSummary, 
+            in IEnumerable<ProductCategoryModel> productGroups,
             in string description, in string tagLine)
-            : base(breadcrumbs, productGroups)
+            : base(breadcrumbs, cartSummary, productGroups)
         {
             if (String.IsNullOrEmpty(description))
                 throw new ArgumentNullException(nameof(description));

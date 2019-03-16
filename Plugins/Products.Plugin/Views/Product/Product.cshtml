@@ -21,6 +21,11 @@
                 <asp:HyperLink ID="linkZoom">
                     <img src="~/images/Products/@image" alt="" border="0" width="288" height="268" />
                 </asp:HyperLink>
+
+                @if (Model.AllowAddToBasket)
+                {
+                    @await Html.PartialAsync("_AddToCart.cshtml", Model.AddToCart);
+                }
             </div>
 
             <div class="productDescription">
@@ -33,7 +38,7 @@
                     <ul>
                         @foreach (string feature in Model.FeatureList())
                         {
-                        <li>@Html.Raw(feature)</li>
+                            <li>@Html.Raw(feature)</li>
                         }
                     </ul>
                 </div>

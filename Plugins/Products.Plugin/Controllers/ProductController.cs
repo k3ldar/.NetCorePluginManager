@@ -33,6 +33,8 @@ using ProductPlugin.Models;
 
 using SharedPluginFeatures;
 
+using Shared.Classes;
+
 using Middleware;
 using Middleware.Products;
 
@@ -44,6 +46,7 @@ namespace ProductPlugin.Controllers
     {
         #region Private Members
 
+        private readonly bool _hasShoppingCart;
         private readonly IProductProvider _productProvider;
         private readonly uint _productsPerPage;
 
@@ -52,7 +55,7 @@ namespace ProductPlugin.Controllers
         #region Constructors
 
         public ProductController(IProductProvider productProvider,
-            ISettingsProvider settingsProvider)
+            ISettingsProvider settingsProvider, IPluginHelperService pluginHelper)
         {
             if (settingsProvider == null)
                 throw new ArgumentNullException(nameof(settingsProvider));
@@ -61,6 +64,7 @@ namespace ProductPlugin.Controllers
 
             _productProvider = productProvider ?? throw new ArgumentNullException(nameof(productProvider));
             _productsPerPage = settings.ProductsPerPage;
+            _hasShoppingCart = pluginHelper.PluginLoaded(SharedPluginFeatures.Constants.PluginNameShoppingCart, out int version);
         }
 
         #endregion Constructors
@@ -108,6 +112,16 @@ namespace ProductPlugin.Controllers
             return View(model);
         }
 
+        [HttpPost]
+        public IActionResult AddToCart(AddToCartModel model)
+        {
+            Product product = _productProvider.GetProduct(model.Id);
+            IShoppingCartProvider provider = (IShoppingCartProvider)HttpContext.RequestServices.GetService(typeof(IShoppingCartProvider));
+            provider.AddToCart(GetUserSession(), GetCartSummary(), product, model.Quantity);
+
+            return RedirectToAction("Product", "Product", new { id = model.Id, productName = BaseModel.RouteFriendlyName(product.Name) });
+        }
+
         #endregion Public Action Methods
 
         #region Private Methods
@@ -130,8 +144,8 @@ namespace ProductPlugin.Controllers
                 modelCategories.Add(new ProductCategoryModel(item.Id, item.Description, item.Url));
             }
 
-            ProductGroupModel Result = new ProductGroupModel(GetBreadcrumbs(), modelCategories,
-                group.Description, group.TagLine);
+            ProductGroupModel Result = new ProductGroupModel(GetBreadcrumbs(), GetCartSummary(), 
+                modelCategories, group.Description, group.TagLine);
 
             foreach (Product product in products)
             {
@@ -171,12 +185,13 @@ namespace ProductPlugin.Controllers
                 if (_productProvider.ProductGroupGet(product.ProductGroupId) == null)
                     return null;
 
-                Result = new ProductModel(GetBreadcrumbs(), modelCategories, product.Id, product.ProductGroupId,
-                    product.Name, product.Description, product.Features, product.VideoLink, product.Images, product.LowestPrice);
+                Result = new ProductModel(GetBreadcrumbs(), GetCartSummary(), modelCategories, product.Id, product.ProductGroupId,
+                    product.Name, product.Description, product.Features, product.VideoLink, product.Images, 
+                    product.LowestPrice, _hasShoppingCart && product.LowestPrice > 0);
             }
             else
             {
-                Result = new ProductModel(GetBreadcrumbs(), modelCategories);
+                Result = new ProductModel(GetBreadcrumbs(), GetCartSummary(), modelCategories);
             }
 
             ProductGroup primaryProductGroup = _productProvider.ProductGroupGet(product.ProductGroupId);

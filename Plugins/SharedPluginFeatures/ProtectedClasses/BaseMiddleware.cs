@@ -197,6 +197,20 @@ namespace SharedPluginFeatures
             return context.Request.Cookies[name];
         }
 
+        protected long CookieValue(in HttpContext context, in string name, in long defaultValue)
+        {
+            string value = CookieValue(context, name, String.Empty);
+
+            if (String.IsNullOrEmpty(value))
+                return defaultValue;
+
+            if (Int64.TryParse(value, out long result))
+                return result;
+
+            return defaultValue;
+        }
+
+
         protected string CookieValue(in HttpContext context, in string name, in string encryptionKey, in string defaultValue = "")
         {
             if (context == null)

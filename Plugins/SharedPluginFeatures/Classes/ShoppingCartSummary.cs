@@ -26,7 +26,7 @@
 using System;
 using System.Globalization;
 
-namespace Middleware.ShoppingCart
+namespace SharedPluginFeatures
 {
     public class ShoppingCartSummary
     {
@@ -49,6 +49,35 @@ namespace Middleware.ShoppingCart
         }
 
         #endregion Constructors
+
+        #region Public Methods
+
+        public void ResetBasketId(in long id)
+        {
+            if (Id != 0)
+                throw new InvalidOperationException();
+
+            Id = id;
+        }
+
+        public void ResetTotalItems(in int totalItems)
+        {
+            if (totalItems < 0)
+                throw new InvalidOperationException();
+
+            TotalItems = totalItems;
+        }
+
+        public void ResetTotalCost(in decimal cost, in CultureInfo cultureInfo)
+        {
+            if (cost < 0)
+                throw new InvalidOperationException();
+
+            TotalCost = cost;
+            Currency = cultureInfo ?? throw new ArgumentNullException(nameof(cultureInfo));
+        }
+
+        #endregion Public Methods
 
         #region Properties
 

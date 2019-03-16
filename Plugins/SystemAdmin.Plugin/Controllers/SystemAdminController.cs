@@ -62,10 +62,10 @@ namespace SystemAdmin.Plugin.Controllers
             SystemAdminMainMenu selectedMenu = _systemAdminHelperService.GetSystemAdminMainMenu(id);
 
             if (selectedMenu == null)
-                return View(new AvailableIconViewModel(_systemAdminHelperService.GetSystemAdminMainMenu(), 
-                    GetBreadcrumbs()));
+                return View(new AvailableIconViewModel(GetBreadcrumbs(),
+                    GetCartSummary(), _systemAdminHelperService.GetSystemAdminMainMenu()));
 
-            return (View(new AvailableIconViewModel(selectedMenu, GetBreadcrumbs())));
+            return (View(new AvailableIconViewModel(GetBreadcrumbs(), GetCartSummary(), selectedMenu)));
         }
 
         public IActionResult Grid(int id)
@@ -75,7 +75,7 @@ namespace SystemAdmin.Plugin.Controllers
             if (subMenu == null)
                 return (Redirect("/SystemAdmin/"));
 
-            return (View(new GridViewModel(subMenu, GetBreadcrumbs())));
+            return (View(new GridViewModel(GetBreadcrumbs(), GetCartSummary(), subMenu)));
         }
 
         public IActionResult Map(int id)
@@ -85,7 +85,7 @@ namespace SystemAdmin.Plugin.Controllers
             if (subMenu == null)
                 return (Redirect("/SystemAdmin/"));
 
-            return (View(new MapViewModel(_settingsProvider, subMenu, GetBreadcrumbs())));
+            return (View(new MapViewModel(GetBreadcrumbs(), GetCartSummary(), _settingsProvider, subMenu)));
         }
 
         public IActionResult Text(int id)
@@ -95,7 +95,7 @@ namespace SystemAdmin.Plugin.Controllers
             if (subMenu == null)
                 return (Redirect("/SystemAdmin"));
 
-            return (View(new TextViewModel(subMenu, GetBreadcrumbs())));
+            return (View(new TextViewModel(GetBreadcrumbs(), GetCartSummary(), subMenu)));
         }
 
         public IActionResult TextEx(int id)
@@ -105,13 +105,14 @@ namespace SystemAdmin.Plugin.Controllers
             if (subMenu == null)
                 return (Redirect("/SystemAdmin"));
 
-            return (View(new TextExViewModel(_settingsProvider, subMenu, GetBreadcrumbs())));
+            return (View(new TextExViewModel(GetBreadcrumbs(), GetCartSummary(), _settingsProvider, subMenu)));
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error ()
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            return View(new ErrorViewModel(GetBreadcrumbs(), GetCartSummary(),
+                Activity.Current?.Id ?? HttpContext.TraceIdentifier));
         }
 
         #endregion Controller Action Methods

@@ -23,14 +23,36 @@
  *  28/10/2018  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+using System.Collections.Generic;
+
 using SharedPluginFeatures;
 
 namespace SystemAdmin.Plugin.Models
 {
     public class ErrorViewModel : BaseModel
     {
-        public string RequestId { get; set; }
+        #region Constructors
+
+        public ErrorViewModel()
+        {
+
+        }
+
+        public ErrorViewModel(in List<BreadcrumbItem> breadcrumbs, in ShoppingCartSummary cartSummary,
+            string requestId)
+            : base (breadcrumbs, cartSummary)
+        {
+            RequestId = requestId;
+        }
+
+        #endregion Constructors
+
+        #region Properties
+
+        public string RequestId { get; private set; }
 
         public bool ShowRequestId => !string.IsNullOrEmpty(RequestId);
+
+        #endregion Propertes
     }
 }

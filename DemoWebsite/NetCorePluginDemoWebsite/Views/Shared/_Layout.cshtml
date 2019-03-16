@@ -2,7 +2,18 @@
 @using AspNetCore.PluginManager.DemoWebsite.Helpers;
 @using SharedPluginFeatures;
 @inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
+@model SharedPluginFeatures.BaseModel
+@{
+    ShoppingCartSummary cartSummary = Model.CartSummary;
+    var items = Localizer[nameof(Languages.LanguageStrings.Items)];
+    string cost = 0d.ToString("C", Model.CartSummary.Currency);
 
+    if (cartSummary != null)
+    {
+        items = cartSummary.TotalItems == 1 ? Localizer[nameof(Languages.LanguageStrings.Item)] : Localizer[nameof(Languages.LanguageStrings.Items)];
+        cost = cartSummary.TotalCost.ToString("C", Model.CartSummary.Currency);
+    }
+}
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,7 +22,6 @@
     <title>@ViewData["Title"] - AspNetCore.PluginManager</title>
 </head>
 <body>
-
     <environment include="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
         <link rel="stylesheet" href="~/css/site.css" />
@@ -46,6 +56,12 @@
 
                     <li><a asp-area="" asp-controller="Home" asp-action="About">@Localizer[nameof(Languages.LanguageStrings.About)]</a></li>
                 </ul>
+                <div class="cart-summary">
+                    <a href="/Cart/">
+                        <img src="~/images/Cart/shopping-cart-24.png" />
+                        <p>@Model.CartSummary.TotalItems @items<span>@cost</span></p>
+                    </a>
+                </div>
             </div>
         </div>
     </nav>

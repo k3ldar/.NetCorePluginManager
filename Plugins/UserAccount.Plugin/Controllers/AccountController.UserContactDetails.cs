@@ -44,11 +44,12 @@ namespace UserAccount.Plugin.Controllers
             if (_accountProvider.GetUserAccountDetails(UserId(), out string firstName, out string lastName, out string email,
                 out bool emailConfirmed, out string telephone, out bool telephoneConfirmed))
             {
-                UserContactDetailsViewModel model = new UserContactDetailsViewModel(firstName, lastName,
-                    email, emailConfirmed, telephone, telephoneConfirmed,
+                UserContactDetailsViewModel model = new UserContactDetailsViewModel(GetBreadcrumbs(), GetCartSummary(),
+                    firstName, lastName, email, emailConfirmed, telephone, telephoneConfirmed,
                     _accountProvider.GetAddressOptions().HasFlag(AddressOptions.TelephoneShow));
 
                 model.Breadcrumbs = GetBreadcrumbs();
+                model.CartSummary = GetCartSummary();
 
                 return View(model);
             }
@@ -79,6 +80,7 @@ namespace UserAccount.Plugin.Controllers
             }
 
             model.Breadcrumbs = GetBreadcrumbs();
+            model.CartSummary = GetCartSummary();
 
             return View(model);
         }

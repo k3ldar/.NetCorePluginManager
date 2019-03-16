@@ -23,7 +23,7 @@
  *  12/12/2018  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 using SharedPluginFeatures;
@@ -39,8 +39,10 @@ namespace UserAccount.Plugin.Models
 
         }
 
-        public UserContactDetailsViewModel(in string firstName, in string lastName, in string email, 
+        public UserContactDetailsViewModel(in List<BreadcrumbItem> breadcrumbs, in ShoppingCartSummary cartSummary,
+            in string firstName, in string lastName, in string email, 
             in bool emailConfirmed, in string telephone, in bool telephoneConfirmed, in bool showTelephone)
+            : base (breadcrumbs, cartSummary)
         {
             FirstName = firstName;
             LastName = lastName;

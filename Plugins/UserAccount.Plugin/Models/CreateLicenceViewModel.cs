@@ -34,8 +34,13 @@ namespace UserAccount.Plugin.Models
     {
         #region Constructors
 
-        public CreateLicenceViewModel(in List<BreadcrumbItem> breadcrumbs)
-            : base (breadcrumbs)
+        public CreateLicenceViewModel()
+        {
+
+        }
+
+        public CreateLicenceViewModel(in List<BreadcrumbItem> breadcrumbs, in ShoppingCartSummary cartSummary)
+            : base (breadcrumbs, cartSummary)
         {
 
         }

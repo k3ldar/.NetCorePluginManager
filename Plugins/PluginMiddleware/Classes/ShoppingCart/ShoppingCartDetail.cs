@@ -27,6 +27,8 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 
+using SharedPluginFeatures;
+
 namespace Middleware.ShoppingCart
 {
     public sealed class ShoppingCartDetail : ShoppingCartSummary

@@ -40,7 +40,9 @@ namespace UserAccount.Plugin.Models
     {
         #region Constructors
 
-        public OrderViewModel(Order order)
+        public OrderViewModel(in List<BreadcrumbItem> breadcrumbs, in ShoppingCartSummary cartSummary,
+            Order order)
+            : base (breadcrumbs, cartSummary)
         {
             if (order == null)
                 throw new ArgumentNullException(nameof(order));

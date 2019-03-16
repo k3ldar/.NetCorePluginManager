@@ -42,12 +42,12 @@ namespace UserAccount.Plugin.Controllers
         [Breadcrumb(nameof(Languages.LanguageStrings.MarketingPreferences), nameof(AccountController), nameof(Index))]
         public IActionResult MarketingPreferences()
         {
-            MarketingPreferencesViewModel model = new MarketingPreferencesViewModel();
+            MarketingPreferencesViewModel model = new MarketingPreferencesViewModel(
+                GetBreadcrumbs(), GetCartSummary());
             PrepareMarketingModel(ref model, _accountProvider.GetMarketingPreferences(UserId()));
 
             return View(model);
         }
-
 
 		[HttpPost]
 		public IActionResult MarketingPreferences(MarketingPreferencesViewModel model)
@@ -78,6 +78,7 @@ namespace UserAccount.Plugin.Controllers
             MarketingOptions options = _accountProvider.GetMarketingOptions();
 
             model.Breadcrumbs = GetBreadcrumbs();
+            model.CartSummary = GetCartSummary();
 
             model.ShowEmail = options.HasFlag(MarketingOptions.ShowEmail);
             model.ShowPostal = options.HasFlag(MarketingOptions.ShowPostal);

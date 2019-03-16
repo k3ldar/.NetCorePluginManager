@@ -80,3 +80,30 @@ body {
                     color: #01447e;
                     text-decoration: underline;
                 }
+
+
+.cart-summary {
+    float: right;
+    width: 160px;
+    height: 50px;
+}
+
+    .cart-summary img {
+        padding-top: 13px;
+    }
+
+    .cart-summary p {
+        display: inline-block;
+        padding-left: 16px;
+        color: #9d9d9d;
+        font-size: 1.0em;
+    }
+
+    .cart-summary p:hover {
+        color: white;
+    }
+
+        .cart-summary p span {
+            display: table;
+            font-size: 0.8em;
+        }

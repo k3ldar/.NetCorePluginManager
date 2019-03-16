@@ -40,8 +40,9 @@ namespace SystemAdmin.Plugin.Models
 
         #region Constructors
 
-        public TextExViewModel(in ISettingsProvider settingsProvider, in SystemAdminSubMenu subMenu,
-            List<BreadcrumbItem> breadcrumbs)
+        public TextExViewModel(in List<BreadcrumbItem> breadcrumbs, in ShoppingCartSummary cartSummary,
+            in ISettingsProvider settingsProvider, in SystemAdminSubMenu subMenu)
+            : base (breadcrumbs, cartSummary)
         {
             _settingsProvider = settingsProvider ?? throw new ArgumentNullException(nameof(settingsProvider));
 
@@ -56,8 +57,6 @@ namespace SystemAdmin.Plugin.Models
                 Text = "Formatted Text is not enabed";
             else
                 Text = subMenu.Data();
-
-            Breadcrumbs = breadcrumbs;
         }
 
         #endregion Constructors

@@ -13,7 +13,7 @@
  *
  *  Copyright (c) 2019 Simon Carter.  All Rights Reserved.
  *
- *  Product:  Shopping CartPlugin Plugin
+ *  Product:  Shopping Cart Plugin
  *  
  *  File: PluginClass.cs
  *
@@ -23,19 +23,31 @@
  *  06/03/2019  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+using System;
+
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 
 using SharedPluginFeatures;
 
-namespace ShoppingCartPlugin.Classes
+namespace ShoppingCartPlugin
 {
-    public class PluginClass : IPlugin, IPluginVersion
+    public class PluginClass : IPlugin, IPluginVersion, IInitialiseEvents
     {
+        #region Static Internal Members
+
+        internal static IServiceProvider GetServiceProvider { get; private set; }
+
+        internal static ILogger Logger { get; private set; }
+
+        #endregion Static Internal Members
+
+        #region IPlugin Methods
+
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-
+            app.UseShoppingCart();
         }
 
         public void ConfigureServices(IServiceCollection services)
@@ -48,14 +60,44 @@ namespace ShoppingCartPlugin.Classes
             
         }
 
+        public void Initialise(ILogger logger)
+        {
+            Logger = logger;
+        }
+
+        #endregion IPlugin Methods
+
+        #region IPluginVersion Methods
+
         public ushort GetVersion()
         {
             return (1);
         }
 
-        public void Initialise(ILogger logger)
+        #endregion IPluginVersion Methods
+
+        #region IInitialiseEvents Methods
+
+        public void BeforeConfigure(in IApplicationBuilder app, in IHostingEnvironment env)
         {
             
         }
+
+        public void AfterConfigure(in IApplicationBuilder app, in IHostingEnvironment env)
+        {
+            
+        }
+
+        public void BeforeConfigureServices(in IServiceCollection services)
+        {
+            
+        }
+
+        public void AfterConfigureServices(in IServiceCollection services)
+        {
+            PluginClass.GetServiceProvider = services.BuildServiceProvider();
+        }
+
+        #endregion IInitialiseEvents Methods
     }
 }

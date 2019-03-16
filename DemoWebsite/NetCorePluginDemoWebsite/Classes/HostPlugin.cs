@@ -54,8 +54,10 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
             services.AddSingleton<IDownloadProvider, MockDownloads>();
             services.AddSingleton<ILicenceProvider, MockLicenceProvider>();
             services.AddSingleton<IProductProvider, MockProductProvider>();
-            services.AddSingleton<ISharedPluginHelper, SharedPluginHelper>();
+            services.AddSingleton<IShoppingCartProvider, MockShoppingCartPluginProvider>();
+            services.AddSingleton<IShoppingCartService, MockShoppingCartPluginProvider>();
             services.AddSingleton<IErrorManager, ErrorManager>();
+            services.AddSingleton<ISharedPluginHelper, SharedPluginHelper>();
         }
 
         public void Finalise()

@@ -35,14 +35,20 @@ namespace UserAccount.Plugin.Models
     {
         #region Constructors
 
-        public ChangePasswordViewModel(in List<BreadcrumbItem> breadcrumbs)
-            : base (breadcrumbs)
+        public ChangePasswordViewModel()
         {
 
         }
 
-        public ChangePasswordViewModel(in List<BreadcrumbItem> breadcrumbs, in string username)
-            : this (breadcrumbs)
+        public ChangePasswordViewModel(in List<BreadcrumbItem> breadcrumbs, in ShoppingCartSummary cartSummary)
+            : base (breadcrumbs, cartSummary)
+        {
+
+        }
+
+        public ChangePasswordViewModel(in List<BreadcrumbItem> breadcrumbs, in ShoppingCartSummary cartSummary, 
+            in string username)
+            : this (breadcrumbs, cartSummary)
         {
             if (String.IsNullOrEmpty(username))
                 throw new ArgumentNullException(nameof(username));

@@ -99,11 +99,12 @@ namespace UserAccount.Plugin.Controllers
         public IActionResult Index()
         {
             string growl = GrowlGet();
-            AccountViewModel model = new AccountViewModel(
+            AccountViewModel model = new AccountViewModel(GetBreadcrumbs(), GetCartSummary(),
                 _settingsProvider.GetSettings<AccountSettings>("UserAccount"),
                 growl ?? String.Empty);
 
             model.Breadcrumbs = GetBreadcrumbs();
+            model.CartSummary = GetCartSummary();
 
             return View(model);
         }

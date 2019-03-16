@@ -63,20 +63,20 @@ namespace AspNetCore.PluginManager.DemoWebsite.Controllers
             UserSession session = (UserSession)HttpContext.Items[Constants.UserSession];
             ViewBag.Username = String.IsNullOrEmpty(session.UserName) ? "Guest" : session.UserName;
 
-            return View(new BaseModel(GetBreadcrumbs()));
+            return View(new BaseModel(GetBreadcrumbs(), GetCartSummary()));
         }
 
         [Breadcrumb(nameof(Languages.LanguageStrings.About))]
         public IActionResult About()
         {
-            return View(new BaseModel(GetBreadcrumbs()));
+            return View(new BaseModel(GetBreadcrumbs(), GetCartSummary()));
         }
 
         [DenySpider]
         [Breadcrumb(nameof(Languages.LanguageStrings.Privacy))]
         public IActionResult Privacy()
         {
-            return View(new BaseModel(GetBreadcrumbs()));
+            return View(new BaseModel(GetBreadcrumbs(), GetCartSummary()));
         }
 
         [DenySpider("*")]

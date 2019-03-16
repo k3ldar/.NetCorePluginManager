@@ -55,7 +55,6 @@ h4 {
 
     .wrapper .tagLineHome {
         border-top: none;
-        color: #000;
         font-family: Arial, Georgia, "Times New Roman", Times, serif;
         font-size: 1.4em;
         color: #666;
@@ -84,7 +83,6 @@ h4 {
         color: #000;
         font-family: Arial, Georgia, "Times New Roman", Times, serif;
         font-size: 1.0em;
-        color: #666;
         font-style: normal;
         line-height: 1.25;
         width: 750px;
@@ -487,3 +485,29 @@ h4 {
     width: 100%;
     font-size: 1.5em;
 }
+
+.addToBasket {
+    float: right;
+    width: 150px;
+    display: block;
+    border: 1px #eee solid;
+    border-radius: 6px;
+    padding: 14px 5px 5px 14px;
+    margin-top: 14px;
+    background-color: #eee;
+    color: black;
+}
+
+    .addToBasket p {
+        font-size: 1.0em;
+    }
+
+    .addToBasket p span {
+        margin-left: 10px;
+    }
+
+    .addToBasket input[type=submit] {
+        float: right;
+        margin: 10px 10px 10px 0;
+    }
+

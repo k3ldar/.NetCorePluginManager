@@ -25,6 +25,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.Collections.Generic;
 
 using SharedPluginFeatures;
 
@@ -39,7 +40,8 @@ namespace LoginPlugin.Models
             Username = String.Empty;
         }
 
-        public AccountLockedViewModel(string username)
+        public AccountLockedViewModel(in List<BreadcrumbItem> breadcrumbs, in ShoppingCartSummary cartSummary, string username)
+            : base (breadcrumbs, cartSummary)
         {
             if (String.IsNullOrEmpty(username))
                 throw new ArgumentNullException(nameof(username));

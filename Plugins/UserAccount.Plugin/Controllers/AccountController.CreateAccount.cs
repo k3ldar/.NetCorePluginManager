@@ -47,7 +47,7 @@ namespace UserAccount.Plugin.Controllers
         [Breadcrumb(nameof(Languages.LanguageStrings.CreateAccount), nameof(AccountController), nameof(Index))]
         public IActionResult CreateAccount()
         {
-            CreateAccountViewModel model = new CreateAccountViewModel();
+            CreateAccountViewModel model = new CreateAccountViewModel(GetBreadcrumbs(), GetCartSummary());
             PrepareCreateAccountModel(ref model);
 
             return View(model);
@@ -165,6 +165,7 @@ namespace UserAccount.Plugin.Controllers
             AddressOptions addressOptions = _accountProvider.GetAddressOptions();
 
             model.Breadcrumbs = GetBreadcrumbs();
+            model.CartSummary = GetCartSummary();
 
             model.ShowAddressLine1 = addressOptions.HasFlag(AddressOptions.AddressLine1Show);
             model.ShowAddressLine2 = addressOptions.HasFlag(AddressOptions.AddressLine2Show);

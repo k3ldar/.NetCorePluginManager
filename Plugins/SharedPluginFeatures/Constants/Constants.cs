@@ -36,6 +36,8 @@ namespace SharedPluginFeatures
         public const string UserSession = "UserSession";
         public const string UserCulture = "UserCulture";
         public const string Breadcrumbs = "Breadcrumbs";
+        public const string ShoppingCart = "ShoppingCart";
+        public const string BasketSummary = "BasketSummary";
 
         public const string DefaultSessionCookie = "user_session";
 
@@ -53,7 +55,14 @@ namespace SharedPluginFeatures
         public const char Dash = '-';
 
 
+        public const string PluginSettingBreadcrumb = "Breadcrumb.Plugin";
+
+
+        public const string PluginNameUserSession = "UserSessionMiddleware.Plugin.dll";
         public const string PluginNameLocalization = "Localization.Plugin.dll";
-        public const string PluginNameBreadcrumb = "Breadcrumb.Plugin";
+        public const string PluginNameShoppingCart = "ShoppingCartPlugin.dll";
+
+
+        public const string UserSessionServiceNotFound = "UserSessionService not found";
     }
 }

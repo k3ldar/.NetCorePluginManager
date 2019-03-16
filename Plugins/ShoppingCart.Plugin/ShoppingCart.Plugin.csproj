@@ -61,13 +61,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="Views\Cart\Index.cshtml" />
     <Content Remove="wwwroot\css\Cart.css" />
     <Content Remove="wwwroot\css\Error.css" />
+    <Content Remove="wwwroot\images\Cart\shopping-cart-24.png" />
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="Views\Cart\Index.cshtml" />
     <EmbeddedResource Include="wwwroot\css\Cart.css" />
     <EmbeddedResource Include="wwwroot\css\Error.css" />
+    <EmbeddedResource Include="wwwroot\images\Cart\shopping-cart-24.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -274,9 +278,6 @@
 
   <ItemGroup>
     <Folder Include="Classes\SystemAdmin\" />
-    <Folder Include="Models\" />
-    <Folder Include="Views\Cart\" />
-    <Folder Include="wwwroot\images\" />
   </ItemGroup>
 
 </Project>

@@ -89,6 +89,47 @@ namespace SharedPluginFeatures
 
         #endregion Breadcrumbs
 
+        #region Shopping Cart
+
+        protected ShoppingCartSummary GetCartSummary()
+        {
+            if (HttpContext.Items.ContainsKey(Constants.BasketSummary))
+            {
+                return (ShoppingCartSummary)HttpContext.Items[Constants.BasketSummary];
+            }
+
+            UserSession userSession = GetUserSession();
+
+            // if we have a user session, and that session has a cart id, try 
+            // and get the cart via IShoppingCartService
+            if (userSession != null && userSession.UserBasketId != 0)
+            {
+                IShoppingCartService shoppingCartService = (IShoppingCartService)HttpContext.RequestServices.GetService(typeof(IShoppingCartService));
+
+                if (shoppingCartService != null)
+                    return shoppingCartService.GetSummary(userSession.UserBasketId);
+            }
+
+            return new ShoppingCartSummary(0, 0, 0, System.Threading.Thread.CurrentThread.CurrentUICulture);
+        }
+
+        protected long GetShoppingCartId()
+        {
+            if (HttpContext.Items.ContainsKey(Constants.ShoppingCart))
+            {
+                return (long)HttpContext.Items[Constants.ShoppingCart];
+            }
+
+            return (0);
+        }
+
+        protected void AddToCart()
+        {
+
+        }
+
+        #endregion Shopping Cart
+
         #region Cookies
 
         protected bool CookieExists(in string name)

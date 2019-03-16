@@ -26,6 +26,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
 
 namespace SharedPluginFeatures
 {
@@ -41,11 +42,12 @@ namespace SharedPluginFeatures
 
         public BaseModel()
         {
-            _breadcrumbs = new List<BreadcrumbItem>();
+
         }
 
-        public BaseModel(in List<BreadcrumbItem> breadcrumbs)
+        public BaseModel(in List<BreadcrumbItem> breadcrumbs, in ShoppingCartSummary cartSummary)
         {
+            CartSummary = cartSummary ?? throw new ArgumentNullException(nameof(cartSummary));
             _breadcrumbs = breadcrumbs ?? throw new ArgumentNullException(nameof(breadcrumbs));
         }
 
@@ -66,11 +68,13 @@ namespace SharedPluginFeatures
             }
         }
 
+        public ShoppingCartSummary CartSummary { get; set; }
+
         #endregion Properties
 
-        #region Protected Methods
+        #region Public Static Methods
 
-        protected string RouteFriendlyName(in string name)
+        public static string RouteFriendlyName(in string name)
         {
             StringBuilder Result = new StringBuilder(name.Length);
             char lastChar = ' ';
@@ -105,7 +109,7 @@ namespace SharedPluginFeatures
             return Result.ToString();
         }
 
-        #endregion Protected Methods
+        #endregion Public Static Methods
 
         #region Public Methods
 

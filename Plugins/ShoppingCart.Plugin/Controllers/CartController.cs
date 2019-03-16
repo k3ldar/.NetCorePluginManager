@@ -39,6 +39,8 @@ using Middleware;
 
 using Languages;
 
+using ShoppingCartPlugin.Models;
+
 namespace ShoppingCartPlugin.Controllers
 {
     public class CartController : BaseController
@@ -62,7 +64,9 @@ namespace ShoppingCartPlugin.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            BasketModel model = new BasketModel(GetBreadcrumbs(), GetCartSummary());
+
+            return View(model);
         }
 
         #endregion Public Action Methods

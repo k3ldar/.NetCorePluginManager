@@ -24,6 +24,7 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System.ComponentModel.DataAnnotations;
+using System.Collections.Generic;
 
 using SharedPluginFeatures;
 
@@ -31,6 +32,23 @@ namespace UserAccount.Plugin.Models
 {
     public sealed class MarketingPreferencesViewModel : BaseModel
     {
+        #region Constructors
+
+        public MarketingPreferencesViewModel()
+        {
+
+        }
+
+        public MarketingPreferencesViewModel(in List<BreadcrumbItem> breadcrumbs, in ShoppingCartSummary cartSummary)
+            : base (breadcrumbs, cartSummary)
+        {
+
+        }
+
+        #endregion Constructors
+
+        #region Properties
+
         [Display(Name = nameof(Languages.LanguageStrings.AcceptOffersEmail))]
         public bool EmailOffers { get; set; }
 
@@ -50,5 +68,7 @@ namespace UserAccount.Plugin.Models
         public bool ShowSMS { get; set; }
 
         public bool ShowPostal { get; set; }
+
+        #endregion Properties
     }
 }
