@@ -62,16 +62,26 @@
 
   <ItemGroup>
     <Content Remove="Views\Cart\Index.cshtml" />
+    <Content Remove="Views\Cart\_QuantityUpdate.cshtml" />
+    <Content Remove="Views\Cart\_Voucher.cshtml" />
     <Content Remove="wwwroot\css\Cart.css" />
     <Content Remove="wwwroot\css\Error.css" />
+    <Content Remove="wwwroot\images\Cart\Delete.png" />
     <Content Remove="wwwroot\images\Cart\shopping-cart-24.png" />
+    <Content Remove="wwwroot\images\Cart\tick.png" />
+    <Content Remove="wwwroot\js\Cart.js" />
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Include="Views\Cart\Index.cshtml" />
+    <EmbeddedResource Include="Views\Cart\_QuantityUpdate.cshtml" />
+    <EmbeddedResource Include="Views\Cart\_Voucher.cshtml" />
     <EmbeddedResource Include="wwwroot\css\Cart.css" />
     <EmbeddedResource Include="wwwroot\css\Error.css" />
+    <EmbeddedResource Include="wwwroot\images\Cart\Delete.png" />
     <EmbeddedResource Include="wwwroot\images\Cart\shopping-cart-24.png" />
+    <EmbeddedResource Include="wwwroot\images\Cart\tick.png" />
+    <EmbeddedResource Include="wwwroot\js\Cart.js" />
   </ItemGroup>
 
   <ItemGroup>
@@ -273,7 +283,7 @@
     <PackageReference Include="Microsoft.Extensions.Primitives" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.WebEncoders" Version="2.2.0" />
     <PackageReference Include="Microsoft.Net.Http.Headers" Version="2.2.0" />
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.2" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.3" />
   </ItemGroup>
 
   <ItemGroup>

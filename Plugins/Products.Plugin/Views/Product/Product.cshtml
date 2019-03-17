@@ -3,7 +3,7 @@
 
 @{
     ViewData["Title"] = "Index";
-    var image = Shared.Utilities.ResizeImage(Model.Images[0], 288);
+    var image = Shared.Utilities.ResizeImage(Model.Images[0], 288).Replace(".jpg", ".png");
 }
 
 <link rel="stylesheet" href="~/css/Products.css" asp-append-version="true" />

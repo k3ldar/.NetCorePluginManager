@@ -1,429 +1,108 @@
-﻿h1 {
-    font-size: 2em;
-    color: #666;
-}
-
-h2 {
-    font-size: 1.5em;
-    color: #666;
-}
-
-h3 {
-    font-size: 1.25em;
-    color: #666;
-}
-
-h4 {
-    font-size: 1em;
-    color: #666;
-}
-
-.clear {
-    clear: both;
-}
-
-.fixed:after {
-    clear: both;
-    content: ".";
-    display: block;
-    height: 0;
-    visibility: hidden;
-}
-
-.fixed {
-    display: block;
-}
-
-.fixed {
-    min-height: 1%;
-}
-
-* html .fixed {
-    height: 1%;
-}
-
-.left {
-    float: left;
-}
-
-.right {
-    float: right;
-}
-
-.wrapper {
-    background-color: transparent;
-    margin: 0px auto;
-    width: 980px;
-}
-
-    .wrapper .tagLineHome {
-        border-top: none;
-        color: #000;
-        font-family: Arial, Georgia, "Times New Roman", Times, serif;
-        font-size: 1.4em;
-        color: #666;
-        font-style: normal;
-        font-weight: bolder;
-        line-height: 1.25;
-        padding: 15px 30px 10px 0px;
-        width: 400px;
-        float: left;
-        margin-left: 00px;
-        margin-top: 2px;
-        background-color: transparent;
-        text-transform: none;
-        align-content: center;
-        text-align: left;
-    }
-
-        .wrapper .tagLineHome img {
-            border: none;
-            float: left;
-            padding: 0px;
-        }
-
-    .wrapper .tagLine {
-        border-top: none;
-        color: #000;
-        font-family: Arial, Georgia, "Times New Roman", Times, serif;
-        font-size: 1.0em;
-        color: #666;
-        font-style: normal;
-        line-height: 1.25;
-        width: 750px;
-        background-color: transparent;
-        text-transform: none;
-        align-content: center;
-        text-align: left;
-    }
-
-.mainContent {
-    float: right;
-    width: 780px;
-}
-
-
-    .mainContent ul.downloadList {
-        font-size: 1em;
-        line-height: 1;
-        list-style: none;
-        margin: 0 0 0 0;
-        padding: 0 0 20px 0;
-    }
-
-        .mainContent ul.downloadList li {
-            float: left;
-            width: 195px;
-            height: 205px;
-            padding: 0 0 0 0;
-        }
-
-            .mainContent ul.downloadList li.end {
-                margin: 0;
-            }
-
-            .mainContent ul.downloadList li a {
-                color: #666;
-                display: block;
-                font-size: 1.1em;
-                font-weight: 300;
-                line-height: 1;
-                text-decoration: none;
-                text-align: center;
-            }
-
-                .mainContent ul.downloadList li a img {
-                    -moz-border-radius: 2px;
-                    -webkit-border-radius: 2px;
-                    border-radius: 2px;
-                    margin: 0 0 10px 0;
-                    background-color: #fff;
-                    padding-left: 1px;
-                    padding-right: 1px;
-                    margin-left: 36px;
-                    display: block;
-                }
-
-            .mainContent ul.downloadList li.download a:hover img {
-                border-color: #999;
-            }
-
-            .mainContent ul.downloadList li a strong {
-                color: #999;
-                display: block;
-                font-size: 0.7em;
-                margin: 1em 0 0 0;
-            }
-
-.leftColumn {
-    float: left;
-    width: 180px;
-    padding-right: 20px;
-}
-
-    .leftColumn h5 {
-        border-bottom: 1px solid #ccc;
-        color: #999;
-        margin: 0 0 0.66em 0;
-        padding: 14px 0 4px 0;
-    }
-
-    .leftColumn text {
-        color: #666;
-        font-weight: 300;
-        text-decoration: none;
-    }
-
-    .leftColumn h6 {
-        font-size: 1.3em;
-        color: #666;
-        font-weight: bold;
-    }
-
-    .leftColumn ul {
-        font-size: 1.3em;
-        line-height: 1;
-        list-style: none;
-        margin: 0 0 20px 0;
-        padding-left: 0px;
-    }
-
-        .leftColumn ul li {
-            line-height: 1.5;
-            margin: 0;
-            padding: 3px 0px 3px 14px;
-        }
-
-            .leftColumn ul li a {
-                color: #666;
-                font-weight: 300;
-                font-size: 14px;
-                text-decoration: none;
-                overflow-wrap: break-word;
-                -ms-word-break: break-all;
-            }
-
-            .leftColumn ul li.General {
-                color: rgb(255, 255, 255);
-                border-left: 0px;
-                border-top: 0px;
-                border-bottom: 0px;
-                border-right: 0px;
-                border-color: rgb(255, 255, 255);
-                border-style: solid;
-                margin-bottom: 1px;
-            }
-
-            .leftColumn ul li.Style1 {
-                color: rgb(188, 189, 192);
-                border-left: 8px;
-                border-top: 2px;
-                border-bottom: 2px;
-                border-right: 2px;
-                border-color: rgb(188, 189, 192);
-                border-style: solid;
-                margin-bottom: 3px;
-            }
-
-            .leftColumn ul li.Style2 {
-                color: rgb(139, 200, 103);
-                border-left: 8px;
-                border-top: 2px;
-                border-bottom: 2px;
-                border-right: 2px;
-                border-color: rgb(139, 200, 103);
-                border-style: solid;
-                margin-bottom: 3px;
-            }
-
-            .leftColumn ul li.Style3 {
-                color: rgb(89, 142, 202);
-                border-left: 8px;
-                border-top: 2px;
-                border-bottom: 2px;
-                border-right: 2px;
-                border-color: rgb(89, 142, 202);
-                border-style: solid;
-                margin-bottom: 3px;
-            }
-
-            .leftColumn ul li.Style4 {
-                color: rgb(162, 133, 87);
-                border-left: 8px;
-                border-top: 2px;
-                border-bottom: 2px;
-                border-right: 2px;
-                border-color: rgb(162, 133, 87);
-                border-style: solid;
-                margin-bottom: 3px;
-            }
-
-            .leftColumn ul li.Style5 {
-                color: rgb(246, 141, 72);
-                border-left: 8px;
-                border-top: 2px;
-                border-bottom: 2px;
-                border-right: 2px;
-                border-color: rgb(246, 141, 72);
-                border-style: solid;
-                margin-bottom: 3px;
-            }
-
-            .leftColumn ul li.Style6 {
-                color: rgb(165, 131, 188);
-                border-left: 8px;
-                border-top: 2px;
-                border-bottom: 2px;
-                border-right: 2px;
-                border-color: rgb(165, 131, 188);
-                border-style: solid;
-                margin-bottom: 3px;
-            }
-
-            .leftColumn ul li.Style7 {
-                color: rgb(151, 216, 229);
-                border-left: 8px;
-                border-top: 2px;
-                border-bottom: 2px;
-                border-right: 2px;
-                border-color: rgb(151, 216, 229);
-                border-style: solid;
-                margin-bottom: 3px;
-            }
-
-            .leftColumn ul li.Style8 {
-                color: rgb(243, 223, 81);
-                border-left: 8px;
-                border-top: 2px;
-                border-bottom: 2px;
-                border-right: 2px;
-                border-color: rgb(243, 223, 81);
-                border-style: solid;
-                margin-bottom: 3px;
-            }
-
-            .leftColumn ul li.Style9 {
-                color: rgb(224, 110, 171);
-                border-left: 8px;
-                border-top: 2px;
-                border-bottom: 2px;
-                border-right: 2px;
-                border-color: rgb(224, 110, 171);
-                border-style: solid;
-                margin-bottom: 3px;
-            }
-
-            .leftColumn ul li a span {
-                font-size: 0.8em;
-            }
-
-            .leftColumn ul li.current a {
-                color: #333;
-                font-weight: bold;
-            }
-
-            .leftColumn ul li a:hover {
-                color: #333;
-            }
-
-        .leftColumn ul.collapsible li {
-            background: none;
-            padding: 3px 0;
-        }
-
-            .leftColumn ul.collapsible li a {
-                padding: 0 0 0 12px;
-            }
-
-                .leftColumn ul.collapsible li a.expanded {
-                    background: url(/images/expanded.gif) no-repeat left center;
-                }
-
-                .leftColumn ul.collapsible li a.collapsed {
-                    background: url(/images/collapsed.gif) no-repeat left center;
-                }
-
-            .leftColumn ul.collapsible li ul {
-                font-size: 1em;
-                margin: 0 0 0 10px;
-            }
-
-                .leftColumn ul.collapsible li ul li {
-                    background: none;
-                }
-
-                    .leftColumn ul.collapsible li ul li:before {
-                        content: "- ";
-                    }
-
-                    .leftColumn ul.collapsible li ul li a {
-                        padding: 0;
-                    }
-
-    .leftColumn a.banner {
-        border: 1px solid #ccc;
-        -moz-border-radius: 2px;
-        -webkit-border-radius: 2px;
-        border-radius: 2px;
-        display: block;
-        margin: 0 0 20px 0;
-    }
-
-.mainContent .pagination {
-    border-top: 1px solid #ccc;
-    margin: 0 0 20px 0;
-    padding: 20px 0 0 0;
-    text-align: center;
+﻿.shoppingCart {
     width: 100%;
-    float: right;
 }
 
-    .mainContent .pagination ul {
-        line-height: 1;
-        list-style: none;
-        margin: 0;
+    .shoppingCart table {
+        font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+        padding: 10px 20px 10px 20px;
     }
 
-        .mainContent .pagination ul li {
-            display: inline;
-            /*margin: 0 5px;*/
+    .shoppingCart td, .shoppingCart th {
+        border: 1px solid #ddd;
+        padding: 8px;
+    }
+
+    .shoppingCart table thead tr td {
+        padding-right: 20px;
+    }
+
+    .shoppingCart table tr td input[type=text] {
+        padding: 2px;
+        width: 40px;
+        margin: 0 5px 0 5px;
+    }
+
+    .shoppingCart table tr td a {
+        width: 100%;
+        text-decoration: none;
+        font-size: 1.0em;
+        color: black;
+    }
+
+        .shoppingCart table tr td a img {
+            float: left;
+            border-radius: 5px;
+            width: 40px;
+            margin-right: 10px;
         }
 
-            .mainContent .pagination ul li a {
-                background: #eaeaea;
-                -moz-border-radius: 3px;
-                -webkit-border-radius: 3px;
-                border-radius: 3px;
-                color: #666;
-                padding: 4px 8px;
-                text-decoration: none;
-                text-shadow: 0 1px 0 #fff;
-            }
+        .shoppingCart table tr td a h3 {
+            margin: 0;
+            font-size: 1.2em;
+        }
 
-            .mainContent .pagination ul li.disabled a {
-                background: #f4f4f4;
-                color: #ccc;
-                cursor: default;
-                text-shadow: 0 1px 0 #fff;
-            }
+        .shoppingCart table tr td a p {
+            margin: 0;
+            font-size: 1.0em;
+        }
 
-            .mainContent .pagination ul li.current a {
-                background: #b4b4b4;
-                color: #fff;
-                text-shadow: 0 1px 0 #757575;
-            }
+    .shoppingCart tr:hover {
+        background-color: #ddd;
+    }
 
-            .mainContent .pagination ul li a:hover {
-                background-color: #ddd;
-                color: #333;
-            }
+    .shoppingCart th {
+        padding-top: 12px;
+        padding-bottom: 12px;
+        text-align: left;
+        background-color: #707B7C;
+        color: white;
+    }
 
-            .mainContent .pagination ul li.current a {
-                background: #b4b4b4;
-                color: #fff;
-            }
+        .shoppingCart th:last-child {
+            width: 18px;
+        }
 
-            .mainContent .pagination ul li.disabled a {
-                background: #f4f4f4;
-                color: #ccc;
-            }
+
+.cartDetail {
+    display: block;
+    font-size: 0.7em;
+    left: 30px;
+}
+
+    .cartDetail span {
+        margin-right: 30px;
+    }
+
+.voucher{
+    display: block;
+    margin: 10px 0 10px 0;
+}
+
+.center {
+    width: 150px;
+    margin: 2px auto;
+}
+
+.input-group-btn {
+    width: 20px;
+}
+
+
+
+x;
+    margin: 2px auto;
+}
+
+.input-group-btn {
+    width: 20px;
+}
+
+
+
+h: 20px;
+}
+
+
+

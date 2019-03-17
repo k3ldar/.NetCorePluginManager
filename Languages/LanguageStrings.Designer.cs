@@ -20649,6 +20649,15 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Availability.
+        /// </summary>
+        public static string Availability {
+            get {
+                return ResourceManager.GetString("Availability", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Available Tags.
         /// </summary>
         public static string AvailableTags {
@@ -20663,6 +20672,15 @@ namespace Languages {
         public static string Averagems {
             get {
                 return ResourceManager.GetString("Averagems", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Back Order.
+        /// </summary>
+        public static string BackOrder {
+            get {
+                return ResourceManager.GetString("BackOrder", resourceCulture);
             }
         }
         
@@ -23611,6 +23629,15 @@ namespace Languages {
         public static string InsecureConnectionDescription {
             get {
                 return ResourceManager.GetString("InsecureConnectionDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to In Stock.
+        /// </summary>
+        public static string InStock {
+            get {
+                return ResourceManager.GetString("InStock", resourceCulture);
             }
         }
         
@@ -27952,6 +27979,15 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to You have no items in your shopping cart.
+        /// </summary>
+        public static string ShoppingCartEmpty {
+            get {
+                return ResourceManager.GetString("ShoppingCartEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Sign In.
         /// </summary>
         public static string SignIn {
@@ -28119,6 +28155,15 @@ namespace Languages {
         public static string StepTwoOfthree {
             get {
                 return ResourceManager.GetString("StepTwoOfthree", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Stock.
+        /// </summary>
+        public static string Stock {
+            get {
+                return ResourceManager.GetString("Stock", resourceCulture);
             }
         }
         
@@ -29626,6 +29671,15 @@ namespace Languages {
         public static string VoucherCodeEnter {
             get {
                 return ResourceManager.GetString("VoucherCodeEnter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The voucher entered is not valid..
+        /// </summary>
+        public static string VoucherInvalid {
+            get {
+                return ResourceManager.GetString("VoucherInvalid", resourceCulture);
             }
         }
         

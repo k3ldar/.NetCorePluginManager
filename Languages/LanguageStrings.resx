@@ -13841,4 +13841,28 @@ If this continues, please contact support.</comment>
     <value>Translation Timings</value>
     <comment>Translation Timings</comment>
   </data>
+  <data name="BackOrder" xml:space="preserve">
+    <value>Back Order</value>
+    <comment>Back Order</comment>
+  </data>
+  <data name="InStock" xml:space="preserve">
+    <value>In Stock</value>
+    <comment>In Stock</comment>
+  </data>
+  <data name="Stock" xml:space="preserve">
+    <value>Stock</value>
+    <comment>Stock</comment>
+  </data>
+  <data name="Availability" xml:space="preserve">
+    <value>Availability</value>
+    <comment>Availability</comment>
+  </data>
+  <data name="ShoppingCartEmpty" xml:space="preserve">
+    <value>You have no items in your shopping cart</value>
+    <comment>You have no items in your shopping cart</comment>
+  </data>
+  <data name="VoucherInvalid" xml:space="preserve">
+    <value>The voucher entered is not valid.</value>
+    <comment>The voucher entered is not valid.</comment>
+  </data>
 </root>

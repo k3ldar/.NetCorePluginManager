@@ -150,7 +150,7 @@ namespace ProductPlugin.Controllers
             foreach (Product product in products)
             {
                 Result.Products.Add(new ProductCategoryProductModel(product.Id, product.Name, product.Images[0], 
-                    group.Id, product.NewProduct, product.BestSeller, product.LowestPrice));
+                    group.Id, product.NewProduct, product.BestSeller, product.RetailPrice));
             }
 
             Result.Breadcrumbs.Clear();
@@ -187,7 +187,7 @@ namespace ProductPlugin.Controllers
 
                 Result = new ProductModel(GetBreadcrumbs(), GetCartSummary(), modelCategories, product.Id, product.ProductGroupId,
                     product.Name, product.Description, product.Features, product.VideoLink, product.Images, 
-                    product.LowestPrice, _hasShoppingCart && product.LowestPrice > 0);
+                    product.RetailPrice, _hasShoppingCart && product.RetailPrice > 0);
             }
             else
             {

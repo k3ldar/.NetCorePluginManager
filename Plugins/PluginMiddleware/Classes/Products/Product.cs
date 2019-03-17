@@ -32,7 +32,8 @@ namespace Middleware.Products
         #region Constructors
 
         public Product(in int id, in int productGroupId, in string name, in string description, in string features,
-            in string videoLink, in string[] images, in decimal lowestPrice)
+            in string videoLink, in string[] images, in decimal retailPrice, in string sku, in bool isDownload,
+            in bool allowBackorder)
         {
             if (String.IsNullOrEmpty(name))
                 throw new ArgumentNullException(nameof(name));
@@ -47,7 +48,10 @@ namespace Middleware.Products
             Features = features;
             VideoLink = videoLink;
             Images = images;
-            LowestPrice = lowestPrice;
+            RetailPrice = retailPrice;
+            Sku = sku;
+            IsDownload = isDownload;
+            AllowBackorder = allowBackorder;
         }
 
         #endregion Constructors
@@ -72,7 +76,13 @@ namespace Middleware.Products
 
         public bool BestSeller { get; private set; }
 
-        public decimal LowestPrice { get; private set; }
+        public decimal RetailPrice { get; private set; }
+
+        public string Sku { get; private set; }
+
+        public bool IsDownload { get; private set; }
+
+        public bool AllowBackorder { get; private set; }
 
         #endregion Properties
     }

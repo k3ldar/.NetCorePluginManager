@@ -52,7 +52,7 @@ namespace SharedPluginFeatures
 
         #region Public Methods
 
-        public void ResetBasketId(in long id)
+        public void ResetShoppingCartId(in long id)
         {
             if (Id != 0)
                 throw new InvalidOperationException();
@@ -60,7 +60,11 @@ namespace SharedPluginFeatures
             Id = id;
         }
 
-        public void ResetTotalItems(in int totalItems)
+        #endregion Public Methods
+
+        #region Protected Methods
+
+        protected void ResetTotalItems(in int totalItems)
         {
             if (totalItems < 0)
                 throw new InvalidOperationException();
@@ -68,7 +72,7 @@ namespace SharedPluginFeatures
             TotalItems = totalItems;
         }
 
-        public void ResetTotalCost(in decimal cost, in CultureInfo cultureInfo)
+        protected void ResetTotalCost(in decimal cost, in CultureInfo cultureInfo)
         {
             if (cost < 0)
                 throw new InvalidOperationException();
@@ -77,7 +81,7 @@ namespace SharedPluginFeatures
             Currency = cultureInfo ?? throw new ArgumentNullException(nameof(cultureInfo));
         }
 
-        #endregion Public Methods
+        #endregion Protected Methods
 
         #region Properties
 

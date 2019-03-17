@@ -35,9 +35,11 @@ namespace Middleware
 {
     public interface IShoppingCartProvider
     {
-        ShoppingCartDetail GetDetail();
+        ShoppingCartDetail GetDetail(in long shoppingCartId);
 
         long AddToCart(in UserSession userSession, in ShoppingCartSummary shoppingCart, 
             in Product product, in int count);
+
+        bool ValidateVoucher(in ShoppingCartSummary cartSummary, in string voucher, in long userId);
     }
 }

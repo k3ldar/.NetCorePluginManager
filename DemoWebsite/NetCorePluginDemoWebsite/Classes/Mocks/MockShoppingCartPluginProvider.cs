@@ -24,6 +24,7 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 using Middleware;
@@ -74,18 +75,19 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
             if (count < 1)
                 throw new ArgumentOutOfRangeException(nameof(count));
 
-            decimal cost = product.LowestPrice;
+            decimal cost = product.RetailPrice;
 
             if (cost < 0)
                 throw new ArgumentOutOfRangeException(nameof(cost));
 
             if (shoppingCart.Id == 0 && userSession.UserBasketId != shoppingCart.Id)
-                shoppingCart.ResetBasketId(userSession.UserBasketId);
+                shoppingCart.ResetShoppingCartId(userSession.UserBasketId);
 
             if (shoppingCart.Id == 0)
-                shoppingCart.ResetBasketId(++_basketId);
+                shoppingCart.ResetShoppingCartId(++_basketId);
 
-            userSession.UserBasketId = shoppingCart.Id;
+            if (userSession.UserBasketId != shoppingCart.Id)
+                userSession.UserBasketId = shoppingCart.Id;
 
             string cacheName = $"Cart {shoppingCart.Id}";
 
@@ -97,41 +99,53 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
                 _cartCacheManager.Add(cacheName, basket, true);
             }
 
-            ShoppingCartSummary cart = (ShoppingCartSummary)basket.Value;
+            ShoppingCartDetail cart = basket.Value as ShoppingCartDetail;
 
-            cart.ResetTotalItems(cart.TotalItems + count);
-            cart.ResetTotalCost(cart.TotalCost + cost, cart.Currency);
+            cart.Add(product, count);
 
             return userSession.UserBasketId;
         }
 
-        public ShoppingCartDetail GetDetail()
+        public ShoppingCartDetail GetDetail(in long shoppingCartId)
         {
-            throw new NotImplementedException();
+            if (shoppingCartId == 0)
+                throw new ArgumentOutOfRangeException(nameof(shoppingCartId));
+
+            string basketCache = $"Cart Summary {shoppingCartId}";
+
+            CacheItem cacheItem = _cartCacheManager.Get(basketCache);
+
+            if (cacheItem == null)
+            {
+                List<ShoppingCartItem> items = new List<ShoppingCartItem>();
+
+                Product product = _productProvider.GetProducts(1, 10000).Where(p => p.RetailPrice > 0).FirstOrDefault();
+
+                items.Add(new ShoppingCartItem(product.Id, 1, product.RetailPrice, product.Name,
+                    product.Description.Substring(0, Shared.Utilities.CheckMinMax(product.Description.Length, 0, 49)),
+                    product.Sku, product.Images, product.IsDownload, product.AllowBackorder, String.Empty));
+                ShoppingCartDetail cartDetail = new ShoppingCartDetail(shoppingCartId, 1,
+                    product.RetailPrice, System.Threading.Thread.CurrentThread.CurrentUICulture, 
+                    String.Empty, items);
+                cacheItem = new CacheItem(basketCache, cartDetail);
+                _cartCacheManager.Add(basketCache, cacheItem, true);
+            }
+
+            return (ShoppingCartDetail)cacheItem.Value;
+        }
+
+        public bool ValidateVoucher(in ShoppingCartSummary cartSummary, in string voucher, in long userId)
+        {
+            return false;
         }
 
         #endregion IShoppingCartProvider Methods
 
         #region IShoppingCartService Methods
 
-        public ShoppingCartSummary GetSummary(in long basketId)
+        public ShoppingCartSummary GetSummary(in long shoppingCartId)
         {
-            if (basketId == 0)
-                throw new ArgumentOutOfRangeException(nameof(basketId));
-
-            string basketCache = $"Cart Summary {basketId}";
-
-            CacheItem cacheItem = _cartCacheManager.Get(basketCache);
-
-            if (cacheItem == null)
-            {
-                Product product = _productProvider.GetProducts(1, 10000).Where(p => p.LowestPrice > 0).FirstOrDefault();
-                cacheItem = new CacheItem(basketCache, new ShoppingCartSummary(basketId, 1,
-                    product.LowestPrice, System.Threading.Thread.CurrentThread.CurrentUICulture));
-                _cartCacheManager.Add(basketCache, cacheItem, true);
-            }
-
-            return (ShoppingCartSummary)cacheItem.Value;
+            return GetDetail(shoppingCartId);
         }
 
         public string GetEncryptionKey()

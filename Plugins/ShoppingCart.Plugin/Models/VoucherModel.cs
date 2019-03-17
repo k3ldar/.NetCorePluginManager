@@ -11,25 +11,27 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2019 Simon Carter.  All Rights Reserved.
  *
- *  Product:  SharedPluginFeatures
+ *  Product:  Shopping Cart Plugin
  *  
- *  File: IShoppingCartService.cs
+ *  File: VoucherModel.cs
  *
  *  Purpose:  
  *
  *  Date        Name                Reason
- *  11/03/2019  Simon Carter        Initially Created
+ *  17/03/2019  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-namespace SharedPluginFeatures
+namespace ShoppingCartPlugin.Models
 {
-    public interface IShoppingCartService
+    public sealed class VoucherModel
     {
-        ShoppingCartSummary GetSummary(in long shoppingCartId);
+        #region Properties
 
-        string GetEncryptionKey();
+        public string Voucher { get; set; }
+
+        #endregion Properties
     }
 }

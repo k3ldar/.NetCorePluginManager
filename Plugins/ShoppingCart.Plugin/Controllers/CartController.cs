@@ -25,21 +25,17 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Hosting;
-
-using Shared.Classes;
+using Microsoft.AspNetCore.Mvc;
 
 using SharedPluginFeatures;
 
-using Middleware;
-
-using Languages;
-
 using ShoppingCartPlugin.Models;
+
+using Middleware;
+using Middleware.ShoppingCart;
 
 namespace ShoppingCartPlugin.Controllers
 {
@@ -48,25 +44,85 @@ namespace ShoppingCartPlugin.Controllers
         #region Private Members
 
         private readonly IHostingEnvironment _hostingEnvironment;
+        private readonly IShoppingCartProvider _shoppingCartProvider;
 
         #endregion Private Members
 
         #region Constructors
 
-        public CartController(IHostingEnvironment hostingEnvironment)
+        public CartController(IHostingEnvironment hostingEnvironment, IShoppingCartProvider shoppingCartProvider)
         {
             _hostingEnvironment = hostingEnvironment ?? throw new ArgumentNullException(nameof(hostingEnvironment));
+            _shoppingCartProvider = shoppingCartProvider ?? throw new ArgumentNullException(nameof(shoppingCartProvider));
         }
 
         #endregion Constructors
 
         #region Public Action Methods
 
+        [HttpGet]
+        [Breadcrumb(nameof(Languages.LanguageStrings.ShoppingCart))]
         public IActionResult Index()
         {
-            BasketModel model = new BasketModel(GetBreadcrumbs(), GetCartSummary());
+            List<BasketItemModel> basketItems = new List<BasketItemModel>();
+
+            ShoppingCartDetail cartDetails = _shoppingCartProvider.GetDetail(GetCartSummary().Id);
+
+            foreach (ShoppingCartItem item in cartDetails.Items)
+            {
+                basketItems.Add(new BasketItemModel(item.Id, item.Name, item.Description,
+                    item.Size, item.SKU, item.ItemCost, (int)item.ItemCount, null,
+                    item.ItemCount * item.ItemCost, false, item.Images[0]));
+            }
+
+            if (TempData.ContainsKey("VoucherError"))
+            {
+                ModelState.AddModelError(nameof(VoucherModel.Voucher), Languages.LanguageStrings.VoucherInvalid);
+                TempData.Remove("VoucherError");
+            }
+
+            BasketModel model = new BasketModel(GetBreadcrumbs(), GetCartSummary(), basketItems);
 
             return View(model);
+        }
+
+        [Route("/Cart/Delete/{productId}")]
+        public IActionResult Delete(int productId)
+        {
+            ShoppingCartDetail cartDetails = _shoppingCartProvider.GetDetail(GetCartSummary().Id);
+
+            cartDetails.Delete(productId);
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        [HttpPost]
+        public IActionResult Update(UpdateQuantityModel model)
+        {
+            ShoppingCartDetail cartDetails = _shoppingCartProvider.GetDetail(GetCartSummary().Id);
+
+            ShoppingCartItem item = cartDetails.Items.Where(i => i.Id == model.ProductId).FirstOrDefault();
+
+            if (item != null)
+            {
+                cartDetails.Update(item.Id, model.Quantity);
+            }
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        [HttpPost]
+        public IActionResult AddVoucher(VoucherModel model)
+        {
+            if (!String.IsNullOrEmpty(model.Voucher))
+            {
+                if (_shoppingCartProvider.ValidateVoucher(GetCartSummary(), model.Voucher, GetUserSession().UserID))
+                    return RedirectToAction(nameof(Index));
+            }
+
+            TempData["VoucherError"] = Languages.LanguageStrings.VoucherInvalid;
+
+            return RedirectToAction(nameof(Index));
         }
 
         #endregion Public Action Methods

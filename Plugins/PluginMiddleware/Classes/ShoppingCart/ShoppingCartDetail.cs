@@ -26,8 +26,11 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 
 using SharedPluginFeatures;
+
+using Middleware.Products;
 
 namespace Middleware.ShoppingCart
 {
@@ -36,30 +39,10 @@ namespace Middleware.ShoppingCart
         #region Constructors
 
         public ShoppingCartDetail(in long id, in int totalItems, in decimal totalCost, 
-            in CultureInfo culture, in decimal tax, in decimal subTotal, 
-            in decimal discount, in decimal shipping,
-            in string couponCode, in List<ShoppingCartItem> items)
+            in CultureInfo culture, in string couponCode, in List<ShoppingCartItem> items)
             : base(id, totalItems, totalCost, culture)
         {
             Items = items ?? throw new ArgumentNullException(nameof(items));
-
-            if (tax < 0 || (tax > 0 && items.Count < 1))
-                throw new ArgumentOutOfRangeException(nameof(tax));
-
-            if (subTotal < 0 || (subTotal > 0 && items.Count < 1))
-                throw new ArgumentOutOfRangeException(nameof(subTotal));
-
-            if (discount < 0 || (discount > 0 && items.Count < 1) || (discount > totalCost))
-                throw new ArgumentOutOfRangeException(nameof(discount));
-
-            if (shipping < 0 || (shipping > 0 && items.Count < 1) || (shipping > 0 && totalCost == 0))
-                throw new ArgumentOutOfRangeException(nameof(shipping));
-
-
-            Tax = tax;
-            SubTotal = subTotal;
-            Discount = discount;
-            Shipping = shipping;
             CouponCode = couponCode ?? String.Empty;
         }
 
@@ -80,5 +63,67 @@ namespace Middleware.ShoppingCart
         public List<ShoppingCartItem> Items { get; private set; }
 
         #endregion Properties
+
+        #region Public Methods
+
+        public void Add(in Product product, in int count)
+        {
+            if (product == null)
+                throw new ArgumentNullException(nameof(product));
+
+            if (count < 1)
+                throw new ArgumentOutOfRangeException(nameof(count));
+
+            int existingId = product.Id;
+
+            ShoppingCartItem existingItem = Items.Where(e => e.Id == existingId).FirstOrDefault();
+
+            if (existingItem == null)
+            {
+                Items.Add(new ShoppingCartItem(product.Id, count, product.RetailPrice, product.Name, 
+                    product.Description.Substring(0, Shared.Utilities.CheckMinMax(product.Description.Length, 0, 49)), 
+                    product.Sku, product.Images, product.IsDownload, product.AllowBackorder, String.Empty));
+            }
+            else
+            {
+                existingItem.UpdateCount(count);
+            }
+
+            // reset totals for summary
+            ResetTotalItems(TotalItems + count);
+            ResetTotalCost(TotalCost + (product.RetailPrice * count), Currency);
+        }
+
+        public void Update(int productId, int quantity)
+        {
+            ShoppingCartItem existingItem = Items.Where(e => e.Id == productId).FirstOrDefault();
+
+            if (existingItem == null)
+                throw new ArgumentException(nameof(productId));
+
+            existingItem.ResetCount(quantity);
+
+            Reset();
+        }
+
+        public void Delete(int productId)
+        {
+            ShoppingCartItem item = Items.Where(i => i.Id == productId).FirstOrDefault();
+
+            if (item != null)
+            {
+                ResetTotalItems(TotalItems - (int)item.ItemCount);
+                ResetTotalCost(TotalCost - (item.ItemCost * item.ItemCount), Currency);
+                Items.Remove(item);
+            }
+        }
+
+        public void Reset()
+        {
+            ResetTotalItems((int)Items.Sum(s => s.ItemCount));
+            ResetTotalCost(Items.Sum(s => s.ItemCost * s.ItemCount), Currency);
+        }
+
+        #endregion Public Methods
     }
 }

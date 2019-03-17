@@ -36,17 +36,25 @@ namespace Middleware.ShoppingCart
             Weight = 0;
             TaxRate = 0;
             CustomerReference = String.Empty;
+            Size = String.Empty;
         }
 
-        public ShoppingCartItem(in int id, in decimal itemCount, in decimal itemCost, 
-            in string description, in string sku, in string image, in bool isDownload)
+        public ShoppingCartItem(in int id, in decimal itemCount, in decimal itemCost, in string name,
+            in string description, in string sku, in string[] images, in bool isDownload,
+            in bool canBackOrder, in string size)
             :this ()
         {
+            if (String.IsNullOrEmpty(name))
+                throw new ArgumentNullException(nameof(name));
+
             if (String.IsNullOrEmpty(description))
                 throw new ArgumentNullException(nameof(description));
 
-            if (String.IsNullOrEmpty(image))
-                throw new ArgumentNullException(nameof(image));
+            if (images == null)
+                throw new ArgumentNullException(nameof(images));
+
+            if (images.Length < 1)
+                throw new ArgumentException(nameof(images));
 
             if (itemCount <= 0)
                 throw new ArgumentOutOfRangeException(nameof(itemCount));
@@ -57,16 +65,19 @@ namespace Middleware.ShoppingCart
             Id = id;
             ItemCount = itemCount;
             ItemCost = itemCost;
+            Name = name;
             Description = description;
             SKU = sku ?? String.Empty;
-            Image = image;
+            Images = images;
             IsDownload = isDownload;
+            CanBackOrder = canBackOrder;
+            Size = size ?? String.Empty;
         }
 
         public ShoppingCartItem(in int id, in decimal itemCount, in decimal itemCost, in decimal taxRate,
-            in string description, in string sku, in string image, in bool isDownload, in int weight,
-            in string customerReference)
-            : this(id, itemCount, itemCost, description, sku, image, isDownload)
+            in string name, in string description, in string sku, in string[] images, in bool isDownload,
+            in int weight, in string customerReference, in bool canBackOrder, in string size)
+            : this(id, itemCount, itemCost, name, description, sku, images, isDownload, canBackOrder, size)
         {
             if (taxRate < 0)
                 throw new ArgumentOutOfRangeException(nameof(taxRate));
@@ -81,6 +92,26 @@ namespace Middleware.ShoppingCart
 
         #endregion Constructors
 
+        #region Public Methods
+
+        public void UpdateCount(in int count)
+        {
+            if (count < 1)
+                throw new ArgumentOutOfRangeException(nameof(count));
+
+            ItemCount += count;
+        }
+
+        public void ResetCount(in int count)
+        {
+            if (count < 1)
+                throw new ArgumentOutOfRangeException(nameof(count));
+
+            ItemCount = count;
+        }
+
+        #endregion Public Methods
+
         #region Properties
 
         public int Id { get; private set; }
@@ -91,17 +122,23 @@ namespace Middleware.ShoppingCart
 
         public decimal TaxRate { get; private set; }
 
+        public string Name { get; private set; }
+
         public string Description { get; private set; }
 
         public string SKU { get; private set; }
 
-        public string Image { get; private set; }
+        public string[] Images { get; private set; }
 
         public bool IsDownload { get; private set; }
 
         public int Weight { get; private set; }
 
         public string CustomerReference { get; private set; }
+
+        public bool CanBackOrder { get; private set; }
+
+        public string Size { get; private set; }
 
         #endregion Properties
     }

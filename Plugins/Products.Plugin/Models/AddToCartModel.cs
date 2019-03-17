@@ -16,10 +16,18 @@ namespace ProductPlugin.Models
             Quantity = 1;
         }
 
-        public AddToCartModel(in int id)
+        public AddToCartModel(in int id, in decimal retailPrice, in decimal discount)
             : this ()
         {
+            if (retailPrice <= 0)
+                throw new ArgumentOutOfRangeException(nameof(retailPrice));
+
+            if (discount < 0 || discount > 100)
+                throw new ArgumentOutOfRangeException(nameof(discount));
+
             Id = id;
+            RetailPrice = retailPrice;
+            Discount = discount;
         }
 
         #endregion Constructors
@@ -29,6 +37,10 @@ namespace ProductPlugin.Models
         public int Id { get; set; }
 
         public int Quantity { get; set; }
+
+        public decimal RetailPrice { get; set; }
+
+        public decimal Discount { get; set; }
 
         #endregion Properties
     }

@@ -27,7 +27,7 @@
                 {
                     <li class="product">
                         <a href="@item.Url">
-                            <img src="~/images/Products/@item.Images" alt="@item.Name" border="0" width="178" height="128" />
+                            <img src="~/images/Products/@Shared.Utilities.ResizeImage(item.Images, 178).Replace(".jpg", ".png")" alt="@item.Name" border="0" width="178" height="128" />
                             <span class="new" style="@if (item.NewProduct) { Html.Raw("display:block;"); }">@Localizer[nameof(Languages.LanguageStrings.NewProduct)]</span>
                             <span class="best" style="@if (item.BestSeller) { Html.Raw("display:block;"); }">@Localizer[nameof(Languages.LanguageStrings.BestSeller)]</span>
                             <br />@item.Name<strong>@item.Price</strong>
