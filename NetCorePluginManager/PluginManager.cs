@@ -549,6 +549,9 @@ namespace AspNetCore.PluginManager
                     if (!Directory.Exists(directory))
                         Directory.CreateDirectory(directory);
 
+                    if (File.Exists(resourceFileName))
+                        File.Delete(resourceFileName);
+
                     using (Stream fileStream = File.OpenWrite(resourceFileName))
                     {
                         byte[] buffer = new byte[stream.Length];
