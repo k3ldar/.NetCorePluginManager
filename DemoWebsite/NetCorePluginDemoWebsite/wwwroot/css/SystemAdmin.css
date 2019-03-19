@@ -124,11 +124,4 @@ div:empty {
     .textBlock h3 {
         font-size: 14px;
         font-weight: 600;
-    }i a:hover {
-                    color: #01447e;
-                    text-decoration: underline;
-                }
-
-.mapLegend p img {
-    padding-bottom: 10px;
-}
+    }
