@@ -35,17 +35,43 @@ namespace ShoppingCartPlugin.Models
         #region Constructors
 
         public BasketModel(in List<BreadcrumbItem> breadcrumbs, in ShoppingCartSummary cartSummary,
-            in List<BasketItemModel> basketItems)
+            in List<BasketItemModel> cartItems, in string discountCode, in bool requiresShipping,
+            in bool loggedIn)
             : base(breadcrumbs, cartSummary)
         {
-            BasketItems = basketItems ?? throw new ArgumentNullException(nameof(basketItems));
+            CartItems = cartItems ?? throw new ArgumentNullException(nameof(cartItems));
+            DiscountCode = discountCode ?? String.Empty;
+            RequiresShipping = requiresShipping;
+            LoggedIn = loggedIn;
         }
 
         #endregion Constructors
 
         #region Properties
 
-        public List<BasketItemModel> BasketItems { get; private set; }
+        public List<BasketItemModel> CartItems { get; private set; }
+
+        public string DiscountCode { get; private set; }
+
+        public bool RequiresShipping { get; private set; }
+
+        public bool LoggedIn { get; private set; }
+
+        public string DiscountDescription
+        {
+            get
+            {
+                if (CartSummary.Discount > 0)
+                {
+                    if (String.IsNullOrEmpty(DiscountCode))
+                        return $"{CartSummary.DiscountRate}%";
+                    else
+                        return $"({DiscountCode} {CartSummary.DiscountRate}%)";
+                }
+
+                return String.Empty;
+            }
+        }
 
         #endregion Properties
     }

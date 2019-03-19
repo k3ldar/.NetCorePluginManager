@@ -39,28 +39,24 @@ namespace Middleware.ShoppingCart
         #region Constructors
 
         public ShoppingCartDetail(in long id, in int totalItems, in decimal totalCost, 
-            in CultureInfo culture, in string couponCode, in List<ShoppingCartItem> items)
-            : base(id, totalItems, totalCost, culture)
+            in decimal taxRate, in decimal shipping, in decimal discount, in CultureInfo culture, 
+            in string couponCode, in List<ShoppingCartItem> items, in bool requiresShipping)
+            : base(id, totalItems, totalCost, discount, shipping, taxRate, culture)
         {
             Items = items ?? throw new ArgumentNullException(nameof(items));
             CouponCode = couponCode ?? String.Empty;
+            RequiresShipping = requiresShipping;
         }
 
         #endregion Constructors
 
         #region Properties
 
-        public decimal Tax { get; private set; }
-
-        public decimal SubTotal { get; private set; }
-
-        public decimal Discount { get; private set; }
-
-        public decimal Shipping { get; private set; }
-
         public string CouponCode { get; private set; }
 
         public List<ShoppingCartItem> Items { get; private set; }
+
+        public bool RequiresShipping { get; private set; }
 
         #endregion Properties
 
@@ -91,7 +87,7 @@ namespace Middleware.ShoppingCart
 
             // reset totals for summary
             ResetTotalItems(TotalItems + count);
-            ResetTotalCost(TotalCost + (product.RetailPrice * count), Currency);
+            ResetTotalCost(base.SubTotal + (product.RetailPrice * count));
         }
 
         public void Update(int productId, int quantity)
@@ -113,7 +109,7 @@ namespace Middleware.ShoppingCart
             if (item != null)
             {
                 ResetTotalItems(TotalItems - (int)item.ItemCount);
-                ResetTotalCost(TotalCost - (item.ItemCost * item.ItemCount), Currency);
+                ResetTotalCost(base.SubTotal - (item.ItemCost * item.ItemCount));
                 Items.Remove(item);
             }
         }
@@ -121,7 +117,7 @@ namespace Middleware.ShoppingCart
         public void Reset()
         {
             ResetTotalItems((int)Items.Sum(s => s.ItemCount));
-            ResetTotalCost(Items.Sum(s => s.ItemCost * s.ItemCount), Currency);
+            ResetTotalCost(Items.Sum(s => s.ItemCost * s.ItemCount));
         }
 
         #endregion Public Methods

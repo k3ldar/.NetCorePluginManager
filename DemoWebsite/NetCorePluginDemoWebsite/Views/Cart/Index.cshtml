@@ -3,13 +3,14 @@
 @{
     ViewData["Title"] = Localizer[nameof(Languages.LanguageStrings.ShoppingCart)];
 }
+<div class="bc">@Html.Raw(Model.BreadcrumbData())</div>
 
 <link rel="stylesheet" href="~/css/Cart.css" asp-append-version="true" />
 
 <h2>@Localizer[nameof(Languages.LanguageStrings.ShoppingCart)]</h2>
 
 <div class="shoppingCart">
-    @if (Model.BasketItems.Count > 0)
+    @if (Model.CartItems.Count > 0)
     {
         <table>
             <thead>
@@ -24,19 +25,20 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (ShoppingCartPlugin.Models.BasketItemModel item in Model.BasketItems)
+                @foreach (ShoppingCartPlugin.Models.BasketItemModel item in Model.CartItems)
                 {
                     <tr>
                         <td>
-                            <a href="@item.Url"><img src="~/images/products/@item.Image" />
+                            <a href="@item.Url">
+                                <img src="~/images/products/@item.Image" />
                                 <h3>@item.Name</h3>
                                 <div class="cartDetail">
                                     @if (!String.IsNullOrEmpty(item.Sku))
-                                    { @Html.Raw($"<span><strong>SKU: </strong>{item.Sku}</span>");
-                                    }
+                                    {@Html.Raw($"<span><strong>SKU: </strong>{item.Sku}</span>");
+                                }
                                     @if (!String.IsNullOrEmpty(item.Size))
-                                    { @Html.Raw($"<span><strong>Size: </strong>{item.Size}</span>");
-                                    }
+                                    {@Html.Raw($"<span><strong>Size: </strong>{item.Size}</span>");
+                                }
                                 </div>
                                 <p>@item.ShortDescription</p>
                             </a>
@@ -56,6 +58,25 @@
         <div class="voucher">
             @await Html.PartialAsync("_Voucher.cshtml", new ShoppingCartPlugin.Models.VoucherModel())
         </div>
+        <div class="row">
+            <div class="cartSummary">
+                <h3>@Localizer[nameof(Languages.LanguageStrings.SubTotal)]<span>@Model.CartSummary.SubTotal.ToString("C", Model.CartSummary.Culture)</span></h3>
+
+                @if (Model.CartSummary.Discount > 0)
+                {
+                    <h3>@Localizer[nameof(Languages.LanguageStrings.Discount)] @Model.DiscountDescription<span>@Model.CartSummary.Discount.ToString("C", Model.CartSummary.Culture)</span></h3>
+                }
+
+                @if (Model.CartSummary.Shipping > 0)
+                {
+                    <h3>@Localizer[nameof(Languages.LanguageStrings.PostageAndPackaging)]<span>@Model.CartSummary.Shipping.ToString("C", Model.CartSummary.Culture)</span></h3>
+                }
+
+                <h3>@Localizer[nameof(Languages.LanguageStrings.VAT)] @@ @Model.CartSummary.TaxRate%<span>@Model.CartSummary.Tax.ToString("C", Model.CartSummary.Culture)</span></h3>
+
+                <h3>@Localizer[nameof(Languages.LanguageStrings.Total)]<span>@Model.CartSummary.Total.ToString("C", Model.CartSummary.Culture)</span></h3>
+            </div>
+        </div>
     }
     else
     {
@@ -63,10 +84,8 @@
     }
 
 </div>
-
+<div class="clear"><!-- clear --></div>
 <script src="~/js/Cart.js"></script>
 
 
-
-rt.js"></script>
 

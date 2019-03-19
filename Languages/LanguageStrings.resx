@@ -13865,4 +13865,8 @@ If this continues, please contact support.</comment>
     <value>The voucher entered is not valid.</value>
     <comment>The voucher entered is not valid.</comment>
   </data>
+  <data name="ContinueToCheckout" xml:space="preserve">
+    <value>Continue to Checkout</value>
+    <comment>Continue to Checkout</comment>
+  </data>
 </root>

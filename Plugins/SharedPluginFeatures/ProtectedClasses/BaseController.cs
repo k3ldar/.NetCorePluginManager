@@ -104,13 +104,14 @@ namespace SharedPluginFeatures
             // and get the cart via IShoppingCartService
             if (userSession != null && userSession.UserBasketId != 0)
             {
-                IShoppingCartService shoppingCartService = (IShoppingCartService)HttpContext.RequestServices.GetService(typeof(IShoppingCartService));
+                IShoppingCartService shoppingCartService = (IShoppingCartService)HttpContext
+                    .RequestServices.GetService(typeof(IShoppingCartService));
 
                 if (shoppingCartService != null)
                     return shoppingCartService.GetSummary(userSession.UserBasketId);
             }
 
-            return new ShoppingCartSummary(0, 0, 0, System.Threading.Thread.CurrentThread.CurrentUICulture);
+            return new ShoppingCartSummary(0, 0, 0, 0, 0, 0, System.Threading.Thread.CurrentThread.CurrentUICulture);
         }
 
         protected long GetShoppingCartId()

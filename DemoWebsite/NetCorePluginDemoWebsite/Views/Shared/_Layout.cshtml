@@ -6,12 +6,12 @@
 @{
     ShoppingCartSummary cartSummary = Model.CartSummary;
     var items = Localizer[nameof(Languages.LanguageStrings.Items)];
-    string cost = 0d.ToString("C", Model.CartSummary.Currency);
+    string cost = 0d.ToString("C", Model.CartSummary.Culture);
 
     if (cartSummary != null)
     {
         items = cartSummary.TotalItems == 1 ? Localizer[nameof(Languages.LanguageStrings.Item)] : Localizer[nameof(Languages.LanguageStrings.Items)];
-        cost = cartSummary.TotalCost.ToString("C", Model.CartSummary.Currency);
+        cost = cartSummary.Total.ToString("C", Model.CartSummary.Culture);
     }
 }
 <!DOCTYPE html>
@@ -59,7 +59,7 @@
                 <div class="cart-summary">
                     <a href="/Cart/">
                         <img src="~/images/Cart/shopping-cart-24.png" />
-                        <p>@Model.CartSummary.TotalItems @items<span>@cost</span></p>
+                        <p>@Model.CartSummary.Total @items<span>@cost</span></p>
                     </a>
                 </div>
             </div>

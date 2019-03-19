@@ -113,7 +113,7 @@ namespace ShoppingCartPlugin
         private ShoppingCartSummary GetBasketSummary(in long basketId)
         {
             if (basketId == 0)
-                return new ShoppingCartSummary(0, 0, 0, System.Threading.Thread.CurrentThread.CurrentCulture);
+                return new ShoppingCartSummary(0, 0, 0, 0, 0, 0, System.Threading.Thread.CurrentThread.CurrentCulture);
 
             return _shoppingCartService.GetSummary(basketId);
         }

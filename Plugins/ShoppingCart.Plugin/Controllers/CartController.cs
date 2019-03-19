@@ -65,8 +65,9 @@ namespace ShoppingCartPlugin.Controllers
         public IActionResult Index()
         {
             List<BasketItemModel> basketItems = new List<BasketItemModel>();
+            ShoppingCartSummary cartSummary = GetCartSummary();
 
-            ShoppingCartDetail cartDetails = _shoppingCartProvider.GetDetail(GetCartSummary().Id);
+            ShoppingCartDetail cartDetails = _shoppingCartProvider.GetDetail(cartSummary.Id);
 
             foreach (ShoppingCartItem item in cartDetails.Items)
             {
@@ -81,7 +82,10 @@ namespace ShoppingCartPlugin.Controllers
                 TempData.Remove("VoucherError");
             }
 
-            BasketModel model = new BasketModel(GetBreadcrumbs(), GetCartSummary(), basketItems);
+
+            BasketModel model = new BasketModel(GetBreadcrumbs(), cartSummary, basketItems, 
+                cartDetails.CouponCode, cartDetails.RequiresShipping, 
+                !String.IsNullOrEmpty(GetUserSession().UserEmail));
 
             return View(model);
         }
@@ -123,6 +127,20 @@ namespace ShoppingCartPlugin.Controllers
             TempData["VoucherError"] = Languages.LanguageStrings.VoucherInvalid;
 
             return RedirectToAction(nameof(Index));
+        }
+
+        [HttpPost]
+        public IActionResult ShippingAddress()
+        {
+
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult CheckOut()
+        {
+
+            return View();
         }
 
         #endregion Public Action Methods

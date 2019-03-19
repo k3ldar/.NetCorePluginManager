@@ -32,20 +32,28 @@ namespace SharedPluginFeatures
     {
         #region Constructors
 
-        public ShoppingCartSummary(in long id, in int totalItems, in decimal totalCost, 
-            in CultureInfo culture)
+        public ShoppingCartSummary(in long id, in int totalItems, in decimal subTotal,
+            in decimal discountRate, in decimal shipping, in decimal taxRate, in CultureInfo culture)
         {
             Id = id;
 
             if (totalItems < 0)
                 throw new ArgumentOutOfRangeException(nameof(totalItems));
 
-            if (totalCost < 0)
-                throw new ArgumentOutOfRangeException(nameof(totalCost));
+            if (subTotal < 0)
+                throw new ArgumentOutOfRangeException(nameof(subTotal));
+
+            if (discountRate < 0 || discountRate > 100)
+                throw new ArgumentOutOfRangeException(nameof(discountRate));
 
             TotalItems = totalItems;
-            TotalCost = totalCost;
-            Currency = culture ?? throw new ArgumentNullException(nameof(culture));
+            SubTotal = subTotal;
+            DiscountRate = discountRate;
+            Shipping = shipping;
+            TaxRate = taxRate;
+            Culture = culture ?? throw new ArgumentNullException(nameof(culture));
+
+            ResetTotalCost(subTotal);
         }
 
         #endregion Constructors
@@ -74,11 +82,26 @@ namespace SharedPluginFeatures
 
         protected void ResetTotalCost(in decimal cost, in CultureInfo cultureInfo)
         {
+            if (cultureInfo == null)
+                throw new ArgumentNullException(nameof(cultureInfo));
+
+            ResetTotalCost(cost);
+        }
+
+        protected void ResetTotalCost(in decimal cost)
+        {
             if (cost < 0)
                 throw new InvalidOperationException();
 
-            TotalCost = cost;
-            Currency = cultureInfo ?? throw new ArgumentNullException(nameof(cultureInfo));
+            SubTotal = cost;
+
+            decimal total = SubTotal + Shipping;
+
+            if (DiscountRate > 0 && total > 0)
+                Discount = Shared.Utilities.BankersRounding((total / 100) * DiscountRate, 2);
+
+            Total = total - Discount;
+            Tax = Shared.Utilities.BankersRounding(Shared.Utilities.VATCalculatePaid(Total, TaxRate), 2);
         }
 
         #endregion Protected Methods
@@ -89,9 +112,21 @@ namespace SharedPluginFeatures
 
         public int TotalItems { get; private set; }
 
-        public decimal TotalCost { get; private set; }
+        public decimal SubTotal { get; private set; }
 
-        public CultureInfo Currency { get; private set; }
+        public decimal DiscountRate { get; private set; }
+
+        public decimal Discount { get; private set; }
+
+        public decimal TaxRate { get; private set; }
+
+        public decimal Tax { get; private set; }
+
+        public decimal Shipping { get; private set; }
+
+        public decimal Total { get; private set; }
+
+        public CultureInfo Culture { get; private set; }
 
         #endregion Properties
     }

@@ -21774,6 +21774,15 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Continue to Checkout.
+        /// </summary>
+        public static string ContinueToCheckout {
+            get {
+                return ResourceManager.GetString("ContinueToCheckout", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Conversion Rate.
         /// </summary>
         public static string ConversionRate {
