@@ -130,7 +130,7 @@ namespace ShoppingCartPlugin.Controllers
         }
 
         [HttpPost]
-        public IActionResult ShippingAddress()
+        public IActionResult Shipping()
         {
 
             return View();

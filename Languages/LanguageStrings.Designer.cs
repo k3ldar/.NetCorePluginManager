@@ -25498,6 +25498,15 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Don&apos;t have an account yet ?.
+        /// </summary>
+        public static string NoAccount {
+            get {
+                return ResourceManager.GetString("NoAccount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to There are no news items at the present time..
         /// </summary>
         public static string NoNews {

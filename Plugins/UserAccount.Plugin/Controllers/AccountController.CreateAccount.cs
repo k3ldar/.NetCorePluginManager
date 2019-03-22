@@ -45,9 +45,9 @@ namespace UserAccount.Plugin.Controllers
         [HttpGet]
         [LoggedOut]
         [Breadcrumb(nameof(Languages.LanguageStrings.CreateAccount), nameof(AccountController), nameof(Index))]
-        public IActionResult CreateAccount()
+        public IActionResult CreateAccount(string returnUrl)
         {
-            CreateAccountViewModel model = new CreateAccountViewModel(GetBreadcrumbs(), GetCartSummary());
+            CreateAccountViewModel model = new CreateAccountViewModel(GetBreadcrumbs(), GetCartSummary(), returnUrl);
             PrepareCreateAccountModel(ref model);
 
             return View(model);
@@ -74,7 +74,10 @@ namespace UserAccount.Plugin.Controllers
                     if (session != null)
                         session.Login(userId, $"{model.FirstName} {model.Surname}", model.Email);
 
-                    return Redirect("/Account/");
+                    if (String.IsNullOrEmpty(model.ReturnUrl))
+                        return Redirect("/Account/");
+                    else
+                        return Redirect(model.ReturnUrl);
                 }
             }
 

@@ -39,11 +39,13 @@ namespace UserAccount.Plugin.Models
 
         }
 
-        public CreateAccountViewModel(in List<BreadcrumbItem> breadcrumbs, in ShoppingCartSummary cartSummary)
+        public CreateAccountViewModel(in List<BreadcrumbItem> breadcrumbs, in ShoppingCartSummary cartSummary,
+            string returnUrl)
             : base (breadcrumbs, cartSummary)
         {
-
+            ReturnUrl = returnUrl;
         }
+
         #endregion Constructors
 
         #region Properties
@@ -128,6 +130,8 @@ namespace UserAccount.Plugin.Models
         public string CaptchaText { get; set; }
 
         public bool ShowCaptchaImage { get; set; }
+
+        public string ReturnUrl { get; set; }
 
         #endregion Properties
     }

@@ -16,6 +16,7 @@
 @using (Html.BeginForm("CreateAccount", "Account", FormMethod.Post, new { id = "createPasswordForm" }))
 {
 @Html.HiddenFor(m => m.ShowCaptchaImage)
+@Html.HiddenFor(m => m.ReturnUrl)
 
 <div class="account-block">
     <div class="account-row">

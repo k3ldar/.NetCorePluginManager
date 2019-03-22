@@ -83,8 +83,21 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
             if (shoppingCart.Id == 0 && userSession.UserBasketId != shoppingCart.Id)
                 shoppingCart.ResetShoppingCartId(userSession.UserBasketId);
 
+            ShoppingCartDetail cartDetail = null;
+
             if (shoppingCart.Id == 0)
+            {
+                // create a new cart
                 shoppingCart.ResetShoppingCartId(++_basketId);
+                cartDetail = new ShoppingCartDetail(shoppingCart.Id,
+                    0, 0, 0, 0, 0, shoppingCart.Culture, String.Empty,
+                    new List<ShoppingCartItem>(), false);
+            }
+            else
+            {
+#warning load existing cart
+
+            }
 
             if (userSession.UserBasketId != shoppingCart.Id)
                 userSession.UserBasketId = shoppingCart.Id;
@@ -95,7 +108,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
 
             if (basket == null)
             {
-                basket = new CacheItem(cacheName, shoppingCart);
+                basket = new CacheItem(cacheName, cartDetail);
                 _cartCacheManager.Add(cacheName, basket, true);
             }
 

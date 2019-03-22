@@ -96,7 +96,7 @@ namespace UserAccount.Plugin.Controllers
 
         [HttpGet]
         [Breadcrumb(nameof(Languages.LanguageStrings.MyAccount))]
-        public IActionResult Index()
+        public IActionResult Index(string returnUrl)
         {
             string growl = GrowlGet();
             AccountViewModel model = new AccountViewModel(GetBreadcrumbs(), GetCartSummary(),

@@ -77,6 +77,23 @@
                 <h3>@Localizer[nameof(Languages.LanguageStrings.Total)]<span>@Model.CartSummary.Total.ToString("C", Model.CartSummary.Culture)</span></h3>
             </div>
         </div>
+        <div class="row">
+            @if (Model.LoggedIn)
+            {
+                using (Html.BeginForm(nameof(ShoppingCartPlugin.Controllers.CartController.Shipping), "Cart", FormMethod.Post))
+                {
+                    <input type="submit" value="@Localizer[nameof(Languages.LanguageStrings.ContinueToCheckout)]" />
+                }
+            }
+            else
+            {
+                using (Html.BeginForm("Index", "Login", FormMethod.Get))
+                {
+                    <input type="hidden" value="/Cart/Shipping/" name="returnUrl" />
+                    <input type="submit" value="@Localizer[nameof(Languages.LanguageStrings.ContinueToCheckout)]" />
+                }
+            }
+        </div>
     }
     else
     {

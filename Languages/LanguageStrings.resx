@@ -13869,4 +13869,8 @@ If this continues, please contact support.</comment>
     <value>Continue to Checkout</value>
     <comment>Continue to Checkout</comment>
   </data>
+  <data name="NoAccount" xml:space="preserve">
+    <value>Don't have an account yet ?</value>
+    <comment>Don't have an account yet ?</comment>
+  </data>
 </root>
