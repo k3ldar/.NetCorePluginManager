@@ -23,7 +23,6 @@
     <Content Remove="Views\Services\DependencyInjection.cshtml" />
     <Content Remove="Views\Services\Middleware.cshtml" />
     <Content Remove="Views\Services\Website.cshtml" />
-    <Content Remove="wwwroot\css\site.css" />
     <Content Remove="wwwroot\css\vs.css" />
     <Content Remove="wwwroot\images\CustomPlugin.png" />
     <Content Remove="wwwroot\images\DependencyInjection.png" />
@@ -41,7 +40,6 @@
     <EmbeddedResource Include="Views\Services\DependencyInjection.cshtml" />
     <EmbeddedResource Include="Views\Services\Middleware.cshtml" />
     <EmbeddedResource Include="Views\Services\Website.cshtml" />
-    <EmbeddedResource Include="wwwroot\css\site.css" />
     <EmbeddedResource Include="wwwroot\css\vs.css" />
     <EmbeddedResource Include="wwwroot\images\CustomPlugin.png" />
     <EmbeddedResource Include="wwwroot\images\DependencyInjection.png" />
