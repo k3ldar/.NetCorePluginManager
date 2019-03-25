@@ -111,7 +111,9 @@ namespace SharedPluginFeatures
                     return shoppingCartService.GetSummary(userSession.UserBasketId);
             }
 
-            return new ShoppingCartSummary(0, 0, 0, 0, 0, 0, System.Threading.Thread.CurrentThread.CurrentUICulture);
+            return new ShoppingCartSummary(0, 0, 0, 0, 0, 0, 
+                System.Threading.Thread.CurrentThread.CurrentUICulture,
+                Constants.CurrencyCodeDefault);
         }
 
         protected long GetShoppingCartId()

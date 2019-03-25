@@ -127,7 +127,7 @@ namespace UserAccount.Plugin.Controllers
             if (createAccountCacheItem.CreateAttempts > 10)
                 ModelState.AddModelError(String.Empty, Languages.LanguageStrings.TooManyAttempts);
 
-            AddressOptions addressOptions = _accountProvider.GetAddressOptions();
+            AddressOptions addressOptions = _accountProvider.GetAddressOptions(AddressOption.Billing);
 
             if (!ValidatePasswordComplexity(model.Password))
                 ModelState.AddModelError(String.Empty, Languages.LanguageStrings.PasswordComplexityFailed);
@@ -165,7 +165,7 @@ namespace UserAccount.Plugin.Controllers
 
         private void PrepareCreateAccountModel(ref CreateAccountViewModel model)
         {
-            AddressOptions addressOptions = _accountProvider.GetAddressOptions();
+            AddressOptions addressOptions = _accountProvider.GetAddressOptions(AddressOption.Billing);
 
             model.Breadcrumbs = GetBreadcrumbs();
             model.CartSummary = GetCartSummary();

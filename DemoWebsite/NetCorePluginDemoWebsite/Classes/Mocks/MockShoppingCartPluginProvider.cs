@@ -35,6 +35,8 @@ using Shared.Classes;
 
 using SharedPluginFeatures;
 
+#pragma warning disable IDE1006
+
 namespace AspNetCore.PluginManager.DemoWebsite.Classes
 {
     public class MockShoppingCartPluginProvider : IShoppingCartProvider, IShoppingCartService
@@ -54,6 +56,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
         {
             _productProvider = productProvider ?? throw new ArgumentNullException(nameof(productProvider));
             _basketId = DateTime.Now.ToFileTimeUtc();
+            _cartCacheManager.ItemNotFound += cartCacheManager_ItemNotFound;
         }
 
         #endregion Constructors
@@ -80,9 +83,6 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
             if (cost < 0)
                 throw new ArgumentOutOfRangeException(nameof(cost));
 
-            if (shoppingCart.Id == 0 && userSession.UserBasketId != shoppingCart.Id)
-                shoppingCart.ResetShoppingCartId(userSession.UserBasketId);
-
             ShoppingCartDetail cartDetail = null;
 
             if (shoppingCart.Id == 0)
@@ -92,11 +92,6 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
                 cartDetail = new ShoppingCartDetail(shoppingCart.Id,
                     0, 0, 0, 0, 0, shoppingCart.Culture, String.Empty,
                     new List<ShoppingCartItem>(), false);
-            }
-            else
-            {
-#warning load existing cart
-
             }
 
             if (userSession.UserBasketId != shoppingCart.Id)
@@ -112,6 +107,9 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
                 _cartCacheManager.Add(cacheName, basket, true);
             }
 
+            if (shoppingCart.Id == 0 && userSession.UserBasketId != shoppingCart.Id)
+                shoppingCart.ResetShoppingCartId(userSession.UserBasketId);
+
             ShoppingCartDetail cart = basket.Value as ShoppingCartDetail;
 
             cart.Add(product, count);
@@ -124,7 +122,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
             if (shoppingCartId == 0)
                 throw new ArgumentOutOfRangeException(nameof(shoppingCartId));
 
-            string basketCache = $"Cart Summary {shoppingCartId}";
+            string basketCache = $"Cart {shoppingCartId}";
 
             CacheItem cacheItem = _cartCacheManager.Get(basketCache);
 
@@ -168,5 +166,25 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
         }
 
         #endregion IShoppingCartService Methods
+
+        #region Private Methods
+
+        private void cartCacheManager_ItemNotFound(object sender, Shared.CacheItemNotFoundArgs e)
+        {
+            Int64.TryParse(e.Name.Substring(5), out long cartId);
+
+            ShoppingCartDetail cartDetail = new ShoppingCartDetail(cartId,
+                0, 0, 0, 0, 0, System.Threading.Thread.CurrentThread.CurrentCulture, 
+                String.Empty, new List<ShoppingCartItem>(), false);
+
+            Product product = _productProvider.GetProducts(1, 10000).Where(p => p.RetailPrice > 0 && !p.IsDownload).FirstOrDefault();
+
+            if (product != null)
+                cartDetail.Add(product, 1);
+
+            e.CachedItem = new CacheItem(e.Name, cartDetail);               
+        }
+
+        #endregion Private Methods
     }
 }

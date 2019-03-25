@@ -103,5 +103,22 @@
     width: 20px;
 }
 
+.shipping-addresses {
+    width: 300px;
+    margin-left: 18px;
+}
 
+    .shipping-addresses h3 {
+        font-size: 1.1em;
+    }
 
+.shipping-address {
+    margin-bottom: 40px;
+}
+    .shipping-address p {
+        padding-left: 20px;
+    }
+
+    .shipping-address input[type=submit] {
+        float: right;
+    }

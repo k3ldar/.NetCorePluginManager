@@ -11,31 +11,33 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2019 Simon Carter.  All Rights Reserved.
  *
- *  Product:  PluginMiddleware
+ *  Product:  Shopping Cart Plugin
  *  
- *  File: Constants.cs
+ *  File: PaypointSettings.cs
  *
- *  Purpose:  Shared Middleware Constant Values
+ *  Purpose:  Settings for paypoint provider
  *
  *  Date        Name                Reason
- *  16/12/2018  Simon Carter        Created
+ *  24/03/2019  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+using System;
 
-namespace Middleware
+using AppSettings;
+
+namespace ShoppingCartPlugin.Classes
 {
-    public sealed class Constants
+    public sealed class PaypointSettings : PaymentProviderSettings
     {
-        public const string CaptchaCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        [SettingString(false, 1, 100)]
+        public string MerchantId { get; set; }
 
-        public const string PaymentProviderCashOnDelivery = "Cash on Delivery";
-        public const string PaymentProviderCheque = "Cheque";
-        public const string PaymentProviderDirectTransfer = "DirectTransfer";
-        public const string PaymentProviderPayflow = "Payflow";
-        public const string PaymentProviderPaypoint = "Paypoint";
-        public const string PaymentProviderPhone = "Phone";
-        public const string PaymentProviderSunTech24Payment = "SunTech24Payment";
+        [SettingString(false, 1, 100)]
+        public string RemotePassword { get; set; }
+
+        [SettingUri(false, UriKind.Absolute)]
+        public string UrlSuccess { get; set; }
     }
 }

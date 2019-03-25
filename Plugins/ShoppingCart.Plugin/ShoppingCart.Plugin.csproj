@@ -61,7 +61,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Classes\PaymentProviders\Paypal.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Remove="Views\Cart\Index.cshtml" />
+    <Content Remove="Views\Cart\Shipping.cshtml" />
     <Content Remove="Views\Cart\_QuantityUpdate.cshtml" />
     <Content Remove="Views\Cart\_Voucher.cshtml" />
     <Content Remove="wwwroot\css\Cart.css" />
@@ -74,6 +79,7 @@
 
   <ItemGroup>
     <EmbeddedResource Include="Views\Cart\Index.cshtml" />
+    <EmbeddedResource Include="Views\Cart\Shipping.cshtml" />
     <EmbeddedResource Include="Views\Cart\_QuantityUpdate.cshtml" />
     <EmbeddedResource Include="Views\Cart\_Voucher.cshtml" />
     <EmbeddedResource Include="wwwroot\css\Cart.css" />
@@ -87,6 +93,7 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore" Version="2.2.0" />
     <PackageReference Include="ApplicationSettings" Version="1.1.0" />
+    <PackageReference Include="SC.Shared.Library.Core" Version="2.8.1" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">

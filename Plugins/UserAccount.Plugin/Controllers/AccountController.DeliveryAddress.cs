@@ -51,9 +51,9 @@ namespace UserAccount.Plugin.Controllers
 
         [HttpGet]
         [Breadcrumb(nameof(Languages.LanguageStrings.DeliveryAddressAdd), nameof(AccountController), nameof(DeliveryAddress))]
-        public IActionResult DeliveryAddressAdd()
+        public IActionResult DeliveryAddressAdd(string returnUrl)
         {
-            EditDeliveryAddressViewModel model = new EditDeliveryAddressViewModel();
+            EditDeliveryAddressViewModel model = new EditDeliveryAddressViewModel(returnUrl);
             PrepareDeliveryAddressModel(ref model, null);
 
             return View(model);
@@ -74,6 +74,10 @@ namespace UserAccount.Plugin.Controllers
                     model.County, model.Postcode, model.Country, model.PostageCost)))
                 {
                     GrowlAdd(Languages.LanguageStrings.DeliveryAddressCreated);
+
+                    if (!String.IsNullOrEmpty(model.ReturnUrl))
+                        return new RedirectResult(model.ReturnUrl, false);
+
                     return new RedirectResult("/Account/DeliveryAddress", false);
                 }
 
@@ -160,7 +164,7 @@ namespace UserAccount.Plugin.Controllers
 
         private void ValidateDeliveryAddressModel(in EditDeliveryAddressViewModel model)
         {
-            AddressOptions addressOptions = _accountProvider.GetAddressOptions();
+            AddressOptions addressOptions = _accountProvider.GetAddressOptions(AddressOption.Delivery);
 
             if (addressOptions.HasFlag(AddressOptions.AddressLine1Mandatory) && String.IsNullOrEmpty(model.AddressLine1))
                 ModelState.AddModelError(nameof(model.AddressLine1), Languages.LanguageStrings.AddressLine1Required);
@@ -186,7 +190,7 @@ namespace UserAccount.Plugin.Controllers
 
         private void PrepareDeliveryAddressModel(ref EditDeliveryAddressViewModel model, in DeliveryAddress deliveryAddress)
         {
-            AddressOptions addressOptions = _accountProvider.GetAddressOptions();
+            AddressOptions addressOptions = _accountProvider.GetAddressOptions(AddressOption.Delivery);
 
             model.Breadcrumbs = GetBreadcrumbs();
             model.CartSummary = GetCartSummary();

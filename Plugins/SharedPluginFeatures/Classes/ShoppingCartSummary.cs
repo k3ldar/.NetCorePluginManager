@@ -33,7 +33,8 @@ namespace SharedPluginFeatures
         #region Constructors
 
         public ShoppingCartSummary(in long id, in int totalItems, in decimal subTotal,
-            in decimal discountRate, in decimal shipping, in decimal taxRate, in CultureInfo culture)
+            in decimal discountRate, in decimal shipping, in decimal taxRate, 
+            in CultureInfo culture, in string currencyCode)
         {
             Id = id;
 
@@ -46,12 +47,16 @@ namespace SharedPluginFeatures
             if (discountRate < 0 || discountRate > 100)
                 throw new ArgumentOutOfRangeException(nameof(discountRate));
 
+            if (String.IsNullOrEmpty(currencyCode) || currencyCode.Length != 3)
+                throw new ArgumentOutOfRangeException(nameof(currencyCode));
+
             TotalItems = totalItems;
             SubTotal = subTotal;
             DiscountRate = discountRate;
             Shipping = shipping;
             TaxRate = taxRate;
             Culture = culture ?? throw new ArgumentNullException(nameof(culture));
+            CurrencyCode = currencyCode;
 
             ResetTotalCost(subTotal);
         }
@@ -127,6 +132,8 @@ namespace SharedPluginFeatures
         public decimal Total { get; private set; }
 
         public CultureInfo Culture { get; private set; }
+
+        public string CurrencyCode { get; private set; }
 
         #endregion Properties
     }

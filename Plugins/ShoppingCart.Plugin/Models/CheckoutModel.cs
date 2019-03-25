@@ -11,31 +11,42 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2019 Simon Carter.  All Rights Reserved.
  *
- *  Product:  PluginMiddleware
+ *  Product:  Shopping Cart Plugin
  *  
- *  File: Constants.cs
+ *  File: CheckoutModel.cs
  *
- *  Purpose:  Shared Middleware Constant Values
+ *  Purpose:  
  *
  *  Date        Name                Reason
- *  16/12/2018  Simon Carter        Created
+ *  25/03/2019  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
-namespace Middleware
+using Middleware;
+
+namespace ShoppingCartPlugin.Models
 {
-    public sealed class Constants
+    public sealed class CheckoutModel
     {
-        public const string CaptchaCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        #region Constructors
 
-        public const string PaymentProviderCashOnDelivery = "Cash on Delivery";
-        public const string PaymentProviderCheque = "Cheque";
-        public const string PaymentProviderDirectTransfer = "DirectTransfer";
-        public const string PaymentProviderPayflow = "Payflow";
-        public const string PaymentProviderPaypoint = "Paypoint";
-        public const string PaymentProviderPhone = "Phone";
-        public const string PaymentProviderSunTech24Payment = "SunTech24Payment";
+        public CheckoutModel()
+        {
+            Providers = new List<IPaymentProvider>();
+        }
+
+        #endregion Constructors
+
+        #region Properties
+
+        public List<IPaymentProvider> Providers { get; private set; }
+
+        #endregion Properties
     }
 }

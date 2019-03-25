@@ -31,7 +31,6 @@ using Middleware;
 using Middleware.Accounts;
 using Middleware.Accounts.Invoices;
 using Middleware.Accounts.Orders;
-using Middleware.Downloads;
 
 namespace AspNetCore.PluginManager.DemoWebsite.Classes
 {
@@ -60,7 +59,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
 
         #region Address Options
 
-        public AddressOptions GetAddressOptions()
+        public AddressOptions GetAddressOptions(in AddressOption addressOption)
         {
             return AddressOptions.AddressLine1Mandatory | AddressOptions.AddressLine1Show |
                 AddressOptions.AddressLine2Show |

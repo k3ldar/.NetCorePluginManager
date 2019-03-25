@@ -64,5 +64,8 @@ namespace SharedPluginFeatures
 
 
         public const string UserSessionServiceNotFound = "UserSessionService not found";
+
+
+        public const string CurrencyCodeDefault = "GBP";
     }
 }

@@ -46,7 +46,7 @@ namespace UserAccount.Plugin.Controllers
             {
                 UserContactDetailsViewModel model = new UserContactDetailsViewModel(GetBreadcrumbs(), GetCartSummary(),
                     firstName, lastName, email, emailConfirmed, telephone, telephoneConfirmed,
-                    _accountProvider.GetAddressOptions().HasFlag(AddressOptions.TelephoneShow));
+                    _accountProvider.GetAddressOptions(AddressOption.Billing).HasFlag(AddressOptions.TelephoneShow));
 
                 model.Breadcrumbs = GetBreadcrumbs();
                 model.CartSummary = GetCartSummary();
@@ -63,7 +63,7 @@ namespace UserAccount.Plugin.Controllers
             if (model == null)
                 throw new ArgumentNullException(nameof(model));
 
-            AddressOptions addressOptions = _accountProvider.GetAddressOptions();
+            AddressOptions addressOptions = _accountProvider.GetAddressOptions(AddressOption.Billing);
 
             if (addressOptions.HasFlag(AddressOptions.TelephoneMandatory) && String.IsNullOrEmpty(model.Telephone))
                 ModelState.AddModelError($"{nameof(model.Telephone)}", Languages.LanguageStrings.InvalidTelephoneNumber);

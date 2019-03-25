@@ -70,8 +70,10 @@ namespace Middleware.ShoppingCart
             if (count < 1)
                 throw new ArgumentOutOfRangeException(nameof(count));
 
-            int existingId = product.Id;
+            if (!RequiresShipping && !product.IsDownload)
+                RequiresShipping = true;
 
+            int existingId = product.Id;
             ShoppingCartItem existingItem = Items.Where(e => e.Id == existingId).FirstOrDefault();
 
             if (existingItem == null)

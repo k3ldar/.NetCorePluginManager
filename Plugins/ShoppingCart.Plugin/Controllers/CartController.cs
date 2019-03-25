@@ -35,6 +35,7 @@ using SharedPluginFeatures;
 using ShoppingCartPlugin.Models;
 
 using Middleware;
+using Middleware.Accounts;
 using Middleware.ShoppingCart;
 
 namespace ShoppingCartPlugin.Controllers
@@ -45,15 +46,20 @@ namespace ShoppingCartPlugin.Controllers
 
         private readonly IHostingEnvironment _hostingEnvironment;
         private readonly IShoppingCartProvider _shoppingCartProvider;
+        private readonly IAccountProvider _accountProvider;
+        private readonly IPluginClassesService _pluginClassesService;
 
         #endregion Private Members
 
         #region Constructors
 
-        public CartController(IHostingEnvironment hostingEnvironment, IShoppingCartProvider shoppingCartProvider)
+        public CartController(IHostingEnvironment hostingEnvironment, IShoppingCartProvider shoppingCartProvider,
+            IAccountProvider accountProvider, IPluginClassesService pluginClassesService)
         {
             _hostingEnvironment = hostingEnvironment ?? throw new ArgumentNullException(nameof(hostingEnvironment));
             _shoppingCartProvider = shoppingCartProvider ?? throw new ArgumentNullException(nameof(shoppingCartProvider));
+            _accountProvider = accountProvider ?? throw new ArgumentNullException(nameof(accountProvider));
+            _pluginClassesService = pluginClassesService ?? throw new ArgumentNullException(nameof(pluginClassesService));
         }
 
         #endregion Constructors
@@ -129,15 +135,41 @@ namespace ShoppingCartPlugin.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        [HttpPost]
         public IActionResult Shipping()
         {
+            HttpContext.Abort();
+            ShoppingCartSummary cartSummary = GetCartSummary();
+            ShoppingCartDetail cartDetails = _shoppingCartProvider.GetDetail(cartSummary.Id);
 
+            if (!cartDetails.RequiresShipping)
+                return RedirectToAction(nameof(CheckOut));
+
+            ShippingModel model = new ShippingModel(GetBreadcrumbs(), GetCartSummary());
+            PrepareShippingAddressModel(in model, _accountProvider.GetDeliveryAddresses(GetUserSession().UserID));
+
+            return View(model);
+        }
+
+        public IActionResult CheckOut()
+        {
+            CheckoutModel model = new CheckoutModel();
+            ShoppingCartDetail cartDetail = _shoppingCartProvider.GetDetail(GetCartSummary().Id);
+
+            foreach (IPaymentProvider provider in _pluginClassesService.GetPluginClasses<IPaymentProvider>())
+            {
+                if (provider.GetCurrencies().Contains(cartDetail.CurrencyCode))
+                    model.Providers.Add(provider);
+            }
+           
+            return View(model);
+        }
+
+        public IActionResult Failed()
+        {
             return View();
         }
 
-        [HttpPost]
-        public IActionResult CheckOut()
+        public IActionResult Success(string provider)
         {
 
             return View();
@@ -146,6 +178,16 @@ namespace ShoppingCartPlugin.Controllers
         #endregion Public Action Methods
 
         #region Private Methods
+
+        private void PrepareShippingAddressModel(in ShippingModel model, in List<DeliveryAddress> deliveryAddresses)
+        {
+            foreach (DeliveryAddress address in deliveryAddresses)
+            {
+                model.ShippingAddresses.Add(new ShippingAddressModel(address.AddressId, address.BusinessName,
+                    address.AddressLine1, address.AddressLine2, address.AddressLine3, address.City,
+                    address.County, address.Postcode, address.Country, address.PostageCost));
+            }
+        }
 
         #endregion Private Methods
     }

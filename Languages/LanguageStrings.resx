@@ -13873,4 +13873,12 @@ If this continues, please contact support.</comment>
     <value>Don't have an account yet ?</value>
     <comment>Don't have an account yet ?</comment>
   </data>
+  <data name="SelectDeliveryAddress" xml:space="preserve">
+    <value>Select Delivery Address</value>
+    <comment>Select Delivery Address</comment>
+  </data>
+  <data name="PaymentFailedDescription" xml:space="preserve">
+    <value>Your payment was not successful. Please try again or select a different payment type.</value>
+    <comment>Your payment was not successful. Please try again or select a different payment type.</comment>
+  </data>
 </root>

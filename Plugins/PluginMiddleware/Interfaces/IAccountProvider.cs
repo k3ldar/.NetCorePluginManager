@@ -41,7 +41,7 @@ namespace Middleware.Accounts
 
         #region Address Options
 
-        AddressOptions GetAddressOptions();
+        AddressOptions GetAddressOptions(in AddressOption addressOption);
 
         #endregion Address Options
 

@@ -26065,6 +26065,15 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Your payment was not successful. Please try again or select a different payment type..
+        /// </summary>
+        public static string PaymentFailedDescription {
+            get {
+                return ResourceManager.GetString("PaymentFailedDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to SunTech 24Payment - Not Paid.
         /// </summary>
         public static string PaymentType24PaymentNotPaid {
@@ -27525,6 +27534,15 @@ namespace Languages {
         public static string SelectCurrency {
             get {
                 return ResourceManager.GetString("SelectCurrency", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select Delivery Address.
+        /// </summary>
+        public static string SelectDeliveryAddress {
+            get {
+                return ResourceManager.GetString("SelectDeliveryAddress", resourceCulture);
             }
         }
         

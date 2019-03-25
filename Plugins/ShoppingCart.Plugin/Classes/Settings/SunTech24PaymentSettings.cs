@@ -11,31 +11,34 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2019 Simon Carter.  All Rights Reserved.
  *
- *  Product:  PluginMiddleware
+ *  Product:  Shopping Cart Plugin
  *  
- *  File: Constants.cs
+ *  File: SunTech24PaymentSettings.cs
  *
- *  Purpose:  Shared Middleware Constant Values
+ *  Purpose:  Settings for sun tech 24
  *
  *  Date        Name                Reason
- *  16/12/2018  Simon Carter        Created
+ *  24/03/2019  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-namespace Middleware
-{
-    public sealed class Constants
-    {
-        public const string CaptchaCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+using AppSettings;
 
-        public const string PaymentProviderCashOnDelivery = "Cash on Delivery";
-        public const string PaymentProviderCheque = "Cheque";
-        public const string PaymentProviderDirectTransfer = "DirectTransfer";
-        public const string PaymentProviderPayflow = "Payflow";
-        public const string PaymentProviderPaypoint = "Paypoint";
-        public const string PaymentProviderPhone = "Phone";
-        public const string PaymentProviderSunTech24Payment = "SunTech24Payment";
+namespace ShoppingCartPlugin.Classes
+{
+    public sealed class SunTech24PaymentSettings : PaymentProviderSettings
+    {
+        [SettingString(false, 1, 100)]
+        public string MerchantPassword { get; set; }
+
+        [SettingString(false, 1, 100)]
+        public string MerchantId { get; set; }
+
+        public bool TestMode { get; set; }
+
+        [SettingRange(1, 500)]
+        public int DueDateDays { get; set; }
     }
 }
