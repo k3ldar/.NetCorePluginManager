@@ -35,6 +35,8 @@ using Shared.Classes;
 
 using static Shared.Utilities;
 
+using ShoppingCartPlugin.Classes;
+
 namespace ShoppingCartPlugin
 {
     public class ShoppingCartMiddleware : BaseMiddleware
@@ -43,13 +45,15 @@ namespace ShoppingCartPlugin
 
         private readonly RequestDelegate _next;
         private readonly IShoppingCartService _shoppingCartService;
+        private readonly CartSettings _cartSettings;
         internal static Timings _timings = new Timings();
 
         #endregion Private Members
 
         #region Constructors
 
-        public ShoppingCartMiddleware(RequestDelegate next, IShoppingCartService shoppingCartService)
+        public ShoppingCartMiddleware(RequestDelegate next, IShoppingCartService shoppingCartService, 
+            ISettingsProvider settingsProvider)
         {
             _next = next;
             _shoppingCartService = shoppingCartService ?? throw new ArgumentNullException(nameof(shoppingCartService));
@@ -60,6 +64,8 @@ namespace ShoppingCartPlugin
                 PluginClass.Logger.AddToLog(Enums.LogLevel.Error, 
                     new Exception(Constants.UserSessionServiceNotFound), 
                     nameof(ShoppingCartMiddleware));
+
+            _cartSettings = settingsProvider.GetSettings<CartSettings>(Constants.ShoppingCart);
         }
 
         #endregion Constructors
@@ -113,7 +119,9 @@ namespace ShoppingCartPlugin
         private ShoppingCartSummary GetBasketSummary(in long basketId)
         {
             if (basketId == 0)
-                return new ShoppingCartSummary(0, 0, 0, 0, 0, 0, System.Threading.Thread.CurrentThread.CurrentCulture);
+                return new ShoppingCartSummary(0, 0, 0, 0, 0, 0, 
+                    System.Threading.Thread.CurrentThread.CurrentCulture,
+                    _cartSettings.DefaultCurrency);
 
             return _shoppingCartService.GetSummary(basketId);
         }

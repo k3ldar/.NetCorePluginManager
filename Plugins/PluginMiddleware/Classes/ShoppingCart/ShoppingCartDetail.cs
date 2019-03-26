@@ -40,8 +40,9 @@ namespace Middleware.ShoppingCart
 
         public ShoppingCartDetail(in long id, in int totalItems, in decimal totalCost, 
             in decimal taxRate, in decimal shipping, in decimal discount, in CultureInfo culture, 
-            in string couponCode, in List<ShoppingCartItem> items, in bool requiresShipping)
-            : base(id, totalItems, totalCost, discount, shipping, taxRate, culture)
+            in string couponCode, in List<ShoppingCartItem> items, in bool requiresShipping,
+            in string currencyCode)
+            : base(id, totalItems, totalCost, discount, shipping, taxRate, culture, currencyCode)
         {
             Items = items ?? throw new ArgumentNullException(nameof(items));
             CouponCode = couponCode ?? String.Empty;

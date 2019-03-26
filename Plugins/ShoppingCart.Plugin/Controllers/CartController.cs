@@ -88,7 +88,6 @@ namespace ShoppingCartPlugin.Controllers
                 TempData.Remove("VoucherError");
             }
 
-
             BasketModel model = new BasketModel(GetBreadcrumbs(), cartSummary, basketItems, 
                 cartDetails.CouponCode, cartDetails.RequiresShipping, 
                 !String.IsNullOrEmpty(GetUserSession().UserEmail));

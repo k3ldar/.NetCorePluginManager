@@ -91,7 +91,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
                 shoppingCart.ResetShoppingCartId(++_basketId);
                 cartDetail = new ShoppingCartDetail(shoppingCart.Id,
                     0, 0, 0, 0, 0, shoppingCart.Culture, String.Empty,
-                    new List<ShoppingCartItem>(), false);
+                    new List<ShoppingCartItem>(), false, "GBP");
             }
 
             if (userSession.UserBasketId != shoppingCart.Id)
@@ -138,7 +138,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
                     product.Sku, product.Images, product.IsDownload, product.AllowBackorder, String.Empty));
                 ShoppingCartDetail cartDetail = new ShoppingCartDetail(shoppingCartId, 1,
                     product.RetailPrice, 20, 0, 10, System.Threading.Thread.CurrentThread.CurrentUICulture, 
-                    "Test Coupon", items, requiresShipping);
+                    "Test Coupon", items, requiresShipping, "GBP");
                 cacheItem = new CacheItem(basketCache, cartDetail);
                 _cartCacheManager.Add(basketCache, cacheItem, true);
             }
@@ -175,7 +175,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
 
             ShoppingCartDetail cartDetail = new ShoppingCartDetail(cartId,
                 0, 0, 0, 0, 0, System.Threading.Thread.CurrentThread.CurrentCulture, 
-                String.Empty, new List<ShoppingCartItem>(), false);
+                String.Empty, new List<ShoppingCartItem>(), false, "GBP");
 
             Product product = _productProvider.GetProducts(1, 10000).Where(p => p.RetailPrice > 0 && !p.IsDownload).FirstOrDefault();
 
