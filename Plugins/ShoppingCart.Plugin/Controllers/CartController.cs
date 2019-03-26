@@ -136,7 +136,6 @@ namespace ShoppingCartPlugin.Controllers
 
         public IActionResult Shipping()
         {
-            HttpContext.Abort();
             ShoppingCartSummary cartSummary = GetCartSummary();
             ShoppingCartDetail cartDetails = _shoppingCartProvider.GetDetail(cartSummary.Id);
 

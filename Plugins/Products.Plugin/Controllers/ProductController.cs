@@ -117,7 +117,7 @@ namespace ProductPlugin.Controllers
         {
             Product product = _productProvider.GetProduct(model.Id);
             IShoppingCartProvider provider = (IShoppingCartProvider)HttpContext.RequestServices.GetService(typeof(IShoppingCartProvider));
-            provider.AddToCart(GetUserSession(), provider.GetDetail(GetUserSession().UserBasketId), product, model.Quantity);
+            provider.AddToCart(GetUserSession(), GetCartSummary(), product, model.Quantity);
 
             return RedirectToAction("Product", "Product", new { id = model.Id, productName = BaseModel.RouteFriendlyName(product.Name) });
         }
