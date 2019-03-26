@@ -372,7 +372,8 @@ namespace AspNetCore.PluginManager
 
                                 if (settingsProviderConstructor != null)
                                 {
-                                    if (settingsProviderConstructor.GetParameters()[0].ParameterType == typeof(ISettingsProvider))
+                                    if (settingsProviderConstructor.GetParameters()[0].ParameterType == typeof(ISettingsProvider) ||
+                                        settingsProviderConstructor.GetParameters()[0].ParameterType.Name.StartsWith(typeof(ISettingsProvider).Name))
                                     {
                                         Result.Add((T)Activator.CreateInstance(type,
                                             _serviceProvider.GetRequiredService(typeof(ISettingsProvider))));
