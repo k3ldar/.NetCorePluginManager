@@ -7,35 +7,23 @@
 
 <link rel="stylesheet" href="~/css/Cart.css" asp-append-version="true" />
 
-<h2>@Localizer[nameof(Languages.LanguageStrings.Checkout)];</h2>
+<h2>@Localizer[nameof(Languages.LanguageStrings.SelectPaymentMethod)]</h2>
 
 <div class="row">
     @if (Model.Providers.Any())
     {
         <div class="payment-provders">
-            <h3>@Localizer[nameof(Languages.LanguageStrings.SelectDeliveryAddress)]</h3>
-
             @foreach (var item in Model.Providers)
             {
                 <div class="payment-provder">
-                    @using (Html.BeginForm(nameof(ShoppingCartPlugin.Controllers.CartController.Checkout), "Cart", FormMethod.Post))
+                    @using (Html.BeginForm(nameof(ShoppingCartPlugin.Controllers.CartController.ProcessCheckout), "Cart", FormMethod.Post))
                     {
-                        <input type="submit" value="@Localizer[nameof(Languages.LanguageStrings.Select)]" />
-                        @Html.HiddenFor(m => m.ShippingId)
+                        <input type="submit" class="@Model.RouteText(item.Name()).ToLower()" value="" />
                         <input type="hidden" name="SelectedProvider" value="@item.Name()" />
-
-                        <div class="row">
-                            <img src="~/images/Cart/Providers/@item.Name()" />
-                        </div>
+                        <input type="hidden" name="SelectedProviderId" value="@item.UniqueId().ToString()" />
                     }
                 </div>
             }
         </div>
-    }
-
-    @using (Html.BeginForm("DeliveryAddressAdd", "Account", FormMethod.Get))
-    {
-        <input type="hidden" name="returnUrl" value="/Cart/Shipping" />
-        <input type="submit" value="@Localizer[nameof(Languages.LanguageStrings.DeliveryAddressAdd)]" />
     }
 </div>

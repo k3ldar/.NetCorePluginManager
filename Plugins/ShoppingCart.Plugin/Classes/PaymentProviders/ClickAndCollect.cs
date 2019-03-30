@@ -15,12 +15,12 @@
  *
  *  Product:  Shopping Cart Plugin
  *  
- *  File: CashOnDelivery.cs
+ *  File: ClickAndCollect.cs
  *
- *  Purpose:  Cash on delivery payment provider
+ *  Purpose:  Click and collect payment provider
  *
  *  Date        Name                Reason
- *  24/03/2019  Simon Carter        Initially Created
+ *  30/03/2019  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
@@ -32,26 +32,24 @@ using SharedPluginFeatures;
 
 using Shared.Classes;
 
-using ShoppingCartPlugin.Classes.Paypoint;
-
 namespace ShoppingCartPlugin.Classes.PaymentProviders
 {
-    public sealed class Paypoint : IPaymentProvider
+    public sealed class ClickAndCollect : IPaymentProvider
     {
         #region Private Members
 
-        private readonly PaypointSettings _paymentProviderSettings;
+        private readonly PaymentProviderSettings _paymentProviderSettings;
 
         #endregion Private Members
 
         #region Constructors
 
-        public Paypoint(in ISettingsProvider settingsProvider)
+        public ClickAndCollect(in ISettingsProvider settingsProvider)
         {
             if (settingsProvider == null)
                 throw new ArgumentNullException(nameof(settingsProvider));
 
-            _paymentProviderSettings = settingsProvider.GetSettings<PaypointSettings>(nameof(Paypoint));
+            _paymentProviderSettings = settingsProvider.GetSettings<PaymentProviderSettings>(nameof(ClickAndCollect));
         }
 
         #endregion Constructors
@@ -61,24 +59,8 @@ namespace ShoppingCartPlugin.Classes.PaymentProviders
         public bool Execute(in Order order, in PaymentStatus paymentStatus, in UserSession userSession,
             out string urlParameters)
         {
-            urlParameters = $"/Cart/Failed/";
-
-            if (order == null)
-                throw new Exception("Invalid Order, can not find order during payment (Paypoint)");
-
-
-            if (order.Total > 0.00m)
-            {
-                PaypointHelper vc = new PaypointHelper(order.Id.ToString(), order.Total, 
-                    _paymentProviderSettings.Currencies.Split(';')[0], 
-                    _paymentProviderSettings.MerchantId, _paymentProviderSettings.RemotePassword,
-                    _paymentProviderSettings.UrlSuccess);
-
-                urlParameters = vc.GetURL();
-                return true;
-            }
-
-            return false;
+            urlParameters = $"/Cart/Success/{nameof(ClickAndCollect)}/";
+            return true;
         }
 
         public bool ExecuteTest(in NVPCodec codec)
@@ -93,7 +75,7 @@ namespace ShoppingCartPlugin.Classes.PaymentProviders
 
         public string Name()
         {
-            return Middleware.Constants.PaymentProviderPaypoint;
+            return Middleware.Constants.PaymentProviderClickAndCollect;
         }
 
         public bool Enabled()

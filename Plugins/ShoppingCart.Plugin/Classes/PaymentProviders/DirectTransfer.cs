@@ -57,7 +57,7 @@ namespace ShoppingCartPlugin.Classes.PaymentProviders
         #region IPaymentProvider Methods
 
         public bool Execute(in Order order, in PaymentStatus paymentStatus, in UserSession userSession,
-            ref string urlParameters)
+            out string urlParameters)
         {
             urlParameters = $"/Cart/Success/{nameof(DirectTransfer)}/"; 
             return true;
@@ -76,6 +76,16 @@ namespace ShoppingCartPlugin.Classes.PaymentProviders
         public string Name()
         {
             return Middleware.Constants.PaymentProviderDirectTransfer;
+        }
+
+        public bool Enabled()
+        {
+            return _paymentProviderSettings.Enabled;
+        }
+
+        public Guid UniqueId()
+        {
+            return Guid.Parse(_paymentProviderSettings.UniqueId);
         }
 
         #endregion IPaymentProvider Methods

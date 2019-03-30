@@ -59,6 +59,8 @@ namespace Middleware.ShoppingCart
 
         public bool RequiresShipping { get; private set; }
 
+        public int DeliveryAddressId { get; private set; }
+
         #endregion Properties
 
         #region Public Methods
@@ -121,6 +123,14 @@ namespace Middleware.ShoppingCart
         {
             ResetTotalItems((int)Items.Sum(s => s.ItemCount));
             ResetTotalCost(Items.Sum(s => s.ItemCost * s.ItemCount));
+        }
+
+        public void SetDeliveryAddress(in int deliveryAddressId)
+        {
+            if (deliveryAddressId == 0)
+                throw new ArgumentOutOfRangeException(nameof(deliveryAddressId));
+
+            DeliveryAddressId = deliveryAddressId;
         }
 
         #endregion Public Methods

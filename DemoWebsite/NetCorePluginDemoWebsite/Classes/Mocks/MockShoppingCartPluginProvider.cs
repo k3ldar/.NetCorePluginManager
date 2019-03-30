@@ -28,6 +28,8 @@ using System.Collections.Generic;
 using System.Linq;
 
 using Middleware;
+using Middleware.Accounts;
+using Middleware.Accounts.Orders;
 using Middleware.Products;
 using Middleware.ShoppingCart;
 
@@ -47,15 +49,18 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
         private static bool _cartHookedUp;
         private static long _basketId = 0;
         private readonly IProductProvider _productProvider;
+        private readonly IAccountProvider _accountProvider;
         private const string _encryptionKey = "FPAsdjn;casiicdkumjf4d4fjp0w45eir kc";
 
         #endregion Private Members
 
         #region Constructors
 
-        public MockShoppingCartPluginProvider(IProductProvider productProvider)
+        public MockShoppingCartPluginProvider(IProductProvider productProvider, IAccountProvider accountProvider)
         {
             _productProvider = productProvider ?? throw new ArgumentNullException(nameof(productProvider));
+            _accountProvider = accountProvider ?? throw new ArgumentNullException(nameof(accountProvider));
+
             _basketId = DateTime.Now.ToFileTimeUtc();
 
             lock (this)
@@ -158,6 +163,32 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
         public bool ValidateVoucher(in ShoppingCartSummary cartSummary, in string voucher, in long userId)
         {
             return false;
+        }
+
+        public bool ConvertToOrder(in ShoppingCartSummary cartSummary, in long userId, out Order order)
+        {
+            if (cartSummary == null)
+                throw new ArgumentNullException(nameof(cartSummary));
+
+            if (userId == 0)
+                throw new ArgumentOutOfRangeException(nameof(userId));
+
+            ShoppingCartDetail cartDetail = GetDetail(cartSummary.Id);
+
+            Order lasest = _accountProvider.OrdersGet(userId).OrderByDescending(o => o.Id).FirstOrDefault();
+            DeliveryAddress shippingAddress = _accountProvider.GetDeliveryAddress(userId, cartDetail.DeliveryAddressId);
+            List<OrderItem> items = new List<OrderItem>();
+
+            foreach (ShoppingCartItem item in cartDetail.Items)
+            {
+                items.Add(new OrderItem(item.Id, item.Name, item.ItemCost, 20, item.ItemCount, 
+                    ItemStatus.Received, DiscountType.None, 0));
+            }
+
+            order = new Order(lasest.Id + 1, DateTime.Now, cartDetail.Shipping, cartDetail.Culture,
+                ProcessStatus.PaymentPending, shippingAddress, items);
+
+            return true;
         }
 
         #endregion IShoppingCartProvider Methods

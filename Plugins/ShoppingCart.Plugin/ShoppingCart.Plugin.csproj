@@ -72,9 +72,17 @@
     <Content Remove="Views\Cart\_Voucher.cshtml" />
     <Content Remove="wwwroot\css\Cart.css" />
     <Content Remove="wwwroot\css\Error.css" />
+    <Content Remove="wwwroot\images\Cart\cheque.PNG" />
+    <Content Remove="wwwroot\images\Cart\clickcollect.jpg" />
+    <Content Remove="wwwroot\images\Cart\clickcollect.png" />
+    <Content Remove="wwwroot\images\Cart\cod.png" />
     <Content Remove="wwwroot\images\Cart\Delete.png" />
+    <Content Remove="wwwroot\images\Cart\paypal.png" />
+    <Content Remove="wwwroot\images\Cart\paypoint.png" />
+    <Content Remove="wwwroot\images\Cart\phone.png" />
     <Content Remove="wwwroot\images\Cart\shopping-cart-24.png" />
     <Content Remove="wwwroot\images\Cart\tick.png" />
+    <Content Remove="wwwroot\images\Cart\transfer.png" />
     <Content Remove="wwwroot\js\Cart.js" />
   </ItemGroup>
 
@@ -86,15 +94,22 @@
     <EmbeddedResource Include="Views\Cart\_Voucher.cshtml" />
     <EmbeddedResource Include="wwwroot\css\Cart.css" />
     <EmbeddedResource Include="wwwroot\css\Error.css" />
+    <EmbeddedResource Include="wwwroot\images\Cart\cheque.PNG" />
+    <EmbeddedResource Include="wwwroot\images\Cart\clickcollect.png" />
+    <EmbeddedResource Include="wwwroot\images\Cart\cod.png" />
     <EmbeddedResource Include="wwwroot\images\Cart\Delete.png" />
+    <EmbeddedResource Include="wwwroot\images\Cart\paypal.png" />
+    <EmbeddedResource Include="wwwroot\images\Cart\paypoint.png" />
+    <EmbeddedResource Include="wwwroot\images\Cart\phone.png" />
     <EmbeddedResource Include="wwwroot\images\Cart\shopping-cart-24.png" />
     <EmbeddedResource Include="wwwroot\images\Cart\tick.png" />
+    <EmbeddedResource Include="wwwroot\images\Cart\transfer.png" />
     <EmbeddedResource Include="wwwroot\js\Cart.js" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore" Version="2.2.0" />
-    <PackageReference Include="ApplicationSettings" Version="1.1.0" />
+    <PackageReference Include="ApplicationSettings" Version="1.2.0" />
     <PackageReference Include="SC.Shared.Library.Core" Version="2.8.1" />
   </ItemGroup>
 

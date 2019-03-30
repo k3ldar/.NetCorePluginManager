@@ -18,7 +18,7 @@
             @foreach (var item in Model.ShippingAddresses)
             {
                 <div class="shipping-address">
-                    @using (Html.BeginForm(nameof(ShoppingCartPlugin.Controllers.CartController.Checkout), "Cart", FormMethod.Get))
+                    @using (Html.BeginForm(nameof(ShoppingCartPlugin.Controllers.CartController.Checkout), "Cart", FormMethod.Post))
                     {
                         <input type="submit" value="@Localizer[nameof(Languages.LanguageStrings.Select)]" />
                         <input type="hidden" name="ShippingId" value="@item.Id" />

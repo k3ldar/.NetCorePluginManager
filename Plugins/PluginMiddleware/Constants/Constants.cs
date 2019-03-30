@@ -31,11 +31,15 @@ namespace Middleware
         public const string CaptchaCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
         public const string PaymentProviderCashOnDelivery = "Cash on Delivery";
+        public const string PaymentProviderClickAndCollect = "Click and Collect";
         public const string PaymentProviderCheque = "Cheque";
-        public const string PaymentProviderDirectTransfer = "DirectTransfer";
+        public const string PaymentProviderDirectTransfer = "Direct Transfer";
         public const string PaymentProviderPayflow = "Payflow";
         public const string PaymentProviderPaypoint = "Paypoint";
         public const string PaymentProviderPhone = "Phone";
         public const string PaymentProviderSunTech24Payment = "SunTech24Payment";
+
+        public const string PaymentProviderNone = "There are no payment providers configured";
+        public const string PaymentProviderNotFound = "Could not find payment provider";
     }
 }

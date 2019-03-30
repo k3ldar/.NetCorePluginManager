@@ -23,7 +23,7 @@
  *  07/03/2019  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
+using Middleware.Accounts.Orders;
 using Middleware.Products;
 using Middleware.ShoppingCart;
 
@@ -41,5 +41,7 @@ namespace Middleware
             in Product product, in int count);
 
         bool ValidateVoucher(in ShoppingCartSummary cartSummary, in string voucher, in long userId);
+
+        bool ConvertToOrder(in ShoppingCartSummary cartSummary, in long userId, out Order order);
     }
 }

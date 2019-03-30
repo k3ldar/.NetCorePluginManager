@@ -23,6 +23,7 @@
  *  07/03/2019  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+using System;
 using Middleware.Accounts.Orders;
 
 using Shared.Classes;
@@ -53,12 +54,24 @@ namespace Middleware
         /// <param name="userSession"></param>
         /// <param name="context"></param>
         bool Execute(in Order order, in PaymentStatus paymentStatus, 
-            in UserSession userSession, ref string urlParameters);
+            in UserSession userSession, out string urlParameters);
 
         /// <summary>
         /// Returns the name of the payment provider
         /// </summary>
         /// <returns></returns>
         string Name();
+
+        /// <summary>
+        /// Determines wether the payment provider is active or not
+        /// </summary>
+        /// <returns></returns>
+        bool Enabled();
+
+        /// <summary>
+        /// Unique Id for payment provider
+        /// </summary>
+        /// <returns></returns>
+        Guid UniqueId();
     }
 }

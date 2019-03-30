@@ -31,6 +31,9 @@ namespace ShoppingCartPlugin.Classes
     {
         public bool Enabled { get; set; }
 
+        [SettingGuid]
+        public string UniqueId { get; set; }
+
         [SettingDefault("GBP;USD;EUR")]
         [SettingDelimitedString(';', 1)]
         public string Currencies { get; set; }

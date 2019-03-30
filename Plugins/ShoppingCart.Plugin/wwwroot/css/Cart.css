@@ -126,3 +126,48 @@
     .shipping-address input[type=submit] {
         float: right;
     }
+
+.payment-provders {
+    margin: 10px 10px 10px 10px;
+    display: block;
+}
+
+.payment-provder {
+    height: 66px;
+    width: 266px;
+    margin: 10px 10px 10px 10px;
+}
+
+    .payment-provder input[type=submit] {
+        width: 266px;
+        height: 66px;
+        border: none;
+        padding: 0;
+        background-repeat: no-repeat;
+        background-color: white;
+    }
+
+.cash-on-delivery {
+    background-image: url('/images/cart/cod.png');
+}
+
+.cheque {
+    background-image: url('/images/cart/cheque.png');
+}
+
+
+.direct-transfer {
+    background-image: url('/images/cart/transfer.png');
+}
+
+.paypoint {
+    background-image: url('/images/cart/paypoint.png');
+}
+
+.phone {
+    background-image: url('/images/cart/phone.png');
+}
+
+.click-and-collect {
+    background-image: url('/images/cart/clickcollect.png');
+}

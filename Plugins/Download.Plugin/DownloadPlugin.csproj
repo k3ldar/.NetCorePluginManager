@@ -88,7 +88,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore" Version="2.2.0" />
-    <PackageReference Include="ApplicationSettings" Version="1.1.0" />
+    <PackageReference Include="ApplicationSettings" Version="1.2.0" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">

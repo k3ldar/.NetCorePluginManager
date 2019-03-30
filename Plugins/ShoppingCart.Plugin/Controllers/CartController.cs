@@ -32,10 +32,13 @@ using Microsoft.AspNetCore.Mvc;
 
 using SharedPluginFeatures;
 
+using Shared.Classes;
+
 using ShoppingCartPlugin.Models;
 
 using Middleware;
 using Middleware.Accounts;
+using Middleware.Accounts.Orders;
 using Middleware.ShoppingCart;
 
 namespace ShoppingCartPlugin.Controllers
@@ -151,27 +154,50 @@ namespace ShoppingCartPlugin.Controllers
             return View(model);
         }
 
-        [HttpGet]
+        [HttpPost]
         [Breadcrumb(nameof(Checkout), nameof(CartController), nameof(Shipping))]
         public IActionResult Checkout(int? shippingId)
         {
-            CheckoutModel model = new CheckoutModel(GetBreadcrumbs(), GetCartSummary(), shippingId.Value);
+            CheckoutModel model = new CheckoutModel(GetBreadcrumbs(), GetCartSummary());
             ShoppingCartDetail cartDetail = _shoppingCartProvider.GetDetail(GetCartSummary().Id);
 
-            foreach (IPaymentProvider provider in _pluginClassesService.GetPluginClasses<IPaymentProvider>())
-            {
-                if (provider.GetCurrencies().Contains(cartDetail.CurrencyCode))
-                    model.Providers.Add(provider);
-            }
-           
+            if (cartDetail.RequiresShipping && (!shippingId.HasValue || (shippingId.HasValue && shippingId.Value< 1)))
+                return RedirectToAction(nameof(Shipping));
+
+            if (!cartDetail.RequiresShipping)
+                model.Breadcrumbs.RemoveAt(2);
+
+            if (shippingId != null)
+                cartDetail.SetDeliveryAddress(shippingId.Value);
+
+            PrepareCheckoutModel(model, cartDetail);
+
             return View(model);
         }
 
         [HttpPost]
-        public IActionResult Checkout(CheckoutModel model)
+        public IActionResult ProcessCheckout(CheckoutModel model)
         {
+            // get the selected provider
+            IPaymentProvider provider = _pluginClassesService.GetPluginClasses<IPaymentProvider>()
+                .Where(p => p.UniqueId().CompareTo(model.SelectedProviderId) == 0).FirstOrDefault();
 
-            return View();
+            if (provider == null)
+                throw new InvalidOperationException(Middleware.Constants.PaymentProviderNotFound);
+
+            ShoppingCartDetail cartDetails = _shoppingCartProvider.GetDetail(GetCartSummary().Id);
+            UserSession session = GetUserSession();
+
+            if (_shoppingCartProvider.ConvertToOrder(cartDetails, session.UserID, out Order order))
+            {
+
+                if (provider.Execute(order, PaymentStatus.Unpaid, session, out string providerUrl))
+                {
+                    return Redirect(providerUrl);
+                }
+            }
+
+            return RedirectToAction(nameof(Checkout));
         }
 
         public IActionResult Failed()
@@ -198,6 +224,19 @@ namespace ShoppingCartPlugin.Controllers
                     address.AddressLine3, address.City, address.County, address.Postcode, 
                     address.Country, address.PostageCost));
             }
+        }
+
+        private void PrepareCheckoutModel(in CheckoutModel model, in ShoppingCartDetail cartDetail)
+        {
+
+            foreach (IPaymentProvider provider in _pluginClassesService.GetPluginClasses<IPaymentProvider>())
+            {
+                if (provider.Enabled() && provider.GetCurrencies().Contains(cartDetail.CurrencyCode))
+                    model.Providers.Add(provider);
+            }
+
+            if (model.Providers.Count == 0)
+                throw new InvalidOperationException(Middleware.Constants.PaymentProviderNone);
         }
 
         #endregion Private Methods
