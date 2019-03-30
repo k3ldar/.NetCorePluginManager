@@ -24,6 +24,7 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
+using System.Collections.Generic;
 
 using SharedPluginFeatures;
 
@@ -33,9 +34,11 @@ namespace ShoppingCartPlugin.Models
     {
         #region Constructors
 
-        public BasketItemModel(in int productId, in string name, in string shortDescription, in string size, 
+        public BasketItemModel(in List<BreadcrumbItem> breadcrumbs, in ShoppingCartSummary cartSummary, 
+            in int productId, in string name, in string shortDescription, in string size, 
             in string sku, in decimal price, in int quantity, in string stock, in decimal subTotal, 
             in bool backOrder, in string image)
+            : base (breadcrumbs, cartSummary)
         {
             if (String.IsNullOrEmpty(name))
                 throw new ArgumentNullException(nameof(name));

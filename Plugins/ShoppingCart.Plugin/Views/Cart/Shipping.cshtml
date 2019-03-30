@@ -3,6 +3,7 @@
 @{
     ViewData["Title"] = "Shipping";
 }
+<div class="bc">@Html.Raw(Model.BreadcrumbData())</div>
 
 <link rel="stylesheet" href="~/css/Cart.css" asp-append-version="true" />
 
@@ -16,18 +17,18 @@
 
             @foreach (var item in Model.ShippingAddresses)
             {
-            <div class="shipping-address">
-                @using (Html.BeginForm(nameof(ShoppingCartPlugin.Controllers.CartController.CheckOut), "Cart", FormMethod.Post))
-                {
-                    <input type="submit" value="@Localizer[nameof(Languages.LanguageStrings.Select)]" />
-                    <input type="hidden" name="ShippingId" value="@item.Id" />
+                <div class="shipping-address">
+                    @using (Html.BeginForm(nameof(ShoppingCartPlugin.Controllers.CartController.Checkout), "Cart", FormMethod.Get))
+                    {
+                        <input type="submit" value="@Localizer[nameof(Languages.LanguageStrings.Select)]" />
+                        <input type="hidden" name="ShippingId" value="@item.Id" />
 
-                    <div class="row">
-                        <p>@Html.Raw(item.ShippingAddress)</p>
-                        <p>@Localizer[nameof(Languages.LanguageStrings.Delivery)] @item.ShippingCost.ToString("C", Model.CartSummary.Culture)</p>
-                    </div>
-                }
-            </div>
+                        <div class="row">
+                            <p>@Html.Raw(item.ShippingAddress)</p>
+                            <p>@Localizer[nameof(Languages.LanguageStrings.Delivery)] @item.ShippingCost.ToString("C", Model.CartSummary.Culture)</p>
+                        </div>
+                    }
+                </div>
             }
         </div>
     }

@@ -24,17 +24,22 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
+using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+
+using SharedPluginFeatures;
 
 namespace ShoppingCartPlugin.Models
 {
-    public sealed class ShippingAddressModel
+    public sealed class ShippingAddressModel : BaseModel
     {
         #region Constructors
 
-        public ShippingAddressModel(in int id, in string businessName, in string addressLine1,
+        public ShippingAddressModel(in List<BreadcrumbItem> breadcrumbs, in ShoppingCartSummary cartSummary, 
+            in int id, in string businessName, in string addressLine1,
             in string addressLine2, in string addressLine3, in string city, in string county,
             in string postcode, in string country, in decimal shippingCost)
+            : base (breadcrumbs, cartSummary)
         {
             Id = id;
             Name = businessName;

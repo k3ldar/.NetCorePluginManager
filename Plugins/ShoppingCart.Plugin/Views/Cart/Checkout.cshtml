@@ -1,31 +1,31 @@
-﻿@model ShoppingCartPlugin.Models.ShippingModel
+﻿@model ShoppingCartPlugin.Models.CheckoutModel
 @inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
 @{
-    ViewData["Title"] = "Shipping";
+    ViewData["Title"] = Localizer[nameof(Languages.LanguageStrings.Checkout)];
 }
 <div class="bc">@Html.Raw(Model.BreadcrumbData())</div>
 
 <link rel="stylesheet" href="~/css/Cart.css" asp-append-version="true" />
 
-<h2>@Localizer[nameof(Languages.LanguageStrings.DeliveryAddress)]</h2>
+<h2>@Localizer[nameof(Languages.LanguageStrings.Checkout)];</h2>
 
 <div class="row">
-    @if (Model.ShippingAddresses.Any())
+    @if (Model.Providers.Any())
     {
-        <div class="shipping-addresses">
+        <div class="payment-provders">
             <h3>@Localizer[nameof(Languages.LanguageStrings.SelectDeliveryAddress)]</h3>
 
-            @foreach (var item in Model.ShippingAddresses)
+            @foreach (var item in Model.Providers)
             {
-                <div class="shipping-address">
-                    @using (Html.BeginForm(nameof(ShoppingCartPlugin.Controllers.CartController.Checkout), "Cart", FormMethod.Get))
+                <div class="payment-provder">
+                    @using (Html.BeginForm(nameof(ShoppingCartPlugin.Controllers.CartController.Checkout), "Cart", FormMethod.Post))
                     {
                         <input type="submit" value="@Localizer[nameof(Languages.LanguageStrings.Select)]" />
-                        <input type="hidden" name="ShippingId" value="@item.Id" />
+                        @Html.HiddenFor(m => m.ShippingId)
+                        <input type="hidden" name="SelectedProvider" value="@item.Name()" />
 
                         <div class="row">
-                            <p>@Html.Raw(item.ShippingAddress)</p>
-                            <p>@Localizer[nameof(Languages.LanguageStrings.Delivery)] @item.ShippingCost.ToString("C", Model.CartSummary.Culture)</p>
+                            <img src="~/images/Cart/Providers/@item.Name()" />
                         </div>
                     }
                 </div>

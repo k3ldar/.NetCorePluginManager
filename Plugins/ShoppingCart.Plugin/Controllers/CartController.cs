@@ -77,7 +77,8 @@ namespace ShoppingCartPlugin.Controllers
 
             foreach (ShoppingCartItem item in cartDetails.Items)
             {
-                basketItems.Add(new BasketItemModel(item.Id, item.Name, item.Description,
+                basketItems.Add(new BasketItemModel(GetBreadcrumbs(), GetCartSummary(),
+                    item.Id, item.Name, item.Description,
                     item.Size, item.SKU, item.ItemCost, (int)item.ItemCount, null,
                     item.ItemCount * item.ItemCost, false, item.Images[0]));
             }
@@ -134,13 +135,15 @@ namespace ShoppingCartPlugin.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        [HttpGet]
+        [Breadcrumb(nameof(Shipping), nameof(CartController), nameof(Index))]
         public IActionResult Shipping()
         {
             ShoppingCartSummary cartSummary = GetCartSummary();
             ShoppingCartDetail cartDetails = _shoppingCartProvider.GetDetail(cartSummary.Id);
 
             if (!cartDetails.RequiresShipping)
-                return RedirectToAction(nameof(CheckOut));
+                return RedirectToAction(nameof(Checkout));
 
             ShippingModel model = new ShippingModel(GetBreadcrumbs(), GetCartSummary());
             PrepareShippingAddressModel(in model, _accountProvider.GetDeliveryAddresses(GetUserSession().UserID));
@@ -148,9 +151,11 @@ namespace ShoppingCartPlugin.Controllers
             return View(model);
         }
 
-        public IActionResult CheckOut()
+        [HttpGet]
+        [Breadcrumb(nameof(Checkout), nameof(CartController), nameof(Shipping))]
+        public IActionResult Checkout(int? shippingId)
         {
-            CheckoutModel model = new CheckoutModel();
+            CheckoutModel model = new CheckoutModel(GetBreadcrumbs(), GetCartSummary(), shippingId.Value);
             ShoppingCartDetail cartDetail = _shoppingCartProvider.GetDetail(GetCartSummary().Id);
 
             foreach (IPaymentProvider provider in _pluginClassesService.GetPluginClasses<IPaymentProvider>())
@@ -160,6 +165,13 @@ namespace ShoppingCartPlugin.Controllers
             }
            
             return View(model);
+        }
+
+        [HttpPost]
+        public IActionResult Checkout(CheckoutModel model)
+        {
+
+            return View();
         }
 
         public IActionResult Failed()
@@ -181,9 +193,10 @@ namespace ShoppingCartPlugin.Controllers
         {
             foreach (DeliveryAddress address in deliveryAddresses)
             {
-                model.ShippingAddresses.Add(new ShippingAddressModel(address.AddressId, address.BusinessName,
-                    address.AddressLine1, address.AddressLine2, address.AddressLine3, address.City,
-                    address.County, address.Postcode, address.Country, address.PostageCost));
+                model.ShippingAddresses.Add(new ShippingAddressModel(GetBreadcrumbs(), GetCartSummary(), 
+                    address.AddressId, address.BusinessName, address.AddressLine1, address.AddressLine2, 
+                    address.AddressLine3, address.City, address.County, address.Postcode, 
+                    address.Country, address.PostageCost));
             }
         }
 

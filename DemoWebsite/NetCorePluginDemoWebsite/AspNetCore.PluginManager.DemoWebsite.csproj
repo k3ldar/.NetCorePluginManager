@@ -114,7 +114,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Views\Download\" />
     <Folder Include="Views\Error\" />
     <Folder Include="Views\Login\" />
     <Folder Include="Views\Services\" />

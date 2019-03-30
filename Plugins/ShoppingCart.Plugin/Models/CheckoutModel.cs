@@ -23,16 +23,15 @@
  *  25/03/2019  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 using Middleware;
 
+using SharedPluginFeatures;
+
 namespace ShoppingCartPlugin.Models
 {
-    public sealed class CheckoutModel
+    public sealed class CheckoutModel : BaseModel
     {
         #region Constructors
 
@@ -41,11 +40,23 @@ namespace ShoppingCartPlugin.Models
             Providers = new List<IPaymentProvider>();
         }
 
+        public CheckoutModel(in List<BreadcrumbItem> breadcrumbs, in ShoppingCartSummary cartSummary, 
+            in int shippngId)
+            : base(breadcrumbs, cartSummary)
+        {
+            Providers = new List<IPaymentProvider>();
+            ShippingId = shippngId;
+        }
+
         #endregion Constructors
 
         #region Properties
 
         public List<IPaymentProvider> Providers { get; private set; }
+
+        public int ShippingId { get; set; }
+
+        public string SelectedProvider { get; set; }
 
         #endregion Properties
     }

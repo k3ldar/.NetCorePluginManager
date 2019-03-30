@@ -39,11 +39,12 @@ using SharedPluginFeatures;
 
 namespace AspNetCore.PluginManager.DemoWebsite.Classes
 {
-    public class MockShoppingCartPluginProvider : IShoppingCartProvider, IShoppingCartService
+    public class MockShoppingCartPluginProvider : IShoppingCartProvider, IShoppingCartService, IDisposable
     {
         #region Private Members
 
         private static readonly CacheManager _cartCacheManager = new CacheManager("Shopping Carts", new TimeSpan(0, 20, 0), true);
+        private static bool _cartHookedUp;
         private static long _basketId = 0;
         private readonly IProductProvider _productProvider;
         private const string _encryptionKey = "FPAsdjn;casiicdkumjf4d4fjp0w45eir kc";
@@ -56,7 +57,15 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
         {
             _productProvider = productProvider ?? throw new ArgumentNullException(nameof(productProvider));
             _basketId = DateTime.Now.ToFileTimeUtc();
-            _cartCacheManager.ItemNotFound += cartCacheManager_ItemNotFound;
+
+            lock (this)
+            {
+                if (!_cartHookedUp)
+                {
+                    _cartCacheManager.ItemNotFound += cartCacheManager_ItemNotFound;
+                    _cartHookedUp = true;
+                }
+            }
         }
 
         #endregion Constructors
@@ -152,6 +161,16 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
         }
 
         #endregion IShoppingCartProvider Methods
+
+        #region IDisposable Methods
+
+        public void Dispose()
+        {
+            _cartCacheManager.ItemNotFound -= cartCacheManager_ItemNotFound;
+            _cartHookedUp = false;
+        }
+
+        #endregion IDisposable Methods
 
         #region IShoppingCartService Methods
 

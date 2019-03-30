@@ -65,6 +65,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Remove="Views\Cart\Checkout.cshtml" />
     <Content Remove="Views\Cart\Index.cshtml" />
     <Content Remove="Views\Cart\Shipping.cshtml" />
     <Content Remove="Views\Cart\_QuantityUpdate.cshtml" />
@@ -78,6 +79,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="Views\Cart\Checkout.cshtml" />
     <EmbeddedResource Include="Views\Cart\Index.cshtml" />
     <EmbeddedResource Include="Views\Cart\Shipping.cshtml" />
     <EmbeddedResource Include="Views\Cart\_QuantityUpdate.cshtml" />

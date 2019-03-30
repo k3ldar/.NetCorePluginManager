@@ -13881,4 +13881,8 @@ If this continues, please contact support.</comment>
     <value>Your payment was not successful. Please try again or select a different payment type.</value>
     <comment>Your payment was not successful. Please try again or select a different payment type.</comment>
   </data>
+  <data name="Shipping" xml:space="preserve">
+    <value>Shipping</value>
+    <comment>Shipping</comment>
+  </data>
 </root>

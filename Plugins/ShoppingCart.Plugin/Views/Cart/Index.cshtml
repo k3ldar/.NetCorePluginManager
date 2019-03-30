@@ -80,7 +80,7 @@
         <div class="row">
             @if (Model.LoggedIn)
             {
-                using (Html.BeginForm(nameof(ShoppingCartPlugin.Controllers.CartController.Shipping), "Cart", FormMethod.Post))
+                using (Html.BeginForm(nameof(ShoppingCartPlugin.Controllers.CartController.Shipping), "Cart", FormMethod.Get))
                 {
                     <input type="submit" value="@Localizer[nameof(Languages.LanguageStrings.ContinueToCheckout)]" />
                 }

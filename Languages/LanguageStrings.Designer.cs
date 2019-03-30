@@ -27979,6 +27979,15 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Shipping.
+        /// </summary>
+        public static string Shipping {
+            get {
+                return ResourceManager.GetString("Shipping", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Shopping Bag.
         /// </summary>
         public static string ShoppingBag {
