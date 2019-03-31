@@ -44,9 +44,11 @@ namespace UserAccount.Plugin.Controllers
         [Breadcrumb(nameof(Languages.LanguageStrings.MyOrders), nameof(AccountController), nameof(Index))]
         public ActionResult Orders()
         {
-            OrdersViewModel model = new OrdersViewModel(_accountProvider.OrdersGet(UserId()));
+            OrdersViewModel model = new OrdersViewModel(GetBreadcrumbs(), GetCartSummary(),
+                _accountProvider.OrdersGet(UserId()));
 
             model.Breadcrumbs = GetBreadcrumbs();
+            model.CartSummary = GetCartSummary();
 
             return View(model);
         }
@@ -60,9 +62,10 @@ namespace UserAccount.Plugin.Controllers
             if (order == null)
                 return RedirectToAction(nameof(Index));
 
-            OrderViewModel model = new OrderViewModel(order);
+            OrderViewModel model = new OrderViewModel(GetBreadcrumbs(), GetCartSummary(), order);
 
             model.Breadcrumbs = GetBreadcrumbs();
+            model.CartSummary = GetCartSummary();
 
             return View(model);
         }

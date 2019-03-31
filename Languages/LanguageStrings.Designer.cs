@@ -20649,6 +20649,15 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Availability.
+        /// </summary>
+        public static string Availability {
+            get {
+                return ResourceManager.GetString("Availability", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Available Tags.
         /// </summary>
         public static string AvailableTags {
@@ -20663,6 +20672,15 @@ namespace Languages {
         public static string Averagems {
             get {
                 return ResourceManager.GetString("Averagems", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Back Order.
+        /// </summary>
+        public static string BackOrder {
+            get {
+                return ResourceManager.GetString("BackOrder", resourceCulture);
             }
         }
         
@@ -21752,6 +21770,15 @@ namespace Languages {
         public static string ContinueShopping {
             get {
                 return ResourceManager.GetString("ContinueShopping", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Continue to Checkout.
+        /// </summary>
+        public static string ContinueToCheckout {
+            get {
+                return ResourceManager.GetString("ContinueToCheckout", resourceCulture);
             }
         }
         
@@ -23615,6 +23642,15 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to In Stock.
+        /// </summary>
+        public static string InStock {
+            get {
+                return ResourceManager.GetString("InStock", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Total Intrusions Prevented.
         /// </summary>
         public static string InstrusionsPrevented {
@@ -25462,6 +25498,15 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Don&apos;t have an account yet ?.
+        /// </summary>
+        public static string NoAccount {
+            get {
+                return ResourceManager.GetString("NoAccount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to There are no news items at the present time..
         /// </summary>
         public static string NoNews {
@@ -26016,6 +26061,15 @@ namespace Languages {
         public static string PaymentFailed {
             get {
                 return ResourceManager.GetString("PaymentFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Your payment was not successful. Please try again or select a different payment type..
+        /// </summary>
+        public static string PaymentFailedDescription {
+            get {
+                return ResourceManager.GetString("PaymentFailedDescription", resourceCulture);
             }
         }
         
@@ -27484,6 +27538,15 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Select Delivery Address.
+        /// </summary>
+        public static string SelectDeliveryAddress {
+            get {
+                return ResourceManager.GetString("SelectDeliveryAddress", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Selected Tags.
         /// </summary>
         public static string SelectedTags {
@@ -27916,6 +27979,15 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Shipping.
+        /// </summary>
+        public static string Shipping {
+            get {
+                return ResourceManager.GetString("Shipping", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Shopping Bag.
         /// </summary>
         public static string ShoppingBag {
@@ -27948,6 +28020,15 @@ namespace Languages {
         public static string ShoppingCart {
             get {
                 return ResourceManager.GetString("ShoppingCart", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You have no items in your shopping cart.
+        /// </summary>
+        public static string ShoppingCartEmpty {
+            get {
+                return ResourceManager.GetString("ShoppingCartEmpty", resourceCulture);
             }
         }
         
@@ -28119,6 +28200,15 @@ namespace Languages {
         public static string StepTwoOfthree {
             get {
                 return ResourceManager.GetString("StepTwoOfthree", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Stock.
+        /// </summary>
+        public static string Stock {
+            get {
+                return ResourceManager.GetString("Stock", resourceCulture);
             }
         }
         
@@ -28663,6 +28753,26 @@ namespace Languages {
         public static string Test {
             get {
                 return ResourceManager.GetString("Test", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Thank you for your order.
+        /// </summary>
+        public static string ThankyouOrder {
+            get {
+                return ResourceManager.GetString("ThankyouOrder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Thank you for your puchase from us.
+        ///
+        ///You will shortly receive an email with the details of your order..
+        /// </summary>
+        public static string ThankyouOrderDescription {
+            get {
+                return ResourceManager.GetString("ThankyouOrderDescription", resourceCulture);
             }
         }
         
@@ -29626,6 +29736,15 @@ namespace Languages {
         public static string VoucherCodeEnter {
             get {
                 return ResourceManager.GetString("VoucherCodeEnter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The voucher entered is not valid..
+        /// </summary>
+        public static string VoucherInvalid {
+            get {
+                return ResourceManager.GetString("VoucherInvalid", resourceCulture);
             }
         }
         

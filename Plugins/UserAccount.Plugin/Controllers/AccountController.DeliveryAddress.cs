@@ -45,14 +45,15 @@ namespace UserAccount.Plugin.Controllers
         public IActionResult DeliveryAddress()
         {
             string growl = GrowlGet();
-            return View(new DeliveryAddressViewModel(GetBreadcrumbs(), _accountProvider.GetDeliveryAddresses(UserId()), growl));
+            return View(new DeliveryAddressViewModel(GetBreadcrumbs(), GetCartSummary(), 
+                _accountProvider.GetDeliveryAddresses(UserId()), growl));
         }
 
         [HttpGet]
         [Breadcrumb(nameof(Languages.LanguageStrings.DeliveryAddressAdd), nameof(AccountController), nameof(DeliveryAddress))]
-        public IActionResult DeliveryAddressAdd()
+        public IActionResult DeliveryAddressAdd(string returnUrl)
         {
-            EditDeliveryAddressViewModel model = new EditDeliveryAddressViewModel();
+            EditDeliveryAddressViewModel model = new EditDeliveryAddressViewModel(returnUrl);
             PrepareDeliveryAddressModel(ref model, null);
 
             return View(model);
@@ -73,6 +74,10 @@ namespace UserAccount.Plugin.Controllers
                     model.County, model.Postcode, model.Country, model.PostageCost)))
                 {
                     GrowlAdd(Languages.LanguageStrings.DeliveryAddressCreated);
+
+                    if (!String.IsNullOrEmpty(model.ReturnUrl))
+                        return new RedirectResult(model.ReturnUrl, false);
+
                     return new RedirectResult("/Account/DeliveryAddress", false);
                 }
 
@@ -93,7 +98,7 @@ namespace UserAccount.Plugin.Controllers
             if (address == null)
                 return new RedirectResult("/Account/DeliveryAddress", false);
 
-            EditDeliveryAddressViewModel model = new EditDeliveryAddressViewModel();
+            EditDeliveryAddressViewModel model = new EditDeliveryAddressViewModel(GetBreadcrumbs(), GetCartSummary());
             PrepareDeliveryAddressModel(ref model, address);
 
             return View(model);
@@ -124,6 +129,7 @@ namespace UserAccount.Plugin.Controllers
             }
 
             model.Breadcrumbs = GetBreadcrumbs();
+            model.CartSummary = GetCartSummary();
 
             return View(model);
         }
@@ -158,7 +164,7 @@ namespace UserAccount.Plugin.Controllers
 
         private void ValidateDeliveryAddressModel(in EditDeliveryAddressViewModel model)
         {
-            AddressOptions addressOptions = _accountProvider.GetAddressOptions();
+            AddressOptions addressOptions = _accountProvider.GetAddressOptions(AddressOption.Delivery);
 
             if (addressOptions.HasFlag(AddressOptions.AddressLine1Mandatory) && String.IsNullOrEmpty(model.AddressLine1))
                 ModelState.AddModelError(nameof(model.AddressLine1), Languages.LanguageStrings.AddressLine1Required);
@@ -184,9 +190,10 @@ namespace UserAccount.Plugin.Controllers
 
         private void PrepareDeliveryAddressModel(ref EditDeliveryAddressViewModel model, in DeliveryAddress deliveryAddress)
         {
-            AddressOptions addressOptions = _accountProvider.GetAddressOptions();
+            AddressOptions addressOptions = _accountProvider.GetAddressOptions(AddressOption.Delivery);
 
             model.Breadcrumbs = GetBreadcrumbs();
+            model.CartSummary = GetCartSummary();
 
             model.ShowAddressLine1 = addressOptions.HasFlag(AddressOptions.AddressLine1Show);
             model.ShowAddressLine2 = addressOptions.HasFlag(AddressOptions.AddressLine2Show);

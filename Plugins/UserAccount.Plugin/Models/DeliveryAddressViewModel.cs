@@ -36,22 +36,27 @@ namespace UserAccount.Plugin.Models
     {
         #region Constructors
 
-        public DeliveryAddressViewModel(in List<BreadcrumbItem> breadcrumbs)
-            : base (breadcrumbs)
+        public DeliveryAddressViewModel()
         {
 
         }
 
-        public DeliveryAddressViewModel(in List<BreadcrumbItem> breadcrumbs, 
+        public DeliveryAddressViewModel(in List<BreadcrumbItem> breadcrumbs, in ShoppingCartSummary cartSummary)
+            : base (breadcrumbs, cartSummary)
+        {
+
+        }
+
+        public DeliveryAddressViewModel(in List<BreadcrumbItem> breadcrumbs, in ShoppingCartSummary cartSummary, 
             in List<DeliveryAddress> addresses)
-            : this (breadcrumbs)
+            : this (breadcrumbs, cartSummary)
         {
             Addresses = addresses ?? throw new ArgumentNullException(nameof(addresses));
         }
 
-        public DeliveryAddressViewModel(in List<BreadcrumbItem> breadcrumbs, 
+        public DeliveryAddressViewModel(in List<BreadcrumbItem> breadcrumbs, in ShoppingCartSummary cartSummary, 
             in List<DeliveryAddress> addresses, in string growlMessage)
-            : this (breadcrumbs)
+            : this (breadcrumbs, cartSummary)
         {
             Addresses = addresses ?? throw new ArgumentNullException(nameof(addresses));
             GrowlMessage = growlMessage ?? throw new ArgumentNullException(nameof(growlMessage));

@@ -24,6 +24,7 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 using SharedPluginFeatures;
@@ -39,7 +40,9 @@ namespace LoginPlugin.Models
 
         }
 
-        public LoginViewModel(string returnUrl, bool showRememberMe)
+        public LoginViewModel(in List<BreadcrumbItem> breadcrumbs, in ShoppingCartSummary cartSummary,
+            string returnUrl, bool showRememberMe)
+            : base (breadcrumbs, cartSummary)
         {
             ReturnUrl = returnUrl ??  throw new ArgumentNullException(nameof(returnUrl));
             ShowRememberMe = showRememberMe;

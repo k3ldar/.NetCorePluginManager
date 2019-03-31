@@ -65,7 +65,7 @@ namespace UserAccount.Plugin
         [SettingRange(0, 3)]
         public int PasswordSpecialCharCount { get; set; }
 
-        [SettingDefault("£$^*()#,.<>?:;@")]
+        [SettingDefault("£$^*()#,.<>?:;!@")]
         public string PasswordSpecialCharacters { get; set; }
     }
 }

@@ -76,24 +76,36 @@
   <ItemGroup>
     <Content Remove="Views\Product\Index.cshtml" />
     <Content Remove="Views\Product\Product.cshtml" />
+    <Content Remove="Views\Product\_AddToCart.cshtml" />
     <Content Remove="Views\Product\_LeftMenu.cshtml" />
     <Content Remove="wwwroot\css\Login.css" />
     <Content Remove="wwwroot\css\products.css" />
+    <Content Remove="wwwroot\images\Products\geoip_148.png" />
+    <Content Remove="wwwroot\images\Products\geoip_178.png" />
+    <Content Remove="wwwroot\images\Products\geoip_200.png" />
+    <Content Remove="wwwroot\images\Products\geoip_288.png" />
+    <Content Remove="wwwroot\images\Products\geoip_89.png" />
     <Content Remove="wwwroot\js\Login.js" />
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Include="Views\Product\Index.cshtml" />
     <EmbeddedResource Include="Views\Product\Product.cshtml" />
+    <EmbeddedResource Include="Views\Product\_AddToCart.cshtml" />
     <EmbeddedResource Include="Views\Product\_LeftMenu.cshtml" />
     <EmbeddedResource Include="wwwroot\css\Login.css" />
     <EmbeddedResource Include="wwwroot\css\products.css" />
+    <EmbeddedResource Include="wwwroot\images\Products\geoip_148.png" />
+    <EmbeddedResource Include="wwwroot\images\Products\geoip_178.png" />
+    <EmbeddedResource Include="wwwroot\images\Products\geoip_200.png" />
+    <EmbeddedResource Include="wwwroot\images\Products\geoip_288.png" />
+    <EmbeddedResource Include="wwwroot\images\Products\geoip_89.png" />
     <EmbeddedResource Include="wwwroot\js\Login.js" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="ApplicationSettings" Version="1.1.0" />
-    <PackageReference Include="SC.Shared.Library.Core" Version="2.8.0" />
+    <PackageReference Include="ApplicationSettings" Version="1.2.0" />
+    <PackageReference Include="SC.Shared.Library.Core" Version="2.8.1" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">

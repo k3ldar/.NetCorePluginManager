@@ -41,7 +41,7 @@ namespace Middleware.Accounts
 
         #region Address Options
 
-        AddressOptions GetAddressOptions();
+        AddressOptions GetAddressOptions(in AddressOption addressOption);
 
         #endregion Address Options
 
@@ -103,6 +103,8 @@ namespace Middleware.Accounts
         #region Orders
 
         List<Order> OrdersGet(in Int64 userId);
+
+        void OrderPaid(in Order order, in PaymentStatus paymentStatus, in string message);
 
         #endregion Orders
 

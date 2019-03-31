@@ -40,12 +40,16 @@ namespace UserAccount.Plugin.Models
             GrowlMessage = String.Empty;
         }
 
-        public LicenceViewModel(in List<ViewLicenceViewModel> licences)
+        public LicenceViewModel(in List<BreadcrumbItem> breadcrumbs, in ShoppingCartSummary cartSummary,
+            in List<ViewLicenceViewModel> licences)
+            : base (breadcrumbs, cartSummary)
         {
             Licences = licences ?? throw new ArgumentNullException(nameof(licences));
         }
 
-        public LicenceViewModel(in List<ViewLicenceViewModel> licences, in string growlMessage)
+        public LicenceViewModel(in List<BreadcrumbItem> breadcrumbs, in ShoppingCartSummary cartSummary,
+            in List<ViewLicenceViewModel> licences, in string growlMessage)
+            : base (breadcrumbs, cartSummary)
         {
             Licences = licences ?? throw new ArgumentNullException(nameof(licences));
             GrowlMessage = growlMessage ?? throw new ArgumentNullException(nameof(growlMessage));

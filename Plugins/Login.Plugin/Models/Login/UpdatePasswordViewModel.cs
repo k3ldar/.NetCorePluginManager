@@ -24,6 +24,7 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 using SharedPluginFeatures;
@@ -35,6 +36,12 @@ namespace LoginPlugin.Models
         #region Constructors
 
         public UpdatePasswordViewModel()
+        {
+            Username = String.Empty;
+        }
+
+        public UpdatePasswordViewModel(in List<BreadcrumbItem> breadcrumbs, in ShoppingCartSummary cartSummary)
+            : base (breadcrumbs, cartSummary)
         {
             Username = String.Empty;
         }

@@ -61,7 +61,7 @@ namespace ErrorManager.Plugin.Controllers
         [Breadcrumb(nameof(Languages.LanguageStrings.Error))]
         public IActionResult Index()
         {
-            return View(new BaseModel(GetBreadcrumbs()));
+            return View(new BaseModel(GetBreadcrumbs(), GetCartSummary()));
         }
 
         [Breadcrumb(nameof(Languages.LanguageStrings.MissingLink))]
@@ -77,7 +77,8 @@ namespace ErrorManager.Plugin.Controllers
                 // grab a random quote
                 Random rnd = new Random(Convert.ToInt32(DateTime.Now.ToString("Hmsffff")));
                 int quote = rnd.Next(settings.Count());
-                model = new Error404Model(Languages.LanguageStrings.PageNotFound, settings.GetQuote(quote), GetImageFile(quote));
+                model = new Error404Model(GetBreadcrumbs(), GetCartSummary(), 
+                    Languages.LanguageStrings.PageNotFound, settings.GetQuote(quote), GetImageFile(quote));
             }
             else
             {
@@ -96,10 +97,9 @@ namespace ErrorManager.Plugin.Controllers
 
                 CookieAdd("Error404", Encrypt(Convert.ToString(index), settings.EncryptionKey), 30);
 
-                model = new Error404Model(Languages.LanguageStrings.PageNotFound, settings.GetQuote(index), GetImageFile(index));
+                model = new Error404Model(GetBreadcrumbs(), GetCartSummary(), 
+                    Languages.LanguageStrings.PageNotFound, settings.GetQuote(index), GetImageFile(index));
             }
-
-            model.Breadcrumbs = GetBreadcrumbs();
 
             return (View(model));
         }
@@ -107,13 +107,13 @@ namespace ErrorManager.Plugin.Controllers
         [Breadcrumb(nameof(Languages.LanguageStrings.HighVolume))]
         public IActionResult HighVolume()
         {
-            return (View(new BaseModel(GetBreadcrumbs())));
+            return (View(new BaseModel(GetBreadcrumbs(), GetCartSummary())));
         }
 
         [Breadcrumb(nameof(Languages.LanguageStrings.NotAcceptable))]
         public IActionResult NotAcceptable()
         {
-            return (View(new BaseModel(GetBreadcrumbs())));
+            return (View(new BaseModel(GetBreadcrumbs(), GetCartSummary())));
         }
 
 #if DEBUG

@@ -40,8 +40,9 @@ namespace SystemAdmin.Plugin.Models
 
         #region Constructors
 
-        public MapViewModel(in ISettingsProvider settingsProvider, in SystemAdminSubMenu subMenu, 
-            List<BreadcrumbItem> breadcrumbs)
+        public MapViewModel(in List<BreadcrumbItem> breadcrumbs, in ShoppingCartSummary cartSummary,
+            in ISettingsProvider settingsProvider, in SystemAdminSubMenu subMenu)
+            : base (breadcrumbs, cartSummary)
         {
             _settingsProvider = settingsProvider ?? throw new ArgumentNullException(nameof(settingsProvider));
 
@@ -54,8 +55,6 @@ namespace SystemAdmin.Plugin.Models
             SystemAdminSettings settings = settingsProvider.GetSettings<SystemAdminSettings>("SystemAdmin");
 
             GoogleMapApiKey = settings.GoogleMapApiKey;
-
-            Breadcrumbs = breadcrumbs;
         }
 
         #endregion Constructors

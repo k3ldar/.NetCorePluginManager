@@ -45,9 +45,9 @@ namespace UserAccount.Plugin.Controllers
         [HttpGet]
         [LoggedOut]
         [Breadcrumb(nameof(Languages.LanguageStrings.CreateAccount), nameof(AccountController), nameof(Index))]
-        public IActionResult CreateAccount()
+        public IActionResult CreateAccount(string returnUrl)
         {
-            CreateAccountViewModel model = new CreateAccountViewModel();
+            CreateAccountViewModel model = new CreateAccountViewModel(GetBreadcrumbs(), GetCartSummary(), returnUrl);
             PrepareCreateAccountModel(ref model);
 
             return View(model);
@@ -74,7 +74,10 @@ namespace UserAccount.Plugin.Controllers
                     if (session != null)
                         session.Login(userId, $"{model.FirstName} {model.Surname}", model.Email);
 
-                    return Redirect("/Account/");
+                    if (String.IsNullOrEmpty(model.ReturnUrl))
+                        return Redirect("/Account/");
+                    else
+                        return Redirect(model.ReturnUrl);
                 }
             }
 
@@ -124,7 +127,7 @@ namespace UserAccount.Plugin.Controllers
             if (createAccountCacheItem.CreateAttempts > 10)
                 ModelState.AddModelError(String.Empty, Languages.LanguageStrings.TooManyAttempts);
 
-            AddressOptions addressOptions = _accountProvider.GetAddressOptions();
+            AddressOptions addressOptions = _accountProvider.GetAddressOptions(AddressOption.Billing);
 
             if (!ValidatePasswordComplexity(model.Password))
                 ModelState.AddModelError(String.Empty, Languages.LanguageStrings.PasswordComplexityFailed);
@@ -162,9 +165,10 @@ namespace UserAccount.Plugin.Controllers
 
         private void PrepareCreateAccountModel(ref CreateAccountViewModel model)
         {
-            AddressOptions addressOptions = _accountProvider.GetAddressOptions();
+            AddressOptions addressOptions = _accountProvider.GetAddressOptions(AddressOption.Billing);
 
             model.Breadcrumbs = GetBreadcrumbs();
+            model.CartSummary = GetCartSummary();
 
             model.ShowAddressLine1 = addressOptions.HasFlag(AddressOptions.AddressLine1Show);
             model.ShowAddressLine2 = addressOptions.HasFlag(AddressOptions.AddressLine2Show);

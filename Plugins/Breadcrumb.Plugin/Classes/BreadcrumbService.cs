@@ -23,7 +23,7 @@ namespace Breadcrumb.Plugin
             if (settingsProvider == null)
                 throw new ArgumentNullException(nameof(settingsProvider));
 
-            BreadcrumbSettings settings = settingsProvider.GetSettings<BreadcrumbSettings>(Constants.PluginNameBreadcrumb);
+            BreadcrumbSettings settings = settingsProvider.GetSettings<BreadcrumbSettings>(Constants.PluginSettingBreadcrumb);
             _homeName = settings.HomeName;
             _homeController = settings.HomeController;
             _defaultMethod = settings.DefaultAction;

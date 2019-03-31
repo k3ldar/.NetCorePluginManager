@@ -60,7 +60,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="ApplicationSettings" Version="1.1.0" />
+    <PackageReference Include="ApplicationSettings" Version="1.2.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyModel" Version="2.1.0" />
   </ItemGroup>
 
