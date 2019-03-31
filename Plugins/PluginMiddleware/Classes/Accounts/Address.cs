@@ -35,9 +35,11 @@ namespace Middleware
 
         }
 
-        public Address(in string businessName, in string addressLine1, in string addressLine2,
-            in string addressLine3, in string city, in string county, in string postcode, in string country)
+        public Address(in int id, in decimal shipping, in string businessName, in string addressLine1, 
+            in string addressLine2, in string addressLine3, in string city, in string county, in string postcode, in string country)
         {
+            Id = id;
+            Shipping = shipping;
             BusinessName = businessName;
             AddressLine1 = addressLine1;
             AddressLine2 = addressLine2;
@@ -51,6 +53,10 @@ namespace Middleware
         #endregion Constructors
 
         #region Properties
+
+        public int Id { get; set; }
+
+        public decimal Shipping { get; set; }
 
         public string BusinessName { get; set; }
 

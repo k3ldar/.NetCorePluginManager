@@ -46,6 +46,10 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
 
         private static List<Invoice> _invoices;
 
+        private static int InvoiceItemId = 50;
+
+        private static int InvoiceId = 50;
+
         #endregion Private Static Members
 
         #region Change Password
@@ -126,7 +130,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
 
         public Address GetBillingAddress(in long userId)
         {
-            return new Address(String.Empty, "Mike St", String.Empty, String.Empty, "London", String.Empty, "L1 1AA", "GB");
+            return new Address(1, 0, String.Empty, "Mike St", String.Empty, String.Empty, "London", String.Empty, "L1 1AA", "GB");
         }
 
         #endregion Billing Address
@@ -235,6 +239,26 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
             return _orders;
         }
 
+        public void OrderPaid(in Order order, in PaymentStatus paymentStatus, in string message)
+        {
+            if (order == null)
+                throw new ArgumentNullException(nameof(order));
+
+            if (String.IsNullOrEmpty(message))
+                throw new ArgumentNullException(nameof(message));
+
+            List<InvoiceItem> items = new List<InvoiceItem>();
+
+            foreach (var item in order.OrderItems)
+            {
+                items.Add(new InvoiceItem(++InvoiceItemId, item.Description, item.Cost, item.TaxRate,
+                    item.Quantity, ItemStatus.Received, item.DiscountType, item.Discount));
+            }
+
+            Invoice invoice = new Invoice(++InvoiceId, DateTime.Now, order.Postage, order.Culture,
+                ProcessStatus.PaymentCheck, paymentStatus, order.DeliveryAddress, items);
+        }
+
         #endregion Orders
 
         #region Invoices
@@ -246,14 +270,14 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
                 _invoices = new List<Invoice>()
                 {
                     new Invoice(123, DateTime.Now.AddDays(-10), 4.99m, new CultureInfo("en-US"), ProcessStatus.Dispatched,
-                        GetDeliveryAddresses(userId)[0], new List<InvoiceItem>()
+                        PaymentStatus.PaidMixed, GetDeliveryAddresses(userId)[0], new List<InvoiceItem>()
                         {
                             new InvoiceItem(1, "The shining ones by David Eddings", 14.99m, 20, 1m, ItemStatus.Dispatched, DiscountType.Value, 0),
                             new InvoiceItem(4, "Bookmark", 0.99m, 20, 1m, ItemStatus.Dispatched, DiscountType.None, 0)
                         }),
 
                     new Invoice(234, DateTime.Now.AddDays(-8), 6.99m, new CultureInfo("en-GB"), ProcessStatus.Dispatched,
-                        GetDeliveryAddresses(userId)[0], new List<InvoiceItem>()
+                        PaymentStatus.PaidCash, GetDeliveryAddresses(userId)[0], new List<InvoiceItem>()
                         {
                             new InvoiceItem(5, "Mug, shiny white", 6.99m, 20, 6m, ItemStatus.Dispatched, DiscountType.Value, 15),
                             new InvoiceItem(6, "Dinner Plate", 7.99m, 20, 6m, ItemStatus.Dispatched, DiscountType.PercentageSubTotal, 10),

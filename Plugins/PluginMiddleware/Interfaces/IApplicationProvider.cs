@@ -15,43 +15,19 @@
  *
  *  Product:  PluginMiddleware
  *  
- *  File: DeliveryAddress.cs
+ *  File: IApplicationProvider.cs
  *
- *  Purpose:  Delivery Address
+ *  Purpose:  
  *
  *  Date        Name                Reason
- *  16/12/2018  Simon Carter        Initially Created
+ *  31/03/2019  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-namespace Middleware.Accounts
+namespace Middleware
 {
-    public sealed class DeliveryAddress : Address
+    public interface IApplicationProvider
     {
-        #region Constructors
-
-        public DeliveryAddress()
-        {
-        }
-
-        public DeliveryAddress(in int addressId, in string businessName, in string addressLine1, 
-            in string addressLine2, in string addressLine3, in string city, in string county, 
-            in string postcode, in string country, in decimal postageCost)
-            : base (addressId, postageCost, businessName, addressLine1, 
-                  addressLine2, addressLine3, city, county, postcode, country)
-        {
-            AddressId = addressId;
-            PostageCost = postageCost;
-        }
-
-        #endregion Constructors
-
-        #region Properties
-
-        public int AddressId { get; set; }
-
-        public decimal PostageCost { get; set; }
-
-        #endregion Properties
+        void Email(in string subject, in string message);
     }
 }

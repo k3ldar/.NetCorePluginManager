@@ -36,8 +36,5 @@ namespace ShoppingCartPlugin.Classes
 
         [SettingString(false, 1, 100)]
         public string RemotePassword { get; set; }
-
-        [SettingUri(false, UriKind.Absolute)]
-        public string UrlSuccess { get; set; }
     }
 }

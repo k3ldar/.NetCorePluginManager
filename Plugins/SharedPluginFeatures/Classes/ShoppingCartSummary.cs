@@ -93,6 +93,12 @@ namespace SharedPluginFeatures
             ResetTotalCost(cost);
         }
 
+        protected void ResetShipping(in decimal shipping)
+        {
+            Shipping = shipping;
+            ResetTotalCost(SubTotal);
+        }
+
         protected void ResetTotalCost(in decimal cost)
         {
             if (cost < 0)

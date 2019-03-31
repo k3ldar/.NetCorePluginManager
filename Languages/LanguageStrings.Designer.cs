@@ -28757,6 +28757,26 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Thank you for your order.
+        /// </summary>
+        public static string ThankyouOrder {
+            get {
+                return ResourceManager.GetString("ThankyouOrder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Thank you for your puchase from us.
+        ///
+        ///You will shortly receive an email with the details of your order..
+        /// </summary>
+        public static string ThankyouOrderDescription {
+            get {
+                return ResourceManager.GetString("ThankyouOrderDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Thread Id.
         /// </summary>
         public static string ThreadId {

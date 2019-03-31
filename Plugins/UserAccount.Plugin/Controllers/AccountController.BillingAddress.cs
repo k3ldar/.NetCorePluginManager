@@ -64,7 +64,7 @@ namespace UserAccount.Plugin.Controllers
 
 			if (ModelState.IsValid)
             {
-                Address billingAddress = new Address(model.BusinessName, model.AddressLine1,
+                Address billingAddress = new Address(model.AddressId, 0, model.BusinessName, model.AddressLine1,
                     model.AddressLine2, model.AddressLine3, model.City, model.County, model.Postcode, model.Country);
 
                 if (_accountProvider.SetBillingAddress(UserId(), billingAddress))

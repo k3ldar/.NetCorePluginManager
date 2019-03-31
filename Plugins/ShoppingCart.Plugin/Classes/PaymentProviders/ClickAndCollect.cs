@@ -25,6 +25,8 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
 
+using Microsoft.AspNetCore.Http;
+
 using Middleware;
 using Middleware.Accounts.Orders;
 
@@ -56,10 +58,10 @@ namespace ShoppingCartPlugin.Classes.PaymentProviders
 
         #region IPaymentProvider Methods
 
-        public bool Execute(in Order order, in PaymentStatus paymentStatus, in UserSession userSession,
-            out string urlParameters)
+        public bool Execute(in HttpRequest request, in Order order, in PaymentStatus paymentStatus,
+            in UserSession userSession, out string urlParameters)
         {
-            urlParameters = $"/Cart/Success/{nameof(ClickAndCollect)}/";
+            urlParameters = $"/Cart/Success/{UniqueId()}/";
             return true;
         }
 

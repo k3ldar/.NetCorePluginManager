@@ -24,7 +24,10 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
+
 using Middleware.Accounts.Orders;
+
+using Microsoft.AspNetCore.Http;
 
 using Shared.Classes;
 
@@ -53,7 +56,7 @@ namespace Middleware
         /// <param name="paymentStatus"></param>
         /// <param name="userSession"></param>
         /// <param name="context"></param>
-        bool Execute(in Order order, in PaymentStatus paymentStatus, 
+        bool Execute(in HttpRequest request, in Order order, in PaymentStatus paymentStatus, 
             in UserSession userSession, out string urlParameters);
 
         /// <summary>

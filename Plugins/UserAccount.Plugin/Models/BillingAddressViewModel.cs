@@ -49,6 +49,8 @@ namespace UserAccount.Plugin.Models
 
         #region Properties
 
+        public int AddressId { get; set; }
+
         public bool ShowBusinessName { get; set; }
 
         [Display(Name = nameof(Languages.LanguageStrings.BusinessName))]

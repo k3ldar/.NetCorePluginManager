@@ -125,12 +125,13 @@ namespace Middleware.ShoppingCart
             ResetTotalCost(Items.Sum(s => s.ItemCost * s.ItemCount));
         }
 
-        public void SetDeliveryAddress(in int deliveryAddressId)
+        public void SetDeliveryAddress(in Address address)
         {
-            if (deliveryAddressId == 0)
-                throw new ArgumentOutOfRangeException(nameof(deliveryAddressId));
+            if (address == null)
+                throw new ArgumentNullException(nameof(address));
 
-            DeliveryAddressId = deliveryAddressId;
+            DeliveryAddressId = address.Id;
+            ResetShipping(address.Shipping);
         }
 
         #endregion Public Methods

@@ -13,45 +13,26 @@
  *
  *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
  *
- *  Product:  PluginMiddleware
+ *  Product:  Demo Website
  *  
- *  File: DeliveryAddress.cs
+ *  File: MockApplicationProvider.cs
  *
- *  Purpose:  Delivery Address
+ *  Purpose:  Mock IApplicationProvider for tesing purpose
  *
  *  Date        Name                Reason
- *  16/12/2018  Simon Carter        Initially Created
+ *  31/03/2019  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-namespace Middleware.Accounts
+using Middleware;
+
+namespace AspNetCore.PluginManager.DemoWebsite.Classes
 {
-    public sealed class DeliveryAddress : Address
+    public class MockApplicationProvider : IApplicationProvider
     {
-        #region Constructors
-
-        public DeliveryAddress()
+        public void Email(in string subject, in string message)
         {
+            //t sending emails in this mock
         }
-
-        public DeliveryAddress(in int addressId, in string businessName, in string addressLine1, 
-            in string addressLine2, in string addressLine3, in string city, in string county, 
-            in string postcode, in string country, in decimal postageCost)
-            : base (addressId, postageCost, businessName, addressLine1, 
-                  addressLine2, addressLine3, city, county, postcode, country)
-        {
-            AddressId = addressId;
-            PostageCost = postageCost;
-        }
-
-        #endregion Constructors
-
-        #region Properties
-
-        public int AddressId { get; set; }
-
-        public decimal PostageCost { get; set; }
-
-        #endregion Properties
     }
 }

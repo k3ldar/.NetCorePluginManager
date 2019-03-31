@@ -13885,4 +13885,16 @@ If this continues, please contact support.</comment>
     <value>Shipping</value>
     <comment>Shipping</comment>
   </data>
+  <data name="ThankyouOrder" xml:space="preserve">
+    <value>Thank you for your order</value>
+    <comment>Thank you for your order</comment>
+  </data>
+  <data name="ThankyouOrderDescription" xml:space="preserve">
+    <value>Thank you for your puchase from us.
+
+You will shortly receive an email with the details of your order.</value>
+    <comment>Thank you for your puchase from us.
+
+You will shortly receive an email with the details of your order.</comment>
+  </data>
 </root>

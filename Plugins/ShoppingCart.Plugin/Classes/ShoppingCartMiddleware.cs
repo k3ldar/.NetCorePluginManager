@@ -119,7 +119,7 @@ namespace ShoppingCartPlugin
         private ShoppingCartSummary GetBasketSummary(in long basketId)
         {
             if (basketId == 0)
-                return new ShoppingCartSummary(0, 0, 0, 0, 0, 0, 
+                return new ShoppingCartSummary(0, 0, 0, 0, 0, 20, 
                     System.Threading.Thread.CurrentThread.CurrentCulture,
                     _cartSettings.DefaultCurrency);
 

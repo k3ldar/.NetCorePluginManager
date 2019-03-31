@@ -25,6 +25,8 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
 
+using Microsoft.AspNetCore.Http;
+
 using Middleware;
 using Middleware.Accounts.Orders;
 
@@ -58,8 +60,8 @@ namespace ShoppingCartPlugin.Classes.PaymentProviders
 
         #region IPaymentProvider Methods
 
-        public bool Execute(in Order order, in PaymentStatus paymentStatus, in UserSession userSession,
-            out string urlParameters)
+        public bool Execute(in HttpRequest request, in Order order, in PaymentStatus paymentStatus,
+            in UserSession userSession, out string urlParameters)
         {
             urlParameters = $"/Cart/Failed/";
 
@@ -72,7 +74,7 @@ namespace ShoppingCartPlugin.Classes.PaymentProviders
                 PaypointHelper vc = new PaypointHelper(order.Id.ToString(), order.Total, 
                     _paymentProviderSettings.Currencies.Split(';')[0], 
                     _paymentProviderSettings.MerchantId, _paymentProviderSettings.RemotePassword,
-                    _paymentProviderSettings.UrlSuccess);
+                    $"{request.Scheme}://{request.Host.Value}/Cart/Paypoint/");
 
                 urlParameters = vc.GetURL();
                 return true;

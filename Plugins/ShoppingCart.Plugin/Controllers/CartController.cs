@@ -43,7 +43,7 @@ using Middleware.ShoppingCart;
 
 namespace ShoppingCartPlugin.Controllers
 {
-    public class CartController : BaseController
+    public partial class CartController : BaseController
     {
         #region Private Members
 
@@ -51,14 +51,17 @@ namespace ShoppingCartPlugin.Controllers
         private readonly IShoppingCartProvider _shoppingCartProvider;
         private readonly IAccountProvider _accountProvider;
         private readonly IPluginClassesService _pluginClassesService;
+        private readonly IApplicationProvider _applicationProvider;
 
         #endregion Private Members
 
         #region Constructors
 
         public CartController(IHostingEnvironment hostingEnvironment, IShoppingCartProvider shoppingCartProvider,
-            IAccountProvider accountProvider, IPluginClassesService pluginClassesService)
+            IAccountProvider accountProvider, IPluginClassesService pluginClassesService,
+            IApplicationProvider applicationProvider)
         {
+            _applicationProvider = applicationProvider ?? throw new ArgumentNullException(nameof(applicationProvider));
             _hostingEnvironment = hostingEnvironment ?? throw new ArgumentNullException(nameof(hostingEnvironment));
             _shoppingCartProvider = shoppingCartProvider ?? throw new ArgumentNullException(nameof(shoppingCartProvider));
             _accountProvider = accountProvider ?? throw new ArgumentNullException(nameof(accountProvider));
@@ -75,26 +78,35 @@ namespace ShoppingCartPlugin.Controllers
         {
             List<BasketItemModel> basketItems = new List<BasketItemModel>();
             ShoppingCartSummary cartSummary = GetCartSummary();
+            BasketModel model = null;
 
-            ShoppingCartDetail cartDetails = _shoppingCartProvider.GetDetail(cartSummary.Id);
-
-            foreach (ShoppingCartItem item in cartDetails.Items)
+            if (cartSummary.Id != 0)
             {
-                basketItems.Add(new BasketItemModel(GetBreadcrumbs(), GetCartSummary(),
-                    item.Id, item.Name, item.Description,
-                    item.Size, item.SKU, item.ItemCost, (int)item.ItemCount, null,
-                    item.ItemCount * item.ItemCost, false, item.Images[0]));
-            }
+                ShoppingCartDetail cartDetails = _shoppingCartProvider.GetDetail(cartSummary.Id);
 
-            if (TempData.ContainsKey("VoucherError"))
+                foreach (ShoppingCartItem item in cartDetails.Items)
+                {
+                    basketItems.Add(new BasketItemModel(GetBreadcrumbs(), GetCartSummary(),
+                        item.Id, item.Name, item.Description,
+                        item.Size, item.SKU, item.ItemCost, (int)item.ItemCount, null,
+                        item.ItemCount * item.ItemCost, false, item.Images[0]));
+                }
+
+                if (TempData.ContainsKey("VoucherError"))
+                {
+                    ModelState.AddModelError(nameof(VoucherModel.Voucher), Languages.LanguageStrings.VoucherInvalid);
+                    TempData.Remove("VoucherError");
+                }
+
+                model = new BasketModel(GetBreadcrumbs(), cartSummary, basketItems,
+                    cartDetails.CouponCode, cartDetails.RequiresShipping,
+                    !String.IsNullOrEmpty(GetUserSession().UserEmail));
+            }
+            else
             {
-                ModelState.AddModelError(nameof(VoucherModel.Voucher), Languages.LanguageStrings.VoucherInvalid);
-                TempData.Remove("VoucherError");
+                model = new BasketModel(GetBreadcrumbs(), cartSummary, new List<BasketItemModel>(),
+                    String.Empty, false, GetUserSession().UserID != 0);
             }
-
-            BasketModel model = new BasketModel(GetBreadcrumbs(), cartSummary, basketItems, 
-                cartDetails.CouponCode, cartDetails.RequiresShipping, 
-                !String.IsNullOrEmpty(GetUserSession().UserEmail));
 
             return View(model);
         }
@@ -167,8 +179,11 @@ namespace ShoppingCartPlugin.Controllers
             if (!cartDetail.RequiresShipping)
                 model.Breadcrumbs.RemoveAt(2);
 
-            if (shippingId != null)
-                cartDetail.SetDeliveryAddress(shippingId.Value);
+            Address shippingAddress = _accountProvider.GetDeliveryAddress(GetUserSession().UserID, shippingId.Value);
+            
+
+            if (shippingAddress != null)
+                cartDetail.SetDeliveryAddress(shippingAddress);
 
             PrepareCheckoutModel(model, cartDetail);
 
@@ -187,28 +202,40 @@ namespace ShoppingCartPlugin.Controllers
 
             ShoppingCartDetail cartDetails = _shoppingCartProvider.GetDetail(GetCartSummary().Id);
             UserSession session = GetUserSession();
-
+            
             if (_shoppingCartProvider.ConvertToOrder(cartDetails, session.UserID, out Order order))
             {
-
-                if (provider.Execute(order, PaymentStatus.Unpaid, session, out string providerUrl))
+                if (provider.Execute(HttpContext.Request, order, PaymentStatus.Unpaid, session, out string providerUrl))
                 {
+                    session.Tag = order.Id;
                     return Redirect(providerUrl);
                 }
             }
 
-            return RedirectToAction(nameof(Checkout));
+            return RedirectToAction(nameof(Failed));
         }
 
+        [Breadcrumb(nameof(Languages.LanguageStrings.PaymentFailed), "Cart", nameof(Index))]
         public IActionResult Failed()
         {
-            return View();
+            return View(new BaseModel(GetBreadcrumbs(), GetCartSummary()));
         }
 
+        [Breadcrumb(nameof(Languages.LanguageStrings.ThankyouOrder), "Cart", nameof(Index))]
         public IActionResult Success(string provider)
         {
+            UserSession session = GetUserSession();
 
-            return View();
+            PaymentSuccessModel model = new PaymentSuccessModel(GetBreadcrumbs(), 
+                new ShoppingCartSummary(0, 0, 0, 0, 0, 20, System.Threading.Thread.CurrentThread.CurrentUICulture, 
+                SharedPluginFeatures.Constants.CurrencyCodeDefault), (int)session.Tag);
+
+            // clear basket data
+            session.Tag = null;
+            session.UserBasketId = 0;
+            CookieDelete(SharedPluginFeatures.Constants.ShoppingCart);
+
+            return View(model);
         }
 
         #endregion Public Action Methods

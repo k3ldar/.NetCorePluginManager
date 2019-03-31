@@ -11,46 +11,43 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2019 Simon Carter.  All Rights Reserved.
  *
- *  Product:  PluginMiddleware
+ *  Product:  Shopping Cart Plugin
  *  
- *  File: DeliveryAddress.cs
+ *  File: PaymentSuccessModel.cs
  *
- *  Purpose:  Delivery Address
+ *  Purpose:  
  *
  *  Date        Name                Reason
- *  16/12/2018  Simon Carter        Initially Created
+ *  30/03/2019  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+using System;
+using System.Collections.Generic;
 
-namespace Middleware.Accounts
+using SharedPluginFeatures;
+
+namespace ShoppingCartPlugin.Models
 {
-    public sealed class DeliveryAddress : Address
+    public class PaymentSuccessModel : BaseModel
     {
         #region Constructors
 
-        public DeliveryAddress()
+        public PaymentSuccessModel(in List<BreadcrumbItem> breadcrumbs, in ShoppingCartSummary cartSummary, int orderId)
+            : base(breadcrumbs, cartSummary)
         {
-        }
+            if (orderId == 0)
+                throw new ArgumentOutOfRangeException(nameof(orderId));
 
-        public DeliveryAddress(in int addressId, in string businessName, in string addressLine1, 
-            in string addressLine2, in string addressLine3, in string city, in string county, 
-            in string postcode, in string country, in decimal postageCost)
-            : base (addressId, postageCost, businessName, addressLine1, 
-                  addressLine2, addressLine3, city, county, postcode, country)
-        {
-            AddressId = addressId;
-            PostageCost = postageCost;
+            OrderId = orderId;
         }
 
         #endregion Constructors
 
         #region Properties
 
-        public int AddressId { get; set; }
-
-        public decimal PostageCost { get; set; }
+        public int OrderId { get; private set; }
 
         #endregion Properties
     }

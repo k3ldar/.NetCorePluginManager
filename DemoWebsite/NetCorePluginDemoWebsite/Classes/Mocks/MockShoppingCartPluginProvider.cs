@@ -104,7 +104,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
                 // create a new cart
                 shoppingCart.ResetShoppingCartId(++_basketId);
                 cartDetail = new ShoppingCartDetail(shoppingCart.Id,
-                    0, 0, 0, 0, 0, shoppingCart.Culture, String.Empty,
+                    0, 0, 20, 0, 0, shoppingCart.Culture, String.Empty,
                     new List<ShoppingCartItem>(), false, "GBP");
             }
 
@@ -175,7 +175,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
 
             ShoppingCartDetail cartDetail = GetDetail(cartSummary.Id);
 
-            Order lasest = _accountProvider.OrdersGet(userId).OrderByDescending(o => o.Id).FirstOrDefault();
+            Order latest = _accountProvider.OrdersGet(userId).OrderByDescending(o => o.Id).FirstOrDefault();
             DeliveryAddress shippingAddress = _accountProvider.GetDeliveryAddress(userId, cartDetail.DeliveryAddressId);
             List<OrderItem> items = new List<OrderItem>();
 
@@ -185,7 +185,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
                     ItemStatus.Received, DiscountType.None, 0));
             }
 
-            order = new Order(lasest.Id + 1, DateTime.Now, cartDetail.Shipping, cartDetail.Culture,
+            order = new Order(latest.Id + 1, DateTime.Now, cartDetail.Shipping, cartDetail.Culture,
                 ProcessStatus.PaymentPending, shippingAddress, items);
 
             return true;
@@ -224,7 +224,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
             Int64.TryParse(e.Name.Substring(5), out long cartId);
 
             ShoppingCartDetail cartDetail = new ShoppingCartDetail(cartId,
-                0, 0, 0, 0, 0, System.Threading.Thread.CurrentThread.CurrentCulture, 
+                0, 0, 20, 0, 0, System.Threading.Thread.CurrentThread.CurrentCulture, 
                 String.Empty, new List<ShoppingCartItem>(), false, "GBP");
 
             Product product = _productProvider.GetProducts(1, 10000).Where(p => p.RetailPrice > 0 && !p.IsDownload).FirstOrDefault();
