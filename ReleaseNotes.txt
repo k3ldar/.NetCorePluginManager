@@ -1,3 +1,9 @@
+Version 1.7.0
+=============
+#58 - Fix breadcrumb
+#60 - Delete resources before replacing
+#25 - Shopping Cart
+
 Version 1.6.0
 =============
 
