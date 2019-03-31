@@ -111,7 +111,7 @@ namespace SharedPluginFeatures
                     return shoppingCartService.GetSummary(userSession.UserBasketId);
             }
 
-            return new ShoppingCartSummary(0, 0, 0, 0, 0, 0, 
+            return new ShoppingCartSummary(0, 0, 0, 0, 0, 20, 
                 System.Threading.Thread.CurrentThread.CurrentUICulture,
                 Constants.CurrencyCodeDefault);
         }
@@ -123,7 +123,7 @@ namespace SharedPluginFeatures
                 return (long)HttpContext.Items[Constants.ShoppingCart];
             }
 
-            return (0);
+            return 0;
         }
 
         protected void AddToCart()
