@@ -57,13 +57,16 @@ namespace UserAccount.Plugin.Controllers
 
             foreach (DownloadItem item in activeCategory.Downloads)
             {
-                downloads.Add(new ViewDownloadViewItem(item.Id, item.Name, item.Description,
+                downloads.Add(new ViewDownloadViewItem(GetBreadcrumbs(), GetCartSummary(),
+                    item.Id, item.Name, item.Description,
                     item.Version, item.Filename, item.Icon, item.Size));
             }
 
-            DownloadViewModel model = new DownloadViewModel(categories, activeCategory.Name, downloads);
+            DownloadViewModel model = new DownloadViewModel(GetBreadcrumbs(), GetCartSummary(),
+                categories, activeCategory.Name, downloads);
 
             model.Breadcrumbs = GetBreadcrumbs();
+            model.CartSummary = GetCartSummary();
 
             return View(model);
         }
@@ -91,11 +94,9 @@ namespace UserAccount.Plugin.Controllers
             if (downloadItem == null)
                 return RedirectToAction(nameof(Index));
 
-            ViewDownloadViewItem model = new ViewDownloadViewItem(downloadItem.Id,
-                downloadItem.Name, downloadItem.Description, downloadItem.Version, 
+            ViewDownloadViewItem model = new ViewDownloadViewItem(GetBreadcrumbs(), GetCartSummary(),
+                downloadItem.Id, downloadItem.Name, downloadItem.Description, downloadItem.Version, 
                 downloadItem.Filename, downloadItem.Icon, downloadItem.Size);
-
-            model.Breadcrumbs = GetBreadcrumbs();
 
             return View(model);
         }

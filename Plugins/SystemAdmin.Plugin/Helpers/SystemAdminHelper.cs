@@ -59,8 +59,6 @@ namespace SystemAdmin.Plugin
         {
             _memoryCache = memoryCache ?? throw new ArgumentNullException(nameof(memoryCache));
             _pluginClassesService = pluginClassesService ?? throw new ArgumentNullException(nameof(pluginClassesService));
-
-            RegisterBreadcrumbs(breadcrumbService);
         }
 
         #endregion Constructors
@@ -175,44 +173,5 @@ namespace SystemAdmin.Plugin
         }
 
         #endregion ISystemAdminHelperService Methods
-
-        #region Private Methods
-
-        private void RegisterBreadcrumbs(in IBreadcrumbService breadcrumbService)
-        {
-            string parentRoute = "/SystemAdmin";
-            breadcrumbService.AddBreadcrumb(nameof(Languages.LanguageStrings.SystemAdmin), parentRoute, false);
-
-            foreach (SystemAdminMainMenu item in GetSystemAdminMainMenu())
-            {
-                string route = $"/SystemAdmin/Index/{item.UniqueId}";
-                breadcrumbService.AddBreadcrumb(item.Name, route, parentRoute, false);
-
-                foreach (SystemAdminSubMenu childItem in item.ChildMenuItems)
-                {
-                    switch (childItem.MenuType())
-                    {
-                        case Enums.SystemAdminMenuType.Grid:
-                            breadcrumbService.AddBreadcrumb(childItem.Name(), $"/SystemAdmin/Grid/{childItem.UniqueId}", route, false);
-                            break;
-                        case Enums.SystemAdminMenuType.Text:
-                            breadcrumbService.AddBreadcrumb(childItem.Name(), $"/SystemAdmin/Text/{childItem.UniqueId}", route, false);
-                            break;
-                        case Enums.SystemAdminMenuType.PartialView:
-                            breadcrumbService.AddBreadcrumb(childItem.Name(), $"/SystemAdmin/View/{childItem.UniqueId}", route, false);
-                            break;
-                        case Enums.SystemAdminMenuType.Map:
-                            breadcrumbService.AddBreadcrumb(childItem.Name(), $"/SystemAdmin/Map/{childItem.UniqueId}", route, false);
-                            break;
-                        case Enums.SystemAdminMenuType.FormattedText:
-                            breadcrumbService.AddBreadcrumb(childItem.Name(), $"/SystemAdmin/TextEx/{childItem.UniqueId}", route, false);
-                            break;
-                    }
-
-                }
-            }
-        }
-
-        #endregion Private Methods
     }
 }

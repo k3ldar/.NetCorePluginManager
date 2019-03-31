@@ -51,6 +51,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProductsPlugin", "Plugins\P
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DownloadPlugin", "Plugins\Download.Plugin\DownloadPlugin.csproj", "{B8EC2672-5772-4C7A-A616-D61364792744}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShoppingCart.Plugin", "Plugins\ShoppingCart.Plugin\ShoppingCart.Plugin.csproj", "{DFD07000-DFA7-4AA4-8290-A80A9CAD8615}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug Release|Any CPU = Debug Release|Any CPU
@@ -202,6 +204,12 @@ Global
 		{B8EC2672-5772-4C7A-A616-D61364792744}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B8EC2672-5772-4C7A-A616-D61364792744}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B8EC2672-5772-4C7A-A616-D61364792744}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DFD07000-DFA7-4AA4-8290-A80A9CAD8615}.Debug Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DFD07000-DFA7-4AA4-8290-A80A9CAD8615}.Debug Release|Any CPU.Build.0 = Release|Any CPU
+		{DFD07000-DFA7-4AA4-8290-A80A9CAD8615}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DFD07000-DFA7-4AA4-8290-A80A9CAD8615}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DFD07000-DFA7-4AA4-8290-A80A9CAD8615}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DFD07000-DFA7-4AA4-8290-A80A9CAD8615}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -24,6 +24,7 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
+using System.Collections.Generic;
 
 using SharedPluginFeatures;
 
@@ -38,7 +39,9 @@ namespace ErrorManager.Plugin.Models.Error
 
         }
 
-        public Error404Model(string title)
+        public Error404Model(in List<BreadcrumbItem> breadcrumbs, in ShoppingCartSummary cartSummary, 
+            string title)
+            : base (breadcrumbs, cartSummary)
         {
             if (String.IsNullOrEmpty(title))
                 throw new ArgumentNullException(nameof(title));
@@ -46,8 +49,9 @@ namespace ErrorManager.Plugin.Models.Error
             Title = title;
         }
 
-        public Error404Model(string title, string message, string image)
-            : this(title)
+        public Error404Model(in List<BreadcrumbItem> breadcrumbs, in ShoppingCartSummary cartSummary, 
+            string title, string message, string image)
+            : this(breadcrumbs, cartSummary, title)
         {
             if (String.IsNullOrEmpty(title))
                 throw new ArgumentNullException(nameof(title));

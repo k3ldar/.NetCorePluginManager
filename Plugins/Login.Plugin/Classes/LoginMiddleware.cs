@@ -82,7 +82,7 @@ namespace LoginPlugin
 
                         if (Int64.TryParse(cookieValue, out long userId))
                         {
-                            UserLoginDetails loginDetails = new UserLoginDetails(userId);
+                            UserLoginDetails loginDetails = new UserLoginDetails(userId, true);
 
                             LoginResult loginResult = _loginProvider.Login(String.Empty, String.Empty,
                                 base.GetIpAddress(context), 1, ref loginDetails);

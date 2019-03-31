@@ -13841,4 +13841,60 @@ If this continues, please contact support.</comment>
     <value>Translation Timings</value>
     <comment>Translation Timings</comment>
   </data>
+  <data name="BackOrder" xml:space="preserve">
+    <value>Back Order</value>
+    <comment>Back Order</comment>
+  </data>
+  <data name="InStock" xml:space="preserve">
+    <value>In Stock</value>
+    <comment>In Stock</comment>
+  </data>
+  <data name="Stock" xml:space="preserve">
+    <value>Stock</value>
+    <comment>Stock</comment>
+  </data>
+  <data name="Availability" xml:space="preserve">
+    <value>Availability</value>
+    <comment>Availability</comment>
+  </data>
+  <data name="ShoppingCartEmpty" xml:space="preserve">
+    <value>You have no items in your shopping cart</value>
+    <comment>You have no items in your shopping cart</comment>
+  </data>
+  <data name="VoucherInvalid" xml:space="preserve">
+    <value>The voucher entered is not valid.</value>
+    <comment>The voucher entered is not valid.</comment>
+  </data>
+  <data name="ContinueToCheckout" xml:space="preserve">
+    <value>Continue to Checkout</value>
+    <comment>Continue to Checkout</comment>
+  </data>
+  <data name="NoAccount" xml:space="preserve">
+    <value>Don't have an account yet ?</value>
+    <comment>Don't have an account yet ?</comment>
+  </data>
+  <data name="SelectDeliveryAddress" xml:space="preserve">
+    <value>Select Delivery Address</value>
+    <comment>Select Delivery Address</comment>
+  </data>
+  <data name="PaymentFailedDescription" xml:space="preserve">
+    <value>Your payment was not successful. Please try again or select a different payment type.</value>
+    <comment>Your payment was not successful. Please try again or select a different payment type.</comment>
+  </data>
+  <data name="Shipping" xml:space="preserve">
+    <value>Shipping</value>
+    <comment>Shipping</comment>
+  </data>
+  <data name="ThankyouOrder" xml:space="preserve">
+    <value>Thank you for your order</value>
+    <comment>Thank you for your order</comment>
+  </data>
+  <data name="ThankyouOrderDescription" xml:space="preserve">
+    <value>Thank you for your puchase from us.
+
+You will shortly receive an email with the details of your order.</value>
+    <comment>Thank you for your puchase from us.
+
+You will shortly receive an email with the details of your order.</comment>
+  </data>
 </root>

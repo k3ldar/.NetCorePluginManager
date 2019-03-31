@@ -23,7 +23,7 @@
  *  29/11/2018  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 using SharedPluginFeatures;
@@ -32,6 +32,23 @@ namespace LoginPlugin.Models
 {
     public sealed class ForgotPasswordViewModel : BaseModel
     {
+        #region Constructors
+
+        public ForgotPasswordViewModel()
+        {
+
+        }
+
+        public ForgotPasswordViewModel(in List<BreadcrumbItem> breadcrumbs, in ShoppingCartSummary cartSummary)
+            : base (breadcrumbs, cartSummary)
+        {
+
+        }
+
+        #endregion Constructors
+
+        #region Properties
+
         [Required(ErrorMessage = nameof(Languages.LanguageStrings.PleaseEnterUserNameOrEmail))]
         [Display(Name = nameof(Languages.LanguageStrings.Username))]
         public string Username { get; set; }
@@ -39,5 +56,7 @@ namespace LoginPlugin.Models
         [Required(ErrorMessage = nameof(Languages.LanguageStrings.CodeNotValid))]
         [Display(Name = nameof(Languages.LanguageStrings.Code))]
         public string CaptchaText { get; set; }
+
+        #endregion Properties
     }
 }

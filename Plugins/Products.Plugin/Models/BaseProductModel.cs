@@ -39,8 +39,15 @@ namespace ProductPlugin.Models
 
         }
 
-        public BaseProductModel(in List<BreadcrumbItem> breadcrumbs, in IEnumerable<ProductCategoryModel> productGroups)
-            : base(breadcrumbs)
+        public BaseProductModel(in List<BreadcrumbItem> breadcrumbs, in ShoppingCartSummary cartSummary)
+            : base (breadcrumbs, cartSummary)
+        {
+
+        }
+
+        public BaseProductModel(in List<BreadcrumbItem> breadcrumbs, in ShoppingCartSummary cartSummary, 
+            in IEnumerable<ProductCategoryModel> productGroups)
+            : base (breadcrumbs, cartSummary)
         {
             ProductGroups = productGroups ?? throw new ArgumentNullException(nameof(productGroups));
         }

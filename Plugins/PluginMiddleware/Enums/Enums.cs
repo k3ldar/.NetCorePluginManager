@@ -44,6 +44,22 @@ namespace Middleware
     }
 
     /// <summary>
+    /// Address Option
+    /// </summary>
+    public enum AddressOption
+    {
+        /// <summary>
+        /// Delivery Address Option
+        /// </summary>
+        Delivery,
+
+        /// <summary>
+        /// Billing Address Option
+        /// </summary>
+        Billing,
+    }
+
+    /// <summary>
     /// Address options
     /// </summary>
     [Flags]

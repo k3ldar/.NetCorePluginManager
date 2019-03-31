@@ -83,7 +83,7 @@ namespace Breadcrumb.Plugin
 
             }
 
-            BreadcrumbSettings settings = settingsProvider.GetSettings<BreadcrumbSettings>(Constants.PluginNameBreadcrumb);
+            BreadcrumbSettings settings = settingsProvider.GetSettings<BreadcrumbSettings>(Constants.PluginSettingBreadcrumb);
 
             LoadBreadcrumbData(routeProvider, routeDataService, pluginTypesService, settings);
 

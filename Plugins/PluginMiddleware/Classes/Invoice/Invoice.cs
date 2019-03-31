@@ -34,8 +34,8 @@ namespace Middleware.Accounts.Invoices
         #region Constructors
 
         public Invoice(in int id, in DateTime date, in decimal postage, in CultureInfo culture,
-            in ProcessStatus processStatus, DeliveryAddress deliveryAddress,
-            List<InvoiceItem> invoiceItems)
+            in ProcessStatus processStatus, in PaymentStatus paymentStatus, 
+            DeliveryAddress deliveryAddress, List<InvoiceItem> invoiceItems)
         {
             if (postage < 0)
                 throw new ArgumentOutOfRangeException(nameof(postage));
@@ -45,6 +45,7 @@ namespace Middleware.Accounts.Invoices
             Postage = postage;
             Culture = culture;
             Status = processStatus;
+            PaymentStatus = paymentStatus;
             InvoiceItems = invoiceItems ?? throw new ArgumentNullException(nameof(invoiceItems));
             DeliveryAddress = deliveryAddress;
 
@@ -67,6 +68,8 @@ namespace Middleware.Accounts.Invoices
         public CultureInfo Culture { get; private set; }
 
         public ProcessStatus Status { get; private set; }
+
+        public PaymentStatus PaymentStatus { get; private set; }
 
         public List<InvoiceItem> InvoiceItems { get; private set; }
 

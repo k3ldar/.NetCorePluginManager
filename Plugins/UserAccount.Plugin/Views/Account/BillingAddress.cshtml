@@ -15,6 +15,7 @@
 
 @using (Html.BeginForm("BillingAddress", "Account", FormMethod.Post, new { id = "billingAddressForm" }))
 {
+    @Html.HiddenFor(m => m.AddressId)
 <div class="account-block">
     <div class="account-row">
         @Html.LabelFor(m => m.Country)

@@ -116,42 +116,50 @@ namespace SieraDeltaGeoIp.Plugin
             longitude = -1;
             uniqueID = -1;
 
-            if (_geoIpCityData != null)
+            try
             {
-                IpCity memoryIp = null;
-                using (StopWatchTimer stopwatchTimer = StopWatchTimer.Initialise(_timingsIpMemory))
+                if (_geoIpCityData != null)
                 {
-                    memoryIp = GetMemoryCity(ipAddress);
-                }
-
-                if (memoryIp != null && !memoryIp.IsComplete)
-                {
-                    IGeoIpProvider provider = null;
-                    switch (_geoIpSettings.GeoIpProvider)
+                    IpCity memoryIp = null;
+                    using (StopWatchTimer stopwatchTimer = StopWatchTimer.Initialise(_timingsIpMemory))
                     {
-                        case Enums.GeoIpProvider.None:
-                            memoryIp.IsComplete = true;
-                            break;
+                        memoryIp = GetMemoryCity(ipAddress);
                     }
 
-                    if (provider != null)
+                    if (memoryIp != null && !memoryIp.IsComplete)
                     {
-                        memoryIp.IsComplete = provider.GetIpAddressDetails(ipAddress, out countryCode, out region,
-                            out cityName, out latitude, out longitude, out uniqueID, out long ipFrom, out long ipTo);
+                        IGeoIpProvider provider = null;
+                        switch (_geoIpSettings.GeoIpProvider)
+                        {
+                            case Enums.GeoIpProvider.None:
+                                memoryIp.IsComplete = true;
+                                break;
+                        }
+
+                        if (provider != null)
+                        {
+                            memoryIp.IsComplete = provider.GetIpAddressDetails(ipAddress, out countryCode, out region,
+                                out cityName, out latitude, out longitude, out uniqueID, out long ipFrom, out long ipTo);
+                        }
+
+                        memoryIp.CountryCode = countryCode;
+                        memoryIp.CityName = cityName;
+                        memoryIp.Longitude = longitude;
+                        memoryIp.Latitude = latitude;
+                        memoryIp.Region = region;
+
+                        return (true);
                     }
-
-                    memoryIp.CountryCode = countryCode;
-                    memoryIp.CityName = cityName;
-                    memoryIp.Longitude = longitude;
-                    memoryIp.Latitude = latitude;
-                    memoryIp.Region = region;
-
-                    return (true);
                 }
+
+                return (GetCachedIPAddressDetails(ipAddress, out countryCode, out region,
+                    out cityName, out latitude, out longitude, out uniqueID));
             }
-
-            return (GetCachedIPAddressDetails(ipAddress, out countryCode, out region, 
-                out cityName, out latitude, out longitude, out uniqueID));
+            catch (Exception err)
+            {
+                Initialisation.GetLogger.AddToLog(Enums.LogLevel.Error, err, ipAddress);
+                return false;
+            }
         }
 
         #endregion Public Methods

@@ -42,9 +42,11 @@ namespace UserAccount.Plugin.Controllers
         [Breadcrumb(nameof(Languages.LanguageStrings.MyInvoices), nameof(AccountController), nameof(Index))]
         public ActionResult Invoices()
         {
-            InvoicesViewModel model = new InvoicesViewModel(_accountProvider.InvoicesGet(UserId()));
+            InvoicesViewModel model = new InvoicesViewModel(GetBreadcrumbs(), GetCartSummary(),
+                _accountProvider.InvoicesGet(UserId()));
 
             model.Breadcrumbs = GetBreadcrumbs();
+            model.CartSummary = GetCartSummary();
 
             return View(model);
         }
@@ -58,9 +60,10 @@ namespace UserAccount.Plugin.Controllers
             if (invoice == null)
                 return RedirectToAction(nameof(Index));
 
-            InvoiceViewModel model = new InvoiceViewModel(invoice);
+            InvoiceViewModel model = new InvoiceViewModel(GetBreadcrumbs(), GetCartSummary(), invoice);
 
             model.Breadcrumbs = GetBreadcrumbs();
+            model.CartSummary = GetCartSummary();
 
             return View(model);
         }

@@ -85,7 +85,7 @@ namespace LoginPlugin.Controllers
                     return (Redirect(returnUrl));
             }
 
-            LoginViewModel model = new LoginViewModel(
+            LoginViewModel model = new LoginViewModel(GetBreadcrumbs(), GetCartSummary(),
                 String.IsNullOrEmpty(returnUrl) ? _settings.LoginSuccessUrl : returnUrl,
                 _settings.ShowRememberMe);
 
@@ -97,8 +97,6 @@ namespace LoginPlugin.Controllers
                 model.ShowCaptchaImage = loginCacheItem.LoginAttempts >= _settings.CaptchaShowFailCount;
                 loginCacheItem.CaptchaText = GetRandomWord(_settings.CaptchaWordLength, CaptchaCharacters);
             }
-
-            model.Breadcrumbs = GetBreadcrumbs();
 
             return View(model);
         }
@@ -121,6 +119,7 @@ namespace LoginPlugin.Controllers
             UserLoginDetails loginDetails = new UserLoginDetails();
 
             model.Breadcrumbs = GetBreadcrumbs();
+            model.CartSummary = GetCartSummary();
 
             switch (_loginProvider.Login(model.Username, model.Password, GetIpAddress(), 
                 loginCacheItem.LoginAttempts, ref loginDetails))
@@ -163,10 +162,7 @@ namespace LoginPlugin.Controllers
             if (String.IsNullOrEmpty(username))
                 RedirectToAction(nameof(Index));
 
-            AccountLockedViewModel model = new AccountLockedViewModel(username)
-            {
-                Breadcrumbs = GetBreadcrumbs()
-            };
+            AccountLockedViewModel model = new AccountLockedViewModel(GetBreadcrumbs(), GetCartSummary(), username);
 
             return View(model);
         }
@@ -185,6 +181,7 @@ namespace LoginPlugin.Controllers
             ModelState.AddModelError(String.Empty, Languages.LanguageStrings.CodeNotValid);
             model.UnlockCode = String.Empty;
             model.Breadcrumbs = GetBreadcrumbs();
+            model.CartSummary = GetCartSummary();
 
             return View(model);
         }
@@ -193,12 +190,11 @@ namespace LoginPlugin.Controllers
         [Breadcrumb(nameof(Languages.LanguageStrings.ForgotPassword))]
         public IActionResult ForgotPassword()
         {
-            ForgotPasswordViewModel model = new ForgotPasswordViewModel();
+            ForgotPasswordViewModel model = new ForgotPasswordViewModel(GetBreadcrumbs(), GetCartSummary());
 
             LoginCacheItem loginCacheItem = GetCachedLoginAttempt(true);
             loginCacheItem.CaptchaText = GetRandomWord(_settings.CaptchaWordLength, CaptchaCharacters);
             model.CaptchaText = loginCacheItem.CaptchaText;
-            model.Breadcrumbs = GetBreadcrumbs();
 
             return View();
         }
@@ -228,6 +224,7 @@ namespace LoginPlugin.Controllers
             loginCacheItem.CaptchaText = GetRandomWord(_settings.CaptchaWordLength, CaptchaCharacters);
             model.CaptchaText = loginCacheItem.CaptchaText;
             model.Breadcrumbs = GetBreadcrumbs();
+            model.CartSummary = GetCartSummary();
 
             return View(model);
         }

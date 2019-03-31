@@ -23,8 +23,9 @@
  *  17/12/2018  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
+using System;
 using System.ComponentModel.DataAnnotations;
+using System.Collections.Generic;
 
 using SharedPluginFeatures;
 
@@ -32,6 +33,28 @@ namespace UserAccount.Plugin.Models
 {
     public sealed class EditDeliveryAddressViewModel : BaseModel
     {
+        #region Constructors
+
+        public EditDeliveryAddressViewModel()
+        {
+
+        }
+
+        public EditDeliveryAddressViewModel(string returnUrl)
+        {
+            ReturnUrl = returnUrl ?? String.Empty;
+        }
+
+        public EditDeliveryAddressViewModel(in List<BreadcrumbItem> breadcrumbs, in ShoppingCartSummary cartSummary)
+            : base (breadcrumbs, cartSummary)
+        {
+
+        }
+
+        #endregion Constructors
+
+        #region Properties
+
         public int AddressId { get; set; }
 
         public bool ShowName { get; set; }
@@ -80,5 +103,9 @@ namespace UserAccount.Plugin.Models
 
         [Display(Name = nameof(Languages.LanguageStrings.Country))]
         public string Country { get; set; }
+
+        public string ReturnUrl { get; set; }
+
+        #endregion Properties
     }
 }

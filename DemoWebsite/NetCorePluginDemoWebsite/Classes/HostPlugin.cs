@@ -48,14 +48,17 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddSingleton<IIpValidation, IPValidation>();
+            services.AddSingleton<IApplicationProvider, MockApplicationProvider>();
             services.AddSingleton<ILoginProvider, MockLoginProvider>();
             services.AddSingleton<IAccountProvider, MockAccountProvider>();
             services.AddSingleton<ICountryProvider, MockCountryLists>();
             services.AddSingleton<IDownloadProvider, MockDownloads>();
             services.AddSingleton<ILicenceProvider, MockLicenceProvider>();
             services.AddSingleton<IProductProvider, MockProductProvider>();
-            services.AddSingleton<ISharedPluginHelper, SharedPluginHelper>();
+            services.AddSingleton<IShoppingCartProvider, MockShoppingCartPluginProvider>();
+            services.AddSingleton<IShoppingCartService, MockShoppingCartPluginProvider>();
             services.AddSingleton<IErrorManager, ErrorManager>();
+            services.AddSingleton<ISharedPluginHelper, SharedPluginHelper>();
         }
 
         public void Finalise()

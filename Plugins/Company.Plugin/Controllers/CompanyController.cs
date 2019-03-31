@@ -56,7 +56,7 @@ namespace Company.Plugin.Controllers
             if (!_settings.ShowAbout)
                 return Redirect("/");
 
-            return View(new BaseModel(GetBreadcrumbs()));
+            return View(new BaseModel(GetBreadcrumbs(), GetCartSummary()));
         }
 
         [Breadcrumb(nameof(Languages.LanguageStrings.Contact))]
@@ -65,7 +65,7 @@ namespace Company.Plugin.Controllers
             if (!_settings.ShowContact)
                 return Redirect("/");
 
-            return View(new BaseModel(GetBreadcrumbs()));
+            return View(new BaseModel(GetBreadcrumbs(), GetCartSummary()));
         }
 
         [Breadcrumb(nameof(Languages.LanguageStrings.Privacy))]
@@ -74,7 +74,7 @@ namespace Company.Plugin.Controllers
             if (!_settings.ShowPrivacy)
                 return Redirect("/");
 
-            return View(new BaseModel(GetBreadcrumbs()));
+            return View(new BaseModel(GetBreadcrumbs(), GetCartSummary()));
         }
 
         [Breadcrumb(nameof(Languages.LanguageStrings.TermsAndConditions))]
@@ -83,7 +83,7 @@ namespace Company.Plugin.Controllers
             if (!_settings.ShowTerms)
                 return Redirect("/");
 
-            return View(new BaseModel(GetBreadcrumbs()));
+            return View(new BaseModel(GetBreadcrumbs(), GetCartSummary()));
         }
 
         [Breadcrumb(nameof(Languages.LanguageStrings.Cookies))]
@@ -92,7 +92,7 @@ namespace Company.Plugin.Controllers
             if (!_settings.ShowCookies)
                 return Redirect("/");
 
-            return View(new BaseModel(GetBreadcrumbs()));
+            return View(new BaseModel(GetBreadcrumbs(), GetCartSummary()));
         }
 
         [Breadcrumb(nameof(Languages.LanguageStrings.Careers))]
@@ -101,7 +101,7 @@ namespace Company.Plugin.Controllers
             if (!_settings.ShowCareers)
                 return Redirect("/");
 
-            return View(new BaseModel(GetBreadcrumbs()));
+            return View(new BaseModel(GetBreadcrumbs(), GetCartSummary()));
         }
 
         [Breadcrumb(nameof(Languages.LanguageStrings.Returns))]
@@ -110,7 +110,7 @@ namespace Company.Plugin.Controllers
             if (!_settings.ShowReturns)
                 return Redirect("/");
 
-            return View(new BaseModel(GetBreadcrumbs()));
+            return View(new BaseModel(GetBreadcrumbs(), GetCartSummary()));
         }
 
         [Breadcrumb(nameof(Languages.LanguageStrings.Delivery))]
@@ -119,7 +119,7 @@ namespace Company.Plugin.Controllers
             if (!_settings.ShowDelivery)
                 return Redirect("/");
 
-            return View(new BaseModel(GetBreadcrumbs()));
+            return View(new BaseModel(GetBreadcrumbs(), GetCartSummary()));
         }
 
         [Breadcrumb(nameof(Languages.LanguageStrings.Newsletter))]
@@ -128,7 +128,7 @@ namespace Company.Plugin.Controllers
             if (!_settings.ShowNewsletter)
                 return Redirect("/");
 
-            return View(new BaseModel(GetBreadcrumbs()));
+            return View(new BaseModel(GetBreadcrumbs(), GetCartSummary()));
         }
 
         [Breadcrumb(nameof(Languages.LanguageStrings.Affiliate))]
@@ -137,7 +137,7 @@ namespace Company.Plugin.Controllers
             if (!_settings.ShowAffiliates)
                 return Redirect("/");
 
-            return View(new BaseModel(GetBreadcrumbs()));
+            return View(new BaseModel(GetBreadcrumbs(), GetCartSummary()));
         }
 
         #endregion Public Controller Methods

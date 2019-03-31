@@ -115,7 +115,7 @@ namespace DownloadPlugin.Controllers
                 categories.Add(new CategoriesModel(item.Id, item.Name));
             }
 
-            DownloadModel model = new DownloadModel(category.Name, downloads, categories);
+            DownloadModel model = new DownloadModel(GetBreadcrumbs(), GetCartSummary(), category.Name, downloads, categories);
             model.Breadcrumbs.Add(new BreadcrumbItem(nameof(Languages.LanguageStrings.Home), "/", false));
             model.Breadcrumbs.Add(new BreadcrumbItem(nameof(Languages.LanguageStrings.Download), "/Download/", false));
             model.Breadcrumbs.Add(new BreadcrumbItem(category.Name, $"/Download/{category.Id}/Category/{model.RouteText(category.Name)}", true));

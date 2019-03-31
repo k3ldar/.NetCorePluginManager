@@ -43,8 +43,10 @@ namespace ProductPlugin.Models
         {
         }
 
-        public ProductModel(in int id, in string name, in string[] images, in int productGroupId, 
-            in bool newProduct, in bool bestSeller, in decimal lowestPrice)
+        public ProductModel(in List<BreadcrumbItem> breadcrumbs, in ShoppingCartSummary cartSummary,
+            in int id, in string name, in string[] images, in int productGroupId, 
+            in bool newProduct, in bool bestSeller, in decimal lowestPrice, bool allowAddToBasket)
+            : base (breadcrumbs, cartSummary)
         {
             if (String.IsNullOrEmpty(name))
                 throw new ArgumentNullException(nameof(name));
@@ -60,21 +62,25 @@ namespace ProductPlugin.Models
             BestSeller = bestSeller;
 
             if (lowestPrice == 0)
-                Price = Languages.LanguageStrings.Free;
+                RetailPrice = Languages.LanguageStrings.Free;
             else
-                Price = lowestPrice.ToString("C", System.Threading.Thread.CurrentThread.CurrentUICulture);
+                RetailPrice = lowestPrice.ToString("C", System.Threading.Thread.CurrentThread.CurrentUICulture);
+
+            AllowAddToBasket = allowAddToBasket;
         }
 
-        public ProductModel(in List<BreadcrumbItem> breadcrumbs, in IEnumerable<ProductCategoryModel> productGroups)
-            : base (breadcrumbs, productGroups)
+        public ProductModel(in List<BreadcrumbItem> breadcrumbs, in ShoppingCartSummary cartSummary, 
+            in IEnumerable<ProductCategoryModel> productGroups)
+            : base (breadcrumbs, cartSummary, productGroups)
         {
 
         }
 
-        public ProductModel(in List<BreadcrumbItem> breadcrumbs, in IEnumerable<ProductCategoryModel> productGroups, 
+        public ProductModel(in List<BreadcrumbItem> breadcrumbs, in ShoppingCartSummary cartSummary, 
+            in IEnumerable<ProductCategoryModel> productGroups, 
             in int id, in int productGroupId, in string name, in string description, in string features,
-            in string videoLink, in string[] images, in decimal lowestPrice)
-            : this (breadcrumbs, productGroups)
+            in string videoLink, in string[] images, in decimal retailPrice, bool allowAddToBasket)
+            : this (breadcrumbs, cartSummary, productGroups)
         {
             if (String.IsNullOrEmpty(name))
                 throw new ArgumentNullException(nameof(name));
@@ -90,10 +96,15 @@ namespace ProductPlugin.Models
             VideoLink = videoLink;
             Images = images;
 
-            if (lowestPrice == 0)
-                Price = Languages.LanguageStrings.Free;
+            if (retailPrice == 0)
+                RetailPrice = Languages.LanguageStrings.Free;
             else
-                Price = lowestPrice.ToString("C", System.Threading.Thread.CurrentThread.CurrentUICulture);
+                RetailPrice = retailPrice.ToString("C", System.Threading.Thread.CurrentThread.CurrentUICulture);
+
+            AllowAddToBasket = allowAddToBasket;
+
+            if (retailPrice > 0)
+                AddToCart = new AddToCartModel(id, retailPrice, 0);
         }
 
         #endregion Constructors
@@ -156,7 +167,11 @@ namespace ProductPlugin.Models
 
         public bool BestSeller { get; private set; }
 
-        public string Price { get; private set; }
+        public string RetailPrice { get; private set; }
+
+        public bool AllowAddToBasket { get; private set; }
+
+        public AddToCartModel AddToCart { get; private set; }
 
         #endregion Properties
     }

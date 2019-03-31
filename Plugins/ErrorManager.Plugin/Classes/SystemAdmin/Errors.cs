@@ -58,7 +58,7 @@ namespace ErrorManager.Plugin.Classes.SystemAdmin
             foreach (ErrorInformation item in errors)
             {
                 Result += $"\r{item.Date.ToString(Thread.CurrentThread.CurrentUICulture.DateTimeFormat)}|" +
-                    $"{item.Error.Message.Replace('|', ' ')}|{item.ErrorCount}";
+                    $"{item.Error.Message.Replace('|', ' ').Replace("\r\n", " ")}|{item.ErrorCount}";
             }
 
             return (Result);

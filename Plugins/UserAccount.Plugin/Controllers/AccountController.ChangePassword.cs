@@ -43,7 +43,7 @@ namespace UserAccount.Plugin.Controllers
         {
             UserSession userSession = GetUserSession();
 
-            return View(new ChangePasswordViewModel(GetBreadcrumbs(), userSession.UserEmail));
+            return View(new ChangePasswordViewModel(GetBreadcrumbs(), GetCartSummary(), userSession.UserEmail));
         }
 
 		[HttpPost]
@@ -67,6 +67,7 @@ namespace UserAccount.Plugin.Controllers
             }
 
             model.Breadcrumbs = GetBreadcrumbs();
+            model.CartSummary = GetCartSummary();
 
             return View(model);
         }

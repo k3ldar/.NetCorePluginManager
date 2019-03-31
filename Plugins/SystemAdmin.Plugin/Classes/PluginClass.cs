@@ -37,7 +37,7 @@ namespace SystemAdmin.Plugin.Classes
     {
         #region Static Internal Members
 
-        internal static IServiceProvider GetServiceProvider { get; private set; }
+        internal static IServiceProvider GetServiceProvider { get; set; }
 
         #endregion Static Internal Members
 
@@ -49,7 +49,6 @@ namespace SystemAdmin.Plugin.Classes
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddSingleton<ISystemAdminHelperService, SystemAdminHelper>();
-            GetServiceProvider = services.BuildServiceProvider();
         }
 
         public void Finalise()

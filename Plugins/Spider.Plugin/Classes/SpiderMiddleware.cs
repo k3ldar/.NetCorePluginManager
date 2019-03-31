@@ -72,7 +72,7 @@ namespace Spider.Plugin
 
             _next = next;
 
-            _userSessionManagerLoaded = pluginHelperService.PluginLoaded("UserSessionMiddleware.Plugin.dll", out int version);
+            _userSessionManagerLoaded = pluginHelperService.PluginLoaded(Constants.PluginNameUserSession, out int version);
 
             _deniedSpiderRoutes = new List<DeniedRoute>();
             LoadSpiderData(routeProvider, routeDataService, pluginTypesService);

@@ -36,8 +36,14 @@ namespace UserAccount.Plugin.Models
     {
         #region Constructors
 
-        public DownloadViewModel(in List<DownloadCategory> categories, in string activeCategory, 
+        public DownloadViewModel()
+        {
+        }
+
+        public DownloadViewModel(in List<BreadcrumbItem> breadcrumbs, in ShoppingCartSummary cartSummary,
+            in List<DownloadCategory> categories, in string activeCategory, 
             in List<ViewDownloadViewItem> downloads)
+            : base (breadcrumbs, cartSummary)
         {
             if (categories == null)
                 throw new ArgumentNullException(nameof(categories));

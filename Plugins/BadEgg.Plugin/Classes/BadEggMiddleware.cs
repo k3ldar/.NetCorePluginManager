@@ -76,7 +76,7 @@ namespace BadEgg.Plugin
 
             _next = next;
 
-            _userSessionManagerLoaded = pluginHelperService.PluginLoaded("UserSessionMiddleware.Plugin.dll", out int version);
+            _userSessionManagerLoaded = pluginHelperService.PluginLoaded(Constants.PluginNameUserSession, out int version);
             _ipValidation = ipValidation ?? throw new ArgumentNullException(nameof(ipValidation));
 
             _managedRoutes = new List<ManagedRoute>();

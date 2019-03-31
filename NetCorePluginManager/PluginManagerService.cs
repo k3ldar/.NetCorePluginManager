@@ -152,6 +152,9 @@ namespace AspNetCore.PluginManager
 
         public static void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            List<IInitialiseEvents> init = _pluginManagerInstance.GetPluginClasses<IInitialiseEvents>();
+            init.ForEach(i => i.BeforeConfigure(app, env));
+
             if (_logger == null)
                 throw new InvalidOperationException("Plugin Manager has not been initialised.");
 
@@ -166,10 +169,15 @@ namespace AspNetCore.PluginManager
                 return;
 
             _pluginManagerInstance.Configure(app, env);
+
+            init.ForEach(i => i.AfterConfigure(app, env));
         }
 
         public static void ConfigureServices(IServiceCollection services)
         {
+            List<IInitialiseEvents> init = _pluginManagerInstance.GetPluginClasses<IInitialiseEvents>();
+            init.ForEach(i => i.BeforeConfigureServices(services));
+
             if (_logger == null)
                 throw new InvalidOperationException("Plugin Manager has not been initialised.");
 
@@ -187,6 +195,8 @@ namespace AspNetCore.PluginManager
             services.AddSingleton<IPluginTypesService, PluginServices>();
 
             _pluginManagerInstance.ConfigureServices(services);
+
+            init.ForEach(i => i.AfterConfigureServices(services));
         }
 
         #endregion Static Methods

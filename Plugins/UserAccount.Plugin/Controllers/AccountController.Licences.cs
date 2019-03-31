@@ -49,14 +49,16 @@ namespace UserAccount.Plugin.Controllers
 
             foreach (Licence licence in _licenceProvider.LicencesGet(UserId()))
             {
-                licences.Add(new ViewLicenceViewModel(licence.Id, licence.DomainName, licence.LicenceType.Description,
+                licences.Add(new ViewLicenceViewModel(GetBreadcrumbs(), GetCartSummary(), 
+                    licence.Id, licence.DomainName, licence.LicenceType.Description,
                     Shared.Utilities.DateWithin(licence.ExpireDate, licence.StartDate, DateTime.Now) && licence.IsValid,
                     licence.IsTrial, licence.ExpireDate, licence.UpdateCount, licence.EncryptedLicence));
             }
 
-            LicenceViewModel model = new LicenceViewModel(licences, GrowlGet());
+            LicenceViewModel model = new LicenceViewModel(GetBreadcrumbs(), GetCartSummary(), licences, GrowlGet());
 
             model.Breadcrumbs = GetBreadcrumbs();
+            model.CartSummary = GetCartSummary();
 
             return View(model);
         }
@@ -69,7 +71,8 @@ namespace UserAccount.Plugin.Controllers
 
             if (licence != null)
             {
-                model = new ViewLicenceViewModel(licence.Id, licence.DomainName, licence.LicenceType.Description,
+                model = new ViewLicenceViewModel(GetBreadcrumbs(), GetCartSummary(),
+                    licence.Id, licence.DomainName, licence.LicenceType.Description,
                     Shared.Utilities.DateWithin(licence.ExpireDate, licence.StartDate, DateTime.Now) && licence.IsValid,
                     licence.IsTrial, licence.ExpireDate, licence.UpdateCount, licence.EncryptedLicence);
             }
@@ -78,6 +81,7 @@ namespace UserAccount.Plugin.Controllers
                 RedirectToAction(nameof(Licences));
 
             model.Breadcrumbs = GetBreadcrumbs();
+            model.CartSummary = GetCartSummary();
 
             return View(model);
         }
@@ -85,7 +89,7 @@ namespace UserAccount.Plugin.Controllers
         [HttpGet]
         public IActionResult LicenceCreate()
         {
-            return View(new CreateLicenceViewModel(GetBreadcrumbs()));
+            return View(new CreateLicenceViewModel(GetBreadcrumbs(), GetCartSummary()));
         }
 
         [HttpPost]
@@ -121,6 +125,7 @@ namespace UserAccount.Plugin.Controllers
             }
 
             model.Breadcrumbs = GetBreadcrumbs();
+            model.CartSummary = GetCartSummary();
 
             return View(model);
         }

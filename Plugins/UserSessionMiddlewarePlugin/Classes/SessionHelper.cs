@@ -65,29 +65,28 @@ namespace UserSessionMiddleware.Plugin
             UserSessionManager.Instance.IPAddressDetails += UserSession_IPAddressDetails;
 
             _pluginClasses = Initialisation.GetServiceProvider.GetRequiredService<IPluginClassesService>();
-
         }
 
         internal static void UserSession_IPAddressDetails(object sender, IpAddressArgs e)
         {
-            if (LoadGeoIpService())
-            {
-                if (_geoIpInstance.GetIPAddressDetails(e.IPAddress, out string countryCode, out string region, 
+            if (LoadGeoIpService() && 
+                _geoIpInstance.GetIPAddressDetails(e.IPAddress, out string countryCode, out string region, 
                     out string cityName, out decimal latitude, out decimal longitude, out long ipUniqueId))
-                {
-                    e.IPUniqueID = ipUniqueId;
-                    e.Latitude = latitude;
-                    e.Longitude = longitude;
-                    e.CityName = cityName;
-                    e.CountryCode = countryCode;
-                    e.Region = region;
-                }
+            {
+                e.IPUniqueID = ipUniqueId;
+                e.Latitude = latitude;
+                e.Longitude = longitude;
+                e.CityName = cityName;
+                e.CountryCode = countryCode;
+                e.Region = region;
             }
             else
             {
                 e.CountryCode = "ZZ";
                 e.CityName = "Unknown";
                 e.Region = String.Empty;
+                e.Latitude = 0;
+                e.Longitude = 0;
             }
         }
 
@@ -170,7 +169,7 @@ namespace UserSessionMiddleware.Plugin
 
             try
             {
-                _geoIpInstance = Initialisation.GetServiceProvider.GetRequiredService<IGeoIpDataService>();
+                _geoIpInstance = Initialisation.GetServiceProvider.GetService<IGeoIpDataService>();
             }
             catch (InvalidOperationException)
             {
@@ -202,7 +201,7 @@ namespace UserSessionMiddleware.Plugin
 
             try
             {
-                _userSessionService = Initialisation.GetServiceProvider.GetRequiredService<IUserSessionService>();
+                _userSessionService = Initialisation.GetServiceProvider.GetService<IUserSessionService>();
             }
             catch (InvalidOperationException)
             {

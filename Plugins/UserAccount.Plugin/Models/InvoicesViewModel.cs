@@ -41,7 +41,9 @@ namespace UserAccount.Plugin.Models
             Invoices = new List<Invoice>();
         }
 
-        public InvoicesViewModel(List<Invoice> invoices)
+        public InvoicesViewModel(in List<BreadcrumbItem> breadcrumbs, in ShoppingCartSummary cartSummary,
+            in List<Invoice> invoices)
+            : base (breadcrumbs, cartSummary)
         {
             Invoices = invoices ?? throw new ArgumentNullException(nameof(invoices));
         }

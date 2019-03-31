@@ -96,14 +96,14 @@
     <PackageReference Include="Microsoft.AspNetCore.Razor.Runtime" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.ResponseCaching.Abstractions" Version="2.2.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.2" />
-    <PackageReference Include="SC.Shared.Library.Core" Version="2.7.6" />
+    <PackageReference Include="SC.Shared.Library.Core" Version="2.8.1" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <PackageReference Include="AspNetCore.PluginManager" Version="1.6.0" />
-    <PackageReference Include="SharedPluginFeatures" Version="1.6.0" />
-    <PackageReference Include="Middleware" Version="1.6.0" />
-    <PackageReference Include="AspNetCore.PluginManager.Languages" Version="1.6.0" />
+    <PackageReference Include="AspNetCore.PluginManager" Version="1.7.0" />
+    <PackageReference Include="SharedPluginFeatures" Version="1.7.0" />
+    <PackageReference Include="Middleware" Version="1.7.0" />
+    <PackageReference Include="AspNetCore.PluginManager.Languages" Version="1.7.0" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -114,7 +114,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Views\Download\" />
     <Folder Include="Views\Error\" />
     <Folder Include="Views\Login\" />
     <Folder Include="Views\Services\" />

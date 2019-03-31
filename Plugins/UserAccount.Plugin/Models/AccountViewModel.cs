@@ -24,6 +24,7 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
+using System.Collections.Generic;
 
 using SharedPluginFeatures;
 
@@ -38,17 +39,18 @@ namespace UserAccount.Plugin.Models
             GrowlMessage = String.Empty;
         }
 
-        public AccountViewModel(AccountSettings accountSettings, string growl)
-            : this(accountSettings)
+        public AccountViewModel(in List<BreadcrumbItem> breadcrumbs, in ShoppingCartSummary cartSummary,
+            AccountSettings accountSettings, string growl)
+            : this (breadcrumbs, cartSummary, accountSettings)
         {
             GrowlMessage = growl;
         }
 
-        public AccountViewModel(AccountSettings accountSettings)
-            : this()
+        public AccountViewModel(in List<BreadcrumbItem> breadcrumbs, in ShoppingCartSummary cartSummary,
+            AccountSettings accountSettings)
+            : base (breadcrumbs, cartSummary)
         {
             Settings = accountSettings ?? throw new ArgumentNullException(nameof(accountSettings));
-            
         }
 
         #endregion Constructors

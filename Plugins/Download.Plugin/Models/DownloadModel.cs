@@ -34,8 +34,9 @@ namespace DownloadPlugin.Models
     {
         #region Constructors
 
-        public DownloadModel(in string category, in List<DownloadableItem> downloads, 
-            in List<CategoriesModel> categories)
+        public DownloadModel(in List<BreadcrumbItem> breadcrumbs, in ShoppingCartSummary cartSummary, 
+            in string category, in List<DownloadableItem> downloads, in List<CategoriesModel> categories)
+            : base (breadcrumbs, cartSummary)
         {
             if (String.IsNullOrEmpty(category))
                 throw new ArgumentNullException(nameof(category));

@@ -34,7 +34,9 @@ namespace SystemAdmin.Plugin.Models
     {
         #region Constructors
 
-        public GridViewModel(SystemAdminSubMenu subMenu, List<BreadcrumbItem> breadcrumbs)
+        public GridViewModel(in List<BreadcrumbItem> breadcrumbs, in ShoppingCartSummary cartSummary,
+            SystemAdminSubMenu subMenu)
+            : base (breadcrumbs, cartSummary)
         {
             if (subMenu == null)
                 throw new ArgumentNullException(nameof(subMenu));
@@ -52,7 +54,7 @@ namespace SystemAdmin.Plugin.Models
 
             Headers = allLines[0].Split('|');
 
-            int columnCount = Headers.Length;
+            HeaderColumnCount = Headers.Length;
 
             Items = new List<string[]>();
 
@@ -60,14 +62,12 @@ namespace SystemAdmin.Plugin.Models
             {
                 string[] line = allLines[i].Split('|');
 
-                if (line.Length != Headers.Length)
-                    throw new InvalidOperationException("column count much match header column count" +
+                if (line.Length > Headers.Length)
+                    throw new InvalidOperationException("line column count much match header column count" +
                         $"\r\n\r\n{subMenu.Data()}");
 
                 Items.Add(line);
             }
-
-            Breadcrumbs = breadcrumbs;
         }
 
         #endregion Constructors
@@ -79,6 +79,8 @@ namespace SystemAdmin.Plugin.Models
         public List<string[]> Items { get; set; }
 
         public string Title { get; set; }
+
+        public int HeaderColumnCount { get; private set; }
 
         #endregion Public Properties
     }

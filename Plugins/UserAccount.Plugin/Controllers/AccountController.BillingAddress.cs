@@ -48,7 +48,7 @@ namespace UserAccount.Plugin.Controllers
             if (billingAddress == null)
                 throw new InvalidOperationException(nameof(billingAddress));
 
-            BillingAddressViewModel model = new BillingAddressViewModel();
+            BillingAddressViewModel model = new BillingAddressViewModel(GetBreadcrumbs(), GetCartSummary());
             PrepareBillingAddressModel(ref model, billingAddress);
 
             return View(model);
@@ -64,7 +64,7 @@ namespace UserAccount.Plugin.Controllers
 
 			if (ModelState.IsValid)
             {
-                Address billingAddress = new Address(model.BusinessName, model.AddressLine1,
+                Address billingAddress = new Address(model.AddressId, 0, model.BusinessName, model.AddressLine1,
                     model.AddressLine2, model.AddressLine3, model.City, model.County, model.Postcode, model.Country);
 
                 if (_accountProvider.SetBillingAddress(UserId(), billingAddress))
@@ -87,7 +87,7 @@ namespace UserAccount.Plugin.Controllers
 
         private void ValidateBillingAddressModel(ref BillingAddressViewModel model)
         {
-            AddressOptions addressOptions = _accountProvider.GetAddressOptions();
+            AddressOptions addressOptions = _accountProvider.GetAddressOptions(AddressOption.Delivery);
 
             if (addressOptions.HasFlag(AddressOptions.AddressLine1Mandatory) && String.IsNullOrEmpty(model.AddressLine1))
                 ModelState.AddModelError(nameof(model.AddressLine1), Languages.LanguageStrings.AddressLine1Required);
@@ -113,9 +113,7 @@ namespace UserAccount.Plugin.Controllers
 
         private void PrepareBillingAddressModel(ref BillingAddressViewModel model, in Address billingAddress)
         {
-            model.Breadcrumbs = GetBreadcrumbs();
-
-            AddressOptions addressOptions = _accountProvider.GetAddressOptions();
+            AddressOptions addressOptions = _accountProvider.GetAddressOptions(AddressOption.Billing);
 
             model.ShowAddressLine1 = addressOptions.HasFlag(AddressOptions.AddressLine1Show);
             model.ShowAddressLine2 = addressOptions.HasFlag(AddressOptions.AddressLine2Show);

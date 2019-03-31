@@ -84,21 +84,21 @@ namespace BadEgg.Plugin.WebDefender
         /// <summary>
         /// Address list lock object for unique access
         /// </summary>
-        private static object _lockObject = new object();
+        private static readonly object _lockObject = new object();
 
         private static Dictionary<string, IpConnectionInfo> _connectionInformation;
 
         private HashSet<IpConnectionInfo> _connectionsAdd;
 
-        private object _eventLockObject = new object();
+        private readonly object _eventLockObject = new object();
 
-        private uint _maximumConnectionsPerSecond;
+        private readonly uint _maximumConnectionsPerSecond;
 
         private ulong _iteration = 0;
 
         internal static Dictionary<string, bool> _ipAddressList;
 
-        internal static object _ipAddressLock = new object();
+        internal static readonly object _ipAddressLock = new object();
 
         /// <summary>
         /// Time out for each client (minutes)
@@ -107,7 +107,7 @@ namespace BadEgg.Plugin.WebDefender
 
         private HashSet<ConnectionReportArgs> _reports = new HashSet<ConnectionReportArgs>();
 
-        private object _reportsLock = new object();
+        private readonly object _reportsLock = new object();
 
         #endregion Private Members / Constants
 
@@ -163,7 +163,7 @@ namespace BadEgg.Plugin.WebDefender
         private int BotHitsPerSecond { get; set; } = 10;
 
 
-        private byte MinimumSpiderUniqueRequests = 95;
+        private readonly byte MinimumSpiderUniqueRequests = 95;
 
         #endregion Properties
 
@@ -412,7 +412,7 @@ namespace BadEgg.Plugin.WebDefender
             {
                 foreach (KeyValuePair<string, IpConnectionInfo> item in _connectionInformation)
                 {
-                    Result.Append('\n');
+                    Result.Append('\r');
                     Result.Append(item.Value.ToString());
                 }
             }

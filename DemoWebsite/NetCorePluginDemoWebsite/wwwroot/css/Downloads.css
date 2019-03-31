@@ -427,36 +427,3 @@ h4 {
                 background: #f4f4f4;
                 color: #ccc;
             }
-4;
-                color: #ccc;
-            }
- 0 1px 0 #fff;
-            }
-
-            .mainContent .pagination ul li.disabled a {
-                background: #f4f4f4;
-                color: #ccc;
-                cursor: default;
-                text-shadow: 0 1px 0 #fff;
-            }
-
-            .mainContent .pagination ul li.current a {
-                background: #b4b4b4;
-                color: #fff;
-                text-shadow: 0 1px 0 #757575;
-            }
-
-            .mainContent .pagination ul li a:hover {
-                background-color: #ddd;
-                color: #333;
-            }
-
-            .mainContent .pagination ul li.current a {
-                background: #b4b4b4;
-                color: #fff;
-            }
-
-            .mainContent .pagination ul li.disabled a {
-                background: #f4f4f4;
-                color: #ccc;
-            }
