@@ -10,7 +10,7 @@
     <Authors>Simon Carter</Authors>
     <Company>Simon Carter</Company>
     <Copyright>Copyright (c) 2018 - 2019.  Simon Carter.  All rights reserved.</Copyright>
-    <PackageLicenseUrl>https://github.com/k3ldar/.NetCorePluginManager/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/k3ldar/.NetCorePluginManager</PackageProjectUrl>
     <RepositoryType>git</RepositoryType>
     <PackageTags>asp net core plugin manager error manager</PackageTags>

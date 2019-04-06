@@ -7,7 +7,7 @@
     <Company>Simon Carter</Company>
     <Description>Plugin which monitors Url's and Query/Form input for sql injection attempts.  Provides feed back on those "Bad Eggs" why don't play nicely!</Description>
     <Copyright>Copyright (c) 2018 - 2019.  Simon Carter.  All rights reserved.</Copyright>
-    <PackageLicenseUrl>https://github.com/k3ldar/.NetCorePluginManager/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
     <RepositoryUrl>https://github.com/k3ldar/.NetCorePluginManager</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageTags>asp net core plugin bad egg detect sql injection attacks</PackageTags>
