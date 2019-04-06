@@ -227,7 +227,8 @@ namespace ShoppingCartPlugin.Controllers
             UserSession session = GetUserSession();
 
             PaymentSuccessModel model = new PaymentSuccessModel(GetBreadcrumbs(), 
-                new ShoppingCartSummary(0, 0, 0, 0, 0, 20, System.Threading.Thread.CurrentThread.CurrentUICulture, 
+                new ShoppingCartSummary(0, 0, 0, 0, 0, GetDefaultTaxRate(), 
+                System.Threading.Thread.CurrentThread.CurrentUICulture, 
                 SharedPluginFeatures.Constants.CurrencyCodeDefault), (int)session.Tag);
 
             // clear basket data

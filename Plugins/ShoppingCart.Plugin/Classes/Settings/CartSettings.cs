@@ -32,5 +32,7 @@ namespace ShoppingCartPlugin.Classes
         [SettingString(false, 3, 3)]
         [SettingDefault("GBP")]
         public string DefaultCurrency { get; set; }
+
+        public decimal DefaultTaxRate { get; set; }
     }
 }

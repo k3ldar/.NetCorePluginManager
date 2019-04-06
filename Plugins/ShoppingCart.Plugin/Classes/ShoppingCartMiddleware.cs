@@ -106,6 +106,7 @@ namespace ShoppingCartPlugin
                     }
 
                     context.Items[Constants.BasketSummary] = GetBasketSummary(userSession.UserBasketId);
+                    context.Items[Constants.DefaultTaxRate] = _cartSettings.DefaultTaxRate;
                 }
             }
 
@@ -119,7 +120,7 @@ namespace ShoppingCartPlugin
         private ShoppingCartSummary GetBasketSummary(in long basketId)
         {
             if (basketId == 0)
-                return new ShoppingCartSummary(0, 0, 0, 0, 0, 20, 
+                return new ShoppingCartSummary(0, 0, 0, 0, 0, _cartSettings.DefaultTaxRate, 
                     System.Threading.Thread.CurrentThread.CurrentCulture,
                     _cartSettings.DefaultCurrency);
 

@@ -111,9 +111,17 @@ namespace SharedPluginFeatures
                     return shoppingCartService.GetSummary(userSession.UserBasketId);
             }
 
-            return new ShoppingCartSummary(0, 0, 0, 0, 0, 20, 
+            return new ShoppingCartSummary(0, 0, 0, 0, 0, GetDefaultTaxRate(), 
                 System.Threading.Thread.CurrentThread.CurrentUICulture,
                 Constants.CurrencyCodeDefault);
+        }
+
+        protected decimal GetDefaultTaxRate()
+        {
+            if (HttpContext.Items.ContainsKey(Constants.DefaultTaxRate))
+                return Convert.ToDecimal(HttpContext.Items[Constants.DefaultTaxRate]);
+
+            return 0;
         }
 
         protected long GetShoppingCartId()

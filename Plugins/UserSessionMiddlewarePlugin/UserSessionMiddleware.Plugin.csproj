@@ -6,7 +6,7 @@
     <RootNamespace>UserSessionMiddleware.Plugin</RootNamespace>
     <LangVersion>latest</LangVersion>
     <RepositoryUrl>https://github.com/k3ldar/.NetCorePluginManager</RepositoryUrl>
-    <PackageLicenseUrl>https://github.com/k3ldar/.NetCorePluginManager/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
     <Copyright>Copyright (c) 2018 - 2019.  Simon Carter.  All rights reserved.</Copyright>
     <Authors>Simon Carter</Authors>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
