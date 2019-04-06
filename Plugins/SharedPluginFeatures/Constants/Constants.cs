@@ -38,6 +38,7 @@ namespace SharedPluginFeatures
         public const string Breadcrumbs = "Breadcrumbs";
         public const string ShoppingCart = "ShoppingCart";
         public const string BasketSummary = "BasketSummary";
+        public const string DefaultTaxRate = "DefaultTaxRate";
 
         public const string DefaultSessionCookie = "user_session";
 
