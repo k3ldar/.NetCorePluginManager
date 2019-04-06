@@ -11,7 +11,7 @@
     <PackageTags>asp net core plugin manager shared classes interfaces</PackageTags>
     <PackageReleaseNotes>Shared Modules for asp net core plugin manager.  Supports 2.1, 2.2 &amp; net461</PackageReleaseNotes>
     <AssemblyVersion>1.0.0.0</AssemblyVersion>
-    <Version>1.7.0</Version>
+    <Version>1.7.1</Version>
     <Authors>Simon Carter</Authors>
     <Company>Simon Carter</Company>
   </PropertyGroup>
@@ -66,7 +66,7 @@
 
   <ItemGroup>
     <PackageReference Include="ApplicationSettings" Version="1.2.0" />
-    <PackageReference Include="SC.Shared.Library.Core" Version="2.8.1" />
+    <PackageReference Include="SC.Shared.Library.Core" Version="2.8.2" />
     <PackageReference Include="System.Drawing.Common" Version="4.5.1" />
   </ItemGroup>
 

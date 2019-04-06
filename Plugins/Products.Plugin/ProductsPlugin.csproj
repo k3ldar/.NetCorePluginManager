@@ -105,7 +105,7 @@
 
   <ItemGroup>
     <PackageReference Include="ApplicationSettings" Version="1.2.0" />
-    <PackageReference Include="SC.Shared.Library.Core" Version="2.8.1" />
+    <PackageReference Include="SC.Shared.Library.Core" Version="2.8.2" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">

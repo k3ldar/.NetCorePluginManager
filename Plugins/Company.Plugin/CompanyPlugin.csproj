@@ -5,7 +5,7 @@
     <AssemblyName>Company.Plugin</AssemblyName>
     <RootNamespace>Company.Plugin</RootNamespace>
     <LangVersion>latest</LangVersion>
-    <Version>1.7.0</Version>
+    <Version>1.7.1</Version>
     <RazorCompileOnBuild>false</RazorCompileOnBuild>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Description>Company plugin asp net core plugin manager.</Description>
