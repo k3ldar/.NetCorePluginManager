@@ -58,7 +58,6 @@ namespace Company.Plugin
 
 
             services.AddMvc()
-                .SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
                 .ConfigurePluginManager();
         }
 

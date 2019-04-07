@@ -18,16 +18,21 @@ Password: password
 It only uses mock data providers and will reset periodically
 
 ## Current Version
-Version 1.7.0
+Version 2.0.0
 
 # ASPNetCore.PluginManager
 Extend website with plugin technology.
 
-PM> Install-Package AspNetCore.PluginManager -Version 1.7.0
+PM> Install-Package AspNetCore.PluginManager -Version 2.0.0
 
 https://www.nuget.org/packages/AspNetCore.PluginManager/
 
 See https://github.com/k3ldar/.NetCorePluginManager/wiki/Plugin-Manager-Setup-and-Configuration for setup and configuration.
+
+# Build Prerequisites
+In order to build the latest version both Visual Studio 2019 and Net Core 3.0 (currently pre release from https://dotnet.microsoft.com/download/visual-studio-sdks?utm_source=getdotnetsdk&utm_medium=referral).
+
+You may also need to enable Net Core 3 Preview in Visual Studio (https://visualstudiomagazine.com/articles/2019/03/08/vs-2019-core-tip.aspx)
 
 # Memory Cache Plugin
 Provides memory cache capability for any application or middleware.

@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netcoreapp2.2;netcoreapp2.1;net461</TargetFrameworks>
+    <TargetFrameworks>netcoreapp3.0;netcoreapp2.2;netcoreapp2.1;net461</TargetFrameworks>
     <LangVersion>latest</LangVersion>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Description>Plugin Middleware - Business Object Layer</Description>
@@ -10,15 +10,14 @@
     <PackageProjectUrl>https://github.com/k3ldar/.NetCorePluginManager</PackageProjectUrl>
     <PackageTags>asp net core plugin manager middleware business object layer</PackageTags>
     <PackageReleaseNotes>Shared Modules</PackageReleaseNotes>
-    <AssemblyVersion>1.0.0.0</AssemblyVersion>
-    <Version>1.7.0</Version>
+    <Version>2.0.0</Version>
     <Authors>Simon Carter</Authors>
     <Company>Simon Carter</Company>
     <AssemblyName>Middleware</AssemblyName>
     <RootNamespace>Middleware</RootNamespace>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net461|AnyCPU'">
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)'=='Debug|net461'">
     <DefineConstants>DEBUG;TRACE;NET461</DefineConstants>
     <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
     <DebugType>full</DebugType>
@@ -26,7 +25,7 @@
     <NoWarn>1701;1702;NU1603</NoWarn>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net461|AnyCPU'">
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)'=='Release|net461'">
     <DefineConstants>NET461</DefineConstants>
     <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
     <DebugType>portable</DebugType>
@@ -34,7 +33,7 @@
     <NoWarn>1701;1702;NU1603</NoWarn>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netcoreapp2.1|AnyCPU'">
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)'=='Debug|netcoreapp2.1'">
     <DefineConstants>DEBUG;TRACE;NET_CORE;NET_CORE_2_1</DefineConstants>
     <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
     <DebugType>full</DebugType>
@@ -42,7 +41,7 @@
     <NoWarn>1701;1702;NU1603</NoWarn>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netcoreapp2.1|AnyCPU'">
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)'=='Release|netcoreapp2.1'">
     <DefineConstants>NET_CORE;NET_CORE_2_1</DefineConstants>
     <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
     <DebugType>portable</DebugType>
@@ -50,7 +49,7 @@
     <NoWarn>1701;1702;NU1603</NoWarn>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netcoreapp2.2|AnyCPU'">
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)'=='Debug|netcoreapp2.2'">
     <DefineConstants>DEBUG;TRACE;NET_CORE;NET_CORE_2_2</DefineConstants>
     <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
     <DebugType>full</DebugType>
@@ -58,7 +57,7 @@
     <NoWarn>1701;1702;NU1603</NoWarn>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netcoreapp2.2|AnyCPU'">
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)'=='Release|netcoreapp2.2'">
     <DefineConstants>NET_CORE;NET_CORE_2_2</DefineConstants>
     <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
     <DebugType>portable</DebugType>
@@ -66,17 +65,32 @@
     <NoWarn>1701;1702;NU1603</NoWarn>
   </PropertyGroup>
 
+  <ItemGroup Condition="'$(TargetFramework)'=='netcoreapp2.1'">
+    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.1.2" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)'=='netcoreapp2.2'">
+    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.2.0" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)'=='netcoreapp3.0'">
+    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.2.0" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)'=='net461'">
+    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.2.0" />
+  </ItemGroup>
+
   <ItemGroup>
     <PackageReference Include="ApplicationSettings" Version="1.2.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.2.0" />
-    <PackageReference Include="SC.Shared.Library.Core" Version="2.8.2" />
+    <PackageReference Include="SC.Shared.Library.Core" Version="2.8.3" />
   </ItemGroup>
 
-  <ItemGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <PackageReference Include="SharedPluginFeatures" Version="1.7.0" />
+  <ItemGroup Condition="'$(Configuration)'=='Release'">
+    <PackageReference Include="SharedPluginFeatures" Version="2.0.0" />
   </ItemGroup>
 
-  <ItemGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+  <ItemGroup Condition="'$(Configuration)'=='Debug'">
     <ProjectReference Include="..\SharedPluginFeatures\SharedPluginFeatures.csproj" />
   </ItemGroup>
 

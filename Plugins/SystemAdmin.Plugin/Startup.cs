@@ -59,7 +59,7 @@ namespace SystemAdmin.Plugin
 
             AspNetCore.PluginManager.PluginManagerService.ConfigureServices(services);
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddMvc();
 
             services.UseMemoryCache();
 

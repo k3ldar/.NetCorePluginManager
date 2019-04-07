@@ -59,7 +59,6 @@ namespace ProductPlugin
             services.AddSession();
 
             services.AddMvc()
-                .SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
                 .AddSessionStateTempDataProvider()
                 .ConfigurePluginManager();
         }

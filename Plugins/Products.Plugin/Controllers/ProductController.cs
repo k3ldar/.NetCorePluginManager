@@ -33,8 +33,6 @@ using ProductPlugin.Models;
 
 using SharedPluginFeatures;
 
-using Shared.Classes;
-
 using Middleware;
 using Middleware.Products;
 
