@@ -78,6 +78,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="wwwroot\js\growl.js" />
+    <Content Remove="wwwroot\js\userAccount.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="wwwroot\js\growl.js" />
+    <EmbeddedResource Include="wwwroot\js\userAccount.js" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="ApplicationSettings" Version="1.2.0" />
   </ItemGroup>
 
@@ -194,8 +204,6 @@
 
   <ItemGroup>
     <Folder Include="Classes\SystemAdmin\" />
-    <Folder Include="Controllers\" />
-    <Folder Include="Models\" />
     <Folder Include="wwwroot\images\" />
   </ItemGroup>
 
