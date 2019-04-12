@@ -1,0 +1,153 @@
+﻿
+.helpdesk-row {
+    padding: 0 0 4px 0;
+}
+
+    .helpdesk-row p {
+        font-size: 14px;
+        font-weight: normal;
+    }
+
+        .helpdesk-row p span {
+            padding: 0 8px 0 0;
+            font-weight: bold;
+        }
+
+    .helpdesk-row textarea {
+        width: 450px;
+        height: 150px;
+    }
+
+.helpdeskContent {
+    padding: 10px 10px 10px 10px;
+}
+
+    .helpdeskContent ul.helpdeskOptions {
+        line-height: 1.2;
+        list-style: none;
+        margin: 20px auto;
+        padding: 0;
+    }
+
+        .helpdeskContent ul.helpdeskOptions li {
+            -moz-border-radius: 4px;
+            -webkit-border-radius: 4px;
+            border-radius: 4px;
+            float: left;
+            margin: 0 10px 30px 10px;
+            text-align: center;
+            width: 140px !important;
+            height: 134px !important;
+            overflow: hidden;
+        }
+
+            .helpdeskContent ul.helpdeskOptions li:hover {
+                background: #eee;
+            }
+
+            .helpdeskContent ul.helpdeskOptions li a {
+                background-position: center 10px;
+                background-repeat: no-repeat;
+                display: block;
+                padding: 92px 10px 10px 10px;
+                text-decoration: none;
+            }
+
+.faq a {
+    background-image: url('/images/Helpdesk/faq.png');
+}
+
+.findTicket a {
+    background-image: url('/images/Helpdesk/findaticket.png');
+}
+
+.feedback a {
+    background-image: url('/images/Helpdesk/feedback.png');
+}
+
+.submitTicket a {
+    background-image: url('/images/Helpdesk/submitticket.png');
+}
+
+.fixed {
+    display: block;
+}
+
+
+    .fixed:after {
+        clear: both;
+        content: ".";
+        display: block;
+        height: 0;
+        visibility: hidden;
+    }
+
+.helpdeskGrid table {
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+    width: 100%;
+    padding: 10px 20px 10px 20px;
+}
+
+.helpdeskGrid td, .helpdeskGrid th {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+.helpdeskGrid table thead tr td {
+    padding-right: 20px;
+}
+
+
+.helpdeskGrid tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+.helpdeskGrid tr:hover {
+    background-color: #ddd;
+}
+
+.helpdeskGrid th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #707B7C;
+    color: white;
+}
+
+/* Style the tab */
+.helpdeskTab {
+    overflow: hidden;
+    border: 1px solid #ccc;
+    background-color: #f1f1f1;
+}
+
+    .helpdeskTab button {
+        background-color: #ccc;
+        float: left;
+        border: none;
+        outline: none;
+        cursor: pointer;
+        padding: 14px 16px;
+        transition: 0.3s;
+        font-size: 17px;
+        font-weight: normal;
+        margin-right: 2px;
+    }
+
+        .helpdeskTab button:hover {
+            background-color: #ddd;
+        }
+
+        .helpdeskTab button.active {
+            background-color: white;
+            font-weight: 400;
+        }
+
+.helpdeskTabContent {
+    display: block;
+    padding: 6px 12px;
+    border: 1px solid #ccc;
+    border-top: none;
+}

@@ -53,7 +53,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DownloadPlugin", "Plugins\D
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShoppingCart.Plugin", "Plugins\ShoppingCart.Plugin\ShoppingCart.Plugin.csproj", "{DFD07000-DFA7-4AA4-8290-A80A9CAD8615}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HelpDeskPlugin", "Plugins\HelpDesk.Plugin\HelpDeskPlugin.csproj", "{96C3AEB2-969A-4777-93E5-23C56285C5B0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HelpdeskPlugin", "Plugins\HelpDesk.Plugin\HelpdeskPlugin.csproj", "{96C3AEB2-969A-4777-93E5-23C56285C5B0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -78,13 +78,25 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="Views\Helpdesk\Index.cshtml" />
+    <Content Remove="wwwroot\css\Helpdesk.css" />
+    <Content Remove="wwwroot\images\Helpdesk\faq.png" />
+    <Content Remove="wwwroot\images\Helpdesk\feedback.png" />
+    <Content Remove="wwwroot\images\Helpdesk\findaticket.png" />
+    <Content Remove="wwwroot\images\Helpdesk\submitticket.png" />
     <Content Remove="wwwroot\js\growl.js" />
-    <Content Remove="wwwroot\js\userAccount.js" />
+    <Content Remove="wwwroot\js\Helpdesk.js" />
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="Views\Helpdesk\Index.cshtml" />
+    <EmbeddedResource Include="wwwroot\css\Helpdesk.css" />
+    <EmbeddedResource Include="wwwroot\images\Helpdesk\faq.png" />
+    <EmbeddedResource Include="wwwroot\images\Helpdesk\feedback.png" />
+    <EmbeddedResource Include="wwwroot\images\Helpdesk\findaticket.png" />
+    <EmbeddedResource Include="wwwroot\images\Helpdesk\submitticket.png" />
     <EmbeddedResource Include="wwwroot\js\growl.js" />
-    <EmbeddedResource Include="wwwroot\js\userAccount.js" />
+    <EmbeddedResource Include="wwwroot\js\Helpdesk.js" />
   </ItemGroup>
 
   <ItemGroup>
@@ -204,7 +216,6 @@
 
   <ItemGroup>
     <Folder Include="Classes\SystemAdmin\" />
-    <Folder Include="wwwroot\images\" />
   </ItemGroup>
 
 </Project>
