@@ -19,7 +19,7 @@ namespace Languages {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class LanguageStrings {
@@ -23178,6 +23178,33 @@ namespace Languages {
         public static string Feedback {
             get {
                 return ResourceManager.GetString("Feedback", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to add feedback, please try again..
+        /// </summary>
+        public static string FeedbackFailed {
+            get {
+                return ResourceManager.GetString("FeedbackFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please enter your feedback before clicking submit..
+        /// </summary>
+        public static string FeedbackRequired {
+            get {
+                return ResourceManager.GetString("FeedbackRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Thankyou for your feedback..
+        /// </summary>
+        public static string FeedbackSubmitted {
+            get {
+                return ResourceManager.GetString("FeedbackSubmitted", resourceCulture);
             }
         }
         

@@ -15,46 +15,24 @@
  *
  *  Product:  Helpdesk Plugin
  *  
- *  File: IndexViewModel.cs
+ *  File: HelpdeskCacheItem.cs
  *
  *  Purpose:  
  *
  *  Date        Name                Reason
- *  11/04/2019  Simon Carter        Initially Created
+ *  18/04/2019  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using System.Collections.Generic;
 
-using SharedPluginFeatures;
-
-namespace HelpdeskPlugin.Models
+namespace HelpdeskPlugin.Classes
 {
-    public class IndexViewModel : BaseModel
+    public sealed class HelpdeskCacheItem
     {
-        #region Construtors
-
-        public IndexViewModel(in List<BreadcrumbItem> breadcrumbs, in ShoppingCartSummary cartSummary, 
-            in bool showTickets, in bool showFaq, in bool showFeedback, in string growlMessage)
-            : base (breadcrumbs, cartSummary)
+        public HelpdeskCacheItem()
         {
-            ShowFaq = showFaq;
-            ShowFeedback = showFeedback;
-            ShowTickets = showTickets;
-            GrowlMessage = growlMessage ?? string.Empty;
+
         }
 
-        #endregion Construtors
-
-        #region Properties
-
-        public bool ShowTickets { get; private set; }
-
-        public bool ShowFaq { get; private set; }
-
-        public bool ShowFeedback { get; private set; }
-
-        public string GrowlMessage { get; private set; }
-
-        #endregion Properties
+        public string CaptchaText { get; set; }
     }
 }

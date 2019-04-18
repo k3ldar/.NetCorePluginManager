@@ -68,6 +68,16 @@ namespace SharedPluginFeatures
             return (-1);
         }
 
+        protected string GetSessionId()
+        {
+            UserSession session = GetUserSession();
+
+            if (session != null && !String.IsNullOrEmpty(session.SessionID))
+                return session.SessionID;
+
+            return HttpContext.Session.Id;
+        }
+
         protected string GetCoreSessionId()
         {
             return (HttpContext.Session.Id);

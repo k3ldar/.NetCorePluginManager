@@ -15,45 +15,37 @@
  *
  *  Product:  Helpdesk Plugin
  *  
- *  File: IndexViewModel.cs
+ *  File: FeedbackViewModel.cs
  *
  *  Purpose:  
  *
  *  Date        Name                Reason
- *  11/04/2019  Simon Carter        Initially Created
+ *  13/04/2019  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+using System;
 using System.Collections.Generic;
 
 using SharedPluginFeatures;
 
 namespace HelpdeskPlugin.Models
 {
-    public class IndexViewModel : BaseModel
+    public class FeedbackViewModel : BaseModel
     {
-        #region Construtors
+        #region Constructors
 
-        public IndexViewModel(in List<BreadcrumbItem> breadcrumbs, in ShoppingCartSummary cartSummary, 
-            in bool showTickets, in bool showFaq, in bool showFeedback, in string growlMessage)
-            : base (breadcrumbs, cartSummary)
+        public FeedbackViewModel(in List<BreadcrumbItem> breadcrumbs, in ShoppingCartSummary cartSummary,
+            in List<FeedbackItemViewModel> feedback)
+            : base(breadcrumbs, cartSummary)
         {
-            ShowFaq = showFaq;
-            ShowFeedback = showFeedback;
-            ShowTickets = showTickets;
-            GrowlMessage = growlMessage ?? string.Empty;
+            Feedback = feedback ?? throw new ArgumentNullException(nameof(feedback));
         }
 
-        #endregion Construtors
+        #endregion Constructors
 
         #region Properties
 
-        public bool ShowTickets { get; private set; }
-
-        public bool ShowFaq { get; private set; }
-
-        public bool ShowFeedback { get; private set; }
-
-        public string GrowlMessage { get; private set; }
+        public List<FeedbackItemViewModel> Feedback { get; private set; }
 
         #endregion Properties
     }

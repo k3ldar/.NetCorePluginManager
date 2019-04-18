@@ -1,4 +1,14 @@
 ﻿
+.helpdesk-block {
+    padding: 6px 20px 8px 2px;
+    margin: 0 0 10px 0;
+}
+
+    .helpdesk-block input {
+        padding: 5px 10px 5px 10px;
+        margin: 0 10px 0 0;
+    }
+
 .helpdesk-row {
     padding: 0 0 4px 0;
 }
@@ -16,6 +26,10 @@
     .helpdesk-row textarea {
         width: 450px;
         height: 150px;
+    }
+
+    .helpdesk-row input[type=submit] {
+        margin: 20px 0 0 0;
     }
 
 .helpdeskContent {
@@ -151,3 +165,12 @@
     border: 1px solid #ccc;
     border-top: none;
 }
+
+.feedbackSubmit {
+    display: block;
+}
+
+    .feedbackSubmit textarea {
+        width: 450px;
+        height: 250px;
+    }

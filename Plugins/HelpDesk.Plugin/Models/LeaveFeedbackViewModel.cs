@@ -15,45 +15,50 @@
  *
  *  Product:  Helpdesk Plugin
  *  
- *  File: IndexViewModel.cs
+ *  File: LeaveFeedbackViewModel.cs
  *
  *  Purpose:  
  *
  *  Date        Name                Reason
- *  11/04/2019  Simon Carter        Initially Created
+ *  18/04/2019  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 using SharedPluginFeatures;
 
 namespace HelpdeskPlugin.Models
 {
-    public class IndexViewModel : BaseModel
+    public sealed class LeaveFeedbackViewModel : BaseModel
     {
-        #region Construtors
+        #region Constructors
 
-        public IndexViewModel(in List<BreadcrumbItem> breadcrumbs, in ShoppingCartSummary cartSummary, 
-            in bool showTickets, in bool showFaq, in bool showFeedback, in string growlMessage)
-            : base (breadcrumbs, cartSummary)
+        public LeaveFeedbackViewModel()
         {
-            ShowFaq = showFaq;
-            ShowFeedback = showFeedback;
-            ShowTickets = showTickets;
-            GrowlMessage = growlMessage ?? string.Empty;
+
         }
 
-        #endregion Construtors
+        public LeaveFeedbackViewModel(in List<BreadcrumbItem> breadcrumbs, in ShoppingCartSummary cartSummary,
+            in bool showCaptchaText)
+            : base(breadcrumbs, cartSummary)
+        {
+            ShowCaptchaText = showCaptchaText;
+        }
+
+        #endregion Constructors
 
         #region Properties
 
-        public bool ShowTickets { get; private set; }
+        [Required(ErrorMessage = nameof(Languages.LanguageStrings.FeedbackRequired))]
+        public string Feedback { get; set; }
 
-        public bool ShowFaq { get; private set; }
+        public string Name { get; set; }
 
-        public bool ShowFeedback { get; private set; }
+        [Display(Name = nameof(Languages.LanguageStrings.Code))]
+        public string CaptchaText { get; set; }
 
-        public string GrowlMessage { get; private set; }
+        public bool ShowCaptchaText { get; set; }
 
         #endregion Properties
     }

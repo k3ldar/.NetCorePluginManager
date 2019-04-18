@@ -13,48 +13,50 @@
  *
  *  Copyright (c) 2019 Simon Carter.  All Rights Reserved.
  *
- *  Product:  Helpdesk Plugin
+ *  Product:  Demo Website
  *  
- *  File: IndexViewModel.cs
+ *  File: MockHelpdeskProvider.cs
  *
- *  Purpose:  
+ *  Purpose:  Mock IHelpdeskProvider for tesing purpose
  *
  *  Date        Name                Reason
- *  11/04/2019  Simon Carter        Initially Created
+ *  13/04/2019  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
-using SharedPluginFeatures;
+using Middleware.Helpdesk;
 
-namespace HelpdeskPlugin.Models
+namespace AspNetCore.PluginManager.DemoWebsite.Classes
 {
-    public class IndexViewModel : BaseModel
+    public class MockHelpdeskProvider : IHelpdeskProvider
     {
-        #region Construtors
+        private static List<Feedback> _feedback;
 
-        public IndexViewModel(in List<BreadcrumbItem> breadcrumbs, in ShoppingCartSummary cartSummary, 
-            in bool showTickets, in bool showFaq, in bool showFeedback, in string growlMessage)
-            : base (breadcrumbs, cartSummary)
+        public List<Feedback> GetFeedback(in bool publiclyVisible)
         {
-            ShowFaq = showFaq;
-            ShowFeedback = showFeedback;
-            ShowTickets = showTickets;
-            GrowlMessage = growlMessage ?? string.Empty;
+            if (_feedback == null)
+            {
+                _feedback = new List<Feedback>()
+                {
+                    new Feedback(1, "Joe Bloggs", "Asp Net core is awesome", true),
+                    new Feedback(2, "Jane Doe", "AspNetCore.PluginManager is extremely flexible", true),
+                };
+            }
+
+            return _feedback;
         }
 
-        #endregion Construtors
+        public bool SubmitFeedback(in long userId, in string name, in string feedback)
+        {
+            List<Feedback> fb = GetFeedback(true);
 
-        #region Properties
+            fb.Add(new Feedback(fb.Count + 1, name, feedback, true));
 
-        public bool ShowTickets { get; private set; }
-
-        public bool ShowFaq { get; private set; }
-
-        public bool ShowFeedback { get; private set; }
-
-        public string GrowlMessage { get; private set; }
-
-        #endregion Properties
+            return true;
+        }
     }
 }

@@ -13,47 +13,42 @@
  *
  *  Copyright (c) 2019 Simon Carter.  All Rights Reserved.
  *
- *  Product:  Helpdesk Plugin
+ *  Product:  PluginMiddleware
  *  
- *  File: IndexViewModel.cs
+ *  File: Feedback.cs
  *
- *  Purpose:  
+ *  Purpose:  Download Categories
  *
  *  Date        Name                Reason
- *  11/04/2019  Simon Carter        Initially Created
+ *  13/04/2019  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using System.Collections.Generic;
 
-using SharedPluginFeatures;
-
-namespace HelpdeskPlugin.Models
+namespace Middleware.Helpdesk
 {
-    public class IndexViewModel : BaseModel
+    public sealed class Feedback
     {
-        #region Construtors
+        #region Constructors
 
-        public IndexViewModel(in List<BreadcrumbItem> breadcrumbs, in ShoppingCartSummary cartSummary, 
-            in bool showTickets, in bool showFaq, in bool showFeedback, in string growlMessage)
-            : base (breadcrumbs, cartSummary)
+        public Feedback (in long id, in string username, in string message, in bool showOnWebsite)
         {
-            ShowFaq = showFaq;
-            ShowFeedback = showFeedback;
-            ShowTickets = showTickets;
-            GrowlMessage = growlMessage ?? string.Empty;
+            Id = id;
+            Username = username;
+            Message = message;
+            ShowOnWebsite = showOnWebsite;
         }
 
-        #endregion Construtors
+        #endregion Constructors
 
         #region Properties
 
-        public bool ShowTickets { get; private set; }
+        public long Id { get; private set; }
 
-        public bool ShowFaq { get; private set; }
+        public string Username { get; private set; }
 
-        public bool ShowFeedback { get; private set; }
+        public string Message { get; private set; }
 
-        public string GrowlMessage { get; private set; }
+        public bool ShowOnWebsite { get; private set; }
 
         #endregion Properties
     }

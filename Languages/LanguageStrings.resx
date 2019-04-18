@@ -13897,4 +13897,16 @@ You will shortly receive an email with the details of your order.</value>
 
 You will shortly receive an email with the details of your order.</comment>
   </data>
+  <data name="FeedbackFailed" xml:space="preserve">
+    <value>Failed to add feedback, please try again.</value>
+    <comment>Failed to add feedback, please try again.</comment>
+  </data>
+  <data name="FeedbackRequired" xml:space="preserve">
+    <value>Please enter your feedback before clicking submit.</value>
+    <comment>Please enter your feedback before clicking submit.</comment>
+  </data>
+  <data name="FeedbackSubmitted" xml:space="preserve">
+    <value>Thankyou for your feedback.</value>
+    <comment>Thankyou for your feedback.</comment>
+  </data>
 </root>

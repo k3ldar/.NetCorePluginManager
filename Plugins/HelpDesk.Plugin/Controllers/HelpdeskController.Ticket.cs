@@ -15,46 +15,32 @@
  *
  *  Product:  Helpdesk Plugin
  *  
- *  File: IndexViewModel.cs
+ *  File: HelpdeskController.Tickets.cs
  *
  *  Purpose:  
  *
  *  Date        Name                Reason
- *  11/04/2019  Simon Carter        Initially Created
+ *  18/04/2019  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
-using SharedPluginFeatures;
-
-namespace HelpdeskPlugin.Models
+namespace HelpdeskPlugin.Controllers
 {
-    public class IndexViewModel : BaseModel
+    public partial class HelpdeskController
     {
-        #region Construtors
+        #region Public Action Methods
 
-        public IndexViewModel(in List<BreadcrumbItem> breadcrumbs, in ShoppingCartSummary cartSummary, 
-            in bool showTickets, in bool showFaq, in bool showFeedback, in string growlMessage)
-            : base (breadcrumbs, cartSummary)
+        [HttpGet]
+        public IActionResult SubmitTicket()
         {
-            ShowFaq = showFaq;
-            ShowFeedback = showFeedback;
-            ShowTickets = showTickets;
-            GrowlMessage = growlMessage ?? string.Empty;
+            return View();
         }
 
-        #endregion Construtors
-
-        #region Properties
-
-        public bool ShowTickets { get; private set; }
-
-        public bool ShowFaq { get; private set; }
-
-        public bool ShowFeedback { get; private set; }
-
-        public string GrowlMessage { get; private set; }
-
-        #endregion Properties
+        #endregion Public Action Methods
     }
 }
