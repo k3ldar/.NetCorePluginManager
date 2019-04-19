@@ -27,14 +27,20 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-
+using Middleware;
 using Middleware.Helpdesk;
 
 namespace AspNetCore.PluginManager.DemoWebsite.Classes
 {
     public class MockHelpdeskProvider : IHelpdeskProvider
     {
+        #region Private Members
+
         private static List<Feedback> _feedback;
+
+        #endregion Private Members
+
+        #region Public Feedback Methods
 
         public List<Feedback> GetFeedback(in bool publiclyVisible)
         {
@@ -58,5 +64,31 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
 
             return true;
         }
+
+        #endregion Public Feedback Methods
+
+        #region Public Ticket Methods
+
+        public List<LookupListItem> GetTicketDepartments()
+        {
+            return new List<LookupListItem>()
+            {
+                new LookupListItem(1, "Sales"),
+                new LookupListItem(2, "Support"),
+                new LookupListItem(3, "Returns"),
+            };
+        }
+
+        public List<LookupListItem> GetTicketPriorities()
+        {
+            return new List<LookupListItem>()
+            {
+                new LookupListItem(1, "Low"),
+                new LookupListItem(2, "Medium"),
+                new LookupListItem(3, "High"),
+            };
+        }
+
+        #endregion Public Ticket Methods
     }
 }

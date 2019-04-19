@@ -28375,6 +28375,15 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Please enter your support message..
+        /// </summary>
+        public static string SupportTicketMessageRequired {
+            get {
+                return ResourceManager.GetString("SupportTicketMessageRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Support Tickets.
         /// </summary>
         public static string SupportTickets {

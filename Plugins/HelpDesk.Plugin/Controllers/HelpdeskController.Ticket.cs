@@ -26,8 +26,17 @@
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+
+using HelpdeskPlugin.Classes;
+using HelpdeskPlugin.Models;
+
+using static Middleware.Constants;
+using Middleware.Helpdesk;
+
+using Shared.Classes;
+using static Shared.Utilities;
+
+using SharedPluginFeatures;
 
 namespace HelpdeskPlugin.Controllers
 {
@@ -38,9 +47,49 @@ namespace HelpdeskPlugin.Controllers
         [HttpGet]
         public IActionResult SubmitTicket()
         {
-            return View();
+            return View(GetSubmitTicketViewModel(String.Empty, String.Empty));
+        }
+
+        [HttpPost]
+        public IActionResult SubmitTicket(SubmitTicketViewModel model)
+        {
+            if (model == null)
+                throw new ArgumentNullException(nameof(model));
+
+            if (String.IsNullOrEmpty(model.CaptchaText))
+                ModelState.AddModelError(nameof(model.CaptchaText), Languages.LanguageStrings.CodeNotValid);
+
+            if (ModelState.IsValid)
+            {
+
+            }
+
+            return View(GetSubmitTicketViewModel(model.Subject, model.Message));
         }
 
         #endregion Public Action Methods
+
+        #region Private Methods
+
+        private SubmitTicketViewModel GetSubmitTicketViewModel(in string subject, in string message)
+        {
+            HelpdeskCacheItem helpdeskCache = GetCachedHelpdeskItem(true);
+            helpdeskCache.CaptchaText = GetRandomWord(_settings.CaptchaWordLength, CaptchaCharacters);
+
+            UserSession userSession = GetUserSession();
+
+            SubmitTicketViewModel Result = new SubmitTicketViewModel(GetBreadcrumbs(),
+                GetCartSummary(),
+                _helpdeskProvider.GetTicketDepartments(),
+                _helpdeskProvider.GetTicketPriorities(),
+                userSession.UserName, 
+                userSession.UserEmail, 
+                subject, 
+                message);
+
+            return Result;
+        }
+
+        #endregion Private Methods
     }
 }

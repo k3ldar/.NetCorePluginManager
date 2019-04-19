@@ -15,27 +15,39 @@
  *
  *  Product:  PluginMiddleware
  *  
- *  File: IHelpdeskProvider.cs
+ *  File: LookupListItem.cs
  *
- *  Purpose:  
+ *  Purpose:  Standard container for lookup item
  *
  *  Date        Name                Reason
- *  13/04/2019  Simon Carter        Initially Created
+ *  19/04/2019  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
-using System.Collections.Generic;
 
-namespace Middleware.Helpdesk
+namespace Middleware
 {
-    public interface IHelpdeskProvider
+    public sealed class LookupListItem
     {
-        List<Feedback> GetFeedback(in bool publiclyVisible);
+        #region Constructors
 
-        bool SubmitFeedback(in long userId, in string name, in string feedback);
+        public LookupListItem(in int id, in string descirption)
+        {
+            if (String.IsNullOrEmpty(descirption))
+                throw new ArgumentNullException(nameof(descirption));
 
-        List<LookupListItem> GetTicketPriorities();
+            Id = id;
+            Description = descirption;
+        }
 
-        List<LookupListItem> GetTicketDepartments();
+        #endregion Constructors
+
+        #region Properties
+
+        public int Id { get; set; }
+
+        public string Description { get; set; }
+
+        #endregion Properties
     }
 }
