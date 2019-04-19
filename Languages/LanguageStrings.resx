@@ -13913,4 +13913,8 @@ You will shortly receive an email with the details of your order.</comment>
     <value>Please enter your support message.</value>
     <comment>Please enter your support message.</comment>
   </data>
+  <data name="SubjectInvalid" xml:space="preserve">
+    <value>Please enter a valid subject.</value>
+    <comment>Please enter a valid subject.</comment>
+  </data>
 </root>

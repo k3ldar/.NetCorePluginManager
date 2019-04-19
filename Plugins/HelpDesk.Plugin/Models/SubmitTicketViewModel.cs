@@ -19,7 +19,8 @@ namespace HelpdeskPlugin.Models
 
         public SubmitTicketViewModel(in List<BreadcrumbItem> breadcrumbs, in ShoppingCartSummary cartSummary,
             in List<LookupListItem> departments, in List<LookupListItem> priorities, 
-            in string username, in string email, in string subject, in string message)
+            in string username, in string email, in string subject, in string message,
+            in bool readonlyUser)
             : base (breadcrumbs, cartSummary)
         {
             Departments = departments ?? throw new ArgumentNullException(nameof(departments));
@@ -28,6 +29,7 @@ namespace HelpdeskPlugin.Models
             Email = email;
             Subject = subject ?? String.Empty;
             Message = message ?? String.Empty;
+            ReadonlyUser = readonlyUser;
         }
 
         #endregion Constructors
@@ -48,7 +50,7 @@ namespace HelpdeskPlugin.Models
         [Required(ErrorMessage = nameof(Languages.LanguageStrings.InvalidEmailAddress))]
         public string Email { get; set; }
 
-        [Required(ErrorMessage = nameof(Languages.LanguageStrings.Subject))]
+        [Required(ErrorMessage = nameof(Languages.LanguageStrings.SubjectInvalid))]
         public string Subject { get; set; }
 
         [Required(ErrorMessage = nameof(Languages.LanguageStrings.SupportTicketMessageRequired))]
@@ -56,6 +58,8 @@ namespace HelpdeskPlugin.Models
 
         [Required(ErrorMessage = nameof(Languages.LanguageStrings.CodePleaseEnter))]
         public string CaptchaText { get; set; }
+
+        public bool ReadonlyUser { get; set; }
 
         #endregion Properties
     }

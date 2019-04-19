@@ -28258,6 +28258,15 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Please enter a valid subject..
+        /// </summary>
+        public static string SubjectInvalid {
+            get {
+                return ResourceManager.GetString("SubjectInvalid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Submit.
         /// </summary>
         public static string Submit {

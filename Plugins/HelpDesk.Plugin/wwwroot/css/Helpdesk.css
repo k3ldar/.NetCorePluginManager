@@ -4,11 +4,6 @@
     margin: 0 0 10px 0;
 }
 
-    .helpdesk-block input {
-        padding: 5px 10px 5px 10px;
-        margin: 0 10px 0 0;
-    }
-
 .helpdesk-row {
     padding: 0 0 4px 0;
 }
@@ -16,6 +11,7 @@
     .helpdesk-row p {
         font-size: 14px;
         font-weight: normal;
+        margin: 10px 0 0 0;
     }
 
         .helpdesk-row p span {
@@ -29,7 +25,6 @@
     }
 
     .helpdesk-row input[type=text] {
-        margin: 0 0 10px 0;
         width: 200px;
     }
 

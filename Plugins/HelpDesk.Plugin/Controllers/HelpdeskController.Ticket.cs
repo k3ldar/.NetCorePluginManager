@@ -59,9 +59,17 @@ namespace HelpdeskPlugin.Controllers
             if (String.IsNullOrEmpty(model.CaptchaText))
                 ModelState.AddModelError(nameof(model.CaptchaText), Languages.LanguageStrings.CodeNotValid);
 
+            if (_settings.ShowCaptchaText)
+            {
+                HelpdeskCacheItem helpdeskCache = GetCachedHelpdeskItem(true);
+
+                if (!model.CaptchaText.Equals(helpdeskCache.CaptchaText, StringComparison.CurrentCultureIgnoreCase))
+                    ModelState.AddModelError(nameof(model.CaptchaText), Languages.LanguageStrings.CodeNotValid);
+            }
+
             if (ModelState.IsValid)
             {
-
+                SubmitTicket here
             }
 
             return View(GetSubmitTicketViewModel(model.Subject, model.Message));
@@ -85,7 +93,8 @@ namespace HelpdeskPlugin.Controllers
                 userSession.UserName, 
                 userSession.UserEmail, 
                 subject, 
-                message);
+                message,
+                !String.IsNullOrEmpty(userSession.UserName));
 
             return Result;
         }
