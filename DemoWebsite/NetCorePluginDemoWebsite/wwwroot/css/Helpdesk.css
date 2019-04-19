@@ -28,6 +28,11 @@
         height: 150px;
     }
 
+    .helpdesk-row input[type=text] {
+        margin: 0 0 10px 0;
+        width: 200px;
+    }
+
     .helpdesk-row input[type=submit] {
         margin: 20px 0 0 0;
     }
