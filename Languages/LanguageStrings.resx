@@ -493,7 +493,7 @@
     <value>Submit</value>
     <comment>Submit</comment>
   </data>
-  <data name="SubmitATicket" xml:space="preserve">
+  <data name="SubmitTicket" xml:space="preserve">
     <value>Submit a Ticket</value>
     <comment>Submit a Ticket</comment>
   </data>

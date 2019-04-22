@@ -28276,20 +28276,20 @@ namespace Languages {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Submit a Ticket.
-        /// </summary>
-        public static string SubmitATicket {
-            get {
-                return ResourceManager.GetString("SubmitATicket", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Submitted.
         /// </summary>
         public static string Submitted {
             get {
                 return ResourceManager.GetString("Submitted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Submit a Ticket.
+        /// </summary>
+        public static string SubmitTicket {
+            get {
+                return ResourceManager.GetString("SubmitTicket", resourceCulture);
             }
         }
         

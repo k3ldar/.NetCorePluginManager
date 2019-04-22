@@ -66,6 +66,8 @@ namespace SharedPluginFeatures
 
         public const string UserSessionServiceNotFound = "UserSessionService not found";
 
+        public const string BreadcrumbRoutEqualsParentRoute = "Parent route matches route; Route: {0}; Parent Route {1}";
+        public const string TooManyBreadcrumbs = "Breadcrumb recursion, check parent route values";
 
         public const string CurrencyCodeDefault = "GBP";
     }

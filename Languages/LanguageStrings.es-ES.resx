@@ -1409,7 +1409,7 @@
     <value>Enviar</value>
     <comment>Submit</comment>
   </data>
-  <data name="SubmitATicket" xml:space="preserve">
+  <data name="SubmitTicket" xml:space="preserve">
     <value>Enviar un ticket</value>
     <comment>Submit a Ticket</comment>
   </data>

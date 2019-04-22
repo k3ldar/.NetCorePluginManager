@@ -37,8 +37,18 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
         #region Private Members
 
         private static List<Feedback> _feedback;
+        private static List<HelpdeskTicket> _tickets;
 
         #endregion Private Members
+
+        #region Constructors
+
+        public MockHelpdeskProvider()
+        {
+            _tickets = new List<HelpdeskTicket>();
+        }
+
+        #endregion Constructors
 
         #region Public Feedback Methods
 
@@ -87,6 +97,44 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
                 new LookupListItem(2, "Medium"),
                 new LookupListItem(3, "High"),
             };
+        }
+
+        public List<LookupListItem> GetTicketStatus()
+        {
+            return new List<LookupListItem>()
+            {
+                new LookupListItem(1, "Closed"),
+                new LookupListItem(2, "Open"),
+                new LookupListItem(3, "On Hold"),
+            };
+        }
+
+        public bool SubmitTicket(long userId, in int department, in int priority,
+            in string userName, in string email, in string subject, in string message,
+            out HelpdeskTicket ticket)
+        {
+            int idPriority = priority;
+            int idStatus = 2;
+            int idDepartment = department;
+
+            ticket = new HelpdeskTicket(_tickets.Count + 1,
+                GetTicketPriorities().Where(p => p.Id == idPriority).FirstOrDefault(),
+                GetTicketDepartments().Where(d => d.Id == idDepartment).FirstOrDefault(),
+                GetTicketStatus().Where(s => s.Id == idStatus).FirstOrDefault(),
+                Shared.Utilities.GetRandomKey(),
+                subject,
+                DateTime.Now,
+                DateTime.Now,
+                userName,
+                email, userName,
+                new List<HelpdeskTicketMessage>()
+                {
+                    new HelpdeskTicketMessage(DateTime.Now, userName, message)
+                });
+
+            _tickets.Add(ticket);
+
+            return true;
         }
 
         #endregion Public Ticket Methods

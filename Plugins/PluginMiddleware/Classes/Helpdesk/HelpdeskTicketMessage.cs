@@ -15,33 +15,45 @@
  *
  *  Product:  PluginMiddleware
  *  
- *  File: IHelpdeskProvider.cs
+ *  File: HelpdeskTicketMessage.cs
  *
- *  Purpose:  
+ *  Purpose:  Helpdesk support ticket Message
  *
  *  Date        Name                Reason
- *  13/04/2019  Simon Carter        Initially Created
+ *  21/04/2019  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
-using System.Collections.Generic;
 
 namespace Middleware.Helpdesk
 {
-    public interface IHelpdeskProvider
+    public sealed class HelpdeskTicketMessage
     {
-        List<Feedback> GetFeedback(in bool publiclyVisible);
+        #region Constructors
 
-        bool SubmitFeedback(in long userId, in string name, in string feedback);
+        public HelpdeskTicketMessage(in DateTime dateCreated, in string userName, in string message)
+        {
+            if (String.IsNullOrEmpty(userName))
+                throw new ArgumentNullException(nameof(userName));
 
-        List<LookupListItem> GetTicketPriorities();
+            if (String.IsNullOrEmpty(message))
+                throw new ArgumentNullException(nameof(message));
 
-        List<LookupListItem> GetTicketDepartments();
+            DateCreated = dateCreated;
+            UserName = userName;
+            Message = message;
+        }
 
-        List<LookupListItem> GetTicketStatus();
+        #endregion Constructors
 
-        bool SubmitTicket(long userId, in int department, in int priority,
-            in string userName, in string email, in string subject, in string message,
-            out HelpdeskTicket ticket);
+        #region Properties
+
+        public DateTime DateCreated { get; private set; }
+
+        public string UserName { get; private set; }
+
+        public string Message { get; private set; }
+
+        #endregion Properties
     }
 }

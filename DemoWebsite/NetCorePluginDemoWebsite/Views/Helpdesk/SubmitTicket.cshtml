@@ -2,7 +2,7 @@
 @inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
 
 @{
-    ViewData["Title"] = Localizer[nameof(Languages.LanguageStrings.SubmitATicket)];
+    ViewData["Title"] = Localizer[nameof(Languages.LanguageStrings.SubmitTicket)];
 
     object readonlyUser;
 
@@ -22,7 +22,7 @@
 <script src="~/js/helpdesk.js"></script>
 
 
-<h2>@Localizer[nameof(Languages.LanguageStrings.SubmitATicket)]</h2>
+<h2>@Localizer[nameof(Languages.LanguageStrings.SubmitTicket)]</h2>
 
 <div class="helpdeskContent">
     <div class="helpdesk-row">
@@ -34,43 +34,43 @@
     {
         <div class="helpdesk-block">
             <div class="helpdesk-row">
-                <p>@Html.LabelFor(m => m.Username)</p>
+                <p>@Localizer[nameof(Languages.LanguageStrings.Name)]</p>
             </div>
             <div class="helpdesk-row">
                 @Html.TextBoxFor(m => m.Username, readonlyUser)  @Html.ValidationMessageFor(m => m.Username)
             </div>
             <div class="helpdesk-row">
-                <p>@Html.LabelFor(m => m.Email)</p>
+                <p>@Localizer[nameof(Languages.LanguageStrings.Email)]</p>
             </div>
             <div class="helpdesk-row">
                 @Html.TextBoxFor(m => m.Email, readonlyUser)  @Html.ValidationMessageFor(m => m.Email)
             </div>
             <div class="helpdesk-row">
-                <p>@Html.LabelFor(m => m.Department)</p>
+                <p>@Localizer[nameof(Languages.LanguageStrings.Department)]</p>
             </div>
             <div class="helpdesk-row">
                 @Html.DropDownListFor(m => m.Department, new SelectList(Model.Departments, "Id", "Description")) @Html.ValidationMessageFor(m => m.Department)
             </div>
             <div class="helpdesk-row">
-                <p>@Html.LabelFor(m => m.Priority)</p>
+                <p>@Localizer[nameof(Languages.LanguageStrings.Priority)]</p>
             </div>
             <div class="helpdesk-row">
                 @Html.DropDownListFor(m => m.Priority, new SelectList(Model.Priorities, "Id", "Description")) @Html.ValidationMessageFor(m => m.Priority)
             </div>
             <div class="helpdesk-row">
-                <p>@Html.LabelFor(m => m.Subject)</p>
+                <p>@Localizer[nameof(Languages.LanguageStrings.Subject)]</p>
                 @Html.TextBoxFor(m => m.Subject)
                 @Html.ValidationMessageFor(m => m.Subject)
             </div>
             <div class="helpdesk-row">
-                <p>@Html.LabelFor(m => m.Message)</p>
+                <p>@Localizer[nameof(Languages.LanguageStrings.Message)]</p>
             </div>
             <div class="helpdesk-row">
                 @Html.TextAreaFor(m => m.Message)
                 @Html.ValidationMessageFor(m => m.Message)
             </div>
             <div class="helpdesk-row">
-                <p>@Html.LabelFor(m => m.CaptchaText)</p>
+                <p>@Localizer[nameof(Languages.LanguageStrings.Code)]</p>
             </div>
             <div class="helpdesk-row">
                 <img src="/Helpdesk/GetCaptchaImage/" />

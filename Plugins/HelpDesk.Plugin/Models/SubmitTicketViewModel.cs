@@ -40,9 +40,9 @@ namespace HelpdeskPlugin.Models
 
         public List<LookupListItem> Priorities { get; private set; }
 
-        public string Department { get; set; }
+        public int Department { get; set; }
 
-        public string Priority { get; set; }
+        public int Priority { get; set; }
 
         [Required(ErrorMessage = nameof(Languages.LanguageStrings.PleaseEnterFirstLastName))]
         public string Username { get; set; }

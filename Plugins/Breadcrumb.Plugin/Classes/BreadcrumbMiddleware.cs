@@ -203,7 +203,7 @@ namespace Breadcrumb.Plugin
             Dictionary<string, BreadcrumbAttribute> allBreadcrumbs = new Dictionary<string, BreadcrumbAttribute>();
             List<Type> breadcrumbAttributes = pluginTypesService.GetPluginTypesWithAttribute<BreadcrumbAttribute>();
 
-            // Cycle through all methods which have the spider attribute
+            // Cycle through all methods which have the breadcrumb attribute
             foreach (Type type in breadcrumbAttributes)
             {
                 // is it a class attribute
@@ -224,7 +224,17 @@ namespace Breadcrumb.Plugin
                             continue;
 
                         attribute.HasParams = method.GetParameters().Count() > 0 || method.ContainsGenericParameters;
-                        allBreadcrumbs.Add(route, attribute);
+
+                        // sanity check
+                        if (route.Equals(attribute.ParentRoute, StringComparison.CurrentCultureIgnoreCase))
+                        {
+                            Initialisation.GetLogger.AddToLog(LogLevel.BreadcrumbError,
+                                String.Format(Constants.BreadcrumbRoutEqualsParentRoute, route, attribute.ParentRoute));
+                        }
+                        else
+                        {
+                            allBreadcrumbs.Add(route, attribute);
+                        }
                     }
                 }
 
@@ -236,6 +246,8 @@ namespace Breadcrumb.Plugin
 
                     BreadcrumbAttribute breadcrumbItem = keyValuePair.Value;
 
+                    byte loopCounter = 0;
+
                     do
                     {
                         breadcrumbItem = GetParentRoute(ref allBreadcrumbs, 
@@ -244,6 +256,14 @@ namespace Breadcrumb.Plugin
                         if (breadcrumbItem != null)
                         {
                             route.Breadcrumbs.Insert(0, new BreadcrumbItem(breadcrumbItem.Name, parentRoute, breadcrumbItem.HasParams));
+                        }
+
+                        loopCounter++;
+
+                        if (loopCounter > 40)
+                        {
+                            Initialisation.GetLogger.AddToLog(LogLevel.BreadcrumbError, Constants.TooManyBreadcrumbs);
+                            break;
                         }
 
                     } while (breadcrumbItem != null);

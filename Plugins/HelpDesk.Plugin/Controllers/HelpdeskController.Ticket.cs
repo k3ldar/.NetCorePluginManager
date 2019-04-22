@@ -45,9 +45,10 @@ namespace HelpdeskPlugin.Controllers
         #region Public Action Methods
 
         [HttpGet]
+        [Breadcrumb(nameof(Languages.LanguageStrings.SubmitTicket), HelpdeskController.Name, nameof(Index))]
         public IActionResult SubmitTicket()
         {
-            return View(GetSubmitTicketViewModel(String.Empty, String.Empty));
+            return View(GetSubmitTicketViewModel(String.Empty, String.Empty, String.Empty, String.Empty));
         }
 
         [HttpPost]
@@ -69,17 +70,29 @@ namespace HelpdeskPlugin.Controllers
 
             if (ModelState.IsValid)
             {
-                SubmitTicket here
+                if (_helpdeskProvider.SubmitTicket(UserId(), model.Department, model.Priority,
+                    model.Username, model.Email, model.Subject, model.Message, out HelpdeskTicket ticket))
+                {
+                    return RedirectToAction(nameof(ViewTicket), Name, new { ticket.Id });
+                }
+
+                ModelState.AddModelError(String.Empty, Languages.LanguageStrings.OopsError);
             }
 
-            return View(GetSubmitTicketViewModel(model.Subject, model.Message));
+            return View(GetSubmitTicketViewModel(model.Subject, model.Message, model.Username, model.Email));
+        }
+
+        public IActionResult ViewTicket(int id)
+        {
+            return View();
         }
 
         #endregion Public Action Methods
 
         #region Private Methods
 
-        private SubmitTicketViewModel GetSubmitTicketViewModel(in string subject, in string message)
+        private SubmitTicketViewModel GetSubmitTicketViewModel(in string subject, in string message, 
+            in string userName, in string email)
         {
             HelpdeskCacheItem helpdeskCache = GetCachedHelpdeskItem(true);
             helpdeskCache.CaptchaText = GetRandomWord(_settings.CaptchaWordLength, CaptchaCharacters);
@@ -90,8 +103,8 @@ namespace HelpdeskPlugin.Controllers
                 GetCartSummary(),
                 _helpdeskProvider.GetTicketDepartments(),
                 _helpdeskProvider.GetTicketPriorities(),
-                userSession.UserName, 
-                userSession.UserEmail, 
+                String.IsNullOrEmpty(userName) ? userSession.UserName : userName, 
+                String.IsNullOrEmpty(email) ? userSession.UserEmail : email, 
                 subject, 
                 message,
                 !String.IsNullOrEmpty(userSession.UserName));
