@@ -9998,8 +9998,8 @@ Valid replaceable items are:
     <comment>Privacy Policy</comment>
   </data>
   <data name="Returns" xml:space="preserve">
-    <value>Returns Policy</value>
-    <comment>Returns Policy</comment>
+    <value>Returns</value>
+    <comment>Returns</comment>
   </data>
   <data name="AppStockMoveCancelledStockBackIn" xml:space="preserve">
     <value>Please select the stock you would like to move back into stock control</value>
@@ -13916,5 +13916,29 @@ You will shortly receive an email with the details of your order.</comment>
   <data name="SubjectInvalid" xml:space="preserve">
     <value>Please enter a valid subject.</value>
     <comment>Please enter a valid subject.</comment>
+  </data>
+  <data name="High" xml:space="preserve">
+    <value>High</value>
+    <comment>High</comment>
+  </data>
+  <data name="Low" xml:space="preserve">
+    <value>Low</value>
+    <comment>Low</comment>
+  </data>
+  <data name="Medium" xml:space="preserve">
+    <value>Medium</value>
+    <comment>Medium</comment>
+  </data>
+  <data name="Open" xml:space="preserve">
+    <value>Open</value>
+    <comment>Open</comment>
+  </data>
+  <data name="Sales" xml:space="preserve">
+    <value>Salses</value>
+    <comment>Sales</comment>
+  </data>
+  <data name="Support" xml:space="preserve">
+    <value>Support</value>
+    <comment>Support</comment>
   </data>
 </root>

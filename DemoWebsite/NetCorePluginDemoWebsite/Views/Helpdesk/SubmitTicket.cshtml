@@ -25,11 +25,6 @@
 <h2>@Localizer[nameof(Languages.LanguageStrings.SubmitTicket)]</h2>
 
 <div class="helpdeskContent">
-    <div class="helpdesk-row">
-        <p>@Localizer[nameof(Languages.LanguageStrings.HelpdeskLeaveFeedbackDescription)]</p>
-        <p>@Localizer[nameof(Languages.LanguageStrings.NotSupportArea)] @Html.ActionLink(Localizer[Languages.LanguageStrings.SupportTicket].Value, nameof(HelpdeskPlugin.Controllers.HelpdeskController.SubmitTicket), HelpdeskPlugin.Controllers.HelpdeskController.Name)</p>
-        <p>@Localizer[nameof(Languages.LanguageStrings.AbridgedWarning)]</p>
-    </div>
     @using (Html.BeginForm(nameof(HelpdeskPlugin.Controllers.HelpdeskController.SubmitTicket), HelpdeskPlugin.Controllers.HelpdeskController.Name, FormMethod.Post))
     {
         <div class="helpdesk-block">

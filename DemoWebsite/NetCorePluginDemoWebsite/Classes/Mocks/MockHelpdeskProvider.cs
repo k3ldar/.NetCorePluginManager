@@ -45,7 +45,28 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
 
         public MockHelpdeskProvider()
         {
-            _tickets = new List<HelpdeskTicket>();
+            _tickets = new List<HelpdeskTicket>()
+            {
+                new HelpdeskTicket(1,
+                    GetTicketPriorities().Where(p => p.Id == 1).FirstOrDefault(),
+                    GetTicketDepartments().Where(d => d.Id == 2).FirstOrDefault(),
+                    GetTicketStatus().Where(s => s.Id == 3).FirstOrDefault(),
+                    "ABC-123456", "Test 1", DateTime.Now, DateTime.Now, "Joe Bloggs",
+                    "joe@bloggs.com", "Joe Bloggs", new List<HelpdeskTicketMessage>()
+                    {
+                        new HelpdeskTicketMessage(DateTime.Now, "Joe Bloggs", "Hello\r\nLine 2"),
+                    }),
+                new HelpdeskTicket(2,
+                    GetTicketPriorities().Where(p => p.Id == 1).FirstOrDefault(),
+                    GetTicketDepartments().Where(d => d.Id == 2).FirstOrDefault(),
+                    GetTicketStatus().Where(s => s.Id == 3).FirstOrDefault(),
+                    "DEF-987654", "Test 2", DateTime.Now, DateTime.Now, "Jane Doe",
+                    "jane@doe.com", "Service Representative 1", new List<HelpdeskTicketMessage>()
+                    {
+                        new HelpdeskTicketMessage(DateTime.Now, "Jane Doe", "Hello\r\nLine 2"),
+                        new HelpdeskTicketMessage(DateTime.Now, "Service Rep 1", "Hello\r\n\r\nTo you too!")
+                    }),
+            };
         }
 
         #endregion Constructors
@@ -133,6 +154,45 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
                 });
 
             _tickets.Add(ticket);
+
+            return true;
+        }
+
+        public HelpdeskTicket GetTicket(in long id)
+        {
+            foreach (HelpdeskTicket ticket in _tickets)
+            {
+                if (ticket.Id == id)
+                    return ticket;
+            }
+
+            return null;
+        }
+
+        public HelpdeskTicket GetTicket(in string email, in string ticketKey)
+        {
+            foreach (HelpdeskTicket ticket in _tickets)
+            {
+                if (ticket.Key == ticketKey && ticket.CreatedByEmail.Equals(email, StringComparison.CurrentCultureIgnoreCase))
+                    return ticket;
+            }
+
+            return null;
+        }
+
+        public bool TicketRespond(in HelpdeskTicket ticket, in string name, in string message)
+        {
+            if (ticket == null)
+                throw new ArgumentNullException(nameof(ticket));
+
+            if (String.IsNullOrEmpty(name))
+                throw new ArgumentNullException(nameof(name));
+
+            if (String.IsNullOrEmpty(message))
+                throw new ArgumentNullException(nameof(message));
+
+            ticket.Messages.Add(new HelpdeskTicketMessage(DateTime.Now, name, message));
+            ticket.Status = GetTicketStatus().Where(s => s.Id == 2).FirstOrDefault();
 
             return true;
         }

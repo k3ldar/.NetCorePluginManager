@@ -13,30 +13,34 @@
  *
  *  Copyright (c) 2019 Simon Carter.  All Rights Reserved.
  *
- *  Product:  PluginMiddleware
+ *  Product:  Helpdesk Plugin
  *  
- *  File: HelpdeskTicket.cs
+ *  File: ViewTicketViewModel.cs
  *
- *  Purpose:  Helpdesk support ticket
+ *  Purpose:  
  *
  *  Date        Name                Reason
- *  21/04/2019  Simon Carter        Initially Created
+ *  22/04/2019  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
 using System.Collections.Generic;
 
-namespace Middleware.Helpdesk
+using SharedPluginFeatures;
+
+namespace HelpdeskPlugin.Models
 {
-    public sealed class HelpdeskTicket
+    public sealed class ViewTicketViewModel : BaseModel
     {
         #region Constructors
 
-        public HelpdeskTicket(in long id, in LookupListItem priority, in LookupListItem department, 
-            in LookupListItem status, in string key, 
+        public ViewTicketViewModel(in List<BreadcrumbItem> breadcrumbs, in ShoppingCartSummary cartSummary, 
+            in long id, in string priority, in string department,
+            in string status, in string key,
             in string subject, in DateTime dateCreated, in DateTime dateLastUpdated,
-            in string createdBy, in string createdByEmail, in string lastReplier,
-            in List<HelpdeskTicketMessage> messages)
+            in string createdBy, in string lastReplier,
+            in List<ViewTicketResponseViewModel> messages)
+            : base (breadcrumbs, cartSummary)
         {
             if (String.IsNullOrEmpty(key))
                 throw new ArgumentNullException(nameof(key));
@@ -47,24 +51,31 @@ namespace Middleware.Helpdesk
             if (String.IsNullOrEmpty(createdBy))
                 throw new ArgumentNullException(nameof(createdBy));
 
-            if (String.IsNullOrEmpty(createdByEmail))
-                throw new ArgumentNullException(nameof(createdByEmail));
-
             if (String.IsNullOrEmpty(lastReplier))
                 throw new ArgumentNullException(nameof(lastReplier));
 
+            if (String.IsNullOrEmpty(priority))
+                throw new ArgumentNullException(nameof(priority));
+
+            if (String.IsNullOrEmpty(status))
+                throw new ArgumentNullException(nameof(status));
+
+            if (String.IsNullOrEmpty(department))
+                throw new ArgumentNullException(nameof(department));
+
             Id = id;
-            Priority = priority ?? throw new ArgumentNullException(nameof(priority));
-            Department = department ?? throw new ArgumentNullException(nameof(department));
-            Status = status ?? throw new ArgumentNullException(nameof(status));
+            Priority = priority;
+            Department = department;
+            Status = status;
             Key = key;
             Subject = subject;
             DateCreated = dateCreated;
             DateLastUpdated = dateLastUpdated;
             CreatedBy = createdBy;
-            CreatedByEmail = createdByEmail;
             LastReplier = lastReplier;
             Messages = messages ?? throw new ArgumentNullException(nameof(messages));
+
+            TicketResponse = new TicketResponseViewModel(id, createdBy);
         }
 
         #endregion Constructors
@@ -73,11 +84,11 @@ namespace Middleware.Helpdesk
 
         public long Id { get; private set; }
 
-        public LookupListItem Priority { get; private set; }
+        public string Priority { get; private set; }
 
-        public LookupListItem Department { get; private set; }
+        public string Department { get; private set; }
 
-        public LookupListItem Status { get; set; }
+        public string Status { get; private set; }
 
         public string Key { get; private set; }
 
@@ -89,16 +100,12 @@ namespace Middleware.Helpdesk
 
         public string CreatedBy { get; private set; }
 
-        public string CreatedByEmail { get; private set; }
-
         public string LastReplier { get; private set; }
 
-        public List<HelpdeskTicketMessage> Messages { get; private set; }
+        public List<ViewTicketResponseViewModel> Messages { get; private set; }
+
+        public TicketResponseViewModel TicketResponse { get; private set; }
 
         #endregion Properties
-
-        #region Public Methods
-
-        #endregion Public Methods
     }
 }

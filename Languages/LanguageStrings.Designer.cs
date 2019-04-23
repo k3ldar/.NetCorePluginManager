@@ -23542,6 +23542,15 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to High.
+        /// </summary>
+        public static string High {
+            get {
+                return ResourceManager.GetString("High", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to High Volume.
         /// </summary>
         public static string HighVolume {
@@ -24695,6 +24704,15 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Low.
+        /// </summary>
+        public static string Low {
+            get {
+                return ResourceManager.GetString("Low", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Email Address.
         /// </summary>
         public static string MailListEmailAddress {
@@ -24844,6 +24862,15 @@ namespace Languages {
         public static string MaximumRuntime {
             get {
                 return ResourceManager.GetString("MaximumRuntime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Medium.
+        /// </summary>
+        public static string Medium {
+            get {
+                return ResourceManager.GetString("Medium", resourceCulture);
             }
         }
         
@@ -25701,6 +25728,15 @@ namespace Languages {
         public static string OopsError {
             get {
                 return ResourceManager.GetString("OopsError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Open.
+        /// </summary>
+        public static string Open {
+            get {
+                return ResourceManager.GetString("Open", resourceCulture);
             }
         }
         
@@ -27200,7 +27236,7 @@ namespace Languages {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Returns Policy.
+        ///   Looks up a localized string similar to Returns.
         /// </summary>
         public static string Returns {
             get {
@@ -27435,6 +27471,15 @@ namespace Languages {
         public static string SaleMobile {
             get {
                 return ResourceManager.GetString("SaleMobile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Salses.
+        /// </summary>
+        public static string Sales {
+            get {
+                return ResourceManager.GetString("Sales", resourceCulture);
             }
         }
         
@@ -28335,6 +28380,15 @@ namespace Languages {
         public static string Sunday {
             get {
                 return ResourceManager.GetString("Sunday", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Support.
+        /// </summary>
+        public static string Support {
+            get {
+                return ResourceManager.GetString("Support", resourceCulture);
             }
         }
         

@@ -82,6 +82,8 @@
     <Content Remove="Views\Helpdesk\Index.cshtml" />
     <Content Remove="Views\Helpdesk\LeaveFeedback.cshtml" />
     <Content Remove="Views\Helpdesk\SubmitTicket.cshtml" />
+    <Content Remove="Views\Helpdesk\ViewTicket.cshtml" />
+    <Content Remove="Views\Helpdesk\_TicketResponse.cshtml" />
     <Content Remove="wwwroot\css\Helpdesk.css" />
     <Content Remove="wwwroot\images\Helpdesk\faq.png" />
     <Content Remove="wwwroot\images\Helpdesk\feedback.png" />
@@ -96,6 +98,8 @@
     <EmbeddedResource Include="Views\Helpdesk\Index.cshtml" />
     <EmbeddedResource Include="Views\Helpdesk\LeaveFeedback.cshtml" />
     <EmbeddedResource Include="Views\Helpdesk\SubmitTicket.cshtml" />
+    <EmbeddedResource Include="Views\Helpdesk\ViewTicket.cshtml" />
+    <EmbeddedResource Include="Views\Helpdesk\_TicketResponse.cshtml" />
     <EmbeddedResource Include="wwwroot\css\Helpdesk.css" />
     <EmbeddedResource Include="wwwroot\images\Helpdesk\faq.png" />
     <EmbeddedResource Include="wwwroot\images\Helpdesk\feedback.png" />

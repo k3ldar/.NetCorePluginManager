@@ -13,49 +13,42 @@
  *
  *  Copyright (c) 2019 Simon Carter.  All Rights Reserved.
  *
- *  Product:  PluginMiddleware
+ *  Product:  Helpdesk Plugin
  *  
- *  File: IHelpdeskProvider.cs
+ *  File: HelpdeskController.Faq.cs
  *
  *  Purpose:  
  *
  *  Date        Name                Reason
- *  13/04/2019  Simon Carter        Initially Created
+ *  22/04/2019  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
 using System.Collections.Generic;
 
-namespace Middleware.Helpdesk
+using Microsoft.AspNetCore.Mvc;
+
+using HelpdeskPlugin.Classes;
+using HelpdeskPlugin.Models;
+
+using static Middleware.Constants;
+using Middleware.Helpdesk;
+
+using static Shared.Utilities;
+
+using SharedPluginFeatures;
+
+namespace HelpdeskPlugin.Controllers
 {
-    public interface IHelpdeskProvider
+    public partial class HelpdeskController
     {
-        #region Feedback
+        #region Public Action Methods
 
-        List<Feedback> GetFeedback(in bool publiclyVisible);
+        public IActionResult Faq()
+        {
+            return View();
+        }
 
-        bool SubmitFeedback(in long userId, in string name, in string feedback);
-
-        #endregion Feedback
-
-        #region Tickets
-
-        List<LookupListItem> GetTicketPriorities();
-
-        List<LookupListItem> GetTicketDepartments();
-
-        List<LookupListItem> GetTicketStatus();
-
-        bool SubmitTicket(long userId, in int department, in int priority,
-            in string userName, in string email, in string subject, in string message,
-            out HelpdeskTicket ticket);
-
-        HelpdeskTicket GetTicket(in long id);
-
-        HelpdeskTicket GetTicket(in string email, in string ticketKey);
-
-        bool TicketRespond(in HelpdeskTicket ticket, in string name, in string message);
-
-        #endregion Tickets
+        #endregion Public Action Methods
     }
 }

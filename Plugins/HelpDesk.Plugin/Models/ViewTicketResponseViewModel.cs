@@ -13,49 +13,47 @@
  *
  *  Copyright (c) 2019 Simon Carter.  All Rights Reserved.
  *
- *  Product:  PluginMiddleware
+ *  Product:  Helpdesk Plugin
  *  
- *  File: IHelpdeskProvider.cs
+ *  File: ViewTicketResponseViewModel.cs
  *
  *  Purpose:  
  *
  *  Date        Name                Reason
- *  13/04/2019  Simon Carter        Initially Created
+ *  22/04/2019  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
-using System.Collections.Generic;
 
-namespace Middleware.Helpdesk
+namespace HelpdeskPlugin.Models
 {
-    public interface IHelpdeskProvider
+    public sealed class ViewTicketResponseViewModel
     {
-        #region Feedback
+        #region Constructors
 
-        List<Feedback> GetFeedback(in bool publiclyVisible);
+        public ViewTicketResponseViewModel(in DateTime dateCreated, in string userName, in string message)
+        {
+            if (String.IsNullOrEmpty(userName))
+                throw new ArgumentNullException(nameof(userName));
 
-        bool SubmitFeedback(in long userId, in string name, in string feedback);
+            if (String.IsNullOrEmpty(message))
+                throw new ArgumentNullException(nameof(message));
 
-        #endregion Feedback
+            DateCreated = dateCreated;
+            UserName = userName;
+            Message = message;
+        }
 
-        #region Tickets
+        #endregion Constructors
 
-        List<LookupListItem> GetTicketPriorities();
+        #region Properties
 
-        List<LookupListItem> GetTicketDepartments();
+        public DateTime DateCreated { get; private set; }
 
-        List<LookupListItem> GetTicketStatus();
+        public string UserName { get; private set; }
 
-        bool SubmitTicket(long userId, in int department, in int priority,
-            in string userName, in string email, in string subject, in string message,
-            out HelpdeskTicket ticket);
+        public string Message { get; private set; }
 
-        HelpdeskTicket GetTicket(in long id);
-
-        HelpdeskTicket GetTicket(in string email, in string ticketKey);
-
-        bool TicketRespond(in HelpdeskTicket ticket, in string name, in string message);
-
-        #endregion Tickets
+        #endregion Properties
     }
 }

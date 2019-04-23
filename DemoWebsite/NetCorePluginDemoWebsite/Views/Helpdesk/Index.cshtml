@@ -16,18 +16,18 @@
     <ul class="helpdeskOptions fixed">
         @if (Model.ShowTickets)
         {
-            <li class="findTicket"><a href="/Helpdesk/FindTicket">@Localizer[nameof(Languages.LanguageStrings.FindATicket)]</a></li>
-            <li class="submitTicket"><a href="/Helpdesk/SubmitTicket">@Localizer[nameof(Languages.LanguageStrings.SubmitTicket)]</a></li>
+            <li class="findTicket"><a href="@Url.Action(nameof(HelpdeskPlugin.Controllers.HelpdeskController.FindTicket), HelpdeskPlugin.Controllers.HelpdeskController.Name)">@Localizer[nameof(Languages.LanguageStrings.FindATicket)]</a></li>
+            <li class="submitTicket"><a href="@Url.Action(nameof(HelpdeskPlugin.Controllers.HelpdeskController.SubmitTicket), HelpdeskPlugin.Controllers.HelpdeskController.Name)">@Localizer[nameof(Languages.LanguageStrings.SubmitTicket)]</a></li>
         }
 
         @if (Model.ShowFaq)
         {
-            <li class="faq"><a href="/Helpdesk/Faq">@Localizer[nameof(Languages.LanguageStrings.FrequentlyAskedQuestions)]</a></li>
+            <li class="faq"><a href="@Url.Action(nameof(HelpdeskPlugin.Controllers.HelpdeskController.Faq), HelpdeskPlugin.Controllers.HelpdeskController.Name)">@Localizer[nameof(Languages.LanguageStrings.FrequentlyAskedQuestions)]</a></li>
         }
 
         @if (Model.ShowFeedback)
         {
-            <li class="feedback"><a href="/Helpdesk/Feedback">@Localizer[nameof(Languages.LanguageStrings.Feedback)]</a></li>
+            <li class="feedback"><a href="@Url.Action(nameof(HelpdeskPlugin.Controllers.HelpdeskController.Feedback), HelpdeskPlugin.Controllers.HelpdeskController.Name)">@Localizer[nameof(Languages.LanguageStrings.Feedback)]</a></li>
         }
     </ul>
 </div>

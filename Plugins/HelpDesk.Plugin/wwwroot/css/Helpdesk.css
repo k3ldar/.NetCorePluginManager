@@ -4,19 +4,41 @@
     margin: 0 0 10px 0;
 }
 
+    .helpdesk-block table {
+        width: 100%;
+        font-size:1.25em;
+    }
+        .helpdesk-block table tr {
+            height: 1.6em !important;
+        }
+
+            .helpdesk-block table tr td p {
+                font-size:0.9em;
+            }
+
+            .helpdesk-block table tr td:nth-child(1) {
+                width: 250px;
+            }
+
+.cellBold {
+    font-weight: bold;
+}
+
 .helpdesk-row {
     padding: 0 0 4px 0;
 }
 
     .helpdesk-row p {
         font-size: 14px;
-        font-weight: normal;
+        font-weight: bold;
         margin: 10px 0 0 0;
+        width: 400px;
     }
 
         .helpdesk-row p span {
             padding: 0 8px 0 0;
-            font-weight: bold;
+            font-weight: normal;
+            left: 180px;
         }
 
     .helpdesk-row textarea {
@@ -26,6 +48,7 @@
 
     .helpdesk-row input[type=text] {
         width: 200px;
+        font-weight: normal;
     }
 
     .helpdesk-row input[type=submit] {

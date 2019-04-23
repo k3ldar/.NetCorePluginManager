@@ -1,0 +1,28 @@
+﻿@model HelpdeskPlugin.Models.TicketResponseViewModel
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
+
+@using (Html.BeginForm(nameof(HelpdeskPlugin.Controllers.HelpdeskController.TicketRespond), HelpdeskPlugin.Controllers.HelpdeskController.Name, FormMethod.Post))
+{
+    @Html.HiddenFor(m => m.Id)
+    <div class="helpdesk-row">
+        <p>@Localizer[@Languages.LanguageStrings.Name]</p>
+    </div>
+    <div class="helpdesk-row">
+        @Html.ValidationMessageFor(m => m.Name)
+    </div>
+    <div class="helpdesk-row">
+        <p>@Html.TextBoxFor(m => m.Name)</p>
+    </div>
+    <div class="helpdesk-row">
+        <p>@Localizer[@Languages.LanguageStrings.Message]</p>
+    </div>
+    <div class="helpdesk-row">
+        @Html.ValidationMessageFor(m => m.Message)
+    </div>
+    <div class="helpdesk-row">
+        @Html.TextAreaFor(m => m.Message)
+    </div>
+    <div class="helpdesk-row">
+        <input type="submit" value="@Localizer[Languages.LanguageStrings.Submit]" />
+    </div>
+}
