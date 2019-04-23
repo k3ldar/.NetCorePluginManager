@@ -28420,6 +28420,15 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Please enter a valid ticket key.
+        /// </summary>
+        public static string SupportTicketKeyRequired {
+            get {
+                return ResourceManager.GetString("SupportTicketKeyRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Last Replier.
         /// </summary>
         public static string SupportTicketLastReplier {
@@ -28908,6 +28917,15 @@ namespace Languages {
         public static string Thursday {
             get {
                 return ResourceManager.GetString("Thursday", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please enter your email and ticket key and click submit..
+        /// </summary>
+        public static string TicketFindDescription {
+            get {
+                return ResourceManager.GetString("TicketFindDescription", resourceCulture);
             }
         }
         

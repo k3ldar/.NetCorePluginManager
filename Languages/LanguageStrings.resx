@@ -13941,4 +13941,12 @@ You will shortly receive an email with the details of your order.</comment>
     <value>Support</value>
     <comment>Support</comment>
   </data>
+  <data name="SupportTicketKeyRequired" xml:space="preserve">
+    <value>Please enter a valid ticket key</value>
+    <comment>Please enter a valid ticket key</comment>
+  </data>
+  <data name="TicketFindDescription" xml:space="preserve">
+    <value>Please enter your email and ticket key and click submit.</value>
+    <comment>Please enter your email and ticket key and click submit.</comment>
+  </data>
 </root>

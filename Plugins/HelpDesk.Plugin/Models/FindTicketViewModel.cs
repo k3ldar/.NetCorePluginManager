@@ -15,26 +15,55 @@
  *
  *  Product:  Helpdesk Plugin
  *  
- *  File: HelpdeskCacheItem.cs
+ *  File: FindTicketViewModel.cs
  *
  *  Purpose:  
  *
  *  Date        Name                Reason
- *  18/04/2019  Simon Carter        Initially Created
+ *  23/04/2019  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
 
-namespace HelpdeskPlugin.Classes
+using SharedPluginFeatures;
+
+namespace HelpdeskPlugin.Models
 {
-    public sealed class HelpdeskCacheItem
+    public sealed class FindTicketViewModel : BaseModel
     {
-        public HelpdeskCacheItem()
+        #region Constructors
+
+        public FindTicketViewModel()
         {
 
         }
 
+        public FindTicketViewModel(in List<BreadcrumbItem> breadcrumbs, in ShoppingCartSummary cartSummary,
+            in bool showCaptchaText)
+            :  base (breadcrumbs, cartSummary)
+        {
+            ShowCaptchaText = showCaptchaText;
+        }
+
+        #endregion Constructors
+
+        #region Properties
+
+        [Required(ErrorMessage = nameof(Languages.LanguageStrings.SupportTicketKeyRequired))]
+        public string Key { get; set; }
+
+        [Required(ErrorMessage = nameof(Languages.LanguageStrings.InvalidEmailAddress))]
+        public string Email { get; set; }
+
+        [Display(Name = nameof(Languages.LanguageStrings.Code))]
         public string CaptchaText { get; set; }
 
-        public uint Requests { get; set; }
+        public bool ShowCaptchaText { get; set; }
+
+        #endregion Properties
     }
 }

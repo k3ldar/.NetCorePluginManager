@@ -125,10 +125,37 @@ namespace HelpdeskPlugin.Controllers
         }
 
         [HttpGet]
-        [Breadcrumb(nameof(FindTicket), HelpdeskController.Name, nameof(Index))]
+        [Breadcrumb(nameof(Languages.LanguageStrings.FindATicket), Name, nameof(Index))]
         public IActionResult FindTicket()
         {
-            return View();
+            return View(GetFindTicketViewModel());
+        }
+
+        [HttpPost]
+        public IActionResult FindTicket (FindTicketViewModel model)
+        {
+            if (!Shared.Utilities.IsValidEmail(model.Email))
+                ModelState.AddModelError(nameof(model.Email), Languages.LanguageStrings.InvalidEmailAddress);
+
+            HelpdeskCacheItem helpdeskCache = GetCachedHelpdeskItem(true);
+
+            if (_settings.ShowCaptchaText && helpdeskCache.Requests > 1)
+            {
+                if (!model.CaptchaText.Equals(helpdeskCache.CaptchaText, StringComparison.CurrentCultureIgnoreCase))
+                    ModelState.AddModelError(nameof(model.CaptchaText), Languages.LanguageStrings.CodeNotValid);
+            }
+
+            if (ModelState.IsValid)
+            {
+                HelpdeskTicket ticket = _helpdeskProvider.GetTicket(model.Email, model.Key);
+
+                if (ticket != null)
+                    return RedirectToAction(nameof(ViewTicket), Name, new { ticket.Id });
+
+                GrowlAdd(Languages.LanguageStrings.TicketNotFound);
+            }
+
+            return View(GetFindTicketViewModel());
         }
 
         #endregion Public Action Methods
@@ -157,6 +184,16 @@ namespace HelpdeskPlugin.Controllers
             message = message.Replace("\n", "<br />");
 
             return $"<p>{message}</p>";
+        }
+
+        private FindTicketViewModel GetFindTicketViewModel()
+        {
+            HelpdeskCacheItem helpdeskCache = GetCachedHelpdeskItem(true);
+            helpdeskCache.CaptchaText = GetRandomWord(_settings.CaptchaWordLength, CaptchaCharacters);
+            helpdeskCache.Requests++;
+
+            return new FindTicketViewModel(GetBreadcrumbs(), GetCartSummary(),
+                _settings.ShowCaptchaText && helpdeskCache.Requests > 1);
         }
 
         private SubmitTicketViewModel GetSubmitTicketViewModel(in string subject, in string message, 
