@@ -23,18 +23,15 @@
  *  22/04/2019  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.CompilerServices;
 
 using Microsoft.AspNetCore.Mvc;
 
-using HelpdeskPlugin.Classes;
 using HelpdeskPlugin.Models;
 
-using static Middleware.Constants;
 using Middleware.Helpdesk;
-
-using static Shared.Utilities;
 
 using SharedPluginFeatures;
 
@@ -44,11 +41,126 @@ namespace HelpdeskPlugin.Controllers
     {
         #region Public Action Methods
 
-        public IActionResult Faq()
+        [Breadcrumb(nameof(Languages.LanguageStrings.FrequentlyAskedQuestions), Name, nameof(Index), HasParams = true)]
+        public IActionResult FaQ()
         {
-            return View();
+            if (!_settings.ShowFaq)
+                return RedirectToAction(nameof(Index), Name);
+
+            List<KnowledgeBaseGroup> groups = _helpdeskProvider.GetKnowledgebaseGroups(UserId(), null);
+
+            return View(CreateFaqViewModel(groups, null));
+        }
+
+        [Route("/Helpdesk/Faq/{groupId}/{groupName}/")]
+        public IActionResult FaQ(int groupId, string groupName)
+        {
+            if (!_settings.ShowFaq)
+                return RedirectToAction(nameof(Index), Name);
+
+            KnowledgeBaseGroup activeGroup = _helpdeskProvider.GetKnowledgebaseGroup(UserId(), groupId);
+
+            if (activeGroup == null)
+                return RedirectToAction(nameof(FaQ), Name);
+
+            List<KnowledgeBaseGroup> groups = _helpdeskProvider.GetKnowledgebaseGroups(UserId(), activeGroup);
+
+            return View(CreateFaqViewModel(groups, activeGroup));
+        }
+
+        [HttpGet]
+        [Route("/Helpdesk/FaQItem/{id}/{description}/")]
+        [Breadcrumb(nameof(Languages.LanguageStrings.FrequentlyAskedQuestions), Name, nameof(FaQ))]
+        public IActionResult FaQItem (int id, int description)
+        {
+            if (!_helpdeskProvider.GetKnowledgebaseItem(UserId(), id,
+                out KnowledgeBaseItem item, out KnowledgeBaseGroup parentGroup))
+            {
+                return RedirectToAction(nameof(FaQ), Name);
+            }
+
+            return View(CreateFaQViewItemModel(parentGroup, item));
         }
 
         #endregion Public Action Methods
+
+        #region Private Methods
+
+        private FaqItemViewModel CreateFaQViewItemModel(KnowledgeBaseGroup parentGroup, KnowledgeBaseItem item)
+        {
+            _helpdeskProvider.KnowledbaseView(item);
+
+            List<BreadcrumbItem> crumbs = GetBreadcrumbs().Take(2).ToList();
+
+            crumbs.Add(new BreadcrumbItem(Languages.LanguageStrings.FrequentlyAskedQuestions, $"/{Name}/{nameof(FaQ)}/", false));
+
+            crumbs.Add(new BreadcrumbItem(parentGroup.Name,
+                $"/{Name}/{nameof(FaQ)}/{parentGroup.Id}/{BaseModel.RouteFriendlyName(parentGroup.Name)}/", true));
+
+            KnowledgeBaseGroup currGroup = parentGroup.Parent;
+
+            while (currGroup != null)
+            {
+                crumbs.Insert(3, new BreadcrumbItem(currGroup.Name,
+                    $"/{Name}/{nameof(FaQ)}/{currGroup.Id}/{BaseModel.RouteFriendlyName(currGroup.Name)}/", true));
+                currGroup = currGroup.Parent;
+            }
+
+            return new FaqItemViewModel(crumbs, GetCartSummary(),
+                KnowledgeBaseToFaQGroup(parentGroup), item.Description, item.ViewCount,
+                FormatTextForDisplay(item.Content));
+        }
+
+        private FaqGroupViewModel CreateFaqViewModel(List<KnowledgeBaseGroup> groups, 
+            in KnowledgeBaseGroup activeGroup)
+        {
+            List<FaqGroup> faqGroups = new List<FaqGroup>();
+
+            foreach (KnowledgeBaseGroup group in groups)
+            {
+                faqGroups.Add(KnowledgeBaseToFaQGroup(group));
+            }
+
+            List<BreadcrumbItem> crumbs = GetBreadcrumbs().Take(2).ToList();
+
+            if (activeGroup != null)
+            {
+                crumbs.Add(new BreadcrumbItem(Languages.LanguageStrings.FrequentlyAskedQuestions, $"/{Name}/{nameof(FaQ)}/", false));
+
+                crumbs.Add(new BreadcrumbItem(activeGroup.Name, 
+                    $"/{Name}/{nameof(FaQ)}/{activeGroup.Id}/{BaseModel.RouteFriendlyName(activeGroup.Name)}/", true));
+
+                KnowledgeBaseGroup currGroup = activeGroup.Parent;
+
+                while (currGroup != null)
+                {
+                    crumbs.Insert(3, new BreadcrumbItem(currGroup.Name,
+                        $"/{Name}/{nameof(FaQ)}/{currGroup.Id}/{BaseModel.RouteFriendlyName(currGroup.Name)}/", true));
+                    currGroup = currGroup.Parent;
+                }
+            }
+
+            return new FaqGroupViewModel(crumbs, GetCartSummary(), faqGroups, KnowledgeBaseToFaQGroup(activeGroup));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private FaqGroup KnowledgeBaseToFaQGroup(KnowledgeBaseGroup group)
+        {
+            if (group == null)
+                return null;
+
+            List<FaqGroupItem> items = new List<FaqGroupItem>();
+
+            foreach (KnowledgeBaseItem item in group.Items)
+            {
+                items.Add(new FaqGroupItem(item.Id, item.Description, item.ViewCount, item.Content));
+            }
+
+            int subGroupCount = _helpdeskProvider.GetKnowledgebaseGroups(UserId(), group).Count();
+
+            return new FaqGroup(group.Id, group.Name, group.Description, items, subGroupCount);
+        }
+
+        #endregion Private Methods
     }
 }

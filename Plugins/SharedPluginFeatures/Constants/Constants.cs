@@ -44,7 +44,7 @@ namespace SharedPluginFeatures
 
         public const string UserSessionConfiguration = "UserSessionConfiguration";
 
-        public const string StaticFileExtensions = ".less;.ico;.css;.js;.svg;.jpg;.jpeg;.gif;.png;.eot;";
+        public const string StaticFileExtensions = ".less;.ico;.css;.js;.svg;.jpg;.jpeg;.gif;.png;.eot;.map;";
 
         public const string PageReferer = "Referer";
 

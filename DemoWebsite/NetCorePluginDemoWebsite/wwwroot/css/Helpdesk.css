@@ -6,14 +6,15 @@
 
     .helpdesk-block table {
         width: 100%;
-        font-size:1.25em;
+        font-size: 1.25em;
     }
+
         .helpdesk-block table tr {
             height: 1.6em !important;
         }
 
             .helpdesk-block table tr td p {
-                font-size:0.9em;
+                font-size: 0.9em;
             }
 
             .helpdesk-block table tr td:nth-child(1) {
@@ -25,7 +26,10 @@
 }
 
 .helpdesk-row {
+    display: inline-block;
     padding: 0 0 4px 0;
+    width: 100% !important;
+    height: auto;
 }
 
     .helpdesk-row p {
@@ -197,3 +201,54 @@
         width: 450px;
         height: 250px;
     }
+
+.helpdeskGroupList {
+    width: 350px;
+    display: block;
+    float: left;
+}
+
+    .helpdeskGroupList h3 {
+        font-size: 18px;
+        font-weight: bold;
+        padding: 3px 0 0 30px;
+    }
+
+        .helpdeskGroupList h3 span {
+            font-size: 12px;
+            font-weight: normal;
+            float: right;
+            padding: 5px 15px 0 0;
+        }
+
+    .helpdeskGroupList ul {
+        height: auto;
+        display: block;
+        list-style: none;
+        /*padding-inline-start: 10px;*/
+    }
+
+        .helpdeskGroupList ul li {
+            width: 350px;
+            padding-left: 8px 0 0 28px;
+            float: left;
+        }
+
+            .helpdeskGroupList ul li a {
+                padding: 2px 0 0 30px;
+                width: 100%;
+                height: 24px;
+                display: block;
+            }
+
+.folder {
+    background-image: url('/images/Helpdesk/folder.png');
+    background-repeat: no-repeat;
+    height: 26px;
+}
+
+.document {
+    background-image: url('/images/Helpdesk/document.png');
+    background-repeat: no-repeat;
+    height: 26px;
+}

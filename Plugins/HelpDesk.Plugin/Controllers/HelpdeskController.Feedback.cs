@@ -48,6 +48,9 @@ namespace HelpdeskPlugin.Controllers
 		[Breadcrumb(nameof(Languages.LanguageStrings.Feedback), Name, nameof(Index))]
 		public IActionResult Feedback()
         {
+            if (!_settings.ShowFeedback)
+                return RedirectToAction(nameof(Index), Name);
+
             List<FeedbackItemViewModel> feedback = new List<FeedbackItemViewModel>();
 
             foreach (Feedback item in _helpdeskProvider.GetFeedback(true))
@@ -67,12 +70,18 @@ namespace HelpdeskPlugin.Controllers
         [Breadcrumb(nameof(Languages.LanguageStrings.LeaveFeedback), Name, nameof(Feedback))]
         public IActionResult LeaveFeedback()
         {
+            if (!_settings.ShowFeedback)
+                return RedirectToAction(nameof(Index), Name);
+
             return View(GetFeedbackModel());
         }
 
         [HttpPost]
         public IActionResult LeaveFeedback(LeaveFeedbackViewModel model)
         {
+            if (!_settings.ShowFeedback)
+                return RedirectToAction(nameof(Index), Name);
+
             if (_settings.ShowCaptchaText)
             {
                 HelpdeskCacheItem helpdeskCache = GetCachedHelpdeskItem(true);

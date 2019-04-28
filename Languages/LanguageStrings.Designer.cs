@@ -23119,6 +23119,15 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Total Views.
+        /// </summary>
+        public static string FaQViewCount {
+            get {
+                return ResourceManager.GetString("FaQViewCount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Fastest ms.
         /// </summary>
         public static string Fastestms {

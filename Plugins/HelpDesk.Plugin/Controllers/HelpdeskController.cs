@@ -75,7 +75,7 @@ namespace HelpdeskPlugin.Controllers
         public IActionResult Index()
         {
             IndexViewModel model = new IndexViewModel(GetBreadcrumbs(), GetCartSummary(),
-                true, true, true, GrowlGet());
+                _settings.ShowTickets, _settings.ShowFaq, _settings.ShowFeedback, GrowlGet());
 
             return View(model);
         }
@@ -117,6 +117,15 @@ namespace HelpdeskPlugin.Controllers
 
         #region Private Methods
 
+        private string FormatTextForDisplay(string message)
+        {
+            message = Shared.Utilities.RemoveHTMLElements(message);
+
+            message = message.Replace("\r", String.Empty);
+            message = message.Replace("\n", "<br />");
+
+            return $"<p>{message}</p>";
+        }
 
         private HelpdeskCacheItem GetCachedHelpdeskItem(bool createIfNotExist)
         {

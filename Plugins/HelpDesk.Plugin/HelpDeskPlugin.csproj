@@ -78,6 +78,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="Views\Helpdesk\FaQ.cshtml" />
+    <Content Remove="Views\Helpdesk\FaQItem.cshtml" />
     <Content Remove="Views\Helpdesk\Feedback.cshtml" />
     <Content Remove="Views\Helpdesk\FindTicket.cshtml" />
     <Content Remove="Views\Helpdesk\Index.cshtml" />
@@ -86,15 +88,19 @@
     <Content Remove="Views\Helpdesk\ViewTicket.cshtml" />
     <Content Remove="Views\Helpdesk\_TicketResponse.cshtml" />
     <Content Remove="wwwroot\css\Helpdesk.css" />
+    <Content Remove="wwwroot\images\Helpdesk\document.png" />
     <Content Remove="wwwroot\images\Helpdesk\faq.png" />
     <Content Remove="wwwroot\images\Helpdesk\feedback.png" />
     <Content Remove="wwwroot\images\Helpdesk\findaticket.png" />
+    <Content Remove="wwwroot\images\Helpdesk\folder.png" />
     <Content Remove="wwwroot\images\Helpdesk\submitticket.png" />
     <Content Remove="wwwroot\js\growl.js" />
     <Content Remove="wwwroot\js\Helpdesk.js" />
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="Views\Helpdesk\FaQ.cshtml" />
+    <EmbeddedResource Include="Views\Helpdesk\FaQItem.cshtml" />
     <EmbeddedResource Include="Views\Helpdesk\Feedback.cshtml" />
     <EmbeddedResource Include="Views\Helpdesk\FindTicket.cshtml" />
     <EmbeddedResource Include="Views\Helpdesk\Index.cshtml" />
@@ -103,9 +109,11 @@
     <EmbeddedResource Include="Views\Helpdesk\ViewTicket.cshtml" />
     <EmbeddedResource Include="Views\Helpdesk\_TicketResponse.cshtml" />
     <EmbeddedResource Include="wwwroot\css\Helpdesk.css" />
+    <EmbeddedResource Include="wwwroot\images\Helpdesk\document.png" />
     <EmbeddedResource Include="wwwroot\images\Helpdesk\faq.png" />
     <EmbeddedResource Include="wwwroot\images\Helpdesk\feedback.png" />
     <EmbeddedResource Include="wwwroot\images\Helpdesk\findaticket.png" />
+    <EmbeddedResource Include="wwwroot\images\Helpdesk\folder.png" />
     <EmbeddedResource Include="wwwroot\images\Helpdesk\submitticket.png" />
     <EmbeddedResource Include="wwwroot\js\growl.js" />
     <EmbeddedResource Include="wwwroot\js\Helpdesk.js" />

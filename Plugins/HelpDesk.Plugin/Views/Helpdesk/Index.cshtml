@@ -22,7 +22,7 @@
 
         @if (Model.ShowFaq)
         {
-            <li class="faq"><a href="@Url.Action(nameof(HelpdeskPlugin.Controllers.HelpdeskController.Faq), HelpdeskPlugin.Controllers.HelpdeskController.Name)">@Localizer[nameof(Languages.LanguageStrings.FrequentlyAskedQuestions)]</a></li>
+            <li class="faq"><a href="@Url.Action(nameof(HelpdeskPlugin.Controllers.HelpdeskController.FaQ), HelpdeskPlugin.Controllers.HelpdeskController.Name)">@Localizer[nameof(Languages.LanguageStrings.FrequentlyAskedQuestions)]</a></li>
         }
 
         @if (Model.ShowFeedback)

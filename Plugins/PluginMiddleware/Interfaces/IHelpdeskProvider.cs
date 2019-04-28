@@ -57,5 +57,18 @@ namespace Middleware.Helpdesk
         bool TicketRespond(in HelpdeskTicket ticket, in string name, in string message);
 
         #endregion Tickets
+
+        #region Tickets FaQ
+
+        List<KnowledgeBaseGroup> GetKnowledgebaseGroups(in long userId, in KnowledgeBaseGroup parent);
+
+        KnowledgeBaseGroup GetKnowledgebaseGroup(in long userId, in int id);
+
+        bool GetKnowledgebaseItem(in long userId, in int id, 
+            out KnowledgeBaseItem knowledgebaseItem, out KnowledgeBaseGroup parentGroup);
+
+        void KnowledbaseView(in KnowledgeBaseItem group);
+
+        #endregion Tickets FaQ
     }
 }

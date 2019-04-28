@@ -34,5 +34,14 @@ namespace HelpdeskPlugin.Classes
 
         [SettingDefault(6)]
         public int CaptchaWordLength { get; set; }
+
+        [SettingDefault(true)]
+        public bool ShowTickets { get; set; }
+
+        [SettingDefault(true)]
+        public bool ShowFaq { get; set; }
+
+        [SettingDefault(true)]
+        public bool ShowFeedback { get; set; }
     }
 }

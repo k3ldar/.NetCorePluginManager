@@ -23,9 +23,10 @@
  *  18/04/2019  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+
+using Microsoft.AspNetCore.Mvc;
 
 using HelpdeskPlugin.Classes;
 using HelpdeskPlugin.Models;
@@ -48,12 +49,18 @@ namespace HelpdeskPlugin.Controllers
         [Breadcrumb(nameof(SubmitTicket), HelpdeskController.Name, nameof(Index))]
         public IActionResult SubmitTicket()
         {
+            if (!_settings.ShowTickets)
+                return RedirectToAction(nameof(Index), Name);
+
             return View(GetSubmitTicketViewModel(String.Empty, String.Empty, String.Empty, String.Empty));
         }
 
         [HttpPost]
         public IActionResult SubmitTicket(SubmitTicketViewModel model)
         {
+            if (!_settings.ShowTickets)
+                return RedirectToAction(nameof(Index), Name);
+
             if (model == null)
                 throw new ArgumentNullException(nameof(model));
 
@@ -100,6 +107,9 @@ namespace HelpdeskPlugin.Controllers
         [HttpPost]
         public IActionResult ViewTicket(string email, string ticketKey)
         {
+            if (!_settings.ShowTickets)
+                return RedirectToAction(nameof(Index), Name);
+
             HelpdeskTicket ticket = _helpdeskProvider.GetTicket(email, ticketKey);
 
             if (ticket == null)
@@ -114,6 +124,9 @@ namespace HelpdeskPlugin.Controllers
         [HttpPost]
         public IActionResult TicketRespond(TicketResponseViewModel model)
         {
+            if (!_settings.ShowTickets)
+                return RedirectToAction(nameof(Index), Name);
+
             HelpdeskTicket ticket = _helpdeskProvider.GetTicket(model.Id);
 
             if (ticket == null)
@@ -128,12 +141,18 @@ namespace HelpdeskPlugin.Controllers
         [Breadcrumb(nameof(Languages.LanguageStrings.FindATicket), Name, nameof(Index))]
         public IActionResult FindTicket()
         {
+            if (!_settings.ShowTickets)
+                return RedirectToAction(nameof(Index), Name);
+
             return View(GetFindTicketViewModel());
         }
 
         [HttpPost]
         public IActionResult FindTicket (FindTicketViewModel model)
         {
+            if (!_settings.ShowTickets)
+                return RedirectToAction(nameof(Index), Name);
+
             if (!Shared.Utilities.IsValidEmail(model.Email))
                 ModelState.AddModelError(nameof(model.Email), Languages.LanguageStrings.InvalidEmailAddress);
 
@@ -167,23 +186,13 @@ namespace HelpdeskPlugin.Controllers
             List<ViewTicketResponseViewModel> messages = new List<ViewTicketResponseViewModel>();
 
             foreach (HelpdeskTicketMessage item in ticket.Messages)
-                messages.Add(new ViewTicketResponseViewModel(item.DateCreated, item.UserName, FormatTicketMessage(item.Message)));
+                messages.Add(new ViewTicketResponseViewModel(item.DateCreated, item.UserName, FormatTextForDisplay(item.Message)));
 
             return new ViewTicketViewModel(GetBreadcrumbs(), GetCartSummary(),
                 ticket.Id, ticket.Priority.Description, 
                 ticket.Department.Description, ticket.Status.Description,
                 ticket.Key, ticket.Subject, ticket.DateCreated, ticket.DateLastUpdated,
                 ticket.CreatedBy, ticket.LastReplier, messages);
-        }
-
-        private string FormatTicketMessage(string message)
-        {
-            message = Shared.Utilities.RemoveHTMLElements(message);
-
-            message = message.Replace("\r", String.Empty);
-            message = message.Replace("\n", "<br />");
-
-            return $"<p>{message}</p>";
         }
 
         private FindTicketViewModel GetFindTicketViewModel()

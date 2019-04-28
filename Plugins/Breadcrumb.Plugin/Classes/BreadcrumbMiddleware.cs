@@ -223,7 +223,9 @@ namespace Breadcrumb.Plugin
                         if (String.IsNullOrEmpty(route))
                             continue;
 
-                        attribute.HasParams = method.GetParameters().Count() > 0 || method.ContainsGenericParameters;
+                        attribute.HasParams = method.GetParameters().Count() > 0 || 
+                            method.ContainsGenericParameters || 
+                            attribute.HasParams;
 
                         // sanity check
                         if (route.Equals(attribute.ParentRoute, StringComparison.CurrentCultureIgnoreCase))

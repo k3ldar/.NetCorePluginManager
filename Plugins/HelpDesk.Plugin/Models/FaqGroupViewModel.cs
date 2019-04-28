@@ -15,51 +15,40 @@
  *
  *  Product:  Helpdesk Plugin
  *  
- *  File: FindTicketViewModel.cs
+ *  File: FaqGroupViewModel.cs
  *
  *  Purpose:  
  *
  *  Date        Name                Reason
- *  23/04/2019  Simon Carter        Initially Created
+ *  27/04/2019  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 
 using SharedPluginFeatures;
 
 namespace HelpdeskPlugin.Models
 {
-    public sealed class FindTicketViewModel : BaseModel
+    public class FaqGroupViewModel : BaseModel
     {
         #region Constructors
 
-        public FindTicketViewModel()
+        public FaqGroupViewModel(in List<BreadcrumbItem> breadcrumbs, in ShoppingCartSummary cartSummary,
+            in List<FaqGroup> groups, in FaqGroup activeGroup)
+            : base(breadcrumbs, cartSummary)
         {
-
-        }
-
-        public FindTicketViewModel(in List<BreadcrumbItem> breadcrumbs, in ShoppingCartSummary cartSummary,
-            in bool showCaptchaText)
-            :  base (breadcrumbs, cartSummary)
-        {
-            ShowCaptchaText = showCaptchaText;
+            Groups = groups ?? throw new ArgumentNullException(nameof(groups));
+            ActiveGroup = activeGroup;
         }
 
         #endregion Constructors
 
         #region Properties
 
-        [Required(ErrorMessage = nameof(Languages.LanguageStrings.SupportTicketKeyRequired))]
-        public string Key { get; set; }
+        public FaqGroup ActiveGroup { get; private set; }
 
-        [Required(ErrorMessage = nameof(Languages.LanguageStrings.InvalidEmailAddress))]
-        public string Email { get; set; }
-
-        [Display(Name = nameof(Languages.LanguageStrings.Code))]
-        public string CaptchaText { get; set; }
-
-        public bool ShowCaptchaText { get; set; }
+        public List<FaqGroup> Groups { get; private set; }
 
         #endregion Properties
     }

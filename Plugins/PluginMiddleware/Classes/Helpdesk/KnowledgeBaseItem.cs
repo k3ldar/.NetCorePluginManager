@@ -13,54 +13,63 @@
  *
  *  Copyright (c) 2019 Simon Carter.  All Rights Reserved.
  *
- *  Product:  Helpdesk Plugin
+ *  Product:  PluginMiddleware
  *  
- *  File: FindTicketViewModel.cs
+ *  File: KnowledgeBaseItem.cs
  *
- *  Purpose:  
+ *  Purpose:  Knowledge Base Item
  *
  *  Date        Name                Reason
- *  23/04/2019  Simon Carter        Initially Created
+ *  24/04/2019  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+using System;
 
-using SharedPluginFeatures;
-
-namespace HelpdeskPlugin.Models
+namespace Middleware.Helpdesk
 {
-    public sealed class FindTicketViewModel : BaseModel
+    public sealed class KnowledgeBaseItem
     {
         #region Constructors
 
-        public FindTicketViewModel()
+        public KnowledgeBaseItem(in int id, in string description, 
+            in int viewCount, in string content)
         {
+            if (String.IsNullOrEmpty(description))
+                throw new ArgumentNullException(nameof(description));
 
-        }
+            if (String.IsNullOrEmpty(content))
+                throw new ArgumentNullException(nameof(content));
 
-        public FindTicketViewModel(in List<BreadcrumbItem> breadcrumbs, in ShoppingCartSummary cartSummary,
-            in bool showCaptchaText)
-            :  base (breadcrumbs, cartSummary)
-        {
-            ShowCaptchaText = showCaptchaText;
+            if (viewCount < 0)
+                throw new ArgumentOutOfRangeException(nameof(viewCount));
+
+            Id = id;
+            Description = description;
+            ViewCount = viewCount;
+            Content = content;
         }
 
         #endregion Constructors
 
         #region Properties
 
-        [Required(ErrorMessage = nameof(Languages.LanguageStrings.SupportTicketKeyRequired))]
-        public string Key { get; set; }
+        public int Id { get; private set; }
 
-        [Required(ErrorMessage = nameof(Languages.LanguageStrings.InvalidEmailAddress))]
-        public string Email { get; set; }
+        public string Description { get; private set; }
 
-        [Display(Name = nameof(Languages.LanguageStrings.Code))]
-        public string CaptchaText { get; set; }
+        public int ViewCount { get; private set; }
 
-        public bool ShowCaptchaText { get; set; }
+        public string Content { get; private set; }
 
         #endregion Properties
+
+        #region Public Methods
+
+        public void IncreastViewCount()
+        {
+            ViewCount++;
+        }
+
+        #endregion Public Methods
     }
 }
