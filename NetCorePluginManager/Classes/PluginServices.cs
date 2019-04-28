@@ -21,10 +21,12 @@
  *
  *  Date        Name                Reason
  *  14/10/2018  Simon Carter        Initially Created
+ *  28/04/2019  Simon Carter        #63 Allow plugin to be dynamically added.
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 
 using SharedPluginFeatures;
 
@@ -51,12 +53,12 @@ namespace AspNetCore.PluginManager
 
         public List<Type> GetPluginClassTypes<T>()
         {
-            return (PluginManagerService.GetPluginManager().GetPluginClassTypes<T>());
+            return PluginManagerService.GetPluginManager().GetPluginClassTypes<T>();
         }
 
         public List<T> GetPluginClasses<T>()
         {
-            return (PluginManagerService.GetPluginManager().GetPluginClasses<T>());
+            return PluginManagerService.GetPluginManager().GetPluginClasses<T>();
         }
 
         #endregion IPluginClassesService Methods
@@ -65,7 +67,7 @@ namespace AspNetCore.PluginManager
 
         public List<Type> GetPluginTypesWithAttribute<T>()
         {
-            return (PluginManagerService.GetPluginManager().GetPluginTypesWithAttribute<T>());
+            return PluginManagerService.GetPluginManager().GetPluginTypesWithAttribute<T>();
         }
 
         #endregion IPluginTypesService Methods
@@ -74,7 +76,15 @@ namespace AspNetCore.PluginManager
 
         public bool PluginLoaded(in string pluginLibraryName, out int version)
         {
-            return (PluginManagerService.GetPluginManager().PluginLoaded(pluginLibraryName, out version, out string module));
+            return PluginManagerService.GetPluginManager().PluginLoaded(pluginLibraryName, out version, out string module);
+        }
+
+        public DynamicLoadResult AddAssembly(in Assembly assembly)
+        {
+            if (assembly == null)
+                throw new ArgumentNullException(nameof(assembly));
+
+            return PluginManagerService.GetPluginManager().AddAssembly(assembly);
         }
 
         #endregion IPluginHelperService Methods

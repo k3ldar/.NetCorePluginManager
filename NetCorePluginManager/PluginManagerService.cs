@@ -81,8 +81,11 @@ namespace AspNetCore.PluginManager
                 _rootPath = configuration.CurrentPath;
 
                 //load config and get settings
-                _pluginConfiguration = configuration.LoadSettingsService.LoadSettings<PluginSettings>(
-                    Shared.Utilities.AddTrailingBackSlash(configuration.CurrentPath) + "appsettings.json", "PluginConfiguration");
+                if (File.Exists(Path.Combine(configuration.ConfigurationFile)))
+                    _pluginConfiguration = configuration.LoadSettingsService.LoadSettings<PluginSettings>(
+                        configuration.ConfigurationFile, "PluginConfiguration");
+                else
+                    _pluginConfiguration = new PluginSettings();
 
                 _pluginManagerInstance = new PluginManager(_logger, _pluginConfiguration);
 

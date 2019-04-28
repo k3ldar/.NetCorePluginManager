@@ -21,6 +21,7 @@
  *
  *  Date        Name                Reason
  *  22/09/2018  Simon Carter        Initially Created
+ *  28/04/2019  Simon Carter        #63 Allow plugin to be dynamically added.
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
@@ -41,7 +42,7 @@ using static SharedPluginFeatures.Enums;
 
 namespace AspNetCore.PluginManager
 {
-    public sealed class PluginManager : IDisposable
+    internal sealed class PluginManager : IDisposable
     {
         #region Private Members
 
@@ -425,6 +426,29 @@ namespace AspNetCore.PluginManager
             }
 
             return (false);
+        }
+
+        internal DynamicLoadResult AddAssembly(in Assembly assembly)
+        {
+            foreach (KeyValuePair<string, IPluginModule> plugin in _plugins)
+            {
+                if (plugin.Value.Assembly.ManifestModule.ModuleHandle == assembly.ManifestModule.ModuleHandle)
+                {
+                    return DynamicLoadResult.AlreadyLoaded;
+                }
+            }
+
+            IPluginModule pluginModule = new IPluginModule()
+            {
+                Assembly = assembly,
+                Module = assembly.ManifestModule.ScopeName,
+                Plugin = new Classes.DynamicPlugin(),
+                Version = 1,
+            };
+
+            _plugins.Add(Path.GetFileName(assembly.ManifestModule.ScopeName), pluginModule);
+
+            return DynamicLoadResult.Success;
         }
 
         #endregion Internal Methods

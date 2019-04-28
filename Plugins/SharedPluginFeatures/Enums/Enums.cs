@@ -31,6 +31,9 @@ namespace SharedPluginFeatures
 {
     public class Enums
     {
+        /// <summary>
+        /// Log Levels
+        /// </summary>
         public enum LogLevel
         {
             Information = 1,
@@ -185,5 +188,14 @@ namespace SharedPluginFeatures
             /// </summary>
             BanRequested = 2048,
         }
+    }
+
+    public enum DynamicLoadResult
+    {
+        Success,
+
+        Failed,
+
+        AlreadyLoaded
     }
 }

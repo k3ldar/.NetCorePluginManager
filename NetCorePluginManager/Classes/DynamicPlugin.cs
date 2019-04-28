@@ -15,25 +15,46 @@
  *
  *  Product:  SharedPluginFeatures
  *  
- *  File: IPluginHelperService.cs
+ *  File: DynamicPlugin.cs
  *
- *  Purpose:  Provides interface for retrieving plugin specific data from the plugin manager
+ *  Purpose:  Used internally when dynamically adding plugins
  *
  *  Date        Name                Reason
- *  14/10/2018  Simon Carter        Initially Created
- *  28/04/2019  Simon Carter        #63 Allow plugin to be dynamically added.
+ *  28/04/2019  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using System.Reflection;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.DependencyInjection;
 
 using SharedPluginFeatures;
 
-namespace SharedPluginFeatures
+namespace AspNetCore.PluginManager.Classes
 {
-    public interface IPluginHelperService
+    internal class DynamicPlugin : IPlugin
     {
-        bool PluginLoaded(in string pluginLibraryName, out int version);
+        #region IPlugin Methods
 
-        DynamicLoadResult AddAssembly(in Assembly assembly);
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        {
+            
+        }
+
+        public void ConfigureServices(IServiceCollection services)
+        {
+            
+        }
+
+        public void Finalise()
+        {
+            
+        }
+
+        public void Initialise(ILogger logger)
+        {
+            
+        }
+
+        #endregion IPlugin Methods
     }
 }

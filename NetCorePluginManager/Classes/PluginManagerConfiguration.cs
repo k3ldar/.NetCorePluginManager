@@ -21,6 +21,7 @@
  *
  *  Date        Name                Reason
  *  28/01/2019  Simon Carter        Initially Created
+ *  28/04/2019  Simon Carter        #66 Add config file to PluginManagerConfiguration
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
@@ -60,6 +61,7 @@ namespace AspNetCore.PluginManager
             LoadSettingsService = loadSettingsService ?? throw new ArgumentNullException(nameof(loadSettingsService));
 
             CurrentPath = Directory.GetCurrentDirectory();
+            ConfigFileName = "appsettings.json";
         }
 
         #endregion Constructors
@@ -71,6 +73,16 @@ namespace AspNetCore.PluginManager
         public ILoadSettingsService LoadSettingsService { get; private set; }
 
         public string CurrentPath { get; set; }
+
+        public string ConfigFileName { get; set; }
+
+        public string ConfigurationFile
+        {
+            get
+            {
+                return Path.Combine(CurrentPath, ConfigFileName);
+            }
+        }
 
         #endregion Properties
     }
