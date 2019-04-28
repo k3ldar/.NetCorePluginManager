@@ -1,0 +1,51 @@
+﻿@model HelpdeskPlugin.Models.LeaveFeedbackViewModel
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
+
+@{
+    ViewData["Title"] = Localizer[nameof(Languages.LanguageStrings.LeaveFeedback)];
+}
+
+
+<div class="bc">@Html.Raw(Model.BreadcrumbData())</div>
+
+<h2>@Localizer[nameof(Languages.LanguageStrings.LeaveFeedback)]</h2>
+
+<link rel="stylesheet" href="/css/Helpdesk.css" />
+<script src="~/js/helpdesk.js"></script>
+
+<div>@Html.ValidationSummary()</div>
+
+<div class="helpdeskContent">
+    <div class="helpdesk-row">
+        <p>@Localizer[nameof(Languages.LanguageStrings.HelpdeskLeaveFeedbackDescription)]</p>
+        <p>@Localizer[nameof(Languages.LanguageStrings.NotSupportArea)] @Html.ActionLink(Localizer[Languages.LanguageStrings.SupportTicket].Value, nameof(HelpdeskPlugin.Controllers.HelpdeskController.SubmitTicket), HelpdeskPlugin.Controllers.HelpdeskController.Name)</p>
+        <p>@Localizer[nameof(Languages.LanguageStrings.AbridgedWarning)]</p>
+    </div>
+    @using (Html.BeginForm(nameof(HelpdeskPlugin.Controllers.HelpdeskController.LeaveFeedback), HelpdeskPlugin.Controllers.HelpdeskController.Name, FormMethod.Post))
+    {
+        <div class="helpdesk-block">
+            <div class="helpdesk-row">
+                <p>@Html.LabelFor(m => m.Feedback)</p>
+                @Html.TextAreaFor(m => m.Feedback)<br />
+                @Html.ValidationMessageFor(m => m.Feedback)
+            </div>
+            <div class="helpdesk-row">
+                <p>@Html.LabelFor(m => m.Name)</p>
+                @Html.TextBoxFor(m => m.Name)
+            </div>
+            <div class="helpdesk-row">
+                @Html.LabelFor(m => m.CaptchaText)
+            </div>
+            <div class="helpdesk-row">
+                <img src="/Helpdesk/GetCaptchaImage/" />
+            </div>
+            <div class="helpdesk-row">
+                @Html.TextBoxFor(m => m.CaptchaText) @Html.ValidationMessageFor(m => m.CaptchaText)
+            </div>
+        </div>
+
+        <div class="helpdesk-row">
+            <input type="submit" value="@Localizer[nameof(Languages.LanguageStrings.Submit)]" />
+        </div>
+    }
+</div>

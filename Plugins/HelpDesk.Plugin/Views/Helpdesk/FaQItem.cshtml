@@ -1,0 +1,24 @@
+﻿@model HelpdeskPlugin.Models.FaqItemViewModel
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
+
+@{
+    ViewData["Title"] = $"{Model.Description} - {Localizer[nameof(Languages.LanguageStrings.FrequentlyAskedQuestions)]}";
+}
+
+<div class="bc">@Html.Raw(Model.BreadcrumbData())</div> 
+<link rel="stylesheet" href="/css/Helpdesk.css" />
+<script src="~/js/helpdesk.js"></script>
+
+
+<h2>@Model.Description</h2>
+
+<div class="helpdeskContent">
+    <div class="helpdesk-block">
+        <div class="helpdesk-row">
+            @Html.Raw(Model.Content)
+        </div>
+        <div class="helpdesk-row">
+            <p>@Localizer[nameof(Languages.LanguageStrings.FaQViewCount)] @Model.ViewCount</p>
+        </div>
+    </div>
+</div>

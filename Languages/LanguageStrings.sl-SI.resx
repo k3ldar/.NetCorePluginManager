@@ -7428,7 +7428,7 @@ Please contact the office on +44(0) 1952 462505 or +44(0) 1952 463574 to complet
     <value>Oddaj</value>
     <comment>Submit</comment>
   </data>
-  <data name="SubmitATicket" xml:space="preserve">
+  <data name="SubmitTicket" xml:space="preserve">
     <value>Oddaj zahtevek</value>
     <comment>Submit a Ticket</comment>
   </data>

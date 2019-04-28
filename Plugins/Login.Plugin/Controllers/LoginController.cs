@@ -47,7 +47,6 @@ namespace LoginPlugin.Controllers
     {
         #region Private Members
 
-        private readonly IHostingEnvironment _hostingEnvironment;
         private readonly ILoginProvider _loginProvider;
         private readonly LoginControllerSettings _settings;
 
@@ -57,13 +56,12 @@ namespace LoginPlugin.Controllers
 
         #region Constructors
 
-        public LoginController(IHostingEnvironment hostingEnvironment, ILoginProvider loginProvider, 
+        public LoginController(ILoginProvider loginProvider, 
             ISettingsProvider settingsProvider)
         {
             if (settingsProvider == null)
                 throw new ArgumentNullException(nameof(settingsProvider));
 
-            _hostingEnvironment = hostingEnvironment ?? throw new ArgumentNullException(nameof(hostingEnvironment));
             _loginProvider = loginProvider ?? throw new ArgumentNullException(nameof(loginProvider));
             _settings = settingsProvider.GetSettings<LoginControllerSettings>("LoginPlugin");
         }

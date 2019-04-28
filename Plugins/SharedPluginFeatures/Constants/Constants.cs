@@ -44,7 +44,7 @@ namespace SharedPluginFeatures
 
         public const string UserSessionConfiguration = "UserSessionConfiguration";
 
-        public const string StaticFileExtensions = ".less;.ico;.css;.js;.svg;.jpg;.jpeg;.gif;.png;.eot;";
+        public const string StaticFileExtensions = ".less;.ico;.css;.js;.svg;.jpg;.jpeg;.gif;.png;.eot;.map;";
 
         public const string PageReferer = "Referer";
 
@@ -66,6 +66,8 @@ namespace SharedPluginFeatures
 
         public const string UserSessionServiceNotFound = "UserSessionService not found";
 
+        public const string BreadcrumbRoutEqualsParentRoute = "Parent route matches route; Route: {0}; Parent Route {1}";
+        public const string TooManyBreadcrumbs = "Breadcrumb recursion, check parent route values";
 
         public const string CurrencyCodeDefault = "GBP";
     }

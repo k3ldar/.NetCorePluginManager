@@ -19,7 +19,7 @@ namespace Languages {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class LanguageStrings {
@@ -23119,6 +23119,15 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Total Views.
+        /// </summary>
+        public static string FaQViewCount {
+            get {
+                return ResourceManager.GetString("FaQViewCount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Fastest ms.
         /// </summary>
         public static string Fastestms {
@@ -23178,6 +23187,33 @@ namespace Languages {
         public static string Feedback {
             get {
                 return ResourceManager.GetString("Feedback", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to add feedback, please try again..
+        /// </summary>
+        public static string FeedbackFailed {
+            get {
+                return ResourceManager.GetString("FeedbackFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please enter your feedback before clicking submit..
+        /// </summary>
+        public static string FeedbackRequired {
+            get {
+                return ResourceManager.GetString("FeedbackRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Thankyou for your feedback..
+        /// </summary>
+        public static string FeedbackSubmitted {
+            get {
+                return ResourceManager.GetString("FeedbackSubmitted", resourceCulture);
             }
         }
         
@@ -23511,6 +23547,15 @@ namespace Languages {
         public static string HelpdeskSubmitDescription {
             get {
                 return ResourceManager.GetString("HelpdeskSubmitDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to High.
+        /// </summary>
+        public static string High {
+            get {
+                return ResourceManager.GetString("High", resourceCulture);
             }
         }
         
@@ -24668,6 +24713,15 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Low.
+        /// </summary>
+        public static string Low {
+            get {
+                return ResourceManager.GetString("Low", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Email Address.
         /// </summary>
         public static string MailListEmailAddress {
@@ -24817,6 +24871,15 @@ namespace Languages {
         public static string MaximumRuntime {
             get {
                 return ResourceManager.GetString("MaximumRuntime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Medium.
+        /// </summary>
+        public static string Medium {
+            get {
+                return ResourceManager.GetString("Medium", resourceCulture);
             }
         }
         
@@ -25674,6 +25737,15 @@ namespace Languages {
         public static string OopsError {
             get {
                 return ResourceManager.GetString("OopsError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Open.
+        /// </summary>
+        public static string Open {
+            get {
+                return ResourceManager.GetString("Open", resourceCulture);
             }
         }
         
@@ -27173,7 +27245,7 @@ namespace Languages {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Returns Policy.
+        ///   Looks up a localized string similar to Returns.
         /// </summary>
         public static string Returns {
             get {
@@ -27408,6 +27480,15 @@ namespace Languages {
         public static string SaleMobile {
             get {
                 return ResourceManager.GetString("SaleMobile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Salses.
+        /// </summary>
+        public static string Sales {
+            get {
+                return ResourceManager.GetString("Sales", resourceCulture);
             }
         }
         
@@ -28231,6 +28312,15 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Please enter a valid subject..
+        /// </summary>
+        public static string SubjectInvalid {
+            get {
+                return ResourceManager.GetString("SubjectInvalid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Submit.
         /// </summary>
         public static string Submit {
@@ -28240,20 +28330,20 @@ namespace Languages {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Submit a Ticket.
-        /// </summary>
-        public static string SubmitATicket {
-            get {
-                return ResourceManager.GetString("SubmitATicket", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Submitted.
         /// </summary>
         public static string Submitted {
             get {
                 return ResourceManager.GetString("Submitted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Submit a Ticket.
+        /// </summary>
+        public static string SubmitTicket {
+            get {
+                return ResourceManager.GetString("SubmitTicket", resourceCulture);
             }
         }
         
@@ -28303,6 +28393,15 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Support.
+        /// </summary>
+        public static string Support {
+            get {
+                return ResourceManager.GetString("Support", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Support Ticket.
         /// </summary>
         public static string SupportTicket {
@@ -28330,6 +28429,15 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Please enter a valid ticket key.
+        /// </summary>
+        public static string SupportTicketKeyRequired {
+            get {
+                return ResourceManager.GetString("SupportTicketKeyRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Last Replier.
         /// </summary>
         public static string SupportTicketLastReplier {
@@ -28344,6 +28452,15 @@ namespace Languages {
         public static string SupportTicketLastReplyDate {
             get {
                 return ResourceManager.GetString("SupportTicketLastReplyDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please enter your support message..
+        /// </summary>
+        public static string SupportTicketMessageRequired {
+            get {
+                return ResourceManager.GetString("SupportTicketMessageRequired", resourceCulture);
             }
         }
         
@@ -28809,6 +28926,15 @@ namespace Languages {
         public static string Thursday {
             get {
                 return ResourceManager.GetString("Thursday", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please enter your email and ticket key and click submit..
+        /// </summary>
+        public static string TicketFindDescription {
+            get {
+                return ResourceManager.GetString("TicketFindDescription", resourceCulture);
             }
         }
         

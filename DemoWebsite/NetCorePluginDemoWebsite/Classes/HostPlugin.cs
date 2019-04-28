@@ -31,6 +31,7 @@ using SharedPluginFeatures;
 
 using Middleware;
 using Middleware.Accounts;
+using Middleware.Helpdesk;
 
 using AspNetCore.PluginManager.DemoWebsite.Helpers;
 
@@ -59,6 +60,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
             services.AddSingleton<IShoppingCartService, MockShoppingCartPluginProvider>();
             services.AddSingleton<IErrorManager, ErrorManager>();
             services.AddSingleton<ISharedPluginHelper, SharedPluginHelper>();
+            services.AddSingleton<IHelpdeskProvider, MockHelpdeskProvider>();
         }
 
         public void Finalise()

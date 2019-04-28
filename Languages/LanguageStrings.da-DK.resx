@@ -2318,7 +2318,7 @@ have multiple installations of Firebird</comment>
     <value>Send</value>
     <comment>Submit</comment>
   </data>
-  <data name="SubmitATicket" xml:space="preserve">
+  <data name="SubmitTicket" xml:space="preserve">
     <value>Send en besked</value>
     <comment>Submit a Ticket</comment>
   </data>

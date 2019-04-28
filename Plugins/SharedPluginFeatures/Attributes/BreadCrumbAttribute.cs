@@ -47,19 +47,19 @@ namespace SharedPluginFeatures
 
         }
 
-        public BreadcrumbAttribute(string name, string controllerName, string actionName)
+        public BreadcrumbAttribute(string name, string parentControllerName, string parentActionName)
             : this (name, String.Empty)
         {
-            if (String.IsNullOrEmpty(controllerName))
-                throw new ArgumentNullException(nameof(controllerName));
+            if (String.IsNullOrEmpty(parentControllerName))
+                throw new ArgumentNullException(nameof(parentControllerName));
 
-            if (String.IsNullOrEmpty(actionName))
-                throw new ArgumentNullException(nameof(actionName));
+            if (String.IsNullOrEmpty(parentActionName))
+                throw new ArgumentNullException(nameof(parentActionName));
 
-            if (controllerName.EndsWith("Controller"))
-                controllerName = controllerName.Substring(0, controllerName.Length - 10);
+            if (parentControllerName.EndsWith("Controller"))
+                parentControllerName = parentControllerName.Substring(0, parentControllerName.Length - 10);
 
-            ParentRoute = $"/{controllerName}/{actionName}";
+            ParentRoute = $"/{parentControllerName}/{parentActionName}";
         }
 
         #endregion Constructors

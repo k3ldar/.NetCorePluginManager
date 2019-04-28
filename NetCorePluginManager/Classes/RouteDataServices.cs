@@ -76,7 +76,15 @@ namespace AspNetCore.PluginManager.Classes
 
             if (classRouteAttribute != null && !String.IsNullOrEmpty(classRouteAttribute.Template))
             {
-                return (classRouteAttribute.Template);
+                string template = classRouteAttribute.Template;
+
+                while (template.IndexOf('{') > -1)
+                    template = template.Substring(0, template.Length - 1);
+
+                if (template.EndsWith("/"))
+                    template = template.Substring(0, template.Length - 1);
+
+                return (template);
             }
 
             string routeName = $"{method.DeclaringType.ToString()}.{method.Name}";
