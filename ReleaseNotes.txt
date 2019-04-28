@@ -1,3 +1,20 @@
+Version 2.1.0
+=============
+
+#26 Helpdesk Plugin
+
+
+Version 2.0.0
+=============
+
+Update demo References
+#62 Net Core 3 Compatibility
+#61 Default tax rate
+Change package licence url to package licence expression
+Update to latest sc.shared.library.core packages
+Tidy package references prior to core 3
+Update package references
+
 Version 1.7.0
 =============
 #58 - Fix breadcrumb
