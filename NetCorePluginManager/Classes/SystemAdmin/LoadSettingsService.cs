@@ -42,7 +42,16 @@ namespace AspNetCore.PluginManager.Classes
             IConfigurationBuilder configBuilder = builder.SetBasePath(Path.GetDirectoryName(jsonFile));
             configBuilder.AddJsonFile(jsonFile);
             IConfigurationRoot config = builder.Build();
-            T Result = (T)Activator.CreateInstance(typeof(T));
+
+            PluginManager pluginManager = PluginManagerService.GetPluginManager();
+
+            T Result;
+
+            if (pluginManager == null)
+                Result = (T)Activator.CreateInstance(typeof(T));
+            else
+                Result = (T)Activator.CreateInstance(typeof(T), pluginManager.GetParameterInstances(typeof(T)));
+
             config.GetSection(name).Bind(Result);
 
             return ValidateSettings<T>.Validate(Result);

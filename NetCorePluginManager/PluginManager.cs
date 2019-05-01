@@ -37,6 +37,7 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 
 using SharedPluginFeatures;
 using static SharedPluginFeatures.Enums;
+using System.Runtime.CompilerServices;
 
 #pragma warning disable IDE0034
 
@@ -58,7 +59,7 @@ namespace AspNetCore.PluginManager
 
         #region Constructors
 
-        private PluginManager ()
+        private PluginManager()
         {
             _plugins = new Dictionary<string, IPluginModule>();
             AppDomain.CurrentDomain.AssemblyResolve += CurrentDomainAssemblyResolve;
@@ -104,7 +105,7 @@ namespace AspNetCore.PluginManager
 
             if (String.IsNullOrEmpty(assemblyName))
             {
-                assemblyName = assembly.ManifestModule.ScopeName; 
+                assemblyName = assembly.ManifestModule.ScopeName;
             }
 
             PluginSetting pluginSetting = GetPluginSetting(assemblyName);
@@ -124,7 +125,7 @@ namespace AspNetCore.PluginManager
                     if (type.GetInterface("IPlugin") != null)
                     {
                         interfaceFound = true;
-                        IPlugin pluginService = (IPlugin)Activator.CreateInstance(type);
+                        IPlugin pluginService = (IPlugin)Activator.CreateInstance(type, GetParameterInstances(type));
 
                         if (extractResources && !pluginSetting.PreventExtractResources)
                         {
@@ -171,7 +172,7 @@ namespace AspNetCore.PluginManager
                 }
                 catch (Exception typeLoader)
                 {
-                    _logger.AddToLog(LogLevel.PluginLoadError, typeLoader, 
+                    _logger.AddToLog(LogLevel.PluginLoadError, typeLoader,
                         $"{assembly.FullName}{MethodBase.GetCurrentMethod().Name}");
                 }
             }
@@ -352,7 +353,7 @@ namespace AspNetCore.PluginManager
         /// <returns></returns>
         internal List<T> GetPluginClasses<T>()
         {
-            List<T> Result = new List<T>(); 
+            List<T> Result = new List<T>();
 
             foreach (KeyValuePair<string, IPluginModule> plugin in _plugins)
             {
@@ -365,27 +366,7 @@ namespace AspNetCore.PluginManager
 
                             if ((type.GetInterface(typeof(T).Name) != null) || (type.IsSubclassOf(typeof(T))))
                             {
-                                // the only other supported constructor is one that supports only ISettingsProvider
-                                // does this type have one of those constructors
-                                ConstructorInfo settingsProviderConstructor = type.GetConstructors()
-                                    .Where(c => c.IsPublic && !c.IsStatic && c.GetParameters().Length == 1)
-                                    .FirstOrDefault();
-
-                                if (settingsProviderConstructor != null)
-                                {
-                                    if (settingsProviderConstructor.GetParameters()[0].ParameterType == typeof(ISettingsProvider) ||
-                                        settingsProviderConstructor.GetParameters()[0].ParameterType.Name.StartsWith(typeof(ISettingsProvider).Name))
-                                    {
-                                        Result.Add((T)Activator.CreateInstance(type,
-                                            _serviceProvider.GetRequiredService(typeof(ISettingsProvider))));
-                                    }
-                                }
-                                else
-                                { 
-                                    // does the type have a parameterless constructor?  If not then
-                                    // an exception will be raised and logged
-                                    Result.Add((T)Activator.CreateInstance(type));
-                                }
+                                Result.Add((T)Activator.CreateInstance(type, GetParameterInstances(type)));
                             }
                         }
                         catch (Exception typeLoader)
@@ -451,6 +432,30 @@ namespace AspNetCore.PluginManager
             return DynamicLoadResult.Success;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal object[] GetParameterInstances(Type type)
+        {
+            if (type == null)
+                throw new ArgumentNullException(nameof(type));
+
+            ConstructorInfo constructor = type.GetConstructors()
+                .Where(c => c.IsPublic && !c.IsStatic && c.GetParameters().Length > 0)
+                .OrderByDescending(c => c.GetParameters().Length)
+                .FirstOrDefault();
+
+            List<object> Result = new List<object>();
+
+            if (constructor != null)
+            {
+                foreach (ParameterInfo param in constructor.GetParameters())
+                {
+                    Result.Add(_serviceProvider.GetService(param.ParameterType));
+                }
+            }
+
+            return Result.ToArray();
+        }
+
         #endregion Internal Methods
 
         #region IDisposable Methods
@@ -510,7 +515,7 @@ namespace AspNetCore.PluginManager
                     {
                         if ((type.GetInterface(typeof(T).Name) != null) || (type.IsSubclassOf(typeof(T))))
                         {
-                            return ((T)Activator.CreateInstance(type));
+                            return ((T)Activator.CreateInstance(type, GetParameterInstances(type)));
                         }
                     }
                     catch (Exception typeLoader)
@@ -618,7 +623,7 @@ namespace AspNetCore.PluginManager
         /// <returns></returns>
         private Assembly CurrentDomainAssemblyResolve(object sender, ResolveEventArgs args)
         {
-            if (String.IsNullOrWhiteSpace(_pluginSettings.SystemFiles) || 
+            if (String.IsNullOrWhiteSpace(_pluginSettings.SystemFiles) ||
                 !Directory.Exists(_pluginSettings.SystemFiles))
             {
                 return (null);
