@@ -36,7 +36,7 @@ namespace AspNetCore.PluginManager
             FileVersionInfo versionX = FileVersionInfo.GetVersionInfo(x.FullName);
             FileVersionInfo versionY = FileVersionInfo.GetVersionInfo(y.FullName);
 
-            return (versionX.FileVersion.CompareTo(versionY.FileVersion));
+            return versionX.FileVersion.CompareTo(versionY.FileVersion);
         }
     }
 }

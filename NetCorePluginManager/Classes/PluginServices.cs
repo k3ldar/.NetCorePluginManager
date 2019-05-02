@@ -36,7 +36,6 @@ namespace AspNetCore.PluginManager
     {
         #region Private Members
 
-        private readonly object _lockObject;
 
         #endregion Private Members
 
@@ -44,7 +43,7 @@ namespace AspNetCore.PluginManager
 
         public PluginServices()
         {
-            _lockObject = new object();
+
         }
 
         #endregion Constructors

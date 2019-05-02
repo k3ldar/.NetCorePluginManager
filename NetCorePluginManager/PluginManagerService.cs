@@ -82,10 +82,15 @@ namespace AspNetCore.PluginManager
 
                 //load config and get settings
                 if (File.Exists(Path.Combine(configuration.ConfigurationFile)))
+                {
                     _pluginConfiguration = configuration.LoadSettingsService.LoadSettings<PluginSettings>(
                         configuration.ConfigurationFile, "PluginConfiguration");
+                }
                 else
+                {
                     _pluginConfiguration = new PluginSettings();
+                    AppSettings.ValidateSettings<PluginSettings>.Validate(_pluginConfiguration);
+                }
 
                 _pluginManagerInstance = new PluginManager(_logger, _pluginConfiguration);
 
@@ -93,7 +98,7 @@ namespace AspNetCore.PluginManager
                     _rootPath = Directory.GetCurrentDirectory();
 
                 if (_pluginConfiguration.Disabled)
-                    return (false);
+                    return false;
 
                 // Load ourselves
                 _pluginManagerInstance.LoadPlugin(Assembly.GetExecutingAssembly(), String.Empty, false);
@@ -147,10 +152,10 @@ namespace AspNetCore.PluginManager
             catch (Exception error) 
             {
                 _logger.AddToLog(LogLevel.PluginConfigureError, error, $"{MethodBase.GetCurrentMethod().Name}");
-                return (false);
+                return false;
             }
 
-            return (true);
+            return true;
         }
 
         public static void Configure(IApplicationBuilder app, IHostingEnvironment env)
@@ -193,9 +198,10 @@ namespace AspNetCore.PluginManager
             if (!_pluginConfiguration.DisableRouteDataService)
                 services.AddSingleton<IRouteDataService, Classes.RouteDataServices>();
 
-            services.AddSingleton<IPluginClassesService, PluginServices>();
-            services.AddSingleton<IPluginHelperService, PluginServices>();
-            services.AddSingleton<IPluginTypesService, PluginServices>();
+            PluginServices pluginServices = new PluginServices();
+            services.AddSingleton<IPluginClassesService>(pluginServices);
+            services.AddSingleton<IPluginHelperService>(pluginServices);
+            services.AddSingleton<IPluginTypesService>(pluginServices);
 
             _pluginManagerInstance.ConfigureServices(services);
 
@@ -208,7 +214,7 @@ namespace AspNetCore.PluginManager
 
         internal static PluginManager GetPluginManager()
         {
-            return (_pluginManagerInstance);
+            return _pluginManagerInstance;
         }
 
         internal static string RootPath()
@@ -235,18 +241,18 @@ namespace AspNetCore.PluginManager
                 string[] searchFiles = Directory.GetFiles(pluginSearchPath, Path.GetFileName(pluginFile), SearchOption.AllDirectories);
 
                 if (searchFiles.Length == 0)
-                    return (false);
+                    return false;
 
                 if (searchFiles.Length == 1)
                 {
                     pluginFile = searchFiles[0];
-                    return (true);
+                    return true;
                 }
 
-                return (GetSpecificVersion(searchFiles, pluginSetting.Version, ref pluginFile));
+                return GetSpecificVersion(searchFiles, pluginSetting.Version, ref pluginFile);
             }
 
-            return (false);
+            return false;
         }
 
         private static bool GetSpecificVersion(string[] searchFiles, in string version, ref string pluginFile)
@@ -263,7 +269,7 @@ namespace AspNetCore.PluginManager
             if (version == LatestVersion)
             {
                 pluginFile = fileVersions[fileVersions.Count -1].FullName;
-                return (true);
+                return true;
             }
 
             // look for specific version
@@ -272,11 +278,11 @@ namespace AspNetCore.PluginManager
                 if (FileVersionInfo.GetVersionInfo(fileInfo.FullName).FileVersion.ToString().StartsWith(version))
                 {
                     pluginFile = fileInfo.FullName;
-                    return (true);
+                    return true;
                 }
             }
 
-            return (false);
+            return false;
         }
 
         private static PluginSetting GetPluginSetting(in string pluginName)
@@ -284,18 +290,18 @@ namespace AspNetCore.PluginManager
             foreach (PluginSetting setting in _pluginConfiguration.Plugins)
             {
                 if (pluginName.EndsWith(setting.Name))
-                    return (setting);
+                    return setting;
             }
 
-            return (new PluginSetting(pluginName));
+            return new PluginSetting(pluginName);
         }
 
         private static string AddTrailingBackSlash(in string path)
         {
             if (path.EndsWith("\\"))
-                return (path);
+                return path;
 
-            return ($"{path}\\");
+            return $"{path}\\";
         }
 
         private static string GetPluginPath()
@@ -304,10 +310,10 @@ namespace AspNetCore.PluginManager
             if (!String.IsNullOrWhiteSpace(_pluginConfiguration.PluginPath) && 
                 Directory.Exists(_pluginConfiguration.PluginPath))
             {
-                return (_pluginConfiguration.PluginPath);
+                return _pluginConfiguration.PluginPath;
             }
 
-            return (AddTrailingBackSlash(_rootPath) + "Plugins\\");
+            return AddTrailingBackSlash(_rootPath) + "Plugins\\";
         }
 
         #endregion Private Static Methods

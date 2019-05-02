@@ -48,7 +48,7 @@ namespace AspNetCore.PluginManager.Classes
             T Result = (T)Activator.CreateInstance(typeof(T));
             config.GetSection(sectionName).Bind(Result);
 
-            return (AppSettings.ValidateSettings<T>.Validate(Result));
+            return AppSettings.ValidateSettings<T>.Validate(Result);
         }
 
         public T GetSettings<T>(in string sectionName)

@@ -36,22 +36,22 @@ namespace AspNetCore.PluginManager.Classes.SystemAdmin
     {
         public override string Action()
         {
-            return (String.Empty);
+            return String.Empty;
         }
 
         public override string Area()
         {
-            return (String.Empty);
+            return String.Empty;
         }
 
         public override string Controller()
         {
-            return (String.Empty);
+            return String.Empty;
         }
 
         public override Enums.SystemAdminMenuType MenuType()
         {
-            return (Enums.SystemAdminMenuType.Grid);
+            return Enums.SystemAdminMenuType.Grid;
         }
 
         public override string Data()
@@ -75,27 +75,27 @@ namespace AspNetCore.PluginManager.Classes.SystemAdmin
                 Result.Append(SplitText(parts[5], ':') + "\r");
             }
 
-            return (Result.ToString().Trim());
+            return Result.ToString().Trim();
         }
 
         public override string Name()
         {
-            return ("Threads");
+            return "Threads";
         }
 
         public override string ParentMenuName()
         {
-            return ("System");
+            return "System";
         }
 
         public override int SortOrder()
         {
-            return (0);
+            return 0;
         }
 
         public override string Image()
         {
-            return (String.Empty);
+            return String.Empty;
         }
 
         private string SplitText(string text, char splitText)
@@ -103,10 +103,10 @@ namespace AspNetCore.PluginManager.Classes.SystemAdmin
             if (text.Contains(splitText.ToString()))
             {
                 string result = text.Substring(text.IndexOf(splitText) + 1);
-                return (result.Trim());
+                return result.Trim();
             }
             else
-                return (text);
+                return text;
         }
     }
 }

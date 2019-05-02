@@ -65,7 +65,7 @@ namespace AspNetCore.PluginManager.Classes
             if (isDebugPos > -1)
                 path = path.Substring(0, isDebugPos);
 
-            return (LoadSettings<T>(Path.Combine(path, "appsettings.json"), name));
+            return LoadSettings<T>(Path.Combine(path, "appsettings.json"), name);
         }
     }
 }

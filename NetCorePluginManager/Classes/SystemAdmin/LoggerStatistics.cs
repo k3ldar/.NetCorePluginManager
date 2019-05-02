@@ -59,22 +59,22 @@ namespace AspNetCore.PluginManager.Classes
 
         public override string Action()
         {
-            return (String.Empty);
+            return String.Empty;
         }
 
         public override string Area()
         {
-            return (String.Empty);
+            return String.Empty;
         }
 
         public override string Controller()
         {
-            return (String.Empty);
+            return String.Empty;
         }
 
         public override Enums.SystemAdminMenuType MenuType()
         {
-            return (Enums.SystemAdminMenuType.Grid);
+            return Enums.SystemAdminMenuType.Grid;
         }
 
         public override string Data()
@@ -95,27 +95,27 @@ namespace AspNetCore.PluginManager.Classes
                 Result.Append($"{item.Level.ToString()}|{item.Message}");
             }
 
-            return (Result.ToString());
+            return Result.ToString();
         }
 
         public override string Name()
         {
-            return ("Logs");
+            return "Logs";
         }
 
         public override string ParentMenuName()
         {
-            return ("System");
+            return "System";
         }
 
         public override int SortOrder()
         {
-            return (0);
+            return 0;
         }
 
         public override string Image()
         {
-            return (String.Empty);
+            return String.Empty;
         }
 
         #endregion SystemAdminSubMenu Methods

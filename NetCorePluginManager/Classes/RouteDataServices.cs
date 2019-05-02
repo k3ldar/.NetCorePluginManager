@@ -46,18 +46,18 @@ namespace AspNetCore.PluginManager.Classes
 
             if (classRouteAttribute != null && !String.IsNullOrEmpty(classRouteAttribute.Template))
             {
-                return (classRouteAttribute.Template);
+                return classRouteAttribute.Template;
             }
 
             ActionDescriptor route = routeProvider.ActionDescriptors.Items.Where(ad => ad
                 .DisplayName.StartsWith(type.FullName, StringComparison.CurrentCultureIgnoreCase)).FirstOrDefault();
 
             if (route == null)
-                return (String.Empty);
+                return String.Empty;
 
             if (route.AttributeRouteInfo != null)
             {
-                return ($"/{route.AttributeRouteInfo.Template}/{route.AttributeRouteInfo.Name}");
+                return $"/{route.AttributeRouteInfo.Template}/{route.AttributeRouteInfo.Name}";
             }
             else if (route.AttributeRouteInfo == null)
             {
@@ -84,7 +84,7 @@ namespace AspNetCore.PluginManager.Classes
                 if (template.EndsWith("/"))
                     template = template.Substring(0, template.Length - 1);
 
-                return (template);
+                return template;
             }
 
             string routeName = $"{method.DeclaringType.ToString()}.{method.Name}";
@@ -93,20 +93,20 @@ namespace AspNetCore.PluginManager.Classes
                 .DisplayName.StartsWith(routeName, StringComparison.CurrentCultureIgnoreCase)).FirstOrDefault();
 
             if (route == null)
-                return (String.Empty);
+                return String.Empty;
 
             if (route.AttributeRouteInfo != null)
             {
-                return ($"/{route.AttributeRouteInfo.Template}/{route.AttributeRouteInfo.Name}");
+                return $"/{route.AttributeRouteInfo.Template}/{route.AttributeRouteInfo.Name}";
             }
 
             if (route.RouteValues["controller"].ToString() == "Home")
             {
-                return ($"/{route.RouteValues["action"]}");
+                return $"/{route.RouteValues["action"]}";
             }
             else
             {
-                return ($"/{route.RouteValues["controller"]}/{route.RouteValues["action"]}");
+                return $"/{route.RouteValues["controller"]}/{route.RouteValues["action"]}";
             }
         }
     }

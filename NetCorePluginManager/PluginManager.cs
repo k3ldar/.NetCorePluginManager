@@ -85,7 +85,7 @@ namespace AspNetCore.PluginManager
         /// <returns></returns>
         internal Dictionary<string, IPluginModule> GetLoadedPlugins()
         {
-            return (_plugins);
+            return _plugins;
         }
 
         /// <summary>
@@ -304,7 +304,7 @@ namespace AspNetCore.PluginManager
                 }
             }
 
-            return (Result);
+            return Result;
         }
 
         /// <summary>
@@ -325,7 +325,7 @@ namespace AspNetCore.PluginManager
                     {
                         try
                         {
-                            if ((type.GetInterface(typeof(T).Name) != null) || (type.IsSubclassOf(typeof(T))))
+                            if ((type.GetInterface(typeof(T).Name) != null) || type.IsSubclassOf(typeof(T)))
                             {
                                 Result.Add(type);
                             }
@@ -342,7 +342,7 @@ namespace AspNetCore.PluginManager
                 }
             }
 
-            return (Result);
+            return Result;
         }
 
         /// <summary>
@@ -364,7 +364,7 @@ namespace AspNetCore.PluginManager
                         try
                         {
 
-                            if ((type.GetInterface(typeof(T).Name) != null) || (type.IsSubclassOf(typeof(T))))
+                            if ((type.GetInterface(typeof(T).Name) != null) || type.IsSubclassOf(typeof(T)))
                             {
                                 Result.Add((T)Activator.CreateInstance(type, GetParameterInstances(type)));
                             }
@@ -381,7 +381,7 @@ namespace AspNetCore.PluginManager
                 }
             }
 
-            return (Result);
+            return Result;
         }
 
         /// <summary>
@@ -402,11 +402,11 @@ namespace AspNetCore.PluginManager
                     version = plugin.Value.Version;
                     module = plugin.Value.Assembly.Location;
 
-                    return (true);
+                    return true;
                 }
             }
 
-            return (false);
+            return false;
         }
 
         internal DynamicLoadResult AddAssembly(in Assembly assembly)
@@ -492,11 +492,11 @@ namespace AspNetCore.PluginManager
         private ushort GetMinMaxValue(in ushort value, in ushort minValue, in ushort maxValue)
         {
             if (value < minValue)
-                return (minValue);
+                return minValue;
             else if (value > maxValue)
-                return (maxValue);
+                return maxValue;
 
-            return (value);
+            return value;
         }
 
         /// <summary>
@@ -513,9 +513,9 @@ namespace AspNetCore.PluginManager
                 {
                     try
                     {
-                        if ((type.GetInterface(typeof(T).Name) != null) || (type.IsSubclassOf(typeof(T))))
+                        if ((type.GetInterface(typeof(T).Name) != null) || type.IsSubclassOf(typeof(T)))
                         {
-                            return ((T)Activator.CreateInstance(type, GetParameterInstances(type)));
+                            return (T)Activator.CreateInstance(type, GetParameterInstances(type));
                         }
                     }
                     catch (Exception typeLoader)
@@ -529,7 +529,7 @@ namespace AspNetCore.PluginManager
                 _logger.AddToLog(LogLevel.Error, error, $"{pluginModule.Module}{MethodBase.GetCurrentMethod().Name}");
             }
 
-            return (default(T));
+            return default(T);
         }
 
         /// <summary>
@@ -550,7 +550,7 @@ namespace AspNetCore.PluginManager
                 Result = Result.Substring(0, lastIndex).Replace(".", "\\") + Result.Substring(lastIndex);
             }
 
-            return (Path.Combine(PluginManagerService.RootPath(), Result));
+            return Path.Combine(PluginManagerService.RootPath(), Result);
         }
 
         /// <summary>
@@ -611,7 +611,7 @@ namespace AspNetCore.PluginManager
             if (!Path.IsPathRooted(assembly))
                 assembly = Path.GetFullPath(assembly);
 
-            return (Assembly.LoadFrom(assembly));
+            return Assembly.LoadFrom(assembly);
         }
 
         /// <summary>
@@ -626,7 +626,7 @@ namespace AspNetCore.PluginManager
             if (String.IsNullOrWhiteSpace(_pluginSettings.SystemFiles) ||
                 !Directory.Exists(_pluginSettings.SystemFiles))
             {
-                return (null);
+                return null;
             }
 
             AssemblyName assyName = new AssemblyName(args.Name);
@@ -639,14 +639,14 @@ namespace AspNetCore.PluginManager
             try
             {
                 if (File.Exists(assembly))
-                    return (Assembly.LoadFrom(assembly));
+                    return Assembly.LoadFrom(assembly);
             }
             catch (Exception error)
             {
                 _logger.AddToLog(LogLevel.PluginLoadError, error, $"{MethodBase.GetCurrentMethod().Name}");
             }
 
-            return (null);
+            return null;
         }
 
         /// <summary>
@@ -657,17 +657,17 @@ namespace AspNetCore.PluginManager
         private PluginSetting GetPluginSetting(in string pluginName)
         {
             if (_pluginSettings == null || _pluginSettings.PluginFiles == null)
-                return (new PluginSetting(pluginName));
+                return new PluginSetting(pluginName);
 
             string name = Path.GetFileName(pluginName);
 
             foreach (PluginSetting setting in _pluginSettings.Plugins)
             {
                 if (setting.Name.EndsWith(name, StringComparison.CurrentCultureIgnoreCase))
-                    return (setting);
+                    return setting;
             }
 
-            return (new PluginSetting(pluginName));
+            return new PluginSetting(pluginName);
         }
 
         #endregion Private Methods
