@@ -5,6 +5,8 @@ Version 2.1.0
 #67 Unit Tests
 #66 Add config file to PluginManagerConfiguration
 #63 Allow an assembly to be dynamically added to list of plugins
+#67 Add Unit Tests
+### Code Tidy 
 
 
 Version 2.0.0

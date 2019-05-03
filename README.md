@@ -18,12 +18,12 @@ Password: password
 It only uses mock data providers and will reset periodically
 
 ## Current Version
-Version 2.0.0
+Version 2.1.0
 
 # ASPNetCore.PluginManager
 Extend website with plugin technology.
 
-PM> Install-Package AspNetCore.PluginManager -Version 2.0.0
+PM> Install-Package AspNetCore.PluginManager -Version 2.1.0
 
 https://www.nuget.org/packages/AspNetCore.PluginManager/
 
@@ -37,16 +37,12 @@ You may also need to enable Net Core 3 Preview in Visual Studio (https://visuals
 # Memory Cache Plugin
 Provides memory cache capability for any application or middleware.
 
-PM> Install-Package MemoryCache.Plugin -Version 1.7.0
-
 https://www.nuget.org/packages/MemoryCache.Plugin/
 
 See https://github.com/k3ldar/.NetCorePluginManager/wiki/Memory-Cache-Plugin for setup and configuration.
 
 # User Session Middleware
 Manage user sessions within Controllers.
-
-PM> Install-Package UserSessionMiddleware.Plugin -Version 1.7.0
 
 https://www.nuget.org/packages/UserSessionMiddleware.Plugin/
 
@@ -55,14 +51,10 @@ See https://github.com/k3ldar/.NetCorePluginManager/wiki/User-Session-Manager-Mi
 # CacheControl
 Manage cache-control headers for user defined routes.  Add browser caching for static files like .js, .css and image files etc.
 
-PM> Install-Package CacheControl.Plugin -Version 1.7.0
-
 See https://github.com/k3ldar/.NetCorePluginManager/wiki/CacheControl-Plugin-Settings for setup and configuration.
 
 # Deny Spider
 Automatically generate robots.txt file from attributes applied to conntroller classes and methods.  If used in conjunction with UserSession Manager it will provide a forbidden response if a bot/spider attempts to go to a denied path.
-
-PM > Install-Package Spider.Plugin -Version 1.7.0
 
 https://www.nuget.org/packages/Spider.Plugin/
 

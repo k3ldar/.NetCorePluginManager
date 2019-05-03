@@ -9,7 +9,7 @@
     <PackageProjectUrl>https://github.com/k3ldar/.NetCorePluginManager</PackageProjectUrl>
     <PackageTags>asp net core plugin manager shared classes interfaces</PackageTags>
     <PackageReleaseNotes>Shared Modules for asp net core plugin manager.  Supports Net Core 2.1, 2.2, 3.0 &amp; net461</PackageReleaseNotes>
-    <Version>2.0.0</Version>
+    <Version>2.1.0</Version>
     <Authors>Simon Carter</Authors>
     <Company>Simon Carter</Company>
     <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
