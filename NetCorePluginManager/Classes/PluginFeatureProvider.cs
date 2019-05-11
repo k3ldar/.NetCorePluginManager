@@ -35,7 +35,9 @@ using Microsoft.AspNetCore.Mvc.Razor.Compilation;
 using Microsoft.CodeAnalysis;
 using Microsoft.Extensions.DependencyModel;
 
-namespace AspNetCore.PluginManager.Classes
+using static SharedPluginFeatures.Enums.LogLevel;
+
+namespace AspNetCore.PluginManager
 {
     public class PluginFeatureProvider : IApplicationFeatureProvider<MetadataReferenceFeature>
     {
@@ -66,15 +68,23 @@ namespace AspNetCore.PluginManager.Classes
                                     libraryPaths.Add(path);
                                 }
                             }
-                            catch (InvalidOperationException)
+                            catch (InvalidOperationException err)
                             {
-                                if (PluginManagerService.GetPluginManager().PluginLoaded(library.Name + ".dll", 
-                                    out int version, out string module))
+                                string libName = library.Name + ".dll";
+
+                                if (String.IsNullOrEmpty(libraryPaths.Where(lp => lp.EndsWith(libName, StringComparison.InvariantCultureIgnoreCase)).FirstOrDefault()))
                                 {
-                                    libraryPaths.Add(module);
+                                    if (PluginManagerService.GetPluginManager().PluginLoaded(libName,
+                                        out int version, out string module))
+                                    {
+                                        libraryPaths.Add(module);
+                                    }
+                                    else
+                                    {
+                                        PluginManagerService.GetLogger().AddToLog(Critical, err, libName);
+                                        throw;
+                                    }
                                 }
-                                else
-                                    throw;
                             }
                         }
                     }
