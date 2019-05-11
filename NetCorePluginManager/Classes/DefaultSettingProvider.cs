@@ -29,7 +29,7 @@ using Microsoft.Extensions.Configuration;
 
 using SharedPluginFeatures;
 
-namespace AspNetCore.PluginManager.Classes
+namespace AspNetCore.PluginManager
 {
     public sealed class DefaultSettingProvider : ISettingsProvider
     {

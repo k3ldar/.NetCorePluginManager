@@ -28,7 +28,7 @@ using System;
 using SharedPluginFeatures;
 using static SharedPluginFeatures.Enums;
 
-namespace AspNetCore.PluginManager.Classes
+namespace AspNetCore.PluginManager
 {
     public class DefaultLogger : ILogger
     {

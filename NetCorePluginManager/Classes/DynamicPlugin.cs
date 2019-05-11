@@ -29,7 +29,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 using SharedPluginFeatures;
 
-namespace AspNetCore.PluginManager.Classes
+namespace AspNetCore.PluginManager
 {
     internal class DynamicPlugin : IPlugin
     {

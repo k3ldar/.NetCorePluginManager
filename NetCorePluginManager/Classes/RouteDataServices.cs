@@ -34,7 +34,7 @@ using Microsoft.AspNetCore.Mvc.Controllers;
 
 using SharedPluginFeatures;
 
-namespace AspNetCore.PluginManager.Classes
+namespace AspNetCore.PluginManager
 {
     public sealed class RouteDataServices : IRouteDataService
     {

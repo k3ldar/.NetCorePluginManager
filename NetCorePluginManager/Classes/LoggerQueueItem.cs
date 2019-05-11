@@ -27,7 +27,7 @@ using System;
 
 using static SharedPluginFeatures.Enums;
 
-namespace AspNetCore.PluginManager.Classes
+namespace AspNetCore.PluginManager
 {
     internal class LoggerQueueItem
     {
