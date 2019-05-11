@@ -241,7 +241,7 @@ namespace AspNetCore.PluginManager
             }
 
             // if no plugin has registered a setting provider, add the default appsettings json provider
-            services.TryAddSingleton<ISettingsProvider, Classes.DefaultSettingProvider>();
+            services.TryAddSingleton<ISettingsProvider, DefaultSettingProvider>();
 
             _serviceProvider = services.BuildServiceProvider();
         }
@@ -423,7 +423,7 @@ namespace AspNetCore.PluginManager
             {
                 Assembly = assembly,
                 Module = assembly.ManifestModule.ScopeName,
-                Plugin = new Classes.DynamicPlugin(),
+                Plugin = new DynamicPlugin(),
                 Version = 1,
             };
 
