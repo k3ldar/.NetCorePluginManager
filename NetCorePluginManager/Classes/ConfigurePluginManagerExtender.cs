@@ -63,7 +63,7 @@ namespace AspNetCore.PluginManager
             {
                 var oldMetadataReferenceFeatureProvider = manager.FeatureProviders.First(f => f is MetadataReferenceFeatureProvider);
                 manager.FeatureProviders.Remove(oldMetadataReferenceFeatureProvider);
-                manager.FeatureProviders.Add(new Classes.PluginFeatureProvider());
+                manager.FeatureProviders.Add(new PluginFeatureProvider());
             });
         }
 

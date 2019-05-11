@@ -160,9 +160,6 @@ namespace AspNetCore.PluginManager
 
         public static void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            List<IInitialiseEvents> init = _pluginManagerInstance.GetPluginClasses<IInitialiseEvents>();
-            init.ForEach(i => i.BeforeConfigure(app, env));
-
             if (_logger == null)
                 throw new InvalidOperationException("Plugin Manager has not been initialised.");
 
@@ -176,6 +173,9 @@ namespace AspNetCore.PluginManager
             if (_pluginConfiguration.Disabled)
                 return;
 
+            List<IInitialiseEvents> init = _pluginManagerInstance.GetPluginClasses<IInitialiseEvents>();
+            init.ForEach(i => i.BeforeConfigure(app, env));
+
             _pluginManagerInstance.Configure(app, env);
 
             init.ForEach(i => i.AfterConfigure(app, env));
@@ -183,9 +183,6 @@ namespace AspNetCore.PluginManager
 
         public static void ConfigureServices(IServiceCollection services)
         {
-            List<IInitialiseEvents> init = _pluginManagerInstance.GetPluginClasses<IInitialiseEvents>();
-            init.ForEach(i => i.BeforeConfigureServices(services));
-
             if (_logger == null)
                 throw new InvalidOperationException("Plugin Manager has not been initialised.");
 
@@ -196,7 +193,10 @@ namespace AspNetCore.PluginManager
                 return;
 
             if (!_pluginConfiguration.DisableRouteDataService)
-                services.AddSingleton<IRouteDataService, Classes.RouteDataServices>();
+                services.AddSingleton<IRouteDataService, RouteDataServices>();
+
+            List<IInitialiseEvents> init = _pluginManagerInstance.GetPluginClasses<IInitialiseEvents>();
+            init.ForEach(i => i.BeforeConfigureServices(services));
 
             PluginServices pluginServices = new PluginServices();
             services.AddSingleton<IPluginClassesService>(pluginServices);
@@ -215,6 +215,11 @@ namespace AspNetCore.PluginManager
         internal static PluginManager GetPluginManager()
         {
             return _pluginManagerInstance;
+        }
+
+        internal static ILogger GetLogger()
+        {
+            return _logger;
         }
 
         internal static string RootPath()

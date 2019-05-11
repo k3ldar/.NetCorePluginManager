@@ -26,9 +26,6 @@
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 
-using AspNetCore.PluginManager;
-using AspNetCore.PluginManager.DemoWebsite.Classes;
-
 namespace AspNetCore.PluginManager.DemoWebsite
 {
     public class Program
