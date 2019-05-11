@@ -4,7 +4,8 @@
     <TargetFrameworks>netcoreapp2.2</TargetFrameworks>
     <LangVersion>latest</LangVersion>
     <Version>2.1.0</Version>
-    <RazorCompileOnBuild>true</RazorCompileOnBuild>
+    <RazorCompileOnBuild>false</RazorCompileOnBuild>
+    <RazorCompileOnPublish>true</RazorCompileOnPublish>
     <MvcBuildViews>true</MvcBuildViews>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Description>System admin plugin asp net core plugin manager.  display internal statistics</Description>

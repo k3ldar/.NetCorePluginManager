@@ -5,6 +5,7 @@
     <LangVersion>latest</LangVersion>
     <Version>2.1.0</Version>
     <RazorCompileOnBuild>false</RazorCompileOnBuild>
+    <RazorCompileOnPublish>true</RazorCompileOnPublish>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Description>Shopping Cart plugin asp net core plugin manager.</Description>
     <Authors>Simon Carter</Authors>

@@ -6,7 +6,8 @@
     <Version>2.1.0</Version>
     <PackageReleaseNotes>Introduce new methods to query plugins for classes containing attributes and non instantiated class/interface types</PackageReleaseNotes>
     <Description></Description>
-    <MvcRazorCompileOnPublish>false</MvcRazorCompileOnPublish>
+    <RazorCompileOnBuild>false</RazorCompileOnBuild>
+    <RazorCompileOnPublish>false</RazorCompileOnPublish>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -48,8 +49,50 @@
     <None Include="wwwroot\css\SystemAdmin.css" />
   </ItemGroup>
 
+  <ItemGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <PackageReference Include="AspNetCore.PluginManager" Version="2.1.2" />
+    <PackageReference Include="BadEgg.Plugin" Version="2.1.0" />
+    <PackageReference Include="Breadcrumb.Plugin" Version="2.1.0" />
+    <PackageReference Include="CacheControl.Plugin" Version="2.1.0" />
+    <PackageReference Include="ErrorManager.Plugin" Version="2.1.0" />
+    <PackageReference Include="GeoIp.Plugin" Version="2.1.0" />
+    <PackageReference Include="HelpdeskPlugin" Version="2.1.0" />
+    <PackageReference Include="Localization.Plugin" Version="2.1.0" />
+    <PackageReference Include="LoginPlugin" Version="2.1.0" />
+    <PackageReference Include="MemoryCache.Plugin" Version="2.1.0" />
+    <PackageReference Include="Middleware" Version="2.1.0" />
+    <PackageReference Include="AspNetCore.PluginManager.Languages" Version="2.1.0" />
+    <PackageReference Include="RestrictIp.Plugin" Version="2.1.0" />
+    <PackageReference Include="ShoppingCartPlugin" Version="2.1.0" />
+    <PackageReference Include="SieraDeltaGeoIp.Plugin" Version="2.1.0" />
+    <PackageReference Include="Spider.Plugin" Version="2.1.0" />
+    <PackageReference Include="SystemAdmin.Plugin" Version="2.1.0" />
+    <PackageReference Include="UserAccount.Plugin" Version="2.1.0" />
+    <PackageReference Include="UserSessionMiddleware.Plugin" Version="2.1.0" />
+  </ItemGroup>
+  
   <ItemGroup>
-    <PackageReference Include="FirebirdSql.Data.FirebirdClient" Version="6.6.0" />
+    <PackageReference Include="SC.Shared.Library.Core" Version="2.8.3" />
+    <PackageReference Include="FirebirdSql.Data.FirebirdClient" Version="6.6.0" />    
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <ProjectReference Include="..\..\Plugins\SharedPluginFeatures\SharedPluginFeatures.csproj" />
+    <ProjectReference Include="..\..\NetCorePluginManager\AspNetCore.PluginManager.csproj" />
+    <ProjectReference Include="..\..\Plugins\PluginMiddleware\PluginMiddleware.csproj" />
+    <ProjectReference Include="..\..\Languages\Languages.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Views\Error\" />
+    <Folder Include="Views\Helpdesk\" />
+    <Folder Include="Views\Login\" />
+    <Folder Include="Views\Services\" />
+    <Folder Include="Views\SystemAdmin\" />
+    <Folder Include="wwwroot\images\Download\" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authorization" Version="2.2.0" />
@@ -96,30 +139,6 @@
     <PackageReference Include="Microsoft.AspNetCore.Razor.Runtime" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.ResponseCaching.Abstractions" Version="2.2.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.3" />
-    <PackageReference Include="SC.Shared.Library.Core" Version="2.8.3" />
-  </ItemGroup>
-
-  <ItemGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <PackageReference Include="AspNetCore.PluginManager" Version="2.1.0" />
-    <PackageReference Include="SharedPluginFeatures" Version="2.1.0" />
-    <PackageReference Include="Middleware" Version="2.1.0" />
-    <PackageReference Include="AspNetCore.PluginManager.Languages" Version="2.1.0" />
-  </ItemGroup>
-
-  <ItemGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <ProjectReference Include="..\..\Plugins\SharedPluginFeatures\SharedPluginFeatures.csproj" />
-    <ProjectReference Include="..\..\NetCorePluginManager\AspNetCore.PluginManager.csproj" />
-    <ProjectReference Include="..\..\Plugins\PluginMiddleware\PluginMiddleware.csproj" />
-    <ProjectReference Include="..\..\Languages\Languages.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Views\Error\" />
-    <Folder Include="Views\Helpdesk\" />
-    <Folder Include="Views\Login\" />
-    <Folder Include="Views\Services\" />
-    <Folder Include="Views\SystemAdmin\" />
-    <Folder Include="wwwroot\images\Download\" />
   </ItemGroup>
 
 </Project>
