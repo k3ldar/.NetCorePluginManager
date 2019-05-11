@@ -1,3 +1,11 @@
+Version 2.1.2
+=============
+
+#69 Failed to find a dependent dll
+Fix typo in package description for Localization.Plugin
+Add RazorCompileOnPublish to web plugins
+Remove namespace AspNetCore.PluginManager.Classes favouring AspNetCore.PluginManager
+
 Version 2.1.0
 =============
 
