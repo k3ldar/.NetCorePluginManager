@@ -1,3 +1,8 @@
+Version 2.2.0
+=============
+
+Add MvcRazorExcludeRefAssembliesFromPublish false to demo website
+
 Version 2.1.2
 =============
 
