@@ -74,6 +74,10 @@ namespace SharedPluginFeatures
         public const string BreadcrumbRoutEqualsParentRoute = "Parent route matches route; Route: {0}; Parent Route {1}";
         public const string TooManyBreadcrumbs = "Breadcrumb recursion, check parent route values";
 
+        public const string InvalidListener = "Listener must provide at least one event";
+        public const string InvalidEventName = "Invalid event name in listener";
+        public const string EventNameNotRegistered = "Event name has not been registered";
+
         public const string CurrencyCodeDefault = "GBP";
     }
 }

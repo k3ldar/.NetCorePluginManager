@@ -202,6 +202,7 @@ namespace AspNetCore.PluginManager
             services.AddSingleton<IPluginClassesService>(pluginServices);
             services.AddSingleton<IPluginHelperService>(pluginServices);
             services.AddSingleton<IPluginTypesService>(pluginServices);
+            services.AddSingleton<INotificationService, Notifications.NotificationService>();
 
             _pluginManagerInstance.ConfigureServices(services);
 
