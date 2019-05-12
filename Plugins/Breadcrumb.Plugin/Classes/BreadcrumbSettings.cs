@@ -15,7 +15,7 @@
  *
  *  Product:  Breadcrumb.Plugin
  *  
- *  File: SpiderSettings.cs
+ *  File: BreadcrumbSettings.cs
  *
  *  Purpose:  
  *

@@ -13,23 +13,23 @@
  *
  *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
  *
- *  Product:  Breadcrumb.Plugin
+ *  Product:  SeoPlugin
  *  
- *  File: BreadcrumbTimingsSubMenu.cs
+ *  File: SeoTimingsSubMenu.cs
  *
- *  Purpose:  
+ *  Purpose:  Contains timings for collecting/serving seo data
  *
  *  Date        Name                Reason
- *  20/01/2019  Simon Carter        Initially Created
+ *  12/05/2019  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
 
 using SharedPluginFeatures;
 
-namespace Breadcrumb.Plugin.Classes.SystemAdmin
+namespace SeoPlugin.Classes.SystemAdmin
 {
-    public sealed class BreadcrumbTimingsSubMenu : SystemAdminSubMenu
+    public sealed class SeoTimingsSubMenu : SystemAdminSubMenu
     {
         public override string Action()
         {
@@ -50,11 +50,11 @@ namespace Breadcrumb.Plugin.Classes.SystemAdmin
         {
             string Result = "Setting|Value";
 
-            Result += $"\rTotal Requests|{BreadcrumbMiddleware._timings.Requests}";
-            Result += $"\rFastest ms|{BreadcrumbMiddleware._timings.Fastest}";
-            Result += $"\rSlowest ms|{BreadcrumbMiddleware._timings.Slowest}";
-            Result += $"\rAverage ms|{BreadcrumbMiddleware._timings.Average}";
-            Result += $"\rTotal ms|{BreadcrumbMiddleware._timings.Total}";
+            Result += $"\rTotal Requests|{SeoMiddleware._timings.Requests}";
+            Result += $"\rFastest ms|{SeoMiddleware._timings.Fastest}";
+            Result += $"\rSlowest ms|{SeoMiddleware._timings.Slowest}";
+            Result += $"\rAverage ms|{SeoMiddleware._timings.Average}";
+            Result += $"\rTotal ms|{SeoMiddleware._timings.Total}";
 
             return (Result);
         }
@@ -71,12 +71,12 @@ namespace Breadcrumb.Plugin.Classes.SystemAdmin
 
         public override string Name()
         {
-            return ("Breadcrumbs");
+            return (nameof(Languages.LanguageStrings.SEO));
         }
 
         public override string ParentMenuName()
         {
-            return ("Timings");
+            return (nameof(Languages.LanguageStrings.Timings));
         }
 
         public override int SortOrder()

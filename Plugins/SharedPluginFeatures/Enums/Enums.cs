@@ -71,6 +71,8 @@ namespace SharedPluginFeatures
             Localization = 17,
 
             BreadcrumbError = 18,
+
+            SeoError = 19,
         }
 
         /// <summary>

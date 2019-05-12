@@ -21,6 +21,7 @@
  *
  *  Date        Name                Reason
  *  09/12/2018  Simon Carter        Initially Created
+ *  12/05/2019  Simon Carter        Add seo data constants
  *  
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -39,6 +40,10 @@ namespace SharedPluginFeatures
         public const string ShoppingCart = "ShoppingCart";
         public const string BasketSummary = "BasketSummary";
         public const string DefaultTaxRate = "DefaultTaxRate";
+        public const string SeoTitle = "SeoTitle";
+        public const string SeoMetaDescription = "SeoMetaDescription";
+        public const string SeoMetaKeywords = "SeoTags";
+        public const string SeoMetaAuthor = "SeoAuthor";
 
         public const string DefaultSessionCookie = "user_session";
 

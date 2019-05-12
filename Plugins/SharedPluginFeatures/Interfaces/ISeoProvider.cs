@@ -11,27 +11,39 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2012 - 2018 Simon Carter.  All Rights Reserved.
  *
- *  Product:  Breadcrumb.Plugin
+ *  Product:  SharedPluginFeatues
  *  
- *  File: BreadcrumbMiddlewareExtender.cs
+ *  File: ISeoProvider.cs
  *
- *  Purpose:  Breadcrumb middleware extender
+ *  Purpose:  
  *
  *  Date        Name                Reason
- *  20/01/2019  Simon Carter        Initially Created
+ *  12/05/2019  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using Microsoft.AspNetCore.Builder;
+using System.Collections.Generic;
 
-namespace Breadcrumb.Plugin
+namespace SharedPluginFeatures
 {
-    public static class BreadcrumbMiddlewareExtender
+    public interface ISeoProvider
     {
-        public static IApplicationBuilder UseBreadcrumbs(this IApplicationBuilder builder)
-        {
-            return builder.UseMiddleware<BreadcrumbMiddleware>();
-        }
+        bool GetSeoDataForRoute(in string route, out string title, out string metaDescription, 
+            out string author, out List<string> keywords);
+
+        bool UpdateTitle(in string route, in string title);
+
+        bool UpdateDescription(in string route, in string title);
+
+        bool UpdateAuthor(in string route, in string author);
+
+        bool AddKeyword(in string route, in string keyword);
+
+        bool RemoveKeyword(in string route, in string keyword);
+
+        bool AddKeywords(in string route, in List<string> keyword);
+
+        bool RemoveKeywords(in string route, in List<string> keyword);
     }
 }

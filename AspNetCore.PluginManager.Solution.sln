@@ -55,7 +55,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShoppingCart.Plugin", "Plug
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HelpdeskPlugin", "Plugins\HelpDesk.Plugin\HelpdeskPlugin.csproj", "{96C3AEB2-969A-4777-93E5-23C56285C5B0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AspNetCore.PluginManager.Tests", "Tests\AspNetCore.PluginManager.Tests\AspNetCore.PluginManager.Tests.csproj", "{3365733A-7BCF-44EF-B30F-7DA94BBE4E74}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AspNetCore.PluginManager.Tests", "Tests\AspNetCore.PluginManager.Tests\AspNetCore.PluginManager.Tests.csproj", "{3365733A-7BCF-44EF-B30F-7DA94BBE4E74}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SeoPlugin", "Plugins\SeoPlugin\SeoPlugin.csproj", "{849D1327-BA24-45A1-979F-3A23900AF3A6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -226,6 +228,12 @@ Global
 		{3365733A-7BCF-44EF-B30F-7DA94BBE4E74}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3365733A-7BCF-44EF-B30F-7DA94BBE4E74}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3365733A-7BCF-44EF-B30F-7DA94BBE4E74}.Release|Any CPU.Build.0 = Release|Any CPU
+		{849D1327-BA24-45A1-979F-3A23900AF3A6}.Debug Release|Any CPU.ActiveCfg = Release|Any CPU
+		{849D1327-BA24-45A1-979F-3A23900AF3A6}.Debug Release|Any CPU.Build.0 = Release|Any CPU
+		{849D1327-BA24-45A1-979F-3A23900AF3A6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{849D1327-BA24-45A1-979F-3A23900AF3A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{849D1327-BA24-45A1-979F-3A23900AF3A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{849D1327-BA24-45A1-979F-3A23900AF3A6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

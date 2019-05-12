@@ -5,12 +5,12 @@
     <LangVersion>latest</LangVersion>
     <Authors>Simon Carter</Authors>
     <Company>Simon Carter</Company>
-    <Description>Plugin which generates breadcrumbs based on controller method attributes</Description>
+    <Description>Plugin which provides Seo data for any route within a web application</Description>
     <Copyright>Copyright (c) 2018 - 2019.  Simon Carter.  All rights reserved.</Copyright>
     <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
     <RepositoryUrl>https://github.com/k3ldar/.NetCorePluginManager</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
-    <PackageTags>asp net core plugin manager breadcrumb plugin</PackageTags>
+    <PackageTags>asp net core plugin manager seo meta data plugin</PackageTags>
     <PackageReleaseNotes>Supports net core 2.1, 2.2, 3.0 and net461</PackageReleaseNotes>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Version>2.1.0</Version>
@@ -76,37 +76,21 @@
   <ItemGroup Condition="'$(TargetFramework)'=='netcoreapp2.1'">
     <PackageReference Include="Microsoft.AspNetCore" Version="2.1.3" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.1.2" />
-    <PackageReference Include="Microsoft.AspNetCore.Routing" Version="2.1.1" />
-    <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.1.1" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="2.1.1" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.1.1" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)'=='netcoreapp2.2'">
     <PackageReference Include="Microsoft.AspNetCore" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.2.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Routing" Version="2.2.2" />
-    <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.2.0" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="2.2.0" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.2.0" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)'=='netcoreapp3.0'">
     <PackageReference Include="Microsoft.AspNetCore" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.2.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Routing" Version="2.2.2" />
-    <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.2.0" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="2.2.0" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.2.0" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)'=='net461'">
     <PackageReference Include="Microsoft.AspNetCore" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.2.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Routing" Version="2.2.2" />
-    <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.2.0" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="2.2.0" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.2.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -117,11 +101,13 @@
   <ItemGroup Condition="'$(Configuration)'=='Release'">
     <PackageReference Include="SharedPluginFeatures" Version="2.1.0" />
     <PackageReference Include="AspNetCore.PluginManager.Languages" Version="2.1.0" />
+    <PackageReference Include="MemoryCache.Plugin" Version="2.1.0" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(Configuration)'=='Debug'">
     <ProjectReference Include="..\SharedPluginFeatures\SharedPluginFeatures.csproj" />
     <ProjectReference Include="..\..\Languages\Languages.csproj" />
+    <ProjectReference Include="..\\MemoryCachePlugin\MemoryCachePlugin.csproj" />
   </ItemGroup>
 
 </Project>

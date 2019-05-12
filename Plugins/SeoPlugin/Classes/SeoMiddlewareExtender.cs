@@ -13,25 +13,25 @@
  *
  *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
  *
- *  Product:  Breadcrumb.Plugin
+ *  Product:  SeoPlugin
  *  
- *  File: BreadcrumbMiddlewareExtender.cs
+ *  File: SeoMiddlewareExtender.cs
  *
- *  Purpose:  Breadcrumb middleware extender
+ *  Purpose:  Seo middleware extender
  *
  *  Date        Name                Reason
- *  20/01/2019  Simon Carter        Initially Created
+ *  12/05/2019  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using Microsoft.AspNetCore.Builder;
 
-namespace Breadcrumb.Plugin
+namespace SeoPlugin
 {
-    public static class BreadcrumbMiddlewareExtender
+    public static class SeoMiddlewareExtender
     {
-        public static IApplicationBuilder UseBreadcrumbs(this IApplicationBuilder builder)
+        public static IApplicationBuilder UseSeo(this IApplicationBuilder builder)
         {
-            return builder.UseMiddleware<BreadcrumbMiddleware>();
+            return builder.UseMiddleware<SeoMiddleware>();
         }
     }
 }

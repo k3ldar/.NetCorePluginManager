@@ -15,7 +15,7 @@
  *
  *  Product:  Breadcrumb.Plugin
  *  
- *  File: SpiderMiddleware.cs
+ *  File: BreadcrumbMiddleware.cs
  *
  *  Purpose:  
  *

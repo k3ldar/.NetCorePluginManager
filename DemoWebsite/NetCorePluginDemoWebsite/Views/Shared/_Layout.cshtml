@@ -13,13 +13,24 @@
         items = cartSummary.TotalItems == 1 ? Localizer[nameof(Languages.LanguageStrings.Item)] : Localizer[nameof(Languages.LanguageStrings.Items)];
         cost = cartSummary.Total.ToString("C", Model.CartSummary.Culture);
     }
+
+    string title = (string)Context.Items[SharedPluginFeatures.Constants.SeoTitle];
+    string keywords = (string)Context.Items[SharedPluginFeatures.Constants.SeoMetaKeywords];
+    string description = (string)Context.Items[SharedPluginFeatures.Constants.SeoMetaDescription];
+    string author = (string)Context.Items[SharedPluginFeatures.Constants.SeoMetaAuthor];
 }
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - AspNetCore.PluginManager</title>
+    @if(!String.IsNullOrEmpty(author))
+    {
+    <meta name="author" content="@author" />;
+    }
+    <meta name="description" content="@description" />
+    <meta name="keywords" content="@keywords" />
+    <title>@title - AspNetCore.PluginManager</title>
 </head>
 <body>
     <environment include="Development">

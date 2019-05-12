@@ -61,6 +61,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
             services.AddSingleton<IErrorManager, ErrorManager>();
             services.AddSingleton<ISharedPluginHelper, SharedPluginHelper>();
             services.AddSingleton<IHelpdeskProvider, MockHelpdeskProvider>();
+            services.AddSingleton<ISeoProvider, MockSeoProvider>();
         }
 
         public void Finalise()
