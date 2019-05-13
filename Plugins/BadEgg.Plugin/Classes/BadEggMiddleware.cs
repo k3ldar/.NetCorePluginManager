@@ -155,7 +155,7 @@ namespace BadEgg.Plugin
 
             if (badeggAttributes.Count > 0)
             {
-                // Cycle through all classes and methods which have the spider attribute
+                // Cycle through all classes and methods which have the bad egg attribute
                 foreach (Type type in badeggAttributes)
                 {
                     // is it a class attribute
