@@ -51,16 +51,38 @@ namespace AspNetCore.PluginManager.Notifications
 
         #region INotificationService Methods
 
-        public void RaiseEvent(in string eventId, in object param1, in object param2)
+        public bool RaiseEvent(in string eventId, in object param1, in object param2, ref object result)
         {
             if (!_eventListener.ContainsKey(eventId))
                 throw new InvalidOperationException(Constants.EventNameNotRegistered);
 
-            foreach (INotificationListener listener in _eventListener[eventId])
+            using (TimedLock timedLock = TimedLock.Lock(_lockObject))
             {
-                if (!listener.EventRaised(eventId, param1, param2))
-                    return;
+                foreach (INotificationListener listener in _eventListener[eventId])
+                {
+                    if (!listener.EventRaised(eventId, param1, param2, ref result))
+                        break;
+                }
+
+                // if there is at least one listener, then the event has been processed
+                return _eventListener[eventId].Count > 0;
             }
+        }
+
+        public bool RaiseEvent(in string eventId, in object param1, ref object result)
+        {
+            return RaiseEvent(eventId, param1, null, ref result);
+        }
+
+        public bool RaiseEvent(in string eventId, ref object result)
+        {
+            return RaiseEvent(eventId, null, null, ref result);
+        }
+
+        public bool RaiseEvent(in string eventId)
+        {
+            object result = new object();
+            return RaiseEvent(eventId, null, null, ref result);
         }
 
         public bool RegisterListener(in INotificationListener listener)

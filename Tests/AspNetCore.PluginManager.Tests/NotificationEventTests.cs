@@ -66,7 +66,8 @@ namespace AspNetCore.PluginManager.Tests
         {
             NotificationService service = new NotificationService();
             service.RegisterListener(new ValidEvents1());
-            service.RaiseEvent("Test2345", null, null);
+            object result = new object();
+            service.RaiseEvent("Test2345", null, null, ref result);
         }
 
         [TestMethod]
@@ -78,10 +79,31 @@ namespace AspNetCore.PluginManager.Tests
             service.RegisterListener(valid1);
             service.RegisterListener(valid2);
 
-            service.RaiseEvent("Test1", null, null);
+            object result = new object();
+            bool eventProcessed = service.RaiseEvent("Test1", null, null, ref result);
 
+            Assert.IsTrue(eventProcessed);
             Assert.IsTrue(valid1.EventCount == 1);
             Assert.IsTrue(valid2.EventCount == 1);
+
+
+            eventProcessed = service.RaiseEvent("Test1", null, ref result);
+
+            Assert.IsTrue(eventProcessed);
+            Assert.IsTrue(valid1.EventCount == 2);
+            Assert.IsTrue(valid2.EventCount == 2);
+
+            eventProcessed = service.RaiseEvent("Test1", ref result);
+
+            Assert.IsTrue(eventProcessed);
+            Assert.IsTrue(valid1.EventCount == 3);
+            Assert.IsTrue(valid2.EventCount == 3);
+
+            eventProcessed = service.RaiseEvent("Test1");
+
+            Assert.IsTrue(eventProcessed);
+            Assert.IsTrue(valid1.EventCount == 4);
+            Assert.IsTrue(valid2.EventCount == 4);
         }
 
         [TestMethod]
@@ -93,7 +115,8 @@ namespace AspNetCore.PluginManager.Tests
             service.RegisterListener(valid1);
             service.RegisterListener(valid2);
 
-            service.RaiseEvent("Test2", null, null);
+            object result = new object();
+            service.RaiseEvent("Test2", null, null, ref result);
 
             Assert.IsTrue(valid1.EventCount == 1);
             Assert.IsTrue(valid2.EventCount == 0);
@@ -102,7 +125,7 @@ namespace AspNetCore.PluginManager.Tests
 
     public class InvalidEvents1 : INotificationListener
     {
-        public bool EventRaised(in string eventId, in object param1, in object param2)
+        public bool EventRaised(in string eventId, in object param1, in object param2, ref object result)
         {
             throw new NotImplementedException();
         }
@@ -115,7 +138,7 @@ namespace AspNetCore.PluginManager.Tests
 
     public class InvalidEvents2 : INotificationListener
     {
-        public bool EventRaised(in string eventId, in object param1, in object param2)
+        public bool EventRaised(in string eventId, in object param1, in object param2, ref object result)
         {
             throw new NotImplementedException();
         }
@@ -128,7 +151,7 @@ namespace AspNetCore.PluginManager.Tests
 
     public class ValidEvents1 : INotificationListener
     {
-        public bool EventRaised(in string eventId, in object param1, in object param2)
+        public bool EventRaised(in string eventId, in object param1, in object param2, ref object result)
         {
             switch (eventId)
             {
@@ -153,7 +176,7 @@ namespace AspNetCore.PluginManager.Tests
 
     public class ValidEvents2 : INotificationListener
     {
-        public bool EventRaised(in string eventId, in object param1, in object param2)
+        public bool EventRaised(in string eventId, in object param1, in object param2, ref object result)
         {
             switch (eventId)
             {

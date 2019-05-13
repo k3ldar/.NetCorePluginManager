@@ -28,7 +28,13 @@ namespace SharedPluginFeatures
 {
     public interface INotificationService
     {
-        void RaiseEvent(in string eventId, in object param1, in object param2);
+        bool RaiseEvent(in string eventId, in object param1, in object param2, ref object result);
+
+        bool RaiseEvent(in string eventId, in object param1, ref object result);
+
+        bool RaiseEvent(in string eventId, ref object result);
+
+        bool RaiseEvent(in string eventId);
 
         bool RegisterListener(in INotificationListener listener);
 

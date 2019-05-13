@@ -29,7 +29,7 @@ namespace SharedPluginFeatures
 {
     public interface INotificationListener
     {
-        bool EventRaised(in string eventId, in object param1, in object param2);
+        bool EventRaised(in string eventId, in object param1, in object param2, ref object result);
 
         List<string> GetEvents();
     }
