@@ -34,17 +34,17 @@ namespace BadEgg.Plugin.Classes.SystemAdmin
     {
         public override string Action()
         {
-            return (String.Empty);
+            return String.Empty;
         }
 
         public override string Area()
         {
-            return (String.Empty);
+            return String.Empty;
         }
 
         public override string Controller()
         {
-            return (String.Empty);
+            return String.Empty;
         }
 
         public override string Data()
@@ -68,32 +68,32 @@ namespace BadEgg.Plugin.Classes.SystemAdmin
             }
             //IpAddress: {0}; Requests: {1}; TotalTime: {2}; Created: {3}; LastEntry: {4}; " +
             //"HitsPerSecond: {5}; Results: {6}
-            return (Result.ToString());
+            return Result.ToString();
         }
 
         public override string Image()
         {
-            return ("badegg");
+            return "badegg";
         }
 
         public override Enums.SystemAdminMenuType MenuType()
         {
-            return (Enums.SystemAdminMenuType.Grid);
+            return Enums.SystemAdminMenuType.Grid;
         }
 
         public override string Name()
         {
-            return ("Bad Egg Connections");
+            return "Bad Egg Connections";
         }
 
         public override string ParentMenuName()
         {
-            return ("System");
+            return "System";
         }
 
         public override int SortOrder()
         {
-            return (0);
+            return 0;
         }
     }
 }

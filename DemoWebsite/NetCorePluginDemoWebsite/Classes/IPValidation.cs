@@ -40,7 +40,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
 
         public bool ConnectionBan(in string ipAddress, in double hits, in ulong requests, in TimeSpan duration)
         {
-            // don't ban
+            // don't ban for real on demo website
             return (false);
         }
 

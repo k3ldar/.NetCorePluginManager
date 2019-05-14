@@ -131,9 +131,9 @@ namespace BadEgg.Plugin.WebDefender
         public double UniquePages()
         {
             if (_uniquePages > 1)
-                return ((_uniquePages / (double)Requests) * 100);
+                return (_uniquePages / (double)Requests) * 100;
             else
-                return (_uniquePages);
+                return _uniquePages;
         }
 
         /// <summary>
@@ -152,7 +152,7 @@ namespace BadEgg.Plugin.WebDefender
             else
                 Result = Requests;
 
-            return (Result);
+            return Result;
         }
 
         /// <summary>
@@ -171,7 +171,7 @@ namespace BadEgg.Plugin.WebDefender
             else
                 Result = Requests;
 
-            return (Result);
+            return Result;
         }
 
         /// <summary>
@@ -180,7 +180,7 @@ namespace BadEgg.Plugin.WebDefender
         /// <returns>TimeSpan</returns>
         public TimeSpan TotalTime()
         {
-            return (LastEntry - Created);
+            return LastEntry - Created;
         }
 
         private string GetResults()
@@ -191,7 +191,7 @@ namespace BadEgg.Plugin.WebDefender
                 if (Results.HasFlag(value))
                     Result += $"{value.ToString()} ";
 
-            return (Result);
+            return Result;
         }
 
         #endregion
@@ -200,9 +200,9 @@ namespace BadEgg.Plugin.WebDefender
 
         public override string ToString()
         {
-            return (String.Format("{0}#{1}#{2}#{3}#{4}#{5}#{6}",
+            return String.Format("{0}#{1}#{2}#{3}#{4}#{5}#{6}",
                 IPAddress, Requests, TotalTime().ToString(), Created.ToString("g"), LastEntry.ToString("g"),
-                HitsPerMinute(), GetResults()));
+                HitsPerMinute(), GetResults());
         }
 
         #endregion Overridden Methods

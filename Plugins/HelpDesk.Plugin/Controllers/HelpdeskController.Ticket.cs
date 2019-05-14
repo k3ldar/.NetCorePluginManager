@@ -56,6 +56,7 @@ namespace HelpdeskPlugin.Controllers
         }
 
         [HttpPost]
+        [BadEgg]
         public IActionResult SubmitTicket(SubmitTicketViewModel model)
         {
             if (!_settings.ShowTickets)
@@ -105,6 +106,7 @@ namespace HelpdeskPlugin.Controllers
         }
 
         [HttpPost]
+        [BadEgg]
         public IActionResult ViewTicket(string email, string ticketKey)
         {
             if (!_settings.ShowTickets)
@@ -148,6 +150,7 @@ namespace HelpdeskPlugin.Controllers
         }
 
         [HttpPost]
+        [BadEgg]
         public IActionResult FindTicket (FindTicketViewModel model)
         {
             if (!_settings.ShowTickets)

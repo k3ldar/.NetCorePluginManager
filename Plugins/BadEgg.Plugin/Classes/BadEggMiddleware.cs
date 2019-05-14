@@ -117,7 +117,7 @@ namespace BadEgg.Plugin
 
                 foreach (ManagedRoute restrictedRoute in _managedRoutes)
                 {
-                    if (restrictedRoute.ValidateFormFields && route.StartsWith(restrictedRoute.Route))
+                    if (restrictedRoute.ValidateFormFields && restrictedRoute.Route.StartsWith(route))
                     {
                         validateFormInput = true;
                         break;
@@ -169,7 +169,7 @@ namespace BadEgg.Plugin
                         if (String.IsNullOrEmpty(route))
                             continue;
 
-                        _managedRoutes.Add(new ManagedRoute($"/{route.ToLower()}/", attribute.ValidateQueryFields, attribute.ValidateFormFields));
+                        _managedRoutes.Add(new ManagedRoute($"{route.ToLower()}", attribute.ValidateQueryFields, attribute.ValidateFormFields));
                     }
 
                     // look for specific method disallows
@@ -187,7 +187,7 @@ namespace BadEgg.Plugin
                                 continue;
 
 
-                            _managedRoutes.Add(new ManagedRoute($"/{route.ToLower()}/", attribute.ValidateQueryFields, attribute.ValidateFormFields));
+                            _managedRoutes.Add(new ManagedRoute($"{route.ToLower()}", attribute.ValidateQueryFields, attribute.ValidateFormFields));
                         }
                     }
                 }

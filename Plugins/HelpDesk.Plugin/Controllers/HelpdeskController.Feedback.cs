@@ -77,6 +77,7 @@ namespace HelpdeskPlugin.Controllers
         }
 
         [HttpPost]
+        [BadEgg]
         public IActionResult LeaveFeedback(LeaveFeedbackViewModel model)
         {
             if (!_settings.ShowFeedback)

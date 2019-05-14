@@ -263,7 +263,7 @@ namespace BadEgg.Plugin.WebDefender
             info.AddRequest(UrlDecode(request).ToLower(), String.Empty);
 
             if (Result.HasFlag(ValidateRequestResult.IpBlackListed) || Result.HasFlag(ValidateRequestResult.IpWhiteListed))
-                return (Result);
+                return Result;
 
             //Determine if a SQL Injection Attack
             DetermineSQLInjectionAttack(request, ref count, ref Result);
@@ -282,7 +282,7 @@ namespace BadEgg.Plugin.WebDefender
             if (!Result.HasFlag(ValidateRequestResult.Undetermined))
                 ReportWebData(hostAddress, request, Result);
 
-            return (Result);
+            return Result;
         }
 
         /// <summary>
@@ -301,7 +301,7 @@ namespace BadEgg.Plugin.WebDefender
             ValidateRequestResult Result = VerifyAddress(hostAddress);
 
             if (Result.HasFlag(ValidateRequestResult.IpBlackListed) || Result.HasFlag(ValidateRequestResult.IpWhiteListed))
-                return (Result);
+                return Result;
 
             string url = request.Path;
             string physicalPath = request.PathBase.ToString();
@@ -312,7 +312,10 @@ namespace BadEgg.Plugin.WebDefender
             if (validatePostValues && request.HasFormContentType)
             {
                 foreach (string value in request.Form.Keys)
-                    postValues += $"{request.Form[value]} ";
+                    if (!IgnoreFormValue(value))
+                        postValues += $"{request.Form[value]} ";
+
+                query += $" {postValues}";
             }
 
             IpConnectionInfo info = GetConnectionInformation(hostAddress);
@@ -330,7 +333,7 @@ namespace BadEgg.Plugin.WebDefender
             DetermineHackAttemt(query, ref count, ref Result);
 
             //if the file does not exist then check for a hack attempt in the url
-            if (!System.IO.File.Exists(physicalPath))
+            if (!String.IsNullOrEmpty(physicalPath) && !System.IO.File.Exists(physicalPath))
                 DetermineHackAttemt(url, ref count, ref Result);
 
             //Is there a spider/bot is at work
@@ -345,7 +348,7 @@ namespace BadEgg.Plugin.WebDefender
             if ((int)Result > (int)ValidateRequestResult.Undetermined)
                 Result &= ~ValidateRequestResult.Undetermined;
 
-            return (Result);
+            return Result;
         }
 
         /// <summary>
@@ -396,7 +399,7 @@ namespace BadEgg.Plugin.WebDefender
                         _connectionsAdd.Add(newConnection);
                 }
 
-                return (_connectionInformation[ipAddress]);
+                return _connectionInformation[ipAddress];
             }
         }
 
@@ -417,7 +420,7 @@ namespace BadEgg.Plugin.WebDefender
                 }
             }
 
-            return (Result.ToString().Trim());
+            return Result.ToString().Trim();
         }
 
         #endregion Internal Methods
@@ -427,7 +430,9 @@ namespace BadEgg.Plugin.WebDefender
         private void RaiseReportEvent(in string ipAddress, in string queryString, in ValidateRequestResult validation)
         {
             if (OnReportConnection != null)
+            {
                 OnReportConnection(this, new ConnectionReportArgs(ipAddress, queryString, validation));
+            }
         }
 
         /// <summary>
@@ -467,7 +472,7 @@ namespace BadEgg.Plugin.WebDefender
             if (OnBanIPAddress != null)
                 OnBanIPAddress(null, args);
 
-            return (args.AddToBlackList);
+            return args.AddToBlackList;
         }
 
         #endregion Event Raise Methods
@@ -497,6 +502,22 @@ namespace BadEgg.Plugin.WebDefender
         #endregion Events
 
         #region Private Methods
+
+        /// <summary>
+        /// Certain form values can be ignored and will not be evaluated
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns>true if value should be ignored, otherwise false</returns>
+        private bool IgnoreFormValue(in string value)
+        {
+            switch (value)
+            {
+                case "__RequestVerificationToken":
+                    return true;
+                default:
+                    return false;
+            }
+        }
 
         /// <summary>
         /// Updates result flags on connection info object
@@ -597,13 +618,13 @@ namespace BadEgg.Plugin.WebDefender
                 if (_ipAddressList.ContainsKey(ipAddress))
                 {
                     if (_ipAddressList[ipAddress])
-                        return (ValidateRequestResult.IpBlackListed);
+                        return ValidateRequestResult.IpBlackListed;
                     else
-                        return (ValidateRequestResult.IpWhiteListed);
+                        return ValidateRequestResult.IpWhiteListed;
                 }
             }
 
-            return (ValidateRequestResult.Undetermined);
+            return ValidateRequestResult.Undetermined;
         }
 
         private void ReportWebData(in string ipAddress, in string queryString, in ValidateRequestResult validation)
@@ -660,7 +681,7 @@ namespace BadEgg.Plugin.WebDefender
                 string word = keyWord;
                 int n = 0;
 
-                while (((n = url.IndexOf(word, n, StringComparison.InvariantCulture)) != -1))
+                while ((n = url.IndexOf(word, n, StringComparison.InvariantCulture)) != -1)
                 {
                     n += word.Trim().Length;
                     count++;
@@ -732,7 +753,7 @@ namespace BadEgg.Plugin.WebDefender
                 string word = String.Format(" {0} ", keyWord);
                 int n = 0;
 
-                while (((n = url.IndexOf(word, n, StringComparison.InvariantCulture)) != -1))
+                while ((n = url.IndexOf(word, n, StringComparison.InvariantCulture)) != -1)
                 {
                     n += word.Trim().Length;
                     count++;
@@ -785,7 +806,7 @@ namespace BadEgg.Plugin.WebDefender
                 }
             }
 
-            return (Result);
+            return Result;
         }
 
         #endregion Private Methods

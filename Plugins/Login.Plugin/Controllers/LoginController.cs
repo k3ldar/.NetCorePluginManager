@@ -27,7 +27,6 @@ using System;
 using System.IO;
 
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Hosting;
 
 using Shared.Classes;
 using static Shared.Utilities;
@@ -100,6 +99,7 @@ namespace LoginPlugin.Controllers
         }
 
         [HttpPost]
+        [BadEgg]
         public IActionResult Index(LoginViewModel model)
         {
             LoginCacheItem loginCacheItem = GetCachedLoginAttempt(true);
@@ -166,6 +166,7 @@ namespace LoginPlugin.Controllers
         }
 
         [HttpPost]
+        [BadEgg]
         public IActionResult AccountLocked(AccountLockedViewModel model)
         {
             if (model == null)
@@ -198,6 +199,7 @@ namespace LoginPlugin.Controllers
         }
 
         [HttpPost]
+        [BadEgg]
         public IActionResult ForgotPassword(ForgotPasswordViewModel model)
         {
             if (model == null)
