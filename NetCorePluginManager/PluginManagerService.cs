@@ -198,11 +198,16 @@ namespace AspNetCore.PluginManager
             List<IInitialiseEvents> init = _pluginManagerInstance.GetPluginClasses<IInitialiseEvents>();
             init.ForEach(i => i.BeforeConfigureServices(services));
 
+            NotificationService notificationService = new NotificationService();
+            Shared.Classes.ThreadManager.ThreadStart(notificationService, 
+                Constants.ThreadNotificationService, 
+                System.Threading.ThreadPriority.Lowest);
+
             PluginServices pluginServices = new PluginServices();
             services.AddSingleton<IPluginClassesService>(pluginServices);
             services.AddSingleton<IPluginHelperService>(pluginServices);
             services.AddSingleton<IPluginTypesService>(pluginServices);
-            services.AddSingleton<INotificationService, Notifications.NotificationService>();
+            services.AddSingleton<INotificationService>(notificationService);
 
             _pluginManagerInstance.ConfigureServices(services);
 

@@ -54,6 +54,7 @@ namespace BadEgg.Plugin
         private readonly IIpValidation _ipValidation;
         private readonly string _staticFileExtensions = Constants.StaticFileExtensions;
         private readonly BadEggSettings _badEggSettings;
+        private readonly INotificationService _notificationService;
         internal static Timings _timings = new Timings();
 
         #endregion Private Members
@@ -63,7 +64,7 @@ namespace BadEgg.Plugin
         public BadEggMiddleware(RequestDelegate next, IActionDescriptorCollectionProvider routeProvider, 
             IRouteDataService routeDataService, IPluginHelperService pluginHelperService,
             IPluginTypesService pluginTypesService, IIpValidation ipValidation, 
-            ISettingsProvider settingsProvider)
+            ISettingsProvider settingsProvider, INotificationService notificationService)
         {
             if (routeProvider == null)
                 throw new ArgumentNullException(nameof(routeProvider));
@@ -78,6 +79,7 @@ namespace BadEgg.Plugin
 
             _userSessionManagerLoaded = pluginHelperService.PluginLoaded(Constants.PluginNameUserSession, out int version);
             _ipValidation = ipValidation ?? throw new ArgumentNullException(nameof(ipValidation));
+            _notificationService = notificationService ?? throw new ArgumentNullException(nameof(notificationService));
 
             _managedRoutes = new List<ManagedRoute>();
             LoadRouteData(routeProvider, routeDataService, pluginTypesService);
@@ -135,6 +137,7 @@ namespace BadEgg.Plugin
                     } 
                     else if (validateResult.HasFlag(ValidateRequestResult.TooManyRequests))
                     {
+                        _notificationService.RaiseEvent(nameof(ValidateRequestResult.TooManyRequests), GetIpAddress(context));
                         context.Response.StatusCode = _badEggSettings.TooManyRequestResponseCode;
                         return;
                     }

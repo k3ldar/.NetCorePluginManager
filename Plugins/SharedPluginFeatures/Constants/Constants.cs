@@ -79,5 +79,7 @@ namespace SharedPluginFeatures
         public const string EventNameNotRegistered = "Event name has not been registered";
 
         public const string CurrencyCodeDefault = "GBP";
+
+        public const string ThreadNotificationService = "Notification Service";
     }
 }
