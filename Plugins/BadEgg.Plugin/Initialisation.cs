@@ -65,7 +65,7 @@ namespace BadEgg.Plugin
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            app.UseMiddleware<BadEggMiddleware>();
+            app.UseBadEgg();
         }
 
         public void ConfigureServices(IServiceCollection services)

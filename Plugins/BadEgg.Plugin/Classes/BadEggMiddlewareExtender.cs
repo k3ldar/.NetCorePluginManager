@@ -11,28 +11,28 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2012 - 2018 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
  *
- *  Product:  SharedPluginFeatues
+ *  Product:  BadEgg.Plugin
  *  
- *  File: INotificationListner.cs
+ *  File: BadEggMiddlewareExtender.cs
  *
- *  Purpose:  Event listener interface
+ *  Purpose:  Adds a middleware extender to easily add BadEgg
  *
  *  Date        Name                Reason
- *  12/05/2019  Simon Carter        Initially Created
+ *  16/05/2019  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using System.Collections.Generic;
 
-namespace SharedPluginFeatures
+using Microsoft.AspNetCore.Builder;
+
+namespace BadEgg.Plugin
 {
-    public interface INotificationListener
+    public static class BadEggMiddlewareExtender
     {
-        bool EventRaised(in string eventId, in object param1, in object param2, ref object result);
-
-        void EventRaised(in string eventId, in object param1, in object param2);
-
-        List<string> GetEvents();
+        public static IApplicationBuilder UseBadEgg(this IApplicationBuilder builder)
+        {
+            return builder.UseMiddleware<BadEggMiddleware>();
+        }
     }
 }

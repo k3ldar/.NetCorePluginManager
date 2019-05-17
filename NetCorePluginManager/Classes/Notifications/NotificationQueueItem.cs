@@ -11,28 +11,46 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2012 - 2018 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
  *
- *  Product:  SharedPluginFeatues
+ *  Product:  AspNetCore.PluginManager
  *  
- *  File: INotificationListner.cs
+ *  File: NotificationQueueItem.cs
  *
- *  Purpose:  Event listener interface
+ *  Purpose:  Item used for queueing notifications
  *
  *  Date        Name                Reason
- *  12/05/2019  Simon Carter        Initially Created
+ *  15/05/2019  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using System.Collections.Generic;
+using System;
 
-namespace SharedPluginFeatures
+namespace AspNetCore.PluginManager
 {
-    public interface INotificationListener
+    internal sealed class NotificationQueueItem
     {
-        bool EventRaised(in string eventId, in object param1, in object param2, ref object result);
+        #region Constructors
 
-        void EventRaised(in string eventId, in object param1, in object param2);
+        public NotificationQueueItem(in string eventId, in object param1, in object param2)
+        {
+            if (String.IsNullOrEmpty(eventId))
+                throw new ArgumentNullException(nameof(eventId));
 
-        List<string> GetEvents();
+            EventId = eventId;
+            Param1 = param1;
+            Param2 = param2;
+        }
+
+        #endregion Constructors
+
+        #region Properties
+
+        public string EventId { get; private set; }
+
+        public object Param1 { get; private set; }
+
+        public object Param2 { get; private set; }
+
+        #endregion Properties
     }
 }

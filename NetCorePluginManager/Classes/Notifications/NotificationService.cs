@@ -29,32 +29,38 @@ using System.Collections.Generic;
 using Shared.Classes;
 using SharedPluginFeatures;
 
-namespace AspNetCore.PluginManager.Notifications
+namespace AspNetCore.PluginManager
 {
-    public sealed class NotificationService : INotificationService
+    public sealed class NotificationService : ThreadManager, INotificationService
     {
         #region Private Members
 
+        private const int MaxQueueItems = 300;
         private static object _lockObject = new object();
+        private static object _queueLock = new object();
         private readonly Dictionary<string, List<INotificationListener>> _eventListener;
+        private readonly Queue<NotificationQueueItem> _messageQueue;
 
         #endregion Private Members
 
         #region Constructors
 
         public NotificationService()
+            : base (null, new TimeSpan(0, 0, 1), null, 1000, 200, false)
         {
             _eventListener = new Dictionary<string, List<INotificationListener>>();
+            _messageQueue = new Queue<NotificationQueueItem>();
         }
 
         #endregion Constructors
 
-        #region INotificationService Methods
+        #region Public INotificationService Methods
 
         public bool RaiseEvent(in string eventId, in object param1, in object param2, ref object result)
         {
+            // if no one is listening, indicate not sent
             if (!_eventListener.ContainsKey(eventId))
-                throw new InvalidOperationException(Constants.EventNameNotRegistered);
+                return false;
 
             using (TimedLock timedLock = TimedLock.Lock(_lockObject))
             {
@@ -69,20 +75,22 @@ namespace AspNetCore.PluginManager.Notifications
             }
         }
 
-        public bool RaiseEvent(in string eventId, in object param1, ref object result)
+        public void RaiseEvent(in string eventId, in object param1, in object param2)
         {
-            return RaiseEvent(eventId, param1, null, ref result);
+            using (TimedLock timedLock = TimedLock.Lock(_queueLock))
+            {
+                _messageQueue.Enqueue(new NotificationQueueItem(eventId, param1, param2));
+            }
         }
 
-        public bool RaiseEvent(in string eventId, ref object result)
+        public void RaiseEvent(in string eventId, in object param1)
         {
-            return RaiseEvent(eventId, null, null, ref result);
+            RaiseEvent(eventId, param1, null);
         }
 
-        public bool RaiseEvent(in string eventId)
+        public void RaiseEvent(in string eventId)
         {
-            object result = new object();
-            return RaiseEvent(eventId, null, null, ref result);
+            RaiseEvent(eventId, null, null);
         }
 
         public bool RegisterListener(in INotificationListener listener)
@@ -135,6 +143,52 @@ namespace AspNetCore.PluginManager.Notifications
             return true;
         }
 
-        #endregion INotificationService Methods
+        #endregion Public INotificationService Methods
+
+        #region ThreadManager Methods
+
+        protected override bool Run(object parameters)
+        {
+            List<NotificationQueueItem> queue = new List<NotificationQueueItem>();
+
+            using (TimedLock timedLock = TimedLock.Lock(_queueLock))
+            {
+                int counter = 0;
+                NotificationQueueItem queueItem = null;
+
+                do
+                {
+                    if (_messageQueue.Count > 0)
+                    {
+                        queueItem = _messageQueue.Dequeue();
+                        queue.Add(queueItem);
+                    }
+                    else
+                    {
+                        queueItem = null;
+                    }
+
+                    counter++;
+
+                } while (counter < MaxQueueItems && queueItem != null);
+            }
+
+            // queue has been cleared (upto max items) send the messages
+            foreach (NotificationQueueItem item in queue)
+            {
+                // if no one is listening, ignore it and move on
+                if (!_eventListener.ContainsKey(item.EventId))
+                    continue;
+
+                foreach (INotificationListener listener in _eventListener[item.EventId])
+                {
+                    listener.EventRaised(item.EventId, item.Param1, item.Param2);
+                }
+            }
+
+            return !HasCancelled();
+        }
+
+        #endregion ThreadManager Methods
     }
 }

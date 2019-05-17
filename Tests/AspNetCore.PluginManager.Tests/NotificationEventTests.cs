@@ -28,8 +28,6 @@ using System.Collections.Generic;
 
 using SharedPluginFeatures;
 
-using AspNetCore.PluginManager.Notifications;
-
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace AspNetCore.PluginManager.Tests
@@ -87,19 +85,19 @@ namespace AspNetCore.PluginManager.Tests
             Assert.IsTrue(valid2.EventCount == 1);
 
 
-            eventProcessed = service.RaiseEvent("Test1", null, ref result);
+            eventProcessed = service.RaiseEvent("Test1", null, null, ref result);
 
             Assert.IsTrue(eventProcessed);
             Assert.IsTrue(valid1.EventCount == 2);
             Assert.IsTrue(valid2.EventCount == 2);
 
-            eventProcessed = service.RaiseEvent("Test1", ref result);
+            eventProcessed = service.RaiseEvent("Test1", null, null, ref result);
 
             Assert.IsTrue(eventProcessed);
             Assert.IsTrue(valid1.EventCount == 3);
             Assert.IsTrue(valid2.EventCount == 3);
 
-            eventProcessed = service.RaiseEvent("Test1");
+            eventProcessed = service.RaiseEvent("Test1", null, null, ref result);
 
             Assert.IsTrue(eventProcessed);
             Assert.IsTrue(valid1.EventCount == 4);
@@ -130,6 +128,11 @@ namespace AspNetCore.PluginManager.Tests
             throw new NotImplementedException();
         }
 
+        public void EventRaised(in string eventId, in object param1, in object param2)
+        {
+            throw new NotImplementedException();
+        }
+
         public List<string> GetEvents()
         {
             return null;
@@ -139,6 +142,11 @@ namespace AspNetCore.PluginManager.Tests
     public class InvalidEvents2 : INotificationListener
     {
         public bool EventRaised(in string eventId, in object param1, in object param2, ref object result)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void EventRaised(in string eventId, in object param1, in object param2)
         {
             throw new NotImplementedException();
         }
@@ -171,6 +179,11 @@ namespace AspNetCore.PluginManager.Tests
             return new List<string>() { "Test1", "Test2" };
         }
 
+        public void EventRaised(in string eventId, in object param1, in object param2)
+        {
+            throw new NotImplementedException();
+        }
+
         public uint EventCount { get; private set; }
     }
 
@@ -194,6 +207,11 @@ namespace AspNetCore.PluginManager.Tests
         public List<string> GetEvents()
         {
             return new List<string>() { "Test1", "Test2" };
+        }
+
+        public void EventRaised(in string eventId, in object param1, in object param2)
+        {
+            throw new NotImplementedException();
         }
 
         public uint EventCount { get; private set; }
