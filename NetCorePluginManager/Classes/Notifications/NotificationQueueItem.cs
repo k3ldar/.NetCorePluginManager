@@ -31,7 +31,7 @@ namespace AspNetCore.PluginManager
     {
         #region Constructors
 
-        public NotificationQueueItem(in string eventId, in object param1, in object param2)
+        internal NotificationQueueItem(in string eventId, in object param1, in object param2)
         {
             if (String.IsNullOrEmpty(eventId))
                 throw new ArgumentNullException(nameof(eventId));
@@ -45,11 +45,11 @@ namespace AspNetCore.PluginManager
 
         #region Properties
 
-        public string EventId { get; private set; }
+        internal string EventId { get; private set; }
 
-        public object Param1 { get; private set; }
+        internal object Param1 { get; private set; }
 
-        public object Param2 { get; private set; }
+        internal object Param2 { get; private set; }
 
         #endregion Properties
     }
