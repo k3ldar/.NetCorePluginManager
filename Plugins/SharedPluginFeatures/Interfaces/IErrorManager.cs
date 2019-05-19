@@ -26,10 +26,25 @@
 
 namespace SharedPluginFeatures
 {
+    /// <summary>
+    /// Interface which helps determine how an error is handled within a website.
+    /// </summary>
     public interface IErrorManager
     {
+        /// <summary>
+        /// Indicates that an error has been raised and provides details of the error.
+        /// </summary>
+        /// <param name="errorInformation">Exception details for the error raised.</param>
         void ErrorRaised(in ErrorInformation errorInformation);
 
+        /// <summary>
+        /// Indicates that a page has been requested but not found within the available routes.
+        /// 
+        /// Applications can replace the page with an existing one which will be used to redirect to instead of showing the user a 404 error page.
+        /// </summary>
+        /// <param name="path"></param>
+        /// <param name="replacePath"></param>
+        /// <returns>bool.  True if the route has been replaced, otherwise false.</returns>
         bool MissingPage(in string path, ref string replacePath);
     }
 }

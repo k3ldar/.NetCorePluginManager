@@ -34,6 +34,9 @@ using Shared.Classes;
 
 namespace SharedPluginFeatures
 {
+    /// <summary>
+    /// Base Controller for use as a base for all controllers to obtain information from plugins loaded through PluginManager.
+    /// </summary>
     public class BaseController : Controller
     {
         #region User Sessions
@@ -217,6 +220,17 @@ namespace SharedPluginFeatures
 
         #region Pagination
 
+        /// <summary>
+        /// Builds a paginated list of html li elements for display in a view where pages are required.
+        /// </summary>
+        /// <param name="itemCount">int.  Number of items.</param>
+        /// <param name="itemsPerPage"></param>
+        /// <param name="currentPage"></param>
+        /// <param name="page"></param>
+        /// <param name="parameters"></param>
+        /// <param name="previous"></param>
+        /// <param name="next"></param>
+        /// <returns>string.  List of html li elements for pagination within a view.</returns>
         protected string BuildPagination(in int itemCount, in int itemsPerPage, in int currentPage,
             in string page, in string parameters, in string previous, in string next)
         {

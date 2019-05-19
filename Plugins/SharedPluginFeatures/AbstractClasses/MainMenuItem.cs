@@ -25,16 +25,45 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 namespace SharedPluginFeatures
 {
+    /// <summary>
+    /// Abstract class used to provide easy access to menu items for display within a view.
+    /// </summary>
     public abstract class MainMenuItem
     {
+        /// <summary>
+        /// Name of the area to be used when building a route
+        /// </summary>
+        /// <returns></returns>
         public abstract string Area();
-
+        
+        /// <summary>
+        /// Name of the controller to be used when building a route.
+        /// </summary>
+        /// <returns>string.  Controller name, e.g. Helpdesk</returns>
         public abstract string Controller();
 
+        /// <summary>
+        /// Name of the action within the controller to be used when building a route.
+        /// </summary>
+        /// <returns>string.  Name of the action, e.g. Index</returns>
         public abstract string Action();
 
+        /// <summary>
+        /// Name to be displayed when the menu is shown.
+        /// </summary>
+        /// <returns>string.  Name of menu item</returns>
         public abstract string Name();
 
+        /// <summary>
+        /// Name of the parent menu item.
+        /// </summary>
+        /// <returns>string.  Name of parent menu</returns>
+        public abstract string ParentName();
+
+        /// <summary>
+        /// Int depicting the order for which the menu item will be sorted in comparison to other menu items.
+        /// </summary>
+        /// <returns>Integer depicting sort order.</returns>
         public abstract int SortOrder();
     }
 }

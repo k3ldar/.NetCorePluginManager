@@ -27,17 +27,28 @@ using System;
 
 namespace SharedPluginFeatures
 {
+    /// <summary>
+    /// BadEgg attribute, 
+    /// </summary>
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
     public sealed class BadEggAttribute : Attribute
     {
         #region Constructors
 
+        /// <summary>
+        /// Default constructor
+        /// </summary>
         public BadEggAttribute()
             : this(true, true)
         {
 
         }
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="validateQuery">If true then query input values will be validated.</param>
+        /// <param name="validateForm">If true then form input values will be validated</param>
         public BadEggAttribute(bool validateQuery, bool validateForm)
         {
             ValidateQueryFields = validateQuery;
@@ -48,8 +59,16 @@ namespace SharedPluginFeatures
 
         #region Properties
 
+        /// <summary>
+        /// Indicates that query field values should be validated for this route.
+        /// </summary>
+        /// <value>bool</value>
         public bool ValidateQueryFields { get; private set; }
 
+        /// <summary>
+        /// Indicates that form field values should be validated.
+        /// </summary>
+        /// <value>bool</value>
         public bool ValidateFormFields { get; private set; }
 
         #endregion Properties

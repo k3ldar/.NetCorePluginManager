@@ -26,12 +26,29 @@
 
 namespace SharedPluginFeatures
 {
+    /// <summary>
+    /// Carousel Image
+    /// </summary>
     public abstract class CarouselImage
     {
+        /// <summary>
+        /// Image url obtains the image to be shown within the carousel.
+        /// </summary>
+        /// <returns>url for the image.</returns>
         public abstract string ImageUrl();
 
+        /// <summary>
+        /// Url to be used when the carousel item is clicked
+        /// </summary>
+        /// <returns>url of the route to be redirected to.</returns>
         public abstract string Url();
 
+        /// <summary>
+        /// Effects the order in which the carousel item is displayed.
+        /// 
+        /// Carousel items will be sorted by SortOrder ascending and then by name.
+        /// </summary>
+        /// <returns>int.  Order in which the item will be sorted.</returns>
         public abstract int SortOrder();
     }
 }

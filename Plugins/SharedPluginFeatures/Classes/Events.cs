@@ -29,6 +29,9 @@ using static SharedPluginFeatures.Enums;
 
 namespace SharedPluginFeatures
 {
+    /// <summary>
+    /// Connection arguments for DefenderConnectionAddEventHandler
+    /// </summary>
     public class ConnectionArgs : EventArgs
     {
         #region Constructor

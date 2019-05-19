@@ -1,0 +1,312 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>SharedPluginFeatures</name>
+    </assembly>
+    <members>
+        <member name="T:SharedPluginFeatures.CarouselImage">
+            <summary>
+            Carousel Image
+            </summary>
+        </member>
+        <member name="M:SharedPluginFeatures.CarouselImage.ImageUrl">
+            <summary>
+            Image url obtains the image to be shown within the carousel.
+            </summary>
+            <returns>url for the image.</returns>
+        </member>
+        <member name="M:SharedPluginFeatures.CarouselImage.Url">
+            <summary>
+            Url to be used when the carousel item is clicked
+            </summary>
+            <returns>url of the route to be redirected to.</returns>
+        </member>
+        <member name="M:SharedPluginFeatures.CarouselImage.SortOrder">
+            <summary>
+            Effects the order in which the carousel item is displayed.
+            
+            Carousel items will be sorted by SortOrder ascending and then by name.
+            </summary>
+            <returns>int.  Order in which the item will be sorted.</returns>
+        </member>
+        <member name="T:SharedPluginFeatures.MainMenuItem">
+            <summary>
+            Abstract class used to provide easy access to menu items for display within a view.
+            </summary>
+        </member>
+        <member name="M:SharedPluginFeatures.MainMenuItem.Controller">
+            <summary>
+            Name of the controller to be used when building a route.
+            </summary>
+            <returns>string.  Controller name, e.g. Helpdesk</returns>
+        </member>
+        <member name="M:SharedPluginFeatures.MainMenuItem.Action">
+            <summary>
+            Name of the action within the controller to be used when building a route.
+            </summary>
+            <returns>string.  Name of the action, e.g. Index</returns>
+        </member>
+        <member name="M:SharedPluginFeatures.MainMenuItem.Name">
+            <summary>
+            Name to be displayed when the menu is shown.
+            </summary>
+            <returns>string.  Name of menu item</returns>
+        </member>
+        <member name="M:SharedPluginFeatures.MainMenuItem.ParentName">
+            <summary>
+            Name of the parent menu item.
+            </summary>
+            <returns>string.  Name of parent menu</returns>
+        </member>
+        <member name="M:SharedPluginFeatures.MainMenuItem.SortOrder">
+            <summary>
+            Int depicting the order for which the menu item will be sorted in comparison to other menu items.
+            </summary>
+            <returns>int.  Integer depicting sort order.</returns>
+        </member>
+        <member name="T:SharedPluginFeatures.BadEggAttribute">
+            <summary>
+            BadEgg attribute, 
+            </summary>
+        </member>
+        <member name="M:SharedPluginFeatures.BadEggAttribute.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="M:SharedPluginFeatures.BadEggAttribute.#ctor(System.Boolean,System.Boolean)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="validateQuery">If true then query input values will be validated.</param>
+            <param name="validateForm">If true then form input values will be validated</param>
+        </member>
+        <member name="P:SharedPluginFeatures.BadEggAttribute.ValidateQueryFields">
+            <summary>
+            Indicates that query field values should be validated for this route.
+            </summary>
+            <value>bool</value>
+        </member>
+        <member name="P:SharedPluginFeatures.BadEggAttribute.ValidateFormFields">
+            <summary>
+            Indicates that form field values should be validated.
+            </summary>
+            <value>bool</value>
+        </member>
+        <member name="T:SharedPluginFeatures.ConnectionArgs">
+            <summary>
+            Connection arguments for DefenderConnectionAddEventHandler
+            </summary>
+        </member>
+        <member name="P:SharedPluginFeatures.ConnectionArgs.IPAddress">
+            <summary>
+            IP Address for connection
+            </summary>
+        </member>
+        <member name="T:SharedPluginFeatures.DefenderConnectionAddEventHandler">
+            <summary>
+            Delegate for connection add
+            </summary>
+            <param name="sender">object sender</param>
+            <param name="e">arguments</param>
+        </member>
+        <member name="T:SharedPluginFeatures.ConnectionRemoveArgs">
+            <summary>
+            Connection info event arguments
+            </summary>
+        </member>
+        <member name="T:SharedPluginFeatures.DefenderConnectionRemoveEventHandler">
+            <summary>
+            Delegate for connection remove
+            </summary>
+            <param name="sender">object sender</param>
+            <param name="e">arguments</param>
+        </member>
+        <member name="T:SharedPluginFeatures.DefenderRequestBan">
+            <summary>
+            Delegate for log audit failure events
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="T:SharedPluginFeatures.Enums.LogLevel">
+            <summary>
+            Log Levels
+            </summary>
+        </member>
+        <member name="T:SharedPluginFeatures.Enums.GeoIpProvider">
+            <summary>
+            Geo Ip providers
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Enums.GeoIpProvider.None">
+            <summary>
+            No Geo Ip Provider
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Enums.GeoIpProvider.IpStack">
+            <summary>
+            IpStack https://ipstack.com/
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Enums.GeoIpProvider.MySql">
+            <summary>
+            MySql Database
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Enums.GeoIpProvider.MSSql">
+            <summary>
+            MS Sql Server Database
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Enums.GeoIpProvider.Firebird">
+            <summary>
+            Firebird database
+            </summary>
+        </member>
+        <member name="T:SharedPluginFeatures.Enums.SystemAdminMenuType">
+            <summary>
+            System Admin menu types
+            </summary>
+        </member>
+        <member name="T:SharedPluginFeatures.Enums.ValidateRequestResult">
+            <summary>
+            Validate Request Results
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Enums.ValidateRequestResult.Undetermined">
+            <summary>
+            State unknown
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Enums.ValidateRequestResult.TooManyRequests">
+            <summary>
+            Ip has too many requests
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Enums.ValidateRequestResult.PossibleSQLInjectionAttack">
+            <summary>
+            Enough keywords to suggest may be a SQL injection attack
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Enums.ValidateRequestResult.SQLInjectionAttack">
+            <summary>
+            Enough keywords to determine this is a SQL injection attack
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Enums.ValidateRequestResult.PossibleSpiderBot">
+            <summary>
+            Determines that the request is probably generated from a spider or bot
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Enums.ValidateRequestResult.SpiderBot">
+            <summary>
+            Determines that the request is generated from a spider or bot
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Enums.ValidateRequestResult.PossibleHackAttempt">
+            <summary>
+            Enough keywords to suggest this maybe a hack attempt
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Enums.ValidateRequestResult.HackAttempt">
+            <summary>
+            Enough keywords to determine this is a hack attempt
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Enums.ValidateRequestResult.IpWhiteListed">
+            <summary>
+            IP Address is white listed
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Enums.ValidateRequestResult.IpBlackListed">
+            <summary>
+            IP Address is black listed
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Enums.ValidateRequestResult.SearchEngine">
+            <summary>
+            IP address is a search engine
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Enums.ValidateRequestResult.BanRequested">
+            <summary>
+            A Ban has been requested on the IP Address
+            </summary>
+        </member>
+        <member name="T:SharedPluginFeatures.IErrorManager">
+            <summary>
+            Interface which helps determine how an error is handled within a website.
+            </summary>
+        </member>
+        <member name="M:SharedPluginFeatures.IErrorManager.ErrorRaised(SharedPluginFeatures.ErrorInformation@)">
+            <summary>
+            Indicates that an error has been raised and provides details of the error.
+            </summary>
+            <param name="errorInformation">Exception details for the error raised.</param>
+        </member>
+        <member name="M:SharedPluginFeatures.IErrorManager.MissingPage(System.String@,System.String@)">
+            <summary>
+            Indicates that a page has been requested but not found within the available routes.
+            
+            Applications can replace the page with an existing one which will be used to redirect to instead of showing the user a 404 error page.
+            </summary>
+            <param name="path"></param>
+            <param name="replacePath"></param>
+            <returns>bool.  True if the route has been replaced, otherwise false.</returns>
+        </member>
+        <member name="T:SharedPluginFeatures.IGeoIpDataService">
+            <summary>
+            Interface to obtain GeoIp details for a specific Ip Address
+            </summary>
+        </member>
+        <member name="M:SharedPluginFeatures.IGeoIpDataService.GetIPAddressDetails(System.String@,System.String@,System.String@,System.String@,System.Decimal@,System.Decimal@,System.Int64@)">
+            <summary>
+            Obtains the Geo Ip details pertaining to an Ip Address
+            </summary>
+            <param name="ipAddress">Ip Address</param>
+            <param name="countryCode">Country code where the Ip address is located.</param>
+            <param name="region">Region where the Ip address is located.</param>
+            <param name="cityName">Name of the city where the Ip address is located.</param>
+            <param name="latitude">Latitude for the Ip address.</param>
+            <param name="longitude">Longitude for the Ip address.</param>
+            <param name="ipUniqueID">Unique Id for the Ip address.</param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedPluginFeatures.IMemoryCache.GetShortCache">
+            <summary>
+            Five minute cache
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:SharedPluginFeatures.IMemoryCache.GetCache">
+            <summary>
+            User defined cache limit
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:SharedPluginFeatures.IMemoryCache.ResetCaches">
+            <summary>
+            Resets all caches, clears all items
+            </summary>
+        </member>
+        <member name="T:SharedPluginFeatures.BaseController">
+            <summary>
+            Base Controller for use as a base for all controllers to obtain information from plugins loaded through PluginManager.
+            </summary>
+        </member>
+        <member name="M:SharedPluginFeatures.BaseController.BuildPagination(System.Int32@,System.Int32@,System.Int32@,System.String@,System.String@,System.String@,System.String@)">
+            <summary>
+            Builds a paginated list of html li elements for display in a view where pages are required.
+            </summary>
+            <param name="itemCount">int.  Number of items.</param>
+            <param name="itemsPerPage"></param>
+            <param name="currentPage"></param>
+            <param name="page"></param>
+            <param name="parameters"></param>
+            <param name="previous"></param>
+            <param name="next"></param>
+            <returns>string.  List of html li elements for pagination within a view.</returns>
+        </member>
+    </members>
+</doc>
