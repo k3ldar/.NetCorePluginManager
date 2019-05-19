@@ -58,17 +58,11 @@
             </summary>
             <returns>string.  Name of menu item</returns>
         </member>
-        <member name="M:SharedPluginFeatures.MainMenuItem.ParentName">
-            <summary>
-            Name of the parent menu item.
-            </summary>
-            <returns>string.  Name of parent menu</returns>
-        </member>
         <member name="M:SharedPluginFeatures.MainMenuItem.SortOrder">
             <summary>
             Int depicting the order for which the menu item will be sorted in comparison to other menu items.
             </summary>
-            <returns>Integer depicting sort order.</returns>
+            <returns>int. depicting sort order.</returns>
         </member>
         <member name="T:SharedPluginFeatures.BadEggAttribute">
             <summary>
@@ -134,6 +128,21 @@
             </summary>
             <param name="sender"></param>
             <param name="e"></param>
+        </member>
+        <member name="T:SharedPluginFeatures.Constants">
+            <summary>
+            Constant values shared between all plugin modules
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Constants.DocumentationFileCache">
+            <summary>
+            Name of the documentation file cache
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Constants.DocumentationListCache">
+            <summary>
+            Name of the documentation list cache
+            </summary>
         </member>
         <member name="T:SharedPluginFeatures.Enums.LogLevel">
             <summary>
@@ -239,6 +248,69 @@
             <summary>
             A Ban has been requested on the IP Address
             </summary>
+        </member>
+        <member name="T:SharedPluginFeatures.IDocumentationService">
+            <summary>
+            Provides services that enable DocumentationPlugin to build documentation based on xml documentation files.
+            </summary>
+        </member>
+        <member name="M:SharedPluginFeatures.IDocumentationService.GetDocumentationFiles">
+            <summary>
+            Retrieves a list of all system generated documentation files.
+            </summary>
+            <returns>:ist&lt;string&gt;</returns>
+        </member>
+        <member name="M:SharedPluginFeatures.IDocumentationService.GetDocuments">
+            <summary>
+            Returns a list of all available documents which have been dynamically loaded from xml documentation files.
+            </summary>
+            <returns>List&lt;Document&gt;</returns>
+        </member>
+        <member name="M:SharedPluginFeatures.IDocumentationService.GetCustomData(System.String@,System.String@)">
+            <summary>
+            Returns custom text for an indiviudual property within the Documentation.
+            </summary>
+            <param name="name">Name of custom data to be returned.</param>
+            <param name="defaultValue">Default value that will be used.</param>
+            <returns>string</returns>
+        </member>
+        <member name="M:SharedPluginFeatures.IDocumentationService.GetCustomSortOrder(System.String@,System.Int32@)">
+            <summary>
+            Returns the custom sort order for a document
+            </summary>
+            <param name="name">Document name</param>
+            <param name="defaultValue">Default Value if no value has been stored.</param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedPluginFeatures.IDocumentationService.ProcessDocument(Shared.Docs.Document@)">
+            <summary>
+            Processes a document, providing an opportunity to obtain custom property values
+            </summary>
+            <param name="document">Document to be processed.</param>
+        </member>
+        <member name="M:SharedPluginFeatures.IDocumentationService.ProcessDocumentField(Shared.Docs.DocumentField@)">
+            <summary>
+            Processes a document field, providing an opportunity to obtain custom property values
+            </summary>
+            <param name="field">DocumentField to be processed.</param>
+        </member>
+        <member name="M:SharedPluginFeatures.IDocumentationService.ProcessDocumentMethod(Shared.Docs.DocumentMethod@)">
+            <summary>
+            Processes a document method, providing an opportunity to obtain custom property values
+            </summary>
+            <param name="method">DocumentField to be processed.</param>
+        </member>
+        <member name="M:SharedPluginFeatures.IDocumentationService.ProcessDocumentMethodParameter(Shared.Docs.DocumentMethodParameter@)">
+            <summary>
+            Processes a document parameter, providing an opportunity to obtain custom property values
+            </summary>
+            <param name="parameter">DocumentMethodParameter to be processed.</param>
+        </member>
+        <member name="M:SharedPluginFeatures.IDocumentationService.ProcessDocumentProperty(Shared.Docs.DocumentProperty@)">
+            <summary>
+            Processes a document property, providing an opportunity to obtain custom property values
+            </summary>
+            <param name="property">DocumentProperty to be processed.</param>
         </member>
         <member name="T:SharedPluginFeatures.IErrorManager">
             <summary>

@@ -1,0 +1,5 @@
+Number of minutes until a connection is timed out and removed from the list of monitored connections.
+            
+            Default value: 5
+            Minimum value: 1
+            Maximum value: 300

@@ -1,0 +1,3 @@
+Indicates that a page has been requested but not found within the available routes.
+            
+            Applications can replace the page with an existing one which will be used to redirect to instead of showing the user a 404 error page.

@@ -1,0 +1,4 @@
+Prevents PluginManager from replacing resources that have previously been extracted from the plugin module.
+            
+            If true then no resources will be extracted, this can be usefule if the project has been given to a 
+            web designer and they are making changes and don't want them overridden.

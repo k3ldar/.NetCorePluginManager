@@ -1,0 +1,3 @@
+User defined list of plugin modules that will be loaded in order prior to generic loading of plugins.
+            
+            If you need to specify the load order of plugins the assembly names (with or without path) need to be included in this list.

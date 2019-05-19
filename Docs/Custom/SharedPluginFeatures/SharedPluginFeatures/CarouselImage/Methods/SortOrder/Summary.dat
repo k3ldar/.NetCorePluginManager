@@ -1,0 +1,3 @@
+Effects the order in which the carousel item is displayed.
+            
+            Carousel items will be sorted by SortOrder ascending and then by name.

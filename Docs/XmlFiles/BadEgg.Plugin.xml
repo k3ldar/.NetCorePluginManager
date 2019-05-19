@@ -67,6 +67,7 @@
             Constructor
             </summary>
             <param name="ipAddress">Address of client</param>
+            <param name="start">Date/time the connection was created.</param>
         </member>
         <member name="P:BadEgg.Plugin.WebDefender.IpConnectionInfo.IPAddress">
             <summary>
@@ -156,11 +157,6 @@
             Address list lock object for unique access
             </summary>
         </member>
-        <member name="P:BadEgg.Plugin.WebDefender.ValidateConnections._connectionTimeoutMinutes">
-            <summary>
-            Time out for each client (minutes)
-            </summary>
-        </member>
         <member name="M:BadEgg.Plugin.WebDefender.ValidateConnections.#ctor(System.UInt32@,System.UInt32@)">
             <summary>
             Constructor
@@ -208,13 +204,13 @@
             <summary>
             Adds an IP address to a black list
             </summary>
-            <param name="hostAddress">IP address to add to black list</param>
+            <param name="ipAddress">Ip address to add to black list</param>
         </member>
         <member name="M:BadEgg.Plugin.WebDefender.ValidateConnections.AddToWhiteList(System.String@)">
             <summary>
             Adds an IP address to a black list
             </summary>
-            <param name="hostAddress">IP address to add to black list</param>
+            <param name="ipAddress">Ip address to add to black list</param>
         </member>
         <member name="M:BadEgg.Plugin.WebDefender.ValidateConnections.GetConnectionInformation(System.String@)">
             <summary>
@@ -283,14 +279,14 @@
             <summary>
             Verify's an address to see if it's black/white listed
             </summary>
-            <param name="IPAddress">IPAddress to verify</param>
+            <param name="ipAddress">Ip address to verify</param>
             <returns>ValidateRequestResult enum with results</returns>
         </member>
         <member name="M:BadEgg.Plugin.WebDefender.ValidateConnections.DetermineSpiderBot(BadEgg.Plugin.WebDefender.IpConnectionInfo@,SharedPluginFeatures.Enums.ValidateRequestResult@)">
             <summary>
             Determines the probability that user is bot/spider 
             </summary>
-            <param name="ipAddress">IP Address of user</param>
+            <param name="connectionInfo">Ip connection information</param>
             <param name="validation">validation Results</param>
         </member>
         <member name="M:BadEgg.Plugin.WebDefender.ValidateConnections.DetermineHackAttemt(System.String@,System.Int32@,SharedPluginFeatures.Enums.ValidateRequestResult@)">
@@ -305,7 +301,7 @@
             <summary>
             Determines if the url contains sql which could be a SQL Injection
             </summary>
-            <param name="ipAddress">url being passed</param>
+            <param name="request">current request data</param>
             <param name="count">number of attempts found</param>
             <param name="validation">Result of the check</param>
         </member>
