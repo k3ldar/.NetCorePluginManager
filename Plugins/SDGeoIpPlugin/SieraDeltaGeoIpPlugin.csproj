@@ -101,7 +101,7 @@
     <PackageReference Include="ApplicationSettings" Version="1.2.0" />
     <PackageReference Include="FirebirdSql.Data.FirebirdClient" Version="6.6.0" />
     <PackageReference Include="MySql.Data" Version="8.0.15" />
-    <PackageReference Include="SC.Shared.Library.Core" Version="2.8.3" />
+    <PackageReference Include="SC.Shared.Library.Core" Version="2.9.0" />
     <PackageReference Include="System.Data.SqlClient" Version="4.6.0" />
   </ItemGroup>
 

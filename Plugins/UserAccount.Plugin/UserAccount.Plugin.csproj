@@ -173,7 +173,7 @@
     <PackageReference Include="jQuery.Validation" Version="1.17.0" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.3" />
-    <PackageReference Include="SC.Shared.Library.Core" Version="2.8.3" />
+    <PackageReference Include="SC.Shared.Library.Core" Version="2.9.0" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)'=='netcoreapp2.2'">
