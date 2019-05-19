@@ -1,14 +1,14 @@
-<h2>A Modular Approach</h2>
+##A Modular Approach
 
 Many software projects suffer from a lack of initial design, while this approach allows developers to quickly create and release their software, it often creates a post initial release nightmare when it comes to updating, extending or fixing bugs.  There are many reasons for throwing things together quickly, primarily I would argue that market and financial pressure are chief amongst them.  However, there comes a time when the cost of updating or enhancing a product far outweighs the lack of initial design.
 
 There are several principles in good software design-architecture which are critical to the success and longevity of a project, chief amongst these is the following:
-
+#LIST
 N-Tier: A client–server architecture in which presentation, application processing, and data management functions are physically separated into layers.
 SOLID: Single responsibility, open-closed principle, Liskov substitution principle, interface segregation and dependency inversion principle.
 DRY: Don't repeat yourself.  Software development principle aimed at preventing repetition of code.
 IoC: Inversion of control is used to increase modularity and extensibility through dependency injection.
-
+#LIST
 When software is badly designed some of the principles above are missing entirely, or in other cases all tier's are housed within the same executable or assembly.  This is where things begin to fall down and maintenance becomes more of a headache and ultimately more expensive in the long run.
 
 The problem is magnified when an entire product base is copied and pasted to form the basis of a new solution for a new client.  Whilst this gives an initial leap in development time, it also means that the maintenance of the products base is doubled.  Fixing a bug in one product ultimately means you have to copy and paste the fix to each derivative solution.
@@ -17,13 +17,15 @@ Whilst different client solutions can diversify and become more generic to the c
 
 If we look at a single website built using C# with the model-view-controller (MVC) pattern there will typically be many modules that make up the software, for instance you could have:
 
-•	Product
-•	Shopping Cart
-•	Stock Control
-•	User account
-•	Searching
-•	Marketing
-•	Settings
+#LIST
+Product
+Shopping Cart
+Stock Control
+User account
+Searching
+Marketing
+Settings
+#LIST
 
 Each of these modules makes up the first tier or layer; this is effectively known as the Presentation Layer (PL).
 
