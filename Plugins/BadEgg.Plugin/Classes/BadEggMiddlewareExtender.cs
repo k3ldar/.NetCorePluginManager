@@ -30,6 +30,11 @@ namespace BadEgg.Plugin
 {
     public static class BadEggMiddlewareExtender
     {
+        /// <summary>
+        /// Adds BadEgg to the request pipeline
+        /// </summary>
+        /// <param name="builder">IApplicationBuilder instance</param>
+        /// <returns>IApplicationBuilder</returns>
         public static IApplicationBuilder UseBadEgg(this IApplicationBuilder builder)
         {
             return builder.UseMiddleware<BadEggMiddleware>();

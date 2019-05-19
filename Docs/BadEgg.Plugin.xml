@@ -1,0 +1,322 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>BadEgg.Plugin</name>
+    </assembly>
+    <members>
+        <member name="M:BadEgg.Plugin.BadEggMiddlewareExtender.UseBadEgg(Microsoft.AspNetCore.Builder.IApplicationBuilder)">
+            <summary>
+            Adds BadEgg to the request pipeline
+            </summary>
+            <param name="builder">IApplicationBuilder instance</param>
+            <returns>IApplicationBuilder</returns>
+        </member>
+        <member name="T:BadEgg.Plugin.BadEggSettings">
+            <summary>
+            Settings which affect how BadEgg is configured and used.
+            </summary>
+        </member>
+        <member name="P:BadEgg.Plugin.BadEggSettings.ConnectionTimeOut">
+            <summary>
+            Number of minutes until a connection is timed out and removed from the list of monitored connections.
+            
+            Default value: 5
+            Minimum value: 1
+            Maximum value: 300
+            </summary>
+            <value>uint</value>
+        </member>
+        <member name="P:BadEgg.Plugin.BadEggSettings.ConnectionsPerMinute">
+            <summary>
+            Maximum average connection per minute, if this value is exceeded then http response from TooManyRequestResponseCode will be returned
+            
+            Default value: 100
+            Minimum value: 5
+            Maximum value: uint.MaxValue
+            </summary>
+            <value>uint</value>
+        </member>
+        <member name="P:BadEgg.Plugin.BadEggSettings.BannedResponseCode">
+            <summary>
+            Http response code provided should the connection be banned.
+            
+            Default: 400
+            
+            Must be a valid http client error response (in the range of 400)
+            </summary>
+            <value>int</value>
+        </member>
+        <member name="P:BadEgg.Plugin.BadEggSettings.TooManyRequestResponseCode">
+            <summary>
+            Http response provided should the connection make too many requests.
+            
+            Default Value: 429
+            
+            Must be a valid http client error response (in the range of 400)
+            </summary>
+            <value>int</value>
+        </member>
+        <member name="M:BadEgg.Plugin.WebDefender.IpConnectionInfo.#ctor(System.String@)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="ipAddress">Address of client</param>
+        </member>
+        <member name="M:BadEgg.Plugin.WebDefender.IpConnectionInfo.#ctor(System.String@,System.DateTime@)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="ipAddress">Address of client</param>
+        </member>
+        <member name="P:BadEgg.Plugin.WebDefender.IpConnectionInfo.IPAddress">
+            <summary>
+            IP Address for client
+            </summary>
+        </member>
+        <member name="P:BadEgg.Plugin.WebDefender.IpConnectionInfo.Created">
+            <summary>
+            DateTime this record was created
+            </summary>
+        </member>
+        <member name="P:BadEgg.Plugin.WebDefender.IpConnectionInfo.LastEntry">
+            <summary>
+            DateTime last entry was made
+            </summary>
+        </member>
+        <member name="P:BadEgg.Plugin.WebDefender.IpConnectionInfo.Requests">
+            <summary>
+            Number of requests made
+            </summary>
+        </member>
+        <member name="P:BadEgg.Plugin.WebDefender.IpConnectionInfo.Results">
+            <summary>
+            Results for the connection
+            </summary>
+        </member>
+        <member name="P:BadEgg.Plugin.WebDefender.IpConnectionInfo.Text">
+            <summary>
+            Unique text being scanned
+            </summary>
+        </member>
+        <member name="P:BadEgg.Plugin.WebDefender.IpConnectionInfo.UserAgents">
+            <summary>
+            Host Information
+            </summary>
+        </member>
+        <member name="M:BadEgg.Plugin.WebDefender.IpConnectionInfo.AddRequest(System.String@,System.String@)">
+            <summary>
+            Increments the number of requests
+            </summary>
+        </member>
+        <member name="M:BadEgg.Plugin.WebDefender.IpConnectionInfo.HitsPerSecond">
+            <summary>
+            Determines how many hits per second
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:BadEgg.Plugin.WebDefender.IpConnectionInfo.HitsPerMinute">
+            <summary>
+            Determines how many hits per second
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:BadEgg.Plugin.WebDefender.IpConnectionInfo.TotalTime">
+            <summary>
+            Total time the connection has been active from when logged to last entry
+            </summary>
+            <returns>TimeSpan</returns>
+        </member>
+        <member name="F:BadEgg.Plugin.WebDefender.ValidateConnections.KeyWords">
+            <summary>
+            keywords used to determine sql injection
+            </summary>
+        </member>
+        <member name="F:BadEgg.Plugin.WebDefender.ValidateConnections.PhraseFind">
+            <summary>
+            Phrases to find / Replace within a string
+            </summary>
+        </member>
+        <member name="F:BadEgg.Plugin.WebDefender.ValidateConnections.HackKeyWords">
+            <summary>
+            Hacking keywords
+            </summary>
+        </member>
+        <member name="F:BadEgg.Plugin.WebDefender.ValidateConnections.HackFind">
+            <summary>
+            Hacking phrases to find/replace
+            </summary>
+        </member>
+        <member name="F:BadEgg.Plugin.WebDefender.ValidateConnections.RandomFind">
+            <summary>
+            Words/Chars to replace with a space in Random Word checker
+            </summary>
+        </member>
+        <member name="F:BadEgg.Plugin.WebDefender.ValidateConnections._lockObject">
+            <summary>
+            Address list lock object for unique access
+            </summary>
+        </member>
+        <member name="P:BadEgg.Plugin.WebDefender.ValidateConnections._connectionTimeoutMinutes">
+            <summary>
+            Time out for each client (minutes)
+            </summary>
+        </member>
+        <member name="M:BadEgg.Plugin.WebDefender.ValidateConnections.#ctor(System.UInt32@,System.UInt32@)">
+            <summary>
+            Constructor
+            </summary>
+        </member>
+        <member name="P:BadEgg.Plugin.WebDefender.ValidateConnections.HackProbability">
+            <summary>
+            Probability of web attack/hacking
+            </summary>
+        </member>
+        <member name="P:BadEgg.Plugin.WebDefender.ValidateConnections.HackAttempt">
+            <summary>
+            Almost certain web attack/hacking
+            </summary>
+        </member>
+        <member name="P:BadEgg.Plugin.WebDefender.ValidateConnections.BotHitsPerSecondProbability">
+            <summary>
+            Propability of bot Number of hit's per second 
+            </summary>
+        </member>
+        <member name="P:BadEgg.Plugin.WebDefender.ValidateConnections.BotHitsPerSecond">
+            <summary>
+            Propability of bot Number of hit's per second 
+            </summary>
+        </member>
+        <member name="M:BadEgg.Plugin.WebDefender.ValidateConnections.ValidateRequest(System.String@,System.String@,System.Int32@)">
+            <summary>
+            Validates a string
+            </summary>
+            <param name="request">String request being validated</param>
+            <param name="count">number of occurances of *possible* attacks detected in the string </param>
+            <param name="hostAddress">IP Address for connection</param>
+            <returns>Results of probability that the attack is an attempt hack</returns>
+        </member>
+        <member name="M:BadEgg.Plugin.WebDefender.ValidateConnections.ValidateRequest(Microsoft.AspNetCore.Http.HttpRequest@,System.Boolean@,System.Int32@)">
+            <summary>
+            Validates a web request
+            </summary>
+            <param name="request">Request being validated</param>
+            <param name="validatePostValues">Validates form post values if available</param>
+            <param name="count">number of occurances of *possible* attacks detected in the Uri </param>
+            <returns>Weight of probability that the attack is an attempt hack</returns>
+        </member>
+        <member name="M:BadEgg.Plugin.WebDefender.ValidateConnections.AddToBlackList(System.String@)">
+            <summary>
+            Adds an IP address to a black list
+            </summary>
+            <param name="hostAddress">IP address to add to black list</param>
+        </member>
+        <member name="M:BadEgg.Plugin.WebDefender.ValidateConnections.AddToWhiteList(System.String@)">
+            <summary>
+            Adds an IP address to a black list
+            </summary>
+            <param name="hostAddress">IP address to add to black list</param>
+        </member>
+        <member name="M:BadEgg.Plugin.WebDefender.ValidateConnections.GetConnectionInformation(System.String@)">
+            <summary>
+            Gets connection information object for the IP Address
+            </summary>
+            <param name="ipAddress">IP Address</param>
+            <returns>ConnectionInfo object associated with the IP Address</returns>
+        </member>
+        <member name="M:BadEgg.Plugin.WebDefender.ValidateConnections.RaiseConnectionAdd(BadEgg.Plugin.WebDefender.IpConnectionInfo@)">
+            <summary>
+            Raise connection removed event
+            </summary>
+            <param name="connection">connection info being removed</param>
+        </member>
+        <member name="M:BadEgg.Plugin.WebDefender.ValidateConnections.RaiseConnectionRemoved(BadEgg.Plugin.WebDefender.IpConnectionInfo@)">
+            <summary>
+            Raise connection removed event
+            </summary>
+            <param name="connection">connection info being removed</param>
+        </member>
+        <member name="M:BadEgg.Plugin.WebDefender.ValidateConnections.RaiseOnBanIPAddress(System.String@,System.Double@,System.UInt64@,System.TimeSpan@)">
+            <summary>
+            Raises an event for banning an IP Address
+            </summary>
+            <param name="ipAddress"></param>
+            <param name="hits"></param>
+            <param name="requests"></param>
+            <param name="span"></param>
+            <returns>True if the IP Address should be black listed and added to banned list, otherwise false</returns>
+        </member>
+        <member name="E:BadEgg.Plugin.WebDefender.ValidateConnections.OnBanIPAddress">
+            <summary>
+            Event raised when an IP Address needs to be banned
+            </summary>
+        </member>
+        <member name="E:BadEgg.Plugin.WebDefender.ValidateConnections.ConnectionAdd">
+            <summary>
+            Event raised when connection info object add
+            </summary>
+        </member>
+        <member name="E:BadEgg.Plugin.WebDefender.ValidateConnections.ConnectionRemove">
+            <summary>
+            Event raised when connection info object removed
+            </summary>
+        </member>
+        <member name="E:BadEgg.Plugin.WebDefender.ValidateConnections.OnReportConnection">
+            <summary>
+            Reports a connection that has Result attributes
+            </summary>
+        </member>
+        <member name="M:BadEgg.Plugin.WebDefender.ValidateConnections.IgnoreFormValue(System.String@)">
+            <summary>
+            Certain form values can be ignored and will not be evaluated
+            </summary>
+            <param name="value"></param>
+            <returns>true if value should be ignored, otherwise false</returns>
+        </member>
+        <member name="M:BadEgg.Plugin.WebDefender.ValidateConnections.UpdateConnectionInfo(SharedPluginFeatures.Enums.ValidateRequestResult@,BadEgg.Plugin.WebDefender.IpConnectionInfo@)">
+            <summary>
+            Updates result flags on connection info object
+            </summary>
+            <param name="Result">Result of this validation</param>
+            <param name="connection">connection info object</param>
+        </member>
+        <member name="M:BadEgg.Plugin.WebDefender.ValidateConnections.VerifyAddress(System.String@)">
+            <summary>
+            Verify's an address to see if it's black/white listed
+            </summary>
+            <param name="IPAddress">IPAddress to verify</param>
+            <returns>ValidateRequestResult enum with results</returns>
+        </member>
+        <member name="M:BadEgg.Plugin.WebDefender.ValidateConnections.DetermineSpiderBot(BadEgg.Plugin.WebDefender.IpConnectionInfo@,SharedPluginFeatures.Enums.ValidateRequestResult@)">
+            <summary>
+            Determines the probability that user is bot/spider 
+            </summary>
+            <param name="ipAddress">IP Address of user</param>
+            <param name="validation">validation Results</param>
+        </member>
+        <member name="M:BadEgg.Plugin.WebDefender.ValidateConnections.DetermineHackAttemt(System.String@,System.Int32@,SharedPluginFeatures.Enums.ValidateRequestResult@)">
+            <summary>
+            Determines the probability of a hacking attempt
+            </summary>
+            <param name="request">data to be checked</param>
+            <param name="count">Number of attempts found</param>
+            <param name="validation">Result of the check</param>
+        </member>
+        <member name="M:BadEgg.Plugin.WebDefender.ValidateConnections.DetermineSQLInjectionAttack(System.String@,System.Int32@,SharedPluginFeatures.Enums.ValidateRequestResult@)">
+            <summary>
+            Determines if the url contains sql which could be a SQL Injection
+            </summary>
+            <param name="ipAddress">url being passed</param>
+            <param name="count">number of attempts found</param>
+            <param name="validation">Result of the check</param>
+        </member>
+        <member name="M:BadEgg.Plugin.WebDefender.ValidateConnections.IsRandomWord(System.String@)">
+            <summary>
+            Determines if a word is made up of random characters
+            
+            Assumption is if has 2 or more upper/lower case chars and at least 1 number then it's random
+            </summary>
+            <param name="word">Word which is being tested</param>
+            <returns>true if contains 2 or more upper/lower case chars and at least 1 number, otherwise false</returns>
+        </member>
+    </members>
+</doc>

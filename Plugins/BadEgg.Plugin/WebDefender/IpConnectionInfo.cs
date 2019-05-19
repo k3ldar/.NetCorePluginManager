@@ -53,6 +53,7 @@ namespace BadEgg.Plugin.WebDefender
         /// Constructor
         /// </summary>
         /// <param name="ipAddress">Address of client</param>
+        /// <param name="start">Date/time the connection was created.</param>
         internal IpConnectionInfo(in string ipAddress, in DateTime start)
         {
             Created = start;
