@@ -92,6 +92,7 @@ namespace AspNetCore.PluginManager
         /// Loads and configures an individual plugin
         /// </summary>
         /// <param name="assembly"></param>
+        /// <param name="fileLocation"></param>
         /// <param name="extractResources"></param>
         internal void LoadPlugin(in Assembly assembly, in string fileLocation, in bool extractResources)
         {
@@ -389,6 +390,7 @@ namespace AspNetCore.PluginManager
         /// </summary>
         /// <param name="pluginLibraryName"></param>
         /// <param name="version"></param>
+        /// <param name="module"></param>
         /// <returns></returns>
         internal bool PluginLoaded(in string pluginLibraryName, out int version, out string module)
         {
@@ -532,12 +534,6 @@ namespace AspNetCore.PluginManager
             return default(T);
         }
 
-        /// <summary>
-        /// Retrieves the file path of the host website
-        /// </summary>
-        /// <param name="resourceName"></param>
-        /// <param name="pluginSetting"></param>
-        /// <returns></returns>
         private string GetLiveFilePath(in string assemblyName, in string resourceName, in PluginSetting pluginSetting)
         {
             // remove the first part of the name which is the library

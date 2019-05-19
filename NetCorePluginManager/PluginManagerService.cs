@@ -61,11 +61,20 @@ namespace AspNetCore.PluginManager
             return Initialise(new PluginManagerConfiguration(logger, new Classes.LoadSettingsService()));
         }
 
+        /// <summary>
+        /// Initialises the PluginManager using default confguration.
+        /// </summary>
+        /// <returns>bool</returns>
         public static bool Initialise()
         {
             return Initialise(new PluginManagerConfiguration());
         }
 
+        /// <summary>
+        /// Initialises the PluginManager using a specific user defined configuration.
+        /// </summary>
+        /// <param name="configuration"></param>
+        /// <returns>bool</returns>
         public static bool Initialise(in PluginManagerConfiguration configuration)
         {
             if (configuration == null)
@@ -158,6 +167,11 @@ namespace AspNetCore.PluginManager
             return true;
         }
 
+        /// <summary>
+        /// Configures all plugin modules, allowing the modules to setup services for the application.
+        /// </summary>
+        /// <param name="app">IApplicationBuilder instance.</param>
+        /// <param name="env">IHostingEnvironment instance.</param>
         public static void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (_logger == null)
@@ -181,6 +195,10 @@ namespace AspNetCore.PluginManager
             init.ForEach(i => i.AfterConfigure(app, env));
         }
 
+        /// <summary>
+        /// Configures all plugin module services, allowing the modules to add their own services to the application.
+        /// </summary>
+        /// <param name="services">IServiceCollection instance</param>
         public static void ConfigureServices(IServiceCollection services)
         {
             if (_logger == null)
