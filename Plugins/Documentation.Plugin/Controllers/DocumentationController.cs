@@ -48,7 +48,7 @@ namespace DocumentationPlugin.Controllers
 
         #region Constructors
 
-        public DocumentationController(ILoginProvider loginProvider, 
+        public DocumentationController(
             ISettingsProvider settingsProvider)
         {
             if (settingsProvider == null)
@@ -62,7 +62,7 @@ namespace DocumentationPlugin.Controllers
 
         [HttpGet]
         [Breadcrumb(nameof(Languages.LanguageStrings.Login))]
-        public IActionResult Index(string returnUrl)
+        public IActionResult Index()
         {
 
             return View();

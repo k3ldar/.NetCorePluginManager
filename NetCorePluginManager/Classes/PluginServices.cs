@@ -75,7 +75,7 @@ namespace AspNetCore.PluginManager
 
         public bool PluginLoaded(in string pluginLibraryName, out int version)
         {
-            return PluginManagerService.GetPluginManager().PluginLoaded(pluginLibraryName, out version, out string module);
+            return PluginManagerService.GetPluginManager().PluginLoaded(pluginLibraryName, out version, out _);
         }
 
         public DynamicLoadResult AddAssembly(in Assembly assembly)
