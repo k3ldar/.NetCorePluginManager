@@ -538,6 +538,15 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to API Reference.
+        /// </summary>
+        public static string APIReference {
+            get {
+                return ResourceManager.GetString("APIReference", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Accounts.
         /// </summary>
         public static string AppAccounts {
@@ -22629,6 +22638,15 @@ namespace Languages {
         public static string Distributors {
             get {
                 return ResourceManager.GetString("Distributors", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Documentation.
+        /// </summary>
+        public static string Documentation {
+            get {
+                return ResourceManager.GetString("Documentation", resourceCulture);
             }
         }
         

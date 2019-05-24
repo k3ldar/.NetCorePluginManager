@@ -28,6 +28,9 @@
 
 namespace SharedPluginFeatures
 {
+    /// <summary>
+    /// Constant values shared between all plugin modules
+    /// </summary>
     public sealed class Constants
     {
         public const int MinimumPasswordLength = 8;
@@ -81,5 +84,15 @@ namespace SharedPluginFeatures
         public const string CurrencyCodeDefault = "GBP";
 
         public const string ThreadNotificationService = "Notification Service";
+
+        /// <summary>
+        /// Name of the documentation file cache
+        /// </summary>
+        public const string DocumentationFileCache = "DocumentationFileCache";
+
+        /// <summary>
+        /// Name of the documentation list cache
+        /// </summary>
+        public const string DocumentationListCache = "DocumentationListCache";
     }
 }

@@ -83,7 +83,7 @@
 
   <ItemGroup>
     <PackageReference Include="ApplicationSettings" Version="1.2.0" />
-    <PackageReference Include="SC.Shared.Library.Core" Version="2.9.0" />
+    <PackageReference Include="SC.Shared.Library.Core" Version="2.9.2" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(Configuration)'=='Release'">

@@ -16,7 +16,7 @@
     <RepositoryType>git</RepositoryType>
     <PackageTags>asp net core plugin manager Documentation Plugin</PackageTags>
     <AssemblyName>DocumentationPlugin</AssemblyName>
-    <RootNamespace>LoginPlugin</RootNamespace>
+    <RootNamespace>DocumentationPlugin</RootNamespace>
     <TypeScriptToolsVersion>3.0</TypeScriptToolsVersion>
     <IsPackable>true</IsPackable>
   </PropertyGroup>
@@ -85,11 +85,17 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Remove="Views\Docs\Document.cshtml" />
+    <Content Remove="Views\Docs\Index.cshtml" />
+    <Content Remove="wwwroot\css\documentation.css" />
     <Content Remove="wwwroot\css\Login.css" />
     <Content Remove="wwwroot\js\Login.js" />
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="Views\Docs\Document.cshtml" />
+    <EmbeddedResource Include="Views\Docs\Index.cshtml" />
+    <EmbeddedResource Include="wwwroot\css\documentation.css" />
     <EmbeddedResource Include="wwwroot\css\Login.css" />
     <EmbeddedResource Include="wwwroot\js\Login.js" />
   </ItemGroup>
@@ -211,7 +217,6 @@
 
   <ItemGroup>
     <Folder Include="Classes\SystemAdmin\" />
-    <Folder Include="Models\Documentation\" />
     <Folder Include="wwwroot\images\" />
   </ItemGroup>
 

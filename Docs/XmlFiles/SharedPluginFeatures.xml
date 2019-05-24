@@ -249,6 +249,28 @@
             A Ban has been requested on the IP Address
             </summary>
         </member>
+        <member name="T:SharedPluginFeatures.HtmlHelper">
+            <summary>
+            Html Helper class, contains extension methods and other methods for use within MVC application
+            </summary>
+        </member>
+        <member name="M:SharedPluginFeatures.HtmlHelper.RouteFriendlyName(Microsoft.AspNetCore.Mvc.Rendering.IHtmlHelper,System.String@)">
+            <summary>
+            Extension Method
+            
+            Returns a route friendly name, one that will not require html encoding where spaces are separated by a dash and only alpha numeric characters are returned.
+            </summary>
+            <param name="_">IHtmlHelper instance that is being extended</param>
+            <param name="s">Text to be transformed into a route friendly name</param>
+            <returns>string.  Route friendly name.</returns>
+        </member>
+        <member name="M:SharedPluginFeatures.HtmlHelper.RouteFriendlyName(System.String@)">
+            <summary>
+            Returns a route friendly name, one that will not require html encoding where spaces are separated by a dash and only alpha numeric characters are returned.
+            </summary>
+            <param name="name"></param>
+            <returns>string.  Route friendly name.</returns>
+        </member>
         <member name="T:SharedPluginFeatures.IDocumentationService">
             <summary>
             Provides services that enable DocumentationPlugin to build documentation based on xml documentation files.

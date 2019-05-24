@@ -13953,4 +13953,12 @@ You will shortly receive an email with the details of your order.</comment>
     <value>Please enter your email and ticket key and click submit.</value>
     <comment>Please enter your email and ticket key and click submit.</comment>
   </data>
+  <data name="APIReference" xml:space="preserve">
+    <value>API Reference</value>
+    <comment>API Reference</comment>
+  </data>
+  <data name="Documentation" xml:space="preserve">
+    <value>Documentation</value>
+    <comment>Documentation</comment>
+  </data>
 </root>

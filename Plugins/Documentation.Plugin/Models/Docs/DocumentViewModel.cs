@@ -15,63 +15,47 @@
  *
  *  Product:  Documentation Plugin
  *  
- *  File: DocumentationController.cs
+ *  File: DocumentViewModel.cs
  *
- *  Purpose:  
+ *  Purpose:  View model for a document/assembly
  *
  *  Date        Name                Reason
- *  19/05/2019  Simon Carter        Initially Created
+ *  20/05/2019  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
-using System.IO;
-
-using Microsoft.AspNetCore.Mvc;
-
-using Shared.Classes;
-using static Shared.Utilities;
+using System.Collections.Generic;
 
 using SharedPluginFeatures;
 
-using Middleware;
-using static Middleware.Constants;
-
-namespace DocumentationPlugin.Controllers
+namespace DocumentationPlugin.Models
 {
-    [LoggedOut]
-    public class DocumentationController : BaseController
+    public sealed class DocumentViewModel : BaseModel
     {
-        #region Private Members
-
-
-        #endregion Private Members
-
         #region Constructors
 
-        public DocumentationController(
-            ISettingsProvider settingsProvider)
+        public DocumentViewModel(in List<BreadcrumbItem> breadcrumbs, in ShoppingCartSummary cartSummary,
+            in string title, in string shortDescription, in string longDescription)
+            : base (breadcrumbs, cartSummary)
         {
-            if (settingsProvider == null)
-                throw new ArgumentNullException(nameof(settingsProvider));
+            if (String.IsNullOrEmpty(title))
+                throw new ArgumentNullException(nameof(title));
 
+            Title = title;
+            ShortDescription = shortDescription ?? throw new ArgumentNullException(nameof(shortDescription));
+            LongDescription = longDescription ?? throw new ArgumentNullException(nameof(longDescription));
         }
 
         #endregion Constructors
 
-        #region Public Action Methods
+        #region Properties
 
-        [HttpGet]
-        [Breadcrumb(nameof(Languages.LanguageStrings.Login))]
-        public IActionResult Index()
-        {
+        public string Title { get; private set; }
 
-            return View();
-        }
+        public string ShortDescription { get; private set; }
 
-        #endregion Public Action Methods
+        public string LongDescription { get; private set; }
 
-        #region Private Methods
-
-        #endregion Private Methods
+        #endregion Properties
     }
 }

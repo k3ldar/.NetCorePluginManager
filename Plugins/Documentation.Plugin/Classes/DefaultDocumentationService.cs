@@ -193,6 +193,19 @@ namespace LoginPlugin.Classes
             document.Title = GetCustomData(docName + nameof(document.Title), document.Title);
             document.Value = GetCustomData(docName + nameof(document.Value), document.Value);
             document.SortOrder = GetCustomSortOrder(docName + nameof(document.SortOrder), document.SortOrder);
+
+            if (String.IsNullOrEmpty(document.Title))
+            {
+                switch (document.DocumentType)
+                {
+                    case DocumentType.Assembly:
+                        document.Title = document.AssemblyName;
+                        break;
+                    case DocumentType.Class:
+                        document.Title = document.ClassName;
+                        break;
+                }
+            }
         }
 
         public void ProcessDocumentField(in DocumentField field)

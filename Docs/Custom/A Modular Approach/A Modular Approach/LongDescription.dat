@@ -1,4 +1,3 @@
-<h2>A Modular Approach</h2>
 <p>
 Many software projects suffer from a lack of initial design, while this approach allows developers to quickly create and release their software, it often creates a post initial release nightmare when it comes to updating, extending or fixing bugs.  There are many reasons for throwing things together quickly, primarily I would argue that market and financial pressure are chief amongst them.  However, there comes a time when the cost of updating or enhancing a product far outweighs the lack of initial design.
 </p><p>

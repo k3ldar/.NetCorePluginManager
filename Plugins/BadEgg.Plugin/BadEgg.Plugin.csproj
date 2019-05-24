@@ -74,7 +74,7 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netcoreapp3.0|AnyCPU'">
-    <DocumentationFile>..\..\Docs\BadEgg.Plugin.xml</DocumentationFile>
+    <DocumentationFile>..\..\Docs\XmlFiles\BadEgg.Plugin.xml</DocumentationFile>
     <WarningsAsErrors>NU1605</WarningsAsErrors>
     <NoWarn>1701;1702;CS1591</NoWarn>
   </PropertyGroup>
@@ -117,7 +117,7 @@
 
   <ItemGroup>
     <PackageReference Include="ApplicationSettings" Version="1.2.0" />
-    <PackageReference Include="SC.Shared.Library.Core" Version="2.9.0" />
+    <PackageReference Include="SC.Shared.Library.Core" Version="2.9.2" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(Configuration)'=='Release'">

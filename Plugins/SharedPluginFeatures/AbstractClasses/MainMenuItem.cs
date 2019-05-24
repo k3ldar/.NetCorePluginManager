@@ -55,15 +55,9 @@ namespace SharedPluginFeatures
         public abstract string Name();
 
         /// <summary>
-        /// Name of the parent menu item.
-        /// </summary>
-        /// <returns>string.  Name of parent menu</returns>
-        public abstract string ParentName();
-
-        /// <summary>
         /// Int depicting the order for which the menu item will be sorted in comparison to other menu items.
         /// </summary>
-        /// <returns>Integer depicting sort order.</returns>
+        /// <returns>int. depicting sort order.</returns>
         public abstract int SortOrder();
     }
 }
