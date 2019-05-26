@@ -1,19 +1,69 @@
 ﻿@model DocumentationPlugin.Models.DocumentViewModel
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
 @{
     ViewData["Title"] = Model.Title;
 }
 
 <div class="container">
     <div class="row">
-        <div class="col-lg-2">
-            <p>references</p>
+        <div class="col-lg-3">
+            <h3>@Localizer[nameof(Languages.LanguageStrings.Contents)]</h3>
+            @Html.Raw(Model.AllReferences)
         </div>
-        <div class="col-lg-8">
+        <div class="col-lg-7">
             <h2>@Model.Title</h2>
-            @Html.Raw(Model.LongDescription)
+            @await Html.PartialAsync("_DocumentData.cshtml", Model)
         </div>
         <div class="col-lg-2">
-            <p>in here</p>
+            @if (Model.Contains != null)
+            {
+                <h4>@Localizer[nameof(Languages.LanguageStrings.InThisDocument)]</h4>
+                <ul>
+                    @foreach (KeyValuePair<string, string> kvp in Model.Contains)
+                    {
+                        @if (Model.TranslateStrings)
+                        {
+                            <li><a href="@kvp.Key">@Localizer[kvp.Value]</a></li>
+                        }
+                        else
+                        {
+                            <li><a href="@kvp.Key">@kvp.Value</a></li>
+                        }
+                    }
+                </ul>
+            }
+            @if (Model.SeeAlso != null)
+            {
+                <h4>@Localizer[nameof(Languages.LanguageStrings.SeeAlso)]</h4>
+                <ul>
+                    @foreach (var item in Model.SeeAlso)
+                    {
+                        <li>@Html.Raw($"<a href=\"{item.Key}\">{item.Value}</a>")</li>
+                    }
+                </ul>
+            }
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-offset-4 col-lg-2">
+            @if (!String.IsNullOrEmpty(Model.PreviousDocument))
+            {
+                <p><a href="/docs/Document/@SharedPluginFeatures.HtmlHelper.RouteFriendlyName(Model.PreviousDocument)">@Localizer[nameof(Languages.LanguageStrings.PreviousDocument)]</a></p>
+            }
+            else
+            {
+                <p>@Localizer[nameof(Languages.LanguageStrings.PreviousDocument)]</p>
+            }
+        </div>
+        <div class="col-lg-2">
+            @if (!String.IsNullOrEmpty(Model.NextDocument))
+            {
+                <p><a href="/docs/Document/@SharedPluginFeatures.HtmlHelper.RouteFriendlyName(Model.NextDocument)">@Localizer[nameof(Languages.LanguageStrings.NextDocument)]</a></p>
+            }
+            else
+            {
+                <p>@Localizer[nameof(Languages.LanguageStrings.NextDocument)]</p>
+            }
         </div>
     </div>
 </div>
