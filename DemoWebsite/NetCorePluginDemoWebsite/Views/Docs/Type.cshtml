@@ -1,0 +1,49 @@
+﻿@model DocumentationPlugin.Models.DocumentViewModel
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
+@{
+    ViewData["Title"] = "Type";
+}
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-3">
+            <h3>@Localizer[nameof(Languages.LanguageStrings.Contents)]</h3>
+            @Html.Raw(Model.AllReferences)
+        </div>
+        <div class="col-lg-7">
+            <h2>@Model.Title</h2>
+            @await Html.PartialAsync("_DocumentData.cshtml", Model)
+        </div>
+        <div class="col-lg-2">
+            @if (Model.Contains != null)
+            {
+                <h4>@Localizer[nameof(Languages.LanguageStrings.InThisDocument)]</h4>
+                <ul>
+                    @foreach (KeyValuePair<string, string> kvp in Model.Contains)
+                    {
+                        @if (Model.TranslateStrings)
+                        {
+                            <li><a href="@kvp.Key">@Localizer[kvp.Value]</a></li>
+                        }
+                        else
+                        {
+                            <li><a href="@kvp.Key">@kvp.Value</a></li>
+                        }
+                    }
+                </ul>
+            }
+            @if (Model.SeeAlso != null)
+            {
+                <h4>@Localizer[nameof(Languages.LanguageStrings.SeeAlso)]</h4>
+                <ul>
+                    @foreach (var item in Model.SeeAlso)
+                    {
+                    <li>@Html.Raw($"<a href=\"{item.Key}\">{item.Value}</a>")</li>
+                    }
+                </ul>
+            }
+        </div>
+    </div>
+</div>
+

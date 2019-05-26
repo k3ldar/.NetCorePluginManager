@@ -1,0 +1,67 @@
+﻿@model DocumentationPlugin.Models.DocumentViewModel
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
+
+@if (!String.IsNullOrEmpty(Model.Namespace))
+{
+    <p>Namespace: @Model.Namespace</p>
+}
+
+@if (!String.IsNullOrEmpty(Model.Assembly))
+{
+    <p>Assembly: @Model.Assembly</p>
+}
+
+@if (!String.IsNullOrEmpty(Model.LongDescription))
+{
+    <h3 id="#description">@Localizer[nameof(Languages.LanguageStrings.Description)]</h3>
+    @Html.Raw(Model.LongDescription)
+}
+
+@if (!String.IsNullOrEmpty(Model.ShortDescription))
+{
+    @Html.Raw(Model.ShortDescription)
+}
+
+@if (Model.Constructors != null)
+{
+    <h3 id="#constructors">Constructors</h3>
+
+    foreach (var item in Model.Constructors)
+    {
+        <p>@Html.Raw(item.MethodName)</p>
+    }
+}
+
+
+@if (Model.Properties != null)
+{
+    <h3 id="#properties">Properties</h3>
+
+    foreach (var item in Model.Properties)
+    {
+        <p>@Html.Raw(item.PropertyName)</p>
+    }
+}
+
+
+@if (Model.Methods != null)
+{
+    <h3 id="#methods">Methods</h3>
+
+    foreach (var item in Model.Methods)
+    {
+        <p>@Html.Raw(item.MethodName)</p>
+    }
+}
+
+@if (Model.Fields != null)
+{
+
+    <h3 id="#fields">Fields</h3>
+
+    foreach (var item in Model.Fields)
+    {
+        <p>@Html.Raw(item.FieldName)</p>
+    }
+}
+
