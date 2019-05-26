@@ -27,6 +27,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.IO;
+using System.Text;
 
 using Shared;
 using Shared.Classes;
@@ -34,12 +35,13 @@ using Shared.Docs;
 
 using SharedPluginFeatures;
 
-namespace LoginPlugin.Classes
+namespace DocumentationPlugin.Classes
 {
-    public sealed class DefaultDocumentationService : IDocumentationService
+    internal sealed class DefaultDocumentationService : IDocumentationService
     {
         #region Private Members
 
+        private static readonly object _lockObject = new object();
         private readonly DocumentationSettings _documentation;
         private readonly IMemoryCache _memoryCache;
         private readonly string _fileNameFile;
@@ -90,29 +92,47 @@ namespace LoginPlugin.Classes
 
         public List<Document> GetDocuments()
         {
-            CacheItem cache = _memoryCache.GetCache().Get(Constants.DocumentationListCache);
-
-            if (cache == null)
+            using (TimedLock doclock = TimedLock.Lock(_lockObject))
             {
-                Shared.Docs.DocumentBuilder builder = new Shared.Docs.DocumentBuilder();
-                List<Document> documents = new List<Document>();
+                CacheItem cache = _memoryCache.GetCache().Get(Constants.DocumentationListCache);
 
-                foreach (string file in GetDocumentationFileNames())
-                    builder.LoadDocuments(documents, Path.Combine(_xmlFilePath, file));
-
-                foreach (Document doc in documents)
+                if (cache == null)
                 {
-                    if (doc.DocumentType == DocumentType.Custom)
-                        doc.AssemblyName = doc.Title;
+                    DocumentBuilder builder = new DocumentBuilder();
+                    List<Document> documents = new List<Document>();
 
-                    ProcessDocument(doc);
+                    foreach (string file in GetDocumentationFileNames())
+                        builder.LoadDocuments(documents, Path.Combine(_xmlFilePath, file));
+
+                    foreach (Document doc in documents)
+                    {
+                        if (doc.DocumentType == DocumentType.Custom)
+                            doc.AssemblyName = doc.Title;
+
+                        ProcessDocument(doc);
+                        BuildReferences(doc, documents);
+
+                        if (String.IsNullOrEmpty(doc.ShortDescription))
+                            doc.ShortDescription = doc.Summary;
+                    }
+
+                    BuildAllReferences(documents);
+
+                    SetParentData(documents);
+
+                    foreach (Document doc in documents)
+                    {
+                        UpdateClassReferences(doc, documents);
+                    }
+
+                    SetPreviousNext(documents);
+
+                    cache = new CacheItem(Constants.DocumentationListCache, documents);
+                    _memoryCache.GetCache().Add(Constants.DocumentationListCache, cache);
                 }
 
-                cache = new CacheItem(Constants.DocumentationListCache, documents);
-                _memoryCache.GetCache().Add(Constants.DocumentationListCache, cache);
+                return (List<Document>)cache.Value;
             }
-
-            return (List<Document>)cache.Value;
         }
 
         public string GetCustomData(in string name, in string defaultValue)
@@ -225,6 +245,7 @@ namespace LoginPlugin.Classes
             method.ExampleUseage = GetCustomData(docName + nameof(method.ExampleUseage), method.ExampleUseage);
             method.ShortDescription = GetCustomData(docName + nameof(method.ShortDescription), method.ShortDescription);
             method.LongDescription = GetCustomData(docName + nameof(method.LongDescription), method.LongDescription);
+            method.MethodName = GetCustomData(docName + nameof(method.MethodName), FixMethodName(method.MethodName, String.Empty));
 
             foreach (DocumentMethodParameter param in method.Parameters)
                 ProcessDocumentMethodParameter(param);
@@ -253,6 +274,354 @@ namespace LoginPlugin.Classes
         #endregion IDocumentationService Methods
 
         #region Private Methods
+
+        private void SetPreviousNext(List<Document> documents)
+        {
+            List<Document> topLevel = documents.Where(d => d.DocumentType == DocumentType.Assembly ||
+                d.DocumentType == DocumentType.Custom ||
+                d.DocumentType == DocumentType.Document)
+                .OrderBy(o => o.SortOrder).ThenBy(o => o.Title)
+                .ToList();
+
+            for (int i = 0; i < topLevel.Count; i++)
+            {
+                if (i == 0)
+                {
+                    DocumentData next = topLevel[i + 1].Tag as DocumentData;
+                    next.PreviousDocument = topLevel[i];
+                }
+                else if (i == topLevel.Count -1)
+                {
+                    DocumentData previous = topLevel[i -1].Tag as DocumentData;
+                    previous.NextDocument = topLevel[i];
+                }
+                else
+                {
+                    DocumentData next = topLevel[i + 1].Tag as DocumentData;
+                    DocumentData previous = topLevel[i - 1].Tag as DocumentData;
+                    next.PreviousDocument = topLevel[i];
+                    previous.NextDocument = topLevel[i];
+                }
+            }
+        }
+
+        private string FixMethodName(string name, string newName)
+        {
+            if (!name.Contains('('))
+                name += "()";
+
+            if (name.StartsWith("#ctor") && !String.IsNullOrEmpty(newName))
+                name = name.Replace("#ctor", newName);
+
+            return name.Replace(",", ", ");
+        }
+
+        private void BuildReferences(Document document, in List<Document> documents)
+        {
+            DocumentData data = new DocumentData();
+
+            //extract all html H references (H1, H2 etc) from long description for all documents, 
+            // to be used as "in this document"
+            BuildCustomReferences(document, data, documents);
+
+            if (document.DocumentType == DocumentType.Assembly)
+                BuildAssemblyReferences(document, data, documents);
+            else if (document.DocumentType == DocumentType.Class)
+                BuildClassReferences(document, data, documents);
+
+            document.Tag = data;
+        }
+
+        private void SetParentData(in List<Document> documents)
+        {
+            foreach (Document docParent in documents.Where(d => d.DocumentType == DocumentType.Assembly).ToList())
+            {
+                DocumentData parentData = (DocumentData)docParent.Tag;
+
+                // set parent for all classes
+                foreach (Document doc in documents.Where(d => d.DocumentType == DocumentType.Class && d.AssemblyName == docParent.AssemblyName).ToList())
+                {
+                    DocumentData childData = (DocumentData)doc.Tag;
+                    childData.Parent = parentData;
+                }
+            }
+        }
+
+        private void UpdateClassReferences(in Document document, in List<Document> documents)
+        {
+            DocumentData data = (DocumentData)document.Tag;
+            string route = $"/docs/Document/{HtmlHelper.RouteFriendlyName(document.AssemblyName)}/{HtmlHelper.RouteFriendlyName(data.ShortClassName)}/";
+
+            foreach (Document doc in documents)
+            {
+                if (doc == document || String.IsNullOrEmpty(data.FullClassName) || String.IsNullOrEmpty(data.ShortClassName))
+                    continue;
+
+                doc.ShortDescription = StringReplaceClassName(doc.ShortDescription, 
+                    data.FullClassName, data.ShortClassName, route, document, doc);
+                doc.LongDescription = StringReplaceClassName(doc.LongDescription, 
+                    data.FullClassName, data.ShortClassName, route, document, doc);
+                doc.Remarks = StringReplaceClassName(doc.Remarks, data.FullClassName, 
+                    data.ShortClassName, route, document, doc);
+                doc.Returns = StringReplaceClassName(doc.Returns, data.FullClassName, 
+                    data.ShortClassName, route, document, doc);
+                doc.Summary = StringReplaceClassName(doc.Summary, data.FullClassName, 
+                    data.ShortClassName, route, document, doc);
+
+                foreach (var item in doc.Constructors)
+                {
+                    item.MethodName = StringReplaceClassName(FixMethodName(item.MethodName, 
+                        item.ClassName), data.FullClassName, data.ShortClassName, route, document, doc);
+                    item.ExampleUseage = StringReplaceClassName(item.ExampleUseage, 
+                        data.FullClassName, data.ShortClassName, route, document, doc);
+                    item.LongDescription = StringReplaceClassName(item.LongDescription, 
+                        data.FullClassName, data.ShortClassName, route, document, doc);
+                    item.Returns = StringReplaceClassName(item.Returns, data.FullClassName, 
+                        data.ShortClassName, route, document, doc);
+                    item.ShortDescription = StringReplaceClassName(item.ShortDescription,
+                        data.FullClassName, data.ShortClassName, route, document, doc);
+                    item.Summary = StringReplaceClassName(item.Summary, data.FullClassName, 
+                        data.ShortClassName, route, document, doc);
+
+                    foreach (var param in item.Parameters)
+                    {
+                        param.ParameterName = StringReplaceClassName(param.ParameterName, 
+                            data.FullClassName, data.ShortClassName, route, document, doc);
+                        param.LongDescription = StringReplaceClassName(param.LongDescription, 
+                            data.FullClassName, data.ShortClassName, route, document, doc);
+                        param.ShortDescription = StringReplaceClassName(param.LongDescription, 
+                            data.FullClassName, data.ShortClassName, route, document, doc);
+                        param.Summary = StringReplaceClassName(param.Summary, data.FullClassName, 
+                            data.ShortClassName, route, document, doc);
+                        param.Value = StringReplaceClassName(param.Value, data.FullClassName, 
+                            data.ShortClassName, route, document, doc);
+                    }
+                }
+
+                foreach (var item in doc.Methods)
+                {
+                    item.MethodName = StringReplaceClassName(item.MethodName, data.FullClassName, 
+                        data.ShortClassName, route, document, doc);
+                    item.ExampleUseage = StringReplaceClassName(item.ExampleUseage, 
+                        data.FullClassName, data.ShortClassName, route, document, doc);
+                    item.LongDescription = StringReplaceClassName(item.LongDescription, 
+                        data.FullClassName, data.ShortClassName, route, document, doc);
+                    item.Returns = StringReplaceClassName(item.Returns, data.FullClassName, 
+                        data.ShortClassName, route, document, doc);
+                    item.ShortDescription = StringReplaceClassName(item.ShortDescription, 
+                        data.FullClassName, data.ShortClassName, route, document, doc);
+                    item.Summary = StringReplaceClassName(item.Summary, data.FullClassName, 
+                        data.ShortClassName, route, document, doc);
+
+                    foreach (var param in item.Parameters)
+                    {
+                        param.LongDescription = StringReplaceClassName(param.LongDescription, 
+                            data.FullClassName, data.ShortClassName, route, document, doc);
+                        param.ShortDescription = StringReplaceClassName(param.LongDescription, 
+                            data.FullClassName, data.ShortClassName, route, document, doc);
+                        param.Summary = StringReplaceClassName(param.Summary, data.FullClassName, 
+                            data.ShortClassName, route, document, doc);
+                        param.Value = StringReplaceClassName(param.Value, data.FullClassName, 
+                            data.ShortClassName, route, document, doc);
+                    }
+                }
+
+                foreach (var item in doc.Properties)
+                {
+                    item.LongDescription = StringReplaceClassName(item.LongDescription, 
+                        data.FullClassName, data.ShortClassName, route, document, doc);
+                    item.ShortDescription = StringReplaceClassName(item.ShortDescription, 
+                        data.FullClassName, data.ShortClassName, route, document, doc);
+                    item.Summary = StringReplaceClassName(item.Summary, data.FullClassName, 
+                        data.ShortClassName, route, document, doc);
+                    item.Value = StringReplaceClassName(item.Value, data.FullClassName, 
+                        data.ShortClassName, route, document, doc);
+                }
+
+                foreach (var value in doc.Fields)
+                {
+                    value.LongDescription = StringReplaceClassName(value.LongDescription, 
+                        data.FullClassName, data.ShortClassName, route, document, doc);
+                    value.ShortDescription = StringReplaceClassName(value.ShortDescription, 
+                        data.FullClassName, data.ShortClassName, route, document, doc);
+                    value.Summary = StringReplaceClassName(value.Summary, data.FullClassName, 
+                        data.ShortClassName, route, document, doc);
+                    value.Value = StringReplaceClassName(value.Value, data.FullClassName, 
+                        data.ShortClassName, route, document, doc);
+                }
+
+                DocumentData docData = (DocumentData)doc.Tag;
+
+                if (docData.SeeAlso.Count > 0 && !docData.Contains.ContainsKey("#seealso"))
+                    docData.Contains.Add("#seealso", nameof(Languages.LanguageStrings.SeeAlso));
+            }
+
+            if (data.SeeAlso.Count > 0 && !data.Contains.ContainsKey("#seealso"))
+                data.Contains.Add("#seealso", nameof(Languages.LanguageStrings.SeeAlso));
+        }
+
+        private string StringReplaceClassName(in string value, in string fullClassName, in string shortClassName, 
+            in string route, in Document priDoc, in Document subDoc)
+        {
+            if (String.IsNullOrEmpty(value) || priDoc.SortOrder < 0)
+                return value;
+
+            string[] words = value.Split(new char[] { ' ' }, StringSplitOptions.None);
+            bool xRefSeeAlso = false;
+
+            for (int i = 0; i < words.Length; i++)
+            {
+                string word = words[i];
+
+                if (word.Trim().Equals(fullClassName, StringComparison.InvariantCultureIgnoreCase))
+                {
+                    words[i] = $"<a href=\"{route}\">{fullClassName}</a>";
+
+                    if (!xRefSeeAlso)
+                        xRefSeeAlso = true;
+                }
+                else if (word.Equals(shortClassName, StringComparison.InvariantCultureIgnoreCase))
+                {
+                    words[i] = $"<a href=\"{route}\">{shortClassName}</a>";
+
+                    if (!xRefSeeAlso)
+                        xRefSeeAlso = true;
+                }
+                else if (word.Contains(fullClassName, StringComparison.InvariantCultureIgnoreCase))
+                {
+                    words[i] = word.Replace(fullClassName, $"<a href=\"{route}\">{fullClassName}</a>");
+
+                    if (!xRefSeeAlso)
+                        xRefSeeAlso = true;
+                }
+            }
+
+            if (xRefSeeAlso)
+            {
+                DocumentData data1 = (DocumentData)priDoc.Tag;
+                string route1 = $"/docs/Document/{HtmlHelper.RouteFriendlyName(priDoc.AssemblyName)}/{HtmlHelper.RouteFriendlyName(data1.ShortClassName)}/";
+
+                DocumentData data2 = (DocumentData)subDoc.Tag;
+                string route2 = $"/docs/Document/{HtmlHelper.RouteFriendlyName(subDoc.AssemblyName)}/{HtmlHelper.RouteFriendlyName(data2.ShortClassName)}/";
+
+                if (!data1.SeeAlso.ContainsKey(route2))
+                    data1.SeeAlso.Add(route2, subDoc.Title);
+
+                if (!data2.SeeAlso.ContainsKey(route1))
+                    data2.SeeAlso.Add(route1, priDoc.Title);
+            }
+
+            return String.Join(' ', words);
+        }
+
+        private void BuildAssemblyReferences(in Document document, in DocumentData data, in List<Document> documents)
+        {
+            foreach (Document doc in documents)
+            {
+                if (doc.AssemblyName == document.AssemblyName && doc.DocumentType == DocumentType.Class)
+                {
+                    string route = $"/docs/Document/{HtmlHelper.RouteFriendlyName(document.Title)}/{HtmlHelper.RouteFriendlyName(doc.Title)}/";
+                    data.KeyNames.Add(route, doc.Title);
+                }
+            }
+        }
+
+        private void BuildClassReferences(in Document document, in DocumentData data, in List<Document> documents)
+        {
+            if (!String.IsNullOrEmpty(document.AcquisitionMethod))
+                data.Contains.Add("#acquire", nameof(Languages.LanguageStrings.Acquisition));
+
+            if (!String.IsNullOrEmpty(document.Returns))
+                data.Contains.Add("#return", nameof(Languages.LanguageStrings.ReturnValue));
+
+            if (!String.IsNullOrEmpty(document.Value))
+                data.Contains.Add("#value", nameof(Languages.LanguageStrings.ApiValue));
+
+            if (!String.IsNullOrEmpty(document.Example))
+                data.Contains.Add("#example", nameof(Languages.LanguageStrings.Example));
+
+            if (document.Constructors.Count > 0)
+                data.Contains.Add("#constructors", nameof(Languages.LanguageStrings.Constructors));
+
+            if (document.Properties.Count > 0)
+                data.Contains.Add("#properties", nameof(Languages.LanguageStrings.Properties));
+
+            if (document.Methods.Count > 0)
+                data.Contains.Add("#methods", nameof(Languages.LanguageStrings.Methods));
+
+            if (document.Fields.Count > 0)
+                data.Contains.Add("#fields", nameof(Languages.LanguageStrings.Fields));
+
+            if (!String.IsNullOrEmpty(document.Remarks))
+                data.Contains.Add("#acquire", nameof(Languages.LanguageStrings.Remarks));
+
+            data.ShortClassName = document.ClassName;
+            data.FullClassName = $"{document.NameSpaceName}.{document.ClassName}";
+        }
+
+        private void BuildCustomReferences(in Document document, in DocumentData data, in List<Document> documents)
+        {
+            int nextHStart = document.LongDescription.IndexOf("<h");
+
+            if (nextHStart == -1)
+                return;
+
+            int nextHEnd;
+
+            while (nextHStart > -1)
+            {
+                nextHEnd = document.LongDescription.IndexOf("</h", nextHStart + 1);
+
+                if (nextHEnd > nextHStart)
+                {
+                    string reference = document.LongDescription.Substring(nextHStart, nextHEnd - nextHStart);
+                    string idName = HtmlHelper.RouteFriendlyName(reference.Substring(4).ToLower());
+
+                    string hType = reference.Substring(0, 3);
+
+                    string newhRef = $"{hType} id=\"{idName}\">" + reference.Substring(4);
+                    document.LongDescription = document.LongDescription.Replace(reference, newhRef);
+
+                    if (!data.Contains.ContainsKey(idName))
+                        data.Contains.Add("#" + idName, reference.Substring(4));
+                }
+                else
+                    break;
+
+                nextHStart = document.LongDescription.IndexOf("<h", nextHEnd + 1);
+            }
+        }
+
+        private void BuildAllReferences(in List<Document> documents)
+        {
+            StringBuilder allReferences = new StringBuilder("<ul>", 2048);
+
+            foreach (Document selected in documents)
+            {
+                allReferences.Clear();
+                DocumentData selectedData = (DocumentData)selected.Tag;
+
+                foreach (Document doc in documents)
+                {
+                    DocumentData data = (DocumentData)doc.Tag;
+
+
+                    if (doc == selected)
+                    {
+                        allReferences.Append("<ul>");
+
+                        foreach (KeyValuePair<string, string> reference in data.KeyNames)
+                        {
+                            allReferences.Append($"<li><a href=\"{reference.Key}\">{reference.Value}</a></li>");
+                        }
+
+                        allReferences.Append("</ul>");
+                    }
+                }
+
+                selectedData.AllReferences = allReferences.ToString();
+            }
+        }
 
         private List<string> GetDocumentationFileNames()
         {

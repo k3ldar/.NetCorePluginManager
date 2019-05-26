@@ -26,6 +26,8 @@
 using System;
 using System.Collections.Generic;
 
+using Shared.Docs;
+
 using SharedPluginFeatures;
 
 namespace DocumentationPlugin.Models
@@ -35,7 +37,7 @@ namespace DocumentationPlugin.Models
         #region Constructors
 
         public DocumentViewModel(in List<BreadcrumbItem> breadcrumbs, in ShoppingCartSummary cartSummary,
-            in string title, in string shortDescription, in string longDescription)
+            in string title, in string shortDescription, in string longDescription, in string allReferences)
             : base (breadcrumbs, cartSummary)
         {
             if (String.IsNullOrEmpty(title))
@@ -44,6 +46,7 @@ namespace DocumentationPlugin.Models
             Title = title;
             ShortDescription = shortDescription ?? throw new ArgumentNullException(nameof(shortDescription));
             LongDescription = longDescription ?? throw new ArgumentNullException(nameof(longDescription));
+            AllReferences = allReferences ?? String.Empty;
         }
 
         #endregion Constructors
@@ -55,6 +58,32 @@ namespace DocumentationPlugin.Models
         public string ShortDescription { get; private set; }
 
         public string LongDescription { get; private set; }
+
+        public string AllReferences { get; private set; }
+
+        public bool TranslateStrings { get; set; }
+
+        public Dictionary<string, string> Contains { get; set; }
+
+        public Dictionary<string, string> SeeAlso { get; set; }
+
+        public string Namespace { get; set; }
+
+        public string Assembly { get; set; }
+
+        public List<DocumentField> Fields { get; set; }
+
+        public List<DocumentMethod> Methods { get; set; }
+
+        public List<DocumentMethodException> Exceptions { get; set; }
+
+        public List<DocumentProperty> Properties { get; set; }
+
+        public List<DocumentMethod> Constructors { get; set; }
+
+        public string PreviousDocument { get; set; }
+
+        public string NextDocument { get; set; }
 
         #endregion Properties
     }

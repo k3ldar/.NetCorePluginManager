@@ -13,17 +13,19 @@
 <div class="container">
     <div class="row">
         <div class="col-sm-1 col-md-12">
-
+            Description of documentation here
         </div>
     </div>
     <div class="row">
         <div class="col-sm-1 col-md-12">
-            <ul>
-                @foreach (var item in Model.AssemblyNames)
-                {
-                    <li><a href="/Docs/Document/@Html.RouteFriendlyName(item.Key)/">@item.Key</a><span>@item.Value</span></li>
-                }
-            </ul>
+            <div class="documents">
+                <ul>
+                    @foreach (var item in Model.AssemblyNames)
+                    {
+                        <li><a href="/Docs/Document/@Html.RouteFriendlyName(item.Key)/">@item.Key</a><span>@item.Value</span></li>
+                    }
+                </ul>
+            </div>
         </div>
     </div>
 </div>

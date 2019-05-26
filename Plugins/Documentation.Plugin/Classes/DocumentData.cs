@@ -15,44 +15,55 @@
  *
  *  Product:  Documentation Plugin
  *  
- *  File: InitialiseEvents.cs
+ *  File: DocumentData.cs
  *
- *  Purpose:  Adds a default documentation service implementation if one 
- *  has not already been included
+ *  Purpose:  Provides extra information on documents
  *
  *  Date        Name                Reason
- *  19/05/2019  Simon Carter        Initially Created
+ *  24/05/2019  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
+using System.Collections.Generic;
 
-using SharedPluginFeatures;
+using Shared.Docs;
 
 namespace DocumentationPlugin.Classes
 {
-    public sealed class InitialiseEvents : IInitialiseEvents
+    internal sealed class DocumentData
     {
-        public void AfterConfigure(in IApplicationBuilder app, in IHostingEnvironment env)
+        #region Constructors
+
+        public DocumentData()
         {
-            
+            KeyNames = new Dictionary<string, string>();
+            Contains = new Dictionary<string, string>();
+            SeeAlso = new Dictionary<string, string>();
         }
 
-        public void AfterConfigureServices(in IServiceCollection services)
-        {
-            services.TryAddSingleton<IDocumentationService, DefaultDocumentationService>();
-        }
+        #endregion Constructors
 
-        public void BeforeConfigure(in IApplicationBuilder app, in IHostingEnvironment env)
-        {
-            
-        }
+        #region Properties
 
-        public void BeforeConfigureServices(in IServiceCollection services)
-        {
-            
-        }
+        public Dictionary<string, string> KeyNames { get; private set; }
+
+        public Dictionary<string, string> Contains { get; private set; }
+
+        public Dictionary<string, string> SeeAlso { get; private set; }
+
+        public string AllReferences { get; internal set; }
+
+        public string ReferenceData { get; set; }
+
+        public DocumentData Parent { get; internal set; }
+
+        public string FullClassName { get; set; }
+
+        public string ShortClassName { get; set; }
+
+        public Document PreviousDocument { get; set; }
+
+        public Document NextDocument { get; set; }
+
+        #endregion Properties
     }
 }

@@ -1,8 +1,9 @@
 ﻿@model DocumentationPlugin.Models.DocumentViewModel
 @inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
 @{
-    ViewData["Title"] = Model.Title;
+    ViewData["Title"] = "Type";
 }
+
 
 <div class="container">
     <div class="row">
@@ -17,7 +18,7 @@
         <div class="col-lg-2">
             @if (Model.Contains != null)
             {
-                <h3>@Localizer[nameof(Languages.LanguageStrings.InThisDocument)]</h3>
+                <h4>@Localizer[nameof(Languages.LanguageStrings.InThisDocument)]</h4>
                 <ul>
                     @foreach (KeyValuePair<string, string> kvp in Model.Contains)
                     {
@@ -34,35 +35,13 @@
             }
             @if (Model.SeeAlso != null)
             {
-                <h3>@Localizer[nameof(Languages.LanguageStrings.SeeAlso)]</h3>
+                <h4>@Localizer[nameof(Languages.LanguageStrings.SeeAlso)]</h4>
                 <ul>
                     @foreach (var item in Model.SeeAlso)
                     {
-                        <li>@Html.Raw($"<a href=\"{item.Key}\">{item.Value}</a>")</li>
+                    <li>@Html.Raw($"<a href=\"{item.Key}\">{item.Value}</a>")</li>
                     }
                 </ul>
-            }
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-lg-offset-4 col-lg-2">
-            @if (!String.IsNullOrEmpty(Model.PreviousDocument))
-            {
-                <p><a href="/docs/Document/@SharedPluginFeatures.HtmlHelper.RouteFriendlyName(Model.PreviousDocument)">@Localizer[nameof(Languages.LanguageStrings.PreviousDocument)]</a></p>
-            }
-            else
-            {
-                <p>@Localizer[nameof(Languages.LanguageStrings.PreviousDocument)]</p>
-            }
-        </div>
-        <div class="col-lg-2">
-            @if (!String.IsNullOrEmpty(Model.NextDocument))
-            {
-                <p><a href="/docs/Document/@SharedPluginFeatures.HtmlHelper.RouteFriendlyName(Model.NextDocument)">@Localizer[nameof(Languages.LanguageStrings.NextDocument)]</a></p>
-            }
-            else
-            {
-                <p>@Localizer[nameof(Languages.LanguageStrings.NextDocument)]</p>
             }
         </div>
     </div>

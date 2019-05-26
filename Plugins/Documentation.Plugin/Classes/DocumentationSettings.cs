@@ -30,7 +30,7 @@ using System.Threading.Tasks;
 
 using AppSettings;
 
-namespace LoginPlugin.Classes
+namespace DocumentationPlugin.Classes
 {
     /// <summary>
     /// Settings which affect how the Documentation Plugin is configured.
