@@ -4,7 +4,7 @@ Many software projects suffer from a lack of initial design, while this approach
 There are several principles in good software design-architecture which are critical to the success and longevity of a project, chief amongst these is the following:
 </p>
 <ul>
-<li>N-Tier: A client–server architecture in which presentation, application processing, and data management functions are physically separated into layers.</li>
+<li>N-Tier: A client server architecture in which presentation, application processing, and data management functions are physically separated into layers.</li>
 <li>SOLID: Single responsibility, open-closed principle, Liskov substitution principle, interface segregation and dependency inversion principle.</li>
 <li>DRY: Don't repeat yourself.  Software development principle aimed at preventing repetition of code.</li>
 <li>IoC: Inversion of control is used to increase modularity and extensibility through dependency injection.</li>
@@ -14,7 +14,7 @@ When software is badly designed some of the principles above are missing entirel
 </p><p>
 The problem is magnified when an entire product base is copied and pasted to form the basis of a new solution for a new client.  Whilst this gives an initial leap in development time, it also means that the maintenance of the products base is doubled.  Fixing a bug in one product ultimately means you have to copy and paste the fix to each derivative solution.
 </p><p>
-Whilst different client solutions can diversify and become more generic to the client, there are still many aspects which are jointly owned.  For instance the loading of application settings will not generally differ, however the settings being loaded could differ.  Likewise storing application behaviour data such as debug information or process flow will chiefly remain the same.  The elements that may differ are when it comes to displaying specific product information or a user’s account could have different account options.
+Whilst different client solutions can diversify and become more generic to the client, there are still many aspects which are jointly owned.  For instance the loading of application settings will not generally differ, however the settings being loaded could differ.  Likewise storing application behaviour data such as debug information or process flow will chiefly remain the same.  The elements that may differ are when it comes to displaying specific product information or a user's account could have different account options.
 </p><p>
 If we look at a single website built using C# with the model-view-controller (MVC) pattern there will typically be many modules that make up the software, for instance you could have:
 </p>

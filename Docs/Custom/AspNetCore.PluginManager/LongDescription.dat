@@ -1,0 +1,215 @@
+<p>
+Net Core Plugin Manager has been developed to augment a modular design, it's primary purpose is to load modules from multiple assemblies and ensure they are registered within the MVC pipeline.  This approach ensures that websites can easily expand as new features are bought online whilst allowing shared modules to be reused across multiple implementations.  The primary benefit being that well tested code can be reused within multiple websites.
+</p>
+<p>
+There are many types of plugin modules that can be created for use within a Net Core MVC application, they include:
+</p>
+<ul>
+<li>Sub website.  Individual Controller, models and views for a specific module such as product, company services, shopping cart, login or user account.</li>
+<li>API controller.  Add individual or multiple APIs to a website, this could include individual versions of a specific API.</li>
+<li>Middleware extensions.  Easily include middleware classes that can control or affect the request pipeline.</li>
+<li>Services.  Add services for IoC.</li>
+<li>Custom interfaces.</li>
+</ul>
+
+<h3>Sub Website</h3>
+<p>
+A good example of a sub website plugin module would be a login plugin which allows people to log into a website.  The act of logging in is quite simple, you provide a user with two inputs, a username and password within the UI, upon entering and clicking submit the application will verify these details and allow the user to proceed or not.  The implementation for logging in is handled by the BOL, which in turn talks to the DAL and a decision is returned.
+</p>
+<p>In most circumstances it is fairly simple, however this could easily be upgraded within the UI to accept a captcha code, there is no BOL changes for this as it is handled within the UI alone.  The UI can verify the code and if successful pass the request on to the BOL.  It could be that security needs strengthening further to accept a unique code sent to the users via  mobile or email after logging in on a new terminal or device.  This task would occur within the BOL, upon successful login the BOL sends the required message via email or SMS, the user enters the code within the UI and proceeds.  None of the required upgrades have necessitated any changes to the DAL, who's only responsibility is to validate the username and password.
+</p>
+<p>
+The required UI login module can contain the necessary code for captcha, it is enabled if the settings mandate it.  The UI code for displaying a verification code is always present and will only be shown if the correct response is returned from the BOL.  This login module can easily be shared across multiple applications, the options for how it operates can be based on settings and configuration.
+</p>
+<h3>API Controller</h3>
+</p>
+<p>
+If you provide an API via a website you could easily support multiple versions in individual plugin modules.  Versioning can be implemented using specific routes, as an API is deprecated it can be removed or disabled using configuration settings.
+</p>
+<h3>Middleware Extensions</h3>
+
+<p>
+Middleware extensions are used to affect or control the pipeline used for requests in asp.net core. Each middleware plugin can process part or all of the request, and then either choose to return the result or pass on down to the next piece of middleware.  Middleware extensions can and are often used across multiple websites.  Some examples of potential middleware extensions include:
+</p>
+<ul>
+<li>Adding security headers.</li>
+<li>User session management.</li>
+<li>Extracting marketing data.</li>
+</ul>
+<p>
+Note: Plugin middleware extensions can be used without including the plugin manager, manual registration of their services should take place.  There may or may not be dependencies on other assemblies which also need to be registered.
+</p>
+
+<h3>Services</h3>
+
+</p>Plugin modules could be created with the specific purpose of implementing individual or multiple interface for use within an IoC container.  For instance you could provide the BOL for system settings using a specific module, this registers itself and is available for use within the application.
+</p>
+
+<h3>Custom Interfaces</h3>
+<p>
+Custom interfaces offer the greatest flexibility when developing an application, there are many possible uses.  There are a multitude of uses for extending an interface, for instance you could have a menu system which is dynamically populated depending on the plugins that are loaded.  Another use would be to display carousel items depending on active marketing campaigns, the list is literally as open as the website being developed.
+</p>
+
+<h3>Plugin Resources</h3>
+<p>
+Each plugin module can contain all the resources that it needs in order that it can operate as expected.  Examples of resources include:
+</p>
+<ul>
+<li>.cshtml files.  The individual full or partial view files required to view a web page.</li>
+<li>.css files.  The css files used for displaying a web page within a browser.</li>
+<li>.js files.  Javascript files used for client side scripting when viewing pages within a browser.</li>
+<li>Image Files.  Any image file required by the plugin.</li>
+</ul>
+<p>
+Resources are an important aspect of any web page, they determine how a page is viewed, the layout, how it operates in the client browser and compliment the overall design.
+</p>
+<p>
+It is important to point out at this point that although individual webpages can be viewed in their default state, the entire layout could be altered by a web designer by substituting one or more of the default resource files required.  This approach allows for greater flexibility as developers can develop a website with a default look or view, designers could then alter the layout to provide for many different views.  To prevent custom files being overridden please view the PluginSetting section to show how this can be achieved.
+</p>
+
+<h3>Embedding Resources</h3>
+<p>
+To embed resources, these being .cshtml files, images, css or script etc, right click the item in the solution explorer, select properties and choose Embedded Resource as the build action.
+</p>
+
+<p>
+*IMAGE*
+</p>
+<p>
+An important caveat on embedding resources is in their naming.  Due to how C# embeds files they cannot contain a full stop character (.) in their name.  When compiling the compiler will use the path and file name as the name of the embedded resource.  For instance if you had an image that was displayed on the login screen and this was located at:
+</p>
+<p>
+[ProjectPath]\wwwroot\images\login\loginimage.png
+</p>
+
+<p>
+When compiled as an embedded resource the name would become:
+</p>
+<p>
+wwwroot.images.login.loginimage.png
+</p>
+<p>
+When extracted it would be in the same folder location as it was when it was compiled as an embedded resource.  If the image was called:
+</p>
+<p>
+[ProjectPath]\wwwroot\images\login\login.image.png
+</p>
+<p>
+When extracted it would reside in the following folder:
+</p>
+<p>
+[ProjectPath]\wwwroot\images\login\login\image.png
+</p>
+<p>
+The result would be a 404 error when viewed within a browser.
+</p>
+
+<h3>Installing the Plugin Manager</h3>
+<p>
+AspNet Core Plugin Manager is available from nuget and can be installed from:
+</p>
+<p>
+PM> Install-Package AspNetCore.PluginManager -Version 2.1.0
+</p>
+<p>
+Where version 2.1.0 represents the latest current version.  It is recommended that you upgrade to the latest available version for your platform.  Currently the plugin manager supports:
+</p>
+<ul>
+<li>Net Core 2.1</li>
+<li>Net Core 2.2</li>
+<li>Net Core 3.0</li>
+<li>Net Framework 4.6.1</li>
+</ul>
+
+<h3>Configuring the Plugin Manager</h3>
+<p>
+In order to begin using the plugin manager it must be initialised.  By default the settings for the Plugin Manager are contained within appsettings.json, this however can be overridden by using a custom ILoadSettingsService implementation.  A custom ILoadSettingsService implementation could be used to gather configuration settings from a different file, a database, environment variables or whatever type of storage you use.
+As well as the ILoadSettingsService configuration can include a custom ILogger implementation, this simple interface is passed to all plugin modules and allows for a simple and unified method of logging messages, warning and errors.
+</p>
+<p>
+Default implementations of both ILoadSettingsService and ILogger exist and will be used should no custom implementations be required.
+<p>
+PluginManagerService is a static class contained within Module: AspNetCore.PluginManager.dll; You can add a using directive in the header of your code or directly reference within code.
+<p>
+<p>
+To initialise the plugin manager you need to call the initialise method, this is done when the application first starts in the static Main method:
+<p>
+<pre style="font-family:Consolas;font-size:13px;color:black;background:white;"><span style="color:blue;">public</span>&nbsp;<span style="color:blue;">static</span>&nbsp;<span style="color:blue;">void</span>&nbsp;<span style="color:#74531f;">Main</span>(<span style="color:blue;">string</span>[]&nbsp;<span style="color:#1f377f;">args</span>)
+{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;Initialise&nbsp;the&nbsp;plugin&nbsp;manager&nbsp;service</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">PluginManagerService</span>.<span style="color:#74531f;">Initialise</span>();
+ 
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#74531f;">CreateWebHostBuilder</span>(<span style="color:#1f377f;">args</span>).<span style="color:#74531f;">Build</span>().<span style="color:#74531f;">Run</span>();
+}
+</pre>
+</p>
+
+<p>Plugin modules can be self configuring, in that they can register any services they provide and configure the MVC application, in order to facilitate this the next step to integrating the plugin manger is to add the required steps within the ConfigureServices and Configure methods:
+</p>
+<p>
+<pre style="font-family:Consolas;font-size:13px;color:black;background:white;"><span style="color:blue;">public</span>&nbsp;<span style="color:blue;">void</span>&nbsp;<span style="color:#74531f;">ConfigureServices</span>(<span style="color:#2b91af;">IServiceCollection</span>&nbsp;<span style="color:#1f377f;">services</span>)
+{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;Allow&nbsp;plugin&nbsp;manager&nbsp;to&nbsp;configure&nbsp;all&nbsp;services&nbsp;in&nbsp;each&nbsp;plugin</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">PluginManagerService</span>.<span style="color:#74531f;">ConfigureServices</span>(<span style="color:#1f377f;">services</span>);
+ 
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;other initialisation code ...</span>
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#1f377f;">services</span>.<span style="color:#74531f;">AddMvc</span>()
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.<span style="color:#74531f;">SetCompatibilityVersion</span>(<span style="color:#2b91af;">CompatibilityVersion</span>.Version_2_1)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.<span style="color:#74531f;">ConfigurePluginManager</span>();&nbsp;
+}
+</pre>
+</p>
+
+<p>
+The first step above makes a call to the plugin managers ConfigureServices method, this in turn will complete the following tasks:
+</p>
+<ul>
+<li>Find all plugin modules that implement the IInitialiseEvents interface and call the before initialise method.</li>
+<li>Call the IPlugin configure services method to ensure that each plugin registers the services they provide.</li>
+<li>Call the after initialise method on all plugins which implement the IInitialiseEvents interface.</li>
+</ul>
+<p>
+The call to ConfigurePluginManger() ensures that three important steps are completed, they are:
+</p>
+<ul>
+<li>Ensuring that the plugin manager integrates correctly within the MVC configuration by replacing the MetadataReferenceFeatureProvider with a custom implementation.</li>
+<li>Load any views that have been precompiled into their own assemblies.</li>
+<li>Call each plugin module which implements IConfigureMvcBuilder interface thereby allowing the plugin to also configure the MVC Services.</li>
+</ul>
+<p>
+The next and final step in configuring the plugin manager is to integrate with the MVC application, this is completed in a similar fashion to configuring MVC services:
+</p>
+<p>
+<pre style="font-family:Consolas;font-size:13px;color:black;background:white;"><span style="color:blue;">public</span>&nbsp;<span style="color:blue;">void</span>&nbsp;<span style="color:#74531f;">Configure</span>(<span style="color:#2b91af;">IApplicationBuilder</span>&nbsp;<span style="color:#1f377f;">app</span>,&nbsp;<span style="color:#2b91af;">IHostingEnvironment</span>&nbsp;<span style="color:#1f377f;">env</span>)
+{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;Allow&nbsp;plugin&nbsp;manager&nbsp;to&nbsp;configure&nbsp;options&nbsp;for&nbsp;all&nbsp;plugins</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">PluginManagerService</span>.<span style="color:#74531f;">Configure</span>(<span style="color:#1f377f;">app</span>,&nbsp;<span style="color:#1f377f;">env</span>);
+ 
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#1f377f;">app</span>.<span style="color:#74531f;">UseStaticFiles</span>();
+ 
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;Other initialisation code ...</span>
+ 
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#1f377f;">app</span>.<span style="color:#74531f;">UseMvc</span>(<span style="color:#1f377f;">routes</span>&nbsp;=&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#1f377f;">routes</span>.<span style="color:#74531f;">MapRoute</span>(
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#1f377f;">name</span>:&nbsp;<span style="color:#a31515;">&quot;default&quot;</span>,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#1f377f;">template</span>:&nbsp;<span style="color:#a31515;">&quot;{controller=Home}/{action=Index}/{id?}&quot;</span>);
+&nbsp;&nbsp;&nbsp;&nbsp;}).<span style="color:#74531f;">UsePluginManager</span>();
+}
+</pre></p>
+<p>
+The first step is to call the plugin service Configure method, this method performs three actions, they are:
+</p>
+<ul>
+<li>Find any plugins which implement the IInitialiseEvents interface and call the before initialise method.</li>
+<li>Call the Configure method for all plugin modules, allowing them to configure the services they provide.</li>
+<li>Call the after initialise method for all plugins which implement the IInitialiseEvents interface.</li>
+</ul>
+
+<p>
+The next and final step in configuring the MVC application is to call the UsePluginManager method, this will call the configure method for all plugin modules that implement the  IConfigureApplicationBuilder interface.
+</p>
+<p>
+As can be seen only five lines of code are required to integrate the plugin manager into any Net Core application.  The next step for integration involves configuration using the PluginSettings class.
+</p>
