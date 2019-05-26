@@ -85,6 +85,8 @@ namespace DocumentationPlugin.Models
 
         public string NextDocument { get; set; }
 
+        public string Example { get; set; }
+
         #endregion Properties
     }
 }

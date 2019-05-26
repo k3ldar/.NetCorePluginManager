@@ -370,8 +370,7 @@ namespace DocumentationPlugin.Classes
 
                 foreach (var item in doc.Constructors)
                 {
-                    item.MethodName = StringReplaceClassName(FixMethodName(item.MethodName, 
-                        item.ClassName), data.FullClassName, data.ShortClassName, route, document, doc);
+                    item.MethodName = item.MethodName.Replace("#ctor", item.ClassName).Replace(",", ", ");
                     item.ExampleUseage = StringReplaceClassName(item.ExampleUseage, 
                         data.FullClassName, data.ShortClassName, route, document, doc);
                     item.LongDescription = StringReplaceClassName(item.LongDescription, 
@@ -400,8 +399,6 @@ namespace DocumentationPlugin.Classes
 
                 foreach (var item in doc.Methods)
                 {
-                    item.MethodName = StringReplaceClassName(item.MethodName, data.FullClassName, 
-                        data.ShortClassName, route, document, doc);
                     item.ExampleUseage = StringReplaceClassName(item.ExampleUseage, 
                         data.FullClassName, data.ShortClassName, route, document, doc);
                     item.LongDescription = StringReplaceClassName(item.LongDescription, 

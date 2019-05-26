@@ -166,7 +166,7 @@ namespace DocumentationPlugin.Controllers
 
                 foreach (Document doc in documents)
                 {
-                    allReferences.Append($"<li><a href=\"/docs/Document/{HtmlHelper.RouteFriendlyName(doc.Title)}/\">{doc.Title}</a></li>");
+                    allReferences.Append($"<li><a href=\"/docs/Document/{HtmlHelper.RouteFriendlyName(doc.Title)}/\">{doc.Title}</a>");
 
                     if (doc.Tag == data && (selected.DocumentType == DocumentType.Assembly || selected.DocumentType == DocumentType.Custom))
                     {
@@ -179,6 +179,8 @@ namespace DocumentationPlugin.Controllers
                         else
                             allReferences.Append(data.Parent.AllReferences);
                     }
+
+                    allReferences.Append("</li>");
                 }
 
                 allReferences.Append("</ul>");
@@ -221,6 +223,7 @@ namespace DocumentationPlugin.Controllers
 
             model.PreviousDocument = data.PreviousDocument == null ? String.Empty : data.PreviousDocument.Title;
             model.NextDocument = data.NextDocument == null ? String.Empty : data.NextDocument.Title;
+            model.Example = selected.Example;
 
             return model;
         }

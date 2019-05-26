@@ -13,7 +13,7 @@
 
 @if (!String.IsNullOrEmpty(Model.LongDescription))
 {
-    <h3 id="#description">@Localizer[nameof(Languages.LanguageStrings.Description)]</h3>
+    <h3 id="description">@Localizer[nameof(Languages.LanguageStrings.Description)]</h3>
     @Html.Raw(Model.LongDescription)
 }
 
@@ -24,44 +24,94 @@
 
 @if (Model.Constructors != null)
 {
-    <h3 id="#constructors">Constructors</h3>
-
-    foreach (var item in Model.Constructors)
-    {
-        <p>@Html.Raw(item.MethodName)</p>
-    }
+    <h3 id="constructors">Constructors</h3>
+    <div class="docTable">
+        <table>
+            <tbody>
+                @foreach (var item in Model.Constructors)
+                {
+                    <tr>
+                        <td>
+                            <a href="/Docs/Type/Constructor/@SharedPluginFeatures.HtmlHelper.RouteFriendlyName(item.MethodName)/">@Html.Raw(item.MethodName)</a>
+                        </td>
+                        <td>
+                            @Html.Raw(item.ShortDescription)
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
 }
 
 
 @if (Model.Properties != null)
 {
-    <h3 id="#properties">Properties</h3>
+    <h3 id="properties">Properties</h3>
 
-    foreach (var item in Model.Properties)
-    {
-        <p>@Html.Raw(item.PropertyName)</p>
-    }
+    <div class="docTable">
+        <table>
+            <tbody>
+                @foreach (var item in Model.Properties)
+                {
+                    <tr>
+                        <td>
+                            <a href="/Docs/Type/Property/@SharedPluginFeatures.HtmlHelper.RouteFriendlyName(item.PropertyName)/">@Html.Raw(item.PropertyName)</a>
+                        </td>
+                        <td>
+                            @Html.Raw(item.ShortDescription)
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
 }
 
 
 @if (Model.Methods != null)
 {
-    <h3 id="#methods">Methods</h3>
+    <h3 id="methods">Methods</h3>
 
-    foreach (var item in Model.Methods)
-    {
-        <p>@Html.Raw(item.MethodName)</p>
-    }
+    <div class="docTable">
+        <table>
+            <tbody>
+                @foreach (var item in Model.Methods)
+                {
+                    <tr>
+                        <td>
+                            <a href="/Docs/Type/Method/@SharedPluginFeatures.HtmlHelper.RouteFriendlyName(item.MethodName)/">@Html.Raw(item.MethodName)</a>
+                        </td>
+                        <td>
+                            @Html.Raw(item.ShortDescription)
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
 }
 
 @if (Model.Fields != null)
 {
 
-    <h3 id="#fields">Fields</h3>
-
-    foreach (var item in Model.Fields)
-    {
-        <p>@Html.Raw(item.FieldName)</p>
-    }
+    <h3 id="fields">Fields</h3>
+    <div class="docTable">
+        <table>
+            <tbody>
+                @foreach (var item in Model.Fields)
+                {
+                    <tr>
+                        <td>
+                            <a href="/Docs/Type/Field/@SharedPluginFeatures.HtmlHelper.RouteFriendlyName(item.FieldName)/">@Html.Raw(item.FieldName)</a>
+                        </td>
+                        <td>
+                            @Html.Raw(item.ShortDescription)
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
 }
 
