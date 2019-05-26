@@ -13961,4 +13961,56 @@ You will shortly receive an email with the details of your order.</comment>
     <value>Documentation</value>
     <comment>Documentation</comment>
   </data>
+  <data name="Acquisition" xml:space="preserve">
+    <value>Acquisition</value>
+    <comment>Acquisition</comment>
+  </data>
+  <data name="ApiValue" xml:space="preserve">
+    <value>Value</value>
+    <comment>Value</comment>
+  </data>
+  <data name="Constructors" xml:space="preserve">
+    <value>Constructors</value>
+    <comment>Constructors</comment>
+  </data>
+  <data name="Example" xml:space="preserve">
+    <value>Example</value>
+    <comment>Example</comment>
+  </data>
+  <data name="Fields" xml:space="preserve">
+    <value>Fields</value>
+    <comment>Fields</comment>
+  </data>
+  <data name="InThisDocument" xml:space="preserve">
+    <value>In This Document</value>
+    <comment>In This Document</comment>
+  </data>
+  <data name="Methods" xml:space="preserve">
+    <value>Methods</value>
+    <comment>Methods</comment>
+  </data>
+  <data name="NextDocument" xml:space="preserve">
+    <value>Next Document</value>
+    <comment>Next Document</comment>
+  </data>
+  <data name="PreviousDocument" xml:space="preserve">
+    <value>Previous Document</value>
+    <comment>Previous Document</comment>
+  </data>
+  <data name="Properties" xml:space="preserve">
+    <value>Properties</value>
+    <comment>Properties</comment>
+  </data>
+  <data name="Remarks" xml:space="preserve">
+    <value>Remarks</value>
+    <comment>Remarks</comment>
+  </data>
+  <data name="ReturnValue" xml:space="preserve">
+    <value>Return Value</value>
+    <comment>Return Value</comment>
+  </data>
+  <data name="SeeAlso" xml:space="preserve">
+    <value>See Also</value>
+    <comment>See Also</comment>
+  </data>
 </root>
