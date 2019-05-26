@@ -72,10 +72,11 @@ namespace AspNetCore.PluginManager
                             {
                                 string libName = library.Name + ".dll";
 
-                                if (String.IsNullOrEmpty(libraryPaths.Where(lp => lp.EndsWith(libName, StringComparison.InvariantCultureIgnoreCase)).FirstOrDefault()))
+                                if (String.IsNullOrEmpty(libraryPaths.Where(lp => lp.EndsWith(libName, StringComparison.InvariantCultureIgnoreCase))
+                                    .FirstOrDefault()))
                                 {
                                     if (PluginManagerService.GetPluginManager().PluginLoaded(libName,
-                                        out int version, out string module))
+                                        out int _, out string module))
                                     {
                                         libraryPaths.Add(module);
                                     }

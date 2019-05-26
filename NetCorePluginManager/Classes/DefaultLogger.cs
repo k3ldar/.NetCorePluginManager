@@ -30,7 +30,7 @@ using static SharedPluginFeatures.Enums;
 
 namespace AspNetCore.PluginManager
 {
-    public class DefaultLogger : ILogger
+    internal class DefaultLogger : ILogger
     {
         #region ILogger Methods
 

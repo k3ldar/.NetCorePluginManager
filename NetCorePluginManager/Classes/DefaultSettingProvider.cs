@@ -31,7 +31,7 @@ using SharedPluginFeatures;
 
 namespace AspNetCore.PluginManager
 {
-    public sealed class DefaultSettingProvider : ISettingsProvider
+    internal sealed class DefaultSettingProvider : ISettingsProvider
     {
         public T GetSettings<T>(in string storage, in string sectionName)
         {
