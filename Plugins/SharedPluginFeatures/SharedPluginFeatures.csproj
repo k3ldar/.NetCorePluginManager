@@ -113,7 +113,7 @@
 
   <ItemGroup>
     <PackageReference Include="ApplicationSettings" Version="1.2.0" />
-    <PackageReference Include="SC.Shared.Library.Core" Version="2.9.2" />
+    <PackageReference Include="SC.Shared.Library.Core" Version="2.9.4" />
     <PackageReference Include="System.Drawing.Common" Version="4.5.1" />    
   </ItemGroup>
 </Project>
