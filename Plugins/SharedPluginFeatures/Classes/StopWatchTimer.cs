@@ -28,6 +28,9 @@ using System.Diagnostics;
 
 namespace SharedPluginFeatures
 {
+    /// <summary>
+    /// Stopwatch Timer is used to automatically collect and generate timing data accurate to milliseconds.
+    /// </summary>
     public struct StopWatchTimer : IDisposable
     {
         #region Private Members
@@ -39,6 +42,10 @@ namespace SharedPluginFeatures
 
         #region Constructors
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="timings">SharedPluginFeatures.Timings class used to contain timing data.</param>
         public StopWatchTimer(in Timings timings)
         {
             _timings = timings ?? throw new ArgumentNullException(nameof(timings));
@@ -50,6 +57,11 @@ namespace SharedPluginFeatures
 
         #region Static Methods
 
+        /// <summary>
+        /// Initialises an instance of the StopWatchTimer class used to collect timings.
+        /// </summary>
+        /// <param name="timings">SharedPluginFeatures.Timings class used to contain timing data.</param>
+        /// <returns>StopWatchTimer</returns>
         public static StopWatchTimer Initialise(in Timings timings)
         {
             return (new StopWatchTimer(timings));
@@ -59,6 +71,9 @@ namespace SharedPluginFeatures
 
         #region IDisposable Methods
 
+        /// <summary>
+        /// Dispose method which ensures resources are disposed of and timing data is recorded.
+        /// </summary>
         public void Dispose()
         {
             _stopwatch.Stop();

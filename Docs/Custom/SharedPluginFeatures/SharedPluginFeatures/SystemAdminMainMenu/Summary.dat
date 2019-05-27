@@ -1,0 +1,4 @@
+container class for system wide menu items.
+            
+            Although plugin modules can create as many instances of this type as they wish, it 
+            is down the host application to determine how or if they are used.

@@ -1,0 +1,3 @@
+Used extensively by ErrorManager.Plugin module to store information about errors that have been generated within the system.
+            
+            See also SystemAdmin.Plugin where error information is displayed.

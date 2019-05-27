@@ -27,6 +27,11 @@ using System.Diagnostics;
 
 namespace SharedPluginFeatures
 {
+    /// <summary>
+    /// Class used to contain timing data for requests.
+    /// 
+    /// This stores the number of requests and total time in milleseconds serving the requests.
+    /// </summary>
     public sealed class Timings
     {
         #region Private Members
@@ -39,6 +44,9 @@ namespace SharedPluginFeatures
 
         #region Constructors
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
         public Timings()
         {
             _lockObject = new object();
@@ -50,8 +58,14 @@ namespace SharedPluginFeatures
 
         #region Properties
 
+        /// <summary>
+        /// Total number of requests made.
+        /// </summary>
         public uint Requests { get; private set; }
 
+        /// <summary>
+        /// Indicates the total number of milliseconds used for the request that was slowest.
+        /// </summary>
         public long Slowest
         {
             get
@@ -63,6 +77,9 @@ namespace SharedPluginFeatures
             }
         }
 
+        /// <summary>
+        /// Indicates the total number of milliseconds used for the request that was quickest.
+        /// </summary>
         public long Fastest
         {
             get
@@ -74,19 +91,35 @@ namespace SharedPluginFeatures
             }
         }
 
+        /// <summary>
+        /// Returns the average number of milliseconds per request.
+        /// </summary>
+        /// <value>decimal</value>
         public decimal Average { get; private set; }
 
+        /// <summary>
+        /// Returns the total number of requests.
+        /// </summary>
+        /// <value>long</value>
         public long Total { get; private set; }
 
         #endregion Properties
 
         #region Public Methods
 
+        /// <summary>
+        /// Increments the total milliseconds
+        /// </summary>
+        /// <param name="stopWatch"></param>
         public void Increment(in Stopwatch stopWatch)
         {
             Increment(stopWatch.ElapsedMilliseconds);
         }
 
+        /// <summary>
+        /// Increments the total milliseconds
+        /// </summary>
+        /// <param name="totalMilliseconds">Total number of milliseconds to increment by.</param>
         public void Increment(in long totalMilliseconds)
         {
             lock (_lockObject)

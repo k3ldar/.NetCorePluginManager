@@ -47,14 +47,50 @@ namespace SharedPluginFeatures
         /// Name of UserSession that is injected into the request pipeline
         /// </summary>
         public const string UserSession = "UserSession";
+
+        /// <summary>
+        /// Name of culture used by the user and injected into the request pipeline by Localization.Plugin module.
+        /// </summary>
         public const string UserCulture = "UserCulture";
+
+        /// <summary>
+        /// Name of the breadcrumbs injected into the request pipeline by UserSessionMiddleware.Plugin module.
+        /// </summary>
         public const string Breadcrumbs = "Breadcrumbs";
+
+        /// <summary>
+        /// Name of the ShoppingCart item injected into the request pipeline by ShoppingCart.Plugin module.
+        /// </summary>
         public const string ShoppingCart = "ShoppingCart";
+
+        /// <summary>
+        /// Name of the ShoppingCartSummary item injected into the request pipeline by ShoppingCart.Plugin module.
+        /// </summary>
         public const string BasketSummary = "BasketSummary";
+
+        /// <summary>
+        /// Default tax rate used by ShoppingCart.Plugin module.
+        /// </summary>
         public const string DefaultTaxRate = "DefaultTaxRate";
+
+        /// <summary>
+        /// Name of the title of the document injected into the request pipline by SeoPlugin module.
+        /// </summary>
         public const string SeoTitle = "SeoTitle";
+
+        /// <summary>
+        /// Name of the meta description of the document injected into the request pipline by SeoPlugin module.
+        /// </summary>
         public const string SeoMetaDescription = "SeoMetaDescription";
+
+        /// <summary>
+        /// Name of the meta keywords of the document injected into the request pipline by SeoPlugin module.
+        /// </summary>
         public const string SeoMetaKeywords = "SeoTags";
+
+        /// <summary>
+        /// Name of the author of the document injected into the request pipline by SeoPlugin module.
+        /// </summary>
         public const string SeoMetaAuthor = "SeoAuthor";
 
         /// <summary>
@@ -62,6 +98,9 @@ namespace SharedPluginFeatures
         /// </summary>
         public const string DefaultSessionCookie = "user_session";
 
+        /// <summary>
+        /// Name of the user session configuration setting.
+        /// </summary>
         public const string UserSessionConfiguration = "UserSessionConfiguration";
 
         /// <summary>
@@ -69,31 +108,59 @@ namespace SharedPluginFeatures
         /// </summary>
         public const string StaticFileExtensions = ".less;.ico;.css;.js;.svg;.jpg;.jpeg;.gif;.png;.eot;.map;";
 
+        /// <summary>
+        /// Page referrer constant
+        /// </summary>
         public const string PageReferer = "Referer";
 
-
+        /// <summary>
+        /// Forward slash (/) constant
+        /// </summary>
         public const string ForwardSlash = "/";
 
-
+        /// <summary>
+        /// Forward slash (/) char constant.
+        /// </summary>
         public const char ForwardSlashChar = '/';
+
+        /// <summary>
+        /// Dash (-) char constant.
+        /// </summary>
         public const char Dash = '-';
 
-
+        /// <summary>
+        /// Name of the Breadcrumb.Plugin module.
+        /// </summary>
         public const string PluginSettingBreadcrumb = "Breadcrumb.Plugin";
 
-
+        /// <summary>
+        /// Name of the UserSessionMiddleware.Plugin module.
+        /// </summary>
         public const string PluginNameUserSession = "UserSessionMiddleware.Plugin.dll";
+
+        /// <summary>
+        /// Name of the Localization.Plugin module which controlls all localization requests.
+        /// </summary>
         public const string PluginNameLocalization = "Localization.Plugin.dll";
 
         /// <summary>
-        /// Name of shopping cart plugin, this can be used in conjunction with IPluginHelperService when determining whether the shopping cart plugin is loaded.
+        /// Name of ShoppingCart.Plugin, this can be used in conjunction with IPluginHelperService when determining whether the shopping cart plugin is loaded.
         /// </summary>
         public const string PluginNameShoppingCart = "ShoppingCartPlugin.dll";
 
-
+        /// <summary>
+        /// Exception text used to raise an exception if the user session service is not found or configured.
+        /// </summary>
         public const string UserSessionServiceNotFound = "UserSessionService not found";
 
+        /// <summary>
+        /// Exception text used to raise an exception should the breadcrumb route match its parent route.
+        /// </summary>
         public const string BreadcrumbRoutEqualsParentRoute = "Parent route matches route; Route: {0}; Parent Route {1}";
+
+        /// <summary>
+        /// Exception text used to raise an exception if their is a problem recursively obtaining breadcrumb results for a route.
+        /// </summary>
         public const string TooManyBreadcrumbs = "Breadcrumb recursion, check parent route values";
 
         /// <summary>

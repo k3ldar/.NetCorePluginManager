@@ -1,0 +1,9 @@
+<p>
+The plugin manager contains an interface which enables inter plugin notifications.  Individual plugins can register one or multiple classes which can be used to obtain notifications throughout the application lifecycle.  This can be useful when you need to receive updates or notify listeners that a specific event has occurred.
+</p>
+<p>
+Notifications are completely user defined, the event id used is a unique string.  
+</p>
+<p>
+Being able to send and receive notifications can enables different plugins to communicate in a generic manner, whilst allowing for custom data to also be communicated.  This could be useful in many circumstances, for instance: A plugin module caches certain information for speed of retrieval, another plugin could update this static information however, without any notifications the cache would end up with stale data.  The plugin module which caches the data can register an instance of INotificationListener which listens for an event called “CacheUpdated”, when the data is updated the updating plugin module obtains an instance of INotificationService and calls the RaiseEvent method.  The listening plugin module receives the notification and empties the cache.
+</p>

@@ -738,6 +738,155 @@
             Three letter code depicting the currency used for the cart.
             </summary>
         </member>
+        <member name="T:SharedPluginFeatures.StopWatchTimer">
+            <summary>
+            Stopwatch Timer is used to automatically collect and generate timing data accurate to milliseconds.
+            </summary>
+        </member>
+        <member name="M:SharedPluginFeatures.StopWatchTimer.#ctor(SharedPluginFeatures.Timings@)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="timings">SharedPluginFeatures.Timings class used to contain timing data.</param>
+        </member>
+        <member name="M:SharedPluginFeatures.StopWatchTimer.Initialise(SharedPluginFeatures.Timings@)">
+            <summary>
+            Initialises an instance of the StopWatchTimer class used to collect timings.
+            </summary>
+            <param name="timings">SharedPluginFeatures.Timings class used to contain timing data.</param>
+            <returns>StopWatchTimer</returns>
+        </member>
+        <member name="M:SharedPluginFeatures.StopWatchTimer.Dispose">
+            <summary>
+            Dispose method which ensures resources are disposed of and timing data is recorded.
+            </summary>
+        </member>
+        <member name="T:SharedPluginFeatures.SystemAdminMainMenu">
+            <summary>
+            container class for system wide menu items.
+            
+            Although plugin modules can create as many instances of this type as they wish, it 
+            is down the host application to determine how or if they are used.
+            </summary>
+        </member>
+        <member name="M:SharedPluginFeatures.SystemAdminMainMenu.#ctor(System.String@,System.Int32@)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="name">Name of menu item</param>
+            <param name="uniqueId">Unique id given to the menu item to identify it.</param>
+        </member>
+        <member name="M:SharedPluginFeatures.SystemAdminMainMenu.Area">
+            <summary>
+            Area to be used for controller when generating a Url if required.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:SharedPluginFeatures.SystemAdminMainMenu.Controller">
+            <summary>
+            Controller to be called when the menu is clicked.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:SharedPluginFeatures.SystemAdminMainMenu.Action">
+            <summary>
+            Action to be called when the menu is clicked.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:SharedPluginFeatures.SystemAdminMainMenu.BackColor">
+            <summary>
+            Back color used when drawing the menu item.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:SharedPluginFeatures.SystemAdminMainMenu.ForeColor">
+            <summary>
+            Forecolor used when drawing the menu item.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:SharedPluginFeatures.SystemAdminMainMenu.ChildMenuItems">
+            <summary>
+            Child menu items within the menu.
+            </summary>
+        </member>
+        <member name="P:SharedPluginFeatures.SystemAdminMainMenu.UniqueId">
+            <summary>
+            Unique id applied to the menu item.
+            </summary>
+        </member>
+        <member name="P:SharedPluginFeatures.SystemAdminMainMenu.Name">
+            <summary>
+            Name of the menu item.
+            </summary>
+        </member>
+        <member name="P:SharedPluginFeatures.SystemAdminMainMenu.SortOrder">
+            <summary>
+            Sort order to be applied to the menu item.
+            </summary>
+        </member>
+        <member name="P:SharedPluginFeatures.SystemAdminMainMenu.Data">
+            <summary>
+            Data to be returned by the menu item.
+            </summary>
+        </member>
+        <member name="P:SharedPluginFeatures.SystemAdminMainMenu.Image">
+            <summary>
+            Image to be associated with the menu item.
+            </summary>
+        </member>
+        <member name="T:SharedPluginFeatures.Timings">
+            <summary>
+            Class used to contain timing data for requests.
+            
+            This stores the number of requests and total time in milleseconds serving the requests.
+            </summary>
+        </member>
+        <member name="M:SharedPluginFeatures.Timings.#ctor">
+            <summary>
+            Constructor
+            </summary>
+        </member>
+        <member name="P:SharedPluginFeatures.Timings.Requests">
+            <summary>
+            Total number of requests made.
+            </summary>
+        </member>
+        <member name="P:SharedPluginFeatures.Timings.Slowest">
+            <summary>
+            Indicates the total number of milliseconds used for the request that was slowest.
+            </summary>
+        </member>
+        <member name="P:SharedPluginFeatures.Timings.Fastest">
+            <summary>
+            Indicates the total number of milliseconds used for the request that was quickest.
+            </summary>
+        </member>
+        <member name="P:SharedPluginFeatures.Timings.Average">
+            <summary>
+            Returns the average number of milliseconds per request.
+            </summary>
+            <value>decimal</value>
+        </member>
+        <member name="P:SharedPluginFeatures.Timings.Total">
+            <summary>
+            Returns the total number of requests.
+            </summary>
+            <value>long</value>
+        </member>
+        <member name="M:SharedPluginFeatures.Timings.Increment(System.Diagnostics.Stopwatch@)">
+            <summary>
+            Increments the total milliseconds
+            </summary>
+            <param name="stopWatch"></param>
+        </member>
+        <member name="M:SharedPluginFeatures.Timings.Increment(System.Int64@)">
+            <summary>
+            Increments the total milliseconds
+            </summary>
+            <param name="totalMilliseconds">Total number of milliseconds to increment by.</param>
+        </member>
         <member name="T:SharedPluginFeatures.Constants">
             <summary>
             Constant values shared between all plugin modules and the AspNetCore.PluginManager
@@ -758,9 +907,59 @@
             Name of UserSession that is injected into the request pipeline
             </summary>
         </member>
+        <member name="F:SharedPluginFeatures.Constants.UserCulture">
+            <summary>
+            Name of culture used by the user and injected into the request pipeline by Localization.Plugin module.
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Constants.Breadcrumbs">
+            <summary>
+            Name of the breadcrumbs injected into the request pipeline by UserSessionMiddleware.Plugin module.
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Constants.ShoppingCart">
+            <summary>
+            Name of the ShoppingCart item injected into the request pipeline by ShoppingCart.Plugin module.
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Constants.BasketSummary">
+            <summary>
+            Name of the ShoppingCartSummary item injected into the request pipeline by ShoppingCart.Plugin module.
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Constants.DefaultTaxRate">
+            <summary>
+            Default tax rate used by ShoppingCart.Plugin module.
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Constants.SeoTitle">
+            <summary>
+            Name of the title of the document injected into the request pipline by SeoPlugin module.
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Constants.SeoMetaDescription">
+            <summary>
+            Name of the meta description of the document injected into the request pipline by SeoPlugin module.
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Constants.SeoMetaKeywords">
+            <summary>
+            Name of the meta keywords of the document injected into the request pipline by SeoPlugin module.
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Constants.SeoMetaAuthor">
+            <summary>
+            Name of the author of the document injected into the request pipline by SeoPlugin module.
+            </summary>
+        </member>
         <member name="F:SharedPluginFeatures.Constants.DefaultSessionCookie">
             <summary>
             Default name of session cookie if no value is specified when the application is initialised.
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Constants.UserSessionConfiguration">
+            <summary>
+            Name of the user session configuration setting.
             </summary>
         </member>
         <member name="F:SharedPluginFeatures.Constants.StaticFileExtensions">
@@ -768,9 +967,59 @@
             Default static file extensions
             </summary>
         </member>
+        <member name="F:SharedPluginFeatures.Constants.PageReferer">
+            <summary>
+            Page referrer constant
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Constants.ForwardSlash">
+            <summary>
+            Forward slash (/) constant
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Constants.ForwardSlashChar">
+            <summary>
+            Forward slash (/) char constant.
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Constants.Dash">
+            <summary>
+            Dash (-) char constant.
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Constants.PluginSettingBreadcrumb">
+            <summary>
+            Name of the Breadcrumb.Plugin module.
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Constants.PluginNameUserSession">
+            <summary>
+            Name of the UserSessionMiddleware.Plugin module.
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Constants.PluginNameLocalization">
+            <summary>
+            Name of the Localization.Plugin module which controlls all localization requests.
+            </summary>
+        </member>
         <member name="F:SharedPluginFeatures.Constants.PluginNameShoppingCart">
             <summary>
-            Name of shopping cart plugin, this can be used in conjunction with IPluginHelperService when determining whether the shopping cart plugin is loaded.
+            Name of ShoppingCart.Plugin, this can be used in conjunction with IPluginHelperService when determining whether the shopping cart plugin is loaded.
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Constants.UserSessionServiceNotFound">
+            <summary>
+            Exception text used to raise an exception if the user session service is not found or configured.
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Constants.BreadcrumbRoutEqualsParentRoute">
+            <summary>
+            Exception text used to raise an exception should the breadcrumb route match its parent route.
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Constants.TooManyBreadcrumbs">
+            <summary>
+            Exception text used to raise an exception if their is a problem recursively obtaining breadcrumb results for a route.
             </summary>
         </member>
         <member name="F:SharedPluginFeatures.Constants.InvalidListener">

@@ -1,0 +1,1 @@
+The deny spider attribute is used on Controller Action methods to indicate that a spider should not use that particular route.

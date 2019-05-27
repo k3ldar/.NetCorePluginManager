@@ -1,0 +1,2 @@
+This attribute is used in conjunction with the UserSessionMiddleware.Plugin module and indicates that a user
+            must be logged out when attempting to gain access to the route.

@@ -1,0 +1,1 @@
+Exception text used to raise an exception if the user session service is not found or configured.
