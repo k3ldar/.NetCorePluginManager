@@ -31,7 +31,7 @@ using SharedPluginFeatures;
 
 namespace AspNetCore.PluginManager
 {
-    public sealed class NotificationService : ThreadManager, INotificationService
+    internal sealed class NotificationService : ThreadManager, INotificationService
     {
         #region Private Members
 

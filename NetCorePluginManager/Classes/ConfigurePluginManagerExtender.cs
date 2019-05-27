@@ -37,10 +37,19 @@ using SharedPluginFeatures;
 
 namespace AspNetCore.PluginManager
 {
+    /// <summary>
+    /// Plugin Manager IMvcBuilder extension class.
+    /// </summary>
     public static class ConfigurePluginManagerExtender
     {
         #region Public Static Methods
 
+        /// <summary>
+        /// IApplicationBuilder extender method used to provide easy access to ConfigurePluginManager 
+        /// method when configuring an application.
+        /// </summary>
+        /// <param name="mvcBuilder">IMvcBuilder instance.</param>
+        /// <returns>IMvcBuilder</returns>
         public static IMvcBuilder ConfigurePluginManager(this IMvcBuilder mvcBuilder)
         {
             ConfigurePartManager(mvcBuilder);

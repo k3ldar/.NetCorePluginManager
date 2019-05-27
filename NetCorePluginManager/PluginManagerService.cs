@@ -58,6 +58,14 @@ namespace AspNetCore.PluginManager
 
         #region Static Methods
 
+
+        /// <summary>
+        /// Initialises the PluginManager using a custom ILogger implementation.
+        /// 
+        /// This method is obsolete and will be removed from future versions.
+        /// </summary>
+        /// <param name="logger"></param>
+        /// <returns></returns>
         [Obsolete("This method will be removed in future versions")]
         public static bool Initialise(ILogger logger)
         {

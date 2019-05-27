@@ -39,7 +39,7 @@ using static SharedPluginFeatures.Enums.LogLevel;
 
 namespace AspNetCore.PluginManager
 {
-    public class PluginFeatureProvider : IApplicationFeatureProvider<MetadataReferenceFeature>
+    internal class PluginFeatureProvider : IApplicationFeatureProvider<MetadataReferenceFeature>
     {
         public void PopulateFeature(IEnumerable<ApplicationPart> parts, MetadataReferenceFeature feature)
         {

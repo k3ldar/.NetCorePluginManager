@@ -23,6 +23,7 @@
  *  22/09/2018  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+using System;
 using System.Collections.Generic;
 
 using AppSettings;
@@ -51,6 +52,7 @@ namespace AspNetCore.PluginManager
         /// <summary>
         /// Root path that is used to search for plugin assembly modules.
         /// </summary>
+        /// <value>string</value>
         [SettingString(true)]
         [SettingValidPath]
         [SettingDefault("%AppPath%\\Bin")]
@@ -81,6 +83,11 @@ namespace AspNetCore.PluginManager
         [SettingDefault("%AppPath%\\wwwroot\\js")]
         public string JScriptLocation { get; set; }
 
+        /// <summary>
+        /// This property is not currently used and will be removed from future versions.
+        /// </summary>
+        /// <value>bool</value>
+        [Obsolete("This method is obsolete and will be removed in future versions")]
         public bool PreventAreas { get; set; }
 
         /// <summary>

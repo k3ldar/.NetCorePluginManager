@@ -33,6 +33,9 @@ using AspNetCore.PluginManager.Classes;
 
 namespace AspNetCore.PluginManager
 {
+    /// <summary>
+    /// Plugin Manager configuration class.  Used when Initialising the Plugin Manager.
+    /// </summary>
     public sealed class PluginManagerConfiguration
     {
         #region Constructors

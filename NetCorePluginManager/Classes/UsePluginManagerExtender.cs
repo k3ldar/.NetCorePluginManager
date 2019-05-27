@@ -31,10 +31,19 @@ using SharedPluginFeatures;
 
 namespace AspNetCore.PluginManager
 {
+    /// <summary>
+    /// Plugin Manager extender class.
+    /// </summary>
     public static class UsePluginManagerExtender
     {
         #region Public Static Methods
 
+        /// <summary>
+        /// IApplicationBuilder extender method used to provide easy access to UsePluginManager 
+        /// method when configuring an application.
+        /// </summary>
+        /// <param name="mvcApplication">IApplicationBuilder instance</param>
+        /// <returns>IApplicationBuilder</returns>
         public static IApplicationBuilder UsePluginManager(this IApplicationBuilder mvcApplication)
         {
             // allow plugins to configure MvcApplication

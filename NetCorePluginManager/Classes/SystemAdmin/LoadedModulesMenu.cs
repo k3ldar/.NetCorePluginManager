@@ -33,6 +33,9 @@ using SharedPluginFeatures;
 
 namespace AspNetCore.PluginManager.Classes.SystemAdmin
 {
+    /// <summary>
+    /// SystemAdminSubMenu instance used to show all loaded modules, and their version within SystemAdmin.Plugin module.
+    /// </summary>
     public sealed class LoadedModulesMenu : SystemAdminSubMenu
     {
         public override string Action()
