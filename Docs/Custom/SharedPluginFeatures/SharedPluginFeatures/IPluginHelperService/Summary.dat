@@ -1,0 +1,5 @@
+Provides a mechanism for the host application or other plugin modules to query the 
+            AspNetCore.PluginManager for specific data.
+            
+            This interface is implemented by the Plugin Manager and registered for use within the 
+            DI contianer when loading.

@@ -1,0 +1,2 @@
+This interface is implemented by the AspNetCore.PluginManager and will determine a valid
+            route based on the class or public action method for a Type.

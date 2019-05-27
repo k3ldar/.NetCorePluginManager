@@ -1,0 +1,5 @@
+This interface is implemented by the BadEgg.Plugin module and is used to manage 
+            black and white listed Ip addresses.
+            
+            BadEgg Plugin module does not store any of these Ip addresses but requires that
+            the host application informs it which Ip addresses are black or white listed.

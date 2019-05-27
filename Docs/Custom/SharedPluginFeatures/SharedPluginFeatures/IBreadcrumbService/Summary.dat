@@ -1,0 +1,5 @@
+This interface is implemented by the Breadcrumb.Plugin and allows plugins to add dynamic plugins 
+            to the list of available plugins managed.  Especially useful if you have dynamic data that can
+            not use the BreadcrumbAttribute.
+            
+            An instance of this interface is available using the DI container.

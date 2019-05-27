@@ -1,0 +1,4 @@
+Used as a service class to provide information to utilise specific plugin methods.
+            
+            An instance of this interface should be registered by the host application and be 
+            made available via the DI container.

@@ -1,0 +1,7 @@
+This interface is implemented internally by the GeoIpPlugin module and is not available 
+            via DI or any other method.  Instead it is used to provide information on hown many GeoIp
+            records were loaded and how long it took.
+            
+            See IGeoIpStatistics for information on retrieving statistics.
+            
+            This method is deprecated and should not be used by new modules as it will be removed in future versions.

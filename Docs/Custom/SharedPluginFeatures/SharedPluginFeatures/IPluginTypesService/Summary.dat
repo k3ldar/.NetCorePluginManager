@@ -1,0 +1,7 @@
+Allows plugin modules to retrieve a list of class Types that implement a specific attribute
+            either at a class or method level.
+            
+            None of the Types returned are instantiated instances.
+            
+            This can only return Types that have been made available from within a plugin module that
+            has been registered with AspNetCore.PluginManager.

@@ -1,0 +1,3 @@
+Provides a mechanism for updating the current user session with updated culture information.
+            
+            This interface is registered within the DI container and is implemented by UserSessionMiddleware.Plugin module.

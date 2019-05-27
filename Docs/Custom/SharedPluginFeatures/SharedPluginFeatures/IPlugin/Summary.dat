@@ -1,0 +1,6 @@
+This interface should be implemented by each plugin module, without this interface being 
+            implemented AspNetCore.PluginManager would not automatically load it when the appliction
+            starts.
+            
+            This class will be called by the Plugin Manager and will provide an opportunity for the 
+            plugin to configure its services and application requirements within the MVC application.

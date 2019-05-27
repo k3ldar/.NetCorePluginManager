@@ -1,0 +1,11 @@
+IPluginClassesService is implemented by the AspNetCore.PluginManager and is available
+            using DI.
+            
+            This interface provides a conduit for the application or other plugins to quickly 
+            search all plugins for classes that implement or extend a specific class or interface.
+            
+            This can be particularly useful if for instance you define menu items within plugins, 
+            the host can search all plugins for the menu class, and get a list of all objects, 
+            instantiated or not.
+            
+            The plugin can then use the interfaces to dynamically create menu items.

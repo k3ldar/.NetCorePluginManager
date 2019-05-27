@@ -1,0 +1,2 @@
+Generic functions that can be used by middleware plugins to obtain generic information 
+            to be used when serving requests within the pipeline.

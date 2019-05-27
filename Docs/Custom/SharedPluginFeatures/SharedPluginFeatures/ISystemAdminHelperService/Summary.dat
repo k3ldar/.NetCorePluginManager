@@ -1,0 +1,3 @@
+This class is implemented internallyby the SystemAdmin.Plugin and is used to manage
+            System Admin Menu Items.  An instance of this interface is not available for general
+            use by other modules.
