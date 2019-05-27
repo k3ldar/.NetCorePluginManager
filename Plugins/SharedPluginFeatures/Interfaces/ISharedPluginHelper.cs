@@ -27,8 +27,18 @@ using System.Collections.Generic;
 
 namespace SharedPluginFeatures
 {
+    /// <summary>
+    /// Used as a service class to provide information to utilise specific plugin methods.
+    /// 
+    /// An instance of this interface should be registered by the host application and be 
+    /// made available via the DI container.
+    /// </summary>
     public interface ISharedPluginHelper
     {
+        /// <summary>
+        /// Requests that dynamic menu items are retrieved from all available plugins.
+        /// </summary>
+        /// <returns>List&lt;MainMenuItem&gt;</returns>
         List<MainMenuItem> BuildMainMenu();
     }
 }

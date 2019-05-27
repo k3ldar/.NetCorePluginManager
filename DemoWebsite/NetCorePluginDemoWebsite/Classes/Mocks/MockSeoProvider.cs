@@ -130,7 +130,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
             return true;
         }
 
-        public bool UpdateDescription(in string route, in string title)
+        public bool UpdateDescription(in string route, in string description)
         {
             return true;
         }

@@ -34,11 +34,18 @@ namespace AspNetCore.PluginManager
     {
         #region Constructors
 
+        /// <summary>
+        /// Default constructor
+        /// </summary>
         public PluginSetting()
         {
 
         }
 
+        /// <summary>
+        /// Constructor requesting setting for individual plugin module.
+        /// </summary>
+        /// <param name="pluginName">Name of plugin module whose settings are requested.</param>
         public PluginSetting(in string pluginName)
         {
             if (String.IsNullOrWhiteSpace(pluginName))

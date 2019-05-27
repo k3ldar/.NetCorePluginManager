@@ -23,13 +23,29 @@
  *  05/11/2018  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+using System;
 
 namespace SharedPluginFeatures
 {
+    /// <summary>
+    /// This interface is implemented internally by the GeoIpPlugin module and is not available 
+    /// via DI or any other method.  Instead it is used to provide information on hown many GeoIp
+    /// records were loaded and how long it took.
+    /// 
+    /// See IGeoIpStatistics for information on retrieving statistics.
+    /// 
+    /// This method is deprecated and should not be used by new modules as it will be removed in future versions.
+    /// </summary>
+    [Obsolete("This interface is obsolete and wil be removed from future versions.  Use INotificationService instead.")]
     public interface IGeoIpStatisticsUpdate
     {
         #region Methods
 
+        /// <summary>
+        /// Indicates that retrieval is finished
+        /// </summary>
+        /// <param name="milliseconds">Total number of milliseconds taken to load the data.</param>
+        /// <param name="recordCount">Total number of records loaded.</param>
         void Retrieve(in long milliseconds, in uint recordCount);
 
         #endregion Methods

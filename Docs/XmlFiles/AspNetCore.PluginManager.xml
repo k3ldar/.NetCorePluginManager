@@ -122,6 +122,11 @@
             <param name="pluginName">Name of plugin</param>
             <returns></returns>
         </member>
+        <member name="T:AspNetCore.PluginManager.PluginManagerService">
+            <summary>
+            Static class containing methods that can be used to configure and initialise the Plugin Manager.
+            </summary>
+        </member>
         <member name="M:AspNetCore.PluginManager.PluginManagerService.Initialise">
             <summary>
             Initialises the PluginManager using default confguration.
@@ -152,6 +157,17 @@
             <summary>
             Individual plugin module settings, used to define how a plugin is treated by the PluginManager.
             </summary>
+        </member>
+        <member name="M:AspNetCore.PluginManager.PluginSetting.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="M:AspNetCore.PluginManager.PluginSetting.#ctor(System.String@)">
+            <summary>
+            Constructor requesting setting for individual plugin module.
+            </summary>
+            <param name="pluginName">Name of plugin module whose settings are requested.</param>
         </member>
         <member name="P:AspNetCore.PluginManager.PluginSetting.Name">
             <summary>

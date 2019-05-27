@@ -40,6 +40,9 @@ using static SharedPluginFeatures.Enums;
 
 namespace AspNetCore.PluginManager
 {
+    /// <summary>
+    /// Static class containing methods that can be used to configure and initialise the Plugin Manager.
+    /// </summary>
     public static class PluginManagerService
     {
         #region Private Members

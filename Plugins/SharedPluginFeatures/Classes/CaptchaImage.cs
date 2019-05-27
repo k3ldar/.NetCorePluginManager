@@ -132,6 +132,10 @@ namespace SharedPluginFeatures
 
         #region Protected Methods
 
+        /// <summary>
+        /// Disposes of any allocated objects.
+        /// </summary>
+        /// <param name="disposing"></param>
         protected virtual void Dispose(bool disposing)
         {
             if (disposing)

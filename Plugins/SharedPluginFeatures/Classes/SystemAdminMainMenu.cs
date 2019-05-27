@@ -123,16 +123,19 @@ namespace SharedPluginFeatures
         /// <summary>
         /// Child menu items within the menu.
         /// </summary>
+        /// <value>List&lt;SystemAdminSubMenu&gt;</value>
         public List<SystemAdminSubMenu> ChildMenuItems { get; set; }
 
         /// <summary>
         /// Unique id applied to the menu item.
         /// </summary>
+        /// <value>int</value>
         public int UniqueId { get; set; }
 
         /// <summary>
         /// Name of the menu item.
         /// </summary>
+        /// <value>string</value>
         public string Name { get; private set; }
 
         /// <summary>
@@ -140,16 +143,22 @@ namespace SharedPluginFeatures
         /// </summary>
         public int SortOrder { get; set; }
 
+        /// <summary>
+        /// Type of menu
+        /// </summary>
+        /// <value>SystemAdminMenuType</value>
         public Enums.SystemAdminMenuType MenuType { get; set; }
 
         /// <summary>
         /// Data to be returned by the menu item.
         /// </summary>
+        /// <value>string</value>
         public string Data { get; set; }
 
         /// <summary>
         /// Image to be associated with the menu item.
         /// </summary>
+        /// <value>string</value>
         public string Image { get; set; }
 
         #endregion Properties

@@ -28,10 +28,42 @@ using System.Collections.Generic;
 
 namespace SharedPluginFeatures
 {
+    /// <summary>
+    /// IPluginClassesService is implemented by the AspNetCore.PluginManager and is available
+    /// using DI.
+    /// 
+    /// This interface provides a conduit for the application or other plugins to quickly 
+    /// search all plugins for classes that implement or extend a specific class or interface.
+    /// 
+    /// This can be particularly useful if for instance you define menu items within plugins, 
+    /// the host can search all plugins for the menu class, and get a list of all objects, 
+    /// instantiated or not.
+    /// 
+    /// The plugin can then use the interfaces to dynamically create menu items.
+    /// </summary>
     public interface IPluginClassesService
     {
+        /// <summary>
+        /// Retrieves a list of instantiated classes that either descend from, or 
+        /// implement T.
+        /// 
+        /// If a class requires parameters for instantiating, then they will be sought
+        /// from the DI container, as long as the parameters are available then an 
+        /// instance of the class will be created.
+        /// </summary>
+        /// <typeparam name="T">Class or interface to be searched for.</typeparam>
+        /// <returns>List&lt;T&gt;</returns>
         List<T> GetPluginClasses<T>();
 
+        /// <summary>
+        /// Retrieves a list of classes as types, that either descend from or implement
+        /// T.
+        /// 
+        /// This method will not create instances of the classes found, instead it will 
+        /// return the list and the calling module can choose how it wants to use them.
+        /// </summary>
+        /// <typeparam name="T">Class or interface to be searched for.</typeparam>
+        /// <returns>List&lt;Type&gt;</returns>
         List<Type> GetPluginClassTypes<T>();
     }
 }
