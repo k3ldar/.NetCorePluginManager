@@ -346,3 +346,5 @@ ASALocalRun/
 /DemoWebsite/NetCorePluginDemoWebsite/Views/Cart/Checkout.cshtml
 /Docs/Custom/SharedLib/
 /DemoWebsite/NetCorePluginDemoWebsite/Views/SystemAdmin/
+/Docs/Custom/*/*/*/Methods/
+/Docs/Custom/*/*/*/Properties/
