@@ -3,12 +3,12 @@
 
 @if (!String.IsNullOrEmpty(Model.Namespace))
 {
-    <p>Namespace: @Model.Namespace</p>
+    <p><strong>Namespace</strong>: @Model.Namespace</p>
 }
 
 @if (!String.IsNullOrEmpty(Model.Assembly))
 {
-    <p>Assembly: @Model.Assembly</p>
+    <p><strong>Assembly</strong>: <p><strong>Assembly</strong>: <a href="/docs/Document/@Model.Assembly/">@Model.Assembly</a></p></p>
 }
 
 @if (!String.IsNullOrEmpty(Model.LongDescription))
@@ -22,6 +22,11 @@
     @Html.Raw(Model.ShortDescription)
 }
 
+@if (!String.IsNullOrEmpty(Model.Example))
+{
+    @Html.Raw(Model.Example)
+}
+
 @if (Model.Constructors != null)
 {
     <h3 id="constructors">Constructors</h3>
@@ -32,10 +37,10 @@
                 {
                     <tr>
                         <td>
-                            <a href="/Docs/Type/Constructor/@SharedPluginFeatures.HtmlHelper.RouteFriendlyName(item.MethodName)/">@Html.Raw(item.MethodName)</a>
+                            <a href="/Docs/Document/@item.ClassName/Type/Constructor/@SharedPluginFeatures.HtmlHelper.RouteFriendlyName(item.MethodName)/">@Html.Raw(item.MethodName)</a>
                         </td>
                         <td>
-                            @Html.Raw(item.ShortDescription)
+                            @Html.Raw(item.Summary)
                         </td>
                     </tr>
                 }
@@ -56,10 +61,10 @@
                 {
                     <tr>
                         <td>
-                            <a href="/Docs/Type/Property/@SharedPluginFeatures.HtmlHelper.RouteFriendlyName(item.PropertyName)/">@Html.Raw(item.PropertyName)</a>
+                            <a href="/Docs/Document/@item.ClassName/Type/Property/@SharedPluginFeatures.HtmlHelper.RouteFriendlyName(item.PropertyName)/">@Html.Raw(item.PropertyName)</a>
                         </td>
                         <td>
-                            @Html.Raw(item.ShortDescription)
+                            @Html.Raw(item.Summary)
                         </td>
                     </tr>
                 }
@@ -80,10 +85,10 @@
                 {
                     <tr>
                         <td>
-                            <a href="/Docs/Type/Method/@SharedPluginFeatures.HtmlHelper.RouteFriendlyName(item.MethodName)/">@Html.Raw(item.MethodName)</a>
+                            <a href="/Docs/Document/@item.ClassName/Type/Method/@SharedPluginFeatures.HtmlHelper.RouteFriendlyName(item.MethodName)/">@Html.Raw(item.MethodName)</a>
                         </td>
                         <td>
-                            @Html.Raw(item.ShortDescription)
+                            @Html.Raw(item.Summary)
                         </td>
                     </tr>
                 }
@@ -103,10 +108,10 @@
                 {
                     <tr>
                         <td>
-                            <a href="/Docs/Type/Field/@SharedPluginFeatures.HtmlHelper.RouteFriendlyName(item.FieldName)/">@Html.Raw(item.FieldName)</a>
+                            <a href="/Docs/Document/@item.ClassName/Type/Field/@SharedPluginFeatures.HtmlHelper.RouteFriendlyName(item.FieldName)/">@Html.Raw(item.FieldName)</a>
                         </td>
                         <td>
-                            @Html.Raw(item.ShortDescription)
+                            @Html.Raw(item.Summary)
                         </td>
                     </tr>
                 }

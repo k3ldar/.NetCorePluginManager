@@ -15,53 +15,42 @@
  *
  *  Product:  Documentation Plugin
  *  
- *  File: IndexViewModel.cs
+ *  File: DocumentationModule.cs
  *
- *  Purpose:  View model for a index or document home
+ *  Purpose:  Class for documentation module
  *
  *  Date        Name                Reason
  *  18/05/2019  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
-using System.Collections.Generic;
 
-using DocumentationPlugin.Classes;
-
-using SharedPluginFeatures;
-
-namespace DocumentationPlugin.Models
+namespace DocumentationPlugin.Classes
 {
-    public sealed class IndexViewModel : BaseModel
+    public sealed class DocumentationModule
     {
         #region Constructors
 
-        public IndexViewModel(in List<BreadcrumbItem> breadcrumbs, in ShoppingCartSummary cartSummary)
-            : base(breadcrumbs, cartSummary)
+        public DocumentationModule(in string title, in string summary)
         {
-            AssemblyNames = new Dictionary<string, DocumentationModule>();
+            if (String.IsNullOrEmpty(title))
+                throw new ArgumentNullException(nameof(title));
+
+            if (String.IsNullOrEmpty(summary))
+                throw new ArgumentNullException(nameof(summary));
+
+            Title = title;
+            Summary = summary;
         }
 
         #endregion Constructors
 
         #region Properties
 
-        public Dictionary<string, DocumentationModule> AssemblyNames { get; private set; }
+        public string Title { get; private set; }
 
-        public string Image { get; set; }
+        public string Summary { get; private set; }
 
         #endregion Properties
-
-        #region Methods
-
-        public string ProcessImage(in string image)
-        {
-            if (String.IsNullOrEmpty(image))
-                return "/images/docs/module.png";
-
-            return image;
-        }
-
-        #endregion Methods        
     }
 }

@@ -27,6 +27,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Runtime.CompilerServices;
 
 using Microsoft.AspNetCore.Mvc;
 
@@ -89,7 +90,7 @@ namespace DocumentationPlugin.Controllers
             foreach (Document doc in documents)
             {
                 if (!model.AssemblyNames.ContainsKey(doc.Title))
-                    model.AssemblyNames.Add(doc.Title, doc.ShortDescription);
+                    model.AssemblyNames.Add(doc.Title, new DocumentationModule(doc.Title, doc.ShortDescription));
             }
 
             return View(model);
@@ -136,16 +137,168 @@ namespace DocumentationPlugin.Controllers
             return View(model);
         }
 
+        [HttpGet]
+        [Route("docs/Document/{className}/Type/{classType}/{typeName}")]
+        public IActionResult ViewType(string className, string classType, string typeName)
+        {
+            DocumentViewTypeViewModel model = BuildDocumentViewTypeModel(className, classType, typeName, out Document selected);
+
+            if (model == null)
+                return RedirectToAction(nameof(Index));
+
+            return View(model);
+        }
+
+
         #endregion Public Action Methods
 
         #region Private Methods
+
+        private DocumentViewTypeViewModel BuildDocumentViewTypeModel(string className, string classType, string typeName, out Document selected)
+        {
+            selected = _documentationService.GetDocuments()
+                .Where(d => d.DocumentType == DocumentType.Class)
+                .ToList().Where(c => HtmlHelper.RouteFriendlyName(c.ClassName) == className)
+                .FirstOrDefault();
+
+            if (selected == null)
+                return null;
+
+            DocumentData data = (DocumentData)selected.Tag;
+
+            if (data.ReferenceData == null)
+            {
+                List<Document> documents = _documentationService.GetDocuments()
+                    .Where(d => d.DocumentType == DocumentType.Assembly ||
+                        d.DocumentType == DocumentType.Custom)
+                    .OrderBy(o => o.SortOrder).ThenBy(o => o.Title)
+                    .ToList();
+
+                data.ReferenceData = GetAllReferences(selected, data, documents);
+            }
+
+            DocumentViewTypeViewModel model = new DocumentViewTypeViewModel(GetBreadcrumbs(), GetCartSummary(),
+                selected.Title, data.ReferenceData);
+
+            model.Assembly = selected.AssemblyName;
+            model.Namespace = selected.NameSpaceName;
+            model.ClassName = selected.ClassName;
+
+            if (data.SeeAlso != null && data.SeeAlso.Count > 0)
+            {
+                model.SeeAlso = data.SeeAlso;
+            }
+
+            if (data.SeeAlso != null && data.SeeAlso.Count > 0)
+                model.SeeAlso = data.SeeAlso;
+
+            model.TranslateStrings = selected.DocumentType != DocumentType.Custom &&
+                selected.DocumentType != DocumentType.Document &&
+                selected.DocumentType != DocumentType.Assembly;
+
+            switch (classType)
+            {
+                case "Constructor":
+                    return BuildConstructorViewModel(model, selected, data, typeName);
+
+                case "Method":
+                    return BuildMethodViewModel(model, selected, data, typeName);
+
+                case "Property":
+                    return BuildPropertyViewModel(model, selected, data, typeName);
+
+                case "Field":
+                    return BuildFieldViewModel(model, selected, data, typeName);
+
+                default:
+                    throw new InvalidOperationException(SharedPluginFeatures.Constants.InvalidTypeName);
+            }
+        }
+
+        private DocumentViewTypeViewModel BuildConstructorViewModel(DocumentViewTypeViewModel model, Document selected, DocumentData data, string name)
+        {
+            DocumentMethod constructor = selected.Constructors.Where(f => HtmlHelper.RouteFriendlyName(f.MethodName) == name).FirstOrDefault();
+
+            if (constructor == null)
+                return null;
+
+            model.TypeName = $"{ReturnUptoParam(constructor.MethodName)} Constructor";
+            model.Returns = constructor.Returns;
+            model.ShortDescription = constructor.ShortDescription;
+            model.LongDescription = constructor.LongDescription;
+            model.Summary = constructor.Summary;
+            model.ExampleUseage = constructor.ExampleUseage;
+            model.Parameters = constructor.Parameters;
+
+            return model;
+        }
+
+        private DocumentViewTypeViewModel BuildMethodViewModel(DocumentViewTypeViewModel model, Document selected, DocumentData data, string name)
+        {
+            DocumentMethod method = selected.Methods.Where(f => HtmlHelper.RouteFriendlyName(f.MethodName) == name).FirstOrDefault();
+
+            if (method == null)
+                return null;
+
+            model.TypeName = $"{ReturnUptoParam(method.MethodName)} Method";
+            model.Returns = method.Returns;
+            model.ShortDescription = method.ShortDescription;
+            model.LongDescription = method.LongDescription;
+            model.Summary = method.Summary;
+            model.ExampleUseage = method.ExampleUseage;
+            model.Parameters = method.Parameters;
+
+            return model;
+        }
+
+        private DocumentViewTypeViewModel BuildPropertyViewModel(DocumentViewTypeViewModel model, Document selected, DocumentData data, string name)
+        {
+            DocumentProperty property = selected.Properties.Where(f => HtmlHelper.RouteFriendlyName(f.PropertyName) == name).FirstOrDefault();
+
+            if (property == null)
+                return null;
+
+            model.TypeName = $"{property.PropertyName} Property";
+            model.Value = property.Value;
+            model.ShortDescription = property.ShortDescription;
+            model.LongDescription = property.LongDescription;
+            model.Summary = property.Summary;
+
+            return model;
+        }
+
+        private DocumentViewTypeViewModel BuildFieldViewModel(DocumentViewTypeViewModel model, Document selected, DocumentData data, string name)
+        {
+            DocumentField field = selected.Fields.Where(f => HtmlHelper.RouteFriendlyName(f.FieldName) == name).FirstOrDefault();
+
+            if (field == null)
+                return null;
+
+            model.TypeName = field.FieldName;
+            model.Value = field.Value;
+            model.ShortDescription = field.ShortDescription;
+            model.LongDescription = field.LongDescription;
+            model.Summary = field.Summary;
+
+            return model;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private string ReturnUptoParam(string s)
+        {
+            int bracket = s.IndexOf("(");
+
+            if (bracket == -1)
+                return s;
+            else
+                return s.Substring(0, bracket);
+        }
 
         private DocumentViewModel BuildDocumentViewModel(string documentName, string className, out Document selected)
         {
             List<Document> documents = _documentationService.GetDocuments()
                 .Where(d => d.DocumentType == DocumentType.Assembly || 
-                    d.DocumentType == DocumentType.Custom /*|| 
-                    d.DocumentType == DocumentType.Class*/)
+                    d.DocumentType == DocumentType.Custom)
                 .OrderBy(o => o.SortOrder).ThenBy(o => o.Title)
                 .ToList();
 
@@ -162,30 +315,7 @@ namespace DocumentationPlugin.Controllers
 
             if (data.ReferenceData == null)
             {
-                StringBuilder allReferences = new StringBuilder("<ul>", 2048);
-
-                foreach (Document doc in documents)
-                {
-                    allReferences.Append($"<li><a href=\"/docs/Document/{HtmlHelper.RouteFriendlyName(doc.Title)}/\">{doc.Title}</a>");
-
-                    if (doc.Tag == data && (selected.DocumentType == DocumentType.Assembly || selected.DocumentType == DocumentType.Custom))
-                    {
-                        allReferences.Append(((DocumentData)selected.Tag).AllReferences);
-                    }
-                    else if (selected.DocumentType == DocumentType.Class && data.Parent != null && data.Parent == doc.Tag)
-                    {
-                        if (data.Parent == null)
-                            allReferences.Append(data.AllReferences);
-                        else
-                            allReferences.Append(data.Parent.AllReferences);
-                    }
-
-                    allReferences.Append("</li>");
-                }
-
-                allReferences.Append("</ul>");
-
-                data.ReferenceData = allReferences.ToString();
+                data.ReferenceData = GetAllReferences(selected, data, documents);
             }
 
             DocumentViewModel model = new DocumentViewModel(GetBreadcrumbs(), GetCartSummary(),
@@ -226,6 +356,34 @@ namespace DocumentationPlugin.Controllers
             model.Example = selected.Example;
 
             return model;
+        }
+
+        private string GetAllReferences(Document document, DocumentData data, List<Document> documents)
+        {
+            StringBuilder allReferences = new StringBuilder("<ul>", 2048);
+
+            foreach (Document doc in documents)
+            {
+                allReferences.Append($"<li><a href=\"/docs/Document/{HtmlHelper.RouteFriendlyName(doc.Title)}/\">{doc.Title}</a>");
+
+                if (doc.Tag == data && (document.DocumentType == DocumentType.Assembly || document.DocumentType == DocumentType.Custom))
+                {
+                    allReferences.Append(((DocumentData)document.Tag).AllReferences);
+                }
+                else if (document.DocumentType == DocumentType.Class && data.Parent != null && data.Parent == doc.Tag)
+                {
+                    if (data.Parent == null)
+                        allReferences.Append(data.AllReferences);
+                    else
+                        allReferences.Append(data.Parent.AllReferences);
+                }
+
+                allReferences.Append("</li>");
+            }
+
+            allReferences.Append("</ul>");
+
+            return allReferences.ToString();
         }
 
         #endregion Private Methods

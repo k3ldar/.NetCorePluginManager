@@ -33,10 +33,19 @@ namespace SharedPluginFeatures
     /// </summary>
     public sealed class Constants
     {
+        /// <summary>
+        /// Minimum password length, default to 8 characters
+        /// </summary>
         public const int MinimumPasswordLength = 8;
+
+        /// <summary>
+        /// Maximum password length, default to 40 characters
+        /// </summary>
         public const int MaximumPasswordLength = 40;
 
-
+        /// <summary>
+        /// Name of UserSession that is injected into the request pipeline
+        /// </summary>
         public const string UserSession = "UserSession";
         public const string UserCulture = "UserCulture";
         public const string Breadcrumbs = "Breadcrumbs";
@@ -48,10 +57,16 @@ namespace SharedPluginFeatures
         public const string SeoMetaKeywords = "SeoTags";
         public const string SeoMetaAuthor = "SeoAuthor";
 
+        /// <summary>
+        /// Default name of session cookie if no value is specified when the application is initialised.
+        /// </summary>
         public const string DefaultSessionCookie = "user_session";
 
         public const string UserSessionConfiguration = "UserSessionConfiguration";
 
+        /// <summary>
+        /// Default static file extensions
+        /// </summary>
         public const string StaticFileExtensions = ".less;.ico;.css;.js;.svg;.jpg;.jpeg;.gif;.png;.eot;.map;";
 
         public const string PageReferer = "Referer";
@@ -69,6 +84,10 @@ namespace SharedPluginFeatures
 
         public const string PluginNameUserSession = "UserSessionMiddleware.Plugin.dll";
         public const string PluginNameLocalization = "Localization.Plugin.dll";
+
+        /// <summary>
+        /// Name of shopping cart plugin, this can be used in conjunction with IPluginHelperService when determining whether the shopping cart plugin is loaded.
+        /// </summary>
         public const string PluginNameShoppingCart = "ShoppingCartPlugin.dll";
 
 
@@ -77,12 +96,34 @@ namespace SharedPluginFeatures
         public const string BreadcrumbRoutEqualsParentRoute = "Parent route matches route; Route: {0}; Parent Route {1}";
         public const string TooManyBreadcrumbs = "Breadcrumb recursion, check parent route values";
 
+        /// <summary>
+        /// Exception message used when registering a INotificationListener with the INotificationService message notifications, when the listener does not provide any event names.
+        /// </summary>
         public const string InvalidListener = "Listener must provide at least one event";
+
+        /// <summary>
+        /// Exception message used when registering a INotificationListener with the INotificationService message notifications, when the event name has not been recognised.
+        /// </summary>
         public const string InvalidEventName = "Invalid event name in listener";
+
+        /// <summary>
+        /// Exception message used when registering a INotificationListener with the INotificationService message notifications, when the event name has not been registered.
+        /// </summary>
         public const string EventNameNotRegistered = "Event name has not been registered";
 
+        /// <summary>
+        /// Exception message used when attempting to view an invalid class type
+        /// </summary>
+        public const string InvalidTypeName = "Invalid type name";
+
+        /// <summary>
+        /// Default currency code used when no currency code is supplied
+        /// </summary>
         public const string CurrencyCodeDefault = "GBP";
 
+        /// <summary>
+        /// Name of thread used for INotificationService message notifications
+        /// </summary>
         public const string ThreadNotificationService = "Notification Service";
 
         /// <summary>
