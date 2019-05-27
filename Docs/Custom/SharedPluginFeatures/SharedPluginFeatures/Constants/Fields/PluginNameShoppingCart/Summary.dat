@@ -1,0 +1,1 @@
+Name of shopping cart plugin, this can be used in conjunction with IPluginHelperService when determining whether the shopping cart plugin is loaded.

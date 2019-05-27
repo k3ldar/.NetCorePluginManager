@@ -1,0 +1,1 @@
+Exception message used when registering a INotificationListener with the INotificationService message notifications, when the event name has not been recognised.

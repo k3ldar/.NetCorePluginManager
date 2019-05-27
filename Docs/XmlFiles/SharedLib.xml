@@ -3600,6 +3600,76 @@
             DocumentBuilder is used to load a documentation xml file
             </summary>
         </member>
+        <member name="T:Shared.Docs.DocumentField">
+            <summary>
+            Represents a class Field
+            </summary>
+        </member>
+        <member name="P:Shared.Docs.DocumentField.ClassName">
+            <summary>
+            Name of class where field belongs
+            </summary>
+        </member>
+        <member name="P:Shared.Docs.DocumentField.FieldName">
+            <summary>
+            Name of field
+            </summary>
+        </member>
+        <member name="P:Shared.Docs.DocumentField.Summary">
+            <summary>
+            Summary description of field
+            </summary>
+        </member>
+        <member name="P:Shared.Docs.DocumentField.Value">
+            <summary>
+            Value of field
+            </summary>
+        </member>
+        <member name="T:Shared.Docs.DocumentMethod">
+            <summary>
+            Class Method
+            </summary>
+        </member>
+        <member name="P:Shared.Docs.DocumentMethod.ClassName">
+            <summary>
+            Name of class
+            </summary>
+        </member>
+        <member name="P:Shared.Docs.DocumentMethod.MethodName">
+            <summary>
+            Name of method
+            </summary>
+        </member>
+        <member name="P:Shared.Docs.DocumentMethod.Summary">
+            <summary>
+            Summary
+            </summary>
+        </member>
+        <member name="P:Shared.Docs.DocumentMethod.Returns">
+            <summary>
+            Return type
+            </summary>
+        </member>
+        <member name="P:Shared.Docs.DocumentMethod.Parameters">
+            <summary>
+            Parameters for method
+            </summary>
+        </member>
+        <member name="P:Shared.Docs.DocumentMethod.Exceptions">
+            <summary>
+            Exceptions that can be raised within the method
+            </summary>
+        </member>
+        <member name="P:Shared.Docs.DocumentMethod.IsConstructor">
+            <summary>
+            Determines if the method is a constructor
+            </summary>
+        </member>
+        <member name="P:Shared.Docs.DocumentMethod.ExampleUseage">
+            <summary>
+            Example useage for method
+            </summary>
+        </member>
         <member name="T:Shared.Docs.DocumentProperty">
             <summary>
             Documentation for a property

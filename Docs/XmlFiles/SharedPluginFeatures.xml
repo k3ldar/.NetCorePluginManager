@@ -134,6 +134,66 @@
             Constant values shared between all plugin modules
             </summary>
         </member>
+        <member name="F:SharedPluginFeatures.Constants.MinimumPasswordLength">
+            <summary>
+            Minimum password length, default to 8 characters
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Constants.MaximumPasswordLength">
+            <summary>
+            Maximum password length, default to 40 characters
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Constants.UserSession">
+            <summary>
+            Name of UserSession that is injected into the request pipeline
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Constants.DefaultSessionCookie">
+            <summary>
+            Default name of session cookie if no value is specified when the application is initialised.
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Constants.StaticFileExtensions">
+            <summary>
+            Default static file extensions
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Constants.PluginNameShoppingCart">
+            <summary>
+            Name of shopping cart plugin, this can be used in conjunction with IPluginHelperService when determining whether the shopping cart plugin is loaded.
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Constants.InvalidListener">
+            <summary>
+            Exception message used when registering a INotificationListener with the INotificationService message notifications, when the listener does not provide any event names.
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Constants.InvalidEventName">
+            <summary>
+            Exception message used when registering a INotificationListener with the INotificationService message notifications, when the event name has not been recognised.
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Constants.EventNameNotRegistered">
+            <summary>
+            Exception message used when registering a INotificationListener with the INotificationService message notifications, when the event name has not been registered.
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Constants.InvalidTypeName">
+            <summary>
+            Exception message used when attempting to view an invalid class type
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Constants.CurrencyCodeDefault">
+            <summary>
+            Default currency code used when no currency code is supplied
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Constants.ThreadNotificationService">
+            <summary>
+            Name of thread used for INotificationService message notifications
+            </summary>
+        </member>
         <member name="F:SharedPluginFeatures.Constants.DocumentationFileCache">
             <summary>
             Name of the documentation file cache
