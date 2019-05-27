@@ -1,0 +1,3 @@
+Indicates that an error occurred when translating a string using Localization.Plugin.
+            
+            This is usually an indication that a localized string is missing.

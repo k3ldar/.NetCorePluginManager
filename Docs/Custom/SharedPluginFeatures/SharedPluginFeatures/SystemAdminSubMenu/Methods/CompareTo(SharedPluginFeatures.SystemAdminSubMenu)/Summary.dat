@@ -1,0 +1,1 @@
+IComparable implementation used to sort menu items by SortOrder then Name

@@ -1,0 +1,1 @@
+Indicates that an error took place within the GeoIpPlugin module whilst implementing GeoIpProvider.IpStack.

@@ -1,0 +1,1 @@
+Logs an exception with the log file and also creates an additional exception log entry detailing the exception, call stack etc.

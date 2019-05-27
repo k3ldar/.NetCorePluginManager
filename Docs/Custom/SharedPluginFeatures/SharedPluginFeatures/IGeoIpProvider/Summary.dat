@@ -1,0 +1,3 @@
+Provides a mechanism whereby the host application can obtain GeoIp related data for an Ip Address.
+            
+            This is typically implemented by the GeoIpPlugin and SieraDeltaGeoIpPlugin modules.

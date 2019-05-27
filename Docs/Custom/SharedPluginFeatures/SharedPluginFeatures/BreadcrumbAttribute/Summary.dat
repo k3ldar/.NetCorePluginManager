@@ -1,0 +1,3 @@
+The breadcrumb attribute is used by the Breadcrumb.Plugin module to automatically generate breadcrumbs for a route.
+            
+            The controller for the breadcrumb is gotten automatically when breadcrumb plugin generates a list of routes with breadcrumbs.

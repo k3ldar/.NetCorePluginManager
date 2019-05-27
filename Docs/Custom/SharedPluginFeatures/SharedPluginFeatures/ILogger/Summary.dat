@@ -1,0 +1,1 @@
+Generic interface provided where plugin modules and all other parts of the system can add data to a log file.

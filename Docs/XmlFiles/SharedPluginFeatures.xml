@@ -6,7 +6,7 @@
     <members>
         <member name="T:SharedPluginFeatures.CarouselImage">
             <summary>
-            Carousel Image
+            Carousel Image, abstract class that plugin modules can implement to carousel images.
             </summary>
         </member>
         <member name="M:SharedPluginFeatures.CarouselImage.ImageUrl">
@@ -64,9 +64,105 @@
             </summary>
             <returns>int. depicting sort order.</returns>
         </member>
+        <member name="T:SharedPluginFeatures.SystemAdminSubMenu">
+            <summary>
+            Abstract class that plugin modules can implement in order to add menu items the the SystemAdmin.Plugin module.
+            
+            The SystemAdmin.Plugin module is used to display statistical information in many forms as provided by AspNetCore.PluginManager and any plugins which wish to provide instant statistics for site owners.
+            
+            Typical useage is to display timing statistics by implementing Timings class, through to showing custom data or even data shown within a map, as UserSessionMiddleware.Plugin does.
+            </summary>
+        </member>
+        <member name="M:SharedPluginFeatures.SystemAdminSubMenu.Area">
+            <summary>
+            Area in which the implementation exists, or empty string if not contained within an area.
+            
+            This value will be used to form part of the Url when the menu is clicked.
+            </summary>
+            <returns>string.  area name or empty string.</returns>
+        </member>
+        <member name="M:SharedPluginFeatures.SystemAdminSubMenu.Controller">
+            <summary>
+            Name of the controller that implements the menu.
+            
+            This value will be used to form part of the Url when the menu is clicked.
+            </summary>
+            <returns>string.  Controller name.</returns>
+        </member>
+        <member name="M:SharedPluginFeatures.SystemAdminSubMenu.Action">
+            <summary>
+            Name of the action that will be called when the user clicks the menu item.
+            </summary>
+            <returns>string.  Name of the action.</returns>
+        </member>
+        <member name="M:SharedPluginFeatures.SystemAdminSubMenu.Name">
+            <summary>
+            Name of the menu, this can also be the name of a Localized string.
+            </summary>
+            <returns>string.  Display name for menu item.</returns>
+        </member>
+        <member name="M:SharedPluginFeatures.SystemAdminSubMenu.SortOrder">
+            <summary>
+            Sort order for menu item.
+            </summary>
+            <returns>int.</returns>
+        </member>
+        <member name="M:SharedPluginFeatures.SystemAdminSubMenu.MenuType">
+            <summary>
+            Type of menu item being displayed, this is used internally to display the Data provided.
+            </summary>
+            <returns>SystemAdminMenuType.  </returns>
+        </member>
+        <member name="M:SharedPluginFeatures.SystemAdminSubMenu.Image">
+            <summary>
+            Image url to be displayed with the menu item, a default image is provided if the image does not exist.
+            </summary>
+            <returns>string.  Url of image or empty string.</returns>
+        </member>
+        <member name="M:SharedPluginFeatures.SystemAdminSubMenu.Data">
+            <summary>
+            The data to be shown when the menu item is clicked.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:SharedPluginFeatures.SystemAdminSubMenu.ParentMenuName">
+            <summary>
+            Name of the parent view where the menu item will be displayed.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:SharedPluginFeatures.SystemAdminSubMenu.BackColor">
+            <summary>
+            Back color that will be displayed for the menu item.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:SharedPluginFeatures.SystemAdminSubMenu.ForeColor">
+            <summary>
+            Forecolor that will be displayed for the menu item.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:SharedPluginFeatures.SystemAdminSubMenu.CompareTo(SharedPluginFeatures.SystemAdminSubMenu)">
+            <summary>
+            IComparable implementation used to sort menu items by SortOrder then Name
+            </summary>
+            <param name="compareTo"></param>
+            <returns></returns>
+        </member>
+        <member name="P:SharedPluginFeatures.SystemAdminSubMenu.UniqueId">
+            <summary>
+            Unique id of the menu item.  This is assigned by the SystemAdmin.Plugin module.
+            </summary>
+        </member>
+        <member name="P:SharedPluginFeatures.SystemAdminSubMenu.ParentMenu">
+            <summary>
+            Parent menu implementation.  This is assigned by the SystemAdmin.Plugin module.
+            </summary>
+        </member>
         <member name="T:SharedPluginFeatures.BadEggAttribute">
             <summary>
-            BadEgg attribute, 
+            BadEgg attribute, see BadEgg.Plugin for further information on how this attribute is used.
             </summary>
         </member>
         <member name="M:SharedPluginFeatures.BadEggAttribute.#ctor">
@@ -85,18 +181,350 @@
             <summary>
             Indicates that query field values should be validated for this route.
             </summary>
-            <value>bool</value>
+            <value>bool.  If true then all query fields will be validated for the route.</value>
         </member>
         <member name="P:SharedPluginFeatures.BadEggAttribute.ValidateFormFields">
             <summary>
             Indicates that form field values should be validated.
             </summary>
+            <value>bool.  If true then all form fields will be validated for the route.</value>
+        </member>
+        <member name="T:SharedPluginFeatures.BreadcrumbAttribute">
+            <summary>
+            The breadcrumb attribute is used by the Breadcrumb.Plugin module to automatically generate breadcrumbs for a route.
+            
+            The controller for the breadcrumb is gotten automatically when breadcrumb plugin generates a list of routes with breadcrumbs.
+            </summary>
+        </member>
+        <member name="M:SharedPluginFeatures.BreadcrumbAttribute.#ctor(System.String,System.String)">
+            <summary>
+            Constructor
+            
+            The breadcrumb will appear after the breadcrumb for the parent route.
+            </summary>
+            <param name="name">Name of the breadcrumb item.</param>
+            <param name="parentRoute">Route of the parent item for the route.</param>
+        </member>
+        <member name="M:SharedPluginFeatures.BreadcrumbAttribute.#ctor(System.String)">
+            <summary>
+            Constructor
+            
+            This breadcrumb has no parent route.
+            </summary>
+            <param name="name">Name of the breadcrumb item.</param>
+        </member>
+        <member name="M:SharedPluginFeatures.BreadcrumbAttribute.#ctor(System.String,System.String,System.String)">
+            <summary>
+            Constructor
+            
+            
+            </summary>
+            <param name="name">Name of the breadcrumb item.</param>
+            <param name="parentControllerName">Name of the controller which is a parent of this breadcrumb.</param>
+            <param name="parentActionName">Name of the action which is the parent of this breadcrumb.</param>
+        </member>
+        <member name="P:SharedPluginFeatures.BreadcrumbAttribute.Name">
+            <summary>
+            Name of breadcrumb.
+            </summary>
+        </member>
+        <member name="P:SharedPluginFeatures.BreadcrumbAttribute.ParentRoute">
+            <summary>
+            Parent route for breadcrumb, used when generating a breadcrumb heirarchy.
+            </summary>
+        </member>
+        <member name="P:SharedPluginFeatures.BreadcrumbAttribute.HasParams">
+            <summary>
+            Indicates that the route contains parameter values, if true then the way the breadcrumb is generated is slightly different.
+            </summary>
+        </member>
+        <member name="T:SharedPluginFeatures.DenySpiderAttribute">
+            <summary>
+            The deny spider attribute is used on Controller Action methods to indicate that a spider should not use that particular route.
+            </summary>
+        </member>
+        <member name="M:SharedPluginFeatures.DenySpiderAttribute.#ctor">
+            <summary>
+            Default constructor, indicates that all user agents are denied.
+            </summary>
+        </member>
+        <member name="M:SharedPluginFeatures.DenySpiderAttribute.#ctor(System.String)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="userAgent">Specify the specific user agent that is to be denied access to the route.</param>
+        </member>
+        <member name="M:SharedPluginFeatures.DenySpiderAttribute.#ctor(System.String,System.String)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="userAgent">Specify the specific user agent that is to be denied access to the route.</param>
+            <param name="comment">Comment to be included in the automatically generated robots.txt file.</param>
+        </member>
+        <member name="P:SharedPluginFeatures.DenySpiderAttribute.UserAgent">
+            <summary>
+            The user agent that is to be denied access to the route.
+            </summary>
+        </member>
+        <member name="P:SharedPluginFeatures.DenySpiderAttribute.Comment">
+            <summary>
+            Optional comment that will appear in the robots.txt file.
+            </summary>
+        </member>
+        <member name="T:SharedPluginFeatures.LoggedInAttribute">
+            <summary>
+            This attribute is used in conjunction with the UserSessionMiddleware.Plugin module and indicates that a user
+            must be logged in when attempting to gain access to the route.
+            </summary>
+        </member>
+        <member name="M:SharedPluginFeatures.LoggedInAttribute.#ctor">
+            <summary>
+            Default constructor.
+            
+            If used the login page is set to the default value of /Login/
+            </summary>
+        </member>
+        <member name="M:SharedPluginFeatures.LoggedInAttribute.#ctor(System.String@)">
+            <summary>
+            Constructor
+            
+            Allows the route to specify a route to the login page that will be used.
+            </summary>
+            <param name="loginPage">string.  Url of login page.</param>
+        </member>
+        <member name="P:SharedPluginFeatures.LoggedInAttribute.LoginPage">
+            <summary>
+            The url of the page the user will be redirected to, in order to login and gain access to the route where the attribute was applied.
+            </summary>
+        </member>
+        <member name="T:SharedPluginFeatures.LoggedInOutAttribute">
+            <summary>
+            This attribute is used in conjunction with the UserSessionMiddleware.Plugin module and indicates that a user can be
+            either logged in or out when attempting to navigate to the route.
+            
+            This attribute would be used if a LoggedInAttribute or LoggedOutAttribute is defined on the controller, but a specific
+            method is allowed regardless of the user logged in stats.
+            </summary>
+        </member>
+        <member name="T:SharedPluginFeatures.LoggedOutAttribute">
+            <summary>
+            This attribute is used in conjunction with the UserSessionMiddleware.Plugin module and indicates that a user
+            must be logged out when attempting to gain access to the route.
+            </summary>
+        </member>
+        <member name="M:SharedPluginFeatures.LoggedOutAttribute.#ctor">
+            <summary>
+            Default constructor
+            
+            If a logged in user attempts to enter the route, they will be sent to the site home page (/)
+            </summary>
+        </member>
+        <member name="M:SharedPluginFeatures.LoggedOutAttribute.#ctor(System.String@)">
+            <summary>
+            Constructor
+            
+            Allows the developer to specify a page that the user will be redirected to if the attempt to navigate to the route whilst logged in.
+            </summary>
+            <param name="redirectPage">string.  Url of route the user will be redirected to.</param>
+        </member>
+        <member name="P:SharedPluginFeatures.LoggedOutAttribute.RedirectPage">
+            <summary>
+            Url of the page the user will be redirected to, should they be logged into the system and attempt to access the route.
+            </summary>
+        </member>
+        <member name="T:SharedPluginFeatures.RestrictedIpRouteAttribute">
+            <summary>
+            This attribute is used in conjunction with the RestricIp.Plugin module to restrict specific rotues
+            to specific Ip Addresses within the system.
+            
+            See RestrictIp.Plugin.RestrictIp.Plugin for further details on configuring Ip restrictions by routes.
+            </summary>
+        </member>
+        <member name="M:SharedPluginFeatures.RestrictedIpRouteAttribute.#ctor(System.String)">
+            <summary>
+            Default constructor.
+            
+            This constructor takes the name of the profile which is used to configure whether to allow or deny an Ip address for a specific route.
+            </summary>
+            <param name="profileName">Name of profile within the settings.</param>
+        </member>
+        <member name="P:SharedPluginFeatures.RestrictedIpRouteAttribute.ProfileName">
+            <summary>
+            Name of the profile which is used to allow or deny an Ip address within a specific route.
+            </summary>
+        </member>
+        <member name="T:SharedPluginFeatures.Breadcrumb">
+            <summary>
+            This class is used to contain basic breadcrumb data.
+            </summary>
+        </member>
+        <member name="M:SharedPluginFeatures.Breadcrumb.#ctor(System.String@,System.String@)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="name">Name of the breadcrumb.</param>
+            <param name="route">Route that the breadcrumb is aligned to.</param>
+        </member>
+        <member name="P:SharedPluginFeatures.Breadcrumb.Name">
+            <summary>
+            Name of the breadcrumb.
+            </summary>
+        </member>
+        <member name="P:SharedPluginFeatures.Breadcrumb.Route">
+            <summary>
+            Route that the breadcrumb is aligned to.
+            </summary>
+        </member>
+        <member name="T:SharedPluginFeatures.BreadcrumbItem">
+            <summary>
+            The breadcrumb item class is used extensively by the Breadcrumb.Plugin module to depict a breadcrumb item.
+            </summary>
+        </member>
+        <member name="M:SharedPluginFeatures.BreadcrumbItem.#ctor(System.String@,System.String@,System.Boolean@)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="name">Name of breadcrumb item.</param>
+            <param name="route">Route to which the breadcrumb item is linked.</param>
+            <param name="hasParameters">Indicates whether the route has parameters or not.</param>
+        </member>
+        <member name="P:SharedPluginFeatures.BreadcrumbItem.Name">
+            <summary>
+            Name of breadcrumb item.
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:SharedPluginFeatures.BreadcrumbItem.Route">
+            <summary>
+             Route to which the breadcrumb item is linked.
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:SharedPluginFeatures.BreadcrumbItem.HasParameters">
+            <summary>
+            Indicates whether the route has parameters or not.
+            </summary>
             <value>bool</value>
+        </member>
+        <member name="T:SharedPluginFeatures.CaptchaImage">
+            <summary>
+            Generates an image that can be used when confirming that form entry is from a human and not a computer.
+            </summary>
+        </member>
+        <member name="P:SharedPluginFeatures.CaptchaImage.Text">
+            <summary>
+            The text to be displayed within the image.
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:SharedPluginFeatures.CaptchaImage.Image">
+            <summary>
+            The image generated.
+            </summary>
+            <value>Bitmap</value>
+        </member>
+        <member name="P:SharedPluginFeatures.CaptchaImage.Width">
+            <summary>
+            The width of the image.
+            </summary>
+            <value>int</value>
+        </member>
+        <member name="P:SharedPluginFeatures.CaptchaImage.Height">
+            <summary>
+            The height of the image
+            </summary>
+            <value>int</value>
+        </member>
+        <member name="M:SharedPluginFeatures.CaptchaImage.#ctor(System.String,System.Int32,System.Int32)">
+            <summary>
+            Constructor
+            
+            Provides specific values for generating an image, using GenericSerif as the font.
+            </summary>
+            <param name="s">Text to be displayed on the image.</param>
+            <param name="width">Width of the image.</param>
+            <param name="height">Height of the image.</param>
+        </member>
+        <member name="M:SharedPluginFeatures.CaptchaImage.#ctor(System.String,System.Int32,System.Int32,System.String)">
+            <summary>
+            Constructor
+            
+            Provides specific values for generating an image, including the font to be used.
+            </summary>
+            <param name="s">Text to be displayed on the image.</param>
+            <param name="width">Width of the image.</param>
+            <param name="height">Height of the image.</param>
+            <param name="familyName">Font name to be used.</param>
+        </member>
+        <member name="M:SharedPluginFeatures.CaptchaImage.Finalize">
+            <summary>
+            Destructor
+            </summary>
+        </member>
+        <member name="M:SharedPluginFeatures.CaptchaImage.Dispose">
+            <summary>
+            Dispose, ensures that resources are correctly disposed of.
+            </summary>
+        </member>
+        <member name="T:SharedPluginFeatures.ErrorInformation">
+            <summary>
+            Used extensively by ErrorManager.Plugin module to store information about errors that have been generated within the system.
+            
+            See also SystemAdmin.Plugin where error information is displayed.
+            </summary>
+        </member>
+        <member name="M:SharedPluginFeatures.ErrorInformation.#ctor(System.Exception@,System.String@)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="error">Exception that was raised.</param>
+            <param name="errorIdentifier">Unique identifier for the error.</param>
+        </member>
+        <member name="P:SharedPluginFeatures.ErrorInformation.Date">
+            <summary>
+            The date and time the exception was first raised.
+            </summary>
+            <value>DateTime</value>
+        </member>
+        <member name="P:SharedPluginFeatures.ErrorInformation.Expired">
+            <summary>
+            Indicates that the exception has expired.
+            </summary>
+            <value>bool</value>
+        </member>
+        <member name="P:SharedPluginFeatures.ErrorInformation.Error">
+            <summary>
+            Exception that was raised.
+            </summary>
+            <value>System.Exception</value>
+        </member>
+        <member name="P:SharedPluginFeatures.ErrorInformation.ErrorCount">
+            <summary>
+            The number of times the exception has been raised.
+            </summary>
+            <value>uint</value>
+        </member>
+        <member name="P:SharedPluginFeatures.ErrorInformation.ErrorIdentifier">
+            <summary>
+            The identifier for the exception that was raised.
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="M:SharedPluginFeatures.ErrorInformation.IncrementError">
+            <summary>
+            Used when the same exception is subsequently raised.
+            </summary>
         </member>
         <member name="T:SharedPluginFeatures.ConnectionArgs">
             <summary>
             Connection arguments for DefenderConnectionAddEventHandler
             </summary>
+        </member>
+        <member name="M:SharedPluginFeatures.ConnectionArgs.#ctor(System.String@)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="ipAddress">The Ip address being used by the connection.</param>
         </member>
         <member name="P:SharedPluginFeatures.ConnectionArgs.IPAddress">
             <summary>
@@ -107,31 +535,212 @@
             <summary>
             Delegate for connection add
             </summary>
-            <param name="sender">object sender</param>
-            <param name="e">arguments</param>
+            <param name="sender">The class that raised the event.</param>
+            <param name="e">Event parameters.</param>
         </member>
         <member name="T:SharedPluginFeatures.ConnectionRemoveArgs">
             <summary>
             Connection info event arguments
             </summary>
         </member>
+        <member name="M:SharedPluginFeatures.ConnectionRemoveArgs.#ctor(System.String@,System.Double@,System.UInt64@,System.TimeSpan@)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="ipAddress">Ip Address being reported on.</param>
+            <param name="hits">Average hits per minute.</param>
+            <param name="requests">Total number of reuests.</param>
+            <param name="duration">Total duration the Ip address remained active.</param>
+        </member>
+        <member name="P:SharedPluginFeatures.ConnectionRemoveArgs.Hits">
+            <summary>
+            Average hits per minute.
+            </summary>
+            <value>double</value>
+        </member>
+        <member name="P:SharedPluginFeatures.ConnectionRemoveArgs.Requests">
+            <summary>
+            Total number of reuests.
+            </summary>
+            <value>ulong</value>
+        </member>
+        <member name="P:SharedPluginFeatures.ConnectionRemoveArgs.Duration">
+            <summary>
+            Total duration the Ip address remained active.
+            </summary>
+            <value>TimeSpan</value>
+        </member>
         <member name="T:SharedPluginFeatures.DefenderConnectionRemoveEventHandler">
             <summary>
             Delegate for connection remove
             </summary>
-            <param name="sender">object sender</param>
-            <param name="e">arguments</param>
+            <param name="sender">The class that raised the event.</param>
+            <param name="e">Event parameters.</param>
+        </member>
+        <member name="T:SharedPluginFeatures.RequestBanArgs">
+            <summary>
+            Arguments used in DefenderRequestBan event in order to notify that an Ip Address should be banned.
+            </summary>
+        </member>
+        <member name="M:SharedPluginFeatures.RequestBanArgs.#ctor(System.String@,System.Double@,System.UInt64@,System.TimeSpan@)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="ipAddress">Ip address being reported on.</param>
+            <param name="hits">Average requests per minute.</param>
+            <param name="requests">Total number of requests</param>
+            <param name="duration">Total duration the Ip address remained active.</param>
+        </member>
+        <member name="P:SharedPluginFeatures.RequestBanArgs.AddToBlackList">
+            <summary>
+            Determines whether the ip address should be black listed or note.
+            </summary>
+            <value>bool</value>
         </member>
         <member name="T:SharedPluginFeatures.DefenderRequestBan">
             <summary>
             Delegate for log audit failure events
             </summary>
-            <param name="sender"></param>
-            <param name="e"></param>
+            <param name="sender">The class that raised the event.</param>
+            <param name="e">Event parameters.</param>
+        </member>
+        <member name="T:SharedPluginFeatures.ConnectionReportArgs">
+            <summary>
+            Arguments used to report a connection.
+            </summary>
+        </member>
+        <member name="M:SharedPluginFeatures.ConnectionReportArgs.#ctor(System.String@,System.String@,SharedPluginFeatures.Enums.ValidateRequestResult@)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="ipAddress">Ip address.</param>
+            <param name="queryString">Query or Form values used when validating the request.</param>
+            <param name="validation">Result of validation.</param>
+        </member>
+        <member name="P:SharedPluginFeatures.ConnectionReportArgs.QueryString">
+            <summary>
+            Query and form data associated with the event.
+            </summary>
+        </member>
+        <member name="P:SharedPluginFeatures.ConnectionReportArgs.Result">
+            <summary>
+            Result determined when validating a request.
+            </summary>
+        </member>
+        <member name="T:SharedPluginFeatures.DefenderReportConnection">
+            <summary>
+            Delegate used for events when the Ip address is being reported upon.
+            </summary>
+            <param name="sender">The class that raised the event.</param>
+            <param name="e">Event parameters.</param>
+        </member>
+        <member name="T:SharedPluginFeatures.ShoppingCartSummary">
+            <summary>
+            Shopping cart summary, used if the website is implementing a shopping cart and data needs to be displayed on each page.
+            </summary>
+        </member>
+        <member name="M:SharedPluginFeatures.ShoppingCartSummary.#ctor(System.Int64@,System.Int32@,System.Decimal@,System.Decimal@,System.Decimal@,System.Decimal@,System.Globalization.CultureInfo@,System.String@)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="id">Unique id for shopping cart.</param>
+            <param name="totalItems">Total number of items in the shopping cart.</param>
+            <param name="subTotal">Sub total value of the shopping cart.</param>
+            <param name="discountRate">Discount applied to the shopping cart.</param>
+            <param name="shipping">Shipping rate applied to the shopping cart.</param>
+            <param name="taxRate">Tax rate applied to the shopping cart.</param>
+            <param name="culture">Culture used by the shopping cart.</param>
+            <param name="currencyCode">Currency code used by the shopping cart.</param>
+        </member>
+        <member name="M:SharedPluginFeatures.ShoppingCartSummary.ResetShoppingCartId(System.Int64@)">
+            <summary>
+            Resets the unique id associated with the shopping cart.
+            </summary>
+            <param name="id">Unique id for the cart.</param>
+        </member>
+        <member name="M:SharedPluginFeatures.ShoppingCartSummary.ResetTotalItems(System.Int32@)">
+            <summary>
+            Resets the total number of items within the cart.
+            </summary>
+            <param name="totalItems">Total number of items within the cart.</param>
+        </member>
+        <member name="M:SharedPluginFeatures.ShoppingCartSummary.ResetTotalCost(System.Decimal@,System.Globalization.CultureInfo@)">
+            <summary>
+            Forces the total costs for the cart to be reset.
+            </summary>
+            <param name="cost">New cost to be applied to the shopping cart.</param>
+            <param name="cultureInfo">Culture to be applied to the shopping cart.</param>
+        </member>
+        <member name="M:SharedPluginFeatures.ShoppingCartSummary.ResetShipping(System.Decimal@)">
+            <summary>
+            Forces the shipping value to be reset within the shopping cart.
+            </summary>
+            <param name="shipping">Shipping charges which will apply.</param>
+        </member>
+        <member name="M:SharedPluginFeatures.ShoppingCartSummary.ResetTotalCost(System.Decimal@)">
+            <summary>
+            Forces the total costs for the cart to be reset.
+            </summary>
+            <param name="cost">New cost to be applied to the shopping cart.</param>
+        </member>
+        <member name="P:SharedPluginFeatures.ShoppingCartSummary.Id">
+            <summary>
+            Unique id representing the shopping cart.
+            </summary>
+        </member>
+        <member name="P:SharedPluginFeatures.ShoppingCartSummary.TotalItems">
+            <summary>
+            Total number of items within the shopping cart.
+            </summary>
+        </member>
+        <member name="P:SharedPluginFeatures.ShoppingCartSummary.SubTotal">
+            <summary>
+            Sub total of the shopping cart.
+            </summary>
+        </member>
+        <member name="P:SharedPluginFeatures.ShoppingCartSummary.DiscountRate">
+            <summary>
+            Rate at which discount has been applied to the shopping cart.
+            </summary>
+        </member>
+        <member name="P:SharedPluginFeatures.ShoppingCartSummary.Discount">
+            <summary>
+            Total discount value applied to the shopping cart.
+            </summary>
+        </member>
+        <member name="P:SharedPluginFeatures.ShoppingCartSummary.TaxRate">
+            <summary>
+            Rate at which tax has been applied to the shopping cart.
+            </summary>
+        </member>
+        <member name="P:SharedPluginFeatures.ShoppingCartSummary.Tax">
+            <summary>
+            Total tax applied to the shopping cart.
+            </summary>
+        </member>
+        <member name="P:SharedPluginFeatures.ShoppingCartSummary.Shipping">
+            <summary>
+            Total cost of shipping for the cart.
+            </summary>
+        </member>
+        <member name="P:SharedPluginFeatures.ShoppingCartSummary.Total">
+            <summary>
+            Total value of the shopping cart.
+            </summary>
+        </member>
+        <member name="P:SharedPluginFeatures.ShoppingCartSummary.Culture">
+            <summary>
+            The culture to be used for the shopping cart.
+            </summary>
+        </member>
+        <member name="P:SharedPluginFeatures.ShoppingCartSummary.CurrencyCode">
+            <summary>
+            Three letter code depicting the currency used for the cart.
+            </summary>
         </member>
         <member name="T:SharedPluginFeatures.Constants">
             <summary>
-            Constant values shared between all plugin modules
+            Constant values shared between all plugin modules and the AspNetCore.PluginManager
             </summary>
         </member>
         <member name="F:SharedPluginFeatures.Constants.MinimumPasswordLength">
@@ -204,14 +813,118 @@
             Name of the documentation list cache
             </summary>
         </member>
+        <member name="T:SharedPluginFeatures.Enums">
+            <summary>
+            Standard Enum values shared across all plugin modules.
+            </summary>
+        </member>
         <member name="T:SharedPluginFeatures.Enums.LogLevel">
             <summary>
-            Log Levels
+            Log Levels, defines the type of log entry being made by ILogger interface.
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Enums.LogLevel.Information">
+            <summary>
+            Log entry is information only.
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Enums.LogLevel.Warning">
+            <summary>
+            Log entry is a warning condition.
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Enums.LogLevel.Error">
+            <summary>
+            Log entry represents an error that has occurred.
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Enums.LogLevel.Critical">
+            <summary>
+            Log entry is a critical error within the system.
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Enums.LogLevel.PluginLoadSuccess">
+            <summary>
+            Log entry is informing that a plugin module has been successfully loaded.
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Enums.LogLevel.PluginLoadFailed">
+            <summary>
+            Log entry is informing that a plugin module has failed to load.
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Enums.LogLevel.PluginLoadError">
+            <summary>
+            Log entry is informing that a generic error occurred when loading a plugin module.
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Enums.LogLevel.PluginConfigureError">
+            <summary>
+            Log entry is informing that there is a configuration error with a plugin module.
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Enums.LogLevel.IpRestricted">
+            <summary>
+            Log entry informing that an Ip address has had restriction imposed upon it within the RestrictIp.Plugin module.
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Enums.LogLevel.IpRestrictedError">
+            <summary>
+            Log entry informing that an error occurred when imposing a restriction upon an Ip address within the RestrictIp.Plugin module.
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Enums.LogLevel.UserSessionManagerError">
+            <summary>
+            Indicates that an error occurred within the UserSessionMiddleware.Plugin module.
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Enums.LogLevel.SpiderError">
+            <summary>
+            Indicates that an error occurred within Spider.Plugin module.
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Enums.LogLevel.SpiderRouteError">
+            <summary>
+            Indicates that an there is an error condition for a route within Spider.Plugin module.
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Enums.LogLevel.CacheControlError">
+            <summary>
+            Indicates that an error occurred within CacheControl.Plugin module.
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Enums.LogLevel.GeoIpStackError">
+            <summary>
+            Indicates that an error took place within the GeoIpPlugin module whilst implementing GeoIpProvider.IpStack.
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Enums.LogLevel.ThreadManager">
+            <summary>
+            The event was raised by the ThreadManager
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Enums.LogLevel.Localization">
+            <summary>
+            Indicates that an error occurred when translating a string using Localization.Plugin.
+            
+            This is usually an indication that a localized string is missing.
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Enums.LogLevel.BreadcrumbError">
+            <summary>
+            Indicates that an error took place when creating the breadcrumb for a route within the Breadcrumb.Plugin module.
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Enums.LogLevel.SeoError">
+            <summary>
+            Indicates that an error took place within SeoPlugin module.
             </summary>
         </member>
         <member name="T:SharedPluginFeatures.Enums.GeoIpProvider">
             <summary>
-            Geo Ip providers
+            Geo Ip provider types.
+            
+            GeoIpPlugin module can use a variety of methods to implement Geo Ip lookup functionality via the IGeoIpProvider interface.
             </summary>
         </member>
         <member name="F:SharedPluginFeatures.Enums.GeoIpProvider.None">
@@ -221,27 +934,57 @@
         </member>
         <member name="F:SharedPluginFeatures.Enums.GeoIpProvider.IpStack">
             <summary>
-            IpStack https://ipstack.com/
+            Geo Ip data provided by IpStack https://ipstack.com/
             </summary>
         </member>
         <member name="F:SharedPluginFeatures.Enums.GeoIpProvider.MySql">
             <summary>
-            MySql Database
+            Geo Ip data is provided by a MySql Database 
             </summary>
         </member>
         <member name="F:SharedPluginFeatures.Enums.GeoIpProvider.MSSql">
             <summary>
-            MS Sql Server Database
+            Geo Ip data is provided by a MS Sql Server Database
             </summary>
         </member>
         <member name="F:SharedPluginFeatures.Enums.GeoIpProvider.Firebird">
             <summary>
-            Firebird database
+            Geo Ip data is provided by a Firebird database
             </summary>
         </member>
         <member name="T:SharedPluginFeatures.Enums.SystemAdminMenuType">
             <summary>
             System Admin menu types
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Enums.SystemAdminMenuType.FirstChild">
+            <summary>
+            Not used at present time.
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Enums.SystemAdminMenuType.Text">
+            <summary>
+            Data to be shown within SystemAdmin.Plugin is raw data.
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Enums.SystemAdminMenuType.Grid">
+            <summary>
+            Data to be shown within SystemAdmin.Plugin is grid based data.
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Enums.SystemAdminMenuType.PartialView">
+            <summary>
+            Data to be shown within SystemAdmin.Plugin comes from a partial view provided by the implementor.
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Enums.SystemAdminMenuType.Map">
+            <summary>
+            Data to be shown within SystemAdmin.Plugin is map related data.
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Enums.SystemAdminMenuType.FormattedText">
+            <summary>
+            Data to be shown within SystemAdmin.Plugin is raw text formatted using html.
             </summary>
         </member>
         <member name="T:SharedPluginFeatures.Enums.ValidateRequestResult">
@@ -307,6 +1050,26 @@
         <member name="F:SharedPluginFeatures.Enums.ValidateRequestResult.BanRequested">
             <summary>
             A Ban has been requested on the IP Address
+            </summary>
+        </member>
+        <member name="T:SharedPluginFeatures.DynamicLoadResult">
+            <summary>
+            Result enum for dynamically adding plugin modules using IPluginHelperService interface.
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.DynamicLoadResult.Success">
+            <summary>
+            Plugin module was dynamically added to the list of available plugins.
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.DynamicLoadResult.Failed">
+            <summary>
+            Failed to load the module as an available plugin.
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.DynamicLoadResult.AlreadyLoaded">
+            <summary>
+            The module was already loaded as a plugin module within the PluginManager.
             </summary>
         </member>
         <member name="T:SharedPluginFeatures.HtmlHelper">
@@ -432,6 +1195,55 @@
             <param name="longitude">Longitude for the Ip address.</param>
             <param name="ipUniqueID">Unique Id for the Ip address.</param>
             <returns></returns>
+        </member>
+        <member name="T:SharedPluginFeatures.IGeoIpProvider">
+            <summary>
+            Provides a mechanism whereby the host application can obtain GeoIp related data for an Ip Address.
+            
+            This is typically implemented by the GeoIpPlugin and SieraDeltaGeoIpPlugin modules.
+            </summary>
+        </member>
+        <member name="M:SharedPluginFeatures.IGeoIpProvider.GetIpAddressDetails(System.String@,System.String@,System.String@,System.String@,System.Decimal@,System.Decimal@,System.Int64@,System.Int64@,System.Int64@)">
+            <summary>
+            Method for obtaing Geo Ip specific data for an Ip address.
+            </summary>
+            <param name="ipAddress">in string.  Ip address.  Geo Ip information specific to this address will be returned.</param>
+            <param name="countryCode">out string.  Code of country where Ip address is located.</param>
+            <param name="region">out string.  Region within a country where the Ip address is located.</param>
+            <param name="cityName">out string.  Name of the city within a region where the Ip address is located.</param>
+            <param name="latitude">out decimal.  Latitude  where the Ip address is located.</param>
+            <param name="longitude">out decimal.  Longitude  where the Ip address is located.</param>
+            <param name="uniqueId">out long.  Unique Id used internally by the provider to refer to the Geo Ip data.</param>
+            <param name="ipFrom">out long.  Start of range which the Ip address belongs.</param>
+            <param name="ipTo">out long.  End of range which the Ip address belongs.</param>
+            <returns></returns>
+        </member>
+        <member name="T:SharedPluginFeatures.ILogger">
+            <summary>
+            Generic interface provided where plugin modules and all other parts of the system can add data to a log file.
+            </summary>
+        </member>
+        <member name="M:SharedPluginFeatures.ILogger.AddToLog(SharedPluginFeatures.Enums.LogLevel@,System.String@)">
+            <summary>
+            Adds data to the log file.
+            </summary>
+            <param name="logLevel">LogLevel enum indicating the type of log entry</param>
+            <param name="data">Data to be logged.</param>
+        </member>
+        <member name="M:SharedPluginFeatures.ILogger.AddToLog(SharedPluginFeatures.Enums.LogLevel@,System.Exception@)">
+            <summary>
+            Logs an exception with the log file and also creates an additional exception log entry detailing the exception, call stack etc.
+            </summary>
+            <param name="logLevel">LogLevel enum indicating the type of log entry</param>
+            <param name="exception">Exception that was raised.</param>
+        </member>
+        <member name="M:SharedPluginFeatures.ILogger.AddToLog(SharedPluginFeatures.Enums.LogLevel@,System.Exception@,System.String)">
+            <summary>
+            Logs an exception with the log file and also creates an additional exception log entry detailing the exception, call stack etc.
+            </summary>
+            <param name="logLevel">LogLevel enum indicating the type of log entry</param>
+            <param name="exception"></param>
+            <param name="data">Additional data to be logged with the exception.</param>
         </member>
         <member name="M:SharedPluginFeatures.IMemoryCache.GetShortCache">
             <summary>
