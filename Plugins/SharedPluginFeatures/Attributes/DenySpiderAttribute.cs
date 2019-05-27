@@ -27,23 +27,38 @@ using System;
 
 namespace SharedPluginFeatures
 {
+    /// <summary>
+    /// The deny spider attribute is used on Controller Action methods to indicate that a spider should not use that particular route.
+    /// </summary>
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = true)]
     public sealed class DenySpiderAttribute : Attribute
     {
         #region Constructors
 
+        /// <summary>
+        /// Default constructor, indicates that all user agents are denied.
+        /// </summary>
         public DenySpiderAttribute()
             : this ("*")
         {
 
         }
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="userAgent">Specify the specific user agent that is to be denied access to the route.</param>
         public DenySpiderAttribute(string userAgent)
             : this (userAgent, String.Empty)
         {
 
         }
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="userAgent">Specify the specific user agent that is to be denied access to the route.</param>
+        /// <param name="comment">Comment to be included in the automatically generated robots.txt file.</param>
         public DenySpiderAttribute(string userAgent, string comment)
         {
             if (String.IsNullOrEmpty(userAgent))
@@ -57,8 +72,14 @@ namespace SharedPluginFeatures
 
         #region Properties
 
+        /// <summary>
+        /// The user agent that is to be denied access to the route.
+        /// </summary>
         public string UserAgent { get; private set; }
 
+        /// <summary>
+        /// Optional comment that will appear in the robots.txt file.
+        /// </summary>
         public string Comment { get; private set; }
 
         #endregion Properties

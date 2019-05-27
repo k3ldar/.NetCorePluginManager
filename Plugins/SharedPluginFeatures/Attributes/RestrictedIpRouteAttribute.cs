@@ -27,11 +27,23 @@ using System;
 
 namespace SharedPluginFeatures
 {
+    /// <summary>
+    /// This attribute is used in conjunction with the RestricIp.Plugin module to restrict specific rotues
+    /// to specific Ip Addresses within the system.
+    /// 
+    /// See RestrictIp.Plugin.RestrictIp.Plugin for further details on configuring Ip restrictions by routes.
+    /// </summary>
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
     public sealed class RestrictedIpRouteAttribute  :  Attribute
     {
         #region Constructors
 
+        /// <summary>
+        /// Default constructor.
+        /// 
+        /// This constructor takes the name of the profile which is used to configure whether to allow or deny an Ip address for a specific route.
+        /// </summary>
+        /// <param name="profileName">Name of profile within the settings.</param>
         public RestrictedIpRouteAttribute(string profileName)
         {
             if (String.IsNullOrEmpty(profileName))
@@ -44,6 +56,9 @@ namespace SharedPluginFeatures
 
         #region Properties
 
+        /// <summary>
+        /// Name of the profile which is used to allow or deny an Ip address within a specific route.
+        /// </summary>
         public string ProfileName { get; private set; }
 
         #endregion Properties

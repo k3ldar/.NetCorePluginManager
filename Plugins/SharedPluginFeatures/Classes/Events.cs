@@ -36,6 +36,10 @@ namespace SharedPluginFeatures
     {
         #region Constructor
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="ipAddress">The Ip address being used by the connection.</param>
         public ConnectionArgs(in string ipAddress)
         {
             IPAddress = ipAddress;
@@ -56,8 +60,8 @@ namespace SharedPluginFeatures
     /// <summary>
     /// Delegate for connection add
     /// </summary>
-    /// <param name="sender">object sender</param>
-    /// <param name="e">arguments</param>
+    /// <param name="sender">The class that raised the event.</param>
+    /// <param name="e">Event parameters.</param>
     public delegate void DefenderConnectionAddEventHandler(object sender, ConnectionArgs e);
 
     /// <summary>
@@ -67,6 +71,13 @@ namespace SharedPluginFeatures
     {
         #region Constructor
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="ipAddress">Ip Address being reported on.</param>
+        /// <param name="hits">Average hits per minute.</param>
+        /// <param name="requests">Total number of reuests.</param>
+        /// <param name="duration">Total duration the Ip address remained active.</param>
         public ConnectionRemoveArgs(in string ipAddress, in double hits, in ulong requests, in TimeSpan duration)
             : base (ipAddress)
         {
@@ -79,10 +90,22 @@ namespace SharedPluginFeatures
 
         #region Properties
 
+        /// <summary>
+        /// Average hits per minute.
+        /// </summary>
+        /// <value>double</value>
         public double Hits { get; private set; }
 
+        /// <summary>
+        /// Total number of reuests.
+        /// </summary>
+        /// <value>ulong</value>
         public ulong Requests { get; private set; }
 
+        /// <summary>
+        /// Total duration the Ip address remained active.
+        /// </summary>
+        /// <value>TimeSpan</value>
         public TimeSpan Duration { get; private set; }
 
         #endregion Properties
@@ -91,15 +114,24 @@ namespace SharedPluginFeatures
     /// <summary>
     /// Delegate for connection remove
     /// </summary>
-    /// <param name="sender">object sender</param>
-    /// <param name="e">arguments</param>
+    /// <param name="sender">The class that raised the event.</param>
+    /// <param name="e">Event parameters.</param>
     public delegate void DefenderConnectionRemoveEventHandler(object sender, ConnectionRemoveArgs e);
 
-
+    /// <summary>
+    /// Arguments used in DefenderRequestBan event in order to notify that an Ip Address should be banned.
+    /// </summary>
     public sealed class RequestBanArgs : ConnectionRemoveArgs
     {
         #region Constructor
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="ipAddress">Ip address being reported on.</param>
+        /// <param name="hits">Average requests per minute.</param>
+        /// <param name="requests">Total number of requests</param>
+        /// <param name="duration">Total duration the Ip address remained active.</param>
         public RequestBanArgs(in string ipAddress, in double hits, in ulong requests, in TimeSpan duration)
             : base (ipAddress, hits, requests, duration)
         {
@@ -110,6 +142,10 @@ namespace SharedPluginFeatures
 
         #region Properties
 
+        /// <summary>
+        /// Determines whether the ip address should be black listed or note.
+        /// </summary>
+        /// <value>bool</value>
         public bool AddToBlackList { get; set; }
 
         #endregion Properties
@@ -118,14 +154,23 @@ namespace SharedPluginFeatures
     /// <summary>
     /// Delegate for log audit failure events
     /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
+    /// <param name="sender">The class that raised the event.</param>
+    /// <param name="e">Event parameters.</param>
     public delegate void DefenderRequestBan(object sender, RequestBanArgs e);
 
+    /// <summary>
+    /// Arguments used to report a connection.
+    /// </summary>
     public sealed class ConnectionReportArgs : ConnectionArgs
     {
         #region Constructors
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="ipAddress">Ip address.</param>
+        /// <param name="queryString">Query or Form values used when validating the request.</param>
+        /// <param name="validation">Result of validation.</param>
         public ConnectionReportArgs(in string ipAddress, in string queryString, in ValidateRequestResult validation)
             : base (ipAddress)
         {
@@ -137,12 +182,23 @@ namespace SharedPluginFeatures
 
         #region Properties
 
+        /// <summary>
+        /// Query and form data associated with the event.
+        /// </summary>
         public string QueryString { get; private set; }
 
+        /// <summary>
+        /// Result determined when validating a request.
+        /// </summary>
         public ValidateRequestResult Result { get; private set; }
 
         #endregion Properties
     }
 
+    /// <summary>
+    /// Delegate used for events when the Ip address is being reported upon.
+    /// </summary>
+    /// <param name="sender">The class that raised the event.</param>
+    /// <param name="e">Event parameters.</param>
     public delegate void DefenderReportConnection(object sender, ConnectionReportArgs e);
 }

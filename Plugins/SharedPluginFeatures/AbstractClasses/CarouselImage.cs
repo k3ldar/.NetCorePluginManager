@@ -27,7 +27,7 @@
 namespace SharedPluginFeatures
 {
     /// <summary>
-    /// Carousel Image
+    /// Carousel Image, abstract class that plugin modules can implement to carousel images.
     /// </summary>
     public abstract class CarouselImage
     {

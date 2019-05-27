@@ -30,12 +30,31 @@ using static SharedPluginFeatures.Enums;
 
 namespace SharedPluginFeatures
 {
+    /// <summary>
+    /// Generic interface provided where plugin modules and all other parts of the system can add data to a log file.
+    /// </summary>
     public interface ILogger
     {
+        /// <summary>
+        /// Adds data to the log file.
+        /// </summary>
+        /// <param name="logLevel">LogLevel enum indicating the type of log entry</param>
+        /// <param name="data">Data to be logged.</param>
         void AddToLog(in LogLevel logLevel, in string data);
 
+        /// <summary>
+        /// Logs an exception with the log file and also creates an additional exception log entry detailing the exception, call stack etc.
+        /// </summary>
+        /// <param name="logLevel">LogLevel enum indicating the type of log entry</param>
+        /// <param name="exception">Exception that was raised.</param>
         void AddToLog(in LogLevel logLevel, in Exception exception);
 
+        /// <summary>
+        /// Logs an exception with the log file and also creates an additional exception log entry detailing the exception, call stack etc.
+        /// </summary>
+        /// <param name="logLevel">LogLevel enum indicating the type of log entry</param>
+        /// <param name="exception"></param>
+        /// <param name="data">Additional data to be logged with the exception.</param>
         void AddToLog(in LogLevel logLevel, in Exception exception, string data);
     }
 }

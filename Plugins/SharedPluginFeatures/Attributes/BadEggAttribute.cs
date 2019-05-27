@@ -28,7 +28,7 @@ using System;
 namespace SharedPluginFeatures
 {
     /// <summary>
-    /// BadEgg attribute, 
+    /// BadEgg attribute, see BadEgg.Plugin for further information on how this attribute is used.
     /// </summary>
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
     public sealed class BadEggAttribute : Attribute
@@ -62,13 +62,13 @@ namespace SharedPluginFeatures
         /// <summary>
         /// Indicates that query field values should be validated for this route.
         /// </summary>
-        /// <value>bool</value>
+        /// <value>bool.  If true then all query fields will be validated for the route.</value>
         public bool ValidateQueryFields { get; private set; }
 
         /// <summary>
         /// Indicates that form field values should be validated.
         /// </summary>
-        /// <value>bool</value>
+        /// <value>bool.  If true then all form fields will be validated for the route.</value>
         public bool ValidateFormFields { get; private set; }
 
         #endregion Properties

@@ -29,7 +29,7 @@
 namespace SharedPluginFeatures
 {
     /// <summary>
-    /// Constant values shared between all plugin modules
+    /// Constant values shared between all plugin modules and the AspNetCore.PluginManager
     /// </summary>
     public sealed class Constants
     {

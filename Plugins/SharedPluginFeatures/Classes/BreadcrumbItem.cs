@@ -27,10 +27,19 @@ using System;
 
 namespace SharedPluginFeatures
 {
+    /// <summary>
+    /// The breadcrumb item class is used extensively by the Breadcrumb.Plugin module to depict a breadcrumb item.
+    /// </summary>
     public class BreadcrumbItem
     {
         #region Constructors
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="name">Name of breadcrumb item.</param>
+        /// <param name="route">Route to which the breadcrumb item is linked.</param>
+        /// <param name="hasParameters">Indicates whether the route has parameters or not.</param>
         public BreadcrumbItem(in string name, in string route, in bool hasParameters)
         {
             if (String.IsNullOrEmpty(name))
@@ -48,10 +57,22 @@ namespace SharedPluginFeatures
 
         #region Properties
 
+        /// <summary>
+        /// Name of breadcrumb item.
+        /// </summary>
+        /// <value>string</value>
         public string Name { get; private set; }
 
+        /// <summary>
+        ///  Route to which the breadcrumb item is linked.
+        /// </summary>
+        /// <value>string</value>
         public string Route { get; private set; }
 
+        /// <summary>
+        /// Indicates whether the route has parameters or not.
+        /// </summary>
+        /// <value>bool</value>
         public bool HasParameters { get; private set; }
 
         #endregion Properties
