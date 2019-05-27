@@ -27,6 +27,12 @@ using System.Collections.Generic;
 
 namespace SharedPluginFeatures
 {
+    /// <summary>
+    /// This interface is used to create instances of a class that can register themselves with INotificationService
+    /// in order to receive Notifications for Inter Plugin Event Notification.
+    /// 
+    /// An instance of this class will only receive notifications for events to which they register to.
+    /// </summary>
     public interface INotificationListener
     {
         /// <summary>

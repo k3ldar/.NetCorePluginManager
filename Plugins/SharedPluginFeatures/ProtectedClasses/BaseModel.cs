@@ -30,6 +30,9 @@ using System.Threading;
 
 namespace SharedPluginFeatures
 {
+    /// <summary>
+    /// Base model value containing data that can be displayed on every page.
+    /// </summary>
     public class BaseModel
     {
         #region Private Members
@@ -40,11 +43,20 @@ namespace SharedPluginFeatures
 
         #region Constructors
 
+        /// <summary>
+        /// Default constructor
+        /// </summary>
         public BaseModel()
         {
 
         }
 
+        /// <summary>
+        /// Constructor allowing developer to pass in a list of current BreadcrumbItem classes for
+        /// the current request along with a ShoppingCartSummary instance.
+        /// </summary>
+        /// <param name="breadcrumbs">List&lt;BreadCrumbItem&gt; list of breadcrumbs for the current route.</param>
+        /// <param name="cartSummary">ShoppingCartSummary instance with shopping cart details.</param>
         public BaseModel(in List<BreadcrumbItem> breadcrumbs, in ShoppingCartSummary cartSummary)
         {
             CartSummary = cartSummary ?? throw new ArgumentNullException(nameof(cartSummary));
@@ -55,6 +67,10 @@ namespace SharedPluginFeatures
 
         #region Properties
 
+        /// <summary>
+        /// Set the list of BreadcrumbItem.
+        /// </summary>
+        /// <value>List&lt;BreadCrumbItem&gt;</value>
         public List<BreadcrumbItem> Breadcrumbs
         {
             get
@@ -68,31 +84,56 @@ namespace SharedPluginFeatures
             }
         }
 
+        /// <summary>
+        /// ShoppingCartSummary instance.
+        /// </summary>
+        /// <value>ShoppingCartSummary</value>
         public ShoppingCartSummary CartSummary { get; set; }
 
         #endregion Properties
 
         #region Public Static Methods
 
-        public static string RouteFriendlyName(in string name)
+        /// <summary>
+        /// Converts a string to a route friendly name, removing all but alpha numeric charactes.
+        /// </summary>
+        /// <param name="text">Route text to be converted.</param>
+        /// <returns>string</returns>
+        public static string RouteFriendlyName(in string text)
         {
-            return HtmlHelper.RouteFriendlyName(name);
+            return HtmlHelper.RouteFriendlyName(text);
         }
 
         #endregion Public Static Methods
 
         #region Public Methods
 
+        /// <summary>
+        /// Converts a string to a route friendly name, removing all but alpha numeric charactes.
+        /// </summary>
+        /// <param name="text">Route text to be converted.</param>
+        /// <returns>string</returns>
         public string RouteText(in string text)
         {
             return RouteFriendlyName(text);
         }
 
+        /// <summary>
+        /// Retrieve a list of BreadcrumbItem object items converted to a ul/li list for display within a page.
+        /// 
+        /// The last item in the list will not have a link generated.
+        /// </summary>
+        /// <returns>string</returns>
         public string BreadcrumbData()
         {
             return BreadcrumbData(false);
         }
 
+        /// <summary>
+        ///Retrieve a list of BreadcrumbItem object items converted to a ul/li list for display within a page.
+        /// </summary>
+        /// <param name="lastItemLinked">bool.  If true the last item will have an a href link, otherwise it wont.</param>
+        /// <returns>string</returns>
         public string BreadcrumbData(in bool lastItemLinked)
         {
             StringBuilder Result = new StringBuilder("<ul>", 4000);

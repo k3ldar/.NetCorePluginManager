@@ -39,7 +39,7 @@ namespace SharedPluginFeatures
         CacheManager GetShortCache();
        
         /// <summary>
-        /// User defined cache limit
+        /// User defined cache limit defaulted to 2 hours.
         /// </summary>
         /// <returns></returns>
         CacheManager GetCache();
