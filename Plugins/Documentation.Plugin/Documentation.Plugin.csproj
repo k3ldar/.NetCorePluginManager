@@ -106,7 +106,6 @@
     <EmbeddedResource Include="Views\Docs\_DocumentDataType.cshtml" />
     <EmbeddedResource Include="wwwroot\css\documentation.css" />
     <EmbeddedResource Include="wwwroot\css\Login.css" />
-    <EmbeddedResource Include="wwwroot\images\docs\module.png" />
     <EmbeddedResource Include="wwwroot\js\Login.js" />
   </ItemGroup>
 
@@ -227,6 +226,7 @@
 
   <ItemGroup>
     <Folder Include="Classes\SystemAdmin\" />
+    <Folder Include="wwwroot\images\" />
   </ItemGroup>
 
 </Project>
