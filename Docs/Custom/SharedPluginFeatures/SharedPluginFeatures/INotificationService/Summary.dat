@@ -1,1 +1,0 @@
-This interface is designed to allow callers to register and unregister INotificationListener objects and raise events throughout the system.

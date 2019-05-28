@@ -1,8 +1,0 @@
-This interface should be implemented by the host application and provides a conduit for 
-            notifications events for Ip addresses being monitored within BadEgg.Plugin module.
-            
-            This interface, when implemented can be used by applications to evaluate how Ip
-            addresses are behaving whilst navigating their website.
-            
-            See BadEgg.Plugin and BadEggAttribute for information on how to validate routes 
-            within an application.

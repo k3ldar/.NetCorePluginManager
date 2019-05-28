@@ -1,2 +1,0 @@
-This interface should be implemented by all plugin modules which need to specify which 
-            internal version of the AspNetCore.PluginManager is used.  The default is one (1).

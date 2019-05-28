@@ -1,5 +1,0 @@
-An instance of this interface should be managed by the host application and is used
-            by the SeoPlugin module to retrieve Seo data that is placed into the request pipeline
-            which can be used by an individual route to provide custom Seo data.
-            
-            This allows applications to provide a single source for Seo data for the entire application.

@@ -1,3 +1,0 @@
-This interface is implemented by the Localization.Plugin module and can be used to 
-            determine which cultures are currently supported.  An instance of this interface is
-            available via the DI container.

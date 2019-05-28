@@ -1,5 +1,0 @@
-Maximum average connection per minute, if this value is exceeded then http response from TooManyRequestResponseCode will be returned
-            
-            Default value: 100
-            Minimum value: 5
-            Maximum value: uint.MaxValue

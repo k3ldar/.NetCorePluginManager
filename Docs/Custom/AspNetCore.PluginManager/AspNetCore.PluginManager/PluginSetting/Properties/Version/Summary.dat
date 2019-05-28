@@ -1,3 +1,0 @@
-Specifies the specific version number of the plugin to be loaded.
-            
-            Use this value should multiple copies of the plugin module be within PluginSearchPath

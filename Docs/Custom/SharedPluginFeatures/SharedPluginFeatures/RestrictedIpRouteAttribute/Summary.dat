@@ -1,4 +1,0 @@
-This attribute is used in conjunction with the RestricIp.Plugin module to restrict specific rotues
-            to specific Ip Addresses within the system.
-            
-            See RestrictIp.Plugin.RestrictIp.Plugin for further details on configuring Ip restrictions by routes.

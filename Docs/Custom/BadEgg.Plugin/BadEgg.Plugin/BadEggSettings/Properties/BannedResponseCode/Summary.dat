@@ -1,5 +1,0 @@
-Http response code provided should the connection be banned.
-            
-            Default: 400
-            
-            Must be a valid http client error response (in the range of 400)

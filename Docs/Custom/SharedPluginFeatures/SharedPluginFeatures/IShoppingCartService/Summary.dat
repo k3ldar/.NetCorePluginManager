@@ -1,2 +1,0 @@
-This interface should be implemented by the host application or a type of middleware or
-            business object layer and should be available to the ShoppingCart.Plugin via DI.

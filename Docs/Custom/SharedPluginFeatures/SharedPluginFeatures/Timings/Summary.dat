@@ -1,3 +1,0 @@
-Class used to contain timing data for requests.
-            
-            This stores the number of requests and total time in milleseconds serving the requests.

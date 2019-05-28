@@ -1,1 +1,0 @@
-Prevents PluginManager from creating an IRouteDataService instance that can be obtained from IoC

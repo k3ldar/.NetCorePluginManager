@@ -1,3 +1,0 @@
-Plugin modules which need to configure the IMvcBuilder should implement an instance
-            of this interface.  When the AspNetCore.PluginManager loads it will call each instance
-            as part of the startup configuration.

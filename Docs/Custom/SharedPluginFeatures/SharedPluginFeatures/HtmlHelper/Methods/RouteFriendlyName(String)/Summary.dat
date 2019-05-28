@@ -1,1 +1,0 @@
-Returns a route friendly name, one that will not require html encoding where spaces are separated by a dash and only alpha numeric characters are returned.

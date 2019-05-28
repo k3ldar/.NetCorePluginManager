@@ -1,1 +1,0 @@
-Exception message used when registering a INotificationListener with the INotificationService message notifications, when the listener does not provide any event names.

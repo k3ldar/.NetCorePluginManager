@@ -1,5 +1,0 @@
-Abstract class that plugin modules can implement in order to add menu items the the SystemAdmin.Plugin module.
-            
-            The SystemAdmin.Plugin module is used to display statistical information in many forms as provided by AspNetCore.PluginManager and any plugins which wish to provide instant statistics for site owners.
-            
-            Typical useage is to display timing statistics by implementing Timings class, through to showing custom data or even data shown within a map, as UserSessionMiddleware.Plugin does.

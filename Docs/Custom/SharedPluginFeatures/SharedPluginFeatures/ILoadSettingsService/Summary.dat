@@ -1,7 +1,0 @@
-This interface is used when initially loading the AspNetCore.PluginManager to load 
-            settings it requires.  A custom implementation can be supplied during initialisation
-            of the Plugin Manager which can enable the settings to be loaded from a custom data
-            source.
-            
-            This interface will be used to load PluginSetting and PluginSettings but may be
-            extended in future versions to include other initialisation data.

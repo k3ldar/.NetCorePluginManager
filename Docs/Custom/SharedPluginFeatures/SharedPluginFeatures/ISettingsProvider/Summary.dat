@@ -1,7 +1,0 @@
-This interface can be used by all plugin modules to load setting and configuration data.
-            
-            The default implementation which is loaded if no other plugin registers an instance uses 
-            appsettings.json to store configuration data to be used by Plugins.
-            
-            An instance of this interface is available via the DI container, any custom implementations
-            must be configured to be used in the DI contaner when being initialised.

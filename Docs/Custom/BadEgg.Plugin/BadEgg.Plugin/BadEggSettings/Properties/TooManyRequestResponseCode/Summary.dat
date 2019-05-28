@@ -1,5 +1,0 @@
-Http response provided should the connection make too many requests.
-            
-            Default Value: 429
-            
-            Must be a valid http client error response (in the range of 400)
