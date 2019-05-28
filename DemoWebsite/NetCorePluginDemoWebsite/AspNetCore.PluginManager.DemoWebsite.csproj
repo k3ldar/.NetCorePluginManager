@@ -89,6 +89,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Views\Docs\" />
     <Folder Include="Views\Error\" />
     <Folder Include="Views\Helpdesk\" />
     <Folder Include="Views\Login\" />
