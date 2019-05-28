@@ -1,0 +1,274 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Middleware</name>
+    </assembly>
+    <members>
+        <member name="P:Middleware.Accounts.Invoices.Invoice.Discount">
+            <summary>
+            Total discount amount
+            </summary>
+        </member>
+        <member name="P:Middleware.Accounts.Invoices.Invoice.SubTotal">
+            <summary>
+            Total without tax
+            </summary>
+        </member>
+        <member name="P:Middleware.Accounts.Invoices.Invoice.Tax">
+            <summary>
+            Total Tax amount
+            </summary>
+        </member>
+        <member name="P:Middleware.Accounts.Invoices.Invoice.Total">
+            <summary>
+            Total cost + Tax
+            </summary>
+        </member>
+        <member name="P:Middleware.Accounts.Invoices.InvoiceItem.Cost">
+            <summary>
+            Total + Tax
+            </summary>
+        </member>
+        <member name="P:Middleware.Accounts.Invoices.InvoiceItem.TotalTax">
+            <summary>
+            Total Tax amount
+            </summary>
+        </member>
+        <member name="P:Middleware.Accounts.Orders.Order.Discount">
+            <summary>
+            Total discount amount
+            </summary>
+        </member>
+        <member name="P:Middleware.Accounts.Orders.Order.SubTotal">
+            <summary>
+            Total without tax
+            </summary>
+        </member>
+        <member name="P:Middleware.Accounts.Orders.Order.Tax">
+            <summary>
+            Total Tax amount
+            </summary>
+        </member>
+        <member name="P:Middleware.Accounts.Orders.Order.Total">
+            <summary>
+            Total cost + Tax
+            </summary>
+        </member>
+        <member name="P:Middleware.Accounts.Orders.OrderItem.Cost">
+            <summary>
+            Total + Tax
+            </summary>
+        </member>
+        <member name="P:Middleware.Accounts.Orders.OrderItem.TotalTax">
+            <summary>
+            Total Tax amount
+            </summary>
+        </member>
+        <member name="T:Middleware.LoginResult">
+            <summary>
+            Login results
+            </summary>
+        </member>
+        <member name="T:Middleware.AddressOption">
+            <summary>
+            Address Option
+            </summary>
+        </member>
+        <member name="F:Middleware.AddressOption.Delivery">
+            <summary>
+            Delivery Address Option
+            </summary>
+        </member>
+        <member name="F:Middleware.AddressOption.Billing">
+            <summary>
+            Billing Address Option
+            </summary>
+        </member>
+        <member name="T:Middleware.AddressOptions">
+            <summary>
+            Address options
+            </summary>
+        </member>
+        <member name="F:Middleware.AddressOptions.BusinessNameShow">
+            <summary>
+            Determines wether to show the business name or not
+            </summary>
+        </member>
+        <member name="F:Middleware.AddressOptions.BusinessNameMandatory">
+            <summary>
+            Determines wether Business Name is mandatory
+            </summary>
+        </member>
+        <member name="F:Middleware.AddressOptions.AddressLine1Show">
+            <summary>
+            Determines wether AddressLine 1 is shown or not
+            </summary>
+        </member>
+        <member name="F:Middleware.AddressOptions.AddressLine1Mandatory">
+            <summary>
+            Determines wether AddressLine1 is mandatory or not
+            </summary>
+        </member>
+        <member name="F:Middleware.AddressOptions.AddressLine2Show">
+            <summary>
+            Determines wether AddressLine 2 is shown or not
+            </summary>
+        </member>
+        <member name="F:Middleware.AddressOptions.AddressLine2Mandatory">
+            <summary>
+            Determines wether AddressLine2 is mandatory or not
+            </summary>
+        </member>
+        <member name="F:Middleware.AddressOptions.AddressLine3Show">
+            <summary>
+            Determines wether AddressLine 3 is shown or not
+            </summary>
+        </member>
+        <member name="F:Middleware.AddressOptions.AddressLine3Mandatory">
+            <summary>
+            Determines wether AddressLine1 is mandatory or not
+            </summary>
+        </member>
+        <member name="F:Middleware.AddressOptions.CityShow">
+            <summary>
+            Determines wether to show city data or not
+            </summary>
+        </member>
+        <member name="F:Middleware.AddressOptions.CityMandatory">
+            <summary>
+            Determines wether City is mandatory or not
+            </summary>
+        </member>
+        <member name="F:Middleware.AddressOptions.CountyShow">
+            <summary>
+            Determines wether to show county or not
+            </summary>
+        </member>
+        <member name="F:Middleware.AddressOptions.CountyMandatory">
+            <summary>
+            Determines wether County is mandatory or not
+            </summary>
+        </member>
+        <member name="F:Middleware.AddressOptions.PostCodeShow">
+            <summary>
+            Determines wether to show the postcode or not
+            </summary>
+        </member>
+        <member name="F:Middleware.AddressOptions.PostCodeMandatory">
+            <summary>
+            Determines wether post code is mandatory or not
+            </summary>
+        </member>
+        <member name="F:Middleware.AddressOptions.TelephoneShow">
+            <summary>
+            Determines wether telephone number is shown
+            </summary>
+        </member>
+        <member name="F:Middleware.AddressOptions.TelephoneMandatory">
+            <summary>
+            Determines wether telephone is a mandatory field
+            </summary>
+        </member>
+        <member name="T:Middleware.MarketingOptions">
+            <summary>
+            Marketing Optons
+            </summary>
+        </member>
+        <member name="T:Middleware.ProcessStatus">
+            <summary>
+            Invoice and Order Process Status
+            </summary>
+        </member>
+        <member name="T:Middleware.PaymentStatus">
+            <summary>
+            Order / Invoice Payment Status
+            </summary>
+        </member>
+        <member name="T:Middleware.ItemStatus">
+            <summary>
+            Invoice / Order Item Status
+            </summary>
+        </member>
+        <member name="M:Middleware.IDownloadProvider.DownloadCategoriesGet(System.Int64@)">
+            <summary>
+            User download file Categories
+            </summary>
+            <param name="userId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Middleware.IDownloadProvider.DownloadCategoriesGet">
+            <summary>
+            Publicy downloadable file Categories
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Middleware.IDownloadProvider.GetDownloadItem(System.Int32@)">
+            <summary>
+            Retrieve File
+            </summary>
+            <param name="fileId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Middleware.IDownloadProvider.GetDownloadItem(System.Int64@,System.Int32@)">
+            <summary>
+            Retrieve File
+            </summary>
+            <param name="fileId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Middleware.IDownloadProvider.ItemDownloaded(System.Int64@,System.Int32@)">
+            <summary>
+            File download by a user
+            </summary>
+            <param name="userId"></param>
+            <param name="fileId"></param>
+        </member>
+        <member name="M:Middleware.IDownloadProvider.ItemDownloaded(System.Int32@)">
+            <summary>
+            File download by anyone
+            </summary>
+            <param name="fileId"></param>
+        </member>
+        <member name="M:Middleware.IPaymentProvider.GetCurrencies">
+            <summary>
+            Returns the supported currencies for the payment provider, seperated by ;
+            
+            i.e.  GPB;USD  or GBP  or GBP;USD;EUR
+            </summary>
+            <returns>i.e.  GPB;USD  or GBP  or GBP;USD;EUR</returns>
+        </member>
+        <member name="M:Middleware.IPaymentProvider.ExecuteTest(Shared.Classes.NVPCodec@)">
+            <summary>
+            Test Execute Method for debugging
+            </summary>
+            <returns>True if test passed, otherwise false</returns>
+        </member>
+        <member name="M:Middleware.IPaymentProvider.Execute(Microsoft.AspNetCore.Http.HttpRequest@,Middleware.Accounts.Orders.Order@,Middleware.PaymentStatus@,Shared.Classes.UserSession@,System.String@)">
+            <summary>
+            Execute method, completes the payment using the interface specified
+            </summary>
+            <param name="order">Order being processed for payment</param>
+            <param name="paymentStatus"></param>
+            <param name="userSession"></param>
+            <param name="context"></param>
+        </member>
+        <member name="M:Middleware.IPaymentProvider.Name">
+            <summary>
+            Returns the name of the payment provider
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Middleware.IPaymentProvider.Enabled">
+            <summary>
+            Determines wether the payment provider is active or not
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Middleware.IPaymentProvider.UniqueId">
+            <summary>
+            Unique Id for payment provider
+            </summary>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

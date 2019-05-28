@@ -6,3 +6,14 @@ SharedLib.xml
 Inter Plugin Event Notification.xml
 Localization Within Net Core.xml
 UserSessionMiddleware.Plugin.xml
+Breadcrumb.Plugin.xml
+CacheControl.Plugin.xml
+GeoIp.Plugin.xml
+Localization.Plugin.xml
+MemoryCache.Plugin.xml
+Middleware.xml
+RestrictIp.Plugin.xml
+SeoPlugin.xml
+SieraDeltaGeoIp.Plugin.xml
+Spider.Plugin.xml
+Languages.xml

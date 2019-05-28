@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>GeoIp.Plugin</name>
+    </assembly>
+    <members>
+        <member name="M:GeoIp.Plugin.IpStackSettings.GetIpAddressDetails(System.String@,System.String@,System.String@,System.String@,System.Decimal@,System.Decimal@,System.Int64@,System.Int64@,System.Int64@)">
+            <summary>
+            Method which obtains geo ip data from IpStack
+            </summary>
+            <param name="ipAddress"></param>
+            <param name="countryCode"></param>
+            <param name="region"></param>
+            <param name="cityName"></param>
+            <param name="latitude"></param>
+            <param name="longitude"></param>
+            <param name="ipUniqueID"></param>
+            <returns></returns>
+        </member>
+        <member name="T:GeoIp.Plugin.LoadWebNet77Data">
+            <summary>
+            Background thread used to load WebNet77 Geo Ip Data
+            </summary>
+        </member>
+    </members>
+</doc>

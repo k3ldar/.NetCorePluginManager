@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>SieraDeltaGeoIp.Plugin</name>
+    </assembly>
+    <members>
+        <member name="T:SieraDeltaGeoIp.Plugin.FirebirdDataProvider">
+            <summary>
+            Background thread used to load Geo Ip Data from Firebird Database
+            </summary>
+        </member>
+    </members>
+</doc>

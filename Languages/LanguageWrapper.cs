@@ -28,6 +28,9 @@ using System.IO;
 
 namespace Languages
 {
+    /// <summary>
+    /// Static class which returns a list of all languages that are installed within the language pack.
+    /// </summary>
     public static class LanguageWrapper
     {
         /// <summary>
