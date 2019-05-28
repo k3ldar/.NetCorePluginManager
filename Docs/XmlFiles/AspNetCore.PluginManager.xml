@@ -22,10 +22,153 @@
             Plugin Manager configuration class.  Used when Initialising the Plugin Manager.
             </summary>
         </member>
+        <member name="M:AspNetCore.PluginManager.PluginManagerConfiguration.#ctor">
+            <summary>
+            Default constructor, uses all default settings.
+            </summary>
+        </member>
+        <member name="M:AspNetCore.PluginManager.PluginManagerConfiguration.#ctor(SharedPluginFeatures.ILogger@)">
+            <summary>
+            Constructor allowing host application to supply a custom ILogger implementation.
+            </summary>
+            <param name="logger">Valid instance of ILogger.</param>
+        </member>
+        <member name="M:AspNetCore.PluginManager.PluginManagerConfiguration.#ctor(SharedPluginFeatures.ILoadSettingsService@)">
+            <summary>
+            Constructor allowing host application to supply a custom ILoadSettingsService implementation
+            that can be used to obtain settings for AspNetCore.PluginManager from any data store.
+            </summary>
+            <param name="loadSettingsService">Valid instance of ILoadSettingsService.</param>
+        </member>
+        <member name="M:AspNetCore.PluginManager.PluginManagerConfiguration.#ctor(SharedPluginFeatures.ILogger@,SharedPluginFeatures.ILoadSettingsService@)">
+            <summary>
+            Constructor allowing host application to supply a custom ILogger and ILoadSettingsService
+            implementation.
+            </summary>
+            <param name="logger">Valid instance of ILogger</param>
+            <param name="loadSettingsService">Valid instance of ILoadSettingsService.</param>
+        </member>
+        <member name="P:AspNetCore.PluginManager.PluginManagerConfiguration.Logger">
+            <summary>
+            ILogger instance used by the AspNetCore.PluginManager and plugin modules to 
+            log information to a default log storage.
+            
+            This can be within a database or file based.  The standard ILogger implementation 
+            saves data to a log file.
+            </summary>
+            <value>ILogger</value>
+        </member>
+        <member name="P:AspNetCore.PluginManager.PluginManagerConfiguration.LoadSettingsService">
+            <summary>
+            ILoadSettingsService instance is used by the AspNetCore.PluginManager to load
+            settings and configuration data for plugins that it will load.
+            </summary>
+            <value>ILoadSettingsService</value>
+        </member>
+        <member name="P:AspNetCore.PluginManager.PluginManagerConfiguration.CurrentPath">
+            <summary>
+            Current root path of the application.
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:AspNetCore.PluginManager.PluginManagerConfiguration.ConfigFileName">
+            <summary>
+            Configuration file name that will be used by the default implementation of 
+            ILoadSettingsService to obtain data.
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:AspNetCore.PluginManager.PluginManagerConfiguration.ConfigurationFile">
+            <summary>
+            Configuration file name that will be used by the default implementation of 
+            ILoadSettingsService to obtain data.
+            </summary>
+            <value>string</value>
+        </member>
         <member name="T:AspNetCore.PluginManager.Classes.SystemAdmin.LoadedModulesMenu">
             <summary>
-            SystemAdminSubMenu instance used to show all loaded modules, and their version within SystemAdmin.Plugin module.
+            Returns a list of all assemblies currently loaded by the application and can 
+            be viewed within SystemAdmin.Plugin.  
+            
+            This class descends from SystemAdminSubMenu.
             </summary>
+        </member>
+        <member name="M:AspNetCore.PluginManager.Classes.SystemAdmin.LoadedModulesMenu.Data">
+            <summary>
+            Returns delimited data on all loaded assemblies and their version.
+            </summary>
+            <returns>string</returns>
+        </member>
+        <member name="T:AspNetCore.PluginManager.Classes.SystemAdmin.LoadedPluginsMenu">
+            <summary>
+            Returns a list of all plugin modules that are loaded and can be viewed within 
+            SystemAdmin.Plugin.  
+            
+            This class descends from SystemAdminSubMenu.
+            </summary>
+        </member>
+        <member name="M:AspNetCore.PluginManager.Classes.SystemAdmin.LoadedPluginsMenu.Data">
+            <summary>
+            Returns delimited data on all plugin modules that have been loaded by AspNetCore.PluginManager.
+            </summary>
+            <returns>string</returns>
+        </member>
+        <member name="T:AspNetCore.PluginManager.Classes.SystemAdmin.ThreadMenu">
+            <summary>
+            Returns a list of all threads and their current status that can be viewed within 
+            SystemAdmin.Plugin.  
+            
+            This class descends from SystemAdminSubMenu.
+            </summary>
+        </member>
+        <member name="M:AspNetCore.PluginManager.Classes.SystemAdmin.ThreadMenu.Data">
+            <summary>
+            Returns delimited data on current active threads and their current status
+            </summary>
+            <returns>string</returns>
+        </member>
+        <member name="T:AspNetCore.PluginManager.Classes.LoggerStatistics">
+            <summary>
+            Returns a list of the last 100 log entries that can be viewed within SystemAdmin.Plugin.  
+            
+            This class descends from SystemAdminSubMenu and ILogger
+            </summary>
+        </member>
+        <member name="M:AspNetCore.PluginManager.Classes.LoggerStatistics.Data">
+            <summary>
+            Returns delimited data on current log data, this will only store the last 100 entries.
+            </summary>
+            <returns>string</returns>
+        </member>
+        <member name="T:AspNetCore.PluginManager.UnitTestHelper">
+            <summary>
+            This class is only available for Debug builds and is designed to retrieve classes
+            that are normally only available through DI
+            </summary>
+        </member>
+        <member name="M:AspNetCore.PluginManager.UnitTestHelper.GetPluginServices">
+            <summary>
+            Returns an instance of IPluginHelperService for unit tests
+            </summary>
+            <returns>IPluginHelperService</returns>
+        </member>
+        <member name="M:AspNetCore.PluginManager.UnitTestHelper.GetPluginClassesService">
+            <summary>
+            Returns an instance of IPluginClassesService for unit tests
+            </summary>
+            <returns>IPluginClassesService</returns>
+        </member>
+        <member name="M:AspNetCore.PluginManager.UnitTestHelper.GetPluginTypesService">
+            <summary>
+            Returns an instance of IPluginTypesService for unit tests
+            </summary>
+            <returns>IPluginTypesService</returns>
+        </member>
+        <member name="M:AspNetCore.PluginManager.UnitTestHelper.GetNotificationService">
+            <summary>
+            Returns an instance of INotificationService for unit tests
+            </summary>
+            <returns>INotificationService</returns>
         </member>
         <member name="T:AspNetCore.PluginManager.UsePluginManagerExtender">
             <summary>

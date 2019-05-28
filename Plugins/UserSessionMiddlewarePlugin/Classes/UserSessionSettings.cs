@@ -29,22 +29,49 @@ using SharedPluginFeatures;
 
 namespace UserSessionMiddleware.Plugin
 {
+    /// <summary>
+    /// Contains settings that are required by the UserSessionMiddleware.Plugin module.
+    /// </summary>
     public sealed class UserSessionSettings
     {
+        /// <summary>
+        /// Contains a delimited list of static file extensions
+        /// </summary>
+        /// <value>string.  SettingDefault(Constants.StaticFileExtensions)</value>
         [SettingDefault(Constants.StaticFileExtensions)]
         public string StaticFileExtensions { get; set; }
 
+        /// <summary>
+        /// Name of cookie used to store user session data.
+        /// </summary>
+        /// <value>SettingDefault(Constants.UserSession)</value>
         [SettingDefault(Constants.UserSession)]
         public string CookieName { get; set; }
 
+        /// <summary>
+        /// Encryption key used for encrypting user session data that is stored within a cookie.
+        /// </summary>
+        /// <value>string</value>
         [SettingDefault("Dfklaosre;lnfsdl;jlfaeu;dkkfcaskxcd3jf")]
         [SettingString(false, 20, 60)]
         public string EncryptionKey { get; set; }
 
+        /// <summary>
+        /// Number of minutes the sessions is valid for.
+        /// 
+        /// Default: 30 minutes.
+        /// Minimuum: 15 minutes.
+        /// Maximum: 200 minutes.
+        /// </summary>
+        /// <value>uint</value>
         [SettingDefault(30u)]
         [SettingRange(15u, 200u)]
         public uint SessionTimeout { get; set; }
 
+        /// <summary>
+        /// Default culture used for the user session.
+        /// </summary>
+        /// <value>string</value>
         [SettingDefault("en-GB")]
         [SettingString(false, 2u, 5u)]
         public string DefaultCulture { get; set; }

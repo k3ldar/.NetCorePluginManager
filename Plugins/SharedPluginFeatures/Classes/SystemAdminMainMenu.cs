@@ -103,6 +103,11 @@ namespace SharedPluginFeatures
 
         #region IComparable Methods
 
+        /// <summary>
+        /// Compares SystemAdminMainMenu items to determine sort order.
+        /// </summary>
+        /// <param name="compareTo"></param>
+        /// <returns></returns>
         public int CompareTo(SystemAdminMainMenu compareTo)
         {
             if (compareTo == null)

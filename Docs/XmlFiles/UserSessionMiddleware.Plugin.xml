@@ -1,0 +1,219 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>UserSessionMiddleware.Plugin</name>
+    </assembly>
+    <members>
+        <member name="T:UserSessionMiddleware.Plugin.SessionHelper">
+            <summary>
+            The purpose of this static class is to provide a conduit to integrating with the user session
+            and obtaining customer user session data or geo ip data, if required
+            </summary>
+        </member>
+        <member name="T:UserSessionMiddleware.Plugin.Classes.SystemAdmin.CurrentUserLocationMenu">
+            <summary>
+            Returns a list of active user sessions, including longitude and latitude for
+            display on a map, this data can be viewed within SystemAdmin.Plugin.  
+            
+            This class descends from SystemAdminSubMenu.
+            </summary>
+        </member>
+        <member name="T:UserSessionMiddleware.Plugin.Classes.SystemAdmin.PageVisitMenu">
+            <summary>
+            Returns a list of active page views for the website by all active sessions and can 
+            be viewed within SystemAdmin.Plugin.  
+            
+            This class descends from SystemAdminSubMenu.
+            </summary>
+        </member>
+        <member name="T:UserSessionMiddleware.Plugin.Classes.SystemAdmin.SalesByCountry">
+            <summary>
+            Returns a list of all sales from the active user sessions and can 
+            be viewed within SystemAdmin.Plugin.  
+            
+            This class descends from SystemAdminSubMenu.
+            </summary>
+        </member>
+        <member name="T:UserSessionMiddleware.Plugin.Classes.SystemAdmin.UserDetailsMenu">
+            <summary>
+            Returns a list of detailed information of all active sessions currently 
+            active within the website and can be viewed within SystemAdmin.Plugin.  
+            
+            This class descends from SystemAdminSubMenu.
+            </summary>
+        </member>
+        <member name="T:UserSessionMiddleware.Plugin.Classes.SystemAdmin.UserSessionTimingsSubMenu">
+            <summary>
+            Returns Timings information for all time spent processing user session requests and can 
+            be viewed within SystemAdmin.Plugin.  
+            
+            This class descends from SystemAdminSubMenu.
+            </summary>
+        </member>
+        <member name="T:UserSessionMiddleware.Plugin.Classes.SystemAdmin.VisitsByCountry">
+            <summary>
+            Returns a list of visitor count, by country and whether it's a bot or not and can 
+            be viewed within SystemAdmin.Plugin.  
+            
+            This class descends from SystemAdminSubMenu.
+            </summary>
+        </member>
+        <member name="T:UserSessionMiddleware.Plugin.UserSessionCore">
+            <summary>
+            Descendant of UserSession that is used for Net Core Applications.
+            </summary>
+        </member>
+        <member name="M:UserSessionMiddleware.Plugin.UserSessionCore.#ctor">
+            <summary>
+            Constructor
+            </summary>
+        </member>
+        <member name="M:UserSessionMiddleware.Plugin.UserSessionCore.#ctor(System.Int64,System.DateTime,System.String,System.String,System.String,System.String,System.String,System.Boolean,System.Boolean,System.Boolean,Shared.Classes.ReferalType,System.Boolean,System.Boolean,System.String,System.String,System.Int64,System.Int32,System.Int32,System.String,System.Decimal)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="id"></param>
+            <param name="created">Date time class created</param>
+            <param name="sessionID">User Session Id</param>
+            <param name="userAgent">Browser user agent</param>
+            <param name="initialReferer">Initial referer</param>
+            <param name="ipAddress">Ip Address of user</param>
+            <param name="hostName">Host name</param>
+            <param name="isMobile">Determines whether the user should be shown a mobile or standard site.</param>
+            <param name="isBrowserMobile">Determines whether the user is on a mobile device.</param>
+            <param name="mobileRedirect">Redirect if on a mobal device.</param>
+            <param name="referralType">Referral Type</param>
+            <param name="bounced">Indicates the user bounced, i.e. only visited one page.</param>
+            <param name="isBot">Determines if the session is a bot</param>
+            <param name="mobileManufacturer">Not Used</param>
+            <param name="mobileModel">Not Used</param>
+            <param name="userID">Id of user if known.</param>
+            <param name="screenWidth">Not Used</param>
+            <param name="screenHeight">Not Used</param>
+            <param name="saleCurrency">The currency used for the current sale.</param>
+            <param name="saleAmount">Amount of sale for current user session.</param>
+        </member>
+        <member name="M:UserSessionMiddleware.Plugin.UserSessionCore.#ctor(Microsoft.AspNetCore.Http.HttpContext@,System.String@,System.Object@)">
+            <summary>
+            Constructor
+            
+            Allows passing of user defined object
+            </summary>
+            <param name="context">HTTP Context </param>
+            <param name="sessionId">User session Id</param>
+            <param name="tag">User defined object</param>
+        </member>
+        <member name="M:UserSessionMiddleware.Plugin.UserSessionCore.#ctor(Microsoft.AspNetCore.Http.HttpContext@,System.String@,System.String@,System.String@,System.Int64)">
+            <summary>
+            Constructor
+            
+            Allows passing of user name and email
+            </summary>
+            <param name="context">HttpContext</param>
+            <param name="sessionId">Current user session id</param>
+            <param name="userName">Current user's name</param>
+            <param name="userEmail">Current user's email address</param>
+            <param name="userID">Current user's unique id</param>
+        </member>
+        <member name="M:UserSessionMiddleware.Plugin.UserSessionCore.#ctor(Microsoft.AspNetCore.Http.HttpContext,System.String)">
+            <summary>
+            Constructor
+            
+            Standard constructor
+            </summary>
+            <param name="context">HttpContext</param>
+            <param name="sessionId">Current user session id</param>
+        </member>
+        <member name="T:UserSessionMiddleware.Plugin.UserSessionMiddleware">
+            <summary>
+            UserSession Middleware.
+            
+            This class is inserted into the request pipeline and manages all User Session data.
+            </summary>
+        </member>
+        <member name="T:UserSessionMiddleware.Plugin.UserSessionSettings">
+            <summary>
+            Contains settings that are required by the UserSessionMiddleware.Plugin module.
+            </summary>
+        </member>
+        <member name="P:UserSessionMiddleware.Plugin.UserSessionSettings.StaticFileExtensions">
+            <summary>
+            Contains a delimited list of static file extensions
+            </summary>
+            <value>string.  SettingDefault(Constants.StaticFileExtensions)</value>
+        </member>
+        <member name="P:UserSessionMiddleware.Plugin.UserSessionSettings.CookieName">
+            <summary>
+            Name of cookie used to store user session data.
+            </summary>
+            <value>SettingDefault(Constants.UserSession)</value>
+        </member>
+        <member name="P:UserSessionMiddleware.Plugin.UserSessionSettings.EncryptionKey">
+            <summary>
+            Encryption key used for encrypting user session data that is stored within a cookie.
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:UserSessionMiddleware.Plugin.UserSessionSettings.SessionTimeout">
+            <summary>
+            Number of minutes the sessions is valid for.
+            
+            Default: 30 minutes.
+            Minimuum: 15 minutes.
+            Maximum: 200 minutes.
+            </summary>
+            <value>uint</value>
+        </member>
+        <member name="P:UserSessionMiddleware.Plugin.UserSessionSettings.DefaultCulture">
+            <summary>
+            Default culture used for the user session.
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="T:UserSessionMiddleware.Plugin.Initialisation">
+            <summary>
+            Implements IPlugin which allows the UserSessionMiddleware.Plugin module to be
+            loaded as a plugin module
+            </summary>
+        </member>
+        <member name="M:UserSessionMiddleware.Plugin.Initialisation.Initialise(SharedPluginFeatures.ILogger)">
+            <summary>
+            Initialises the Plugin module
+            </summary>
+            <param name="logger">ILogger</param>
+        </member>
+        <member name="M:UserSessionMiddleware.Plugin.Initialisation.Finalise">
+            <summary>
+            Finalises the Plugin module
+            </summary>
+        </member>
+        <member name="M:UserSessionMiddleware.Plugin.Initialisation.Configure(Microsoft.AspNetCore.Builder.IApplicationBuilder,Microsoft.AspNetCore.Hosting.IHostingEnvironment)">
+            <summary>
+            Allows the Plugin module to configure the Mvc application builder
+            </summary>
+            <param name="app">IApplicationBuilder</param>
+            <param name="env">IHostingEnvironment</param>
+        </member>
+        <member name="M:UserSessionMiddleware.Plugin.Initialisation.ConfigureServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            Allows the Plugin module to configure the services for the application
+            </summary>
+            <param name="services">IServiceCollection</param>
+        </member>
+        <member name="T:UserSessionMiddleware.Plugin.UserSessionMiddlewareExtender">
+            <summary>
+            User Session Middleware Extender
+            </summary>
+        </member>
+        <member name="M:UserSessionMiddleware.Plugin.UserSessionMiddlewareExtender.UseUserSessionMiddleware(Microsoft.AspNetCore.Builder.IApplicationBuilder)">
+            <summary>
+            IApplicationBuilder extender method.
+            
+            Allows easy use of registering UserSessionMiddleware.Plugin
+            </summary>
+            <param name="builder">IApplicationBuilder instance</param>
+            <returns>IApplicationBuilder</returns>
+            <example><pre style="font-family:Consolas;font-size:13px;color:black;background:white;"><span style="color:#1f377f;">app</span>.<span style="color:#74531f;">UseUserSessionMiddleware</span>();</pre></example>
+        </member>
+    </members>
+</doc>

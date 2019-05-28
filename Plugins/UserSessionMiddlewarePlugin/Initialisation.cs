@@ -33,16 +33,12 @@ using SharedPluginFeatures;
 
 namespace UserSessionMiddleware.Plugin
 {
+    /// <summary>
+    /// Implements IPlugin which allows the UserSessionMiddleware.Plugin module to be
+    /// loaded as a plugin module
+    /// </summary>
     public sealed class Initialisation : IPlugin
     {
-        #region Constructors
-
-        public Initialisation()
-        {
-        }
-
-        #endregion Constructors
-
         #region Internal Static Properties
 
         internal static IServiceProvider GetServiceProvider { get; private set; }
@@ -56,21 +52,37 @@ namespace UserSessionMiddleware.Plugin
 
         #region IPlugin Methods
 
+        /// <summary>
+        /// Initialises the Plugin module
+        /// </summary>
+        /// <param name="logger">ILogger</param>
         public void Initialise(ILogger logger)
         {
             GetLogger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
+        /// <summary>
+        /// Finalises the Plugin module
+        /// </summary>
         public void Finalise()
         {
 
         }
 
+        /// <summary>
+        /// Allows the Plugin module to configure the Mvc application builder
+        /// </summary>
+        /// <param name="app">IApplicationBuilder</param>
+        /// <param name="env">IHostingEnvironment</param>
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             app.UseUserSessionMiddleware();
         }
 
+        /// <summary>
+        /// Allows the Plugin module to configure the services for the application
+        /// </summary>
+        /// <param name="services">IServiceCollection</param>
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddSingleton<IUserCultureChangeProvider, UserCultureChanged>();

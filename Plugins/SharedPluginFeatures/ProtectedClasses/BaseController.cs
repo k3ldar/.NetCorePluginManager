@@ -32,6 +32,8 @@ using Microsoft.AspNetCore.Http;
 using static Shared.Utilities;
 using Shared.Classes;
 
+#pragma warning disable CS1591
+
 namespace SharedPluginFeatures
 {
     /// <summary>
@@ -407,3 +409,5 @@ namespace SharedPluginFeatures
         #endregion Pagination
     }
 }
+
+#pragma warning restore CS1591

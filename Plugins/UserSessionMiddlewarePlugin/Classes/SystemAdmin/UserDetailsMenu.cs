@@ -30,8 +30,16 @@ using Shared.Classes;
 
 using SharedPluginFeatures;
 
+#pragma warning disable CS1591
+
 namespace UserSessionMiddleware.Plugin.Classes.SystemAdmin
 {
+    /// <summary>
+    /// Returns a list of detailed information of all active sessions currently 
+    /// active within the website and can be viewed within SystemAdmin.Plugin.  
+    /// 
+    /// This class descends from SystemAdminSubMenu.
+    /// </summary>
     public sealed class UserDetailsMenu : SystemAdminSubMenu
     {
         public override string Action()
@@ -122,3 +130,5 @@ namespace UserSessionMiddleware.Plugin.Classes.SystemAdmin
         }
     }
 }
+
+#pragma warning restore CS1591

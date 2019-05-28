@@ -26,7 +26,6 @@
 using System;
 using System.Globalization;
 
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Http;
 
 using Shared.Classes;
@@ -35,7 +34,7 @@ using SharedPluginFeatures;
 
 namespace UserSessionMiddleware.Plugin
 {
-    public class UserCultureChanged : BaseMiddleware, IUserCultureChangeProvider
+    internal class UserCultureChanged : BaseMiddleware, IUserCultureChangeProvider
     {
         #region Private Members
 

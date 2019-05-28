@@ -812,6 +812,13 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:SharedPluginFeatures.SystemAdminMainMenu.CompareTo(SharedPluginFeatures.SystemAdminMainMenu)">
+            <summary>
+            Compares SystemAdminMainMenu items to determine sort order.
+            </summary>
+            <param name="compareTo"></param>
+            <returns></returns>
+        </member>
         <member name="P:SharedPluginFeatures.SystemAdminMainMenu.ChildMenuItems">
             <summary>
             Child menu items within the menu.

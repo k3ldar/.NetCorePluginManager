@@ -31,10 +31,15 @@ using System.IO;
 
 using SharedPluginFeatures;
 
+#pragma warning disable CS1591
+
 namespace AspNetCore.PluginManager.Classes.SystemAdmin
 {
     /// <summary>
-    /// SystemAdminSubMenu instance used to show all loaded modules, and their version within SystemAdmin.Plugin module.
+    /// Returns a list of all assemblies currently loaded by the application and can 
+    /// be viewed within SystemAdmin.Plugin.  
+    /// 
+    /// This class descends from SystemAdminSubMenu.
     /// </summary>
     public sealed class LoadedModulesMenu : SystemAdminSubMenu
     {
@@ -58,6 +63,10 @@ namespace AspNetCore.PluginManager.Classes.SystemAdmin
             return Enums.SystemAdminMenuType.Grid;
         }
 
+        /// <summary>
+        /// Returns delimited data on all loaded assemblies and their version.
+        /// </summary>
+        /// <returns>string</returns>
         public override string Data()
         {
             Dictionary<string, IPluginModule> plugins = PluginManagerService.GetPluginManager().GetLoadedPlugins();
@@ -120,3 +129,5 @@ namespace AspNetCore.PluginManager.Classes.SystemAdmin
         }
     }
 }
+
+#pragma warning restore CS1591
