@@ -143,13 +143,6 @@ namespace DocumentationPlugin.Classes
             {
                 return Utilities.FileRead(fileName, false);
             }
-            else
-            {
-                string contents = defaultValue ?? String.Empty;
-
-                if (!String.IsNullOrEmpty(contents))
-                    Utilities.FileWrite(fileName, contents);
-            }
 
             return defaultValue ?? String.Empty;
         }

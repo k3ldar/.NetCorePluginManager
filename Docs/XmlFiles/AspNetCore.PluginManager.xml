@@ -4,6 +4,42 @@
         <name>AspNetCore.PluginManager</name>
     </assembly>
     <members>
+        <member name="T:AspNetCore.PluginManager.ConfigurePluginManagerExtender">
+            <summary>
+            Plugin Manager IMvcBuilder extension class.
+            </summary>
+        </member>
+        <member name="M:AspNetCore.PluginManager.ConfigurePluginManagerExtender.ConfigurePluginManager(Microsoft.Extensions.DependencyInjection.IMvcBuilder)">
+            <summary>
+            IApplicationBuilder extender method used to provide easy access to ConfigurePluginManager 
+            method when configuring an application.
+            </summary>
+            <param name="mvcBuilder">IMvcBuilder instance.</param>
+            <returns>IMvcBuilder</returns>
+        </member>
+        <member name="T:AspNetCore.PluginManager.PluginManagerConfiguration">
+            <summary>
+            Plugin Manager configuration class.  Used when Initialising the Plugin Manager.
+            </summary>
+        </member>
+        <member name="T:AspNetCore.PluginManager.Classes.SystemAdmin.LoadedModulesMenu">
+            <summary>
+            SystemAdminSubMenu instance used to show all loaded modules, and their version within SystemAdmin.Plugin module.
+            </summary>
+        </member>
+        <member name="T:AspNetCore.PluginManager.UsePluginManagerExtender">
+            <summary>
+            Plugin Manager extender class.
+            </summary>
+        </member>
+        <member name="M:AspNetCore.PluginManager.UsePluginManagerExtender.UsePluginManager(Microsoft.AspNetCore.Builder.IApplicationBuilder)">
+            <summary>
+            IApplicationBuilder extender method used to provide easy access to UsePluginManager 
+            method when configuring an application.
+            </summary>
+            <param name="mvcApplication">IApplicationBuilder instance</param>
+            <returns>IApplicationBuilder</returns>
+        </member>
         <member name="M:AspNetCore.PluginManager.PluginManager.GetLoadedPlugins">
             <summary>
             Returns all loaded plugin data
@@ -127,6 +163,15 @@
             Static class containing methods that can be used to configure and initialise the Plugin Manager.
             </summary>
         </member>
+        <member name="M:AspNetCore.PluginManager.PluginManagerService.Initialise(SharedPluginFeatures.ILogger)">
+            <summary>
+            Initialises the PluginManager using a custom ILogger implementation.
+            
+            This method is obsolete and will be removed from future versions.
+            </summary>
+            <param name="logger"></param>
+            <returns></returns>
+        </member>
         <member name="M:AspNetCore.PluginManager.PluginManagerService.Initialise">
             <summary>
             Initialises the PluginManager using default confguration.
@@ -227,6 +272,7 @@
             <summary>
             Root path that is used to search for plugin assembly modules.
             </summary>
+            <value>string</value>
         </member>
         <member name="P:AspNetCore.PluginManager.PluginSettings.SystemFiles">
             <summary>
@@ -245,6 +291,12 @@
             Path where .js files will be placed when being extracted from plugin modules.
             </summary>
             <value>string</value>
+        </member>
+        <member name="P:AspNetCore.PluginManager.PluginSettings.PreventAreas">
+            <summary>
+            This property is not currently used and will be removed from future versions.
+            </summary>
+            <value>bool</value>
         </member>
         <member name="P:AspNetCore.PluginManager.PluginSettings.DisableRouteDataService">
             <summary>
