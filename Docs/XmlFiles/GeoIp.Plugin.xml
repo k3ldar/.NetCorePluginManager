@@ -4,23 +4,302 @@
         <name>GeoIp.Plugin</name>
     </assembly>
     <members>
+        <member name="T:GeoIp.Plugin.GeoIpPluginSettings">
+            <summary>
+            Settings to determine how GeoIp.Plugin module is configured.
+            </summary>
+        </member>
+        <member name="M:GeoIp.Plugin.GeoIpPluginSettings.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="P:GeoIp.Plugin.GeoIpPluginSettings.Webnet77CSVData">
+            <summary>
+            Webnet77CSVData.  The filename and path for Webnet77 Ip Address data held in CSV format.
+            </summary>
+        </member>
+        <member name="P:GeoIp.Plugin.GeoIpPluginSettings.GeoIpProvider">
+            <summary>
+            GeoIpProvider used by GeoIp.Plugin module.
+            </summary>
+        </member>
+        <member name="P:GeoIp.Plugin.GeoIpPluginSettings.IpStack">
+            <summary>
+            IpStackSettings, individual settings for retrieving data from Ip Stack.
+            </summary>
+            <value>IpStackSettings</value>
+        </member>
+        <member name="T:GeoIp.Plugin.IpCity">
+            <summary>
+            IpCity data.  Used internally to cache data retrieved.
+            </summary>
+        </member>
+        <member name="M:GeoIp.Plugin.IpCity.#ctor(System.Int64,System.Int64,System.String)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="startRange">Start of Ip range.</param>
+            <param name="endRange">End of Ip range.</param>
+            <param name="countryCode">Country code.</param>
+        </member>
+        <member name="P:GeoIp.Plugin.IpCity.IpStart">
+            <summary>
+            Start of Ip range.
+            </summary>
+            <value>long</value>
+        </member>
+        <member name="P:GeoIp.Plugin.IpCity.IpEnd">
+            <summary>
+            End of Ip range.
+            </summary>
+            <value>long</value>
+        </member>
+        <member name="P:GeoIp.Plugin.IpCity.CountryCode">
+            <summary>
+            Country code for Ip Address.
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:GeoIp.Plugin.IpCity.Region">
+            <summary>
+            Region where Ip Address is located.
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:GeoIp.Plugin.IpCity.CityName">
+            <summary>
+            Name of city where Ip Address is located.
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:GeoIp.Plugin.IpCity.Latitude">
+            <summary>
+            Latitude of Ip Address.
+            </summary>
+            <value>decimal</value>
+        </member>
+        <member name="P:GeoIp.Plugin.IpCity.Longitude">
+            <summary>
+            Longitude of Ip Address.
+            </summary>
+            <value>decimal</value>
+        </member>
+        <member name="P:GeoIp.Plugin.IpCity.IpUniqueID">
+            <summary>
+            Unique Id for Ip addressl
+            </summary>
+            <value>long</value>
+        </member>
+        <member name="P:GeoIp.Plugin.IpCity.IsComplete">
+            <summary>
+            Determines whether the record is complete or not.
+            </summary>
+            <value>bool</value>
+        </member>
+        <member name="M:GeoIp.Plugin.IpCity.CompareTo(System.Object)">
+            <summary>
+            Compare Method for comparing existing Ip addresses cached in memory.
+            </summary>
+            <value>int</value>
+        </member>
+        <member name="T:GeoIp.Plugin.IpStackSettings">
+            <summary>
+            IpStackSettings, used to retrieve IpStack data.  Implements IGeoIpProvider interface.
+            </summary>
+        </member>
+        <member name="P:GeoIp.Plugin.IpStackSettings.ApiKey">
+            <summary>
+            IpStack Api Key.
+            </summary>
+        </member>
         <member name="M:GeoIp.Plugin.IpStackSettings.GetIpAddressDetails(System.String@,System.String@,System.String@,System.String@,System.Decimal@,System.Decimal@,System.Int64@,System.Int64@,System.Int64@)">
             <summary>
             Method which obtains geo ip data from IpStack
             </summary>
-            <param name="ipAddress"></param>
-            <param name="countryCode"></param>
-            <param name="region"></param>
-            <param name="cityName"></param>
-            <param name="latitude"></param>
-            <param name="longitude"></param>
-            <param name="ipUniqueID"></param>
-            <returns></returns>
+            <param name="ipAddress">in string.  Ip address whos data is sought.</param>
+            <param name="countryCode">out string.  Country code for Ip Address</param>
+            <param name="region">out string.  Region within country where the Ip address is located.</param>
+            <param name="cityName">out string.  Name of city within the region where the Ip address is located.</param>
+            <param name="latitude">out decimal.  Latitude where Ip address is located.</param>
+            <param name="longitude">out decimal.  Longitude where Ip address is located.</param>
+            <param name="uniqueId">out long.  Unique id for Ip address.</param>
+            <param name="ipFrom">out long.  Ip from range.</param>
+            <param name="ipTo">out long.  Ip to range.</param>
+            <returns>bool</returns>
+        </member>
+        <member name="T:GeoIp.Plugin.IpStackData">
+            <summary>
+            Class to hold Ip Stack data returned after ip request.
+            </summary>
+        </member>
+        <member name="M:GeoIp.Plugin.IpStackData.#ctor">
+            <summary>
+            Constructor
+            </summary>
+        </member>
+        <member name="P:GeoIp.Plugin.IpStackData.success">
+            <summary>
+            Determines whether the request was successful or not.
+            </summary>
+        </member>
+        <member name="P:GeoIp.Plugin.IpStackData.ip">
+            <summary>
+            Ip Address
+            </summary>
+        </member>
+        <member name="P:GeoIp.Plugin.IpStackData.type">
+            <summary>
+            Type of Ip Address
+            </summary>
+        </member>
+        <member name="P:GeoIp.Plugin.IpStackData.continent_code">
+            <summary>
+            Code for continent where ip is located
+            </summary>
+        </member>
+        <member name="P:GeoIp.Plugin.IpStackData.continent_name">
+            <summary>
+            Name of continent where ip is located.
+            </summary>
+        </member>
+        <member name="P:GeoIp.Plugin.IpStackData.country_code">
+            <summary>
+            Country code
+            </summary>
+        </member>
+        <member name="P:GeoIp.Plugin.IpStackData.country_name">
+            <summary>
+            Name of country
+            </summary>
+        </member>
+        <member name="P:GeoIp.Plugin.IpStackData.region_code">
+            <summary>
+            Region Code
+            </summary>
+        </member>
+        <member name="P:GeoIp.Plugin.IpStackData.region_name">
+            <summary>
+            Region Name
+            </summary>
+        </member>
+        <member name="P:GeoIp.Plugin.IpStackData.city">
+            <summary>
+            City
+            </summary>
+        </member>
+        <member name="P:GeoIp.Plugin.IpStackData.zip">
+            <summary>
+            Zip / Postcode
+            </summary>
+        </member>
+        <member name="P:GeoIp.Plugin.IpStackData.latitude">
+            <summary>
+            Latitude where Ip address is located.
+            </summary>
+        </member>
+        <member name="P:GeoIp.Plugin.IpStackData.longitude">
+            <summary>
+            Longitude where the Ip address is located.
+            </summary>
+        </member>
+        <member name="P:GeoIp.Plugin.IpStackData.error">
+            <summary>
+            IpStackError information if an error occurred during the request.
+            </summary>
+        </member>
+        <member name="T:GeoIp.Plugin.IpStackError">
+            <summary>
+            IpStackError class holds error information if a request is not successful.
+            </summary>
+        </member>
+        <member name="P:GeoIp.Plugin.IpStackError.code">
+            <summary>
+            Error code.
+            </summary>
+        </member>
+        <member name="P:GeoIp.Plugin.IpStackError.type">
+            <summary>
+            Error type.
+            </summary>
+        </member>
+        <member name="P:GeoIp.Plugin.IpStackError.info">
+            <summary>
+            Error information
+            </summary>
         </member>
         <member name="T:GeoIp.Plugin.LoadWebNet77Data">
             <summary>
             Background thread used to load WebNet77 Geo Ip Data
             </summary>
+        </member>
+        <member name="T:GeoIp.Plugin.PluginVersion">
+            <summary>
+            Implements IPluginVersion
+            </summary>
+        </member>
+        <member name="M:GeoIp.Plugin.PluginVersion.GetVersion">
+            <summary>
+            Returns the current internal plugin version supported by GeoIp.Plugin
+            </summary>
+            <returns>ushort</returns>
+        </member>
+        <member name="T:GeoIp.Plugin.Classes.SystemAdmin.GeoIpCacheTimingsSubMenu">
+            <summary>
+            Returns Timings information for all time spent processing cached Geo Ip requests and can 
+            be viewed within SystemAdmin.Plugin.  
+            
+            This class descends from SystemAdminSubMenu.
+            </summary>
+        </member>
+        <member name="M:GeoIp.Plugin.Classes.SystemAdmin.GeoIpCacheTimingsSubMenu.Data">
+            <summary>
+            Returns Timings data in milliseconds for time spent processing by GeoIpPlugin cache requests.
+            </summary>
+            <returns>string</returns>
+        </member>
+        <member name="T:GeoIp.Plugin.Classes.SystemAdmin.GeoIpMemoryTimingsSubMenu">
+            <summary>
+            Returns Timings information for all time spent loading Ip data from a data store and can 
+            be viewed within SystemAdmin.Plugin.  
+            
+            This class descends from SystemAdminSubMenu.
+            </summary>
+        </member>
+        <member name="M:GeoIp.Plugin.Classes.SystemAdmin.GeoIpMemoryTimingsSubMenu.Data">
+            <summary>
+            Returns Timings data in milliseconds for time spent processing by GeoIpPlugin memory loading.
+            </summary>
+            <returns>string</returns>
+        </member>
+        <member name="T:GeoIp.Plugin.Classes.SystemAdmin.GeoIpProviderTimingsSubMenu">
+            <summary>
+            Returns Timings information for all time spent processing Geo Ip requests and can 
+            be viewed within SystemAdmin.Plugin.  
+            
+            This class descends from SystemAdminSubMenu.
+            </summary>
+        </member>
+        <member name="M:GeoIp.Plugin.Classes.SystemAdmin.GeoIpProviderTimingsSubMenu.Data">
+            <summary>
+            Returns Timings data in milliseconds for time spent processing by GeoIpPlugin requests.
+            </summary>
+            <returns>string</returns>
+        </member>
+        <member name="T:GeoIp.Plugin.GeoIpPluginExtender">
+            <summary>
+            GeoIp.Plugin extender class.
+            </summary>
+        </member>
+        <member name="M:GeoIp.Plugin.GeoIpPluginExtender.UseGeoIpService(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            IApplicationBuilder extender method.
+            
+            Allows easy use of registering GeoIp.Plugin
+            </summary>
+            <param name="services">IServiceCollection instance</param>
+            <returns>IApplicationBuilder</returns>
+            <example><pre style="font-family:Consolas;font-size:13px;color:black;background:white;"><span style="color:#1f377f;">services</span>.<span style="color:#74531f;">UseGeoIpService</span>();</pre></example>
         </member>
         <member name="T:GeoIp.Plugin.Initialisation">
             <summary>

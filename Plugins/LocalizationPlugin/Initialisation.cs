@@ -40,18 +40,16 @@ using Languages;
 
 using Shared.Classes;
 
+#pragma warning disable CS1591
+
 namespace Localization.Plugin
 {
-    public class Initialisation : IPlugin, IConfigureApplicationBuilder, IConfigureMvcBuilder
+    /// <summary>
+    /// Implements IPlugin which allows the Localization.Plugin module to be
+    /// loaded as a plugin module
+    /// </summary>
+    public class Initialisation : IPlugin, IConfigureMvcBuilder
     {
-        #region Constructors
-
-        public Initialisation()
-        {
-        }
-
-        #endregion Constructors
-
         #region Internal Static Properties / Members
 
         internal static CacheManager CultureCache = new CacheManager("Available Cultures", new TimeSpan(24, 0, 0), true, true);
@@ -62,6 +60,7 @@ namespace Localization.Plugin
         #endregion Internal Static Properties / Members
 
         #region IPlugin Methods
+
 
         public void Initialise(ILogger logger)
         {
@@ -105,17 +104,12 @@ namespace Localization.Plugin
 
         #endregion IPlugin Methods
 
-        #region IConfigureApplicationBuilder Methods
-
-        public void ConfigureApplicationBuilder(in IApplicationBuilder applicationBuilder)
-        {
-
-        }
-
-        #endregion IConfigureApplicationBuilder Methods
-
         #region IConfigureMvcBuilder Methods
 
+        /// <summary>
+        /// Configures localization within Mvc Builder
+        /// </summary>
+        /// <param name="mvcBuilder">IMvcBuilder instance</param>
         public void ConfigureMvcBuilder(in IMvcBuilder mvcBuilder)
         {
             mvcBuilder
@@ -128,3 +122,5 @@ namespace Localization.Plugin
         #endregion IConfigureMvcBuilder Methods
     }
 }
+
+#pragma warning restore CS1591

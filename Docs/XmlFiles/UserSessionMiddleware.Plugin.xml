@@ -50,6 +50,12 @@
             This class descends from SystemAdminSubMenu.
             </summary>
         </member>
+        <member name="M:UserSessionMiddleware.Plugin.Classes.SystemAdmin.UserSessionTimingsSubMenu.Data">
+            <summary>
+            Returns Timings data in milliseconds for time spent processing by UserSession.Plugin requests.
+            </summary>
+            <returns>string</returns>
+        </member>
         <member name="T:UserSessionMiddleware.Plugin.Classes.SystemAdmin.VisitsByCountry">
             <summary>
             Returns a list of visitor count, by country and whether it's a bot or not and can 

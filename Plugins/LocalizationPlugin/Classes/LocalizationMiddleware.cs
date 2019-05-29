@@ -33,8 +33,13 @@ using SharedPluginFeatures;
 
 using Shared.Classes;
 
+#pragma warning disable CS1591
+
 namespace Localization.Plugin
 {
+    /// <summary>
+    /// Localization middleware class, processes all localiztion requests whilst in the request pipeline.
+    /// </summary>
     public sealed class LocalizationMiddleware : BaseMiddleware
     {
         #region Private Members
@@ -114,3 +119,5 @@ namespace Localization.Plugin
         #endregion Private Methods
     }
 }
+
+#pragma warning restore CS1591
