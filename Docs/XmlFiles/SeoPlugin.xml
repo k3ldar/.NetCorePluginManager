@@ -4,5 +4,11 @@
         <name>SeoPlugin</name>
     </assembly>
     <members>
+        <member name="T:SeoPlugin.Initialisation">
+            <summary>
+            Implements IPlugin which allows the SeoPlugin module to be
+            loaded as a plugin module
+            </summary>
+        </member>
     </members>
 </doc>

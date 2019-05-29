@@ -22,5 +22,11 @@
             Background thread used to load WebNet77 Geo Ip Data
             </summary>
         </member>
+        <member name="T:GeoIp.Plugin.Initialisation">
+            <summary>
+            Implements IPlugin which allows the GeoIp.Plugin module to be
+            loaded as a plugin module
+            </summary>
+        </member>
     </members>
 </doc>

@@ -29,7 +29,7 @@ using SharedPluginFeatures;
 
 namespace Breadcrumb.Plugin
 {
-    public sealed class BreadcrumbService : IBreadcrumbService
+    internal sealed class BreadcrumbService : IBreadcrumbService
     {
         #region Private Members
 

@@ -4,5 +4,11 @@
         <name>Spider.Plugin</name>
     </assembly>
     <members>
+        <member name="T:Spider.Plugin.Initialisation">
+            <summary>
+            Implements IPlugin which allows the Spider.Plugin module to be
+            loaded as a plugin module
+            </summary>
+        </member>
     </members>
 </doc>

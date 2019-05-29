@@ -4,5 +4,11 @@
         <name>Breadcrumb.Plugin</name>
     </assembly>
     <members>
+        <member name="T:Breadcrumb.Plugin.Initialisation">
+            <summary>
+            Implements IPlugin which allows the Breadcrumb.Plugin module to be
+            loaded as a plugin module
+            </summary>
+        </member>
     </members>
 </doc>

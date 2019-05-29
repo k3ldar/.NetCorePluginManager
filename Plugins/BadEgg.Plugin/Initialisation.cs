@@ -23,7 +23,6 @@
  *  08/11/2018  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using System;
 
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -31,8 +30,14 @@ using Microsoft.Extensions.DependencyInjection;
 
 using SharedPluginFeatures;
 
+#pragma warning disable CS1591
+
 namespace BadEgg.Plugin
 {
+    /// <summary>
+    /// Implements IPlugin which allows the BadEgg.Plugin module to be
+    /// loaded as a plugin module
+    /// </summary>
     public sealed class Initialisation : IPlugin
     {
         #region Constructors
@@ -43,19 +48,11 @@ namespace BadEgg.Plugin
 
         #endregion Constructors
 
-        #region Internal Static Properties
-
-        internal static IServiceProvider GetServiceProvider { get; private set; }
-
-        internal static ILogger GetLogger { get; private set; }
-
-        #endregion Internal Static Properties
-
         #region IPlugin Methods
 
         public void Initialise(ILogger logger)
         {
-            GetLogger = logger ?? throw new ArgumentNullException(nameof(logger));
+
         }
 
         public void Finalise()
@@ -71,9 +68,10 @@ namespace BadEgg.Plugin
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddSingleton<IIpManagement, IpManagement>();
-            GetServiceProvider = services.BuildServiceProvider();
         }
 
         #endregion IPlugin Methods
     }
 }
+
+#pragma warning restore CS1591

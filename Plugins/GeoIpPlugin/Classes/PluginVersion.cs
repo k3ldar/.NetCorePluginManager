@@ -27,8 +27,15 @@ using SharedPluginFeatures;
 
 namespace GeoIp.Plugin
 {
+    /// <summary>
+    /// Implements IPluginVersion
+    /// </summary>
     public class PluginVersion : IPluginVersion
     {
+        /// <summary>
+        /// Returns the current internal plugin version supported by GeoIp.Plugin
+        /// </summary>
+        /// <returns>ushort</returns>
         public ushort GetVersion()
         {
             return (1);

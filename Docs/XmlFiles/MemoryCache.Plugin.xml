@@ -4,5 +4,11 @@
         <name>MemoryCache.Plugin</name>
     </assembly>
     <members>
+        <member name="T:MemoryCache.Plugin.Initialisation">
+            <summary>
+            Implements IPlugin which allows the MemoryCache.Plugin module to be
+            loaded as a plugin module
+            </summary>
+        </member>
     </members>
 </doc>

@@ -4,12 +4,23 @@
         <name>BadEgg.Plugin</name>
     </assembly>
     <members>
+        <member name="T:BadEgg.Plugin.BadEggMiddleware">
+            <summary>
+            BadEgg Middleware
+            </summary>
+        </member>
+        <member name="T:BadEgg.Plugin.BadEggMiddlewareExtender">
+            <summary>
+            BadEgg middleware extender
+            </summary>
+        </member>
         <member name="M:BadEgg.Plugin.BadEggMiddlewareExtender.UseBadEgg(Microsoft.AspNetCore.Builder.IApplicationBuilder)">
             <summary>
             Adds BadEgg to the request pipeline
             </summary>
             <param name="builder">IApplicationBuilder instance</param>
             <returns>IApplicationBuilder</returns>
+            <example><pre style="font-family:Consolas;font-size:13px;color:black;background:white;"><span style="color:#1f377f;">app</span>.<span style="color:#74531f;">UseBadEgg</span>();</pre></example>
         </member>
         <member name="T:BadEgg.Plugin.BadEggSettings">
             <summary>
@@ -55,6 +66,39 @@
             Must be a valid http client error response (in the range of 400)
             </summary>
             <value>int</value>
+        </member>
+        <member name="T:BadEgg.Plugin.Classes.SystemAdmin.BadEggConnectionsSubMenu">
+            <summary>
+            Returns a list of current connections and their BadEgg status and can 
+            be viewed within SystemAdmin.Plugin.  
+            
+            This class descends from SystemAdminSubMenu.
+            </summary>
+        </member>
+        <member name="M:BadEgg.Plugin.Classes.SystemAdmin.BadEggConnectionsSubMenu.Data">
+            <summary>
+            Returns delimited data on all connections being monitored by BadEgg.Plugin.
+            </summary>
+            <returns>string</returns>
+        </member>
+        <member name="T:BadEgg.Plugin.Classes.SystemAdmin.BadEggTimingsSubMenu">
+            <summary>
+            Returns a list of current Timings and can be viewed within SystemAdmin.Plugin.  
+            
+            This class descends from SystemAdminSubMenu.
+            </summary>
+        </member>
+        <member name="M:BadEgg.Plugin.Classes.SystemAdmin.BadEggTimingsSubMenu.Data">
+            <summary>
+            Returns Timings data in milliseconds for time spent processing by BadEgg.Plugin.
+            </summary>
+            <returns>string</returns>
+        </member>
+        <member name="T:BadEgg.Plugin.Initialisation">
+            <summary>
+            Implements IPlugin which allows the BadEgg.Plugin module to be
+            loaded as a plugin module
+            </summary>
         </member>
         <member name="M:BadEgg.Plugin.WebDefender.IpConnectionInfo.#ctor(System.String@)">
             <summary>

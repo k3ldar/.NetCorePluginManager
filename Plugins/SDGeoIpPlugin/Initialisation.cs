@@ -31,8 +31,14 @@ using Microsoft.AspNetCore.Hosting;
 
 using SharedPluginFeatures;
 
+#pragma warning disable CS1591
+
 namespace SieraDeltaGeoIp.Plugin
 {
+    /// <summary>
+    /// Implements IPlugin which allows the SieraDeltaGeoIp.Plugin module to be
+    /// loaded as a plugin module
+    /// </summary>
     public class Initialisation : IPlugin
     {
         #region Constructors
@@ -86,3 +92,5 @@ namespace SieraDeltaGeoIp.Plugin
         #endregion IPlugin Methods
     }
 }
+
+#pragma warning restore CS1591

@@ -4,5 +4,11 @@
         <name>RestrictIp.Plugin</name>
     </assembly>
     <members>
+        <member name="T:RestrictIp.Plugin.Initialisation">
+            <summary>
+            Implements IPlugin which allows the RestrictIp.Plugin module to be
+            loaded as a plugin module
+            </summary>
+        </member>
     </members>
 </doc>

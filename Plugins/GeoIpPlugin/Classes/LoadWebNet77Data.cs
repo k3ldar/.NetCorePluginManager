@@ -34,7 +34,7 @@ namespace GeoIp.Plugin
     /// <summary>
     /// Background thread used to load WebNet77 Geo Ip Data
     /// </summary>
-    public class LoadWebNet77Data : ThreadManager
+    internal class LoadWebNet77Data : ThreadManager
     {
         #region Properties
 

@@ -27,10 +27,16 @@ using SharedPluginFeatures;
 
 namespace GeoIp.Plugin
 {
+    /// <summary>
+    /// Settings to determine how GeoIp.Plugin module is configured.
+    /// </summary>
     public class GeoIpPluginSettings
     {
         #region Constructors
 
+        /// <summary>
+        /// Default constructor
+        /// </summary>
         public GeoIpPluginSettings()
         {
             IpStack = new IpStackSettings();
@@ -40,10 +46,20 @@ namespace GeoIp.Plugin
 
         #region Properties
 
+        /// <summary>
+        /// Webnet77CSVData.  The filename and path for Webnet77 Ip Address data held in CSV format.
+        /// </summary>
         public string Webnet77CSVData { get; set; }
 
+        /// <summary>
+        /// GeoIpProvider used by GeoIp.Plugin module.
+        /// </summary>
         public Enums.GeoIpProvider GeoIpProvider { get; set; }
 
+        /// <summary>
+        /// IpStackSettings, individual settings for retrieving data from Ip Stack.
+        /// </summary>
+        /// <value>IpStackSettings</value>
         public IpStackSettings IpStack { get; set; }
 
         #endregion Properties

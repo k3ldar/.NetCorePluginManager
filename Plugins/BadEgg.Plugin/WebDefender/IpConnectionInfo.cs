@@ -29,7 +29,7 @@ using static SharedPluginFeatures.Enums;
 
 namespace BadEgg.Plugin.WebDefender
 {
-    public sealed class IpConnectionInfo
+    internal sealed class IpConnectionInfo
     {
         #region Private Members
 

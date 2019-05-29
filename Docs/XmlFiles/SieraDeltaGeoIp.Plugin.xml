@@ -9,5 +9,11 @@
             Background thread used to load Geo Ip Data from Firebird Database
             </summary>
         </member>
+        <member name="T:SieraDeltaGeoIp.Plugin.Initialisation">
+            <summary>
+            Implements IPlugin which allows the SieraDeltaGeoIp.Plugin module to be
+            loaded as a plugin module
+            </summary>
+        </member>
     </members>
 </doc>
