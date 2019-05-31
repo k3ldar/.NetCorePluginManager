@@ -27,13 +27,24 @@ using AppSettings;
 
  namespace Spider.Plugin
 {
+    /// <summary>
+    /// Contains setting values that determine how Spider.Plugin is configured.
+    /// </summary>
     public class SpiderSettings
     {
         #region Properties
 
+        /// <summary>
+        /// Determines whether static files are ignored when determining whether a connection is allowed to connect to the resource.
+        /// </summary>
+        /// <value>string</value>
         public bool ProcessStaticFiles { get; set; }
 
-        [SettingDefault(".less;.ico;.css;.js;.svg;.jpg;.jpeg;.gif;.png;.eot;")]
+        /// <summary>
+        /// Delimited list of file extensions to ignore
+        /// </summary>
+        /// <value>string</value>
+        [SettingDefault(SharedPluginFeatures.Constants.StaticFileExtensions)]
         [SettingString(false)]
         [SettingDelimitedString(';', 1)]
         public string StaticFileExtensions { get; set; }

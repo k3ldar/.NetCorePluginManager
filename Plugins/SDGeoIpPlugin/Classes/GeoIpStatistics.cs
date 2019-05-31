@@ -31,7 +31,7 @@ using Shared.Classes;
 
 namespace SieraDeltaGeoIp.Plugin
 {
-    public class GeoIpStatistics : IGeoIpStatistics, IGeoIpStatisticsUpdate
+    internal class GeoIpStatistics : IGeoIpStatistics, IGeoIpStatisticsUpdate
     {
         #region Private Members
 

@@ -33,7 +33,7 @@ using SharedPluginFeatures;
 
 namespace SieraDeltaGeoIp.Plugin
 {
-    public class GeoIpService : BaseCoreClass, IGeoIpDataService
+    internal class GeoIpService : BaseCoreClass, IGeoIpDataService
     {
         #region Private Members
 

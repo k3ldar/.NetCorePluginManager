@@ -168,7 +168,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
             };
         }
 
-        public bool SubmitTicket(long userId, in int department, in int priority,
+        public bool SubmitTicket(in long userId, in int department, in int priority,
             in string userName, in string email, in string subject, in string message,
             out HelpdeskTicket ticket)
         {

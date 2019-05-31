@@ -37,8 +37,15 @@ using static SharedPluginFeatures.Enums;
 
 namespace RestrictIp.Plugin
 {
+    /// <summary>
+    /// Middleware provider which processes requests and ensures that only authorised 
+    /// connections can connect to routes decorated with RestrictedIpRouteAttribute.
+    /// </summary>
     public sealed class RestrictIpMiddleware : BaseMiddleware
     {
+
+#pragma warning disable CS1591
+
         #region Constants
 
         private const string ProfileNotFound = "The requested restriction profile '{0}' was not found!  " +
@@ -201,4 +208,7 @@ namespace RestrictIp.Plugin
 
         #endregion Private Methods
     }
+
+#pragma warning restore CS1591
+
 }

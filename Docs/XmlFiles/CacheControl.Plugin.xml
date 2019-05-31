@@ -73,6 +73,20 @@
             </summary>
             <value>Dictionary&lt;string, CacheControlRoute&gt;</value>
         </member>
+        <member name="T:CacheControl.Plugin.Classes.SystemAdmin.CacheControlTimingsSubMenu">
+            <summary>
+            Returns Timings information for all time spent processing cache control requests and can 
+            be viewed within SystemAdmin.Plugin.  
+            
+            This class descends from SystemAdminSubMenu.
+            </summary>
+        </member>
+        <member name="M:CacheControl.Plugin.Classes.SystemAdmin.CacheControlTimingsSubMenu.Data">
+            <summary>
+            Returns Timings data in milliseconds for time spent processing by CacheControl.Plugin requests.
+            </summary>
+            <returns>string</returns>
+        </member>
         <member name="T:CacheControl.Plugin.Initialisation">
             <summary>
             Implements IPlugin which allows the CacheControl.Plugin module to be

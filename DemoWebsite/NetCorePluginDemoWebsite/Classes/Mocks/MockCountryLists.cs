@@ -36,12 +36,12 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
             return new Country(name, code, visible);
         }
 
-        public bool CountryDelete(Country country)
+        public bool CountryDelete(in Country country)
         {
             return false;
         }
 
-        public bool CountryUpdate(Country country)
+        public bool CountryUpdate(in Country country)
         {
             return true;
         }

@@ -4,11 +4,76 @@
         <name>MemoryCache.Plugin</name>
     </assembly>
     <members>
+        <member name="T:MemoryCache.Plugin.Classes.MemoryCacheMenu">
+            <summary>
+            Returns statistical data on the usage of available memory caches and can 
+            be viewed within SystemAdmin.Plugin.  
+            
+            This class descends from SystemAdminSubMenu.
+            </summary>
+        </member>
+        <member name="M:MemoryCache.Plugin.Classes.MemoryCacheMenu.Data">
+            <summary>
+            Returns data on the number of MemoryCaches in use, the number of items and age available in MemoryCachePlugin requests.
+            </summary>
+            <returns>string</returns>
+        </member>
+        <member name="T:MemoryCache.Plugin.Classes.PluginVersion">
+            <summary>
+            Implements IPluginVersion
+            </summary>
+        </member>
+        <member name="M:MemoryCache.Plugin.Classes.PluginVersion.GetVersion">
+            <summary>
+            Returns the current internal plugin version supported by MemoryCachePlugin
+            </summary>
+            <returns>ushort</returns>
+        </member>
+        <member name="T:MemoryCache.Plugin.MemoryClassPluginSettings">
+            <summary>
+            Provides settings loaded by ISettingsProvider that determine how MemoryCachePlugin is configures.
+            </summary>
+        </member>
+        <member name="P:MemoryCache.Plugin.MemoryClassPluginSettings.DefaultCacheDuration">
+            <summary>
+            Default number of minutes the default cache stores items.
+            
+            Default: 120 minutes.
+            Minimum: 30 minutes.
+            Maximum: 2880 minutes.
+            </summary>
+            <value>int</value>
+        </member>
+        <member name="P:MemoryCache.Plugin.MemoryClassPluginSettings.ShortCacheDuration">
+            <summary>
+            Default number of minutes the short cache stores items.
+            
+            Default: 5 minutes.
+            Minimum: 1 minutes.
+            Maximum: 60 minutes.
+            </summary>
+            <value>int</value>
+        </member>
         <member name="T:MemoryCache.Plugin.Initialisation">
             <summary>
             Implements IPlugin which allows the MemoryCache.Plugin module to be
             loaded as a plugin module
             </summary>
+        </member>
+        <member name="T:MemoryCache.Plugin.MemoryCachePluginExtender">
+            <summary>
+            Memory Cache Middleware Extender
+            </summary>
+        </member>
+        <member name="M:MemoryCache.Plugin.MemoryCachePluginExtender.UseMemoryCache(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            IApplicationBuilder extender method.
+            
+            Allows easy use of registering MemoryCachePlugin services
+            </summary>
+            <param name="services">IServiceCollection instance</param>
+            <returns>IApplicationBuilder</returns>
+            <example><pre style="font-family:Consolas;font-size:13px;color:black;background:white;"><span style="color:#1f377f;">app</span>.<span style="color:#74531f;">UseMemoryCache</span>();</pre></example>
         </member>
     </members>
 </doc>

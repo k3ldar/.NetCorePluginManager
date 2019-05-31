@@ -27,10 +27,16 @@ using System;
 
 namespace Middleware.ShoppingCart
 {
+    /// <summary>
+    /// Provides details shopping cart item data.
+    /// </summary>
     public sealed class ShoppingCartItem
     {
         #region Constructors
 
+        /// <summary>
+        /// Default constructor
+        /// </summary>
         private ShoppingCartItem()
         {
             Weight = 0;
@@ -39,6 +45,19 @@ namespace Middleware.ShoppingCart
             Size = String.Empty;
         }
 
+        /// <summary>
+        /// Constructor containing detailed items information.
+        /// </summary>
+        /// <param name="id">Unique id of shopping cart.</param>
+        /// <param name="itemCount">Number of items in the cart.</param>
+        /// <param name="itemCost">Cost of the items within shopping cart.</param>
+        /// <param name="name">Name of the item within the shopping cart.</param>
+        /// <param name="description">Description of item within the cart</param>
+        /// <param name="sku">SKU of item.</param>
+        /// <param name="images">Images associated with the item.</param>
+        /// <param name="isDownload">Indicates that the item is downloadable or not.</param>
+        /// <param name="canBackOrder">Indicates that the item is on back order.</param>
+        /// <param name="size">Size of item.</param>
         public ShoppingCartItem(in int id, in decimal itemCount, in decimal itemCost, in string name,
             in string description, in string sku, in string[] images, in bool isDownload,
             in bool canBackOrder, in string size)
@@ -74,6 +93,22 @@ namespace Middleware.ShoppingCart
             Size = size ?? String.Empty;
         }
 
+        /// <summary>
+        /// Constructor containing all detailed item information.
+        /// </summary>
+        /// <param name="id">Unique id of shopping cart.</param>
+        /// <param name="itemCount">Number of items in the cart.</param>
+        /// <param name="itemCost">Cost of the items within shopping cart.</param>
+        /// <param name="taxRate">Tax rate applied to the item.</param>
+        /// <param name="name">Name of the item within the shopping cart.</param>
+        /// <param name="description">Description of item within the cart</param>
+        /// <param name="sku">SKU of item.</param>
+        /// <param name="images">Images associated with the item.</param>
+        /// <param name="isDownload">Indicates that the item is downloadable or not.</param>
+        /// <param name="weight">Weight of item in grams.</param>
+        /// <param name="customerReference"></param>
+        /// <param name="canBackOrder">Indicates that the item is on back order.</param>
+        /// <param name="size">Size of item.</param>
         public ShoppingCartItem(in int id, in decimal itemCount, in decimal itemCost, in decimal taxRate,
             in string name, in string description, in string sku, in string[] images, in bool isDownload,
             in int weight, in string customerReference, in bool canBackOrder, in string size)
@@ -94,6 +129,10 @@ namespace Middleware.ShoppingCart
 
         #region Public Methods
 
+        /// <summary>
+        /// Update the count of the individual item by adding more.
+        /// </summary>
+        /// <param name="count">Count to be added to existing count.</param>
         public void UpdateCount(in int count)
         {
             if (count < 1)
@@ -102,6 +141,10 @@ namespace Middleware.ShoppingCart
             ItemCount += count;
         }
 
+        /// <summary>
+        /// Resets the total count to a new value
+        /// </summary>
+        /// <param name="count">Count of item within cart.</param>
         public void ResetCount(in int count)
         {
             if (count < 1)
@@ -114,30 +157,82 @@ namespace Middleware.ShoppingCart
 
         #region Properties
 
+        /// <summary>
+        /// Unique id of the shopping cart item.
+        /// </summary>
+        /// <value>int</value>
         public int Id { get; private set; }
 
+        /// <summary>
+        /// Number of items.
+        /// </summary>
+        /// <value>decimal</value>
         public decimal ItemCount { get; private set; }
 
+        /// <summary>
+        /// Cost of the item.
+        /// </summary>
+        /// <value></value>
         public decimal ItemCost { get; private set; }
 
+        /// <summary>
+        /// Rate of tax applied to the item.
+        /// </summary>
+        /// <value>decimal</value>
         public decimal TaxRate { get; private set; }
 
+        /// <summary>
+        /// Name of the item.
+        /// </summary>
+        /// <string>string</string>
         public string Name { get; private set; }
 
+        /// <summary>
+        /// Description of the item.
+        /// </summary>
+        /// <value>string</value>
         public string Description { get; private set; }
 
+        /// <summary>
+        /// Item SKU
+        /// </summary>
+        /// <value>string</value>
         public string SKU { get; private set; }
 
+        /// <summary>
+        /// Images for the item
+        /// </summary>
+        /// <value>string[]</value>
         public string[] Images { get; private set; }
 
+        /// <summary>
+        /// Indicates that the item is downloadable or not.
+        /// </summary>
+        /// <value>bool</value>
         public bool IsDownload { get; private set; }
 
+        /// <summary>
+        /// Weight of item in grams.
+        /// </summary>
+        /// <value>int</value>
         public int Weight { get; private set; }
 
+        /// <summary>
+        /// Customer reference for the item in the cart.
+        /// </summary>
+        /// <value>string</value>
         public string CustomerReference { get; private set; }
 
+        /// <summary>
+        /// Indicates that the item can be backordered.
+        /// </summary>
+        /// <value>bool</value>
         public bool CanBackOrder { get; private set; }
 
+        /// <summary>
+        /// Size or dimensions of the item.
+        /// </summary>
+        /// <value>string</value>
         public string Size { get; private set; }
 
         #endregion Properties

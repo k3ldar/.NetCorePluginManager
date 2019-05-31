@@ -64,9 +64,399 @@
             Total Tax amount
             </summary>
         </member>
+        <member name="T:Middleware.Accounts.IAccountProvider">
+            <summary>
+            Provides user account services predominantly used by UserAccount.Plugin module.
+            
+            This item must be implemented by the host application and made available via DI.
+            </summary>
+        </member>
+        <member name="M:Middleware.Accounts.IAccountProvider.ChangePassword(System.Int64@,System.String@)">
+            <summary>
+            Change a password for a specific user.
+            </summary>
+            <param name="userId">Unique id of user.</param>
+            <param name="newPassword">New password that is to be set for the user.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Middleware.Accounts.IAccountProvider.GetAddressOptions(Middleware.AddressOption@)">
+            <summary>
+            Retrieves the appropriate address options that are available for user addresses.
+            </summary>
+            <param name="addressOption">Address options to be shown.</param>
+            <returns>AddressOptions</returns>
+        </member>
+        <member name="M:Middleware.Accounts.IAccountProvider.GetUserAccountDetails(System.Int64@,System.String@,System.String@,System.String@,System.Boolean@,System.String@,System.Boolean@)">
+            <summary>
+            Retrieves default user account details.
+            </summary>
+            <param name="userId">Unique user id.</param>
+            <param name="firstName">Users first name.</param>
+            <param name="lastName">Users last name.</param>
+            <param name="email">Users email address.</param>
+            <param name="emailConfirmed">Indicates whether the email address has been confirmed or not.</param>
+            <param name="telephone">Users telephone number.</param>
+            <param name="telephoneConfirmed">Indicates whether the telephone number has been confirmed or not.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Middleware.Accounts.IAccountProvider.SetUserAccountDetails(System.Int64@,System.String@,System.String@,System.String@,System.String@)">
+            <summary>
+            Updates default user account details.
+            
+            The values provided during this request will depend on the AddressOptions rules that are in place.
+            </summary>
+            <param name="userId">Unique user id.</param>
+            <param name="firstName">Users first name.</param>
+            <param name="lastName">Users last name.</param>
+            <param name="email">Users email address.</param>
+            <param name="telephone">Users telephone number.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Middleware.Accounts.IAccountProvider.ConfirmEmailAddress(System.Int64@,System.String@)">
+            <summary>
+            Provides a mechanism whereby the website can confirm the users telephone number.
+            
+            Primarily the site sends a unique code associated with the account, the user then enters
+            the code for verification.
+            </summary>
+            <param name="userId">Unique Id of the user.</param>
+            <param name="confirmationCode">User supplied confirmation code.</param>
+            <returns>bool.  True if the confirmation code was correct.</returns>
+        </member>
+        <member name="M:Middleware.Accounts.IAccountProvider.ConfirmTelephoneNumber(System.Int64@,System.String@)">
+            <summary>
+            Provides a mechanism whereby the website can confirm the users telephone number.
+            
+            Primarily the site sends a unique code associated with the account, the user then enters
+            the code for verification.
+            </summary>
+            <param name="userId">Unique Id of the user.</param>
+            <param name="confirmationCode">User supplied confirmation code.</param>
+            <returns>bool.  True if the confirmation code was correct.</returns>
+        </member>
+        <member name="M:Middleware.Accounts.IAccountProvider.CreateAccount(System.String@,System.String@,System.String@,System.String@,System.String@,System.String@,System.String@,System.String@,System.String@,System.String@,System.String@,System.String@,System.String@,System.Int64@)">
+            <summary>
+            Creates a new user account.
+            
+            The values provided during this request will depend on the AddressOptions rules that are in place.
+            </summary>
+            <param name="email">Email address for the user.</param>
+            <param name="firstName">Users first name.</param>
+            <param name="surname">Users last name.</param>
+            <param name="password">Password supplied by the user.</param>
+            <param name="telephone">Telephone number provided by the user.</param>
+            <param name="businessName">Business name supplied by the user.</param>
+            <param name="addressLine1">Street and number for the address.</param>
+            <param name="addressLine2">Second line of the address.</param>
+            <param name="addressLine3">Third line of the address.</param>
+            <param name="city">City wher the user lives.</param>
+            <param name="county">County/State where the user lives.</param>
+            <param name="postcode">Post/Zip code for the user.</param>
+            <param name="countryCode">Country.</param>
+            <param name="userId">out.  Unique user id for the new user account.</param>
+            <returns>bool.  True if the account was created.</returns>
+        </member>
+        <member name="M:Middleware.Accounts.IAccountProvider.SetBillingAddress(System.Int64@,Middleware.Address@)">
+            <summary>
+            Updates a billing address for a specific user.
+            </summary>
+            <param name="userId">Unique user id.</param>
+            <param name="billingAddress">Billing address to be updated.</param>
+            <returns>bool.  True if the billing address was updated.</returns>
+        </member>
+        <member name="M:Middleware.Accounts.IAccountProvider.GetBillingAddress(System.Int64@)">
+            <summary>
+            Retrieves the billing address for a specific user.
+            </summary>
+            <param name="userId">Unique user id.</param>
+            <returns>Address</returns>
+        </member>
+        <member name="M:Middleware.Accounts.IAccountProvider.SetDeliveryAddress(System.Int64@,Middleware.Accounts.DeliveryAddress@)">
+            <summary>
+            Updates a delivery address for a user.
+            </summary>
+            <param name="userId">Unique user id.</param>
+            <param name="deliveryAddress">Delivery address to be updated.</param>
+            <returns>bool.  True if the address was updated.</returns>
+        </member>
+        <member name="M:Middleware.Accounts.IAccountProvider.GetDeliveryAddresses(System.Int64@)">
+            <summary>
+            Retrieve all delivery addresses for a specific user.
+            </summary>
+            <param name="userId">Unique user id.</param>
+            <returns>List&lt;DeliveryAddress&gt;</returns>
+        </member>
+        <member name="M:Middleware.Accounts.IAccountProvider.GetDeliveryAddress(System.Int64@,System.Int32@)">
+            <summary>
+            Retrieves a specific delivery address for a user.
+            </summary>
+            <param name="userId">Unique user id.</param>
+            <param name="deliveryAddressId">Unique id of the delivery address associated with the user.</param>
+            <returns>DeliveryAddress</returns>
+        </member>
+        <member name="M:Middleware.Accounts.IAccountProvider.DeleteDeliveryAddress(System.Int64@,Middleware.Accounts.DeliveryAddress@)">
+            <summary>
+            Deletes a delivery address for a user.
+            </summary>
+            <param name="userId">Unique user id.</param>
+            <param name="deliveryAddress">Delivery address to be deleted.</param>
+            <returns>bool.  True if the address was deleted.</returns>
+        </member>
+        <member name="M:Middleware.Accounts.IAccountProvider.AddDeliveryAddress(System.Int64@,Middleware.Accounts.DeliveryAddress@)">
+            <summary>
+            Adds a new delivery address for the user.
+            </summary>
+            <param name="userId">Unique user id.</param>
+            <param name="deliveryAddress">Delivery address for the user.</param>
+            <returns>bool.  True if the address was created.</returns>
+        </member>
+        <member name="M:Middleware.Accounts.IAccountProvider.GetMarketingOptions">
+            <summary>
+            Retrieves marketing preferences available to be viewed on the website.
+            </summary>
+            <returns>MarketingOptions</returns>
+        </member>
+        <member name="M:Middleware.Accounts.IAccountProvider.GetMarketingPreferences(System.Int64@)">
+            <summary>
+            Retrieves marketing preferences for a specific user.
+            </summary>
+            <param name="userId">Unique user id.</param>
+            <returns>Marketing</returns>
+        </member>
+        <member name="M:Middleware.Accounts.IAccountProvider.SetMarketingPreferences(System.Int64@,Middleware.Accounts.Marketing@)">
+            <summary>
+            Updates marketing preferences for a specific user.
+            </summary>
+            <param name="userId">Unique user id.</param>
+            <param name="marketing">New marketing options selected by the user.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Middleware.Accounts.IAccountProvider.OrdersGet(System.Int64@)">
+            <summary>
+            Retrieves all orders for the user.
+            </summary>
+            <param name="userId">Unique user id.</param>
+            <returns>List&lt;Order&gt;</returns>
+        </member>
+        <member name="M:Middleware.Accounts.IAccountProvider.OrderPaid(Middleware.Accounts.Orders.Order@,Middleware.PaymentStatus@,System.String@)">
+            <summary>
+            Indicates that payment was successful for an order.  Implemntors would typically need to 
+            create an Invoice for the Order item that has been paid for.
+            </summary>
+            <param name="order">Order being paid.</param>
+            <param name="paymentStatus">Current PaymentStatus.  This could vary depending on the IPaymentProvider instance that was used.</param>
+            <param name="message">A message provided during payment as part of the Order, could for instance delivery instructions.</param>
+        </member>
+        <member name="M:Middleware.Accounts.IAccountProvider.InvoicesGet(System.Int64@)">
+            <summary>
+            Retrieve all Invoice items for the user.
+            </summary>
+            <param name="userId">Unique user id.</param>
+            <returns>List&lt;Invoice&gt;</returns>
+        </member>
+        <member name="T:Middleware.Helpdesk.IHelpdeskProvider">
+            <summary>
+            Helpdesk provider for integrating with the HelpdeskPlugin module.
+            
+            This item must be implemented by the host application and made available via DI.
+            </summary>
+        </member>
+        <member name="M:Middleware.Helpdesk.IHelpdeskProvider.GetFeedback(System.Boolean@)">
+            <summary>
+            Retrieve all feedback to be displayed on the website.
+            </summary>
+            <param name="publiclyVisible">bool.  Determine whether all feedback should be retrieved, or only publicly visible feedback.</param>
+            <returns>List&lt;Feedback&gt;</returns>
+        </member>
+        <member name="M:Middleware.Helpdesk.IHelpdeskProvider.SubmitFeedback(System.Int64@,System.String@,System.String@)">
+            <summary>
+            Request to submit feedback for a website.
+            </summary>
+            <param name="userId">Id of user leaving feedback, if they are logged in.</param>
+            <param name="name">Name of user leaving feedback for the website.</param>
+            <param name="feedback">Feedback being left for the website.</param>
+            <returns>bool.  True if the feedback was successfully submitted.</returns>
+        </member>
+        <member name="M:Middleware.Helpdesk.IHelpdeskProvider.GetTicketPriorities">
+            <summary>
+            Retrieve a list of ticket priorities to be displayed to the user submitting a ticket.
+            </summary>
+            <returns>List&lt;LookupListItem&gt;</returns>
+        </member>
+        <member name="M:Middleware.Helpdesk.IHelpdeskProvider.GetTicketDepartments">
+            <summary>
+            Retrieve a list of all ticket departments to be display to the user submitting a ticket.
+            </summary>
+            <returns>List&lt;LookupListItem&gt;</returns>
+        </member>
+        <member name="M:Middleware.Helpdesk.IHelpdeskProvider.GetTicketStatus">
+            <summary>
+            Retrieve a list of all available ticket statuses.
+            </summary>
+            <returns>List&lt;LookupListItem&gt;</returns>
+        </member>
+        <member name="M:Middleware.Helpdesk.IHelpdeskProvider.SubmitTicket(System.Int64@,System.Int32@,System.Int32@,System.String@,System.String@,System.String@,System.String@,Middleware.Helpdesk.HelpdeskTicket@)">
+            <summary>
+            Submits a support ticket to the website.
+            </summary>
+            <param name="userId">Unique id of user submitting a ticket, if they are logged on.</param>
+            <param name="department">Department the ticket is being submitted to.</param>
+            <param name="priority">User defined priority of the ticket.</param>
+            <param name="userName">Name of the user submitting the ticket.</param>
+            <param name="email">Email address of the user submitting the ticket.</param>
+            <param name="subject">Subject of the support ticket.</param>
+            <param name="message">Support ticket message.</param>
+            <param name="ticket">out.  Helpdeskticket of newly created ticket.</param>
+            <returns>bool.  True if the ticket was successfully submitted.</returns>
+        </member>
+        <member name="M:Middleware.Helpdesk.IHelpdeskProvider.GetTicket(System.Int64@)">
+            <summary>
+            Retrieve a ticket using the unique ticket Id.
+            </summary>
+            <param name="id">Unique ticket id being requested.</param>
+            <returns>HelpdeskTicket</returns>
+        </member>
+        <member name="M:Middleware.Helpdesk.IHelpdeskProvider.GetTicket(System.String@,System.String@)">
+            <summary>
+            Retreive a ticket using the users email address and the unique ticket key.
+            </summary>
+            <param name="email">Email address of the user who submitted the ticket.</param>
+            <param name="ticketKey">Unique ticket key supplied when the ticket was created.</param>
+            <returns>Hlepdeskticket</returns>
+        </member>
+        <member name="M:Middleware.Helpdesk.IHelpdeskProvider.TicketRespond(Middleware.Helpdesk.HelpdeskTicket@,System.String@,System.String@)">
+            <summary>
+            Submits a response to a Helpdesk support ticket.
+            </summary>
+            <param name="ticket">HelpdeskTicket being responded to.</param>
+            <param name="name">Name of person responding.</param>
+            <param name="message">Message response.</param>
+            <returns>bool.  True if the response was successfully submitted.</returns>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:Middleware.Helpdesk.IHelpdeskProvider.GetKnowledgebaseGroups(System.Int64@,Middleware.Helpdesk.KnowledgeBaseGroup@)" -->
+        <member name="M:Middleware.Helpdesk.IHelpdeskProvider.GetKnowledgebaseGroup(System.Int64@,System.Int32@)">
+            <summary>
+            Retrieves an individual KnowledgeBaseGroup item.
+            </summary>
+            <param name="userId">Unique id of the user viewing the group, if they are logged in.</param>
+            <param name="id">Id of the KnowledgeBaseGroup being retrieved.</param>
+            <returns>KnowledgeBaseGroup</returns>
+        </member>
+        <member name="M:Middleware.Helpdesk.IHelpdeskProvider.GetKnowledgebaseItem(System.Int64@,System.Int32@,Middleware.Helpdesk.KnowledgeBaseItem@,Middleware.Helpdesk.KnowledgeBaseGroup@)">
+            <summary>
+            Retrieves an individual KnowledgeBaseItem.
+            </summary>
+            <param name="userId">Id of the user viewing the KnowledgeBaseItem, if they are logged on.</param>
+            <param name="id">Id of the KnowledgeBaseItem.</param>
+            <param name="knowledgebaseItem">out.  KnowledgeBaseItem being retrieved.</param>
+            <param name="parentGroup">KnowledgeBaseGroup item which is the parent group of the item being retrieved.</param>
+            <returns>bool.  True if KnowledgeBaseItem is being returned.</returns>
+        </member>
+        <member name="M:Middleware.Helpdesk.IHelpdeskProvider.KnowledbaseView(Middleware.Helpdesk.KnowledgeBaseItem@)">
+            <summary>
+            Indicates that a KnowledgeBaseItem has been viewed.
+            </summary>
+            <param name="item">KnowledgeBaseItem being viewed.</param>
+        </member>
+        <member name="T:Middleware.Constants">
+            <summary>
+            Constant values used by PluginMiddleware
+            </summary>
+        </member>
+        <member name="F:Middleware.Constants.CaptchaCharacters">
+            <summary>
+            Captcha characters that will be used to generate captcha requests.
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="F:Middleware.Constants.PaymentProviderCashOnDelivery">
+            <summary>
+            Cash on delivery payment provider.
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="F:Middleware.Constants.PaymentProviderClickAndCollect">
+            <summary>
+            Click and collect payment provider.
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="F:Middleware.Constants.PaymentProviderCheque">
+            <summary>
+            Cheque payment provider.
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="F:Middleware.Constants.PaymentProviderDirectTransfer">
+            <summary>
+            Direct bank transfer payment provider.
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="F:Middleware.Constants.PaymentProviderPayflow">
+            <summary>
+            Payflow payment provider.
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="F:Middleware.Constants.PaymentProviderPaypoint">
+            <summary>
+            Paypoint payment provider.
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="F:Middleware.Constants.PaymentProviderPhone">
+            <summary>
+            Phone payment provider.
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="F:Middleware.Constants.PaymentProviderSunTech24Payment">
+            <summary>
+            SunTech24 payment provider.
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="F:Middleware.Constants.PaymentProviderNone">
+            <summary>
+            No payment providers configured.
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="F:Middleware.Constants.PaymentProviderNotFound">
+            <summary>
+            Invalid payment provider.
+            </summary>
+            <value>string</value>
+        </member>
         <member name="T:Middleware.LoginResult">
             <summary>
             Login results
+            </summary>
+        </member>
+        <member name="F:Middleware.LoginResult.Success">
+            <summary>
+            Login was successfull.
+            </summary>
+        </member>
+        <member name="F:Middleware.LoginResult.InvalidCredentials">
+            <summary>
+            Invalid credentials provided.
+            </summary>
+        </member>
+        <member name="F:Middleware.LoginResult.AccountLocked">
+            <summary>
+            Account is locked.
+            </summary>
+        </member>
+        <member name="F:Middleware.LoginResult.PasswordChangeRequired">
+            <summary>
+            Password change is required.
+            </summary>
+        </member>
+        <member name="F:Middleware.LoginResult.Remembered">
+            <summary>
+            Login details were remembered, Login was successfull.
             </summary>
         </member>
         <member name="T:Middleware.AddressOption">
@@ -174,9 +564,74 @@
             Marketing Optons
             </summary>
         </member>
+        <member name="F:Middleware.MarketingOptions.ShowEmail">
+            <summary>
+            Show email marketing check box.
+            </summary>
+        </member>
+        <member name="F:Middleware.MarketingOptions.ShowTelephone">
+            <summary>
+            Show telephone marketing check box.
+            </summary>
+        </member>
+        <member name="F:Middleware.MarketingOptions.ShowSMS">
+            <summary>
+            Show sms marketing check box.
+            </summary>
+        </member>
+        <member name="F:Middleware.MarketingOptions.ShowPostal">
+            <summary>
+            Show postal marketing check box.
+            </summary>
+        </member>
         <member name="T:Middleware.ProcessStatus">
             <summary>
             Invoice and Order Process Status
+            </summary>
+        </member>
+        <member name="F:Middleware.ProcessStatus.OrderReceived">
+            <summary>
+            Order is in received status.
+            </summary>
+        </member>
+        <member name="F:Middleware.ProcessStatus.FraudCheck">
+            <summary>
+            Order is being processed for fraud.
+            </summary>
+        </member>
+        <member name="F:Middleware.ProcessStatus.PaymentCheck">
+            <summary>
+            Payment is being verified.
+            </summary>
+        </member>
+        <member name="F:Middleware.ProcessStatus.Processing">
+            <summary>
+            Order is being processed for dispatch.
+            </summary>
+        </member>
+        <member name="F:Middleware.ProcessStatus.Dispatched">
+            <summary>
+            Order has been dispatched.
+            </summary>
+        </member>
+        <member name="F:Middleware.ProcessStatus.IssueRefund">
+            <summary>
+            Order is having a refund processed.
+            </summary>
+        </member>
+        <member name="F:Middleware.ProcessStatus.PaymentPending">
+            <summary>
+            Payment is pending.
+            </summary>
+        </member>
+        <member name="F:Middleware.ProcessStatus.OnHold">
+            <summary>
+            Order is on hold.
+            </summary>
+        </member>
+        <member name="F:Middleware.ProcessStatus.Cancelled">
+            <summary>
+            Order has been cancelled.
             </summary>
         </member>
         <member name="T:Middleware.PaymentStatus">
@@ -184,50 +639,311 @@
             Order / Invoice Payment Status
             </summary>
         </member>
+        <member name="F:Middleware.PaymentStatus.Unpaid">
+            <summary>
+            Invoice/order has not been paid.
+            </summary>
+        </member>
+        <member name="F:Middleware.PaymentStatus.Paid">
+            <summary>
+            Invoice/order has been paid.
+            </summary>
+        </member>
+        <member name="F:Middleware.PaymentStatus.PaidCash">
+            <summary>
+            Invoice/order has been paid using cash.
+            </summary>
+        </member>
+        <member name="F:Middleware.PaymentStatus.PaidCheque">
+            <summary>
+            Invoice/order has been paid using checkque.
+            </summary>
+        </member>
+        <member name="F:Middleware.PaymentStatus.PaidCard">
+            <summary>
+            Invoice/order has been paid using a credit/debit card.
+            </summary>
+        </member>
+        <member name="F:Middleware.PaymentStatus.PaidVoucher">
+            <summary>
+            Invoice/order has been paid using a voucher.
+            </summary>
+        </member>
+        <member name="F:Middleware.PaymentStatus.PaidMixed">
+            <summary>
+            Invoice/order has been paid using mixed payment types.
+            </summary>
+        </member>
         <member name="T:Middleware.ItemStatus">
             <summary>
             Invoice / Order Item Status
+            </summary>
+        </member>
+        <member name="F:Middleware.ItemStatus.Received">
+            <summary>
+            Invoice/order item has been received.
+            </summary>
+        </member>
+        <member name="F:Middleware.ItemStatus.Processing">
+            <summary>
+            Invoice/order item is being processed.
+            </summary>
+        </member>
+        <member name="F:Middleware.ItemStatus.Dispatched">
+            <summary>
+            Invoice/order item has been dispatched.
+            </summary>
+        </member>
+        <member name="F:Middleware.ItemStatus.OnHold">
+            <summary>
+            Invoice/order item is on hold.
+            </summary>
+        </member>
+        <member name="F:Middleware.ItemStatus.BackOrder">
+            <summary>
+            Invoice/order item is on back order.
+            </summary>
+        </member>
+        <member name="F:Middleware.ItemStatus.Cancelled">
+            <summary>
+            Invoice/order item has been cancelled.
+            </summary>
+        </member>
+        <member name="T:Middleware.DiscountType">
+            <summary>
+            Type of discount that has been applied to an Invoice/Order
+            </summary>
+        </member>
+        <member name="F:Middleware.DiscountType.None">
+            <summary>
+            Invoice/Order has no discount.
+            </summary>
+        </member>
+        <member name="F:Middleware.DiscountType.PercentageTotal">
+            <summary>
+            Invoice/Order has a percentage discount on the total.
+            </summary>
+        </member>
+        <member name="F:Middleware.DiscountType.PercentageSubTotal">
+            <summary>
+            Invoice/Order has a percentage discount on the sub total.
+            </summary>
+        </member>
+        <member name="F:Middleware.DiscountType.Value">
+            <summary>
+            Invoice/Order has a monetary value discount (i.e. GBP10)
+            </summary>
+        </member>
+        <member name="T:Middleware.LicenceCreate">
+            <summary>
+            Licence creation results.
+            </summary>
+        </member>
+        <member name="F:Middleware.LicenceCreate.Success">
+            <summary>
+            Licence was successfully created.
+            </summary>
+        </member>
+        <member name="F:Middleware.LicenceCreate.Existing">
+            <summary>
+            Licence already exists.
+            </summary>
+        </member>
+        <member name="F:Middleware.LicenceCreate.Failed">
+            <summary>
+            Failed to create a licence.
+            </summary>
+        </member>
+        <member name="T:Middleware.IApplicationProvider">
+            <summary>
+            Application provider interface provides application wide methods that can be used from
+            any plugin module within the website.
+            
+            This item must be implemented by the host application and made available via DI.
+            </summary>
+        </member>
+        <member name="M:Middleware.IApplicationProvider.Email(System.String@,System.String@)">
+            <summary>
+            Send an email to site administrators.
+            </summary>
+            <param name="subject">Subject of email.</param>
+            <param name="message">Message</param>
+        </member>
+        <member name="T:Middleware.ICountryProvider">
+            <summary>
+            Provides country data used throughout the website.
+            
+            This item must be implemented by the host application and made available via DI.
+            </summary>
+        </member>
+        <member name="M:Middleware.ICountryProvider.GetAllCountries">
+            <summary>
+            Retrieve all countries.
+            </summary>
+            <returns>List&lt;Country&gt;</returns>
+        </member>
+        <member name="M:Middleware.ICountryProvider.GetVisibleCountries">
+            <summary>
+            Retrieve a list of all visible (available) countries.
+            </summary>
+            <returns>List&lt;Country&gt;</returns>
+        </member>
+        <member name="M:Middleware.ICountryProvider.CountryUpdate(Middleware.Country@)">
+            <summary>
+            Update a country.
+            </summary>
+            <param name="country">Country to be updated.</param>
+            <returns>bool.  True if the country was updated.</returns>
+        </member>
+        <member name="M:Middleware.ICountryProvider.CountryDelete(Middleware.Country@)">
+            <summary>
+            Deletes a country.
+            </summary>
+            <param name="country">Country to be deleted.</param>
+            <returns>bool.  True if the country has been deleted.</returns>
+        </member>
+        <member name="M:Middleware.ICountryProvider.CountryCreate(System.String@,System.String@,System.Boolean@)">
+            <summary>
+            Create a country.
+            </summary>
+            <param name="name">Name of country.</param>
+            <param name="code">Country code.</param>
+            <param name="visible">bool.  Determines whether the country is visible or not.</param>
+            <returns>Country</returns>
+        </member>
+        <member name="T:Middleware.IDownloadProvider">
+            <summary>
+            Download provider.  Provides download information used by the DownloadPlugin module.
+            
+            This item must be implemented by the host application and made available via DI.
             </summary>
         </member>
         <member name="M:Middleware.IDownloadProvider.DownloadCategoriesGet(System.Int64@)">
             <summary>
             User download file Categories
             </summary>
-            <param name="userId"></param>
-            <returns></returns>
+            <param name="userId">Id of the user requesting a download, if they are logged in.</param>
+            <returns>List&lt;DownloadCategory&gt;</returns>
         </member>
         <member name="M:Middleware.IDownloadProvider.DownloadCategoriesGet">
             <summary>
             Publicy downloadable file Categories
             </summary>
-            <returns></returns>
+            <returns>List&lt;DownloadCategory&gt;</returns>
         </member>
         <member name="M:Middleware.IDownloadProvider.GetDownloadItem(System.Int32@)">
             <summary>
             Retrieve File
             </summary>
-            <param name="fileId"></param>
-            <returns></returns>
+            <param name="fileId">Unique id of the file being downloaded.</param>
+            <returns>DownloadItem</returns>
         </member>
         <member name="M:Middleware.IDownloadProvider.GetDownloadItem(System.Int64@,System.Int32@)">
             <summary>
             Retrieve File
             </summary>
-            <param name="fileId"></param>
-            <returns></returns>
+            <param name="userId">Id of the user requesting a download, if they are logged in.</param>
+            <param name="fileId">Unique id of the file being downloaded.</param>
+            <returns>DownloadItem</returns>
         </member>
         <member name="M:Middleware.IDownloadProvider.ItemDownloaded(System.Int64@,System.Int32@)">
             <summary>
             File download by a user
             </summary>
-            <param name="userId"></param>
-            <param name="fileId"></param>
+            <param name="userId">Id of the user requesting a download, if they are logged in.</param>
+            <param name="fileId">Unique id of the file being downloaded.</param>
         </member>
         <member name="M:Middleware.IDownloadProvider.ItemDownloaded(System.Int32@)">
             <summary>
             File download by anyone
             </summary>
-            <param name="fileId"></param>
+            <param name="fileId">Unique id of the file being downloaded.</param>
+        </member>
+        <member name="T:Middleware.ILicenceProvider">
+            <summary>
+            Licence provider for managing user licences.
+            
+            This item must be implemented by the host application and made available via DI.
+            </summary>
+        </member>
+        <member name="M:Middleware.ILicenceProvider.LicenceTypesGet">
+            <summary>
+            Retrieves a list of licence types.
+            </summary>
+            <returns>List&lt;LicenceType&gt;</returns>
+        </member>
+        <member name="M:Middleware.ILicenceProvider.LicencesGet(System.Int64@)">
+            <summary>
+            Retrieve all licences for a specific user.
+            </summary>
+            <param name="userId">Unique id of user whos licence details are being requested.</param>
+            <returns>List&lt;Licence&gt;</returns>
+        </member>
+        <member name="M:Middleware.ILicenceProvider.LicenceUpdateDomain(System.Int64@,Middleware.Accounts.Licences.Licence@,System.String@)">
+            <summary>
+            Updates the domain or Ip details for a licence that is linked to a specific server.
+            </summary>
+            <param name="userId">Unique id of the user who is updating the Licence.</param>
+            <param name="licence">Licence being updated.</param>
+            <param name="domain">Domain or Ip address to be applied against the Licence.</param>
+            <returns>bool</returns>
+        </member>
+        <member name="M:Middleware.ILicenceProvider.LicenceSendEmail(System.Int64@,System.Int32@)">
+            <summary>
+            Requests for an email to be sent, with details of an individual licence for a user.
+            </summary>
+            <param name="userId">Unique id of the user makeing the request.</param>
+            <param name="licenceId">Unique id of the Licence who's email details are being requested.</param>
+            <returns>bool</returns>
+        </member>
+        <member name="M:Middleware.ILicenceProvider.LicenceTrialCreate(System.Int64@,Middleware.Accounts.Licences.LicenceType@)">
+            <summary>
+            Request to create a trial licence for a product.
+            </summary>
+            <param name="userId">Unique id of the user requesting a trial licence.</param>
+            <param name="licenceType">Type of licence a trial key is being requested for.</param>
+            <returns>LicenceCreate</returns>
+        </member>
+        <member name="T:Middleware.ILoginProvider">
+            <summary>
+            Login provider used to manage user logons for the website.
+            
+            This item must be implemented by the host application and made available via DI.
+            </summary>
+        </member>
+        <member name="M:Middleware.ILoginProvider.Login(System.String@,System.String@,System.String@,System.Byte@,Middleware.UserLoginDetails@)">
+            <summary>
+            Login attempt by a user.
+            </summary>
+            <param name="username">Name or email address of user attempting to login.</param>
+            <param name="password">Password for user attempting to login.</param>
+            <param name="ipAddress">Ip Address of user attempting to login.</param>
+            <param name="attempts">Number of previous login attempts.</param>
+            <param name="loginDetails">out.  Login details for the user.</param>
+            <returns>LoginResult</returns>
+        </member>
+        <member name="M:Middleware.ILoginProvider.UnlockAccount(System.String@,System.String@)">
+            <summary>
+            Instruction to unlock the account for a user.
+            </summary>
+            <param name="username">Name or email address of user whos account needs unlocking.</param>
+            <param name="unlockCode">Unlock code provided by the user.</param>
+            <returns>bool.  True if the account was unlocked.</returns>
+        </member>
+        <member name="M:Middleware.ILoginProvider.ForgottenPassword(System.String@)">
+            <summary>
+            Forgotten password request for a user.
+            </summary>
+            <param name="username">Name or email address of user who is requesting a new password.</param>
+            <returns>bool.  True if a reminder or change password was sent to the user.</returns>
+        </member>
+        <member name="T:Middleware.IPaymentProvider">
+            <summary>
+            PaymentProvider instance, this interface represents an individual payment provider against which
+            a shopping cart could be checked out against.
+            
+            This item must be implemented by the host application and made available via DI.
+            </summary>
         </member>
         <member name="M:Middleware.IPaymentProvider.GetCurrencies">
             <summary>
@@ -235,40 +951,128 @@
             
             i.e.  GPB;USD  or GBP  or GBP;USD;EUR
             </summary>
-            <returns>i.e.  GPB;USD  or GBP  or GBP;USD;EUR</returns>
+            <returns>string</returns>
         </member>
         <member name="M:Middleware.IPaymentProvider.ExecuteTest(Shared.Classes.NVPCodec@)">
             <summary>
-            Test Execute Method for debugging
+            Test Execute Method for debugging purposes.
             </summary>
-            <returns>True if test passed, otherwise false</returns>
+            <returns>bool.  True if the test passed.</returns>
         </member>
         <member name="M:Middleware.IPaymentProvider.Execute(Microsoft.AspNetCore.Http.HttpRequest@,Middleware.Accounts.Orders.Order@,Middleware.PaymentStatus@,Shared.Classes.UserSession@,System.String@)">
             <summary>
             Execute method, completes the payment using the interface specified
             </summary>
-            <param name="order">Order being processed for payment</param>
-            <param name="paymentStatus"></param>
-            <param name="userSession"></param>
-            <param name="context"></param>
+            <param name="request">Current HttpRequest</param>
+            <param name="order">Order who's payment attempt is being made against.</param>
+            <param name="paymentStatus">Current PaymentStatus</param>
+            <param name="userSession">UserSession for the user who is making the payment.</param>
+            <param name="urlParameters">Url where the user is to be redirected to, so that the order can be completed.</param>
+            <returns>bool.  True if the payment was successfully executed.  This could vary depending on the payment provider in question.</returns>
         </member>
         <member name="M:Middleware.IPaymentProvider.Name">
             <summary>
-            Returns the name of the payment provider
+            Returns the name of the payment provider.
             </summary>
-            <returns></returns>
+            <returns>string.  Unique name of payment provider.</returns>
         </member>
         <member name="M:Middleware.IPaymentProvider.Enabled">
             <summary>
             Determines wether the payment provider is active or not
             </summary>
-            <returns></returns>
+            <returns>bool.  True if the payment provider is ok to use.</returns>
         </member>
         <member name="M:Middleware.IPaymentProvider.UniqueId">
             <summary>
             Unique Id for payment provider
             </summary>
-            <returns></returns>
+            <returns>Guid</returns>
+        </member>
+        <member name="T:Middleware.IProductProvider">
+            <summary>
+            Product provider interface, used to query product data.  
+            
+            This item must be implemented by the host application and made available via DI.
+            </summary>
+        </member>
+        <member name="M:Middleware.IProductProvider.ProductGroupsGet">
+            <summary>
+            Request to retrieve all product groups that will be displayed on the website.
+            </summary>
+            <returns>List&lt;ProductGroup&gt;</returns>
+        </member>
+        <member name="M:Middleware.IProductProvider.ProductGroupGet(System.Int32@)">
+            <summary>
+            Request to retrieve an individual product group based on its Id.
+            </summary>
+            <param name="id">Id of product group to retrieve.</param>
+            <returns>ProductGroup</returns>
+        </member>
+        <member name="M:Middleware.IProductProvider.GetProducts(System.Int32@,System.Int32@)">
+            <summary>
+            Retrieves a group of products for display on the website.
+            </summary>
+            <param name="page">Page number of products to retrieve.</param>
+            <param name="pageSize">Number of product items per page.</param>
+            <returns>List&lt;Product&gt;</returns>
+        </member>
+        <member name="M:Middleware.IProductProvider.GetProducts(Middleware.Products.ProductGroup@,System.Int32@,System.Int32@)">
+            <summary>
+            Retrieves all products belonging to a product group.
+            </summary>
+            <param name="productGroup">ProductGroup instance.</param>
+            <param name="page">Page number of products to retrieve.</param>
+            <param name="pageSize">Number of product items per page.</param>
+            <returns>List&lt;Product&gt;</returns>
+        </member>
+        <member name="M:Middleware.IProductProvider.GetProduct(System.Int32@)">
+            <summary>
+            Retrieves an individual product based on its unique Id.
+            </summary>
+            <param name="id">Id of product to retrieve.</param>
+            <returns>Product</returns>
+        </member>
+        <member name="T:Middleware.IShoppingCartProvider">
+            <summary>
+            Shopping cart provider interface, used to query shopping cart data.  
+            
+            This item must be implemented by the host application and made available via DI.
+            </summary>
+        </member>
+        <member name="M:Middleware.IShoppingCartProvider.GetDetail(System.Int64@)">
+            <summary>
+            Retrieves detailed information on a shopping cart.
+            </summary>
+            <param name="shoppingCartId">Unique shopping cart id</param>
+            <returns>ShoppingCartDetail</returns>
+        </member>
+        <member name="M:Middleware.IShoppingCartProvider.AddToCart(Shared.Classes.UserSession@,SharedPluginFeatures.ShoppingCartSummary@,Middleware.Products.Product@,System.Int32@)">
+            <summary>
+            Adds an individual product to a shopping cart.
+            </summary>
+            <param name="userSession">UserSession for user adding the item to a cart.</param>
+            <param name="shoppingCart">The shopping cart the item is being added to.</param>
+            <param name="product">Product item to be added to a cart.</param>
+            <param name="count">Number of items to add.</param>
+            <returns>long.  Unique id of the item within the shopping cart.</returns>
+        </member>
+        <member name="M:Middleware.IShoppingCartProvider.ValidateVoucher(SharedPluginFeatures.ShoppingCartSummary@,System.String@,System.Int64@)">
+            <summary>
+            Validates a shopping cart voucher to determine its validity.
+            </summary>
+            <param name="cartSummary">Shoping cart against which the voucher should be validated against.</param>
+            <param name="voucher">Voucher code being validated.</param>
+            <param name="userId">Id of the user attempting to validate the voucher.</param>
+            <returns>bool.  True if the voucher is valid.</returns>
+        </member>
+        <member name="M:Middleware.IShoppingCartProvider.ConvertToOrder(SharedPluginFeatures.ShoppingCartSummary@,System.Int64@,Middleware.Accounts.Orders.Order@)">
+            <summary>
+            Converts a shopping cart to an order.
+            </summary>
+            <param name="cartSummary">ShoppingCartSummary item to be converted to an order.</param>
+            <param name="userId">User id who is checking out the shopping cart.</param>
+            <param name="order">out.  Converted order.</param>
+            <returns>bool.  True if the shopping cart was successfully converted to an order.</returns>
         </member>
     </members>
 </doc>

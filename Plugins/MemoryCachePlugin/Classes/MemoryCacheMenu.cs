@@ -29,8 +29,16 @@ using System.Text;
 using Shared.Classes;
 using SharedPluginFeatures;
 
+#pragma warning disable CS1591
+
 namespace MemoryCache.Plugin.Classes
 {
+    /// <summary>
+    /// Returns statistical data on the usage of available memory caches and can 
+    /// be viewed within SystemAdmin.Plugin.  
+    /// 
+    /// This class descends from SystemAdminSubMenu.
+    /// </summary>
     public class MemoryCacheMenu : SystemAdminSubMenu
     {
         public override string Action()
@@ -53,6 +61,10 @@ namespace MemoryCache.Plugin.Classes
             return (Enums.SystemAdminMenuType.Grid);
         }
 
+        /// <summary>
+        /// Returns data on the number of MemoryCaches in use, the number of items and age available in MemoryCachePlugin requests.
+        /// </summary>
+        /// <returns>string</returns>
         public override string Data()
         {
             StringBuilder Result = new StringBuilder("Name|Age|Item Count\r");
@@ -88,3 +100,5 @@ namespace MemoryCache.Plugin.Classes
         }
     }
 }
+
+#pragma warning restore CS1591

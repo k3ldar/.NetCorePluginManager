@@ -33,7 +33,7 @@ using SharedPluginFeatures;
 
 namespace MemoryCache.Plugin
 {
-    public class MemoryCache : BaseCoreClass, IMemoryCache
+    internal class MemoryCache : BaseCoreClass, IMemoryCache
     {
         #region Private Members
 

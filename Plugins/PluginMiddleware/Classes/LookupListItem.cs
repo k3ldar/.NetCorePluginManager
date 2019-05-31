@@ -27,10 +27,18 @@ using System;
 
 namespace Middleware
 {
+    /// <summary>
+    /// Standard lookup list item.  Contains an id and description and is used in a variety of places.
+    /// </summary>
     public sealed class LookupListItem
     {
         #region Constructors
 
+        /// <summary>
+        /// Default constructor
+        /// </summary>
+        /// <param name="id">Id of lookup item.</param>
+        /// <param name="descirption">Description of lookup item.</param>
         public LookupListItem(in int id, in string descirption)
         {
             if (String.IsNullOrEmpty(descirption))
@@ -44,8 +52,16 @@ namespace Middleware
 
         #region Properties
 
+        /// <summary>
+        /// Unique id of lookup item.
+        /// </summary>
+        /// <value>int</value>
         public int Id { get; set; }
 
+        /// <summary>
+        /// Description of lookup item.
+        /// </summary>
+        /// <value>string</value>
         public string Description { get; set; }
 
         #endregion Properties

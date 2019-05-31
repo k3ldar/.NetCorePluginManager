@@ -27,10 +27,18 @@ using System;
 
 namespace Middleware.Accounts.Licences
 {
+    /// <summary>
+    /// List item for type of licences available.
+    /// </summary>
     public sealed class LicenceType
     {
         #region Constructors
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="id">Id of licence type.</param>
+        /// <param name="description">Description of licence type.</param>
         public LicenceType(in int id, in string description)
         {
             if (String.IsNullOrEmpty(description))
@@ -44,8 +52,16 @@ namespace Middleware.Accounts.Licences
 
         #region Properties
 
+        /// <summary>
+        /// Id of licence type.
+        /// </summary>
+        /// <value>int</value>
         public int Id { get; private set; }
 
+        /// <summary>
+        /// Description of licence type.
+        /// </summary>
+        /// <value>string</value>
         public string Description { get; private set; }
 
         #endregion Properties

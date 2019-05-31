@@ -39,8 +39,13 @@ using Shared.Classes;
 using SharedPluginFeatures;
 using static SharedPluginFeatures.Enums;
 
+#pragma warning disable CS1591
+
 namespace Spider.Plugin
 {
+    /// <summary>
+    /// Spider middleware, serves robots.txt on request and denies access to route for spider connections.
+    /// </summary>
     public sealed class SpiderMiddleware : BaseMiddleware
     {
         #region Private Members
@@ -220,3 +225,5 @@ namespace Spider.Plugin
         #endregion Private Methods
     }
 }
+
+#pragma warning restore CS1591

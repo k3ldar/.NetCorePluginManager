@@ -9,6 +9,118 @@
             Background thread used to load Geo Ip Data from Firebird Database
             </summary>
         </member>
+        <member name="T:SieraDeltaGeoIp.Plugin.GeoIpPluginSettings">
+            <summary>
+            Contains GeoIp settings that are used to connect to MySql, MSSql or Firebird.
+            </summary>
+        </member>
+        <member name="P:SieraDeltaGeoIp.Plugin.GeoIpPluginSettings.CacheAllData">
+            <summary>
+            Determines whether all Geo Ip data is cached in memory or not.
+            </summary>
+        </member>
+        <member name="P:SieraDeltaGeoIp.Plugin.GeoIpPluginSettings.DatabaseConnectionString">
+            <summary>
+            Database connection string, this can also point to a file that contains the connection string.
+            </summary>
+        </member>
+        <member name="P:SieraDeltaGeoIp.Plugin.GeoIpPluginSettings.GeoIpProvider">
+            <summary>
+            Type of provider to be used.
+            </summary>
+        </member>
+        <member name="P:SieraDeltaGeoIp.Plugin.GeoIpPluginSettings.CountryList">
+            <summary>
+            Array of country data that will be loaded in the background whilst the middleware is initialised.  This allows
+            for a faster response for specific countries that the website serves.  For instance, if your primary customer
+            base is from the USA you could load all Geo Ip address data for that country so it is cached.
+            </summary>
+            <value>string[]</value>
+        </member>
+        <member name="T:SieraDeltaGeoIp.Plugin.PluginVersion">
+            <summary>
+            Implements IPluginVersion
+            </summary>
+        </member>
+        <member name="M:SieraDeltaGeoIp.Plugin.PluginVersion.GetVersion">
+            <summary>
+            Returns the current internal plugin version supported by SieraDeltaGeoIpPlugin
+            </summary>
+            <returns>ushort</returns>
+        </member>
+        <member name="T:SieraDeltaGeoIp.Plugin.Classes.SystemAdmin.GeoIpCacheTimingsSubMenu">
+            <summary>
+            Returns Timings information for all time spent processing user Geo Ip requests and can 
+            be viewed within SystemAdmin.Plugin.  
+            
+            This class descends from SystemAdminSubMenu.
+            </summary>
+        </member>
+        <member name="M:SieraDeltaGeoIp.Plugin.Classes.SystemAdmin.GeoIpCacheTimingsSubMenu.Data">
+            <summary>
+            Returns Timings data in milliseconds for time spent processing by SieraDeltaGeoIpPlugin requests.
+            </summary>
+            <returns>string</returns>
+        </member>
+        <member name="T:SieraDeltaGeoIp.Plugin.Classes.SystemAdmin.GeoIpDatabaseTimingsSubMenu">
+            <summary>
+            Returns Timings information for all time spent processing GeoIp requests from
+            a database and can be viewed within SystemAdmin.Plugin.  
+            
+            This class descends from SystemAdminSubMenu.
+            </summary>
+        </member>
+        <member name="M:SieraDeltaGeoIp.Plugin.Classes.SystemAdmin.GeoIpDatabaseTimingsSubMenu.Data">
+            <summary>
+            Returns Timings information for all time spent processing GeoIp requests from
+            the database and can be viewed within SystemAdmin.Plugin.  
+            
+            This class descends from SystemAdminSubMenu.
+            </summary>
+        </member>
+        <member name="T:SieraDeltaGeoIp.Plugin.Classes.SystemAdmin.GeoIpMemoryTimingsSubMenu">
+            <summary>
+            Returns Timings information for all time spent processing GeoIp requests from memory cache 
+            and can be viewed within SystemAdmin.Plugin.  
+            
+            This class descends from SystemAdminSubMenu.
+            </summary>
+        </member>
+        <member name="M:SieraDeltaGeoIp.Plugin.Classes.SystemAdmin.GeoIpMemoryTimingsSubMenu.Data">
+            <summary>
+            Returns Timings data in milliseconds for time spent processing GeoIp requests from memory cache.
+            </summary>
+            <returns>string</returns>
+        </member>
+        <member name="T:SieraDeltaGeoIp.Plugin.Classes.GeoIpStatsSubMenu">
+            <summary>
+            Returns a summary of all preloaded and cached GeoIp records and the load time and can be viewed within 
+            SystemAdmin.Plugin.  
+            
+            This class descends from SystemAdminSubMenu.
+            </summary>
+        </member>
+        <member name="M:SieraDeltaGeoIp.Plugin.Classes.GeoIpStatsSubMenu.Data">
+            <summary>
+            Returns summary data and load time in milliseconds for time spent loading GeoIp data into cache.
+            </summary>
+            <returns>string</returns>
+        </member>
+        <member name="T:SieraDeltaGeoIp.Plugin.GeoIpPluginExtender">
+            <summary>
+            SieraDelta Geo Ip service extender.
+            </summary>
+        </member>
+        <member name="M:SieraDeltaGeoIp.Plugin.GeoIpPluginExtender.UseSieraDeltaGeoIpService(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            IApplicationBuilder extender method.
+            
+            Allows easy use of registering SieraDeltaGeoIpPlugin
+            </summary>
+            <param name="services">IServiceCollection instance</param>
+            <returns>IApplicationBuilder</returns>
+            <example><pre style="font-family:Consolas;font-size:13px;color:black;background:white;"><span style="color:#1f377f;">app</span>.<span style="color:#74531f;">UseSieraDeltaGeoIpService</span>();</pre></example>
+        </member>
         <member name="T:SieraDeltaGeoIp.Plugin.Initialisation">
             <summary>
             Implements IPlugin which allows the SieraDeltaGeoIp.Plugin module to be

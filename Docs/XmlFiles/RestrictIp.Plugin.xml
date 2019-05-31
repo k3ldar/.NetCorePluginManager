@@ -4,6 +4,49 @@
         <name>RestrictIp.Plugin</name>
     </assembly>
     <members>
+        <member name="T:RestrictIp.Plugin.RestrictIpMiddleware">
+            <summary>
+            Middleware provider which processes requests and ensures that only authorised 
+            connections can connect to routes decorated with RestrictedIpRouteAttribute.
+            </summary>
+        </member>
+        <member name="T:RestrictIp.Plugin.RestrictIpSettings">
+            <summary>
+            Loads settings us ISettingsProvider to configure the routes that are restricted to
+            specific Ip addresses etc using RestrictedIpRouteAttribute.
+            </summary>
+        </member>
+        <member name="M:RestrictIp.Plugin.RestrictIpSettings.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="P:RestrictIp.Plugin.RestrictIpSettings.Disabled">
+            <summary>
+            Determines whether the middleware router is disabled or not.
+            </summary>
+            <value>bool</value>
+        </member>
+        <member name="P:RestrictIp.Plugin.RestrictIpSettings.RouteRestrictions">
+            <summary>
+            Dictionary of restricted routes
+            </summary>
+            <value>Dictionary&lt;string, string&gt;</value>
+        </member>
+        <member name="T:RestrictIp.Plugin.Classes.SystemAdmin.RestrictIpTimingsSubMenu">
+            <summary>
+            Returns Timings information for all time spent processing restricted Ip route requests and can 
+            be viewed within SystemAdmin.Plugin.  
+            
+            This class descends from SystemAdminSubMenu.
+            </summary>
+        </member>
+        <member name="M:RestrictIp.Plugin.Classes.SystemAdmin.RestrictIpTimingsSubMenu.Data">
+            <summary>
+            Returns Timings data in milliseconds for time spent processing by RestrictIp.Plugin requests.
+            </summary>
+            <returns>string</returns>
+        </member>
         <member name="T:RestrictIp.Plugin.Initialisation">
             <summary>
             Implements IPlugin which allows the RestrictIp.Plugin module to be
