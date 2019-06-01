@@ -32,10 +32,20 @@ using SharedPluginFeatures;
 
 namespace DocumentationPlugin.Models
 {
+    /// <summary>
+    /// Summary document for a documents type, method, field, constructor, property etc.
+    /// </summary>
     public sealed class DocumentViewTypeViewModel : BaseModel
     {
         #region Constructors
 
+        /// <summary>
+        /// Default constructor
+        /// </summary>
+        /// <param name="breadcrumbs">List of breadcrumbs to be displayed on the page.</param>
+        /// <param name="cartSummary">Shopping cart summary.</param>
+        /// <param name="title">Title of document</param>
+        /// <param name="allReferences">All references associated with the document.</param>
         public DocumentViewTypeViewModel(in List<BreadcrumbItem> breadcrumbs, in ShoppingCartSummary cartSummary,
             in string title, in string allReferences)
             : base(breadcrumbs, cartSummary)
@@ -51,34 +61,94 @@ namespace DocumentationPlugin.Models
 
         #region Properties
 
+        /// <summary>
+        /// Title for type
+        /// </summary>
+        /// <value>string</value>
         public string Title { get; private set; }
 
+        /// <summary>
+        /// Short description for the type.
+        /// </summary>
+        /// <value>string</value>
         public string ShortDescription { get; set; }
 
+        /// <summary>
+        /// Long description of the type.
+        /// </summary>
+        /// <value>string</value>
         public string LongDescription { get; set; }
 
+        /// <summary>
+        /// All references associated with type.
+        /// </summary>
+        /// <value>string</value>
         public string AllReferences { get; private set; }
 
+        /// <summary>
+        /// Determines whether strings are translated.
+        /// </summary>
+        /// <value>bool</value>
         public bool TranslateStrings { get; set; }
 
+        /// <summary>
+        /// List of alternative references linked to this type.
+        /// </summary>
+        /// <value>Dictionary&lt;string, string&gt;</value>
         public Dictionary<string, string> SeeAlso { get; set; }
 
+        /// <summary>
+        /// Namespace for the type.
+        /// </summary>
+        /// <value>string</value>
         public string Namespace { get; set; }
 
+        /// <summary>
+        /// Name of assembly where the type belongs.
+        /// </summary>
+        /// <value>string</value>
         public string Assembly { get; set; }
 
+        /// <summary>
+        /// Class name that the type belongs to.
+        /// </summary>
+        /// <value>string</value>
         public string ClassName { get; set; }
 
+        /// <summary>
+        /// Name of type.
+        /// </summary>
+        /// <value>string</value>
         public string TypeName { get; set; }
 
+        /// <summary>
+        /// Example useage.
+        /// </summary>
+        /// <value>string</value>
         public string ExampleUseage { get; set; }
 
+        /// <summary>
+        /// Value of type.
+        /// </summary>
+        /// <value>string</value>
         public string Value { get; set; }
 
+        /// <summary>
+        /// Value that is returned by the type.
+        /// </summary>
+        /// <value>string</value>
         public string Returns { get; set; }
 
+        /// <summary>
+        /// Any parameters that exist for the type.
+        /// </summary>
+        /// <value>List&lt;DocumentMethodParameter&gt;</value>
         public List<DocumentMethodParameter> Parameters { get; set; }
 
+        /// <summary>
+        /// Document summary
+        /// </summary>
+        /// <value>string</value>
         public string Summary { get; set; }
         
         #endregion Properties

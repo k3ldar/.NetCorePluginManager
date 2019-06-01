@@ -1,0 +1,310 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>DocumentationPlugin</name>
+    </assembly>
+    <members>
+        <member name="T:DocumentationPlugin.Classes.DocumentationModule">
+            <summary>
+            Provides a display class of documentation for a module.
+            </summary>
+        </member>
+        <member name="M:DocumentationPlugin.Classes.DocumentationModule.#ctor(System.String@,System.String@)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="title">Title of module.</param>
+            <param name="summary">Summary for module.</param>
+        </member>
+        <member name="P:DocumentationPlugin.Classes.DocumentationModule.Title">
+            <summary>
+            Title of module
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:DocumentationPlugin.Classes.DocumentationModule.Summary">
+            <summary>
+            Summary for module
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="T:DocumentationPlugin.Classes.DocumentationSettings">
+            <summary>
+            Settings which affect how the Documentation Plugin is configured.
+            </summary>
+        </member>
+        <member name="P:DocumentationPlugin.Classes.DocumentationSettings.Path">
+            <summary>
+            Default path where documentation files are located.
+            
+            Default value: %AppPath%\\Plugins
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="T:DocumentationPlugin.Classes.InitialiseEvents">
+            <summary>
+            Implements IPlugin which allows the Documentation.Plugin module to be
+            loaded as a plugin module.  Extends IInitialiseEvents interface.
+            </summary>
+        </member>
+        <member name="T:DocumentationPlugin.Classes.PluginClass">
+            <summary>
+            Implements IPlugin which allows the Documentation.Plugin module to be
+            loaded as a plugin module
+            </summary>
+        </member>
+        <member name="T:DocumentationPlugin.Models.DocumentViewModel">
+            <summary>
+            Model used when viewing a document
+            </summary>
+        </member>
+        <member name="M:DocumentationPlugin.Models.DocumentViewModel.#ctor(System.Collections.Generic.List{SharedPluginFeatures.BreadcrumbItem}@,SharedPluginFeatures.ShoppingCartSummary@,System.String@,System.String@,System.String@,System.String@)">
+            <summary>
+            Default Constructor
+            </summary>
+            <param name="breadcrumbs">List of breadcrumbs to be displayed on the page.</param>
+            <param name="cartSummary">Shopping cart summary.</param>
+            <param name="title">Title of document.</param>
+            <param name="shortDescription">Short description for the document</param>
+            <param name="longDescription">Long description for the document.</param>
+            <param name="allReferences">Any references found in other documents.</param>
+        </member>
+        <member name="P:DocumentationPlugin.Models.DocumentViewModel.Title">
+            <summary>
+            Document title.
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:DocumentationPlugin.Models.DocumentViewModel.ShortDescription">
+            <summary>
+            Short description for the document.
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:DocumentationPlugin.Models.DocumentViewModel.LongDescription">
+            <summary>
+            Long description for the document.
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:DocumentationPlugin.Models.DocumentViewModel.AllReferences">
+            <summary>
+            All references found for the document.
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:DocumentationPlugin.Models.DocumentViewModel.TranslateStrings">
+            <summary>
+            Determines whether strings should be translated.
+            </summary>
+            <value>bool</value>
+        </member>
+        <member name="P:DocumentationPlugin.Models.DocumentViewModel.Contains">
+            <summary>
+            List of sub sections within the document.
+            </summary>
+            <value>Dictionary&lt;string, string&gt;</value>
+        </member>
+        <member name="P:DocumentationPlugin.Models.DocumentViewModel.SeeAlso">
+            <summary>
+            List of other Documents linked to this document.
+            </summary>
+            <value>Dictionary&lt;string, string&gt;</value>
+        </member>
+        <member name="P:DocumentationPlugin.Models.DocumentViewModel.Namespace">
+            <summary>
+            Namespace the document belongs to.
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:DocumentationPlugin.Models.DocumentViewModel.Assembly">
+            <summary>
+            Assembly the document belongs to.
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:DocumentationPlugin.Models.DocumentViewModel.Fields">
+            <summary>
+            List of any fields contained within the document.
+            </summary>
+            <value>List&lt;DocumentField&gt;</value>
+        </member>
+        <member name="P:DocumentationPlugin.Models.DocumentViewModel.Methods">
+            <summary>
+            List of any methods contained within the document.
+            </summary>
+            <value>List&lt;DocumentMethod&gt;</value>
+        </member>
+        <member name="P:DocumentationPlugin.Models.DocumentViewModel.Exceptions">
+            <summary>
+            List of any exceptions contained within the document.
+            </summary>
+            <value>List&lt;DocumentMethodException&gt;</value>
+        </member>
+        <member name="P:DocumentationPlugin.Models.DocumentViewModel.Properties">
+            <summary>
+            List of any properties contained within the document
+            </summary>
+            <value>List&lt;DocumentProperty&gt;</value>
+        </member>
+        <member name="P:DocumentationPlugin.Models.DocumentViewModel.Constructors">
+            <summary>
+            List of constructors if any exist.
+            </summary>
+            <value>List&lt;DocumentMethod&gt;</value>
+        </member>
+        <member name="P:DocumentationPlugin.Models.DocumentViewModel.PreviousDocument">
+            <summary>
+            Previous root document in the list.
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:DocumentationPlugin.Models.DocumentViewModel.NextDocument">
+            <summary>
+            Next root document in the list.
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:DocumentationPlugin.Models.DocumentViewModel.Example">
+            <summary>
+            Example text, this should be formatted html
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="T:DocumentationPlugin.Models.DocumentViewTypeViewModel">
+            <summary>
+            Summary document for a documents type, method, field, constructor, property etc.
+            </summary>
+        </member>
+        <member name="M:DocumentationPlugin.Models.DocumentViewTypeViewModel.#ctor(System.Collections.Generic.List{SharedPluginFeatures.BreadcrumbItem}@,SharedPluginFeatures.ShoppingCartSummary@,System.String@,System.String@)">
+            <summary>
+            Default constructor
+            </summary>
+            <param name="breadcrumbs">List of breadcrumbs to be displayed on the page.</param>
+            <param name="cartSummary">Shopping cart summary.</param>
+            <param name="title">Title of document</param>
+            <param name="allReferences">All references associated with the document.</param>
+        </member>
+        <member name="P:DocumentationPlugin.Models.DocumentViewTypeViewModel.Title">
+            <summary>
+            Title for type
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:DocumentationPlugin.Models.DocumentViewTypeViewModel.ShortDescription">
+            <summary>
+            Short description for the type.
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:DocumentationPlugin.Models.DocumentViewTypeViewModel.LongDescription">
+            <summary>
+            Long description of the type.
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:DocumentationPlugin.Models.DocumentViewTypeViewModel.AllReferences">
+            <summary>
+            All references associated with type.
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:DocumentationPlugin.Models.DocumentViewTypeViewModel.TranslateStrings">
+            <summary>
+            Determines whether strings are translated.
+            </summary>
+            <value>bool</value>
+        </member>
+        <member name="P:DocumentationPlugin.Models.DocumentViewTypeViewModel.SeeAlso">
+            <summary>
+            List of alternative references linked to this type.
+            </summary>
+            <value>Dictionary&lt;string, string&gt;</value>
+        </member>
+        <member name="P:DocumentationPlugin.Models.DocumentViewTypeViewModel.Namespace">
+            <summary>
+            Namespace for the type.
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:DocumentationPlugin.Models.DocumentViewTypeViewModel.Assembly">
+            <summary>
+            Name of assembly where the type belongs.
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:DocumentationPlugin.Models.DocumentViewTypeViewModel.ClassName">
+            <summary>
+            Class name that the type belongs to.
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:DocumentationPlugin.Models.DocumentViewTypeViewModel.TypeName">
+            <summary>
+            Name of type.
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:DocumentationPlugin.Models.DocumentViewTypeViewModel.ExampleUseage">
+            <summary>
+            Example useage.
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:DocumentationPlugin.Models.DocumentViewTypeViewModel.Value">
+            <summary>
+            Value of type.
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:DocumentationPlugin.Models.DocumentViewTypeViewModel.Returns">
+            <summary>
+            Value that is returned by the type.
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:DocumentationPlugin.Models.DocumentViewTypeViewModel.Parameters">
+            <summary>
+            Any parameters that exist for the type.
+            </summary>
+            <value>List&lt;DocumentMethodParameter&gt;</value>
+        </member>
+        <member name="P:DocumentationPlugin.Models.DocumentViewTypeViewModel.Summary">
+            <summary>
+            Document summary
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="T:DocumentationPlugin.Models.IndexViewModel">
+            <summary>
+            View model for displaying module summaries.
+            </summary>
+        </member>
+        <member name="M:DocumentationPlugin.Models.IndexViewModel.#ctor(System.Collections.Generic.List{SharedPluginFeatures.BreadcrumbItem}@,SharedPluginFeatures.ShoppingCartSummary@)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="breadcrumbs">List of breadcrumbs to be displayed on the page.</param>
+            <param name="cartSummary">Shopping cart summary.</param>
+        </member>
+        <member name="P:DocumentationPlugin.Models.IndexViewModel.AssemblyNames">
+            <summary>
+            List of all modules that have been loaded.
+            </summary>
+            <value>Dictionary&lt;string, DocumentationModule&gt;</value>
+        </member>
+        <member name="P:DocumentationPlugin.Models.IndexViewModel.Image">
+            <summary>
+            Image to be displayed with the module.
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="M:DocumentationPlugin.Models.IndexViewModel.ProcessImage(System.String@)">
+            <summary>
+            Processes the image, if it doesn't exist returns a standard image.
+            </summary>
+            <param name="image">image to be displayed.</param>
+            <returns>string</returns>
+        </member>
+    </members>
+</doc>

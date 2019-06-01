@@ -2,6 +2,7 @@
 
 namespace ErrorManager.Plugin.Pages
 {
+#pragma warning disable CS1591
     public class ContactModel : PageModel
     {
         public string Message { get; set; }
@@ -11,4 +12,5 @@ namespace ErrorManager.Plugin.Pages
             Message = "Your contact page.";
         }
     }
+#pragma warning restore CS1591
 }

@@ -32,10 +32,22 @@ using SharedPluginFeatures;
 
 namespace DocumentationPlugin.Models
 {
+    /// <summary>
+    /// Model used when viewing a document
+    /// </summary>
     public sealed class DocumentViewModel : BaseModel
     {
         #region Constructors
 
+        /// <summary>
+        /// Default Constructor
+        /// </summary>
+        /// <param name="breadcrumbs">List of breadcrumbs to be displayed on the page.</param>
+        /// <param name="cartSummary">Shopping cart summary.</param>
+        /// <param name="title">Title of document.</param>
+        /// <param name="shortDescription">Short description for the document</param>
+        /// <param name="longDescription">Long description for the document.</param>
+        /// <param name="allReferences">Any references found in other documents.</param>
         public DocumentViewModel(in List<BreadcrumbItem> breadcrumbs, in ShoppingCartSummary cartSummary,
             in string title, in string shortDescription, in string longDescription, in string allReferences)
             : base (breadcrumbs, cartSummary)
@@ -53,38 +65,106 @@ namespace DocumentationPlugin.Models
 
         #region Properties
 
+        /// <summary>
+        /// Document title.
+        /// </summary>
+        /// <value>string</value>
         public string Title { get; private set; }
 
+        /// <summary>
+        /// Short description for the document.
+        /// </summary>
+        /// <value>string</value>
         public string ShortDescription { get; private set; }
 
+        /// <summary>
+        /// Long description for the document.
+        /// </summary>
+        /// <value>string</value>
         public string LongDescription { get; private set; }
 
+        /// <summary>
+        /// All references found for the document.
+        /// </summary>
+        /// <value>string</value>
         public string AllReferences { get; private set; }
 
+        /// <summary>
+        /// Determines whether strings should be translated.
+        /// </summary>
+        /// <value>bool</value>
         public bool TranslateStrings { get; set; }
 
+        /// <summary>
+        /// List of sub sections within the document.
+        /// </summary>
+        /// <value>Dictionary&lt;string, string&gt;</value>
         public Dictionary<string, string> Contains { get; set; }
 
+        /// <summary>
+        /// List of other Documents linked to this document.
+        /// </summary>
+        /// <value>Dictionary&lt;string, string&gt;</value>
         public Dictionary<string, string> SeeAlso { get; set; }
 
+        /// <summary>
+        /// Namespace the document belongs to.
+        /// </summary>
+        /// <value>string</value>
         public string Namespace { get; set; }
 
+        /// <summary>
+        /// Assembly the document belongs to.
+        /// </summary>
+        /// <value>string</value>
         public string Assembly { get; set; }
 
+        /// <summary>
+        /// List of any fields contained within the document.
+        /// </summary>
+        /// <value>List&lt;DocumentField&gt;</value>
         public List<DocumentField> Fields { get; set; }
 
+        /// <summary>
+        /// List of any methods contained within the document.
+        /// </summary>
+        /// <value>List&lt;DocumentMethod&gt;</value>
         public List<DocumentMethod> Methods { get; set; }
 
+        /// <summary>
+        /// List of any exceptions contained within the document.
+        /// </summary>
+        /// <value>List&lt;DocumentMethodException&gt;</value>
         public List<DocumentMethodException> Exceptions { get; set; }
 
+        /// <summary>
+        /// List of any properties contained within the document
+        /// </summary>
+        /// <value>List&lt;DocumentProperty&gt;</value>
         public List<DocumentProperty> Properties { get; set; }
 
+        /// <summary>
+        /// List of constructors if any exist.
+        /// </summary>
+        /// <value>List&lt;DocumentMethod&gt;</value>
         public List<DocumentMethod> Constructors { get; set; }
 
+        /// <summary>
+        /// Previous root document in the list.
+        /// </summary>
+        /// <value>string</value>
         public string PreviousDocument { get; set; }
 
+        /// <summary>
+        /// Next root document in the list.
+        /// </summary>
+        /// <value>string</value>
         public string NextDocument { get; set; }
 
+        /// <summary>
+        /// Example text, this should be formatted html
+        /// </summary>
+        /// <value>string</value>
         public string Example { get; set; }
 
         #endregion Properties

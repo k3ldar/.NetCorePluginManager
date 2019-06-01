@@ -77,6 +77,11 @@
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netcoreapp2.2|AnyCPU'">
+    <DocumentationFile>..\..\Docs\XmlFiles\LoginPlugin.xml</DocumentationFile>
+    <NoWarn>1701;1702;CS1591</NoWarn>
+  </PropertyGroup>
+
   <ItemGroup>
     <Content Remove="Views\Login\AccountLocked.cshtml" />
     <Content Remove="Views\Login\ForgotPassword.cshtml" />

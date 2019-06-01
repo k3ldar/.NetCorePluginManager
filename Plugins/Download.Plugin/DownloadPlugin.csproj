@@ -76,6 +76,10 @@
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netcoreapp2.2|AnyCPU'">
+    <DocumentationFile>..\..\Docs\XmlFiles\DownloadPlugin.xml</DocumentationFile>
+  </PropertyGroup>
+
   <ItemGroup>
     <Content Remove="Views\Download\Category.cshtml" />
     <Content Remove="Views\Download\_LeftMenu.cshtml" />

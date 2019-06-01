@@ -1,0 +1,114 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>LoginPlugin</name>
+    </assembly>
+    <members>
+        <member name="T:LoginPlugin.Classes.PluginClass">
+            <summary>
+            Implements IPlugin and IPluginVersion which allows the Login.Plugin module to be
+            loaded as a plugin module
+            </summary>
+        </member>
+        <member name="T:LoginPlugin.LoginControllerSettings">
+            <summary>
+            Settings that determine how the Login.Plugin module is configured and used.
+            </summary>
+        </member>
+        <member name="P:LoginPlugin.LoginControllerSettings.CaptchaShowFailCount">
+            <summary>
+            Maximum number of attempts to login before the user is prevented from logging in for several minutes.
+            </summary>
+            <value>int</value>
+        </member>
+        <member name="P:LoginPlugin.LoginControllerSettings.CaptchaWordLength">
+            <summary>
+            Length of the Captcha word.
+            
+            Default: 7
+            Minimum: 6
+            Maximum: 12
+            </summary>
+        </member>
+        <member name="P:LoginPlugin.LoginControllerSettings.LoginSuccessUrl">
+            <summary>
+            The absolute or relative Uri where the user will be redirected to if the login was successful.
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:LoginPlugin.LoginControllerSettings.CacheUseSession">
+            <summary>
+            Determines whether the ip address or unique Net Core session id is used to cache data.
+            
+            This is mainly useful in a debug environment and should be set to true.
+            </summary>
+            <value>bool</value>
+        </member>
+        <member name="P:LoginPlugin.LoginControllerSettings.ShowRememberMe">
+            <summary>
+            Determines whether the Remember Me option is shown or not.
+            </summary>
+            <value>bool</value>
+        </member>
+        <member name="P:LoginPlugin.LoginControllerSettings.RememberMeCookieName">
+            <summary>
+            Remember me cookie name.
+            
+            Must be between 6 and 20 characters long.
+            
+            Default: RememberMe
+            </summary>
+        </member>
+        <member name="P:LoginPlugin.LoginControllerSettings.EncryptionKey">
+            <summary>
+            Encryption key used to encrypt cookie values.
+            
+            Must be between 20 and 60 characters long.
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:LoginPlugin.LoginControllerSettings.LoginDays">
+            <summary>
+            Number of days the user can remain logged in, this is accomplished using cookies.
+            
+            Default: 30
+            Minimum: 1
+            Maximum: 360
+            </summary>
+            <value>int</value>
+        </member>
+        <member name="P:LoginPlugin.LoginControllerSettings.ChangePasswordUrl">
+            <summary>
+            Url that the user can be redirected to, in order to change their password.
+            
+            This must be either a relative or absolute Uri.
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="T:LoginPlugin.LoginMiddleware">
+            <summary>
+            Login middleware ensures that users don't visit routes that are marked as LoggedIn or LoggedOut depending on their login status.
+            </summary>
+        </member>
+        <member name="T:LoginPlugin.LoginMiddlewareExtender">
+            <summary>
+            Login middleware extender
+            </summary>
+        </member>
+        <member name="M:LoginPlugin.LoginMiddlewareExtender.UseLogin(Microsoft.AspNetCore.Builder.IApplicationBuilder)">
+            <summary>
+            IApplicationBuilder extender method.
+            
+            Allows easy use of registering Login.Plugin services
+            </summary>
+            <param name="builder">IApplicationBuilder instance</param>
+            <returns>IApplicationBuilder</returns>
+            <example><pre style="font-family:Consolas;font-size:13px;color:black;background:white;"><span style="color:#1f377f;">app</span>.<span style="color:#74531f;">UseLogin</span>();</pre></example>
+        </member>
+        <member name="T:LoginPlugin.Controllers.LoginController">
+            <summary>
+            Login controller, allows users to login using a standard interface implemented by ILoginProvider interface.
+            </summary>
+        </member>
+    </members>
+</doc>

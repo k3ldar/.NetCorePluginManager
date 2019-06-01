@@ -41,6 +41,9 @@ using static Middleware.Constants;
 
 namespace LoginPlugin.Controllers
 {
+    /// <summary>
+    /// Login controller, allows users to login using a standard interface implemented by ILoginProvider interface.
+    /// </summary>
     [LoggedOut]
     public class LoginController : BaseController
     {

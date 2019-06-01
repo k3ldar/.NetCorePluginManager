@@ -27,28 +27,41 @@ using System;
 
 namespace DocumentationPlugin.Classes
 {
+    /// <summary>
+    /// Provides a display class of documentation for a module.
+    /// </summary>
     public sealed class DocumentationModule
     {
         #region Constructors
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="title">Title of module.</param>
+        /// <param name="summary">Summary for module.</param>
         public DocumentationModule(in string title, in string summary)
         {
             if (String.IsNullOrEmpty(title))
                 throw new ArgumentNullException(nameof(title));
 
-            if (String.IsNullOrEmpty(summary))
-                throw new ArgumentNullException(nameof(summary));
-
             Title = title;
-            Summary = summary;
+            Summary = summary ?? String.Empty;
         }
 
         #endregion Constructors
 
         #region Properties
 
+        /// <summary>
+        /// Title of module
+        /// </summary>
+        /// <value>string</value>
         public string Title { get; private set; }
 
+        /// <summary>
+        /// Summary for module
+        /// </summary>
+        /// <value>string</value>
         public string Summary { get; private set; }
 
         #endregion Properties

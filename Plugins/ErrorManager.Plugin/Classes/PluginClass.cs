@@ -28,8 +28,14 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using SharedPluginFeatures;
 
+#pragma warning disable CS1591
+
 namespace ErrorManager.Plugin.Classes
 {
+    /// <summary>
+    /// Implements IPlugin and IPluginVersion which allows the ErrorManager.Plugin module to be
+    /// loaded as a plugin module
+    /// </summary>
     public class PluginClass : IPlugin, IPluginVersion
     {
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
@@ -58,3 +64,5 @@ namespace ErrorManager.Plugin.Classes
         }
     }
 }
+
+#pragma warning restore CS1591

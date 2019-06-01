@@ -27,8 +27,15 @@ using System;
 
 using SharedPluginFeatures;
 
+#pragma warning disable CS1591
+
 namespace ErrorManager.Plugin.Classes.SystemAdmin
 {
+    /// <summary>
+    /// Returns a list of current Timings for all requests processed and can be viewed within SystemAdmin.Plugin.  
+    /// 
+    /// This class descends from SystemAdminSubMenu.
+    /// </summary>
     public sealed class ErrorTimingsSubMenu : SystemAdminSubMenu
     {
         public override string Action()
@@ -46,6 +53,10 @@ namespace ErrorManager.Plugin.Classes.SystemAdmin
             return (String.Empty);
         }
 
+        /// <summary>
+        /// Returns Timings data in milliseconds for time spent processing by ErrorManager.Plugin.
+        /// </summary>
+        /// <returns>string</returns>
         public override string Data()
         {
             string Result = "Setting|Value";
@@ -87,3 +98,5 @@ namespace ErrorManager.Plugin.Classes.SystemAdmin
         }
     }
 }
+
+#pragma warning restore CS1591

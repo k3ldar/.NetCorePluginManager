@@ -44,6 +44,8 @@ using Languages;
 
 using DownloadPlugin.Classes;
 
+#pragma warning disable CS1591
+
 namespace DownloadPlugin.Controllers
 {
     public class DownloadController : BaseController
@@ -222,3 +224,5 @@ namespace DownloadPlugin.Controllers
         #endregion Private Methods
     }
 }
+
+#pragma warning restore CS1591

@@ -25,15 +25,25 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
 using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace DownloadPlugin.Models
 {
+    /// <summary>
+    /// Represents a downloadable item
+    /// </summary>
     public sealed class DownloadableItem
     {
         #region Constructors
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="id">Unique id of downloadable item.</param>
+        /// <param name="name">Name of downloadable item.</param>
+        /// <param name="description">Description of download item.</param>
+        /// <param name="version">Version of download item.</param>
+        /// <param name="filename">Filename.</param>
+        /// <param name="size">Size of file.</param>
         public DownloadableItem(in int id, in string name, in string description, in string version, 
             in string filename, in string size)
         {
@@ -49,16 +59,40 @@ namespace DownloadPlugin.Models
 
         #region Properties
 
+        /// <summary>
+        /// Unique id of downloadable item.
+        /// </summary>
+        /// <value>int</value>
         public int Id { get; private set; }
 
+        /// <summary>
+        /// Name of downloadable item.
+        /// </summary>
+        /// <value>string</value>
         public string Name { get; private set; }
 
+        /// <summary>
+        /// Description of download item.
+        /// </summary>
+        /// <value>string</value>
         public string Description { get; private set; }
 
+        /// <summary>
+        /// Version of download item.
+        /// </summary>
+        /// <value>string</value>
         public string Version { get; private set; }
 
+        /// <summary>
+        /// Filename
+        /// </summary>
+        /// <value>string</value>
         public string Filename { get; private set; }
 
+        /// <summary>
+        /// Icon to be displayed.
+        /// </summary>
+        /// <value>string</value>
         public string Icon
         {
             get
@@ -86,6 +120,10 @@ namespace DownloadPlugin.Models
             }
         }
 
+        /// <summary>
+        /// Size of file.
+        /// </summary>
+        /// <value>string</value>
         public string Size { get; private set; }
 
         #endregion Properties

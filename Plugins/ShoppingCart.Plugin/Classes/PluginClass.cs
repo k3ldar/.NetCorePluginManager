@@ -33,6 +33,10 @@ using SharedPluginFeatures;
 
 namespace ShoppingCartPlugin
 {
+    /// <summary>
+    /// Implements IPlugin, IPluginVersion and IInitialiseEvents which allows the ShoppingCartPlugin module to be
+    /// loaded as a plugin module
+    /// </summary>
     public class PluginClass : IPlugin, IPluginVersion, IInitialiseEvents
     {
         #region Static Internal Members

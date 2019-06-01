@@ -63,6 +63,11 @@
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netcoreapp2.2|AnyCPU'">
+    <DocumentationFile>..\..\Docs\XmlFiles\UserAccount.Plugin.xml</DocumentationFile>
+    <NoWarn>1701;1702;CS1591</NoWarn>
+  </PropertyGroup>
+
   <ItemGroup>
     <Content Remove="Views\Account\BillingAddress.cshtml" />
     <Content Remove="Views\Account\ChangePassword.cshtml" />

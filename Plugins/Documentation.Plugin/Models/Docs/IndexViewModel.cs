@@ -32,10 +32,18 @@ using SharedPluginFeatures;
 
 namespace DocumentationPlugin.Models
 {
+    /// <summary>
+    /// View model for displaying module summaries.
+    /// </summary>
     public sealed class IndexViewModel : BaseModel
     {
         #region Constructors
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="breadcrumbs">List of breadcrumbs to be displayed on the page.</param>
+        /// <param name="cartSummary">Shopping cart summary.</param>
         public IndexViewModel(in List<BreadcrumbItem> breadcrumbs, in ShoppingCartSummary cartSummary)
             : base(breadcrumbs, cartSummary)
         {
@@ -46,14 +54,27 @@ namespace DocumentationPlugin.Models
 
         #region Properties
 
+        /// <summary>
+        /// List of all modules that have been loaded.
+        /// </summary>
+        /// <value>Dictionary&lt;string, DocumentationModule&gt;</value>
         public Dictionary<string, DocumentationModule> AssemblyNames { get; private set; }
 
+        /// <summary>
+        /// Image to be displayed with the module.
+        /// </summary>
+        /// <value>string</value>
         public string Image { get; set; }
 
         #endregion Properties
 
         #region Methods
 
+        /// <summary>
+        /// Processes the image, if it doesn't exist returns a standard image.
+        /// </summary>
+        /// <param name="image">image to be displayed.</param>
+        /// <returns>string</returns>
         public string ProcessImage(in string image)
         {
             if (String.IsNullOrEmpty(image))

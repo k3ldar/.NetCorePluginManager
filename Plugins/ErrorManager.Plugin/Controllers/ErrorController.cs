@@ -35,8 +35,13 @@ using static Shared.Utilities;
 
 using SharedPluginFeatures;
 
+#pragma warning disable CS1591
+
 namespace ErrorManager.Plugin.Controllers
 {
+    /// <summary>
+    /// Error Controller
+    /// </summary>
     public class ErrorController : BaseController
     {
         #region Private Members
@@ -153,3 +158,5 @@ namespace ErrorManager.Plugin.Controllers
         #endregion Private Methods
     }
 }
+
+#pragma warning restore CS1591

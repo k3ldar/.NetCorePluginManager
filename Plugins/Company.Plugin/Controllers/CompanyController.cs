@@ -29,6 +29,8 @@ using Company.Plugin.Classes;
 
 using SharedPluginFeatures;
 
+#pragma warning disable CS1591
+
 namespace Company.Plugin.Controllers
 {
     public class CompanyController : BaseController
@@ -143,3 +145,5 @@ namespace Company.Plugin.Controllers
         #endregion Public Controller Methods
     }
 }
+
+#pragma warning restore CS1591

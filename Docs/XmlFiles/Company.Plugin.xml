@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Company.Plugin</name>
+    </assembly>
+    <members>
+        <member name="T:Company.Plugin.Classes.PluginClass">
+            <summary>
+            Implements IPlugin which allows the CompanyPlugin module to be
+            loaded as a plugin module
+            </summary>
+        </member>
+    </members>
+</doc>

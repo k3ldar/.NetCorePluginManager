@@ -76,6 +76,10 @@
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netcoreapp2.2|AnyCPU'">
+    <DocumentationFile>..\..\Docs\XmlFiles\Company.Plugin.xml</DocumentationFile>
+  </PropertyGroup>
+
   <ItemGroup>
     <Content Remove="Views\Company\About.cshtml" />
     <Content Remove="Views\Company\Affiliate.cshtml" />

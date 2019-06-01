@@ -27,7 +27,7 @@ using System;
 
 namespace LoginPlugin.Classes
 {
-    public class LoginCacheItem
+    internal class LoginCacheItem
     {
         #region Constructors
 

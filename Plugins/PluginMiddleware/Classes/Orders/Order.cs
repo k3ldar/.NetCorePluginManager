@@ -29,10 +29,23 @@ using System.Globalization;
 
 namespace Middleware.Accounts.Orders
 {
+    /// <summary>
+    /// Represents a users order, primarily used by IAccountProvider within the UserAccount.Plugin module.
+    /// </summary>
     public sealed class Order
     {
         #region Constructors
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="id">Unique id for the order.</param>
+        /// <param name="date">Date and time the order was created.</param>
+        /// <param name="postage">Cost of postage for the order.</param>
+        /// <param name="culture">Culture used for the order.</param>
+        /// <param name="processStatus">Current process status for the order.</param>
+        /// <param name="deliveryAddress">Delivery address where the order will be dispatched to.</param>
+        /// <param name="orderItems">List of items within the order.</param>
         public Order(in int id, in DateTime date, in decimal postage, in CultureInfo culture, 
             in ProcessStatus processStatus, DeliveryAddress deliveryAddress, 
             List<OrderItem> orderItems)
@@ -56,23 +69,52 @@ namespace Middleware.Accounts.Orders
 
         #region Properties
 
+        /// <summary>
+        /// Unique id for the order.
+        /// </summary>
+        /// <value>int</value>
         public int Id { get; private set; }
 
+        /// <summary>
+        /// Date and time the order was created.
+        /// </summary>
+        /// <value>DateTime</value>
         public DateTime Date { get; private set; }
 
+        /// <summary>
+        /// Delivery address where the order will be dispatched to.
+        /// </summary>
+        /// <value>DeliveryAddress</value>
         public DeliveryAddress DeliveryAddress { get; private set; }
 
+        /// <summary>
+        /// Cost of postage for the order.
+        /// </summary>
+        /// <value>decimal</value>
         public decimal Postage { get; private set; }
 
+        /// <summary>
+        /// Culture used for the order.
+        /// </summary>
+        /// <value>CultureInfo</value>
         public CultureInfo Culture { get; private set; }
 
+        /// <summary>
+        /// Current process status for the order.
+        /// </summary>
+        /// <value>ProcessStatus</value>
         public ProcessStatus Status { get; private set; }
 
+        /// <summary>
+        /// List of items within the order.
+        /// </summary>
+        /// <value>List&lt;OrderItem&gt;</value>
         public List<OrderItem> OrderItems { get; private set; }
 
         /// <summary>
         /// Total discount amount
         /// </summary>
+        /// <value>decimal</value>
         public decimal Discount
         {
             get
@@ -89,6 +131,7 @@ namespace Middleware.Accounts.Orders
         /// <summary>
         /// Total without tax
         /// </summary>
+        /// <value>decimal</value>
         public decimal SubTotal
         {
             get
@@ -105,6 +148,7 @@ namespace Middleware.Accounts.Orders
         /// <summary>
         /// Total Tax amount
         /// </summary>
+        /// <value>decimal</value>
         public decimal Tax
         {
             get
@@ -121,6 +165,7 @@ namespace Middleware.Accounts.Orders
         /// <summary>
         /// Total cost + Tax
         /// </summary>
+        /// <value>decimal</value>
         public decimal Total
         {
             get
@@ -134,6 +179,10 @@ namespace Middleware.Accounts.Orders
             }
         }
 
+        /// <summary>
+        /// Count of items within the order.
+        /// </summary>
+        /// <value>decimal</value>
         public decimal ItemCount
         {
             get

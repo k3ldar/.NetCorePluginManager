@@ -30,6 +30,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
+#pragma warning disable CS1591
+
 namespace HelpdeskPlugin
 {
     public class Startup
@@ -80,3 +82,5 @@ namespace HelpdeskPlugin
         }
     }
 }
+
+#pragma warning restore CS1591

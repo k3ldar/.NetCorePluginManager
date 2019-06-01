@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>ProductPlugin</name>
+    </assembly>
+    <members>
+        <member name="T:ProductPlugin.Classes.PluginClass">
+            <summary>
+            Implements IPlugin and IPluginVersion which allows the ProductsPlugin module to be
+            loaded as a plugin module
+            </summary>
+        </member>
+        <member name="T:ProductPlugin.ProductControllerSettings">
+            <summary>
+            Products which affect how ProductsPlugin is configured.
+            </summary>
+        </member>
+        <member name="P:ProductPlugin.ProductControllerSettings.ProductsPerPage">
+            <summary>
+            Number of products to display on each page.
+            
+            Default: 12
+            Minimum: 1
+            Maximum: 500
+            </summary>
+            <value>uint</value>
+        </member>
+        <member name="T:ProductPlugin.Controllers.ProductController">
+            <summary>
+            Product controller displays standard product information on a website.
+            </summary>
+        </member>
+    </members>
+</doc>

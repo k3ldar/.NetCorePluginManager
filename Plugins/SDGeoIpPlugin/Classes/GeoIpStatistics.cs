@@ -37,9 +37,6 @@ namespace SieraDeltaGeoIp.Plugin
 
         private static readonly object _lockObject = new object();
 
-        public long _memoryMilliseconds;
-        public long _databaseMilliseconds;
-        public long _cacheMilliseconds;
         private uint _recordsLoaded;
         private TimeSpan _loadTime;
 

@@ -2,6 +2,7 @@
 
 namespace ErrorManager.Plugin.Pages
 {
+#pragma warning disable CS1591
     public class IndexModel : PageModel
     {
         public void OnGet()
@@ -9,4 +10,5 @@ namespace ErrorManager.Plugin.Pages
 
         }
     }
+#pragma warning restore CS1591
 }

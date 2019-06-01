@@ -28,6 +28,8 @@ using System;
 using SharedPluginFeatures;
 using static SharedPluginFeatures.Enums;
 
+#pragma warning disable CS1591
+
 namespace Company.Plugin.Classes
 {
     public class Logger : ILogger
@@ -58,3 +60,5 @@ namespace Company.Plugin.Classes
         #endregion ILogger Methods
     }
 }
+
+#pragma warning restore CS1591

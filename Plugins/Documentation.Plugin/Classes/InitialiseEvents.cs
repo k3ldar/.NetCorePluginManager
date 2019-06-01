@@ -31,8 +31,14 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 
 using SharedPluginFeatures;
 
+#pragma warning disable CS1591
+
 namespace DocumentationPlugin.Classes
 {
+    /// <summary>
+    /// Implements IPlugin which allows the Documentation.Plugin module to be
+    /// loaded as a plugin module.  Extends IInitialiseEvents interface.
+    /// </summary>
     public sealed class InitialiseEvents : IInitialiseEvents
     {
         public void AfterConfigure(in IApplicationBuilder app, in IHostingEnvironment env)
@@ -56,3 +62,5 @@ namespace DocumentationPlugin.Classes
         }
     }
 }
+
+#pragma warning restore CS1591

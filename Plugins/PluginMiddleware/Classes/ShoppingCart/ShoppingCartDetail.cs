@@ -34,10 +34,28 @@ using Middleware.Products;
 
 namespace Middleware.ShoppingCart
 {
+    /// <summary>
+    /// Provides detailed information about shopping a users shopping cart.  Descends from ShoppingCartSummary
+    /// and is used with IShoppingCartProvider and ShoppingCart.Plugin module.
+    /// </summary>
     public sealed class ShoppingCartDetail : ShoppingCartSummary
     {
         #region Constructors
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="id">Unique id of the shopping cart.</param>
+        /// <param name="totalItems">Total number of items within the shopping cart.</param>
+        /// <param name="totalCost">Total cost of the shopping cart.</param>
+        /// <param name="taxRate">Tax rate applied to the shopping cart.</param>
+        /// <param name="shipping">Shipping rate for the shopping cart.</param>
+        /// <param name="discount">Discount that has been applied to the shopping cart.</param>
+        /// <param name="culture">Culture that has been used for the shopping cart.</param>
+        /// <param name="couponCode">Coupon code that has been applied to the shopping cart.</param>
+        /// <param name="items">List of items within the shopping cart.</param>
+        /// <param name="requiresShipping">Indicates that the cart has items that need shipping.</param>
+        /// <param name="currencyCode">Currency code for the shopping cart.</param>
         public ShoppingCartDetail(in long id, in int totalItems, in decimal totalCost, 
             in decimal taxRate, in decimal shipping, in decimal discount, in CultureInfo culture, 
             in string couponCode, in List<ShoppingCartItem> items, in bool requiresShipping,
@@ -53,18 +71,39 @@ namespace Middleware.ShoppingCart
 
         #region Properties
 
+        /// <summary>
+        /// Coupon code that has been applied to the shopping cart.
+        /// </summary>
+        /// <value>string</value>
         public string CouponCode { get; private set; }
 
+        /// <summary>
+        /// List of all items within the shopping cart.
+        /// </summary>
+        /// <value>List&lt;ShoppingCartItems&gt;</value>
         public List<ShoppingCartItem> Items { get; private set; }
 
+        /// <summary>
+        /// Determines whether the cart contains items that require shipping.
+        /// </summary>
+        /// <value>bool.  True if items require shipping.</value>
         public bool RequiresShipping { get; private set; }
 
+        /// <summary>
+        /// Unique delivery address for the users, where the products will be shipped to.
+        /// </summary>
+        /// <value>int</value>
         public int DeliveryAddressId { get; private set; }
 
         #endregion Properties
 
         #region Public Methods
 
+        /// <summary>
+        /// Adds a new product to the shopping cart.
+        /// </summary>
+        /// <param name="product">Product to be added to the cart.</param>
+        /// <param name="count">Quantity to be added to the cart.</param>
         public void Add(in Product product, in int count)
         {
             if (product == null)
@@ -95,18 +134,27 @@ namespace Middleware.ShoppingCart
             ResetTotalCost(base.SubTotal + (product.RetailPrice * count));
         }
 
-        public void Update(int productId, int quantity)
+        /// <summary>
+        /// Updates the quantity for a specific product within the shopping cart.
+        /// </summary>
+        /// <param name="productId">Unique id of the product to be updated.</param>
+        /// <param name="count">New quantity to be applied to the Product.</param>
+        public void Update(int productId, int count)
         {
             ShoppingCartItem existingItem = Items.Where(e => e.Id == productId).FirstOrDefault();
 
             if (existingItem == null)
                 throw new ArgumentException(nameof(productId));
 
-            existingItem.ResetCount(quantity);
+            existingItem.ResetCount(count);
 
             Reset();
         }
 
+        /// <summary>
+        /// Deletes a product from the shopping cart.
+        /// </summary>
+        /// <param name="productId">Unique id of the product to be deleted.</param>
         public void Delete(int productId)
         {
             ShoppingCartItem item = Items.Where(i => i.Id == productId).FirstOrDefault();
@@ -119,12 +167,19 @@ namespace Middleware.ShoppingCart
             }
         }
 
+        /// <summary>
+        /// Resets the total cost and item count of all items within the cart.
+        /// </summary>
         public void Reset()
         {
             ResetTotalItems((int)Items.Sum(s => s.ItemCount));
             ResetTotalCost(Items.Sum(s => s.ItemCost * s.ItemCount));
         }
 
+        /// <summary>
+        /// Sets the delivery address for the shopping cart, this is typically completed during the checkout phase.
+        /// </summary>
+        /// <param name="address">Address the user wants the cart shipping to.</param>
         public void SetDeliveryAddress(in Address address)
         {
             if (address == null)

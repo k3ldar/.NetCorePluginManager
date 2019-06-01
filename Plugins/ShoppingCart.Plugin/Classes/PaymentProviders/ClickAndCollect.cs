@@ -36,6 +36,11 @@ using Shared.Classes;
 
 namespace ShoppingCartPlugin.Classes.PaymentProviders
 {
+    /// <summary>
+    /// Click and collect payment provider.  This payment provider is used when a user orders online, but then visits a store to complete the sale and make payment.
+    /// 
+    /// This class implements IPaymentProvider interface.
+    /// </summary>
     public sealed class ClickAndCollect : IPaymentProvider
     {
         #region Private Members

@@ -25,6 +25,8 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using AppSettings;
 
+#pragma warning disable CS1591
+
 namespace Company.Plugin.Classes
 {
     public sealed class CompanySettings
@@ -64,3 +66,5 @@ namespace Company.Plugin.Classes
         #endregion Properties
     }
 }
+
+#pragma warning restore CS1591

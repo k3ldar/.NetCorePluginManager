@@ -35,12 +35,12 @@ namespace MemoryCache.Plugin
     public static class MemoryCachePluginExtender
     {
         /// <summary>
-        /// IApplicationBuilder extender method.
+        /// IServiceCollection extender method.
         /// 
         /// Allows easy use of registering MemoryCachePlugin services
         /// </summary>
         /// <param name="services">IServiceCollection instance</param>
-        /// <returns>IApplicationBuilder</returns>
+        /// <returns>IServiceCollection</returns>
         /// <example><pre style="font-family:Consolas;font-size:13px;color:black;background:white;"><span style="color:#1f377f;">app</span>.<span style="color:#74531f;">UseMemoryCache</span>();</pre></example>
         public static void UseMemoryCache(this IServiceCollection services)
         {

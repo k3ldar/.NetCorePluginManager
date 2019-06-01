@@ -38,6 +38,11 @@ using ShoppingCartPlugin.Classes.Paypoint;
 
 namespace ShoppingCartPlugin.Classes.PaymentProviders
 {
+    /// <summary>
+    /// Paypoint payment provider.  This payment provider is used when a user orders online and makes a payment using the online Paypoint payment service.
+    /// 
+    /// This class implements IPaymentProvider interface.
+    /// </summary>
     public sealed class Paypoint : IPaymentProvider
     {
         #region Private Members

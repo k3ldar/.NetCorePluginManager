@@ -30,6 +30,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
+#pragma warning disable CS1591
+
 namespace DocumentationPlugin
 {
     public class Startup
@@ -55,7 +57,6 @@ namespace DocumentationPlugin
             services.AddSession();
 
             services.AddMvc()
-                .SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
                 .AddSessionStateTempDataProvider();
         }
 
@@ -86,3 +87,5 @@ namespace DocumentationPlugin
         }
     }
 }
+
+#pragma warning restore CS1591

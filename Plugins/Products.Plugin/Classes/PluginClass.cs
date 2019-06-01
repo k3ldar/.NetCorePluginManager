@@ -31,6 +31,10 @@ using SharedPluginFeatures;
 
 namespace ProductPlugin.Classes
 {
+    /// <summary>
+    /// Implements IPlugin and IPluginVersion which allows the ProductsPlugin module to be
+    /// loaded as a plugin module
+    /// </summary>
     public class PluginClass : IPlugin, IPluginVersion
     {
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)

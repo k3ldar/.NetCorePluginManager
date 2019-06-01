@@ -28,10 +28,28 @@ using System.Collections.Generic;
 
 namespace Middleware.Helpdesk
 {
+    /// <summary>
+    /// Represents a Helpdesk support ticket and used with IHelpdeskProvider and the HelpdeskPlugin module.
+    /// </summary>
     public sealed class HelpdeskTicket
     {
         #region Constructors
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="id">Unique id of the helpdesk ticket.</param>
+        /// <param name="priority">Priority assigned to the support ticket.</param>
+        /// <param name="department">Department to which the support ticket is assigned.</param>
+        /// <param name="status">Current status of the helpdesk ticket.</param>
+        /// <param name="key">Unique ticket key used to identify the ticket.</param>
+        /// <param name="subject">Subject of the helpdesk message.</param>
+        /// <param name="dateCreated">Date and time the ticket was created.</param>
+        /// <param name="dateLastUpdated">Date and time the ticket was last updated.</param>
+        /// <param name="createdBy">Name of the person creating the support ticket.</param>
+        /// <param name="createdByEmail">Email address of the person who created the support ticket.</param>
+        /// <param name="lastReplier">Name of the person who last responded to the support ticket.</param>
+        /// <param name="messages">List of all HelpdeskTicketMessage messages within the support ticket.</param>
         public HelpdeskTicket(in long id, in LookupListItem priority, in LookupListItem department, 
             in LookupListItem status, in string key, 
             in string subject, in DateTime dateCreated, in DateTime dateLastUpdated,
@@ -71,34 +89,78 @@ namespace Middleware.Helpdesk
 
         #region Properties
 
+        /// <summary>
+        /// Unique id of the helpdesk ticket.
+        /// </summary>
+        /// <value>long</value>
         public long Id { get; private set; }
 
+        /// <summary>
+        /// Priority assigned to the support ticket.
+        /// </summary>
+        /// <value>LookupListItem</value>
         public LookupListItem Priority { get; private set; }
 
+        /// <summary>
+        /// Department to which the support ticket is assigned.
+        /// </summary>
+        /// <value>LookupListItem</value>
         public LookupListItem Department { get; private set; }
 
+        /// <summary>
+        /// Current status of the helpdesk ticket.
+        /// </summary>
+        /// <value>LookupListItem</value>
         public LookupListItem Status { get; set; }
 
+        /// <summary>
+        /// Unique ticket key used to identify the ticket.
+        /// </summary>
+        /// <value>string</value>
         public string Key { get; private set; }
 
+        /// <summary>
+        /// Subject of the helpdesk message.
+        /// </summary>
+        /// <value>string</value>
         public string Subject { get; private set; }
 
+        /// <summary>
+        /// Date and time the ticket was created.
+        /// </summary>
+        /// <value>DateTime</value>
         public DateTime DateCreated { get; private set; }
 
+        /// <summary>
+        /// Date and time the ticket was last updated.
+        /// </summary>
+        /// <value>DateTime</value>
         public DateTime DateLastUpdated { get; private set; }
 
+        /// <summary>
+        /// Name of the person creating the support ticket.
+        /// </summary>
+        /// <value>string</value>
         public string CreatedBy { get; private set; }
 
+        /// <summary>
+        /// Email address of the person who created the support ticket.
+        /// </summary>
+        /// <value>string</value>
         public string CreatedByEmail { get; private set; }
 
+        /// <summary>
+        /// Name of the person who last responded to the support ticket.
+        /// </summary>
+        /// <value>string</value>
         public string LastReplier { get; private set; }
 
+        /// <summary>
+        /// List of all HelpdeskTicketMessage messages within the support ticket.
+        /// </summary>
+        /// <value>List&lt;HelpdestTicketMessage&gt;</value>
         public List<HelpdeskTicketMessage> Messages { get; private set; }
 
         #endregion Properties
-
-        #region Public Methods
-
-        #endregion Public Methods
     }
 }

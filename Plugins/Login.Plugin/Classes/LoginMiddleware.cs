@@ -36,6 +36,9 @@ using Middleware;
 
 namespace LoginPlugin
 {
+    /// <summary>
+    /// Login middleware ensures that users don't visit routes that are marked as LoggedIn or LoggedOut depending on their login status.
+    /// </summary>
     public class LoginMiddleware : BaseMiddleware
     {
         #region Private Members

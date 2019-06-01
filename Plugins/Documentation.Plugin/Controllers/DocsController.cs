@@ -26,24 +26,20 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Runtime.CompilerServices;
-
-using Microsoft.AspNetCore.Mvc;
-
-using Shared.Classes;
-using Shared.Docs;
-
-using static Shared.Utilities;
-using Shared;
-
-using SharedPluginFeatures;
-
-using Middleware;
-using static Middleware.Constants;
+using System.Text;
 
 using DocumentationPlugin.Classes;
 using DocumentationPlugin.Models;
+
+using Microsoft.AspNetCore.Mvc;
+
+using Shared;
+using Shared.Docs;
+
+using SharedPluginFeatures;
+
+#pragma warning disable CS1591
 
 namespace DocumentationPlugin.Controllers
 {
@@ -58,18 +54,20 @@ namespace DocumentationPlugin.Controllers
         #region Private Members
 
         private readonly IDocumentationService _documentationService;
+        private readonly ILogger _logger;
 
         #endregion Private Members
 
         #region Constructors
 
-        public DocsController(IDocumentationService documentationService,
+        public DocsController(IDocumentationService documentationService, ILogger logger,
             ISettingsProvider settingsProvider)
         {
             if (settingsProvider == null)
                 throw new ArgumentNullException(nameof(settingsProvider));
 
             _documentationService = documentationService ?? throw new ArgumentNullException(nameof(documentationService));
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
         #endregion Constructors
@@ -90,7 +88,12 @@ namespace DocumentationPlugin.Controllers
             foreach (Document doc in documents)
             {
                 if (!model.AssemblyNames.ContainsKey(doc.Title))
+                {
+                    if (String.IsNullOrEmpty(doc.ShortDescription))
+                        _logger.AddToLog(Enums.LogLevel.Information, $"No short description for document {doc.Title}");
+
                     model.AssemblyNames.Add(doc.Title, new DocumentationModule(doc.Title, doc.ShortDescription));
+                }
             }
 
             return View(model);
@@ -389,3 +392,5 @@ namespace DocumentationPlugin.Controllers
         #endregion Private Methods
     }
 }
+
+#pragma warning restore CS1591

@@ -1,0 +1,135 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>DownloadPlugin</name>
+    </assembly>
+    <members>
+        <member name="T:DownloadPlugin.Classes.PluginClass">
+            <summary>
+            Implements IPlugin and IPluginVersion which allows the DownloadPlugin module to be
+            loaded as a plugin module
+            </summary>
+        </member>
+        <member name="T:DownloadPlugin.Models.CategoriesModel">
+            <summary>
+            Download category view mode.
+            </summary>
+        </member>
+        <member name="M:DownloadPlugin.Models.CategoriesModel.#ctor(System.Int32@,System.String@)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="id">Category id.</param>
+            <param name="name">Category name.</param>
+        </member>
+        <member name="P:DownloadPlugin.Models.CategoriesModel.Id">
+            <summary>
+            Category id.
+            </summary>
+            <value>int</value>
+        </member>
+        <member name="P:DownloadPlugin.Models.CategoriesModel.Name">
+            <summary>
+            Category name.
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="T:DownloadPlugin.Models.DownloadableItem">
+            <summary>
+            Represents a downloadable item
+            </summary>
+        </member>
+        <member name="M:DownloadPlugin.Models.DownloadableItem.#ctor(System.Int32@,System.String@,System.String@,System.String@,System.String@,System.String@)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="id">Unique id of downloadable item.</param>
+            <param name="name">Name of downloadable item.</param>
+            <param name="description">Description of download item.</param>
+            <param name="version">Version of download item.</param>
+            <param name="filename">Filename.</param>
+            <param name="size">Size of file.</param>
+        </member>
+        <member name="P:DownloadPlugin.Models.DownloadableItem.Id">
+            <summary>
+            Unique id of downloadable item.
+            </summary>
+            <value>int</value>
+        </member>
+        <member name="P:DownloadPlugin.Models.DownloadableItem.Name">
+            <summary>
+            Name of downloadable item.
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:DownloadPlugin.Models.DownloadableItem.Description">
+            <summary>
+            Description of download item.
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:DownloadPlugin.Models.DownloadableItem.Version">
+            <summary>
+            Version of download item.
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:DownloadPlugin.Models.DownloadableItem.Filename">
+            <summary>
+            Filename
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:DownloadPlugin.Models.DownloadableItem.Icon">
+            <summary>
+            Icon to be displayed.
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:DownloadPlugin.Models.DownloadableItem.Size">
+            <summary>
+            Size of file.
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="T:DownloadPlugin.Models.DownloadModel">
+            <summary>
+            View model used to display download data.
+            </summary>
+        </member>
+        <member name="M:DownloadPlugin.Models.DownloadModel.#ctor(System.Collections.Generic.List{SharedPluginFeatures.BreadcrumbItem}@,SharedPluginFeatures.ShoppingCartSummary@,System.String@,System.Collections.Generic.List{DownloadPlugin.Models.DownloadableItem}@,System.Collections.Generic.List{DownloadPlugin.Models.CategoriesModel}@)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="breadcrumbs">List of breadcrumbs to be displayed on the page.</param>
+            <param name="cartSummary">Shopping cart summary.</param>
+            <param name="category">Download category.</param>
+            <param name="downloads">List of downloadable files for the category.</param>
+            <param name="categories">All available categories.</param>
+        </member>
+        <member name="P:DownloadPlugin.Models.DownloadModel.Category">
+            <summary>
+            Download category.
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:DownloadPlugin.Models.DownloadModel.Categories">
+            <summary>
+            >All available categories.
+            </summary>
+            <value>List&lt;CategoriesModel&gt;</value>
+        </member>
+        <member name="P:DownloadPlugin.Models.DownloadModel.Downloads">
+            <summary>
+            List of downloadable files for the category.
+            </summary>
+            <value>List&lt;DownloadableItem&gt;</value>
+        </member>
+        <member name="P:DownloadPlugin.Models.DownloadModel.Pagination">
+            <summary>
+            Pagination used for displaying the downloads.
+            </summary>
+            <value>string</value>
+        </member>
+    </members>
+</doc>
