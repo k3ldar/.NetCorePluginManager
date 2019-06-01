@@ -17,3 +17,13 @@ SeoPlugin.xml
 SieraDeltaGeoIp.Plugin.xml
 Spider.Plugin.xml
 Languages.xml
+Company.Plugin.xml
+DocumentationPlugin.xml
+DownloadPlugin.xml
+ErrorManager.Plugin.xml
+HelpdeskPlugin.xml
+LoginPlugin.xml
+ProductPlugin.xml
+ShoppingCartPlugin.xml
+SystemAdmin.Plugin.xml
+UserAccount.Plugin.xml
