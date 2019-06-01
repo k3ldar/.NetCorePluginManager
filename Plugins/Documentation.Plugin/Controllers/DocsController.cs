@@ -78,7 +78,9 @@ namespace DocumentationPlugin.Controllers
         [Breadcrumb(nameof(Languages.LanguageStrings.Documentation))]
         public IActionResult Index()
         {
-            IndexViewModel model = new IndexViewModel(GetBreadcrumbs(), GetCartSummary());
+            IndexViewModel model = new IndexViewModel(GetBreadcrumbs(), GetCartSummary(),
+                _documentationService.GetCustomData("Header", Languages.LanguageStrings.APIReference),
+                _documentationService.GetCustomData("Description", Languages.LanguageStrings.InThisDocument));
 
             List<Document> documents = _documentationService.GetDocuments()
                 .Where(d => d.DocumentType == DocumentType.Assembly || d.DocumentType == DocumentType.Custom)

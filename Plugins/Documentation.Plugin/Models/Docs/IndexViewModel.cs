@@ -44,10 +44,21 @@ namespace DocumentationPlugin.Models
         /// </summary>
         /// <param name="breadcrumbs">List of breadcrumbs to be displayed on the page.</param>
         /// <param name="cartSummary">Shopping cart summary.</param>
-        public IndexViewModel(in List<BreadcrumbItem> breadcrumbs, in ShoppingCartSummary cartSummary)
+        /// <param name="header">Header at the top of the page.</param>
+        /// <param name="description">Description at the top of the page.</param>
+        public IndexViewModel(in List<BreadcrumbItem> breadcrumbs, in ShoppingCartSummary cartSummary, 
+            in string header, in string description)
             : base(breadcrumbs, cartSummary)
         {
+            if (String.IsNullOrEmpty(header))
+                throw new ArgumentNullException(nameof(header));
+
+            if (String.IsNullOrEmpty(description))
+                throw new ArgumentNullException(nameof(description));
+
             AssemblyNames = new Dictionary<string, DocumentationModule>();
+            DocumentationHeader = header;
+            DocumentationDescription = description;
         }
 
         #endregion Constructors
@@ -59,6 +70,18 @@ namespace DocumentationPlugin.Models
         /// </summary>
         /// <value>Dictionary&lt;string, DocumentationModule&gt;</value>
         public Dictionary<string, DocumentationModule> AssemblyNames { get; private set; }
+
+        /// <summary>
+        /// Header text that goes at the top of the page.
+        /// </summary>
+        /// <value>string</value>
+        public string DocumentationHeader { get; private set; }
+
+        /// <summary>
+        /// Description which goes at the top of the page.
+        /// </summary>
+        /// <value>string</value>
+        public string DocumentationDescription { get; private set; }
 
         /// <summary>
         /// Image to be displayed with the module.

@@ -280,18 +280,32 @@
             View model for displaying module summaries.
             </summary>
         </member>
-        <member name="M:DocumentationPlugin.Models.IndexViewModel.#ctor(System.Collections.Generic.List{SharedPluginFeatures.BreadcrumbItem}@,SharedPluginFeatures.ShoppingCartSummary@)">
+        <member name="M:DocumentationPlugin.Models.IndexViewModel.#ctor(System.Collections.Generic.List{SharedPluginFeatures.BreadcrumbItem}@,SharedPluginFeatures.ShoppingCartSummary@,System.String@,System.String@)">
             <summary>
             Constructor
             </summary>
             <param name="breadcrumbs">List of breadcrumbs to be displayed on the page.</param>
             <param name="cartSummary">Shopping cart summary.</param>
+            <param name="header">Header at the top of the page.</param>
+            <param name="description">Description at the top of the page.</param>
         </member>
         <member name="P:DocumentationPlugin.Models.IndexViewModel.AssemblyNames">
             <summary>
             List of all modules that have been loaded.
             </summary>
             <value>Dictionary&lt;string, DocumentationModule&gt;</value>
+        </member>
+        <member name="P:DocumentationPlugin.Models.IndexViewModel.DocumentationHeader">
+            <summary>
+            Header text that goes at the top of the page.
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:DocumentationPlugin.Models.IndexViewModel.DocumentationDescription">
+            <summary>
+            Description which goes at the top of the page.
+            </summary>
+            <value>string</value>
         </member>
         <member name="P:DocumentationPlugin.Models.IndexViewModel.Image">
             <summary>

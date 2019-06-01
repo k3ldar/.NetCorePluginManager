@@ -1,5 +1,19 @@
-﻿.docModules {
+﻿.docContainer {
+    display: inline-block;
+    width: 100%;
+    margin: 5px 15px 5px 15px;
+}
+
+.docRow {
+    width: 100%;
+}
+    .docRow p {
+        font-size: 14px;
+    }
+
+.docModules {
     align-content: center;
+    float: left;
 }
 
 .docModules {
@@ -20,15 +34,12 @@
 
         .docModules a .overlay {
             display: block;
-            position: absolute;
-            top: 0;
-            left: 0;
         }
 
         .docModules a:hover .overlay {
             background: rgba(0,0,0,0.4);
             display: block;
-            opacity: 0.7;
+            opacity: 0.6;
         }
 
         .docModules a h3 {
@@ -46,11 +57,11 @@
         .docModules a span {
             display: block;
             width: 176px;
-            height: 89px;
+            height: 88px;
             font-size: 14px;
             color: #000;
             text-align: center;
-            margin: 49px 0 0 17px;
+            margin: 0px 0 0 1px;
             overflow: hidden;
         }
 
