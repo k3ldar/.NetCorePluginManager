@@ -43,8 +43,10 @@ namespace SieraDeltaGeoIp.Plugin
     {
         #region Constructors
 
-        public Initialisation()
+        public Initialisation(INotificationService notificationService)
         {
+            GeoIpStatistics = new GeoIpStatistics();
+            notificationService.RegisterListener(GeoIpStatistics);
         }
 
         #endregion Constructors
@@ -55,9 +57,7 @@ namespace SieraDeltaGeoIp.Plugin
 
         internal static ILogger GetLogger { get; private set; }
 
-        internal static IGeoIpStatistics GeoIpStatistics { get; private set; }
-
-        internal static IGeoIpStatisticsUpdate GeoIpUpdate { get; private set; }
+        internal static GeoIpStatistics GeoIpStatistics { get; private set; }
 
         #endregion Internal Static Properties
 
@@ -66,10 +66,6 @@ namespace SieraDeltaGeoIp.Plugin
         public void Initialise(ILogger logger)
         {
             GetLogger = logger;
-
-            GeoIpStatistics geoIpStatistics = new GeoIpStatistics();
-            GeoIpStatistics = geoIpStatistics as IGeoIpStatistics;
-            GeoIpUpdate = geoIpStatistics as IGeoIpStatisticsUpdate;
         }
 
         public void Finalise()

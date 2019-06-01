@@ -15,15 +15,15 @@ namespace SieraDeltaGeoIp.Plugin.Classes
     {
         #region Private Members
 
-        private readonly IGeoIpStatistics _geoIpStatistics;
+        private readonly INotificationService _notificationService;
 
         #endregion Private Members
 
         #region Constructors
 
-        public GeoIpStatsSubMenu()
+        public GeoIpStatsSubMenu(INotificationService notificationService)
         {
-            _geoIpStatistics = Initialisation.GeoIpStatistics;
+            _notificationService = notificationService ?? throw new ArgumentNullException(nameof(notificationService));
         }
 
         #endregion Constructors
@@ -54,11 +54,21 @@ namespace SieraDeltaGeoIp.Plugin.Classes
         /// <returns>string</returns>
         public override string Data()
         {
+            TimeSpan loadTime = new TimeSpan();
+            uint recordsLoaded = 0;
+            object result = null;
+
+            if (_notificationService.RaiseEvent(Constants.NotificationEventGeoIpLoadTime, null, null, ref result))
+                loadTime = (TimeSpan)result;
+
+            if (_notificationService.RaiseEvent(Constants.NotificationEventGeoIpRecordCount, null, null, ref result))
+                recordsLoaded = (uint)result;
+
             string Result = "Name|Value\r";
 
             Result += $"Provider|Firebird\r";
-            Result += $"Loaded Records|{_geoIpStatistics.RecordsLoaded()}\r";
-            Result += $"Load Time|{Convert.ToInt32(_geoIpStatistics.LoadTime().TotalMilliseconds)} ms";
+            Result += $"Loaded Records|{recordsLoaded}\r";
+            Result += $"Load Time|{Convert.ToInt32(loadTime.TotalMilliseconds)} ms";
 
             return (Result);
         }

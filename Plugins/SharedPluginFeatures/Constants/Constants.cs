@@ -202,5 +202,15 @@ namespace SharedPluginFeatures
         /// Name of the documentation list cache
         /// </summary>
         public const string DocumentationListCache = "DocumentationListCache";
+
+        /// <summary>
+        /// Notification event name for obtaining GeoIp load times.
+        /// </summary>
+        public const string NotificationEventGeoIpLoadTime = "GeoIpLoadTime";
+
+        /// <summary>
+        /// Notification event name for obtaining GeoIp record count.
+        /// </summary>
+        public const string NotificationEventGeoIpRecordCount = "GeoIpRecordCount";
     }
 }

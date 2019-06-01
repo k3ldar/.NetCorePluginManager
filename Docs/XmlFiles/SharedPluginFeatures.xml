@@ -1086,6 +1086,16 @@
             Name of the documentation list cache
             </summary>
         </member>
+        <member name="F:SharedPluginFeatures.Constants.NotificationEventGeoIpLoadTime">
+            <summary>
+            Notification event name for obtaining GeoIp load times.
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Constants.NotificationEventGeoIpRecordCount">
+            <summary>
+            Notification event name for obtaining GeoIp record count.
+            </summary>
+        </member>
         <member name="T:SharedPluginFeatures.Enums">
             <summary>
             Standard Enum values shared across all plugin modules.
