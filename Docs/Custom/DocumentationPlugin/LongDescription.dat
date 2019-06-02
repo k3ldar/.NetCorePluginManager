@@ -1,3 +1,87 @@
 <p>
-To be completed
+Documenting your code is the most fun aspect of software development, said no developer ever!  But lets face it, you could create the fastest, richest API in the world, but if nobody know how to use it then where will it go?  Nowhere is the answer.  So documentation is important, not just for maintainability but to ensure that our hard earned endevours are used how they should be.
+</p>
+<p>
+Since the beginning, the C# compiler has included an important, yet underused feature in the form of <a href="https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/xmldoc/">XML Documentation</a>, this is a very simple yet powerful feature which allows developers to create inline documentation by adding specific XML tags to their code.  This is often overlooked by developers because lets face it, if it was hard to write it should be hard to understand right?  Wrong!
+</p>
+<p>
+This feature not only allows other developers to understand what something is meant to do, with the right compiler directives it is also exported to an XML document that can be parsed and displayed, so all consumers of the code can easily understand how it is meant to be used, what a propery or parameter is used for etc etc.  Essentially the generated XML file can be used as the basis for online documentation.  An example of this feature can be seen below:
+</p>
+<p>
+<pre style="font-family:Consolas;font-size:13px;color:black;background:white;"><span style="color:blue;">namespace</span>&nbsp;DocumentationPlugin.Classes
+{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;</span><span style="color:gray;">&lt;</span><span style="color:gray;">summary</span><span style="color:gray;">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;Settings&nbsp;which&nbsp;affect&nbsp;how&nbsp;the&nbsp;Documentation&nbsp;Plugin&nbsp;is&nbsp;configured.</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;</span><span style="color:gray;">&lt;/</span><span style="color:gray;">summary</span><span style="color:gray;">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">public</span>&nbsp;<span style="color:blue;">sealed</span>&nbsp;<span style="color:blue;">class</span>&nbsp;<span style="color:#2b91af;">DocumentationSettings</span>
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;</span><span style="color:gray;">&lt;</span><span style="color:gray;">summary</span><span style="color:gray;">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;Default&nbsp;path&nbsp;where&nbsp;documentation&nbsp;files&nbsp;are&nbsp;located.</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;Default&nbsp;value:&nbsp;%AppPath%\\Plugins</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;</span><span style="color:gray;">&lt;/</span><span style="color:gray;">summary</span><span style="color:gray;">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:gray;">///</span><span style="color:green;">&nbsp;</span><span style="color:gray;">&lt;</span><span style="color:gray;">value</span><span style="color:gray;">&gt;</span><span style="color:green;">string</span><span style="color:gray;">&lt;/</span><span style="color:gray;">value</span><span style="color:gray;">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[<span style="color:#2b91af;">SettingDefault</span>(<span style="color:#a31515;">&quot;%AppPath%</span><span style="color:#b776fb;">\\</span><span style="color:#a31515;">Plugins&quot;</span>)]
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">public</span>&nbsp;<span style="color:blue;">string</span>&nbsp;Path&nbsp;{&nbsp;<span style="color:blue;">get</span>;&nbsp;<span style="color:blue;">set</span>;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+}
+</pre>
+</p>
+<p>
+There are many tools in and around the internet which can read and use the generated XML files, Documentation.Plugin is one such tool.  Quite simply the documentation plugin has several views which allow this level of documentation to be rendered in an easy to read format.  This in itself is useful but it doesn't finish the task at hand, to do this we must be able to customise the standard data with extra information that is useful and aids other developers.  To achieve this their is an interface that is responsible for parsing the data, cross referencing various assemblies, namespaces, classes and other types which make up the documentaion.
+</p>
+<p>
+The IDocumentationService interface exposes methods that allow XML documents to be parsed and seperated into a heirerarchical state that is displayed within a website.  As well as this, the interface allows for extra data or information to be loaded from files which augment the automatically generated documentation.  All additional data is read from files which contain a specific naming convention.  If a file exists the data replaces the automatically generated data, meaning developers can expand their documentation easily.
+</p>
+<h3>Configuration</h3>
+<p>
+The DocumentationSettings contains a root path where the documentatioin files are held, from this there are 3 sub folders which need to be included, they are:
+</p>
+<ul>
+<li>Custom: Contains custom files that if available will replace the existing documentation.</li>
+<li>Settings: Contains a single file called Files.dat, this contains a list of all available XML documentation files that are to be loaded.</li>
+<li>XmlFiles: This folder contains the individual system generated, or custom XML files which will be parsed to obtain the online documentation.</li>
+</ul>
+<h3>Custom Documents</h3>
+<p>
+As well as system generated documentation, it is also important to be able to create custom documentation, this could be in the form of a new chapter which augments the system generated documentation.  To achieve this a new XML file needs to be created, the name of the file is irrelivant in the process, but a suitable naming convention should be used.  To indicate that it is a custom document it needs to create the right XML heirerarchy like:
+</p>
+<p>
+<pre style="font-family:Consolas;font-size:13px;color:black;background:white;"><span style="color:blue;">&lt;?</span><span style="color:#a31515;">xml</span><span style="color:blue;">&nbsp;</span><span style="color:red;">version</span><span style="color:blue;">=</span>&quot;<span style="color:blue;">1.0</span>&quot;<span style="color:blue;">?&gt;</span>
+<span style="color:blue;">&lt;</span><span style="color:#a31515;">doc</span><span style="color:blue;">&gt;</span>
+<span style="color:blue;">&nbsp;&nbsp;&nbsp;&nbsp;&lt;</span><span style="color:#a31515;">custom</span><span style="color:blue;">&gt;</span>
+<span style="color:blue;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;</span><span style="color:#a31515;">name</span><span style="color:blue;">&gt;</span>Inter&nbsp;Plugin&nbsp;Event&nbsp;Notification<span style="color:blue;">&lt;/</span><span style="color:#a31515;">name</span><span style="color:blue;">&gt;</span>
+<span style="color:blue;">&nbsp;&nbsp;&nbsp;&nbsp;&lt;/</span><span style="color:#a31515;">custom</span><span style="color:blue;">&gt;</span>
+<span style="color:blue;">&lt;/</span><span style="color:#a31515;">doc</span><span style="color:blue;">&gt;</span>
+</pre>
+</p>
+<p>
+The above example creates a new document called Inter Plugin Event Notification, although this allows us to create the document we need to add Custom data that can be loaded and displayed.  To achieve this we create new folders under the Custom folder which will look like:
+</p>
+<p>
+<pre style="font-family:Consolas;font-size:12px;color:black;background:white;">
+Custom\Inter Plugin Event Notification\Inter Plugin Event Notification\
+</pre>
+</p>
+<p>
+Within the folder we add three new files, they are:
+</p>
+<ul>
+<li>LongDescription.dat - The text to be displayed, this will need to be in Html format.</li>
+<li>SortOrder.dat - Contains the sort-order for the document.</li>
+<li>Title.dat - Contains a custom title for the document.</li>
+</ul>
+<p>
+When the files are initially loaded, the custom data replaces the default values supplied by the Documentation class.
+</p>
+<h3>Cross Referencing</h3>
+<p>
+The default IDocumentationService implementation has automatic cross referencing, this searches through all documentation and cross references any class or type based on the name.  Not perfect by any means as there can be some false positives where there shouldn't be, future work will expand on this area and make concrete improvements.
+</p>
+<p>
+The cross rererencing that takes place can be time consuming depending on how many XML Documentation files are read, and the number of classes and types contained.  To combat this they are placed into a memory cache using the IMemoryCache interface after initial load.  For this to work you will also need to add the MemoryCachePlugin to any site using DocumentatiionPlugin.
+</p>
+<h3>In This Document</h3>
+<p>
+As well as cross referencing documents the LongDescription read will also be parsed looking for html header tags (h2, h3 etc), any of these tags found will be included in the "In This Document" section.  The appropriate # tags will be added automatically so these do not need to be included.
 </p>
