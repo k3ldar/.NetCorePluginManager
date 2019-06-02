@@ -43,22 +43,22 @@ namespace MemoryCache.Plugin.Classes
     {
         public override string Action()
         {
-            return (String.Empty);
+            return String.Empty;
         }
 
         public override string Area()
         {
-            return (String.Empty);
+            return String.Empty;
         }
 
         public override string Controller()
         {
-            return (String.Empty);
+            return String.Empty;
         }
 
         public override Enums.SystemAdminMenuType MenuType()
         {
-            return (Enums.SystemAdminMenuType.Grid);
+            return Enums.SystemAdminMenuType.Grid;
         }
 
         /// <summary>
@@ -76,27 +76,27 @@ namespace MemoryCache.Plugin.Classes
                 Result.Append($"{CacheManager.GetCacheCount(i)}\r");
             }
 
-            return (Result.ToString().Trim());
+            return Result.ToString().Trim();
         }
 
         public override string Name()
         {
-            return ("Memory Cache");
+            return "Memory Cache";
         }
 
         public override string ParentMenuName()
         {
-            return ("System");
+            return "System";
         }
 
         public override int SortOrder()
         {
-            return (0);
+            return 0;
         }
 
         public override string Image()
         {
-            return (String.Empty);
+            return String.Empty;
         }
     }
 }

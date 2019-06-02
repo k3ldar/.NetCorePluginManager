@@ -23,6 +23,7 @@
  *  22/09/2018  Simon Carter        Initially Created
  *  10/10/2018  Simon Carter        Move thread initialisation to constructor, better 
  *                                  validation of short memory cache at start
+ *  02/06/2019  Simon Carter        Add extending and permanent cache managers.
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
@@ -41,6 +42,10 @@ namespace MemoryCache.Plugin
 
         private static CacheManager _cache;
 
+        private static CacheManager _extendingCache;
+
+        private static CacheManager _permanentCache;
+
         #endregion Private Members
 
         #region Constructors
@@ -53,12 +58,20 @@ namespace MemoryCache.Plugin
 
             // create the caches
             if (_cache == null)
-                _cache = new CacheManager("Website Internal Cache", 
+                _cache = new CacheManager(Constants.CacheNameDefault, 
                     new TimeSpan(0, settings.DefaultCacheDuration, 0));
 
             if (_cacheShort == null)
-                _cacheShort = new CacheManager("Website Internal Short Cache", 
+                _cacheShort = new CacheManager(Constants.CacheNameShort, 
                     new TimeSpan(0, settings.ShortCacheDuration, 0));
+
+            if (_extendingCache == null)
+                _extendingCache = new CacheManager(Constants.CacheNameExtending,
+                    new TimeSpan(0, settings.DefaultCacheDuration, 0), true);
+
+            if (_permanentCache == null)
+                _permanentCache = new CacheManager(Constants.CacheNamePermanent,
+                    new TimeSpan(5000, 0, 0, 0), true);
         }
 
         #endregion Constructors
@@ -67,12 +80,22 @@ namespace MemoryCache.Plugin
 
         public CacheManager GetCache()
         {
-            return (_cache);
+            return _cache;
         }
 
         public CacheManager GetShortCache()
         {
-            return (_cacheShort);
+            return _cacheShort;
+        }
+
+        public CacheManager GetExtendingCache()
+        {
+            return _extendingCache;
+        }
+
+        public CacheManager GetPermanentCache()
+        {
+            return _permanentCache;
         }
 
         public void ResetCaches()

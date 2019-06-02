@@ -212,5 +212,25 @@ namespace SharedPluginFeatures
         /// Notification event name for obtaining GeoIp record count.
         /// </summary>
         public const string NotificationEventGeoIpRecordCount = "GeoIpRecordCount";
+
+        /// <summary>
+        /// Name of the default cache manager.
+        /// </summary>
+        public const string CacheNameDefault = "Internal Default Cache Manager";
+
+        /// <summary>
+        /// Name of the short cache manager.
+        /// </summary>
+        public const string CacheNameShort = "Internal Short Cache Manager";
+
+        /// <summary>
+        /// Name of the extending cache manager.
+        /// </summary>
+        public const string CacheNameExtending = "Extending Cache Manager";
+
+        /// <summary>
+        /// Name of the permanent cache manager.
+        /// </summary>
+        public const string CacheNamePermanent = "Permanent Cache Manager";
     }
 }

@@ -43,7 +43,7 @@ namespace MemoryCache.Plugin
         /// </summary>
         /// <value>int</value>
         [SettingDefault(120)]
-        [SettingRange(30, 2880)]
+        [SettingRange(30, 480)]
         public int DefaultCacheDuration { get; set; }
 
         /// <summary>

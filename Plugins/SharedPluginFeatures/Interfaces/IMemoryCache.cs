@@ -60,6 +60,25 @@ namespace SharedPluginFeatures
         CacheManager GetCache();
 
         /// <summary>
+        /// The extending cache is intended to cache items for 2 hours, after which items will expire.
+        /// 
+        /// The difference between the extending cache and normal cache is that if an item is requested
+        /// the time until expire will be extended by a further 2 hours.
+        /// 
+        /// There is no limit to the items that can be cached and cache retrieval is extremely quick.
+        /// </summary>
+        /// <returns>CacheManager instance</returns>
+        CacheManager GetExtendingCache();
+
+        /// <summary>
+        /// The permanent cache holds items in memory indefinitely.
+        /// 
+        /// There is no limit to the items that can be cached and cache retrieval is extremely quick.
+        /// </summary>
+        /// <returns>CacheManager instance</returns>
+        CacheManager GetPermanentCache();
+
+        /// <summary>
         /// Resets all caches, clears all items.
         /// </summary>
         void ResetCaches();

@@ -38,7 +38,7 @@ namespace MemoryCache.Plugin.Classes
         /// <returns>ushort</returns>
         public ushort GetVersion()
         {
-            return (1);
+            return 1;
         }
     }
 }

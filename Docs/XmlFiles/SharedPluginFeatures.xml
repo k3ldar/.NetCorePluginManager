@@ -1096,6 +1096,26 @@
             Notification event name for obtaining GeoIp record count.
             </summary>
         </member>
+        <member name="F:SharedPluginFeatures.Constants.CacheNameDefault">
+            <summary>
+            Name of the default cache manager.
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Constants.CacheNameShort">
+            <summary>
+            Name of the short cache manager.
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Constants.CacheNameExtending">
+            <summary>
+            Name of the extending cache manager.
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Constants.CacheNamePermanent">
+            <summary>
+            Name of the permanent cache manager.
+            </summary>
+        </member>
         <member name="T:SharedPluginFeatures.Enums">
             <summary>
             Standard Enum values shared across all plugin modules.
@@ -1818,6 +1838,25 @@
             
             This can be useful for storing medium term items like product information etc, that doesn't
             change too regularly but will help speed up requests when retrieving.
+            
+            There is no limit to the items that can be cached and cache retrieval is extremely quick.
+            </summary>
+            <returns>CacheManager instance</returns>
+        </member>
+        <member name="M:SharedPluginFeatures.IMemoryCache.GetExtendingCache">
+            <summary>
+            The extending cache is intended to cache items for 2 hours, after which items will expire.
+            
+            The difference between the extending cache and normal cache is that if an item is requested
+            the time until expire will be extended by a further 2 hours.
+            
+            There is no limit to the items that can be cached and cache retrieval is extremely quick.
+            </summary>
+            <returns>CacheManager instance</returns>
+        </member>
+        <member name="M:SharedPluginFeatures.IMemoryCache.GetPermanentCache">
+            <summary>
+            The permanent cache holds items in memory indefinitely.
             
             There is no limit to the items that can be cached and cache retrieval is extremely quick.
             </summary>
