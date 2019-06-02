@@ -119,6 +119,8 @@ namespace DocumentationPlugin.Controllers
                 model.Breadcrumbs.Add(breadcrumb);
             }
 
+            model.ShowShortDescription = false;
+
             return View(model);
         }
 
@@ -138,6 +140,8 @@ namespace DocumentationPlugin.Controllers
                 model.Breadcrumbs.Remove(lastItem);
                 model.Breadcrumbs.Add(breadcrumb);
             }
+
+            model.ShowShortDescription = true;
 
             return View(model);
         }

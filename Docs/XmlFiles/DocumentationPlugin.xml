@@ -171,6 +171,12 @@
             </summary>
             <value>string</value>
         </member>
+        <member name="P:DocumentationPlugin.Models.DocumentViewModel.ShowShortDescription">
+            <summary>
+            Indicates whether the short description is shown or not.
+            </summary>
+            <value>bool.  If true and there is a short description, it will be shown.</value>
+        </member>
         <member name="T:DocumentationPlugin.Models.DocumentViewTypeViewModel">
             <summary>
             Summary document for a documents type, method, field, constructor, property etc.

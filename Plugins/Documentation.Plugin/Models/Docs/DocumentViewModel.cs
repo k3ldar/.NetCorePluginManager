@@ -167,6 +167,12 @@ namespace DocumentationPlugin.Models
         /// <value>string</value>
         public string Example { get; set; }
 
+        /// <summary>
+        /// Indicates whether the short description is shown or not.
+        /// </summary>
+        /// <value>bool.  If true and there is a short description, it will be shown.</value>
+        public bool ShowShortDescription { get; set; }
+
         #endregion Properties
     }
 }

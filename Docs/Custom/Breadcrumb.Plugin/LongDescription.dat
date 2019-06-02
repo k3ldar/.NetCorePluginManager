@@ -1,3 +1,153 @@
 <p>
-To be completed
+Breadcrumbs provide an additional form of navigational aid to users, they can help to inform the user of their current position within the site and provide an additional form of navigation. 
+</p>
+<p>
+The breadcrumb plugin makes it easy to create breadcrumbs within a web application, it works in two ways:
+</p>
+<ul>
+<li>Attributes are placed on controller methods where a breadcrumb is required.</li>
+<li>Progmatically create breadcrumb items and their heirerarchy whilst processing requests.</li>
+</ul>
+<p>
+However they are used, they follow a very simple form, a breadcrumb can function as both a parent and child to another breadcrumb item.  If attribute breadcrumbs are used then the parent of the breadcrumb is also listed, this allows the middleware to build up the breadcrumb heirerarchy which is then inserted into the temp data for the context being processed. 
+</p>
+<p>
+Once the breadcrumb data has been provided to the controller, it can then be extracted and placed within the view model for display within the view.
+</p>
+<h3>Localization</h3>
+<p>The breadcrumb plugin fully supports localizatin, provided that the Localization.Plugin module is also loaded.  Whilst building the breadcrumb heirerarchy for the request, the name of the breadcrumb is translated to the current culture specified by the user.</p>
+<h3>Caching</h3>
+<p>
+Page load time is a very important aspect of any website, to ensure that the breadcrumb is delivered in a timely manner the requests are cached for a minimum of 20 minutes after the first request.
+</p>
+<h3>Attribute Based Breadcrumbs</h3>
+<p>
+The following example, taken from the CompanyPlugin demonstrates adding a breadcrumb to the view which shows the cookie policy.
+</p>
+<p>
+<pre style="font-family:Consolas;font-size:13px;color:black;background:white;">[<span style="color:#2b91af;">Breadcrumb</span>(<span style="color:blue;">nameof</span>(Languages.<span style="color:#2b91af;">LanguageStrings</span>.Cookies))]
+<span style="color:blue;">public</span>&nbsp;<span style="color:#2b91af;">IActionResult</span>&nbsp;<span style="color:#74531f;">Cookies</span>()
+{
+&nbsp;&nbsp;&nbsp;&nbsp;// code removed for brevity
+}
+</pre>
+</p>
+<p>
+When viewing the cookie page, the breadcrumb presented would look like:
+</p>
+<p>
+Home / Cookies
+</p>
+<p>
+From the shopping cart plugin, the following example show building a heirerarchy of breadcrumbs.
+</p>
+<p>
+<pre style="font-family:Consolas;font-size:13px;color:black;background:white;">[<span style="color:#2b91af;">HttpGet</span>]
+[<span style="color:#2b91af;">Breadcrumb</span>(<span style="color:blue;">nameof</span>(Languages.<span style="color:#2b91af;">LanguageStrings</span>.ShoppingCart))]
+<span style="color:blue;">public</span>&nbsp;<span style="color:#2b91af;">IActionResult</span>&nbsp;<span style="color:#74531f;">Index</span>()
+{
+&nbsp;&nbsp;&nbsp;&nbsp;// code removed for brevity
+}
+</pre>
+<p>
+</p>
+<pre style="font-family:Consolas;font-size:13px;color:black;background:white;">[<span style="color:#2b91af;">HttpGet</span>]
+[<span style="color:#2b91af;">Breadcrumb</span>(<span style="color:blue;">nameof</span>(<span style="color:#74531f;">Shipping</span>),&nbsp;<span style="color:blue;">nameof</span>(<span style="color:#2b91af;">CartController</span>),&nbsp;<span style="color:blue;">nameof</span>(<span style="color:#74531f;">Index</span>))]
+<span style="color:blue;">public</span>&nbsp;<span style="color:#2b91af;">IActionResult</span>&nbsp;<span style="color:#74531f;">Shipping</span>()
+{
+&nbsp;&nbsp;&nbsp;&nbsp;// code removed for brevity
+}
+</pre>
+<p>
+</p>
+<pre style="font-family:Consolas;font-size:13px;color:black;background:white;">[<span style="color:#2b91af;">HttpPost</span>]
+[<span style="color:#2b91af;">Breadcrumb</span>(<span style="color:blue;">nameof</span>(<span style="color:#74531f;">Checkout</span>),&nbsp;<span style="color:blue;">nameof</span>(<span style="color:#2b91af;">CartController</span>),&nbsp;<span style="color:blue;">nameof</span>(<span style="color:#74531f;">Shipping</span>))]
+<span style="color:blue;">public</span>&nbsp;<span style="color:#2b91af;">IActionResult</span>&nbsp;<span style="color:#74531f;">Checkout</span>(<span style="color:blue;">int</span>?&nbsp;<span style="color:#1f377f;">shippingId</span>)
+{
+&nbsp;&nbsp;&nbsp;&nbsp;// code removed for brevity
+}
+</pre>
+</p>
+<p>
+In the example above, the Index method of the shopping cart has a simple breadcrumb, with no parent, this will show 
+</p>
+<p>
+Home / Shopping Cart
+</p>
+<p>
+The next step in the shopping cart is to select the shipping address (if applicable).  The breadcrumb for this action method has a name of shipping and the parent points to the Index action method.  The breadcrumb for this would look like
+</p>
+<p>Home / Shopping Cart / Shipping
+</p>
+<p>The last example above is the checkout action method, this is the logical step after the delivery address is.  The breadcrumb has a parent pointing to the Shipping action method and would look like
+</p>
+<p>
+Home / Shopping Cart / Shipping / Checkout
+</p>
+<p>
+If the product does not require shipping we could manually remove the shipping breadcrumb from the list:
+<pre style="font-family:Consolas;font-size:13px;color:black;background:white;"><span style="color:#8f08c4;">if</span>&nbsp;(!<span style="color:#1f377f;">cartDetail</span>.RequiresShipping)
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#1f377f;">model</span>.Breadcrumbs.<span style="color:#74531f;">RemoveAt</span>(2);
+</pre>
+</p>
+<p>There are more complex cases when working with dynamic data, for this scenario you can use IBreadcrumbService interface.  This interface which is available using dependency injection has methods which allows for breadcrumbs to be added dynamically when initialising and will then operate like a standard attribute based breadcrumb item.  The following code taken from the SystemAdmin.Plugin demonstrates how the breadcrumbs are generated for dynamic menu items only known at runtime:
+</p>
+<p>
+<pre style="font-family:Consolas;font-size:13px;color:black;background:white;"><span style="color:blue;">private</span>&nbsp;<span style="color:blue;">void</span>&nbsp;<span style="color:#74531f;">RegisterBreadcrumbs</span>(<span style="color:blue;">in</span>&nbsp;<span style="color:#2b91af;">IBreadcrumbService</span>&nbsp;<span style="color:#1f377f;">breadcrumbService</span>,&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">in</span>&nbsp;<span style="color:#2b91af;">ISystemAdminHelperService</span>&nbsp;<span style="color:#1f377f;">systemAdminHelper</span>)
+{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">string</span>&nbsp;<span style="color:#1f377f;">parentRoute</span>&nbsp;=&nbsp;<span style="color:#a31515;">&quot;/SystemAdmin&quot;</span>;
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#1f377f;">breadcrumbService</span>.<span style="color:#74531f;">AddBreadcrumb</span>(<span style="color:blue;">nameof</span>(Languages.<span style="color:#2b91af;">LanguageStrings</span>.SystemAdmin),&nbsp;<span style="color:#1f377f;">parentRoute</span>,&nbsp;<span style="color:blue;">false</span>);
+ 
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#8f08c4;">foreach</span>&nbsp;(<span style="color:#2b91af;">SystemAdminMainMenu</span>&nbsp;<span style="color:#1f377f;">item</span>&nbsp;<span style="color:#8f08c4;">in</span>&nbsp;<span style="color:#1f377f;">systemAdminHelper</span>.<span style="color:#74531f;">GetSystemAdminMainMenu</span>())
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">string</span>&nbsp;<span style="color:#1f377f;">route</span>&nbsp;=&nbsp;<span style="color:#a31515;">$&quot;/SystemAdmin/Index/</span>{<span style="color:#1f377f;">item</span>.UniqueId}<span style="color:#a31515;">&quot;</span>;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#1f377f;">breadcrumbService</span>.<span style="color:#74531f;">AddBreadcrumb</span>(<span style="color:#1f377f;">item</span>.Name,&nbsp;<span style="color:#1f377f;">route</span>,&nbsp;<span style="color:#1f377f;">parentRoute</span>,&nbsp;<span style="color:blue;">false</span>);
+ 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#8f08c4;">foreach</span>&nbsp;(<span style="color:#2b91af;">SystemAdminSubMenu</span>&nbsp;<span style="color:#1f377f;">childItem</span>&nbsp;<span style="color:#8f08c4;">in</span>&nbsp;<span style="color:#1f377f;">item</span>.ChildMenuItems)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#8f08c4;">switch</span>&nbsp;(<span style="color:#1f377f;">childItem</span>.<span style="color:#74531f;">MenuType</span>())
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#8f08c4;">case</span>&nbsp;<span style="color:#2b91af;">Enums</span>.<span style="color:#2b91af;">SystemAdminMenuType</span>.Grid:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#1f377f;">breadcrumbService</span>.<span style="color:#74531f;">AddBreadcrumb</span>(<span style="color:#1f377f;">childItem</span>.<span style="color:#74531f;">Name</span>(),&nbsp;<span style="color:#a31515;">$&quot;/SystemAdmin/Grid/</span>{<span style="color:#1f377f;">childItem</span>.UniqueId}<span style="color:#a31515;">&quot;</span>,&nbsp;<span style="color:#1f377f;">route</span>,&nbsp;<span style="color:blue;">false</span>);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#8f08c4;">break</span>;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#8f08c4;">case</span>&nbsp;<span style="color:#2b91af;">Enums</span>.<span style="color:#2b91af;">SystemAdminMenuType</span>.Text:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#1f377f;">breadcrumbService</span>.<span style="color:#74531f;">AddBreadcrumb</span>(<span style="color:#1f377f;">childItem</span>.<span style="color:#74531f;">Name</span>(),&nbsp;<span style="color:#a31515;">$&quot;/SystemAdmin/Text/</span>{<span style="color:#1f377f;">childItem</span>.UniqueId}<span style="color:#a31515;">&quot;</span>,&nbsp;<span style="color:#1f377f;">route</span>,&nbsp;<span style="color:blue;">false</span>);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#8f08c4;">break</span>;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#8f08c4;">case</span>&nbsp;<span style="color:#2b91af;">Enums</span>.<span style="color:#2b91af;">SystemAdminMenuType</span>.PartialView:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#1f377f;">breadcrumbService</span>.<span style="color:#74531f;">AddBreadcrumb</span>(<span style="color:#1f377f;">childItem</span>.<span style="color:#74531f;">Name</span>(),&nbsp;<span style="color:#a31515;">$&quot;/SystemAdmin/View/</span>{<span style="color:#1f377f;">childItem</span>.UniqueId}<span style="color:#a31515;">&quot;</span>,&nbsp;<span style="color:#1f377f;">route</span>,&nbsp;<span style="color:blue;">false</span>);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#8f08c4;">break</span>;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#8f08c4;">case</span>&nbsp;<span style="color:#2b91af;">Enums</span>.<span style="color:#2b91af;">SystemAdminMenuType</span>.Map:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#1f377f;">breadcrumbService</span>.<span style="color:#74531f;">AddBreadcrumb</span>(<span style="color:#1f377f;">childItem</span>.<span style="color:#74531f;">Name</span>(),&nbsp;<span style="color:#a31515;">$&quot;/SystemAdmin/Map/</span>{<span style="color:#1f377f;">childItem</span>.UniqueId}<span style="color:#a31515;">&quot;</span>,&nbsp;<span style="color:#1f377f;">route</span>,&nbsp;<span style="color:blue;">false</span>);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#8f08c4;">break</span>;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#8f08c4;">case</span>&nbsp;<span style="color:#2b91af;">Enums</span>.<span style="color:#2b91af;">SystemAdminMenuType</span>.FormattedText:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#1f377f;">breadcrumbService</span>.<span style="color:#74531f;">AddBreadcrumb</span>(<span style="color:#1f377f;">childItem</span>.<span style="color:#74531f;">Name</span>(),&nbsp;<span style="color:#a31515;">$&quot;/SystemAdmin/TextEx/</span>{<span style="color:#1f377f;">childItem</span>.UniqueId}<span style="color:#a31515;">&quot;</span>,&nbsp;<span style="color:#1f377f;">route</span>,&nbsp;<span style="color:blue;">false</span>);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#8f08c4;">break</span>;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+ 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+}
+</pre>
+<h3>Retreiving Breadcrumb Data</h3>
+</p>
+The breadcrumb data that is generated is inserted into the HttpContext.Items for the request and can be easily retrieved by ensuring that the breadcrumbs exists and returning them.  BaseController which is a class that any controller can inherit from, contains a method to obtain the breadcrumb data:
+</p>
+<p>
+<pre style="font-family:Consolas;font-size:13px;color:black;background:white;"><span style="color:blue;">protected</span>&nbsp;<span style="color:#2b91af;">List</span>&lt;<span style="color:#2b91af;">BreadcrumbItem</span>&gt;&nbsp;<span style="color:#74531f;">GetBreadcrumbs</span>()
+{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#8f08c4;">if</span>&nbsp;(HttpContext.Items.<span style="color:#74531f;">ContainsKey</span>(<span style="color:#2b91af;">Constants</span>.Breadcrumbs))
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#8f08c4;">return</span>&nbsp;(<span style="color:#2b91af;">List</span>&lt;<span style="color:#2b91af;">BreadcrumbItem</span>&gt;)HttpContext.Items[<span style="color:#2b91af;">Constants</span>.Breadcrumbs];
+&nbsp;&nbsp;&nbsp;&nbsp;}
+ 
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#8f08c4;">return</span>&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">List</span>&lt;<span style="color:#2b91af;">BreadcrumbItem</span>&gt;();
+}
+</pre>
+</p>
+<p>
+The BaseModel class is a simple class which any view model can inherit from and contains two methods which can be used to retrieve breadcrumb data, the overloaded methods are both called BreadcrumbData .
+</p>
+<p>
+As can be seen the breadcrumb plugin makes building a breadcrumb heirerarchy very simple indeed, but adds the required flexibility to ensure cope with a vast variety of situations.
 </p>

@@ -17,7 +17,7 @@
     @Html.Raw(Model.LongDescription)
 }
 
-@if (!String.IsNullOrEmpty(Model.ShortDescription))
+@if (Model.ShowShortDescription && !String.IsNullOrEmpty(Model.ShortDescription))
 {
     @Html.Raw(Model.ShortDescription)
 }

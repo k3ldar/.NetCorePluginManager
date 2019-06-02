@@ -73,7 +73,7 @@ To embed resources, these being .cshtml files, images, css or script etc, right 
 </p>
 
 <p>
-*IMAGE*
+<img src="/images/EmbeddedResources.png">
 </p>
 <p>
 An important caveat on embedding resources is in their naming.  Due to how C# embeds files they cannot contain a full stop character (.) in their name.  When compiling the compiler will use the path and file name as the name of the embedded resource.  For instance if you had an image that was displayed on the login screen and this was located at:
