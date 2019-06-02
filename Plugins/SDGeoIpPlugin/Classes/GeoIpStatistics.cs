@@ -40,15 +40,6 @@ namespace SieraDeltaGeoIp.Plugin
 
         #endregion Private Members
 
-        #region Constructors
-
-        public GeoIpStatistics()
-        {
-
-        }
-
-        #endregion Constructors
-
         #region INotificationListener Methods
 
         public bool EventRaised(in string eventId, in object param1, in object param2, ref object result)
