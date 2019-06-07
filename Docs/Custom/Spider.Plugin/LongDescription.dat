@@ -1,3 +1,36 @@
 <p>
-To be completed
+Spider plugin has been designed to manage robots that visit a site, it completes this by performing 3 tasks
+</p>
+<ul>
+<li>Create a list of routes that should not be visited by a bot, based on attributes placed on action methods.</li>
+<li>Monitor bots navigating through a website and return a 403 error if a bot enters a route that it should not visit.</li>
+<li>Serve /robots.txt which is built based on routes denied based on DenySpiderAttribute.
+</ul>
+<p>
+This is achieved by adding DenySpiderAttribute to a controller class or action method, the following code sample demostrates 2 action methods that are denied to bots:
+</p>
+<p>
+<pre style="font-family:Consolas;font-size:13px;color:black;background:white;">[<span style="color:#2b91af;">DenySpider</span>]
+[<span style="color:#2b91af;">Breadcrumb</span>(<span style="color:blue;">nameof</span>(Languages.<span style="color:#2b91af;">LanguageStrings</span>.Privacy))]
+<span style="color:blue;">public</span>&nbsp;<span style="color:#2b91af;">IActionResult</span>&nbsp;<span style="color:#74531f;">Privacy</span>()
+{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#8f08c4;">return</span>&nbsp;<span style="color:#74531f;">View</span>(<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">BaseModel</span>(<span style="color:#74531f;">GetBreadcrumbs</span>(),&nbsp;<span style="color:#74531f;">GetCartSummary</span>()));
+}
+ 
+[<span style="color:#2b91af;">DenySpider</span>(<span style="color:#a31515;">&quot;*&quot;</span>)]
+[<span style="color:#2b91af;">ResponseCache</span>(Duration&nbsp;=&nbsp;0,&nbsp;Location&nbsp;=&nbsp;<span style="color:#2b91af;">ResponseCacheLocation</span>.None,&nbsp;NoStore&nbsp;=&nbsp;<span style="color:blue;">true</span>)]
+<span style="color:blue;">public</span>&nbsp;<span style="color:#2b91af;">IActionResult</span>&nbsp;<span style="color:#74531f;">Error</span>()
+{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#8f08c4;">return</span>&nbsp;<span style="color:#74531f;">View</span>(<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">ErrorViewModel</span>&nbsp;{&nbsp;RequestId&nbsp;=&nbsp;<span style="color:#2b91af;">Activity</span>.Current?.Id&nbsp;??&nbsp;HttpContext.TraceIdentifier&nbsp;});
+}
+</pre>
+</p>
+<p>
+The DenySpider attribute works by allowing users to specify which user agents are denied, each bot should have a unique user agent, when they navigate through a site the first task is to read robots.txt to see if they are not allowed in any specific route.  A well behaved bot will obey the robots.txt file and not enter a route where it has been designed.
+</p>
+<p>
+The deny spider attribute has 3 constructors, the default denies any user agent *, the other 2 constructors allow you to specifically mention an individual agent that should be denied.  Yo can have multiple attributes for multiple agents.  The third constructor allows you to add a comment that will also appear in robots.txt file.  The deny spider attributes are also used to create the denied routes with user agents in robots.txt.
+</p>
+<p>
+If the deny spider middleware identifies a bot which is attempting to load a route where it has been denied, then a 403 forbidden response is returned.
 </p>
