@@ -1,3 +1,6 @@
 <p>
-To be completed
+The middleware module is crucial to Asp Net Core Plugin Manager, it contains the shared classes and interfaces which are used by all plugin modules.
+</p>
+<p>
+Please see the individual classes and interfaces for details on their useage.
 </p>
