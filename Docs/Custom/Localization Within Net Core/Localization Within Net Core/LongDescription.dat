@@ -1,1 +1,288 @@
-Localization Within Net Core
+<p>
+Localization in ASP.Net Core is quite different to ASP.Net Framework, with Framework you would create a project file that defined a resource file (.resx) file for each culture you are supporting, you would then link to the project and reference the resource stings via strongly typed static strings which are automatically created when compiling the library.
+</p>
+<p>
+Typically your reference within an aspx file would look similar to:
+</p>
+<p>
+<pre style="font-family:Consolas;font-size:13px;color:black;background:white;"><span style="background:yellow;">&lt;%</span><span style="color:blue;">=</span>Languages.<span style="color:#2b91af;">LanguageStrings</span>.AboutUs&nbsp;<span style="background:yellow;">%&gt;</span>
+</pre>
+</p>
+<p>
+When rendering the file to a browser, the most appropriate language would be selected from available resources and displayed to a user.
+</p>
+<h3>Controllers</h3>
+<p>
+.Net Core works in a slightly different way, resources are accessed via the IStringLocalizer and IStringLocalizer<T> interfaces which you would inject into the Controller and View using dependency injection so that localized string could be obtained.
+</p>
+<p>
+IStringLocalizer supports an indexer which is passed the key to the resource string. If the key is not found in a resource file, then that key is used as the string to display.
+</p>
+<p>
+<pre style="font-family:Consolas;font-size:13px;color:black;background:white;"><span style="color:blue;">public</span>&nbsp;<span style="color:blue;">class</span>&nbsp;<span style="color:#2b91af;">HomeController</span>
+{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">private</span>&nbsp;<span style="color:blue;">readonly</span>&nbsp;IStringLocalizer&lt;<span style="color:#2b91af;">HomeController</span>&gt;&nbsp;_localizer;
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">public</span>&nbsp;<span style="color:#2b91af;">ExampleClass</span>(IStringLocalizer&lt;<span style="color:#2b91af;">HomeController</span>&gt;&nbsp;<span style="color:#1f377f;">localizer</span>)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_localizer&nbsp;=&nbsp;<span style="color:#1f377f;">localizer</span>;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+ 
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">public</span>&nbsp;<span style="color:blue;">string</span>&nbsp;<span style="color:#74531f;">GetEmailPrompt</span>()
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#8f08c4;">return</span>&nbsp;_localizer[<span style="color:#a31515;">&quot;Please&nbsp;enter&nbsp;your&nbsp;email&quot;</span>];
+&nbsp;&nbsp;&nbsp;&nbsp;}
+}
+</pre>
+</p>
+<p>
+The snippet above would look for a localized string with a key name of 'Please enter your email', if it finds the localized resource then it will display it, otherwise it will display the string entered (the default language).
+</p>
+<p>
+<h3>Views</h3>
+<p>
+Views use a similar approach to Controllers, you inject an IViewLocalizer instance into the view and obtain the localized string accordingly.
+</p>
+<p>
+<pre style="font-family:Consolas;font-size:13px;color:black;background:white;"><span style="background:yellow;">@</span><span style="color:blue;">using</span>&nbsp;Microsoft.AspNetCore.Mvc.Localization
+<span style="background:yellow;">@model</span>&nbsp;AddingLocalization.ViewModels.HomeViewModel
+<span style="background:yellow;">@inject</span>&nbsp;<span style="color:#2b91af;">IViewLocalizer</span>&nbsp;<span style="color:#1f377f;">Localizer</span>
+<span style="background:yellow;">@{</span>
+&nbsp;&nbsp;&nbsp;&nbsp;ViewData[<span style="color:#a31515;">&quot;Title&quot;</span>]&nbsp;=&nbsp;Localizer[<span style="color:#a31515;">&quot;Home&nbsp;Page&quot;</span>];
+<span style="background:yellow;">}</span>
+ 
+<span style="color:blue;">&lt;</span><span style="color:maroon;">h2</span><span style="color:blue;">&gt;</span><span style="background:yellow;">@</span>ViewData[<span style="color:#a31515;">&quot;MyTitle&quot;</span>]<span style="color:blue;">&lt;/</span><span style="color:maroon;">h2</span><span style="color:blue;">&gt;</span>
+</pre>
+</p>
+<h3>Data Annotations</h3>
+<p>
+Data annotations use an IStringLocalizer<T> approach but work in exactly the same manner, the string "Please Enter Username or Email" is used as the key, if a localized string is found then that is used as the Required attribute, if not, the string displayed is used.
+</p>
+<p>
+<pre style="font-family:Consolas;font-size:13px;color:black;background:white;"><span style="color:blue;">public</span>&nbsp;<span style="color:blue;">sealed</span>&nbsp;<span style="color:blue;">class</span>&nbsp;<span style="color:#2b91af;">LoginViewModel</span>
+{
+&nbsp;&nbsp;&nbsp;&nbsp;[Required(ErrorMessage&nbsp;=&nbsp;<span style="color:#a31515;">&quot;Please&nbsp;Enter&nbsp;User&nbsp;name&nbsp;or&nbsp;Email&quot;</span>))]
+&nbsp;&nbsp;&nbsp;&nbsp;[Display(Name&nbsp;=&nbsp;<span style="color:#a31515;">&quot;Username&quot;</span>))]
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">public</span>&nbsp;<span style="color:blue;">string</span>&nbsp;Username&nbsp;{&nbsp;<span style="color:blue;">get</span>;&nbsp;<span style="color:blue;">set</span>;&nbsp;}
+}
+</pre>
+</p>
+<h3>Magic strings and other things</h3>
+<p>
+There are a couple of issues I have with this approach, the first being magic string, it is too easy for a typo to occur in the magic strings used, this could mean the key is never matched to a localized string, one of the other issues I have with this approach is using individual IStringLocalizer<T> implementations. This prevents us from following the DRY principal where we would contain all strings in the same resource file and allow them to be reused.
+</p>
+<p>
+It would also make translation easier for the translator as they would only have one file to work with instead of multiple resource files.
+<p>
+</p>
+<p>
+A further side benefit is that resource translations could be shared across multiple projects without any change, this could drastically reduce the cost of development.
+</p>
+<h3>Sharing Resources Translations</h3>
+<p>
+One of the beauties of .Net Core is that you can replace the default behavior by adding our own factory classes, step in IStringLocalizerFactory. This interface allows us to override the default behavior and gives us the ability to use a shared resource library. We also need to create our own instances of IStringLocalizer and IStringLocalizer<T>.
+</p>
+<h3>IStringLocalizer</h3>
+<p>
+Our new IStringLocalizer class creates a static instance of the ResourceManager, this will obtain the string from the ResourceManager using the current threads CurrentUiCulture.
+</p>
+<pre style="font-family:Consolas;font-size:13px;color:black;background:white;"><span style="color:blue;">internal</span>&nbsp;<span style="color:blue;">sealed</span>&nbsp;<span style="color:blue;">class</span>&nbsp;<span style="color:#2b91af;">StringLocalizer</span>&nbsp;:&nbsp;<span style="color:#2b91af;">IStringLocalizer</span>
+{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:gray;">#region</span>&nbsp;Private&nbsp;Members
+ 
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">private</span>&nbsp;<span style="color:blue;">static</span>&nbsp;<span style="color:blue;">readonly</span>&nbsp;<span style="color:#2b91af;">ResourceManager</span>&nbsp;_resourceManager&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">ResourceManager</span>(<span style="color:#a31515;">&quot;Languages.LanguageStrings&quot;</span>,&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">typeof</span>(<span style="color:#2b91af;">LanguageStrings</span>).Assembly);
+ 
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">private</span>&nbsp;<span style="color:blue;">static</span>&nbsp;<span style="color:blue;">readonly</span>&nbsp;<span style="color:#2b91af;">Timings</span>&nbsp;_timings&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">Timings</span>();
+ 
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:gray;">#endregion</span>&nbsp;Private&nbsp;Members
+ 
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:gray;">#region</span>&nbsp;Constructors
+ 
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">public</span>&nbsp;<span style="color:#2b91af;">StringLocalizer</span>()
+&nbsp;&nbsp;&nbsp;&nbsp;{
+ 
+&nbsp;&nbsp;&nbsp;&nbsp;}
+ 
+ 
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:gray;">#endregion</span>&nbsp;Constructors
+ 
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:gray;">#region</span>&nbsp;IStringLocalizer&nbsp;Methods
+ 
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">public</span>&nbsp;<span style="color:#2b91af;">LocalizedString</span>&nbsp;<span style="color:blue;">this</span>[<span style="color:blue;">string</span>&nbsp;<span style="color:#1f377f;">name</span>]
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">get</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">using</span>&nbsp;(<span style="color:#2b91af;">StopWatchTimer</span>&nbsp;<span style="color:#1f377f;">stopwatchTimer</span>&nbsp;=&nbsp;<span style="color:#2b91af;">StopWatchTimer</span>.<span style="color:#74531f;">Initialise</span>(_timings))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#8f08c4;">try</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">StringBuilder</span>&nbsp;<span style="color:#1f377f;">resourceName</span>&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">StringBuilder</span>(<span style="color:#1f377f;">name</span>.Length);
+ 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;strip&nbsp;out&nbsp;any&nbsp;non&nbsp;alpha&nbsp;numeric&nbsp;characters</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#8f08c4;">foreach</span>&nbsp;(<span style="color:blue;">char</span>&nbsp;<span style="color:#1f377f;">c</span>&nbsp;<span style="color:#8f08c4;">in</span>&nbsp;<span style="color:#1f377f;">name</span>)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#8f08c4;">if</span>&nbsp;(<span style="color:#1f377f;">c</span>&nbsp;&gt;=&nbsp;65&nbsp;&amp;&amp;&nbsp;<span style="color:#1f377f;">c</span>&nbsp;&lt;=&nbsp;90)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#1f377f;">resourceName</span>.<span style="color:#74531f;">Append</span>(<span style="color:#1f377f;">c</span>);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#8f08c4;">else</span>&nbsp;<span style="color:#8f08c4;">if</span>&nbsp;(<span style="color:#1f377f;">c</span>&nbsp;&gt;=&nbsp;61&nbsp;&amp;&amp;&nbsp;<span style="color:#1f377f;">c</span>&nbsp;&lt;=&nbsp;122)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#1f377f;">resourceName</span>.<span style="color:#74531f;">Append</span>(<span style="color:#1f377f;">c</span>);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#8f08c4;">else</span>&nbsp;<span style="color:#8f08c4;">if</span>&nbsp;(<span style="color:#1f377f;">c</span>&nbsp;&gt;=&nbsp;48&nbsp;&amp;&amp;&nbsp;<span style="color:#1f377f;">c</span>&nbsp;&lt;=&nbsp;57)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#1f377f;">resourceName</span>.<span style="color:#74531f;">Append</span>(<span style="color:#1f377f;">c</span>);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+ 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#8f08c4;">return</span>&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">LocalizedString</span>(<span style="color:#1f377f;">name</span>,&nbsp;_resourceManager.<span style="color:#74531f;">GetString</span>(<span style="color:#1f377f;">resourceName</span>.<span style="color:#74531f;">ToString</span>(),&nbsp;<span style="color:#2b91af;">Thread</span>.CurrentThread.CurrentUICulture));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#8f08c4;">catch</span>&nbsp;(<span style="color:#2b91af;">Exception</span>&nbsp;<span style="color:#1f377f;">error</span>)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">Initialisation</span>.GetLogger.<span style="color:#74531f;">AddToLog</span>(<span style="color:#2b91af;">Enums</span>.<span style="color:#2b91af;">LogLevel</span>.Localization,&nbsp;<span style="color:#1f377f;">error</span>,&nbsp;<span style="color:#1f377f;">name</span>);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#8f08c4;">return</span>&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">LocalizedString</span>(<span style="color:#1f377f;">name</span>,&nbsp;<span style="color:#1f377f;">name</span>);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+ 
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">public</span>&nbsp;<span style="color:#2b91af;">LocalizedString</span>&nbsp;<span style="color:blue;">this</span>[<span style="color:blue;">string</span>&nbsp;<span style="color:#1f377f;">name</span>,&nbsp;<span style="color:blue;">params</span>&nbsp;<span style="color:blue;">object</span>[]&nbsp;<span style="color:#1f377f;">arguments</span>]
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">get</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">using</span>&nbsp;(<span style="color:#2b91af;">StopWatchTimer</span>&nbsp;<span style="color:#1f377f;">stopwatchTimer</span>&nbsp;=&nbsp;<span style="color:#2b91af;">StopWatchTimer</span>.<span style="color:#74531f;">Initialise</span>(_timings))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#8f08c4;">try</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">StringBuilder</span>&nbsp;<span style="color:#1f377f;">resourceName</span>&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">StringBuilder</span>(<span style="color:#1f377f;">name</span>.Length);
+ 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;strip&nbsp;out&nbsp;any&nbsp;non&nbsp;alpha&nbsp;numeric&nbsp;characters</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#8f08c4;">foreach</span>&nbsp;(<span style="color:blue;">char</span>&nbsp;<span style="color:#1f377f;">c</span>&nbsp;<span style="color:#8f08c4;">in</span>&nbsp;<span style="color:#1f377f;">name</span>)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#8f08c4;">if</span>&nbsp;(<span style="color:#1f377f;">c</span>&nbsp;&gt;=&nbsp;65&nbsp;&amp;&amp;&nbsp;<span style="color:#1f377f;">c</span>&nbsp;&lt;=&nbsp;90)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#1f377f;">resourceName</span>.<span style="color:#74531f;">Append</span>(<span style="color:#1f377f;">c</span>);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#8f08c4;">else</span>&nbsp;<span style="color:#8f08c4;">if</span>&nbsp;(<span style="color:#1f377f;">c</span>&nbsp;&gt;=&nbsp;61&nbsp;&amp;&amp;&nbsp;<span style="color:#1f377f;">c</span>&nbsp;&lt;=&nbsp;122)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#1f377f;">resourceName</span>.<span style="color:#74531f;">Append</span>(<span style="color:#1f377f;">c</span>);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#8f08c4;">else</span>&nbsp;<span style="color:#8f08c4;">if</span>&nbsp;(<span style="color:#1f377f;">c</span>&nbsp;&gt;=&nbsp;48&nbsp;&amp;&amp;&nbsp;<span style="color:#1f377f;">c</span>&nbsp;&lt;=&nbsp;57)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#1f377f;">resourceName</span>.<span style="color:#74531f;">Append</span>(<span style="color:#1f377f;">c</span>);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+ 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">string</span>&nbsp;<span style="color:#1f377f;">resourceString</span>&nbsp;=&nbsp;_resourceManager.<span style="color:#74531f;">GetString</span>(<span style="color:#1f377f;">resourceName</span>.<span style="color:#74531f;">ToString</span>(),&nbsp;<span style="color:#2b91af;">Thread</span>.CurrentThread.CurrentUICulture);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#8f08c4;">return</span>&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">LocalizedString</span>(<span style="color:#1f377f;">name</span>,&nbsp;<span style="color:#2b91af;">String</span>.<span style="color:#74531f;">Format</span>(<span style="color:#1f377f;">resourceString</span>,&nbsp;<span style="color:#1f377f;">arguments</span>));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#8f08c4;">catch</span>&nbsp;(<span style="color:#2b91af;">Exception</span>&nbsp;<span style="color:#1f377f;">error</span>)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">Initialisation</span>.GetLogger.<span style="color:#74531f;">AddToLog</span>(<span style="color:#2b91af;">Enums</span>.<span style="color:#2b91af;">LogLevel</span>.Localization,&nbsp;<span style="color:#1f377f;">error</span>,&nbsp;<span style="color:#1f377f;">name</span>);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#8f08c4;">return</span>&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">LocalizedString</span>(<span style="color:#1f377f;">name</span>,&nbsp;<span style="color:#2b91af;">String</span>.<span style="color:#74531f;">Format</span>(<span style="color:#1f377f;">name</span>,&nbsp;<span style="color:#1f377f;">arguments</span>));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+ 
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">public</span>&nbsp;<span style="color:#2b91af;">IEnumerable</span>&lt;<span style="color:#2b91af;">LocalizedString</span>&gt;&nbsp;<span style="color:#74531f;">GetAllStrings</span>(<span style="color:blue;">bool</span>&nbsp;<span style="color:#1f377f;">includeParentCultures</span>)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#8f08c4;">throw</span>&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">NotImplementedException</span>();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+ 
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">public</span>&nbsp;<span style="color:#2b91af;">IStringLocalizer</span>&nbsp;<span style="color:#74531f;">WithCulture</span>(<span style="color:#2b91af;">CultureInfo</span>&nbsp;<span style="color:#1f377f;">culture</span>)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#8f08c4;">throw</span>&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">NotImplementedException</span>();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+ 
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:gray;">#endregion</span>&nbsp;IStringLocalizer&nbsp;Methods
+}
+</pre>
+</p>
+<h3>IStringLocalizerFactory</h3>
+<p>
+Our implementation of IStringLocalizerFactory will create a new StringLocalizer, the type of resource i.e. IStringLocalizer<T> is not used in the regular sense as we are now using a global resource.
+</p>
+<p>
+<pre style="font-family:Consolas;font-size:13px;color:black;background:white;"><span style="color:blue;">internal</span>&nbsp;<span style="color:blue;">sealed</span>&nbsp;<span style="color:blue;">class</span>&nbsp;<span style="color:#2b91af;">StringLocalizerFactory</span>&nbsp;:&nbsp;<span style="color:#2b91af;">IStringLocalizerFactory</span>
+{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:gray;">#region</span>&nbsp;IStringLocalizerFactory&nbsp;Methods
+ 
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">public</span>&nbsp;<span style="color:#2b91af;">IStringLocalizer</span>&nbsp;<span style="color:#74531f;">Create</span>(<span style="color:#2b91af;">Type</span>&nbsp;<span style="color:#1f377f;">resourceSource</span>)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#8f08c4;">return</span>&nbsp;(<span style="color:#2b91af;">IStringLocalizer</span>)cacheItem.Value;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+ 
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">public</span>&nbsp;<span style="color:#2b91af;">IStringLocalizer</span>&nbsp;<span style="color:#74531f;">Create</span>(<span style="color:blue;">string</span>&nbsp;<span style="color:#1f377f;">baseName</span>,&nbsp;<span style="color:blue;">string</span>&nbsp;<span style="color:#1f377f;">location</span>)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#8f08c4;">return</span>&nbsp;(<span style="color:#2b91af;">IStringLocalizer</span>)cacheItem.Value;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+ 
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:gray;">#endregion</span>&nbsp;IStringLocalizerFactory&nbsp;Methods
+}
+</pre>
+</p>
+<h3>Middleware</h3>
+<p>
+The middleware used natively already sets the current threads UI culture for us, so we can use that to obtain the correct culture to display to the user.
+</p>
+<h3>Configuration</h3>
+<p>
+Configuring your ASP.NET application to use remains the same.
+</p>
+<p>
+<pre style="font-family:Consolas;font-size:13px;color:black;background:white;"><span style="color:blue;">public</span>&nbsp;<span style="color:blue;">void</span>&nbsp;<span style="color:#74531f;">ConfigureMvcBuilder</span>(<span style="color:blue;">in</span>&nbsp;<span style="color:#2b91af;">IMvcBuilder</span>&nbsp;<span style="color:#1f377f;">mvcBuilder</span>)
+{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#1f377f;">mvcBuilder</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.<span style="color:#74531f;">AddViewLocalization</span>(
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">LanguageViewLocationExpanderFormat</span>.Suffix,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#1f377f;">opts</span>&nbsp;=&gt;&nbsp;{&nbsp;<span style="color:#1f377f;">opts</span>.ResourcesPath&nbsp;=&nbsp;<span style="color:#a31515;">&quot;Resources&quot;</span>;&nbsp;})
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.<span style="color:#74531f;">AddDataAnnotationsLocalization</span>();
+}
+</pre>
+</p>
+<h3>Strongly Typed Resource Name</h3>
+<p>
+As I mentioned before, having "Magic Strings" is not the best, it can be broken by a simple typo. Now that we are using a shared resource project we can take advantage of the system generated static string generated for each resource. The only issue we have is that you can not add static strings within an attribute constructor. To overcome this we use the nameof language feature which obtains the name of a variable, type or member.
+</p>
+<h3>Strongly Typed Data Annotations</h3>
+<p>
+The previous LoginViewModel example used magic strings which were also the default string used to display the Required message and Display names. We can now use strongly typed names using nameof, this ensures that the language string we want is there, otherwise the application will fail to compile.
+</p>
+<p>
+<pre style="font-family:Consolas;font-size:13px;color:black;background:white;">[<span style="color:#2b91af;">Required</span>(ErrorMessage&nbsp;=&nbsp;<span style="color:blue;">nameof</span>(Languages.<span style="color:#2b91af;">LanguageStrings</span>.PleaseEnterUserNameOrEmail))]
+[<span style="color:#2b91af;">Display</span>(Name&nbsp;=&nbsp;<span style="color:blue;">nameof</span>(Languages.<span style="color:#2b91af;">LanguageStrings</span>.Username))]
+<span style="color:blue;">public</span>&nbsp;<span style="color:blue;">string</span>&nbsp;Username&nbsp;{&nbsp;<span style="color:blue;">get</span>;&nbsp;<span style="color:blue;">set</span>;&nbsp;}
+ 
+[<span style="color:#2b91af;">Required</span>(ErrorMessage&nbsp;=&nbsp;<span style="color:blue;">nameof</span>(Languages.<span style="color:#2b91af;">LanguageStrings</span>.PleaseEnterPassword))]
+[<span style="color:#2b91af;">StringLength</span>(<span style="color:#2b91af;">Constants</span>.MaximumPasswordLength,&nbsp;MinimumLength&nbsp;=&nbsp;<span style="color:#2b91af;">Constants</span>.MinimumPasswordLength)]
+[<span style="color:#2b91af;">Display</span>(Name&nbsp;=&nbsp;<span style="color:blue;">nameof</span>(Languages.<span style="color:#2b91af;">LanguageStrings</span>.Password))]
+<span style="color:blue;">public</span>&nbsp;<span style="color:blue;">string</span>&nbsp;Password&nbsp;{&nbsp;<span style="color:blue;">get</span>;&nbsp;<span style="color:blue;">set</span>;&nbsp;}
+ 
+[<span style="color:#2b91af;">Display</span>(Name&nbsp;=&nbsp;<span style="color:blue;">nameof</span>(Languages.<span style="color:#2b91af;">LanguageStrings</span>.Code))]
+<span style="color:blue;">public</span>&nbsp;<span style="color:blue;">string</span>&nbsp;CaptchaText&nbsp;{&nbsp;<span style="color:blue;">get</span>;&nbsp;<span style="color:blue;">set</span>;&nbsp;}
+</pre>
+</p>
+<h3>Strongly Typed View Localization Strings</h3>
+<p>
+In the following example we use a strongly typed string resource name with the existing IViewLocalizer.
+</p>
+<p>
+<pre style="font-family:Consolas;font-size:13px;color:black;background:white;"><span style="background:yellow;">@model</span>&nbsp;LoginPlugin.Models.<span style="color:#2b91af;">LoginViewModel</span>
+<span style="background:yellow;">@inject</span>&nbsp;Microsoft.AspNetCore.Mvc.Localization.<span style="color:#2b91af;">IViewLocalizer</span>&nbsp;<span style="color:#1f377f;">Localizer</span>
+<span style="background:yellow;">@{</span>
+&nbsp;&nbsp;&nbsp;&nbsp;ViewData[<span style="color:#a31515;">&quot;Title&quot;</span>]&nbsp;=&nbsp;<span style="color:#a31515;">&quot;Index&quot;</span>;
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">var</span>&nbsp;<span style="color:#1f377f;">returnUrl</span>&nbsp;=&nbsp;<span style="color:#a31515;">&quot;/Account/CreateAccount&quot;</span>;
+ 
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#8f08c4;">if</span>&nbsp;(!<span style="color:#2b91af;">String</span>.<span style="color:#74531f;">IsNullOrEmpty</span>(Model.ReturnUrl))
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#1f377f;">returnUrl</span>&nbsp;+=&nbsp;<span style="color:#a31515;">$&quot;/?returnUrl=</span>{Model.ReturnUrl}<span style="color:#a31515;">&quot;</span>;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+<span style="background:yellow;">}</span>
+<span style="color:blue;">&lt;</span><span style="color:maroon;">div</span>&nbsp;<span style="color:red;">class</span><span style="color:blue;">=</span><span style="color:blue;">&quot;bc&quot;</span><span style="color:blue;">&gt;</span><span style="background:yellow;">@</span>Html.<span style="color:#74531f;">Raw</span>(Model.<span style="color:#74531f;">BreadcrumbData</span>())<span style="color:blue;">&lt;/</span><span style="color:maroon;">div</span><span style="color:blue;">&gt;</span>
+ 
+<span style="color:blue;">&lt;</span><span style="color:maroon;">link</span>&nbsp;<span style="color:red;">rel</span><span style="color:blue;">=</span><span style="color:blue;">&quot;stylesheet&quot;</span>&nbsp;<span style="color:red;">href</span><span style="color:blue;">=</span><span style="color:blue;">&quot;/css/login.css&quot;</span>&nbsp;<span style="color:blue;">/&gt;</span>
+ 
+<span style="color:blue;">&lt;</span><span style="color:maroon;">h2</span><span style="color:blue;">&gt;</span><span style="background:yellow;">@</span>Localizer[<span style="color:blue;">nameof</span>(Languages.<span style="color:#2b91af;">LanguageStrings</span>.Login)]<span style="color:blue;">&lt;/</span><span style="color:maroon;">h2</span><span style="color:blue;">&gt;</span>
+</pre>
+</p>
+<h3>Strongly Typed Controllers</h3>
+<p>
+Within controllers we have two options, we can pass in an IStringLocalizer instance as we would before and reference the string using nameof, like above, or directly reference the static string created in the resource file.
+</p>
+<p>
+<pre style="font-family:Consolas;font-size:13px;color:black;background:white;">ModelState.<span style="color:#74531f;">AddModelError</span>(<span style="color:#2b91af;">String</span>.Empty,&nbsp;Languages.<span style="color:#2b91af;">LanguageStrings</span>.CodeNotValid);
+</pre>
+</p>
+<h3>Conclusion</h3>
+<p>
+By eliminating "Magic Strings" and using strongly typed resource names we ensure the application is free from logical errors that can occur, replacing the IStringLocalizer and IStringLocalizerFactory we can enforce the use of single, shared library of localized strings, these can further be reused across multiple projects which decreases development costs and increases development time.
+</p>
