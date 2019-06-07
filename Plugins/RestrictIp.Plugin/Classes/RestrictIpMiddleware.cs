@@ -35,6 +35,8 @@ using Microsoft.AspNetCore.Http;
 using SharedPluginFeatures;
 using static SharedPluginFeatures.Enums;
 
+#pragma warning disable CS1591
+
 namespace RestrictIp.Plugin
 {
     /// <summary>
@@ -43,8 +45,6 @@ namespace RestrictIp.Plugin
     /// </summary>
     public sealed class RestrictIpMiddleware : BaseMiddleware
     {
-
-#pragma warning disable CS1591
 
         #region Constants
 
@@ -209,6 +209,6 @@ namespace RestrictIp.Plugin
         #endregion Private Methods
     }
 
-#pragma warning restore CS1591
-
 }
+
+#pragma warning restore CS1591

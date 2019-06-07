@@ -1,3 +1,40 @@
 <p>
-To be completed
+The RestrictIp plugin modules allows individual routes, or a collection of roots to be restricted to a specific range of Ip Addresses.  This can be useful for instance if you wnat to ensure that only connections from an internal Ip range are allowed into specific routes, for instance staff only areas.
+</p>
+<p>
+It achieves this by adding an instance of the RestrictedIpRouteAttribute to a controller.  The RestrictedIpRoute attribute takes a single parameter which is the name of the profile which controls what Ip addresses are allowed to enter the route.  RestrictIpSettings class contains the configuration data and is read from appsettings.json.
+</p>
+The following code sample demonstrates how the attribute is added to a route with a profile name of RestrictedRouteRemote
+<p>
+</p>
+<p>
+<pre style="font-family:Consolas;font-size:13px;color:black;background:white;">[<span style="color:#2b91af;">ApiController</span>]
+[<span style="color:#2b91af;">RestrictedIpRoute</span>(<span style="color:#a31515;">&quot;RestrictedRouteRemote&quot;</span>)]
+[<span style="color:#2b91af;">Route</span>(<span style="color:#a31515;">&quot;/api/Restricted/&quot;</span>)]
+<span style="color:blue;">public</span>&nbsp;<span style="color:blue;">class</span>&nbsp;<span style="color:#2b91af;">RestrictedRouteController</span>&nbsp;:&nbsp;<span style="color:#2b91af;">ControllerBase</span>
+{
+&nbsp;&nbsp;&nbsp;&nbsp;[<span style="color:#2b91af;">HttpGet</span>]
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">public</span>&nbsp;<span style="color:blue;">string</span>&nbsp;<span style="color:#74531f;">About</span>()
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#8f08c4;">return</span>&nbsp;(<span style="color:#a31515;">&quot;Test&quot;</span>);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+}
+</pre>
+</p>
+<p>
+The following sample shows the appsettings.json with the restricted route settings:
+</p>
+<p>
+<pre style="font-family:Consolas;font-size:13px;color:black;background:white;"><span style="color:#2e75b6;">&quot;RestrictedIpRoutes.Plugin&quot;</span>:&nbsp;{
+&nbsp;&nbsp;<span style="color:#2e75b6;">&quot;Disabled&quot;</span>:&nbsp;<span style="color:blue;">false</span>,
+&nbsp;&nbsp;<span style="color:#2e75b6;">&quot;RouteRestrictions&quot;</span>:&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2e75b6;">&quot;RestrictedRouteAllowAll&quot;</span>:&nbsp;<span style="color:#a31515;">&quot;*&quot;</span>,
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2e75b6;">&quot;RestrictedRouteLocal&quot;</span>:&nbsp;<span style="color:#a31515;">&quot;localhost&quot;</span>,
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2e75b6;">&quot;RestrictedRouteRemote&quot;</span>:&nbsp;<span style="color:#a31515;">&quot;10.30.*;192.168.*&quot;</span>,
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2e75b6;">&quot;SystemAdminRoute&quot;</span>:&nbsp;<span style="color:#a31515;">&quot;127.0.0.1;72.15.*&quot;</span>
+&nbsp;&nbsp;}
+},
+</pre>
+</p>
+<p>
 </p>
