@@ -407,6 +407,78 @@ namespace SharedPluginFeatures
         }
 
         #endregion Pagination
+
+        #region Base Model Data
+
+        /// <summary>
+        /// Returns basic model data to populate BaseModel.
+        /// </summary>
+        /// <returns>BaseModelData instance.</returns>
+        protected BaseModelData GetModelData()
+        {
+            return new BaseModelData(
+                GetBreadcrumbs(),
+                GetCartSummary(),
+                GetSeoTitle(),
+                GetSeoAuthor(),
+                GetSeoDescription(),
+                GetSeoKeyWords());
+        }
+
+        #endregion Base Model Data
+
+        #region Seo Data
+
+        /// <summary>
+        /// Retrieves the Seo title loaded by Seo Plugin module.
+        /// </summary>
+        /// <returns>string</returns>
+        protected string GetSeoTitle()
+        {
+            if (HttpContext.Items.ContainsKey(Constants.SeoTitle))
+                return HttpContext.Items[Constants.SeoTitle].ToString();
+
+            return String.Empty;
+        }
+
+        /// <summary>
+        /// Retrieves the Seo author loaded by Seo Plugin module.
+        /// </summary>
+        /// <returns>string</returns>
+        protected string GetSeoAuthor()
+        {
+            if (HttpContext.Items.ContainsKey(Constants.SeoMetaAuthor))
+                return HttpContext.Items[Constants.SeoMetaAuthor].ToString();
+
+            return String.Empty;
+        }
+
+        /// <summary>
+        /// Retrieves the Seo keywords loaded by Seo Plugin module.
+        /// </summary>
+        /// <returns>string</returns>
+        protected string GetSeoKeyWords()
+        {
+            if (HttpContext.Items.ContainsKey(Constants.SeoMetaKeywords))
+                return HttpContext.Items[Constants.SeoMetaKeywords].ToString();
+
+            return String.Empty;
+        }
+
+        /// <summary>
+        /// Retrieves the Seo description loaded by Seo Plugin module.
+        /// </summary>
+        /// <returns>string</returns>
+        protected string GetSeoDescription()
+        {
+            if (HttpContext.Items.ContainsKey(Constants.SeoMetaDescription))
+                return HttpContext.Items[Constants.SeoMetaDescription].ToString();
+
+            return String.Empty;
+        }
+
+        #endregion Seo Data
+
     }
 }
 

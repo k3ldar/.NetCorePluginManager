@@ -26,7 +26,6 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using System.Threading;
 
 namespace SharedPluginFeatures
 {
@@ -61,6 +60,23 @@ namespace SharedPluginFeatures
         {
             CartSummary = cartSummary ?? throw new ArgumentNullException(nameof(cartSummary));
             _breadcrumbs = breadcrumbs ?? throw new ArgumentNullException(nameof(breadcrumbs));
+        }
+
+        /// <summary>
+        /// Constructor allowing developer to pass all generic base model data in one pass.
+        /// </summary>
+        /// <param name="modelData">BaseModelData</param>
+        public BaseModel(in BaseModelData modelData)
+        {
+            if (modelData == null)
+                throw new ArgumentNullException(nameof(modelData));
+
+            Breadcrumbs = modelData.Breadcrumbs;
+            CartSummary = modelData.CartSummary;
+            SeoAuthor = modelData.SeoAuthor;
+            SeoDescription = modelData.SeoDescription;
+            SeoTags = modelData.SeoTags;
+            SeoTitle = modelData.SeoTitle;
         }
 
         #endregion Constructors
@@ -152,6 +168,30 @@ namespace SharedPluginFeatures
 
             return Result.ToString();
         }
+
+        /// <summary>
+        /// Contains Seo Author data to be displayed on a web page.
+        /// </summary>
+        /// <value>string</value>
+        public string SeoAuthor { get; set; }
+
+        /// <summary>
+        /// Contains the Seo Title for a web page
+        /// </summary>
+        /// <value>string</value>
+        public string SeoTitle { get; set; }
+
+        /// <summary>
+        /// Contains the Seo tags that will be inserted into a web page.
+        /// </summary>
+        /// <value>string</value>
+        public string SeoTags { get; set; }
+
+        /// <summary>
+        /// Contains Seo description to be inserted into a web page.
+        /// </summary>
+        /// <value>string</value>
+        public string SeoDescription { get; set; }
 
         #endregion Public Methods
     }
