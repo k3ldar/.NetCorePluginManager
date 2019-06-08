@@ -81,7 +81,7 @@ A further side benefit is that resource translations could be shared across mult
 <p>
 One of the beauties of .Net Core is that you can replace the default behavior by adding our own factory classes, step in IStringLocalizerFactory. This interface allows us to override the default behavior and gives us the ability to use a shared resource library. We also need to create our own instances of IStringLocalizer and IStringLocalizer<T>.
 </p>
-<h3>IStringLocalizer</h3>
+<h3>&Iota;StringLocalizer</h3>
 <p>
 Our new IStringLocalizer class creates a static instance of the ResourceManager, this will obtain the string from the ResourceManager using the current threads CurrentUiCulture.
 </p>
