@@ -21,22 +21,18 @@ If a controller action returns status 406, the context is redirected to the Erro
 <p>
 If a controller returns status 420 or 429, the context is redirected to the Error Managers HighVolume page.  BadEgg.Plugin module returns 429 by default if it detects that requests exceed the set limit.
 </p>
-
 <h3>System Admin Plugin</h3>
 <p>
 The error manager plugin enables three system admin menu items, one for general exceptions, one for missing links and a further Timings menu to view how much time was spent processing errors.
 </p>
-
 <h3>Customise Error Pages</h3>
 <p>
 As with all website plugin modules, the pages that are created in /Views/Error folder can be customised and personalised from their default settings to match the theme of the website where they will be shown.
 </p>
-
 <h3>Settings</h3>
 <p>
 Please view ErrorManagerSettings for details on how to customize the Error Manager plugin.
 </p>
-
 <h3>How to use</h3>
 <p>
 The Error Manager plugin should be loaded using the Plugin Manager, this module should be the first module in the PluginFiles list in PluginSettings.
