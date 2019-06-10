@@ -79,7 +79,7 @@ namespace DocumentationPlugin.Classes
 
         public List<string> GetDocumentationFiles()
         {
-            CacheItem cache = _memoryCache.GetExtendingCache().Get(Constants.DocumentationFileCache);
+            CacheItem cache = _memoryCache.GetPermanentCache().Get(Constants.DocumentationFileCache);
 
             if (cache == null)
             {

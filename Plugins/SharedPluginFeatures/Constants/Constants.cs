@@ -237,5 +237,10 @@ namespace SharedPluginFeatures
         /// Name of the url to return to in the event of a 403 error.
         /// </summary>
         public const string ReturnUrl = "ReturnUrl";
+
+        /// <summary>
+        /// Name of the thread that loads default documentation
+        /// </summary>
+        public const string DocumentationLoadThread = "Documentation load thread";
     }
 }

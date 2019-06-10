@@ -1162,6 +1162,11 @@
             Name of the url to return to in the event of a 403 error.
             </summary>
         </member>
+        <member name="F:SharedPluginFeatures.Constants.DocumentationLoadThread">
+            <summary>
+            Name of the thread that loads default documentation
+            </summary>
+        </member>
         <member name="T:SharedPluginFeatures.Enums">
             <summary>
             Standard Enum values shared across all plugin modules.

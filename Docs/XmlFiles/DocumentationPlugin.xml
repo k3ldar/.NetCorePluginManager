@@ -41,6 +41,12 @@
             </summary>
             <value>string</value>
         </member>
+        <member name="T:DocumentationPlugin.Classes.DocumentLoadThread">
+            <summary>
+            Thread that loads all documentation data when the plugin is initialised, preventing
+            any delay in the showing of doucmentation.
+            </summary>
+        </member>
         <member name="T:DocumentationPlugin.Classes.InitialiseEvents">
             <summary>
             Implements IPlugin which allows the Documentation.Plugin module to be

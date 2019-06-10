@@ -24,6 +24,8 @@
  *  19/05/2019  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+using System.Threading;
+
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
@@ -48,7 +50,17 @@ namespace DocumentationPlugin.Classes
 
         public void AfterConfigureServices(in IServiceCollection services)
         {
-            services.TryAddSingleton<IDocumentationService, DefaultDocumentationService>();
+            ServiceProvider serviceProvider = services.BuildServiceProvider();
+
+            IDocumentationService defaultDocumentation = new DefaultDocumentationService(
+                serviceProvider.GetRequiredService<ISettingsProvider>(),
+                serviceProvider.GetRequiredService<IMemoryCache>());
+            services.TryAddSingleton<IDocumentationService>(defaultDocumentation);
+
+            DocumentLoadThread documentLoadThread = new DocumentLoadThread(defaultDocumentation as IDocumentationService);
+            Shared.Classes.ThreadManager.ThreadStart(documentLoadThread, 
+                Constants.DocumentationLoadThread, 
+                ThreadPriority.BelowNormal);
         }
 
         public void BeforeConfigure(in IApplicationBuilder app, in IHostingEnvironment env)
