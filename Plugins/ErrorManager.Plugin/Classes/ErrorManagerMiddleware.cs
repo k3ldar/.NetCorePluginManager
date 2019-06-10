@@ -95,7 +95,7 @@ namespace ErrorManager.Plugin
                     {
                         case 403:
                             ITempDataDictionary tempData = GetTempData(context);
-                            tempData["ReturnUrl"] = context.Request.Path;
+                            tempData[Constants.ReturnUrl] = context.Request.Path;
                             context.Response.Redirect(_loginPage, false);
                             break;
 

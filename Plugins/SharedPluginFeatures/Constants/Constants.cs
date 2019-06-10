@@ -232,5 +232,10 @@ namespace SharedPluginFeatures
         /// Name of the permanent cache manager.
         /// </summary>
         public const string CacheNamePermanent = "Permanent Cache Manager";
+
+        /// <summary>
+        /// Name of the url to return to in the event of a 403 error.
+        /// </summary>
+        public const string ReturnUrl = "ReturnUrl";
     }
 }
