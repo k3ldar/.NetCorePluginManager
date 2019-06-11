@@ -1,3 +1,46 @@
 <p>
-To be completed
+The Heldesk plugin is designed to add helpdesk facilities to any website in the form of:
+</p>
+<ul>
+<li>Frequently asked questions</li>
+<li>Support Tickets</li>
+<li>Feedback</li>
+</ul>
+<p>
+To facilitate heldesk functionality the host application must implement IHelpdeskProvider interface, this exposes methods that provide data that enables the helpdesk to operate.
+</p>
+<h3>Frequently Asked Questions</h3>
+<p>
+The purpose of the frequently asked questions (FAQ) is to provide information on questions or concerns that arise on a frequent basis.  It is a useful mechanism for organizing information and data consisting of questions and their answers that users may have over time.
+</p>
+<p>
+The FAQ section is organised into a series of folders and sub folders, each sub folder can contain further sub folders or FAQ items.  This affords maximum flexibility when organising FAQ items into logical groups.  There is also a mechanism built in to indicate how many times an FAQ item has been viewed, which further allows the items to be sorted by popularity.
+</p>
+<h3>Support Tickets</h3>
+<p>
+Support tickets allow site owners to respond to specific user questions regarding their products or services.  Users can choose a priority for their questions and the IHelpdeskProvider interface provides a method for specifying what departments are available for a ticket to be submitted to.  Users can view existing tickets and respond.
+</p>
+<p>
+When implementing the IHelpdeskProvider interface, consideration should be given to:
+</p>
+<ul>
+<li>Providing an email receipt for the support question.</li>
+<li>Provide an email notification of a response to the user.</li>
+<li>Automatic integration with a specific email account for creating and responding to tickets.</li>
+</ul>
+<h3>Feedback</h3>
+<p>
+The feedback section provides users with an area that allows feedback to be submitted and optionally displayed within the website for other site users to see.  To help verify a user their is also Captcha verification.
+</p>
+<h3>Customise Error Pages</h3>
+<p>
+As with all website plugin modules, the pages that are created in /Views/Helpdesk folder can be customised and personalised from their default settings to match the theme of the website where they will be shown.
+</p>
+<h3>Settings</h3>
+<p>
+Please view HelpdeskSettings for details on how to customize the Helpdesk plugin.
+</p>
+<h3>How to use</h3>
+<p>
+The Helpdesk plugin should be loaded using the Plugin Manager.
 </p>
