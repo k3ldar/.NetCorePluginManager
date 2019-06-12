@@ -28,8 +28,16 @@ using Shared.Classes;
 
 using SharedPluginFeatures;
 
+#pragma warning disable CS1591
+
 namespace UserSessionMiddleware.Plugin.Classes.SystemAdmin
 {
+    /// <summary>
+    /// Returns a list of active user sessions, including longitude and latitude for
+    /// display on a map, this data can be viewed within SystemAdmin.Plugin.  
+    /// 
+    /// This class descends from SystemAdminSubMenu.
+    /// </summary>
     public sealed class CurrentUserLocationMenu : SystemAdminSubMenu
     {
         #region Overridden Methods
@@ -149,3 +157,5 @@ namespace UserSessionMiddleware.Plugin.Classes.SystemAdmin
         #endregion Private Methods
     }
 }
+
+#pragma warning restore CS1591

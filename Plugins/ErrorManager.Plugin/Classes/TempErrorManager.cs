@@ -27,7 +27,7 @@ using SharedPluginFeatures;
 
 namespace ErrorManager.Plugin.Classes
 {
-    public class TempErrorManager : IErrorManager
+    internal class TempErrorManager : IErrorManager
     {
         public void ErrorRaised(in ErrorInformation errorInformation)
         {

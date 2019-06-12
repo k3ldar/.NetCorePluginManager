@@ -27,8 +27,17 @@ using Microsoft.AspNetCore.Builder;
 
 namespace SharedPluginFeatures
 {
+    /// <summary>
+    /// Plugin modules which need to configure the IApplicationBuilder should implement an instance
+    /// of this interface.  When the AspNetCore.PluginManager loads it will call each instance
+    /// as part of the startup configuration.
+    /// </summary>
     public interface IConfigureApplicationBuilder
     {
+        /// <summary>
+        /// Provides an opportunity for plugins to configure the application builder.
+        /// </summary>
+        /// <param name="applicationBuilder">IApplicationBuilder instance.</param>
         void ConfigureApplicationBuilder(in IApplicationBuilder applicationBuilder);
     }
 }

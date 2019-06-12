@@ -30,6 +30,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
+#pragma warning disable CS1591
+
 namespace DownloadPlugin
 {
     public class Startup
@@ -52,7 +54,7 @@ namespace DownloadPlugin
             });
 
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddMvc();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -80,3 +82,5 @@ namespace DownloadPlugin
         }
     }
 }
+
+#pragma warning restore CS1591

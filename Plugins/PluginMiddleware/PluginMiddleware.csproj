@@ -65,6 +65,10 @@
     <NoWarn>1701;1702;NU1603</NoWarn>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netcoreapp3.0|AnyCPU'">
+    <DocumentationFile>..\..\Docs\XmlFiles\Middleware.xml</DocumentationFile>
+  </PropertyGroup>
+
   <ItemGroup Condition="'$(TargetFramework)'=='netcoreapp2.1'">
     <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.1.2" />
   </ItemGroup>
@@ -83,7 +87,7 @@
 
   <ItemGroup>
     <PackageReference Include="ApplicationSettings" Version="1.2.0" />
-    <PackageReference Include="SC.Shared.Library.Core" Version="2.8.3" />
+    <PackageReference Include="SC.Shared.Library.Core" Version="2.9.4" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(Configuration)'=='Release'">

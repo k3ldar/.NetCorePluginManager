@@ -1,0 +1,184 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>ErrorManager.Plugin</name>
+    </assembly>
+    <members>
+        <member name="T:ErrorManager.Plugin.ErrorManagerMiddleware">
+            <summary>
+            Error manager middleware pipeline service.
+            </summary>
+        </member>
+        <member name="T:ErrorManager.Plugin.ErrorManagerMiddlewareExtender">
+            <summary>
+            Error manager middleware extender.
+            </summary>
+        </member>
+        <member name="M:ErrorManager.Plugin.ErrorManagerMiddlewareExtender.UseErrorManager(Microsoft.AspNetCore.Builder.IApplicationBuilder)">
+            <summary>
+            IApplicationBuilder extender method.
+            
+            Allows easy use of registering ErrorManager.Plugin
+            </summary>
+            <param name="builder">IApplicationBuilder instance</param>
+            <returns>IApplicationBuilder</returns>
+            <example><pre style="font-family:Consolas;font-size:13px;color:black;background:white;"><span style="color:#1f377f;">app</span>.<span style="color:#74531f;">UseErrorManager</span>();</pre></example>
+        </member>
+        <member name="T:ErrorManager.Plugin.ErrorManagerSettings">
+            <summary>
+            Settings that affect how the ErrorManager.Plugin module is configured.
+            </summary>
+        </member>
+        <member name="P:ErrorManager.Plugin.ErrorManagerSettings.RandomQuotes">
+            <summary>
+            Use random quotes
+            </summary>
+            <value>bool.  If true then ransomly selects a quote from Quotes property.</value>
+        </member>
+        <member name="P:ErrorManager.Plugin.ErrorManagerSettings.Quotes">
+            <summary>
+            Array of quotes that can be displayed.
+            </summary>
+            <value>string[]</value>
+        </member>
+        <member name="P:ErrorManager.Plugin.ErrorManagerSettings.EncryptionKey">
+            <summary>
+            Encryption key, used to encrypt cookie values.
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:ErrorManager.Plugin.ErrorManagerSettings.LoginPage">
+            <summary>
+            Login page that the user should be directed to if login is required.
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="M:ErrorManager.Plugin.ErrorManagerSettings.Count">
+            <summary>
+            Total number of quotes available.
+            </summary>
+            <returns>int</returns>
+        </member>
+        <member name="M:ErrorManager.Plugin.ErrorManagerSettings.GetQuote(System.Int32)">
+            <summary>
+            Retrieves a random quote.
+            </summary>
+            <param name="index">Index of quote to retrieve.</param>
+            <returns>string</returns>
+        </member>
+        <member name="T:ErrorManager.Plugin.ErrorThreadManager">
+            <summary>
+            Internally managed thread that manages errors and ensures they are reported correctly usinng the IErrorManager interface.
+            </summary>
+        </member>
+        <member name="T:ErrorManager.Plugin.Classes.PluginClass">
+            <summary>
+            Implements IPlugin and IPluginVersion which allows the ErrorManager.Plugin module to be
+            loaded as a plugin module
+            </summary>
+        </member>
+        <member name="T:ErrorManager.Plugin.Classes.SystemAdmin.Error404TimingsSubMenu">
+            <summary>
+            Returns a list of current Timings for time spent processing missing pages can be viewed within SystemAdmin.Plugin.  
+            
+            This class descends from SystemAdminSubMenu.
+            </summary>
+        </member>
+        <member name="M:ErrorManager.Plugin.Classes.SystemAdmin.Error404TimingsSubMenu.Data">
+            <summary>
+            Returns Timings data in milliseconds for time spent processing by missing pages (404) within ErrorManager.Plugin.
+            </summary>
+            <returns>string</returns>
+        </member>
+        <member name="T:ErrorManager.Plugin.Classes.SystemAdmin.ErrorMissingPages">
+            <summary>
+            Returns a list of pages that are missing (404) within ErrorManager.Plugin.  
+            
+            This class descends from SystemAdminSubMenu.
+            </summary>
+        </member>
+        <member name="M:ErrorManager.Plugin.Classes.SystemAdmin.ErrorMissingPages.Data">
+            <summary>
+            Returns all missing pages processed by ErrorManager.Plugin.
+            </summary>
+            <returns>string</returns>
+        </member>
+        <member name="T:ErrorManager.Plugin.Classes.SystemAdmin.Errors">
+            <summary>
+            Returns a list of current errors that have been raised within ErrorManager.Plugin.  
+            
+            This class descends from SystemAdminSubMenu.
+            </summary>
+        </member>
+        <member name="M:ErrorManager.Plugin.Classes.SystemAdmin.Errors.Data">
+            <summary>
+            Returns error information raised within ErrorManager.Plugin.
+            </summary>
+            <returns>string</returns>
+        </member>
+        <member name="T:ErrorManager.Plugin.Classes.SystemAdmin.ErrorTimingsSubMenu">
+            <summary>
+            Returns a list of current Timings for all requests processed and can be viewed within SystemAdmin.Plugin.  
+            
+            This class descends from SystemAdminSubMenu.
+            </summary>
+        </member>
+        <member name="M:ErrorManager.Plugin.Classes.SystemAdmin.ErrorTimingsSubMenu.Data">
+            <summary>
+            Returns Timings data in milliseconds for time spent processing by ErrorManager.Plugin.
+            </summary>
+            <returns>string</returns>
+        </member>
+        <member name="T:ErrorManager.Plugin.Controllers.ErrorController">
+            <summary>
+            Error Controller
+            </summary>
+        </member>
+        <member name="T:ErrorManager.Plugin.Models.Error.Error404Model">
+            <summary>
+            View model for a 404 error.
+            </summary>
+        </member>
+        <member name="M:ErrorManager.Plugin.Models.Error.Error404Model.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="M:ErrorManager.Plugin.Models.Error.Error404Model.#ctor(System.Collections.Generic.List{SharedPluginFeatures.BreadcrumbItem}@,SharedPluginFeatures.ShoppingCartSummary@,System.String)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="breadcrumbs">List of breadcrumbs to be displayed on the page.</param>
+            <param name="cartSummary">Shopping cart summary.</param>
+            <param name="title">Title to be displayed on the page.</param>
+        </member>
+        <member name="M:ErrorManager.Plugin.Models.Error.Error404Model.#ctor(System.Collections.Generic.List{SharedPluginFeatures.BreadcrumbItem}@,SharedPluginFeatures.ShoppingCartSummary@,System.String,System.String,System.String)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="breadcrumbs">List of breadcrumbs to be displayed on the page.</param>
+            <param name="cartSummary">Shopping cart summary.</param>
+            <param name="title">Title to be displayed on the page.</param>
+            <param name="message">Message to be displayed to the user.</param>
+            <param name="image">Image to be displayed on the page.</param>
+        </member>
+        <member name="P:ErrorManager.Plugin.Models.Error.Error404Model.Title">
+            <summary>
+            Title to be displayed on the page.
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:ErrorManager.Plugin.Models.Error.Error404Model.Message">
+            <summary>
+            Message to be displayed to the user.
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:ErrorManager.Plugin.Models.Error.Error404Model.Image">
+            <summary>
+            Image to be displayed on the page.
+            </summary>
+            <value>string</value>
+        </member>
+    </members>
+</doc>

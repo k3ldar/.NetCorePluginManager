@@ -27,58 +27,60 @@ using System;
 
 using SharedPluginFeatures;
 
-using Shared.Classes;
+using System.Collections.Generic;
 
 namespace SieraDeltaGeoIp.Plugin
 {
-    public class GeoIpStatistics : IGeoIpStatistics, IGeoIpStatisticsUpdate
+    internal class GeoIpStatistics : INotificationListener
     {
         #region Private Members
 
-        private static readonly object _lockObject = new object();
-
-        public long _memoryMilliseconds;
-        public long _databaseMilliseconds;
-        public long _cacheMilliseconds;
         private uint _recordsLoaded;
         private TimeSpan _loadTime;
 
         #endregion Private Members
 
-        #region Constructors
+        #region INotificationListener Methods
 
-        public GeoIpStatistics()
+        public bool EventRaised(in string eventId, in object param1, in object param2, ref object result)
         {
-
-        }
-
-        #endregion Constructors
-
-        #region IGeoIpStatistics Methods
-
-        TimeSpan IGeoIpStatistics.LoadTime()
-        {
-            return (_loadTime);
-        }
-
-        uint IGeoIpStatistics.RecordsLoaded()
-        {
-            return (_recordsLoaded);
-        }
-
-        #endregion IGeoIpStatistics Methods
-
-        #region IGeoIpStatisticsUpdate Methods
-
-        public void Retrieve(in long milliseconds, in uint recordCount)
-        {
-            using (TimedLock lck = TimedLock.Lock(_lockObject))
+            switch (eventId)
             {
-                _recordsLoaded = recordCount;
-                _loadTime = new TimeSpan(0, 0, 0, 0, Convert.ToInt32(milliseconds));
+                case Constants.NotificationEventGeoIpLoadTime:
+                    result = _loadTime;
+                    return true;
+
+                case Constants.NotificationEventGeoIpRecordCount:
+                    result = _recordsLoaded;
+                    return true;
+            }
+
+            return false;
+        }
+
+        public void EventRaised(in string eventId, in object param1, in object param2)
+        {
+            switch (eventId)
+            {
+                case Constants.NotificationEventGeoIpLoadTime:
+                    _loadTime = (TimeSpan)param1;
+                    return;
+
+                case Constants.NotificationEventGeoIpRecordCount:
+                    _recordsLoaded = (uint)param1;
+                    return;
             }
         }
 
-        #endregion IGeoIpStatisticsUpdate Methods
+        public List<string> GetEvents()
+        {
+            return new List<string>
+            {
+                Constants.NotificationEventGeoIpLoadTime,
+                Constants.NotificationEventGeoIpRecordCount,
+            };
+        }
+
+        #endregion INotificationListener Methods
     }
 }

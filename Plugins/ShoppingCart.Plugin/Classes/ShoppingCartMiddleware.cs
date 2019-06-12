@@ -39,6 +39,9 @@ using ShoppingCartPlugin.Classes;
 
 namespace ShoppingCartPlugin
 {
+    /// <summary>
+    /// Middleware used in the request pipeline for inserting shopping cart data and information.
+    /// </summary>
     public class ShoppingCartMiddleware : BaseMiddleware
     {
         #region Private Members

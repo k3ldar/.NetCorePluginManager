@@ -1,0 +1,97 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>CacheControl.Plugin</name>
+    </assembly>
+    <members>
+        <member name="T:CacheControl.Plugin.CacheControlMiddleware">
+            <summary>
+            Implements rule based cache headers for individual routes
+            </summary>
+        </member>
+        <member name="T:CacheControl.Plugin.CacheControlMiddlewareExtender">
+            <summary>
+            Cache Control Middleware Extender
+            </summary>
+        </member>
+        <member name="M:CacheControl.Plugin.CacheControlMiddlewareExtender.UseCacheControl(Microsoft.AspNetCore.Builder.IApplicationBuilder)">
+            <summary>
+            IApplicationBuilder extender method.
+            
+            Allows easy use of registering CacheControl.Plugin 
+            </summary>
+            <param name="builder">IApplicationBuilder instance</param>
+            <returns>IApplicationBuilder</returns>
+            <example><pre style="font-family:Consolas;font-size:13px;color:black;background:white;"><span style="color:#1f377f;">app</span>.<span style="color:#74531f;">UseCacheControl</span>();</pre></example>
+        </member>
+        <member name="T:CacheControl.Plugin.CacheControlRoute">
+            <summary>
+            Defines a rule for adding cache headers to an individual or collection of routes.
+            
+            A route defined with a CacheMinutes which is less than 1 will have a header of no no-cache applied.
+            </summary>
+        </member>
+        <member name="P:CacheControl.Plugin.CacheControlRoute.Route">
+            <summary>
+            String array of routes that will cache headers added to them.
+            
+            Minimum 1 route, maximum 1500 routes
+            </summary>
+            <value>string[]</value>
+        </member>
+        <member name="P:CacheControl.Plugin.CacheControlRoute.CacheMinutes">
+            <summary>
+            Number of minutes the route or file cache header will last
+            
+            Minimum 0 minute
+            Maximum Int32.MaxValue
+            Default 120 minutes
+            </summary>
+            <value>int</value>
+        </member>
+        <member name="T:CacheControl.Plugin.CacheControlSettings">
+            <summary>
+            Dictionary of CacheControlRoute values loaded from settings using ISettingsProvider
+            </summary>
+        </member>
+        <member name="M:CacheControl.Plugin.CacheControlSettings.#ctor">
+            <summary>
+            Default Constructor
+            </summary>
+        </member>
+        <member name="P:CacheControl.Plugin.CacheControlSettings.Disabled">
+            <summary>
+            Indicates that caching is disabled or enabled.
+            
+            If disabled then no values will be applied to any header.
+            </summary>
+            <value>bool</value>
+        </member>
+        <member name="P:CacheControl.Plugin.CacheControlSettings.CacheControlRoutes">
+            <summary>
+            Dictionary of CacheControlRoute values, definining routes cache values.
+            </summary>
+            <value>Dictionary&lt;string, CacheControlRoute&gt;</value>
+        </member>
+        <member name="T:CacheControl.Plugin.Classes.SystemAdmin.CacheControlTimingsSubMenu">
+            <summary>
+            Returns Timings information for all time spent processing cache control requests and can 
+            be viewed within SystemAdmin.Plugin.  
+            
+            This class descends from SystemAdminSubMenu.
+            </summary>
+        </member>
+        <member name="M:CacheControl.Plugin.Classes.SystemAdmin.CacheControlTimingsSubMenu.Data">
+            <summary>
+            Returns Timings data in milliseconds for time spent processing by CacheControl.Plugin requests.
+            </summary>
+            <returns>string</returns>
+        </member>
+        <member name="T:CacheControl.Plugin.Initialisation">
+            <summary>
+            Implements IPlugin which allows the CacheControl.Plugin module to be
+            loaded as a plugin module
+            </summary>
+        </member>
+    </members>
+</doc>

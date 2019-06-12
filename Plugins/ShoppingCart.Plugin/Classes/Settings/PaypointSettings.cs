@@ -29,11 +29,20 @@ using AppSettings;
 
 namespace ShoppingCartPlugin.Classes
 {
+    /// <summary>
+    /// Settings related specifically to Paypoint payment provider.
+    /// </summary>
     public sealed class PaypointSettings : PaymentProviderSettings
     {
+        /// <summary>
+        /// Merchant Id
+        /// </summary>
         [SettingString(false, 1, 100)]
         public string MerchantId { get; set; }
 
+        /// <summary>
+        /// Remote password.
+        /// </summary>
         [SettingString(false, 1, 100)]
         public string RemotePassword { get; set; }
     }

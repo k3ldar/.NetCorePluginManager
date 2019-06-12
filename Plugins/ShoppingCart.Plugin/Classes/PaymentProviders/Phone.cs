@@ -36,6 +36,11 @@ using Shared.Classes;
 
 namespace ShoppingCartPlugin.Classes.PaymentProviders
 {
+    /// <summary>
+    /// Pay by phone payment provider.  This payment provider is used when a user orders online, but then telephones the office to complete the sale and make payment.
+    /// 
+    /// This class implements IPaymentProvider interface.
+    /// </summary>
     public sealed class Phone : IPaymentProvider
     {
         #region Private Members

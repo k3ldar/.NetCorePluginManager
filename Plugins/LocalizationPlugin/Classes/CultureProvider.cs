@@ -30,7 +30,7 @@ using SharedPluginFeatures;
 
 namespace Localization.Plugin
 {
-    public class CultureProvider : ICultureProvider
+    internal class CultureProvider : ICultureProvider
     {
         #region ICultureProvider Methods
 

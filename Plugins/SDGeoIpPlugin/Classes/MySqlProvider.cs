@@ -34,7 +34,7 @@ using SharedPluginFeatures;
 
 namespace SieraDeltaGeoIp.Plugin
 {
-    public class MySqlProvider : ThreadManager, IGeoIpProvider
+    internal class MySqlProvider : ThreadManager, IGeoIpProvider
     {
         #region Properties
 

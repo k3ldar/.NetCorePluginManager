@@ -27,12 +27,31 @@ using AppSettings;
 
 namespace CacheControl.Plugin
 {
+    /// <summary>
+    /// Defines a rule for adding cache headers to an individual or collection of routes.
+    /// 
+    /// A route defined with a CacheMinutes which is less than 1 will have a header of no no-cache applied.
+    /// </summary>
     public sealed class CacheControlRoute
     {
+        /// <summary>
+        /// String array of routes that will cache headers added to them.
+        /// 
+        /// Minimum 1 route, maximum 1500 routes
+        /// </summary>
+        /// <value>string[]</value>
         [SettingString(false, 1, 1500)]
         public string[] Route { get; set; }
 
-        [SettingRange(1, int.MaxValue)]
+        /// <summary>
+        /// Number of minutes the route or file cache header will last
+        /// 
+        /// Minimum 0 minute
+        /// Maximum Int32.MaxValue
+        /// Default 120 minutes
+        /// </summary>
+        /// <value>int</value>
+        [SettingRange(0, int.MaxValue)]
         [SettingDefault(120)]
         public int CacheMinutes { get; set; }
 

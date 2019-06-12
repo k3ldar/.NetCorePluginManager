@@ -34,216 +34,216 @@ using static Shared.Utilities;
 
 namespace ShoppingCartPlugin.Classes.Paypoint
 {
-    /// <summary>
-    /// determines what type of post to perform.
-    /// Get: Does a get against the source.
-    /// Post: Does a post against the source.
-    /// </summary>
-    public enum PostType { Get, Post }
+	/// <summary>
+	/// determines what type of post to perform.
+	/// Get: Does a get against the source.
+	/// Post: Does a post against the source.
+	/// </summary>
+	public enum PostType { Get, Post }
 
-    /// <summary>
-    /// Summary description for ValCard.
-    /// </summary>
-    public class PaypointHelper
-    {
-        #region Private Members
+	/// <summary>
+	/// Summary description for ValCard.
+	/// </summary>
+	public class PaypointHelper
+	{
+		#region Private Members
 
-        private readonly string _transID;
-        private readonly string _amount;
-        private string _digest;
+		private readonly string _transID;
+		private readonly string _amount;
+		private string _digest;
 
-        #endregion Private Members
+		#endregion Private Members
 
-        #region Constants
+		#region Constants
 
-        private const int Timeout = 10000;
+		private const int Timeout = 10000;
 
-        #endregion Constants
+		#endregion Constants
 
-        #region Constructors
+		#region Constructors
 
-        public PaypointHelper(string orderReference, decimal cost, string currency, string merchantId, 
-            string remotePassword, string urlSuccess)
-        {
-            PostItems = new NameValueCollection();
-            Url = "https://www.secpay.com/java-bin/ValCard";
-            PostType = PostType.Post;
-            Currency = currency;
-            _transID = orderReference;
-            _amount = Convert.ToString(cost);
-            UrlSuccess = urlSuccess;
-            MerchantID = merchantId;
-            RemotePassword = remotePassword;
-            UrlSuccess = urlSuccess;
-            CreateDigest();
-            BuildParamList();
-        }
+		public PaypointHelper(string orderReference, decimal cost, string currency, string merchantId, 
+			string remotePassword, string urlSuccess)
+		{
+			PostItems = new NameValueCollection();
+			Url = "https://www.secpay.com/java-bin/ValCard";
+			PostType = PostType.Post;
+			Currency = currency;
+			_transID = orderReference;
+			_amount = Convert.ToString(cost);
+			UrlSuccess = urlSuccess;
+			MerchantID = merchantId;
+			RemotePassword = remotePassword;
+			UrlSuccess = urlSuccess;
+			CreateDigest();
+			BuildParamList();
+		}
 
-        #endregion Constructors
+		#endregion Constructors
 
-        #region Properties
+		#region Properties
 
-        public string UrlSuccess { get; private set; }
+		public string UrlSuccess { get; private set; }
 
-        public string RemotePassword { get; private set; }
+		public string RemotePassword { get; private set; }
 
-        public string MerchantID { get; private set; }
+		public string MerchantID { get; private set; }
 
-        public string Currency { get; private set; }
+		public string Currency { get; private set; }
 
-        /// <summary>
+		/// <summary>
 		/// Gets or sets the url to submit the post to.
 		/// </summary>
 		public string Url { get; set; }
 
-        /// <summary>
-        /// Gets or sets the name value collection of items to post.
-        /// </summary>
-        public NameValueCollection PostItems { get; private set; }
+		/// <summary>
+		/// Gets or sets the name value collection of items to post.
+		/// </summary>
+		public NameValueCollection PostItems { get; private set; }
 
-        /// <summary>
-        /// Gets or sets the type of action to perform against the url.
-        /// </summary>
-        public PostType PostType { get; set; }
+		/// <summary>
+		/// Gets or sets the type of action to perform against the url.
+		/// </summary>
+		public PostType PostType { get; set; }
 
-        #endregion Properties
+		#endregion Properties
 
-        #region Public Methods
+		#region Public Methods
 
-        public string GetURL()
-        {
-            StringBuilder parameters = new StringBuilder();
+		public string GetURL()
+		{
+			StringBuilder parameters = new StringBuilder();
 
-            for (int i = 0; i < PostItems.Count; i++)
-            {
-                EncodeAndAddItem(ref parameters, PostItems.GetKey(i), PostItems[i]);
-            }
+			for (int i = 0; i < PostItems.Count; i++)
+			{
+				EncodeAndAddItem(ref parameters, PostItems.GetKey(i), PostItems[i]);
+			}
 
-            string result = Url + "?" + parameters.ToString();
-            return result;
-        }
+			string result = Url + "?" + parameters.ToString();
+			return result;
+		}
 
-        /// <summary>
-        /// Posts the supplied data to specified url.
-        /// </summary>
-        /// <returns>a string containing the result of the post.</returns>
-        public string Post(string url, NameValueCollection values)
-        {
-            StringBuilder parameters = new StringBuilder();
+		/// <summary>
+		/// Posts the supplied data to specified url.
+		/// </summary>
+		/// <returns>a string containing the result of the post.</returns>
+		public string Post(string url, NameValueCollection values)
+		{
+			StringBuilder parameters = new StringBuilder();
 
-            for (int i = 0; i < PostItems.Count; i++)
-            {
-                EncodeAndAddItem(ref parameters, PostItems.GetKey(i), PostItems[i]);
-            }
+			for (int i = 0; i < PostItems.Count; i++)
+			{
+				EncodeAndAddItem(ref parameters, PostItems.GetKey(i), PostItems[i]);
+			}
 
 
-            string result = PostData(url, parameters.ToString());
-            return result;
-        }
+			string result = PostData(url, parameters.ToString());
+			return result;
+		}
 
-        /// <summary>
-        /// Posts the supplied data to specified url.
-        /// </summary>
-        /// <param name="url">The url to post to.</param>
-        /// <returns>a string containing the result of the post.</returns>
-        public string Post(string url)
-        {
-            return Post(url, PostItems);
-        }
+		/// <summary>
+		/// Posts the supplied data to specified url.
+		/// </summary>
+		/// <param name="url">The url to post to.</param>
+		/// <returns>a string containing the result of the post.</returns>
+		public string Post(string url)
+		{
+			return Post(url, PostItems);
+		}
 
-        /// <summary>
-        /// Posts the supplied data to specified url.
-        /// </summary>
-        /// <returns>a string containing the result of the post.</returns>
-        public string Post()
-        {
-            return Post(Url, PostItems);
-        }
+		/// <summary>
+		/// Posts the supplied data to specified url.
+		/// </summary>
+		/// <returns>a string containing the result of the post.</returns>
+		public string Post()
+		{
+			return Post(Url, PostItems);
+		}
 
-        #endregion Public Methods
+		#endregion Public Methods
 
-        #region Private Methods
+		#region Private Methods
 
-        private void CreateDigest()
-        {
-            _digest =  HashStringMD5(_transID + _amount + RemotePassword);
-        }
+		private void CreateDigest()
+		{
+			_digest =  HashStringMD5(_transID + _amount + RemotePassword);
+		}
 
-        private void BuildParamList()
-        {
-            PostItems.Clear();
-            PostItems.Add("merchant", MerchantID);
-            PostItems.Add("trans_id", _transID);
-            PostItems.Add("amount", _amount);
-            PostItems.Add("callback", UrlSuccess);
-            PostItems.Add("digest", _digest);
-            PostItems.Add("currency", Currency);
-        }
+		private void BuildParamList()
+		{
+			PostItems.Clear();
+			PostItems.Add("merchant", MerchantID);
+			PostItems.Add("trans_id", _transID);
+			PostItems.Add("amount", _amount);
+			PostItems.Add("callback", UrlSuccess);
+			PostItems.Add("digest", _digest);
+			PostItems.Add("currency", Currency);
+		}
 
-        /// <summary>
-        /// Posts data to a specified url. Note that this assumes that you have already url encoded the post data.
-        /// </summary>
-        /// <param name="postData">The data to post.</param>
-        /// <param name="url">the url to post to.</param>
-        /// <returns>Returns the result of the post.</returns>
-        private string PostData(string url, string postData)
-        {
-            HttpWebRequest request = null;
-            
-            if (PostType == PostType.Post)
-            {
-                Uri uri = new Uri(url);
-                request = (HttpWebRequest)WebRequest.Create(uri);
-                request.Method = "POST";
-                request.Timeout = Timeout;
-                request.ContentType = "application/x-www-form-urlencoded";
-                request.ContentLength = postData.Length;
-                using (Stream writeStream = request.GetRequestStream())
-                {
-                    UTF8Encoding encoding = new UTF8Encoding();
-                    byte[] bytes = encoding.GetBytes(postData);
-                    writeStream.Write(bytes, 0, bytes.Length);
-                }
-            }
-            else
-            {
-                Uri uri = new Uri(url + "?" + postData);
-                request = (HttpWebRequest)WebRequest.Create(uri);
-                request.Method = "GET";
-            }
+		/// <summary>
+		/// Posts data to a specified url. Note that this assumes that you have already url encoded the post data.
+		/// </summary>
+		/// <param name="postData">The data to post.</param>
+		/// <param name="url">the url to post to.</param>
+		/// <returns>Returns the result of the post.</returns>
+		private string PostData(string url, string postData)
+		{
+			HttpWebRequest request = null;
+			
+			if (PostType == PostType.Post)
+			{
+				Uri uri = new Uri(url);
+				request = (HttpWebRequest)WebRequest.Create(uri);
+				request.Method = "POST";
+				request.Timeout = Timeout;
+				request.ContentType = "application/x-www-form-urlencoded";
+				request.ContentLength = postData.Length;
+				using (Stream writeStream = request.GetRequestStream())
+				{
+					UTF8Encoding encoding = new UTF8Encoding();
+					byte[] bytes = encoding.GetBytes(postData);
+					writeStream.Write(bytes, 0, bytes.Length);
+				}
+			}
+			else
+			{
+				Uri uri = new Uri(url + "?" + postData);
+				request = (HttpWebRequest)WebRequest.Create(uri);
+				request.Method = "GET";
+			}
 
-            string result = string.Empty;
+			string result = string.Empty;
 
-            using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
-            {
-                using (Stream responseStream = response.GetResponseStream())
-                {
-                    using (StreamReader readStream = new StreamReader(responseStream, Encoding.UTF8))
-                    {
-                        result = readStream.ReadToEnd();
-                    }
-                }
-            }
-            return result;
-        }
+			using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
+			{
+				using (Stream responseStream = response.GetResponseStream())
+				{
+					using (StreamReader readStream = new StreamReader(responseStream, Encoding.UTF8))
+					{
+						result = readStream.ReadToEnd();
+					}
+				}
+			}
+			return result;
+		}
 
-        private void EncodeAndAddItem(ref StringBuilder baseRequest, string key, string dataItem)
-        {
-            if (baseRequest == null)
-            {
-                baseRequest = new StringBuilder();
-            }
+		private void EncodeAndAddItem(ref StringBuilder baseRequest, string key, string dataItem)
+		{
+			if (baseRequest == null)
+			{
+				baseRequest = new StringBuilder();
+			}
 
-            if (baseRequest.Length != 0)
-            {
-                baseRequest.Append("&");
-            }
+			if (baseRequest.Length != 0)
+			{
+				baseRequest.Append("&");
+			}
 
-            baseRequest.Append(key);
-            baseRequest.Append("=");
-            baseRequest.Append(HttpUtility.UrlEncode(dataItem));
-        }
+			baseRequest.Append(key);
+			baseRequest.Append("=");
+			baseRequest.Append(HttpUtility.UrlEncode(dataItem));
+		}
 
-        #endregion Private Methods
-    }
+		#endregion Private Methods
+	}
 }

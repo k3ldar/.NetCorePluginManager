@@ -35,6 +35,10 @@ using Shared.Classes;
 
 namespace SharedPluginFeatures
 {
+    /// <summary>
+    /// Generic functions that can be used by middleware plugins to obtain generic information 
+    /// to be used when serving requests within the pipeline.
+    /// </summary>
     public class BaseMiddleware : BaseCoreClass
     {
         #region Constants
@@ -47,6 +51,11 @@ namespace SharedPluginFeatures
 
         #region Protected Methods
 
+        /// <summary>
+        /// Retrieves the current Uri for the request.
+        /// </summary>
+        /// <param name="context">Valid HttpContext for the request.</param>
+        /// <returns>Uri</returns>
         protected Uri GetCurrentUri(in HttpContext context)
         {
             UriBuilder uriBuilder = new UriBuilder(context.Request.Scheme, 
@@ -60,12 +69,25 @@ namespace SharedPluginFeatures
             return uriBuilder.Uri;
         }
 
+        /// <summary>
+        /// Retrieves an instance of ITempDataDictionary used to manipulate temp data for the curent request.
+        /// </summary>
+        /// <param name="context">Valid HttpContext for the request.</param>
+        /// <returns></returns>
         protected ITempDataDictionary GetTempData(in HttpContext context)
         {
             ITempDataDictionaryFactory factory = context.RequestServices.GetService(typeof(ITempDataDictionaryFactory)) as ITempDataDictionaryFactory;
             return (factory.GetTempData(context));
         }
 
+        /// <summary>
+        /// Retrieves the current users UserSession instance which contains data for the user.
+        /// 
+        /// Requires UserSessionMiddleware.Plugin module to be loaded.
+        /// </summary>
+        /// <param name="context">Valid HttpContext for the request.</param>
+        /// <returns>null if the UserSessionMiddleware.Plugin is not loaded otherwise a valid UserSession item representing 
+        /// the current users session.</returns>
         protected UserSession GetUserSession(in HttpContext context)
         {
             if (context.Items.ContainsKey(Constants.UserSession))
@@ -76,6 +98,13 @@ namespace SharedPluginFeatures
             return (null);
         }
 
+        /// <summary>
+        /// Determines if the current user is logged in or not.
+        /// 
+        /// Requires UserSessionMiddleware.Plugin module to be loaded.
+        /// </summary>
+        /// <param name="context">Valid HttpContext for the request.</param>
+        /// <returns>True if the user is logged in, otherwise false.</returns>
         protected bool IsUserLoggedIn(in HttpContext context)
         {
             UserSession session = GetUserSession(context);
@@ -88,6 +117,11 @@ namespace SharedPluginFeatures
             return (false);
         }
 
+        /// <summary>
+        /// Retrieves the current route being requested through the pipeline.
+        /// </summary>
+        /// <param name="context">Valid HttpContext for the request.</param>
+        /// <returns>string</returns>
         protected string Route(in HttpContext context)
         {
             if (context == null)
@@ -103,6 +137,11 @@ namespace SharedPluginFeatures
             return (route);
         }
 
+        /// <summary>
+        /// Retrieves the current route being requested through the pipeline in lowercase.
+        /// </summary>
+        /// <param name="context">Valid HttpContext for the request.</param>
+        /// <returns>string</returns>
         protected string RouteLowered(in HttpContext context)
         {
             if (context == null)
@@ -118,6 +157,13 @@ namespace SharedPluginFeatures
             return (routeLowered);
         }
 
+        /// <summary>
+        /// Retrieves the file extension for the file requested in the current request in lowercase.
+        /// 
+        /// Primarily used to determine if the request is for a static file.
+        /// </summary>
+        /// <param name="context">Valid HttpContext for the request.</param>
+        /// <returns>string</returns>
         protected string RouteFileExtension(in HttpContext context)
         {
             if (context == null)
@@ -133,6 +179,11 @@ namespace SharedPluginFeatures
             return (loweredExtension);
         }
 
+        /// <summary>
+        /// Retrieves the current Ip address for the current request.
+        /// </summary>
+        /// <param name="context">Valid HttpContext for the request.</param>
+        /// <returns>string</returns>
         protected string GetIpAddress(in HttpContext context)
         {
             string Result = context.Request.HttpContext.Connection.RemoteIpAddress.ToString();
@@ -144,6 +195,10 @@ namespace SharedPluginFeatures
         }
 
 
+        /// <summary>
+        /// Retrieves a list of all local Ip Addresses on the current server.
+        /// </summary>
+        /// <param name="ipAddressList">List of HashSet&lt;string&gt; which will be populated with the ip addresses from the current computer.</param>
         protected void GetLocalIpAddresses(in HashSet<string> ipAddressList)
         {
             ipAddressList.Clear();
@@ -160,6 +215,12 @@ namespace SharedPluginFeatures
 
         #region Cookies
 
+        /// <summary>
+        /// Determines whether a cookie exists or not.
+        /// </summary>
+        /// <param name="context">Valid HttpContext for the request.</param>
+        /// <param name="name">Name of the cookie.</param>
+        /// <returns>bool</returns>
         protected bool CookieExists(in HttpContext context, in string name)
         {
             if (context == null)
@@ -171,6 +232,11 @@ namespace SharedPluginFeatures
             return context.Request.Cookies.ContainsKey(name);
         }
 
+        /// <summary>
+        /// Deletes a cookie if it exists.
+        /// </summary>
+        /// <param name="context">Valid HttpContext for the request.</param>
+        /// <param name="name">Name of the cookie.</param>
         protected void CookieDelete(in HttpContext context, in string name)
         {
             if (context == null)
@@ -183,6 +249,13 @@ namespace SharedPluginFeatures
                 context.Response.Cookies.Append(name, String.Empty, new CookieOptions() { Expires = DateTime.Now.AddDays(-1) });
         }
 
+        /// <summary>
+        /// Retrieves the contents of a cookie.
+        /// </summary>
+        /// <param name="context">Valid HttpContext for the request.</param>
+        /// <param name="name">Name of the cookie.</param>
+        /// <param name="defaultValue">Value to be returned if the cookie does not exist.</param>
+        /// <returns>string</returns>
         protected string CookieValue(in HttpContext context, in string name, in string defaultValue = "")
         {
             if (context == null)
@@ -197,6 +270,13 @@ namespace SharedPluginFeatures
             return context.Request.Cookies[name];
         }
 
+        /// <summary>
+        /// Retrieves the contents of a cookie.
+        /// </summary>
+        /// <param name="context">Valid HttpContext for the request.</param>
+        /// <param name="name">Name of the cookie.</param>
+        /// <param name="defaultValue">Value to be returned if the cookie does not exist.</param>
+        /// <returns>long</returns>
         protected long CookieValue(in HttpContext context, in string name, in long defaultValue)
         {
             string value = CookieValue(context, name, String.Empty);
@@ -210,7 +290,14 @@ namespace SharedPluginFeatures
             return defaultValue;
         }
 
-
+        /// <summary>
+        /// Retrieves the contents of a cookie.
+        /// </summary>
+        /// <param name="context">Valid HttpContext for the request.</param>
+        /// <param name="name">Name of the cookie.</param>
+        /// <param name="encryptionKey">Key used to decrypt the contents when retrieved.</param>
+        /// <param name="defaultValue">Value to be returned if the cookie does not exist.</param>
+        /// <returns>string</returns>
         protected string CookieValue(in HttpContext context, in string name, in string encryptionKey, in string defaultValue = "")
         {
             if (context == null)
@@ -233,6 +320,13 @@ namespace SharedPluginFeatures
             return Shared.Utilities.Decrypt(Result, encryptionKey);
         }
 
+        /// <summary>
+        /// Adds a cookie.
+        /// </summary>
+        /// <param name="context">Valid HttpContext for the request.</param>
+        /// <param name="name">Name of the cookie.</param>
+        /// <param name="value">Value to be stored within the cookie.</param>
+        /// <param name="days">Number of days the cookie is valid for.  A value of -1 indicates a session cookie which will expire when the session ends.</param>
         protected void CookieAdd(in HttpContext context, in string name, in string value, in int days)
         {
             if (context == null)
@@ -253,7 +347,6 @@ namespace SharedPluginFeatures
         }
 
         #endregion Cookies
-
 
         #endregion Protected Methods
     }

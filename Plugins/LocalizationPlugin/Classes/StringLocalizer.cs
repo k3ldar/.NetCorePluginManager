@@ -38,7 +38,7 @@ using SharedPluginFeatures;
 
 namespace Localization.Plugin
 {
-    public sealed class StringLocalizer : IStringLocalizer
+    internal sealed class StringLocalizer : IStringLocalizer
     {
         #region Private Members
 

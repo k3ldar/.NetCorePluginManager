@@ -33,6 +33,10 @@ using SharedPluginFeatures;
 
 namespace SystemAdmin.Plugin.Classes
 {
+    /// <summary>
+    /// Implements IPlugin and IPluginVersion which allows the SystemAdmin.Plugin module to be
+    /// loaded as a plugin module
+    /// </summary>
     public class PluginClass : IPlugin, IPluginVersion
     {
         #region Static Internal Members

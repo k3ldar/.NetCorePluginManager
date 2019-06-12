@@ -26,10 +26,30 @@
 
 namespace SharedPluginFeatures
 {
+    /// <summary>
+    /// This interface is implemented by the Breadcrumb.Plugin and allows plugins to add dynamic plugins 
+    /// to the list of available plugins managed.  Especially useful if you have dynamic data that can
+    /// not use the BreadcrumbAttribute.
+    /// 
+    /// An instance of this interface is available using the DI container.
+    /// </summary>
     public interface IBreadcrumbService
     {
+        /// <summary>
+        /// Adds a dynamic breadcrumb to managed list of breadcrumbs.
+        /// </summary>
+        /// <param name="name">Name of breadcrumb</param>
+        /// <param name="route">Route the breadcrumb will use.</param>
+        /// <param name="hasParameters">Indicates that the route contains parameters.</param>
         void AddBreadcrumb(in string name, in string route, in bool hasParameters);
 
+        /// <summary>
+        /// Adds a dynamic breadcrumb to managed list of breadcrumbs.
+        /// </summary>
+        /// <param name="name">Name of breadcrumb</param>
+        /// <param name="route">Route the breadcrumb will use.</param>
+        /// <param name="parentRoute">Route used by the parent breadcrumb.</param>
+        /// <param name="hasParameters">Indicates that the route contains parameters.</param>
         void AddBreadcrumb(in string name, in string route, in string parentRoute, in bool hasParameters);
     }
 }

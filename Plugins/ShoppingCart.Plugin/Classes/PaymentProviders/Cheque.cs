@@ -36,6 +36,11 @@ using Shared.Classes;
 
 namespace ShoppingCartPlugin.Classes.PaymentProviders
 {
+    /// <summary>
+    /// Pay by cheque payment provider.  This payment provider is used when a user orders online, but then completes the sale and makes payment using a cheque.
+    /// 
+    /// This class implements IPaymentProvider interface.
+    /// </summary>
     public sealed class Cheque : IPaymentProvider
     {
         #region Private Members

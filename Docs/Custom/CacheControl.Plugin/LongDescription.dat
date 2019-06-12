@@ -1,0 +1,59 @@
+<p>
+Cache control plugin has been designed to add rule based cache settings for any route within a website.  In its basic form it simple adds a Cache-Control header item to the response which depending on the configuration will tell the browser that the response should be cached or not, and if caching how long it should be cached for.
+</p>
+<h3>Performance</h3>
+<p>
+Caching can dramatically improve the page load speed, after the initial request thus improving the overall user experience within the website.  It can also improve server performance, if a response is cached then the browser would not need to contact the server to retrieve data that it has already received and saved locally.
+</p>
+<h3>Cache Time</h3>
+<p>
+The amount of time a page should cache a response varies greatly and is a judgement call for developers and administrators.  If data is dynamic and constantly changing then a very short cache time, or no caching could be the best option.  On the other hand if the website uses static resources such as images, css and javascript files then these could easily be cached for a long period without affecting the website in an adverse way.
+</p>
+<p>
+There could be circumstances where for instance you use a specific version of a standard js library which will never change and custom js code which changes every now and then.  By carefully splitting these resources into seperate folders they can have different cache policies applied through the CachControlSetting options.
+</p>
+<h3>Cache Control Settings</h3>
+<p>
+By default the settings are held within appsettings.json, this can be changed if an application implements its own ISettingsProvider during initialisation, but for the purposes of this example the default appsettings.json will be used.
+</p>
+<p>
+Multiple CacheControlRoutes can be created, typically they would look like:
+</p>
+<p>
+<pre style="font-family:Consolas;font-size:13px;color:black;background:white;"><span style="color:#2e75b6;">&quot;CacheControlRoute&quot;</span>:&nbsp;{
+&nbsp;&nbsp;<span style="color:#2e75b6;">&quot;Disabled&quot;</span>:&nbsp;<span style="color:blue;">false</span>,
+&nbsp;&nbsp;<span style="color:#2e75b6;">&quot;CacheControlRoutes&quot;</span>:&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2e75b6;">&quot;TwoHourCache&quot;</span>:&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2e75b6;">&quot;CacheMinutes&quot;</span>:&nbsp;120,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2e75b6;">&quot;Route&quot;</span>:&nbsp;[
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#a31515;">&quot;/css/&quot;</span>,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#a31515;">&quot;/js/&quot;</span>,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#a31515;">&quot;/images/&quot;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;]
+&nbsp;&nbsp;&nbsp;&nbsp;},
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2e75b6;">&quot;OneMonthCache&quot;</span>:&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2e75b6;">&quot;CacheMinutes&quot;</span>:&nbsp;43200,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2e75b6;">&quot;Route&quot;</span>:&nbsp;[
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#a31515;">&quot;/lib/bootstrap/&quot;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;]
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;}
+},
+</pre></p>
+<p>
+In the above example there are two cache policies defined.  The first is named TwoHourCache and has its CacheMinutes value is set to 120, this being two hours for the routes that start with:
+</p>
+<ul>
+<li>/css/</li>
+<li>/js/</li>
+<li>/images/</li>
+</ul>
+<p>
+The second policy is named OneMonthCache and has its CacheMinutes value set to 43200 minutes which is 30 days.  The only route in this policy is to the popular bootstrap library which will not change that frequently during the application lifetime.  Further consideration should be given to providing a folder structure which includes the version, this will ensure that if a different version is used in future, existing users will obtain and cache the new version used when they visit the website.  This folder structure could look something like:
+</p>
+<ul>
+<li>/lib/bootstrap/4.0/</li>
+<li>/lib/bootstrap/4.1/</li>
+<li>/lib/bootstrap/4.2/</li>
+<li>/lib/bootstrap/4.3/</li>
+</ul>

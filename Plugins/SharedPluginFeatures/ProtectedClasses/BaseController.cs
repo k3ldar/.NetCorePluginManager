@@ -32,12 +32,24 @@ using Microsoft.AspNetCore.Http;
 using static Shared.Utilities;
 using Shared.Classes;
 
+#pragma warning disable CS1591
+
 namespace SharedPluginFeatures
 {
+    /// <summary>
+    /// Base Controller for use as a base for all controllers to obtain information from plugins loaded through PluginManager.
+    /// </summary>
     public class BaseController : Controller
     {
         #region User Sessions
 
+        /// <summary>
+        /// Retrieves the current users UserSession instance which contains data for the user.
+        /// 
+        /// Requires UserSessionMiddleware.Plugin module to be loaded.
+        /// </summary>
+        /// <returns>null if the UserSessionMiddleware.Plugin is not loaded otherwise a valid UserSession item representing 
+        /// the current users session.</returns>
         protected UserSession GetUserSession()
         {
             if (HttpContext.Items.ContainsKey(Constants.UserSession))
@@ -48,6 +60,12 @@ namespace SharedPluginFeatures
             return (null);
         }
 
+        /// <summary>
+        /// Determines if the current user is logged in or not.
+        /// 
+        /// Requires UserSessionMiddleware.Plugin module to be loaded.
+        /// </summary>
+        /// <returns>True if the user is logged in, otherwise false.</returns>
         protected bool IsUserLoggedIn()
         {
             UserSession session = GetUserSession();
@@ -58,7 +76,29 @@ namespace SharedPluginFeatures
             return (false);
         }
 
-        protected Int64 UserId()
+        /// <summary>
+        /// Retrieves a unique guid representing the currently logged in user.
+        /// 
+        /// Requires UserSessionMiddleware.Plugin module to be loaded.
+        /// </summary>
+        /// <returns>Guid.Empty if user is not logged in or a guid is not used, otherwise a valid unique guid for the user.</returns>
+        protected Guid UserGuid()
+        {
+            UserSession session = GetUserSession();
+
+            if (session != null)
+                return session.UserGuid;
+
+            return Guid.Empty;
+        }
+
+        /// <summary>
+        /// Retrieves a unique id representing the currently logged in user.
+        /// 
+        /// Requires UserSessionMiddleware.Plugin module to be loaded.
+        /// </summary>
+        /// <returns>Valid user id if the user is logged in, otherwise -1 will be returned.</returns>
+        protected long UserId()
         {
             UserSession session = GetUserSession();
 
@@ -68,6 +108,11 @@ namespace SharedPluginFeatures
             return (-1);
         }
 
+        /// <summary>
+        /// Retrieves a unique http session id for the current users session.  This is not related
+        /// to UserSession.
+        /// </summary>
+        /// <returns>string.  Unique http session id.</returns>
         protected string GetSessionId()
         {
             UserSession session = GetUserSession();
@@ -78,6 +123,11 @@ namespace SharedPluginFeatures
             return HttpContext.Session.Id;
         }
 
+        /// <summary>
+        /// Retrieves a unique http session id for the current session.  this is not related
+        /// to UserSession
+        /// </summary>
+        /// <returns>string.  Unique http session id.</returns>
         protected string GetCoreSessionId()
         {
             return (HttpContext.Session.Id);
@@ -87,6 +137,11 @@ namespace SharedPluginFeatures
 
         #region Breadcrumbs
 
+        /// <summary>
+        /// Retrieves the breadcrumbs created for the request from Breadcrumb.Plugin module.  If
+        /// no breadcrumbs exist an empty list will be returned.
+        /// </summary>
+        /// <returns>List&lt;BreadcrumbItem&gt;</returns>
         protected List<BreadcrumbItem> GetBreadcrumbs()
         {
             if (HttpContext.Items.ContainsKey(Constants.Breadcrumbs))
@@ -101,6 +156,11 @@ namespace SharedPluginFeatures
 
         #region Shopping Cart
 
+        /// <summary>
+        /// Returns a valid ShoppingCartSummary class representing the shopping cart
+        /// for the current user.
+        /// </summary>
+        /// <returns>ShoppingCartSummary</returns>
         protected ShoppingCartSummary GetCartSummary()
         {
             if (HttpContext.Items.ContainsKey(Constants.BasketSummary))
@@ -126,6 +186,12 @@ namespace SharedPluginFeatures
                 Constants.CurrencyCodeDefault);
         }
 
+        /// <summary>
+        /// Retrieves the default tax rate for the application.
+        /// 
+        /// Requires ShoppingCart.Plugin module to be loaded.
+        /// </summary>
+        /// <returns>decimal.  Default tax rate if found, otherwise zero.</returns>
         protected decimal GetDefaultTaxRate()
         {
             if (HttpContext.Items.ContainsKey(Constants.DefaultTaxRate))
@@ -134,6 +200,12 @@ namespace SharedPluginFeatures
             return 0;
         }
 
+        /// <summary>
+        /// Retrieves the current shopping cart id for the current user session.
+        /// 
+        /// Requires UserSessionMiddleware.Plugin module to be loaded.
+        /// </summary>
+        /// <returns>long.  Unique shopping cart id.</returns>
         protected long GetShoppingCartId()
         {
             if (HttpContext.Items.ContainsKey(Constants.ShoppingCart))
@@ -153,17 +225,32 @@ namespace SharedPluginFeatures
 
         #region Cookies
 
+        /// <summary>
+        /// Determines whether a cookie exists or not.
+        /// </summary>
+        /// <param name="name">Name of the cookie.</param>
+        /// <returns>bool</returns>
         protected bool CookieExists(in string name)
         {
             return HttpContext.Request.Cookies.ContainsKey(name);
         }
 
+        /// <summary>
+        /// Deletes an existing cookie if it exists.
+        /// </summary>
+        /// <param name="name">Name of the cookie.</param>
         protected void CookieDelete(in string name)
         {
             if (HttpContext.Request.Cookies.ContainsKey(name))
                 HttpContext.Response.Cookies.Append(name, String.Empty, new CookieOptions() { Expires = DateTime.Now.AddDays(-1) });
         }
 
+        /// <summary>
+        /// Retrieves the value from an existing cookie, if it exists.
+        /// </summary>
+        /// <param name="name">Name of the cookie.</param>
+        /// <param name="defaultValue">Value to be returned if the cookie does not exist.</param>
+        /// <returns>string.  Value from the cookie.</returns>
         protected string CookieValue(in string name, in string defaultValue = "")
         {
             if (!CookieExists(name))
@@ -172,6 +259,13 @@ namespace SharedPluginFeatures
             return HttpContext.Request.Cookies[name];
         }
 
+        /// <summary>
+        /// Adds a cookie.
+        /// </summary>
+        /// <param name="name">Name of the cookie.</param>
+        /// <param name="value">Value to be stored within the cookie.</param>
+        /// <param name="days">Number of days the cookie is valid for.  A value of 
+        /// -1 means it will be a session cookie and will expire when the user session ends.</param>
         protected void CookieAdd(in string name, in string value, in int days)
         {
             CookieOptions options = new CookieOptions()
@@ -189,6 +283,12 @@ namespace SharedPluginFeatures
 
         #region Ip Address
 
+        /// <summary>
+        /// Retrieves the Ip address for the current user session.
+        /// 
+        /// Please note that this could be masked if the user is using a proxy service or something similar.
+        /// </summary>
+        /// <returns>string</returns>
         protected string GetIpAddress()
         {
             return (HttpContext.Connection.RemoteIpAddress.ToString());
@@ -198,6 +298,10 @@ namespace SharedPluginFeatures
 
         #region Growl
 
+        /// <summary>
+        /// Retreives a previously stored growl message.
+        /// </summary>
+        /// <returns>string.  A valid growl message if one exists, otherwise an empty string.</returns>
         protected string GrowlGet()
         {
             string Result = String.Empty;
@@ -208,6 +312,10 @@ namespace SharedPluginFeatures
             return Result;
         }
 
+        /// <summary>
+        /// Adds a growl message which can be retrieved on the next request.
+        /// </summary>
+        /// <param name="s"></param>
         protected void GrowlAdd(string s)
         {
             TempData["growl"] = s;
@@ -217,6 +325,17 @@ namespace SharedPluginFeatures
 
         #region Pagination
 
+        /// <summary>
+        /// Builds a paginated list of html li elements for display in a view where pages are required.
+        /// </summary>
+        /// <param name="itemCount">int.  Number of items.</param>
+        /// <param name="itemsPerPage">int.  Number of items per page.</param>
+        /// <param name="currentPage">int.  Current page number.</param>
+        /// <param name="page">string.  Page or route being used to obtain pagination</param>
+        /// <param name="parameters">string.  Parameters to be added to each page item.</param>
+        /// <param name="previous">string.  Display text (localized or not) to be shown to indicate previous page.</param>
+        /// <param name="next">string.  Display text (localized or not) to be shown to indicate next page.</param>
+        /// <returns>string.  List of html li elements for pagination within a view.</returns>
         protected string BuildPagination(in int itemCount, in int itemsPerPage, in int currentPage,
             in string page, in string parameters, in string previous, in string next)
         {
@@ -288,5 +407,79 @@ namespace SharedPluginFeatures
         }
 
         #endregion Pagination
+
+        #region Base Model Data
+
+        /// <summary>
+        /// Returns basic model data to populate BaseModel.
+        /// </summary>
+        /// <returns>BaseModelData instance.</returns>
+        protected BaseModelData GetModelData()
+        {
+            return new BaseModelData(
+                GetBreadcrumbs(),
+                GetCartSummary(),
+                GetSeoTitle(),
+                GetSeoAuthor(),
+                GetSeoDescription(),
+                GetSeoKeyWords());
+        }
+
+        #endregion Base Model Data
+
+        #region Seo Data
+
+        /// <summary>
+        /// Retrieves the Seo title loaded by Seo Plugin module.
+        /// </summary>
+        /// <returns>string</returns>
+        protected string GetSeoTitle()
+        {
+            if (HttpContext.Items.ContainsKey(Constants.SeoTitle))
+                return HttpContext.Items[Constants.SeoTitle].ToString();
+
+            return String.Empty;
+        }
+
+        /// <summary>
+        /// Retrieves the Seo author loaded by Seo Plugin module.
+        /// </summary>
+        /// <returns>string</returns>
+        protected string GetSeoAuthor()
+        {
+            if (HttpContext.Items.ContainsKey(Constants.SeoMetaAuthor))
+                return HttpContext.Items[Constants.SeoMetaAuthor].ToString();
+
+            return String.Empty;
+        }
+
+        /// <summary>
+        /// Retrieves the Seo keywords loaded by Seo Plugin module.
+        /// </summary>
+        /// <returns>string</returns>
+        protected string GetSeoKeyWords()
+        {
+            if (HttpContext.Items.ContainsKey(Constants.SeoMetaKeywords))
+                return HttpContext.Items[Constants.SeoMetaKeywords].ToString();
+
+            return String.Empty;
+        }
+
+        /// <summary>
+        /// Retrieves the Seo description loaded by Seo Plugin module.
+        /// </summary>
+        /// <returns>string</returns>
+        protected string GetSeoDescription()
+        {
+            if (HttpContext.Items.ContainsKey(Constants.SeoMetaDescription))
+                return HttpContext.Items[Constants.SeoMetaDescription].ToString();
+
+            return String.Empty;
+        }
+
+        #endregion Seo Data
+
     }
 }
+
+#pragma warning restore CS1591

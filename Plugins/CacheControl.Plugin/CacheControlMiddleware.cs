@@ -34,8 +34,13 @@ using Shared.Classes;
 
 using SharedPluginFeatures;
 
+#pragma warning disable CS1591
+
 namespace CacheControl.Plugin
 {
+    /// <summary>
+    /// Implements rule based cache headers for individual routes
+    /// </summary>
     public class CacheControlMiddleware : BaseMiddleware
     {
         #region Private Members
@@ -136,3 +141,5 @@ namespace CacheControl.Plugin
         #endregion Private Methods
     }
 }
+
+#pragma warning restore CS1591

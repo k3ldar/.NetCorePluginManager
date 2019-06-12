@@ -34,7 +34,7 @@ using SharedPluginFeatures;
 namespace SystemAdmin.Plugin
 {
     /// <summary>
-    /// This class acts as a wrapper arund the elements you extend through plugin manager
+    /// This class acts as a wrapper around the elements you extend through plugin manager
     /// </summary>
     public sealed class SystemAdminHelper : ISystemAdminHelperService
     {

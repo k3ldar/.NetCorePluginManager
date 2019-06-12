@@ -55,7 +55,6 @@ namespace LoginPlugin
             services.AddSession();
 
             services.AddMvc()
-                .SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
                 .AddSessionStateTempDataProvider();
         }
 

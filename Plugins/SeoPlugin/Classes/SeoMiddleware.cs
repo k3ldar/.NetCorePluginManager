@@ -33,8 +33,13 @@ using Microsoft.AspNetCore.Http;
 
 using static SharedPluginFeatures.Constants;
 
+#pragma warning disable CS1591
+
 namespace SeoPlugin
 {
+    /// <summary>
+    /// Seo middleware class used to process Seo requests within the request pipeline.
+    /// </summary>
     public sealed class SeoMiddleware : BaseMiddleware
     {
         #region Private Members
@@ -105,3 +110,5 @@ namespace SeoPlugin
         #endregion Public Methods
     }
 }
+
+#pragma warning restore CS1591

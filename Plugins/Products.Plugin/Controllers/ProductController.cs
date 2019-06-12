@@ -40,6 +40,9 @@ using Languages;
 
 namespace ProductPlugin.Controllers
 {
+    /// <summary>
+    /// Product controller displays standard product information on a website.
+    /// </summary>
     public class ProductController : BaseController
     {
         #region Private Members

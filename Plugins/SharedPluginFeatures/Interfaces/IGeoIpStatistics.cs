@@ -27,12 +27,28 @@ using System;
 
 namespace SharedPluginFeatures
 {
+    /// <summary>
+    /// This interface is implemented by the GeoIpPlugin module and is available via DI.
+    /// It is designed to provide information on hown many GeoIp records were loaded and how long it took.
+    /// 
+    /// This method is deprecated and should not be used by new modules as it will be removed in future versions.
+    /// </summary>
+    [Obsolete("This interface is obsolete and wil be removed from future versions.  Use INotificationService instead.")]
+
     public interface IGeoIpStatistics
     {
         #region Properties
 
+        /// <summary>
+        /// Returns the number of records loaded.
+        /// </summary>
+        /// <returns>uint</returns>
         uint RecordsLoaded();
 
+        /// <summary>
+        /// Total time to load records.
+        /// </summary>
+        /// <returns>TimeSpan</returns>
         TimeSpan LoadTime();
 
         #endregion Properties

@@ -35,10 +35,17 @@ using Microsoft.AspNetCore.Http;
 using SharedPluginFeatures;
 using static SharedPluginFeatures.Enums;
 
+#pragma warning disable CS1591
+
 namespace RestrictIp.Plugin
 {
+    /// <summary>
+    /// Middleware provider which processes requests and ensures that only authorised 
+    /// connections can connect to routes decorated with RestrictedIpRouteAttribute.
+    /// </summary>
     public sealed class RestrictIpMiddleware : BaseMiddleware
     {
+
         #region Constants
 
         private const string ProfileNotFound = "The requested restriction profile '{0}' was not found!  " +
@@ -201,4 +208,7 @@ namespace RestrictIp.Plugin
 
         #endregion Private Methods
     }
+
 }
+
+#pragma warning restore CS1591

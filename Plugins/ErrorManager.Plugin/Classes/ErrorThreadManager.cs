@@ -30,8 +30,13 @@ using Shared.Classes;
 
 using SharedPluginFeatures;
 
+#pragma warning disable CS1591
+
 namespace ErrorManager.Plugin
 {
+    /// <summary>
+    /// Internally managed thread that manages errors and ensures they are reported correctly usinng the IErrorManager interface.
+    /// </summary>
     public sealed class ErrorThreadManager : ThreadManager
     {
         #region Static Members
@@ -109,3 +114,5 @@ namespace ErrorManager.Plugin
         #endregion Internal Methods
     }
 }
+
+#pragma warning restore CS1591

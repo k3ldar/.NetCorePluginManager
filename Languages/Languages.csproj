@@ -28,6 +28,10 @@
     <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>..\Docs\XmlFiles\Languages.xml</DocumentationFile>
+  </PropertyGroup>
+
 
   <ItemGroup>
     <Compile Update="LanguageStrings.Designer.cs">

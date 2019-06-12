@@ -31,14 +31,22 @@ using Microsoft.AspNetCore.Hosting;
 
 using SharedPluginFeatures;
 
+#pragma warning disable CS1591
+
 namespace SieraDeltaGeoIp.Plugin
 {
+    /// <summary>
+    /// Implements IPlugin which allows the SieraDeltaGeoIp.Plugin module to be
+    /// loaded as a plugin module
+    /// </summary>
     public class Initialisation : IPlugin
     {
         #region Constructors
 
-        public Initialisation()
+        public Initialisation(INotificationService notificationService)
         {
+            GeoIpStatistics = new GeoIpStatistics();
+            notificationService.RegisterListener(GeoIpStatistics);
         }
 
         #endregion Constructors
@@ -49,9 +57,7 @@ namespace SieraDeltaGeoIp.Plugin
 
         internal static ILogger GetLogger { get; private set; }
 
-        internal static IGeoIpStatistics GeoIpStatistics { get; private set; }
-
-        internal static IGeoIpStatisticsUpdate GeoIpUpdate { get; private set; }
+        internal static GeoIpStatistics GeoIpStatistics { get; private set; }
 
         #endregion Internal Static Properties
 
@@ -60,10 +66,6 @@ namespace SieraDeltaGeoIp.Plugin
         public void Initialise(ILogger logger)
         {
             GetLogger = logger;
-
-            GeoIpStatistics geoIpStatistics = new GeoIpStatistics();
-            GeoIpStatistics = geoIpStatistics as IGeoIpStatistics;
-            GeoIpUpdate = geoIpStatistics as IGeoIpStatisticsUpdate;
         }
 
         public void Finalise()
@@ -86,3 +88,5 @@ namespace SieraDeltaGeoIp.Plugin
         #endregion IPlugin Methods
     }
 }
+
+#pragma warning restore CS1591

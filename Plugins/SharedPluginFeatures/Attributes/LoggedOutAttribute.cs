@@ -27,16 +27,31 @@ using System;
 
 namespace SharedPluginFeatures
 {
+    /// <summary>
+    /// This attribute is used in conjunction with the UserSessionMiddleware.Plugin module and indicates that a user
+    /// must be logged out when attempting to gain access to the route.
+    /// </summary>
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = false)]
     public sealed class LoggedOutAttribute : Attribute
     {
         #region Constructors
 
+        /// <summary>
+        /// Default constructor
+        /// 
+        /// If a logged in user attempts to enter the route, they will be sent to the site home page (/)
+        /// </summary>
         public LoggedOutAttribute()
         {
             RedirectPage = "/";
         }
 
+        /// <summary>
+        /// Constructor
+        /// 
+        /// Allows the developer to specify a page that the user will be redirected to if the attempt to navigate to the route whilst logged in.
+        /// </summary>
+        /// <param name="redirectPage">string.  Url of route the user will be redirected to.</param>
         public LoggedOutAttribute(in string redirectPage)
         {
             if (String.IsNullOrEmpty(redirectPage))
@@ -49,6 +64,9 @@ namespace SharedPluginFeatures
 
         #region Properties
 
+        /// <summary>
+        /// Url of the page the user will be redirected to, should they be logged into the system and attempt to access the route.
+        /// </summary>
         public string RedirectPage { get; private set; }
 
         #endregion Properties

@@ -33,7 +33,7 @@ using SharedPluginFeatures;
 
 namespace SieraDeltaGeoIp.Plugin
 {
-    public class MSSQLProvider : ThreadManager, IGeoIpProvider
+    internal class MSSQLProvider : ThreadManager, IGeoIpProvider
     {
         #region Properties
 

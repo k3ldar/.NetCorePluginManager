@@ -26,11 +26,12 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 using AspNetCore.PluginManager;
+
+#pragma warning disable CS1591
 
 namespace Company.Plugin
 {
@@ -90,3 +91,5 @@ namespace Company.Plugin
         }
     }
 }
+
+#pragma warning restore CS1591

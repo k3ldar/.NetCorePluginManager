@@ -31,7 +31,7 @@ using SharedPluginFeatures;
 
 namespace BadEgg.Plugin
 {
-    public class IpManagement : IIpManagement
+    internal class IpManagement : IIpManagement
     {
         #region IIpManagement Methods
 

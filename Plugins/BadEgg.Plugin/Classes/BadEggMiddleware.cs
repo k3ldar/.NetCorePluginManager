@@ -41,8 +41,13 @@ using BadEgg.Plugin.WebDefender;
 using SharedPluginFeatures;
 using static SharedPluginFeatures.Enums;
 
+#pragma warning disable CS1591
+
 namespace BadEgg.Plugin
 {
+    /// <summary>
+    /// BadEgg Middleware
+    /// </summary>
     public sealed class BadEggMiddleware : BaseMiddleware
     {
         #region Private Members
@@ -224,3 +229,5 @@ namespace BadEgg.Plugin
         #endregion Private Methods
     }
 }
+
+#pragma warning restore CS1591

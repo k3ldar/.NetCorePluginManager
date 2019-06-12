@@ -27,10 +27,18 @@ using System;
 
 namespace SharedPluginFeatures
 {
+    /// <summary>
+    /// This class is used to contain basic breadcrumb data.
+    /// </summary>
     public sealed class Breadcrumb
     {
         #region Constructors
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="name">Name of the breadcrumb.</param>
+        /// <param name="route">Route that the breadcrumb is aligned to.</param>
         public Breadcrumb(in string name, in string route)
         {
             if (String.IsNullOrEmpty(name))
@@ -47,8 +55,14 @@ namespace SharedPluginFeatures
 
         #region Properties
 
+        /// <summary>
+        /// Name of the breadcrumb.
+        /// </summary>
         public string Name { get; private set; }
 
+        /// <summary>
+        /// Route that the breadcrumb is aligned to.
+        /// </summary>
         public string Route { get; private set; }
 
         #endregion Properties

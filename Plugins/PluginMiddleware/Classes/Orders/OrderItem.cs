@@ -29,11 +29,25 @@ using static Shared.Utilities;
 
 namespace Middleware.Accounts.Orders
 {
+    /// <summary>
+    /// Represents an item within an Order created by a user.  This is primarily used by IAccountProvider and the UserAccount.Plugin module.
+    /// </summary>
     public sealed class OrderItem
     {
         #region Constructors
 
-        public OrderItem(in Int64 id, in string description, in decimal cost, 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="id">Unique id of order item.</param>
+        /// <param name="description">Description of item.</param>
+        /// <param name="cost">Price of the item.</param>
+        /// <param name="taxRate">Rate of tax applied to the item within an order.</param>
+        /// <param name="quantity">Quantity of items within an order.</param>
+        /// <param name="status">Current status of item within the order.</param>
+        /// <param name="discountType">Type of discount applied to the item.</param>
+        /// <param name="discount">Discount amount applied to the item.</param>
+        public OrderItem(in long id, in string description, in decimal cost, 
             in int taxRate, in decimal quantity, in ItemStatus status, in DiscountType discountType, 
             in decimal discount)
         {
@@ -66,27 +80,64 @@ namespace Middleware.Accounts.Orders
 
         #region Properties
 
-        public Int64 Id { get; private set; }
+        /// <summary>
+        /// Unique id of order item.
+        /// </summary>
+        /// <value>long</value>
+        public long Id { get; private set; }
 
+        /// <summary>
+        /// Order the item belongs to.
+        /// </summary>
+        /// <value>Order</value>
         public Order Order { get; internal set; }
 
+        /// <summary>
+        /// Description of item.
+        /// </summary>
+        /// <value>string</value>
         public string Description { get; private set; }
 
+        /// <summary>
+        /// Price of the item.
+        /// </summary>
+        /// <value>decimal</value>
         public decimal Price { get; private set; }
 
+        /// <summary>
+        /// Rate of tax applied to the item within an order.
+        /// </summary>
+        /// <value>int</value>
         public int TaxRate { get; private set; }
 
+        /// <summary>
+        /// Quantity of items within an order.
+        /// </summary>
+        /// <value>decimal</value>
         public decimal Quantity { get; private set; }
 
+        /// <summary>
+        /// Discount amount applied to the item.
+        /// </summary>
+        /// <value>decimal</value>
         public decimal Discount { get; private set; }
 
+        /// <summary>
+        /// Type of discount applied to the item.
+        /// </summary>
+        /// <value>DiscountType</value>
         public DiscountType DiscountType { get; private set; }
 
+        /// <summary>
+        /// Current status of item within the order.
+        /// </summary>
+        /// <value>ItemStatus</value>
         public ItemStatus Status { get; private set; }
 
         /// <summary>
         /// Total + Tax
         /// </summary>
+        /// <value>decimal</value>
         public decimal Cost
         {
             get
@@ -101,6 +152,7 @@ namespace Middleware.Accounts.Orders
         /// <summary>
         /// Total Tax amount
         /// </summary>
+        /// <value>decimal</value>
         public decimal TotalTax
         {
             get
@@ -112,6 +164,10 @@ namespace Middleware.Accounts.Orders
             }
         }
 
+        /// <summary>
+        /// Sub total value for the item.
+        /// </summary>
+        /// <value>decimal</value>
         public decimal SubTotal
         {
             get
@@ -120,6 +176,10 @@ namespace Middleware.Accounts.Orders
             }
         }
 
+        /// <summary>
+        /// Total discount for the item within the Order.
+        /// </summary>
+        /// <value>decimal</value>
         public decimal TotalDiscount
         {
             get

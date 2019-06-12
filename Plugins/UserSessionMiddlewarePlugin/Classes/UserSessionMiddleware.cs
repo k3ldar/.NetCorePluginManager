@@ -25,7 +25,6 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -38,8 +37,15 @@ using static SharedPluginFeatures.Enums;
 
 using Shared.Classes;
 
+#pragma warning disable CS1591
+
 namespace UserSessionMiddleware.Plugin
 {
+    /// <summary>
+    /// UserSession Middleware.
+    /// 
+    /// This class is inserted into the request pipeline and manages all User Session data.
+    /// </summary>
     public sealed class UserSessionMiddleware : BaseMiddleware
     {
         #region Private Members
@@ -376,3 +382,5 @@ namespace UserSessionMiddleware.Plugin
         #endregion Private Methods
     }
 }
+
+#pragma warning restore CS1591

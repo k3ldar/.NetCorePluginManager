@@ -29,8 +29,14 @@ using Microsoft.AspNetCore.Hosting;
 
 using SharedPluginFeatures;
 
+#pragma warning disable CS1591
+
 namespace MemoryCache.Plugin
 {
+    /// <summary>
+    /// Implements IPlugin which allows the MemoryCache.Plugin module to be
+    /// loaded as a plugin module
+    /// </summary>
     public class Initialisation : IPlugin
     {
         #region Constructors
@@ -66,3 +72,5 @@ namespace MemoryCache.Plugin
         #endregion IPlugin Methods
     }
 }
+
+#pragma warning restore CS1591

@@ -39,6 +39,9 @@ using SharedPluginFeatures;
 
 namespace HelpdeskPlugin.Controllers
 {
+    /// <summary>
+    /// Helpdesk controller, provides Helpdesk functionality for any website.
+    /// </summary>
     public partial class HelpdeskController : BaseController
     {
         #region Constants 

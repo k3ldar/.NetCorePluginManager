@@ -37,7 +37,7 @@ namespace SieraDeltaGeoIp.Plugin
     /// <summary>
     /// Background thread used to load Geo Ip Data from Firebird Database
     /// </summary>
-    public class FirebirdDataProvider : ThreadManager, IGeoIpProvider
+    internal class FirebirdDataProvider : ThreadManager, IGeoIpProvider
     {
         #region Properties
 

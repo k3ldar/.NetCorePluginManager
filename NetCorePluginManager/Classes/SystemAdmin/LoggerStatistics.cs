@@ -33,8 +33,15 @@ using Shared.Classes;
 using static SharedPluginFeatures.Enums;
 using SharedPluginFeatures;
 
+#pragma warning disable CS1591
+
 namespace AspNetCore.PluginManager.Classes
 {
+    /// <summary>
+    /// Returns a list of the last 100 log entries that can be viewed within SystemAdmin.Plugin.  
+    /// 
+    /// This class descends from SystemAdminSubMenu and ILogger
+    /// </summary>
     public class LoggerStatistics : SystemAdminSubMenu, ILogger
     {
         #region Private Static Members
@@ -77,6 +84,10 @@ namespace AspNetCore.PluginManager.Classes
             return Enums.SystemAdminMenuType.Grid;
         }
 
+        /// <summary>
+        /// Returns delimited data on current log data, this will only store the last 100 entries.
+        /// </summary>
+        /// <returns>string</returns>
         public override string Data()
         {
             StringBuilder Result = new StringBuilder("DateTime|Log Type|Message", MaxQueueLength * 100);
@@ -182,3 +193,5 @@ namespace AspNetCore.PluginManager.Classes
         #endregion ILogger Methods
     }
 }
+
+#pragma warning restore CS1591

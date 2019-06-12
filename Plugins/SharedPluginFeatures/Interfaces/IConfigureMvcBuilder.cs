@@ -27,8 +27,17 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace SharedPluginFeatures
 {
+    /// <summary>
+    /// Plugin modules which need to configure the IMvcBuilder should implement an instance
+    /// of this interface.  When the AspNetCore.PluginManager loads it will call each instance
+    /// as part of the startup configuration.
+    /// </summary>
     public interface IConfigureMvcBuilder
     {
+        /// <summary>
+        /// Provides an opportunity for plugins to configure Mvc Builder.
+        /// </summary>
+        /// <param name="mvcBuilder">IMvcBuilder instance that can be configure.</param>
         void ConfigureMvcBuilder(in IMvcBuilder mvcBuilder);
     }
 }

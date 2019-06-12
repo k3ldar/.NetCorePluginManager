@@ -33,28 +33,49 @@ using AspNetCore.PluginManager.Classes;
 
 namespace AspNetCore.PluginManager
 {
+    /// <summary>
+    /// Plugin Manager configuration class.  Used when Initialising the Plugin Manager.
+    /// </summary>
     public sealed class PluginManagerConfiguration
     {
         #region Constructors
 
+        /// <summary>
+        /// Default constructor, uses all default settings.
+        /// </summary>
         public PluginManagerConfiguration()
             : this (new DefaultLogger(), new LoadSettingsService())
         {
 
         }
 
+        /// <summary>
+        /// Constructor allowing host application to supply a custom ILogger implementation.
+        /// </summary>
+        /// <param name="logger">Valid instance of ILogger.</param>
         public PluginManagerConfiguration(in ILogger logger)
             : this (logger, new LoadSettingsService())
         {
 
         }
 
+        /// <summary>
+        /// Constructor allowing host application to supply a custom ILoadSettingsService implementation
+        /// that can be used to obtain settings for AspNetCore.PluginManager from any data store.
+        /// </summary>
+        /// <param name="loadSettingsService">Valid instance of ILoadSettingsService.</param>
         public PluginManagerConfiguration(in ILoadSettingsService loadSettingsService)
             : this (new DefaultLogger(), loadSettingsService)
         {
 
         }
 
+        /// <summary>
+        /// Constructor allowing host application to supply a custom ILogger and ILoadSettingsService
+        /// implementation.
+        /// </summary>
+        /// <param name="logger">Valid instance of ILogger</param>
+        /// <param name="loadSettingsService">Valid instance of ILoadSettingsService.</param>
         public PluginManagerConfiguration(in ILogger logger, in ILoadSettingsService loadSettingsService)
         {
             Logger = logger ?? throw new ArgumentNullException(nameof(logger));
@@ -68,14 +89,41 @@ namespace AspNetCore.PluginManager
 
         #region Properties
 
+        /// <summary>
+        /// ILogger instance used by the AspNetCore.PluginManager and plugin modules to 
+        /// log information to a default log storage.
+        /// 
+        /// This can be within a database or file based.  The standard ILogger implementation 
+        /// saves data to a log file.
+        /// </summary>
+        /// <value>ILogger</value>
         public ILogger Logger { get; private set; }
 
+        /// <summary>
+        /// ILoadSettingsService instance is used by the AspNetCore.PluginManager to load
+        /// settings and configuration data for plugins that it will load.
+        /// </summary>
+        /// <value>ILoadSettingsService</value>
         public ILoadSettingsService LoadSettingsService { get; private set; }
 
+        /// <summary>
+        /// Current root path of the application.
+        /// </summary>
+        /// <value>string</value>
         public string CurrentPath { get; set; }
 
+        /// <summary>
+        /// Configuration file name that will be used by the default implementation of 
+        /// ILoadSettingsService to obtain data.
+        /// </summary>
+        /// <value>string</value>
         public string ConfigFileName { get; set; }
 
+        /// <summary>
+        /// Configuration file name that will be used by the default implementation of 
+        /// ILoadSettingsService to obtain data.
+        /// </summary>
+        /// <value>string</value>
         public string ConfigurationFile
         {
             get

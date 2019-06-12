@@ -27,8 +27,16 @@ using System;
 
 using SharedPluginFeatures;
 
+#pragma warning disable CS1591
+
 namespace CacheControl.Plugin.Classes.SystemAdmin
 {
+    /// <summary>
+    /// Returns Timings information for all time spent processing cache control requests and can 
+    /// be viewed within SystemAdmin.Plugin.  
+    /// 
+    /// This class descends from SystemAdminSubMenu.
+    /// </summary>
     public sealed class CacheControlTimingsSubMenu : SystemAdminSubMenu
     {
         public override string Action()
@@ -46,6 +54,10 @@ namespace CacheControl.Plugin.Classes.SystemAdmin
             return (String.Empty);
         }
 
+        /// <summary>
+        /// Returns Timings data in milliseconds for time spent processing by CacheControl.Plugin requests.
+        /// </summary>
+        /// <returns>string</returns>
         public override string Data()
         {
             string Result = "Setting|Value";
@@ -85,3 +97,5 @@ namespace CacheControl.Plugin.Classes.SystemAdmin
         }
     }
 }
+
+#pragma warning restore CS1591

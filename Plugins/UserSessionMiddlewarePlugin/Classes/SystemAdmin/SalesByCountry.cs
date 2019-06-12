@@ -32,8 +32,16 @@ using Shared.Classes;
 
 using SharedPluginFeatures;
 
+#pragma warning disable CS1591
+
 namespace UserSessionMiddleware.Plugin.Classes.SystemAdmin
 {
+    /// <summary>
+    /// Returns a list of all sales from the active user sessions and can 
+    /// be viewed within SystemAdmin.Plugin.  
+    /// 
+    /// This class descends from SystemAdminSubMenu.
+    /// </summary>
     public sealed class SalesByCountry : SystemAdminSubMenu
     {
         public override string Action()
@@ -118,3 +126,5 @@ namespace UserSessionMiddleware.Plugin.Classes.SystemAdmin
         }
     }
 }
+
+#pragma warning restore CS1591

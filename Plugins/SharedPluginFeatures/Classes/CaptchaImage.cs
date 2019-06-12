@@ -30,16 +30,35 @@ using System.Drawing.Imaging;
 
 namespace SharedPluginFeatures
 {
-    public class CaptchaImage
+    /// <summary>
+    /// Generates an image that can be used when confirming that form entry is from a human and not a computer.
+    /// </summary>
+    public class CaptchaImage : IDisposable
     {
         #region Public Properties
 
+        /// <summary>
+        /// The text to be displayed within the image.
+        /// </summary>
+        /// <value>string</value>
         public string Text { get; private set; }
 
+        /// <summary>
+        /// The image generated.
+        /// </summary>
+        /// <value>Bitmap</value>
         public Bitmap Image { get; private set; }
 
+        /// <summary>
+        /// The width of the image.
+        /// </summary>
+        /// <value>int</value>
         public int Width { get; private set; }
 
+        /// <summary>
+        /// The height of the image
+        /// </summary>
+        /// <value>int</value>
         public int Height { get; private set; }
 
         #endregion Public Properties
@@ -56,12 +75,29 @@ namespace SharedPluginFeatures
 
         #region Constructors / Destructors
 
+        /// <summary>
+        /// Constructor
+        /// 
+        /// Provides specific values for generating an image, using GenericSerif as the font.
+        /// </summary>
+        /// <param name="s">Text to be displayed on the image.</param>
+        /// <param name="width">Width of the image.</param>
+        /// <param name="height">Height of the image.</param>
         public CaptchaImage(string s, int width, int height)
             : this (s, width, height, FontFamily.GenericSerif.Name)
         {
 
         }
 
+        /// <summary>
+        /// Constructor
+        /// 
+        /// Provides specific values for generating an image, including the font to be used.
+        /// </summary>
+        /// <param name="s">Text to be displayed on the image.</param>
+        /// <param name="width">Width of the image.</param>
+        /// <param name="height">Height of the image.</param>
+        /// <param name="familyName">Font name to be used.</param>
         public CaptchaImage(string s, int width, int height, string familyName)
         {
             this.Text = s;
@@ -70,6 +106,9 @@ namespace SharedPluginFeatures
             this.GenerateImage();
         }
 
+        /// <summary>
+        /// Destructor
+        /// </summary>
         ~CaptchaImage()
         {
             Dispose(false);
@@ -80,6 +119,9 @@ namespace SharedPluginFeatures
 
         #region Public Methods
 
+        /// <summary>
+        /// Dispose, ensures that resources are correctly disposed of.
+        /// </summary>
         public void Dispose()
         {
             GC.SuppressFinalize(this);
@@ -90,6 +132,10 @@ namespace SharedPluginFeatures
 
         #region Protected Methods
 
+        /// <summary>
+        /// Disposes of any allocated objects.
+        /// </summary>
+        /// <param name="disposing"></param>
         protected virtual void Dispose(bool disposing)
         {
             if (disposing)

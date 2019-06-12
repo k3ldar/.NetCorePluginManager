@@ -27,14 +27,33 @@ using AppSettings;
 
 namespace MemoryCache.Plugin
 {
+    /// <summary>
+    /// Provides settings loaded by ISettingsProvider that determine how MemoryCachePlugin is configures.
+    /// </summary>
     public class MemoryClassPluginSettings
     {
         #region Properties
 
+        /// <summary>
+        /// Default number of minutes the default cache stores items.
+        /// 
+        /// Default: 120 minutes.
+        /// Minimum: 30 minutes.
+        /// Maximum: 2880 minutes.
+        /// </summary>
+        /// <value>int</value>
         [SettingDefault(120)]
-        [SettingRange(30, 2880)]
+        [SettingRange(30, 480)]
         public int DefaultCacheDuration { get; set; }
 
+        /// <summary>
+        /// Default number of minutes the short cache stores items.
+        /// 
+        /// Default: 5 minutes.
+        /// Minimum: 1 minutes.
+        /// Maximum: 60 minutes.
+        /// </summary>
+        /// <value>int</value>
         [SettingDefault(5)]
         [SettingRange(1, 60)]
         public int ShortCacheDuration { get; set; }

@@ -27,8 +27,16 @@ using System;
 
 using SharedPluginFeatures;
 
+#pragma warning disable CS1591
+
 namespace Spider.Plugin.Classes.SystemAdmin
 {
+    /// <summary>
+    /// Returns Timings information for all time spent processing spider requests and can 
+    /// be viewed within SystemAdmin.Plugin.  
+    /// 
+    /// This class descends from SystemAdminSubMenu.
+    /// </summary>
     public sealed class SpiderTimingsSubMenu : SystemAdminSubMenu
     {
         public override string Action()
@@ -46,6 +54,10 @@ namespace Spider.Plugin.Classes.SystemAdmin
             return (String.Empty);
         }
 
+        /// <summary>
+        /// Returns Timings data in milliseconds for time spent processing by Spider.Plugin requests.
+        /// </summary>
+        /// <returns>string</returns>
         public override string Data()
         {
             string Result = "Setting|Value";
@@ -85,3 +97,5 @@ namespace Spider.Plugin.Classes.SystemAdmin
         }
     }
 }
+
+#pragma warning restore CS1591

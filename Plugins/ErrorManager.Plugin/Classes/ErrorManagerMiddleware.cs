@@ -33,8 +33,13 @@ using Microsoft.AspNetCore.Http;
 using SharedPluginFeatures;
 using Shared.Classes;
 
+#pragma warning disable CS1591
+
 namespace ErrorManager.Plugin
 {
+    /// <summary>
+    /// Error manager middleware pipeline service.
+    /// </summary>
     public sealed class ErrorManagerMiddleware : BaseMiddleware
     {
         #region Private Members
@@ -90,7 +95,7 @@ namespace ErrorManager.Plugin
                     {
                         case 403:
                             ITempDataDictionary tempData = GetTempData(context);
-                            tempData["ReturnUrl"] = context.Request.Path;
+                            tempData[Constants.ReturnUrl] = context.Request.Path;
                             context.Response.Redirect(_loginPage, false);
                             break;
 
@@ -244,3 +249,5 @@ namespace ErrorManager.Plugin
         #endregion Private Methods
     }
 }
+
+#pragma warning restore CS1591

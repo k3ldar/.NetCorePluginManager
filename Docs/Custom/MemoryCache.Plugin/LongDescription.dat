@@ -1,0 +1,49 @@
+<p>
+Even with the advent of faster solid state drives and quicker processors, there is no substitute to reading data from memory rather than from a database or other data store.  Especially if the database is on a different server connected via the network, all of which add a slight delay in each step to obtaining and serving data to the end user.
+</p>
+<p>
+The Memory Cache plugin is designed to provide access to several different types of cache which can be used to cache data and improve the speed at which requests are processed by keeping regularly used items or static data in memory.
+</p>
+<p>
+There are advantages and disadvantages to caching data and a decision needs to be made on whether the data should be cached, the length of time it can be cached, how to ensure cached data does not go stale and managing the automatic expiration of cached data when it expires.
+</p>
+<p>
+CacheManager is a class that is specifically designed to manage cached data in multiple, user defined caches, it employs a  seperate background thread that is used to manage a CacheItem lifetime, as each CacheItem expires it is automatically removed from the CacheManager.  
+</p>
+<h3>Short Cache</h3>
+<p>
+The first cache is the short cache, this has by default a 5 minute lifetime, although this can be changed to between 1 and 30 minutes.  This cache should be used to store data that could go stale quite quickly, for instance pricing data or availability.  
+</p>
+<h3>Default Cache</h3>
+<p>
+The default cache has a default lifetime of 2 hours but can also be configured to cache for between 30 and 480 minutes.  This cache is designed to store data which is subject to less frequent changes such as Product data etc.
+<h3>Extending Cache</h3>
+<p>
+The extending cache has the same settings as the default cache with one exception, every time an item is retrieved the expiration date is reset.  This is useful if you want to keep regularly used data in memory.
+</p>
+<h3>Permanent Cache</h3>
+<p>
+The permanent cache is used to permanently store data in memory, the items in their will never expire.  This can be useful to store data that requires fast lookups but never changes.
+</p>
+<h3>Example Useage</h3>
+<p>
+Regardless of which cache is used, the method to retrieve and add data into a CacheManager is exactly the same.  The following example is taken from the ISharedPluginHelper class which builds dynamic menu items based on the classes which descend from MainMenuItem.  Firstly the cache is checked to see if the item has already been cached, if it has then the CacheItem instance will contain the previously cached data, if not then the menu items are built with the help of IPluginClassesService which is then added to the CacheManager and lastly the value from the CacheItem instance is returned.
+</p>
+<p>
+<pre style="font-family:Consolas;font-size:13px;color:black;background:white;"><span style="color:blue;">public</span>&nbsp;<span style="color:#2b91af;">List</span>&lt;<span style="color:#2b91af;">MainMenuItem</span>&gt;&nbsp;<span style="color:#74531f;">BuildMainMenu</span>()
+{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">CacheItem</span>&nbsp;<span style="color:#1f377f;">cache</span>&nbsp;=&nbsp;_memoryCache.<span style="color:#74531f;">GetExtendingCache</span>().<span style="color:#74531f;">Get</span>(<span style="color:#a31515;">&quot;Main&nbsp;Menu&nbsp;Cache&quot;</span>);
+ 
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#8f08c4;">if</span>&nbsp;(<span style="color:#1f377f;">cache</span>&nbsp;==&nbsp;<span style="color:blue;">null</span>)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#1f377f;">cache</span>&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">CacheItem</span>(<span style="color:#a31515;">&quot;Main&nbsp;Menu&nbsp;Cache&quot;</span>,&nbsp;_pluginClassesService.<span style="color:#74531f;">GetPluginClasses</span>&lt;<span style="color:#2b91af;">MainMenuItem</span>&gt;());
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_memoryCache.<span style="color:#74531f;">GetExtendingCache</span>().<span style="color:#74531f;">Add</span>(<span style="color:#a31515;">&quot;Main&nbsp;Menu&nbsp;Cache&quot;</span>,&nbsp;<span style="color:#1f377f;">cache</span>);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+ 
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#8f08c4;">return</span>&nbsp;((<span style="color:#2b91af;">List</span>&lt;<span style="color:#2b91af;">MainMenuItem</span>&gt;)<span style="color:#1f377f;">cache</span>.Value);
+}
+</pre>
+</p>
+<p>
+As can be seen, the item will only be loaded into memory upon request, once loaded it will remain in cache and be available for the CacheManager lifetime.
+</p>

@@ -33,7 +33,7 @@ using SharedPluginFeatures;
 
 namespace SieraDeltaGeoIp.Plugin
 {
-    public class GeoIpService : BaseCoreClass, IGeoIpDataService
+    internal class GeoIpService : BaseCoreClass, IGeoIpDataService
     {
         #region Private Members
 
@@ -41,7 +41,7 @@ namespace SieraDeltaGeoIp.Plugin
         private readonly object _lockObject = new object();
         private readonly GeoIpPluginSettings _geoIpSettings;
         private readonly IGeoIpProvider _geoIpProvider;
-        private readonly IGeoIpStatisticsUpdate _geoIpStatistics;
+        private readonly INotificationService _notificationService;
         private IpCity[] _geoIpCityData;
         private List<IpCity> _tempIpCity = new List<IpCity>();
         internal static Timings _timingsIpCache = new Timings();
@@ -52,9 +52,9 @@ namespace SieraDeltaGeoIp.Plugin
 
         #region Constructors
 
-        public GeoIpService(ISettingsProvider settingsProvider)
+        public GeoIpService(ISettingsProvider settingsProvider, INotificationService notificationService)
         {
-            _geoIpStatistics = Initialisation.GeoIpUpdate ?? throw new InvalidOperationException();
+            _notificationService = notificationService ?? throw new InvalidOperationException();
 
             ThreadManager.Initialise();
             _geoIpSettings = settingsProvider.GetSettings<GeoIpPluginSettings>("SieraDeltaGeoIpPluginConfiguration");
@@ -216,7 +216,10 @@ namespace SieraDeltaGeoIp.Plugin
         private void Thread_ThreadFinishing(object sender, Shared.ThreadManagerEventArgs e)
         {
             TimeSpan span = DateTime.Now - e.Thread.TimeStart;
-            _geoIpStatistics.Retrieve(Convert.ToInt64(span.TotalMilliseconds), (uint)_tempIpCity.Count);
+            
+            //send results
+            _notificationService.RaiseEvent(Constants.NotificationEventGeoIpLoadTime, Convert.ToInt64(span.TotalMilliseconds));
+            _notificationService.RaiseEvent(Constants.NotificationEventGeoIpRecordCount, (uint)_tempIpCity.Count);
 
             _geoIpCityData = _tempIpCity.ToArray();
             _tempIpCity.Clear();

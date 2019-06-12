@@ -26,14 +26,33 @@
 
 namespace Middleware.Accounts
 {
+    /// <summary>
+    /// Extended address information.  Extends Address class.
+    /// </summary>
     public sealed class DeliveryAddress : Address
     {
         #region Constructors
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
         public DeliveryAddress()
         {
         }
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="addressId">Address id.</param>
+        /// <param name="businessName">Name of business if applicable.</param>
+        /// <param name="addressLine1">Address line 1.</param>
+        /// <param name="addressLine2">Address line 2.</param>
+        /// <param name="addressLine3">Address line 3.</param>
+        /// <param name="city">Name of city.</param>
+        /// <param name="county">County or State name.</param>
+        /// <param name="postcode">Postal or zip code.</param>
+        /// <param name="country">Country name.</param>
+        /// <param name="postageCost">Postage costs.</param>
         public DeliveryAddress(in int addressId, in string businessName, in string addressLine1, 
             in string addressLine2, in string addressLine3, in string city, in string county, 
             in string postcode, in string country, in decimal postageCost)
@@ -48,8 +67,16 @@ namespace Middleware.Accounts
 
         #region Properties
 
+        /// <summary>
+        /// Address id
+        /// </summary>
+        /// <value>int</value>
         public int AddressId { get; set; }
 
+        /// <summary>
+        /// Postage cost for the address.
+        /// </summary>
+        /// <value>decimal</value>
         public decimal PostageCost { get; set; }
 
         #endregion Properties

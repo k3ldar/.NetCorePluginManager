@@ -31,6 +31,7 @@ using SharedPluginFeatures;
 
 namespace AspNetCore.PluginManager.Tests
 {
+#if DEBUG
     [TestClass]
     public class PluginServicesTests
     {
@@ -43,7 +44,7 @@ namespace AspNetCore.PluginManager.Tests
         [TestMethod]
         public void TestAddAssembly()
         {
-            PluginServices pluginServices = new PluginServices();
+            IPluginHelperService pluginServices = UnitTestHelper.GetPluginServices();
 
             Assembly current = Assembly.GetExecutingAssembly();
 
@@ -59,7 +60,7 @@ namespace AspNetCore.PluginManager.Tests
         [TestMethod]
         public void TestAddAssemblyTwice()
         {
-            PluginServices pluginServices = new PluginServices();
+            IPluginHelperService pluginServices = UnitTestHelper.GetPluginServices();
 
             Assembly current = Assembly.GetExecutingAssembly();
 
@@ -76,4 +77,5 @@ namespace AspNetCore.PluginManager.Tests
             Assert.IsTrue(loadResult == DynamicLoadResult.AlreadyLoaded);
         }
     }
+#endif
 }

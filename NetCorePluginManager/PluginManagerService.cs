@@ -34,12 +34,16 @@ using System.IO;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 using SharedPluginFeatures;
 using static SharedPluginFeatures.Enums;
 
 namespace AspNetCore.PluginManager
 {
+    /// <summary>
+    /// Static class containing methods that can be used to configure and initialise the Plugin Manager.
+    /// </summary>
     public static class PluginManagerService
     {
         #region Private Members
@@ -55,17 +59,34 @@ namespace AspNetCore.PluginManager
 
         #region Static Methods
 
+
+        /// <summary>
+        /// Initialises the PluginManager using a custom ILogger implementation.
+        /// 
+        /// This method is obsolete and will be removed from future versions.
+        /// </summary>
+        /// <param name="logger"></param>
+        /// <returns></returns>
         [Obsolete("This method will be removed in future versions")]
         public static bool Initialise(ILogger logger)
         {
             return Initialise(new PluginManagerConfiguration(logger, new Classes.LoadSettingsService()));
         }
 
+        /// <summary>
+        /// Initialises the PluginManager using default confguration.
+        /// </summary>
+        /// <returns>bool</returns>
         public static bool Initialise()
         {
             return Initialise(new PluginManagerConfiguration());
         }
 
+        /// <summary>
+        /// Initialises the PluginManager using a specific user defined configuration.
+        /// </summary>
+        /// <param name="configuration"></param>
+        /// <returns>bool</returns>
         public static bool Initialise(in PluginManagerConfiguration configuration)
         {
             if (configuration == null)
@@ -158,6 +179,11 @@ namespace AspNetCore.PluginManager
             return true;
         }
 
+        /// <summary>
+        /// Configures all plugin modules, allowing the modules to setup services for the application.
+        /// </summary>
+        /// <param name="app">IApplicationBuilder instance.</param>
+        /// <param name="env">IHostingEnvironment instance.</param>
         public static void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (_logger == null)
@@ -181,6 +207,10 @@ namespace AspNetCore.PluginManager
             init.ForEach(i => i.AfterConfigure(app, env));
         }
 
+        /// <summary>
+        /// Configures all plugin module services, allowing the modules to add their own services to the application.
+        /// </summary>
+        /// <param name="services">IServiceCollection instance</param>
         public static void ConfigureServices(IServiceCollection services)
         {
             if (_logger == null)
@@ -212,6 +242,9 @@ namespace AspNetCore.PluginManager
             _pluginManagerInstance.ConfigureServices(services);
 
             init.ForEach(i => i.AfterConfigureServices(services));
+
+            // if no ILogger instance has been registered, register the default instance now.
+            services.TryAddSingleton<ILogger>(_logger);
         }
 
         #endregion Static Methods

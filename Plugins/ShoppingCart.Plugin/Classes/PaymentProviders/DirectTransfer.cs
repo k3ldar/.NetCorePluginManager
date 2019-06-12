@@ -36,6 +36,11 @@ using Shared.Classes;
 
 namespace ShoppingCartPlugin.Classes.PaymentProviders
 {
+    /// <summary>
+    /// Direct transfer payment provider.  This payment provider is used when a user orders online, but then makes a payment by directly transferring funds to a nominated bank account.
+    /// 
+    /// This class implements IPaymentProvider interface.
+    /// </summary>
     public sealed class DirectTransfer : IPaymentProvider
     {
         #region Private Members

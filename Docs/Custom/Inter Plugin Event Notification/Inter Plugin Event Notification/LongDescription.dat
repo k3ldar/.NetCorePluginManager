@@ -1,0 +1,113 @@
+<p>
+The plugin manager contains an interface which enables inter plugin notifications.  Individual plugins can register one or multiple classes which can be used to obtain notifications throughout the application lifecycle.  This can be useful when you need to receive updates or notify listeners that a specific event has occurred.
+</p>
+<p>
+Notifications are completely user defined, the event id used is a unique string.  
+</p>
+<p>
+Being able to send and receive notifications can enables different plugins to communicate in a generic manner, whilst allowing for custom data to also be communicated.  This could be useful in many circumstances, for instance: A plugin module caches certain information for speed of retrieval, another plugin could update this static information however, without any notifications the cache would end up with stale data.  The plugin module which caches the data can register an instance of INotificationListener which listens for an event called “CacheUpdated”, when the data is updated the updating plugin module obtains an instance of INotificationService and calls the RaiseEvent method.  The listening plugin module receives the notification and empties the cache.
+</p>
+<p>
+The following sample code is taken from SieraDeltaGeoIp plugin module and demonstrates registering an INotificationListener as part of initialisation.
+</p>
+<p>
+<pre style="font-family:Consolas;font-size:12px;color:black;background:white;"><span style="color:blue;">public</span>&nbsp;<span style="color:#2b91af;">Initialisation</span>(<span style="color:#2b91af;">INotificationService</span>&nbsp;<span style="color:#1f377f;">notificationService</span>)
+{
+&nbsp;&nbsp;&nbsp;&nbsp;GeoIpStatistics&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">GeoIpStatistics</span>();
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#1f377f;">notificationService</span>.<span style="color:#74531f;">RegisterListener</span>(GeoIpStatistics);
+}
+</pre>
+</p>
+<p>
+The GeoIpStatistics class used above contains two fields which hold the amount of time taken to load the geo ip data and the number of records loaded.  This is used in the SystemAdmin plugin module to provide statistics.
+</p>
+<p>
+<pre style="font-family:Consolas;font-size:12px;color:black;background:white;"><span style="color:blue;">internal</span>&nbsp;<span style="color:blue;">class</span>&nbsp;<span style="color:#2b91af;">GeoIpStatistics</span>&nbsp;:&nbsp;<span style="color:#2b91af;">INotificationListener</span>
+{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:gray;">#region</span>&nbsp;Private&nbsp;Members
+ 
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">private</span>&nbsp;<span style="color:blue;">uint</span>&nbsp;_recordsLoaded;
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">private</span>&nbsp;<span style="color:#2b91af;">TimeSpan</span>&nbsp;_loadTime;
+ 
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:gray;">#endregion</span>&nbsp;Private&nbsp;Members
+ 
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:gray;">#region</span>&nbsp;INotificationListener&nbsp;Methods
+ 
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">public</span>&nbsp;<span style="color:blue;">bool</span>&nbsp;<span style="color:#74531f;">EventRaised</span>(<span style="color:blue;">in</span>&nbsp;<span style="color:blue;">string</span>&nbsp;<span style="color:#1f377f;">eventId</span>,&nbsp;<span style="color:blue;">in</span>&nbsp;<span style="color:blue;">object</span>&nbsp;<span style="color:#1f377f;">param1</span>,&nbsp;<span style="color:blue;">in</span>&nbsp;<span style="color:blue;">object</span>&nbsp;<span style="color:#1f377f;">param2</span>,&nbsp;<span style="color:blue;">ref</span>&nbsp;<span style="color:blue;">object</span>&nbsp;<span style="color:#1f377f;">result</span>)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#8f08c4;">switch</span>&nbsp;(<span style="color:#1f377f;">eventId</span>)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#8f08c4;">case</span>&nbsp;<span style="color:#2b91af;">Constants</span>.NotificationEventGeoIpLoadTime:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#1f377f;">result</span>&nbsp;=&nbsp;_loadTime;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#8f08c4;">return</span>&nbsp;<span style="color:blue;">true</span>;
+ 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#8f08c4;">case</span>&nbsp;<span style="color:#2b91af;">Constants</span>.NotificationEventGeoIpRecordCount:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#1f377f;">result</span>&nbsp;=&nbsp;_recordsLoaded;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#8f08c4;">return</span>&nbsp;<span style="color:blue;">true</span>;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+ 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#8f08c4;">return</span>&nbsp;<span style="color:blue;">false</span>;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+ 
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">public</span>&nbsp;<span style="color:blue;">void</span>&nbsp;<span style="color:#74531f;">EventRaised</span>(<span style="color:blue;">in</span>&nbsp;<span style="color:blue;">string</span>&nbsp;<span style="color:#1f377f;">eventId</span>,&nbsp;<span style="color:blue;">in</span>&nbsp;<span style="color:blue;">object</span>&nbsp;<span style="color:#1f377f;">param1</span>,&nbsp;<span style="color:blue;">in</span>&nbsp;<span style="color:blue;">object</span>&nbsp;<span style="color:#1f377f;">param2</span>)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#8f08c4;">switch</span>&nbsp;(<span style="color:#1f377f;">eventId</span>)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#8f08c4;">case</span>&nbsp;<span style="color:#2b91af;">Constants</span>.NotificationEventGeoIpLoadTime:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_loadTime&nbsp;=&nbsp;(<span style="color:#2b91af;">TimeSpan</span>)<span style="color:#1f377f;">param1</span>;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#8f08c4;">return</span>;
+ 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#8f08c4;">case</span>&nbsp;<span style="color:#2b91af;">Constants</span>.NotificationEventGeoIpRecordCount:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_recordsLoaded&nbsp;=&nbsp;(<span style="color:blue;">uint</span>)<span style="color:#1f377f;">param1</span>;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#8f08c4;">return</span>;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+ 
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">public</span>&nbsp;<span style="color:#2b91af;">List</span>&lt;<span style="color:blue;">string</span>&gt;&nbsp;<span style="color:#74531f;">GetEvents</span>()
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#8f08c4;">return</span>&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">List</span>&lt;<span style="color:blue;">string</span>&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">Constants</span>.NotificationEventGeoIpLoadTime,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">Constants</span>.NotificationEventGeoIpRecordCount,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;};
+&nbsp;&nbsp;&nbsp;&nbsp;}
+ 
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:gray;">#endregion</span>&nbsp;INotificationListener&nbsp;Methods
+}
+</pre>
+</p>
+<p>
+Quite simply this class registers two events (both defined as constants), one is for the record count and one is for the load time.  There are two EventRaised methods, the first is used to return a value, the second is used to receive a value.
+</p>
+<p>
+A consumer who wanted to retrieve the load time and number of records loaded would obtain an instance of INotificationService from the DI container and raise an event notification like:
+</p>
+<p>
+<pre style="font-family:Consolas;font-size:12px;color:black;background:white;"><span style="color:blue;">object</span>&nbsp;<span style="color:#1f377f;">result</span>&nbsp;=&nbsp;<span style="color:blue;">null</span>;
+ 
+<span style="color:#8f08c4;">if</span>&nbsp;(_notificationService.<span style="color:#74531f;">RaiseEvent</span>(<span style="color:#2b91af;">Constants</span>.NotificationEventGeoIpLoadTime,&nbsp;<span style="color:blue;">null</span>,&nbsp;<span style="color:blue;">null</span>,&nbsp;<span style="color:blue;">ref</span>&nbsp;<span style="color:#1f377f;">result</span>))
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#1f377f;">loadTime</span>&nbsp;=&nbsp;(<span style="color:#2b91af;">TimeSpan</span>)<span style="color:#1f377f;">result</span>;
+ 
+<span style="color:#8f08c4;">if</span>&nbsp;(_notificationService.<span style="color:#74531f;">RaiseEvent</span>(<span style="color:#2b91af;">Constants</span>.NotificationEventGeoIpRecordCount,&nbsp;<span style="color:blue;">null</span>,&nbsp;<span style="color:blue;">null</span>,&nbsp;<span style="color:blue;">ref</span>&nbsp;<span style="color:#1f377f;">result</span>))
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#1f377f;">recordsLoaded</span>&nbsp;=&nbsp;(<span style="color:blue;">uint</span>)<span style="color:#1f377f;">result</span>;
+</pre>
+</p>
+<p>
+The service who would set the values for load time and number of records would look like:
+</p>
+<p>
+<pre style="font-family:Consolas;font-size:12px;color:black;background:white;"><span style="color:green;">//send&nbsp;results</span>
+_notificationService.<span style="color:#74531f;">RaiseEvent</span>(<span style="color:#2b91af;">Constants</span>.NotificationEventGeoIpLoadTime,&nbsp;<span style="color:#2b91af;">Convert</span>.<span style="color:#74531f;">ToInt64</span>(<span style="color:#1f377f;">span</span>.TotalMilliseconds));
+_notificationService.<span style="color:#74531f;">RaiseEvent</span>(<span style="color:#2b91af;">Constants</span>.NotificationEventGeoIpRecordCount,&nbsp;(<span style="color:blue;">uint</span>)_tempIpCity.Count);
+</pre>
+</p>
+<h3>Threaded Notifications</h3>
+<p>
+The default implementation of INotificationService works in two ways, events that do not require an immediate response are placed into a list and processed by a seperate thread, this means that INotificationListener implementations need to ensure they are thread safe.  Using a seperate thread improves application performance as the request pipeline is not blocked why events are raised.
+</p>
+<p>
+Events that require an immediate response do not use a seperate thread and therefore block the pipeline request whilst the event is processed.  Careful consideration should be given to blocking events to ensure they are suitably optimised.
+</p>
+<p>
+This simple notification service and listener allows plugin modules to easily talk to each other, pass messages and respond to events as they happen.  There are no limits to the number of listeners that can be within an application.
+</p>

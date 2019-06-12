@@ -29,9 +29,15 @@ using System.Threading;
 
 using SharedPluginFeatures;
 
+#pragma warning disable CS1591
 
 namespace ErrorManager.Plugin.Classes.SystemAdmin
 {
+    /// <summary>
+    /// Returns a list of current errors that have been raised within ErrorManager.Plugin.  
+    /// 
+    /// This class descends from SystemAdminSubMenu.
+    /// </summary>
     public class Errors : SystemAdminSubMenu
     {
         public override string Action()
@@ -49,6 +55,10 @@ namespace ErrorManager.Plugin.Classes.SystemAdmin
             return (String.Empty);
         }
 
+        /// <summary>
+        /// Returns error information raised within ErrorManager.Plugin.
+        /// </summary>
+        /// <returns>string</returns>
         public override string Data()
         {
             string Result = "Date|Error|Count";
@@ -90,3 +100,5 @@ namespace ErrorManager.Plugin.Classes.SystemAdmin
         }
     }
 }
+
+#pragma warning restore CS1591

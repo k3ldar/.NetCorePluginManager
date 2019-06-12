@@ -27,8 +27,19 @@ using AppSettings;
 
 namespace ProductPlugin
 {
+    /// <summary>
+    /// Products which affect how ProductsPlugin is configured.
+    /// </summary>
     public sealed class ProductControllerSettings
     {
+        /// <summary>
+        /// Number of products to display on each page.
+        /// 
+        /// Default: 12
+        /// Minimum: 1
+        /// Maximum: 500
+        /// </summary>
+        /// <value>uint</value>
         [SettingDefault(12u)]
         [SettingRange(1u, 500u)]
         public uint ProductsPerPage { get; set; }

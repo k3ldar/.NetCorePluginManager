@@ -92,6 +92,7 @@ namespace AspNetCore.PluginManager
         /// Loads and configures an individual plugin
         /// </summary>
         /// <param name="assembly"></param>
+        /// <param name="fileLocation"></param>
         /// <param name="extractResources"></param>
         internal void LoadPlugin(in Assembly assembly, in string fileLocation, in bool extractResources)
         {
@@ -389,6 +390,7 @@ namespace AspNetCore.PluginManager
         /// </summary>
         /// <param name="pluginLibraryName"></param>
         /// <param name="version"></param>
+        /// <param name="module"></param>
         /// <returns></returns>
         internal bool PluginLoaded(in string pluginLibraryName, out int version, out string module)
         {
@@ -532,13 +534,7 @@ namespace AspNetCore.PluginManager
             return default(T);
         }
 
-        /// <summary>
-        /// Retrieves the file path of the host website
-        /// </summary>
-        /// <param name="resourceName"></param>
-        /// <param name="pluginSetting"></param>
-        /// <returns></returns>
-        private string GetLiveFilePath(in string assemblyName, in string resourceName, in PluginSetting pluginSetting)
+        private string GetLiveFilePath(in string assemblyName, in string resourceName)
         {
             // remove the first part of the name which is the library
             string Result = resourceName.Replace(assemblyName, String.Empty);
@@ -569,7 +565,7 @@ namespace AspNetCore.PluginManager
 
                 using (Stream stream = pluginAssembly.GetManifestResourceStream(resource))
                 {
-                    string resourceFileName = GetLiveFilePath(assemblyName, resource, pluginSetting);
+                    string resourceFileName = GetLiveFilePath(assemblyName, resource);
 
                     if (File.Exists(resourceFileName) && !pluginSetting.ReplaceExistingResources)
                         continue;
@@ -629,7 +625,6 @@ namespace AspNetCore.PluginManager
                 return null;
             }
 
-            AssemblyName assyName = new AssemblyName(args.Name);
             string filename = args.Name.ToLower().Split(',')[0];
             string assembly = Path.Combine(_pluginSettings.SystemFiles, filename);
 

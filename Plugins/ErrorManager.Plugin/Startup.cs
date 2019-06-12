@@ -30,6 +30,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
+#pragma warning disable CS1591
+
 namespace ErrorManager.Plugin
 {
     public class Startup
@@ -53,7 +55,7 @@ namespace ErrorManager.Plugin
 
 
             services.AddSingleton<SharedPluginFeatures.IErrorManager, Classes.TempErrorManager>();
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddMvc();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -83,3 +85,5 @@ namespace ErrorManager.Plugin
         }
     }
 }
+
+#pragma warning restore CS1591

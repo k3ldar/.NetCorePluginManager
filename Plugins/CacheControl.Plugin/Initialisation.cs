@@ -23,7 +23,6 @@
  *  14/10/2018  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using System;
 
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Builder;
@@ -31,8 +30,14 @@ using Microsoft.AspNetCore.Hosting;
 
 using SharedPluginFeatures;
 
+#pragma warning disable CS1591
+
 namespace CacheControl.Plugin
 {
+    /// <summary>
+    /// Implements IPlugin which allows the CacheControl.Plugin module to be
+    /// loaded as a plugin module
+    /// </summary>
     public class Initialisation : IPlugin
     {
         #region Constructors
@@ -43,14 +48,6 @@ namespace CacheControl.Plugin
 
         #endregion Constructors
 
-        #region Internal Static Properties
-
-        internal static IServiceProvider GetServiceProvider { get; private set; }
-
-        internal static ILogger GetLogger { get; private set; }
-
-        #endregion Internal Static Properties
-
         #region IPlugin Methods
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
@@ -60,7 +57,7 @@ namespace CacheControl.Plugin
 
         public void ConfigureServices(IServiceCollection services)
         {
-            GetServiceProvider = services.BuildServiceProvider();
+
         }
 
         public void Finalise()
@@ -70,9 +67,11 @@ namespace CacheControl.Plugin
 
         public void Initialise(ILogger logger)
         {
-            GetLogger = logger ?? throw new ArgumentNullException(nameof(logger));
+
         }
 
         #endregion IPlugin Methods
     }
 }
+
+#pragma warning restore CS1591

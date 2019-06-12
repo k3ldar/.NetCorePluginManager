@@ -36,7 +36,7 @@ using SharedPluginFeatures;
 
 namespace AspNetCore.PluginManager
 {
-    public sealed class RouteDataServices : IRouteDataService
+    internal sealed class RouteDataServices : IRouteDataService
     {
         public string GetRouteFromClass(Type type, IActionDescriptorCollectionProvider routeProvider)
         {

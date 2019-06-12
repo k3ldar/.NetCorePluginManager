@@ -1,0 +1,30 @@
+<p>
+The Login.Plugin module has been designed to allow users to login from a single point, almost every interactive website contains a user area, requiring a user to login, this module has been designed to fill this gap.
+</p>
+<p>
+At the core of the Login plugin module is the ILoginProvider interface, this interface provides the necessary methods which allow the plugin to operate and must be implemented by the host application.
+</p>
+<h3>Auto Login</h3>
+<p>
+Login plugin is also responsible for ensuring that users who selected the Remember Me option are automatically logged in when returning.
+</p>
+<h3>Account Locked</h3>
+<p>
+The Login plugin module contains a view which allows users who's accounts are locked, by providing an area which can be used to enter an unlock code so that users can unlock their accounts.
+</p>
+<h3>Forgot Password</h3>
+<p>
+Users can also opt to retrieve login information if they have forgotten their password.  This is achieved by providing a view which the user can enter their login name and retrieve their password, or a link to reset their password.
+</p>
+<h3>Timing Data</h3>
+<p>
+The Login plugin provides two seperate Timings classes which look at:
+</p>
+<ul>
+<li>Login Timings - Time taken processing login requests.</li>
+<li>Auto Login Timings - Time taken automatically logging a user in based on login cookie.</li>
+</ul>
+<h3>How to use</h3>
+<p>
+The Login plugin should be loaded using the Plugin Manager.
+</p>

@@ -1,0 +1,465 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>AspNetCore.PluginManager</name>
+    </assembly>
+    <members>
+        <member name="T:AspNetCore.PluginManager.ConfigurePluginManagerExtender">
+            <summary>
+            Plugin Manager IMvcBuilder extension class.
+            </summary>
+        </member>
+        <member name="M:AspNetCore.PluginManager.ConfigurePluginManagerExtender.ConfigurePluginManager(Microsoft.Extensions.DependencyInjection.IMvcBuilder)">
+            <summary>
+            IApplicationBuilder extender method used to provide easy access to ConfigurePluginManager 
+            method when configuring an application.
+            </summary>
+            <param name="mvcBuilder">IMvcBuilder instance.</param>
+            <returns>IMvcBuilder</returns>
+        </member>
+        <member name="T:AspNetCore.PluginManager.PluginManagerConfiguration">
+            <summary>
+            Plugin Manager configuration class.  Used when Initialising the Plugin Manager.
+            </summary>
+        </member>
+        <member name="M:AspNetCore.PluginManager.PluginManagerConfiguration.#ctor">
+            <summary>
+            Default constructor, uses all default settings.
+            </summary>
+        </member>
+        <member name="M:AspNetCore.PluginManager.PluginManagerConfiguration.#ctor(SharedPluginFeatures.ILogger@)">
+            <summary>
+            Constructor allowing host application to supply a custom ILogger implementation.
+            </summary>
+            <param name="logger">Valid instance of ILogger.</param>
+        </member>
+        <member name="M:AspNetCore.PluginManager.PluginManagerConfiguration.#ctor(SharedPluginFeatures.ILoadSettingsService@)">
+            <summary>
+            Constructor allowing host application to supply a custom ILoadSettingsService implementation
+            that can be used to obtain settings for AspNetCore.PluginManager from any data store.
+            </summary>
+            <param name="loadSettingsService">Valid instance of ILoadSettingsService.</param>
+        </member>
+        <member name="M:AspNetCore.PluginManager.PluginManagerConfiguration.#ctor(SharedPluginFeatures.ILogger@,SharedPluginFeatures.ILoadSettingsService@)">
+            <summary>
+            Constructor allowing host application to supply a custom ILogger and ILoadSettingsService
+            implementation.
+            </summary>
+            <param name="logger">Valid instance of ILogger</param>
+            <param name="loadSettingsService">Valid instance of ILoadSettingsService.</param>
+        </member>
+        <member name="P:AspNetCore.PluginManager.PluginManagerConfiguration.Logger">
+            <summary>
+            ILogger instance used by the AspNetCore.PluginManager and plugin modules to 
+            log information to a default log storage.
+            
+            This can be within a database or file based.  The standard ILogger implementation 
+            saves data to a log file.
+            </summary>
+            <value>ILogger</value>
+        </member>
+        <member name="P:AspNetCore.PluginManager.PluginManagerConfiguration.LoadSettingsService">
+            <summary>
+            ILoadSettingsService instance is used by the AspNetCore.PluginManager to load
+            settings and configuration data for plugins that it will load.
+            </summary>
+            <value>ILoadSettingsService</value>
+        </member>
+        <member name="P:AspNetCore.PluginManager.PluginManagerConfiguration.CurrentPath">
+            <summary>
+            Current root path of the application.
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:AspNetCore.PluginManager.PluginManagerConfiguration.ConfigFileName">
+            <summary>
+            Configuration file name that will be used by the default implementation of 
+            ILoadSettingsService to obtain data.
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:AspNetCore.PluginManager.PluginManagerConfiguration.ConfigurationFile">
+            <summary>
+            Configuration file name that will be used by the default implementation of 
+            ILoadSettingsService to obtain data.
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="T:AspNetCore.PluginManager.Classes.SystemAdmin.LoadedModulesMenu">
+            <summary>
+            Returns a list of all assemblies currently loaded by the application and can 
+            be viewed within SystemAdmin.Plugin.  
+            
+            This class descends from SystemAdminSubMenu.
+            </summary>
+        </member>
+        <member name="M:AspNetCore.PluginManager.Classes.SystemAdmin.LoadedModulesMenu.Data">
+            <summary>
+            Returns delimited data on all loaded assemblies and their version.
+            </summary>
+            <returns>string</returns>
+        </member>
+        <member name="T:AspNetCore.PluginManager.Classes.SystemAdmin.LoadedPluginsMenu">
+            <summary>
+            Returns a list of all plugin modules that are loaded and can be viewed within 
+            SystemAdmin.Plugin.  
+            
+            This class descends from SystemAdminSubMenu.
+            </summary>
+        </member>
+        <member name="M:AspNetCore.PluginManager.Classes.SystemAdmin.LoadedPluginsMenu.Data">
+            <summary>
+            Returns delimited data on all plugin modules that have been loaded by AspNetCore.PluginManager.
+            </summary>
+            <returns>string</returns>
+        </member>
+        <member name="T:AspNetCore.PluginManager.Classes.SystemAdmin.ThreadMenu">
+            <summary>
+            Returns a list of all threads and their current status that can be viewed within 
+            SystemAdmin.Plugin.  
+            
+            This class descends from SystemAdminSubMenu.
+            </summary>
+        </member>
+        <member name="M:AspNetCore.PluginManager.Classes.SystemAdmin.ThreadMenu.Data">
+            <summary>
+            Returns delimited data on current active threads and their current status
+            </summary>
+            <returns>string</returns>
+        </member>
+        <member name="T:AspNetCore.PluginManager.Classes.LoggerStatistics">
+            <summary>
+            Returns a list of the last 100 log entries that can be viewed within SystemAdmin.Plugin.  
+            
+            This class descends from SystemAdminSubMenu and ILogger
+            </summary>
+        </member>
+        <member name="M:AspNetCore.PluginManager.Classes.LoggerStatistics.Data">
+            <summary>
+            Returns delimited data on current log data, this will only store the last 100 entries.
+            </summary>
+            <returns>string</returns>
+        </member>
+        <member name="T:AspNetCore.PluginManager.UnitTestHelper">
+            <summary>
+            This class is only available for Debug builds and is designed to retrieve classes
+            that are normally only available through DI
+            </summary>
+        </member>
+        <member name="M:AspNetCore.PluginManager.UnitTestHelper.GetPluginServices">
+            <summary>
+            Returns an instance of IPluginHelperService for unit tests
+            </summary>
+            <returns>IPluginHelperService</returns>
+        </member>
+        <member name="M:AspNetCore.PluginManager.UnitTestHelper.GetPluginClassesService">
+            <summary>
+            Returns an instance of IPluginClassesService for unit tests
+            </summary>
+            <returns>IPluginClassesService</returns>
+        </member>
+        <member name="M:AspNetCore.PluginManager.UnitTestHelper.GetPluginTypesService">
+            <summary>
+            Returns an instance of IPluginTypesService for unit tests
+            </summary>
+            <returns>IPluginTypesService</returns>
+        </member>
+        <member name="M:AspNetCore.PluginManager.UnitTestHelper.GetNotificationService">
+            <summary>
+            Returns an instance of INotificationService for unit tests
+            </summary>
+            <returns>INotificationService</returns>
+        </member>
+        <member name="T:AspNetCore.PluginManager.UsePluginManagerExtender">
+            <summary>
+            Plugin Manager extender class.
+            </summary>
+        </member>
+        <member name="M:AspNetCore.PluginManager.UsePluginManagerExtender.UsePluginManager(Microsoft.AspNetCore.Builder.IApplicationBuilder)">
+            <summary>
+            IApplicationBuilder extender method used to provide easy access to UsePluginManager 
+            method when configuring an application.
+            </summary>
+            <param name="mvcApplication">IApplicationBuilder instance</param>
+            <returns>IApplicationBuilder</returns>
+        </member>
+        <member name="M:AspNetCore.PluginManager.PluginManager.GetLoadedPlugins">
+            <summary>
+            Returns all loaded plugin data
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:AspNetCore.PluginManager.PluginManager.LoadPlugin(System.Reflection.Assembly@,System.String@,System.Boolean@)">
+            <summary>
+            Loads and configures an individual plugin
+            </summary>
+            <param name="assembly"></param>
+            <param name="fileLocation"></param>
+            <param name="extractResources"></param>
+        </member>
+        <member name="M:AspNetCore.PluginManager.PluginManager.LoadPlugin(System.String@)">
+            <summary>
+            Loads and configures an individual plugin
+            </summary>
+            <param name="pluginName"></param>
+        </member>
+        <member name="M:AspNetCore.PluginManager.PluginManager.Configure(Microsoft.AspNetCore.Builder.IApplicationBuilder@,Microsoft.AspNetCore.Hosting.IHostingEnvironment@)">
+            <summary>
+            Allows plugins to configure with the current 
+            </summary>
+            <param name="app"></param>
+            <param name="env"></param>
+        </member>
+        <member name="M:AspNetCore.PluginManager.PluginManager.ConfigureServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            Allows plugins to configure the services for all plugins
+            </summary>
+            <param name="services"></param>
+        </member>
+        <member name="M:AspNetCore.PluginManager.PluginManager.GetPluginTypesWithAttribute``1">
+            <summary>
+            Retrieves the non instantiated classes which have attribute T, or if any of
+            the methods or properties have attribute T
+            </summary>
+            <typeparam name="T"></typeparam>
+            <returns></returns>
+        </member>
+        <member name="M:AspNetCore.PluginManager.PluginManager.GetPluginClassTypes``1">
+            <summary>
+            Retrieves the non instantiated classes which inherit from T or implement 
+            interface T
+            </summary>
+            <typeparam name="T"></typeparam>
+            <returns></returns>
+        </member>
+        <member name="M:AspNetCore.PluginManager.PluginManager.GetPluginClasses``1">
+            <summary>
+            Retreives an instantiated specific type of class which inherits from a specific class 
+            or interface from within the plugin modules
+            </summary>
+            <typeparam name="T">Type of interface/class</typeparam>
+            <returns></returns>
+        </member>
+        <member name="M:AspNetCore.PluginManager.PluginManager.PluginLoaded(System.String@,System.Int32@,System.String@)">
+            <summary>
+            Determines whether a plugin is loaded, and retrieves the version
+            </summary>
+            <param name="pluginLibraryName"></param>
+            <param name="version"></param>
+            <param name="module"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AspNetCore.PluginManager.PluginManager.Dispose">
+            <summary>
+            Disposable method, notify all plugins to finalise
+            </summary>
+        </member>
+        <member name="M:AspNetCore.PluginManager.PluginManager.GetMinMaxValue(System.UInt16@,System.UInt16@,System.UInt16@)">
+            <summary>
+            Checks a value, to ensure it is between min/max Value
+            </summary>
+            <param name="value">Value to check</param>
+            <param name="minValue">Min value allowed</param>
+            <param name="maxValue">Max value allowed</param>
+            <returns></returns>
+        </member>
+        <member name="M:AspNetCore.PluginManager.PluginManager.GetPluginClass``1(AspNetCore.PluginManager.IPluginModule@)">
+            <summary>
+            Returns the first class/interface of type T within the assembly
+            </summary>
+            <typeparam name="T">Type to return</typeparam>
+            <param name="pluginModule">plugin module</param>
+            <returns>instantiated instance of Type T if found, otherwise null</returns>
+        </member>
+        <member name="M:AspNetCore.PluginManager.PluginManager.ExtractResources(System.Reflection.Assembly@,AspNetCore.PluginManager.PluginSetting@)">
+            <summary>
+            Extract Views/CSS/JS files from resources
+            </summary>
+            <param name="pluginAssembly"></param>
+            <param name="pluginSetting"></param>
+        </member>
+        <member name="M:AspNetCore.PluginManager.PluginManager.LoadAssembly(System.String@)">
+            <summary>
+            Dynamically loads an assembly
+            </summary>
+            <param name="assemblyName">name of assembly</param>
+            <returns>Assembly instance</returns>
+        </member>
+        <member name="M:AspNetCore.PluginManager.PluginManager.CurrentDomainAssemblyResolve(System.Object,System.ResolveEventArgs)">
+            <summary>
+            If associated/required dll's are not found, and settings are configured, 
+            attempt to load them from the configured path
+            </summary>
+            <param name="sender"></param>
+            <param name="args"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AspNetCore.PluginManager.PluginManager.GetPluginSetting(System.String@)">
+            <summary>
+            Retrieve plugin settings for an individual plugin module
+            </summary>
+            <param name="pluginName">Name of plugin</param>
+            <returns></returns>
+        </member>
+        <member name="T:AspNetCore.PluginManager.PluginManagerService">
+            <summary>
+            Static class containing methods that can be used to configure and initialise the Plugin Manager.
+            </summary>
+        </member>
+        <member name="M:AspNetCore.PluginManager.PluginManagerService.Initialise(SharedPluginFeatures.ILogger)">
+            <summary>
+            Initialises the PluginManager using a custom ILogger implementation.
+            
+            This method is obsolete and will be removed from future versions.
+            </summary>
+            <param name="logger"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AspNetCore.PluginManager.PluginManagerService.Initialise">
+            <summary>
+            Initialises the PluginManager using default confguration.
+            </summary>
+            <returns>bool</returns>
+        </member>
+        <member name="M:AspNetCore.PluginManager.PluginManagerService.Initialise(AspNetCore.PluginManager.PluginManagerConfiguration@)">
+            <summary>
+            Initialises the PluginManager using a specific user defined configuration.
+            </summary>
+            <param name="configuration"></param>
+            <returns>bool</returns>
+        </member>
+        <member name="M:AspNetCore.PluginManager.PluginManagerService.Configure(Microsoft.AspNetCore.Builder.IApplicationBuilder,Microsoft.AspNetCore.Hosting.IHostingEnvironment)">
+            <summary>
+            Configures all plugin modules, allowing the modules to setup services for the application.
+            </summary>
+            <param name="app">IApplicationBuilder instance.</param>
+            <param name="env">IHostingEnvironment instance.</param>
+        </member>
+        <member name="M:AspNetCore.PluginManager.PluginManagerService.ConfigureServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            Configures all plugin module services, allowing the modules to add their own services to the application.
+            </summary>
+            <param name="services">IServiceCollection instance</param>
+        </member>
+        <member name="T:AspNetCore.PluginManager.PluginSetting">
+            <summary>
+            Individual plugin module settings, used to define how a plugin is treated by the PluginManager.
+            </summary>
+        </member>
+        <member name="M:AspNetCore.PluginManager.PluginSetting.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="M:AspNetCore.PluginManager.PluginSetting.#ctor(System.String@)">
+            <summary>
+            Constructor requesting setting for individual plugin module.
+            </summary>
+            <param name="pluginName">Name of plugin module whose settings are requested.</param>
+        </member>
+        <member name="P:AspNetCore.PluginManager.PluginSetting.Name">
+            <summary>
+            Name of the plugin module, i.e. MyPlugin.dll
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:AspNetCore.PluginManager.PluginSetting.Disabled">
+            <summary>
+            Indicates whether the plugin module is disabled and will not be loaded.
+            </summary>
+            <value>bool</value>
+        </member>
+        <member name="P:AspNetCore.PluginManager.PluginSetting.PreventExtractResources">
+            <summary>
+            Prevents PluginManager from extracting resources from the plugin module.
+            
+            If true then no resources will be extracted, this can be usefule if the project has been given to a 
+            web designer and they are making changes and don't want them overridden.
+            </summary>
+            <value>bool</value>
+        </member>
+        <member name="P:AspNetCore.PluginManager.PluginSetting.ReplaceExistingResources">
+            <summary>
+            Prevents PluginManager from replacing resources that have previously been extracted from the plugin module.
+            
+            If true then no resources will be extracted, this can be usefule if the project has been given to a 
+            web designer and they are making changes and don't want them overridden.
+            </summary>
+            <value>bool</value>
+        </member>
+        <member name="P:AspNetCore.PluginManager.PluginSetting.Version">
+            <summary>
+            Specifies the specific version number of the plugin to be loaded.
+            
+            Use this value should multiple copies of the plugin module be within PluginSearchPath
+            </summary>
+        </member>
+        <member name="T:AspNetCore.PluginManager.PluginSettings">
+            <summary>
+            Settings that affect how PluginManager works.
+            </summary>
+        </member>
+        <member name="P:AspNetCore.PluginManager.PluginSettings.Disabled">
+            <summary>
+            Opionally disable plugin manager and prevent it from loading any plugins.
+            </summary>
+            <value>bool</value>
+        </member>
+        <member name="P:AspNetCore.PluginManager.PluginSettings.PluginPath">
+            <summary>
+            Path where plugin assembly modules are located.
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:AspNetCore.PluginManager.PluginSettings.PluginSearchPath">
+            <summary>
+            Root path that is used to search for plugin assembly modules.
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:AspNetCore.PluginManager.PluginSettings.SystemFiles">
+            <summary>
+            Root path that will be searched for dll's that can not be found when loading plugin modules.
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:AspNetCore.PluginManager.PluginSettings.CSSLocation">
+            <summary>
+            Path where .css files will be placed when being extracted from plugin modules.
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:AspNetCore.PluginManager.PluginSettings.JScriptLocation">
+            <summary>
+            Path where .js files will be placed when being extracted from plugin modules.
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:AspNetCore.PluginManager.PluginSettings.PreventAreas">
+            <summary>
+            This property is not currently used and will be removed from future versions.
+            </summary>
+            <value>bool</value>
+        </member>
+        <member name="P:AspNetCore.PluginManager.PluginSettings.DisableRouteDataService">
+            <summary>
+            Prevents PluginManager from creating an IRouteDataService instance that can be obtained from IoC
+            </summary>
+            <value>bool</value>
+        </member>
+        <member name="P:AspNetCore.PluginManager.PluginSettings.PluginFiles">
+            <summary>
+            User defined list of plugin modules that will be loaded in order prior to generic loading of plugins.
+            
+            If you need to specify the load order of plugins the assembly names (with or without path) need to be included in this list.
+            </summary>
+            <value>List&lt;string&gt;</value>
+        </member>
+        <member name="P:AspNetCore.PluginManager.PluginSettings.Plugins">
+            <summary>
+            Individual plugin module settings.
+            </summary>
+            <value>List&lt;PluginSetting&gt;</value>
+        </member>
+    </members>
+</doc>

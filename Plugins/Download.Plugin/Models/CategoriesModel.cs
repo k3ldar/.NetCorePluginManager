@@ -26,10 +26,18 @@
 
 namespace DownloadPlugin.Models
 {
+    /// <summary>
+    /// Download category view mode.
+    /// </summary>
     public class CategoriesModel
     {
         #region Constructors
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="id">Category id.</param>
+        /// <param name="name">Category name.</param>
         public CategoriesModel(in int id, in string name)
         {
             Id = id;
@@ -40,8 +48,16 @@ namespace DownloadPlugin.Models
 
         #region Properties
 
+        /// <summary>
+        /// Category id.
+        /// </summary>
+        /// <value>int</value>
         public int Id { get; private set; }
 
+        /// <summary>
+        /// Category name.
+        /// </summary>
+        /// <value>string</value>
         public string Name { get; private set; }
 
         #endregion Properties

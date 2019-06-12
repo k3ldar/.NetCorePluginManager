@@ -31,8 +31,14 @@ using Microsoft.Extensions.DependencyInjection;
 
 using SharedPluginFeatures;
 
+#pragma warning disable CS1591
+
 namespace RestrictIp.Plugin
 {
+    /// <summary>
+    /// Implements IPlugin which allows the RestrictIp.Plugin module to be
+    /// loaded as a plugin module
+    /// </summary>
     public sealed class Initialisation : IPlugin
     {
         #region Constructors
@@ -76,3 +82,5 @@ namespace RestrictIp.Plugin
         #endregion IPlugin Methods
     }
 }
+
+#pragma warning restore CS1591

@@ -29,11 +29,25 @@ using static Shared.Utilities;
 
 namespace Middleware.Accounts.Invoices
 {
+    /// <summary>
+    /// Represents an individual invoice item within an Invoice used by IAccountProvider and UserAccount.Plugin module.
+    /// </summary>
     public sealed class InvoiceItem
     {
         #region Constructors
 
-        public InvoiceItem(in Int64 id, in string description, in decimal cost,
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="id">Unique id of the invoice item.</param>
+        /// <param name="description">Description of the item within the invoice.</param>
+        /// <param name="cost">Cost of the item in the invoice.</param>
+        /// <param name="taxRate">Tax rate applied to the invoiceable item.</param>
+        /// <param name="quantity">Quantity of the item within the invoice.</param>
+        /// <param name="status">Current status of the item within the invoice.</param>
+        /// <param name="discountType">Type of discount, if appliccable, for the item within the invoice.</param>
+        /// <param name="discount">Discount applied to the item within the invoice.</param>
+        public InvoiceItem(in long id, in string description, in decimal cost,
             in int taxRate, in decimal quantity, in ItemStatus status, in DiscountType discountType,
             in decimal discount)
         {
@@ -66,27 +80,64 @@ namespace Middleware.Accounts.Invoices
 
         #region Properties
 
-        public Int64 Id { get; private set; }
+        /// <summary>
+        /// Unique id of the invoice item.
+        /// </summary>
+        /// <value>long</value>
+        public long Id { get; private set; }
 
+        /// <summary>
+        /// Invoice to which the item belongs.
+        /// </summary>
+        /// <value>Invoice</value>
         public Invoice Invoice { get; internal set; }
 
+        /// <summary>
+        /// Description of the item within the invoice.
+        /// </summary>
+        /// <value>string</value>
         public string Description { get; private set; }
 
+        /// <summary>
+        /// Cost of the item in the invoice.
+        /// </summary>
+        /// <value>decimal</value>
         public decimal Price { get; private set; }
 
+        /// <summary>
+        /// Tax rate applied to the invoiceable item.
+        /// </summary>
+        /// <value>int</value>
         public int TaxRate { get; private set; }
 
+        /// <summary>
+        /// Quantity of the item within the invoice.
+        /// </summary>
+        /// <value>decimal</value>
         public decimal Quantity { get; private set; }
 
+        /// <summary>
+        /// Discount applied to the item within the invoice.
+        /// </summary>
+        /// <value>decimal</value>
         public decimal Discount { get; private set; }
 
+        /// <summary>
+        /// Type of discount, if appliccable, for the item within the invoice.
+        /// </summary>
+        /// <value>DiscountType</value>
         public DiscountType DiscountType { get; private set; }
 
+        /// <summary>
+        /// Current status of the item within the invoice.
+        /// </summary>
+        /// <value>ItemStatus</value>
         public ItemStatus Status { get; private set; }
 
         /// <summary>
         /// Total + Tax
         /// </summary>
+        /// <value>decimal</value>
         public decimal Cost
         {
             get
@@ -101,6 +152,7 @@ namespace Middleware.Accounts.Invoices
         /// <summary>
         /// Total Tax amount
         /// </summary>
+        /// <value>decimal</value>
         public decimal TotalTax
         {
             get
@@ -112,6 +164,10 @@ namespace Middleware.Accounts.Invoices
             }
         }
 
+        /// <summary>
+        /// Subtotal of this item within the invoice.
+        /// </summary>
+        /// <value>decimal</value>
         public decimal SubTotal
         {
             get
@@ -120,6 +176,10 @@ namespace Middleware.Accounts.Invoices
             }
         }
 
+        /// <summary>
+        /// Total discount for the item within the invoice.
+        /// </summary>
+        /// <value>decimal</value>
         public decimal TotalDiscount
         {
             get

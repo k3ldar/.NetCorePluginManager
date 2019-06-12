@@ -32,6 +32,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace AspNetCore.PluginManager.Tests
 {
+#if DEBUG
     [TestClass]
     public class NotificationEventTests
     {
@@ -39,7 +40,7 @@ namespace AspNetCore.PluginManager.Tests
         [ExpectedException(typeof(InvalidOperationException))]
         public void InvalidParam1()
         {
-            NotificationService service = new NotificationService();
+            INotificationService service = UnitTestHelper.GetNotificationService();
             service.RegisterListener(new InvalidEvents1());
         }
 
@@ -47,14 +48,14 @@ namespace AspNetCore.PluginManager.Tests
         [ExpectedException(typeof(InvalidOperationException))]
         public void InvalidParam2()
         {
-            NotificationService service = new NotificationService();
+            INotificationService service = UnitTestHelper.GetNotificationService();
             service.RegisterListener(new InvalidEvents1());
         }
 
         [TestMethod]
         public void ValidParam()
         {
-            NotificationService service = new NotificationService();
+            INotificationService service = UnitTestHelper.GetNotificationService();
             service.RegisterListener(new ValidEvents1());
         }
 
@@ -62,7 +63,7 @@ namespace AspNetCore.PluginManager.Tests
         [ExpectedException(typeof(InvalidOperationException))]
         public void InvalidEventForClass()
         {
-            NotificationService service = new NotificationService();
+            INotificationService service = UnitTestHelper.GetNotificationService();
             service.RegisterListener(new ValidEvents1());
             object result = new object();
             service.RaiseEvent("Test2345", null, null, ref result);
@@ -73,7 +74,7 @@ namespace AspNetCore.PluginManager.Tests
         {
             ValidEvents1 valid1 = new ValidEvents1();
             ValidEvents2 valid2 = new ValidEvents2();
-            NotificationService service = new NotificationService();
+            INotificationService service = UnitTestHelper.GetNotificationService();
             service.RegisterListener(valid1);
             service.RegisterListener(valid2);
 
@@ -109,7 +110,7 @@ namespace AspNetCore.PluginManager.Tests
         {
             ValidEvents1 valid1 = new ValidEvents1();
             ValidEvents2 valid2 = new ValidEvents2();
-            NotificationService service = new NotificationService();
+            INotificationService service = UnitTestHelper.GetNotificationService();
             service.RegisterListener(valid1);
             service.RegisterListener(valid2);
 
@@ -216,4 +217,5 @@ namespace AspNetCore.PluginManager.Tests
 
         public uint EventCount { get; private set; }
     }
+#endif
 }

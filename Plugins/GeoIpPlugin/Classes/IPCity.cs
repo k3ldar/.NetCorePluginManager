@@ -27,11 +27,20 @@ using System;
 
 namespace GeoIp.Plugin
 {
+    /// <summary>
+    /// IpCity data.  Used internally to cache data retrieved.
+    /// </summary>
     public class IpCity : IComparable
     {
         #region Constructors
 
-        internal IpCity(long startRange, long endRange, string countryCode)
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="startRange">Start of Ip range.</param>
+        /// <param name="endRange">End of Ip range.</param>
+        /// <param name="countryCode">Country code.</param>
+        public IpCity(long startRange, long endRange, string countryCode)
         {
             IsComplete = false;
             IpStart = startRange;
@@ -43,28 +52,68 @@ namespace GeoIp.Plugin
 
         #region Properties
 
-        internal long IpStart { get; set; }
+        /// <summary>
+        /// Start of Ip range.
+        /// </summary>
+        /// <value>long</value>
+        public long IpStart { get; set; }
 
-        internal long IpEnd { get; set; }
+        /// <summary>
+        /// End of Ip range.
+        /// </summary>
+        /// <value>long</value>
+        public long IpEnd { get; set; }
 
-        internal string CountryCode { get; set; }
+        /// <summary>
+        /// Country code for Ip Address.
+        /// </summary>
+        /// <value>string</value>
+        public string CountryCode { get; set; }
 
-        internal string Region { get; set; }
+        /// <summary>
+        /// Region where Ip Address is located.
+        /// </summary>
+        /// <value>string</value>
+        public string Region { get; set; }
 
-        internal string CityName { get; set; }
+        /// <summary>
+        /// Name of city where Ip Address is located.
+        /// </summary>
+        /// <value>string</value>
+        public string CityName { get; set; }
 
-        internal decimal Latitude { get; set; }
+        /// <summary>
+        /// Latitude of Ip Address.
+        /// </summary>
+        /// <value>decimal</value>
+        public decimal Latitude { get; set; }
 
-        internal decimal Longitude { get; set; }
+        /// <summary>
+        /// Longitude of Ip Address.
+        /// </summary>
+        /// <value>decimal</value>
+        public decimal Longitude { get; set; }
 
+        /// <summary>
+        /// Unique Id for Ip addressl
+        /// </summary>
+        /// <value>long</value>
         internal long IpUniqueID { get; set; }
 
-        internal bool IsComplete { get; set; }
+        /// <summary>
+        /// Determines whether the record is complete or not.
+        /// </summary>
+        /// <value>bool</value>
+        public bool IsComplete { get; set; }
 
         #endregion Properties
 
         #region Public Methods
 
+        /// <summary>
+        /// Compare Method for comparing existing Ip addresses cached in memory.
+        /// </summary>
+        /// <value>int</value>
         public int CompareTo(object obj)
         {
             return (IpStart.CompareTo(((IpCity)obj).IpStart));

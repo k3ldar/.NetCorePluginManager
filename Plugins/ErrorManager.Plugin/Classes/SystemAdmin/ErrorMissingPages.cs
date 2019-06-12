@@ -28,9 +28,15 @@ using System.Collections.Generic;
 
 using SharedPluginFeatures;
 
+#pragma warning disable CS1591
 
 namespace ErrorManager.Plugin.Classes.SystemAdmin
 {
+    /// <summary>
+    /// Returns a list of pages that are missing (404) within ErrorManager.Plugin.  
+    /// 
+    /// This class descends from SystemAdminSubMenu.
+    /// </summary>
     public class ErrorMissingPages : SystemAdminSubMenu
     {
         public override string Action()
@@ -48,6 +54,10 @@ namespace ErrorManager.Plugin.Classes.SystemAdmin
             return (String.Empty);
         }
 
+        /// <summary>
+        /// Returns all missing pages processed by ErrorManager.Plugin.
+        /// </summary>
+        /// <returns>string</returns>
         public override string Data()
         {
             string Result = "Page|Count";
@@ -88,3 +98,5 @@ namespace ErrorManager.Plugin.Classes.SystemAdmin
         }
     }
 }
+
+#pragma warning restore CS1591

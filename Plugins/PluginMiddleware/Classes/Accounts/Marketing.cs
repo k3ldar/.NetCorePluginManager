@@ -26,15 +26,28 @@
 
 namespace Middleware.Accounts
 {
+    /// <summary>
+    /// Containse marketing details associated with a user, used in IAccountProvider interface.
+    /// </summary>
     public sealed class Marketing
     {
         #region Constructors
 
+        /// <summary>
+        /// Default Constructor
+        /// </summary>
         public Marketing()
         {
 
         }
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="email">Accepts email offers.</param>
+        /// <param name="telephone">Accepts telephone offers.</param>
+        /// <param name="sms">Accepts sms offers.</param>
+        /// <param name="postal">Accepts postal offers.</param>
         public Marketing(bool email, bool telephone, bool sms, bool postal)
         {
             EmailOffers = email;
@@ -47,12 +60,28 @@ namespace Middleware.Accounts
 
         #region Properties
 
+        /// <summary>
+        /// Indicates whether the user wants email marketing offers or not.
+        /// </summary>
+        /// <value>bool</value>
         public bool EmailOffers { get; set; }
 
+        /// <summary>
+        /// Indicates whether the user wants telephone marketing offers or not.
+        /// </summary>
+        /// <value>bool</value>
         public bool TelephoneOffers { get; set; }
 
+        /// <summary>
+        /// Indicates whether the user wants sms marketing offers or not.
+        /// </summary>
+        /// <value>bool</value>
         public bool SMSOffers { get; set; }
 
+        /// <summary>
+        /// Indicates whether the user wants postal marketing offers or not.
+        /// </summary>
+        /// <value>bool</value>
         public bool PostalOffers { get; set; }
 
         #endregion Properties

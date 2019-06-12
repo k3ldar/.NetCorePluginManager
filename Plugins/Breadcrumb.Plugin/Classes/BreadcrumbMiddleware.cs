@@ -39,8 +39,14 @@ using Shared.Classes;
 using SharedPluginFeatures;
 using static SharedPluginFeatures.Enums;
 
+#pragma warning disable CS1591
+
 namespace Breadcrumb.Plugin
 {
+    /// <summary>
+    /// Breadcrumb middleware class, this module extends BaseMiddlware and is injected 
+    /// into the request pipeline.
+    /// </summary>
     public sealed class BreadcrumbMiddleware : BaseMiddleware
     {
         #region Private Members
@@ -350,3 +356,5 @@ namespace Breadcrumb.Plugin
         #endregion Private Methods
     }
 }
+
+#pragma warning restore CS1591

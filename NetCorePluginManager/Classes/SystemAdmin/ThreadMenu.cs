@@ -30,8 +30,16 @@ using SharedPluginFeatures;
 
 using Shared.Classes;
 
+#pragma warning disable CS1591
+
 namespace AspNetCore.PluginManager.Classes.SystemAdmin
 {
+    /// <summary>
+    /// Returns a list of all threads and their current status that can be viewed within 
+    /// SystemAdmin.Plugin.  
+    /// 
+    /// This class descends from SystemAdminSubMenu.
+    /// </summary>
     public class ThreadMenu : SystemAdminSubMenu
     {
         public override string Action()
@@ -54,6 +62,10 @@ namespace AspNetCore.PluginManager.Classes.SystemAdmin
             return Enums.SystemAdminMenuType.Grid;
         }
 
+        /// <summary>
+        /// Returns delimited data on current active threads and their current status
+        /// </summary>
+        /// <returns>string</returns>
         public override string Data()
         {
             StringBuilder Result = new StringBuilder("Name|Process Usage|System Usage|Thread Id|Cancelled|Unresponsive|Marked For Removal\r");
@@ -110,3 +122,5 @@ namespace AspNetCore.PluginManager.Classes.SystemAdmin
         }
     }
 }
+
+#pragma warning restore CS1591

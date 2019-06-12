@@ -28,6 +28,8 @@ using Microsoft.AspNetCore.Hosting;
 
 using AspNetCore.PluginManager;
 
+#pragma warning disable CS1591
+
 namespace Company.Plugin
 {
     public class Program
@@ -44,3 +46,5 @@ namespace Company.Plugin
                 .UseStartup<Startup>();
     }
 }
+
+#pragma warning restore CS1591

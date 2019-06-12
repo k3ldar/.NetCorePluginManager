@@ -30,6 +30,10 @@ using SharedPluginFeatures;
 
 namespace UserAccount.Plugin.Classes
 {
+    /// <summary>
+    /// Implements IPlugin and IPluginVersion which allows the UserAccount.Plugin module to be
+    /// loaded as a plugin module
+    /// </summary>
     public class PluginClass : IPlugin, IPluginVersion
     {
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)

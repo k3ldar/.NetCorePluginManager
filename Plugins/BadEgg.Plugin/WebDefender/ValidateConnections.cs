@@ -100,9 +100,6 @@ namespace BadEgg.Plugin.WebDefender
 
         internal static readonly object _ipAddressLock = new object();
 
-        /// <summary>
-        /// Time out for each client (minutes)
-        /// </summary>
         private uint _connectionTimeoutMinutes { get; set; } = 5;
 
         private HashSet<ConnectionReportArgs> _reports = new HashSet<ConnectionReportArgs>();
@@ -354,7 +351,7 @@ namespace BadEgg.Plugin.WebDefender
         /// <summary>
         /// Adds an IP address to a black list
         /// </summary>
-        /// <param name="hostAddress">IP address to add to black list</param>
+        /// <param name="ipAddress">Ip address to add to black list</param>
         public void AddToBlackList(in string ipAddress)
         {
             using (TimedLock lockobj = TimedLock.Lock(_ipAddressLock))
@@ -369,7 +366,7 @@ namespace BadEgg.Plugin.WebDefender
         /// <summary>
         /// Adds an IP address to a black list
         /// </summary>
-        /// <param name="hostAddress">IP address to add to black list</param>
+        /// <param name="ipAddress">Ip address to add to black list</param>
         public void AddToWhiteList(in string ipAddress)
         {
             using (TimedLock lockobj = TimedLock.Lock(_ipAddressLock))
@@ -609,7 +606,7 @@ namespace BadEgg.Plugin.WebDefender
         /// <summary>
         /// Verify's an address to see if it's black/white listed
         /// </summary>
-        /// <param name="IPAddress">IPAddress to verify</param>
+        /// <param name="ipAddress">Ip address to verify</param>
         /// <returns>ValidateRequestResult enum with results</returns>
         private ValidateRequestResult VerifyAddress(in string ipAddress)
         {
@@ -638,7 +635,7 @@ namespace BadEgg.Plugin.WebDefender
         /// <summary>
         /// Determines the probability that user is bot/spider 
         /// </summary>
-        /// <param name="ipAddress">IP Address of user</param>
+        /// <param name="connectionInfo">Ip connection information</param>
         /// <param name="validation">validation Results</param>
         private void DetermineSpiderBot(in IpConnectionInfo connectionInfo, ref ValidateRequestResult validation)
         {
@@ -731,7 +728,7 @@ namespace BadEgg.Plugin.WebDefender
         /// <summary>
         /// Determines if the url contains sql which could be a SQL Injection
         /// </summary>
-        /// <param name="ipAddress">url being passed</param>
+        /// <param name="request">current request data</param>
         /// <param name="count">number of attempts found</param>
         /// <param name="validation">Result of the check</param>
         private void DetermineSQLInjectionAttack(in string request, ref int count, ref ValidateRequestResult validation)

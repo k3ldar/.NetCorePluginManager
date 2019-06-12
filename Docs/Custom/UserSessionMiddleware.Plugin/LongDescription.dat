@@ -1,0 +1,134 @@
+<p>
+The user session middleware plugin module has been designed to manage a user session whilst navigating through a webiste.  At its core the UserSession class provides all the details for the user including:
+</p>
+<ul>
+<li>GeoIp Data.</li>
+<li>Pages Visited.</li>
+<li>Sales Data.</li>
+<li>Bot identification.</li>
+<li>User Agent.</li>
+<li>Culture Information.</li>
+<li>Initial Referrer</li>
+</ul>
+
+
+<h3>
+GeoIp Data
+</h3>
+<p>
+If the GeoIp.Plugin or the SieraDeltaGeoIp.Plugin modules are loaded, when the session is created GeoIp data for the session will be loaded.
+</p>
+
+<h3>IUserSessionService</h3>
+<p>
+The IUserSessionService provides methods for saving session data into a database or other data store, this is particularly useful in post analysis of user sessions.  Please view <a href="https://sicarterblog.wordpress.com/category/web-analytics/" target="_blank">Web Analytics</a> and <a href="https://sicarterblog.wordpress.com/category/user-session/" target="_blank">User Session Blog</a> for more information on how to manipulate the user session data collected from user sessions.  This could provide a multitude of reports including:
+</p>
+<ul>
+<li>Visits by Hour.</li>
+<li>Visits by Day.</li>
+<li>Visits by Week.</li>
+<li>Visits by Month.</li>
+<li>Location - City/Month.</li>
+<li>Sales - City Month.</li>
+<li>Page View by Month</li>
+<li>Bounced Visits.</li>
+<li>Bot Visits.</li>
+<li>Conversions.</li>
+<li>Conversions by Mobile.</li>
+<li>Referral Data</li>
+	<ol>
+	<li>Direct</li>
+	<li>Organic</li>
+	<li>Bing</li>
+	<li>Google</li>
+	<li>Yahoo</li>
+	<li>Facebook</li>
+	<li>Twitter</li>
+	</ol>
+</ul>
+<p>
+There are litterally dozens of reports that can be generated using the Session Data that can be saved.
+</p>
+<h3>Saving Sessions</h3>
+<p>
+Session data is saved using a background thread so as the user journey is not interupted whilst navigating throught the website.
+</p>
+
+<h3>Sales Data</h3>
+<p>
+Sales data is automatically collected if the ShoppingCartPlugin module is used, otherwise the UserSession class contains a method for saving sales data that can later be saved using the IUserSessionService interface and reported on.
+</p>
+
+<h3>Bot Identification</h3>
+<p>
+Bot identification is completed when the session is created, this is achieved by inspecting the UserAgent that is used.  Most common bots use standard UserAgent strings that make identifying them easy, however, not all bots are honest and the UserAgent can not always be used.
+</p>
+
+<h3>Culture Information</h3>
+<p>
+Culture information is loaded into the session when it is initially loaded, and when the user changes the culture themselves.  If the Localization.Plugin module is loaded, the culture is automatically used for the current request.
+</p>
+
+<h3>Initial Referrer</h3>
+<p>
+<a href="/docs/Document/SeoPlugin/">Seo</a> is a very important aspect of web design, and the intial referrer plays no small part.  I can be used to determine how well advertising is managed or the general spread of the website throughout the website.
+</p>
+
+<h3>User Login</h3>
+<p>
+If the LoginPlugin module is loaded, then the user login details are automatically loaded into the session object so that the current user can easily be identified.
+</p>
+
+<h3>Obtaining Session Data</h3>
+<p>
+The user session middleware layer sits within the request pipeline and adds the session data to the HttpContext.Items, you can retrieve user session data in several ways:
+</p>
+<p>
+Direct from the HttpContext.Items:
+</p>
+<p>
+<pre style="font-family:Consolas;font-size:13px;color:black;background:white;"><span style="color:#2b91af;">UserSession</span>&nbsp;<span style="color:#1f377f;">userSession</span>&nbsp;=&nbsp;<span style="color:blue;">null</span>;
+ 
+<span style="color:#8f08c4;">if</span>&nbsp;(HttpContext.Items.<span style="color:#74531f;">ContainsKey</span>(<span style="color:#2b91af;">Constants</span>.UserSession))
+{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#1f377f;">userSession</span>&nbsp;=&nbsp;((<span style="color:#2b91af;">UserSession</span>)HttpContext.Items[<span style="color:#2b91af;">Constants</span>.UserSession]);
+}
+</pre>
+</p>
+<p>
+BaseController contains a method called GetUserSession() which can be used to retrieve the user session:
+</p>
+<p>
+<pre style="font-family:Consolas;font-size:13px;color:black;background:white;"><span style="color:#2b91af;">UserSession</span>&nbsp;<span style="color:#1f377f;">session</span>&nbsp;=&nbsp;<span style="color:#74531f;">GetUserSession</span>();
+</pre>
+</p>
+<p>
+BaseMiddleware contains a method called GetUserSession(HttpContext context) which can be used to retrieve the user session:
+</p>
+<p>
+<pre style="font-family:Consolas;font-size:13px;color:black;background:white;"><span style="color:blue;">public</span>&nbsp;<span style="color:blue;">async</span>&nbsp;<span style="color:#2b91af;">Task</span>&nbsp;<span style="color:#74531f;">Invoke</span>(<span style="color:#2b91af;">HttpContext</span>&nbsp;<span style="color:#1f377f;">context</span>)
+{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">UserSession</span>&nbsp;<span style="color:#1f377f;">userSession</span>&nbsp;=&nbsp;<span style="color:#74531f;">GetUserSession</span>(<span style="color:#1f377f;">context</span>);
+ 
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#8f08c4;">if</span>&nbsp;(<span style="color:#1f377f;">userSession</span>&nbsp;!=&nbsp;<span style="color:blue;">null</span>)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;Code&nbsp;removed&nbsp;for&nbsp;brevity...</span>
+&nbsp;&nbsp;&nbsp;&nbsp;}
+ 
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">await</span>&nbsp;_next(<span style="color:#1f377f;">context</span>);
+}
+</pre>
+</p>
+
+<h3>How to use</h3>
+<p>
+The UserSession middleware plugin can be used with or without the Plugin Manager.  If using with the plugin manager then it will be automatically added, but should be loaded first, or after the ErrorManager.Plugin module if used.  You can also load it manually like:
+</p>
+<p>
+<pre style="font-family:Consolas;font-size:13px;color:black;background:white;"><span style="color:#1f377f;">app</span>.<span style="color:#74531f;">UseUserSessionMiddleware</span>();
+</pre>
+</p>
+<p>
+<pre style="font-family:Consolas;font-size:13px;color:black;background:white;"><span style="color:#1f377f;">builder</span>.<span style="color:#74531f;">UseMiddleware</span>&lt;<span style="color:#2b91af;">UserSessionMiddleware</span>&gt;();
+</pre>
+</p>

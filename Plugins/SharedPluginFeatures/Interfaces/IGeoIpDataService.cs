@@ -26,8 +26,22 @@
 
 namespace SharedPluginFeatures
 {
+    /// <summary>
+    /// Interface to obtain GeoIp details for a specific Ip Address
+    /// </summary>
     public interface IGeoIpDataService
     {
+        /// <summary>
+        /// Obtains the Geo Ip details pertaining to an Ip Address
+        /// </summary>
+        /// <param name="ipAddress">Ip Address</param>
+        /// <param name="countryCode">Country code where the Ip address is located.</param>
+        /// <param name="region">Region where the Ip address is located.</param>
+        /// <param name="cityName">Name of the city where the Ip address is located.</param>
+        /// <param name="latitude">Latitude for the Ip address.</param>
+        /// <param name="longitude">Longitude for the Ip address.</param>
+        /// <param name="ipUniqueID">Unique Id for the Ip address.</param>
+        /// <returns></returns>
         bool GetIPAddressDetails(in string ipAddress, out string countryCode, out string region, 
             out string cityName, out decimal latitude, out decimal longitude, out long ipUniqueID);
     }

@@ -32,7 +32,7 @@ using SharedPluginFeatures;
 
 namespace AspNetCore.PluginManager
 {
-    public sealed class PluginServices : IPluginClassesService, IPluginHelperService, IPluginTypesService
+    internal sealed class PluginServices : IPluginClassesService, IPluginHelperService, IPluginTypesService
     {
         #region Private Members
 
@@ -41,7 +41,7 @@ namespace AspNetCore.PluginManager
 
         #region Constructors
 
-        public PluginServices()
+        internal PluginServices()
         {
 
         }
@@ -75,7 +75,7 @@ namespace AspNetCore.PluginManager
 
         public bool PluginLoaded(in string pluginLibraryName, out int version)
         {
-            return PluginManagerService.GetPluginManager().PluginLoaded(pluginLibraryName, out version, out string module);
+            return PluginManagerService.GetPluginManager().PluginLoaded(pluginLibraryName, out version, out _);
         }
 
         public DynamicLoadResult AddAssembly(in Assembly assembly)

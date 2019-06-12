@@ -29,20 +29,43 @@ using AppSettings;
 
 namespace ErrorManager.Plugin
 {
+    /// <summary>
+    /// Settings that affect how the ErrorManager.Plugin module is configured.
+    /// </summary>
     public class ErrorManagerSettings
     {
+        /// <summary>
+        /// Use random quotes
+        /// </summary>
+        /// <value>bool.  If true then ransomly selects a quote from Quotes property.</value>
         public bool RandomQuotes { get; set; }
 
+        /// <summary>
+        /// Array of quotes that can be displayed.
+        /// </summary>
+        /// <value>string[]</value>
         public string[] Quotes { get; set; }
 
+        /// <summary>
+        /// Encryption key, used to encrypt cookie values.
+        /// </summary>
+        /// <value>string</value>
         [SettingDefault("asldfjanpsa]3;la9e4823[2oer09oecrlc")]
         [SettingString(false, 20, 60)]
         public string EncryptionKey { get; set; }
 
+        /// <summary>
+        /// Login page that the user should be directed to if login is required.
+        /// </summary>
+        /// <value>string</value>
         [SettingDefault("/Login/")]
         [SettingUri(false, UriKind.RelativeOrAbsolute)]
         public string LoginPage { get; set; }
 
+        /// <summary>
+        /// Total number of quotes available.
+        /// </summary>
+        /// <returns>int</returns>
         public int Count()
         {
             if (Quotes == null)
@@ -51,6 +74,11 @@ namespace ErrorManager.Plugin
             return (Quotes.Length - 1);
         }
 
+        /// <summary>
+        /// Retrieves a random quote.
+        /// </summary>
+        /// <param name="index">Index of quote to retrieve.</param>
+        /// <returns>string</returns>
         public string GetQuote(int index)
         {
             if (index < 0 || index > Count())

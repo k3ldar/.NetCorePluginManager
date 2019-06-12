@@ -27,12 +27,21 @@ using AppSettings;
 
 namespace ShoppingCartPlugin.Classes
 {
+    /// <summary>
+    /// Settings that configure how the Shopping cart is configured.
+    /// </summary>
     public sealed class CartSettings
     {
+        /// <summary>
+        /// Default currency to be used.
+        /// </summary>
         [SettingString(false, 3, 3)]
         [SettingDefault("GBP")]
         public string DefaultCurrency { get; set; }
 
+        /// <summary>
+        /// Default tax rate to be applied.  This can later be overridden depending on shipping address.
+        /// </summary>
         public decimal DefaultTaxRate { get; set; }
     }
 }

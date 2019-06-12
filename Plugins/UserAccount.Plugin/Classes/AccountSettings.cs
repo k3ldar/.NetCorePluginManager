@@ -27,44 +27,128 @@ using AppSettings;
 
 namespace UserAccount.Plugin
 {
+    /// <summary>
+    /// Settings that affect how the UserAccount.Plugin module is used and configured.
+    /// </summary>
     public sealed class AccountSettings
     {
+        /// <summary>
+        /// Determines whether orders are shown within the website.
+        /// </summary>
         public bool ShowOrders { get; set; }
 
+        /// <summary>
+        /// Detemines whether invoices are shown within the website.
+        /// </summary>
+        /// <value>bool</value>
         public bool ShowInvoices { get; set; }
 
+        /// <summary>
+        /// Show credit cards.
+        /// 
+        /// If you show credit cards you  must never storethe credit card number or other details that could be used by hackers.  
+        /// 
+        /// As well as breaking a number of privacy rules it will leave you open to potential law suits.  Instead store tokenized card details that are encrypted.
+        /// </summary>
+        /// <value>bool</value>
         public bool ShowCreditCards { get; set; }
 
+        /// <summary>
+        /// Show billing address, if you take payments.
+        /// </summary>
+        /// <value>bool</value>
         public bool ShowBillingAddress { get; set; }
 
+        /// <summary>
+        /// Show delivery addresses if you deliver physical products.
+        /// </summary>
+        /// <value>bool</value>
         public bool ShowDeliveryAddress { get; set; }
 
+        /// <summary>
+        /// Show marketing preferences for the user.
+        /// </summary>
+        /// <value>bool</value>
         public bool ShowMarketingPreferences { get; set; }
 
+        /// <summary>
+        /// Shows the licences that are owned by the user.
+        /// </summary>
+        /// <value>bool</value>
         public bool ShowLicences { get; set; }
 
+        /// <summary>
+        /// Show support tickets that the user has created.
+        /// </summary>
+        /// <value>bool</value>
         public bool ShowSupportTickets { get; set; }
 
+        /// <summary>
+        /// Show appointments made by the user, if your website supports appointments.
+        /// </summary>
+        /// <value>bool</value>
         public bool ShowAppointments { get; set; }
 
+        /// <summary>
+        /// Show the downloads section, contains items the user has downloaded.
+        /// </summary>
+        /// <value>bool</value>
         public bool ShowDownloads { get; set; }
 
+        /// <summary>
+        /// Minimum number of upper case characters that have to be in a password.
+        /// 
+        /// Default: 1
+        /// Minimum: 0
+        /// Maximum: 3
+        /// </summary>
+        /// <value>int</value>
         [SettingDefault(1)]
         [SettingRange(0, 3)]
         public int PasswordUppercaseCharCount { get; set; }
 
+        /// <summary>
+        /// Minimum number of lower case characters that have to be in a password.
+        /// 
+        /// Default: 1
+        /// Minimum: 0
+        /// Maximum: 3
+        /// </summary>
+        /// <value>int</value>
         [SettingDefault(1)]
         [SettingRange(0, 3)]
         public int PasswordLowercaseCharCount { get; set; }
 
+        /// <summary>
+        /// Minimum number of numbers that must appear within a password.
+        /// 
+        /// Default: 1
+        /// Minimum: 0
+        /// Maximum: 3
+        /// </summary>
+        /// <value>int</value>
         [SettingDefault(1)]
         [SettingRange(0, 3)]
         public int PasswordNumberCharCount { get; set; }
 
+        /// <summary>
+        /// Minimum number of special characters that must appear within a password.
+        /// 
+        /// Default: 1
+        /// Minimum: 0
+        /// Maximum: 3
+        /// </summary>
+        /// <value>int</value>
         [SettingDefault(1)]
         [SettingRange(0, 3)]
         public int PasswordSpecialCharCount { get; set; }
 
+        /// <summary>
+        /// Special password characters that can be used for login password.
+        /// 
+        /// Default: £$^*()#,.&lt;&gt;?:;!@
+        /// </summary>
+        /// <value>string</value>
         [SettingDefault("£$^*()#,.<>?:;!@")]
         public string PasswordSpecialCharacters { get; set; }
     }

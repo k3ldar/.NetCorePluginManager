@@ -31,7 +31,7 @@ using SharedPluginFeatures;
 
 namespace AspNetCore.PluginManager
 {
-    public sealed class PluginInstance : IPlugin
+    internal sealed class PluginInstance : IPlugin
     {
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {

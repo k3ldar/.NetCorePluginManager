@@ -27,7 +27,7 @@ using System;
 
 namespace SieraDeltaGeoIp.Plugin
 {
-    public class IpCity : IComparable
+    internal class IpCity : IComparable
     {
         #region Constructors
 

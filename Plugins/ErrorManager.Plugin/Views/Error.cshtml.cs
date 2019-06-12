@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace ErrorManager.Plugin.Pages
 {
+#pragma warning disable CS1591
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public class ErrorModel : PageModel
     {
@@ -16,4 +17,5 @@ namespace ErrorManager.Plugin.Pages
             RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier;
         }
     }
+#pragma warning restore CS1591
 }

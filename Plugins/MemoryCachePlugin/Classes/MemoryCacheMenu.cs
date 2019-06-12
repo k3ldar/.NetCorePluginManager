@@ -29,30 +29,42 @@ using System.Text;
 using Shared.Classes;
 using SharedPluginFeatures;
 
+#pragma warning disable CS1591
+
 namespace MemoryCache.Plugin.Classes
 {
+    /// <summary>
+    /// Returns statistical data on the usage of available memory caches and can 
+    /// be viewed within SystemAdmin.Plugin.  
+    /// 
+    /// This class descends from SystemAdminSubMenu.
+    /// </summary>
     public class MemoryCacheMenu : SystemAdminSubMenu
     {
         public override string Action()
         {
-            return (String.Empty);
+            return String.Empty;
         }
 
         public override string Area()
         {
-            return (String.Empty);
+            return String.Empty;
         }
 
         public override string Controller()
         {
-            return (String.Empty);
+            return String.Empty;
         }
 
         public override Enums.SystemAdminMenuType MenuType()
         {
-            return (Enums.SystemAdminMenuType.Grid);
+            return Enums.SystemAdminMenuType.Grid;
         }
 
+        /// <summary>
+        /// Returns data on the number of MemoryCaches in use, the number of items and age available in MemoryCachePlugin requests.
+        /// </summary>
+        /// <returns>string</returns>
         public override string Data()
         {
             StringBuilder Result = new StringBuilder("Name|Age|Item Count\r");
@@ -64,27 +76,29 @@ namespace MemoryCache.Plugin.Classes
                 Result.Append($"{CacheManager.GetCacheCount(i)}\r");
             }
 
-            return (Result.ToString().Trim());
+            return Result.ToString().Trim();
         }
 
         public override string Name()
         {
-            return ("Memory Cache");
+            return "Memory Cache";
         }
 
         public override string ParentMenuName()
         {
-            return ("System");
+            return "System";
         }
 
         public override int SortOrder()
         {
-            return (0);
+            return 0;
         }
 
         public override string Image()
         {
-            return (String.Empty);
+            return String.Empty;
         }
     }
 }
+
+#pragma warning restore CS1591

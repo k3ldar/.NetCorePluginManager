@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>SeoPlugin</name>
+    </assembly>
+    <members>
+        <member name="T:SeoPlugin.SeoMiddleware">
+            <summary>
+            Seo middleware class used to process Seo requests within the request pipeline.
+            </summary>
+        </member>
+        <member name="T:SeoPlugin.SeoMiddlewareExtender">
+            <summary>
+            Seo Middleware Extender
+            </summary>
+        </member>
+        <member name="M:SeoPlugin.SeoMiddlewareExtender.UseSeo(Microsoft.AspNetCore.Builder.IApplicationBuilder)">
+            <summary>
+            IApplicationBuilder extender method.
+            
+            Allows easy use of registering SeoPlugin
+            </summary>
+            <param name="builder">IApplicationBuilder instance</param>
+            <returns>IApplicationBuilder</returns>
+            <example><pre style="font-family:Consolas;font-size:13px;color:black;background:white;"><span style="color:#1f377f;">app</span>.<span style="color:#74531f;">UseSeo</span>();</pre></example>
+        </member>
+        <member name="T:SeoPlugin.Classes.SystemAdmin.SeoTimingsSubMenu">
+            <summary>
+            Returns Timings information for all time spent processing Seo requests and can 
+            be viewed within SystemAdmin.Plugin.  
+            
+            This class descends from SystemAdminSubMenu.
+            </summary>
+        </member>
+        <member name="M:SeoPlugin.Classes.SystemAdmin.SeoTimingsSubMenu.Data">
+            <summary>
+            Returns Timings data in milliseconds for time spent processing by SeoPlugin requests.
+            </summary>
+            <returns>string</returns>
+        </member>
+        <member name="T:SeoPlugin.Initialisation">
+            <summary>
+            Implements IPlugin which allows the SeoPlugin module to be
+            loaded as a plugin module
+            </summary>
+        </member>
+    </members>
+</doc>

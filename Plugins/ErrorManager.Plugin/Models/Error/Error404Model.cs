@@ -30,15 +30,27 @@ using SharedPluginFeatures;
 
 namespace ErrorManager.Plugin.Models.Error
 {
+    /// <summary>
+    /// View model for a 404 error.
+    /// </summary>
     public sealed class Error404Model : BaseModel
     {
         #region Constructors
 
+        /// <summary>
+        /// Default constructor
+        /// </summary>
         public Error404Model()
         {
 
         }
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="breadcrumbs">List of breadcrumbs to be displayed on the page.</param>
+        /// <param name="cartSummary">Shopping cart summary.</param>
+        /// <param name="title">Title to be displayed on the page.</param>
         public Error404Model(in List<BreadcrumbItem> breadcrumbs, in ShoppingCartSummary cartSummary, 
             string title)
             : base (breadcrumbs, cartSummary)
@@ -49,6 +61,14 @@ namespace ErrorManager.Plugin.Models.Error
             Title = title;
         }
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="breadcrumbs">List of breadcrumbs to be displayed on the page.</param>
+        /// <param name="cartSummary">Shopping cart summary.</param>
+        /// <param name="title">Title to be displayed on the page.</param>
+        /// <param name="message">Message to be displayed to the user.</param>
+        /// <param name="image">Image to be displayed on the page.</param>
         public Error404Model(in List<BreadcrumbItem> breadcrumbs, in ShoppingCartSummary cartSummary, 
             string title, string message, string image)
             : this(breadcrumbs, cartSummary, title)
@@ -65,10 +85,22 @@ namespace ErrorManager.Plugin.Models.Error
 
         #region Properties
 
+        /// <summary>
+        /// Title to be displayed on the page.
+        /// </summary>
+        /// <value>string</value>
         public string Title { get; set; }
 
+        /// <summary>
+        /// Message to be displayed to the user.
+        /// </summary>
+        /// <value>string</value>
         public string Message { get; set; }
 
+        /// <summary>
+        /// Image to be displayed on the page.
+        /// </summary>
+        /// <value>string</value>
         public string Image { get; set; }
 
         #endregion Properties

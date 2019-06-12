@@ -29,8 +29,14 @@ using Microsoft.Extensions.DependencyInjection;
 
 using SharedPluginFeatures;
 
+#pragma warning disable CS1591
+
 namespace Company.Plugin.Classes
 {
+    /// <summary>
+    /// Implements IPlugin which allows the CompanyPlugin module to be
+    /// loaded as a plugin module
+    /// </summary>
     public class PluginClass : IPlugin, IPluginVersion
     {
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
@@ -59,3 +65,5 @@ namespace Company.Plugin.Classes
         }
     }
 }
+
+#pragma warning restore CS1591

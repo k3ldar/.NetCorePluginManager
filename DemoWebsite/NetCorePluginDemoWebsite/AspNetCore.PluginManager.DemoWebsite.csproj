@@ -9,6 +9,7 @@
     <RazorCompileOnBuild>false</RazorCompileOnBuild>
     <RazorCompileOnPublish>false</RazorCompileOnPublish>
     <MvcRazorExcludeRefAssembliesFromPublish>false</MvcRazorExcludeRefAssembliesFromPublish>
+    <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -24,11 +25,14 @@
   <ItemGroup>
     <Compile Remove="Plugin\**" />
     <Compile Remove="Views\Account\**" />
+    <Compile Remove="Views\SystemAdmin\**" />
     <Content Remove="Plugin\**" />
     <Content Remove="Views\Account\**" />
+    <Content Remove="Views\SystemAdmin\**" />
     <EmbeddedResource Remove="Plugin\**" />
     <None Remove="Plugin\**" />
     <None Remove="Views\Account\**" />
+    <None Remove="Views\SystemAdmin\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -73,7 +77,7 @@
   </ItemGroup>
   
   <ItemGroup>
-    <PackageReference Include="SC.Shared.Library.Core" Version="2.8.3" />
+    <PackageReference Include="SC.Shared.Library.Core" Version="2.9.4" />
     <PackageReference Include="FirebirdSql.Data.FirebirdClient" Version="6.6.0" />    
   </ItemGroup>
 
@@ -85,11 +89,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Views\Docs\" />
     <Folder Include="Views\Error\" />
     <Folder Include="Views\Helpdesk\" />
     <Folder Include="Views\Login\" />
     <Folder Include="Views\Services\" />
-    <Folder Include="Views\SystemAdmin\" />
     <Folder Include="wwwroot\images\Download\" />
   </ItemGroup>
 

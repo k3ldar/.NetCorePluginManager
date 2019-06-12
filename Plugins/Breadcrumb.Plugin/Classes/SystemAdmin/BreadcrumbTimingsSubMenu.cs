@@ -27,8 +27,16 @@ using System;
 
 using SharedPluginFeatures;
 
+#pragma warning disable CS1591
+
 namespace Breadcrumb.Plugin.Classes.SystemAdmin
 {
+    /// <summary>
+    /// Returns Timings information for all time spent processing Breadcrumb requests and can 
+    /// be viewed within SystemAdmin.Plugin.  
+    /// 
+    /// This class descends from SystemAdminSubMenu.
+    /// </summary>
     public sealed class BreadcrumbTimingsSubMenu : SystemAdminSubMenu
     {
         public override string Action()
@@ -46,6 +54,10 @@ namespace Breadcrumb.Plugin.Classes.SystemAdmin
             return (String.Empty);
         }
 
+        /// <summary>
+        /// Returns Timings data in milliseconds for time spent processing by Breadcrumb.Plugin requests.
+        /// </summary>
+        /// <returns>string</returns>
         public override string Data()
         {
             string Result = "Setting|Value";
@@ -85,3 +97,5 @@ namespace Breadcrumb.Plugin.Classes.SystemAdmin
         }
     }
 }
+
+#pragma warning restore CS1591

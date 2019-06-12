@@ -38,12 +38,13 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
 
         #region Product Groups
 
-        public ProductGroup ProductGroupGet(int id)
+        public ProductGroup ProductGroupGet(in int id)
         {
-            return ProductGroupsGet().Where(pg => pg.Id == id).FirstOrDefault();
+            int groupId = id;
+            return ProductGroupsGet().Where(pg => pg.Id == groupId).FirstOrDefault();
         }
 
-        public IEnumerable<ProductGroup> ProductGroupsGet()
+        public List<ProductGroup> ProductGroupsGet()
         {
             return new List<ProductGroup>()
             {
@@ -68,14 +69,16 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
             };
         }
 
-        public List<Product> GetProducts(ProductGroup productGroup, in int page, in int pageSize)
+        public List<Product> GetProducts(in ProductGroup productGroup, in int page, in int pageSize)
         {
-            return GetProducts(page, pageSize).Where(p => p.ProductGroupId == productGroup.Id).ToList();
+            ProductGroup prodGroup = productGroup;
+            return GetProducts(page, pageSize).Where(p => p.ProductGroupId == prodGroup.Id).ToList();
         }
 
-        public Product GetProduct(int id)
+        public Product GetProduct(in int id)
         {
-            return GetProducts(1, 10000).Where(p => p.Id == id).FirstOrDefault();
+            int prodId = id;
+            return GetProducts(1, 10000).Where(p => p.Id == prodId).FirstOrDefault();
         }
 
         #endregion Products

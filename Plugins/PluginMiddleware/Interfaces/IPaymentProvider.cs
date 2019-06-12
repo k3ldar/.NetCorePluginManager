@@ -33,6 +33,12 @@ using Shared.Classes;
 
 namespace Middleware
 {
+    /// <summary>
+    /// PaymentProvider instance, this interface represents an individual payment provider against which
+    /// a shopping cart could be checked out against.
+    /// 
+    /// This item must be implemented by the host application and made available via DI.
+    /// </summary>
     public interface IPaymentProvider
     {
         /// <summary>
@@ -40,41 +46,43 @@ namespace Middleware
         /// 
         /// i.e.  GPB;USD  or GBP  or GBP;USD;EUR
         /// </summary>
-        /// <returns>i.e.  GPB;USD  or GBP  or GBP;USD;EUR</returns>
+        /// <returns>string</returns>
         string GetCurrencies();
 
         /// <summary>
-        /// Test Execute Method for debugging
+        /// Test Execute Method for debugging purposes.
         /// </summary>
-        /// <returns>True if test passed, otherwise false</returns>
+        /// <returns>bool.  True if the test passed.</returns>
         bool ExecuteTest(in NVPCodec codec);
 
         /// <summary>
         /// Execute method, completes the payment using the interface specified
         /// </summary>
-        /// <param name="order">Order being processed for payment</param>
-        /// <param name="paymentStatus"></param>
-        /// <param name="userSession"></param>
-        /// <param name="context"></param>
+        /// <param name="request">Current HttpRequest</param>
+        /// <param name="order">Order who's payment attempt is being made against.</param>
+        /// <param name="paymentStatus">Current PaymentStatus</param>
+        /// <param name="userSession">UserSession for the user who is making the payment.</param>
+        /// <param name="urlParameters">Url where the user is to be redirected to, so that the order can be completed.</param>
+        /// <returns>bool.  True if the payment was successfully executed.  This could vary depending on the payment provider in question.</returns>
         bool Execute(in HttpRequest request, in Order order, in PaymentStatus paymentStatus, 
             in UserSession userSession, out string urlParameters);
 
         /// <summary>
-        /// Returns the name of the payment provider
+        /// Returns the name of the payment provider.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>string.  Unique name of payment provider.</returns>
         string Name();
 
         /// <summary>
         /// Determines wether the payment provider is active or not
         /// </summary>
-        /// <returns></returns>
+        /// <returns>bool.  True if the payment provider is ok to use.</returns>
         bool Enabled();
 
         /// <summary>
         /// Unique Id for payment provider
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Guid</returns>
         Guid UniqueId();
     }
 }

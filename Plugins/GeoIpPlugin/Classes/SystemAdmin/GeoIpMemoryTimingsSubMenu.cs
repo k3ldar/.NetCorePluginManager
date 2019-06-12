@@ -27,8 +27,16 @@ using System;
 
 using SharedPluginFeatures;
 
+#pragma warning disable CS1591
+
 namespace GeoIp.Plugin.Classes.SystemAdmin
 {
+    /// <summary>
+    /// Returns Timings information for all time spent loading Ip data from a data store and can 
+    /// be viewed within SystemAdmin.Plugin.  
+    /// 
+    /// This class descends from SystemAdminSubMenu.
+    /// </summary>
     public class GeoIpMemoryTimingsSubMenu : SystemAdminSubMenu
     {
         public override string Action()
@@ -46,6 +54,10 @@ namespace GeoIp.Plugin.Classes.SystemAdmin
             return (String.Empty);
         }
 
+        /// <summary>
+        /// Returns Timings data in milliseconds for time spent processing by GeoIpPlugin memory loading.
+        /// </summary>
+        /// <returns>string</returns>
         public override string Data()
         {
             string Result = "Setting|Value";
@@ -85,3 +97,5 @@ namespace GeoIp.Plugin.Classes.SystemAdmin
         }
     }
 }
+
+#pragma warning restore CS1591

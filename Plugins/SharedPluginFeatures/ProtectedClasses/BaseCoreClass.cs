@@ -24,6 +24,8 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+ #pragma warning disable CS1591
+
 namespace SharedPluginFeatures
 {
     public class BaseCoreClass
@@ -34,3 +36,5 @@ namespace SharedPluginFeatures
         #endregion Protected Methods
     }
 }
+
+#pragma warning restore CS1591

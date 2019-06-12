@@ -29,8 +29,14 @@ using Microsoft.AspNetCore.Hosting;
 
 using SharedPluginFeatures;
 
+#pragma warning disable CS1591
+
 namespace GeoIp.Plugin
 {
+    /// <summary>
+    /// Implements IPlugin which allows the GeoIp.Plugin module to be
+    /// loaded as a plugin module
+    /// </summary>
     public class Initialisation : IPlugin
     {
         #region Constructors
@@ -72,3 +78,5 @@ namespace GeoIp.Plugin
         #endregion IPlugin Methods
     }
 }
+
+#pragma warning restore CS1591

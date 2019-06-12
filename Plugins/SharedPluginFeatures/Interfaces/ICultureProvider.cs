@@ -27,10 +27,25 @@ using System.Globalization;
 
 namespace SharedPluginFeatures
 {
+    /// <summary>
+    /// This interface is implemented by the Localization.Plugin module and can be used to 
+    /// determine which cultures are currently supported.  An instance of this interface is
+    /// available via the DI container.
+    /// </summary>
     public interface ICultureProvider
     {
+        /// <summary>
+        /// Determines whether a specific culture is valid and implemented by the localization
+        /// plugin module.
+        /// </summary>
+        /// <param name="cultureInfo">CultureInfo instance being checked.</param>
+        /// <returns>bool</returns>
         bool IsCultureValid(in CultureInfo cultureInfo);
 
+        /// <summary>
+        /// Retrieves a list of available culture codes within the Localization.Plugin module.
+        /// </summary>
+        /// <returns>string[]</returns>
         string[] AvailableCultures();
     }
 }

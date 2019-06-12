@@ -28,10 +28,24 @@ using System.Globalization;
 
 namespace SharedPluginFeatures
 {
+    /// <summary>
+    /// Shopping cart summary, used if the website is implementing a shopping cart and data needs to be displayed on each page.
+    /// </summary>
     public class ShoppingCartSummary
     {
         #region Constructors
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="id">Unique id for shopping cart.</param>
+        /// <param name="totalItems">Total number of items in the shopping cart.</param>
+        /// <param name="subTotal">Sub total value of the shopping cart.</param>
+        /// <param name="discountRate">Discount applied to the shopping cart.</param>
+        /// <param name="shipping">Shipping rate applied to the shopping cart.</param>
+        /// <param name="taxRate">Tax rate applied to the shopping cart.</param>
+        /// <param name="culture">Culture used by the shopping cart.</param>
+        /// <param name="currencyCode">Currency code used by the shopping cart.</param>
         public ShoppingCartSummary(in long id, in int totalItems, in decimal subTotal,
             in decimal discountRate, in decimal shipping, in decimal taxRate, 
             in CultureInfo culture, in string currencyCode)
@@ -65,6 +79,10 @@ namespace SharedPluginFeatures
 
         #region Public Methods
 
+        /// <summary>
+        /// Resets the unique id associated with the shopping cart.
+        /// </summary>
+        /// <param name="id">Unique id for the cart.</param>
         public void ResetShoppingCartId(in long id)
         {
             if (Id != 0)
@@ -77,6 +95,10 @@ namespace SharedPluginFeatures
 
         #region Protected Methods
 
+        /// <summary>
+        /// Resets the total number of items within the cart.
+        /// </summary>
+        /// <param name="totalItems">Total number of items within the cart.</param>
         protected void ResetTotalItems(in int totalItems)
         {
             if (totalItems < 0)
@@ -85,6 +107,11 @@ namespace SharedPluginFeatures
             TotalItems = totalItems;
         }
 
+        /// <summary>
+        /// Forces the total costs for the cart to be reset.
+        /// </summary>
+        /// <param name="cost">New cost to be applied to the shopping cart.</param>
+        /// <param name="cultureInfo">Culture to be applied to the shopping cart.</param>
         protected void ResetTotalCost(in decimal cost, in CultureInfo cultureInfo)
         {
             if (cultureInfo == null)
@@ -93,12 +120,20 @@ namespace SharedPluginFeatures
             ResetTotalCost(cost);
         }
 
+        /// <summary>
+        /// Forces the shipping value to be reset within the shopping cart.
+        /// </summary>
+        /// <param name="shipping">Shipping charges which will apply.</param>
         protected void ResetShipping(in decimal shipping)
         {
             Shipping = shipping;
             ResetTotalCost(SubTotal);
         }
 
+        /// <summary>
+        /// Forces the total costs for the cart to be reset.
+        /// </summary>
+        /// <param name="cost">New cost to be applied to the shopping cart.</param>
         protected void ResetTotalCost(in decimal cost)
         {
             if (cost < 0)
@@ -119,26 +154,59 @@ namespace SharedPluginFeatures
 
         #region Properties
 
+        /// <summary>
+        /// Unique id representing the shopping cart.
+        /// </summary>
         public long Id { get; private set; }
 
+        /// <summary>
+        /// Total number of items within the shopping cart.
+        /// </summary>
         public int TotalItems { get; private set; }
 
+        /// <summary>
+        /// Sub total of the shopping cart.
+        /// </summary>
         public decimal SubTotal { get; private set; }
 
+        /// <summary>
+        /// Rate at which discount has been applied to the shopping cart.
+        /// </summary>
         public decimal DiscountRate { get; private set; }
 
+        /// <summary>
+        /// Total discount value applied to the shopping cart.
+        /// </summary>
         public decimal Discount { get; private set; }
 
+        /// <summary>
+        /// Rate at which tax has been applied to the shopping cart.
+        /// </summary>
         public decimal TaxRate { get; private set; }
 
+        /// <summary>
+        /// Total tax applied to the shopping cart.
+        /// </summary>
         public decimal Tax { get; private set; }
 
+        /// <summary>
+        /// Total cost of shipping for the cart.
+        /// </summary>
         public decimal Shipping { get; private set; }
 
+        /// <summary>
+        /// Total value of the shopping cart.
+        /// </summary>
         public decimal Total { get; private set; }
 
+        /// <summary>
+        /// The culture to be used for the shopping cart.
+        /// </summary>
         public CultureInfo Culture { get; private set; }
 
+        /// <summary>
+        /// Three letter code depicting the currency used for the cart.
+        /// </summary>
         public string CurrencyCode { get; private set; }
 
         #endregion Properties

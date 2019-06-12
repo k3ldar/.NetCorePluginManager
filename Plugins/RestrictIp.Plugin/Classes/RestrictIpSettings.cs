@@ -27,10 +27,17 @@ using System.Collections.Generic;
 
 namespace RestrictIp.Plugin
 {
+    /// <summary>
+    /// Loads settings us ISettingsProvider to configure the routes that are restricted to
+    /// specific Ip addresses etc using RestrictedIpRouteAttribute.
+    /// </summary>
     public class RestrictIpSettings
     {
         #region Constructors
 
+        /// <summary>
+        /// Default constructor
+        /// </summary>
         public RestrictIpSettings()
         {
             RouteRestrictions = new Dictionary<string, string>();
@@ -40,8 +47,16 @@ namespace RestrictIp.Plugin
 
         #region Properties
 
+        /// <summary>
+        /// Determines whether the middleware router is disabled or not.
+        /// </summary>
+        /// <value>bool</value>
         public bool Disabled { get; set; }
 
+        /// <summary>
+        /// Dictionary of restricted routes
+        /// </summary>
+        /// <value>Dictionary&lt;string, string&gt;</value>
         public Dictionary<string, string> RouteRestrictions { get; set; }
 
         #endregion Properties

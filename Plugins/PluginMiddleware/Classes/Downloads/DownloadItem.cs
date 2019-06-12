@@ -27,16 +27,30 @@ using System;
 
 namespace Middleware.Downloads
 {
+    /// <summary>
+    /// Represents a downloadable file that is used with IDownloadProvider and DownloadPlugin module.
+    /// </summary>
     public sealed class DownloadItem
     {
         #region Constructors
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
         public DownloadItem()
         {
             Icon = String.Empty;
             Size = String.Empty;
         }
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="id">Unique id of download item.</param>
+        /// <param name="name">Name of downloadable item.</param>
+        /// <param name="description">Description of downloadable item.</param>
+        /// <param name="version">Current version of downloadable item.</param>
+        /// <param name="filename">Name of the physical file for the downlaod item.</param>
         public DownloadItem(in int id, in string name, in string description, 
             in string version, in string filename)
             : this()
@@ -57,6 +71,16 @@ namespace Middleware.Downloads
             Filename = filename;
         }
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="id">Unique id of download item.</param>
+        /// <param name="name">Name of downloadable item.</param>
+        /// <param name="description">Description of downloadable item.</param>
+        /// <param name="version">Current version of downloadable item.</param>
+        /// <param name="filename">Name of the physical file for the downlaod item.</param>
+        /// <param name="icon">Icon used to represent the download item.</param>
+        /// <param name="size">Size of the downloadable file.</param>
         public DownloadItem(in int id, in string name, in string description,
             in string version, in string filename, in string icon, in string size)
             : this(id, name, description, version, filename)
@@ -69,18 +93,46 @@ namespace Middleware.Downloads
 
         #region Properties
 
+        /// <summary>
+        /// Unique id of download item.
+        /// </summary>
+        /// <value>int</value>
         public int Id { get; private set; }
 
+        /// <summary>
+        /// Name of downloadable item.
+        /// </summary>
+        /// <value>string</value>
         public string Name { get; private set; }
 
+        /// <summary>
+        /// Description of downloadable item.
+        /// </summary>
+        /// <value>string</value>
         public string Description { get; private set; }
 
+        /// <summary>
+        /// Current version of downloadable item.
+        /// </summary>
+        /// <value>string</value>
         public string Version { get; private set; }
 
+        /// <summary>
+        /// Name of the physical file for the downlaod item.
+        /// </summary>
+        /// <value>string</value>
         public string Filename { get; private set; }
 
+        /// <summary>
+        /// Icon used to represent the download item.
+        /// </summary>
+        /// <value>string</value>
         public string Icon { get; set; }
 
+        /// <summary>
+        /// Size of the downloadable file.
+        /// </summary>
+        /// <value>string</value>
         public string Size { get; set; }
 
         #endregion Properties

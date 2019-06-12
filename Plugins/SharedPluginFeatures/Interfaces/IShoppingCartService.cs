@@ -26,10 +26,24 @@
 
 namespace SharedPluginFeatures
 {
+    /// <summary>
+    /// This interface should be implemented by the host application or a type of middleware or
+    /// business object layer and should be available to the ShoppingCart.Plugin via DI.
+    /// </summary>
     public interface IShoppingCartService
     {
+        /// <summary>
+        /// Retrieves a summary for the specified cart id.
+        /// </summary>
+        /// <param name="shoppingCartId">ShoppingCartId, unique value identifying a customers shopping cart.</param>
+        /// <returns>ShoppingCartSummary</returns>
         ShoppingCartSummary GetSummary(in long shoppingCartId);
 
+        /// <summary>
+        /// Retrieves the key that is used to encrypt and decrypt the shopping cart data held
+        /// within a users cookie.
+        /// </summary>
+        /// <returns>string</returns>
         string GetEncryptionKey();
     }
 }

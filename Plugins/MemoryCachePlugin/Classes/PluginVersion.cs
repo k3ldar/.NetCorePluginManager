@@ -27,11 +27,18 @@ using SharedPluginFeatures;
 
 namespace MemoryCache.Plugin.Classes
 {
+    /// <summary>
+    /// Implements IPluginVersion
+    /// </summary>
     public class PluginVersion : IPluginVersion
     {
+        /// <summary>
+        /// Returns the current internal plugin version supported by MemoryCachePlugin
+        /// </summary>
+        /// <returns>ushort</returns>
         public ushort GetVersion()
         {
-            return (1);
+            return 1;
         }
     }
 }

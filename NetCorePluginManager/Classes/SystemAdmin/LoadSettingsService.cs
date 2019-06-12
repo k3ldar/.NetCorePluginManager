@@ -34,7 +34,7 @@ using SharedPluginFeatures;
 
 namespace AspNetCore.PluginManager.Classes
 {
-    public class LoadSettingsService : ILoadSettingsService
+    internal class LoadSettingsService : ILoadSettingsService
     {
         public T LoadSettings<T>(in string jsonFile, in string name)
         {

@@ -36,6 +36,11 @@ using Shared.Classes;
 
 namespace ShoppingCartPlugin.Classes.PaymentProviders
 {
+    /// <summary>
+    /// Cash on delivry payment provider.  This payment provider is used when a user orders online, but then the goods are delivered and payment is taken upon delivery.
+    /// 
+    /// This class implements IPaymentProvider interface.
+    /// </summary>
     public sealed class CashOnDelivery : IPaymentProvider
     {
         #region Private Members
