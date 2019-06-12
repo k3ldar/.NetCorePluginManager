@@ -1,0 +1,19 @@
+﻿@model SharedPluginFeatures.BaseModel
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
+
+@{
+    ViewData["Title"] = "Contact";
+}
+<div class="bc">@Html.Raw(Model.BreadcrumbData())</div>
+
+<h2>@Localizer[nameof(Languages.LanguageStrings.Contact)]</h2>
+<h3>@ViewData["Message"]</h3>
+
+<address>
+    <p>Put your address here</p>
+</address>
+
+<address>
+    <strong>Support:</strong> <a href="mailto:Support@example.com">Support@example.com</a><br />
+    <strong>Marketing:</strong> <a href="mailto:Marketing@example.com">Marketing@example.com</a>
+</address>

@@ -1,0 +1,66 @@
+﻿@model SystemAdmin.Plugin.Models.MapViewModel
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
+
+@{
+    ViewData["Title"] = "Grid";
+}
+
+<link rel="stylesheet" href="~/css/SystemAdmin.css" asp-append-version="true" />
+
+<div class="bc">@Html.Raw(Model.BreadcrumbData())</div>
+
+<h2>@Localizer[Model.Title]</h2>
+<div class="mapContent">
+    <div class="mapLegend">
+        <p>
+            <img src="https://maps.google.com/mapfiles/ms/icons/blue.png" alt="blue" /> = @Localizer["Visitor"] <br />
+            <img src="https://maps.google.com/mapfiles/ms/icons/green.png" alt="green" /> = @Localizer["RegisteredUser"] <br />
+            <img src="https://maps.google.com/mapfiles/ms/icons/green-dot.png" alt="green-dot" /> = @Localizer["RegisteredUserMobile"] <br />
+            <img src="https://maps.google.com/mapfiles/ms/icons/blue-pushpin.png" alt="blue-pushpin" /> = @Localizer["Sale"] <br />
+            <img src="https://maps.google.com/mapfiles/ms/icons/grn-pushpin.png" alt="grn-pushpin" /> = @Localizer["SaleMobile"] <br />
+            <img src="https://maps.google.com/mapfiles/ms/icons/yellow.png" alt="yellow" /> = @Localizer["Bounced"]  <br />
+            <img src="https://maps.google.com/mapfiles/ms/icons/orange.png" alt="orange" /> = @Localizer["Bot"]  <br />
+        </p>
+    </div>
+    <div>
+        <div class="googleMap">
+            <div id="gmap_canvas" style="height:500px;width:800px;">
+
+            </div>
+        </div>
+    </div>
+    <div class="clear"><!-- clear --></div>
+</div>
+
+<script type="text/javascript" src='https://maps.googleapis.com/maps/api/js?v=3&key=@Model.GoogleMapApiKey'></script>
+
+<script type='text/javascript'>
+    function init_map() {
+        var locations = [@Html.Raw(Model.MapLocationData)];
+        var myOptions = { zoom: 2, center: new google.maps.LatLng(0, 0), mapTypeId: google.maps.MapTypeId.ROADMAP };
+        map = new google.maps.Map(document.getElementById('gmap_canvas'), myOptions);
+        var mapIcon = 'https://maps.google.com/mapfiles/ms/icons/red.png';
+
+        for (var i = 0; i < locations.length; i++) {
+            var location = locations[i];
+            var contentString = location[0];
+            mapIcon = 'https://maps.google.com/mapfiles/ms/icons/' + location[6] + '.png';
+
+            var marker = new google.maps.Marker({
+                position: { lat: location[1], lng: location[2] },
+                map: map,
+                title: location[0],
+                optimized: false,
+                buborek: contentString
+            });
+
+
+            marker.setIcon(mapIcon);
+
+            google.maps.event.addListener(marker, 'click', function () {
+                infowindow.setContent(this.buborek);
+                infowindow.open(map, this);
+            });
+        }
+    } google.maps.event.addDomListener(window, 'load', init_map);
+</script>
