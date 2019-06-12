@@ -511,7 +511,9 @@ namespace DocumentationPlugin.Classes
                 if (doc.AssemblyName == document.AssemblyName && doc.DocumentType == DocumentType.Class)
                 {
                     string route = $"/docs/Document/{HtmlHelper.RouteFriendlyName(document.Title)}/{HtmlHelper.RouteFriendlyName(doc.Title)}/";
-                    data.KeyNames.Add(route, doc.Title);
+
+                    if (!data.KeyNames.ContainsKey(route))
+                        data.KeyNames.Add(route, doc.Title);
                 }
             }
         }
@@ -619,7 +621,7 @@ namespace DocumentationPlugin.Classes
 
             if (File.Exists(_fileNameFile))
             {
-                string[] fileNames = Utilities.FileRead(_fileNameFile, false).Split('\n');
+                string[] fileNames = Utilities.FileRead(_fileNameFile, false).Replace("\r", "").Split('\n');
 
                 foreach (string s in fileNames)
                     Result.Add(s);
