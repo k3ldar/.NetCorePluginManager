@@ -29,8 +29,6 @@ using SharedPluginFeatures;
 
 using AppSettings;
 
-#pragma warning disable IDE1006
-
 namespace GeoIp.Plugin
 {
     /// <summary>

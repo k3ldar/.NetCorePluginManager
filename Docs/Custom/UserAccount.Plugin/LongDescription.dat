@@ -1,3 +1,33 @@
 <p>
-To be completed
+The user account plugin module is a web based plugin which offers default user account options such as:
+</p>
+<ul>
+<li>Create user accounts.</li>
+<li>Ability to provide a billing address.</li>
+<li>Ability to change a password.</li>
+<li>Add and edit multiple delivery addresses.</li>
+<li>Personalised downloadable content.</li>
+<li>Display Invoices.</li>
+<li>Display Orders.</li>
+<li>Select default language.</li>
+<li>Manage user licences.</li>
+<li>Manage marketing preferences.</li>
+<li>Manage contact details.</li>
+<li></li>
+</ul>
+<h3>Integration with Middleware</h3>
+<p>
+The IAccountProvider interface should be implemented by the host application, this contains all methods that are required to interact with the UserAccount plugin module.
+</p>
+<h3>Customise Account Pages</h3>
+<p>
+As with all website plugin modules, the pages that are created in /Views/Account folder can be customised and personalised from their default settings to match the theme of the website where they will be shown.
+</p>
+<h3>Settings</h3>
+<p>
+Please view AccountSettings for details on how to customize the UserAccount plugin.
+</p>
+<h3>How to use</h3>
+<p>
+The UserAccount plugin should be loaded using the Plugin Manager.
 </p>

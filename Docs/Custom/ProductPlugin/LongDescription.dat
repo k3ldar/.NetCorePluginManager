@@ -1,3 +1,37 @@
 <p>
-To be completed
+The Product plugin provides a convenient and easy way to display products within a website.  Each product can have many properties that will be shown depending on whether they exist or not.  The current list of supported properties are:
+</p>
+<ul>
+<li>Name.</li>
+<li>Multiple images.</li>
+<li>Description.</li>
+<li>Tag Line.</li>
+<li>Primary and sub categories.</li>
+<li>Features.</li>
+<li>Video Link</li>
+<li>Integration with the ShoppingCartplugin module.</li>
+<li>Name based product routes.</li>
+<li>Stock Availability.</li>
+<li>New Product.</li>
+<li>Featured Product.</li>
+<li>Best Selling Product.</li>
+</ul>
+<h3>Integration with Middleware</h3>
+<p>
+The IProductProvider interface should be implemented by the host application, this contains all methods that are required to interact with the Product plugin module.
+</p>
+<h3>Product Groups</h3>
+<p>Products are grouped into individual product groups for easy viweing within the site.  Products can be categorized into one or more product groups, they must have a primary group.
+</p>
+<h3>Customise Product Pages</h3>
+<p>
+As with all website plugin modules, the pages that are created in /Views/Product folder can be customised and personalised from their default settings to match the theme of the website where they will be shown.
+</p>
+<h3>Settings</h3>
+<p>
+Please view ProductControllerSettings for details on how to customize the Product plugin.
+</p>
+<h3>How to use</h3>
+<p>
+The Product plugin should be loaded using the Plugin Manager.
 </p>

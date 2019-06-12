@@ -1,3 +1,16 @@
 <p>
-To be completed
+The Download plugin module has been designed for websites that offer files that can be downloaded.
+</p>
+<h3>Integration with Middleware</h3>
+<p>
+The IDownloadProvider interface should be implemented by the host application, this contains all methods that are required to interact with the Download plugin module.
+</p>
+<h3>Customise Download Pages</h3>
+<p>
+As with all website plugin modules, the pages that are created in /Views/Download folder can be customised and personalised from their default settings to match the theme of the website where they will be shown.
+</p>
+</p>
+<h3>How to use</h3>
+<p>
+The Download plugin should be loaded using the Plugin Manager.
 </p>

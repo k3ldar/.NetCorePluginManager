@@ -1,3 +1,9 @@
 <p>
-To be completed
+The SystemAdmin plugin module is a website based plugin which allows system administrators to view the state of the website as a snapshot, as well as historical data on error and user sessions.
+</p>
+<p>
+At it's core the SystemAdmin will obtain all instances of SystemAdminMainMenu classes, these are created by individual plugin modules, or the primary website itself and provide admin functionality.  It also looks for all instances of SystemAdminSubMenu class, these classes are also implemented by individual plugin modules and provide a rich set of data that can be used to check on the health of the website as a whole.
+</p>
+<p>
+SystemAdmin plugin only displays data exposed by other plugin modules, or the host application.
 </p>
