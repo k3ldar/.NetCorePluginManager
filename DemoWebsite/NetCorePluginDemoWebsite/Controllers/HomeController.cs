@@ -66,19 +66,6 @@ namespace AspNetCore.PluginManager.DemoWebsite.Controllers
             return View(new BaseModel(GetBreadcrumbs(), GetCartSummary()));
         }
 
-        [Breadcrumb(nameof(Languages.LanguageStrings.About))]
-        public IActionResult About()
-        {
-            return View(new BaseModel(GetBreadcrumbs(), GetCartSummary()));
-        }
-
-        [DenySpider]
-        [Breadcrumb(nameof(Languages.LanguageStrings.Privacy))]
-        public IActionResult Privacy()
-        {
-            return View(new BaseModel(GetBreadcrumbs(), GetCartSummary()));
-        }
-
         [DenySpider("*")]
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
