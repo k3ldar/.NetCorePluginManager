@@ -1,0 +1,85 @@
+﻿@model SharedPluginFeatures.BaseModel
+
+@{
+    ViewData["Title"] = "Custom";
+}
+<div class="bc">@Html.Raw(Model.BreadcrumbData())</div>
+
+<link rel="stylesheet" href="~/css/vs.css">
+<script src="~/js/highlight/pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+<h2>Custom Plugins</h2>
+<p>Custom plugins are the most flexble of all, they allow developers to extend a host interface, with minimum of ease.</p>
+<p>There are a multitude of uses for extending an interface, for instance you could have a menu system which is dynamically populated depending on the plugins that are loaded.</p>
+
+<p>Another use would be to display carousel items depending on active marketing campaigns, the list is literally as open as the website being developed.</p>
+
+<h3>How it Works</h3>
+<p>A custom plugin is individual to the host application, a single requirement is a shared library of Interfaces and abstract classes, that can be loaded by the host application.  Plugins provide the implementation to the interface or abstract methods and the host application is responsible for extending the interface.</p>
+
+<img src="~/images/CustomPlugin.png" />
+
+<h3>Example</h3>
+<p>In this example, the host application exposes an abstract MenuItem class, which is overridden in plugins.</p>
+
+<pre><code class="c#">
+namespace SharedPluginFeatures
+{
+    public abstract class MainMenuItem
+    {
+        public abstract string Area();
+
+        public abstract string Controller();
+
+        public abstract string Action();
+
+        public abstract string Name();
+    }
+}
+</code></pre>
+<p>A plugin can create as many MenuItems as it requires, by overriding the MainMenuItem class</p>
+
+<pre><code class="c#">
+public class MiddlewareMenuItem : SharedPluginFeatures.MainMenuItem
+{
+    public override string Area()
+    {
+        return String.Empty;
+    }
+
+    public override string Controller()
+    {
+        return "Services";
+    }
+
+    public override string Action()
+    {
+        return "Middleware";
+    }
+
+    public override string Name()
+    {
+        return "Middleware";
+    }
+}
+</code></pre>
+
+<p>When loading the layout page, the host application can query all plugins for MainMenuItem classes, and receive instantiated classes.</p>
+
+<pre><code class="c#">
+    &lt;div class="navbar-collapse collapse"&gt;
+        &lt;ul class="nav navbar-nav"&gt;
+            &#64;{
+                // dynamically add menu items from plugins
+                ISharedPluginHelper sharedPluginHelper = Startup.GetServiceProvider.GetRequiredService&lt;ISharedPluginHelper&gt;();
+                foreach (MainMenuItem menuItem in sharedPluginHelper.BuildMainMenu())
+                {
+                    &lt;li&gt;&lt;a asp-area="&#64;menuItem.Area()" asp-controller="&#64;menuItem.Controller()" asp-action="&#64;menuItem.Action()"&gt;&#64;menuItem.Name()&lt;/a&gt;&lt;/li&gt;
+                }
+            }
+
+            &lt;li&gt;&lt;a asp-area="" asp-controller="Home" asp-action="About"&gt;About&lt;/a&gt;&lt;/li&gt;
+        &lt;/ul&gt;
+    &lt;/div&gt;
+</code></pre>

@@ -109,7 +109,7 @@
   </ItemGroup>
 
   <ItemGroup Condition="'$(Configuration)'=='Debug'">
-    <ProjectReference Include="..\SharedPluginFeatures\SharedPluginFeatures.csproj" />
+    <ProjectReference Include="..\..\SharedPluginFeatures\SharedPluginFeatures.csproj" />
     <ProjectReference Include="..\..\Languages\Languages.csproj" />
     <ProjectReference Include="..\\MemoryCachePlugin\MemoryCachePlugin.csproj" />
   </ItemGroup>

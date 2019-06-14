@@ -28,7 +28,7 @@
 
   <ItemGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <ProjectReference Include="..\..\NetCorePluginManager\AspNetCore.PluginManager.csproj" />
-    <ProjectReference Include="..\..\Plugins\SharedPluginFeatures\SharedPluginFeatures.csproj" />
+    <ProjectReference Include="..\..\SharedPluginFeatures\SharedPluginFeatures.csproj" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp2.1'">
@@ -76,7 +76,6 @@
     <PackageReference Include="Microsoft.AspNetCore.Razor.Language" Version="2.1.2" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Runtime" Version="2.1.2" />
     <PackageReference Include="Microsoft.AspNetCore.ResponseCaching.Abstractions" Version="2.1.2" />
-    <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.1.2" PrivateAssets="All" />
     <PackageReference Include="Microsoft.AspNetCore.Routing" Version="2.1.2" />
     <PackageReference Include="Microsoft.AspNetCore.Routing.Abstractions" Version="2.1.2" />
     <PackageReference Include="Microsoft.AspNetCore.Server.IISIntegration" Version="2.1.2" />

@@ -1,0 +1,58 @@
+﻿@model ProductPlugin.Models.ProductModel
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
+
+@{
+    ViewData["Title"] = "Index";
+    var image = Shared.Utilities.ResizeImage(Model.Images[0], 288).Replace(".jpg", ".png");
+}
+
+<link rel="stylesheet" href="~/css/Products.css" asp-append-version="true" />
+
+<div class="bc">@Html.Raw(Model.BreadcrumbData())</div>
+
+
+<div class="wrapper">
+    <div class="content">
+        @await Html.PartialAsync("_LeftMenu.cshtml", Model)
+
+        <div class="mainContent">
+            <h1>@Model.Name</h1>
+            <div class="productImg">
+                <asp:HyperLink ID="linkZoom">
+                    <img src="~/images/Products/@image" alt="" border="0" width="288" height="268" />
+                </asp:HyperLink>
+
+                @if (Model.AllowAddToBasket)
+                {
+                    @await Html.PartialAsync("_AddToCart.cshtml", Model.AddToCart);
+                }
+            </div>
+
+            <div class="productDescription">
+                @Html.Raw(Model.Description)
+            </div>
+
+            <div class="productFeatures">
+                <h2>@Localizer[nameof(Languages.LanguageStrings.Features)]</h2>
+                <div>
+                    <ul>
+                        @foreach (string feature in Model.FeatureList())
+                        {
+                            <li>@Html.Raw(feature)</li>
+                        }
+                    </ul>
+                </div>
+            </div>
+
+            @if (!String.IsNullOrEmpty(Model.VideoLink))
+            {
+                <div class="productVideo" id="divVideoLink">
+                    <h2>@Localizer[nameof(Languages.LanguageStrings.Video)]</h2>
+                    <p>@Html.Raw(Model.GetVideoLink())</p>
+                    <span>@Localizer[nameof(Languages.LanguageStrings.VideoDescription)] <a href="<%=GetFullVideoLink() %>" target="_blank">@Localizer[nameof(Languages.LanguageStrings.ClickHere)]</a></span>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+<div class="clear"><!-- clear --></div>

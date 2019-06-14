@@ -1,0 +1,18 @@
+﻿@model SharedPluginFeatures.BaseModel
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
+
+@{
+    ViewData["Title"] = "HighVolume";
+}
+<div class="bc">@Html.Raw(Model.BreadcrumbData())</div>
+
+
+<h2>@Localizer[nameof(Languages.LanguageStrings.UnableToProcessRequest)]</h2>
+
+
+<div class="errorMessage">
+    <p>@Localizer[nameof(Languages.LanguageStrings.PleaseTryAgainLater)]</p>
+
+
+    <p>@Localizer[nameof(Languages.LanguageStrings.HighVolumeDescription)]</p>
+</div>

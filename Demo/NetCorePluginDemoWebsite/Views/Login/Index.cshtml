@@ -1,0 +1,95 @@
+﻿@model LoginPlugin.Models.LoginViewModel
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
+@{
+    ViewData["Title"] = "Index";
+    var returnUrl = "/Account/CreateAccount";
+
+    if (!String.IsNullOrEmpty(Model.ReturnUrl))
+    {
+        returnUrl += $"/?returnUrl={Model.ReturnUrl}";
+    }
+}
+<div class="bc">@Html.Raw(Model.BreadcrumbData())</div>
+
+<link rel="stylesheet" href="/css/login.css" />
+
+<h2>@Localizer[nameof(Languages.LanguageStrings.Login)]</h2>
+
+<script src="/js/Login.js"></script>
+
+<div>@Html.ValidationSummary(true)</div>
+
+
+@using (Html.BeginForm("Index", "Login", FormMethod.Post, new { id = "loginForm" }))
+{
+    @Html.HiddenFor(m => m.ReturnUrl)
+    @Html.HiddenFor(m => m.ShowCaptchaImage)
+    @Html.HiddenFor(m => m.ShowRememberMe)
+
+    <div class="login-block">
+        <div class="login-row">
+            @Html.LabelFor(m => m.Username)
+        </div>
+        <div class="login-row">
+            @Html.TextBoxFor(m => m.Username) @Html.ValidationMessageFor(m => m.Username)
+        </div>
+    </div>
+    <div class="login-block">
+        <div class="login-row">
+            @Html.LabelFor(m => m.Password)
+        </div>
+        <div class="login-row">
+            @Html.PasswordFor(m => m.Password) @Html.ValidationMessageFor(m => m.Password)
+        </div>
+    </div>
+
+    @if (Model.ShowRememberMe)
+    {
+        <div class="login-block">
+            <div class="login-row">
+                @Html.LabelFor(m => m.RememberMe)
+            </div>
+            <div class="login-row">
+                @Html.CheckBoxFor(m => m.RememberMe) @Html.ValidationMessageFor(m => m.RememberMe)
+            </div>
+        </div>
+    }
+
+    @if (Model.ShowCaptchaImage)
+    {
+        <div class="login-block">
+            <div class="login-row">
+                @Html.LabelFor(m => m.CaptchaText)
+            </div>
+            <div class="login-row">
+                <img src="/Login/GetCaptchaImage/" />
+            </div>
+            <div class="login-row">
+                @Html.TextBoxFor(m => m.CaptchaText) @Html.ValidationMessageFor(m => m.CaptchaText)
+            </div>
+        </div>
+    }
+
+    <div class="login-block">
+        <input id="btnLogon" type="submit" value="@Localizer[nameof(Languages.LanguageStrings.Login)]" />
+        <input id="btnForgotPassword" type="button" value="@Localizer[nameof(Languages.LanguageStrings.ForgotPassword)]" />
+    </div>
+}
+
+<div class="login-block">
+    <div class="login-row">
+        @Localizer[nameof(Languages.LanguageStrings.NoAccount)]
+    </div>
+    <div class="login-row">
+        <a href="@returnUrl">@Localizer[nameof(Languages.LanguageStrings.CreateAccount)]</a>
+    </div>
+</div>
+
+<script>
+    var controls = {
+        btnForgotPassword: '#btnForgotPassword',
+        btnLogon: '#btnLogon'
+    };
+
+    loginPlugin.init(controls);
+</script>

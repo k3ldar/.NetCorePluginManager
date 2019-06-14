@@ -121,7 +121,7 @@
 
   <ItemGroup Condition="'$(Configuration)'=='Debug'">
     <ProjectReference Include="..\..\NetCorePluginManager\AspNetCore.PluginManager.csproj" />
-    <ProjectReference Include="..\SharedPluginFeatures\SharedPluginFeatures.csproj" />
+    <ProjectReference Include="..\..\SharedPluginFeatures\SharedPluginFeatures.csproj" />
     <ProjectReference Include="..\MemoryCachePlugin\MemoryCachePlugin.csproj" />
     <ProjectReference Include="..\RestrictIp.Plugin\RestrictIp.Plugin.csproj" />
     <ProjectReference Include="..\..\Languages\Languages.csproj" />

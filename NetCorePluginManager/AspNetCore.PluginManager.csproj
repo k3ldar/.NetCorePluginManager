@@ -101,7 +101,7 @@
   </ItemGroup>
 
   <ItemGroup Condition="'$(Configuration)'=='Debug'">
-    <ProjectReference Include="..\Plugins\SharedPluginFeatures\SharedPluginFeatures.csproj" />
+    <ProjectReference Include="..\SharedPluginFeatures\SharedPluginFeatures.csproj" />
   </ItemGroup>
 
 </Project>
