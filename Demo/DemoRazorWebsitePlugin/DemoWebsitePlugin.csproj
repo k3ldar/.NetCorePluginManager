@@ -53,7 +53,7 @@
 
   <ItemGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <PackageReference Include="AspNetCore.PluginManager" Version="2.1.2" />
-    <PackageReference Include="SharedPluginFeatures" Version="2.1.0" />
+    <PackageReference Include="SharedPluginFeatures" Version="2.2.0" />
     <PackageReference Include="AspNetCore.PluginManager.Languages" Version="2.1.0" />
   </ItemGroup>
 
