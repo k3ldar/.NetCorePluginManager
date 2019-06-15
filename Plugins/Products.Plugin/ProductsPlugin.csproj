@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFrameworks>netcoreapp2.2;</TargetFrameworks>
     <LangVersion>latest</LangVersion>
-    <Version>2.1.0</Version>
+    <Version>2.2.0</Version>
     <RazorCompileOnBuild>false</RazorCompileOnBuild>
     <RazorCompileOnPublish>true</RazorCompileOnPublish>
     <MvcBuildViews>true</MvcBuildViews>
@@ -13,13 +13,15 @@
     <Company>Simon Carter</Company>
     <Copyright>Copyright (c) 2018 - 2019.  Simon Carter.  All rights reserved.</Copyright>
     <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
-    <PackageProjectUrl>https://github.com/k3ldar/.NetCorePluginManager</PackageProjectUrl>
+    <PackageProjectUrl>http://pluginmanager.website/</PackageProjectUrl>
     <RepositoryType>git</RepositoryType>
     <PackageTags>asp net core plugin manager Login Plugin</PackageTags>
     <AssemblyName>ProductPlugin</AssemblyName>
     <RootNamespace>ProductPlugin</RootNamespace>
     <TypeScriptToolsVersion>3.0</TypeScriptToolsVersion>
     <IsPackable>true</IsPackable>
+    <PackageIconUrl></PackageIconUrl>
+    <RepositoryUrl>https://github.com/k3ldar/.NetCorePluginManager</RepositoryUrl>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net461|AnyCPU'">

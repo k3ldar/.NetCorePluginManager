@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFrameworks>netcoreapp2.2;netcoreapp3.0</TargetFrameworks>
     <LangVersion>latest</LangVersion>
-    <Version>2.1.0</Version>
+    <Version>2.2.0</Version>
     <RazorCompileOnBuild>false</RazorCompileOnBuild>
     <RazorCompileOnPublish>true</RazorCompileOnPublish>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
@@ -12,12 +12,14 @@
     <Company>Simon Carter</Company>
     <Copyright>Copyright (c) 2018 - 2019.  Simon Carter.  All rights reserved.</Copyright>
     <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
-    <PackageProjectUrl>https://github.com/k3ldar/.NetCorePluginManager</PackageProjectUrl>
+    <PackageProjectUrl>http://pluginmanager.website/</PackageProjectUrl>
     <RepositoryType>git</RepositoryType>
     <PackageTags>asp net core plugin manager shopping cart</PackageTags>
     <AssemblyName>ShoppingCartPlugin</AssemblyName>
     <RootNamespace>ShoppingCartPlugin</RootNamespace>
     <IsPackable>true</IsPackable>
+    <PackageIconUrl></PackageIconUrl>
+    <RepositoryUrl>https://github.com/k3ldar/.NetCorePluginManager</RepositoryUrl>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)'=='Debug|net461'">

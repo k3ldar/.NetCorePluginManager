@@ -21,11 +21,13 @@
     <Copyright>Copyright © 2010 - 2019.  Simon Carter All rights reserved.</Copyright>
     <PackageId>AspNetCore.PluginManager.Languages</PackageId>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>2.1.0</Version>
+    <Version>2.2.0</Version>
     <Authors>Simon Carter</Authors>
-    <PackageProjectUrl>https://github.com/k3ldar/SharedLib</PackageProjectUrl>
+    <PackageProjectUrl>http://pluginmanager.website/</PackageProjectUrl>
     <PackageTags>Language Files</PackageTags>
     <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
+    <PackageIconUrl></PackageIconUrl>
+    <RepositoryUrl>https://github.com/k3ldar/.NetCorePluginManager</RepositoryUrl>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
