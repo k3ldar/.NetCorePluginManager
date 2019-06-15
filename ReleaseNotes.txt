@@ -1,8 +1,36 @@
 Version 2.2.0
 =============
 
-Add MvcRazorExcludeRefAssembliesFromPublish false to demo website
+#72 - Tidy location of projects
+Update test site and add documentation to menu
+#71 Duplicate key name in documentation service.
+Load all documentation via a thread when initializing
+New base model data for easily including all properties of BaseModel
+Change to extending cache instead of standard cache
+Remove references to IGeoIpStatistics and IGeoIpStatisticsUpdate which are deprecated.
+Add generate xml files to all non website assemblies
+Create helper class for unit tests, only available during debug builds
+Inline documentation of code and system generated document files.
+Automatically generated documentation place holders.
+Inline documentation completed
+Documentation Plugin
+New language strings
+Code tidy, remove unused code
+AspNetCore.PluginManager initial documentation
+Upgrade to sc.shared.library.core 2.9.0
+#71
+#70 Change to internal class
+#74 BadEgg Middleware Extender
+#70 Change from blocking notifications to blocking and non blocking message notifications
+Refactor Bad Egg Plugin
+Notification Events, enhance so a result can be sent by a listener
+Notification Events
+Seo Plugin
+MvcRazorExcludeRefAssembliesFromPublish false to demo website
 
+
+
+6363e07
 Version 2.1.2
 =============
 

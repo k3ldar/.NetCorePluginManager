@@ -10,6 +10,10 @@ http://PluginManager.website/SystemAdmin/
 
 http://PluginManager.website/Account/
 
+#Documentation
+
+http://PluginManager.website/Docs/
+
 if asked to login this requires the following details:
 
 Username: admin
@@ -18,7 +22,7 @@ Password: password
 It only uses mock data providers and will reset periodically
 
 ## Current Version
-Version 2.1.0
+Version 2.2.0
 
 # ASPNetCore.PluginManager
 Extend website with plugin technology.
