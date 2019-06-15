@@ -22,7 +22,7 @@
   </ItemGroup>
 
   <ItemGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <PackageReference Include="AspNetCore.PluginManager" Version="2.1.2" />
+    <PackageReference Include="AspNetCore.PluginManager" Version="2.2.0" />
     <PackageReference Include="SharedPluginFeatures" Version="2.2.0" />
   </ItemGroup>
 
