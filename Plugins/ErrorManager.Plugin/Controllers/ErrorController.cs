@@ -46,18 +46,32 @@ namespace ErrorManager.Plugin.Controllers
     {
         #region Private Members
 
+#if NET_CORE_3_0
+        private readonly IWebHostEnvironment _hostingEnvironment;
+#else
         private readonly IHostingEnvironment _hostingEnvironment;
+#endif
+
         private readonly ISettingsProvider _settingsProvider;
 
         #endregion Private Members
 
         #region Constructors
 
+#if NET_CORE_3_0
+        public ErrorController(IWebHostEnvironment hostingEnvironment, ISettingsProvider settingsProvider)
+        {
+            _hostingEnvironment = hostingEnvironment ?? throw new ArgumentNullException(nameof(hostingEnvironment));
+            _settingsProvider = settingsProvider ?? throw new ArgumentNullException(nameof(settingsProvider));
+        }
+#else
         public ErrorController(IHostingEnvironment hostingEnvironment, ISettingsProvider settingsProvider)
         {
             _hostingEnvironment = hostingEnvironment ?? throw new ArgumentNullException(nameof(hostingEnvironment));
             _settingsProvider = settingsProvider ?? throw new ArgumentNullException(nameof(settingsProvider));
         }
+#endif
+
 
         #endregion Constructors
 
@@ -73,7 +87,7 @@ namespace ErrorManager.Plugin.Controllers
         public IActionResult NotFound404()
         {
             Response.StatusCode = 404;
-            Error404Model model = null;
+            Error404Model model;
 
             ErrorManagerSettings settings = _settingsProvider.GetSettings<ErrorManagerSettings>("ErrorManager");
 
@@ -82,7 +96,7 @@ namespace ErrorManager.Plugin.Controllers
                 // grab a random quote
                 Random rnd = new Random(Convert.ToInt32(DateTime.Now.ToString("Hmsffff")));
                 int quote = rnd.Next(settings.Count());
-                model = new Error404Model(GetBreadcrumbs(), GetCartSummary(), 
+                model = new Error404Model(GetBreadcrumbs(), GetCartSummary(),
                     Languages.LanguageStrings.PageNotFound, settings.GetQuote(quote), GetImageFile(quote));
             }
             else
@@ -102,7 +116,7 @@ namespace ErrorManager.Plugin.Controllers
 
                 CookieAdd("Error404", Encrypt(Convert.ToString(index), settings.EncryptionKey), 30);
 
-                model = new Error404Model(GetBreadcrumbs(), GetCartSummary(), 
+                model = new Error404Model(GetBreadcrumbs(), GetCartSummary(),
                     Languages.LanguageStrings.PageNotFound, settings.GetQuote(index), GetImageFile(index));
             }
 

@@ -192,6 +192,7 @@
     <PackageReference Include="Microsoft.Extensions.FileProviders.Composite" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.FileProviders.Physical" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.FileSystemGlobbing" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.Localization" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.Localization.Abstractions" Version="2.2.0" />
