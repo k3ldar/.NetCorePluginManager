@@ -25,13 +25,8 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Text;
 
 using SharedPluginFeatures;
-
-using Middleware.Products;
 
 namespace ProductPlugin.Models
 {
@@ -79,7 +74,8 @@ namespace ProductPlugin.Models
         public ProductModel(in List<BreadcrumbItem> breadcrumbs, in ShoppingCartSummary cartSummary, 
             in IEnumerable<ProductCategoryModel> productGroups, 
             in int id, in int productGroupId, in string name, in string description, in string features,
-            in string videoLink, in string[] images, in decimal retailPrice, bool allowAddToBasket)
+            in string videoLink, in string[] images, in decimal retailPrice, 
+            in bool allowAddToBasket, in uint stockAvailability)
             : this (breadcrumbs, cartSummary, productGroups)
         {
             if (String.IsNullOrEmpty(name))
@@ -95,6 +91,7 @@ namespace ProductPlugin.Models
             Features = features;
             VideoLink = videoLink;
             Images = images;
+            StockAvailability = stockAvailability;
 
             if (retailPrice == 0)
                 RetailPrice = Languages.LanguageStrings.Free;
@@ -104,7 +101,7 @@ namespace ProductPlugin.Models
             AllowAddToBasket = allowAddToBasket;
 
             if (retailPrice > 0)
-                AddToCart = new AddToCartModel(id, retailPrice, 0);
+                AddToCart = new AddToCartModel(id, retailPrice, 0, stockAvailability);
         }
 
         #endregion Constructors
@@ -172,6 +169,8 @@ namespace ProductPlugin.Models
         public bool AllowAddToBasket { get; private set; }
 
         public AddToCartModel AddToCart { get; private set; }
+
+        public uint StockAvailability { get; private set; }
 
         #endregion Properties
     }

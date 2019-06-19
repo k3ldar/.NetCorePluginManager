@@ -27,7 +27,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 
 using SharedPluginFeatures;
@@ -47,25 +46,25 @@ namespace ShoppingCartPlugin.Controllers
     {
         #region Private Members
 
-        private readonly IHostingEnvironment _hostingEnvironment;
         private readonly IShoppingCartProvider _shoppingCartProvider;
         private readonly IAccountProvider _accountProvider;
         private readonly IPluginClassesService _pluginClassesService;
         private readonly IApplicationProvider _applicationProvider;
+        private readonly IStockProvider _stockProvider;
 
         #endregion Private Members
 
         #region Constructors
 
-        public CartController(IHostingEnvironment hostingEnvironment, IShoppingCartProvider shoppingCartProvider,
-            IAccountProvider accountProvider, IPluginClassesService pluginClassesService,
+        public CartController(IShoppingCartProvider shoppingCartProvider, IAccountProvider accountProvider, 
+            IPluginClassesService pluginClassesService, IStockProvider stockProvider,
             IApplicationProvider applicationProvider)
         {
             _applicationProvider = applicationProvider ?? throw new ArgumentNullException(nameof(applicationProvider));
-            _hostingEnvironment = hostingEnvironment ?? throw new ArgumentNullException(nameof(hostingEnvironment));
             _shoppingCartProvider = shoppingCartProvider ?? throw new ArgumentNullException(nameof(shoppingCartProvider));
             _accountProvider = accountProvider ?? throw new ArgumentNullException(nameof(accountProvider));
             _pluginClassesService = pluginClassesService ?? throw new ArgumentNullException(nameof(pluginClassesService));
+            _stockProvider = stockProvider ?? throw new ArgumentNullException(nameof(stockProvider));
         }
 
         #endregion Constructors
@@ -78,17 +77,19 @@ namespace ShoppingCartPlugin.Controllers
         {
             List<BasketItemModel> basketItems = new List<BasketItemModel>();
             ShoppingCartSummary cartSummary = GetCartSummary();
-            BasketModel model = null;
+            BasketModel model;
 
             if (cartSummary.Id != 0)
             {
                 ShoppingCartDetail cartDetails = _shoppingCartProvider.GetDetail(cartSummary.Id);
+                _stockProvider.GetStockAvailability(cartDetails.Items);
 
                 foreach (ShoppingCartItem item in cartDetails.Items)
                 {
                     basketItems.Add(new BasketItemModel(GetBreadcrumbs(), GetCartSummary(),
                         item.Id, item.Name, item.Description,
-                        item.Size, item.SKU, item.ItemCost, (int)item.ItemCount, null,
+                        item.Size, item.SKU, item.ItemCost, (int)item.ItemCount, 
+                        item.StockAvailability > 500 ? "> 500" : item.StockAvailability.ToString(),
                         item.ItemCount * item.ItemCost, false, item.Images[0]));
                 }
 

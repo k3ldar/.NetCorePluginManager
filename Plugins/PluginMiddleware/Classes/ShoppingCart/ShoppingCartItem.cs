@@ -153,6 +153,15 @@ namespace Middleware.ShoppingCart
             ItemCount = count;
         }
 
+        /// <summary>
+        /// Sets the stock availability for an item within the shopping cart.
+        /// </summary>
+        /// <param name="stockavailability">Current stock availability for the item.</param>
+        public void SetCurrentStockLevel(in uint stockavailability)
+        {
+            StockAvailability = stockavailability;
+        }
+
         #endregion Public Methods
 
         #region Properties
@@ -234,6 +243,11 @@ namespace Middleware.ShoppingCart
         /// </summary>
         /// <value>string</value>
         public string Size { get; private set; }
+
+        /// <summary>
+        /// Availability of stock for the item in the shopping cart.
+        /// </summary>
+        public uint StockAvailability { get; private set; }
 
         #endregion Properties
     }

@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-using SharedPluginFeatures;
 
 namespace ProductPlugin.Models
 {
@@ -16,7 +11,7 @@ namespace ProductPlugin.Models
             Quantity = 1;
         }
 
-        public AddToCartModel(in int id, in decimal retailPrice, in decimal discount)
+        public AddToCartModel(in int id, in decimal retailPrice, in decimal discount, in uint stockAvailability)
             : this ()
         {
             if (retailPrice <= 0)
@@ -28,6 +23,7 @@ namespace ProductPlugin.Models
             Id = id;
             RetailPrice = retailPrice;
             Discount = discount;
+            StockAvailability = stockAvailability;
         }
 
         #endregion Constructors
@@ -41,6 +37,8 @@ namespace ProductPlugin.Models
         public decimal RetailPrice { get; set; }
 
         public decimal Discount { get; set; }
+
+        public uint StockAvailability { get; private set; }
 
         #endregion Properties
     }

@@ -50,13 +50,14 @@ namespace ProductPlugin.Controllers
         private readonly bool _hasShoppingCart;
         private readonly IProductProvider _productProvider;
         private readonly uint _productsPerPage;
+        private readonly IStockProvider _stockProvider;
 
         #endregion Private Members
 
         #region Constructors
 
-        public ProductController(IProductProvider productProvider,
-            ISettingsProvider settingsProvider, IPluginHelperService pluginHelper)
+        public ProductController(IProductProvider productProvider, ISettingsProvider settingsProvider, 
+            IPluginHelperService pluginHelper, IStockProvider stockProvider)
         {
             if (settingsProvider == null)
                 throw new ArgumentNullException(nameof(settingsProvider));
@@ -64,8 +65,9 @@ namespace ProductPlugin.Controllers
             ProductControllerSettings settings = settingsProvider.GetSettings<ProductControllerSettings>("Products");
 
             _productProvider = productProvider ?? throw new ArgumentNullException(nameof(productProvider));
+            _stockProvider = stockProvider ?? throw new ArgumentNullException(nameof(stockProvider));
             _productsPerPage = settings.ProductsPerPage;
-            _hasShoppingCart = pluginHelper.PluginLoaded(SharedPluginFeatures.Constants.PluginNameShoppingCart, out int version);
+            _hasShoppingCart = pluginHelper.PluginLoaded(SharedPluginFeatures.Constants.PluginNameShoppingCart, out _);
         }
 
         #endregion Constructors
@@ -167,7 +169,7 @@ namespace ProductPlugin.Controllers
 
         private ProductModel GetProductModel(in int productId)
         {
-            ProductModel Result = null;
+            ProductModel Result;
 
             List<ProductCategoryModel> modelCategories = new List<ProductCategoryModel>();
 
@@ -183,18 +185,22 @@ namespace ProductPlugin.Controllers
 
             if (product != null)
             {
+                _stockProvider.GetStockAvailability(product);
+
                 if (_productProvider.ProductGroupGet(product.ProductGroupId) == null)
                     return null;
 
                 Result = new ProductModel(GetBreadcrumbs(), GetCartSummary(), modelCategories, product.Id, product.ProductGroupId,
                     product.Name, product.Description, product.Features, product.VideoLink, product.Images, 
-                    product.RetailPrice, _hasShoppingCart && product.RetailPrice > 0);
+                    product.RetailPrice, _hasShoppingCart && product.RetailPrice > 0, product.StockAvailability);
             }
             else
             {
                 Result = new ProductModel(GetBreadcrumbs(), GetCartSummary(), modelCategories);
             }
 
+
+            
             ProductGroup primaryProductGroup = _productProvider.ProductGroupGet(product.ProductGroupId);
             Result.Breadcrumbs.Clear();
             Result.Breadcrumbs.Add(new BreadcrumbItem(LanguageStrings.Home, "/", false));

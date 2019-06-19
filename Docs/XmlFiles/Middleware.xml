@@ -1474,6 +1474,12 @@
             <param name="isNew">Indicates the product is a new product.</param>
             <param name="isBestSeller">Indicates the product is a best selling product.</param>
         </member>
+        <member name="M:Middleware.Products.Product.SetCurrentStockLevel(System.UInt32)">
+            <summary>
+            Sets the current stock availability for the product.
+            </summary>
+            <param name="currentStock"></param>
+        </member>
         <member name="P:Middleware.Products.Product.Id">
             <summary>
             Unique product id.
@@ -1551,6 +1557,12 @@
             Indicates the product is allowed to be back ordered, if there is no stock available at the time of purchase.
             </summary>
             <value>bool.  If true the item can be back ordered.</value>
+        </member>
+        <member name="P:Middleware.Products.Product.StockAvailability">
+            <summary>
+            The quantity of stock available for the product.
+            </summary>
+            <value>uint.  Quantity of stock or zero.</value>
         </member>
         <member name="T:Middleware.Products.ProductGroup">
             <summary>
@@ -1743,6 +1755,12 @@
             </summary>
             <param name="count">Count of item within cart.</param>
         </member>
+        <member name="M:Middleware.ShoppingCart.ShoppingCartItem.SetCurrentStockLevel(System.UInt32@)">
+            <summary>
+            Sets the stock availability for an item within the shopping cart.
+            </summary>
+            <param name="stockavailability">Current stock availability for the item.</param>
+        </member>
         <member name="P:Middleware.ShoppingCart.ShoppingCartItem.Id">
             <summary>
             Unique id of the shopping cart item.
@@ -1820,6 +1838,11 @@
             Size or dimensions of the item.
             </summary>
             <value>string</value>
+        </member>
+        <member name="P:Middleware.ShoppingCart.ShoppingCartItem.StockAvailability">
+            <summary>
+            Availability of stock for the item in the shopping cart.
+            </summary>
         </member>
         <member name="T:Middleware.Constants">
             <summary>
@@ -2536,6 +2559,35 @@
             <param name="userId">User id who is checking out the shopping cart.</param>
             <param name="order">out.  Converted order.</param>
             <returns>bool.  True if the shopping cart was successfully converted to an order.</returns>
+        </member>
+        <member name="T:Middleware.IStockProvider">
+            <summary>
+            Stock provider interface, disigned to provide stock quantities for individual prodoucts
+            </summary>
+        </member>
+        <member name="M:Middleware.IStockProvider.GetStockAvailability(Middleware.Products.Product@)">
+            <summary>
+            Sets the current available stock level for an individual product.
+            </summary>
+            <param name="product">Product who's stock will be checked, the StockAvailability property for the product will be updated with the stock level.</param>
+        </member>
+        <member name="M:Middleware.IStockProvider.GetStockAvailability(System.Collections.Generic.List{Middleware.Products.Product}@)">
+            <summary>
+            Sets the current available stock level for a list of product items.
+            </summary>
+            <param name="productList">List of products who's stock will be checked, the StockAvailability property for the product will be updated with the stock level.</param>
+        </member>
+        <member name="M:Middleware.IStockProvider.GetStockAvailability(Middleware.ShoppingCart.ShoppingCartItem@)">
+            <summary>
+            Sets the current available stock level for an individual product within a shopping cart.
+            </summary>
+            <param name="shoppingCartItem">ShoppingCartItem who's stock will be updated.</param>
+        </member>
+        <member name="M:Middleware.IStockProvider.GetStockAvailability(System.Collections.Generic.List{Middleware.ShoppingCart.ShoppingCartItem}@)">
+            <summary>
+            Sets the current available stock level for a list of products within a shopping cart.
+            </summary>
+            <param name="shoppingCartItemList">ShoppingCartItem who's stock will be updated.</param>
         </member>
     </members>
 </doc>

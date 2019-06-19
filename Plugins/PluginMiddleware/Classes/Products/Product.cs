@@ -99,6 +99,19 @@ namespace Middleware.Products
 
         #endregion Constructors
 
+        #region Public Methods
+
+        /// <summary>
+        /// Sets the current stock availability for the product.
+        /// </summary>
+        /// <param name="currentStock"></param>
+        public void SetCurrentStockLevel(uint currentStock)
+        {
+            StockAvailability = currentStock;
+        }
+
+        #endregion Public Methods
+
         #region Properties
 
         /// <summary>
@@ -178,6 +191,12 @@ namespace Middleware.Products
         /// </summary>
         /// <value>bool.  If true the item can be back ordered.</value>
         public bool AllowBackorder { get; private set; }
+
+        /// <summary>
+        /// The quantity of stock available for the product.
+        /// </summary>
+        /// <value>uint.  Quantity of stock or zero.</value>
+        public uint StockAvailability { get; private set; }
 
         #endregion Properties
     }
