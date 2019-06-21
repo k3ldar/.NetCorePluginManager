@@ -63,6 +63,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
             services.AddSingleton<IHelpdeskProvider, MockHelpdeskProvider>();
             services.AddSingleton<ISeoProvider, MockSeoProvider>();
             services.AddSingleton<IStockProvider, MockStockProvider>();
+            services.AddSingleton<IBlogProvider, MockBlogProvider>();
         }
 
         public void Finalise()

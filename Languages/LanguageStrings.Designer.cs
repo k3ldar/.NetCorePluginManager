@@ -26587,6 +26587,33 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Please enter the blog text.
+        /// </summary>
+        public static string PleaseEnterBlogText {
+            get {
+                return ResourceManager.GetString("PleaseEnterBlogText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please enter the title of the blog.
+        /// </summary>
+        public static string PleaseEnterBlogTitle {
+            get {
+                return ResourceManager.GetString("PleaseEnterBlogTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please enter the excerpt.
+        /// </summary>
+        public static string PleaseEnterExcerpt {
+            get {
+                return ResourceManager.GetString("PleaseEnterExcerpt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Please enter your first and last name.
         /// </summary>
         public static string PleaseEnterFirstLastName {
@@ -27133,6 +27160,15 @@ namespace Languages {
         public static string Psoriasis {
             get {
                 return ResourceManager.GetString("Psoriasis", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Published.
+        /// </summary>
+        public static string Published {
+            get {
+                return ResourceManager.GetString("Published", resourceCulture);
             }
         }
         

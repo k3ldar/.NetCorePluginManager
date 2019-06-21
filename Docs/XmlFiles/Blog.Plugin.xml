@@ -1,0 +1,173 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Blog.Plugin</name>
+    </assembly>
+    <members>
+        <member name="T:Blog.Plugin.BlogSettings">
+            <summary>
+            Settings that affect how the Blog.Plugin module is configured.
+            </summary>
+        </member>
+        <member name="P:Blog.Plugin.BlogSettings.LoginPage">
+            <summary>
+            Login page that the user should be directed to if login is required.
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="T:Blog.Plugin.Classes.PluginClass">
+            <summary>
+            Implements IPlugin and IPluginVersion which allows the Blog.Plugin module to be
+            loaded as a plugin module
+            </summary>
+        </member>
+        <member name="T:Blog.Plugin.Controllers.BlogController">
+            <summary>
+            Controller for blogs.
+            </summary>
+        </member>
+        <member name="T:Blog.Plugin.Models.BlogCommentViewModel">
+            <summary>
+            Comment made by a user for a blog entry
+            </summary>
+        </member>
+        <member name="M:Blog.Plugin.Models.BlogCommentViewModel.#ctor(System.Int32@,System.DateTime@,System.String@,System.String@)">
+            <summary>
+            Default constructor
+            </summary>
+            <param name="id">Unique id of the comment.</param>
+            <param name="dateTime">Date and time comment made.</param>
+            <param name="userName">Name of person making the comment.</param>
+            <param name="comment">Comment made by a user.</param>
+        </member>
+        <member name="P:Blog.Plugin.Models.BlogCommentViewModel.Id">
+            <summary>
+            Unique id for the comment.
+            </summary>
+            <value>int</value>
+        </member>
+        <member name="P:Blog.Plugin.Models.BlogCommentViewModel.DateTime">
+            <summary>
+            Date/Time the comment was made.
+            </summary>
+            <value>DateTime</value>
+        </member>
+        <member name="P:Blog.Plugin.Models.BlogCommentViewModel.Username">
+            <summary>
+            Name of user making the comment.
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:Blog.Plugin.Models.BlogCommentViewModel.Comment">
+            <summary>
+            Comment made by a user
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="T:Blog.Plugin.Models.BlogPostsViewModel">
+            <summary>
+            Container view model which can hold one or more blog posts.
+            </summary>
+        </member>
+        <member name="M:Blog.Plugin.Models.BlogPostsViewModel.#ctor(SharedPluginFeatures.BaseModelData@,System.Collections.Generic.List{Blog.Plugin.Models.BlogPostViewModel}@)">
+            <summary>
+            Default constructor for multiple blog entries.
+            </summary>
+            <param name="baseModelData"></param>
+            <param name="blogEntries"></param>
+        </member>
+        <member name="M:Blog.Plugin.Models.BlogPostsViewModel.#ctor(SharedPluginFeatures.BaseModelData@,Blog.Plugin.Models.BlogPostViewModel@)">
+            <summary>
+            Default constructor for a single blog entry.
+            </summary>
+            <param name="baseModelData"></param>
+            <param name="blogEntry"></param>
+        </member>
+        <member name="P:Blog.Plugin.Models.BlogPostsViewModel.BlogEntries">
+            <summary>
+            List of blog entries within the view model
+            </summary>
+            <value>List&lt;BlogPostViewModel&gt;</value>
+        </member>
+        <member name="T:Blog.Plugin.Models.BlogPostViewModel">
+            <summary>
+            Blog entry represents a blog post within a website.
+            </summary>
+        </member>
+        <member name="M:Blog.Plugin.Models.BlogPostViewModel.#ctor(System.Int32@,System.String@,System.String@,System.String@,System.String@,System.Boolean@,System.DateTime@,System.Boolean@,System.Collections.Generic.List{System.String}@,System.Collections.Generic.List{Blog.Plugin.Models.BlogCommentViewModel}@)">
+            <summary>
+            Constructor for creating a BlogEntry instance
+            </summary>
+            <param name="id">Unique id representing the blog entry.</param>
+            <param name="title">Title of blog entry.</param>
+            <param name="excerpt">Short description of blog entry.</param>
+            <param name="blogtext">Blog text.</param>
+            <param name="username">Name of user publishing the blog entry</param>
+            <param name="published">Indicates whether the blog has been published or not.</param>
+            <param name="publishDateTime">Date and time the blog entry is available.</param>
+            <param name="canEdit">Determines whether the current user can edit the post or not.</param>
+            <param name="tags">List of tags assigned to the post.</param>
+            <param name="comments">List of comments for the blog entry.</param>
+        </member>
+        <member name="P:Blog.Plugin.Models.BlogPostViewModel.Id">
+            <summary>
+            Unique id representing the blog entry.
+            </summary>
+            <value>int</value>
+        </member>
+        <member name="P:Blog.Plugin.Models.BlogPostViewModel.Title">
+            <summary>
+            Title of blog entry.
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:Blog.Plugin.Models.BlogPostViewModel.Excerpt">
+            <summary>
+            Brief description describing the blog entry.
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:Blog.Plugin.Models.BlogPostViewModel.BlogText">
+            <summary>
+            The main blog text.
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:Blog.Plugin.Models.BlogPostViewModel.Username">
+            <summary>
+            Name of user creating the blog entry.
+            </summary>
+            <string>string</string>
+            <value>string</value>
+        </member>
+        <member name="P:Blog.Plugin.Models.BlogPostViewModel.Published">
+            <summary>
+            Indicates whether the blog entry has been published or not.
+            </summary>
+            <value>bool</value>
+        </member>
+        <member name="P:Blog.Plugin.Models.BlogPostViewModel.PublishDateTime">
+            <summary>
+            The date/time the blog entry will appear live on the website.
+            </summary>
+            <value>DateTime</value>
+        </member>
+        <member name="P:Blog.Plugin.Models.BlogPostViewModel.Tags">
+            <summary>
+            Tags associated with the blog post.
+            </summary>
+            <value>List&lt;string&gt;</value>
+        </member>
+        <member name="P:Blog.Plugin.Models.BlogPostViewModel.Comments">
+            <summary>
+            List of comments for the blog entry.
+            </summary>
+            <value>List&lt;Comment&gt;</value>
+        </member>
+        <member name="P:Blog.Plugin.Models.BlogPostViewModel.CanEdit">
+            <summary>
+            Determines whether the current user can edit the post
+            </summary>
+        </member>
+    </members>
+</doc>

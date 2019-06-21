@@ -14013,4 +14013,20 @@ You will shortly receive an email with the details of your order.</comment>
     <value>See Also</value>
     <comment>See Also</comment>
   </data>
+  <data name="PleaseEnterBlogText" xml:space="preserve">
+    <value>Please enter the blog text</value>
+    <comment>Please enter the blog text</comment>
+  </data>
+  <data name="PleaseEnterBlogTitle" xml:space="preserve">
+    <value>Please enter the title of the blog</value>
+    <comment>Please enter the title of the blog</comment>
+  </data>
+  <data name="PleaseEnterExcerpt" xml:space="preserve">
+    <value>Please enter the excerpt</value>
+    <comment>Please enter the excerpt</comment>
+  </data>
+  <data name="Published" xml:space="preserve">
+    <value>Published</value>
+    <comment>Published</comment>
+  </data>
 </root>

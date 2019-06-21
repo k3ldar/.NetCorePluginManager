@@ -14902,6 +14902,21 @@
               Looks up a localized string similar to Picture.
             </summary>
         </member>
+        <member name="P:Languages.LanguageStrings.PleaseEnterBlogText">
+            <summary>
+              Looks up a localized string similar to Please enter the blog text.
+            </summary>
+        </member>
+        <member name="P:Languages.LanguageStrings.PleaseEnterBlogTitle">
+            <summary>
+              Looks up a localized string similar to Please enter the title of the blog.
+            </summary>
+        </member>
+        <member name="P:Languages.LanguageStrings.PleaseEnterExcerpt">
+            <summary>
+              Looks up a localized string similar to Please enter the excerpt.
+            </summary>
+        </member>
         <member name="P:Languages.LanguageStrings.PleaseEnterFirstLastName">
             <summary>
               Looks up a localized string similar to Please enter your first and last name.
@@ -15206,6 +15221,11 @@
         <member name="P:Languages.LanguageStrings.Psoriasis">
             <summary>
               Looks up a localized string similar to Psoriasis.
+            </summary>
+        </member>
+        <member name="P:Languages.LanguageStrings.Published">
+            <summary>
+              Looks up a localized string similar to Published.
             </summary>
         </member>
         <member name="P:Languages.LanguageStrings.Purchase">
