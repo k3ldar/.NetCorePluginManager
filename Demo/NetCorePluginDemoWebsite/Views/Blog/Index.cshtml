@@ -6,54 +6,6 @@
 <div class="container-fluid">
     @foreach (Blog.Plugin.Models.BlogPostViewModel blogPost in Model.BlogEntries)
     {
-    <div class="row">
-        <div class="col-sm-2">
-            <ul>
-                @foreach(string tag in blogPost.Tags)
-                {
-                    <li>@tag</li>
-                }
-            </ul>
-        </div>
-        <div class="col-sm-8">
-            <h2>@blogPost.Title<span>@Localizer[nameof(Languages.LanguageStrings.Published)] @blogPost.PublishDateTime.ToString()</span></h2>
-            <div class="blogBody">
-                @blogPost.BlogText
-            </div>
-            @if (blogPost.CanEdit)
-            {
-                <div class="blogEdit">
-                    <p>
-                        <span><a href="/Blog/Edit/@blogPost.Id">@Localizer[nameof(Languages.LanguageStrings.Edit)]</a></span>
-                        <span><a href="/Blog/Delete/@blogPost.Id">@Localizer[nameof(Languages.LanguageStrings.Delete)]</a></span>
-                    </p>
-                </div>
-            }
-            @if (blogPost.Comments.Any())
-            {
-                <hr />
-                <div class="blogComments">
-                    @foreach (var comment in blogPost.Comments)
-                    {
-                        <p>@comment.Comment</p>
-                        <h3>@comment.Username - @comment.DateTime.ToString()</h3>
-                    }
-                </div>
-                <hr />
-            }
-            else
-            {
-                <hr />
-            }
-        </div>
-        <div class="col-sm-2">
-            <ul>
-                <li>Recent Posts</li>
-            </ul>
-        </div>
-    </div>
+        @await Html.PartialAsync("_ViewPartialBlog.cshtml", blogPost)
     }
-
-
-
 </div>

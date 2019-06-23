@@ -13345,6 +13345,11 @@
               Looks up a localized string similar to Current Intrusions Prevented.
             </summary>
         </member>
+        <member name="P:Languages.LanguageStrings.InvalidBlog">
+            <summary>
+              Looks up a localized string similar to The blog is invalid..
+            </summary>
+        </member>
         <member name="P:Languages.LanguageStrings.InvalidCompetition">
             <summary>
               Looks up a localized string similar to Invalid Competition, please contact support.
@@ -14385,6 +14390,11 @@
         <member name="P:Languages.LanguageStrings.NoAccount">
             <summary>
               Looks up a localized string similar to Don&apos;t have an account yet ?.
+            </summary>
+        </member>
+        <member name="P:Languages.LanguageStrings.NoBlogsFoundMatchingTags">
+            <summary>
+              Looks up a localized string similar to There were no blogs containing the keyword.
             </summary>
         </member>
         <member name="P:Languages.LanguageStrings.NoNews">
@@ -15546,6 +15556,11 @@
         <member name="P:Languages.LanguageStrings.SeeAlso">
             <summary>
               Looks up a localized string similar to See Also.
+            </summary>
+        </member>
+        <member name="P:Languages.LanguageStrings.SeeMore">
+            <summary>
+              Looks up a localized string similar to See More.
             </summary>
         </member>
         <member name="P:Languages.LanguageStrings.SeeProductsCelebritiesLove">

@@ -27,17 +27,27 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
+using SharedPluginFeatures;
+
 namespace Blog.Plugin.Models
 {
     /// <summary>
     /// Blog entry represents a blog post within a website.
     /// </summary>
-    public sealed class BlogPostViewModel
+    public sealed class BlogPostViewModel : BaseModel
     {
         #region Constructors
 
         /// <summary>
-        /// Constructor for creating a BlogEntry instance
+        /// Constructor to be used when posting edit form.
+        /// </summary>
+        public BlogPostViewModel()
+        {
+
+        }
+
+        /// <summary>
+        /// Constructor for viewing multiple blog entries
         /// </summary>
         /// <param name="id">Unique id representing the blog entry.</param>
         /// <param name="title">Title of blog entry.</param>
@@ -46,12 +56,13 @@ namespace Blog.Plugin.Models
         /// <param name="username">Name of user publishing the blog entry</param>
         /// <param name="published">Indicates whether the blog has been published or not.</param>
         /// <param name="publishDateTime">Date and time the blog entry is available.</param>
+        /// <param name="lastModified">Date and time last modified.</param>
         /// <param name="canEdit">Determines whether the current user can edit the post or not.</param>
         /// <param name="tags">List of tags assigned to the post.</param>
         /// <param name="comments">List of comments for the blog entry.</param>
         public BlogPostViewModel(in int id, in string title, in string excerpt,
             in string blogtext, in string username, in bool published, 
-            in DateTime publishDateTime, in bool canEdit,
+            in DateTime publishDateTime, in DateTime lastModified, in bool canEdit, 
             in List<string> tags, in List<BlogCommentViewModel> comments)
         {
             if (String.IsNullOrEmpty(title))
@@ -66,6 +77,9 @@ namespace Blog.Plugin.Models
             if (String.IsNullOrEmpty(username))
                 throw new ArgumentNullException(nameof(username));
 
+            if (tags == null)
+                throw new ArgumentNullException(nameof(tags));
+
             Id = id;
             Title = title;
             Excerpt = excerpt;
@@ -73,9 +87,90 @@ namespace Blog.Plugin.Models
             Username = username;
             Published = published;
             PublishDateTime = publishDateTime;
+            LastModified = lastModified;
             CanEdit = canEdit;
-            Tags = tags ?? throw new ArgumentNullException(nameof(tags));
+            Tags = String.Join(' ', tags);
             Comments = comments ?? throw new ArgumentNullException(nameof(comments));
+        }
+
+        /// <summary>
+        /// Constructor for viewing a single blog entry.
+        /// </summary>
+        /// <param name="baseModelData">Base model data.</param>
+        /// <param name="id">Unique id representing the blog entry.</param>
+        /// <param name="title">Title of blog entry.</param>
+        /// <param name="excerpt">Short description of blog entry.</param>
+        /// <param name="blogtext">Blog text.</param>
+        /// <param name="username">Name of user publishing the blog entry</param>
+        /// <param name="published">Indicates whether the blog has been published or not.</param>
+        /// <param name="publishDateTime">Date and time the blog entry is available.</param>
+        /// <param name="lastModified">Date and time last modified.</param>
+        /// <param name="canEdit">Determines whether the current user can edit the post or not.</param>
+        /// <param name="tags">List of tags assigned to the post.</param>
+        public BlogPostViewModel(in BaseModelData baseModelData, in int id, in string title, in string excerpt,
+            in string blogtext, in string username, in bool published,
+            in DateTime publishDateTime, in DateTime lastModified, in bool canEdit,
+            in List<string> tags)
+            : base (baseModelData)
+        {
+            if (String.IsNullOrEmpty(title))
+                throw new ArgumentNullException(nameof(title));
+
+            if (String.IsNullOrEmpty(excerpt))
+                throw new ArgumentNullException(nameof(excerpt));
+
+            if (String.IsNullOrEmpty(blogtext))
+                throw new ArgumentNullException(nameof(blogtext));
+
+            if (String.IsNullOrEmpty(username))
+                throw new ArgumentNullException(nameof(username));
+
+            if (tags == null)
+                throw new ArgumentNullException(nameof(tags));
+
+            Id = id;
+            Title = title;
+            Excerpt = excerpt;
+            BlogText = blogtext;
+            Username = username;
+            Published = published;
+            PublishDateTime = publishDateTime;
+            LastModified = lastModified;
+            CanEdit = canEdit;
+            Tags = String.Join(' ', tags);
+            Comments = new List<BlogCommentViewModel>();
+        }
+
+        /// <summary>
+        /// Constructor for creating or editing a blog entry
+        /// </summary>
+        /// <param name="baseModelData">Basic view model data</param>
+        /// <param name="id">Unique id representing the blog entry.</param>
+        /// <param name="title">Title of blog entry.</param>
+        /// <param name="excerpt">Short description of blog entry.</param>
+        /// <param name="blogtext">Blog text.</param>
+        /// <param name="username">Name of user publishing the blog entry</param>
+        /// <param name="published">Indicates whether the blog has been published or not.</param>
+        /// <param name="publishDateTime">Date and time the blog entry is available.</param>
+        /// <param name="lastModified">Date and time last modified.</param>
+        /// <param name="tags">List of tags assigned to the post.</param>
+        public BlogPostViewModel(in BaseModelData baseModelData, in int id, in string title, in string excerpt, 
+            in string blogtext, in string username, in bool published,
+            in DateTime publishDateTime, in DateTime lastModified, in List<string> tags)
+            : base(baseModelData)
+        {
+            if (tags == null)
+                throw new ArgumentNullException(nameof(tags));
+
+            Id = id;
+            Title = title ?? String.Empty;
+            Excerpt = excerpt ?? String.Empty;
+            BlogText = blogtext ?? String.Empty;
+            Username = username ?? String.Empty;
+            Published = published;
+            PublishDateTime = publishDateTime;
+            LastModified = lastModified;
+            Tags = String.Join(' ', tags);
         }
 
         #endregion Constructors
@@ -86,53 +181,58 @@ namespace Blog.Plugin.Models
         /// Unique id representing the blog entry.
         /// </summary>
         /// <value>int</value>
-        public int Id { get; private set; }
+        public int Id { get; set; }
 
         /// <summary>
         /// Title of blog entry.
         /// </summary>
         /// <value>string</value>
         [Required(ErrorMessage = nameof(Languages.LanguageStrings.PleaseEnterBlogTitle))]
-        public string Title { get; private set; }
+        public string Title { get; set; }
 
         /// <summary>
         /// Brief description describing the blog entry.
         /// </summary>
         /// <value>string</value>
         [Required(ErrorMessage = nameof(Languages.LanguageStrings.PleaseEnterExcerpt))]
-        public string Excerpt { get; private set; }
+        public string Excerpt { get; set; }
 
         /// <summary>
         /// The main blog text.
         /// </summary>
         /// <value>string</value>
         [Required(ErrorMessage = nameof(Languages.LanguageStrings.PleaseEnterBlogText))]
-        public string BlogText { get; private set; }
+        public string BlogText { get; set; }
 
         /// <summary>
         /// Name of user creating the blog entry.
         /// </summary>
         /// <string>string</string>
         /// <value>string</value>
-        public string Username { get; private set; }
+        public string Username { get; set; }
 
         /// <summary>
         /// Indicates whether the blog entry has been published or not.
         /// </summary>
         /// <value>bool</value>
-        public bool Published { get; private set; }
+        public bool Published { get; set; }
 
         /// <summary>
         /// The date/time the blog entry will appear live on the website.
         /// </summary>
         /// <value>DateTime</value>
-        public DateTime PublishDateTime { get; private set; }
+        public DateTime PublishDateTime { get; set; }
+
+        /// <summary>
+        /// Date and time the blog was last modified.
+        /// </summary>
+        public DateTime LastModified { get; private set; }
 
         /// <summary>
         /// Tags associated with the blog post.
         /// </summary>
-        /// <value>List&lt;string&gt;</value>
-        public List<string> Tags { get; private set; }
+        /// <value>string</value>
+        public string Tags { get; set; }
 
         /// <summary>
         /// List of comments for the blog entry.
@@ -143,7 +243,20 @@ namespace Blog.Plugin.Models
         /// <summary>
         /// Determines whether the current user can edit the post
         /// </summary>
+        /// <value>bool</value>
         public bool CanEdit { get; private set; }
+
+        /// <summary>
+        /// Url for the blog.
+        /// </summary>
+        /// <value>string</value>
+        public string Url
+        {
+            get
+            {
+                return $"/Blog/{RouteFriendlyName(Username)}/{Id}/{LastModified.ToString("dd-MM-yyyy")}/{RouteFriendlyName(Title)}";
+            }
+        }
 
         #endregion Properties
     }

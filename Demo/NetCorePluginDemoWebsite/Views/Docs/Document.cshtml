@@ -6,17 +6,17 @@
 <link rel="stylesheet" type="text/css" href="/css/documentation.css" />
 <div class="container">
     <div class="row">
-        <div class="col-lg-3">
+        <div class="col-sm-3">
             <div class="docContents">
                 <h3>@Localizer[nameof(Languages.LanguageStrings.Contents)]</h3>
                 @Html.Raw(Model.AllReferences)
             </div>
         </div>
-        <div class="col-lg-7">
+        <div class="col-sm-7">
             <h2>@Model.Title</h2>
             @await Html.PartialAsync("_DocumentData.cshtml", Model)
         </div>
-        <div class="col-lg-2">
+        <div class="col-sm-2">
             <div class="docReferences" id="divReferences">
                 @if (Model.Contains != null)
                 {
@@ -49,7 +49,7 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-lg-offset-4 col-lg-2">
+        <div class="col-sm-offset-4 col-sm-2">
             <div class="docPrevNext">
             @if (!String.IsNullOrEmpty(Model.PreviousDocument))
             {
@@ -61,7 +61,7 @@
             }
             </div>
         </div>
-        <div class="col-lg-2">
+        <div class="col-sm-2">
             <div class="docPrevNext">
             @if (!String.IsNullOrEmpty(Model.NextDocument))
             {

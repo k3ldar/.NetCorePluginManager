@@ -42,7 +42,28 @@ namespace Middleware
         /// Returns the most recent blog entries
         /// </summary>
         /// <param name="recentCount">Number of recent entries to return.</param>
-        /// <returns></returns>
-        List<BlogEntry> GetRecentPosts(in int recentCount);
+        /// <param name="publishedOnly">If true only returns published posts.</param>
+        /// <returns>List&lt;BlogEntry&gt;</returns>
+        List<BlogEntry> GetRecentPosts(in int recentCount, in bool publishedOnly);
+
+        /// <summary>
+        /// Retrieves an individual blog entry.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>BlogEntry</returns>
+        BlogEntry GetBlogEntry(in int id);
+
+        /// <summary>
+        /// Searches all blog items for blogs with a specific tag name.
+        /// </summary>
+        /// <param name="tagName">Name of tag to be searched for.</param>
+        /// <returns>List&lt;BlogEntry&gt;</returns>
+        List<BlogEntry> Search(in string tagName);
+
+        /// <summary>
+        /// Saves a blog entry.
+        /// </summary>
+        /// <param name="blogEntry">Blog entry to be saved.</param>
+        void SaveBlogEntry(in BlogEntry blogEntry);
     }
 }

@@ -23786,6 +23786,15 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The blog is invalid..
+        /// </summary>
+        public static string InvalidBlog {
+            get {
+                return ResourceManager.GetString("InvalidBlog", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Invalid Competition, please contact support.
         /// </summary>
         public static string InvalidCompetition {
@@ -25656,6 +25665,15 @@ namespace Languages {
         public static string NoAccount {
             get {
                 return ResourceManager.GetString("NoAccount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to There were no blogs containing the keyword.
+        /// </summary>
+        public static string NoBlogsFoundMatchingTags {
+            get {
+                return ResourceManager.GetString("NoBlogsFoundMatchingTags", resourceCulture);
             }
         }
         
@@ -27741,6 +27759,15 @@ namespace Languages {
         public static string SeeAlso {
             get {
                 return ResourceManager.GetString("SeeAlso", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to See More.
+        /// </summary>
+        public static string SeeMore {
+            get {
+                return ResourceManager.GetString("SeeMore", resourceCulture);
             }
         }
         

@@ -1,0 +1,84 @@
+﻿@model Blog.Plugin.Models.BlogPostViewModel
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
+
+<div class="bc">@Html.Raw(Model.BreadcrumbData())</div>
+
+<div class="container-fluid">
+    @using (Html.BeginForm(nameof(Blog.Plugin.Controllers.BlogController.Edit), Blog.Plugin.Controllers.BlogController.Name, FormMethod.Post))
+    {
+        @Html.HiddenFor(m => m.Id)
+        @Html.HiddenFor(m => m.Username)
+    <div class="blogEdit">
+        <div class="row">
+            <div class="col-sm-12">
+                @Html.ValidationSummary()
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-4">
+                @Html.LabelFor(m => m.Title)
+            </div>
+            <div class="col-sm-8">
+                @Html.TextBoxFor(m => m.Title)
+                <br />@Html.ValidationMessageFor(m => m.Title)
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-4">
+                @Html.LabelFor(m => m.Excerpt)
+            </div>
+            <div class="col-sm-8">
+                @Html.TextAreaFor(m => m.Excerpt)
+                <br />@Html.ValidationMessageFor(m => m.Excerpt)
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-4">
+                @Html.LabelFor(m => m.Tags)
+            </div>
+            <div class="col-sm-8">
+                @Html.TextAreaFor(m => m.Tags)
+                <br />@Html.ValidationMessageFor(m => m.Tags)
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-4">
+                @Html.LabelFor(m => m.BlogText)
+            </div>
+            <div class="col-sm-8">
+                @Html.TextAreaFor(m => m.BlogText)
+                <br />@Html.ValidationMessageFor(m => m.BlogText)
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-4">
+                @Html.LabelFor(m => m.Published)
+            </div>
+            <div class="col-sm-8">
+                @Html.CheckBoxFor(m => m.Published)
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-offset-6 col-sm-6">
+                <button type="submit">Save</button>
+            </div>
+        </div>
+    </div>
+    }
+</div>
+
+<script src="~/lib/tinymce/tinymce.min.js"></script>
+<script>
+  tinymce.init({
+    selector: '#@Html.IdFor(id => id.BlogText)',
+    plugins: 'autosave preview searchreplace visualchars image link media fullscreen code codesample table hr pagebreak autoresize nonbreaking anchor insertdatetime advlist lists textcolor wordcount imagetools colorpicker',
+    menubar: "edit view format insert table",
+    toolbar1: 'formatselect | bold italic blockquote forecolor backcolor | imageupload link | alignleft aligncenter alignright  | numlist bullist outdent indent | fullscreen',
+    selection_toolbar: 'bold italic | quicklink h2 h3 blockquote',
+    autoresize_bottom_margin: 0,
+    paste_data_images: true,
+    image_advtab: true,
+    file_picker_types: 'image',
+    branding: false,
+  });
+</script>

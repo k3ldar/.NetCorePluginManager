@@ -156,7 +156,7 @@ namespace Middleware.Blog
         {
             get
             {
-                return Published && PublishDateTime >= DateTime.Now;
+                return Published && PublishDateTime <= DateTime.Now;
             }
         }
 
@@ -173,5 +173,45 @@ namespace Middleware.Blog
         public List<BlogComment> Comments { get; private set; }
 
         #endregion Properties
+
+        #region Public Methods
+
+        /// <summary>
+        /// Updates the public properties for a blog entry.
+        /// </summary>
+        /// <param name="title">Title of blog.</param>
+        /// <param name="excerpt">Excerpt for blog.</param>
+        /// <param name="blogText">Blog text.</param>
+        /// <param name="published">Indicates whether the blog is published.</param>
+        /// <param name="publishDateTime">Date and time the blog can be published.</param>
+        /// <param name="tags">Blog tags.</param>
+        public void UpdateBlog(in string title, in string excerpt, in string blogText, 
+            in bool published, in DateTime publishDateTime, in List<string> tags)
+        {
+            if (String.IsNullOrEmpty(title))
+                throw new ArgumentNullException(nameof(title));
+
+            if (String.IsNullOrEmpty(excerpt))
+                throw new ArgumentNullException(nameof(excerpt));
+
+            if (String.IsNullOrEmpty(blogText))
+                throw new ArgumentNullException(nameof(blogText));
+
+            if (tags == null)
+                throw new ArgumentNullException(nameof(tags));
+
+            if (tags.Count == 0)
+                throw new ArgumentException(nameof(tags));
+
+            LastModified = DateTime.Now;
+            Title = title;
+            Excerpt = excerpt;
+            BlogText = blogText;
+            Published = published;
+            PublishDateTime = publishDateTime;
+            Tags = tags;
+        }
+
+        #endregion Public Methods
     }
 }

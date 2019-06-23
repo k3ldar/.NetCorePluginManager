@@ -14029,4 +14029,16 @@ You will shortly receive an email with the details of your order.</comment>
     <value>Published</value>
     <comment>Published</comment>
   </data>
+  <data name="InvalidBlog" xml:space="preserve">
+    <value>The blog is invalid.</value>
+    <comment>The bog is invalid.</comment>
+  </data>
+  <data name="NoBlogsFoundMatchingTags" xml:space="preserve">
+    <value>There were no blogs containing the keyword</value>
+    <comment>There were no blogs containing the keyword</comment>
+  </data>
+  <data name="SeeMore" xml:space="preserve">
+    <value>See More</value>
+    <comment>See More</comment>
+  </data>
 </root>

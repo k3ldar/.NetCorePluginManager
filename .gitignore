@@ -350,3 +350,6 @@ ASALocalRun/
 /Docs/Custom/*/*/*/Properties/
 /DemoWebsite/NetCorePluginDemoWebsite/Views/Docs/*
 /DemoWebsite/NetCorePluginDemoWebsite/Views/Company/*
+/Demo/NetCorePluginDemoWebsite/Views/Blog/*
+/Demo/NetCorePluginDemoWebsite/Views/Blog/*
+/Demo/NetCorePluginDemoWebsite/wwwroot/css/Blog.css

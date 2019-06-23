@@ -72,10 +72,54 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
 
         #region IBlogProvider Methods
 
-        public List<BlogEntry> GetRecentPosts(in int recentCount)
+        public List<BlogEntry> GetRecentPosts(in int recentCount, in bool publishedOnly)
         {
             int count = recentCount;
-            return _blogEntries.OrderBy(o => o.PublishDateTime).Take(count).ToList();
+            
+            if (publishedOnly)
+                return _blogEntries.Where(o => o.IsAvailable).OrderBy(o => o.PublishDateTime).Take(count).ToList();
+            else
+                return _blogEntries.OrderBy(o => o.PublishDateTime).Take(count).ToList();
+        }
+
+        public List<BlogEntry> Search(in string tagName)
+        {
+            if (String.IsNullOrEmpty(tagName))
+                throw new ArgumentNullException(nameof(tagName));
+
+            string[] tags = tagName.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+
+            if (tags.Length == 0)
+                throw new ArgumentNullException(nameof(tagName));
+
+            return _blogEntries.Where(b => b.IsAvailable && b.Tags.Contains(tags[0])).ToList();
+        }
+
+        public BlogEntry GetBlogEntry(in int id)
+        {
+            int blogId = id;
+
+            return _blogEntries.Where(b => b.Id == blogId).FirstOrDefault();
+        }
+
+        public void SaveBlogEntry(in BlogEntry blogEntry)
+        {
+            if (blogEntry == null)
+                throw new ArgumentNullException(nameof(blogEntry));
+
+            int newId;
+
+            if (blogEntry.Id == 0)
+            {
+                newId = _blogEntries.Count;
+                _blogEntries.Add(blogEntry);
+            }
+            else
+            {
+                newId = blogEntry.Id;
+                _blogEntries.Remove(_blogEntries.Where(be => be.Id == newId).FirstOrDefault());
+                _blogEntries.Add(blogEntry);
+            }
         }
 
         #endregion IBlogProvider Methods

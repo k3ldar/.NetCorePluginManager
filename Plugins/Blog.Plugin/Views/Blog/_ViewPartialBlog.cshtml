@@ -1,0 +1,31 @@
+﻿@model Blog.Plugin.Models.BlogPostViewModel
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
+<div class="row">
+    <div class="col-sm-2">
+        <h3>@Localizer[Languages.LanguageStrings.Tags]</h3>
+        <ul>
+            @foreach (string tag in Model.Tags.Split(' '))
+            {
+                <li><a href="/Blog/TagSearch/@tag/">@tag</a></li>
+            }
+        </ul>
+    </div>
+    <div class="col-sm-10">
+        <div class="blogTitle">
+            <h2><a href="@Model.Url">@Model.Title</a><span>@Localizer[nameof(Languages.LanguageStrings.Published)] @Model.PublishDateTime.ToString()</span></h2>
+        </div>
+        <div class="blogBody">
+            <p>@Model.Excerpt <a href="@Model.Url">@Localizer[Languages.LanguageStrings.SeeMore]</a></p>
+        </div>
+        @if (Model.CanEdit)
+        {
+            <div class="blogEdit">
+                <p>
+                    <span><a href="/Blog/Edit/@Model.Id/">@Localizer[nameof(Languages.LanguageStrings.Edit)]</a></span>
+                    <span><a href="/Blog/Delete/@Model.Id/">@Localizer[nameof(Languages.LanguageStrings.Delete)]</a></span>
+                </p>
+            </div>
+        }
+        <hr />
+    </div>
+</div>

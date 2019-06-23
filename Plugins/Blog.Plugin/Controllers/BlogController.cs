@@ -26,7 +26,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 
 using Blog.Plugin.Models;
@@ -49,6 +48,8 @@ namespace Blog.Plugin.Controllers
     {
         #region Private Members
 
+        public const string Name = "Blog";
+
         private readonly IBlogProvider _blogProvider;
 
         #endregion Private Members
@@ -67,14 +68,120 @@ namespace Blog.Plugin.Controllers
         [Breadcrumb(nameof(Languages.LanguageStrings.Blog))]
         public IActionResult Index()
         {
-            BlogPostsViewModel model = GetBlogPostViewModel(_blogProvider.GetRecentPosts(10));
+            BlogPostsViewModel model = GetBlogPostViewModel(_blogProvider.GetRecentPosts(10, true));
 
             return View(model);
+        }
+
+        [Route("Blog/{user}/{id}/{date}/{title}")]
+        [Breadcrumb(nameof(Languages.LanguageStrings.View), Name, nameof(Index), HasParams = true)]
+        public IActionResult ViewBlog(int id)
+        {
+            BlogEntry blogEntry = _blogProvider.GetBlogEntry(id);
+
+            if (blogEntry == null)
+                return RedirectToAction(nameof(Index));
+
+            BlogPostViewModel model = GetBlogPostViewModel(blogEntry);
+
+            return View(model);
+        }
+
+        [HttpGet]
+        [LoggedIn]
+        [Breadcrumb(nameof(Languages.LanguageStrings.Edit), Name, nameof(Index), HasParams = true)]
+        public IActionResult Edit(int id)
+        {
+            BlogEntry blog = _blogProvider.GetBlogEntry(id);
+
+            if (blog == null)
+                return RedirectToAction(nameof(Index));
+
+            BlogPostViewModel model = GetEditBlogPostViewModel(blog);
+
+            return View(model);
+        }
+
+        [HttpPost]
+        [LoggedIn]
+        public IActionResult Edit (BlogPostViewModel model)
+        {
+            if (model == null)
+                throw new ArgumentNullException(nameof(model));
+
+            BlogEntry blogEntry = _blogProvider.GetBlogEntry(model.Id);
+
+            if (blogEntry == null)
+                ModelState.AddModelError(String.Empty, Languages.LanguageStrings.InvalidBlog);
+
+            if (ModelState.IsValid)
+            {
+                blogEntry.UpdateBlog(model.Title, model.Excerpt, model.BlogText, 
+                    model.Published, model.PublishDateTime,
+                    model.Tags.Split(' ', StringSplitOptions.RemoveEmptyEntries).ToList());
+
+                _blogProvider.SaveBlogEntry(blogEntry);
+
+                return Redirect(model.Url);
+            }
+
+            return View(model);
+        }
+
+        [Route("Blog/TagSearch/{tagName}")]
+        [Breadcrumb(nameof(Languages.LanguageStrings.Search), Name, nameof(Index), HasParams = true)]
+        public IActionResult TagSearch(string tagName)
+        {
+            if (String.IsNullOrEmpty(tagName))
+                return RedirectToAction(nameof(Index));
+
+            List<BlogEntry> blogs = _blogProvider.Search(tagName);
+
+            if (blogs.Count == 0)
+                ModelState.AddModelError(String.Empty, Languages.LanguageStrings.NoBlogsFoundMatchingTags);
+
+            BlogPostsViewModel model = GetBlogPostViewModel(blogs);
+            
+            return View(nameof(Index), model);
+
         }
 
         #endregion Public Action Methods
 
         #region Private Methods
+
+        private BlogPostViewModel GetEditBlogPostViewModel(in BlogEntry blogEntry)
+        {
+            BlogPostViewModel Result;
+
+            Result = new BlogPostViewModel(GetModelData(), blogEntry.Id, blogEntry.Title, 
+                blogEntry.Excerpt, blogEntry.BlogText, blogEntry.Username, blogEntry.Published, 
+                blogEntry.PublishDateTime, blogEntry.LastModified, blogEntry.Tags);
+
+            return Result;
+        }
+
+        private BlogPostViewModel GetBlogPostViewModel(in BlogEntry blogEntry)
+        {
+            UserSession user = GetUserSession();
+            BlogPostViewModel Result = new BlogPostViewModel(GetModelData(), blogEntry.Id,
+                blogEntry.Title, blogEntry.Excerpt, blogEntry.BlogText, blogEntry.Username, 
+                blogEntry.Published, blogEntry.PublishDateTime, blogEntry.LastModified, 
+                blogEntry.UserId == user.UserID, blogEntry.Tags);
+
+            foreach (BlogComment comment in blogEntry.Comments)
+            {
+                Result.Comments.Add(new BlogCommentViewModel(comment.Id, comment.DateTime, comment.Username, comment.Comment));
+            }
+
+
+            Result.SeoAuthor = blogEntry.Username;
+            Result.SeoTitle = blogEntry.Title;
+            Result.SeoTags = String.Join(' ', blogEntry.Tags);
+            Result.SeoDescription = blogEntry.Excerpt;
+
+            return Result;
+        }
 
         private BlogPostsViewModel GetBlogPostViewModel(List<BlogEntry> entries)
         {
@@ -85,7 +192,7 @@ namespace Blog.Plugin.Controllers
             {
                 BlogPostViewModel post = new BlogPostViewModel(entry.Id, entry.Title, entry.Excerpt, 
                     entry.BlogText, entry.Username, entry.Published, entry.PublishDateTime, 
-                    user.UserID == entry.UserId,
+                    entry.LastModified, user.UserID == entry.UserId,
                     entry.Tags, new List<BlogCommentViewModel>());
 
                 foreach (BlogComment comment in entry.Comments)
