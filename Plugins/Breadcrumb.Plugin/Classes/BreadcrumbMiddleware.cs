@@ -57,6 +57,7 @@ namespace Breadcrumb.Plugin
         private readonly string _staticFileExtensions = Constants.StaticFileExtensions;
         internal static Timings _timings = new Timings();
         private readonly IStringLocalizer _stringLocalizer;
+        private readonly BreadcrumbItem _homeBreadCrumb;
 
         #endregion Private Members
 
@@ -91,6 +92,9 @@ namespace Breadcrumb.Plugin
 
             BreadcrumbSettings settings = settingsProvider.GetSettings<BreadcrumbSettings>(Constants.PluginSettingBreadcrumb);
 
+            _homeBreadCrumb = new BreadcrumbItem(settings.HomeName,
+                $"{Constants.ForwardSlash}{settings.HomeController}{Constants.ForwardSlash}{settings.DefaultAction}", false);
+
             LoadBreadcrumbData(routeProvider, routeDataService, pluginTypesService, settings);
 
             if (!String.IsNullOrEmpty(settings.StaticFileExtensions))
@@ -121,10 +125,13 @@ namespace Breadcrumb.Plugin
 
                 try
                 {
+                    bool found = false;
+
                     if (_breadcrumbRoutes.ContainsKey(route))
                     {
                         context.Items.Add(Constants.Breadcrumbs, 
                             GetBreadCrumbs(route, _breadcrumbRoutes[route].Breadcrumbs, String.Empty));
+                        found = true;
                     }
                     else
                     {
@@ -134,9 +141,14 @@ namespace Breadcrumb.Plugin
                             {
                                 context.Items.Add(Constants.Breadcrumbs, 
                                     GetBreadCrumbs(route, kvp.Value.Breadcrumbs, Route(context).Substring(kvp.Value.PartialRoute.Length - 1)));
+                                found = true;
+                                break;
                             }
                         }
                     }
+
+                    if (!found)
+                        context.Items.Add(Constants.Breadcrumbs, _homeBreadCrumb);
                 }
                 catch (Exception err)
                 {
@@ -289,9 +301,7 @@ namespace Breadcrumb.Plugin
                         (isDefaultController && !isDefaultAction) ||
                         (!isDefaultController && !isDefaultAction))
                     {
-                        route.Breadcrumbs.Insert(0, new BreadcrumbItem(settings.HomeName,
-                            $"{Constants.ForwardSlash}{settings.HomeController}{Constants.ForwardSlash}{settings.DefaultAction}", 
-                            false));
+                        route.Breadcrumbs.Insert(0, _homeBreadCrumb);
                     }
 
                     // is it the default method for controller
