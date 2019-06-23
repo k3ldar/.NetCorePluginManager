@@ -34,7 +34,7 @@ using Middleware;
 using Middleware.Blog;
 
 using SharedPluginFeatures;
-
+using static SharedPluginFeatures.HtmlHelper;
 using Shared.Classes;
 
 #pragma warning disable CS1591
@@ -77,12 +77,14 @@ namespace Blog.Plugin.Controllers
         [Breadcrumb(nameof(Languages.LanguageStrings.View), Name, nameof(Index), HasParams = true)]
         public IActionResult ViewBlog(int id)
         {
-            BlogEntry blogEntry = _blogProvider.GetBlogEntry(id);
+            BlogItem blogItem = _blogProvider.GetBlog(id);
 
-            if (blogEntry == null)
+            if (blogItem == null)
                 return RedirectToAction(nameof(Index));
 
-            BlogPostViewModel model = GetBlogPostViewModel(blogEntry);
+            BlogPostViewModel model = GetBlogPostViewModel(blogItem);
+            model.Breadcrumbs.Add(new BreadcrumbItem(Languages.LanguageStrings.Blog, $"/{Name}/{nameof(Index)}", false));
+            model.Breadcrumbs.Add(new BreadcrumbItem(blogItem.Title, model.Url, false));
 
             return View(model);
         }
@@ -92,7 +94,13 @@ namespace Blog.Plugin.Controllers
         [Breadcrumb(nameof(Languages.LanguageStrings.Edit), Name, nameof(Index), HasParams = true)]
         public IActionResult Edit(int id)
         {
-            BlogEntry blog = _blogProvider.GetBlogEntry(id);
+            if (!IsUserLoggedIn())
+                return RedirectToAction(nameof(Index));
+
+            if (id == 0)
+                return View(GetEditBlogPostViewModel(new BlogItem()));
+
+            BlogItem blog = _blogProvider.GetBlog(id);
 
             if (blog == null)
                 return RedirectToAction(nameof(Index));
@@ -109,18 +117,18 @@ namespace Blog.Plugin.Controllers
             if (model == null)
                 throw new ArgumentNullException(nameof(model));
 
-            BlogEntry blogEntry = _blogProvider.GetBlogEntry(model.Id);
+            BlogItem blogItem = _blogProvider.GetBlog(model.Id);
 
-            if (blogEntry == null)
+            if (blogItem == null)
                 ModelState.AddModelError(String.Empty, Languages.LanguageStrings.InvalidBlog);
 
             if (ModelState.IsValid)
             {
-                blogEntry.UpdateBlog(model.Title, model.Excerpt, model.BlogText, 
+                blogItem.UpdateBlog(model.Title, model.Excerpt, model.BlogText, 
                     model.Published, model.PublishDateTime,
                     model.Tags.Split(' ', StringSplitOptions.RemoveEmptyEntries).ToList());
 
-                _blogProvider.SaveBlogEntry(blogEntry);
+                _blogProvider.SaveBlog(blogItem);
 
                 return Redirect(model.Url);
             }
@@ -128,72 +136,135 @@ namespace Blog.Plugin.Controllers
             return View(model);
         }
 
-        [Route("Blog/TagSearch/{tagName}")]
-        [Breadcrumb(nameof(Languages.LanguageStrings.Search), Name, nameof(Index), HasParams = true)]
-        public IActionResult TagSearch(string tagName)
+        [HttpGet]
+        public IActionResult Search()
         {
-            if (String.IsNullOrEmpty(tagName))
-                return RedirectToAction(nameof(Index));
+            BlogSearchViewModel model = new BlogSearchViewModel(GetModelData());
+            model.Breadcrumbs.Add(new BreadcrumbItem(Languages.LanguageStrings.Blog, $"/{Name}/", false));
+            model.Breadcrumbs.Add(new BreadcrumbItem(Languages.LanguageStrings.Search, $"/{Name}/{nameof(Search)}/", false));
 
-            List<BlogEntry> blogs = _blogProvider.Search(tagName);
+            return View(model);
+        }
+
+        public IActionResult Search(BlogSearchViewModel model)
+        {
+            List<BlogItem> blogs = _blogProvider.Search(model.TagName);
 
             if (blogs.Count == 0)
                 ModelState.AddModelError(String.Empty, Languages.LanguageStrings.NoBlogsFoundMatchingTags);
 
-            BlogPostsViewModel model = GetBlogPostViewModel(blogs);
-            
-            return View(nameof(Index), model);
+            if (ModelState.IsValid)
+            {
+                BlogPostsViewModel searchModel = GetBlogPostViewModel(blogs);
+                searchModel.Breadcrumbs.Add(new BreadcrumbItem(Languages.LanguageStrings.Blog, $"/{Name}/", false));
+                searchModel.Breadcrumbs.Add(new BreadcrumbItem(Languages.LanguageStrings.Search, $"/{Name}/{nameof(Search)}/", false));
+                searchModel.Breadcrumbs.Add(new BreadcrumbItem(model.TagName, $"/{Name}/{nameof(Search)}/{model.TagName}/", false));
+                return View(nameof(Index), searchModel);
+            }
 
+            return View(new BlogSearchViewModel(GetModelData()));
+        }
+
+        [HttpGet]
+        [HttpPost]
+        [Route("/Blog/Search/{tagName}/")]
+        public IActionResult Search(string tagName)
+        {
+            if (String.IsNullOrEmpty(tagName))
+                return View(new BlogSearchViewModel(GetModelData()));
+
+            List<BlogItem> blogs = _blogProvider.Search(tagName);
+
+            if (blogs.Count == 0)
+                ModelState.AddModelError(String.Empty, Languages.LanguageStrings.NoBlogsFoundMatchingTags);
+
+            if (ModelState.IsValid)
+            {
+                BlogPostsViewModel model = GetBlogPostViewModel(blogs);
+                model.Breadcrumbs.Add(new BreadcrumbItem(Languages.LanguageStrings.Blog, $"/{Name}/", false));
+                model.Breadcrumbs.Add(new BreadcrumbItem(Languages.LanguageStrings.Search, $"/{Name}/{nameof(Search)}/", false));
+                model.Breadcrumbs.Add(new BreadcrumbItem(tagName, $"/{Name}/{nameof(Search)}/{tagName}/", false));
+
+                return View(nameof(Index), model);
+            }
+
+            return View(new BlogSearchViewModel(GetModelData()));
+        }
+
+        [HttpPost]
+        public IActionResult Comment(CommentViewModel model)
+        {
+
+            if (!IsUserLoggedIn())
+                ModelState.AddModelError(String.Empty, Languages.LanguageStrings.PleaseLoginToComment);
+
+            BlogItem blogItem = _blogProvider.GetBlog(model.BlogId);
+
+            if (blogItem == null)
+                ModelState.AddModelError(String.Empty, Languages.LanguageStrings.InvalidBlog);
+
+
+            if (ModelState.IsValid)
+            {
+                UserSession user = GetUserSession();
+                _blogProvider.AddComment(blogItem, user.UserID, user.UserName, model.Comment);
+                return Redirect($"/Blog/{RouteFriendlyName(blogItem.Username)}/{blogItem.Id}/{blogItem.LastModified.ToString("dd-MM-yyyy")}/{RouteFriendlyName(blogItem.Title)}");
+            }
+
+            BlogPostViewModel blogModel = GetBlogPostViewModel(blogItem);
+            blogModel.Breadcrumbs.Add(new BreadcrumbItem(Languages.LanguageStrings.Blog, $"/{Name}/{nameof(Index)}", false));
+            blogModel.Breadcrumbs.Add(new BreadcrumbItem(blogItem.Title, blogModel.Url, false));
+            model.Comment = String.Empty;
+
+            return View("ViewBlog", blogModel);
         }
 
         #endregion Public Action Methods
 
         #region Private Methods
 
-        private BlogPostViewModel GetEditBlogPostViewModel(in BlogEntry blogEntry)
+        private BlogPostViewModel GetEditBlogPostViewModel(in BlogItem blogItem)
         {
-            BlogPostViewModel Result;
-
-            Result = new BlogPostViewModel(GetModelData(), blogEntry.Id, blogEntry.Title, 
-                blogEntry.Excerpt, blogEntry.BlogText, blogEntry.Username, blogEntry.Published, 
-                blogEntry.PublishDateTime, blogEntry.LastModified, blogEntry.Tags);
+            BlogPostViewModel Result = new BlogPostViewModel(GetModelData(), blogItem.Id, blogItem.Title, 
+                blogItem.Excerpt, blogItem.BlogText, blogItem.Username, blogItem.Published, 
+                blogItem.PublishDateTime, blogItem.LastModified, blogItem.Tags);
 
             return Result;
         }
 
-        private BlogPostViewModel GetBlogPostViewModel(in BlogEntry blogEntry)
+        private BlogPostViewModel GetBlogPostViewModel(in BlogItem blogItem)
         {
             UserSession user = GetUserSession();
-            BlogPostViewModel Result = new BlogPostViewModel(GetModelData(), blogEntry.Id,
-                blogEntry.Title, blogEntry.Excerpt, blogEntry.BlogText, blogEntry.Username, 
-                blogEntry.Published, blogEntry.PublishDateTime, blogEntry.LastModified, 
-                blogEntry.UserId == user.UserID, blogEntry.Tags);
+            BlogPostViewModel Result = new BlogPostViewModel(GetModelData(), blogItem.Id,
+                blogItem.Title, blogItem.Excerpt, blogItem.BlogText, blogItem.Username, 
+                blogItem.Published, blogItem.PublishDateTime, blogItem.LastModified, 
+                blogItem.UserId == user.UserID, blogItem.Tags, IsUserLoggedIn());
 
-            foreach (BlogComment comment in blogEntry.Comments)
+            foreach (BlogComment comment in blogItem.Comments)
             {
                 Result.Comments.Add(new BlogCommentViewModel(comment.Id, comment.DateTime, comment.Username, comment.Comment));
             }
 
 
-            Result.SeoAuthor = blogEntry.Username;
-            Result.SeoTitle = blogEntry.Title;
-            Result.SeoTags = String.Join(' ', blogEntry.Tags);
-            Result.SeoDescription = blogEntry.Excerpt;
+            Result.SeoAuthor = blogItem.Username;
+            Result.SeoTitle = blogItem.Title;
+            Result.SeoTags = String.Join(' ', blogItem.Tags);
+            Result.SeoDescription = blogItem.Excerpt;
 
             return Result;
         }
 
-        private BlogPostsViewModel GetBlogPostViewModel(List<BlogEntry> entries)
+        private BlogPostsViewModel GetBlogPostViewModel(List<BlogItem> entries)
         {
             List<BlogPostViewModel> blogPosts = new List<BlogPostViewModel>();
             UserSession user = GetUserSession();
 
-            foreach (BlogEntry entry in entries)
+            foreach (BlogItem entry in entries)
             {
                 BlogPostViewModel post = new BlogPostViewModel(entry.Id, entry.Title, entry.Excerpt, 
                     entry.BlogText, entry.Username, entry.Published, entry.PublishDateTime, 
                     entry.LastModified, user.UserID == entry.UserId,
-                    entry.Tags, new List<BlogCommentViewModel>());
+                    entry.Tags, new List<BlogCommentViewModel>(), IsUserLoggedIn());
 
                 foreach (BlogComment comment in entry.Comments)
                 {

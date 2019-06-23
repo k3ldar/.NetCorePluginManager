@@ -205,6 +205,15 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add Comment.
+        /// </summary>
+        public static string AddComment {
+            get {
+                return ResourceManager.GetString("AddComment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Searching for available appointments.
         /// </summary>
         public static string AddDiarySearching {
@@ -20667,6 +20676,15 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Author.
+        /// </summary>
+        public static string Author {
+            get {
+                return ResourceManager.GetString("Author", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Auto Login.
         /// </summary>
         public static string AutoLogin {
@@ -20924,6 +20942,15 @@ namespace Languages {
         public static string BlogOffline {
             get {
                 return ResourceManager.GetString("BlogOffline", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Blog Search.
+        /// </summary>
+        public static string BlogSearch {
+            get {
+                return ResourceManager.GetString("BlogSearch", resourceCulture);
             }
         }
         
@@ -25876,6 +25903,15 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Options.
+        /// </summary>
+        public static string Options {
+            get {
+                return ResourceManager.GetString("Options", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Order.
         /// </summary>
         public static string Order {
@@ -26605,6 +26641,15 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Please enter at least 1 tag for the blog..
+        /// </summary>
+        public static string PleaseEnterBlogTags {
+            get {
+                return ResourceManager.GetString("PleaseEnterBlogTags", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Please enter the blog text.
         /// </summary>
         public static string PleaseEnterBlogText {
@@ -26664,6 +26709,15 @@ namespace Languages {
         public static string PleaseEnterUserNameOrEmail {
             get {
                 return ResourceManager.GetString("PleaseEnterUserNameOrEmail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please login to comment.
+        /// </summary>
+        public static string PleaseLoginToComment {
+            get {
+                return ResourceManager.GetString("PleaseLoginToComment", resourceCulture);
             }
         }
         
@@ -27741,6 +27795,15 @@ namespace Languages {
         public static string Search {
             get {
                 return ResourceManager.GetString("Search", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please enter a blog tag to search for..
+        /// </summary>
+        public static string SearchBlogTag {
+            get {
+                return ResourceManager.GetString("SearchBlogTag", resourceCulture);
             }
         }
         

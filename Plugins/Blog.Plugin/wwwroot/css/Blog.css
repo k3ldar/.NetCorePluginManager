@@ -1,24 +1,124 @@
-﻿.errorMessage {
-    font-family: Arial, Helvetica, sans-serif;
-    height: 300px;
+﻿.blogEdit {
+    display: block;
+    margin: 10px 0 0 0;
 }
 
-    .errorMessage div {
-        padding-bottom: 20px;
-        margin-right: 30px;
+    .blogEdit span {
+        margin-right: 15px;
     }
 
-        .errorMessage div p {
-            padding-bottom: 4px;
-            font-size:18px;
+    .blogEdit input[type=text] {
+        width: 50%;
+    }
+
+    .blogEdit textarea {
+        width: 50%;
+        height: 100px;
+    }
+
+.blogBody {
+    display: block;
+    font-size: 16px;
+    font-weight: normal;
+}
+
+    .blogBody p span {
+        font-size: 12px;
+    }
+
+    .blogBody h2 {
+        font-size: 20px;
+        font-weight: bold;
+        border-bottom: 1px solid;
+        border-bottom-color: rgb(238, 238, 238);
+    }
+
+.blogTitle {
+    display: block;
+}
+
+    .blogTitle h2 {
+        font-size: 20px;
+        font-weight: bold;
+        border-bottom: 1px solid;
+        border-bottom-color: rgb(238, 238, 238);
+    }
+
+        .blogTitle h2 a {
+            text-decoration: none;
+            color: black;
         }
 
-        .errorMessage div img {
-            border: 0px;
-            padding-top: 20px;
-            float: right;
+        .blogTitle h2 span {
+            width: 100%;
+            font-size: 12px;
+            font-weight: normal;
         }
 
-    .errorMessage p {
-        font-size: 18px;
+.blogComment {
+    display: block;
+}
+
+    .blogComment h3 {
+        font-size: 14px;
+        font-weight: bold;
+        border-bottom: 1px solid;
+        border-bottom-color: rgb(238, 238, 238);
+    }
+
+    .blogComment textarea {
+        width: 50%;
+        height: 100px;
+    }
+
+.blogComments {
+    display: block;
+}
+
+    .blogComments h2 {
+        font-size: 20px;
+        font-weight: bold;
+        border-bottom: 1px solid;
+        border-bottom-color: rgb(238, 238, 238);
+    }
+
+    .blogComments h3 {
+        font-size: 14px;
+        font-weight: bold;
+        border-bottom: 1px solid;
+        border-bottom-color: rgb(238, 238, 238);
+    }
+
+        .blogComments h3 span {
+            font-size: 12px;
+            font-weight: normal;
+        }
+
+.blogTags {
+    display: block;
+}
+
+    .blogTags h3 {
+        font-size: 15px;
+        font-weight: bold;
+    }
+
+    .blogTags ul {
+        list-style: none;
+        padding: 0;
+    }
+
+.blogSearch {
+    display: block;
+}
+
+    .blogSearch h2 {
+        font-size: 20px;
+        font-weight: bold;
+        border-bottom: 1px solid;
+        border-bottom-color: rgb(238, 238, 238);
+    }
+
+    .blogSearch input[type=text] {
+        margin: 0 0 10px 0;
     }

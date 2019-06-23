@@ -906,14 +906,19 @@
             </summary>
             <value>string</value>
         </member>
-        <member name="T:Middleware.Blog.BlogEntry">
+        <member name="T:Middleware.Blog.BlogItem">
             <summary>
-            Blog entry represents a blog post within a website.
+            Blog item represents a blog post within a website.
             </summary>
         </member>
-        <member name="M:Middleware.Blog.BlogEntry.#ctor(System.Int32@,System.Int64@,System.String@,System.String@,System.String@,System.String@,System.Boolean@,System.DateTime@,System.DateTime@,System.DateTime@,System.Collections.Generic.List{System.String}@,System.Collections.Generic.List{Middleware.Blog.BlogComment}@)">
+        <member name="M:Middleware.Blog.BlogItem.#ctor">
             <summary>
-            Constructor for creating a BlogEntry instance
+            Default constructor for new blogs.
+            </summary>
+        </member>
+        <member name="M:Middleware.Blog.BlogItem.#ctor(System.Int32@,System.Int64@,System.String@,System.String@,System.String@,System.String@,System.Boolean@,System.DateTime@,System.DateTime@,System.DateTime@,System.Collections.Generic.List{System.String}@,System.Collections.Generic.List{Middleware.Blog.BlogComment}@)">
+            <summary>
+            Constructor for creating a BlogItem instance
             </summary>
             <param name="id">Unique id representing the blog entry.</param>
             <param name="userId">Unique id of user creating the blog entry.</param>
@@ -928,85 +933,85 @@
             <param name="tags">Tags associated with the blog entry.</param>
             <param name="comments">List of comments for the blog entry.</param>
         </member>
-        <member name="P:Middleware.Blog.BlogEntry.Id">
+        <member name="P:Middleware.Blog.BlogItem.Id">
             <summary>
             Unique id representing the blog entry.
             </summary>
             <value>int</value>
         </member>
-        <member name="P:Middleware.Blog.BlogEntry.UserId">
+        <member name="P:Middleware.Blog.BlogItem.UserId">
             <summary>
             Unique id of user creating the blog entry.
             </summary>
         </member>
-        <member name="P:Middleware.Blog.BlogEntry.Title">
+        <member name="P:Middleware.Blog.BlogItem.Title">
             <summary>
             Title of blog entry.
             </summary>
             <value>string</value>
         </member>
-        <member name="P:Middleware.Blog.BlogEntry.Excerpt">
+        <member name="P:Middleware.Blog.BlogItem.Excerpt">
             <summary>
             Brief description describing the blog entry.
             </summary>
             <value>string</value>
         </member>
-        <member name="P:Middleware.Blog.BlogEntry.BlogText">
+        <member name="P:Middleware.Blog.BlogItem.BlogText">
             <summary>
             The main blog text.
             </summary>
             <value>string</value>
         </member>
-        <member name="P:Middleware.Blog.BlogEntry.Username">
+        <member name="P:Middleware.Blog.BlogItem.Username">
             <summary>
             Name of user creating the blog entry.
             </summary>
             <string>string</string>
             <value>string</value>
         </member>
-        <member name="P:Middleware.Blog.BlogEntry.Published">
+        <member name="P:Middleware.Blog.BlogItem.Published">
             <summary>
             Indicates whether the blog entry has been published or not.
             </summary>
             <value>bool</value>
         </member>
-        <member name="P:Middleware.Blog.BlogEntry.PublishDateTime">
+        <member name="P:Middleware.Blog.BlogItem.PublishDateTime">
             <summary>
             The date/time the blog entry will appear live on the website.
             </summary>
             <value>DateTime</value>
         </member>
-        <member name="P:Middleware.Blog.BlogEntry.Created">
+        <member name="P:Middleware.Blog.BlogItem.Created">
             <summary>
             Date and time the blog was created.
             </summary>
             <value>DateTime</value>
         </member>
-        <member name="P:Middleware.Blog.BlogEntry.LastModified">
+        <member name="P:Middleware.Blog.BlogItem.LastModified">
             <summary>
             Date and time the blog entry was last modified.
             </summary>
             <value>DateTime</value>
         </member>
-        <member name="P:Middleware.Blog.BlogEntry.IsAvailable">
+        <member name="P:Middleware.Blog.BlogItem.IsAvailable">
             <summary>
             Determines whether the blog entry is visible on the website or not.
             </summary>
             <value>bool</value>
         </member>
-        <member name="P:Middleware.Blog.BlogEntry.Tags">
+        <member name="P:Middleware.Blog.BlogItem.Tags">
             <summary>
             Descriptive tags for the blog.
             </summary>
             <value>List&lt;string&gt;</value>
         </member>
-        <member name="P:Middleware.Blog.BlogEntry.Comments">
+        <member name="P:Middleware.Blog.BlogItem.Comments">
             <summary>
             List of comments for the blog entry.
             </summary>
             <value>List&lt;BlogComment&gt;</value>
         </member>
-        <member name="M:Middleware.Blog.BlogEntry.UpdateBlog(System.String@,System.String@,System.String@,System.Boolean@,System.DateTime@,System.Collections.Generic.List{System.String}@)">
+        <member name="M:Middleware.Blog.BlogItem.UpdateBlog(System.String@,System.String@,System.String@,System.Boolean@,System.DateTime@,System.Collections.Generic.List{System.String}@)">
             <summary>
             Updates the public properties for a blog entry.
             </summary>
@@ -2438,27 +2443,36 @@
             </summary>
             <param name="recentCount">Number of recent entries to return.</param>
             <param name="publishedOnly">If true only returns published posts.</param>
-            <returns>List&lt;BlogEntry&gt;</returns>
+            <returns>List&lt;BlogItem&gt;</returns>
         </member>
-        <member name="M:Middleware.IBlogProvider.GetBlogEntry(System.Int32@)">
+        <member name="M:Middleware.IBlogProvider.GetBlog(System.Int32@)">
             <summary>
             Retrieves an individual blog entry.
             </summary>
             <param name="id"></param>
-            <returns>BlogEntry</returns>
+            <returns>BlogItem</returns>
         </member>
         <member name="M:Middleware.IBlogProvider.Search(System.String@)">
             <summary>
             Searches all blog items for blogs with a specific tag name.
             </summary>
             <param name="tagName">Name of tag to be searched for.</param>
-            <returns>List&lt;BlogEntry&gt;</returns>
+            <returns>List&lt;BlogItem&gt;</returns>
         </member>
-        <member name="M:Middleware.IBlogProvider.SaveBlogEntry(Middleware.Blog.BlogEntry@)">
+        <member name="M:Middleware.IBlogProvider.SaveBlog(Middleware.Blog.BlogItem@)">
             <summary>
             Saves a blog entry.
             </summary>
-            <param name="blogEntry">Blog entry to be saved.</param>
+            <param name="blogItem">Blog entry to be saved.</param>
+        </member>
+        <member name="M:Middleware.IBlogProvider.AddComment(Middleware.Blog.BlogItem@,System.Int64@,System.String@,System.String@)">
+            <summary>
+            Adds a comment to a blog.
+            </summary>
+            <param name="blogItem">Blog that will have a comment added to.</param>
+            <param name="userId">Id of the user making the comment.</param>
+            <param name="userName">Name of the user making the comment.</param>
+            <param name="comment">Comment to be added.</param>
         </member>
         <member name="T:Middleware.ICountryProvider">
             <summary>

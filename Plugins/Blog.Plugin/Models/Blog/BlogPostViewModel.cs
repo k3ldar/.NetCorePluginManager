@@ -60,10 +60,10 @@ namespace Blog.Plugin.Models
         /// <param name="canEdit">Determines whether the current user can edit the post or not.</param>
         /// <param name="tags">List of tags assigned to the post.</param>
         /// <param name="comments">List of comments for the blog entry.</param>
-        public BlogPostViewModel(in int id, in string title, in string excerpt,
-            in string blogtext, in string username, in bool published, 
-            in DateTime publishDateTime, in DateTime lastModified, in bool canEdit, 
-            in List<string> tags, in List<BlogCommentViewModel> comments)
+        /// <param name="isLoggedIn">Indicates whether the user is logged in or not.</param>
+        public BlogPostViewModel(in int id, in string title, in string excerpt, in string blogtext, 
+            in string username, in bool published, in DateTime publishDateTime, in DateTime lastModified, 
+            in bool canEdit, in List<string> tags, in List<BlogCommentViewModel> comments, in bool isLoggedIn)
         {
             if (String.IsNullOrEmpty(title))
                 throw new ArgumentNullException(nameof(title));
@@ -91,6 +91,7 @@ namespace Blog.Plugin.Models
             CanEdit = canEdit;
             Tags = String.Join(' ', tags);
             Comments = comments ?? throw new ArgumentNullException(nameof(comments));
+            IsLoggedIn = isLoggedIn;
         }
 
         /// <summary>
@@ -107,10 +108,10 @@ namespace Blog.Plugin.Models
         /// <param name="lastModified">Date and time last modified.</param>
         /// <param name="canEdit">Determines whether the current user can edit the post or not.</param>
         /// <param name="tags">List of tags assigned to the post.</param>
+        /// <param name="isLoggedIn">Indicates whether the user is logged in or not.</param>
         public BlogPostViewModel(in BaseModelData baseModelData, in int id, in string title, in string excerpt,
-            in string blogtext, in string username, in bool published,
-            in DateTime publishDateTime, in DateTime lastModified, in bool canEdit,
-            in List<string> tags)
+            in string blogtext, in string username, in bool published, in DateTime publishDateTime, 
+            in DateTime lastModified, in bool canEdit, in List<string> tags, in bool isLoggedIn)
             : base (baseModelData)
         {
             if (String.IsNullOrEmpty(title))
@@ -139,6 +140,7 @@ namespace Blog.Plugin.Models
             CanEdit = canEdit;
             Tags = String.Join(' ', tags);
             Comments = new List<BlogCommentViewModel>();
+            IsLoggedIn = isLoggedIn;
         }
 
         /// <summary>
@@ -155,8 +157,8 @@ namespace Blog.Plugin.Models
         /// <param name="lastModified">Date and time last modified.</param>
         /// <param name="tags">List of tags assigned to the post.</param>
         public BlogPostViewModel(in BaseModelData baseModelData, in int id, in string title, in string excerpt, 
-            in string blogtext, in string username, in bool published,
-            in DateTime publishDateTime, in DateTime lastModified, in List<string> tags)
+            in string blogtext, in string username, in bool published, in DateTime publishDateTime, 
+            in DateTime lastModified, in List<string> tags)
             : base(baseModelData)
         {
             if (tags == null)
@@ -232,6 +234,7 @@ namespace Blog.Plugin.Models
         /// Tags associated with the blog post.
         /// </summary>
         /// <value>string</value>
+        [Required(ErrorMessage = nameof(Languages.LanguageStrings.PleaseEnterBlogTags))]
         public string Tags { get; set; }
 
         /// <summary>
@@ -257,6 +260,12 @@ namespace Blog.Plugin.Models
                 return $"/Blog/{RouteFriendlyName(Username)}/{Id}/{LastModified.ToString("dd-MM-yyyy")}/{RouteFriendlyName(Title)}";
             }
         }
+
+        /// <summary>
+        /// Indicates whether the user is logged in or not
+        /// </summary>
+        /// <value>bool</value>
+        public bool IsLoggedIn { get; set; }
 
         #endregion Properties
     }

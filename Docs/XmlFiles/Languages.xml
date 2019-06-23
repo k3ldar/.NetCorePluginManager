@@ -100,6 +100,11 @@
               Looks up a localized string similar to Add.
             </summary>
         </member>
+        <member name="P:Languages.LanguageStrings.AddComment">
+            <summary>
+              Looks up a localized string similar to Add Comment.
+            </summary>
+        </member>
         <member name="P:Languages.LanguageStrings.AddDiarySearching">
             <summary>
               Looks up a localized string similar to Searching for available appointments.
@@ -11602,6 +11607,11 @@
               Looks up a localized string similar to Asset Type.
             </summary>
         </member>
+        <member name="P:Languages.LanguageStrings.Author">
+            <summary>
+              Looks up a localized string similar to Author.
+            </summary>
+        </member>
         <member name="P:Languages.LanguageStrings.AutoLogin">
             <summary>
               Looks up a localized string similar to Auto Login.
@@ -11745,6 +11755,11 @@
         <member name="P:Languages.LanguageStrings.BlogOffline">
             <summary>
               Looks up a localized string similar to This blog is currently offline and will be available shortly..
+            </summary>
+        </member>
+        <member name="P:Languages.LanguageStrings.BlogSearch">
+            <summary>
+              Looks up a localized string similar to Blog Search.
             </summary>
         </member>
         <member name="P:Languages.LanguageStrings.BodyWashes">
@@ -14507,6 +14522,11 @@
               Looks up a localized string similar to Optional.
             </summary>
         </member>
+        <member name="P:Languages.LanguageStrings.Options">
+            <summary>
+              Looks up a localized string similar to Options.
+            </summary>
+        </member>
         <member name="P:Languages.LanguageStrings.Order">
             <summary>
               Looks up a localized string similar to Order.
@@ -14912,6 +14932,11 @@
               Looks up a localized string similar to Picture.
             </summary>
         </member>
+        <member name="P:Languages.LanguageStrings.PleaseEnterBlogTags">
+            <summary>
+              Looks up a localized string similar to Please enter at least 1 tag for the blog..
+            </summary>
+        </member>
         <member name="P:Languages.LanguageStrings.PleaseEnterBlogText">
             <summary>
               Looks up a localized string similar to Please enter the blog text.
@@ -14945,6 +14970,11 @@
         <member name="P:Languages.LanguageStrings.PleaseEnterUserNameOrEmail">
             <summary>
               Looks up a localized string similar to Please enter your Username/Email Address.
+            </summary>
+        </member>
+        <member name="P:Languages.LanguageStrings.PleaseLoginToComment">
+            <summary>
+              Looks up a localized string similar to Please login to comment.
             </summary>
         </member>
         <member name="P:Languages.LanguageStrings.PleaseSelectCategory">
@@ -15546,6 +15576,11 @@
         <member name="P:Languages.LanguageStrings.Search">
             <summary>
               Looks up a localized string similar to Search.
+            </summary>
+        </member>
+        <member name="P:Languages.LanguageStrings.SearchBlogTag">
+            <summary>
+              Looks up a localized string similar to Please enter a blog tag to search for..
             </summary>
         </member>
         <member name="P:Languages.LanguageStrings.SearchDescription">

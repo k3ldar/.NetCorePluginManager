@@ -14041,4 +14041,32 @@ You will shortly receive an email with the details of your order.</comment>
     <value>See More</value>
     <comment>See More</comment>
   </data>
+  <data name="AddComment" xml:space="preserve">
+    <value>Add Comment</value>
+    <comment>Add Comment</comment>
+  </data>
+  <data name="Author" xml:space="preserve">
+    <value>Author</value>
+    <comment>Author</comment>
+  </data>
+  <data name="BlogSearch" xml:space="preserve">
+    <value>Blog Search</value>
+    <comment>Blog Search</comment>
+  </data>
+  <data name="Options" xml:space="preserve">
+    <value>Options</value>
+    <comment>Options</comment>
+  </data>
+  <data name="PleaseEnterBlogTags" xml:space="preserve">
+    <value>Please enter at least 1 tag for the blog.</value>
+    <comment>Please enter at least 1 tag for the blog.</comment>
+  </data>
+  <data name="PleaseLoginToComment" xml:space="preserve">
+    <value>Please login to comment</value>
+    <comment>Please login to comment</comment>
+  </data>
+  <data name="SearchBlogTag" xml:space="preserve">
+    <value>Please enter a blog tag to search for.</value>
+    <comment>Please enter a blog tag to search for.</comment>
+  </data>
 </root>

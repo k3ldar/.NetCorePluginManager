@@ -15,52 +15,40 @@
  *
  *  Product:  Blog Plugin
  *  
- *  File: Comment.cs
+ *  File: CommentViewModel.cs
  *
- *  Purpose:  Blog post comment view model
+ *  Purpose:  Blog comment view model
  *
  *  Date        Name                Reason
- *  21/06/2019  Simon Carter        Initially Created
+ *  23/06/2019  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using System;
-using System.Collections.Generic;
-
-using SharedPluginFeatures;
+using System.ComponentModel.DataAnnotations;
 
 namespace Blog.Plugin.Models
 {
     /// <summary>
-    /// Container view model which can hold one or more blog posts.
+    /// View model for adding comments.
     /// </summary>
-    public class BlogPostsViewModel : BaseModel
+    public class CommentViewModel
     {
         #region Constructors
 
         /// <summary>
-        /// Default constructor for multiple blog entries.
+        /// Default constructor
         /// </summary>
-        /// <param name="baseModelData"></param>
-        /// <param name="blogEntries"></param>
-        public BlogPostsViewModel(in BaseModelData baseModelData, in List<BlogPostViewModel> blogEntries)
-            : base (baseModelData)
+        public CommentViewModel()
         {
-            BlogEntries = blogEntries ?? throw new ArgumentNullException(nameof(blogEntries));
+
         }
 
         /// <summary>
-        /// Default constructor for a single blog entry.
+        /// Constructor for adding blog id to comment view model.
         /// </summary>
-        /// <param name="baseModelData"></param>
-        /// <param name="blogItem"></param>
-        public BlogPostsViewModel(in BaseModelData baseModelData, in BlogPostViewModel blogItem)
-            : base(baseModelData)
+        /// <param name="blogId">Id of the blog the comment will be added to.</param>
+        public CommentViewModel(in int blogId)
         {
-            if (blogItem == null)
-                throw new ArgumentNullException(nameof(blogItem));
-
-            BlogEntries = new List<BlogPostViewModel>();
-            BlogEntries.Add(blogItem);
+            BlogId = blogId;
         }
 
         #endregion Constructors
@@ -68,10 +56,17 @@ namespace Blog.Plugin.Models
         #region Properties
 
         /// <summary>
-        /// List of blog entries within the view model
+        /// Id of the blog the comment will be assigned to.
         /// </summary>
-        /// <value>List&lt;BlogPostViewModel&gt;</value>
-        public List<BlogPostViewModel> BlogEntries { get; private set; }
+        /// <value>int</value>
+        public int BlogId { get; set; }
+
+        /// <summary>
+        /// Comment to be added to the blog post.
+        /// </summary>
+        /// <value>string</value>
+        [Required]
+        public string Comment { get; set; }
 
         #endregion Properties
     }

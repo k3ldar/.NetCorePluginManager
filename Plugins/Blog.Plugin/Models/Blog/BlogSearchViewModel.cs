@@ -15,52 +15,43 @@
  *
  *  Product:  Blog Plugin
  *  
- *  File: Comment.cs
+ *  File: BlogSearchViewModel.cs
  *
- *  Purpose:  Blog post comment view model
+ *  Purpose:  Blog search view model
  *
  *  Date        Name                Reason
- *  21/06/2019  Simon Carter        Initially Created
+ *  23/06/2019  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using System;
-using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 using SharedPluginFeatures;
 
 namespace Blog.Plugin.Models
 {
     /// <summary>
-    /// Container view model which can hold one or more blog posts.
+    /// Blog search view model
     /// </summary>
-    public class BlogPostsViewModel : BaseModel
+    public sealed class BlogSearchViewModel : BaseModel
     {
         #region Constructors
 
         /// <summary>
-        /// Default constructor for multiple blog entries.
+        /// Default constructor
         /// </summary>
-        /// <param name="baseModelData"></param>
-        /// <param name="blogEntries"></param>
-        public BlogPostsViewModel(in BaseModelData baseModelData, in List<BlogPostViewModel> blogEntries)
-            : base (baseModelData)
+        public BlogSearchViewModel()
         {
-            BlogEntries = blogEntries ?? throw new ArgumentNullException(nameof(blogEntries));
+
         }
 
         /// <summary>
-        /// Default constructor for a single blog entry.
+        /// Constructor for viewing search view.
         /// </summary>
         /// <param name="baseModelData"></param>
-        /// <param name="blogItem"></param>
-        public BlogPostsViewModel(in BaseModelData baseModelData, in BlogPostViewModel blogItem)
-            : base(baseModelData)
+        public BlogSearchViewModel(BaseModelData baseModelData)
+            : base (baseModelData)
         {
-            if (blogItem == null)
-                throw new ArgumentNullException(nameof(blogItem));
 
-            BlogEntries = new List<BlogPostViewModel>();
-            BlogEntries.Add(blogItem);
         }
 
         #endregion Constructors
@@ -68,10 +59,10 @@ namespace Blog.Plugin.Models
         #region Properties
 
         /// <summary>
-        /// List of blog entries within the view model
+        /// Tag to search for within all visible blogs.
         /// </summary>
-        /// <value>List&lt;BlogPostViewModel&gt;</value>
-        public List<BlogPostViewModel> BlogEntries { get; private set; }
+        [Required]
+        public string TagName { get; set; }
 
         #endregion Properties
     }

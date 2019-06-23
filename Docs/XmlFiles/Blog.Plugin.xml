@@ -81,7 +81,7 @@
             Default constructor for a single blog entry.
             </summary>
             <param name="baseModelData"></param>
-            <param name="blogEntry"></param>
+            <param name="blogItem"></param>
         </member>
         <member name="P:Blog.Plugin.Models.BlogPostsViewModel.BlogEntries">
             <summary>
@@ -99,7 +99,7 @@
             Constructor to be used when posting edit form.
             </summary>
         </member>
-        <member name="M:Blog.Plugin.Models.BlogPostViewModel.#ctor(System.Int32@,System.String@,System.String@,System.String@,System.String@,System.Boolean@,System.DateTime@,System.DateTime@,System.Boolean@,System.Collections.Generic.List{System.String}@,System.Collections.Generic.List{Blog.Plugin.Models.BlogCommentViewModel}@)">
+        <member name="M:Blog.Plugin.Models.BlogPostViewModel.#ctor(System.Int32@,System.String@,System.String@,System.String@,System.String@,System.Boolean@,System.DateTime@,System.DateTime@,System.Boolean@,System.Collections.Generic.List{System.String}@,System.Collections.Generic.List{Blog.Plugin.Models.BlogCommentViewModel}@,System.Boolean@)">
             <summary>
             Constructor for viewing multiple blog entries
             </summary>
@@ -114,8 +114,9 @@
             <param name="canEdit">Determines whether the current user can edit the post or not.</param>
             <param name="tags">List of tags assigned to the post.</param>
             <param name="comments">List of comments for the blog entry.</param>
+            <param name="isLoggedIn">Indicates whether the user is logged in or not.</param>
         </member>
-        <member name="M:Blog.Plugin.Models.BlogPostViewModel.#ctor(SharedPluginFeatures.BaseModelData@,System.Int32@,System.String@,System.String@,System.String@,System.String@,System.Boolean@,System.DateTime@,System.DateTime@,System.Boolean@,System.Collections.Generic.List{System.String}@)">
+        <member name="M:Blog.Plugin.Models.BlogPostViewModel.#ctor(SharedPluginFeatures.BaseModelData@,System.Int32@,System.String@,System.String@,System.String@,System.String@,System.Boolean@,System.DateTime@,System.DateTime@,System.Boolean@,System.Collections.Generic.List{System.String}@,System.Boolean@)">
             <summary>
             Constructor for viewing a single blog entry.
             </summary>
@@ -130,6 +131,7 @@
             <param name="lastModified">Date and time last modified.</param>
             <param name="canEdit">Determines whether the current user can edit the post or not.</param>
             <param name="tags">List of tags assigned to the post.</param>
+            <param name="isLoggedIn">Indicates whether the user is logged in or not.</param>
         </member>
         <member name="M:Blog.Plugin.Models.BlogPostViewModel.#ctor(SharedPluginFeatures.BaseModelData@,System.Int32@,System.String@,System.String@,System.String@,System.String@,System.Boolean@,System.DateTime@,System.DateTime@,System.Collections.Generic.List{System.String}@)">
             <summary>
@@ -215,6 +217,61 @@
         <member name="P:Blog.Plugin.Models.BlogPostViewModel.Url">
             <summary>
             Url for the blog.
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:Blog.Plugin.Models.BlogPostViewModel.IsLoggedIn">
+            <summary>
+            Indicates whether the user is logged in or not
+            </summary>
+            <value>bool</value>
+        </member>
+        <member name="T:Blog.Plugin.Models.BlogSearchViewModel">
+            <summary>
+            Blog search view model
+            </summary>
+        </member>
+        <member name="M:Blog.Plugin.Models.BlogSearchViewModel.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="M:Blog.Plugin.Models.BlogSearchViewModel.#ctor(SharedPluginFeatures.BaseModelData)">
+            <summary>
+            Constructor for viewing search view.
+            </summary>
+            <param name="baseModelData"></param>
+        </member>
+        <member name="P:Blog.Plugin.Models.BlogSearchViewModel.TagName">
+            <summary>
+            Tag to search for within all visible blogs.
+            </summary>
+        </member>
+        <member name="T:Blog.Plugin.Models.CommentViewModel">
+            <summary>
+            View model for adding comments.
+            </summary>
+        </member>
+        <member name="M:Blog.Plugin.Models.CommentViewModel.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="M:Blog.Plugin.Models.CommentViewModel.#ctor(System.Int32@)">
+            <summary>
+            Constructor for adding blog id to comment view model.
+            </summary>
+            <param name="blogId">Id of the blog the comment will be added to.</param>
+        </member>
+        <member name="P:Blog.Plugin.Models.CommentViewModel.BlogId">
+            <summary>
+            Id of the blog the comment will be assigned to.
+            </summary>
+            <value>int</value>
+        </member>
+        <member name="P:Blog.Plugin.Models.CommentViewModel.Comment">
+            <summary>
+            Comment to be added to the blog post.
             </summary>
             <value>string</value>
         </member>

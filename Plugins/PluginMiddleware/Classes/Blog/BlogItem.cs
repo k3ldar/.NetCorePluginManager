@@ -15,7 +15,7 @@
  *
  *  Product:  Plugin Middleware
  *  
- *  File: BlogEntry.cs
+ *  File: BlogItem.cs
  *
  *  Purpose:  Middleware object for a blog entry
  *
@@ -29,14 +29,23 @@ using System.Collections.Generic;
 namespace Middleware.Blog
 {
     /// <summary>
-    /// Blog entry represents a blog post within a website.
+    /// Blog item represents a blog post within a website.
     /// </summary>
-    public sealed class BlogEntry
+    public sealed class BlogItem
     {
         #region Constructors
 
         /// <summary>
-        /// Constructor for creating a BlogEntry instance
+        /// Default constructor for new blogs.
+        /// </summary>
+        public BlogItem()
+        {
+            Tags = new List<string>();
+            Comments = new List<BlogComment>();
+        }
+
+        /// <summary>
+        /// Constructor for creating a BlogItem instance
         /// </summary>
         /// <param name="id">Unique id representing the blog entry.</param>
         /// <param name="userId">Unique id of user creating the blog entry.</param>
@@ -50,7 +59,7 @@ namespace Middleware.Blog
         /// <param name="lastModified">Date and time the blog entry was last modified.</param>
         /// <param name="tags">Tags associated with the blog entry.</param>
         /// <param name="comments">List of comments for the blog entry.</param>
-        public BlogEntry(in int id, in long userId, in string title, in string excerpt, 
+        public BlogItem(in int id, in long userId, in string title, in string excerpt, 
             in string blogtext, in string username, in bool published, in DateTime publishDateTime, 
             in DateTime created, in DateTime lastModified, in List<string> tags,
             in List<BlogComment> comments)

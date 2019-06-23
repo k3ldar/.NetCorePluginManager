@@ -43,27 +43,37 @@ namespace Middleware
         /// </summary>
         /// <param name="recentCount">Number of recent entries to return.</param>
         /// <param name="publishedOnly">If true only returns published posts.</param>
-        /// <returns>List&lt;BlogEntry&gt;</returns>
-        List<BlogEntry> GetRecentPosts(in int recentCount, in bool publishedOnly);
+        /// <returns>List&lt;BlogItem&gt;</returns>
+        List<BlogItem> GetRecentPosts(in int recentCount, in bool publishedOnly);
 
         /// <summary>
         /// Retrieves an individual blog entry.
         /// </summary>
         /// <param name="id"></param>
-        /// <returns>BlogEntry</returns>
-        BlogEntry GetBlogEntry(in int id);
+        /// <returns>BlogItem</returns>
+        BlogItem GetBlog(in int id);
 
         /// <summary>
         /// Searches all blog items for blogs with a specific tag name.
         /// </summary>
         /// <param name="tagName">Name of tag to be searched for.</param>
-        /// <returns>List&lt;BlogEntry&gt;</returns>
-        List<BlogEntry> Search(in string tagName);
+        /// <returns>List&lt;BlogItem&gt;</returns>
+        List<BlogItem> Search(in string tagName);
 
         /// <summary>
         /// Saves a blog entry.
         /// </summary>
-        /// <param name="blogEntry">Blog entry to be saved.</param>
-        void SaveBlogEntry(in BlogEntry blogEntry);
+        /// <param name="blogItem">Blog entry to be saved.</param>
+        void SaveBlog(in BlogItem blogItem);
+
+        /// <summary>
+        /// Adds a comment to a blog.
+        /// </summary>
+        /// <param name="blogItem">Blog that will have a comment added to.</param>
+        /// <param name="userId">Id of the user making the comment.</param>
+        /// <param name="userName">Name of the user making the comment.</param>
+        /// <param name="comment">Comment to be added.</param>
+        void AddComment(in BlogItem blogItem, in long userId, 
+            in string userName, in string comment);
     }
 }

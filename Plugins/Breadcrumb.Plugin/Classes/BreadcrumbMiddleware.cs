@@ -148,7 +148,16 @@ namespace Breadcrumb.Plugin
                     }
 
                     if (!found)
-                        context.Items.Add(Constants.Breadcrumbs, _homeBreadCrumb);
+                    {
+                        BreadcrumbItem homeBreadCrumb;
+
+                        if (_stringLocalizer != null)
+                            homeBreadCrumb = new BreadcrumbItem(_stringLocalizer[_homeBreadCrumb.Name], _homeBreadCrumb.Route, _homeBreadCrumb.HasParameters);
+                        else
+                            homeBreadCrumb = _homeBreadCrumb;
+
+                        context.Items.Add(Constants.Breadcrumbs, new List<BreadcrumbItem>() { homeBreadCrumb });
+                    }
                 }
                 catch (Exception err)
                 {
