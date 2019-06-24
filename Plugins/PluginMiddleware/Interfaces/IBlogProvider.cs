@@ -53,6 +53,14 @@ namespace Middleware
         /// <returns>BlogItem</returns>
         BlogItem GetBlog(in int id);
 
+
+        /// <summary>
+        /// Retrieves all blogs for a specific user.
+        /// </summary>
+        /// <param name="userId">Id of user who's blog posts will be returned.</param>
+        /// <returns>List&lt;BlogItem&gt;</returns>
+        List<BlogItem> GetMyBlogs(in long userId);
+
         /// <summary>
         /// Searches all blog items for blogs with a specific tag name.
         /// </summary>
@@ -64,7 +72,7 @@ namespace Middleware
         /// Saves a blog entry.
         /// </summary>
         /// <param name="blogItem">Blog entry to be saved.</param>
-        void SaveBlog(in BlogItem blogItem);
+        BlogItem SaveBlog(in BlogItem blogItem);
 
         /// <summary>
         /// Adds a comment to a blog.

@@ -96,6 +96,12 @@ namespace UserAccount.Plugin
         public bool ShowDownloads { get; set; }
 
         /// <summary>
+        /// If Blog.Plugin module is loaded, this will show an icon for the user to view their own blogs.
+        /// </summary>
+        /// <value>bool</value>
+        public bool ShowBlog { get; set; }
+
+        /// <summary>
         /// Minimum number of upper case characters that have to be in a password.
         /// 
         /// Default: 1

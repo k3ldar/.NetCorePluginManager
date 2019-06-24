@@ -11,13 +11,14 @@
                 }
             </ul>
 
-            @if(Model.IsLoggedIn)
-            {
-                <h3>@Localizer[nameof(Languages.LanguageStrings.Options)]</h3>
-                <ul>
-                    <li><a href="/Blog/Edit">@Localizer[nameof(Languages.LanguageStrings.New)]</a></li>
-                </ul>
-            }
+            <h3>@Localizer[nameof(Languages.LanguageStrings.Options)]</h3>
+            <ul>
+                <li><a href="/Blog/Search">@Localizer[nameof(Languages.LanguageStrings.Search)]</a></li>
+                @if (Model.IsLoggedIn)
+                {
+                    <li><a href="/Blog/New">@Localizer[nameof(Languages.LanguageStrings.New)]</a></li>
+                }
+            </ul>
         </div>
     </div>
     <div class="col-sm-10">
@@ -50,4 +51,7 @@
     </div>
 </div>
 
+@if (Model.AllowComments)
+{
 @await Html.PartialAsync("_AddComment.cshtml", new Blog.Plugin.Models.CommentViewModel(Model.Id))
+}

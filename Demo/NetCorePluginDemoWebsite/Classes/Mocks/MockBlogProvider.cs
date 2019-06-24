@@ -103,7 +103,13 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
             return _blogEntries.Where(b => b.Id == blogId).FirstOrDefault();
         }
 
-        public void SaveBlog(in BlogItem blogItem)
+        public List<BlogItem> GetMyBlogs(in long userId)
+        {
+            long user = userId;
+            return _blogEntries.Where(b => b.UserId == user).OrderBy(o => o.Created).ToList();
+        }
+
+        public BlogItem SaveBlog(in BlogItem blogItem)
         {
             if (blogItem == null)
                 throw new ArgumentNullException(nameof(blogItem));
@@ -112,17 +118,19 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
 
             if (blogItem.Id == 0)
             {
-                newId = _blogEntries.Count;
+                newId = _blogEntries.Count + 1;
                 BlogItem newblog = new BlogItem(newId, blogItem.UserId, blogItem.Title, blogItem.Excerpt,
                     blogItem.BlogText, blogItem.Username, blogItem.Published, DateTime.Now,
                     DateTime.Now, DateTime.Now, blogItem.Tags, blogItem.Comments);
                 _blogEntries.Add(newblog);
+                return newblog;
             }
             else
             {
                 newId = blogItem.Id;
                 _blogEntries.Remove(_blogEntries.Where(be => be.Id == newId).FirstOrDefault());
                 _blogEntries.Add(blogItem);
+                return blogItem;
             }
         }
 

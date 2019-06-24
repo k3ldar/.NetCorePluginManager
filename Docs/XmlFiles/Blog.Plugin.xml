@@ -9,11 +9,10 @@
             Settings that affect how the Blog.Plugin module is configured.
             </summary>
         </member>
-        <member name="P:Blog.Plugin.BlogSettings.LoginPage">
+        <member name="P:Blog.Plugin.BlogSettings.AllowComments">
             <summary>
-            Login page that the user should be directed to if login is required.
+            Determines whether people can leave comments or not.
             </summary>
-            <value>string</value>
         </member>
         <member name="T:Blog.Plugin.Classes.PluginClass">
             <summary>
@@ -99,7 +98,7 @@
             Constructor to be used when posting edit form.
             </summary>
         </member>
-        <member name="M:Blog.Plugin.Models.BlogPostViewModel.#ctor(System.Int32@,System.String@,System.String@,System.String@,System.String@,System.Boolean@,System.DateTime@,System.DateTime@,System.Boolean@,System.Collections.Generic.List{System.String}@,System.Collections.Generic.List{Blog.Plugin.Models.BlogCommentViewModel}@,System.Boolean@)">
+        <member name="M:Blog.Plugin.Models.BlogPostViewModel.#ctor(System.Int32@,System.String@,System.String@,System.String@,System.String@,System.Boolean@,System.DateTime@,System.DateTime@,System.Boolean@,System.Collections.Generic.List{System.String}@,System.Collections.Generic.List{Blog.Plugin.Models.BlogCommentViewModel}@,System.Boolean@,System.Boolean@)">
             <summary>
             Constructor for viewing multiple blog entries
             </summary>
@@ -115,8 +114,9 @@
             <param name="tags">List of tags assigned to the post.</param>
             <param name="comments">List of comments for the blog entry.</param>
             <param name="isLoggedIn">Indicates whether the user is logged in or not.</param>
+            <param name="allowComments">Determines whether comments are allowed or not.</param>
         </member>
-        <member name="M:Blog.Plugin.Models.BlogPostViewModel.#ctor(SharedPluginFeatures.BaseModelData@,System.Int32@,System.String@,System.String@,System.String@,System.String@,System.Boolean@,System.DateTime@,System.DateTime@,System.Boolean@,System.Collections.Generic.List{System.String}@,System.Boolean@)">
+        <member name="M:Blog.Plugin.Models.BlogPostViewModel.#ctor(SharedPluginFeatures.BaseModelData@,System.Int32@,System.String@,System.String@,System.String@,System.String@,System.Boolean@,System.DateTime@,System.DateTime@,System.Boolean@,System.Collections.Generic.List{System.String}@,System.Boolean@,System.Boolean@)">
             <summary>
             Constructor for viewing a single blog entry.
             </summary>
@@ -132,6 +132,7 @@
             <param name="canEdit">Determines whether the current user can edit the post or not.</param>
             <param name="tags">List of tags assigned to the post.</param>
             <param name="isLoggedIn">Indicates whether the user is logged in or not.</param>
+            <param name="allowComments">Determines whether comments are allowed or not.</param>
         </member>
         <member name="M:Blog.Plugin.Models.BlogPostViewModel.#ctor(SharedPluginFeatures.BaseModelData@,System.Int32@,System.String@,System.String@,System.String@,System.String@,System.Boolean@,System.DateTime@,System.DateTime@,System.Collections.Generic.List{System.String}@)">
             <summary>
@@ -226,6 +227,12 @@
             </summary>
             <value>bool</value>
         </member>
+        <member name="P:Blog.Plugin.Models.BlogPostViewModel.AllowComments">
+            <summary>
+            Determines whether users are allowed to add comments or not.
+            </summary>
+            <value>bool</value>
+        </member>
         <member name="T:Blog.Plugin.Models.BlogSearchViewModel">
             <summary>
             Blog search view model
@@ -274,6 +281,24 @@
             Comment to be added to the blog post.
             </summary>
             <value>string</value>
+        </member>
+        <member name="T:Blog.Plugin.Models.MyBlogsViewModel">
+            <summary>
+            View model for viewing a specific users list of blogs.
+            </summary>
+        </member>
+        <member name="M:Blog.Plugin.Models.MyBlogsViewModel.#ctor(SharedPluginFeatures.BaseModelData,System.Collections.Generic.List{Blog.Plugin.Models.BlogPostViewModel})">
+            <summary>
+            Default constructor
+            </summary>
+            <param name="modelData">BaseModelData items.</param>
+            <param name="blogItems">User blog items.</param>
+        </member>
+        <member name="P:Blog.Plugin.Models.MyBlogsViewModel.BlogItems">
+            <summary>
+            List of blog items for a specific user.
+            </summary>
+            <value>List&lt;BlogPostViewModel&gt;</value>
         </member>
     </members>
 </doc>

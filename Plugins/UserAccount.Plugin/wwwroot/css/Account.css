@@ -119,6 +119,9 @@
 .tickets a {
     background-image: url('/images/UserAccount/submitticketIcon.png');
 }
+.blog a {
+    background-image: url('/images/UserAccount/blogIcon.png');
+}
 
 .fixed {
     display: block;

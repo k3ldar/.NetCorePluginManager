@@ -144,12 +144,17 @@ namespace SharedPluginFeatures
         /// <returns>List&lt;BreadcrumbItem&gt;</returns>
         protected List<BreadcrumbItem> GetBreadcrumbs()
         {
+            List<BreadcrumbItem> Result = new List<BreadcrumbItem>();
+
             if (HttpContext.Items.ContainsKey(Constants.Breadcrumbs))
             {
-                return (List<BreadcrumbItem>)HttpContext.Items[Constants.Breadcrumbs];
+                List<BreadcrumbItem> breadcrumbs = (List<BreadcrumbItem>)HttpContext.Items[Constants.Breadcrumbs];
+
+                foreach (BreadcrumbItem item in breadcrumbs)
+                    Result.Add(item);
             }
 
-            return new List<BreadcrumbItem>();
+            return Result;
         }
 
         #endregion Breadcrumbs

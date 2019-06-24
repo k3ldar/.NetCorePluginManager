@@ -14069,4 +14069,16 @@ You will shortly receive an email with the details of your order.</comment>
     <value>Please enter a blog tag to search for.</value>
     <comment>Please enter a blog tag to search for.</comment>
   </data>
+  <data name="BlogEdit" xml:space="preserve">
+    <value>Edit Blog</value>
+    <comment>Edit Blog</comment>
+  </data>
+  <data name="BlogNew" xml:space="preserve">
+    <value>Create New Blog</value>
+    <comment>Create New Blog</comment>
+  </data>
+  <data name="MyBlogs" xml:space="preserve">
+    <value>My Blogs</value>
+    <comment>My Blogs</comment>
+  </data>
 </root>

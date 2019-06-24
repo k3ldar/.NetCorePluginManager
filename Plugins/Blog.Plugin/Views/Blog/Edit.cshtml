@@ -1,6 +1,8 @@
 ﻿@model Blog.Plugin.Models.BlogPostViewModel
 @inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
-
+@{ 
+    string title = Model.Id == 0 ? Languages.LanguageStrings.BlogNew : Languages.LanguageStrings.BlogEdit;
+}
 <div class="bc">@Html.Raw(Model.BreadcrumbData())</div>
 <link rel="stylesheet" href="~/css/Blog.css" />
 <div class="container-fluid">
@@ -9,6 +11,7 @@
         @Html.HiddenFor(m => m.Id)
         @Html.HiddenFor(m => m.Username)
         <div class="blogEdit">
+            <h1>@title</h1>
             <div class="row">
                 <div class="col-sm-12">
                     @Html.ValidationSummary()
@@ -77,7 +80,6 @@
             for (var i = 0; i < files.length; i++) {
                 var file = files[i];
 
-                // Only image uploads supported
                 if (!file.type.match('image'))
                     continue;
 
@@ -105,19 +107,20 @@
         }
     }
 
-  tinymce.init({
-    selector: '#@Html.IdFor(id => id.BlogText)',
-    plugins: 'autosave preview searchreplace visualchars image link media fullscreen code codesample table hr pagebreak autoresize nonbreaking anchor insertdatetime advlist lists wordcount imagetools',
-    menubar: "edit view format insert table",
-    toolbar: 'formatselect | bold italic blockquote forecolor backcolor | imageupload link | alignleft aligncenter alignright  | numlist bullist outdent indent | fullscreen',
-    selection_toolbar: 'bold italic | quicklink h2 h3 blockquote',
-    autoresize_bottom_margin: 0,
-    paste_data_images: true,
-    image_advtab: true,
-    file_picker_types: 'image',
-    relative_urls: false,
-    convert_urls: false,
-      branding: false,
+    tinymce.init({
+        selector: '#@Html.IdFor(id => id.BlogText)',
+        min_height: 500,
+        plugins: 'autosave preview searchreplace visualchars image link media fullscreen code codesample table hr pagebreak autoresize nonbreaking anchor insertdatetime advlist lists wordcount imagetools',
+        menubar: "edit view format insert table",
+        toolbar: 'formatselect | bold italic blockquote forecolor backcolor | imageupload link | alignleft aligncenter alignright  | numlist bullist outdent indent | fullscreen',
+        selection_toolbar: 'bold italic | quicklink h2 h3 blockquote',
+        autoresize_bottom_margin: 0,
+        paste_data_images: true,
+        image_advtab: true,
+        file_picker_types: 'image',
+        relative_urls: false,
+        convert_urls: false,
+        branding: false,
 
     setup: function (editor) {
         editor.ui.registry.addButton('imageupload', {

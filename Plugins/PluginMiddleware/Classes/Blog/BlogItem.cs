@@ -40,6 +40,7 @@ namespace Middleware.Blog
         /// </summary>
         public BlogItem()
         {
+            Published = true;
             Tags = new List<string>();
             Comments = new List<BlogComment>();
         }

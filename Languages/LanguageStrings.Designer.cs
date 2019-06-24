@@ -20937,6 +20937,24 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Edit Blog.
+        /// </summary>
+        public static string BlogEdit {
+            get {
+                return ResourceManager.GetString("BlogEdit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Create New Blog.
+        /// </summary>
+        public static string BlogNew {
+            get {
+                return ResourceManager.GetString("BlogNew", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to This blog is currently offline and will be available shortly..
         /// </summary>
         public static string BlogOffline {
@@ -25386,6 +25404,15 @@ namespace Languages {
         public static string MyBillingAddress {
             get {
                 return ResourceManager.GetString("MyBillingAddress", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to My Blogs.
+        /// </summary>
+        public static string MyBlogs {
+            get {
+                return ResourceManager.GetString("MyBlogs", resourceCulture);
             }
         }
         

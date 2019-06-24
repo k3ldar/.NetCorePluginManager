@@ -72,6 +72,12 @@
             </summary>
             <value>bool</value>
         </member>
+        <member name="P:UserAccount.Plugin.AccountSettings.ShowBlog">
+            <summary>
+            If Blog.Plugin module is loaded, this will show an icon for the user to view their own blogs.
+            </summary>
+            <value>bool</value>
+        </member>
         <member name="P:UserAccount.Plugin.AccountSettings.PasswordUppercaseCharCount">
             <summary>
             Minimum number of upper case characters that have to be in a password.

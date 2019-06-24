@@ -11752,6 +11752,16 @@
               Looks up a localized string similar to Blog.
             </summary>
         </member>
+        <member name="P:Languages.LanguageStrings.BlogEdit">
+            <summary>
+              Looks up a localized string similar to Edit Blog.
+            </summary>
+        </member>
+        <member name="P:Languages.LanguageStrings.BlogNew">
+            <summary>
+              Looks up a localized string similar to Create New Blog.
+            </summary>
+        </member>
         <member name="P:Languages.LanguageStrings.BlogOffline">
             <summary>
               Looks up a localized string similar to This blog is currently offline and will be available shortly..
@@ -14235,6 +14245,11 @@
         <member name="P:Languages.LanguageStrings.MyBillingAddress">
             <summary>
               Looks up a localized string similar to My Billing Address.
+            </summary>
+        </member>
+        <member name="P:Languages.LanguageStrings.MyBlogs">
+            <summary>
+              Looks up a localized string similar to My Blogs.
             </summary>
         </member>
         <member name="P:Languages.LanguageStrings.MyCreditCard">

@@ -51,14 +51,20 @@ namespace Blog.Plugin.Controllers
         public const string Name = "Blog";
 
         private readonly IBlogProvider _blogProvider;
+        private readonly BlogSettings _settings;
 
         #endregion Private Members
 
         #region Constructors
 
-        public BlogController(IBlogProvider blogProvider)
+        public BlogController(IBlogProvider blogProvider, ISettingsProvider settingsProvider)
         {
             _blogProvider = blogProvider ?? throw new ArgumentNullException(nameof(blogProvider));
+
+            if (settingsProvider == null)
+                throw new ArgumentNullException(nameof(settingsProvider));
+
+            _settings = settingsProvider.GetSettings<BlogSettings>(nameof(BlogSettings));
         }
 
         #endregion Constructors
@@ -91,6 +97,25 @@ namespace Blog.Plugin.Controllers
 
         [HttpGet]
         [LoggedIn]
+        [Breadcrumb(nameof(Languages.LanguageStrings.MyBlogs), Name, nameof(Index))]
+        public IActionResult MyBlogs()
+        {
+            return View(GetMyBlogsViewModel(_blogProvider.GetMyBlogs(UserId())));
+        }
+
+        [HttpGet]
+        [LoggedIn]
+        [Breadcrumb(nameof(Languages.LanguageStrings.New), Name, nameof(Index))]
+        public IActionResult New()
+        {
+            if (!IsUserLoggedIn())
+                return RedirectToAction(nameof(Index));
+
+            return View(nameof(Edit), GetEditBlogPostViewModel(new BlogItem()));
+        }
+
+        [HttpGet]
+        [LoggedIn]
         [Breadcrumb(nameof(Languages.LanguageStrings.Edit), Name, nameof(Index), HasParams = true)]
         public IActionResult Edit(int id)
         {
@@ -117,6 +142,17 @@ namespace Blog.Plugin.Controllers
             if (model == null)
                 throw new ArgumentNullException(nameof(model));
 
+            if (model.Id == 0)
+            {
+                UserSession user = GetUserSession();
+                BlogItem newBlog = _blogProvider.SaveBlog(new BlogItem(0, user.UserID, model.Title, model.Excerpt,
+                    model.BlogText, user.UserName, model.Published, DateTime.Now, DateTime.Now,
+                    DateTime.Now, model.Tags.Split(' ', StringSplitOptions.RemoveEmptyEntries).ToList(),
+                    new List<BlogComment>()));
+
+                return Redirect(GetBlogItemUrl(newBlog));
+            }
+
             BlogItem blogItem = _blogProvider.GetBlog(model.Id);
 
             if (blogItem == null)
@@ -137,15 +173,15 @@ namespace Blog.Plugin.Controllers
         }
 
         [HttpGet]
+        [Breadcrumb(nameof(Languages.LanguageStrings.Search), Name, nameof(Index), HasParams = true)]
         public IActionResult Search()
         {
             BlogSearchViewModel model = new BlogSearchViewModel(GetModelData());
-            model.Breadcrumbs.Add(new BreadcrumbItem(Languages.LanguageStrings.Blog, $"/{Name}/", false));
-            model.Breadcrumbs.Add(new BreadcrumbItem(Languages.LanguageStrings.Search, $"/{Name}/{nameof(Search)}/", false));
 
             return View(model);
         }
 
+        [HttpPost]
         public IActionResult Search(BlogSearchViewModel model)
         {
             List<BlogItem> blogs = _blogProvider.Search(model.TagName);
@@ -156,8 +192,6 @@ namespace Blog.Plugin.Controllers
             if (ModelState.IsValid)
             {
                 BlogPostsViewModel searchModel = GetBlogPostViewModel(blogs);
-                searchModel.Breadcrumbs.Add(new BreadcrumbItem(Languages.LanguageStrings.Blog, $"/{Name}/", false));
-                searchModel.Breadcrumbs.Add(new BreadcrumbItem(Languages.LanguageStrings.Search, $"/{Name}/{nameof(Search)}/", false));
                 searchModel.Breadcrumbs.Add(new BreadcrumbItem(model.TagName, $"/{Name}/{nameof(Search)}/{model.TagName}/", false));
                 return View(nameof(Index), searchModel);
             }
@@ -181,7 +215,7 @@ namespace Blog.Plugin.Controllers
             if (ModelState.IsValid)
             {
                 BlogPostsViewModel model = GetBlogPostViewModel(blogs);
-                model.Breadcrumbs.Add(new BreadcrumbItem(Languages.LanguageStrings.Blog, $"/{Name}/", false));
+                model.Breadcrumbs.RemoveAt(2);
                 model.Breadcrumbs.Add(new BreadcrumbItem(Languages.LanguageStrings.Search, $"/{Name}/{nameof(Search)}/", false));
                 model.Breadcrumbs.Add(new BreadcrumbItem(tagName, $"/{Name}/{nameof(Search)}/{tagName}/", false));
 
@@ -208,7 +242,7 @@ namespace Blog.Plugin.Controllers
             {
                 UserSession user = GetUserSession();
                 _blogProvider.AddComment(blogItem, user.UserID, user.UserName, model.Comment);
-                return Redirect($"/Blog/{RouteFriendlyName(blogItem.Username)}/{blogItem.Id}/{blogItem.LastModified.ToString("dd-MM-yyyy")}/{RouteFriendlyName(blogItem.Title)}");
+                return Redirect(GetBlogItemUrl(blogItem));
             }
 
             BlogPostViewModel blogModel = GetBlogPostViewModel(blogItem);
@@ -222,6 +256,12 @@ namespace Blog.Plugin.Controllers
         #endregion Public Action Methods
 
         #region Private Methods
+
+        private string GetBlogItemUrl(in BlogItem blogItem)
+        {
+            return $"/Blog/{RouteFriendlyName(blogItem.Username)}/{blogItem.Id}/" +
+                $"{blogItem.LastModified.ToString("dd-MM-yyyy")}/{RouteFriendlyName(blogItem.Title)}";
+        }
 
         private BlogPostViewModel GetEditBlogPostViewModel(in BlogItem blogItem)
         {
@@ -238,7 +278,8 @@ namespace Blog.Plugin.Controllers
             BlogPostViewModel Result = new BlogPostViewModel(GetModelData(), blogItem.Id,
                 blogItem.Title, blogItem.Excerpt, blogItem.BlogText, blogItem.Username, 
                 blogItem.Published, blogItem.PublishDateTime, blogItem.LastModified, 
-                blogItem.UserId == user.UserID, blogItem.Tags, IsUserLoggedIn());
+                blogItem.UserId == user.UserID, blogItem.Tags, IsUserLoggedIn(),
+                _settings.AllowComments);
 
             foreach (BlogComment comment in blogItem.Comments)
             {
@@ -254,6 +295,29 @@ namespace Blog.Plugin.Controllers
             return Result;
         }
 
+        private MyBlogsViewModel GetMyBlogsViewModel(List<BlogItem> entries)
+        {
+            List<BlogPostViewModel> blogPosts = new List<BlogPostViewModel>();
+
+            foreach (BlogItem entry in entries)
+            {
+                BlogPostViewModel post = new BlogPostViewModel(entry.Id, entry.Title, entry.Excerpt,
+                    entry.BlogText, entry.Username, entry.Published, entry.PublishDateTime,
+                    entry.LastModified, true, entry.Tags,
+                    new List<BlogCommentViewModel>(), IsUserLoggedIn(),
+                    _settings.AllowComments);
+
+                foreach (BlogComment comment in entry.Comments)
+                {
+                    post.Comments.Add(new BlogCommentViewModel(comment.Id, comment.DateTime, comment.Username, comment.Comment));
+                }
+
+                blogPosts.Add(post);
+            }
+
+            return new MyBlogsViewModel(GetModelData(), blogPosts);
+        }
+
         private BlogPostsViewModel GetBlogPostViewModel(List<BlogItem> entries)
         {
             List<BlogPostViewModel> blogPosts = new List<BlogPostViewModel>();
@@ -263,8 +327,9 @@ namespace Blog.Plugin.Controllers
             {
                 BlogPostViewModel post = new BlogPostViewModel(entry.Id, entry.Title, entry.Excerpt, 
                     entry.BlogText, entry.Username, entry.Published, entry.PublishDateTime, 
-                    entry.LastModified, user.UserID == entry.UserId,
-                    entry.Tags, new List<BlogCommentViewModel>(), IsUserLoggedIn());
+                    entry.LastModified, user.UserID == entry.UserId, entry.Tags, 
+                    new List<BlogCommentViewModel>(), IsUserLoggedIn(),
+                    _settings.AllowComments);
 
                 foreach (BlogComment comment in entry.Comments)
                 {

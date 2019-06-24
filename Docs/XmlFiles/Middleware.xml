@@ -2452,6 +2452,13 @@
             <param name="id"></param>
             <returns>BlogItem</returns>
         </member>
+        <member name="M:Middleware.IBlogProvider.GetMyBlogs(System.Int64@)">
+            <summary>
+            Retrieves all blogs for a specific user.
+            </summary>
+            <param name="userId">Id of user who's blog posts will be returned.</param>
+            <returns>List&lt;BlogItem&gt;</returns>
+        </member>
         <member name="M:Middleware.IBlogProvider.Search(System.String@)">
             <summary>
             Searches all blog items for blogs with a specific tag name.

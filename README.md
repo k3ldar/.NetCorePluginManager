@@ -10,6 +10,8 @@ http://PluginManager.website/SystemAdmin/
 
 http://PluginManager.website/Account/
 
+http://PluginManager.website/Blog/
+
 #Documentation
 
 http://PluginManager.website/Docs/

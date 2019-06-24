@@ -53,6 +53,7 @@ namespace UserAccount.Plugin.Controllers
         private readonly ILicenceProvider _licenceProvider;
         private readonly IUserCultureChangeProvider _userCultureChanged;
         private readonly ICultureProvider _cultureProvider;
+        private readonly bool _blogLoaded;
 
         private static readonly CacheManager _createAccountCache = new CacheManager("Create Account Cache", new TimeSpan(0, 30, 0));
 
@@ -71,7 +72,7 @@ namespace UserAccount.Plugin.Controllers
         public AccountController(ISettingsProvider settingsProvider, IAccountProvider accountProvider, 
             IDownloadProvider downloadProvider, ICountryProvider countryProvider, 
             ILicenceProvider licenceProvider, IUserCultureChangeProvider userCultureChanged,
-            ICultureProvider cultureProvider)
+            ICultureProvider cultureProvider, IPluginHelperService pluginHelperService)
         {
             _settingsProvider = settingsProvider ?? throw new ArgumentNullException(nameof(settingsProvider));
             _accountProvider = accountProvider ?? throw new ArgumentNullException(nameof(accountProvider));
@@ -88,6 +89,8 @@ namespace UserAccount.Plugin.Controllers
 
             if (LicenceTypes == null)
                 LicenceTypes = _licenceProvider.LicenceTypesGet();
+
+            _blogLoaded = pluginHelperService.PluginLoaded("Blog.Plugin.dll", out _);
         }
 
         #endregion Constructors
@@ -102,6 +105,7 @@ namespace UserAccount.Plugin.Controllers
             AccountViewModel model = new AccountViewModel(GetBreadcrumbs(), GetCartSummary(),
                 _settingsProvider.GetSettings<AccountSettings>("UserAccount"),
                 growl ?? String.Empty);
+            model.Settings.ShowBlog = _blogLoaded;
 
             model.Breadcrumbs = GetBreadcrumbs();
             model.CartSummary = GetCartSummary();

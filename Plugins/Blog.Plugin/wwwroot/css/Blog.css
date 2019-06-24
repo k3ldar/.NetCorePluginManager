@@ -2,6 +2,12 @@
     display: block;
     margin: 10px 0 0 0;
 }
+    .blogEdit h1 {
+        font-size: 20px;
+        font-weight: bold;
+        border-bottom: 1px solid;
+        border-bottom-color: rgb(238, 238, 238);
+    }
 
     .blogEdit span {
         margin-right: 15px;
@@ -15,6 +21,23 @@
         width: 50%;
         height: 100px;
     }
+
+    .blogEdit ul {
+        list-style: none;
+        width: 100%;
+        padding: 0px;
+        line-height: 15px;
+    }
+
+        .blogEdit ul li {
+            float: left;
+            padding: 0 10px 0 0;
+        }
+
+        .blogEdit ul li:first-child {
+            font-weight: bold;
+        }
+
 
 .blogBody {
     display: block;

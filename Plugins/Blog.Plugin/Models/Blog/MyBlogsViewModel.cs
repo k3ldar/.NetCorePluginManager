@@ -15,28 +15,49 @@
  *
  *  Product:  Blog Plugin
  *  
- *  File: BlogSettings.cs
+ *  File: CommentViewModel.cs
  *
- *  Purpose:  Settings
+ *  Purpose:  Blog comment view model
  *
  *  Date        Name                Reason
- *  20/06/2019  Simon Carter        Initially Created
+ *  24/06/2019  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
+using System.Collections.Generic;
 
-using AppSettings;
+using SharedPluginFeatures;
 
-namespace Blog.Plugin
+namespace Blog.Plugin.Models
 {
     /// <summary>
-    /// Settings that affect how the Blog.Plugin module is configured.
+    /// View model for viewing a specific users list of blogs.
     /// </summary>
-    public class BlogSettings
+    public class MyBlogsViewModel : BaseModel
     {
+        #region Constructors
+
         /// <summary>
-        /// Determines whether people can leave comments or not.
+        /// Default constructor
         /// </summary>
-        public bool AllowComments { get; set; }
+        /// <param name="modelData">BaseModelData items.</param>
+        /// <param name="blogItems">User blog items.</param>
+        public MyBlogsViewModel(BaseModelData modelData, List<BlogPostViewModel> blogItems)
+            : base(modelData)
+        {
+            BlogItems = blogItems ?? throw new ArgumentNullException(nameof(blogItems));
+        }
+
+        #endregion Constructors
+
+        #region Properties
+
+        /// <summary>
+        /// List of blog items for a specific user.
+        /// </summary>
+        /// <value>List&lt;BlogPostViewModel&gt;</value>
+        public List<BlogPostViewModel> BlogItems { get; private set; }
+
+        #endregion Properties
     }
 }

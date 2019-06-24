@@ -83,6 +83,7 @@
   <ItemGroup>
     <Content Remove="Views\Blog\Edit.cshtml" />
     <Content Remove="Views\Blog\Index.cshtml" />
+    <Content Remove="Views\Blog\MyBlogs.cshtml" />
     <Content Remove="Views\Blog\Search.cshtml" />
     <Content Remove="Views\Blog\ViewBlog.cshtml" />
     <Content Remove="Views\Blog\_AddComment.cshtml" />
@@ -94,6 +95,7 @@
   <ItemGroup>
     <EmbeddedResource Include="Views\Blog\Edit.cshtml" />
     <EmbeddedResource Include="Views\Blog\Index.cshtml" />
+    <EmbeddedResource Include="Views\Blog\MyBlogs.cshtml" />
     <EmbeddedResource Include="Views\Blog\Search.cshtml" />
     <EmbeddedResource Include="Views\Blog\ViewBlog.cshtml" />
     <EmbeddedResource Include="Views\Blog\_AddComment.cshtml" />
