@@ -144,12 +144,17 @@ namespace SharedPluginFeatures
         /// <returns>List&lt;BreadcrumbItem&gt;</returns>
         protected List<BreadcrumbItem> GetBreadcrumbs()
         {
+            List<BreadcrumbItem> Result = new List<BreadcrumbItem>();
+
             if (HttpContext.Items.ContainsKey(Constants.Breadcrumbs))
             {
-                return (List<BreadcrumbItem>)HttpContext.Items[Constants.Breadcrumbs];
+                List<BreadcrumbItem> breadcrumbs = (List<BreadcrumbItem>)HttpContext.Items[Constants.Breadcrumbs];
+
+                foreach (BreadcrumbItem item in breadcrumbs)
+                    Result.Add(item);
             }
 
-            return new List<BreadcrumbItem>();
+            return Result;
         }
 
         #endregion Breadcrumbs
@@ -479,6 +484,30 @@ namespace SharedPluginFeatures
 
         #endregion Seo Data
 
+        #region Views
+
+        /// <summary>
+        /// Creates the name of a view based on the controller and view name.
+        /// 
+        /// i.e. if the controller is BlogController and the view name is Index it returns:
+        /// 
+        /// /BlogController/Index.cshtml
+        /// </summary>
+        /// <param name="controller">Name of the controller.</param>
+        /// <param name="viewName">Name of the view.</param>
+        /// <returns></returns>
+        protected string GetViewName(in string controller, in string viewName)
+        {
+            if (String.IsNullOrEmpty(controller))
+                throw new ArgumentNullException(nameof(controller));
+
+            if (String.IsNullOrEmpty(viewName))
+                throw new ArgumentNullException(nameof(viewName));
+
+
+            return $"~/{controller}/{viewName}.cshtml";
+        }
+        #endregion Views
     }
 }
 

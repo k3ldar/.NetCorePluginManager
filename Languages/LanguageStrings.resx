@@ -14013,4 +14013,72 @@ You will shortly receive an email with the details of your order.</comment>
     <value>See Also</value>
     <comment>See Also</comment>
   </data>
+  <data name="PleaseEnterBlogText" xml:space="preserve">
+    <value>Please enter the blog text</value>
+    <comment>Please enter the blog text</comment>
+  </data>
+  <data name="PleaseEnterBlogTitle" xml:space="preserve">
+    <value>Please enter the title of the blog</value>
+    <comment>Please enter the title of the blog</comment>
+  </data>
+  <data name="PleaseEnterExcerpt" xml:space="preserve">
+    <value>Please enter the excerpt</value>
+    <comment>Please enter the excerpt</comment>
+  </data>
+  <data name="Published" xml:space="preserve">
+    <value>Published</value>
+    <comment>Published</comment>
+  </data>
+  <data name="InvalidBlog" xml:space="preserve">
+    <value>The blog is invalid.</value>
+    <comment>The bog is invalid.</comment>
+  </data>
+  <data name="NoBlogsFoundMatchingTags" xml:space="preserve">
+    <value>There were no blogs containing the keyword</value>
+    <comment>There were no blogs containing the keyword</comment>
+  </data>
+  <data name="SeeMore" xml:space="preserve">
+    <value>See More</value>
+    <comment>See More</comment>
+  </data>
+  <data name="AddComment" xml:space="preserve">
+    <value>Add Comment</value>
+    <comment>Add Comment</comment>
+  </data>
+  <data name="Author" xml:space="preserve">
+    <value>Author</value>
+    <comment>Author</comment>
+  </data>
+  <data name="BlogSearch" xml:space="preserve">
+    <value>Blog Search</value>
+    <comment>Blog Search</comment>
+  </data>
+  <data name="Options" xml:space="preserve">
+    <value>Options</value>
+    <comment>Options</comment>
+  </data>
+  <data name="PleaseEnterBlogTags" xml:space="preserve">
+    <value>Please enter at least 1 tag for the blog.</value>
+    <comment>Please enter at least 1 tag for the blog.</comment>
+  </data>
+  <data name="PleaseLoginToComment" xml:space="preserve">
+    <value>Please login to comment</value>
+    <comment>Please login to comment</comment>
+  </data>
+  <data name="SearchBlogTag" xml:space="preserve">
+    <value>Please enter a blog tag to search for.</value>
+    <comment>Please enter a blog tag to search for.</comment>
+  </data>
+  <data name="BlogEdit" xml:space="preserve">
+    <value>Edit Blog</value>
+    <comment>Edit Blog</comment>
+  </data>
+  <data name="BlogNew" xml:space="preserve">
+    <value>Create New Blog</value>
+    <comment>Create New Blog</comment>
+  </data>
+  <data name="MyBlogs" xml:space="preserve">
+    <value>My Blogs</value>
+    <comment>My Blogs</comment>
+  </data>
 </root>

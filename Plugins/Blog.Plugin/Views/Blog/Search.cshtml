@@ -1,0 +1,38 @@
+﻿@model Blog.Plugin.Models.BlogSearchViewModel
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
+
+<div class="bc">@Html.Raw(Model.BreadcrumbData())</div>
+<link rel="stylesheet" href="~/css/Blog.css" />
+
+<div class="container-fluid">
+    @using (Html.BeginForm(nameof(Blog.Plugin.Controllers.BlogController.Search), Blog.Plugin.Controllers.BlogController.Name, FormMethod.Post))
+    {
+    <div class="blogSearch">
+        <h2>@Localizer[nameof(Languages.LanguageStrings.BlogSearch)]</h2>
+        <div class="row">
+            <div class="col-sm-12">
+                @Html.ValidationSummary()
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <p>@Localizer[nameof(Languages.LanguageStrings.SearchBlogTag)]</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-2">
+                @Html.LabelFor(m => m.TagName)
+            </div>
+            <div class="col-sm-10">
+                @Html.TextBoxFor(m => m.TagName)
+                <br />@Html.ValidationMessageFor(m => m.TagName)
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit">@Localizer[nameof(Languages.LanguageStrings.Search)]</button>
+            </div>
+        </div>
+    </div>
+    }
+</div>

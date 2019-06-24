@@ -205,6 +205,15 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add Comment.
+        /// </summary>
+        public static string AddComment {
+            get {
+                return ResourceManager.GetString("AddComment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Searching for available appointments.
         /// </summary>
         public static string AddDiarySearching {
@@ -20667,6 +20676,15 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Author.
+        /// </summary>
+        public static string Author {
+            get {
+                return ResourceManager.GetString("Author", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Auto Login.
         /// </summary>
         public static string AutoLogin {
@@ -20919,11 +20937,38 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Edit Blog.
+        /// </summary>
+        public static string BlogEdit {
+            get {
+                return ResourceManager.GetString("BlogEdit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Create New Blog.
+        /// </summary>
+        public static string BlogNew {
+            get {
+                return ResourceManager.GetString("BlogNew", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to This blog is currently offline and will be available shortly..
         /// </summary>
         public static string BlogOffline {
             get {
                 return ResourceManager.GetString("BlogOffline", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Blog Search.
+        /// </summary>
+        public static string BlogSearch {
+            get {
+                return ResourceManager.GetString("BlogSearch", resourceCulture);
             }
         }
         
@@ -23786,6 +23831,15 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The blog is invalid..
+        /// </summary>
+        public static string InvalidBlog {
+            get {
+                return ResourceManager.GetString("InvalidBlog", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Invalid Competition, please contact support.
         /// </summary>
         public static string InvalidCompetition {
@@ -25354,6 +25408,15 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to My Blogs.
+        /// </summary>
+        public static string MyBlogs {
+            get {
+                return ResourceManager.GetString("MyBlogs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to My Credit Card.
         /// </summary>
         public static string MyCreditCard {
@@ -25660,6 +25723,15 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to There were no blogs containing the keyword.
+        /// </summary>
+        public static string NoBlogsFoundMatchingTags {
+            get {
+                return ResourceManager.GetString("NoBlogsFoundMatchingTags", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to There are no news items at the present time..
         /// </summary>
         public static string NoNews {
@@ -25854,6 +25926,15 @@ namespace Languages {
         public static string Optional {
             get {
                 return ResourceManager.GetString("Optional", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Options.
+        /// </summary>
+        public static string Options {
+            get {
+                return ResourceManager.GetString("Options", resourceCulture);
             }
         }
         
@@ -26587,6 +26668,42 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Please enter at least 1 tag for the blog..
+        /// </summary>
+        public static string PleaseEnterBlogTags {
+            get {
+                return ResourceManager.GetString("PleaseEnterBlogTags", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please enter the blog text.
+        /// </summary>
+        public static string PleaseEnterBlogText {
+            get {
+                return ResourceManager.GetString("PleaseEnterBlogText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please enter the title of the blog.
+        /// </summary>
+        public static string PleaseEnterBlogTitle {
+            get {
+                return ResourceManager.GetString("PleaseEnterBlogTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please enter the excerpt.
+        /// </summary>
+        public static string PleaseEnterExcerpt {
+            get {
+                return ResourceManager.GetString("PleaseEnterExcerpt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Please enter your first and last name.
         /// </summary>
         public static string PleaseEnterFirstLastName {
@@ -26619,6 +26736,15 @@ namespace Languages {
         public static string PleaseEnterUserNameOrEmail {
             get {
                 return ResourceManager.GetString("PleaseEnterUserNameOrEmail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please login to comment.
+        /// </summary>
+        public static string PleaseLoginToComment {
+            get {
+                return ResourceManager.GetString("PleaseLoginToComment", resourceCulture);
             }
         }
         
@@ -27133,6 +27259,15 @@ namespace Languages {
         public static string Psoriasis {
             get {
                 return ResourceManager.GetString("Psoriasis", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Published.
+        /// </summary>
+        public static string Published {
+            get {
+                return ResourceManager.GetString("Published", resourceCulture);
             }
         }
         
@@ -27691,6 +27826,15 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Please enter a blog tag to search for..
+        /// </summary>
+        public static string SearchBlogTag {
+            get {
+                return ResourceManager.GetString("SearchBlogTag", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Enter your search words:.
         /// </summary>
         public static string SearchDescription {
@@ -27705,6 +27849,15 @@ namespace Languages {
         public static string SeeAlso {
             get {
                 return ResourceManager.GetString("SeeAlso", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to See More.
+        /// </summary>
+        public static string SeeMore {
+            get {
+                return ResourceManager.GetString("SeeMore", resourceCulture);
             }
         }
         

@@ -546,6 +546,18 @@ namespace AspNetCore.PluginManager
                 Result = Result.Substring(0, lastIndex).Replace(".", "\\") + Result.Substring(lastIndex);
             }
 
+            // special case for minified js files which have naming convention of library.min.js
+            if (Result.EndsWith("\\min.js"))
+            {
+                Result = Result.Replace("\\min.js", ".min.js");
+            }
+
+            // special case for minified css files which have naming convention of library.min.css
+            if (Result.EndsWith("\\min.css"))
+            {
+                Result = Result.Replace("\\min.css", ".min.cs");
+            }
+
             return Path.Combine(PluginManagerService.RootPath(), Result);
         }
 

@@ -1,0 +1,24 @@
+<p>
+The blog plugin is a fully featured blog website plugin that can display multiple blog entries for a user.  Features include:
+</p>
+<ul>
+<li>GUI Editor, implements TinyMCE v5.</li>
+<li>My Blogs.  Shows all blogs for the logged on user.</li>
+<li>Multiple tags.</li>
+<li>Brief excerpt describing the blog.</li>
+<li>Search by tag.</li>
+<li>Recent n blog items.</li>
+<li>Integrates with UserAccount plugin.</li>
+<li>Comments</li>
+</ul>
+<p>
+The importance of blogging has increased enormously in recent years, a blog provides the perfect conduit to generating fresh content on a website, establishing yourself as an expert in your field and increasing SEO for your website.
+</p>
+<h3>Settings</h3>
+<p>
+Please view BlogSettings for details on how to customize the blog website plugin.
+</p>
+<h3>How to use</h3>
+<p>
+The blog plugin should be loaded using the Plugin Manager.
+</p>

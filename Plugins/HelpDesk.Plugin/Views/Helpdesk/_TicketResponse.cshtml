@@ -5,7 +5,7 @@
 {
     @Html.HiddenFor(m => m.Id)
     <div class="helpdesk-row">
-        <p>@Localizer[@Languages.LanguageStrings.Name]</p>
+        <p>@Localizer[nameof(Languages.LanguageStrings.Name)]</p>
     </div>
     <div class="helpdesk-row">
         @Html.ValidationMessageFor(m => m.Name)
@@ -14,7 +14,7 @@
         <p>@Html.TextBoxFor(m => m.Name)</p>
     </div>
     <div class="helpdesk-row">
-        <p>@Localizer[@Languages.LanguageStrings.Message]</p>
+        <p>@Localizer[nameof(Languages.LanguageStrings.Message)]</p>
     </div>
     <div class="helpdesk-row">
         @Html.ValidationMessageFor(m => m.Message)
@@ -23,6 +23,6 @@
         @Html.TextAreaFor(m => m.Message)
     </div>
     <div class="helpdesk-row">
-        <input type="submit" value="@Localizer[Languages.LanguageStrings.Submit]" />
+        <input type="submit" value="@Localizer[nameof(Languages.LanguageStrings.Submit)]" />
     </div>
 }

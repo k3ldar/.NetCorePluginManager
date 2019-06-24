@@ -94,6 +94,7 @@
     <Content Remove="wwwroot\images\UserAccount\adminicon.png" />
     <Content Remove="wwwroot\images\UserAccount\appointmentsIcon.png" />
     <Content Remove="wwwroot\images\UserAccount\billingaddressIcon.png" />
+    <Content Remove="wwwroot\images\UserAccount\blogIcon.png" />
     <Content Remove="wwwroot\images\UserAccount\CreditcardIcon.png" />
     <Content Remove="wwwroot\images\UserAccount\deliveryaddressIcon.png" />
     <Content Remove="wwwroot\images\UserAccount\downloadsIcon.png" />
@@ -137,6 +138,7 @@
     <EmbeddedResource Include="wwwroot\images\UserAccount\adminicon.png" />
     <EmbeddedResource Include="wwwroot\images\UserAccount\appointmentsIcon.png" />
     <EmbeddedResource Include="wwwroot\images\UserAccount\billingaddressIcon.png" />
+    <EmbeddedResource Include="wwwroot\images\UserAccount\blogIcon.png" />
     <EmbeddedResource Include="wwwroot\images\UserAccount\CreditcardIcon.png" />
     <EmbeddedResource Include="wwwroot\images\UserAccount\deliveryaddressIcon.png" />
     <EmbeddedResource Include="wwwroot\images\UserAccount\FAQIcon.png" />

@@ -1,0 +1,140 @@
+﻿@model Blog.Plugin.Models.BlogPostViewModel
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
+@{ 
+    string title = Model.Id == 0 ? Languages.LanguageStrings.BlogNew : Languages.LanguageStrings.BlogEdit;
+}
+<div class="bc">@Html.Raw(Model.BreadcrumbData())</div>
+<link rel="stylesheet" href="~/css/Blog.css" />
+<div class="container-fluid">
+    @using (Html.BeginForm(nameof(Blog.Plugin.Controllers.BlogController.Edit), Blog.Plugin.Controllers.BlogController.Name, FormMethod.Post))
+    {
+        @Html.HiddenFor(m => m.Id)
+        @Html.HiddenFor(m => m.Username)
+        <div class="blogEdit">
+            <h1>@title</h1>
+            <div class="row">
+                <div class="col-sm-12">
+                    @Html.ValidationSummary()
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-2">
+                    @Html.LabelFor(m => m.Title)
+                </div>
+                <div class="col-sm-10">
+                    @Html.TextBoxFor(m => m.Title)
+                    <br />@Html.ValidationMessageFor(m => m.Title)
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-2">
+                    @Html.LabelFor(m => m.Excerpt)
+                </div>
+                <div class="col-sm-10">
+                    @Html.TextAreaFor(m => m.Excerpt)
+                    <br />@Html.ValidationMessageFor(m => m.Excerpt)
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-2">
+                    @Html.LabelFor(m => m.Tags)
+                </div>
+                <div class="col-sm-10">
+                    @Html.TextBoxFor(m => m.Tags)
+                    <br />@Html.ValidationMessageFor(m => m.Tags)
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-2">
+                    @Html.LabelFor(m => m.BlogText)
+                </div>
+                <div class="col-sm-10">
+                    @Html.TextAreaFor(m => m.BlogText)
+                    <br />@Html.ValidationMessageFor(m => m.BlogText)
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-2">
+                    @Html.LabelFor(m => m.Published)
+                </div>
+                <div class="col-sm-10">
+                    @Html.CheckBoxFor(m => m.Published)
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <button type="submit">@Localizer[nameof(Languages.LanguageStrings.Save)]</button>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<script src="~/lib/tinymce/tinymce.min.js"></script>
+<script>
+    function selectFile(event) {
+        if (window.File && window.FileList && window.FileReader) {
+
+            var files = event.target.files;
+
+            for (var i = 0; i < files.length; i++) {
+                var file = files[i];
+
+                if (!file.type.match('image'))
+                    continue;
+
+                var reader = new FileReader();
+                reader.addEventListener("load", function (event) {
+                    var image = new Image();
+                    image.alt = file.name;
+                    image.onload = function (e) {
+                        image.setAttribute("data-filename", file.name);
+                        image.setAttribute("width", image.width);
+                        image.setAttribute("height", image.height);
+                        tinymce.activeEditor.execCommand('mceInsertContent', false, image.outerHTML);
+                    };
+                    image.src = this.result;
+
+                });
+
+                reader.readAsDataURL(file);
+            }
+
+            document.body.removeChild(event.target);
+        }
+        else {
+            console.log("Your browser does not support File API");
+        }
+    }
+
+    tinymce.init({
+        selector: '#@Html.IdFor(id => id.BlogText)',
+        min_height: 500,
+        plugins: 'autosave preview searchreplace visualchars image link media fullscreen code codesample table hr pagebreak autoresize nonbreaking anchor insertdatetime advlist lists wordcount imagetools',
+        menubar: "edit view format insert table",
+        toolbar: 'formatselect | bold italic blockquote forecolor backcolor | imageupload link | alignleft aligncenter alignright  | numlist bullist outdent indent | fullscreen',
+        selection_toolbar: 'bold italic | quicklink h2 h3 blockquote',
+        autoresize_bottom_margin: 0,
+        paste_data_images: true,
+        image_advtab: true,
+        file_picker_types: 'image',
+        relative_urls: false,
+        convert_urls: false,
+        branding: false,
+
+    setup: function (editor) {
+        editor.ui.registry.addButton('imageupload', {
+            icon: "image",
+            tooltip: "Insert Image",
+            onAction: function () {
+                var fileInput = document.createElement("input");
+                fileInput.type = "file";
+                fileInput.multiple = true;
+                fileInput.accept = "image/*";
+                fileInput.addEventListener("change", selectFile, false);
+                fileInput.click();
+            }
+        });
+    }
+  });
+</script>
