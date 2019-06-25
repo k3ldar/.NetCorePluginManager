@@ -186,6 +186,10 @@ namespace SharedPluginFeatures
         /// <returns>string</returns>
         protected string GetIpAddress(in HttpContext context)
         {
+            foreach (string key in Constants.ForwardForHeader)
+                if (context.Request.Headers.ContainsKey(key))
+                    return context.Request.Headers[key];
+
             string Result = context.Request.HttpContext.Connection.RemoteIpAddress.ToString();
 
             if (Result == "::1")

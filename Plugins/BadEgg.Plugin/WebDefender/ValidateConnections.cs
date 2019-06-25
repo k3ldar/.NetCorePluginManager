@@ -292,7 +292,7 @@ namespace BadEgg.Plugin.WebDefender
         public ValidateRequestResult ValidateRequest(in HttpRequest request, in bool validatePostValues, out int count)
         {
             count = 0;
-            string hostAddress = request.HttpContext.Connection.RemoteIpAddress.ToString();
+            string hostAddress = GetIpAddress(request);
 
             //verify against white/black listed addresses
             ValidateRequestResult Result = VerifyAddress(hostAddress);
@@ -499,6 +499,15 @@ namespace BadEgg.Plugin.WebDefender
         #endregion Events
 
         #region Private Methods
+
+        private string GetIpAddress(HttpRequest request)
+        {
+            foreach (string key in Constants.ForwardForHeader)
+                if (request.Headers.ContainsKey(key))
+                    return request.Headers[key];
+
+            return request.HttpContext.Connection.RemoteIpAddress.ToString();
+        }
 
         /// <summary>
         /// Certain form values can be ignored and will not be evaluated

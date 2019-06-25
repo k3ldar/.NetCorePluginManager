@@ -130,7 +130,8 @@ namespace UserSessionMiddleware.Plugin
             Tag = null;
 
             SessionID = sessionId;
-            IPAddress = context.Connection.RemoteIpAddress.ToString();
+
+            IPAddress = GetIpAddress(context);
 
             if (IPAddress == "::1")
                 IPAddress = "127.0.0.1";
@@ -175,5 +176,23 @@ namespace UserSessionMiddleware.Plugin
         }
 
         #endregion Constructor
+
+        #region Private Methods
+
+        private string GetIpAddress(in HttpContext context)
+        {
+            foreach (string key in SharedPluginFeatures.Constants.ForwardForHeader)
+                if (context.Request.Headers.ContainsKey(key))
+                    return context.Request.Headers[key];
+
+            string Result = context.Request.HttpContext.Connection.RemoteIpAddress.ToString();
+
+            if (Result == "::1")
+                Result = "127.0.0.1";
+
+            return (Result);
+        }
+
+        #endregion Private Methods
     }
 }

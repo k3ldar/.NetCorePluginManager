@@ -296,6 +296,10 @@ namespace SharedPluginFeatures
         /// <returns>string</returns>
         protected string GetIpAddress()
         {
+            foreach (string key in Constants.ForwardForHeader)
+                if (HttpContext.Request.Headers.ContainsKey(key))
+                    return HttpContext.Request.Headers[key];
+
             return (HttpContext.Connection.RemoteIpAddress.ToString());
         }
 
