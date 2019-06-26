@@ -97,6 +97,18 @@ namespace AspNetCore.PluginManager
         public bool DisableRouteDataService { get; set; }
 
         /// <summary>
+        /// Indicates whether a copy of the plugin will be sent to <seealso cref="LocalCopyPath"/>, where it will be loaded from.
+        /// </summary>
+        /// <value>bool</value>
+        [SettingDefault(true)]
+        public bool CreateLocalCopy { get; set; }
+
+
+        [SettingOptional]
+        [SettingValidPath]
+        public string LocalCopyPath { get; set; }
+
+        /// <summary>
         /// User defined list of plugin modules that will be loaded in order prior to generic loading of plugins.
         /// 
         /// If you need to specify the load order of plugins the assembly names (with or without path) need to be included in this list.

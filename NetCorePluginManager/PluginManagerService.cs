@@ -121,6 +121,11 @@ namespace AspNetCore.PluginManager
                 if (_pluginConfiguration.Disabled)
                     return false;
 
+                if (_pluginConfiguration.CreateLocalCopy && String.IsNullOrEmpty(_pluginConfiguration.LocalCopyPath))
+                    _pluginConfiguration.LocalCopyPath = Path.Combine(_rootPath, Constants.TempPluginPath);
+
+                Directory.CreateDirectory(_pluginConfiguration.LocalCopyPath);
+
                 // Load ourselves
                 _pluginManagerInstance.LoadPlugin(Assembly.GetExecutingAssembly(), String.Empty, false);
 
@@ -149,7 +154,7 @@ namespace AspNetCore.PluginManager
                             }
                         }
 
-                        _pluginManagerInstance.LoadPlugin(pluginFile);
+                        _pluginManagerInstance.LoadPlugin(pluginFile, _pluginConfiguration.CreateLocalCopy);
                     }
                 }
 
@@ -166,7 +171,7 @@ namespace AspNetCore.PluginManager
                         if (String.IsNullOrEmpty(file) || !File.Exists(file)) 
                             continue;
 
-                        _pluginManagerInstance.LoadPlugin(file);
+                        _pluginManagerInstance.LoadPlugin(file, _pluginConfiguration.CreateLocalCopy);
                     }
                 }
             }

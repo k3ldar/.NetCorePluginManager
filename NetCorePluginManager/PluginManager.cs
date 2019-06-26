@@ -25,10 +25,11 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
-using System.Reflection;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -151,7 +152,7 @@ namespace AspNetCore.PluginManager
                                 String.IsNullOrEmpty(assembly.Location) ? fileLocation : assembly.Location);
 
                             if (File.Exists(file))
-                                pluginModule.FileVersion = System.Diagnostics.FileVersionInfo.GetVersionInfo(file).FileVersion;
+                                pluginModule.FileVersion = FileVersionInfo.GetVersionInfo(file).FileVersion;
                             else
                                 pluginModule.FileVersion = "unknown";
                         }
@@ -185,16 +186,18 @@ namespace AspNetCore.PluginManager
         /// <summary>
         /// Loads and configures an individual plugin
         /// </summary>
-        /// <param name="pluginName"></param>
-        internal void LoadPlugin(in string pluginName)
+        /// <param name="pluginName">Filename of plugin to be loaded.</param>
+        /// <param name="copyLocal">If true, copies the plugin to a local temp area to load from.</param>
+        internal void LoadPlugin(in string pluginName, in bool copyLocal)
         {
             try
             {
+                string pluginFile = copyLocal ? GetLocalCopyOfPlugin(pluginName) : pluginName;
 
                 PluginSetting setting = GetPluginSetting(pluginName);
 
                 if (setting != null && !setting.Disabled)
-                    LoadPlugin(LoadAssembly(pluginName), pluginName, true);
+                    LoadPlugin(LoadAssembly(pluginFile), pluginFile, true);
             }
             catch (Exception error)
             {
@@ -483,6 +486,50 @@ namespace AspNetCore.PluginManager
         #endregion IDisposable Methods
 
         #region Private Methods
+
+        /// <summary>
+        /// Copies the plugin file to a local temp area, that will be used to load the plugin from.
+        /// </summary>
+        /// <param name="pluginFile">Path and File name of the plugin that will be loaded.</param>
+        /// <returns>string</returns>
+        private string GetLocalCopyOfPlugin(string pluginFile)
+        {
+            string pluginCopy = Path.Combine(_pluginSettings.LocalCopyPath, Path.GetFileName(pluginFile));
+
+            if (!File.Exists(pluginCopy))
+            {
+                File.Copy(pluginFile, pluginCopy, false);
+                CopyViewsAssembly(pluginFile, pluginCopy);
+                return pluginCopy;
+            }
+
+            FileVersionComparison versionComparison = new FileVersionComparison();
+            FileInfo pluginFileInfo = new FileInfo(pluginFile);
+            FileInfo pluginCopyInfo = new FileInfo(pluginCopy);
+
+            if (versionComparison.Equals(pluginFileInfo, pluginCopyInfo))
+            {
+                return pluginCopy;
+            }
+            else if (versionComparison.Newer(pluginFileInfo, pluginCopyInfo))
+            {
+                File.Copy(pluginFile, pluginCopy, true);
+                CopyViewsAssembly(pluginFile, pluginCopy);
+            }
+
+            return pluginCopy;
+        }
+
+        private void CopyViewsAssembly(in string pluginFile, in string pluginFileCopy)
+        {
+            string viewsAssembly = Path.ChangeExtension(pluginFile, Constants.ViewsFileExtension);
+
+            if (!File.Exists(viewsAssembly))
+                return;
+
+            string viewsCopyAssembly = Path.ChangeExtension(pluginFileCopy, Constants.ViewsFileExtension);
+            File.Copy(viewsAssembly, viewsCopyAssembly, true);
+        }
 
         /// <summary>
         /// Checks a value, to ensure it is between min/max Value

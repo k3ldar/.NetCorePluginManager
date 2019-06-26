@@ -38,5 +38,15 @@ namespace AspNetCore.PluginManager
 
             return versionX.FileVersion.CompareTo(versionY.FileVersion);
         }
+
+        public bool Equals(FileInfo x, FileInfo y)
+        {
+            return Compare(x, y) == 0;
+        }
+
+        public bool Newer(FileInfo x, FileInfo y)
+        {
+            return Compare(x, y) == 1;
+        }
     }
 }

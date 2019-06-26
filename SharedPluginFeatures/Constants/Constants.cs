@@ -109,6 +109,11 @@ namespace SharedPluginFeatures
         public const string StaticFileExtensions = ".less;.ico;.css;.js;.svg;.jpg;.jpeg;.gif;.png;.eot;.map;";
 
         /// <summary>
+        /// File Extension for a compiled view assembly.
+        /// </summary>
+        public const string ViewsFileExtension = ".Views.dll";
+
+        /// <summary>
         /// Page referrer constant
         /// </summary>
         public const string PageReferer = "Referer";
@@ -247,5 +252,10 @@ namespace SharedPluginFeatures
         /// Defines the names of the forward for header, should the request be received via a proxy.
         /// </summary>
         public static readonly string[] ForwardForHeader = new string[] { "HTTP_X_FORWARDED_FOR", "X-Forwarded-For", "http-X-Forwarded-For", "X-Real-IP" };
+
+        /// <summary>
+        /// Name of the folder that will contain copies of the plugin that will be loaded.
+        /// </summary>
+        public const string TempPluginPath = "PluginModules";
     }
 }

@@ -27,7 +27,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using static System.IO.File;
+using System.IO;
 
 using Microsoft.AspNetCore.Mvc.ApplicationParts;
 using Microsoft.AspNetCore.Mvc.Razor.Compilation;
@@ -84,9 +84,9 @@ namespace AspNetCore.PluginManager
             foreach (KeyValuePair<string, IPluginModule> keyValuePair in plugins)
             {
                 string primaryModule =  String.IsNullOrEmpty(keyValuePair.Value.Assembly.Location) ? keyValuePair.Value.Assembly.CodeBase : keyValuePair.Value.Assembly.Location;
-                string compiledViewAssembly = primaryModule.Substring(0, primaryModule.Length - 4) + ".Views.dll";
+                string compiledViewAssembly = Path.ChangeExtension(primaryModule, Constants.ViewsFileExtension);
 
-                if (Exists(compiledViewAssembly))
+                if (File.Exists(compiledViewAssembly))
                 {
                     Assembly compiledViews = Assembly.LoadFrom(compiledViewAssembly);
                     mvcBuilder.ConfigureApplicationPartManager(apm =>

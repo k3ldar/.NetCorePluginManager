@@ -197,11 +197,12 @@
             <param name="fileLocation"></param>
             <param name="extractResources"></param>
         </member>
-        <member name="M:AspNetCore.PluginManager.PluginManager.LoadPlugin(System.String@)">
+        <member name="M:AspNetCore.PluginManager.PluginManager.LoadPlugin(System.String@,System.Boolean@)">
             <summary>
             Loads and configures an individual plugin
             </summary>
-            <param name="pluginName"></param>
+            <param name="pluginName">Filename of plugin to be loaded.</param>
+            <param name="copyLocal">If true, copies the plugin to a local temp area to load from.</param>
         </member>
         <member name="M:AspNetCore.PluginManager.PluginManager.Configure(Microsoft.AspNetCore.Builder.IApplicationBuilder@,Microsoft.AspNetCore.Hosting.IHostingEnvironment@)">
             <summary>
@@ -253,6 +254,13 @@
             <summary>
             Disposable method, notify all plugins to finalise
             </summary>
+        </member>
+        <member name="M:AspNetCore.PluginManager.PluginManager.GetLocalCopyOfPlugin(System.String)">
+            <summary>
+            Copies the plugin file to a local temp area, that will be used to load the plugin from.
+            </summary>
+            <param name="pluginFile">Path and File name of the plugin that will be loaded.</param>
+            <returns>string</returns>
         </member>
         <member name="M:AspNetCore.PluginManager.PluginManager.GetMinMaxValue(System.UInt16@,System.UInt16@,System.UInt16@)">
             <summary>
@@ -444,6 +452,12 @@
         <member name="P:AspNetCore.PluginManager.PluginSettings.DisableRouteDataService">
             <summary>
             Prevents PluginManager from creating an IRouteDataService instance that can be obtained from IoC
+            </summary>
+            <value>bool</value>
+        </member>
+        <member name="P:AspNetCore.PluginManager.PluginSettings.CreateLocalCopy">
+            <summary>
+            Indicates whether a copy of the plugin will be sent to <seealso cref="P:AspNetCore.PluginManager.PluginSettings.LocalCopyPath"/>, where it will be loaded from.
             </summary>
             <value>bool</value>
         </member>
