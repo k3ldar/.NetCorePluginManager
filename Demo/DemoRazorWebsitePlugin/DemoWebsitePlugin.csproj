@@ -6,6 +6,7 @@
     <RazorCompileOnBuild>false</RazorCompileOnBuild>
     <RazorCompileOnPublish>true</RazorCompileOnPublish>
     <PreserveCompilationContext>true</PreserveCompilationContext>
+    <Version>2.3.0</Version>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)'=='Debug'">
@@ -52,9 +53,9 @@
   </ItemGroup>
 
   <ItemGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <PackageReference Include="AspNetCore.PluginManager" Version="2.2.0" />
-    <PackageReference Include="SharedPluginFeatures" Version="2.2.0" />
-    <PackageReference Include="AspNetCore.PluginManager.Languages" Version="2.2.0" />
+    <PackageReference Include="AspNetCore.PluginManager" Version="2.3.0" />
+    <PackageReference Include="SharedPluginFeatures" Version="2.3.0" />
+    <PackageReference Include="AspNetCore.PluginManager.Languages" Version="2.3.0" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

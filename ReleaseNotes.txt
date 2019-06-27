@@ -1,3 +1,14 @@
+Version 2.3.0
+=============
+
+#79 - Optionally copy plugin modules to temp path prior to loading.
+#78 - Obtain real ip address if present.
+#40:2 - Blog Plugin.
+#40:1 - Add TinyMCE to demo host (prerequisite for Blog Plugin).
+#77 - Add home breadcrumb if no breadcrumbs found.
+#59 - Add Stock Control.
+
+
 Version 2.2.0
 =============
 
