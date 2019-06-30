@@ -39,18 +39,8 @@ namespace SieraDeltaGeoIp.Plugin
     /// Implements IPlugin which allows the SieraDeltaGeoIp.Plugin module to be
     /// loaded as a plugin module
     /// </summary>
-    public class Initialisation : IPlugin
+    public class Initialisation : IPlugin, IInitialiseEvents
     {
-        #region Constructors
-
-        public Initialisation(INotificationService notificationService)
-        {
-            GeoIpStatistics = new GeoIpStatistics();
-            notificationService.RegisterListener(GeoIpStatistics);
-        }
-
-        #endregion Constructors
-
         #region Internal Static Properties
 
         internal static IServiceProvider GetServiceProvider { get; private set; }
@@ -75,7 +65,7 @@ namespace SieraDeltaGeoIp.Plugin
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            
+
         }
 
         public void ConfigureServices(IServiceCollection services)
@@ -86,6 +76,34 @@ namespace SieraDeltaGeoIp.Plugin
         }
 
         #endregion IPlugin Methods
+
+        #region IInitialiseEvents Methods
+
+        public void BeforeConfigure(in IApplicationBuilder app, in IHostingEnvironment env)
+        {
+
+        }
+
+        public void AfterConfigure(in IApplicationBuilder app, in IHostingEnvironment env)
+        {
+
+        }
+
+        public void BeforeConfigureServices(in IServiceCollection services)
+        {
+
+        }
+
+        public void AfterConfigureServices(in IServiceCollection services)
+        {
+            var serviceProvider = services.BuildServiceProvider();
+
+            INotificationService notificationService = serviceProvider.GetRequiredService<INotificationService>();
+            GeoIpStatistics = new GeoIpStatistics();
+            notificationService.RegisterListener(GeoIpStatistics);
+        }
+
+        #endregion IInitialiseEvents Methods
     }
 }
 
