@@ -124,7 +124,7 @@ namespace AspNetCore.PluginManager
             {
                 try
                 {
-                    if (type.GetInterface("IPlugin") != null)
+                    if (type.GetInterface(nameof(IPlugin)) != null)
                     {
                         interfaceFound = true;
                         IPlugin pluginService = (IPlugin)Activator.CreateInstance(type, GetParameterInstances(type));

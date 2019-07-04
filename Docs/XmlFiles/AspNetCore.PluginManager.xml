@@ -349,6 +349,13 @@
             </summary>
             <param name="services">IServiceCollection instance</param>
         </member>
+        <member name="M:AspNetCore.PluginManager.PluginManagerService.UsePlugin(System.Type)">
+            <summary>
+            UsePlugin is designed to load plugins that have been statically loaded into the host application specifically nuget packages or project references.
+            </summary>
+            <param name="iPluginType">Type of IPlugin interface.  The type passed in must inherit IPlugin interface.</param>
+            <exception cref="T:System.InvalidOperationException">Thrown when the iPluginType does not implement IPlugin interface.</exception>
+        </member>
         <member name="T:AspNetCore.PluginManager.PluginSetting">
             <summary>
             Individual plugin module settings, used to define how a plugin is treated by the PluginManager.

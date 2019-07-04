@@ -168,14 +168,14 @@ namespace AspNetCore.PluginManager
 
                     foreach (string file in pluginFiles)
                     {
-                        if (String.IsNullOrEmpty(file) || !File.Exists(file)) 
+                        if (String.IsNullOrEmpty(file) || !File.Exists(file))
                             continue;
 
                         _pluginManagerInstance.LoadPlugin(file, _pluginConfiguration.CreateLocalCopy);
                     }
                 }
             }
-            catch (Exception error) 
+            catch (Exception error)
             {
                 _logger.AddToLog(LogLevel.PluginConfigureError, error, $"{MethodBase.GetCurrentMethod().Name}");
                 return false;
@@ -234,8 +234,8 @@ namespace AspNetCore.PluginManager
             init.ForEach(i => i.BeforeConfigureServices(services));
 
             NotificationService notificationService = new NotificationService();
-            Shared.Classes.ThreadManager.ThreadStart(notificationService, 
-                Constants.ThreadNotificationService, 
+            Shared.Classes.ThreadManager.ThreadStart(notificationService,
+                Constants.ThreadNotificationService,
                 System.Threading.ThreadPriority.Lowest);
 
             PluginServices pluginServices = new PluginServices();
@@ -250,6 +250,23 @@ namespace AspNetCore.PluginManager
 
             // if no ILogger instance has been registered, register the default instance now.
             services.TryAddSingleton<ILogger>(_logger);
+        }
+
+        /// <summary>
+        /// UsePlugin is designed to load plugins that have been statically loaded into the host application specifically nuget packages or project references.
+        /// </summary>
+        /// <param name="iPluginType">Type of IPlugin interface.  The type passed in must inherit IPlugin interface.</param>
+        /// <exception cref="System.InvalidOperationException">Thrown when the iPluginType does not implement IPlugin interface.</exception>
+        public static void UsePlugin(Type iPluginType)
+        {
+            if ((iPluginType.GetInterface(typeof(IPlugin).Name) != null))
+            {
+                GetPluginManager().LoadPlugin(iPluginType.Assembly.Location, false);
+            }
+            else
+            {
+                throw new InvalidOperationException($"Type {nameof(iPluginType)} must implement {nameof(IPlugin)}");
+            }
         }
 
         #endregion Static Methods
@@ -317,7 +334,7 @@ namespace AspNetCore.PluginManager
             // are we after the latest version
             if (version == LatestVersion)
             {
-                pluginFile = fileVersions[fileVersions.Count -1].FullName;
+                pluginFile = fileVersions[fileVersions.Count - 1].FullName;
                 return true;
             }
 
@@ -356,7 +373,7 @@ namespace AspNetCore.PluginManager
         private static string GetPluginPath()
         {
             // is the path overridden in config
-            if (!String.IsNullOrWhiteSpace(_pluginConfiguration.PluginPath) && 
+            if (!String.IsNullOrWhiteSpace(_pluginConfiguration.PluginPath) &&
                 Directory.Exists(_pluginConfiguration.PluginPath))
             {
                 return _pluginConfiguration.PluginPath;
