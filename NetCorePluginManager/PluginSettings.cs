@@ -100,10 +100,13 @@ namespace AspNetCore.PluginManager
         /// Indicates whether a copy of the plugin will be sent to <seealso cref="LocalCopyPath"/>, where it will be loaded from.
         /// </summary>
         /// <value>bool</value>
-        [SettingDefault(true)]
+        [SettingDefault(false)]
         public bool CreateLocalCopy { get; set; }
 
-
+        /// <summary>
+        /// If CreateLocalCopy is true, this path will be used to store and load the plugins from.
+        /// </summary>
+        /// <value>string</value>
         [SettingOptional]
         [SettingValidPath]
         public string LocalCopyPath { get; set; }

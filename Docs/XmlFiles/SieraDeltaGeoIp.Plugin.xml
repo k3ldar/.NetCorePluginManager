@@ -121,7 +121,7 @@
             <returns>IApplicationBuilder</returns>
             <example><pre style="font-family:Consolas;font-size:13px;color:black;background:white;"><span style="color:#1f377f;">app</span>.<span style="color:#74531f;">UseSieraDeltaGeoIpService</span>();</pre></example>
         </member>
-        <member name="T:SieraDeltaGeoIp.Plugin.Initialisation">
+        <member name="T:SieraDeltaGeoIp.Plugin.PluginInitialisation">
             <summary>
             Implements IPlugin which allows the SieraDeltaGeoIp.Plugin module to be
             loaded as a plugin module

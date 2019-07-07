@@ -122,9 +122,10 @@ namespace AspNetCore.PluginManager
                     return false;
 
                 if (_pluginConfiguration.CreateLocalCopy && String.IsNullOrEmpty(_pluginConfiguration.LocalCopyPath))
+                {
                     _pluginConfiguration.LocalCopyPath = Path.Combine(_rootPath, Constants.TempPluginPath);
-
-                Directory.CreateDirectory(_pluginConfiguration.LocalCopyPath);
+                    Directory.CreateDirectory(_pluginConfiguration.LocalCopyPath);
+                }
 
                 // Load ourselves
                 _pluginManagerInstance.LoadPlugin(Assembly.GetExecutingAssembly(), String.Empty, false);

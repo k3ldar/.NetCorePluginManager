@@ -15,7 +15,7 @@
  *
  *  Product:  AspNetCore.PluginManager.DemoWebsite
  *  
- *  File: HostPlugin.cs
+ *  File: PluginInitialisation.cs
  *
  *  Purpose:  
  *
@@ -37,7 +37,7 @@ using AspNetCore.PluginManager.DemoWebsite.Helpers;
 
 namespace AspNetCore.PluginManager.DemoWebsite.Classes
 {
-    public class HostPlugin : IPlugin, IPluginVersion
+    public class PluginInitialisation : IPlugin, IPluginVersion
     {
         #region IPlugin Methods
 

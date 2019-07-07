@@ -34,7 +34,7 @@ namespace AspNetCore.PluginManager.DemoWebsite
         {
             // Initialise the plugin manager service
             PluginManagerService.Initialise();
-            PluginManagerService.UsePlugin(typeof(DocumentationPlugin.Classes.PluginClass));
+            PluginManagerService.UsePlugin(typeof(DocumentationPlugin.PluginInitialisation));
 
             CreateWebHostBuilder(args).Build().Run();
         }

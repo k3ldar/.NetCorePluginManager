@@ -4,12 +4,6 @@
         <name>SystemAdmin.Plugin</name>
     </assembly>
     <members>
-        <member name="T:SystemAdmin.Plugin.Classes.PluginClass">
-            <summary>
-            Implements IPlugin and IPluginVersion which allows the SystemAdmin.Plugin module to be
-            loaded as a plugin module
-            </summary>
-        </member>
         <member name="T:SystemAdmin.Plugin.SystemAdminSettings">
             <summary>
             Contains settings and configuration data for displaying items within the SystemAdmin.Plugin module.
@@ -40,6 +34,12 @@
         <member name="T:SystemAdmin.Plugin.SystemAdminHelper">
             <summary>
             This class acts as a wrapper around the elements you extend through plugin manager
+            </summary>
+        </member>
+        <member name="T:SystemAdmin.Plugin.PluginInitialisation">
+            <summary>
+            Implements IPlugin and IPluginVersion which allows the SystemAdmin.Plugin module to be
+            loaded as a plugin module
             </summary>
         </member>
     </members>

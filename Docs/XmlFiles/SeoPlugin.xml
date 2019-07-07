@@ -38,7 +38,7 @@
             </summary>
             <returns>string</returns>
         </member>
-        <member name="T:SeoPlugin.Initialisation">
+        <member name="T:SeoPlugin.PluginInitialisation">
             <summary>
             Implements IPlugin which allows the SeoPlugin module to be
             loaded as a plugin module

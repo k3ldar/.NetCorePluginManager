@@ -71,12 +71,6 @@
             Internally managed thread that manages errors and ensures they are reported correctly usinng the IErrorManager interface.
             </summary>
         </member>
-        <member name="T:ErrorManager.Plugin.Classes.PluginClass">
-            <summary>
-            Implements IPlugin and IPluginVersion which allows the ErrorManager.Plugin module to be
-            loaded as a plugin module
-            </summary>
-        </member>
         <member name="T:ErrorManager.Plugin.Classes.SystemAdmin.Error404TimingsSubMenu">
             <summary>
             Returns a list of current Timings for time spent processing missing pages can be viewed within SystemAdmin.Plugin.  
@@ -179,6 +173,12 @@
             Image to be displayed on the page.
             </summary>
             <value>string</value>
+        </member>
+        <member name="T:ErrorManager.Plugin.PluginInitialisation">
+            <summary>
+            Implements IPlugin and IPluginVersion which allows the ErrorManager.Plugin module to be
+            loaded as a plugin module
+            </summary>
         </member>
     </members>
 </doc>

@@ -4,12 +4,6 @@
         <name>ProductPlugin</name>
     </assembly>
     <members>
-        <member name="T:ProductPlugin.Classes.PluginClass">
-            <summary>
-            Implements IPlugin and IPluginVersion which allows the ProductsPlugin module to be
-            loaded as a plugin module
-            </summary>
-        </member>
         <member name="T:ProductPlugin.ProductControllerSettings">
             <summary>
             Products which affect how ProductsPlugin is configured.
@@ -28,6 +22,12 @@
         <member name="T:ProductPlugin.Controllers.ProductController">
             <summary>
             Product controller displays standard product information on a website.
+            </summary>
+        </member>
+        <member name="T:ProductPlugin.PluginInitialisation">
+            <summary>
+            Implements IPlugin and IPluginVersion which allows the ProductsPlugin module to be
+            loaded as a plugin module
             </summary>
         </member>
     </members>

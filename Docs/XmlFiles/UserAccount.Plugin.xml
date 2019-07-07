@@ -126,7 +126,7 @@
             </summary>
             <value>string</value>
         </member>
-        <member name="T:UserAccount.Plugin.Classes.PluginClass">
+        <member name="T:UserAccount.Plugin.PluginInitialisation">
             <summary>
             Implements IPlugin and IPluginVersion which allows the UserAccount.Plugin module to be
             loaded as a plugin module

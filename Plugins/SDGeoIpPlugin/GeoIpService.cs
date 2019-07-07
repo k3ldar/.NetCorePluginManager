@@ -42,6 +42,7 @@ namespace SieraDeltaGeoIp.Plugin
         private readonly GeoIpPluginSettings _geoIpSettings;
         private readonly IGeoIpProvider _geoIpProvider;
         private readonly INotificationService _notificationService;
+        private readonly ILogger _logger;
         private IpCity[] _geoIpCityData;
         private List<IpCity> _tempIpCity = new List<IpCity>();
         internal static Timings _timingsIpCache = new Timings();
@@ -52,9 +53,10 @@ namespace SieraDeltaGeoIp.Plugin
 
         #region Constructors
 
-        public GeoIpService(ISettingsProvider settingsProvider, INotificationService notificationService)
+        public GeoIpService(ISettingsProvider settingsProvider, INotificationService notificationService, ILogger logger)
         {
             _notificationService = notificationService ?? throw new InvalidOperationException();
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
             ThreadManager.Initialise();
             _geoIpSettings = settingsProvider.GetSettings<GeoIpPluginSettings>("SieraDeltaGeoIpPluginConfiguration");
@@ -106,7 +108,7 @@ namespace SieraDeltaGeoIp.Plugin
 
         #region Public Methods
 
-        public bool GetIPAddressDetails(in string ipAddress, out string countryCode, out string region, 
+        public bool GetIPAddressDetails(in string ipAddress, out string countryCode, out string region,
             out string cityName, out decimal latitude, out decimal longitude, out long uniqueID)
         {
             countryCode = "ZZ";
@@ -157,7 +159,7 @@ namespace SieraDeltaGeoIp.Plugin
             }
             catch (Exception err)
             {
-                Initialisation.GetLogger.AddToLog(Enums.LogLevel.Error, err, ipAddress);
+                _logger.AddToLog(Enums.LogLevel.Error, err, ipAddress);
                 return false;
             }
         }
@@ -216,7 +218,7 @@ namespace SieraDeltaGeoIp.Plugin
         private void Thread_ThreadFinishing(object sender, Shared.ThreadManagerEventArgs e)
         {
             TimeSpan span = DateTime.Now - e.Thread.TimeStart;
-            
+
             //send results
             _notificationService.RaiseEvent(Constants.NotificationEventGeoIpLoadTime, Convert.ToInt64(span.TotalMilliseconds));
             _notificationService.RaiseEvent(Constants.NotificationEventGeoIpRecordCount, (uint)_tempIpCity.Count);

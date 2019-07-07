@@ -37,15 +37,15 @@
             </summary>
             <value>bool.  If true then feedback will be displayed.</value>
         </member>
-        <member name="T:HelpdeskPlugin.Classes.PluginClass">
-            <summary>
-            Implements IPlugin and IPluginVersion which allows the HelpdeskPlugin module to be
-            loaded as a plugin module
-            </summary>
-        </member>
         <member name="T:HelpdeskPlugin.Controllers.HelpdeskController">
             <summary>
             Helpdesk controller, provides Helpdesk functionality for any website.
+            </summary>
+        </member>
+        <member name="T:HelpdeskPlugin.PluginInitialisation">
+            <summary>
+            Implements IPlugin and IPluginVersion which allows the HelpdeskPlugin module to be
+            loaded as a plugin module
             </summary>
         </member>
     </members>

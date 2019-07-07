@@ -261,8 +261,8 @@ namespace UserSessionMiddleware.Plugin
             }
             catch (Exception err)
             {
-                if (Initialisation.GetLogger != null)
-                    Initialisation.GetLogger.AddToLog(LogLevel.UserSessionManagerError, err, 
+                if (PluginInitialisation.GetLogger != null)
+                    PluginInitialisation.GetLogger.AddToLog(LogLevel.UserSessionManagerError, err,
                         MethodBase.GetCurrentMethod().Name);
             }
 

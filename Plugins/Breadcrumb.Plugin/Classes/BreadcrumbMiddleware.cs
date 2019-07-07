@@ -58,15 +58,16 @@ namespace Breadcrumb.Plugin
         internal static Timings _timings = new Timings();
         private readonly IStringLocalizer _stringLocalizer;
         private readonly BreadcrumbItem _homeBreadCrumb;
+        private readonly ILogger _logger;
 
         #endregion Private Members
 
         #region Constructors
 
-        public BreadcrumbMiddleware(RequestDelegate next, IActionDescriptorCollectionProvider routeProvider, 
+        public BreadcrumbMiddleware(RequestDelegate next, IActionDescriptorCollectionProvider routeProvider,
             IRouteDataService routeDataService, IPluginHelperService pluginHelperService,
             IPluginTypesService pluginTypesService, ISettingsProvider settingsProvider,
-            IPluginClassesService pluginClassesService)
+            IPluginClassesService pluginClassesService, ILogger logger)
         {
             if (routeProvider == null)
                 throw new ArgumentNullException(nameof(routeProvider));
@@ -78,6 +79,7 @@ namespace Breadcrumb.Plugin
                 throw new ArgumentNullException(nameof(pluginHelperService));
 
             _next = next;
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
             ThreadManager.Initialise();
 
@@ -161,7 +163,7 @@ namespace Breadcrumb.Plugin
                 }
                 catch (Exception err)
                 {
-                    Initialisation.GetLogger.AddToLog(LogLevel.BreadcrumbError, err, MethodBase.GetCurrentMethod().Name);
+                    _logger.AddToLog(LogLevel.BreadcrumbError, err, MethodBase.GetCurrentMethod().Name);
                 }
             }
 
@@ -257,7 +259,7 @@ namespace Breadcrumb.Plugin
                         // sanity check
                         if (route.Equals(attribute.ParentRoute, StringComparison.CurrentCultureIgnoreCase))
                         {
-                            Initialisation.GetLogger.AddToLog(LogLevel.BreadcrumbError,
+                            _logger.AddToLog(LogLevel.BreadcrumbError,
                                 String.Format(Constants.BreadcrumbRoutEqualsParentRoute, route, attribute.ParentRoute));
                         }
                         else
@@ -291,7 +293,7 @@ namespace Breadcrumb.Plugin
 
                         if (loopCounter > 40)
                         {
-                            Initialisation.GetLogger.AddToLog(LogLevel.BreadcrumbError, Constants.TooManyBreadcrumbs);
+                            _logger.AddToLog(LogLevel.BreadcrumbError, Constants.TooManyBreadcrumbs);
                             break;
                         }
 

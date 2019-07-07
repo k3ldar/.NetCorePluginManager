@@ -86,7 +86,7 @@ namespace Localization.Plugin
                     }
                     catch (Exception error)
                     {
-                        Initialisation.GetLogger.AddToLog(Enums.LogLevel.Localization, error, name);
+                        PluginInitialisation.GetLogger.AddToLog(Enums.LogLevel.Localization, error, name);
                         return new LocalizedString(name, name);
                     }
                 }
@@ -119,7 +119,7 @@ namespace Localization.Plugin
                     }
                     catch (Exception error)
                     {
-                        Initialisation.GetLogger.AddToLog(Enums.LogLevel.Localization, error, name);
+                        PluginInitialisation.GetLogger.AddToLog(Enums.LogLevel.Localization, error, name);
                         return new LocalizedString(name, String.Format(name, arguments));
                     }
                 }

@@ -176,31 +176,31 @@
             </summary>
             <value>string</value>
         </member>
-        <member name="T:UserSessionMiddleware.Plugin.Initialisation">
+        <member name="T:UserSessionMiddleware.Plugin.PluginInitialisation">
             <summary>
             Implements IPlugin which allows the UserSessionMiddleware.Plugin module to be
             loaded as a plugin module
             </summary>
         </member>
-        <member name="M:UserSessionMiddleware.Plugin.Initialisation.Initialise(SharedPluginFeatures.ILogger)">
+        <member name="M:UserSessionMiddleware.Plugin.PluginInitialisation.Initialise(SharedPluginFeatures.ILogger)">
             <summary>
             Initialises the Plugin module
             </summary>
             <param name="logger">ILogger</param>
         </member>
-        <member name="M:UserSessionMiddleware.Plugin.Initialisation.Finalise">
+        <member name="M:UserSessionMiddleware.Plugin.PluginInitialisation.Finalise">
             <summary>
             Finalises the Plugin module
             </summary>
         </member>
-        <member name="M:UserSessionMiddleware.Plugin.Initialisation.Configure(Microsoft.AspNetCore.Builder.IApplicationBuilder,Microsoft.AspNetCore.Hosting.IHostingEnvironment)">
+        <member name="M:UserSessionMiddleware.Plugin.PluginInitialisation.Configure(Microsoft.AspNetCore.Builder.IApplicationBuilder,Microsoft.AspNetCore.Hosting.IHostingEnvironment)">
             <summary>
             Allows the Plugin module to configure the Mvc application builder
             </summary>
             <param name="app">IApplicationBuilder</param>
             <param name="env">IHostingEnvironment</param>
         </member>
-        <member name="M:UserSessionMiddleware.Plugin.Initialisation.ConfigureServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+        <member name="M:UserSessionMiddleware.Plugin.PluginInitialisation.ConfigureServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
             <summary>
             Allows the Plugin module to configure the services for the application
             </summary>

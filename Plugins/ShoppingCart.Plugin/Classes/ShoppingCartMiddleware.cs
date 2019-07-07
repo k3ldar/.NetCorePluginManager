@@ -56,15 +56,16 @@ namespace ShoppingCartPlugin
         #region Constructors
 
         public ShoppingCartMiddleware(RequestDelegate next, IShoppingCartService shoppingCartService, 
-            ISettingsProvider settingsProvider)
+            ISettingsProvider settingsProvider, ILogger logger, IPluginHelperService pluginHelperService)
         {
+            if (logger == null)
+                throw new ArgumentNullException(nameof(logger));
+
             _next = next;
             _shoppingCartService = shoppingCartService ?? throw new ArgumentNullException(nameof(shoppingCartService));
 
-            IPluginHelperService pluginHelper = PluginClass.GetServiceProvider.GetService<IPluginHelperService>();
-
-            if (pluginHelper == null || !pluginHelper.PluginLoaded(Constants.PluginNameUserSession, out int version))
-                PluginClass.Logger.AddToLog(Enums.LogLevel.Error, 
+            if (pluginHelperService == null || !pluginHelperService.PluginLoaded(Constants.PluginNameUserSession, out int version))
+                logger.AddToLog(Enums.LogLevel.Error, 
                     new Exception(Constants.UserSessionServiceNotFound), 
                     nameof(ShoppingCartMiddleware));
 

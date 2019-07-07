@@ -85,7 +85,7 @@ namespace GeoIp.Plugin
 
                 if (!city.success)
                 {
-                    Initialisation.GetLogger.AddToLog(SharedPluginFeatures.Enums.LogLevel.GeoIpStackError,
+                    PluginInitialisation.GetLogger.AddToLog(SharedPluginFeatures.Enums.LogLevel.GeoIpStackError,
                         $"{city.error.code} {city.error.info} {city.error.type}");
                     return (false);
                 }

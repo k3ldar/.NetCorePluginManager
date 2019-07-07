@@ -63,6 +63,7 @@ namespace RestrictIp.Plugin
         private readonly RequestDelegate _next;
         private readonly HashSet<string> _localIpAddresses;
         private readonly bool _disabled;
+        private readonly ILogger _logger;
         internal static Timings _timings = new Timings();
 
         #endregion Private Members
@@ -71,7 +72,7 @@ namespace RestrictIp.Plugin
 
         public RestrictIpMiddleware(RequestDelegate next, IActionDescriptorCollectionProvider routeProvider, 
             IRouteDataService routeDataService, IPluginHelperService pluginHelperService,
-            IPluginTypesService pluginTypesService, ISettingsProvider settingsProvider)
+            IPluginTypesService pluginTypesService, ISettingsProvider settingsProvider, ILogger logger)
         {
             if (routeProvider == null)
                 throw new ArgumentNullException(nameof(routeProvider));
@@ -83,6 +84,7 @@ namespace RestrictIp.Plugin
                 throw new ArgumentNullException(nameof(pluginHelperService));
 
             _next = next;
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _localIpAddresses = new HashSet<string>();
             _restrictedRoutes = new Dictionary<string, List<string>>();
             GetLocalIpAddresses(_localIpAddresses);
@@ -90,7 +92,7 @@ namespace RestrictIp.Plugin
             _disabled = settings.Disabled;
 
             if (_disabled)
-                Initialisation.GetLogger.AddToLog(LogLevel.Information, RestrictedIpDisabled);
+                _logger.AddToLog(LogLevel.Information, RestrictedIpDisabled);
 
             LoadRestrictedIpRouteData(routeProvider, routeDataService, pluginTypesService, settings);
         }
@@ -137,7 +139,7 @@ namespace RestrictIp.Plugin
                             // if we get here, we are in a restricted route and ip does not match, so fail with forbidden
                             passRequestOn = false;
                             context.Response.StatusCode = 403;
-                            Initialisation.GetLogger.AddToLog(LogLevel.IpRestricted,
+                            _logger.AddToLog(LogLevel.IpRestricted,
                                 String.Format(RouteForbidden, userIpAddress, route));
                         }
                     }
@@ -190,14 +192,14 @@ namespace RestrictIp.Plugin
 
                                 _restrictedRoutes[route.ToLower()].Add(ipAddress.Replace("*", String.Empty));
 
-                                Initialisation.GetLogger.AddToLog(LogLevel.Information, 
+                                _logger.AddToLog(LogLevel.Information, 
                                     String.Format(RouteRestricted, restrictedIpRouteAttribute.ProfileName,
                                         route, ipAddress));
                             }
                         }
                         else
                         {
-                            Initialisation.GetLogger.AddToLog(LogLevel.Warning,
+                            _logger.AddToLog(LogLevel.Warning,
                                 String.Format(ProfileNotFound, restrictedIpRouteAttribute.ProfileName, route));
                             _restrictedRoutes[route.ToLower()].Add(LocalHost);
                         }

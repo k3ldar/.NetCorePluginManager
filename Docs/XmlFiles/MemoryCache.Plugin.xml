@@ -54,12 +54,6 @@
             </summary>
             <value>int</value>
         </member>
-        <member name="T:MemoryCache.Plugin.Initialisation">
-            <summary>
-            Implements IPlugin which allows the MemoryCache.Plugin module to be
-            loaded as a plugin module
-            </summary>
-        </member>
         <member name="T:MemoryCache.Plugin.MemoryCachePluginExtender">
             <summary>
             Memory Cache Middleware Extender
@@ -74,6 +68,12 @@
             <param name="services">IServiceCollection instance</param>
             <returns>IServiceCollection</returns>
             <example><pre style="font-family:Consolas;font-size:13px;color:black;background:white;"><span style="color:#1f377f;">app</span>.<span style="color:#74531f;">UseMemoryCache</span>();</pre></example>
+        </member>
+        <member name="T:MemoryCache.Plugin.PluginInitialisation">
+            <summary>
+            Implements IPlugin which allows the MemoryCache.Plugin module to be
+            loaded as a plugin module
+            </summary>
         </member>
     </members>
 </doc>

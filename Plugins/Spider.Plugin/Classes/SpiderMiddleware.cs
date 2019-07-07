@@ -56,15 +56,16 @@ namespace Spider.Plugin
         private readonly RequestDelegate _next;
         private readonly bool _processStaticFiles;
         private readonly string _staticFileExtensions = Constants.StaticFileExtensions;
+        private readonly ILogger _logger;
         internal static Timings _timings = new Timings();
 
         #endregion Private Members
 
         #region Constructors
 
-        public SpiderMiddleware(RequestDelegate next, IActionDescriptorCollectionProvider routeProvider, 
+        public SpiderMiddleware(RequestDelegate next, IActionDescriptorCollectionProvider routeProvider,
             IRouteDataService routeDataService, IPluginHelperService pluginHelperService,
-            IPluginTypesService pluginTypesService, ISettingsProvider settingsProvider)
+            IPluginTypesService pluginTypesService, ISettingsProvider settingsProvider, ILogger logger)
         {
             if (routeProvider == null)
                 throw new ArgumentNullException(nameof(routeProvider));
@@ -77,6 +78,7 @@ namespace Spider.Plugin
 
             _next = next;
 
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _userSessionManagerLoaded = pluginHelperService.PluginLoaded(Constants.PluginNameUserSession, out int version);
 
             _deniedSpiderRoutes = new List<DeniedRoute>();
@@ -98,7 +100,7 @@ namespace Spider.Plugin
         {
             string fileExtension = RouteFileExtension(context);
 
-            if (!_processStaticFiles &&  !String.IsNullOrEmpty(fileExtension) &&
+            if (!_processStaticFiles && !String.IsNullOrEmpty(fileExtension) &&
                 _staticFileExtensions.Contains($"{fileExtension};"))
             {
                 await _next(context);
@@ -144,7 +146,7 @@ namespace Spider.Plugin
                             }
                             catch (Exception err)
                             {
-                                Initialisation.GetLogger.AddToLog(LogLevel.SpiderRouteError, err, MethodBase.GetCurrentMethod().Name);
+                                _logger.AddToLog(LogLevel.SpiderRouteError, err, MethodBase.GetCurrentMethod().Name);
                             }
                         }
                     }

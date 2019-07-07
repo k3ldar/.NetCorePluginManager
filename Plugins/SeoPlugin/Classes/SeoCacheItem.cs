@@ -34,18 +34,12 @@ namespace SeoPlugin
 
         internal SeoCacheItem(in string title, in string metaDescription, in string author, in List<string> keywords)
         {
-            if (String.IsNullOrEmpty(title))
-                throw new ArgumentNullException(nameof(title));
-
-            if (String.IsNullOrEmpty(metaDescription))
-                throw new ArgumentNullException(nameof(metaDescription));
-
             if (keywords == null)
                 throw new ArgumentNullException(nameof(keywords));
 
             Author = author ?? String.Empty;
-            Title = title;
-            Description = metaDescription;
+            Title = title ?? throw new ArgumentNullException(nameof(title));
+            Description = metaDescription ?? throw new ArgumentNullException(nameof(metaDescription));
             Keywords = String.Join(",", keywords);
         }
 

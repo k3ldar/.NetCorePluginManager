@@ -14,12 +14,6 @@
             Determines whether people can leave comments or not.
             </summary>
         </member>
-        <member name="T:Blog.Plugin.Classes.PluginClass">
-            <summary>
-            Implements IPlugin and IPluginVersion which allows the Blog.Plugin module to be
-            loaded as a plugin module
-            </summary>
-        </member>
         <member name="T:Blog.Plugin.Controllers.BlogController">
             <summary>
             Controller for blogs.
@@ -299,6 +293,12 @@
             List of blog items for a specific user.
             </summary>
             <value>List&lt;BlogPostViewModel&gt;</value>
+        </member>
+        <member name="T:Blog.Plugin.PluginInitialisation">
+            <summary>
+            Implements IPlugin and IPluginVersion which allows the Blog.Plugin module to be
+            loaded as a plugin module
+            </summary>
         </member>
     </members>
 </doc>

@@ -46,7 +46,7 @@ namespace Localization.Plugin
         public StringLocalizerFactory()
         {
             if (_cacheManager == null)
-                _cacheManager = Initialisation.CultureCache;
+                _cacheManager = PluginInitialisation.CultureCache;
         }
 
         #endregion Constructors

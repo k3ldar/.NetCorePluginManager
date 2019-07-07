@@ -55,25 +55,25 @@
   </ItemGroup>
 
   <ItemGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <PackageReference Include="AspNetCore.PluginManager" Version="2.3.0" />
-    <PackageReference Include="BadEgg.Plugin" Version="2.3.0" />
-    <PackageReference Include="Breadcrumb.Plugin" Version="2.3.0" />
-    <PackageReference Include="CacheControl.Plugin" Version="2.3.0" />
-    <PackageReference Include="ErrorManager.Plugin" Version="2.3.0" />
-    <PackageReference Include="GeoIp.Plugin" Version="2.3.0" />
-    <PackageReference Include="HelpdeskPlugin" Version="2.3.0" />
-    <PackageReference Include="Localization.Plugin" Version="2.3.0" />
-    <PackageReference Include="LoginPlugin" Version="2.3.0" />
-    <PackageReference Include="MemoryCache.Plugin" Version="2.3.0" />
-    <PackageReference Include="Middleware" Version="2.3.0" />
-    <PackageReference Include="AspNetCore.PluginManager.Languages" Version="2.3.0" />
-    <PackageReference Include="RestrictIp.Plugin" Version="2.3.0" />
-    <PackageReference Include="ShoppingCartPlugin" Version="2.3.0" />
-    <PackageReference Include="SieraDeltaGeoIp.Plugin" Version="2.3.0" />
-    <PackageReference Include="Spider.Plugin" Version="2.3.0" />
-    <PackageReference Include="SystemAdmin.Plugin" Version="2.3.0" />
-    <PackageReference Include="UserAccount.Plugin" Version="2.3.0" />
-    <PackageReference Include="UserSessionMiddleware.Plugin" Version="2.3.0" />
+    <PackageReference Include="AspNetCore.PluginManager" Version="2.4.0" />
+    <PackageReference Include="BadEgg.Plugin" Version="2.4.0" />
+    <PackageReference Include="Breadcrumb.Plugin" Version="2.4.0" />
+    <PackageReference Include="CacheControl.Plugin" Version="2.4.0" />
+    <PackageReference Include="ErrorManager.Plugin" Version="2.4.0" />
+    <PackageReference Include="GeoIp.Plugin" Version="2.4.0" />
+    <PackageReference Include="HelpdeskPlugin" Version="2.4.0" />
+    <PackageReference Include="Localization.Plugin" Version="2.4.0" />
+    <PackageReference Include="LoginPlugin" Version="2.4.0" />
+    <PackageReference Include="MemoryCache.Plugin" Version="2.4.0" />
+    <PackageReference Include="Middleware" Version="2.4.0" />
+    <PackageReference Include="AspNetCore.PluginManager.Languages" Version="2.4.0" />
+    <PackageReference Include="RestrictIp.Plugin" Version="2.4.0" />
+    <PackageReference Include="ShoppingCartPlugin" Version="2.4.0" />
+    <PackageReference Include="SieraDeltaGeoIp.Plugin" Version="2.4.0" />
+    <PackageReference Include="Spider.Plugin" Version="2.4.0" />
+    <PackageReference Include="SystemAdmin.Plugin" Version="2.4.0" />
+    <PackageReference Include="UserAccount.Plugin" Version="2.4.0" />
+    <PackageReference Include="UserSessionMiddleware.Plugin" Version="2.4.0" />
   </ItemGroup>
   
   <ItemGroup>

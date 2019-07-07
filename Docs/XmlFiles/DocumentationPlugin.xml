@@ -53,12 +53,6 @@
             loaded as a plugin module.  Extends IInitialiseEvents interface.
             </summary>
         </member>
-        <member name="T:DocumentationPlugin.Classes.PluginClass">
-            <summary>
-            Implements IPlugin which allows the Documentation.Plugin module to be
-            loaded as a plugin module
-            </summary>
-        </member>
         <member name="T:DocumentationPlugin.Models.DocumentViewModel">
             <summary>
             Model used when viewing a document
@@ -331,6 +325,12 @@
             </summary>
             <param name="image">image to be displayed.</param>
             <returns>string</returns>
+        </member>
+        <member name="T:DocumentationPlugin.PluginInitialisation">
+            <summary>
+            Implements IPlugin which allows the Documentation.Plugin module to be
+            loaded as a plugin module
+            </summary>
         </member>
     </members>
 </doc>

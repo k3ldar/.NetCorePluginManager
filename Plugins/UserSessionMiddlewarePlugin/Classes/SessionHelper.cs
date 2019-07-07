@@ -64,13 +64,13 @@ namespace UserSessionMiddleware.Plugin
             UserSessionManager.Instance.OnSessionSave += UserSession_OnSessionSave;
             UserSessionManager.Instance.IPAddressDetails += UserSession_IPAddressDetails;
 
-            _pluginClasses = Initialisation.GetServiceProvider.GetRequiredService<IPluginClassesService>();
+            _pluginClasses = PluginInitialisation.GetServiceProvider.GetRequiredService<IPluginClassesService>();
         }
 
         internal static void UserSession_IPAddressDetails(object sender, IpAddressArgs e)
         {
-            if (LoadGeoIpService() && 
-                _geoIpInstance.GetIPAddressDetails(e.IPAddress, out string countryCode, out string region, 
+            if (LoadGeoIpService() &&
+                _geoIpInstance.GetIPAddressDetails(e.IPAddress, out string countryCode, out string region,
                     out string cityName, out decimal latitude, out decimal longitude, out long ipUniqueId))
             {
                 e.IPUniqueID = ipUniqueId;
@@ -169,7 +169,7 @@ namespace UserSessionMiddleware.Plugin
 
             try
             {
-                _geoIpInstance = Initialisation.GetServiceProvider.GetService<IGeoIpDataService>();
+                _geoIpInstance = PluginInitialisation.GetServiceProvider.GetService<IGeoIpDataService>();
             }
             catch (InvalidOperationException)
             {
@@ -201,7 +201,7 @@ namespace UserSessionMiddleware.Plugin
 
             try
             {
-                _userSessionService = Initialisation.GetServiceProvider.GetService<IUserSessionService>();
+                _userSessionService = PluginInitialisation.GetServiceProvider.GetService<IUserSessionService>();
             }
             catch (InvalidOperationException)
             {

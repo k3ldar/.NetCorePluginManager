@@ -52,13 +52,13 @@
             </summary>
             <returns>string</returns>
         </member>
-        <member name="T:Localization.Plugin.Initialisation">
+        <member name="T:Localization.Plugin.PluginInitialisation">
             <summary>
             Implements IPlugin which allows the Localization.Plugin module to be
             loaded as a plugin module
             </summary>
         </member>
-        <member name="M:Localization.Plugin.Initialisation.ConfigureMvcBuilder(Microsoft.Extensions.DependencyInjection.IMvcBuilder@)">
+        <member name="M:Localization.Plugin.PluginInitialisation.ConfigureMvcBuilder(Microsoft.Extensions.DependencyInjection.IMvcBuilder@)">
             <summary>
             Configures localization within Mvc Builder
             </summary>

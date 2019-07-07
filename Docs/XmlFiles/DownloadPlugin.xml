@@ -4,12 +4,6 @@
         <name>DownloadPlugin</name>
     </assembly>
     <members>
-        <member name="T:DownloadPlugin.Classes.PluginClass">
-            <summary>
-            Implements IPlugin and IPluginVersion which allows the DownloadPlugin module to be
-            loaded as a plugin module
-            </summary>
-        </member>
         <member name="T:DownloadPlugin.Models.CategoriesModel">
             <summary>
             Download category view mode.
@@ -130,6 +124,12 @@
             Pagination used for displaying the downloads.
             </summary>
             <value>string</value>
+        </member>
+        <member name="T:DownloadPlugin.PluginInitialisation">
+            <summary>
+            Implements IPlugin and IPluginVersion which allows the DownloadPlugin module to be
+            loaded as a plugin module
+            </summary>
         </member>
     </members>
 </doc>

@@ -301,7 +301,7 @@
             <returns>IApplicationBuilder</returns>
             <example><pre style="font-family:Consolas;font-size:13px;color:black;background:white;"><span style="color:#1f377f;">services</span>.<span style="color:#74531f;">UseGeoIpService</span>();</pre></example>
         </member>
-        <member name="T:GeoIp.Plugin.Initialisation">
+        <member name="T:GeoIp.Plugin.PluginInitialisation">
             <summary>
             Implements IPlugin which allows the GeoIp.Plugin module to be
             loaded as a plugin module

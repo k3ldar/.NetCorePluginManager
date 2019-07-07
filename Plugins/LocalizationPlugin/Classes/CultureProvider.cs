@@ -36,7 +36,7 @@ namespace Localization.Plugin
 
         public string[] AvailableCultures()
         {
-            return Initialisation.InstalledCultures;
+            return PluginInitialisation.InstalledCultures;
         }
 
         public bool IsCultureValid(in CultureInfo cultureInfo)
@@ -44,7 +44,7 @@ namespace Localization.Plugin
             if (cultureInfo == null)
                 throw new ArgumentNullException(nameof(cultureInfo));
 
-            foreach(string culture in Initialisation.InstalledCultures)
+            foreach(string culture in PluginInitialisation.InstalledCultures)
             {
                 if (culture.Equals(cultureInfo.Name, StringComparison.InvariantCultureIgnoreCase))
                     return true;

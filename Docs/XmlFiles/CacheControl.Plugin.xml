@@ -87,7 +87,7 @@
             </summary>
             <returns>string</returns>
         </member>
-        <member name="T:CacheControl.Plugin.Initialisation">
+        <member name="T:CacheControl.Plugin.PluginInitialisation">
             <summary>
             Implements IPlugin which allows the CacheControl.Plugin module to be
             loaded as a plugin module

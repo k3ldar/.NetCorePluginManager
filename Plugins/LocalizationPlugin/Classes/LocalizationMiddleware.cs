@@ -60,7 +60,7 @@ namespace Localization.Plugin
             _next = next;
 
             ThreadManager.Initialise();
-            _cultureCache = Initialisation.CultureCache;
+            _cultureCache = PluginInitialisation.CultureCache;
         }
 
         #endregion Constructors

@@ -69,7 +69,7 @@
             </summary>
             <value>bool</value>
         </member>
-        <member name="T:Company.Plugin.Classes.PluginClass">
+        <member name="T:Company.Plugin.PluginInitialisation">
             <summary>
             Implements IPlugin which allows the CompanyPlugin module to be
             loaded as a plugin module

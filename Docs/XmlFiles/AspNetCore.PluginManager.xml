@@ -468,6 +468,12 @@
             </summary>
             <value>bool</value>
         </member>
+        <member name="P:AspNetCore.PluginManager.PluginSettings.LocalCopyPath">
+            <summary>
+            If CreateLocalCopy is true, this path will be used to store and load the plugins from.
+            </summary>
+            <value>string</value>
+        </member>
         <member name="P:AspNetCore.PluginManager.PluginSettings.PluginFiles">
             <summary>
             User defined list of plugin modules that will be loaded in order prior to generic loading of plugins.

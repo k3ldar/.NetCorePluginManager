@@ -47,7 +47,7 @@
             </summary>
             <returns>string</returns>
         </member>
-        <member name="T:RestrictIp.Plugin.Initialisation">
+        <member name="T:RestrictIp.Plugin.PluginInitialisation">
             <summary>
             Implements IPlugin which allows the RestrictIp.Plugin module to be
             loaded as a plugin module

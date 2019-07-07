@@ -4,12 +4,6 @@
         <name>LoginPlugin</name>
     </assembly>
     <members>
-        <member name="T:LoginPlugin.Classes.PluginClass">
-            <summary>
-            Implements IPlugin and IPluginVersion which allows the Login.Plugin module to be
-            loaded as a plugin module
-            </summary>
-        </member>
         <member name="T:LoginPlugin.LoginControllerSettings">
             <summary>
             Settings that determine how the Login.Plugin module is configured and used.
@@ -108,6 +102,12 @@
         <member name="T:LoginPlugin.Controllers.LoginController">
             <summary>
             Login controller, allows users to login using a standard interface implemented by ILoginProvider interface.
+            </summary>
+        </member>
+        <member name="T:LoginPlugin.PluginInitialisation">
+            <summary>
+            Implements IPlugin and IPluginVersion which allows the Login.Plugin module to be
+            loaded as a plugin module
             </summary>
         </member>
     </members>

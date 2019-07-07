@@ -13,7 +13,7 @@
     <PackageTags>asp net core plugin bad egg detect sql injection attacks</PackageTags>
     <PackageReleaseNotes>Supports net core 2.1, 2.2, 3.0 and net461</PackageReleaseNotes>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>2.3.0</Version>
+    <Version>2.4.0</Version>
     <PackageProjectUrl>http://pluginmanager.website/</PackageProjectUrl>
   </PropertyGroup>
 
@@ -121,7 +121,7 @@
   </ItemGroup>
 
   <ItemGroup Condition="'$(Configuration)'=='Release'">
-    <PackageReference Include="SharedPluginFeatures" Version="2.3.0" />
+    <PackageReference Include="SharedPluginFeatures" Version="2.4.0" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(Configuration)'=='Debug'">

@@ -28,6 +28,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 
 using SharedPluginFeatures;
+using System;
 
 namespace SystemAdmin.Plugin.Classes
 {
@@ -37,15 +38,15 @@ namespace SystemAdmin.Plugin.Classes
 
         public void AfterConfigure(in IApplicationBuilder app, in IHostingEnvironment env)
         {
-            
+
         }
 
         public void AfterConfigureServices(in IServiceCollection services)
         {
-            PluginClass.GetServiceProvider = services.BuildServiceProvider();
+            IServiceProvider serviceProvider = services.BuildServiceProvider();
 
-            IBreadcrumbService breadcrumbService = PluginClass.GetServiceProvider.GetService<IBreadcrumbService>();
-            ISystemAdminHelperService systemAdminHelper = PluginClass.GetServiceProvider.GetService<ISystemAdminHelperService>();
+            IBreadcrumbService breadcrumbService = serviceProvider.GetService<IBreadcrumbService>();
+            ISystemAdminHelperService systemAdminHelper = serviceProvider.GetService<ISystemAdminHelperService>();
 
             if (breadcrumbService != null && systemAdminHelper != null)
                 RegisterBreadcrumbs(breadcrumbService, systemAdminHelper);
@@ -53,19 +54,19 @@ namespace SystemAdmin.Plugin.Classes
 
         public void BeforeConfigure(in IApplicationBuilder app, in IHostingEnvironment env)
         {
-            
+
         }
 
         public void BeforeConfigureServices(in IServiceCollection services)
         {
-            
+
         }
 
         #endregion IInitialiseEvents Methods
 
         #region Private Methods
 
-        private void RegisterBreadcrumbs(in IBreadcrumbService breadcrumbService, 
+        private void RegisterBreadcrumbs(in IBreadcrumbService breadcrumbService,
             in ISystemAdminHelperService systemAdminHelper)
         {
             string parentRoute = "/SystemAdmin";

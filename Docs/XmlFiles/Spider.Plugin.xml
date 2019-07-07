@@ -55,7 +55,7 @@
             </summary>
             <returns>string</returns>
         </member>
-        <member name="T:Spider.Plugin.Initialisation">
+        <member name="T:Spider.Plugin.PluginInitialisation">
             <summary>
             Implements IPlugin which allows the Spider.Plugin module to be
             loaded as a plugin module
