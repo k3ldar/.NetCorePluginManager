@@ -78,10 +78,11 @@ namespace Middleware
         /// Adds a comment to a blog.
         /// </summary>
         /// <param name="blogItem">Blog that will have a comment added to.</param>
+        /// <param name="parentComment">The parent comment for nested comments.</param>
         /// <param name="userId">Id of the user making the comment.</param>
         /// <param name="userName">Name of the user making the comment.</param>
         /// <param name="comment">Comment to be added.</param>
-        void AddComment(in BlogItem blogItem, in long userId, 
+        void AddComment(in BlogItem blogItem, in BlogComment parentComment, in long userId,
             in string userName, in string comment);
     }
 }

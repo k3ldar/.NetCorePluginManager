@@ -217,7 +217,7 @@
     <PackageReference Include="Microsoft.Extensions.WebEncoders" Version="2.2.0" />
     <PackageReference Include="Microsoft.Net.Http.Headers" Version="2.2.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.3" />
-    <PackageReference Include="TinyMCE" Version="5.0.11" />
+    <PackageReference Include="SC.Shared.Library.Core" Version="2.9.4" />
   </ItemGroup>
 
   <ItemGroup>

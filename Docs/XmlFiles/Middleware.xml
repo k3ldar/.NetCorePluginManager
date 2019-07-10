@@ -2472,11 +2472,12 @@
             </summary>
             <param name="blogItem">Blog entry to be saved.</param>
         </member>
-        <member name="M:Middleware.IBlogProvider.AddComment(Middleware.Blog.BlogItem@,System.Int64@,System.String@,System.String@)">
+        <member name="M:Middleware.IBlogProvider.AddComment(Middleware.Blog.BlogItem@,Middleware.Blog.BlogComment@,System.Int64@,System.String@,System.String@)">
             <summary>
             Adds a comment to a blog.
             </summary>
             <param name="blogItem">Blog that will have a comment added to.</param>
+            <param name="parentComment">The parent comment for nested comments.</param>
             <param name="userId">Id of the user making the comment.</param>
             <param name="userName">Name of the user making the comment.</param>
             <param name="comment">Comment to be added.</param>

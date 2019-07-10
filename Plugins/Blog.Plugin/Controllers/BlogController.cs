@@ -26,6 +26,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+
 using Microsoft.AspNetCore.Mvc;
 
 using Blog.Plugin.Models;
@@ -137,7 +139,7 @@ namespace Blog.Plugin.Controllers
 
         [HttpPost]
         [LoggedIn]
-        public IActionResult Edit (BlogPostViewModel model)
+        public IActionResult Edit(BlogPostViewModel model)
         {
             if (model == null)
                 throw new ArgumentNullException(nameof(model));
@@ -160,7 +162,7 @@ namespace Blog.Plugin.Controllers
 
             if (ModelState.IsValid)
             {
-                blogItem.UpdateBlog(model.Title, model.Excerpt, model.BlogText, 
+                blogItem.UpdateBlog(model.Title, model.Excerpt, model.BlogText,
                     model.Published, model.PublishDateTime,
                     model.Tags.Split(' ', StringSplitOptions.RemoveEmptyEntries).ToList());
 
@@ -241,7 +243,8 @@ namespace Blog.Plugin.Controllers
             if (ModelState.IsValid)
             {
                 UserSession user = GetUserSession();
-                _blogProvider.AddComment(blogItem, user.UserID, user.UserName, model.Comment);
+                string comment = WebUtility.HtmlEncode(model.Comment).Replace("\r\n", "<br />");
+                _blogProvider.AddComment(blogItem, null, user.UserID, user.UserName, comment);
                 return Redirect(GetBlogItemUrl(blogItem));
             }
 
@@ -265,8 +268,8 @@ namespace Blog.Plugin.Controllers
 
         private BlogPostViewModel GetEditBlogPostViewModel(in BlogItem blogItem)
         {
-            BlogPostViewModel Result = new BlogPostViewModel(GetModelData(), blogItem.Id, blogItem.Title, 
-                blogItem.Excerpt, blogItem.BlogText, blogItem.Username, blogItem.Published, 
+            BlogPostViewModel Result = new BlogPostViewModel(GetModelData(), blogItem.Id, blogItem.Title,
+                blogItem.Excerpt, blogItem.BlogText, blogItem.Username, blogItem.Published,
                 blogItem.PublishDateTime, blogItem.LastModified, blogItem.Tags);
 
             return Result;
@@ -276,8 +279,8 @@ namespace Blog.Plugin.Controllers
         {
             UserSession user = GetUserSession();
             BlogPostViewModel Result = new BlogPostViewModel(GetModelData(), blogItem.Id,
-                blogItem.Title, blogItem.Excerpt, blogItem.BlogText, blogItem.Username, 
-                blogItem.Published, blogItem.PublishDateTime, blogItem.LastModified, 
+                blogItem.Title, blogItem.Excerpt, blogItem.BlogText, blogItem.Username,
+                blogItem.Published, blogItem.PublishDateTime, blogItem.LastModified,
                 blogItem.UserId == user.UserID, blogItem.Tags, IsUserLoggedIn(),
                 _settings.AllowComments);
 
@@ -325,9 +328,9 @@ namespace Blog.Plugin.Controllers
 
             foreach (BlogItem entry in entries)
             {
-                BlogPostViewModel post = new BlogPostViewModel(entry.Id, entry.Title, entry.Excerpt, 
-                    entry.BlogText, entry.Username, entry.Published, entry.PublishDateTime, 
-                    entry.LastModified, user.UserID == entry.UserId, entry.Tags, 
+                BlogPostViewModel post = new BlogPostViewModel(entry.Id, entry.Title, entry.Excerpt,
+                    entry.BlogText, entry.Username, entry.Published, entry.PublishDateTime,
+                    entry.LastModified, user.UserID == entry.UserId, entry.Tags,
                     new List<BlogCommentViewModel>(), IsUserLoggedIn(),
                     _settings.AllowComments);
 

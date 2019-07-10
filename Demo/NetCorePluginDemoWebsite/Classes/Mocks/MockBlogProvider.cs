@@ -58,7 +58,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
                 new BlogItem(2, 123, "Test", "Lorem Ipsum", "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor " +
                     "incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut " +
                     "aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat " +
-                    "nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.", 
+                    "nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
                     "Test User", true,
                     DateTime.Now.AddDays(-7), DateTime.Now.AddDays(-7), DateTime.Now.AddDays(-7),
                     new List<string>() { "Lorem", "Ipsum" },
@@ -76,7 +76,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
         public List<BlogItem> GetRecentPosts(in int recentCount, in bool publishedOnly)
         {
             int count = recentCount;
-            
+
             if (publishedOnly)
                 return _blogEntries.Where(o => o.IsAvailable).OrderBy(o => o.PublishDateTime).Take(count).ToList();
             else
@@ -134,7 +134,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
             }
         }
 
-        public void AddComment(in BlogItem blogItem, in long userId, 
+        public void AddComment(in BlogItem blogItem, in BlogComment parentComment, in long userId,
             in string userName, in string comment)
         {
             if (String.IsNullOrEmpty(comment))
