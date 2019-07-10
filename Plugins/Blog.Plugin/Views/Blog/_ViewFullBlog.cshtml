@@ -40,10 +40,10 @@
         @if (Model.Comments.Any())
         {
             <div class="blogComments">
-            <h2>Comments</h2>
+                <h2>Comments</h2>
                 @foreach (var comment in Model.Comments)
                 {
-                    <p>@comment.Comment</p>
+                    <p>@Html.Raw(comment.Comment)</p>
                     <h3>@comment.Username<br /><span>@comment.DateTime.ToString()</span></h3>
                 }
             </div>
@@ -53,5 +53,5 @@
 
 @if (Model.AllowComments)
 {
-@await Html.PartialAsync("_AddComment.cshtml", new Blog.Plugin.Models.CommentViewModel(Model.Id))
+    @await Html.PartialAsync("_AddComment.cshtml", new Blog.Plugin.Models.CommentViewModel(Model.Id))
 }
