@@ -53,5 +53,5 @@
 
 @if (Model.AllowComments)
 {
-    @await Html.PartialAsync("_AddComment.cshtml", new Blog.Plugin.Models.CommentViewModel(Model.Id))
+    @await Html.PartialAsync("_AddComment.cshtml", new Blog.Plugin.Models.CommentViewModel(Model.Id, Model.IsLoggedIn))
 }

@@ -258,11 +258,12 @@
             Default constructor
             </summary>
         </member>
-        <member name="M:Blog.Plugin.Models.CommentViewModel.#ctor(System.Int32@)">
+        <member name="M:Blog.Plugin.Models.CommentViewModel.#ctor(System.Int32@,System.Boolean@)">
             <summary>
             Constructor for adding blog id to comment view model.
             </summary>
             <param name="blogId">Id of the blog the comment will be added to.</param>
+            <param name="isLoggedIn">Indicates whether the current user is logged in or not.</param>
         </member>
         <member name="P:Blog.Plugin.Models.CommentViewModel.BlogId">
             <summary>
@@ -275,6 +276,11 @@
             Comment to be added to the blog post.
             </summary>
             <value>string</value>
+        </member>
+        <member name="P:Blog.Plugin.Models.CommentViewModel.IsLoggedIn">
+            <summary>
+            Determines whether the current user is logged in or not.
+            </summary>
         </member>
         <member name="T:Blog.Plugin.Models.MyBlogsViewModel">
             <summary>

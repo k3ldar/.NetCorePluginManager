@@ -46,9 +46,11 @@ namespace Blog.Plugin.Models
         /// Constructor for adding blog id to comment view model.
         /// </summary>
         /// <param name="blogId">Id of the blog the comment will be added to.</param>
-        public CommentViewModel(in int blogId)
+        /// <param name="isLoggedIn">Indicates whether the current user is logged in or not.</param>
+        public CommentViewModel(in int blogId, in bool isLoggedIn)
         {
             BlogId = blogId;
+            IsLoggedIn = isLoggedIn;
         }
 
         #endregion Constructors
@@ -67,6 +69,11 @@ namespace Blog.Plugin.Models
         /// <value>string</value>
         [Required]
         public string Comment { get; set; }
+
+        /// <summary>
+        /// Determines whether the current user is logged in or not.
+        /// </summary>
+        public bool IsLoggedIn { get; private set; }
 
         #endregion Properties
     }
