@@ -3,6 +3,8 @@
 
 <div class="bc">@Html.Raw(Model.BreadcrumbData())</div>
 <link rel="stylesheet" href="~/css/Blog.css" />
-<div class="container-fluid">
+<div class="row">
+    <div class="col-sm-12">
         @await Html.PartialAsync("_ViewFullBlog.cshtml", Model)
+    </div>
 </div>
