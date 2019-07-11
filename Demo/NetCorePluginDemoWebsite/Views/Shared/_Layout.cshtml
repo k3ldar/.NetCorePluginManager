@@ -1,9 +1,11 @@
-﻿@using Microsoft.Extensions.DependencyInjection;
-@using AspNetCore.PluginManager.DemoWebsite.Helpers;
-@using SharedPluginFeatures;
+﻿@using SharedPluginFeatures;
+@using Shared.Classes
+
 @inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
 @model SharedPluginFeatures.BaseModel
 @{
+    UserSession session = (UserSession)Context.Items[SharedPluginFeatures.Constants.UserSession];
+    bool loggedIn = !String.IsNullOrEmpty(session.UserName);
     ShoppingCartSummary cartSummary = Model.CartSummary;
     var items = Localizer[nameof(Languages.LanguageStrings.Items)];
     string cost = 0d.ToString("C", Model.CartSummary.Culture);
@@ -24,61 +26,70 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    @if(!String.IsNullOrEmpty(author))
+    @if (!String.IsNullOrEmpty(author))
     {
-    <meta name="author" content="@author" />;
+        <meta name="author" content="@author" />;
     }
     <meta name="description" content="@description" />
     <meta name="keywords" content="@keywords" />
     <title>@title - AspNetCore.PluginManager</title>
 </head>
 <body>
-    <environment include="Development">
-        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
-        <link rel="stylesheet" href="~/css/site.css" />
-    </environment>
-    <environment exclude="Development">
-        <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/css/bootstrap.min.css"
-              asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
-              asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
-        <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
-    </environment>
-    <nav class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-3.3.1.min.js"
+            asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
+            asp-fallback-test="window.jQuery"
+            crossorigin="anonymous"
+            integrity="sha384-tsQFqpEReu7ZLhBV2VZlAu7zcOV+rXbYlF2cqB8txI/8aZajjp4Bqd+V6D5IgvKT">
+    </script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="~/js/site.js"></script>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">AspNetCore.PluginManager</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
                 </button>
-                <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">AspNetCore.PluginManager</a>
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    @{
-                        // dynamically add menu items from plugins
-                        ISharedPluginHelper sharedPluginHelper = Startup.GetServiceProvider.GetRequiredService<ISharedPluginHelper>();
-                        foreach (MainMenuItem menuItem in sharedPluginHelper.BuildMainMenu())
-                        {
-                            <li><a asp-area="@menuItem.Area()" asp-controller="@menuItem.Controller()" asp-action="@menuItem.Action()">@menuItem.Name()</a></li>
+                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+                    <ul class="navbar-nav flex-grow-1">
+                        @{
+                            // dynamically add menu items from plugins
+                            ISharedPluginHelper sharedPluginHelper = (ISharedPluginHelper)Context.RequestServices.GetService(typeof(ISharedPluginHelper));
+                            foreach (MainMenuItem menuItem in sharedPluginHelper.BuildMainMenu())
+                            {
+                                <li class="nav-item"><a asp-area="@menuItem.Area()" asp-controller="@menuItem.Controller()" asp-action="@menuItem.Action()" class="nav-link text-dark">@menuItem.Name()</a></li>
+                            }
                         }
-                    }
-                    <li><a href="/Docs/">@Localizer[nameof(Languages.LanguageStrings.Documentation)]</a></li>
-                </ul>
-                <ul class="nav navbar-nav navbar-right">
-                    <li>
-                        <div class="cart-summary">
-                            <a href="/Cart/">
-                                <img src="~/images/Cart/shopping-cart-24.png" />
-                                <p>@Model.CartSummary.TotalItems @items<span>@cost</span></p>
-                            </a>
-                        </div>
-                    </li>
-                </ul>
+                    </ul>
+                </div>
+                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse" style="float:right;">
+                    <ul class="navbar-nav flex-grow-1">
+                        @if (!loggedIn)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" href="/Login/Index">@Localizer[nameof(Languages.LanguageStrings.Login)]</a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" href="/Login/Logout">@Localizer[nameof(Languages.LanguageStrings.Logout)]</a>
+                            </li>
+                        }
+                    </ul>
+                    <div class="cart-summary">
+                        <a href="/Cart/">
+                            <img src="~/images/Cart/shopping-cart-24.png" />
+                            <p>@Model.CartSummary.TotalItems @items<span>@cost</span></p>
+                        </a>
+                    </div>
+                </div>
             </div>
-        </div>
-    </nav>
+        </nav>
+    </header>
 
     <partial name="_CookieConsentPartial" />
 
@@ -107,15 +118,19 @@
 
     @*@RenderSection("Scripts", required: false)*@
 
-    <div class="container body-content">
-        @RenderBody()
+    <div class="body-content">
+        <main role="main" class="pb-3">
+            <div class="container">
+                @RenderBody()
+            </div>
+        </main>
         <hr />
         <footer>
             <div class="row">
                 <div class="col-xs-12 col-lg-6">@await Html.PartialAsync("_LanguageSelection")</div>
                 <div class="col-xs-2 col-lg-2"><a href="/Company/About/">@Localizer[nameof(Languages.LanguageStrings.About)]</a></div>
                 <div class="col-xs-2 col-lg-2"><a href="/Company/Cookies/">@Localizer[nameof(Languages.LanguageStrings.CookiePolicy)]</a></div>
-                <div class="col-xs-2 col-lg-2"><a href="/Login/">@Localizer[nameof(Languages.LanguageStrings.Login)]</a></div>
+                <div class="col-xs-2 col-lg-2"><a href="/Docs/">@Localizer[nameof(Languages.LanguageStrings.Documentation)]</a></div>
             </div>
             <div class="row" style="margin-top:25px;">
                 <div class="col-xs-12"><p>&copy; 2018 - 2019 - Simon Carter.  All Rights Reserved.</p></div>
