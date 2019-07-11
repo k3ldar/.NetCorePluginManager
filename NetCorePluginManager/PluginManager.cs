@@ -172,6 +172,11 @@ namespace AspNetCore.PluginManager
                         break;
                     }
                 }
+                catch (MissingMethodException missingMethodException)
+                {
+                    _logger.AddToLog(LogLevel.PluginLoadError, missingMethodException,
+                        $"Could not initialise IPlugin Instance: {assembly.FullName}{MethodBase.GetCurrentMethod().Name}");
+                }
                 catch (Exception typeLoader)
                 {
                     _logger.AddToLog(LogLevel.PluginLoadError, typeLoader,
@@ -443,22 +448,34 @@ namespace AspNetCore.PluginManager
             if (type == null)
                 throw new ArgumentNullException(nameof(type));
 
-            ConstructorInfo constructor = type.GetConstructors()
-                .Where(c => c.IsPublic && !c.IsStatic && c.GetParameters().Length > 0)
-                .OrderByDescending(c => c.GetParameters().Length)
-                .FirstOrDefault();
-
-            List<object> Result = new List<object>();
-
-            if (constructor != null)
+            if (_serviceProvider != null)
             {
-                foreach (ParameterInfo param in constructor.GetParameters())
+                //grab a list of all constructors in the class, start with the one with most parameters
+                List<ConstructorInfo> constructors = type.GetConstructors()
+                    .Where(c => c.IsPublic && !c.IsStatic && c.GetParameters().Length > 0)
+                    .OrderByDescending(c => c.GetParameters().Length)
+                    .ToList();
+
+                foreach (ConstructorInfo constructor in constructors)
                 {
-                    Result.Add(_serviceProvider.GetService(param.ParameterType));
+                    List<object> Result = new List<object>();
+
+                    foreach (ParameterInfo param in constructor.GetParameters())
+                    {
+                        object paramClass = _serviceProvider.GetService(param.ParameterType);
+
+                        // if we didn't find a specific param type for this constructor, try the next constructor
+                        if (paramClass == null)
+                            continue;
+
+                        Result.Add(paramClass);
+                    }
+
+                    return Result.ToArray();
                 }
             }
 
-            return Result.ToArray();
+            return new object[] { };
         }
 
         #endregion Internal Methods
