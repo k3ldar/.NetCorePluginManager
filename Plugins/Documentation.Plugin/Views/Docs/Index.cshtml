@@ -12,18 +12,24 @@
 
 <div class="docContainer">
     <div class="docRow">
-        <p>@Model.DocumentationDescription</p>
+        <div class="col">
+            <p>@Model.DocumentationDescription</p>
+        </div>
     </div>
     <div class="docRow">
-        @foreach (var item in Model.AssemblyNames)
-        {
-            <div class="docModules">
-                <a href="/Docs/Document/@Html.RouteFriendlyName(item.Key)/">
-                    <h3>@item.Key</h3>
-                    <span class="overlay">@item.Value.Summary</span>
-                </a>
-            </div>
-        }
+        <div class="col">
+            @foreach (var item in Model.AssemblyNames)
+            {
+                <div class="card">
+                    <div class="card-header">
+                        @item.Key
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text">@item.Value.Summary</p>
+                        <a href="/Docs/Document/@Html.RouteFriendlyName(item.Key)/" class="card-link">@Localizer[Languages.LanguageStrings.SeeMore]</a>
+                    </div>
+                </div>
+            }
+        </div>
     </div>
 </div>
-

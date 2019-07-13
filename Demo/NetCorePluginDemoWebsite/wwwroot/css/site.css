@@ -36,7 +36,7 @@ body {
 }
 
 /* Hide/rearrange for smaller screens */
-@media screen and (max-width: 767px) {
+@media screen and (max-width: 768px) {
     /* Hide captions */
     .carousel-caption {
         display: none;
@@ -97,6 +97,7 @@ body {
 
     .cart-summary img {
         padding-top: 13px;
+        max-width:24px !important;
     }
 
     .cart-summary a, .cart-summary a:hover {

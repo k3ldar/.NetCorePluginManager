@@ -83,6 +83,10 @@
             font-size: 1.0em;
         }
 
+    .cartSummary img {
+        width: 37px;
+    }
+
 .cartDetail {
     display: block;
     font-size: 0.7em;
