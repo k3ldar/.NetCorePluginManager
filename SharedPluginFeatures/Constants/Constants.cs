@@ -257,5 +257,45 @@ namespace SharedPluginFeatures
         /// Name of the folder that will contain copies of the plugin that will be loaded.
         /// </summary>
         public const string TempPluginPath = "PluginModules";
+
+        /// <summary>
+        /// Internally used Pagination Start
+        /// </summary>
+        public const string PaginationStart = "<ul class=\"pagination\">";
+
+        /// <summary>
+        /// Internally used Pagination End
+        /// </summary>
+        public const string PaginationEnd = "</ul>";
+
+        /// <summary>
+        /// Internally used Pagination Previous Disabled
+        /// </summary>
+        public const string PaginationPrevDisabled = "<li class=\"page-item disabled\"><a class=\"page-link\" href=\"javascript: void(0)\">&laquo; {0}</a></li>";
+
+        /// <summary>
+        /// Internally used Pagination Previous Enabled
+        /// </summary>
+        public const string PaginationPrevEnabled = "<liclass=\"page-item\"><a class=\"page-link\" href=\"{0}Page/{1}/{2}\">&laquo; {3}</a></li>";
+
+        /// <summary>
+        /// Internally used Pagination Next Disabled
+        /// </summary>
+        public const string PaginationNextDisabled = "<li class=\"page-item disabled\"><a class=\"page-link\" href=\"javascript: void(0)\">{0} &raquo;</a></li>";
+
+        /// <summary>
+        /// Internally used Pagination Next Enabled
+        /// </summary>
+        public const string PaginationNext = "<li class=\"page-item\"><a class=\"page-link\" href=\"{0}Page/{1}/{2}\">{3} &raquo;</a></li>";
+
+        /// <summary>
+        /// Internally used Pagination Active Page
+        /// </summary>
+        public const string PaginationPageActive = "<li class=\"page-item active\"><a class=\"page-link\" href=\"{0}Page/{1}/{2}\">{1}</a></li>";
+
+        /// <summary>
+        /// Internally used Pagination Page
+        /// </summary>
+        public const string PaginationPage = "<li class=\"page-item\"><a class=\"page-link\" href=\"{0}Page/{1}/{2}\">{1}</a></li>";
     }
 }

@@ -25,6 +25,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
 using System.Collections.Generic;
+using System.Text;
 
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
@@ -186,7 +187,7 @@ namespace SharedPluginFeatures
                     return shoppingCartService.GetSummary(userSession.UserBasketId);
             }
 
-            return new ShoppingCartSummary(0, 0, 0, 0, 0, GetDefaultTaxRate(), 
+            return new ShoppingCartSummary(0, 0, 0, 0, 0, GetDefaultTaxRate(),
                 System.Threading.Thread.CurrentThread.CurrentUICulture,
                 Constants.CurrencyCodeDefault);
         }
@@ -348,21 +349,22 @@ namespace SharedPluginFeatures
         protected string BuildPagination(in int itemCount, in int itemsPerPage, in int currentPage,
             in string page, in string parameters, in string previous, in string next)
         {
-            string Result = "";
+            StringBuilder Result = new StringBuilder(Constants.PaginationStart, 2048);
             int pageCount = CheckMinMax(RoundUp(itemCount, itemsPerPage), 1, int.MaxValue);
 
             string paginationParameters = parameters;
 
-            if (paginationParameters != "")
+            if (paginationParameters != String.Empty)
             {
                 if (paginationParameters[0] != '&')
                     paginationParameters = "&" + paginationParameters;
             }
 
             if (currentPage == 1 || pageCount == 1)
-                Result += String.Format("<li class=\"disabled\"><a href=\"javascript: void(0)\">&laquo; {0}</a></li>", previous);
+                Result.Append(String.Format(Constants.PaginationPrevDisabled, previous));
             else
-                Result += String.Format("<li><a href=\"{0}Page/{1}/{2}\">&laquo; {3}</a></li>", page, currentPage - 1, paginationParameters, previous);
+                Result.Append(String.Format(Constants.PaginationPrevEnabled,
+                    page, currentPage - 1, paginationParameters, previous));
 
             //can only allow max of 7 items normal page and 5 for mobile
             int startFrom = 1;
@@ -402,17 +404,22 @@ namespace SharedPluginFeatures
             for (int i = startFrom; i <= endAt; i++)
             {
                 if (i == currentPage)
-                    Result += String.Format("<li class=\"current\"><a href=\"{0}Page/{1}/{2}\">{1}</a></li>", page, i, paginationParameters);
+                    Result.Append(String.Format(Constants.PaginationPageActive,
+                        page, i, paginationParameters));
                 else
-                    Result += String.Format("<li><a href=\"{0}Page/{1}/{2}\">{1}</a></li>", page, i, paginationParameters);
+                    Result.Append(String.Format(Constants.PaginationPage,
+                        page, i, paginationParameters));
             }
 
             if (currentPage >= pageCount)
-                Result += String.Format("<li class=\"disabled\"><a href=\"javascript: void(0)\">{0} &raquo;</a></li>", next);
+                Result.Append(String.Format(Constants.PaginationNextDisabled, next));
             else
-                Result += String.Format("<li><a href=\"{0}Page/{1}/{2}\">{3} &raquo;</a></li>", page, currentPage + 1, paginationParameters, next);
+                Result.Append(String.Format(Constants.PaginationNext,
+                    page, currentPage + 1, paginationParameters, next));
 
-            return Result;
+            Result.Append(Constants.PaginationEnd);
+
+            return Result.ToString();
         }
 
         #endregion Pagination

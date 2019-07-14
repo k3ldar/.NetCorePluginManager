@@ -1,23 +1,4 @@
-﻿h1 {
-    font-size: 2em;
-    color: #666;
-}
-
-h2 {
-    font-size: 1.5em;
-    color: #666;
-}
-
-h3 {
-    font-size: 1.25em;
-    color: #666;
-}
-
-h4 {
-    font-size: 1em;
-    color: #666;
-}
-
+﻿
 .clear {
     clear: both;
 }
@@ -427,3 +408,61 @@ h4 {
                 background: #f4f4f4;
                 color: #ccc;
             }
+
+.dlContents {
+    font-size: 14px;
+    width: 189px;
+    top: 48px;
+    position: sticky;
+    height: calc(100vh - 8rem);
+    overflow-y: auto;
+}
+
+.card-img {
+    border: none;
+    float: left;
+    width: 70px !important;
+    height: 70px !important;
+}
+
+@media (max-width: 576px) {
+    .card {
+        width: 100%;
+        float: left;
+        margin: 0 10px 15px 0;
+        height: 250px;
+    }
+
+    .dlHeader {
+        font-size: 1.1em !important;
+        color: #666;
+    }
+}
+
+@media (min-width: 768px) {
+    .card {
+        width: 45%;
+        float: left;
+        margin: 0 10px 15px 0;
+        height: 250px;
+    }
+
+    .dlHeader {
+        font-size: 1.6em;
+        color: #666;
+    }
+}
+
+@media (min-width: 992px) {
+    .card {
+        width: 30%;
+        float: left;
+        margin: 0 10px 15px 0;
+        height: 250px;
+    }
+
+    .dlHeader {
+        font-size: 1.8em;
+        color: #666;
+    }
+}

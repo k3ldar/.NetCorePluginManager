@@ -146,19 +146,21 @@
                 padding: 10px 0 10px 2px;
             }
 
-@media (max-width: 576px) {
+@media (min-width: 576px) {
     .card {
         width: 100%;
-        margin: 0 0px 10px 0;
+        float: left;
+        margin: 0 10px 15px 0;
+        height: 250px;
     }
 }
 
 @media (min-width: 768px) {
     .card {
-        width: 47%;
-        margin: 0 10px 10px 0;
+        width: 45%;
         float: left;
-        height: 200px;
+        margin: 0 10px 15px 0;
+        height: 250px;
     }
 }
 
@@ -185,17 +187,17 @@
 
     .card {
         width: 30%;
-        margin: 0 10px 10px 0;
         float: left;
-        height: 200px;
+        margin: 0 10px 15px 0;
+        height: 250px;
     }
 }
 
 @media (min-width: 1200px) {
     .card {
-        width: 22%;
-        margin: 0 10px 10px 0;
+        width: 23%;
         float: left;
-        height: 200px;
+        margin: 0 10px 15px 0;
+        height: 250px;
     }
 }
