@@ -11,18 +11,16 @@
 
 <h1>@Model.Title</h1>
 <div class="row">
-    @{
-        if (Model.HomeIcons != null)
+    <div class="col">
+        @if (Model.HomeIcons != null)
         {
             foreach (SystemAdminMainMenu menu in Model.HomeIcons)
             {
-                <div class="col-md-3">
-                    <div class="systemIcon" style="border: solid 1px @menu.BackColor()">
-                        <a asp-area="@menu.Area()" asp-controller="@menu.Controller()" asp-action="@menu.Action()" asp-route-id="@menu.UniqueId">
-                            <h3 style="background-color: @menu.BackColor(); color: @menu.ForeColor()">@Localizer[menu.Name]</h3>
-                            <img src="@Model.ProcessImage(menu.Image)" />
-                        </a>
-                    </div>
+                <div class="systemIcon" style="border: solid 1px @menu.BackColor()">
+                    <a asp-area="@menu.Area()" asp-controller="@menu.Controller()" asp-action="@menu.Action()" asp-route-id="@menu.UniqueId">
+                        <h3 style="background-color: @menu.BackColor(); color: @menu.ForeColor()">@Localizer[menu.Name]</h3>
+                        <img src="@Model.ProcessImage(menu.Image)" />
+                    </a>
                 </div>
             }
         }
@@ -30,16 +28,14 @@
         {
             foreach (SystemAdminSubMenu menu in Model.MenuItems)
             {
-                <div class="col-md-3">
-                    <div class="systemIcon" style="border: solid 1px @menu.BackColor()">
-                        <a href="@Model.GetMenuLink(menu)">
-                            <h3 style="background-color: @menu.BackColor(); color: @menu.ForeColor()">@Localizer[menu.Name()]</h3>
-                            <img src="@Model.ProcessImage(menu.Image())" />
-                        </a>
-                    </div>
+                <div class="systemIcon" style="border: solid 1px @menu.BackColor()">
+                    <a href="@Model.GetMenuLink(menu)">
+                        <h3 style="background-color: @menu.BackColor(); color: @menu.ForeColor()">@Localizer[menu.Name()]</h3>
+                        <img src="@Model.ProcessImage(menu.Image())" />
+                    </a>
                 </div>
 
             }
         }
-    }
+    </div>
 </div>

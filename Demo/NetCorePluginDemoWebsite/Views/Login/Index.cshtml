@@ -37,7 +37,7 @@
                     @Html.LabelFor(m => m.Username)
                 </div>
                 <div class="login-row">
-                    @Html.TextBoxFor(m => m.Username) @Html.ValidationMessageFor(m => m.Username)
+                    @Html.TextBoxFor(m => m.Username, new { @class = "form-control" }) @Html.ValidationMessageFor(m => m.Username)
                 </div>
             </div>
             <div class="login-block">
@@ -45,7 +45,7 @@
                     @Html.LabelFor(m => m.Password)
                 </div>
                 <div class="login-row">
-                    @Html.PasswordFor(m => m.Password) @Html.ValidationMessageFor(m => m.Password)
+                    @Html.PasswordFor(m => m.Password, new { @class = "form-control" }) @Html.ValidationMessageFor(m => m.Password)
                 </div>
             </div>
 
@@ -56,7 +56,7 @@
                         @Html.LabelFor(m => m.RememberMe)
                     </div>
                     <div class="login-row">
-                        @Html.CheckBoxFor(m => m.RememberMe) @Html.ValidationMessageFor(m => m.RememberMe)
+                        @Html.CheckBoxFor(m => m.RememberMe, new { @class = "form-control" }) @Html.ValidationMessageFor(m => m.RememberMe)
                     </div>
                 </div>
             }

@@ -10,27 +10,29 @@
 <div class="bc">@Html.Raw(Model.BreadcrumbData())</div>
 
 <h2>@Localizer[Model.Title]</h2>
-<div class="mapContent">
-    <div class="mapLegend">
-        <p>
-            <img src="https://maps.google.com/mapfiles/ms/icons/blue.png" alt="blue" /> = @Localizer["Visitor"] <br />
-            <img src="https://maps.google.com/mapfiles/ms/icons/green.png" alt="green" /> = @Localizer["RegisteredUser"] <br />
-            <img src="https://maps.google.com/mapfiles/ms/icons/green-dot.png" alt="green-dot" /> = @Localizer["RegisteredUserMobile"] <br />
-            <img src="https://maps.google.com/mapfiles/ms/icons/blue-pushpin.png" alt="blue-pushpin" /> = @Localizer["Sale"] <br />
-            <img src="https://maps.google.com/mapfiles/ms/icons/grn-pushpin.png" alt="grn-pushpin" /> = @Localizer["SaleMobile"] <br />
-            <img src="https://maps.google.com/mapfiles/ms/icons/yellow.png" alt="yellow" /> = @Localizer["Bounced"]  <br />
-            <img src="https://maps.google.com/mapfiles/ms/icons/orange.png" alt="orange" /> = @Localizer["Bot"]  <br />
-        </p>
-    </div>
-    <div>
-        <div class="googleMap">
-            <div id="gmap_canvas" style="height:500px;width:800px;">
+<div class="row">
+    <div class="col-sm-12">
+        <div class="googleMap" id="gmap_canvas">
 
-            </div>
         </div>
     </div>
-    <div class="clear"><!-- clear --></div>
 </div>
+<div class="row">
+    <div class="col-sm-12">
+        <div class="mapLegend">
+            <p>
+                <img src="https://maps.google.com/mapfiles/ms/icons/blue.png" alt="blue" /> = @Localizer["Visitor"] <br />
+                <img src="https://maps.google.com/mapfiles/ms/icons/green.png" alt="green" /> = @Localizer["RegisteredUser"] <br />
+                <img src="https://maps.google.com/mapfiles/ms/icons/green-dot.png" alt="green-dot" /> = @Localizer["RegisteredUserMobile"] <br />
+                <img src="https://maps.google.com/mapfiles/ms/icons/blue-pushpin.png" alt="blue-pushpin" /> = @Localizer["Sale"] <br />
+                <img src="https://maps.google.com/mapfiles/ms/icons/grn-pushpin.png" alt="grn-pushpin" /> = @Localizer["SaleMobile"] <br />
+                <img src="https://maps.google.com/mapfiles/ms/icons/yellow.png" alt="yellow" /> = @Localizer["Bounced"]  <br />
+                <img src="https://maps.google.com/mapfiles/ms/icons/orange.png" alt="orange" /> = @Localizer["Bot"]  <br />
+            </p>
+        </div>
+    </div>
+</div>
+
 
 <script type="text/javascript" src='https://maps.googleapis.com/maps/api/js?v=3&key=@Model.GoogleMapApiKey'></script>
 
