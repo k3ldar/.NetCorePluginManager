@@ -5,8 +5,6 @@
     ViewData["Title"] = @Localizer[nameof(Languages.LanguageStrings.Helpdesk)];
 }
 
-<div class="bc">@Html.Raw(Model.BreadcrumbData())</div>
-
 
 <link rel="stylesheet" href="/css/Helpdesk.css" />
 <script src="~/js/helpdesk.js"></script>
@@ -16,7 +14,7 @@
     </div>
 </div>
 <div class="row helpdeskContent">
-    <div class="col-sm-6 col-md-3">
+    <div class="col">
         <ul class="helpdeskOptions fixed">
             @if (Model.ShowTickets)
             {

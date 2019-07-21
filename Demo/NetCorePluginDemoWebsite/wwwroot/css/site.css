@@ -36,12 +36,84 @@ body {
 }
 
 /* Hide/rearrange for smaller screens */
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 576px) {
+    .navbar-brand {
+        font-size: 12px;
+    }
+
+    .nav-item {
+        font-size: 13px;
+    }
+
+    .cart-summary {
+        font-size: 13px;
+    }
+
+    .footer {
+        font-size: 11px;
+        margin-top: 25px;
+    }
+
+    .footer .btn {
+        font-size: 11px;
+    }
+}
+@media screen and (min-width: 768px) {
     /* Hide captions */
     .carousel-caption {
         display: none;
     }
+
+    .nav-item {
+        font-size: 12px;
+    }
+
+    .cart-summary {
+        font-size: 12px;
+    }
+
+    .footer {
+        font-size: 11px;
+        margin-top: 25px;
+    }
 }
+@media screen and (min-width: 992px) {
+    .navbar-brand {
+        font-size: 15px;
+    }
+
+    .nav-item {
+        font-size: 13px;
+    }
+
+    .cart-summary {
+        font-size: 13px;
+    }
+
+    .footer {
+        font-size: 14px;
+        margin-top: 25px;
+    }
+}
+@media screen and (min-width: 1200px) {
+    .navbar-brand {
+        font-size: 1.25em;
+    }
+
+    .nav-item {
+        font-size: 16px;
+    }
+
+    .cart-summary {
+        font-size: 16px;
+    }
+
+    .footer {
+        font-size: 14px;
+        margin-top: 25px;
+    }
+}
+
 
 .validation-summary-errors {
     color: red;
@@ -58,8 +130,8 @@ body {
 
 .bc {
     padding: 8px 0px 2px 0px;
-    background-color: #eee;
-    height: 36px;
+    min-height: 36px !important;
+    display: contents;
 }
 
     .bc ul {
@@ -124,6 +196,7 @@ body {
 @media screen and (max-width: 768px) {
     img {
         width: 100%;
+        height: auto;
     }
 
     h2 {

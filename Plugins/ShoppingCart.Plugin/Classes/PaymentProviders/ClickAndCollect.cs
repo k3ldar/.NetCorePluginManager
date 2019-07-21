@@ -51,7 +51,7 @@ namespace ShoppingCartPlugin.Classes.PaymentProviders
 
         #region Constructors
 
-        public ClickAndCollect(in ISettingsProvider settingsProvider)
+        public ClickAndCollect(ISettingsProvider settingsProvider)
         {
             if (settingsProvider == null)
                 throw new ArgumentNullException(nameof(settingsProvider));

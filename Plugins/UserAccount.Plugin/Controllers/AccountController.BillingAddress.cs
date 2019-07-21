@@ -76,6 +76,7 @@ namespace UserAccount.Plugin.Controllers
                 ModelState.AddModelError(String.Empty, Languages.LanguageStrings.FailedToUpdateBillingAddress);
             }
 
+            model = new BillingAddressViewModel(GetBreadcrumbs(), GetCartSummary());
             PrepareBillingAddressModel(ref model, null);
 
             return View(model);

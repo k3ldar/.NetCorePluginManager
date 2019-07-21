@@ -515,3 +515,32 @@ h4 {
         margin: 10px 10px 10px 0;
     }
 
+
+
+@media (min-width: 576px) {
+    .productVideo {
+        width: 100%;
+        height: 250px;
+    }
+}
+
+@media (min-width: 768px) {
+    .productVideo {
+        width: 600px;
+        height: 400px;
+    }
+}
+
+@media (min-width: 992px) {
+    .productVideo {
+        width: 680px;
+        height: 360px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .productVideo {
+        width: 800px;
+        height: 600px;
+    }
+}

@@ -5,7 +5,6 @@
     ViewData["Title"] = "View Licence";
 }
 
-<div class="bc">@Html.Raw(Model.BreadcrumbData())</div>
 
 <h2>@Localizer[nameof(Languages.LanguageStrings.ViewLicence)]</h2>
 
@@ -16,66 +15,66 @@
 
 @using (Html.BeginForm("LicenceUpdateDomain", "Account", FormMethod.Post, new { id = "updateLicenceForm" }))
 {
-@Html.HiddenFor(m => m.Id)
-@Html.HiddenFor(m => m.Active)
-@Html.HiddenFor(m => m.Expires)
-@Html.HiddenFor(m => m.Licence)
-@Html.HiddenFor(m => m.Trial)
-@Html.HiddenFor(m => m.Updates)
-@Html.HiddenFor(m => m.LicenceType)
+    @Html.HiddenFor(m => m.Id)
+    @Html.HiddenFor(m => m.Active)
+    @Html.HiddenFor(m => m.Expires)
+    @Html.HiddenFor(m => m.Licence)
+    @Html.HiddenFor(m => m.Trial)
+    @Html.HiddenFor(m => m.Updates)
+    @Html.HiddenFor(m => m.LicenceType)
 
-<div class="account-block">
-    <div class="account-row">
-        @Html.LabelFor(m => m.Domain)
+    <div class="account-block">
+        <div class="account-row">
+            @Html.LabelFor(m => m.Domain)
+        </div>
+        <div class="account-row">
+            @Html.TextBoxFor(m => m.Domain) @Html.ValidationMessageFor(m => m.Domain)
+        </div>
+        <div class="account-row">
+            Updates Available: @Model.AvailableUpdates
+        </div>
     </div>
-    <div class="account-row">
-        @Html.TextBoxFor(m => m.Domain) @Html.ValidationMessageFor(m => m.Domain)
-    </div>
-    <div class="account-row">
-        Updates Available: @Model.AvailableUpdates
-    </div>
-</div>
 
-<div class="account-block">
-    <div class="account-row">
-        @Html.LabelFor(m => m.LicenceType)  @Model.LicenceType
+    <div class="account-block">
+        <div class="account-row">
+            @Html.LabelFor(m => m.LicenceType)  @Model.LicenceType
+        </div>
     </div>
-</div>
 
-<div class="account-block">
-    <div class="account-row">
-        @Html.LabelFor(m => m.Trial) @Model.Trial.ToString()
+    <div class="account-block">
+        <div class="account-row">
+            @Html.LabelFor(m => m.Trial) @Model.Trial.ToString()
+        </div>
     </div>
-</div>
 
-<div class="account-block">
-    <div class="account-row">
-        @Html.LabelFor(m => m.Active) @Model.Active.ToString()
+    <div class="account-block">
+        <div class="account-row">
+            @Html.LabelFor(m => m.Active) @Model.Active.ToString()
+        </div>
     </div>
-</div>
 
-<div class="account-block">
-    <div class="account-row">
-        @Html.LabelFor(m => m.Expires) @Model.Expires.ToString()
+    <div class="account-block">
+        <div class="account-row">
+            @Html.LabelFor(m => m.Expires) @Model.Expires.ToString()
+        </div>
     </div>
-</div>
 
-@if (Model.Active)
+    @if (Model.Active)
     {
-<div class="account-block">
-    <div class="account-row">
-        @Localizer[nameof(Languages.LanguageStrings.LicenceUpdateDescription)]
-    </div>
-    <div class="account-row">
-        @Html.TextAreaFor(m => m.Licence, new { @readonly = "readonly" })
-    </div>
-</div>
+        <div class="account-block">
+            <div class="account-row">
+                @Localizer[nameof(Languages.LanguageStrings.LicenceUpdateDescription)]
+            </div>
+            <div class="account-row">
+                @Html.TextAreaFor(m => m.Licence, new { @readonly = "readonly", @class = "form-control" })
+            </div>
+        </div>
     }
 
-<div class="account-block">
-    <input id="btnSendEmail" type="button" value="@Localizer[nameof(Languages.LanguageStrings.SendEmail)]" />
-    <input id="btnUpdateLicence" type="submit" value="@Localizer[nameof(Languages.LanguageStrings.Update)]" />
-</div>
+    <div class="account-block">
+        <input id="btnSendEmail" type="button" value="@Localizer[nameof(Languages.LanguageStrings.SendEmail)]" />
+        <input id="btnUpdateLicence" class="btn btn-primary" type="submit" value="@Localizer[nameof(Languages.LanguageStrings.Update)]" />
+    </div>
 }
 
 

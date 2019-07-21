@@ -5,7 +5,6 @@
     ViewData["Title"] = "DownloadView";
 }
 
-<div class="bc">@Html.Raw(Model.BreadcrumbData())</div>
 
 <h2>@Localizer[nameof(Languages.LanguageStrings.Download)] @Model.Name</h2>
 
@@ -22,25 +21,25 @@
 
     @if (!String.IsNullOrEmpty(Model.Size))
     {
-    <div class="account-row">
-        <p><span>File Size:</span>@Model.Size</p>
-    </div>
+        <div class="account-row">
+            <p><span>File Size:</span>@Model.Size</p>
+        </div>
     }
     <div class="account-row">
         <p><span>@Localizer[nameof(Languages.LanguageStrings.FileName)]:</span>@System.IO.Path.GetFileName(Model.Filename)</p>
     </div>
     @if (!String.IsNullOrEmpty(Model.Version))
     {
-    <div class="account-row">
-        <p><span>File Version:</span>@Model.Version</p>
-    </div>
+        <div class="account-row">
+            <p><span>File Version:</span>@Model.Version</p>
+        </div>
     }
 
     @using (Html.BeginForm("DownloadFile", "Account", FormMethod.Post))
     {
-    @Html.HiddenFor(m => m.Id)
-    @Html.HiddenFor(m => m.Filename)
+        @Html.HiddenFor(m => m.Id)
+        @Html.HiddenFor(m => m.Filename)
 
-    <button type="submit">@Localizer[nameof(Languages.LanguageStrings.Download)]</button>
+        <button class="btn btn-primary" type="submit">@Localizer[nameof(Languages.LanguageStrings.Download)]</button>
     }
 </div>

@@ -5,44 +5,55 @@
     ViewData["Title"] = Localizer[nameof(Languages.LanguageStrings.FrequentlyAskedQuestions)];
 }
 
-<div class="bc">@Html.Raw(Model.BreadcrumbData())</div>
-
-<h2>@Localizer[nameof(Languages.LanguageStrings.FrequentlyAskedQuestions)]</h2>
 
 <link rel="stylesheet" href="/css/Helpdesk.css" />
 <script src="~/js/helpdesk.js"></script>
 
-<div>@Html.ValidationSummary()</div>
-
-<div class="helpdeskContent">
-    <div class="helpdesk-row">
+<div class="row hd-row">
+    <div class="col helpdesk-row">
+        <h2>@Localizer[nameof(Languages.LanguageStrings.FrequentlyAskedQuestions)]</h2>
+    </div>
+</div>
+<div class="row hd-row">
+    <div class="col helpdesk-row">
         <p style="width:100%;font-weight:normal;">@Localizer[nameof(Languages.LanguageStrings.HelpdeskFAQDescription)]</p>
     </div>
-    <div class="helpdesk-block">
-        @if (Model.ActiveGroup != null)
+</div>
+<div class="row">
+    <div class="col helpdesk-row">
+        <div>@Html.ValidationSummary()</div>
+    </div>
+</div>
+@if (Model.ActiveGroup != null)
+{
+    <div class="row hd-row">
+        <div class="col helpdesk-row">
+            <h3>@Model.ActiveGroup.Name</h3>
+        </div>
+    </div>
+}
+<div class="row">
+    <div class="col helpdesk-row">
+        @foreach (var grp in Model.Groups)
         {
-            <div class="helpdesk-row">
-                <h3>@Model.ActiveGroup.Name</h3>
+            <div class="helpdeskGroupList">
+                <h3 class="folder" title="@grp.SubGroupCount Sub Groups and @grp.Items.Count Items"><a href="/Helpdesk/FaQ/@grp.Id/@Model.RouteText(grp.Name)/">@grp.Name</a><span>(@grp.SubGroupCount/@grp.Items.Count)</span></h3>
+                <ul class="helpdeskGroupList">
+                    @foreach (var item in grp.GetTopItems(2))
+                    {
+                        <li class="document">
+                            <a href="/Helpdesk/FaQItem/@item.Id/@Model.RouteText(item.Description)/">@item.Description</a>
+                        </li>
+                    }
+                </ul>
+
             </div>
         }
-        <div class="helpdesk-row">
-            @foreach (var grp in Model.Groups)
-            {
-                <div class="helpdeskGroupList">
-                    <h3 class="folder" title="@grp.SubGroupCount Sub Groups and @grp.Items.Count Items"><a href="/Helpdesk/FaQ/@grp.Id/@Model.RouteText(grp.Name)/">@grp.Name</a><span>(@grp.SubGroupCount/@grp.Items.Count)</span></h3>
-                    <ul class="helpdeskGroupList">
-                        @foreach (var item in grp.GetTopItems(2))
-                        {
-                            <li class="document">
-                                <a href="/Helpdesk/FaQItem/@item.Id/@Model.RouteText(item.Description)/">@item.Description</a>
-                            </li>
-                        }
-                    </ul>
 
-                </div>
-            }
-        </div>
-
+    </div>
+</div>
+<div class="row">
+    <div class="col helpdesk-row">
         @if (Model.ActiveGroup != null)
         {
             <div class="helpdesk-row">
@@ -58,5 +69,6 @@
                 </div>
             </div>
         }
+
     </div>
 </div>

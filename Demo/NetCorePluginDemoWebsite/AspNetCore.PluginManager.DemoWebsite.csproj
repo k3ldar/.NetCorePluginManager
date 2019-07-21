@@ -74,6 +74,7 @@
     <PackageReference Include="SystemAdmin.Plugin" Version="2.4.0" />
     <PackageReference Include="UserAccount.Plugin" Version="2.4.0" />
     <PackageReference Include="UserSessionMiddleware.Plugin" Version="2.4.0" />
+    <PackageReference Include="ProductPlugin" Version="2.4.0" />
   </ItemGroup>
   
   <ItemGroup>
@@ -85,7 +86,11 @@
     <ProjectReference Include="..\..\SharedPluginFeatures\SharedPluginFeatures.csproj" />
     <ProjectReference Include="..\..\NetCorePluginManager\AspNetCore.PluginManager.csproj" />
     <ProjectReference Include="..\..\Plugins\PluginMiddleware\PluginMiddleware.csproj" />
+    <ProjectReference Include="..\..\Plugins\Products.Plugin\ProductsPlugin.csproj" />
+    <ProjectReference Include="..\..\Plugins\ShoppingCart.Plugin\ShoppingCart.Plugin.csproj" />
+    <ProjectReference Include="..\..\Plugins\Helpdesk.Plugin\HelpdeskPlugin.csproj" />
     <ProjectReference Include="..\..\Languages\Languages.csproj" />
+    <ProjectReference Include="..\..\Plugins\UserAccount.Plugin\UserAccount.Plugin.csproj" />
   </ItemGroup>
 
   <ItemGroup>

@@ -4,7 +4,7 @@
 @using (Html.BeginForm(nameof(ShoppingCartPlugin.Controllers.CartController.AddVoucher), "Cart", FormMethod.Post))
 {
     @Html.TextBoxFor(m => m.Voucher)
-    <input type="submit" value="@Localizer[nameof(Languages.LanguageStrings.ApplyCode)]" />
+    <input class="btn btn-default" type="submit" value="@Localizer[nameof(Languages.LanguageStrings.ApplyCode)]" />
     @Html.ValidationMessageFor(m => m.Voucher)
 }
 

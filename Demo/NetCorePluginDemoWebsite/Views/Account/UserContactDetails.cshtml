@@ -5,7 +5,6 @@
     ViewData["Title"] = "User Contact Details";
 }
 
-<div class="bc">@Html.Raw(Model.BreadcrumbData())</div>
 
 <h2>@Localizer[nameof(Languages.LanguageStrings.ContactDetails)]</h2>
 
@@ -15,47 +14,47 @@
 
 @using (Html.BeginForm("UserContactDetails", "Account", FormMethod.Post, new { id = "updateContactForm" }))
 {
-@Html.HiddenFor(m => m.ShowTelephone)
+    @Html.HiddenFor(m => m.ShowTelephone)
 
-<div class="account-block">
-    <div class="account-row">
-        @Html.LabelFor(m => m.FirstName)
+    <div class="account-block">
+        <div class="account-row">
+            @Html.LabelFor(m => m.FirstName)
+        </div>
+        <div class="account-row">
+            @Html.TextBoxFor(m => m.FirstName) @Html.ValidationMessageFor(m => m.FirstName)
+        </div>
     </div>
-    <div class="account-row">
-        @Html.TextBoxFor(m => m.FirstName) @Html.ValidationMessageFor(m => m.FirstName)
+    <div class="account-block">
+        <div class="account-row">
+            @Html.LabelFor(m => m.LastName)
+        </div>
+        <div class="account-row">
+            @Html.TextBoxFor(m => m.LastName) @Html.ValidationMessageFor(m => m.LastName)
+        </div>
     </div>
-</div>
-<div class="account-block">
-    <div class="account-row">
-        @Html.LabelFor(m => m.LastName)
+    <div class="account-block">
+        <div class="account-row">
+            @Html.LabelFor(m => m.Email)
+        </div>
+        <div class="account-row">
+            @Html.TextBoxFor(m => m.Email) @Html.ValidationMessageFor(m => m.Email)
+        </div>
     </div>
-    <div class="account-row">
-        @Html.TextBoxFor(m => m.LastName) @Html.ValidationMessageFor(m => m.LastName)
-    </div>
-</div>
-<div class="account-block">
-    <div class="account-row">
-        @Html.LabelFor(m => m.Email)
-    </div>
-    <div class="account-row">
-        @Html.TextBoxFor(m => m.Email) @Html.ValidationMessageFor(m => m.Email)
-    </div>
-</div>
-@if (Model.ShowTelephone)
+    @if (Model.ShowTelephone)
     {
-<div class="account-block">
-    <div class="account-row">
-        @Html.LabelFor(m => m.Telephone)
-    </div>
-    <div class="account-row">
-        @Html.TextBoxFor(m => m.Telephone) @Html.ValidationMessageFor(m => m.Telephone)
-    </div>
-</div>
+        <div class="account-block">
+            <div class="account-row">
+                @Html.LabelFor(m => m.Telephone)
+            </div>
+            <div class="account-row">
+                @Html.TextBoxFor(m => m.Telephone) @Html.ValidationMessageFor(m => m.Telephone)
+            </div>
+        </div>
     }
 
-<div class="account-block">
-    <input id="btnUpdate" type="submit" value="@Localizer[nameof(Languages.LanguageStrings.ContactDetailsUpdate)]" />
-</div>
+    <div class="account-block">
+        <input id="btnUpdate" class="btn btn-primary" type="submit" value="@Localizer[nameof(Languages.LanguageStrings.ContactDetailsUpdate)]" />
+    </div>
 }
 
 

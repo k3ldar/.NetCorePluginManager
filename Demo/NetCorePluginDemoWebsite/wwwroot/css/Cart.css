@@ -1,91 +1,4 @@
-﻿.shoppingCart {
-    width: 100%;
-}
-
-    .shoppingCart table {
-        font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
-        border-collapse: collapse;
-        width: 100%;
-        padding: 10px 20px 10px 20px;
-    }
-
-    .shoppingCart td, .shoppingCart th {
-        border: 1px solid #ddd;
-        padding: 8px;
-    }
-
-    .shoppingCart table thead tr td {
-        padding-right: 20px;
-    }
-
-    .shoppingCart table tr td input[type=number] {
-        width: 38px;
-    }
-
-    .shoppingCart table tr td input[type=text] {
-        padding: 2px;
-        width: 40px;
-        margin: 0 5px 0 5px;
-    }
-
-    .shoppingCart table tr td a {
-        width: 100%;
-        text-decoration: none;
-        font-size: 1.0em;
-        color: black;
-    }
-
-        .shoppingCart table tr td a img {
-            float: left;
-            border-radius: 5px;
-            width: 40px;
-            margin-right: 10px;
-        }
-
-        .shoppingCart table tr td a h3 {
-            margin: 0;
-            font-size: 1.2em;
-        }
-
-        .shoppingCart table tr td a p {
-            margin: 0;
-            font-size: 1.0em;
-        }
-
-    .shoppingCart tr:hover {
-        background-color: #ddd;
-    }
-
-    .shoppingCart th {
-        padding-top: 12px;
-        padding-bottom: 12px;
-        text-align: left;
-        background-color: #707B7C;
-        color: white;
-    }
-
-        .shoppingCart th:last-child {
-            width: 18px;
-        }
-
-.cartSummary {
-    display: block;
-    width: 300px;
-    float: right;
-    padding-right: 15px;
-}
-    .cartSummary h3 {
-        font-weight: normal;
-        font-size: 1.2em;
-    }
-        .cartSummary h3 span {
-            float: right;
-            font-size: 1.0em;
-        }
-
-    .cartSummary img {
-        width: 37px;
-    }
+﻿
 
 .cartDetail {
     display: block;
@@ -97,10 +10,6 @@
         margin-right: 30px;
     }
 
-.voucher{
-    display: block;
-    margin: 10px 0 10px 0;
-}
 
 .center {
     width: 150px;
@@ -123,6 +32,7 @@
 .shipping-address {
     margin-bottom: 40px;
 }
+
     .shipping-address p {
         padding-left: 20px;
     }
@@ -174,4 +84,308 @@
 
 .click-and-collect {
     background-image: url('/images/cart/clickcollect.png');
+}
+
+
+
+@media (max-width: 767px) {
+    .shoppingCart {
+        width: 100%;
+    }
+
+        .shoppingCart table {
+            font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+            font-size: 10px;
+        }
+
+        .shoppingCart td, .shoppingCart th {
+            border: 1px solid #ddd;
+            padding: 2px;
+        }
+
+        .shoppingCart table thead tr td {
+            padding-right: 2px;
+        }
+
+        .shoppingCart table tr td input[type=number] {
+            width: 38px;
+        }
+
+        .shoppingCart table tr td input[type=text] {
+            padding: 2px;
+            width: 40px;
+            margin: 0 5px 0 5px;
+        }
+
+        .shoppingCart table tr td a {
+            width: 100%;
+            text-decoration: none;
+            font-size: 1.0em;
+            color: black;
+        }
+
+            .shoppingCart table tr td a img {
+                float: left;
+                border-radius: 5px;
+                width: 40px;
+                margin-right: 10px;
+            }
+
+            .shoppingCart table tr td a h3 {
+                margin: 0;
+                font-size: 1.2em;
+            }
+
+            .shoppingCart table tr td a p {
+                margin: 0;
+                font-size: 1.0em;
+            }
+
+        .shoppingCart tr:hover {
+            background-color: #ddd;
+        }
+
+        .shoppingCart th {
+            padding-top: 12px;
+            padding-bottom: 12px;
+            text-align: left;
+            background-color: #707B7C;
+            color: white;
+        }
+
+            .shoppingCart th:last-child {
+                width: 18px;
+            }
+
+    .cartSummary {
+        display: block;
+        width: 100%;
+        float: right;
+        font-size: 11px;
+    }
+
+        .cartSummary h3 {
+            font-weight: normal;
+            font-size: 1.0em;
+        }
+
+            .cartSummary h3 span {
+                float: right;
+                font-size: 0.9em;
+            }
+
+        .cartSummary img {
+            width: 37px;
+        }
+
+    .voucher {
+        display: block;
+        margin: 10px 0 10px 0;
+        font-size: 11px;
+    }
+
+    .btn {
+        font-size: 11px;
+    }
+}
+
+@media (min-width: 768px) {
+    .shoppingCart {
+        width: 100%;
+    }
+
+        .shoppingCart table {
+            font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+            padding: 10px 20px 10px 20px;
+            font-size: 10px;
+        }
+
+        .shoppingCart td, .shoppingCart th {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+
+        .shoppingCart table thead tr td {
+            padding-right: 20px;
+        }
+
+        .shoppingCart table tr td input[type=number] {
+            width: 38px;
+        }
+
+        .shoppingCart table tr td input[type=text] {
+            padding: 2px;
+            width: 40px;
+            margin: 0 5px 0 5px;
+        }
+
+        .shoppingCart table tr td a {
+            width: 100%;
+            text-decoration: none;
+            font-size: 1.0em;
+            color: black;
+        }
+
+            .shoppingCart table tr td a img {
+                float: left;
+                border-radius: 5px;
+                width: 40px;
+                margin-right: 10px;
+            }
+
+            .shoppingCart table tr td a h3 {
+                margin: 0;
+                font-size: 1.2em;
+            }
+
+            .shoppingCart table tr td a p {
+                margin: 0;
+                font-size: 1.0em;
+            }
+
+        .shoppingCart tr:hover {
+            background-color: #ddd;
+        }
+
+        .shoppingCart th {
+            padding-top: 12px;
+            padding-bottom: 12px;
+            text-align: left;
+            background-color: #707B7C;
+            color: white;
+        }
+
+            .shoppingCart th:last-child {
+                width: 18px;
+            }
+
+    .cartSummary {
+        display: block;
+    }
+
+        .cartSummary h3 {
+            font-weight: normal;
+            font-size: 1.0em;
+        }
+
+            .cartSummary h3 span {
+                float: right;
+                font-size: 0.9em;
+            }
+
+        .cartSummary img {
+            width: 37px;
+        }
+
+    .voucher {
+        display: block;
+        margin: 10px 0 10px 0;
+    }
+
+    .btn {
+        font-size: 12px;
+    }
+}
+
+@media (min-width: 992px) {
+    .shoppingCart {
+        width: 100%;
+    }
+
+        .shoppingCart table {
+            font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+            padding: 10px 20px 10px 20px;
+            font-size: 13px;
+        }
+
+        .shoppingCart td, .shoppingCart th {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+
+        .shoppingCart table thead tr td {
+            padding-right: 20px;
+        }
+
+        .shoppingCart table tr td input[type=number] {
+            width: 38px;
+        }
+
+        .shoppingCart table tr td input[type=text] {
+            padding: 2px;
+            width: 40px;
+            margin: 0 5px 0 5px;
+        }
+
+        .shoppingCart table tr td a {
+            width: 100%;
+            text-decoration: none;
+            font-size: 1.0em;
+            color: black;
+        }
+
+            .shoppingCart table tr td a img {
+                float: left;
+                border-radius: 5px;
+                width: 40px;
+                margin-right: 10px;
+            }
+
+            .shoppingCart table tr td a h3 {
+                margin: 0;
+                font-size: 1.2em;
+            }
+
+            .shoppingCart table tr td a p {
+                margin: 0;
+                font-size: 1.0em;
+            }
+
+        .shoppingCart tr:hover {
+            background-color: #ddd;
+        }
+
+        .shoppingCart th {
+            padding-top: 12px;
+            padding-bottom: 12px;
+            text-align: left;
+            background-color: #707B7C;
+            color: white;
+        }
+
+            .shoppingCart th:last-child {
+                width: 18px;
+            }
+
+    .cartSummary {
+        display: block;
+        width: 250px;
+        float: right;
+    }
+
+        .cartSummary h3 {
+            font-weight: normal;
+            font-size: 1.0em;
+        }
+
+            .cartSummary h3 span {
+                float: right;
+                font-size: 0.9em;
+            }
+
+        .cartSummary img {
+            width: 37px;
+        }
+
+
+    .voucher {
+        display: block;
+        margin: 10px 0 10px 0;
+    }
 }
