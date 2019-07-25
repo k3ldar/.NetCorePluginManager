@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFrameworks>netcoreapp2.2;netcoreapp3.0</TargetFrameworks>
     <LangVersion>latest</LangVersion>
-    <Version>2.4.0</Version>
+    <Version>2.5.0</Version>
     <RazorCompileOnBuild>false</RazorCompileOnBuild>
     <RazorCompileOnPublish>true</RazorCompileOnPublish>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
@@ -109,12 +109,12 @@
   </ItemGroup>
 
   <ItemGroup Condition="'$(Configuration)'=='Release'">
-    <PackageReference Include="RestrictIp.Plugin" Version="2.4.0" />
-    <PackageReference Include="MemoryCache.Plugin" Version="2.4.0" />
-    <PackageReference Include="AspNetCore.PluginManager" Version="2.4.0" />
-    <PackageReference Include="SharedPluginFeatures" Version="2.4.0" />
-    <PackageReference Include="Middleware" Version="2.4.0" />
-    <PackageReference Include="AspNetCore.PluginManager.Languages" Version="2.4.0" />
+    <PackageReference Include="RestrictIp.Plugin" Version="2.5.0" />
+    <PackageReference Include="MemoryCache.Plugin" Version="2.5.0" />
+    <PackageReference Include="AspNetCore.PluginManager" Version="2.5.0" />
+    <PackageReference Include="SharedPluginFeatures" Version="2.5.0" />
+    <PackageReference Include="Middleware" Version="2.5.0" />
+    <PackageReference Include="AspNetCore.PluginManager.Languages" Version="2.5.0" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(Configuration)'=='Debug'">

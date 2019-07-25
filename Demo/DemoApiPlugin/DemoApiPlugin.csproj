@@ -5,7 +5,7 @@
     <LangVersion>latest</LangVersion>
     <RazorCompileOnBuild>false</RazorCompileOnBuild>
     <RazorCompileOnPublish>true</RazorCompileOnPublish>
-    <Version>2.4.0</Version>
+    <Version>2.5.0</Version>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -23,8 +23,8 @@
   </ItemGroup>
 
   <ItemGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <PackageReference Include="AspNetCore.PluginManager" Version="2.4.0" />
-    <PackageReference Include="SharedPluginFeatures" Version="2.4.0" />
+    <PackageReference Include="AspNetCore.PluginManager" Version="2.5.0" />
+    <PackageReference Include="SharedPluginFeatures" Version="2.5.0" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
