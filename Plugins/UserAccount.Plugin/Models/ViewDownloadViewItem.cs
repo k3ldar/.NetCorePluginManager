@@ -23,8 +23,6 @@
  *  05/01/2019  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using System.Collections.Generic;
-
 using SharedPluginFeatures;
 
 namespace UserAccount.Plugin.Models
@@ -38,10 +36,10 @@ namespace UserAccount.Plugin.Models
 
         }
 
-        public ViewDownloadViewItem(in List<BreadcrumbItem> breadcrumbs, in ShoppingCartSummary cartSummary,
+        public ViewDownloadViewItem(in BaseModelData baseModelData,
             in int id, in string name, in string description,
             in string version, in string filename, in string icon, in string size)
-            : base (breadcrumbs, cartSummary)
+            : base (baseModelData)
         {
             Id = id;
             Name = name;

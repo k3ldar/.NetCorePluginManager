@@ -4,43 +4,37 @@
 @{
     ViewData["Title"] = "Index";
 }
-<div class="bc">@Html.Raw(Model.BreadcrumbData())</div>
-
 <link rel="stylesheet" href="~/css/Downloads.css" asp-append-version="true" />
-
-<div class="wrapper">
-    <div class="content">
-
-        @await Html.PartialAsync("_LeftMenu.cshtml")
-
-
-        <div class="mainContent">
-
-            <h1 id="divTitle">@Model.Category @Localizer[nameof(Languages.LanguageStrings.Downloads)]</h1>
-            <ul class="downloadList fixed">
-                @foreach (DownloadableItem item in Model.Downloads)
-                {
-                    <li class="download">
-                        <a href="/Download/File/@item.Id/@Model.RouteText(item.Name)">
-                            <img src="~/images/Download/@item.Icon" alt="@item.Name" border="0" width="122" height="122" />
-                            <br />@item.Name @item.Version<br /><strong>@item.Size</strong>
-                        </a>
-                    </li>
-                }
-            </ul>
-
-            <div class="pagination">
-                <ul class="fixed">
-                    @Html.Raw(Model.Pagination)
-                </ul>
-            </div><!-- end of .pagination -->
-
-        </div><!-- end of #mainContent -->
-
-
-        <div class="clear"><!-- clear --></div>
-
-    </div><!-- end of #content -->
+<div class="row">
+    <div class="col">
+        <h1 class="dlHeader" id="divTitle">@Model.Category @Localizer[nameof(Languages.LanguageStrings.Downloads)]</h1>
+    </div>
 </div>
-<div class="clear"><!-- clear --></div>
+<div class="row flex-xl-nowrap">
+    <div class="d-none d-lg-block col-lg-3 bd-sidebar dlContents">
+        @await Html.PartialAsync("_LeftMenu.cshtml")
+    </div>
+    <div class="col-md-12 col-lg-9">
+        @foreach (var item in Model.Downloads)
+        {
+            <div class="card">
+                <div class="card-header">
+                    @item.Name
+                </div>
+                <div class="card-body d-flex flex-column">
+                    <p class="card-text"><img src="~/images/Download/@item.Icon" alt="@item.Name" class="card-img" />@item.Description</p>
+                    <a class="mt-auto btn btn-sm btn-block btn-primary" role="button" aria-pressed="true" href="/Download/File/@item.Id/@Model.RouteText(item.Name)" class="card-link">
+                        @Localizer[Languages.LanguageStrings.Download]
+                    </a>
+                </div>
+            </div>
+        }
+    </div>
+
+</div>
+<div class="row justify-content-sm-center" style="margin-top:20px;">
+    <div class="col-sm-auto">
+        @Html.Raw(Model.Pagination)
+    </div>
+</div>
 

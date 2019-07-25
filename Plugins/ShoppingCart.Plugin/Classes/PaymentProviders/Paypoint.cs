@@ -53,7 +53,7 @@ namespace ShoppingCartPlugin.Classes.PaymentProviders
 
         #region Constructors
 
-        public Paypoint(in ISettingsProvider settingsProvider)
+        public Paypoint(ISettingsProvider settingsProvider)
         {
             if (settingsProvider == null)
                 throw new ArgumentNullException(nameof(settingsProvider));

@@ -51,7 +51,7 @@ namespace ShoppingCartPlugin.Classes.PaymentProviders
 
         #region Constructors
 
-        public DirectTransfer(in ISettingsProvider settingsProvider)
+        public DirectTransfer(ISettingsProvider settingsProvider)
         {
             if (settingsProvider == null)
                 throw new ArgumentNullException(nameof(settingsProvider));

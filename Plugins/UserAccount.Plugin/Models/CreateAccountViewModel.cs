@@ -23,7 +23,6 @@
  *  13/12/2018  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 using SharedPluginFeatures;
@@ -39,9 +38,8 @@ namespace UserAccount.Plugin.Models
 
         }
 
-        public CreateAccountViewModel(in List<BreadcrumbItem> breadcrumbs, in ShoppingCartSummary cartSummary,
-            string returnUrl)
-            : base (breadcrumbs, cartSummary)
+        public CreateAccountViewModel(in BaseModelData baseModelData, string returnUrl)
+            : base(baseModelData)
         {
             ReturnUrl = returnUrl;
         }

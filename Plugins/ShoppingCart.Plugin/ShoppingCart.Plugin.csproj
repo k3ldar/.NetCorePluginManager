@@ -91,6 +91,7 @@
 		<Content Remove="Views\Cart\Checkout.cshtml" />
 		<Content Remove="Views\Cart\Index.cshtml" />
 		<Content Remove="Views\Cart\Shipping.cshtml" />
+		<Content Remove="Views\Cart\Success.cshtml" />
 		<Content Remove="Views\Cart\_QuantityUpdate.cshtml" />
 		<Content Remove="Views\Cart\_Voucher.cshtml" />
 		<Content Remove="wwwroot\css\Cart.css" />
@@ -113,6 +114,7 @@
 		<EmbeddedResource Include="Views\Cart\Checkout.cshtml" />
 		<EmbeddedResource Include="Views\Cart\Index.cshtml" />
 		<EmbeddedResource Include="Views\Cart\Shipping.cshtml" />
+		<EmbeddedResource Include="Views\Cart\Success.cshtml" />
 		<EmbeddedResource Include="Views\Cart\_QuantityUpdate.cshtml" />
 		<EmbeddedResource Include="Views\Cart\_Voucher.cshtml" />
 		<EmbeddedResource Include="wwwroot\css\Cart.css" />

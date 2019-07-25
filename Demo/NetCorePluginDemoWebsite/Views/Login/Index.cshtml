@@ -9,78 +9,82 @@
         returnUrl += $"/?returnUrl={Model.ReturnUrl}";
     }
 }
-<div class="bc">@Html.Raw(Model.BreadcrumbData())</div>
-
-<link rel="stylesheet" href="/css/login.css" />
-
-<h2>@Localizer[nameof(Languages.LanguageStrings.Login)]</h2>
 
 <script src="/js/Login.js"></script>
 
-<div>@Html.ValidationSummary(true)</div>
+<link rel="stylesheet" href="/css/login.css" />
+<div class="row">
+    <div class="col-sm-12">
 
+        <h1>@Localizer[nameof(Languages.LanguageStrings.Login)]</h1>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-12">
+        <div>@Html.ValidationSummary(true)</div>
+    </div>
+</div>
 
 @using (Html.BeginForm("Index", "Login", FormMethod.Post, new { id = "loginForm" }))
 {
     @Html.HiddenFor(m => m.ReturnUrl)
     @Html.HiddenFor(m => m.ShowCaptchaImage)
     @Html.HiddenFor(m => m.ShowRememberMe)
-
-    <div class="login-block">
-        <div class="login-row">
+    <div class="row ac-row">
+        <div class="col-sm-12 col-md-4 col-lg-3">
             @Html.LabelFor(m => m.Username)
         </div>
-        <div class="login-row">
-            @Html.TextBoxFor(m => m.Username) @Html.ValidationMessageFor(m => m.Username)
+        <div class="col-sm-12 col-md-5 col-lg-4">
+            @Html.TextBoxFor(m => m.Username, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.Username)
         </div>
     </div>
-    <div class="login-block">
-        <div class="login-row">
+    <div class="row ac-row">
+        <div class="col-sm-12 col-md-4 col-lg-3">
             @Html.LabelFor(m => m.Password)
         </div>
-        <div class="login-row">
-            @Html.PasswordFor(m => m.Password) @Html.ValidationMessageFor(m => m.Password)
+        <div class="col-sm-12 col-md-5 col-lg-4">
+            @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.Password)
         </div>
     </div>
-
     @if (Model.ShowRememberMe)
     {
-        <div class="login-block">
-            <div class="login-row">
-                @Html.LabelFor(m => m.RememberMe)
+        <div class="row ac-row">
+            <div class="col-sm-12 col-md-4 col-lg-3">
             </div>
-            <div class="login-row">
-                @Html.CheckBoxFor(m => m.RememberMe) @Html.ValidationMessageFor(m => m.RememberMe)
+            <div class="col-sm-12 col-md-5 col-lg-4">
+                <div class="form-check">
+                    @Html.CheckBoxFor(m => m.RememberMe, new { @class = "form-check-input" })
+                    @Html.LabelFor(m => m.RememberMe, new { @class = "form-check-label" })
+                    @Html.ValidationMessageFor(m => m.RememberMe)
+                </div>
             </div>
         </div>
     }
-
     @if (Model.ShowCaptchaImage)
     {
-        <div class="login-block">
-            <div class="login-row">
-                @Html.LabelFor(m => m.CaptchaText)
-            </div>
-            <div class="login-row">
-                <img src="/Login/GetCaptchaImage/" />
-            </div>
-            <div class="login-row">
-                @Html.TextBoxFor(m => m.CaptchaText) @Html.ValidationMessageFor(m => m.CaptchaText)
+        <div class="row ac-row">
+            <div class="col-sm-12 col-md-5 col-lg-4">
+                @Html.TextBoxFor(m => m.CaptchaText)
+                @Html.ValidationMessageFor(m => m.CaptchaText)
             </div>
         </div>
     }
 
-    <div class="login-block">
-        <input id="btnLogon" type="submit" value="@Localizer[nameof(Languages.LanguageStrings.Login)]" />
-        <input id="btnForgotPassword" type="button" value="@Localizer[nameof(Languages.LanguageStrings.ForgotPassword)]" />
+    <div class="row ac-row">
+        <div class="col">
+            <input class="btn btn-primary" id="btnLogon" type="submit" value="@Localizer[nameof(Languages.LanguageStrings.Login)]" />
+            <input class="btn" id="btnForgotPassword" type="button" value="@Localizer[nameof(Languages.LanguageStrings.ForgotPassword)]" />
+        </div>
     </div>
 }
 
-<div class="login-block">
-    <div class="login-row">
+<div class="row ac-row">
+    <div class="col-sm-12 col-md-4 col-lg-3">
         @Localizer[nameof(Languages.LanguageStrings.NoAccount)]
     </div>
-    <div class="login-row">
+    <div class="col-sm-12 col-md-5 col-lg-4">
         <a href="@returnUrl">@Localizer[nameof(Languages.LanguageStrings.CreateAccount)]</a>
     </div>
 </div>

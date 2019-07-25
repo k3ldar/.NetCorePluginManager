@@ -24,7 +24,7 @@
             <summary>
             Show credit cards.
             
-            If you show credit cards you  must never storethe credit card number or other details that could be used by hackers.  
+            If you show credit cards you  must never store the credit card number or other details that could be used by hackers.  
             
             As well as breaking a number of privacy rules it will leave you open to potential law suits.  Instead store tokenized card details that are encrypted.
             </summary>

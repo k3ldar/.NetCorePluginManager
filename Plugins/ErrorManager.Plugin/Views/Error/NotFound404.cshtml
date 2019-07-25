@@ -4,23 +4,37 @@
 @{
     ViewData["Title"] = "Error404";
 }
-<div class="bc">@Html.Raw(Model.BreadcrumbData())</div>
-
-
-<h2>@Localizer[nameof(Languages.LanguageStrings.NotFound404)]</h2>
 
 <link rel="stylesheet" href="/css/error.css" />
+
+<div class="row">
+    <div class="col">
+        <h1>@Localizer[nameof(Languages.LanguageStrings.NotFound404)]</h1>
+    </div>
+</div>
 
 <div class="errorMessage">
     @if (!String.IsNullOrEmpty(Model.Image))
     {
-    <div><img src="@Model.Image" alt="Missing Link" /></div>
+        <div class="row">
+            <div class="col">
+                <img src="@Model.Image" alt="Missing Link" />
+            </div>
+        </div>
     }
 
     @if (!String.IsNullOrEmpty(Model.Message))
     {
-    <div>@Html.Raw(Model.Message)</div>
+        <div class="row">
+            <div class="col">
+                @Html.Raw(Model.Message)
+            </div>
+        </div>
     }
+    <div class="row">
+        <div class="col">
 
-    <p><a href="/">@Localizer[nameof(Languages.LanguageStrings.ClickHere)]</a> @Localizer[nameof(Languages.LanguageStrings.ToGoHome)]</p>
+            <p><a href="/">@Localizer[nameof(Languages.LanguageStrings.ClickHere)]</a> @Localizer[nameof(Languages.LanguageStrings.ToGoHome)]</p>
+        </div>
+    </div>
 </div>

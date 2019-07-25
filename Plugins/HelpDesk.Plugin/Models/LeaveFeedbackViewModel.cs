@@ -53,8 +53,10 @@ namespace HelpdeskPlugin.Models
         [Required(ErrorMessage = nameof(Languages.LanguageStrings.FeedbackRequired))]
         public string Feedback { get; set; }
 
+        [Required(ErrorMessage = nameof(Languages.LanguageStrings.PleaseEnterFirstLastName))]
         public string Name { get; set; }
 
+        [Required(ErrorMessage = nameof(Languages.LanguageStrings.CodeNotValid))]
         [Display(Name = nameof(Languages.LanguageStrings.Code))]
         public string CaptchaText { get; set; }
 

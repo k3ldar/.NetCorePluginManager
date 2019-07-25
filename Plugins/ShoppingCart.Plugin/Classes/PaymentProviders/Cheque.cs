@@ -51,7 +51,7 @@ namespace ShoppingCartPlugin.Classes.PaymentProviders
 
         #region Constructors
 
-        public Cheque(in ISettingsProvider settingsProvider)
+        public Cheque(ISettingsProvider settingsProvider)
         {
             if (settingsProvider == null)
                 throw new ArgumentNullException(nameof(settingsProvider));

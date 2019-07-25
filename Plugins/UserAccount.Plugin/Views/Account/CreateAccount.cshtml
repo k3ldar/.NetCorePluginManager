@@ -4,182 +4,203 @@
 @{
     ViewData["Title"] = "CreateAccount";
 }
-
-<div class="bc">@Html.Raw(Model.BreadcrumbData())</div>
-
-<h2>@Localizer[nameof(Languages.LanguageStrings.CreateAccount)]</h2>
-
 <link rel="stylesheet" href="/css/Account.css" />
 
-<div>@Html.ValidationSummary(true)</div>
+<div class="row ac-row">
+    <div class="col">
+        <h1>@Localizer[nameof(Languages.LanguageStrings.CreateAccount)]</h1>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col">
+        @Html.ValidationSummary(true)
+    </div>
+</div>
+
 
 @using (Html.BeginForm("CreateAccount", "Account", FormMethod.Post, new { id = "createPasswordForm" }))
 {
-@Html.HiddenFor(m => m.ShowCaptchaImage)
-@Html.HiddenFor(m => m.ReturnUrl)
+    @Html.HiddenFor(m => m.ShowCaptchaImage)
+    @Html.HiddenFor(m => m.ReturnUrl)
 
-<div class="account-block">
-    <div class="account-row">
-        @Html.LabelFor(m => m.FirstName)
+    <div class="row ac-row">
+        <div class="col-sm-12 col-md-4 col-lg-3">
+            @Html.LabelFor(m => m.FirstName)
+        </div>
+        <div class="col-sm-12 col-md-5 col-lg-4">
+            @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.FirstName)
+        </div>
     </div>
-    <div class="account-row">
-        @Html.TextBoxFor(m => m.FirstName) @Html.ValidationMessageFor(m => m.FirstName)
-    </div>
-</div>
-<div class="account-block">
-    <div class="account-row">
-        @Html.LabelFor(m => m.Surname)
-    </div>
-    <div class="account-row">
-        @Html.TextBoxFor(m => m.Surname) @Html.ValidationMessageFor(m => m.Surname)
-    </div>
-</div>
-<div class="account-block">
-    <div class="account-row">
-        @Html.LabelFor(m => m.Email)
-    </div>
-    <div class="account-row">
-        @Html.TextBoxFor(m => m.Email) @Html.ValidationMessageFor(m => m.Email)
-    </div>
-</div>
-<div class="account-block">
-    <div class="account-row">
-        @Html.LabelFor(m => m.Country)
-    </div>
-    <div class="account-row">
-        @Html.DropDownListFor(m => m.Country, new SelectList(UserAccount.Plugin.Controllers.AccountController.Countries, "Code", "Name")) @Html.ValidationMessageFor(m => m.Country)
-    </div>
-</div>
-<div class="account-block">
-    <div class="account-row">
-        @Html.LabelFor(m => m.Password)
-    </div>
-    <div class="account-row">
-        @Html.PasswordFor(m => m.Password) @Html.ValidationMessageFor(m => m.Password)
-    </div>
-</div>
-<div class="account-block">
-    <div class="account-row">
-        @Html.LabelFor(m => m.ConfirmPassword)
-    </div>
-    <div class="account-row">
-        @Html.PasswordFor(m => m.ConfirmPassword) @Html.ValidationMessageFor(m => m.ConfirmPassword)
-    </div>
-</div>
 
-@if (Model.ShowTelephone)
+    <div class="row ac-row">
+        <div class="col-sm-12 col-md-4 col-lg-3">
+            @Html.LabelFor(m => m.Surname)
+        </div>
+        <div class="col-sm-12 col-md-5 col-lg-4">
+            @Html.TextBoxFor(m => m.Surname, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.Surname)
+        </div>
+    </div>
+    <div class="row ac-row">
+        <div class="col-sm-12 col-md-4 col-lg-3">
+            @Html.LabelFor(m => m.Email)
+        </div>
+        <div class="col-sm-12 col-md-5 col-lg-4">
+            @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.Email)
+        </div>
+    </div>
+    <div class="row ac-row">
+        <div class="col-sm-12 col-md-4 col-lg-3">
+            @Html.LabelFor(m => m.Country)
+        </div>
+        <div class="col-sm-12 col-md-5 col-lg-4">
+            @Html.DropDownListFor(m => m.Country, new SelectList(UserAccount.Plugin.Controllers.AccountController.Countries, "Code", "Name"), new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.Country)
+        </div>
+    </div>
+    <div class="row ac-row">
+        <div class="col-sm-12 col-md-4 col-lg-3">
+            @Html.LabelFor(m => m.Password)
+        </div>
+        <div class="col-sm-12 col-md-5 col-lg-4">
+            @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.Password)
+        </div>
+    </div>
+    <div class="row ac-row">
+        <div class="col-sm-12 col-md-4 col-lg-3">
+            @Html.LabelFor(m => m.ConfirmPassword)
+        </div>
+        <div class="col-sm-12 col-md-5 col-lg-4">
+            @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.ConfirmPassword)
+        </div>
+    </div>
+
+    @if (Model.ShowTelephone)
     {
-<div class="account-block">
-    <div class="account-row">
-        @Html.LabelFor(m => m.Telephone)
-    </div>
-    <div class="account-row">
-        @Html.TextBoxFor(m => m.Telephone) @Html.ValidationMessageFor(m => m.Telephone)
-    </div>
-</div>
+        <div class="row ac-row">
+            <div class="col-sm-12 col-md-4 col-lg-3">
+                @Html.LabelFor(m => m.Telephone)
+            </div>
+            <div class="col-sm-12 col-md-5 col-lg-4">
+                @Html.TextBoxFor(m => m.Telephone, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.Telephone)
+            </div>
+        </div>
     }
 
-@if (Model.ShowBusinessName)
+    @if (Model.ShowBusinessName)
     {
-<div class="account-block">
-    <div class="account-row">
-        @Html.LabelFor(m => m.BusinessName)
-    </div>
-    <div class="account-row">
-        @Html.TextBoxFor(m => m.BusinessName) @Html.ValidationMessageFor(m => m.BusinessName)
-    </div>
-</div>
+        <div class="row ac-row">
+            <div class="col-sm-12 col-md-4 col-lg-3">
+                @Html.LabelFor(m => m.BusinessName)
+            </div>
+            <div class="col-sm-12 col-md-5 col-lg-4">
+                @Html.TextBoxFor(m => m.BusinessName, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.BusinessName)
+            </div>
+        </div>
     }
 
-@if (Model.ShowAddressLine1)
+    @if (Model.ShowAddressLine1)
     {
-<div class="account-block">
-    <div class="account-row">
-        @Html.LabelFor(m => m.AddressLine1)
-    </div>
-    <div class="account-row">
-        @Html.TextBoxFor(m => m.AddressLine1) @Html.ValidationMessageFor(m => m.AddressLine1)
-    </div>
-</div>
+        <div class="row ac-row">
+            <div class="col-sm-12 col-md-4 col-lg-3">
+                @Html.LabelFor(m => m.AddressLine1)
+            </div>
+            <div class="col-sm-12 col-md-5 col-lg-4">
+                @Html.TextBoxFor(m => m.AddressLine1, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.AddressLine1)
+            </div>
+        </div>
     }
 
-@if (Model.ShowAddressLine2)
+    @if (Model.ShowAddressLine2)
     {
-<div class="account-block">
-    <div class="account-row">
-        @Html.LabelFor(m => m.AddressLine2)
-    </div>
-    <div class="account-row">
-        @Html.TextBoxFor(m => m.AddressLine2) @Html.ValidationMessageFor(m => m.AddressLine2)
-    </div>
-</div>
+        <div class="row ac-row">
+            <div class="col-sm-12 col-md-4 col-lg-3">
+                @Html.LabelFor(m => m.AddressLine2)
+            </div>
+            <div class="col-sm-12 col-md-5 col-lg-4">
+                @Html.TextBoxFor(m => m.AddressLine2, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.AddressLine2)
+            </div>
+        </div>
     }
 
-@if (Model.ShowAddressLine3)
+    @if (Model.ShowAddressLine3)
     {
-<div class="account-block">
-    <div class="account-row">
-        @Html.LabelFor(m => m.AddressLine3)
-    </div>
-    <div class="account-row">
-        @Html.TextBoxFor(m => m.AddressLine3) @Html.ValidationMessageFor(m => m.AddressLine3)
-    </div>
-</div>
+        <div class="row ac-row">
+            <div class="col-sm-12 col-md-4 col-lg-3">
+                @Html.LabelFor(m => m.AddressLine3)
+            </div>
+            <div class="col-sm-12 col-md-5 col-lg-4">
+                @Html.TextBoxFor(m => m.AddressLine3, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.AddressLine3)
+            </div>
+        </div>
     }
 
-@if (Model.ShowCity)
+    @if (Model.ShowCity)
     {
-<div class="account-block">
-    <div class="account-row">
-        @Html.LabelFor(m => m.City)
-    </div>
-    <div class="account-row">
-        @Html.TextBoxFor(m => m.City) @Html.ValidationMessageFor(m => m.City)
-    </div>
-</div>
+        <div class="row ac-row">
+            <div class="col-sm-12 col-md-4 col-lg-3">
+                @Html.LabelFor(m => m.City)
+            </div>
+            <div class="col-sm-12 col-md-5 col-lg-4">
+                @Html.TextBoxFor(m => m.City, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.City)
+            </div>
+        </div>
     }
 
-@if (Model.ShowCounty)
+    @if (Model.ShowCounty)
     {
-<div class="account-block">
-    <div class="account-row">
-        @Html.LabelFor(m => m.County)
-    </div>
-    <div class="account-row">
-        @Html.TextBoxFor(m => m.County) @Html.ValidationMessageFor(m => m.County)
-    </div>
-</div>
+        <div class="row ac-row">
+            <div class="col-sm-12 col-md-4 col-lg-3">
+                @Html.LabelFor(m => m.County)
+            </div>
+            <div class="col-sm-12 col-md-5 col-lg-4">
+                @Html.TextBoxFor(m => m.County, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.County)
+            </div>
+        </div>
     }
 
-@if (Model.ShowPostcode)
+    @if (Model.ShowPostcode)
     {
-<div class="account-block">
-    <div class="account-row">
-        @Html.LabelFor(m => m.Postcode)
-    </div>
-    <div class="account-row">
-        @Html.TextBoxFor(m => m.Postcode) @Html.ValidationMessageFor(m => m.Postcode)
-    </div>
-</div>
+        <div class="row ac-row">
+            <div class="col-sm-12 col-md-4 col-lg-3">
+                @Html.LabelFor(m => m.Postcode)
+            </div>
+            <div class="col-sm-12 col-md-5 col-lg-4">
+                @Html.TextBoxFor(m => m.Postcode, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.Postcode)
+            </div>
+        </div>
     }
 
-@if (Model.ShowCaptchaImage)
+    @if (Model.ShowCaptchaImage)
     {
-<div class="account-block">
-    <div class="account-row">
-        @Html.LabelFor(m => m.CaptchaText)
-    </div>
-    <div class="account-row">
-        <img src="/Account/GetCaptchaImage/" />
-    </div>
-    <div class="account-row">
-        @Html.TextBoxFor(m => m.CaptchaText) @Html.ValidationMessageFor(m => m.CaptchaText)
-    </div>
-</div>
+        <div class="row ac-row">
+            <div class="col-sm-12 col-md-4 col-lg-3">
+                @Html.LabelFor(m => m.CaptchaText)
+            </div>
+            <div class="col-sm-12 col-md-5 col-lg-4">
+                @Html.TextBoxFor(m => m.CaptchaText, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.CaptchaText)
+            </div>
+        </div>
     }
 
-<div class="account-block">
-    <input id="btnCreateAccount" type="submit" value="@Localizer[nameof(Languages.LanguageStrings.CreateAccount)]" />
-</div>
+    <div class="row ac-row">
+        <div class="col">
+            <input id="btnCreateAccount" class="btn btn-primary" type="submit" value="@Localizer[nameof(Languages.LanguageStrings.CreateAccount)]" />
+        </div>
+    </div>
 }
 

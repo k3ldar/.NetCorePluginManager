@@ -5,26 +5,33 @@
     ViewData["Title"] = "Create Trial Licence";
 }
 
-<div class="bc">@Html.Raw(Model.BreadcrumbData())</div>
-
-<h2>@Localizer[nameof(Languages.LanguageStrings.LicenceCreateTrial)]</h2>
-
 <link rel="stylesheet" href="/css/Account.css" />
+
+<div class="row ac-row">
+    <div class="col">
+        <h1>@Localizer[nameof(Languages.LanguageStrings.LicenceCreateTrial)]</h1>
+    </div>
+</div>
+
 
 @using (Html.BeginForm("LicenceCreate", "Account", FormMethod.Post, new { id = "createTrialLicenceForm" }))
 {
-<div class="account-block">
-    <div class="account-row">
-        @Html.LabelFor(m => m.LicenceType)
+    <div class="row ac-row">
+        <div class="col">
+            @Html.ValidationSummary(true)
+        </div>
     </div>
-    <div class="account-row">
-        @Html.DropDownListFor(m => m.LicenceType, new SelectList(UserAccount.Plugin.Controllers.AccountController.LicenceTypes, "Id", "Description")) @Html.ValidationMessageFor(m => m.LicenceType)
+    <div class="row ac-row">
+        <div class="col-sm-12 col-md-4 col-lg-3">
+            @Html.LabelFor(m => m.LicenceType)
+        </div>
+        <div class="col-sm-12 col-md-5 col-lg-4">
+            @Html.DropDownListFor(m => m.LicenceType, new SelectList(UserAccount.Plugin.Controllers.AccountController.LicenceTypes, "Id", "Description")) @Html.ValidationMessageFor(m => m.LicenceType)
+        </div>
     </div>
-</div>
-
-<div class="account-block">
-    <div class="account-row">
-        <input id="btnCreateTrialLicence" type="submit" value="@Localizer[nameof(Languages.LanguageStrings.Create)]" />
+    <div class="row ac-row">
+        <div class="col">
+            <input id="btnCreateTrialLicence" class="btn btn-primary" type="submit" value="@Localizer[nameof(Languages.LanguageStrings.Create)]" />
+        </div>
     </div>
-</div>
 }

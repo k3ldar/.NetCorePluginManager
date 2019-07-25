@@ -51,7 +51,7 @@ namespace ShoppingCartPlugin.Classes.PaymentProviders
 
         #region Constructors
 
-        public CashOnDelivery(in ISettingsProvider settingsProvider)
+        public CashOnDelivery(ISettingsProvider settingsProvider)
         {
             if (settingsProvider == null)
                 throw new ArgumentNullException(nameof(settingsProvider));

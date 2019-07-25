@@ -5,63 +5,103 @@
     ViewData["Title"] = Localizer[nameof(Languages.LanguageStrings.ViewTicket)];
 }
 
-<div class="bc">@Html.Raw(Model.BreadcrumbData())</div>
 
 <link rel="stylesheet" href="/css/Helpdesk.css" />
 <script src="~/js/helpdesk.js"></script>
 
-
-<h2>@Localizer[nameof(Languages.LanguageStrings.ViewTicket)]</h2>
-
-<div class="helpdeskContent">
-    <div class="helpdesk-block">
-        <table>
-            <tr>
-                <td class="cellBold">@Localizer[nameof(Languages.LanguageStrings.SupportTicketDateCreated)]</td>
-                <td>@Model.DateCreated.ToString(System.Threading.Thread.CurrentThread.CurrentUICulture.DateTimeFormat)</td>
-            </tr>
-            <tr>
-                <td class="cellBold">@Localizer[nameof(Languages.LanguageStrings.Subject)]</td>
-                <td>@Model.Subject</td>
-            </tr>
-            <tr>
-                <td class="cellBold">@Localizer[nameof(Languages.LanguageStrings.SupportTicketLastReplier)]</td>
-                <td>@Model.LastReplier</td>
-            </tr>
-            <tr>
-                <td class="cellBold">@Localizer[nameof(Languages.LanguageStrings.Department)]</td>
-                <td>@Localizer[Model.Department]</td>
-            </tr>
-            <tr>
-                <td class="cellBold">@Localizer[nameof(Languages.LanguageStrings.Priority)]</td>
-                <td>@Localizer[Model.Priority]</td>
-            </tr>
-            <tr>
-                <td class="cellBold">@Localizer[nameof(Languages.LanguageStrings.Status)]</td>
-                <td>@Localizer[Model.Status]</td>
-            </tr>
-            <tr>
-                <td class="cellBold">@Localizer[nameof(Languages.LanguageStrings.AppKey)]</td>
-                <td>@Model.Key</td>
-            </tr>
-
-            @foreach (var message in Model.Messages)
-            {
-                <tr><td><hr /></td></tr>
-                <tr>
-                    <td>@message.UserName</td>
-                    <td>@message.DateCreated.ToString(System.Threading.Thread.CurrentThread.CurrentUICulture.DateTimeFormat)</td>
-                </tr>
-                <tr>
-                    <td colspan="2">@Html.Raw(message.Message)</td>
-                </tr>
-            }
-            
-            <tr>
-                <td colspan="2">
-                    @await Html.PartialAsync("_TicketResponse.cshtml", Model.TicketResponse)
-                </td>
-            </tr>
-        </table>
+<div class="row">
+    <div class="col">
+        <h1>@Localizer[nameof(Languages.LanguageStrings.ViewTicket)]</h1>
     </div>
 </div>
+
+<div class="row hd-row">
+    <div class="col col-sm-4 col-md-3">
+        <strong>@Localizer[nameof(Languages.LanguageStrings.SupportTicketDateCreated)]</strong>
+    </div>
+    <div class="col col-sm-8 col-md-9">
+        @Model.DateCreated.ToString(System.Threading.Thread.CurrentThread.CurrentUICulture.DateTimeFormat)
+    </div>
+</div>
+
+<div class="row hd-row">
+    <div class="col col-sm-4 col-md-3">
+        <strong>@Localizer[nameof(Languages.LanguageStrings.Subject)]</strong>
+    </div>
+    <div class="col col-sm-8 col-md-9">
+        @Model.Subject
+    </div>
+</div>
+
+<div class="row hd-row">
+    <div class="col col-sm-4 col-md-3">
+        <strong>@Localizer[nameof(Languages.LanguageStrings.SupportTicketLastReplier)]</strong>
+    </div>
+    <div class="col col-sm-8 col-md-9">
+        @Model.LastReplier
+    </div>
+</div>
+
+<div class="row hd-row">
+    <div class="col col-sm-4 col-md-3">
+        <strong>@Localizer[nameof(Languages.LanguageStrings.Department)]</strong>
+    </div>
+    <div class="col col-sm-8 col-md-9">
+        @Localizer[Model.Department]
+    </div>
+</div>
+
+<div class="row hd-row">
+    <div class="col col-sm-4 col-md-3">
+        <strong>@Localizer[nameof(Languages.LanguageStrings.Priority)]</strong>
+    </div>
+    <div class="col col-sm-8 col-md-9">
+        @Localizer[Model.Priority]
+    </div>
+</div>
+
+<div class="row hd-row">
+    <div class="col col-sm-4 col-md-3">
+        <strong>@Localizer[nameof(Languages.LanguageStrings.Status)]</strong>
+    </div>
+    <div class="col col-sm-8 col-md-9">
+        @Localizer[Model.Status]
+    </div>
+</div>
+
+<div class="row hd-row">
+    <div class="col col-sm-4 col-md-3">
+        <strong>@Localizer[nameof(Languages.LanguageStrings.AppKey)]</strong>
+    </div>
+    <div class="col col-sm-8 col-md-9">
+        @Model.Key
+    </div>
+</div>
+
+
+@foreach (var message in Model.Messages)
+{
+    <hr />
+    <div class="row hd-row">
+        <div class="col">
+            @message.UserName
+        </div>
+        <div class="col">
+            @message.DateCreated.ToString(System.Threading.Thread.CurrentThread.CurrentUICulture.DateTimeFormat)
+        </div>
+    </div>
+
+    <div class="row hd-row">
+        <div class="col">
+            @Html.Raw(message.Message)
+        </div>
+    </div>
+}
+
+<hr />
+<div class="row hd-row">
+    <div class="col">
+        @await Html.PartialAsync("_TicketResponse.cshtml", Model.TicketResponse)
+    </div>
+</div>
+

@@ -25,6 +25,9 @@
     font-weight: bold;
 }
 
+.hd-row {
+    padding: 15px 0 0 0;
+}
 .helpdesk-row {
     display: inline-block;
     padding: 0 0 4px 0;
@@ -203,7 +206,7 @@
     }
 
 .helpdeskGroupList {
-    width: 350px;
+    width: 330px;
     display: block;
     float: left;
 }
@@ -229,7 +232,7 @@
     }
 
         .helpdeskGroupList ul li {
-            width: 350px;
+            width: 300px;
             padding-left: 8px 0 0 28px;
             float: left;
         }

@@ -58,7 +58,7 @@ namespace LoginPlugin.Controllers
 
         #region Constructors
 
-        public LoginController(ILoginProvider loginProvider, 
+        public LoginController(ILoginProvider loginProvider,
             ISettingsProvider settingsProvider)
         {
             if (settingsProvider == null)
@@ -122,19 +122,19 @@ namespace LoginPlugin.Controllers
             model.Breadcrumbs = GetBreadcrumbs();
             model.CartSummary = GetCartSummary();
 
-            switch (_loginProvider.Login(model.Username, model.Password, GetIpAddress(), 
+            switch (_loginProvider.Login(model.Username, model.Password, GetIpAddress(),
                 loginCacheItem.LoginAttempts, ref loginDetails))
             {
                 case LoginResult.Success:
                     RemoveLoginAttempt();
-                    
+
                     UserSession session = GetUserSession();
 
                     if (session != null)
                         session.Login(loginDetails.UserId, loginDetails.Username, loginDetails.Email);
 
                     if (model.RememberMe)
-                        CookieAdd(_settings.RememberMeCookieName, Encrypt(loginDetails.UserId.ToString(), 
+                        CookieAdd(_settings.RememberMeCookieName, Encrypt(loginDetails.UserId.ToString(),
                             _settings.EncryptionKey), _settings.LoginDays);
 
                     return Redirect(model.ReturnUrl);
@@ -196,9 +196,9 @@ namespace LoginPlugin.Controllers
 
             LoginCacheItem loginCacheItem = GetCachedLoginAttempt(true);
             loginCacheItem.CaptchaText = GetRandomWord(_settings.CaptchaWordLength, CaptchaCharacters);
-            model.CaptchaText = loginCacheItem.CaptchaText;
+            //model.CaptchaText = loginCacheItem.CaptchaText;
 
-            return View();
+            return View(model);
         }
 
         [HttpPost]

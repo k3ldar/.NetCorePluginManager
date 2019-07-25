@@ -7,6 +7,7 @@
 .docRow {
     width: 100%;
 }
+
     .docRow p {
         font-size: 14px;
     }
@@ -68,6 +69,11 @@
 
 .docContents {
     font-size: 14px;
+    width: 189px;
+    top: 48px;
+    position: sticky;
+    height: calc(100vh - 8rem);
+    overflow-y: auto;
 }
 
     .docContents h3 {
@@ -77,6 +83,7 @@
     .docContents ul {
         list-style-type: none;
         padding: 2px 0 0 1px;
+        font-size: 12px;
     }
 
         .docContents ul li ul {
@@ -84,19 +91,22 @@
         }
 
 .docReferences {
-    font-size: 14px;
-    width: 189px;
+    font-size: 13px;
     top: 48px;
+    position: sticky;
+    height: calc(85vh - 4rem);
+    overflow-y: auto;
 }
 
     .docReferences h3 {
-        font-size: 18px;
+        font-size: 15px;
     }
 
     .docReferences ul {
         list-style-type: none;
         padding: 2px 0 0 1px;
     }
+
 
 .docPrevNext {
     font-size: 14px;
@@ -110,7 +120,6 @@
 
 .stickyRef {
     position: fixed;
-    top: 48px;
 }
 
 .docTable {
@@ -136,3 +145,59 @@
                 font-size: 13px;
                 padding: 10px 0 10px 2px;
             }
+
+@media (min-width: 576px) {
+    .card {
+        width: 100%;
+        float: left;
+        margin: 0 10px 15px 0;
+        height: 250px;
+    }
+}
+
+@media (min-width: 768px) {
+    .card {
+        width: 45%;
+        float: left;
+        margin: 0 10px 15px 0;
+        height: 250px;
+    }
+}
+
+@media (min-width: 992px) {
+    .docContents {
+        font-size: 11px;
+    }
+
+        .docContents h3 {
+            font-size: 13px;
+        }
+
+        .docContents ul li {
+            font-size: 11px;
+        }
+
+    .docReferences {
+        font-size: 11px;
+    }
+
+        .docReferences h3 {
+            font-size: 13px;
+        }
+
+    .card {
+        width: 30%;
+        float: left;
+        margin: 0 10px 15px 0;
+        height: 250px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .card {
+        width: 23%;
+        float: left;
+        margin: 0 10px 15px 0;
+        height: 250px;
+    }
+}

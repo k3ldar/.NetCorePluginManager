@@ -20703,6 +20703,15 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Available.
+        /// </summary>
+        public static string Available {
+            get {
+                return ResourceManager.GetString("Available", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Available Tags.
         /// </summary>
         public static string AvailableTags {
@@ -25431,6 +25440,15 @@ namespace Languages {
         public static string MyDeliveryAddresses {
             get {
                 return ResourceManager.GetString("MyDeliveryAddresses", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Edit Delivery Address.
+        /// </summary>
+        public static string MyDeliveryAddressesEdit {
+            get {
+                return ResourceManager.GetString("MyDeliveryAddressesEdit", resourceCulture);
             }
         }
         

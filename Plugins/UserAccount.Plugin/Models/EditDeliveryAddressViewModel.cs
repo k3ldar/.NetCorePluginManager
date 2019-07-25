@@ -25,7 +25,6 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
 using System.ComponentModel.DataAnnotations;
-using System.Collections.Generic;
 
 using SharedPluginFeatures;
 
@@ -45,8 +44,8 @@ namespace UserAccount.Plugin.Models
             ReturnUrl = returnUrl ?? String.Empty;
         }
 
-        public EditDeliveryAddressViewModel(in List<BreadcrumbItem> breadcrumbs, in ShoppingCartSummary cartSummary)
-            : base (breadcrumbs, cartSummary)
+        public EditDeliveryAddressViewModel(in BaseModelData baseModelData)
+            : base(baseModelData)
         {
 
         }

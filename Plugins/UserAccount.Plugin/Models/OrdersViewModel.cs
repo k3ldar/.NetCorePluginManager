@@ -41,9 +41,8 @@ namespace UserAccount.Plugin.Models
             Orders = new List<Order>();
         }
 
-        public OrdersViewModel(in List<BreadcrumbItem> breadcrumbs, in ShoppingCartSummary cartSummary,
-            in List<Order> orders)
-            : base (breadcrumbs, cartSummary)
+        public OrdersViewModel(in BaseModelData baseModelData, in List<Order> orders)
+            : base (baseModelData)
         {
             Orders = orders ?? throw new ArgumentNullException(nameof(orders));
         }

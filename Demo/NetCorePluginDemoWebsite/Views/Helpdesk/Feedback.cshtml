@@ -5,26 +5,35 @@
     ViewData["Title"] = @Localizer[nameof(Languages.LanguageStrings.Feedback)];
 }
 
-<div class="bc">@Html.Raw(Model.BreadcrumbData())</div>
 
-<h2>@Localizer[nameof(Languages.LanguageStrings.Helpdesk)]</h2>
 
 <link rel="stylesheet" href="/css/Helpdesk.css" />
 <script src="~/js/helpdesk.js"></script>
+<div class="row ac-row">
+    <div class="col">
+        <h1>@Localizer[nameof(Languages.LanguageStrings.Helpdesk)]</h1>
+    </div>
+</div>
 
-<div class="helpdeskContent">
-    <div class="row">
+<div class="row">
+    <div class="col helpdeskContent">
         <p>@Localizer[nameof(Languages.LanguageStrings.HelpdeskFeedbackDescription)] @Html.ActionLink(Localizer[Languages.LanguageStrings.ClickHere].Value, nameof(HelpdeskPlugin.Controllers.HelpdeskController.LeaveFeedback), HelpdeskPlugin.Controllers.HelpdeskController.Name)</p>
     </div>
-    @foreach (var item in Model.Feedback)
-    {
-        <div class="row">
+
+</div>
+
+@foreach (var item in Model.Feedback)
+{
+    <div class="row">
+        <div class="col helpdeskContent">
             <div class="feedback">
-                <blockquote>@item.Message 
-                    @{ if(!String.IsNullOrEmpty(item.Username)){<cite> - @item.Username </cite>} }
+                <blockquote>
+                    @item.Message
+                    @{ if (!String.IsNullOrEmpty(item.Username))
+                        {<cite> - @item.Username </cite>} }
                 </blockquote>
             </div>
         </div>
-    }
+    </div>
+}
 
-</div>

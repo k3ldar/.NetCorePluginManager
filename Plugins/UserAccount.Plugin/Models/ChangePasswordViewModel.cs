@@ -24,7 +24,6 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 using SharedPluginFeatures;
@@ -40,15 +39,14 @@ namespace UserAccount.Plugin.Models
 
         }
 
-        public ChangePasswordViewModel(in List<BreadcrumbItem> breadcrumbs, in ShoppingCartSummary cartSummary)
-            : base (breadcrumbs, cartSummary)
+        public ChangePasswordViewModel(in BaseModelData baseModelData)
+            : base(baseModelData)
         {
 
         }
 
-        public ChangePasswordViewModel(in List<BreadcrumbItem> breadcrumbs, in ShoppingCartSummary cartSummary, 
-            in string username)
-            : this (breadcrumbs, cartSummary)
+        public ChangePasswordViewModel(in BaseModelData baseModelData, in string username)
+            : this(baseModelData)
         {
             if (String.IsNullOrEmpty(username))
                 throw new ArgumentNullException(nameof(username));

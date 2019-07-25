@@ -4,89 +4,64 @@
     ViewData["Title"] = Model.Title;
 }
 <link rel="stylesheet" type="text/css" href="/css/documentation.css" />
-<div class="container">
-    <div class="row">
-        <div class="col-sm-3">
-            <div class="docContents">
-                <h3>@Localizer[nameof(Languages.LanguageStrings.Contents)]</h3>
-                @Html.Raw(Model.AllReferences)
-            </div>
-        </div>
-        <div class="col-sm-7">
-            <h2>@Model.Title</h2>
-            @await Html.PartialAsync("_DocumentData.cshtml", Model)
-        </div>
-        <div class="col-sm-2">
-            <div class="docReferences" id="divReferences">
-                @if (Model.Contains != null)
-                {
-                    <h3>@Localizer[nameof(Languages.LanguageStrings.InThisDocument)]</h3>
-                    <ul>
-                        @foreach (KeyValuePair<string, string> kvp in Model.Contains)
-                        {
-                            @if (Model.TranslateStrings)
-                            {
-                                <li><a href="@kvp.Key">@Localizer[kvp.Value]</a></li>
-                            }
-                            else
-                            {
-                                <li><a href="@kvp.Key">@kvp.Value</a></li>
-                            }
-                        }
-                    </ul>
-                }
-                @if (Model.SeeAlso != null)
-                {
-                    <h3>@Localizer[nameof(Languages.LanguageStrings.SeeAlso)]</h3>
-                    <ul>
-                        @foreach (var item in Model.SeeAlso)
-                        {
-                            <li>@Html.Raw($"<a href=\"{item.Key}\">{item.Value}</a>")</li>
-                        }
-                    </ul>
-                }
-            </div>
-        </div>
+<div class="row flex-xl-nowrap">
+    <div class="d-none d-lg-block col-lg-3 bd-sidebar docContents">
+        <h3>@Localizer[nameof(Languages.LanguageStrings.Contents)]</h3>
+        @Html.Raw(Model.AllReferences)
     </div>
-    <div class="row">
-        <div class="col-sm-offset-4 col-sm-2">
-            <div class="docPrevNext">
-            @if (!String.IsNullOrEmpty(Model.PreviousDocument))
-            {
-                <p><a href="/docs/Document/@SharedPluginFeatures.HtmlHelper.RouteFriendlyName(Model.PreviousDocument)">@Localizer[nameof(Languages.LanguageStrings.PreviousDocument)]</a></p>
-            }
-            else
-            {
-                <p>@Localizer[nameof(Languages.LanguageStrings.PreviousDocument)]</p>
-            }
-            </div>
-        </div>
-        <div class="col-sm-2">
-            <div class="docPrevNext">
-            @if (!String.IsNullOrEmpty(Model.NextDocument))
-            {
-                <p><a href="/docs/Document/@SharedPluginFeatures.HtmlHelper.RouteFriendlyName(Model.NextDocument)">@Localizer[nameof(Languages.LanguageStrings.NextDocument)]</a></p>
-            }
-            else
-            {
-                <p>@Localizer[nameof(Languages.LanguageStrings.NextDocument)]</p>
-            }
-            </div>
-        </div>
-        </div>
+    <div class="col-md-12 col-lg-7">
+        <h2>@Model.Title</h2>
+        @await Html.PartialAsync("_DocumentData.cshtml", Model)
+    </div>
+    <div class="d-none d-lg-block col-lg-2 bd-toc docReferences">
+        @if (Model.Contains != null)
+        {
+            <h3>@Localizer[nameof(Languages.LanguageStrings.InThisDocument)]</h3>
+            <ul>
+                @foreach (KeyValuePair<string, string> kvp in Model.Contains)
+                {
+                    @if (Model.TranslateStrings)
+                    {
+                        <li><a href="@kvp.Key">@Localizer[kvp.Value]</a></li>
+                    }
+                    else
+                    {
+                        <li><a href="@kvp.Key">@kvp.Value</a></li>
+                    }
+                }
+            </ul>
+        }
+        @if (Model.SeeAlso != null)
+        {
+            <h3>@Localizer[nameof(Languages.LanguageStrings.SeeAlso)]</h3>
+            <ul>
+                @foreach (var item in Model.SeeAlso)
+                {
+                    <li>@Html.Raw($"<a href=\"{item.Key}\">{item.Value}</a>")</li>
+                }
+            </ul>
+        }
+    </div>
 </div>
-
-<script>
-window.onscroll = function() {scrollFunc()};
-
-var navbar = document.getElementById("divReferences");
-var sticky = navbar.offsetTop;
-
-function scrollFunc() {
-  if (window.pageYOffset >= sticky) {
-    navbar.classList.add("stickyRef")
-  } else {
-    navbar.classList.remove("stickyRef");
-  }
-}
-</script>
+<div class="row justify-content-sm-center">
+    <div class="col col-sm-2">
+        @if (!String.IsNullOrEmpty(Model.PreviousDocument))
+        {
+            <p class="docPrevNext"><a href="/docs/Document/@SharedPluginFeatures.HtmlHelper.RouteFriendlyName(Model.PreviousDocument)">@Localizer[nameof(Languages.LanguageStrings.PreviousDocument)]</a></p>
+        }
+        else
+        {
+            <p class="docPrevNext">@Localizer[nameof(Languages.LanguageStrings.PreviousDocument)]</p>
+        }
+    </div>
+    <div class="col col-sm-2">
+        @if (!String.IsNullOrEmpty(Model.NextDocument))
+        {
+            <p class="docPrevNext"><a href="/docs/Document/@SharedPluginFeatures.HtmlHelper.RouteFriendlyName(Model.NextDocument)">@Localizer[nameof(Languages.LanguageStrings.NextDocument)]</a></p>
+        }
+        else
+        {
+            <p class="docPrevNext">@Localizer[nameof(Languages.LanguageStrings.NextDocument)]</p>
+        }
+    </div>
+</div>

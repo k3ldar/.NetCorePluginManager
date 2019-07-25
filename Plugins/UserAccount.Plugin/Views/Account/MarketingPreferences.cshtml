@@ -5,57 +5,60 @@
     ViewData["Title"] = "Marketing Preferences";
 }
 
-<div class="bc">@Html.Raw(Model.BreadcrumbData())</div>
 
-<h2>@Localizer[nameof(Languages.LanguageStrings.MarketingPreferences)]</h2>
+<div class="row ac-row">
+    <div class="col">
+        <h1>@Localizer[nameof(Languages.LanguageStrings.MarketingPreferences)]</h1>
+    </div>
+</div>
 
 <link rel="stylesheet" href="/css/Account.css" />
 
 @using (Html.BeginForm("MarketingPreferences", "Account", FormMethod.Post, new { id = "marketingPreferecesEditForm" }))
 {
-@if (Model.ShowEmail)
+    @if (Model.ShowEmail)
     {
-<div class="account-block">
-    <div class="account-row">
-        @Html.LabelFor(m => m.EmailOffers)
-        @Html.CheckBoxFor(m => m.EmailOffers)
-    </div>
-</div>
+        <div class="row ac-row">
+            <div class="col form-check">
+                @Html.CheckBoxFor(m => m.EmailOffers, new { @class = "form-check-input" })
+                @Html.LabelFor(m => m.EmailOffers, new { @class = "form-check-label" })
+            </div>
+        </div>
     }
 
-@if (Model.ShowTelephone)
+    @if (Model.ShowTelephone)
     {
-<div class="account-block">
-    <div class="account-row">
-        @Html.LabelFor(m => m.TelephoneOffers)
-        @Html.CheckBoxFor(m => m.TelephoneOffers)
-    </div>
-</div>
+        <div class="row ac-row">
+            <div class="col form-check">
+                @Html.CheckBoxFor(m => m.TelephoneOffers, new { @class = "form-check-input" })
+                @Html.LabelFor(m => m.TelephoneOffers, new { @class = "form-check-label" })
+            </div>
+        </div>
     }
 
-@if (Model.ShowSMS)
+    @if (Model.ShowSMS)
     {
-<div class="account-block">
-    <div class="account-row">
-        @Html.LabelFor(m => m.SMSOffers)
-        @Html.CheckBoxFor(m => m.SMSOffers)
-    </div>
-</div>
+        <div class="row ac-row">
+            <div class="col form-check">
+                @Html.CheckBoxFor(m => m.SMSOffers, new { @class = "form-check-input" })
+                @Html.LabelFor(m => m.SMSOffers, new { @class = "form-check-label" })
+            </div>
+        </div>
     }
 
-@if (Model.ShowPostal)
+    @if (Model.ShowPostal)
     {
-<div class="account-block">
-    <div class="account-row">
-        @Html.LabelFor(m => m.PostalOffers)
-        @Html.CheckBoxFor(m => m.PostalOffers)
-    </div>
-</div>
+        <div class="row ac-row">
+            <div class="col form-check">
+                @Html.CheckBoxFor(m => m.PostalOffers, new { @class = "form-check-input" })
+                @Html.LabelFor(m => m.PostalOffers, new { @class = "form-check-label" })
+            </div>
+        </div>
     }
 
-<div class="account-block">
-    <div class="account-row">
-        <input id="updateMarketingPreferences" type="submit" value="@Localizer[nameof(Languages.LanguageStrings.Update)]" />
+    <div class="row ac-row">
+        <div class="col">
+            <input id="updateMarketingPreferences" class="btn btn-primary" type="submit" value="@Localizer[nameof(Languages.LanguageStrings.Update)]" />
+        </div>
     </div>
-</div>
 }

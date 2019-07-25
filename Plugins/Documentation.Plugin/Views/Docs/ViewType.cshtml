@@ -4,47 +4,26 @@
     ViewData["Title"] = "Type";
 }
 <link rel="stylesheet" type="text/css" href="/css/documentation.css" />
-<div class="container">
-    <div class="row">
-        <div class="col-lg-3">
-            <div class="docContents">
-                <h3>@Localizer[nameof(Languages.LanguageStrings.Contents)]</h3>
-                @Html.Raw(Model.AllReferences)
-            </div>
-        </div>
-        <div class="col-lg-7">
-            <h2>@Model.TypeName</h2>
-            @await Html.PartialAsync("_DocumentDataType.cshtml", Model)
-        </div>
-        <div class="col-lg-2">
-            <div class="docReferences" id="divReferences">
-                @if (Model.SeeAlso != null && Model.SeeAlso.Count > 0)
+<div class="row flex-xl-nowrap">
+    <div class="d-none d-lg-block col-lg-3 bd-sidebar docContents">
+        <h3>@Localizer[nameof(Languages.LanguageStrings.Contents)]</h3>
+        @Html.Raw(Model.AllReferences)
+    </div>
+    <div class="col-md-12 col-lg-7">
+        <h2>@Model.TypeName</h2>
+        @await Html.PartialAsync("_DocumentDataType.cshtml", Model)
+    </div>
+    <div class="d-none d-lg-block col-lg-2 bd-toc docReferences">
+        @if (Model.SeeAlso != null && Model.SeeAlso.Count > 0)
+        {
+            <h3>@Localizer[nameof(Languages.LanguageStrings.SeeAlso)]</h3>
+            <ul>
+                @foreach (var item in Model.SeeAlso)
                 {
-                    <h3>@Localizer[nameof(Languages.LanguageStrings.SeeAlso)]</h3>
-                    <ul>
-                        @foreach (var item in Model.SeeAlso)
-                        {
-                            <li>@Html.Raw($"<a href=\"{item.Key}\">{item.Value}</a>")</li>
-                        }
-                    </ul>
+                    <li>@Html.Raw($"<a href=\"{item.Key}\">{item.Value}</a>")</li>
                 }
-            </div>
-        </div>
+            </ul>
+        }
     </div>
 </div>
 
-
-<script>
-window.onscroll = function() {scrollFunc()};
-
-var navbar = document.getElementById("divReferences");
-var sticky = navbar.offsetTop;
-
-function scrollFunc() {
-  if (window.pageYOffset >= sticky) {
-    navbar.classList.add("stickyRef")
-  } else {
-    navbar.classList.remove("stickyRef");
-  }
-}
-</script>

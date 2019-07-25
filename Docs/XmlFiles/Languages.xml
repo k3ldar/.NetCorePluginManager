@@ -11622,6 +11622,11 @@
               Looks up a localized string similar to Availability.
             </summary>
         </member>
+        <member name="P:Languages.LanguageStrings.Available">
+            <summary>
+              Looks up a localized string similar to Available.
+            </summary>
+        </member>
         <member name="P:Languages.LanguageStrings.AvailableTags">
             <summary>
               Looks up a localized string similar to Available Tags.
@@ -14260,6 +14265,11 @@
         <member name="P:Languages.LanguageStrings.MyDeliveryAddresses">
             <summary>
               Looks up a localized string similar to My Delivery Address.
+            </summary>
+        </member>
+        <member name="P:Languages.LanguageStrings.MyDeliveryAddressesEdit">
+            <summary>
+              Looks up a localized string similar to Edit Delivery Address.
             </summary>
         </member>
         <member name="P:Languages.LanguageStrings.MyInvoices">

@@ -40,9 +40,8 @@ namespace UserAccount.Plugin.Models
     {
         #region Constructors
 
-        public InvoiceViewModel(in List<BreadcrumbItem> breadcrumbs, in ShoppingCartSummary cartSummary,
-            Invoice invoice)
-            : base (breadcrumbs, cartSummary)
+        public InvoiceViewModel(in BaseModelData baseModelData, Invoice invoice)
+            : base(baseModelData)
         {
             if (invoice == null)
                 throw new ArgumentNullException(nameof(invoice));

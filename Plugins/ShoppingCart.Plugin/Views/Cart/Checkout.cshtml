@@ -3,22 +3,27 @@
 @{
     ViewData["Title"] = Localizer[nameof(Languages.LanguageStrings.Checkout)];
 }
-<div class="bc">@Html.Raw(Model.BreadcrumbData())</div>
+
 
 <link rel="stylesheet" href="~/css/Cart.css" asp-append-version="true" />
 
-<h2>@Localizer[nameof(Languages.LanguageStrings.SelectPaymentMethod)]</h2>
+<div class="row">
+    <div class="col">
+        <h1>@Localizer[nameof(Languages.LanguageStrings.SelectPaymentMethod)]</h1>
+    </div>
+</div>
+
 
 <div class="row">
     @if (Model.Providers.Any())
     {
-        <div class="payment-provders">
+        <div class="col payment-provders">
             @foreach (var item in Model.Providers)
             {
                 <div class="payment-provder">
                     @using (Html.BeginForm(nameof(ShoppingCartPlugin.Controllers.CartController.ProcessCheckout), "Cart", FormMethod.Post))
                     {
-                        <input type="submit" class="@Model.RouteText(item.Name()).ToLower()" value="" />
+                        <input type="submit" class="btn btn-primary @Model.RouteText(item.Name()).ToLower()" value="" />
                         <input type="hidden" name="SelectedProvider" value="@item.Name()" />
                         <input type="hidden" name="SelectedProviderId" value="@item.UniqueId().ToString()" />
                     }

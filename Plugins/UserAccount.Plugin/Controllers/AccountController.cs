@@ -99,10 +99,10 @@ namespace UserAccount.Plugin.Controllers
 
         [HttpGet]
         [Breadcrumb(nameof(Languages.LanguageStrings.MyAccount))]
-        public IActionResult Index(string returnUrl)
+        public IActionResult Index()
         {
             string growl = GrowlGet();
-            AccountViewModel model = new AccountViewModel(GetBreadcrumbs(), GetCartSummary(),
+            AccountViewModel model = new AccountViewModel(GetModelData(),
                 _settingsProvider.GetSettings<AccountSettings>("UserAccount"),
                 growl ?? String.Empty);
             model.Settings.ShowBlog = _blogLoaded;

@@ -20,13 +20,13 @@
                             @Html.LabelFor(m => m.Comment)
                         </div>
                         <div class="col-sm-10">
-                            @Html.TextAreaFor(m => m.Comment)
+                            @Html.TextAreaFor(m => m.Comment, new { @class = "form-control" })
                             <br />@Html.ValidationMessageFor(m => m.Comment)
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-sm-offset-2 col-sm-10">
-                            <button type="submit">@Localizer[nameof(Languages.LanguageStrings.Add)]</button>
+                            <button class="btn btn-primary" type="submit">@Localizer[nameof(Languages.LanguageStrings.Add)]</button>
                         </div>
                     </div>
                 </div>

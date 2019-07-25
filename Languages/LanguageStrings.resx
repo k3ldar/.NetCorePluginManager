@@ -14081,4 +14081,12 @@ You will shortly receive an email with the details of your order.</comment>
     <value>My Blogs</value>
     <comment>My Blogs</comment>
   </data>
+  <data name="Available" xml:space="preserve">
+    <value>Available</value>
+    <comment>Available</comment>
+  </data>
+  <data name="MyDeliveryAddressesEdit" xml:space="preserve">
+    <value>Edit Delivery Address</value>
+    <comment>Edit Delivery Address</comment>
+  </data>
 </root>
