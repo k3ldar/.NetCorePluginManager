@@ -40,10 +40,10 @@ namespace UserAccount.Plugin.Models
         {
         }
 
-        public DownloadViewModel(in List<BreadcrumbItem> breadcrumbs, in ShoppingCartSummary cartSummary,
-            in List<DownloadCategory> categories, in string activeCategory, 
+        public DownloadViewModel(in BaseModelData baseModelData,
+            in List<DownloadCategory> categories, in string activeCategory,
             in List<ViewDownloadViewItem> downloads)
-            : base (breadcrumbs, cartSummary)
+            : base(baseModelData)
         {
             if (categories == null)
                 throw new ArgumentNullException(nameof(categories));

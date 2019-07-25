@@ -24,7 +24,6 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
-using System.Collections.Generic;
 
 using SharedPluginFeatures;
 
@@ -39,16 +38,16 @@ namespace UserAccount.Plugin.Models
             GrowlMessage = String.Empty;
         }
 
-        public AccountViewModel(in List<BreadcrumbItem> breadcrumbs, in ShoppingCartSummary cartSummary,
+        public AccountViewModel(in BaseModelData baseModelData,
             AccountSettings accountSettings, string growl)
-            : this (breadcrumbs, cartSummary, accountSettings)
+            : this(baseModelData, accountSettings)
         {
             GrowlMessage = growl;
         }
 
-        public AccountViewModel(in List<BreadcrumbItem> breadcrumbs, in ShoppingCartSummary cartSummary,
+        public AccountViewModel(in BaseModelData baseModelData,
             AccountSettings accountSettings)
-            : base (breadcrumbs, cartSummary)
+            : base(baseModelData)
         {
             Settings = accountSettings ?? throw new ArgumentNullException(nameof(accountSettings));
         }

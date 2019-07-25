@@ -14267,6 +14267,11 @@
               Looks up a localized string similar to My Delivery Address.
             </summary>
         </member>
+        <member name="P:Languages.LanguageStrings.MyDeliveryAddressesEdit">
+            <summary>
+              Looks up a localized string similar to Edit Delivery Address.
+            </summary>
+        </member>
         <member name="P:Languages.LanguageStrings.MyInvoices">
             <summary>
               Looks up a localized string similar to My Invoices.

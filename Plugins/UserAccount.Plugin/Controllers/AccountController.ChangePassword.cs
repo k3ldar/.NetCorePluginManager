@@ -43,7 +43,7 @@ namespace UserAccount.Plugin.Controllers
         {
             UserSession userSession = GetUserSession();
 
-            return View(new ChangePasswordViewModel(GetBreadcrumbs(), GetCartSummary(), userSession.UserEmail));
+            return View(new ChangePasswordViewModel(GetModelData(), userSession.UserEmail));
         }
 
 		[HttpPost]

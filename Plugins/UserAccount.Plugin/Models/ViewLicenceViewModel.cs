@@ -24,7 +24,6 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
-using System.Collections.Generic;
 
 using SharedPluginFeatures;
 
@@ -39,10 +38,10 @@ namespace UserAccount.Plugin.Models
 
         }
 
-        public ViewLicenceViewModel(in List<BreadcrumbItem> breadcrumbs, in ShoppingCartSummary cartSummary,
+        public ViewLicenceViewModel(in BaseModelData baseModelData,
             in int id, in string domain, in string licenceType, in bool active, 
             in bool trial, in DateTime expires, in byte updates, in string licence)
-            : base (breadcrumbs, cartSummary)
+            : base (baseModelData)
         {
             if (String.IsNullOrEmpty(licenceType))
                 throw new ArgumentNullException(nameof(licenceType));

@@ -45,7 +45,7 @@ namespace UserAccount.Plugin.Controllers
         public IActionResult DeliveryAddress()
         {
             string growl = GrowlGet();
-            return View(new DeliveryAddressViewModel(GetBreadcrumbs(), GetCartSummary(), 
+            return View(new DeliveryAddressViewModel(GetModelData(), 
                 _accountProvider.GetDeliveryAddresses(UserId()), growl));
         }
 
@@ -90,7 +90,7 @@ namespace UserAccount.Plugin.Controllers
         }
 
         [HttpGet]
-        [Breadcrumb(nameof(Languages.LanguageStrings.DeliveryAddressEdit), nameof(AccountController), nameof(DeliveryAddress))]
+        [Breadcrumb(nameof(Languages.LanguageStrings.DeliveryAddressEdit), nameof(AccountController), nameof(DeliveryAddress), HasParams = true)]
         public IActionResult DeliveryAddressEdit(int id)
         {
             DeliveryAddress address = _accountProvider.GetDeliveryAddress(UserId(), id);
@@ -98,7 +98,7 @@ namespace UserAccount.Plugin.Controllers
             if (address == null)
                 return new RedirectResult("/Account/DeliveryAddress", false);
 
-            EditDeliveryAddressViewModel model = new EditDeliveryAddressViewModel(GetBreadcrumbs(), GetCartSummary());
+            EditDeliveryAddressViewModel model = new EditDeliveryAddressViewModel(GetModelData());
             PrepareDeliveryAddressModel(ref model, address);
 
             return View(model);

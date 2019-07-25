@@ -25444,6 +25444,15 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Edit Delivery Address.
+        /// </summary>
+        public static string MyDeliveryAddressesEdit {
+            get {
+                return ResourceManager.GetString("MyDeliveryAddressesEdit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to My Invoices.
         /// </summary>
         public static string MyInvoices {

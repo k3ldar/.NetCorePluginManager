@@ -42,7 +42,7 @@ namespace UserAccount.Plugin.Controllers
         [Breadcrumb(nameof(Languages.LanguageStrings.MyInvoices), nameof(AccountController), nameof(Index))]
         public ActionResult Invoices()
         {
-            InvoicesViewModel model = new InvoicesViewModel(GetBreadcrumbs(), GetCartSummary(),
+            InvoicesViewModel model = new InvoicesViewModel(GetModelData(),
                 _accountProvider.InvoicesGet(UserId()));
 
             model.Breadcrumbs = GetBreadcrumbs();
@@ -60,7 +60,7 @@ namespace UserAccount.Plugin.Controllers
             if (invoice == null)
                 return RedirectToAction(nameof(Index));
 
-            InvoiceViewModel model = new InvoiceViewModel(GetBreadcrumbs(), GetCartSummary(), invoice);
+            InvoiceViewModel model = new InvoiceViewModel(GetModelData(), invoice);
 
             model.Breadcrumbs = GetBreadcrumbs();
             model.CartSummary = GetCartSummary();

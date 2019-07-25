@@ -39,6 +39,7 @@ namespace AspNetCore.PluginManager.DemoWebsite
             PluginManagerService.UsePlugin(typeof(ShoppingCartPlugin.PluginInitialisation));
             PluginManagerService.UsePlugin(typeof(HelpdeskPlugin.PluginInitialisation));
             PluginManagerService.UsePlugin(typeof(UserAccount.Plugin.PluginInitialisation));
+            PluginManagerService.UsePlugin(typeof(LoginPlugin.PluginInitialisation));
 
             CreateWebHostBuilder(args).Build().Run();
         }

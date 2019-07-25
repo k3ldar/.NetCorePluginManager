@@ -13,6 +13,10 @@
     padding: 15px 0 0 0;
 }
 
+.form-check {
+    margin-left: 20px;
+}
+
 .account-row {
     padding: 0 0 4px 0;
 }
@@ -249,3 +253,28 @@
         height: auto;
         overflow: hidden;
     }
+
+@media (max-width: 767px) {
+    .accountGrid {
+        width: 99%;
+        font-size: 10px;
+        overflow: auto;
+    }
+
+}
+
+@media (min-width: 768px) {
+    .accountGrid {
+        width: 99%;
+        overflow: auto;
+    }
+
+}
+
+@media (min-width: 992px) {
+    .accountGrid {
+        width: 99%;
+        overflow: hidden;
+    }
+
+}

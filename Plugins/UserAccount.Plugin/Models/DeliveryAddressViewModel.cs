@@ -41,22 +41,22 @@ namespace UserAccount.Plugin.Models
 
         }
 
-        public DeliveryAddressViewModel(in List<BreadcrumbItem> breadcrumbs, in ShoppingCartSummary cartSummary)
-            : base (breadcrumbs, cartSummary)
+        public DeliveryAddressViewModel(in BaseModelData baseModelData)
+            : base(baseModelData)
         {
 
         }
 
-        public DeliveryAddressViewModel(in List<BreadcrumbItem> breadcrumbs, in ShoppingCartSummary cartSummary, 
+        public DeliveryAddressViewModel(in BaseModelData baseModelData,
             in List<DeliveryAddress> addresses)
-            : this (breadcrumbs, cartSummary)
+            : this(baseModelData)
         {
             Addresses = addresses ?? throw new ArgumentNullException(nameof(addresses));
         }
 
-        public DeliveryAddressViewModel(in List<BreadcrumbItem> breadcrumbs, in ShoppingCartSummary cartSummary, 
+        public DeliveryAddressViewModel(in BaseModelData baseModelData,
             in List<DeliveryAddress> addresses, in string growlMessage)
-            : this (breadcrumbs, cartSummary)
+            : this(baseModelData)
         {
             Addresses = addresses ?? throw new ArgumentNullException(nameof(addresses));
             GrowlMessage = growlMessage ?? throw new ArgumentNullException(nameof(growlMessage));

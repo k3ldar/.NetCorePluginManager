@@ -48,7 +48,7 @@ namespace UserAccount.Plugin.Controllers
             if (billingAddress == null)
                 throw new InvalidOperationException(nameof(billingAddress));
 
-            BillingAddressViewModel model = new BillingAddressViewModel(GetBreadcrumbs(), GetCartSummary());
+            BillingAddressViewModel model = new BillingAddressViewModel(GetModelData());
             PrepareBillingAddressModel(ref model, billingAddress);
 
             return View(model);
@@ -76,7 +76,7 @@ namespace UserAccount.Plugin.Controllers
                 ModelState.AddModelError(String.Empty, Languages.LanguageStrings.FailedToUpdateBillingAddress);
             }
 
-            model = new BillingAddressViewModel(GetBreadcrumbs(), GetCartSummary());
+            model = new BillingAddressViewModel(GetModelData());
             PrepareBillingAddressModel(ref model, null);
 
             return View(model);

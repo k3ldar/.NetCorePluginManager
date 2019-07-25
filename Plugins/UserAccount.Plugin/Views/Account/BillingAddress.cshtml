@@ -9,7 +9,7 @@
 
 <div class="row ac-row">
     <div class="col">
-        <h2>@Localizer[nameof(Languages.LanguageStrings.MyBillingAddress)]</h2>
+        <h1>@Localizer[nameof(Languages.LanguageStrings.MyBillingAddress)]</h1>
     </div>
 </div>
 
@@ -29,7 +29,7 @@
             @Html.LabelFor(m => m.Country)
         </div>
         <div class="col-sm-12 col-md-5 col-lg-4">
-            @Html.DropDownListFor(m => m.Country, new SelectList(UserAccount.Plugin.Controllers.AccountController.Countries, "Code", "Name"), new { @class = "form-control" }) 
+            @Html.DropDownListFor(m => m.Country, new SelectList(UserAccount.Plugin.Controllers.AccountController.Countries, "Code", "Name"), new { @class = "form-control" })
             @Html.ValidationMessageFor(m => m.Country)
         </div>
     </div>
@@ -43,7 +43,7 @@
 
             </div>
             <div class="col-sm-12 col-md-5 col-lg-4">
-                @Html.TextBoxFor(m => m.BusinessName, new { @class = "form-control" }) 
+                @Html.TextBoxFor(m => m.BusinessName, new { @class = "form-control" })
                 @Html.ValidationMessageFor(m => m.BusinessName)
 
             </div>
@@ -58,7 +58,7 @@
 
             </div>
             <div class="col-sm-12 col-md-5 col-lg-4">
-                @Html.TextBoxFor(m => m.AddressLine1, new { @class = "form-control" }) 
+                @Html.TextBoxFor(m => m.AddressLine1, new { @class = "form-control" })
                 @Html.ValidationMessageFor(m => m.AddressLine1)
 
             </div>
@@ -72,7 +72,7 @@
                 @Html.LabelFor(m => m.AddressLine2)
             </div>
             <div class="col-sm-12 col-md-5 col-lg-4">
-                @Html.TextBoxFor(m => m.AddressLine2, new { @class = "form-control" }) 
+                @Html.TextBoxFor(m => m.AddressLine2, new { @class = "form-control" })
                 @Html.ValidationMessageFor(m => m.AddressLine2)
             </div>
         </div>
@@ -85,7 +85,7 @@
                 @Html.LabelFor(m => m.AddressLine3)
             </div>
             <div class="col-sm-12 col-md-5 col-lg-4">
-                @Html.TextBoxFor(m => m.AddressLine3, new { @class = "form-control" }) 
+                @Html.TextBoxFor(m => m.AddressLine3, new { @class = "form-control" })
                 @Html.ValidationMessageFor(m => m.AddressLine3)
             </div>
         </div>
@@ -98,7 +98,7 @@
                 @Html.LabelFor(m => m.City)
             </div>
             <div class="col-sm-12 col-md-5 col-lg-4">
-                @Html.TextBoxFor(m => m.City, new { @class = "form-control" }) 
+                @Html.TextBoxFor(m => m.City, new { @class = "form-control" })
                 @Html.ValidationMessageFor(m => m.City)
             </div>
         </div>
@@ -111,7 +111,7 @@
                 @Html.LabelFor(m => m.County)
             </div>
             <div class="col-sm-12 col-md-5 col-lg-4">
-                @Html.TextBoxFor(m => m.County, new { @class = "form-control" }) 
+                @Html.TextBoxFor(m => m.County, new { @class = "form-control" })
                 @Html.ValidationMessageFor(m => m.County)
             </div>
         </div>
@@ -124,7 +124,7 @@
                 @Html.LabelFor(m => m.Postcode)
             </div>
             <div class="col-sm-12 col-md-5 col-lg-4">
-                @Html.TextBoxFor(m => m.Postcode, new { @class = "form-control" }) 
+                @Html.TextBoxFor(m => m.Postcode, new { @class = "form-control" })
                 @Html.ValidationMessageFor(m => m.Postcode)
             </div>
         </div>
@@ -132,7 +132,7 @@
 
     <div class="row ac-row">
         <div class="col">
-            <input id="btnUpdateBillingAddress" class="btn btn-primary" type="submit" value="@Localizer[nameof(Languages.LanguageStrings.Update)]" />        
+            <input id="btnUpdateBillingAddress" class="btn btn-primary" type="submit" value="@Localizer[nameof(Languages.LanguageStrings.Update)]" />
         </div>
     </div>
 }

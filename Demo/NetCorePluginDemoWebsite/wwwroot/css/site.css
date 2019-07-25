@@ -199,6 +199,9 @@ body {
         height: auto;
     }
 
+    h1 {
+        font-size: 1.35rem;
+    }
     h2 {
         font-size: 1.32rem;
     }

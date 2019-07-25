@@ -49,13 +49,13 @@ namespace UserAccount.Plugin.Controllers
 
             foreach (Licence licence in _licenceProvider.LicencesGet(UserId()))
             {
-                licences.Add(new ViewLicenceViewModel(GetBreadcrumbs(), GetCartSummary(), 
+                licences.Add(new ViewLicenceViewModel(GetModelData(), 
                     licence.Id, licence.DomainName, licence.LicenceType.Description,
                     Shared.Utilities.DateWithin(licence.ExpireDate, licence.StartDate, DateTime.Now) && licence.IsValid,
                     licence.IsTrial, licence.ExpireDate, licence.UpdateCount, licence.EncryptedLicence));
             }
 
-            LicenceViewModel model = new LicenceViewModel(GetBreadcrumbs(), GetCartSummary(), licences, GrowlGet());
+            LicenceViewModel model = new LicenceViewModel(GetModelData(), licences, GrowlGet());
 
             model.Breadcrumbs = GetBreadcrumbs();
             model.CartSummary = GetCartSummary();
@@ -64,6 +64,7 @@ namespace UserAccount.Plugin.Controllers
         }
 
         [HttpGet]
+        [Breadcrumb(nameof(Languages.LanguageStrings.LicenceView), nameof(AccountController), nameof(AccountController.Licences))]
         public IActionResult LicenceView(int id)
         {
             ViewLicenceViewModel model = null;
@@ -71,7 +72,7 @@ namespace UserAccount.Plugin.Controllers
 
             if (licence != null)
             {
-                model = new ViewLicenceViewModel(GetBreadcrumbs(), GetCartSummary(),
+                model = new ViewLicenceViewModel(GetModelData(),
                     licence.Id, licence.DomainName, licence.LicenceType.Description,
                     Shared.Utilities.DateWithin(licence.ExpireDate, licence.StartDate, DateTime.Now) && licence.IsValid,
                     licence.IsTrial, licence.ExpireDate, licence.UpdateCount, licence.EncryptedLicence);
@@ -87,9 +88,11 @@ namespace UserAccount.Plugin.Controllers
         }
 
         [HttpGet]
+        [Breadcrumb(nameof(Languages.LanguageStrings.LicenceCreateTrial), nameof(AccountController), nameof(AccountController.Licences))]
+
         public IActionResult LicenceCreate()
         {
-            return View(new CreateLicenceViewModel(GetBreadcrumbs(), GetCartSummary()));
+            return View(new CreateLicenceViewModel(GetModelData()));
         }
 
         [HttpPost]

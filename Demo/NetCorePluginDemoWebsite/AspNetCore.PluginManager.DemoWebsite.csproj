@@ -91,6 +91,7 @@
     <ProjectReference Include="..\..\Plugins\Helpdesk.Plugin\HelpdeskPlugin.csproj" />
     <ProjectReference Include="..\..\Languages\Languages.csproj" />
     <ProjectReference Include="..\..\Plugins\UserAccount.Plugin\UserAccount.Plugin.csproj" />
+    <ProjectReference Include="..\..\Plugins\Login.Plugin\Login.Plugin.csproj" />
   </ItemGroup>
 
   <ItemGroup>

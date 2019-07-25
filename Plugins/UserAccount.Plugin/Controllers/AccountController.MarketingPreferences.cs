@@ -42,8 +42,7 @@ namespace UserAccount.Plugin.Controllers
         [Breadcrumb(nameof(Languages.LanguageStrings.MarketingPreferences), nameof(AccountController), nameof(Index))]
         public IActionResult MarketingPreferences()
         {
-            MarketingPreferencesViewModel model = new MarketingPreferencesViewModel(
-                GetBreadcrumbs(), GetCartSummary());
+            MarketingPreferencesViewModel model = new MarketingPreferencesViewModel(GetModelData());
             PrepareMarketingModel(ref model, _accountProvider.GetMarketingPreferences(UserId()));
 
             return View(model);

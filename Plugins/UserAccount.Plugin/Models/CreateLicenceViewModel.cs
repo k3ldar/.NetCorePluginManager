@@ -23,7 +23,6 @@
  *  06/01/2019  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 using SharedPluginFeatures;
@@ -39,8 +38,8 @@ namespace UserAccount.Plugin.Models
 
         }
 
-        public CreateLicenceViewModel(in List<BreadcrumbItem> breadcrumbs, in ShoppingCartSummary cartSummary)
-            : base (breadcrumbs, cartSummary)
+        public CreateLicenceViewModel(in BaseModelData baseModelData)
+            : base(baseModelData)
         {
 
         }
