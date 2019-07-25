@@ -1,3 +1,14 @@
+Version 2.4.0
+=============
+#75 Convert to bootstrap
+#75 Update bootstrap to 4.1.3
+#82 Rename Demo IPlugin instance file
+#81 Warn when unable to initialise plugin
+#83 Blog Updates
+#82 Provide mechanism to load statically loaded plugin module at start
+#Misc Update blog short description
+
+
 Version 2.3.0
 =============
 
