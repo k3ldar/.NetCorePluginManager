@@ -24,12 +24,12 @@ Password: password
 It only uses mock data providers and will reset periodically
 
 ## Current Version
-Version 2.2.0
+Version 2.4.0
 
 # ASPNetCore.PluginManager
 Extend website with plugin technology.
 
-PM> Install-Package AspNetCore.PluginManager -Version 2.1.0
+PM> Install-Package AspNetCore.PluginManager -Version 2.4.0
 
 https://www.nuget.org/packages/AspNetCore.PluginManager/
 
