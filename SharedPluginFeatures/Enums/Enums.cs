@@ -294,4 +294,45 @@ namespace SharedPluginFeatures
         /// </summary>
         AlreadyLoaded
     }
+
+    /// <summary>
+    /// The frequency of which a sitemap item is updated.
+    /// </summary>
+    public enum SitemapChangeFrequency
+    {
+        /// <summary>
+        /// The item is continually updated
+        /// </summary>
+        Always,
+
+        /// <summary>
+        /// The item is updated on an hourly basis
+        /// </summary>
+        Hourly,
+
+        /// <summary>
+        /// The item is updated daily
+        /// </summary>
+        Daily,
+
+        /// <summary>
+        /// The item is updated on a weekly basis
+        /// </summary>
+        Weekly,
+
+        /// <summary>
+        /// The item is updated on a monthly basis
+        /// </summary>
+        Monthly,
+
+        /// <summary>
+        /// The item is updated very rarely
+        /// </summary>
+        Yearly,
+
+        /// <summary>
+        /// The item is archived and will never be updated again
+        /// </summary>
+        Never,
+    }
 }

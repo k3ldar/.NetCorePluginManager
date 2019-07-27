@@ -251,8 +251,6 @@ namespace AspNetCore.PluginManager
 
             // if no plugin has registered a setting provider, add the default appsettings json provider
             services.TryAddSingleton<ISettingsProvider, DefaultSettingProvider>();
-
-            _serviceProvider = services.BuildServiceProvider();
         }
 
         /// <summary>
@@ -476,6 +474,11 @@ namespace AspNetCore.PluginManager
             }
 
             return new object[] { };
+        }
+
+        internal void UpdateConfiguredServices(IServiceCollection services)
+        {
+            _serviceProvider = services.BuildServiceProvider();
         }
 
         #endregion Internal Methods

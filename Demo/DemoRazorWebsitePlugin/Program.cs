@@ -27,7 +27,7 @@
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 
-namespace DemoRazorWebsitePlugin
+namespace DemoWebsitePlugin
 {
     public class Program
     {

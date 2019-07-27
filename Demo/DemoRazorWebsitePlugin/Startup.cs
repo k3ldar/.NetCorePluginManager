@@ -30,7 +30,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace DemoRazorWebsitePlugin
+namespace DemoWebsitePlugin
 {
     public class Startup
     {

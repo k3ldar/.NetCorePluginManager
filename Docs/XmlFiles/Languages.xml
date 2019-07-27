@@ -15928,6 +15928,11 @@
               Looks up a localized string similar to Sign In.
             </summary>
         </member>
+        <member name="P:Languages.LanguageStrings.Sitemap">
+            <summary>
+              Looks up a localized string similar to Sitemap.
+            </summary>
+        </member>
         <member name="P:Languages.LanguageStrings.Size">
             <summary>
               Looks up a localized string similar to Size.

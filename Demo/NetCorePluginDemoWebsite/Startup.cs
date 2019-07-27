@@ -43,8 +43,6 @@ namespace AspNetCore.PluginManager.DemoWebsite
             Configuration = configuration;
         }
 
-        public static IServiceProvider GetServiceProvider { get; private set; }
-
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -72,10 +70,6 @@ namespace AspNetCore.PluginManager.DemoWebsite
             });
 
             services.AddLogging();
-
-            // grab an instance of the service provider so we can dynamically generate 
-            // objects from the service provider
-            GetServiceProvider = services.BuildServiceProvider();
 
             services.AddMvc()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_1)

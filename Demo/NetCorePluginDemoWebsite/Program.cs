@@ -40,6 +40,7 @@ namespace AspNetCore.PluginManager.DemoWebsite
             PluginManagerService.UsePlugin(typeof(HelpdeskPlugin.PluginInitialisation));
             PluginManagerService.UsePlugin(typeof(UserAccount.Plugin.PluginInitialisation));
             PluginManagerService.UsePlugin(typeof(LoginPlugin.PluginInitialisation));
+            PluginManagerService.UsePlugin(typeof(Sitemap.Plugin.PluginInitialisation));
 
             CreateWebHostBuilder(args).Build().Run();
         }

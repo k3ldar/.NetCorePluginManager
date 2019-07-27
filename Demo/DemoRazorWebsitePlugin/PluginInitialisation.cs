@@ -29,7 +29,7 @@ using Microsoft.AspNetCore.Hosting;
 
 using SharedPluginFeatures;
 
-namespace MemoryCache.Plugin
+namespace DemoWebsitePlugin.Plugin
 {
     public class PluginInitialisation : IPlugin
     {
@@ -48,17 +48,17 @@ namespace MemoryCache.Plugin
 
         public void ConfigureServices(IServiceCollection services)
         {
-            
+
         }
 
         public void Finalise()
         {
-            
+
         }
 
         public void Initialise(ILogger logger)
         {
-            
+
         }
 
         #endregion IPlugin Methods

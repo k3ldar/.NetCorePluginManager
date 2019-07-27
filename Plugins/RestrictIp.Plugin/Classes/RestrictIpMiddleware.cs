@@ -70,7 +70,7 @@ namespace RestrictIp.Plugin
 
         #region Constructors
 
-        public RestrictIpMiddleware(RequestDelegate next, IActionDescriptorCollectionProvider routeProvider, 
+        public RestrictIpMiddleware(RequestDelegate next, IActionDescriptorCollectionProvider routeProvider,
             IRouteDataService routeDataService, IPluginHelperService pluginHelperService,
             IPluginTypesService pluginTypesService, ISettingsProvider settingsProvider, ILogger logger)
         {
@@ -139,8 +139,7 @@ namespace RestrictIp.Plugin
                             // if we get here, we are in a restricted route and ip does not match, so fail with forbidden
                             passRequestOn = false;
                             context.Response.StatusCode = 403;
-                            _logger.AddToLog(LogLevel.IpRestricted,
-                                String.Format(RouteForbidden, userIpAddress, route));
+                            _logger.AddToLog(LogLevel.IpRestricted, String.Format(RouteForbidden, userIpAddress, route));
                         }
                     }
                 }
@@ -157,7 +156,7 @@ namespace RestrictIp.Plugin
         #region Private Methods
 
         private void LoadRestrictedIpRouteData(in IActionDescriptorCollectionProvider routeProvider,
-            in IRouteDataService routeDataService, in IPluginTypesService pluginTypesService, 
+            in IRouteDataService routeDataService, in IPluginTypesService pluginTypesService,
             in RestrictIpSettings settings)
         {
             List<Type> classesWithIpAttributes = pluginTypesService.GetPluginTypesWithAttribute<RestrictedIpRouteAttribute>();
@@ -192,7 +191,7 @@ namespace RestrictIp.Plugin
 
                                 _restrictedRoutes[route.ToLower()].Add(ipAddress.Replace("*", String.Empty));
 
-                                _logger.AddToLog(LogLevel.Information, 
+                                _logger.AddToLog(LogLevel.Information,
                                     String.Format(RouteRestricted, restrictedIpRouteAttribute.ProfileName,
                                         route, ipAddress));
                             }

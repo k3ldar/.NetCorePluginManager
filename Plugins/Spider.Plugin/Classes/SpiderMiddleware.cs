@@ -56,7 +56,9 @@ namespace Spider.Plugin
         private readonly RequestDelegate _next;
         private readonly bool _processStaticFiles;
         private readonly string _staticFileExtensions = Constants.StaticFileExtensions;
+        private readonly INotificationService _notificationService;
         private readonly ILogger _logger;
+        
         internal static Timings _timings = new Timings();
 
         #endregion Private Members
@@ -65,7 +67,8 @@ namespace Spider.Plugin
 
         public SpiderMiddleware(RequestDelegate next, IActionDescriptorCollectionProvider routeProvider,
             IRouteDataService routeDataService, IPluginHelperService pluginHelperService,
-            IPluginTypesService pluginTypesService, ISettingsProvider settingsProvider, ILogger logger)
+            IPluginTypesService pluginTypesService, ISettingsProvider settingsProvider, 
+            ILogger logger, INotificationService notificationService)
         {
             if (routeProvider == null)
                 throw new ArgumentNullException(nameof(routeProvider));
@@ -75,6 +78,8 @@ namespace Spider.Plugin
 
             if (pluginHelperService == null)
                 throw new ArgumentNullException(nameof(pluginHelperService));
+
+            _notificationService = notificationService ?? throw new ArgumentNullException(nameof(notificationService));
 
             _next = next;
 
@@ -114,6 +119,31 @@ namespace Spider.Plugin
                 if (route.EndsWith("/robots.txt"))
                 {
                     context.Response.StatusCode = 200;
+
+                    // prepend sitemaps if there are any
+                    object notificationResult = new object();
+
+                    if (_notificationService.RaiseEvent(Constants.NotificationSitemapNames, context, null, ref notificationResult))
+                    {
+                        string[] sitemaps = ((System.Collections.IEnumerable)notificationResult)
+                          .Cast<object>()
+                          .Select(x => x.ToString())
+                          .ToArray();
+
+                        if (sitemaps != null)
+                        {
+                            StringBuilder stringBuilder = new StringBuilder();
+                            string url = GetHost(context);
+
+                            for (int i = 0; i < sitemaps.Length; i++)
+                            {
+                                stringBuilder.Append($"Sitemap: {url}{sitemaps[i].Substring(1)}\r\n\r\n");
+                            }
+
+                            await context.Response.WriteAsync(stringBuilder.ToString());
+                        }
+                    }
+
                     context.Response.Body.Write(_spiderData, 0, _spiderData.Length);
                 }
                 else

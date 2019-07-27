@@ -55,7 +55,9 @@ namespace DocumentationPlugin.Classes
             IDocumentationService defaultDocumentation = new DefaultDocumentationService(
                 serviceProvider.GetRequiredService<ISettingsProvider>(),
                 serviceProvider.GetRequiredService<IMemoryCache>());
-            services.TryAddSingleton<IDocumentationService>(defaultDocumentation);
+
+            if (serviceProvider.GetService(typeof(IDocumentationService)) == null)
+                services.AddSingleton(defaultDocumentation);
 
             DocumentLoadThread documentLoadThread = new DocumentLoadThread(defaultDocumentation as IDocumentationService);
             Shared.Classes.ThreadManager.ThreadStart(documentLoadThread, 

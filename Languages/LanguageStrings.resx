@@ -14089,4 +14089,8 @@ You will shortly receive an email with the details of your order.</comment>
     <value>Edit Delivery Address</value>
     <comment>Edit Delivery Address</comment>
   </data>
+  <data name="Sitemap" xml:space="preserve">
+    <value>Sitemap</value>
+    <comment>Sitemap</comment>
+  </data>
 </root>

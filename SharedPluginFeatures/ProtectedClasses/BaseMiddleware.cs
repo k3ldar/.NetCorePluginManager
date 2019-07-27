@@ -70,6 +70,18 @@ namespace SharedPluginFeatures
         }
 
         /// <summary>
+        /// Retreives the host name for the context.
+        /// </summary>
+        /// <param name="context">Valid HttpContext for the request.</param>
+        /// <returns>string</returns>
+        protected string GetHost(in HttpContext context)
+        {
+            return new UriBuilder(context.Request.Scheme,
+                context.Request.Host.Host.ToString(),
+                context.Request.Host.Port.Value).ToString();
+        }
+
+        /// <summary>
         /// Retrieves an instance of ITempDataDictionary used to manipulate temp data for the curent request.
         /// </summary>
         /// <param name="context">Valid HttpContext for the request.</param>

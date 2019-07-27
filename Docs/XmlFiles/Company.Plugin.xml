@@ -69,6 +69,23 @@
             </summary>
             <value>bool</value>
         </member>
+        <member name="T:Company.Plugin.Classes.CompanySitemapProvider">
+            <summary>
+            Company sitemap provider, provides sitemap information for company information
+            </summary>
+        </member>
+        <member name="M:Company.Plugin.Classes.CompanySitemapProvider.#ctor(SharedPluginFeatures.ISettingsProvider)">
+            <summary>
+            Default constructor
+            </summary>
+            <param name="settingsProvider">ISettingsProvider instance</param>
+        </member>
+        <member name="M:Company.Plugin.Classes.CompanySitemapProvider.Items">
+            <summary>
+            Retrieve a list of all company information that will be included in the sitemap
+            </summary>
+            <returns>List&lt;ISitemapItem&gt;</returns>
+        </member>
         <member name="T:Company.Plugin.PluginInitialisation">
             <summary>
             Implements IPlugin which allows the CompanyPlugin module to be

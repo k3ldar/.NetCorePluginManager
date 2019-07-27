@@ -63,6 +63,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharedPluginFeatures", "Sha
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blog.Plugin", "Plugins\Blog.Plugin\Blog.Plugin.csproj", "{AFFFF1F4-0820-42DA-B8E7-3955EB61D825}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sitemap.Plugin", "Plugins\Sitemap.Plugin\Sitemap.Plugin.csproj", "{C0C474D5-0B2C-49D1-A4F4-201AFF0A8403}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug Release|Any CPU = Debug Release|Any CPU
@@ -250,6 +252,12 @@ Global
 		{AFFFF1F4-0820-42DA-B8E7-3955EB61D825}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AFFFF1F4-0820-42DA-B8E7-3955EB61D825}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AFFFF1F4-0820-42DA-B8E7-3955EB61D825}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C0C474D5-0B2C-49D1-A4F4-201AFF0A8403}.Debug Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C0C474D5-0B2C-49D1-A4F4-201AFF0A8403}.Debug Release|Any CPU.Build.0 = Release|Any CPU
+		{C0C474D5-0B2C-49D1-A4F4-201AFF0A8403}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C0C474D5-0B2C-49D1-A4F4-201AFF0A8403}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C0C474D5-0B2C-49D1-A4F4-201AFF0A8403}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C0C474D5-0B2C-49D1-A4F4-201AFF0A8403}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

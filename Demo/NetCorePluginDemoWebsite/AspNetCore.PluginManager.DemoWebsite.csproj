@@ -154,6 +154,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Plugins\Documentation.Plugin\Documentation.Plugin.csproj" />
+    <ProjectReference Include="..\..\Plugins\Sitemap.Plugin\Sitemap.Plugin.csproj" />
   </ItemGroup>
 
 </Project>

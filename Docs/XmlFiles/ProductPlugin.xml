@@ -19,6 +19,23 @@
             </summary>
             <value>uint</value>
         </member>
+        <member name="T:ProductPlugin.Classes.ProductSitemapProvider">
+            <summary>
+            Product sitemap provider, provides sitemap information for products
+            </summary>
+        </member>
+        <member name="M:ProductPlugin.Classes.ProductSitemapProvider.#ctor(Middleware.IProductProvider)">
+            <summary>
+            Default constructor
+            </summary>
+            <param name="productProvider">IProductProvider instance</param>
+        </member>
+        <member name="M:ProductPlugin.Classes.ProductSitemapProvider.Items">
+            <summary>
+            Retrieve a list of all product items that will be included in the sitemap
+            </summary>
+            <returns>List&lt;ISitemapItem&gt;</returns>
+        </member>
         <member name="T:ProductPlugin.Controllers.ProductController">
             <summary>
             Product controller displays standard product information on a website.

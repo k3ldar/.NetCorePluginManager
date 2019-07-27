@@ -37,6 +37,23 @@
             </summary>
             <value>bool.  If true then feedback will be displayed.</value>
         </member>
+        <member name="T:HelpdeskPlugin.Classes.HelpdeskSitemapProvider">
+            <summary>
+            Helpdesk sitemap provider, provides sitemap information for helpdesk items
+            </summary>
+        </member>
+        <member name="M:HelpdeskPlugin.Classes.HelpdeskSitemapProvider.#ctor(Middleware.Helpdesk.IHelpdeskProvider)">
+            <summary>
+            Default constructor
+            </summary>
+            <param name="helpdeskProvider">IHelpdeskProvider instance</param>
+        </member>
+        <member name="M:HelpdeskPlugin.Classes.HelpdeskSitemapProvider.Items">
+            <summary>
+            Retrieve a list of all helpdesk items that will be included in the sitemap
+            </summary>
+            <returns>List&lt;ISitemapItem&gt;</returns>
+        </member>
         <member name="T:HelpdeskPlugin.Controllers.HelpdeskController">
             <summary>
             Helpdesk controller, provides Helpdesk functionality for any website.

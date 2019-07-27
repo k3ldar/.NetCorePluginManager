@@ -41,6 +41,23 @@
             </summary>
             <value>string</value>
         </member>
+        <member name="T:DocumentationPlugin.Classes.DocumentationSitemapProvider">
+            <summary>
+            Documentation sitemap provider, provides sitemap information for documentation items
+            </summary>
+        </member>
+        <member name="M:DocumentationPlugin.Classes.DocumentationSitemapProvider.#ctor(SharedPluginFeatures.IDocumentationService)">
+            <summary>
+            Default constructor
+            </summary>
+            <param name="documentationService">IDocumentationService instance</param>
+        </member>
+        <member name="M:DocumentationPlugin.Classes.DocumentationSitemapProvider.Items">
+            <summary>
+            Retrieve a list of all documents that will be included in the sitemap
+            </summary>
+            <returns>List&lt;ISitemapItem&gt;</returns>
+        </member>
         <member name="T:DocumentationPlugin.Classes.DocumentLoadThread">
             <summary>
             Thread that loads all documentation data when the plugin is initialised, preventing

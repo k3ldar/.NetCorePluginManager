@@ -24,7 +24,7 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-namespace DemoRazorWebsitePlugin.Models
+namespace DemoWebsitePlugin.Models
 {
     public class ErrorViewModel
     {

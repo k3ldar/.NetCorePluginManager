@@ -31,6 +31,9 @@ namespace DemoWebsitePlugin.Controllers
 {
     public class ServicesController : BaseController
     {
+        public const string Name = "Services";
+
+
         [Breadcrumb(nameof(Languages.LanguageStrings.Middleware))]
         public IActionResult Middleware()
         {

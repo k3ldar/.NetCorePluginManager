@@ -28429,6 +28429,15 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Sitemap.
+        /// </summary>
+        public static string Sitemap {
+            get {
+                return ResourceManager.GetString("Sitemap", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Size.
         /// </summary>
         public static string Size {

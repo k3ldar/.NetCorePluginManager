@@ -37,6 +37,7 @@ namespace Company.Plugin.Controllers
     {
         #region Private Members
 
+        public const string Name = "Company";
         private readonly CompanySettings _settings;
 
         #endregion Private Members
@@ -45,7 +46,7 @@ namespace Company.Plugin.Controllers
 
         public CompanyController(ISettingsProvider settingsProvider)
         {
-            _settings = settingsProvider.GetSettings<CompanySettings>("CompanySettings");
+            _settings = settingsProvider.GetSettings<CompanySettings>(nameof(CompanySettings));
         }
 
         #endregion Constructors

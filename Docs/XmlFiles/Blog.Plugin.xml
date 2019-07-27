@@ -14,6 +14,23 @@
             Determines whether people can leave comments or not.
             </summary>
         </member>
+        <member name="T:Blog.Plugin.Classes.BlogSitemapProvider">
+            <summary>
+            Blog sitemap provider, provides sitemap information for blog items
+            </summary>
+        </member>
+        <member name="M:Blog.Plugin.Classes.BlogSitemapProvider.#ctor(Middleware.IBlogProvider)">
+            <summary>
+            Default constructor
+            </summary>
+            <param name="blogProvider">IBlogProvider instance</param>
+        </member>
+        <member name="M:Blog.Plugin.Classes.BlogSitemapProvider.Items">
+            <summary>
+            Retrieve a list of all blog items that will be included in the sitemap
+            </summary>
+            <returns>List&lt;ISitemapItem&gt;</returns>
+        </member>
         <member name="T:Blog.Plugin.Controllers.BlogController">
             <summary>
             Controller for blogs.

@@ -247,10 +247,14 @@ namespace AspNetCore.PluginManager
 
             _pluginManagerInstance.ConfigureServices(services);
 
-            init.ForEach(i => i.AfterConfigureServices(services));
-
             // if no ILogger instance has been registered, register the default instance now.
             services.TryAddSingleton<ILogger>(_logger);
+
+            _pluginManagerInstance.UpdateConfiguredServices(services);
+
+            init.ForEach(i => i.AfterConfigureServices(services));
+
+            _pluginManagerInstance.UpdateConfiguredServices(services);
         }
 
         /// <summary>

@@ -4,6 +4,23 @@
         <name>DownloadPlugin</name>
     </assembly>
     <members>
+        <member name="T:DownloadPlugin.Classes.DownloadSitemapProvider">
+            <summary>
+            Download sitemap provider, provides sitemap information for downloadable items
+            </summary>
+        </member>
+        <member name="M:DownloadPlugin.Classes.DownloadSitemapProvider.#ctor(Middleware.IDownloadProvider)">
+            <summary>
+            Default constructor
+            </summary>
+            <param name="downloadProvider">IDownloadProvider instance</param>
+        </member>
+        <member name="M:DownloadPlugin.Classes.DownloadSitemapProvider.Items">
+            <summary>
+            Retrieve a list of all download items that will be included in the sitemap
+            </summary>
+            <returns>List&lt;ISitemapItem&gt;</returns>
+        </member>
         <member name="T:DownloadPlugin.Models.CategoriesModel">
             <summary>
             Download category view mode.

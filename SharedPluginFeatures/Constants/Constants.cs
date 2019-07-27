@@ -219,6 +219,11 @@ namespace SharedPluginFeatures
         public const string NotificationEventGeoIpRecordCount = "GeoIpRecordCount";
 
         /// <summary>
+        /// Name of sitemap listener
+        /// </summary>
+        public const string NotificationSitemapNames = "Sitemap Names";
+
+        /// <summary>
         /// Name of the default cache manager.
         /// </summary>
         public const string CacheNameDefault = "Internal Default Cache Manager";
@@ -237,6 +242,16 @@ namespace SharedPluginFeatures
         /// Name of the permanent cache manager.
         /// </summary>
         public const string CacheNamePermanent = "Permanent Cache Manager";
+
+        /// <summary>
+        /// Name of the Sitemap  cache
+        /// </summary>
+        public const string CacheSitemaps = "Sitemap Cache";
+
+        /// <summary>
+        /// Filename of the base sitemap name
+        /// </summary>
+        public const string BaseSitemap = "sitemap.xml";
 
         /// <summary>
         /// Name of the url to return to in the event of a 403 error.
@@ -297,5 +312,10 @@ namespace SharedPluginFeatures
         /// Internally used Pagination Page
         /// </summary>
         public const string PaginationPage = "<li class=\"page-item\"><a class=\"page-link\" href=\"{0}Page/{1}/{2}\">{1}</a></li>";
+
+        /// <summary>
+        /// Date format for W3C string conversioni
+        /// </summary>
+        public const string W3CDateFormat = "yyyy-MM-ddTHH:mm:ss.fffffffzzz";
     }
 }
