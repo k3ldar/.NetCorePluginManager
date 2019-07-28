@@ -95,13 +95,16 @@ namespace Sitemap.Plugin
             {
                 string route = RouteLowered(context);
 
-                Dictionary<string, string> sitemaps = GetSitemaps(context);
-
-                if (sitemaps.ContainsKey(route))
+                if (route.StartsWith("/sitemap"))
                 {
-                    await context.Response.WriteAsync(sitemaps[route]);
-                    context.Response.StatusCode = 200;
-                    return;
+                    Dictionary<string, string> sitemaps = GetSitemaps(context);
+
+                    if (sitemaps.ContainsKey(route))
+                    {
+                        await context.Response.WriteAsync(sitemaps[route]);
+                        context.Response.StatusCode = 200;
+                        return;
+                    }
                 }
             }
 
