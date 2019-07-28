@@ -352,6 +352,8 @@
         <member name="M:AspNetCore.PluginManager.PluginManagerService.UsePlugin(System.Type)">
             <summary>
             UsePlugin is designed to load plugins that have been statically loaded into the host application specifically nuget packages or project references.
+            
+            If a plugin is required to be initialised prior to other plugins, you can alter the load order by calling UsePlugin prior to calling Initialise.
             </summary>
             <param name="iPluginType">Type of IPlugin interface.  The type passed in must inherit IPlugin interface.</param>
             <exception cref="T:System.InvalidOperationException">Thrown when the iPluginType does not implement IPlugin interface.</exception>

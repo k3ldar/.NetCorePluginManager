@@ -54,6 +54,7 @@ namespace AspNetCore.PluginManager
         private static ILogger _logger;
         private static PluginSettings _pluginConfiguration;
         private static string _rootPath;
+        private static List<Type> _preinitialisedPlugins = new List<Type>();
 
         #endregion Private Members
 
@@ -132,6 +133,13 @@ namespace AspNetCore.PluginManager
 
                 // attempt to load the host
                 _pluginManagerInstance.LoadPlugin(Assembly.GetEntryAssembly(), String.Empty, false);
+
+                // load any pre loaded plugins from UsePlugin
+                foreach (Type pluginType in _preinitialisedPlugins)
+                    GetPluginManager().LoadPlugin(pluginType.Assembly.Location, false);
+
+                _preinitialisedPlugins = null;
+
 
                 // are any plugins specifically mentioned in the config, load them
                 // first so we have some control on the load order
@@ -259,6 +267,8 @@ namespace AspNetCore.PluginManager
 
         /// <summary>
         /// UsePlugin is designed to load plugins that have been statically loaded into the host application specifically nuget packages or project references.
+        /// 
+        /// If a plugin is required to be initialised prior to other plugins, you can alter the load order by calling UsePlugin prior to calling Initialise.
         /// </summary>
         /// <param name="iPluginType">Type of IPlugin interface.  The type passed in must inherit IPlugin interface.</param>
         /// <exception cref="System.InvalidOperationException">Thrown when the iPluginType does not implement IPlugin interface.</exception>
@@ -266,7 +276,10 @@ namespace AspNetCore.PluginManager
         {
             if ((iPluginType.GetInterface(typeof(IPlugin).Name) != null))
             {
-                GetPluginManager().LoadPlugin(iPluginType.Assembly.Location, false);
+                if (_preinitialisedPlugins == null)
+                    GetPluginManager().LoadPlugin(iPluginType.Assembly.Location, false);
+                else
+                    _preinitialisedPlugins.Add(iPluginType);
             }
             else
             {

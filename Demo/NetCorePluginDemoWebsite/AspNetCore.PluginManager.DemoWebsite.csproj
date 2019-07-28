@@ -68,6 +68,17 @@
     <PackageReference Include="UserAccount.Plugin" Version="2.5.0" />
     <PackageReference Include="UserSessionMiddleware.Plugin" Version="2.5.0" />
     <PackageReference Include="ProductPlugin" Version="2.5.0" />
+    <PackageReference Include="Blog.Plugin" Version="2.5.0" />
+    <PackageReference Include="Company.Plugin" Version="2.5.0" />
+    <PackageReference Include="DownloadPlugin" Version="2.5.0" />
+    <PackageReference Include="BadEgg.Plugin" Version="2.5.0" />
+    <PackageReference Include="ErrorManager.Plugin" Version="2.5.0" />
+    <PackageReference Include="Breadcrumb.Plugin" Version="2.5.0" />
+    <PackageReference Include="Localization.Plugin" Version="2.5.0" />
+    <PackageReference Include="CacheControl.Plugin" Version="2.5.0" />
+    <PackageReference Include="SeoPlugin" Version="2.5.0" />
+    <PackageReference Include="Spider.Plugin" Version="2.5.0" />
+    <PackageReference Include="UserSessionMiddleware.Plugin" Version="2.5.0" />
   </ItemGroup>
   
   <ItemGroup>
@@ -86,6 +97,21 @@
     <ProjectReference Include="..\..\Plugins\UserAccount.Plugin\UserAccount.Plugin.csproj" />
     <ProjectReference Include="..\..\Plugins\Login.Plugin\Login.Plugin.csproj" />
     <ProjectReference Include="..\..\Plugins\SystemAdmin.Plugin\SystemAdmin.Plugin.csproj" />
+    <ProjectReference Include="..\..\Plugins\Documentation.Plugin\Documentation.Plugin.csproj" />
+    <ProjectReference Include="..\..\Plugins\Sitemap.Plugin\Sitemap.Plugin.csproj" />
+    <ProjectReference Include="..\..\Plugins\BadEgg.Plugin\BadEgg.Plugin.csproj" />
+    <ProjectReference Include="..\..\Plugins\Blog.Plugin\Blog.Plugin.csproj" />
+    <ProjectReference Include="..\..\Plugins\Breadcrumb.Plugin\Breadcrumb.Plugin.csproj" />
+    <ProjectReference Include="..\..\Plugins\CacheControl.Plugin\CacheControl.Plugin.csproj" />
+    <ProjectReference Include="..\..\Plugins\Company.Plugin\CompanyPlugin.csproj" />
+    <ProjectReference Include="..\..\Plugins\Download.Plugin\DownloadPlugin.csproj" />
+    <ProjectReference Include="..\..\Plugins\ErrorManager.Plugin\ErrorManager.Plugin.csproj" />
+    <ProjectReference Include="..\..\Plugins\LocalizationPlugin\Localization.Plugin.csproj" />
+    <ProjectReference Include="..\..\Plugins\MemoryCachePlugin\MemoryCachePlugin.csproj" />
+    <ProjectReference Include="..\..\Plugins\RestrictIp.Plugin\RestrictIp.Plugin.csproj" />
+    <ProjectReference Include="..\..\Plugins\SeoPlugin\SeoPlugin.csproj" />
+    <ProjectReference Include="..\..\Plugins\Spider.Plugin\Spider.Plugin.csproj" />
+    <ProjectReference Include="..\..\Plugins\UserSessionMiddlewarePlugin\UserSessionMiddleware.Plugin.csproj" />
   </ItemGroup>
 
   <ItemGroup>
@@ -144,11 +170,6 @@
     <PackageReference Include="Microsoft.AspNetCore.Razor.Runtime" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.ResponseCaching.Abstractions" Version="2.2.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.3" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\..\Plugins\Documentation.Plugin\Documentation.Plugin.csproj" />
-    <ProjectReference Include="..\..\Plugins\Sitemap.Plugin\Sitemap.Plugin.csproj" />
   </ItemGroup>
 
 </Project>

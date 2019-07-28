@@ -32,8 +32,22 @@ namespace AspNetCore.PluginManager.DemoWebsite
     {
         public static void Main(string[] args)
         {
+            // add plugins which need to be loaded first
+            PluginManagerService.UsePlugin(typeof(ErrorManager.Plugin.PluginInitialisation));
+            PluginManagerService.UsePlugin(typeof(BadEgg.Plugin.PluginInitialisation));
+            PluginManagerService.UsePlugin(typeof(RestrictIp.Plugin.PluginInitialisation));
+            PluginManagerService.UsePlugin(typeof(UserSessionMiddleware.Plugin.PluginInitialisation));
+            PluginManagerService.UsePlugin(typeof(CacheControl.Plugin.PluginInitialisation));
+            PluginManagerService.UsePlugin(typeof(MemoryCache.Plugin.PluginInitialisation));
+            PluginManagerService.UsePlugin(typeof(Spider.Plugin.PluginInitialisation));
+            PluginManagerService.UsePlugin(typeof(SeoPlugin.PluginInitialisation));
+            PluginManagerService.UsePlugin(typeof(Localization.Plugin.PluginInitialisation));
+            PluginManagerService.UsePlugin(typeof(Breadcrumb.Plugin.PluginInitialisation));
+            
             // Initialise the plugin manager service
             PluginManagerService.Initialise();
+
+            // Add generic plugins where load order does not matter
             PluginManagerService.UsePlugin(typeof(DocumentationPlugin.PluginInitialisation));
             PluginManagerService.UsePlugin(typeof(ProductPlugin.PluginInitialisation));
             PluginManagerService.UsePlugin(typeof(ShoppingCartPlugin.PluginInitialisation));
@@ -42,6 +56,9 @@ namespace AspNetCore.PluginManager.DemoWebsite
             PluginManagerService.UsePlugin(typeof(LoginPlugin.PluginInitialisation));
             PluginManagerService.UsePlugin(typeof(Sitemap.Plugin.PluginInitialisation));
             PluginManagerService.UsePlugin(typeof(SystemAdmin.Plugin.PluginInitialisation));
+            PluginManagerService.UsePlugin(typeof(DownloadPlugin.PluginInitialisation));
+            PluginManagerService.UsePlugin(typeof(Company.Plugin.PluginInitialisation));
+            PluginManagerService.UsePlugin(typeof(Blog.Plugin.PluginInitialisation));
 
             CreateWebHostBuilder(args).Build().Run();
         }
