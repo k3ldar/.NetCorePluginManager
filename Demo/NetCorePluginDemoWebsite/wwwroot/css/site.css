@@ -57,6 +57,10 @@ body {
     .footer .btn {
         font-size: 11px;
     }
+
+    #mapid {
+        height: 200px;
+    }
 }
 @media screen and (min-width: 768px) {
     /* Hide captions */
@@ -76,6 +80,10 @@ body {
         font-size: 11px;
         margin-top: 25px;
     }
+
+    #mapid {
+        height: 300px;
+    }
 }
 @media screen and (min-width: 992px) {
     .navbar-brand {
@@ -94,6 +102,10 @@ body {
         font-size: 14px;
         margin-top: 25px;
     }
+
+    #mapid {
+        height: 600px;
+    }
 }
 @media screen and (min-width: 1200px) {
     .navbar-brand {
@@ -111,6 +123,10 @@ body {
     .footer {
         font-size: 14px;
         margin-top: 25px;
+    }
+
+    #mapid {
+        height: 600px;
     }
 }
 

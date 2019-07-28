@@ -25,14 +25,11 @@
   <ItemGroup>
     <Compile Remove="Plugin\**" />
     <Compile Remove="Views\Account\**" />
-    <Compile Remove="Views\SystemAdmin\**" />
     <Content Remove="Plugin\**" />
     <Content Remove="Views\Account\**" />
-    <Content Remove="Views\SystemAdmin\**" />
     <EmbeddedResource Remove="Plugin\**" />
     <None Remove="Plugin\**" />
     <None Remove="Views\Account\**" />
-    <None Remove="Views\SystemAdmin\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -48,10 +45,6 @@
     <EmbeddedResource Include="wwwroot\images\DependencyInjection.png" />
     <EmbeddedResource Include="wwwroot\images\EmbeddedResources.png" />
     <EmbeddedResource Include="wwwroot\images\PluginTechnology.png" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="wwwroot\css\SystemAdmin.css" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
@@ -92,6 +85,7 @@
     <ProjectReference Include="..\..\Languages\Languages.csproj" />
     <ProjectReference Include="..\..\Plugins\UserAccount.Plugin\UserAccount.Plugin.csproj" />
     <ProjectReference Include="..\..\Plugins\Login.Plugin\Login.Plugin.csproj" />
+    <ProjectReference Include="..\..\Plugins\SystemAdmin.Plugin\SystemAdmin.Plugin.csproj" />
   </ItemGroup>
 
   <ItemGroup>

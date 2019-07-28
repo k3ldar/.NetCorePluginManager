@@ -102,8 +102,8 @@ namespace UserSessionMiddleware.Plugin.Classes.SystemAdmin
 
             foreach (UserSession session in UserSessionManager.Clone)
             {
-                Result += String.Format("['{0}\\rUser: {3}\\rConverted: {4}\\rMobile: {5}\\rReferrer: {6}" + 
-                    "\\rCountry: {9}\\rCity: {10}\\rTotal Pages: {11}\\rTotal Time: {12} (s)', {1}, {2}, {7}, {8}, {13}, '{14}'],",
+                Result += String.Format("['{0}<br />User: {3}<br />Converted: {4}<br />Mobile: {5}<br />Referrer: {6}" +
+                    "<br />Country: {9}<br />City: {10}<br />Total Pages: {11}<br />Total Time: {12} (s)', {1}, {2}, {7}, {8}, {13}, '{14}'],",
                     session.IPAddress,
                     session.Latitude,
                     session.Longitude,

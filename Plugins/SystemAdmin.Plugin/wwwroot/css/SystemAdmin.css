@@ -125,7 +125,7 @@ div:empty {
             width: 24px !important;
             height: 24px !important;
         }
-    .googleMap {
+    .map {
         float: right;
         overflow: hidden;
         height: 350px;
@@ -142,10 +142,10 @@ div:empty {
 
         .mapLegend p img {
             padding-bottom: 10px;
-            width: 24px !important;
-            height: 24px !important;
+            width: 32px !important;
+            height: 32px !important;
         }
-    .googleMap {
+    .map {
         float: right;
         overflow: hidden;
         height: 500px;
@@ -163,7 +163,7 @@ div:empty {
         .mapLegend p img {
             padding-bottom: 10px;
         }
-    .googleMap {
+    .map {
         float: right;
         overflow: hidden;
         height: 500px;

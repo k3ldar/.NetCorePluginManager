@@ -15,57 +15,50 @@
 
 <div class="row">
     <div class="col-sm-12">
-        <div class="googleMap" id="gmap_canvas">
-
-        </div>
+        <div id="mapid" class="map"></div>
     </div>
 </div>
 <div class="row">
     <div class="col-sm-12">
         <div class="mapLegend">
             <p>
-                <img src="https://maps.google.com/mapfiles/ms/icons/blue.png" alt="blue" /> = @Localizer["Visitor"] <br />
-                <img src="https://maps.google.com/mapfiles/ms/icons/green.png" alt="green" /> = @Localizer["RegisteredUser"] <br />
-                <img src="https://maps.google.com/mapfiles/ms/icons/green-dot.png" alt="green-dot" /> = @Localizer["RegisteredUserMobile"] <br />
-                <img src="https://maps.google.com/mapfiles/ms/icons/blue-pushpin.png" alt="blue-pushpin" /> = @Localizer["Sale"] <br />
-                <img src="https://maps.google.com/mapfiles/ms/icons/grn-pushpin.png" alt="grn-pushpin" /> = @Localizer["SaleMobile"] <br />
-                <img src="https://maps.google.com/mapfiles/ms/icons/yellow.png" alt="yellow" /> = @Localizer["Bounced"]  <br />
-                <img src="https://maps.google.com/mapfiles/ms/icons/orange.png" alt="orange" /> = @Localizer["Bot"]  <br />
+                <img src="/images/SystemAdmin/MapIcon/blue.png" alt="blue" /> = @Localizer["Visitor"] <br />
+                <img src="/images/SystemAdmin/MapIcon/green.png" alt="green" /> = @Localizer["RegisteredUser"] <br />
+                <img src="/images/SystemAdmin/MapIcon/green-dot.png" alt="green-dot" /> = @Localizer["RegisteredUserMobile"] <br />
+                <img src="/images/SystemAdmin/MapIcon/blue-pushpin.png" alt="blue-pushpin" /> = @Localizer["Sale"] <br />
+                <img src="/images/SystemAdmin/MapIcon/grn-pushpin.png" alt="grn-pushpin" /> = @Localizer["SaleMobile"] <br />
+                <img src="/images/SystemAdmin/MapIcon/yellow.png" alt="yellow" /> = @Localizer["Bounced"]  <br />
+                <img src="/images/SystemAdmin/MapIcon/orange.png" alt="orange" /> = @Localizer["Bot"]  <br />
             </p>
         </div>
     </div>
 </div>
 
 
-<script type="text/javascript" src='https://maps.googleapis.com/maps/api/js?v=3&key=@Model.GoogleMapApiKey'></script>
-
-<script type='text/javascript'>
-    function init_map() {
-        var locations = [@Html.Raw(Model.MapLocationData)];
-        var myOptions = { zoom: 2, center: new google.maps.LatLng(0, 0), mapTypeId: google.maps.MapTypeId.ROADMAP };
-        map = new google.maps.Map(document.getElementById('gmap_canvas'), myOptions);
-        var mapIcon = 'https://maps.google.com/mapfiles/ms/icons/red.png';
-
-        for (var i = 0; i < locations.length; i++) {
-            var location = locations[i];
-            var contentString = location[0];
-            mapIcon = 'https://maps.google.com/mapfiles/ms/icons/' + location[6] + '.png';
-
-            var marker = new google.maps.Marker({
-                position: { lat: location[1], lng: location[2] },
-                map: map,
-                title: location[0],
-                optimized: false,
-                buborek: contentString
-            });
 
 
-            marker.setIcon(mapIcon);
 
-            google.maps.event.addListener(marker, 'click', function () {
-                infowindow.setContent(this.buborek);
-                infowindow.open(map, this);
-            });
-        }
-    } google.maps.event.addDomListener(window, 'load', init_map);
+
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css" integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ==" crossorigin="" />
+<script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js" integrity="sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqDkyBKgOaB57QTMg7ztg8Jm2Og==" crossorigin=""></script>
+
+<script>
+    let map = L.map('mapid').setView([0, 0], 2);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+
+    const ls = [@Html.Raw(Model.MapLocationData)];
+    const MapIcon = L.Icon.extend({});
+    for (var i = 0; i < ls.length; i++) {
+        let l = ls[i];
+        let cs = l[0];
+        let ic = '/images/SystemAdmin/MapIcon/' + l[6] + '.png';
+
+        L.marker([l[1], l[2]], { icon: new MapIcon({ iconUrl: ic }) })
+            .bindPopup(cs).addTo(map);
+    }
+
 </script>
+

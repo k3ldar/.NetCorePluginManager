@@ -92,11 +92,25 @@
     <Content Remove="wwwroot\images\badegg.png" />
     <Content Remove="wwwroot\images\Setting-icon.png" />
     <Content Remove="wwwroot\images\stopwatch.png" />
+    <Content Remove="wwwroot\images\SystemAdmin\MapIcon\blue-pushpin.png" />
+    <Content Remove="wwwroot\images\SystemAdmin\MapIcon\blue.png" />
+    <Content Remove="wwwroot\images\SystemAdmin\MapIcon\green-dot.png" />
+    <Content Remove="wwwroot\images\SystemAdmin\MapIcon\green.png" />
+    <Content Remove="wwwroot\images\SystemAdmin\MapIcon\grn-pushpin.png" />
+    <Content Remove="wwwroot\images\SystemAdmin\MapIcon\orange.png" />
+    <Content Remove="wwwroot\images\SystemAdmin\MapIcon\yellow.png" />
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Include="wwwroot\css\SystemAdmin.css" />
     <EmbeddedResource Include="wwwroot\images\SystemAdmin\badegg.png" />
+    <EmbeddedResource Include="wwwroot\images\SystemAdmin\MapIcon\blue-pushpin.png" />
+    <EmbeddedResource Include="wwwroot\images\SystemAdmin\MapIcon\blue.png" />
+    <EmbeddedResource Include="wwwroot\images\SystemAdmin\MapIcon\green-dot.png" />
+    <EmbeddedResource Include="wwwroot\images\SystemAdmin\MapIcon\green.png" />
+    <EmbeddedResource Include="wwwroot\images\SystemAdmin\MapIcon\grn-pushpin.png" />
+    <EmbeddedResource Include="wwwroot\images\SystemAdmin\MapIcon\orange.png" />
+    <EmbeddedResource Include="wwwroot\images\SystemAdmin\MapIcon\yellow.png" />
     <EmbeddedResource Include="wwwroot\images\SystemAdmin\Setting-icon.png" />
     <EmbeddedResource Include="wwwroot\images\SystemAdmin\stopwatch.png" />
   </ItemGroup>
