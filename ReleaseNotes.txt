@@ -1,6 +1,9 @@
 Version 2.5.0
 =============
-
+#9 Create sitemap plugin
+#85 Convert googlemaps to openstreetmaps
+-- Create UsePlugin method which allows a plugin module to be progmatically added to the host.
+#86 Integrate claims and policies to Plugin Manager
 
 Version 2.4.0
 =============
