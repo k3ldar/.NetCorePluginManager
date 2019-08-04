@@ -1,0 +1,126 @@
+<p>
+For a good explanation on the new Claims based security with Asp.Net Core, <a href="https://andrewlock.net/introduction-to-authentication-with-asp-net-core/" target="_blank">read this blog</a> which has a very good explanation on the use of claims.  This article will deal primarily with creating and using Policies and Claims within the Plugin Manager.
+</p>
+<h3>Adding Authorization</h3>
+<p>
+The first step to adding authorization is to add and configure the required services, this example uses cookie authentication.
+</p>
+<p>
+<pre style="font-family:Consolas;font-size:13px;color:black;background:white;"><span style="color:blue;">public</span>&nbsp;<span style="color:blue;">class</span>&nbsp;<span style="color:#2b91af;">PluginInitialisation</span>&nbsp;:&nbsp;<span style="color:#2b91af;">IPlugin</span>
+{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">public</span>&nbsp;<span style="color:blue;">void</span>&nbsp;<span style="color:#74531f;">Configure</span>(<span style="color:#2b91af;">IApplicationBuilder</span>&nbsp;<span style="color:#1f377f;">app</span>,&nbsp;<span style="color:#2b91af;">IHostingEnvironment</span>&nbsp;<span style="color:#1f377f;">env</span>)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#1f377f;">app</span>.<span style="color:#74531f;">UseAuthentication</span>();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+ 
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">public</span>&nbsp;<span style="color:blue;">void</span>&nbsp;<span style="color:#74531f;">ConfigureServices</span>(<span style="color:#2b91af;">IServiceCollection</span>&nbsp;<span style="color:#1f377f;">services</span>)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#1f377f;">services</span>.<span style="color:#74531f;">AddAuthentication</span>(<span style="color:#a31515;">&quot;DefaultAuthSchemeName&quot;</span>)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.<span style="color:#74531f;">AddCookie</span>(<span style="color:#a31515;">&quot;DefaultAuthSchemeName&quot;</span>,&nbsp;<span style="color:#1f377f;">options</span>&nbsp;=&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#1f377f;">options</span>.AccessDeniedPath&nbsp;=&nbsp;<span style="color:#a31515;">&quot;/Error/AccessDenied&quot;</span>;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#1f377f;">options</span>.LoginPath&nbsp;=&nbsp;<span style="color:#a31515;">&quot;/Login/&quot;</span>;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#1f377f;">options</span>.SlidingExpiration&nbsp;=&nbsp;<span style="color:blue;">true</span>;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#1f377f;">options</span>.Cookie.Expiration&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">TimeSpan</span>(7,&nbsp;0,&nbsp;0,&nbsp;0);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;});
+&nbsp;&nbsp;&nbsp;&nbsp;}
+ 
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">public</span>&nbsp;<span style="color:blue;">void</span>&nbsp;<span style="color:#74531f;">Finalise</span>()
+&nbsp;&nbsp;&nbsp;&nbsp;{
+ 
+&nbsp;&nbsp;&nbsp;&nbsp;}
+ 
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">public</span>&nbsp;<span style="color:blue;">void</span>&nbsp;<span style="color:#74531f;">Initialise</span>(<span style="color:#2b91af;">ILogger</span>&nbsp;<span style="color:#1f377f;">logger</span>)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+ 
+&nbsp;&nbsp;&nbsp;&nbsp;}
+}
+</pre>
+</p>
+<p>
+The authentication scheme, aptly named "DefaultAuthSchemeName" will be required later, when logging a user in and authenticating the user.  It is also important to note that this step should be completed in the host application, prior to any other configuration setup.
+</p>
+<h3>Adding Policies</h3>
+<p>
+Each plugin module should be responsible for registering their own policies and claims, where a policy or claim is required to be shared then a common library can be used for configuration of the policy and the claims.
+</p>
+<p>
+As routes are now authorized based on policies, a policy can rely on one or more claims, the following example creates two policies, the first is a simple claim that a user can add a blog, the second is for responding to a blog.
+</p>
+<p>
+<pre style="font-family:Consolas;font-size:13px;color:black;background:white;"><span style="color:blue;">public</span>&nbsp;<span style="color:blue;">void</span>&nbsp;<span style="color:#74531f;">AfterConfigureServices</span>(<span style="color:blue;">in</span>&nbsp;<span style="color:#2b91af;">IServiceCollection</span>&nbsp;<span style="color:#1f377f;">services</span>)
+{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;Add&nbsp;blog&nbsp;specific&nbsp;policies</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#1f377f;">services</span>.<span style="color:#74531f;">AddAuthorization</span>(<span style="color:#1f377f;">options</span>&nbsp;=&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#1f377f;">options</span>.<span style="color:#74531f;">AddPolicy</span>(
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">Constants</span>.PolicyNameBlogCreate,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#1f377f;">policyBuilder</span>&nbsp;=&gt;&nbsp;<span style="color:#1f377f;">policyBuilder</span>.<span style="color:#74531f;">RequireClaim</span>(<span style="color:#2b91af;">Constants</span>.ClaimNameCreateBlog));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#1f377f;">options</span>.<span style="color:#74531f;">AddPolicy</span>(
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">Constants</span>.PolicyNameBlogRespond,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#1f377f;">policyBuilder</span>&nbsp;=&gt;&nbsp;<span style="color:#1f377f;">policyBuilder</span>.<span style="color:#74531f;">RequireClaim</span>(<span style="color:#2b91af;">Constants</span>.ClaimNameUsername)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.<span style="color:#74531f;">RequireClaim</span>(<span style="color:#2b91af;">Constants</span>.ClaimNameUserId)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.<span style="color:#74531f;">RequireClaim</span>(<span style="color:#2b91af;">Constants</span>.ClaimNameUserEmail));
+&nbsp;&nbsp;&nbsp;&nbsp;});
+}
+</pre>
+</p>
+<p>
+As can be seen, the add a blog policy requires only one claim, but in order to respond to a blog and leave a reply the user must have two claims, a user id and a username.
+</p>
+<h3>Route Policy Authorization</h3><p>
+The next step is to specify a policy for a route, you only have to add the name of the policy as an attribute, the following example uses the above can add blog policy.
+</p>
+<p>
+<pre style="font-family:Consolas;font-size:13px;color:black;background:white;">
+[<span style="color:#2b91af;">Authorize</span>(Policy&nbsp;=&nbsp;SharedPluginFeatures.<span style="color:#2b91af;">Constants</span>.PolicyNameBlogCreate)]
+<span style="color:blue;">public</span>&nbsp;<span style="color:#2b91af;">IActionResult</span>&nbsp;<span style="color:#74531f;">New</span>()
+{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#8f08c4;">return</span>&nbsp;<span style="color:#74531f;">View</span>(<span style="color:blue;">nameof</span>(<span style="color:#74531f;">Edit</span>),&nbsp;<span style="color:#74531f;">GetEditBlogPostViewModel</span>(<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">BlogItem</span>()));
+}
+</pre></p>
+<p>
+Now the route should be protected, and as long as the user fulfills the policies required they will have access to the route.
+</p>
+<h3>IClaimsProvider</h3>
+<p>
+Within the shared plugin features module is an interface called IClaimsProvider, this interface exposes two methods which are used to provide ClaimsIdentity classes for a user after the user logs in.  The following example is hard coded, however, it demonstrates how to return claims for a user.
+</p>
+<p>
+<pre style="font-family:Consolas;font-size:13px;color:black;background:white;"><span style="color:blue;">public</span>&nbsp;<span style="color:blue;">class</span>&nbsp;<span style="color:#2b91af;">MockClaimsProvider</span>&nbsp;:&nbsp;<span style="color:#2b91af;">IClaimsProvider</span>
+{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">public</span>&nbsp;<span style="color:#2b91af;">List</span>&lt;<span style="color:#2b91af;">ClaimsIdentity</span>&gt;&nbsp;<span style="color:#74531f;">GetUserClaims</span>(<span style="color:blue;">in</span>&nbsp;<span style="color:blue;">long</span>&nbsp;<span style="color:#1f377f;">userId</span>)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">List</span>&lt;<span style="color:#2b91af;">ClaimsIdentity</span>&gt;&nbsp;<span style="color:#1f377f;">Result</span>&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">List</span>&lt;<span style="color:#2b91af;">ClaimsIdentity</span>&gt;();
+ 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">List</span>&lt;<span style="color:#2b91af;">Claim</span>&gt;&nbsp;<span style="color:#1f377f;">userClaims</span>&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">List</span>&lt;<span style="color:#2b91af;">Claim</span>&gt;();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#1f377f;">userClaims</span>.<span style="color:#74531f;">Add</span>(<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">Claim</span>(<span style="color:#2b91af;">Constants</span>.ClaimNameUsername,&nbsp;<span style="color:#a31515;">&quot;Administrator&quot;</span>));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#1f377f;">userClaims</span>.<span style="color:#74531f;">Add</span>(<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">Claim</span>(<span style="color:#2b91af;">Constants</span>.ClaimNameUserEmail,&nbsp;<span style="color:#a31515;">&quot;admin@nowhere.com&quot;</span>));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#1f377f;">userClaims</span>.<span style="color:#74531f;">Add</span>(<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">Claim</span>(<span style="color:#2b91af;">Constants</span>.ClaimNameUserId,&nbsp;<span style="color:#a31515;">&quot;123&quot;</span>));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#1f377f;">Result</span>.<span style="color:#74531f;">Add</span>(<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">ClaimsIdentity</span>(<span style="color:#1f377f;">userClaims</span>,&nbsp;<span style="color:#2b91af;">Constants</span>.ClaimIdentityUser));
+ 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">List</span>&lt;<span style="color:#2b91af;">Claim</span>&gt;&nbsp;<span style="color:#1f377f;">blogClaims</span>&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">List</span>&lt;<span style="color:#2b91af;">Claim</span>&gt;();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#1f377f;">blogClaims</span>.<span style="color:#74531f;">Add</span>(<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">Claim</span>(<span style="color:#2b91af;">Constants</span>.ClaimNameCreateBlog,&nbsp;<span style="color:#a31515;">&quot;true&quot;</span>));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#1f377f;">Result</span>.<span style="color:#74531f;">Add</span>(<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">ClaimsIdentity</span>(<span style="color:#1f377f;">blogClaims</span>,&nbsp;<span style="color:#2b91af;">Constants</span>.ClaimIdentityBlog));
+ 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#8f08c4;">return</span>&nbsp;<span style="color:#1f377f;">Result</span>;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+ 
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">public</span>&nbsp;<span style="color:#2b91af;">AuthenticationProperties</span>&nbsp;<span style="color:#74531f;">GetAuthenticationProperties</span>()
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#8f08c4;">return</span>&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">AuthenticationProperties</span>()
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AllowRefresh&nbsp;=&nbsp;<span style="color:blue;">true</span>,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IsPersistent&nbsp;=&nbsp;<span style="color:blue;">true</span>,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;};
+&nbsp;&nbsp;&nbsp;&nbsp;}
+}
+</pre>
+</p>
+<p>
+A true implementation of the above would use a database or similar methodology to retrieve claims for a user.
+</p>
+<h3>Plugins Requiring Claims</h3>
+<p>
+It is important to note at this point that both the Login and Blog plugins now require the use of Authentication.
+</p>

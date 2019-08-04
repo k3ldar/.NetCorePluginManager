@@ -166,23 +166,23 @@
 
 @media (min-width: 992px) {
     .docContents {
-        font-size: 11px;
+        font-size: 12px;
     }
 
         .docContents h3 {
-            font-size: 13px;
+            font-size: 15px;
         }
 
         .docContents ul li {
-            font-size: 11px;
+            font-size: 14px;
         }
 
     .docReferences {
-        font-size: 11px;
+        font-size: 14px;
     }
 
         .docReferences h3 {
-            font-size: 13px;
+            font-size: 15px;
         }
 
     .card {

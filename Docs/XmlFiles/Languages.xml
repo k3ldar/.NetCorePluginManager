@@ -70,6 +70,11 @@
               Looks up a localized string similar to Access Denied.
             </summary>
         </member>
+        <member name="P:Languages.LanguageStrings.AccessDeniedDescription">
+            <summary>
+              Looks up a localized string similar to You do not have permission to access this area, please contact an administrator if you believe you should have access..
+            </summary>
+        </member>
         <member name="P:Languages.LanguageStrings.AccountLocked">
             <summary>
               Looks up a localized string similar to Account Locked.

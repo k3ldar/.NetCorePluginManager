@@ -15,53 +15,48 @@
  *
  *  Product:  Demo Website
  *  
- *  File: MockCountryLists.cs
+ *  File: MockClaimsProvider.cs
  *
- *  Purpose:  Mock IAccountProvider for tesing purpose
+ *  Purpose:  Mock IClaimsProvider for tesing purpose
  *
  *  Date        Name                Reason
- *  14/12/2018  Simon Carter        Initially Created
+ *  21/11/2018  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System.Collections.Generic;
+using System.Security.Claims;
 
-using Middleware;
+using Microsoft.AspNetCore.Authentication;
+
+using SharedPluginFeatures;
 
 namespace AspNetCore.PluginManager.DemoWebsite.Classes
 {
-    public class MockCountryLists : ICountryProvider
+    public class MockClaimsProvider : IClaimsProvider
     {
-        public Country CountryCreate(in string name, in string code, in bool visible)
+        public List<ClaimsIdentity> GetUserClaims(in long userId)
         {
-            return new Country(name, code, visible);
+            List<ClaimsIdentity> Result = new List<ClaimsIdentity>();
+
+            List<Claim> userClaims = new List<Claim>();
+            userClaims.Add(new Claim(Constants.ClaimNameUsername, "Administrator"));
+            userClaims.Add(new Claim(Constants.ClaimNameUserEmail, "admin@nowhere.com"));
+            userClaims.Add(new Claim(Constants.ClaimNameUserId, "123"));
+            Result.Add(new ClaimsIdentity(userClaims, Constants.ClaimIdentityUser));
+
+            List<Claim> blogClaims = new List<Claim>();
+            blogClaims.Add(new Claim(Constants.ClaimNameCreateBlog, "true"));
+            Result.Add(new ClaimsIdentity(blogClaims, Constants.ClaimIdentityBlog));
+
+            return Result;
         }
 
-        public bool CountryDelete(in Country country)
+        public AuthenticationProperties GetAuthenticationProperties()
         {
-            return false;
-        }
-
-        public bool CountryUpdate(in Country country)
-        {
-            return true;
-        }
-
-        public List<Country> GetAllCountries()
-        {
-            return new List<Country>()
+            return new AuthenticationProperties()
             {
-                new Country("USA", "US", true),
-                new Country("England", "GB", true),
-                new Country("Unknown", "UK", false),
-            };
-        }
-
-        public List<Country> GetVisibleCountries()
-        {
-            return new List<Country>()
-            {
-                new Country("USA", "US", true),
-                new Country("England", "GB", true),
+                AllowRefresh = true,
+                IsPersistent = true,
             };
         }
     }

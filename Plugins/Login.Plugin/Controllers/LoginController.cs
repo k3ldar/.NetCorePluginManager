@@ -27,6 +27,7 @@ using System;
 using System.IO;
 
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authentication;
 
 using Shared.Classes;
 using static Shared.Utilities;
@@ -38,6 +39,7 @@ using LoginPlugin.Models;
 
 using Middleware;
 using static Middleware.Constants;
+using System.Security.Claims;
 
 namespace LoginPlugin.Controllers
 {
@@ -51,6 +53,8 @@ namespace LoginPlugin.Controllers
 
         private readonly ILoginProvider _loginProvider;
         private readonly LoginControllerSettings _settings;
+        private readonly IClaimsProvider _claimsProvider;
+        private readonly IAuthenticationService _authenticationService;
 
         private static readonly CacheManager _loginCache = new CacheManager("Login Cache", new TimeSpan(0, 30, 0));
 
@@ -58,14 +62,16 @@ namespace LoginPlugin.Controllers
 
         #region Constructors
 
-        public LoginController(ILoginProvider loginProvider,
-            ISettingsProvider settingsProvider)
+        public LoginController(ILoginProvider loginProvider, ISettingsProvider settingsProvider,
+            IClaimsProvider claimsProvider, IAuthenticationService authenticationService)
         {
             if (settingsProvider == null)
                 throw new ArgumentNullException(nameof(settingsProvider));
 
             _loginProvider = loginProvider ?? throw new ArgumentNullException(nameof(loginProvider));
-            _settings = settingsProvider.GetSettings<LoginControllerSettings>("LoginPlugin");
+            _claimsProvider = claimsProvider ?? throw new ArgumentNullException(nameof(claimsProvider));
+            _authenticationService = authenticationService ?? throw new ArgumentNullException(nameof(authenticationService));
+            _settings = settingsProvider.GetSettings<LoginControllerSettings>(nameof(LoginPlugin));
         }
 
         #endregion Constructors
@@ -136,6 +142,11 @@ namespace LoginPlugin.Controllers
                     if (model.RememberMe)
                         CookieAdd(_settings.RememberMeCookieName, Encrypt(loginDetails.UserId.ToString(),
                             _settings.EncryptionKey), _settings.LoginDays);
+
+                    _authenticationService.SignInAsync(HttpContext,
+                        _settings.AuthenticationScheme,
+                        new ClaimsPrincipal(_claimsProvider.GetUserClaims(loginDetails.UserId)),
+                        _claimsProvider.GetAuthenticationProperties());
 
                     return Redirect(model.ReturnUrl);
 
@@ -248,6 +259,10 @@ namespace LoginPlugin.Controllers
 
             CookieDelete(_settings.RememberMeCookieName);
 
+            _authenticationService.SignOutAsync(HttpContext, 
+                _settings.AuthenticationScheme, 
+                _claimsProvider.GetAuthenticationProperties());
+
             return Redirect("/");
         }
 
@@ -303,6 +318,11 @@ namespace LoginPlugin.Controllers
 
                         if (session != null)
                             session.Login(loginDetails.UserId, loginDetails.Username, loginDetails.Email);
+
+                        _authenticationService.SignInAsync(HttpContext,
+                            nameof(AspNetCore.PluginManager),
+                            new ClaimsPrincipal(_claimsProvider.GetUserClaims(loginDetails.UserId)),
+                            _claimsProvider.GetAuthenticationProperties());
                     }
 
                     return loggedIn;

@@ -23,9 +23,12 @@
  *  22/09/2018  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+using System;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Server.HttpSys;
+using Microsoft.AspNetCore.Server.IISIntegration;
 
 using SharedPluginFeatures;
 
@@ -34,6 +37,7 @@ using Middleware.Accounts;
 using Middleware.Helpdesk;
 
 using AspNetCore.PluginManager.DemoWebsite.Helpers;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace AspNetCore.PluginManager.DemoWebsite.Classes
 {
@@ -43,11 +47,20 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            
+            app.UseAuthentication();
         }
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddAuthentication("DefaultAuthSchemeName")
+                .AddCookie("DefaultAuthSchemeName", options =>
+                {
+                    options.AccessDeniedPath = "/Error/AccessDenied";
+                    options.LoginPath = "/Login/";
+                    options.SlidingExpiration = true;
+                    options.Cookie.Expiration = new TimeSpan(7, 0, 0, 0);
+                });
+
             services.AddSingleton<IIpValidation, IPValidation>();
             services.AddSingleton<IApplicationProvider, MockApplicationProvider>();
             services.AddSingleton<ILoginProvider, MockLoginProvider>();
@@ -64,16 +77,17 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
             services.AddSingleton<ISeoProvider, MockSeoProvider>();
             services.AddSingleton<IStockProvider, MockStockProvider>();
             services.AddSingleton<IBlogProvider, MockBlogProvider>();
+            services.AddTransient<IClaimsProvider, MockClaimsProvider>();
         }
 
         public void Finalise()
         {
-            
+
         }
 
         public void Initialise(ILogger logger)
         {
-            
+
         }
 
         #endregion IPlugin Methods

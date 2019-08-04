@@ -33,6 +33,8 @@ using Shared.Classes;
 using SharedPluginFeatures;
 
 using Middleware;
+using Microsoft.AspNetCore.Authentication;
+using System.Security.Claims;
 
 namespace LoginPlugin
 {
@@ -46,6 +48,8 @@ namespace LoginPlugin
         private readonly RequestDelegate _next;
         private readonly ILoginProvider _loginProvider;
         private readonly LoginControllerSettings _loginControllerSettings;
+        private readonly IAuthenticationService _authenticationService;
+        private readonly IClaimsProvider _claimsProvider;
         internal static Timings _loginTimings = new Timings();
         internal static Timings _autoLoginTimings = new Timings();
 
@@ -54,15 +58,17 @@ namespace LoginPlugin
         #region Constructors
 
         public LoginMiddleware(RequestDelegate next, ILoginProvider loginProvider,
-            ISettingsProvider settingsProvider)
+            ISettingsProvider settingsProvider, IAuthenticationService authenticationService,
+            IClaimsProvider claimsProvider)
         {
             if (settingsProvider == null)
                 throw new ArgumentNullException(nameof(settingsProvider));
 
             _next = next ?? throw new ArgumentNullException(nameof(next));
             _loginProvider = loginProvider ?? throw new ArgumentNullException(nameof(loginProvider));
-
-            _loginControllerSettings = settingsProvider.GetSettings<LoginControllerSettings>("LoginPlugin");
+            _authenticationService = authenticationService ?? throw new ArgumentNullException(nameof(authenticationService));
+            _claimsProvider = claimsProvider ?? throw new ArgumentNullException(nameof(claimsProvider));
+            _loginControllerSettings = settingsProvider.GetSettings<LoginControllerSettings>(nameof(LoginPlugin));
         }
 
         #endregion Constructors
@@ -91,9 +97,17 @@ namespace LoginPlugin
                                 base.GetIpAddress(context), 1, ref loginDetails);
 
                             if (loginResult == LoginResult.Remembered)
+                            {
                                 userSession.Login(userId, loginDetails.Username, loginDetails.Email);
+                                await _authenticationService.SignInAsync(context,
+                                    _loginControllerSettings.AuthenticationScheme,
+                                    new ClaimsPrincipal(_claimsProvider.GetUserClaims(loginDetails.UserId)),
+                                    _claimsProvider.GetAuthenticationProperties());
+                            }
                             else
+                            {
                                 CookieDelete(context, _loginControllerSettings.RememberMeCookieName);
+                            }
                         }
                         else
                         {

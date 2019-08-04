@@ -317,5 +317,45 @@ namespace SharedPluginFeatures
         /// Date format for W3C string conversioni
         /// </summary>
         public const string W3CDateFormat = "yyyy-MM-ddTHH:mm:ss.fffffffzzz";
+
+        /// <summary>
+        /// Name of Policy for creating blogs
+        /// </summary>
+        public const string PolicyNameBlogCreate = "BlogCreate";
+
+        /// <summary>
+        /// Name of Policy for responding to blogs
+        /// </summary>
+        public const string PolicyNameBlogRespond = "BlogRespond";
+
+        /// <summary>
+        /// Name of claim for creating blogs
+        /// </summary>
+        public const string ClaimNameCreateBlog = "CanCreateBlog";
+
+        /// <summary>
+        /// Name of claim for user name
+        /// </summary>
+        public const string ClaimNameUsername = "Name";
+
+        /// <summary>
+        /// Name of claim for user email
+        /// </summary>
+        public const string ClaimNameUserEmail = "Email";
+
+        /// <summary>
+        /// Name of claim for user id
+        /// </summary>
+        public const string ClaimNameUserId = "UserId";
+
+        /// <summary>
+        /// Name of claim identity for user claims
+        /// </summary>
+        public const string ClaimIdentityUser = "User";
+
+        /// <summary>
+        /// Name of claim identity for blog claims
+        /// </summary>
+        public const string ClaimIdentityBlog = "Blog";
     }
 }

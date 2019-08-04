@@ -1,0 +1,21 @@
+﻿@model SharedPluginFeatures.BaseModel
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
+
+@{
+    ViewData["Title"] = "Access Denied";
+}
+
+<div class="row">
+    <div class="col">
+
+        <h1>@Localizer[nameof(Languages.LanguageStrings.AccessDenied)]</h1>
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+
+        <div class="errorMessage">
+            <p>@Localizer[nameof(Languages.LanguageStrings.AccessDeniedDescription)]</p>
+        </div>
+    </div>
+</div>

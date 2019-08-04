@@ -14093,4 +14093,8 @@ You will shortly receive an email with the details of your order.</comment>
     <value>Sitemap</value>
     <comment>Sitemap</comment>
   </data>
+  <data name="AccessDeniedDescription" xml:space="preserve">
+    <value>You do not have permission to access this area, please contact an administrator if you believe you should have access.</value>
+    <comment>You do not have permission to access this area, please contact an administrator if you believe you should have access.</comment>
+  </data>
 </root>

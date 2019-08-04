@@ -13,7 +13,7 @@
  *
  *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
  *
- *  Product:  Login Plugin
+ *  Product:  Demo Website
  *  
  *  File: MockAccountProvider.cs
  *

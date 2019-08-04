@@ -151,6 +151,15 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to You do not have permission to access this area, please contact an administrator if you believe you should have access..
+        /// </summary>
+        public static string AccessDeniedDescription {
+            get {
+                return ResourceManager.GetString("AccessDeniedDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Account Locked.
         /// </summary>
         public static string AccountLocked {

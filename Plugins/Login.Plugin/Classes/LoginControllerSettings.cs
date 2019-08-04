@@ -115,5 +115,13 @@ namespace LoginPlugin
         [SettingUri(false, System.UriKind.RelativeOrAbsolute)]
         [SettingDefault("/Account/ChangePassword")]
         public string ChangePasswordUrl { get; set; }
+
+        /// <summary>
+        /// The name of the authentication scheme
+        /// </summary>
+        /// <value>string</value>
+        [SettingDefault("DefaultAuthSchemeName")]
+        [SettingString(false)]
+        public string AuthenticationScheme { get; set; }
     }
 }

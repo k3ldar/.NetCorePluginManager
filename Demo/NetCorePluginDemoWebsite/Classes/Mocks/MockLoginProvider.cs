@@ -13,7 +13,7 @@
  *
  *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
  *
- *  Product:  Login Plugin
+ *  Product:  Demo Website
  *  
  *  File: MockLoginProvider.cs
  *
@@ -29,7 +29,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
 {
     public class MockLoginProvider : ILoginProvider
     {
-        public LoginResult Login(in string username, in string password, in string ipAddress, 
+        public LoginResult Login(in string username, in string password, in string ipAddress,
             in byte attempts, ref UserLoginDetails loginDetails)
         {
             if (loginDetails.RememberMe && loginDetails.UserId == 123)

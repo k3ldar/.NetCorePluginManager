@@ -79,6 +79,12 @@
             </summary>
             <value>string</value>
         </member>
+        <member name="P:LoginPlugin.LoginControllerSettings.AuthenticationScheme">
+            <summary>
+            The name of the authentication scheme
+            </summary>
+            <value>string</value>
+        </member>
         <member name="T:LoginPlugin.LoginMiddleware">
             <summary>
             Login middleware ensures that users don't visit routes that are marked as LoggedIn or LoggedOut depending on their login status.

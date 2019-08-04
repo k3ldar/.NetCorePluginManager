@@ -15,50 +15,56 @@
  *
  *  Product:  Blog Plugin
  *  
- *  File: PluginInitialisation.cs
+ *  File: InitialiseEvents.cs
  *
- *  Purpose:  Net Core Plugin Manager Integration
+ *  Purpose:  Allows blog plugin to configure policies 
  *
  *  Date        Name                Reason
- *  20/06/2019  Simon Carter        Initially Created
+ *  03/08/2019  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
+
 using SharedPluginFeatures;
 
 #pragma warning disable CS1591
 
-namespace Blog.Plugin
+namespace Blog.Plugin.Classes
 {
     /// <summary>
-    /// Implements IPlugin and IPluginVersion which allows the Blog.Plugin module to be
-    /// loaded as a plugin module
+    /// Implements IInitialiseEvents which allows the Blog module to configure policies
     /// </summary>
-    public class PluginInitialisation : IPlugin, IPluginVersion
+    public class InitialiseEvents : IInitialiseEvents
     {
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void AfterConfigure(in IApplicationBuilder app, in IHostingEnvironment env)
         {
 
         }
 
-        public void ConfigureServices(IServiceCollection services)
+        public void AfterConfigureServices(in IServiceCollection services)
+        {
+            // Add blog specific policies
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy(
+                    Constants.PolicyNameBlogCreate,
+                    policyBuilder => policyBuilder.RequireClaim(Constants.ClaimNameCreateBlog));
+                options.AddPolicy(
+                    Constants.PolicyNameBlogRespond,
+                    policyBuilder => policyBuilder.RequireClaim(Constants.ClaimNameUsername)
+                    .RequireClaim(Constants.ClaimNameUserId)
+                    .RequireClaim(Constants.ClaimNameUserEmail));
+            });
+        }
+
+        public void BeforeConfigure(in IApplicationBuilder app, in IHostingEnvironment env)
         {
 
         }
 
-        public void Finalise()
-        {
-
-        }
-
-        public ushort GetVersion()
-        {
-            return (1);
-        }
-
-        public void Initialise(ILogger logger)
+        public void BeforeConfigureServices(in IServiceCollection services)
         {
 
         }

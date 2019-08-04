@@ -120,19 +120,25 @@ namespace ErrorManager.Plugin.Controllers
                     Languages.LanguageStrings.PageNotFound, settings.GetQuote(index), GetImageFile(index));
             }
 
-            return (View(model));
+            return View(model);
         }
 
         [Breadcrumb(nameof(Languages.LanguageStrings.HighVolume))]
         public IActionResult HighVolume()
         {
-            return (View(new BaseModel(GetBreadcrumbs(), GetCartSummary())));
+            return View(new BaseModel(GetModelData()));
         }
 
         [Breadcrumb(nameof(Languages.LanguageStrings.NotAcceptable))]
         public IActionResult NotAcceptable()
         {
-            return (View(new BaseModel(GetBreadcrumbs(), GetCartSummary())));
+            return View(new BaseModel(GetModelData()));
+        }
+
+        [Breadcrumb(nameof(Languages.LanguageStrings.AccessDenied))]
+        public IActionResult AccessDenied()
+        {
+            return View(new BaseModel(GetModelData()));
         }
 
 #if DEBUG
@@ -159,11 +165,11 @@ namespace ErrorManager.Plugin.Controllers
                 foreach (string file in errorImageFiles)
                 {
                     if (Path.GetFileName(file).StartsWith(index.ToString()))
-                        return ($"/images/error/{Path.GetFileName(file)}");
+                        return $"/images/error/{Path.GetFileName(file)}";
                 }
 
                 if (System.IO.File.Exists(rootPath + "Default404.png"))
-                    return ("/images/error/Default404.png");
+                    return "/images/error/Default404.png";
             }
 
             return String.Empty;

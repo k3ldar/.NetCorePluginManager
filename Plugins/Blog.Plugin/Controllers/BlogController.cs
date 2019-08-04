@@ -38,6 +38,7 @@ using Middleware.Blog;
 using SharedPluginFeatures;
 using static SharedPluginFeatures.HtmlHelper;
 using Shared.Classes;
+using Microsoft.AspNetCore.Authorization;
 
 #pragma warning disable CS1591
 
@@ -108,11 +109,9 @@ namespace Blog.Plugin.Controllers
         [HttpGet]
         [LoggedIn]
         [Breadcrumb(nameof(Languages.LanguageStrings.New), Name, nameof(Index))]
+        [Authorize(Policy = SharedPluginFeatures.Constants.PolicyNameBlogCreate)]
         public IActionResult New()
         {
-            if (!IsUserLoggedIn())
-                return RedirectToAction(nameof(Index));
-
             return View(nameof(Edit), GetEditBlogPostViewModel(new BlogItem()));
         }
 
@@ -121,9 +120,6 @@ namespace Blog.Plugin.Controllers
         [Breadcrumb(nameof(Languages.LanguageStrings.Edit), Name, nameof(Index), HasParams = true)]
         public IActionResult Edit(int id)
         {
-            if (!IsUserLoggedIn())
-                return RedirectToAction(nameof(Index));
-
             if (id == 0)
                 return View(GetEditBlogPostViewModel(new BlogItem()));
 
@@ -228,6 +224,7 @@ namespace Blog.Plugin.Controllers
         }
 
         [HttpPost]
+        [Authorize(Policy = SharedPluginFeatures.Constants.PolicyNameBlogRespond)]
         public IActionResult Comment(CommentViewModel model)
         {
 
