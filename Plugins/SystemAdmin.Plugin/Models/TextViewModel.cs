@@ -35,9 +35,9 @@ namespace SystemAdmin.Plugin.Models
     {
         #region Constructors
 
-        public TextViewModel(in List<BreadcrumbItem> breadcrumbs, in ShoppingCartSummary cartSummary,
+        public TextViewModel(in BaseModelData modelData,
             SystemAdminSubMenu subMenu)
-            : base (breadcrumbs, cartSummary)
+            : base(modelData)
         {
             if (subMenu == null)
                 throw new ArgumentNullException(nameof(subMenu));

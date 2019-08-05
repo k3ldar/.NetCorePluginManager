@@ -40,11 +40,11 @@ namespace LoginPlugin.Models
 
         }
 
-        public LoginViewModel(in List<BreadcrumbItem> breadcrumbs, in ShoppingCartSummary cartSummary,
+        public LoginViewModel(in BaseModelData modelData,
             string returnUrl, bool showRememberMe)
-            : base (breadcrumbs, cartSummary)
+            : base(modelData)
         {
-            ReturnUrl = returnUrl ??  throw new ArgumentNullException(nameof(returnUrl));
+            ReturnUrl = returnUrl ?? throw new ArgumentNullException(nameof(returnUrl));
             ShowRememberMe = showRememberMe;
         }
 

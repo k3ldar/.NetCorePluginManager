@@ -38,8 +38,8 @@ namespace ShoppingCartPlugin.Models
             ShippingAddresses = new List<ShippingAddressModel>();
         }
 
-        public ShippingModel(in List<BreadcrumbItem> breadcrumbs, in ShoppingCartSummary cartSummary)
-            : base (breadcrumbs, cartSummary)
+        public ShippingModel(in BaseModelData modelData)
+            : base(modelData)
         {
             ShippingAddresses = new List<ShippingAddressModel>();
         }

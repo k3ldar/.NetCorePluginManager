@@ -25273,6 +25273,15 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Meta description is a required field..
+        /// </summary>
+        public static string MetaDescriptionRequired {
+            get {
+                return ResourceManager.GetString("MetaDescriptionRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Methods.
         /// </summary>
         public static string Methods {
@@ -28006,6 +28015,24 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Update SEO.
+        /// </summary>
+        public static string SeoUpdate {
+            get {
+                return ResourceManager.GetString("SeoUpdate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Update Seo Page Settings.
+        /// </summary>
+        public static string SeoUpdatePage {
+            get {
+                return ResourceManager.GetString("SeoUpdatePage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Server.
         /// </summary>
         public static string Server {
@@ -29367,6 +29394,15 @@ namespace Languages {
         public static string Title {
             get {
                 return ResourceManager.GetString("Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The title is a required field..
+        /// </summary>
+        public static string TitleRequired {
+            get {
+                return ResourceManager.GetString("TitleRequired", resourceCulture);
             }
         }
         

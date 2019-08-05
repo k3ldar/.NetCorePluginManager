@@ -37,31 +37,31 @@ namespace DemoWebsitePlugin.Controllers
         [Breadcrumb(nameof(Languages.LanguageStrings.Middleware))]
         public IActionResult Middleware()
         {
-            return View(new BaseModel(GetBreadcrumbs(), GetCartSummary()));
+            return View(new BaseModel(GetModelData()));
         }
 
         [Breadcrumb(nameof(Languages.LanguageStrings.Api))]
         public IActionResult Api()
         {
-            return View(new BaseModel(GetBreadcrumbs(), GetCartSummary()));
+            return View(new BaseModel(GetModelData()));
         }
 
         [Breadcrumb(nameof(Languages.LanguageStrings.DependencyInjection))]
         public IActionResult DependencyInjection()
         {
-            return View(new BaseModel(GetBreadcrumbs(), GetCartSummary()));
+            return View(new BaseModel(GetModelData()));
         }
 
         [Breadcrumb(nameof(Languages.LanguageStrings.Website))]
         public IActionResult Website()
         {
-            return View(new BaseModel(GetBreadcrumbs(), GetCartSummary()));
+            return View(new BaseModel(GetModelData()));
         }
 
         [Breadcrumb(nameof(Languages.LanguageStrings.Custom))]
         public IActionResult Custom()
         {
-            return View(new BaseModel(GetBreadcrumbs(), GetCartSummary()));
+            return View(new BaseModel(GetModelData()));
         }
     }
 }

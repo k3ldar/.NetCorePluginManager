@@ -42,13 +42,12 @@ namespace DocumentationPlugin.Models
         /// <summary>
         /// Default constructor
         /// </summary>
-        /// <param name="breadcrumbs">List of breadcrumbs to be displayed on the page.</param>
-        /// <param name="cartSummary">Shopping cart summary.</param>
+        /// <param name="modelData">Base model data.</param>
         /// <param name="title">Title of document</param>
         /// <param name="allReferences">All references associated with the document.</param>
-        public DocumentViewTypeViewModel(in List<BreadcrumbItem> breadcrumbs, in ShoppingCartSummary cartSummary,
+        public DocumentViewTypeViewModel(in BaseModelData modelData,
             in string title, in string allReferences)
-            : base(breadcrumbs, cartSummary)
+            : base(modelData)
         {
             if (String.IsNullOrEmpty(title))
                 throw new ArgumentNullException(nameof(title));
@@ -150,7 +149,7 @@ namespace DocumentationPlugin.Models
         /// </summary>
         /// <value>string</value>
         public string Summary { get; set; }
-        
+
         #endregion Properties
     }
 }

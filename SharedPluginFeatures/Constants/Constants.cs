@@ -329,6 +329,26 @@ namespace SharedPluginFeatures
         public const string PolicyNameBlogRespond = "BlogRespond";
 
         /// <summary>
+        /// Name of Policy for altering Seo data on pages
+        /// </summary>
+        public const string PolicyNameAlterSeoData = "AlterSeo";
+
+        /// <summary>
+        /// Claim name for administrators
+        /// </summary>
+        public const string ClaimNameAdministrator = "Administrator";
+
+        /// <summary>
+        /// Claim name for staff members
+        /// </summary>
+        public const string ClaimNameStaff = "StaffMember";
+
+        /// <summary>
+        /// Name of claim for managing Seo data
+        /// </summary>
+        public const string ClaimNameManageSeo = "ManageSeo";
+
+        /// <summary>
         /// Name of claim for creating blogs
         /// </summary>
         public const string ClaimNameCreateBlog = "CanCreateBlog";
@@ -357,5 +377,10 @@ namespace SharedPluginFeatures
         /// Name of claim identity for blog claims
         /// </summary>
         public const string ClaimIdentityBlog = "Blog";
+
+        /// <summary>
+        /// Name of claim identity for website
+        /// </summary>
+        public const string ClaimIdentityWebsite = "Website";
     }
 }

@@ -77,7 +77,7 @@ namespace HelpdeskPlugin.Controllers
         [Breadcrumb(nameof(Languages.LanguageStrings.Helpdesk))]
         public IActionResult Index()
         {
-            IndexViewModel model = new IndexViewModel(GetBreadcrumbs(), GetCartSummary(),
+            IndexViewModel model = new IndexViewModel(GetModelData(),
                 _settings.ShowTickets, _settings.ShowFaq, _settings.ShowFeedback, GrowlGet());
 
             return View(model);

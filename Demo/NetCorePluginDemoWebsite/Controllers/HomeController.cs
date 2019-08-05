@@ -63,7 +63,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Controllers
             UserSession session = (UserSession)HttpContext.Items[Constants.UserSession];
             ViewBag.Username = String.IsNullOrEmpty(session.UserName) ? "Guest" : session.UserName;
 
-            return View(new BaseModel(GetBreadcrumbs(), GetCartSummary()));
+            return View(new BaseModel(GetModelData()));
         }
 
         [DenySpider("*")]

@@ -34,10 +34,10 @@ namespace ShoppingCartPlugin.Models
     {
         #region Constructors
 
-        public BasketModel(in List<BreadcrumbItem> breadcrumbs, in ShoppingCartSummary cartSummary,
+        public BasketModel(in BaseModelData modelData,
             in List<BasketItemModel> cartItems, in string discountCode, in bool requiresShipping,
             in bool loggedIn)
-            : base(breadcrumbs, cartSummary)
+            : base(modelData)
         {
             CartItems = cartItems ?? throw new ArgumentNullException(nameof(cartItems));
             DiscountCode = discountCode ?? String.Empty;

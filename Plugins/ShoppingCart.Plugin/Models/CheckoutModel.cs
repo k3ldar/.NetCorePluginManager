@@ -41,8 +41,8 @@ namespace ShoppingCartPlugin.Models
             Providers = new List<IPaymentProvider>();
         }
 
-        public CheckoutModel(in List<BreadcrumbItem> breadcrumbs, in ShoppingCartSummary cartSummary)
-            : base(breadcrumbs, cartSummary)
+        public CheckoutModel(in BaseModelData modelData)
+            : base(modelData)
         {
             Providers = new List<IPaymentProvider>();
         }

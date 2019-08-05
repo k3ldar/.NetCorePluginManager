@@ -42,15 +42,14 @@ namespace DocumentationPlugin.Models
         /// <summary>
         /// Default Constructor
         /// </summary>
-        /// <param name="breadcrumbs">List of breadcrumbs to be displayed on the page.</param>
-        /// <param name="cartSummary">Shopping cart summary.</param>
+        /// <param name="modelData">Base model data.</param>
         /// <param name="title">Title of document.</param>
         /// <param name="shortDescription">Short description for the document</param>
         /// <param name="longDescription">Long description for the document.</param>
         /// <param name="allReferences">Any references found in other documents.</param>
-        public DocumentViewModel(in List<BreadcrumbItem> breadcrumbs, in ShoppingCartSummary cartSummary,
+        public DocumentViewModel(in BaseModelData modelData,
             in string title, in string shortDescription, in string longDescription, in string allReferences)
-            : base (breadcrumbs, cartSummary)
+            : base(modelData)
         {
             if (String.IsNullOrEmpty(title))
                 throw new ArgumentNullException(nameof(title));

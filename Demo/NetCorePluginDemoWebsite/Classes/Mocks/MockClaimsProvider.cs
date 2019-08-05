@@ -44,9 +44,12 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
             userClaims.Add(new Claim(Constants.ClaimNameUserId, "123"));
             Result.Add(new ClaimsIdentity(userClaims, Constants.ClaimIdentityUser));
 
-            List<Claim> blogClaims = new List<Claim>();
-            blogClaims.Add(new Claim(Constants.ClaimNameCreateBlog, "true"));
-            Result.Add(new ClaimsIdentity(blogClaims, Constants.ClaimIdentityBlog));
+            List<Claim> webClaims = new List<Claim>();
+            webClaims.Add(new Claim(Constants.ClaimNameCreateBlog, "true"));
+            webClaims.Add(new Claim(Constants.ClaimNameAdministrator, "true"));
+            webClaims.Add(new Claim(Constants.ClaimNameStaff, "true"));
+            webClaims.Add(new Claim(Constants.ClaimNameManageSeo, "true"));
+            Result.Add(new ClaimsIdentity(webClaims, Constants.ClaimIdentityWebsite));
 
             return Result;
         }

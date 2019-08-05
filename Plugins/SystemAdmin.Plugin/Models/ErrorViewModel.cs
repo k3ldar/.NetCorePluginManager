@@ -38,9 +38,9 @@ namespace SystemAdmin.Plugin.Models
 
         }
 
-        public ErrorViewModel(in List<BreadcrumbItem> breadcrumbs, in ShoppingCartSummary cartSummary,
+        public ErrorViewModel(in BaseModelData modelData,
             string requestId)
-            : base (breadcrumbs, cartSummary)
+            : base(modelData)
         {
             RequestId = requestId;
         }

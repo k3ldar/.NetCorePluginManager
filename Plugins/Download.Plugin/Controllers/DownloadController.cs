@@ -62,7 +62,7 @@ namespace DownloadPlugin.Controllers
 
         #region Constructors
 
-        public DownloadController(IHostingEnvironment hostingEnvironment, 
+        public DownloadController(IHostingEnvironment hostingEnvironment,
             IDownloadProvider downloadProvider)
         {
             _hostingEnvironment = hostingEnvironment ?? throw new ArgumentNullException(nameof(hostingEnvironment));
@@ -117,7 +117,7 @@ namespace DownloadPlugin.Controllers
                 categories.Add(new CategoriesModel(item.Id, item.Name));
             }
 
-            DownloadModel model = new DownloadModel(GetBreadcrumbs(), GetCartSummary(), category.Name, downloads, categories);
+            DownloadModel model = new DownloadModel(GetModelData(), category.Name, downloads, categories);
             model.Breadcrumbs.Add(new BreadcrumbItem(nameof(Languages.LanguageStrings.Download), "/Download/", false));
             model.Breadcrumbs.Add(new BreadcrumbItem(category.Name, $"/Download/{category.Id}/Category/{model.RouteText(category.Name)}", true));
 
@@ -144,7 +144,7 @@ namespace DownloadPlugin.Controllers
             if (download == null)
                 return RedirectToAction(nameof(Index));
 
-            string type =String.Empty;
+            string type = String.Empty;
 
             // set known types based on file extension  
             switch (Path.GetExtension(download.Filename).ToLower())
@@ -206,7 +206,7 @@ namespace DownloadPlugin.Controllers
 
                 System.Diagnostics.FileVersionInfo versionInfo = System.Diagnostics.FileVersionInfo.GetVersionInfo(file);
 
-                fileInformation.Version = versionInfo == null || versionInfo.ProductVersion == null ? 
+                fileInformation.Version = versionInfo == null || versionInfo.ProductVersion == null ?
                     String.Empty : versionInfo.ProductVersion;
 
                 cacheItem = new CacheItem(cacheName, fileInformation);

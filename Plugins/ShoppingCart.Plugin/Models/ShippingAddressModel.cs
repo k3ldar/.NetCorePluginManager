@@ -35,11 +35,11 @@ namespace ShoppingCartPlugin.Models
     {
         #region Constructors
 
-        public ShippingAddressModel(in List<BreadcrumbItem> breadcrumbs, in ShoppingCartSummary cartSummary, 
+        public ShippingAddressModel(in BaseModelData modelData,
             in int id, in string businessName, in string addressLine1,
             in string addressLine2, in string addressLine3, in string city, in string county,
             in string postcode, in string country, in decimal shippingCost)
-            : base (breadcrumbs, cartSummary)
+            : base(modelData)
         {
             Id = id;
             Name = businessName;

@@ -138,20 +138,18 @@
             Default constructor
             </summary>
         </member>
-        <member name="M:ErrorManager.Plugin.Models.Error.Error404Model.#ctor(System.Collections.Generic.List{SharedPluginFeatures.BreadcrumbItem}@,SharedPluginFeatures.ShoppingCartSummary@,System.String)">
+        <member name="M:ErrorManager.Plugin.Models.Error.Error404Model.#ctor(SharedPluginFeatures.BaseModelData@,System.String)">
             <summary>
             Constructor
             </summary>
-            <param name="breadcrumbs">List of breadcrumbs to be displayed on the page.</param>
-            <param name="cartSummary">Shopping cart summary.</param>
+            <param name="modelData">Base model data.</param>
             <param name="title">Title to be displayed on the page.</param>
         </member>
-        <member name="M:ErrorManager.Plugin.Models.Error.Error404Model.#ctor(System.Collections.Generic.List{SharedPluginFeatures.BreadcrumbItem}@,SharedPluginFeatures.ShoppingCartSummary@,System.String,System.String,System.String)">
+        <member name="M:ErrorManager.Plugin.Models.Error.Error404Model.#ctor(SharedPluginFeatures.BaseModelData@,System.String,System.String,System.String)">
             <summary>
             Constructor
             </summary>
-            <param name="breadcrumbs">List of breadcrumbs to be displayed on the page.</param>
-            <param name="cartSummary">Shopping cart summary.</param>
+            <param name="modelData">Base model data.</param>
             <param name="title">Title to be displayed on the page.</param>
             <param name="message">Message to be displayed to the user.</param>
             <param name="image">Image to be displayed on the page.</param>

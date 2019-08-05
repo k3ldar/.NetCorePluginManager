@@ -34,9 +34,9 @@ namespace HelpdeskPlugin.Models
     {
         #region Constructors
 
-        public FaqItemViewModel(in List<BreadcrumbItem> breadcrumbs, in ShoppingCartSummary cartSummary,
+        public FaqItemViewModel(in BaseModelData modelData,
             in FaqGroup parentGroup, in string description, in int viewCount, in string content)
-            : base(breadcrumbs, cartSummary)
+            : base(modelData)
         {
             if (String.IsNullOrEmpty(description))
                 throw new ArgumentNullException(nameof(description));

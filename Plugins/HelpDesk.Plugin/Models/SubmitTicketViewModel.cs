@@ -42,11 +42,11 @@ namespace HelpdeskPlugin.Models
 
         }
 
-        public SubmitTicketViewModel(in List<BreadcrumbItem> breadcrumbs, in ShoppingCartSummary cartSummary,
-            in List<LookupListItem> departments, in List<LookupListItem> priorities, 
+        public SubmitTicketViewModel(in BaseModelData modelData,
+            in List<LookupListItem> departments, in List<LookupListItem> priorities,
             in string username, in string email, in string subject, in string message,
             in bool readonlyUser)
-            : base (breadcrumbs, cartSummary)
+            : base(modelData)
         {
             Departments = departments ?? throw new ArgumentNullException(nameof(departments));
             Priorities = priorities ?? throw new ArgumentNullException(nameof(priorities));

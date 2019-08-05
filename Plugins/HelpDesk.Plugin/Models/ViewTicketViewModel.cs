@@ -34,13 +34,13 @@ namespace HelpdeskPlugin.Models
     {
         #region Constructors
 
-        public ViewTicketViewModel(in List<BreadcrumbItem> breadcrumbs, in ShoppingCartSummary cartSummary, 
+        public ViewTicketViewModel(in BaseModelData modelData,
             in long id, in string priority, in string department,
             in string status, in string key,
             in string subject, in DateTime dateCreated, in DateTime dateLastUpdated,
             in string createdBy, in string lastReplier,
             in List<ViewTicketResponseViewModel> messages)
-            : base (breadcrumbs, cartSummary)
+            : base(modelData)
         {
             if (String.IsNullOrEmpty(key))
                 throw new ArgumentNullException(nameof(key));

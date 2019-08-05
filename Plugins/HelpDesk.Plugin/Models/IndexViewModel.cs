@@ -33,9 +33,9 @@ namespace HelpdeskPlugin.Models
     {
         #region Construtors
 
-        public IndexViewModel(in List<BreadcrumbItem> breadcrumbs, in ShoppingCartSummary cartSummary, 
+        public IndexViewModel(in BaseModelData modelData,
             in bool showTickets, in bool showFaq, in bool showFeedback, in string growlMessage)
-            : base (breadcrumbs, cartSummary)
+            : base(modelData)
         {
             ShowFaq = showFaq;
             ShowFeedback = showFeedback;

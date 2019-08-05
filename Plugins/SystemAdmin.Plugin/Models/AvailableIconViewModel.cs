@@ -34,22 +34,22 @@ namespace SystemAdmin.Plugin.Models
     {
         #region Constructors
 
-        public AvailableIconViewModel(in List<BreadcrumbItem> breadcrumbs, in ShoppingCartSummary cartSummary)
-            : base (breadcrumbs, cartSummary)
+        public AvailableIconViewModel(in BaseModelData modelData)
+            : base(modelData)
         {
 
         }
 
-        public AvailableIconViewModel(in List<BreadcrumbItem> breadcrumbs, in ShoppingCartSummary cartSummary,
+        public AvailableIconViewModel(in BaseModelData modelData,
             in List<SystemAdminMainMenu> homeMenuItems)
-            : this (breadcrumbs, cartSummary)
+            : this(modelData)
         {
             HomeIcons = homeMenuItems ?? throw new ArgumentNullException(nameof(homeMenuItems));
         }
 
-        public AvailableIconViewModel(in List<BreadcrumbItem> breadcrumbs, in ShoppingCartSummary cartSummary,
+        public AvailableIconViewModel(in BaseModelData modelData,
             in SystemAdminMainMenu mainMenu)
-            : this (breadcrumbs, cartSummary)
+            : this(modelData)
         {
             if (mainMenu == null)
                 throw new ArgumentNullException(nameof(mainMenu));

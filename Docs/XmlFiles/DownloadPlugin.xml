@@ -108,12 +108,11 @@
             View model used to display download data.
             </summary>
         </member>
-        <member name="M:DownloadPlugin.Models.DownloadModel.#ctor(System.Collections.Generic.List{SharedPluginFeatures.BreadcrumbItem}@,SharedPluginFeatures.ShoppingCartSummary@,System.String@,System.Collections.Generic.List{DownloadPlugin.Models.DownloadableItem}@,System.Collections.Generic.List{DownloadPlugin.Models.CategoriesModel}@)">
+        <member name="M:DownloadPlugin.Models.DownloadModel.#ctor(SharedPluginFeatures.BaseModelData@,System.String@,System.Collections.Generic.List{DownloadPlugin.Models.DownloadableItem}@,System.Collections.Generic.List{DownloadPlugin.Models.CategoriesModel}@)">
             <summary>
             Constructor
             </summary>
-            <param name="breadcrumbs">List of breadcrumbs to be displayed on the page.</param>
-            <param name="cartSummary">Shopping cart summary.</param>
+            <param name="modelData">Base model data.</param>
             <param name="category">Download category.</param>
             <param name="downloads">List of downloadable files for the category.</param>
             <param name="categories">All available categories.</param>

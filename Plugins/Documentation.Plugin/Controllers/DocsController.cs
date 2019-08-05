@@ -78,7 +78,7 @@ namespace DocumentationPlugin.Controllers
         [Breadcrumb(nameof(Languages.LanguageStrings.Documentation))]
         public IActionResult Index()
         {
-            IndexViewModel model = new IndexViewModel(GetBreadcrumbs(), GetCartSummary(),
+            IndexViewModel model = new IndexViewModel(GetModelData(),
                 _documentationService.GetCustomData("Header", Languages.LanguageStrings.APIReference),
                 _documentationService.GetCustomData("Description", Languages.LanguageStrings.InThisDocument));
 
@@ -186,7 +186,7 @@ namespace DocumentationPlugin.Controllers
                 data.ReferenceData = GetAllReferences(selected, data, documents);
             }
 
-            DocumentViewTypeViewModel model = new DocumentViewTypeViewModel(GetBreadcrumbs(), GetCartSummary(),
+            DocumentViewTypeViewModel model = new DocumentViewTypeViewModel(GetModelData(),
                 selected.Title, data.ReferenceData);
 
             model.Assembly = selected.AssemblyName;
@@ -306,7 +306,7 @@ namespace DocumentationPlugin.Controllers
         private DocumentViewModel BuildDocumentViewModel(string documentName, string className, out Document selected)
         {
             List<Document> documents = _documentationService.GetDocuments()
-                .Where(d => d.DocumentType == DocumentType.Assembly || 
+                .Where(d => d.DocumentType == DocumentType.Assembly ||
                     d.DocumentType == DocumentType.Custom)
                 .OrderBy(o => o.SortOrder).ThenBy(o => o.Title)
                 .ToList();
@@ -314,7 +314,7 @@ namespace DocumentationPlugin.Controllers
             if (String.IsNullOrEmpty(className))
                 selected = documents.Where(d => HtmlHelper.RouteFriendlyName(d.Title) == documentName).FirstOrDefault();
             else
-                selected = _documentationService.GetDocuments().Where(d => HtmlHelper.RouteFriendlyName(d.AssemblyName) == documentName && 
+                selected = _documentationService.GetDocuments().Where(d => HtmlHelper.RouteFriendlyName(d.AssemblyName) == documentName &&
                     HtmlHelper.RouteFriendlyName(d.Title) == className).FirstOrDefault();
 
             if (selected == null)
@@ -327,7 +327,7 @@ namespace DocumentationPlugin.Controllers
                 data.ReferenceData = GetAllReferences(selected, data, documents);
             }
 
-            DocumentViewModel model = new DocumentViewModel(GetBreadcrumbs(), GetCartSummary(),
+            DocumentViewModel model = new DocumentViewModel(GetModelData(),
                 selected.Title, selected.ShortDescription, selected.LongDescription, data.ReferenceData);
 
             if (selected.DocumentType != DocumentType.Custom && selected.DocumentType != DocumentType.Document)

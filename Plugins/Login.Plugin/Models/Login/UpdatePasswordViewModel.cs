@@ -40,8 +40,8 @@ namespace LoginPlugin.Models
             Username = String.Empty;
         }
 
-        public UpdatePasswordViewModel(in List<BreadcrumbItem> breadcrumbs, in ShoppingCartSummary cartSummary)
-            : base (breadcrumbs, cartSummary)
+        public UpdatePasswordViewModel(in BaseModelData modelData)
+            : base(modelData)
         {
             Username = String.Empty;
         }

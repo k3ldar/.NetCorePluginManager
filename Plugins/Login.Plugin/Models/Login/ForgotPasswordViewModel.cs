@@ -39,8 +39,8 @@ namespace LoginPlugin.Models
 
         }
 
-        public ForgotPasswordViewModel(in List<BreadcrumbItem> breadcrumbs, in ShoppingCartSummary cartSummary)
-            : base (breadcrumbs, cartSummary)
+        public ForgotPasswordViewModel(in BaseModelData modelData)
+            : base(modelData)
         {
 
         }

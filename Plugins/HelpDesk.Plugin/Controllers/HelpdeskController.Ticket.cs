@@ -151,7 +151,7 @@ namespace HelpdeskPlugin.Controllers
 
         [HttpPost]
         [BadEgg]
-        public IActionResult FindTicket (FindTicketViewModel model)
+        public IActionResult FindTicket(FindTicketViewModel model)
         {
             if (!_settings.ShowTickets)
                 return RedirectToAction(nameof(Index), Name);
@@ -191,8 +191,8 @@ namespace HelpdeskPlugin.Controllers
             foreach (HelpdeskTicketMessage item in ticket.Messages)
                 messages.Add(new ViewTicketResponseViewModel(item.DateCreated, item.UserName, FormatTextForDisplay(item.Message)));
 
-            return new ViewTicketViewModel(GetBreadcrumbs(), GetCartSummary(),
-                ticket.Id, ticket.Priority.Description, 
+            return new ViewTicketViewModel(GetModelData(),
+                ticket.Id, ticket.Priority.Description,
                 ticket.Department.Description, ticket.Status.Description,
                 ticket.Key, ticket.Subject, ticket.DateCreated, ticket.DateLastUpdated,
                 ticket.CreatedBy, ticket.LastReplier, messages);
@@ -204,11 +204,11 @@ namespace HelpdeskPlugin.Controllers
             helpdeskCache.CaptchaText = GetRandomWord(_settings.CaptchaWordLength, CaptchaCharacters);
             helpdeskCache.Requests++;
 
-            return new FindTicketViewModel(GetBreadcrumbs(), GetCartSummary(),
+            return new FindTicketViewModel(GetModelData(),
                 _settings.ShowCaptchaText && helpdeskCache.Requests > 1);
         }
 
-        private SubmitTicketViewModel GetSubmitTicketViewModel(in string subject, in string message, 
+        private SubmitTicketViewModel GetSubmitTicketViewModel(in string subject, in string message,
             in string userName, in string email)
         {
             HelpdeskCacheItem helpdeskCache = GetCachedHelpdeskItem(true);
@@ -216,13 +216,12 @@ namespace HelpdeskPlugin.Controllers
 
             UserSession userSession = GetUserSession();
 
-            SubmitTicketViewModel Result = new SubmitTicketViewModel(GetBreadcrumbs(),
-                GetCartSummary(),
+            SubmitTicketViewModel Result = new SubmitTicketViewModel(GetModelData(),
                 _helpdeskProvider.GetTicketDepartments(),
                 _helpdeskProvider.GetTicketPriorities(),
-                String.IsNullOrEmpty(userName) ? userSession.UserName : userName, 
-                String.IsNullOrEmpty(email) ? userSession.UserEmail : email, 
-                subject, 
+                String.IsNullOrEmpty(userName) ? userSession.UserName : userName,
+                String.IsNullOrEmpty(email) ? userSession.UserEmail : email,
+                subject,
                 message,
                 !String.IsNullOrEmpty(userSession.UserName));
 

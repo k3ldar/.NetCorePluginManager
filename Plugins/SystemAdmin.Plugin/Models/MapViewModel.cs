@@ -40,9 +40,9 @@ namespace SystemAdmin.Plugin.Models
 
         #region Constructors
 
-        public MapViewModel(in List<BreadcrumbItem> breadcrumbs, in ShoppingCartSummary cartSummary,
+        public MapViewModel(in BaseModelData modelData,
             in ISettingsProvider settingsProvider, in SystemAdminSubMenu subMenu)
-            : base (breadcrumbs, cartSummary)
+            : base(modelData)
         {
             _settingsProvider = settingsProvider ?? throw new ArgumentNullException(nameof(settingsProvider));
 

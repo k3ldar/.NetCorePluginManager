@@ -56,7 +56,7 @@ namespace ShoppingCartPlugin.Controllers
 
         #region Constructors
 
-        public CartController(IShoppingCartProvider shoppingCartProvider, IAccountProvider accountProvider, 
+        public CartController(IShoppingCartProvider shoppingCartProvider, IAccountProvider accountProvider,
             IPluginClassesService pluginClassesService, IStockProvider stockProvider,
             IApplicationProvider applicationProvider)
         {
@@ -79,6 +79,8 @@ namespace ShoppingCartPlugin.Controllers
             ShoppingCartSummary cartSummary = GetCartSummary();
             BasketModel model;
 
+            BaseModelData modelData = GetModelData();
+
             if (cartSummary.Id != 0)
             {
                 ShoppingCartDetail cartDetails = _shoppingCartProvider.GetDetail(cartSummary.Id);
@@ -86,9 +88,9 @@ namespace ShoppingCartPlugin.Controllers
 
                 foreach (ShoppingCartItem item in cartDetails.Items)
                 {
-                    basketItems.Add(new BasketItemModel(GetBreadcrumbs(), GetCartSummary(),
+                    basketItems.Add(new BasketItemModel(GetModelData(),
                         item.Id, item.Name, item.Description,
-                        item.Size, item.SKU, item.ItemCost, (int)item.ItemCount, 
+                        item.Size, item.SKU, item.ItemCost, (int)item.ItemCount,
                         item.StockAvailability > 500 ? "> 500" : item.StockAvailability.ToString(),
                         item.ItemCount * item.ItemCost, false, item.Images[0]));
                 }
@@ -99,13 +101,15 @@ namespace ShoppingCartPlugin.Controllers
                     TempData.Remove("VoucherError");
                 }
 
-                model = new BasketModel(GetBreadcrumbs(), cartSummary, basketItems,
+                modelData.ReplaceCartSummary(cartSummary);
+                model = new BasketModel(modelData, basketItems,
                     cartDetails.CouponCode, cartDetails.RequiresShipping,
                     !String.IsNullOrEmpty(GetUserSession().UserEmail));
             }
             else
             {
-                model = new BasketModel(GetBreadcrumbs(), cartSummary, new List<BasketItemModel>(),
+                modelData.ReplaceCartSummary(cartSummary);
+                model = new BasketModel(modelData, new List<BasketItemModel>(),
                     String.Empty, false, GetUserSession().UserID != 0);
             }
 
@@ -161,7 +165,7 @@ namespace ShoppingCartPlugin.Controllers
             if (!cartDetails.RequiresShipping)
                 return RedirectToAction(nameof(Checkout));
 
-            ShippingModel model = new ShippingModel(GetBreadcrumbs(), GetCartSummary());
+            ShippingModel model = new ShippingModel(GetModelData());
             PrepareShippingAddressModel(in model, _accountProvider.GetDeliveryAddresses(GetUserSession().UserID));
 
             return View(model);
@@ -171,17 +175,17 @@ namespace ShoppingCartPlugin.Controllers
         [Breadcrumb(nameof(Checkout), nameof(CartController), nameof(Shipping))]
         public IActionResult Checkout(int? shippingId)
         {
-            CheckoutModel model = new CheckoutModel(GetBreadcrumbs(), GetCartSummary());
+            CheckoutModel model = new CheckoutModel(GetModelData());
             ShoppingCartDetail cartDetail = _shoppingCartProvider.GetDetail(GetCartSummary().Id);
 
-            if (cartDetail.RequiresShipping && (!shippingId.HasValue || (shippingId.HasValue && shippingId.Value< 1)))
+            if (cartDetail.RequiresShipping && (!shippingId.HasValue || (shippingId.HasValue && shippingId.Value < 1)))
                 return RedirectToAction(nameof(Shipping));
 
             if (!cartDetail.RequiresShipping)
                 model.Breadcrumbs.RemoveAt(2);
 
             Address shippingAddress = _accountProvider.GetDeliveryAddress(GetUserSession().UserID, shippingId.Value);
-            
+
 
             if (shippingAddress != null)
                 cartDetail.SetDeliveryAddress(shippingAddress);
@@ -203,7 +207,7 @@ namespace ShoppingCartPlugin.Controllers
 
             ShoppingCartDetail cartDetails = _shoppingCartProvider.GetDetail(GetCartSummary().Id);
             UserSession session = GetUserSession();
-            
+
             if (_shoppingCartProvider.ConvertToOrder(cartDetails, session.UserID, out Order order))
             {
                 if (provider.Execute(HttpContext.Request, order, PaymentStatus.Unpaid, session, out string providerUrl))
@@ -219,7 +223,7 @@ namespace ShoppingCartPlugin.Controllers
         [Breadcrumb(nameof(Languages.LanguageStrings.PaymentFailed), "Cart", nameof(Index))]
         public IActionResult Failed()
         {
-            return View(new BaseModel(GetBreadcrumbs(), GetCartSummary()));
+            return View(new BaseModel(GetModelData()));
         }
 
         [Breadcrumb(nameof(Languages.LanguageStrings.ThankyouOrder), "Cart", nameof(Index))]
@@ -227,10 +231,12 @@ namespace ShoppingCartPlugin.Controllers
         {
             UserSession session = GetUserSession();
 
-            PaymentSuccessModel model = new PaymentSuccessModel(GetBreadcrumbs(), 
-                new ShoppingCartSummary(0, 0, 0, 0, 0, GetDefaultTaxRate(), 
-                System.Threading.Thread.CurrentThread.CurrentUICulture, 
-                SharedPluginFeatures.Constants.CurrencyCodeDefault), (int)session.Tag);
+            BaseModelData modelData = GetModelData();
+            modelData.ReplaceCartSummary(new ShoppingCartSummary(0, 0, 0, 0, 0, GetDefaultTaxRate(),
+                System.Threading.Thread.CurrentThread.CurrentUICulture,
+                SharedPluginFeatures.Constants.CurrencyCodeDefault));
+
+            PaymentSuccessModel model = new PaymentSuccessModel(modelData, (int)session.Tag);
 
             // clear basket data
             session.Tag = null;
@@ -248,9 +254,9 @@ namespace ShoppingCartPlugin.Controllers
         {
             foreach (DeliveryAddress address in deliveryAddresses)
             {
-                model.ShippingAddresses.Add(new ShippingAddressModel(GetBreadcrumbs(), GetCartSummary(), 
-                    address.AddressId, address.BusinessName, address.AddressLine1, address.AddressLine2, 
-                    address.AddressLine3, address.City, address.County, address.Postcode, 
+                model.ShippingAddresses.Add(new ShippingAddressModel(GetModelData(),
+                    address.AddressId, address.BusinessName, address.AddressLine1, address.AddressLine2,
+                    address.AddressLine3, address.City, address.County, address.Postcode,
                     address.Country, address.PostageCost));
             }
         }

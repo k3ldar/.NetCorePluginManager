@@ -56,7 +56,7 @@ namespace ProductPlugin.Controllers
 
         #region Constructors
 
-        public ProductController(IProductProvider productProvider, ISettingsProvider settingsProvider, 
+        public ProductController(IProductProvider productProvider, ISettingsProvider settingsProvider,
             IPluginHelperService pluginHelper, IStockProvider stockProvider)
         {
             if (settingsProvider == null)
@@ -83,7 +83,7 @@ namespace ProductPlugin.Controllers
         [HttpGet]
         [Route("/Products/{groupName}/{id?}/Page/{page}/")]
         [Route("/Products/{groupName}/{id?}/")]
-        public IActionResult Index(string groupName, int?id, int? page)
+        public IActionResult Index(string groupName, int? id, int? page)
         {
             ProductGroup group = null;
 
@@ -147,12 +147,12 @@ namespace ProductPlugin.Controllers
                 modelCategories.Add(new ProductCategoryModel(item.Id, item.Description, item.Url));
             }
 
-            ProductGroupModel Result = new ProductGroupModel(GetBreadcrumbs(), GetCartSummary(), 
+            ProductGroupModel Result = new ProductGroupModel(GetModelData(),
                 modelCategories, group.Description, group.TagLine);
 
             foreach (Product product in products)
             {
-                Result.Products.Add(new ProductCategoryProductModel(product.Id, product.Name, product.Images[0], 
+                Result.Products.Add(new ProductCategoryProductModel(product.Id, product.Name, product.Images[0],
                     group.Id, product.NewProduct, product.BestSeller, product.RetailPrice));
             }
 
@@ -160,7 +160,7 @@ namespace ProductPlugin.Controllers
             Result.Breadcrumbs.Add(new BreadcrumbItem(LanguageStrings.Home, "/", false));
             Result.Breadcrumbs.Add(new BreadcrumbItem(group.Description, $"/Products/{group.Id}/", false));
 
-            Result.Pagination = BuildPagination(products.Count, (int)_productsPerPage, page, 
+            Result.Pagination = BuildPagination(products.Count, (int)_productsPerPage, page,
                 $"/Products/{Result.RouteText(group.Description)}/{group.Id}/", "",
                 LanguageStrings.Previous, LanguageStrings.Next);
 
@@ -190,23 +190,23 @@ namespace ProductPlugin.Controllers
                 if (_productProvider.ProductGroupGet(product.ProductGroupId) == null)
                     return null;
 
-                Result = new ProductModel(GetBreadcrumbs(), GetCartSummary(), modelCategories, product.Id, product.ProductGroupId,
-                    product.Name, product.Description, product.Features, product.VideoLink, product.Images, 
+                Result = new ProductModel(GetModelData(), modelCategories, product.Id, product.ProductGroupId,
+                    product.Name, product.Description, product.Features, product.VideoLink, product.Images,
                     product.RetailPrice, _hasShoppingCart && product.RetailPrice > 0, product.StockAvailability);
             }
             else
             {
-                Result = new ProductModel(GetBreadcrumbs(), GetCartSummary(), modelCategories);
+                Result = new ProductModel(GetModelData(), modelCategories);
             }
 
 
-            
+
             ProductGroup primaryProductGroup = _productProvider.ProductGroupGet(product.ProductGroupId);
             Result.Breadcrumbs.Clear();
             Result.Breadcrumbs.Add(new BreadcrumbItem(LanguageStrings.Home, "/", false));
-            Result.Breadcrumbs.Add(new BreadcrumbItem(primaryProductGroup.Description, 
+            Result.Breadcrumbs.Add(new BreadcrumbItem(primaryProductGroup.Description,
                 $"/Products/{primaryProductGroup.Id}/", false));
-            Result.Breadcrumbs.Add(new BreadcrumbItem(product.Name, 
+            Result.Breadcrumbs.Add(new BreadcrumbItem(product.Name,
                 $"/Product/{product.Id}/{Result.RouteText(product.Name)}/", false));
 
             return Result;

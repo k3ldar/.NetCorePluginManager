@@ -71,7 +71,7 @@ namespace HelpdeskPlugin.Controllers
         [HttpGet]
         [Route("/Helpdesk/FaQItem/{id}/{description}/")]
         [Breadcrumb(nameof(Languages.LanguageStrings.FrequentlyAskedQuestions), Name, nameof(FaQ))]
-        public IActionResult FaQItem (int id, int description)
+        public IActionResult FaQItem(int id, int description)
         {
             if (!_helpdeskProvider.GetKnowledgebaseItem(UserId(), id,
                 out KnowledgeBaseItem item, out KnowledgeBaseGroup parentGroup))
@@ -106,12 +106,15 @@ namespace HelpdeskPlugin.Controllers
                 currGroup = currGroup.Parent;
             }
 
-            return new FaqItemViewModel(crumbs, GetCartSummary(),
+            BaseModelData modelData = GetModelData();
+            modelData.ReplaceBreadcrumbs(crumbs);
+
+            return new FaqItemViewModel(modelData,
                 KnowledgeBaseToFaQGroup(parentGroup), item.Description, item.ViewCount,
                 FormatTextForDisplay(item.Content));
         }
 
-        private FaqGroupViewModel CreateFaqViewModel(List<KnowledgeBaseGroup> groups, 
+        private FaqGroupViewModel CreateFaqViewModel(List<KnowledgeBaseGroup> groups,
             in KnowledgeBaseGroup activeGroup)
         {
             List<FaqGroup> faqGroups = new List<FaqGroup>();
@@ -127,7 +130,7 @@ namespace HelpdeskPlugin.Controllers
             {
                 crumbs.Add(new BreadcrumbItem(Languages.LanguageStrings.FrequentlyAskedQuestions, $"/{Name}/{nameof(FaQ)}/", false));
 
-                crumbs.Add(new BreadcrumbItem(activeGroup.Name, 
+                crumbs.Add(new BreadcrumbItem(activeGroup.Name,
                     $"/{Name}/{nameof(FaQ)}/{activeGroup.Id}/{BaseModel.RouteFriendlyName(activeGroup.Name)}/", true));
 
                 KnowledgeBaseGroup currGroup = activeGroup.Parent;
@@ -140,7 +143,9 @@ namespace HelpdeskPlugin.Controllers
                 }
             }
 
-            return new FaqGroupViewModel(crumbs, GetCartSummary(), faqGroups, KnowledgeBaseToFaQGroup(activeGroup));
+            BaseModelData modelData = GetModelData();
+            modelData.ReplaceBreadcrumbs(crumbs);
+            return new FaqGroupViewModel(modelData, faqGroups, KnowledgeBaseToFaQGroup(activeGroup));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

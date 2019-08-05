@@ -91,7 +91,7 @@ namespace LoginPlugin.Controllers
                     return (Redirect(returnUrl));
             }
 
-            LoginViewModel model = new LoginViewModel(GetBreadcrumbs(), GetCartSummary(),
+            LoginViewModel model = new LoginViewModel(GetModelData(),
                 String.IsNullOrEmpty(returnUrl) ? _settings.LoginSuccessUrl : returnUrl,
                 _settings.ShowRememberMe);
 
@@ -174,7 +174,7 @@ namespace LoginPlugin.Controllers
             if (String.IsNullOrEmpty(username))
                 RedirectToAction(nameof(Index));
 
-            AccountLockedViewModel model = new AccountLockedViewModel(GetBreadcrumbs(), GetCartSummary(), username);
+            AccountLockedViewModel model = new AccountLockedViewModel(GetModelData(), username);
 
             return View(model);
         }
@@ -203,7 +203,7 @@ namespace LoginPlugin.Controllers
         [Breadcrumb(nameof(Languages.LanguageStrings.ForgotPassword))]
         public IActionResult ForgotPassword()
         {
-            ForgotPasswordViewModel model = new ForgotPasswordViewModel(GetBreadcrumbs(), GetCartSummary());
+            ForgotPasswordViewModel model = new ForgotPasswordViewModel(GetModelData());
 
             LoginCacheItem loginCacheItem = GetCachedLoginAttempt(true);
             loginCacheItem.CaptchaText = GetRandomWord(_settings.CaptchaWordLength, CaptchaCharacters);
@@ -259,8 +259,8 @@ namespace LoginPlugin.Controllers
 
             CookieDelete(_settings.RememberMeCookieName);
 
-            _authenticationService.SignOutAsync(HttpContext, 
-                _settings.AuthenticationScheme, 
+            _authenticationService.SignOutAsync(HttpContext,
+                _settings.AuthenticationScheme,
                 _claimsProvider.GetAuthenticationProperties());
 
             return Redirect("/");

@@ -38,10 +38,10 @@ namespace ProductPlugin.Models
         {
         }
 
-        public ProductModel(in List<BreadcrumbItem> breadcrumbs, in ShoppingCartSummary cartSummary,
+        public ProductModel(in BaseModelData modelData,
             in int id, in string name, in string[] images, in int productGroupId,
             in bool newProduct, in bool bestSeller, in decimal lowestPrice, bool allowAddToBasket)
-            : base(breadcrumbs, cartSummary)
+            : base(modelData)
         {
             if (String.IsNullOrEmpty(name))
                 throw new ArgumentNullException(nameof(name));
@@ -64,19 +64,19 @@ namespace ProductPlugin.Models
             AllowAddToBasket = allowAddToBasket;
         }
 
-        public ProductModel(in List<BreadcrumbItem> breadcrumbs, in ShoppingCartSummary cartSummary,
+        public ProductModel(in BaseModelData modelData,
             in IEnumerable<ProductCategoryModel> productGroups)
-            : base(breadcrumbs, cartSummary, productGroups)
+            : base(modelData, productGroups)
         {
 
         }
 
-        public ProductModel(in List<BreadcrumbItem> breadcrumbs, in ShoppingCartSummary cartSummary,
+        public ProductModel(in BaseModelData modelData,
             in IEnumerable<ProductCategoryModel> productGroups,
             in int id, in int productGroupId, in string name, in string description, in string features,
             in string videoLink, in string[] images, in decimal retailPrice,
             in bool allowAddToBasket, in uint stockAvailability)
-            : this(breadcrumbs, cartSummary, productGroups)
+            : this(modelData, productGroups)
         {
             if (String.IsNullOrEmpty(name))
                 throw new ArgumentNullException(nameof(name));

@@ -75,12 +75,11 @@
             Model used when viewing a document
             </summary>
         </member>
-        <member name="M:DocumentationPlugin.Models.DocumentViewModel.#ctor(System.Collections.Generic.List{SharedPluginFeatures.BreadcrumbItem}@,SharedPluginFeatures.ShoppingCartSummary@,System.String@,System.String@,System.String@,System.String@)">
+        <member name="M:DocumentationPlugin.Models.DocumentViewModel.#ctor(SharedPluginFeatures.BaseModelData@,System.String@,System.String@,System.String@,System.String@)">
             <summary>
             Default Constructor
             </summary>
-            <param name="breadcrumbs">List of breadcrumbs to be displayed on the page.</param>
-            <param name="cartSummary">Shopping cart summary.</param>
+            <param name="modelData">Base model data.</param>
             <param name="title">Title of document.</param>
             <param name="shortDescription">Short description for the document</param>
             <param name="longDescription">Long description for the document.</param>
@@ -199,12 +198,11 @@
             Summary document for a documents type, method, field, constructor, property etc.
             </summary>
         </member>
-        <member name="M:DocumentationPlugin.Models.DocumentViewTypeViewModel.#ctor(System.Collections.Generic.List{SharedPluginFeatures.BreadcrumbItem}@,SharedPluginFeatures.ShoppingCartSummary@,System.String@,System.String@)">
+        <member name="M:DocumentationPlugin.Models.DocumentViewTypeViewModel.#ctor(SharedPluginFeatures.BaseModelData@,System.String@,System.String@)">
             <summary>
             Default constructor
             </summary>
-            <param name="breadcrumbs">List of breadcrumbs to be displayed on the page.</param>
-            <param name="cartSummary">Shopping cart summary.</param>
+            <param name="modelData">Base model data.</param>
             <param name="title">Title of document</param>
             <param name="allReferences">All references associated with the document.</param>
         </member>
@@ -303,12 +301,11 @@
             View model for displaying module summaries.
             </summary>
         </member>
-        <member name="M:DocumentationPlugin.Models.IndexViewModel.#ctor(System.Collections.Generic.List{SharedPluginFeatures.BreadcrumbItem}@,SharedPluginFeatures.ShoppingCartSummary@,System.String@,System.String@)">
+        <member name="M:DocumentationPlugin.Models.IndexViewModel.#ctor(SharedPluginFeatures.BaseModelData@,System.String@,System.String@)">
             <summary>
             Constructor
             </summary>
-            <param name="breadcrumbs">List of breadcrumbs to be displayed on the page.</param>
-            <param name="cartSummary">Shopping cart summary.</param>
+            <param name="modelData">Base model data.</param>
             <param name="header">Header at the top of the page.</param>
             <param name="description">Description at the top of the page.</param>
         </member>

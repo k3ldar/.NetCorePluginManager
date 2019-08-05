@@ -34,9 +34,9 @@ namespace HelpdeskPlugin.Models
     {
         #region Constructors
 
-        public FaqGroupViewModel(in List<BreadcrumbItem> breadcrumbs, in ShoppingCartSummary cartSummary,
+        public FaqGroupViewModel(in BaseModelData modelData,
             in List<FaqGroup> groups, in FaqGroup activeGroup)
-            : base(breadcrumbs, cartSummary)
+            : base(modelData)
         {
             Groups = groups ?? throw new ArgumentNullException(nameof(groups));
             ActiveGroup = activeGroup;

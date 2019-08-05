@@ -438,7 +438,8 @@ namespace SharedPluginFeatures
                 GetSeoTitle(),
                 GetSeoAuthor(),
                 GetSeoDescription(),
-                GetSeoKeyWords());
+                GetSeoKeyWords(),
+                HttpContext.User.HasClaim(Constants.ClaimNameManageSeo, "true"));
         }
 
         #endregion Base Model Data

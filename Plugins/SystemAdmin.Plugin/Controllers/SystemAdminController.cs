@@ -36,24 +36,33 @@ namespace SystemAdmin.Plugin.Controllers
 {
     [LoggedIn]
     [RestrictedIpRoute("SystemAdminRoute")]
-    public class SystemAdminController : BaseController
+    public partial class SystemAdminController : BaseController
     {
         #region Private Members
 
         private readonly ISystemAdminHelperService _systemAdminHelperService;
         private readonly ISettingsProvider _settingsProvider;
+        private readonly ISeoProvider _seoProvider;
 
         #endregion Private Members
 
         #region Constructors
 
-        public SystemAdminController(ISettingsProvider settingsProvider, ISystemAdminHelperService systemAdminHelperService)
+        public SystemAdminController(ISettingsProvider settingsProvider, ISystemAdminHelperService systemAdminHelperService,
+            ISeoProvider seoProvider)
         {
             _settingsProvider = settingsProvider ?? throw new ArgumentNullException(nameof(settingsProvider));
             _systemAdminHelperService = systemAdminHelperService ?? throw new ArgumentNullException(nameof(systemAdminHelperService));
+            _seoProvider = seoProvider ?? throw new ArgumentNullException(nameof(seoProvider));
         }
 
         #endregion Constructors
+
+        #region Constants
+
+        public const string Name = "SystemAdmin";
+
+        #endregion Constants
 
         #region Controller Action Methods
 
@@ -62,10 +71,10 @@ namespace SystemAdmin.Plugin.Controllers
             SystemAdminMainMenu selectedMenu = _systemAdminHelperService.GetSystemAdminMainMenu(id);
 
             if (selectedMenu == null)
-                return View(new AvailableIconViewModel(GetBreadcrumbs(),
-                    GetCartSummary(), _systemAdminHelperService.GetSystemAdminMainMenu()));
+                return View(new AvailableIconViewModel(GetModelData(),
+                    _systemAdminHelperService.GetSystemAdminMainMenu()));
 
-            return (View(new AvailableIconViewModel(GetBreadcrumbs(), GetCartSummary(), selectedMenu)));
+            return (View(new AvailableIconViewModel(GetModelData(), selectedMenu)));
         }
 
         public IActionResult Grid(int id)
@@ -75,7 +84,7 @@ namespace SystemAdmin.Plugin.Controllers
             if (subMenu == null)
                 return (Redirect("/SystemAdmin/"));
 
-            return (View(new GridViewModel(GetBreadcrumbs(), GetCartSummary(), subMenu)));
+            return (View(new GridViewModel(GetModelData(), subMenu)));
         }
 
         public IActionResult Map(int id)
@@ -85,7 +94,7 @@ namespace SystemAdmin.Plugin.Controllers
             if (subMenu == null)
                 return (Redirect("/SystemAdmin/"));
 
-            return (View(new MapViewModel(GetBreadcrumbs(), GetCartSummary(), _settingsProvider, subMenu)));
+            return (View(new MapViewModel(GetModelData(), _settingsProvider, subMenu)));
         }
 
         public IActionResult Text(int id)
@@ -95,7 +104,7 @@ namespace SystemAdmin.Plugin.Controllers
             if (subMenu == null)
                 return (Redirect("/SystemAdmin"));
 
-            return (View(new TextViewModel(GetBreadcrumbs(), GetCartSummary(), subMenu)));
+            return (View(new TextViewModel(GetModelData(), subMenu)));
         }
 
         public IActionResult TextEx(int id)
@@ -105,13 +114,13 @@ namespace SystemAdmin.Plugin.Controllers
             if (subMenu == null)
                 return (Redirect("/SystemAdmin"));
 
-            return (View(new TextExViewModel(GetBreadcrumbs(), GetCartSummary(), _settingsProvider, subMenu)));
+            return (View(new TextExViewModel(GetModelData(), _settingsProvider, subMenu)));
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error ()
+        public IActionResult Error()
         {
-            return View(new ErrorViewModel(GetBreadcrumbs(), GetCartSummary(),
+            return View(new ErrorViewModel(GetModelData(),
                 Activity.Current?.Id ?? HttpContext.TraceIdentifier));
         }
 

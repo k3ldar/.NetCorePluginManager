@@ -34,9 +34,9 @@ namespace SystemAdmin.Plugin.Models
     {
         #region Constructors
 
-        public GridViewModel(in List<BreadcrumbItem> breadcrumbs, in ShoppingCartSummary cartSummary,
+        public GridViewModel(in BaseModelData modelData,
             SystemAdminSubMenu subMenu)
-            : base (breadcrumbs, cartSummary)
+            : base(modelData)
         {
             if (subMenu == null)
                 throw new ArgumentNullException(nameof(subMenu));

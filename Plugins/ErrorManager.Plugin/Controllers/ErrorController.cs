@@ -80,7 +80,7 @@ namespace ErrorManager.Plugin.Controllers
         [Breadcrumb(nameof(Languages.LanguageStrings.Error))]
         public IActionResult Index()
         {
-            return View(new BaseModel(GetBreadcrumbs(), GetCartSummary()));
+            return View(new BaseModel(GetModelData()));
         }
 
         [Breadcrumb(nameof(Languages.LanguageStrings.MissingLink))]
@@ -96,7 +96,7 @@ namespace ErrorManager.Plugin.Controllers
                 // grab a random quote
                 Random rnd = new Random(Convert.ToInt32(DateTime.Now.ToString("Hmsffff")));
                 int quote = rnd.Next(settings.Count());
-                model = new Error404Model(GetBreadcrumbs(), GetCartSummary(),
+                model = new Error404Model(GetModelData(),
                     Languages.LanguageStrings.PageNotFound, settings.GetQuote(quote), GetImageFile(quote));
             }
             else
@@ -116,7 +116,7 @@ namespace ErrorManager.Plugin.Controllers
 
                 CookieAdd("Error404", Encrypt(Convert.ToString(index), settings.EncryptionKey), 30);
 
-                model = new Error404Model(GetBreadcrumbs(), GetCartSummary(),
+                model = new Error404Model(GetModelData(),
                     Languages.LanguageStrings.PageNotFound, settings.GetQuote(index), GetImageFile(index));
             }
 

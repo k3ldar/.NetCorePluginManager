@@ -56,6 +56,7 @@ namespace SharedPluginFeatures
         /// </summary>
         /// <param name="breadcrumbs">List&lt;BreadCrumbItem&gt; list of breadcrumbs for the current route.</param>
         /// <param name="cartSummary">ShoppingCartSummary instance with shopping cart details.</param>
+        [Obsolete("This constructor is obsolete and will be removed in future versions.")]
         public BaseModel(in List<BreadcrumbItem> breadcrumbs, in ShoppingCartSummary cartSummary)
         {
             CartSummary = cartSummary ?? throw new ArgumentNullException(nameof(cartSummary));
@@ -77,6 +78,7 @@ namespace SharedPluginFeatures
             SeoDescription = modelData.SeoDescription;
             SeoTags = modelData.SeoTags;
             SeoTitle = modelData.SeoTitle;
+            CanManageSeoData = modelData.CanManageSeoData;
         }
 
         #endregion Constructors
@@ -192,6 +194,11 @@ namespace SharedPluginFeatures
         /// </summary>
         /// <value>string</value>
         public string SeoDescription { get; set; }
+
+        /// <summary>
+        /// Indicates the user can manage Seo data.
+        /// </summary>
+        public bool CanManageSeoData { get; private set; }
 
         #endregion Public Methods
     }

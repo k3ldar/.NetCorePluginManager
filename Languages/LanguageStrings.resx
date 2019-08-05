@@ -14097,4 +14097,20 @@ You will shortly receive an email with the details of your order.</comment>
     <value>You do not have permission to access this area, please contact an administrator if you believe you should have access.</value>
     <comment>You do not have permission to access this area, please contact an administrator if you believe you should have access.</comment>
   </data>
+  <data name="SeoUpdatePage" xml:space="preserve">
+    <value>Update Seo Page Settings</value>
+    <comment>Update Seo Page Settings</comment>
+  </data>
+  <data name="MetaDescriptionRequired" xml:space="preserve">
+    <value>Meta description is a required field.</value>
+    <comment>Meta description is a required field.</comment>
+  </data>
+  <data name="SeoUpdate" xml:space="preserve">
+    <value>Update SEO</value>
+    <comment>Update SEO</comment>
+  </data>
+  <data name="TitleRequired" xml:space="preserve">
+    <value>The title is a required field.</value>
+    <comment>The title is a required field.</comment>
+  </data>
 </root>

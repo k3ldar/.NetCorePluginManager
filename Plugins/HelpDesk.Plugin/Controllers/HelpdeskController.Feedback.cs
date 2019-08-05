@@ -45,8 +45,8 @@ namespace HelpdeskPlugin.Controllers
         #region Public Action Methods
 
         [HttpGet]
-		[Breadcrumb(nameof(Languages.LanguageStrings.Feedback), Name, nameof(Index))]
-		public IActionResult Feedback()
+        [Breadcrumb(nameof(Languages.LanguageStrings.Feedback), Name, nameof(Index))]
+        public IActionResult Feedback()
         {
             if (!_settings.ShowFeedback)
                 return RedirectToAction(nameof(Index), Name);
@@ -63,7 +63,7 @@ namespace HelpdeskPlugin.Controllers
                 feedback.Add(new FeedbackItemViewModel(username, item.Message));
             }
 
-            return View(new FeedbackViewModel(GetBreadcrumbs(), GetCartSummary(), feedback));
+            return View(new FeedbackViewModel(GetModelData(), feedback));
         }
 
         [HttpGet]
@@ -114,7 +114,7 @@ namespace HelpdeskPlugin.Controllers
             HelpdeskCacheItem helpdeskCache = GetCachedHelpdeskItem(true);
             helpdeskCache.CaptchaText = GetRandomWord(_settings.CaptchaWordLength, CaptchaCharacters);
 
-            return new LeaveFeedbackViewModel(GetBreadcrumbs(), GetCartSummary(), _settings.ShowCaptchaText);
+            return new LeaveFeedbackViewModel(GetModelData(), _settings.ShowCaptchaText);
         }
 
         #endregion Private Methods

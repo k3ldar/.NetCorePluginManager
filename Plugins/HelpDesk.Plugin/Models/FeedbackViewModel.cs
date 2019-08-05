@@ -34,9 +34,9 @@ namespace HelpdeskPlugin.Models
     {
         #region Constructors
 
-        public FeedbackViewModel(in List<BreadcrumbItem> breadcrumbs, in ShoppingCartSummary cartSummary,
+        public FeedbackViewModel(in BaseModelData modelData,
             in List<FeedbackItemViewModel> feedback)
-            : base(breadcrumbs, cartSummary)
+            : base(modelData)
         {
             Feedback = feedback ?? throw new ArgumentNullException(nameof(feedback));
         }

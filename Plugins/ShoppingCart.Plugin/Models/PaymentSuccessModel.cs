@@ -34,8 +34,8 @@ namespace ShoppingCartPlugin.Models
     {
         #region Constructors
 
-        public PaymentSuccessModel(in List<BreadcrumbItem> breadcrumbs, in ShoppingCartSummary cartSummary, int orderId)
-            : base(breadcrumbs, cartSummary)
+        public PaymentSuccessModel(in BaseModelData modelData, int orderId)
+            : base(modelData)
         {
             if (orderId == 0)
                 throw new ArgumentOutOfRangeException(nameof(orderId));

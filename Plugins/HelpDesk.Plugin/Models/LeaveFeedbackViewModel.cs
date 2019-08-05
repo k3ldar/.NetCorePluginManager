@@ -39,9 +39,9 @@ namespace HelpdeskPlugin.Models
 
         }
 
-        public LeaveFeedbackViewModel(in List<BreadcrumbItem> breadcrumbs, in ShoppingCartSummary cartSummary,
+        public LeaveFeedbackViewModel(in BaseModelData modelData,
             in bool showCaptchaText)
-            : base(breadcrumbs, cartSummary)
+            : base(modelData)
         {
             ShowCaptchaText = showCaptchaText;
         }

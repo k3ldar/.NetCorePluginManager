@@ -48,12 +48,11 @@ namespace ErrorManager.Plugin.Models.Error
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="breadcrumbs">List of breadcrumbs to be displayed on the page.</param>
-        /// <param name="cartSummary">Shopping cart summary.</param>
+        /// <param name="modelData">Base model data.</param>
         /// <param name="title">Title to be displayed on the page.</param>
-        public Error404Model(in List<BreadcrumbItem> breadcrumbs, in ShoppingCartSummary cartSummary, 
+        public Error404Model(in BaseModelData modelData,
             string title)
-            : base (breadcrumbs, cartSummary)
+            : base(modelData)
         {
             if (String.IsNullOrEmpty(title))
                 throw new ArgumentNullException(nameof(title));
@@ -64,14 +63,13 @@ namespace ErrorManager.Plugin.Models.Error
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="breadcrumbs">List of breadcrumbs to be displayed on the page.</param>
-        /// <param name="cartSummary">Shopping cart summary.</param>
+        /// <param name="modelData">Base model data.</param>
         /// <param name="title">Title to be displayed on the page.</param>
         /// <param name="message">Message to be displayed to the user.</param>
         /// <param name="image">Image to be displayed on the page.</param>
-        public Error404Model(in List<BreadcrumbItem> breadcrumbs, in ShoppingCartSummary cartSummary, 
+        public Error404Model(in BaseModelData modelData,
             string title, string message, string image)
-            : this(breadcrumbs, cartSummary, title)
+            : this(modelData, title)
         {
             if (String.IsNullOrEmpty(title))
                 throw new ArgumentNullException(nameof(title));

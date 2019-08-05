@@ -35,10 +35,10 @@ namespace SharedPluginFeatures
     {
         #region Constructors
 
-        internal BaseModelData(in List<BreadcrumbItem> breadcrumbs, 
-            in ShoppingCartSummary cartSummary, in string seoTitle, 
-            in string seoAuthor, in string seoDescription, 
-            in string seoTags)
+        internal BaseModelData(in List<BreadcrumbItem> breadcrumbs,
+            in ShoppingCartSummary cartSummary, in string seoTitle,
+            in string seoAuthor, in string seoDescription,
+            in string seoTags, in bool canManageSeoData)
         {
             Breadcrumbs = breadcrumbs ?? new List<BreadcrumbItem>();
             CartSummary = cartSummary;
@@ -46,6 +46,7 @@ namespace SharedPluginFeatures
             SeoDescription = seoDescription ?? String.Empty;
             SeoTitle = seoTitle ?? String.Empty;
             SeoTags = seoTags ?? String.Empty;
+            CanManageSeoData = canManageSeoData;
         }
 
         #endregion Constructors
@@ -88,6 +89,33 @@ namespace SharedPluginFeatures
         /// <value>string</value>
         public string SeoTags { get; private set; }
 
+        /// <summary>
+        /// Indicates whether the user can manage Seo data.
+        /// </summary>
+        public bool CanManageSeoData { get; private set; }
+
         #endregion Properties
+
+        #region Methods
+
+        /// <summary>
+        /// Allows the breadcrumbs to be replaced, should they be manually updated for routes with parameters.
+        /// </summary>
+        /// <param name="breadcrumbs">New list of breadcrumbs</param>
+        public void ReplaceBreadcrumbs(List<BreadcrumbItem> breadcrumbs)
+        {
+            Breadcrumbs = breadcrumbs ?? throw new ArgumentNullException(nameof(breadcrumbs));
+        }
+
+        /// <summary>
+        /// Allows the shopping cart summary to be replaced.
+        /// </summary>
+        /// <param name="shoppingCartSummary"></param>
+        public void ReplaceCartSummary(ShoppingCartSummary shoppingCartSummary)
+        {
+            CartSummary = shoppingCartSummary ?? throw new ArgumentNullException(nameof(shoppingCartSummary));
+        }
+
+        #endregion Methods
     }
 }

@@ -40,14 +40,13 @@ namespace DownloadPlugin.Models
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="breadcrumbs">List of breadcrumbs to be displayed on the page.</param>
-        /// <param name="cartSummary">Shopping cart summary.</param>
+        /// <param name="modelData">Base model data.</param>
         /// <param name="category">Download category.</param>
         /// <param name="downloads">List of downloadable files for the category.</param>
         /// <param name="categories">All available categories.</param>
-        public DownloadModel(in List<BreadcrumbItem> breadcrumbs, in ShoppingCartSummary cartSummary, 
+        public DownloadModel(in BaseModelData modelData,
             in string category, in List<DownloadableItem> downloads, in List<CategoriesModel> categories)
-            : base (breadcrumbs, cartSummary)
+            : base(modelData)
         {
             if (String.IsNullOrEmpty(category))
                 throw new ArgumentNullException(nameof(category));

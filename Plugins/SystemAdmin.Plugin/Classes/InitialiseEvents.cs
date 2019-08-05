@@ -50,6 +50,17 @@ namespace SystemAdmin.Plugin.Classes
 
             if (breadcrumbService != null && systemAdminHelper != null)
                 RegisterBreadcrumbs(breadcrumbService, systemAdminHelper);
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy(
+                    Constants.PolicyNameAlterSeoData,
+                    policyBuilder => policyBuilder.RequireClaim(Constants.ClaimNameManageSeo)
+                    .RequireClaim(Constants.ClaimNameStaff)
+                    .RequireClaim(Constants.ClaimNameUsername)
+                    .RequireClaim(Constants.ClaimNameUserId)
+                    .RequireClaim(Constants.ClaimNameUserEmail));
+            });
         }
 
         public void BeforeConfigure(in IApplicationBuilder app, in IHostingEnvironment env)
