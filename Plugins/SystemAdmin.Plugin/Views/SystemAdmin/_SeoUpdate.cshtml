@@ -8,7 +8,6 @@
                 <span aria-hidden="true">&times;</span>
             </button>
         </div>
-        @*<form action="/SystemAdmin/SeoData/" method="post">*@
         @using (Html.BeginForm(nameof(SystemAdmin.Plugin.Controllers.SystemAdminController.SeoUpdateData), SystemAdmin.Plugin.Controllers.SystemAdminController.Name, FormMethod.Post))
         {
             @Html.HiddenFor(m => m.SeoUrl)
@@ -36,7 +35,6 @@
                 <button type="submit" class="btn btn-primary">@Localizer[nameof(Languages.LanguageStrings.Save)]</button>
             </div>
             }
-            @*</form>*@
         </div>
 </div>
 

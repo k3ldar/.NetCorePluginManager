@@ -14962,6 +14962,11 @@
               Looks up a localized string similar to We could not process your payment with PayPoint, if you would like to try and pay again using PayPal click &quot;Pay Now&quot; alternatively if you would like to contact us and pay using your credit card please click &quot;Contact Us&quot;.  If you would like to cancel your order please click &quot;Cancel Order&quot;..
             </summary>
         </member>
+        <member name="P:Languages.LanguageStrings.Permissions">
+            <summary>
+              Looks up a localized string similar to Permissions.
+            </summary>
+        </member>
         <member name="P:Languages.LanguageStrings.Picture">
             <summary>
               Looks up a localized string similar to Picture.
@@ -16792,6 +16797,11 @@
         <member name="P:Languages.LanguageStrings.Username">
             <summary>
               Looks up a localized string similar to Username.
+            </summary>
+        </member>
+        <member name="P:Languages.LanguageStrings.UserPermissions">
+            <summary>
+              Looks up a localized string similar to User Permissions.
             </summary>
         </member>
         <member name="P:Languages.LanguageStrings.UserSession">

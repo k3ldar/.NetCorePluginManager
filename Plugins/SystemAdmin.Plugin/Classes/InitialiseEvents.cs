@@ -61,6 +61,14 @@ namespace SystemAdmin.Plugin.Classes
                     .RequireClaim(Constants.ClaimNameUserId)
                     .RequireClaim(Constants.ClaimNameUserEmail));
             });
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy(
+                    Constants.PolicyNameManagePermissions,
+                    policyBuilder => policyBuilder.RequireClaim(Constants.ClaimNameAdministrator)
+                        .RequireClaim(Constants.ClaimNameUserPermissions));
+            });
         }
 
         public void BeforeConfigure(in IApplicationBuilder app, in IHostingEnvironment env)
@@ -106,6 +114,9 @@ namespace SystemAdmin.Plugin.Classes
                             break;
                         case Enums.SystemAdminMenuType.FormattedText:
                             breadcrumbService.AddBreadcrumb(childItem.Name(), $"/SystemAdmin/TextEx/{childItem.UniqueId}", route, false);
+                            break;
+                        case Enums.SystemAdminMenuType.View:
+                            breadcrumbService.AddBreadcrumb(childItem.Name(), $"/{childItem.Controller()}/{childItem.Action()}/", route, false);
                             break;
                     }
 

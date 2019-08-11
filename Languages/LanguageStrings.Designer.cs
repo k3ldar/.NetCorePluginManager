@@ -26695,6 +26695,15 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Permissions.
+        /// </summary>
+        public static string Permissions {
+            get {
+                return ResourceManager.GetString("Permissions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Picture.
         /// </summary>
         public static string Picture {
@@ -29979,6 +29988,15 @@ namespace Languages {
         public static string Username {
             get {
                 return ResourceManager.GetString("Username", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to User Permissions.
+        /// </summary>
+        public static string UserPermissions {
+            get {
+                return ResourceManager.GetString("UserPermissions", resourceCulture);
             }
         }
         

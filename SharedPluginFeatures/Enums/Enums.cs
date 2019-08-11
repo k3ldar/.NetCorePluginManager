@@ -204,6 +204,11 @@ namespace SharedPluginFeatures
             /// Data to be shown within SystemAdmin.Plugin is raw text formatted using html.
             /// </summary>
             FormattedText = 5,
+
+            /// <summary>
+            /// Data to be shown within the plugin comes from a view
+            /// </summary>
+            View = 6,
         }
 
         /// <summary>

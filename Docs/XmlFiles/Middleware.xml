@@ -2019,6 +2019,39 @@
             Availability of stock for the item in the shopping cart.
             </summary>
         </member>
+        <member name="T:Middleware.Users.SearchUser">
+            <summary>
+            Class used to return results for user searches.
+            </summary>
+        </member>
+        <member name="M:Middleware.Users.SearchUser.#ctor">
+            <summary>
+            Default Constructor
+            </summary>
+        </member>
+        <member name="M:Middleware.Users.SearchUser.#ctor(System.Int64@,System.String@,System.String@)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="id">Id of user.</param>
+            <param name="name">Name of user.</param>
+            <param name="email">Email address for user.</param>
+        </member>
+        <member name="P:Middleware.Users.SearchUser.Id">
+            <summary>
+            Unique id for the user.
+            </summary>
+        </member>
+        <member name="P:Middleware.Users.SearchUser.Name">
+            <summary>
+            Name of the user.
+            </summary>
+        </member>
+        <member name="P:Middleware.Users.SearchUser.Email">
+            <summary>
+            Email for the user.
+            </summary>
+        </member>
         <member name="T:Middleware.Constants">
             <summary>
             Constant values used by PluginMiddleware
@@ -2815,6 +2848,19 @@
             Sets the current available stock level for a list of products within a shopping cart.
             </summary>
             <param name="shoppingCartItemList">ShoppingCartItem who's stock will be updated.</param>
+        </member>
+        <member name="T:Middleware.IUserSearch">
+            <summary>
+            Interface for searching system users, includes administrators, staff and web users.
+            </summary>
+        </member>
+        <member name="M:Middleware.IUserSearch.GetUsers(System.Int32@,System.Int32@,System.String,System.String)">
+            <summary>
+            Search for users.
+            </summary>
+            <param name="pageNumber">Page number</param>
+            <param name="pageSize">Page size.</param>
+            <returns>List&lt;Users&gt;</returns>
         </member>
     </members>
 </doc>

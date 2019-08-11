@@ -84,13 +84,16 @@
 
   <ItemGroup>
     <Content Remove="Views\Shared\_UpdatePageSeoDlg.cshtml" />
+    <Content Remove="Views\Shared\_UserSearch.cshtml" />
     <Content Remove="Views\SystemAdmin\Grid.cshtml" />
     <Content Remove="Views\SystemAdmin\Index.cshtml" />
     <Content Remove="Views\SystemAdmin\Map.cshtml" />
+    <Content Remove="Views\SystemAdmin\Permissions.cshtml" />
     <Content Remove="Views\SystemAdmin\Text.cshtml" />
     <Content Remove="Views\SystemAdmin\TextEx.cshtml" />
     <Content Remove="Views\SystemAdmin\_SeoUpdate.cshtml" />
     <Content Remove="Views\SystemAdmin\_UpdatePageSeo.cshtml" />
+    <Content Remove="Views\SystemAdmin\_UserPermissions.cshtml" />
     <Content Remove="wwwroot\css\SystemAdmin.css" />
     <Content Remove="wwwroot\images\badegg.png" />
     <Content Remove="wwwroot\images\Setting-icon.png" />
@@ -107,7 +110,10 @@
 
   <ItemGroup>
     <EmbeddedResource Include="Views\Shared\_UpdatePageSeoDlg.cshtml" />
+    <EmbeddedResource Include="Views\Shared\_UserSearch.cshtml" />
+    <EmbeddedResource Include="Views\SystemAdmin\Permissions.cshtml" />
     <EmbeddedResource Include="Views\SystemAdmin\_SeoUpdate.cshtml" />
+    <EmbeddedResource Include="Views\SystemAdmin\_UserPermissions.cshtml" />
     <EmbeddedResource Include="wwwroot\css\SystemAdmin.css" />
     <EmbeddedResource Include="wwwroot\images\SystemAdmin\badegg.png" />
     <EmbeddedResource Include="wwwroot\images\SystemAdmin\MapIcon\blue-pushpin.png" />
@@ -124,6 +130,7 @@
   
   <ItemGroup>
     <PackageReference Include="ApplicationSettings" Version="1.3.0" />
+    <PackageReference Include="jQuery.Bootgrid" Version="1.3.1" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
@@ -132,6 +139,7 @@
     <PackageReference Include="AspNetCore.PluginManager" Version="2.5.0" />
     <PackageReference Include="SharedPluginFeatures" Version="2.5.0" />
     <PackageReference Include="AspNetCore.PluginManager.Languages" Version="2.5.0" />
+    <PackageReference Include="Middleware" Version="2.5.0" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -140,6 +148,7 @@
     <ProjectReference Include="..\MemoryCachePlugin\MemoryCachePlugin.csproj" />
     <ProjectReference Include="..\RestrictIp.Plugin\RestrictIp.Plugin.csproj" />
     <ProjectReference Include="..\..\Languages\Languages.csproj" />
+    <ProjectReference Include="..\..\Plugins\PluginMiddleware\PluginMiddleware.csproj" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)'=='netcoreapp2.2'">

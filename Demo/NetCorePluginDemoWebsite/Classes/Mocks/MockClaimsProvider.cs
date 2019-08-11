@@ -34,6 +34,32 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
 {
     public class MockClaimsProvider : IClaimsProvider
     {
+        #region Private Members
+
+        private readonly List<string> _claimsForUser;
+
+        #endregion Private Members
+
+        #region Constructors
+
+        public MockClaimsProvider()
+        {
+            _claimsForUser = new List<string>();
+        }
+
+        #endregion Constructors
+
+        #region IClaimsProvider Methods
+
+        public AuthenticationProperties GetAuthenticationProperties()
+        {
+            return new AuthenticationProperties()
+            {
+                AllowRefresh = true,
+                IsPersistent = true,
+            };
+        }
+
         public List<ClaimsIdentity> GetUserClaims(in long userId)
         {
             List<ClaimsIdentity> Result = new List<ClaimsIdentity>();
@@ -54,13 +80,42 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
             return Result;
         }
 
-        public AuthenticationProperties GetAuthenticationProperties()
+        public bool SetClaimsForUser(in long id, in List<string> claims)
         {
-            return new AuthenticationProperties()
+            _claimsForUser.Clear();
+            _claimsForUser.AddRange(claims);
+            return true;
+        }
+
+        public List<string> GetAllClaims()
+        {
+            return new List<string>()
             {
-                AllowRefresh = true,
-                IsPersistent = true,
+                Constants.ClaimNameAdministrator,
+                Constants.ClaimNameCreateBlog,
+                Constants.ClaimNameManageSeo,
+                Constants.ClaimNameStaff,
+                Constants.ClaimNameUserPermissions
+
+
+                ,"Another 1",
+                "Another 2",
+                "Another 3",
+                "Another 4",
+                "Another 5",
+                "Another 6",
+                "Another 7",
+                "Another 8",
+                "Another 9",
+                "Another 10",
             };
         }
+
+        public List<string> GetClaimsForUser(in long id)
+        {
+            return _claimsForUser;
+        }
+
+        #endregion IClaimsProvider Methods
     }
 }

@@ -32,6 +32,8 @@ using SystemAdmin.Plugin.Models;
 
 using SharedPluginFeatures;
 
+using Middleware;
+
 namespace SystemAdmin.Plugin.Controllers
 {
     [LoggedIn]
@@ -43,17 +45,21 @@ namespace SystemAdmin.Plugin.Controllers
         private readonly ISystemAdminHelperService _systemAdminHelperService;
         private readonly ISettingsProvider _settingsProvider;
         private readonly ISeoProvider _seoProvider;
+        private readonly IUserSearch _userSearch;
+        private readonly IClaimsProvider _claimsProvider;
 
         #endregion Private Members
 
         #region Constructors
 
         public SystemAdminController(ISettingsProvider settingsProvider, ISystemAdminHelperService systemAdminHelperService,
-            ISeoProvider seoProvider)
+            ISeoProvider seoProvider, IUserSearch userSearch, IClaimsProvider claimsProvider)
         {
             _settingsProvider = settingsProvider ?? throw new ArgumentNullException(nameof(settingsProvider));
             _systemAdminHelperService = systemAdminHelperService ?? throw new ArgumentNullException(nameof(systemAdminHelperService));
             _seoProvider = seoProvider ?? throw new ArgumentNullException(nameof(seoProvider));
+            _userSearch = userSearch ?? throw new ArgumentNullException(nameof(userSearch));
+            _claimsProvider = claimsProvider ?? throw new ArgumentNullException(nameof(claimsProvider));
         }
 
         #endregion Constructors

@@ -14113,4 +14113,12 @@ You will shortly receive an email with the details of your order.</comment>
     <value>The title is a required field.</value>
     <comment>The title is a required field.</comment>
   </data>
+  <data name="Permissions" xml:space="preserve">
+    <value>Permissions</value>
+    <comment>Permissions</comment>
+  </data>
+  <data name="UserPermissions" xml:space="preserve">
+    <value>User Permissions</value>
+    <comment>User Permissions</comment>
+  </data>
 </root>

@@ -77,7 +77,8 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
             services.AddSingleton<ISeoProvider, MockSeoProvider>();
             services.AddSingleton<IStockProvider, MockStockProvider>();
             services.AddSingleton<IBlogProvider, MockBlogProvider>();
-            services.AddTransient<IClaimsProvider, MockClaimsProvider>();
+            services.AddSingleton<IClaimsProvider, MockClaimsProvider>();
+            services.AddSingleton<IUserSearch, MockUserSearch>();
         }
 
         public void Finalise()

@@ -334,6 +334,11 @@ namespace SharedPluginFeatures
         public const string PolicyNameAlterSeoData = "AlterSeo";
 
         /// <summary>
+        /// Name of Policy for managing user permissions and claims
+        /// </summary>
+        public const string PolicyNameManagePermissions = "ManagePermissions";
+
+        /// <summary>
         /// Claim name for administrators
         /// </summary>
         public const string ClaimNameAdministrator = "Administrator";
@@ -367,6 +372,11 @@ namespace SharedPluginFeatures
         /// Name of claim for user id
         /// </summary>
         public const string ClaimNameUserId = "UserId";
+
+        /// <summary>
+        /// Name of claim for managing user permissions
+        /// </summary>
+        public const string ClaimNameUserPermissions = "UserPermissions";
 
         /// <summary>
         /// Name of claim identity for user claims

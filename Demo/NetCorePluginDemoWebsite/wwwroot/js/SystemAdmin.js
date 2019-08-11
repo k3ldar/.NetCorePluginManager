@@ -1,24 +1,22 @@
-﻿const systemAdmin = (function () {
+﻿var systemAdmin = function () {
     let _settings = {
         seoPage: '',
         seoButton: '',
         seoModal: '',
     };
 
-    const root = {
+    let that = {
+
         init: function (settings) {
+            debugger;
             _settings = settings;
 
             $(document).ready(function () {
-
+                debugger;
             });
-        },
+        }
+    }
 
-        openSeoDialog: function (e) {
-            $(_settings.seoModal).modal('show');
-        },
-    };
-
-    return root;
-})();
+    return that;
+}();
 

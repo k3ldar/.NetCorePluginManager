@@ -52,22 +52,22 @@ namespace SystemAdmin.Plugin.Classes
 
         public override string Action()
         {
-            return (String.Empty);
+            return String.Empty;
         }
 
         public override string Area()
         {
-            return (String.Empty);
+            return String.Empty;
         }
 
         public override string Controller()
         {
-            return (String.Empty);
+            return String.Empty;
         }
 
         public override Enums.SystemAdminMenuType MenuType()
         {
-            return (Enums.SystemAdminMenuType.Text);
+            return Enums.SystemAdminMenuType.Text;
         }
 
         public override string Data()
@@ -75,34 +75,34 @@ namespace SystemAdmin.Plugin.Classes
             SystemAdminSettings settings = _settingsProvider.GetSettings<SystemAdminSettings>("SystemAdmin");
 
             if (!settings.ShowAppSettingsJson)
-                return ("Viewing appsettings.json has been disabled");
+                return "Viewing appsettings.json has been disabled";
 
             using (StreamReader rdr = new StreamReader("appsettings.json"))
             {
                 StringBuilder Result = new StringBuilder();
 
-                return (rdr.ReadToEnd());
+                return rdr.ReadToEnd();
             }
         }
 
         public override string Name()
         {
-            return ("appsettingsjson");
+            return "appsettingsjson";
         }
 
         public override string ParentMenuName()
         {
-            return ("System");
+            return "System";
         }
 
         public override int SortOrder()
         {
-            return (0);
+            return 0;
         }
 
         public override string Image()
         {
-            return (String.Empty);
+            return String.Empty;
         }
 
         #endregion SystemAdminSubMenu Methods
