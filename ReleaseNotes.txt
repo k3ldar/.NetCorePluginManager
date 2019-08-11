@@ -6,6 +6,7 @@ Version 2.5.0
 #86 Integrate claims and policies to Plugin Manager
 #87 Remove automatic x-ref of classes
 #89 Provide facilities for user with correct Claim to update Seo data for any page.
+#90 Update user claims
 
 Version 2.4.0
 =============
