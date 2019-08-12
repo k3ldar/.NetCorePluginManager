@@ -7,6 +7,7 @@ Version 2.5.0
 #87 Remove automatic x-ref of classes
 #89 Provide facilities for user with correct Claim to update Seo data for any page.
 #90 Update user claims
+#90 Add Policy for staff members and add it to system admin route.
 
 Version 2.4.0
 =============
