@@ -67,7 +67,12 @@ namespace SystemAdmin.Plugin.Classes
                 options.AddPolicy(
                     Constants.PolicyNameManagePermissions,
                     policyBuilder => policyBuilder.RequireClaim(Constants.ClaimNameAdministrator)
-                        .RequireClaim(Constants.ClaimNameUserPermissions));
+                        .RequireClaim(Constants.ClaimNameUserPermissions, Constants.ClaimNameStaff));
+
+                options.AddPolicy(
+                    Constants.PolicyNameStaff,
+                    policyBuilder => policyBuilder.RequireClaim(Constants.ClaimNameAdministrator)
+                        .RequireClaim(Constants.ClaimNameStaff, Constants.ClaimNameUserId));
             });
         }
 

@@ -33,11 +33,13 @@ using SystemAdmin.Plugin.Models;
 using SharedPluginFeatures;
 
 using Middleware;
+using Microsoft.AspNetCore.Authorization;
 
 namespace SystemAdmin.Plugin.Controllers
 {
     [LoggedIn]
     [RestrictedIpRoute("SystemAdminRoute")]
+    [Authorize(Policy = SharedPluginFeatures.Constants.PolicyNameStaff)]
     public partial class SystemAdminController : BaseController
     {
         #region Private Members

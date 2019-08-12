@@ -339,6 +339,11 @@ namespace SharedPluginFeatures
         public const string PolicyNameManagePermissions = "ManagePermissions";
 
         /// <summary>
+        /// Name of policy for members of staff
+        /// </summary>
+        public const string PolicyNameStaff = "MemberOfStaff";
+
+        /// <summary>
         /// Claim name for administrators
         /// </summary>
         public const string ClaimNameAdministrator = "Administrator";
