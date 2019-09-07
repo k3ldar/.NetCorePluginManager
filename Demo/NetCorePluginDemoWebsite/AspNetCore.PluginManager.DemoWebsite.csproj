@@ -10,6 +10,7 @@
     <RazorCompileOnPublish>false</RazorCompileOnPublish>
     <MvcRazorExcludeRefAssembliesFromPublish>false</MvcRazorExcludeRefAssembliesFromPublish>
     <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -79,6 +80,8 @@
     <PackageReference Include="SeoPlugin" Version="2.5.0" />
     <PackageReference Include="Spider.Plugin" Version="2.5.0" />
     <PackageReference Include="UserSessionMiddleware.Plugin" Version="2.5.0" />
+    <PackageReference Include="DocumentationPlugin" Version="2.5.0" />
+    <PackageReference Include="Sitemap.Plugin" Version="2.5.0" />
   </ItemGroup>
   
   <ItemGroup>
