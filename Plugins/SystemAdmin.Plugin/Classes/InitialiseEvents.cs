@@ -56,10 +56,10 @@ namespace SystemAdmin.Plugin.Classes
                 options.AddPolicy(
                     Constants.PolicyNameAlterSeoData,
                     policyBuilder => policyBuilder.RequireClaim(Constants.ClaimNameManageSeo)
-                    .RequireClaim(Constants.ClaimNameStaff)
-                    .RequireClaim(Constants.ClaimNameUsername)
-                    .RequireClaim(Constants.ClaimNameUserId)
-                    .RequireClaim(Constants.ClaimNameUserEmail));
+                        .RequireClaim(Constants.ClaimNameStaff)
+                        .RequireClaim(Constants.ClaimNameUsername)
+                        .RequireClaim(Constants.ClaimNameUserId)
+                        .RequireClaim(Constants.ClaimNameUserEmail));
             });
 
             services.AddAuthorization(options =>
@@ -67,12 +67,14 @@ namespace SystemAdmin.Plugin.Classes
                 options.AddPolicy(
                     Constants.PolicyNameManagePermissions,
                     policyBuilder => policyBuilder.RequireClaim(Constants.ClaimNameAdministrator)
-                        .RequireClaim(Constants.ClaimNameUserPermissions, Constants.ClaimNameStaff));
+                        .RequireClaim(Constants.ClaimNameUserPermissions)
+                        .RequireClaim(Constants.ClaimNameStaff));
 
                 options.AddPolicy(
                     Constants.PolicyNameStaff,
                     policyBuilder => policyBuilder.RequireClaim(Constants.ClaimNameAdministrator)
-                        .RequireClaim(Constants.ClaimNameStaff, Constants.ClaimNameUserId));
+                        .RequireClaim(Constants.ClaimNameStaff)
+                        .RequireClaim(Constants.ClaimNameUserId));
             });
         }
 

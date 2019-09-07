@@ -54,8 +54,8 @@ namespace Blog.Plugin.Classes
                 options.AddPolicy(
                     Constants.PolicyNameBlogRespond,
                     policyBuilder => policyBuilder.RequireClaim(Constants.ClaimNameUsername)
-                    .RequireClaim(Constants.ClaimNameUserId)
-                    .RequireClaim(Constants.ClaimNameUserEmail));
+                        .RequireClaim(Constants.ClaimNameUserId)
+                        .RequireClaim(Constants.ClaimNameUserEmail));
             });
         }
 
