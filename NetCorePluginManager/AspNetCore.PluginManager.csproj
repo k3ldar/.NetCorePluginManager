@@ -13,7 +13,7 @@
     <PackageTags>net core plugin manager middleware api di dependency injection</PackageTags>
     <PackageProjectUrl>http://pluginmanager.website/</PackageProjectUrl>
     <PackageReleaseNotes>Supports net core 2.1, 2.2, 3.0 and net461</PackageReleaseNotes>
-    <Version>2.5.0</Version>
+    <Version>3.0.0</Version>
     <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
   </PropertyGroup>
 

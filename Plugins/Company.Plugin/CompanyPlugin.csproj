@@ -5,7 +5,7 @@
     <AssemblyName>Company.Plugin</AssemblyName>
     <RootNamespace>Company.Plugin</RootNamespace>
     <LangVersion>latest</LangVersion>
-    <Version>2.5.0</Version>
+    <Version>3.0.0</Version>
     <RazorCompileOnBuild>false</RazorCompileOnBuild>
     <RazorCompileOnPublish>true</RazorCompileOnPublish>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
