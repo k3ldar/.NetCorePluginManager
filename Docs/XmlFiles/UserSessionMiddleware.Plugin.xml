@@ -193,12 +193,11 @@
             Finalises the Plugin module
             </summary>
         </member>
-        <member name="M:UserSessionMiddleware.Plugin.PluginInitialisation.Configure(Microsoft.AspNetCore.Builder.IApplicationBuilder,Microsoft.AspNetCore.Hosting.IHostingEnvironment)">
+        <member name="M:UserSessionMiddleware.Plugin.PluginInitialisation.Configure(Microsoft.AspNetCore.Builder.IApplicationBuilder)">
             <summary>
             Allows the Plugin module to configure the Mvc application builder
             </summary>
             <param name="app">IApplicationBuilder</param>
-            <param name="env">IHostingEnvironment</param>
         </member>
         <member name="M:UserSessionMiddleware.Plugin.PluginInitialisation.ConfigureServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
             <summary>

@@ -87,9 +87,9 @@
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netcoreapp3.0|AnyCPU'">
+  <PropertyGroup>
     <DocumentationFile>..\Docs\XmlFiles\AspNetCore.PluginManager.xml</DocumentationFile>
-    <NoWarn>1701;1702</NoWarn>
+    <NoWarn>1701;1702;AD0001</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
@@ -103,5 +103,4 @@
   <ItemGroup Condition="'$(Configuration)'=='Debug'">
     <ProjectReference Include="..\SharedPluginFeatures\SharedPluginFeatures.csproj" />
   </ItemGroup>
-
 </Project>

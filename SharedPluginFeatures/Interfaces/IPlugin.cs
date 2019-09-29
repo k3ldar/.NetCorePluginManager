@@ -59,8 +59,7 @@ namespace SharedPluginFeatures
         /// requirements that it provides.
         /// </summary>
         /// <param name="app">IApplicationBuilder instance.</param>
-        /// <param name="env">IHostingEnvironment instance.</param>
-        void Configure(IApplicationBuilder app, IHostingEnvironment env);
+        void Configure(IApplicationBuilder app);
 
         /// <summary>
         /// Provides the plugin module with an opportunity to register any services

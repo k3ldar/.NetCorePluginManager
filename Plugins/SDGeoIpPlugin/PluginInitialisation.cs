@@ -63,7 +63,7 @@ namespace SieraDeltaGeoIp.Plugin
 
         }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app)
         {
 
         }
@@ -79,12 +79,12 @@ namespace SieraDeltaGeoIp.Plugin
 
         #region IInitialiseEvents Methods
 
-        public void BeforeConfigure(in IApplicationBuilder app, in IHostingEnvironment env)
+        public void BeforeConfigure(in IApplicationBuilder app)
         {
 
         }
 
-        public void AfterConfigure(in IApplicationBuilder app, in IHostingEnvironment env)
+        public void AfterConfigure(in IApplicationBuilder app)
         {
 
         }

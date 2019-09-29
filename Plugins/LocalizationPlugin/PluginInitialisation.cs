@@ -72,7 +72,7 @@ namespace Localization.Plugin
 
         }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app)
         {
             app.UseRequestLocalization().UseLocalizationMiddleware();
         }

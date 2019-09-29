@@ -60,20 +60,6 @@ namespace AspNetCore.PluginManager
 
         #region Static Methods
 
-
-        /// <summary>
-        /// Initialises the PluginManager using a custom ILogger implementation.
-        /// 
-        /// This method is obsolete and will be removed from future versions.
-        /// </summary>
-        /// <param name="logger"></param>
-        /// <returns></returns>
-        [Obsolete("This method will be removed in future versions")]
-        public static bool Initialise(ILogger logger)
-        {
-            return Initialise(new PluginManagerConfiguration(logger, new Classes.LoadSettingsService()));
-        }
-
         /// <summary>
         /// Initialises the PluginManager using default confguration.
         /// </summary>
@@ -197,8 +183,7 @@ namespace AspNetCore.PluginManager
         /// Configures all plugin modules, allowing the modules to setup services for the application.
         /// </summary>
         /// <param name="app">IApplicationBuilder instance.</param>
-        /// <param name="env">IHostingEnvironment instance.</param>
-        public static void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public static void Configure(IApplicationBuilder app)
         {
             if (_logger == null)
                 throw new InvalidOperationException("Plugin Manager has not been initialised.");
@@ -206,20 +191,24 @@ namespace AspNetCore.PluginManager
             if (app == null)
                 throw new ArgumentNullException(nameof(app));
 
-            if (env == null)
-                throw new ArgumentNullException(nameof(env));
-
-
             if (_pluginConfiguration.Disabled)
                 return;
 
             List<IInitialiseEvents> init = _pluginManagerInstance.GetPluginClasses<IInitialiseEvents>();
-            init.ForEach(i => i.BeforeConfigure(app, env));
+            init.ForEach(i => i.BeforeConfigure(app));
 
-            _pluginManagerInstance.Configure(app, env);
+            _pluginManagerInstance.Configure(app);
 
-            init.ForEach(i => i.AfterConfigure(app, env));
+            init.ForEach(i => i.AfterConfigure(app));
         }
+
+#pragma warning disable CS1591
+        [Obsolete("This method is obsolete and will be removed in the next version.  Use Configure(app); instead.")]
+        public static void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        {
+            Configure(app);
+        }
+#pragma warning restore CS1591
 
         /// <summary>
         /// Configures all plugin module services, allowing the modules to add their own services to the application.

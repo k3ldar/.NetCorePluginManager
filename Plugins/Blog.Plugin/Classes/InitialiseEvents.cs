@@ -42,7 +42,7 @@ namespace Blog.Plugin.Classes
     {
         #region IInitialiseEvents
 
-        public void AfterConfigure(in IApplicationBuilder app, in IHostingEnvironment env)
+        public void AfterConfigure(in IApplicationBuilder app)
         {
 
         }
@@ -63,7 +63,7 @@ namespace Blog.Plugin.Classes
             });
         }
 
-        public void BeforeConfigure(in IApplicationBuilder app, in IHostingEnvironment env)
+        public void BeforeConfigure(in IApplicationBuilder app)
         {
 
         }

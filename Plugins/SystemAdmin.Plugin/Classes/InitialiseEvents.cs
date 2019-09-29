@@ -37,7 +37,7 @@ namespace SystemAdmin.Plugin.Classes
     {
         #region IInitialiseEvents Methods
 
-        public void AfterConfigure(in IApplicationBuilder app, in IHostingEnvironment env)
+        public void AfterConfigure(in IApplicationBuilder app)
         {
 
         }
@@ -79,7 +79,7 @@ namespace SystemAdmin.Plugin.Classes
             });
         }
 
-        public void BeforeConfigure(in IApplicationBuilder app, in IHostingEnvironment env)
+        public void BeforeConfigure(in IApplicationBuilder app)
         {
 
         }

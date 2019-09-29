@@ -27,6 +27,7 @@ using System;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Server.HttpSys;
 using Microsoft.AspNetCore.Server.IISIntegration;
 
@@ -37,7 +38,6 @@ using Middleware.Accounts;
 using Middleware.Helpdesk;
 
 using AspNetCore.PluginManager.DemoWebsite.Helpers;
-using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace AspNetCore.PluginManager.DemoWebsite.Classes
 {
@@ -45,7 +45,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
     {
         #region IPlugin Methods
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app)
         {
             app.UseAuthentication();
         }

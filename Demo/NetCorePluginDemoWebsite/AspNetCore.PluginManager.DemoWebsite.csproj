@@ -85,8 +85,15 @@
   </ItemGroup>
   
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Cookies" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.CookiePolicy" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.HttpsPolicy" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Server.HttpSys" Version="2.2.6" />
+    <PackageReference Include="Microsoft.AspNetCore.Session" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="2.2.0" />
     <PackageReference Include="SC.Shared.Library.Core" Version="2.9.4" />
-    <PackageReference Include="FirebirdSql.Data.FirebirdClient" Version="6.6.0" />    
+    <PackageReference Include="FirebirdSql.Data.FirebirdClient" Version="7.1.1" />    
   </ItemGroup>
 
   <ItemGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -127,7 +134,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authorization" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Antiforgery" Version="2.2.0" />
@@ -143,7 +149,7 @@
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.Abstractions" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.HostFiltering" Version="2.2.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Hosting" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Hosting" Version="2.2.7" />
     <PackageReference Include="Microsoft.AspNetCore.Hosting.Abstractions" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Hosting.Server.Abstractions" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Html.Abstractions" Version="2.2.0" />
@@ -156,16 +162,15 @@
     <PackageReference Include="Microsoft.AspNetCore.Localization" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Abstractions" Version="2.2.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Analyzers" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.ApiExplorer" Version="2.2.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Cors" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.DataAnnotations" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Formatters.Json" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Localization" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.Extensions" Version="2.2.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.RazorPages" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.RazorPages" Version="2.2.5" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.TagHelpers" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.ViewFeatures" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Razor" Version="2.2.0" />

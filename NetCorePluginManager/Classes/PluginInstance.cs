@@ -24,7 +24,6 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 
 using SharedPluginFeatures;
@@ -33,24 +32,24 @@ namespace AspNetCore.PluginManager
 {
     internal sealed class PluginInstance : IPlugin
     {
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app)
         {
-            
+
         }
 
         public void ConfigureServices(IServiceCollection services)
         {
-            
+
         }
 
         public void Finalise()
         {
-            
+
         }
 
         public void Initialise(ILogger logger)
         {
-            
+
         }
     }
 }

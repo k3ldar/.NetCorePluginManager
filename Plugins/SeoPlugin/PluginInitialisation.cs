@@ -67,7 +67,7 @@ namespace SeoPlugin
 
         }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app)
         {
             app.UseSeo();
         }

@@ -58,26 +58,26 @@ namespace Company.Plugin
             });
 
 
-            services.AddMvc()
+            services.AddMvc(
+#if NET_CORE_3_0
+                option => option.EnableEndpointRouting = false
+#endif
+                )
                 .ConfigurePluginManager();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure (IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure (IApplicationBuilder app,
+#if NET_CORE_3_0
+            IWebHostEnvironment env)
+#else
+            IHostingEnvironment env)
+#endif
         {
             // Allow plugin manager to configure options for all plugins
-            PluginManagerService.Configure(app, env);
+            PluginManagerService.Configure(app);
 
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
-            else
-            {
-                app.UseExceptionHandler("/Error");
-                app.UseHsts();
-            }
-
+            app.UseHsts();
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();

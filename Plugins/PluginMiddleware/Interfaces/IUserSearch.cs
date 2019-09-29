@@ -37,8 +37,10 @@ namespace Middleware
         /// <summary>
         /// Search for users.
         /// </summary>
-        /// <param name="pageNumber">Page number</param>
+        /// <param name="pageNumber">Page number.</param>
         /// <param name="pageSize">Page size.</param>
+        /// <param name="searchField">Field which is being searched.</param>
+        /// <param name="searchOrder">Search order for search field.</param>
         /// <returns>List&lt;Users&gt;</returns>
         List<SearchUser> GetUsers(in int pageNumber, in int pageSize, string searchField, string searchOrder);
     }

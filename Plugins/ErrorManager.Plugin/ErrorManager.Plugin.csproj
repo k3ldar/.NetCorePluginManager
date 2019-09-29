@@ -76,8 +76,9 @@
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netcoreapp2.2|AnyCPU'">
+  <PropertyGroup>
     <DocumentationFile>..\..\Docs\XmlFiles\ErrorManager.Plugin.xml</DocumentationFile>
+    <NoWarn>1701;1702;AD0001</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
@@ -152,7 +153,6 @@
     <PackageReference Include="Microsoft.AspNetCore.Localization" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Abstractions" Version="2.2.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Analyzers" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.ApiExplorer" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.2" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Cors" Version="2.2.0" />

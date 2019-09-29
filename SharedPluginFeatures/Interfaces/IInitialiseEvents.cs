@@ -47,15 +47,13 @@ namespace SharedPluginFeatures
         /// Indicates that the Configure method will be called on IPlugin instances.
         /// </summary>
         /// <param name="app">IApplicationBuilder instance.</param>
-        /// <param name="env">IHostingEnvironment instance.</param>
-        void BeforeConfigure(in IApplicationBuilder app, in IHostingEnvironment env);
+        void BeforeConfigure(in IApplicationBuilder app);
 
         /// <summary>
         /// Indicates that all plugins have had an opportunity to load configuration data.
         /// </summary>
         /// <param name="app">IApplicationBuilder instance.</param>
-        /// <param name="env">IHostingEnvironment instance.</param>
-        void AfterConfigure(in IApplicationBuilder app, in IHostingEnvironment env);
+        void AfterConfigure(in IApplicationBuilder app);
 
         /// <summary>
         /// Indicates that the ConfigureServices method on each IPlugin implementation will

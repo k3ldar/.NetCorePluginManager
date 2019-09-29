@@ -69,7 +69,7 @@ namespace Spider.Plugin
 
         }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app)
         {
             app.UseSpider();
         }

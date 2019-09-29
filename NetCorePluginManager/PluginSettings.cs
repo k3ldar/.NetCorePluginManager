@@ -84,13 +84,6 @@ namespace AspNetCore.PluginManager
         public string JScriptLocation { get; set; }
 
         /// <summary>
-        /// This property is not currently used and will be removed from future versions.
-        /// </summary>
-        /// <value>bool</value>
-        [Obsolete("This method is obsolete and will be removed in future versions")]
-        public bool PreventAreas { get; set; }
-
-        /// <summary>
         /// Prevents PluginManager from creating an IRouteDataService instance that can be obtained from IoC
         /// </summary>
         /// <value>bool</value>

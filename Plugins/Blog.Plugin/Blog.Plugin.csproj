@@ -76,8 +76,9 @@
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netcoreapp2.2|AnyCPU'">
+  <PropertyGroup>
     <DocumentationFile>..\..\Docs\XmlFiles\Blog.Plugin.xml</DocumentationFile>
+    <NoWarn>1701;1702;AD0001</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
@@ -158,19 +159,16 @@
     <PackageReference Include="Microsoft.AspNetCore.Localization" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Abstractions" Version="2.2.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Analyzers" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.ApiExplorer" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.2" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Cors" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.DataAnnotations" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Formatters.Json" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Localization" Version="2.2.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.Extensions" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.RazorPages" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.TagHelpers" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.ViewFeatures" Version="2.2.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Razor" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Language" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Runtime" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.ResponseCaching.Abstractions" Version="2.2.0" />
@@ -183,7 +181,6 @@
     <PackageReference Include="Microsoft.AspNetCore.Server.Kestrel.Transport.Abstractions" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets" Version="2.2.1" />
     <PackageReference Include="Microsoft.AspNetCore.WebUtilities" Version="2.2.0" />
-    <PackageReference Include="Microsoft.CodeAnalysis.Razor" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.2.0" />

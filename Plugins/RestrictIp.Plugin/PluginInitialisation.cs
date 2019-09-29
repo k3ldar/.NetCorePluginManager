@@ -59,7 +59,7 @@ namespace RestrictIp.Plugin
 
         }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app)
         {
             app.UseMiddleware<RestrictIpMiddleware>();
         }

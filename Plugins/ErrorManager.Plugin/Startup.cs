@@ -55,23 +55,23 @@ namespace ErrorManager.Plugin
 
 
             services.AddSingleton<SharedPluginFeatures.IErrorManager, Classes.TempErrorManager>();
-            services.AddMvc();
+            services.AddMvc(
+#if NET_CORE_3_0
+                option => option.EnableEndpointRouting = false
+#endif
+                );
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app,
+#if NET_CORE_3_0
+            IWebHostEnvironment env)
+#else
+            IHostingEnvironment env)
+#endif
         {
             app.UseErrorManager();
-
-            if (env.IsDevelopment())
-            {
-
-            }
-            else
-            {
-                app.UseHsts();
-            }
-
+            app.UseHsts();
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();

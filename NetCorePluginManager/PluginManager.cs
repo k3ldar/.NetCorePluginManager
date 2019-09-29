@@ -214,14 +214,13 @@ namespace AspNetCore.PluginManager
         /// Allows plugins to configure with the current 
         /// </summary>
         /// <param name="app"></param>
-        /// <param name="env"></param>
-        internal void Configure(in IApplicationBuilder app, in IHostingEnvironment env)
+        internal void Configure(in IApplicationBuilder app)
         {
             foreach (KeyValuePair<string, IPluginModule> plugin in _plugins)
             {
                 try
                 {
-                    plugin.Value.Plugin.Configure(app, env);
+                    plugin.Value.Plugin.Configure(app);
                 }
                 catch (Exception error)
                 {

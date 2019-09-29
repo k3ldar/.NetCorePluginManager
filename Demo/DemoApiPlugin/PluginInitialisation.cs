@@ -35,7 +35,7 @@ namespace MemoryCache.Plugin
     {
         #region IPlugin Methods
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app)
         {
 
             app.UseMvc(routes =>

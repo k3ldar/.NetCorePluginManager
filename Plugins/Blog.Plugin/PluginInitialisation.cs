@@ -30,6 +30,10 @@ using SharedPluginFeatures;
 
 #pragma warning disable CS1591
 
+#if NET_CORE_2_2
+#pragma warning disable CS0618, IDE0060
+#endif
+
 namespace Blog.Plugin
 {
     /// <summary>
@@ -38,7 +42,7 @@ namespace Blog.Plugin
     /// </summary>
     public class PluginInitialisation : IPlugin, IPluginVersion
     {
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app)
         {
 
         }
@@ -65,4 +69,8 @@ namespace Blog.Plugin
     }
 }
 
-#pragma warning restore CS1591
+#if NET_CORE_2_2
+#pragma warning restore CS0618
+#endif
+
+#pragma warning restore CS1591, IDE0060

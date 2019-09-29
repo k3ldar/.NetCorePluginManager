@@ -204,12 +204,11 @@
             <param name="pluginName">Filename of plugin to be loaded.</param>
             <param name="copyLocal">If true, copies the plugin to a local temp area to load from.</param>
         </member>
-        <member name="M:AspNetCore.PluginManager.PluginManager.Configure(Microsoft.AspNetCore.Builder.IApplicationBuilder@,Microsoft.AspNetCore.Hosting.IHostingEnvironment@)">
+        <member name="M:AspNetCore.PluginManager.PluginManager.Configure(Microsoft.AspNetCore.Builder.IApplicationBuilder@)">
             <summary>
             Allows plugins to configure with the current 
             </summary>
             <param name="app"></param>
-            <param name="env"></param>
         </member>
         <member name="M:AspNetCore.PluginManager.PluginManager.ConfigureServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
             <summary>
@@ -314,15 +313,6 @@
             Static class containing methods that can be used to configure and initialise the Plugin Manager.
             </summary>
         </member>
-        <member name="M:AspNetCore.PluginManager.PluginManagerService.Initialise(SharedPluginFeatures.ILogger)">
-            <summary>
-            Initialises the PluginManager using a custom ILogger implementation.
-            
-            This method is obsolete and will be removed from future versions.
-            </summary>
-            <param name="logger"></param>
-            <returns></returns>
-        </member>
         <member name="M:AspNetCore.PluginManager.PluginManagerService.Initialise">
             <summary>
             Initialises the PluginManager using default confguration.
@@ -336,12 +326,11 @@
             <param name="configuration"></param>
             <returns>bool</returns>
         </member>
-        <member name="M:AspNetCore.PluginManager.PluginManagerService.Configure(Microsoft.AspNetCore.Builder.IApplicationBuilder,Microsoft.AspNetCore.Hosting.IHostingEnvironment)">
+        <member name="M:AspNetCore.PluginManager.PluginManagerService.Configure(Microsoft.AspNetCore.Builder.IApplicationBuilder)">
             <summary>
             Configures all plugin modules, allowing the modules to setup services for the application.
             </summary>
             <param name="app">IApplicationBuilder instance.</param>
-            <param name="env">IHostingEnvironment instance.</param>
         </member>
         <member name="M:AspNetCore.PluginManager.PluginManagerService.ConfigureServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
             <summary>
@@ -451,12 +440,6 @@
             Path where .js files will be placed when being extracted from plugin modules.
             </summary>
             <value>string</value>
-        </member>
-        <member name="P:AspNetCore.PluginManager.PluginSettings.PreventAreas">
-            <summary>
-            This property is not currently used and will be removed from future versions.
-            </summary>
-            <value>bool</value>
         </member>
         <member name="P:AspNetCore.PluginManager.PluginSettings.DisableRouteDataService">
             <summary>

@@ -51,19 +51,6 @@ namespace SharedPluginFeatures
         }
 
         /// <summary>
-        /// Constructor allowing developer to pass in a list of current BreadcrumbItem classes for
-        /// the current request along with a ShoppingCartSummary instance.
-        /// </summary>
-        /// <param name="breadcrumbs">List&lt;BreadCrumbItem&gt; list of breadcrumbs for the current route.</param>
-        /// <param name="cartSummary">ShoppingCartSummary instance with shopping cart details.</param>
-        [Obsolete("This constructor is obsolete and will be removed in future versions.")]
-        public BaseModel(in List<BreadcrumbItem> breadcrumbs, in ShoppingCartSummary cartSummary)
-        {
-            CartSummary = cartSummary ?? throw new ArgumentNullException(nameof(cartSummary));
-            _breadcrumbs = breadcrumbs ?? throw new ArgumentNullException(nameof(breadcrumbs));
-        }
-
-        /// <summary>
         /// Constructor allowing developer to pass all generic base model data in one pass.
         /// </summary>
         /// <param name="modelData">BaseModelData</param>

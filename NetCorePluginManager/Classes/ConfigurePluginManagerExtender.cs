@@ -65,6 +65,7 @@ namespace AspNetCore.PluginManager
 
         #region Private Static Methods
 
+#pragma warning disable CS0618
         private static void ConfigurePartManager(in IMvcBuilder mvcBuilder)
         {
             // configure featue provider
@@ -75,15 +76,16 @@ namespace AspNetCore.PluginManager
                 manager.FeatureProviders.Add(new PluginFeatureProvider());
             });
         }
+#pragma warning restore CS0618
 
         private static void ConfigureCompiledViews(in IMvcBuilder mvcBuilder)
-        { 
+        {
             // configure Compiled Views
             Dictionary<string, IPluginModule> plugins = PluginManagerService.GetPluginManager().GetLoadedPlugins();
 
             foreach (KeyValuePair<string, IPluginModule> keyValuePair in plugins)
             {
-                string primaryModule =  String.IsNullOrEmpty(keyValuePair.Value.Assembly.Location) ? keyValuePair.Value.Assembly.CodeBase : keyValuePair.Value.Assembly.Location;
+                string primaryModule = String.IsNullOrEmpty(keyValuePair.Value.Assembly.Location) ? keyValuePair.Value.Assembly.CodeBase : keyValuePair.Value.Assembly.Location;
                 string compiledViewAssembly = Path.ChangeExtension(primaryModule, Constants.ViewsFileExtension);
 
                 if (File.Exists(compiledViewAssembly))

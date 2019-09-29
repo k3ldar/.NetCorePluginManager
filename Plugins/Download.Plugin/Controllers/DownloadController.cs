@@ -53,7 +53,11 @@ namespace DownloadPlugin.Controllers
         #region Private Members
 
         private static readonly CacheManager _downloadCache = new CacheManager("Downloads", new TimeSpan(0, 60, 0));
+#if NET_CORE_3_0
+        private readonly IWebHostEnvironment _hostingEnvironment;
+#else
         private readonly IHostingEnvironment _hostingEnvironment;
+#endif
         private readonly IDownloadProvider _downloadProvider;
         private readonly List<DownloadCategory> _categories;
         private readonly int _productsPerPage;
@@ -62,8 +66,12 @@ namespace DownloadPlugin.Controllers
 
         #region Constructors
 
-        public DownloadController(IHostingEnvironment hostingEnvironment,
-            IDownloadProvider downloadProvider)
+        public DownloadController(IDownloadProvider downloadProvider,
+#if NET_CORE_3_0
+            IWebHostEnvironment hostingEnvironment)
+#else
+            IHostingEnvironment hostingEnvironment)
+#endif
         {
             _hostingEnvironment = hostingEnvironment ?? throw new ArgumentNullException(nameof(hostingEnvironment));
             _downloadProvider = downloadProvider ?? throw new ArgumentNullException(nameof(downloadProvider));

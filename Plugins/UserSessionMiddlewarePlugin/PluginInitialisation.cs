@@ -73,8 +73,7 @@ namespace UserSessionMiddleware.Plugin
         /// Allows the Plugin module to configure the Mvc application builder
         /// </summary>
         /// <param name="app">IApplicationBuilder</param>
-        /// <param name="env">IHostingEnvironment</param>
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app)
         {
             app.UseUserSessionMiddleware();
         }

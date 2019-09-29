@@ -81,7 +81,7 @@ namespace SystemAdmin.Plugin
                 app.UseHsts();
             }
 
-            AspNetCore.PluginManager.PluginManagerService.Configure(app, env);
+            AspNetCore.PluginManager.PluginManagerService.Configure(app);
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();

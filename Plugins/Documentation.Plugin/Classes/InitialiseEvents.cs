@@ -43,7 +43,7 @@ namespace DocumentationPlugin.Classes
     /// </summary>
     public sealed class InitialiseEvents : IInitialiseEvents
     {
-        public void AfterConfigure(in IApplicationBuilder app, in IHostingEnvironment env)
+        public void AfterConfigure(in IApplicationBuilder app)
         {
             
         }
@@ -65,7 +65,7 @@ namespace DocumentationPlugin.Classes
                 ThreadPriority.BelowNormal);
         }
 
-        public void BeforeConfigure(in IApplicationBuilder app, in IHostingEnvironment env)
+        public void BeforeConfigure(in IApplicationBuilder app)
         {
             
         }

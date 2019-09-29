@@ -37,7 +37,7 @@ namespace HelpdeskPlugin
     /// </summary>
     public class PluginInitialisation : IPlugin, IPluginVersion
     {
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app)
         {
 
         }

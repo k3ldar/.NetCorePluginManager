@@ -51,7 +51,7 @@ namespace MemoryCache.Plugin
 
         }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app)
         {
             
         }

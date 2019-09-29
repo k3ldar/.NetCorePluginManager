@@ -37,6 +37,8 @@ using Microsoft.Extensions.DependencyModel;
 
 using static SharedPluginFeatures.Enums.LogLevel;
 
+#pragma warning disable CS0618
+
 namespace AspNetCore.PluginManager
 {
     internal class PluginFeatureProvider : IApplicationFeatureProvider<MetadataReferenceFeature>
@@ -113,4 +115,7 @@ namespace AspNetCore.PluginManager
             }
         }
     }
+
 }
+
+#pragma warning restore CS0618

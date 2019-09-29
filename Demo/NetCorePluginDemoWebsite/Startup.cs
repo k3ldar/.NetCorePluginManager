@@ -69,22 +69,18 @@ namespace AspNetCore.PluginManager.DemoWebsite
 
             services.AddLogging();
 
-            services.AddMvc()
-                .ConfigurePluginManager();
+            services.AddMvc().ConfigurePluginManager();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             // Allow plugin manager to configure options for all plugins
-            PluginManagerService.Configure(app, env);
+            PluginManagerService.Configure(app);
 
             app.UseStaticFiles();
 
-            if (!env.IsDevelopment())
-            {
-                app.UseHsts();
-            }
+            app.UseHsts();
 
             app.UseHttpsRedirection();
             app.UseCookiePolicy();

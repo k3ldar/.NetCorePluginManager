@@ -25,7 +25,6 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
 
 using SharedPluginFeatures;
 
@@ -35,7 +34,7 @@ namespace DemoWebsitePlugin.Plugin
     {
         #region IPlugin Methods
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app)
         {
 
             app.UseMvc(routes =>
