@@ -25,6 +25,8 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System.Collections.Generic;
 
+#pragma warning disable CS1591, IDE1006
+
 namespace SharedPluginFeatures
 {
     public class BootgridRequestData
@@ -55,3 +57,5 @@ namespace SharedPluginFeatures
     }
 
 }
+
+#pragma warning restore CS1591, IDE1006

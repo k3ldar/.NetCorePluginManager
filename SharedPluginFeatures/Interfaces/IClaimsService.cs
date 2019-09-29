@@ -11,55 +11,31 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2012 - 2018 Simon Carter.  All Rights Reserved.
  *
- *  Product:  SystemAdmin.Plugin
+ *  Product:  SharedPluginFeatues
  *  
- *  File: PluginInitialisation.cs
+ *  File: IClaimsService.cs
  *
- *  Purpose:  
+ *  Purpose: Allows plugins to define new claims
  *
  *  Date        Name                Reason
- *  28/10/2018  Simon Carter        Initially Created
+ *  08/09/2019  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.DependencyInjection;
+using System.Collections.Generic;
 
-using SharedPluginFeatures;
-
-namespace SystemAdmin.Plugin
+namespace SharedPluginFeatures
 {
     /// <summary>
-    /// Implements IPlugin and IPluginVersion which allows the SystemAdmin.Plugin module to be
-    /// loaded as a plugin module
+    /// IClaimsService provides plugins the ability to define new claim names from within plugin modules.
     /// </summary>
-    public class PluginInitialisation : IPlugin, IPluginVersion
+    public interface IClaimsService
     {
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
-        {
-
-        }
-
-        public void ConfigureServices(IServiceCollection services)
-        {
-            services.AddSingleton<ISystemAdminHelperService, SystemAdminHelper>();
-        }
-
-        public void Finalise()
-        {
-
-        }
-
-        public ushort GetVersion()
-        {
-            return (1);
-        }
-
-        public void Initialise(ILogger logger)
-        {
-
-        }
+        /// <summary>
+        /// Retrieves a list of claims provided by the plugin module.
+        /// </summary>
+        /// <returns>List&lt;string&gt;</returns>
+        List<string> GetClaims();
     }
 }

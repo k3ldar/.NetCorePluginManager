@@ -29,10 +29,11 @@ using Microsoft.Extensions.DependencyInjection;
 
 using SharedPluginFeatures;
 using System;
+using System.Collections.Generic;
 
 namespace SystemAdmin.Plugin.Classes
 {
-    public class InitialiseEvents : IInitialiseEvents
+    public class InitialiseEvents : IInitialiseEvents, IClaimsService
     {
         #region IInitialiseEvents Methods
 
@@ -89,6 +90,24 @@ namespace SystemAdmin.Plugin.Classes
         }
 
         #endregion IInitialiseEvents Methods
+
+        #region IClaimsService
+
+        public List<string> GetClaims()
+        {
+            return new List<string>()
+            {
+                Constants.ClaimNameStaff,
+                Constants.ClaimNameUsername,
+                Constants.ClaimNameUserId,
+                Constants.ClaimNameUserEmail,
+                Constants.ClaimNameAdministrator,
+                Constants.ClaimNameManageSeo,
+                Constants.ClaimNameUserPermissions,
+            };
+        }
+
+        #endregion IClaimsService
 
         #region Private Methods
 

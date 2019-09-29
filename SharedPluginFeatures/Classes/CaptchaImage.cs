@@ -69,7 +69,7 @@ namespace SharedPluginFeatures
         private string familyName;
 
         // For generating random numbers.
-        private Random random = new Random(DateTime.Now.Millisecond);
+        private readonly Random random = new Random(DateTime.Now.Millisecond);
 
         #endregion Private Members
 
@@ -84,7 +84,7 @@ namespace SharedPluginFeatures
         /// <param name="width">Width of the image.</param>
         /// <param name="height">Height of the image.</param>
         public CaptchaImage(string s, int width, int height)
-            : this (s, width, height, FontFamily.GenericSerif.Name)
+            : this(s, width, height, FontFamily.GenericSerif.Name)
         {
 
         }

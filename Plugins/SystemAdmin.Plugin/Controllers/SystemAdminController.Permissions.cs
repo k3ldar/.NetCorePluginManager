@@ -25,11 +25,8 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
-using SharedPluginFeatures;
 using SystemAdmin.Plugin.Models;
 
 namespace SystemAdmin.Plugin.Controllers
@@ -41,15 +38,13 @@ namespace SystemAdmin.Plugin.Controllers
         [HttpGet]
         public IActionResult Permissions()
         {
-            PermissionsModel model = new PermissionsModel(GetModelData());
-
-            return View(model);
+            return View(new PermissionsModel(GetModelData()));
         }
 
         [HttpGet]
         public IActionResult GetUserPermissions(long id)
         {
-            UserPermissionsViewModel model = new UserPermissionsViewModel(id, 
+            UserPermissionsViewModel model = new UserPermissionsViewModel(id,
                 _claimsProvider.GetClaimsForUser(id), _claimsProvider.GetAllClaims());
 
             return PartialView("_UserPermissions", model);

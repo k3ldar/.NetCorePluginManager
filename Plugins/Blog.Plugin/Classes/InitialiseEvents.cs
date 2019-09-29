@@ -23,6 +23,8 @@
  *  03/08/2019  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+using System.Collections.Generic;
+
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
@@ -36,8 +38,10 @@ namespace Blog.Plugin.Classes
     /// <summary>
     /// Implements IInitialiseEvents which allows the Blog module to configure policies
     /// </summary>
-    public class InitialiseEvents : IInitialiseEvents
+    public class InitialiseEvents : IInitialiseEvents, IClaimsService
     {
+        #region IInitialiseEvents
+
         public void AfterConfigure(in IApplicationBuilder app, in IHostingEnvironment env)
         {
 
@@ -68,6 +72,24 @@ namespace Blog.Plugin.Classes
         {
 
         }
+
+        #endregion IInitialiseEvents
+
+        #region IClaimsService
+
+        public List<string> GetClaims()
+        {
+            return new List<string>()
+            {
+                Constants.ClaimNameCreateBlog,
+                Constants.ClaimNameUsername,
+                Constants.ClaimNameUserId,
+                Constants.ClaimNameUserEmail,
+                Constants.ClaimIdentityBlog
+            };
+        }
+
+        #endregion IClaimsService
     }
 }
 

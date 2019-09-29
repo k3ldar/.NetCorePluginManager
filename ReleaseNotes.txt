@@ -1,6 +1,6 @@
 Version 3.0.0
 =============
-
+#91 Allow plugin modules to define claim names
 
 
 Version 2.5.0

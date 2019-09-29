@@ -23,6 +23,7 @@
  *  21/11/2018  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+using System;
 using System.Collections.Generic;
 using System.Security.Claims;
 
@@ -36,14 +37,16 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
     {
         #region Private Members
 
+        private readonly IPluginClassesService _pluginClassesService;
         private readonly List<string> _claimsForUser;
 
         #endregion Private Members
 
         #region Constructors
 
-        public MockClaimsProvider()
+        public MockClaimsProvider(IPluginClassesService pluginClassesService)
         {
+            _pluginClassesService = pluginClassesService ?? throw new ArgumentNullException(nameof(pluginClassesService));
             _claimsForUser = new List<string>();
         }
 
@@ -89,26 +92,18 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
 
         public List<string> GetAllClaims()
         {
-            return new List<string>()
+            List<string> Result = new List<string>();
+
+            foreach (IClaimsService claimsService in _pluginClassesService.GetPluginClasses<IClaimsService>())
             {
-                Constants.ClaimNameAdministrator,
-                Constants.ClaimNameCreateBlog,
-                Constants.ClaimNameManageSeo,
-                Constants.ClaimNameStaff,
-                Constants.ClaimNameUserPermissions
+                foreach (string claim in claimsService.GetClaims())
+                {
+                    if (!Result.Contains(claim))
+                        Result.Add(claim);
+                }
+            }
 
-
-                ,"Another 1",
-                "Another 2",
-                "Another 3",
-                "Another 4",
-                "Another 5",
-                "Another 6",
-                "Another 7",
-                "Another 8",
-                "Another 9",
-                "Another 10",
-            };
+            return Result;
         }
 
         public List<string> GetClaimsForUser(in long id)

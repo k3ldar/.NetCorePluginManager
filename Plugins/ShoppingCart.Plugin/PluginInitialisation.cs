@@ -23,8 +23,6 @@
  *  06/03/2019  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using System;
-
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
@@ -48,12 +46,12 @@ namespace ShoppingCartPlugin
 
         public void ConfigureServices(IServiceCollection services)
         {
-            
+
         }
 
         public void Finalise()
         {
-            
+
         }
 
         public void Initialise(ILogger logger)
@@ -76,17 +74,17 @@ namespace ShoppingCartPlugin
 
         public void BeforeConfigure(in IApplicationBuilder app, in IHostingEnvironment env)
         {
-            
+
         }
 
         public void AfterConfigure(in IApplicationBuilder app, in IHostingEnvironment env)
         {
-            
+
         }
 
         public void BeforeConfigureServices(in IServiceCollection services)
         {
-            
+
         }
 
         public void AfterConfigureServices(in IServiceCollection services)
