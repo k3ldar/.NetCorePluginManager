@@ -63,17 +63,18 @@ namespace AspNetCore.PluginManager.DemoWebsite
             services.AddSession(options =>
             {
                 // Set a short timeout for easy testing.
-                options.IdleTimeout = TimeSpan.FromSeconds(10);
-                options.Cookie.HttpOnly = false;
+                //options.IdleTimeout = TimeSpan.FromSeconds(10);
+                //options.Cookie.HttpOnly = false;
             });
 
             services.AddLogging();
-
-            services.AddMvc().ConfigurePluginManager();
+            services.AddMvc(
+                option => option.EnableEndpointRouting = false
+                ).AddRazorRuntimeCompilation().ConfigurePluginManager().AddRazorRuntimeCompilation();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             // Allow plugin manager to configure options for all plugins
             PluginManagerService.Configure(app);

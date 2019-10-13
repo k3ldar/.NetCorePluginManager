@@ -43,7 +43,7 @@ namespace AspNetCore.PluginManager.DemoWebsite
             PluginManagerService.UsePlugin(typeof(SeoPlugin.PluginInitialisation));
             PluginManagerService.UsePlugin(typeof(Localization.Plugin.PluginInitialisation));
             PluginManagerService.UsePlugin(typeof(Breadcrumb.Plugin.PluginInitialisation));
-            
+
             // Initialise the plugin manager service
             PluginManagerService.Initialise();
 
@@ -59,6 +59,8 @@ namespace AspNetCore.PluginManager.DemoWebsite
             PluginManagerService.UsePlugin(typeof(DownloadPlugin.PluginInitialisation));
             PluginManagerService.UsePlugin(typeof(Company.Plugin.PluginInitialisation));
             PluginManagerService.UsePlugin(typeof(Blog.Plugin.PluginInitialisation));
+            PluginManagerService.UsePlugin(typeof(DemoWebsitePlugin.Plugin.PluginInitialisation));
+            PluginManagerService.UsePlugin(typeof(DemoApiPlugin.PluginInitialisation));
 
             CreateWebHostBuilder(args).Build().Run();
         }
@@ -66,6 +68,7 @@ namespace AspNetCore.PluginManager.DemoWebsite
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>()
+                .UseContentRoot(System.IO.Directory.GetCurrentDirectory())
                 .UseDefaultServiceProvider(options =>
                     options.ValidateScopes = false);
     }

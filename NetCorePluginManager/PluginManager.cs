@@ -202,7 +202,9 @@ namespace AspNetCore.PluginManager
                 PluginSetting setting = GetPluginSetting(pluginName);
 
                 if (setting != null && !setting.Disabled)
+                {
                     LoadPlugin(LoadAssembly(pluginFile), pluginFile, true);
+                }
             }
             catch (Exception error)
             {

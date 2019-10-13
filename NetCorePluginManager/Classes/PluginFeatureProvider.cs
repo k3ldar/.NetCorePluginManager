@@ -41,6 +41,8 @@ using static SharedPluginFeatures.Enums.LogLevel;
 
 namespace AspNetCore.PluginManager
 {
+#if NET_CORE_2_2 || NET_CORE_2_1 || NET_CORE_2_0 || NET461
+
     internal class PluginFeatureProvider : IApplicationFeatureProvider<MetadataReferenceFeature>
     {
         public void PopulateFeature(IEnumerable<ApplicationPart> parts, MetadataReferenceFeature feature)
@@ -115,7 +117,7 @@ namespace AspNetCore.PluginManager
             }
         }
     }
-
+#endif
 }
 
 #pragma warning restore CS0618

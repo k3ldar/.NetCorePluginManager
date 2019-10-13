@@ -52,8 +52,14 @@ namespace AspNetCore.PluginManager
         /// <returns>IMvcBuilder</returns>
         public static IMvcBuilder ConfigurePluginManager(this IMvcBuilder mvcBuilder)
         {
+#if NET_CORE_2_2 || NET_CORE_2_1 || NET_CORE_2_0 || NET461
             ConfigurePartManager(mvcBuilder);
             ConfigureCompiledViews(mvcBuilder);
+#endif
+
+#if NET_CORE_3_0
+            AddApplicationParts(mvcBuilder);
+#endif
 
             // allow plugins to configure MvcBuilder
             ConfigurePlugins(mvcBuilder);
@@ -64,6 +70,16 @@ namespace AspNetCore.PluginManager
         #endregion Public Static Methods
 
         #region Private Static Methods
+
+#if NET_CORE_3_0
+        private static void AddApplicationParts(in IMvcBuilder mvcBuilder)
+        {
+            foreach (KeyValuePair<string, IPluginModule> plugin in PluginManagerService.GetPluginManager().GetLoadedPlugins())
+                mvcBuilder.AddApplicationPart(plugin.Value.Assembly);
+        }
+#endif
+
+#if NET_CORE_2_2 || NET_CORE_2_1 || NET_CORE_2_0 || NET461
 
 #pragma warning disable CS0618
         private static void ConfigurePartManager(in IMvcBuilder mvcBuilder)
@@ -99,6 +115,7 @@ namespace AspNetCore.PluginManager
                 }
             }
         }
+#endif
 
         private static void ConfigurePlugins(in IMvcBuilder mvcBuilder)
         {

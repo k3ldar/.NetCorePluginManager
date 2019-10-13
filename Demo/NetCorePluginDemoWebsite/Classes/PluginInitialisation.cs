@@ -57,8 +57,10 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
                 {
                     options.AccessDeniedPath = "/Error/AccessDenied";
                     options.LoginPath = "/Login/";
+#if NET_CORE_2_2 || NET_CORE_2_1 || NET_CORE_2_0 || NET461
                     options.SlidingExpiration = true;
                     options.Cookie.Expiration = new TimeSpan(7, 0, 0, 0);
+#endif
                 });
 
             services.AddSingleton<IIpValidation, IPValidation>();
@@ -91,15 +93,15 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
 
         }
 
-        #endregion IPlugin Methods
+#endregion IPlugin Methods
 
-        #region IPluginVersion Methods
+#region IPluginVersion Methods
 
         public ushort GetVersion()
         {
             return (1);
         }
 
-        #endregion IPluginVersion Methods
+#endregion IPluginVersion Methods
     }
 }

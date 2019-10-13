@@ -55,6 +55,7 @@ namespace AspNetCore.PluginManager
         private static PluginSettings _pluginConfiguration;
         private static string _rootPath;
         private static List<Type> _preinitialisedPlugins = new List<Type>();
+        private static PluginManagerConfiguration _configuration;
 
         #endregion Private Members
 
@@ -76,9 +77,7 @@ namespace AspNetCore.PluginManager
         /// <returns>bool</returns>
         public static bool Initialise(in PluginManagerConfiguration configuration)
         {
-            if (configuration == null)
-                throw new ArgumentNullException(nameof(configuration));
-
+            _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
             _logger = new Classes.LoggerStatistics();
             Classes.LoggerStatistics.SetLogger(configuration.Logger);
 
@@ -148,8 +147,11 @@ namespace AspNetCore.PluginManager
                                 continue;
                             }
                         }
-
+#if NET_CORE_3_0
+                        _logger.AddToLog(LogLevel.PluginConfigureError, $"Unable to load {pluginFile} dynamically, use UsePlugin() method instead.");
+#else
                         _pluginManagerInstance.LoadPlugin(pluginFile, _pluginConfiguration.CreateLocalCopy);
+#endif
                     }
                 }
 
@@ -295,6 +297,11 @@ namespace AspNetCore.PluginManager
             return _rootPath;
         }
 
+        internal static PluginManagerConfiguration Configuration()
+        {
+            return _configuration;
+        }
+
         #endregion Internal Static Methods
 
         #region Private Static Methods
@@ -379,6 +386,9 @@ namespace AspNetCore.PluginManager
 
         private static string GetPluginPath()
         {
+#if NET_CORE_3_0
+            return String.Empty;
+#endif
             // is the path overridden in config
             if (!String.IsNullOrWhiteSpace(_pluginConfiguration.PluginPath) &&
                 Directory.Exists(_pluginConfiguration.PluginPath))
