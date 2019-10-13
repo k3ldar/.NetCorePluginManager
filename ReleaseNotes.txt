@@ -2,6 +2,7 @@ Version 3.0.0
 =============
 #91 Allow plugin modules to define claim names
 #93 Provide support for IWebHostEnvironment
+#92 Support for Net Core 3.0
 
 
 Version 2.5.0
