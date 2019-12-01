@@ -52,8 +52,6 @@ namespace MemoryCache.Plugin
 
         public MemoryCache(ISettingsProvider settingsProvider)
         {
-            ThreadManager.Initialise();
-
             MemoryClassPluginSettings settings = settingsProvider.GetSettings<MemoryClassPluginSettings>("MemoryCachePluginConfiguration");
 
             // create the caches

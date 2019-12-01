@@ -87,7 +87,6 @@ namespace UserSessionMiddleware.Plugin
 
             Settings.SessionTimeout = Shared.Utilities.CheckMinMax(Settings.SessionTimeout, 15, 200);
 
-            ThreadManager.Initialise();
             UserSessionManager.InitialiseSessionManager(new TimeSpan(0, (int)Settings.SessionTimeout, 0));
 
             SessionHelper.InitSessionHelper();

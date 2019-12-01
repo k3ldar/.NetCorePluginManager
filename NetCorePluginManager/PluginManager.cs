@@ -32,7 +32,6 @@ using System.Linq;
 using System.Reflection;
 
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
@@ -491,16 +490,21 @@ namespace AspNetCore.PluginManager
         /// </summary>
         public void Dispose()
         {
-            foreach (KeyValuePair<string, IPluginModule> plugin in _plugins)
+            if (_plugins != null && _plugins.Count > 0)
             {
-                try
+                foreach (KeyValuePair<string, IPluginModule> plugin in _plugins)
                 {
-                    plugin.Value.Plugin.Finalise();
+                    try
+                    {
+                        plugin.Value.Plugin.Finalise();
+                    }
+                    catch (Exception error)
+                    {
+                        _logger.AddToLog(LogLevel.Error, error, $"{plugin.Key}{MethodBase.GetCurrentMethod().Name}");
+                    }
                 }
-                catch (Exception error)
-                {
-                    _logger.AddToLog(LogLevel.Error, error, $"{plugin.Key}{MethodBase.GetCurrentMethod().Name}");
-                }
+
+                _plugins.Clear();
             }
         }
 

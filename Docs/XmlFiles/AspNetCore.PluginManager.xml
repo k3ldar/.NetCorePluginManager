@@ -326,6 +326,12 @@
             <param name="configuration"></param>
             <returns>bool</returns>
         </member>
+        <member name="M:AspNetCore.PluginManager.PluginManagerService.Finalise">
+            <summary>
+            Finalises the PluginManger, provides an opportunity for the plugins to clean up ready for close down.
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:AspNetCore.PluginManager.PluginManagerService.Configure(Microsoft.AspNetCore.Builder.IApplicationBuilder)">
             <summary>
             Configures all plugin modules, allowing the modules to setup services for the application.

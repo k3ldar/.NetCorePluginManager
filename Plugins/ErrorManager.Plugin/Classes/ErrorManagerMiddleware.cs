@@ -67,8 +67,6 @@ namespace ErrorManager.Plugin
             _errorManager = errorManager ?? throw new ArgumentNullException(nameof(errorManager));
             _errorThreadManager = new ErrorThreadManager(errorManager);
 
-            ThreadManager.Initialise();
-
             if (!ThreadManager.Exists("Error Manager"))
                 ThreadManager.ThreadStart(_errorThreadManager, "Error Manager", ThreadPriority.Lowest);
 

@@ -81,8 +81,6 @@ namespace Breadcrumb.Plugin
             _next = next;
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
-            ThreadManager.Initialise();
-
             if (pluginHelperService.PluginLoaded(Constants.PluginNameLocalization, out int version))
             {
                 List<IStringLocalizer> stringLocalizers = pluginClassesService.GetPluginClasses<IStringLocalizer>();

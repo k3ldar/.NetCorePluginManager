@@ -23,12 +23,10 @@
  *  20/01/2019  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using System;
-
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 
+using Shared.Classes;
 using SharedPluginFeatures;
 
 #pragma warning disable CS1591
@@ -45,12 +43,12 @@ namespace Breadcrumb.Plugin
 
         public void Initialise(ILogger logger)
         {
-
+            ThreadManager.Initialise();
         }
 
         public void Finalise()
         {
-
+            ThreadManager.Finalise();
         }
 
         public void Configure(IApplicationBuilder app)

@@ -24,8 +24,9 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
+
+using Shared.Classes;
 using SharedPluginFeatures;
 
 #pragma warning disable CS1591
@@ -45,12 +46,12 @@ namespace ErrorManager.Plugin
 
         public void ConfigureServices(IServiceCollection services)
         {
-            
+
         }
 
         public void Finalise()
         {
-            
+            ThreadManager.Finalise();
         }
 
         public ushort GetVersion()
@@ -60,7 +61,7 @@ namespace ErrorManager.Plugin
 
         public void Initialise(ILogger logger)
         {
-            
+            ThreadManager.Initialise();
         }
     }
 }

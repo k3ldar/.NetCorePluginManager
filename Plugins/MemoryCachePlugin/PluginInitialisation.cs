@@ -25,8 +25,8 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
 
+using Shared.Classes;
 using SharedPluginFeatures;
 
 #pragma warning disable CS1591
@@ -43,17 +43,17 @@ namespace MemoryCache.Plugin
 
         public void Initialise(ILogger logger)
         {
-
+            ThreadManager.Initialise();
         }
 
         public void Finalise()
         {
-
+            ThreadManager.Finalise();
         }
 
         public void Configure(IApplicationBuilder app)
         {
-            
+
         }
 
         public void ConfigureServices(IServiceCollection services)

@@ -46,23 +46,29 @@ namespace AspNetCore.PluginManager.DemoWebsite
 
             // Initialise the plugin manager service
             PluginManagerService.Initialise();
+            try
+            {
+                // Add generic plugins where load order does not matter
+                PluginManagerService.UsePlugin(typeof(DocumentationPlugin.PluginInitialisation));
+                PluginManagerService.UsePlugin(typeof(ProductPlugin.PluginInitialisation));
+                PluginManagerService.UsePlugin(typeof(ShoppingCartPlugin.PluginInitialisation));
+                PluginManagerService.UsePlugin(typeof(HelpdeskPlugin.PluginInitialisation));
+                PluginManagerService.UsePlugin(typeof(UserAccount.Plugin.PluginInitialisation));
+                PluginManagerService.UsePlugin(typeof(LoginPlugin.PluginInitialisation));
+                PluginManagerService.UsePlugin(typeof(Sitemap.Plugin.PluginInitialisation));
+                PluginManagerService.UsePlugin(typeof(SystemAdmin.Plugin.PluginInitialisation));
+                PluginManagerService.UsePlugin(typeof(DownloadPlugin.PluginInitialisation));
+                PluginManagerService.UsePlugin(typeof(Company.Plugin.PluginInitialisation));
+                PluginManagerService.UsePlugin(typeof(Blog.Plugin.PluginInitialisation));
+                PluginManagerService.UsePlugin(typeof(DemoWebsitePlugin.Plugin.PluginInitialisation));
+                PluginManagerService.UsePlugin(typeof(DemoApiPlugin.PluginInitialisation));
 
-            // Add generic plugins where load order does not matter
-            PluginManagerService.UsePlugin(typeof(DocumentationPlugin.PluginInitialisation));
-            PluginManagerService.UsePlugin(typeof(ProductPlugin.PluginInitialisation));
-            PluginManagerService.UsePlugin(typeof(ShoppingCartPlugin.PluginInitialisation));
-            PluginManagerService.UsePlugin(typeof(HelpdeskPlugin.PluginInitialisation));
-            PluginManagerService.UsePlugin(typeof(UserAccount.Plugin.PluginInitialisation));
-            PluginManagerService.UsePlugin(typeof(LoginPlugin.PluginInitialisation));
-            PluginManagerService.UsePlugin(typeof(Sitemap.Plugin.PluginInitialisation));
-            PluginManagerService.UsePlugin(typeof(SystemAdmin.Plugin.PluginInitialisation));
-            PluginManagerService.UsePlugin(typeof(DownloadPlugin.PluginInitialisation));
-            PluginManagerService.UsePlugin(typeof(Company.Plugin.PluginInitialisation));
-            PluginManagerService.UsePlugin(typeof(Blog.Plugin.PluginInitialisation));
-            PluginManagerService.UsePlugin(typeof(DemoWebsitePlugin.Plugin.PluginInitialisation));
-            PluginManagerService.UsePlugin(typeof(DemoApiPlugin.PluginInitialisation));
-
-            CreateWebHostBuilder(args).Build().Run();
+                CreateWebHostBuilder(args).Build().Run();
+            }
+            finally
+            {
+                PluginManagerService.Finalise();
+            }
         }
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>

@@ -26,9 +26,9 @@
 using System;
 
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 
+using Shared.Classes;
 using SharedPluginFeatures;
 
 namespace UserSessionMiddleware.Plugin
@@ -58,6 +58,7 @@ namespace UserSessionMiddleware.Plugin
         /// <param name="logger">ILogger</param>
         public void Initialise(ILogger logger)
         {
+            ThreadManager.Initialise();
             GetLogger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
@@ -66,7 +67,7 @@ namespace UserSessionMiddleware.Plugin
         /// </summary>
         public void Finalise()
         {
-
+            ThreadManager.Finalise();
         }
 
         /// <summary>

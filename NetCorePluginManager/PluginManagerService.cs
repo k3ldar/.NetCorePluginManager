@@ -182,12 +182,25 @@ namespace AspNetCore.PluginManager
         }
 
         /// <summary>
+        /// Finalises the PluginManger, provides an opportunity for the plugins to clean up ready for close down.
+        /// </summary>
+        /// <returns></returns>
+        public static void Finalise()
+        {
+            _pluginManagerInstance.Dispose();
+            _pluginManagerInstance = null;
+            _logger = null;
+            _pluginConfiguration = null;
+            _configuration = null;
+        }
+
+        /// <summary>
         /// Configures all plugin modules, allowing the modules to setup services for the application.
         /// </summary>
         /// <param name="app">IApplicationBuilder instance.</param>
         public static void Configure(IApplicationBuilder app)
         {
-            if (_logger == null)
+            if (_logger == null || _pluginManagerInstance == null)
                 throw new InvalidOperationException("Plugin Manager has not been initialised.");
 
             if (app == null)
@@ -218,7 +231,7 @@ namespace AspNetCore.PluginManager
         /// <param name="services">IServiceCollection instance</param>
         public static void ConfigureServices(IServiceCollection services)
         {
-            if (_logger == null)
+            if (_logger == null || _pluginManagerInstance == null)
                 throw new InvalidOperationException("Plugin Manager has not been initialised.");
 
             if (services == null)
@@ -265,7 +278,7 @@ namespace AspNetCore.PluginManager
         /// <exception cref="System.InvalidOperationException">Thrown when the iPluginType does not implement IPlugin interface.</exception>
         public static void UsePlugin(Type iPluginType)
         {
-            if ((iPluginType.GetInterface(typeof(IPlugin).Name) != null))
+            if (iPluginType.GetInterface(typeof(IPlugin).Name) != null)
             {
                 if (_preinitialisedPlugins == null)
                     GetPluginManager().LoadPlugin(iPluginType.Assembly.Location, false);

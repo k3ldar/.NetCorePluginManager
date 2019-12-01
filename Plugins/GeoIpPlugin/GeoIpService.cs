@@ -60,8 +60,6 @@ namespace GeoIp.Plugin
 
             if (System.IO.File.Exists(_geoIpSettings.Webnet77CSVData))
             {
-                ThreadManager.Initialise();
-
                 LoadWebNet77Data loadWebNet77DataThread = new LoadWebNet77Data(_geoIpSettings.Webnet77CSVData, _tempIpCity);
                 loadWebNet77DataThread.ThreadFinishing += LoadWebNet77DataThread_ThreadFinishing;
                 ThreadManager.ThreadStart(loadWebNet77DataThread, "Load GeoIp Data", System.Threading.ThreadPriority.Highest);

@@ -59,7 +59,6 @@ namespace Localization.Plugin
 
             _next = next;
 
-            ThreadManager.Initialise();
             _cultureCache = PluginInitialisation.CultureCache;
         }
 

@@ -64,12 +64,13 @@ namespace Localization.Plugin
 
         public void Initialise(ILogger logger)
         {
+            ThreadManager.Initialise();
             GetLogger = logger;
         }
 
         public void Finalise()
         {
-
+            ThreadManager.Finalise();
         }
 
         public void Configure(IApplicationBuilder app)
