@@ -49,39 +49,39 @@
   </ItemGroup>
 
   <ItemGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <PackageReference Include="AspNetCore.PluginManager" Version="3.0.0" />
-    <PackageReference Include="BadEgg.Plugin" Version="3.0.0" />
-    <PackageReference Include="Breadcrumb.Plugin" Version="3.0.0" />
-    <PackageReference Include="CacheControl.Plugin" Version="3.0.0" />
+    <PackageReference Include="AspNetCore.PluginManager" Version="3.0.1" />
+    <PackageReference Include="BadEgg.Plugin" Version="3.0.1" />
+    <PackageReference Include="Breadcrumb.Plugin" Version="3.0.1" />
+    <PackageReference Include="CacheControl.Plugin" Version="3.0.1" />
     <PackageReference Include="ErrorManager.Plugin" Version="3.0.0" />
-    <PackageReference Include="GeoIp.Plugin" Version="3.0.0" />
-    <PackageReference Include="HelpdeskPlugin" Version="3.0.0" />
+    <PackageReference Include="GeoIp.Plugin" Version="3.0.1" />
+    <PackageReference Include="HelpdeskPlugin" Version="3.0.1" />
     <PackageReference Include="Localization.Plugin" Version="3.0.0" />
-    <PackageReference Include="LoginPlugin" Version="3.0.0" />
-    <PackageReference Include="MemoryCache.Plugin" Version="3.0.0" />
-    <PackageReference Include="Middleware" Version="3.0.0" />
-    <PackageReference Include="AspNetCore.PluginManager.Languages" Version="3.0.0" />
-    <PackageReference Include="RestrictIp.Plugin" Version="3.0.0" />
-    <PackageReference Include="ShoppingCartPlugin" Version="3.0.0" />
-    <PackageReference Include="SieraDeltaGeoIp.Plugin" Version="3.0.0" />
+    <PackageReference Include="LoginPlugin" Version="3.0.1" />
+    <PackageReference Include="MemoryCache.Plugin" Version="3.0.1" />
+    <PackageReference Include="Middleware" Version="3.0.1" />
+    <PackageReference Include="AspNetCore.PluginManager.Languages" Version="3.0.1" />
+    <PackageReference Include="RestrictIp.Plugin" Version="3.0.1" />
+    <PackageReference Include="ShoppingCartPlugin" Version="3.0.1" />
+    <PackageReference Include="SieraDeltaGeoIp.Plugin" Version="3.0.1" />
     <PackageReference Include="Spider.Plugin" Version="3.0.0" />
-    <PackageReference Include="SystemAdmin.Plugin" Version="3.0.0" />
-    <PackageReference Include="UserAccount.Plugin" Version="3.0.0" />
+    <PackageReference Include="SystemAdmin.Plugin" Version="3.0.1" />
+    <PackageReference Include="UserAccount.Plugin" Version="3.0.1" />
     <PackageReference Include="UserSessionMiddleware.Plugin" Version="3.0.0" />
-    <PackageReference Include="ProductPlugin" Version="3.0.0" />
-    <PackageReference Include="Blog.Plugin" Version="3.0.0" />
-    <PackageReference Include="Company.Plugin" Version="3.0.0" />
-    <PackageReference Include="DownloadPlugin" Version="3.0.0" />
-    <PackageReference Include="BadEgg.Plugin" Version="3.0.0" />
-    <PackageReference Include="ErrorManager.Plugin" Version="3.0.0" />
-    <PackageReference Include="Breadcrumb.Plugin" Version="3.0.0" />
-    <PackageReference Include="Localization.Plugin" Version="3.0.0" />
-    <PackageReference Include="CacheControl.Plugin" Version="3.0.0" />
-    <PackageReference Include="SeoPlugin" Version="3.0.0" />
-    <PackageReference Include="Spider.Plugin" Version="3.0.0" />
-    <PackageReference Include="UserSessionMiddleware.Plugin" Version="3.0.0" />
-    <PackageReference Include="DocumentationPlugin" Version="3.0.0" />
-    <PackageReference Include="Sitemap.Plugin" Version="3.0.0" />
+    <PackageReference Include="ProductPlugin" Version="3.0.1" />
+    <PackageReference Include="Blog.Plugin" Version="3.0.1" />
+    <PackageReference Include="Company.Plugin" Version="3.0.1" />
+    <PackageReference Include="DownloadPlugin" Version="3.0.1" />
+    <PackageReference Include="BadEgg.Plugin" Version="3.0.1" />
+    <PackageReference Include="ErrorManager.Plugin" Version="3.0.1" />
+    <PackageReference Include="Breadcrumb.Plugin" Version="3.0.1" />
+    <PackageReference Include="Localization.Plugin" Version="3.0.1" />
+    <PackageReference Include="CacheControl.Plugin" Version="3.0.1" />
+    <PackageReference Include="SeoPlugin" Version="3.0.1" />
+    <PackageReference Include="Spider.Plugin" Version="3.0.1" />
+    <PackageReference Include="UserSessionMiddleware.Plugin" Version="3.0.1" />
+    <PackageReference Include="DocumentationPlugin" Version="3.0.1" />
+    <PackageReference Include="Sitemap.Plugin" Version="3.0.1" />
   </ItemGroup>
   
   <ItemGroup>
@@ -93,7 +93,7 @@
     <PackageReference Include="Microsoft.AspNetCore.Server.HttpSys" Version="2.2.6" />
     <PackageReference Include="Microsoft.AspNetCore.Session" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="2.2.0" />
-    <PackageReference Include="SC.Shared.Library.Core" Version="2.9.4" />
+    <PackageReference Include="SC.Shared.Library.Core" Version="2.9.5" />
     <PackageReference Include="FirebirdSql.Data.FirebirdClient" Version="7.1.1" />    
   </ItemGroup>
 

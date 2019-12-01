@@ -109,12 +109,12 @@
   </ItemGroup>
 
   <ItemGroup Condition="'$(Configuration)'=='Release'">
-    <PackageReference Include="RestrictIp.Plugin" Version="3.0.0" />
-    <PackageReference Include="MemoryCache.Plugin" Version="3.0.0" />
-    <PackageReference Include="AspNetCore.PluginManager" Version="3.0.0" />
-    <PackageReference Include="SharedPluginFeatures" Version="3.0.0" />
-    <PackageReference Include="Middleware" Version="3.0.0" />
-    <PackageReference Include="AspNetCore.PluginManager.Languages" Version="3.0.0" />
+    <PackageReference Include="RestrictIp.Plugin" Version="3.0.1" />
+    <PackageReference Include="MemoryCache.Plugin" Version="3.0.1" />
+    <PackageReference Include="AspNetCore.PluginManager" Version="3.0.1" />
+    <PackageReference Include="SharedPluginFeatures" Version="3.0.1" />
+    <PackageReference Include="Middleware" Version="3.0.1" />
+    <PackageReference Include="AspNetCore.PluginManager.Languages" Version="3.0.1" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(Configuration)'=='Debug'">

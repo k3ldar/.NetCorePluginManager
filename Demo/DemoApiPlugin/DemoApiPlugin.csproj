@@ -23,8 +23,8 @@
   </ItemGroup>
 
   <ItemGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <PackageReference Include="AspNetCore.PluginManager" Version="3.0.0" />
-    <PackageReference Include="SharedPluginFeatures" Version="3.0.0" />
+    <PackageReference Include="AspNetCore.PluginManager" Version="3.0.1" />
+    <PackageReference Include="SharedPluginFeatures" Version="3.0.1" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
