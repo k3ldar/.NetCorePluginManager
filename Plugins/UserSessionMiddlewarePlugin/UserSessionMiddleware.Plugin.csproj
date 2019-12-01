@@ -13,7 +13,7 @@
     <PackageReleaseNotes>Supports net core 2.1, 2.2, 3.0 and net461</PackageReleaseNotes>
     <PackageTags>asp net core plugin manager user session manager middleware plugin</PackageTags>
     <Description>User Session Manager middleware retains user session information within ASP.Net Core websites.</Description>
-    <Version>3.0.0</Version>
+    <Version>3.0.1</Version>
     <PackageProjectUrl>http://pluginmanager.website/</PackageProjectUrl>
   </PropertyGroup>
 
