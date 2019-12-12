@@ -91,9 +91,9 @@ namespace AspNetCore.PluginManager
         /// <summary>
         /// Loads and configures an individual plugin
         /// </summary>
-        /// <param name="assembly"></param>
-        /// <param name="fileLocation"></param>
-        /// <param name="extractResources"></param>
+        /// <param name="assembly">Assembly being loaded.</param>
+        /// <param name="fileLocation">Location of assembly on physical disk.</param>
+        /// <param name="extractResources">Determines whether resources are extracted from the plugin module or not.</param>
         internal void LoadPlugin(in Assembly assembly, in string fileLocation, in bool extractResources)
         {
             if (assembly == null)
@@ -700,7 +700,7 @@ namespace AspNetCore.PluginManager
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="args"></param>
-        /// <returns></returns>
+        /// <returns>Resolved assemble, if found, otherwise null.</returns>
         private Assembly CurrentDomainAssemblyResolve(object sender, ResolveEventArgs args)
         {
             if (String.IsNullOrWhiteSpace(_pluginSettings.SystemFiles) ||

@@ -195,7 +195,7 @@
             </summary>
             <param name="assembly"></param>
             <param name="fileLocation"></param>
-            <param name="extractResources"></param>
+            <param name="extractResources">Determines whether resources are extracted from the plugin module or not.</param>
         </member>
         <member name="M:AspNetCore.PluginManager.PluginManager.LoadPlugin(System.String@,System.Boolean@)">
             <summary>
@@ -299,7 +299,7 @@
             </summary>
             <param name="sender"></param>
             <param name="args"></param>
-            <returns></returns>
+            <returns>Resolved assemble, if found, otherwise null.</returns>
         </member>
         <member name="M:AspNetCore.PluginManager.PluginManager.GetPluginSetting(System.String@)">
             <summary>
