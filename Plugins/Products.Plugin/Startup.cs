@@ -64,25 +64,23 @@ namespace ProductPlugin
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app)
         {
             PluginManagerService.Configure(app);
 
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
-            else
-            {
-                app.UseExceptionHandler("/Home/Error");
-                app.UseHsts();
-            }
+#if DEBUG
+            app.UseDeveloperExceptionPage();
+#else
+            app.UseExceptionHandler("/Home/Error");
+            app.UseHsts();
+#endif
 
             app.UseSession();
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
 
+#if !NET_CORE_3_X
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
@@ -90,6 +88,7 @@ namespace ProductPlugin
                     template: "{controller=Product}/{action=Index}/{id?}");
             })
             .UsePluginManager();
+#endif
         }
     }
 }

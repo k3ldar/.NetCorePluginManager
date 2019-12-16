@@ -45,8 +45,6 @@ namespace SystemAdmin.Plugin
 
         public IConfiguration Configuration { get; }
 
-        public static IServiceProvider GetServiceProvider { get; private set; }
-
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
@@ -62,36 +60,32 @@ namespace SystemAdmin.Plugin
             services.AddMvc();
 
             services.UseMemoryCache();
-
-            // grab an instance of the service provider so we can dynamically generate 
-            // objects from the service provider
-            GetServiceProvider = services.BuildServiceProvider();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app)
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
-            else
-            {
-                app.UseExceptionHandler("/Error");
-                app.UseHsts();
-            }
+#if DEBUG
+            app.UseDeveloperExceptionPage();
+#else
+            app.UseExceptionHandler("/Error");
+            app.UseHsts();
+#endif
 
             AspNetCore.PluginManager.PluginManagerService.Configure(app);
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
+
+#if !NET_CORE_3_X
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=SystemAdmin}/{action=Index}/{id?}");
             });
+#endif
         }
     }
 }

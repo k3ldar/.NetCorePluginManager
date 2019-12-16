@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netcoreapp2.2;netcoreapp3.0;netcoreapp2.1;net461</TargetFrameworks>
+    <TargetFrameworks>netcoreapp3.1;netcoreapp2.2;netcoreapp3.0;netcoreapp2.1;net461</TargetFrameworks>
     <LangVersion>latest</LangVersion>
     <Authors>Simon Carter</Authors>
     <Company />
@@ -12,8 +12,8 @@
     <RepositoryType>git</RepositoryType>
     <PackageTags>net core plugin manager middleware api di dependency injection</PackageTags>
     <PackageProjectUrl>http://pluginmanager.website/</PackageProjectUrl>
-    <PackageReleaseNotes>Supports net core 2.1, 2.2, 3.0 and net461</PackageReleaseNotes>
-    <Version>3.0.1</Version>
+    <PackageReleaseNotes>Supports net core 2.1, 2.2, 3.0, 3.1 and net461</PackageReleaseNotes>
+    <Version>3.2.0</Version>
     <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
   </PropertyGroup>
 
@@ -26,6 +26,20 @@
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)'=='Release|net461'">
     <DefineConstants>NET461</DefineConstants>
+    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
+    <DebugType>portable</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)'=='Debug|netcoreapp3.1'">
+    <DefineConstants>DEBUG;TRACE;NET_CORE;NET_CORE_3_1</DefineConstants>
+    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
+    <DebugType>full</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)'=='Release|netcoreapp3.1'">
+    <DefineConstants>NET_CORE;NET_CORE_3_1</DefineConstants>
     <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
     <DebugType>portable</DebugType>
     <DebugSymbols>true</DebugSymbols>
@@ -97,7 +111,7 @@
   </ItemGroup>
 
   <ItemGroup Condition="'$(Configuration)'=='Release'">
-    <PackageReference Include="SharedPluginFeatures" Version="3.0.1" />
+    <PackageReference Include="SharedPluginFeatures" Version="$(Version)" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(Configuration)'=='Debug'">

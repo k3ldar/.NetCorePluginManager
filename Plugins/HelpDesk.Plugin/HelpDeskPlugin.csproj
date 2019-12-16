@@ -1,9 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
 	<PropertyGroup>
-		<TargetFrameworks>netcoreapp2.2;netcoreapp3.0</TargetFrameworks>
+		<TargetFrameworks>netcoreapp3.1;netcoreapp2.2;netcoreapp3.0</TargetFrameworks>
 		<LangVersion>latest</LangVersion>
-		<Version>3.0.1</Version>
+		<Version>3.2.0</Version>
 		<RazorCompileOnBuild>false</RazorCompileOnBuild>
 		<RazorCompileOnPublish>true</RazorCompileOnPublish>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
@@ -67,20 +67,34 @@
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)'=='Debug|netcoreapp3.0'">
-		<DefineConstants>DEBUG;TRACE;NET_CORE;NET_CORE_3_0</DefineConstants>
+		<DefineConstants>DEBUG;TRACE;NET_CORE;NET_CORE_3_0;NET_CORE_3_X</DefineConstants>
 		<CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
 		<DebugType>full</DebugType>
 		<DebugSymbols>true</DebugSymbols>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)'=='Release|netcoreapp3.0'">
-		<DefineConstants>NET_CORE;NET_CORE_3_0</DefineConstants>
+		<DefineConstants>NET_CORE;NET_CORE_3_0;NET_CORE_3_X</DefineConstants>
 		<CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
 		<DebugType>portable</DebugType>
 		<DebugSymbols>true</DebugSymbols>
 	</PropertyGroup>
 
-	<PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)'=='Debug|netcoreapp3.1'">
+    <DefineConstants>DEBUG;TRACE;NET_CORE;NET_CORE_3_1;NET_CORE_3_X</DefineConstants>
+    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
+    <DebugType>full</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)'=='Release|netcoreapp3.1'">
+    <DefineConstants>NET_CORE;NET_CORE_3_1;NET_CORE_3_X</DefineConstants>
+    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
+    <DebugType>portable</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+
+  <PropertyGroup>
 		<DocumentationFile>..\..\Docs\XmlFiles\HelpdeskPlugin.xml</DocumentationFile>
 		<NoWarn>1701;1702;CS1591;AD0001</NoWarn>
 	</PropertyGroup>
@@ -132,12 +146,12 @@
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(Configuration)'=='Release'">
-		<PackageReference Include="RestrictIp.Plugin" Version="3.0.1" />
-		<PackageReference Include="MemoryCache.Plugin" Version="3.0.1" />
-		<PackageReference Include="AspNetCore.PluginManager" Version="3.0.1" />
-		<PackageReference Include="SharedPluginFeatures" Version="3.0.1" />
-		<PackageReference Include="AspNetCore.PluginManager.Languages" Version="3.0.1" />
-	<PackageReference Include="Middleware" Version="3.0.1" />
+		<PackageReference Include="RestrictIp.Plugin" Version="$(Version)" />
+		<PackageReference Include="MemoryCache.Plugin" Version="$(Version)" />
+		<PackageReference Include="AspNetCore.PluginManager" Version="$(Version)" />
+		<PackageReference Include="SharedPluginFeatures" Version="$(Version)" />
+		<PackageReference Include="AspNetCore.PluginManager.Languages" Version="$(Version)" />
+	<PackageReference Include="Middleware" Version="$(Version)" />
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(Configuration)'=='Debug'">

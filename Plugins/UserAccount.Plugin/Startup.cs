@@ -78,7 +78,7 @@ namespace UserAccount.Plugin
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app,
-#if NET_CORE_3_0
+#if NET_CORE_3_X
             IWebHostEnvironment env)
 #else
             IHostingEnvironment env)
@@ -93,12 +93,14 @@ namespace UserAccount.Plugin
             app.UseCookiePolicy();
             app.UseSession();
 
+#if !NET_CORE_3_X
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Account}/{action=Index}/{id?}");
             });
+#endif
         }
     }
 }

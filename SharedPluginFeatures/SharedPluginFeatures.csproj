@@ -1,15 +1,15 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netcoreapp2.1;netcoreapp3.0;netcoreapp2.2;net461</TargetFrameworks>
+    <TargetFrameworks>netcoreapp3.1;netcoreapp2.1;netcoreapp3.0;netcoreapp2.2;net461</TargetFrameworks>
     <LangVersion>latest</LangVersion>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Description>Contains generic interfaces and abstract classes for sharing between ASPNetCore.PluginManager module and generic plugins</Description>
     <Copyright>Copyright (c) 2018 - 2019.  Simon Carter.  All rights reserved.</Copyright>
     <PackageProjectUrl>http://pluginmanager.website/</PackageProjectUrl>
     <PackageTags>asp net core plugin manager shared classes interfaces</PackageTags>
-    <PackageReleaseNotes>Shared Modules for asp net core plugin manager.  Supports Net Core 2.1, 2.2, 3.0 &amp; net461</PackageReleaseNotes>
-    <Version>3.0.1</Version>
+    <PackageReleaseNotes>Shared Modules for asp net core plugin manager.  Supports Net Core 2.1, 2.2, 3.0, 3.1 &amp; net461</PackageReleaseNotes>
+    <Version>3.2.0</Version>
     <Authors>Simon Carter</Authors>
     <Company>Simon Carter</Company>
     <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
@@ -26,6 +26,22 @@
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)'=='Release|net461'">
     <DefineConstants>NET461</DefineConstants>
+    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
+    <DebugType>portable</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+    <NoWarn>1701;1702;NU1603</NoWarn>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)'=='Debug|netcoreapp3.1'">
+    <DefineConstants>DEBUG;TRACE;NET_CORE;NET_CORE_3_1</DefineConstants>
+    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
+    <DebugType>full</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+    <NoWarn>1701;1702;NU1603</NoWarn>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)'=='Release|netcoreapp3.1'">
+    <DefineConstants>NET_CORE;NET_CORE_3_1</DefineConstants>
     <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
     <DebugType>portable</DebugType>
     <DebugSymbols>true</DebugSymbols>
@@ -80,9 +96,16 @@
     <NoWarn>1701;1702;NU1603</NoWarn>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netcoreapp2.1|AnyCPU'">
+  <PropertyGroup>
     <DocumentationFile>..\..\Docs\XmlFiles\SharedPluginFeatures.xml</DocumentationFile>
   </PropertyGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)'=='netcoreapp3.1'">
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.2.0" />
+  </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)'=='netcoreapp3.0'">
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.2.0" />
