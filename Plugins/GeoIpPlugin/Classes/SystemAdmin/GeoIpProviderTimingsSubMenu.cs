@@ -41,17 +41,17 @@ namespace GeoIp.Plugin.Classes.SystemAdmin
     {
         public override string Action()
         {
-            return (String.Empty);
+            return String.Empty;
         }
 
         public override string Area()
         {
-            return (String.Empty);
+            return String.Empty;
         }
 
         public override string Controller()
         {
-            return (String.Empty);
+            return String.Empty;
         }
 
         /// <summary>
@@ -66,34 +66,35 @@ namespace GeoIp.Plugin.Classes.SystemAdmin
             Result += $"\rFastest ms|{GeoIpService._timingsIpProvider.Fastest}";
             Result += $"\rSlowest ms|{GeoIpService._timingsIpProvider.Slowest}";
             Result += $"\rAverage ms|{GeoIpService._timingsIpProvider.Average}";
+            Result += $"\rTrimmed Avg ms|{GeoIpService._timingsIpProvider.TrimmedAverage}";
             Result += $"\rTotal ms|{GeoIpService._timingsIpProvider.Total}";
 
-            return (Result);
+            return Result;
         }
 
         public override string Image()
         {
-            return ("stopwatch");
+            return "stopwatch";
         }
 
         public override Enums.SystemAdminMenuType MenuType()
         {
-            return (Enums.SystemAdminMenuType.Grid);
+            return Enums.SystemAdminMenuType.Grid;
         }
 
         public override string Name()
         {
-            return ("GeoIp Provider");
+            return "GeoIp Provider";
         }
 
         public override string ParentMenuName()
         {
-            return ("Timings");
+            return "Timings";
         }
 
         public override int SortOrder()
         {
-            return (0);
+            return 0;
         }
     }
 }

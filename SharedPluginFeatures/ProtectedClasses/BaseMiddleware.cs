@@ -89,7 +89,7 @@ namespace SharedPluginFeatures
         protected ITempDataDictionary GetTempData(in HttpContext context)
         {
             ITempDataDictionaryFactory factory = context.RequestServices.GetService(typeof(ITempDataDictionaryFactory)) as ITempDataDictionaryFactory;
-            return (factory.GetTempData(context));
+            return factory.GetTempData(context);
         }
 
         /// <summary>
@@ -104,10 +104,10 @@ namespace SharedPluginFeatures
         {
             if (context.Items.ContainsKey(Constants.UserSession))
             {
-                return ((UserSession)context.Items[Constants.UserSession]);
+                return (UserSession)context.Items[Constants.UserSession];
             }
 
-            return (null);
+            return null;
         }
 
         /// <summary>
@@ -123,10 +123,10 @@ namespace SharedPluginFeatures
 
             if (session != null)
             {
-                return (!String.IsNullOrEmpty(session.UserEmail));
+                return !String.IsNullOrEmpty(session.UserEmail);
             }
 
-            return (false);
+            return false;
         }
 
         /// <summary>
@@ -140,13 +140,13 @@ namespace SharedPluginFeatures
                 throw new ArgumentNullException(nameof(context));
 
             if (context.Items.ContainsKey(RouteNormal))
-                return (context.Items[RouteNormal].ToString());
+                return context.Items[RouteNormal].ToString();
 
             string route = context.Request.Path.ToString();
 
             context.Items.Add(RouteNormal, route);
 
-            return (route);
+            return route;
         }
 
         /// <summary>
@@ -160,13 +160,13 @@ namespace SharedPluginFeatures
                 throw new ArgumentNullException(nameof(context));
 
             if (context.Items.ContainsKey(LoweredRoute))
-                return (context.Items[LoweredRoute].ToString());
+                return context.Items[LoweredRoute].ToString();
 
             string routeLowered = Route(context).ToLower();
 
             context.Items.Add(LoweredRoute, routeLowered);
 
-            return (routeLowered);
+            return routeLowered;
         }
 
         /// <summary>
@@ -182,13 +182,13 @@ namespace SharedPluginFeatures
                 throw new ArgumentNullException(nameof(context));
 
             if (context.Items.ContainsKey(ExtensionLowered))
-                return (context.Items[ExtensionLowered].ToString());
+                return context.Items[ExtensionLowered].ToString();
 
             string loweredExtension = System.IO.Path.GetExtension(RouteLowered(context));
 
             context.Items.Add(ExtensionLowered, loweredExtension);
 
-            return (loweredExtension);
+            return loweredExtension;
         }
 
         /// <summary>
@@ -207,7 +207,7 @@ namespace SharedPluginFeatures
             if (Result == "::1")
                 Result = "127.0.0.1";
 
-            return (Result);
+            return Result;
         }
 
 

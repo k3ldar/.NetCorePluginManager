@@ -190,7 +190,7 @@ namespace UserSessionMiddleware.Plugin
             if (Result == "::1")
                 Result = "127.0.0.1";
 
-            return (Result);
+            return Result;
         }
 
         #endregion Private Methods

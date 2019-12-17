@@ -144,7 +144,7 @@ namespace SharedPluginFeatures
             decimal total = SubTotal + Shipping;
 
             if (DiscountRate > 0 && total > 0)
-                Discount = Shared.Utilities.BankersRounding((total / 100) * DiscountRate, 2);
+                Discount = Shared.Utilities.BankersRounding(total / 100 * DiscountRate, 2);
 
             Total = total - Discount;
             Tax = Shared.Utilities.BankersRounding(Shared.Utilities.VATCalculatePaid(Total, TaxRate), 2);

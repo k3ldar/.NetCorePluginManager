@@ -41,17 +41,17 @@ namespace UserSessionMiddleware.Plugin.Classes.SystemAdmin
     {
         public override string Action()
         {
-            return (String.Empty);
+            return String.Empty;
         }
 
         public override string Area()
         {
-            return (String.Empty);
+            return String.Empty;
         }
 
         public override string Controller()
         {
-            return (String.Empty);
+            return String.Empty;
         }
 
         /// <summary>
@@ -66,34 +66,35 @@ namespace UserSessionMiddleware.Plugin.Classes.SystemAdmin
             Result += $"\rFastest ms|{UserSessionMiddleware._timings.Fastest}";
             Result += $"\rSlowest ms|{UserSessionMiddleware._timings.Slowest}";
             Result += $"\rAverage ms|{UserSessionMiddleware._timings.Average}";
+            Result += $"\rTrimmed Avg ms|{UserSessionMiddleware._timings.TrimmedAverage}";
             Result += $"\rTotal ms|{UserSessionMiddleware._timings.Total}";
 
-            return (Result);
+            return Result;
         }
 
         public override string Image()
         {
-            return ("stopwatch");
+            return "stopwatch";
         }
 
         public override Enums.SystemAdminMenuType MenuType()
         {
-            return (Enums.SystemAdminMenuType.Grid);
+            return Enums.SystemAdminMenuType.Grid;
         }
 
         public override string Name()
         {
-            return ("User Session");
+            return "User Session";
         }
 
         public override string ParentMenuName()
         {
-            return ("Timings");
+            return "Timings";
         }
 
         public override int SortOrder()
         {
-            return (0);
+            return 0;
         }
     }
 }

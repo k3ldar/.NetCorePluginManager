@@ -40,17 +40,17 @@ namespace ErrorManager.Plugin.Classes.SystemAdmin
     {
         public override string Action()
         {
-            return (String.Empty);
+            return String.Empty;
         }
 
         public override string Area()
         {
-            return (String.Empty);
+            return String.Empty;
         }
 
         public override string Controller()
         {
-            return (String.Empty);
+            return String.Empty;
         }
 
         /// <summary>
@@ -67,34 +67,35 @@ namespace ErrorManager.Plugin.Classes.SystemAdmin
             Result += $"\rFastest ms|{timingData.Fastest}";
             Result += $"\rSlowest ms|{timingData.Slowest}";
             Result += $"\rAverage ms|{timingData.Average}";
+            Result += $"\rTrimmed Avg ms|{timingData.TrimmedAverage}";
             Result += $"\rTotal ms|{timingData.Total}";
 
-            return (Result);
+            return Result;
         }
 
         public override string Image()
         {
-            return ("stopwatch");
+            return "stopwatch";
         }
 
         public override Enums.SystemAdminMenuType MenuType()
         {
-            return (Enums.SystemAdminMenuType.Grid);
+            return Enums.SystemAdminMenuType.Grid;
         }
 
         public override string Name()
         {
-            return ("Errors");
+            return "Errors";
         }
 
         public override string ParentMenuName()
         {
-            return ("Timings");
+            return "Timings";
         }
 
         public override int SortOrder()
         {
-            return (0);
+            return 0;
         }
     }
 }

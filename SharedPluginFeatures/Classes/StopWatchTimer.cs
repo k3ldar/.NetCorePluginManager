@@ -35,8 +35,8 @@ namespace SharedPluginFeatures
     {
         #region Private Members
 
-        private Stopwatch _stopwatch;
-        private Timings _timings;
+        private readonly Stopwatch _stopwatch;
+        private readonly Timings _timings;
 
         #endregion Private Members
 
@@ -64,7 +64,7 @@ namespace SharedPluginFeatures
         /// <returns>StopWatchTimer</returns>
         public static StopWatchTimer Initialise(in Timings timings)
         {
-            return (new StopWatchTimer(timings));
+            return new StopWatchTimer(timings);
         }
 
         #endregion Static Methods

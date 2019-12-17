@@ -44,52 +44,52 @@ namespace UserSessionMiddleware.Plugin.Classes.SystemAdmin
 
         public override string Action()
         {
-            return (String.Empty);
+            return String.Empty;
         }
 
         public override string Area()
         {
-            return (String.Empty);
+            return String.Empty;
         }
 
         public override string Controller()
         {
-            return (String.Empty);
+            return String.Empty;
         }
 
         public override Enums.SystemAdminMenuType MenuType()
         {
-            return (Enums.SystemAdminMenuType.Map);
+            return Enums.SystemAdminMenuType.Map;
         }
 
         public override string Data()
         {
-            return (GetUserMapData());
+            return GetUserMapData();
         }
 
         public override string Name()
         {
-            return ("Map of Visitors");
+            return "Map of Visitors";
         }
 
         public override string ParentMenuName()
         {
-            return ("User Sessions");
+            return "User Sessions";
         }
 
         public override int SortOrder()
         {
-            return (0);
+            return 0;
         }
 
         public override string Image()
         {
-            return (String.Empty);
+            return String.Empty;
         }
 
         public override string BackColor()
         {
-            return ("#3498DB");
+            return "#3498DB";
         }
 
         #endregion Overridden Methods
@@ -124,34 +124,34 @@ namespace UserSessionMiddleware.Plugin.Classes.SystemAdmin
             if (Result.EndsWith(","))
                 Result = Result.Substring(0, Result.Length - 1);
 
-            return (Result);
+            return Result;
         }
 
         private string GetImageName(UserSession session)
         {
             if (session.IsBot)
-                return ("orange");
+                return "orange";
 
             if (session.Bounced)
-                return ("yellow");
+                return "yellow";
 
             if (session.CurrentSale > 0.00m)
             {
                 if (session.IsMobileDevice)
-                    return ("grn-pushpin");
+                    return "grn-pushpin";
                 else
-                    return ("blue-pushpin");
+                    return "blue-pushpin";
             }
 
             if (!String.IsNullOrEmpty(session.UserEmail))
             {
                 if (session.IsMobileDevice)
-                    return ("green-dot");
+                    return "green-dot";
                 else
-                    return ("green");
+                    return "green";
             }
 
-            return ("blue");
+            return "blue";
         }
 
         #endregion Private Methods

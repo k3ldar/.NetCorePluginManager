@@ -41,17 +41,17 @@ namespace SeoPlugin.Classes.SystemAdmin
     {
         public override string Action()
         {
-            return (String.Empty);
+            return String.Empty;
         }
 
         public override string Area()
         {
-            return (String.Empty);
+            return String.Empty;
         }
 
         public override string Controller()
         {
-            return (String.Empty);
+            return String.Empty;
         }
 
         /// <summary>
@@ -66,34 +66,35 @@ namespace SeoPlugin.Classes.SystemAdmin
             Result += $"\rFastest ms|{SeoMiddleware._timings.Fastest}";
             Result += $"\rSlowest ms|{SeoMiddleware._timings.Slowest}";
             Result += $"\rAverage ms|{SeoMiddleware._timings.Average}";
+            Result += $"\rTrimmed Avg ms|{SeoMiddleware._timings.TrimmedAverage}";
             Result += $"\rTotal ms|{SeoMiddleware._timings.Total}";
 
-            return (Result);
+            return Result;
         }
 
         public override string Image()
         {
-            return ("stopwatch");
+            return "stopwatch";
         }
 
         public override Enums.SystemAdminMenuType MenuType()
         {
-            return (Enums.SystemAdminMenuType.Grid);
+            return Enums.SystemAdminMenuType.Grid;
         }
 
         public override string Name()
         {
-            return (nameof(Languages.LanguageStrings.SEO));
+            return nameof(Languages.LanguageStrings.SEO);
         }
 
         public override string ParentMenuName()
         {
-            return (nameof(Languages.LanguageStrings.Timings));
+            return nameof(Languages.LanguageStrings.Timings);
         }
 
         public override int SortOrder()
         {
-            return (0);
+            return 0;
         }
     }
 }

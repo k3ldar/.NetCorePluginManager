@@ -55,10 +55,10 @@ namespace SharedPluginFeatures
         {
             if (HttpContext.Items.ContainsKey(Constants.UserSession))
             {
-                return ((UserSession)HttpContext.Items[Constants.UserSession]);
+                return (UserSession)HttpContext.Items[Constants.UserSession];
             }
 
-            return (null);
+            return null;
         }
 
         /// <summary>
@@ -72,9 +72,9 @@ namespace SharedPluginFeatures
             UserSession session = GetUserSession();
 
             if (session != null)
-                return (!String.IsNullOrEmpty(session.UserEmail));
+                return !String.IsNullOrEmpty(session.UserEmail);
 
-            return (false);
+            return false;
         }
 
         /// <summary>
@@ -106,7 +106,7 @@ namespace SharedPluginFeatures
             if (session != null)
                 return session.UserID;
 
-            return (-1);
+            return -1;
         }
 
         /// <summary>
@@ -131,7 +131,7 @@ namespace SharedPluginFeatures
         /// <returns>string.  Unique http session id.</returns>
         protected string GetCoreSessionId()
         {
-            return (HttpContext.Session.Id);
+            return HttpContext.Session.Id;
         }
 
         #endregion User Sessions
@@ -301,7 +301,7 @@ namespace SharedPluginFeatures
                 if (HttpContext.Request.Headers.ContainsKey(key))
                     return HttpContext.Request.Headers[key];
 
-            return (HttpContext.Connection.RemoteIpAddress.ToString());
+            return HttpContext.Connection.RemoteIpAddress.ToString();
         }
 
         #endregion Ip Address

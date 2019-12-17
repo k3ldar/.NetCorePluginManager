@@ -44,22 +44,22 @@ namespace UserSessionMiddleware.Plugin.Classes.SystemAdmin
     {
         public override string Action()
         {
-            return (String.Empty);
+            return String.Empty;
         }
 
         public override string Area()
         {
-            return (String.Empty);
+            return String.Empty;
         }
 
         public override string Controller()
         {
-            return (String.Empty);
+            return String.Empty;
         }
 
         public override Enums.SystemAdminMenuType MenuType()
         {
-            return (Enums.SystemAdminMenuType.FormattedText);
+            return Enums.SystemAdminMenuType.FormattedText;
         }
 
         public override string Data()
@@ -101,32 +101,32 @@ namespace UserSessionMiddleware.Plugin.Classes.SystemAdmin
                 Result.Append("</table>");
             }
 
-            return (Result.ToString().Trim());
+            return Result.ToString().Trim();
         }
 
         public override string Name()
         {
-            return ("User Session Details");
+            return "User Session Details";
         }
 
         public override string ParentMenuName()
         {
-            return ("User Sessions");
+            return "User Sessions";
         }
 
         public override int SortOrder()
         {
-            return (0);
+            return 0;
         }
 
         public override string Image()
         {
-            return (String.Empty);
+            return String.Empty;
         }
 
         public override string BackColor()
         {
-            return ("#3498DB");
+            return "#3498DB";
         }
     }
 }
