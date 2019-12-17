@@ -25,7 +25,6 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
 
 using SharedPluginFeatures;
 
@@ -38,12 +37,6 @@ namespace DemoApiPlugin
         public void Configure(IApplicationBuilder app)
         {
 
-            app.UseMvc(routes =>
-            {
-                routes.MapRoute(
-                    name: "DemoApi",
-                    template: "{controller=DemoApi}/{action=Index}/{id?}");
-            });
         }
 
         public void ConfigureServices(IServiceCollection services)

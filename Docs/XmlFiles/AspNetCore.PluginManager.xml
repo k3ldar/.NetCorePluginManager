@@ -140,36 +140,6 @@
             </summary>
             <returns>string</returns>
         </member>
-        <member name="T:AspNetCore.PluginManager.UnitTestHelper">
-            <summary>
-            This class is only available for Debug builds and is designed to retrieve classes
-            that are normally only available through DI
-            </summary>
-        </member>
-        <member name="M:AspNetCore.PluginManager.UnitTestHelper.GetPluginServices">
-            <summary>
-            Returns an instance of IPluginHelperService for unit tests
-            </summary>
-            <returns>IPluginHelperService</returns>
-        </member>
-        <member name="M:AspNetCore.PluginManager.UnitTestHelper.GetPluginClassesService">
-            <summary>
-            Returns an instance of IPluginClassesService for unit tests
-            </summary>
-            <returns>IPluginClassesService</returns>
-        </member>
-        <member name="M:AspNetCore.PluginManager.UnitTestHelper.GetPluginTypesService">
-            <summary>
-            Returns an instance of IPluginTypesService for unit tests
-            </summary>
-            <returns>IPluginTypesService</returns>
-        </member>
-        <member name="M:AspNetCore.PluginManager.UnitTestHelper.GetNotificationService">
-            <summary>
-            Returns an instance of INotificationService for unit tests
-            </summary>
-            <returns>INotificationService</returns>
-        </member>
         <member name="T:AspNetCore.PluginManager.UsePluginManagerExtender">
             <summary>
             Plugin Manager extender class.
@@ -193,8 +163,8 @@
             <summary>
             Loads and configures an individual plugin
             </summary>
-            <param name="assembly"></param>
-            <param name="fileLocation"></param>
+            <param name="assembly">Assembly being loaded.</param>
+            <param name="fileLocation">Location of assembly on physical disk.</param>
             <param name="extractResources">Determines whether resources are extracted from the plugin module or not.</param>
         </member>
         <member name="M:AspNetCore.PluginManager.PluginManager.LoadPlugin(System.String@,System.Boolean@)">
@@ -337,6 +307,13 @@
             Configures all plugin modules, allowing the modules to setup services for the application.
             </summary>
             <param name="app">IApplicationBuilder instance.</param>
+        </member>
+        <member name="M:AspNetCore.PluginManager.PluginManagerService.Configure(Microsoft.AspNetCore.Builder.IApplicationBuilder,Microsoft.AspNetCore.Hosting.IHostingEnvironment)">
+            <summary>
+            Configure all plugin modules, this method is now deprecated and will be removed in a future release
+            </summary>
+            <param name="app">IApplicationBuilder instance</param>
+            <param name="env">IHostingEnvironment instance</param>
         </member>
         <member name="M:AspNetCore.PluginManager.PluginManagerService.ConfigureServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
             <summary>

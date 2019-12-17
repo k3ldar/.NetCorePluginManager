@@ -26,7 +26,11 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+
+#if !NET_CORE_3_X
 using Microsoft.AspNetCore.Mvc;
+#endif
+
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -56,7 +60,7 @@ namespace Blog.Plugin
 
             
             services.AddMvc(
-#if NET_CORE_3_0
+#if NET_CORE_3_X
                 option => option.EnableEndpointRouting = false
 #endif
                 );
@@ -64,7 +68,7 @@ namespace Blog.Plugin
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app,
-#if NET_CORE_3_0
+#if NET_CORE_3_X
             IWebHostEnvironment env)
 #else
             IHostingEnvironment env)

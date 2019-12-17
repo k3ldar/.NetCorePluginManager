@@ -46,7 +46,7 @@ namespace ErrorManager.Plugin.Controllers
     {
         #region Private Members
 
-#if NET_CORE_3_0
+#if NET_CORE_3_X
         private readonly IWebHostEnvironment _hostingEnvironment;
 #else
         private readonly IHostingEnvironment _hostingEnvironment;
@@ -58,7 +58,7 @@ namespace ErrorManager.Plugin.Controllers
 
         #region Constructors
 
-#if NET_CORE_3_0
+#if NET_CORE_3_X
         public ErrorController(IWebHostEnvironment hostingEnvironment, ISettingsProvider settingsProvider)
         {
             _hostingEnvironment = hostingEnvironment ?? throw new ArgumentNullException(nameof(hostingEnvironment));
