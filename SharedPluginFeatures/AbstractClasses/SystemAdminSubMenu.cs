@@ -106,7 +106,7 @@ namespace SharedPluginFeatures
         /// <returns></returns>
         public virtual string BackColor()
         {
-            return ("#707B7C");
+            return "#707B7C";
         }
 
         /// <summary>
@@ -115,7 +115,7 @@ namespace SharedPluginFeatures
         /// <returns></returns>
         public virtual string ForeColor()
         {
-            return ("white");
+            return "white";
         }
 
         #endregion Public Virtual Methods
@@ -130,14 +130,14 @@ namespace SharedPluginFeatures
         public int CompareTo(SystemAdminSubMenu compareTo)
         {
             if (compareTo == null)
-                return (1);
+                return 1;
 
             int Result = SortOrder().CompareTo(compareTo.SortOrder());
 
             if (Result == 0)
-                return (Name().CompareTo(compareTo.Name()));
+                return Name().CompareTo(compareTo.Name());
 
-            return (Result);
+            return Result;
         }
 
         #endregion IComparable

@@ -41,17 +41,17 @@ namespace SieraDeltaGeoIp.Plugin.Classes.SystemAdmin
     {
         public override string Action()
         {
-            return (String.Empty);
+            return String.Empty;
         }
 
         public override string Area()
         {
-            return (String.Empty);
+            return String.Empty;
         }
 
         public override string Controller()
         {
-            return (String.Empty);
+            return String.Empty;
         }
 
         /// <summary>
@@ -68,34 +68,35 @@ namespace SieraDeltaGeoIp.Plugin.Classes.SystemAdmin
             Result += $"\rFastest ms|{GeoIpService._timingsIpDatabase.Fastest}";
             Result += $"\rSlowest ms|{GeoIpService._timingsIpDatabase.Slowest}";
             Result += $"\rAverage ms|{GeoIpService._timingsIpDatabase.Average}";
+            Result += $"\rTrimmed Avg ms|{GeoIpService._timingsIpDatabase.TrimmedAverage}";
             Result += $"\rTotal ms|{GeoIpService._timingsIpDatabase.Total}";
 
-            return (Result);
+            return Result;
         }
 
         public override string Image()
         {
-            return ("stopwatch");
+            return "stopwatch";
         }
 
         public override Enums.SystemAdminMenuType MenuType()
         {
-            return (Enums.SystemAdminMenuType.Grid);
+            return Enums.SystemAdminMenuType.Grid;
         }
 
         public override string Name()
         {
-            return ("GeoIp Database");
+            return "GeoIp Database";
         }
 
         public override string ParentMenuName()
         {
-            return ("Timings");
+            return "Timings";
         }
 
         public override int SortOrder()
         {
-            return (0);
+            return 0;
         }
     }
 }

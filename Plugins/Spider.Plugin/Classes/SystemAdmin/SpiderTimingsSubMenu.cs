@@ -41,17 +41,17 @@ namespace Spider.Plugin.Classes.SystemAdmin
     {
         public override string Action()
         {
-            return (String.Empty);
+            return String.Empty;
         }
 
         public override string Area()
         {
-            return (String.Empty);
+            return String.Empty;
         }
 
         public override string Controller()
         {
-            return (String.Empty);
+            return String.Empty;
         }
 
         /// <summary>
@@ -66,34 +66,35 @@ namespace Spider.Plugin.Classes.SystemAdmin
             Result += $"\rFastest ms|{SpiderMiddleware._timings.Fastest}";
             Result += $"\rSlowest ms|{SpiderMiddleware._timings.Slowest}";
             Result += $"\rAverage ms|{SpiderMiddleware._timings.Average}";
+            Result += $"\rTrimmed Avg ms|{SpiderMiddleware._timings.TrimmedAverage}";
             Result += $"\rTotal ms|{SpiderMiddleware._timings.Total}";
 
-            return (Result);
+            return Result;
         }
 
         public override string Image()
         {
-            return ("stopwatch");
+            return "stopwatch";
         }
 
         public override Enums.SystemAdminMenuType MenuType()
         {
-            return (Enums.SystemAdminMenuType.Grid);
+            return Enums.SystemAdminMenuType.Grid;
         }
 
         public override string Name()
         {
-            return ("Spider");
+            return "Spider";
         }
 
         public override string ParentMenuName()
         {
-            return ("Timings");
+            return "Timings";
         }
 
         public override int SortOrder()
         {
-            return (0);
+            return 0;
         }
     }
 }

@@ -60,7 +60,7 @@ namespace SharedPluginFeatures
         /// <returns></returns>
         public string Area()
         {
-            return (String.Empty);
+            return String.Empty;
         }
 
         /// <summary>
@@ -69,7 +69,7 @@ namespace SharedPluginFeatures
         /// <returns></returns>
         public string Controller()
         {
-            return ("SystemAdmin");
+            return "SystemAdmin";
         }
 
         /// <summary>
@@ -78,7 +78,7 @@ namespace SharedPluginFeatures
         /// <returns></returns>
         public string Action()
         {
-            return ("Index");
+            return "Index";
         }
 
         /// <summary>
@@ -87,7 +87,7 @@ namespace SharedPluginFeatures
         /// <returns></returns>
         public string BackColor()
         {
-            return ("#707B7C");
+            return "#707B7C";
         }
 
         /// <summary>
@@ -96,7 +96,7 @@ namespace SharedPluginFeatures
         /// <returns></returns>
         public string ForeColor()
         {
-            return ("white");
+            return "white";
         }
 
         #endregion Public virtual Methods
@@ -111,14 +111,14 @@ namespace SharedPluginFeatures
         public int CompareTo(SystemAdminMainMenu compareTo)
         {
             if (compareTo == null)
-                return (1);
+                return 1;
 
             int Result = SortOrder.CompareTo(compareTo.SortOrder);
 
             if (Result == 0)
-                return (Name.CompareTo(compareTo.Name));
+                return Name.CompareTo(compareTo.Name);
 
-            return (Result);
+            return Result;
         }
 
         #endregion IComparable

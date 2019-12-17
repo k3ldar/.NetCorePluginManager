@@ -65,6 +65,7 @@ namespace BadEgg.Plugin.Classes.SystemAdmin
             Result += $"\rFastest ms|{BadEggMiddleware._timings.Fastest}";
             Result += $"\rSlowest ms|{BadEggMiddleware._timings.Slowest}";
             Result += $"\rAverage ms|{BadEggMiddleware._timings.Average}";
+            Result += $"\rTrimmed Avg ms|{BadEggMiddleware._timings.TrimmedAverage}";
             Result += $"\rTotal ms|{BadEggMiddleware._timings.Total}";
 
             return Result;

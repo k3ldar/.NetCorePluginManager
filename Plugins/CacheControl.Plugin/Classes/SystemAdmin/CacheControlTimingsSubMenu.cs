@@ -41,17 +41,17 @@ namespace CacheControl.Plugin.Classes.SystemAdmin
     {
         public override string Action()
         {
-            return (String.Empty);
+            return String.Empty;
         }
 
         public override string Area()
         {
-            return (String.Empty);
+            return String.Empty;
         }
 
         public override string Controller()
         {
-            return (String.Empty);
+            return String.Empty;
         }
 
         /// <summary>
@@ -66,34 +66,35 @@ namespace CacheControl.Plugin.Classes.SystemAdmin
             Result += $"\rFastest ms|{CacheControlMiddleware._timings.Fastest}";
             Result += $"\rSlowest ms|{CacheControlMiddleware._timings.Slowest}";
             Result += $"\rAverage ms|{CacheControlMiddleware._timings.Average}";
+            Result += $"\rTrimmed Avg ms|{CacheControlMiddleware._timings.TrimmedAverage}";
             Result += $"\rTotal ms|{CacheControlMiddleware._timings.Total}";
 
-            return (Result);
+            return Result;
         }
 
         public override string Image()
         {
-            return ("stopwatch");
+            return "stopwatch";
         }
 
         public override Enums.SystemAdminMenuType MenuType()
         {
-            return (Enums.SystemAdminMenuType.Grid);
+            return Enums.SystemAdminMenuType.Grid;
         }
 
         public override string Name()
         {
-            return ("Cache Control");
+            return "Cache Control";
         }
 
         public override string ParentMenuName()
         {
-            return ("Timings");
+            return "Timings";
         }
 
         public override int SortOrder()
         {
-            return (0);
+            return 0;
         }
     }
 }

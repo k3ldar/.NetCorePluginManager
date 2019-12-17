@@ -23,6 +23,7 @@
  *  10/11/2018  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+using System;
 using System.Diagnostics;
 
 namespace SharedPluginFeatures
@@ -36,8 +37,10 @@ namespace SharedPluginFeatures
     {
         #region Private Members
 
-        private long _fastest;
-        private long _slowest;
+        private decimal _fastest;
+        private decimal _slowest;
+        private decimal _average;
+        private decimal _total;
         private readonly object _lockObject;
 
         #endregion Private Members
@@ -50,8 +53,11 @@ namespace SharedPluginFeatures
         public Timings()
         {
             _lockObject = new object();
-            _fastest = long.MaxValue;
-            _slowest = long.MinValue;
+            _fastest = Decimal.MaxValue;
+            _slowest = Decimal.MinValue;
+            _average = 0;
+            _total = 0;
+            DecimalPlaces = 5;
         }
 
         #endregion Constructors
@@ -66,28 +72,28 @@ namespace SharedPluginFeatures
         /// <summary>
         /// Indicates the total number of milliseconds used for the request that was slowest.
         /// </summary>
-        public long Slowest
+        public decimal Slowest
         {
             get
             {
-                if (_slowest == long.MinValue)
-                    return(0);
+                if (_slowest == Decimal.MinValue)
+                    return 0;
 
-                return (_slowest);
+                return Math.Round(_slowest / TimeSpan.TicksPerMillisecond, DecimalPlaces, MidpointRounding.AwayFromZero);
             }
         }
 
         /// <summary>
         /// Indicates the total number of milliseconds used for the request that was quickest.
         /// </summary>
-        public long Fastest
+        public decimal Fastest
         {
             get
             {
-                if (_fastest == long.MaxValue)
-                    return (0);
+                if (_fastest == Decimal.MaxValue)
+                    return 0;
 
-                return (_fastest);
+                return Math.Round(_fastest / TimeSpan.TicksPerMillisecond, DecimalPlaces, MidpointRounding.AwayFromZero);
             }
         }
 
@@ -95,13 +101,45 @@ namespace SharedPluginFeatures
         /// Returns the average number of milliseconds per request.
         /// </summary>
         /// <value>decimal</value>
-        public decimal Average { get; private set; }
+        public decimal Average
+        {
+            get
+            {
+                return Math.Round(_average / TimeSpan.TicksPerMillisecond, DecimalPlaces, MidpointRounding.AwayFromZero);
+            }
+        }
+
+        /// <summary>
+        /// Calculates the trimmed average, by removing the highest and lowest scores before averaging
+        /// </summary>
+        public decimal TrimmedAverage
+        {
+            get
+            {
+                if (_total == 0 || Requests == 0)
+                    return 0;
+
+                return Math.Round((_total - (_fastest + _slowest)) / (Requests - 2) / TimeSpan.TicksPerMillisecond, DecimalPlaces, MidpointRounding.AwayFromZero);
+            }
+        }
 
         /// <summary>
         /// Returns the total number of requests.
         /// </summary>
         /// <value>long</value>
-        public long Total { get; private set; }
+        public decimal Total
+        {
+            get
+            {
+                return Math.Round(_total / TimeSpan.TicksPerMillisecond, DecimalPlaces, MidpointRounding.AwayFromZero);
+            }
+        }
+
+        /// <summary>
+        /// Number of decimal places the results should be rounded to, default is 5
+        /// </summary>
+        /// <value>byte</value>
+        public byte DecimalPlaces { get; set; }
 
         #endregion Properties
 
@@ -113,29 +151,29 @@ namespace SharedPluginFeatures
         /// <param name="stopWatch"></param>
         public void Increment(in Stopwatch stopWatch)
         {
-            Increment(stopWatch.ElapsedMilliseconds);
+            Increment(stopWatch.ElapsedTicks);
         }
 
         /// <summary>
-        /// Increments the total milliseconds
+        /// Increments the total ticks
         /// </summary>
-        /// <param name="totalMilliseconds">Total number of milliseconds to increment by.</param>
-        public void Increment(in long totalMilliseconds)
+        /// <param name="totalTicks">Total number of ticks to increment by.</param>
+        public void Increment(in long totalTicks)
         {
             lock (_lockObject)
             {
                 Requests++;
 
-                if (totalMilliseconds < _fastest)
-                    _fastest = totalMilliseconds;
+                if (totalTicks < _fastest)
+                    _fastest = totalTicks;
 
-                if (totalMilliseconds > _slowest)
-                    _slowest = totalMilliseconds;
+                if (totalTicks > _slowest)
+                    _slowest = totalTicks;
 
-                Total += totalMilliseconds;
+                _total += totalTicks;
 
-                if (Total > 0)
-                    Average = Total / Requests;
+                if (_total > 0)
+                    _average = _total / Requests;
             }
         }
 

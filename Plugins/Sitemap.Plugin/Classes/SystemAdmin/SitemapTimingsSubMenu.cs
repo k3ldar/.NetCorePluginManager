@@ -41,17 +41,17 @@ namespace Sitemap.Plugin.Classes.SystemAdmin
     {
         public override string Action()
         {
-            return (String.Empty);
+            return String.Empty;
         }
 
         public override string Area()
         {
-            return (String.Empty);
+            return String.Empty;
         }
 
         public override string Controller()
         {
-            return (String.Empty);
+            return String.Empty;
         }
 
         /// <summary>
@@ -66,34 +66,35 @@ namespace Sitemap.Plugin.Classes.SystemAdmin
             Result += $"\rFastest ms|{SitemapMiddleware._timings.Fastest}";
             Result += $"\rSlowest ms|{SitemapMiddleware._timings.Slowest}";
             Result += $"\rAverage ms|{SitemapMiddleware._timings.Average}";
+            Result += $"\rTrimmed Avg ms|{SitemapMiddleware._timings.TrimmedAverage}";
             Result += $"\rTotal ms|{SitemapMiddleware._timings.Total}";
 
-            return (Result);
+            return Result;
         }
 
         public override string Image()
         {
-            return ("stopwatch");
+            return "stopwatch";
         }
 
         public override Enums.SystemAdminMenuType MenuType()
         {
-            return (Enums.SystemAdminMenuType.Grid);
+            return Enums.SystemAdminMenuType.Grid;
         }
 
         public override string Name()
         {
-            return ("Sitemap");
+            return "Sitemap";
         }
 
         public override string ParentMenuName()
         {
-            return ("Timings");
+            return "Timings";
         }
 
         public override int SortOrder()
         {
-            return (0);
+            return 0;
         }
     }
 }

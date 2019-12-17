@@ -41,17 +41,17 @@ namespace Localization.Plugin.Classes.SystemAdmin
     {
         public override string Action()
         {
-            return (String.Empty);
+            return String.Empty;
         }
 
         public override string Area()
         {
-            return (String.Empty);
+            return String.Empty;
         }
 
         public override string Controller()
         {
-            return (String.Empty);
+            return String.Empty;
         }
 
         /// <summary>
@@ -66,34 +66,35 @@ namespace Localization.Plugin.Classes.SystemAdmin
             Result += $"\rFastest ms|{StringLocalizer.LocalizationTimings.Fastest}";
             Result += $"\rSlowest ms|{StringLocalizer.LocalizationTimings.Slowest}";
             Result += $"\rAverage ms|{StringLocalizer.LocalizationTimings.Average}";
+            Result += $"\rTrimmed Avg ms|{StringLocalizer.LocalizationTimings.TrimmedAverage}";
             Result += $"\rTotal ms|{StringLocalizer.LocalizationTimings.Total}";
 
-            return (Result);
+            return Result;
         }
 
         public override string Image()
         {
-            return ("stopwatch");
+            return "stopwatch";
         }
 
         public override Enums.SystemAdminMenuType MenuType()
         {
-            return (Enums.SystemAdminMenuType.Grid);
+            return Enums.SystemAdminMenuType.Grid;
         }
 
         public override string Name()
         {
-            return ("TranslationTimings");
+            return "TranslationTimings";
         }
 
         public override string ParentMenuName()
         {
-            return ("Timings");
+            return "Timings";
         }
 
         public override int SortOrder()
         {
-            return (0);
+            return 0;
         }
     }
 }

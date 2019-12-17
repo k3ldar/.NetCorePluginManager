@@ -210,7 +210,7 @@ namespace UserSessionMiddleware.Plugin
 
         private string GetNextID(HttpContext context)
         {
-            return ($"SN{DateTime.Now.ToFileTimeUtc()}{_cookieID++}");
+            return $"SN{DateTime.Now.ToFileTimeUtc()}{_cookieID++}";
         }
 
         private Uri GetAbsoluteUri(HttpContext context)
@@ -224,7 +224,7 @@ namespace UserSessionMiddleware.Plugin
                 Query = context.Request.QueryString.ToString()
             };
 
-            return (uriBuilder.Uri);
+            return uriBuilder.Uri;
         }
 
         private void GetSessionCulture(in HttpContext context, in UserSession userSession)
@@ -256,7 +256,7 @@ namespace UserSessionMiddleware.Plugin
 
                 GetSessionCulture(context, Result);
 
-                return (Result);
+                return Result;
             }
             catch (Exception err)
             {
@@ -265,7 +265,7 @@ namespace UserSessionMiddleware.Plugin
                         MethodBase.GetCurrentMethod().Name);
             }
 
-            return (null);
+            return null;
         }
 
         private void LoadLoggedInData(IActionDescriptorCollectionProvider routeProvider,

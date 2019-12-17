@@ -33,17 +33,17 @@ namespace LoginPlugin.Classes.SystemAdmin
     {
         public override string Action()
         {
-            return (String.Empty);
+            return String.Empty;
         }
 
         public override string Area()
         {
-            return (String.Empty);
+            return String.Empty;
         }
 
         public override string Controller()
         {
-            return (String.Empty);
+            return String.Empty;
         }
 
         public override string Data()
@@ -54,34 +54,35 @@ namespace LoginPlugin.Classes.SystemAdmin
             Result += $"\rFastest ms|{LoginMiddleware._autoLoginTimings.Fastest}";
             Result += $"\rSlowest ms|{LoginMiddleware._autoLoginTimings.Slowest}";
             Result += $"\rAverage ms|{LoginMiddleware._autoLoginTimings.Average}";
+            Result += $"\rTrimmed Avg ms|{LoginMiddleware._autoLoginTimings.TrimmedAverage}";
             Result += $"\rTotal ms|{LoginMiddleware._autoLoginTimings.Total}";
 
-            return (Result);
+            return Result;
         }
 
         public override string Image()
         {
-            return ("stopwatch");
+            return "stopwatch";
         }
 
         public override Enums.SystemAdminMenuType MenuType()
         {
-            return (Enums.SystemAdminMenuType.Grid);
+            return Enums.SystemAdminMenuType.Grid;
         }
 
         public override string Name()
         {
-            return (nameof(Languages.LanguageStrings.AutoLogin));
+            return nameof(Languages.LanguageStrings.AutoLogin);
         }
 
         public override string ParentMenuName()
         {
-            return (nameof(Languages.LanguageStrings.Timings));
+            return nameof(Languages.LanguageStrings.Timings);
         }
 
         public override int SortOrder()
         {
-            return (0);
+            return 0;
         }
     }
 }

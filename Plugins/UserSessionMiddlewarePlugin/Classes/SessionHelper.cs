@@ -160,10 +160,10 @@ namespace UserSessionMiddleware.Plugin
         private static bool LoadGeoIpService()
         {
             if (_geoIpInstance != null)
-                return (true);
+                return true;
 
             if (_loadGeoIpServiceAttempts > _maximumLoadInterfaceAttempts)
-                return (false);
+                return false;
 
             _loadGeoIpServiceAttempts++;
 
@@ -177,25 +177,25 @@ namespace UserSessionMiddleware.Plugin
             }
 
             if (_geoIpInstance != null)
-                return (true);
+                return true;
 
             List<IGeoIpDataService> geoIpList = _pluginClasses.GetPluginClasses<IGeoIpDataService>();
 
             if (geoIpList.Count == 0)
-                return (false);
+                return false;
 
             _geoIpInstance = geoIpList[0];
 
-            return (true);
+            return true;
         }
 
         private static bool LoadUserSessionService()
         {
             if (_userSessionService != null)
-                return (true);
+                return true;
 
             if (_loadUserSessionServiceAttempts > _maximumLoadInterfaceAttempts)
-                return (false);
+                return false;
 
             _loadUserSessionServiceAttempts++;
 
@@ -209,16 +209,16 @@ namespace UserSessionMiddleware.Plugin
             }
 
             if (_userSessionService != null)
-                return (true);
+                return true;
 
             List<IUserSessionService> userSessions = _pluginClasses.GetPluginClasses<IUserSessionService>();
 
             if (userSessions.Count == 0)
-                return (false);
+                return false;
 
             _userSessionService = userSessions[0];
 
-            return (true);
+            return true;
         }
 
         #endregion Private Static Methods
