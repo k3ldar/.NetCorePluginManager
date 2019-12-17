@@ -32,28 +32,28 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)'=='Debug|netcoreapp3.1'">
-    <DefineConstants>DEBUG;TRACE;NET_CORE;NET_CORE_3_1</DefineConstants>
+    <DefineConstants>DEBUG;TRACE;NET_CORE;NET_CORE_3_1;NET_CORE_3_X</DefineConstants>
     <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
     <DebugType>full</DebugType>
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)'=='Release|netcoreapp3.1'">
-    <DefineConstants>NET_CORE;NET_CORE_3_1</DefineConstants>
+    <DefineConstants>NET_CORE;NET_CORE_3_1;NET_CORE_3_X</DefineConstants>
     <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
     <DebugType>portable</DebugType>
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)'=='Debug|netcoreapp3.0'">
-    <DefineConstants>DEBUG;TRACE;NET_CORE;NET_CORE_3_0</DefineConstants>
+    <DefineConstants>DEBUG;TRACE;NET_CORE;NET_CORE_3_0;NET_CORE_3_X</DefineConstants>
     <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
     <DebugType>full</DebugType>
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)'=='Release|netcoreapp3.0'">
-    <DefineConstants>NET_CORE;NET_CORE_3_0</DefineConstants>
+    <DefineConstants>NET_CORE;NET_CORE_3_0;NET_CORE_3_X</DefineConstants>
     <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
     <DebugType>portable</DebugType>
     <DebugSymbols>true</DebugSymbols>

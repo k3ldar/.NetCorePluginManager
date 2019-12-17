@@ -218,6 +218,11 @@ namespace AspNetCore.PluginManager
         }
 
 #pragma warning disable CS1591
+        /// <summary>
+        /// Configure all plugin modules, this method is now deprecated and will be removed in a future release
+        /// </summary>
+        /// <param name="app">IApplicationBuilder instance</param>
+        /// <param name="env">IHostingEnvironment instance</param>
         [Obsolete("This method is obsolete and will be removed in the next version.  Use Configure(app); instead.")]
         public static void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
@@ -399,9 +404,9 @@ namespace AspNetCore.PluginManager
 
         private static string GetPluginPath()
         {
-#if NET_CORE_3_0
+#if NET_CORE_3_X
             return String.Empty;
-#endif
+#else
             // is the path overridden in config
             if (!String.IsNullOrWhiteSpace(_pluginConfiguration.PluginPath) &&
                 Directory.Exists(_pluginConfiguration.PluginPath))
@@ -410,6 +415,7 @@ namespace AspNetCore.PluginManager
             }
 
             return AddTrailingBackSlash(_rootPath) + "Plugins\\";
+#endif
         }
 
         #endregion Private Static Methods

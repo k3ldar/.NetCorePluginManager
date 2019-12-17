@@ -37,12 +37,6 @@ namespace DemoWebsitePlugin.Plugin
         public void Configure(IApplicationBuilder app)
         {
 
-            app.UseMvc(routes =>
-            {
-                routes.MapRoute(
-                    name: "DemoApi",
-                    template: "{controller=DemoApi}/{action=Index}/{id?}");
-            });
         }
 
         public void ConfigureServices(IServiceCollection services)

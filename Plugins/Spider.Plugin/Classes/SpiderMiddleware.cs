@@ -58,7 +58,7 @@ namespace Spider.Plugin
         private readonly string _staticFileExtensions = Constants.StaticFileExtensions;
         private readonly INotificationService _notificationService;
         private readonly ILogger _logger;
-        
+
         internal static Timings _timings = new Timings();
 
         #endregion Private Members
@@ -67,7 +67,7 @@ namespace Spider.Plugin
 
         public SpiderMiddleware(RequestDelegate next, IActionDescriptorCollectionProvider routeProvider,
             IRouteDataService routeDataService, IPluginHelperService pluginHelperService,
-            IPluginTypesService pluginTypesService, ISettingsProvider settingsProvider, 
+            IPluginTypesService pluginTypesService, ISettingsProvider settingsProvider,
             ILogger logger, INotificationService notificationService)
         {
             if (routeProvider == null)
@@ -84,7 +84,7 @@ namespace Spider.Plugin
             _next = next;
 
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-            _userSessionManagerLoaded = pluginHelperService.PluginLoaded(Constants.PluginNameUserSession, out int version);
+            _userSessionManagerLoaded = pluginHelperService.PluginLoaded(Constants.PluginNameUserSession, out int _);
 
             _deniedSpiderRoutes = new List<DeniedRoute>();
             LoadSpiderData(routeProvider, routeDataService, pluginTypesService);
