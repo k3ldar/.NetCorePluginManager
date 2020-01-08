@@ -152,7 +152,7 @@
 		<ProjectReference Include="..\RestrictIp.Plugin\RestrictIp.Plugin.csproj" />
 		<ProjectReference Include="..\..\Languages\Languages.csproj" />
 		<ProjectReference Include="..\PluginMiddleware\PluginMiddleware.csproj" />
-		<ProjectReference Include="..\..\..\PluginManager\src\PluginManager.csproj" />
+		<ProjectReference Include="..\..\PluginManager\src\PluginManager.csproj" />
 	</ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)'=='netcoreapp3.1'">
@@ -215,10 +215,6 @@
     <PackageReference Include="Microsoft.Extensions.Primitives" Version="3.1.0" />
     <PackageReference Include="Microsoft.Extensions.WebEncoders" Version="3.1.0" />
     <PackageReference Include="Microsoft.Net.Http.Headers" Version="2.2.8" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\..\PluginManager\src\PluginManager.csproj" />
   </ItemGroup>
 
 </Project>

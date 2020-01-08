@@ -98,10 +98,6 @@
     <ProjectReference Include="..\..\SharedPluginFeatures\SharedPluginFeatures.csproj" />
     <ProjectReference Include="..\..\Languages\Languages.csproj" />
     <ProjectReference Include="..\\MemoryCachePlugin\MemoryCachePlugin.csproj" />
-    <ProjectReference Include="..\..\..\PluginManager\src\PluginManager.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\..\PluginManager\src\PluginManager.csproj" />
   </ItemGroup>
 
