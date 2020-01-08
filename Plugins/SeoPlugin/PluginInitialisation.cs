@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  SeoPlugin
  *  
@@ -26,8 +26,9 @@
 using System;
 
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
+
+using PluginManager.Abstractions;
 
 using SharedPluginFeatures;
 
@@ -39,7 +40,7 @@ namespace SeoPlugin
     /// Implements IPlugin which allows the SeoPlugin module to be
     /// loaded as a plugin module
     /// </summary>
-    public sealed class PluginInitialisation : IPlugin
+    public sealed class PluginInitialisation : IPlugin, IInitialiseEvents
     {
         #region Constructors
 
@@ -67,17 +68,46 @@ namespace SeoPlugin
 
         }
 
-        public void Configure(IApplicationBuilder app)
-        {
-            app.UseSeo();
-        }
-
         public void ConfigureServices(IServiceCollection services)
         {
 
         }
 
+        public ushort GetVersion()
+        {
+            return 1;
+        }
+
         #endregion IPlugin Methods
+
+        #region IInitialiseEvents Methods
+
+        public void BeforeConfigure(in IApplicationBuilder app)
+        {
+
+        }
+
+        public void AfterConfigure(in IApplicationBuilder app)
+        {
+
+        }
+
+        public void Configure(in IApplicationBuilder app)
+        {
+            app.UseSeo();
+        }
+
+        public void BeforeConfigureServices(in IServiceCollection services)
+        {
+
+        }
+
+        public void AfterConfigureServices(in IServiceCollection services)
+        {
+
+        }
+
+        #endregion IInitialiseEvents Methods
     }
 }
 

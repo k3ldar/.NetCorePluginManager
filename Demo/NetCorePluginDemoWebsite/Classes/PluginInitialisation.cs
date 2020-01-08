@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  AspNetCore.PluginManager.DemoWebsite
  *  
@@ -23,32 +23,24 @@
  *  22/09/2018  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using System;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Server.HttpSys;
-using Microsoft.AspNetCore.Server.IISIntegration;
+using AspNetCore.PluginManager.DemoWebsite.Helpers;
 
-using SharedPluginFeatures;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
 
 using Middleware;
 using Middleware.Accounts;
 using Middleware.Helpdesk;
 
-using AspNetCore.PluginManager.DemoWebsite.Helpers;
+using PluginManager.Abstractions;
+
+using SharedPluginFeatures;
 
 namespace AspNetCore.PluginManager.DemoWebsite.Classes
 {
-    public class PluginInitialisation : IPlugin, IPluginVersion
+    public class PluginInitialisation : IPlugin, IPluginVersion, IInitialiseEvents
     {
         #region IPlugin Methods
-
-        public void Configure(IApplicationBuilder app)
-        {
-            app.UseAuthentication();
-        }
 
         public void ConfigureServices(IServiceCollection services)
         {
@@ -93,15 +85,40 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
 
         }
 
-#endregion IPlugin Methods
-
-#region IPluginVersion Methods
-
         public ushort GetVersion()
         {
-            return (1);
+            return 1;
         }
 
-#endregion IPluginVersion Methods
+        #endregion IPlugin Methods
+
+        #region IInitialiseEvents Methods
+
+        public void BeforeConfigure(in IApplicationBuilder app)
+        {
+
+        }
+
+        public void AfterConfigure(in IApplicationBuilder app)
+        {
+
+        }
+
+        public void Configure(in IApplicationBuilder app)
+        {
+            app.UseAuthentication();
+        }
+
+        public void BeforeConfigureServices(in IServiceCollection services)
+        {
+
+        }
+
+        public void AfterConfigureServices(in IServiceCollection services)
+        {
+
+        }
+
+        #endregion IInitialiseEvents Methods
     }
 }

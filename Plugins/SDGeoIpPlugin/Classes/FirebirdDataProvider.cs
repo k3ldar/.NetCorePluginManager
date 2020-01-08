@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  SieraDeltaGeoIpPlugin
  *  
@@ -48,7 +48,7 @@ namespace SieraDeltaGeoIp.Plugin
         #region Constructors
 
         public FirebirdDataProvider(GeoIpPluginSettings settings, List<IpCity> ipRangeData)
-            : base (ipRangeData, new TimeSpan(24, 0, 0))
+            : base(ipRangeData, new TimeSpan(24, 0, 0))
         {
             base.ContinueIfGlobalException = true;
             _settings = settings ?? throw new ArgumentNullException(nameof(settings));
@@ -126,7 +126,6 @@ namespace SieraDeltaGeoIp.Plugin
             {
                 db.Close();
                 db.Dispose();
-                db = null;
             }
 
             rangeData.Sort();
@@ -139,7 +138,7 @@ namespace SieraDeltaGeoIp.Plugin
 
         #region IGeoIpProvider Methods
 
-        public bool GetIpAddressDetails(in string ipAddress, out string countryCode, out string region, 
+        public bool GetIpAddressDetails(in string ipAddress, out string countryCode, out string region,
             out string cityName, out decimal latitude, out decimal longitude, out long uniqueId,
             out long ipFrom, out long ipTo)
         {
@@ -206,7 +205,6 @@ namespace SieraDeltaGeoIp.Plugin
             {
                 db.Close();
                 db.Dispose();
-                db = null;
             }
 
             return (false);

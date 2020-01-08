@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  PluginMiddleware
  *  
@@ -46,8 +46,8 @@ namespace Middleware.Accounts.Orders
         /// <param name="processStatus">Current process status for the order.</param>
         /// <param name="deliveryAddress">Delivery address where the order will be dispatched to.</param>
         /// <param name="orderItems">List of items within the order.</param>
-        public Order(in int id, in DateTime date, in decimal postage, in CultureInfo culture, 
-            in ProcessStatus processStatus, DeliveryAddress deliveryAddress, 
+        public Order(in int id, in DateTime date, in decimal postage, in CultureInfo culture,
+            in ProcessStatus processStatus, DeliveryAddress deliveryAddress,
             List<OrderItem> orderItems)
         {
             if (postage < 0)

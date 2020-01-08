@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  AspNetCore.PluginManager
  *  
@@ -25,13 +25,15 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.IO;
 
 using Microsoft.AspNetCore.Mvc.ApplicationParts;
 using Microsoft.AspNetCore.Mvc.Razor.Compilation;
 using Microsoft.Extensions.DependencyInjection;
+
+using PluginManager.Abstractions;
 
 using SharedPluginFeatures;
 
@@ -74,7 +76,7 @@ namespace AspNetCore.PluginManager
 #if NET_CORE_3_0
         private static void AddApplicationParts(in IMvcBuilder mvcBuilder)
         {
-            foreach (KeyValuePair<string, IPluginModule> plugin in PluginManagerService.GetPluginManager().GetLoadedPlugins())
+            foreach (KeyValuePair<string, IPluginModule> plugin in PluginManagerService.GetPluginManager().PluginsGetLoaded())
                 mvcBuilder.AddApplicationPart(plugin.Value.Assembly);
         }
 #endif
@@ -97,7 +99,7 @@ namespace AspNetCore.PluginManager
         private static void ConfigureCompiledViews(in IMvcBuilder mvcBuilder)
         {
             // configure Compiled Views
-            Dictionary<string, IPluginModule> plugins = PluginManagerService.GetPluginManager().GetLoadedPlugins();
+            Dictionary<string, IPluginModule> plugins = PluginManagerService.GetPluginManager().PluginsGetLoaded();
 
             foreach (KeyValuePair<string, IPluginModule> keyValuePair in plugins)
             {
@@ -120,7 +122,7 @@ namespace AspNetCore.PluginManager
         private static void ConfigurePlugins(in IMvcBuilder mvcBuilder)
         {
             List<IConfigureMvcBuilder> appBuilderServices = PluginManagerService
-                .GetPluginManager().GetPluginClasses<IConfigureMvcBuilder>();
+                .GetPluginManager().PluginGetClasses<IConfigureMvcBuilder>();
 
             foreach (IConfigureMvcBuilder builder in appBuilderServices)
                 builder.ConfigureMvcBuilder(mvcBuilder);

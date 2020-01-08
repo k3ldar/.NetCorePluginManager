@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  Blog Plugin
  *  
@@ -41,7 +41,7 @@ namespace Blog.Plugin.Models
         /// <param name="dateTime">Date and time comment made.</param>
         /// <param name="userName">Name of person making the comment.</param>
         /// <param name="comment">Comment made by a user.</param>
-        public BlogCommentViewModel(in int id, in DateTime dateTime, in string userName, 
+        public BlogCommentViewModel(in int id, in DateTime dateTime, in string userName,
             in string comment)
         {
             if (String.IsNullOrEmpty(userName))

@@ -30,7 +30,7 @@ using Microsoft.AspNetCore.Http;
 using Middleware;
 using Middleware.Accounts.Orders;
 
-using SharedPluginFeatures;
+using PluginManager.Abstractions;
 
 using Shared.Classes;
 
@@ -76,8 +76,8 @@ namespace ShoppingCartPlugin.Classes.PaymentProviders
 
             if (order.Total > 0.00m)
             {
-                PaypointHelper vc = new PaypointHelper(order.Id.ToString(), order.Total, 
-                    _paymentProviderSettings.Currencies.Split(';')[0], 
+                PaypointHelper vc = new PaypointHelper(order.Id.ToString(), order.Total,
+                    _paymentProviderSettings.Currencies.Split(';')[0],
                     _paymentProviderSettings.MerchantId, _paymentProviderSettings.RemotePassword,
                     $"{request.Scheme}://{request.Host.Value}/Cart/Paypoint/");
 

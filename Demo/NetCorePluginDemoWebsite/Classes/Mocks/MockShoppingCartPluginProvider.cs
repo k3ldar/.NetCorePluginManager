@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  Demo Website
  *  
@@ -77,7 +77,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
 
         #region IShoppingCartProvider Methds
 
-        public long AddToCart(in UserSession userSession, in ShoppingCartSummary shoppingCart, 
+        public long AddToCart(in UserSession userSession, in ShoppingCartSummary shoppingCart,
             in Product product, in int count)
         {
             if (userSession == null)
@@ -151,7 +151,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
                     product.Description.Substring(0, Shared.Utilities.CheckMinMax(product.Description.Length, 0, 49)),
                     product.Sku, product.Images, product.IsDownload, product.AllowBackorder, String.Empty));
                 ShoppingCartDetail cartDetail = new ShoppingCartDetail(shoppingCartId, 1,
-                    product.RetailPrice, 20, 0, 10, System.Threading.Thread.CurrentThread.CurrentUICulture, 
+                    product.RetailPrice, 20, 0, 10, System.Threading.Thread.CurrentThread.CurrentUICulture,
                     "Test Coupon", items, requiresShipping, "GBP");
                 cacheItem = new CacheItem(basketCache, cartDetail);
                 _cartCacheManager.Add(basketCache, cacheItem, true);
@@ -181,7 +181,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
 
             foreach (ShoppingCartItem item in cartDetail.Items)
             {
-                items.Add(new OrderItem(item.Id, item.Name, item.ItemCost, 20, item.ItemCount, 
+                items.Add(new OrderItem(item.Id, item.Name, item.ItemCost, 20, item.ItemCount,
                     ItemStatus.Received, DiscountType.None, 0));
             }
 
@@ -224,7 +224,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
             Int64.TryParse(e.Name.Substring(5), out long cartId);
 
             ShoppingCartDetail cartDetail = new ShoppingCartDetail(cartId,
-                0, 0, 20, 0, 0, System.Threading.Thread.CurrentThread.CurrentCulture, 
+                0, 0, 20, 0, 0, System.Threading.Thread.CurrentThread.CurrentCulture,
                 String.Empty, new List<ShoppingCartItem>(), false, "GBP");
 
             Product product = _productProvider.GetProducts(1, 10000).Where(p => p.RetailPrice > 0 && !p.IsDownload).FirstOrDefault();
@@ -232,7 +232,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
             if (product != null)
                 cartDetail.Add(product, 1);
 
-            e.CachedItem = new CacheItem(e.Name, cartDetail);               
+            e.CachedItem = new CacheItem(e.Name, cartDetail);
         }
 
         #endregion Private Methods

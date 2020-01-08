@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  AspNetCore.PluginManager.DemoWebsite
  *  
@@ -25,8 +25,8 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
 
-using SharedPluginFeatures;
-using static SharedPluginFeatures.Enums;
+using PluginManager;
+using PluginManager.Abstractions;
 
 namespace AspNetCore.PluginManager.DemoWebsite.Classes
 {
@@ -35,6 +35,22 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
         #region ILogger Methods
 
         public void AddToLog(in LogLevel logLevel, in string data)
+        {
+            AddToLog(logLevel, String.Empty, data);
+        }
+
+        public void AddToLog(in LogLevel logLevel, in Exception exception)
+        {
+            AddToLog(logLevel, String.Empty, exception, String.Empty);
+        }
+
+        public void AddToLog(in LogLevel logLevel, in Exception exception, string data)
+        {
+            AddToLog(logLevel, String.Empty, exception, data);
+        }
+
+
+        public void AddToLog(in LogLevel logLevel, in string module, in string data)
         {
 #if TRACE
             System.Diagnostics.Trace.WriteLine($"{logLevel.ToString()} {data}");
@@ -45,25 +61,19 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
 #endif
         }
 
-        public void AddToLog(in LogLevel logLevel, in Exception exception)
+        public void AddToLog(in LogLevel logLevel, in string module, in Exception exception)
         {
-#if TRACE
-            System.Diagnostics.Trace.WriteLine($"{logLevel.ToString()} {exception.Message}");
-#endif
-
-#if !DEBUG
-            Shared.EventLog.Add(exception);
-#endif
+            AddToLog(logLevel, module, exception, String.Empty);
         }
 
-        public void AddToLog(in LogLevel logLevel, in Exception exception, string data)
+        public void AddToLog(in LogLevel logLevel, in string module, in Exception exception, string data)
         {
 #if TRACE
-            System.Diagnostics.Trace.WriteLine($"{logLevel.ToString()} {exception.Message}\r\n{data}");
+            System.Diagnostics.Trace.WriteLine($"{logLevel.ToString()} {module} {exception.Message}\r\n{data}");
 #endif
 
 #if !DEBUG
-            Shared.EventLog.Add(exception, data);
+            Shared.EventLog.Add(exception, $"{module} {data}");
 #endif
         }
 

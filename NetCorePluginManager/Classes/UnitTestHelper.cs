@@ -1,5 +1,7 @@
 ﻿#if DEBUG
 using SharedPluginFeatures;
+using PluginManager.Abstractions;
+
 
 namespace AspNetCore.PluginManager
 {
@@ -15,7 +17,8 @@ namespace AspNetCore.PluginManager
         /// <returns>IPluginHelperService</returns>
         public static IPluginHelperService GetPluginServices()
         {
-            return new PluginServices() as IPluginHelperService;
+            //return new PluginServices() as IPluginHelperService;
+            throw new System.NotImplementedException();
         }
 
         /// <summary>
@@ -24,7 +27,8 @@ namespace AspNetCore.PluginManager
         /// <returns>IPluginClassesService</returns>
         public static IPluginClassesService GetPluginClassesService()
         {
-            return new PluginServices() as IPluginClassesService;
+            //return new PluginServices() as IPluginClassesService;
+            throw new System.NotImplementedException();
         }
 
         /// <summary>
@@ -33,7 +37,8 @@ namespace AspNetCore.PluginManager
         /// <returns>IPluginTypesService</returns>
         public static IPluginTypesService GetPluginTypesService()
         {
-            return new PluginServices() as IPluginTypesService;
+            //return new PluginServices() as IPluginTypesService;
+            throw new System.NotImplementedException();
         }
 
         /// <summary>
@@ -42,7 +47,8 @@ namespace AspNetCore.PluginManager
         /// <returns>INotificationService</returns>
         public static INotificationService GetNotificationService()
         {
-            return new NotificationService() as INotificationService;
+            //return new NotificationService() as INotificationService;
+            throw new System.NotImplementedException();
         }
 
     }

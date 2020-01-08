@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  Login Plugin
  *  
@@ -25,21 +25,24 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
 using System.IO;
-
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Authentication;
-
-using Shared.Classes;
-using static Shared.Utilities;
-
-using SharedPluginFeatures;
+using System.Security.Claims;
 
 using LoginPlugin.Classes;
 using LoginPlugin.Models;
 
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Mvc;
+
 using Middleware;
+
+using PluginManager.Abstractions;
+
+using Shared.Classes;
+
+using SharedPluginFeatures;
+
 using static Middleware.Constants;
-using System.Security.Claims;
+using static Shared.Utilities;
 
 namespace LoginPlugin.Controllers
 {
@@ -88,7 +91,7 @@ namespace LoginPlugin.Controllers
                 if (String.IsNullOrEmpty(returnUrl))
                     return Redirect(_settings.LoginSuccessUrl);
                 else
-                    return (Redirect(returnUrl));
+                    return Redirect(returnUrl);
             }
 
             LoginViewModel model = new LoginViewModel(GetModelData(),
@@ -151,10 +154,10 @@ namespace LoginPlugin.Controllers
                     return Redirect(model.ReturnUrl);
 
                 case LoginResult.AccountLocked:
-                    return (RedirectToAction(nameof(AccountLocked), new { username = model.Username }));
+                    return RedirectToAction(nameof(AccountLocked), new { username = model.Username });
 
                 case LoginResult.PasswordChangeRequired:
-                    return (Redirect(_settings.ChangePasswordUrl));
+                    return Redirect(_settings.ChangePasswordUrl);
 
                 case LoginResult.InvalidCredentials:
                     ModelState.AddModelError(String.Empty, Languages.LanguageStrings.InvalidUsernameOrPassword);
@@ -295,7 +298,7 @@ namespace LoginPlugin.Controllers
                 ci.Dispose();
             }
 
-            return (null);
+            return null;
         }
 
         #endregion Public Action Methods
@@ -333,7 +336,7 @@ namespace LoginPlugin.Controllers
                 }
             }
 
-            return (false);
+            return false;
         }
 
         private void RemoveLoginAttempt()
@@ -367,7 +370,7 @@ namespace LoginPlugin.Controllers
                 _loginCache.Add(cacheId, loginCache);
             }
 
-            return (Result);
+            return Result;
         }
 
         #endregion Private Methods

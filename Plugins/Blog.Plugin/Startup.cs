@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  Blog Plugin
  *  
@@ -25,7 +25,6 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 
 #if !NET_CORE_3_X
 using Microsoft.AspNetCore.Mvc;
@@ -50,15 +49,6 @@ namespace Blog.Plugin
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.Configure<CookiePolicyOptions>(options =>
-            {
-                // This lambda determines whether user consent for non-essential cookies is needed for a given request.
-                options.CheckConsentNeeded = context => true;
-                options.MinimumSameSitePolicy = SameSiteMode.None;
-            });
-
-
-            
             services.AddMvc(
 #if NET_CORE_3_X
                 option => option.EnableEndpointRouting = false
@@ -74,12 +64,6 @@ namespace Blog.Plugin
             IHostingEnvironment env)
 #endif
         {
-            app.UseHsts();
-
-            app.UseHttpsRedirection();
-            app.UseStaticFiles();
-            app.UseCookiePolicy();
-
             app.UseMvc(routes =>
             {
                 routes.MapRoute(

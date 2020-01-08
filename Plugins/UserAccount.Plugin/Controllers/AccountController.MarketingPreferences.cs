@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  UserAccount.Plugin
  *  
@@ -25,20 +25,22 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using Microsoft.AspNetCore.Mvc;
 
-using UserAccount.Plugin.Models;
-
 using Middleware;
 using Middleware.Accounts;
 
 using SharedPluginFeatures;
 
+using UserAccount.Plugin.Models;
+
 namespace UserAccount.Plugin.Controllers
 {
+#pragma warning disable CS1591
+
     public partial class AccountController
     {
         #region Public Action Methods
 
-		[HttpGet]
+        [HttpGet]
         [Breadcrumb(nameof(Languages.LanguageStrings.MarketingPreferences), nameof(AccountController), nameof(Index))]
         public IActionResult MarketingPreferences()
         {
@@ -48,10 +50,10 @@ namespace UserAccount.Plugin.Controllers
             return View(model);
         }
 
-		[HttpPost]
-		public IActionResult MarketingPreferences(MarketingPreferencesViewModel model)
+        [HttpPost]
+        public IActionResult MarketingPreferences(MarketingPreferencesViewModel model)
         {
-			if (ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 Marketing marketing = new Marketing(model.EmailOffers, model.TelephoneOffers,
                     model.SMSOffers, model.PostalOffers);
@@ -72,7 +74,7 @@ namespace UserAccount.Plugin.Controllers
 
         #region Private Methods
 
-		private void PrepareMarketingModel(ref MarketingPreferencesViewModel model, in Marketing marketing)
+        private void PrepareMarketingModel(ref MarketingPreferencesViewModel model, in Marketing marketing)
         {
             MarketingOptions options = _accountProvider.GetMarketingOptions();
 
@@ -84,7 +86,7 @@ namespace UserAccount.Plugin.Controllers
             model.ShowSMS = options.HasFlag(MarketingOptions.ShowSMS);
             model.ShowTelephone = options.HasFlag(MarketingOptions.ShowTelephone);
 
-			if (marketing != null)
+            if (marketing != null)
             {
                 model.EmailOffers = marketing.EmailOffers;
                 model.PostalOffers = marketing.PostalOffers;
@@ -95,4 +97,6 @@ namespace UserAccount.Plugin.Controllers
 
         #endregion Private Methods
     }
-} 
+
+#pragma warning restore CS1591
+}

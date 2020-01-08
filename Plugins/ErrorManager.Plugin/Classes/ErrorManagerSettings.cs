@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  Error Manager Plugin
  *  
@@ -69,9 +69,9 @@ namespace ErrorManager.Plugin
         public int Count()
         {
             if (Quotes == null)
-                return (0);
+                return 0;
 
-            return (Quotes.Length - 1);
+            return Quotes.Length - 1;
         }
 
         /// <summary>
@@ -84,16 +84,16 @@ namespace ErrorManager.Plugin
             if (index < 0 || index > Count())
                 index = 0;
 
-            string Result = String.Empty;
+            string Result;
 
             if (Quotes != null && index <= Count())
-               Result = Quotes[index];
+                Result = Quotes[index];
             else
                 Result = "The page you were looking for could not be found\rPlease try navigating from the menu above.";
 
             Result = Result.Trim().Replace("\r", "</p><p>");
 
-            return ($"<p>{Result}</p>");
+            return $"<p>{Result}</p>";
         }
     }
 }

@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  Localization.Plugin
  *  
@@ -27,18 +27,20 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 
-using Microsoft.Extensions.DependencyInjection;
+using Languages;
+
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc.Razor;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Localization;
 
-using SharedPluginFeatures;
-
-using Languages;
+using PluginManager.Abstractions;
 
 using Shared.Classes;
+
+using SharedPluginFeatures;
 
 #pragma warning disable CS1591
 
@@ -48,7 +50,7 @@ namespace Localization.Plugin
     /// Implements IPlugin which allows the Localization.Plugin module to be
     /// loaded as a plugin module
     /// </summary>
-    public class PluginInitialisation : IPlugin, IConfigureMvcBuilder
+    public class PluginInitialisation : IPlugin, IConfigureMvcBuilder, IInitialiseEvents
     {
         #region Internal Static Properties / Members
 
@@ -61,7 +63,6 @@ namespace Localization.Plugin
 
         #region IPlugin Methods
 
-
         public void Initialise(ILogger logger)
         {
             ThreadManager.Initialise();
@@ -71,11 +72,6 @@ namespace Localization.Plugin
         public void Finalise()
         {
             ThreadManager.Finalise();
-        }
-
-        public void Configure(IApplicationBuilder app)
-        {
-            app.UseRequestLocalization().UseLocalizationMiddleware();
         }
 
         public void ConfigureServices(IServiceCollection services)
@@ -103,7 +99,42 @@ namespace Localization.Plugin
                 });
         }
 
+        public ushort GetVersion()
+        {
+            return 1;
+        }
+
         #endregion IPlugin Methods
+
+        #region IInitialiseEvents Methods
+
+
+        #endregion IInitialiseEvents Methods
+
+        public void BeforeConfigure(in IApplicationBuilder app)
+        {
+
+        }
+
+        public void AfterConfigure(in IApplicationBuilder app)
+        {
+            app.UseRequestLocalization().UseLocalizationMiddleware();
+        }
+
+        public void Configure(in IApplicationBuilder app)
+        {
+
+        }
+
+        public void BeforeConfigureServices(in IServiceCollection services)
+        {
+
+        }
+
+        public void AfterConfigureServices(in IServiceCollection services)
+        {
+
+        }
 
         #region IConfigureMvcBuilder Methods
 

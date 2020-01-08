@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  RestrictIp.Plugin
  *  
@@ -28,14 +28,15 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Threading.Tasks;
 
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 
-using Microsoft.AspNetCore.Http;
+using PluginManager;
+using PluginManager.Abstractions;
 
 using SharedPluginFeatures;
-using static SharedPluginFeatures.Enums;
 
-#pragma warning disable CS1591
+#pragma warning disable CS1591, IDE0056, IDE0057
 
 namespace RestrictIp.Plugin
 {
@@ -212,4 +213,4 @@ namespace RestrictIp.Plugin
 
 }
 
-#pragma warning restore CS1591
+#pragma warning restore CS1591, IDE0056, IDE0057

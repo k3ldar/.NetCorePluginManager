@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  SystemAdmin.Plugin
  *  
@@ -23,13 +23,13 @@
  *  05/03/2019  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+using System;
+using System.Collections.Generic;
+
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 
 using SharedPluginFeatures;
-using System;
-using System.Collections.Generic;
 
 namespace SystemAdmin.Plugin.Classes
 {
@@ -52,6 +52,7 @@ namespace SystemAdmin.Plugin.Classes
             if (breadcrumbService != null && systemAdminHelper != null)
                 RegisterBreadcrumbs(breadcrumbService, systemAdminHelper);
 
+#if NET_CORE_3_X
             services.AddAuthorization(options =>
             {
                 options.AddPolicy(
@@ -77,6 +78,7 @@ namespace SystemAdmin.Plugin.Classes
                         .RequireClaim(Constants.ClaimNameStaff)
                         .RequireClaim(Constants.ClaimNameUserId));
             });
+#endif
         }
 
         public void BeforeConfigure(in IApplicationBuilder app)
@@ -85,6 +87,11 @@ namespace SystemAdmin.Plugin.Classes
         }
 
         public void BeforeConfigureServices(in IServiceCollection services)
+        {
+
+        }
+
+        public void Configure(in IApplicationBuilder app)
         {
 
         }

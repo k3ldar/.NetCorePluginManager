@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  SystemAdmin.Plugin
  *  
@@ -26,14 +26,16 @@
 using System;
 using System.Diagnostics;
 
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-using SystemAdmin.Plugin.Models;
+using Middleware;
+
+using PluginManager.Abstractions;
 
 using SharedPluginFeatures;
 
-using Middleware;
-using Microsoft.AspNetCore.Authorization;
+using SystemAdmin.Plugin.Models;
 
 namespace SystemAdmin.Plugin.Controllers
 {
@@ -82,7 +84,7 @@ namespace SystemAdmin.Plugin.Controllers
                 return View(new AvailableIconViewModel(GetModelData(),
                     _systemAdminHelperService.GetSystemAdminMainMenu()));
 
-            return (View(new AvailableIconViewModel(GetModelData(), selectedMenu)));
+            return View(new AvailableIconViewModel(GetModelData(), selectedMenu));
         }
 
         public IActionResult Grid(int id)
@@ -90,9 +92,9 @@ namespace SystemAdmin.Plugin.Controllers
             SystemAdminSubMenu subMenu = _systemAdminHelperService.GetSubMenuItem(id);
 
             if (subMenu == null)
-                return (Redirect("/SystemAdmin/"));
+                return Redirect("/SystemAdmin/");
 
-            return (View(new GridViewModel(GetModelData(), subMenu)));
+            return View(new GridViewModel(GetModelData(), subMenu));
         }
 
         public IActionResult Map(int id)
@@ -100,9 +102,9 @@ namespace SystemAdmin.Plugin.Controllers
             SystemAdminSubMenu subMenu = _systemAdminHelperService.GetSubMenuItem(id);
 
             if (subMenu == null)
-                return (Redirect("/SystemAdmin/"));
+                return Redirect("/SystemAdmin/");
 
-            return (View(new MapViewModel(GetModelData(), _settingsProvider, subMenu)));
+            return View(new MapViewModel(GetModelData(), _settingsProvider, subMenu));
         }
 
         public IActionResult Text(int id)
@@ -110,9 +112,9 @@ namespace SystemAdmin.Plugin.Controllers
             SystemAdminSubMenu subMenu = _systemAdminHelperService.GetSubMenuItem(id);
 
             if (subMenu == null)
-                return (Redirect("/SystemAdmin"));
+                return Redirect("/SystemAdmin");
 
-            return (View(new TextViewModel(GetModelData(), subMenu)));
+            return View(new TextViewModel(GetModelData(), subMenu));
         }
 
         public IActionResult TextEx(int id)
@@ -120,9 +122,9 @@ namespace SystemAdmin.Plugin.Controllers
             SystemAdminSubMenu subMenu = _systemAdminHelperService.GetSubMenuItem(id);
 
             if (subMenu == null)
-                return (Redirect("/SystemAdmin"));
+                return Redirect("/SystemAdmin");
 
-            return (View(new TextExViewModel(GetModelData(), _settingsProvider, subMenu)));
+            return View(new TextExViewModel(GetModelData(), _settingsProvider, subMenu));
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

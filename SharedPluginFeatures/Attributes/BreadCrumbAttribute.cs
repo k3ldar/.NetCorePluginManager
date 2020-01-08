@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  SharedPluginFeatures
  *  
@@ -60,7 +60,7 @@ namespace SharedPluginFeatures
         /// </summary>
         /// <param name="name">Name of the breadcrumb item.</param>
         public BreadcrumbAttribute(string name)
-            : this (name, String.Empty)
+            : this(name, String.Empty)
         {
 
         }
@@ -74,7 +74,7 @@ namespace SharedPluginFeatures
         /// <param name="parentControllerName">Name of the controller which is a parent of this breadcrumb.</param>
         /// <param name="parentActionName">Name of the action which is the parent of this breadcrumb.</param>
         public BreadcrumbAttribute(string name, string parentControllerName, string parentActionName)
-            : this (name, String.Empty)
+            : this(name, String.Empty)
         {
             if (String.IsNullOrEmpty(parentControllerName))
                 throw new ArgumentNullException(nameof(parentControllerName));

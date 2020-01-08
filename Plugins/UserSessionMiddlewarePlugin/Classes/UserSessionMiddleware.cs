@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  UserSessionMiddleware.Plugin
  *  
@@ -32,10 +32,11 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 
-using SharedPluginFeatures;
-using static SharedPluginFeatures.Enums;
+using PluginManager.Abstractions;
 
 using Shared.Classes;
+
+using SharedPluginFeatures;
 
 #pragma warning disable CS1591
 
@@ -138,13 +139,13 @@ namespace UserSessionMiddleware.Plugin
                 }
                 else
                 {
-                    cookieSessionID = GetNextID(context);
+                    cookieSessionID = GetNextID();
                     context.Response.Cookies.Append(_cookieName,
                         Shared.Utilities.Encrypt(cookieSessionID, _cookieEncryptionKey), options);
                 }
 
                 CacheItem currentSession = UserSessionManager.UserSessions.Get(cookieSessionID);
-                UserSession userSession = null;
+                UserSession userSession;
 
                 if (currentSession != null)
                 {
@@ -208,7 +209,7 @@ namespace UserSessionMiddleware.Plugin
 
         #region Private Methods
 
-        private string GetNextID(HttpContext context)
+        private string GetNextID()
         {
             return $"SN{DateTime.Now.ToFileTimeUtc()}{_cookieID++}";
         }
@@ -261,7 +262,7 @@ namespace UserSessionMiddleware.Plugin
             catch (Exception err)
             {
                 if (PluginInitialisation.GetLogger != null)
-                    PluginInitialisation.GetLogger.AddToLog(LogLevel.UserSessionManagerError, err,
+                    PluginInitialisation.GetLogger.AddToLog(PluginManager.LogLevel.Error, nameof(UserSessionMiddleware), err,
                         MethodBase.GetCurrentMethod().Name);
             }
 

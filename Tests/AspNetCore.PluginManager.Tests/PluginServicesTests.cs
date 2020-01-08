@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  AspNetCore.PluginManager.Tests
  *  
@@ -23,11 +23,12 @@
  *  28/04/2019  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using System;
 using System.Reflection;
+
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-using SharedPluginFeatures;
+using PluginManager;
+using PluginManager.Abstractions;
 
 namespace AspNetCore.PluginManager.Tests
 {

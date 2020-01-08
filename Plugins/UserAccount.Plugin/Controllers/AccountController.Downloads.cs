@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  UserAccount.Plugin
  *  
@@ -30,14 +30,16 @@ using System.Linq;
 
 using Microsoft.AspNetCore.Mvc;
 
-using UserAccount.Plugin.Models;
+using Middleware.Downloads;
 
 using SharedPluginFeatures;
 
-using Middleware.Downloads;
+using UserAccount.Plugin.Models;
 
 namespace UserAccount.Plugin.Controllers
 {
+#pragma warning disable CS1591, IDE0017
+
     public partial class AccountController
     {
         #region Public Controller Methods
@@ -95,7 +97,7 @@ namespace UserAccount.Plugin.Controllers
                 return RedirectToAction(nameof(Index));
 
             ViewDownloadViewItem model = new ViewDownloadViewItem(GetModelData(),
-                downloadItem.Id, downloadItem.Name, downloadItem.Description, downloadItem.Version, 
+                downloadItem.Id, downloadItem.Name, downloadItem.Description, downloadItem.Version,
                 downloadItem.Filename, downloadItem.Icon, downloadItem.Size);
 
             return View(model);
@@ -165,4 +167,6 @@ namespace UserAccount.Plugin.Controllers
 
         #endregion Private Methods
     }
+
+#pragma warning restore CS1591, IDE0017
 }

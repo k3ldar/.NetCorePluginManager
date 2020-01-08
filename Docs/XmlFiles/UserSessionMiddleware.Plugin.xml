@@ -4,12 +4,6 @@
         <name>UserSessionMiddleware.Plugin</name>
     </assembly>
     <members>
-        <member name="T:UserSessionMiddleware.Plugin.SessionHelper">
-            <summary>
-            The purpose of this static class is to provide a conduit to integrating with the user session
-            and obtaining customer user session data or geo ip data, if required
-            </summary>
-        </member>
         <member name="T:UserSessionMiddleware.Plugin.Classes.SystemAdmin.CurrentUserLocationMenu">
             <summary>
             Returns a list of active user sessions, including longitude and latitude for
@@ -62,6 +56,12 @@
             be viewed within SystemAdmin.Plugin.  
             
             This class descends from SystemAdminSubMenu.
+            </summary>
+        </member>
+        <member name="T:UserSessionMiddleware.Plugin.SessionHelper">
+            <summary>
+            The purpose of this static class is to provide a conduit to integrating with the user session
+            and obtaining customer user session data or geo ip data, if required
             </summary>
         </member>
         <member name="T:UserSessionMiddleware.Plugin.UserSessionCore">
@@ -182,7 +182,7 @@
             loaded as a plugin module
             </summary>
         </member>
-        <member name="M:UserSessionMiddleware.Plugin.PluginInitialisation.Initialise(SharedPluginFeatures.ILogger)">
+        <member name="M:UserSessionMiddleware.Plugin.PluginInitialisation.Initialise(PluginManager.Abstractions.ILogger)">
             <summary>
             Initialises the Plugin module
             </summary>
@@ -193,17 +193,17 @@
             Finalises the Plugin module
             </summary>
         </member>
-        <member name="M:UserSessionMiddleware.Plugin.PluginInitialisation.Configure(Microsoft.AspNetCore.Builder.IApplicationBuilder)">
-            <summary>
-            Allows the Plugin module to configure the Mvc application builder
-            </summary>
-            <param name="app">IApplicationBuilder</param>
-        </member>
         <member name="M:UserSessionMiddleware.Plugin.PluginInitialisation.ConfigureServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
             <summary>
             Allows the Plugin module to configure the services for the application
             </summary>
             <param name="services">IServiceCollection</param>
+        </member>
+        <member name="M:UserSessionMiddleware.Plugin.PluginInitialisation.GetVersion">
+            <summary>
+            Returns the internal plugin version number
+            </summary>
+            <returns></returns>
         </member>
         <member name="T:UserSessionMiddleware.Plugin.UserSessionMiddlewareExtender">
             <summary>

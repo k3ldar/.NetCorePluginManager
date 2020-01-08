@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  MemoryCachePlugin
  *  
@@ -25,6 +25,8 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
 using System.Collections.Generic;
+
+using PluginManager.Abstractions;
 
 using Shared.Classes;
 
@@ -73,7 +75,7 @@ namespace GeoIp.Plugin
 
         #region Public Methods
 
-        public bool GetIPAddressDetails(in string ipAddress, out string countryCode, out string region, 
+        public bool GetIPAddressDetails(in string ipAddress, out string countryCode, out string region,
             out string cityName, out decimal latitude, out decimal longitude, out long ipUniqueID)
         {
             countryCode = "ZZ";
@@ -92,7 +94,7 @@ namespace GeoIp.Plugin
 
                 using (StopWatchTimer stopwatchTimer = StopWatchTimer.Initialise(_timingsIpMemory))
                 {
-                     memoryIp = GetMemoryCity(ipAddress);
+                    memoryIp = GetMemoryCity(ipAddress);
                 }
 
                 if (memoryIp != null && !memoryIp.IsComplete)
@@ -124,14 +126,14 @@ namespace GeoIp.Plugin
                     memoryIp.Latitude = latitude;
                     memoryIp.Region = region;
 
-                    return (true);
+                    return true;
                 }
             }
 
             // WebNet77 data is not present, check to see if we have the ip in memory, if we do
             // return that, if not, try and get it from ip provider
-            return (GetCachedIPAddressDetails(ipAddress, out countryCode, out region, 
-                out cityName, out latitude, out longitude, out ipUniqueID));
+            return GetCachedIPAddressDetails(ipAddress, out countryCode, out region,
+                out cityName, out latitude, out longitude, out ipUniqueID);
         }
 
         #endregion Public Methods
@@ -188,13 +190,13 @@ namespace GeoIp.Plugin
                             Longitude = longitude
                         }));
 
-                        return (true);
+                        return true;
                     }
                 }
             }
 
             if (geoCacheItem == null)
-                return (false);
+                return false;
 
             IpCity city = (IpCity)geoCacheItem.Value;
             countryCode = city.CountryCode;
@@ -204,7 +206,7 @@ namespace GeoIp.Plugin
             longitude = city.Longitude;
             ipUniqueID = -1;
 
-            return (true);
+            return true;
         }
 
         private void LoadWebNet77DataThread_ThreadFinishing(object sender, Shared.ThreadManagerEventArgs e)
@@ -228,7 +230,7 @@ namespace GeoIp.Plugin
 
                 if (ip <= _geoIpCityData[mid].IpEnd && ip >= _geoIpCityData[mid].IpStart)
                 {
-                    return (_geoIpCityData[mid]);
+                    return _geoIpCityData[mid];
                 }
 
                 if (ip < _geoIpCityData[mid].IpStart)
@@ -243,7 +245,7 @@ namespace GeoIp.Plugin
                 }
             }
 
-            return (null);
+            return null;
         }
 
         #endregion Private Methods

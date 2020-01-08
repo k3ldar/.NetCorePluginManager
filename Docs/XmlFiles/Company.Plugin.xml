@@ -74,7 +74,7 @@
             Company sitemap provider, provides sitemap information for company information
             </summary>
         </member>
-        <member name="M:Company.Plugin.Classes.CompanySitemapProvider.#ctor(SharedPluginFeatures.ISettingsProvider)">
+        <member name="M:Company.Plugin.Classes.CompanySitemapProvider.#ctor(PluginManager.Abstractions.ISettingsProvider)">
             <summary>
             Default constructor
             </summary>

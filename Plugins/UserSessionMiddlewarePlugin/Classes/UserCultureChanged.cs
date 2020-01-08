@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  UserSessionMiddleware.Plugin
  *  
@@ -27,6 +27,8 @@ using System;
 using System.Globalization;
 
 using Microsoft.AspNetCore.Http;
+
+using PluginManager.Abstractions;
 
 using Shared.Classes;
 
@@ -66,7 +68,7 @@ namespace UserSessionMiddleware.Plugin
 
             UserSessionSettings settings = _settingsProvider.GetSettings<UserSessionSettings>(Constants.UserSessionConfiguration);
 
-            CookieAdd(httpContext, Constants.UserCulture, 
+            CookieAdd(httpContext, Constants.UserCulture,
                 Shared.Utilities.Encrypt(cultureInfo.Name, settings.EncryptionKey), 365);
         }
 

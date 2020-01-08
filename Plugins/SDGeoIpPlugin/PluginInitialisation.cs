@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  SieraDeltaGeoIpPlugin
  *  
@@ -25,9 +25,10 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
 
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.DependencyInjection;
+
+using PluginManager.Abstractions;
 
 using SharedPluginFeatures;
 
@@ -63,16 +64,16 @@ namespace SieraDeltaGeoIp.Plugin
 
         }
 
-        public void Configure(IApplicationBuilder app)
-        {
-
-        }
-
         public void ConfigureServices(IServiceCollection services)
         {
             services.UseSieraDeltaGeoIpService();
 
             GetServiceProvider = services.BuildServiceProvider();
+        }
+
+        public ushort GetVersion()
+        {
+            return 1;
         }
 
         #endregion IPlugin Methods
@@ -101,6 +102,15 @@ namespace SieraDeltaGeoIp.Plugin
             INotificationService notificationService = serviceProvider.GetRequiredService<INotificationService>();
             GeoIpStatistics = new GeoIpStatistics();
             notificationService.RegisterListener(GeoIpStatistics);
+        }
+
+        public void Configure(in IApplicationBuilder app)
+        {
+
+        }
+
+        public void ConfigureServices(in IServiceCollection services)
+        {
         }
 
         #endregion IInitialiseEvents Methods

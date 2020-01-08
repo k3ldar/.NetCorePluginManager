@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  SharedPluginFeatures
  *  
@@ -27,11 +27,12 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+
+using Shared.Classes;
 
 using static Shared.Utilities;
-using Shared.Classes;
 
 #pragma warning disable CS1591
 

@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  GeoIpPlugin
  *  
@@ -45,7 +45,7 @@ namespace GeoIp.Plugin
         #region Constructors
 
         public LoadWebNet77Data(string webNet77DataFile, List<IpCity> ipRangeData)
-            : base (ipRangeData, new TimeSpan(24, 0, 0))
+            : base(ipRangeData, new TimeSpan(24, 0, 0))
         {
             base.ContinueIfGlobalException = true;
 
@@ -74,7 +74,7 @@ namespace GeoIp.Plugin
                             continue;
 
                         if (HasCancelled())
-                            return (false);
+                            return false;
 
                         string[] parts = line.Split(',');
 
@@ -89,7 +89,7 @@ namespace GeoIp.Plugin
             rangeData.Sort();
 
 
-            return (false);
+            return false;
         }
 
         #endregion Overridden Methods

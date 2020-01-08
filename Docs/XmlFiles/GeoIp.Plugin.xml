@@ -233,17 +233,6 @@
             Background thread used to load WebNet77 Geo Ip Data
             </summary>
         </member>
-        <member name="T:GeoIp.Plugin.PluginVersion">
-            <summary>
-            Implements IPluginVersion
-            </summary>
-        </member>
-        <member name="M:GeoIp.Plugin.PluginVersion.GetVersion">
-            <summary>
-            Returns the current internal plugin version supported by GeoIp.Plugin
-            </summary>
-            <returns>ushort</returns>
-        </member>
         <member name="T:GeoIp.Plugin.Classes.SystemAdmin.GeoIpCacheTimingsSubMenu">
             <summary>
             Returns Timings information for all time spent processing cached Geo Ip requests and can 

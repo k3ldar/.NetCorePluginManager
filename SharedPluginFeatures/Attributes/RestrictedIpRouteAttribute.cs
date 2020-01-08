@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  SharedPluginFeatures
  *  
@@ -34,7 +34,7 @@ namespace SharedPluginFeatures
     /// See RestrictIp.Plugin.RestrictIp.Plugin for further details on configuring Ip restrictions by routes.
     /// </summary>
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
-    public sealed class RestrictedIpRouteAttribute  :  Attribute
+    public sealed class RestrictedIpRouteAttribute : Attribute
     {
         #region Constructors
 

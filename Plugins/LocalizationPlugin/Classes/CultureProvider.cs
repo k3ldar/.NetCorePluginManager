@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  Localization.Plugin
  *  
@@ -44,7 +44,7 @@ namespace Localization.Plugin
             if (cultureInfo == null)
                 throw new ArgumentNullException(nameof(cultureInfo));
 
-            foreach(string culture in PluginInitialisation.InstalledCultures)
+            foreach (string culture in PluginInitialisation.InstalledCultures)
             {
                 if (culture.Equals(cultureInfo.Name, StringComparison.InvariantCultureIgnoreCase))
                     return true;

@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  PluginMiddleware
  *  
@@ -48,7 +48,7 @@ namespace Middleware.Accounts.Invoices
         /// <param name="deliveryAddress">The address where the invoice has been dispatched to.</param>
         /// <param name="invoiceItems">List of all invoice items.</param>
         public Invoice(in int id, in DateTime date, in decimal postage, in CultureInfo culture,
-            in ProcessStatus processStatus, in PaymentStatus paymentStatus, 
+            in ProcessStatus processStatus, in PaymentStatus paymentStatus,
             DeliveryAddress deliveryAddress, List<InvoiceItem> invoiceItems)
         {
             if (postage < 0)

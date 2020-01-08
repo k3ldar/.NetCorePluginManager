@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  Documentation Plugin
  *  
@@ -33,6 +33,9 @@ using DocumentationPlugin.Classes;
 using DocumentationPlugin.Models;
 
 using Microsoft.AspNetCore.Mvc;
+
+using PluginManager;
+using PluginManager.Abstractions;
 
 using Shared;
 using Shared.Docs;
@@ -92,7 +95,7 @@ namespace DocumentationPlugin.Controllers
                 if (!model.AssemblyNames.ContainsKey(doc.Title))
                 {
                     if (String.IsNullOrEmpty(doc.ShortDescription))
-                        _logger.AddToLog(Enums.LogLevel.Information, $"No short description for document {doc.Title}");
+                        _logger.AddToLog(LogLevel.Information, $"No short description for document {doc.Title}");
 
                     model.AssemblyNames.Add(doc.Title, new DocumentationModule(doc.Title, doc.ShortDescription));
                 }

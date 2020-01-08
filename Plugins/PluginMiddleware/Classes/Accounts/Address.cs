@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  PluginMiddleware
  *  
@@ -54,7 +54,7 @@ namespace Middleware
         /// <param name="county">County/state name.</param>
         /// <param name="postcode">Postal or zip code.</param>
         /// <param name="country">Postal or zip code.</param>
-        public Address(in int id, in decimal shipping, in string businessName, in string addressLine1, 
+        public Address(in int id, in decimal shipping, in string businessName, in string addressLine1,
             in string addressLine2, in string addressLine3, in string city, in string county, in string postcode, in string country)
         {
             Id = id;

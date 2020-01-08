@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  PluginMiddleware
  *  
@@ -51,7 +51,7 @@ namespace Middleware.Downloads
         /// <param name="description">Description of downloadable item.</param>
         /// <param name="version">Current version of downloadable item.</param>
         /// <param name="filename">Name of the physical file for the downlaod item.</param>
-        public DownloadItem(in int id, in string name, in string description, 
+        public DownloadItem(in int id, in string name, in string description,
             in string version, in string filename)
             : this()
         {

@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  SharedPluginFeatures
  *  
@@ -42,7 +42,7 @@ namespace SharedPluginFeatures
         /// <param name="longitude">Longitude for the Ip address.</param>
         /// <param name="ipUniqueID">Unique Id for the Ip address.</param>
         /// <returns></returns>
-        bool GetIPAddressDetails(in string ipAddress, out string countryCode, out string region, 
+        bool GetIPAddressDetails(in string ipAddress, out string countryCode, out string region,
             out string cityName, out decimal latitude, out decimal longitude, out long ipUniqueID);
     }
 }

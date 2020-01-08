@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  PluginMiddleware
  *  
@@ -42,7 +42,7 @@ namespace Middleware
         /// <param name="attempts">Number of previous login attempts.</param>
         /// <param name="loginDetails">out.  Login details for the user.</param>
         /// <returns>LoginResult</returns>
-        LoginResult Login(in string username, in string password, in string ipAddress, 
+        LoginResult Login(in string username, in string password, in string ipAddress,
             in byte attempts, ref UserLoginDetails loginDetails);
 
         /// <summary>

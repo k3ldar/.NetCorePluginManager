@@ -27,15 +27,17 @@ using System;
 using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.DependencyInjection;
 
-using SharedPluginFeatures;
+using PluginManager;
+using PluginManager.Abstractions;
 
 using Shared.Classes;
 
-using static Shared.Utilities;
+using SharedPluginFeatures;
 
 using ShoppingCartPlugin.Classes;
+
+using static Shared.Utilities;
 
 namespace ShoppingCartPlugin
 {
@@ -55,7 +57,7 @@ namespace ShoppingCartPlugin
 
         #region Constructors
 
-        public ShoppingCartMiddleware(RequestDelegate next, IShoppingCartService shoppingCartService, 
+        public ShoppingCartMiddleware(RequestDelegate next, IShoppingCartService shoppingCartService,
             ISettingsProvider settingsProvider, ILogger logger, IPluginHelperService pluginHelperService)
         {
             if (logger == null)
@@ -65,8 +67,8 @@ namespace ShoppingCartPlugin
             _shoppingCartService = shoppingCartService ?? throw new ArgumentNullException(nameof(shoppingCartService));
 
             if (pluginHelperService == null || !pluginHelperService.PluginLoaded(Constants.PluginNameUserSession, out int version))
-                logger.AddToLog(Enums.LogLevel.Error, 
-                    new Exception(Constants.UserSessionServiceNotFound), 
+                logger.AddToLog(LogLevel.Error,
+                    new Exception(Constants.UserSessionServiceNotFound),
                     nameof(ShoppingCartMiddleware));
 
             _cartSettings = settingsProvider.GetSettings<CartSettings>(Constants.ShoppingCart);
@@ -94,7 +96,7 @@ namespace ShoppingCartPlugin
                     {
                         try
                         {
-                            string basketCookie = Decrypt(CookieValue(context, Constants.ShoppingCart, String.Empty), 
+                            string basketCookie = Decrypt(CookieValue(context, Constants.ShoppingCart, String.Empty),
                                 _shoppingCartService.GetEncryptionKey());
 
                             if (Int64.TryParse(basketCookie, out long result))
@@ -124,7 +126,7 @@ namespace ShoppingCartPlugin
         private ShoppingCartSummary GetBasketSummary(in long basketId)
         {
             if (basketId == 0)
-                return new ShoppingCartSummary(0, 0, 0, 0, 0, _cartSettings.DefaultTaxRate, 
+                return new ShoppingCartSummary(0, 0, 0, 0, 0, _cartSettings.DefaultTaxRate,
                     System.Threading.Thread.CurrentThread.CurrentCulture,
                     _cartSettings.DefaultCurrency);
 

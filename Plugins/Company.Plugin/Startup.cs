@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  Company.Plugin
  *  
@@ -23,13 +23,12 @@
  *  07/01/2019  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+using AspNetCore.PluginManager;
+
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-
-using AspNetCore.PluginManager;
 
 #pragma warning disable CS1591
 
@@ -37,7 +36,7 @@ namespace Company.Plugin
 {
     public class Startup
     {
-        public Startup (IConfiguration configuration)
+        public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
         }
@@ -45,17 +44,10 @@ namespace Company.Plugin
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices (IServiceCollection services)
+        public void ConfigureServices(IServiceCollection services)
         {
             // Allow plugin manager to configure all services in each plugin
             PluginManagerService.ConfigureServices(services);
-
-            services.Configure<CookiePolicyOptions>(options =>
-            {
-                // This lambda determines whether user consent for non-essential cookies is needed for a given request.
-                options.CheckConsentNeeded = context => true;
-                options.MinimumSameSitePolicy = SameSiteMode.None;
-            });
 
 
             services.AddMvc(
@@ -67,7 +59,7 @@ namespace Company.Plugin
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure (IApplicationBuilder app,
+        public void Configure(IApplicationBuilder app,
 #if NET_CORE_3_X
             IWebHostEnvironment env)
 #else
@@ -77,10 +69,6 @@ namespace Company.Plugin
             // Allow plugin manager to configure options for all plugins
             PluginManagerService.Configure(app);
 
-            app.UseHsts();
-            app.UseHttpsRedirection();
-            app.UseStaticFiles();
-            app.UseCookiePolicy();
 
 #if !NET_CORE_3_X
             app.UseMvc(routes =>

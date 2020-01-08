@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  SystemAdmin.Plugin
  *  
@@ -23,16 +23,8 @@
  *  28/10/2018  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using System;
-
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-
-using MemoryCache.Plugin;
 
 namespace SystemAdmin.Plugin
 {
@@ -45,47 +37,15 @@ namespace SystemAdmin.Plugin
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
+        /// <summary>
+        /// This method gets called by the runtime. Use this method to add services to the container.
+        ///  
+        /// This method will not be used in a live environment as it will be inserted as a plugin
+        /// </summary>
+        /// <param name="services"></param>
         public void ConfigureServices(IServiceCollection services)
         {
-            services.Configure<CookiePolicyOptions>(options =>
-            {
-                // This lambda determines whether user consent for non-essential cookies is needed for a given request.
-                options.CheckConsentNeeded = context => true;
-                options.MinimumSameSitePolicy = SameSiteMode.None;
-            });
 
-            AspNetCore.PluginManager.PluginManagerService.ConfigureServices(services);
-
-            services.AddMvc();
-
-            services.UseMemoryCache();
-        }
-
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app)
-        {
-#if DEBUG
-            app.UseDeveloperExceptionPage();
-#else
-            app.UseExceptionHandler("/Error");
-            app.UseHsts();
-#endif
-
-            AspNetCore.PluginManager.PluginManagerService.Configure(app);
-
-            app.UseHttpsRedirection();
-            app.UseStaticFiles();
-            app.UseCookiePolicy();
-
-#if !NET_CORE_3_X
-            app.UseMvc(routes =>
-            {
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller=SystemAdmin}/{action=Index}/{id?}");
-            });
-#endif
         }
     }
 }

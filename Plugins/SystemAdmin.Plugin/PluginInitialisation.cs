@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  SystemAdmin.Plugin
  *  
@@ -23,9 +23,9 @@
  *  28/10/2018  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
+
+using PluginManager.Abstractions;
 
 using SharedPluginFeatures;
 
@@ -37,11 +37,6 @@ namespace SystemAdmin.Plugin
     /// </summary>
     public class PluginInitialisation : IPlugin, IPluginVersion
     {
-        public void Configure(IApplicationBuilder app)
-        {
-
-        }
-
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddSingleton<ISystemAdminHelperService, SystemAdminHelper>();
@@ -54,7 +49,7 @@ namespace SystemAdmin.Plugin
 
         public ushort GetVersion()
         {
-            return (1);
+            return 1;
         }
 
         public void Initialise(ILogger logger)

@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  UserAccount.Plugin
  *  
@@ -27,15 +27,17 @@ using System;
 
 using Microsoft.AspNetCore.Mvc;
 
-using UserAccount.Plugin.Models;
-
-using SharedPluginFeatures;
-
 using Middleware;
 using Middleware.Accounts;
 
+using SharedPluginFeatures;
+
+using UserAccount.Plugin.Models;
+
 namespace UserAccount.Plugin.Controllers
 {
+#pragma warning disable CS1591
+
     public partial class AccountController
     {
         #region Public Controller Methods
@@ -45,7 +47,7 @@ namespace UserAccount.Plugin.Controllers
         public IActionResult DeliveryAddress()
         {
             string growl = GrowlGet();
-            return View(new DeliveryAddressViewModel(GetModelData(), 
+            return View(new DeliveryAddressViewModel(GetModelData(),
                 _accountProvider.GetDeliveryAddresses(UserId()), growl));
         }
 
@@ -117,7 +119,7 @@ namespace UserAccount.Plugin.Controllers
 
             if (ModelState.IsValid)
             {
-                if (_accountProvider.SetDeliveryAddress(UserId(), new DeliveryAddress(model.AddressId, 
+                if (_accountProvider.SetDeliveryAddress(UserId(), new DeliveryAddress(model.AddressId,
                     model.Name, model.AddressLine1, model.AddressLine2, model.AddressLine3, model.City,
                     model.County, model.Postcode, model.Country, model.PostageCost)))
                 {
@@ -218,4 +220,6 @@ namespace UserAccount.Plugin.Controllers
 
         #endregion Private Methods
     }
+
+#pragma warning restore CS1591
 }

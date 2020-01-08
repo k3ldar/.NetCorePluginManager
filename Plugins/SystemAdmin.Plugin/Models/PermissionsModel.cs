@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  SystemAdmin.Plugin
  *  
@@ -32,7 +32,7 @@ namespace SystemAdmin.Plugin.Models
         #region Constructors
 
         public PermissionsModel(in BaseModelData modelData)
-            : base (modelData)
+            : base(modelData)
         {
 
         }

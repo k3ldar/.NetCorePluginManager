@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  AspNetCore.PluginManager
  *  
@@ -28,16 +28,17 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Reflection;
 using System.IO;
+using System.Reflection;
 
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
+
+using PluginManager;
+using PluginManager.Abstractions;
 
 using SharedPluginFeatures;
-using static SharedPluginFeatures.Enums;
 
 namespace AspNetCore.PluginManager
 {
@@ -50,9 +51,9 @@ namespace AspNetCore.PluginManager
 
         private const string LatestVersion = "latest";
 
-        private static PluginManager _pluginManagerInstance;
+        private static NetCorePluginManager _pluginManagerInstance;
         private static ILogger _logger;
-        private static PluginSettings _pluginConfiguration;
+        private static NetCorePluginSettings _pluginSettings;
         private static string _rootPath;
         private static List<Type> _preinitialisedPlugins = new List<Type>();
         private static PluginManagerConfiguration _configuration;
@@ -81,47 +82,43 @@ namespace AspNetCore.PluginManager
             _logger = new Classes.LoggerStatistics();
             Classes.LoggerStatistics.SetLogger(configuration.Logger);
 
-            ThreadManagerInitialisation.Initialise(_logger);
 
             try
             {
                 _rootPath = configuration.CurrentPath;
 
                 //load config and get settings
-                if (File.Exists(Path.Combine(configuration.ConfigurationFile)))
+                if (File.Exists(configuration.ConfigurationFile))
                 {
-                    _pluginConfiguration = configuration.LoadSettingsService.LoadSettings<PluginSettings>(
+                    _pluginSettings = configuration.LoadSettingsService.LoadSettings<NetCorePluginSettings>(
                         configuration.ConfigurationFile, "PluginConfiguration");
                 }
                 else
                 {
-                    _pluginConfiguration = new PluginSettings();
-                    AppSettings.ValidateSettings<PluginSettings>.Validate(_pluginConfiguration);
+                    _pluginSettings = new NetCorePluginSettings();
+                    AppSettings.ValidateSettings<NetCorePluginSettings>.Validate(_pluginSettings);
                 }
 
-                _pluginManagerInstance = new PluginManager(_logger, _pluginConfiguration);
+                _pluginManagerInstance = new NetCorePluginManager(configuration, _pluginSettings);
 
                 if (_rootPath.StartsWith(Directory.GetCurrentDirectory(), StringComparison.CurrentCultureIgnoreCase))
                     _rootPath = Directory.GetCurrentDirectory();
 
-                if (_pluginConfiguration.Disabled)
+                if (_pluginSettings.Disabled)
                     return false;
 
-                if (_pluginConfiguration.CreateLocalCopy && String.IsNullOrEmpty(_pluginConfiguration.LocalCopyPath))
+                if (_pluginSettings.CreateLocalCopy && String.IsNullOrEmpty(_pluginSettings.LocalCopyPath))
                 {
-                    _pluginConfiguration.LocalCopyPath = Path.Combine(_rootPath, Constants.TempPluginPath);
-                    Directory.CreateDirectory(_pluginConfiguration.LocalCopyPath);
+                    _pluginSettings.LocalCopyPath = Path.Combine(_rootPath, Constants.TempPluginPath);
+                    Directory.CreateDirectory(_pluginSettings.LocalCopyPath);
                 }
 
                 // Load ourselves
-                _pluginManagerInstance.LoadPlugin(Assembly.GetExecutingAssembly(), String.Empty, false);
-
-                // attempt to load the host
-                _pluginManagerInstance.LoadPlugin(Assembly.GetEntryAssembly(), String.Empty, false);
+                _pluginManagerInstance.PluginLoad(Assembly.GetExecutingAssembly(), String.Empty, false);
 
                 // load any pre loaded plugins from UsePlugin
                 foreach (Type pluginType in _preinitialisedPlugins)
-                    GetPluginManager().LoadPlugin(pluginType.Assembly.Location, false);
+                    GetPluginManager().PluginLoad(pluginType.Assembly.Location, false);
 
                 _preinitialisedPlugins = null;
 
@@ -129,9 +126,9 @@ namespace AspNetCore.PluginManager
                 // are any plugins specifically mentioned in the config, load them
                 // first so we have some control on the load order
 
-                if (_pluginConfiguration.PluginFiles != null)
+                if (_pluginSettings.PluginFiles != null)
                 {
-                    foreach (string file in _pluginConfiguration.PluginFiles)
+                    foreach (string file in _pluginSettings.PluginFiles)
                     {
                         string pluginFile = file;
 
@@ -150,7 +147,7 @@ namespace AspNetCore.PluginManager
 #if NET_CORE_3_0
                         _logger.AddToLog(LogLevel.PluginConfigureError, $"Unable to load {pluginFile} dynamically, use UsePlugin() method instead.");
 #else
-                        _pluginManagerInstance.LoadPlugin(pluginFile, _pluginConfiguration.CreateLocalCopy);
+                        _pluginManagerInstance.PluginLoad(pluginFile, _pluginSettings.CreateLocalCopy);
 #endif
                     }
                 }
@@ -168,7 +165,7 @@ namespace AspNetCore.PluginManager
                         if (String.IsNullOrEmpty(file) || !File.Exists(file))
                             continue;
 
-                        _pluginManagerInstance.LoadPlugin(file, _pluginConfiguration.CreateLocalCopy);
+                        _pluginManagerInstance.PluginLoad(file, _pluginSettings.CreateLocalCopy);
                     }
                 }
             }
@@ -190,7 +187,7 @@ namespace AspNetCore.PluginManager
             _pluginManagerInstance.Dispose();
             _pluginManagerInstance = null;
             _logger = null;
-            _pluginConfiguration = null;
+            _pluginSettings = null;
             _configuration = null;
         }
 
@@ -206,15 +203,10 @@ namespace AspNetCore.PluginManager
             if (app == null)
                 throw new ArgumentNullException(nameof(app));
 
-            if (_pluginConfiguration.Disabled)
+            if (_pluginSettings.Disabled)
                 return;
 
-            List<IInitialiseEvents> init = _pluginManagerInstance.GetPluginClasses<IInitialiseEvents>();
-            init.ForEach(i => i.BeforeConfigure(app));
-
             _pluginManagerInstance.Configure(app);
-
-            init.ForEach(i => i.AfterConfigure(app));
         }
 
 #pragma warning disable CS1591
@@ -242,36 +234,13 @@ namespace AspNetCore.PluginManager
             if (services == null)
                 throw new ArgumentNullException(nameof(services));
 
-            if (_pluginConfiguration.Disabled)
+            if (_pluginSettings.Disabled)
                 return;
 
-            if (!_pluginConfiguration.DisableRouteDataService)
+            if (!_pluginSettings.DisableRouteDataService)
                 services.AddSingleton<IRouteDataService, RouteDataServices>();
 
-            List<IInitialiseEvents> init = _pluginManagerInstance.GetPluginClasses<IInitialiseEvents>();
-            init.ForEach(i => i.BeforeConfigureServices(services));
-
-            NotificationService notificationService = new NotificationService();
-            Shared.Classes.ThreadManager.ThreadStart(notificationService,
-                Constants.ThreadNotificationService,
-                System.Threading.ThreadPriority.Lowest);
-
-            PluginServices pluginServices = new PluginServices();
-            services.AddSingleton<IPluginClassesService>(pluginServices);
-            services.AddSingleton<IPluginHelperService>(pluginServices);
-            services.AddSingleton<IPluginTypesService>(pluginServices);
-            services.AddSingleton<INotificationService>(notificationService);
-
             _pluginManagerInstance.ConfigureServices(services);
-
-            // if no ILogger instance has been registered, register the default instance now.
-            services.TryAddSingleton<ILogger>(_logger);
-
-            _pluginManagerInstance.UpdateConfiguredServices(services);
-
-            init.ForEach(i => i.AfterConfigureServices(services));
-
-            _pluginManagerInstance.UpdateConfiguredServices(services);
         }
 
         /// <summary>
@@ -286,7 +255,7 @@ namespace AspNetCore.PluginManager
             if (iPluginType.GetInterface(typeof(IPlugin).Name) != null)
             {
                 if (_preinitialisedPlugins == null)
-                    GetPluginManager().LoadPlugin(iPluginType.Assembly.Location, false);
+                    GetPluginManager().PluginLoad(iPluginType.Assembly.Location, false);
                 else
                     _preinitialisedPlugins.Add(iPluginType);
             }
@@ -300,7 +269,7 @@ namespace AspNetCore.PluginManager
 
         #region Internal Static Methods
 
-        internal static PluginManager GetPluginManager()
+        internal static NetCorePluginManager GetPluginManager()
         {
             return _pluginManagerInstance;
         }
@@ -326,7 +295,7 @@ namespace AspNetCore.PluginManager
 
         private static bool FindPlugin(ref string pluginFile, in PluginSetting pluginSetting)
         {
-            string pluginSearchPath = _pluginConfiguration.PluginSearchPath;
+            string pluginSearchPath = _pluginSettings.PluginSearchPath;
 
             if (String.IsNullOrEmpty(pluginSearchPath) || !Directory.Exists(pluginSearchPath))
                 pluginSearchPath = AddTrailingBackSlash(_rootPath);
@@ -385,7 +354,7 @@ namespace AspNetCore.PluginManager
 
         private static PluginSetting GetPluginSetting(in string pluginName)
         {
-            foreach (PluginSetting setting in _pluginConfiguration.Plugins)
+            foreach (PluginSetting setting in _pluginSettings.Plugins)
             {
                 if (pluginName.EndsWith(setting.Name))
                     return setting;
@@ -408,10 +377,10 @@ namespace AspNetCore.PluginManager
             return String.Empty;
 #else
             // is the path overridden in config
-            if (!String.IsNullOrWhiteSpace(_pluginConfiguration.PluginPath) &&
-                Directory.Exists(_pluginConfiguration.PluginPath))
+            if (!String.IsNullOrWhiteSpace(_pluginSettings.PluginPath) &&
+                Directory.Exists(_pluginSettings.PluginPath))
             {
-                return _pluginConfiguration.PluginPath;
+                return _pluginSettings.PluginPath;
             }
 
             return AddTrailingBackSlash(_rootPath) + "Plugins\\";

@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  MemoryCachePlugin
  *  
@@ -27,6 +27,8 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
+
+using PluginManager.Abstractions;
 
 using Shared.Classes;
 
@@ -56,11 +58,11 @@ namespace MemoryCache.Plugin
 
             // create the caches
             if (_cache == null)
-                _cache = new CacheManager(Constants.CacheNameDefault, 
+                _cache = new CacheManager(Constants.CacheNameDefault,
                     new TimeSpan(0, settings.DefaultCacheDuration, 0));
 
             if (_cacheShort == null)
-                _cacheShort = new CacheManager(Constants.CacheNameShort, 
+                _cacheShort = new CacheManager(Constants.CacheNameShort,
                     new TimeSpan(0, settings.ShortCacheDuration, 0));
 
             if (_extendingCache == null)

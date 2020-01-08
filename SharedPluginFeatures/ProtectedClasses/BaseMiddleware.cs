@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  SharedPluginFeatures
  *  
@@ -58,8 +58,8 @@ namespace SharedPluginFeatures
         /// <returns>Uri</returns>
         protected Uri GetCurrentUri(in HttpContext context)
         {
-            UriBuilder uriBuilder = new UriBuilder(context.Request.Scheme, 
-                context.Request.Host.Host.ToString(), 
+            UriBuilder uriBuilder = new UriBuilder(context.Request.Scheme,
+                context.Request.Host.Host.ToString(),
                 context.Request.Host.Port.Value,
                 context.Request.Path.ToString())
             {

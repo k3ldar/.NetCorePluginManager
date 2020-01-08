@@ -1,34 +1,20 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netcoreapp3.1;netcoreapp3.0;netcoreapp2.2;netcoreapp2.1;net461</TargetFrameworks>
+    <TargetFrameworks>netcoreapp3.1;netcoreapp3.0;netcoreapp2.2;netcoreapp2.1</TargetFrameworks>
     <LangVersion>latest</LangVersion>
     <Authors>Simon Carter</Authors>
     <Company>Simon Carter</Company>
     <Description>Plugin which restricts access to routes to specific ip address ranges.</Description>
-    <Copyright>Copyright (c) 2018 - 2019.  Simon Carter.  All rights reserved.</Copyright>
+    <Copyright>Copyright (c) 2018 - 2020.  Simon Carter.  All rights reserved.</Copyright>
     <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
     <RepositoryUrl>https://github.com/k3ldar/.NetCorePluginManager</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageTags>asp net core plugin manager deny spider middleware plugin</PackageTags>
-    <PackageReleaseNotes>Supports net core 2.1, 2.2, 3.0, 3.1 and net461</PackageReleaseNotes>
+    <PackageReleaseNotes>Supports net core 2.1, 2.2, 3.0 and 3.1</PackageReleaseNotes>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Version>3.2.0</Version>
     <PackageProjectUrl>http://pluginmanager.website/</PackageProjectUrl>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)'=='Debug|net461'">
-    <DefineConstants>DEBUG;TRACE;NET461</DefineConstants>
-    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
-    <DebugType>full</DebugType>
-    <DebugSymbols>true</DebugSymbols>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)'=='Release|net461'">
-    <DefineConstants>NET461</DefineConstants>
-    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
-    <DebugType>portable</DebugType>
-    <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)'=='Debug|netcoreapp3.1'">
@@ -87,36 +73,15 @@
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)'=='Debug'">
+  <PropertyGroup Condition="'$(TargetFramework)'=='netcoreapp3.1'">
     <DocumentationFile>..\..\Docs\XmlFiles\RestrictIp.Plugin.xml</DocumentationFile>
   </PropertyGroup>
 
-  <ItemGroup Condition="'$(TargetFramework)'=='netcoreapp2.1'">
-    <PackageReference Include="Microsoft.AspNetCore.Routing" Version="2.1.1" />
-    <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.1.1" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="2.1.1" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.1.1" />
-  </ItemGroup>
-
-  <ItemGroup Condition="'$(TargetFramework)'=='netcoreapp2.2'">
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Routing" Version="2.2.2" />
-    <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.2.0" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="2.2.0" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.2.0" />
-  </ItemGroup>
-
-  <ItemGroup Condition="'$(TargetFramework)'=='netcoreapp3.0'">
-    <PackageReference Include="Microsoft.AspNetCore.Routing" Version="2.2.2" />
-    <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.2.0" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="2.2.0" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.2.0" />
-  </ItemGroup>
-
-  <ItemGroup Condition="'$(TargetFramework)'=='net461'">
-    <PackageReference Include="Microsoft.AspNetCore.Routing" Version="2.2.2" />
-    <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.2.0" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="2.2.0" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="3.1.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="3.1.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="3.1.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -125,10 +90,16 @@
 
   <ItemGroup Condition="'$(Configuration)'=='Release'">
     <PackageReference Include="SharedPluginFeatures" Version="$(Version)" />
+    <PackageReference Include="PluginManager" Version="3.2.0" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(Configuration)'=='Debug'">
     <ProjectReference Include="..\..\SharedPluginFeatures\SharedPluginFeatures.csproj" />
+    <ProjectReference Include="..\..\..\PluginManager\src\PluginManager.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\PluginManager\src\PluginManager.csproj" />
   </ItemGroup>
 
 </Project>

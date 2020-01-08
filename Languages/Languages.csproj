@@ -18,7 +18,7 @@
     <GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
     <SignAssembly>false</SignAssembly>
     <AssemblyOriginatorKeyFile>Shared.Key.pfx</AssemblyOriginatorKeyFile>
-    <Copyright>Copyright © 2010 - 2019.  Simon Carter All rights reserved.</Copyright>
+    <Copyright>Copyright © 2010 - 2020.  Simon Carter. All rights reserved.</Copyright>
     <PackageId>AspNetCore.PluginManager.Languages</PackageId>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Version>3.2.0</Version>
@@ -30,7 +30,7 @@
     <RepositoryUrl>https://github.com/k3ldar/.NetCorePluginManager</RepositoryUrl>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)'=='Debug'">
+  <PropertyGroup Condition="'$(TargetFramework)'=='netcoreapp3.1'">
     <DocumentationFile>..\Docs\XmlFiles\Languages.xml</DocumentationFile>
   </PropertyGroup>
 

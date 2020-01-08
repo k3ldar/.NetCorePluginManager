@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  AspNetCore.PluginManager.DemoWebsite
  *  
@@ -26,6 +26,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+
+using PluginManager.Abstractions;
 
 using Shared.Classes;
 
@@ -95,7 +97,7 @@ namespace SystemAdmin.Plugin
                     menu.ParentMenu = parent;
                     parent.ChildMenuItems.Add(menu);
 
-                    _memoryCache.GetCache().Add(String.Format(SystemAdminMainMenu, menu.UniqueId), 
+                    _memoryCache.GetCache().Add(String.Format(SystemAdminMainMenu, menu.UniqueId),
                         new CacheItem(String.Format(SystemAdminMainMenu, menu.UniqueId), menu));
 
                     menu.UniqueId = ++uniqueId;
@@ -112,12 +114,12 @@ namespace SystemAdmin.Plugin
                 _memoryCache.GetCache().Add(SystemAdminMainMenuCache, cache);
             }
 
-            return ((List<SystemAdminMainMenu>)cache.Value);
+            return (List<SystemAdminMainMenu>)cache.Value;
         }
 
         public SystemAdminMainMenu GetSystemAdminDefaultMainMenu()
         {
-            return (GetSystemAdminMainMenu()[0]);
+            return GetSystemAdminMainMenu()[0];
         }
 
         public SystemAdminMainMenu GetSystemAdminMainMenu(in int id)
@@ -126,16 +128,16 @@ namespace SystemAdmin.Plugin
             CacheItem cacheItem = _memoryCache.GetCache().Get(String.Format(SystemAdminMainMenu, id));
 
             if (cacheItem != null)
-                return ((SystemAdminMainMenu)cacheItem.Value);
+                return (SystemAdminMainMenu)cacheItem.Value;
 
             // not in memory try looping all items
             foreach (SystemAdminMainMenu menu in GetSystemAdminMainMenu())
             {
                 if (menu.UniqueId == id)
-                    return (menu);
+                    return menu;
             }
 
-            return (null);
+            return null;
         }
 
         public List<SystemAdminSubMenu> GetSubMenuItems()
@@ -143,9 +145,9 @@ namespace SystemAdmin.Plugin
             List<SystemAdminMainMenu> allMenuItems = GetSystemAdminMainMenu();
 
             if (allMenuItems.Count > 0)
-                return (allMenuItems[0].ChildMenuItems);
+                return allMenuItems[0].ChildMenuItems;
 
-            return (new List<SystemAdminSubMenu>());
+            return new List<SystemAdminSubMenu>();
         }
 
         public List<SystemAdminSubMenu> GetSubMenuItems(in string mainMenuName)
@@ -155,10 +157,10 @@ namespace SystemAdmin.Plugin
             foreach (SystemAdminMainMenu menuItem in allMenuItems)
             {
                 if (menuItem.Name.Equals(mainMenuName))
-                    return (menuItem.ChildMenuItems);
+                    return menuItem.ChildMenuItems;
             }
 
-            return (new List<SystemAdminSubMenu>());
+            return new List<SystemAdminSubMenu>();
         }
 
         public SystemAdminSubMenu GetSubMenuItem(in int id)
@@ -167,9 +169,9 @@ namespace SystemAdmin.Plugin
             CacheItem cacheItem = _memoryCache.GetCache().Get(String.Format(SystemAdminSubMenu, id));
 
             if (cacheItem != null)
-                return ((SystemAdminSubMenu)cacheItem.Value);
+                return (SystemAdminSubMenu)cacheItem.Value;
 
-            return (null);
+            return null;
         }
 
         #endregion ISystemAdminHelperService Methods

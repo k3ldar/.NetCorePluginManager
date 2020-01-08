@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  Blog Plugin
  *  
@@ -26,7 +26,6 @@
 using System.Collections.Generic;
 
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 
 using SharedPluginFeatures;
@@ -49,6 +48,7 @@ namespace Blog.Plugin.Classes
 
         public void AfterConfigureServices(in IServiceCollection services)
         {
+#if NET_CORE_3_X
             // Add blog specific policies
             services.AddAuthorization(options =>
             {
@@ -61,6 +61,7 @@ namespace Blog.Plugin.Classes
                         .RequireClaim(Constants.ClaimNameUserId)
                         .RequireClaim(Constants.ClaimNameUserEmail));
             });
+#endif
         }
 
         public void BeforeConfigure(in IApplicationBuilder app)
@@ -69,6 +70,11 @@ namespace Blog.Plugin.Classes
         }
 
         public void BeforeConfigureServices(in IServiceCollection services)
+        {
+
+        }
+
+        public void Configure(in IApplicationBuilder app)
         {
 
         }

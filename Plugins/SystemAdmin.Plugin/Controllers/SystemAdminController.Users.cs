@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  SystemAdmin.Plugin
  *  
@@ -35,11 +35,15 @@ namespace SystemAdmin.Plugin.Controllers
     {
         public JsonResult UserSearch(BootgridRequestData model)
         {
-            var Result = new BootgridResponseData<Middleware.Users.SearchUser>();
-            Result.rows = _userSearch.GetUsers(model.current, model.rowCount, model.searchPhrase, "");
-            Result.current = model.current;
-            Result.rowCount = model.rowCount;
+            var Result = new BootgridResponseData<Middleware.Users.SearchUser>
+            {
+                rows = _userSearch.GetUsers(model.current, model.rowCount, model.searchPhrase, ""),
+                current = model.current,
+                rowCount = model.rowCount
+            };
+
             Result.total = Result.rows.Count();
+
             return new JsonResult(Result);
         }
     }

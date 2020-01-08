@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  Sitemap.Plugin
  *  
@@ -24,8 +24,9 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
+
+using PluginManager.Abstractions;
 
 using SharedPluginFeatures;
 
@@ -37,7 +38,7 @@ namespace Sitemap.Plugin
     /// Implements IPlugin which allows the Sitemap.Plugin module to be
     /// loaded as a plugin module
     /// </summary>
-    public sealed class PluginInitialisation : IPlugin
+    public sealed class PluginInitialisation : IPlugin, IInitialiseEvents
     {
         #region IPlugin Methods
 
@@ -51,17 +52,46 @@ namespace Sitemap.Plugin
 
         }
 
-        public void Configure(IApplicationBuilder app)
-        {
-            app.UseSitemaps();
-        }
-
         public void ConfigureServices(IServiceCollection services)
         {
 
         }
 
+        public ushort GetVersion()
+        {
+            return 1;
+        }
+
         #endregion IPlugin Methods
+
+        #region IInitialiseEvents Methods
+
+        public void BeforeConfigure(in IApplicationBuilder app)
+        {
+
+        }
+
+        public void AfterConfigure(in IApplicationBuilder app)
+        {
+
+        }
+
+        public void Configure(in IApplicationBuilder app)
+        {
+            app.UseSitemaps();
+        }
+
+        public void BeforeConfigureServices(in IServiceCollection services)
+        {
+
+        }
+
+        public void AfterConfigureServices(in IServiceCollection services)
+        {
+
+        }
+
+        #endregion IInitialiseEvents Methods
     }
 }
 

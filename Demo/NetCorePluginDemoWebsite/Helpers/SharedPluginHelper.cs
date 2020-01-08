@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  AspNetCore.PluginManager.DemoWebsite
  *  
@@ -25,6 +25,8 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
 using System.Collections.Generic;
+
+using PluginManager.Abstractions;
 
 using Shared.Classes;
 
@@ -70,7 +72,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Helpers
                 _memoryCache.GetExtendingCache().Add(MainMenuCache, cache);
             }
 
-            return ((List<MainMenuItem>)cache.Value);
+            return (List<MainMenuItem>)cache.Value;
         }
     }
 }

@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  UserAccount.Plugin
  *  
@@ -25,23 +25,24 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 
-using System.ComponentModel.DataAnnotations;
-
-using Middleware.Accounts.Orders;
 using Middleware;
+using Middleware.Accounts.Orders;
 
 using SharedPluginFeatures;
 
 namespace UserAccount.Plugin.Models
 {
+#pragma warning disable CS1591
+
     public sealed class OrderViewModel : BaseModel
     {
         #region Constructors
 
         public OrderViewModel(in BaseModelData baseModelData, Order order)
-            : base (baseModelData)
+            : base(baseModelData)
         {
             if (order == null)
                 throw new ArgumentNullException(nameof(order));
@@ -55,7 +56,7 @@ namespace UserAccount.Plugin.Models
             Total = order.Total;
             Status = order.Status;
             OrderItems = order.OrderItems ?? throw new ArgumentNullException(nameof(order.OrderItems));
-               DeliveryAddress = String.Empty;
+            DeliveryAddress = String.Empty;
 
             if (order.DeliveryAddress != null)
             {
@@ -103,4 +104,6 @@ namespace UserAccount.Plugin.Models
 
         #endregion Properties
     }
+
+#pragma warning restore CS1591
 }

@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  Breadcrumb.Plugin
  *  
@@ -24,6 +24,8 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
+
+using PluginManager.Abstractions;
 
 using SharedPluginFeatures;
 
@@ -80,7 +82,7 @@ namespace Breadcrumb.Plugin
 
             BreadcrumbRoute newRoute = new BreadcrumbRoute(route, hasParameters);
 
-            if (!String.IsNullOrEmpty(parentRoute) && 
+            if (!String.IsNullOrEmpty(parentRoute) &&
                 BreadcrumbMiddleware.Routes.ContainsKey(parentRoute.ToLower()))
             {
                 BreadcrumbRoute breadcrumbRoute = BreadcrumbMiddleware.Routes[parentRoute.ToLower()];

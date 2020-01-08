@@ -24,8 +24,9 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
+
+using PluginManager.Abstractions;
 
 using SharedPluginFeatures;
 
@@ -38,11 +39,6 @@ namespace ShoppingCartPlugin
     public class PluginInitialisation : IPlugin, IPluginVersion, IInitialiseEvents
     {
         #region IPlugin Methods
-
-        public void Configure(IApplicationBuilder app)
-        {
-            app.UseShoppingCart();
-        }
 
         public void ConfigureServices(IServiceCollection services)
         {
@@ -90,6 +86,11 @@ namespace ShoppingCartPlugin
         public void AfterConfigureServices(in IServiceCollection services)
         {
 
+        }
+
+        public void Configure(in IApplicationBuilder app)
+        {
+            app.UseShoppingCart();
         }
 
         #endregion IInitialiseEvents Methods

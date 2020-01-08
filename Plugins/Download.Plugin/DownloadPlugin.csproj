@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
 	<PropertyGroup>
-		<TargetFrameworks>netcoreapp3.1;netcoreapp2.2;netcoreapp3.0</TargetFrameworks>
+		<TargetFrameworks>netcoreapp3.1;netcoreapp3.0;netcoreapp2.2;netcoreapp2.1</TargetFrameworks>
 		<LangVersion>latest</LangVersion>
 		<Version>3.2.0</Version>
 		<RazorCompileOnBuild>false</RazorCompileOnBuild>
@@ -10,7 +10,7 @@
 		<Description>Error Manager plugin asp net core plugin manager.</Description>
 		<Authors>Simon Carter</Authors>
 		<Company>Simon Carter</Company>
-		<Copyright>Copyright (c) 2018 - 2019.  Simon Carter.  All rights reserved.</Copyright>
+		<Copyright>Copyright (c) 2018 - 2020.  Simon Carter.  All rights reserved.</Copyright>
 		<PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
 		<PackageProjectUrl>http://pluginmanager.website/</PackageProjectUrl>
 		<RepositoryType>git</RepositoryType>
@@ -20,20 +20,6 @@
 		<IsPackable>true</IsPackable>
 		<PackageIconUrl></PackageIconUrl>
 		<RepositoryUrl>https://github.com/k3ldar/.NetCorePluginManager</RepositoryUrl>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)'=='Debug|net461'">
-		<DefineConstants>DEBUG;TRACE;NET461</DefineConstants>
-		<CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
-		<DebugType>full</DebugType>
-		<DebugSymbols>true</DebugSymbols>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)'=='Release|net461'">
-		<DefineConstants>NET461</DefineConstants>
-		<CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
-		<DebugType>portable</DebugType>
-		<DebugSymbols>true</DebugSymbols>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)'=='Debug|netcoreapp2.1'">
@@ -92,9 +78,8 @@
 		<DebugSymbols>true</DebugSymbols>
 	</PropertyGroup>
 
-	<PropertyGroup>
+	<PropertyGroup Condition="'$(TargetFramework)'=='netcoreapp3.1'">
 		<DocumentationFile>..\..\Docs\XmlFiles\DownloadPlugin.xml</DocumentationFile>
-		<NoWarn>1701;1702;AD0001</NoWarn>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -124,6 +109,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<Folder Include="Classes\SystemAdmin\" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<PackageReference Include="ApplicationSettings" Version="1.3.0" />
 	</ItemGroup>
 
@@ -133,7 +122,8 @@
 		<PackageReference Include="AspNetCore.PluginManager" Version="$(Version)" />
 		<PackageReference Include="SharedPluginFeatures" Version="$(Version)" />
 		<PackageReference Include="AspNetCore.PluginManager.Languages" Version="$(Version)" />
-	<PackageReference Include="Middleware" Version="$(Version)" />
+		<PackageReference Include="Middleware" Version="$(Version)" />
+		<PackageReference Include="PluginManager" Version="3.2.0" />
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(Configuration)'=='Debug'">
@@ -143,100 +133,73 @@
 		<ProjectReference Include="..\RestrictIp.Plugin\RestrictIp.Plugin.csproj" />
 		<ProjectReference Include="..\..\Languages\Languages.csproj" />
 		<ProjectReference Include="..\PluginMiddleware\PluginMiddleware.csproj" />
+		<ProjectReference Include="..\..\..\PluginManager\src\PluginManager.csproj" />
 	</ItemGroup>
 
-	<ItemGroup Condition="'$(TargetFramework)'=='netcoreapp2.2'">
-		<PackageReference Include="Microsoft.AspNetCore.App" />
+	<ItemGroup Condition="'$(TargetFramework)'=='netcoreapp3.1'">
+		<PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.0" />
+		<PackageReference Include="Microsoft.CodeAnalysis.Razor" Version="3.1.0" />
 	</ItemGroup>
 
 	<ItemGroup>
+		<PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.2.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Mvc.ViewFeatures" Version="2.2.0" />
 		<PackageReference Include="Microsoft.AspNetCore" Version="2.2.0" />
 		<PackageReference Include="Microsoft.AspNetCore.Antiforgery" Version="2.2.0" />
 		<PackageReference Include="Microsoft.AspNetCore.Authentication.Abstractions" Version="2.2.0" />
 		<PackageReference Include="Microsoft.AspNetCore.Authentication.Core" Version="2.2.0" />
-		<PackageReference Include="Microsoft.AspNetCore.Authorization" Version="2.2.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Authorization" Version="3.1.0" />
 		<PackageReference Include="Microsoft.AspNetCore.Authorization.Policy" Version="2.2.0" />
-		<PackageReference Include="Microsoft.AspNetCore.Connections.Abstractions" Version="2.2.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Connections.Abstractions" Version="3.1.0" />
 		<PackageReference Include="Microsoft.AspNetCore.Cors" Version="2.2.0" />
-		<PackageReference Include="Microsoft.AspNetCore.Cryptography.Internal" Version="2.2.0" />
-		<PackageReference Include="Microsoft.AspNetCore.DataProtection" Version="2.2.0" />
-		<PackageReference Include="Microsoft.AspNetCore.DataProtection.Abstractions" Version="2.2.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Cryptography.Internal" Version="3.1.0" />
+		<PackageReference Include="Microsoft.AspNetCore.DataProtection" Version="3.1.0" />
+		<PackageReference Include="Microsoft.AspNetCore.DataProtection.Abstractions" Version="3.1.0" />
 		<PackageReference Include="Microsoft.AspNetCore.Diagnostics" Version="2.2.0" />
 		<PackageReference Include="Microsoft.AspNetCore.Diagnostics.Abstractions" Version="2.2.0" />
 		<PackageReference Include="Microsoft.AspNetCore.HostFiltering" Version="2.2.0" />
-		<PackageReference Include="Microsoft.AspNetCore.Hosting" Version="2.2.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Hosting" Version="2.2.7" />
 		<PackageReference Include="Microsoft.AspNetCore.Hosting.Abstractions" Version="2.2.0" />
 		<PackageReference Include="Microsoft.AspNetCore.Hosting.Server.Abstractions" Version="2.2.0" />
 		<PackageReference Include="Microsoft.AspNetCore.Html.Abstractions" Version="2.2.0" />
 		<PackageReference Include="Microsoft.AspNetCore.Http" Version="2.2.2" />
 		<PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
 		<PackageReference Include="Microsoft.AspNetCore.Http.Extensions" Version="2.2.0" />
-		<PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="2.2.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="3.1.0" />
 		<PackageReference Include="Microsoft.AspNetCore.HttpOverrides" Version="2.2.0" />
-		<PackageReference Include="Microsoft.AspNetCore.JsonPatch" Version="2.2.0" />
+		<PackageReference Include="Microsoft.AspNetCore.JsonPatch" Version="3.1.0" />
 		<PackageReference Include="Microsoft.AspNetCore.Localization" Version="2.2.0" />
-		<PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.2.0" />
-		<PackageReference Include="Microsoft.AspNetCore.Mvc.Abstractions" Version="2.2.0" />
-		<PackageReference Include="Microsoft.AspNetCore.Mvc.ApiExplorer" Version="2.2.0" />
-		<PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.2" />
-		<PackageReference Include="Microsoft.AspNetCore.Mvc.Cors" Version="2.2.0" />
-		<PackageReference Include="Microsoft.AspNetCore.Mvc.DataAnnotations" Version="2.2.0" />
-		<PackageReference Include="Microsoft.AspNetCore.Mvc.Formatters.Json" Version="2.2.0" />
-		<PackageReference Include="Microsoft.AspNetCore.Mvc.Localization" Version="2.2.0" />
-		<PackageReference Include="Microsoft.AspNetCore.Mvc.Razor" Version="2.2.0" />
-		<PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.Extensions" Version="2.2.0" />
-		<PackageReference Include="Microsoft.AspNetCore.Mvc.RazorPages" Version="2.2.0" />
-		<PackageReference Include="Microsoft.AspNetCore.Mvc.TagHelpers" Version="2.2.0" />
-		<PackageReference Include="Microsoft.AspNetCore.Mvc.ViewFeatures" Version="2.2.0" />
-		<PackageReference Include="Microsoft.AspNetCore.Razor" Version="2.2.0" />
-		<PackageReference Include="Microsoft.AspNetCore.Razor.Language" Version="2.2.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Razor.Language" Version="3.1.0" />
 		<PackageReference Include="Microsoft.AspNetCore.Razor.Runtime" Version="2.2.0" />
 		<PackageReference Include="Microsoft.AspNetCore.ResponseCaching.Abstractions" Version="2.2.0" />
 		<PackageReference Include="Microsoft.AspNetCore.Routing" Version="2.2.2" />
 		<PackageReference Include="Microsoft.AspNetCore.Routing.Abstractions" Version="2.2.0" />
-		<PackageReference Include="Microsoft.AspNetCore.Server.IISIntegration" Version="2.2.1" />
-		<PackageReference Include="Microsoft.AspNetCore.Server.Kestrel" Version="2.2.0" />
-		<PackageReference Include="Microsoft.AspNetCore.Server.Kestrel.Core" Version="2.2.0" />
-		<PackageReference Include="Microsoft.AspNetCore.Server.Kestrel.Https" Version="2.2.0" />
-		<PackageReference Include="Microsoft.AspNetCore.Server.Kestrel.Transport.Abstractions" Version="2.2.0" />
-		<PackageReference Include="Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets" Version="2.2.1" />
 		<PackageReference Include="Microsoft.AspNetCore.WebUtilities" Version="2.2.0" />
-		<PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="2.2.0" />
-		<PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="2.2.0" />
-		<PackageReference Include="Microsoft.Extensions.Configuration" Version="2.2.0" />
-		<PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="2.2.0" />
-		<PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="2.2.0" />
-		<PackageReference Include="Microsoft.Extensions.Configuration.CommandLine" Version="2.2.0" />
-		<PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="2.2.0" />
-		<PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="2.2.0" />
-		<PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.2.0" />
-		<PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="2.2.0" />
-		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.2.0" />
-		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="2.2.0" />
-		<PackageReference Include="Microsoft.Extensions.FileProviders.Abstractions" Version="2.2.0" />
-		<PackageReference Include="Microsoft.Extensions.FileProviders.Composite" Version="2.2.0" />
-		<PackageReference Include="Microsoft.Extensions.FileProviders.Physical" Version="2.2.0" />
-		<PackageReference Include="Microsoft.Extensions.FileSystemGlobbing" Version="2.2.0" />
-		<PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="2.2.0" />
-		<PackageReference Include="Microsoft.Extensions.Localization" Version="2.2.0" />
-		<PackageReference Include="Microsoft.Extensions.Localization.Abstractions" Version="2.2.0" />
-		<PackageReference Include="Microsoft.Extensions.Logging" Version="2.2.0" />
-		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="2.2.0" />
-		<PackageReference Include="Microsoft.Extensions.Logging.Configuration" Version="2.2.0" />
-		<PackageReference Include="Microsoft.Extensions.Logging.Console" Version="2.2.0" />
-		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="2.2.0" />
-		<PackageReference Include="Microsoft.Extensions.Logging.EventSource" Version="2.2.0" />
-		<PackageReference Include="Microsoft.Extensions.ObjectPool" Version="2.2.0" />
-		<PackageReference Include="Microsoft.Extensions.Options" Version="2.2.0" />
-		<PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="2.2.0" />
-		<PackageReference Include="Microsoft.Extensions.Primitives" Version="2.2.0" />
-		<PackageReference Include="Microsoft.Extensions.WebEncoders" Version="2.2.0" />
-		<PackageReference Include="Microsoft.Net.Http.Headers" Version="2.2.0" />
-		<PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.3" />
+		<PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="3.1.0" />
+		<PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="3.1.0" />
+		<PackageReference Include="Microsoft.Extensions.Configuration" Version="3.1.0" />
+		<PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="3.1.0" />
+		<PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="3.1.0" />
+		<PackageReference Include="Microsoft.Extensions.Configuration.CommandLine" Version="3.1.0" />
+		<PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="3.1.0" />
+		<PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="3.1.0" />
+		<PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="3.1.0" />
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="3.1.0" />
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="3.1.0" />
+		<PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="3.1.0" />
+		<PackageReference Include="Microsoft.Extensions.Localization" Version="3.1.0" />
+		<PackageReference Include="Microsoft.Extensions.Localization.Abstractions" Version="3.1.0" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="3.1.0" />
+		<PackageReference Include="Microsoft.Extensions.ObjectPool" Version="3.1.0" />
+		<PackageReference Include="Microsoft.Extensions.Options" Version="3.1.0" />
+		<PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="3.1.0" />
+		<PackageReference Include="Microsoft.Extensions.Primitives" Version="3.1.0" />
+		<PackageReference Include="Microsoft.Extensions.WebEncoders" Version="3.1.0" />
+		<PackageReference Include="Microsoft.Net.Http.Headers" Version="2.2.8" />
 	</ItemGroup>
 
 	<ItemGroup>
-		<Folder Include="Classes\SystemAdmin\" />
+	  <ProjectReference Include="..\..\PluginManager\src\PluginManager.csproj" />
 	</ItemGroup>
 
 </Project>

@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  Demo Website Plugin
  *  
@@ -24,20 +24,14 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.AspNetCore.Builder;
 
-using SharedPluginFeatures;
+using PluginManager.Abstractions;
 
 namespace DemoWebsitePlugin.Plugin
 {
     public class PluginInitialisation : IPlugin
     {
         #region IPlugin Methods
-
-        public void Configure(IApplicationBuilder app)
-        {
-
-        }
 
         public void ConfigureServices(IServiceCollection services)
         {
@@ -47,6 +41,11 @@ namespace DemoWebsitePlugin.Plugin
         public void Finalise()
         {
 
+        }
+
+        public ushort GetVersion()
+        {
+            return 1;
         }
 
         public void Initialise(ILogger logger)

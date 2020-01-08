@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  ErrorManager.Plugin
  *  
@@ -41,17 +41,17 @@ namespace ErrorManager.Plugin.Classes.SystemAdmin
     {
         public override string Action()
         {
-            return (String.Empty);
+            return String.Empty;
         }
 
         public override string Area()
         {
-            return (String.Empty);
+            return String.Empty;
         }
 
         public override string Controller()
         {
-            return (String.Empty);
+            return String.Empty;
         }
 
         /// <summary>
@@ -69,32 +69,32 @@ namespace ErrorManager.Plugin.Classes.SystemAdmin
                 Result += $"\r{item.Key}|{item.Value}";
             }
 
-            return (Result);
+            return Result;
         }
 
         public override string Image()
         {
-            return (String.Empty);
+            return String.Empty;
         }
 
         public override Enums.SystemAdminMenuType MenuType()
         {
-            return (Enums.SystemAdminMenuType.Grid);
+            return Enums.SystemAdminMenuType.Grid;
         }
 
         public override string Name()
         {
-            return ("Missing Links");
+            return "Missing Links";
         }
 
         public override string ParentMenuName()
         {
-            return ("Errors");
+            return "Errors";
         }
 
         public override int SortOrder()
         {
-            return (0);
+            return 0;
         }
     }
 }

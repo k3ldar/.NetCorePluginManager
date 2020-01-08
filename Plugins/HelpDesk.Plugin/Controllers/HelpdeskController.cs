@@ -26,12 +26,14 @@
 using System;
 using System.IO;
 
-using Microsoft.AspNetCore.Mvc;
-
 using HelpdeskPlugin.Classes;
 using HelpdeskPlugin.Models;
 
+using Microsoft.AspNetCore.Mvc;
+
 using Middleware.Helpdesk;
+
+using PluginManager.Abstractions;
 
 using Shared.Classes;
 
@@ -113,7 +115,7 @@ namespace HelpdeskPlugin.Controllers
                 ci.Dispose();
             }
 
-            return (null);
+            return null;
         }
 
         #endregion Public Controller Methods
@@ -149,7 +151,7 @@ namespace HelpdeskPlugin.Controllers
                 _helpdeskCache.Add(cacheId, helpdeskCache);
             }
 
-            return (Result);
+            return Result;
         }
 
         #endregion Private Methods

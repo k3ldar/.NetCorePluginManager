@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  PluginMiddleware
  *  
@@ -51,7 +51,7 @@ namespace Middleware.Products
         public Product(in int id, in int productGroupId, in string name, in string description, in string features,
             in string videoLink, in string[] images, in decimal retailPrice, in string sku, in bool isDownload,
             in bool allowBackorder)
-            : this (id, productGroupId, name, description, features, videoLink, images, retailPrice, sku, isDownload, allowBackorder, false, false)
+            : this(id, productGroupId, name, description, features, videoLink, images, retailPrice, sku, isDownload, allowBackorder, false, false)
         {
 
         }

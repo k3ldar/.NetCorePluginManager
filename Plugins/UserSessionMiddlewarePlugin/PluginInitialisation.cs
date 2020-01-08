@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  UserSessionMiddleware.Plugin
  *  
@@ -25,10 +25,12 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
 
-using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 
+using PluginManager.Abstractions;
+
 using Shared.Classes;
+
 using SharedPluginFeatures;
 
 namespace UserSessionMiddleware.Plugin
@@ -69,16 +71,6 @@ namespace UserSessionMiddleware.Plugin
         {
             ThreadManager.Finalise();
         }
-
-        /// <summary>
-        /// Allows the Plugin module to configure the Mvc application builder
-        /// </summary>
-        /// <param name="app">IApplicationBuilder</param>
-        public void Configure(IApplicationBuilder app)
-        {
-            app.UseUserSessionMiddleware();
-        }
-
         /// <summary>
         /// Allows the Plugin module to configure the services for the application
         /// </summary>
@@ -88,6 +80,15 @@ namespace UserSessionMiddleware.Plugin
             services.AddSingleton<IUserCultureChangeProvider, UserCultureChanged>();
 
             GetServiceProvider = services.BuildServiceProvider();
+        }
+
+        /// <summary>
+        /// Returns the internal plugin version number
+        /// </summary>
+        /// <returns></returns>
+        public ushort GetVersion()
+        {
+            return 1;
         }
 
         #endregion IPlugin Methods

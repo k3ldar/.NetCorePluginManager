@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  UserAccount.Plugin
  *  
@@ -26,7 +26,14 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+
 using Microsoft.AspNetCore.Mvc;
+
+using Middleware;
+using Middleware.Accounts;
+using Middleware.Accounts.Licences;
+
+using PluginManager.Abstractions;
 
 using Shared.Classes;
 
@@ -34,14 +41,11 @@ using SharedPluginFeatures;
 
 using UserAccount.Plugin.Models;
 
-using Middleware;
-using Middleware.Accounts;
-using Middleware.Accounts.Licences;
-
 #pragma warning disable IDE0017
 
 namespace UserAccount.Plugin.Controllers
 {
+#pragma warning disable CS1591
     [LoggedIn]
     public partial class AccountController : BaseController
     {
@@ -69,8 +73,8 @@ namespace UserAccount.Plugin.Controllers
 
         #region Constructors
 
-        public AccountController(ISettingsProvider settingsProvider, IAccountProvider accountProvider, 
-            IDownloadProvider downloadProvider, ICountryProvider countryProvider, 
+        public AccountController(ISettingsProvider settingsProvider, IAccountProvider accountProvider,
+            IDownloadProvider downloadProvider, ICountryProvider countryProvider,
             ILicenceProvider licenceProvider, IUserCultureChangeProvider userCultureChanged,
             ICultureProvider cultureProvider, IPluginHelperService pluginHelperService)
         {
@@ -179,4 +183,5 @@ namespace UserAccount.Plugin.Controllers
 
         #endregion Private Methods
     }
+#pragma warning restore CS1591
 }

@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  Blog Plugin
  *  
@@ -28,17 +28,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 
-using Microsoft.AspNetCore.Mvc;
-
 using Blog.Plugin.Models;
+
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 using Middleware;
 using Middleware.Blog;
 
-using SharedPluginFeatures;
-using static SharedPluginFeatures.HtmlHelper;
+using PluginManager.Abstractions;
+
 using Shared.Classes;
-using Microsoft.AspNetCore.Authorization;
+
+using SharedPluginFeatures;
+
+using static SharedPluginFeatures.HtmlHelper;
 
 #pragma warning disable CS1591
 

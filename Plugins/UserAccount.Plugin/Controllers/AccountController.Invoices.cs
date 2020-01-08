@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  UserAccount.Plugin
  *  
@@ -24,6 +24,7 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System.Linq;
+
 using Microsoft.AspNetCore.Mvc;
 
 using Middleware.Accounts.Invoices;
@@ -34,6 +35,8 @@ using UserAccount.Plugin.Models;
 
 namespace UserAccount.Plugin.Controllers
 {
+#pragma warning disable CS1591
+
     public partial class AccountController
     {
         #region Public Action Methods
@@ -70,4 +73,6 @@ namespace UserAccount.Plugin.Controllers
 
         #endregion Public Action Methods
     }
+
+#pragma warning restore CS1591
 }

@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  SeoPlugin
  *  
@@ -23,13 +23,15 @@
  *  12/05/2019  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using Shared.Classes;
-using SharedPluginFeatures;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Http;
+
+using Shared.Classes;
+
+using SharedPluginFeatures;
 
 using static SharedPluginFeatures.Constants;
 
@@ -83,7 +85,7 @@ namespace SeoPlugin
 
                 string route = RouteLowered(context);
 
-                if (route.Length > 1 && route[route.Length -1] == Constants.ForwardSlashChar)
+                if (route.Length > 1 && route[route.Length - 1] == Constants.ForwardSlashChar)
                     route = route.Substring(0, route.Length - 1);
 
                 string cacheName = $"Seo Cache {route}";
@@ -91,7 +93,7 @@ namespace SeoPlugin
 
                 if (cacheItem == null)
                 {
-                    _seoProvider.GetSeoDataForRoute(route, out string title, out string description, 
+                    _seoProvider.GetSeoDataForRoute(route, out string title, out string description,
                         out string author, out List<string> tags);
                     cacheItem = new CacheItem(cacheName, new SeoCacheItem(title, description, author, tags));
                     _memoryCache.GetCache().Add(cacheName, cacheItem);

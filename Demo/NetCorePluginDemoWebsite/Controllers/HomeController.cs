@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  AspNetCore.PluginManager.DemoWebsite
  *  
@@ -26,14 +26,14 @@
 using System;
 using System.Diagnostics;
 
+using AspNetCore.PluginManager.DemoWebsite.Models;
+
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
 
-using AspNetCore.PluginManager.DemoWebsite.Models;
+using Shared.Classes;
 
 using SharedPluginFeatures;
-
-using Shared.Classes;
 
 namespace AspNetCore.PluginManager.DemoWebsite.Controllers
 {

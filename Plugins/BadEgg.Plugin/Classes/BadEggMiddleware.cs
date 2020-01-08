@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  BadEgg.Plugin
  *  
@@ -30,15 +30,17 @@ using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 
-using Microsoft.AspNetCore.Mvc.Infrastructure;
+using BadEgg.Plugin.WebDefender;
 
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
+
+using PluginManager.Abstractions;
 
 using Shared.Classes;
 
-using BadEgg.Plugin.WebDefender;
-
 using SharedPluginFeatures;
+
 using static SharedPluginFeatures.Enums;
 
 #pragma warning disable CS1591
@@ -66,9 +68,9 @@ namespace BadEgg.Plugin
 
         #region Constructors
 
-        public BadEggMiddleware(RequestDelegate next, IActionDescriptorCollectionProvider routeProvider, 
+        public BadEggMiddleware(RequestDelegate next, IActionDescriptorCollectionProvider routeProvider,
             IRouteDataService routeDataService, IPluginHelperService pluginHelperService,
-            IPluginTypesService pluginTypesService, IIpValidation ipValidation, 
+            IPluginTypesService pluginTypesService, IIpValidation ipValidation,
             ISettingsProvider settingsProvider, INotificationService notificationService)
         {
             if (routeProvider == null)
@@ -139,7 +141,7 @@ namespace BadEgg.Plugin
                     {
                         context.Response.StatusCode = _badEggSettings.BannedResponseCode;
                         return;
-                    } 
+                    }
                     else if (validateResult.HasFlag(ValidateRequestResult.TooManyRequests))
                     {
                         _notificationService.RaiseEvent(nameof(ValidateRequestResult.TooManyRequests), GetIpAddress(context));

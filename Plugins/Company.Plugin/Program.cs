@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  Company.Plugin
  *  
@@ -23,10 +23,10 @@
  *  07/01/2019  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+using AspNetCore.PluginManager;
+
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
-
-using AspNetCore.PluginManager;
 
 #pragma warning disable CS1591
 
@@ -34,14 +34,14 @@ namespace Company.Plugin
 {
     public class Program
     {
-        public static void Main (string[] args)
+        public static void Main(string[] args)
         {
             PluginManagerService.Initialise();
 
             CreateWebHostBuilder(args).Build().Run();
         }
 
-        public static IWebHostBuilder CreateWebHostBuilder (string[] args) =>
+        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>();
     }

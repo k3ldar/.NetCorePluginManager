@@ -30,7 +30,7 @@ using Microsoft.AspNetCore.Http;
 using Middleware;
 using Middleware.Accounts.Orders;
 
-using SharedPluginFeatures;
+using PluginManager.Abstractions;
 
 using Shared.Classes;
 
@@ -66,7 +66,7 @@ namespace ShoppingCartPlugin.Classes.PaymentProviders
         public bool Execute(in HttpRequest request, in Order order, in PaymentStatus paymentStatus,
             in UserSession userSession, out string urlParameters)
         {
-            urlParameters = $"/Cart/Success/{UniqueId()}/"; 
+            urlParameters = $"/Cart/Success/{UniqueId()}/";
             return true;
         }
 

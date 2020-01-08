@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  Blog Plugin
  *  
@@ -70,7 +70,7 @@ namespace Blog.Plugin.Classes
             foreach (BlogItem blogItem in blogs)
             {
                 Uri blogUrl = new Uri($"Blog/{HtmlHelper.RouteFriendlyName(blogItem.Username)}/{blogItem.Id}/" +
-                    $"{blogItem.LastModified.ToString("dd-MM-yyyy")}/{HtmlHelper.RouteFriendlyName(blogItem.Title)}", 
+                    $"{blogItem.LastModified.ToString("dd-MM-yyyy")}/{HtmlHelper.RouteFriendlyName(blogItem.Title)}",
                     UriKind.RelativeOrAbsolute);
 
                 Result.Add(new SitemapItem(blogUrl, SitemapChangeFrequency.Daily, blogItem.PublishDateTime));

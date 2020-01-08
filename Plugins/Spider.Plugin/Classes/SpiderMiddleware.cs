@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  Spider.Plugin
  *  
@@ -31,13 +31,15 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
+
+using PluginManager;
+using PluginManager.Abstractions;
 
 using Shared.Classes;
 
 using SharedPluginFeatures;
-using static SharedPluginFeatures.Enums;
 
 #pragma warning disable CS1591
 
@@ -176,7 +178,7 @@ namespace Spider.Plugin
                             }
                             catch (Exception err)
                             {
-                                _logger.AddToLog(LogLevel.SpiderRouteError, err, MethodBase.GetCurrentMethod().Name);
+                                _logger.AddToLog(LogLevel.Error, nameof(SpiderMiddleware), err, MethodBase.GetCurrentMethod().Name);
                             }
                         }
                     }

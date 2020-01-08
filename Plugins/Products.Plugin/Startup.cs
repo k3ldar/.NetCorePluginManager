@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  Products.Plugin
  *  
@@ -23,14 +23,11 @@
  *  31/01/2019  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+using AspNetCore.PluginManager;
+
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-
-using AspNetCore.PluginManager;
 
 namespace ProductPlugin
 {
@@ -48,16 +45,6 @@ namespace ProductPlugin
         {
             PluginManagerService.ConfigureServices(services);
 
-            services.Configure<CookiePolicyOptions>(options =>
-            {
-                // This lambda determines whether user consent for non-essential cookies is needed for a given request.
-                options.CheckConsentNeeded = context => false;
-                options.MinimumSameSitePolicy = SameSiteMode.None;
-            });
-
-            services.AddMemoryCache();
-            services.AddSession();
-
             services.AddMvc()
                 .AddSessionStateTempDataProvider()
                 .ConfigurePluginManager();
@@ -72,13 +59,8 @@ namespace ProductPlugin
             app.UseDeveloperExceptionPage();
 #else
             app.UseExceptionHandler("/Home/Error");
-            app.UseHsts();
 #endif
 
-            app.UseSession();
-            app.UseHttpsRedirection();
-            app.UseStaticFiles();
-            app.UseCookiePolicy();
 
 #if !NET_CORE_3_X
             app.UseMvc(routes =>

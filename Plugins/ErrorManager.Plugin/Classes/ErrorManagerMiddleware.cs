@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  ErrorManager.Plugin
  *  
@@ -27,11 +27,15 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc.ViewFeatures;
+
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
+
+using PluginManager.Abstractions;
+
+using Shared.Classes;
 
 using SharedPluginFeatures;
-using Shared.Classes;
 
 #pragma warning disable CS1591
 
@@ -60,7 +64,7 @@ namespace ErrorManager.Plugin
 
         #region Constructors
 
-        public ErrorManagerMiddleware(RequestDelegate next, IErrorManager errorManager, 
+        public ErrorManagerMiddleware(RequestDelegate next, IErrorManager errorManager,
             ISettingsProvider settingsProvider)
         {
             _next = next ?? throw new ArgumentNullException(nameof(next));
@@ -121,7 +125,6 @@ namespace ErrorManager.Plugin
                 {
                     if (ProcessException(context, exception))
                     {
-                        string s = exception.Message;
                         context.Response.Redirect("/Error/Index/", false);
                     }
                     else

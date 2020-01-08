@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  Error Manager Plugin
  *  
@@ -26,8 +26,9 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 
+using PluginManager.Abstractions;
+
 using Shared.Classes;
-using SharedPluginFeatures;
 
 #pragma warning disable CS1591
 
@@ -39,11 +40,6 @@ namespace ErrorManager.Plugin
     /// </summary>
     public class PluginInitialisation : IPlugin, IPluginVersion
     {
-        public void Configure(IApplicationBuilder app)
-        {
-            app.UseErrorManager();
-        }
-
         public void ConfigureServices(IServiceCollection services)
         {
 
@@ -56,7 +52,7 @@ namespace ErrorManager.Plugin
 
         public ushort GetVersion()
         {
-            return (1);
+            return 1;
         }
 
         public void Initialise(ILogger logger)

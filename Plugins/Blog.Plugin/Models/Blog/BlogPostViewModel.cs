@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  Blog Plugin
  *  
@@ -62,9 +62,9 @@ namespace Blog.Plugin.Models
         /// <param name="comments">List of comments for the blog entry.</param>
         /// <param name="isLoggedIn">Indicates whether the user is logged in or not.</param>
         /// <param name="allowComments">Determines whether comments are allowed or not.</param>
-        public BlogPostViewModel(in int id, in string title, in string excerpt, in string blogtext, 
-            in string username, in bool published, in DateTime publishDateTime, in DateTime lastModified, 
-            in bool canEdit, in List<string> tags, in List<BlogCommentViewModel> comments, 
+        public BlogPostViewModel(in int id, in string title, in string excerpt, in string blogtext,
+            in string username, in bool published, in DateTime publishDateTime, in DateTime lastModified,
+            in bool canEdit, in List<string> tags, in List<BlogCommentViewModel> comments,
             in bool isLoggedIn, in bool allowComments)
         {
             if (String.IsNullOrEmpty(title))
@@ -114,10 +114,10 @@ namespace Blog.Plugin.Models
         /// <param name="isLoggedIn">Indicates whether the user is logged in or not.</param>
         /// <param name="allowComments">Determines whether comments are allowed or not.</param>
         public BlogPostViewModel(in BaseModelData baseModelData, in int id, in string title, in string excerpt,
-            in string blogtext, in string username, in bool published, in DateTime publishDateTime, 
+            in string blogtext, in string username, in bool published, in DateTime publishDateTime,
             in DateTime lastModified, in bool canEdit, in List<string> tags, in bool isLoggedIn,
             in bool allowComments)
-            : base (baseModelData)
+            : base(baseModelData)
         {
             if (String.IsNullOrEmpty(title))
                 throw new ArgumentNullException(nameof(title));
@@ -162,8 +162,8 @@ namespace Blog.Plugin.Models
         /// <param name="publishDateTime">Date and time the blog entry is available.</param>
         /// <param name="lastModified">Date and time last modified.</param>
         /// <param name="tags">List of tags assigned to the post.</param>
-        public BlogPostViewModel(in BaseModelData baseModelData, in int id, in string title, in string excerpt, 
-            in string blogtext, in string username, in bool published, in DateTime publishDateTime, 
+        public BlogPostViewModel(in BaseModelData baseModelData, in int id, in string title, in string excerpt,
+            in string blogtext, in string username, in bool published, in DateTime publishDateTime,
             in DateTime lastModified, in List<string> tags)
             : base(baseModelData)
         {

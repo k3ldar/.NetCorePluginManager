@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  Error Manager Plugin
  *  
@@ -51,7 +51,7 @@ namespace ErrorManager.Plugin
         #region Constructors
 
         public ErrorThreadManager(IErrorManager errorManager)
-            : base (null, new TimeSpan(0, 0, 10))
+            : base(null, new TimeSpan(0, 0, 10))
         {
             _errorManager = errorManager ?? throw new ArgumentNullException(nameof(errorManager));
         }
@@ -74,7 +74,7 @@ namespace ErrorManager.Plugin
             try
             {
                 // process the list of errors
-                for (int i = _processList.Count -1; i >= 0; i--)
+                for (int i = _processList.Count - 1; i >= 0; i--)
                 {
                     ErrorInformation errorInformation = _processList[i];
 

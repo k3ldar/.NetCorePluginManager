@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  AspNetCore.PluginManager
  *  
@@ -28,9 +28,11 @@ using System.Collections;
 using System.Text;
 using System.Threading;
 
+using PluginManager;
+using PluginManager.Abstractions;
+
 using Shared.Classes;
 
-using static SharedPluginFeatures.Enums;
 using SharedPluginFeatures;
 
 #pragma warning disable CS1591
@@ -98,7 +100,7 @@ namespace AspNetCore.PluginManager.Classes
                 queueItems = _queue.ToArray();
             }
 
-            for (int i = 0; i < queueItems.Length -1; i++)
+            for (int i = 0; i < queueItems.Length - 1; i++)
             {
                 LoggerQueueItem item = (LoggerQueueItem)queueItems[i];
 
@@ -135,6 +137,21 @@ namespace AspNetCore.PluginManager.Classes
 
         public void AddToLog(in LogLevel logLevel, in string data)
         {
+            AddToLog(logLevel, String.Empty, data);
+        }
+
+        public void AddToLog(in LogLevel logLevel, in Exception exception)
+        {
+            AddToLog(logLevel, String.Empty, exception, String.Empty);
+        }
+
+        public void AddToLog(in LogLevel logLevel, in Exception exception, string data)
+        {
+            AddToLog(logLevel, String.Empty, exception, data);
+        }
+
+        public void AddToLog(in LogLevel logLevel, in string module, in string data)
+        {
             if (_logger == null)
                 throw new ArgumentNullException(nameof(_logger));
 
@@ -154,12 +171,12 @@ namespace AspNetCore.PluginManager.Classes
             _logger.AddToLog(logLevel, data);
         }
 
-        public void AddToLog(in LogLevel logLevel, in Exception exception)
+        public void AddToLog(in LogLevel logLevel, in string module, in Exception exception)
         {
-            AddToLog(logLevel, exception, String.Empty);
+            AddToLog(logLevel, module, exception, String.Empty);
         }
 
-        public void AddToLog(in LogLevel logLevel, in Exception exception, string data)
+        public void AddToLog(in LogLevel logLevel, in string module, in Exception exception, string data)
         {
 #if TRACE
             System.Diagnostics.Trace.WriteLine($"{logLevel.ToString()} {exception.Message}\r\n{data}");

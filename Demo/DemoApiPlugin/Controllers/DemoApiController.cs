@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  Demo Api Plugin
  *  
@@ -25,10 +25,12 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
 using System.Collections.Generic;
+
 using Microsoft.AspNetCore.Mvc;
 
-using SharedPluginFeatures;
 using Shared.Classes;
+
+using SharedPluginFeatures;
 
 namespace DemoApiPlugin.Controllers
 {

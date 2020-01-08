@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  AspNetCore.PluginManager.DemoWebsite
  *  
@@ -45,32 +45,32 @@ namespace AspNetCore.PluginManager.DemoWebsite.Helpers
 
         private static void UserSession_IPAddressDetails(object sender, Shared.IpAddressArgs e)
         {
-            
+
         }
 
         private static void UserSession_OnSessionSave(object sender, Shared.UserSessionArgs e)
         {
-            
+
         }
 
         private static void UserSession_OnSessionRetrieve(object sender, Shared.UserSessionRequiredArgs e)
         {
-            
+
         }
 
         private static void UserSession_OnSessionClosing(object sender, Shared.UserSessionArgs e)
         {
-            
+
         }
 
         private static void UserSession_OnSavePage(object sender, Shared.UserPageViewArgs e)
         {
-            
+
         }
 
         private static void UserSession_OnSessionCreated(object sender, Shared.UserSessionArgs e)
         {
-            
+
         }
     }
 }

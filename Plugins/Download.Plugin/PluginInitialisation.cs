@@ -24,10 +24,9 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 
-using SharedPluginFeatures;
+using PluginManager.Abstractions;
 
 #pragma warning disable CS1591
 
@@ -39,19 +38,14 @@ namespace DownloadPlugin
     /// </summary>
     public class PluginInitialisation : IPlugin, IPluginVersion
     {
-        public void Configure(IApplicationBuilder app)
-        {
-
-        }
-
         public void ConfigureServices(IServiceCollection services)
         {
-            
+
         }
 
         public void Finalise()
         {
-            
+
         }
 
         public ushort GetVersion()
@@ -61,7 +55,7 @@ namespace DownloadPlugin
 
         public void Initialise(ILogger logger)
         {
-            
+
         }
     }
 }

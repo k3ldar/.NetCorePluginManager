@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  AspNetCore.PluginManager.DemoWebsite
  *  
@@ -23,12 +23,9 @@
  *  22/09/2018  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using System;
-
 using AspNetCore.PluginManager.DemoWebsite.Helpers;
 
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -70,11 +67,11 @@ namespace AspNetCore.PluginManager.DemoWebsite
             services.AddLogging();
             services.AddMvc(
                 option => option.EnableEndpointRouting = false
-                ).AddRazorRuntimeCompilation().ConfigurePluginManager().AddRazorRuntimeCompilation();
+                ).ConfigurePluginManager().AddRazorRuntimeCompilation();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app)
         {
             // Allow plugin manager to configure options for all plugins
             PluginManagerService.Configure(app);

@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  GeoIpPlugin
  *  
@@ -25,9 +25,11 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
 
-using SharedPluginFeatures;
-
 using AppSettings;
+
+using PluginManager;
+
+using SharedPluginFeatures;
 
 namespace GeoIp.Plugin
 {
@@ -85,9 +87,9 @@ namespace GeoIp.Plugin
 
                 if (!city.success)
                 {
-                    PluginInitialisation.GetLogger.AddToLog(SharedPluginFeatures.Enums.LogLevel.GeoIpStackError,
+                    PluginInitialisation.GetLogger.AddToLog(LogLevel.Error, String.Empty,
                         $"{city.error.code} {city.error.info} {city.error.type}");
-                    return (false);
+                    return false;
                 }
 
                 countryCode = city.country_code ?? "ZZ";
@@ -96,11 +98,11 @@ namespace GeoIp.Plugin
                 latitude = city.latitude.Value;
                 longitude = city.longitude.Value;
 
-                return (true);
+                return true;
             }
             catch
             {
-                return (false);
+                return false;
             }
             finally
             {

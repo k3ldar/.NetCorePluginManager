@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  Localization.Plugin
  *  
@@ -29,9 +29,11 @@ using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Http;
 
-using SharedPluginFeatures;
+using PluginManager.Abstractions;
 
 using Shared.Classes;
+
+using SharedPluginFeatures;
 
 #pragma warning disable CS1591
 
@@ -51,7 +53,7 @@ namespace Localization.Plugin
         #endregion Private Members
 
         #region Constructors
- 
+
         public LocalizationMiddleware(RequestDelegate next, ISettingsProvider settingsProvider)
         {
             if (settingsProvider == null)

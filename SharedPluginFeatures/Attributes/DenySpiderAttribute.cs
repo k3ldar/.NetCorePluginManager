@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  SharedPluginFeatures
  *  
@@ -39,7 +39,7 @@ namespace SharedPluginFeatures
         /// Default constructor, indicates that all user agents are denied.
         /// </summary>
         public DenySpiderAttribute()
-            : this ("*")
+            : this("*")
         {
 
         }
@@ -49,7 +49,7 @@ namespace SharedPluginFeatures
         /// </summary>
         /// <param name="userAgent">Specify the specific user agent that is to be denied access to the route.</param>
         public DenySpiderAttribute(string userAgent)
-            : this (userAgent, String.Empty)
+            : this(userAgent, String.Empty)
         {
 
         }

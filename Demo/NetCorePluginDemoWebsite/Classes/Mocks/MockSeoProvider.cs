@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  Demo Website
  *  
@@ -42,7 +42,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
 
         #region Constructors
 
-        public MockSeoProvider ()
+        public MockSeoProvider()
         {
             _descriptions = new Dictionary<string, string>();
             _authors = new Dictionary<string, string>();
@@ -97,7 +97,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
             return true;
         }
 
-        public bool GetSeoDataForRoute(in string route, out string title, 
+        public bool GetSeoDataForRoute(in string route, out string title,
             out string description, out string author, out List<string> keywords)
         {
             if (!_authors.ContainsKey(route))

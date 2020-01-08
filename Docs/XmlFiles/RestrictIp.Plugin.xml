@@ -4,6 +4,20 @@
         <name>RestrictIp.Plugin</name>
     </assembly>
     <members>
+        <member name="T:RestrictIp.Plugin.Classes.SystemAdmin.RestrictIpTimingsSubMenu">
+            <summary>
+            Returns Timings information for all time spent processing restricted Ip route requests and can 
+            be viewed within SystemAdmin.Plugin.  
+            
+            This class descends from SystemAdminSubMenu.
+            </summary>
+        </member>
+        <member name="M:RestrictIp.Plugin.Classes.SystemAdmin.RestrictIpTimingsSubMenu.Data">
+            <summary>
+            Returns Timings data in milliseconds for time spent processing by RestrictIp.Plugin requests.
+            </summary>
+            <returns>string</returns>
+        </member>
         <member name="T:RestrictIp.Plugin.RestrictIpMiddleware">
             <summary>
             Middleware provider which processes requests and ensures that only authorised 
@@ -32,20 +46,6 @@
             Dictionary of restricted routes
             </summary>
             <value>Dictionary&lt;string, string&gt;</value>
-        </member>
-        <member name="T:RestrictIp.Plugin.Classes.SystemAdmin.RestrictIpTimingsSubMenu">
-            <summary>
-            Returns Timings information for all time spent processing restricted Ip route requests and can 
-            be viewed within SystemAdmin.Plugin.  
-            
-            This class descends from SystemAdminSubMenu.
-            </summary>
-        </member>
-        <member name="M:RestrictIp.Plugin.Classes.SystemAdmin.RestrictIpTimingsSubMenu.Data">
-            <summary>
-            Returns Timings data in milliseconds for time spent processing by RestrictIp.Plugin requests.
-            </summary>
-            <returns>string</returns>
         </member>
         <member name="T:RestrictIp.Plugin.PluginInitialisation">
             <summary>

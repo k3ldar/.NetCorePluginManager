@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  UserAccount.Plugin
  *  
@@ -29,6 +29,8 @@ using SharedPluginFeatures;
 
 namespace UserAccount.Plugin.Models
 {
+#pragma warning disable CS1591
+
     public class UserContactDetailsViewModel : BaseModel
     {
         #region Constructors
@@ -39,9 +41,9 @@ namespace UserAccount.Plugin.Models
         }
 
         public UserContactDetailsViewModel(in BaseModelData baseModelData,
-            in string firstName, in string lastName, in string email, 
+            in string firstName, in string lastName, in string email,
             in bool emailConfirmed, in string telephone, in bool telephoneConfirmed, in bool showTelephone)
-            : base (baseModelData)
+            : base(baseModelData)
         {
             FirstName = firstName;
             LastName = lastName;
@@ -83,4 +85,6 @@ namespace UserAccount.Plugin.Models
 
         #endregion Properties
     }
+
+#pragma warning restore CS1591
 }

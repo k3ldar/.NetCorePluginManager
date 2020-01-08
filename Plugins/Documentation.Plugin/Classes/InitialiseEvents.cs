@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  Documentation Plugin
  *  
@@ -27,9 +27,9 @@
 using System.Threading;
 
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
+
+using PluginManager.Abstractions;
 
 using SharedPluginFeatures;
 
@@ -45,7 +45,7 @@ namespace DocumentationPlugin.Classes
     {
         public void AfterConfigure(in IApplicationBuilder app)
         {
-            
+
         }
 
         public void AfterConfigureServices(in IServiceCollection services)
@@ -60,19 +60,24 @@ namespace DocumentationPlugin.Classes
                 services.AddSingleton(defaultDocumentation);
 
             DocumentLoadThread documentLoadThread = new DocumentLoadThread(defaultDocumentation as IDocumentationService);
-            Shared.Classes.ThreadManager.ThreadStart(documentLoadThread, 
-                Constants.DocumentationLoadThread, 
+            Shared.Classes.ThreadManager.ThreadStart(documentLoadThread,
+                Constants.DocumentationLoadThread,
                 ThreadPriority.BelowNormal);
         }
 
         public void BeforeConfigure(in IApplicationBuilder app)
         {
-            
+
         }
 
         public void BeforeConfigureServices(in IServiceCollection services)
         {
-            
+
+        }
+
+        public void Configure(in IApplicationBuilder app)
+        {
+
         }
     }
 }

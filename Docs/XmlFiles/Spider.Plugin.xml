@@ -4,6 +4,20 @@
         <name>Spider.Plugin</name>
     </assembly>
     <members>
+        <member name="T:Spider.Plugin.Classes.SystemAdmin.SpiderTimingsSubMenu">
+            <summary>
+            Returns Timings information for all time spent processing spider requests and can 
+            be viewed within SystemAdmin.Plugin.  
+            
+            This class descends from SystemAdminSubMenu.
+            </summary>
+        </member>
+        <member name="M:Spider.Plugin.Classes.SystemAdmin.SpiderTimingsSubMenu.Data">
+            <summary>
+            Returns Timings data in milliseconds for time spent processing by Spider.Plugin requests.
+            </summary>
+            <returns>string</returns>
+        </member>
         <member name="T:Spider.Plugin.SpiderMiddleware">
             <summary>
             Spider middleware, serves robots.txt on request and denies access to route for spider connections.
@@ -40,20 +54,6 @@
             Delimited list of file extensions to ignore
             </summary>
             <value>string</value>
-        </member>
-        <member name="T:Spider.Plugin.Classes.SystemAdmin.SpiderTimingsSubMenu">
-            <summary>
-            Returns Timings information for all time spent processing spider requests and can 
-            be viewed within SystemAdmin.Plugin.  
-            
-            This class descends from SystemAdminSubMenu.
-            </summary>
-        </member>
-        <member name="M:Spider.Plugin.Classes.SystemAdmin.SpiderTimingsSubMenu.Data">
-            <summary>
-            Returns Timings data in milliseconds for time spent processing by Spider.Plugin requests.
-            </summary>
-            <returns>string</returns>
         </member>
         <member name="T:Spider.Plugin.PluginInitialisation">
             <summary>

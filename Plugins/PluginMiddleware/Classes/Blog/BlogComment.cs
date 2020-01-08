@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  Plugin Middleware
  *  
@@ -24,8 +24,6 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Middleware.Blog
 {
@@ -46,7 +44,7 @@ namespace Middleware.Blog
         /// <param name="userName">Name of person making the comment.</param>
         /// <param name="approved">Determines whether the comment is approved for display.</param>
         /// <param name="comment">Comment made by another user.</param>
-        public BlogComment(in int id, in int? parentComment, in DateTime dateTime, in long userId, 
+        public BlogComment(in int id, in int? parentComment, in DateTime dateTime, in long userId,
             in string userName, in bool approved, in string comment)
         {
             if (String.IsNullOrEmpty(userName))

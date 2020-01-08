@@ -24,7 +24,7 @@
  *  12/05/2019  Simon Carter        Add seo data constants
  *  
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
+using System;
 
 namespace SharedPluginFeatures
 {
@@ -169,16 +169,6 @@ namespace SharedPluginFeatures
         public const string TooManyBreadcrumbs = "Breadcrumb recursion, check parent route values";
 
         /// <summary>
-        /// Exception message used when registering a INotificationListener with the INotificationService message notifications, when the listener does not provide any event names.
-        /// </summary>
-        public const string InvalidListener = "Listener must provide at least one event";
-
-        /// <summary>
-        /// Exception message used when registering a INotificationListener with the INotificationService message notifications, when the event name has not been recognised.
-        /// </summary>
-        public const string InvalidEventName = "Invalid event name in listener";
-
-        /// <summary>
         /// Exception message used when registering a INotificationListener with the INotificationService message notifications, when the event name has not been registered.
         /// </summary>
         public const string EventNameNotRegistered = "Event name has not been registered";
@@ -192,11 +182,6 @@ namespace SharedPluginFeatures
         /// Default currency code used when no currency code is supplied
         /// </summary>
         public const string CurrencyCodeDefault = "GBP";
-
-        /// <summary>
-        /// Name of thread used for INotificationService message notifications
-        /// </summary>
-        public const string ThreadNotificationService = "Notification Service";
 
         /// <summary>
         /// Name of the documentation file cache

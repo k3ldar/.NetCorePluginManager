@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  PluginMiddleware
  *  
@@ -47,8 +47,8 @@ namespace Middleware.Accounts.Orders
         /// <param name="status">Current status of item within the order.</param>
         /// <param name="discountType">Type of discount applied to the item.</param>
         /// <param name="discount">Discount amount applied to the item.</param>
-        public OrderItem(in long id, in string description, in decimal cost, 
-            in int taxRate, in decimal quantity, in ItemStatus status, in DiscountType discountType, 
+        public OrderItem(in long id, in string description, in decimal cost,
+            in int taxRate, in decimal quantity, in ItemStatus status, in DiscountType discountType,
             in decimal discount)
         {
             if (String.IsNullOrEmpty(description))

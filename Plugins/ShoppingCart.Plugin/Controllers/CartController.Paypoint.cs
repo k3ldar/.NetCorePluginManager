@@ -30,11 +30,11 @@ using Microsoft.AspNetCore.Mvc;
 
 using Middleware.Accounts.Orders;
 
-using ShoppingCartPlugin.Classes;
+using PluginManager.Abstractions;
 
 using Shared;
 
-using SharedPluginFeatures;
+using ShoppingCartPlugin.Classes;
 
 namespace ShoppingCartPlugin.Controllers
 {
@@ -52,7 +52,7 @@ namespace ShoppingCartPlugin.Controllers
 
                 Order order = _accountProvider.OrdersGet(GetUserSession().UserID).Where(o => o.Id == orderID).FirstOrDefault();
 
-                _accountProvider.OrderPaid(order, Middleware.PaymentStatus.PaidCard, 
+                _accountProvider.OrderPaid(order, Middleware.PaymentStatus.PaidCard,
                     String.Format("{0} : {1} : {2}", keys["ip"], keys["cv2avs"], keys["message"]));
 
                 if (!ValidateHashCode())

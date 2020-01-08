@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  Demo Website
  *  
@@ -56,12 +56,12 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
 
         public bool UnlockAccount(in string username, in string unlockCode)
         {
-            return (unlockCode == "123456");
+            return unlockCode == "123456";
         }
 
         public bool ForgottenPassword(in string username)
         {
-            return (username == "admin");
+            return username == "admin";
         }
     }
 }

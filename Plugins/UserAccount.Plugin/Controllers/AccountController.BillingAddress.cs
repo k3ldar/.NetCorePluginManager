@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  UserAccount.Plugin
  *  
@@ -27,21 +27,23 @@ using System;
 
 using Microsoft.AspNetCore.Mvc;
 
-using UserAccount.Plugin.Models;
-
 using Middleware;
 
 using SharedPluginFeatures;
 
+using UserAccount.Plugin.Models;
+
 namespace UserAccount.Plugin.Controllers
 {
+#pragma warning disable CS1591
+
     public partial class AccountController
     {
         #region Public Controller Methods
 
-		[HttpGet]
+        [HttpGet]
         [Breadcrumb(nameof(Languages.LanguageStrings.MyBillingAddress), nameof(AccountController), nameof(Index))]
-		public IActionResult BillingAddress()
+        public IActionResult BillingAddress()
         {
             Address billingAddress = _accountProvider.GetBillingAddress(UserId());
 
@@ -62,7 +64,7 @@ namespace UserAccount.Plugin.Controllers
 
             ValidateBillingAddressModel(ref model);
 
-			if (ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 Address billingAddress = new Address(model.AddressId, 0, model.BusinessName, model.AddressLine1,
                     model.AddressLine2, model.AddressLine3, model.City, model.County, model.Postcode, model.Country);
@@ -138,4 +140,6 @@ namespace UserAccount.Plugin.Controllers
 
         #endregion Private Methods
     }
+
+#pragma warning restore CS1591
 }

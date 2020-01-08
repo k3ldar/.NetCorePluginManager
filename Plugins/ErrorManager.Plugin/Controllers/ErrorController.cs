@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  Error Manager Plugin
  *  
@@ -26,14 +26,16 @@
 using System;
 using System.IO;
 
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Hosting;
-
 using ErrorManager.Plugin.Models.Error;
 
-using static Shared.Utilities;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
+
+using PluginManager.Abstractions;
 
 using SharedPluginFeatures;
+
+using static Shared.Utilities;
 
 #pragma warning disable CS1591
 

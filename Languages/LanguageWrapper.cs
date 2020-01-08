@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  Languages
  *  
@@ -47,7 +47,7 @@ namespace Languages
 
             for (int i = 1; i < Result.Length; i++)
             {
-                string file = files[i -1].Replace(path, String.Empty);
+                string file = files[i - 1].Replace(path, String.Empty);
                 file = file.Substring(0, file.LastIndexOf('\\'));
                 Result[i] = file.Substring(file.LastIndexOf('\\') + 1);
             }

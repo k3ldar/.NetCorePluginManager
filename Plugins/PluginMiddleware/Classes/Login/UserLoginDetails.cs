@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  PluginMiddleware
  *  
@@ -57,7 +57,7 @@ namespace Middleware
         /// <param name="userId">Unique user id.</param>
         /// <param name="rememberMe">Indicates whether the login should be remembered or not (can include adding a cookie).</param>
         public UserLoginDetails(in long userId, in bool rememberMe)
-            : this (userId)
+            : this(userId)
         {
             RememberMe = rememberMe;
         }

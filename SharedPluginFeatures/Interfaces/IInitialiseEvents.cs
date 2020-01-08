@@ -55,6 +55,12 @@ namespace SharedPluginFeatures
         void AfterConfigure(in IApplicationBuilder app);
 
         /// <summary>
+        /// Indicates that the plugin should configure itself with the ApplicationBuilder
+        /// </summary>
+        /// <param name="app"></param>
+        void Configure(in IApplicationBuilder app);
+
+        /// <summary>
         /// Indicates that the ConfigureServices method on each IPlugin implementation will
         /// be called.
         /// </summary>

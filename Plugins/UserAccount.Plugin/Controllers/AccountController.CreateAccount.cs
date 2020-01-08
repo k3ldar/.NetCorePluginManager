@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  UserAccount.Plugin
  *  
@@ -24,20 +24,24 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
+
 using Microsoft.AspNetCore.Mvc;
+
+using Middleware;
+
+using Shared.Classes;
 
 using SharedPluginFeatures;
 
-using Shared.Classes;
-using static Shared.Utilities;
-
 using UserAccount.Plugin.Models;
 
-using Middleware;
 using static Middleware.Constants;
+using static Shared.Utilities;
 
 namespace UserAccount.Plugin.Controllers
 {
+#pragma warning disable CS1591
+
     public partial class AccountController
     {
         #region Public Action Methods
@@ -64,9 +68,9 @@ namespace UserAccount.Plugin.Controllers
 
             if (ModelState.IsValid)
             {
-                if (_accountProvider.CreateAccount(model.Email, model.FirstName, model.Surname, 
-                    model.Password, model.Telephone, model.BusinessName, model.AddressLine1, 
-                    model.AddressLine2, model.AddressLine3, model.City, model.County, 
+                if (_accountProvider.CreateAccount(model.Email, model.FirstName, model.Surname,
+                    model.Password, model.Telephone, model.BusinessName, model.AddressLine1,
+                    model.AddressLine2, model.AddressLine3, model.City, model.County,
                     model.Postcode, model.Country, out Int64 userId))
                 {
                     UserSession session = GetUserSession();
@@ -187,4 +191,6 @@ namespace UserAccount.Plugin.Controllers
 
         #endregion Private Members
     }
+
+#pragma warning restore CS1591
 }

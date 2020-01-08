@@ -42,5 +42,13 @@
             loaded as a plugin module
             </summary>
         </member>
+        <member name="M:SystemAdmin.Plugin.Startup.ConfigureServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            This method gets called by the runtime. Use this method to add services to the container.
+             
+            This method will not be used in a live environment as it will be inserted as a plugin
+            </summary>
+            <param name="services"></param>
+        </member>
     </members>
 </doc>

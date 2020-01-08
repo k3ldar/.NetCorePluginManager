@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  SystemAdmin.Plugin
  *  
@@ -26,13 +26,13 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
+
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-using SystemAdmin.Plugin.Models;
-
 using SharedPluginFeatures;
+
+using SystemAdmin.Plugin.Models;
 
 namespace SystemAdmin.Plugin.Controllers
 {
@@ -62,12 +62,7 @@ namespace SystemAdmin.Plugin.Controllers
         [Authorize(Policy = Constants.PolicyNameAlterSeoData)]
         public IActionResult SeoUpdateData(SeoDataModel model)
         {
-            string title;
-            string metaDescription;
-            string author;
-            List<string> keywords;
-
-            if (!_seoProvider.GetSeoDataForRoute(model.SeoUrl, out title, out metaDescription, out author, out keywords))
+            if (!_seoProvider.GetSeoDataForRoute(model.SeoUrl, out string title, out string metaDescription, out string author, out List<string> keywords))
             {
                 keywords = new List<string>();
             }

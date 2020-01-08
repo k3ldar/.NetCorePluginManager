@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  Plugin Middleware
  *  
@@ -60,8 +60,8 @@ namespace Middleware.Blog
         /// <param name="lastModified">Date and time the blog entry was last modified.</param>
         /// <param name="tags">Tags associated with the blog entry.</param>
         /// <param name="comments">List of comments for the blog entry.</param>
-        public BlogItem(in int id, in long userId, in string title, in string excerpt, 
-            in string blogtext, in string username, in bool published, in DateTime publishDateTime, 
+        public BlogItem(in int id, in long userId, in string title, in string excerpt,
+            in string blogtext, in string username, in bool published, in DateTime publishDateTime,
             in DateTime created, in DateTime lastModified, in List<string> tags,
             in List<BlogComment> comments)
         {
@@ -195,7 +195,7 @@ namespace Middleware.Blog
         /// <param name="published">Indicates whether the blog is published.</param>
         /// <param name="publishDateTime">Date and time the blog can be published.</param>
         /// <param name="tags">Blog tags.</param>
-        public void UpdateBlog(in string title, in string excerpt, in string blogText, 
+        public void UpdateBlog(in string title, in string excerpt, in string blogText,
             in bool published, in DateTime publishDateTime, in List<string> tags)
         {
             if (String.IsNullOrEmpty(title))

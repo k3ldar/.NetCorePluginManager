@@ -29,16 +29,18 @@ using System.Linq;
 
 using Microsoft.AspNetCore.Mvc;
 
-using SharedPluginFeatures;
-
-using Shared.Classes;
-
-using ShoppingCartPlugin.Models;
-
 using Middleware;
 using Middleware.Accounts;
 using Middleware.Accounts.Orders;
 using Middleware.ShoppingCart;
+
+using PluginManager.Abstractions;
+
+using Shared.Classes;
+
+using SharedPluginFeatures;
+
+using ShoppingCartPlugin.Models;
 
 namespace ShoppingCartPlugin.Controllers
 {

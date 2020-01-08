@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  GeoIpPlugin
  *  
@@ -116,7 +116,7 @@ namespace GeoIp.Plugin
         /// <value>int</value>
         public int CompareTo(object obj)
         {
-            return (IpStart.CompareTo(((IpCity)obj).IpStart));
+            return IpStart.CompareTo(((IpCity)obj).IpStart);
         }
 
         #endregion Public Methods

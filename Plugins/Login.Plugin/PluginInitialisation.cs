@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  Login Plugin
  *  
@@ -24,10 +24,13 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 
+using PluginManager.Abstractions;
+
 using SharedPluginFeatures;
+
+#pragma warning disable IDE0060
 
 namespace LoginPlugin
 {
@@ -35,12 +38,38 @@ namespace LoginPlugin
     /// Implements IPlugin and IPluginVersion which allows the Login.Plugin module to be
     /// loaded as a plugin module
     /// </summary>
-    public class PluginInitialisation : IPlugin, IPluginVersion
+    public class PluginInitialisation : IPlugin, IInitialiseEvents
     {
-        public void Configure(IApplicationBuilder app)
+        #region IInitialiseEvents Methods
+
+        public void AfterConfigure(in IApplicationBuilder app)
+        {
+
+        }
+
+        public void AfterConfigureServices(in IServiceCollection services)
+        {
+
+        }
+
+        public void BeforeConfigure(in IApplicationBuilder app)
+        {
+
+        }
+
+        public void BeforeConfigureServices(in IServiceCollection services)
+        {
+
+        }
+
+        public void Configure(in IApplicationBuilder app)
         {
             app.UseLogin();
         }
+
+        #endregion IInitialiseEvents Methods
+
+        #region IPlugin Methods
 
         public void ConfigureServices(IServiceCollection services)
         {
@@ -54,12 +83,16 @@ namespace LoginPlugin
 
         public ushort GetVersion()
         {
-            return (1);
+            return 1;
         }
 
         public void Initialise(ILogger logger)
         {
 
         }
+
+        #endregion IPlugin Methods
     }
 }
+
+#pragma warning restore IDE0060
