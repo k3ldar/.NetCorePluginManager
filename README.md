@@ -37,7 +37,7 @@ Extend website with plugin technology.
 
 PM> Install-Package AspNetCore.PluginManager -Version 3.2.0
 
-https://www.nuget.org/packages/AspNetCore.PluginManager/
+https://github.com/k3ldar/.NetCorePluginManager/blob/master/Version_3.2_Upgrade_Notes.md
 
 See https://github.com/k3ldar/.NetCorePluginManager/wiki/Plugin-Manager-Setup-and-Configuration for setup and configuration.
 
