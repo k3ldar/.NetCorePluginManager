@@ -30,6 +30,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 
+#pragma warning disable CS1591
+
 namespace PluginManager
 {
     public sealed class FileVersionComparison : Comparer<FileInfo>
@@ -53,3 +55,5 @@ namespace PluginManager
         }
     }
 }
+
+#pragma warning restore CS1591

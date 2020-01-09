@@ -1,0 +1,893 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>PluginManager</name>
+    </assembly>
+    <members>
+        <member name="T:PluginManager.BasePluginManager">
+            <summary>
+            Base plugin manager, contains methods and properties to load and interact
+            with plugins within an application
+            </summary>
+        </member>
+        <member name="M:PluginManager.BasePluginManager.#ctor">
+            <summary>
+            Internal constructor, used internally by the BasePluginManager to initialise the class internals
+            </summary>
+        </member>
+        <member name="M:PluginManager.BasePluginManager.#ctor(PluginManager.PluginManagerConfiguration@,PluginManager.PluginSettings@)">
+            <summary>
+            Default constructor
+            </summary>
+            <param name="configuration">Plugin configuration</param>
+            <param name="pluginSettings">Plugin Settings</param>
+        </member>
+        <member name="M:PluginManager.BasePluginManager.Finalize">
+            <summary>
+            Destructor
+            </summary>
+        </member>
+        <member name="P:PluginManager.BasePluginManager.RootPath">
+            <summary>
+            Internal property for retrieving the application defined root path
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:PluginManager.BasePluginManager.Logger">
+            <summary>
+            Protected ILogger instance that can be retrieved via a descendant class
+            </summary>
+        </member>
+        <member name="M:PluginManager.BasePluginManager.PluginLoading(System.Reflection.Assembly@)">
+            <summary>
+            Indicates that a plugin is about to be loaded.
+            </summary>
+            <param name="pluginFile">Assembly of the plugin that is about to load.</param>
+        </member>
+        <member name="M:PluginManager.BasePluginManager.PluginLoaded(System.Reflection.Assembly@)">
+            <summary>
+            Indicates a plugin has been loaded.
+            </summary>
+            <param name="pluginFile">Assembly of the plugin that is about to load.</param>
+        </member>
+        <member name="M:PluginManager.BasePluginManager.PluginInitialised(PluginManager.Abstractions.IPluginModule@)">
+            <summary>
+            Indicates that the plugin module has been initialised.
+            </summary>
+            <param name="pluginModule">IPluginModule instance for the plugin that has been loaded.</param>
+        </member>
+        <member name="M:PluginManager.BasePluginManager.PluginConfigured(PluginManager.Abstractions.IPluginModule@)">
+            <summary>
+            Indicates that the plugin module has been configured.
+            </summary>
+            <param name="pluginModule">IPluginModule instance for the plugin that has been configured.</param>
+        </member>
+        <member name="M:PluginManager.BasePluginManager.PreConfigurePluginServices(Microsoft.Extensions.DependencyInjection.IServiceCollection@)">
+            <summary>
+            Provides an opportunity for the PluginManager descendant to pre configure plugin modules, if desired.
+            </summary>
+            <param name="serviceProvider">IServiceCollection instance that can be used for pre configuration.</param>
+        </member>
+        <member name="M:PluginManager.BasePluginManager.PostConfigurePluginServices(Microsoft.Extensions.DependencyInjection.IServiceCollection@)">
+            <summary>
+            Provides an opportunity for the PluginManager descendant to post configure plugin modules, if desired.
+            </summary>
+            <param name="serviceProvider">IServiceCollection instance that can be used for post configuration.</param>
+        </member>
+        <member name="M:PluginManager.BasePluginManager.CanExtractResource(System.String@)">
+            <summary>
+            Provides an opportunity for the PluginManager descendant to validate whether a resource can be extracted from within a plugin module.
+            </summary>
+            <param name="resourceName">string name of the resource to be extracted.</param>
+            <returns></returns>
+        </member>
+        <member name="M:PluginManager.BasePluginManager.ModifyPluginResourceName(System.String@)">
+            <summary>
+            Provides an opportunity for the PluginManager descendant to modify the name of the resource being extracted.
+            </summary>
+            <param name="resourceName">string name of the resource to be extracted.</param>
+        </member>
+        <member name="M:PluginManager.BasePluginManager.PluginsGetLoaded">
+            <summary>
+            Returns all loaded plugin data
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:PluginManager.BasePluginManager.PluginLoad(System.Reflection.Assembly@,System.String@,System.Boolean@)">
+            <summary>
+            Loads and configures an individual plugin
+            </summary>
+            <param name="assembly">Assembly being loaded.</param>
+            <param name="fileLocation">Location of assembly on physical disk.</param>
+            <param name="extractResources">Determines whether resources are extracted from the plugin module or not.</param>
+        </member>
+        <member name="M:PluginManager.BasePluginManager.PluginLoad(System.String@,System.Boolean@)">
+            <summary>
+            Loads and configures an individual plugin
+            </summary>
+            <param name="pluginName">Filename of plugin to be loaded.</param>
+            <param name="copyLocal">If true, copies the plugin to a local temp area to load from.</param>
+        </member>
+        <member name="M:PluginManager.BasePluginManager.ConfigureServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            Allows plugins to configure the services for all plugins
+            </summary>
+            <param name="services"></param>
+        </member>
+        <member name="M:PluginManager.BasePluginManager.PluginGetTypesWithAttribute``1">
+            <summary>
+            Retrieves the non instantiated classes which have attribute T, or if any of
+            the methods or properties have attribute T
+            </summary>
+            <typeparam name="T"></typeparam>
+            <returns></returns>
+        </member>
+        <member name="M:PluginManager.BasePluginManager.PluginGetClassTypes``1">
+            <summary>
+            Retrieves the non instantiated classes which inherit from T or implement 
+            interface T
+            </summary>
+            <typeparam name="T"></typeparam>
+            <returns></returns>
+        </member>
+        <member name="M:PluginManager.BasePluginManager.PluginGetClasses``1">
+            <summary>
+            Retreives an instantiated specific type of class which inherits from a specific class 
+            or interface from within the plugin modules
+            </summary>
+            <typeparam name="T">Type of interface/class</typeparam>
+            <returns></returns>
+        </member>
+        <member name="M:PluginManager.BasePluginManager.PluginLoaded(System.String@,System.Int32@,System.String@)">
+            <summary>
+            Determines whether a plugin is loaded, and retrieves the version
+            </summary>
+            <param name="pluginLibraryName"></param>
+            <param name="version"></param>
+            <param name="module"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PluginManager.BasePluginManager.AddAssembly(System.Reflection.Assembly@)">
+            <summary>
+            Allows plugin descendents to load an Assembly, even if it is not a true plugin module, this will ensure
+            it's classes and types can be found with other searches in other ways like when using IPluginClassesService etc.
+            </summary>
+            <param name="assembly"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PluginManager.BasePluginManager.Dispose">
+            <summary>
+            Disposable method, notify all plugins to finalise
+            </summary>
+        </member>
+        <member name="M:PluginManager.BasePluginManager.GetLocalCopyOfPlugin(System.String)">
+            <summary>
+            Copies the plugin file to a local temp area, that will be used to load the plugin from.
+            </summary>
+            <param name="pluginFile">Path and File name of the plugin that will be loaded.</param>
+            <returns>string</returns>
+        </member>
+        <member name="M:PluginManager.BasePluginManager.GetMinMaxValue(System.UInt16@,System.UInt16@,System.UInt16@)">
+            <summary>
+            Checks a value, to ensure it is between min/max Value
+            </summary>
+            <param name="value">Value to check</param>
+            <param name="minValue">Min value allowed</param>
+            <param name="maxValue">Max value allowed</param>
+            <returns></returns>
+        </member>
+        <member name="M:PluginManager.BasePluginManager.GetPluginClass``1(PluginManager.Internal.PluginModule@)">
+            <summary>
+            Returns the first class/interface of type T within the assembly
+            </summary>
+            <typeparam name="T">Type to return</typeparam>
+            <param name="pluginModule">plugin module</param>
+            <returns>instantiated instance of Type T if found, otherwise null</returns>
+        </member>
+        <member name="M:PluginManager.BasePluginManager.ExtractResources(System.Reflection.Assembly@,PluginManager.PluginSetting@)">
+            <summary>
+            Extract Views/CSS/JS files from resources
+            </summary>
+            <param name="pluginAssembly"></param>
+            <param name="pluginSetting"></param>
+        </member>
+        <member name="M:PluginManager.BasePluginManager.LoadAssembly(System.String@)">
+            <summary>
+            Dynamically loads an assembly
+            </summary>
+            <param name="assemblyName">name of assembly</param>
+            <returns>Assembly instance</returns>
+        </member>
+        <member name="M:PluginManager.BasePluginManager.CurrentDomainAssemblyResolve(System.Object,System.ResolveEventArgs)">
+            <summary>
+            If associated/required dll's are not found, and settings are configured, 
+            attempt to load them from the configured path
+            </summary>
+            <param name="sender"></param>
+            <param name="args"></param>
+            <returns>Resolved assemble, if found, otherwise null.</returns>
+        </member>
+        <member name="M:PluginManager.BasePluginManager.GetPluginSetting(System.String@)">
+            <summary>
+            Retrieve plugin settings for an individual plugin module
+            </summary>
+            <param name="pluginName">Name of plugin</param>
+            <returns></returns>
+        </member>
+        <member name="T:PluginManager.PluginManagerConfiguration">
+            <summary>
+            Plugin Manager configuration class.  Used when Initialising the Plugin Manager.
+            </summary>
+        </member>
+        <member name="M:PluginManager.PluginManagerConfiguration.#ctor">
+            <summary>
+            Default constructor, uses all default settings.
+            </summary>
+        </member>
+        <member name="M:PluginManager.PluginManagerConfiguration.#ctor(PluginManager.Abstractions.ILogger@)">
+            <summary>
+            Constructor allowing host application to supply a custom ILogger implementation.
+            </summary>
+            <param name="logger">Valid instance of ILogger.</param>
+        </member>
+        <member name="M:PluginManager.PluginManagerConfiguration.#ctor(PluginManager.Abstractions.ILoadSettingsService@)">
+            <summary>
+            Constructor allowing host application to supply a custom ILoadSettingsService implementation
+            that can be used to obtain settings for AspNetCore.PluginManager from any data store.
+            </summary>
+            <param name="loadSettingsService">Valid instance of ILoadSettingsService.</param>
+        </member>
+        <member name="M:PluginManager.PluginManagerConfiguration.#ctor(PluginManager.Abstractions.ILogger@,PluginManager.Abstractions.ILoadSettingsService@)">
+            <summary>
+            Constructor allowing host application to supply a custom ILogger and ILoadSettingsService
+            implementation.
+            </summary>
+            <param name="logger">Valid instance of ILogger</param>
+            <param name="loadSettingsService">Valid instance of ILoadSettingsService.</param>
+        </member>
+        <member name="P:PluginManager.PluginManagerConfiguration.Logger">
+            <summary>
+            ILogger instance used by the AspNetCore.PluginManager and plugin modules to 
+            log information to a default log storage.
+            
+            This can be within a database or file based.  The standard ILogger implementation 
+            saves data to a log file.
+            </summary>
+            <value>ILogger</value>
+        </member>
+        <member name="P:PluginManager.PluginManagerConfiguration.LoadSettingsService">
+            <summary>
+            ILoadSettingsService instance is used by the AspNetCore.PluginManager to load
+            settings and configuration data for plugins that it will load.
+            </summary>
+            <value>ILoadSettingsService</value>
+        </member>
+        <member name="P:PluginManager.PluginManagerConfiguration.CurrentPath">
+            <summary>
+            Current root path of the application.
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:PluginManager.PluginManagerConfiguration.ConfigFileName">
+            <summary>
+            Configuration file name that will be used by the default implementation of 
+            ILoadSettingsService to obtain data.
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:PluginManager.PluginManagerConfiguration.ConfigurationFile">
+            <summary>
+            Configuration file name that will be used by the default implementation of 
+            ILoadSettingsService to obtain data.
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="T:PluginManager.LogLevel">
+            <summary>
+            Log Levels, defines the type of log entry being made by ILogger interface.
+            </summary>
+        </member>
+        <member name="F:PluginManager.LogLevel.Information">
+            <summary>
+            Log entry is information only.
+            </summary>
+        </member>
+        <member name="F:PluginManager.LogLevel.Warning">
+            <summary>
+            Log entry is a warning condition.
+            </summary>
+        </member>
+        <member name="F:PluginManager.LogLevel.Error">
+            <summary>
+            Log entry represents an error that has occurred.
+            </summary>
+        </member>
+        <member name="F:PluginManager.LogLevel.Critical">
+            <summary>
+            Log entry is a critical error within the system.
+            </summary>
+        </member>
+        <member name="F:PluginManager.LogLevel.PluginLoadSuccess">
+            <summary>
+            Log entry is informing that a plugin module has been successfully loaded.
+            </summary>
+        </member>
+        <member name="F:PluginManager.LogLevel.PluginLoadFailed">
+            <summary>
+            Log entry is informing that a plugin module has failed to load.
+            </summary>
+        </member>
+        <member name="F:PluginManager.LogLevel.PluginLoadError">
+            <summary>
+            Log entry is informing that a generic error occurred when loading a plugin module.
+            </summary>
+        </member>
+        <member name="F:PluginManager.LogLevel.PluginConfigureError">
+            <summary>
+            Log entry is informing that there is a configuration error with a plugin module.
+            </summary>
+        </member>
+        <member name="F:PluginManager.LogLevel.IpRestricted">
+            <summary>
+            Log entry informing that an Ip address has had restriction imposed upon it within the RestrictIp.Plugin module.
+            </summary>
+        </member>
+        <member name="F:PluginManager.LogLevel.CacheControlError">
+            <summary>
+            Indicates that an error occurred within CacheControl.Plugin module.
+            </summary>
+        </member>
+        <member name="F:PluginManager.LogLevel.ThreadManager">
+            <summary>
+            The event was raised by the ThreadManager
+            </summary>
+        </member>
+        <member name="F:PluginManager.LogLevel.Localization">
+            <summary>
+            Indicates that an error occurred when translating a string using Localization.Plugin.
+            
+            This is usually an indication that a localized string is missing.
+            </summary>
+        </member>
+        <member name="T:PluginManager.DynamicLoadResult">
+            <summary>
+            Result enum for dynamically adding plugin modules using IPluginHelperService interface.
+            </summary>
+        </member>
+        <member name="F:PluginManager.DynamicLoadResult.Success">
+            <summary>
+            Plugin module was dynamically added to the list of available plugins.
+            </summary>
+        </member>
+        <member name="F:PluginManager.DynamicLoadResult.Failed">
+            <summary>
+            Failed to load the module as an available plugin.
+            </summary>
+        </member>
+        <member name="F:PluginManager.DynamicLoadResult.AlreadyLoaded">
+            <summary>
+            The module was already loaded as a plugin module within the PluginManager.
+            </summary>
+        </member>
+        <member name="T:PluginManager.Abstractions.ILoadSettingsService">
+            <summary>
+            This interface is used when initially loading the AspNetCore.PluginManager to load 
+            settings it requires.  A custom implementation can be supplied during initialisation
+            of the Plugin Manager which can enable the settings to be loaded from a custom data
+            source.
+            
+            This interface will be used to load PluginSetting and PluginSettings but may be
+            extended in future versions to include other initialisation data.
+            </summary>
+        </member>
+        <member name="M:PluginManager.Abstractions.ILoadSettingsService.LoadSettings``1(System.String@,System.String@)">
+            <summary>
+            Requests that setting data be loaded for T, this could be PluginSetting or PluginSettings.
+            </summary>
+            <typeparam name="T">Class type</typeparam>
+            <param name="jsonFile">jsonFile to use, this can be altered for custom implementations.</param>
+            <param name="name">Name of settings to be loaded.</param>
+            <returns>Instance of T</returns>
+        </member>
+        <member name="M:PluginManager.Abstractions.ILoadSettingsService.LoadSettings``1(System.String@)">
+            <summary>
+            Requests that setting data be loaded for T, this could be PluginSetting or PluginSettings, the default jsonFile name is used (appsettings.json).
+            </summary>
+            <typeparam name="T">Class type</typeparam>
+            <param name="name">Name of settings to be loaded.</param>
+            <returns>Instance of T</returns>
+        </member>
+        <member name="T:PluginManager.Abstractions.ILogger">
+            <summary>
+            Generic interface provided where plugin modules and all other parts of the system can add data to a log file.
+            </summary>
+        </member>
+        <member name="M:PluginManager.Abstractions.ILogger.AddToLog(PluginManager.LogLevel@,System.String@)">
+            <summary>
+            Adds data to the log file.
+            </summary>
+            <param name="logLevel">LogLevel enum indicating the type of log entry</param>
+            <param name="data">Data to be logged.</param>
+        </member>
+        <member name="M:PluginManager.Abstractions.ILogger.AddToLog(PluginManager.LogLevel@,System.Exception@)">
+            <summary>
+            Logs an exception with the log file and also creates an additional exception log entry detailing the exception, call stack etc.
+            </summary>
+            <param name="logLevel">LogLevel enum indicating the type of log entry</param>
+            <param name="exception">Exception that was raised.</param>
+        </member>
+        <member name="M:PluginManager.Abstractions.ILogger.AddToLog(PluginManager.LogLevel@,System.Exception@,System.String)">
+            <summary>
+            Logs an exception with the log file and also creates an additional exception log entry detailing the exception, call stack etc.
+            </summary>
+            <param name="logLevel">LogLevel enum indicating the type of log entry</param>
+            <param name="exception"></param>
+            <param name="data">Additional data to be logged with the exception.</param>
+        </member>
+        <member name="M:PluginManager.Abstractions.ILogger.AddToLog(PluginManager.LogLevel@,System.String@,System.String@)">
+            <summary>
+            Adds data to the log file.
+            </summary>
+            <param name="logLevel">LogLevel enum indicating the type of log entry</param>
+            <param name="module">Name of module creating the log entry</param>
+            <param name="data">Data to be logged.</param>
+        </member>
+        <member name="M:PluginManager.Abstractions.ILogger.AddToLog(PluginManager.LogLevel@,System.String@,System.Exception@)">
+            <summary>
+            Logs an exception with the log file and also creates an additional exception log entry detailing the exception, call stack etc.
+            </summary>
+            <param name="logLevel">LogLevel enum indicating the type of log entry</param>
+            <param name="module">Name of module creating the log entry</param>
+            <param name="exception">Exception that was raised.</param>
+        </member>
+        <member name="M:PluginManager.Abstractions.ILogger.AddToLog(PluginManager.LogLevel@,System.String@,System.Exception@,System.String)">
+            <summary>
+            Logs an exception with the log file and also creates an additional exception log entry detailing the exception, call stack etc.
+            </summary>
+            <param name="logLevel">LogLevel enum indicating the type of log entry</param>
+            <param name="module">Name of module creating the log entry</param>
+            <param name="exception"></param>
+            <param name="data">Additional data to be logged with the exception.</param>
+        </member>
+        <member name="T:PluginManager.Abstractions.IPlugin">
+            <summary>
+            This interface should be implemented by each plugin module, without this interface being 
+            implemented AspNetCore.PluginManager would not automatically load it when the appliction
+            starts.
+            
+            This class will be called by the Plugin Manager and will provide an opportunity for the 
+            plugin to configure its services and application requirements within the MVC application.
+            </summary>
+        </member>
+        <member name="M:PluginManager.Abstractions.IPlugin.Initialise(PluginManager.Abstractions.ILogger)">
+            <summary>
+            Notifies the plugin that the plugin module is being initialised.
+            </summary>
+            <param name="logger">ILogger instance used to hold log data, should the plugin
+            need to log any intialisation data.  Each plugin should store this instance
+            for later use if logging is a requirement.</param>
+        </member>
+        <member name="M:PluginManager.Abstractions.IPlugin.Finalise">
+            <summary>
+            Notifies the plugin module that it is being closed and removed and it should
+            uninitialise any resources that it has used.
+            </summary>
+        </member>
+        <member name="M:PluginManager.Abstractions.IPlugin.ConfigureServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            Provides the plugin module with an opportunity to register any services
+            that it provides.
+            </summary>
+            <param name="services">IServiceCollection instance where further services can be registerd.</param>
+        </member>
+        <member name="T:PluginManager.Abstractions.IPluginClassesService">
+            <summary>
+            IPluginClassesService is implemented by the AspNetCore.PluginManager and is available
+            using DI.
+            
+            This interface provides a conduit for the application or other plugins to quickly 
+            search all plugins for classes that implement or extend a specific class or interface.
+            
+            This can be particularly useful if for instance you define menu items within plugins, 
+            the host can search all plugins for the menu class, and get a list of all objects, 
+            instantiated or not.
+            
+            The plugin can then use the interfaces to dynamically create menu items.
+            </summary>
+        </member>
+        <member name="M:PluginManager.Abstractions.IPluginClassesService.GetPluginClasses``1">
+            <summary>
+            Retrieves a list of instantiated classes that either descend from, or 
+            implement T.
+            
+            If a class requires parameters for instantiating, then they will be sought
+            from the DI container, as long as the parameters are available then an 
+            instance of the class will be created.
+            </summary>
+            <typeparam name="T">Class or interface to be searched for.</typeparam>
+            <returns>List&lt;T&gt;</returns>
+        </member>
+        <member name="M:PluginManager.Abstractions.IPluginClassesService.GetPluginClassTypes``1">
+            <summary>
+            Retrieves a list of classes as types, that either descend from or implement
+            T.
+            
+            This method will not create instances of the classes found, instead it will 
+            return the list and the calling module can choose how it wants to use them.
+            </summary>
+            <typeparam name="T">Class or interface to be searched for.</typeparam>
+            <returns>List&lt;Type&gt;</returns>
+        </member>
+        <member name="T:PluginManager.Abstractions.IPluginHelperService">
+            <summary>
+            Provides a mechanism for the host application or other plugin modules to query the 
+            AspNetCore.PluginManager for specific data.
+            
+            This interface is implemented by the Plugin Manager and registered for use within the 
+            DI contianer when loading.
+            </summary>
+        </member>
+        <member name="M:PluginManager.Abstractions.IPluginHelperService.PluginLoaded(System.String@,System.Int32@)">
+            <summary>
+            Determines whether a plugin module has been loaded.
+            </summary>
+            <param name="pluginLibraryName">The name of the plugin module, i.e. SeoPlugin.dll</param>
+            <param name="version">out int.  Returns the internal plugin version of the plugin if found.</param>
+            <returns>bool</returns>
+        </member>
+        <member name="M:PluginManager.Abstractions.IPluginHelperService.AddAssembly(System.Reflection.Assembly@)">
+            <summary>
+            Dynamically adds a non plugin assembly to the list of managed plugins.
+            </summary>
+            <param name="assembly">Assembly instance of assembly to be added to the list of available plugins.</param>
+            <returns></returns>
+        </member>
+        <member name="T:PluginManager.Abstractions.IPluginModule">
+            <summary>
+            Interface representing a plugin module that has been loaded using PluginManager
+            </summary>
+        </member>
+        <member name="P:PluginManager.Abstractions.IPluginModule.Version">
+            <summary>
+            Plugin version, this is the internal plugin version not the file version
+            </summary>
+            <value>ushort</value>
+        </member>
+        <member name="P:PluginManager.Abstractions.IPluginModule.Module">
+            <summary>
+            Assembly name and location
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:PluginManager.Abstractions.IPluginModule.Assembly">
+            <summary>
+            Assembly instance representing the Plugin module
+            </summary>
+            <value>Assembly</value>
+        </member>
+        <member name="P:PluginManager.Abstractions.IPluginModule.Plugin">
+            <summary>
+            The plugin modules IPlugin interface
+            </summary>
+            <value>IPlugin</value>
+        </member>
+        <member name="P:PluginManager.Abstractions.IPluginModule.FileVersion">
+            <summary>
+            Current version of assembly
+            </summary>
+        </member>
+        <member name="T:PluginManager.Abstractions.IPluginTypesService">
+            <summary>
+            Allows plugin modules to retrieve a list of class Types that implement a specific attribute
+            either at a class or method level.
+            
+            None of the Types returned are instantiated instances.
+            
+            This can only return Types that have been made available from within a plugin module that
+            has been registered with AspNetCore.PluginManager.
+            </summary>
+        </member>
+        <member name="M:PluginManager.Abstractions.IPluginTypesService.GetPluginTypesWithAttribute``1">
+            <summary>
+            Return a list of all class types that implement a specific attribute T at the class
+            or method level.
+            </summary>
+            <typeparam name="T">Attribute that is being sought.</typeparam>
+            <returns>List&lt;Type&gt;</returns>
+        </member>
+        <member name="T:PluginManager.Abstractions.IPluginVersion">
+            <summary>
+            This interface should be implemented by all plugin modules which need to specify which 
+            internal version of the AspNetCore.PluginManager is used.  The default is one (1).
+            </summary>
+        </member>
+        <member name="M:PluginManager.Abstractions.IPluginVersion.GetVersion">
+            <summary>
+            Retrieves the currently supported version.  If the value is outside of the valid range
+            of internal versions that are in use, then the default one (1) is used.
+            </summary>
+            <returns>ushort</returns>
+        </member>
+        <member name="T:PluginManager.Abstractions.ISettingsProvider">
+            <summary>
+            This interface can be used by all plugin modules to load setting and configuration data.
+            
+            The default implementation which is loaded if no other plugin registers an instance uses 
+            appsettings.json to store configuration data to be used by Plugins.
+            
+            An instance of this interface is available via the DI container, any custom implementations
+            must be configured to be used in the DI contaner when being initialised.
+            </summary>
+        </member>
+        <member name="M:PluginManager.Abstractions.ISettingsProvider.GetSettings``1(System.String@,System.String@)">
+            <summary>
+            Retrieves settings for Class T
+            </summary>
+            <typeparam name="T">Class who's settings are being requested.</typeparam>
+            <param name="storage">Name of storage to be used.</param>
+            <param name="sectionName">Name of configuration data required.</param>
+            <returns>Instance of type T initialised with the required settings.</returns>
+        </member>
+        <member name="M:PluginManager.Abstractions.ISettingsProvider.GetSettings``1(System.String@)">
+            <summary>
+            Retrieves settings for Class T
+            </summary>
+            <typeparam name="T">Class who's settings are being requested.</typeparam>
+            <param name="sectionName">Name of configuration data required.</param>
+            <returns>Instance of type T initialised with the required settings.</returns>
+        </member>
+        <member name="T:PluginManager.Abstractions.INotificationListener">
+            <summary>
+            This interface is used to create instances of a class that can register themselves with INotificationService
+            in order to receive Notifications for Inter Plugin Event Notification.
+            
+            An instance of this class will only receive notifications for events to which they register to.
+            </summary>
+        </member>
+        <member name="M:PluginManager.Abstractions.INotificationListener.EventRaised(System.String@,System.Object@,System.Object@,System.Object@)">
+            <summary>
+            This method is used to notify registered listeners that an event has been raised and is generally used in order 
+            to obtain a response.  If called then the active thread is blocked whilst processing is completed and can be 
+            used by callers to ask a question which needs a response.
+            </summary>
+            <param name="eventId">Name of the event being raised.</param>
+            <param name="param1">User defined parameter value, pertinent to the event.</param>
+            <param name="param2">User defined parameter value, pertinent to the event.</param>
+            <param name="result">User defined result to be passed back to the class that raised the event.</param>
+            <returns>bool.  If a listener retures true, then the answer is deemed to be received and no other listeners will 
+            be called and the result will be passed straight back to the class where the event was raised.  If false, the 
+            next listener in the chain will be called.</returns>
+        </member>
+        <member name="M:PluginManager.Abstractions.INotificationListener.EventRaised(System.String@,System.Object@,System.Object@)">
+            <summary>
+            This method is used to notify registered listeners that an event has been raised and is generally used when 
+            no response is required.  If called then the active thread is not blocked whilst processing is completed.
+            </summary>
+            <param name="eventId">Name of the event being raised.</param>
+            <param name="param1">User defined parameter value, pertinent to the event.</param>
+            <param name="param2">User defined parameter value, pertinent to the event.</param>
+        </member>
+        <member name="M:PluginManager.Abstractions.INotificationListener.GetEvents">
+            <summary>
+            This method is called after a call to RegisterListener, if the function returns null, an empty list or a list 
+            which contains an empty or null string then an Invalid Operation exception will be raised.  
+            
+            An instance of this interface can register multiple events.
+            </summary>
+            <returns>List&lt;string&gt;.  List of events which the listener is interested in receiving.</returns>
+        </member>
+        <member name="T:PluginManager.Abstractions.INotificationService">
+            <summary>
+            This interface is designed to allow callers to register and unregister INotificationListener objects and raise events throughout the system.
+            </summary>
+        </member>
+        <member name="M:PluginManager.Abstractions.INotificationService.RaiseEvent(System.String@,System.Object@,System.Object@,System.Object@)">
+            <summary>
+            Raises an event that will be broadcast to all listeners.  This method will send the message within the same thread, this 
+            could incur slight delays whilst the message is being responded to and should be used only when a response is 
+            required for processing purposes.
+            </summary>
+            <param name="eventId">Name of the event being raised.</param>
+            <param name="param1">User defined parameter value, pertinent to the event.</param>
+            <param name="param2">User defined parameter value, pertinent to the event.</param>
+            <param name="result">User defined result obtained by a listener processing the event.</param>
+            <returns></returns>
+        </member>
+        <member name="M:PluginManager.Abstractions.INotificationService.RaiseEvent(System.String@,System.Object@,System.Object@)">
+            <summary>
+            Raises an event that will be broadcast to all listeners.  This method will send the message within a separate 
+            thread, this ensures there are no delays to the current thread whilst the message is being processed and should 
+            be used when no response is required by the class raising the event.
+            </summary>
+            <param name="eventId">Name of the event being raised.</param>
+            <param name="param1">User defined parameter value, pertinent to the event.</param>
+            <param name="param2">User defined parameter value, pertinent to the event.</param>
+        </member>
+        <member name="M:PluginManager.Abstractions.INotificationService.RaiseEvent(System.String@,System.Object@)">
+            <summary>
+            Raises an event that will be broadcast to all listeners.  This method will send the message within a separate 
+            thread, this ensures there are no delays to the current thread whilst the message is being processed and should 
+            be used when no response is required by the class raising the event.
+            </summary>
+            <param name="eventId">Name of the event being raised.</param>
+            <param name="param1">User defined parameter value, pertinent to the event.</param>
+        </member>
+        <member name="M:PluginManager.Abstractions.INotificationService.RaiseEvent(System.String@)">
+            <summary>
+            Raises an event that will be broadcast to all listeners.  This method will send the message within a separate 
+            thread, this ensures there are no delays to the current thread whilst the message is being processed and should 
+            be used when no response is required by the class raising the event.
+            </summary>
+            <param name="eventId">Name of the event being raised.</param>
+        </member>
+        <member name="M:PluginManager.Abstractions.INotificationService.RegisterListener(PluginManager.Abstractions.INotificationListener@)">
+            <summary>
+            Registers an INotificationListener for receiving event notifications.
+            </summary>
+            <param name="listener">INotificationListener instance that is being registered.</param>
+            <returns>bool</returns>
+        </member>
+        <member name="M:PluginManager.Abstractions.INotificationService.UnregisterListener(PluginManager.Abstractions.INotificationListener@)">
+            <summary>
+            Unregisters an INotificationListener class from receiving event notifications.
+            </summary>
+            <param name="listener">INotificationListener instance being unregistered.</param>
+            <returns>bool</returns>
+        </member>
+        <member name="F:PluginManager.Internal.Constants.InvalidListener">
+            <summary>
+            Exception message used when registering a INotificationListener with the INotificationService message notifications, when the listener does not provide any event names.
+            </summary>
+        </member>
+        <member name="F:PluginManager.Internal.Constants.InvalidEventName">
+            <summary>
+            Exception message used when registering a INotificationListener with the INotificationService message notifications, when the event name has not been recognised.
+            </summary>
+        </member>
+        <member name="F:PluginManager.Internal.Constants.ThreadNotificationService">
+            <summary>
+            Name of thread used for INotificationService message notifications
+            </summary>
+        </member>
+        <member name="T:PluginManager.LoggerQueueItem">
+            <summary>
+            Log entry item that is held in a queue.
+            
+            The Plugin Manager keeps the last n log entries in a list, these can be retrieved for viewing.
+            </summary>
+        </member>
+        <member name="M:PluginManager.LoggerQueueItem.#ctor(PluginManager.LogLevel@,System.String@)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="logLevel">Current log level</param>
+            <param name="message">Log message</param>
+        </member>
+        <member name="P:PluginManager.LoggerQueueItem.Date">
+            <summary>
+            Date and time the log entry was made
+            </summary>
+            <value>DateTime</value>
+        </member>
+        <member name="P:PluginManager.LoggerQueueItem.Level">
+            <summary>
+            Log level, the severity or log type for the entry.
+            </summary>
+            <value>LogLevel</value>
+        </member>
+        <member name="P:PluginManager.LoggerQueueItem.Message">
+            <summary>
+            The log entry message
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="T:PluginManager.PluginSetting">
+            <summary>
+            Individual plugin module settings, used to define how a plugin is treated by the PluginManager.
+            </summary>
+        </member>
+        <member name="M:PluginManager.PluginSetting.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="M:PluginManager.PluginSetting.#ctor(System.String@)">
+            <summary>
+            Constructor requesting setting for individual plugin module.
+            </summary>
+            <param name="pluginName">Name of plugin module whose settings are requested.</param>
+        </member>
+        <member name="P:PluginManager.PluginSetting.Name">
+            <summary>
+            Name of the plugin module, i.e. MyPlugin.dll
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:PluginManager.PluginSetting.Disabled">
+            <summary>
+            Indicates whether the plugin module is disabled and will not be loaded.
+            </summary>
+            <value>bool</value>
+        </member>
+        <member name="P:PluginManager.PluginSetting.PreventExtractResources">
+            <summary>
+            Prevents PluginManager from extracting resources from the plugin module.
+            
+            If true then no resources will be extracted, this can be usefule if the project has been given to a 
+            web designer and they are making changes and don't want them overridden.
+            </summary>
+            <value>bool</value>
+        </member>
+        <member name="P:PluginManager.PluginSetting.ReplaceExistingResources">
+            <summary>
+            Prevents PluginManager from replacing resources that have previously been extracted from the plugin module.
+            
+            If true then no resources will be extracted, this can be usefule if the project has been given to a 
+            web designer and they are making changes and don't want them overridden.
+            </summary>
+            <value>bool</value>
+        </member>
+        <member name="P:PluginManager.PluginSetting.Version">
+            <summary>
+            Specifies the specific version number of the plugin to be loaded.
+            
+            Use this value should multiple copies of the plugin module be within PluginSearchPath
+            </summary>
+        </member>
+        <member name="T:PluginManager.PluginSettings">
+            <summary>
+            Settings that affect how PluginManager works.
+            </summary>
+        </member>
+        <member name="P:PluginManager.PluginSettings.Disabled">
+            <summary>
+            Opionally disable plugin manager and prevent it from loading any plugins.
+            </summary>
+            <value>bool</value>
+        </member>
+        <member name="P:PluginManager.PluginSettings.PluginPath">
+            <summary>
+            Path where plugin assembly modules are located.
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:PluginManager.PluginSettings.PluginSearchPath">
+            <summary>
+            Root path that is used to search for plugin assembly modules.
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:PluginManager.PluginSettings.SystemFiles">
+            <summary>
+            Root path that will be searched for dll's that can not be found when loading plugin modules.
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:PluginManager.PluginSettings.CreateLocalCopy">
+            <summary>
+            Indicates whether a copy of the plugin will be sent to <seealso cref="P:PluginManager.PluginSettings.LocalCopyPath"/>, where it will be loaded from.
+            </summary>
+            <value>bool</value>
+        </member>
+        <member name="P:PluginManager.PluginSettings.LocalCopyPath">
+            <summary>
+            If CreateLocalCopy is true, this path will be used to store and load the plugins from.
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:PluginManager.PluginSettings.PluginFiles">
+            <summary>
+            User defined list of plugin modules that will be loaded in order prior to generic loading of plugins.
+            
+            If you need to specify the load order of plugins the assembly names (with or without path) need to be included in this list.
+            </summary>
+            <value>List&lt;string&gt;</value>
+        </member>
+        <member name="P:PluginManager.PluginSettings.Plugins">
+            <summary>
+            Individual plugin module settings.
+            </summary>
+            <value>List&lt;PluginSetting&gt;</value>
+        </member>
+    </members>
+</doc>

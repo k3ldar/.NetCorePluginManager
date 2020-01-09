@@ -87,7 +87,7 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(TargetFramework)'=='netcoreapp3.1'">
-    <DocumentationFile>..\..\Docs\XmlFiles\SharedPluginFeatures.xml</DocumentationFile>
+    <DocumentationFile>..\Docs\XmlFiles\SharedPluginFeatures.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>

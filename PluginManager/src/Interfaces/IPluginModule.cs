@@ -30,16 +30,38 @@ using System.Reflection;
 
 namespace PluginManager.Abstractions
 {
+    /// <summary>
+    /// Interface representing a plugin module that has been loaded using PluginManager
+    /// </summary>
     public interface IPluginModule
     {
+        /// <summary>
+        /// Plugin version, this is the internal plugin version not the file version
+        /// </summary>
+        /// <value>ushort</value>
         ushort Version { get; }
 
+        /// <summary>
+        /// Assembly name and location
+        /// </summary>
+        /// <value>string</value>
         string Module { get; }
 
+        /// <summary>
+        /// Assembly instance representing the Plugin module
+        /// </summary>
+        /// <value>Assembly</value>
         Assembly Assembly { get; }
 
+        /// <summary>
+        /// The plugin modules IPlugin interface
+        /// </summary>
+        /// <value>IPlugin</value>
         IPlugin Plugin { get; }
 
+        /// <summary>
+        /// Current version of assembly
+        /// </summary>
         string FileVersion { get; }
     }
 }

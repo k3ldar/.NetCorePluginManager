@@ -30,10 +30,20 @@ using System;
 
 namespace PluginManager
 {
+    /// <summary>
+    /// Log entry item that is held in a queue.
+    /// 
+    /// The Plugin Manager keeps the last n log entries in a list, these can be retrieved for viewing.
+    /// </summary>
     public sealed class LoggerQueueItem
     {
         #region Constructors
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="logLevel">Current log level</param>
+        /// <param name="message">Log message</param>
         public LoggerQueueItem(in LogLevel logLevel, in string message)
         {
             Date = DateTime.Now;
@@ -45,10 +55,22 @@ namespace PluginManager
 
         #region Properties
 
+        /// <summary>
+        /// Date and time the log entry was made
+        /// </summary>
+        /// <value>DateTime</value>
         public DateTime Date { get; private set; }
 
+        /// <summary>
+        /// Log level, the severity or log type for the entry.
+        /// </summary>
+        /// <value>LogLevel</value>
         public LogLevel Level { get; private set; }
 
+        /// <summary>
+        /// The log entry message
+        /// </summary>
+        /// <value>string</value>
         public string Message { get; private set; }
 
         #endregion Properties

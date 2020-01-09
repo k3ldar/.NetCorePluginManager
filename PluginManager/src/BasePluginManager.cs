@@ -64,6 +64,9 @@ namespace PluginManager
 
         #region Constructors / Destructors
 
+        /// <summary>
+        /// Internal constructor, used internally by the BasePluginManager to initialise the class internals
+        /// </summary>
         private BasePluginManager()
         {
             _plugins = new Dictionary<string, IPluginModule>();
@@ -71,6 +74,11 @@ namespace PluginManager
             _disposed = false;
         }
 
+        /// <summary>
+        /// Default constructor
+        /// </summary>
+        /// <param name="configuration">Plugin configuration</param>
+        /// <param name="pluginSettings">Plugin Settings</param>
         public BasePluginManager(in PluginManagerConfiguration configuration, in PluginSettings pluginSettings)
             : this()
         {
@@ -91,6 +99,9 @@ namespace PluginManager
             PluginLoad(Assembly.GetEntryAssembly(), String.Empty, false);
         }
 
+        /// <summary>
+        /// Destructor
+        /// </summary>
         ~BasePluginManager()
         {
             if (!_disposed)
@@ -103,6 +114,10 @@ namespace PluginManager
 
         #region Properties
 
+        /// <summary>
+        /// Internal property for retrieving the application defined root path
+        /// </summary>
+        /// <value>string</value>
         internal string RootPath
         {
             get
@@ -111,26 +126,62 @@ namespace PluginManager
             }
         }
 
+        /// <summary>
+        /// Protected ILogger instance that can be retrieved via a descendant class
+        /// </summary>
         protected ILogger Logger { get; private set; }
 
         #endregion Properties
 
         #region Abstract Methods
 
+        /// <summary>
+        /// Indicates that a plugin is about to be loaded.
+        /// </summary>
+        /// <param name="pluginFile">Assembly of the plugin that is about to load.</param>
         protected abstract void PluginLoading(in Assembly pluginFile);
 
+        /// <summary>
+        /// Indicates a plugin has been loaded.
+        /// </summary>
+        /// <param name="pluginFile">Assembly of the plugin that is about to load.</param>
         protected abstract void PluginLoaded(in Assembly pluginFile);
 
+        /// <summary>
+        /// Indicates that the plugin module has been initialised.
+        /// </summary>
+        /// <param name="pluginModule">IPluginModule instance for the plugin that has been loaded.</param>
         protected abstract void PluginInitialised(in IPluginModule pluginModule);
 
+        /// <summary>
+        /// Indicates that the plugin module has been configured.
+        /// </summary>
+        /// <param name="pluginModule">IPluginModule instance for the plugin that has been configured.</param>
         protected abstract void PluginConfigured(in IPluginModule pluginModule);
 
+        /// <summary>
+        /// Provides an opportunity for the PluginManager descendant to pre configure plugin modules, if desired.
+        /// </summary>
+        /// <param name="serviceProvider">IServiceCollection instance that can be used for pre configuration.</param>
         protected abstract void PreConfigurePluginServices(in IServiceCollection serviceProvider);
 
+        /// <summary>
+        /// Provides an opportunity for the PluginManager descendant to post configure plugin modules, if desired.
+        /// </summary>
+        /// <param name="serviceProvider">IServiceCollection instance that can be used for post configuration.</param>
         protected abstract void PostConfigurePluginServices(in IServiceCollection serviceProvider);
 
+        /// <summary>
+        /// Provides an opportunity for the PluginManager descendant to validate whether a resource can be extracted from within a plugin module.
+        /// </summary>
+        /// <param name="resourceName">string name of the resource to be extracted.</param>
+        /// <returns></returns>
         protected abstract bool CanExtractResource(in string resourceName);
 
+        /// <summary>
+        /// Provides an opportunity for the PluginManager descendant to modify the name of the resource being extracted.
+        /// </summary>
+        /// <param name="resourceName">string name of the resource to be extracted.</param>
         protected abstract void ModifyPluginResourceName(ref string resourceName);
 
         #endregion Abstract Methods
@@ -480,6 +531,12 @@ namespace PluginManager
             return false;
         }
 
+        /// <summary>
+        /// Allows plugin descendents to load an Assembly, even if it is not a true plugin module, this will ensure
+        /// it's classes and types can be found with other searches in other ways like when using IPluginClassesService etc.
+        /// </summary>
+        /// <param name="assembly"></param>
+        /// <returns></returns>
         public DynamicLoadResult AddAssembly(in Assembly assembly)
         {
             foreach (KeyValuePair<string, IPluginModule> plugin in _plugins)

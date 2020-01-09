@@ -394,6 +394,23 @@
             </summary>
             <value>string</value>
         </member>
+        <member name="P:SharedPluginFeatures.BaseModelData.CanManageSeoData">
+            <summary>
+            Indicates whether the user can manage Seo data.
+            </summary>
+        </member>
+        <member name="M:SharedPluginFeatures.BaseModelData.ReplaceBreadcrumbs(System.Collections.Generic.List{SharedPluginFeatures.BreadcrumbItem})">
+            <summary>
+            Allows the breadcrumbs to be replaced, should they be manually updated for routes with parameters.
+            </summary>
+            <param name="breadcrumbs">New list of breadcrumbs</param>
+        </member>
+        <member name="M:SharedPluginFeatures.BaseModelData.ReplaceCartSummary(SharedPluginFeatures.ShoppingCartSummary)">
+            <summary>
+            Allows the shopping cart summary to be replaced.
+            </summary>
+            <param name="shoppingCartSummary"></param>
+        </member>
         <member name="T:SharedPluginFeatures.Breadcrumb">
             <summary>
             This class is used to contain basic breadcrumb data.
@@ -785,6 +802,68 @@
             Three letter code depicting the currency used for the cart.
             </summary>
         </member>
+        <member name="T:SharedPluginFeatures.SitemapItem">
+            <summary>
+            Interface for an individual sitemap item.
+            </summary>
+        </member>
+        <member name="M:SharedPluginFeatures.SitemapItem.#ctor(System.Uri,SharedPluginFeatures.SitemapChangeFrequency)">
+            <summary>
+            Constructor for item with no priority or modification date
+            </summary>
+            <param name="location">Partial or full uri</param>
+            <param name="changeFrequency">Change frequency</param>
+        </member>
+        <member name="M:SharedPluginFeatures.SitemapItem.#ctor(System.Uri,SharedPluginFeatures.SitemapChangeFrequency,System.DateTime)">
+            <summary>
+            Constructor for item with no priority
+            </summary>
+            <param name="location">Partial or full uri</param>
+            <param name="changeFrequency">Change frequency</param>
+            <param name="lastModified">Date and time last modified</param>
+        </member>
+        <member name="M:SharedPluginFeatures.SitemapItem.#ctor(System.Uri,SharedPluginFeatures.SitemapChangeFrequency,System.Decimal)">
+            <summary>
+            Constructor for item with no last modified date
+            </summary>
+            <param name="location">Partial or full uri</param>
+            <param name="changeFrequency">Change frequency</param>
+            <param name="priority">Priority for item compared to other items</param>
+        </member>
+        <member name="M:SharedPluginFeatures.SitemapItem.#ctor(System.Uri,SharedPluginFeatures.SitemapChangeFrequency,System.Nullable{System.Decimal},System.Nullable{System.DateTime})">
+            <summary>
+            Constructor for items with priority and last modified date
+            </summary>
+            <param name="location">Partial or full uri</param>
+            <param name="changeFrequency">Change frequency</param>
+            <param name="priority">Priority for item compared to other items</param>
+            <param name="lastModified">Date and time last modified</param>
+        </member>
+        <member name="P:SharedPluginFeatures.SitemapItem.Location">
+            <summary>
+            The url for the sitemap item, this can be a full or partial uri
+            </summary>
+            <value>Uri</value>
+        </member>
+        <member name="P:SharedPluginFeatures.SitemapItem.LastModified">
+            <summary>
+            Date/time the item was last modified, this can be null
+            </summary>
+            <value>DateTime?</value>
+        </member>
+        <member name="P:SharedPluginFeatures.SitemapItem.ChangeFrequency">
+            <summary>
+            The frequency at which the item is updated
+            </summary>
+            <value>SitemapChangeFrequency</value>
+        </member>
+        <member name="P:SharedPluginFeatures.SitemapItem.Priority">
+            <summary>
+            The priority of this item in comparison to other sitemap items.
+            
+            This value must be between 0.0 and 1.0, if null a default value of 0.5 will be used.
+            </summary>
+        </member>
         <member name="T:SharedPluginFeatures.StopWatchTimer">
             <summary>
             Stopwatch Timer is used to automatically collect and generate timing data accurate to milliseconds.
@@ -807,6 +886,28 @@
             <summary>
             Dispose method which ensures resources are disposed of and timing data is recorded.
             </summary>
+        </member>
+        <member name="T:SharedPluginFeatures.StringModel">
+            <summary>
+            Simple model for passing a single string to a view
+            </summary>
+        </member>
+        <member name="M:SharedPluginFeatures.StringModel.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="M:SharedPluginFeatures.StringModel.#ctor(System.String@)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="value">Value of the string to be passed to a view.</param>
+        </member>
+        <member name="P:SharedPluginFeatures.StringModel.Value">
+            <summary>
+            Value to be passed to a view.
+            </summary>
+            <value>string</value>
         </member>
         <member name="T:SharedPluginFeatures.SystemAdminMainMenu">
             <summary>
@@ -934,11 +1035,22 @@
             </summary>
             <value>decimal</value>
         </member>
+        <member name="P:SharedPluginFeatures.Timings.TrimmedAverage">
+            <summary>
+            Calculates the trimmed average, by removing the highest and lowest scores before averaging
+            </summary>
+        </member>
         <member name="P:SharedPluginFeatures.Timings.Total">
             <summary>
             Returns the total number of requests.
             </summary>
             <value>long</value>
+        </member>
+        <member name="P:SharedPluginFeatures.Timings.DecimalPlaces">
+            <summary>
+            Number of decimal places the results should be rounded to, default is 5
+            </summary>
+            <value>byte</value>
         </member>
         <member name="M:SharedPluginFeatures.Timings.Increment(System.Diagnostics.Stopwatch@)">
             <summary>
@@ -948,9 +1060,9 @@
         </member>
         <member name="M:SharedPluginFeatures.Timings.Increment(System.Int64@)">
             <summary>
-            Increments the total milliseconds
+            Increments the total ticks
             </summary>
-            <param name="totalMilliseconds">Total number of milliseconds to increment by.</param>
+            <param name="totalTicks">Total number of ticks to increment by.</param>
         </member>
         <member name="T:SharedPluginFeatures.Constants">
             <summary>
@@ -1032,6 +1144,11 @@
             Default static file extensions
             </summary>
         </member>
+        <member name="F:SharedPluginFeatures.Constants.ViewsFileExtension">
+            <summary>
+            File Extension for a compiled view assembly.
+            </summary>
+        </member>
         <member name="F:SharedPluginFeatures.Constants.PageReferer">
             <summary>
             Page referrer constant
@@ -1087,16 +1204,6 @@
             Exception text used to raise an exception if their is a problem recursively obtaining breadcrumb results for a route.
             </summary>
         </member>
-        <member name="F:SharedPluginFeatures.Constants.InvalidListener">
-            <summary>
-            Exception message used when registering a INotificationListener with the INotificationService message notifications, when the listener does not provide any event names.
-            </summary>
-        </member>
-        <member name="F:SharedPluginFeatures.Constants.InvalidEventName">
-            <summary>
-            Exception message used when registering a INotificationListener with the INotificationService message notifications, when the event name has not been recognised.
-            </summary>
-        </member>
         <member name="F:SharedPluginFeatures.Constants.EventNameNotRegistered">
             <summary>
             Exception message used when registering a INotificationListener with the INotificationService message notifications, when the event name has not been registered.
@@ -1110,11 +1217,6 @@
         <member name="F:SharedPluginFeatures.Constants.CurrencyCodeDefault">
             <summary>
             Default currency code used when no currency code is supplied
-            </summary>
-        </member>
-        <member name="F:SharedPluginFeatures.Constants.ThreadNotificationService">
-            <summary>
-            Name of thread used for INotificationService message notifications
             </summary>
         </member>
         <member name="F:SharedPluginFeatures.Constants.DocumentationFileCache">
@@ -1137,6 +1239,11 @@
             Notification event name for obtaining GeoIp record count.
             </summary>
         </member>
+        <member name="F:SharedPluginFeatures.Constants.NotificationSitemapNames">
+            <summary>
+            Name of sitemap listener
+            </summary>
+        </member>
         <member name="F:SharedPluginFeatures.Constants.CacheNameDefault">
             <summary>
             Name of the default cache manager.
@@ -1157,6 +1264,16 @@
             Name of the permanent cache manager.
             </summary>
         </member>
+        <member name="F:SharedPluginFeatures.Constants.CacheSitemaps">
+            <summary>
+            Name of the Sitemap  cache
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Constants.BaseSitemap">
+            <summary>
+            Filename of the base sitemap name
+            </summary>
+        </member>
         <member name="F:SharedPluginFeatures.Constants.ReturnUrl">
             <summary>
             Name of the url to return to in the event of a 403 error.
@@ -1167,111 +1284,144 @@
             Name of the thread that loads default documentation
             </summary>
         </member>
+        <member name="F:SharedPluginFeatures.Constants.ForwardForHeader">
+            <summary>
+            Defines the names of the forward for header, should the request be received via a proxy.
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Constants.TempPluginPath">
+            <summary>
+            Name of the folder that will contain copies of the plugin that will be loaded.
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Constants.PaginationStart">
+            <summary>
+            Internally used Pagination Start
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Constants.PaginationEnd">
+            <summary>
+            Internally used Pagination End
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Constants.PaginationPrevDisabled">
+            <summary>
+            Internally used Pagination Previous Disabled
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Constants.PaginationPrevEnabled">
+            <summary>
+            Internally used Pagination Previous Enabled
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Constants.PaginationNextDisabled">
+            <summary>
+            Internally used Pagination Next Disabled
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Constants.PaginationNext">
+            <summary>
+            Internally used Pagination Next Enabled
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Constants.PaginationPageActive">
+            <summary>
+            Internally used Pagination Active Page
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Constants.PaginationPage">
+            <summary>
+            Internally used Pagination Page
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Constants.W3CDateFormat">
+            <summary>
+            Date format for W3C string conversioni
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Constants.PolicyNameBlogCreate">
+            <summary>
+            Name of Policy for creating blogs
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Constants.PolicyNameBlogRespond">
+            <summary>
+            Name of Policy for responding to blogs
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Constants.PolicyNameAlterSeoData">
+            <summary>
+            Name of Policy for altering Seo data on pages
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Constants.PolicyNameManagePermissions">
+            <summary>
+            Name of Policy for managing user permissions and claims
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Constants.PolicyNameStaff">
+            <summary>
+            Name of policy for members of staff
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Constants.ClaimNameAdministrator">
+            <summary>
+            Claim name for administrators
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Constants.ClaimNameStaff">
+            <summary>
+            Claim name for staff members
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Constants.ClaimNameManageSeo">
+            <summary>
+            Name of claim for managing Seo data
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Constants.ClaimNameCreateBlog">
+            <summary>
+            Name of claim for creating blogs
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Constants.ClaimNameUsername">
+            <summary>
+            Name of claim for user name
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Constants.ClaimNameUserEmail">
+            <summary>
+            Name of claim for user email
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Constants.ClaimNameUserId">
+            <summary>
+            Name of claim for user id
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Constants.ClaimNameUserPermissions">
+            <summary>
+            Name of claim for managing user permissions
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Constants.ClaimIdentityUser">
+            <summary>
+            Name of claim identity for user claims
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Constants.ClaimIdentityBlog">
+            <summary>
+            Name of claim identity for blog claims
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Constants.ClaimIdentityWebsite">
+            <summary>
+            Name of claim identity for website
+            </summary>
+        </member>
         <member name="T:SharedPluginFeatures.Enums">
             <summary>
             Standard Enum values shared across all plugin modules.
-            </summary>
-        </member>
-        <member name="T:SharedPluginFeatures.Enums.LogLevel">
-            <summary>
-            Log Levels, defines the type of log entry being made by ILogger interface.
-            </summary>
-        </member>
-        <member name="F:SharedPluginFeatures.Enums.LogLevel.Information">
-            <summary>
-            Log entry is information only.
-            </summary>
-        </member>
-        <member name="F:SharedPluginFeatures.Enums.LogLevel.Warning">
-            <summary>
-            Log entry is a warning condition.
-            </summary>
-        </member>
-        <member name="F:SharedPluginFeatures.Enums.LogLevel.Error">
-            <summary>
-            Log entry represents an error that has occurred.
-            </summary>
-        </member>
-        <member name="F:SharedPluginFeatures.Enums.LogLevel.Critical">
-            <summary>
-            Log entry is a critical error within the system.
-            </summary>
-        </member>
-        <member name="F:SharedPluginFeatures.Enums.LogLevel.PluginLoadSuccess">
-            <summary>
-            Log entry is informing that a plugin module has been successfully loaded.
-            </summary>
-        </member>
-        <member name="F:SharedPluginFeatures.Enums.LogLevel.PluginLoadFailed">
-            <summary>
-            Log entry is informing that a plugin module has failed to load.
-            </summary>
-        </member>
-        <member name="F:SharedPluginFeatures.Enums.LogLevel.PluginLoadError">
-            <summary>
-            Log entry is informing that a generic error occurred when loading a plugin module.
-            </summary>
-        </member>
-        <member name="F:SharedPluginFeatures.Enums.LogLevel.PluginConfigureError">
-            <summary>
-            Log entry is informing that there is a configuration error with a plugin module.
-            </summary>
-        </member>
-        <member name="F:SharedPluginFeatures.Enums.LogLevel.IpRestricted">
-            <summary>
-            Log entry informing that an Ip address has had restriction imposed upon it within the RestrictIp.Plugin module.
-            </summary>
-        </member>
-        <member name="F:SharedPluginFeatures.Enums.LogLevel.IpRestrictedError">
-            <summary>
-            Log entry informing that an error occurred when imposing a restriction upon an Ip address within the RestrictIp.Plugin module.
-            </summary>
-        </member>
-        <member name="F:SharedPluginFeatures.Enums.LogLevel.UserSessionManagerError">
-            <summary>
-            Indicates that an error occurred within the UserSessionMiddleware.Plugin module.
-            </summary>
-        </member>
-        <member name="F:SharedPluginFeatures.Enums.LogLevel.SpiderError">
-            <summary>
-            Indicates that an error occurred within Spider.Plugin module.
-            </summary>
-        </member>
-        <member name="F:SharedPluginFeatures.Enums.LogLevel.SpiderRouteError">
-            <summary>
-            Indicates that an there is an error condition for a route within Spider.Plugin module.
-            </summary>
-        </member>
-        <member name="F:SharedPluginFeatures.Enums.LogLevel.CacheControlError">
-            <summary>
-            Indicates that an error occurred within CacheControl.Plugin module.
-            </summary>
-        </member>
-        <member name="F:SharedPluginFeatures.Enums.LogLevel.GeoIpStackError">
-            <summary>
-            Indicates that an error took place within the GeoIpPlugin module whilst implementing GeoIpProvider.IpStack.
-            </summary>
-        </member>
-        <member name="F:SharedPluginFeatures.Enums.LogLevel.ThreadManager">
-            <summary>
-            The event was raised by the ThreadManager
-            </summary>
-        </member>
-        <member name="F:SharedPluginFeatures.Enums.LogLevel.Localization">
-            <summary>
-            Indicates that an error occurred when translating a string using Localization.Plugin.
-            
-            This is usually an indication that a localized string is missing.
-            </summary>
-        </member>
-        <member name="F:SharedPluginFeatures.Enums.LogLevel.BreadcrumbError">
-            <summary>
-            Indicates that an error took place when creating the breadcrumb for a route within the Breadcrumb.Plugin module.
-            </summary>
-        </member>
-        <member name="F:SharedPluginFeatures.Enums.LogLevel.SeoError">
-            <summary>
-            Indicates that an error took place within SeoPlugin module.
             </summary>
         </member>
         <member name="T:SharedPluginFeatures.Enums.GeoIpProvider">
@@ -1341,6 +1491,11 @@
             Data to be shown within SystemAdmin.Plugin is raw text formatted using html.
             </summary>
         </member>
+        <member name="F:SharedPluginFeatures.Enums.SystemAdminMenuType.View">
+            <summary>
+            Data to be shown within the plugin comes from a view
+            </summary>
+        </member>
         <member name="T:SharedPluginFeatures.Enums.ValidateRequestResult">
             <summary>
             Validate Request Results
@@ -1406,24 +1561,44 @@
             A Ban has been requested on the IP Address
             </summary>
         </member>
-        <member name="T:SharedPluginFeatures.DynamicLoadResult">
+        <member name="T:SharedPluginFeatures.SitemapChangeFrequency">
             <summary>
-            Result enum for dynamically adding plugin modules using IPluginHelperService interface.
+            The frequency of which a sitemap item is updated.
             </summary>
         </member>
-        <member name="F:SharedPluginFeatures.DynamicLoadResult.Success">
+        <member name="F:SharedPluginFeatures.SitemapChangeFrequency.Always">
             <summary>
-            Plugin module was dynamically added to the list of available plugins.
+            The item is continually updated
             </summary>
         </member>
-        <member name="F:SharedPluginFeatures.DynamicLoadResult.Failed">
+        <member name="F:SharedPluginFeatures.SitemapChangeFrequency.Hourly">
             <summary>
-            Failed to load the module as an available plugin.
+            The item is updated on an hourly basis
             </summary>
         </member>
-        <member name="F:SharedPluginFeatures.DynamicLoadResult.AlreadyLoaded">
+        <member name="F:SharedPluginFeatures.SitemapChangeFrequency.Daily">
             <summary>
-            The module was already loaded as a plugin module within the PluginManager.
+            The item is updated daily
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.SitemapChangeFrequency.Weekly">
+            <summary>
+            The item is updated on a weekly basis
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.SitemapChangeFrequency.Monthly">
+            <summary>
+            The item is updated on a monthly basis
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.SitemapChangeFrequency.Yearly">
+            <summary>
+            The item is updated very rarely
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.SitemapChangeFrequency.Never">
+            <summary>
+            The item is archived and will never be updated again
             </summary>
         </member>
         <member name="T:SharedPluginFeatures.HtmlHelper">
@@ -1473,6 +1648,56 @@
             <param name="route">Route the breadcrumb will use.</param>
             <param name="parentRoute">Route used by the parent breadcrumb.</param>
             <param name="hasParameters">Indicates that the route contains parameters.</param>
+        </member>
+        <member name="T:SharedPluginFeatures.IClaimsProvider">
+            <summary>
+            IClaimsProvider returns individual claims and claims principals for a user
+            </summary>
+        </member>
+        <member name="M:SharedPluginFeatures.IClaimsProvider.GetUserClaims(System.Int64@)">
+            <summary>
+            Retrieves a dictionary of ClaimsPrincipal, along with a dictionary of principal name/value pairs.
+            </summary>
+            <param name="userId">Unique Id of user whos claims are sought.</param>
+            <returns>IReadOnlyDictionary&lt;string, IReadOnlyDictionary&lt;string, string&gt;&gt;</returns>
+        </member>
+        <member name="M:SharedPluginFeatures.IClaimsProvider.SetClaimsForUser(System.Int64@,System.Collections.Generic.List{System.String}@)">
+            <summary>
+            Sets claims for an individual user.
+            </summary>
+            <param name="id">Id of the user whos claims will be set.</param>
+            <param name="claims">List&lt;string&gt; of claims for the user.</param>
+            <returns>bool</returns>
+        </member>
+        <member name="M:SharedPluginFeatures.IClaimsProvider.GetClaimsForUser(System.Int64@)">
+            <summary>
+            Retrieves a list of all claims for a user.
+            </summary>
+            <param name="id">Id of the user whos claims will be retrieved.</param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedPluginFeatures.IClaimsProvider.GetAuthenticationProperties">
+            <summary>
+            Retrieves default properties to be used with IAuthenticationService interface
+            </summary>
+            <returns>AuthenticationProperties</returns>
+        </member>
+        <member name="M:SharedPluginFeatures.IClaimsProvider.GetAllClaims">
+            <summary>
+            Retrieves a list of all claims within the system
+            </summary>
+            <returns>List&lt;string&gt;</returns>
+        </member>
+        <member name="T:SharedPluginFeatures.IClaimsService">
+            <summary>
+            IClaimsService provides plugins the ability to define new claim names from within plugin modules.
+            </summary>
+        </member>
+        <member name="M:SharedPluginFeatures.IClaimsService.GetClaims">
+            <summary>
+            Retrieves a list of claims provided by the plugin module.
+            </summary>
+            <returns>List&lt;string&gt;</returns>
         </member>
         <member name="T:SharedPluginFeatures.IConfigureApplicationBuilder">
             <summary>
@@ -1698,19 +1923,23 @@
             being configured.
             </summary>
         </member>
-        <member name="M:SharedPluginFeatures.IInitialiseEvents.BeforeConfigure(Microsoft.AspNetCore.Builder.IApplicationBuilder@,Microsoft.AspNetCore.Hosting.IHostingEnvironment@)">
+        <member name="M:SharedPluginFeatures.IInitialiseEvents.BeforeConfigure(Microsoft.AspNetCore.Builder.IApplicationBuilder@)">
             <summary>
             Indicates that the Configure method will be called on IPlugin instances.
             </summary>
             <param name="app">IApplicationBuilder instance.</param>
-            <param name="env">IHostingEnvironment instance.</param>
         </member>
-        <member name="M:SharedPluginFeatures.IInitialiseEvents.AfterConfigure(Microsoft.AspNetCore.Builder.IApplicationBuilder@,Microsoft.AspNetCore.Hosting.IHostingEnvironment@)">
+        <member name="M:SharedPluginFeatures.IInitialiseEvents.AfterConfigure(Microsoft.AspNetCore.Builder.IApplicationBuilder@)">
             <summary>
             Indicates that all plugins have had an opportunity to load configuration data.
             </summary>
             <param name="app">IApplicationBuilder instance.</param>
-            <param name="env">IHostingEnvironment instance.</param>
+        </member>
+        <member name="M:SharedPluginFeatures.IInitialiseEvents.Configure(Microsoft.AspNetCore.Builder.IApplicationBuilder@)">
+            <summary>
+            Indicates that the plugin should configure itself with the ApplicationBuilder
+            </summary>
+            <param name="app"></param>
         </member>
         <member name="M:SharedPluginFeatures.IInitialiseEvents.BeforeConfigureServices(Microsoft.Extensions.DependencyInjection.IServiceCollection@)">
             <summary>
@@ -1810,61 +2039,6 @@
             on the blacklist and further requests will be denied.  If false is returned then
             no further action will be taken.</returns>
         </member>
-        <member name="T:SharedPluginFeatures.ILoadSettingsService">
-            <summary>
-            This interface is used when initially loading the AspNetCore.PluginManager to load 
-            settings it requires.  A custom implementation can be supplied during initialisation
-            of the Plugin Manager which can enable the settings to be loaded from a custom data
-            source.
-            
-            This interface will be used to load PluginSetting and PluginSettings but may be
-            extended in future versions to include other initialisation data.
-            </summary>
-        </member>
-        <member name="M:SharedPluginFeatures.ILoadSettingsService.LoadSettings``1(System.String@,System.String@)">
-            <summary>
-            Requests that setting data be loaded for T, this could be PluginSetting or PluginSettings.
-            </summary>
-            <typeparam name="T">Class type</typeparam>
-            <param name="jsonFile">jsonFile to use, this can be altered for custom implementations.</param>
-            <param name="name">Name of settings to be loaded.</param>
-            <returns>Instance of T</returns>
-        </member>
-        <member name="M:SharedPluginFeatures.ILoadSettingsService.LoadSettings``1(System.String@)">
-            <summary>
-            Requests that setting data be loaded for T, this could be PluginSetting or PluginSettings.
-            </summary>
-            <typeparam name="T">Class type</typeparam>
-            <param name="name">Name of settings to be loaded.</param>
-            <returns>Instance of T</returns>
-        </member>
-        <member name="T:SharedPluginFeatures.ILogger">
-            <summary>
-            Generic interface provided where plugin modules and all other parts of the system can add data to a log file.
-            </summary>
-        </member>
-        <member name="M:SharedPluginFeatures.ILogger.AddToLog(SharedPluginFeatures.Enums.LogLevel@,System.String@)">
-            <summary>
-            Adds data to the log file.
-            </summary>
-            <param name="logLevel">LogLevel enum indicating the type of log entry</param>
-            <param name="data">Data to be logged.</param>
-        </member>
-        <member name="M:SharedPluginFeatures.ILogger.AddToLog(SharedPluginFeatures.Enums.LogLevel@,System.Exception@)">
-            <summary>
-            Logs an exception with the log file and also creates an additional exception log entry detailing the exception, call stack etc.
-            </summary>
-            <param name="logLevel">LogLevel enum indicating the type of log entry</param>
-            <param name="exception">Exception that was raised.</param>
-        </member>
-        <member name="M:SharedPluginFeatures.ILogger.AddToLog(SharedPluginFeatures.Enums.LogLevel@,System.Exception@,System.String)">
-            <summary>
-            Logs an exception with the log file and also creates an additional exception log entry detailing the exception, call stack etc.
-            </summary>
-            <param name="logLevel">LogLevel enum indicating the type of log entry</param>
-            <param name="exception"></param>
-            <param name="data">Additional data to be logged with the exception.</param>
-        </member>
         <member name="T:SharedPluginFeatures.IMemoryCache">
             <summary>
             MemoryCachePlugin implements an instance of IMemoryCache, and add the instance to the DI container.  
@@ -1917,139 +2091,6 @@
             <summary>
             Resets all caches, clears all items.
             </summary>
-        </member>
-        <member name="T:SharedPluginFeatures.IPlugin">
-            <summary>
-            This interface should be implemented by each plugin module, without this interface being 
-            implemented AspNetCore.PluginManager would not automatically load it when the appliction
-            starts.
-            
-            This class will be called by the Plugin Manager and will provide an opportunity for the 
-            plugin to configure its services and application requirements within the MVC application.
-            </summary>
-        </member>
-        <member name="M:SharedPluginFeatures.IPlugin.Initialise(SharedPluginFeatures.ILogger)">
-            <summary>
-            Notifies the plugin that the plugin module is being initialised.
-            </summary>
-            <param name="logger">ILogger instance used to hold log data, should the plugin
-            need to log any intialisation data.  Each plugin should store this instance
-            for later use if logging is a requirement.</param>
-        </member>
-        <member name="M:SharedPluginFeatures.IPlugin.Finalise">
-            <summary>
-            Notifies the plugin module that it is being closed and removed and it should
-            uninitialise any resources that it has used.
-            </summary>
-        </member>
-        <member name="M:SharedPluginFeatures.IPlugin.Configure(Microsoft.AspNetCore.Builder.IApplicationBuilder,Microsoft.AspNetCore.Hosting.IHostingEnvironment)">
-            <summary>
-            Provides the plugin module an opportunity to register application specific 
-            requirements that it provides.
-            </summary>
-            <param name="app">IApplicationBuilder instance.</param>
-            <param name="env">IHostingEnvironment instance.</param>
-        </member>
-        <member name="M:SharedPluginFeatures.IPlugin.ConfigureServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
-            <summary>
-            Provides the plugin module with an opportunity to register any services
-            that it provides.
-            </summary>
-            <param name="services">IServiceCollection instance where further services can be registerd.</param>
-        </member>
-        <member name="T:SharedPluginFeatures.IPluginClassesService">
-            <summary>
-            IPluginClassesService is implemented by the AspNetCore.PluginManager and is available
-            using DI.
-            
-            This interface provides a conduit for the application or other plugins to quickly 
-            search all plugins for classes that implement or extend a specific class or interface.
-            
-            This can be particularly useful if for instance you define menu items within plugins, 
-            the host can search all plugins for the menu class, and get a list of all objects, 
-            instantiated or not.
-            
-            The plugin can then use the interfaces to dynamically create menu items.
-            </summary>
-        </member>
-        <member name="M:SharedPluginFeatures.IPluginClassesService.GetPluginClasses``1">
-            <summary>
-            Retrieves a list of instantiated classes that either descend from, or 
-            implement T.
-            
-            If a class requires parameters for instantiating, then they will be sought
-            from the DI container, as long as the parameters are available then an 
-            instance of the class will be created.
-            </summary>
-            <typeparam name="T">Class or interface to be searched for.</typeparam>
-            <returns>List&lt;T&gt;</returns>
-        </member>
-        <member name="M:SharedPluginFeatures.IPluginClassesService.GetPluginClassTypes``1">
-            <summary>
-            Retrieves a list of classes as types, that either descend from or implement
-            T.
-            
-            This method will not create instances of the classes found, instead it will 
-            return the list and the calling module can choose how it wants to use them.
-            </summary>
-            <typeparam name="T">Class or interface to be searched for.</typeparam>
-            <returns>List&lt;Type&gt;</returns>
-        </member>
-        <member name="T:SharedPluginFeatures.IPluginHelperService">
-            <summary>
-            Provides a mechanism for the host application or other plugin modules to query the 
-            AspNetCore.PluginManager for specific data.
-            
-            This interface is implemented by the Plugin Manager and registered for use within the 
-            DI contianer when loading.
-            </summary>
-        </member>
-        <member name="M:SharedPluginFeatures.IPluginHelperService.PluginLoaded(System.String@,System.Int32@)">
-            <summary>
-            Determines whether a plugin module has been loaded.
-            </summary>
-            <param name="pluginLibraryName">The name of the plugin module, i.e. SeoPlugin.dll</param>
-            <param name="version">out int.  Returns the internal plugin version of the plugin if found.</param>
-            <returns>bool</returns>
-        </member>
-        <member name="M:SharedPluginFeatures.IPluginHelperService.AddAssembly(System.Reflection.Assembly@)">
-            <summary>
-            Dynamically adds a non plugin assembly to the list of managed plugins.
-            </summary>
-            <param name="assembly">Assembly instance of assembly to be added to the list of available plugins.</param>
-            <returns></returns>
-        </member>
-        <member name="T:SharedPluginFeatures.IPluginTypesService">
-            <summary>
-            Allows plugin modules to retrieve a list of class Types that implement a specific attribute
-            either at a class or method level.
-            
-            None of the Types returned are instantiated instances.
-            
-            This can only return Types that have been made available from within a plugin module that
-            has been registered with AspNetCore.PluginManager.
-            </summary>
-        </member>
-        <member name="M:SharedPluginFeatures.IPluginTypesService.GetPluginTypesWithAttribute``1">
-            <summary>
-            Return a list of all class types that implement a specific attribute T at the class
-            or method level.
-            </summary>
-            <typeparam name="T">Attribute that is being sought.</typeparam>
-            <returns>List&lt;Type&gt;</returns>
-        </member>
-        <member name="T:SharedPluginFeatures.IPluginVersion">
-            <summary>
-            This interface should be implemented by all plugin modules which need to specify which 
-            internal version of the AspNetCore.PluginManager is used.  The default is one (1).
-            </summary>
-        </member>
-        <member name="M:SharedPluginFeatures.IPluginVersion.GetVersion">
-            <summary>
-            Retrieves the currently supported version.  If the value is outside of the valid range
-            of internal versions that are in use, then the default one (1) is used.
-            </summary>
-            <returns>ushort</returns>
         </member>
         <member name="T:SharedPluginFeatures.IRouteDataService">
             <summary>
@@ -2151,34 +2192,6 @@
             <param name="keyword">Keywords to be removed.</param>
             <returns>bool if route keywords are removed, otherwise false.</returns>
         </member>
-        <member name="T:SharedPluginFeatures.ISettingsProvider">
-            <summary>
-            This interface can be used by all plugin modules to load setting and configuration data.
-            
-            The default implementation which is loaded if no other plugin registers an instance uses 
-            appsettings.json to store configuration data to be used by Plugins.
-            
-            An instance of this interface is available via the DI container, any custom implementations
-            must be configured to be used in the DI contaner when being initialised.
-            </summary>
-        </member>
-        <member name="M:SharedPluginFeatures.ISettingsProvider.GetSettings``1(System.String@,System.String@)">
-            <summary>
-            Retrieves settings for Class T
-            </summary>
-            <typeparam name="T">Class who's settings are being requested.</typeparam>
-            <param name="storage">Name of storage to be used.</param>
-            <param name="sectionName">Name of configuration data required.</param>
-            <returns>Instance of type T initialised with the required settings.</returns>
-        </member>
-        <member name="M:SharedPluginFeatures.ISettingsProvider.GetSettings``1(System.String@)">
-            <summary>
-            Retrieves settings for Class T
-            </summary>
-            <typeparam name="T">Class who's settings are being requested.</typeparam>
-            <param name="sectionName">Name of configuration data required.</param>
-            <returns>Instance of type T initialised with the required settings.</returns>
-        </member>
         <member name="T:SharedPluginFeatures.ISharedPluginHelper">
             <summary>
             Used as a service class to provide information to utilise specific plugin methods.
@@ -2212,6 +2225,17 @@
             within a users cookie.
             </summary>
             <returns>string</returns>
+        </member>
+        <member name="T:SharedPluginFeatures.ISitemapProvider">
+            <summary>
+            Sitemap provider interface, any plugin that wants to supply sitemap data must implement 
+            an instance of this class
+            </summary>
+        </member>
+        <member name="M:SharedPluginFeatures.ISitemapProvider.Items">
+            <summary>
+            Returns a list of ISitemapItem's provided by the plugin
+            </summary>
         </member>
         <member name="T:SharedPluginFeatures.ISystemAdminHelperService">
             <summary>
@@ -2328,104 +2352,6 @@
             session and page data.
             </summary>
             <param name="userSession">UserSession that has been created.</param>
-        </member>
-        <member name="T:SharedPluginFeatures.INotificationListener">
-            <summary>
-            This interface is used to create instances of a class that can register themselves with INotificationService
-            in order to receive Notifications for Inter Plugin Event Notification.
-            
-            An instance of this class will only receive notifications for events to which they register to.
-            </summary>
-        </member>
-        <member name="M:SharedPluginFeatures.INotificationListener.EventRaised(System.String@,System.Object@,System.Object@,System.Object@)">
-            <summary>
-            This method is used to notify registered listeners that an event has been raised and is generally used in order 
-            to obtain a response.  If called then the active thread is blocked whilst processing is completed and can be 
-            used by callers to ask a question which needs a response.
-            </summary>
-            <param name="eventId">Name of the event being raised.</param>
-            <param name="param1">User defined parameter value, pertinent to the event.</param>
-            <param name="param2">User defined parameter value, pertinent to the event.</param>
-            <param name="result">User defined result to be passed back to the class that raised the event.</param>
-            <returns>bool.  If a listener retures true, then the answer is deemed to be received and no other listeners will 
-            be called and the result will be passed straight back to the class where the event was raised.  If false, the 
-            next listener in the chain will be called.</returns>
-        </member>
-        <member name="M:SharedPluginFeatures.INotificationListener.EventRaised(System.String@,System.Object@,System.Object@)">
-            <summary>
-            This method is used to notify registered listeners that an event has been raised and is generally used when 
-            no response is required.  If called then the active thread is not blocked whilst processing is completed.
-            </summary>
-            <param name="eventId">Name of the event being raised.</param>
-            <param name="param1">User defined parameter value, pertinent to the event.</param>
-            <param name="param2">User defined parameter value, pertinent to the event.</param>
-        </member>
-        <member name="M:SharedPluginFeatures.INotificationListener.GetEvents">
-            <summary>
-            This method is called after a call to RegisterListener, if the function returns null, an empty list or a list 
-            which contains an empty or null string then an Invalid Operation exception will be raised.  
-            
-            An instance of this interface can register multiple events.
-            </summary>
-            <returns>List&lt;string&gt;.  List of events which the listener is interested in receiving.</returns>
-        </member>
-        <member name="T:SharedPluginFeatures.INotificationService">
-            <summary>
-            This interface is designed to allow callers to register and unregister INotificationListener objects and raise events throughout the system.
-            </summary>
-        </member>
-        <member name="M:SharedPluginFeatures.INotificationService.RaiseEvent(System.String@,System.Object@,System.Object@,System.Object@)">
-            <summary>
-            Raises an event that will be broadcast to all listeners.  This method will send the message within the same thread, this 
-            could incur slight delays whilst the message is being responded to and should be used only when a response is 
-            required for processing purposes.
-            </summary>
-            <param name="eventId">Name of the event being raised.</param>
-            <param name="param1">User defined parameter value, pertinent to the event.</param>
-            <param name="param2">User defined parameter value, pertinent to the event.</param>
-            <param name="result">User defined result obtained by a listener processing the event.</param>
-            <returns></returns>
-        </member>
-        <member name="M:SharedPluginFeatures.INotificationService.RaiseEvent(System.String@,System.Object@,System.Object@)">
-            <summary>
-            Raises an event that will be broadcast to all listeners.  This method will send the message within a separate 
-            thread, this ensures there are no delays to the current thread whilst the message is being processed and should 
-            be used when no response is required by the class raising the event.
-            </summary>
-            <param name="eventId">Name of the event being raised.</param>
-            <param name="param1">User defined parameter value, pertinent to the event.</param>
-            <param name="param2">User defined parameter value, pertinent to the event.</param>
-        </member>
-        <member name="M:SharedPluginFeatures.INotificationService.RaiseEvent(System.String@,System.Object@)">
-            <summary>
-            Raises an event that will be broadcast to all listeners.  This method will send the message within a separate 
-            thread, this ensures there are no delays to the current thread whilst the message is being processed and should 
-            be used when no response is required by the class raising the event.
-            </summary>
-            <param name="eventId">Name of the event being raised.</param>
-            <param name="param1">User defined parameter value, pertinent to the event.</param>
-        </member>
-        <member name="M:SharedPluginFeatures.INotificationService.RaiseEvent(System.String@)">
-            <summary>
-            Raises an event that will be broadcast to all listeners.  This method will send the message within a separate 
-            thread, this ensures there are no delays to the current thread whilst the message is being processed and should 
-            be used when no response is required by the class raising the event.
-            </summary>
-            <param name="eventId">Name of the event being raised.</param>
-        </member>
-        <member name="M:SharedPluginFeatures.INotificationService.RegisterListener(SharedPluginFeatures.INotificationListener@)">
-            <summary>
-            Registers an INotificationListener for receiving event notifications.
-            </summary>
-            <param name="listener">INotificationListener instance that is being registered.</param>
-            <returns>bool</returns>
-        </member>
-        <member name="M:SharedPluginFeatures.INotificationService.UnregisterListener(SharedPluginFeatures.INotificationListener@)">
-            <summary>
-            Unregisters an INotificationListener class from receiving event notifications.
-            </summary>
-            <param name="listener">INotificationListener instance being unregistered.</param>
-            <returns>bool</returns>
         </member>
         <member name="T:SharedPluginFeatures.BaseController">
             <summary>
@@ -2602,6 +2528,18 @@
             </summary>
             <returns>string</returns>
         </member>
+        <member name="M:SharedPluginFeatures.BaseController.GetViewName(System.String@,System.String@)">
+            <summary>
+            Creates the name of a view based on the controller and view name.
+            
+            i.e. if the controller is BlogController and the view name is Index it returns:
+            
+            /BlogController/Index.cshtml
+            </summary>
+            <param name="controller">Name of the controller.</param>
+            <param name="viewName">Name of the view.</param>
+            <returns></returns>
+        </member>
         <member name="T:SharedPluginFeatures.BaseMiddleware">
             <summary>
             Generic functions that can be used by middleware plugins to obtain generic information 
@@ -2614,6 +2552,13 @@
             </summary>
             <param name="context">Valid HttpContext for the request.</param>
             <returns>Uri</returns>
+        </member>
+        <member name="M:SharedPluginFeatures.BaseMiddleware.GetHost(Microsoft.AspNetCore.Http.HttpContext@)">
+            <summary>
+            Retreives the host name for the context.
+            </summary>
+            <param name="context">Valid HttpContext for the request.</param>
+            <returns>string</returns>
         </member>
         <member name="M:SharedPluginFeatures.BaseMiddleware.GetTempData(Microsoft.AspNetCore.Http.HttpContext@)">
             <summary>
@@ -2739,14 +2684,6 @@
             Default constructor
             </summary>
         </member>
-        <member name="M:SharedPluginFeatures.BaseModel.#ctor(System.Collections.Generic.List{SharedPluginFeatures.BreadcrumbItem}@,SharedPluginFeatures.ShoppingCartSummary@)">
-            <summary>
-            Constructor allowing developer to pass in a list of current BreadcrumbItem classes for
-            the current request along with a ShoppingCartSummary instance.
-            </summary>
-            <param name="breadcrumbs">List&lt;BreadCrumbItem&gt; list of breadcrumbs for the current route.</param>
-            <param name="cartSummary">ShoppingCartSummary instance with shopping cart details.</param>
-        </member>
         <member name="M:SharedPluginFeatures.BaseModel.#ctor(SharedPluginFeatures.BaseModelData@)">
             <summary>
             Constructor allowing developer to pass all generic base model data in one pass.
@@ -2817,6 +2754,11 @@
             Contains Seo description to be inserted into a web page.
             </summary>
             <value>string</value>
+        </member>
+        <member name="P:SharedPluginFeatures.BaseModel.CanManageSeoData">
+            <summary>
+            Indicates the user can manage Seo data.
+            </summary>
         </member>
     </members>
 </doc>
