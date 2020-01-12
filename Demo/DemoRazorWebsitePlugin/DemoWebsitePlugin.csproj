@@ -4,7 +4,7 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <LangVersion>latest</LangVersion>
     <RazorCompileOnBuild>false</RazorCompileOnBuild>
-    <RazorCompileOnPublish>true</RazorCompileOnPublish>
+    <RazorCompileOnPublish>false</RazorCompileOnPublish>
     <PreserveCompilationContext>true</PreserveCompilationContext>
     <Version>3.2.0</Version>
   </PropertyGroup>
