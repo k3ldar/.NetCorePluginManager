@@ -81,6 +81,7 @@ namespace AspNetCore.PluginManager
             _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
             _logger = new Classes.LoggerStatistics();
             Classes.LoggerStatistics.SetLogger(configuration.Logger);
+            configuration.ReplaceLogger(_logger);
 
 
             try
@@ -100,6 +101,7 @@ namespace AspNetCore.PluginManager
                 }
 
                 _pluginManagerInstance = new NetCorePluginManager(configuration, _pluginSettings);
+
 
                 if (_rootPath.StartsWith(Directory.GetCurrentDirectory(), StringComparison.CurrentCultureIgnoreCase))
                     _rootPath = Directory.GetCurrentDirectory();

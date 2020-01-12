@@ -135,5 +135,18 @@ namespace PluginManager
         }
 
         #endregion Properties
+
+        #region Methods
+
+        /// <summary>
+        /// Allow the ILogger instance to be replaced, for internal use only.
+        /// </summary>
+        /// <param name="logger"></param>
+        public void ReplaceLogger(in ILogger logger)
+        {
+            Logger = logger ?? throw new ArgumentNullException(nameof(logger));
+        }
+
+        #endregion Methods
     }
 }

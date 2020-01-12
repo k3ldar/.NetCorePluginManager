@@ -168,7 +168,7 @@ namespace AspNetCore.PluginManager.Classes
                 _queue.Enqueue(loggerQueueItem);
             }
 
-            _logger.AddToLog(logLevel, data);
+            _logger.AddToLog(logLevel, module, data);
         }
 
         public void AddToLog(in LogLevel logLevel, in string module, in Exception exception)
@@ -204,7 +204,7 @@ namespace AspNetCore.PluginManager.Classes
                 _queue.Enqueue(loggerQueueItem);
             }
 
-            _logger.AddToLog(logLevel, exception, data);
+            _logger.AddToLog(logLevel, module, exception, data);
         }
 
         #endregion ILogger Methods
