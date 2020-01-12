@@ -282,6 +282,12 @@
             </summary>
             <value>string</value>
         </member>
+        <member name="M:PluginManager.PluginManagerConfiguration.ReplaceLogger(PluginManager.Abstractions.ILogger@)">
+            <summary>
+            Allow the ILogger instance to be replaced, for internal use only.
+            </summary>
+            <param name="logger"></param>
+        </member>
         <member name="T:PluginManager.LogLevel">
             <summary>
             Log Levels, defines the type of log entry being made by ILogger interface.
@@ -888,6 +894,36 @@
             Individual plugin module settings.
             </summary>
             <value>List&lt;PluginSetting&gt;</value>
+        </member>
+        <member name="T:PluginManager.Test.UnitTestHelper">
+            <summary>
+            This class is only available for Debug builds and is designed to retrieve classes
+            that are normally only available through DI
+            </summary>
+        </member>
+        <member name="M:PluginManager.Test.UnitTestHelper.GetPluginServices">
+            <summary>
+            Returns an instance of IPluginHelperService for unit tests
+            </summary>
+            <returns>IPluginHelperService</returns>
+        </member>
+        <member name="M:PluginManager.Test.UnitTestHelper.GetPluginClassesService">
+            <summary>
+            Returns an instance of IPluginClassesService for unit tests
+            </summary>
+            <returns>IPluginClassesService</returns>
+        </member>
+        <member name="M:PluginManager.Test.UnitTestHelper.GetPluginTypesService">
+            <summary>
+            Returns an instance of IPluginTypesService for unit tests
+            </summary>
+            <returns>IPluginTypesService</returns>
+        </member>
+        <member name="M:PluginManager.Test.UnitTestHelper.GetNotificationService">
+            <summary>
+            Returns an instance of INotificationService for unit tests
+            </summary>
+            <returns>INotificationService</returns>
         </member>
     </members>
 </doc>

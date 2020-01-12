@@ -72,6 +72,36 @@
             </summary>
             <returns>string</returns>
         </member>
+        <member name="T:AspNetCore.PluginManager.UnitTestHelper">
+            <summary>
+            This class is only available for Debug builds and is designed to retrieve classes
+            that are normally only available through DI
+            </summary>
+        </member>
+        <member name="M:AspNetCore.PluginManager.UnitTestHelper.GetPluginServices">
+            <summary>
+            Returns an instance of IPluginHelperService for unit tests
+            </summary>
+            <returns>IPluginHelperService</returns>
+        </member>
+        <member name="M:AspNetCore.PluginManager.UnitTestHelper.GetPluginClassesService">
+            <summary>
+            Returns an instance of IPluginClassesService for unit tests
+            </summary>
+            <returns>IPluginClassesService</returns>
+        </member>
+        <member name="M:AspNetCore.PluginManager.UnitTestHelper.GetPluginTypesService">
+            <summary>
+            Returns an instance of IPluginTypesService for unit tests
+            </summary>
+            <returns>IPluginTypesService</returns>
+        </member>
+        <member name="M:AspNetCore.PluginManager.UnitTestHelper.GetNotificationService">
+            <summary>
+            Returns an instance of INotificationService for unit tests
+            </summary>
+            <returns>INotificationService</returns>
+        </member>
         <member name="T:AspNetCore.PluginManager.UsePluginManagerExtender">
             <summary>
             Plugin Manager extender class.
