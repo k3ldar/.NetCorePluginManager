@@ -13,7 +13,7 @@
  *
  *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
- *  Product:  AspNetCore.PluginManager.Tests
+ *  Product:  PluginManager.Tests
  *  
  *  File: PluginServicesTests.cs
  *
@@ -27,25 +27,32 @@ using System.Reflection;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-using PluginManager;
 using PluginManager.Abstractions;
+using PluginManager.Internal;
 
-namespace AspNetCore.PluginManager.Tests
+namespace PluginManager.Tests
 {
-#if DEBUG
     [TestClass]
     public class PluginServicesTests
     {
+        #region Private Members
+
+
+        #endregion Private Members
+
         [TestInitialize]
         public void TestInitialise()
         {
-            PluginManagerService.Initialise();
+
         }
 
         [TestMethod]
         public void TestAddAssembly()
         {
-            IPluginHelperService pluginServices = UnitTestHelper.GetPluginServices();
+            TestPluginManager pluginManager = new TestPluginManager();
+            IPluginHelperService pluginServices = new PluginServices(pluginManager) as IPluginHelperService;
+
+            Assert.IsNotNull(pluginServices);
 
             Assembly current = Assembly.GetExecutingAssembly();
 
@@ -61,7 +68,10 @@ namespace AspNetCore.PluginManager.Tests
         [TestMethod]
         public void TestAddAssemblyTwice()
         {
-            IPluginHelperService pluginServices = UnitTestHelper.GetPluginServices();
+            TestPluginManager pluginManager = new TestPluginManager();
+            IPluginHelperService pluginServices = new PluginServices(pluginManager) as IPluginHelperService;
+
+            Assert.IsNotNull(pluginServices);
 
             Assembly current = Assembly.GetExecutingAssembly();
 
@@ -78,5 +88,4 @@ namespace AspNetCore.PluginManager.Tests
             Assert.IsTrue(loadResult == DynamicLoadResult.AlreadyLoaded);
         }
     }
-#endif
 }

@@ -186,6 +186,9 @@ namespace AspNetCore.PluginManager
         /// <returns></returns>
         public static void Finalise()
         {
+            if (_logger == null || _pluginManagerInstance == null)
+                throw new InvalidOperationException("Plugin Manager has not been initialised.");
+
             _pluginManagerInstance.Dispose();
             _pluginManagerInstance = null;
             _logger = null;
@@ -197,6 +200,7 @@ namespace AspNetCore.PluginManager
         /// Configures all plugin modules, allowing the modules to setup services for the application.
         /// </summary>
         /// <param name="app">IApplicationBuilder instance.</param>
+        /// <exception cref="System.InvalidOperationException">Thrown when the Plugin Manager has not been initialised.</exception>
         public static void Configure(IApplicationBuilder app)
         {
             if (_logger == null || _pluginManagerInstance == null)
