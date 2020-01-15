@@ -22,6 +22,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\NetCorePluginManager\AspNetCore.PluginManager.csproj" />
+    <ProjectReference Include="..\PluginManager.Tests\PluginManager.Tests.csproj" />
   </ItemGroup>
 
 </Project>

@@ -27,6 +27,10 @@ using System;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
+using PluginManager;
+using PluginManager.Abstractions;
+using PluginManager.Tests.Mocks;
+
 namespace AspNetCore.PluginManager.Tests
 {
     [TestClass]
@@ -41,9 +45,43 @@ namespace AspNetCore.PluginManager.Tests
 
         [TestMethod]
         [ExpectedException(typeof(InvalidOperationException))]
-        public void FinaliseWithoutInitialise()
+        public void FinaliseWithoutInitialiseFailWithException()
         {
             PluginManagerService.Finalise();
+        }
+
+        [TestMethod]
+        public void InitialiseWithoutParametersAndFinalise()
+        {
+            PluginManagerService.Initialise();
+            PluginManagerService.Finalise();
+        }
+
+
+        [TestMethod]
+        [ExpectedExceptionAttribute(typeof(ArgumentNullException))]
+        public void InitialiseWithNullParametersRaiseException()
+        {
+            PluginManagerService.Initialise(null);
+        }
+
+        [TestMethod]
+        public void InitialiseWithDefaultParameters()
+        {
+            PluginManagerService.Initialise(new PluginManagerConfiguration());
+        }
+
+        [TestMethod]
+        public void InitialiseWithCustomILogger()
+        {
+            TestLogger testLogger = new TestLogger();
+            PluginManagerConfiguration configuration = new PluginManagerConfiguration(testLogger);
+
+            PluginManagerService.Initialise(configuration);
+
+            ILogger pluginManagerLogger = PluginManagerService.GetLogger();
+
+            Assert.AreNotEqual(pluginManagerLogger.GetType().TypeHandle.Value, testLogger.GetType().TypeHandle.Value);
         }
     }
 }

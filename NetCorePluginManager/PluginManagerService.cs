@@ -83,7 +83,6 @@ namespace AspNetCore.PluginManager
             Classes.LoggerStatistics.SetLogger(configuration.Logger);
             configuration.ReplaceLogger(_logger);
 
-
             try
             {
                 _rootPath = configuration.CurrentPath;

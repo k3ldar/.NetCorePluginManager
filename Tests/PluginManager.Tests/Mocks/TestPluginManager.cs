@@ -29,12 +29,18 @@ using Microsoft.Extensions.DependencyInjection;
 
 using PluginManager.Abstractions;
 
-namespace PluginManager.Tests
+namespace PluginManager.Tests.Mocks
 {
     internal class TestPluginManager : BasePluginManager
     {
         internal TestPluginManager()
             : base(new PluginManagerConfiguration(), new PluginSettings())
+        {
+
+        }
+
+        internal TestPluginManager(ILogger logger)
+            : base(new PluginManagerConfiguration(logger), new PluginSettings())
         {
 
         }
