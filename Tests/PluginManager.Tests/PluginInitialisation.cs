@@ -13,18 +13,16 @@
  *
  *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
- *  Product:  RestrictIp.Plugin
+ *  Product:  PluginManager.Tests
  *  
  *  File: PluginInitialisation.cs
  *
  *  Purpose:  
  *
  *  Date        Name                Reason
- *  16/10/2018  Simon Carter        Initially Created
+ *  15/01/2020  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using System;
-
 using Microsoft.Extensions.DependencyInjection;
 
 using PluginManager.Abstractions;
