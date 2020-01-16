@@ -48,7 +48,7 @@ namespace PluginManager.Tests.Mocks
 
         internal IServiceProvider GetServiceProvider()
         {
-            return ServiceProvider;
+            return base.ServiceProvider;
         }
 
         internal string Path()
