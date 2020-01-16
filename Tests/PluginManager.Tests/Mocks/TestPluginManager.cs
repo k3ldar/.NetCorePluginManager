@@ -23,6 +23,7 @@
  *  14/01/2020  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+using System;
 using System.Reflection;
 
 using Microsoft.Extensions.DependencyInjection;
@@ -43,6 +44,16 @@ namespace PluginManager.Tests.Mocks
             : base(new PluginManagerConfiguration(logger), new PluginSettings())
         {
 
+        }
+
+        internal IServiceProvider GetServiceProvider()
+        {
+            return ServiceProvider;
+        }
+
+        internal string Path()
+        {
+            return RootPath;
         }
 
         protected override bool CanExtractResource(in string resourceName)

@@ -118,7 +118,7 @@ namespace PluginManager
         /// Internal property for retrieving the application defined root path
         /// </summary>
         /// <value>string</value>
-        internal string RootPath
+        protected string RootPath
         {
             get
             {
@@ -130,6 +130,18 @@ namespace PluginManager
         /// Protected ILogger instance that can be retrieved via a descendant class
         /// </summary>
         protected ILogger Logger { get; private set; }
+
+         /// <summary>
+        /// Returns the active IServiceProvider to descendant classes
+        /// </summary>
+        /// <value>IServiceProvider</value>
+        protected IServiceProvider ServiceProvider
+        {
+            get
+            {
+                return _serviceProvider;
+            }
+        }
 
         #endregion Properties
 
@@ -366,6 +378,17 @@ namespace PluginManager
 
             _serviceProvider = services.BuildServiceProvider();
         }
+
+        /// <summary>
+        /// Provides an opportunity for plugins to configure services that can be used in IOC, this method creates 
+        /// a custom IServiceCollection class and should only be used where the host does not natively include
+        /// it's own IServiceCollection
+        /// </summary>
+        public void ConfigureServices()
+        {
+            ConfigureServices(new ServiceCollection() as IServiceCollection);
+        }
+
 
         /// <summary>
         /// Retrieves the non instantiated classes which have attribute T, or if any of

@@ -38,6 +38,12 @@
             Protected ILogger instance that can be retrieved via a descendant class
             </summary>
         </member>
+        <member name="P:PluginManager.BasePluginManager.ServiceProvider">
+            <summary>
+            Returns the active IServiceProvider to descendant classes
+            </summary>
+            <value>IServiceProvider</value>
+        </member>
         <member name="M:PluginManager.BasePluginManager.PluginLoading(System.Reflection.Assembly@)">
             <summary>
             Indicates that a plugin is about to be loaded.
@@ -113,6 +119,13 @@
             Allows plugins to configure the services for all plugins
             </summary>
             <param name="services"></param>
+        </member>
+        <member name="M:PluginManager.BasePluginManager.ConfigureServices">
+            <summary>
+            Provides an opportunity for plugins to configure services that can be used in IOC, this method creates 
+            a custom IServiceCollection class and should only be used where the host does not natively include
+            it's own IServiceCollection
+            </summary>
         </member>
         <member name="M:PluginManager.BasePluginManager.PluginGetTypesWithAttribute``1">
             <summary>
@@ -894,36 +907,6 @@
             Individual plugin module settings.
             </summary>
             <value>List&lt;PluginSetting&gt;</value>
-        </member>
-        <member name="T:PluginManager.Test.UnitTestHelper">
-            <summary>
-            This class is only available for Debug builds and is designed to retrieve classes
-            that are normally only available through DI
-            </summary>
-        </member>
-        <member name="M:PluginManager.Test.UnitTestHelper.GetPluginServices">
-            <summary>
-            Returns an instance of IPluginHelperService for unit tests
-            </summary>
-            <returns>IPluginHelperService</returns>
-        </member>
-        <member name="M:PluginManager.Test.UnitTestHelper.GetPluginClassesService">
-            <summary>
-            Returns an instance of IPluginClassesService for unit tests
-            </summary>
-            <returns>IPluginClassesService</returns>
-        </member>
-        <member name="M:PluginManager.Test.UnitTestHelper.GetPluginTypesService">
-            <summary>
-            Returns an instance of IPluginTypesService for unit tests
-            </summary>
-            <returns>IPluginTypesService</returns>
-        </member>
-        <member name="M:PluginManager.Test.UnitTestHelper.GetNotificationService">
-            <summary>
-            Returns an instance of INotificationService for unit tests
-            </summary>
-            <returns>INotificationService</returns>
         </member>
     </members>
 </doc>
