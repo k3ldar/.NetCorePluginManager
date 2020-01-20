@@ -31,6 +31,8 @@ using PluginManager.Abstractions;
 
 using SharedPluginFeatures;
 
+#pragma warning disable CS1591
+
 namespace SystemAdmin.Plugin.Classes
 {
     public sealed class AppSettingsJsonMenu : SystemAdminSubMenu
@@ -110,3 +112,5 @@ namespace SystemAdmin.Plugin.Classes
         #endregion SystemAdminSubMenu Methods
     }
 }
+
+#pragma warning restore CS1591

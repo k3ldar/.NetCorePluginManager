@@ -42,6 +42,8 @@ using SharedPluginFeatures;
 
 using ShoppingCartPlugin.Models;
 
+#pragma warning disable CS1591
+
 namespace ShoppingCartPlugin.Controllers
 {
     public partial class CartController : BaseController
@@ -289,3 +291,5 @@ namespace ShoppingCartPlugin.Controllers
         #endregion Private Methods
     }
 }
+
+#pragma warning restore CS1591

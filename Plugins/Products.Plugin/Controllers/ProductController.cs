@@ -40,6 +40,8 @@ using ProductPlugin.Models;
 
 using SharedPluginFeatures;
 
+#pragma warning disable CS1591
+
 namespace ProductPlugin.Controllers
 {
     /// <summary>
@@ -225,3 +227,5 @@ namespace ProductPlugin.Controllers
         #endregion Private Methods
     }
 }
+
+#pragma warning restore CS1591

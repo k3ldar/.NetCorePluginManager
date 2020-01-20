@@ -28,6 +28,8 @@ using Microsoft.Extensions.DependencyInjection;
 
 using SharedPluginFeatures;
 
+#pragma warning disable CS1591
+
 namespace CacheControl.Plugin.Classes
 {
     public class InitialiseEvents : IInitialiseEvents
@@ -63,3 +65,5 @@ namespace CacheControl.Plugin.Classes
         #endregion IInitialiseEvents Methods
     }
 }
+
+#pragma warning restore CS1591

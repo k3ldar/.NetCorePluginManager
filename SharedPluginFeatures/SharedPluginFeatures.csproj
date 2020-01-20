@@ -9,7 +9,7 @@
     <PackageProjectUrl>http://pluginmanager.website/</PackageProjectUrl>
     <PackageTags>asp net core plugin manager shared classes interfaces</PackageTags>
     <PackageReleaseNotes>Shared Modules for asp net core plugin manager.  Supports Net Core 2.1, 2.2, 3.0 &amp; 3.1</PackageReleaseNotes>
-    <Version>3.2.0</Version>
+    <Version>3.3.0</Version>
     <Authors>Simon Carter</Authors>
     <Company>Simon Carter</Company>
     <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>

@@ -26,6 +26,8 @@
 
 using AppSettings;
 
+#pragma warning disable CS1591
+
 namespace ShoppingCartPlugin.Classes
 {
     public sealed class SunTech24PaymentSettings : PaymentProviderSettings
@@ -42,3 +44,5 @@ namespace ShoppingCartPlugin.Classes
         public int DueDateDays { get; set; }
     }
 }
+
+#pragma warning restore CS1591

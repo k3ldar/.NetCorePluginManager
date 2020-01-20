@@ -28,7 +28,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-#pragma warning disable IDE0060
+#pragma warning disable IDE0060, CS1591
 
 namespace LoginPlugin
 {
@@ -71,4 +71,4 @@ namespace LoginPlugin
     }
 }
 
-#pragma warning restore IDE0060
+#pragma warning restore IDE0060, CS1591

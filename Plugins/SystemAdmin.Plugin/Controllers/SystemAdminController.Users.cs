@@ -30,6 +30,8 @@ using Microsoft.AspNetCore.Mvc;
 
 using SharedPluginFeatures;
 
+#pragma warning disable CS1591
+
 namespace SystemAdmin.Plugin.Controllers
 {
     public partial class SystemAdminController
@@ -52,3 +54,5 @@ namespace SystemAdmin.Plugin.Controllers
         }
     }
 }
+
+#pragma warning restore CS1591

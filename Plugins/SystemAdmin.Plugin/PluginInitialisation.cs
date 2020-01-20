@@ -29,6 +29,8 @@ using PluginManager.Abstractions;
 
 using SharedPluginFeatures;
 
+#pragma warning disable CS1591
+
 namespace SystemAdmin.Plugin
 {
     /// <summary>
@@ -58,3 +60,5 @@ namespace SystemAdmin.Plugin
         }
     }
 }
+
+#pragma warning restore CS1591

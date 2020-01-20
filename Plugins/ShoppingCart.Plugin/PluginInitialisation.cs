@@ -30,6 +30,8 @@ using PluginManager.Abstractions;
 
 using SharedPluginFeatures;
 
+#pragma warning disable CS1591
+
 namespace ShoppingCartPlugin
 {
     /// <summary>
@@ -96,3 +98,5 @@ namespace ShoppingCartPlugin
         #endregion IInitialiseEvents Methods
     }
 }
+
+#pragma warning restore CS1591

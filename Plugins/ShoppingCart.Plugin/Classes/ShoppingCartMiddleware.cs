@@ -39,6 +39,8 @@ using ShoppingCartPlugin.Classes;
 
 using static Shared.Utilities;
 
+#pragma warning disable CS1591
+
 namespace ShoppingCartPlugin
 {
     /// <summary>
@@ -143,3 +145,5 @@ namespace ShoppingCartPlugin
         #endregion Private Methods
     }
 }
+
+#pragma warning restore CS1591

@@ -30,7 +30,7 @@ using PluginManager.Abstractions;
 
 using SharedPluginFeatures;
 
-#pragma warning disable IDE0060
+#pragma warning disable IDE0060, CS1591
 
 namespace LoginPlugin
 {
@@ -95,4 +95,4 @@ namespace LoginPlugin
     }
 }
 
-#pragma warning restore IDE0060
+#pragma warning restore IDE0060, CS1591

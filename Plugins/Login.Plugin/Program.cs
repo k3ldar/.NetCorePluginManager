@@ -26,6 +26,8 @@
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 
+#pragma warning disable CS1591
+
 namespace LoginPlugin
 {
     public static class Program
@@ -40,3 +42,5 @@ namespace LoginPlugin
                 .UseStartup<Startup>();
     }
 }
+
+#pragma warning restore CS1591

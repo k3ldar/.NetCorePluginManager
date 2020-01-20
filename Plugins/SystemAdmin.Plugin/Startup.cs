@@ -26,7 +26,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-#pragma warning disable CA1801, IDE0060
+#pragma warning disable CA1801, IDE0060, CS1591
 
 namespace SystemAdmin.Plugin
 {
@@ -54,4 +54,4 @@ namespace SystemAdmin.Plugin
     }
 }
 
-#pragma warning restore CA1801, IDE0060
+#pragma warning restore CA1801, IDE0060, CS1591

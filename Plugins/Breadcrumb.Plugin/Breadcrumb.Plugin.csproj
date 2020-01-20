@@ -13,7 +13,7 @@
     <PackageTags>asp net core plugin manager breadcrumb plugin</PackageTags>
     <PackageReleaseNotes>Supports net core 2.1, 2.2, 3.0 and 3.1</PackageReleaseNotes>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>3.2.0</Version>
+    <Version>3.3.0</Version>
     <PackageProjectUrl>http://pluginmanager.website/</PackageProjectUrl>
   </PropertyGroup>
 

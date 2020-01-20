@@ -28,6 +28,8 @@ using System.Collections.Generic;
 
 using SharedPluginFeatures;
 
+#pragma warning disable CS1591
+
 namespace ProductPlugin.Models
 {
     public class ProductGroupModel : BaseProductModel
@@ -79,3 +81,5 @@ namespace ProductPlugin.Models
         #endregion Properties
     }
 }
+
+#pragma warning restore CS1591

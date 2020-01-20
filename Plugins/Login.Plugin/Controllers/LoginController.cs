@@ -44,6 +44,8 @@ using SharedPluginFeatures;
 using static Middleware.Constants;
 using static Shared.Utilities;
 
+#pragma warning disable CS1591
+
 namespace LoginPlugin.Controllers
 {
     /// <summary>
@@ -380,3 +382,5 @@ namespace LoginPlugin.Controllers
         #endregion Private Methods
     }
 }
+
+#pragma warning restore CS1591

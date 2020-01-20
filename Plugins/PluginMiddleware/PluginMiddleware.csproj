@@ -10,7 +10,7 @@
     <PackageProjectUrl>http://pluginmanager.website/</PackageProjectUrl>
     <PackageTags>asp net core plugin manager middleware business object layer</PackageTags>
     <PackageReleaseNotes>Shared Modules</PackageReleaseNotes>
-    <Version>3.2.0</Version>
+    <Version>3.3.0</Version>
     <Authors>Simon Carter</Authors>
     <Company>Simon Carter</Company>
     <AssemblyName>Middleware</AssemblyName>

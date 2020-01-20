@@ -26,6 +26,7 @@
 using System;
 using System.Linq;
 
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 using Middleware.Accounts.Orders;
@@ -36,6 +37,8 @@ using Shared;
 
 using ShoppingCartPlugin.Classes;
 
+#pragma warning disable CS1591
+
 namespace ShoppingCartPlugin.Controllers
 {
     public partial class CartController
@@ -43,7 +46,7 @@ namespace ShoppingCartPlugin.Controllers
         public IActionResult Paypoint()
         {
             // valid=false&trans_id=320&code=N&resp_code=10&message=DATA+NOT+CHECKED+%3a+9999&ip=94.195.236.73&cv2avs=DATA+NOT+CHECKED&test_status=true&hash=bf555b3770642db0f80b0
-            var keys = HttpContext.Request.Query;
+            IQueryCollection keys = HttpContext.Request.Query;
 
             if (keys["valid"] == "true" || keys["code"] == "A")
             {
@@ -105,3 +108,5 @@ namespace ShoppingCartPlugin.Controllers
 
     }
 }
+
+#pragma warning restore CS1591

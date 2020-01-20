@@ -31,6 +31,8 @@ using Microsoft.Extensions.DependencyInjection;
 
 using SharedPluginFeatures;
 
+#pragma warning disable CS1591
+
 namespace SystemAdmin.Plugin.Classes
 {
     public class InitialiseEvents : IInitialiseEvents, IClaimsService
@@ -160,3 +162,5 @@ namespace SystemAdmin.Plugin.Classes
         #endregion Private Methods
     }
 }
+
+#pragma warning restore CS1591

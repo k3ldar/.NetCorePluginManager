@@ -24,6 +24,8 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+#pragma warning disable CS1591
+
 namespace SystemAdmin.Plugin.Models
 {
     public class UserModel
@@ -39,3 +41,5 @@ namespace SystemAdmin.Plugin.Models
         #endregion Properties
     }
 }
+
+#pragma warning restore CS1591

@@ -26,6 +26,8 @@
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 
+#pragma warning disable CS1591
+
 namespace SystemAdmin.Plugin
 {
     public static class Program
@@ -42,3 +44,5 @@ namespace SystemAdmin.Plugin
                 .UseStartup<Startup>();
     }
 }
+
+#pragma warning restore CS1591

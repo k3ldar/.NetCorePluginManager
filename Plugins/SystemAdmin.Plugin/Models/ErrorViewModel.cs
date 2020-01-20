@@ -25,6 +25,8 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using SharedPluginFeatures;
 
+#pragma warning disable CS1591
+
 namespace SystemAdmin.Plugin.Models
 {
     public class ErrorViewModel : BaseModel
@@ -54,3 +56,5 @@ namespace SystemAdmin.Plugin.Models
         #endregion Propertes
     }
 }
+
+#pragma warning restore CS1591

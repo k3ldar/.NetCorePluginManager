@@ -28,6 +28,8 @@ using System.Collections.Generic;
 
 using SharedPluginFeatures;
 
+#pragma warning disable CS1591
+
 namespace SystemAdmin.Plugin.Models
 {
     public class AvailableIconViewModel : BaseModel
@@ -85,6 +87,7 @@ namespace SystemAdmin.Plugin.Models
             return imageName;
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0066:Convert switch statement to expression", Justification = "Like it how it is thanks")]
         public string GetMenuLink(in SystemAdminSubMenu menu)
         {
             if (menu == null)
@@ -122,3 +125,5 @@ namespace SystemAdmin.Plugin.Models
         #endregion Properties
     }
 }
+
+#pragma warning restore CS1591

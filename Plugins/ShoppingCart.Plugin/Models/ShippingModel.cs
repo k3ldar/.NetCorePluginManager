@@ -27,6 +27,8 @@ using System.Collections.Generic;
 
 using SharedPluginFeatures;
 
+#pragma warning disable CS1591
+
 namespace ShoppingCartPlugin.Models
 {
     public sealed class ShippingModel : BaseModel
@@ -53,3 +55,5 @@ namespace ShoppingCartPlugin.Models
         #endregion Properties
     }
 }
+
+#pragma warning restore CS1591

@@ -29,6 +29,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
+#pragma warning disable CS1591
+
 namespace ShoppingCartPlugin
 {
     public class Startup
@@ -80,3 +82,5 @@ namespace ShoppingCartPlugin
         }
     }
 }
+
+#pragma warning restore CS1591

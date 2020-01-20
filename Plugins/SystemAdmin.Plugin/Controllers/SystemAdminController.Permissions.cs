@@ -30,6 +30,8 @@ using Microsoft.AspNetCore.Mvc;
 
 using SystemAdmin.Plugin.Models;
 
+#pragma warning disable CS1591
+
 namespace SystemAdmin.Plugin.Controllers
 {
     public partial class SystemAdminController
@@ -69,3 +71,5 @@ namespace SystemAdmin.Plugin.Controllers
         #endregion Controller Action Methods
     }
 }
+
+#pragma warning restore CS1591

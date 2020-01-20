@@ -26,6 +26,8 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 
+#pragma warning disable CS1591
+
 namespace SystemAdmin.Plugin.Models
 {
     public sealed class SeoDataModel
@@ -72,3 +74,5 @@ namespace SystemAdmin.Plugin.Models
         #endregion Properties
     }
 }
+
+#pragma warning restore CS1591

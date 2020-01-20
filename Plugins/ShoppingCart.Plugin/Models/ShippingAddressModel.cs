@@ -24,10 +24,11 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
-using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 
 using SharedPluginFeatures;
+
+#pragma warning disable CS1591
 
 namespace ShoppingCartPlugin.Models
 {
@@ -114,3 +115,5 @@ namespace ShoppingCartPlugin.Models
         #endregion Private Methods
     }
 }
+
+#pragma warning restore CS1591

@@ -28,6 +28,8 @@ using Microsoft.Extensions.DependencyInjection;
 
 using PluginManager.Abstractions;
 
+#pragma warning disable CS1591
+
 namespace ProductPlugin
 {
     /// <summary>
@@ -57,3 +59,5 @@ namespace ProductPlugin
         }
     }
 }
+
+#pragma warning restore CS1591

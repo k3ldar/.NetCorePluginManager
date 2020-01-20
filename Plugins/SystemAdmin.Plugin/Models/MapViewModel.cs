@@ -29,23 +29,20 @@ using PluginManager.Abstractions;
 
 using SharedPluginFeatures;
 
+#pragma warning disable CS1591
+
 namespace SystemAdmin.Plugin.Models
 {
     public sealed class MapViewModel : BaseModel
     {
-        #region Private Members
-
-        private readonly ISettingsProvider _settingsProvider;
-
-        #endregion Private Members
-
         #region Constructors
 
         public MapViewModel(in BaseModelData modelData,
             in ISettingsProvider settingsProvider, in SystemAdminSubMenu subMenu)
             : base(modelData)
         {
-            _settingsProvider = settingsProvider ?? throw new ArgumentNullException(nameof(settingsProvider));
+            if (settingsProvider == null)
+                throw new ArgumentNullException(nameof(settingsProvider));
 
             if (subMenu == null)
                 throw new ArgumentNullException(nameof(subMenu));
@@ -71,3 +68,5 @@ namespace SystemAdmin.Plugin.Models
         #endregion Public Properties
     }
 }
+
+#pragma warning restore CS1591

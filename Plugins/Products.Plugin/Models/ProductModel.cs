@@ -28,7 +28,7 @@ using System.Collections.Generic;
 
 using SharedPluginFeatures;
 
-#pragma warning disable CA1721
+#pragma warning disable CA1721, CS1591
 
 namespace ProductPlugin.Models
 {
@@ -179,4 +179,4 @@ namespace ProductPlugin.Models
     }
 }
 
-#pragma warning restore CA1721
+#pragma warning restore CA1721, CS1591

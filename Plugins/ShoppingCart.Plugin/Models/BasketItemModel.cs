@@ -27,6 +27,8 @@ using System;
 
 using SharedPluginFeatures;
 
+#pragma warning disable CS1591
+
 namespace ShoppingCartPlugin.Models
 {
     public class BasketItemModel : BaseModel
@@ -105,3 +107,5 @@ namespace ShoppingCartPlugin.Models
         #endregion Properties
     }
 }
+
+#pragma warning restore CS1591
