@@ -1,0 +1,40 @@
+﻿[*.cs]
+
+# CA1307: Specify StringComparison
+dotnet_diagnostic.CA1307.severity = none
+
+# IDE0057: Use range operator
+csharp_style_prefer_range_operator = true:none
+
+# CA1056: Uri properties should not be strings
+dotnet_diagnostic.CA1056.severity = none
+
+# CA1055: Uri return values should not be strings
+dotnet_diagnostic.CA1055.severity = none
+
+# CA1054: Uri parameters should not be strings
+dotnet_diagnostic.CA1054.severity = none
+
+# CA1822: Mark members as static
+dotnet_diagnostic.CA1822.severity = none
+
+# CA2227: Collection properties should be read only
+dotnet_diagnostic.CA2227.severity = none
+
+# CA2007: Consider calling ConfigureAwait on the awaited task
+dotnet_diagnostic.CA2007.severity = none
+
+# IDE0049: Simplify Names
+dotnet_style_predefined_type_for_locals_parameters_members = false:silent
+
+# IDE0056: Use index operator
+csharp_style_prefer_index_operator = true:none
+
+# CA1304: Specify CultureInfo
+dotnet_diagnostic.CA1304.severity = none
+
+# CA1305: Specify IFormatProvider
+dotnet_diagnostic.CA1305.severity = none
+
+# IDE0060: Remove unused parameter
+dotnet_code_quality_unused_parameters = all:none

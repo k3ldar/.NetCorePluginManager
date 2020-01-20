@@ -37,6 +37,8 @@ using Shared.Docs;
 
 using SharedPluginFeatures;
 
+#pragma warning disable IDE0060
+
 namespace DocumentationPlugin.Classes
 {
     internal sealed class DefaultDocumentationService : IDocumentationService
@@ -153,7 +155,8 @@ namespace DocumentationPlugin.Classes
 
             if (File.Exists(fileName))
             {
-                Int32.TryParse(Utilities.FileRead(fileName, false), out Result);
+                if (!Int32.TryParse(Utilities.FileRead(fileName, false), out Result))
+                    Result = defaultValue;
             }
             else
             {
@@ -353,6 +356,7 @@ namespace DocumentationPlugin.Classes
             }
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", Justification = "Left in for future work, so documents can be linked")]
         private void BuildClassReferences(in Document document, in DocumentData data, in List<Document> documents)
         {
             if (!String.IsNullOrEmpty(document.AcquisitionMethod))
@@ -386,6 +390,7 @@ namespace DocumentationPlugin.Classes
             data.FullClassName = $"{document.NameSpaceName}.{document.ClassName}";
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", Justification = "Left in for future work, so documents can be linked")]
         private void BuildCustomReferences(in Document document, in DocumentData data, in List<Document> documents)
         {
             int nextHStart = document.LongDescription.IndexOf("<h");
@@ -463,7 +468,7 @@ namespace DocumentationPlugin.Classes
             }
 
             if (UpdateMissingFileNames(Result))
-                SaveFileList(Result, _fileNameFile);
+                SaveFileList(Result);
 
             return Result;
         }
@@ -490,7 +495,7 @@ namespace DocumentationPlugin.Classes
             return Result;
         }
 
-        private void SaveFileList(in List<string> files, in string fileName)
+        private void SaveFileList(in List<string> files)
         {
             Utilities.FileWrite(_fileNameFile, String.Join('\n', files.ToArray()));
         }
@@ -498,3 +503,5 @@ namespace DocumentationPlugin.Classes
         #endregion Private Methods
     }
 }
+
+#pragma warning restore IDE0060

@@ -68,6 +68,9 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
 
         public bool LicenceUpdateDomain(in long userId, in Licence licence, in string domain)
         {
+            if (licence == null || String.IsNullOrEmpty(domain))
+                return false;
+
             _licences[licence.Id - 1].DomainName = domain;
 
             return true;

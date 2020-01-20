@@ -13,20 +13,30 @@
  *
  *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
- *  Product:  SharedPluginFeatures
+ *  Product:  AspNetCore.PluginManager.DemoWebsite
  *  
- *  File: RequestManagerMiddlewareExtender.cs
+ *  File: ErrorManager.cs
  *
- *  Purpose:  
+ *  Purpose:  IErrorManager implementation
  *
  *  Date        Name                Reason
- *  29/09/2018  Simon Carter        Initially Created
+ *  17/11/2018  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+using SharedPluginFeatures;
 
-namespace RequestManager.Plugin
+namespace AspNetCore.PluginManager.DemoWebsite.Classes
 {
-    class RequestManagerMiddlewareExtender
+    public class ErrorManagerProvider : IErrorManager
     {
+        public void ErrorRaised(in ErrorInformation errorInformation)
+        {
+
+        }
+
+        public bool MissingPage(in string path, ref string replacePath)
+        {
+            return false;
+        }
     }
 }

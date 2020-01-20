@@ -30,7 +30,7 @@ using Microsoft.AspNetCore.Hosting;
 
 namespace DownloadPlugin
 {
-    public class Program
+    public static class Program
     {
         public static void Main(string[] args)
         {

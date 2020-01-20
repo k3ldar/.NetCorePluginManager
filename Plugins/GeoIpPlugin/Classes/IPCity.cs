@@ -30,6 +30,7 @@ namespace GeoIp.Plugin
     /// <summary>
     /// IpCity data.  Used internally to cache data retrieved.
     /// </summary>
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1036:Override methods on comparable types", Justification = "Compare method already implemented and that is all that's needed for this class.")]
     public class IpCity : IComparable
     {
         #region Constructors
@@ -116,6 +117,9 @@ namespace GeoIp.Plugin
         /// <value>int</value>
         public int CompareTo(object obj)
         {
+            if (obj == null)
+                return 0;
+
             return IpStart.CompareTo(((IpCity)obj).IpStart);
         }
 

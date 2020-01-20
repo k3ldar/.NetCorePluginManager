@@ -27,9 +27,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 
-using Microsoft.AspNetCore.Mvc;
-
 using HelpdeskPlugin.Models;
+
+using Microsoft.AspNetCore.Mvc;
 
 using Middleware.Helpdesk;
 
@@ -53,6 +53,7 @@ namespace HelpdeskPlugin.Controllers
         }
 
         [Route("/Helpdesk/Faq/{groupId}/{groupName}/")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", Justification = "Forms part of route name")]
         public IActionResult FaQ(int groupId, string groupName)
         {
             if (!_settings.ShowFaq)
@@ -71,6 +72,7 @@ namespace HelpdeskPlugin.Controllers
         [HttpGet]
         [Route("/Helpdesk/FaQItem/{id}/{description}/")]
         [Breadcrumb(nameof(Languages.LanguageStrings.FrequentlyAskedQuestions), Name, nameof(FaQ))]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", Justification = "Forms part of route name")]
         public IActionResult FaQItem(int id, int description)
         {
             if (!_helpdeskProvider.GetKnowledgebaseItem(UserId(), id,
@@ -161,7 +163,7 @@ namespace HelpdeskPlugin.Controllers
                 items.Add(new FaqGroupItem(item.Id, item.Description, item.ViewCount, item.Content));
             }
 
-            int subGroupCount = _helpdeskProvider.GetKnowledgebaseGroups(UserId(), group).Count();
+            int subGroupCount = _helpdeskProvider.GetKnowledgebaseGroups(UserId(), group).Count;
 
             return new FaqGroup(group.Id, group.Name, group.Description, items, subGroupCount);
         }

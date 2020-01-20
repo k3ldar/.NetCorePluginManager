@@ -57,11 +57,15 @@ namespace ShoppingCartPlugin
 
         #region Constructors
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1303:Do not pass literals as localized parameters", Justification = "I deem it to be valid in this context!")]
         public ShoppingCartMiddleware(RequestDelegate next, IShoppingCartService shoppingCartService,
             ISettingsProvider settingsProvider, ILogger logger, IPluginHelperService pluginHelperService)
         {
             if (logger == null)
                 throw new ArgumentNullException(nameof(logger));
+
+            if (settingsProvider == null)
+                throw new ArgumentNullException(nameof(settingsProvider));
 
             _next = next;
             _shoppingCartService = shoppingCartService ?? throw new ArgumentNullException(nameof(shoppingCartService));
@@ -80,6 +84,9 @@ namespace ShoppingCartPlugin
 
         public async Task Invoke(HttpContext context)
         {
+            if (context == null)
+                throw new ArgumentNullException(nameof(context));
+
             using (StopWatchTimer stopwatchTimer = StopWatchTimer.Initialise(_timings))
             {
                 UserSession userSession = GetUserSession(context);

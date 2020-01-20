@@ -28,7 +28,7 @@ using Microsoft.AspNetCore.Hosting;
 
 namespace AspNetCore.PluginManager.DemoWebsite
 {
-    public class Program
+    public static class Program
     {
         public static void Main(string[] args)
         {

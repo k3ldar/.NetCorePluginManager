@@ -36,6 +36,7 @@ using SharedPluginFeatures;
 
 namespace MemoryCache.Plugin
 {
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1812:AvoidUninstantiatedInternalClasses", Justification = "Used internally as part of IoC")]
     internal class MemoryCache : BaseCoreClass, IMemoryCache
     {
         #region Private Members

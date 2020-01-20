@@ -58,6 +58,7 @@ namespace SieraDeltaGeoIp.Plugin
 
         #region Overridden Methods
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Security", "CA2100:Review SQL queries for security vulnerabilities", Justification = "take a chill pill man, it's ok...")]
         protected override bool Run(object parameters)
         {
             List<IpCity> rangeData = (List<IpCity>)parameters;
@@ -138,6 +139,7 @@ namespace SieraDeltaGeoIp.Plugin
 
         #region IGeoIpProvider Methods
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Security", "CA2100:Review SQL queries for security vulnerabilities", Justification = "take a chill pill man, it's ok...")]
         public bool GetIpAddressDetails(in string ipAddress, out string countryCode, out string region,
             out string cityName, out decimal latitude, out decimal longitude, out long uniqueId,
             out long ipFrom, out long ipTo)

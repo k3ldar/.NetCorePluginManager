@@ -127,7 +127,7 @@ namespace ShoppingCartPlugin.Classes.Paypoint
 		/// Posts the supplied data to specified url.
 		/// </summary>
 		/// <returns>a string containing the result of the post.</returns>
-		public string Post(string url, NameValueCollection values)
+		public string Post(string url)
 		{
 			StringBuilder parameters = new StringBuilder();
 
@@ -144,20 +144,10 @@ namespace ShoppingCartPlugin.Classes.Paypoint
 		/// <summary>
 		/// Posts the supplied data to specified url.
 		/// </summary>
-		/// <param name="url">The url to post to.</param>
-		/// <returns>a string containing the result of the post.</returns>
-		public string Post(string url)
-		{
-			return Post(url, PostItems);
-		}
-
-		/// <summary>
-		/// Posts the supplied data to specified url.
-		/// </summary>
 		/// <returns>a string containing the result of the post.</returns>
 		public string Post()
 		{
-			return Post(Url, PostItems);
+			return Post(Url);
 		}
 
 		#endregion Public Methods

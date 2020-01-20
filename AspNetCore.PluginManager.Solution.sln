@@ -69,6 +69,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PluginManager", "PluginMana
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PluginManager.Tests", "Tests\PluginManager.Tests\PluginManager.Tests.csproj", "{D8695188-F19C-4A12-B01B-784860A8CC7E}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{9D6C1367-C141-4577-8E9C-5710C9D5E516}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

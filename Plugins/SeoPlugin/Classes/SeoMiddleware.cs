@@ -72,6 +72,9 @@ namespace SeoPlugin
 
         public async Task Invoke(HttpContext context)
         {
+            if (context == null)
+                throw new ArgumentNullException(nameof(context));
+
             using (StopWatchTimer stopwatchTimer = StopWatchTimer.Initialise(_timings))
             {
                 string fileExtension = RouteFileExtension(context);

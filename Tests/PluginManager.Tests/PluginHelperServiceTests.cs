@@ -50,43 +50,47 @@ namespace PluginManager.Tests
         [TestMethod]
         public void TestAddAssembly()
         {
-            TestPluginManager pluginManager = new TestPluginManager();
-            IPluginHelperService pluginServices = new PluginServices(pluginManager) as IPluginHelperService;
+            using (TestPluginManager pluginManager = new TestPluginManager())
+            {
+                IPluginHelperService pluginServices = new PluginServices(pluginManager) as IPluginHelperService;
 
-            Assert.IsNotNull(pluginServices);
+                Assert.IsNotNull(pluginServices);
 
-            Assembly current = Assembly.GetExecutingAssembly();
+                Assembly current = Assembly.GetExecutingAssembly();
 
-            DynamicLoadResult loadResult = pluginServices.AddAssembly(current);
+                DynamicLoadResult loadResult = pluginServices.AddAssembly(current);
 
-            Assert.IsTrue(loadResult == DynamicLoadResult.Success);
+                Assert.IsTrue(loadResult == DynamicLoadResult.Success);
 
-            pluginServices.PluginLoaded(System.IO.Path.GetFileName(current.Location), out int version);
+                pluginServices.PluginLoaded(System.IO.Path.GetFileName(current.Location), out int version);
 
-            Assert.IsTrue(version == 1);
+                Assert.IsTrue(version == 1);
+            }
         }
 
         [TestMethod]
         public void TestAddAssemblyTwice()
         {
-            TestPluginManager pluginManager = new TestPluginManager();
-            IPluginHelperService pluginServices = new PluginServices(pluginManager) as IPluginHelperService;
+            using (TestPluginManager pluginManager = new TestPluginManager())
+            {
+                IPluginHelperService pluginServices = new PluginServices(pluginManager) as IPluginHelperService;
 
-            Assert.IsNotNull(pluginServices);
+                Assert.IsNotNull(pluginServices);
 
-            Assembly current = Assembly.GetExecutingAssembly();
+                Assembly current = Assembly.GetExecutingAssembly();
 
-            DynamicLoadResult loadResult = pluginServices.AddAssembly(current);
+                DynamicLoadResult loadResult = pluginServices.AddAssembly(current);
 
-            Assert.IsTrue(loadResult == DynamicLoadResult.Success);
+                Assert.IsTrue(loadResult == DynamicLoadResult.Success);
 
-            pluginServices.PluginLoaded(System.IO.Path.GetFileName(current.Location), out int version);
+                pluginServices.PluginLoaded(System.IO.Path.GetFileName(current.Location), out int version);
 
-            Assert.IsTrue(version == 1);
+                Assert.IsTrue(version == 1);
 
-            loadResult = pluginServices.AddAssembly(current);
+                loadResult = pluginServices.AddAssembly(current);
 
-            Assert.IsTrue(loadResult == DynamicLoadResult.AlreadyLoaded);
+                Assert.IsTrue(loadResult == DynamicLoadResult.AlreadyLoaded);
+            }
         }
     }
 }

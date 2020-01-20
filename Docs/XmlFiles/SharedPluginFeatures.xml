@@ -579,18 +579,18 @@
             Used when the same exception is subsequently raised.
             </summary>
         </member>
-        <member name="T:SharedPluginFeatures.ConnectionArgs">
+        <member name="T:SharedPluginFeatures.ConnectionEventArgs">
             <summary>
             Connection arguments for DefenderConnectionAddEventHandler
             </summary>
         </member>
-        <member name="M:SharedPluginFeatures.ConnectionArgs.#ctor(System.String@)">
+        <member name="M:SharedPluginFeatures.ConnectionEventArgs.#ctor(System.String@)">
             <summary>
             Constructor
             </summary>
             <param name="ipAddress">The Ip address being used by the connection.</param>
         </member>
-        <member name="P:SharedPluginFeatures.ConnectionArgs.IPAddress">
+        <member name="P:SharedPluginFeatures.ConnectionEventArgs.IPAddress">
             <summary>
             IP Address for connection
             </summary>
@@ -602,12 +602,12 @@
             <param name="sender">The class that raised the event.</param>
             <param name="e">Event parameters.</param>
         </member>
-        <member name="T:SharedPluginFeatures.ConnectionRemoveArgs">
+        <member name="T:SharedPluginFeatures.ConnectionRemoveEventArgs">
             <summary>
             Connection info event arguments
             </summary>
         </member>
-        <member name="M:SharedPluginFeatures.ConnectionRemoveArgs.#ctor(System.String@,System.Double@,System.UInt64@,System.TimeSpan@)">
+        <member name="M:SharedPluginFeatures.ConnectionRemoveEventArgs.#ctor(System.String@,System.Double@,System.UInt64@,System.TimeSpan@)">
             <summary>
             Constructor
             </summary>
@@ -616,19 +616,19 @@
             <param name="requests">Total number of reuests.</param>
             <param name="duration">Total duration the Ip address remained active.</param>
         </member>
-        <member name="P:SharedPluginFeatures.ConnectionRemoveArgs.Hits">
+        <member name="P:SharedPluginFeatures.ConnectionRemoveEventArgs.Hits">
             <summary>
             Average hits per minute.
             </summary>
             <value>double</value>
         </member>
-        <member name="P:SharedPluginFeatures.ConnectionRemoveArgs.Requests">
+        <member name="P:SharedPluginFeatures.ConnectionRemoveEventArgs.Requests">
             <summary>
             Total number of reuests.
             </summary>
             <value>ulong</value>
         </member>
-        <member name="P:SharedPluginFeatures.ConnectionRemoveArgs.Duration">
+        <member name="P:SharedPluginFeatures.ConnectionRemoveEventArgs.Duration">
             <summary>
             Total duration the Ip address remained active.
             </summary>
@@ -641,12 +641,12 @@
             <param name="sender">The class that raised the event.</param>
             <param name="e">Event parameters.</param>
         </member>
-        <member name="T:SharedPluginFeatures.RequestBanArgs">
+        <member name="T:SharedPluginFeatures.RequestBanEventArgs">
             <summary>
             Arguments used in DefenderRequestBan event in order to notify that an Ip Address should be banned.
             </summary>
         </member>
-        <member name="M:SharedPluginFeatures.RequestBanArgs.#ctor(System.String@,System.Double@,System.UInt64@,System.TimeSpan@)">
+        <member name="M:SharedPluginFeatures.RequestBanEventArgs.#ctor(System.String@,System.Double@,System.UInt64@,System.TimeSpan@)">
             <summary>
             Constructor
             </summary>
@@ -655,7 +655,7 @@
             <param name="requests">Total number of requests</param>
             <param name="duration">Total duration the Ip address remained active.</param>
         </member>
-        <member name="P:SharedPluginFeatures.RequestBanArgs.AddToBlackList">
+        <member name="P:SharedPluginFeatures.RequestBanEventArgs.AddToBlackList">
             <summary>
             Determines whether the ip address should be black listed or note.
             </summary>
@@ -668,12 +668,12 @@
             <param name="sender">The class that raised the event.</param>
             <param name="e">Event parameters.</param>
         </member>
-        <member name="T:SharedPluginFeatures.ConnectionReportArgs">
+        <member name="T:SharedPluginFeatures.ConnectionReportEventArgs">
             <summary>
             Arguments used to report a connection.
             </summary>
         </member>
-        <member name="M:SharedPluginFeatures.ConnectionReportArgs.#ctor(System.String@,System.String@,SharedPluginFeatures.Enums.ValidateRequestResult@)">
+        <member name="M:SharedPluginFeatures.ConnectionReportEventArgs.#ctor(System.String@,System.String@,SharedPluginFeatures.Enums.ValidateRequestResult@)">
             <summary>
             Constructor
             </summary>
@@ -681,12 +681,12 @@
             <param name="queryString">Query or Form values used when validating the request.</param>
             <param name="validation">Result of validation.</param>
         </member>
-        <member name="P:SharedPluginFeatures.ConnectionReportArgs.QueryString">
+        <member name="P:SharedPluginFeatures.ConnectionReportEventArgs.QueryString">
             <summary>
             Query and form data associated with the event.
             </summary>
         </member>
-        <member name="P:SharedPluginFeatures.ConnectionReportArgs.Result">
+        <member name="P:SharedPluginFeatures.ConnectionReportEventArgs.Result">
             <summary>
             Result determined when validating a request.
             </summary>
@@ -866,7 +866,7 @@
         </member>
         <member name="T:SharedPluginFeatures.StopWatchTimer">
             <summary>
-            Stopwatch Timer is used to automatically collect and generate timing data accurate to milliseconds.
+            Stopwatch Timer is used to automatically collect and generate timing data accurate to 1000th of a millisecond.
             </summary>
         </member>
         <member name="M:SharedPluginFeatures.StopWatchTimer.#ctor(SharedPluginFeatures.Timings@)">
@@ -1808,7 +1808,7 @@
             <summary>
             Processes a document property, providing an opportunity to obtain custom property values
             </summary>
-            <param name="property">DocumentProperty to be processed.</param>
+            <param name="documentProperty">DocumentProperty to be processed.</param>
         </member>
         <member name="T:SharedPluginFeatures.IErrorManager">
             <summary>

@@ -76,6 +76,7 @@ namespace AspNetCore.PluginManager
         /// </summary>
         /// <param name="configuration"></param>
         /// <returns>bool</returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1031:Do not catch general exception types", Justification = "it's ok here, nothing to see, move along")]
         public static bool Initialise(in PluginManagerConfiguration configuration)
         {
             _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
@@ -183,6 +184,7 @@ namespace AspNetCore.PluginManager
         /// Finalises the PluginManger, provides an opportunity for the plugins to clean up ready for close down.
         /// </summary>
         /// <returns></returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1303:Do not pass literals as localized parameters", Justification = "Intended for developers not end users")]
         public static void Finalise()
         {
             if (_logger == null || _pluginManagerInstance == null)
@@ -200,6 +202,7 @@ namespace AspNetCore.PluginManager
         /// </summary>
         /// <param name="app">IApplicationBuilder instance.</param>
         /// <exception cref="System.InvalidOperationException">Thrown when the Plugin Manager has not been initialised.</exception>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1303:Do not pass literals as localized parameters", Justification = "Intended for developers not end users")]
         public static void Configure(IApplicationBuilder app)
         {
             if (_logger == null || _pluginManagerInstance == null)
@@ -231,6 +234,7 @@ namespace AspNetCore.PluginManager
         /// Configures all plugin module services, allowing the modules to add their own services to the application.
         /// </summary>
         /// <param name="services">IServiceCollection instance</param>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1303:Do not pass literals as localized parameters", Justification = "Intended for developers not end users")]
         public static void ConfigureServices(IServiceCollection services)
         {
             if (_logger == null || _pluginManagerInstance == null)
@@ -255,8 +259,12 @@ namespace AspNetCore.PluginManager
         /// </summary>
         /// <param name="iPluginType">Type of IPlugin interface.  The type passed in must inherit IPlugin interface.</param>
         /// <exception cref="System.InvalidOperationException">Thrown when the iPluginType does not implement IPlugin interface.</exception>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1303:Do not pass literals as localized parameters", Justification = "Intended for developers not end users")]
         public static void UsePlugin(Type iPluginType)
         {
+            if (iPluginType == null)
+                throw new ArgumentNullException(nameof(iPluginType));
+
             if (iPluginType.GetInterface(typeof(IPlugin).Name) != null)
             {
                 if (_preinitialisedPlugins == null)

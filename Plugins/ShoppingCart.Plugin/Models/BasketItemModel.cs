@@ -24,7 +24,6 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
-using System.Collections.Generic;
 
 using SharedPluginFeatures;
 
@@ -34,6 +33,7 @@ namespace ShoppingCartPlugin.Models
     {
         #region Constructors
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1303:Do not pass literals as localized parameters", Justification = "Not a user displayed message")]
         public BasketItemModel(in BaseModelData modelData,
             in int productId, in string name, in string shortDescription, in string size,
             in string sku, in decimal price, in int quantity, in string stock, in decimal subTotal,
@@ -53,7 +53,7 @@ namespace ShoppingCartPlugin.Models
                 throw new ArgumentOutOfRangeException(nameof(subTotal));
 
             if (!String.IsNullOrEmpty(shortDescription) && shortDescription.Length > 50)
-                throw new ArgumentException(nameof(shortDescription));
+                throw new ArgumentException($"{nameof(shortDescription)} must be between 1 and 50 characters long");
 
             ProductId = productId;
             BackOrder = backOrder;

@@ -69,7 +69,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
         public void AddToLog(in LogLevel logLevel, in string module, in Exception exception, string data)
         {
 #if TRACE
-            System.Diagnostics.Trace.WriteLine($"{logLevel.ToString()} {module} {exception.Message}\r\n{data}");
+            System.Diagnostics.Trace.WriteLine($"{logLevel.ToString()} {module} {exception?.Message}\r\n{data}");
 #endif
 
 #if !DEBUG

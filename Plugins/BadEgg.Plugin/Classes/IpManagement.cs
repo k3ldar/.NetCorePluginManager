@@ -29,6 +29,8 @@ using Shared.Classes;
 
 using SharedPluginFeatures;
 
+#pragma warning disable CA1812
+
 namespace BadEgg.Plugin
 {
     internal class IpManagement : IIpManagement
@@ -86,3 +88,5 @@ namespace BadEgg.Plugin
         #endregion IIpManagement Methods
     }
 }
+
+#pragma warning restore CA1812

@@ -53,6 +53,9 @@ namespace Company.Plugin.Classes
         /// <param name="settingsProvider">ISettingsProvider instance</param>
         public CompanySitemapProvider(ISettingsProvider settingsProvider)
         {
+            if (settingsProvider == null)
+                throw new ArgumentNullException(nameof(settingsProvider));
+
             _settings = settingsProvider.GetSettings<CompanySettings>(nameof(CompanySettings));
         }
 

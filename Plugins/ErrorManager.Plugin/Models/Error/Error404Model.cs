@@ -27,7 +27,7 @@ using System;
 
 using SharedPluginFeatures;
 
-namespace ErrorManager.Plugin.Models.Error
+namespace ErrorManager.Plugin.Models
 {
     /// <summary>
     /// View model for a 404 error.

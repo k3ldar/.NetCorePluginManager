@@ -62,12 +62,12 @@ namespace UserSessionMiddleware.Plugin.Classes.SystemAdmin
         {
             string Result = "Setting|Value";
 
-            Result += $"\rTotal Requests|{UserSessionMiddleware._timings.Requests}";
-            Result += $"\rFastest ms|{UserSessionMiddleware._timings.Fastest}";
-            Result += $"\rSlowest ms|{UserSessionMiddleware._timings.Slowest}";
-            Result += $"\rAverage ms|{UserSessionMiddleware._timings.Average}";
-            Result += $"\rTrimmed Avg ms|{UserSessionMiddleware._timings.TrimmedAverage}";
-            Result += $"\rTotal ms|{UserSessionMiddleware._timings.Total}";
+            Result += $"\rTotal Requests|{SessionMiddleware._timings.Requests}";
+            Result += $"\rFastest ms|{SessionMiddleware._timings.Fastest}";
+            Result += $"\rSlowest ms|{SessionMiddleware._timings.Slowest}";
+            Result += $"\rAverage ms|{SessionMiddleware._timings.Average}";
+            Result += $"\rTrimmed Avg ms|{SessionMiddleware._timings.TrimmedAverage}";
+            Result += $"\rTotal ms|{SessionMiddleware._timings.Total}";
 
             return Result;
         }

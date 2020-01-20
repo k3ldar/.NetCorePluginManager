@@ -47,17 +47,17 @@ namespace AspNetCore.PluginManager
     {
         public void PopulateFeature(IEnumerable<ApplicationPart> parts, MetadataReferenceFeature feature)
         {
-            var libraryPaths = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
-            foreach (var assemblyPart in parts.OfType<AssemblyPart>())
+            HashSet<String> libraryPaths = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+            foreach (AssemblyPart assemblyPart in parts.OfType<AssemblyPart>())
             {
-                var dependencyContext = DependencyContext.Load(assemblyPart.Assembly);
+                DependencyContext dependencyContext = DependencyContext.Load(assemblyPart.Assembly);
                 if (dependencyContext != null)
                 {
-                    foreach (var library in dependencyContext.CompileLibraries)
+                    foreach (CompilationLibrary library in dependencyContext.CompileLibraries)
                     {
                         if (string.Equals("reference", library.Type, StringComparison.OrdinalIgnoreCase))
                         {
-                            foreach (var libraryAssembly in library.Assemblies)
+                            foreach (string libraryAssembly in library.Assemblies)
                             {
                                 libraryPaths.Add(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, libraryAssembly));
                             }
@@ -67,7 +67,7 @@ namespace AspNetCore.PluginManager
 
                             try
                             {
-                                foreach (var path in library.ResolveReferencePaths())
+                                foreach (string path in library.ResolveReferencePaths())
                                 {
                                     libraryPaths.Add(path);
                                 }
@@ -100,18 +100,19 @@ namespace AspNetCore.PluginManager
                 }
             }
 
-            foreach (var path in libraryPaths)
+            foreach (string path in libraryPaths)
             {
                 feature.MetadataReferences.Add(CreateMetadataReference(path));
             }
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Reliability", "CA2000:Dispose objects before losing scope", Justification = "Returned to Net Core, so not fussed")]
         private static MetadataReference CreateMetadataReference(string path)
         {
-            using (var stream = File.OpenRead(path))
+            using (FileStream stream = File.OpenRead(path))
             {
-                var moduleMetadata = ModuleMetadata.CreateFromStream(stream, PEStreamOptions.PrefetchMetadata);
-                var assemblyMetadata = AssemblyMetadata.Create(moduleMetadata);
+                ModuleMetadata moduleMetadata = ModuleMetadata.CreateFromStream(stream, PEStreamOptions.PrefetchMetadata);
+                AssemblyMetadata assemblyMetadata = AssemblyMetadata.Create(moduleMetadata);
 
                 return assemblyMetadata.GetReference(filePath: path);
             }

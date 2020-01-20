@@ -31,6 +31,8 @@ using PluginManager;
 
 using SharedPluginFeatures;
 
+#pragma warning disable CA1707
+
 namespace GeoIp.Plugin
 {
     /// <summary>
@@ -63,6 +65,7 @@ namespace GeoIp.Plugin
         /// <param name="ipFrom">out long.  Ip from range.</param>
         /// <param name="ipTo">out long.  Ip to range.</param>
         /// <returns>bool</returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1031:Do not catch general exception types", Justification = "it's ok here, nothing to see, move along")]
         public bool GetIpAddressDetails(in string ipAddress, out string countryCode, out string region,
             out string cityName, out decimal latitude, out decimal longitude, out long uniqueId,
             out long ipFrom, out long ipTo)
@@ -218,5 +221,6 @@ namespace GeoIp.Plugin
         /// </summary>
         public string info { get; set; }
     }
-
 }
+
+#pragma warning disable CA1707

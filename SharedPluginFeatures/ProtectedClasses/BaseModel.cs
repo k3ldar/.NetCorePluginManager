@@ -76,6 +76,7 @@ namespace SharedPluginFeatures
         /// Set the list of BreadcrumbItem.
         /// </summary>
         /// <value>List&lt;BreadCrumbItem&gt;</value>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1303:Do not pass literals as localized parameters", Justification = "Intended for developers not end users")]
         public List<BreadcrumbItem> Breadcrumbs
         {
             get

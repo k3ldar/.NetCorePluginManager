@@ -27,6 +27,8 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+#pragma warning disable CA1716, CA1030
+
 namespace PluginManager.Abstractions
 {
     /// <summary>
@@ -88,3 +90,5 @@ namespace PluginManager.Abstractions
         bool UnregisterListener(in INotificationListener listener);
     }
 }
+
+#pragma warning restore CA1716, CA1030

@@ -355,7 +355,7 @@ namespace SharedPluginFeatures
 
             string paginationParameters = parameters;
 
-            if (paginationParameters != String.Empty)
+            if (!String.IsNullOrEmpty(paginationParameters))
             {
                 if (paginationParameters[0] != '&')
                     paginationParameters = "&" + paginationParameters;

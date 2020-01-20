@@ -28,9 +28,9 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 
-using SharedPluginFeatures;
-
 using Middleware.Products;
+
+using SharedPluginFeatures;
 
 namespace Middleware.ShoppingCart
 {
@@ -56,8 +56,8 @@ namespace Middleware.ShoppingCart
         /// <param name="items">List of items within the shopping cart.</param>
         /// <param name="requiresShipping">Indicates that the cart has items that need shipping.</param>
         /// <param name="currencyCode">Currency code for the shopping cart.</param>
-        public ShoppingCartDetail(in long id, in int totalItems, in decimal totalCost, 
-            in decimal taxRate, in decimal shipping, in decimal discount, in CultureInfo culture, 
+        public ShoppingCartDetail(in long id, in int totalItems, in decimal totalCost,
+            in decimal taxRate, in decimal shipping, in decimal discount, in CultureInfo culture,
             in string couponCode, in List<ShoppingCartItem> items, in bool requiresShipping,
             in string currencyCode)
             : base(id, totalItems, totalCost, discount, shipping, taxRate, culture, currencyCode)
@@ -120,8 +120,8 @@ namespace Middleware.ShoppingCart
 
             if (existingItem == null)
             {
-                Items.Add(new ShoppingCartItem(product.Id, count, product.RetailPrice, product.Name, 
-                    product.Description.Substring(0, Shared.Utilities.CheckMinMax(product.Description.Length, 0, 49)), 
+                Items.Add(new ShoppingCartItem(product.Id, count, product.RetailPrice, product.Name,
+                    product.Description.Substring(0, Shared.Utilities.CheckMinMax(product.Description.Length, 0, 49)),
                     product.Sku, product.Images, product.IsDownload, product.AllowBackorder, String.Empty));
             }
             else
@@ -134,17 +134,19 @@ namespace Middleware.ShoppingCart
             ResetTotalCost(base.SubTotal + (product.RetailPrice * count));
         }
 
+
         /// <summary>
         /// Updates the quantity for a specific product within the shopping cart.
         /// </summary>
         /// <param name="productId">Unique id of the product to be updated.</param>
         /// <param name="count">New quantity to be applied to the Product.</param>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1303:Do not pass literals as localized parameters", Justification = "<Pending>")]
         public void Update(int productId, int count)
         {
             ShoppingCartItem existingItem = Items.Where(e => e.Id == productId).FirstOrDefault();
 
             if (existingItem == null)
-                throw new ArgumentException(nameof(productId));
+                throw new ArgumentException("invalid product id", nameof(productId));
 
             existingItem.ResetCount(count);
 

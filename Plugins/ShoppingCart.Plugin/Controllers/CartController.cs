@@ -131,6 +131,9 @@ namespace ShoppingCartPlugin.Controllers
         [HttpPost]
         public IActionResult Update(UpdateQuantityModel model)
         {
+            if (model == null)
+                throw new ArgumentNullException(nameof(model));
+
             ShoppingCartDetail cartDetails = _shoppingCartProvider.GetDetail(GetCartSummary().Id);
 
             ShoppingCartItem item = cartDetails.Items.Where(i => i.Id == model.ProductId).FirstOrDefault();
@@ -146,6 +149,9 @@ namespace ShoppingCartPlugin.Controllers
         [HttpPost]
         public IActionResult AddVoucher(VoucherModel model)
         {
+            if (model == null)
+                throw new ArgumentNullException(nameof(model));
+
             if (!String.IsNullOrEmpty(model.Voucher))
             {
                 if (_shoppingCartProvider.ValidateVoucher(GetCartSummary(), model.Voucher, GetUserSession().UserID))
@@ -198,6 +204,7 @@ namespace ShoppingCartPlugin.Controllers
         }
 
         [HttpPost]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1303:Do not pass literals as localized parameters", Justification = "I deem it to be valid in this context!")]
         public IActionResult ProcessCheckout(CheckoutModel model)
         {
             // get the selected provider
@@ -229,6 +236,8 @@ namespace ShoppingCartPlugin.Controllers
         }
 
         [Breadcrumb(nameof(Languages.LanguageStrings.ThankyouOrder), "Cart", nameof(Index))]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "Forms part of route name")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", Justification = "Forms part of route name")]
         public IActionResult Success(string provider)
         {
             UserSession session = GetUserSession();
@@ -263,6 +272,7 @@ namespace ShoppingCartPlugin.Controllers
             }
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1303:Do not pass literals as localized parameters", Justification = "OK in this context")]
         private void PrepareCheckoutModel(in CheckoutModel model, in ShoppingCartDetail cartDetail)
         {
 

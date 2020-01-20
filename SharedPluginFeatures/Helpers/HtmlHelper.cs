@@ -27,6 +27,8 @@ using System.Text;
 
 using Microsoft.AspNetCore.Mvc.Rendering;
 
+#pragma warning disable CA1707
+
 namespace SharedPluginFeatures
 {
     /// <summary>
@@ -91,3 +93,5 @@ namespace SharedPluginFeatures
         }
     }
 }
+
+#pragma warning restore CA1707

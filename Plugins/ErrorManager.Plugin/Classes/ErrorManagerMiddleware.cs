@@ -67,6 +67,9 @@ namespace ErrorManager.Plugin
         public ErrorManagerMiddleware(RequestDelegate next, IErrorManager errorManager,
             ISettingsProvider settingsProvider)
         {
+            if (settingsProvider == null)
+                throw new ArgumentNullException(nameof(settingsProvider));
+
             _next = next ?? throw new ArgumentNullException(nameof(next));
             _errorManager = errorManager ?? throw new ArgumentNullException(nameof(errorManager));
             _errorThreadManager = new ErrorThreadManager(errorManager);

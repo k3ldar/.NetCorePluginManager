@@ -82,6 +82,12 @@ namespace BadEgg.Plugin
             if (pluginHelperService == null)
                 throw new ArgumentNullException(nameof(pluginHelperService));
 
+            if (pluginTypesService == null)
+                throw new ArgumentNullException(nameof(pluginTypesService));
+
+            if (settingsProvider == null)
+                throw new ArgumentNullException(nameof(settingsProvider));
+
             _next = next;
 
             _userSessionManagerLoaded = pluginHelperService.PluginLoaded(Constants.PluginNameUserSession, out int version);
@@ -110,6 +116,9 @@ namespace BadEgg.Plugin
 
         public async Task Invoke(HttpContext context)
         {
+            if (context == null)
+                throw new ArgumentNullException(nameof(context));
+
             string fileExtension = RouteFileExtension(context);
 
             if (!String.IsNullOrEmpty(fileExtension) && _staticFileExtensions.Contains($"{fileExtension};"))
@@ -133,7 +142,7 @@ namespace BadEgg.Plugin
                     }
                 }
 
-                ValidateRequestResult validateResult = _validateConnections.ValidateRequest(context.Request, validateFormInput, out int count);
+                ValidateRequestResult validateResult = _validateConnections.ValidateRequest(context.Request, validateFormInput, out int _);
 
                 if (!validateResult.HasFlag(ValidateRequestResult.IpWhiteListed))
                 {
@@ -206,22 +215,22 @@ namespace BadEgg.Plugin
 
         #region IIpValidation Methods
 
-        private void ValidateConnections_OnBanIPAddress(object sender, RequestBanArgs e)
+        private void ValidateConnections_OnBanIPAddress(object sender, RequestBanEventArgs e)
         {
             e.AddToBlackList = _ipValidation.ConnectionBan(e.IPAddress, e.Hits, e.Requests, e.Duration);
         }
 
-        private void ValidateConnections_OnReportConnection(object sender, ConnectionReportArgs e)
+        private void ValidateConnections_OnReportConnection(object sender, ConnectionReportEventArgs e)
         {
             _ipValidation.ConnectionReport(e.IPAddress, e.QueryString, e.Result);
         }
 
-        private void ValidateConnections_ConnectionRemove(object sender, ConnectionRemoveArgs e)
+        private void ValidateConnections_ConnectionRemove(object sender, ConnectionRemoveEventArgs e)
         {
             _ipValidation.ConnectionRemove(e.IPAddress, e.Hits, e.Requests, e.Duration);
         }
 
-        private void ValidateConnections_ConnectionAdd(object sender, ConnectionArgs e)
+        private void ValidateConnections_ConnectionAdd(object sender, ConnectionEventArgs e)
         {
             _ipValidation.ConnectionAdd(e.IPAddress);
         }

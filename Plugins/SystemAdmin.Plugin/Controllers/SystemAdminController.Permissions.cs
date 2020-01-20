@@ -54,6 +54,9 @@ namespace SystemAdmin.Plugin.Controllers
         [HttpPost]
         public IActionResult SetUserPermissions(UserPermissionsViewModel model)
         {
+            if (model == null)
+                throw new ArgumentNullException(nameof(model));
+
             if (String.IsNullOrEmpty(model.SelectedClaims))
                 model.SelectedClaims = String.Empty;
 

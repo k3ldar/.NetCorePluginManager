@@ -23,6 +23,7 @@
  *  08/08/2019  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+using System;
 using System.Linq;
 
 using Microsoft.AspNetCore.Mvc;
@@ -35,7 +36,10 @@ namespace SystemAdmin.Plugin.Controllers
     {
         public JsonResult UserSearch(BootgridRequestData model)
         {
-            var Result = new BootgridResponseData<Middleware.Users.SearchUser>
+            if (model == null)
+                throw new ArgumentNullException(nameof(model));
+
+            BootgridResponseData<Middleware.Users.SearchUser> Result = new BootgridResponseData<Middleware.Users.SearchUser>
             {
                 rows = _userSearch.GetUsers(model.current, model.rowCount, model.searchPhrase, ""),
                 current = model.current,

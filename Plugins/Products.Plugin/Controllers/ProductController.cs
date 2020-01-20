@@ -64,6 +64,9 @@ namespace ProductPlugin.Controllers
             if (settingsProvider == null)
                 throw new ArgumentNullException(nameof(settingsProvider));
 
+            if (pluginHelper == null)
+                throw new ArgumentNullException(nameof(pluginHelper));
+
             ProductControllerSettings settings = settingsProvider.GetSettings<ProductControllerSettings>("Products");
 
             _productProvider = productProvider ?? throw new ArgumentNullException(nameof(productProvider));
@@ -85,6 +88,7 @@ namespace ProductPlugin.Controllers
         [HttpGet]
         [Route("/Products/{groupName}/{id?}/Page/{page}/")]
         [Route("/Products/{groupName}/{id?}/")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", Justification = "Forms part of route name")]
         public IActionResult Index(string groupName, int? id, int? page)
         {
             ProductGroup group = null;
@@ -107,6 +111,7 @@ namespace ProductPlugin.Controllers
 
         [HttpGet]
         [Route("/Product/{id}/{productName}/")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", Justification = "Forms part of route name")]
         public IActionResult Product(int id, string productName)
         {
             ProductModel model = GetProductModel(id);
@@ -120,6 +125,9 @@ namespace ProductPlugin.Controllers
         [HttpPost]
         public IActionResult AddToCart(AddToCartModel model)
         {
+            if (model == null)
+                throw new ArgumentNullException(nameof(model));
+
             Product product = _productProvider.GetProduct(model.Id);
             IShoppingCartProvider provider = (IShoppingCartProvider)HttpContext.RequestServices.GetService(typeof(IShoppingCartProvider));
             provider.AddToCart(GetUserSession(), GetCartSummary(), product, model.Quantity);
@@ -144,7 +152,7 @@ namespace ProductPlugin.Controllers
 
             List<ProductCategoryModel> modelCategories = new List<ProductCategoryModel>();
 
-            foreach (var item in _productProvider.ProductGroupsGet())
+            foreach (ProductGroup item in _productProvider.ProductGroupsGet())
             {
                 modelCategories.Add(new ProductCategoryModel(item.Id, item.Description, item.Url));
             }
@@ -175,7 +183,7 @@ namespace ProductPlugin.Controllers
 
             List<ProductCategoryModel> modelCategories = new List<ProductCategoryModel>();
 
-            foreach (var item in _productProvider.ProductGroupsGet())
+            foreach (ProductGroup item in _productProvider.ProductGroupsGet())
             {
                 modelCategories.Add(new ProductCategoryModel(item.Id, item.Description, item.Url));
             }

@@ -25,6 +25,8 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
 
+#pragma warning disable IDE0011
+
 namespace UserSessionMiddleware.Plugin
 {
     internal class RouteData
@@ -64,7 +66,7 @@ namespace UserSessionMiddleware.Plugin
             if (String.IsNullOrEmpty(route))
                 throw new ArgumentNullException(nameof(route));
 
-            if (Route.Equals(route))
+            if (Route.Equals(route, StringComparison.InvariantCultureIgnoreCase))
                 return true;
 
             if (route.EndsWith("/") && Route.Equals(route.Substring(0, route.Length - 1)))
@@ -88,3 +90,5 @@ namespace UserSessionMiddleware.Plugin
         #endregion Properties
     }
 }
+
+#pragma warning restore IDE0011

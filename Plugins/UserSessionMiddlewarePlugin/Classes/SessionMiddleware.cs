@@ -47,7 +47,7 @@ namespace UserSessionMiddleware.Plugin
     /// 
     /// This class is inserted into the request pipeline and manages all User Session data.
     /// </summary>
-    public sealed class UserSessionMiddleware : BaseMiddleware
+    public sealed class SessionMiddleware : BaseMiddleware
     {
         #region Private Members
 
@@ -65,7 +65,7 @@ namespace UserSessionMiddleware.Plugin
 
         #region Constructors
 
-        public UserSessionMiddleware(RequestDelegate next, IActionDescriptorCollectionProvider routeProvider,
+        public SessionMiddleware(RequestDelegate next, IActionDescriptorCollectionProvider routeProvider,
             IRouteDataService routeDataService, IPluginTypesService pluginTypesService, ISettingsProvider settingsProvider)
         {
             if (routeProvider == null)
@@ -114,10 +114,14 @@ namespace UserSessionMiddleware.Plugin
 
         public async Task Invoke(HttpContext context)
         {
+            if (context == null)
+                throw new ArgumentNullException(nameof(context));
+
             string fileExtension = base.RouteFileExtension(context);
 
             // if it's a static file, don't add user session data to the context
-            if (!String.IsNullOrEmpty(fileExtension) && _staticFileExtension.Contains($"{fileExtension};"))
+            if (!String.IsNullOrEmpty(fileExtension) &&
+                _staticFileExtension.Contains($"{fileExtension};", StringComparison.InvariantCultureIgnoreCase))
             {
                 await _next(context);
                 return;
@@ -181,7 +185,7 @@ namespace UserSessionMiddleware.Plugin
                         break;
                     }
 
-                    if (partialMatch == null && route.StartsWith(routeData.Route))
+                    if (partialMatch == null && route.StartsWith(routeData.Route, StringComparison.InvariantCultureIgnoreCase))
                         partialMatch = routeData;
                 }
 
@@ -239,6 +243,7 @@ namespace UserSessionMiddleware.Plugin
             userSession.Culture = CookieValue(context, Constants.UserCulture, _cookieEncryptionKey, _defaultCulture);
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1031:Do not catch general exception types", Justification = "it's ok here, nothing to see, move along")]
         private UserSession GetUserSession(in HttpContext context, in string sessionId)
         {
             if (context == null)
@@ -262,7 +267,7 @@ namespace UserSessionMiddleware.Plugin
             catch (Exception err)
             {
                 if (PluginInitialisation.GetLogger != null)
-                    PluginInitialisation.GetLogger.AddToLog(PluginManager.LogLevel.Error, nameof(UserSessionMiddleware), err,
+                    PluginInitialisation.GetLogger.AddToLog(PluginManager.LogLevel.Error, nameof(SessionMiddleware), err,
                         MethodBase.GetCurrentMethod().Name);
             }
 

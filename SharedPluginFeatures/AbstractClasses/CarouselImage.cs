@@ -37,6 +37,7 @@ namespace SharedPluginFeatures
         /// <returns>url for the image.</returns>
         public abstract string ImageUrl();
 
+
         /// <summary>
         /// Url to be used when the carousel item is clicked
         /// </summary>

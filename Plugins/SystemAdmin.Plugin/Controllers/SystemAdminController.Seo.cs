@@ -62,6 +62,9 @@ namespace SystemAdmin.Plugin.Controllers
         [Authorize(Policy = Constants.PolicyNameAlterSeoData)]
         public IActionResult SeoUpdateData(SeoDataModel model)
         {
+            if (model == null)
+                throw new ArgumentNullException(nameof(model));
+
             if (!_seoProvider.GetSeoDataForRoute(model.SeoUrl, out string title, out string metaDescription, out string author, out List<string> keywords))
             {
                 keywords = new List<string>();

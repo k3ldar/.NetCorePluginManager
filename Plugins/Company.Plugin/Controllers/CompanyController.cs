@@ -23,6 +23,8 @@
  *  07/01/2019  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+using System;
+
 using Company.Plugin.Classes;
 
 using Microsoft.AspNetCore.Mvc;
@@ -48,6 +50,9 @@ namespace Company.Plugin.Controllers
 
         public CompanyController(ISettingsProvider settingsProvider)
         {
+            if (settingsProvider == null)
+                throw new ArgumentNullException(nameof(settingsProvider));
+
             _settings = settingsProvider.GetSettings<CompanySettings>(nameof(CompanySettings));
         }
 

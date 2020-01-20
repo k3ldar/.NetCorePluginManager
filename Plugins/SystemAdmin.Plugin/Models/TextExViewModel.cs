@@ -41,6 +41,7 @@ namespace SystemAdmin.Plugin.Models
 
         #region Constructors
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1303:Do not pass literals as localized parameters", Justification = "OK in this context")]
         public TextExViewModel(in BaseModelData modelData,
             in ISettingsProvider settingsProvider, in SystemAdminSubMenu subMenu)
             : base(modelData)

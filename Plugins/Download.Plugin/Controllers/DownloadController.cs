@@ -28,21 +28,20 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Hosting;
-
+using DownloadPlugin.Classes;
 using DownloadPlugin.Models;
 
-using Shared.Classes;
+using Languages;
 
-using SharedPluginFeatures;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
 
 using Middleware;
 using Middleware.Downloads;
 
-using Languages;
+using Shared.Classes;
 
-using DownloadPlugin.Classes;
+using SharedPluginFeatures;
 
 #pragma warning disable CS1591
 
@@ -94,6 +93,7 @@ namespace DownloadPlugin.Controllers
 
         [Route("/Download/{id}/Category/{categoryName}")]
         [Route("/Download/{id}/Category/{categoryName}/Page/{page}")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", Justification = "Forms part of route name")]
         public IActionResult Category(int id, string categoryName, int? page)
         {
             if (_categories.Count == 0)
@@ -197,7 +197,7 @@ namespace DownloadPlugin.Controllers
             size = String.Empty;
 
             string cacheName = $"FileInformation {fileName}";
-            FileInformation fileInformation = null;
+            FileInformation fileInformation;
             CacheItem cacheItem = _downloadCache.Get(cacheName);
 
             if (cacheItem == null)

@@ -128,24 +128,24 @@
             Error Controller
             </summary>
         </member>
-        <member name="T:ErrorManager.Plugin.Models.Error.Error404Model">
+        <member name="T:ErrorManager.Plugin.Models.Error404Model">
             <summary>
             View model for a 404 error.
             </summary>
         </member>
-        <member name="M:ErrorManager.Plugin.Models.Error.Error404Model.#ctor">
+        <member name="M:ErrorManager.Plugin.Models.Error404Model.#ctor">
             <summary>
             Default constructor
             </summary>
         </member>
-        <member name="M:ErrorManager.Plugin.Models.Error.Error404Model.#ctor(SharedPluginFeatures.BaseModelData@,System.String)">
+        <member name="M:ErrorManager.Plugin.Models.Error404Model.#ctor(SharedPluginFeatures.BaseModelData@,System.String)">
             <summary>
             Constructor
             </summary>
             <param name="modelData">Base model data.</param>
             <param name="title">Title to be displayed on the page.</param>
         </member>
-        <member name="M:ErrorManager.Plugin.Models.Error.Error404Model.#ctor(SharedPluginFeatures.BaseModelData@,System.String,System.String,System.String)">
+        <member name="M:ErrorManager.Plugin.Models.Error404Model.#ctor(SharedPluginFeatures.BaseModelData@,System.String,System.String,System.String)">
             <summary>
             Constructor
             </summary>
@@ -154,19 +154,19 @@
             <param name="message">Message to be displayed to the user.</param>
             <param name="image">Image to be displayed on the page.</param>
         </member>
-        <member name="P:ErrorManager.Plugin.Models.Error.Error404Model.Title">
+        <member name="P:ErrorManager.Plugin.Models.Error404Model.Title">
             <summary>
             Title to be displayed on the page.
             </summary>
             <value>string</value>
         </member>
-        <member name="P:ErrorManager.Plugin.Models.Error.Error404Model.Message">
+        <member name="P:ErrorManager.Plugin.Models.Error404Model.Message">
             <summary>
             Message to be displayed to the user.
             </summary>
             <value>string</value>
         </member>
-        <member name="P:ErrorManager.Plugin.Models.Error.Error404Model.Image">
+        <member name="P:ErrorManager.Plugin.Models.Error404Model.Image">
             <summary>
             Image to be displayed on the page.
             </summary>

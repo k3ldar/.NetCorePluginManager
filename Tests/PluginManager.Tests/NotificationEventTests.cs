@@ -28,8 +28,8 @@ using System.Collections.Generic;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-using PluginManager.Abstractions;
 using PluginManager.Internal;
+using PluginManager.Abstractions;
 
 namespace PluginManager.Tests
 {
@@ -178,6 +178,7 @@ namespace PluginManager.Tests
 
     public class ValidEvents1 : INotificationListener
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1303:Do not pass literals as localized parameters", Justification = "Intended for developers not end users")]
         public bool EventRaised(in string eventId, in object param1, in object param2, ref object result)
         {
             switch (eventId)
@@ -208,6 +209,7 @@ namespace PluginManager.Tests
 
     public class ValidEvents2 : INotificationListener
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1303:Do not pass literals as localized parameters", Justification = "Intended for developers not end users")]
         public bool EventRaised(in string eventId, in object param1, in object param2, ref object result)
         {
             switch (eventId)

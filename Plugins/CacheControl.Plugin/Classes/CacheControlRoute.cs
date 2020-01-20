@@ -41,6 +41,7 @@ namespace CacheControl.Plugin
         /// </summary>
         /// <value>string[]</value>
         [SettingString(false, 1, 1500)]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1819:Properties should not return arrays", Justification = "ok on this occasion")]
         public string[] Route { get; set; }
 
         /// <summary>

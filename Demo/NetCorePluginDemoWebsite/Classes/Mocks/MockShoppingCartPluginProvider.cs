@@ -41,7 +41,7 @@ using SharedPluginFeatures;
 
 namespace AspNetCore.PluginManager.DemoWebsite.Classes
 {
-    public class MockShoppingCartPluginProvider : IShoppingCartProvider, IShoppingCartService, IDisposable
+    public sealed class MockShoppingCartPluginProvider : IShoppingCartProvider, IShoppingCartService, IDisposable
     {
         #region Private Members
 
@@ -77,6 +77,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
 
         #region IShoppingCartProvider Methds
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1303:Do not pass literals as localized parameters", Justification = "Intended for developers not end users")]
         public long AddToCart(in UserSession userSession, in ShoppingCartSummary shoppingCart,
             in Product product, in int count)
         {
@@ -95,7 +96,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
             decimal cost = product.RetailPrice;
 
             if (cost < 0)
-                throw new ArgumentOutOfRangeException(nameof(cost));
+                throw new InvalidOperationException($"{nameof(cost)} value must be greater than zero");
 
             ShoppingCartDetail cartDetail = null;
 
@@ -195,10 +196,16 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
 
         #region IDisposable Methods
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1063:Implement IDisposable Correctly", Justification = "uses flag")]
         public void Dispose()
         {
-            _cartCacheManager.ItemNotFound -= cartCacheManager_ItemNotFound;
-            _cartHookedUp = false;
+            if (_cartHookedUp)
+            {
+                _cartCacheManager.ItemNotFound -= cartCacheManager_ItemNotFound;
+                _cartHookedUp = false;
+            }
+
+            GC.SuppressFinalize(this);
         }
 
         #endregion IDisposable Methods
@@ -221,7 +228,8 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
 
         private void cartCacheManager_ItemNotFound(object sender, Shared.CacheItemNotFoundArgs e)
         {
-            Int64.TryParse(e.Name.Substring(5), out long cartId);
+            if (!Int64.TryParse(e.Name.Substring(5), out long cartId))
+                cartId = ++_basketId;
 
             ShoppingCartDetail cartDetail = new ShoppingCartDetail(cartId,
                 0, 0, 20, 0, 0, System.Threading.Thread.CurrentThread.CurrentCulture,

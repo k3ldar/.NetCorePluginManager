@@ -29,8 +29,9 @@ using System.Diagnostics;
 namespace SharedPluginFeatures
 {
     /// <summary>
-    /// Stopwatch Timer is used to automatically collect and generate timing data accurate to milliseconds.
+    /// Stopwatch Timer is used to automatically collect and generate timing data accurate to 1000th of a millisecond.
     /// </summary>
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1815:Override equals and operator equals on value types", Justification = "Do not believe this is required here")]
     public struct StopWatchTimer : IDisposable
     {
         #region Private Members

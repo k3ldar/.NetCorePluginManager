@@ -26,17 +26,17 @@
 using System;
 using System.Collections.Generic;
 
-using Microsoft.AspNetCore.Mvc;
-
 using HelpdeskPlugin.Classes;
 using HelpdeskPlugin.Models;
 
-using static Middleware.Constants;
+using Microsoft.AspNetCore.Mvc;
+
 using Middleware.Helpdesk;
 
-using static Shared.Utilities;
-
 using SharedPluginFeatures;
+
+using static Middleware.Constants;
+using static Shared.Utilities;
 
 namespace HelpdeskPlugin.Controllers
 {
@@ -80,6 +80,9 @@ namespace HelpdeskPlugin.Controllers
         [BadEgg]
         public IActionResult LeaveFeedback(LeaveFeedbackViewModel model)
         {
+            if (model == null)
+                throw new ArgumentNullException(nameof(model));
+
             if (!_settings.ShowFeedback)
                 return RedirectToAction(nameof(Index), Name);
 

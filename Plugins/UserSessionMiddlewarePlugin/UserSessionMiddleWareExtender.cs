@@ -42,7 +42,7 @@ namespace UserSessionMiddleware.Plugin
         /// <example><pre style="font-family:Consolas;font-size:13px;color:black;background:white;"><span style="color:#1f377f;">app</span>.<span style="color:#74531f;">UseUserSessionMiddleware</span>();</pre></example>
         public static IApplicationBuilder UseUserSessionMiddleware(this IApplicationBuilder builder)
         {
-            return builder.UseMiddleware<UserSessionMiddleware>();
+            return builder.UseMiddleware<SessionMiddleware>();
         }
     }
 }

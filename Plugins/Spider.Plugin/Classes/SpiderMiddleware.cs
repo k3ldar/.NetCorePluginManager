@@ -81,6 +81,12 @@ namespace Spider.Plugin
             if (pluginHelperService == null)
                 throw new ArgumentNullException(nameof(pluginHelperService));
 
+            if (settingsProvider == null)
+                throw new ArgumentNullException(nameof(settingsProvider));
+
+            if (pluginTypesService == null)
+                throw new ArgumentNullException(nameof(pluginTypesService));
+
             _notificationService = notificationService ?? throw new ArgumentNullException(nameof(notificationService));
 
             _next = next;
@@ -103,8 +109,12 @@ namespace Spider.Plugin
 
         #region Public Methods
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1031:Do not catch general exception types", Justification = "it's ok here, nothing to see, move along")]
         public async Task Invoke(HttpContext context)
         {
+            if (context == null)
+                throw new ArgumentNullException(nameof(context));
+
             string fileExtension = RouteFileExtension(context);
 
             if (!_processStaticFiles && !String.IsNullOrEmpty(fileExtension) &&

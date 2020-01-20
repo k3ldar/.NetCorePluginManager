@@ -83,6 +83,9 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
 
         public bool AddKeywords(in string route, in List<string> keywords)
         {
+            if (keywords == null)
+                return false;
+
             if (!_keywords.ContainsKey(route))
             {
                 _keywords.Add(route, new List<string>());

@@ -64,6 +64,13 @@
             and obtaining customer user session data or geo ip data, if required
             </summary>
         </member>
+        <member name="T:UserSessionMiddleware.Plugin.SessionMiddleware">
+            <summary>
+            UserSession Middleware.
+            
+            This class is inserted into the request pipeline and manages all User Session data.
+            </summary>
+        </member>
         <member name="T:UserSessionMiddleware.Plugin.UserSessionCore">
             <summary>
             Descendant of UserSession that is used for Net Core Applications.
@@ -129,13 +136,6 @@
             </summary>
             <param name="context">HttpContext</param>
             <param name="sessionId">Current user session id</param>
-        </member>
-        <member name="T:UserSessionMiddleware.Plugin.UserSessionMiddleware">
-            <summary>
-            UserSession Middleware.
-            
-            This class is inserted into the request pipeline and manages all User Session data.
-            </summary>
         </member>
         <member name="T:UserSessionMiddleware.Plugin.UserSessionSettings">
             <summary>

@@ -137,6 +137,9 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
         public void AddComment(in BlogItem blogItem, in BlogComment parentComment, in long userId,
             in string userName, in string comment)
         {
+            if (blogItem == null)
+                throw new ArgumentNullException(nameof(blogItem));
+
             if (String.IsNullOrEmpty(comment))
                 throw new ArgumentNullException(nameof(comment));
 

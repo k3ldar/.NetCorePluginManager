@@ -32,7 +32,7 @@ namespace SharedPluginFeatures
     /// <summary>
     /// Standard Enum values shared across all plugin modules.
     /// </summary>
-    public class Enums
+    public static class Enums
     {
         /// <summary>
         /// Geo Ip provider types.
@@ -112,6 +112,7 @@ namespace SharedPluginFeatures
         /// Validate Request Results
         /// </summary>
         [Flags]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Naming", "CA1714:Flags enums should have plural names", Justification = "yeak ok, I hear you but not this time!")]
         public enum ValidateRequestResult
         {
             /// <summary>

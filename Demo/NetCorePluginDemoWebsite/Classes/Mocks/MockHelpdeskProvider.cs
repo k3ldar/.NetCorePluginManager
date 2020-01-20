@@ -26,7 +26,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
+
 using Middleware;
 using Middleware.Helpdesk;
 
@@ -44,6 +44,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
 
         #region Constructors
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1303:Do not pass literals as localized parameters", Justification = "Intended for developers not end users")]
         public MockHelpdeskProvider()
         {
             _tickets = new List<HelpdeskTicket>()
@@ -111,6 +112,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
 
         #region Public Feedback Methods
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1303:Do not pass literals as localized parameters", Justification = "Intended for developers not end users")]
         public List<Feedback> GetFeedback(in bool publiclyVisible)
         {
             if (_feedback == null)
@@ -286,6 +288,9 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
 
         public void KnowledbaseView(in KnowledgeBaseItem item)
         {
+            if (item == null)
+                throw new ArgumentNullException(nameof(item));
+
             item.IncreastViewCount();
         }
 

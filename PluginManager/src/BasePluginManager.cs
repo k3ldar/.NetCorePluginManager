@@ -99,14 +99,16 @@ namespace PluginManager
             PluginLoad(Assembly.GetEntryAssembly(), String.Empty, false);
         }
 
+
         /// <summary>
         /// Destructor
         /// </summary>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1063:Implement IDisposable Correctly", Justification = "Has a flag")]
         ~BasePluginManager()
         {
             if (!_disposed)
             {
-                Dispose();
+                Dispose(false);
             }
         }
 
@@ -131,7 +133,7 @@ namespace PluginManager
         /// </summary>
         protected ILogger Logger { get; private set; }
 
-         /// <summary>
+        /// <summary>
         /// Returns the active IServiceProvider to descendant classes
         /// </summary>
         /// <value>IServiceProvider</value>
@@ -215,6 +217,7 @@ namespace PluginManager
         /// <param name="assembly">Assembly being loaded.</param>
         /// <param name="fileLocation">Location of assembly on physical disk.</param>
         /// <param name="extractResources">Determines whether resources are extracted from the plugin module or not.</param>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1031:Do not catch general exception types", Justification = "it's ok here, nothing to see, move along")]
         public void PluginLoad(in Assembly assembly, in string fileLocation, in bool extractResources)
         {
             if (assembly == null)
@@ -315,6 +318,7 @@ namespace PluginManager
         /// </summary>
         /// <param name="pluginName">Filename of plugin to be loaded.</param>
         /// <param name="copyLocal">If true, copies the plugin to a local temp area to load from.</param>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1031:Do not catch general exception types", Justification = "it's ok here, nothing to see, move along")]
         public void PluginLoad(in string pluginName, in bool copyLocal)
         {
             try
@@ -396,6 +400,7 @@ namespace PluginManager
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1031:Do not catch general exception types", Justification = "it's ok here, nothing to see, move along")]
         public List<Type> PluginGetTypesWithAttribute<T>()
         {
             List<Type> Result = new List<Type>();
@@ -457,6 +462,7 @@ namespace PluginManager
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1031:Do not catch general exception types", Justification = "it's ok here, nothing to see, move along")]
         public List<Type> PluginGetClassTypes<T>()
         {
             List<Type> Result = new List<Type>();
@@ -495,6 +501,7 @@ namespace PluginManager
         /// </summary>
         /// <typeparam name="T">Type of interface/class</typeparam>
         /// <returns></returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1031:Do not catch general exception types", Justification = "it's ok here, nothing to see, move along")]
         public List<T> PluginGetClasses<T>()
         {
             List<T> Result = new List<T>();
@@ -562,6 +569,9 @@ namespace PluginManager
         /// <returns></returns>
         public DynamicLoadResult AddAssembly(in Assembly assembly)
         {
+            if (assembly == null)
+                throw new ArgumentNullException(nameof(assembly));
+
             foreach (KeyValuePair<string, IPluginModule> plugin in _plugins)
             {
                 if (plugin.Value.Assembly.ManifestModule.ModuleHandle == assembly.ManifestModule.ModuleHandle)
@@ -590,6 +600,8 @@ namespace PluginManager
             if (type == null)
                 throw new ArgumentNullException(nameof(type));
 
+            List<object> Result = new List<object>();
+
             if (_serviceProvider != null)
             {
                 //grab a list of all constructors in the class, start with the one with most parameters
@@ -600,7 +612,6 @@ namespace PluginManager
 
                 foreach (ConstructorInfo constructor in constructors)
                 {
-                    List<object> Result = new List<object>();
 
                     foreach (ParameterInfo param in constructor.GetParameters())
                     {
@@ -617,7 +628,7 @@ namespace PluginManager
                 }
             }
 
-            return new object[] { };
+            return Result.ToArray();
         }
 
         #endregion Internal Methods
@@ -625,28 +636,42 @@ namespace PluginManager
         #region IDisposable Methods
 
         /// <summary>
-        /// Disposable method, notify all plugins to finalise
+        /// IDisposable Dispose method
         /// </summary>
         public void Dispose()
         {
-            if (_plugins != null && _plugins.Count > 0)
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
+        /// Disposable method, notify all plugins to finalise
+        /// </summary>
+        /// <param name="disposing">Indicates that the method has been called from IDispose.Dispose() </param>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1031:Do not catch general exception types", Justification = "it's ok here, nothing to see, move along")]
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing || !_disposed)
             {
-                foreach (KeyValuePair<string, IPluginModule> plugin in _plugins)
+                if (_plugins != null && _plugins.Count > 0)
                 {
-                    try
+                    foreach (KeyValuePair<string, IPluginModule> plugin in _plugins)
                     {
-                        plugin.Value.Plugin.Finalise();
+                        try
+                        {
+                            plugin.Value.Plugin.Finalise();
+                        }
+                        catch (Exception error)
+                        {
+                            Logger.AddToLog(LogLevel.Error, error, $"{plugin.Key}{MethodBase.GetCurrentMethod().Name}");
+                        }
                     }
-                    catch (Exception error)
-                    {
-                        Logger.AddToLog(LogLevel.Error, error, $"{plugin.Key}{MethodBase.GetCurrentMethod().Name}");
-                    }
+
+                    _plugins.Clear();
                 }
 
-                _plugins.Clear();
+                _disposed = true;
             }
-
-            _disposed = true;
         }
 
         #endregion IDisposable Methods
@@ -707,6 +732,7 @@ namespace PluginManager
         /// <typeparam name="T">Type to return</typeparam>
         /// <param name="pluginModule">plugin module</param>
         /// <returns>instantiated instance of Type T if found, otherwise null</returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1031:Do not catch general exception types", Justification = "it's ok here, nothing to see, move along")]
         private T GetPluginClass<T>(in PluginModule pluginModule)
         {
             try
@@ -794,18 +820,21 @@ namespace PluginManager
             }
         }
 
+
         /// <summary>
         /// Dynamically loads an assembly
         /// </summary>
         /// <param name="assemblyName">name of assembly</param>
         /// <returns>Assembly instance</returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA2208:Instantiate argument exceptions correctly", Justification = "Move along, nothing to see here")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1303:Do not pass literals as localized parameters", Justification = "I wanted to...")]
         private Assembly LoadAssembly(in string assemblyName)
         {
             if (String.IsNullOrEmpty(assemblyName))
-                throw new ArgumentException(nameof(assemblyName));
+                throw new ArgumentNullException(nameof(assemblyName));
 
             if (!File.Exists(assemblyName))
-                throw new ArgumentException(nameof(assemblyName));
+                throw new FileNotFoundException($"Assembly file not found: {nameof(assemblyName)}");
 
             string assembly = assemblyName;
 
@@ -815,6 +844,7 @@ namespace PluginManager
             return Assembly.LoadFrom(assembly);
         }
 
+
         /// <summary>
         /// If associated/required dll's are not found, and settings are configured, 
         /// attempt to load them from the configured path
@@ -822,6 +852,7 @@ namespace PluginManager
         /// <param name="sender"></param>
         /// <param name="args"></param>
         /// <returns>Resolved assemble, if found, otherwise null.</returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1031:Do not catch general exception types", Justification = "it's ok here, nothing to see, move along")]
         private Assembly CurrentDomainAssemblyResolve(object sender, ResolveEventArgs args)
         {
             if (String.IsNullOrWhiteSpace(_pluginSettings.SystemFiles) ||
@@ -833,7 +864,7 @@ namespace PluginManager
             string filename = args.Name.ToLower().Split(',')[0];
             string assembly = Path.Combine(_pluginSettings.SystemFiles, filename);
 
-            if (!assembly.EndsWith(".dll"))
+            if (!assembly.EndsWith(".dll", StringComparison.InvariantCultureIgnoreCase))
                 assembly += ".dll";
 
             try

@@ -154,6 +154,7 @@ namespace Middleware.Products
         /// List of images which represent the product.
         /// </summary>
         /// <value>string[]</value>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1819:Properties should not return arrays", Justification = "ok on this occasion")]
         public string[] Images { get; private set; }
 
         /// <summary>

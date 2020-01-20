@@ -79,10 +79,19 @@ namespace Breadcrumb.Plugin
             if (pluginHelperService == null)
                 throw new ArgumentNullException(nameof(pluginHelperService));
 
+            if (pluginClassesService == null)
+                throw new ArgumentNullException(nameof(pluginClassesService));
+
+            if (pluginTypesService == null)
+                throw new ArgumentNullException(nameof(pluginTypesService));
+
+            if (settingsProvider == null)
+                throw new ArgumentNullException(nameof(settingsProvider));
+
             _next = next;
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
-            if (pluginHelperService.PluginLoaded(Constants.PluginNameLocalization, out int version))
+            if (pluginHelperService.PluginLoaded(Constants.PluginNameLocalization, out int _))
             {
                 List<IStringLocalizer> stringLocalizers = pluginClassesService.GetPluginClasses<IStringLocalizer>();
 
@@ -106,8 +115,12 @@ namespace Breadcrumb.Plugin
 
         #region Public Methods
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1031:Do not catch general exception types", Justification = "it's ok here, nothing to see, move along")]
         public async Task Invoke(HttpContext context)
         {
+            if (context == null)
+                throw new ArgumentNullException(nameof(context));
+
             string fileExtension = RouteFileExtension(context);
 
             if (!String.IsNullOrEmpty(fileExtension) &&
@@ -251,7 +264,7 @@ namespace Breadcrumb.Plugin
                         if (String.IsNullOrEmpty(route))
                             continue;
 
-                        attribute.HasParams = method.GetParameters().Count() > 0 ||
+                        attribute.HasParams = method.GetParameters().Length > 0 ||
                             method.ContainsGenericParameters ||
                             attribute.HasParams;
 
@@ -322,25 +335,25 @@ namespace Breadcrumb.Plugin
                         if (String.IsNullOrEmpty(routeDesc))
                             routeDesc = Constants.ForwardSlash;
 
-                        AddDefaultRoute(routeDesc, route.Breadcrumbs, settings.HomeController, route.HasParameters);
+                        AddDefaultRoute(routeDesc, route.Breadcrumbs, route.HasParameters);
                     }
 
                     // is it the default controller
                     if (isDefaultController)
                     {
                         AddDefaultRoute($"{Constants.ForwardSlash}{settings.HomeController}{route.Route}", route.Breadcrumbs,
-                            settings.HomeController, route.HasParameters);
+                            route.HasParameters);
 
                         if (isDefaultAction)
                             AddDefaultRoute($"{Constants.ForwardSlash}{settings.HomeController}", route.Breadcrumbs,
-                                settings.HomeController, route.HasParameters);
+                                route.HasParameters);
                     }
                 }
             }
         }
 
         private void AddDefaultRoute(in string routeDescription, in List<BreadcrumbItem> breadcrumbs,
-            in string homeController, in bool hasParameters)
+            in bool hasParameters)
         {
             BreadcrumbRoute defaultRoute = new BreadcrumbRoute(routeDescription, hasParameters);
 

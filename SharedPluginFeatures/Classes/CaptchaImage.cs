@@ -66,10 +66,10 @@ namespace SharedPluginFeatures
         #region Private Members
 
         // Internal properties.
-        private string familyName;
+        private string _familyName;
 
         // For generating random numbers.
-        private readonly Random random = new Random(DateTime.Now.Millisecond);
+        private readonly Random _random = new Random(DateTime.Now.Millisecond);
 
         #endregion Private Members
 
@@ -100,10 +100,10 @@ namespace SharedPluginFeatures
         /// <param name="familyName">Font name to be used.</param>
         public CaptchaImage(string s, int width, int height, string familyName)
         {
-            this.Text = s;
-            this.SetDimensions(width, height);
-            this.SetFamilyName(familyName);
-            this.GenerateImage();
+            Text = s;
+            SetDimensions(width, height);
+            SetFamilyName(familyName);
+            GenerateImage();
         }
 
         /// <summary>
@@ -124,8 +124,8 @@ namespace SharedPluginFeatures
         /// </summary>
         public void Dispose()
         {
+            Dispose(true);
             GC.SuppressFinalize(this);
-            this.Dispose(true);
         }
 
         #endregion Public Methods
@@ -139,51 +139,53 @@ namespace SharedPluginFeatures
         protected virtual void Dispose(bool disposing)
         {
             if (disposing)
-                this.Image.Dispose();
+                Image.Dispose();
         }
 
         #endregion Protected Methods
 
         #region Private Methds
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1303:Do not pass literals as localized parameters", Justification = "Says what it needs to say in the error")]
         private void SetDimensions(int width, int height)
         {
             if (width <= 0)
-                throw new ArgumentOutOfRangeException("width", width, "Argument out of range, must be greater than zero.");
+                throw new ArgumentOutOfRangeException(nameof(width), width, "Argument out of range, must be greater than zero.");
 
             if (height <= 0)
-                throw new ArgumentOutOfRangeException("height", height, "Argument out of range, must be greater than zero.");
+                throw new ArgumentOutOfRangeException(nameof(height), height, "Argument out of range, must be greater than zero.");
 
-            this.Width = width;
-            this.Height = height;
+            Width = width;
+            Height = height;
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1031:Do not catch general exception types", Justification = "it's ok here, nothing to see, move along")]
         private void SetFamilyName(string familyName)
         {
             // If the named font is not installed, default to a system font.
             try
             {
-                using (Font font = new Font(this.familyName, 12F))
+                using (Font font = new Font(familyName, 12F))
                 {
-                    this.familyName = familyName;
+                    _familyName = familyName;
                 }
             }
             catch
             {
-                this.familyName = FontFamily.GenericSerif.Name;
+                _familyName = FontFamily.GenericSerif.Name;
             }
         }
 
         private void GenerateImage()
         {
             // Create a new 32-bit bitmap image.
-            Bitmap bitmap = new Bitmap(this.Width, this.Height, PixelFormat.Format32bppArgb);
+            Bitmap bitmap = new Bitmap(Width, Height, PixelFormat.Format32bppArgb);
 
             // Create a graphics object for drawing.
             using (Graphics g = Graphics.FromImage(bitmap))
             {
                 g.SmoothingMode = SmoothingMode.AntiAlias;
-                Rectangle rect = new Rectangle(0, 0, this.Width, this.Height);
+                Rectangle rect = new Rectangle(0, 0, Width, Height);
 
                 // Fill in the background.
                 HatchBrush hatchBrush = new HatchBrush(HatchStyle.SmallConfetti, Color.LightGray, Color.White);
@@ -205,8 +207,8 @@ namespace SharedPluginFeatures
                             if (font != null)
                                 font.Dispose();
 
-                            font = new Font(this.familyName, fontSize, FontStyle.Bold);
-                            size = g.MeasureString(this.Text, font);
+                            font = new Font(_familyName, fontSize, FontStyle.Bold);
+                            size = g.MeasureString(Text, font);
                         } while (size.Width > rect.Width);
 
                         // Set up the text format.
@@ -217,14 +219,14 @@ namespace SharedPluginFeatures
                             // Create a path using the text and warp it randomly.
                             using (GraphicsPath path = new GraphicsPath())
                             {
-                                path.AddString(this.Text, font.FontFamily, (int)font.Style, font.Size, rect, format);
+                                path.AddString(Text, font.FontFamily, (int)font.Style, font.Size, rect, format);
                                 float v = 4F;
                                 PointF[] points =
                                 {
-                                    new PointF(this.random.Next(rect.Width) / v, this.random.Next(rect.Height) / v),
-                                    new PointF(rect.Width - this.random.Next(rect.Width) / v, this.random.Next(rect.Height) / v),
-                                    new PointF(this.random.Next(rect.Width) / v, rect.Height - this.random.Next(rect.Height) / v),
-                                    new PointF(rect.Width - this.random.Next(rect.Width) / v, rect.Height - this.random.Next(rect.Height) / v)
+                                    new PointF(_random.Next(rect.Width) / v, _random.Next(rect.Height) / v),
+                                    new PointF(rect.Width - (_random.Next(rect.Width) / v), _random.Next(rect.Height) / v),
+                                    new PointF(_random.Next(rect.Width) / v, rect.Height - (_random.Next(rect.Height) / v)),
+                                    new PointF(rect.Width - (_random.Next(rect.Width) / v), rect.Height - (_random.Next(rect.Height) / v))
                                 };
 
                                 using (Matrix matrix = new Matrix())
@@ -234,8 +236,10 @@ namespace SharedPluginFeatures
                                 }
 
                                 // Draw the text.
-                                hatchBrush = new HatchBrush(HatchStyle.LargeConfetti, Color.LightGray, Color.DarkGray);
-                                g.FillPath(hatchBrush, path);
+                                using (HatchBrush hatchBrushText = new HatchBrush(HatchStyle.LargeConfetti, Color.LightGray, Color.DarkGray))
+                                {
+                                    g.FillPath(hatchBrushText, path);
+                                }
                             }
                         }
 
@@ -243,15 +247,15 @@ namespace SharedPluginFeatures
                         int m = Math.Max(rect.Width, rect.Height);
                         for (int i = 0; i < (int)(rect.Width * rect.Height / 30F); i++)
                         {
-                            int x = this.random.Next(rect.Width);
-                            int y = this.random.Next(rect.Height);
-                            int w = this.random.Next(m / 50);
-                            int h = this.random.Next(m / 50);
+                            int x = _random.Next(rect.Width);
+                            int y = _random.Next(rect.Height);
+                            int w = _random.Next(m / 50);
+                            int h = _random.Next(m / 50);
                             g.FillEllipse(hatchBrush, x, y, w, h);
                         }
 
                         // Set the image.
-                        this.Image = bitmap;
+                        Image = bitmap;
                     }
                     finally
                     {

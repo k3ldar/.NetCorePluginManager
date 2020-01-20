@@ -170,8 +170,14 @@
         </member>
         <member name="M:PluginManager.BasePluginManager.Dispose">
             <summary>
+            IDisposable Dispose method
+            </summary>
+        </member>
+        <member name="M:PluginManager.BasePluginManager.Dispose(System.Boolean)">
+            <summary>
             Disposable method, notify all plugins to finalise
             </summary>
+            <param name="disposing">Indicates that the method has been called from IDispose.Dispose() </param>
         </member>
         <member name="M:PluginManager.BasePluginManager.GetLocalCopyOfPlugin(System.String)">
             <summary>
@@ -448,7 +454,7 @@
             Adds data to the log file.
             </summary>
             <param name="logLevel">LogLevel enum indicating the type of log entry</param>
-            <param name="module">Name of module creating the log entry</param>
+            <param name="moduleName">Name of module creating the log entry</param>
             <param name="data">Data to be logged.</param>
         </member>
         <member name="M:PluginManager.Abstractions.ILogger.AddToLog(PluginManager.LogLevel@,System.String@,System.Exception@)">
@@ -456,7 +462,7 @@
             Logs an exception with the log file and also creates an additional exception log entry detailing the exception, call stack etc.
             </summary>
             <param name="logLevel">LogLevel enum indicating the type of log entry</param>
-            <param name="module">Name of module creating the log entry</param>
+            <param name="moduleName">Name of module creating the log entry</param>
             <param name="exception">Exception that was raised.</param>
         </member>
         <member name="M:PluginManager.Abstractions.ILogger.AddToLog(PluginManager.LogLevel@,System.String@,System.Exception@,System.String)">
@@ -464,7 +470,7 @@
             Logs an exception with the log file and also creates an additional exception log entry detailing the exception, call stack etc.
             </summary>
             <param name="logLevel">LogLevel enum indicating the type of log entry</param>
-            <param name="module">Name of module creating the log entry</param>
+            <param name="moduleName">Name of module creating the log entry</param>
             <param name="exception"></param>
             <param name="data">Additional data to be logged with the exception.</param>
         </member>

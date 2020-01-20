@@ -47,6 +47,7 @@ namespace SystemAdmin.Plugin.Models
             HomeIcons = homeMenuItems ?? throw new ArgumentNullException(nameof(homeMenuItems));
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA2208:Instantiate argument exceptions correctly", Justification = "Valid in this context")]
         public AvailableIconViewModel(in BaseModelData modelData,
             in SystemAdminMainMenu mainMenu)
             : this(modelData)

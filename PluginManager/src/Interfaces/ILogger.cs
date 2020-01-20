@@ -61,25 +61,25 @@ namespace PluginManager.Abstractions
         /// Adds data to the log file.
         /// </summary>
         /// <param name="logLevel">LogLevel enum indicating the type of log entry</param>
-        /// <param name="module">Name of module creating the log entry</param>
+        /// <param name="moduleName">Name of module creating the log entry</param>
         /// <param name="data">Data to be logged.</param>
-        void AddToLog(in LogLevel logLevel, in string module, in string data);
+        void AddToLog(in LogLevel logLevel, in string moduleName, in string data);
 
         /// <summary>
         /// Logs an exception with the log file and also creates an additional exception log entry detailing the exception, call stack etc.
         /// </summary>
         /// <param name="logLevel">LogLevel enum indicating the type of log entry</param>
-        /// <param name="module">Name of module creating the log entry</param>
+        /// <param name="moduleName">Name of module creating the log entry</param>
         /// <param name="exception">Exception that was raised.</param>
-        void AddToLog(in LogLevel logLevel, in string module, in Exception exception);
+        void AddToLog(in LogLevel logLevel, in string moduleName, in Exception exception);
 
         /// <summary>
         /// Logs an exception with the log file and also creates an additional exception log entry detailing the exception, call stack etc.
         /// </summary>
         /// <param name="logLevel">LogLevel enum indicating the type of log entry</param>
-        /// <param name="module">Name of module creating the log entry</param>
+        /// <param name="moduleName">Name of module creating the log entry</param>
         /// <param name="exception"></param>
         /// <param name="data">Additional data to be logged with the exception.</param>
-        void AddToLog(in LogLevel logLevel, in string module, in Exception exception, string data);
+        void AddToLog(in LogLevel logLevel, in string moduleName, in Exception exception, string data);
     }
 }

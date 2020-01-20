@@ -44,7 +44,7 @@ namespace DownloadPlugin.Models
         /// <param name="version">Version of download item.</param>
         /// <param name="filename">Filename.</param>
         /// <param name="size">Size of file.</param>
-        public DownloadableItem(in int id, in string name, in string description, in string version, 
+        public DownloadableItem(in int id, in string name, in string description, in string version,
             in string filename, in string size)
         {
             Id = id;
@@ -93,6 +93,7 @@ namespace DownloadPlugin.Models
         /// Icon to be displayed.
         /// </summary>
         /// <value>string</value>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1303:Do not pass literals as localized parameters", Justification = "I deem it to be valid in this context!")]
         public string Icon
         {
             get

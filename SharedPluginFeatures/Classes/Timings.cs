@@ -151,6 +151,9 @@ namespace SharedPluginFeatures
         /// <param name="stopWatch"></param>
         public void Increment(in Stopwatch stopWatch)
         {
+            if (stopWatch == null)
+                throw new ArgumentNullException(nameof(stopWatch));
+
             Increment(stopWatch.ElapsedTicks);
         }
 
