@@ -3,7 +3,7 @@
 	<PropertyGroup>
 		<TargetFrameworks>netcoreapp3.1;netcoreapp3.0;netcoreapp2.2;netcoreapp2.1</TargetFrameworks>
 		<LangVersion>latest</LangVersion>
-		<Version>3.2.0</Version>
+		<Version>3.3.0</Version>
 		<RazorCompileOnBuild>false</RazorCompileOnBuild>
 		<RazorCompileOnPublish>true</RazorCompileOnPublish>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
@@ -142,7 +142,7 @@
 		<PackageReference Include="SharedPluginFeatures" Version="$(Version)" />
 		<PackageReference Include="AspNetCore.PluginManager.Languages" Version="$(Version)" />
 		<PackageReference Include="Middleware" Version="$(Version)" />
-		<PackageReference Include="PluginManager" Version="3.2.0" />
+		<PackageReference Include="PluginManager" Version="3.3.0" />
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(Configuration)'=='Debug'">

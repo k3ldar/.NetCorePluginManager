@@ -97,7 +97,7 @@
 
   <ItemGroup Condition="'$(Configuration)'=='Release'">
     <PackageReference Include="SharedPluginFeatures" Version="$(Version)" />
-    <PackageReference Include="PluginManager" Version="3.2.0" />
+    <PackageReference Include="PluginManager" Version="3.3.0" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(Configuration)'=='Debug'">
