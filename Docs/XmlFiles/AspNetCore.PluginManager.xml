@@ -17,6 +17,79 @@
             <param name="mvcBuilder">IMvcBuilder instance.</param>
             <returns>IMvcBuilder</returns>
         </member>
+        <member name="T:AspNetCore.PluginManager.Classes.Minify.MinifyResult">
+            <summary>
+            Indicates the individual timings, start and end length of data and name of minification process.
+            </summary>
+        </member>
+        <member name="M:AspNetCore.PluginManager.Classes.Minify.MinifyResult.#ctor(System.String@,System.Int32@)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="processName">Name of individual minification process name.</param>
+            <param name="startLength">Starting length of the data to be minified.</param>
+        </member>
+        <member name="P:AspNetCore.PluginManager.Classes.Minify.MinifyResult.ProcessName">
+            <summary>
+            Name of process within the minification, if the minification is not split into individual elements then the name of the minification engine.
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:AspNetCore.PluginManager.Classes.Minify.MinifyResult.StartLength">
+            <summary>
+            Length of data before minification has taken place.
+            </summary>
+            <value>int</value>
+        </member>
+        <member name="P:AspNetCore.PluginManager.Classes.Minify.MinifyResult.EndLength">
+            <summary>
+            Length of data after minification has completed.
+            </summary>
+            <value>int</value>
+        </member>
+        <member name="P:AspNetCore.PluginManager.Classes.Minify.MinifyResult.TimeTaken">
+            <summary>
+            Time taken to complete the minification
+            </summary>
+            <value>decimal</value>
+        </member>
+        <member name="M:AspNetCore.PluginManager.Classes.Minify.MinifyResult.Finalise(System.Int32,System.Decimal)">
+            <summary>
+            Called to indicate the minification process is complete and store the final length of data and time taken in 1000ths ms.
+            </summary>
+            <param name="endLength">Length of data after minification.</param>
+            <param name="timeTaken">Time taken to complete the minification.</param>
+        </member>
+        <member name="T:AspNetCore.PluginManager.Classes.Minify.PreserveBlock">
+            <summary>
+            Represents a block of preserved data that should not be modified during minification
+            </summary>
+        </member>
+        <member name="M:AspNetCore.PluginManager.Classes.Minify.PreserveBlock.#ctor(SharedPluginFeatures.MinificationPreserveBlock@,System.Int32@)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="blockType">Type of minification block.</param>
+            <param name="startBlock">Start of block within the data.</param>
+        </member>
+        <member name="P:AspNetCore.PluginManager.Classes.Minify.PreserveBlock.BlockStart">
+            <summary>
+            Starting index of the block of data.
+            </summary>
+            <value>int</value>
+        </member>
+        <member name="P:AspNetCore.PluginManager.Classes.Minify.PreserveBlock.BlockEnd">
+            <summary>
+            Ending index of the block of data.
+            </summary>
+            <value>int</value>
+        </member>
+        <member name="P:AspNetCore.PluginManager.Classes.Minify.PreserveBlock.BlockType">
+            <summary>
+            Type of preserved block
+            </summary>
+            <value>MinificationPreserveBlock</value>
+        </member>
         <member name="T:AspNetCore.PluginManager.Classes.SystemAdmin.LoadedModulesMenu">
             <summary>
             Returns a list of all assemblies currently loaded by the application and can 
@@ -113,6 +186,11 @@
             Prevents PluginManager from creating an IRouteDataService instance that can be obtained from IoC
             </summary>
             <value>bool</value>
+        </member>
+        <member name="P:AspNetCore.PluginManager.NetCorePluginSettings.MinifyFiles">
+            <summary>
+            Indicates that files should be minified
+            </summary>
         </member>
         <member name="T:AspNetCore.PluginManager.PluginManagerService">
             <summary>

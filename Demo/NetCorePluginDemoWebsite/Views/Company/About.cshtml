@@ -1,34 +1,15 @@
 ﻿@model SharedPluginFeatures.BaseModel
 @inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
-
 @{
-    ViewData["Title"] = @Localizer[nameof(Languages.LanguageStrings.About)];
+ViewData["Title"] = "About";
 }
-
-<h2>@Localizer[nameof(Languages.LanguageStrings.About)]</h2>
-
-<p>ASPNetCore.PluginManager is available under GNU General Public License v3.0</p>
-
-<p>Source code is available from <a href="https://github.com/k3ldar/.NetCorePluginManager" target="_blank">GitHub.com</a></p>
-
-<p><a href="https://sicarterblog.wordpress.com/2018/10/02/asp-net-core-plugin-manager/" target="_blank">Blog</a></p>
-
-<h3>System Admin</h3>
-<p>
-    The <a href="/SystemAdmin/">System Admin</a> plugin modules contains live data on what is happening in and around this website.  All data is provided by individual plugin modules.
-</p>
-<h3>User Account</h3>
-<p>
-    The <a href="/Account/">User Account</a> plugin module has basic user information.
-</p>
-<h3>Login Details</h3>
-<p>
-    If asked to login this requires the following details:
-</p>
-<p>
-    Username: admin<br />Password: password
-<p>
-</p>
-<p>
-    It only uses mock data providers and will reset periodically
-</p>
+<div class="row">
+<div class="col-sm-12">
+<h1>@Localizer[nameof(Languages.LanguageStrings.About)]</h1>
+</div>
+</div>
+<div class="row">
+<div class="col-sm-12">
+<p>Use this area to provide additional information about your company.</p>
+</div>
+</div>

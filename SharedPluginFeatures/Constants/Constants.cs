@@ -382,5 +382,15 @@ namespace SharedPluginFeatures
         /// Name of claim identity for website
         /// </summary>
         public const string ClaimIdentityWebsite = "Website";
+
+        /// <summary>
+        /// Name of the minification thread.
+        /// </summary>
+        public const string MinificationThread = "Minification Engine";
+
+        /// <summary>
+        /// Name of the event used to find extra files that need to be minimised.
+        /// </summary>
+        public const string NotificationEventMinifyFiles = "MinificationFiles";
     }
 }

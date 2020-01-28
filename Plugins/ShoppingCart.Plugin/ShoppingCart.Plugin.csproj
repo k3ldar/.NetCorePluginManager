@@ -88,6 +88,7 @@
 
 	<ItemGroup>
 		<Content Remove="Views\Cart\Checkout.cshtml" />
+		<Content Remove="Views\Cart\Failed.cshtml" />
 		<Content Remove="Views\Cart\Index.cshtml" />
 		<Content Remove="Views\Cart\Shipping.cshtml" />
 		<Content Remove="Views\Cart\Success.cshtml" />
@@ -111,6 +112,7 @@
 
 	<ItemGroup>
 		<EmbeddedResource Include="Views\Cart\Checkout.cshtml" />
+		<EmbeddedResource Include="Views\Cart\Failed.cshtml" />
 		<EmbeddedResource Include="Views\Cart\Index.cshtml" />
 		<EmbeddedResource Include="Views\Cart\Shipping.cshtml" />
 		<EmbeddedResource Include="Views\Cart\Success.cshtml" />

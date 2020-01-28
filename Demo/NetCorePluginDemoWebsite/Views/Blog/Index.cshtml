@@ -1,14 +1,11 @@
 ﻿@model Blog.Plugin.Models.BlogPostsViewModel
 @inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
-
-
 <link rel="stylesheet" href="~/css/Blog.css" />
 <div class="row">
-    <div class="col-sm-12">
-
-        @foreach (Blog.Plugin.Models.BlogPostViewModel blogPost in Model.BlogEntries)
-        {
-            @await Html.PartialAsync("_ViewPartialBlog.cshtml", blogPost)
-        }
-    </div>
+<div class="col-sm-12">
+@foreach (Blog.Plugin.Models.BlogPostViewModel blogPost in Model.BlogEntries)
+{
+@await Html.PartialAsync("_ViewPartialBlog.cshtml", blogPost)
+}
+</div>
 </div>

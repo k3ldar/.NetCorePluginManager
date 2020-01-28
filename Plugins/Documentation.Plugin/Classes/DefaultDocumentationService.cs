@@ -106,7 +106,12 @@ namespace DocumentationPlugin.Classes
                     List<Document> documents = new List<Document>();
 
                     foreach (string file in GetDocumentationFileNames())
+                    {
+                        if (String.IsNullOrEmpty(file))
+                            continue;
+
                         builder.LoadDocuments(documents, Path.Combine(_xmlFilePath, file));
+                    }
 
                     foreach (Document doc in documents)
                     {

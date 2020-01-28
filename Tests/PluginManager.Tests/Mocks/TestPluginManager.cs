@@ -95,5 +95,10 @@ namespace PluginManager.Tests.Mocks
         {
 
         }
+
+        protected override void ServiceConfigurationComplete(in IServiceProvider serviceProvider)
+        {
+
+        }
     }
 }

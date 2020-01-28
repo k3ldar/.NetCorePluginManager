@@ -5,6 +5,7 @@ Version 3.3.0
 #101 Fix unit tests.
 #102 BasePluginManager should implement IServiceCollection
 #103 Add Code Analysis
+#84  Minify Views.
 
 
 Version 3.2.0

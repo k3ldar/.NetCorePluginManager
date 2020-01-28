@@ -1419,6 +1419,16 @@
             Name of claim identity for website
             </summary>
         </member>
+        <member name="F:SharedPluginFeatures.Constants.MinificationThread">
+            <summary>
+            Name of the minification thread.
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Constants.NotificationEventMinifyFiles">
+            <summary>
+            Name of the event used to find extra files that need to be minimised.
+            </summary>
+        </member>
         <member name="T:SharedPluginFeatures.Enums">
             <summary>
             Standard Enum values shared across all plugin modules.
@@ -1599,6 +1609,86 @@
         <member name="F:SharedPluginFeatures.SitemapChangeFrequency.Never">
             <summary>
             The item is archived and will never be updated again
+            </summary>
+        </member>
+        <member name="T:SharedPluginFeatures.MinificationFileType">
+            <summary>
+            Type of file to be minified
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.MinificationFileType.Unknown">
+            <summary>
+            Unknown file type, not known to the minification process.
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.MinificationFileType.Razor">
+            <summary>
+            The type of file is a Razor file
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.MinificationFileType.Html">
+            <summary>
+            The type of file is a HTML file.
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.MinificationFileType.Htm">
+            <summary>
+            The type of file is a HTM file.
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.MinificationFileType.Js">
+            <summary>
+            The type of file is a JavaScript file.
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.MinificationFileType.CSS">
+            <summary>
+            The type of file is a CSS file.
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.MinificationFileType.Less">
+            <summary>
+            The type of file is a Less file.
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.MinificationFileType.ImageGif">
+            <summary>
+            The type of file is a Gif image.
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.MinificationFileType.ImageJpeg">
+            <summary>
+            The type of file is a Jpeg file.
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.MinificationFileType.ImagePng">
+            <summary>
+            The type of file is a PNG file.
+            </summary>
+        </member>
+        <member name="T:SharedPluginFeatures.MinificationPreserveBlock">
+            <summary>
+            Block of data to be preserved during minification
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.MinificationPreserveBlock.Undefined">
+            <summary>
+            Undefined preserve block
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.MinificationPreserveBlock.HtmlPreBlock">
+            <summary>
+            The contents represent an Html &lt;pre&gt; block
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.MinificationPreserveBlock.RazorLine">
+            <summary>
+            The contents represent Razor code within a line
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.MinificationPreserveBlock.RazorBlock">
+            <summary>
+            The contents represent a preservable block of Razor code.
             </summary>
         </member>
         <member name="T:SharedPluginFeatures.HtmlHelper">
@@ -2090,6 +2180,68 @@
         <member name="M:SharedPluginFeatures.IMemoryCache.ResetCaches">
             <summary>
             Resets all caches, clears all items.
+            </summary>
+        </member>
+        <member name="T:SharedPluginFeatures.IMinificationEngine">
+            <summary>
+            This interface is implemented by a third party minification engine.
+            
+            The minification engine should add a transient entry to the IServiceCollection during initialisation.  If no plugin registers
+            a new minification engine, then a default engine is supplied.
+            </summary>
+        </member>
+        <member name="M:SharedPluginFeatures.IMinificationEngine.MinifyData(SharedPluginFeatures.MinificationFileType@,System.String@,System.String@)">
+            <summary>
+            Minify the contents of a file, this will use UTF8 encoding.
+            </summary>
+            <param name="fileType">Type of file to be minified.</param>
+            <param name="contents">The contents of the file that should be minified.</param>
+            <param name="result">List of minification results, the number of items depends on the implementation of the minificaiton engine.</param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedPluginFeatures.IMinificationEngine.MinifyData(SharedPluginFeatures.MinificationFileType@,System.Byte[]@,System.Byte[]@)">
+            <summary>
+            Minify the contents of a file, this will use the UTF8 encoding.
+            </summary>
+            <param name="fileType">Type of file to be minified.</param>
+            <param name="contents">The contents of the file that should be minified.</param>
+            <param name="result">List of minification results, the number of items depends on the implementation of the minificaiton engine.</param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedPluginFeatures.IMinificationEngine.MinifyData(System.Text.Encoding@,SharedPluginFeatures.MinificationFileType@,System.Byte[]@,System.Byte[]@)">
+            <summary>
+            Minify the contents of a file.
+            </summary>
+            <param name="encoding">The encoding that should be used to decode and encode teh contents.</param>
+            <param name="fileType">Type of file to be minified.</param>
+            <param name="contents">The contents of the file that should be minified.</param>
+            <param name="result">List of minification results, the number of items depends on the implementation of the minificaiton engine.</param>
+            <returns></returns>
+        </member>
+        <member name="T:SharedPluginFeatures.IMinifyResult">
+            <summary>
+            Interface for minification result
+            </summary>
+        </member>
+        <member name="P:SharedPluginFeatures.IMinifyResult.ProcessName">
+            <summary>
+            Name of minification process.
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:SharedPluginFeatures.IMinifyResult.StartLength">
+            <summary>
+            The length of the data at the start of the minification process.
+            </summary>
+        </member>
+        <member name="P:SharedPluginFeatures.IMinifyResult.EndLength">
+            <summary>
+            The length of the data at the end of the minification process.
+            </summary>
+        </member>
+        <member name="P:SharedPluginFeatures.IMinifyResult.TimeTaken">
+            <summary>
+            Time taken to minify the data.
             </summary>
         </member>
         <member name="T:SharedPluginFeatures.IRouteDataService">

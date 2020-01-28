@@ -93,6 +93,11 @@
             </summary>
             <param name="resourceName">string name of the resource to be extracted.</param>
         </member>
+        <member name="M:PluginManager.BasePluginManager.ServiceConfigurationComplete(System.IServiceProvider@)">
+            <summary>
+            Indicates that configuration of the IServiceCollection is now complete
+            </summary>
+        </member>
         <member name="M:PluginManager.BasePluginManager.PluginsGetLoaded">
             <summary>
             Returns all loaded plugin data

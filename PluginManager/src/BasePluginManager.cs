@@ -198,6 +198,11 @@ namespace PluginManager
         /// <param name="resourceName">string name of the resource to be extracted.</param>
         protected abstract void ModifyPluginResourceName(ref string resourceName);
 
+        /// <summary>
+        /// Indicates that configuration of the IServiceCollection is now complete
+        /// </summary>
+        protected abstract void ServiceConfigurationComplete(in IServiceProvider serviceProvider);
+
         #endregion Abstract Methods
 
         #region Public Methods
@@ -381,6 +386,8 @@ namespace PluginManager
             PostConfigurePluginServices(services);
 
             _serviceProvider = services.BuildServiceProvider();
+
+            ServiceConfigurationComplete(_serviceProvider);
         }
 
         /// <summary>
@@ -772,9 +779,10 @@ namespace PluginManager
                 Result = Result.Substring(0, lastIndex).Replace(".", "\\") + Result.Substring(lastIndex);
             }
 
+            Result = Path.Combine(_configuration.CurrentPath, Result);
             ModifyPluginResourceName(ref Result);
 
-            return Path.Combine(_configuration.CurrentPath, Result);
+            return Result;
         }
 
         /// <summary>

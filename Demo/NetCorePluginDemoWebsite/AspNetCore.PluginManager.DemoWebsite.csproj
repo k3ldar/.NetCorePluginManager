@@ -129,11 +129,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Views\Docs\" />
-    <Folder Include="Views\Error\" />
-    <Folder Include="Views\Helpdesk\" />
-    <Folder Include="Views\Login\" />
-    <Folder Include="Views\Services\" />
     <Folder Include="wwwroot\images\Download\" />
   </ItemGroup>
 

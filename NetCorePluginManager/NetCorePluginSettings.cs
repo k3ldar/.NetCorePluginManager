@@ -55,5 +55,10 @@ namespace AspNetCore.PluginManager
         /// </summary>
         /// <value>bool</value>
         public bool DisableRouteDataService { get; set; }
+
+        /// <summary>
+        /// Indicates that files should be minified
+        /// </summary>
+        public bool MinifyFiles { get; set; }
     }
 }

@@ -1,47 +1,44 @@
 ﻿@model ShoppingCartPlugin.Models.ShippingModel
 @inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
 @{
-    ViewData["Title"] = "Shipping";
+ViewData["Title"] = "Shipping";
 }
-
-
 <link rel="stylesheet" href="~/css/Cart.css" asp-append-version="true" />
-
 <div class="row">
-    <div class="col">
-        <h3>@Localizer[nameof(Languages.LanguageStrings.SelectDeliveryAddress)]</h3>
-    </div>
+<div class="col">
+<h3>@Localizer[nameof(Languages.LanguageStrings.SelectDeliveryAddress)]</h3>
+</div>
 </div>
 <div class="row">
-    <div class="col">
-        <p>@Localizer[nameof(Languages.LanguageStrings.ShoppingBagDeliveryAddressDescription)]</p>
-    </div>
+<div class="col">
+<p>@Localizer[nameof(Languages.LanguageStrings.ShoppingBagDeliveryAddressDescription)]</p>
+</div>
 </div>
 @if (Model.ShippingAddresses.Any())
 {
-    @foreach (var item in Model.ShippingAddresses)
-    {
-        <div class="row shipping-address">
-            <div class="col col-md-5">
-                <p>@Html.Raw(item.ShippingAddress)</p>
-                <p>@Localizer[nameof(Languages.LanguageStrings.Delivery)] @item.ShippingCost.ToString("C", Model.CartSummary.Culture)</p>
-            </div>
-            <div class="col col-md-1">
-                @using (Html.BeginForm(nameof(ShoppingCartPlugin.Controllers.CartController.Checkout), "Cart", FormMethod.Post))
-                {
-                    <input type="hidden" name="ShippingId" value="@item.Id" />
-                    <input class="btn" type="submit" value="@Localizer[nameof(Languages.LanguageStrings.Select)]" />
-                }
-            </div>
-        </div>
-    }
+@foreach (var item in Model.ShippingAddresses)
+{
+<div class="row shipping-address">
+<div class="col col-md-5">
+<p>@Html.Raw(item.ShippingAddress)</p>
+<p>@Localizer[nameof(Languages.LanguageStrings.Delivery)] @item.ShippingCost.ToString("C", Model.CartSummary.Culture)</p>
+</div>
+<div class="col col-md-1">
+@using (Html.BeginForm(nameof(ShoppingCartPlugin.Controllers.CartController.Checkout), "Cart", FormMethod.Post))
+{
+<input type="hidden" name="ShippingId" value="@item.Id" />
+<input class="btn" type="submit" value="@Localizer[nameof(Languages.LanguageStrings.Select)]" />
+}
+</div>
+</div>
+}
 }
 <div class="row">
-    <div class="col">
-        @using (Html.BeginForm("DeliveryAddressAdd", "Account", FormMethod.Get))
-        {
-            <input type="hidden" name="returnUrl" value="/Cart/Shipping" />
-            <input class="btn" type="submit" value="@Localizer[nameof(Languages.LanguageStrings.DeliveryAddressAdd)]" />
-        }
-    </div>
+<div class="col">
+@using (Html.BeginForm("DeliveryAddressAdd", "Account", FormMethod.Get))
+{
+<input type="hidden" name="returnUrl" value="/Cart/Shipping" />
+<input class="btn" type="submit" value="@Localizer[nameof(Languages.LanguageStrings.DeliveryAddressAdd)]" />
+}
+</div>
 </div>

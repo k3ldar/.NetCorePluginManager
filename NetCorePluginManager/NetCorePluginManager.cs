@@ -24,17 +24,23 @@
  *  28/04/2019  Simon Carter        #63 Allow plugin to be dynamically added.
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 
+using AspNetCore.PluginManager.Classes.Minify;
+
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 using PluginManager;
 using PluginManager.Abstractions;
 
 using SharedPluginFeatures;
+
+using Shared.Classes;
 
 #pragma warning disable IDE0034
 
@@ -45,6 +51,8 @@ namespace AspNetCore.PluginManager
         #region Private Members
 
         private List<IInitialiseEvents> _initializablePlugins;
+        private readonly List<string> _extractedFiles;
+        private readonly NetCorePluginSettings _netCorePluginSettings;
 
         #endregion Private Members
 
@@ -53,7 +61,8 @@ namespace AspNetCore.PluginManager
         internal NetCorePluginManager(in PluginManagerConfiguration configuration, in NetCorePluginSettings pluginSettings)
             : base(configuration, pluginSettings)
         {
-
+            _netCorePluginSettings = pluginSettings ?? throw new ArgumentNullException(nameof(pluginSettings));
+            _extractedFiles = new List<string>();
         }
 
         #endregion Constructors
@@ -78,6 +87,8 @@ namespace AspNetCore.PluginManager
             {
                 resourceName = resourceName.Replace("\\min.css", ".min.cs");
             }
+
+            _extractedFiles.Add(resourceName);
         }
 
         protected override void PluginConfigured(in IPluginModule pluginModule)
@@ -104,6 +115,9 @@ namespace AspNetCore.PluginManager
         {
             foreach (IInitialiseEvents initialiseEvents in _initializablePlugins)
                 initialiseEvents.AfterConfigureServices(serviceProvider);
+
+            // if no minification engine has been added, add a default one now
+            serviceProvider.TryAddTransient<IMinificationEngine, MinificationEngine>();
         }
 
         protected override void PreConfigurePluginServices(in IServiceCollection serviceProvider)
@@ -112,6 +126,14 @@ namespace AspNetCore.PluginManager
 
             foreach (IInitialiseEvents initialiseEvents in _initializablePlugins)
                 initialiseEvents.BeforeConfigureServices(serviceProvider);
+        }
+
+        protected override void ServiceConfigurationComplete(in IServiceProvider serviceProvider)
+        {
+            if (_netCorePluginSettings.MinifyFiles)
+            {
+                MinifyFilesIfRequired(serviceProvider);
+            }
         }
 
         #endregion Overridden Methods
@@ -135,5 +157,32 @@ namespace AspNetCore.PluginManager
         }
 
         #endregion Internal Methods
+
+        #region Private Methods
+
+        private void MinifyFilesIfRequired(in IServiceProvider services)
+        {
+            ILogger logger = services.GetRequiredService<ILogger>();
+            IMinificationEngine minifyEngine = services.GetRequiredService<IMinificationEngine>();
+            INotificationService notificationService = services.GetRequiredService<INotificationService>();
+            object files = new object();
+            
+
+            if (notificationService.RaiseEvent(Constants.NotificationEventMinifyFiles, null, null, ref files))
+            {
+                List<string> additionalFiles = (List<string>)files;
+
+                foreach (string file in additionalFiles)
+                {
+                    if (File.Exists(file) && !_extractedFiles.Contains(file))
+                        _extractedFiles.Add(file);
+                }
+            }
+
+            MinificationThread minificationThread = new MinificationThread(_extractedFiles, logger, minifyEngine);
+            ThreadManager.ThreadStart(minificationThread, Constants.MinificationThread, System.Threading.ThreadPriority.Normal);
+        }
+
+        #endregion Private Methods
     }
 }

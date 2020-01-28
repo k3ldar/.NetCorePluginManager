@@ -15,7 +15,7 @@
                 debugger;
             });
         }
-    }
+    };
 
     return that;
 }();
