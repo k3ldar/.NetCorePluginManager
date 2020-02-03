@@ -1798,6 +1798,62 @@
             </summary>
             <value>string</value>
         </member>
+        <member name="T:Middleware.Search.BaseSearchOptions">
+            <summary>
+            Base options for completing searches
+            </summary>
+        </member>
+        <member name="M:Middleware.Search.BaseSearchOptions.#ctor(System.Boolean@,System.String@)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="isLoggedIn">Indicates that the search is being completed from a user who is logged in.</param>
+            <param name="searchTerm">The search term being sought.</param>
+        </member>
+        <member name="P:Middleware.Search.BaseSearchOptions.IsLoggedIn">
+            <summary>
+            Indicates whether the search is being made from a logged in user or not.
+            </summary>
+        </member>
+        <member name="P:Middleware.Search.BaseSearchOptions.SearchTerm">
+            <summary>
+            The search term being searched
+            </summary>
+        </member>
+        <member name="T:Middleware.Search.KeywordSearchOptions">
+            <summary>
+            Keyword search request
+            </summary>
+        </member>
+        <member name="M:Middleware.Search.KeywordSearchOptions.#ctor(System.Boolean@,System.String@)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="isLoggedIn">Indicates that the search is being completed from a user who is logged in.</param>
+            <param name="searchTerm">The search term being sought.</param>
+        </member>
+        <member name="P:Middleware.Search.KeywordSearchOptions.Timeout">
+            <summary>
+            Timeout in milliseconds, if implemented then after the timeout period an error should be raised.
+            </summary>
+        </member>
+        <member name="T:Middleware.Search.SearchResponse`1">
+            <summary>
+            Base search response
+            </summary>
+        </member>
+        <member name="M:Middleware.Search.SearchResponse`1.#ctor(System.Boolean@,System.String@)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="isLoggedIn">Indicates that the search is being completed from a user who is logged in.</param>
+            <param name="searchTerm">The search term being sought.</param>
+        </member>
+        <member name="P:Middleware.Search.SearchResponse`1.SearchResults">
+            <summary>
+            List of search results
+            </summary>
+        </member>
         <member name="T:Middleware.ShoppingCart.ShoppingCartDetail">
             <summary>
             Provides detailed information about shopping a users shopping cart.  Descends from ShoppingCartSummary
@@ -2777,6 +2833,32 @@
             </summary>
             <param name="id">Id of product to retrieve.</param>
             <returns>Product</returns>
+        </member>
+        <member name="T:Middleware.ISearchKeywordProvider">
+            <summary>
+            Keyword search provider interface is implemented by classes which provide keyword search 
+            facilities within a plugin
+            </summary>
+        </member>
+        <member name="M:Middleware.ISearchKeywordProvider.SearchKeywords``1(Middleware.Search.KeywordSearchOptions@)">
+            <summary>
+            Interface for searching keywords
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="searchOptions"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Middleware.ISearchProvider">
+            <summary>
+            Search provider, provides methods used to search within a website.
+            </summary>
+        </member>
+        <member name="M:Middleware.ISearchProvider.KeywordSearch``1(Middleware.Search.KeywordSearchOptions@)">
+            <summary>
+            Performs a keyword search using the search options.
+            </summary>
+            <param name="keywordSearchOptions">Search Options</param>
+            <returns>SearchRespons&lt;T&gt;</returns>
         </member>
         <member name="T:Middleware.IShoppingCartProvider">
             <summary>

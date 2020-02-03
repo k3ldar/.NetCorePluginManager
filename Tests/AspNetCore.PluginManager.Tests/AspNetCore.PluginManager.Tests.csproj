@@ -22,10 +22,8 @@
 
   <ItemGroup Condition="'$(Configuration)'=='Debug'">
     <ProjectReference Include="..\..\PluginManager\src\PluginManager.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\..\NetCorePluginManager\AspNetCore.PluginManager.csproj" />
+    <ProjectReference Include="..\..\Plugins\PluginMiddleware\PluginMiddleware.csproj" />
     <ProjectReference Include="..\PluginManager.Tests\PluginManager.Tests.csproj" />
   </ItemGroup>
 

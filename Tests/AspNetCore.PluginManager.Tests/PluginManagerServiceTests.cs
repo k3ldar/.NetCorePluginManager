@@ -31,7 +31,7 @@ using PluginManager;
 using PluginManager.Abstractions;
 using PluginManager.Tests.Mocks;
 
-namespace AspNetCore.PluginManager.Tests
+namespace AspNetCore.PluginManager.Tests.PluginServices
 {
     [TestClass]
     public class PluginManagerServiceTests
