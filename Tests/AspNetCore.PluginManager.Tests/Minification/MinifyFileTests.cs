@@ -40,25 +40,27 @@ namespace AspNetCore.PluginManager.Tests
         {
             const string csRazorInput = "@model SystemAdmin.Plugin.Models.AvailableIconViewModel\r\n@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer\r\n" +
                 "@{\r\n                ViewData[\"Title\"] = \"Home Page\";\r\n            }\r\n            @using SharedPluginFeatures\r\n\r\n            <link " +
-                "rel= \"stylesheet\" href=\"~/css/SystemAdmin.css\" asp-append-version=\"true\" />\r\n\r\n\r\n              <h1> @Model.Title </h1>\r\n              <div class=\"row\">\r\n" +
+                "rel=\"stylesheet\" href=\"~/css/SystemAdmin.css\" asp-append-version=\"true\" />\r\n\r\n\r\n              <h1> @Model.Title </h1>\r\n              <div class=\"row\">\r\n" +
                 "    <div class=\"col\">\r\n        @if(Model.HomeIcons != null)\r\n        {\r\n            foreach (SystemAdminMainMenu menu in Model.HomeIcons)\r\n" +
                 "            {\r\n                <div class=\"systemIcon\" style=\"border: solid 1px @menu.BackColor()\">\r\n" +
                 "                    <a asp-area=\"@menu.Area()\" asp-controller=\"@menu.Controller()\" asp-action=\"@menu.Action()\" asp-route-id=\"@menu.UniqueId\">\r\n" +
-                "                        <h3 style = \"background-color: @menu.BackColor(); color: @menu.ForeColor()\"> @Localizer[menu.Name] </h3>\r\n" +
+                "                        <h3 style=\"background-color: @menu.BackColor(); color: @menu.ForeColor()\"> @Localizer[menu.Name] </h3>\r\n" +
                 "                        <img src=\"@Model.ProcessImage(menu.Image)\" />\r\n                    </a>\r\n                </div>\r\n            }\r\n" +
                 "}\r\n        else\r\n        {\r\n            foreach (SystemAdminSubMenu menu in Model.MenuItems)\r\n            {\r\n" +
                 "                <div class=\"systemIcon\" style=\"border: solid 1px @menu.BackColor()\">\r\n                    <a href=\"@Model.GetMenuLink(menu)\" >\r\n" +
                 "                        <h3 style=\"background-color: @menu.BackColor(); color: @menu.ForeColor()\">@Localizer[menu.Name()]</h3>\r\n" +
                 "                        <img src=\"@Model.ProcessImage(menu.Image())\" />\r\n                    </a>\r\n                </div>\r\n" +
                 "\r\n            }\r\n        }\r\n    </div>\r\n</div>";
-            const string csRazorOutput = "@model SystemAdmin.Plugin.Models.AvailableIconViewModel\r\n@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer\r\n" +
-                "@{ ViewData[\"Title\"]=\"Home Page\"; }\r\n@using SharedPluginFeatures\r\n<link rel=\"stylesheet\" href=\"~/css/SystemAdmin.css\" asp-append-version=\"true\" />\r\n" +
-                "<h1>@Model.Title</h1><div class=\"row\"><div class=\"col\"> @{ if (Model.HomeIcons != null)\r\n{\r\nforeach (SystemAdminMainMenu menu in Model.HomeIcons)\r\n" +
-                "{ <div class=\"systemIcon\" style=\"border: solid 1px @menu.BackColor()\"><a asp-area=\"@menu.Area()\" asp-controller=\"@menu.Controller()\" " +
-                "asp-action=\"@menu.Action()\" asp-route-id=\"@menu.UniqueId\"><h3 style=\"background-color: @menu.BackColor(); color: @menu.ForeColor()\">@Localizer[menu.Name]</h3>" +
-                "<img src=\"@Model.ProcessImage(menu.Image)\" /></a></div> }\r\n}\r\nelse\r\n{\r\nforeach (SystemAdminSubMenu menu in Model.MenuItems)\r\n" +
-                "{ <div class=\"systemIcon\" style=\"border: solid 1px @menu.BackColor()\"><a href=\"@Model.GetMenuLink(menu)\"><h3 style=\"background-color: " +
-                "@menu.BackColor(); color: @menu.ForeColor()\">@Localizer[menu.Name()]</h3><img src=\"@Model.ProcessImage(menu.Image())\" /></a></div> }\r\n} } </div></div>";
+            const string csRazorOutput = "@model SystemAdmin.Plugin.Models.AvailableIconViewModel\n@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer\n" +
+                "@{\nViewData[\"Title\"] = \"Home Page\";\n}\n@using SharedPluginFeatures\n<link rel=\"stylesheet\" href=\"~/css/SystemAdmin.css\" asp-append-version=\"true\" />\n" +
+                "<h1> @Model.Title </h1>\n<div class=\"row\">\n<div class=\"col\">\n@if(Model.HomeIcons != null)\n" +
+                "{\nforeach (SystemAdminMainMenu menu in Model.HomeIcons)\n{\n<div class=\"systemIcon\" style=\"border: solid 1px @menu.BackColor()\">\n" +
+                "<a asp-area=\"@menu.Area()\" asp-controller=\"@menu.Controller()\" asp-action=\"@menu.Action()\" asp-route-id=\"@menu.UniqueId\">\n" +
+                "<h3 style=\"background-color: @menu.BackColor(); color: @menu.ForeColor()\"> @Localizer[menu.Name] </h3>\n" +
+                "<img src=\"@Model.ProcessImage(menu.Image)\" />\n</a>\n</div>\n}\n}\nelse\n{\nforeach (SystemAdminSubMenu menu in Model.MenuItems)\n" +
+                "{\n<div class=\"systemIcon\" style=\"border: solid 1px @menu.BackColor()\">\n<a href=\"@Model.GetMenuLink(menu)\" >\n" +
+                "<h3 style=\"background-color: @menu.BackColor(); color: @menu.ForeColor()\">@Localizer[menu.Name()]</h3>\n" +
+                "<img src=\"@Model.ProcessImage(menu.Image())\" />\n</a>\n</div>\n}\n}\n</div>\n</div>";
 
             List<IMinifyResult> minifyResult = _minifyFileContents.MinifyData(MinificationFileType.Razor, csRazorInput, out string result);
 
@@ -72,10 +74,10 @@ namespace AspNetCore.PluginManager.Tests
                 "\r\n    ViewData[\"Title\"] = \"Access Denied\";\r\n}\r\n\r\n<div class=\"row\">\r\n    <div class=\"col\">\r\n\r\n        <h1>@Localizer[nameof(" +
                 "Languages.LanguageStrings.AccessDenied)]</h1>\r\n    </div>\r\n</div>\r\n<div class=\"row\">\r\n    <div class=\"col\">\r\n\r\n        <div class=\"errorMessage\">" +
                 "\r\n            <p>@Localizer[nameof(Languages.LanguageStrings.AccessDeniedDescription)]</p>\r\n        </div>\r\n    </div>\r\n</div>\r\n";
-            const string csRazorOutput = "@model SharedPluginFeatures.BaseModel\n@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer\n" +
-                "@{\nViewData[\"Title\"]=\"Access Denied\";\n}\n<div class=\"row\"><div class=\"col\"><h1>@Localizer[nameof(" +
-                "Languages.LanguageStrings.AccessDenied)]</h1></div></div><div class=\"row\"><div class=\"col\"><div class=\"errorMessage\"><p>" +
-                "@Localizer[nameof(Languages.LanguageStrings.AccessDeniedDescription)]</p></div></div></div>";
+            const string csRazorOutput = "@model SharedPluginFeatures.BaseModel\n@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer\n@{\n" +
+                "ViewData[\"Title\"] = \"Access Denied\";\n}\n<div class=\"row\">\n<div class=\"col\">\n<h1>@Localizer[nameof(Languages.LanguageStrings.AccessDenied)]" +
+                "</h1>\n</div>\n</div>\n<div class=\"row\">\n<div class=\"col\">\n<div class=\"errorMessage\">\n<p>@Localizer[nameof(" +
+                "Languages.LanguageStrings.AccessDeniedDescription)]</p>\n</div>\n</div>\n</div>";
 
             List<IMinifyResult> minifyResult = _minifyFileContents.MinifyData(MinificationFileType.Razor, csRazorInput, out string result);
 
@@ -110,8 +112,8 @@ namespace AspNetCore.PluginManager.Tests
 ";
             List<IMinifyResult> minifyResult = _minifyFileContents.MinifyData(MinificationFileType.Js, jsFile, out string result);
 
-            Assert.IsTrue(result.Equals("var systemAdmin = function () { let _settings = { seoPage: '', seoButton: '', seoModal: '', }; let that = { init: function (settings) { debugger; _settings = settings; $(document).ready(function () { debugger; }); } }; return that;}();"));
-            Assert.AreEqual(minifyResult[6].EndLength, 235);
+            Assert.IsTrue(result.Equals("var systemAdmin = function () {\nlet _settings = {\nseoPage: '',\nseoButton: '',\nseoModal: '',\n};\nlet that = {\ninit: function (settings) {\ndebugger;\n_settings = settings;\n$(document).ready(function () {\ndebugger;\n});\n}\n};\nreturn that;\n}();"));
+            Assert.AreEqual(minifyResult[minifyResult.Count - 1].EndLength, 236);
         }
 
         [TestMethod]
@@ -120,10 +122,13 @@ namespace AspNetCore.PluginManager.Tests
             const string tempDataWithRazor = "@model SharedPluginFeatures.BaseModel\r\n\r\n\r\n@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer\r\n\r\n" +
                 "@{\r\n                ViewData[\"Title\"] = \"HighVolume\";\r\n  }\r\n\r\n<div class=\"row\">\r\n\t<div class=\"col\">\r\n\r\n<h1>@Localizer[nameof(" +
                 "Languages.LanguageStrings.UnableToProcessRequest)]</h1>\r\n\t</div>  \r\n</div>\r\n";
+            const string tempDataResult = "@model SharedPluginFeatures.BaseModel\n@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer\n@{\nViewData" +
+                "[\"Title\"] = \"HighVolume\";\n}\n<div class=\"row\">\n<div class=\"col\">\n<h1>@Localizer[nameof(Languages.LanguageStrings.UnableToProcessRequest)]</h1>\n</div>\n</div>";
+
             List<IMinifyResult> minifyResult = _minifyFileContents.MinifyData(MinificationFileType.Razor, tempDataWithRazor, out string result);
 
-            Assert.IsTrue(result.StartsWith("@model SharedPluginFeatures.BaseModel\n@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer\n@{\nViewData[\"Title\"]=\"HighVolume\";\n}\n"));
-            Assert.AreEqual(minifyResult[6].EndLength, 292);
+            Assert.IsTrue(result.Equals(tempDataResult));
+            Assert.AreEqual(minifyResult[minifyResult.Count -1].EndLength, tempDataResult.Length);
         }
 
         [TestMethod]
@@ -143,8 +148,8 @@ namespace AspNetCore.PluginManager.Tests
 
             List<IMinifyResult> minifyResult = _minifyFileContents.MinifyData(MinificationFileType.Htm, tempDataWithPreBlock, out string result);
 
-            Assert.IsTrue(result.Equals("<html><body><h1>Test</h1><pre>\t\n\t<!-- ignored -->\n\t\t\n</pre></body></html>"));
-            Assert.AreEqual(73, minifyResult[4].EndLength);
+            Assert.IsTrue(result.Equals("<html><body><h1>Test</h1>\n<pre>\t\n\t<!-- ignored -->\n\t\t\n</pre></body></html>"));
+            Assert.AreEqual(74, minifyResult[4].EndLength);
         }
     }
 }
