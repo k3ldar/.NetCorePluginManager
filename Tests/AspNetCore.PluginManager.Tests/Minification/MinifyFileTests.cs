@@ -128,7 +128,7 @@ namespace AspNetCore.PluginManager.Tests.Minify
             List<IMinifyResult> minifyResult = _minifyFileContents.MinifyData(MinificationFileType.Razor, tempDataWithRazor, out string result);
 
             Assert.IsTrue(result.Equals(tempDataResult));
-            Assert.AreEqual(minifyResult[minifyResult.Count -1].EndLength, tempDataResult.Length);
+            Assert.AreEqual(minifyResult[minifyResult.Count - 1].EndLength, tempDataResult.Length);
         }
 
         [TestMethod]

@@ -38,9 +38,8 @@ namespace Middleware
         /// <summary>
         /// Interface for searching keywords
         /// </summary>
-        /// <typeparam name="T"></typeparam>
         /// <param name="searchOptions"></param>
-        /// <returns></returns>
-        IEnumerable<T> SearchKeywords<T>(in KeywordSearchOptions searchOptions);
+        /// <returns>List&lt;SearchResponseItem&gt;</returns>
+        List<SearchResponseItem> Search(in KeywordSearchOptions searchOptions);
     }
 }

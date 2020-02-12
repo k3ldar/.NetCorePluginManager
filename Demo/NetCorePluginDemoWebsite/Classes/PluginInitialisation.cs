@@ -73,7 +73,6 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
             services.AddSingleton<IBlogProvider, MockBlogProvider>();
             services.AddSingleton<IClaimsProvider, MockClaimsProvider>();
             services.AddSingleton<IUserSearch, MockUserSearch>();
-            services.AddSingleton<ISearchProvider, MockSearchProvider>();
         }
 
         public void Finalise()

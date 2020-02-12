@@ -70,6 +70,24 @@
             loaded as a plugin module.  Extends IInitialiseEvents interface.
             </summary>
         </member>
+        <member name="T:DocumentationPlugin.Classes.KeywordSearchProvider">
+            <summary>
+            Documentation keyword provider
+            </summary>
+        </member>
+        <member name="M:DocumentationPlugin.Classes.KeywordSearchProvider.#ctor(SharedPluginFeatures.IDocumentationService)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="documentationService">IDocumentationService instance</param>
+        </member>
+        <member name="M:DocumentationPlugin.Classes.KeywordSearchProvider.Search(Middleware.Search.KeywordSearchOptions@)">
+            <summary>
+            Search keywords
+            </summary>
+            <param name="searchOptions"></param>
+            <returns>List&lt;SearchResponseItem&gt;</returns>
+        </member>
         <member name="T:DocumentationPlugin.Models.DocumentViewModel">
             <summary>
             Model used when viewing a document

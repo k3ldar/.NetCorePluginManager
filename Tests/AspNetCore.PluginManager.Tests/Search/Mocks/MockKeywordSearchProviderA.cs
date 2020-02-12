@@ -23,6 +23,7 @@
  *  03/02/2020  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+using System;
 using System.Collections.Generic;
 
 using Middleware;
@@ -32,9 +33,29 @@ namespace AspNetCore.PluginManager.Tests.Search.Mocks
 {
     public class MockKeywordSearchProviderA : ISearchKeywordProvider
     {
-        public IEnumerable<T> SearchKeywords<T>(in KeywordSearchOptions searchOptions)
+        public List<SearchResponseItem> Search(in KeywordSearchOptions searchOptions)
         {
-            return null;
+            if (searchOptions == null)
+                throw new ArgumentNullException(nameof(searchOptions));
+
+            if (searchOptions.ExactMatch && !searchOptions.QuickSearch)
+                return new List<SearchResponseItem>();
+
+            if (searchOptions.IsLoggedIn)
+            {
+                return new List<SearchResponseItem>()
+                {
+                    new SearchResponseItem("TestProviderA", "Modular Windows"),
+                    new SearchResponseItem("TestProviderA", "Modular Table"),
+                };
+            }
+            else
+            {
+                return new List<SearchResponseItem>()
+                {
+                    new SearchResponseItem("TestProviderA", "Modular Windows")
+                };
+            }
         }
     }
 }

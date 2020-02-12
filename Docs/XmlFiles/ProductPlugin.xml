@@ -4,20 +4,23 @@
         <name>ProductPlugin</name>
     </assembly>
     <members>
-        <member name="T:ProductPlugin.ProductControllerSettings">
+        <member name="T:ProductPlugin.Classes.KeywordSearchProvider">
             <summary>
-            Products which affect how ProductsPlugin is configured.
+            Product keyword provider
             </summary>
         </member>
-        <member name="P:ProductPlugin.ProductControllerSettings.ProductsPerPage">
+        <member name="M:ProductPlugin.Classes.KeywordSearchProvider.#ctor(Middleware.IProductProvider)">
             <summary>
-            Number of products to display on each page.
-            
-            Default: 12
-            Minimum: 1
-            Maximum: 500
+            Constructor
             </summary>
-            <value>uint</value>
+            <param name="productProvider">IProductProvider instance</param>
+        </member>
+        <member name="M:ProductPlugin.Classes.KeywordSearchProvider.Search(Middleware.Search.KeywordSearchOptions@)">
+            <summary>
+            Search keywords
+            </summary>
+            <param name="searchOptions"></param>
+            <returns>List&lt;SearchResponseItem&gt;</returns>
         </member>
         <member name="T:ProductPlugin.Classes.ProductSitemapProvider">
             <summary>
@@ -35,6 +38,21 @@
             Retrieve a list of all product items that will be included in the sitemap
             </summary>
             <returns>List&lt;ISitemapItem&gt;</returns>
+        </member>
+        <member name="T:ProductPlugin.ProductControllerSettings">
+            <summary>
+            Products which affect how ProductsPlugin is configured.
+            </summary>
+        </member>
+        <member name="P:ProductPlugin.ProductControllerSettings.ProductsPerPage">
+            <summary>
+            Number of products to display on each page.
+            
+            Default: 12
+            Minimum: 1
+            Maximum: 500
+            </summary>
+            <value>uint</value>
         </member>
         <member name="T:ProductPlugin.Controllers.ProductController">
             <summary>

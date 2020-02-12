@@ -1825,6 +1825,30 @@
             Keyword search request
             </summary>
         </member>
+        <member name="M:Middleware.Search.KeywordSearchOptions.#ctor(System.Boolean@,System.String@,System.Boolean@,System.Boolean@)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="isLoggedIn">Indicates that the search is being completed from a user who is logged in.</param>
+            <param name="searchTerm">The search term being sought.</param>
+            <param name="quickSearch">Indicates a quick search should be completed, i.e. searching titles instead of biography etc.</param>
+            <param name="exactMatch">Determines whether the search should be an exact match or not.</param>
+        </member>
+        <member name="M:Middleware.Search.KeywordSearchOptions.#ctor(System.Boolean@,System.String@,System.Boolean@)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="isLoggedIn">Indicates that the search is being completed from a user who is logged in.</param>
+            <param name="searchTerm">The search term being sought.</param>
+            <param name="quickSearch">Indicates a quick search should be completed, i.e. searching titles instead of biography etc.</param>
+        </member>
+        <member name="M:Middleware.Search.KeywordSearchOptions.#ctor(System.String@,System.Boolean@)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="searchTerm">The search term being sought.</param>
+            <param name="quickSearch">Indicates a quick search should be completed, i.e. searching titles instead of biography etc.</param>
+        </member>
         <member name="M:Middleware.Search.KeywordSearchOptions.#ctor(System.Boolean@,System.String@)">
             <summary>
             Constructor
@@ -1832,26 +1856,119 @@
             <param name="isLoggedIn">Indicates that the search is being completed from a user who is logged in.</param>
             <param name="searchTerm">The search term being sought.</param>
         </member>
+        <member name="M:Middleware.Search.KeywordSearchOptions.#ctor(System.String@)">
+            <summary>
+            Constructor for logged out user
+            </summary>
+            <param name="searchTerm">The search term being sought.</param>
+        </member>
         <member name="P:Middleware.Search.KeywordSearchOptions.Timeout">
             <summary>
             Timeout in milliseconds, if implemented then after the timeout period an error should be raised.
             </summary>
         </member>
-        <member name="T:Middleware.Search.SearchResponse`1">
+        <member name="P:Middleware.Search.KeywordSearchOptions.PatternMatching">
+            <summary>
+            Indicates that searching should be based on pattern matching.
+            </summary>
+            <value>bool</value>
+        </member>
+        <member name="P:Middleware.Search.KeywordSearchOptions.Properties">
+            <summary>
+            Dictionary of properties, these are user defined on the premise that the writer of the propery will know.
+            and check for it's type before using it.
+            </summary>
+            <value>Dictionary&lt;string, object&gt;</value>
+        </member>
+        <member name="P:Middleware.Search.KeywordSearchOptions.QuickSearch">
+            <summary>
+            Indicates that a quick search should be completed, this should be based on titles etc
+            </summary>
+            <value>bool</value>
+        </member>
+        <member name="P:Middleware.Search.KeywordSearchOptions.MaximumSearchResults">
+            <summary>
+            Maximum number of search results to be returned, default value is 100
+            </summary>
+            <value>int</value>
+        </member>
+        <member name="P:Middleware.Search.KeywordSearchOptions.ExactMatch">
+            <summary>
+            Determines whether the search should be an exact match or not.
+            </summary>
+            <value>bool</value>
+        </member>
+        <member name="T:Middleware.Search.SearchResponse">
             <summary>
             Base search response
             </summary>
         </member>
-        <member name="M:Middleware.Search.SearchResponse`1.#ctor(System.Boolean@,System.String@)">
+        <member name="M:Middleware.Search.SearchResponse.#ctor(System.Boolean@,System.String@)">
             <summary>
             Constructor
             </summary>
             <param name="isLoggedIn">Indicates that the search is being completed from a user who is logged in.</param>
             <param name="searchTerm">The search term being sought.</param>
         </member>
-        <member name="P:Middleware.Search.SearchResponse`1.SearchResults">
+        <member name="P:Middleware.Search.SearchResponse.SearchResults">
             <summary>
             List of search results
+            </summary>
+        </member>
+        <member name="T:Middleware.Search.SearchResponseItem">
+            <summary>
+            Search response for all search types.
+            </summary>
+        </member>
+        <member name="M:Middleware.Search.SearchResponseItem.#ctor(System.String@,System.String@)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="responseType">User defined response type, i.e. document, webpage, product, tag etc.</param>
+            <param name="response">The response word or phrase.</param>
+        </member>
+        <member name="M:Middleware.Search.SearchResponseItem.#ctor(System.String@,System.String@,System.Int32@)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="responseType">User defined response type, i.e. document, webpage, product, tag etc.</param>
+            <param name="response">The response word or phrase.</param>
+            <param name="offset">The offset within response where the search term was found, if relevant.</param>
+        </member>
+        <member name="M:Middleware.Search.SearchResponseItem.#ctor(System.String@,System.String@,System.Int32@,System.String)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="responseType">User defined response type, i.e. document, webpage, product, tag etc.</param>
+            <param name="response">The response word or phrase.</param>
+            <param name="offset">The offset within response where the search term was found, if relevant.</param>
+            <param name="url">If the search returns a url it will be made into a uri otherwise left null.</param>
+        </member>
+        <member name="P:Middleware.Search.SearchResponseItem.ResponseType">
+            <summary>
+            User defined response type i.e. document, webpage, product, tag etc.
+            </summary>
+        </member>
+        <member name="P:Middleware.Search.SearchResponseItem.Response">
+            <summary>
+            Response from search result.
+            </summary>
+        </member>
+        <member name="P:Middleware.Search.SearchResponseItem.Offset">
+            <summary>
+            The offset within response where the search term was found, if relevant.
+            </summary>
+        </member>
+        <member name="P:Middleware.Search.SearchResponseItem.Url">
+            <summary>
+            Url, if provided, returned by the search provider.  If this value is null then the host has to determine how
+            the search result can be viewed in the host application probably based on the ResponseType
+            </summary>
+        </member>
+        <member name="P:Middleware.Search.SearchResponseItem.Properties">
+            <summary>
+            Dictionary of properties, these are user defined on the premise that the writer of the propery will know.
+            and check for it's type before using it.
             </summary>
         </member>
         <member name="T:Middleware.ShoppingCart.ShoppingCartDetail">
@@ -2840,25 +2957,24 @@
             facilities within a plugin
             </summary>
         </member>
-        <member name="M:Middleware.ISearchKeywordProvider.SearchKeywords``1(Middleware.Search.KeywordSearchOptions@)">
+        <member name="M:Middleware.ISearchKeywordProvider.Search(Middleware.Search.KeywordSearchOptions@)">
             <summary>
             Interface for searching keywords
             </summary>
-            <typeparam name="T"></typeparam>
             <param name="searchOptions"></param>
-            <returns></returns>
+            <returns>List&lt;SearchResponseItem&gt;</returns>
         </member>
         <member name="T:Middleware.ISearchProvider">
             <summary>
             Search provider, provides methods used to search within a website.
             </summary>
         </member>
-        <member name="M:Middleware.ISearchProvider.KeywordSearch``1(Middleware.Search.KeywordSearchOptions@)">
+        <member name="M:Middleware.ISearchProvider.KeywordSearch(Middleware.Search.KeywordSearchOptions@)">
             <summary>
             Performs a keyword search using the search options.
             </summary>
             <param name="keywordSearchOptions">Search Options</param>
-            <returns>SearchRespons&lt;T&gt;</returns>
+            <returns>SearchRespons&lt;SearchResponseItem&gt;</returns>
         </member>
         <member name="T:Middleware.IShoppingCartProvider">
             <summary>

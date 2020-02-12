@@ -25,8 +25,13 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+
+using Middleware;
 
 using PluginManager.Abstractions;
+
+using SearchPlugin.Classes.Search;
 
 using SharedPluginFeatures;
 
@@ -49,7 +54,7 @@ namespace SearchPlugin
 
         public void AfterConfigureServices(in IServiceCollection services)
         {
-
+            services.TryAddSingleton<ISearchProvider, DefaultSearchProvider>();
         }
 
         public void BeforeConfigure(in IApplicationBuilder app)

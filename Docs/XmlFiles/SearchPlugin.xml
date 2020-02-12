@@ -4,6 +4,42 @@
         <name>SearchPlugin</name>
     </assembly>
     <members>
+        <member name="T:SearchPlugin.Classes.Search.DefaultSearchProvider">
+            <summary>
+            Default search provider to be used if no other search provider is registered
+            </summary>
+        </member>
+        <member name="M:SearchPlugin.Classes.Search.DefaultSearchProvider.#ctor(SharedPluginFeatures.IMemoryCache,PluginManager.Abstractions.IPluginClassesService)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="memoryCache">IMemoryCache instance</param>
+            <param name="pluginClassesService">IPluginClassesService instance</param>
+        </member>
+        <member name="M:SearchPlugin.Classes.Search.DefaultSearchProvider.KeywordSearch(Middleware.Search.KeywordSearchOptions@)">
+            <summary>
+            Performs a keyword search
+            </summary>
+            <param name="keywordSearchOptions"></param>
+            <returns></returns>
+        </member>
+        <member name="T:SearchPlugin.Classes.Search.DefaultSearchThread">
+            <summary>
+            The default thread item to be used for performing searches
+            </summary>
+        </member>
+        <member name="M:SearchPlugin.Classes.Search.DefaultSearchThread.#ctor(System.Collections.Generic.List{Middleware.ISearchKeywordProvider}@,SharedPluginFeatures.IMemoryCache@,Middleware.Search.KeywordSearchOptions@)">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="M:SearchPlugin.Classes.Search.DefaultSearchThread.Run(System.Object)">
+            <summary>
+            Method that executes a search in a dedicated thread
+            </summary>
+            <param name="parameters"></param>
+            <returns>bool</returns>
+        </member>
         <member name="T:SearchPlugin.SearchControllerSettings">
             <summary>
             Settings that determine how the Search.Plugin module is configured and used.

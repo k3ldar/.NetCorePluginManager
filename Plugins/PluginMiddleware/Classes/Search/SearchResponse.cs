@@ -30,7 +30,7 @@ namespace Middleware.Search
     /// <summary>
     /// Base search response
     /// </summary>
-    public class SearchResponse<T> : BaseSearchOptions
+    public class SearchResponse : BaseSearchOptions
     {
         #region Constructors
 
@@ -42,7 +42,7 @@ namespace Middleware.Search
         public SearchResponse(in bool isLoggedIn, in string searchTerm)
             : base(isLoggedIn, searchTerm)
         {
-            SearchResults = new List<T>();
+            SearchResults = new List<SearchResponseItem>();
         }
 
         #endregion Constructors
@@ -52,7 +52,7 @@ namespace Middleware.Search
         /// <summary>
         /// List of search results
         /// </summary>
-        public List<T> SearchResults { get; private set; }
+        public List<SearchResponseItem> SearchResults { get; private set; }
 
         #endregion Properties
     }

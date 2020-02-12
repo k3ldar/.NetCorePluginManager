@@ -37,27 +37,33 @@ namespace AspNetCore.PluginManager.Tests.Search
         [TestMethod]
         public void SearchResponseLoggedInValidSearchTerm()
         {
-            SearchResponse<SearchResponseTypeClass> response = new SearchResponse<SearchResponseTypeClass>(true, "test");
+            SearchResponse response = new SearchResponse(true, "test");
+
+            Assert.IsTrue(response.IsLoggedIn);
+            Assert.AreEqual(response.SearchTerm, "test");
         }
 
         [TestMethod]
         public void SearchResponseLoggedOutValidSearchTerm()
         {
-            SearchResponse<SearchResponseTypeClass> response = new SearchResponse<SearchResponseTypeClass>(false, "test");
+            SearchResponse response = new SearchResponse(false, "test");
+
+            Assert.IsFalse(response.IsLoggedIn);
+            Assert.AreEqual(response.SearchTerm, "test");
         }
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
         public void SearchResponseLoggedOutInvalidSearchTermNull()
         {
-            SearchResponse<SearchResponseTypeClass> response = new SearchResponse<SearchResponseTypeClass>(false, null);
+            SearchResponse response = new SearchResponse(false, null);
         }
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
         public void SearchResponseLoggedOutInvalidSearchTermEmptyString()
         {
-            SearchResponse<SearchResponseTypeClass> response = new SearchResponse<SearchResponseTypeClass>(false, "");
+            SearchResponse response = new SearchResponse(false, "");
         }
     }
 }

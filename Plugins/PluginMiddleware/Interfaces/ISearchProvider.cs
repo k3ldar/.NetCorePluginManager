@@ -23,6 +23,8 @@
  *  02/02/2020  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+using System.Collections.Generic;
+
 using Middleware.Search;
 
 namespace Middleware
@@ -36,7 +38,7 @@ namespace Middleware
         /// Performs a keyword search using the search options.
         /// </summary>
         /// <param name="keywordSearchOptions">Search Options</param>
-        /// <returns>SearchRespons&lt;T&gt;</returns>
-        SearchResponse<T> KeywordSearch<T>(in KeywordSearchOptions keywordSearchOptions);
+        /// <returns>SearchRespons&lt;SearchResponseItem&gt;</returns>
+        List<SearchResponseItem> KeywordSearch(in KeywordSearchOptions keywordSearchOptions);
     }
 }
