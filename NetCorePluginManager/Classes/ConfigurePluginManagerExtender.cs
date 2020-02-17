@@ -59,7 +59,7 @@ namespace AspNetCore.PluginManager
             ConfigureCompiledViews(mvcBuilder);
 #endif
 
-#if NET_CORE_3_0
+#if NET_CORE_3_X
             AddApplicationParts(mvcBuilder);
 #endif
 
@@ -73,7 +73,7 @@ namespace AspNetCore.PluginManager
 
         #region Private Static Methods
 
-#if NET_CORE_3_0
+#if NET_CORE_3_X
         private static void AddApplicationParts(in IMvcBuilder mvcBuilder)
         {
             foreach (KeyValuePair<string, IPluginModule> plugin in PluginManagerService.GetPluginManager().PluginsGetLoaded())
@@ -89,7 +89,7 @@ namespace AspNetCore.PluginManager
             // configure featue provider
             mvcBuilder.ConfigureApplicationPartManager(manager =>
             {
-                var oldMetadataReferenceFeatureProvider = manager.FeatureProviders.First(f => f is MetadataReferenceFeatureProvider);
+                IApplicationFeatureProvider oldMetadataReferenceFeatureProvider = manager.FeatureProviders.First(f => f is MetadataReferenceFeatureProvider);
                 manager.FeatureProviders.Remove(oldMetadataReferenceFeatureProvider);
                 manager.FeatureProviders.Add(new PluginFeatureProvider());
             });
@@ -111,7 +111,7 @@ namespace AspNetCore.PluginManager
                     Assembly compiledViews = Assembly.LoadFrom(compiledViewAssembly);
                     mvcBuilder.ConfigureApplicationPartManager(apm =>
                     {
-                        foreach (var part in new CompiledRazorAssemblyApplicationPartFactory().GetApplicationParts(compiledViews))
+                        foreach (ApplicationPart part in new CompiledRazorAssemblyApplicationPartFactory().GetApplicationParts(compiledViews))
                             apm.ApplicationParts.Add(part);
                     });
                 }

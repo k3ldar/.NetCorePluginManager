@@ -144,11 +144,11 @@ namespace AspNetCore.PluginManager
                                 continue;
                             }
                         }
-#if NET_CORE_3_0
-                        _logger.AddToLog(LogLevel.PluginConfigureError, $"Unable to load {pluginFile} dynamically, use UsePlugin() method instead.");
-#else
+//#if NET_CORE_3_0
+//                        _logger.AddToLog(LogLevel.PluginConfigureError, $"Unable to load {pluginFile} dynamically, use UsePlugin() method instead.");
+//#else
                         _pluginManagerInstance.PluginLoad(pluginFile, _pluginSettings.CreateLocalCopy);
-#endif
+//#endif
                     }
                 }
 
