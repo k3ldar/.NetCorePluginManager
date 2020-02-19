@@ -30,14 +30,14 @@ Version 3.2.0
 
 Version 3.2 has a couple of breaking changes, these should not take too long to refactor, visit the following link for details:
 
-https://github.com/k3ldar/.NetCorePluginManager/Version_3.2_Upgrade_Notes.md
+https://github.com/k3ldar/.NetCorePluginManager/blob/master/Version_3.2_Upgrade_Notes.md
 
 # ASPNetCore.PluginManager
 Extend website with plugin technology.
 
 PM> Install-Package AspNetCore.PluginManager -Version 3.2.0
 
-https://github.com/k3ldar/.NetCorePluginManager/blob/master/Version_3.2_Upgrade_Notes.md
+https://www.nuget.org/packages/AspNetCore.PluginManager/
 
 See https://github.com/k3ldar/.NetCorePluginManager/wiki/Plugin-Manager-Setup-and-Configuration for setup and configuration.
 
