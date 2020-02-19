@@ -1,89 +1,49 @@
-﻿using System;
+﻿/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ *  .Net Core Plugin Manager is distributed under the GNU General Public License version 3 and  
+ *  is also available under alternative licenses negotiated directly with Simon Carter.  
+ *  If you obtained Service Manager under the GPL, then the GPL applies to all loadable 
+ *  Service Manager modules used on your system as well. The GPL (version 3) is 
+ *  available at https://opensource.org/licenses/GPL-3.0
+ *
+ *  This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ *  without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ *  See the GNU General Public License for more details.
+ *
+ *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
+ *
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
+ *
+ *  Product:  AspNetCore.PluginManager.Tests
+ *  
+ *  File: DefaultSearchProviderTests.cs
+ *
+ *  Purpose:  Test for default search provider
+ *
+ *  Date        Name                Reason
+ *  10/02/2020  Simon Carter        Initially Created
+ *
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+using System;
 using System.Collections.Generic;
-using System.Text;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Middleware.Search;
-using SearchPlugin.Classes.Search;
-using System.Linq;
-using System.Reflection;
 
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+using Middleware;
+using Middleware.Search;
 
 using PluginManager.Abstractions;
+
+using SearchPlugin.Classes.Search;
 
 using SharedPluginFeatures;
 
 using pm = PluginManager.Internal;
-using Middleware;
-using Constants = SharedPluginFeatures.Constants;
 
 namespace AspNetCore.PluginManager.Tests.Search
 {
     [TestClass]
-    public class DefaultSearchProviderTests
+    public class DefaultSearchProviderTests : SearchTestBase
     {
-        private static TestSearchPluginManager _testPlugin = new TestSearchPluginManager();
-        private static bool? _pluginLoaded = null;
-        private static IPluginClassesService _pluginServices;
-        private static IDocumentationService _documentationService;
-
-
-        [TestInitialize]
-        public void InitializeDocumentationLoadTest()
-        {
-            lock (_testPlugin)
-            {
-                while (_pluginLoaded.HasValue && !_pluginLoaded.Value)
-                {
-                    System.Threading.Thread.Sleep(30);
-                }
-
-                if (_pluginLoaded.HasValue && _pluginLoaded.Value)
-                {
-                    return;
-                }
-
-                if (_pluginLoaded == null)
-                {
-                    _pluginLoaded = false;
-                }
-
-                _testPlugin = new TestSearchPluginManager();
-                _testPlugin.AddAssembly(Assembly.GetExecutingAssembly());
-                _testPlugin.UsePlugin(typeof(DemoWebsite.Classes.PluginInitialisation));
-                _testPlugin.UsePlugin(typeof(DocumentationPlugin.PluginInitialisation));
-                _testPlugin.UsePlugin(typeof(MemoryCache.Plugin.PluginInitialisation));
-                _testPlugin.UsePlugin(typeof(ProductPlugin.PluginInitialisation));
-                _testPlugin.UsePlugin(typeof(SearchPlugin.PluginInitialisation));
-
-                _testPlugin.ConfigureServices();
-
-                _pluginServices = new pm.PluginServices(_testPlugin) as IPluginClassesService;
-                TimeSpan docLoadTime = new TimeSpan(0, 0, 30);
-                DateTime startLoadDocs = DateTime.Now;
-
-                while (Shared.Classes.ThreadManager.Exists(SharedPluginFeatures.Constants.DocumentationLoadThread))
-                {
-                    System.Threading.Thread.Sleep(100);
-
-                    if (DateTime.Now - startLoadDocs > docLoadTime)
-                        break;
-                }
-
-                Assert.IsFalse(Shared.Classes.ThreadManager.Exists(Constants.DocumentationLoadThread));
-
-                _documentationService = (IDocumentationService)_testPlugin.GetServiceProvider()
-                    .GetService(typeof(IDocumentationService));
-
-                Assert.IsNotNull(_documentationService);
-
-                Assert.IsTrue(_documentationService.GetDocuments().Count > 100);
-                _pluginLoaded = true;
-            }
-
-            Assert.IsNotNull(_pluginServices);
-
-        }
-
         [TestMethod]
         public void NormalSearchFindAllKeywordProdALoggedOut()
         {
@@ -124,10 +84,80 @@ namespace AspNetCore.PluginManager.Tests.Search
 
             List<SearchResponseItem> results = searchProviders[0].KeywordSearch(keywordSearchOptions);
 
-            
+
             Assert.AreEqual(1, results.Count);
 
-            Assert.IsNotNull(memoryCache.GetCache().Get(cacheName));
+            DefaultSearchProvider defaultSearchProvider = (DefaultSearchProvider)searchProviders[0];
+
+            Assert.IsNotNull(defaultSearchProvider.GetCacheManager.Get(cacheName));
+        }
+
+        [TestMethod]
+        public void RetrieveAvailableSearchResponseTypesQuickSearch()
+        {
+            IPluginClassesService pluginServices = new pm.PluginServices(_testPlugin) as IPluginClassesService;
+
+            Assert.IsNotNull(pluginServices);
+
+            List<ISearchProvider> searchProviders = pluginServices.GetPluginClasses<ISearchProvider>();
+
+            Assert.AreEqual(1, searchProviders.Count);
+
+            List<string> results = searchProviders[0].SearchResponseTypes(true);
+
+            Assert.IsTrue(results.Count > 3);
+
+            Assert.IsTrue(results.Contains("TestProviderA"));
+            Assert.IsTrue(results.Contains("TestProviderB"));
+            Assert.IsTrue(results.Contains("DocumentTitle"));
+            Assert.IsTrue(results.Contains("ProductName"));
+        }
+
+        [TestMethod]
+        public void RetrieveAvailableSearchResponseTypesNormalSearch()
+        {
+            IPluginClassesService pluginServices = new pm.PluginServices(_testPlugin) as IPluginClassesService;
+
+            Assert.IsNotNull(pluginServices);
+
+            List<ISearchProvider> searchProviders = pluginServices.GetPluginClasses<ISearchProvider>();
+
+            Assert.AreEqual(1, searchProviders.Count);
+
+            List<string> results = searchProviders[0].SearchResponseTypes(false);
+
+            Assert.IsTrue(results.Count > 8);
+
+            Assert.IsTrue(results.Contains("TestProviderA"));
+            Assert.IsTrue(results.Contains("TestProviderB"));
+            Assert.IsTrue(results.Contains("DocumentTitle"));
+            Assert.IsTrue(results.Contains("ProductName"));
+            Assert.IsTrue(results.Contains("ProductDescription"));
+            Assert.IsTrue(results.Contains("ProductSku"));
+            Assert.IsTrue(results.Contains("DocumentSummary"));
+            Assert.IsTrue(results.Contains("DocumentLongShortDescription"));
+            Assert.IsTrue(results.Contains("DocumentLongDescription"));
+        }
+
+        [TestMethod]
+        public void RetrieveAvailableSearchNamesForAdvancedSearchingOptions()
+        {
+            IPluginClassesService pluginServices = new pm.PluginServices(_testPlugin) as IPluginClassesService;
+
+            Assert.IsNotNull(pluginServices);
+
+            List<ISearchProvider> searchProviders = pluginServices.GetPluginClasses<ISearchProvider>();
+
+            Assert.AreEqual(1, searchProviders.Count);
+
+            List<string> results = searchProviders[0].SearchNames();
+
+            Assert.IsTrue(results.Count < 3);
+
+            Assert.IsFalse(results.Contains("TestProviderA"));
+            Assert.IsFalse(results.Contains("TestProviderB"));
+            Assert.IsTrue(results.Contains("Documents"));
+            Assert.IsTrue(results.Contains("Products"));
         }
     }
 }

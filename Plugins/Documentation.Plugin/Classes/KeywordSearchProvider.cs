@@ -131,6 +131,37 @@ namespace DocumentationPlugin.Classes
             return Results;
         }
 
+        /// <summary>
+        /// Retrieves the name of the search for advance searches
+        /// </summary>
+        /// <returns>string</returns>
+        public string SearchName()
+        {
+            return "Documents";
+        }
+
+        /// <summary>
+        /// Returns a list of all available response types for the Documentation Plugin
+        /// </summary>
+        /// <param name="quickSearch">Indicates whether the response types are for quick or normal searching</param>
+        /// <returns>List&lt;string&gt;</returns>
+        public List<string> SearchResponseTypes(in Boolean quickSearch)
+        {
+            List<string> Result = new List<string>()
+            {
+                "DocumentTitle"
+            };
+
+            if (!quickSearch)
+            {
+                Result.Add("DocumentSummary");
+                Result.Add("DocumentLongShortDescription");
+                Result.Add("DocumentLongDescription");
+            }
+
+            return Result;
+        }
+
         #endregion ISearchKeywordProvider Methods
     }
 }

@@ -105,5 +105,11 @@ namespace SearchPlugin
         [SettingDefault("DefaultAuthSchemeName")]
         [SettingString(false)]
         public string AuthenticationScheme { get; set; }
+
+        /// <summary>
+        /// Minimum length of keyword search string
+        /// </summary>
+        [SettingDefault((byte)3)]
+        public byte MinimumKeywordSearchLength { get; set; }
     }
 }

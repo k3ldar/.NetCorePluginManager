@@ -1,4 +1,29 @@
-﻿using System;
+﻿/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ *  .Net Core Plugin Manager is distributed under the GNU General Public License version 3 and  
+ *  is also available under alternative licenses negotiated directly with Simon Carter.  
+ *  If you obtained Service Manager under the GPL, then the GPL applies to all loadable 
+ *  Service Manager modules used on your system as well. The GPL (version 3) is 
+ *  available at https://opensource.org/licenses/GPL-3.0
+ *
+ *  This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ *  without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ *  See the GNU General Public License for more details.
+ *
+ *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
+ *
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
+ *
+ *  Product:  Search Plugin
+ *  
+ *  File: DefaultSearchProvider.cs
+ *
+ *  Purpose:  
+ *
+ *  Date        Name                Reason
+ *  12/02/2020  Simon Carter        Initially Created
+ *
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+using System;
 using System.Collections.Generic;
 
 using Middleware;
@@ -19,10 +44,11 @@ namespace SearchPlugin.Classes.Search
     {
         #region Private Members
 
-        private readonly IMemoryCache _memoryCache;
+        private readonly CacheManager _searchCache;
         private readonly IPluginClassesService _pluginClassesService;
         private readonly List<ISearchKeywordProvider> _searchProviders;
         private static readonly object _lockObject = new object();
+        private static readonly Timings _searchTimings = new Timings();
 
         #endregion Private Members
 
@@ -31,13 +57,12 @@ namespace SearchPlugin.Classes.Search
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="memoryCache">IMemoryCache instance</param>
         /// <param name="pluginClassesService">IPluginClassesService instance</param>
-        public DefaultSearchProvider(IMemoryCache memoryCache, IPluginClassesService pluginClassesService)
+        public DefaultSearchProvider(IPluginClassesService pluginClassesService)
         {
-            _memoryCache = memoryCache ?? throw new ArgumentNullException(nameof(memoryCache));
             _pluginClassesService = pluginClassesService ?? throw new ArgumentNullException(nameof(pluginClassesService));
 
+            _searchCache = new CacheManager("Search Cache", new TimeSpan(0, 20, 0), true, true);
             _searchProviders = _pluginClassesService.GetPluginClasses<ISearchKeywordProvider>();
         }
 
@@ -53,52 +78,119 @@ namespace SearchPlugin.Classes.Search
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1303:Do not pass literals as localized parameters", Justification = "Exceptions are meant for developers not end users.")]
         public List<SearchResponseItem> KeywordSearch(in KeywordSearchOptions keywordSearchOptions)
         {
-            if (keywordSearchOptions == null)
+            using (StopWatchTimer timer = new StopWatchTimer(_searchTimings))
             {
-                throw new ArgumentNullException(nameof(keywordSearchOptions));
-            }
-
-            string cacheName = String.Format("Keyword Search {0} {1} {2} {3} {4}",
-                keywordSearchOptions.IsLoggedIn, keywordSearchOptions.ExactMatch,
-                keywordSearchOptions.MaximumSearchResults, keywordSearchOptions.Timeout,
-                keywordSearchOptions.SearchTerm);
-
-            CacheItem cacheItem = _memoryCache.GetCache().Get(cacheName);
-
-            using (TimedLock timedLock = TimedLock.Lock(_lockObject))
-            {
-                if (cacheItem == null)
+                if (keywordSearchOptions == null)
                 {
-                    if (!ThreadManager.Exists(cacheName))
+                    throw new ArgumentNullException(nameof(keywordSearchOptions));
+                }
+
+                string cacheName = String.Format("Keyword Search {0} {1} {2} {3} {4}",
+                    keywordSearchOptions.IsLoggedIn, keywordSearchOptions.ExactMatch,
+                    keywordSearchOptions.MaximumSearchResults, keywordSearchOptions.Timeout,
+                    keywordSearchOptions.SearchTerm);
+
+                CacheItem cacheItem = _searchCache.Get(cacheName);
+
+                using (TimedLock timedLock = TimedLock.Lock(_lockObject))
+                {
+                    if (cacheItem == null)
                     {
-                        DefaultSearchThread searchThread = new DefaultSearchThread(_searchProviders, _memoryCache, keywordSearchOptions);
-                        ThreadManager.ThreadStart(searchThread, cacheName, System.Threading.ThreadPriority.BelowNormal);
+                        if (!ThreadManager.Exists(cacheName))
+                        {
+                            DefaultSearchThread searchThread = new DefaultSearchThread(_searchProviders, _searchCache, keywordSearchOptions);
+                            ThreadManager.ThreadStart(searchThread, cacheName, System.Threading.ThreadPriority.BelowNormal);
+                        }
                     }
                 }
+
+                DateTime searchStart = DateTime.Now;
+
+                while (true)
+                {
+                    TimeSpan span = DateTime.Now - searchStart;
+
+                    if (span.TotalMilliseconds > keywordSearchOptions.Timeout)
+                    {
+                        throw new TimeoutException("Timed out waiting for search to complete");
+                    }
+
+                    cacheItem = _searchCache.Get(cacheName);
+
+                    if (cacheItem != null)
+                    {
+                        break;
+                    }
+                }
+
+                return (List<SearchResponseItem>)cacheItem.Value;
             }
+        }
 
-            DateTime searchStart = DateTime.Now;
+        /// <summary>
+        /// Retrieves all available search response types from all registered search providers
+        /// </summary>
+        /// <param name="quickSearch">Indicates whether its the providers from a quick search or normal search.</param>
+        /// <returns>List&lt;string&gt;</returns>
+        public List<string> SearchResponseTypes(in Boolean quickSearch)
+        {
+            List<string> Result = new List<string>();
 
-            while (true)
+            foreach (ISearchKeywordProvider provider in _searchProviders)
             {
-                TimeSpan span = DateTime.Now - searchStart;
+                List<string> providerResults = provider.SearchResponseTypes(quickSearch);
 
-                if (span.TotalMilliseconds > keywordSearchOptions.Timeout)
-                {
-                    throw new TimeoutException("Timed out waiting for search to complete");
-                }
+                if (providerResults == null)
+                    continue;
 
-                cacheItem = _memoryCache.GetCache().Get(cacheName);
-
-                if (cacheItem != null)
-                {
-                    break;
-                }
+                providerResults.ForEach(st => Result.Add(st));
             }
 
-            return (List<SearchResponseItem>)cacheItem.Value;
+            return Result;
+        }
+
+        /// <summary>
+        /// Retrieves a list of strings from all search providers that can optionally be used by the UI 
+        /// to provide a paged or tabbed advance search option.
+        /// </summary>
+        /// <returns>List&lt;string&gt;</returns>
+        public List<String> SearchNames()
+        {
+            List<string> Result = new List<string>();
+
+            foreach (ISearchKeywordProvider provider in _searchProviders)
+            {
+                string name = provider.SearchName();
+
+                if (String.IsNullOrEmpty(name))
+                    continue;
+
+                Result.Add(name);
+            }
+
+            return Result;
         }
 
         #endregion ISearchProvider Methods
+
+        #region Properties
+
+        internal static Timings SearchTimings
+        {
+            get
+            {
+                return _searchTimings;
+            }
+        }
+
+        internal CacheManager GetCacheManager
+        {
+            get
+            {
+                return _searchCache;
+            }
+        }
+
+        #endregion Properties
     }
 }

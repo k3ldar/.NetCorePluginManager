@@ -29,6 +29,7 @@ using System.Collections.Generic;
 using Middleware;
 using Middleware.Products;
 using Middleware.Search;
+
 using SharedPluginFeatures;
 
 namespace ProductPlugin.Classes
@@ -83,6 +84,36 @@ namespace ProductPlugin.Classes
             }
 
             return Results;
+        }
+
+        /// <summary>
+        /// Retrieves the name of the search for advance searches
+        /// </summary>
+        /// <returns>string</returns>
+        public string SearchName()
+        {
+            return "Products";
+        }
+
+        /// <summary>
+        /// Returns a list of all available response types for the Documentation Plugin
+        /// </summary>
+        /// <param name="quickSearch">Indicates whether the response types are for quick or normal searching</param>
+        /// <returns>List&lt;string&gt;</returns>
+        public List<string> SearchResponseTypes(in Boolean quickSearch)
+        {
+            List<string> Result = new List<string>()
+            {
+                "ProductName"
+            };
+
+            if (!quickSearch)
+            {
+                Result.Add("ProductDescription");
+                Result.Add("ProductSku");
+            }
+
+            return Result;
         }
 
         #endregion ISearchKeywordProvider Methods

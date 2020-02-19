@@ -7,9 +7,14 @@ Version 3.3.0
 #103 Add Code Analysis
 #84  Minify Views.
 
+Version 3.2.1
+=============
+
+#106 Fix bug which prevented application parts being loaded in Core 3.1
 
 Version 3.2.0
 =============
+
 #96 Add support for Net Core 3.1
 #98 Remove Debug Release build option
 #97 Convert milliseconds to us

@@ -40,5 +40,19 @@ namespace Middleware
         /// <param name="keywordSearchOptions">Search Options</param>
         /// <returns>SearchRespons&lt;SearchResponseItem&gt;</returns>
         List<SearchResponseItem> KeywordSearch(in KeywordSearchOptions keywordSearchOptions);
+
+        /// <summary>
+        /// Retrieves the available search response types for the provider.
+        /// </summary>
+        /// <param name="quickSearch">indicates whether the response types are from a quick search or not.</param>
+        /// <returns>List&lt;string&gt;</returns>
+        List<string> SearchResponseTypes(in bool quickSearch);
+
+        /// <summary>
+        /// Retrieves a list of strings from all search providers that can optionally be used by the UI 
+        /// to provide a paged or tabbed advance search option.
+        /// </summary>
+        /// <returns>List&lt;string&gt;</returns>
+        List<string> SearchNames();
     }
 }

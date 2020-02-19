@@ -1,15 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
-using System.Text;
+
 using Microsoft.Extensions.DependencyInjection;
+
 using PluginManager;
 using PluginManager.Abstractions;
+
 using SharedPluginFeatures;
 
 namespace AspNetCore.PluginManager.Tests.Search
 {
-    internal class TestSearchPluginManager : BasePluginManager
+    public class TestSearchPluginManager : BasePluginManager
     {
         private List<IInitialiseEvents> _initializablePlugins;
 

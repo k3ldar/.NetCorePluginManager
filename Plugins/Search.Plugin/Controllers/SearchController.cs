@@ -24,25 +24,18 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
-using System.IO;
-using System.Security.Claims;
+using System.Collections.Generic;
 
-using SearchPlugin.Classes;
-using SearchPlugin.Models;
-
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 
 using Middleware;
+using Middleware.Search;
 
 using PluginManager.Abstractions;
 
-using Shared.Classes;
+using SearchPlugin.Models;
 
 using SharedPluginFeatures;
-
-using static Middleware.Constants;
-using static Shared.Utilities;
 
 #pragma warning disable CS1591
 
@@ -56,19 +49,19 @@ namespace SearchPlugin.Controllers
         #region Private Members
 
         private readonly SearchControllerSettings _settings;
-
-        private static readonly CacheManager _searchCache = new CacheManager("Search Cache", new TimeSpan(0, 30, 0));
+        private readonly ISearchProvider _searchProvider;
 
         #endregion Private Members
 
         #region Constructors
 
-        public SearchController(ISettingsProvider settingsProvider)
+        public SearchController(ISettingsProvider settingsProvider, ISearchProvider searchProvider)
         {
             if (settingsProvider == null)
                 throw new ArgumentNullException(nameof(settingsProvider));
 
             _settings = settingsProvider.GetSettings<SearchControllerSettings>(nameof(SearchPlugin));
+            _searchProvider = searchProvider ?? throw new ArgumentNullException(nameof(searchProvider));
         }
 
         #endregion Constructors
@@ -78,9 +71,8 @@ namespace SearchPlugin.Controllers
         [HttpGet]
         [Breadcrumb(nameof(Languages.LanguageStrings.Search))]
         [LoggedInOut]
-        public IActionResult Index(string returnUrl)
+        public IActionResult Index()
         {
-
             SearchViewModel model = new SearchViewModel(GetModelData());
 
             return View(model);
@@ -91,42 +83,29 @@ namespace SearchPlugin.Controllers
         [LoggedInOut]
         public IActionResult Index(SearchViewModel model)
         {
+            if (model == null)
+                throw new ArgumentNullException(nameof(model));
 
             return View(model);
         }
 
-        [HttpGet]
-        public ActionResult GetCaptchaImage()
+        [HttpPost]
+        [BadEgg]
+        [LoggedInOut]
+        public IActionResult QuickKeywordSearch(string keywords)
         {
-            SearchCacheItem searchCacheItem = GetCachedSearchAttempt();
-
-            CaptchaImage ci = new CaptchaImage(searchCacheItem.CaptchaText, 240, 60, "Century Schoolbook");
-            try
+            if (String.IsNullOrWhiteSpace(keywords) || keywords.Length < _settings.MinimumKeywordSearchLength)
             {
-                // Write the image to the response stream in JPEG format.
-                using (MemoryStream ms = new MemoryStream())
-                {
-                    ci.Image.Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);
-
-                    return File(ms.ToArray(), "image/png");
-                }
-            }
-            catch (Exception err)
-            {
-                if (!err.Message.Contains("Specified method is not supported."))
-                    throw;
-            }
-            finally
-            {
-                ci.Dispose();
+                return new StatusCodeResult(400);
             }
 
-            return null;
-        }
+            List<SearchResponseItem> searchResults = _searchProvider.KeywordSearch(new KeywordSearchOptions(IsUserLoggedIn(), keywords, true));
 
-        private SearchCacheItem GetCachedSearchAttempt()
-        {
-            throw new NotImplementedException();
+            return new JsonResult(searchResults) 
+            { 
+                StatusCode = 200,
+                ContentType = "application/json"
+            };
         }
 
         #endregion Public Action Methods

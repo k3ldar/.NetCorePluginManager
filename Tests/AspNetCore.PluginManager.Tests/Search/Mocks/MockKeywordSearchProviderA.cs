@@ -57,5 +57,18 @@ namespace AspNetCore.PluginManager.Tests.Search.Mocks
                 };
             }
         }
+
+        public String SearchName()
+        {
+            return null;
+        }
+
+        public List<string> SearchResponseTypes(in Boolean quickSearch)
+        {
+            return new List<string>()
+            {
+                "TestProviderA"
+            };
+        }
     }
 }

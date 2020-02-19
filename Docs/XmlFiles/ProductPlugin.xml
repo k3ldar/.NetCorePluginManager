@@ -22,6 +22,19 @@
             <param name="searchOptions"></param>
             <returns>List&lt;SearchResponseItem&gt;</returns>
         </member>
+        <member name="M:ProductPlugin.Classes.KeywordSearchProvider.SearchName">
+            <summary>
+            Retrieves the name of the search for advance searches
+            </summary>
+            <returns>string</returns>
+        </member>
+        <member name="M:ProductPlugin.Classes.KeywordSearchProvider.SearchResponseTypes(System.Boolean@)">
+            <summary>
+            Returns a list of all available response types for the Documentation Plugin
+            </summary>
+            <param name="quickSearch">Indicates whether the response types are for quick or normal searching</param>
+            <returns>List&lt;string&gt;</returns>
+        </member>
         <member name="T:ProductPlugin.Classes.ProductSitemapProvider">
             <summary>
             Product sitemap provider, provides sitemap information for products

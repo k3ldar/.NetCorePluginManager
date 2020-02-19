@@ -25,6 +25,8 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
 
+using SearchPlugin.Classes.Search;
+
 using SharedPluginFeatures;
 
 #pragma warning disable CS1591
@@ -51,13 +53,13 @@ namespace SearchPlugin.Classes.SystemAdmin
         public override string Data()
         {
             string Result = "Setting|Value";
-#warning finish
-            //Result += $"\rTotal Requests|{LoginMiddleware._loginTimings.Requests}";
-            //Result += $"\rFastest ms|{LoginMiddleware._loginTimings.Fastest}";
-            //Result += $"\rSlowest ms|{LoginMiddleware._loginTimings.Slowest}";
-            //Result += $"\rAverage ms|{LoginMiddleware._loginTimings.Average}";
-            //Result += $"\rTrimmed Avg ms|{LoginMiddleware._loginTimings.TrimmedAverage}";
-            //Result += $"\rTotal ms|{LoginMiddleware._loginTimings.Total}";
+
+            Result += $"\rTotal Requests|{DefaultSearchProvider.SearchTimings.Requests}";
+            Result += $"\rFastest ms|{DefaultSearchProvider.SearchTimings.Fastest}";
+            Result += $"\rSlowest ms|{DefaultSearchProvider.SearchTimings.Slowest}";
+            Result += $"\rAverage ms|{DefaultSearchProvider.SearchTimings.Average}";
+            Result += $"\rTrimmed Avg ms|{DefaultSearchProvider.SearchTimings.TrimmedAverage}";
+            Result += $"\rTotal ms|{DefaultSearchProvider.SearchTimings.Total}";
 
             return Result;
         }

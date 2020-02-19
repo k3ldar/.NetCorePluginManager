@@ -45,16 +45,29 @@ namespace AspNetCore.PluginManager.Tests.Search.Mocks
             {
                 return new List<SearchResponseItem>()
                 {
-                    new SearchResponseItem("TestProviderA", "Modular Windows")
+                    new SearchResponseItem("TestProviderB", "Modular Windows")
                 };
             }
             else
             {
                 return new List<SearchResponseItem>()
                 {
-                    new SearchResponseItem("TestProviderA", "Modular Windows")
+                    new SearchResponseItem("TestProviderB", "Modular Windows")
                 };
             }
+        }
+
+        public String SearchName()
+        {
+            return null;
+        }
+
+        public List<string> SearchResponseTypes(in Boolean quickSearch)
+        {
+            return new List<string>()
+            {
+                "TestProviderB"
+            };
         }
     }
 }
