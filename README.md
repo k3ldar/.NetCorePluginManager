@@ -3,6 +3,9 @@
 
 https://sicarterblog.wordpress.com/2018/10/02/asp-net-core-plugin-manager/
 
+## Devops
+https://github.com/k3ldar/.NetCorePluginManager
+
 # Live Demo
 http://PluginManager.website
 
