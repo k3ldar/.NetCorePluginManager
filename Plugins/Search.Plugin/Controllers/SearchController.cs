@@ -66,6 +66,12 @@ namespace SearchPlugin.Controllers
 
         #endregion Constructors
 
+        #region Constants
+
+        public const string Name = "Search";
+
+        #endregion Constants
+
         #region Public Action Methods
 
         [HttpGet]
@@ -89,6 +95,20 @@ namespace SearchPlugin.Controllers
             return View(model);
         }
 
+        [HttpGet]
+        public IActionResult QuickSearch()
+        {
+            return PartialView("_QuickSearch", new QuickSearchViewModel());
+        }
+
+        [HttpPost]
+        [BadEgg]
+        [LoggedInOut]
+        public IActionResult QuickSearch(QuickSearchViewModel model)
+        {
+            return View();
+        }
+
         [HttpPost]
         [BadEgg]
         [LoggedInOut]
@@ -101,8 +121,8 @@ namespace SearchPlugin.Controllers
 
             List<SearchResponseItem> searchResults = _searchProvider.KeywordSearch(new KeywordSearchOptions(IsUserLoggedIn(), keywords, true));
 
-            return new JsonResult(searchResults) 
-            { 
+            return new JsonResult(searchResults)
+            {
                 StatusCode = 200,
                 ContentType = "application/json"
             };

@@ -8,11 +8,34 @@
             _controls = controls;
 
             $(document).ready(function () {
-                if (_controls.btnForgotPassword !== undefined) {
-                    $(_controls.btnForgotPassword).on("click", function () {
-                        window.location.replace("/Login/ForgotPassword");
+                $('#btnQuickSearch').click(function () {
+                    $('#dlgQuickSearch').load('/Search/QuickSearch/', function () {
+                        $('#dlgQuickSearch').modal('show');
                     });
-                }
+                });
+            });
+        },
+
+        initQuickSearch: function () {
+            $('#idSearchText').on('change keydown paste input', function () {
+                performQuickSearch();
+            });
+        },
+
+        performQuickSearch: function () {
+            debugger;
+            let searchText = $('#idSearchText').text;
+
+            $.ajax({
+                url: '/Search/QuickKeywordSearch/' + searchText + '/',
+                type: 'post',
+                dataType: 'json',
+                contentType: 'application/json',
+                success: function (data) {
+                    debugger;
+                    $('#target').html(data.msg);
+                },
+                data: JSON.stringify(person)
             });
         },
     };

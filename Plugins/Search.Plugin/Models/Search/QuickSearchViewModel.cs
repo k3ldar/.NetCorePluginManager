@@ -25,39 +25,24 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
 
-using SharedPluginFeatures;
+using System.ComponentModel.DataAnnotations;
 
 namespace SearchPlugin.Models
 {
     /// <summary>
     /// Quick search view model, designed for quickly searching all registered areas
     /// </summary>
-    public class QuickSearchViewModel : BaseModel
+    public class QuickSearchViewModel
     {
         #region Constructors
 
         /// <summary>
-        /// Constructor for quick searching
-        /// </summary>
-        /// <param name="baseModelData">Base model data</param>
-        public QuickSearchViewModel(in BaseModelData baseModelData)
-            : base(baseModelData)
-        {
-
-        }
-
-        /// <summary>
         /// Constructor for quick searching with search text 
         /// </summary>
-        /// <param name="baseModelData">Base model data</param>
-        /// <param name="searchText">Text to be searched for</param>
-        public QuickSearchViewModel(in BaseModelData baseModelData, in string searchText)
-            : this(baseModelData)
+        public QuickSearchViewModel()
+            : base()
         {
-            if (String.IsNullOrEmpty(searchText))
-                throw new ArgumentNullException(nameof(searchText));
-
-            SearchText = searchText;
+            SearchText = String.Empty;
         }
 
         #endregion Constructors
@@ -67,6 +52,9 @@ namespace SearchPlugin.Models
         /// <summary>
         /// Text to be searched for
         /// </summary>
+        [Display(Name = nameof(Languages.LanguageStrings.SearchDescription))]
+        [StringLength(200, MinimumLength = 3)]
+        [Required(ErrorMessage = nameof(Languages.LanguageStrings.SearchInvalid))]
         public string SearchText { get; set; }
 
         #endregion Properties

@@ -27889,6 +27889,15 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Please enter valid search criteria.
+        /// </summary>
+        public static string SearchInvalid {
+            get {
+                return ResourceManager.GetString("SearchInvalid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to See Also.
         /// </summary>
         public static string SeeAlso {

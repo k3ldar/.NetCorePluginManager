@@ -14121,4 +14121,8 @@ You will shortly receive an email with the details of your order.</comment>
     <value>User Permissions</value>
     <comment>User Permissions</comment>
   </data>
+  <data name="SearchInvalid" xml:space="preserve">
+    <value>Please enter valid search criteria</value>
+    <comment>Please enter valid search criteria</comment>
+  </data>
 </root>

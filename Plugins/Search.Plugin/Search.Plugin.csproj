@@ -84,13 +84,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Remove="Views\Search\Index.cshtml" />
+    <Content Remove="Views\Search\_QuickSearch.cshtml" />
+    <Content Remove="Views\Search\_ShowQuickSearch.cshtml" />
     <Content Remove="wwwroot\css\Search.css" />
     <Content Remove="wwwroot\js\Search.js" />
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Views\Search\Index.cshtml" />
+    <EmbeddedResource Include="Views\Search\_QuickSearch.cshtml" />
     <EmbeddedResource Include="wwwroot\css\Search.css" />
     <EmbeddedResource Include="wwwroot\js\Search.js" />
   </ItemGroup>
@@ -193,6 +194,10 @@
     <PackageReference Include="Microsoft.Extensions.Primitives" Version="3.1.1" />
     <PackageReference Include="Microsoft.Extensions.WebEncoders" Version="3.1.1" />
     <PackageReference Include="Microsoft.Net.Http.Headers" Version="2.2.8" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Views\Search\_ShowQuickSearch.cshtml" />
   </ItemGroup>
 
 </Project>

@@ -28,7 +28,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     @if (!String.IsNullOrEmpty(author))
     {
-        <meta name="author" content="@author" />;
+        <meta name="author" content="@author" />
+        ;
     }
     <meta name="description" content="@description" />
     <meta name="keywords" content="@keywords" />
@@ -64,18 +65,22 @@
                 </div>
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse" style="float:right;">
                     <ul class="navbar-nav flex-grow-1">
-                        @if (!loggedIn)
-                        {
-                            <li class="nav-item">
+                        <li class="nav-item">
+                            @if (!loggedIn)
+                            {
                                 <a class="nav-link text-dark" href="/Login/Index">@Localizer[nameof(Languages.LanguageStrings.Login)]</a>
-                            </li>
-                        }
-                        else
-                        {
-                            <li class="nav-item">
+                            }
+                            else
+                            {
                                 <a class="nav-link text-dark" href="/Login/Logout">@Localizer[nameof(Languages.LanguageStrings.Logout)]</a>
-                            </li>
-                        }
+                            }
+                        </li>
+                        <li class="nav-item">
+                                @await Html.PartialAsync("~/Views/Search/_ShowQuickSearch.cshtml", new SearchPlugin.Models.QuickSearchViewModel())
+                        </li>
+                        <li class="s-icon">
+                            <a href="#" id="addClass"><span class="glyphicon glyphicon-search"></span></a>
+                        </li>
                     </ul>
                     <div class="cart-summary">
                         <a href="/Cart/">
@@ -115,7 +120,7 @@
                     <div class="col-xs-2 col-lg-2"><a href="/Docs/">@Localizer[nameof(Languages.LanguageStrings.Documentation)]</a></div>
                 </div>
                 <div class="row footer">
-                    <div class="col-xs-12"><p>&copy; 2018 - 2019 - Simon Carter.  All Rights Reserved.</p></div>
+                    <div class="col-xs-12"><p>&copy; 2018 - 2020 - Simon Carter.  All Rights Reserved.</p></div>
                 </div>
             </footer>
         </div>

@@ -120,10 +120,11 @@
     <ProjectReference Include="..\..\Plugins\SeoPlugin\SeoPlugin.csproj" />
     <ProjectReference Include="..\..\Plugins\Spider.Plugin\Spider.Plugin.csproj" />
     <ProjectReference Include="..\..\Plugins\UserSessionMiddlewarePlugin\UserSessionMiddleware.Plugin.csproj" />
+    <ProjectReference Include="..\..\PluginManager\src\PluginManager.csproj" />
+    <ProjectReference Include="..\..\Plugins\Search.Plugin\Search.Plugin.csproj" />
   </ItemGroup>
   
   <ItemGroup>
-    <ProjectReference Include="..\..\PluginManager\src\PluginManager.csproj" />
     <ProjectReference Include="..\DemoRazorWebsitePlugin\DemoWebsitePlugin.csproj" />
     <ProjectReference Include="..\DemoApiPlugin\DemoApiPlugin.csproj" />
   </ItemGroup>
@@ -204,7 +205,7 @@
     <PackageReference Include="Microsoft.Extensions.Primitives" Version="3.1.1" />
     <PackageReference Include="Microsoft.Extensions.WebEncoders" Version="3.1.1" />
     <PackageReference Include="Microsoft.Net.Http.Headers" Version="2.2.8" />
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.1" />
   </ItemGroup>
 
 </Project>

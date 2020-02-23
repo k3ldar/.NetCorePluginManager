@@ -31,13 +31,14 @@ using AspNetCore.PluginManager.Tests.PluginFeatures;
 
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+
 using Middleware.Search;
+
 using PluginManager.Abstractions;
 
 using SearchPlugin.Controllers;
 using SearchPlugin.Models;
 
-using SharedPluginFeatures;
 using pm = PluginManager.Internal;
 
 namespace AspNetCore.PluginManager.Tests.Search
@@ -45,25 +46,18 @@ namespace AspNetCore.PluginManager.Tests.Search
     [TestClass]
     public class SearchControllerTests : SearchTestBase
     {
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
-        public void CreateQuickSearchViewModelNoModelData()
-        {
-            new QuickSearchViewModel(null);
-        }
+        //[TestMethod]
+        //public void CreateQuickSearchViewModelValidModelData()
+        //{
+        //    using (BaseControllerWrapper baseController = new BaseControllerWrapper())
+        //    {
+        //        BaseModelData modelData = new BaseModelData(null, baseController.TestGetShoppingCartSummary(),
+        //            String.Empty, String.Empty, String.Empty, String.Empty, false);
+        //        QuickSearchViewModel viewModel = new QuickSearchViewModel(modelData);
 
-        [TestMethod]
-        public void CreateQuickSearchViewModelValidModelData()
-        {
-            using (BaseControllerWrapper baseController = new BaseControllerWrapper())
-            {
-                BaseModelData modelData = new BaseModelData(null, baseController.TestGetShoppingCartSummary(),
-                    String.Empty, String.Empty, String.Empty, String.Empty, false);
-                QuickSearchViewModel viewModel = new QuickSearchViewModel(modelData);
-
-                Assert.IsNotNull(viewModel);
-            }
-        }
+        //        Assert.IsNotNull(viewModel);
+        //    }
+        //}
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
@@ -81,7 +75,7 @@ namespace AspNetCore.PluginManager.Tests.Search
             IPluginClassesService pluginServices = new pm.PluginServices(_testPlugin) as IPluginClassesService;
 
             using (SearchController searchController = new SearchController(
-                new pm.DefaultSettingProvider(Directory.GetCurrentDirectory()), 
+                new pm.DefaultSettingProvider(Directory.GetCurrentDirectory()),
                 new SearchPlugin.Classes.Search.DefaultSearchProvider(pluginServices)))
             {
                 Assert.IsNotNull(searchController);

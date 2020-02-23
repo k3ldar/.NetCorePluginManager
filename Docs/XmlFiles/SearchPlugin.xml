@@ -133,18 +133,10 @@
             Quick search view model, designed for quickly searching all registered areas
             </summary>
         </member>
-        <member name="M:SearchPlugin.Models.QuickSearchViewModel.#ctor(SharedPluginFeatures.BaseModelData@)">
-            <summary>
-            Constructor for quick searching
-            </summary>
-            <param name="baseModelData">Base model data</param>
-        </member>
-        <member name="M:SearchPlugin.Models.QuickSearchViewModel.#ctor(SharedPluginFeatures.BaseModelData@,System.String@)">
+        <member name="M:SearchPlugin.Models.QuickSearchViewModel.#ctor">
             <summary>
             Constructor for quick searching with search text 
             </summary>
-            <param name="baseModelData">Base model data</param>
-            <param name="searchText">Text to be searched for</param>
         </member>
         <member name="P:SearchPlugin.Models.QuickSearchViewModel.SearchText">
             <summary>
