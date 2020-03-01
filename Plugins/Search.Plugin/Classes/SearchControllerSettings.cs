@@ -111,5 +111,11 @@ namespace SearchPlugin
         /// </summary>
         [SettingDefault((byte)3)]
         public byte MinimumKeywordSearchLength { get; set; }
+
+        /// <summary>
+        /// Indicates that the keyword search result should have the search keyword highlighted in html
+        /// </summary>
+        [SettingDefault(true)]
+        public bool HighlightQuickSearchTerms { get; set; }
     }
 }

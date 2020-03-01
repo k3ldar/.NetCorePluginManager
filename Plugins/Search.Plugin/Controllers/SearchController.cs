@@ -25,6 +25,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 using Microsoft.AspNetCore.Mvc;
 
@@ -112,16 +113,30 @@ namespace SearchPlugin.Controllers
         [HttpPost]
         [BadEgg]
         [LoggedInOut]
-        public IActionResult QuickKeywordSearch(string keywords)
+        public IActionResult QuickKeywordSearch([FromBody] QuickSearchModel searchModel)
         {
-            if (String.IsNullOrWhiteSpace(keywords) || keywords.Length < _settings.MinimumKeywordSearchLength)
+            if (searchModel == null ||
+                String.IsNullOrWhiteSpace(searchModel.keywords) ||
+                searchModel.keywords.Length < _settings.MinimumKeywordSearchLength)
             {
                 return new StatusCodeResult(400);
             }
 
-            List<SearchResponseItem> searchResults = _searchProvider.KeywordSearch(new KeywordSearchOptions(IsUserLoggedIn(), keywords, true));
+            KeywordSearchOptions searchOptions = new KeywordSearchOptions(IsUserLoggedIn(), searchModel.keywords, true);
 
-            return new JsonResult(searchResults)
+            List<SearchResponseItem> searchResults = _searchProvider.KeywordSearch(searchOptions);
+
+            IEnumerable<SearchResponseItem> topResults = searchResults.OrderByDescending(r => r.Relevance).Take(5);
+
+            if (_settings.HighlightQuickSearchTerms)
+            {
+                foreach (SearchResponseItem item in topResults)
+                {
+                    item.HighlightKeywords(searchModel.keywords.Length);
+                }
+            }
+
+            return new JsonResult(topResults)
             {
                 StatusCode = 200,
                 ContentType = "application/json"

@@ -43,6 +43,8 @@
     <script src="~/lib/Popper/popper-utils.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="~/js/site.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container">
@@ -75,11 +77,8 @@
                                 <a class="nav-link text-dark" href="/Login/Logout">@Localizer[nameof(Languages.LanguageStrings.Logout)]</a>
                             }
                         </li>
-                        <li class="nav-item">
-                                @await Html.PartialAsync("~/Views/Search/_ShowQuickSearch.cshtml", new SearchPlugin.Models.QuickSearchViewModel())
-                        </li>
-                        <li class="s-icon">
-                            <a href="#" id="addClass"><span class="glyphicon glyphicon-search"></span></a>
+                        <li class="nav-item nav-item-nohover">
+                            @await Html.PartialAsync("~/Views/Search/_ShowQuickSearch.cshtml", new SearchPlugin.Models.QuickSearchViewModel())
                         </li>
                     </ul>
                     <div class="cart-summary">
@@ -95,8 +94,6 @@
 
     <partial name="_CookieConsentPartial" />
 
-    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
-    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
     <script src="~/js/SystemAdmin.js"></script>
 
     @*@RenderSection("Scripts", required: false)*@

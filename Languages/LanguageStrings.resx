@@ -14125,4 +14125,8 @@ You will shortly receive an email with the details of your order.</comment>
     <value>Please enter valid search criteria</value>
     <comment>Please enter valid search criteria</comment>
   </data>
+  <data name="QuickSearch" xml:space="preserve">
+    <value>Quick Search</value>
+    <comment>Quick Search</comment>
+  </data>
 </root>

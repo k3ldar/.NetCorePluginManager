@@ -84,6 +84,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="Views\Search\Index.cshtml" />
     <Content Remove="Views\Search\_QuickSearch.cshtml" />
     <Content Remove="Views\Search\_ShowQuickSearch.cshtml" />
     <Content Remove="wwwroot\css\Search.css" />
@@ -198,6 +199,10 @@
 
   <ItemGroup>
     <EmbeddedResource Include="Views\Search\_ShowQuickSearch.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Views\Search\Index.cshtml" />
   </ItemGroup>
 
 </Project>

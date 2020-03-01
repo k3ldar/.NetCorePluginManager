@@ -1948,27 +1948,43 @@
             <summary>
             User defined response type i.e. document, webpage, product, tag etc.
             </summary>
+            <value>string</value>
         </member>
         <member name="P:Middleware.Search.SearchResponseItem.Response">
             <summary>
             Response from search result.
             </summary>
+            <value>string</value>
         </member>
         <member name="P:Middleware.Search.SearchResponseItem.Offset">
             <summary>
             The offset within response where the search term was found, if relevant.
             </summary>
+            <value>int</value>
         </member>
         <member name="P:Middleware.Search.SearchResponseItem.Url">
             <summary>
             Url, if provided, returned by the search provider.  If this value is null then the host has to determine how
             the search result can be viewed in the host application probably based on the ResponseType
             </summary>
+            <value>Uri</value>
         </member>
         <member name="P:Middleware.Search.SearchResponseItem.Properties">
             <summary>
             Dictionary of properties, these are user defined on the premise that the writer of the propery will know.
             and check for it's type before using it.
+            </summary>
+            <value>Dictionary&lt;string, object&gt;</value>
+        </member>
+        <member name="P:Middleware.Search.SearchResponseItem.Relevance">
+            <summary>
+            Indicates the relevance of the search item in relation to the search
+            </summary>
+            <value>int</value>
+        </member>
+        <member name="M:Middleware.Search.SearchResponseItem.HighlightKeywords(System.Int32@)">
+            <summary>
+            Highlights the keyword search
             </summary>
         </member>
         <member name="T:Middleware.ShoppingCart.ShoppingCartDetail">

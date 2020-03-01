@@ -32,6 +32,9 @@ using SharedPluginFeatures;
 
 namespace SearchPlugin.Models
 {
+    /// <summary>
+    /// View model for searching all ISearchProvider 
+    /// </summary>
     public sealed class SearchViewModel : BaseModel
     {
         #region Constructors
@@ -51,10 +54,6 @@ namespace SearchPlugin.Models
 
         #region Properties
 
-        [Display(Name = nameof(Languages.LanguageStrings.Code))]
-        public string CaptchaText { get; set; }
-
-        public bool ShowCaptchaImage { get; set; }
 
         #endregion Properties
     }

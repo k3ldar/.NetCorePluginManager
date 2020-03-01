@@ -25,6 +25,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
 using System.Collections.Generic;
+using System.Text;
 
 namespace Middleware.Search
 {
@@ -33,6 +34,12 @@ namespace Middleware.Search
     /// </summary>
     public class SearchResponseItem
     {
+        #region Private Members
+
+        private bool _highlighted = false;
+
+        #endregion Private Members
+
         #region Constructors
 
         /// <summary>
@@ -93,30 +100,62 @@ namespace Middleware.Search
         /// <summary>
         /// User defined response type i.e. document, webpage, product, tag etc.
         /// </summary>
+        /// <value>string</value>
         public string ResponseType { get; private set; }
 
         /// <summary>
         /// Response from search result.
         /// </summary>
+        /// <value>string</value>
         public string Response { get; private set; }
 
         /// <summary>
         /// The offset within response where the search term was found, if relevant.
         /// </summary>
+        /// <value>int</value>
         public int Offset { get; private set; }
 
         /// <summary>
         /// Url, if provided, returned by the search provider.  If this value is null then the host has to determine how
         /// the search result can be viewed in the host application probably based on the ResponseType
         /// </summary>
+        /// <value>Uri</value>
         public Uri Url { get; private set; }
 
         /// <summary>
         /// Dictionary of properties, these are user defined on the premise that the writer of the propery will know.
         /// and check for it's type before using it.
         /// </summary>
+        /// <value>Dictionary&lt;string, object&gt;</value>
         public Dictionary<string, object> Properties { get; private set; }
 
+        /// <summary>
+        /// Indicates the relevance of the search item in relation to the search
+        /// </summary>
+        /// <value>int</value>
+        public int Relevance { get; set; }
+
         #endregion Properties
+
+        #region Public Methods
+
+        /// <summary>
+        /// Highlights the keyword search
+        /// </summary>
+        public void HighlightKeywords(in int keywordLength)
+        {
+            if (_highlighted)
+                return;
+
+            StringBuilder Result = new StringBuilder(Response, Response.Length + 20);
+
+            Result.Insert(keywordLength + Offset, "</strong>");
+            Result.Insert(Offset, "<strong>");
+
+            Response = Result.ToString();
+            _highlighted = true;
+        }
+
+        #endregion Public Methods
     }
 }

@@ -15,54 +15,30 @@
  *
  *  Product:  Search Plugin
  *  
- *  File: QuickSearchViewModel.cs
+ *  File: QuickSearchModel.cs
  *
  *  Purpose:  
  *
  *  Date        Name                Reason
- *  13/02/2020  Simon Carter        Initially Created
+ *  24/02/2020  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using System;
-
-using System.ComponentModel.DataAnnotations;
 
 namespace SearchPlugin.Models
 {
     /// <summary>
-    /// Quick search view model, designed for quickly searching all registered areas
+    /// Search model passed to search controller for ajax calls
     /// </summary>
-    public class QuickSearchViewModel
+    public class QuickSearchModel
     {
-        #region Constructors
+        /// <summary>
+        /// Keywords to be searched
+        /// </summary>
+        public string keywords { get; set; }
 
         /// <summary>
-        /// Constructor for quick searching with search text 
+        /// Unique search id used to verify the call
         /// </summary>
-        public QuickSearchViewModel()
-            : base()
-        {
-            SearchText = String.Empty;
-        }
-
-        #endregion Constructors
-
-        #region Properties
-
-        /// <summary>
-        /// Text to be searched for
-        /// </summary>
-        [Display(Name = nameof(Languages.LanguageStrings.SearchDescription))]
-        [StringLength(200, MinimumLength = 3)]
-        [Required(ErrorMessage = nameof(Languages.LanguageStrings.SearchInvalid))]
-        public string SearchText { get; set; }
-
-        /// <summary>
-        /// Id of the current search, this will be used when verifying that the call is legit
-        /// </summary>
-        /// <value>string</value>
-        public string SearchId { get; set; }
-
-        #endregion Properties
+        public string searchid { get; set; }
     }
 }

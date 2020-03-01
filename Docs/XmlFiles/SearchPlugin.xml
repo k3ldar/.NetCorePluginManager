@@ -74,6 +74,11 @@
             Minimum length of keyword search string
             </summary>
         </member>
+        <member name="P:SearchPlugin.SearchControllerSettings.HighlightQuickSearchTerms">
+            <summary>
+            Indicates that the keyword search result should have the search keyword highlighted in html
+            </summary>
+        </member>
         <member name="T:SearchPlugin.Classes.Search.DefaultSearchProvider">
             <summary>
             Default search provider to be used if no other search provider is registered
@@ -128,6 +133,21 @@
             Search controller, allows users to search using a standard interface implemented by ISearchProvider interface.
             </summary>
         </member>
+        <member name="T:SearchPlugin.Models.QuickSearchModel">
+            <summary>
+            Search model passed to search controller for ajax calls
+            </summary>
+        </member>
+        <member name="P:SearchPlugin.Models.QuickSearchModel.keywords">
+            <summary>
+            Keywords to be searched
+            </summary>
+        </member>
+        <member name="P:SearchPlugin.Models.QuickSearchModel.searchid">
+            <summary>
+            Unique search id used to verify the call
+            </summary>
+        </member>
         <member name="T:SearchPlugin.Models.QuickSearchViewModel">
             <summary>
             Quick search view model, designed for quickly searching all registered areas
@@ -141,6 +161,17 @@
         <member name="P:SearchPlugin.Models.QuickSearchViewModel.SearchText">
             <summary>
             Text to be searched for
+            </summary>
+        </member>
+        <member name="P:SearchPlugin.Models.QuickSearchViewModel.SearchId">
+            <summary>
+            Id of the current search, this will be used when verifying that the call is legit
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="T:SearchPlugin.Models.SearchViewModel">
+            <summary>
+            View model for searching all ISearchProvider 
             </summary>
         </member>
         <member name="T:SearchPlugin.PluginInitialisation">

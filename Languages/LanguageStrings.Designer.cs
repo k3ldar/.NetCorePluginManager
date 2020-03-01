@@ -27335,6 +27335,15 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Quick Search.
+        /// </summary>
+        public static string QuickSearch {
+            get {
+                return ResourceManager.GetString("QuickSearch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Please ensure you quote your Order Number when calling us..
         /// </summary>
         public static string QuoteOrderNumber {
