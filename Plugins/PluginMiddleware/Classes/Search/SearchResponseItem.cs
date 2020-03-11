@@ -43,12 +43,20 @@ namespace Middleware.Search
         #region Constructors
 
         /// <summary>
+        /// Default constructor
+        /// </summary>
+        public SearchResponseItem()
+        {
+            Properties = new Dictionary<string, object>();
+        }
+
+        /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="responseType">User defined response type, i.e. document, webpage, product, tag etc.</param>
         /// <param name="response">The response word or phrase.</param>
         public SearchResponseItem(in string responseType, in string response)
-            : this(responseType, response, -1)
+            : this(responseType, response, -1, response)
         {
 
         }
@@ -59,11 +67,13 @@ namespace Middleware.Search
         /// <param name="responseType">User defined response type, i.e. document, webpage, product, tag etc.</param>
         /// <param name="response">The response word or phrase.</param>
         /// <param name="offset">The offset within response where the search term was found, if relevant.</param>
-        public SearchResponseItem(in string responseType, in string response, in int offset)
-            : this(responseType, response, offset, null)
+        /// <param name="displayName">Name that will be displayed with the search result url, should no custom view be supplied.</param>
+        public SearchResponseItem(in string responseType, in string response, in int offset, string displayName)
+            : this(responseType, response, offset, null, displayName, null)
         {
 
         }
+
 
         /// <summary>
         /// Constructor
@@ -72,10 +82,17 @@ namespace Middleware.Search
         /// <param name="response">The response word or phrase.</param>
         /// <param name="offset">The offset within response where the search term was found, if relevant.</param>
         /// <param name="url">If the search returns a url it will be made into a uri otherwise left null.</param>
-        public SearchResponseItem(in string responseType, in string response, in int offset, string url)
+        /// <param name="displayName">Name that will be displayed with the search result url, should no custom view be supplied.</param>
+        /// <param name="viewName">Name and path of the view that will display search results</param>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1303:Do not pass literals as localized parameters", Justification = "It's param names so ok with me!")]
+        public SearchResponseItem(in string responseType, in string response, in int offset, string url, string displayName, string viewName)
+            : this ()
         {
             if (String.IsNullOrEmpty(response))
                 throw new ArgumentNullException(nameof(response));
+
+            if (String.IsNullOrEmpty(displayName) && String.IsNullOrEmpty(viewName))
+                throw new ArgumentException($"Either {nameof(displayName)} or {nameof(viewName)} must be set");
 
             ResponseType = responseType ?? String.Empty;
             Response = response;
@@ -90,7 +107,8 @@ namespace Middleware.Search
 
             Offset = offset;
 
-            Properties = new Dictionary<string, object>();
+            DisplayName = displayName;
+            ViewName = viewName;
         }
 
         #endregion Constructors
@@ -101,26 +119,26 @@ namespace Middleware.Search
         /// User defined response type i.e. document, webpage, product, tag etc.
         /// </summary>
         /// <value>string</value>
-        public string ResponseType { get; private set; }
+        public string ResponseType { get; set; }
 
         /// <summary>
         /// Response from search result.
         /// </summary>
         /// <value>string</value>
-        public string Response { get; private set; }
+        public string Response { get; set; }
 
         /// <summary>
         /// The offset within response where the search term was found, if relevant.
         /// </summary>
         /// <value>int</value>
-        public int Offset { get; private set; }
+        public int Offset { get; set; }
 
         /// <summary>
         /// Url, if provided, returned by the search provider.  If this value is null then the host has to determine how
         /// the search result can be viewed in the host application probably based on the ResponseType
         /// </summary>
         /// <value>Uri</value>
-        public Uri Url { get; private set; }
+        public Uri Url { get; set; }
 
         /// <summary>
         /// Dictionary of properties, these are user defined on the premise that the writer of the propery will know.
@@ -135,6 +153,17 @@ namespace Middleware.Search
         /// <value>int</value>
         public int Relevance { get; set; }
 
+        /// <summary>
+        /// Name of the view that will be used to display the search results
+        /// </summary>
+        /// <value>string</value>
+        public string ViewName { get; set; }
+
+        /// <summary>
+        /// Name that will be displayed with the search result url, should no custom view be supplied.
+        /// </summary>
+        public string DisplayName { get; set; }
+
         #endregion Properties
 
         #region Public Methods
@@ -142,6 +171,7 @@ namespace Middleware.Search
         /// <summary>
         /// Highlights the keyword search
         /// </summary>
+        /// <param name="keywordLength">Length of keyword being searched.</param>
         public void HighlightKeywords(in int keywordLength)
         {
             if (_highlighted)

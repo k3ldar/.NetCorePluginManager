@@ -1,4 +1,4 @@
-﻿@model SearchPlugin.Models.QuickSearchViewModel
+﻿@model SearchPlugin.Models.SearchViewModel
 @inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
 <script src="/js/Search.js"></script>
 
@@ -12,7 +12,7 @@
                 <span aria-hidden="true">&times;</span>
             </button>
         </div>
-        @using (Html.BeginForm(nameof(SearchPlugin.Controllers.SearchController.Index), SearchPlugin.Controllers.SearchController.Name, FormMethod.Post, new { id = "frmQuickSearch" }))
+        @using (Html.BeginForm(nameof(SearchPlugin.Controllers.SearchController.QuickSearchDefault), SearchPlugin.Controllers.SearchController.Name, FormMethod.Get, new { id = "frmQuickSearch" }))
         {
             <div class="modal-body">
                 <div class="form-group">
@@ -22,7 +22,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <a href="/@SearchPlugin.Controllers.SearchController.Name/@nameof(SearchPlugin.Controllers.SearchController.Index)/">@Localizer[Languages.LanguageStrings.Search]</a>
+                <a href="/@SearchPlugin.Controllers.SearchController.Name/@nameof(SearchPlugin.Controllers.SearchController.Index)/" style="position: absolute;left: 15px;">@Localizer[Languages.LanguageStrings.AdvancedSearch]</a>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">@Localizer[nameof(Languages.LanguageStrings.Cancel)]</button>
                 <button type="button" class="btn btn-primary" id="btnQSearch">@Localizer[nameof(Languages.LanguageStrings.Search)]</button>
             </div>

@@ -137,6 +137,12 @@ namespace ProductPlugin.Controllers
             return RedirectToAction("Product", "Product", new { id = model.Id, productName = BaseModel.RouteFriendlyName(product.Name) });
         }
 
+        [HttpGet]
+        public IActionResult Search()
+        {
+            return null;
+        }
+
         #endregion Public Action Methods
 
         #region Private Methods

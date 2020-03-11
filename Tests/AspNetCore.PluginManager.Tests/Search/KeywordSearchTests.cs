@@ -329,7 +329,7 @@ namespace AspNetCore.PluginManager.Tests.Search
                 }
             }
 
-            Assert.IsTrue(Results.Count > 60);
+            Assert.IsTrue(Results.Count > 30);
         }
 
         [TestMethod]

@@ -44,6 +44,7 @@ namespace DocumentationPlugin.Classes
     {
         #region Private Members
 
+        private const string DocumentSearchResultViewName = "~/Views/Docs/_DocumentSearchResult.cshtml";
         private readonly IDocumentationService _documentationService;
 
         #endregion Private Members
@@ -90,8 +91,11 @@ namespace DocumentationPlugin.Classes
 
                 if (offset > -1 && Results.Count < searchOptions.MaximumSearchResults)
                 {
-                    Results.Add(new SearchResponseItem("DocumentTitle", document.Title, offset,
-                        $"docs/Document/{HtmlHelper.RouteFriendlyName(document.Title)}/"));
+                    Results.Add(AddDocumentToSearchResult(document, "DocumentTitle",
+                        $"/docs/Document/{HtmlHelper.RouteFriendlyName(document.Title)}/", offset, 5));
+
+
+                    continue;
                 }
 
                 if (!searchOptions.QuickSearch)
@@ -100,8 +104,8 @@ namespace DocumentationPlugin.Classes
 
                     if (offset > -1 && Results.Count < searchOptions.MaximumSearchResults)
                     {
-                        Results.Add(new SearchResponseItem("DocumentSummary", document.Title, offset,
-                            $"docs/Document/{HtmlHelper.RouteFriendlyName(document.Title)}/"));
+                        Results.Add(AddDocumentToSearchResult(document, "DocumentSummary",
+                            $"/docs/Document/{HtmlHelper.RouteFriendlyName(document.Title)}/", offset));
 
                         continue;
                     }
@@ -110,8 +114,8 @@ namespace DocumentationPlugin.Classes
 
                     if (offset > -1 && Results.Count < searchOptions.MaximumSearchResults)
                     {
-                        Results.Add(new SearchResponseItem("DocumentLongShortDescription", document.Title, offset,
-                            $"docs/Document/{HtmlHelper.RouteFriendlyName(document.Title)}/"));
+                        Results.Add(AddDocumentToSearchResult(document, "DocumentLongShortDescription",
+                            $"/docs/Document/{HtmlHelper.RouteFriendlyName(document.Title)}/", offset));
 
                         continue;
                     }
@@ -120,8 +124,8 @@ namespace DocumentationPlugin.Classes
 
                     if (offset > -1 && Results.Count < searchOptions.MaximumSearchResults)
                     {
-                        Results.Add(new SearchResponseItem("DocumentLongDescription", document.Title, offset,
-                            $"docs/Document/{HtmlHelper.RouteFriendlyName(document.Title)}/"));
+                        Results.Add(AddDocumentToSearchResult(document, "DocumentLongDescription",
+                            $"/docs/Document/{HtmlHelper.RouteFriendlyName(document.Title)}/", offset));
 
                         continue;
                     }
@@ -135,9 +139,9 @@ namespace DocumentationPlugin.Classes
         /// Retrieves the name of the search for advance searches
         /// </summary>
         /// <returns>string</returns>
-        public string SearchName()
+        public Dictionary<string, string> SearchName()
         {
-            return "Documents";
+            return null;
         }
 
         /// <summary>
@@ -163,5 +167,21 @@ namespace DocumentationPlugin.Classes
         }
 
         #endregion ISearchKeywordProvider Methods
+
+        #region Private Methods
+
+        private SearchResponseItem AddDocumentToSearchResult(in Document document, in string searchType,
+            in string url, in int offset, in int relevance = 0)
+        {
+            SearchResponseItem Result = new SearchResponseItem(searchType, document.Title, offset,
+                url, document.Title, DocumentSearchResultViewName);
+
+            Result.Relevance = relevance;
+            Result.Properties.Add("ShortDescription", document.ShortDescription);
+
+            return Result;
+        }
+
+        #endregion Private Methods
     }
 }

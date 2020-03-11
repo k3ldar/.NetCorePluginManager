@@ -27,6 +27,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
+using Languages;
+
 using Microsoft.AspNetCore.Mvc;
 
 using Middleware;
@@ -80,34 +82,43 @@ namespace SearchPlugin.Controllers
         [LoggedInOut]
         public IActionResult Index()
         {
-            SearchViewModel model = new SearchViewModel(GetModelData());
-
-            return View(model);
+            return View(CreateSearchModel(new SearchViewModel(), false));
         }
 
-        [HttpPost]
         [BadEgg]
         [LoggedInOut]
         public IActionResult Index(SearchViewModel model)
         {
-            if (model == null)
-                throw new ArgumentNullException(nameof(model));
+            return View(CreateSearchModel(model, true));
+        }
 
-            return View(model);
+        [BadEgg]
+        [LoggedInOut]
+        public IActionResult Search(SearchViewModel model)
+        {
+            return View(nameof(Index), CreateSearchModel(model, true));
+        }
+
+        [BadEgg]
+        [LoggedInOut]
+        [Route("Search/Result/{searchText}/Page/{page}/")]
+        public IActionResult PageSearch(string searchText, int page)
+        {
+            return View(nameof(Index), CreateSearchModel(new SearchViewModel(searchText, page), true));
         }
 
         [HttpGet]
         public IActionResult QuickSearch()
         {
-            return PartialView("_QuickSearch", new QuickSearchViewModel());
+            return PartialView("_QuickSearch", new SearchViewModel());
         }
 
-        [HttpPost]
+        [HttpGet]
         [BadEgg]
         [LoggedInOut]
-        public IActionResult QuickSearch(QuickSearchViewModel model)
+        public IActionResult QuickSearchDefault(SearchViewModel model)
         {
-            return View();
+            return View(nameof(Index), CreateSearchModel(model, true));
         }
 
         [HttpPost]
@@ -146,6 +157,50 @@ namespace SearchPlugin.Controllers
         #endregion Public Action Methods
 
         #region Private Methods
+
+        private SearchViewModel CreateSearchModel(in SearchViewModel model, in bool validate)
+        {
+            if (model == null)
+                throw new ArgumentNullException(nameof(model));
+
+            if (validate && String.IsNullOrEmpty(model.SearchText))
+            {
+                ModelState.AddModelError(nameof(model.SearchText), Languages.LanguageStrings.SearchInvalid);
+            }
+
+            SearchViewModel Result = new SearchViewModel(GetModelData(), _searchProvider.SearchNames());
+            Result.SearchResults = new List<SearchResponseItem>();
+            Result.SearchText = model.SearchText ?? String.Empty;
+            Result.Page = model.Page;
+
+            if (validate && ModelState.IsValid)
+            {
+                KeywordSearchOptions searchOptions = new KeywordSearchOptions(IsUserLoggedIn(), model.SearchText, false);
+
+                List<SearchResponseItem> results = _searchProvider.KeywordSearch(searchOptions);
+
+                CalculatePageOffsets<SearchResponseItem>(results, Result.Page, _settings.ItemsPerPage,
+                    out int startItem, out int endItem, out int totalPages);
+
+                Result.TotalPages = totalPages;
+
+                for (int i = startItem; i <= endItem; i++)
+                {
+                    Result.SearchResults.Add(results[i]);
+                }
+
+                Result.Pagination = BuildPagination(results.Count, _settings.ItemsPerPage, Result.Page,
+                    $"/Search/Result/{model.RouteText(Result.SearchText)}/", "",
+                    LanguageStrings.Previous, LanguageStrings.Next);
+            }
+
+            if (Result.SearchNames == null)
+            {
+                Result.SearchNames = _searchProvider.SearchNames();
+            }
+
+            return Result;
+        }
 
         #endregion Private Methods
     }

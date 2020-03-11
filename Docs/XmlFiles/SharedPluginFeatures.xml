@@ -2650,6 +2650,30 @@
             <param name="next">string.  Display text (localized or not) to be shown to indicate next page.</param>
             <returns>string.  List of html li elements for pagination within a view.</returns>
         </member>
+        <member name="M:SharedPluginFeatures.BaseController.CalculatePageOffsets``1(System.Collections.Generic.List{``0}@,System.Int32@,System.Int32@,System.Int32@,System.Int32@,System.Int32@)">
+            <summary>
+            Calculates a page offset, this method is designed to be used with creating pages, it will return the zero index
+            start and end item and available pages for the offset criteria.
+            </summary>
+            <param name="items">List of items to be paginated</param>
+            <param name="page">Current Page Number</param>
+            <param name="pageSize">Size of Page</param>
+            <param name="startItem">First item in the list of items</param>
+            <param name="endItem">Last item in the list of items</param>
+            <param name="availablePages">Number of available pages based on the list</param>
+        </member>
+        <member name="M:SharedPluginFeatures.BaseController.CalculatePageOffsets(System.Int32@,System.Int32@,System.Int32@,System.Int32@,System.Int32@,System.Int32@)">
+            <summary>
+            Calculates a page offset, this method is designed to be used with creating pages, it will return the zero index
+            start and end item and available pages for the offset criteria.
+            </summary>
+            <param name="itemCount">Number of items to be paginated</param>
+            <param name="page">Current Page Number</param>
+            <param name="pageSize">Size of Page</param>
+            <param name="startItem">First item in the list of items</param>
+            <param name="endItem">Last item in the list of items</param>
+            <param name="availablePages">Number of available pages based on the itemCount</param>
+        </member>
         <member name="M:SharedPluginFeatures.BaseController.GetModelData">
             <summary>
             Returns basic model data to populate BaseModel.

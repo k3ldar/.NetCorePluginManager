@@ -129,7 +129,7 @@ namespace DownloadPlugin.Controllers
             model.Breadcrumbs.Add(new BreadcrumbItem(nameof(Languages.LanguageStrings.Download), "/Download/", false));
             model.Breadcrumbs.Add(new BreadcrumbItem(category.Name, $"/Download/{category.Id}/Category/{model.RouteText(category.Name)}", true));
 
-            model.Pagination = BuildPagination(category.Downloads.Count, (int)_productsPerPage,
+            model.Pagination = BuildPagination(category.Downloads.Count, _productsPerPage,
                 page ?? 1,
                 $"/Download/{category.Id}/Category/{model.RouteText(category.Name)}/", "",
                 LanguageStrings.Previous, LanguageStrings.Next);

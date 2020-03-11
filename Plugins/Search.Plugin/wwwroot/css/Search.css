@@ -9,8 +9,12 @@
         margin: 0 10px 0 0;
     }
 
+.nav-box {
+    width: 100%;
+    padding: 10px 0 0 10px;
+}
 .search-row {
-    padding: 0 0 4px 0;
+    padding: 10px 0 10px 0;
 }
 
 .ac-row {
@@ -73,3 +77,29 @@ input {
 .searchDialog {
     height: 260px !important;
 }
+
+
+.searchEntry {
+    border: none;
+    margin: 5px;
+    padding: 10px 5px 5px 5px;
+    cursor: pointer;
+}
+
+    .searchEntry a {
+        width: 100%;
+        height: 100%;
+        text-decoration: none;
+        display: block;
+        color: black;
+    }
+        .searchEntry a:hover {
+            background-color: lightyellow;
+            color: black;
+        }
+
+        .searchEntry a img {
+            width: 64px;
+            height: 64px;
+            padding: 5px 8px 5px 5px;
+        }

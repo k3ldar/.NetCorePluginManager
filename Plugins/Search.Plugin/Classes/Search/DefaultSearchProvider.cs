@@ -85,10 +85,13 @@ namespace SearchPlugin.Classes.Search
                     throw new ArgumentNullException(nameof(keywordSearchOptions));
                 }
 
-                string cacheName = String.Format("Keyword Search {0} {1} {2} {3} {4}",
-                    keywordSearchOptions.IsLoggedIn, keywordSearchOptions.ExactMatch,
-                    keywordSearchOptions.MaximumSearchResults, keywordSearchOptions.Timeout,
-                    keywordSearchOptions.SearchTerm);
+                string cacheName = String.Format("Keyword Search {0} {1} {2} {3} {4} {5}",
+                    keywordSearchOptions.IsLoggedIn, 
+                    keywordSearchOptions.ExactMatch,
+                    keywordSearchOptions.MaximumSearchResults, 
+                    keywordSearchOptions.Timeout,
+                    keywordSearchOptions.SearchTerm,
+                    keywordSearchOptions.QuickSearch);
 
                 CacheItem cacheItem = _searchCache.Get(cacheName);
 
@@ -154,18 +157,19 @@ namespace SearchPlugin.Classes.Search
         /// to provide a paged or tabbed advance search option.
         /// </summary>
         /// <returns>List&lt;string&gt;</returns>
-        public List<String> SearchNames()
+        public Dictionary<string, string> SearchNames()
         {
-            List<string> Result = new List<string>();
+            Dictionary<string, string> Result = new Dictionary<string, string>();
 
             foreach (ISearchKeywordProvider provider in _searchProviders)
             {
-                string name = provider.SearchName();
+                Dictionary<string, string> name = provider.SearchName();
 
-                if (String.IsNullOrEmpty(name))
+                if (name == null)
                     continue;
 
-                Result.Add(name);
+                foreach (KeyValuePair<String, String> item in name)
+                    Result.Add(item.Key, item.Value);
             }
 
             return Result;

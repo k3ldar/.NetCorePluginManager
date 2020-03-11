@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Mvc;
+using Shared.Classes;
 using SharedPluginFeatures;
 
 namespace AspNetCore.PluginManager.Tests.PluginFeatures
@@ -26,6 +27,18 @@ namespace AspNetCore.PluginManager.Tests.PluginFeatures
         internal ShoppingCartSummary TestGetShoppingCartSummary()
         {
             return GetCartSummary();
+        }
+
+        internal void TestCalculatePageOffsets<T>(List<T> items, int page, int pageSize,
+            out int startItem, out int endItem, out int availablePages)
+        {
+            CalculatePageOffsets<T>(items, page, pageSize, out startItem, out endItem, out availablePages);
+        }
+
+        internal void TestCalculatePageOffsets(int totalItems, int page, int pageSize, 
+            out int startItem, out int endItem, out int availablePages)
+        {
+            CalculatePageOffsets(totalItems, page, pageSize, out startItem, out endItem, out availablePages);
         }
     }
 
@@ -113,7 +126,8 @@ namespace AspNetCore.PluginManager.Tests.PluginFeatures
             {
                 return new Dictionary<object, object>
                 {
-                    { Constants.BasketSummary, new ShoppingCartSummary(1, 0, 0, 0, 0, 0, new System.Globalization.CultureInfo("en-GB"), "GBP") }
+                    { Constants.BasketSummary, new ShoppingCartSummary(1, 0, 0, 0, 0, 0, new System.Globalization.CultureInfo("en-GB"), "GBP") },
+                    { Constants.UserSession, new UserSession() { InternalSessionID = DateTime.Now.Ticks} }
                 };
             }
 

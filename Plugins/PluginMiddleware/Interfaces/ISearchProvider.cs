@@ -52,7 +52,7 @@ namespace Middleware
         /// Retrieves a list of strings from all search providers that can optionally be used by the UI 
         /// to provide a paged or tabbed advance search option.
         /// </summary>
-        /// <returns>List&lt;string&gt;</returns>
-        List<string> SearchNames();
+        /// <returns>Dictionary&lt;string, string&gt;</returns>
+        Dictionary<string, string> SearchNames();
     }
 }

@@ -79,6 +79,11 @@
             Indicates that the keyword search result should have the search keyword highlighted in html
             </summary>
         </member>
+        <member name="P:SearchPlugin.SearchControllerSettings.ItemsPerPage">
+            <summary>
+            Total number of search results per page
+            </summary>
+        </member>
         <member name="T:SearchPlugin.Classes.Search.DefaultSearchProvider">
             <summary>
             Default search provider to be used if no other search provider is registered
@@ -172,6 +177,38 @@
         <member name="T:SearchPlugin.Models.SearchViewModel">
             <summary>
             View model for searching all ISearchProvider 
+            </summary>
+        </member>
+        <member name="P:SearchPlugin.Models.SearchViewModel.SearchText">
+            <summary>
+            Text to be searched for
+            </summary>
+        </member>
+        <member name="P:SearchPlugin.Models.SearchViewModel.SearchId">
+            <summary>
+            Id of the current search, this will be used when verifying that the call is legit
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:SearchPlugin.Models.SearchViewModel.SearchResults">
+            <summary>
+            Available search results from users search
+            </summary>
+            <value>List&lt;SearchResponseItem&gt;</value>
+        </member>
+        <member name="P:SearchPlugin.Models.SearchViewModel.Page">
+            <summary>
+            Current page of search items
+            </summary>
+        </member>
+        <member name="P:SearchPlugin.Models.SearchViewModel.TotalPages">
+            <summary>
+            Total number of pages for this search
+            </summary>
+        </member>
+        <member name="P:SearchPlugin.Models.SearchViewModel.Pagination">
+            <summary>
+            
             </summary>
         </member>
         <member name="T:SearchPlugin.PluginInitialisation">

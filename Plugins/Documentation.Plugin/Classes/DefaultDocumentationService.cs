@@ -96,48 +96,60 @@ namespace DocumentationPlugin.Classes
 
         public List<Document> GetDocuments()
         {
-            using (TimedLock doclock = TimedLock.Lock(_lockObject))
+            string f;
+            try
             {
-                CacheItem cache = _memoryCache.GetCache().Get(Constants.DocumentationListCache);
-
-                if (cache == null)
+                using (TimedLock doclock = TimedLock.Lock(_lockObject))
                 {
-                    DocumentBuilder builder = new DocumentBuilder();
-                    List<Document> documents = new List<Document>();
+                    CacheItem cache = _memoryCache.GetCache().Get(Constants.DocumentationListCache);
 
-                    foreach (string file in GetDocumentationFileNames())
+                    if (cache == null)
                     {
-                        if (String.IsNullOrEmpty(file))
-                            continue;
+                        DocumentBuilder builder = new DocumentBuilder();
+                        List<Document> documents = new List<Document>();
 
-                        builder.LoadDocuments(documents, Path.Combine(_xmlFilePath, file));
+                        foreach (string file in GetDocumentationFileNames())
+                        {
+                            if (String.IsNullOrEmpty(file))
+                                continue;
+
+                            f = file;
+
+                            builder.LoadDocuments(documents, Path.Combine(_xmlFilePath, file));
+                        }
+
+                        foreach (Document doc in documents)
+                        {
+                            if (doc.DocumentType == DocumentType.Custom)
+                                doc.AssemblyName = doc.Title;
+
+                            ProcessDocument(doc);
+                            BuildReferences(doc, documents);
+
+                            if (String.IsNullOrEmpty(doc.ShortDescription))
+                                doc.ShortDescription = doc.Summary;
+                        }
+
+                        BuildAllReferences(documents);
+
+                        SetParentData(documents);
+
+                        //TODO any x-ref should be implemented here
+
+                        SetPreviousNext(documents);
+
+                        cache = new CacheItem(Constants.DocumentationListCache, documents);
+                        _memoryCache.GetCache().Add(Constants.DocumentationListCache, cache);
                     }
 
-                    foreach (Document doc in documents)
-                    {
-                        if (doc.DocumentType == DocumentType.Custom)
-                            doc.AssemblyName = doc.Title;
-
-                        ProcessDocument(doc);
-                        BuildReferences(doc, documents);
-
-                        if (String.IsNullOrEmpty(doc.ShortDescription))
-                            doc.ShortDescription = doc.Summary;
-                    }
-
-                    BuildAllReferences(documents);
-
-                    SetParentData(documents);
-
-                    //TODO any x-ref should be implemented here
-
-                    SetPreviousNext(documents);
-
-                    cache = new CacheItem(Constants.DocumentationListCache, documents);
-                    _memoryCache.GetCache().Add(Constants.DocumentationListCache, cache);
+                    return (List<Document>)cache.Value;
                 }
-
-                return (List<Document>)cache.Value;
+            }
+#pragma warning disable CA1031 // Do not catch general exception types
+            catch (Exception err)
+#pragma warning restore CA1031 // Do not catch general exception types
+            {
+                throw;
             }
         }
 

@@ -65,10 +65,10 @@ namespace AspNetCore.PluginManager.Tests.Search
         {
             KeywordSearchOptions keywordSearchOptions = new KeywordSearchOptions(false, "PrODA", false, true);
 
-            string cacheName = String.Format("Keyword Search {0} {1} {2} {3} {4}",
+            string cacheName = String.Format("Keyword Search {0} {1} {2} {3} {4} {5}",
                 keywordSearchOptions.IsLoggedIn, keywordSearchOptions.ExactMatch,
                 keywordSearchOptions.MaximumSearchResults, keywordSearchOptions.Timeout,
-                keywordSearchOptions.SearchTerm);
+                keywordSearchOptions.SearchTerm, keywordSearchOptions.QuickSearch);
 
 
             IPluginClassesService pluginServices = new pm.PluginServices(_testPlugin) as IPluginClassesService;
@@ -150,14 +150,13 @@ namespace AspNetCore.PluginManager.Tests.Search
 
             Assert.AreEqual(1, searchProviders.Count);
 
-            List<string> results = searchProviders[0].SearchNames();
+            Dictionary<string, string> results = searchProviders[0].SearchNames();
 
             Assert.IsTrue(results.Count < 3);
 
-            Assert.IsFalse(results.Contains("TestProviderA"));
-            Assert.IsFalse(results.Contains("TestProviderB"));
-            Assert.IsTrue(results.Contains("Documents"));
-            Assert.IsTrue(results.Contains("Products"));
+            Assert.IsFalse(results.ContainsKey("TestProviderA"));
+            Assert.IsFalse(results.ContainsKey("TestProviderB"));
+            Assert.IsTrue(results.ContainsKey("Products"));
         }
     }
 }

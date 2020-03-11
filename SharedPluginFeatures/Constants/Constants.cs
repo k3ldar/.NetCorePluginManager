@@ -276,7 +276,7 @@ namespace SharedPluginFeatures
         /// <summary>
         /// Internally used Pagination Previous Enabled
         /// </summary>
-        public const string PaginationPrevEnabled = "<liclass=\"page-item\"><a class=\"page-link\" href=\"{0}Page/{1}/{2}\">&laquo; {3}</a></li>";
+        public const string PaginationPrevEnabled = "<li class=\"page-item\"><a class=\"page-link\" href=\"{0}Page/{1}/{2}\">&laquo; {3}</a></li>";
 
         /// <summary>
         /// Internally used Pagination Next Disabled

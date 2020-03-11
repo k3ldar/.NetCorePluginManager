@@ -1920,20 +1920,17 @@
             Search response for all search types.
             </summary>
         </member>
+        <member name="M:Middleware.Search.SearchResponseItem.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
         <member name="M:Middleware.Search.SearchResponseItem.#ctor(System.String@,System.String@)">
             <summary>
             Constructor
             </summary>
             <param name="responseType">User defined response type, i.e. document, webpage, product, tag etc.</param>
             <param name="response">The response word or phrase.</param>
-        </member>
-        <member name="M:Middleware.Search.SearchResponseItem.#ctor(System.String@,System.String@,System.Int32@)">
-            <summary>
-            Constructor
-            </summary>
-            <param name="responseType">User defined response type, i.e. document, webpage, product, tag etc.</param>
-            <param name="response">The response word or phrase.</param>
-            <param name="offset">The offset within response where the search term was found, if relevant.</param>
         </member>
         <member name="M:Middleware.Search.SearchResponseItem.#ctor(System.String@,System.String@,System.Int32@,System.String)">
             <summary>
@@ -1942,7 +1939,18 @@
             <param name="responseType">User defined response type, i.e. document, webpage, product, tag etc.</param>
             <param name="response">The response word or phrase.</param>
             <param name="offset">The offset within response where the search term was found, if relevant.</param>
+            <param name="displayName">Name that will be displayed with the search result url, should no custom view be supplied.</param>
+        </member>
+        <member name="M:Middleware.Search.SearchResponseItem.#ctor(System.String@,System.String@,System.Int32@,System.String,System.String,System.String)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="responseType">User defined response type, i.e. document, webpage, product, tag etc.</param>
+            <param name="response">The response word or phrase.</param>
+            <param name="offset">The offset within response where the search term was found, if relevant.</param>
             <param name="url">If the search returns a url it will be made into a uri otherwise left null.</param>
+            <param name="displayName">Name that will be displayed with the search result url, should no custom view be supplied.</param>
+            <param name="viewName">Name and path of the view that will display search results</param>
         </member>
         <member name="P:Middleware.Search.SearchResponseItem.ResponseType">
             <summary>
@@ -1982,10 +1990,22 @@
             </summary>
             <value>int</value>
         </member>
+        <member name="P:Middleware.Search.SearchResponseItem.ViewName">
+            <summary>
+            Name of the view that will be used to display the search results
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:Middleware.Search.SearchResponseItem.DisplayName">
+            <summary>
+            Name that will be displayed with the search result url, should no custom view be supplied.
+            </summary>
+        </member>
         <member name="M:Middleware.Search.SearchResponseItem.HighlightKeywords(System.Int32@)">
             <summary>
             Highlights the keyword search
             </summary>
+            <param name="keywordLength">Length of keyword being searched.</param>
         </member>
         <member name="T:Middleware.ShoppingCart.ShoppingCartDetail">
             <summary>
@@ -3019,7 +3039,7 @@
             Retrieves a list of strings from all search providers that can optionally be used by the UI 
             to provide a paged or tabbed advance search option.
             </summary>
-            <returns>List&lt;string&gt;</returns>
+            <returns>Dictionary&lt;string, string&gt;</returns>
         </member>
         <member name="T:Middleware.IShoppingCartProvider">
             <summary>

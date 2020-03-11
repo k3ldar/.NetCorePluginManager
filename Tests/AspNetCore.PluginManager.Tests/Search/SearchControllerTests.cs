@@ -34,6 +34,8 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using Middleware.Search;
 
+using Newtonsoft.Json;
+
 using PluginManager.Abstractions;
 
 using SearchPlugin.Controllers;
@@ -141,6 +143,8 @@ namespace AspNetCore.PluginManager.Tests.Search
                 Assert.IsNull(contentResult.ViewName);
 
                 Assert.IsInstanceOfType(contentResult.Model, typeof(SearchViewModel));
+
+                Assert.IsFalse(searchController.ModelState.IsValid);
             }
         }
 
@@ -178,7 +182,7 @@ namespace AspNetCore.PluginManager.Tests.Search
 
                 searchController.ControllerContext.HttpContext = new TestHttpContext();
 
-                StatusCodeResult statusResult = searchController.QuickKeywordSearch("") as StatusCodeResult;
+                StatusCodeResult statusResult = searchController.QuickKeywordSearch(new QuickSearchModel() { keywords = "" }) as StatusCodeResult;
 
                 Assert.IsNotNull(statusResult);
 
@@ -199,7 +203,7 @@ namespace AspNetCore.PluginManager.Tests.Search
 
                 searchController.ControllerContext.HttpContext = new TestHttpContext();
 
-                StatusCodeResult statusResult = searchController.QuickKeywordSearch(" \n \r \t  ") as StatusCodeResult;
+                StatusCodeResult statusResult = searchController.QuickKeywordSearch(new QuickSearchModel() { keywords = " \n \r \t  " }) as StatusCodeResult;
 
                 Assert.IsNotNull(statusResult);
 
@@ -220,7 +224,7 @@ namespace AspNetCore.PluginManager.Tests.Search
 
                 searchController.ControllerContext.HttpContext = new TestHttpContext();
 
-                StatusCodeResult statusResult = searchController.QuickKeywordSearch("as") as StatusCodeResult;
+                StatusCodeResult statusResult = searchController.QuickKeywordSearch(new QuickSearchModel() { keywords = "as" }) as StatusCodeResult;
 
                 Assert.IsNotNull(statusResult);
 
@@ -241,7 +245,7 @@ namespace AspNetCore.PluginManager.Tests.Search
 
                 searchController.ControllerContext.HttpContext = new TestHttpContext();
 
-                JsonResult statusResult = searchController.QuickKeywordSearch("Plugin") as JsonResult;
+                JsonResult statusResult = searchController.QuickKeywordSearch(new QuickSearchModel() { keywords = "Plugin" }) as JsonResult;
 
                 Assert.IsNotNull(statusResult);
 
@@ -249,9 +253,44 @@ namespace AspNetCore.PluginManager.Tests.Search
 
                 Assert.AreEqual("application/json", statusResult.ContentType);
 
-                List<SearchResponseItem> searchResults = (List<SearchResponseItem>)statusResult.Value;
+                string json = JsonConvert.SerializeObject(statusResult.Value);
+                List<SearchResponseItem> searchResults = JsonConvert.DeserializeObject<List<SearchResponseItem>>(json);
 
-                Assert.IsTrue(searchResults.Count > 10);
+                Assert.AreEqual(5, searchResults.Count);
+
+                Assert.IsFalse(String.IsNullOrEmpty(searchResults[0].DisplayName));
+                Assert.IsFalse(String.IsNullOrEmpty(searchResults[0].ResponseType));
+                Assert.IsNotNull(searchResults[0].Properties);
+                Assert.IsTrue(((string)searchResults[0].Properties["ShortDescription"]).Length > 10);
+            }
+        }
+
+        [TestMethod]
+        public void RouteIndexGetValidResultSearchPlugin()
+        {
+            IPluginClassesService pluginServices = new pm.PluginServices(_testPlugin) as IPluginClassesService;
+
+            using (SearchController searchController = new SearchController(
+                new pm.DefaultSettingProvider(Directory.GetCurrentDirectory()),
+                new SearchPlugin.Classes.Search.DefaultSearchProvider(pluginServices)))
+            {
+                Assert.IsNotNull(searchController);
+
+                searchController.ControllerContext.HttpContext = new TestHttpContext();
+
+                ViewResult contentResult = searchController.Index(new SearchViewModel() { SearchText = "Plugin" }) as ViewResult;
+                Assert.IsTrue(searchController.ModelState.IsValid);
+                Assert.IsNotNull(contentResult);
+
+                Assert.IsNull(contentResult.ViewName);
+
+                Assert.IsInstanceOfType(contentResult.Model, typeof(SearchViewModel));
+
+                SearchViewModel model = (SearchViewModel)contentResult.Model;
+
+                Assert.IsNotNull(model.SearchResults);
+                Assert.AreEqual("Plugin", model.SearchText);
+                Assert.IsTrue(model.SearchResults.Count > 0);
             }
         }
     }

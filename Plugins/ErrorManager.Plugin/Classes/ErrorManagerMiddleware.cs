@@ -133,7 +133,7 @@ namespace ErrorManager.Plugin
                     else
                     {
                         // this is only invoked if the error manager is the problem
-                        throw;
+                         throw;
                     }
                 }
             }

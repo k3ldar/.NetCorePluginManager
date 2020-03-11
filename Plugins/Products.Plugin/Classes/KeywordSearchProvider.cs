@@ -37,7 +37,7 @@ namespace ProductPlugin.Classes
     /// <summary>
     /// Product keyword provider
     /// </summary>
-    public class KeywordSearchProvider : ISearchKeywordProvider
+    public class KeywordSearchProvider :  ISearchKeywordProvider
     {
         #region Private Members
 
@@ -90,9 +90,12 @@ namespace ProductPlugin.Classes
         /// Retrieves the name of the search for advance searches
         /// </summary>
         /// <returns>string</returns>
-        public string SearchName()
+        public Dictionary<string, string> SearchName()
         {
-            return "Products";
+            return new Dictionary<string, string>
+            {
+                { Languages.LanguageStrings.Products, "/Products/Search" }
+            };
         }
 
         /// <summary>
@@ -135,7 +138,8 @@ namespace ProductPlugin.Classes
                 if (offset > -1 && results.Count < searchOptions.MaximumSearchResults)
                 {
                     results.Add(new SearchResponseItem("ProductName", product.Name, offset,
-                        $"Product/{product.Id}/{HtmlHelper.RouteFriendlyName(product.Name)}/"));
+                        $"Product/{product.Id}/{HtmlHelper.RouteFriendlyName(product.Name)}/", 
+                        product.Name, null));
                 }
 
                 if (!searchOptions.QuickSearch)
@@ -145,7 +149,8 @@ namespace ProductPlugin.Classes
                     if (offset > -1 && results.Count < searchOptions.MaximumSearchResults)
                     {
                         results.Add(new SearchResponseItem("ProductDescription", product.Name, offset,
-                            $"Product/{product.Id}/{HtmlHelper.RouteFriendlyName(product.Name)}/"));
+                            $"Product/{product.Id}/{HtmlHelper.RouteFriendlyName(product.Name)}/",
+                        product.Name, null));
 
                         continue;
                     }
@@ -155,7 +160,8 @@ namespace ProductPlugin.Classes
                     if (offset > -1 && results.Count < searchOptions.MaximumSearchResults)
                     {
                         results.Add(new SearchResponseItem("ProductSku", product.Name, offset,
-                            $"Product/{product.Id}/{HtmlHelper.RouteFriendlyName(product.Name)}/"));
+                            $"Product/{product.Id}/{HtmlHelper.RouteFriendlyName(product.Name)}/",
+                        product.Name, null));
 
                         continue;
                     }
@@ -185,7 +191,8 @@ namespace ProductPlugin.Classes
                     if (offset > -1 && results.Count < searchOptions.MaximumSearchResults)
                     {
                         results.Add(new SearchResponseItem("ProductName", product.Name, offset,
-                            $"Product/{product.Id}/{HtmlHelper.RouteFriendlyName(product.Name)}/"));
+                            $"Product/{product.Id}/{HtmlHelper.RouteFriendlyName(product.Name)}/",
+                            product.Name, null));
                     }
 
                     if (!searchOptions.QuickSearch)
@@ -195,7 +202,8 @@ namespace ProductPlugin.Classes
                         if (offset > -1 && results.Count < searchOptions.MaximumSearchResults)
                         {
                             results.Add(new SearchResponseItem("ProductDescription", product.Name, offset,
-                                $"Product/{product.Id}/{HtmlHelper.RouteFriendlyName(product.Name)}/"));
+                                $"Product/{product.Id}/{HtmlHelper.RouteFriendlyName(product.Name)}/",
+                                product.Name, null));
 
                             continue;
                         }
@@ -205,7 +213,8 @@ namespace ProductPlugin.Classes
                         if (offset > -1 && results.Count < searchOptions.MaximumSearchResults)
                         {
                             results.Add(new SearchResponseItem("ProductSku", product.Name, offset,
-                                $"Product/{product.Id}/{HtmlHelper.RouteFriendlyName(product.Name)}/"));
+                                $"Product/{product.Id}/{HtmlHelper.RouteFriendlyName(product.Name)}/",
+                                product.Name, null));
 
                             continue;
                         }

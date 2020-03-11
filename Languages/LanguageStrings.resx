@@ -14129,4 +14129,12 @@ You will shortly receive an email with the details of your order.</comment>
     <value>Quick Search</value>
     <comment>Quick Search</comment>
   </data>
+  <data name="AdvancedSearch" xml:space="preserve">
+    <value>Advanced Search</value>
+    <comment>Advanced Search</comment>
+  </data>
+  <data name="All" xml:space="preserve">
+    <value>All</value>
+    <comment>All</comment>
+  </data>
 </root>

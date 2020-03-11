@@ -97,8 +97,10 @@
     <Content Remove="Views\Docs\ViewType.cshtml" />
     <Content Remove="Views\Docs\_DocumentData.cshtml" />
     <Content Remove="Views\Docs\_DocumentDataType.cshtml" />
+    <Content Remove="Views\Docs\_DocumentSearchResult.cshtml" />
     <Content Remove="wwwroot\css\documentation.css" />
     <Content Remove="wwwroot\css\Login.css" />
+    <Content Remove="wwwroot\images\document-icon.png" />
     <Content Remove="wwwroot\images\module.png" />
     <Content Remove="wwwroot\js\Login.js" />
   </ItemGroup>
@@ -110,14 +112,15 @@
     <EmbeddedResource Include="Views\Docs\ViewType.cshtml" />
     <EmbeddedResource Include="Views\Docs\_DocumentData.cshtml" />
     <EmbeddedResource Include="Views\Docs\_DocumentDataType.cshtml" />
+    <EmbeddedResource Include="Views\Docs\_DocumentSearchResult.cshtml" />
     <EmbeddedResource Include="wwwroot\css\documentation.css" />
     <EmbeddedResource Include="wwwroot\css\Login.css" />
+    <EmbeddedResource Include="wwwroot\images\document-icon.png" />
     <EmbeddedResource Include="wwwroot\js\Login.js" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Classes\SystemAdmin\" />
-    <Folder Include="wwwroot\images\" />
   </ItemGroup>
 
   <ItemGroup>

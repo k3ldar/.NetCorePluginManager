@@ -55,6 +55,6 @@ namespace Middleware
         /// Return null or empty string if the search provider should not have a custom advanced search option.
         /// </summary>
         /// <returns>string</returns>
-        string SearchName();
+        Dictionary<string, string> SearchName();
     }
 }

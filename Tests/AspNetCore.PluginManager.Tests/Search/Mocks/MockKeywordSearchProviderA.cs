@@ -58,7 +58,7 @@ namespace AspNetCore.PluginManager.Tests.Search.Mocks
             }
         }
 
-        public String SearchName()
+        public Dictionary<string, string> SearchName()
         {
             return null;
         }

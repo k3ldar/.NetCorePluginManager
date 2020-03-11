@@ -117,5 +117,11 @@ namespace SearchPlugin
         /// </summary>
         [SettingDefault(true)]
         public bool HighlightQuickSearchTerms { get; set; }
+
+        /// <summary>
+        /// Total number of search results per page
+        /// </summary>
+        [SettingDefault(3)]
+        public int ItemsPerPage { get; set; }
     }
 }
