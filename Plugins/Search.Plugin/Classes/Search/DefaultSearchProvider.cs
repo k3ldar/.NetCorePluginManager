@@ -85,24 +85,16 @@ namespace SearchPlugin.Classes.Search
                     throw new ArgumentNullException(nameof(keywordSearchOptions));
                 }
 
-                string cacheName = String.Format("Keyword Search {0} {1} {2} {3} {4} {5}",
-                    keywordSearchOptions.IsLoggedIn, 
-                    keywordSearchOptions.ExactMatch,
-                    keywordSearchOptions.MaximumSearchResults, 
-                    keywordSearchOptions.Timeout,
-                    keywordSearchOptions.SearchTerm,
-                    keywordSearchOptions.QuickSearch);
-
-                CacheItem cacheItem = _searchCache.Get(cacheName);
+                CacheItem cacheItem = _searchCache.Get(keywordSearchOptions.SearchName);
 
                 using (TimedLock timedLock = TimedLock.Lock(_lockObject))
                 {
                     if (cacheItem == null)
                     {
-                        if (!ThreadManager.Exists(cacheName))
+                        if (!ThreadManager.Exists(keywordSearchOptions.SearchName))
                         {
                             DefaultSearchThread searchThread = new DefaultSearchThread(_searchProviders, _searchCache, keywordSearchOptions);
-                            ThreadManager.ThreadStart(searchThread, cacheName, System.Threading.ThreadPriority.BelowNormal);
+                            ThreadManager.ThreadStart(searchThread, keywordSearchOptions.SearchName, System.Threading.ThreadPriority.BelowNormal);
                         }
                     }
                 }
@@ -118,7 +110,7 @@ namespace SearchPlugin.Classes.Search
                         throw new TimeoutException("Timed out waiting for search to complete");
                     }
 
-                    cacheItem = _searchCache.Get(cacheName);
+                    cacheItem = _searchCache.Get(keywordSearchOptions.SearchName);
 
                     if (cacheItem != null)
                     {

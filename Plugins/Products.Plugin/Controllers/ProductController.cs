@@ -79,6 +79,12 @@ namespace ProductPlugin.Controllers
 
         #endregion Constructors
 
+        #region Constants
+
+        public const string Name = "Product";
+
+        #endregion Constants
+
         #region Public Action Methods
 
         [HttpGet]
@@ -135,12 +141,6 @@ namespace ProductPlugin.Controllers
             provider.AddToCart(GetUserSession(), GetCartSummary(), product, model.Quantity);
 
             return RedirectToAction("Product", "Product", new { id = model.Id, productName = BaseModel.RouteFriendlyName(product.Name) });
-        }
-
-        [HttpGet]
-        public IActionResult Search()
-        {
-            return null;
         }
 
         #endregion Public Action Methods

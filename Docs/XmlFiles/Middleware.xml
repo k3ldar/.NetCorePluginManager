@@ -1898,6 +1898,11 @@
             </summary>
             <value>bool</value>
         </member>
+        <member name="P:Middleware.Search.KeywordSearchOptions.SearchName">
+            <summary>
+            Name of the search prefix, this is used by other search providers who can create a search and prefix it so as to return afterwards
+            </summary>
+        </member>
         <member name="T:Middleware.Search.SearchResponse">
             <summary>
             Base search response

@@ -45,12 +45,14 @@ namespace SearchPlugin.Models
         public SearchViewModel()
         {
             Page = 1;
+            ActiveTab = String.Empty;
         }
 
         public SearchViewModel(string searchText, int page)
         {
             SearchText = searchText ?? String.Empty;
             Page = page;
+            ActiveTab = String.Empty;
         }
 
         public SearchViewModel(in BaseModelData modelData, Dictionary<string, string> searchNames)
@@ -58,6 +60,7 @@ namespace SearchPlugin.Models
         {
             Page = 1;
             SearchNames = searchNames ?? throw new ArgumentNullException(nameof(searchNames));
+            ActiveTab = String.Empty;
         }
 
         #endregion Constructors

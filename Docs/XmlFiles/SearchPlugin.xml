@@ -200,15 +200,23 @@
             <summary>
             Current page of search items
             </summary>
+            <value>int</value>
         </member>
         <member name="P:SearchPlugin.Models.SearchViewModel.TotalPages">
             <summary>
             Total number of pages for this search
             </summary>
+            <value>int</value>
         </member>
         <member name="P:SearchPlugin.Models.SearchViewModel.Pagination">
             <summary>
-            
+            Contains the html used for paging search results.
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:SearchPlugin.Models.SearchViewModel.ActiveTab">
+            <summary>
+            Name of the active tab for advanced searching
             </summary>
         </member>
         <member name="T:SearchPlugin.PluginInitialisation">

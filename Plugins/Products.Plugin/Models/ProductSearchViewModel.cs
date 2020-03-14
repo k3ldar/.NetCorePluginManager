@@ -15,60 +15,19 @@
  *
  *  Product:  Products.Plugin
  *  
- *  File: AddToCartModel.cs
+ *  File: ProductSearchViewModel.cs
  *
- *  Purpose:  Add to cart model
+ *  Purpose:  Base Product Model
  *
  *  Date        Name                Reason
  *  02/02/2019  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using System;
-
-#pragma warning disable CS1591
 
 namespace ProductPlugin.Models
 {
-    public class AddToCartModel
+    public class ProductSearchViewModel
     {
-        #region Constructors
-
-        public AddToCartModel()
-        {
-            Quantity = 1;
-        }
-
-        public AddToCartModel(in int id, in decimal retailPrice, in decimal discount, in uint stockAvailability)
-            : this()
-        {
-            if (retailPrice <= 0)
-                throw new ArgumentOutOfRangeException(nameof(retailPrice));
-
-            if (discount < 0 || discount > 100)
-                throw new ArgumentOutOfRangeException(nameof(discount));
-
-            Id = id;
-            RetailPrice = retailPrice;
-            Discount = discount;
-            StockAvailability = stockAvailability;
-        }
-
-        #endregion Constructors
-
-        #region Properties
-
-        public int Id { get; set; }
-
-        public int Quantity { get; set; }
-
-        public decimal RetailPrice { get; set; }
-
-        public decimal Discount { get; set; }
-
-        public uint StockAvailability { get; private set; }
-
-        #endregion Properties
+        public string SearchTest { get; set; }
     }
 }
-
-#pragma warning restore CS1591

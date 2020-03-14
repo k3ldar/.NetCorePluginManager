@@ -16,31 +16,53 @@
     <div class="col-sm-12">
         <ul class="nav nav-tabs">
             <li class="nav-item">
-                <a class="nav-link active" href="#">@Localizer[nameof(Languages.LanguageStrings.All)]</a>
+                @if (String.IsNullOrEmpty(Model.ActiveTab) || Model.ActiveTab.Equals(Languages.LanguageStrings.All))
+                {
+                    <a class="nav-link active" href="#">@Localizer[nameof(Languages.LanguageStrings.All)]</a>
+                }
+                else
+                {
+                    <a class="nav-link" href="/Search/Index/">@Localizer[nameof(Languages.LanguageStrings.All)]</a>
+                }
             </li>
 
             @foreach (var searchName in Model.SearchNames)
             {
-                <li class="nav-item"><a class="nav-link" href="@searchName.Value">@Localizer[searchName.Key]</a></li>
+                if (Model.ActiveTab.Equals(searchName.Key))
+                {
+                    <li class="nav-item active"><a class="nav-link" href="@searchName.Value">@Localizer[searchName.Key]</a></li>
+                }
+                else
+                {
+                    <li class="nav-item"><a class="nav-link" href="@searchName.Value">@Localizer[searchName.Key]</a></li>
+                }
             }
         </ul>
     </div>
 </div>
 <div class="nav-box">
-    @using (Html.BeginForm(nameof(SearchPlugin.Controllers.SearchController.Search), SearchPlugin.Controllers.SearchController.Name, FormMethod.Get, new { id = "frmSearch" }))
+    @if (String.IsNullOrEmpty(Model.ActiveTab) || Model.ActiveTab.Equals(Languages.LanguageStrings.All))
     {
-        <div class="row search-row">
-            <div class="col-sm-12 col-md-4 col-lg-3">
-                @Html.LabelFor(m => m.SearchText)
+        @using (Html.BeginForm(nameof(SearchPlugin.Controllers.SearchController.Search), SearchPlugin.Controllers.SearchController.Name, FormMethod.Get, new { id = "frmSearch" }))
+        {
+            <div class="row search-row">
+                <div class="col-sm-12 col-md-4 col-lg-3">
+                    @Html.LabelFor(m => m.SearchText)
+                </div>
+                <div class="col-sm-12 col-md-5 col-lg-4">
+                    @Html.TextBoxFor(m => m.SearchText, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.SearchText)
+                </div>
+                <div class="col-sm-12 col-md-3 col-lg-1">
+                    <input class="btn btn-primary" id="btnSearch" type="submit" value="@Localizer[nameof(Languages.LanguageStrings.Search)]" />
+                </div>
             </div>
-            <div class="col-sm-12 col-md-5 col-lg-4">
-                @Html.TextBoxFor(m => m.SearchText, new { @class = "form-control" })
-                @Html.ValidationMessageFor(m => m.SearchText)
-            </div>
-            <div class="col-sm-12 col-md-3 col-lg-1">
-                <input class="btn btn-primary" id="btnSearch" type="submit" value="@Localizer[nameof(Languages.LanguageStrings.Search)]" />
-            </div>
-        </div>
+        }
+
+    }
+    else
+    {
+        @await Html.PartialAsync(Model.SearchNames[Model.ActiveTab]);
     }
     @foreach (Middleware.Search.SearchResponseItem item in Model.SearchResults)
     {

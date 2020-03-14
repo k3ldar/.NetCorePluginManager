@@ -23,6 +23,7 @@
  *  02/02/2020  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+using System;
 using System.Collections.Generic;
 
 namespace Middleware.Search
@@ -49,6 +50,13 @@ namespace Middleware.Search
             QuickSearch = quickSearch;
             MaximumSearchResults = 100;
             ExactMatch = exactMatch;
+            SearchName = String.Format("Keyword Search {0} {1} {2} {3} {4} {5}",
+                IsLoggedIn,
+                ExactMatch,
+                MaximumSearchResults,
+                Timeout,
+                SearchTerm,
+                QuickSearch);
         }
 
         /// <summary>
@@ -140,6 +148,11 @@ namespace Middleware.Search
         /// </summary>
         /// <value>bool</value>
         public bool ExactMatch { get; set; }
+
+        /// <summary>
+        /// Name of the search prefix, this is used by other search providers who can create a search and prefix it so as to return afterwards
+        /// </summary>
+        public string SearchName { get; set; }
 
         #endregion Properties
     }
