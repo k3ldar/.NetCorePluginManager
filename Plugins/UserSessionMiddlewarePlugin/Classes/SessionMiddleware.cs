@@ -132,7 +132,8 @@ namespace UserSessionMiddleware.Plugin
                 string cookieSessionID;
                 CookieOptions options = new CookieOptions()
                 {
-                    HttpOnly = false
+                    HttpOnly = false,
+                    SameSite = SameSiteMode.Strict,
                 };
 
                 if (context.Request.Cookies.ContainsKey(_cookieName))
