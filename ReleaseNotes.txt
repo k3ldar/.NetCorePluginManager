@@ -1,11 +1,12 @@
 Version 3.3.0
 =============
 
-#100 Fix logger not containing upto last 100 logs.
-#101 Fix unit tests.
+#100 Fix logger not containing upto last 100 logs
+#101 Fix unit tests
 #102 BasePluginManager should implement IServiceCollection
 #103 Add Code Analysis
-#84  Minify Views.
+#84  Minify Views
+#28  Search Plugin
 
 Version 3.2.1
 =============
