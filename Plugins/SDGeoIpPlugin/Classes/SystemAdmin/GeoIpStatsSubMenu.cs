@@ -58,22 +58,22 @@ namespace SieraDeltaGeoIp.Plugin.Classes
 
         public override string Action()
         {
-            return (String.Empty);
+            return String.Empty;
         }
 
         public override string Area()
         {
-            return (String.Empty);
+            return String.Empty;
         }
 
         public override string Controller()
         {
-            return (String.Empty);
+            return String.Empty;
         }
 
         public override Enums.SystemAdminMenuType MenuType()
         {
-            return (Enums.SystemAdminMenuType.Grid);
+            return Enums.SystemAdminMenuType.Grid;
         }
 
         /// <summary>
@@ -98,27 +98,27 @@ namespace SieraDeltaGeoIp.Plugin.Classes
             Result += $"Loaded Records|{recordsLoaded}\r";
             Result += $"Load Time|{Convert.ToInt32(loadTime.TotalMilliseconds)} ms";
 
-            return (Result);
+            return Result;
         }
 
         public override string Name()
         {
-            return ("GeoIP");
+            return "GeoIP";
         }
 
         public override string ParentMenuName()
         {
-            return ("Timings");
+            return "Timings";
         }
 
         public override int SortOrder()
         {
-            return (0);
+            return 0;
         }
 
         public override string Image()
         {
-            return ("stopwatch");
+            return "stopwatch";
         }
     }
 }

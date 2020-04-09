@@ -238,7 +238,7 @@ namespace PluginManager.Tests
                 pluginManager.AddAssembly(Assembly.GetExecutingAssembly());
                 pluginManager.ConfigureServices();
 
-                var serviceType = pluginManager.GetServiceProvider().GetService(typeof(IPluginClassesService));
+                Object serviceType = pluginManager.GetServiceProvider().GetService(typeof(IPluginClassesService));
                 Assert.IsNotNull(serviceType);
             }
         }
@@ -254,7 +254,7 @@ namespace PluginManager.Tests
                 pluginManager.AddAssembly(Assembly.GetExecutingAssembly());
                 pluginManager.ConfigureServices();
 
-                var serviceType = pluginManager.GetServiceProvider().GetService(typeof(IPluginHelperService));
+                Object serviceType = pluginManager.GetServiceProvider().GetService(typeof(IPluginHelperService));
                 Assert.IsNotNull(serviceType);
             }
         }
@@ -270,7 +270,7 @@ namespace PluginManager.Tests
                 pluginManager.AddAssembly(Assembly.GetExecutingAssembly());
                 pluginManager.ConfigureServices();
 
-                var serviceType = pluginManager.GetServiceProvider().GetService(typeof(IPluginTypesService));
+                Object serviceType = pluginManager.GetServiceProvider().GetService(typeof(IPluginTypesService));
                 Assert.IsNotNull(serviceType);
             }
         }
@@ -286,7 +286,7 @@ namespace PluginManager.Tests
                 pluginManager.AddAssembly(Assembly.GetExecutingAssembly());
                 pluginManager.ConfigureServices();
 
-                var serviceType = pluginManager.GetServiceProvider().GetService(typeof(ILogger));
+                Object serviceType = pluginManager.GetServiceProvider().GetService(typeof(ILogger));
                 Assert.IsNotNull(serviceType);
             }
         }
@@ -302,7 +302,7 @@ namespace PluginManager.Tests
                 pluginManager.AddAssembly(Assembly.GetExecutingAssembly());
                 pluginManager.ConfigureServices();
 
-                var serviceType = pluginManager.GetServiceProvider().GetService(typeof(ISettingsProvider));
+                Object serviceType = pluginManager.GetServiceProvider().GetService(typeof(ISettingsProvider));
                 Assert.IsNotNull(serviceType);
             }
         }

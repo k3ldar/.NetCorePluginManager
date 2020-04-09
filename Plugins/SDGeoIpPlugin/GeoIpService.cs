@@ -143,12 +143,12 @@ namespace SieraDeltaGeoIp.Plugin
                         memoryIp.Latitude = latitude;
                         memoryIp.Region = region;
 
-                        return (true);
+                        return true;
                     }
                 }
 
-                return (GetCachedIPAddressDetails(ipAddress, out countryCode, out region,
-                    out cityName, out latitude, out longitude, out uniqueID));
+                return GetCachedIPAddressDetails(ipAddress, out countryCode, out region,
+                    out cityName, out latitude, out longitude, out uniqueID);
             }
             catch (Exception err)
             {
@@ -188,14 +188,14 @@ namespace SieraDeltaGeoIp.Plugin
                     {
                         _geoIpCache.Add(ipAddress, new CacheItem(ipAddress, new IpCity(uniqueID, countryCode, region, cityName,
                             latitude, longitude, ipFrom, ipTo)));
-                        return (true);
+                        return true;
                     }
                 }
             }
 
             // if not found in database
             if (geoCacheItem == null)
-                return (false);
+                return false;
 
             IpCity city = (IpCity)geoCacheItem.Value;
             countryCode = city.CountryCode;
@@ -205,7 +205,7 @@ namespace SieraDeltaGeoIp.Plugin
             longitude = city.Longitude;
             uniqueID = city.IpUniqueID;
 
-            return (true);
+            return true;
         }
 
         private void Thread_ThreadFinishing(object sender, Shared.ThreadManagerEventArgs e)
@@ -235,7 +235,7 @@ namespace SieraDeltaGeoIp.Plugin
 
                 if (ip <= _geoIpCityData[mid].IpEnd && ip >= _geoIpCityData[mid].IpStart)
                 {
-                    return (_geoIpCityData[mid]);
+                    return _geoIpCityData[mid];
                 }
 
                 if (ip < _geoIpCityData[mid].IpStart)
@@ -250,7 +250,7 @@ namespace SieraDeltaGeoIp.Plugin
                 }
             }
 
-            return (null);
+            return null;
         }
 
         #endregion Private Methods

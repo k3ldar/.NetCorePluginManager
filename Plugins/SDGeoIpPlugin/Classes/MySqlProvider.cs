@@ -130,7 +130,7 @@ namespace SieraDeltaGeoIp.Plugin
             rangeData.Sort();
 
 
-            return (false);
+            return false;
         }
 
         #endregion Overridden Methods
@@ -183,7 +183,7 @@ namespace SieraDeltaGeoIp.Plugin
                                 ipFrom = rdr.GetInt64(6);
                                 ipTo = rdr.GetInt64(7);
 
-                                return (true);
+                                return true;
                             }
                         }
                         finally
@@ -211,7 +211,7 @@ namespace SieraDeltaGeoIp.Plugin
                 db.Dispose();
             }
 
-            return (false);
+            return false;
         }
 
         #endregion IGeoIpProvider Methods

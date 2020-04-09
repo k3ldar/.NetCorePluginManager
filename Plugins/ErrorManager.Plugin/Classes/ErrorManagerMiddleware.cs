@@ -124,7 +124,7 @@ namespace ErrorManager.Plugin
             }
             catch (Exception exception)
             {
-                using (StopWatchTimer stopWatch = StopWatchTimer.Initialise(_timingsExceptions))
+                using ( StopWatchTimer stopWatch = StopWatchTimer.Initialise(_timingsExceptions))
                 {
                     if (ProcessException(context, exception))
                     {
@@ -133,7 +133,7 @@ namespace ErrorManager.Plugin
                     else
                     {
                         // this is only invoked if the error manager is the problem
-                        throw;
+                         throw;
                     }
                 }
             }

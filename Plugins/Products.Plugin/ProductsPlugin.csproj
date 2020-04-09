@@ -100,6 +100,9 @@
     <Content Remove="Views\Product\Product.cshtml" />
     <Content Remove="Views\Product\_AddToCart.cshtml" />
     <Content Remove="Views\Product\_LeftMenu.cshtml" />
+    <Content Remove="Views\Product\_ProductSearch.cshtml" />
+    <Content Remove="Views\Product\_ProductSearchOption.cshtml" />
+    <Content Remove="Views\Product\_ProductSearchResult.cshtml" />
     <Content Remove="wwwroot\css\Login.css" />
     <Content Remove="wwwroot\css\products.css" />
     <Content Remove="wwwroot\images\Products\geoip_148.png" />
@@ -115,6 +118,9 @@
     <EmbeddedResource Include="Views\Product\Product.cshtml" />
     <EmbeddedResource Include="Views\Product\_AddToCart.cshtml" />
     <EmbeddedResource Include="Views\Product\_LeftMenu.cshtml" />
+    <EmbeddedResource Include="Views\Product\_ProductSearch.cshtml" />
+    <EmbeddedResource Include="Views\Product\_ProductSearchOption.cshtml" />
+    <EmbeddedResource Include="Views\Product\_ProductSearchResult.cshtml" />
     <EmbeddedResource Include="wwwroot\css\Login.css" />
     <EmbeddedResource Include="wwwroot\css\products.css" />
     <EmbeddedResource Include="wwwroot\images\Products\geoip_148.png" />
@@ -155,7 +161,7 @@
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)'=='netcoreapp3.1'">
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.1" />
     <PackageReference Include="Microsoft.CodeAnalysis.Razor" Version="3.1.1" />
   </ItemGroup>
 

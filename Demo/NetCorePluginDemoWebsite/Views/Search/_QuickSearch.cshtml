@@ -1,0 +1,40 @@
+﻿@model SearchPlugin.Models.SearchViewModel
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
+<script src="/js/Search.js"></script>
+<link rel="stylesheet" href="/css/search.css" />
+<div class="modal-dialog searchDialog" role="document">
+<div class="modal-content">
+<div class="modal-header">
+<h5 class="modal-title" id="searchModalLabel">@Localizer[nameof(Languages.LanguageStrings.QuickSearch)]</h5>
+<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+<span aria-hidden="true">&times;</span>
+</button>
+</div>
+@using (Html.BeginForm(nameof(SearchPlugin.Controllers.SearchController.QuickSearchDefault), SearchPlugin.Controllers.SearchController.Name, FormMethod.Get, new { id = "frmQuickSearch" }))
+{
+<div class="modal-body">
+<div class="form-group">
+@Html.LabelFor(m => m.SearchText, new { @class = "col-form-label" })
+@Html.TextBoxFor(m => m.SearchText, new { @class = "form-control", @id = "idSearchText", autocomplete = "off" })<br />
+<p id="qSearchValidation" style="color:red;">Please enter a search term</p>
+</div>
+</div>
+<div class="modal-footer">
+<a href="/@SearchPlugin.Controllers.SearchController.Name/@nameof(SearchPlugin.Controllers.SearchController.Index)/" style="position: absolute;left: 15px;">@Localizer[Languages.LanguageStrings.AdvancedSearch]</a>
+<button type="button" class="btn btn-secondary" data-dismiss="modal">@Localizer[nameof(Languages.LanguageStrings.Cancel)]</button>
+<button type="button" class="btn btn-primary" id="btnQSearch">@Localizer[nameof(Languages.LanguageStrings.Search)]</button>
+</div>
+}
+</div>
+</div>
+<script type="text/javascript">
+var options = {
+searchControl: '#idSearchText',
+form: 'frmQuickSearch',
+searchButton: '#btnQSearch',
+validation: '#qSearchValidation',
+minSearchLength: 3,
+searchId: '@Model.SearchId',
+};
+searchPlugin.initQuickSearch(options);
+</script>

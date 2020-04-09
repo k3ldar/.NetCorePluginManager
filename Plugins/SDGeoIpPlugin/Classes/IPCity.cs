@@ -75,7 +75,7 @@ namespace SieraDeltaGeoIp.Plugin
 
         public int CompareTo(object obj)
         {
-            return (IpStart.CompareTo(((IpCity)obj).IpStart));
+            return IpStart.CompareTo(((IpCity)obj).IpStart);
         }
 
         #endregion Public Methods

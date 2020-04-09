@@ -87,7 +87,7 @@ namespace SharedPluginFeatures
             }
 
             if (Result[Result.Length - 1] == Constants.Dash)
-                Result.Length = Result.Length - 1;
+                Result.Length -= 1;
 
             return Result.ToString();
         }

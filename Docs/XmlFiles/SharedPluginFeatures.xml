@@ -530,6 +530,41 @@
             </summary>
             <param name="disposing"></param>
         </member>
+        <member name="T:SharedPluginFeatures.CheckedViewItemModel">
+            <summary>
+            Model for views where check boxes can be used.
+            </summary>
+        </member>
+        <member name="M:SharedPluginFeatures.CheckedViewItemModel.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="M:SharedPluginFeatures.CheckedViewItemModel.#ctor(System.String@)">
+            <summary>
+            Constructor for creating an item with a name, selected will default to false
+            </summary>
+            <param name="name">Name of the checked box item.</param>
+        </member>
+        <member name="M:SharedPluginFeatures.CheckedViewItemModel.#ctor(System.String@,System.Boolean@)">
+            <summary>
+            Constructor for creating an item with a specific name and selected value
+            </summary>
+            <param name="name">Name of the checked box item.</param>
+            <param name="selected">Indicates whether the value is selected or not</param>
+        </member>
+        <member name="P:SharedPluginFeatures.CheckedViewItemModel.Name">
+            <summary>
+            Name of the checked box item.
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:SharedPluginFeatures.CheckedViewItemModel.Selected">
+            <summary>
+            Indicates whether the item is selected or not.
+            </summary>
+            <value>bool</value>
+        </member>
         <member name="T:SharedPluginFeatures.ErrorInformation">
             <summary>
             Used extensively by ErrorManager.Plugin module to store information about errors that have been generated within the system.
@@ -1427,6 +1462,11 @@
         <member name="F:SharedPluginFeatures.Constants.NotificationEventMinifyFiles">
             <summary>
             Name of the event used to find extra files that need to be minimised.
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Constants.MaximumProducts">
+            <summary>
+            Maximum number of products that can be returned during a search.
             </summary>
         </member>
         <member name="T:SharedPluginFeatures.Enums">
@@ -2649,6 +2689,30 @@
             <param name="previous">string.  Display text (localized or not) to be shown to indicate previous page.</param>
             <param name="next">string.  Display text (localized or not) to be shown to indicate next page.</param>
             <returns>string.  List of html li elements for pagination within a view.</returns>
+        </member>
+        <member name="M:SharedPluginFeatures.BaseController.CalculatePageOffsets``1(System.Collections.Generic.List{``0}@,System.Int32@,System.Int32@,System.Int32@,System.Int32@,System.Int32@)">
+            <summary>
+            Calculates a page offset, this method is designed to be used with creating pages, it will return the zero index
+            start and end item and available pages for the offset criteria.
+            </summary>
+            <param name="items">List of items to be paginated</param>
+            <param name="page">Current Page Number</param>
+            <param name="pageSize">Size of Page</param>
+            <param name="startItem">First item in the list of items</param>
+            <param name="endItem">Last item in the list of items</param>
+            <param name="availablePages">Number of available pages based on the list</param>
+        </member>
+        <member name="M:SharedPluginFeatures.BaseController.CalculatePageOffsets(System.Int32@,System.Int32@,System.Int32@,System.Int32@,System.Int32@,System.Int32@)">
+            <summary>
+            Calculates a page offset, this method is designed to be used with creating pages, it will return the zero index
+            start and end item and available pages for the offset criteria.
+            </summary>
+            <param name="itemCount">Number of items to be paginated</param>
+            <param name="page">Current Page Number</param>
+            <param name="pageSize">Size of Page</param>
+            <param name="startItem">First item in the list of items</param>
+            <param name="endItem">Last item in the list of items</param>
+            <param name="availablePages">Number of available pages based on the itemCount</param>
         </member>
         <member name="M:SharedPluginFeatures.BaseController.GetModelData">
             <summary>

@@ -277,7 +277,8 @@ namespace SharedPluginFeatures
         {
             CookieOptions options = new CookieOptions()
             {
-                HttpOnly = false
+                HttpOnly = false,
+                SameSite = SameSiteMode.Strict,
             };
 
             if (days > -1)
@@ -421,6 +422,76 @@ namespace SharedPluginFeatures
             Result.Append(Constants.PaginationEnd);
 
             return Result.ToString();
+        }
+
+        /// <summary>
+        /// Calculates a page offset, this method is designed to be used with creating pages, it will return the zero index
+        /// start and end item and available pages for the offset criteria.
+        /// </summary>
+        /// <param name="items">List of items to be paginated</param>
+        /// <param name="page">Current Page Number</param>
+        /// <param name="pageSize">Size of Page</param>
+        /// <param name="startItem">First item in the list of items</param>
+        /// <param name="endItem">Last item in the list of items</param>
+        /// <param name="availablePages">Number of available pages based on the list</param>
+        protected void CalculatePageOffsets<T>(in List<T> items, in int page, in int pageSize,
+            out int startItem, out int endItem, out int availablePages)
+        {
+            if (items == null)
+                throw new ArgumentNullException(nameof(items));
+
+            CalculatePageOffsets(items.Count, page, pageSize, out startItem, out endItem, out availablePages);
+
+            // offset the start and end items as its a zero based list
+            startItem--;
+            endItem--;
+        }
+
+        /// <summary>
+        /// Calculates a page offset, this method is designed to be used with creating pages, it will return the zero index
+        /// start and end item and available pages for the offset criteria.
+        /// </summary>
+        /// <param name="itemCount">Number of items to be paginated</param>
+        /// <param name="page">Current Page Number</param>
+        /// <param name="pageSize">Size of Page</param>
+        /// <param name="startItem">First item in the list of items</param>
+        /// <param name="endItem">Last item in the list of items</param>
+        /// <param name="availablePages">Number of available pages based on the itemCount</param>
+        protected void CalculatePageOffsets(in int itemCount, in int page, in int pageSize,
+            out int startItem, out int endItem, out int availablePages)
+        {
+            if (pageSize < 1)
+            {
+                throw new ArgumentOutOfRangeException(nameof(pageSize));
+            }
+
+            int currentPage = page;
+
+            if (currentPage < 1)
+            {
+                currentPage = 1;
+            }
+
+            availablePages = (int)Math.Ceiling(itemCount / (decimal)pageSize);
+
+            if (currentPage > availablePages)
+            {
+                currentPage = (int)availablePages;
+            }
+
+            endItem = pageSize * currentPage;
+
+            startItem = endItem - pageSize + 1;
+
+            if (endItem > itemCount)
+            {
+                endItem = itemCount;
+            }
+
+            if (startItem < 1)
+            {
+                startItem = 1;
+            }
         }
 
         #endregion Pagination

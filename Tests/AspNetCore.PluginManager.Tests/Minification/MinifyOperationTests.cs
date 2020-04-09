@@ -31,7 +31,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using SharedPluginFeatures;
 
-namespace AspNetCore.PluginManager.Tests
+namespace AspNetCore.PluginManager.Tests.MinifyOperations
 {
     [TestClass]
     public class MinifyUnitTests
@@ -56,7 +56,7 @@ namespace AspNetCore.PluginManager.Tests
 
             string data = "first line\r\n\r\n\r\nFourth LIne";
 
-            IMinifyResult Results = operation.Process(MinificationFileType.Razor, ref data, new List<PreserveBlock>());
+            IMinifyResult Results = operation.Process(MinificationFileType.CSS, ref data, new List<PreserveBlock>());
 
             Assert.IsTrue(Results.StartLength == 27);
             Assert.IsTrue(Results.EndLength == 24);

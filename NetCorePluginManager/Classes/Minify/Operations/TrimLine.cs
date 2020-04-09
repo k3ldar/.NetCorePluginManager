@@ -59,11 +59,12 @@ namespace AspNetCore.PluginManager.Classes.Minify
         private string TrimAllLines(string data, in List<PreserveBlock> preserveBlocks)
         {
             StringBuilder Result = new StringBuilder(data.Length);
-            StringBuilder line = new StringBuilder(1024);
 
             for (int i = 0; i < data.Length; i++)
             {
                 char currentChar = data[i];
+                bool peekBack = i > 0;
+                bool peekForward = i < data.Length - 1;
 
                 if (IsInPreBlock(i, preserveBlocks, out MinificationPreserveBlock _))
                 {
@@ -71,20 +72,21 @@ namespace AspNetCore.PluginManager.Classes.Minify
                     continue;
                 }
 
-                if (currentChar == '\r' || currentChar == '\n')
+                if (currentChar == '\r')
                 {
-                    Result.Append(currentChar);
-                    Result.Append(line.ToString().Trim());
-                    line.Clear();
+                    continue;
+                }
+
+                if (((currentChar == '\t' || currentChar == ' ') && peekBack && Result[Result.Length -1] == '\n') ||
+                    (currentChar == ' ' && peekForward && (data[i + 1] == ' ' || data[i + 1] == '\n')))
+                {
                     continue;
                 }
 
                 Result.Append(currentChar);
             }
 
-            Result.Append(line.ToString().Trim());
-
-            return Result.ToString();
+            return Result.ToString().Trim();
         }
     }
 }

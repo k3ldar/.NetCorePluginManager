@@ -24,7 +24,6 @@
  *  12/05/2019  Simon Carter        Add seo data constants
  *  
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using System;
 
 namespace SharedPluginFeatures
 {
@@ -276,7 +275,7 @@ namespace SharedPluginFeatures
         /// <summary>
         /// Internally used Pagination Previous Enabled
         /// </summary>
-        public const string PaginationPrevEnabled = "<liclass=\"page-item\"><a class=\"page-link\" href=\"{0}Page/{1}/{2}\">&laquo; {3}</a></li>";
+        public const string PaginationPrevEnabled = "<li class=\"page-item\"><a class=\"page-link\" href=\"{0}Page/{1}/{2}\">&laquo; {3}</a></li>";
 
         /// <summary>
         /// Internally used Pagination Next Disabled
@@ -392,5 +391,10 @@ namespace SharedPluginFeatures
         /// Name of the event used to find extra files that need to be minimised.
         /// </summary>
         public const string NotificationEventMinifyFiles = "MinificationFiles";
+
+        /// <summary>
+        /// Maximum number of products that can be returned during a search.
+        /// </summary>
+        public const int MaximumProducts = 50000000;
     }
 }

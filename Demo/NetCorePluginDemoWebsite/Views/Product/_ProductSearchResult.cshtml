@@ -1,0 +1,23 @@
+﻿@model Middleware.Search.SearchResponseItem
+@{
+string image = (string)Model.Properties[nameof(Middleware.Products.Product.Images)];
+image = Shared.Utilities.ResizeImage(image, 89).Replace(".jpg", ".png");
+}
+<a href="@Model.Url.ToString()" style="display:block;height:105px;">
+<img src="~/images/Products/@image" style="float:left;width:89px;height:64px;" />
+<p style="margin:5px 5px 5px 75px;height:70px;padding-top:5px;">
+@Model.DisplayName
+@if (Convert.ToDecimal(Model.Properties[nameof(ProductPlugin.Classes.KeywordSearchProvider.Price)]) > 0)
+{
+<span class="search-buy">
+<span>@Model.Properties[nameof(Middleware.Products.Product.RetailPrice)].ToString()</span><br />
+</span>
+}
+else
+{
+<span class="search-buy">
+<span>@Languages.LanguageStrings.Free</span><br />
+</span>
+}
+</p>
+</a>

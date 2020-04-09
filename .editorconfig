@@ -25,7 +25,7 @@ dotnet_diagnostic.CA2227.severity = none
 dotnet_diagnostic.CA2007.severity = none
 
 # IDE0049: Simplify Names
-dotnet_style_predefined_type_for_locals_parameters_members = false:silent
+dotnet_style_predefined_type_for_locals_parameters_members = false:none
 
 # IDE0056: Use index operator
 csharp_style_prefer_index_operator = true:none
@@ -38,3 +38,9 @@ dotnet_diagnostic.CA1305.severity = none
 
 # IDE0060: Remove unused parameter
 dotnet_code_quality_unused_parameters = all:none
+
+# IDE0032: Use auto property
+dotnet_style_prefer_auto_properties = false:silent
+
+# IDE0049: Use framework type
+dotnet_style_predefined_type_for_member_access = true:none
