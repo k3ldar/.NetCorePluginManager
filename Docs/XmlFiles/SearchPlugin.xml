@@ -109,29 +109,19 @@
             <param name="quickSearch">Indicates whether its the providers from a quick search or normal search.</param>
             <returns>List&lt;string&gt;</returns>
         </member>
-        <member name="M:SearchPlugin.Classes.Search.DefaultSearchProvider.SearchNames">
+        <member name="M:SearchPlugin.Classes.Search.DefaultSearchProvider.AdvancedSearch">
             <summary>
             Retrieves a list of strings from all search providers that can optionally be used by the UI 
             to provide a paged or tabbed advance search option.
             </summary>
-            <returns>List&lt;string&gt;</returns>
+            <returns>Dictionary&lt;string, AdvancedSearchOptions&gt;</returns>
         </member>
-        <member name="T:SearchPlugin.Classes.Search.DefaultSearchThread">
+        <member name="M:SearchPlugin.Classes.Search.DefaultSearchProvider.GetSearchResults(System.String@)">
             <summary>
-            The default thread item to be used for performing searches
+            Retrieve existing search results if they exist.
             </summary>
-        </member>
-        <member name="M:SearchPlugin.Classes.Search.DefaultSearchThread.#ctor(System.Collections.Generic.List{Middleware.ISearchKeywordProvider}@,Shared.Classes.CacheManager@,Middleware.Search.KeywordSearchOptions@)">
-            <summary>
-            Default constructor
-            </summary>
-        </member>
-        <member name="M:SearchPlugin.Classes.Search.DefaultSearchThread.Run(System.Object)">
-            <summary>
-            Method that executes a search in a dedicated thread
-            </summary>
-            <param name="parameters"></param>
-            <returns>bool</returns>
+            <param name="searchId">Name of search</param>
+            <returns>List&lt;SearchResponseItem&gt;</returns>
         </member>
         <member name="T:SearchPlugin.Controllers.SearchController">
             <summary>
@@ -183,6 +173,7 @@
             <summary>
             Text to be searched for
             </summary>
+            <value>string</value>
         </member>
         <member name="P:SearchPlugin.Models.SearchViewModel.SearchId">
             <summary>
@@ -190,11 +181,47 @@
             </summary>
             <value>string</value>
         </member>
+        <member name="P:SearchPlugin.Models.SearchViewModel.AdvancedSearch">
+            <summary>
+            Available search names for display on search page
+            </summary>
+            <value>Dictionary&lt;string, string&gt;</value>
+        </member>
+        <member name="P:SearchPlugin.Models.SearchViewModel.SearchName">
+            <summary>
+            Retrieves the url for the active search name if it exists.
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:SearchPlugin.Models.SearchViewModel.SearchOption">
+            <summary>
+            Retrieves the url for the active search option, if it exists.
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:SearchPlugin.Models.SearchViewModel.ControllerName">
+            <summary>
+            Retrieves the name of the controller for the active search option, if it exists.
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:SearchPlugin.Models.SearchViewModel.ActionName">
+            <summary>
+            Retrieves the name of the action for the active search option, if it exists.
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:SearchPlugin.Models.SearchViewModel.StyleSheet">
+            <summary>
+            Retrieves an optional style sheet that can be used by the search provider.
+            </summary>
+            <value>string</value>
+        </member>
         <member name="P:SearchPlugin.Models.SearchViewModel.SearchResults">
             <summary>
             Available search results from users search
             </summary>
-            <value>List&lt;SearchResponseItem&gt;</value>
+            <value>List&lt;<see cref="T:Middleware.Search.SearchResponseItem"/> SearchResponseItem&gt;</value>
         </member>
         <member name="P:SearchPlugin.Models.SearchViewModel.Page">
             <summary>
@@ -216,8 +243,9 @@
         </member>
         <member name="P:SearchPlugin.Models.SearchViewModel.ActiveTab">
             <summary>
-            Name of the active tab for advanced searching
+            Name of the active tab for advanced searching.
             </summary>
+            <value>string</value>
         </member>
         <member name="T:SearchPlugin.PluginInitialisation">
             <summary>

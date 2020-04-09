@@ -33,6 +33,11 @@ namespace AspNetCore.PluginManager.Tests.Search.Mocks
 {
     public class MockKeywordSearchProviderB : ISearchKeywordProvider
     {
+        public Dictionary<String, AdvancedSearchOptions> AdvancedSearch()
+        {
+            return null;
+        }
+
         public List<SearchResponseItem> Search(in KeywordSearchOptions searchOptions)
         {
             if (searchOptions == null)
@@ -64,6 +69,9 @@ namespace AspNetCore.PluginManager.Tests.Search.Mocks
 
         public List<string> SearchResponseTypes(in Boolean quickSearch)
         {
+            if (!quickSearch)
+                return null;
+
             return new List<string>()
             {
                 "TestProviderB"

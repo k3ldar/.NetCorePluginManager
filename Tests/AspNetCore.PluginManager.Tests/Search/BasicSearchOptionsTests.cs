@@ -29,14 +29,15 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using Middleware.Search;
 
+#pragma warning disable IDE0059
+
 namespace AspNetCore.PluginManager.Tests.Search
 {
     [TestClass]
     public class BasicSearchOptionsTests
     {
         [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
-        public void CreateBaseSearchOptionsLoggedInInvalidSearchTerm()
+        public void CreateBaseSearchOptionsLoggedInValidEmptySearchTerm()
         {
             BaseSearchOptions baseSearchOptions = new BaseSearchOptions(true, "");
         }
@@ -61,3 +62,5 @@ namespace AspNetCore.PluginManager.Tests.Search
         }
     }
 }
+
+#pragma warning restore IDE0059

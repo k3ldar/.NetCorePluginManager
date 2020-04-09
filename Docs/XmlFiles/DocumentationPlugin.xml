@@ -88,11 +88,11 @@
             <param name="searchOptions"></param>
             <returns>List&lt;SearchResponseItem&gt;</returns>
         </member>
-        <member name="M:DocumentationPlugin.Classes.KeywordSearchProvider.SearchName">
+        <member name="M:DocumentationPlugin.Classes.KeywordSearchProvider.AdvancedSearch">
             <summary>
-            Retrieves the name of the search for advance searches
+            Retrieves the advanced search options for the provider
             </summary>
-            <returns>string</returns>
+            <returns>Dictionary&lt;string, AdvancedSearchOptions&gt;</returns>
         </member>
         <member name="M:DocumentationPlugin.Classes.KeywordSearchProvider.SearchResponseTypes(System.Boolean@)">
             <summary>

@@ -55,11 +55,11 @@ namespace SearchPlugin.Models
             ActiveTab = String.Empty;
         }
 
-        public SearchViewModel(in BaseModelData modelData, Dictionary<string, string> searchNames)
+        public SearchViewModel(in BaseModelData modelData, Dictionary<string, AdvancedSearchOptions> searchNames)
             : base(modelData)
         {
             Page = 1;
-            SearchNames = searchNames ?? throw new ArgumentNullException(nameof(searchNames));
+            AdvancedSearch = searchNames ?? throw new ArgumentNullException(nameof(searchNames));
             ActiveTab = String.Empty;
         }
 
@@ -70,6 +70,7 @@ namespace SearchPlugin.Models
         /// <summary>
         /// Text to be searched for
         /// </summary>
+        /// <value>string</value>
         [Display(Name = nameof(Languages.LanguageStrings.SearchDescription))]
         [StringLength(200, MinimumLength = 3)]
         [Required(ErrorMessage = nameof(Languages.LanguageStrings.SearchInvalid))]
@@ -81,12 +82,101 @@ namespace SearchPlugin.Models
         /// <value>string</value>
         public string SearchId { get; set; }
 
-        public Dictionary<string, string> SearchNames { get; set; }
+        /// <summary>
+        /// Available search names for display on search page
+        /// </summary>
+        /// <value>Dictionary&lt;string, string&gt;</value>
+        public Dictionary<string, AdvancedSearchOptions> AdvancedSearch { get; set; }
+
+        /// <summary>
+        /// Retrieves the url for the active search name if it exists.
+        /// </summary>
+        /// <value>string</value>
+        public string SearchName
+        {
+            get
+            {
+                if (AdvancedSearch != null && AdvancedSearch.ContainsKey(ActiveTab))
+                {
+                    return AdvancedSearch[ActiveTab].SearchName;
+                }
+
+                return String.Empty;
+            }
+        }
+
+        /// <summary>
+        /// Retrieves the url for the active search option, if it exists.
+        /// </summary>
+        /// <value>string</value>
+        public string SearchOption
+        {
+            get
+            {
+                if (AdvancedSearch != null && AdvancedSearch.ContainsKey(ActiveTab))
+                {
+                    return AdvancedSearch[ActiveTab].SearchOption;
+                }
+
+                return String.Empty;
+            }
+        }
+
+        /// <summary>
+        /// Retrieves the name of the controller for the active search option, if it exists.
+        /// </summary>
+        /// <value>string</value>
+        public string ControllerName
+        {
+            get
+            {
+                if (AdvancedSearch != null && AdvancedSearch.ContainsKey(ActiveTab))
+                {
+                    return AdvancedSearch[ActiveTab].ControllerName;
+                }
+
+                return String.Empty;
+            }
+        }
+
+        /// <summary>
+        /// Retrieves the name of the action for the active search option, if it exists.
+        /// </summary>
+        /// <value>string</value>
+        public string ActionName
+        {
+            get
+            {
+                if (AdvancedSearch != null && AdvancedSearch.ContainsKey(ActiveTab))
+                {
+                    return AdvancedSearch[ActiveTab].ActionName;
+                }
+
+                return String.Empty;
+            }
+        }
+
+        /// <summary>
+        /// Retrieves an optional style sheet that can be used by the search provider.
+        /// </summary>
+        /// <value>string</value>
+        public string StyleSheet
+        {
+            get
+            {
+                if (AdvancedSearch != null && AdvancedSearch.ContainsKey(ActiveTab))
+                {
+                    return AdvancedSearch[ActiveTab].StyleSheet;
+                }
+
+                return String.Empty;
+            }
+        }
 
         /// <summary>
         /// Available search results from users search
         /// </summary>
-        /// <value>List&lt;SearchResponseItem&gt;</value>
+        /// <value>List&lt;<see cref="SearchResponseItem"/> SearchResponseItem&gt;</value>
         public List<SearchResponseItem> SearchResults { get; internal set; }
 
         /// <summary>
@@ -108,8 +198,9 @@ namespace SearchPlugin.Models
         public string Pagination { get; set; }
 
         /// <summary>
-        /// Name of the active tab for advanced searching
+        /// Name of the active tab for advanced searching.
         /// </summary>
+        /// <value>string</value>
         public string ActiveTab { get; set; }
 
         #endregion Properties

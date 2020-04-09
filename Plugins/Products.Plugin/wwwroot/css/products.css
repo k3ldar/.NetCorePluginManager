@@ -544,3 +544,44 @@ h4 {
         height: 600px;
     }
 }
+
+/*.fa {
+    display: inline-block;
+    font: normal normal normal 14px/1 FontAwesome;
+    font-size: inherit;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+}
+
+.fa-star:before {
+    content: "\f005"
+}*/
+
+.search-buy {
+    overflow: visible;
+    float:right;
+    width:145px;
+    height:70px;
+    font-size:14px;
+}
+
+    .search-buy span {
+        float: right;
+        padding-right: 53px;
+    }
+.star-checked {
+    color: orange;
+}
+
+.chip {
+    display:inline-block;
+    padding:0 25px;
+    height:28px;
+    line-height:25px;
+    border-radius:25px;
+    background-color:#f1f1f1;
+}
+
+.searchOption {
+    font-size: 13px;
+}

@@ -82,21 +82,21 @@ namespace SearchPlugin.Controllers
         [LoggedInOut]
         public IActionResult Index()
         {
-            return View(CreateSearchModel(new SearchViewModel(), false));
+            return View(CreateSearchModel(new SearchViewModel(), false, false, null));
         }
 
         [BadEgg]
         [LoggedInOut]
         public IActionResult Index(SearchViewModel model)
         {
-            return View(CreateSearchModel(model, true));
+            return View(CreateSearchModel(model, true, false, null));
         }
 
         [BadEgg]
         [LoggedInOut]
         public IActionResult Search(SearchViewModel model)
         {
-            return View(nameof(Index), CreateSearchModel(model, true));
+            return View(nameof(Index), CreateSearchModel(model, true, false, null));
         }
 
         [BadEgg]
@@ -104,7 +104,53 @@ namespace SearchPlugin.Controllers
         [Route("Search/Result/{searchText}/Page/{page}/")]
         public IActionResult PageSearch(string searchText, int page)
         {
-            return View(nameof(Index), CreateSearchModel(new SearchViewModel(searchText, page), true));
+            return View(nameof(Index), CreateSearchModel(new SearchViewModel(searchText, page), true, false, null));
+        }
+
+        [HttpGet]
+        [BadEgg]
+        [LoggedInOut]
+        [Route("Search/Advanced/{providerName}/")]
+        public IActionResult AdvancedSearch(string providerName)
+        {
+            SearchViewModel model = new SearchViewModel();
+
+            if (!String.IsNullOrWhiteSpace(providerName) &&
+                _searchProvider.AdvancedSearch().ContainsKey(providerName))
+            {
+                model.ActiveTab = providerName;
+            }
+
+            return View(nameof(Index), CreateSearchModel(model, false, false, $"{providerName}/{model.SearchId}"));
+        }
+
+        [HttpGet]
+        [BadEgg]
+        [LoggedInOut]
+        [Route("Search/Advanced/{providerName}/{searchId}/")]
+        [Route("Search/Advanced/{providerName}/{searchId}/Page/{page}/")]
+        public IActionResult AdvancedSearch(string providerName, string searchId, int page)
+        {
+            SearchViewModel model = new SearchViewModel();
+
+            if (!String.IsNullOrWhiteSpace(providerName) &&
+                _searchProvider.AdvancedSearch().ContainsKey(providerName))
+            {
+                model.ActiveTab = providerName;
+            }
+
+            model.Page = page < 1 ? 1 : page;
+
+            model.SearchId = searchId ?? String.Empty;
+
+            if (String.IsNullOrEmpty(model.SearchId))
+            {
+                return View(nameof(Index), CreateSearchModel(model, false, false, $"{providerName}/{model.SearchId}"));
+            }
+            else
+            {
+                return View(nameof(Index), CreateSearchModel(model, true, true, $"{providerName}/{model.SearchId}"));
+            }
         }
 
         [HttpGet]
@@ -118,7 +164,7 @@ namespace SearchPlugin.Controllers
         [LoggedInOut]
         public IActionResult QuickSearchDefault(SearchViewModel model)
         {
-            return View(nameof(Index), CreateSearchModel(model, true));
+            return View(nameof(Index), CreateSearchModel(model, true, false, null));
         }
 
         [HttpPost]
@@ -158,7 +204,8 @@ namespace SearchPlugin.Controllers
 
         #region Private Methods
 
-        private SearchViewModel CreateSearchModel(in SearchViewModel model, in bool validate)
+        private SearchViewModel CreateSearchModel(in SearchViewModel model, in bool validate,
+            in bool retrieveResults, in string paginationText)
         {
             if (model == null)
                 throw new ArgumentNullException(nameof(model));
@@ -168,17 +215,30 @@ namespace SearchPlugin.Controllers
                 ModelState.AddModelError(nameof(model.SearchText), Languages.LanguageStrings.SearchInvalid);
             }
 
-            SearchViewModel Result = new SearchViewModel(GetModelData(), _searchProvider.SearchNames());
-            Result.SearchResults = new List<SearchResponseItem>();
-            Result.SearchText = model.SearchText ?? String.Empty;
-            Result.Page = model.Page;
+            SearchViewModel Result = new SearchViewModel(GetModelData(), _searchProvider.AdvancedSearch())
+            {
+                SearchResults = new List<SearchResponseItem>(),
+                SearchText = model.SearchText ?? String.Empty,
+                SearchId = model.SearchId ?? String.Empty,
+                Page = model.Page,
+                ActiveTab = model.ActiveTab
+            };
 
-            if (validate && ModelState.IsValid)
+            List<SearchResponseItem> results = null;
+
+            if (retrieveResults)
+            {
+                results = _searchProvider.GetSearchResults(model.SearchId);
+            }
+            else if (validate && ModelState.IsValid)
             {
                 KeywordSearchOptions searchOptions = new KeywordSearchOptions(IsUserLoggedIn(), model.SearchText, false);
 
-                List<SearchResponseItem> results = _searchProvider.KeywordSearch(searchOptions);
+                results = _searchProvider.KeywordSearch(searchOptions);
+            }
 
+            if (results != null)
+            {
                 CalculatePageOffsets<SearchResponseItem>(results, Result.Page, _settings.ItemsPerPage,
                     out int startItem, out int endItem, out int totalPages);
 
@@ -189,14 +249,23 @@ namespace SearchPlugin.Controllers
                     Result.SearchResults.Add(results[i]);
                 }
 
-                Result.Pagination = BuildPagination(results.Count, _settings.ItemsPerPage, Result.Page,
-                    $"/Search/Result/{model.RouteText(Result.SearchText)}/", "",
-                    LanguageStrings.Previous, LanguageStrings.Next);
+                if (String.IsNullOrEmpty(paginationText))
+                {
+                    Result.Pagination = BuildPagination(results.Count, _settings.ItemsPerPage, Result.Page,
+                        $"/Search/Result/{model.RouteText(Result.SearchText)}/", "",
+                        LanguageStrings.Previous, LanguageStrings.Next);
+                }
+                else
+                {
+                    Result.Pagination = BuildPagination(results.Count, _settings.ItemsPerPage, Result.Page,
+                        $"/Search/Advanced/{paginationText}/", "",
+                        LanguageStrings.Previous, LanguageStrings.Next);
+                }
             }
 
-            if (Result.SearchNames == null)
+            if (Result.AdvancedSearch == null)
             {
-                Result.SearchNames = _searchProvider.SearchNames();
+                Result.AdvancedSearch = _searchProvider.AdvancedSearch();
             }
 
             return Result;

@@ -184,6 +184,23 @@ namespace Middleware.Blog
 
         #endregion Properties
 
+        #region Overridden Methods
+
+        /// <summary>
+        /// Determines whether objects are equal or not
+        /// </summary>
+        /// <param name="obj">Object that is being compared</param>
+        /// <returns>bool</returns>
+        public override Boolean Equals(Object obj)
+        {
+            if (!(obj is BlogItem item))
+                return false;
+
+            return item.Id == Id;
+        }
+
+        #endregion Overridden Methods
+
         #region Public Methods
 
         /// <summary>

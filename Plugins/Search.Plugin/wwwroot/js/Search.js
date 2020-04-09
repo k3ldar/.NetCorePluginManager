@@ -111,7 +111,7 @@
             for (var i = 0; i < _keywords.length; i++) {
                 var itemDiv = document.createElement("div");
                 itemDiv.innerHTML += _keywords[i].response;
-                itemDiv.innerHTML += "<input type='hidden' value='/" + _keywords[i].url + "'>";
+                itemDiv.innerHTML += "<input type='hidden' value='" + _keywords[i].url + "'>";
                 itemDiv.addEventListener("click", function (e) {
                     root.closeAllLists();
                     window.location.replace(this.getElementsByTagName("input")[0].value);

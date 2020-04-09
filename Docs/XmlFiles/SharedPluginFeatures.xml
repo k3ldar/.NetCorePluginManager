@@ -530,6 +530,41 @@
             </summary>
             <param name="disposing"></param>
         </member>
+        <member name="T:SharedPluginFeatures.CheckedViewItemModel">
+            <summary>
+            Model for views where check boxes can be used.
+            </summary>
+        </member>
+        <member name="M:SharedPluginFeatures.CheckedViewItemModel.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="M:SharedPluginFeatures.CheckedViewItemModel.#ctor(System.String@)">
+            <summary>
+            Constructor for creating an item with a name, selected will default to false
+            </summary>
+            <param name="name">Name of the checked box item.</param>
+        </member>
+        <member name="M:SharedPluginFeatures.CheckedViewItemModel.#ctor(System.String@,System.Boolean@)">
+            <summary>
+            Constructor for creating an item with a specific name and selected value
+            </summary>
+            <param name="name">Name of the checked box item.</param>
+            <param name="selected">Indicates whether the value is selected or not</param>
+        </member>
+        <member name="P:SharedPluginFeatures.CheckedViewItemModel.Name">
+            <summary>
+            Name of the checked box item.
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:SharedPluginFeatures.CheckedViewItemModel.Selected">
+            <summary>
+            Indicates whether the item is selected or not.
+            </summary>
+            <value>bool</value>
+        </member>
         <member name="T:SharedPluginFeatures.ErrorInformation">
             <summary>
             Used extensively by ErrorManager.Plugin module to store information about errors that have been generated within the system.
@@ -1427,6 +1462,11 @@
         <member name="F:SharedPluginFeatures.Constants.NotificationEventMinifyFiles">
             <summary>
             Name of the event used to find extra files that need to be minimised.
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Constants.MaximumProducts">
+            <summary>
+            Maximum number of products that can be returned during a search.
             </summary>
         </member>
         <member name="T:SharedPluginFeatures.Enums">

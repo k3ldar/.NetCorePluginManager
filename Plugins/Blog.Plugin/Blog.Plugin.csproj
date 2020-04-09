@@ -87,9 +87,11 @@
     <Content Remove="Views\Blog\Search.cshtml" />
     <Content Remove="Views\Blog\ViewBlog.cshtml" />
     <Content Remove="Views\Blog\_AddComment.cshtml" />
+    <Content Remove="Views\Blog\_BlogSearchResult.cshtml" />
     <Content Remove="Views\Blog\_ViewFullBlog.cshtml" />
     <Content Remove="Views\Blog\_ViewPartialBlog.cshtml" />
     <Content Remove="wwwroot\css\Blog.css" />
+    <Content Remove="wwwroot\images\Blog\blog64.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -99,14 +101,15 @@
     <EmbeddedResource Include="Views\Blog\Search.cshtml" />
     <EmbeddedResource Include="Views\Blog\ViewBlog.cshtml" />
     <EmbeddedResource Include="Views\Blog\_AddComment.cshtml" />
+    <EmbeddedResource Include="Views\Blog\_BlogSearchResult.cshtml" />
     <EmbeddedResource Include="Views\Blog\_ViewFullBlog.cshtml" />
     <EmbeddedResource Include="Views\Blog\_ViewPartialBlog.cshtml" />
     <EmbeddedResource Include="wwwroot\css\Blog.css" />
+    <EmbeddedResource Include="wwwroot\images\Blog\blog64.png" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Classes\SystemAdmin\" />
-    <Folder Include="wwwroot\images\" />
   </ItemGroup>
 
   <ItemGroup>

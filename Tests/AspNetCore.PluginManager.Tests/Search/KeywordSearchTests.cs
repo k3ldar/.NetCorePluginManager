@@ -128,7 +128,6 @@ namespace AspNetCore.PluginManager.Tests.Search
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
         public void KeywordLoggedOutInvalidSearchTermEmptyString()
         {
             KeywordSearchOptions options = new KeywordSearchOptions(false, "");
@@ -354,7 +353,7 @@ namespace AspNetCore.PluginManager.Tests.Search
 
             Assert.IsTrue(Results.Count > 6);
 
-            Assert.IsTrue(Results[6].Url.Equals("Product/5/Product-E/"));
+            Assert.IsTrue(Results[6].Url.Equals("/Product/5/Product-E/"));
         }
 
         [TestMethod]
@@ -379,7 +378,7 @@ namespace AspNetCore.PluginManager.Tests.Search
 
             Assert.AreEqual(1, Results.Count);
 
-            Assert.IsTrue(Results[Results.Count - 1].Url.Equals("Product/1/Product-A/"));
+            Assert.IsTrue(Results[Results.Count - 1].Url.Equals("/Product/1/Product-A/"));
         }
     }
 }

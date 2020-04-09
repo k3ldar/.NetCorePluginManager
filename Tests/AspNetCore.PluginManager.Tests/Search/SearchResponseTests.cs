@@ -29,6 +29,8 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using Middleware.Search;
 
+#pragma warning disable IDE0059
+
 namespace AspNetCore.PluginManager.Tests.Search
 {
     [TestClass]
@@ -60,10 +62,11 @@ namespace AspNetCore.PluginManager.Tests.Search
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
-        public void SearchResponseLoggedOutInvalidSearchTermEmptyString()
+        public void SearchResponseLoggedOutValidSearchTermEmptyString()
         {
             SearchResponse response = new SearchResponse(false, "");
         }
     }
 }
+
+#pragma warning restore IDE0059

@@ -126,10 +126,10 @@ namespace AspNetCore.PluginManager.Tests.Search
 
             List<string> results = searchProviders[0].SearchResponseTypes(false);
 
-            Assert.IsTrue(results.Count > 8);
+            Assert.IsTrue(results.Count > 6);
 
-            Assert.IsTrue(results.Contains("TestProviderA"));
-            Assert.IsTrue(results.Contains("TestProviderB"));
+            Assert.IsFalse(results.Contains("TestProviderA"));
+            Assert.IsFalse(results.Contains("TestProviderB"));
             Assert.IsTrue(results.Contains("DocumentTitle"));
             Assert.IsTrue(results.Contains("ProductName"));
             Assert.IsTrue(results.Contains("ProductDescription"));
@@ -150,13 +150,13 @@ namespace AspNetCore.PluginManager.Tests.Search
 
             Assert.AreEqual(1, searchProviders.Count);
 
-            Dictionary<string, string> results = searchProviders[0].SearchNames();
+            List<string> results = searchProviders[0].SearchResponseTypes(false);
 
-            Assert.IsTrue(results.Count < 3);
+            Assert.IsTrue(results.Count < 8);
 
-            Assert.IsFalse(results.ContainsKey("TestProviderA"));
-            Assert.IsFalse(results.ContainsKey("TestProviderB"));
-            Assert.IsTrue(results.ContainsKey("Products"));
+            Assert.IsFalse(results.Contains("TestProviderA"));
+            Assert.IsFalse(results.Contains("TestProviderB"));
+            Assert.IsTrue(results.Contains("ProductName"));
         }
     }
 }

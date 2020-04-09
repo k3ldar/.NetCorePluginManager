@@ -66,8 +66,8 @@ height: 260px !important;
 }
 .searchEntry {
 border: none;
-margin: 5px;
-padding: 10px 5px 5px 5px;
+margin: 3px;
+padding: 8px 2px 2px 2px;
 cursor: pointer;
 }
 .searchEntry a {

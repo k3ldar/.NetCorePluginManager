@@ -44,11 +44,9 @@ namespace SearchPlugin.Classes.Search
     {
         #region Private Members
 
-        private readonly CacheManager _searchCache;
         private readonly IPluginClassesService _pluginClassesService;
         private readonly List<ISearchKeywordProvider> _searchProviders;
-        private static readonly object _lockObject = new object();
-        private static readonly Timings _searchTimings = new Timings();
+        //private static readonly object _lockObject = new object();
 
         #endregion Private Members
 
@@ -62,7 +60,6 @@ namespace SearchPlugin.Classes.Search
         {
             _pluginClassesService = pluginClassesService ?? throw new ArgumentNullException(nameof(pluginClassesService));
 
-            _searchCache = new CacheManager("Search Cache", new TimeSpan(0, 20, 0), true, true);
             _searchProviders = _pluginClassesService.GetPluginClasses<ISearchKeywordProvider>();
         }
 
@@ -75,51 +72,9 @@ namespace SearchPlugin.Classes.Search
         /// </summary>
         /// <param name="keywordSearchOptions"></param>
         /// <returns></returns>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1303:Do not pass literals as localized parameters", Justification = "Exceptions are meant for developers not end users.")]
         public List<SearchResponseItem> KeywordSearch(in KeywordSearchOptions keywordSearchOptions)
         {
-            using (StopWatchTimer timer = new StopWatchTimer(_searchTimings))
-            {
-                if (keywordSearchOptions == null)
-                {
-                    throw new ArgumentNullException(nameof(keywordSearchOptions));
-                }
-
-                CacheItem cacheItem = _searchCache.Get(keywordSearchOptions.SearchName);
-
-                using (TimedLock timedLock = TimedLock.Lock(_lockObject))
-                {
-                    if (cacheItem == null)
-                    {
-                        if (!ThreadManager.Exists(keywordSearchOptions.SearchName))
-                        {
-                            DefaultSearchThread searchThread = new DefaultSearchThread(_searchProviders, _searchCache, keywordSearchOptions);
-                            ThreadManager.ThreadStart(searchThread, keywordSearchOptions.SearchName, System.Threading.ThreadPriority.BelowNormal);
-                        }
-                    }
-                }
-
-                DateTime searchStart = DateTime.Now;
-
-                while (true)
-                {
-                    TimeSpan span = DateTime.Now - searchStart;
-
-                    if (span.TotalMilliseconds > keywordSearchOptions.Timeout)
-                    {
-                        throw new TimeoutException("Timed out waiting for search to complete");
-                    }
-
-                    cacheItem = _searchCache.Get(keywordSearchOptions.SearchName);
-
-                    if (cacheItem != null)
-                    {
-                        break;
-                    }
-                }
-
-                return (List<SearchResponseItem>)cacheItem.Value;
-            }
+            return DefaultSearchThread.KeywordSearch(_searchProviders, keywordSearchOptions);
         }
 
         /// <summary>
@@ -148,23 +103,38 @@ namespace SearchPlugin.Classes.Search
         /// Retrieves a list of strings from all search providers that can optionally be used by the UI 
         /// to provide a paged or tabbed advance search option.
         /// </summary>
-        /// <returns>List&lt;string&gt;</returns>
-        public Dictionary<string, string> SearchNames()
+        /// <returns>Dictionary&lt;string, AdvancedSearchOptions&gt;</returns>
+        public Dictionary<string, AdvancedSearchOptions> AdvancedSearch()
         {
-            Dictionary<string, string> Result = new Dictionary<string, string>();
+            Dictionary<string, AdvancedSearchOptions> Result = new Dictionary<string, AdvancedSearchOptions>();
 
             foreach (ISearchKeywordProvider provider in _searchProviders)
             {
-                Dictionary<string, string> name = provider.SearchName();
+                Dictionary<string, AdvancedSearchOptions> advancedSearch = provider.AdvancedSearch();
 
-                if (name == null)
+                if (advancedSearch == null)
                     continue;
 
-                foreach (KeyValuePair<String, String> item in name)
+                foreach (KeyValuePair<string, AdvancedSearchOptions> item in advancedSearch)
                     Result.Add(item.Key, item.Value);
             }
 
             return Result;
+        }
+
+        /// <summary>
+        /// Retrieve existing search results if they exist.
+        /// </summary>
+        /// <param name="searchId">Name of search</param>
+        /// <returns>List&lt;SearchResponseItem&gt;</returns>
+        public List<SearchResponseItem> GetSearchResults(in String searchId)
+        {
+            if (String.IsNullOrEmpty(searchId))
+            {
+                return null;
+            }
+
+            return DefaultSearchThread.RetrieveSearch(searchId);
         }
 
         #endregion ISearchProvider Methods
@@ -175,7 +145,7 @@ namespace SearchPlugin.Classes.Search
         {
             get
             {
-                return _searchTimings;
+                return DefaultSearchThread.SearchTimings;
             }
         }
 
@@ -183,7 +153,7 @@ namespace SearchPlugin.Classes.Search
         {
             get
             {
-                return _searchCache;
+                return DefaultSearchThread.SearchCache;
             }
         }
 

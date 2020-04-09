@@ -38,7 +38,7 @@ namespace Middleware
         /// Performs a keyword search using the search options.
         /// </summary>
         /// <param name="keywordSearchOptions">Search Options</param>
-        /// <returns>SearchRespons&lt;SearchResponseItem&gt;</returns>
+        /// <returns>List&lt;SearchResponseItem&gt;</returns>
         List<SearchResponseItem> KeywordSearch(in KeywordSearchOptions keywordSearchOptions);
 
         /// <summary>
@@ -49,10 +49,17 @@ namespace Middleware
         List<string> SearchResponseTypes(in bool quickSearch);
 
         /// <summary>
-        /// Retrieves a list of strings from all search providers that can optionally be used by the UI 
+        /// Retrieves a list of advanced search options for providers that can optionally be used by the UI 
         /// to provide a paged or tabbed advance search option.
         /// </summary>
-        /// <returns>Dictionary&lt;string, string&gt;</returns>
-        Dictionary<string, string> SearchNames();
+        /// <returns>Dictionary&lt;string, AdvancedSearchOptions&gt;</returns>
+        Dictionary<string, AdvancedSearchOptions> AdvancedSearch();
+
+        /// <summary>
+        /// Retreive previous named search results.
+        /// </summary>
+        /// <param name="searchId">Name of search to be found.</param>
+        /// <returns>List&lt;SearchResponseItem&gt;</returns>
+        List<SearchResponseItem> GetSearchResults(in string searchId);
     }
 }

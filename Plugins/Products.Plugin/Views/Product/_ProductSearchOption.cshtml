@@ -1,0 +1,32 @@
+﻿@model ProductPlugin.Models.ProductSearchViewModel
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
+@using ProductPlugin.Controllers
+
+<link rel="stylesheet" href="~/css/products.css" />
+<div class="searchOption">
+    <p><strong>@Languages.LanguageStrings.Price</strong></p>
+    @for (int i = 0; i < Model.Prices.Count; i++)
+    {
+        <div>
+            @Html.HiddenFor(m => m.Prices[i].Name)
+            @Html.CheckBoxFor(m => m.Prices[i].Selected)
+            @Html.LabelFor(m => m.Prices[i].Selected, Model.Prices[i].Name)
+        </div>
+    }
+
+    <p><strong>@Languages.LanguageStrings.AppProductGroups</strong></p>
+    @for (int i = 0; i < Model.ProductGroups.Count; i++)
+    {
+        <div>
+            @Html.HiddenFor(m => m.ProductGroups[i].Name)
+            @Html.CheckBoxFor(m => m.ProductGroups[i].Selected)
+            @Html.LabelFor(m => m.ProductGroups[i].Selected, Model.ProductGroups[i].Name)
+        </div>
+    }
+    <p><strong>@Languages.LanguageStrings.Other</strong></p>
+    <div>
+        @Html.CheckBoxFor(m => m.ContainsVideo)
+        @Html.LabelFor(m => m.ContainsVideo) (@Model.VideoProductCount)
+    </div>
+</div>
+

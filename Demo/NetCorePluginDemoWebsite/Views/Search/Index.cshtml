@@ -15,22 +15,22 @@ ViewData["Title"] = "Index";
 <li class="nav-item">
 @if (String.IsNullOrEmpty(Model.ActiveTab) || Model.ActiveTab.Equals(Languages.LanguageStrings.All))
 {
-<a class="nav-link active" href="#">@Localizer[nameof(Languages.LanguageStrings.All)]</a>
+<a class="nav-link active" href="/Search/Index/">@Localizer[nameof(Languages.LanguageStrings.All)]</a>
 }
 else
 {
 <a class="nav-link" href="/Search/Index/">@Localizer[nameof(Languages.LanguageStrings.All)]</a>
 }
 </li>
-@foreach (var searchName in Model.SearchNames)
+@foreach (var searchName in Model.AdvancedSearch)
 {
 if (Model.ActiveTab.Equals(searchName.Key))
 {
-<li class="nav-item active"><a class="nav-link" href="@searchName.Value">@Localizer[searchName.Key]</a></li>
+<li class="nav-item"><a class="nav-link active" href="/Search/Advanced/@searchName.Key/">@Localizer[searchName.Key]</a></li>
 }
 else
 {
-<li class="nav-item"><a class="nav-link" href="@searchName.Value">@Localizer[searchName.Key]</a></li>
+<li class="nav-item"><a class="nav-link" href="/Search/Advanced/@searchName.Key/">@Localizer[searchName.Key]</a></li>
 }
 }
 </ul>
@@ -57,8 +57,24 @@ else
 }
 else
 {
-@await Html.PartialAsync(Model.SearchNames[Model.ActiveTab]);
+@if (!String.IsNullOrEmpty(Model.StyleSheet))
+{
+<link rel="stylesheet" href="@Model.StyleSheet">
 }
+@if (!String.IsNullOrEmpty(Model.SearchOption))
+{
+@using (Html.BeginForm(Model.ActionName, Model.ControllerName, FormMethod.Get, new { id = "frmSearch" }))
+{
+<div class="row">
+<div class="col-sm-12 col-md-3">
+<div id="divSearchOptions"></div>
+</div>
+<div class="col-sm-12 col-md-9">
+<div class="row search-row">
+<div class="col-sm-12">
+<div id="divSearch"></div>
+</div>
+</div>
 @foreach (Middleware.Search.SearchResponseItem item in Model.SearchResults)
 {
 <div class="row">
@@ -79,6 +95,56 @@ else
 </div>
 </div>
 </div>
+}
+</div>
+</div>
+}
+}
+else
+{
+<div id="divSearch"></div>
+}
+<script type="text/javascript">
+$(document).ready(function () {
+var url = '@Model.SearchName';
+var searchId = '@Model.SearchId';
+if (searchId !== '') {
+url += searchId + '/';
+}
+$('#divSearch').load(url);
+url = '@Model.SearchOption';
+if (url !== '') {
+if (searchId !== '') {
+url += searchId + '/';
+}
+$('#divSearchOptions').load(url);
+}
+});
+</script>
+}
+@if (String.IsNullOrEmpty(Model.SearchOption))
+{
+@foreach (Middleware.Search.SearchResponseItem item in Model.SearchResults)
+{
+<div class="row">
+<div class="col-sm-12">
+<div class="searchEntry">
+@if (!String.IsNullOrEmpty(item.ViewName))
+{
+@await Html.PartialAsync(item.ViewName, item);
+}
+else
+{
+<a href="@item.Url.ToString()">
+<p>
+@item.DisplayName
+</p>
+</a>
+}
+</div>
+</div>
+</div>
+}
 }
 <div class="row justify-content-sm-center" style="margin-top:20px;">
 <div class="col-sm-auto">

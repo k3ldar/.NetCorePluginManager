@@ -121,7 +121,7 @@ namespace SearchPlugin
         /// <summary>
         /// Total number of search results per page
         /// </summary>
-        [SettingDefault(3)]
+        [SettingDefault(12)]
         public int ItemsPerPage { get; set; }
     }
 }

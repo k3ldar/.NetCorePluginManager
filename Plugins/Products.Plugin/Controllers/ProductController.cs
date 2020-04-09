@@ -47,21 +47,22 @@ namespace ProductPlugin.Controllers
     /// <summary>
     /// Product controller displays standard product information on a website.
     /// </summary>
-    public class ProductController : BaseController
+    public partial class ProductController : BaseController
     {
         #region Private Members
 
         private readonly bool _hasShoppingCart;
         private readonly IProductProvider _productProvider;
-        private readonly uint _productsPerPage;
+        private readonly ProductControllerSettings _settings;
         private readonly IStockProvider _stockProvider;
+        private readonly IMemoryCache _memoryCache;
 
         #endregion Private Members
 
         #region Constructors
 
         public ProductController(IProductProvider productProvider, ISettingsProvider settingsProvider,
-            IPluginHelperService pluginHelper, IStockProvider stockProvider)
+            IPluginHelperService pluginHelper, IStockProvider stockProvider, IMemoryCache memoryCache)
         {
             if (settingsProvider == null)
                 throw new ArgumentNullException(nameof(settingsProvider));
@@ -69,11 +70,11 @@ namespace ProductPlugin.Controllers
             if (pluginHelper == null)
                 throw new ArgumentNullException(nameof(pluginHelper));
 
-            ProductControllerSettings settings = settingsProvider.GetSettings<ProductControllerSettings>("Products");
+            _settings = settingsProvider.GetSettings<ProductControllerSettings>("Products");
 
             _productProvider = productProvider ?? throw new ArgumentNullException(nameof(productProvider));
             _stockProvider = stockProvider ?? throw new ArgumentNullException(nameof(stockProvider));
-            _productsPerPage = settings.ProductsPerPage;
+            _memoryCache = memoryCache ?? throw new ArgumentNullException(nameof(memoryCache));
             _hasShoppingCart = pluginHelper.PluginLoaded(SharedPluginFeatures.Constants.PluginNameShoppingCart, out _);
         }
 
@@ -110,7 +111,7 @@ namespace ProductPlugin.Controllers
             if (!page.HasValue || (page.HasValue && page.Value < 1))
                 page = 1;
 
-            List<Product> products = _productProvider.GetProducts(group, page.Value, (int)_productsPerPage);
+            List<Product> products = _productProvider.GetProducts(group, page.Value, (int)_settings.ProductsPerPage);
 
             ProductGroupModel model = GetProductGroupModel(group, products, page.Value);
 
@@ -178,7 +179,7 @@ namespace ProductPlugin.Controllers
             Result.Breadcrumbs.Add(new BreadcrumbItem(LanguageStrings.Home, "/", false));
             Result.Breadcrumbs.Add(new BreadcrumbItem(group.Description, $"/Products/{group.Id}/", false));
 
-            Result.Pagination = BuildPagination(products.Count, (int)_productsPerPage, page,
+            Result.Pagination = BuildPagination(products.Count, (int)_settings.ProductsPerPage, page,
                 $"/Products/{Result.RouteText(group.Description)}/{group.Id}/", "",
                 LanguageStrings.Previous, LanguageStrings.Next);
 

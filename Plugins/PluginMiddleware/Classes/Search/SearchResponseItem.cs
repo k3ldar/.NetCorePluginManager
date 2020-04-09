@@ -86,7 +86,7 @@ namespace Middleware.Search
         /// <param name="viewName">Name and path of the view that will display search results</param>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1303:Do not pass literals as localized parameters", Justification = "It's param names so ok with me!")]
         public SearchResponseItem(in string responseType, in string response, in int offset, string url, string displayName, string viewName)
-            : this ()
+            : this()
         {
             if (String.IsNullOrEmpty(response))
                 throw new ArgumentNullException(nameof(response));
@@ -174,7 +174,7 @@ namespace Middleware.Search
         /// <param name="keywordLength">Length of keyword being searched.</param>
         public void HighlightKeywords(in int keywordLength)
         {
-            if (_highlighted)
+            if (_highlighted || Offset == -1)
                 return;
 
             StringBuilder Result = new StringBuilder(Response, Response.Length + 20);

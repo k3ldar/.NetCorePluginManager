@@ -24,7 +24,6 @@
  *  12/05/2019  Simon Carter        Add seo data constants
  *  
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using System;
 
 namespace SharedPluginFeatures
 {
@@ -392,5 +391,10 @@ namespace SharedPluginFeatures
         /// Name of the event used to find extra files that need to be minimised.
         /// </summary>
         public const string NotificationEventMinifyFiles = "MinificationFiles";
+
+        /// <summary>
+        /// Maximum number of products that can be returned during a search.
+        /// </summary>
+        public const int MaximumProducts = 50000000;
     }
 }

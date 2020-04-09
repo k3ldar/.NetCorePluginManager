@@ -23,11 +23,67 @@
  *  02/02/2019  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+
+using SharedPluginFeatures;
 
 namespace ProductPlugin.Models
 {
+    /// <summary>
+    /// Model used for advanced product searches
+    /// </summary>
     public class ProductSearchViewModel
     {
-        public string SearchTest { get; set; }
+        #region Constructors
+
+        /// <summary>
+        /// Default constructor
+        /// </summary>
+        public ProductSearchViewModel()
+        {
+            ProductGroups = new List<CheckedViewItemModel>();
+            Prices = new List<CheckedViewItemModel>();
+        }
+
+        #endregion Constructors
+
+        #region Properties
+
+        /// <summary>
+        /// Text to be searched
+        /// </summary>
+        /// <value>string</value>
+        [Display(Name = nameof(Languages.LanguageStrings.SearchDescription))]
+        public string SearchText { get; set; }
+
+        /// <summary>
+        /// List of product groups that can be individually selected or not
+        /// </summary>
+        public List<CheckedViewItemModel> ProductGroups { get; set; }
+
+        /// <summary>
+        /// List of product price groupings that can be searched
+        /// </summary>
+        public List<CheckedViewItemModel> Prices { get; set; }
+
+        /// <summary>
+        /// Only show search results that contains video
+        /// </summary>
+        /// <value>bool</value>
+        [Display(Name = nameof(Languages.LanguageStrings.SearchContainsVideo))]
+        public bool ContainsVideo { get; set; }
+
+        /// <summary>
+        /// unique search name representing search options selected by the user
+        /// </summary>
+        public string SearchName { get; set; }
+
+        /// <summary>
+        /// Count of products with video content
+        /// </summary>
+        public int VideoProductCount { get; set; }
+
+        #endregion Properties
     }
 }

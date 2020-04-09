@@ -63,8 +63,8 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
             {
                 new Product(1, 1, "Product A & - &", "This is product a", "1 year guarantee", "", new string[] { "geoip" }, 0, "ProdA", false, false),
                 new Product(2, 1, "Product B", "This is product b", "1 year guarantee", "", new string[] { "geoip" }, 0, "ProdB", true, false),
-                new Product(3, 1, "Product C", "This is product c", "1 year guarantee", "E7Voso411Vs", new string[] { "geoip" }, 1.99m, "ProdC", true, true),
-                new Product(4, 2, "Product D", "This is product d", "1 year guarantee", "", new string[] { "geoip" }, 2.99m, "ProdD", false, true),
+                new Product(3, 1, "Product C", "This is product c", "1 year guarantee", "E7Voso411Vs", new string[] { "geoip" }, 1.99m, "ProdC", true, true, false, true),
+                new Product(4, 2, "Product D", "This is product d", "1 year guarantee", "", new string[] { "geoip" }, 22.99m, "ProdD", false, true, true, true),
                 new Product(5, 2, "Product E", "This is product e", "1 year guarantee", "pCvZtjoRq1I", new string[] { "geoip" }, 0, "ProdE", false, false)
             };
         }

@@ -41,11 +41,8 @@ namespace Middleware.Search
         /// <param name="searchTerm">The search term being sought.</param>
         public BaseSearchOptions(in bool isLoggedIn, in string searchTerm)
         {
-            if (String.IsNullOrEmpty(searchTerm))
-                throw new ArgumentNullException(nameof(searchTerm));
-
             IsLoggedIn = isLoggedIn;
-            SearchTerm = searchTerm;
+            SearchTerm = searchTerm ?? throw new ArgumentNullException(nameof(searchTerm));
         }
 
         #endregion Constructors

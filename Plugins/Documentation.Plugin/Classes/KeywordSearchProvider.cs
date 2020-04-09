@@ -136,10 +136,10 @@ namespace DocumentationPlugin.Classes
         }
 
         /// <summary>
-        /// Retrieves the name of the search for advance searches
+        /// Retrieves the advanced search options for the provider
         /// </summary>
-        /// <returns>string</returns>
-        public Dictionary<string, string> SearchName()
+        /// <returns>Dictionary&lt;string, AdvancedSearchOptions&gt;</returns>
+        public Dictionary<string, AdvancedSearchOptions> AdvancedSearch()
         {
             return null;
         }
@@ -174,9 +174,11 @@ namespace DocumentationPlugin.Classes
             in string url, in int offset, in int relevance = 0)
         {
             SearchResponseItem Result = new SearchResponseItem(searchType, document.Title, offset,
-                url, document.Title, DocumentSearchResultViewName);
+                url, document.Title, DocumentSearchResultViewName)
+            {
+                Relevance = relevance
+            };
 
-            Result.Relevance = relevance;
             Result.Properties.Add("ShortDescription", document.ShortDescription);
 
             return Result;

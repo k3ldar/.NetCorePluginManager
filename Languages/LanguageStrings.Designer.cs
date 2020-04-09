@@ -26155,6 +26155,15 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Other.
+        /// </summary>
+        public static string Other {
+            get {
+                return ResourceManager.GetString("Other", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Out Of Stock.
         /// </summary>
         public static string OutOfStock {
@@ -26196,6 +26205,15 @@ namespace Languages {
         public static string OutOfStockRemoveNotification {
             get {
                 return ResourceManager.GetString("OutOfStockRemoveNotification", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Over.
+        /// </summary>
+        public static string Over {
+            get {
+                return ResourceManager.GetString("Over", resourceCulture);
             }
         }
         
@@ -27907,6 +27925,15 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Products with video.
+        /// </summary>
+        public static string SearchContainsVideo {
+            get {
+                return ResourceManager.GetString("SearchContainsVideo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Enter your search words:.
         /// </summary>
         public static string SearchDescription {
@@ -27921,6 +27948,15 @@ namespace Languages {
         public static string SearchInvalid {
             get {
                 return ResourceManager.GetString("SearchInvalid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Timed out waiting for search to complete.
+        /// </summary>
+        public static string SearchTimeout {
+            get {
+                return ResourceManager.GetString("SearchTimeout", resourceCulture);
             }
         }
         
@@ -29862,6 +29898,15 @@ namespace Languages {
         public static string UnableToProcessRequest {
             get {
                 return ResourceManager.GetString("UnableToProcessRequest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Under.
+        /// </summary>
+        public static string Under {
+            get {
+                return ResourceManager.GetString("Under", resourceCulture);
             }
         }
         

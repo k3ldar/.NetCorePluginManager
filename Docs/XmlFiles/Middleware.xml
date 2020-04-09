@@ -1011,6 +1011,13 @@
             </summary>
             <value>List&lt;BlogComment&gt;</value>
         </member>
+        <member name="M:Middleware.Blog.BlogItem.Equals(System.Object)">
+            <summary>
+            Determines whether objects are equal or not
+            </summary>
+            <param name="obj">Object that is being compared</param>
+            <returns>bool</returns>
+        </member>
         <member name="M:Middleware.Blog.BlogItem.UpdateBlog(System.String@,System.String@,System.String@,System.Boolean@,System.DateTime@,System.Collections.Generic.List{System.String}@)">
             <summary>
             Updates the public properties for a blog entry.
@@ -1798,6 +1805,59 @@
             </summary>
             <value>string</value>
         </member>
+        <member name="T:Middleware.Search.AdvancedSearchOptions">
+            <summary>
+            Options that can be provided by Keyword search providers for advanced searching
+            </summary>
+        </member>
+        <member name="M:Middleware.Search.AdvancedSearchOptions.#ctor(System.String@,System.String@,System.String@,System.String@,System.String@)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="actionName">Name of the action used for advanced searching.</param>
+            <param name="controllerName">Name of the controller used for advanced searching.</param>
+            <param name="searchName">Route for default search options, to be displayed to center.</param>
+            <param name="searchOption">Route for Search options if required, to be displayed on left column.</param>
+            <param name="styleSheet">Optional style sheet that can be embedded on the search page for advanced searches.</param>
+        </member>
+        <member name="M:Middleware.Search.AdvancedSearchOptions.#ctor(System.String@,System.String@,System.String@)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="actionName">Name of the action used for advanced searching.</param>
+            <param name="controllerName">Name of the controller used for advanced searching.</param>
+            <param name="searchName">Route for default search options, to be displayed to center.</param>
+        </member>
+        <member name="P:Middleware.Search.AdvancedSearchOptions.ActionName">
+            <summary>
+            Name of the action used for advanced searching.
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:Middleware.Search.AdvancedSearchOptions.ControllerName">
+            <summary>
+            Name of the controller used for advanced searching.
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:Middleware.Search.AdvancedSearchOptions.SearchOption">
+            <summary>
+            Route for Search options if required, to be displayed on left column.
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:Middleware.Search.AdvancedSearchOptions.SearchName">
+            <summary>
+            Route for default search options, to be displayed to center.
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:Middleware.Search.AdvancedSearchOptions.StyleSheet">
+            <summary>
+            Optional style sheet that can be embedded on the search page for advanced searches.
+            </summary>
+            <value>string</value>
+        </member>
         <member name="T:Middleware.Search.BaseSearchOptions">
             <summary>
             Base options for completing searches
@@ -1819,6 +1879,50 @@
             <summary>
             The search term being searched
             </summary>
+        </member>
+        <member name="T:Middleware.Search.DefaultSearchThread">
+            <summary>
+            The default thread item to be used for performing searches
+            </summary>
+        </member>
+        <member name="M:Middleware.Search.DefaultSearchThread.#ctor(System.Collections.Generic.List{Middleware.ISearchKeywordProvider}@,Shared.Classes.CacheManager@,Middleware.Search.KeywordSearchOptions@)">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="P:Middleware.Search.DefaultSearchThread.SearchCache">
+            <summary>
+            Default search cache item
+            </summary>
+        </member>
+        <member name="P:Middleware.Search.DefaultSearchThread.SearchTimings">
+            <summary>
+            Retrieves the timings for searches
+            </summary>
+            <value>Timings</value>
+        </member>
+        <member name="M:Middleware.Search.DefaultSearchThread.KeywordSearch(System.Collections.Generic.List{Middleware.ISearchKeywordProvider}@,Middleware.Search.KeywordSearchOptions@)">
+            <summary>
+            Default keyword search using the specified options and parameters.
+            </summary>
+            <param name="searchProviders">List of search providers to be searched.</param>
+            <param name="keywordSearchOptions">Keyword search options</param>
+            <returns>List&lt;SearchResponseItem&gt;</returns>
+        </member>
+        <member name="M:Middleware.Search.DefaultSearchThread.KeywordSearch(Middleware.ISearchKeywordProvider@,Middleware.Search.KeywordSearchOptions@)">
+            <summary>
+            Default keyword search using the specified options and parameters.
+            </summary>
+            <param name="searchProvider">Search providers to be searched.</param>
+            <param name="keywordSearchOptions">Keyword search options</param>
+            <returns>List&lt;SearchResponseItem&gt;</returns>
+        </member>
+        <member name="M:Middleware.Search.DefaultSearchThread.Run(System.Object)">
+            <summary>
+            Method that executes a search in a dedicated thread
+            </summary>
+            <param name="parameters"></param>
+            <returns>bool</returns>
         </member>
         <member name="T:Middleware.Search.KeywordSearchOptions">
             <summary>
@@ -3012,13 +3116,13 @@
             <param name="quickSearch">indicates whether the response types are from a quick search or not.</param>
             <returns>List&lt;string&gt;</returns>
         </member>
-        <member name="M:Middleware.ISearchKeywordProvider.SearchName">
+        <member name="M:Middleware.ISearchKeywordProvider.AdvancedSearch">
             <summary>
             Retrieves a string that can optionally be used by the UI to provide a paged or tabbed advance search option.
             
             Return null or empty string if the search provider should not have a custom advanced search option.
             </summary>
-            <returns>string</returns>
+            <returns>Dictionary&lt;string, AdvancedSearchOptions&gt;</returns>
         </member>
         <member name="T:Middleware.ISearchProvider">
             <summary>
@@ -3030,7 +3134,7 @@
             Performs a keyword search using the search options.
             </summary>
             <param name="keywordSearchOptions">Search Options</param>
-            <returns>SearchRespons&lt;SearchResponseItem&gt;</returns>
+            <returns>List&lt;SearchResponseItem&gt;</returns>
         </member>
         <member name="M:Middleware.ISearchProvider.SearchResponseTypes(System.Boolean@)">
             <summary>
@@ -3039,12 +3143,19 @@
             <param name="quickSearch">indicates whether the response types are from a quick search or not.</param>
             <returns>List&lt;string&gt;</returns>
         </member>
-        <member name="M:Middleware.ISearchProvider.SearchNames">
+        <member name="M:Middleware.ISearchProvider.AdvancedSearch">
             <summary>
-            Retrieves a list of strings from all search providers that can optionally be used by the UI 
+            Retrieves a list of advanced search options for providers that can optionally be used by the UI 
             to provide a paged or tabbed advance search option.
             </summary>
-            <returns>Dictionary&lt;string, string&gt;</returns>
+            <returns>Dictionary&lt;string, AdvancedSearchOptions&gt;</returns>
+        </member>
+        <member name="M:Middleware.ISearchProvider.GetSearchResults(System.String@)">
+            <summary>
+            Retreive previous named search results.
+            </summary>
+            <param name="searchId">Name of search to be found.</param>
+            <returns>List&lt;SearchResponseItem&gt;</returns>
         </member>
         <member name="T:Middleware.IShoppingCartProvider">
             <summary>
