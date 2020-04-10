@@ -40,6 +40,7 @@
     <ProjectReference Include="..\PluginManager.Tests\PluginManager.Tests.csproj" />
     <ProjectReference Include="..\..\Plugins\Documentation.Plugin\Documentation.Plugin.csproj" />
     <ProjectReference Include="..\..\Plugins\MemoryCachePlugin\MemoryCachePlugin.csproj" />
+    <ProjectReference Include="..\..\Plugins\Blog.Plugin\Blog.Plugin.csproj" />
   </ItemGroup>
 
 </Project>

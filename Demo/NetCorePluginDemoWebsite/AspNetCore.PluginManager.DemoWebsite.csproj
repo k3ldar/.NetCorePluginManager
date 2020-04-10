@@ -82,16 +82,7 @@
     <PackageReference Include="UserSessionMiddleware.Plugin" Version="$(Version)" />
     <PackageReference Include="DocumentationPlugin" Version="$(Version)" />
     <PackageReference Include="Sitemap.Plugin" Version="$(Version)" />
-  </ItemGroup>
-  
-  <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="3.1.1" />
-    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.8">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="SC.Shared.Library.Core" Version="2.9.6" />
-    <PackageReference Include="FirebirdSql.Data.FirebirdClient" Version="7.1.1" />    
+    <PackageReference Include="SearchPlugin" Version="$(Version)" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(Configuration)'=='Debug'">
@@ -122,6 +113,16 @@
     <ProjectReference Include="..\..\Plugins\UserSessionMiddlewarePlugin\UserSessionMiddleware.Plugin.csproj" />
     <ProjectReference Include="..\..\PluginManager\src\PluginManager.csproj" />
     <ProjectReference Include="..\..\Plugins\Search.Plugin\Search.Plugin.csproj" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="3.1.1" />
+    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.8">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="SC.Shared.Library.Core" Version="2.9.6" />
+    <PackageReference Include="FirebirdSql.Data.FirebirdClient" Version="7.1.1" />    
   </ItemGroup>
   
   <ItemGroup>
