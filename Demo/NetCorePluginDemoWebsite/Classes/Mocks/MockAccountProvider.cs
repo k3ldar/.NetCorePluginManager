@@ -56,6 +56,9 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
 
         public bool ChangePassword(in long userId, in string newPassword)
         {
+            if (String.IsNullOrEmpty(newPassword))
+                throw new ArgumentNullException(nameof(newPassword));
+
             return newPassword.Equals("Pa$$w0rd");
         }
 
@@ -96,11 +99,17 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
 
         public bool ConfirmEmailAddress(in Int64 userId, in string confirmationCode)
         {
+            if (String.IsNullOrEmpty(confirmationCode))
+                throw new ArgumentNullException(nameof(confirmationCode));
+
             return confirmationCode.Equals("NewEmail");
         }
 
         public bool ConfirmTelephoneNumber(in Int64 userId, in string confirmationCode)
         {
+            if (String.IsNullOrEmpty(confirmationCode))
+                throw new ArgumentNullException(nameof(confirmationCode));
+
             return confirmationCode.Equals("NewTelephone");
         }
 
@@ -125,6 +134,9 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
 
         public bool SetBillingAddress(in long userId, in Address billingAddress)
         {
+            if (billingAddress == null)
+                throw new ArgumentNullException(nameof(billingAddress));
+
             return billingAddress.AddressLine1 == "Mike St";
         }
 
@@ -173,7 +185,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
 
         public bool DeleteDeliveryAddress(in long userId, in DeliveryAddress deliveryAddress)
         {
-            if (deliveryAddress.AddressId == 1)
+            if (deliveryAddress == null || deliveryAddress.AddressId == 1)
                 return false;
 
             _deliveryAddresses.Remove(deliveryAddress);
@@ -249,7 +261,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
 
             List<InvoiceItem> items = new List<InvoiceItem>();
 
-            foreach (var item in order.OrderItems)
+            foreach (OrderItem item in order.OrderItems)
             {
                 items.Add(new InvoiceItem(++InvoiceItemId, item.Description, item.Cost, item.TaxRate,
                     item.Quantity, ItemStatus.Received, item.DiscountType, item.Discount));

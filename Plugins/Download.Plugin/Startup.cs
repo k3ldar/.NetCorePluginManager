@@ -25,12 +25,10 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-#pragma warning disable CS1591
+#pragma warning disable CS1591, CA1801
 
 namespace DownloadPlugin
 {
@@ -74,4 +72,4 @@ namespace DownloadPlugin
     }
 }
 
-#pragma warning restore CS1591
+#pragma warning restore CS1591, CA1801

@@ -58,10 +58,11 @@ namespace Middleware.ShoppingCart
         /// <param name="isDownload">Indicates that the item is downloadable or not.</param>
         /// <param name="canBackOrder">Indicates that the item is on back order.</param>
         /// <param name="size">Size of item.</param>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1303:Do not pass literals as localized parameters", Justification = "Intended for developers not end users")]
         public ShoppingCartItem(in int id, in decimal itemCount, in decimal itemCost, in string name,
             in string description, in string sku, in string[] images, in bool isDownload,
             in bool canBackOrder, in string size)
-            :this ()
+            : this()
         {
             if (String.IsNullOrEmpty(name))
                 throw new ArgumentNullException(nameof(name));
@@ -73,7 +74,7 @@ namespace Middleware.ShoppingCart
                 throw new ArgumentNullException(nameof(images));
 
             if (images.Length < 1)
-                throw new ArgumentException(nameof(images));
+                throw new ArgumentException("Value must be greater than zero", nameof(images));
 
             if (itemCount <= 0)
                 throw new ArgumentOutOfRangeException(nameof(itemCount));
@@ -212,6 +213,7 @@ namespace Middleware.ShoppingCart
         /// Images for the item
         /// </summary>
         /// <value>string[]</value>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1819:Properties should not return arrays", Justification = "ok on this occasion")]
         public string[] Images { get; private set; }
 
         /// <summary>

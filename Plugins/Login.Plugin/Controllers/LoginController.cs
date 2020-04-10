@@ -44,6 +44,8 @@ using SharedPluginFeatures;
 using static Middleware.Constants;
 using static Shared.Utilities;
 
+#pragma warning disable CS1591
+
 namespace LoginPlugin.Controllers
 {
     /// <summary>
@@ -114,6 +116,9 @@ namespace LoginPlugin.Controllers
         [BadEgg]
         public IActionResult Index(LoginViewModel model)
         {
+            if (model == null)
+                throw new ArgumentNullException(nameof(model));
+
             LoginCacheItem loginCacheItem = GetCachedLoginAttempt(true);
 
             if (!String.IsNullOrEmpty(loginCacheItem.CaptchaText))
@@ -305,6 +310,7 @@ namespace LoginPlugin.Controllers
 
         #region Private Methods
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1031:Do not catch general exception types", Justification = "it's ok here, nothing to see, move along")]
         private bool ValidateRememberedLogin()
         {
             if (CookieExists(_settings.RememberMeCookieName))
@@ -332,7 +338,7 @@ namespace LoginPlugin.Controllers
                 }
                 catch
                 {
-
+                    CookieDelete(_settings.RememberMeCookieName);
                 }
             }
 
@@ -376,3 +382,5 @@ namespace LoginPlugin.Controllers
         #endregion Private Methods
     }
 }
+
+#pragma warning restore CS1591

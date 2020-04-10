@@ -58,6 +58,9 @@ namespace SharedPluginFeatures
         /// <returns>Uri</returns>
         protected Uri GetCurrentUri(in HttpContext context)
         {
+            if (context == null)
+                throw new ArgumentNullException(nameof(context));
+
             UriBuilder uriBuilder = new UriBuilder(context.Request.Scheme,
                 context.Request.Host.Host.ToString(),
                 context.Request.Host.Port.Value,
@@ -76,6 +79,9 @@ namespace SharedPluginFeatures
         /// <returns>string</returns>
         protected string GetHost(in HttpContext context)
         {
+            if (context == null)
+                throw new ArgumentNullException(nameof(context));
+
             return new UriBuilder(context.Request.Scheme,
                 context.Request.Host.Host.ToString(),
                 context.Request.Host.Port.Value).ToString();
@@ -88,6 +94,9 @@ namespace SharedPluginFeatures
         /// <returns></returns>
         protected ITempDataDictionary GetTempData(in HttpContext context)
         {
+            if (context == null)
+                throw new ArgumentNullException(nameof(context));
+
             ITempDataDictionaryFactory factory = context.RequestServices.GetService(typeof(ITempDataDictionaryFactory)) as ITempDataDictionaryFactory;
             return factory.GetTempData(context);
         }
@@ -102,6 +111,9 @@ namespace SharedPluginFeatures
         /// the current users session.</returns>
         protected UserSession GetUserSession(in HttpContext context)
         {
+            if (context == null)
+                throw new ArgumentNullException(nameof(context));
+
             if (context.Items.ContainsKey(Constants.UserSession))
             {
                 return (UserSession)context.Items[Constants.UserSession];
@@ -198,6 +210,9 @@ namespace SharedPluginFeatures
         /// <returns>string</returns>
         protected string GetIpAddress(in HttpContext context)
         {
+            if (context == null)
+                throw new ArgumentNullException(nameof(context));
+
             foreach (string key in Constants.ForwardForHeader)
                 if (context.Request.Headers.ContainsKey(key))
                     return context.Request.Headers[key];
@@ -217,6 +232,9 @@ namespace SharedPluginFeatures
         /// <param name="ipAddressList">List of HashSet&lt;string&gt; which will be populated with the ip addresses from the current computer.</param>
         protected void GetLocalIpAddresses(in HashSet<string> ipAddressList)
         {
+            if (ipAddressList == null)
+                throw new ArgumentNullException(nameof(ipAddressList));
+
             ipAddressList.Clear();
 
             ipAddressList.Add("::1");
@@ -353,7 +371,8 @@ namespace SharedPluginFeatures
 
             CookieOptions options = new CookieOptions()
             {
-                HttpOnly = false
+                HttpOnly = false,
+                SameSite = SameSiteMode.Strict,
             };
 
             if (days > -1)

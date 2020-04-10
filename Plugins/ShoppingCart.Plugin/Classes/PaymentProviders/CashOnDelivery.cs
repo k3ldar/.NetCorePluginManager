@@ -34,6 +34,8 @@ using PluginManager.Abstractions;
 
 using Shared.Classes;
 
+#pragma warning disable CS1591
+
 namespace ShoppingCartPlugin.Classes.PaymentProviders
 {
     /// <summary>
@@ -98,3 +100,5 @@ namespace ShoppingCartPlugin.Classes.PaymentProviders
         #endregion IPaymentProvider Methods
     }
 }
+
+#pragma warning restore CS1591

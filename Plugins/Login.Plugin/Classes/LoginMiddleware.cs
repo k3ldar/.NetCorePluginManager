@@ -38,6 +38,8 @@ using Shared.Classes;
 
 using SharedPluginFeatures;
 
+#pragma warning disable CS1591
+
 namespace LoginPlugin
 {
     /// <summary>
@@ -125,3 +127,5 @@ namespace LoginPlugin
         #endregion Public Methods
     }
 }
+
+#pragma warning restore CS1591

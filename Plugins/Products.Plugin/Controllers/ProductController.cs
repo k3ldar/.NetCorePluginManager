@@ -40,39 +40,51 @@ using ProductPlugin.Models;
 
 using SharedPluginFeatures;
 
+#pragma warning disable CS1591
+
 namespace ProductPlugin.Controllers
 {
     /// <summary>
     /// Product controller displays standard product information on a website.
     /// </summary>
-    public class ProductController : BaseController
+    public partial class ProductController : BaseController
     {
         #region Private Members
 
         private readonly bool _hasShoppingCart;
         private readonly IProductProvider _productProvider;
-        private readonly uint _productsPerPage;
+        private readonly ProductControllerSettings _settings;
         private readonly IStockProvider _stockProvider;
+        private readonly IMemoryCache _memoryCache;
 
         #endregion Private Members
 
         #region Constructors
 
         public ProductController(IProductProvider productProvider, ISettingsProvider settingsProvider,
-            IPluginHelperService pluginHelper, IStockProvider stockProvider)
+            IPluginHelperService pluginHelper, IStockProvider stockProvider, IMemoryCache memoryCache)
         {
             if (settingsProvider == null)
                 throw new ArgumentNullException(nameof(settingsProvider));
 
-            ProductControllerSettings settings = settingsProvider.GetSettings<ProductControllerSettings>("Products");
+            if (pluginHelper == null)
+                throw new ArgumentNullException(nameof(pluginHelper));
+
+            _settings = settingsProvider.GetSettings<ProductControllerSettings>("Products");
 
             _productProvider = productProvider ?? throw new ArgumentNullException(nameof(productProvider));
             _stockProvider = stockProvider ?? throw new ArgumentNullException(nameof(stockProvider));
-            _productsPerPage = settings.ProductsPerPage;
+            _memoryCache = memoryCache ?? throw new ArgumentNullException(nameof(memoryCache));
             _hasShoppingCart = pluginHelper.PluginLoaded(SharedPluginFeatures.Constants.PluginNameShoppingCart, out _);
         }
 
         #endregion Constructors
+
+        #region Constants
+
+        public const string Name = "Product";
+
+        #endregion Constants
 
         #region Public Action Methods
 
@@ -85,6 +97,7 @@ namespace ProductPlugin.Controllers
         [HttpGet]
         [Route("/Products/{groupName}/{id?}/Page/{page}/")]
         [Route("/Products/{groupName}/{id?}/")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", Justification = "Forms part of route name")]
         public IActionResult Index(string groupName, int? id, int? page)
         {
             ProductGroup group = null;
@@ -98,7 +111,7 @@ namespace ProductPlugin.Controllers
             if (!page.HasValue || (page.HasValue && page.Value < 1))
                 page = 1;
 
-            List<Product> products = _productProvider.GetProducts(group, page.Value, (int)_productsPerPage);
+            List<Product> products = _productProvider.GetProducts(group, page.Value, (int)_settings.ProductsPerPage);
 
             ProductGroupModel model = GetProductGroupModel(group, products, page.Value);
 
@@ -107,6 +120,7 @@ namespace ProductPlugin.Controllers
 
         [HttpGet]
         [Route("/Product/{id}/{productName}/")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", Justification = "Forms part of route name")]
         public IActionResult Product(int id, string productName)
         {
             ProductModel model = GetProductModel(id);
@@ -120,6 +134,9 @@ namespace ProductPlugin.Controllers
         [HttpPost]
         public IActionResult AddToCart(AddToCartModel model)
         {
+            if (model == null)
+                throw new ArgumentNullException(nameof(model));
+
             Product product = _productProvider.GetProduct(model.Id);
             IShoppingCartProvider provider = (IShoppingCartProvider)HttpContext.RequestServices.GetService(typeof(IShoppingCartProvider));
             provider.AddToCart(GetUserSession(), GetCartSummary(), product, model.Quantity);
@@ -144,7 +161,7 @@ namespace ProductPlugin.Controllers
 
             List<ProductCategoryModel> modelCategories = new List<ProductCategoryModel>();
 
-            foreach (var item in _productProvider.ProductGroupsGet())
+            foreach (ProductGroup item in _productProvider.ProductGroupsGet())
             {
                 modelCategories.Add(new ProductCategoryModel(item.Id, item.Description, item.Url));
             }
@@ -162,7 +179,7 @@ namespace ProductPlugin.Controllers
             Result.Breadcrumbs.Add(new BreadcrumbItem(LanguageStrings.Home, "/", false));
             Result.Breadcrumbs.Add(new BreadcrumbItem(group.Description, $"/Products/{group.Id}/", false));
 
-            Result.Pagination = BuildPagination(products.Count, (int)_productsPerPage, page,
+            Result.Pagination = BuildPagination(products.Count, (int)_settings.ProductsPerPage, page,
                 $"/Products/{Result.RouteText(group.Description)}/{group.Id}/", "",
                 LanguageStrings.Previous, LanguageStrings.Next);
 
@@ -175,7 +192,7 @@ namespace ProductPlugin.Controllers
 
             List<ProductCategoryModel> modelCategories = new List<ProductCategoryModel>();
 
-            foreach (var item in _productProvider.ProductGroupsGet())
+            foreach (ProductGroup item in _productProvider.ProductGroupsGet())
             {
                 modelCategories.Add(new ProductCategoryModel(item.Id, item.Description, item.Url));
             }
@@ -217,3 +234,5 @@ namespace ProductPlugin.Controllers
         #endregion Private Methods
     }
 }
+
+#pragma warning restore CS1591

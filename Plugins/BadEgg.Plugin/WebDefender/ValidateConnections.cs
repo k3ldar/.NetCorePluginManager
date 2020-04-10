@@ -102,7 +102,7 @@ namespace BadEgg.Plugin.WebDefender
 
         private uint _connectionTimeoutMinutes { get; set; } = 5;
 
-        private HashSet<ConnectionReportArgs> _reports = new HashSet<ConnectionReportArgs>();
+        private HashSet<ConnectionReportEventArgs> _reports = new HashSet<ConnectionReportEventArgs>();
 
         private readonly object _reportsLock = new object();
 
@@ -222,7 +222,7 @@ namespace BadEgg.Plugin.WebDefender
 
             using (TimedLock lck = TimedLock.Lock(_reportsLock))
             {
-                foreach (ConnectionReportArgs item in _reports)
+                foreach (ConnectionReportEventArgs item in _reports)
                 {
                     RaiseReportEvent(item.IPAddress, item.QueryString, item.Result);
                 }
@@ -428,7 +428,7 @@ namespace BadEgg.Plugin.WebDefender
         {
             if (OnReportConnection != null)
             {
-                OnReportConnection(this, new ConnectionReportArgs(ipAddress, queryString, validation));
+                OnReportConnection(this, new ConnectionReportEventArgs(ipAddress, queryString, validation));
             }
         }
 
@@ -439,7 +439,7 @@ namespace BadEgg.Plugin.WebDefender
         private void RaiseConnectionAdd(in IpConnectionInfo connection)
         {
             if (ConnectionAdd != null)
-                ConnectionAdd(this, new ConnectionArgs(connection.IPAddress));
+                ConnectionAdd(this, new ConnectionEventArgs(connection.IPAddress));
         }
 
         /// <summary>
@@ -449,7 +449,7 @@ namespace BadEgg.Plugin.WebDefender
         private void RaiseConnectionRemoved(in IpConnectionInfo connection)
         {
             if (ConnectionRemove != null)
-                ConnectionRemove(this, new ConnectionRemoveArgs(connection.IPAddress, 
+                ConnectionRemove(this, new ConnectionRemoveEventArgs(connection.IPAddress, 
                     connection.HitsPerMinute(), connection.Requests, 
                     connection.Created - connection.LastEntry));
         }
@@ -464,7 +464,7 @@ namespace BadEgg.Plugin.WebDefender
         /// <returns>True if the IP Address should be black listed and added to banned list, otherwise false</returns>
         private bool RaiseOnBanIPAddress(in string ipAddress, in double hits, in ulong requests, in TimeSpan span)
         {
-            RequestBanArgs args = new RequestBanArgs(ipAddress, hits, requests, span);
+            RequestBanEventArgs args = new RequestBanEventArgs(ipAddress, hits, requests, span);
 
             if (OnBanIPAddress != null)
                 OnBanIPAddress(null, args);
@@ -637,7 +637,7 @@ namespace BadEgg.Plugin.WebDefender
         {
             using (TimedLock lck = TimedLock.Lock(_reportsLock))
             {
-                _reports.Add(new ConnectionReportArgs(ipAddress, queryString, validation));
+                _reports.Add(new ConnectionReportEventArgs(ipAddress, queryString, validation));
             }
         }
 

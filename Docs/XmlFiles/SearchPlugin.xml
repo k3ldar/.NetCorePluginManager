@@ -1,0 +1,257 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>SearchPlugin</name>
+    </assembly>
+    <members>
+        <member name="T:SearchPlugin.SearchControllerSettings">
+            <summary>
+            Settings that determine how the Search.Plugin module is configured and used.
+            </summary>
+        </member>
+        <member name="P:SearchPlugin.SearchControllerSettings.CaptchaShowFailCount">
+            <summary>
+            Maximum number of attempts to search before the user is prevented from logging in for several minutes.
+            </summary>
+            <value>int</value>
+        </member>
+        <member name="P:SearchPlugin.SearchControllerSettings.CaptchaWordLength">
+            <summary>
+            Length of the Captcha word.
+            
+            Default: 7
+            Minimum: 6
+            Maximum: 12
+            </summary>
+        </member>
+        <member name="P:SearchPlugin.SearchControllerSettings.CacheUseSession">
+            <summary>
+            Determines whether the ip address or unique Net Core session id is used to cache data.
+            
+            This is mainly useful in a debug environment and should be set to true.
+            </summary>
+            <value>bool</value>
+        </member>
+        <member name="P:SearchPlugin.SearchControllerSettings.ShowRememberMe">
+            <summary>
+            Determines whether the Remember Me option is shown or not.
+            </summary>
+            <value>bool</value>
+        </member>
+        <member name="P:SearchPlugin.SearchControllerSettings.RememberMeCookieName">
+            <summary>
+            Remember me cookie name.
+            
+            Must be between 6 and 20 characters long.
+            
+            Default: RememberMe
+            </summary>
+        </member>
+        <member name="P:SearchPlugin.SearchControllerSettings.EncryptionKey">
+            <summary>
+            Encryption key used to encrypt cookie values.
+            
+            Must be between 20 and 60 characters long.
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:SearchPlugin.SearchControllerSettings.ChangePasswordUrl">
+            <summary>
+            Url that the user can be redirected to, in order to change their password.
+            
+            This must be either a relative or absolute Uri.
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:SearchPlugin.SearchControllerSettings.AuthenticationScheme">
+            <summary>
+            The name of the authentication scheme
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:SearchPlugin.SearchControllerSettings.MinimumKeywordSearchLength">
+            <summary>
+            Minimum length of keyword search string
+            </summary>
+        </member>
+        <member name="P:SearchPlugin.SearchControllerSettings.HighlightQuickSearchTerms">
+            <summary>
+            Indicates that the keyword search result should have the search keyword highlighted in html
+            </summary>
+        </member>
+        <member name="P:SearchPlugin.SearchControllerSettings.ItemsPerPage">
+            <summary>
+            Total number of search results per page
+            </summary>
+        </member>
+        <member name="T:SearchPlugin.Classes.Search.DefaultSearchProvider">
+            <summary>
+            Default search provider to be used if no other search provider is registered
+            </summary>
+        </member>
+        <member name="M:SearchPlugin.Classes.Search.DefaultSearchProvider.#ctor(PluginManager.Abstractions.IPluginClassesService)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="pluginClassesService">IPluginClassesService instance</param>
+        </member>
+        <member name="M:SearchPlugin.Classes.Search.DefaultSearchProvider.KeywordSearch(Middleware.Search.KeywordSearchOptions@)">
+            <summary>
+            Performs a keyword search
+            </summary>
+            <param name="keywordSearchOptions"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SearchPlugin.Classes.Search.DefaultSearchProvider.SearchResponseTypes(System.Boolean@)">
+            <summary>
+            Retrieves all available search response types from all registered search providers
+            </summary>
+            <param name="quickSearch">Indicates whether its the providers from a quick search or normal search.</param>
+            <returns>List&lt;string&gt;</returns>
+        </member>
+        <member name="M:SearchPlugin.Classes.Search.DefaultSearchProvider.AdvancedSearch">
+            <summary>
+            Retrieves a list of strings from all search providers that can optionally be used by the UI 
+            to provide a paged or tabbed advance search option.
+            </summary>
+            <returns>Dictionary&lt;string, AdvancedSearchOptions&gt;</returns>
+        </member>
+        <member name="M:SearchPlugin.Classes.Search.DefaultSearchProvider.GetSearchResults(System.String@)">
+            <summary>
+            Retrieve existing search results if they exist.
+            </summary>
+            <param name="searchId">Name of search</param>
+            <returns>List&lt;SearchResponseItem&gt;</returns>
+        </member>
+        <member name="T:SearchPlugin.Controllers.SearchController">
+            <summary>
+            Search controller, allows users to search using a standard interface implemented by ISearchProvider interface.
+            </summary>
+        </member>
+        <member name="T:SearchPlugin.Models.QuickSearchModel">
+            <summary>
+            Search model passed to search controller for ajax calls
+            </summary>
+        </member>
+        <member name="P:SearchPlugin.Models.QuickSearchModel.keywords">
+            <summary>
+            Keywords to be searched
+            </summary>
+        </member>
+        <member name="P:SearchPlugin.Models.QuickSearchModel.searchid">
+            <summary>
+            Unique search id used to verify the call
+            </summary>
+        </member>
+        <member name="T:SearchPlugin.Models.QuickSearchViewModel">
+            <summary>
+            Quick search view model, designed for quickly searching all registered areas
+            </summary>
+        </member>
+        <member name="M:SearchPlugin.Models.QuickSearchViewModel.#ctor">
+            <summary>
+            Constructor for quick searching with search text 
+            </summary>
+        </member>
+        <member name="P:SearchPlugin.Models.QuickSearchViewModel.SearchText">
+            <summary>
+            Text to be searched for
+            </summary>
+        </member>
+        <member name="P:SearchPlugin.Models.QuickSearchViewModel.SearchId">
+            <summary>
+            Id of the current search, this will be used when verifying that the call is legit
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="T:SearchPlugin.Models.SearchViewModel">
+            <summary>
+            View model for searching all ISearchProvider 
+            </summary>
+        </member>
+        <member name="P:SearchPlugin.Models.SearchViewModel.SearchText">
+            <summary>
+            Text to be searched for
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:SearchPlugin.Models.SearchViewModel.SearchId">
+            <summary>
+            Id of the current search, this will be used when verifying that the call is legit
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:SearchPlugin.Models.SearchViewModel.AdvancedSearch">
+            <summary>
+            Available search names for display on search page
+            </summary>
+            <value>Dictionary&lt;string, string&gt;</value>
+        </member>
+        <member name="P:SearchPlugin.Models.SearchViewModel.SearchName">
+            <summary>
+            Retrieves the url for the active search name if it exists.
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:SearchPlugin.Models.SearchViewModel.SearchOption">
+            <summary>
+            Retrieves the url for the active search option, if it exists.
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:SearchPlugin.Models.SearchViewModel.ControllerName">
+            <summary>
+            Retrieves the name of the controller for the active search option, if it exists.
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:SearchPlugin.Models.SearchViewModel.ActionName">
+            <summary>
+            Retrieves the name of the action for the active search option, if it exists.
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:SearchPlugin.Models.SearchViewModel.StyleSheet">
+            <summary>
+            Retrieves an optional style sheet that can be used by the search provider.
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:SearchPlugin.Models.SearchViewModel.SearchResults">
+            <summary>
+            Available search results from users search
+            </summary>
+            <value>List&lt;<see cref="T:Middleware.Search.SearchResponseItem"/> SearchResponseItem&gt;</value>
+        </member>
+        <member name="P:SearchPlugin.Models.SearchViewModel.Page">
+            <summary>
+            Current page of search items
+            </summary>
+            <value>int</value>
+        </member>
+        <member name="P:SearchPlugin.Models.SearchViewModel.TotalPages">
+            <summary>
+            Total number of pages for this search
+            </summary>
+            <value>int</value>
+        </member>
+        <member name="P:SearchPlugin.Models.SearchViewModel.Pagination">
+            <summary>
+            Contains the html used for paging search results.
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:SearchPlugin.Models.SearchViewModel.ActiveTab">
+            <summary>
+            Name of the active tab for advanced searching.
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="T:SearchPlugin.PluginInitialisation">
+            <summary>
+            Implements IPlugin and IPluginVersion which allows the Search.Plugin module to be
+            loaded as a plugin module
+            </summary>
+        </member>
+    </members>
+</doc>

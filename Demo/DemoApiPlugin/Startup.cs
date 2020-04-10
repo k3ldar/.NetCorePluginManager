@@ -28,7 +28,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-#pragma warning disable IDE0060
+#pragma warning disable IDE0060, CA1801
 
 namespace DemoApiPlugin
 {
@@ -54,4 +54,4 @@ namespace DemoApiPlugin
     }
 }
 
-#pragma warning restore IDE0060
+#pragma warning restore IDE0060, CA1801

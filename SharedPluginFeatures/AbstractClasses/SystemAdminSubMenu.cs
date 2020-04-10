@@ -34,6 +34,7 @@ namespace SharedPluginFeatures
     /// 
     /// Typical useage is to display timing statistics by implementing Timings class, through to showing custom data or even data shown within a map, as UserSessionMiddleware.Plugin does.
     /// </summary>
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1036:Override methods on comparable types", Justification = "Not required for how this class is implemented!")]
     public abstract class SystemAdminSubMenu : BaseCoreClass, IComparable<SystemAdminSubMenu>
     {
         #region Public Abstract Methods

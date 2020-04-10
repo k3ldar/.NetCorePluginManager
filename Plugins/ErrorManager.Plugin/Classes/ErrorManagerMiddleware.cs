@@ -67,6 +67,9 @@ namespace ErrorManager.Plugin
         public ErrorManagerMiddleware(RequestDelegate next, IErrorManager errorManager,
             ISettingsProvider settingsProvider)
         {
+            if (settingsProvider == null)
+                throw new ArgumentNullException(nameof(settingsProvider));
+
             _next = next ?? throw new ArgumentNullException(nameof(next));
             _errorManager = errorManager ?? throw new ArgumentNullException(nameof(errorManager));
             _errorThreadManager = new ErrorThreadManager(errorManager);
@@ -121,7 +124,7 @@ namespace ErrorManager.Plugin
             }
             catch (Exception exception)
             {
-                using (StopWatchTimer stopWatch = StopWatchTimer.Initialise(_timingsExceptions))
+                using ( StopWatchTimer stopWatch = StopWatchTimer.Initialise(_timingsExceptions))
                 {
                     if (ProcessException(context, exception))
                     {
@@ -130,7 +133,7 @@ namespace ErrorManager.Plugin
                     else
                     {
                         // this is only invoked if the error manager is the problem
-                        throw;
+                         throw;
                     }
                 }
             }

@@ -52,6 +52,7 @@ namespace ErrorManager.Plugin
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1801:ReviewUnusedParameters", MessageId = "Reviewed and ok in this context")]
         public void Configure(IApplicationBuilder app,
 #if NET_CORE_3_X
             IWebHostEnvironment env)

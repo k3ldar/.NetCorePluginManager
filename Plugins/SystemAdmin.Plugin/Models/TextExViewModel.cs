@@ -29,6 +29,8 @@ using PluginManager.Abstractions;
 
 using SharedPluginFeatures;
 
+#pragma warning disable CS1591
+
 namespace SystemAdmin.Plugin.Models
 {
     public sealed class TextExViewModel : BaseModel
@@ -41,6 +43,7 @@ namespace SystemAdmin.Plugin.Models
 
         #region Constructors
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1303:Do not pass literals as localized parameters", Justification = "OK in this context")]
         public TextExViewModel(in BaseModelData modelData,
             in ISettingsProvider settingsProvider, in SystemAdminSubMenu subMenu)
             : base(modelData)
@@ -71,3 +74,5 @@ namespace SystemAdmin.Plugin.Models
         #endregion Public Properties
     }
 }
+
+#pragma warning restore CS1591

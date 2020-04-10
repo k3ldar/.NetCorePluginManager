@@ -28,7 +28,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-#pragma warning disable CS1591
+#pragma warning disable CS1591, CA1801
 
 namespace DocumentationPlugin
 {
@@ -55,12 +55,12 @@ namespace DocumentationPlugin
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app,
-#if NET_CORE_3_X
-            IWebHostEnvironment env)
-#else
-            IHostingEnvironment env)
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1801:ReviewUnusedParameters", MessageId = "Reviewed and ok in this context")]
+        public void Configure(
+#if !NET_CORE_3_X
+            IApplicationBuilder app, IHostingEnvironment env
 #endif
+            )
         {
 
 #if !NET_CORE_3_X
@@ -75,4 +75,4 @@ namespace DocumentationPlugin
     }
 }
 
-#pragma warning restore CS1591
+#pragma warning restore CS1591, CA1801

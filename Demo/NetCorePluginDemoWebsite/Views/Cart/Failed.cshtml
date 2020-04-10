@@ -1,13 +1,14 @@
 ﻿@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
 @{
-    ViewData["Title"] = Localizer[nameof(Languages.LanguageStrings.PaymentFailed)];
+ViewData["Title"] = @Localizer[nameof(Languages.LanguageStrings.PaymentFailed)];
 }
-
-
-<link rel="stylesheet" href="~/css/Cart.css" asp-append-version="true" />
-
-<h2>@Localizer[nameof(Languages.LanguageStrings.PaymentFailed)]</h2>
-
 <div class="row">
-    <p>@Localizer[nameof(Languages.LanguageStrings.PaymentFailedDescription)]</p>
+<div class="col">
+<h1>@Localizer[nameof(Languages.LanguageStrings.PaymentFailed)]</h1>
+</div>
+</div>
+<div class="row">
+<div class="col">
+<p>@Localizer[nameof(Languages.LanguageStrings.PaymentFailedDescription)]</p>
+</div>
 </div>

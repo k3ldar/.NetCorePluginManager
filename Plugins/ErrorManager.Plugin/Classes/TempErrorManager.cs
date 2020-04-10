@@ -27,6 +27,7 @@ using SharedPluginFeatures;
 
 namespace ErrorManager.Plugin.Classes
 {
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1812:AvoidUninstantiatedInternalClasses", Justification = "Used internally as part of IoC")]
     internal class TempErrorManager : IErrorManager
     {
         public void ErrorRaised(in ErrorInformation errorInformation)

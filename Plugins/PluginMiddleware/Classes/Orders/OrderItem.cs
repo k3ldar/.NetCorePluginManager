@@ -27,6 +27,8 @@ using System;
 
 using static Shared.Utilities;
 
+#pragma warning disable IDE0047
+
 namespace Middleware.Accounts.Orders
 {
     /// <summary>
@@ -180,6 +182,7 @@ namespace Middleware.Accounts.Orders
         /// Total discount for the item within the Order.
         /// </summary>
         /// <value>decimal</value>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1303:Do not pass literals as localized parameters", Justification = "Intended for developers not end users")]
         public decimal TotalDiscount
         {
             get
@@ -187,26 +190,19 @@ namespace Middleware.Accounts.Orders
                 if (Discount == 0)
                     return Discount;
 
-                switch (DiscountType)
+                return DiscountType switch
                 {
-                    case DiscountType.None:
-                        return 0;
-
-                    case DiscountType.PercentageSubTotal:
-                        return BankersRounding((SubTotal / 100) * Discount, Order.Culture.NumberFormat.NumberDecimalDigits);
-
-                    case DiscountType.PercentageTotal:
-                        return BankersRounding(((SubTotal + TotalTax) / 100) * Discount, Order.Culture.NumberFormat.NumberDecimalDigits);
-
-                    case DiscountType.Value:
-                        return BankersRounding(Discount, Order.Culture.NumberFormat.NumberDecimalDigits);
-
-                    default:
-                        throw new InvalidOperationException("Invalid Discount Type");
-                }
+                    DiscountType.None => 0,
+                    DiscountType.PercentageSubTotal => BankersRounding((SubTotal / 100) * Discount, Order.Culture.NumberFormat.NumberDecimalDigits),
+                    DiscountType.PercentageTotal => BankersRounding(((SubTotal + TotalTax) / 100) * Discount, Order.Culture.NumberFormat.NumberDecimalDigits),
+                    DiscountType.Value => BankersRounding(Discount, Order.Culture.NumberFormat.NumberDecimalDigits),
+                    _ => throw new InvalidOperationException("Invalid Discount Type"),
+                };
             }
         }
 
         #endregion Properties
     }
 }
+
+#pragma warning restore IDE0047

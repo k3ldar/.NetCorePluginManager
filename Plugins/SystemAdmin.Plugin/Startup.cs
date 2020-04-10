@@ -26,6 +26,8 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
+#pragma warning disable CA1801, IDE0060, CS1591
+
 namespace SystemAdmin.Plugin
 {
     public class Startup
@@ -37,15 +39,19 @@ namespace SystemAdmin.Plugin
 
         public IConfiguration Configuration { get; }
 
+
         /// <summary>
         /// This method gets called by the runtime. Use this method to add services to the container.
         ///  
         /// This method will not be used in a live environment as it will be inserted as a plugin
         /// </summary>
         /// <param name="services"></param>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1822:Mark members as static", Justification = "only used for debug")]
         public void ConfigureServices(IServiceCollection services)
         {
 
         }
     }
 }
+
+#pragma warning restore CA1801, IDE0060, CS1591

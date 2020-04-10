@@ -36,12 +36,12 @@ using SharedPluginFeatures;
 
 namespace SieraDeltaGeoIp.Plugin
 {
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1812:AvoidUninstantiatedInternalClasses", Justification = "Used internally as part of IoC")]
     internal class GeoIpService : BaseCoreClass, IGeoIpDataService
     {
         #region Private Members
 
         private readonly CacheManager _geoIpCache;
-        private readonly object _lockObject = new object();
         private readonly GeoIpPluginSettings _geoIpSettings;
         private readonly IGeoIpProvider _geoIpProvider;
         private readonly INotificationService _notificationService;
@@ -76,24 +76,13 @@ namespace SieraDeltaGeoIp.Plugin
 
             ThreadManager dataThread = null;
 
-            switch (_geoIpSettings.GeoIpProvider)
+            dataThread = _geoIpSettings.GeoIpProvider switch
             {
-                case Enums.GeoIpProvider.Firebird:
-                    dataThread = new FirebirdDataProvider(_geoIpSettings, _tempIpCity);
-                    break;
-
-                case Enums.GeoIpProvider.MySql:
-                    dataThread = new MySqlProvider(_geoIpSettings, _tempIpCity);
-                    break;
-
-                case Enums.GeoIpProvider.MSSql:
-                    dataThread = new MSSQLProvider(_geoIpSettings, _tempIpCity);
-                    break;
-
-                default:
-                    throw new InvalidOperationException();
-
-            }
+                Enums.GeoIpProvider.Firebird => new FirebirdDataProvider(_geoIpSettings, _tempIpCity),
+                Enums.GeoIpProvider.MySql => new MySqlProvider(_geoIpSettings, _tempIpCity),
+                Enums.GeoIpProvider.MSSql => new MSSQLProvider(_geoIpSettings, _tempIpCity),
+                _ => throw new InvalidOperationException(),
+            };
 
             _geoIpProvider = dataThread as IGeoIpProvider;
 
@@ -111,6 +100,7 @@ namespace SieraDeltaGeoIp.Plugin
 
         #region Public Methods
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1031:Do not catch general exception types", Justification = "it's ok here, nothing to see, move along")]
         public bool GetIPAddressDetails(in string ipAddress, out string countryCode, out string region,
             out string cityName, out decimal latitude, out decimal longitude, out long uniqueID)
         {
@@ -144,7 +134,7 @@ namespace SieraDeltaGeoIp.Plugin
                         if (provider != null)
                         {
                             memoryIp.IsComplete = provider.GetIpAddressDetails(ipAddress, out countryCode, out region,
-                                out cityName, out latitude, out longitude, out uniqueID, out long ipFrom, out long ipTo);
+                                out cityName, out latitude, out longitude, out uniqueID, out long _, out long _);
                         }
 
                         memoryIp.CountryCode = countryCode;
@@ -153,12 +143,12 @@ namespace SieraDeltaGeoIp.Plugin
                         memoryIp.Latitude = latitude;
                         memoryIp.Region = region;
 
-                        return (true);
+                        return true;
                     }
                 }
 
-                return (GetCachedIPAddressDetails(ipAddress, out countryCode, out region,
-                    out cityName, out latitude, out longitude, out uniqueID));
+                return GetCachedIPAddressDetails(ipAddress, out countryCode, out region,
+                    out cityName, out latitude, out longitude, out uniqueID);
             }
             catch (Exception err)
             {
@@ -198,14 +188,14 @@ namespace SieraDeltaGeoIp.Plugin
                     {
                         _geoIpCache.Add(ipAddress, new CacheItem(ipAddress, new IpCity(uniqueID, countryCode, region, cityName,
                             latitude, longitude, ipFrom, ipTo)));
-                        return (true);
+                        return true;
                     }
                 }
             }
 
             // if not found in database
             if (geoCacheItem == null)
-                return (false);
+                return false;
 
             IpCity city = (IpCity)geoCacheItem.Value;
             countryCode = city.CountryCode;
@@ -215,7 +205,7 @@ namespace SieraDeltaGeoIp.Plugin
             longitude = city.Longitude;
             uniqueID = city.IpUniqueID;
 
-            return (true);
+            return true;
         }
 
         private void Thread_ThreadFinishing(object sender, Shared.ThreadManagerEventArgs e)
@@ -237,7 +227,7 @@ namespace SieraDeltaGeoIp.Plugin
 
             long min = 0;
             long max = _geoIpCityData.Length - 1;
-            long mid = 0;
+            long mid;
 
             while (min <= max)
             {
@@ -245,7 +235,7 @@ namespace SieraDeltaGeoIp.Plugin
 
                 if (ip <= _geoIpCityData[mid].IpEnd && ip >= _geoIpCityData[mid].IpStart)
                 {
-                    return (_geoIpCityData[mid]);
+                    return _geoIpCityData[mid];
                 }
 
                 if (ip < _geoIpCityData[mid].IpStart)
@@ -260,7 +250,7 @@ namespace SieraDeltaGeoIp.Plugin
                 }
             }
 
-            return (null);
+            return null;
         }
 
         #endregion Private Methods

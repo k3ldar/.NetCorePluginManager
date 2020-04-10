@@ -61,7 +61,10 @@ namespace CacheControl.Plugin
 
         public CacheControlMiddleware(RequestDelegate next, ISettingsProvider settingsProvider)
         {
-            _next = next;
+            if (settingsProvider == null)
+                throw new ArgumentNullException(nameof(settingsProvider));
+
+            _next = next ?? throw new ArgumentNullException(nameof(next));
             _routePaths = new Dictionary<string, CacheControlRoute>();
             _ignoredRoutes = new HashSet<string>();
 
@@ -74,6 +77,9 @@ namespace CacheControl.Plugin
 
         public async Task Invoke(HttpContext context)
         {
+            if (context == null)
+                throw new ArgumentNullException(nameof(context));
+
             try
             {
                 if (_disabled)

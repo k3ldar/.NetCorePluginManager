@@ -65,7 +65,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
             services.AddSingleton<IProductProvider, MockProductProvider>();
             services.AddSingleton<IShoppingCartProvider, MockShoppingCartPluginProvider>();
             services.AddSingleton<IShoppingCartService, MockShoppingCartPluginProvider>();
-            services.AddSingleton<IErrorManager, ErrorManager>();
+            services.AddSingleton<IErrorManager, ErrorManagerProvider>();
             services.AddSingleton<ISharedPluginHelper, SharedPluginHelper>();
             services.AddSingleton<IHelpdeskProvider, MockHelpdeskProvider>();
             services.AddSingleton<ISeoProvider, MockSeoProvider>();

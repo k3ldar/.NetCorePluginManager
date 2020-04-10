@@ -184,6 +184,23 @@ namespace Middleware.Blog
 
         #endregion Properties
 
+        #region Overridden Methods
+
+        /// <summary>
+        /// Determines whether objects are equal or not
+        /// </summary>
+        /// <param name="obj">Object that is being compared</param>
+        /// <returns>bool</returns>
+        public override Boolean Equals(Object obj)
+        {
+            if (!(obj is BlogItem item))
+                return false;
+
+            return item.Id == Id;
+        }
+
+        #endregion Overridden Methods
+
         #region Public Methods
 
         /// <summary>
@@ -195,6 +212,7 @@ namespace Middleware.Blog
         /// <param name="published">Indicates whether the blog is published.</param>
         /// <param name="publishDateTime">Date and time the blog can be published.</param>
         /// <param name="tags">Blog tags.</param>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1303:Do not pass literals as localized parameters", Justification = "Intended for developers not end users")]
         public void UpdateBlog(in string title, in string excerpt, in string blogText,
             in bool published, in DateTime publishDateTime, in List<string> tags)
         {
@@ -211,7 +229,7 @@ namespace Middleware.Blog
                 throw new ArgumentNullException(nameof(tags));
 
             if (tags.Count == 0)
-                throw new ArgumentException(nameof(tags));
+                throw new ArgumentException("Count can not be zero", nameof(tags));
 
             LastModified = DateTime.Now;
             Title = title;

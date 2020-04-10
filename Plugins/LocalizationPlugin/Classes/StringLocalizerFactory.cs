@@ -31,6 +31,7 @@ using Shared.Classes;
 
 namespace Localization.Plugin
 {
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1812:AvoidUninstantiatedInternalClasses", Justification = "Used internally as part of IoC")]
     internal sealed class StringLocalizerFactory : IStringLocalizerFactory
     {
         #region Private Members

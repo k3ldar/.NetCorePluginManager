@@ -530,6 +530,41 @@
             </summary>
             <param name="disposing"></param>
         </member>
+        <member name="T:SharedPluginFeatures.CheckedViewItemModel">
+            <summary>
+            Model for views where check boxes can be used.
+            </summary>
+        </member>
+        <member name="M:SharedPluginFeatures.CheckedViewItemModel.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="M:SharedPluginFeatures.CheckedViewItemModel.#ctor(System.String@)">
+            <summary>
+            Constructor for creating an item with a name, selected will default to false
+            </summary>
+            <param name="name">Name of the checked box item.</param>
+        </member>
+        <member name="M:SharedPluginFeatures.CheckedViewItemModel.#ctor(System.String@,System.Boolean@)">
+            <summary>
+            Constructor for creating an item with a specific name and selected value
+            </summary>
+            <param name="name">Name of the checked box item.</param>
+            <param name="selected">Indicates whether the value is selected or not</param>
+        </member>
+        <member name="P:SharedPluginFeatures.CheckedViewItemModel.Name">
+            <summary>
+            Name of the checked box item.
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:SharedPluginFeatures.CheckedViewItemModel.Selected">
+            <summary>
+            Indicates whether the item is selected or not.
+            </summary>
+            <value>bool</value>
+        </member>
         <member name="T:SharedPluginFeatures.ErrorInformation">
             <summary>
             Used extensively by ErrorManager.Plugin module to store information about errors that have been generated within the system.
@@ -579,18 +614,18 @@
             Used when the same exception is subsequently raised.
             </summary>
         </member>
-        <member name="T:SharedPluginFeatures.ConnectionArgs">
+        <member name="T:SharedPluginFeatures.ConnectionEventArgs">
             <summary>
             Connection arguments for DefenderConnectionAddEventHandler
             </summary>
         </member>
-        <member name="M:SharedPluginFeatures.ConnectionArgs.#ctor(System.String@)">
+        <member name="M:SharedPluginFeatures.ConnectionEventArgs.#ctor(System.String@)">
             <summary>
             Constructor
             </summary>
             <param name="ipAddress">The Ip address being used by the connection.</param>
         </member>
-        <member name="P:SharedPluginFeatures.ConnectionArgs.IPAddress">
+        <member name="P:SharedPluginFeatures.ConnectionEventArgs.IPAddress">
             <summary>
             IP Address for connection
             </summary>
@@ -602,12 +637,12 @@
             <param name="sender">The class that raised the event.</param>
             <param name="e">Event parameters.</param>
         </member>
-        <member name="T:SharedPluginFeatures.ConnectionRemoveArgs">
+        <member name="T:SharedPluginFeatures.ConnectionRemoveEventArgs">
             <summary>
             Connection info event arguments
             </summary>
         </member>
-        <member name="M:SharedPluginFeatures.ConnectionRemoveArgs.#ctor(System.String@,System.Double@,System.UInt64@,System.TimeSpan@)">
+        <member name="M:SharedPluginFeatures.ConnectionRemoveEventArgs.#ctor(System.String@,System.Double@,System.UInt64@,System.TimeSpan@)">
             <summary>
             Constructor
             </summary>
@@ -616,19 +651,19 @@
             <param name="requests">Total number of reuests.</param>
             <param name="duration">Total duration the Ip address remained active.</param>
         </member>
-        <member name="P:SharedPluginFeatures.ConnectionRemoveArgs.Hits">
+        <member name="P:SharedPluginFeatures.ConnectionRemoveEventArgs.Hits">
             <summary>
             Average hits per minute.
             </summary>
             <value>double</value>
         </member>
-        <member name="P:SharedPluginFeatures.ConnectionRemoveArgs.Requests">
+        <member name="P:SharedPluginFeatures.ConnectionRemoveEventArgs.Requests">
             <summary>
             Total number of reuests.
             </summary>
             <value>ulong</value>
         </member>
-        <member name="P:SharedPluginFeatures.ConnectionRemoveArgs.Duration">
+        <member name="P:SharedPluginFeatures.ConnectionRemoveEventArgs.Duration">
             <summary>
             Total duration the Ip address remained active.
             </summary>
@@ -641,12 +676,12 @@
             <param name="sender">The class that raised the event.</param>
             <param name="e">Event parameters.</param>
         </member>
-        <member name="T:SharedPluginFeatures.RequestBanArgs">
+        <member name="T:SharedPluginFeatures.RequestBanEventArgs">
             <summary>
             Arguments used in DefenderRequestBan event in order to notify that an Ip Address should be banned.
             </summary>
         </member>
-        <member name="M:SharedPluginFeatures.RequestBanArgs.#ctor(System.String@,System.Double@,System.UInt64@,System.TimeSpan@)">
+        <member name="M:SharedPluginFeatures.RequestBanEventArgs.#ctor(System.String@,System.Double@,System.UInt64@,System.TimeSpan@)">
             <summary>
             Constructor
             </summary>
@@ -655,7 +690,7 @@
             <param name="requests">Total number of requests</param>
             <param name="duration">Total duration the Ip address remained active.</param>
         </member>
-        <member name="P:SharedPluginFeatures.RequestBanArgs.AddToBlackList">
+        <member name="P:SharedPluginFeatures.RequestBanEventArgs.AddToBlackList">
             <summary>
             Determines whether the ip address should be black listed or note.
             </summary>
@@ -668,12 +703,12 @@
             <param name="sender">The class that raised the event.</param>
             <param name="e">Event parameters.</param>
         </member>
-        <member name="T:SharedPluginFeatures.ConnectionReportArgs">
+        <member name="T:SharedPluginFeatures.ConnectionReportEventArgs">
             <summary>
             Arguments used to report a connection.
             </summary>
         </member>
-        <member name="M:SharedPluginFeatures.ConnectionReportArgs.#ctor(System.String@,System.String@,SharedPluginFeatures.Enums.ValidateRequestResult@)">
+        <member name="M:SharedPluginFeatures.ConnectionReportEventArgs.#ctor(System.String@,System.String@,SharedPluginFeatures.Enums.ValidateRequestResult@)">
             <summary>
             Constructor
             </summary>
@@ -681,12 +716,12 @@
             <param name="queryString">Query or Form values used when validating the request.</param>
             <param name="validation">Result of validation.</param>
         </member>
-        <member name="P:SharedPluginFeatures.ConnectionReportArgs.QueryString">
+        <member name="P:SharedPluginFeatures.ConnectionReportEventArgs.QueryString">
             <summary>
             Query and form data associated with the event.
             </summary>
         </member>
-        <member name="P:SharedPluginFeatures.ConnectionReportArgs.Result">
+        <member name="P:SharedPluginFeatures.ConnectionReportEventArgs.Result">
             <summary>
             Result determined when validating a request.
             </summary>
@@ -866,7 +901,7 @@
         </member>
         <member name="T:SharedPluginFeatures.StopWatchTimer">
             <summary>
-            Stopwatch Timer is used to automatically collect and generate timing data accurate to milliseconds.
+            Stopwatch Timer is used to automatically collect and generate timing data accurate to 1000th of a millisecond.
             </summary>
         </member>
         <member name="M:SharedPluginFeatures.StopWatchTimer.#ctor(SharedPluginFeatures.Timings@)">
@@ -1419,6 +1454,21 @@
             Name of claim identity for website
             </summary>
         </member>
+        <member name="F:SharedPluginFeatures.Constants.MinificationThread">
+            <summary>
+            Name of the minification thread.
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Constants.NotificationEventMinifyFiles">
+            <summary>
+            Name of the event used to find extra files that need to be minimised.
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Constants.MaximumProducts">
+            <summary>
+            Maximum number of products that can be returned during a search.
+            </summary>
+        </member>
         <member name="T:SharedPluginFeatures.Enums">
             <summary>
             Standard Enum values shared across all plugin modules.
@@ -1599,6 +1649,86 @@
         <member name="F:SharedPluginFeatures.SitemapChangeFrequency.Never">
             <summary>
             The item is archived and will never be updated again
+            </summary>
+        </member>
+        <member name="T:SharedPluginFeatures.MinificationFileType">
+            <summary>
+            Type of file to be minified
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.MinificationFileType.Unknown">
+            <summary>
+            Unknown file type, not known to the minification process.
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.MinificationFileType.Razor">
+            <summary>
+            The type of file is a Razor file
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.MinificationFileType.Html">
+            <summary>
+            The type of file is a HTML file.
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.MinificationFileType.Htm">
+            <summary>
+            The type of file is a HTM file.
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.MinificationFileType.Js">
+            <summary>
+            The type of file is a JavaScript file.
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.MinificationFileType.CSS">
+            <summary>
+            The type of file is a CSS file.
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.MinificationFileType.Less">
+            <summary>
+            The type of file is a Less file.
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.MinificationFileType.ImageGif">
+            <summary>
+            The type of file is a Gif image.
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.MinificationFileType.ImageJpeg">
+            <summary>
+            The type of file is a Jpeg file.
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.MinificationFileType.ImagePng">
+            <summary>
+            The type of file is a PNG file.
+            </summary>
+        </member>
+        <member name="T:SharedPluginFeatures.MinificationPreserveBlock">
+            <summary>
+            Block of data to be preserved during minification
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.MinificationPreserveBlock.Undefined">
+            <summary>
+            Undefined preserve block
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.MinificationPreserveBlock.HtmlPreBlock">
+            <summary>
+            The contents represent an Html &lt;pre&gt; block
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.MinificationPreserveBlock.RazorLine">
+            <summary>
+            The contents represent Razor code within a line
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.MinificationPreserveBlock.RazorBlock">
+            <summary>
+            The contents represent a preservable block of Razor code.
             </summary>
         </member>
         <member name="T:SharedPluginFeatures.HtmlHelper">
@@ -1808,7 +1938,7 @@
             <summary>
             Processes a document property, providing an opportunity to obtain custom property values
             </summary>
-            <param name="property">DocumentProperty to be processed.</param>
+            <param name="documentProperty">DocumentProperty to be processed.</param>
         </member>
         <member name="T:SharedPluginFeatures.IErrorManager">
             <summary>
@@ -2090,6 +2220,68 @@
         <member name="M:SharedPluginFeatures.IMemoryCache.ResetCaches">
             <summary>
             Resets all caches, clears all items.
+            </summary>
+        </member>
+        <member name="T:SharedPluginFeatures.IMinificationEngine">
+            <summary>
+            This interface is implemented by a third party minification engine.
+            
+            The minification engine should add a transient entry to the IServiceCollection during initialisation.  If no plugin registers
+            a new minification engine, then a default engine is supplied.
+            </summary>
+        </member>
+        <member name="M:SharedPluginFeatures.IMinificationEngine.MinifyData(SharedPluginFeatures.MinificationFileType@,System.String@,System.String@)">
+            <summary>
+            Minify the contents of a file, this will use UTF8 encoding.
+            </summary>
+            <param name="fileType">Type of file to be minified.</param>
+            <param name="contents">The contents of the file that should be minified.</param>
+            <param name="result">List of minification results, the number of items depends on the implementation of the minificaiton engine.</param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedPluginFeatures.IMinificationEngine.MinifyData(SharedPluginFeatures.MinificationFileType@,System.Byte[]@,System.Byte[]@)">
+            <summary>
+            Minify the contents of a file, this will use the UTF8 encoding.
+            </summary>
+            <param name="fileType">Type of file to be minified.</param>
+            <param name="contents">The contents of the file that should be minified.</param>
+            <param name="result">List of minification results, the number of items depends on the implementation of the minificaiton engine.</param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedPluginFeatures.IMinificationEngine.MinifyData(System.Text.Encoding@,SharedPluginFeatures.MinificationFileType@,System.Byte[]@,System.Byte[]@)">
+            <summary>
+            Minify the contents of a file.
+            </summary>
+            <param name="encoding">The encoding that should be used to decode and encode teh contents.</param>
+            <param name="fileType">Type of file to be minified.</param>
+            <param name="contents">The contents of the file that should be minified.</param>
+            <param name="result">List of minification results, the number of items depends on the implementation of the minificaiton engine.</param>
+            <returns></returns>
+        </member>
+        <member name="T:SharedPluginFeatures.IMinifyResult">
+            <summary>
+            Interface for minification result
+            </summary>
+        </member>
+        <member name="P:SharedPluginFeatures.IMinifyResult.ProcessName">
+            <summary>
+            Name of minification process.
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:SharedPluginFeatures.IMinifyResult.StartLength">
+            <summary>
+            The length of the data at the start of the minification process.
+            </summary>
+        </member>
+        <member name="P:SharedPluginFeatures.IMinifyResult.EndLength">
+            <summary>
+            The length of the data at the end of the minification process.
+            </summary>
+        </member>
+        <member name="P:SharedPluginFeatures.IMinifyResult.TimeTaken">
+            <summary>
+            Time taken to minify the data.
             </summary>
         </member>
         <member name="T:SharedPluginFeatures.IRouteDataService">
@@ -2497,6 +2689,30 @@
             <param name="previous">string.  Display text (localized or not) to be shown to indicate previous page.</param>
             <param name="next">string.  Display text (localized or not) to be shown to indicate next page.</param>
             <returns>string.  List of html li elements for pagination within a view.</returns>
+        </member>
+        <member name="M:SharedPluginFeatures.BaseController.CalculatePageOffsets``1(System.Collections.Generic.List{``0}@,System.Int32@,System.Int32@,System.Int32@,System.Int32@,System.Int32@)">
+            <summary>
+            Calculates a page offset, this method is designed to be used with creating pages, it will return the zero index
+            start and end item and available pages for the offset criteria.
+            </summary>
+            <param name="items">List of items to be paginated</param>
+            <param name="page">Current Page Number</param>
+            <param name="pageSize">Size of Page</param>
+            <param name="startItem">First item in the list of items</param>
+            <param name="endItem">Last item in the list of items</param>
+            <param name="availablePages">Number of available pages based on the list</param>
+        </member>
+        <member name="M:SharedPluginFeatures.BaseController.CalculatePageOffsets(System.Int32@,System.Int32@,System.Int32@,System.Int32@,System.Int32@,System.Int32@)">
+            <summary>
+            Calculates a page offset, this method is designed to be used with creating pages, it will return the zero index
+            start and end item and available pages for the offset criteria.
+            </summary>
+            <param name="itemCount">Number of items to be paginated</param>
+            <param name="page">Current Page Number</param>
+            <param name="pageSize">Size of Page</param>
+            <param name="startItem">First item in the list of items</param>
+            <param name="endItem">Last item in the list of items</param>
+            <param name="availablePages">Number of available pages based on the itemCount</param>
         </member>
         <member name="M:SharedPluginFeatures.BaseController.GetModelData">
             <summary>

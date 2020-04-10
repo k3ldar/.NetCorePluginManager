@@ -358,6 +358,15 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Advanced Search.
+        /// </summary>
+        public static string AdvancedSearch {
+            get {
+                return ResourceManager.GetString("AdvancedSearch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Affiliate.
         /// </summary>
         public static string Affiliate {
@@ -507,6 +516,15 @@ namespace Languages {
         public static string Age {
             get {
                 return ResourceManager.GetString("Age", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to All.
+        /// </summary>
+        public static string All {
+            get {
+                return ResourceManager.GetString("All", resourceCulture);
             }
         }
         
@@ -26137,6 +26155,15 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Other.
+        /// </summary>
+        public static string Other {
+            get {
+                return ResourceManager.GetString("Other", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Out Of Stock.
         /// </summary>
         public static string OutOfStock {
@@ -26178,6 +26205,15 @@ namespace Languages {
         public static string OutOfStockRemoveNotification {
             get {
                 return ResourceManager.GetString("OutOfStockRemoveNotification", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Over.
+        /// </summary>
+        public static string Over {
+            get {
+                return ResourceManager.GetString("Over", resourceCulture);
             }
         }
         
@@ -27335,6 +27371,15 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Quick Search.
+        /// </summary>
+        public static string QuickSearch {
+            get {
+                return ResourceManager.GetString("QuickSearch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Please ensure you quote your Order Number when calling us..
         /// </summary>
         public static string QuoteOrderNumber {
@@ -27880,11 +27925,38 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Products with video.
+        /// </summary>
+        public static string SearchContainsVideo {
+            get {
+                return ResourceManager.GetString("SearchContainsVideo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Enter your search words:.
         /// </summary>
         public static string SearchDescription {
             get {
                 return ResourceManager.GetString("SearchDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please enter valid search criteria.
+        /// </summary>
+        public static string SearchInvalid {
+            get {
+                return ResourceManager.GetString("SearchInvalid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Timed out waiting for search to complete.
+        /// </summary>
+        public static string SearchTimeout {
+            get {
+                return ResourceManager.GetString("SearchTimeout", resourceCulture);
             }
         }
         
@@ -29826,6 +29898,15 @@ namespace Languages {
         public static string UnableToProcessRequest {
             get {
                 return ResourceManager.GetString("UnableToProcessRequest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Under.
+        /// </summary>
+        public static string Under {
+            get {
+                return ResourceManager.GetString("Under", resourceCulture);
             }
         }
         

@@ -176,10 +176,13 @@ namespace Middleware.Accounts.Invoices
             }
         }
 
+
         /// <summary>
         /// Total discount for the item within the invoice.
         /// </summary>
         /// <value>decimal</value>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0047:Remove unnecessary parentheses", Justification = "For clarity")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1303:Do not pass literals as localized parameters", Justification = "Intended for developers not end users")]
         public decimal TotalDiscount
         {
             get
@@ -187,23 +190,14 @@ namespace Middleware.Accounts.Invoices
                 if (Discount == 0)
                     return Discount;
 
-                switch (DiscountType)
+                return DiscountType switch
                 {
-                    case DiscountType.None:
-                        return 0;
-
-                    case DiscountType.PercentageSubTotal:
-                        return BankersRounding((SubTotal / 100) * Discount, Invoice.Culture.NumberFormat.NumberDecimalDigits);
-
-                    case DiscountType.PercentageTotal:
-                        return BankersRounding(((SubTotal + TotalTax) / 100) * Discount, Invoice.Culture.NumberFormat.NumberDecimalDigits);
-
-                    case DiscountType.Value:
-                        return BankersRounding(Discount, Invoice.Culture.NumberFormat.NumberDecimalDigits);
-
-                    default:
-                        throw new InvalidOperationException("Invalid Discount Type");
-                }
+                    DiscountType.None => 0,
+                    DiscountType.PercentageSubTotal => BankersRounding((SubTotal / 100) * Discount, Invoice.Culture.NumberFormat.NumberDecimalDigits),
+                    DiscountType.PercentageTotal => BankersRounding((SubTotal + TotalTax) / 100 * Discount, Invoice.Culture.NumberFormat.NumberDecimalDigits),
+                    DiscountType.Value => BankersRounding(Discount, Invoice.Culture.NumberFormat.NumberDecimalDigits),
+                    _ => throw new InvalidOperationException("Invalid Discount Type"),
+                };
             }
         }
 

@@ -21,7 +21,7 @@
     <Copyright>Copyright © 2010 - 2020.  Simon Carter. All rights reserved.</Copyright>
     <PackageId>AspNetCore.PluginManager.Languages</PackageId>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>3.2.0</Version>
+    <Version>3.3.0</Version>
     <Authors>Simon Carter</Authors>
     <PackageProjectUrl>http://pluginmanager.website/</PackageProjectUrl>
     <PackageTags>Language Files</PackageTags>
@@ -33,6 +33,13 @@
   <PropertyGroup Condition="'$(TargetFramework)'=='netcoreapp3.1'">
     <DocumentationFile>..\Docs\XmlFiles\Languages.xml</DocumentationFile>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.8">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
 
 
   <ItemGroup>

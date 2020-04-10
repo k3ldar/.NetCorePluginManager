@@ -34,12 +34,12 @@ using SharedPluginFeatures;
 
 namespace GeoIp.Plugin
 {
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1812:AvoidUninstantiatedInternalClasses", Justification = "Used internally as part of IoC")]
     internal class GeoIpService : BaseCoreClass, IGeoIpDataService
     {
         #region Private Members
 
         private readonly CacheManager _geoIpCache;
-        private readonly object _lockObject = new object();
         private readonly GeoIpPluginSettings _geoIpSettings;
         private IpCity[] _geoIpCityData;
         private List<IpCity> _tempIpCity = new List<IpCity>();
@@ -75,6 +75,7 @@ namespace GeoIp.Plugin
 
         #region Public Methods
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1303:Do not pass literals as localized parameters", Justification = "Intended for developers not end users")]
         public bool GetIPAddressDetails(in string ipAddress, out string countryCode, out string region,
             out string cityName, out decimal latitude, out decimal longitude, out long ipUniqueID)
         {
@@ -117,7 +118,7 @@ namespace GeoIp.Plugin
                     if (provider != null)
                     {
                         memoryIp.IsComplete = provider.GetIpAddressDetails(ipAddress, out countryCode, out region,
-                            out cityName, out latitude, out longitude, out ipUniqueID, out long ipFrom, out long ipTo);
+                            out cityName, out latitude, out longitude, out ipUniqueID, out long _, out long _);
                     }
 
                     memoryIp.CountryCode = countryCode;
@@ -140,6 +141,7 @@ namespace GeoIp.Plugin
 
         #region Private Methods
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1303:Do not pass literals as localized parameters", Justification = "Intended for developers not end users")]
         private bool GetCachedIPAddressDetails(in string ipAddress, out string countryCode, out string region,
             out string cityName, out decimal latitude, out decimal longitude, out long ipUniqueID)
         {
@@ -222,7 +224,7 @@ namespace GeoIp.Plugin
 
             long min = 0;
             long max = _geoIpCityData.Length - 1;
-            long mid = 0;
+            long mid;
 
             while (min <= max)
             {

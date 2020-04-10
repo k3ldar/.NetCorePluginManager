@@ -843,12 +843,6 @@
             Manages threads, includes thread queing, basic statistics for thread on Process and System % CPU usage
             </summary>
         </member>
-        <member name="M:Shared.Classes.ThreadManager.GetCurrentThreadId">
-            <summary>
-            Get's the current thread ID (Win API)
-            </summary>
-            <returns></returns>
-        </member>
         <member name="F:Shared.Classes.ThreadManager._cpuUsage">
             <summary>
             CPU Usage object

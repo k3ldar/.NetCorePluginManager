@@ -28,7 +28,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-#pragma warning disable IDE0060
+#pragma warning disable IDE0060, CS1591
 
 namespace LoginPlugin
 {
@@ -53,6 +53,7 @@ namespace LoginPlugin
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1801:ReviewUnusedParameters", MessageId = "Reviewed and ok in this context")]
         public void Configure(IApplicationBuilder app,
 #if NET_CORE_3_X
             IWebHostEnvironment env)
@@ -70,4 +71,4 @@ namespace LoginPlugin
     }
 }
 
-#pragma warning restore IDE0060
+#pragma warning restore IDE0060, CS1591

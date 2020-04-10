@@ -8,14 +8,13 @@
     let that = {
 
         init: function (settings) {
-            debugger;
             _settings = settings;
 
             $(document).ready(function () {
-                debugger;
+
             });
         }
-    }
+    };
 
     return that;
 }();

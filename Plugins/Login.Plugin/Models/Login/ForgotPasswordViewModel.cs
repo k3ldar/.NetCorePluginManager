@@ -27,6 +27,8 @@ using System.ComponentModel.DataAnnotations;
 
 using SharedPluginFeatures;
 
+#pragma warning disable CS1591
+
 namespace LoginPlugin.Models
 {
     public sealed class ForgotPasswordViewModel : BaseModel
@@ -59,3 +61,5 @@ namespace LoginPlugin.Models
         #endregion Properties
     }
 }
+
+#pragma warning restore CS1591

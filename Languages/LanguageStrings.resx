@@ -14121,4 +14121,40 @@ You will shortly receive an email with the details of your order.</comment>
     <value>User Permissions</value>
     <comment>User Permissions</comment>
   </data>
+  <data name="SearchInvalid" xml:space="preserve">
+    <value>Please enter valid search criteria</value>
+    <comment>Please enter valid search criteria</comment>
+  </data>
+  <data name="QuickSearch" xml:space="preserve">
+    <value>Quick Search</value>
+    <comment>Quick Search</comment>
+  </data>
+  <data name="AdvancedSearch" xml:space="preserve">
+    <value>Advanced Search</value>
+    <comment>Advanced Search</comment>
+  </data>
+  <data name="All" xml:space="preserve">
+    <value>All</value>
+    <comment>All</comment>
+  </data>
+  <data name="SearchContainsVideo" xml:space="preserve">
+    <value>Products with video</value>
+    <comment>Products with video</comment>
+  </data>
+  <data name="SearchTimeout" xml:space="preserve">
+    <value>Timed out waiting for search to complete</value>
+    <comment>Timed out waiting for search to complete</comment>
+  </data>
+  <data name="Over" xml:space="preserve">
+    <value>Over</value>
+    <comment>Over</comment>
+  </data>
+  <data name="Under" xml:space="preserve">
+    <value>Under</value>
+    <comment>Under</comment>
+  </data>
+  <data name="Other" xml:space="preserve">
+    <value>Other</value>
+    <comment>Other</comment>
+  </data>
 </root>

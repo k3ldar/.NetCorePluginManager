@@ -38,6 +38,12 @@
             Protected ILogger instance that can be retrieved via a descendant class
             </summary>
         </member>
+        <member name="P:PluginManager.BasePluginManager.ServiceProvider">
+            <summary>
+            Returns the active IServiceProvider to descendant classes
+            </summary>
+            <value>IServiceProvider</value>
+        </member>
         <member name="M:PluginManager.BasePluginManager.PluginLoading(System.Reflection.Assembly@)">
             <summary>
             Indicates that a plugin is about to be loaded.
@@ -87,6 +93,11 @@
             </summary>
             <param name="resourceName">string name of the resource to be extracted.</param>
         </member>
+        <member name="M:PluginManager.BasePluginManager.ServiceConfigurationComplete(System.IServiceProvider@)">
+            <summary>
+            Indicates that configuration of the IServiceCollection is now complete
+            </summary>
+        </member>
         <member name="M:PluginManager.BasePluginManager.PluginsGetLoaded">
             <summary>
             Returns all loaded plugin data
@@ -113,6 +124,13 @@
             Allows plugins to configure the services for all plugins
             </summary>
             <param name="services"></param>
+        </member>
+        <member name="M:PluginManager.BasePluginManager.ConfigureServices">
+            <summary>
+            Provides an opportunity for plugins to configure services that can be used in IOC, this method creates 
+            a custom IServiceCollection class and should only be used where the host does not natively include
+            it's own IServiceCollection
+            </summary>
         </member>
         <member name="M:PluginManager.BasePluginManager.PluginGetTypesWithAttribute``1">
             <summary>
@@ -157,8 +175,14 @@
         </member>
         <member name="M:PluginManager.BasePluginManager.Dispose">
             <summary>
+            IDisposable Dispose method
+            </summary>
+        </member>
+        <member name="M:PluginManager.BasePluginManager.Dispose(System.Boolean)">
+            <summary>
             Disposable method, notify all plugins to finalise
             </summary>
+            <param name="disposing">Indicates that the method has been called from IDispose.Dispose() </param>
         </member>
         <member name="M:PluginManager.BasePluginManager.GetLocalCopyOfPlugin(System.String)">
             <summary>
@@ -281,6 +305,12 @@
             ILoadSettingsService to obtain data.
             </summary>
             <value>string</value>
+        </member>
+        <member name="M:PluginManager.PluginManagerConfiguration.ReplaceLogger(PluginManager.Abstractions.ILogger@)">
+            <summary>
+            Allow the ILogger instance to be replaced, for internal use only.
+            </summary>
+            <param name="logger"></param>
         </member>
         <member name="T:PluginManager.LogLevel">
             <summary>
@@ -429,7 +459,7 @@
             Adds data to the log file.
             </summary>
             <param name="logLevel">LogLevel enum indicating the type of log entry</param>
-            <param name="module">Name of module creating the log entry</param>
+            <param name="moduleName">Name of module creating the log entry</param>
             <param name="data">Data to be logged.</param>
         </member>
         <member name="M:PluginManager.Abstractions.ILogger.AddToLog(PluginManager.LogLevel@,System.String@,System.Exception@)">
@@ -437,7 +467,7 @@
             Logs an exception with the log file and also creates an additional exception log entry detailing the exception, call stack etc.
             </summary>
             <param name="logLevel">LogLevel enum indicating the type of log entry</param>
-            <param name="module">Name of module creating the log entry</param>
+            <param name="moduleName">Name of module creating the log entry</param>
             <param name="exception">Exception that was raised.</param>
         </member>
         <member name="M:PluginManager.Abstractions.ILogger.AddToLog(PluginManager.LogLevel@,System.String@,System.Exception@,System.String)">
@@ -445,7 +475,7 @@
             Logs an exception with the log file and also creates an additional exception log entry detailing the exception, call stack etc.
             </summary>
             <param name="logLevel">LogLevel enum indicating the type of log entry</param>
-            <param name="module">Name of module creating the log entry</param>
+            <param name="moduleName">Name of module creating the log entry</param>
             <param name="exception"></param>
             <param name="data">Additional data to be logged with the exception.</param>
         </member>

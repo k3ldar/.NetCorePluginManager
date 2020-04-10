@@ -58,6 +58,7 @@ namespace SieraDeltaGeoIp.Plugin
         /// base is from the USA you could load all Geo Ip address data for that country so it is cached.
         /// </summary>
         /// <value>string[]</value>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1819:Properties should not return arrays", Justification = "ok on this occasion")]
         public string[] CountryList { get; set; }
 
         #endregion Properties

@@ -27,6 +27,8 @@ using System.Text;
 
 using Microsoft.AspNetCore.Mvc.Rendering;
 
+#pragma warning disable CA1707
+
 namespace SharedPluginFeatures
 {
     /// <summary>
@@ -85,9 +87,11 @@ namespace SharedPluginFeatures
             }
 
             if (Result[Result.Length - 1] == Constants.Dash)
-                Result.Length = Result.Length - 1;
+                Result.Length -= 1;
 
             return Result.ToString();
         }
     }
 }
+
+#pragma warning restore CA1707

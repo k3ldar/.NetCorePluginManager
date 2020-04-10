@@ -63,6 +63,7 @@ namespace Localization.Plugin
 
         #region IStringLocalizer Methods
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1031:Do not catch general exception types", Justification = "it's ok here, nothing to see, move along")]
         public LocalizedString this[string name]
         {
             get
@@ -95,6 +96,7 @@ namespace Localization.Plugin
             }
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1031:Do not catch general exception types", Justification = "it's ok here, nothing to see, move along")]
         public LocalizedString this[string name, params object[] arguments]
         {
             get

@@ -26,7 +26,7 @@
 using System;
 using System.IO;
 
-using ErrorManager.Plugin.Models.Error;
+using ErrorManager.Plugin.Models;
 
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -144,6 +144,7 @@ namespace ErrorManager.Plugin.Controllers
         }
 
 #if DEBUG
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1030:Use events where appropriate", Justification = "Debug Only")]
         public IActionResult Raise(string s)
         {
             if (String.IsNullOrEmpty(s))

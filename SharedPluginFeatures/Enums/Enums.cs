@@ -23,6 +23,7 @@
  *  19/10/2018  Simon Carter        Initially Created
  *  04/11/2018  Simon Carter        Add Sieradelta GeoIp options to geoip 
  *  21/11/2018  Simon Carter        Add Login Enums
+ *  20/01/2020  Simon Carter        Add minification enums
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
@@ -32,7 +33,7 @@ namespace SharedPluginFeatures
     /// <summary>
     /// Standard Enum values shared across all plugin modules.
     /// </summary>
-    public class Enums
+    public static class Enums
     {
         /// <summary>
         /// Geo Ip provider types.
@@ -112,6 +113,7 @@ namespace SharedPluginFeatures
         /// Validate Request Results
         /// </summary>
         [Flags]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Naming", "CA1714:Flags enums should have plural names", Justification = "yeak ok, I hear you but not this time!")]
         public enum ValidateRequestResult
         {
             /// <summary>
@@ -215,5 +217,87 @@ namespace SharedPluginFeatures
         /// The item is archived and will never be updated again
         /// </summary>
         Never,
+    }
+
+    /// <summary>
+    /// Type of file to be minified
+    /// </summary>
+    public enum MinificationFileType
+    {
+        /// <summary>
+        /// Unknown file type, not known to the minification process.
+        /// </summary>
+        Unknown,
+
+        /// <summary>
+        /// The type of file is a Razor file
+        /// </summary>
+        Razor,
+
+        /// <summary>
+        /// The type of file is a HTML file.
+        /// </summary>
+        Html,
+
+        /// <summary>
+        /// The type of file is a HTM file.
+        /// </summary>
+        Htm,
+
+        /// <summary>
+        /// The type of file is a JavaScript file.
+        /// </summary>
+        Js,
+
+        /// <summary>
+        /// The type of file is a CSS file.
+        /// </summary>
+        CSS,
+
+        /// <summary>
+        /// The type of file is a Less file.
+        /// </summary>
+        Less,
+
+        /// <summary>
+        /// The type of file is a Gif image.
+        /// </summary>
+        ImageGif,
+
+        /// <summary>
+        /// The type of file is a Jpeg file.
+        /// </summary>
+        ImageJpeg,
+
+        /// <summary>
+        /// The type of file is a PNG file.
+        /// </summary>
+        ImagePng
+    }
+
+    /// <summary>
+    /// Block of data to be preserved during minification
+    /// </summary>
+    public enum MinificationPreserveBlock
+    {
+        /// <summary>
+        /// Undefined preserve block
+        /// </summary>
+        Undefined,
+
+        /// <summary>
+        /// The contents represent an Html &lt;pre&gt; block
+        /// </summary>
+        HtmlPreBlock,
+
+        /// <summary>
+        /// The contents represent Razor code within a line
+        /// </summary>
+        RazorLine,
+
+        /// <summary>
+        /// The contents represent a preservable block of Razor code.
+        /// </summary>
+        RazorBlock
     }
 }

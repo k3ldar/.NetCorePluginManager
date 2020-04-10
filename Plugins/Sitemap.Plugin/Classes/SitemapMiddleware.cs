@@ -37,7 +37,7 @@ using Shared.Classes;
 
 using SharedPluginFeatures;
 
-#pragma warning disable CS1591
+#pragma warning disable CS1591, CA1823, IDE0028, IDE0051
 
 namespace Sitemap.Plugin
 {
@@ -63,7 +63,6 @@ namespace Sitemap.Plugin
         private readonly RequestDelegate _next;
         private readonly IMemoryCache _memoryCache;
         private readonly IPluginClassesService _pluginClassesService;
-        private readonly List<string> _sitemaps;
         private readonly object _lockObject = new object();
         private readonly string mainSitemap = $"{Constants.ForwardSlashChar}{Constants.BaseSitemap}";
         internal static Timings _timings = new Timings();
@@ -82,8 +81,6 @@ namespace Sitemap.Plugin
             _pluginClassesService = pluginClassesService ?? throw new ArgumentNullException(nameof(pluginClassesService));
             _memoryCache = memoryCache ?? throw new ArgumentNullException(nameof(memoryCache));
 
-            _sitemaps = new List<string>();
-
             notificationService.RegisterListener(this);
         }
 
@@ -93,6 +90,9 @@ namespace Sitemap.Plugin
 
         public async Task Invoke(HttpContext context)
         {
+            if (context == null)
+                throw new ArgumentNullException(nameof(context));
+
             using (StopWatchTimer stopwatchTimer = StopWatchTimer.Initialise(_timings))
             {
                 string route = RouteLowered(context);
@@ -229,4 +229,4 @@ namespace Sitemap.Plugin
     }
 }
 
-#pragma warning restore CS1591
+#pragma warning restore CS1591, CA1823, IDE0028, IDE0051

@@ -26,6 +26,9 @@
 using System;
 
 using SharedPluginFeatures;
+
+#pragma warning disable CS1591
+
 namespace LoginPlugin.Classes.SystemAdmin
 {
     public class LoginCheckSubMenu : SystemAdminSubMenu
@@ -85,3 +88,5 @@ namespace LoginPlugin.Classes.SystemAdmin
         }
     }
 }
+
+#pragma warning restore CS1591

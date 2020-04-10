@@ -17,8 +17,16 @@ body {
 
 .nav-item:hover {
     border-bottom: 4px solid #3d3d3d;
-    height: 36px;
+    height: 33px;
     margin-bottom: 4px;
+}
+
+.nav-item-nohover {
+    border: 0;
+    height: 33px;
+    margin-bottom: 4px;
+    font-size: 14px;
+    margin-left;
 }
 
 /* Carousel */
@@ -115,11 +123,11 @@ body {
     }
 
     .nav-item {
-        font-size: 16px;
+        font-size: 14px;
     }
 
     .cart-summary {
-        font-size: 16px;
+        font-size: 14px;
     }
 
     .footer {
@@ -230,4 +238,27 @@ body {
 
 .card {
     font-size: 15px;
+}
+
+.search-buy {
+    overflow: visible;
+    float: right;
+    width: 145px;
+    height: 70px;
+    font-size: 14px;
+}
+
+    .search-buy span {
+        float: right;
+        padding-right: 53px;
+    }
+
+
+.chip {
+    display: inline-block;
+    padding: 0 25px;
+    height: 28px;
+    line-height: 25px;
+    border-radius: 25px;
+    background-color: #f1f1f1;
 }

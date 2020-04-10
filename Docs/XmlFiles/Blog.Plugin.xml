@@ -4,16 +4,6 @@
         <name>Blog.Plugin</name>
     </assembly>
     <members>
-        <member name="T:Blog.Plugin.BlogSettings">
-            <summary>
-            Settings that affect how the Blog.Plugin module is configured.
-            </summary>
-        </member>
-        <member name="P:Blog.Plugin.BlogSettings.AllowComments">
-            <summary>
-            Determines whether people can leave comments or not.
-            </summary>
-        </member>
         <member name="T:Blog.Plugin.Classes.BlogSitemapProvider">
             <summary>
             Blog sitemap provider, provides sitemap information for blog items
@@ -34,6 +24,16 @@
         <member name="T:Blog.Plugin.Classes.InitialiseEvents">
             <summary>
             Implements IInitialiseEvents which allows the Blog module to configure policies
+            </summary>
+        </member>
+        <member name="T:Blog.Plugin.BlogSettings">
+            <summary>
+            Settings that affect how the Blog.Plugin module is configured.
+            </summary>
+        </member>
+        <member name="P:Blog.Plugin.BlogSettings.AllowComments">
+            <summary>
+            Determines whether people can leave comments or not.
             </summary>
         </member>
         <member name="T:Blog.Plugin.Controllers.BlogController">

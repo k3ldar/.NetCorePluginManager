@@ -84,6 +84,12 @@ namespace RestrictIp.Plugin
             if (pluginHelperService == null)
                 throw new ArgumentNullException(nameof(pluginHelperService));
 
+            if (pluginTypesService == null)
+                throw new ArgumentNullException(nameof(pluginTypesService));
+
+            if (settingsProvider == null)
+                throw new ArgumentNullException(nameof(settingsProvider));
+
             _next = next;
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _localIpAddresses = new HashSet<string>();
@@ -104,6 +110,9 @@ namespace RestrictIp.Plugin
 
         public async Task Invoke(HttpContext context)
         {
+            if (context == null)
+                throw new ArgumentNullException(nameof(context));
+
             bool passRequestOn = true;
 
             try

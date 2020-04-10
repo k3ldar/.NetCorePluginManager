@@ -1,0 +1,37 @@
+<p>
+There are many ways to improve the SEO of a website, one of the methods involves minification of source files, be they .cshtml, .css, .js and image files to name a few.  Minification is the process of removing redundant spaces, comments and codes to improve the download speed of a file.  The principal being the smaller the file, the quicker the download, the quicker the UI is displayed.
+</p>
+<p>
+AspNetCore.PluginManager now provides a facility that enables the optional minification of certain files using the built in minification engine, or a custom implementation that implements IMinificationEngine and is added to the IServiceProvider via a plugin.
+</p>
+<h3>Internal IMinificationEngine</h3>
+<p>
+By default an internal implementation of IMinificationEngine will be used if no other engine is registered when the website is initialised.  This provides basic minification on certain text files by:
+</p>
+<ul>
+<li>Removing Comments</li>
+<li>Removing carriage returns</li>
+<li>Removing leading and trailing spaces from each line.</li>
+</ul>
+<p>
+Clearly a dedicated minification utility will perform a lot better and can easily be included via a Plugin.  The internal engine will always preserve &lt;pre&gt; blocks.
+</p>
+<h3>Enabling Minification</h3>
+<p>
+
+To enable minification you first need to update the setting in appsettings.json, to do this ensure the MinifyFiles is set to true.
+</p>
+<p>
+<pre style="font-family:Consolas;font-size:13px;color:black;background:white;"><span style="color:#2e75b6;">&quot;PluginConfiguration&quot;</span>:&nbsp;{
+&nbsp;&nbsp;<span style="color:#2e75b6;">&quot;Disabled&quot;</span>:&nbsp;<span style="color:blue;">false</span>,
+&nbsp;&nbsp;<span style="color:#2e75b6;">&quot;MinifyFiles&quot;</span>:&nbsp;<span style="color:blue;">true</span>
+}
+</pre>
+</p>
+<p>
+As previously stated, if no plugin registers a minification engine and MinifyFiles is true then the files extracted from within plugin files will be minified.  Please note this only happens when they are first extracted, options exist to ensure files are not overridden, so this will be a one time hit upon loading.  The minification takes place in a dedicated thread so it doesn't block the site load.
+</p>
+<h3>Notification Events</h3>
+<p>
+The minification engine can also process additional files, this is achieved by creating an INotificationListener which listens for an event named "MinificationFiles", the listener, registered via a plugin can then return a List&lt;string&gt; of additional files (including path) that will also be minified.
+</p>

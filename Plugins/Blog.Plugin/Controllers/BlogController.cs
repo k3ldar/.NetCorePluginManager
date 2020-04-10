@@ -186,6 +186,9 @@ namespace Blog.Plugin.Controllers
         [HttpPost]
         public IActionResult Search(BlogSearchViewModel model)
         {
+            if (model == null)
+                throw new ArgumentNullException(nameof(model));
+
             List<BlogItem> blogs = _blogProvider.Search(model.TagName);
 
             if (blogs.Count == 0)
@@ -231,6 +234,8 @@ namespace Blog.Plugin.Controllers
         [Authorize(Policy = SharedPluginFeatures.Constants.PolicyNameBlogRespond)]
         public IActionResult Comment(CommentViewModel model)
         {
+            if (model == null)
+                throw new ArgumentNullException(nameof(model));
 
             if (!IsUserLoggedIn())
                 ModelState.AddModelError(String.Empty, Languages.LanguageStrings.PleaseLoginToComment);

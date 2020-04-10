@@ -24,6 +24,8 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+#pragma warning disable CS1591
+
 namespace ShoppingCartPlugin.Models
 {
     public sealed class VoucherModel
@@ -35,3 +37,5 @@ namespace ShoppingCartPlugin.Models
         #endregion Properties
     }
 }
+
+#pragma warning restore CS1591

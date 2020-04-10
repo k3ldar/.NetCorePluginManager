@@ -23,6 +23,8 @@
  *  21/11/2018  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+using System;
+
 using Middleware;
 
 namespace AspNetCore.PluginManager.DemoWebsite.Classes
@@ -32,6 +34,9 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
         public LoginResult Login(in string username, in string password, in string ipAddress,
             in byte attempts, ref UserLoginDetails loginDetails)
         {
+            if (loginDetails == null)
+                throw new ArgumentNullException(nameof(loginDetails));
+
             if (loginDetails.RememberMe && loginDetails.UserId == 123)
             {
                 loginDetails.Username = "Administrator";

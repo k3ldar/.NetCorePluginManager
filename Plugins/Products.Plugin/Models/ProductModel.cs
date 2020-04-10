@@ -28,6 +28,8 @@ using System.Collections.Generic;
 
 using SharedPluginFeatures;
 
+#pragma warning disable CA1721, CS1591
+
 namespace ProductPlugin.Models
 {
     public sealed class ProductModel : BaseProductModel
@@ -158,6 +160,7 @@ namespace ProductPlugin.Models
 
         public string VideoLink { get; private set; }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1819:Properties should not return arrays", Justification = "ok on this occasion")]
         public string[] Images { get; private set; }
 
         public bool NewProduct { get; private set; }
@@ -175,3 +178,5 @@ namespace ProductPlugin.Models
         #endregion Properties
     }
 }
+
+#pragma warning restore CA1721, CS1591

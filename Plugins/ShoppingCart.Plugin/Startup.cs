@@ -29,6 +29,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
+#pragma warning disable CS1591
+
 namespace ShoppingCartPlugin
 {
     public class Startup
@@ -60,6 +62,7 @@ namespace ShoppingCartPlugin
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1801:ReviewUnusedParameters", MessageId = "Reviewed and ok in this context")]
         public void Configure(IApplicationBuilder app,
 #if NET_CORE_3_X
             IWebHostEnvironment env)
@@ -79,3 +82,5 @@ namespace ShoppingCartPlugin
         }
     }
 }
+
+#pragma warning restore CS1591

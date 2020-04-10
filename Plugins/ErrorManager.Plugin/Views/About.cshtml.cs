@@ -7,6 +7,7 @@ namespace ErrorManager.Plugin.Pages
     {
         public string Message { get; set; }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1303:Do not pass literals as localized parameters", Justification = "I deem it to be valid in this context!")]
         public void OnGet()
         {
             Message = "Your application description page.";

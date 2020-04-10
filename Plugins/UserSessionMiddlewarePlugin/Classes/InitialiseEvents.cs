@@ -28,6 +28,8 @@ using Microsoft.Extensions.DependencyInjection;
 
 using SharedPluginFeatures;
 
+#pragma warning disable CS1591
+
 namespace UserSessionMiddleware.Plugin.Classes
 {
     public class InitialiseEvents : IInitialiseEvents
@@ -67,3 +69,5 @@ namespace UserSessionMiddleware.Plugin.Classes
         #endregion Private Methods
     }
 }
+
+#pragma warning restore CS1591

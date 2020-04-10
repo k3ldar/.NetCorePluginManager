@@ -23,7 +23,6 @@
  *  19/05/2019  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 
 using PluginManager.Abstractions;
@@ -50,7 +49,7 @@ namespace DocumentationPlugin
 
         public ushort GetVersion()
         {
-            return (1);
+            return 1;
         }
 
         public void Initialise(ILogger logger)

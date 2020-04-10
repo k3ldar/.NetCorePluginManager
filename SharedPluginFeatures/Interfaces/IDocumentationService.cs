@@ -90,7 +90,7 @@ namespace SharedPluginFeatures
         /// <summary>
         /// Processes a document property, providing an opportunity to obtain custom property values
         /// </summary>
-        /// <param name="property">DocumentProperty to be processed.</param>
-        void ProcessDocumentProperty(in DocumentProperty property);
+        /// <param name="documentProperty">DocumentProperty to be processed.</param>
+        void ProcessDocumentProperty(in DocumentProperty documentProperty);
     }
 }

@@ -29,6 +29,8 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
+#pragma warning disable CS1591
+
 namespace ProductPlugin
 {
     public class Startup
@@ -74,3 +76,5 @@ namespace ProductPlugin
         }
     }
 }
+
+#pragma warning restore CS1591

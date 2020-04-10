@@ -30,7 +30,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-#pragma warning disable CS1591
+#pragma warning disable CS1591, CA1801
 
 namespace Company.Plugin
 {
@@ -82,4 +82,4 @@ namespace Company.Plugin
     }
 }
 
-#pragma warning restore CS1591
+#pragma warning restore CS1591, CA1801

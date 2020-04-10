@@ -44,6 +44,7 @@ namespace ErrorManager.Plugin
         /// Array of quotes that can be displayed.
         /// </summary>
         /// <value>string[]</value>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1819:Properties should not return arrays", Justification = "ok on this occasion")]
         public string[] Quotes { get; set; }
 
         /// <summary>

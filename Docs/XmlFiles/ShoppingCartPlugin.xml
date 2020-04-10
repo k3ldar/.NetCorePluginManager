@@ -59,7 +59,7 @@
             This class implements IPaymentProvider interface.
             </summary>
         </member>
-        <member name="T:ShoppingCartPlugin.Classes.PaymentProviders.Paypoint">
+        <member name="T:ShoppingCartPlugin.Classes.PaymentProviders.PaypointProvider">
             <summary>
             Paypoint payment provider.  This payment provider is used when a user orders online and makes a payment using the online Paypoint payment service.
             
@@ -100,17 +100,10 @@
             Gets or sets the type of action to perform against the url.
             </summary>
         </member>
-        <member name="M:ShoppingCartPlugin.Classes.Paypoint.PaypointHelper.Post(System.String,System.Collections.Specialized.NameValueCollection)">
-            <summary>
-            Posts the supplied data to specified url.
-            </summary>
-            <returns>a string containing the result of the post.</returns>
-        </member>
         <member name="M:ShoppingCartPlugin.Classes.Paypoint.PaypointHelper.Post(System.String)">
             <summary>
             Posts the supplied data to specified url.
             </summary>
-            <param name="url">The url to post to.</param>
             <returns>a string containing the result of the post.</returns>
         </member>
         <member name="M:ShoppingCartPlugin.Classes.Paypoint.PaypointHelper.Post">

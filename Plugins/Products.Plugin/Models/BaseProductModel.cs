@@ -28,6 +28,8 @@ using System.Collections.Generic;
 
 using SharedPluginFeatures;
 
+#pragma warning disable CS1591
+
 namespace ProductPlugin.Models
 {
     public class BaseProductModel : BaseModel
@@ -62,3 +64,5 @@ namespace ProductPlugin.Models
 
     }
 }
+
+#pragma warning restore CS1591

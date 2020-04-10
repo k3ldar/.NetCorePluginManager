@@ -28,12 +28,15 @@ using System.Collections.Generic;
 
 using SharedPluginFeatures;
 
+#pragma warning disable CS1591
+
 namespace SystemAdmin.Plugin.Models
 {
     public sealed class GridViewModel : BaseModel
     {
         #region Constructors
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA2208:Instantiate argument exceptions correctly", Justification = "Validating property of param so ok")]
         public GridViewModel(in BaseModelData modelData,
             SystemAdminSubMenu subMenu)
             : base(modelData)
@@ -74,6 +77,7 @@ namespace SystemAdmin.Plugin.Models
 
         #region Public Properties
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1819:Properties should not return arrays", Justification = "ok on this occasion")]
         public string[] Headers { get; set; }
 
         public List<string[]> Items { get; set; }
@@ -85,3 +89,5 @@ namespace SystemAdmin.Plugin.Models
         #endregion Public Properties
     }
 }
+
+#pragma warning restore CS1591

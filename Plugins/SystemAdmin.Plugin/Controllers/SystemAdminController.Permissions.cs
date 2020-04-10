@@ -30,6 +30,8 @@ using Microsoft.AspNetCore.Mvc;
 
 using SystemAdmin.Plugin.Models;
 
+#pragma warning disable CS1591
+
 namespace SystemAdmin.Plugin.Controllers
 {
     public partial class SystemAdminController
@@ -54,6 +56,9 @@ namespace SystemAdmin.Plugin.Controllers
         [HttpPost]
         public IActionResult SetUserPermissions(UserPermissionsViewModel model)
         {
+            if (model == null)
+                throw new ArgumentNullException(nameof(model));
+
             if (String.IsNullOrEmpty(model.SelectedClaims))
                 model.SelectedClaims = String.Empty;
 
@@ -66,3 +71,5 @@ namespace SystemAdmin.Plugin.Controllers
         #endregion Controller Action Methods
     }
 }
+
+#pragma warning restore CS1591

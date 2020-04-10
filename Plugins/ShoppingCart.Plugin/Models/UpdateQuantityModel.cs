@@ -24,6 +24,8 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+#pragma warning disable CS1591
+
 namespace ShoppingCartPlugin.Models
 {
     public sealed class UpdateQuantityModel
@@ -52,3 +54,5 @@ namespace ShoppingCartPlugin.Models
         #endregion Properties
     }
 }
+
+#pragma warning restore CS1591

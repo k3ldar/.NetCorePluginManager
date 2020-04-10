@@ -70,6 +70,9 @@ namespace Localization.Plugin
 
         public async Task Invoke(HttpContext context)
         {
+            if (context == null)
+                throw new ArgumentNullException(nameof(context));
+
             using (StopWatchTimer stopwatchTimer = StopWatchTimer.Initialise(_timings))
             {
                 if (context.Items.TryGetValue(Constants.UserCulture, out object sessionCulture))

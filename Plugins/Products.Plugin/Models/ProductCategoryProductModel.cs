@@ -25,6 +25,8 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
 
+#pragma warning disable CS1591
+
 namespace ProductPlugin.Models
 {
     public class ProductCategoryProductModel : BaseProductModel
@@ -92,3 +94,5 @@ namespace ProductPlugin.Models
         #endregion Properties
     }
 }
+
+#pragma warning restore CS1591

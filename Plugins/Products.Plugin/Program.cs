@@ -28,9 +28,11 @@ using AspNetCore.PluginManager;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 
+#pragma warning disable CS1591
+
 namespace ProductPlugin
 {
-    public class Program
+    public static class Program
     {
         public static void Main(string[] args)
         {
@@ -44,3 +46,5 @@ namespace ProductPlugin
                 .UseStartup<Startup>();
     }
 }
+
+#pragma warning restore CS1591

@@ -33,6 +33,8 @@ using Shared.Classes;
 
 using SharedPluginFeatures;
 
+#pragma warning disable CS1591
+
 namespace SystemAdmin.Plugin
 {
     /// <summary>
@@ -57,7 +59,7 @@ namespace SystemAdmin.Plugin
 
         #region Constructors
 
-        public SystemAdminHelper(IMemoryCache memoryCache, IPluginClassesService pluginClassesService, IBreadcrumbService breadcrumbService)
+        public SystemAdminHelper(IMemoryCache memoryCache, IPluginClassesService pluginClassesService)
         {
             _memoryCache = memoryCache ?? throw new ArgumentNullException(nameof(memoryCache));
             _pluginClassesService = pluginClassesService ?? throw new ArgumentNullException(nameof(pluginClassesService));
@@ -177,3 +179,5 @@ namespace SystemAdmin.Plugin
         #endregion ISystemAdminHelperService Methods
     }
 }
+
+#pragma warning restore CS1591

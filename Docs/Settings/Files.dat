@@ -30,3 +30,6 @@ UserAccount.Plugin.xml
 Blog.Plugin.xml
 Sitemap.Plugin.xml
 Claims and Policies.xml
+PluginManager.xml
+Minification.xml
+SearchPlugin.xml

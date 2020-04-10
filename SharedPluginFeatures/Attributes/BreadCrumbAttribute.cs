@@ -47,7 +47,7 @@ namespace SharedPluginFeatures
         public BreadcrumbAttribute(string name, string parentRoute)
         {
             if (String.IsNullOrEmpty(name))
-                throw new ArgumentException(nameof(name));
+                throw new ArgumentNullException(nameof(name));
 
             Name = name;
             ParentRoute = parentRoute;

@@ -97,7 +97,7 @@ namespace SieraDeltaGeoIp.Plugin
 
         public void AfterConfigureServices(in IServiceCollection services)
         {
-            var serviceProvider = services.BuildServiceProvider();
+            ServiceProvider serviceProvider = services.BuildServiceProvider();
 
             INotificationService notificationService = serviceProvider.GetRequiredService<INotificationService>();
             GeoIpStatistics = new GeoIpStatistics();
@@ -107,10 +107,6 @@ namespace SieraDeltaGeoIp.Plugin
         public void Configure(in IApplicationBuilder app)
         {
 
-        }
-
-        public void ConfigureServices(in IServiceCollection services)
-        {
         }
 
         #endregion IInitialiseEvents Methods

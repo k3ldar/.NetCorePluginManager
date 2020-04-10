@@ -124,6 +124,9 @@ namespace UserSessionMiddleware.Plugin
         public UserSessionCore(HttpContext context, string sessionId)
             : base()
         {
+            if (context == null)
+                throw new ArgumentNullException(nameof(context));
+
             Created = DateTime.Now;
             CurrentSale = 0.00m;
             CurrentSaleCurrency = String.Empty;

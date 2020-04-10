@@ -37,10 +37,11 @@ namespace PluginManager.Internal
     {
         #region Constructors
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1303:Do not pass literals as localized parameters", Justification = "I deem it to be valid in this context!")]
         public PluginModule(Assembly assembly, string module, IPlugin pluginService)
         {
             if (String.IsNullOrEmpty(module))
-                throw new ArgumentException(nameof(module));
+                throw new ArgumentNullException(nameof(module));
 
             Assembly = assembly ?? throw new ArgumentNullException(nameof(assembly));
             Module = module;

@@ -26,6 +26,7 @@
  *                                  Core Plugin Manager (AspNetCore.PluginManager)
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -36,22 +37,31 @@ namespace PluginManager
 {
     public sealed class FileVersionComparison : Comparer<FileInfo>
     {
-        public override int Compare(FileInfo x, FileInfo y)
+        public override int Compare(FileInfo objectCompare1, FileInfo objectCompare2)
         {
-            FileVersionInfo versionX = FileVersionInfo.GetVersionInfo(x.FullName);
-            FileVersionInfo versionY = FileVersionInfo.GetVersionInfo(y.FullName);
+            if (objectCompare1 == null || objectCompare2 == null)
+                return 0;
+
+            FileVersionInfo versionX = FileVersionInfo.GetVersionInfo(objectCompare1.FullName);
+            FileVersionInfo versionY = FileVersionInfo.GetVersionInfo(objectCompare2.FullName);
 
             return versionX.FileVersion.CompareTo(versionY.FileVersion);
         }
 
-        public bool Equals(FileInfo x, FileInfo y)
+        public bool Equals(FileInfo objectCompare1, FileInfo objectCompare2)
         {
-            return Compare(x, y) == 0;
+            if (objectCompare1 == null || objectCompare2 == null)
+                return true;
+
+            return Compare(objectCompare1, objectCompare2) == 0;
         }
 
-        public bool Newer(FileInfo x, FileInfo y)
+        public bool Newer(FileInfo objectCompare1, FileInfo objectCompare2)
         {
-            return Compare(x, y) == 1;
+            if (objectCompare1 == null || objectCompare2 == null)
+                return true;
+
+            return Compare(objectCompare1, objectCompare2) == 1;
         }
     }
 }

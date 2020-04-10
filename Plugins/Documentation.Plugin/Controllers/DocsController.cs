@@ -166,6 +166,7 @@ namespace DocumentationPlugin.Controllers
 
         #region Private Methods
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1303:Do not pass literals as localized parameters", Justification = "I deem it to be valid in this context!")]
         private DocumentViewTypeViewModel BuildDocumentViewTypeModel(string className, string classType, string typeName, out Document selected)
         {
             selected = _documentationService.GetDocuments()
@@ -211,23 +212,23 @@ namespace DocumentationPlugin.Controllers
             switch (classType)
             {
                 case "Constructor":
-                    return BuildConstructorViewModel(model, selected, data, typeName);
+                    return BuildConstructorViewModel(model, selected, typeName);
 
                 case "Method":
-                    return BuildMethodViewModel(model, selected, data, typeName);
+                    return BuildMethodViewModel(model, selected, typeName);
 
                 case "Property":
-                    return BuildPropertyViewModel(model, selected, data, typeName);
+                    return BuildPropertyViewModel(model, selected, typeName);
 
                 case "Field":
-                    return BuildFieldViewModel(model, selected, data, typeName);
+                    return BuildFieldViewModel(model, selected, typeName);
 
                 default:
                     throw new InvalidOperationException(SharedPluginFeatures.Constants.InvalidTypeName);
             }
         }
 
-        private DocumentViewTypeViewModel BuildConstructorViewModel(DocumentViewTypeViewModel model, Document selected, DocumentData data, string name)
+        private DocumentViewTypeViewModel BuildConstructorViewModel(DocumentViewTypeViewModel model, Document selected, string name)
         {
             DocumentMethod constructor = selected.Constructors.Where(f => HtmlHelper.RouteFriendlyName(f.MethodName) == name).FirstOrDefault();
 
@@ -245,7 +246,7 @@ namespace DocumentationPlugin.Controllers
             return model;
         }
 
-        private DocumentViewTypeViewModel BuildMethodViewModel(DocumentViewTypeViewModel model, Document selected, DocumentData data, string name)
+        private DocumentViewTypeViewModel BuildMethodViewModel(DocumentViewTypeViewModel model, Document selected, string name)
         {
             DocumentMethod method = selected.Methods.Where(f => HtmlHelper.RouteFriendlyName(f.MethodName) == name).FirstOrDefault();
 
@@ -263,7 +264,7 @@ namespace DocumentationPlugin.Controllers
             return model;
         }
 
-        private DocumentViewTypeViewModel BuildPropertyViewModel(DocumentViewTypeViewModel model, Document selected, DocumentData data, string name)
+        private DocumentViewTypeViewModel BuildPropertyViewModel(DocumentViewTypeViewModel model, Document selected, string name)
         {
             DocumentProperty property = selected.Properties.Where(f => HtmlHelper.RouteFriendlyName(f.PropertyName) == name).FirstOrDefault();
 
@@ -279,7 +280,7 @@ namespace DocumentationPlugin.Controllers
             return model;
         }
 
-        private DocumentViewTypeViewModel BuildFieldViewModel(DocumentViewTypeViewModel model, Document selected, DocumentData data, string name)
+        private DocumentViewTypeViewModel BuildFieldViewModel(DocumentViewTypeViewModel model, Document selected, string name)
         {
             DocumentField field = selected.Fields.Where(f => HtmlHelper.RouteFriendlyName(f.FieldName) == name).FirstOrDefault();
 

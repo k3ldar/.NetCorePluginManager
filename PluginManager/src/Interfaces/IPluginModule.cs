@@ -41,10 +41,12 @@ namespace PluginManager.Abstractions
         /// <value>ushort</value>
         ushort Version { get; }
 
+
         /// <summary>
         /// Assembly name and location
         /// </summary>
         /// <value>string</value>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Naming", "CA1716:Identifiers should not match keywords", Justification = "Already out in the wild and would case breaking compatibility!")]
         string Module { get; }
 
         /// <summary>

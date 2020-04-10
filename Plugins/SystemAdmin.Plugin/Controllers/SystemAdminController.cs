@@ -37,6 +37,8 @@ using SharedPluginFeatures;
 
 using SystemAdmin.Plugin.Models;
 
+#pragma warning disable CS1591
+
 namespace SystemAdmin.Plugin.Controllers
 {
     [LoggedIn]
@@ -137,3 +139,5 @@ namespace SystemAdmin.Plugin.Controllers
         #endregion Controller Action Methods
     }
 }
+
+#pragma warning restore CS1591

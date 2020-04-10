@@ -97,6 +97,7 @@ namespace PluginManager.Internal
             RaiseEvent(eventId, null, null);
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1303:Do not pass literals as localized parameters", Justification = "I deem it to be valid in this context!")]
         public bool RegisterListener(in INotificationListener listener)
         {
             if (listener == null)
@@ -125,6 +126,7 @@ namespace PluginManager.Internal
             return true;
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1303:Do not pass literals as localized parameters", Justification = "I deem it to be valid in this context!")]
         public bool UnregisterListener(in INotificationListener listener)
         {
             if (listener == null)

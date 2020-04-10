@@ -34,6 +34,8 @@ using SharedPluginFeatures;
 
 using SystemAdmin.Plugin.Models;
 
+#pragma warning disable CS1591
+
 namespace SystemAdmin.Plugin.Controllers
 {
     public partial class SystemAdminController
@@ -62,6 +64,9 @@ namespace SystemAdmin.Plugin.Controllers
         [Authorize(Policy = Constants.PolicyNameAlterSeoData)]
         public IActionResult SeoUpdateData(SeoDataModel model)
         {
+            if (model == null)
+                throw new ArgumentNullException(nameof(model));
+
             if (!_seoProvider.GetSeoDataForRoute(model.SeoUrl, out string title, out string metaDescription, out string author, out List<string> keywords))
             {
                 keywords = new List<string>();
@@ -82,3 +87,5 @@ namespace SystemAdmin.Plugin.Controllers
         }
     }
 }
+
+#pragma warning restore CS1591
