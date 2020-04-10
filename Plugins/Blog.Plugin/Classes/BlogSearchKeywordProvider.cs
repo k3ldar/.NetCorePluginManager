@@ -33,8 +33,13 @@ using Middleware.Search;
 
 using SharedPluginFeatures;
 
+#pragma warning disable CS1591
+
 namespace Blog.Plugin.Classes
 {
+    /// <summary>
+    /// Blog search keyword provider.  Provides search facilities for blogs.
+    /// </summary>
     public class BlogSearchKeywordProvider : ISearchKeywordProvider
     {
         #region Private Members
@@ -119,3 +124,5 @@ namespace Blog.Plugin.Classes
         #endregion Private Methods
     }
 }
+
+#pragma warning restore CS1591

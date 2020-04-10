@@ -4,6 +4,11 @@
         <name>Blog.Plugin</name>
     </assembly>
     <members>
+        <member name="T:Blog.Plugin.Classes.BlogSearchKeywordProvider">
+            <summary>
+            Blog search keyword provider.  Provides search facilities for blogs.
+            </summary>
+        </member>
         <member name="T:Blog.Plugin.Classes.BlogSitemapProvider">
             <summary>
             Blog sitemap provider, provides sitemap information for blog items

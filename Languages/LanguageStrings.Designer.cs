@@ -556,6 +556,15 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to All Timings.
+        /// </summary>
+        public static string AllTimings {
+            get {
+                return ResourceManager.GetString("AllTimings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Anti-Ageing.
         /// </summary>
         public static string AntiAgeing {

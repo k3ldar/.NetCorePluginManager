@@ -14157,4 +14157,8 @@ You will shortly receive an email with the details of your order.</comment>
     <value>Other</value>
     <comment>Other</comment>
   </data>
+  <data name="AllTimings" xml:space="preserve">
+    <value>All Timings</value>
+    <comment>All Timings</comment>
+  </data>
 </root>

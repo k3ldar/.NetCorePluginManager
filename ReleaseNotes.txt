@@ -2,6 +2,7 @@ Version 4.0.0
 =============
 
 #109 Update JS files to use CDN
+#105 Add all timings in a simple grid
 
 Version 3.3.0
 =============

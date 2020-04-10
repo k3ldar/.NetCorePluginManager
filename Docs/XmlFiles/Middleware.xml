@@ -1917,6 +1917,13 @@
             <param name="keywordSearchOptions">Keyword search options</param>
             <returns>List&lt;SearchResponseItem&gt;</returns>
         </member>
+        <member name="M:Middleware.Search.DefaultSearchThread.RetrieveSearch(System.String@)">
+            <summary>
+            Retrieve search data based on the name of the search, if it exists.
+            </summary>
+            <param name="searchName"></param>
+            <returns>List&lt;SearchResponseItem&gt;</returns>
+        </member>
         <member name="M:Middleware.Search.DefaultSearchThread.Run(System.Object)">
             <summary>
             Method that executes a search in a dedicated thread

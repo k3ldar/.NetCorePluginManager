@@ -205,7 +205,11 @@ namespace Middleware.Search
             }
         }
 
-
+        /// <summary>
+        /// Retrieve search data based on the name of the search, if it exists.
+        /// </summary>
+        /// <param name="searchName"></param>
+        /// <returns>List&lt;SearchResponseItem&gt;</returns>
         public static List<SearchResponseItem> RetrieveSearch(in string searchName)
         {
             using (TimedLock timedLock = TimedLock.Lock(_lockObject))
