@@ -21,7 +21,7 @@
     <Copyright>Copyright © 2010 - 2020.  Simon Carter. All rights reserved.</Copyright>
     <PackageId>AspNetCore.PluginManager.Languages</PackageId>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>3.3.0</Version>
+    <Version>4.0.0</Version>
     <Authors>Simon Carter</Authors>
     <PackageProjectUrl>http://pluginmanager.website/</PackageProjectUrl>
     <PackageTags>Language Files</PackageTags>

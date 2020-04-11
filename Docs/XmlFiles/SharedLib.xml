@@ -3487,23 +3487,25 @@
             Contains documentation for a class/type or custom documentation
             </summary>
         </member>
-        <member name="M:Shared.Docs.Document.#ctor(Shared.DocumentType)">
+        <member name="M:Shared.Docs.Document.#ctor(Shared.DocumentType,System.String@)">
             <summary>
             Constructor
             
             Other document types (Custom etc)
             </summary>
             <param name="documentType">DocumentType</param>
+            <param name="fullMemberName">Full member name of assembly</param>
         </member>
-        <member name="M:Shared.Docs.Document.#ctor(System.String@)">
+        <member name="M:Shared.Docs.Document.#ctor(System.String@,System.String@)">
             <summary>
             Constructor
             
             Used when documenting an assembly
             </summary>
             <param name="assemblyName">Name of assembly</param>
+            <param name="fullMemberName">Full member name of assembly</param>
         </member>
-        <member name="M:Shared.Docs.Document.#ctor(Shared.DocumentType@,System.String@,System.String@,System.String@)">
+        <member name="M:Shared.Docs.Document.#ctor(Shared.DocumentType@,System.String@,System.String@,System.String@,System.String@)">
             <summary>
             Constructor
             
@@ -3513,6 +3515,7 @@
             <param name="assemblyName">Name of assembly containing the class</param>
             <param name="namespaceName">Namespace where class can be found</param>
             <param name="className">Name of class</param>
+            <param name="fullMemberName">Full member name of assembly</param>
         </member>
         <member name="P:Shared.Docs.Document.Title">
             <summary>

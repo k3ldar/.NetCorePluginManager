@@ -61,7 +61,8 @@
         <member name="T:DocumentationPlugin.Classes.DocumentLoadThread">
             <summary>
             Thread that loads all documentation data when the plugin is initialised, preventing
-            any delay in the showing of doucmentation.
+            any delay in the showing of doucmentation which can take a little while to load depending on the 
+            quantity and composition of document files.
             </summary>
         </member>
         <member name="T:DocumentationPlugin.Classes.InitialiseEvents">

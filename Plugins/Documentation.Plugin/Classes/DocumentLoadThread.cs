@@ -24,16 +24,19 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
+using System.Collections.Generic;
 
 using Shared.Classes;
 
+using Shared.Docs;
 using SharedPluginFeatures;
 
 namespace DocumentationPlugin.Classes
 {
     /// <summary>
     /// Thread that loads all documentation data when the plugin is initialised, preventing
-    /// any delay in the showing of doucmentation.
+    /// any delay in the showing of doucmentation which can take a little while to load depending on the 
+    /// quantity and composition of document files.
     /// </summary>
     internal sealed class DocumentLoadThread : ThreadManager
     {
@@ -48,6 +51,7 @@ namespace DocumentationPlugin.Classes
         internal DocumentLoadThread(IDocumentationService documentationService)
             : base(null, new TimeSpan())
         {
+            HangTimeout = 0;
             _documentationService = documentationService ?? throw new ArgumentNullException(nameof(documentationService));
         }
 
@@ -57,10 +61,19 @@ namespace DocumentationPlugin.Classes
 
         protected override bool Run(object parameters)
         {
-            _documentationService.GetDocuments();
+            PostProcessDocuments(_documentationService.GetDocuments());
             return false;
         }
 
         #endregion Overridden Methods
+
+        #region Private Methods
+
+        private void PostProcessDocuments(in List<Document> documents)
+        {
+
+        }
+
+        #endregion Private Methods
     }
 }
