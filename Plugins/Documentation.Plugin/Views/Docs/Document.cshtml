@@ -31,7 +31,7 @@
                 }
             </ul>
         }
-        @if (Model.SeeAlso != null)
+        @if (Model.SeeAlso != null && Model.SeeAlso.Count > 0)
         {
             <h3>@Localizer[nameof(Languages.LanguageStrings.SeeAlso)]</h3>
             <ul>

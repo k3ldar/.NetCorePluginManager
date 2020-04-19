@@ -33,7 +33,7 @@ using SharedPluginFeatures;
 namespace AspNetCore.PluginManager.Tests.Minify
 {
     [TestClass]
-    public class MinifyFileTests : MinifyTestBase
+    public sealed class MinifyFileTests : MinifyTestBase
     {
         [TestMethod]
         public void MinifyRazorWithIfBlock()

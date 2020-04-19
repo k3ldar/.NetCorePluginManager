@@ -177,7 +177,7 @@ namespace Middleware.Accounts
         /// Retrieve all delivery addresses for a specific user.
         /// </summary>
         /// <param name="userId">Unique user id.</param>
-        /// <returns>List&lt;DeliveryAddress&gt;</returns>
+        /// <returns>List&lt;<see cref="DeliveryAddress"/>&gt;</returns>
         List<DeliveryAddress> GetDeliveryAddresses(in Int64 userId);
 
         /// <summary>

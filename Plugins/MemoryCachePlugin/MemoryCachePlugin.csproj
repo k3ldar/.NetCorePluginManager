@@ -19,6 +19,12 @@
     <RepositoryUrl>https://github.com/k3ldar/.NetCorePluginManager</RepositoryUrl>
   </PropertyGroup>
 
+  <ItemGroup>
+    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
+      <_Parameter1>AspNetCore.PluginManager.Tests</_Parameter1>
+    </AssemblyAttribute>
+  </ItemGroup>
+
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)'=='Debug|netcoreapp3.1'">
     <DefineConstants>CODE_ANALYSIS;DEBUG;TRACE;NET_CORE;NET_CORE_3_1</DefineConstants>
     <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>

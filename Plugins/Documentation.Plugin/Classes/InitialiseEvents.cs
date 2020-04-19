@@ -33,6 +33,8 @@ using PluginManager.Abstractions;
 
 using SharedPluginFeatures;
 
+using static SharedPluginFeatures.Constants;
+
 #pragma warning disable CS1591
 
 namespace DocumentationPlugin.Classes
@@ -61,7 +63,7 @@ namespace DocumentationPlugin.Classes
 
             DocumentLoadThread documentLoadThread = new DocumentLoadThread(defaultDocumentation as IDocumentationService);
             Shared.Classes.ThreadManager.ThreadStart(documentLoadThread,
-                Constants.DocumentationLoadThread,
+                DocumentationLoadThread,
                 ThreadPriority.BelowNormal);
         }
 

@@ -777,7 +777,7 @@
             Retrieve all delivery addresses for a specific user.
             </summary>
             <param name="userId">Unique user id.</param>
-            <returns>List&lt;DeliveryAddress&gt;</returns>
+            <returns>List&lt;<see cref="T:Middleware.Accounts.DeliveryAddress"/>&gt;</returns>
         </member>
         <member name="M:Middleware.Accounts.IAccountProvider.GetDeliveryAddress(System.Int64@,System.Int32@)">
             <summary>
@@ -1874,11 +1874,13 @@
             <summary>
             Indicates whether the search is being made from a logged in user or not.
             </summary>
+            <value>bool</value>
         </member>
         <member name="P:Middleware.Search.BaseSearchOptions.SearchTerm">
             <summary>
             The search term being searched
             </summary>
+            <value>string</value>
         </member>
         <member name="T:Middleware.Search.DefaultSearchThread">
             <summary>

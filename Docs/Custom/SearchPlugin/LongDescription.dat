@@ -5,21 +5,21 @@ The search plugin introduces two areas that can be used for searching, they are:
 <li>Quick Search.</li>
 <li>Advanced Search</li>
 </ul>
-<h3>ISearchProvider Interface</h3>
+<h3><see cref="T:Middleware.ISearchProvider" /> Interface</h3>
 <p>
 The ISearchProvider interface is used to facilitate searching within an ASP Core website, there should only be one instance of this interface registered as a singleton through DI, if a custom implementation is not registered then a default search provider will be registered.  
 </p>
 <p>
 The search provider is responsible for both performing a search and retrieving advanced search options for use within the UI to aid user searching.
 </p>
-<h3>ISearchKeywordProvider Interface</h3>
+<h3><see cref="T:Middleware.ISearchKeywordProvider" /> Interface</h3>
 <p>
-At the heart of both quick and advanced searching lies the ISearchKeywordProvider interface which is implemented by each plugin that wishes to expose search facilities to the search plugin.
+At the heart of both quick and advanced searching lies the <see cref="T:Middleware.ISearchKeywordProvider" /> interface which is implemented by each plugin that wishes to expose search facilities to the search plugin.
 </p>
 <p>
 This interface contians a method for searching which uses the KeywordSearchOptions class to pass search data and returns a list SearchResponseItem's for the search results.  It also allows implementations to return advanced search configuration data that can optionally be used to provide custom search facilities within the search plugin home page.
 </p>
-<h3>Adding an ISearchKeywordProvider</h3>
+<h3>Adding an <see cref="T:Middleware.ISearchKeywordProvider" /></h3>
 <p>
 Each plugin can choose whether to implement <see cref="T:Middleware.ISearchKeywordProvider"/> the following list contains a few examples of plugins that could provide search facilities 
 </p>
@@ -33,7 +33,7 @@ Each plugin can choose whether to implement <see cref="T:Middleware.ISearchKeywo
 There are litterally dozens of plugin types that could implement searching.  In this example we will demonstrate both a basic and advanced search for searching blogs.
 </p>
 <p>
-Creating a blog keyword search provider is relatively simple, the first step is to create a class that descends from ISearchKeywordProvider, this provides the basic building blocks for the blog search:
+Creating a blog keyword search provider is relatively simple, the first step is to create a class that descends from <see cref="T:Middleware.ISearchKeywordProvider" />, this provides the basic building blocks for the blog search:
 </p>
 
 <pre style="font-family:Consolas;font-size:13px;color:black;background:white;"><span style="color:blue;">public</span>&nbsp;<span style="color:blue;">class</span>&nbsp;<span style="color:#2b91af;">BlogSearchKeywordProvider</span>&nbsp;:&nbsp;<span style="color:#2b91af;">ISearchKeywordProvider</span>
@@ -155,5 +155,5 @@ The author and publish date will now appear within the search row.
 </p>
 <h3>Summary</h3>
 <p>
-As can be seen, extending any plugin to add search facility is extremely easy to accomplish, the results can be customised to suit the individual plugin and website.  The SearchResponseItem is highly customisable and facilitates custom search results.  You can implement as many ISearchKeywordProvider concrete classes as you wish, each serving a single search action, if required.
+As can be seen, extending any plugin to add search facility is extremely easy to accomplish, the results can be customised to suit the individual plugin and website.  The SearchResponseItem is highly customisable and facilitates custom search results.  You can implement as many <see cref="T:Middleware.ISearchKeywordProvider" /> concrete classes as you wish, each serving a single search action, if required.
 </p>

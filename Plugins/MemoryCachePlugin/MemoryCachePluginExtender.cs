@@ -44,7 +44,7 @@ namespace MemoryCache.Plugin
         /// <example><pre style="font-family:Consolas;font-size:13px;color:black;background:white;"><span style="color:#1f377f;">app</span>.<span style="color:#74531f;">UseMemoryCache</span>();</pre></example>
         public static void UseMemoryCache(this IServiceCollection services)
         {
-            services.AddSingleton<IMemoryCache, MemoryCache>();
+            services.AddSingleton<IMemoryCache, DefaultMemoryCache>();
         }
     }
 }

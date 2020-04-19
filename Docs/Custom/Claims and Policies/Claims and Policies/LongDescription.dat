@@ -121,6 +121,6 @@ Within the shared plugin features module is an interface called IClaimsProvider,
 A true implementation of the above would use a database or similar methodology to retrieve claims for a user.
 </p>
 <h3>Plugins Requiring Claims</h3>
-<p>
+<p class="remark information">
 It is important to note at this point that both the Login and Blog plugins now require the use of Authentication.
 </p>

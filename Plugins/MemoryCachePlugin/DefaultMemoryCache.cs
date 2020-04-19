@@ -15,7 +15,7 @@
  *
  *  Product:  MemoryCachePlugin
  *  
- *  File: MemoryCache.cs
+ *  File: DefaultMemoryCache.cs
  *
  *  Purpose:  
  *
@@ -24,6 +24,7 @@
  *  10/10/2018  Simon Carter        Move thread initialisation to constructor, better 
  *                                  validation of short memory cache at start
  *  02/06/2019  Simon Carter        Add extending and permanent cache managers.
+ *  12/04/2020  Simon Carter        Renamed to DefaultMemoryCache
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
@@ -37,7 +38,7 @@ using SharedPluginFeatures;
 namespace MemoryCache.Plugin
 {
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1812:AvoidUninstantiatedInternalClasses", Justification = "Used internally as part of IoC")]
-    internal class MemoryCache : BaseCoreClass, IMemoryCache
+    internal class DefaultMemoryCache : BaseCoreClass, IMemoryCache
     {
         #region Private Members
 
@@ -53,7 +54,7 @@ namespace MemoryCache.Plugin
 
         #region Constructors
 
-        public MemoryCache(ISettingsProvider settingsProvider)
+        public DefaultMemoryCache(ISettingsProvider settingsProvider)
         {
             MemoryClassPluginSettings settings = settingsProvider.GetSettings<MemoryClassPluginSettings>("MemoryCachePluginConfiguration");
 

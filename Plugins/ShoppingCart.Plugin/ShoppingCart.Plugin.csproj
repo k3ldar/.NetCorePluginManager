@@ -139,7 +139,7 @@
 		  <PrivateAssets>all</PrivateAssets>
 		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-		<PackageReference Include="SC.Shared.Library.Core" Version="2.10.0" />
+		<PackageReference Include="SC.Shared.Library.Core" Version="2.14.0" />
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(Configuration)'=='Release'">

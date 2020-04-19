@@ -100,6 +100,20 @@ padding: 2px 0 0 1px;
 .stickyRef {
 position: fixed;
 }
+.remark {
+display: inline-block;
+padding: 25px;
+line-height: 25px;
+width: 100%;
+border-radius: 10px;
+background-color: lightskyblue;
+}
+.information {
+background-color: lightskyblue;
+}
+.warning {
+background-color: yellow;
+}
 .docTable {
 width: 100% !important;
 }

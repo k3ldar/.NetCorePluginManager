@@ -58,6 +58,7 @@ namespace DocumentationPlugin.Models
             ShortDescription = shortDescription ?? throw new ArgumentNullException(nameof(shortDescription));
             LongDescription = longDescription ?? throw new ArgumentNullException(nameof(longDescription));
             AllReferences = allReferences ?? String.Empty;
+            SeeAlso = new Dictionary<string, string>();
         }
 
         #endregion Constructors
@@ -131,10 +132,10 @@ namespace DocumentationPlugin.Models
         public List<DocumentMethod> Methods { get; set; }
 
         /// <summary>
-        /// List of any exceptions contained within the document.
+        /// Exceptions contained within the document.
         /// </summary>
-        /// <value>List&lt;DocumentMethodException&gt;</value>
-        public List<DocumentMethodException> Exceptions { get; set; }
+        /// <value>string</value>
+        public string Exceptions { get; set; }
 
         /// <summary>
         /// List of any properties contained within the document
@@ -171,6 +172,12 @@ namespace DocumentationPlugin.Models
         /// </summary>
         /// <value>bool.  If true and there is a short description, it will be shown.</value>
         public bool ShowShortDescription { get; set; }
+
+        /// <summary>
+        /// Any supplementary information regarding the class, type, method, constructor, property etc
+        /// </summary>
+        /// <value>string</value>
+        public string Remarks { get; set; }
 
         #endregion Properties
     }

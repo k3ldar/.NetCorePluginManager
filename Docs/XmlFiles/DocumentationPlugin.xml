@@ -4,6 +4,51 @@
         <name>DocumentationPlugin</name>
     </assembly>
     <members>
+        <member name="T:DocumentationPlugin.Classes.Constants">
+            <summary>
+            Global constants for <see cref="N:DocumentationPlugin"/>
+            </summary>
+        </member>
+        <member name="F:DocumentationPlugin.Classes.Constants.CountValueSee">
+            <summary>
+            Count value for &lt;see&gt; references replaced.
+            </summary>
+        </member>
+        <member name="F:DocumentationPlugin.Classes.Constants.CountValueSeeNotFound">
+            <summary>
+            Count value for &lt;see&gt; references not found.
+            </summary>
+        </member>
+        <member name="F:DocumentationPlugin.Classes.Constants.CountValueSeeAlso">
+            <summary>
+            Count value for &lt;seealso&gt; references replaced.
+            </summary>
+        </member>
+        <member name="F:DocumentationPlugin.Classes.Constants.CountValueSeeAlsoNotFound">
+            <summary>
+            Count value for &lt;seealso&gt; references not found.
+            </summary>
+        </member>
+        <member name="F:DocumentationPlugin.Classes.Constants.CountValueParaOpen">
+            <summary>
+            Count value for &lt;para&gt; references replaced.
+            </summary>
+        </member>
+        <member name="F:DocumentationPlugin.Classes.Constants.CountValueParaClose">
+            <summary>
+            Count value for &lt;/para&gt; references closing tag.
+            </summary>
+        </member>
+        <member name="F:DocumentationPlugin.Classes.Constants.CountValueCodeOpen">
+            <summary>
+            Count value for &lt;code&gt; references replaced.
+            </summary>
+        </member>
+        <member name="F:DocumentationPlugin.Classes.Constants.CountValueCodeClose">
+            <summary>
+            Count value for &lt;/code&gt; references closing tag.
+            </summary>
+        </member>
         <member name="T:DocumentationPlugin.Classes.DocumentationModule">
             <summary>
             Provides a display class of documentation for a module.
@@ -65,6 +110,47 @@
             quantity and composition of document files.
             </summary>
         </member>
+        <member name="T:DocumentationPlugin.Classes.DocumentPostProcess">
+            <summary>
+            Documentation cross reference and post process
+            </summary>
+        </member>
+        <member name="M:DocumentationPlugin.Classes.DocumentPostProcess.#ctor(System.Collections.Generic.List{Shared.Docs.Document}@)">
+            <summary>
+            Default constructor
+            </summary>
+            <param name="documents">List of document files to be post processed</param>
+        </member>
+        <member name="M:DocumentationPlugin.Classes.DocumentPostProcess.Process">
+            <summary>
+            Initiates the post process of all the <see cref="T:Shared.Docs.Document" />s
+            </summary>
+            <example>
+            The following example demonstrates creating a new <see cref="T:DocumentationPlugin.Classes.DocumentPostProcess"/> class and 
+            passing in a list of <see cref="T:Shared.Docs.Document" /> items and post processing them.
+            <code>
+            DocumentPostProcess postProcess = new DocumentPostProcess(GetDocuments());
+            postProcess.Process();
+            </code>
+            </example>
+            <returns><see cref="T:DocumentationPlugin.Classes.PostProcessResults" /></returns>
+        </member>
+        <member name="M:DocumentationPlugin.Classes.DocumentPostProcess.Process(Shared.Docs.Document@)">
+            <summary>
+            Initiates the post process of a single <see cref="T:Shared.Docs.Document" />
+            </summary>
+            <example>
+            The following example demonstrates creating a new <see cref="T:DocumentationPlugin.Classes.DocumentPostProcess"/> class and 
+            passing in a list of <see cref="T:Shared.Docs.Document" /> items and post processing them.
+            <code>
+            DocumentPostProcess postProcess = new DocumentPostProcess(GetDocuments());
+            postProcess.Process();
+            </code>
+            </example>
+            <param name="document"><see cref="T:Shared.Docs.Document"/> instance to be processed.</param>
+            <exception cref="T:System.ArgumentNullException">Thrown when document is null</exception>
+            <returns><see cref="T:DocumentationPlugin.Classes.PostProcessResults" /></returns>
+        </member>
         <member name="T:DocumentationPlugin.Classes.InitialiseEvents">
             <summary>
             Implements IPlugin which allows the Documentation.Plugin module to be
@@ -101,6 +187,42 @@
             </summary>
             <param name="quickSearch">Indicates whether the response types are for quick or normal searching</param>
             <returns>List&lt;string&gt;</returns>
+        </member>
+        <member name="T:DocumentationPlugin.Classes.PostProcessResults">
+            <summary>
+            Class that contains the post processing statistics
+            </summary>
+        </member>
+        <member name="M:DocumentationPlugin.Classes.PostProcessResults.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="P:DocumentationPlugin.Classes.PostProcessResults.DocumentsProcessed">
+            <summary>
+            Returns the total number of documents processed.
+            </summary>
+            <value>int</value>
+        </member>
+        <member name="P:DocumentationPlugin.Classes.PostProcessResults.Counts">
+            <summary>
+            Contains a dictionary of counts, these represent different elements within the post process results.
+            </summary>
+            <value>Dictionary&lt;string, int&gt;</value>
+        </member>
+        <member name="M:DocumentationPlugin.Classes.PostProcessResults.GetCountValue(System.String@)">
+            <summary>
+            Returns the count for the specificd countName
+            </summary>
+            <param name="countName">Name of count</param>
+            <returns>int</returns>
+            <exception cref="T:System.ArgumentNullException">Thrown when countName is null or empty.</exception>
+        </member>
+        <member name="M:DocumentationPlugin.Classes.PostProcessResults.IncrementCount(System.String@)">
+            <summary>
+            Increments the count value for a specific count type
+            </summary>
+            <param name="countName">Name of count to be incremented</param>
         </member>
         <member name="T:DocumentationPlugin.Models.DocumentViewModel">
             <summary>
@@ -185,9 +307,9 @@
         </member>
         <member name="P:DocumentationPlugin.Models.DocumentViewModel.Exceptions">
             <summary>
-            List of any exceptions contained within the document.
+            Exceptions contained within the document.
             </summary>
-            <value>List&lt;DocumentMethodException&gt;</value>
+            <value>string</value>
         </member>
         <member name="P:DocumentationPlugin.Models.DocumentViewModel.Properties">
             <summary>
@@ -224,6 +346,12 @@
             Indicates whether the short description is shown or not.
             </summary>
             <value>bool.  If true and there is a short description, it will be shown.</value>
+        </member>
+        <member name="P:DocumentationPlugin.Models.DocumentViewModel.Remarks">
+            <summary>
+            Any supplementary information regarding the class, type, method, constructor, property etc
+            </summary>
+            <value>string</value>
         </member>
         <member name="T:DocumentationPlugin.Models.DocumentViewTypeViewModel">
             <summary>
@@ -327,6 +455,17 @@
             Document summary
             </summary>
             <value>string</value>
+        </member>
+        <member name="P:DocumentationPlugin.Models.DocumentViewTypeViewModel.Remarks">
+            <summary>
+            Any supplementary information regarding the class, type, method, constructor, property etc
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:DocumentationPlugin.Models.DocumentViewTypeViewModel.Exceptions">
+            <summary>
+            Preformatted exceptions for the relevant constructor, method or property
+            </summary>
         </member>
         <member name="T:DocumentationPlugin.Models.IndexViewModel">
             <summary>

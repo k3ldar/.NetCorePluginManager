@@ -34,11 +34,13 @@ namespace SearchPlugin.Models
         /// <summary>
         /// Keywords to be searched
         /// </summary>
+        /// <value>string</value>
         public string keywords { get; set; }
 
         /// <summary>
         /// Unique search id used to verify the call
         /// </summary>
+        /// <value>string</value>
         public string searchid { get; set; }
     }
 }

@@ -76,11 +76,21 @@ namespace DocumentationPlugin.Classes
 
             List<SearchResponseItem> Results = new List<SearchResponseItem>();
 
-            List<Document> documents = _documentationService.GetDocuments()
-                .Where(d => d.DocumentType == DocumentType.Assembly ||
-                    d.DocumentType == DocumentType.Custom)
-                .OrderBy(o => o.SortOrder).ThenBy(o => o.Title)
-                .ToList();
+            List<Document> documents;
+
+            if (searchOptions.QuickSearch)
+            {
+                documents = _documentationService.GetDocuments()
+                    .Where(d => d.DocumentType == DocumentType.Assembly ||
+                        d.DocumentType == DocumentType.Custom ||
+                        d.DocumentType == DocumentType.Class)
+                    .OrderBy(o => o.SortOrder).ThenBy(o => o.Title)
+                    .ToList();
+            }
+            else
+            {
+                documents = _documentationService.GetDocuments();
+            }
 
             foreach (Document document in documents)
             {
@@ -89,7 +99,7 @@ namespace DocumentationPlugin.Classes
 
                 int offset = document.Title.IndexOf(searchOptions.SearchTerm, StringComparison.InvariantCultureIgnoreCase);
 
-                if (offset > -1 && Results.Count < searchOptions.MaximumSearchResults)
+                if (offset > -1 && Results.Count < searchOptions.MaximumSearchResults && document.DocumentType != DocumentType.Class)
                 {
                     Results.Add(AddDocumentToSearchResult(document, "DocumentTitle",
                         $"/docs/Document/{HtmlHelper.RouteFriendlyName(document.Title)}/", offset, 5));
@@ -98,8 +108,28 @@ namespace DocumentationPlugin.Classes
                     continue;
                 }
 
+                offset = document.ClassName.IndexOf(searchOptions.SearchTerm, StringComparison.InvariantCultureIgnoreCase);
+
+                if (offset > -1 && Results.Count < searchOptions.MaximumSearchResults && document.DocumentType == DocumentType.Class)
+                {
+                    Results.Add(AddDocumentToSearchResult(document, "DocumentClassName",
+                        $"/docs/Document/{HtmlHelper.RouteFriendlyName(document.AssemblyName)}/{HtmlHelper.RouteFriendlyName(document.ClassName)}", offset));
+
+                    continue;
+                }
+
                 if (!searchOptions.QuickSearch)
                 {
+                    offset = document.AssemblyName.IndexOf(searchOptions.SearchTerm, StringComparison.InvariantCultureIgnoreCase);
+
+                    if (offset > -1 && Results.Count < searchOptions.MaximumSearchResults)
+                    {
+                        Results.Add(AddDocumentToSearchResult(document, "DocumentAssemblyName",
+                            $"/docs/Document/{HtmlHelper.RouteFriendlyName(document.AssemblyName)}/", offset));
+
+                        continue;
+                    }
+
                     offset = document.Summary.IndexOf(searchOptions.SearchTerm, StringComparison.InvariantCultureIgnoreCase);
 
                     if (offset > -1 && Results.Count < searchOptions.MaximumSearchResults)
@@ -161,6 +191,8 @@ namespace DocumentationPlugin.Classes
                 Result.Add("DocumentSummary");
                 Result.Add("DocumentLongShortDescription");
                 Result.Add("DocumentLongDescription");
+                Result.Add("DocumentClassName");
+                Result.Add("DocumentAssemblyName");
             }
 
             return Result;

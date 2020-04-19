@@ -37,6 +37,7 @@
     <ProjectReference Include="..\..\Plugins\Products.Plugin\ProductsPlugin.csproj" />
     <ProjectReference Include="..\..\Plugins\Search.Plugin\Search.Plugin.csproj" />
     <ProjectReference Include="..\..\Plugins\SystemAdmin.Plugin\SystemAdmin.Plugin.csproj" />
+    <ProjectReference Include="..\..\SharedPluginFeatures\SharedPluginFeatures.csproj" />
     <ProjectReference Include="..\PluginManager.Tests\PluginManager.Tests.csproj" />
     <ProjectReference Include="..\..\Plugins\Documentation.Plugin\Documentation.Plugin.csproj" />
     <ProjectReference Include="..\..\Plugins\MemoryCachePlugin\MemoryCachePlugin.csproj" />

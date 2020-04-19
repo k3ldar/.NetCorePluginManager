@@ -24,11 +24,9 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
-using System.Collections.Generic;
 
 using Shared.Classes;
 
-using Shared.Docs;
 using SharedPluginFeatures;
 
 namespace DocumentationPlugin.Classes
@@ -49,7 +47,7 @@ namespace DocumentationPlugin.Classes
         #region Constructors
 
         internal DocumentLoadThread(IDocumentationService documentationService)
-            : base(null, new TimeSpan())
+            : base(null, new TimeSpan(0, 5, 0))
         {
             HangTimeout = 0;
             _documentationService = documentationService ?? throw new ArgumentNullException(nameof(documentationService));
@@ -61,19 +59,14 @@ namespace DocumentationPlugin.Classes
 
         protected override bool Run(object parameters)
         {
-            PostProcessDocuments(_documentationService.GetDocuments());
-            return false;
+            DocumentPostProcess documentPostProcess = new DocumentPostProcess(
+                _documentationService.GetDocuments());
+
+            PostProcessResults results = documentPostProcess.Process();
+
+            return results.DocumentsProcessed > 0;
         }
 
         #endregion Overridden Methods
-
-        #region Private Methods
-
-        private void PostProcessDocuments(in List<Document> documents)
-        {
-
-        }
-
-        #endregion Private Methods
     }
 }

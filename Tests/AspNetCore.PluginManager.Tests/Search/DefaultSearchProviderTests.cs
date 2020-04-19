@@ -152,7 +152,7 @@ namespace AspNetCore.PluginManager.Tests.Search
 
             List<string> results = searchProviders[0].SearchResponseTypes(false);
 
-            Assert.IsTrue(results.Count < 8);
+            Assert.IsTrue(results.Count < 10);
 
             Assert.IsFalse(results.Contains("TestProviderA"));
             Assert.IsFalse(results.Contains("TestProviderB"));

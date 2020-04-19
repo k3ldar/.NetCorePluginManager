@@ -150,6 +150,17 @@ namespace DocumentationPlugin.Models
         /// <value>string</value>
         public string Summary { get; set; }
 
+        /// <summary>
+        /// Any supplementary information regarding the class, type, method, constructor, property etc
+        /// </summary>
+        /// <value>string</value>
+        public string Remarks { get; set; }
+
+        /// <summary>
+        /// Preformatted exceptions for the relevant constructor, method or property
+        /// </summary>
+        public string Exceptions { get; set; }
+
         #endregion Properties
     }
 }

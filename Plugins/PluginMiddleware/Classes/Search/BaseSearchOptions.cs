@@ -52,11 +52,13 @@ namespace Middleware.Search
         /// <summary>
         /// Indicates whether the search is being made from a logged in user or not.
         /// </summary>
+        /// <value>bool</value>
         public bool IsLoggedIn { get; private set; }
 
         /// <summary>
         /// The search term being searched
         /// </summary>
+        /// <value>string</value>
         public string SearchTerm { get; private set; }
 
         #endregion Properties

@@ -3482,6 +3482,19 @@
             <param name="message">Message to send</param>
             <returns></returns>
         </member>
+        <member name="T:Shared.Docs.BaseDocument">
+            <summary>
+            Base Documentation
+            </summary>
+            <remarks>
+            This class is used as a descendent for other classes with basic information which is shared between all
+            </remarks>
+        </member>
+        <member name="P:Shared.Docs.BaseDocument.Remarks">
+            <summary>
+            Any remarkable information for class, method, property type etc
+            </summary>
+        </member>
         <member name="T:Shared.Docs.Document">
             <summary>
             Contains documentation for a class/type or custom documentation
@@ -3535,11 +3548,6 @@
         <member name="P:Shared.Docs.Document.Summary">
             <summary>
             Summary for class
-            </summary>
-        </member>
-        <member name="P:Shared.Docs.Document.Remarks">
-            <summary>
-            Any remarkable information for class
             </summary>
         </member>
         <member name="P:Shared.Docs.Document.Returns">

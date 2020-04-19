@@ -193,9 +193,9 @@ namespace DocumentationPlugin.Controllers
             DocumentViewTypeViewModel model = new DocumentViewTypeViewModel(GetModelData(),
                 selected.Title, data.ReferenceData);
 
-            model.Assembly = selected.AssemblyName;
-            model.Namespace = selected.NameSpaceName;
-            model.ClassName = selected.ClassName;
+            model.Assembly = HtmlHelper.RouteFriendlyName(selected.AssemblyName);
+            model.Namespace = HtmlHelper.RouteFriendlyName(selected.NameSpaceName);
+            model.ClassName = HtmlHelper.RouteFriendlyName(selected.ClassName);
 
             if (data.SeeAlso != null && data.SeeAlso.Count > 0)
             {
@@ -243,6 +243,18 @@ namespace DocumentationPlugin.Controllers
             model.ExampleUseage = constructor.ExampleUseage;
             model.Parameters = constructor.Parameters;
 
+            foreach (DocumentExample item in constructor.Examples)
+            {
+                model.ExampleUseage += $"<p>{item.Text}</p>";
+            }
+
+            foreach (DocumentException exception in constructor.Exception)
+            {
+                model.Exceptions += $"<p>{exception.ExceptionName}<br />{exception.Summary}";
+            }
+
+            model.Remarks = constructor.Remarks;
+
             return model;
         }
 
@@ -258,8 +270,20 @@ namespace DocumentationPlugin.Controllers
             model.ShortDescription = method.ShortDescription;
             model.LongDescription = method.LongDescription;
             model.Summary = method.Summary;
-            model.ExampleUseage = method.ExampleUseage;
+            model.ExampleUseage = method.ExampleUseage ?? String.Empty;
             model.Parameters = method.Parameters;
+
+            foreach (DocumentExample item in method.Examples)
+            {
+                model.ExampleUseage += $"<p>{item.Text}</p>";
+            }
+
+            foreach (DocumentException exception in method.Exception)
+            {
+                model.Exceptions += $"<p>{exception.ExceptionName}<br />{exception.Summary}";
+            }
+
+            model.Remarks = method.Remarks;
 
             return model;
         }
@@ -277,6 +301,18 @@ namespace DocumentationPlugin.Controllers
             model.LongDescription = property.LongDescription;
             model.Summary = property.Summary;
 
+            foreach (DocumentExample item in property.Examples)
+            {
+                model.ExampleUseage += $"<p>{item.Text}</p>";
+            }
+
+            foreach (DocumentException exception in property.Exception)
+            {
+                model.Exceptions += $"<p>{exception.ExceptionName}<br />{exception.Summary}";
+            }
+
+            model.Remarks = property.Remarks;
+
             return model;
         }
 
@@ -292,6 +328,18 @@ namespace DocumentationPlugin.Controllers
             model.ShortDescription = field.ShortDescription;
             model.LongDescription = field.LongDescription;
             model.Summary = field.Summary;
+
+            foreach (DocumentExample item in field.Examples)
+            {
+                model.ExampleUseage += $"<p>{item.Text}</p>";
+            }
+
+            foreach (DocumentException exception in field.Exception)
+            {
+                model.Exceptions += $"<p>{exception.ExceptionName}<br />{exception.Summary}";
+            }
+
+            model.Remarks = field.Remarks;
 
             return model;
         }
@@ -316,10 +364,19 @@ namespace DocumentationPlugin.Controllers
                 .ToList();
 
             if (String.IsNullOrEmpty(className))
+            {
                 selected = documents.Where(d => HtmlHelper.RouteFriendlyName(d.Title) == documentName).FirstOrDefault();
+            }
             else
-                selected = _documentationService.GetDocuments().Where(d => HtmlHelper.RouteFriendlyName(d.AssemblyName) == documentName &&
-                    HtmlHelper.RouteFriendlyName(d.Title) == className).FirstOrDefault();
+            {
+                selected = _documentationService.GetDocuments()
+                    .Where(d => HtmlHelper.RouteFriendlyName(d.AssemblyName).Equals(documentName, StringComparison.InvariantCultureIgnoreCase) &&
+                                (
+                                    HtmlHelper.RouteFriendlyName(d.Title).Equals(className, StringComparison.InvariantCultureIgnoreCase) ||
+                                    HtmlHelper.RouteFriendlyName(d.ClassName).Equals(className, StringComparison.InvariantCultureIgnoreCase)
+                                ))
+                    .FirstOrDefault();
+            }
 
             if (selected == null)
                 return null;
@@ -342,7 +399,14 @@ namespace DocumentationPlugin.Controllers
 
             if (data.SeeAlso != null && data.SeeAlso.Count > 0)
             {
-                model.SeeAlso = data.SeeAlso;
+                foreach (KeyValuePair<string, string> item in data.SeeAlso)
+                    model.SeeAlso.Add(item.Key, item.Value);
+            }
+
+            if  (selected.SeeAlso != null && selected.SeeAlso.Count > 0)
+            {
+                foreach (KeyValuePair<string, string> item in selected.SeeAlso)
+                    model.SeeAlso.Add(item.Key, item.Value);
             }
 
             if (data.Contains != null && data.Contains.Count > 0)
@@ -367,6 +431,13 @@ namespace DocumentationPlugin.Controllers
             model.PreviousDocument = data.PreviousDocument == null ? String.Empty : data.PreviousDocument.Title;
             model.NextDocument = data.NextDocument == null ? String.Empty : data.NextDocument.Title;
             model.Example = selected.Example;
+
+            foreach (DocumentException exception in selected.Exception)
+            {
+                model.Exceptions += $"<p>{exception.ExceptionName}<br />{exception.Summary}";
+            }
+
+            model.Remarks = selected.Remarks;
 
             return model;
         }

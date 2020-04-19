@@ -137,11 +137,13 @@
             <summary>
             Keywords to be searched
             </summary>
+            <value>string</value>
         </member>
         <member name="P:SearchPlugin.Models.QuickSearchModel.searchid">
             <summary>
             Unique search id used to verify the call
             </summary>
+            <value>string</value>
         </member>
         <member name="T:SearchPlugin.Models.QuickSearchViewModel">
             <summary>

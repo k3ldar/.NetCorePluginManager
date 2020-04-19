@@ -39,6 +39,10 @@ namespace PluginManager.Abstractions
     /// An instance of this interface is available via the DI container, any custom implementations
     /// must be configured to be used in the DI contaner when being initialised.
     /// </summary>
+    /// <remarks>
+    /// This class can be customised by the host application, if no implementation is provided then
+    /// a default implementation is provided.
+    /// </remarks>
     public interface ISettingsProvider
     {
         /// <summary>

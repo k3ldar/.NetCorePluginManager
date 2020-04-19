@@ -120,3 +120,17 @@
     </div>
 }
 
+
+@if (!String.IsNullOrEmpty(Model.Exceptions))
+{
+    <h3>Exceptions</h3>
+    @Html.Raw(Model.Exceptions)
+}
+
+@if (!String.IsNullOrEmpty(Model.Remarks))
+{
+    <h3>Remarks</h3>
+    <div class="remark">
+        @Html.Raw(Model.Remarks)
+    </div>
+}

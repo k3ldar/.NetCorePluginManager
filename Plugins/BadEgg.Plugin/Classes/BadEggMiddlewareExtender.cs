@@ -38,7 +38,7 @@ namespace BadEgg.Plugin
         /// </summary>
         /// <param name="builder">IApplicationBuilder instance</param>
         /// <returns>IApplicationBuilder</returns>
-        /// <example><pre style="font-family:Consolas;font-size:13px;color:black;background:white;"><span style="color:#1f377f;">app</span>.<span style="color:#74531f;">UseBadEgg</span>();</pre></example>
+        /// <example><c><span style="color:#1f377f;">app</span>.<span style="color:#74531f;">UseBadEgg</span>();</c></example>
         public static IApplicationBuilder UseBadEgg(this IApplicationBuilder builder)
         {
             return builder.UseMiddleware<BadEggMiddleware>();
