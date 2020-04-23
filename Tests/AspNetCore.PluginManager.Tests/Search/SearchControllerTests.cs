@@ -46,7 +46,7 @@ using pm = PluginManager.Internal;
 namespace AspNetCore.PluginManager.Tests.Search
 {
     [TestClass]
-    public class SearchControllerTests : SearchTestBase
+    public class SearchControllerTests : TestBasePlugin
     {
         //[TestMethod]
         //public void CreateQuickSearchViewModelValidModelData()

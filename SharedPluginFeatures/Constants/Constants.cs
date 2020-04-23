@@ -33,6 +33,11 @@ namespace SharedPluginFeatures
     public sealed class Constants
     {
         /// <summary>
+        /// Authorization header name
+        /// </summary>
+        public const string HeaderAuthorizationName = "Authorization";
+
+        /// <summary>
         /// Minimum password length, default to 8 characters
         /// </summary>
         public const int MinimumPasswordLength = 8;

@@ -15,12 +15,12 @@
  *
  *  Product:  Login Plugin
  *  
- *  File: AutoLoginSubMenu.cs
+ *  File: AutoLoginBasicAuthSubMenu.cs
  *
- *  Purpose:  Auto Login Timings Sub Menu
+ *  Purpose:  Auto Login Basic Auth Timings Sub Menu
  *
  *  Date        Name                Reason
- *  17/02/2019  Simon Carter        Initially Created
+ *  23/04/2020  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
@@ -31,7 +31,7 @@ using SharedPluginFeatures;
 
 namespace LoginPlugin.Classes.SystemAdmin
 {
-    public class AutoLoginSubMenu : SystemAdminSubMenu
+    public class AutoLoginBasicAuthSubMenu : SystemAdminSubMenu
     {
         public override string Action()
         {
@@ -52,12 +52,12 @@ namespace LoginPlugin.Classes.SystemAdmin
         {
             string Result = "Setting|Value";
 
-            Result += $"\rTotal Requests|{LoginMiddleware._autoLoginTimings.Requests}";
-            Result += $"\rFastest ms|{LoginMiddleware._autoLoginTimings.Fastest}";
-            Result += $"\rSlowest ms|{LoginMiddleware._autoLoginTimings.Slowest}";
-            Result += $"\rAverage ms|{LoginMiddleware._autoLoginTimings.Average}";
-            Result += $"\rTrimmed Avg ms|{LoginMiddleware._autoLoginTimings.TrimmedAverage}";
-            Result += $"\rTotal ms|{LoginMiddleware._autoLoginTimings.Total}";
+            Result += $"\rTotal Requests|{LoginMiddleware._autoLoginBasicAuthLogin.Requests}";
+            Result += $"\rFastest ms|{LoginMiddleware._autoLoginBasicAuthLogin.Fastest}";
+            Result += $"\rSlowest ms|{LoginMiddleware._autoLoginBasicAuthLogin.Slowest}";
+            Result += $"\rAverage ms|{LoginMiddleware._autoLoginBasicAuthLogin.Average}";
+            Result += $"\rTrimmed Avg ms|{LoginMiddleware._autoLoginBasicAuthLogin.TrimmedAverage}";
+            Result += $"\rTotal ms|{LoginMiddleware._autoLoginBasicAuthLogin.Total}";
 
             return Result;
         }
@@ -74,7 +74,7 @@ namespace LoginPlugin.Classes.SystemAdmin
 
         public override string Name()
         {
-            return nameof(Languages.LanguageStrings.AutoLogin);
+            return nameof(Languages.LanguageStrings.AutoLoginBasicAuth);
         }
 
         public override string ParentMenuName()

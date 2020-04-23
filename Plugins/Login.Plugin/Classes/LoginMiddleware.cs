@@ -21,6 +21,7 @@
  *
  *  Date        Name                Reason
  *  17/02/2019  Simon Carter        Initially Created
+ *  23/04/2020  Simon Carter        Add Basic authentication
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
@@ -38,8 +39,6 @@ using Shared.Classes;
 
 using SharedPluginFeatures;
 
-#pragma warning disable CS1591
-
 namespace LoginPlugin
 {
     /// <summary>
@@ -55,12 +54,26 @@ namespace LoginPlugin
         private readonly IAuthenticationService _authenticationService;
         private readonly IClaimsProvider _claimsProvider;
         internal static Timings _loginTimings = new Timings();
-        internal static Timings _autoLoginTimings = new Timings();
+        internal static Timings _autoLoginCookieTimings = new Timings();
+        internal static Timings _autoLoginBasicAuthLogin = new Timings();
 
         #endregion Private Members
 
         #region Constructors
 
+        /// <summary>
+        /// Default constructor
+        /// </summary>
+        /// <param name="next">Next RequestDelegate to be called after <see cref="Invoke(HttpContext)"/> has been called.</param>
+        /// <param name="loginProvider">Login provider instance.</param>
+        /// <param name="settingsProvider">Settings provider instance.</param>
+        /// <param name="authenticationService">Authentication Service.</param>
+        /// <param name="claimsProvider">Claims provider</param>
+        /// <exception cref="ArgumentNullException">Raised is next is null.</exception>
+        /// <exception cref="ArgumentNullException">Raised if loginProvider is null.</exception>
+        /// <exception cref="ArgumentNullException">Raised if settingsProvider is null.</exception>
+        /// <exception cref="ArgumentNullException">Raised if authenticationService is null.</exception>
+        /// <exception cref="ArgumentNullException">Raised if claimsProvider is null.</exception>
         public LoginMiddleware(RequestDelegate next, ILoginProvider loginProvider,
             ISettingsProvider settingsProvider, IAuthenticationService authenticationService,
             IClaimsProvider claimsProvider)
@@ -79,45 +92,33 @@ namespace LoginPlugin
 
         #region Public Methods
 
+        /// <summary>
+        /// Method called during middleware processing of requests
+        /// </summary>
+        /// <param name="context">HttpContext for the request.</param>
+        /// <returns>Task</returns>
+        /// <exception cref="ArgumentNullException">Raised if context is null</exception>
         public async Task Invoke(HttpContext context)
         {
+            if (context == null)
+                throw new ArgumentNullException(nameof(context));
+
             using (StopWatchTimer stopwatchTimer = StopWatchTimer.Initialise(_loginTimings))
             {
                 UserSession userSession = GetUserSession(context);
 
-                if (userSession != null && String.IsNullOrEmpty(userSession.UserName) &&
+                if (userSession != null &&
+                    context.Request.Headers.ContainsKey(SharedPluginFeatures.Constants.HeaderAuthorizationName))
+                {
+                    if (!await LoginUsingBasicAuth(userSession, context))
+                    {
+                        return;
+                    }
+                }
+                else if (userSession != null && String.IsNullOrEmpty(userSession.UserName) &&
                     CookieExists(context, _loginControllerSettings.RememberMeCookieName))
                 {
-                    using (StopWatchTimer stopwatchAutoLogin = StopWatchTimer.Initialise(_autoLoginTimings))
-                    {
-                        string cookieValue = CookieValue(context, _loginControllerSettings.RememberMeCookieName,
-                            _loginControllerSettings.EncryptionKey, String.Empty);
-
-                        if (Int64.TryParse(cookieValue, out long userId))
-                        {
-                            UserLoginDetails loginDetails = new UserLoginDetails(userId, true);
-
-                            LoginResult loginResult = _loginProvider.Login(String.Empty, String.Empty,
-                                base.GetIpAddress(context), 1, ref loginDetails);
-
-                            if (loginResult == LoginResult.Remembered)
-                            {
-                                userSession.Login(userId, loginDetails.Username, loginDetails.Email);
-                                await _authenticationService.SignInAsync(context,
-                                    _loginControllerSettings.AuthenticationScheme,
-                                    new ClaimsPrincipal(_claimsProvider.GetUserClaims(loginDetails.UserId)),
-                                    _claimsProvider.GetAuthenticationProperties());
-                            }
-                            else
-                            {
-                                CookieDelete(context, _loginControllerSettings.RememberMeCookieName);
-                            }
-                        }
-                        else
-                        {
-                            CookieDelete(context, _loginControllerSettings.RememberMeCookieName);
-                        }
-                    }
+                    await LoginUsingCookieValue(userSession, context);
                 }
             }
 
@@ -125,7 +126,96 @@ namespace LoginPlugin
         }
 
         #endregion Public Methods
+
+        #region Private Methods
+
+        private async Task<bool> LoginUsingBasicAuth(UserSession userSession, HttpContext context)
+        {
+            using (StopWatchTimer stopWatchTimer = StopWatchTimer.Initialise(_autoLoginBasicAuthLogin))
+            {
+                string authData = context.Request.Headers[SharedPluginFeatures.Constants.HeaderAuthorizationName];
+
+                if (!authData.StartsWith("Basic ", StringComparison.InvariantCultureIgnoreCase))
+                {
+                    context.Response.StatusCode = 400;
+                    return false;
+                }
+
+                try
+                {
+                    authData = System.Text.Encoding.GetEncoding("ISO-8859-1").GetString(Convert.FromBase64String(authData.Substring(6)));
+                }
+                catch (FormatException)
+                {
+                    context.Response.StatusCode = 400;
+                    return false;
+                }
+
+                string[] authParts = authData.Split(':', StringSplitOptions.RemoveEmptyEntries);
+
+                if (authParts.Length != 2)
+                {
+                    context.Response.StatusCode = 400;
+                    return false;
+                }
+
+                UserLoginDetails loginDetails = new UserLoginDetails();
+
+                LoginResult loginResult = _loginProvider.Login(authParts[0], authParts[1],
+                    GetIpAddress(context), 1, ref loginDetails);
+
+                if (loginResult == LoginResult.Success)
+                {
+                    userSession.Login(loginDetails.UserId, loginDetails.Username, loginDetails.Email);
+                    await _authenticationService.SignInAsync(context,
+                        _loginControllerSettings.AuthenticationScheme,
+                        new ClaimsPrincipal(_claimsProvider.GetUserClaims(loginDetails.UserId)),
+                        _claimsProvider.GetAuthenticationProperties());
+
+                    return true;
+                }
+                else
+                {
+                    context.Response.StatusCode = 401;
+                    return false;
+                }
+            }
+        }
+
+        private async Task LoginUsingCookieValue(UserSession userSession, HttpContext context)
+        {
+            using (StopWatchTimer stopwatchTimer = StopWatchTimer.Initialise(_autoLoginCookieTimings))
+            {
+                string cookieValue = CookieValue(context, _loginControllerSettings.RememberMeCookieName,
+                    _loginControllerSettings.EncryptionKey, String.Empty);
+
+                if (Int64.TryParse(cookieValue, out long userId))
+                {
+                    UserLoginDetails loginDetails = new UserLoginDetails(userId, true);
+
+                    LoginResult loginResult = _loginProvider.Login(String.Empty, String.Empty,
+                        GetIpAddress(context), 1, ref loginDetails);
+
+                    if (loginResult == LoginResult.Remembered)
+                    {
+                        userSession.Login(userId, loginDetails.Username, loginDetails.Email);
+                        await _authenticationService.SignInAsync(context,
+                            _loginControllerSettings.AuthenticationScheme,
+                            new ClaimsPrincipal(_claimsProvider.GetUserClaims(loginDetails.UserId)),
+                            _claimsProvider.GetAuthenticationProperties());
+                    }
+                    else
+                    {
+                        CookieDelete(context, _loginControllerSettings.RememberMeCookieName);
+                    }
+                }
+                else
+                {
+                    CookieDelete(context, _loginControllerSettings.RememberMeCookieName);
+                }
+            }
+        }
+
+        #endregion Private Methods
     }
 }
-
-#pragma warning restore CS1591

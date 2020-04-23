@@ -42,7 +42,7 @@ using pm = PluginManager.Internal;
 namespace AspNetCore.PluginManager.Tests.Search
 {
     [TestClass]
-    public class DefaultSearchProviderTests : SearchTestBase
+    public class DefaultSearchProviderTests : TestBasePlugin
     {
         [TestMethod]
         public void NormalSearchFindAllKeywordProdALoggedOut()

@@ -14161,4 +14161,12 @@ You will shortly receive an email with the details of your order.</comment>
     <value>All Timings</value>
     <comment>All Timings</comment>
   </data>
+  <data name="AutoLoginBasicAuth" xml:space="preserve">
+    <value>Automatic Basic Auth Login</value>
+    <comment>Automatic Basic Auth Login</comment>
+  </data>
+  <data name="AutoLoginCookies" xml:space="preserve">
+    <value>Automatic Cookie Login</value>
+    <comment>Automatic Cookie Login</comment>
+  </data>
 </root>

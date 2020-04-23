@@ -20730,6 +20730,24 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Automatic Basic Auth Login.
+        /// </summary>
+        public static string AutoLoginBasicAuth {
+            get {
+                return ResourceManager.GetString("AutoLoginBasicAuth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Automatic Cookie Login.
+        /// </summary>
+        public static string AutoLoginCookies {
+            get {
+                return ResourceManager.GetString("AutoLoginCookies", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Availability.
         /// </summary>
         public static string Availability {

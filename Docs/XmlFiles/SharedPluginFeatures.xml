@@ -1104,6 +1104,11 @@
             Constant values shared between all plugin modules and the AspNetCore.PluginManager
             </summary>
         </member>
+        <member name="F:SharedPluginFeatures.Constants.HeaderAuthorizationName">
+            <summary>
+            Authorization header name
+            </summary>
+        </member>
         <member name="F:SharedPluginFeatures.Constants.MinimumPasswordLength">
             <summary>
             Minimum password length, default to 8 characters

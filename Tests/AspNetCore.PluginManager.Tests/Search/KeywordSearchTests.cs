@@ -46,7 +46,7 @@ namespace AspNetCore.PluginManager.Tests.Search
     [TestClass]
     public sealed class KeywordSearchTests
     {
-        private static TestSearchPluginManager _documentationLoadPlugin = new TestSearchPluginManager();
+        private static TestPluginManager _documentationLoadPlugin = new TestPluginManager();
         private static bool? _pluginLoaded = null;
         private static IPluginClassesService _pluginServices;
         private static IDocumentationService _documentationService;
@@ -72,7 +72,7 @@ namespace AspNetCore.PluginManager.Tests.Search
                     _pluginLoaded = false;
                 }
 
-                _documentationLoadPlugin = new TestSearchPluginManager();
+                _documentationLoadPlugin = new TestPluginManager();
                 _documentationLoadPlugin.AddAssembly(Assembly.GetExecutingAssembly());
                 _documentationLoadPlugin.UsePlugin(typeof(DemoWebsite.Classes.PluginInitialisation));
                 _documentationLoadPlugin.UsePlugin(typeof(DocumentationPlugin.PluginInitialisation));
@@ -144,7 +144,7 @@ namespace AspNetCore.PluginManager.Tests.Search
         [TestMethod]
         public void KeywordSearchFindAllProviders()
         {
-            using (TestSearchPluginManager pluginManager = new TestSearchPluginManager())
+            using (TestPluginManager pluginManager = new TestPluginManager())
             {
                 pluginManager.AddAssembly(Assembly.GetExecutingAssembly());
                 IPluginClassesService pluginServices = new pm.PluginServices(pluginManager) as IPluginClassesService;
@@ -163,7 +163,7 @@ namespace AspNetCore.PluginManager.Tests.Search
         [TestMethod]
         public void FindAllProvidersIncludingDocumentationPluginProvider()
         {
-            using (TestSearchPluginManager pluginManager = new TestSearchPluginManager())
+            using (TestPluginManager pluginManager = new TestPluginManager())
             {
                 pluginManager.AddAssembly(Assembly.GetExecutingAssembly());
                 IPluginClassesService pluginServices = new pm.PluginServices(pluginManager) as IPluginClassesService;

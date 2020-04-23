@@ -64,7 +64,7 @@ namespace DocumentationPlugin.Classes
 
             PostProcessResults results = documentPostProcess.Process();
 
-            return results.DocumentsProcessed > 0;
+            return results.DocumentsProcessed == 0;
         }
 
         #endregion Overridden Methods

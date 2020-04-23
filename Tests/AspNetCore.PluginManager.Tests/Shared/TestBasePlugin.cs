@@ -35,11 +35,11 @@ using SharedPluginFeatures;
 using Constants = SharedPluginFeatures.Constants;
 using pm = PluginManager.Internal;
 
-namespace AspNetCore.PluginManager.Tests.Search
+namespace AspNetCore.PluginManager.Tests
 {
-    public class SearchTestBase
+    public class TestBasePlugin
     {
-        protected static TestSearchPluginManager _testPlugin = new TestSearchPluginManager();
+        protected static TestPluginManager _testPlugin = new TestPluginManager();
         protected static bool? _pluginLoaded = null;
         protected static IPluginClassesService _pluginServices;
         protected static IDocumentationService _documentationService;
