@@ -25,15 +25,16 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Linq;
-using static System.Web.HttpUtility;
+using System.Text;
 
 using Microsoft.AspNetCore.Http;
 
 using Shared.Classes;
 
 using SharedPluginFeatures;
+
+using static System.Web.HttpUtility;
 using static SharedPluginFeatures.Enums;
 
 namespace BadEgg.Plugin.WebDefender
@@ -88,7 +89,7 @@ namespace BadEgg.Plugin.WebDefender
 
         private static Dictionary<string, IpConnectionInfo> _connectionInformation;
 
-        private HashSet<IpConnectionInfo> _connectionsAdd;
+        private readonly HashSet<IpConnectionInfo> _connectionsAdd;
 
         private readonly object _eventLockObject = new object();
 
@@ -96,13 +97,13 @@ namespace BadEgg.Plugin.WebDefender
 
         private ulong _iteration = 0;
 
-        internal static Dictionary<string, bool> _ipAddressList;
+        internal static readonly Dictionary<string, bool> _ipAddressList = new Dictionary<string, bool>();
 
         internal static readonly object _ipAddressLock = new object();
 
         private uint _connectionTimeoutMinutes { get; set; } = 5;
 
-        private HashSet<ConnectionReportEventArgs> _reports = new HashSet<ConnectionReportEventArgs>();
+        private readonly HashSet<ConnectionReportEventArgs> _reports = new HashSet<ConnectionReportEventArgs>();
 
         private readonly object _reportsLock = new object();
 
@@ -111,7 +112,7 @@ namespace BadEgg.Plugin.WebDefender
         #region Constructors
 
         internal ValidateConnections()
-            : this (10, uint.MaxValue)
+            : this(10, uint.MaxValue)
         {
 
         }
@@ -130,7 +131,6 @@ namespace BadEgg.Plugin.WebDefender
             }
 
             _connectionsAdd = new HashSet<IpConnectionInfo>();
-            _ipAddressList = new Dictionary<string, bool>();
             _connectionTimeoutMinutes = connectionTimeoutMinutes;
             _maximumConnectionsPerSecond = maximumConnectionsPerSecond;
         }
@@ -426,10 +426,7 @@ namespace BadEgg.Plugin.WebDefender
 
         private void RaiseReportEvent(in string ipAddress, in string queryString, in ValidateRequestResult validation)
         {
-            if (OnReportConnection != null)
-            {
-                OnReportConnection(this, new ConnectionReportEventArgs(ipAddress, queryString, validation));
-            }
+            OnReportConnection?.Invoke(this, new ConnectionReportEventArgs(ipAddress, queryString, validation));
         }
 
         /// <summary>
@@ -438,8 +435,7 @@ namespace BadEgg.Plugin.WebDefender
         /// <param name="connection">connection info being removed</param>
         private void RaiseConnectionAdd(in IpConnectionInfo connection)
         {
-            if (ConnectionAdd != null)
-                ConnectionAdd(this, new ConnectionEventArgs(connection.IPAddress));
+            ConnectionAdd?.Invoke(this, new ConnectionEventArgs(connection.IPAddress));
         }
 
         /// <summary>
@@ -448,10 +444,9 @@ namespace BadEgg.Plugin.WebDefender
         /// <param name="connection">connection info being removed</param>
         private void RaiseConnectionRemoved(in IpConnectionInfo connection)
         {
-            if (ConnectionRemove != null)
-                ConnectionRemove(this, new ConnectionRemoveEventArgs(connection.IPAddress, 
-                    connection.HitsPerMinute(), connection.Requests, 
-                    connection.Created - connection.LastEntry));
+            ConnectionRemove?.Invoke(this, new ConnectionRemoveEventArgs(connection.IPAddress,
+                connection.HitsPerMinute(), connection.Requests,
+                connection.Created - connection.LastEntry));
         }
 
         /// <summary>
@@ -466,8 +461,7 @@ namespace BadEgg.Plugin.WebDefender
         {
             RequestBanEventArgs args = new RequestBanEventArgs(ipAddress, hits, requests, span);
 
-            if (OnBanIPAddress != null)
-                OnBanIPAddress(null, args);
+            OnBanIPAddress?.Invoke(null, args);
 
             return args.AddToBlackList;
         }
@@ -594,7 +588,7 @@ namespace BadEgg.Plugin.WebDefender
 
             foreach (IpConnectionInfo connection in banRequests)
             {
-                if (RaiseOnBanIPAddress(connection.IPAddress, connection.HitsPerMinute(), 
+                if (RaiseOnBanIPAddress(connection.IPAddress, connection.HitsPerMinute(),
                     connection.Requests, connection.TotalTime()))
                 {
                     if (!connection.Results.HasFlag(ValidateRequestResult.IpBlackListed))

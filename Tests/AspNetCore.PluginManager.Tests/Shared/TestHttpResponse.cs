@@ -36,6 +36,7 @@ namespace AspNetCore.PluginManager.Tests
         #region Private Members
 
         private readonly TestResponseCookies _cookies = new TestResponseCookies();
+        private readonly IHeaderDictionary _headerDictionary = new TestHeaderDictionary();
 
         #endregion Private Members
 
@@ -60,7 +61,13 @@ namespace AspNetCore.PluginManager.Tests
 
         public override Boolean HasStarted => throw new NotImplementedException();
 
-        public override IHeaderDictionary Headers => throw new NotImplementedException();
+        public override IHeaderDictionary Headers
+        {
+            get
+            {
+                return _headerDictionary;
+            }
+        }
 
         public override HttpContext HttpContext => throw new NotImplementedException();
 

@@ -1474,6 +1474,16 @@
             Maximum number of products that can be returned during a search.
             </summary>
         </member>
+        <member name="F:SharedPluginFeatures.Constants.BadEggValidationThread">
+            <summary>
+            Name of thread used for Bad Egg validation
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Constants.BadEggValidationIgnoreHeaderName">
+            <summary>
+            Header name for ignoring BadEgg validation
+            </summary>
+        </member>
         <member name="T:SharedPluginFeatures.Enums">
             <summary>
             Standard Enum values shared across all plugin modules.

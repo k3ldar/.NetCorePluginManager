@@ -71,6 +71,7 @@ namespace AspNetCore.PluginManager.Tests
                 _testPlugin.UsePlugin(typeof(MemoryCache.Plugin.PluginInitialisation));
                 _testPlugin.UsePlugin(typeof(ProductPlugin.PluginInitialisation));
                 _testPlugin.UsePlugin(typeof(SearchPlugin.PluginInitialisation));
+                _testPlugin.UsePlugin(typeof(BadEgg.Plugin.PluginInitialisation));
 
                 _testPlugin.ConfigureServices();
 

@@ -67,6 +67,13 @@
             </summary>
             <value>int</value>
         </member>
+        <member name="P:BadEgg.Plugin.BadEggSettings.IgnoreValidationHeaderCode">
+            <summary>
+            The code which is used to ignore validation within <see cref="T:BadEgg.Plugin.BadEggMiddleware"/>BadEgg middleware, this is 
+            sent within the header of the request, if it matches this code, no validation takes place
+            </summary>
+            <value>string</value>
+        </member>
         <member name="T:BadEgg.Plugin.Classes.SystemAdmin.BadEggConnectionsSubMenu">
             <summary>
             Returns a list of current connections and their BadEgg status and can 

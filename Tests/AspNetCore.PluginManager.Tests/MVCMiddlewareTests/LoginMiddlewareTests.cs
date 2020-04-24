@@ -41,7 +41,7 @@ using pm = PluginManager.Internal;
 namespace AspNetCore.PluginManager.Tests.MiddlewareTests
 {
     [TestClass]
-    public class MVCMiddlewareLoginTests : TestBasePlugin
+    public class LoginMiddlewareTests : TestBasePlugin
     {
         [TestMethod]
         [ExpectedException(typeof(System.ArgumentNullException))]

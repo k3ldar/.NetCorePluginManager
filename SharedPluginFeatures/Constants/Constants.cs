@@ -401,5 +401,18 @@ namespace SharedPluginFeatures
         /// Maximum number of products that can be returned during a search.
         /// </summary>
         public const int MaximumProducts = 50000000;
+
+        /// <summary>
+        /// Name of thread used for Bad Egg validation
+        /// </summary>
+        public const string BadEggValidationThread = "Bad Egg Validation";
+
+        /// <summary>
+        /// Header name for ignoring BadEgg validation
+        /// </summary>
+        public const string BadEggValidationIgnoreHeaderName = "BadEggCode";
+
+
+        public const string BadEggSettingsName = "BadEgg.Plugin";
     }
 }

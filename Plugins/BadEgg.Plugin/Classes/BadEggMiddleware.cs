@@ -88,7 +88,7 @@ namespace BadEgg.Plugin
             if (settingsProvider == null)
                 throw new ArgumentNullException(nameof(settingsProvider));
 
-            _next = next;
+            _next = next ?? throw new ArgumentNullException(nameof(next));
 
             _userSessionManagerLoaded = pluginHelperService.PluginLoaded(Constants.PluginNameUserSession, out int version);
             _ipValidation = ipValidation ?? throw new ArgumentNullException(nameof(ipValidation));
@@ -97,7 +97,7 @@ namespace BadEgg.Plugin
             _managedRoutes = new List<ManagedRoute>();
             LoadRouteData(routeProvider, routeDataService, pluginTypesService);
 
-            _badEggSettings = settingsProvider.GetSettings<BadEggSettings>("BadEgg.Plugin");
+            _badEggSettings = settingsProvider.GetSettings<BadEggSettings>(Constants.BadEggSettingsName);
 
             _validateConnections = new ValidateConnections(
                 _badEggSettings.ConnectionTimeOut,
@@ -107,7 +107,7 @@ namespace BadEgg.Plugin
             _validateConnections.OnReportConnection += ValidateConnections_OnReportConnection;
             _validateConnections.OnBanIPAddress += ValidateConnections_OnBanIPAddress;
 
-            ThreadManager.ThreadStart(_validateConnections, "Bad Egg Validation", ThreadPriority.Lowest);
+            ThreadManager.ThreadStart(_validateConnections, Constants.BadEggValidationThread, ThreadPriority.Lowest);
         }
 
         #endregion Constructors
@@ -126,6 +126,15 @@ namespace BadEgg.Plugin
                 await _next(context);
                 return;
             }
+
+            if (context.Request.Headers.ContainsKey(Constants.BadEggValidationIgnoreHeaderName) &&
+                context.Request.Headers[Constants.BadEggValidationIgnoreHeaderName].Equals(_badEggSettings.IgnoreValidationHeaderCode))
+            {
+                context.Response.Headers.Add(Constants.BadEggValidationIgnoreHeaderName, Boolean.TrueString);
+                await _next(context);
+                return;
+            }
+
 
             string route = RouteLowered(context);
 

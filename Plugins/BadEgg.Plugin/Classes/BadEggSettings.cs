@@ -82,6 +82,14 @@ namespace BadEgg.Plugin
         [SettingHttpResponse(HttpResponseType.ClientErrors)]
         public int TooManyRequestResponseCode { get; set; }
 
+        /// <summary>
+        /// The code which is used to ignore validation within <see cref="BadEggMiddleware"/>BadEgg middleware, this is 
+        /// sent within the header of the request, if it matches this code, no validation takes place
+        /// </summary>
+        /// <value>string</value>
+        [SettingString(0, 30)]
+        public string IgnoreValidationHeaderCode { get; set; }
+
         #endregion Properties
     }
 }

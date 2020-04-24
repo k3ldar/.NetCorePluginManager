@@ -24,11 +24,13 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Primitives;
 
 namespace AspNetCore.PluginManager.Tests
 {
@@ -39,6 +41,8 @@ namespace AspNetCore.PluginManager.Tests
         private IRequestCookieCollection _requestCookieCollection;
         private HttpContext _httpContext;
         private IHeaderDictionary _headerDictionary;
+        private readonly List<KeyValuePair<string, StringValues>> _queryCollection;
+        private readonly QueryString _queryString;
 
         #endregion Private Members
 
@@ -46,10 +50,13 @@ namespace AspNetCore.PluginManager.Tests
 
         public TestHttpRequest()
         {
-
+            Path = "/";
+            _queryCollection = new List<KeyValuePair<string, StringValues>>();
+            _queryString = new QueryString();
         }
 
         public TestHttpRequest(IRequestCookieCollection cookies)
+            : this()
         {
             _requestCookieCollection = cookies ?? throw new ArgumentNullException(nameof(cookies));
         }
@@ -91,7 +98,11 @@ namespace AspNetCore.PluginManager.Tests
             get
             {
                 if (_headerDictionary == null)
+                {
                     _headerDictionary = new TestHeaderDictionary();
+                    _headerDictionary.Add("User-Agent", "No valid user agent has been set");
+
+                }
 
                 return _headerDictionary;
             }
@@ -109,11 +120,47 @@ namespace AspNetCore.PluginManager.Tests
 
         public override Boolean IsHttps { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public override String Method { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public override PathString Path { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public override PathString PathBase { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public override PathString Path { get; set; }
+        public override PathString PathBase
+        {
+            get
+            {
+                return new PathString();
+            }
+
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
+
         public override String Protocol { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public override IQueryCollection Query { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public override QueryString QueryString { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+
+        public override IQueryCollection Query
+        {
+            get
+            {
+                return _queryCollection as IQueryCollection;
+            }
+
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public override QueryString QueryString 
+        { 
+            get
+            {
+                return _queryString;
+            }
+
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
         public override String Scheme { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
         public override Task<IFormCollection> ReadFormAsync(CancellationToken cancellationToken = default)
