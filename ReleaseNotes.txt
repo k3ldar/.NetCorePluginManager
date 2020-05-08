@@ -4,6 +4,7 @@ Version 4.0.0
 * Update dependent package references
 #109 Update JS files to use CDN
 #105 Add all timings in a simple grid
+#112 Move IAuthenticationService from constructors to method params
 
 Version 3.3.0
 =============
