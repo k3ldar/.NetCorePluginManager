@@ -59,7 +59,7 @@ namespace LoginPlugin.Controllers
         private readonly ILoginProvider _loginProvider;
         private readonly LoginControllerSettings _settings;
         private readonly IClaimsProvider _claimsProvider;
-        private readonly IAuthenticationService _authenticationService;
+        //private readonly IAuthenticationService _authenticationService;
 
         private static readonly CacheManager _loginCache = new CacheManager("Login Cache", new TimeSpan(0, 30, 0));
 
@@ -68,14 +68,14 @@ namespace LoginPlugin.Controllers
         #region Constructors
 
         public LoginController(ILoginProvider loginProvider, ISettingsProvider settingsProvider,
-            IClaimsProvider claimsProvider, IAuthenticationService authenticationService)
+            IClaimsProvider claimsProvider/*, IAuthenticationService authenticationService*/)
         {
             if (settingsProvider == null)
                 throw new ArgumentNullException(nameof(settingsProvider));
 
             _loginProvider = loginProvider ?? throw new ArgumentNullException(nameof(loginProvider));
             _claimsProvider = claimsProvider ?? throw new ArgumentNullException(nameof(claimsProvider));
-            _authenticationService = authenticationService ?? throw new ArgumentNullException(nameof(authenticationService));
+            //_authenticationService = authenticationService ?? throw new ArgumentNullException(nameof(authenticationService));
             _settings = settingsProvider.GetSettings<LoginControllerSettings>(nameof(LoginPlugin));
         }
 
@@ -148,10 +148,13 @@ namespace LoginPlugin.Controllers
                         session.Login(loginDetails.UserId, loginDetails.Username, loginDetails.Email);
 
                     if (model.RememberMe)
+                    {
                         CookieAdd(_settings.RememberMeCookieName, Encrypt(loginDetails.UserId.ToString(),
                             _settings.EncryptionKey), _settings.LoginDays);
+                    }
 
-                    _authenticationService.SignInAsync(HttpContext,
+
+                    GetAuthenticationService().SignInAsync(HttpContext,
                         _settings.AuthenticationScheme,
                         new ClaimsPrincipal(_claimsProvider.GetUserClaims(loginDetails.UserId)),
                         _claimsProvider.GetAuthenticationProperties());
@@ -267,7 +270,7 @@ namespace LoginPlugin.Controllers
 
             CookieDelete(_settings.RememberMeCookieName);
 
-            _authenticationService.SignOutAsync(HttpContext,
+            GetAuthenticationService().SignOutAsync(HttpContext,
                 _settings.AuthenticationScheme,
                 _claimsProvider.GetAuthenticationProperties());
 
@@ -328,7 +331,7 @@ namespace LoginPlugin.Controllers
                         if (session != null)
                             session.Login(loginDetails.UserId, loginDetails.Username, loginDetails.Email);
 
-                        _authenticationService.SignInAsync(HttpContext,
+                        GetAuthenticationService().SignInAsync(HttpContext,
                             nameof(AspNetCore.PluginManager),
                             new ClaimsPrincipal(_claimsProvider.GetUserClaims(loginDetails.UserId)),
                             _claimsProvider.GetAuthenticationProperties());

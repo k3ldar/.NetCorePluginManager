@@ -27,6 +27,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -593,6 +594,21 @@ namespace SharedPluginFeatures
             return $"~/{controller}/{viewName}.cshtml";
         }
         #endregion Views
+
+        #region Authentication
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1303:Do not pass literals as localized parameters", Justification = "Not fussed with this exception")]
+        protected IAuthenticationService GetAuthenticationService()
+        {
+            IAuthenticationService authenticationService = HttpContext.RequestServices.GetService(typeof(IAuthenticationService)) as IAuthenticationService;
+
+            if (authenticationService == null)
+                throw new InvalidOperationException($"{nameof(IAuthenticationService)} has not been registered");
+
+            return authenticationService;
+        }
+
+        #endregion Authentication
     }
 }
 

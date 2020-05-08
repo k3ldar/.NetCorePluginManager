@@ -44,17 +44,6 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddAuthentication("DefaultAuthSchemeName")
-                .AddCookie("DefaultAuthSchemeName", options =>
-                {
-                    options.AccessDeniedPath = "/Error/AccessDenied";
-                    options.LoginPath = "/Login/";
-#if NET_CORE_2_2 || NET_CORE_2_1 || NET_CORE_2_0 || NET461
-                    options.SlidingExpiration = true;
-                    options.Cookie.Expiration = new TimeSpan(7, 0, 0, 0);
-#endif
-                });
-
             services.AddSingleton<IIpValidation, IPValidation>();
             services.AddSingleton<IApplicationProvider, MockApplicationProvider>();
             services.AddSingleton<ILoginProvider, MockLoginProvider>();

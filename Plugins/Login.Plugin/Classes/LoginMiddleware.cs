@@ -51,7 +51,6 @@ namespace LoginPlugin
         private readonly RequestDelegate _next;
         private readonly ILoginProvider _loginProvider;
         private readonly LoginControllerSettings _loginControllerSettings;
-        private readonly IAuthenticationService _authenticationService;
         private readonly IClaimsProvider _claimsProvider;
         internal static Timings _loginTimings = new Timings();
         internal static Timings _autoLoginCookieTimings = new Timings();
@@ -67,7 +66,6 @@ namespace LoginPlugin
         /// <param name="next">Next RequestDelegate to be called after <see cref="Invoke(HttpContext)"/> has been called.</param>
         /// <param name="loginProvider">Login provider instance.</param>
         /// <param name="settingsProvider">Settings provider instance.</param>
-        /// <param name="authenticationService">Authentication Service.</param>
         /// <param name="claimsProvider">Claims provider</param>
         /// <exception cref="ArgumentNullException">Raised is next is null.</exception>
         /// <exception cref="ArgumentNullException">Raised if loginProvider is null.</exception>
@@ -75,7 +73,7 @@ namespace LoginPlugin
         /// <exception cref="ArgumentNullException">Raised if authenticationService is null.</exception>
         /// <exception cref="ArgumentNullException">Raised if claimsProvider is null.</exception>
         public LoginMiddleware(RequestDelegate next, ILoginProvider loginProvider,
-            ISettingsProvider settingsProvider, IAuthenticationService authenticationService,
+            ISettingsProvider settingsProvider,
             IClaimsProvider claimsProvider)
         {
             if (settingsProvider == null)
@@ -83,7 +81,6 @@ namespace LoginPlugin
 
             _next = next ?? throw new ArgumentNullException(nameof(next));
             _loginProvider = loginProvider ?? throw new ArgumentNullException(nameof(loginProvider));
-            _authenticationService = authenticationService ?? throw new ArgumentNullException(nameof(authenticationService));
             _claimsProvider = claimsProvider ?? throw new ArgumentNullException(nameof(claimsProvider));
             _loginControllerSettings = settingsProvider.GetSettings<LoginControllerSettings>(nameof(LoginPlugin));
         }
@@ -96,9 +93,10 @@ namespace LoginPlugin
         /// Method called during middleware processing of requests
         /// </summary>
         /// <param name="context">HttpContext for the request.</param>
+        /// <param name="authenticationService"></param>
         /// <returns>Task</returns>
         /// <exception cref="ArgumentNullException">Raised if context is null</exception>
-        public async Task Invoke(HttpContext context)
+        public async Task Invoke(HttpContext context, IAuthenticationService authenticationService)
         {
             if (context == null)
                 throw new ArgumentNullException(nameof(context));
@@ -110,7 +108,9 @@ namespace LoginPlugin
                 if (userSession != null &&
                     context.Request.Headers.ContainsKey(SharedPluginFeatures.Constants.HeaderAuthorizationName))
                 {
-                    if (!await LoginUsingBasicAuth(userSession, context))
+                    //IAuthenticationService authenticationService = context.RequestServices.GetService(typeof(IAuthenticationService)) as IAuthenticationService;
+
+                    if (!await LoginUsingBasicAuth(userSession, context, authenticationService))
                     {
                         return;
                     }
@@ -118,7 +118,9 @@ namespace LoginPlugin
                 else if (userSession != null && String.IsNullOrEmpty(userSession.UserName) &&
                     CookieExists(context, _loginControllerSettings.RememberMeCookieName))
                 {
-                    await LoginUsingCookieValue(userSession, context);
+                    //IAuthenticationService authenticationService = context.RequestServices.GetService(typeof(IAuthenticationService)) as IAuthenticationService;
+
+                    await LoginUsingCookieValue(userSession, context, authenticationService);
                 }
             }
 
@@ -129,7 +131,8 @@ namespace LoginPlugin
 
         #region Private Methods
 
-        private async Task<bool> LoginUsingBasicAuth(UserSession userSession, HttpContext context)
+        private async Task<bool> LoginUsingBasicAuth(UserSession userSession, HttpContext context,
+            IAuthenticationService authenticationService)
         {
             using (StopWatchTimer stopWatchTimer = StopWatchTimer.Initialise(_autoLoginBasicAuthLogin))
             {
@@ -167,7 +170,7 @@ namespace LoginPlugin
                 if (loginResult == LoginResult.Success)
                 {
                     userSession.Login(loginDetails.UserId, loginDetails.Username, loginDetails.Email);
-                    await _authenticationService.SignInAsync(context,
+                    await authenticationService.SignInAsync(context,
                         _loginControllerSettings.AuthenticationScheme,
                         new ClaimsPrincipal(_claimsProvider.GetUserClaims(loginDetails.UserId)),
                         _claimsProvider.GetAuthenticationProperties());
@@ -182,7 +185,8 @@ namespace LoginPlugin
             }
         }
 
-        private async Task LoginUsingCookieValue(UserSession userSession, HttpContext context)
+        private async Task LoginUsingCookieValue(UserSession userSession, HttpContext context,
+            IAuthenticationService authenticationService)
         {
             using (StopWatchTimer stopwatchTimer = StopWatchTimer.Initialise(_autoLoginCookieTimings))
             {
@@ -199,7 +203,7 @@ namespace LoginPlugin
                     if (loginResult == LoginResult.Remembered)
                     {
                         userSession.Login(userId, loginDetails.Username, loginDetails.Email);
-                        await _authenticationService.SignInAsync(context,
+                        await authenticationService.SignInAsync(context,
                             _loginControllerSettings.AuthenticationScheme,
                             new ClaimsPrincipal(_claimsProvider.GetUserClaims(loginDetails.UserId)),
                             _claimsProvider.GetAuthenticationProperties());

@@ -49,6 +49,17 @@ namespace AspNetCore.PluginManager.DemoWebsite
 
             SessionHelper.InitSessionHelper();
 
+            services.AddAuthentication("DefaultAuthSchemeName")
+                .AddCookie("DefaultAuthSchemeName", options =>
+                {
+                    options.AccessDeniedPath = "/Error/AccessDenied";
+                    options.LoginPath = "/Login/";
+#if NET_CORE_2_2 || NET_CORE_2_1 || NET_CORE_2_0 || NET461
+                    options.SlidingExpiration = true;
+                    options.Cookie.Expiration = new TimeSpan(7, 0, 0, 0);
+#endif
+                });
+
             services.Configure<CookiePolicyOptions>(options =>
             {
                 options.CheckConsentNeeded = context => true;
@@ -67,7 +78,8 @@ namespace AspNetCore.PluginManager.DemoWebsite
             services.AddLogging();
             services.AddMvc(
                 option => option.EnableEndpointRouting = false
-                ).ConfigurePluginManager()
+                )
+                .ConfigurePluginManager()
                 .AddRazorRuntimeCompilation();
         }
 

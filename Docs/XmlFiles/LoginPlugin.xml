@@ -90,14 +90,13 @@
             Login middleware ensures that users don't visit routes that are marked as LoggedIn or LoggedOut depending on their login status.
             </summary>
         </member>
-        <member name="M:LoginPlugin.LoginMiddleware.#ctor(Microsoft.AspNetCore.Http.RequestDelegate,Middleware.ILoginProvider,PluginManager.Abstractions.ISettingsProvider,Microsoft.AspNetCore.Authentication.IAuthenticationService,SharedPluginFeatures.IClaimsProvider)">
+        <member name="M:LoginPlugin.LoginMiddleware.#ctor(Microsoft.AspNetCore.Http.RequestDelegate,Middleware.ILoginProvider,PluginManager.Abstractions.ISettingsProvider,SharedPluginFeatures.IClaimsProvider)">
             <summary>
             Default constructor
             </summary>
-            <param name="next">Next RequestDelegate to be called after <see cref="M:LoginPlugin.LoginMiddleware.Invoke(Microsoft.AspNetCore.Http.HttpContext)"/> has been called.</param>
+            <param name="next">Next RequestDelegate to be called after <see cref="!:Invoke(HttpContext)"/> has been called.</param>
             <param name="loginProvider">Login provider instance.</param>
             <param name="settingsProvider">Settings provider instance.</param>
-            <param name="authenticationService">Authentication Service.</param>
             <param name="claimsProvider">Claims provider</param>
             <exception cref="T:System.ArgumentNullException">Raised is next is null.</exception>
             <exception cref="T:System.ArgumentNullException">Raised if loginProvider is null.</exception>
@@ -105,11 +104,12 @@
             <exception cref="T:System.ArgumentNullException">Raised if authenticationService is null.</exception>
             <exception cref="T:System.ArgumentNullException">Raised if claimsProvider is null.</exception>
         </member>
-        <member name="M:LoginPlugin.LoginMiddleware.Invoke(Microsoft.AspNetCore.Http.HttpContext)">
+        <member name="M:LoginPlugin.LoginMiddleware.Invoke(Microsoft.AspNetCore.Http.HttpContext,Microsoft.AspNetCore.Authentication.IAuthenticationService)">
             <summary>
             Method called during middleware processing of requests
             </summary>
             <param name="context">HttpContext for the request.</param>
+            <param name="authenticationService"></param>
             <returns>Task</returns>
             <exception cref="T:System.ArgumentNullException">Raised if context is null</exception>
         </member>
