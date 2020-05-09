@@ -241,7 +241,7 @@ namespace UserSessionMiddleware.Plugin
             if (userSession == null)
                 throw new ArgumentNullException(nameof(userSession));
 
-            userSession.Culture = CookieValue(context, Constants.UserCulture, _cookieEncryptionKey, _defaultCulture);
+            userSession.Culture = CookieValue(context, $"{_cookieName}_{Constants.UserCulture}", _cookieEncryptionKey, _defaultCulture);
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1031:Do not catch general exception types", Justification = "it's ok here, nothing to see, move along")]
