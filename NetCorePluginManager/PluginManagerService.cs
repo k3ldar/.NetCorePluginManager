@@ -118,12 +118,14 @@ namespace AspNetCore.PluginManager
                 // Load ourselves
                 _pluginManagerInstance.PluginLoad(Assembly.GetExecutingAssembly(), String.Empty, false);
 
-                // load any pre loaded plugins from UsePlugin
-                foreach (Type pluginType in _preinitialisedPlugins)
-                    GetPluginManager().PluginLoad(pluginType.Assembly.Location, false);
+                if (_preinitialisedPlugins != null)
+                {
+                    // load any pre loaded plugins from UsePlugin
+                    foreach (Type pluginType in _preinitialisedPlugins)
+                        GetPluginManager().PluginLoad(pluginType.Assembly.Location, false);
 
-                _preinitialisedPlugins = null;
-
+                    _preinitialisedPlugins = null;
+                }
 
                 // are any plugins specifically mentioned in the config, load them
                 // first so we have some control on the load order

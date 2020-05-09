@@ -56,9 +56,9 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
             RequestDelegate requestDelegate = async (context) => { await Task.Delay(0); };
 
             LoginMiddleware login = new LoginMiddleware(requestDelegate, loginProvider, settingsProvider,
-                authenticationService, claimsProvider);
+                claimsProvider);
 
-            await login.Invoke(null);
+            await login.Invoke(null, authenticationService);
         }
 
         [TestMethod]
@@ -69,11 +69,10 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
 
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
             MockClaimsProvider claimsProvider = new MockClaimsProvider(pluginServices);
-            TestAuthenticationService authenticationService = new TestAuthenticationService();
             RequestDelegate requestDelegate = async (context) => { await Task.Delay(0); };
 
             LoginMiddleware login = new LoginMiddleware(requestDelegate, null, settingsProvider,
-                authenticationService, claimsProvider);
+                claimsProvider);
         }
 
         [TestMethod]
@@ -84,18 +83,24 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
             MockLoginProvider loginProvider = new MockLoginProvider();
 
             MockClaimsProvider claimsProvider = new MockClaimsProvider(pluginServices);
-            TestAuthenticationService authenticationService = new TestAuthenticationService();
             RequestDelegate requestDelegate = async (context) => { await Task.Delay(0); };
 
             LoginMiddleware login = new LoginMiddleware(requestDelegate, loginProvider, null,
-                authenticationService, claimsProvider);
+                claimsProvider);
         }
 
         [TestMethod]
         [ExpectedException(typeof(System.ArgumentNullException))]
-        public void LoginNullAuthenticationValue()
+        public async void LoginNullAuthenticationValueOnInvoke()
         {
+            TestRequestCookieCollection cookies = new TestRequestCookieCollection();
+            cookies.AddCookie("RememberMe", "1");
+
+            TestHttpRequest httpRequest = new TestHttpRequest(cookies);
+            TestHttpResponse httpResponse = new TestHttpResponse();
+
             IPluginClassesService pluginServices = new pm.PluginServices(_testPlugin) as IPluginClassesService;
+            TestHttpContext httpContext = new TestHttpContext(httpRequest, httpResponse);
             MockLoginProvider loginProvider = new MockLoginProvider();
 
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
@@ -103,7 +108,9 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
             RequestDelegate requestDelegate = async (context) => { await Task.Delay(0); };
 
             LoginMiddleware login = new LoginMiddleware(requestDelegate, loginProvider, settingsProvider,
-                null, claimsProvider);
+                claimsProvider);
+
+            await login.Invoke(httpContext, null);
         }
 
         [TestMethod]
@@ -114,11 +121,10 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
             MockLoginProvider loginProvider = new MockLoginProvider();
 
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
-            TestAuthenticationService authenticationService = new TestAuthenticationService();
             RequestDelegate requestDelegate = async (context) => { await Task.Delay(0); };
 
             LoginMiddleware login = new LoginMiddleware(requestDelegate, loginProvider, settingsProvider,
-                authenticationService, null);
+                null);
         }
 
         [TestMethod]
@@ -130,10 +136,9 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
 
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
             MockClaimsProvider claimsProvider = new MockClaimsProvider(pluginServices);
-            TestAuthenticationService authenticationService = new TestAuthenticationService();
 
             LoginMiddleware login = new LoginMiddleware(null, loginProvider, settingsProvider,
-                authenticationService, claimsProvider);
+                claimsProvider);
         }
 
         [TestMethod]
@@ -156,9 +161,9 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
             RequestDelegate requestDelegate = async (context) => { await Task.Delay(0); };
 
             LoginMiddleware login = new LoginMiddleware(requestDelegate, loginProvider, settingsProvider,
-                authenticationService, claimsProvider);
+                claimsProvider);
 
-            await login.Invoke(httpContext);
+            await login.Invoke(httpContext, authenticationService);
         }
 
         [TestMethod]
@@ -182,9 +187,9 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
             RequestDelegate requestDelegate = async (context) => { await Task.Delay(0); };
 
             LoginMiddleware login = new LoginMiddleware(requestDelegate, loginProvider, settingsProvider,
-                authenticationService, claimsProvider);
+                claimsProvider);
 
-            await login.Invoke(httpContext);
+            await login.Invoke(httpContext, authenticationService);
 
             TestResponseCookies responseCookies = httpResponse.Cookies as TestResponseCookies;
 
@@ -213,9 +218,9 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
             RequestDelegate requestDelegate = async (context) => { await Task.Delay(0); };
 
             LoginMiddleware login = new LoginMiddleware(requestDelegate, loginProvider, settingsProvider,
-                authenticationService, claimsProvider);
+                claimsProvider);
 
-            await login.Invoke(httpContext);
+            await login.Invoke(httpContext, authenticationService);
 
             TestResponseCookies responseCookies = httpResponse.Cookies as TestResponseCookies;
 
@@ -245,9 +250,9 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
             httpRequest.Headers.Add(SharedPluginFeatures.Constants.HeaderAuthorizationName, "Basic " + encoded);
 
             LoginMiddleware login = new LoginMiddleware(requestDelegate, loginProvider, settingsProvider,
-                authenticationService, claimsProvider);
+                claimsProvider);
 
-            await login.Invoke(httpContext);
+            await login.Invoke(httpContext, authenticationService);
 
             Assert.AreNotEqual(400, httpContext.Response.StatusCode);
             Assert.AreNotEqual(401, httpContext.Response.StatusCode);
@@ -277,9 +282,9 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
             httpRequest.Headers.Add(SharedPluginFeatures.Constants.HeaderAuthorizationName, "Basic " + encoded);
 
             LoginMiddleware login = new LoginMiddleware(requestDelegate, loginProvider, settingsProvider,
-                authenticationService, claimsProvider);
+                claimsProvider);
 
-            await login.Invoke(httpContext);
+            await login.Invoke(httpContext, authenticationService);
 
             Assert.AreEqual(400, httpContext.Response.StatusCode);
             Assert.IsFalse(authenticationService.SignInAsyncCalled);
@@ -307,9 +312,9 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
             httpRequest.Headers.Add(SharedPluginFeatures.Constants.HeaderAuthorizationName, "Basic " + encoded);
 
             LoginMiddleware login = new LoginMiddleware(requestDelegate, loginProvider, settingsProvider,
-                authenticationService, claimsProvider);
+                claimsProvider);
 
-            await login.Invoke(httpContext);
+            await login.Invoke(httpContext, authenticationService);
 
             Assert.IsFalse(authenticationService.SignInAsyncCalled);
         }
@@ -335,9 +340,9 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
             httpRequest.Headers.Add(SharedPluginFeatures.Constants.HeaderAuthorizationName, "blahblahblah");
 
             LoginMiddleware login = new LoginMiddleware(requestDelegate, loginProvider, settingsProvider,
-                authenticationService, claimsProvider);
+                claimsProvider);
 
-            await login.Invoke(httpContext);
+            await login.Invoke(httpContext, authenticationService);
 
             Assert.AreEqual(400, httpContext.Response.StatusCode);
             Assert.IsFalse(authenticationService.SignInAsyncCalled);
@@ -364,9 +369,9 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
             httpRequest.Headers.Add(SharedPluginFeatures.Constants.HeaderAuthorizationName, "Basic blahblahblah");
 
             LoginMiddleware login = new LoginMiddleware(requestDelegate, loginProvider, settingsProvider,
-                authenticationService, claimsProvider);
+                claimsProvider);
 
-            await login.Invoke(httpContext);
+            await login.Invoke(httpContext, authenticationService);
 
             Assert.AreEqual(400, httpContext.Response.StatusCode);
             Assert.IsFalse(authenticationService.SignInAsyncCalled);

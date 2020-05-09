@@ -136,10 +136,13 @@ namespace LoginPlugin.Controllers
             model.Breadcrumbs = GetBreadcrumbs();
             model.CartSummary = GetCartSummary();
 
-            switch (_loginProvider.Login(model.Username, model.Password, GetIpAddress(),
-                loginCacheItem.LoginAttempts, ref loginDetails))
+            LoginResult loginResult = _loginProvider.Login(model.Username, model.Password, GetIpAddress(),
+                loginCacheItem.LoginAttempts, ref loginDetails);
+
+            switch (loginResult)
             {
                 case LoginResult.Success:
+                case LoginResult.PasswordChangeRequired:
                     RemoveLoginAttempt();
 
                     UserSession session = GetUserSession();
@@ -159,13 +162,15 @@ namespace LoginPlugin.Controllers
                         new ClaimsPrincipal(_claimsProvider.GetUserClaims(loginDetails.UserId)),
                         _claimsProvider.GetAuthenticationProperties());
 
+                    if (loginResult == LoginResult.PasswordChangeRequired)
+                    {
+                        return Redirect(_settings.ChangePasswordUrl);
+                    }
+
                     return Redirect(model.ReturnUrl);
 
                 case LoginResult.AccountLocked:
                     return RedirectToAction(nameof(AccountLocked), new { username = model.Username });
-
-                case LoginResult.PasswordChangeRequired:
-                    return Redirect(_settings.ChangePasswordUrl);
 
                 case LoginResult.InvalidCredentials:
                     ModelState.AddModelError(String.Empty, Languages.LanguageStrings.InvalidUsernameOrPassword);

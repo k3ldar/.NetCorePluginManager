@@ -94,7 +94,7 @@
             <summary>
             Default constructor
             </summary>
-            <param name="next">Next RequestDelegate to be called after <see cref="!:Invoke(HttpContext)"/> has been called.</param>
+            <param name="next">Next RequestDelegate to be called after <see cref="M:LoginPlugin.LoginMiddleware.Invoke(Microsoft.AspNetCore.Http.HttpContext,Microsoft.AspNetCore.Authentication.IAuthenticationService)"/> has been called.</param>
             <param name="loginProvider">Login provider instance.</param>
             <param name="settingsProvider">Settings provider instance.</param>
             <param name="claimsProvider">Claims provider</param>

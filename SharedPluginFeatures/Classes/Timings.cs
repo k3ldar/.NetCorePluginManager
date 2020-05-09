@@ -116,7 +116,7 @@ namespace SharedPluginFeatures
         {
             get
             {
-                if (_total == 0 || Requests == 0)
+                if (_total == 0 || Requests < 3)
                     return 0;
 
                 return Math.Round((_total - (_fastest + _slowest)) / (Requests - 2) / TimeSpan.TicksPerMillisecond, DecimalPlaces, MidpointRounding.AwayFromZero);

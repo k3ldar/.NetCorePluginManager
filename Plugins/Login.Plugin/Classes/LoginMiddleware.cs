@@ -63,7 +63,7 @@ namespace LoginPlugin
         /// <summary>
         /// Default constructor
         /// </summary>
-        /// <param name="next">Next RequestDelegate to be called after <see cref="Invoke(HttpContext)"/> has been called.</param>
+        /// <param name="next">Next RequestDelegate to be called after <see cref="Invoke(HttpContext, IAuthenticationService)"/> has been called.</param>
         /// <param name="loginProvider">Login provider instance.</param>
         /// <param name="settingsProvider">Settings provider instance.</param>
         /// <param name="claimsProvider">Claims provider</param>
@@ -101,6 +101,9 @@ namespace LoginPlugin
             if (context == null)
                 throw new ArgumentNullException(nameof(context));
 
+            if (authenticationService == null)
+                throw new ArgumentNullException(nameof(authenticationService));
+
             using (StopWatchTimer stopwatchTimer = StopWatchTimer.Initialise(_loginTimings))
             {
                 UserSession userSession = GetUserSession(context);
@@ -108,8 +111,6 @@ namespace LoginPlugin
                 if (userSession != null &&
                     context.Request.Headers.ContainsKey(SharedPluginFeatures.Constants.HeaderAuthorizationName))
                 {
-                    //IAuthenticationService authenticationService = context.RequestServices.GetService(typeof(IAuthenticationService)) as IAuthenticationService;
-
                     if (!await LoginUsingBasicAuth(userSession, context, authenticationService))
                     {
                         return;
@@ -118,8 +119,6 @@ namespace LoginPlugin
                 else if (userSession != null && String.IsNullOrEmpty(userSession.UserName) &&
                     CookieExists(context, _loginControllerSettings.RememberMeCookieName))
                 {
-                    //IAuthenticationService authenticationService = context.RequestServices.GetService(typeof(IAuthenticationService)) as IAuthenticationService;
-
                     await LoginUsingCookieValue(userSession, context, authenticationService);
                 }
             }

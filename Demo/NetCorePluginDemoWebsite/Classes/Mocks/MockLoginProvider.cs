@@ -53,6 +53,14 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
                 return LoginResult.Success;
             }
 
+            if (username == "admin" && password == "changepassword")
+            {
+                loginDetails.Username = "Administrator";
+                loginDetails.Email = "admin@nowhere.com";
+                loginDetails.UserId = 124;
+                return LoginResult.PasswordChangeRequired;
+            }
+
             if (attempts > 4)
                 return LoginResult.AccountLocked;
 

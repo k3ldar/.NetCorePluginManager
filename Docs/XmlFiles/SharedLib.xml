@@ -3490,6 +3490,24 @@
             This class is used as a descendent for other classes with basic information which is shared between all
             </remarks>
         </member>
+        <member name="P:Shared.Docs.BaseDocument.DocumentType">
+            <summary>
+            Type of document
+            </summary>
+            <value>DocumentType</value>
+        </member>
+        <member name="P:Shared.Docs.BaseDocument.AssemblyName">
+            <summary>
+            Name of assembly where the code is contained
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:Shared.Docs.BaseDocument.NameSpaceName">
+            <summary>
+            Name of the namespace where the code is contained
+            </summary>
+            <value>string</value>
+        </member>
         <member name="P:Shared.Docs.BaseDocument.Remarks">
             <summary>
             Any remarkable information for class, method, property type etc
@@ -3679,6 +3697,16 @@
             <summary>
             Documentation for a property
             </summary>
+        </member>
+        <member name="M:Shared.Docs.DocumentProperty.#ctor(System.String@,System.String@,System.String@,System.String@,System.String@)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="assemblyName">Asembly name</param>
+            <param name="namespaceName">Namespace where property belongs</param>
+            <param name="className">Name of class</param>
+            <param name="propertyName">Name of property</param>
+            <param name="fullMemberName">Full member name as supplied by C# compiler</param>
         </member>
         <member name="P:Shared.Docs.DocumentProperty.ClassName">
             <summary>
