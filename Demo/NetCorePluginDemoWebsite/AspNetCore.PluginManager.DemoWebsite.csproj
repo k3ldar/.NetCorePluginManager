@@ -113,6 +113,7 @@
     <ProjectReference Include="..\..\Plugins\UserSessionMiddlewarePlugin\UserSessionMiddleware.Plugin.csproj" />
     <ProjectReference Include="..\..\PluginManager\src\PluginManager.csproj" />
     <ProjectReference Include="..\..\Plugins\Search.Plugin\Search.Plugin.csproj" />
+    <ProjectReference Include="..\..\Plugins\WebSmokeTest.Plugin\WebSmokeTest.Plugin.csproj" />
   </ItemGroup>
   
   <ItemGroup>

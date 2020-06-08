@@ -7,6 +7,7 @@ Version 4.0.0
 #112 Move IAuthenticationService from constructors to method params
 #113 User can not set name of session culture cookie
 #114 Password change required
+#115 Smoke Test Plugin for integrating with WebSmokeTest
 
 Version 3.3.0
 =============

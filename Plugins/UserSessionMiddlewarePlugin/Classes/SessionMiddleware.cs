@@ -216,7 +216,7 @@ namespace UserSessionMiddleware.Plugin
 
         private string GetNextID()
         {
-            return $"SN{DateTime.Now.ToFileTimeUtc()}{_cookieID++}";
+            return $"SN{DateTime.UtcNow.ToFileTimeUtc()}{_cookieID++}";
         }
 
         private Uri GetAbsoluteUri(HttpContext context)

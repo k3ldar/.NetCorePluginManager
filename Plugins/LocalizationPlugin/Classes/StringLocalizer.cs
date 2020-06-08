@@ -85,7 +85,13 @@ namespace Localization.Plugin
                                 resourceName.Append(c);
                         }
 
-                        return new LocalizedString(name, _resourceManager.GetString(resourceName.ToString(), Thread.CurrentThread.CurrentUICulture));
+                        string locString = _resourceManager.GetString(resourceName.ToString(), 
+                            Thread.CurrentThread.CurrentUICulture);
+
+                        if (String.IsNullOrEmpty(locString))
+                            return new LocalizedString(name, name);
+
+                        return new LocalizedString(name, locString);
                     }
                     catch (Exception error)
                     {

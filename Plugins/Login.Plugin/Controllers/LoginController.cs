@@ -30,7 +30,6 @@ using System.Security.Claims;
 using LoginPlugin.Classes;
 using LoginPlugin.Models;
 
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 
 using Middleware;
@@ -112,8 +111,9 @@ namespace LoginPlugin.Controllers
             return View(model);
         }
 
-        [HttpPost]
         [BadEgg]
+        [HttpPost]
+        [SmokeTest(200, inputData: "{\"Username\":\"joe\",\"Password\":\"bloggs\"}", searchData: "Invalid User Name/Password;Please try again")]
         public IActionResult Index(LoginViewModel model)
         {
             if (model == null)

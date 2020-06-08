@@ -43,6 +43,7 @@ namespace AspNetCore.PluginManager.DemoWebsite
             PluginManagerService.UsePlugin(typeof(SeoPlugin.PluginInitialisation));
             PluginManagerService.UsePlugin(typeof(Localization.Plugin.PluginInitialisation));
             PluginManagerService.UsePlugin(typeof(Breadcrumb.Plugin.PluginInitialisation));
+            PluginManagerService.UsePlugin(typeof(WebSmokeTest.Plugin.PluginInitialisation));
 
             // Initialise the plugin manager service
             PluginManagerService.Initialise();
