@@ -60,6 +60,7 @@ namespace AspNetCore.PluginManager.Tests.Documentation
         }
 
         [TestMethod]
+        [Ignore]
         public void FindLongSearchDocument()
         {
             List<Document> docs = GetDocuments();
@@ -72,6 +73,7 @@ namespace AspNetCore.PluginManager.Tests.Documentation
         }
 
         [TestMethod]
+        [Ignore]
         public void CreatePostProcessDocument()
         {
             Document searchDoc = GetDocuments()
@@ -97,6 +99,7 @@ namespace AspNetCore.PluginManager.Tests.Documentation
         }
 
         [TestMethod]
+        [Ignore]
         public void ValidatePostProcessResults()
         {
             DocumentPostProcess postProcess = new DocumentPostProcess(GetDocuments());
@@ -394,8 +397,8 @@ namespace AspNetCore.PluginManager.Tests.Documentation
         {
             List<Document> documents = new List<Document>();
             documents.Add(new Document(Shared.DocumentType.Class, "Test", "Test", "ClassName", "T:Middleware.Blog.BlogItem"));
-            DocumentMethod documentConstructor = new DocumentMethod(Shared.DocumentType.Constructor, "Test", "Test", "Test", 
-                "M:Middleware.Blog.BlogItem.#ctor(System.Collections.Generic.List{Middleware.Blog.BlogComment}@)", 
+            DocumentMethod documentConstructor = new DocumentMethod(Shared.DocumentType.Constructor, "Test", "Test", "Test",
+                "M:Middleware.Blog.BlogItem.#ctor(System.Collections.Generic.List{Middleware.Blog.BlogComment}@)",
                 "M:Blog.Plugin.Classes.BlogSitemapProvider.Items");
             documents[0].Constructors.Add(documentConstructor);
 

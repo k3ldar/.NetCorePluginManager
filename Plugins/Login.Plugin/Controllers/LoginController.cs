@@ -114,6 +114,7 @@ namespace LoginPlugin.Controllers
         [BadEgg]
         [HttpPost]
         [SmokeTest(200, inputData: "{\"Username\":\"joe\",\"Password\":\"bloggs\"}", searchData: "Invalid User Name/Password;Please try again")]
+        [SmokeTest(200, inputData: "{\"Username\":\"dennis\",\"Password\":\"mennace\"}", searchData: "Invalid User Name/Password;Please try again")]
         public IActionResult Index(LoginViewModel model)
         {
             if (model == null)

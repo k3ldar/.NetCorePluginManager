@@ -44,10 +44,17 @@ namespace AspNetCore.PluginManager.Tests.Search
     [TestClass]
     public class DefaultSearchProviderTests : TestBasePlugin
     {
+        [TestInitialize]
+        public void InitializeSearchTests()
+        {
+            //InitializeSearchPluginManager();
+            InitializeDocumentationPluginManager();
+        }
+
         [TestMethod]
         public void NormalSearchFindAllKeywordProdALoggedOut()
         {
-            IPluginClassesService pluginServices = new pm.PluginServices(_testPlugin) as IPluginClassesService;
+            IPluginClassesService pluginServices = new pm.PluginServices(_testPluginDocs) as IPluginClassesService;
 
             Assert.IsNotNull(pluginServices);
 
@@ -71,14 +78,14 @@ namespace AspNetCore.PluginManager.Tests.Search
                 keywordSearchOptions.SearchTerm, keywordSearchOptions.QuickSearch);
 
 
-            IPluginClassesService pluginServices = new pm.PluginServices(_testPlugin) as IPluginClassesService;
+            IPluginClassesService pluginServices = new pm.PluginServices(_testPluginDocs) as IPluginClassesService;
 
             Assert.IsNotNull(pluginServices);
 
             List<ISearchProvider> searchProviders = pluginServices.GetPluginClasses<ISearchProvider>();
 
             Assert.AreEqual(1, searchProviders.Count);
-            IMemoryCache memoryCache = _testPlugin.GetRequiredService<IMemoryCache>();
+            IMemoryCache memoryCache = _testPluginDocs.GetRequiredService<IMemoryCache>();
             memoryCache.GetCache().Clear();
             Assert.IsNull(memoryCache.GetCache().Get(cacheName));
 
@@ -95,7 +102,7 @@ namespace AspNetCore.PluginManager.Tests.Search
         [TestMethod]
         public void RetrieveAvailableSearchResponseTypesQuickSearch()
         {
-            IPluginClassesService pluginServices = new pm.PluginServices(_testPlugin) as IPluginClassesService;
+            IPluginClassesService pluginServices = new pm.PluginServices(_testPluginDocs) as IPluginClassesService;
 
             Assert.IsNotNull(pluginServices);
 
@@ -116,7 +123,7 @@ namespace AspNetCore.PluginManager.Tests.Search
         [TestMethod]
         public void RetrieveAvailableSearchResponseTypesNormalSearch()
         {
-            IPluginClassesService pluginServices = new pm.PluginServices(_testPlugin) as IPluginClassesService;
+            IPluginClassesService pluginServices = new pm.PluginServices(_testPluginDocs) as IPluginClassesService;
 
             Assert.IsNotNull(pluginServices);
 
@@ -142,7 +149,7 @@ namespace AspNetCore.PluginManager.Tests.Search
         [TestMethod]
         public void RetrieveAvailableSearchNamesForAdvancedSearchingOptions()
         {
-            IPluginClassesService pluginServices = new pm.PluginServices(_testPlugin) as IPluginClassesService;
+            IPluginClassesService pluginServices = new pm.PluginServices(_testPluginDocs) as IPluginClassesService;
 
             Assert.IsNotNull(pluginServices);
 

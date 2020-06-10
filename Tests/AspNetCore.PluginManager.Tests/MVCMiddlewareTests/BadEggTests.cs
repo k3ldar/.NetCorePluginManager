@@ -48,6 +48,12 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
     [TestClass]
     public class BadEggTests : TestBasePlugin
     {
+        [TestInitialize]
+        public void InitialiseBadEggTests()
+        {
+            base.InitializeBadEggPluginManager();
+        }
+
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
         public void BadEggValidationInvalidRequestDelegate()
@@ -57,10 +63,10 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
             TestHttpRequest httpRequest = new TestHttpRequest();
             TestHttpResponse httpResponse = new TestHttpResponse();
 
-            IPluginClassesService pluginServices = new pm.PluginServices(_testPlugin) as IPluginClassesService;
-            IPluginHelperService pluginHelperServices = _testPlugin.GetRequiredService<IPluginHelperService>();
-            IPluginTypesService pluginTypesService = _testPlugin.GetRequiredService<IPluginTypesService>();
-            INotificationService notificationService = _testPlugin.GetRequiredService<INotificationService>();
+            IPluginClassesService pluginServices = new pm.PluginServices(_testPluginBadEgg) as IPluginClassesService;
+            IPluginHelperService pluginHelperServices = _testPluginBadEgg.GetRequiredService<IPluginHelperService>();
+            IPluginTypesService pluginTypesService = _testPluginBadEgg.GetRequiredService<IPluginTypesService>();
+            INotificationService notificationService = _testPluginBadEgg.GetRequiredService<INotificationService>();
             IIpValidation iPValidation = new TestIPValidation();
 
             TestHttpContext httpContext = new TestHttpContext(httpRequest, httpResponse);
@@ -87,10 +93,10 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
             TestHttpRequest httpRequest = new TestHttpRequest();
             TestHttpResponse httpResponse = new TestHttpResponse();
 
-            IPluginClassesService pluginServices = new pm.PluginServices(_testPlugin) as IPluginClassesService;
-            IPluginHelperService pluginHelperServices = _testPlugin.GetRequiredService<IPluginHelperService>();
-            IPluginTypesService pluginTypesService = _testPlugin.GetRequiredService<IPluginTypesService>();
-            INotificationService notificationService = _testPlugin.GetRequiredService<INotificationService>();
+            IPluginClassesService pluginServices = new pm.PluginServices(_testPluginBadEgg) as IPluginClassesService;
+            IPluginHelperService pluginHelperServices = _testPluginBadEgg.GetRequiredService<IPluginHelperService>();
+            IPluginTypesService pluginTypesService = _testPluginBadEgg.GetRequiredService<IPluginTypesService>();
+            INotificationService notificationService = _testPluginBadEgg.GetRequiredService<INotificationService>();
             IIpValidation iPValidation = new TestIPValidation();
 
             TestHttpContext httpContext = new TestHttpContext(httpRequest, httpResponse);
@@ -116,10 +122,10 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
             TestHttpRequest httpRequest = new TestHttpRequest();
             TestHttpResponse httpResponse = new TestHttpResponse();
 
-            IPluginClassesService pluginServices = new pm.PluginServices(_testPlugin) as IPluginClassesService;
-            IPluginHelperService pluginHelperServices = _testPlugin.GetRequiredService<IPluginHelperService>();
-            IPluginTypesService pluginTypesService = _testPlugin.GetRequiredService<IPluginTypesService>();
-            INotificationService notificationService = _testPlugin.GetRequiredService<INotificationService>();
+            IPluginClassesService pluginServices = new pm.PluginServices(_testPluginBadEgg) as IPluginClassesService;
+            IPluginHelperService pluginHelperServices = _testPluginBadEgg.GetRequiredService<IPluginHelperService>();
+            IPluginTypesService pluginTypesService = _testPluginBadEgg.GetRequiredService<IPluginTypesService>();
+            INotificationService notificationService = _testPluginBadEgg.GetRequiredService<INotificationService>();
             IIpValidation iPValidation = new TestIPValidation();
 
             TestHttpContext httpContext = new TestHttpContext(httpRequest, httpResponse);
@@ -146,9 +152,9 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
             TestHttpRequest httpRequest = new TestHttpRequest();
             TestHttpResponse httpResponse = new TestHttpResponse();
 
-            IPluginClassesService pluginServices = new pm.PluginServices(_testPlugin) as IPluginClassesService;
-            IPluginTypesService pluginTypesService = _testPlugin.GetRequiredService<IPluginTypesService>();
-            INotificationService notificationService = _testPlugin.GetRequiredService<INotificationService>();
+            IPluginClassesService pluginServices = new pm.PluginServices(_testPluginBadEgg) as IPluginClassesService;
+            IPluginTypesService pluginTypesService = _testPluginBadEgg.GetRequiredService<IPluginTypesService>();
+            INotificationService notificationService = _testPluginBadEgg.GetRequiredService<INotificationService>();
             IIpValidation iPValidation = new TestIPValidation();
 
             TestHttpContext httpContext = new TestHttpContext(httpRequest, httpResponse);
@@ -176,9 +182,9 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
             TestHttpRequest httpRequest = new TestHttpRequest();
             TestHttpResponse httpResponse = new TestHttpResponse();
 
-            IPluginClassesService pluginServices = new pm.PluginServices(_testPlugin) as IPluginClassesService;
-            IPluginHelperService pluginHelperServices = _testPlugin.GetRequiredService<IPluginHelperService>();
-            INotificationService notificationService = _testPlugin.GetRequiredService<INotificationService>();
+            IPluginClassesService pluginServices = new pm.PluginServices(_testPluginBadEgg) as IPluginClassesService;
+            IPluginHelperService pluginHelperServices = _testPluginBadEgg.GetRequiredService<IPluginHelperService>();
+            INotificationService notificationService = _testPluginBadEgg.GetRequiredService<INotificationService>();
             IIpValidation iPValidation = new TestIPValidation();
 
             TestHttpContext httpContext = new TestHttpContext(httpRequest, httpResponse);
@@ -206,10 +212,10 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
             TestHttpRequest httpRequest = new TestHttpRequest();
             TestHttpResponse httpResponse = new TestHttpResponse();
 
-            IPluginClassesService pluginServices = new pm.PluginServices(_testPlugin) as IPluginClassesService;
-            IPluginHelperService pluginHelperServices = _testPlugin.GetRequiredService<IPluginHelperService>();
-            IPluginTypesService pluginTypesService = _testPlugin.GetRequiredService<IPluginTypesService>();
-            INotificationService notificationService = _testPlugin.GetRequiredService<INotificationService>();
+            IPluginClassesService pluginServices = new pm.PluginServices(_testPluginBadEgg) as IPluginClassesService;
+            IPluginHelperService pluginHelperServices = _testPluginBadEgg.GetRequiredService<IPluginHelperService>();
+            IPluginTypesService pluginTypesService = _testPluginBadEgg.GetRequiredService<IPluginTypesService>();
+            INotificationService notificationService = _testPluginBadEgg.GetRequiredService<INotificationService>();
 
             TestHttpContext httpContext = new TestHttpContext(httpRequest, httpResponse);
             httpRequest.SetContext(httpContext);
@@ -234,10 +240,10 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
             TestHttpRequest httpRequest = new TestHttpRequest();
             TestHttpResponse httpResponse = new TestHttpResponse();
 
-            IPluginClassesService pluginServices = new pm.PluginServices(_testPlugin) as IPluginClassesService;
-            IPluginHelperService pluginHelperServices = _testPlugin.GetRequiredService<IPluginHelperService>();
-            IPluginTypesService pluginTypesService = _testPlugin.GetRequiredService<IPluginTypesService>();
-            INotificationService notificationService = _testPlugin.GetRequiredService<INotificationService>();
+            IPluginClassesService pluginServices = new pm.PluginServices(_testPluginBadEgg) as IPluginClassesService;
+            IPluginHelperService pluginHelperServices = _testPluginBadEgg.GetRequiredService<IPluginHelperService>();
+            IPluginTypesService pluginTypesService = _testPluginBadEgg.GetRequiredService<IPluginTypesService>();
+            INotificationService notificationService = _testPluginBadEgg.GetRequiredService<INotificationService>();
             IIpValidation iPValidation = new TestIPValidation();
 
             TestHttpContext httpContext = new TestHttpContext(httpRequest, httpResponse);
@@ -265,9 +271,9 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
             TestHttpRequest httpRequest = new TestHttpRequest();
             TestHttpResponse httpResponse = new TestHttpResponse();
 
-            IPluginClassesService pluginServices = new pm.PluginServices(_testPlugin) as IPluginClassesService;
-            IPluginHelperService pluginHelperServices = _testPlugin.GetRequiredService<IPluginHelperService>();
-            IPluginTypesService pluginTypesService = _testPlugin.GetRequiredService<IPluginTypesService>();
+            IPluginClassesService pluginServices = new pm.PluginServices(_testPluginBadEgg) as IPluginClassesService;
+            IPluginHelperService pluginHelperServices = _testPluginBadEgg.GetRequiredService<IPluginHelperService>();
+            IPluginTypesService pluginTypesService = _testPluginBadEgg.GetRequiredService<IPluginTypesService>();
             IIpValidation iPValidation = new TestIPValidation();
 
             TestHttpContext httpContext = new TestHttpContext(httpRequest, httpResponse);
@@ -294,10 +300,10 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
             TestHttpRequest httpRequest = new TestHttpRequest();
             TestHttpResponse httpResponse = new TestHttpResponse();
 
-            IPluginClassesService pluginServices = new pm.PluginServices(_testPlugin) as IPluginClassesService;
-            IPluginHelperService pluginHelperServices = _testPlugin.GetRequiredService<IPluginHelperService>();
-            IPluginTypesService pluginTypesService = _testPlugin.GetRequiredService<IPluginTypesService>();
-            INotificationService notificationService = _testPlugin.GetRequiredService<INotificationService>();
+            IPluginClassesService pluginServices = new pm.PluginServices(_testPluginBadEgg) as IPluginClassesService;
+            IPluginHelperService pluginHelperServices = _testPluginBadEgg.GetRequiredService<IPluginHelperService>();
+            IPluginTypesService pluginTypesService = _testPluginBadEgg.GetRequiredService<IPluginTypesService>();
+            INotificationService notificationService = _testPluginBadEgg.GetRequiredService<INotificationService>();
             IIpValidation iPValidation = new TestIPValidation();
 
             TestHttpContext httpContext = new TestHttpContext(httpRequest, httpResponse);
@@ -329,12 +335,12 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
             TestHttpRequest httpRequest = new TestHttpRequest();
             TestHttpResponse httpResponse = new TestHttpResponse();
 
-            IPluginClassesService pluginServices = new pm.PluginServices(_testPlugin) as IPluginClassesService;
-            IPluginHelperService pluginHelperServices = _testPlugin.GetRequiredService<IPluginHelperService>();
-            IPluginTypesService pluginTypesService = _testPlugin.GetRequiredService<IPluginTypesService>();
-            INotificationService notificationService = _testPlugin.GetRequiredService<INotificationService>();
+            IPluginClassesService pluginServices = new pm.PluginServices(_testPluginBadEgg) as IPluginClassesService;
+            IPluginHelperService pluginHelperServices = _testPluginBadEgg.GetRequiredService<IPluginHelperService>();
+            IPluginTypesService pluginTypesService = _testPluginBadEgg.GetRequiredService<IPluginTypesService>();
+            INotificationService notificationService = _testPluginBadEgg.GetRequiredService<INotificationService>();
             IIpValidation iPValidation = new TestIPValidation();
-            IIpManagement ipManagement = _testPlugin.GetRequiredService<IIpManagement>();
+            IIpManagement ipManagement = _testPluginBadEgg.GetRequiredService<IIpManagement>();
 
             TestHttpContext httpContext = new TestHttpContext(httpRequest, httpResponse);
             httpRequest.SetContext(httpContext);
@@ -370,12 +376,12 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
             TestHttpRequest httpRequest = new TestHttpRequest();
             TestHttpResponse httpResponse = new TestHttpResponse();
 
-            IPluginClassesService pluginServices = new pm.PluginServices(_testPlugin) as IPluginClassesService;
-            IPluginHelperService pluginHelperServices = _testPlugin.GetRequiredService<IPluginHelperService>();
-            IPluginTypesService pluginTypesService = _testPlugin.GetRequiredService<IPluginTypesService>();
-            INotificationService notificationService = _testPlugin.GetRequiredService<INotificationService>();
+            IPluginClassesService pluginServices = new pm.PluginServices(_testPluginBadEgg) as IPluginClassesService;
+            IPluginHelperService pluginHelperServices = _testPluginBadEgg.GetRequiredService<IPluginHelperService>();
+            IPluginTypesService pluginTypesService = _testPluginBadEgg.GetRequiredService<IPluginTypesService>();
+            INotificationService notificationService = _testPluginBadEgg.GetRequiredService<INotificationService>();
             IIpValidation iPValidation = new TestIPValidation();
-            IIpManagement ipManagement = _testPlugin.GetRequiredService<IIpManagement>();
+            IIpManagement ipManagement = _testPluginBadEgg.GetRequiredService<IIpManagement>();
 
             TestHttpContext httpContext = new TestHttpContext(httpRequest, httpResponse);
             httpRequest.SetContext(httpContext);
@@ -412,12 +418,12 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
             TestHttpRequest httpRequest = new TestHttpRequest();
             TestHttpResponse httpResponse = new TestHttpResponse();
 
-            IPluginClassesService pluginServices = new pm.PluginServices(_testPlugin) as IPluginClassesService;
-            IPluginHelperService pluginHelperServices = _testPlugin.GetRequiredService<IPluginHelperService>();
-            IPluginTypesService pluginTypesService = _testPlugin.GetRequiredService<IPluginTypesService>();
-            INotificationService notificationService = _testPlugin.GetRequiredService<INotificationService>();
+            IPluginClassesService pluginServices = new pm.PluginServices(_testPluginBadEgg) as IPluginClassesService;
+            IPluginHelperService pluginHelperServices = _testPluginBadEgg.GetRequiredService<IPluginHelperService>();
+            IPluginTypesService pluginTypesService = _testPluginBadEgg.GetRequiredService<IPluginTypesService>();
+            INotificationService notificationService = _testPluginBadEgg.GetRequiredService<INotificationService>();
             IIpValidation iPValidation = new TestIPValidation();
-            IIpManagement ipManagement = _testPlugin.GetRequiredService<IIpManagement>();
+            IIpManagement ipManagement = _testPluginBadEgg.GetRequiredService<IIpManagement>();
 
             TestHttpContext httpContext = new TestHttpContext(httpRequest, httpResponse);
             httpRequest.SetContext(httpContext);

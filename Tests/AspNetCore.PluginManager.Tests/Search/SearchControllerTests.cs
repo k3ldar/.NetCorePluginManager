@@ -48,6 +48,12 @@ namespace AspNetCore.PluginManager.Tests.Search
     [TestClass]
     public class SearchControllerTests : TestBasePlugin
     {
+        [TestInitialize]
+        public void InitializeSearchTests()
+        {
+            InitializeDocumentationPluginManager();
+        }
+
         //[TestMethod]
         //public void CreateQuickSearchViewModelValidModelData()
         //{
@@ -74,7 +80,7 @@ namespace AspNetCore.PluginManager.Tests.Search
         [TestMethod]
         public void CreateSearchControllerValidConstructorArgs()
         {
-            IPluginClassesService pluginServices = new pm.PluginServices(_testPlugin) as IPluginClassesService;
+            IPluginClassesService pluginServices = new pm.PluginServices(_testPluginDocs) as IPluginClassesService;
 
             using (SearchController searchController = new SearchController(
                 new pm.DefaultSettingProvider(Directory.GetCurrentDirectory()),
@@ -87,7 +93,7 @@ namespace AspNetCore.PluginManager.Tests.Search
         [TestMethod]
         public void RouteIndexGetValidResult()
         {
-            IPluginClassesService pluginServices = new pm.PluginServices(_testPlugin) as IPluginClassesService;
+            IPluginClassesService pluginServices = new pm.PluginServices(_testPluginDocs) as IPluginClassesService;
 
             using (SearchController searchController = new SearchController(
                 new pm.DefaultSettingProvider(Directory.GetCurrentDirectory()),
@@ -111,7 +117,7 @@ namespace AspNetCore.PluginManager.Tests.Search
         [ExpectedException(typeof(ArgumentNullException))]
         public void RouteIndexPostInvalidArgs()
         {
-            IPluginClassesService pluginServices = new pm.PluginServices(_testPlugin) as IPluginClassesService;
+            IPluginClassesService pluginServices = new pm.PluginServices(_testPluginDocs) as IPluginClassesService;
 
             using (SearchController searchController = new SearchController(
                 new pm.DefaultSettingProvider(Directory.GetCurrentDirectory()),
@@ -126,7 +132,7 @@ namespace AspNetCore.PluginManager.Tests.Search
         [TestMethod]
         public void RouteIndexPostValidResults()
         {
-            IPluginClassesService pluginServices = new pm.PluginServices(_testPlugin) as IPluginClassesService;
+            IPluginClassesService pluginServices = new pm.PluginServices(_testPluginDocs) as IPluginClassesService;
 
             using (SearchController searchController = new SearchController(
                 new pm.DefaultSettingProvider(Directory.GetCurrentDirectory()),
@@ -151,7 +157,7 @@ namespace AspNetCore.PluginManager.Tests.Search
         [TestMethod]
         public void RouteKeywordSearchPostNullKeywords()
         {
-            IPluginClassesService pluginServices = new pm.PluginServices(_testPlugin) as IPluginClassesService;
+            IPluginClassesService pluginServices = new pm.PluginServices(_testPluginDocs) as IPluginClassesService;
 
             using (SearchController searchController = new SearchController(
                 new pm.DefaultSettingProvider(Directory.GetCurrentDirectory()),
@@ -172,7 +178,7 @@ namespace AspNetCore.PluginManager.Tests.Search
         [TestMethod]
         public void RouteKeywordSearchPostEmptyKeywords()
         {
-            IPluginClassesService pluginServices = new pm.PluginServices(_testPlugin) as IPluginClassesService;
+            IPluginClassesService pluginServices = new pm.PluginServices(_testPluginDocs) as IPluginClassesService;
 
             using (SearchController searchController = new SearchController(
                 new pm.DefaultSettingProvider(Directory.GetCurrentDirectory()),
@@ -193,7 +199,7 @@ namespace AspNetCore.PluginManager.Tests.Search
         [TestMethod]
         public void RouteKeywordSearchPostWhiteSpaceKeywords()
         {
-            IPluginClassesService pluginServices = new pm.PluginServices(_testPlugin) as IPluginClassesService;
+            IPluginClassesService pluginServices = new pm.PluginServices(_testPluginDocs) as IPluginClassesService;
 
             using (SearchController searchController = new SearchController(
                 new pm.DefaultSettingProvider(Directory.GetCurrentDirectory()),
@@ -214,7 +220,7 @@ namespace AspNetCore.PluginManager.Tests.Search
         [TestMethod]
         public void RouteKeywordSearchPostKeywordsTooShortDefaultOfThree()
         {
-            IPluginClassesService pluginServices = new pm.PluginServices(_testPlugin) as IPluginClassesService;
+            IPluginClassesService pluginServices = new pm.PluginServices(_testPluginDocs) as IPluginClassesService;
 
             using (SearchController searchController = new SearchController(
                 new pm.DefaultSettingProvider(Directory.GetCurrentDirectory()),
@@ -235,7 +241,7 @@ namespace AspNetCore.PluginManager.Tests.Search
         [TestMethod]
         public void RouteKeywordSearchPostValidKeywordPlugin()
         {
-            IPluginClassesService pluginServices = new pm.PluginServices(_testPlugin) as IPluginClassesService;
+            IPluginClassesService pluginServices = new pm.PluginServices(_testPluginDocs) as IPluginClassesService;
 
             using (SearchController searchController = new SearchController(
                 new pm.DefaultSettingProvider(Directory.GetCurrentDirectory()),
@@ -268,7 +274,7 @@ namespace AspNetCore.PluginManager.Tests.Search
         [TestMethod]
         public void RouteIndexGetValidResultSearchPlugin()
         {
-            IPluginClassesService pluginServices = new pm.PluginServices(_testPlugin) as IPluginClassesService;
+            IPluginClassesService pluginServices = new pm.PluginServices(_testPluginDocs) as IPluginClassesService;
 
             using (SearchController searchController = new SearchController(
                 new pm.DefaultSettingProvider(Directory.GetCurrentDirectory()),

@@ -43,11 +43,17 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
     [TestClass]
     public class LoginMiddlewareTests : TestBasePlugin
     {
+        [TestInitialize]
+        public void InitializeLoginTests()
+        {
+            InitializeLoginPluginManager();
+        }
+
         [TestMethod]
         [ExpectedException(typeof(System.ArgumentNullException))]
         public async Task LoginNullContextValue()
         {
-            IPluginClassesService pluginServices = new pm.PluginServices(_testPlugin) as IPluginClassesService;
+            IPluginClassesService pluginServices = new pm.PluginServices(_testPluginLogin) as IPluginClassesService;
             MockLoginProvider loginProvider = new MockLoginProvider();
 
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
@@ -65,7 +71,7 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
         [ExpectedException(typeof(System.ArgumentNullException))]
         public void LoginNullLoginProviderValue()
         {
-            IPluginClassesService pluginServices = new pm.PluginServices(_testPlugin) as IPluginClassesService;
+            IPluginClassesService pluginServices = new pm.PluginServices(_testPluginLogin) as IPluginClassesService;
 
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
             MockClaimsProvider claimsProvider = new MockClaimsProvider(pluginServices);
@@ -79,7 +85,7 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
         [ExpectedException(typeof(System.ArgumentNullException))]
         public void LoginNullSettingsProviderValue()
         {
-            IPluginClassesService pluginServices = new pm.PluginServices(_testPlugin) as IPluginClassesService;
+            IPluginClassesService pluginServices = new pm.PluginServices(_testPluginLogin) as IPluginClassesService;
             MockLoginProvider loginProvider = new MockLoginProvider();
 
             MockClaimsProvider claimsProvider = new MockClaimsProvider(pluginServices);
@@ -99,7 +105,7 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
             TestHttpRequest httpRequest = new TestHttpRequest(cookies);
             TestHttpResponse httpResponse = new TestHttpResponse();
 
-            IPluginClassesService pluginServices = new pm.PluginServices(_testPlugin) as IPluginClassesService;
+            IPluginClassesService pluginServices = new pm.PluginServices(_testPluginLogin) as IPluginClassesService;
             TestHttpContext httpContext = new TestHttpContext(httpRequest, httpResponse);
             MockLoginProvider loginProvider = new MockLoginProvider();
 
@@ -117,7 +123,7 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
         [ExpectedException(typeof(System.ArgumentNullException))]
         public void LoginNullClaimsProviderValue()
         {
-            IPluginClassesService pluginServices = new pm.PluginServices(_testPlugin) as IPluginClassesService;
+            IPluginClassesService pluginServices = new pm.PluginServices(_testPluginLogin) as IPluginClassesService;
             MockLoginProvider loginProvider = new MockLoginProvider();
 
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
@@ -131,7 +137,7 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
         [ExpectedException(typeof(System.ArgumentNullException))]
         public void LoginNullRequestDelegateValue()
         {
-            IPluginClassesService pluginServices = new pm.PluginServices(_testPlugin) as IPluginClassesService;
+            IPluginClassesService pluginServices = new pm.PluginServices(_testPluginLogin) as IPluginClassesService;
             MockLoginProvider loginProvider = new MockLoginProvider();
 
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
@@ -151,7 +157,7 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
             TestHttpRequest httpRequest = new TestHttpRequest(cookies);
             TestHttpResponse httpResponse = new TestHttpResponse();
 
-            IPluginClassesService pluginServices = new pm.PluginServices(_testPlugin) as IPluginClassesService;
+            IPluginClassesService pluginServices = new pm.PluginServices(_testPluginLogin) as IPluginClassesService;
             TestHttpContext httpContext = new TestHttpContext(httpRequest, httpResponse);
             MockLoginProvider loginProvider = new MockLoginProvider();
 
@@ -177,7 +183,7 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
             TestHttpRequest httpRequest = new TestHttpRequest(cookies);
             TestHttpResponse httpResponse = new TestHttpResponse();
 
-            IPluginClassesService pluginServices = new pm.PluginServices(_testPlugin) as IPluginClassesService;
+            IPluginClassesService pluginServices = new pm.PluginServices(_testPluginLogin) as IPluginClassesService;
             TestHttpContext httpContext = new TestHttpContext(httpRequest, httpResponse);
             httpRequest.SetContext(httpContext);
             MockLoginProvider loginProvider = new MockLoginProvider();
@@ -208,7 +214,7 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
             TestHttpRequest httpRequest = new TestHttpRequest(cookies);
             TestHttpResponse httpResponse = new TestHttpResponse();
 
-            IPluginClassesService pluginServices = new pm.PluginServices(_testPlugin) as IPluginClassesService;
+            IPluginClassesService pluginServices = new pm.PluginServices(_testPluginLogin) as IPluginClassesService;
             TestHttpContext httpContext = new TestHttpContext(httpRequest, httpResponse);
             httpRequest.SetContext(httpContext);
             MockLoginProvider loginProvider = new MockLoginProvider();
@@ -237,7 +243,7 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
             TestHttpRequest httpRequest = new TestHttpRequest();
             TestHttpResponse httpResponse = new TestHttpResponse();
 
-            IPluginClassesService pluginServices = new pm.PluginServices(_testPlugin) as IPluginClassesService;
+            IPluginClassesService pluginServices = new pm.PluginServices(_testPluginLogin) as IPluginClassesService;
             TestHttpContext httpContext = new TestHttpContext(httpRequest, httpResponse);
             httpRequest.SetContext(httpContext);
             MockLoginProvider loginProvider = new MockLoginProvider();
@@ -269,7 +275,7 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
             TestHttpRequest httpRequest = new TestHttpRequest();
             TestHttpResponse httpResponse = new TestHttpResponse();
 
-            IPluginClassesService pluginServices = new pm.PluginServices(_testPlugin) as IPluginClassesService;
+            IPluginClassesService pluginServices = new pm.PluginServices(_testPluginLogin) as IPluginClassesService;
             TestHttpContext httpContext = new TestHttpContext(httpRequest, httpResponse);
             httpRequest.SetContext(httpContext);
             MockLoginProvider loginProvider = new MockLoginProvider();
@@ -299,7 +305,7 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
             TestHttpRequest httpRequest = new TestHttpRequest();
             TestHttpResponse httpResponse = new TestHttpResponse();
 
-            IPluginClassesService pluginServices = new pm.PluginServices(_testPlugin) as IPluginClassesService;
+            IPluginClassesService pluginServices = new pm.PluginServices(_testPluginLogin) as IPluginClassesService;
             TestHttpContext httpContext = new TestHttpContext(httpRequest, httpResponse);
             httpRequest.SetContext(httpContext);
             MockLoginProvider loginProvider = new MockLoginProvider();
@@ -328,7 +334,7 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
             TestHttpRequest httpRequest = new TestHttpRequest();
             TestHttpResponse httpResponse = new TestHttpResponse();
 
-            IPluginClassesService pluginServices = new pm.PluginServices(_testPlugin) as IPluginClassesService;
+            IPluginClassesService pluginServices = new pm.PluginServices(_testPluginLogin) as IPluginClassesService;
             TestHttpContext httpContext = new TestHttpContext(httpRequest, httpResponse);
             httpRequest.SetContext(httpContext);
             MockLoginProvider loginProvider = new MockLoginProvider();
@@ -357,7 +363,7 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
             TestHttpRequest httpRequest = new TestHttpRequest();
             TestHttpResponse httpResponse = new TestHttpResponse();
 
-            IPluginClassesService pluginServices = new pm.PluginServices(_testPlugin) as IPluginClassesService;
+            IPluginClassesService pluginServices = new pm.PluginServices(_testPluginLogin) as IPluginClassesService;
             TestHttpContext httpContext = new TestHttpContext(httpRequest, httpResponse);
             httpRequest.SetContext(httpContext);
             MockLoginProvider loginProvider = new MockLoginProvider();

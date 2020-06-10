@@ -25,18 +25,16 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc.Infrastructure;
-using Microsoft.Extensions.Localization;
 
 using Newtonsoft.Json;
 
-using PluginManager;
 using PluginManager.Abstractions;
 
 using Shared.Classes;
@@ -51,38 +49,32 @@ namespace WebSmokeTest.Plugin
     /// WebSmokeTest middleware class, this module extends BaseMiddlware and is injected 
     /// into the request pipeline.
     /// </summary>
-    public sealed class WebSmokeTestMiddleware : BaseMiddleware
+    public sealed class WebSmokeTestMiddleware : BaseMiddleware, IDisposable
     {
         #region Private Members
 
-        private static readonly CacheManager _testCache = new CacheManager("Web Smoke Test Cache", new TimeSpan(0, 20, 0), true);
+        private static readonly CacheManager _testCache = new CacheManager("Web Smoke Test Cache", new TimeSpan(0, 10, 0), true);
+        private readonly string _savedData = Path.GetTempFileName();
         private readonly RequestDelegate _next;
         private readonly string _staticFileExtensions = Constants.StaticFileExtensions;
         internal static Timings _timings = new Timings();
-        private readonly IStringLocalizer _stringLocalizer;
+        private Boolean disposedValue;
         private readonly ILogger _logger;
         private readonly WebSmokeTestSettings _settings;
+        private static FileStream _testDataStream;
 
         #endregion Private Members
 
-        #region Constructors
+        #region Constructors/Destructors
 
-        public WebSmokeTestMiddleware(RequestDelegate next, IActionDescriptorCollectionProvider routeProvider,
-            IRouteDataService routeDataService, IPluginHelperService pluginHelperService,
-            IPluginTypesService pluginTypesService, ISettingsProvider settingsProvider,
-            IPluginClassesService pluginClassesService, ILogger logger)
+        public WebSmokeTestMiddleware(RequestDelegate next,
+            IPluginHelperService pluginHelperService,
+            IPluginTypesService pluginTypesService,
+            ISettingsProvider settingsProvider,
+            ILogger logger)
         {
-            if (routeProvider == null)
-                throw new ArgumentNullException(nameof(routeProvider));
-
-            if (routeDataService == null)
-                throw new ArgumentNullException(nameof(routeDataService));
-
             if (pluginHelperService == null)
                 throw new ArgumentNullException(nameof(pluginHelperService));
-
-            if (pluginClassesService == null)
-                throw new ArgumentNullException(nameof(pluginClassesService));
 
             if (pluginTypesService == null)
                 throw new ArgumentNullException(nameof(pluginTypesService));
@@ -90,30 +82,27 @@ namespace WebSmokeTest.Plugin
             if (settingsProvider == null)
                 throw new ArgumentNullException(nameof(settingsProvider));
 
+            _testDataStream = new FileStream(_savedData, FileMode.Open, FileAccess.ReadWrite, FileShare.None);
             _next = next;
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-
-            if (pluginHelperService.PluginLoaded(Constants.PluginNameLocalization, out int _))
-            {
-                List<IStringLocalizer> stringLocalizers = pluginClassesService.GetPluginClasses<IStringLocalizer>();
-
-                if (stringLocalizers.Count > 0)
-                    _stringLocalizer = stringLocalizers[0];
-
-            }
 
             _settings = settingsProvider.GetSettings<WebSmokeTestSettings>(nameof(WebSmokeTest));
 
             if (_settings.Enabled)
             {
-                LoadSmokeTestData(routeProvider, routeDataService, pluginTypesService, _settings);
+                LoadSmokeTestData(pluginTypesService);
             }
 
             if (!String.IsNullOrEmpty(_settings.StaticFileExtensions))
                 _staticFileExtensions = _settings.StaticFileExtensions;
         }
 
-        #endregion Constructors
+        ~WebSmokeTestMiddleware()
+        {
+            Dispose(false);
+        }
+
+        #endregion Constructors/Destructors
 
         #region Public Methods
 
@@ -123,64 +112,40 @@ namespace WebSmokeTest.Plugin
             if (context == null)
                 throw new ArgumentNullException(nameof(context));
 
-            string fileExtension = RouteFileExtension(context);
-
-            if (!String.IsNullOrEmpty(fileExtension) &&
-                _staticFileExtensions.Contains($"{fileExtension};"))
+            if (_settings.Enabled)
             {
-                await _next(context);
-                return;
-            }
+                string route = RouteLowered(context);
 
-            string route = RouteLowered(context);
-
-            if (route.StartsWith("/smoketest/"))
-            {
-                using (StopWatchTimer stopwatchTimer = StopWatchTimer.Initialise(_timings))
+                if (route.StartsWith("/smoketest/"))
                 {
-
-                    try
+                    using (StopWatchTimer stopwatchTimer = StopWatchTimer.Initialise(_timings))
                     {
                         if (route.Equals("/smoketest/siteid/"))
                         {
-                            if (_settings.Enabled)
-                            {
-                                byte[] siteId = Encoding.UTF8.GetBytes(_settings.SiteId);
-                                context.Response.Body.Write(siteId, 0, siteId.Length);
-                            }
-                            else
-                            {
-                                context.Response.StatusCode = 405;
-                            }
+                            byte[] siteId = Encoding.UTF8.GetBytes(_settings.SiteId);
+                            await context.Response.Body.WriteAsync(siteId, 0, siteId.Length);
                         }
-                        else if (route.Equals("/smoketest/testcount/"))
+                        else if (route.Equals("/smoketest/count/"))
                         {
-                            if (_settings.Enabled)
-                            {
-                                byte[] siteId = Encoding.UTF8.GetBytes(GetTestItems().Count.ToString());
-                                context.Response.Body.Write(siteId, 0, siteId.Length);
-                            }
-                            else
-                            {
-                                context.Response.StatusCode = 405;
-                            }
+                            byte[] siteId = Encoding.UTF8.GetBytes(SmokeTests.Count.ToString());
+                            await context.Response.Body.WriteAsync(siteId, 0, siteId.Length);
                         }
                         else if (route.StartsWith("/smoketest/test"))
                         {
                             string testNumber = route.Substring(16);
-                            List<WebSmokeTestItem> testItems = GetTestItems();
+                            List<WebSmokeTestItem> testItems = SmokeTests;
 
                             if (Int32.TryParse(testNumber, out int number) &&
                                 number >= 0 &&
-                                number <= testItems.Count)
+                                number < testItems.Count)
                             {
-                                byte[] testData = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(testItems[number]));
-                                context.Response.Body.Write(testData, 0, testData.Length);
                                 context.Response.ContentType = "application/json";
+                                byte[] testData = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(testItems[number]));
+                                await context.Response.Body.WriteAsync(testData, 0, testData.Length);
                             }
                             else
                             {
-                                context.Response.StatusCode = 405;
+                                context.Response.StatusCode = 400;
                             }
                         }
                         else
@@ -190,56 +155,217 @@ namespace WebSmokeTest.Plugin
 
                         return;
                     }
-                    catch (Exception err)
-                    {
-                        _logger.AddToLog(LogLevel.Error, nameof(WebSmokeTestMiddleware), err, MethodBase.GetCurrentMethod().Name);
-                    }
                 }
             }
 
             await _next(context);
         }
 
+        public void Dispose()
+        {
+            Dispose(disposing: true);
+            GC.SuppressFinalize(this);
+        }
+
         #endregion Public Methods
+
+        #region Properties
+
+        internal List<WebSmokeTestItem> SmokeTests
+        {
+            get
+            {
+                CacheItem smokeTests = _testCache.Get(nameof(SmokeTests));
+
+                if (smokeTests == null)
+                {
+                    _testDataStream.Position = 0;
+                    byte[] bytes = new byte[_testDataStream.Length];
+                    int numBytesToRead = (int)_testDataStream.Length;
+                    int numBytesRead = 0;
+                    while (numBytesToRead > 0)
+                    {
+                        int n = _testDataStream.Read(bytes, numBytesRead, numBytesToRead);
+
+                        if (n == 0)
+                            break;
+
+                        numBytesRead += n;
+                        numBytesToRead -= n;
+                    }
+
+                    List<WebSmokeTestItem> cacheData = JsonConvert.DeserializeObject<List<WebSmokeTestItem>>(Encoding.UTF8.GetString(bytes));
+                    smokeTests = new CacheItem(nameof(SmokeTests), cacheData);
+                    _testCache.Add(nameof(SmokeTests), smokeTests, true);
+                }
+
+                return (List<WebSmokeTestItem>)smokeTests.Value;
+            }
+
+            private set
+            {
+                byte[] fileData = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(value));
+                _testDataStream.Write(fileData, 0, fileData.Length);
+                _testDataStream.Flush();
+
+                _testCache.Add(nameof(SmokeTests), new CacheItem(nameof(SmokeTests), value));
+            }
+        }
+
+        internal bool Enabled
+        {
+            get
+            {
+                return _settings.Enabled;
+            }
+
+            set
+            {
+                _settings.Enabled = value;
+            }
+        }
+
+        #endregion Properties
+
+        #region Internal Methods
+
+        internal void ClearCache()
+        {
+            _testCache.Clear();
+        }
+
+        #endregion Internal Methods
 
         #region Private Methods
 
-        private List<WebSmokeTestItem> GetTestItems()
+        private void LoadSmokeTestData(in IPluginTypesService pluginTypesService)
         {
-            return new List<WebSmokeTestItem>();
-        }
-
-        private void LoadSmokeTestData(in IActionDescriptorCollectionProvider routeProvider,
-            in IRouteDataService routeDataService,
-            in IPluginTypesService pluginTypesService,
-            in WebSmokeTestSettings settings)
-        {
-            Dictionary<string, SmokeTestAttribute> allSmokeTests = new Dictionary<string, SmokeTestAttribute>();
+            List<WebSmokeTestItem> allSmokeTests = new List<WebSmokeTestItem>();
             List<Type> testAttributes = pluginTypesService.GetPluginTypesWithAttribute<SmokeTestAttribute>();
 
             // Cycle through all methods which have the SmokeTestAttribute attribute
             foreach (Type type in testAttributes)
             {
-                // is it a class attribute
-                SmokeTestAttribute attribute = (SmokeTestAttribute)type.GetCustomAttributes(true)
-                    .Where(a => a.GetType() == typeof(SmokeTestAttribute)).FirstOrDefault();
-
                 // look for specific method smoke test
                 foreach (MethodInfo method in type.GetMethods())
                 {
-                    attribute = (SmokeTestAttribute)method.GetCustomAttributes(true)
-                        .Where(a => a.GetType() == typeof(SmokeTestAttribute)).FirstOrDefault();
+                    List<object> attributes = method.GetCustomAttributes(true)
+                        .Where(a => a.GetType() == typeof(SmokeTestAttribute)).ToList();
 
-                    if (attribute != null)
+                    foreach (object attr in attributes)
                     {
-                        string route = routeDataService.GetRouteFromMethod(method, routeProvider);
+                        SmokeTestAttribute attribute = attr as SmokeTestAttribute;
 
-                        if (String.IsNullOrEmpty(route))
-                            continue;
+                        if (attribute != null)
+                        {
+                            WebSmokeTestItem smokeTestItem = GetSmokeTestFromAttribute(type, method, attribute);
 
-                        allSmokeTests.Add(route, attribute);
+                            if (smokeTestItem != null)
+                                allSmokeTests.Add(smokeTestItem);
+                        }
                     }
                 }
+            }
+
+            SmokeTests = allSmokeTests;
+        }
+
+        private WebSmokeTestItem GetSmokeTestFromAttribute(Type type, MethodInfo method, SmokeTestAttribute attribute)
+        {
+
+            if (type.IsSubclassOf(typeof(Microsoft.AspNetCore.Mvc.Controller)))
+            {
+                return GetSmokeTestFromControllerAction(type, method, attribute);
+            }
+
+            return GetSmokeTestFromStandardClassMethod(type, method);
+        }
+
+        private WebSmokeTestItem GetSmokeTestFromStandardClassMethod(Type type, MethodInfo method)
+        {
+            if (method.ReturnType == typeof(WebSmokeTestItem) && method.GetParameters().Length == 0)
+            {
+                try
+                {
+                    ConstructorInfo constructorInfo = type.GetConstructor(Array.Empty<Type>());
+
+                    if (constructorInfo != null)
+                    {
+                        object inst = constructorInfo.Invoke(Array.Empty<object>());
+
+                        if (inst != null)
+                        {
+                            return (WebSmokeTestItem)method.Invoke(inst, Array.Empty<object>());
+                        }
+                    }
+                }
+                catch (Exception err)
+                {
+                    _logger.AddToLog(PluginManager.LogLevel.Error, err, $"Failed to retrieve WebSmokeTestItem from {method.Name}");
+                    throw;
+                }
+            }
+
+            return null;
+        }
+
+        private WebSmokeTestItem GetSmokeTestFromControllerAction(Type type, MethodInfo method, SmokeTestAttribute attribute)
+        {
+            string name = attribute.Name;
+            string route = $"{type.Name.Substring(0, type.Name.Length - 10)}/{method.Name}/";
+
+            if (String.IsNullOrEmpty(attribute.Name))
+                name = route;
+
+            string httpMethod = GetHttpMethodFromMethodInfo(method.CustomAttributes);
+
+            return new WebSmokeTestItem(route,
+                httpMethod,
+                attribute.Response,
+                attribute.Position,
+                name,
+                attribute.InputData,
+                attribute.SearchData.Split(';', StringSplitOptions.RemoveEmptyEntries).ToList());
+        }
+
+        private string GetHttpMethodFromMethodInfo(IEnumerable<CustomAttributeData> attributes)
+        {
+            if (attributes.Where(a => a.AttributeType.Name.Equals("HttpGetAttribute")).Any())
+                return "GET";
+
+            if (attributes.Where(a => a.AttributeType.Name.Equals("HttpPostAttribute")).Any())
+                return "POST";
+
+            if (attributes.Where(a => a.AttributeType.Name.Equals("HttpPutAttribute")).Any())
+                return "PUT";
+
+            if (attributes.Where(a => a.AttributeType.Name.Equals("HttpHeadAttribute")).Any())
+                return "HEAD";
+
+            if (attributes.Where(a => a.AttributeType.Name.Equals("HttpDeleteAttribute")).Any())
+                return "DELETE";
+
+            if (attributes.Where(a => a.AttributeType.Name.Equals("HttpPatchAttribute")).Any())
+                return "PATCH";
+
+            if (attributes.Where(a => a.AttributeType.Name.Equals("HttpOptionsAttribute")).Any())
+                return "OPTIONS";
+
+            return "GET";
+        }
+
+        private void Dispose(Boolean disposing)
+        {
+            if (!disposedValue)
+            {
+                if (disposing)
+                {
+
+                }
+
+                _testDataStream.Dispose();
+                File.Delete(_savedData);
+                disposedValue = true;
             }
         }
 

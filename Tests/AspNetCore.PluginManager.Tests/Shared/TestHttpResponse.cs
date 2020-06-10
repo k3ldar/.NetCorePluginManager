@@ -28,6 +28,7 @@ using System.IO;
 using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Http;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace AspNetCore.PluginManager.Tests
 {
@@ -37,19 +38,30 @@ namespace AspNetCore.PluginManager.Tests
 
         private readonly TestResponseCookies _cookies = new TestResponseCookies();
         private readonly IHeaderDictionary _headerDictionary = new TestHeaderDictionary();
+        private readonly Stream _body;
 
         #endregion Private Members
 
         public TestHttpResponse()
         {
+            _body = new MemoryStream();
             StatusCode = 200;
         }
 
         #region HttpResponse Methods
 
-        public override Stream Body { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public override Stream Body 
+        { 
+            get
+            {
+                return _body;
+            }
+
+            set => throw new NotImplementedException(); 
+        }
+
         public override Int64? ContentLength { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public override String ContentType { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public override String ContentType { get; set; }
 
         public override IResponseCookies Cookies
         {

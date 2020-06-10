@@ -56,6 +56,7 @@ namespace WebSmokeTest.Plugin
         /// The unique site id for the Smoke Test
         /// </summary>
         /// <value>string</value>
+        [SettingOptional]
         public string SiteId { get; set; }
 
         #endregion Properties

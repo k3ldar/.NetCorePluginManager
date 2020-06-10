@@ -521,7 +521,6 @@ namespace PluginManager
                     {
                         try
                         {
-
                             if ((type.GetInterface(typeof(T).Name) != null) || type.IsSubclassOf(typeof(T)))
                             {
                                 Result.Add((T)Activator.CreateInstance(type, GetParameterInstances(type)));

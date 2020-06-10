@@ -39,43 +39,54 @@ namespace AspNetCore.PluginManager.Tests
 {
     public class TestBasePlugin
     {
-        protected static TestPluginManager _testPlugin = new TestPluginManager();
-        protected static bool? _pluginLoaded = null;
-        protected static IPluginClassesService _pluginServices;
+        protected static TestPluginManager _testPluginBadEgg = new TestPluginManager();
+        protected static bool? _pluginLoadedBadEgg = null;
+        protected static IPluginClassesService _pluginServicesBadEgg;
+
+        protected static TestPluginManager _testPluginSmokeTest = new TestPluginManager();
+        protected static bool? _pluginLoadedSmokeTest = null;
+        protected static IPluginClassesService _pluginServicesSmokeTest;
+
+        protected static TestPluginManager _testPluginLogin = new TestPluginManager();
+        protected static bool? _pluginLoadedLogin = null;
+        protected static IPluginClassesService _pluginServicesLogin;
+
+        protected static TestPluginManager _testPluginDocs = new TestPluginManager();
+        protected static bool? _pluginLoadedDocs = null;
+        protected static IPluginClassesService _pluginServicesDocs;
         protected static IDocumentationService _documentationService;
 
 
-        [TestInitialize]
-        public void InitializeDocumentationLoadTest()
+        protected void InitializeDocumentationPluginManager()
         {
-            lock (_testPlugin)
+            lock (_testPluginDocs)
             {
-                while (_pluginLoaded.HasValue && !_pluginLoaded.Value)
+                while (_pluginLoadedDocs.HasValue && !_pluginLoadedDocs.Value)
                 {
                     System.Threading.Thread.Sleep(30);
                 }
 
-                if (_pluginLoaded.HasValue && _pluginLoaded.Value)
+                if (_pluginLoadedDocs.HasValue && _pluginLoadedDocs.Value)
                 {
                     return;
                 }
 
-                if (_pluginLoaded == null)
+                if (_pluginLoadedDocs == null)
                 {
-                    _pluginLoaded = false;
+                    _pluginLoadedDocs = false;
                 }
 
-                _testPlugin.AddAssembly(Assembly.GetExecutingAssembly());
-                _testPlugin.UsePlugin(typeof(DemoWebsite.Classes.PluginInitialisation));
-                _testPlugin.UsePlugin(typeof(DocumentationPlugin.PluginInitialisation));
-                _testPlugin.UsePlugin(typeof(MemoryCache.Plugin.PluginInitialisation));
-                _testPlugin.UsePlugin(typeof(ProductPlugin.PluginInitialisation));
-                _testPlugin.UsePlugin(typeof(SearchPlugin.PluginInitialisation));
-                _testPlugin.UsePlugin(typeof(BadEgg.Plugin.PluginInitialisation));
+                _testPluginDocs.AddAssembly(Assembly.GetExecutingAssembly());
+                _testPluginDocs.UsePlugin(typeof(DemoWebsite.Classes.PluginInitialisation));
+                _testPluginDocs.UsePlugin(typeof(DocumentationPlugin.PluginInitialisation));
+                _testPluginDocs.UsePlugin(typeof(MemoryCache.Plugin.PluginInitialisation));
+                _testPluginDocs.UsePlugin(typeof(ProductPlugin.PluginInitialisation));
+                _testPluginDocs.UsePlugin(typeof(SearchPlugin.PluginInitialisation));
+                _testPluginDocs.UsePlugin(typeof(BadEgg.Plugin.PluginInitialisation));
 
-                _testPlugin.ConfigureServices();
+                _testPluginDocs.ConfigureServices();
 
-                _pluginServices = new pm.PluginServices(_testPlugin) as IPluginClassesService;
+                _pluginServicesDocs = new pm.PluginServices(_testPluginDocs) as IPluginClassesService;
                 TimeSpan docLoadTime = new TimeSpan(0, 0, 30);
                 DateTime startLoadDocs = DateTime.Now;
 
@@ -89,16 +100,121 @@ namespace AspNetCore.PluginManager.Tests
 
                 Assert.IsFalse(Shared.Classes.ThreadManager.Exists(Constants.DocumentationLoadThread));
 
-                _documentationService = (IDocumentationService)_testPlugin.GetServiceProvider()
+                _documentationService = (IDocumentationService)_testPluginDocs.GetServiceProvider()
                     .GetService(typeof(IDocumentationService));
 
                 Assert.IsNotNull(_documentationService);
 
                 Assert.IsTrue(_documentationService.GetDocuments().Count > 100);
-                _pluginLoaded = true;
+                _pluginLoadedDocs = true;
             }
 
-            Assert.IsNotNull(_pluginServices);
+            Assert.IsNotNull(_pluginServicesDocs);
+
+        }
+
+        protected void InitializeSmokeTestPluginManager()
+        {
+            lock (_testPluginSmokeTest)
+            {
+                while (_pluginLoadedSmokeTest.HasValue && !_pluginLoadedSmokeTest.Value)
+                {
+                    System.Threading.Thread.Sleep(30);
+                }
+
+                if (_pluginLoadedSmokeTest.HasValue && _pluginLoadedSmokeTest.Value)
+                {
+                    return;
+                }
+
+                if (_pluginLoadedSmokeTest == null)
+                {
+                    _pluginLoadedSmokeTest = false;
+                }
+
+                _testPluginSmokeTest.AddAssembly(Assembly.GetExecutingAssembly());
+                _testPluginSmokeTest.UsePlugin(typeof(LoginPlugin.PluginInitialisation));
+
+                _testPluginSmokeTest.ConfigureServices();
+
+                _pluginServicesSmokeTest = new pm.PluginServices(_testPluginSmokeTest) as IPluginClassesService;
+
+                _pluginLoadedSmokeTest = true;
+            }
+
+            Assert.IsNotNull(_pluginServicesSmokeTest);
+
+        }
+
+        protected void InitializeLoginPluginManager()
+        {
+            lock (_testPluginLogin)
+            {
+                while (_pluginLoadedLogin.HasValue && !_pluginLoadedLogin.Value)
+                {
+                    System.Threading.Thread.Sleep(30);
+                }
+
+                if (_pluginLoadedLogin.HasValue && _pluginLoadedLogin.Value)
+                {
+                    return;
+                }
+
+                if (_pluginLoadedLogin == null)
+                {
+                    _pluginLoadedLogin = false;
+                }
+
+                _testPluginLogin.AddAssembly(Assembly.GetExecutingAssembly());
+                _testPluginLogin.UsePlugin(typeof(DemoWebsite.Classes.PluginInitialisation));
+                _testPluginLogin.UsePlugin(typeof(MemoryCache.Plugin.PluginInitialisation));
+                _testPluginLogin.UsePlugin(typeof(LoginPlugin.PluginInitialisation));
+
+                _testPluginLogin.ConfigureServices();
+
+                _pluginServicesLogin = new pm.PluginServices(_testPluginLogin) as IPluginClassesService;
+
+                _pluginLoadedLogin = true;
+            }
+
+            Assert.IsNotNull(_pluginServicesLogin);
+
+        }
+
+        protected void InitializeBadEggPluginManager()
+        {
+            lock (_testPluginBadEgg)
+            {
+                while (_pluginLoadedBadEgg.HasValue && !_pluginLoadedBadEgg.Value)
+                {
+                    System.Threading.Thread.Sleep(30);
+                }
+
+                if (_pluginLoadedBadEgg.HasValue && _pluginLoadedBadEgg.Value)
+                {
+                    return;
+                }
+
+                if (_pluginLoadedBadEgg == null)
+                {
+                    _pluginLoadedBadEgg = false;
+                }
+
+                _testPluginBadEgg.AddAssembly(Assembly.GetExecutingAssembly());
+                _testPluginBadEgg.UsePlugin(typeof(DemoWebsite.Classes.PluginInitialisation));
+                _testPluginBadEgg.UsePlugin(typeof(MemoryCache.Plugin.PluginInitialisation));
+                _testPluginBadEgg.UsePlugin(typeof(ProductPlugin.PluginInitialisation));
+                _testPluginBadEgg.UsePlugin(typeof(SearchPlugin.PluginInitialisation));
+                _testPluginBadEgg.UsePlugin(typeof(BadEgg.Plugin.PluginInitialisation));
+
+                _testPluginBadEgg.ConfigureServices();
+
+                _pluginServicesBadEgg = new pm.PluginServices(_testPluginBadEgg) as IPluginClassesService;
+
+                _pluginLoadedBadEgg = true;
+            }
+
+            Assert.IsNotNull(_pluginServicesBadEgg);
 
         }
     }
