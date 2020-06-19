@@ -1018,6 +1018,12 @@
             <param name="obj">Object that is being compared</param>
             <returns>bool</returns>
         </member>
+        <member name="M:Middleware.Blog.BlogItem.GetHashCode">
+            <summary>
+            Retrieves the Hashcode for the BlogItem
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:Middleware.Blog.BlogItem.UpdateBlog(System.String@,System.String@,System.String@,System.Boolean@,System.DateTime@,System.Collections.Generic.List{System.String}@)">
             <summary>
             Updates the public properties for a blog entry.
@@ -1887,7 +1893,7 @@
             The default thread item to be used for performing searches
             </summary>
         </member>
-        <member name="M:Middleware.Search.DefaultSearchThread.#ctor(System.Collections.Generic.List{Middleware.ISearchKeywordProvider}@,Shared.Classes.CacheManager@,Middleware.Search.KeywordSearchOptions@)">
+        <member name="M:Middleware.Search.DefaultSearchThread.#ctor(System.Collections.Generic.List{Middleware.ISearchKeywordProvider}@,Middleware.Search.KeywordSearchOptions@)">
             <summary>
             Default constructor
             </summary>

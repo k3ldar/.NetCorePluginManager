@@ -8,7 +8,7 @@ ViewData["Title"] = "AccountLocked";
 <div class="col-sm-12">
 <h1>@Localizer[nameof(Languages.LanguageStrings.AccountLocked)]</h1>
 <div>@Html.ValidationSummary(true)</div>
-@using (Html.BeginForm("AccountLocked", "Login", FormMethod.Post))
+@using (Html.BeginForm("AccountLocked", "Login", FormMethod.Post, new { id = "frmUnlockAccount" }))
 {
 @Html.HiddenFor(m => m.Username)
 <div class="login-block">

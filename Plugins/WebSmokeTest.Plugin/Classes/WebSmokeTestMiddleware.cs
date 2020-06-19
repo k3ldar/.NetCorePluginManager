@@ -29,9 +29,12 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Text.Encodings.Web;
 using System.Threading.Tasks;
+using System.Web;
 
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Infrastructure;
 
 using Newtonsoft.Json;
 
@@ -270,7 +273,7 @@ namespace WebSmokeTest.Plugin
             SmokeTests = allSmokeTests;
         }
 
-        private WebSmokeTestItem GetSmokeTestFromAttribute(Type type, MethodInfo method, SmokeTestAttribute attribute)
+        private WebSmokeTestItem GetSmokeTestFromAttribute(in Type type, in MethodInfo method, in SmokeTestAttribute attribute)
         {
 
             if (type.IsSubclassOf(typeof(Microsoft.AspNetCore.Mvc.Controller)))
@@ -281,7 +284,7 @@ namespace WebSmokeTest.Plugin
             return GetSmokeTestFromStandardClassMethod(type, method);
         }
 
-        private WebSmokeTestItem GetSmokeTestFromStandardClassMethod(Type type, MethodInfo method)
+        private WebSmokeTestItem GetSmokeTestFromStandardClassMethod(in Type type, in MethodInfo method)
         {
             if (method.ReturnType == typeof(WebSmokeTestItem) && method.GetParameters().Length == 0)
             {
@@ -309,7 +312,7 @@ namespace WebSmokeTest.Plugin
             return null;
         }
 
-        private WebSmokeTestItem GetSmokeTestFromControllerAction(Type type, MethodInfo method, SmokeTestAttribute attribute)
+        private WebSmokeTestItem GetSmokeTestFromControllerAction(in Type type, in MethodInfo method, in SmokeTestAttribute attribute)
         {
             string name = attribute.Name;
             string route = $"{type.Name.Substring(0, type.Name.Length - 10)}/{method.Name}/";
@@ -318,17 +321,35 @@ namespace WebSmokeTest.Plugin
                 name = route;
 
             string httpMethod = GetHttpMethodFromMethodInfo(method.CustomAttributes);
+            bool hasQuestion = false;
+
+            foreach (ParameterInfo param in method.GetParameters())
+            {
+                if (!hasQuestion)
+                {
+                    hasQuestion = true;
+                    route += $"?{param.Name}={{{param.Name}}}";
+                }
+                else
+                {
+                    route += $"&{param.Name}={{{param.Name}}}";
+                }
+            }
 
             return new WebSmokeTestItem(route,
                 httpMethod,
+                attribute.FormId,
                 attribute.Response,
                 attribute.Position,
                 name,
                 attribute.InputData,
-                attribute.SearchData.Split(';', StringSplitOptions.RemoveEmptyEntries).ToList());
+                attribute.Parameters,
+                attribute.RedirectUrl,
+                attribute.SearchData.Split(';', StringSplitOptions.RemoveEmptyEntries).ToList(),
+                attribute.SubmitSearchData.Split(';', StringSplitOptions.RemoveEmptyEntries).ToList());
         }
 
-        private string GetHttpMethodFromMethodInfo(IEnumerable<CustomAttributeData> attributes)
+        private string GetHttpMethodFromMethodInfo(in IEnumerable<CustomAttributeData> attributes)
         {
             if (attributes.Where(a => a.AttributeType.Name.Equals("HttpGetAttribute")).Any())
                 return "GET";

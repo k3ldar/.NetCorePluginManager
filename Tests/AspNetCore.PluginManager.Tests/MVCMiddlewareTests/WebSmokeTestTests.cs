@@ -408,11 +408,13 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
             return new WebSmokeTestItem(
                 "api/Restricted/",
                 "GET",
+                "",
                 200,
                 10,
                 "Api Restricted Returns Test",
                 "",
-                new List<string> { "Test" });
+                new List<string> { "Test" },
+                new List<string>());
         }
     }
 }

@@ -1,0 +1,77 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>WebSmokeTest.Plugin</name>
+    </assembly>
+    <members>
+        <member name="T:WebSmokeTest.Plugin.Classes.SystemAdmin.WebSmokeTestTimingsSubMenu">
+            <summary>
+            Returns Timings information for all time spent processing smoke test requests and can 
+            be viewed within SystemAdmin.Plugin.  
+            
+            This class descends from SystemAdminSubMenu.
+            </summary>
+        </member>
+        <member name="M:WebSmokeTest.Plugin.Classes.SystemAdmin.WebSmokeTestTimingsSubMenu.Data">
+            <summary>
+            Returns Timings data in milliseconds for time spent processing by WebSmokeTest.Plugin requests.
+            </summary>
+            <returns>string</returns>
+        </member>
+        <member name="T:WebSmokeTest.Plugin.WebSmokeTestMiddleware">
+            <summary>
+            WebSmokeTest middleware class, this module extends BaseMiddlware and is injected 
+            into the request pipeline.
+            </summary>
+        </member>
+        <member name="T:WebSmokeTest.Plugin.WebSmokeTestMiddlewareExtender">
+            <summary>
+            Web Smoke Test middleware extender
+            </summary>
+        </member>
+        <member name="M:WebSmokeTest.Plugin.WebSmokeTestMiddlewareExtender.UseWebSmokeTest(Microsoft.AspNetCore.Builder.IApplicationBuilder)">
+            <summary>
+            IApplicationBuilder extender method.
+            
+            Allows easy use of registering UseWebSmokeTest.Plugin
+            </summary>
+            <param name="builder">IApplicationBuilder instance</param>
+            <returns>IApplicationBuilder</returns>
+            <example><pre style="font-family:Consolas;font-size:13px;color:black;background:white;"><span style="color:#1f377f;">app</span>.<span style="color:#74531f;">UseWebSmokeTest</span>();</pre></example>
+        </member>
+        <member name="T:WebSmokeTest.Plugin.WebSmokeTestSettings">
+            <summary>
+            Settings which affect how WebSmokeTest data is served.
+            </summary>
+        </member>
+        <member name="P:WebSmokeTest.Plugin.WebSmokeTestSettings.StaticFileExtensions">
+            <summary>
+            Delimited list of file extensions to ignore
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:WebSmokeTest.Plugin.WebSmokeTestSettings.Enabled">
+            <summary>
+            Determines whether smoke testing is available or not, should be set to false 
+            when used on a live site
+            </summary>
+        </member>
+        <member name="P:WebSmokeTest.Plugin.WebSmokeTestSettings.SiteId">
+            <summary>
+            The unique site id for the Smoke Test
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:WebSmokeTest.Plugin.WebSmokeTestSettings.EncryptionKey">
+            <summary>
+            The key used to encrypt smoke test data prior to sending
+            </summary>
+        </member>
+        <member name="T:WebSmokeTest.Plugin.PluginInitialisation">
+            <summary>
+            Implements IPlugin which allows the WebSmokeTest.Plugin module to be
+            loaded as a plugin module
+            </summary>
+        </member>
+    </members>
+</doc>

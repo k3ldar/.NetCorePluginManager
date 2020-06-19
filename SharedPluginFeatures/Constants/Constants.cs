@@ -412,7 +412,9 @@ namespace SharedPluginFeatures
         /// </summary>
         public const string BadEggValidationIgnoreHeaderName = "BadEggCode";
 
-
+        /// <summary>
+        /// Name of bad egg settings as found within appsettings.json
+        /// </summary>
         public const string BadEggSettingsName = "BadEgg.Plugin";
     }
 }

@@ -199,6 +199,15 @@ namespace Middleware.Blog
             return item.Id == Id;
         }
 
+        /// <summary>
+        /// Retrieves the Hashcode for the BlogItem
+        /// </summary>
+        /// <returns></returns>
+        public override Int32 GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+
         #endregion Overridden Methods
 
         #region Public Methods

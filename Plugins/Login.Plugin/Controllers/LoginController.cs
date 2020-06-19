@@ -84,6 +84,8 @@ namespace LoginPlugin.Controllers
 
         [HttpGet]
         [Breadcrumb(nameof(Languages.LanguageStrings.Login))]
+        [SmokeTest(200, "loginForm", inputData: "Username=joe&Password=bloggs&RememberMe=False", searchData: "Don't have an account yet", submitSearchData: "Invalid User Name/Password;Please try again")]
+        [SmokeTest(200, "loginForm", inputData: "Username=dennis&Password=mennace", searchData: "Don't have an account yet", submitSearchData: "Invalid User Name/Password;Please try again")]
         public IActionResult Index(string returnUrl)
         {
             // has the user been remembered?
@@ -113,8 +115,6 @@ namespace LoginPlugin.Controllers
 
         [BadEgg]
         [HttpPost]
-        [SmokeTest(200, inputData: "{\"Username\":\"joe\",\"Password\":\"bloggs\"}", searchData: "Invalid User Name/Password;Please try again")]
-        [SmokeTest(200, inputData: "{\"Username\":\"dennis\",\"Password\":\"mennace\"}", searchData: "Invalid User Name/Password;Please try again")]
         public IActionResult Index(LoginViewModel model)
         {
             if (model == null)
@@ -186,10 +186,13 @@ namespace LoginPlugin.Controllers
 
         [HttpGet]
         [Breadcrumb(nameof(Languages.LanguageStrings.AccountLocked))]
+        [SmokeTest(302, parameters: "username=", redirectUrl: "/Login")]
+        [SmokeTest(200, parameters: "username=fred@bloggs", searchData: "Your account has been temporarily locked due to authentication failures")]
+        [SmokeTest(200, formId: "frmUnlockAccount", inputData: "Username=fred@bloggs.com&UnlockCode=123456", parameters: "username=fred@bloggs", searchData: "Please enter your Username/Email Address")]
         public IActionResult AccountLocked(string username)
         {
             if (String.IsNullOrEmpty(username))
-                RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index));
 
             AccountLockedViewModel model = new AccountLockedViewModel(GetModelData(), username);
 

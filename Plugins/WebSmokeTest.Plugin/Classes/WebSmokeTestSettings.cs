@@ -59,6 +59,12 @@ namespace WebSmokeTest.Plugin
         [SettingOptional]
         public string SiteId { get; set; }
 
+        /// <summary>
+        /// The key used to encrypt smoke test data prior to sending
+        /// </summary>
+        [SettingString(15, 250)]
+        public string EncryptionKey { get; set; }
+
         #endregion Properties
     }
 }

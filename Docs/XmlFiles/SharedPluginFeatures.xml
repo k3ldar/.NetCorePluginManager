@@ -360,27 +360,98 @@
         </member>
         <member name="M:SharedPluginFeatures.SmokeTestAttribute.#ctor">
             <summary>
-            Default constructor, this attribute needs to be applied agains
+            Default constructor, this attribute needs to be applied against
             a function that returns an <see cref="T:SharedPluginFeatures.WebSmokeTestItem"/> instance
             containing test data
             </summary>
         </member>
-        <member name="M:SharedPluginFeatures.SmokeTestAttribute.#ctor(System.Int32,System.Int32,System.String,System.String,System.String,System.String)">
+        <member name="M:SharedPluginFeatures.SmokeTestAttribute.#ctor(System.Int32,System.String,System.Int32,System.String,System.String,System.String,System.String,System.String,System.String,System.String)">
             <summary>
             Constructor for attribute applied against a controller action method.  This
             will create test data using the values of the action.
             </summary>
             <param name="position">The position of the test relative to all other tests</param>
+            <param name="formId">The name of the form that will be submitted</param>
             <param name="response">The expected response for the result, 200, 404 etc</param>
             <param name="method">The web method used when submitting the test, GET, POST, PUT etc</param>
             <param name="inputData">The data that will be submitted for the test, this must be a colon seperated list of strings representing parameter values to be submitted.</param>
-            <param name="searchData">A colon seperated list of string that can be searched for within the response for the test.</param>
+            <param name="searchData">A colon seperated list of string that can be searched for within the response after either a get or prior to data being submitted via a form.</param>
+            <param name="submitSearchData">A colon seperated list of strings that can be searched for in the response after data has been submitted.</param>
             <param name="name">Name of the test, used to identify it, if not specified then the controller and action name will be used.</param>
+            <param name="parameters">Name value pair of valid parameter values for this test</param>
+            <param name="redirectUrl">The expected url where the response will be redirected to.</param>
         </member>
         <member name="P:SharedPluginFeatures.SmokeTestAttribute.IsFromControllerAction">
             <summary>
             Indicates that the attribute was on a controller action or not
             </summary>
+            <value>bool</value>
+        </member>
+        <member name="P:SharedPluginFeatures.SmokeTestAttribute.Response">
+            <summary>
+            The response expected after submitting the test
+            </summary>
+            <value>int</value>
+        </member>
+        <member name="P:SharedPluginFeatures.SmokeTestAttribute.Position">
+            <summary>
+            The relative position of this test compared to other tests.
+            </summary>
+            <value>int</value>
+        </member>
+        <member name="P:SharedPluginFeatures.SmokeTestAttribute.Method">
+            <summary>
+            Method used to submit data, GET, POST etc
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:SharedPluginFeatures.SmokeTestAttribute.InputData">
+            <summary>
+            Data to be input, if a FormId is specified this directly relates to the fields in the mode
+            that will be submitted, as name value pairs.
+            
+            If FormId is not specified this can be json or xml data that will be submitted as part of the body
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:SharedPluginFeatures.SmokeTestAttribute.SearchData">
+            <summary>
+            Data to be searched for in the response returned by the test, if the test involves
+            submitting data then SearchData will be sought from the get request when the form 
+            is identified.
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:SharedPluginFeatures.SmokeTestAttribute.SubmitSearchData">
+            <summary>
+            Data to be searched for in the response returned by the test, after the form
+            has been submitted.  To search for data prior to submitting data use <see cref="P:SharedPluginFeatures.SmokeTestAttribute.SearchData" />
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:SharedPluginFeatures.SmokeTestAttribute.Name">
+            <summary>
+            Name of the test
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:SharedPluginFeatures.SmokeTestAttribute.FormId">
+            <summary>
+            The name of the form to be submitted
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:SharedPluginFeatures.SmokeTestAttribute.Parameters">
+            <summary>
+            Parameters values for the method being implemented
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:SharedPluginFeatures.SmokeTestAttribute.RedirectUrl">
+            <summary>
+            The expected url where the response will be redirected to
+            </summary>
+            <value>string</value>
         </member>
         <member name="T:SharedPluginFeatures.BaseModelData">
             <summary>
@@ -1138,39 +1209,47 @@
             Default constructor for smoke test item
             </summary>
         </member>
-        <member name="M:SharedPluginFeatures.WebSmokeTestItem.#ctor(System.String@,System.String@,System.Int32@,System.Int32@,System.String@,System.String@)">
+        <member name="M:SharedPluginFeatures.WebSmokeTestItem.#ctor(System.String@,System.String@,System.String@,System.Int32@,System.Int32@,System.String@,System.String@)">
             <summary>
             Constructor for creating specific instances of smoke test items
             </summary>
             <param name="route">The route used for the test</param>
             <param name="method">The method used when submitting the test, PUT, GET, POST etc</param>
+            <param name="formId">The id of the form that will be submitted</param>
             <param name="response">The expected response for the result, 200, 404 etc</param>
             <param name="position">The position of the test relative to all other tests</param>
             <param name="name">Name of the test, used to identify it</param>
             <param name="inputData">The data that will be submitted for the test</param>
         </member>
-        <member name="M:SharedPluginFeatures.WebSmokeTestItem.#ctor(System.String@,System.String@,System.Int32@,System.Int32@,System.String@,System.Collections.Generic.List{System.String}@)">
+        <member name="M:SharedPluginFeatures.WebSmokeTestItem.#ctor(System.String@,System.String@,System.String@,System.Int32@,System.Int32@,System.String@,System.String@,System.Collections.Generic.List{System.String}@,System.Collections.Generic.List{System.String}@)">
             <summary>
             Constructor for creating specific instances of smoke test items
             </summary>
             <param name="route">The route used for the test</param>
             <param name="method">The method used when submitting the test, PUT, GET, POST etc</param>
+            <param name="formId">The id of the form that will be submitted</param>
             <param name="response">The expected response for the result, 200, 404 etc</param>
             <param name="position">The position of the test relative to all other tests</param>
             <param name="name">Name of the test, used to identify it</param>
-            <param name="responseData">A list of string that can be searched for within the response for the request.</param>
+            <param name="parameters">Name value pair of parameter values</param>
+            <param name="responseData">A list of strings that can be searched for within the response for the request.</param>
+            <param name="submitResponseData">A list of strings that can be searched for in the response data after a form post.</param>
         </member>
-        <member name="M:SharedPluginFeatures.WebSmokeTestItem.#ctor(System.String@,System.String@,System.Int32@,System.Int32@,System.String@,System.String@,System.Collections.Generic.List{System.String}@)">
+        <member name="M:SharedPluginFeatures.WebSmokeTestItem.#ctor(System.String@,System.String@,System.String@,System.Int32@,System.Int32@,System.String@,System.String@,System.String@,System.String@,System.Collections.Generic.List{System.String}@,System.Collections.Generic.List{System.String}@)">
             <summary>
             Constructor for creating specific instances of smoke test items
             </summary>
             <param name="route">The route used for the test</param>
             <param name="method">The method used when submitting the test, PUT, GET, POST etc</param>
+            <param name="formId">The id of the form that will be submitted</param>
             <param name="response">The expected response for the result, 200, 404 etc</param>
             <param name="position">The position of the test relative to all other tests</param>
             <param name="name">Name of the test, used to identify it</param>
+            <param name="parameters">Name value pair of parameter values</param>
             <param name="inputData">The data that will be submitted for the test</param>
-            <param name="responseData">A list of string that can be searched for within the response for the request.</param>
+            <param name="responseUrl">The expected url where the response will be redirected to.</param>
+            <param name="responseData">A list of strings that can be searched for within the response text of the request using either get or prior to a post.</param>
+            <param name="submitResponseData">A list of string that can be searched for within the response text after a form has been submitted.</param>
         </member>
         <member name="P:SharedPluginFeatures.WebSmokeTestItem.Route">
             <summary>
@@ -1214,10 +1293,34 @@
         </member>
         <member name="P:SharedPluginFeatures.WebSmokeTestItem.ResponseData">
             <summary>
-            A list of string that can be searched for within the response for the request.  If the 
-            strings are not found the test would be deemed to fail
+            A list of strings that can be searched for within the response for the request.  If the 
+            strings are not found the test would be deemed to fail.
             </summary>
             <value>List&lt;string&gt;</value>
+        </member>
+        <member name="P:SharedPluginFeatures.WebSmokeTestItem.SubmitResponseData">
+            <summary>
+            A list of strings that can be searched for in the response data after a form post. If the 
+            strings are not found the test would be deemed to fail.
+            </summary>
+        </member>
+        <member name="P:SharedPluginFeatures.WebSmokeTestItem.FormId">
+            <summary>
+            The id of the form that will be tested
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:SharedPluginFeatures.WebSmokeTestItem.Parameters">
+            <summary>
+            List of name value pairs used to submit data
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:SharedPluginFeatures.WebSmokeTestItem.ResponseUrl">
+            <summary>
+            The expected url where the response will be redirected to.
+            </summary>
+            <value>string</value>
         </member>
         <member name="T:SharedPluginFeatures.Constants">
             <summary>
@@ -1602,6 +1705,11 @@
         <member name="F:SharedPluginFeatures.Constants.BadEggValidationIgnoreHeaderName">
             <summary>
             Header name for ignoring BadEgg validation
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Constants.BadEggSettingsName">
+            <summary>
+            Name of bad egg settings as found within appsettings.json
             </summary>
         </member>
         <member name="T:SharedPluginFeatures.Enums">

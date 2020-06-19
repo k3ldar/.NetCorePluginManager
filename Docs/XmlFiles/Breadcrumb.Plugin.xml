@@ -1,70 +1,83 @@
 <?xml version="1.0"?>
 <doc>
     <assembly>
-        <name>WebSmokeTest.Plugin</name>
+        <name>Breadcrumb.Plugin</name>
     </assembly>
     <members>
-        <member name="T:WebSmokeTest.Plugin.Classes.SystemAdmin.WebSmokeTestTimingsSubMenu">
+        <member name="T:Breadcrumb.Plugin.BreadcrumbMiddleware">
             <summary>
-            Returns Timings information for all time spent processing smoke test requests and can 
-            be viewed within SystemAdmin.Plugin.  
-            
-            This class descends from SystemAdminSubMenu.
-            </summary>
-        </member>
-        <member name="M:WebSmokeTest.Plugin.Classes.SystemAdmin.WebSmokeTestTimingsSubMenu.Data">
-            <summary>
-            Returns Timings data in milliseconds for time spent processing by WebSmokeTest.Plugin requests.
-            </summary>
-            <returns>string</returns>
-        </member>
-        <member name="T:WebSmokeTest.Plugin.WebSmokeTestMiddleware">
-            <summary>
-            WebSmokeTest middleware class, this module extends BaseMiddlware and is injected 
+            Breadcrumb middleware class, this module extends BaseMiddlware and is injected 
             into the request pipeline.
             </summary>
         </member>
-        <member name="T:WebSmokeTest.Plugin.WebSmokeTestMiddlewareExtender">
+        <member name="T:Breadcrumb.Plugin.BreadcrumbMiddlewareExtender">
             <summary>
-            Web Smoke Test middleware extender
+            Breadcrumb middleware extender
             </summary>
         </member>
-        <member name="M:WebSmokeTest.Plugin.WebSmokeTestMiddlewareExtender.UseWebSmokeTest(Microsoft.AspNetCore.Builder.IApplicationBuilder)">
+        <member name="M:Breadcrumb.Plugin.BreadcrumbMiddlewareExtender.UseBreadcrumbs(Microsoft.AspNetCore.Builder.IApplicationBuilder)">
             <summary>
             IApplicationBuilder extender method.
             
-            Allows easy use of registering UseWebSmokeTest.Plugin
+            Allows easy use of registering UserSessionMiddleware.Plugin
             </summary>
             <param name="builder">IApplicationBuilder instance</param>
             <returns>IApplicationBuilder</returns>
-            <example><pre style="font-family:Consolas;font-size:13px;color:black;background:white;"><span style="color:#1f377f;">app</span>.<span style="color:#74531f;">UseWebSmokeTest</span>();</pre></example>
+            <example><pre style="font-family:Consolas;font-size:13px;color:black;background:white;"><span style="color:#1f377f;">app</span>.<span style="color:#74531f;">UseBreadcrumbs</span>();</pre></example>
         </member>
-        <member name="T:WebSmokeTest.Plugin.WebSmokeTestSettings">
+        <member name="T:Breadcrumb.Plugin.BreadcrumbSettings">
             <summary>
-            Settings which affect how WebSmokeTest data is served.
+            Settings which affect how breadcrumb data is served.
             </summary>
         </member>
-        <member name="P:WebSmokeTest.Plugin.WebSmokeTestSettings.StaticFileExtensions">
+        <member name="P:Breadcrumb.Plugin.BreadcrumbSettings.ProcessStaticFiles">
+            <summary>
+            Determines whether breadcrumb data is applied to static filed, .css, .js etc
+            </summary>
+            <value>bool</value>
+        </member>
+        <member name="P:Breadcrumb.Plugin.BreadcrumbSettings.StaticFileExtensions">
             <summary>
             Delimited list of file extensions to ignore
             </summary>
             <value>string</value>
         </member>
-        <member name="P:WebSmokeTest.Plugin.WebSmokeTestSettings.Enabled">
+        <member name="P:Breadcrumb.Plugin.BreadcrumbSettings.HomeName">
             <summary>
-            Determines whether smoke testing is available or not, should be set to false 
-            when used on a live site
-            </summary>
-        </member>
-        <member name="P:WebSmokeTest.Plugin.WebSmokeTestSettings.SiteId">
-            <summary>
-            The unique site id for the Smoke Test
+            Name of home, usually Home or similar.  If Localization is enabled then this will be the 
+            value looked up from resource strings.
             </summary>
             <value>string</value>
         </member>
-        <member name="T:WebSmokeTest.Plugin.PluginInitialisation">
+        <member name="P:Breadcrumb.Plugin.BreadcrumbSettings.HomeController">
             <summary>
-            Implements IPlugin which allows the WebSmokeTest.Plugin module to be
+            Name of home controller, without the Controller appendage, i.e. Home
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:Breadcrumb.Plugin.BreadcrumbSettings.DefaultAction">
+            <summary>
+            Default action name for home route.
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="T:Breadcrumb.Plugin.Classes.SystemAdmin.BreadcrumbTimingsSubMenu">
+            <summary>
+            Returns Timings information for all time spent processing Breadcrumb requests and can 
+            be viewed within SystemAdmin.Plugin.  
+            
+            This class descends from SystemAdminSubMenu.
+            </summary>
+        </member>
+        <member name="M:Breadcrumb.Plugin.Classes.SystemAdmin.BreadcrumbTimingsSubMenu.Data">
+            <summary>
+            Returns Timings data in milliseconds for time spent processing by Breadcrumb.Plugin requests.
+            </summary>
+            <returns>string</returns>
+        </member>
+        <member name="T:Breadcrumb.Plugin.PluginInitialisation">
+            <summary>
+            Implements IPlugin which allows the Breadcrumb.Plugin module to be
             loaded as a plugin module
             </summary>
         </member>

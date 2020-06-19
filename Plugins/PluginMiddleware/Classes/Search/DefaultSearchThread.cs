@@ -53,7 +53,6 @@ namespace Middleware.Search
         /// Default constructor
         /// </summary>
         private DefaultSearchThread(in List<ISearchKeywordProvider> searchProviders,
-            in CacheManager searchCache,
             in KeywordSearchOptions keywordSearchOptions)
             : base(null, new TimeSpan(), null, 0, 0, true, true)
         {
@@ -117,7 +116,7 @@ namespace Middleware.Search
                     {
                         if (!ThreadManager.Exists(keywordSearchOptions.SearchName))
                         {
-                            DefaultSearchThread searchThread = new DefaultSearchThread(searchProviders, _searchCache, keywordSearchOptions);
+                            DefaultSearchThread searchThread = new DefaultSearchThread(searchProviders, keywordSearchOptions);
                             ThreadStart(searchThread, keywordSearchOptions.SearchName, System.Threading.ThreadPriority.BelowNormal);
                         }
                     }
@@ -176,7 +175,7 @@ namespace Middleware.Search
                                 { searchProvider }
                             };
 
-                            DefaultSearchThread searchThread = new DefaultSearchThread(searchProviders, _searchCache, keywordSearchOptions);
+                            DefaultSearchThread searchThread = new DefaultSearchThread(searchProviders, keywordSearchOptions);
                             ThreadStart(searchThread, keywordSearchOptions.SearchName, System.Threading.ThreadPriority.BelowNormal);
                         }
                     }
