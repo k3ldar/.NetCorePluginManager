@@ -29,12 +29,9 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-using System.Text.Encodings.Web;
 using System.Threading.Tasks;
-using System.Web;
 
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Infrastructure;
 
 using Newtonsoft.Json;
 
@@ -43,6 +40,8 @@ using PluginManager.Abstractions;
 using Shared.Classes;
 
 using SharedPluginFeatures;
+
+using static Shared.Utilities;
 
 #pragma warning disable CS1591
 
@@ -125,12 +124,14 @@ namespace WebSmokeTest.Plugin
                     {
                         if (route.Equals("/smoketest/siteid/"))
                         {
-                            byte[] siteId = Encoding.UTF8.GetBytes(_settings.SiteId);
+                            byte[] siteId = Encoding.UTF8.GetBytes(
+                                Encrypt(_settings.SiteId, _settings.EncryptionKey));
                             await context.Response.Body.WriteAsync(siteId, 0, siteId.Length);
                         }
                         else if (route.Equals("/smoketest/count/"))
                         {
-                            byte[] siteId = Encoding.UTF8.GetBytes(SmokeTests.Count.ToString());
+                            byte[] siteId = Encoding.UTF8.GetBytes(
+                                Encrypt(SmokeTests.Count.ToString(), _settings.EncryptionKey));
                             await context.Response.Body.WriteAsync(siteId, 0, siteId.Length);
                         }
                         else if (route.StartsWith("/smoketest/test"))
@@ -143,7 +144,8 @@ namespace WebSmokeTest.Plugin
                                 number < testItems.Count)
                             {
                                 context.Response.ContentType = "application/json";
-                                byte[] testData = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(testItems[number]));
+                                byte[] testData = Encoding.UTF8.GetBytes(
+                                    Encrypt(JsonConvert.SerializeObject(testItems[number]), _settings.EncryptionKey));
                                 await context.Response.Body.WriteAsync(testData, 0, testData.Length);
                             }
                             else
