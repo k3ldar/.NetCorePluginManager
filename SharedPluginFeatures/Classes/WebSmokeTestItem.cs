@@ -72,7 +72,7 @@ namespace SharedPluginFeatures
         /// <param name="responseData">A list of strings that can be searched for within the response for the request.</param>
         /// <param name="submitResponseData">A list of strings that can be searched for in the response data after a form post.</param>
         public WebSmokeTestItem(in string route, in string method, in string formId, in int response,
-            in int position, in string name, in string parameters, in List<string> responseData, 
+            in int position, in string name, in string parameters, in List<string> responseData,
             in List<string> submitResponseData)
             : this(route, method, formId, response, position, name, String.Empty, parameters, String.Empty, responseData, submitResponseData)
         {
@@ -189,6 +189,11 @@ namespace SharedPluginFeatures
         /// </summary>
         /// <value>string</value>
         public string ResponseUrl { get; set; }
+
+        /// <summary>
+        /// Unique index for test item
+        /// </summary>
+        public int Index { get; set; }
 
         #endregion Properties
     }

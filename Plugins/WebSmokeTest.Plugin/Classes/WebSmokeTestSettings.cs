@@ -23,6 +23,8 @@
  *  08/06/2020  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+using System.Collections.Generic;
+
 using AppSettings;
 
 using SharedPluginFeatures;
@@ -53,11 +55,11 @@ namespace WebSmokeTest.Plugin
         public bool Enabled { get; set; }
 
         /// <summary>
-        /// The unique site id for the Smoke Test
+        /// A list of unique site id's for Smoke Testing
         /// </summary>
-        /// <value>string</value>
+        /// <value>List&lt;string&gt;</value>
         [SettingOptional]
-        public string SiteId { get; set; }
+        public List<string> SiteId { get; set; }
 
         /// <summary>
         /// The key used to encrypt smoke test data prior to sending

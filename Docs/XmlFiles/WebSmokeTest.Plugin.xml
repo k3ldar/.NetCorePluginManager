@@ -58,9 +58,9 @@
         </member>
         <member name="P:WebSmokeTest.Plugin.WebSmokeTestSettings.SiteId">
             <summary>
-            The unique site id for the Smoke Test
+            A list of unique site id's for Smoke Testing
             </summary>
-            <value>string</value>
+            <value>List&lt;string&gt;</value>
         </member>
         <member name="P:WebSmokeTest.Plugin.WebSmokeTestSettings.EncryptionKey">
             <summary>

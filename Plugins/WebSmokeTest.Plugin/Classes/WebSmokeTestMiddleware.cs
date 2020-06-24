@@ -125,7 +125,7 @@ namespace WebSmokeTest.Plugin
                         if (route.Equals("/smoketest/siteid/"))
                         {
                             byte[] siteId = Encoding.UTF8.GetBytes(
-                                Encrypt(_settings.SiteId, _settings.EncryptionKey));
+                                Encrypt(String.Join(';', _settings.SiteId), _settings.EncryptionKey));
                             await context.Response.Body.WriteAsync(siteId, 0, siteId.Length);
                         }
                         else if (route.Equals("/smoketest/count/"))
@@ -247,6 +247,7 @@ namespace WebSmokeTest.Plugin
         {
             List<WebSmokeTestItem> allSmokeTests = new List<WebSmokeTestItem>();
             List<Type> testAttributes = pluginTypesService.GetPluginTypesWithAttribute<SmokeTestAttribute>();
+            int testCount = 0;
 
             // Cycle through all methods which have the SmokeTestAttribute attribute
             foreach (Type type in testAttributes)
@@ -266,7 +267,10 @@ namespace WebSmokeTest.Plugin
                             WebSmokeTestItem smokeTestItem = GetSmokeTestFromAttribute(type, method, attribute);
 
                             if (smokeTestItem != null)
+                            {
+                                smokeTestItem.Index = testCount++;
                                 allSmokeTests.Add(smokeTestItem);
+                            }
                         }
                     }
                 }
@@ -320,7 +324,7 @@ namespace WebSmokeTest.Plugin
             string route = $"{type.Name.Substring(0, type.Name.Length - 10)}/{method.Name}/";
 
             if (String.IsNullOrEmpty(attribute.Name))
-                name = route;
+                name = $"{route}";
 
             string httpMethod = GetHttpMethodFromMethodInfo(method.CustomAttributes);
             bool hasQuestion = false;

@@ -1322,6 +1322,11 @@
             </summary>
             <value>string</value>
         </member>
+        <member name="P:SharedPluginFeatures.WebSmokeTestItem.Index">
+            <summary>
+            Unique index for test item
+            </summary>
+        </member>
         <member name="T:SharedPluginFeatures.Constants">
             <summary>
             Constant values shared between all plugin modules and the AspNetCore.PluginManager
