@@ -44,6 +44,12 @@
             </summary>
             <value>IServiceProvider</value>
         </member>
+        <member name="M:PluginManager.BasePluginManager.SetServiceConfigurator(PluginManager.Interfaces.IServiceConfigurator@)">
+            <summary>
+            Sets the IServiceConfigurator instance which will be called after service configurtion 
+            is completed by the host and all plugins.
+            </summary>
+        </member>
         <member name="M:PluginManager.BasePluginManager.PluginLoading(System.Reflection.Assembly@)">
             <summary>
             Indicates that a plugin is about to be loaded.
@@ -767,6 +773,21 @@
             </summary>
             <param name="listener">INotificationListener instance being unregistered.</param>
             <returns>bool</returns>
+        </member>
+        <member name="T:PluginManager.Interfaces.IServiceConfigurator">
+            <summary>
+            Provides an opportunity for only one plugin (or host) to register for final service configuration.
+            
+            This would allow for the host to remove and re-add any specific services which it needs specific
+            control over.
+            </summary>
+        </member>
+        <member name="M:PluginManager.Interfaces.IServiceConfigurator.RegisterServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            Method called when all plugins have registered services which can allow the host, or a specific plugin 
+            with the ability to get notified after all services have been created.
+            </summary>
+            <param name="services">IServiceCollection instance</param>
         </member>
         <member name="F:PluginManager.Internal.Constants.InvalidListener">
             <summary>

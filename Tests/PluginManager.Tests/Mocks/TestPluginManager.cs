@@ -29,6 +29,7 @@ using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
 
 using PluginManager.Abstractions;
+using PluginManager.Interfaces;
 
 namespace PluginManager.Tests.Mocks
 {
@@ -99,6 +100,11 @@ namespace PluginManager.Tests.Mocks
         protected override void ServiceConfigurationComplete(in IServiceProvider serviceProvider)
         {
 
+        }
+
+        internal void RegisterServiceConfigurator(MockServiceConfigurator serviceConfigurator)
+        {
+            base.SetServiceConfigurator(serviceConfigurator as IServiceConfigurator);
         }
     }
 }
