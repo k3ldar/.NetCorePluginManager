@@ -26,32 +26,44 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 using AspNetCore.PluginManager.DemoWebsite.Classes;
 
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
+using Middleware;
+
 using PluginManager.Abstractions;
+
+using Shared.Classes;
 
 using SharedPluginFeatures;
 
 using WebSmokeTest.Plugin;
 
-using pm = PluginManager.Internal;
+using static Shared.Utilities;
 
+using pm = PluginManager.Internal;
 
 namespace AspNetCore.PluginManager.Tests.MiddlewareTests
 {
     [TestClass]
     public class WebSmokeTestTests : TestBasePlugin
     {
+        private string EncryptionKey;
+
         [TestInitialize]
         public void InitialiseSmokeTestPluginManager()
         {
             InitializeSmokeTestPluginManager();
+            ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
+            WebSmokeTestSettings settings = settingsProvider.GetSettings<WebSmokeTestSettings>(nameof(WebSmokeTest));
+            EncryptionKey = settings.EncryptionKey;
         }
 
         [TestMethod]
@@ -153,9 +165,9 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
                 byte[] data = new byte[httpResponse.Body.Length];
                 httpResponse.Body.Position = 0;
                 httpResponse.Body.Read(data, 0, data.Length);
-                string id = Encoding.UTF8.GetString(data);
+                string id = Decrypt(Encoding.UTF8.GetString(data), EncryptionKey);
 
-                Assert.AreEqual("8D801A6912AF939", id);
+                Assert.IsTrue(id.Contains("8D801A6912AF939"));
             }
         }
 
@@ -266,12 +278,12 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
                 byte[] data = new byte[httpResponse.Body.Length];
                 httpResponse.Body.Position = 0;
                 httpResponse.Body.Read(data, 0, data.Length);
-                string count = Encoding.UTF8.GetString(data);
+                string count = Decrypt(Encoding.UTF8.GetString(data), EncryptionKey);
 
                 if (Int32.TryParse(count, out int actualCount))
                     Assert.IsTrue(actualCount > 1);
                 else
-                    throw new InvalidCastException("Failed to convert returned count");                
+                    throw new InvalidCastException("Failed to convert returned count");
             }
         }
 
@@ -345,10 +357,10 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
                 byte[] data = new byte[httpResponse.Body.Length];
                 httpResponse.Body.Position = 0;
                 httpResponse.Body.Read(data, 0, data.Length);
-                string test = Encoding.UTF8.GetString(data);
+                string test = Decrypt(Encoding.UTF8.GetString(data), EncryptionKey);
 
                 Assert.IsTrue(test.Contains("Please try again"));
-                Assert.IsTrue(test.Contains("Method\":\"POST"));
+                Assert.IsTrue(test.Contains("Method\":\"POST") || test.Contains("Method\":\"GET"));
             }
         }
 
@@ -384,9 +396,218 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
                 byte[] data = new byte[httpResponse.Body.Length];
                 httpResponse.Body.Position = 0;
                 httpResponse.Body.Read(data, 0, data.Length);
-                string test = Encoding.UTF8.GetString(data);
+                string test = Decrypt(Encoding.UTF8.GetString(data), EncryptionKey);
 
                 Assert.IsTrue(String.IsNullOrEmpty(test));
+            }
+        }
+
+        [TestMethod]
+        public async Task Validate_TestStartCalled_ISmokeTestProviderNotRegistered_Returns_EmptyString()
+        {
+            ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
+
+            TestHttpRequest httpRequest = new TestHttpRequest();
+            httpRequest.Path = "/smokeTest/Start/";
+            TestHttpResponse httpResponse = new TestHttpResponse();
+
+            IPluginHelperService pluginHelperServices = _testPluginSmokeTest.GetRequiredService<IPluginHelperService>();
+            IPluginTypesService pluginTypesService = _testPluginSmokeTest.GetRequiredService<IPluginTypesService>();
+
+            TestHttpContext httpContext = new TestHttpContext(httpRequest, httpResponse,
+                _testPluginSmokeTest.GetServiceProvider());
+            ILogger logger = new Logger();
+            bool nextDelegateCalled = false;
+            RequestDelegate requestDelegate = async (context) => { nextDelegateCalled = true; await Task.Delay(0); };
+
+            using (WebSmokeTestMiddleware sut = new WebSmokeTestMiddleware(requestDelegate, pluginHelperServices,
+                pluginTypesService, settingsProvider, logger))
+            {
+                List<WebSmokeTestItem> smokeTests = sut.SmokeTests;
+
+                Assert.IsTrue(smokeTests.Count > 1);
+
+                await sut.Invoke(httpContext);
+                Assert.IsFalse(nextDelegateCalled);
+                Assert.AreEqual(200, httpResponse.StatusCode);
+                Assert.IsNull(httpResponse.ContentType);
+
+                byte[] data = new byte[httpResponse.Body.Length];
+                httpResponse.Body.Position = 0;
+                httpResponse.Body.Read(data, 0, data.Length);
+                string test = Decrypt(Encoding.UTF8.GetString(data), EncryptionKey);
+
+                Assert.IsTrue(String.IsNullOrEmpty(test));
+            }
+        }
+
+        [TestMethod]
+        public async Task Validate_TestStartCalled_ISmokeTestProviderRegistered_Returns_NvpCodecValues()
+        {
+            ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
+
+            TestHttpRequest httpRequest = new TestHttpRequest();
+            httpRequest.Path = "/smokeTest/Start/";
+            TestHttpResponse httpResponse = new TestHttpResponse();
+
+            IPluginHelperService pluginHelperServices = _testPluginSmokeTest.GetRequiredService<IPluginHelperService>();
+            IPluginTypesService pluginTypesService = _testPluginSmokeTest.GetRequiredService<IPluginTypesService>();
+            IServiceCollection serviceCollection = new ServiceCollection() as IServiceCollection;
+            NVPCodec codecValues = new NVPCodec();
+            codecValues.Add("username", "admin");
+            MockSmokeTestProvider smokeTestProvider = new MockSmokeTestProvider(codecValues);
+            serviceCollection.AddSingleton<ISmokeTestProvider>(smokeTestProvider);
+
+            TestHttpContext httpContext = new TestHttpContext(httpRequest, httpResponse,
+                serviceCollection.BuildServiceProvider());
+            ILogger logger = new Logger();
+            bool nextDelegateCalled = false;
+            RequestDelegate requestDelegate = async (context) => { nextDelegateCalled = true; await Task.Delay(0); };
+
+            using (WebSmokeTestMiddleware sut = new WebSmokeTestMiddleware(requestDelegate, pluginHelperServices,
+                pluginTypesService, settingsProvider, logger))
+            {
+                List<WebSmokeTestItem> smokeTests = sut.SmokeTests;
+
+                Assert.IsTrue(smokeTests.Count > 1);
+
+                await sut.Invoke(httpContext);
+                Assert.IsFalse(nextDelegateCalled);
+                Assert.AreEqual(200, httpResponse.StatusCode);
+                Assert.IsNull(httpResponse.ContentType);
+                Assert.IsTrue(smokeTestProvider.StartCalled);
+
+                byte[] data = new byte[httpResponse.Body.Length];
+                httpResponse.Body.Position = 0;
+                httpResponse.Body.Read(data, 0, data.Length);
+                string test = Decrypt(Encoding.UTF8.GetString(data), EncryptionKey);
+
+                Assert.IsFalse(String.IsNullOrEmpty(test));
+                NVPCodec codec = new NVPCodec();
+                codec.Decode(test);
+
+                Assert.AreEqual(1, codec.AllKeys.Length);
+
+                Assert.IsTrue(codec.AllKeys.Contains("username"));
+                Assert.AreEqual("admin", codec["username"]);
+            }
+        }
+
+        [TestMethod]
+        public async Task Validate_TestStartCalled_ISmokeTestProviderRegistered_Returns_NullNvpCodecValues()
+        {
+            ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
+
+            TestHttpRequest httpRequest = new TestHttpRequest();
+            httpRequest.Path = "/smokeTest/Start/";
+            TestHttpResponse httpResponse = new TestHttpResponse();
+
+            IPluginHelperService pluginHelperServices = _testPluginSmokeTest.GetRequiredService<IPluginHelperService>();
+            IPluginTypesService pluginTypesService = _testPluginSmokeTest.GetRequiredService<IPluginTypesService>();
+            IServiceCollection serviceCollection = new ServiceCollection() as IServiceCollection;
+            MockSmokeTestProvider smokeTestProvider = new MockSmokeTestProvider();
+            serviceCollection.AddSingleton<ISmokeTestProvider>(smokeTestProvider);
+
+            TestHttpContext httpContext = new TestHttpContext(httpRequest, httpResponse,
+                serviceCollection.BuildServiceProvider());
+            ILogger logger = new Logger();
+            bool nextDelegateCalled = false;
+            RequestDelegate requestDelegate = async (context) => { nextDelegateCalled = true; await Task.Delay(0); };
+
+            using (WebSmokeTestMiddleware sut = new WebSmokeTestMiddleware(requestDelegate, pluginHelperServices,
+                pluginTypesService, settingsProvider, logger))
+            {
+                List<WebSmokeTestItem> smokeTests = sut.SmokeTests;
+
+                Assert.IsTrue(smokeTests.Count > 1);
+
+                await sut.Invoke(httpContext);
+                Assert.IsFalse(nextDelegateCalled);
+                Assert.AreEqual(200, httpResponse.StatusCode);
+                Assert.IsNull(httpResponse.ContentType);
+                Assert.IsTrue(smokeTestProvider.StartCalled);
+
+                byte[] data = new byte[httpResponse.Body.Length];
+                httpResponse.Body.Position = 0;
+                httpResponse.Body.Read(data, 0, data.Length);
+                string test = Decrypt(Encoding.UTF8.GetString(data), EncryptionKey);
+
+                Assert.IsTrue(String.IsNullOrEmpty(test));
+                NVPCodec codec = new NVPCodec();
+                codec.Decode(test);
+
+                Assert.AreEqual(0, codec.AllKeys.Length);
+            }
+        }
+
+        [TestMethod]
+        public async Task Validate_TestEndCalled_ISmokeTestProviderNotRegistered_Void()
+        {
+            ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
+
+            TestHttpRequest httpRequest = new TestHttpRequest();
+            httpRequest.Path = "/smokeTest/end/";
+            TestHttpResponse httpResponse = new TestHttpResponse();
+
+            IPluginHelperService pluginHelperServices = _testPluginSmokeTest.GetRequiredService<IPluginHelperService>();
+            IPluginTypesService pluginTypesService = _testPluginSmokeTest.GetRequiredService<IPluginTypesService>();
+            IServiceCollection serviceCollection = new ServiceCollection() as IServiceCollection;
+
+            TestHttpContext httpContext = new TestHttpContext(httpRequest, httpResponse,
+                serviceCollection.BuildServiceProvider());
+            ILogger logger = new Logger();
+            bool nextDelegateCalled = false;
+            RequestDelegate requestDelegate = async (context) => { nextDelegateCalled = true; await Task.Delay(0); };
+
+            using (WebSmokeTestMiddleware sut = new WebSmokeTestMiddleware(requestDelegate, pluginHelperServices,
+                pluginTypesService, settingsProvider, logger))
+            {
+                List<WebSmokeTestItem> smokeTests = sut.SmokeTests;
+
+                Assert.IsTrue(smokeTests.Count > 1);
+
+                await sut.Invoke(httpContext);
+                Assert.IsFalse(nextDelegateCalled);
+                Assert.AreEqual(200, httpResponse.StatusCode);
+                Assert.IsNull(httpResponse.ContentType);
+            }
+        }
+
+        [TestMethod]
+        public async Task Validate_TestEndCalled_ISmokeTestProviderRegistered_Void()
+        {
+            ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
+
+            TestHttpRequest httpRequest = new TestHttpRequest();
+            httpRequest.Path = "/SmokeTest/End/";
+            TestHttpResponse httpResponse = new TestHttpResponse();
+
+            IPluginHelperService pluginHelperServices = _testPluginSmokeTest.GetRequiredService<IPluginHelperService>();
+            IPluginTypesService pluginTypesService = _testPluginSmokeTest.GetRequiredService<IPluginTypesService>();
+            IServiceCollection serviceCollection = new ServiceCollection() as IServiceCollection;
+            NVPCodec codecValues = new NVPCodec();
+            codecValues.Add("username", "admin");
+            MockSmokeTestProvider smokeTestProvider = new MockSmokeTestProvider(codecValues);
+            serviceCollection.AddSingleton<ISmokeTestProvider>(smokeTestProvider);
+
+            TestHttpContext httpContext = new TestHttpContext(httpRequest, httpResponse,
+                serviceCollection.BuildServiceProvider());
+            ILogger logger = new Logger();
+            bool nextDelegateCalled = false;
+            RequestDelegate requestDelegate = async (context) => { nextDelegateCalled = true; await Task.Delay(0); };
+
+            using (WebSmokeTestMiddleware sut = new WebSmokeTestMiddleware(requestDelegate, pluginHelperServices,
+                pluginTypesService, settingsProvider, logger))
+            {
+                List<WebSmokeTestItem> smokeTests = sut.SmokeTests;
+
+                Assert.IsTrue(smokeTests.Count > 1);
+
+                await sut.Invoke(httpContext);
+                Assert.IsFalse(nextDelegateCalled);
+                Assert.AreEqual(200, httpResponse.StatusCode);
+                Assert.IsNull(httpResponse.ContentType);
+                Assert.IsTrue(smokeTestProvider.EndCalled);
             }
         }
 

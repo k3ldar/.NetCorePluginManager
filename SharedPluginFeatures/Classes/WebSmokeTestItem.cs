@@ -74,7 +74,7 @@ namespace SharedPluginFeatures
         public WebSmokeTestItem(in string route, in string method, in string formId, in int response,
             in int position, in string name, in string parameters, in List<string> responseData,
             in List<string> submitResponseData)
-            : this(route, method, formId, response, position, name, String.Empty, parameters, String.Empty, responseData, submitResponseData)
+            : this(route, method, formId, response, PostType.Json, position, name, String.Empty, parameters, String.Empty, responseData, submitResponseData)
         {
         }
 
@@ -85,6 +85,7 @@ namespace SharedPluginFeatures
         /// <param name="method">The method used when submitting the test, PUT, GET, POST etc</param>
         /// <param name="formId">The id of the form that will be submitted</param>
         /// <param name="response">The expected response for the result, 200, 404 etc</param>
+        /// <param name="postType">Type of post, XML, Json, Form or Other</param>
         /// <param name="position">The position of the test relative to all other tests</param>
         /// <param name="name">Name of the test, used to identify it</param>
         /// <param name="parameters">Name value pair of parameter values</param>
@@ -92,7 +93,7 @@ namespace SharedPluginFeatures
         /// <param name="responseUrl">The expected url where the response will be redirected to.</param>
         /// <param name="responseData">A list of strings that can be searched for within the response text of the request using either get or prior to a post.</param>
         /// <param name="submitResponseData">A list of string that can be searched for within the response text after a form has been submitted.</param>
-        public WebSmokeTestItem(in string route, in string method, in string formId, in int response,
+        public WebSmokeTestItem(in string route, in string method, in string formId, in int response, in PostType postType,
             in int position, in string name, in string inputData, in string parameters, in string responseUrl,
             in List<string> responseData, in List<string> submitResponseData)
         {
@@ -106,6 +107,7 @@ namespace SharedPluginFeatures
             Method = method;
             FormId = formId;
             Response = response;
+            PostType = postType;
             Position = position;
             Name = name ?? String.Empty;
             InputData = inputData ?? String.Empty;
@@ -130,6 +132,11 @@ namespace SharedPluginFeatures
         /// </summary>
         /// <value>string</value>
         public string Method { get; set; }
+
+        /// <summary>
+        /// Type of post, XML, Json, Form or Other
+        /// </summary>
+        public PostType PostType { get; set; }
 
         /// <summary>
         /// The expected response for the result, 200, 404 etc
@@ -194,6 +201,11 @@ namespace SharedPluginFeatures
         /// Unique index for test item
         /// </summary>
         public int Index { get; set; }
+
+        /// <summary>
+        /// User defined custom data
+        /// </summary>
+        public object CustomData { get; set; }
 
         #endregion Properties
     }

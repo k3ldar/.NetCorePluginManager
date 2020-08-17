@@ -33,6 +33,8 @@ using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Http;
 
+using Middleware;
+
 using Newtonsoft.Json;
 
 using PluginManager.Abstractions;
@@ -58,7 +60,7 @@ namespace WebSmokeTest.Plugin
         private static readonly CacheManager _testCache = new CacheManager("Web Smoke Test Cache", new TimeSpan(0, 10, 0), true);
         private readonly string _savedData = Path.GetTempFileName();
         private readonly RequestDelegate _next;
-        private readonly string _staticFileExtensions = Constants.StaticFileExtensions;
+        private readonly string _staticFileExtensions = SharedPluginFeatures.Constants.StaticFileExtensions;
         internal static Timings _timings = new Timings();
         private Boolean disposedValue;
         private readonly ILogger _logger;
@@ -128,6 +130,23 @@ namespace WebSmokeTest.Plugin
                                 Encrypt(String.Join(';', _settings.SiteId), _settings.EncryptionKey));
                             await context.Response.Body.WriteAsync(siteId, 0, siteId.Length);
                         }
+                        else if (route.Equals("/smoketest/start/"))
+                        {
+                            ISmokeTestProvider smokeTestProvider = context.RequestServices
+                                .GetService(typeof(ISmokeTestProvider)) as ISmokeTestProvider;
+
+                            if (smokeTestProvider != null)
+                            {
+                                NVPCodec codec = smokeTestProvider.SmokeTestStart();
+                                
+                                if (codec != null)
+                                {
+                                    byte[] testNVPData = Encoding.UTF8.GetBytes(
+                                        Encrypt(codec.Encode(), _settings.EncryptionKey));
+                                    await context.Response.Body.WriteAsync(testNVPData, 0, testNVPData.Length);
+                                }
+                            }
+                        }
                         else if (route.Equals("/smoketest/count/"))
                         {
                             byte[] siteId = Encoding.UTF8.GetBytes(
@@ -151,6 +170,16 @@ namespace WebSmokeTest.Plugin
                             else
                             {
                                 context.Response.StatusCode = 400;
+                            }
+                        }
+                        else if (route.Equals("/smoketest/end/"))
+                        {
+                            ISmokeTestProvider smokeTestProvider = context.RequestServices
+                                .GetService(typeof(ISmokeTestProvider)) as ISmokeTestProvider;
+
+                            if (smokeTestProvider != null)
+                            {
+                                smokeTestProvider.SmokeTestEnd();
                             }
                         }
                         else
@@ -346,6 +375,7 @@ namespace WebSmokeTest.Plugin
                 httpMethod,
                 attribute.FormId,
                 attribute.Response,
+                attribute.PostType,
                 attribute.Position,
                 name,
                 attribute.InputData,

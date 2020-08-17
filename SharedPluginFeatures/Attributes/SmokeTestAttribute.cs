@@ -51,15 +51,19 @@ namespace SharedPluginFeatures
         /// </summary>
         /// <param name="position">The position of the test relative to all other tests</param>
         /// <param name="formId">The name of the form that will be submitted</param>
+        /// <param name="postType">The type of data to be posted to the controller action</param>
         /// <param name="response">The expected response for the result, 200, 404 etc</param>
         /// <param name="method">The web method used when submitting the test, GET, POST, PUT etc</param>
-        /// <param name="inputData">The data that will be submitted for the test, this must be a colon seperated list of strings representing parameter values to be submitted.</param>
+        /// <param name="inputData">The data that will be submitted for the test, this must be a colon seperated list of strings representing parameter values to be submitted or can also be raw json or XML.</param>
         /// <param name="searchData">A colon seperated list of string that can be searched for within the response after either a get or prior to data being submitted via a form.</param>
         /// <param name="submitSearchData">A colon seperated list of strings that can be searched for in the response after data has been submitted.</param>
         /// <param name="name">Name of the test, used to identify it, if not specified then the controller and action name will be used.</param>
         /// <param name="parameters">Name value pair of valid parameter values for this test</param>
         /// <param name="redirectUrl">The expected url where the response will be redirected to.</param>
-        public SmokeTestAttribute(int response, string formId = "", int position = 10000,
+        public SmokeTestAttribute(int response,
+            PostType postType = PostType.Form,
+            string formId = "",
+            int position = 10000,
             string method = "",
             string inputData = "",
             string searchData = "",
@@ -70,6 +74,7 @@ namespace SharedPluginFeatures
         {
             IsFromControllerAction = true;
             Response = response;
+            PostType = postType;
             Position = position;
             Method = method;
             InputData = inputData;
@@ -96,6 +101,11 @@ namespace SharedPluginFeatures
         /// </summary>
         /// <value>int</value>
         public int Response { get; private set; }
+
+        /// <summary>
+        /// The type of data to be posted
+        /// </summary>
+        public PostType PostType { get; private set; }
 
         /// <summary>
         /// The relative position of this test compared to other tests.
