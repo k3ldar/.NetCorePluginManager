@@ -37,7 +37,6 @@ namespace PluginManager.Tests
     /// </summary>
     public sealed class PluginInitialisation : IPlugin
     {
-
         #region IPlugin Methods
 
         public void Initialise(ILogger logger)

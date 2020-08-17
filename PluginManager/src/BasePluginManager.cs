@@ -39,6 +39,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
 using PluginManager.Abstractions;
+using PluginManager.Interfaces;
 using PluginManager.Internal;
 
 namespace PluginManager
@@ -59,6 +60,8 @@ namespace PluginManager
         private bool _disposed;
 
         private static IServiceProvider _serviceProvider;
+        private IServiceConfigurator _serviceConfigurator;
+        private bool _serviceConfigurationComplete;
 
         #endregion Private Members
 
@@ -143,6 +146,23 @@ namespace PluginManager
             {
                 return _serviceProvider;
             }
+        }
+
+
+        /// <summary>
+        /// Sets the IServiceConfigurator instance which will be called after service configurtion 
+        /// is completed by the host and all plugins.
+        /// </summary>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1303:Do not pass literals as localized parameters", Justification = "Configuration issues should be handled by the host app when starting.")]
+        protected void SetServiceConfigurator(in IServiceConfigurator serviceConfigurator)
+        {
+            if (_serviceConfigurator != null)
+                throw new InvalidOperationException("Only one IServiceConfigurator can be loaded");
+
+            if (_serviceConfigurationComplete)
+                throw new InvalidOperationException("The plugin manager has already configured its services");
+
+            _serviceConfigurator = serviceConfigurator ?? throw new ArgumentNullException(nameof(serviceConfigurator));
         }
 
         #endregion Properties
@@ -384,6 +404,13 @@ namespace PluginManager
             _serviceProvider = services.BuildServiceProvider();
 
             PostConfigurePluginServices(services);
+
+            if (_serviceConfigurator != null)
+            {
+                _serviceConfigurator.RegisterServices(services);
+                _serviceConfigurator = null;
+                _serviceConfigurationComplete = true;
+            }
 
             _serviceProvider = services.BuildServiceProvider();
 
