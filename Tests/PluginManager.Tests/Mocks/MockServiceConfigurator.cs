@@ -26,7 +26,7 @@
 
 using Microsoft.Extensions.DependencyInjection;
 
-using PluginManager.Interfaces;
+using PluginManager.Abstractions;
 
 namespace PluginManager.Tests.Mocks
 {
