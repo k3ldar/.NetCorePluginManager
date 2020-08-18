@@ -31,7 +31,6 @@ using System.Text;
 using System.Threading.Tasks;
 
 using AspNetCore.PluginManager.DemoWebsite.Classes;
-
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
