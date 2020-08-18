@@ -87,6 +87,13 @@ namespace PluginManager
             ConfigFileName = "appsettings.json";
         }
 
+        public PluginManagerConfiguration(in ILogger logger, in ILoadSettingsService loadSettingsService,
+            in IServiceConfigurator serviceConfigurator)
+            : this(logger, loadSettingsService)
+        {
+            ServiceConfigurator = serviceConfigurator ?? throw new ArgumentNullException(nameof(serviceConfigurator));
+        }
+
         #endregion Constructors
 
         #region Properties
@@ -133,6 +140,8 @@ namespace PluginManager
                 return Path.Combine(CurrentPath, ConfigFileName);
             }
         }
+
+        public IServiceConfigurator ServiceConfigurator { get; set; }
 
         #endregion Properties
 

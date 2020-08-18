@@ -1,5 +1,5 @@
 ﻿/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- *  Plugin Manager is distributed under the GNU General Public License version 3 and  
+ *  .Net Core Plugin Manager is distributed under the GNU General Public License version 3 and  
  *  is also available under alternative licenses negotiated directly with Simon Carter.  
  *  If you obtained Service Manager under the GPL, then the GPL applies to all loadable 
  *  Service Manager modules used on your system as well. The GPL (version 3) is 
@@ -13,33 +13,28 @@
  *
  *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
- *  Product:  PluginManager
+ *  Product:  AspNetCore.PluginManager.DemoWebsite
  *  
- *  File: IServiceConfigurator.cs
+ *  File: ServiceConfigurator.cs
  *
  *  Purpose:  
  *
  *  Date        Name                Reason
- *  17/08/2020  Simon Carter        Initially Created
+ *  18/08/2020  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 using Microsoft.Extensions.DependencyInjection;
 
-namespace PluginManager.Abstractions
+using PluginManager.Abstractions;
+
+namespace AspNetCore.PluginManager.DemoWebsite.Classes
 {
-    /// <summary>
-    /// Provides an opportunity for only one plugin (or host) to register for final service configuration.
-    /// 
-    /// This would allow for the host to remove and re-add any specific services which it needs specific
-    /// control over.
-    /// </summary>
-    public interface IServiceConfigurator
+    public class ServiceConfigurator : IServiceConfigurator
     {
-        /// <summary>
-        /// Method called when all plugins have registered services which can allow the host, or a specific plugin 
-        /// with the ability to get notified after all services have been created.
-        /// </summary>
-        /// <param name="services">IServiceCollection instance</param>
-        void RegisterServices(IServiceCollection services);
+        public void RegisterServices(IServiceCollection services)
+        {
+            
+        }
     }
 }
