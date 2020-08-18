@@ -23,8 +23,12 @@
  *  22/09/2018  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+using AspNetCore.PluginManager.DemoWebsite.Classes;
+
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
+
+using PluginManager;
 
 namespace AspNetCore.PluginManager.DemoWebsite
 {
@@ -45,8 +49,11 @@ namespace AspNetCore.PluginManager.DemoWebsite
             PluginManagerService.UsePlugin(typeof(Breadcrumb.Plugin.PluginInitialisation));
             PluginManagerService.UsePlugin(typeof(WebSmokeTest.Plugin.PluginInitialisation));
 
+            PluginManagerConfiguration configuration = new PluginManagerConfiguration();
+            configuration.ServiceConfigurator = new ServiceConfigurator();
+
             // Initialise the plugin manager service
-            PluginManagerService.Initialise();
+            PluginManagerService.Initialise(configuration);
             try
             {
                 // Add generic plugins where load order does not matter

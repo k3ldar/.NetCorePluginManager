@@ -25,7 +25,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using Microsoft.Extensions.DependencyInjection;
 
-namespace PluginManager.Interfaces
+namespace PluginManager.Abstractions
 {
     /// <summary>
     /// Provides an opportunity for only one plugin (or host) to register for final service configuration.

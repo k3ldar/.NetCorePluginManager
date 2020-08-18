@@ -39,7 +39,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
 using PluginManager.Abstractions;
-using PluginManager.Interfaces;
 using PluginManager.Internal;
 
 namespace PluginManager
@@ -87,6 +86,9 @@ namespace PluginManager
         {
             _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
             _pluginSettings = pluginSettings ?? throw new ArgumentNullException(nameof(pluginSettings));
+
+            if (_configuration.ServiceConfigurator != null)
+                SetServiceConfigurator(_configuration.ServiceConfigurator);
 
             Logger = configuration.Logger;
 

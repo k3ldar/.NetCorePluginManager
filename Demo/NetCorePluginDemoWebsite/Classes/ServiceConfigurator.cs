@@ -1,5 +1,5 @@
 ﻿/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- *  Plugin Manager is distributed under the GNU General Public License version 3 and  
+ *  .Net Core Plugin Manager is distributed under the GNU General Public License version 3 and  
  *  is also available under alternative licenses negotiated directly with Simon Carter.  
  *  If you obtained Service Manager under the GPL, then the GPL applies to all loadable 
  *  Service Manager modules used on your system as well. The GPL (version 3) is 
@@ -13,14 +13,14 @@
  *
  *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
- *  Product:  PluginManager
+ *  Product:  AspNetCore.PluginManager.DemoWebsite
  *  
- *  File: MockServiceConfigurator.cs
+ *  File: ServiceConfigurator.cs
  *
  *  Purpose:  
  *
  *  Date        Name                Reason
- *  17/08/2020  Simon Carter        Initially Created
+ *  18/08/2020  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -28,15 +28,13 @@ using Microsoft.Extensions.DependencyInjection;
 
 using PluginManager.Abstractions;
 
-namespace PluginManager.Tests.Mocks
+namespace AspNetCore.PluginManager.DemoWebsite.Classes
 {
-    public class MockServiceConfigurator : IServiceConfigurator
+    public class ServiceConfigurator : IServiceConfigurator
     {
         public void RegisterServices(IServiceCollection services)
         {
-            RegisterServicesCalled = true;
+            
         }
-
-        public bool RegisterServicesCalled { get; private set; }
     }
 }
