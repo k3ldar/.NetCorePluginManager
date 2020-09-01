@@ -310,13 +310,20 @@ namespace WebSmokeTest.Plugin
 
         private WebSmokeTestItem GetSmokeTestFromAttribute(in Type type, in MethodInfo method, in SmokeTestAttribute attribute)
         {
+            WebSmokeTestItem Result;
 
             if (type.IsSubclassOf(typeof(Microsoft.AspNetCore.Mvc.Controller)))
             {
-                return GetSmokeTestFromControllerAction(type, method, attribute);
+                Result = GetSmokeTestFromControllerAction(type, method, attribute);
+            }
+            else
+            {
+                Result = GetSmokeTestFromStandardClassMethod(type, method);
             }
 
-            return GetSmokeTestFromStandardClassMethod(type, method);
+            Result.AuthorHistory.Add(DateTime.UtcNow, "Managed Test");
+
+            return Result;
         }
 
         private WebSmokeTestItem GetSmokeTestFromStandardClassMethod(in Type type, in MethodInfo method)

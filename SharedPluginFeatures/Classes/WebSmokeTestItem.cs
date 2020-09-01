@@ -41,6 +41,7 @@ namespace SharedPluginFeatures
         public WebSmokeTestItem()
         {
             ResponseData = new List<string>();
+            AuthorHistory = new Dictionary<DateTime, string>();
         }
 
         /// <summary>
@@ -103,6 +104,7 @@ namespace SharedPluginFeatures
             if (String.IsNullOrEmpty(method))
                 throw new ArgumentNullException(nameof(method));
 
+            AuthorHistory = new Dictionary<DateTime, string>();
             Route = route;
             Method = method;
             FormId = formId;
@@ -206,6 +208,11 @@ namespace SharedPluginFeatures
         /// User defined custom data
         /// </summary>
         public object CustomData { get; set; }
+
+        /// <summary>
+        /// List of authors and date time modified
+        /// </summary>
+        public Dictionary<DateTime, string> AuthorHistory { get; }
 
         #endregion Properties
     }

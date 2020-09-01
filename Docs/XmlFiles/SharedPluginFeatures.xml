@@ -1344,6 +1344,11 @@
             User defined custom data
             </summary>
         </member>
+        <member name="P:SharedPluginFeatures.WebSmokeTestItem.AuthorHistory">
+            <summary>
+            List of authors and date time modified
+            </summary>
+        </member>
         <member name="T:SharedPluginFeatures.Constants">
             <summary>
             Constant values shared between all plugin modules and the AspNetCore.PluginManager
