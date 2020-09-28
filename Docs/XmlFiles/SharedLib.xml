@@ -1579,11 +1579,6 @@
             </summary>
             <param name="session"></param>
         </member>
-        <member name="M:Shared.Classes.UserSessionManager.Dispose">
-            <summary>
-            Dispose Method
-            </summary>
-        </member>
         <member name="M:Shared.Classes.UserSessionManager.InitialiseSession(Shared.Classes.UserSession)">
             <summary>
             Called in a seperate thread, updates thread with basic data to stop blocking
@@ -1779,7 +1774,7 @@
             <param name="created"></param>
             <param name="sessionID"></param>
             <param name="userAgent"></param>
-            <param name="initialReferer"></param>
+            <param name="initialReferrer"></param>
             <param name="ipAddress"></param>
             <param name="hostName"></param>
             <param name="isMobile"></param>
@@ -2032,11 +2027,6 @@
             </summary>
             <param name="userAgent">User Agent</param>
             <returns>bool, true if mobile device, otherwise false</returns>
-        </member>
-        <member name="M:Shared.Classes.UserSession.Dispose">
-            <summary>
-            Dispose method
-            </summary>
         </member>
         <member name="T:Shared.Classes.PageViewData">
             <summary>

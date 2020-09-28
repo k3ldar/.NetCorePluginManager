@@ -37,7 +37,7 @@ using SharedPluginFeatures;
 namespace SieraDeltaGeoIp.Plugin
 {
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1812:AvoidUninstantiatedInternalClasses", Justification = "Used internally as part of IoC")]
-    internal class GeoIpService : BaseCoreClass, IGeoIpDataService
+    internal class GeoIpService : BaseCoreClass, IGeoIpProvider
     {
         #region Private Members
 
@@ -101,8 +101,8 @@ namespace SieraDeltaGeoIp.Plugin
         #region Public Methods
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1031:Do not catch general exception types", Justification = "it's ok here, nothing to see, move along")]
-        public bool GetIPAddressDetails(in string ipAddress, out string countryCode, out string region,
-            out string cityName, out decimal latitude, out decimal longitude, out long uniqueID)
+        public bool GetIpAddressDetails(in string ipAddress, out string countryCode, out string region,
+            out string cityName, out decimal latitude, out decimal longitude, out long uniqueID, out long fromIp, out long toIp)
         {
             countryCode = "ZZ";
             region = String.Empty;
@@ -110,6 +110,8 @@ namespace SieraDeltaGeoIp.Plugin
             latitude = -1;
             longitude = -1;
             uniqueID = -1;
+            fromIp = 0;
+            toIp = 0;
 
             try
             {

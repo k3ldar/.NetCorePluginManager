@@ -120,7 +120,7 @@ namespace SharedPluginFeatures
         /// <summary>
         /// Page referrer constant
         /// </summary>
-        public const string PageReferer = "Referer";
+        public const string PageReferrer = "Referer";
 
         /// <summary>
         /// Forward slash (/) constant
@@ -416,5 +416,20 @@ namespace SharedPluginFeatures
         /// Name of bad egg settings as found within appsettings.json
         /// </summary>
         public const string BadEggSettingsName = "BadEgg.Plugin";
+
+        /// <summary>
+        /// Bad egg image to be system admin
+        /// </summary>
+        public const string SystemImageBadEgg = "badegg";
+
+        /// <summary>
+        /// Stopwatch image to be system admin
+        /// </summary>
+        public const string SystemImageStopWatch = "stopwatch";
+
+        /// <summary>
+        /// Stopwatch image to be system admin
+        /// </summary>
+        public const string SystemImageChart = "chart";
     }
 }

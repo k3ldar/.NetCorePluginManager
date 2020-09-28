@@ -25,6 +25,8 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using AppSettings;
 
+using Microsoft.AspNetCore.Hosting;
+
 using SharedPluginFeatures;
 
 namespace UserSessionMiddleware.Plugin
@@ -75,5 +77,68 @@ namespace UserSessionMiddleware.Plugin
         [SettingDefault("en-GB")]
         [SettingString(false, 2u, 5u)]
         public string DefaultCulture { get; set; }
+
+        /// <summary>
+        /// Determines whether the default session service is enabled or not, default is the service is disabled.
+        /// </summary>
+        /// <value>bool</value>
+        public bool EnableDefaultSessionService { get; set; }
+
+        /// <summary>
+        /// Maximum number of hourly data to keep
+        /// 
+        /// This value can range from 24 (6 hours) up to 2880 (30 days).  The default is 96 (24 hours)
+        /// </summary>
+        /// <value>uint</value>
+        [SettingDefault(96u)]
+        [SettingRange(24u, 2880u)]
+        public uint MaxHourlyData { get; set; }
+
+        /// <summary>
+        /// Maximum number of daily session data to keep
+        /// 
+        /// This value can range from 30 to 730
+        /// </summary>
+        /// <value>uint</value>
+        [SettingDefault(360u)]
+        [SettingRange(30u, 730u)]
+        public uint MaxDailyData { get; set; }
+
+        /// <summary>
+        /// Maximum number of weekly session data to keep
+        /// 
+        /// This value can range from 26 to 520
+        /// </summary>
+        /// <value>uint</value>
+        [SettingDefault(520u)]
+        [SettingRange(26u, 520u)]
+        public uint MaxWeeklyData { get; set; }
+
+        /// <summary>
+        /// Maximum number of Monthly session data to keep
+        /// 
+        /// This value can range from 12 to 120
+        /// </summary>
+        /// <value>uint</value>
+        [SettingDefault(120u)]
+        [SettingRange(12u, 120u)]
+        public uint MaxMonthlyData { get; set; }
+
+        /// <summary>
+        /// Maximum number of Yearly session data to keep
+        /// 
+        /// This value can range from 1 to 50
+        /// </summary>
+        /// <value>uint</value>
+        [SettingDefault(20u)]
+        [SettingRange(10u, 50u)]
+        public uint MaxYearlyData { get; set; }
+
+        /// <summary>
+        /// Rootpath for session data, if left empty then the default value will be <see cref="IHostingEnvironment"/>.ContentRootPath
+        /// </summary>
+        /// <value>string</value>
+        [SettingOptional]
+        public string SessionRootPath { get; set; }
     }
 }

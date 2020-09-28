@@ -92,7 +92,7 @@ namespace UserSessionMiddleware.Plugin.Classes.SystemAdmin
                 Result.Append($"<h3>Pages Visited</h3>");
                 Result.Append("<table><tr><th>Total time</th><th>Page</th></tr>");
 
-                foreach (var page in session.Pages)
+                foreach (PageViewData page in session.Pages)
                 {
                     Result.Append($"<tr><td>{page.TotalTime}</td>");
                     Result.Append($"<td>{page.URL}</td></tr>");

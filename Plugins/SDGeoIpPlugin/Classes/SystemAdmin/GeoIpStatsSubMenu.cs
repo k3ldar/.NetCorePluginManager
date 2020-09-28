@@ -118,7 +118,7 @@ namespace SieraDeltaGeoIp.Plugin.Classes
 
         public override string Image()
         {
-            return "stopwatch";
+            return Constants.SystemImageStopWatch;
         }
     }
 }

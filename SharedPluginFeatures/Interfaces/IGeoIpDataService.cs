@@ -24,11 +24,14 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+using System;
+
 namespace SharedPluginFeatures
 {
     /// <summary>
     /// Interface to obtain GeoIp details for a specific Ip Address
     /// </summary>
+    [Obsolete("This interface is obsolete and will be removed, please use IGeoIpProvider instead")]
     public interface IGeoIpDataService
     {
         /// <summary>
@@ -42,6 +45,7 @@ namespace SharedPluginFeatures
         /// <param name="longitude">Longitude for the Ip address.</param>
         /// <param name="ipUniqueID">Unique Id for the Ip address.</param>
         /// <returns></returns>
+        [Obsolete("This method is obsolete and will be removed, please use IGeoIpProvider.GetIPAddressDetails() instead")]
         bool GetIPAddressDetails(in string ipAddress, out string countryCode, out string region,
             out string cityName, out decimal latitude, out decimal longitude, out long ipUniqueID);
     }

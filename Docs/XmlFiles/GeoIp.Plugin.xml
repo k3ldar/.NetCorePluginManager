@@ -18,6 +18,13 @@
             <summary>
             Webnet77CSVData.  The filename and path for Webnet77 Ip Address data held in CSV format.
             </summary>
+            <value>string</value>
+        </member>
+        <member name="P:GeoIp.Plugin.GeoIpPluginSettings.Webnet77CsvUrl">
+            <summary>
+            Webnet77 download url
+            </summary>
+            <value>string</value>
         </member>
         <member name="P:GeoIp.Plugin.GeoIpPluginSettings.GeoIpProvider">
             <summary>

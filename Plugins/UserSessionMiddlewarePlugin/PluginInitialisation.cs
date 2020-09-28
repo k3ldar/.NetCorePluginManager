@@ -43,8 +43,6 @@ namespace UserSessionMiddleware.Plugin
     {
         #region Internal Static Properties
 
-        internal static IServiceProvider GetServiceProvider { get; private set; }
-
         internal static ILogger GetLogger { get; private set; }
 
         internal static string[] ValidCultures { get; private set; }
@@ -71,6 +69,7 @@ namespace UserSessionMiddleware.Plugin
         {
             ThreadManager.Finalise();
         }
+
         /// <summary>
         /// Allows the Plugin module to configure the services for the application
         /// </summary>
@@ -78,8 +77,6 @@ namespace UserSessionMiddleware.Plugin
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddSingleton<IUserCultureChangeProvider, UserCultureChanged>();
-
-            GetServiceProvider = services.BuildServiceProvider();
         }
 
         /// <summary>

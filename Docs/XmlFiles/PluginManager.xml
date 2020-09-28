@@ -275,6 +275,15 @@
             <param name="logger">Valid instance of ILogger</param>
             <param name="loadSettingsService">Valid instance of ILoadSettingsService.</param>
         </member>
+        <member name="M:PluginManager.PluginManagerConfiguration.#ctor(PluginManager.Abstractions.ILogger@,PluginManager.Abstractions.ILoadSettingsService@,PluginManager.Abstractions.IServiceConfigurator@)">
+            <summary>
+            Constructor allowing host application to supply a custom ILogger and ILoadSettingsService
+            implementation.
+            </summary>
+            <param name="logger">Valid instance of <see cref="T:PluginManager.Abstractions.ILogger"/></param>
+            <param name="loadSettingsService">Valid instance of <see cref="T:PluginManager.Abstractions.ILoadSettingsService"/>.</param>
+            <param name="serviceConfigurator">Valid instance of <see cref="T:PluginManager.Abstractions.IServiceConfigurator"/></param>
+        </member>
         <member name="P:PluginManager.PluginManagerConfiguration.Logger">
             <summary>
             ILogger instance used by the AspNetCore.PluginManager and plugin modules to 
@@ -311,6 +320,11 @@
             ILoadSettingsService to obtain data.
             </summary>
             <value>string</value>
+        </member>
+        <member name="P:PluginManager.PluginManagerConfiguration.ServiceConfigurator">
+            <summary>
+            Allow the host, or a specific plugin with the ability to get notified after all services have been created.
+            </summary>
         </member>
         <member name="M:PluginManager.PluginManagerConfiguration.ReplaceLogger(PluginManager.Abstractions.ILogger@)">
             <summary>

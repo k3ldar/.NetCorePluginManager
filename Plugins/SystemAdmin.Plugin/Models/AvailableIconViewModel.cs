@@ -74,11 +74,14 @@ namespace SystemAdmin.Plugin.Models
         {
             switch (imageName)
             {
-                case "badegg":
+                case Constants.SystemImageBadEgg:
                     return "/images/SystemAdmin/badegg.png";
 
-                case "stopwatch":
+                case Constants.SystemImageStopWatch:
                     return "/images/SystemAdmin/stopwatch.png";
+
+                case Constants.SystemImageChart:
+                    return "/images/SystemAdmin/chart.png";
             }
 
             if (String.IsNullOrEmpty(imageName))
@@ -97,16 +100,24 @@ namespace SystemAdmin.Plugin.Models
             {
                 case Enums.SystemAdminMenuType.Grid:
                     return $"/SystemAdmin/Grid/{menu.UniqueId}";
+
                 case Enums.SystemAdminMenuType.Text:
                     return $"/SystemAdmin/Text/{menu.UniqueId}";
+
                 case Enums.SystemAdminMenuType.PartialView:
                     return $"/SystemAdmin/View/{menu.UniqueId}";
+
                 case Enums.SystemAdminMenuType.Map:
                     return $"/SystemAdmin/Map/{menu.UniqueId}";
+
                 case Enums.SystemAdminMenuType.FormattedText:
                     return $"/SystemAdmin/TextEx/{menu.UniqueId}";
+
                 case Enums.SystemAdminMenuType.View:
                     return $"/{menu.Controller()}/{menu.Action()}/";
+
+                case Enums.SystemAdminMenuType.Chart:
+                    return $"/SystemAdmin/Chart/{menu.UniqueId}";
             }
 
             throw new InvalidOperationException();

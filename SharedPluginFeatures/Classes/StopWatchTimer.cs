@@ -32,7 +32,7 @@ namespace SharedPluginFeatures
     /// Stopwatch Timer is used to automatically collect and generate timing data accurate to 1000th of a millisecond.
     /// </summary>
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1815:Override equals and operator equals on value types", Justification = "Do not believe this is required here")]
-    public struct StopWatchTimer : IDisposable
+    public readonly struct StopWatchTimer : IDisposable
     {
         #region Private Members
 

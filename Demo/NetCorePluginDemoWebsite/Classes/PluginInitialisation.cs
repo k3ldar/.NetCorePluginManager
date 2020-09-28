@@ -23,10 +23,12 @@
  *  22/09/2018  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+using AspNetCore.PluginManager.DemoWebsite.Classes.Mocks;
 using AspNetCore.PluginManager.DemoWebsite.Helpers;
 
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 using Middleware;
 using Middleware.Accounts;

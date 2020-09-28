@@ -54,7 +54,7 @@ namespace UserSessionMiddleware.Plugin
         /// <param name="created">Date time class created</param>
         /// <param name="sessionID">User Session Id</param>
         /// <param name="userAgent">Browser user agent</param>
-        /// <param name="initialReferer">Initial referer</param>
+        /// <param name="initialReferrer">Initial referrer</param>
         /// <param name="ipAddress">Ip Address of user</param>
         /// <param name="hostName">Host name</param>
         /// <param name="isMobile">Determines whether the user should be shown a mobile or standard site.</param>
@@ -70,11 +70,11 @@ namespace UserSessionMiddleware.Plugin
         /// <param name="screenHeight">Not Used</param>
         /// <param name="saleCurrency">The currency used for the current sale.</param>
         /// <param name="saleAmount">Amount of sale for current user session.</param>
-        public UserSessionCore(long id, DateTime created, string sessionID, string userAgent, string initialReferer,
+        public UserSessionCore(long id, DateTime created, string sessionID, string userAgent, string initialReferrer,
             string ipAddress, string hostName, bool isMobile, bool isBrowserMobile, bool mobileRedirect,
             ReferalType referralType, bool bounced, bool isBot, string mobileManufacturer, string mobileModel,
             long userID, int screenWidth, int screenHeight, string saleCurrency, decimal saleAmount)
-            : base(id, created, sessionID, userAgent, initialReferer, ipAddress, hostName, isMobile,
+            : base(id, created, sessionID, userAgent, initialReferrer, ipAddress, hostName, isMobile,
                   isBrowserMobile, mobileRedirect, referralType, bounced, isBot, mobileManufacturer, mobileModel,
                   userID, screenWidth, screenHeight, saleCurrency, saleAmount)
         {
@@ -127,7 +127,7 @@ namespace UserSessionMiddleware.Plugin
             if (context == null)
                 throw new ArgumentNullException(nameof(context));
 
-            Created = DateTime.Now;
+            Created = DateTime.UtcNow;
             CurrentSale = 0.00m;
             CurrentSaleCurrency = String.Empty;
             Tag = null;
@@ -153,7 +153,7 @@ namespace UserSessionMiddleware.Plugin
 
             try
             {
-                string referrer = context.Request.Headers["Referer"].ToString();
+                string referrer = context.Request.Headers["Referrer"].ToString();
                 if (String.IsNullOrEmpty(referrer))
                     Referal = ReferalType.Unknown;
                 else

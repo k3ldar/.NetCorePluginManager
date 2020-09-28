@@ -44,7 +44,7 @@ namespace GeoIp.Plugin
         /// <example><pre style="font-family:Consolas;font-size:13px;color:black;background:white;"><span style="color:#1f377f;">services</span>.<span style="color:#74531f;">UseGeoIpService</span>();</pre></example>
         public static void UseGeoIpService(this IServiceCollection services)
         {
-            services.AddSingleton<IGeoIpDataService, GeoIpService>();
+            services.AddSingleton<IGeoIpProvider, GeoIpService>();
         }
     }
 }
