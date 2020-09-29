@@ -107,6 +107,11 @@ namespace SharedPluginFeatures
             /// Data to be shown within the plugin comes from a view
             /// </summary>
             View = 6,
+
+            /// <summary>
+            /// Data to be shown will be a chart
+            /// </summary>
+            Chart = 7,
         }
 
         /// <summary>
@@ -325,5 +330,48 @@ namespace SharedPluginFeatures
         /// The contents represent a preservable block of Razor code.
         /// </summary>
         RazorBlock
+    }
+
+
+    /// <summary>
+    /// Data type used for a chart
+    /// </summary>
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Naming", "CA1720:Identifier contains type name", Justification = "String is the name of the data type")]
+    public enum ChartDataType
+    {
+        /// <summary>
+        /// The chart data type has not been set, this value indicates the <see cref="SharedPluginFeatures.ChartModel"/> is invalid
+        /// </summary>
+        NotSet = 0,
+
+        /// <summary>
+        /// String chart data type
+        /// </summary>
+        String,
+
+        /// <summary>
+        /// Number chart data type
+        /// </summary>
+        Number,
+
+        /// <summary>
+        /// Bool chart data type
+        /// </summary>
+        Boolean,
+
+        /// <summary>
+        /// Date chart data type
+        /// </summary>
+        Date,
+
+        /// <summary>
+        /// Date/Time chart data type
+        /// </summary>
+        DateTime,
+
+        /// <summary>
+        /// Time of day chart data type
+        /// </summary>
+        TimeOfDay
     }
 }

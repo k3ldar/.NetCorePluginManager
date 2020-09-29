@@ -23,8 +23,11 @@
  *  07/01/2020  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+using System.Linq;
+
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 using SharedPluginFeatures;
 
@@ -43,8 +46,13 @@ namespace UserSessionMiddleware.Plugin.Classes
 
         public void AfterConfigureServices(in IServiceCollection services)
         {
+            if (!services.Any(x => x.ServiceType == typeof(IUserSessionService)))
+            {
+                services.TryAddSingleton<IUserSessionService, DefaultUserSessionService>();
+            }
 
 
+            SessionHelper.InitSessionHelper(services.BuildServiceProvider());
         }
 
         public void BeforeConfigure(in IApplicationBuilder app)

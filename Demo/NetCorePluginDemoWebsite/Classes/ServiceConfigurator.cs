@@ -25,8 +25,11 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 using PluginManager.Abstractions;
+
+using SharedPluginFeatures;
 
 namespace AspNetCore.PluginManager.DemoWebsite.Classes
 {
@@ -34,7 +37,8 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
     {
         public void RegisterServices(IServiceCollection services)
         {
-            
+            // if no geoip provider is registered, register a mock one which does nothing
+            services.TryAddSingleton<IGeoIpProvider, Mocks.MockGeoIpProvider>();
         }
     }
 }

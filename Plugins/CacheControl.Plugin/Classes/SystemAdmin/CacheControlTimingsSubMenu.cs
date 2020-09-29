@@ -74,7 +74,7 @@ namespace CacheControl.Plugin.Classes.SystemAdmin
 
         public override string Image()
         {
-            return "stopwatch";
+            return Constants.SystemImageStopWatch;
         }
 
         public override Enums.SystemAdminMenuType MenuType()

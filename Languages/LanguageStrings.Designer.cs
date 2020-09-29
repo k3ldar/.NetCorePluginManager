@@ -20730,7 +20730,7 @@ namespace Languages {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Automatic Basic Auth Login.
+        ///   Looks up a localized string similar to Basic Auth Login.
         /// </summary>
         public static string AutoLoginBasicAuth {
             get {
@@ -20739,7 +20739,7 @@ namespace Languages {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Automatic Cookie Login.
+        ///   Looks up a localized string similar to Cookie Login.
         /// </summary>
         public static string AutoLoginCookies {
             get {

@@ -87,6 +87,13 @@ namespace PluginManager
             ConfigFileName = "appsettings.json";
         }
 
+        /// <summary>
+        /// Constructor allowing host application to supply a custom ILogger and ILoadSettingsService
+        /// implementation.
+        /// </summary>
+        /// <param name="logger">Valid instance of <see cref="ILogger"/></param>
+        /// <param name="loadSettingsService">Valid instance of <see cref="ILoadSettingsService"/>.</param>
+        /// <param name="serviceConfigurator">Valid instance of <see cref="IServiceConfigurator"/></param>
         public PluginManagerConfiguration(in ILogger logger, in ILoadSettingsService loadSettingsService,
             in IServiceConfigurator serviceConfigurator)
             : this(logger, loadSettingsService)
@@ -141,6 +148,9 @@ namespace PluginManager
             }
         }
 
+        /// <summary>
+        /// Allow the host, or a specific plugin with the ability to get notified after all services have been created.
+        /// </summary>
         public IServiceConfigurator ServiceConfigurator { get; set; }
 
         #endregion Properties

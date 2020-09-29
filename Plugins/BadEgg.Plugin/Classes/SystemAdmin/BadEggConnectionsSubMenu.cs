@@ -85,7 +85,7 @@ namespace BadEgg.Plugin.Classes.SystemAdmin
 
         public override string Image()
         {
-            return "badegg";
+            return Constants.SystemImageBadEgg;
         }
 
         public override Enums.SystemAdminMenuType MenuType()

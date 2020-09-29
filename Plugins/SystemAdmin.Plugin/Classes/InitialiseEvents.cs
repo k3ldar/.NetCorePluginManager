@@ -153,6 +153,9 @@ namespace SystemAdmin.Plugin.Classes
                         case Enums.SystemAdminMenuType.View:
                             breadcrumbService.AddBreadcrumb(childItem.Name(), $"/{childItem.Controller()}/{childItem.Action()}/", route, false);
                             break;
+                        case Enums.SystemAdminMenuType.Chart:
+                            breadcrumbService.AddBreadcrumb(childItem.Name(), $"/SystemAdmin/Chart/{childItem.UniqueId}", route, false);
+                            break;
                     }
 
                 }

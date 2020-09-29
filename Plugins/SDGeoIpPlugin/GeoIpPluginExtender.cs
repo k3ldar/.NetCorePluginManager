@@ -44,7 +44,7 @@ namespace SieraDeltaGeoIp.Plugin
         /// <example><pre style="font-family:Consolas;font-size:13px;color:black;background:white;"><span style="color:#1f377f;">app</span>.<span style="color:#74531f;">UseSieraDeltaGeoIpService</span>();</pre></example>
         public static void UseSieraDeltaGeoIpService(this IServiceCollection services)
         {
-            services.AddSingleton<IGeoIpDataService, GeoIpService>();
+            services.AddSingleton<IGeoIpProvider, GeoIpService>();
         }
     }
 }

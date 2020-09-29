@@ -24,7 +24,6 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
-using System.Collections.Generic;
 
 using Microsoft.Extensions.DependencyInjection;
 
@@ -48,16 +47,18 @@ namespace UserSessionMiddleware.Plugin
         private static byte _loadGeoIpServiceAttempts = 0;
         private static byte _loadUserSessionServiceAttempts = 0;
         private const byte _maximumLoadInterfaceAttempts = 10;
-        private static IGeoIpDataService _geoIpInstance;
+        private static IGeoIpProvider _geoIpInstance;
         private static IUserSessionService _userSessionService;
         private static IPluginClassesService _pluginClasses { get; set; }
+        private static IServiceProvider _serviceProvider;
 
         #endregion Private Static Members
 
         #region Internal Static Methods
 
-        internal static void InitSessionHelper()
+        internal static void InitSessionHelper(IServiceProvider serviceProvider)
         {
+            _serviceProvider = serviceProvider ?? throw new ArgumentNullException(nameof(serviceProvider));
             UserSessionManager.Instance.OnSessionCreated += UserSession_OnSessionCreated;
             UserSessionManager.Instance.OnSavePage += UserSession_OnSavePage;
             UserSessionManager.Instance.OnSessionClosing += UserSession_OnSessionClosing;
@@ -65,14 +66,14 @@ namespace UserSessionMiddleware.Plugin
             UserSessionManager.Instance.OnSessionSave += UserSession_OnSessionSave;
             UserSessionManager.Instance.IPAddressDetails += UserSession_IPAddressDetails;
 
-            _pluginClasses = PluginInitialisation.GetServiceProvider.GetRequiredService<IPluginClassesService>();
+            _pluginClasses = _serviceProvider.GetRequiredService<IPluginClassesService>();
         }
 
         internal static void UserSession_IPAddressDetails(object sender, IpAddressArgs e)
         {
             if (LoadGeoIpService() &&
-                _geoIpInstance.GetIPAddressDetails(e.IPAddress, out string countryCode, out string region,
-                    out string cityName, out decimal latitude, out decimal longitude, out long ipUniqueId))
+                _geoIpInstance.GetIpAddressDetails(e.IPAddress, out string countryCode, out string region,
+                    out string cityName, out decimal latitude, out decimal longitude, out long ipUniqueId, out long _, out long _))
             {
                 e.IPUniqueID = ipUniqueId;
                 e.Latitude = latitude;
@@ -170,7 +171,7 @@ namespace UserSessionMiddleware.Plugin
 
             try
             {
-                _geoIpInstance = PluginInitialisation.GetServiceProvider.GetService<IGeoIpDataService>();
+                _geoIpInstance = _serviceProvider.GetService<IGeoIpProvider>();
             }
             catch (InvalidOperationException)
             {
@@ -180,14 +181,7 @@ namespace UserSessionMiddleware.Plugin
             if (_geoIpInstance != null)
                 return true;
 
-            List<IGeoIpDataService> geoIpList = _pluginClasses.GetPluginClasses<IGeoIpDataService>();
-
-            if (geoIpList.Count == 0)
-                return false;
-
-            _geoIpInstance = geoIpList[0];
-
-            return true;
+            return false;
         }
 
         private static bool LoadUserSessionService()
@@ -202,7 +196,7 @@ namespace UserSessionMiddleware.Plugin
 
             try
             {
-                _userSessionService = PluginInitialisation.GetServiceProvider.GetService<IUserSessionService>();
+                _userSessionService = _serviceProvider.GetService<IUserSessionService>();
             }
             catch (InvalidOperationException)
             {
@@ -212,14 +206,7 @@ namespace UserSessionMiddleware.Plugin
             if (_userSessionService != null)
                 return true;
 
-            List<IUserSessionService> userSessions = _pluginClasses.GetPluginClasses<IUserSessionService>();
-
-            if (userSessions.Count == 0)
-                return false;
-
-            _userSessionService = userSessions[0];
-
-            return true;
+            return false;
         }
 
         #endregion Private Static Methods

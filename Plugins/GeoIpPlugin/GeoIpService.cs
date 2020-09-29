@@ -35,7 +35,7 @@ using SharedPluginFeatures;
 namespace GeoIp.Plugin
 {
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1812:AvoidUninstantiatedInternalClasses", Justification = "Used internally as part of IoC")]
-    internal class GeoIpService : BaseCoreClass, IGeoIpDataService
+    internal class GeoIpService : BaseCoreClass, IGeoIpProvider
     {
         #region Private Members
 
@@ -76,8 +76,8 @@ namespace GeoIp.Plugin
         #region Public Methods
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1303:Do not pass literals as localized parameters", Justification = "Intended for developers not end users")]
-        public bool GetIPAddressDetails(in string ipAddress, out string countryCode, out string region,
-            out string cityName, out decimal latitude, out decimal longitude, out long ipUniqueID)
+        public bool GetIpAddressDetails(in string ipAddress, out string countryCode, out string region,
+            out string cityName, out decimal latitude, out decimal longitude, out long ipUniqueID, out long fromIp, out long toIp)
         {
             countryCode = "ZZ";
             region = String.Empty;
@@ -85,6 +85,8 @@ namespace GeoIp.Plugin
             latitude = -1;
             longitude = -1;
             ipUniqueID = -1;
+            fromIp = 0;
+            toIp = 0;
 
             // works in 2 ways, if we have loaded WebNet77 data, we have ip ranges and will supplement them
             // if we are using a geoip provider.  if no geoip provider only the country code is there lat/lon
@@ -100,6 +102,7 @@ namespace GeoIp.Plugin
 
                 if (memoryIp != null && !memoryIp.IsComplete)
                 {
+                    countryCode = memoryIp.CountryCode;
                     IGeoIpProvider provider = null;
                     switch (_geoIpSettings.GeoIpProvider)
                     {

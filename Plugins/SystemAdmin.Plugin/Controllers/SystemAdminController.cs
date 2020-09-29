@@ -114,7 +114,7 @@ namespace SystemAdmin.Plugin.Controllers
             SystemAdminSubMenu subMenu = _systemAdminHelperService.GetSubMenuItem(id);
 
             if (subMenu == null)
-                return Redirect("/SystemAdmin");
+                return Redirect("/SystemAdmin/");
 
             return View(new TextViewModel(GetModelData(), subMenu));
         }
@@ -124,9 +124,19 @@ namespace SystemAdmin.Plugin.Controllers
             SystemAdminSubMenu subMenu = _systemAdminHelperService.GetSubMenuItem(id);
 
             if (subMenu == null)
-                return Redirect("/SystemAdmin");
+                return Redirect("/SystemAdmin/");
 
             return View(new TextExViewModel(GetModelData(), _settingsProvider, subMenu));
+        }
+
+        public IActionResult Chart(int id)
+        {
+            SystemAdminSubMenu subMenu = _systemAdminHelperService.GetSubMenuItem(id);
+
+            if (subMenu == null)
+                return Redirect("/SystemAdmin/");
+
+            return View(new ChartViewModel(GetModelData(), subMenu));
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

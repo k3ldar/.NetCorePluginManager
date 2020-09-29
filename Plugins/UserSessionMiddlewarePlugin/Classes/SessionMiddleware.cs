@@ -87,10 +87,7 @@ namespace UserSessionMiddleware.Plugin
             UserSessionSettings Settings = settingsProvider.GetSettings<UserSessionSettings>(Constants.UserSessionConfiguration);
 
             Settings.SessionTimeout = Shared.Utilities.CheckMinMax(Settings.SessionTimeout, 15, 200);
-
             UserSessionManager.InitialiseSessionManager(new TimeSpan(0, (int)Settings.SessionTimeout, 0));
-
-            SessionHelper.InitSessionHelper();
 
             if (!String.IsNullOrWhiteSpace(Settings.CookieName))
                 _cookieName = Settings.CookieName;
@@ -162,7 +159,7 @@ namespace UserSessionMiddleware.Plugin
                     GetSessionCulture(context, userSession);
                 }
 
-                string referrer = context.Request.Headers[Constants.PageReferer];
+                string referrer = context.Request.Headers[Constants.PageReferrer];
                 userSession.PageView(GetAbsoluteUri(context).ToString(), referrer ?? String.Empty, false);
 
                 context.Items.Add(Constants.UserSession, userSession);

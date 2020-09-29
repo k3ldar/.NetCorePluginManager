@@ -123,25 +123,31 @@
             <summary>
             The data to be shown when the menu item is clicked.
             </summary>
-            <returns></returns>
+            <returns>string</returns>
         </member>
         <member name="M:SharedPluginFeatures.SystemAdminSubMenu.ParentMenuName">
             <summary>
             Name of the parent view where the menu item will be displayed.
             </summary>
-            <returns></returns>
+            <returns>string</returns>
         </member>
         <member name="M:SharedPluginFeatures.SystemAdminSubMenu.BackColor">
             <summary>
             Back color that will be displayed for the menu item.
             </summary>
-            <returns></returns>
+            <returns>string</returns>
         </member>
         <member name="M:SharedPluginFeatures.SystemAdminSubMenu.ForeColor">
             <summary>
             Forecolor that will be displayed for the menu item.
             </summary>
-            <returns></returns>
+            <returns>string</returns>
+        </member>
+        <member name="M:SharedPluginFeatures.SystemAdminSubMenu.Enabled">
+            <summary>
+            Determines whether the sub menu is enabled or not, if disabled it will not be shown
+            </summary>
+            <returns>bool</returns>
         </member>
         <member name="M:SharedPluginFeatures.SystemAdminSubMenu.CompareTo(SharedPluginFeatures.SystemAdminSubMenu)">
             <summary>
@@ -635,6 +641,31 @@
             Disposes of any allocated objects.
             </summary>
             <param name="disposing"></param>
+        </member>
+        <member name="T:SharedPluginFeatures.ChartModel">
+            <summary>
+            Class used to generate chart data which is displayed within System Admin
+            </summary>
+        </member>
+        <member name="M:SharedPluginFeatures.ChartModel.#ctor">
+            <summary>
+            Default Constructor
+            </summary>
+        </member>
+        <member name="P:SharedPluginFeatures.ChartModel.ChartTitle">
+            <summary>
+            Title of the chart
+            </summary>
+        </member>
+        <member name="P:SharedPluginFeatures.ChartModel.DataNames">
+            <summary>
+            Names of the data types being displayed
+            </summary>
+        </member>
+        <member name="P:SharedPluginFeatures.ChartModel.DataValues">
+            <summary>
+            Dictionary of data values
+            </summary>
         </member>
         <member name="T:SharedPluginFeatures.CheckedViewItemModel">
             <summary>
@@ -1439,7 +1470,7 @@
             File Extension for a compiled view assembly.
             </summary>
         </member>
-        <member name="F:SharedPluginFeatures.Constants.PageReferer">
+        <member name="F:SharedPluginFeatures.Constants.PageReferrer">
             <summary>
             Page referrer constant
             </summary>
@@ -1739,6 +1770,21 @@
             Name of bad egg settings as found within appsettings.json
             </summary>
         </member>
+        <member name="F:SharedPluginFeatures.Constants.SystemImageBadEgg">
+            <summary>
+            Bad egg image to be system admin
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Constants.SystemImageStopWatch">
+            <summary>
+            Stopwatch image to be system admin
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Constants.SystemImageChart">
+            <summary>
+            Stopwatch image to be system admin
+            </summary>
+        </member>
         <member name="T:SharedPluginFeatures.Enums">
             <summary>
             Standard Enum values shared across all plugin modules.
@@ -1814,6 +1860,11 @@
         <member name="F:SharedPluginFeatures.Enums.SystemAdminMenuType.View">
             <summary>
             Data to be shown within the plugin comes from a view
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Enums.SystemAdminMenuType.Chart">
+            <summary>
+            Data to be shown will be a chart
             </summary>
         </member>
         <member name="T:SharedPluginFeatures.Enums.ValidateRequestResult">
@@ -2024,6 +2075,46 @@
         <member name="F:SharedPluginFeatures.MinificationPreserveBlock.RazorBlock">
             <summary>
             The contents represent a preservable block of Razor code.
+            </summary>
+        </member>
+        <member name="T:SharedPluginFeatures.ChartDataType">
+            <summary>
+            Data type used for a chart
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.ChartDataType.NotSet">
+            <summary>
+            The chart data type has not been set, this value indicates the <see cref="T:SharedPluginFeatures.ChartModel"/> is invalid
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.ChartDataType.String">
+            <summary>
+            String chart data type
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.ChartDataType.Number">
+            <summary>
+            Number chart data type
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.ChartDataType.Boolean">
+            <summary>
+            Bool chart data type
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.ChartDataType.Date">
+            <summary>
+            Date chart data type
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.ChartDataType.DateTime">
+            <summary>
+            Date/Time chart data type
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.ChartDataType.TimeOfDay">
+            <summary>
+            Time of day chart data type
             </summary>
         </member>
         <member name="T:SharedPluginFeatures.HtmlHelper">

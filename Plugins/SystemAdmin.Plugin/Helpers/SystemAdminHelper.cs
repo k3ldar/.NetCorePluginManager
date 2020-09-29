@@ -50,12 +50,12 @@ namespace SystemAdmin.Plugin
 
         #endregion Constants
 
-        #region Private Methods
+        #region Private Members
 
         private readonly IMemoryCache _memoryCache;
         private readonly IPluginClassesService _pluginClassesService;
 
-        #endregion Private Methods
+        #endregion Private Members
 
         #region Constructors
 
@@ -83,7 +83,7 @@ namespace SystemAdmin.Plugin
                 List<SystemAdminSubMenu> allSubMenuItems = _pluginClassesService.GetPluginClasses<SystemAdminSubMenu>();
 
                 // get sub menu items
-                foreach (SystemAdminSubMenu menu in allSubMenuItems)
+                foreach (SystemAdminSubMenu menu in allSubMenuItems.Where(sm => sm.Enabled()).ToList())
                 {
                     menu.UniqueId = ++uniqueId;
 

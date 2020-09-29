@@ -25,12 +25,12 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
 using System.Collections.Generic;
-
-using SharedPluginFeatures;
-
-using PluginManager.Abstractions;
 using System.Linq;
 using System.Text;
+
+using PluginManager.Abstractions;
+
+using SharedPluginFeatures;
 
 #pragma warning disable CS1591
 
@@ -115,7 +115,7 @@ namespace SystemAdmin.Plugin.Classes.MenuItems
 
         public override string Image()
         {
-            return "stopwatch";
+            return Constants.SystemImageStopWatch;
         }
 
         public override Enums.SystemAdminMenuType MenuType()

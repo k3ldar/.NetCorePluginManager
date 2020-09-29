@@ -10,6 +10,7 @@ Version 4.0.0
 #115 Smoke Test Plugin for integrating with WebSmokeTest
 #117 Delete, lock and unlock user accounts
 #118 Provide the plugin host with the last say on registering services
+#119 Implement a default UserSessionService
 
 Version 3.3.0
 =============

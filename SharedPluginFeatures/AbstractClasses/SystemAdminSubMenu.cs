@@ -88,13 +88,13 @@ namespace SharedPluginFeatures
         /// <summary>
         /// The data to be shown when the menu item is clicked.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>string</returns>
         public abstract string Data();
 
         /// <summary>
         /// Name of the parent view where the menu item will be displayed.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>string</returns>
         public abstract string ParentMenuName();
 
         #endregion Public Abstract Methods
@@ -104,7 +104,7 @@ namespace SharedPluginFeatures
         /// <summary>
         /// Back color that will be displayed for the menu item.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>string</returns>
         public virtual string BackColor()
         {
             return "#707B7C";
@@ -113,10 +113,19 @@ namespace SharedPluginFeatures
         /// <summary>
         /// Forecolor that will be displayed for the menu item.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>string</returns>
         public virtual string ForeColor()
         {
             return "white";
+        }
+
+        /// <summary>
+        /// Determines whether the sub menu is enabled or not, if disabled it will not be shown
+        /// </summary>
+        /// <returns>bool</returns>
+        public virtual bool Enabled()
+        {
+            return true;
         }
 
         #endregion Public Virtual Methods

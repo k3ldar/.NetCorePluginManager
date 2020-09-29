@@ -4,6 +4,452 @@
         <name>UserSessionMiddleware.Plugin</name>
     </assembly>
     <members>
+        <member name="T:UserSessionMiddleware.Plugin.Classes.DefaultUserSessionService">
+            <summary>
+            Default IUserSessionService implementation that will be used if no other IUserSessionService
+            instances have been registered
+            </summary>
+        </member>
+        <member name="M:UserSessionMiddleware.Plugin.Classes.DefaultUserSessionService.#ctor(Microsoft.AspNetCore.Hosting.IHostingEnvironment,PluginManager.Abstractions.ISettingsProvider,SharedPluginFeatures.IGeoIpProvider,PluginManager.Abstractions.ILogger)">
+            <summary>
+            Default constructor
+            </summary>
+            <param name="hostingEnvironment">IHostingEnvironment instance</param>
+            <param name="settingsProvider">ISettingsProvider instance</param>
+            <param name="geoIpProvider">IGeoIpProvider instance</param>
+            <param name="logger">ILogger instance</param>
+        </member>
+        <member name="M:UserSessionMiddleware.Plugin.Classes.DefaultUserSessionService.Closing(Shared.Classes.UserSession@)">
+            <summary>
+            User session is being closed, if enabled using <see cref="P:UserSessionMiddleware.Plugin.UserSessionSettings.EnableDefaultSessionService"/> then 
+            the session is added to the list of closed sessions to process
+            </summary>
+            <param name="userSession"></param>
+        </member>
+        <member name="M:UserSessionMiddleware.Plugin.Classes.DefaultUserSessionService.Created(Shared.Classes.UserSession@)">
+            <summary>
+            A user session is being created
+            </summary>
+            <param name="userSession"></param>
+        </member>
+        <member name="M:UserSessionMiddleware.Plugin.Classes.DefaultUserSessionService.Retrieve(System.String@,Shared.Classes.UserSession@)">
+            <summary>
+            Attempt to retrieve a previously saved user session
+            </summary>
+            <param name="userSessionId"></param>
+            <param name="userSession"></param>
+        </member>
+        <member name="M:UserSessionMiddleware.Plugin.Classes.DefaultUserSessionService.Save(Shared.Classes.UserSession@)">
+            <summary>
+            A user session is being requested to be saved
+            </summary>
+            <param name="userSession"></param>
+        </member>
+        <member name="M:UserSessionMiddleware.Plugin.Classes.DefaultUserSessionService.SavePage(Shared.Classes.UserSession@)">
+            <summary>
+            A page view is requested to be saved
+            </summary>
+            <param name="pageView"></param>
+        </member>
+        <member name="M:UserSessionMiddleware.Plugin.Classes.DefaultUserSessionService.Run(System.Object)">
+            <summary>
+            Execute the thread that processes user sessions
+            </summary>
+            <param name="parameters"></param>
+            <returns></returns>
+        </member>
+        <member name="T:UserSessionMiddleware.Plugin.Classes.SessionData.DefaultSessionTimingsSubMenu">
+            <summary>
+            Returns Timings information for all time spent processing default user session requests and can 
+            be viewed within SystemAdmin.Plugin.  
+            
+            This class descends from SystemAdminSubMenu.
+            </summary>
+        </member>
+        <member name="M:UserSessionMiddleware.Plugin.Classes.SessionData.DefaultSessionTimingsSubMenu.Data">
+            <summary>
+            Returns Timings data in milliseconds for time spent processing default user session requests.
+            </summary>
+            <returns>string</returns>
+        </member>
+        <member name="T:UserSessionMiddleware.Plugin.Classes.SessionData.SessionBaseData">
+            <summary>
+            Base session data for Hourly, Daily, Weekly Monthly and Yearly
+            </summary>
+        </member>
+        <member name="M:UserSessionMiddleware.Plugin.Classes.SessionData.SessionBaseData.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="P:UserSessionMiddleware.Plugin.Classes.SessionData.SessionBaseData.TotalVisits">
+            <summary>
+            Total number of visits
+            </summary>
+            <value>uint</value>
+        </member>
+        <member name="P:UserSessionMiddleware.Plugin.Classes.SessionData.SessionBaseData.HumanVisits">
+            <summary>
+            Total number of human visits
+            </summary>
+            <value>uint</value>
+        </member>
+        <member name="P:UserSessionMiddleware.Plugin.Classes.SessionData.SessionBaseData.MobileVisits">
+            <summary>
+            Total number of visits from a mobile device
+            </summary>
+            <value>uint</value>
+        </member>
+        <member name="P:UserSessionMiddleware.Plugin.Classes.SessionData.SessionBaseData.BotVisits">
+            <summary>
+            Total number of visits from a Bot
+            </summary>
+            <value>uint</value>
+        </member>
+        <member name="P:UserSessionMiddleware.Plugin.Classes.SessionData.SessionBaseData.Bounced">
+            <summary>
+            Total number of human visitors who have bounced
+            </summary>
+            <value>uint</value>
+        </member>
+        <member name="P:UserSessionMiddleware.Plugin.Classes.SessionData.SessionBaseData.TotalPages">
+            <summary>
+            Total number of pages viewed
+            </summary>
+        </member>
+        <member name="P:UserSessionMiddleware.Plugin.Classes.SessionData.SessionBaseData.TotalSales">
+            <summary>
+            Total cost of all sales
+            </summary>
+            <value>decimal</value>
+        </member>
+        <member name="P:UserSessionMiddleware.Plugin.Classes.SessionData.SessionBaseData.Conversions">
+            <summary>
+            Number of conversions from visits to sales
+            </summary>
+            <value>uint</value>
+        </member>
+        <member name="P:UserSessionMiddleware.Plugin.Classes.SessionData.SessionBaseData.MobileConversions">
+            <summary>
+            Number of daily conversions from visits to sales on mobile devices
+            </summary>
+            <value>uint</value>
+        </member>
+        <member name="P:UserSessionMiddleware.Plugin.Classes.SessionData.SessionBaseData.ReferrerUnknown">
+            <summary>
+            Unknown referrer count
+            </summary>
+            <value>uint</value>
+        </member>
+        <member name="P:UserSessionMiddleware.Plugin.Classes.SessionData.SessionBaseData.ReferDirect">
+            <summary>
+            Direct referrer count
+            </summary>
+            <value>uint</value>
+        </member>
+        <member name="P:UserSessionMiddleware.Plugin.Classes.SessionData.SessionBaseData.ReferOrganic">
+            <summary>
+            Organic referrer count
+            </summary>
+            <value>uint</value>
+        </member>
+        <member name="P:UserSessionMiddleware.Plugin.Classes.SessionData.SessionBaseData.ReferBing">
+            <summary>
+            Bing referrer count
+            </summary>
+            <value>uint</value>
+        </member>
+        <member name="P:UserSessionMiddleware.Plugin.Classes.SessionData.SessionBaseData.ReferGoogle">
+            <summary>
+            Google referrer count
+            </summary>
+            <value>uint</value>
+        </member>
+        <member name="P:UserSessionMiddleware.Plugin.Classes.SessionData.SessionBaseData.ReferYahoo">
+            <summary>
+            Yahoo referrer count
+            </summary>
+            <value>uint</value>
+        </member>
+        <member name="P:UserSessionMiddleware.Plugin.Classes.SessionData.SessionBaseData.ReferFacebook">
+            <summary>
+            Facebook referrer count
+            </summary>
+            <value>uint</value>
+        </member>
+        <member name="P:UserSessionMiddleware.Plugin.Classes.SessionData.SessionBaseData.ReferTwitter">
+            <summary>
+            Twitter referrer count
+            </summary>
+            <value>uint</value>
+        </member>
+        <member name="P:UserSessionMiddleware.Plugin.Classes.SessionData.SessionBaseData.ReferOther">
+            <summary>
+            Other referrer count
+            </summary>
+            <value>uint</value>
+        </member>
+        <member name="P:UserSessionMiddleware.Plugin.Classes.SessionData.SessionBaseData.CountryData">
+            <summary>
+            Counts by country for the specified period
+            </summary>
+            <value>Dictionary&lt;string, uint&gt;</value>
+        </member>
+        <member name="P:UserSessionMiddleware.Plugin.Classes.SessionData.SessionBaseData.UserAgents">
+            <summary>
+            Counts by user agent for the specified period
+            </summary>
+            <value>Dictionary&lt;string, uint&gt;</value>
+        </member>
+        <member name="T:UserSessionMiddleware.Plugin.Classes.SessionData.SessionDaily">
+            <summary>
+            Daily visitor statistics
+            </summary>
+        </member>
+        <member name="M:UserSessionMiddleware.Plugin.Classes.SessionData.SessionDaily.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="P:UserSessionMiddleware.Plugin.Classes.SessionData.SessionDaily.Date">
+            <summary>
+            Date of Visit
+            </summary>
+        </member>
+        <member name="T:UserSessionMiddleware.Plugin.Classes.SessionData.SessionHourly">
+            <summary>
+            Hourly visitor statistics
+            </summary>
+        </member>
+        <member name="M:UserSessionMiddleware.Plugin.Classes.SessionData.SessionHourly.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="P:UserSessionMiddleware.Plugin.Classes.SessionData.SessionHourly.Date">
+            <summary>
+            Date of Visit
+            </summary>
+        </member>
+        <member name="P:UserSessionMiddleware.Plugin.Classes.SessionData.SessionHourly.Hour">
+            <summary>
+            Hour the visit was made
+            </summary>
+        </member>
+        <member name="P:UserSessionMiddleware.Plugin.Classes.SessionData.SessionHourly.Quarter">
+            <summary>
+            Retrieves the hour quarter
+            </summary>
+        </member>
+        <member name="T:UserSessionMiddleware.Plugin.Classes.SessionData.SessionInitialReferrer">
+            <summary>
+            Initial referrer details
+            </summary>
+        </member>
+        <member name="M:UserSessionMiddleware.Plugin.Classes.SessionData.SessionInitialReferrer.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="P:UserSessionMiddleware.Plugin.Classes.SessionData.SessionInitialReferrer.Hash">
+            <summary>
+            Hash of Url
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:UserSessionMiddleware.Plugin.Classes.SessionData.SessionInitialReferrer.ReferrerUrl">
+            <summary>
+            Url being monitored
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:UserSessionMiddleware.Plugin.Classes.SessionData.SessionInitialReferrer.Usage">
+            <summary>
+            Number of times the Url has been used to refer to the page
+            </summary>
+            <value>uint</value>
+        </member>
+        <member name="T:UserSessionMiddleware.Plugin.Classes.SessionData.SessionInitialReferrers">
+            <summary>
+            Contains a collection of initial referrers
+            </summary>
+        </member>
+        <member name="M:UserSessionMiddleware.Plugin.Classes.SessionData.SessionInitialReferrers.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="P:UserSessionMiddleware.Plugin.Classes.SessionData.SessionInitialReferrers.InitialReferrers">
+            <summary>
+            List of initial referrers
+            </summary>
+        </member>
+        <member name="P:UserSessionMiddleware.Plugin.Classes.SessionData.SessionInitialReferrers.IsDirty">
+            <summary>
+            Indicates whether the list has been updated or not
+            </summary>
+        </member>
+        <member name="M:UserSessionMiddleware.Plugin.Classes.SessionData.SessionInitialReferrers.Add(System.String@)">
+            <summary>
+            Adds or updates the count for an initial referrer
+            </summary>
+            <param name="referalUrl"></param>
+        </member>
+        <member name="T:UserSessionMiddleware.Plugin.Classes.SessionData.SessionItem">
+            <summary>
+            Contains the necessary details from a user session which can be used to create statistics
+            </summary>
+        </member>
+        <member name="T:UserSessionMiddleware.Plugin.Classes.SessionData.SessionMonthly">
+            <summary>
+            Monthly session data
+            </summary>
+        </member>
+        <member name="M:UserSessionMiddleware.Plugin.Classes.SessionData.SessionMonthly.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="P:UserSessionMiddleware.Plugin.Classes.SessionData.SessionMonthly.Month">
+            <summary>
+            Month of Visit
+            </summary>
+        </member>
+        <member name="T:UserSessionMiddleware.Plugin.Classes.SessionData.SessionPageView">
+            <summary>
+            Statistics for a page view
+            </summary>
+        </member>
+        <member name="P:UserSessionMiddleware.Plugin.Classes.SessionData.SessionPageView.Hash">
+            <summary>
+            Page hash for searching
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:UserSessionMiddleware.Plugin.Classes.SessionData.SessionPageView.Url">
+            <summary>
+            Url of page being visited
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:UserSessionMiddleware.Plugin.Classes.SessionData.SessionPageView.Year">
+            <summary>
+            Year visit was made
+            </summary>
+            <value>int</value>
+        </member>
+        <member name="P:UserSessionMiddleware.Plugin.Classes.SessionData.SessionPageView.Month">
+            <summary>
+            Month the visit was made
+            </summary>
+            <value>byte</value>
+        </member>
+        <member name="P:UserSessionMiddleware.Plugin.Classes.SessionData.SessionPageView.HumanCount">
+            <summary>
+            Number of humans visiting the page
+            </summary>
+            <value>uint</value>
+        </member>
+        <member name="P:UserSessionMiddleware.Plugin.Classes.SessionData.SessionPageView.BotCount">
+            <summary>
+            Number of bots visiting the page
+            </summary>
+            <value>uint</value>
+        </member>
+        <member name="P:UserSessionMiddleware.Plugin.Classes.SessionData.SessionPageView.BounceCount">
+            <summary>
+            Number of times the page has been bounced
+            </summary>
+            <value>uint</value>
+        </member>
+        <member name="P:UserSessionMiddleware.Plugin.Classes.SessionData.SessionPageView.TotalTime">
+            <summary>
+            Total time spent viewing the page (human visitors only)
+            </summary>
+        </member>
+        <member name="T:UserSessionMiddleware.Plugin.Classes.SessionData.SessionPageViews">
+            <summary>
+            Contains a list of page views for all user sessions
+            </summary>
+        </member>
+        <member name="M:UserSessionMiddleware.Plugin.Classes.SessionData.SessionPageViews.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="P:UserSessionMiddleware.Plugin.Classes.SessionData.SessionPageViews.PageViews">
+            <summary>
+            List of page views for all sessions
+            </summary>
+        </member>
+        <member name="P:UserSessionMiddleware.Plugin.Classes.SessionData.SessionPageViews.IsDirty">
+            <summary>
+            Indicates whether the list has been updated or not
+            </summary>
+        </member>
+        <member name="M:UserSessionMiddleware.Plugin.Classes.SessionData.SessionPageViews.Add(System.String@,System.DateTime,System.Double@,System.Boolean@,System.Boolean@)">
+            <summary>
+            Adds a new page view to the collection
+            </summary>
+            <param name="url">Url being visited</param>
+            <param name="timeStamp">Date/time the visit was made</param>
+            <param name="totalTime">Total time spent on the page</param>
+            <param name="isBot">Was the visit from a bot</param>
+            <param name="bounced">Did the visit end at this page (human visits only)</param>
+        </member>
+        <member name="T:UserSessionMiddleware.Plugin.Classes.SessionData.SessionUserAgent">
+            <summary>
+            User agent session usage data
+            </summary>
+        </member>
+        <member name="P:UserSessionMiddleware.Plugin.Classes.SessionData.SessionUserAgent.UserAgent">
+            <summary>
+            User agent name
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:UserSessionMiddleware.Plugin.Classes.SessionData.SessionUserAgent.Count">
+            <summary>
+            Number of times it has appeared
+            </summary>
+            <value>uint</value>
+        </member>
+        <member name="P:UserSessionMiddleware.Plugin.Classes.SessionData.SessionUserAgent.IsBot">
+            <summary>
+            Indicates whether it was recognised as a bot or not
+            </summary>
+            <value>bool</value>
+        </member>
+        <member name="T:UserSessionMiddleware.Plugin.Classes.SessionData.SessionWeekly">
+            <summary>
+            Weekly visitor statistics
+            </summary>
+        </member>
+        <member name="M:UserSessionMiddleware.Plugin.Classes.SessionData.SessionWeekly.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="P:UserSessionMiddleware.Plugin.Classes.SessionData.SessionWeekly.Week">
+            <summary>
+            Week of Visit
+            </summary>
+        </member>
+        <member name="T:UserSessionMiddleware.Plugin.Classes.SessionData.SessionYearly">
+            <summary>
+            Yearly session data
+            </summary>
+        </member>
+        <member name="M:UserSessionMiddleware.Plugin.Classes.SessionData.SessionYearly.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="P:UserSessionMiddleware.Plugin.Classes.SessionData.SessionYearly.Year">
+            <summary>
+            Year of visit
+            </summary>
+        </member>
         <member name="T:UserSessionMiddleware.Plugin.Classes.SystemAdmin.CurrentUserLocationMenu">
             <summary>
             Returns a list of active user sessions, including longitude and latitude for
@@ -58,6 +504,49 @@
             This class descends from SystemAdminSubMenu.
             </summary>
         </member>
+        <member name="T:UserSessionMiddleware.Plugin.Classes.SystemAdmin.VisitsDailySubMenu">
+            <summary>
+            Returns data for daily visits to be shown in a chart.  
+            
+            This class descends from SystemAdminSubMenu.
+            </summary>
+        </member>
+        <member name="M:UserSessionMiddleware.Plugin.Classes.SystemAdmin.VisitsDailySubMenu.Data">
+            <summary>
+            Returns last 30 days of daily user sessions.
+            </summary>
+            <returns>string</returns>
+        </member>
+        <member name="M:UserSessionMiddleware.Plugin.Classes.SystemAdmin.VisitsHourlySubMenu.Data">
+            <summary>
+            Returns last 24 hours of user sessions by quarter of an hour.
+            </summary>
+            <returns>string</returns>
+        </member>
+        <member name="M:UserSessionMiddleware.Plugin.Classes.SystemAdmin.VisitsMonthlySubMenu.Data">
+            <summary>
+            Returns last 24 months of user sessions by month.
+            </summary>
+            <returns>string</returns>
+        </member>
+        <member name="M:UserSessionMiddleware.Plugin.Classes.SystemAdmin.VisitsUserAgentSubMenu.Data">
+            <summary>
+            Returns last 30 days of daily user sessions.
+            </summary>
+            <returns>string</returns>
+        </member>
+        <member name="M:UserSessionMiddleware.Plugin.Classes.SystemAdmin.VisitsWeeklySubMenu.Data">
+            <summary>
+            Returns last 26 weeks of user sessions by week.
+            </summary>
+            <returns>string</returns>
+        </member>
+        <member name="M:UserSessionMiddleware.Plugin.Classes.SystemAdmin.VisitsYearlySubMenu.Data">
+            <summary>
+            Returns last 10 years of user sessions by year.
+            </summary>
+            <returns>string</returns>
+        </member>
         <member name="T:UserSessionMiddleware.Plugin.SessionHelper">
             <summary>
             The purpose of this static class is to provide a conduit to integrating with the user session
@@ -89,7 +578,7 @@
             <param name="created">Date time class created</param>
             <param name="sessionID">User Session Id</param>
             <param name="userAgent">Browser user agent</param>
-            <param name="initialReferer">Initial referer</param>
+            <param name="initialReferrer">Initial referrer</param>
             <param name="ipAddress">Ip Address of user</param>
             <param name="hostName">Host name</param>
             <param name="isMobile">Determines whether the user should be shown a mobile or standard site.</param>
@@ -173,6 +662,58 @@
         <member name="P:UserSessionMiddleware.Plugin.UserSessionSettings.DefaultCulture">
             <summary>
             Default culture used for the user session.
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:UserSessionMiddleware.Plugin.UserSessionSettings.EnableDefaultSessionService">
+            <summary>
+            Determines whether the default session service is enabled or not, default is the service is disabled.
+            </summary>
+            <value>bool</value>
+        </member>
+        <member name="P:UserSessionMiddleware.Plugin.UserSessionSettings.MaxHourlyData">
+            <summary>
+            Maximum number of hourly data to keep
+            
+            This value can range from 24 (6 hours) up to 2880 (30 days).  The default is 96 (24 hours)
+            </summary>
+            <value>uint</value>
+        </member>
+        <member name="P:UserSessionMiddleware.Plugin.UserSessionSettings.MaxDailyData">
+            <summary>
+            Maximum number of daily session data to keep
+            
+            This value can range from 30 to 730
+            </summary>
+            <value>uint</value>
+        </member>
+        <member name="P:UserSessionMiddleware.Plugin.UserSessionSettings.MaxWeeklyData">
+            <summary>
+            Maximum number of weekly session data to keep
+            
+            This value can range from 26 to 520
+            </summary>
+            <value>uint</value>
+        </member>
+        <member name="P:UserSessionMiddleware.Plugin.UserSessionSettings.MaxMonthlyData">
+            <summary>
+            Maximum number of Monthly session data to keep
+            
+            This value can range from 12 to 120
+            </summary>
+            <value>uint</value>
+        </member>
+        <member name="P:UserSessionMiddleware.Plugin.UserSessionSettings.MaxYearlyData">
+            <summary>
+            Maximum number of Yearly session data to keep
+            
+            This value can range from 1 to 50
+            </summary>
+            <value>uint</value>
+        </member>
+        <member name="P:UserSessionMiddleware.Plugin.UserSessionSettings.SessionRootPath">
+            <summary>
+            Rootpath for session data, if left empty then the default value will be <see cref="T:Microsoft.AspNetCore.Hosting.IHostingEnvironment"/>.ContentRootPath
             </summary>
             <value>string</value>
         </member>

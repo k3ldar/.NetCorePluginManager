@@ -23,6 +23,8 @@
  *  22/10/2018  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+using AppSettings;
+
 using SharedPluginFeatures;
 
 namespace GeoIp.Plugin
@@ -49,7 +51,16 @@ namespace GeoIp.Plugin
         /// <summary>
         /// Webnet77CSVData.  The filename and path for Webnet77 Ip Address data held in CSV format.
         /// </summary>
+        /// <value>string</value>
         public string Webnet77CSVData { get; set; }
+
+        /// <summary>
+        /// Webnet77 download url
+        /// </summary>
+        /// <value>string</value>
+        [SettingDefault("http://software77.net/geo-ip/?DL=2")]
+        [SettingUri(false, System.UriKind.Absolute)]
+        public string Webnet77CsvUrl { get; set; }
 
         /// <summary>
         /// GeoIpProvider used by GeoIp.Plugin module.
