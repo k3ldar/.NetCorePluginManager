@@ -52,7 +52,13 @@ namespace GeoIp.Plugin
         /// Webnet77CSVData.  The filename and path for Webnet77 Ip Address data held in CSV format.
         /// </summary>
         /// <value>string</value>
-        public string Webnet77CSVData { get; set; }
+        public string Webnet77CSVDataPath { get; set; }
+
+        /// <summary>
+        /// Automatically downloads webnet 77 data if true
+        /// </summary>
+        /// <value>bool</value>
+        public bool AutoDownloadWebnet77Data { get; set; }
 
         /// <summary>
         /// Webnet77 download url
@@ -61,6 +67,14 @@ namespace GeoIp.Plugin
         [SettingDefault("http://software77.net/geo-ip/?DL=2")]
         [SettingUri(false, System.UriKind.Absolute)]
         public string Webnet77CsvUrl { get; set; }
+
+        /// <summary>
+        /// Frequency of download of Webnet77 data in days
+        /// </summary>
+        /// <value>int</value>
+        [SettingDefault(1)]
+        [SettingRange(1, 20)]
+        public int DownloadFrequency { get; set; }
 
         /// <summary>
         /// GeoIpProvider used by GeoIp.Plugin module.

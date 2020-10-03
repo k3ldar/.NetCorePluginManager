@@ -10,6 +10,7 @@ Version 4.0.0
 #115 Smoke Test Plugin for integrating with WebSmokeTest
 #118 Provide the plugin host with the last say on registering services
 #119 Implement a default UserSessionService
+#120 Auto load Webnet77 GeoIp
 
 Version 3.3.0
 =============

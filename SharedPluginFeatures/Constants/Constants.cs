@@ -431,5 +431,20 @@ namespace SharedPluginFeatures
         /// Stopwatch image to be system admin
         /// </summary>
         public const string SystemImageChart = "chart";
+
+        /// <summary>
+        /// Webnet 77 data file name
+        /// </summary>
+        public const string Webnet77CsvDataFileName = "IpToCountry.csv";
+
+        /// <summary>
+        /// .zip file extension
+        /// </summary>
+        public const string FileExtensionZip = ".zip";
+
+        /// <summary>
+        /// .dat file extension
+        /// </summary>
+        public const string FileExtensionDat = ".dat";
     }
 }
