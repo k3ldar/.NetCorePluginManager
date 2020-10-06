@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-
+    <Version>4.0.0</Version>
     <IsPackable>false</IsPackable>
   </PropertyGroup>
 
@@ -17,7 +17,7 @@
   </ItemGroup>
 
   <ItemGroup Condition="'$(Configuration)'=='Release'">
-    <PackageReference Include="PluginManager" Version="3.3.0" />
+    <PackageReference Include="PluginManager" Version="$(Version)" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(Configuration)'=='Debug'">
