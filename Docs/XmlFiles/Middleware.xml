@@ -749,6 +749,27 @@
             <param name="userId">out.  Unique user id for the new user account.</param>
             <returns>bool.  True if the account was created.</returns>
         </member>
+        <member name="M:Middleware.Accounts.IAccountProvider.DeleteAccount(System.Int64@)">
+            <summary>
+            Delete's a user account
+            </summary>
+            <param name="userId">Unique user id for the new user account.</param>
+            <returns>bool.  True if the account was deleted, otherwise false.</returns>
+        </member>
+        <member name="M:Middleware.Accounts.IAccountProvider.AccountLock(System.Int64@)">
+            <summary>
+            Locks a user account, preventing access to the system
+            </summary>
+            <param name="userId">Unique user id for the new user account.</param>
+            <returns>bool.  True if the account was locked, otherwise false.</returns>
+        </member>
+        <member name="M:Middleware.Accounts.IAccountProvider.AccountUnlock(System.Int64@)">
+            <summary>
+            Unlocks a user account enabling access to the system
+            </summary>
+            <param name="userId">Unique user id for the new user account.</param>
+            <returns>bool.  True if the account was unlocked, otherwise false.</returns>
+        </member>
         <member name="M:Middleware.Accounts.IAccountProvider.SetBillingAddress(System.Int64@,Middleware.Address@)">
             <summary>
             Updates a billing address for a specific user.
@@ -3213,6 +3234,39 @@
             <param name="userId">User id who is checking out the shopping cart.</param>
             <param name="order">out.  Converted order.</param>
             <returns>bool.  True if the shopping cart was successfully converted to an order.</returns>
+        </member>
+        <member name="T:Middleware.ISmokeTestProvider">
+            <summary>
+            Provides an opportunity for the website to provide custom data which can be used as part
+            of the smoke test.
+            </summary>
+        </member>
+        <member name="M:Middleware.ISmokeTestProvider.SmokeTestStart">
+            <summary>
+            Indicates the test is about to start.
+            
+            The result of this method can contain custom name value pairs, this can be used by the Smoke Test engine
+            when preparing tests to be run.
+            
+            For example the following name value pair could be used to indicate a logged on user name and password:
+            
+            LoggedOnUser=admin
+            LoggedOnUserPassword=qwerty123
+            
+            When a test is being prepared, it will search for {LoggedOnUser} within the body, or form parameters and
+            the value will be replaced with admin and {LoggedOnUserPassword} will be searched for in the form parameters
+            or body and replaced with qwerty123
+            
+            Ideally the test data should be created when this function is called and cleaned up using <seealso cref="M:Middleware.ISmokeTestProvider.SmokeTestEnd"/>.
+            
+            Data can be created dynamically within a database or other storage mechanism to help test functionality of a website.
+            </summary>
+            <returns>NVPCodec instance containing name value pairs that will be returned to the Smoke Test Engine or null if not required.</returns>
+        </member>
+        <member name="M:Middleware.ISmokeTestProvider.SmokeTestEnd">
+            <summary>
+            Indicates that the Smoke Test has finished and that all previously created data can be cleaned up and removed.
+            </summary>
         </member>
         <member name="T:Middleware.IStockProvider">
             <summary>

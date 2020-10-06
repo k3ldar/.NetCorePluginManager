@@ -184,6 +184,32 @@ namespace SharedPluginFeatures
     }
 
     /// <summary>
+    /// Type of data to be posted to a controller action
+    /// </summary>
+    public enum PostType
+    {
+        /// <summary>
+        /// The post is a web form
+        /// </summary>
+        Form,
+
+        /// <summary>
+        /// The post is json data
+        /// </summary>
+        Json,
+
+        /// <summary>
+        /// The post data is xml
+        /// </summary>
+        Xml,
+
+        /// <summary>
+        /// Other type of custom data
+        /// </summary>
+        Other
+    }
+
+    /// <summary>
     /// The frequency of which a sitemap item is updated.
     /// </summary>
     public enum SitemapChangeFrequency

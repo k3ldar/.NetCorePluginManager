@@ -371,16 +371,17 @@
             containing test data
             </summary>
         </member>
-        <member name="M:SharedPluginFeatures.SmokeTestAttribute.#ctor(System.Int32,System.String,System.Int32,System.String,System.String,System.String,System.String,System.String,System.String,System.String)">
+        <member name="M:SharedPluginFeatures.SmokeTestAttribute.#ctor(System.Int32,SharedPluginFeatures.PostType,System.String,System.Int32,System.String,System.String,System.String,System.String,System.String,System.String,System.String)">
             <summary>
             Constructor for attribute applied against a controller action method.  This
             will create test data using the values of the action.
             </summary>
             <param name="position">The position of the test relative to all other tests</param>
             <param name="formId">The name of the form that will be submitted</param>
+            <param name="postType">The type of data to be posted to the controller action</param>
             <param name="response">The expected response for the result, 200, 404 etc</param>
             <param name="method">The web method used when submitting the test, GET, POST, PUT etc</param>
-            <param name="inputData">The data that will be submitted for the test, this must be a colon seperated list of strings representing parameter values to be submitted.</param>
+            <param name="inputData">The data that will be submitted for the test, this must be a colon seperated list of strings representing parameter values to be submitted or can also be raw json or XML.</param>
             <param name="searchData">A colon seperated list of string that can be searched for within the response after either a get or prior to data being submitted via a form.</param>
             <param name="submitSearchData">A colon seperated list of strings that can be searched for in the response after data has been submitted.</param>
             <param name="name">Name of the test, used to identify it, if not specified then the controller and action name will be used.</param>
@@ -398,6 +399,11 @@
             The response expected after submitting the test
             </summary>
             <value>int</value>
+        </member>
+        <member name="P:SharedPluginFeatures.SmokeTestAttribute.PostType">
+            <summary>
+            The type of data to be posted
+            </summary>
         </member>
         <member name="P:SharedPluginFeatures.SmokeTestAttribute.Position">
             <summary>
@@ -1266,7 +1272,7 @@
             <param name="responseData">A list of strings that can be searched for within the response for the request.</param>
             <param name="submitResponseData">A list of strings that can be searched for in the response data after a form post.</param>
         </member>
-        <member name="M:SharedPluginFeatures.WebSmokeTestItem.#ctor(System.String@,System.String@,System.String@,System.Int32@,System.Int32@,System.String@,System.String@,System.String@,System.String@,System.Collections.Generic.List{System.String}@,System.Collections.Generic.List{System.String}@)">
+        <member name="M:SharedPluginFeatures.WebSmokeTestItem.#ctor(System.String@,System.String@,System.String@,System.Int32@,SharedPluginFeatures.PostType@,System.Int32@,System.String@,System.String@,System.String@,System.String@,System.Collections.Generic.List{System.String}@,System.Collections.Generic.List{System.String}@)">
             <summary>
             Constructor for creating specific instances of smoke test items
             </summary>
@@ -1274,6 +1280,7 @@
             <param name="method">The method used when submitting the test, PUT, GET, POST etc</param>
             <param name="formId">The id of the form that will be submitted</param>
             <param name="response">The expected response for the result, 200, 404 etc</param>
+            <param name="postType">Type of post, XML, Json, Form or Other</param>
             <param name="position">The position of the test relative to all other tests</param>
             <param name="name">Name of the test, used to identify it</param>
             <param name="parameters">Name value pair of parameter values</param>
@@ -1293,6 +1300,11 @@
             The method used when submitting the test, PUT, GET, POST etc
             </summary>
             <value>string</value>
+        </member>
+        <member name="P:SharedPluginFeatures.WebSmokeTestItem.PostType">
+            <summary>
+            Type of post, XML, Json, Form or Other
+            </summary>
         </member>
         <member name="P:SharedPluginFeatures.WebSmokeTestItem.Response">
             <summary>
@@ -1356,6 +1368,16 @@
         <member name="P:SharedPluginFeatures.WebSmokeTestItem.Index">
             <summary>
             Unique index for test item
+            </summary>
+        </member>
+        <member name="P:SharedPluginFeatures.WebSmokeTestItem.CustomData">
+            <summary>
+            User defined custom data
+            </summary>
+        </member>
+        <member name="P:SharedPluginFeatures.WebSmokeTestItem.AuthorHistory">
+            <summary>
+            List of authors and date time modified
             </summary>
         </member>
         <member name="T:SharedPluginFeatures.Constants">
@@ -1923,6 +1945,31 @@
         <member name="F:SharedPluginFeatures.Enums.ValidateRequestResult.BanRequested">
             <summary>
             A Ban has been requested on the IP Address
+            </summary>
+        </member>
+        <member name="T:SharedPluginFeatures.PostType">
+            <summary>
+            Type of data to be posted to a controller action
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.PostType.Form">
+            <summary>
+            The post is a web form
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.PostType.Json">
+            <summary>
+            The post is json data
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.PostType.Xml">
+            <summary>
+            The post data is xml
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.PostType.Other">
+            <summary>
+            Other type of custom data
             </summary>
         </member>
         <member name="T:SharedPluginFeatures.SitemapChangeFrequency">

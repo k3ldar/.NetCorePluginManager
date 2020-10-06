@@ -44,8 +44,6 @@ namespace SieraDeltaGeoIp.Plugin
     {
         #region Internal Static Properties
 
-        internal static IServiceProvider GetServiceProvider { get; private set; }
-
         internal static ILogger GetLogger { get; private set; }
 
         internal static GeoIpStatistics GeoIpStatistics { get; private set; }
@@ -67,8 +65,6 @@ namespace SieraDeltaGeoIp.Plugin
         public void ConfigureServices(IServiceCollection services)
         {
             services.UseSieraDeltaGeoIpService();
-
-            GetServiceProvider = services.BuildServiceProvider();
         }
 
         public ushort GetVersion()

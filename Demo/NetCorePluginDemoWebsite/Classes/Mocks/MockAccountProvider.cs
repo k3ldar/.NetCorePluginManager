@@ -115,7 +115,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
 
         #endregion User Contact Details
 
-        #region Create Account
+        #region Account Creation/Deletion
 
         public bool CreateAccount(in string email, in string firstName, in string surname, in string password,
             in string telephone, in string businessName, in string addressLine1, in string addressLine2,
@@ -128,7 +128,41 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
             return true;
         }
 
-        #endregion Create Account
+        /// <summary>
+        /// Delete's a user account
+        /// </summary>
+        /// <param name="userId">Unique user id for the new user account.</param>
+        /// <returns>bool.  True if the account was deleted, otherwise false.</returns>
+        public bool DeleteAccount(in Int64 userId)
+        {
+            return true;
+        }
+
+        #endregion Account Creation/Deletion
+
+        #region Account Lock/Unlock
+
+        /// <summary>
+        /// Locks a user account, preventing access to the system
+        /// </summary>
+        /// <param name="userId">Unique user id for the new user account.</param>
+        /// <returns>bool.  True if the account was locked, otherwise false.</returns>
+        public bool AccountLock(in Int64 userId)
+        {
+            return true;
+        }
+
+        /// <summary>
+        /// Unlocks a user account enabling access to the system
+        /// </summary>
+        /// <param name="userId">Unique user id for the new user account.</param>
+        /// <returns>bool.  True if the account was unlocked, otherwise false.</returns>
+        public bool AccountUnlock(in Int64 userId)
+        {
+            return true;
+        }
+
+        #endregion Account Lock/Unlock
 
         #region Billing Address
 

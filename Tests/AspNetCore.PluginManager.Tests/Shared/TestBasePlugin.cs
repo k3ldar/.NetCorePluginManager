@@ -143,7 +143,6 @@ namespace AspNetCore.PluginManager.Tests
             }
 
             Assert.IsNotNull(_pluginServicesSmokeTest);
-
         }
 
         protected void InitializeLoginPluginManager()

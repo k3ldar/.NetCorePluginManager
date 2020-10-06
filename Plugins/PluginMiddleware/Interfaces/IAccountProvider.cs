@@ -74,7 +74,7 @@ namespace Middleware.Accounts
         /// <param name="telephone">Users telephone number.</param>
         /// <param name="telephoneConfirmed">Indicates whether the telephone number has been confirmed or not.</param>
         /// <returns></returns>
-        bool GetUserAccountDetails(in Int64 userId, out string firstName, out string lastName, 
+        bool GetUserAccountDetails(in Int64 userId, out string firstName, out string lastName,
             out string email, out bool emailConfirmed, out string telephone, out bool telephoneConfirmed);
 
         /// <summary>
@@ -88,7 +88,7 @@ namespace Middleware.Accounts
         /// <param name="email">Users email address.</param>
         /// <param name="telephone">Users telephone number.</param>
         /// <returns></returns>
-        bool SetUserAccountDetails(in Int64 userId, in string firstName, in string lastName, 
+        bool SetUserAccountDetails(in Int64 userId, in string firstName, in string lastName,
             in string email, in string telephone);
 
         /// <summary>
@@ -115,7 +115,7 @@ namespace Middleware.Accounts
 
         #endregion User Contact Details
 
-        #region Create Account
+        #region Account Creation/Deletion
 
         /// <summary>
         /// Creates a new user account.
@@ -142,7 +142,32 @@ namespace Middleware.Accounts
             in string addressLine1, in string addressLine2, in string addressLine3, in string city,
             in string county, in string postcode, in string countryCode, out Int64 userId);
 
-        #endregion Create Account
+        /// <summary>
+        /// Delete's a user account
+        /// </summary>
+        /// <param name="userId">Unique user id for the new user account.</param>
+        /// <returns>bool.  True if the account was deleted, otherwise false.</returns>
+        bool DeleteAccount(in Int64 userId);
+
+        #endregion Account Creation/Deletion
+
+        #region Account Lock/Unlock
+
+        /// <summary>
+        /// Locks a user account, preventing access to the system
+        /// </summary>
+        /// <param name="userId">Unique user id for the new user account.</param>
+        /// <returns>bool.  True if the account was locked, otherwise false.</returns>
+        bool AccountLock(in Int64 userId);
+
+        /// <summary>
+        /// Unlocks a user account enabling access to the system
+        /// </summary>
+        /// <param name="userId">Unique user id for the new user account.</param>
+        /// <returns>bool.  True if the account was unlocked, otherwise false.</returns>
+        bool AccountUnlock(in Int64 userId);
+
+        #endregion Account Lock/Unlock
 
         #region Billing Address
 

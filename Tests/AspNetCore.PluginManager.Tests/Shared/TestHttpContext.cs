@@ -44,6 +44,7 @@ namespace AspNetCore.PluginManager.Tests
 
         private readonly HttpRequest _httpRequest;
         private readonly HttpResponse _httpResponse;
+        private readonly IServiceProvider _serviceProvider;
 
         #endregion Private Members
 
@@ -59,6 +60,12 @@ namespace AspNetCore.PluginManager.Tests
         {
             _httpRequest = httpRequest ?? throw new ArgumentNullException(nameof(httpRequest));
             _httpResponse = httpResponse ?? throw new ArgumentNullException(nameof(httpResponse));
+        }
+
+        public TestHttpContext(in HttpRequest httpRequest, in HttpResponse httpResponse, IServiceProvider serviceProvider)
+            : this (httpRequest, httpResponse)
+        {
+            _serviceProvider = serviceProvider ?? throw new ArgumentNullException(nameof(serviceProvider));
         }
 
         #endregion Constructors
@@ -129,11 +136,12 @@ namespace AspNetCore.PluginManager.Tests
         {
             get
             {
-                return null;
+                return _serviceProvider;
             }
 
             set
             {
+                throw new InvalidOperationException();
             }
         }
 

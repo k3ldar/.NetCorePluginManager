@@ -23,11 +23,14 @@
  *  07/01/2020  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+using System;
 using System.Linq;
 
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+
+using PluginManager.Abstractions;
 
 using SharedPluginFeatures;
 
@@ -46,11 +49,19 @@ namespace UserSessionMiddleware.Plugin.Classes
 
         public void AfterConfigureServices(in IServiceCollection services)
         {
-            if (!services.Any(x => x.ServiceType == typeof(IUserSessionService)))
-            {
-                services.TryAddSingleton<IUserSessionService, DefaultUserSessionService>();
-            }
+            ServiceProvider serviceProvider = services.BuildServiceProvider();
 
+            ISettingsProvider settingsProvider = serviceProvider.GetService<ISettingsProvider>();
+
+            if (settingsProvider != null)
+            {
+                UserSessionSettings settings = settingsProvider.GetSettings<UserSessionSettings>(Constants.UserSessionConfiguration);
+
+                if (settings.EnableDefaultSessionService && !services.Any(x => x.ServiceType == typeof(IUserSessionService)))
+                {
+                    services.TryAddSingleton<IUserSessionService, DefaultUserSessionService>();
+                }
+            }
 
             SessionHelper.InitSessionHelper(services.BuildServiceProvider());
         }
@@ -71,10 +82,6 @@ namespace UserSessionMiddleware.Plugin.Classes
         }
 
         #endregion IInitialiseEvents Methods
-
-        #region Private Methods
-
-        #endregion Private Methods
     }
 }
 
