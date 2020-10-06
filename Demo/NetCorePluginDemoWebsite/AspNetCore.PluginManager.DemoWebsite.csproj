@@ -83,6 +83,7 @@
     <PackageReference Include="DocumentationPlugin" Version="$(Version)" />
     <PackageReference Include="Sitemap.Plugin" Version="$(Version)" />
     <PackageReference Include="SearchPlugin" Version="$(Version)" />
+    <PackageReference Include="WebSmokeTest.Plugin" Version="$(Version)" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(Configuration)'=='Debug'">
