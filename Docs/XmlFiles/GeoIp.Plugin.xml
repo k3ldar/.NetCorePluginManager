@@ -14,17 +14,29 @@
             Default constructor
             </summary>
         </member>
-        <member name="P:GeoIp.Plugin.GeoIpPluginSettings.Webnet77CSVData">
+        <member name="P:GeoIp.Plugin.GeoIpPluginSettings.Webnet77CSVDataPath">
             <summary>
             Webnet77CSVData.  The filename and path for Webnet77 Ip Address data held in CSV format.
             </summary>
             <value>string</value>
+        </member>
+        <member name="P:GeoIp.Plugin.GeoIpPluginSettings.AutoDownloadWebnet77Data">
+            <summary>
+            Automatically downloads webnet 77 data if true
+            </summary>
+            <value>bool</value>
         </member>
         <member name="P:GeoIp.Plugin.GeoIpPluginSettings.Webnet77CsvUrl">
             <summary>
             Webnet77 download url
             </summary>
             <value>string</value>
+        </member>
+        <member name="P:GeoIp.Plugin.GeoIpPluginSettings.DownloadFrequency">
+            <summary>
+            Frequency of download of Webnet77 data in days
+            </summary>
+            <value>int</value>
         </member>
         <member name="P:GeoIp.Plugin.GeoIpPluginSettings.GeoIpProvider">
             <summary>

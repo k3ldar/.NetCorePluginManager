@@ -25,7 +25,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
 using System.Collections.Generic;
-
+using System.IO;
 using PluginManager.Abstractions;
 
 using Shared.Classes;
@@ -56,13 +56,19 @@ namespace GeoIp.Plugin
 
         }
 
-        public GeoIpService(ISettingsProvider settingsProvider)
+        public GeoIpService(ISettingsProvider settingsProvider, ILogger logger)
         {
             _geoIpSettings = settingsProvider.GetSettings<GeoIpPluginSettings>("GeoIpPluginConfiguration");
 
-            if (System.IO.File.Exists(_geoIpSettings.Webnet77CSVData))
+            if (_geoIpSettings.AutoDownloadWebnet77Data || 
+                File.Exists(Path.Combine(_geoIpSettings.Webnet77CSVDataPath, Constants.Webnet77CsvDataFileName)))
             {
-                LoadWebNet77Data loadWebNet77DataThread = new LoadWebNet77Data(_geoIpSettings.Webnet77CSVData, _tempIpCity);
+                LoadWebNet77Data loadWebNet77DataThread = new LoadWebNet77Data(logger,
+                    _geoIpSettings.Webnet77CSVDataPath,
+                    _tempIpCity,
+                    _geoIpSettings.AutoDownloadWebnet77Data,
+                    _geoIpSettings.Webnet77CsvUrl,
+                    _geoIpSettings.DownloadFrequency);
                 loadWebNet77DataThread.ThreadFinishing += LoadWebNet77DataThread_ThreadFinishing;
                 ThreadManager.ThreadStart(loadWebNet77DataThread, "Load GeoIp Data", System.Threading.ThreadPriority.Highest);
             }

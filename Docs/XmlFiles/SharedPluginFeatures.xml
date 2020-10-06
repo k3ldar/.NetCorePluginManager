@@ -1785,6 +1785,21 @@
             Stopwatch image to be system admin
             </summary>
         </member>
+        <member name="F:SharedPluginFeatures.Constants.Webnet77CsvDataFileName">
+            <summary>
+            Webnet 77 data file name
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Constants.FileExtensionZip">
+            <summary>
+            .zip file extension
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Constants.FileExtensionDat">
+            <summary>
+            .dat file extension
+            </summary>
+        </member>
         <member name="T:SharedPluginFeatures.Enums">
             <summary>
             Standard Enum values shared across all plugin modules.
