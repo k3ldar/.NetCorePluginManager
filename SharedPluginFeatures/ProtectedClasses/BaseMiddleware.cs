@@ -82,9 +82,17 @@ namespace SharedPluginFeatures
             if (context == null)
                 throw new ArgumentNullException(nameof(context));
 
-            return new UriBuilder(context.Request.Scheme,
-                context.Request.Host.Host.ToString(),
-                context.Request.Host.Port.Value).ToString();
+            if (context.Request.Host.Port.HasValue)
+            {
+                return new UriBuilder(context.Request.Scheme,
+                    context.Request.Host.Host.ToString(),
+                    context.Request.Host.Port.Value).ToString();
+            }
+            else
+            {
+                return new UriBuilder(context.Request.Scheme,
+                    context.Request.Host.Host.ToString()).ToString();
+            }
         }
 
         /// <summary>

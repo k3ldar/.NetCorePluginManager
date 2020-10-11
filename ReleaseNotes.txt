@@ -13,6 +13,7 @@ Version 4.0.0
 #119 Implement a default UserSessionService
 #120 Auto load Webnet77 GeoIp
 #116 Fully integrate Web Smoke Test
+#--- Fix bug where port is not specified
 
 Version 3.3.0
 =============
