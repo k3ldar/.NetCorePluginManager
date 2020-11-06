@@ -36,6 +36,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using PluginManager.Abstractions;
 
+using static Shared.Utilities;
 using pm = PluginManager.Internal;
 
 namespace AspNetCore.PluginManager.Tests.MiddlewareTests
@@ -97,7 +98,7 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
 
         [TestMethod]
         [ExpectedException(typeof(System.ArgumentNullException))]
-        public async void LoginNullAuthenticationValueOnInvoke()
+        public async Task LoginNullAuthenticationValueOnInvoke()
         {
             TestRequestCookieCollection cookies = new TestRequestCookieCollection();
             cookies.AddCookie("RememberMe", "1");
@@ -178,7 +179,7 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
             LoginControllerSettings loginControllerSettings = settingsProvider.GetSettings<LoginControllerSettings>(nameof(LoginPlugin));
             TestRequestCookieCollection cookies = new TestRequestCookieCollection();
-            cookies.AddCookie("RememberMe", Shared.Utilities.Encrypt("1", loginControllerSettings.EncryptionKey));
+            cookies.AddCookie("RememberMe", Encrypt("1", loginControllerSettings.EncryptionKey));
 
             TestHttpRequest httpRequest = new TestHttpRequest(cookies);
             TestHttpResponse httpResponse = new TestHttpResponse();
@@ -209,7 +210,7 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
             LoginControllerSettings loginControllerSettings = settingsProvider.GetSettings<LoginControllerSettings>(nameof(LoginPlugin));
             TestRequestCookieCollection cookies = new TestRequestCookieCollection();
-            cookies.AddCookie("RememberMe", Shared.Utilities.Encrypt("123", loginControllerSettings.EncryptionKey));
+            cookies.AddCookie("RememberMe", Encrypt("123", loginControllerSettings.EncryptionKey));
 
             TestHttpRequest httpRequest = new TestHttpRequest(cookies);
             TestHttpResponse httpResponse = new TestHttpResponse();

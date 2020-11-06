@@ -26,11 +26,13 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Http;
 
+using PluginManager;
 using PluginManager.Abstractions;
 
 using Shared.Classes;
@@ -65,14 +67,17 @@ namespace Sitemap.Plugin
         private readonly IPluginClassesService _pluginClassesService;
         private readonly object _lockObject = new object();
         private readonly string mainSitemap = $"{Constants.ForwardSlashChar}{Constants.BaseSitemap}";
+        private readonly ILogger _logger;
         internal static Timings _timings = new Timings();
+
 
         #endregion Private Members
 
         #region Constructors
 
         public SitemapMiddleware(RequestDelegate next, IPluginClassesService pluginClassesService,
-            IMemoryCache memoryCache, INotificationService notificationService)
+            IMemoryCache memoryCache, INotificationService notificationService,
+            ILogger logger)
         {
             if (notificationService == null)
                 throw new ArgumentNullException(nameof(notificationService));
@@ -80,6 +85,7 @@ namespace Sitemap.Plugin
             _next = next;
             _pluginClassesService = pluginClassesService ?? throw new ArgumentNullException(nameof(pluginClassesService));
             _memoryCache = memoryCache ?? throw new ArgumentNullException(nameof(memoryCache));
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
             notificationService.RegisterListener(this);
         }
@@ -95,18 +101,26 @@ namespace Sitemap.Plugin
 
             using (StopWatchTimer stopwatchTimer = StopWatchTimer.Initialise(_timings))
             {
-                string route = RouteLowered(context);
-
-                if (route.StartsWith("/sitemap"))
+                try
                 {
-                    Dictionary<string, string> sitemaps = GetSitemaps(context);
+                    string route = RouteLowered(context);
 
-                    if (sitemaps.ContainsKey(route))
+                    if (route.StartsWith("/sitemap"))
                     {
-                        await context.Response.WriteAsync(sitemaps[route]);
-                        context.Response.StatusCode = 200;
-                        return;
+                        Dictionary<string, string> sitemaps = GetSitemaps(context);
+
+                        if (sitemaps.ContainsKey(route))
+                        {
+                            context.Response.StatusCode = 200;
+                            await context.Response.WriteAsync(sitemaps[route]);
+                            return;
+                        }
                     }
+                }
+                catch (Exception err)
+                {
+                    _logger.AddToLog(LogLevel.Error, nameof(SitemapMiddleware), err, MethodBase.GetCurrentMethod().Name);
+                    throw;
                 }
             }
 

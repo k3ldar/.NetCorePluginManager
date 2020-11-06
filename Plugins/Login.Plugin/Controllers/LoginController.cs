@@ -51,6 +51,11 @@ namespace LoginPlugin.Controllers
     /// Login controller, allows users to login using a standard interface implemented by ILoginProvider interface.
     /// </summary>
     [LoggedOut]
+    [DenySpider]
+    [DenySpider("Googlebot")]
+    [DenySpider("Facebot")]
+    [DenySpider("Bingbot")]
+    [DenySpider("Twitterbot")]
     public class LoginController : BaseController
     {
         #region Private Members
@@ -58,7 +63,6 @@ namespace LoginPlugin.Controllers
         private readonly ILoginProvider _loginProvider;
         private readonly LoginControllerSettings _settings;
         private readonly IClaimsProvider _claimsProvider;
-        //private readonly IAuthenticationService _authenticationService;
 
         private static readonly CacheManager _loginCache = new CacheManager("Login Cache", new TimeSpan(0, 30, 0));
 
@@ -67,14 +71,13 @@ namespace LoginPlugin.Controllers
         #region Constructors
 
         public LoginController(ILoginProvider loginProvider, ISettingsProvider settingsProvider,
-            IClaimsProvider claimsProvider/*, IAuthenticationService authenticationService*/)
+            IClaimsProvider claimsProvider)
         {
             if (settingsProvider == null)
                 throw new ArgumentNullException(nameof(settingsProvider));
 
             _loginProvider = loginProvider ?? throw new ArgumentNullException(nameof(loginProvider));
             _claimsProvider = claimsProvider ?? throw new ArgumentNullException(nameof(claimsProvider));
-            //_authenticationService = authenticationService ?? throw new ArgumentNullException(nameof(authenticationService));
             _settings = settingsProvider.GetSettings<LoginControllerSettings>(nameof(LoginPlugin));
         }
 
@@ -287,6 +290,8 @@ namespace LoginPlugin.Controllers
         }
 
         [HttpGet]
+        [DenySpider("Bingbot")]
+        [DenySpider("Twitterbot")]
         public ActionResult GetCaptchaImage()
         {
             LoginCacheItem loginCacheItem = GetCachedLoginAttempt(false);

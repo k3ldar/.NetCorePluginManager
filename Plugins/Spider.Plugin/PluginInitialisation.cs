@@ -25,10 +25,13 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
 
-using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 
 using PluginManager.Abstractions;
+
+using SharedPluginFeatures;
+
+using Spider.Plugin.Classes;
 
 #pragma warning disable CS1591
 
@@ -50,8 +53,6 @@ namespace Spider.Plugin
 
         #region Internal Static Properties
 
-        internal static IServiceProvider GetServiceProvider { get; private set; }
-
         internal static ILogger GetLogger { get; private set; }
 
         #endregion Internal Static Properties
@@ -70,7 +71,7 @@ namespace Spider.Plugin
 
         public void ConfigureServices(IServiceCollection services)
         {
-            GetServiceProvider = services.BuildServiceProvider();
+            services.AddSingleton<IRobots, Robots>();
         }
 
         public ushort GetVersion()

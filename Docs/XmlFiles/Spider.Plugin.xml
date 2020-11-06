@@ -4,6 +4,20 @@
         <name>Spider.Plugin</name>
     </assembly>
     <members>
+        <member name="T:Spider.Plugin.Classes.SystemAdmin.BotTrapTimingsSubMenu">
+            <summary>
+            Returns Timings information for all time spent processing spider requests and can 
+            be viewed within SystemAdmin.Plugin.  
+            
+            This class descends from SystemAdminSubMenu.
+            </summary>
+        </member>
+        <member name="M:Spider.Plugin.Classes.SystemAdmin.BotTrapTimingsSubMenu.Data">
+            <summary>
+            Returns Timings data in milliseconds for time spent processing by Spider.Plugin requests.
+            </summary>
+            <returns>string</returns>
+        </member>
         <member name="T:Spider.Plugin.Classes.SystemAdmin.SpiderTimingsSubMenu">
             <summary>
             Returns Timings information for all time spent processing spider requests and can 
@@ -52,6 +66,16 @@
         <member name="P:Spider.Plugin.SpiderSettings.StaticFileExtensions">
             <summary>
             Delimited list of file extensions to ignore
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:Spider.Plugin.SpiderSettings.BotTrapRoute">
+            <summary>
+            Provides an opportunity to add a non existant route to sitemap which is dissalowed, if a bot goes to the route
+            data is logged about the none behaving bot who is abusing sitemap.
+            
+            The value must be a valid root, i.e. /api/v19.x/ that is not in use elsewhere, this route is added to the sitemap
+            and any visits to the route are notified.
             </summary>
             <value>string</value>
         </member>

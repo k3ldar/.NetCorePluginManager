@@ -19,13 +19,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.8">
+    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="3.3.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.5.0" />
-    <PackageReference Include="MSTest.TestAdapter" Version="2.1.1" />
-    <PackageReference Include="MSTest.TestFramework" Version="2.1.1" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.7.1" />
+    <PackageReference Include="MSTest.TestAdapter" Version="2.1.2" />
+    <PackageReference Include="MSTest.TestFramework" Version="2.1.2" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
     <PackageReference Include="SC.Shared.Library.Core" Version="2.17.0" />
   </ItemGroup>
@@ -38,6 +38,7 @@
     <ProjectReference Include="..\..\Plugins\PluginMiddleware\PluginMiddleware.csproj" />
     <ProjectReference Include="..\..\Plugins\Products.Plugin\ProductsPlugin.csproj" />
     <ProjectReference Include="..\..\Plugins\Search.Plugin\Search.Plugin.csproj" />
+    <ProjectReference Include="..\..\Plugins\Spider.Plugin\Spider.Plugin.csproj" />
     <ProjectReference Include="..\..\Plugins\SystemAdmin.Plugin\SystemAdmin.Plugin.csproj" />
     <ProjectReference Include="..\..\Plugins\WebSmokeTest.Plugin\WebSmokeTest.Plugin.csproj" />
     <ProjectReference Include="..\..\SharedPluginFeatures\SharedPluginFeatures.csproj" />
@@ -45,6 +46,10 @@
     <ProjectReference Include="..\..\Plugins\Documentation.Plugin\Documentation.Plugin.csproj" />
     <ProjectReference Include="..\..\Plugins\MemoryCachePlugin\MemoryCachePlugin.csproj" />
     <ProjectReference Include="..\..\Plugins\Blog.Plugin\Blog.Plugin.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="InternalClasses\" />
   </ItemGroup>
 
 </Project>

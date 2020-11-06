@@ -33,6 +33,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using Shared.Classes;
 using Shared.Docs;
+using sl = Shared;
 
 using consts = SharedPluginFeatures.Constants;
 
@@ -121,13 +122,13 @@ namespace AspNetCore.PluginManager.Tests.Documentation
         public void ValidatePostProcessResultsProcessSingleDocument()
         {
             List<Document> documents = new List<Document>();
-            documents.Add(new Document(Shared.DocumentType.Class, "Test", "Test", "ClassName", "T:Test.ClassName"));
+            documents.Add(new Document(sl.DocumentType.Class, "Test", "Test", "ClassName", "T:Test.ClassName"));
 
             DocumentPostProcess postProcess = new DocumentPostProcess(documents);
 
             Assert.IsNotNull(postProcess);
 
-            Document searchDoc = new Document(Shared.DocumentType.Custom, "Custom Type");
+            Document searchDoc = new Document(sl.DocumentType.Custom, "Custom Type");
             searchDoc.LongDescription = "Test <see cref=\"T:Test.ClassName\" /> class";
 
             Assert.IsNotNull(searchDoc);
@@ -143,13 +144,13 @@ namespace AspNetCore.PluginManager.Tests.Documentation
         public void ValidatePostProcessResultsProcessSingleDocumentSeeTag()
         {
             List<Document> documents = new List<Document>();
-            documents.Add(new Document(Shared.DocumentType.Class, "Test", "Test", "ClassName", "T:Test.ClassName"));
+            documents.Add(new Document(sl.DocumentType.Class, "Test", "Test", "ClassName", "T:Test.ClassName"));
 
             DocumentPostProcess postProcess = new DocumentPostProcess(documents);
 
             Assert.IsNotNull(postProcess);
 
-            Document searchDoc = new Document(Shared.DocumentType.Custom, "Custom Type");
+            Document searchDoc = new Document(sl.DocumentType.Custom, "Custom Type");
             searchDoc.ClassName = searchDoc.FullMemberName;
             searchDoc.LongDescription = "Test <see cref=\"T:Test.ClassName\" /> class";
 
@@ -168,13 +169,13 @@ namespace AspNetCore.PluginManager.Tests.Documentation
         public void ValidatePostProcessResultsProcessSingleDocumentSeeTagInvalid()
         {
             List<Document> documents = new List<Document>();
-            documents.Add(new Document(Shared.DocumentType.Class, "Test", "Test", "ClassName", "T:Test.ClassName"));
+            documents.Add(new Document(sl.DocumentType.Class, "Test", "Test", "ClassName", "T:Test.ClassName"));
 
             DocumentPostProcess postProcess = new DocumentPostProcess(documents);
 
             Assert.IsNotNull(postProcess);
 
-            Document searchDoc = new Document(Shared.DocumentType.Custom, "Custom Type");
+            Document searchDoc = new Document(sl.DocumentType.Custom, "Custom Type");
             searchDoc.LongDescription = "Test <see cref=\"T:Test.ClassName /> class";
 
             Assert.IsNotNull(searchDoc);
@@ -192,13 +193,13 @@ namespace AspNetCore.PluginManager.Tests.Documentation
         public void ValidatePostProcessResultsProcessSingleDocumentSeeAlsoTag()
         {
             List<Document> documents = new List<Document>();
-            documents.Add(new Document(Shared.DocumentType.Class, "Test", "Test", "ClassName", "T:Test.ClassName"));
+            documents.Add(new Document(sl.DocumentType.Class, "Test", "Test", "ClassName", "T:Test.ClassName"));
 
             DocumentPostProcess postProcess = new DocumentPostProcess(documents);
 
             Assert.IsNotNull(postProcess);
 
-            Document searchDoc = new Document(Shared.DocumentType.Custom, "Custom Type");
+            Document searchDoc = new Document(sl.DocumentType.Custom, "Custom Type");
             searchDoc.ClassName = searchDoc.FullMemberName;
             searchDoc.LongDescription = "Test <seealso cref=\"T:Test.ClassName\" /> class";
 
@@ -217,13 +218,13 @@ namespace AspNetCore.PluginManager.Tests.Documentation
         public void ValidatePostProcessResultsProcessSingleDocumentSeeAlsoTagInvalid()
         {
             List<Document> documents = new List<Document>();
-            documents.Add(new Document(Shared.DocumentType.Class, "Test", "Test", "ClassName", "T:Test.ClassName"));
+            documents.Add(new Document(sl.DocumentType.Class, "Test", "Test", "ClassName", "T:Test.ClassName"));
 
             DocumentPostProcess postProcess = new DocumentPostProcess(documents);
 
             Assert.IsNotNull(postProcess);
 
-            Document searchDoc = new Document(Shared.DocumentType.Custom, "Custom Type");
+            Document searchDoc = new Document(sl.DocumentType.Custom, "Custom Type");
             searchDoc.ClassName = searchDoc.FullMemberName;
             searchDoc.LongDescription = "Test <seealso cref=\"T:Test.ClassName /> class";
 
@@ -243,13 +244,13 @@ namespace AspNetCore.PluginManager.Tests.Documentation
         public void ValidatePostProcessResultsProcessSingleDocumentParaTag()
         {
             List<Document> documents = new List<Document>();
-            documents.Add(new Document(Shared.DocumentType.Class, "Test", "Test", "ClassName", "T:Test.ClassName"));
+            documents.Add(new Document(sl.DocumentType.Class, "Test", "Test", "ClassName", "T:Test.ClassName"));
 
             DocumentPostProcess postProcess = new DocumentPostProcess(documents);
 
             Assert.IsNotNull(postProcess);
 
-            Document searchDoc = new Document(Shared.DocumentType.Custom, "Custom Type");
+            Document searchDoc = new Document(sl.DocumentType.Custom, "Custom Type");
             searchDoc.LongDescription = "Test <para>This will be a seperate paragraph</para> class";
 
             Assert.IsNotNull(searchDoc);
@@ -268,13 +269,13 @@ namespace AspNetCore.PluginManager.Tests.Documentation
         public void ValidatePostProcessResultsProcessSingleDocumentParaTagInvalidNotClosed()
         {
             List<Document> documents = new List<Document>();
-            documents.Add(new Document(Shared.DocumentType.Class, "Test", "Test", "ClassName", "T:Test.ClassName"));
+            documents.Add(new Document(sl.DocumentType.Class, "Test", "Test", "ClassName", "T:Test.ClassName"));
 
             DocumentPostProcess postProcess = new DocumentPostProcess(documents);
 
             Assert.IsNotNull(postProcess);
 
-            Document searchDoc = new Document(Shared.DocumentType.Custom, "Custom Type");
+            Document searchDoc = new Document(sl.DocumentType.Custom, "Custom Type");
             searchDoc.LongDescription = "Test <para>This will be a seperate paragraph class";
 
             Assert.IsNotNull(searchDoc);
@@ -292,13 +293,13 @@ namespace AspNetCore.PluginManager.Tests.Documentation
         public void ValidatePostProcessResultsProcessSingleDocumentParaTagInvalidNotOpened()
         {
             List<Document> documents = new List<Document>();
-            documents.Add(new Document(Shared.DocumentType.Class, "Test", "Test", "ClassName", "T:Test.ClassName"));
+            documents.Add(new Document(sl.DocumentType.Class, "Test", "Test", "ClassName", "T:Test.ClassName"));
 
             DocumentPostProcess postProcess = new DocumentPostProcess(documents);
 
             Assert.IsNotNull(postProcess);
 
-            Document searchDoc = new Document(Shared.DocumentType.Custom, "Custom Type");
+            Document searchDoc = new Document(sl.DocumentType.Custom, "Custom Type");
             searchDoc.LongDescription = "Test </para>This will be a seperate paragraph class";
 
             Assert.IsNotNull(searchDoc);
@@ -316,14 +317,14 @@ namespace AspNetCore.PluginManager.Tests.Documentation
         public void TestSplitString()
         {
             List<Document> documents = new List<Document>();
-            documents.Add(new Document(Shared.DocumentType.Class, "Test", "Test", "ClassName", "T:Test.ClassName"));
-            documents.Add(new Document(Shared.DocumentType.Class, "Test", "Test", "AdvancedSearchOptions", "T:Test.AdvancedSearchOptions"));
+            documents.Add(new Document(sl.DocumentType.Class, "Test", "Test", "ClassName", "T:Test.ClassName"));
+            documents.Add(new Document(sl.DocumentType.Class, "Test", "Test", "AdvancedSearchOptions", "T:Test.AdvancedSearchOptions"));
 
             DocumentPostProcess postProcess = new DocumentPostProcess(documents);
 
             Assert.IsNotNull(postProcess);
 
-            Document searchDoc = new Document(Shared.DocumentType.Custom, "Custom Type");
+            Document searchDoc = new Document(sl.DocumentType.Custom, "Custom Type");
             searchDoc.ClassName = searchDoc.FullMemberName;
             searchDoc.Returns = "Dictionary&lt;string, AdvancedSearchOptions&gt;";
             //searchDoc.LongDescription = "Test <see cref=\"T:Test.ClassName\" /> class";
@@ -342,8 +343,8 @@ namespace AspNetCore.PluginManager.Tests.Documentation
         public void TestSplitMethodValue()
         {
             List<Document> documents = new List<Document>();
-            documents.Add(new Document(Shared.DocumentType.Class, "Test", "Test", "ClassName", "T:Test.ClassName"));
-            DocumentMethod documentMethod = new DocumentMethod(Shared.DocumentType.Method, "Test", "Test", "Test", "Items()", "M:Blog.Plugin.Classes.BlogSitemapProvider.Items");
+            documents.Add(new Document(sl.DocumentType.Class, "Test", "Test", "ClassName", "T:Test.ClassName"));
+            DocumentMethod documentMethod = new DocumentMethod(sl.DocumentType.Method, "Test", "Test", "Test", "Items()", "M:Blog.Plugin.Classes.BlogSitemapProvider.Items");
             documentMethod.Returns = "List&lt;ISitemapItem&gt;";
             documents[0].Methods.Add(documentMethod);
 
@@ -360,8 +361,8 @@ namespace AspNetCore.PluginManager.Tests.Documentation
         public void TestSplitMethodValueRemoveNamespace()
         {
             List<Document> documents = new List<Document>();
-            documents.Add(new Document(Shared.DocumentType.Class, "Test", "Test", "ClassName", "T:Test.ClassName"));
-            DocumentMethod documentMethod = new DocumentMethod(Shared.DocumentType.Method, "Test", "Test", "Test", "Items()", "M:Blog.Plugin.Classes.BlogSitemapProvider.Items");
+            documents.Add(new Document(sl.DocumentType.Class, "Test", "Test", "ClassName", "T:Test.ClassName"));
+            DocumentMethod documentMethod = new DocumentMethod(sl.DocumentType.Method, "Test", "Test", "Test", "Items()", "M:Blog.Plugin.Classes.BlogSitemapProvider.Items");
             documentMethod.Returns = "List&lt;Some.Namespace.Name.ISitemapItem&gt;";
             documents[0].Methods.Add(documentMethod);
 
@@ -378,8 +379,8 @@ namespace AspNetCore.PluginManager.Tests.Documentation
         public void TestSplitConstructorValueRemoveNamespace()
         {
             List<Document> documents = new List<Document>();
-            documents.Add(new Document(Shared.DocumentType.Class, "Test", "Test", "ClassName", "T:Test.ClassName"));
-            DocumentMethod documentMethod = new DocumentMethod(Shared.DocumentType.Method, "Test", "Test", "Test", "#ctor(Some.NameSpace.Class)", "M:Blog.Plugin.Classes.BlogSitemapProvider.Items");
+            documents.Add(new Document(sl.DocumentType.Class, "Test", "Test", "ClassName", "T:Test.ClassName"));
+            DocumentMethod documentMethod = new DocumentMethod(sl.DocumentType.Method, "Test", "Test", "Test", "#ctor(Some.NameSpace.Class)", "M:Blog.Plugin.Classes.BlogSitemapProvider.Items");
             documentMethod.Returns = "List&lt;Some.Namespace.Name.ISitemapItem&gt;";
             documents[0].Methods.Add(documentMethod);
 
@@ -396,8 +397,8 @@ namespace AspNetCore.PluginManager.Tests.Documentation
         public void TestSplitConstructorNameWithCurlyBracesRemoveNamespaceConvertBraces()
         {
             List<Document> documents = new List<Document>();
-            documents.Add(new Document(Shared.DocumentType.Class, "Test", "Test", "ClassName", "T:Middleware.Blog.BlogItem"));
-            DocumentMethod documentConstructor = new DocumentMethod(Shared.DocumentType.Constructor, "Test", "Test", "Test",
+            documents.Add(new Document(sl.DocumentType.Class, "Test", "Test", "ClassName", "T:Middleware.Blog.BlogItem"));
+            DocumentMethod documentConstructor = new DocumentMethod(sl.DocumentType.Constructor, "Test", "Test", "Test",
                 "M:Middleware.Blog.BlogItem.#ctor(System.Collections.Generic.List{Middleware.Blog.BlogComment}@)",
                 "M:Blog.Plugin.Classes.BlogSitemapProvider.Items");
             documents[0].Constructors.Add(documentConstructor);

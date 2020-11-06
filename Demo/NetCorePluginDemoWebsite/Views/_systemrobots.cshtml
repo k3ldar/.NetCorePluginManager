@@ -1,0 +1,10 @@
+﻿@model Spider.Plugin.Models.EditRobotsModel
+<div class="row">
+<div class="col-sm-12">
+<h2>Existing Agents</h2>
+@foreach (string agent in Model.Agents)
+{
+<p>@agent</p>
+}
+</div>
+</div>

@@ -29,6 +29,8 @@ using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 
+using DocumentationPlugin.Classes;
+
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Primitives;
 
@@ -43,6 +45,7 @@ namespace AspNetCore.PluginManager.Tests
         private IHeaderDictionary _headerDictionary;
         private readonly List<KeyValuePair<string, StringValues>> _queryCollection;
         private readonly QueryString _queryString;
+        private HostString _hostString = new HostString("http://localhost/");
 
         #endregion Private Members
 
@@ -108,7 +111,16 @@ namespace AspNetCore.PluginManager.Tests
             }
         }
 
-        public override HostString Host { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public override HostString Host 
+        {
+            get
+            {
+                Uri uri = new Uri(_hostString.Value);
+                return new HostString(uri.Host);
+            }
+
+            set => throw new NotImplementedException(); 
+        }
 
         public override HttpContext HttpContext
         {
@@ -161,7 +173,16 @@ namespace AspNetCore.PluginManager.Tests
                 throw new NotImplementedException();
             }
         }
-        public override String Scheme { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public override String Scheme 
+        {
+            get
+            {
+                Uri uri = new Uri(_hostString.Value);
+                return uri.Scheme;
+            }
+
+            set => throw new NotImplementedException();
+        }
 
         public override Task<IFormCollection> ReadFormAsync(CancellationToken cancellationToken = default)
         {
@@ -176,6 +197,25 @@ namespace AspNetCore.PluginManager.Tests
         public void SetContext(HttpContext context)
         {
             _httpContext = context ?? throw new ArgumentNullException(nameof(context));
+        }
+
+        public void SetHost(HostString hostString)
+        {
+            _hostString = hostString;
+        }
+
+        public string IpAddress { get; set; }
+
+        public string UserAgent 
+        { 
+            get
+            {
+                return Headers[SharedPluginFeatures.Constants.UserAgent];
+            }
+            set
+            {
+                Headers[SharedPluginFeatures.Constants.UserAgent] = value;
+            }
         }
 
         #endregion Public Methods

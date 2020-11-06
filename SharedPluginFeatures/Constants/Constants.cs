@@ -123,6 +123,11 @@ namespace SharedPluginFeatures
         public const string PageReferrer = "Referer";
 
         /// <summary>
+        /// User agent constant
+        /// </summary>
+        public const string UserAgent = "User-Agent";
+
+        /// <summary>
         /// Forward slash (/) constant
         /// </summary>
         public const string ForwardSlash = "/";
@@ -141,6 +146,11 @@ namespace SharedPluginFeatures
         /// Name of the Breadcrumb.Plugin module.
         /// </summary>
         public const string PluginSettingBreadcrumb = "Breadcrumb.Plugin";
+
+        /// <summary>
+        /// Spider settings name
+        /// </summary>
+        public const string SpiderSettings = "Spider.Plugin";
 
         /// <summary>
         /// Name of the UserSessionMiddleware.Plugin module.

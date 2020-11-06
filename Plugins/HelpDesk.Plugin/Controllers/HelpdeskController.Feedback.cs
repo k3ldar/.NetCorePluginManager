@@ -68,6 +68,7 @@ namespace HelpdeskPlugin.Controllers
 
         [HttpGet]
         [Breadcrumb(nameof(Languages.LanguageStrings.LeaveFeedback), Name, nameof(Feedback))]
+        [DenySpider]
         public IActionResult LeaveFeedback()
         {
             if (!_settings.ShowFeedback)

@@ -36,14 +36,16 @@ using Shared.Classes;
 
 using SharedPluginFeatures;
 
+using static Shared.Utilities;
+
 namespace AspNetCore.PluginManager.Tests
 {
     public class TestHttpContext : HttpContext
     {
         #region Private Members
 
-        private readonly HttpRequest _httpRequest;
-        private readonly HttpResponse _httpResponse;
+        private readonly TestHttpRequest _httpRequest;
+        private readonly TestHttpResponse _httpResponse;
         private readonly IServiceProvider _serviceProvider;
 
         #endregion Private Members
@@ -56,14 +58,14 @@ namespace AspNetCore.PluginManager.Tests
             _httpResponse = new TestHttpResponse();
         }
 
-        public TestHttpContext(in HttpRequest httpRequest, in HttpResponse httpResponse)
+        public TestHttpContext(in TestHttpRequest httpRequest, in TestHttpResponse httpResponse)
         {
             _httpRequest = httpRequest ?? throw new ArgumentNullException(nameof(httpRequest));
             _httpResponse = httpResponse ?? throw new ArgumentNullException(nameof(httpResponse));
         }
 
-        public TestHttpContext(in HttpRequest httpRequest, in HttpResponse httpResponse, IServiceProvider serviceProvider)
-            : this (httpRequest, httpResponse)
+        public TestHttpContext(in TestHttpRequest httpRequest, in TestHttpResponse httpResponse, IServiceProvider serviceProvider)
+            : this(httpRequest, httpResponse)
         {
             _serviceProvider = serviceProvider ?? throw new ArgumentNullException(nameof(serviceProvider));
         }
@@ -76,9 +78,14 @@ namespace AspNetCore.PluginManager.Tests
         {
             get
             {
+                string ip = _httpRequest.IpAddress;
+
+                if (String.IsNullOrEmpty(ip))
+                    ip = "10.11.12.13";
+
                 return new TestConnectionInfo()
                 {
-                    RemoteIpAddress = new IPAddress(Shared.Utilities.IPToLong("12.23.34.56"))
+                    RemoteIpAddress = IPAddress.Parse(ip)
                 };
             }
         }

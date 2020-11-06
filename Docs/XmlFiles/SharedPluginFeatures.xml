@@ -266,15 +266,23 @@
             </summary>
             <param name="userAgent">Specify the specific user agent that is to be denied access to the route.</param>
             <param name="comment">Comment to be included in the automatically generated robots.txt file.</param>
+            <exception cref="T:System.ArgumentNullException">Raised if userAgent is null or empty.</exception>
         </member>
         <member name="P:SharedPluginFeatures.DenySpiderAttribute.UserAgent">
             <summary>
             The user agent that is to be denied access to the route.
             </summary>
+            <value>string</value>
         </member>
         <member name="P:SharedPluginFeatures.DenySpiderAttribute.Comment">
             <summary>
             Optional comment that will appear in the robots.txt file.
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:SharedPluginFeatures.DenySpiderAttribute.Route">
+            <summary>
+            Route associated with the Deny attribute
             </summary>
         </member>
         <member name="T:SharedPluginFeatures.LoggedInAttribute">
@@ -702,6 +710,31 @@
             </summary>
             <value>bool</value>
         </member>
+        <member name="T:SharedPluginFeatures.DeniedRoute">
+            <summary>
+            Contains information on routes that are denied to robots
+            </summary>
+        </member>
+        <member name="M:SharedPluginFeatures.DeniedRoute.#ctor(System.String@,System.String@)">
+            <summary>
+            Default constructor
+            </summary>
+            <param name="route"></param>
+            <param name="userAgent"></param>
+            <exception cref="T:System.ArgumentNullException">Raised if route is null or empty</exception>
+            <exception cref="T:System.ArgumentNullException">Raised if userAgent is null or empty</exception>
+            <exception cref="T:System.ArgumentException">Raised if route is not a valid partial uri</exception>
+        </member>
+        <member name="P:SharedPluginFeatures.DeniedRoute.Route">
+            <summary>
+            Route being denied
+            </summary>
+        </member>
+        <member name="P:SharedPluginFeatures.DeniedRoute.UserAgent">
+            <summary>
+            User agent name being denied
+            </summary>
+        </member>
         <member name="T:SharedPluginFeatures.ErrorInformation">
             <summary>
             Used extensively by ErrorManager.Plugin module to store information about errors that have been generated within the system.
@@ -869,6 +902,16 @@
             </summary>
             <param name="sender">The class that raised the event.</param>
             <param name="e">Event parameters.</param>
+        </member>
+        <member name="T:SharedPluginFeatures.FileStorageLoadData">
+            <summary>
+            Default implementation of File storage for ILoadData
+            </summary>
+        </member>
+        <member name="T:SharedPluginFeatures.FileStorageSaveData">
+            <summary>
+            Default implementation of File storage for ISaveData
+            </summary>
         </member>
         <member name="T:SharedPluginFeatures.ShoppingCartSummary">
             <summary>
@@ -1475,6 +1518,11 @@
             Page referrer constant
             </summary>
         </member>
+        <member name="F:SharedPluginFeatures.Constants.UserAgent">
+            <summary>
+            User agent constant
+            </summary>
+        </member>
         <member name="F:SharedPluginFeatures.Constants.ForwardSlash">
             <summary>
             Forward slash (/) constant
@@ -1493,6 +1541,11 @@
         <member name="F:SharedPluginFeatures.Constants.PluginSettingBreadcrumb">
             <summary>
             Name of the Breadcrumb.Plugin module.
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Constants.SpiderSettings">
+            <summary>
+            Spider settings name
             </summary>
         </member>
         <member name="F:SharedPluginFeatures.Constants.PluginNameUserSession">
@@ -2154,6 +2207,18 @@
             <param name="name"></param>
             <returns>string.  Route friendly name.</returns>
         </member>
+        <member name="T:SharedPluginFeatures.IBotTrap">
+            <summary>
+            IBotTrap interface is called when a bot enters a trap within Spider Middleware
+            </summary>
+        </member>
+        <member name="M:SharedPluginFeatures.IBotTrap.OnTrapEntered(System.String@,System.String@)">
+            <summary>
+            Method called when a bot enters a trap route
+            </summary>
+            <param name="ipAddress">Ip Address which triggered the bot.</param>
+            <param name="userAgent">User agent which triggered the bot.</param>
+        </member>
         <member name="T:SharedPluginFeatures.IBreadcrumbService">
             <summary>
             This interface is implemented by the Breadcrumb.Plugin and allows plugins to add dynamic plugins 
@@ -2570,6 +2635,20 @@
             on the blacklist and further requests will be denied.  If false is returned then
             no further action will be taken.</returns>
         </member>
+        <member name="T:SharedPluginFeatures.ILoadData">
+            <summary>
+            Interface used for reading data from storage, the type of storage used will depend on the implementation
+            </summary>
+        </member>
+        <member name="M:SharedPluginFeatures.ILoadData.Load``1(System.String@,System.String@)">
+            <summary>
+            Loads data of type T
+            </summary>
+            <typeparam name="T">Type of data to be loaded</typeparam>
+            <param name="location">Storage location</param>
+            <param name="name">Name of storage</param>
+            <returns>Type of data to be loaded or default type if exception occurs</returns>
+        </member>
         <member name="T:SharedPluginFeatures.IMemoryCache">
             <summary>
             MemoryCachePlugin implements an instance of IMemoryCache, and add the instance to the DI container.  
@@ -2685,6 +2764,130 @@
             Time taken to minify the data.
             </summary>
         </member>
+        <member name="T:SharedPluginFeatures.IRobotRouteData">
+            <summary>
+            Interface for custom robot route data
+            </summary>
+        </member>
+        <member name="P:SharedPluginFeatures.IRobotRouteData.Agent">
+            <summary>
+            Agent name
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:SharedPluginFeatures.IRobotRouteData.Comment">
+            <summary>
+            Custom comment applied to the user defined route data
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:SharedPluginFeatures.IRobotRouteData.Route">
+            <summary>
+            User defined route
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:SharedPluginFeatures.IRobotRouteData.Allowed">
+            <summary>
+            Whether it is an allowed or denied route
+            </summary>
+            <value>bool</value>
+        </member>
+        <member name="P:SharedPluginFeatures.IRobotRouteData.IsCustom">
+            <summary>
+            Determines whether route is a custom user defined route, or one discovered via attributes
+            </summary>
+        </member>
+        <member name="T:SharedPluginFeatures.IRobots">
+            <summary>
+            Interface use to create a robots.txt file
+            </summary>
+        </member>
+        <member name="P:SharedPluginFeatures.IRobots.Agents">
+            <summary>
+            List of known user agents
+            </summary>
+            <value>List&lt;string&gt;</value>
+        </member>
+        <member name="P:SharedPluginFeatures.IRobots.DeniedRoutes">
+            <summary>
+            Returns a list of denied routes
+            </summary>
+            <value>List&lt;DeniedRoute&gt;</value>
+        </member>
+        <member name="P:SharedPluginFeatures.IRobots.CustomRoutes">
+            <summary>
+            Returns a list of user defined routes
+            </summary>
+            <value>List&lt;IRobotRouteData&gt;</value>
+        </member>
+        <member name="M:SharedPluginFeatures.IRobots.AgentAdd(System.String)">
+            <summary>
+            Adds a custom agent to the list of current agents.
+            </summary>
+            <param name="agentName">Name of agents</param>
+            <returns>bool</returns>
+            <exception cref="T:System.ArgumentNullException">Raised if agentName is null or an empty string.</exception>
+        </member>
+        <member name="M:SharedPluginFeatures.IRobots.AgentRemove(System.String)">
+            <summary>
+            Removes a custom agent from the list of current agents.
+            </summary>
+            <param name="agentName">Name of agents</param>
+            <returns>bool</returns>
+            <exception cref="T:System.ArgumentNullException">Raised if agentName is null or an empty string.</exception>
+        </member>
+        <member name="M:SharedPluginFeatures.IRobots.GetRoutes(System.String)">
+            <summary>
+            Returns all data on allowed and denied routes for an agent
+            </summary>
+            <param name="agent"></param>
+            <returns>List&lt;string&gt;</returns>
+        </member>
+        <member name="M:SharedPluginFeatures.IRobots.AddAllowedRoute(System.String,System.String)">
+            <summary>
+            Adds an allowed route to the custom list
+            </summary>
+            <param name="agent">Name of agent</param>
+            <param name="route">Route which will be allowed</param>
+            <returns>bool</returns>
+            <exception cref="T:System.ArgumentException">Raised if agent does not exists</exception>
+            <exception cref="T:System.ArgumentException">Raised if route is a duplicate entry</exception>
+            <exception cref="T:System.ArgumentNullException">Raised if agent is null or empty</exception>
+            <exception cref="T:System.ArgumentNullException">Raised if route is null or empty</exception>
+        </member>
+        <member name="M:SharedPluginFeatures.IRobots.AddDeniedRoute(System.String,System.String)">
+            <summary>
+            Adds a denied route to the custom list
+            </summary>
+            <param name="agent">Name of agent</param>
+            <param name="route">Route which will be denied</param>
+            <returns>bool</returns>
+        </member>
+        <member name="M:SharedPluginFeatures.IRobots.RemoveRoute(System.String,System.String)">
+            <summary>
+            Removes a previously added allowed or denied route, if found.
+            </summary>
+            <param name="agent">Name of agent</param>
+            <param name="route">Route that will be removed</param>
+            <returns>bool</returns>
+        </member>
+        <member name="M:SharedPluginFeatures.IRobots.SaveData(SharedPluginFeatures.ISaveData)">
+            <summary>
+            Method for saving custom data
+            </summary>
+            <param name="saveData">ISaveData instance</param>
+            <returns>bool</returns>
+            <exception cref="T:System.ArgumentNullException">Thrown if saveData is null</exception>
+        </member>
+        <member name="M:SharedPluginFeatures.IRobots.LoadData(SharedPluginFeatures.ILoadData)">
+            <summary>
+            Method used to load custom data
+            </summary>
+            <param name="loadData">ILoadData instance</param>
+            <returns>bool</returns>
+            <exception cref="T:System.ArgumentNullException">Thrown if loadData is null</exception>
+        </member>
         <member name="T:SharedPluginFeatures.IRouteDataService">
             <summary>
             This interface is implemented by the AspNetCore.PluginManager and will determine a valid
@@ -2708,6 +2911,21 @@
             <param name="method"></param>
             <param name="routeProvider">IActionDescriptorCollectionProvider instance obtained using DI.</param>
             <returns></returns>
+        </member>
+        <member name="T:SharedPluginFeatures.ISaveData">
+            <summary>
+            Interface used for persisting data to storage, the type of storage used will depend on the implementation
+            </summary>
+        </member>
+        <member name="M:SharedPluginFeatures.ISaveData.Save``1(``0,System.String@,System.String@)">
+            <summary>
+            Saves data
+            </summary>
+            <typeparam name="T">Type of data to be saved</typeparam>
+            <param name="data">Data to be saved</param>
+            <param name="location">Storage location</param>
+            <param name="name">Name of storage</param>
+            <returns>bool</returns>
         </member>
         <member name="T:SharedPluginFeatures.ISeoProvider">
             <summary>
@@ -3229,6 +3447,13 @@
         <member name="M:SharedPluginFeatures.BaseMiddleware.GetIpAddress(Microsoft.AspNetCore.Http.HttpContext@)">
             <summary>
             Retrieves the current Ip address for the current request.
+            </summary>
+            <param name="context">Valid HttpContext for the request.</param>
+            <returns>string</returns>
+        </member>
+        <member name="M:SharedPluginFeatures.BaseMiddleware.GetUserAgent(Microsoft.AspNetCore.Http.HttpContext@)">
+            <summary>
+            Returns the user agent from the HttpContext
             </summary>
             <param name="context">Valid HttpContext for the request.</param>
             <returns>string</returns>

@@ -34,6 +34,7 @@ using SharedPluginFeatures;
 
 using Constants = SharedPluginFeatures.Constants;
 using pm = PluginManager.Internal;
+using sl = Shared.Classes;
 
 namespace AspNetCore.PluginManager.Tests
 {
@@ -50,6 +51,10 @@ namespace AspNetCore.PluginManager.Tests
         protected static TestPluginManager _testPluginLogin = new TestPluginManager();
         protected static bool? _pluginLoadedLogin = null;
         protected static IPluginClassesService _pluginServicesLogin;
+
+        protected static TestPluginManager _testPluginSpider = new TestPluginManager();
+        protected static bool? _pluginLoadedSpider = null;
+        protected static IPluginClassesService _pluginServicesSpider;
 
         protected static TestPluginManager _testPluginDocs = new TestPluginManager();
         protected static bool? _pluginLoadedDocs = null;
@@ -90,7 +95,7 @@ namespace AspNetCore.PluginManager.Tests
                 TimeSpan docLoadTime = new TimeSpan(0, 0, 30);
                 DateTime startLoadDocs = DateTime.Now;
 
-                while (Shared.Classes.ThreadManager.Exists(SharedPluginFeatures.Constants.DocumentationLoadThread))
+                while (sl.ThreadManager.Exists(SharedPluginFeatures.Constants.DocumentationLoadThread))
                 {
                     System.Threading.Thread.Sleep(100);
 
@@ -98,7 +103,7 @@ namespace AspNetCore.PluginManager.Tests
                         break;
                 }
 
-                Assert.IsFalse(Shared.Classes.ThreadManager.Exists(Constants.DocumentationLoadThread));
+                Assert.IsFalse(sl.ThreadManager.Exists(Constants.DocumentationLoadThread));
 
                 _documentationService = (IDocumentationService)_testPluginDocs.GetServiceProvider()
                     .GetService(typeof(IDocumentationService));
@@ -214,6 +219,43 @@ namespace AspNetCore.PluginManager.Tests
             }
 
             Assert.IsNotNull(_pluginServicesBadEgg);
+
+        }
+
+        protected void InitializeSpiderPluginManager()
+        {
+            lock (_testPluginSpider)
+            {
+                while (_pluginLoadedSpider.HasValue && !_pluginLoadedSpider.Value)
+                {
+                    System.Threading.Thread.Sleep(30);
+                }
+
+                if (_pluginLoadedSpider.HasValue && _pluginLoadedSpider.Value)
+                {
+                    return;
+                }
+
+                if (_pluginLoadedSpider == null)
+                {
+                    _pluginLoadedSpider = false;
+                }
+
+                _testPluginSpider.AddAssembly(Assembly.GetExecutingAssembly());
+                _testPluginSpider.UsePlugin(typeof(DemoWebsite.Classes.PluginInitialisation));
+                _testPluginSpider.UsePlugin(typeof(MemoryCache.Plugin.PluginInitialisation));
+                _testPluginSpider.UsePlugin(typeof(LoginPlugin.PluginInitialisation));
+                _testPluginSpider.UsePlugin(typeof(Spider.Plugin.PluginInitialisation));
+                _testPluginSpider.UsePlugin(typeof(LoginPlugin.PluginInitialisation));
+
+                _testPluginSpider.ConfigureServices();
+
+                _pluginServicesSpider = new pm.PluginServices(_testPluginSpider) as IPluginClassesService;
+
+                _pluginLoadedSpider = true;
+            }
+
+            Assert.IsNotNull(_pluginServicesSpider);
 
         }
     }

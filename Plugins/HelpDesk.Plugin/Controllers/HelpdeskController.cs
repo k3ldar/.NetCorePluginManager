@@ -87,6 +87,7 @@ namespace HelpdeskPlugin.Controllers
 
 
         [HttpGet]
+        [DenySpider]
         public ActionResult GetCaptchaImage()
         {
             HelpdeskCacheItem loginCacheItem = GetCachedHelpdeskItem(false);

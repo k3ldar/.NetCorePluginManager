@@ -59,6 +59,7 @@ namespace SharedPluginFeatures
         /// </summary>
         /// <param name="userAgent">Specify the specific user agent that is to be denied access to the route.</param>
         /// <param name="comment">Comment to be included in the automatically generated robots.txt file.</param>
+        /// <exception cref="ArgumentNullException">Raised if userAgent is null or empty.</exception>
         public DenySpiderAttribute(string userAgent, string comment)
         {
             if (String.IsNullOrEmpty(userAgent))
@@ -75,12 +76,19 @@ namespace SharedPluginFeatures
         /// <summary>
         /// The user agent that is to be denied access to the route.
         /// </summary>
+        /// <value>string</value>
         public string UserAgent { get; private set; }
 
         /// <summary>
         /// Optional comment that will appear in the robots.txt file.
         /// </summary>
+        /// <value>string</value>
         public string Comment { get; private set; }
+
+        /// <summary>
+        /// Route associated with the Deny attribute
+        /// </summary>
+        public string Route { get; set; }
 
         #endregion Properties
     }

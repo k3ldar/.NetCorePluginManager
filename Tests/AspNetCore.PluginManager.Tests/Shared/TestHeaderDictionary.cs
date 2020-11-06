@@ -59,7 +59,13 @@ namespace AspNetCore.PluginManager.Tests
                 return _headerDictionary[key];
             }
 
-            set => throw new NotImplementedException();
+            set
+            {
+                if (ContainsKey(key))
+                    Remove(key);
+
+                Add(key, value);
+            }
         }
 
         public Int64? ContentLength { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
@@ -109,7 +115,7 @@ namespace AspNetCore.PluginManager.Tests
 
         public Boolean Remove(String key)
         {
-            throw new NotImplementedException();
+            return _headerDictionary.Remove(key);
         }
 
         public Boolean Remove(KeyValuePair<String, StringValues> item)
