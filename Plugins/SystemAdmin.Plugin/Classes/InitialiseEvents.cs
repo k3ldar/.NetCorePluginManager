@@ -29,6 +29,8 @@ using System.Collections.Generic;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 
+using Shared.Classes;
+
 using SharedPluginFeatures;
 
 #pragma warning disable CS1591
@@ -41,7 +43,7 @@ namespace SystemAdmin.Plugin.Classes
 
         public void AfterConfigure(in IApplicationBuilder app)
         {
-
+            ThreadManager.ThreadStart(new GCAnalysis(), nameof(GCAnalysis), System.Threading.ThreadPriority.Lowest);
         }
 
         public void AfterConfigureServices(in IServiceCollection services)
