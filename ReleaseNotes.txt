@@ -1,3 +1,8 @@
+Version 4.1.0
+=============
+
+#123 Add GC statistics to SystemAdmin
+
 Version 4.0.0
 =============
 
