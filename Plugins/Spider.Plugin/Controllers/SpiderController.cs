@@ -25,6 +25,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -46,14 +47,16 @@ namespace Spider.Plugin.Controllers
         #region Private Members
 
         private readonly IRobots _robots;
+        private readonly ISaveData _saveData;
 
         #endregion Private Members
 
         #region Constructors
 
-        public SpiderController(IRobots robots)
+        public SpiderController(IRobots robots, ISaveData saveData)
         {
             _robots = robots ?? throw new ArgumentNullException(nameof(robots));
+            _saveData = saveData ?? throw new ArgumentNullException(nameof(saveData));
         }
 
         #endregion Constructors
@@ -84,11 +87,79 @@ namespace Spider.Plugin.Controllers
             if (String.IsNullOrEmpty(model.Route))
                 ModelState.AddModelError(nameof(EditRobotsModel.Route), "Invalid Route");
 
+            if (_robots.DeniedRoutes.Where(dr => 
+                dr.UserAgent.Equals(model.AgentName, StringComparison.InvariantCultureIgnoreCase) && 
+                dr.Route.Equals(model.Route, StringComparison.InvariantCultureIgnoreCase)).Any())
+            {
+                ModelState.AddModelError(String.Empty, "Route already exists");
+            }
+
+            if (_robots.CustomRoutes.Where(cr =>
+                cr.Agent.Equals(model.AgentName, StringComparison.InvariantCultureIgnoreCase) &&
+                cr.Route.Equals(model.Route, StringComparison.InvariantCultureIgnoreCase)).Any())
+            {
+                ModelState.AddModelError(String.Empty, "Custom route already exists");
+            }
 
             if (!ModelState.IsValid)
                 return CreateDefaultPartialView();
 
-            throw new NotImplementedException();
+            if (!_robots.Agents.Where(a => a.Equals(model.AgentName, StringComparison.InvariantCultureIgnoreCase)).Any())
+            {
+                _robots.AgentAdd(model.AgentName);
+            }
+
+            if (model.Allowed)
+            {
+                _robots.AddAllowedRoute(model.AgentName, model.Route);
+            }
+            else
+            {
+                _robots.AddDeniedRoute(model.AgentName, model.Route);
+            }
+
+            _robots.SaveData(_saveData);
+
+            return CreateDefaultPartialView();
+        }
+
+        public IActionResult DeleteCustomRoute(EditRobotsModel model)
+        {
+            if (model == null)
+                return CreateDefaultPartialView();
+
+            if (String.IsNullOrEmpty(model.AgentName))
+                ModelState.AddModelError(nameof(model.AgentName), "Invalid agent name");
+
+            if (String.IsNullOrEmpty(model.Route))
+                ModelState.AddModelError(nameof(model.Route), "Invalid route");
+
+            DeniedRoute deniedRoute = _robots.DeniedRoutes.Where(cr =>
+                cr.UserAgent.Equals(model.AgentName, StringComparison.InvariantCultureIgnoreCase) &&
+                cr.Route.Equals(model.Route, StringComparison.InvariantCultureIgnoreCase)).FirstOrDefault();
+
+            if (deniedRoute != null)
+                ModelState.AddModelError(String.Empty, "Unable to delete non custom route");
+
+            if (!ModelState.IsValid)
+                return CreateDefaultPartialView();
+
+            IRobotRouteData customRoute = _robots.CustomRoutes.Where(cr =>
+                cr.Agent.Equals(model.AgentName, StringComparison.InvariantCultureIgnoreCase) &&
+                cr.Route.Equals(model.Route, StringComparison.InvariantCultureIgnoreCase) &&
+                cr.IsCustom).FirstOrDefault();
+
+            if (customRoute == null)
+                ModelState.AddModelError(String.Empty, "Custom route not found");
+
+            if (!ModelState.IsValid)
+                return CreateDefaultPartialView();
+
+            _robots.RemoveRoute(customRoute.Agent, customRoute.Route);
+
+            _robots.SaveData(_saveData);
+
+            return CreateDefaultPartialView();
         }
 
         #endregion Controller Action Methods
@@ -106,7 +177,12 @@ namespace Spider.Plugin.Controllers
 
             foreach (DeniedRoute deniedRoute in _robots.DeniedRoutes)
             {
-                customAgents.Add(new CustomAgentModel(deniedRoute.UserAgent, deniedRoute.Route, true, String.Empty));
+                customAgents.Add(new CustomAgentModel(deniedRoute.UserAgent, deniedRoute.Route, false, false, String.Empty));
+            }
+
+            foreach (IRobotRouteData customRoute in _robots.CustomRoutes)
+            {
+                customAgents.Add(new CustomAgentModel(customRoute.Agent, customRoute.Route, customRoute.Allowed, true, customRoute.Comment));
             }
 
             return new EditRobotsModel(GetModelData(), _robots.Agents, customAgents);

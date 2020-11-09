@@ -2880,14 +2880,6 @@
             <returns>bool</returns>
             <exception cref="T:System.ArgumentNullException">Thrown if saveData is null</exception>
         </member>
-        <member name="M:SharedPluginFeatures.IRobots.LoadData(SharedPluginFeatures.ILoadData)">
-            <summary>
-            Method used to load custom data
-            </summary>
-            <param name="loadData">ILoadData instance</param>
-            <returns>bool</returns>
-            <exception cref="T:System.ArgumentNullException">Thrown if loadData is null</exception>
-        </member>
         <member name="T:SharedPluginFeatures.IRouteDataService">
             <summary>
             This interface is implemented by the AspNetCore.PluginManager and will determine a valid

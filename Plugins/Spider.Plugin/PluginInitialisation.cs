@@ -25,6 +25,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
 
+using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 
 using PluginManager.Abstractions;
@@ -41,7 +42,7 @@ namespace Spider.Plugin
     /// Implements IPlugin which allows the Spider.Plugin module to be
     /// loaded as a plugin module
     /// </summary>
-    public sealed class PluginInitialisation : IPlugin
+    public sealed class PluginInitialisation : IPlugin, IInitialiseEvents
     {
         #region Constructors
 
@@ -50,6 +51,35 @@ namespace Spider.Plugin
         }
 
         #endregion Constructors
+
+        #region IInitialiseEvents Methods
+
+        public void AfterConfigure(in IApplicationBuilder app)
+        {
+
+        }
+
+        public void AfterConfigureServices(in IServiceCollection services)
+        {
+
+        }
+
+        public void BeforeConfigure(in IApplicationBuilder app)
+        {
+            app.UseSpider();
+        }
+
+        public void BeforeConfigureServices(in IServiceCollection services)
+        {
+
+        }
+
+        public void Configure(in IApplicationBuilder app)
+        {
+
+        }
+
+        #endregion IInitialiseEvents Methods
 
         #region Internal Static Properties
 

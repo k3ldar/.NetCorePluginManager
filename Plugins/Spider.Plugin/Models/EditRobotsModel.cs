@@ -41,11 +41,11 @@ namespace Spider.Plugin.Models
 
         }
 
-        public EditRobotsModel(BaseModelData modelData, List<string> agents, List<CustomAgentModel> customAgents)
+        public EditRobotsModel(BaseModelData modelData, List<string> agents, List<CustomAgentModel> routes)
             : base(modelData)
         {
             Agents = agents ?? throw new ArgumentNullException(nameof(agents));
-            CustomAgents = customAgents ?? throw new ArgumentNullException(nameof(customAgents));
+            Routes = routes ?? throw new ArgumentNullException(nameof(routes));
         }
 
         #endregion Constructors
@@ -54,7 +54,7 @@ namespace Spider.Plugin.Models
 
         public List<string> Agents { get; private set; }
 
-        public List<CustomAgentModel> CustomAgents { get; private set; }
+        public List<CustomAgentModel> Routes { get; private set; }
 
         public bool Allowed { get; set; }
 

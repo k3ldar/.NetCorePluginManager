@@ -78,7 +78,8 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
                 settingsProvider,
                 new TestLogger(),
                 new TestNotificationService(),
-                new Robots(new TestActionDescriptorCollectionProvider(actionDescriptorCollection), new RouteDataServices(), pluginTypesServices));
+                new Robots(new TestActionDescriptorCollectionProvider(actionDescriptorCollection), 
+                    new RouteDataServices(), pluginTypesServices, new MockLoadData()));
 
         }
 
@@ -113,7 +114,7 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
                 null,
                 new TestLogger(),
                 new TestNotificationService(),
-                new Robots(new TestActionDescriptorCollectionProvider(actionDescriptorCollection), new RouteDataServices(), pluginTypesServices));
+                new Robots(new TestActionDescriptorCollectionProvider(actionDescriptorCollection), new RouteDataServices(), pluginTypesServices, new MockLoadData()));
         }
 
         [TestMethod]
@@ -130,7 +131,7 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
                 settingsProvider,
                 null,
                 new TestNotificationService(),
-                new Robots(new TestActionDescriptorCollectionProvider(actionDescriptorCollection), new RouteDataServices(), pluginTypesServices));
+                new Robots(new TestActionDescriptorCollectionProvider(actionDescriptorCollection), new RouteDataServices(), pluginTypesServices, new MockLoadData()));
         }
 
         [TestMethod]
@@ -147,7 +148,7 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
                 settingsProvider,
                 new TestLogger(),
                 null,
-                new Robots(new TestActionDescriptorCollectionProvider(actionDescriptorCollection), new RouteDataServices(), pluginTypesServices));
+                new Robots(new TestActionDescriptorCollectionProvider(actionDescriptorCollection), new RouteDataServices(), pluginTypesServices, new MockLoadData()));
         }
 
         [TestMethod]
@@ -318,7 +319,7 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
         {
             IPluginTypesService pluginTypesServices = new pm.PluginServices(_testPluginSpider) as IPluginTypesService;
 
-            new Robots(null, new RouteDataServices(), pluginTypesServices);
+            new Robots(null, new RouteDataServices(), pluginTypesServices, new MockLoadData());
         }
 
         [TestMethod]
@@ -359,7 +360,48 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
                 };
             ActionDescriptorCollection actionDescriptorCollection = new ActionDescriptorCollection(descriptors, 1);
 
-            new Robots(new TestActionDescriptorCollectionProvider(actionDescriptorCollection), null, pluginTypesServices);
+            new Robots(new TestActionDescriptorCollectionProvider(actionDescriptorCollection), null, pluginTypesServices, new MockLoadData());
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void Construct_Robot_InvalidSaveData_Throws_ArgumentNullException()
+        {
+            IPluginTypesService pluginTypesServices = new pm.PluginServices(_testPluginSpider) as IPluginTypesService;
+
+            var descriptors = new List<ActionDescriptor>()
+                {
+                    new ActionDescriptor()
+                    {
+                        DisplayName = "LoginPlugin.Controllers.LoginController",
+                        AttributeRouteInfo = new Microsoft.AspNetCore.Mvc.Routing.AttributeRouteInfo()
+                        {
+                            Template = "Test",
+                            Name = "Login"
+                        }
+                    },
+                    new ActionDescriptor()
+                    {
+                        DisplayName = "AspNetCore.PluginManager.DemoWebsite.Controllers.HomeController.Error",
+                        AttributeRouteInfo = new Microsoft.AspNetCore.Mvc.Routing.AttributeRouteInfo()
+                        {
+                            Template = "Home",
+                            Name = "Error"
+                        }
+                    },
+                    new ActionDescriptor()
+                    {
+                        DisplayName = "LoginPlugin.Controllers.LoginController.GetCaptchaImage",
+                        AttributeRouteInfo = new Microsoft.AspNetCore.Mvc.Routing.AttributeRouteInfo()
+                        {
+                            Template = "Login",
+                            Name = "Captcha"
+                        }
+                    }
+                };
+            ActionDescriptorCollection actionDescriptorCollection = new ActionDescriptorCollection(descriptors, 1);
+
+            new Robots(new TestActionDescriptorCollectionProvider(actionDescriptorCollection), new RouteDataServices(), pluginTypesServices, null);
         }
 
         [TestMethod]
@@ -398,7 +440,7 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
                 };
             ActionDescriptorCollection actionDescriptorCollection = new ActionDescriptorCollection(descriptors, 1);
 
-            new Robots(new TestActionDescriptorCollectionProvider(actionDescriptorCollection), new RouteDataServices(), null);
+            new Robots(new TestActionDescriptorCollectionProvider(actionDescriptorCollection), new RouteDataServices(), null, new MockLoadData());
         }
 
         [TestMethod]
@@ -481,6 +523,8 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
             var sut = CreateRobotsInstance();
             int currentAgentCount = sut.Agents.Count;
 
+            Assert.IsFalse(sut.Agents.Contains("testAgent"));
+
             bool agentAdded = sut.AgentAdd("testAgent");
             Assert.IsTrue(agentAdded);
             Assert.AreEqual(currentAgentCount + 1, sut.Agents.Count);
@@ -492,14 +536,11 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
 
             Assert.IsTrue(File.Exists(Path.Combine(rootPath, "Settings", "CustomRoutes", "Routes.dat")));
 
-            sut = CreateRobotsInstance();
-            currentAgentCount = sut.Agents.Count;
-
-            bool loaded = sut.LoadData(loadData);
-            Assert.IsTrue(loaded);
+            sut = CreateRobotsInstance(loadData);
 
             Directory.Delete(Path.Combine(rootPath, "Settings"), true);
 
+            Assert.IsTrue(sut.Agents.Contains("testAgent"));
             Assert.IsTrue(currentAgentCount < sut.Agents.Count);
         }
 
@@ -883,7 +924,7 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
             }
 
             return CreateSpiderMiddlewareInstance(testLogger,
-                new Robots(new TestActionDescriptorCollectionProvider(actionDescriptorCollection), new RouteDataServices(), pluginTypesServices),
+                new Robots(new TestActionDescriptorCollectionProvider(actionDescriptorCollection), new RouteDataServices(), pluginTypesServices, new MockLoadData()),
                 customNotification);
         }
 
@@ -904,7 +945,7 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
                 robots);
         }
 
-        private Robots CreateRobotsInstance()
+        private Robots CreateRobotsInstance(ILoadData loadData = null)
         {
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
             IPluginHelperService pluginServices = new pm.PluginServices(_testPluginSpider) as IPluginHelperService;
@@ -942,7 +983,10 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
                 };
             ActionDescriptorCollection actionDescriptorCollection = new ActionDescriptorCollection(descriptors, 1);
 
-            return new Robots(new TestActionDescriptorCollectionProvider(actionDescriptorCollection), new RouteDataServices(), pluginTypesServices);
+            if (loadData == null)
+                loadData = new MockLoadData();
+
+            return new Robots(new TestActionDescriptorCollectionProvider(actionDescriptorCollection), new RouteDataServices(), pluginTypesServices, loadData);
         }
 
         #endregion Private Methods

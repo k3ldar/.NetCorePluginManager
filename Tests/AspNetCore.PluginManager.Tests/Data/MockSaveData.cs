@@ -13,58 +13,50 @@
  *
  *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
- *  Product:  Spider.Plugin
+ *  Product:  AspNetCore.PluginManager.Tests
  *  
- *  File: CustomAgentModel.cs
+ *  File: MockSaveData.cs
  *
- *  Purpose:  
+ *  Purpose:  Mock ISaveData class
  *
  *  Date        Name                Reason
- *  02/11/2020  Simon Carter        Initially Created
+ *  08/11/2020  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
 using System;
 
-#pragma warning disable CS1591
+using SharedPluginFeatures;
 
-namespace Spider.Plugin.Models
+namespace AspNetCore.PluginManager.Tests
 {
-    public class CustomAgentModel
+    public sealed class MockSaveData : ISaveData
     {
         #region Constructors
 
-        public CustomAgentModel(string agent, string route, bool allowed, bool isCustom, string comment)
+        public MockSaveData(bool saveDataResponse = true)
         {
-            if (String.IsNullOrEmpty(agent))
-                throw new ArgumentNullException(nameof(agent));
-
-            if (String.IsNullOrEmpty(route))
-                throw new ArgumentNullException(nameof(route));
-
-            Agent = agent;
-            Route = route;
-            Allowed = allowed;
-            IsCustom = isCustom;
-            Comment = comment ?? String.Empty;
+            SaveDataResponse = saveDataResponse;
+            SaveDataCalled = false;
         }
 
         #endregion Constructors
 
+        #region ISaveData Methods
+
+        public Boolean Save<T>(T data, in String location, in String name)
+        {
+            SaveDataCalled = true;
+            return SaveDataResponse;
+        }
+
+        #endregion ISaveData Methods
+
         #region Properties
 
-        public string Agent { get; private set; }
+        public bool SaveDataCalled { get; private set; }
 
-        public string Comment { get; private set; }
-
-        public string Route { get; private set; }
-
-        public bool Allowed { get; private set; }
-
-        public bool IsCustom { get; private set; }
+        public bool SaveDataResponse { get; set; }
 
         #endregion Properties
     }
 }
-
-#pragma warning restore CS1591

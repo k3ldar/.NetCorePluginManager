@@ -51,7 +51,7 @@ namespace Spider.Plugin.Classes
         #region Constructors
 
         public Robots(IActionDescriptorCollectionProvider routeProvider, IRouteDataService routeDataService,
-            IPluginTypesService pluginTypesService)
+            IPluginTypesService pluginTypesService, ILoadData loadData)
         {
             if (routeProvider == null)
                 throw new ArgumentNullException(nameof(routeProvider));
@@ -62,9 +62,14 @@ namespace Spider.Plugin.Classes
             if (pluginTypesService == null)
                 throw new ArgumentNullException(nameof(pluginTypesService));
 
+            if (loadData == null)
+                throw new ArgumentNullException(nameof(loadData));
+
             _deniedSpiderRoutes = new List<DeniedRoute>();
             _agents = LoadSpiderData(routeProvider, routeDataService, pluginTypesService);
             _customRoutes = new List<RobotRouteData>();
+
+            LoadData(loadData);
         }
 
         #endregion Constructors
@@ -218,21 +223,19 @@ namespace Spider.Plugin.Classes
             return saveData.Save<List<RobotRouteData>>(_customRoutes, "CustomRoutes", "Routes");
         }
 
-        public bool LoadData(ILoadData loadData)
-        {
-            if (loadData == null)
-                throw new ArgumentNullException(nameof(loadData));
-
-            _customRoutes = loadData.Load<List<RobotRouteData>>("CustomRoutes", "Routes");
-
-            AddCustomRoutesToKnownAgents();
-
-            return true;
-        }
-
         #endregion IRobots Methods
 
         #region Private Methods
+
+        private void LoadData(ILoadData loadData)
+        {
+            List<RobotRouteData> customRobots = loadData.Load<List<RobotRouteData>>("CustomRoutes", "Routes");
+
+            if (customRobots != null)
+                _customRoutes = customRobots;
+
+            AddCustomRoutesToKnownAgents();
+        }
 
         private void AddCustomRoutesToKnownAgents()
         {

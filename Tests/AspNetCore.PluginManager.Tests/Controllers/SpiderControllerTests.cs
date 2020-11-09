@@ -27,6 +27,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -152,7 +153,7 @@ namespace AspNetCore.PluginManager.Tests.Controllers
 
             Assert.IsNotNull(model);
 
-            Assert.IsTrue(model.CustomAgents.Count > 1);
+            Assert.IsTrue(model.Routes.Count > 1);
             Assert.AreEqual("/Views/Spider/_systemRobots.cshtml", viewResult.ViewName);
         }
 
@@ -161,7 +162,7 @@ namespace AspNetCore.PluginManager.Tests.Controllers
         {
             EditRobotsModel sut = new EditRobotsModel();
             Assert.IsNotNull(sut);
-            Assert.IsNull(sut.CustomAgents);
+            Assert.IsNull(sut.Routes);
             Assert.IsNull(sut.Agents);
         }
 
@@ -249,13 +250,13 @@ namespace AspNetCore.PluginManager.Tests.Controllers
         }
 
         [TestMethod]
-        public void SpiderController_CreateCustomRoute_Invalid_AlreadyExists()
+        public void SpiderController_CreateCustomRoute_Invalid_AlreadyExistsInDeniedList()
         {
             SpiderController sut = CreateSpiderControllerInstance();
             EditRobotsModel model = new EditRobotsModel()
             { 
                 AgentName = "*",
-                Route = "/Home/Error"
+                Route = "/Home/Error/"
             };
 
             IActionResult response = sut.AddCustomRoute(model);
@@ -263,13 +264,253 @@ namespace AspNetCore.PluginManager.Tests.Controllers
             Assert.IsFalse(viewResult.ViewData.ModelState.ContainsKey(nameof(EditRobotsModel.Route)));
             Assert.IsFalse(viewResult.ViewData.ModelState.ContainsKey(nameof(EditRobotsModel.AgentName)));
             Assert.IsFalse(viewResult.ViewData.ModelState.IsValid);
+            Assert.IsTrue(viewResult.ViewData.ModelState.ErrorCount == 1);
+            Assert.IsTrue(viewResult.ViewData.ModelState.ContainsKey(String.Empty));
+            Assert.AreEqual("Route already exists", viewResult.ViewData.ModelState[String.Empty].Errors[0].ErrorMessage);
+        }
+
+        [TestMethod]
+        public void SpiderController_CreateCustomRoute_Invalid_AlreadyExistsInCustomList()
+        {
+            SpiderController sut = CreateSpiderControllerInstance(out IRobots robots);
+            robots.AgentAdd("testcustomAgent");
+            robots.AddAllowedRoute("testcustomAgent", "/MyRoute/");
+
+            EditRobotsModel model = new EditRobotsModel()
+            {
+                AgentName = "testCustomAgent",
+                Route = "/MyRoute/"
+            };
+
+            IActionResult response = sut.AddCustomRoute(model);
+            PartialViewResult viewResult = response as PartialViewResult;
+            Assert.IsFalse(viewResult.ViewData.ModelState.ContainsKey(nameof(EditRobotsModel.Route)));
+            Assert.IsFalse(viewResult.ViewData.ModelState.ContainsKey(nameof(EditRobotsModel.AgentName)));
+            Assert.IsFalse(viewResult.ViewData.ModelState.IsValid);
+            Assert.IsTrue(viewResult.ViewData.ModelState.ErrorCount == 1);
+            Assert.IsTrue(viewResult.ViewData.ModelState.ContainsKey(String.Empty));
+            Assert.AreEqual("Custom route already exists", viewResult.ViewData.ModelState[String.Empty].Errors[0].ErrorMessage);
+        }
+
+        [TestMethod]
+        public void SpiderController_CreateCustomRoute_ValidDeniedRoute()
+        {
+            SpiderController sut = CreateSpiderControllerInstance();
+
+            EditRobotsModel model = new EditRobotsModel()
+            {
+                AgentName = "testCustomAgent",
+                Route = "/MyRoute/"
+            };
+
+            IActionResult response = sut.AddCustomRoute(model);
+            PartialViewResult viewResult = response as PartialViewResult;
+            Assert.IsTrue(viewResult.ViewData.ModelState.IsValid);
+            Assert.IsTrue(viewResult.ViewData.ModelState.ErrorCount == 0);
+            EditRobotsModel returnModel = viewResult.Model as EditRobotsModel;
+
+            Assert.IsNotNull(returnModel);
+            Assert.IsTrue(returnModel.Agents.Contains(model.AgentName));
+
+            CustomAgentModel customAgentModel = returnModel.Routes
+                .Where(ca => 
+                    ca.Agent.Equals(model.AgentName) && 
+                    ca.Route.Equals(model.Route) && 
+                    ca.IsCustom && 
+                    !ca.Allowed)
+                .FirstOrDefault();
+
+            Assert.IsNotNull(customAgentModel);
+        }
+
+        [TestMethod]
+        public void SpiderController_CreateCustomRoute_ValidAllowedRoute()
+        {
+            MockSaveData mockSaveData = new MockSaveData();
+            SpiderController sut = CreateSpiderControllerInstance(out IRobots _, mockSaveData);
+
+            EditRobotsModel model = new EditRobotsModel()
+            {
+                AgentName = "testCustomAgent",
+                Route = "/MyAllowedRoute/",
+                Allowed = true
+            };
+
+            IActionResult response = sut.AddCustomRoute(model);
+            PartialViewResult viewResult = response as PartialViewResult;
+            Assert.IsTrue(viewResult.ViewData.ModelState.IsValid);
+            Assert.IsTrue(viewResult.ViewData.ModelState.ErrorCount == 0);
+            EditRobotsModel returnModel = viewResult.Model as EditRobotsModel;
+
+            Assert.IsNotNull(returnModel);
+            Assert.IsTrue(returnModel.Agents.Contains(model.AgentName));
+
+            CustomAgentModel customAgentModel = returnModel.Routes
+                .Where(ca =>
+                    ca.Agent.Equals(model.AgentName) &&
+                    ca.Route.Equals(model.Route) &&
+                    ca.IsCustom &&
+                    ca.Allowed)
+                .FirstOrDefault();
+
+            Assert.IsNotNull(customAgentModel);
+            Assert.IsTrue(mockSaveData.SaveDataCalled);
+        }
+
+        [TestMethod]
+        public void SpiderController_DeleteCustomRoute_Invalid_NullModel()
+        {
+            SpiderController sut = CreateSpiderControllerInstance();
+
+            IActionResult response = sut.DeleteCustomRoute(null);
+            PartialViewResult viewResult = response as PartialViewResult;
+            Assert.IsTrue(viewResult.ViewData.ModelState.IsValid);
+            Assert.IsNotNull(viewResult.Model);
+            EditRobotsModel model = viewResult.Model as EditRobotsModel;
+
+            Assert.IsNotNull(model);
+
+            Assert.AreEqual("/Views/Spider/_systemRobots.cshtml", viewResult.ViewName);
+        }
+
+        [TestMethod]
+        public void SpiderController_DeleteCustomRoute_Invalid_ModelAgent()
+        {
+            SpiderController sut = CreateSpiderControllerInstance();
+
+            EditRobotsModel model = new EditRobotsModel();
+
+            IActionResult response = sut.DeleteCustomRoute(model);
+            PartialViewResult viewResult = response as PartialViewResult;
+            Assert.IsFalse(viewResult.ViewData.ModelState.IsValid);
+            Assert.IsNotNull(viewResult.Model);
+
+            EditRobotsModel returnModel = viewResult.Model as EditRobotsModel;
+
+            Assert.IsNotNull(returnModel);
+
+            Assert.IsTrue(viewResult.ViewData.ModelState.ContainsKey(nameof(EditRobotsModel.AgentName)));
             Assert.IsTrue(viewResult.ViewData.ModelState.ErrorCount > 0);
-            //Assert.IsTrue(viewResult.ViewData.ModelState.ContainsKey())
+            Assert.AreEqual("Invalid agent name", viewResult.ViewData.ModelState[nameof(EditRobotsModel.AgentName)].Errors[0].ErrorMessage);
+        }
+
+        [TestMethod]
+        public void SpiderController_DeleteCustomRoute_Invalid_ModelRoute()
+        {
+            SpiderController sut = CreateSpiderControllerInstance();
+
+            EditRobotsModel model = new EditRobotsModel()
+            { 
+                AgentName = "MyCoolAgent"
+            };
+
+            IActionResult response = sut.DeleteCustomRoute(model);
+            PartialViewResult viewResult = response as PartialViewResult;
+            Assert.IsFalse(viewResult.ViewData.ModelState.IsValid);
+            Assert.IsNotNull(viewResult.Model);
+
+            EditRobotsModel returnModel = viewResult.Model as EditRobotsModel;
+
+            Assert.IsNotNull(returnModel);
+
+            Assert.IsTrue(viewResult.ViewData.ModelState.ContainsKey(nameof(EditRobotsModel.Route)));
+            Assert.IsTrue(viewResult.ViewData.ModelState.ErrorCount > 0);
+            Assert.AreEqual("Invalid route", viewResult.ViewData.ModelState[nameof(EditRobotsModel.Route)].Errors[0].ErrorMessage);
+        }
+
+        [TestMethod]
+        public void SpiderController_DeleteCustomRoute_Invalid_CanNotDeleteNonCustomRoute()
+        {
+            SpiderController sut = CreateSpiderControllerInstance();
+
+            EditRobotsModel model = new EditRobotsModel()
+            {
+                AgentName = "*",
+                Route = "/home/error/"
+            };
+
+            IActionResult response = sut.DeleteCustomRoute(model);
+            PartialViewResult viewResult = response as PartialViewResult;
+            Assert.IsFalse(viewResult.ViewData.ModelState.IsValid);
+            Assert.IsNotNull(viewResult.Model);
+
+            EditRobotsModel returnModel = viewResult.Model as EditRobotsModel;
+
+            Assert.IsNotNull(returnModel);
+
+            Assert.IsTrue(viewResult.ViewData.ModelState.ContainsKey(String.Empty));
+            Assert.IsTrue(viewResult.ViewData.ModelState.ErrorCount > 0);
+            Assert.AreEqual("Unable to delete non custom route", viewResult.ViewData.ModelState[String.Empty].Errors[0].ErrorMessage);
+        }
+
+        [TestMethod]
+        public void SpiderController_DeleteCustomRoute_Invalid_CustomRouteNotFound()
+        {
+            SpiderController sut = CreateSpiderControllerInstance();
+
+            EditRobotsModel model = new EditRobotsModel()
+            {
+                AgentName = "myCustomRoute",
+                Route = "/home/error/"
+            };
+
+            IActionResult response = sut.DeleteCustomRoute(model);
+            PartialViewResult viewResult = response as PartialViewResult;
+            Assert.IsFalse(viewResult.ViewData.ModelState.IsValid);
+            Assert.IsNotNull(viewResult.Model);
+
+            EditRobotsModel returnModel = viewResult.Model as EditRobotsModel;
+
+            Assert.IsNotNull(returnModel);
+
+            Assert.IsTrue(viewResult.ViewData.ModelState.ContainsKey(String.Empty));
+            Assert.IsTrue(viewResult.ViewData.ModelState.ErrorCount > 0);
+            Assert.AreEqual("Custom route not found", viewResult.ViewData.ModelState[String.Empty].Errors[0].ErrorMessage);
+        }
+
+        [TestMethod]
+        public void SpiderController_DeleteCustomRoute_Valid_CustomRouteDeleted()
+        {
+            MockSaveData mockSaveData = new MockSaveData();
+            SpiderController sut = CreateSpiderControllerInstance(out IRobots robots, mockSaveData);
+            robots.AgentAdd("myCustomRoute");
+            robots.AddAllowedRoute("myCustomRoute", "/MyCustom/Route/");
+
+            EditRobotsModel model = new EditRobotsModel()
+            {
+                AgentName = "myCustomRoute",
+                Route = "/MyCustom/Route/"
+            };
+
+            IActionResult response = sut.DeleteCustomRoute(model);
+            PartialViewResult viewResult = response as PartialViewResult;
+            Assert.IsTrue(viewResult.ViewData.ModelState.IsValid);
+            Assert.IsNotNull(viewResult.Model);
+
+            EditRobotsModel returnModel = viewResult.Model as EditRobotsModel;
+
+            Assert.IsNotNull(returnModel);
+
+            CustomAgentModel customAgentModel = returnModel.Routes
+                .Where(r => r.Agent.Equals(model.AgentName) && r.Route.Equals(model.Route))
+                .FirstOrDefault();
+            Assert.IsNull(customAgentModel);
+            Assert.IsTrue(mockSaveData.SaveDataCalled);
         }
 
         #region Private Methods
 
         private SpiderController CreateSpiderControllerInstance(bool createDescriptors = true)
+        {
+            return CreateSpiderControllerInstance(out IRobots _, new MockSaveData(), createDescriptors);
+        }
+
+        private SpiderController CreateSpiderControllerInstance(out IRobots robots)
+        {
+            return CreateSpiderControllerInstance(out robots, new MockSaveData());
+        }
+
+        private SpiderController CreateSpiderControllerInstance(out IRobots robots, MockSaveData mockSaveData, bool createDescriptors = true)
         {
             IPluginTypesService pluginTypesServices = new pm.PluginServices(_testSpiderPlugin) as IPluginTypesService;
 
@@ -315,9 +556,10 @@ namespace AspNetCore.PluginManager.Tests.Controllers
                 actionDescriptorCollection = new ActionDescriptorCollection(new List<ActionDescriptor>(), 1);
             }
 
-            IRobots robots = new Robots(new TestActionDescriptorCollectionProvider(actionDescriptorCollection), new RouteDataServices(), pluginTypesServices);
+            robots = new Robots(new TestActionDescriptorCollectionProvider(actionDescriptorCollection), 
+                new RouteDataServices(), pluginTypesServices, new MockLoadData());
 
-            SpiderController Result = new SpiderController(robots);
+            SpiderController Result = new SpiderController(robots, mockSaveData);
 
             Result.ControllerContext = CreateTestControllerContext();
 

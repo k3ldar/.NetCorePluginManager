@@ -13,57 +13,47 @@
  *
  *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
- *  Product:  Spider.Plugin.Plugin
+ *  Product:  AspNetCore.PluginManager.Tests
  *  
- *  File: InitialiseEvents.cs
+ *  File: MockLoadData.cs
  *
- *  Purpose:  Initialisation events
+ *  Purpose:  Mock ILoadData class
  *
  *  Date        Name                Reason
- *  07/01/2020  Simon Carter        Initially Created
+ *  08/11/2020  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.DependencyInjection;
+using System;
 
 using SharedPluginFeatures;
 
-#pragma warning disable CS1591
-
-namespace Spider.Plugin.Classes
+namespace AspNetCore.PluginManager.Tests
 {
-    public class InitialiseEvents : IInitialiseEvents
+    public sealed class MockLoadData : ILoadData
     {
-        #region IInitialiseEvents Methods
+        #region Constructors
 
-        public void AfterConfigure(in IApplicationBuilder app)
+        public MockLoadData()
         {
-
+            LoadDataCalled = false;
         }
 
-        public void AfterConfigureServices(in IServiceCollection services)
+        #endregion Constructors
+
+        #region ILoadData Methods
+
+        public T Load<T>(in String location, in String name)
         {
-
-
+            LoadDataCalled = true;
+            return (T)Activator.CreateInstance(typeof(T));
         }
 
-        public void BeforeConfigure(in IApplicationBuilder app)
-        {
-            app.UseSpider();
-        }
+        #endregion ILoadData Methods
 
-        public void BeforeConfigureServices(in IServiceCollection services)
-        {
+        #region Properties
 
-        }
+        public bool LoadDataCalled { get; private set; }
 
-        public void Configure(in IApplicationBuilder app)
-        {
-
-        }
-
-        #endregion IInitialiseEvents Methods
+        #endregion Properties
     }
 }
-
-#pragma warning restore CS1591

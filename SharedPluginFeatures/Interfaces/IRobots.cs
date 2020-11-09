@@ -111,13 +111,5 @@ namespace SharedPluginFeatures
         /// <returns>bool</returns>
         /// <exception cref="ArgumentNullException">Thrown if saveData is null</exception>
         bool SaveData(ISaveData saveData);
-
-        /// <summary>
-        /// Method used to load custom data
-        /// </summary>
-        /// <param name="loadData">ILoadData instance</param>
-        /// <returns>bool</returns>
-        /// <exception cref="ArgumentNullException">Thrown if loadData is null</exception>
-        bool LoadData(ILoadData loadData);
     }
 }
