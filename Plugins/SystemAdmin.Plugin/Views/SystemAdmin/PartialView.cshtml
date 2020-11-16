@@ -26,7 +26,17 @@
             cache: false,
             success: function (response) {
                 $('#pView').html(response);
+                systemAdmin.hookForms();
             },
         })
     });
+
+    var settings = {
+        partialViewContent: '#pView',
+        controllerRoot: '@Model.ControllerRoot',
+    }
+
+    systemAdmin.init(settings);
+
+
 </script>

@@ -134,6 +134,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Views\Spider\" />
     <Folder Include="wwwroot\images\Download\" />
   </ItemGroup>
 

@@ -38,7 +38,6 @@ using Spider.Plugin.Models;
 
 namespace Spider.Plugin.Controllers
 {
-    [LoggedIn]
     [RestrictedIpRoute("SystemAdminRoute")]
     [Authorize(Policy = SharedPluginFeatures.Constants.PolicyNameStaff)]
     [DenySpider]
@@ -70,12 +69,14 @@ namespace Spider.Plugin.Controllers
         #region Controller Action Methods
 
         [HttpGet]
+        [LoggedIn]
         public IActionResult Index()
         {
             return CreateDefaultPartialView();
         }
 
         [HttpPost]
+        [AjaxOnly]
         public IActionResult AddCustomRoute(EditRobotsModel model)
         {
             if (model == null)
@@ -87,8 +88,8 @@ namespace Spider.Plugin.Controllers
             if (String.IsNullOrEmpty(model.Route))
                 ModelState.AddModelError(nameof(EditRobotsModel.Route), "Invalid Route");
 
-            if (_robots.DeniedRoutes.Where(dr => 
-                dr.UserAgent.Equals(model.AgentName, StringComparison.InvariantCultureIgnoreCase) && 
+            if (_robots.DeniedRoutes.Where(dr =>
+                dr.UserAgent.Equals(model.AgentName, StringComparison.InvariantCultureIgnoreCase) &&
                 dr.Route.Equals(model.Route, StringComparison.InvariantCultureIgnoreCase)).Any())
             {
                 ModelState.AddModelError(String.Empty, "Route already exists");
@@ -123,6 +124,8 @@ namespace Spider.Plugin.Controllers
             return CreateDefaultPartialView();
         }
 
+        [HttpPost]
+        [AjaxOnly]
         public IActionResult DeleteCustomRoute(EditRobotsModel model)
         {
             if (model == null)

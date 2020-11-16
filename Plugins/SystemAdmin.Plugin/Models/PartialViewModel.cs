@@ -46,6 +46,7 @@ namespace SystemAdmin.Plugin.Models
 
 
             PartialView = $"/{subMenu.Controller()}/{subMenu.Action()}";
+            ControllerRoot = $"/{subMenu.Controller()}/";
         }
 
         #endregion Constructors
@@ -53,7 +54,10 @@ namespace SystemAdmin.Plugin.Models
         #region Public Properties
 
         public string Title { get; private set; }
+
         public string PartialView { get; private set; }
+
+        public string ControllerRoot { get; set; }
 
         #endregion Public Properties
     }

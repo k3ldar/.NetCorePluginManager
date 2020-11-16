@@ -25,7 +25,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
 using System.Collections.Generic;
-
+using System.ComponentModel.DataAnnotations;
 using SharedPluginFeatures;
 
 #pragma warning disable CS1591
@@ -58,8 +58,10 @@ namespace Spider.Plugin.Models
 
         public bool Allowed { get; set; }
 
+        [Required]
         public string Route { get; set; }
 
+        [Required]
         public string AgentName { get; set; }
 
         #endregion Properties

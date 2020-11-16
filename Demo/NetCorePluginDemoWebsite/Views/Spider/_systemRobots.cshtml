@@ -1,4 +1,10 @@
 ﻿@model Spider.Plugin.Models.EditRobotsModel
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
+<div class="row">
+<div class="col-sm-12">
+@Html.ValidationSummary(true, String.Empty, new { @class = "text-danger" })
+</div>
+</div>
 <div class="row">
 <div class="col-sm-12 col-lg-2">
 <h3>Existing Agents</h3>
@@ -7,11 +13,92 @@
 <p>@agent</p>
 }
 </div>
+</div>
+<div class="row">
+<div class="col-sm-12 col-lg-3">
+Agent Name
+</div>
+<div class="col-sm-12 col-lg-3">
+Route
+</div>
+<div class="col-sm-12 col-lg-3">
+Allowed
+</div>
+<div class="col-sm-12 col-lg-3">
+</div>
+</div>
+<div class="row">
 <div class="col-sm-12 col-lg-10">
-<h3>Existing Agents</h3>
+<h3>Existing Routes</h3>
+</div>
+</div>
 @foreach (Spider.Plugin.Models.CustomAgentModel customAgentModel in Model.Routes)
 {
-<p>@customAgentModel</p>
+if (customAgentModel.IsCustom)
+{
+using (Html.BeginForm(nameof(Spider.Plugin.Controllers.SpiderController.DeleteCustomRoute), Spider.Plugin.Controllers.SpiderController.Name, FormMethod.Post))
+{
+<input type="hidden" name="@nameof(Model.AgentName)" value="@customAgentModel.Agent" />
+<input type="hidden" name="@nameof(Model.Route)" value="@customAgentModel.Route" />
+<input type="hidden" name="@nameof(Model.Allowed)" value="@customAgentModel.Allowed.ToString()" />
+<div class="row" style="margin:0 0 8px 0;">
+<div class="col-sm-12 col-lg-3">
+@customAgentModel.Agent
+</div>
+<div class="col-sm-12 col-lg-3">
+@customAgentModel.Route
+</div>
+<div class="col-sm-12 col-lg-3">
+@customAgentModel.Allowed
+</div>
+<div class="col-sm-12 col-lg-3">
+<input class="btn btn-primary" type="submit" value="Delete" />
+</div>
+</div>
 }
+}
+else
+{
+<div class="row" style="margin:0 0 8px 0;">
+<div class="col-sm-12 col-lg-3">
+@customAgentModel.Agent
+</div>
+<div class="col-sm-12 col-lg-3">
+@customAgentModel.Route
+</div>
+<div class="col-sm-12 col-lg-3">
+@customAgentModel.Allowed
+</div>
+<div class="col-sm-12 col-lg-3">
 </div>
 </div>
+}
+}
+<div class="row">
+<div class="col-sm-12 col-lg-3">
+<h3>Add New Route</h3>
+</div>
+</div>
+@using (Html.BeginForm(nameof(Spider.Plugin.Controllers.SpiderController.AddCustomRoute), Spider.Plugin.Controllers.SpiderController.Name, FormMethod.Post))
+{
+<div class="row">
+<div class="col-sm-12 col-lg-4">
+@Html.LabelFor(m => m.AgentName)<br />
+@Html.TextBoxFor(m => m.AgentName, new { @class = "form-control" })
+@Html.ValidationMessageFor(m => m.AgentName)
+</div>
+<div class="col-sm-12 col-lg-4">
+@Html.LabelFor(m => m.Route)<br />
+@Html.TextBoxFor(m => m.Route, new { @class = "form-control" })
+@Html.ValidationMessageFor(m => m.Route)
+</div>
+<div class="col-sm-12 col-lg-2">
+@Html.LabelFor(m => m.Allowed)<br />
+@Html.CheckBoxFor(m => m.Allowed, new { @class = "form-check-label" })
+</div>
+<div class="col-sm-12 col-lg-2">
+<br />
+<input class="btn btn-primary" type="submit" value="Add" />
+</div>
+</div>
+}
