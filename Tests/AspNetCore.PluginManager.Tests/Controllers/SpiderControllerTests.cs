@@ -60,7 +60,6 @@ namespace AspNetCore.PluginManager.Tests.Controllers
         [TestMethod]
         public void SpiderController_ValidateAttributes()
         {
-            Assert.IsTrue(ClassHasAttribute<LoggedInAttribute>(typeof(SpiderController)));
             Assert.IsTrue(ClassHasAttribute<RestrictedIpRouteAttribute>(typeof(SpiderController)));
             Assert.IsTrue(ClassHasAttribute<AuthorizeAttribute>(typeof(SpiderController)));
             Assert.IsTrue(ClassHasAttribute<DenySpiderAttribute>(typeof(SpiderController)));
@@ -97,6 +96,7 @@ namespace AspNetCore.PluginManager.Tests.Controllers
         public void SpiderController_Index_ValidateAttributes()
         {
             Assert.IsTrue(MethodHasAttribute<HttpGetAttribute>(typeof(SpiderController), "Index"));
+            Assert.IsTrue(MethodHasAttribute<LoggedInAttribute>(typeof(SpiderController), "Index"));
             Assert.IsFalse(MethodHasAttribute<HttpPostAttribute>(typeof(SpiderController), "Index"));
             Assert.IsFalse(MethodHasAttribute<HttpDeleteAttribute>(typeof(SpiderController), "Index"));
             Assert.IsFalse(MethodHasAttribute<HttpPutAttribute>(typeof(SpiderController), "Index"));
@@ -167,7 +167,7 @@ namespace AspNetCore.PluginManager.Tests.Controllers
         }
 
         [TestMethod]
-        public void SpiderControllerModel_CreateCustomRoute_ValidateAttributes()
+        public void SpiderControllerModel_AddCustomRoute_ValidateAttributes()
         {
             Assert.IsTrue(MethodHasAttribute<HttpPostAttribute>(typeof(SpiderController), "AddCustomRoute"));
             Assert.IsFalse(MethodHasAttribute<HttpGetAttribute>(typeof(SpiderController), "AddCustomRoute"));
@@ -176,7 +176,7 @@ namespace AspNetCore.PluginManager.Tests.Controllers
         }
 
         [TestMethod]
-        public void SpiderController_CreateCustomRoute_NullModel()
+        public void SpiderController_AddCustomRoute_NullModel()
         {
             SpiderController sut = CreateSpiderControllerInstance();
 
@@ -192,7 +192,7 @@ namespace AspNetCore.PluginManager.Tests.Controllers
         }
 
         [TestMethod]
-        public void SpiderController_CreateCustomRoute_Invalid_NullAgentName_ReturnsInvalidModelState()
+        public void SpiderController_AddCustomRoute_Invalid_NullAgentName_ReturnsInvalidModelState()
         {
             SpiderController sut = CreateSpiderControllerInstance();
 
@@ -204,7 +204,7 @@ namespace AspNetCore.PluginManager.Tests.Controllers
         }
 
         [TestMethod]
-        public void SpiderController_CreateCustomRoute_Invalid_EmptyAgentName_ReturnsInvalidModelState()
+        public void SpiderController_AddCustomRoute_Invalid_EmptyAgentName_ReturnsInvalidModelState()
         {
             SpiderController sut = CreateSpiderControllerInstance();
 
@@ -216,7 +216,7 @@ namespace AspNetCore.PluginManager.Tests.Controllers
         }
 
         [TestMethod]
-        public void SpiderController_CreateCustomRoute_Invalid_NullRoute_ReturnsInvalidModelState()
+        public void SpiderController_AddCustomRoute_Invalid_NullRoute_ReturnsInvalidModelState()
         {
             SpiderController sut = CreateSpiderControllerInstance();
             EditRobotsModel model = new EditRobotsModel()
@@ -233,7 +233,7 @@ namespace AspNetCore.PluginManager.Tests.Controllers
         }
 
         [TestMethod]
-        public void SpiderController_CreateCustomRoute_Invalid_EmptyRoute_ReturnsInvalidModelState()
+        public void SpiderController_AddCustomRoute_Invalid_EmptyRoute_ReturnsInvalidModelState()
         {
             SpiderController sut = CreateSpiderControllerInstance();
             EditRobotsModel model = new EditRobotsModel()
@@ -250,7 +250,7 @@ namespace AspNetCore.PluginManager.Tests.Controllers
         }
 
         [TestMethod]
-        public void SpiderController_CreateCustomRoute_Invalid_AlreadyExistsInDeniedList()
+        public void SpiderController_AddCustomRoute_Invalid_AlreadyExistsInDeniedList()
         {
             SpiderController sut = CreateSpiderControllerInstance();
             EditRobotsModel model = new EditRobotsModel()
@@ -270,7 +270,7 @@ namespace AspNetCore.PluginManager.Tests.Controllers
         }
 
         [TestMethod]
-        public void SpiderController_CreateCustomRoute_Invalid_AlreadyExistsInCustomList()
+        public void SpiderController_AddCustomRoute_Invalid_AlreadyExistsInCustomList()
         {
             SpiderController sut = CreateSpiderControllerInstance(out IRobots robots);
             robots.AgentAdd("testcustomAgent");
@@ -293,7 +293,7 @@ namespace AspNetCore.PluginManager.Tests.Controllers
         }
 
         [TestMethod]
-        public void SpiderController_CreateCustomRoute_ValidDeniedRoute()
+        public void SpiderController_AddCustomRoute_ValidDeniedRoute()
         {
             SpiderController sut = CreateSpiderControllerInstance();
 
@@ -324,7 +324,7 @@ namespace AspNetCore.PluginManager.Tests.Controllers
         }
 
         [TestMethod]
-        public void SpiderController_CreateCustomRoute_ValidAllowedRoute()
+        public void SpiderController_AddCustomRoute_ValidAllowedRoute()
         {
             MockSaveData mockSaveData = new MockSaveData();
             SpiderController sut = CreateSpiderControllerInstance(out IRobots _, mockSaveData);
@@ -355,6 +355,16 @@ namespace AspNetCore.PluginManager.Tests.Controllers
 
             Assert.IsNotNull(customAgentModel);
             Assert.IsTrue(mockSaveData.SaveDataCalled);
+        }
+
+        [TestMethod]
+        public void SpiderController_AddCustomRoute_ValidateAttributes()
+        {
+            Assert.IsTrue(MethodHasAttribute<AjaxOnlyAttribute>(typeof(SpiderController), "AddCustomRoute"));
+            Assert.IsTrue(MethodHasAttribute<HttpPostAttribute>(typeof(SpiderController), "AddCustomRoute"));
+            Assert.IsFalse(MethodHasAttribute<HttpGetAttribute>(typeof(SpiderController), "AddCustomRoute"));
+            Assert.IsFalse(MethodHasAttribute<HttpDeleteAttribute>(typeof(SpiderController), "AddCustomRoute"));
+            Assert.IsFalse(MethodHasAttribute<HttpPutAttribute>(typeof(SpiderController), "AddCustomRoute"));
         }
 
         [TestMethod]
@@ -496,6 +506,16 @@ namespace AspNetCore.PluginManager.Tests.Controllers
                 .FirstOrDefault();
             Assert.IsNull(customAgentModel);
             Assert.IsTrue(mockSaveData.SaveDataCalled);
+        }
+
+        [TestMethod]
+        public void SpiderController_DeleteCustomRoute_ValidateAttributes()
+        {
+            Assert.IsTrue(MethodHasAttribute<AjaxOnlyAttribute>(typeof(SpiderController), "DeleteCustomRoute"));
+            Assert.IsTrue(MethodHasAttribute<HttpPostAttribute>(typeof(SpiderController), "DeleteCustomRoute"));
+            Assert.IsFalse(MethodHasAttribute<HttpGetAttribute>(typeof(SpiderController), "DeleteCustomRoute"));
+            Assert.IsFalse(MethodHasAttribute<HttpDeleteAttribute>(typeof(SpiderController), "DeleteCustomRoute"));
+            Assert.IsFalse(MethodHasAttribute<HttpPutAttribute>(typeof(SpiderController), "DeleteCustomRoute"));
         }
 
         #region Private Methods
