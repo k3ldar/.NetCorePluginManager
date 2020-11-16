@@ -30,6 +30,10 @@ using Microsoft.Extensions.DependencyInjection;
 
 using PluginManager.Abstractions;
 
+using SharedPluginFeatures;
+
+using Spider.Plugin.Classes;
+
 #pragma warning disable CS1591
 
 namespace Spider.Plugin
@@ -38,7 +42,7 @@ namespace Spider.Plugin
     /// Implements IPlugin which allows the Spider.Plugin module to be
     /// loaded as a plugin module
     /// </summary>
-    public sealed class PluginInitialisation : IPlugin
+    public sealed class PluginInitialisation : IPlugin, IInitialiseEvents
     {
         #region Constructors
 
@@ -48,9 +52,36 @@ namespace Spider.Plugin
 
         #endregion Constructors
 
-        #region Internal Static Properties
+        #region IInitialiseEvents Methods
 
-        internal static IServiceProvider GetServiceProvider { get; private set; }
+        public void AfterConfigure(in IApplicationBuilder app)
+        {
+
+        }
+
+        public void AfterConfigureServices(in IServiceCollection services)
+        {
+
+        }
+
+        public void BeforeConfigure(in IApplicationBuilder app)
+        {
+            app.UseSpider();
+        }
+
+        public void BeforeConfigureServices(in IServiceCollection services)
+        {
+
+        }
+
+        public void Configure(in IApplicationBuilder app)
+        {
+
+        }
+
+        #endregion IInitialiseEvents Methods
+
+        #region Internal Static Properties
 
         internal static ILogger GetLogger { get; private set; }
 
@@ -70,7 +101,7 @@ namespace Spider.Plugin
 
         public void ConfigureServices(IServiceCollection services)
         {
-            GetServiceProvider = services.BuildServiceProvider();
+            services.AddSingleton<IRobots, Robots>();
         }
 
         public ushort GetVersion()

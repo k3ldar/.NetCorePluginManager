@@ -48,6 +48,7 @@ namespace HelpdeskPlugin.Controllers
 
         [HttpGet]
         [Breadcrumb(nameof(SubmitTicket), HelpdeskController.Name, nameof(Index))]
+        [DenySpider]
         public IActionResult SubmitTicket()
         {
             if (!_settings.ShowTickets)
@@ -93,6 +94,7 @@ namespace HelpdeskPlugin.Controllers
 
         [HttpGet]
         [Breadcrumb(nameof(ViewTicket), HelpdeskController.Name, nameof(Index))]
+        [DenySpider]
         public IActionResult ViewTicket(int id)
         {
             HelpdeskTicket ticket = _helpdeskProvider.GetTicket(id);
@@ -125,6 +127,7 @@ namespace HelpdeskPlugin.Controllers
         }
 
         [HttpPost]
+        [DenySpider]
         public IActionResult TicketRespond(TicketResponseViewModel model)
         {
             if (model == null)
@@ -145,6 +148,7 @@ namespace HelpdeskPlugin.Controllers
 
         [HttpGet]
         [Breadcrumb(nameof(Languages.LanguageStrings.FindATicket), Name, nameof(Index))]
+        [DenySpider]
         public IActionResult FindTicket()
         {
             if (!_settings.ShowTickets)

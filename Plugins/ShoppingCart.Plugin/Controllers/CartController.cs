@@ -46,6 +46,7 @@ using ShoppingCartPlugin.Models;
 
 namespace ShoppingCartPlugin.Controllers
 {
+    [DenySpider]
     public partial class CartController : BaseController
     {
         #region Private Members

@@ -47,6 +47,7 @@ namespace UserAccount.Plugin.Controllers
 {
 #pragma warning disable CS1591
     [LoggedIn]
+    [DenySpider]
     public partial class AccountController : BaseController
     {
         #region Private Members
@@ -84,6 +85,9 @@ namespace UserAccount.Plugin.Controllers
             _licenceProvider = licenceProvider ?? throw new ArgumentNullException(nameof(licenceProvider));
             _userCultureChanged = userCultureChanged ?? throw new ArgumentNullException(nameof(userCultureChanged));
             _cultureProvider = cultureProvider ?? throw new ArgumentNullException(nameof(cultureProvider));
+
+            if (pluginHelperService == null)
+                throw new ArgumentNullException(nameof(pluginHelperService));
 
             if (countryProvider == null)
                 throw new ArgumentNullException(nameof(countryProvider));

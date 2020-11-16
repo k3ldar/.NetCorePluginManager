@@ -38,6 +38,7 @@ using PluginManager.Abstractions;
 using SharedPluginFeatures;
 
 using pm = PluginManager.Internal;
+using sl = Shared.Classes;
 
 #pragma warning disable IDE0059
 
@@ -85,7 +86,7 @@ namespace AspNetCore.PluginManager.Tests.Search
                 TimeSpan docLoadTime = new TimeSpan(0, 0, 30);
                 DateTime startLoadDocs = DateTime.Now;
 
-                while (Shared.Classes.ThreadManager.Exists(SharedPluginFeatures.Constants.DocumentationLoadThread))
+                while (sl.ThreadManager.Exists(SharedPluginFeatures.Constants.DocumentationLoadThread))
                 {
                     System.Threading.Thread.Sleep(100);
 
@@ -93,7 +94,7 @@ namespace AspNetCore.PluginManager.Tests.Search
                         break;
                 }
 
-                Assert.IsFalse(Shared.Classes.ThreadManager.Exists(SharedPluginFeatures.Constants.DocumentationLoadThread));
+                Assert.IsFalse(sl.ThreadManager.Exists(SharedPluginFeatures.Constants.DocumentationLoadThread));
 
                 _documentationService = (IDocumentationService)_documentationLoadPlugin.GetServiceProvider()
                     .GetService(typeof(IDocumentationService));
@@ -189,7 +190,7 @@ namespace AspNetCore.PluginManager.Tests.Search
         [TestMethod]
         public void FindAllProvidersAndRetrieveInstanciatedClasses()
         {
-            Assert.IsFalse(Shared.Classes.ThreadManager.Exists(SharedPluginFeatures.Constants.DocumentationLoadThread));
+            Assert.IsFalse(sl.ThreadManager.Exists(SharedPluginFeatures.Constants.DocumentationLoadThread));
 
             IDocumentationService documentationService = (IDocumentationService)_documentationLoadPlugin.GetServiceProvider()
                 .GetService(typeof(IDocumentationService));

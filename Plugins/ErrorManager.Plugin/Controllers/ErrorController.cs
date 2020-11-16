@@ -44,6 +44,7 @@ namespace ErrorManager.Plugin.Controllers
     /// <summary>
     /// Error Controller
     /// </summary>
+    [DenySpider]
     public class ErrorController : BaseController
     {
         #region Private Members

@@ -38,9 +38,9 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using PluginManager;
 using PluginManager.Abstractions;
 
-using SharedPluginFeatures;
-
 using Shared.Classes;
+
+using SharedPluginFeatures;
 
 #pragma warning disable IDE0034
 
@@ -118,6 +118,8 @@ namespace AspNetCore.PluginManager
 
             // if no minification engine has been added, add a default one now
             serviceProvider.TryAddTransient<IMinificationEngine, MinificationEngine>();
+            serviceProvider.TryAddSingleton<ISaveData>(new FileStorageSaveData(Logger, RootPath));
+            serviceProvider.TryAddSingleton<ILoadData>(new FileStorageLoadData(Logger, RootPath));
         }
 
         protected override void PreConfigurePluginServices(in IServiceCollection serviceProvider)
@@ -166,7 +168,7 @@ namespace AspNetCore.PluginManager
             IMinificationEngine minifyEngine = services.GetRequiredService<IMinificationEngine>();
             INotificationService notificationService = services.GetRequiredService<INotificationService>();
             object files = new object();
-            
+
 
             if (notificationService.RaiseEvent(Constants.NotificationEventMinifyFiles, null, null, ref files))
             {

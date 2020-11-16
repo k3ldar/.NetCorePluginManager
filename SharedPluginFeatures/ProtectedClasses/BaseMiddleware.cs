@@ -233,6 +233,18 @@ namespace SharedPluginFeatures
             return Result;
         }
 
+        /// <summary>
+        /// Returns the user agent from the HttpContext
+        /// </summary>
+        /// <param name="context">Valid HttpContext for the request.</param>
+        /// <returns>string</returns>
+        protected string GetUserAgent(in HttpContext context)
+        {
+            if (context == null)
+                throw new ArgumentNullException(nameof(context));
+
+            return context.Request.Headers[Constants.UserAgent].ToString();
+        }
 
         /// <summary>
         /// Retrieves a list of all local Ip Addresses on the current server.

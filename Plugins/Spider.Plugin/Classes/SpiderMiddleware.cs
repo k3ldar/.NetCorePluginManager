@@ -32,7 +32,6 @@ using System.Text;
 using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc.Infrastructure;
 
 using PluginManager;
 using PluginManager.Abstractions;
@@ -52,31 +51,27 @@ namespace Spider.Plugin
     {
         #region Private Members
 
-        private byte[] _spiderData;
-        private readonly List<DeniedRoute> _deniedSpiderRoutes;
         private readonly bool _userSessionManagerLoaded;
         private readonly RequestDelegate _next;
         private readonly bool _processStaticFiles;
         private readonly string _staticFileExtensions = Constants.StaticFileExtensions;
+        private readonly string _botTrap;
+        private readonly bool _useBotTrap;
         private readonly INotificationService _notificationService;
         private readonly ILogger _logger;
+        private readonly IRobots _robots;
 
         internal static Timings _timings = new Timings();
+        internal static Timings _botTrapTimings = new Timings();
 
         #endregion Private Members
 
         #region Constructors
 
-        public SpiderMiddleware(RequestDelegate next, IActionDescriptorCollectionProvider routeProvider,
-            IRouteDataService routeDataService, IPluginHelperService pluginHelperService,
-            IPluginTypesService pluginTypesService, ISettingsProvider settingsProvider,
-            ILogger logger, INotificationService notificationService)
+        public SpiderMiddleware(RequestDelegate next, IPluginHelperService pluginHelperService,
+            ISettingsProvider settingsProvider, ILogger logger,
+            INotificationService notificationService, IRobots robots)
         {
-            if (routeProvider == null)
-                throw new ArgumentNullException(nameof(routeProvider));
-
-            if (routeDataService == null)
-                throw new ArgumentNullException(nameof(routeDataService));
 
             if (pluginHelperService == null)
                 throw new ArgumentNullException(nameof(pluginHelperService));
@@ -84,20 +79,17 @@ namespace Spider.Plugin
             if (settingsProvider == null)
                 throw new ArgumentNullException(nameof(settingsProvider));
 
-            if (pluginTypesService == null)
-                throw new ArgumentNullException(nameof(pluginTypesService));
-
             _notificationService = notificationService ?? throw new ArgumentNullException(nameof(notificationService));
+            _robots = robots ?? throw new ArgumentNullException(nameof(robots));
 
             _next = next;
 
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _userSessionManagerLoaded = pluginHelperService.PluginLoaded(Constants.PluginNameUserSession, out int _);
 
-            _deniedSpiderRoutes = new List<DeniedRoute>();
-            LoadSpiderData(routeProvider, routeDataService, pluginTypesService);
-
-            SpiderSettings settings = settingsProvider.GetSettings<SpiderSettings>("Spider.Plugin");
+            SpiderSettings settings = settingsProvider.GetSettings<SpiderSettings>(Constants.SpiderSettings);
+            _botTrap = settings.BotTrapRoute;
+            _useBotTrap = !String.IsNullOrEmpty(_botTrap);
 
             _processStaticFiles = settings.ProcessStaticFiles;
 
@@ -128,12 +120,41 @@ namespace Spider.Plugin
             {
                 string route = RouteLowered(context);
 
-                if (route.EndsWith("/robots.txt"))
+                if (_useBotTrap && route.StartsWith(_botTrap))
+                {
+                    using (StopWatchTimer botTrapTimings = StopWatchTimer.Initialise(_botTrapTimings))
+                    {
+                        IBotTrap botTrapLogger = context.RequestServices.GetService(typeof(IBotTrap)) as IBotTrap;
+
+                        if (botTrapLogger == null)
+                        {
+                            context.Response.StatusCode = 403;
+                        }
+                        else
+                        {
+                            try
+                            {
+                                botTrapLogger.OnTrapEntered(GetIpAddress(context), GetUserAgent(context));
+                            }
+                            catch (Exception err)
+                            {
+                                _logger.AddToLog(LogLevel.Error, err, nameof(IBotTrap));
+                            }
+
+                            context.Response.StatusCode = 405;
+                        }
+
+                        return;
+                    }
+                }
+                else if (route.EndsWith("/robots.txt"))
                 {
                     context.Response.StatusCode = 200;
 
-                    // prepend sitemaps if there are any
+                    // append sitemaps if there are any
                     object notificationResult = new object();
+
+                    StringBuilder stringBuilder = new StringBuilder(LoadSpiderData());
 
                     if (_notificationService.RaiseEvent(Constants.NotificationSitemapNames, context, null, ref notificationResult))
                     {
@@ -144,19 +165,19 @@ namespace Spider.Plugin
 
                         if (sitemaps != null)
                         {
-                            StringBuilder stringBuilder = new StringBuilder();
+
                             string url = GetHost(context);
 
                             for (int i = 0; i < sitemaps.Length; i++)
                             {
-                                stringBuilder.Append($"Sitemap: {url}{sitemaps[i].Substring(1)}\r\n\r\n");
+                                stringBuilder.Append($"\r\n\r\nSitemap: {url}{sitemaps[i].Substring(1)}\n");
                             }
-
-                            await context.Response.WriteAsync(stringBuilder.ToString());
                         }
                     }
 
-                    context.Response.Body.Write(_spiderData, 0, _spiderData.Length);
+                    byte[] response = Encoding.UTF8.GetBytes(stringBuilder.ToString());
+                    await context.Response.Body.WriteAsync(response, 0, response.Length);
+                    return;
                 }
                 else
                 {
@@ -168,7 +189,7 @@ namespace Spider.Plugin
                             {
                                 UserSession userSession = (UserSession)context.Items[Constants.UserSession];
 
-                                foreach (DeniedRoute deniedRoute in _deniedSpiderRoutes)
+                                foreach (DeniedRoute deniedRoute in _robots.DeniedRoutes)
                                 {
                                     if (userSession.IsBot &&
                                         deniedRoute.Route.StartsWith(route) &&
@@ -189,6 +210,7 @@ namespace Spider.Plugin
                             catch (Exception err)
                             {
                                 _logger.AddToLog(LogLevel.Error, nameof(SpiderMiddleware), err, MethodBase.GetCurrentMethod().Name);
+                                throw;
                             }
                         }
                     }
@@ -202,68 +224,50 @@ namespace Spider.Plugin
 
         #region Private Methods
 
-        private void LoadSpiderData(IActionDescriptorCollectionProvider routeProvider,
-            IRouteDataService routeDataService, IPluginTypesService pluginTypesService)
+        private string LoadSpiderData()
         {
-            string spiderTextFile = String.Empty;
-            List<Type> spiderAttributes = pluginTypesService.GetPluginTypesWithAttribute<DenySpiderAttribute>();
+            StringBuilder spiderTextFile = new StringBuilder();
 
-            if (spiderAttributes.Count == 0)
+            if (_robots.Agents.Count == 0)
             {
-                spiderTextFile = "# Allow all from Spider.Plugin\r\n\r\nUser-agent: *";
+                spiderTextFile.Append("# Allow all from Spider.Plugin\r\n\r\nUser-agent: *\r\nAllow: /\r\n");
             }
             else
             {
-                // Cycle through all classes and methods which have the spider attribute
-                foreach (Type type in spiderAttributes)
+                string lastAgent = String.Empty;
+                spiderTextFile.Append("# Automatically genterated by Spider.Plugin\r\n");
+
+                foreach (string agent in _robots.Agents)
                 {
-                    // is it a class attribute
-                    DenySpiderAttribute attribute = (DenySpiderAttribute)type.GetCustomAttributes(true)
-                        .Where(a => a.GetType() == typeof(DenySpiderAttribute)).FirstOrDefault();
+                    List<string> routes = _robots.GetRoutes(agent);
 
-                    if (attribute != null)
+                    if (routes.Count == 0)
+                        continue;
+
+                    if (_useBotTrap && agent.Equals("*"))
+                        AddBotTrap(routes);
+
+                    if (!lastAgent.Equals(agent))
                     {
-                        string route = routeDataService.GetRouteFromClass(type, routeProvider);
-
-                        if (String.IsNullOrEmpty(route))
-                            continue;
-
-                        if (!String.IsNullOrEmpty(attribute.Comment))
-                            spiderTextFile += $"# {attribute.Comment}\r\n\r\n";
-
-                        spiderTextFile += $"User-agent: {attribute.UserAgent}\r\n";
-                        spiderTextFile += $"Disallow: /{route}/\r\n\r\n";
-
-                        _deniedSpiderRoutes.Add(new DeniedRoute($"/{route.ToLower()}/", attribute.UserAgent));
+                        lastAgent = agent;
+                        spiderTextFile.Append($"\r\nUser-agent: {lastAgent}\r\n");
                     }
 
-                    // look for specific method disallows
-
-                    foreach (MethodInfo method in type.GetMethods())
+                    foreach (string value in routes)
                     {
-                        attribute = (DenySpiderAttribute)method.GetCustomAttributes(true)
-                            .Where(a => a.GetType() == typeof(DenySpiderAttribute)).FirstOrDefault();
-
-                        if (attribute != null)
-                        {
-                            string route = routeDataService.GetRouteFromMethod(method, routeProvider);
-
-                            if (String.IsNullOrEmpty(route))
-                                continue;
-
-                            if (!String.IsNullOrEmpty(attribute.Comment))
-                                spiderTextFile += $"# {attribute.Comment}\r\n\r\n";
-
-                            spiderTextFile += $"User-agent: {attribute.UserAgent}\r\n";
-                            spiderTextFile += $"Disallow: {route}\r\n\r\n";
-
-                            _deniedSpiderRoutes.Add(new DeniedRoute($"{route.ToLower()}", attribute.UserAgent));
-                        }
+                        spiderTextFile.Append($"{value}\r\n");
                     }
                 }
             }
 
-            _spiderData = Encoding.UTF8.GetBytes(spiderTextFile);
+            return spiderTextFile.ToString();
+        }
+
+        private void AddBotTrap(List<string> agents)
+        {
+            int pos = agents.Count == 0 ? 0 : agents.Count / 2;
+
+            agents.Insert(pos, $"Disallow: {_botTrap}");
         }
 
         #endregion Private Methods

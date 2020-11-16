@@ -68,7 +68,6 @@ namespace UserSessionMiddleware.Plugin.Classes
         internal readonly static Timings _timingsDefaultSession = new Timings();
         private readonly IGeoIpProvider _geoIpProvider;
         private readonly ILogger _logger;
-        private readonly string _activeSessionPath;
         private readonly string _pageViewFile;
         private readonly string _referrerFile;
         private readonly string _sessionHourlyFile;
@@ -128,8 +127,6 @@ namespace UserSessionMiddleware.Plugin.Classes
                 settings.SessionRootPath = hostingEnvironment.ContentRootPath;
 
             _rootPath = Path.Combine(settings.SessionRootPath, "UserSession");
-
-            _activeSessionPath = GetPath("ActiveSessions");
 
             _pageViewFile = GetFile(Path.Combine(_rootPath, "Sessions"), "PageViews.dat");
             _referrerFile = GetFile(Path.Combine(_rootPath, "Sessions"), "InitialReferrer.dat");

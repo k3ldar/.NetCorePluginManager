@@ -60,7 +60,7 @@ namespace AspNetCore.PluginManager.Tests
             set => throw new NotImplementedException(); 
         }
 
-        public override Int64? ContentLength { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public override Int64? ContentLength { get => _body.Length; set => throw new NotImplementedException(); }
         public override String ContentType { get; set; }
 
         public override IResponseCookies Cookies
@@ -71,7 +71,7 @@ namespace AspNetCore.PluginManager.Tests
             }
         }
 
-        public override Boolean HasStarted => throw new NotImplementedException();
+        public override Boolean HasStarted => ContentLength > 0;
 
         public override IHeaderDictionary Headers
         {

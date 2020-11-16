@@ -44,6 +44,7 @@ namespace SystemAdmin.Plugin.Controllers
     [LoggedIn]
     [RestrictedIpRoute("SystemAdminRoute")]
     [Authorize(Policy = SharedPluginFeatures.Constants.PolicyNameStaff)]
+    [DenySpider]
     public partial class SystemAdminController : BaseController
     {
         #region Private Members
@@ -107,6 +108,16 @@ namespace SystemAdmin.Plugin.Controllers
                 return Redirect("/SystemAdmin/");
 
             return View(new MapViewModel(GetModelData(), _settingsProvider, subMenu));
+        }
+
+        public IActionResult View(int id)
+        {
+            SystemAdminSubMenu subMenu = _systemAdminHelperService.GetSubMenuItem(id);
+
+            if (subMenu == null)
+                return Redirect("/SystemAdmin/");
+
+            return View("PartialView", new PartialViewModel(GetModelData(), subMenu));
         }
 
         public IActionResult Text(int id)

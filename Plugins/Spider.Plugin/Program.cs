@@ -11,46 +11,36 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  Spider.Plugin
  *  
- *  File: DeniedRoutes.cs
+ *  File: Program.cs
  *
  *  Purpose:  
  *
  *  Date        Name                Reason
- *  29/09/2018  Simon Carter        Initially Created
+ *  16/10/2020  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using System;
+using Microsoft.AspNetCore;
+using Microsoft.AspNetCore.Hosting;
+
+#pragma warning disable CS1591
 
 namespace Spider.Plugin
 {
-    internal sealed class DeniedRoute
+    public static class Program
     {
-        #region Constructors
-
-        internal DeniedRoute(in string route, in string userAgent)
+        public static void Main(string[] args)
         {
-            if (string.IsNullOrEmpty(route))
-                throw new ArgumentNullException(nameof(route));
-
-            if (String.IsNullOrEmpty(userAgent))
-                throw new ArgumentNullException(nameof(userAgent));
-
-            Route = route;
-            UserAgent = userAgent;
+            CreateWebHostBuilder(args).Build().Run();
         }
 
-        #endregion Constructors
-
-        #region Properties
-
-        internal string Route { get; set; }
-
-        internal string UserAgent { get; set; }
-
-        #endregion Properties
+        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
+            WebHost.CreateDefaultBuilder(args)
+                .UseStartup<Startup>();
     }
 }
+
+#pragma warning restore CS1591

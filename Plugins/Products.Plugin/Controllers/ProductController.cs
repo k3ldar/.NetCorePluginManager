@@ -132,6 +132,7 @@ namespace ProductPlugin.Controllers
         }
 
         [HttpPost]
+        [DenySpider]
         public IActionResult AddToCart(AddToCartModel model)
         {
             if (model == null)

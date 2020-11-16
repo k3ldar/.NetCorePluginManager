@@ -321,7 +321,7 @@ namespace WebSmokeTest.Plugin
                 Result = GetSmokeTestFromStandardClassMethod(type, method);
             }
 
-            Result.AuthorHistory.Add(DateTime.UtcNow, "Managed Test");
+            Result?.AuthorHistory.Add(DateTime.UtcNow, "Managed Test");
 
             return Result;
         }

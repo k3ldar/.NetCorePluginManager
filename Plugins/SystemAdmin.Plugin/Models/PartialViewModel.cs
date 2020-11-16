@@ -13,56 +13,53 @@
  *
  *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
- *  Product:  Spider.Plugin.Plugin
+ *  Product:  SystemAdmin.Plugin
  *  
- *  File: InitialiseEvents.cs
+ *  File: ChartViewModel.cs
  *
- *  Purpose:  Initialisation events
+ *  Purpose:  
  *
  *  Date        Name                Reason
- *  07/01/2020  Simon Carter        Initially Created
+ *  26/09/2020  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.DependencyInjection;
+using System;
 
 using SharedPluginFeatures;
 
 #pragma warning disable CS1591
 
-namespace Spider.Plugin.Classes
+namespace SystemAdmin.Plugin.Models
 {
-    public class InitialiseEvents : IInitialiseEvents
+    public sealed class PartialViewModel : BaseModel
     {
-        #region IInitialiseEvents Methods
+        #region Constructors
 
-        public void AfterConfigure(in IApplicationBuilder app)
+        //[System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA2208:Instantiate argument exceptions correctly", Justification = "Validating property of param so ok")]
+        public PartialViewModel(in BaseModelData modelData, SystemAdminSubMenu subMenu)
+            : base(modelData)
         {
+            if (subMenu == null)
+                throw new ArgumentNullException(nameof(subMenu));
 
+            Title = subMenu.Name();
+
+
+            PartialView = $"/{subMenu.Controller()}/{subMenu.Action()}";
+            ControllerRoot = $"/{subMenu.Controller()}/";
         }
 
-        public void AfterConfigureServices(in IServiceCollection services)
-        {
+        #endregion Constructors
 
+        #region Public Properties
 
-        }
+        public string Title { get; private set; }
 
-        public void BeforeConfigure(in IApplicationBuilder app)
-        {
-            app.UseSpider();
-        }
+        public string PartialView { get; private set; }
 
-        public void BeforeConfigureServices(in IServiceCollection services)
-        {
+        public string ControllerRoot { get; set; }
 
-        }
-
-        public void Configure(in IApplicationBuilder app)
-        {
-
-        }
-
-        #endregion IInitialiseEvents Methods
+        #endregion Public Properties
     }
 }
 
