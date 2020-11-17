@@ -40,6 +40,11 @@ using UserSessionMiddleware.Plugin.Classes.SessionData;
 
 namespace UserSessionMiddleware.Plugin.Classes.SystemAdmin
 {
+    /// <summary>
+    /// Returns data for yearly visits to be shown in a chart.  
+    /// 
+    /// This class descends from SystemAdminSubMenu.
+    /// </summary>
     public sealed class VisitsYearlySubMenu : SystemAdminSubMenu
     {
         private readonly bool _enabled;
@@ -79,7 +84,7 @@ namespace UserSessionMiddleware.Plugin.Classes.SystemAdmin
 
             Result.ChartTitle = "Yearly Visitor Statistics";
 
-            List<SessionYearly> sessionData = DefaultUserSessionService.GetYearlyData()
+            List<SessionYearly> sessionData = DefaultUserSessionService.GetYearlyData(false)
                 .OrderBy(o => o.Year)
                 .Take(10)
                 .ToList();
@@ -88,10 +93,8 @@ namespace UserSessionMiddleware.Plugin.Classes.SystemAdmin
                 return String.Empty;
 
             Result.DataNames.Add(new KeyValuePair<ChartDataType, string>(ChartDataType.String, "Year"));
-            Result.DataNames.Add(new KeyValuePair<ChartDataType, string>(ChartDataType.Number, "Total Visits"));
-            Result.DataNames.Add(new KeyValuePair<ChartDataType, string>(ChartDataType.Number, "Human Visits"));
+            Result.DataNames.Add(new KeyValuePair<ChartDataType, string>(ChartDataType.Number, "Visits"));
             Result.DataNames.Add(new KeyValuePair<ChartDataType, string>(ChartDataType.Number, "Mobile Visits"));
-            Result.DataNames.Add(new KeyValuePair<ChartDataType, string>(ChartDataType.Number, "Bot Visits"));
             Result.DataNames.Add(new KeyValuePair<ChartDataType, string>(ChartDataType.Number, "Bounced"));
 
             foreach (SessionYearly year in sessionData)
@@ -101,10 +104,8 @@ namespace UserSessionMiddleware.Plugin.Classes.SystemAdmin
                     year.Year.ToString(Thread.CurrentThread.CurrentUICulture),
                     datavalues);
 
-                datavalues.Add(year.TotalVisits);
                 datavalues.Add(year.HumanVisits);
                 datavalues.Add(year.MobileVisits);
-                datavalues.Add(year.BotVisits);
                 datavalues.Add(year.Bounced);
             }
 

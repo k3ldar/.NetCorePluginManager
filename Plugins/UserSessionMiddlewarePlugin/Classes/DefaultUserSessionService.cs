@@ -60,21 +60,31 @@ namespace UserSessionMiddleware.Plugin.Classes
         private static readonly Stack<UserSession> _closedSessions = new Stack<UserSession>();
         private static SessionPageViews _sessionPageViews;
         private static SessionInitialReferrers _initialReferrers;
-        private static List<SessionHourly> _hourlySessionData;
-        private static List<SessionDaily> _dailySessionData;
-        private static List<SessionWeekly> _weeklySessionData;
-        private static List<SessionMonthly> _monthlySessionData;
-        private static List<SessionYearly> _yearlySessionData;
+        private static List<SessionHourly> _hourlySessionDataHuman;
+        private static List<SessionDaily> _dailySessionDataHuman;
+        private static List<SessionWeekly> _weeklySessionDataHuman;
+        private static List<SessionMonthly> _monthlySessionDataHuman;
+        private static List<SessionYearly> _yearlySessionDataHuman;
+        private static List<SessionHourly> _hourlySessionDataBot;
+        private static List<SessionDaily> _dailySessionDataBot;
+        private static List<SessionWeekly> _weeklySessionDataBot;
+        private static List<SessionMonthly> _monthlySessionDataBot;
+        private static List<SessionYearly> _yearlySessionDataBot;
         internal readonly static Timings _timingsDefaultSession = new Timings();
         private readonly IGeoIpProvider _geoIpProvider;
         private readonly ILogger _logger;
         private readonly string _pageViewFile;
         private readonly string _referrerFile;
-        private readonly string _sessionHourlyFile;
-        private readonly string _sessionDailyFile;
-        private readonly string _sessionWeeklyFile;
-        private readonly string _sessionMonthlyFile;
-        private readonly string _sessionYearlyFile;
+        private readonly string _sessionHourlyFileHuman;
+        private readonly string _sessionDailyFileHuman;
+        private readonly string _sessionWeeklyFileHuman;
+        private readonly string _sessionMonthlyFileHuman;
+        private readonly string _sessionYearlyFileHuman;
+        private readonly string _sessionHourlyFileBot;
+        private readonly string _sessionDailyFileBot;
+        private readonly string _sessionWeeklyFileBot;
+        private readonly string _sessionMonthlyFileBot;
+        private readonly string _sessionYearlyFileBot;
         private readonly uint _maxHours;
         private readonly uint _maxDays;
         private readonly uint _maxWeeks;
@@ -130,11 +140,16 @@ namespace UserSessionMiddleware.Plugin.Classes
 
             _pageViewFile = GetFile(Path.Combine(_rootPath, "Sessions"), "PageViews.dat");
             _referrerFile = GetFile(Path.Combine(_rootPath, "Sessions"), "InitialReferrer.dat");
-            _sessionHourlyFile = GetFile(Path.Combine(_rootPath, "Sessions"), "Hourly.dat");
-            _sessionDailyFile = GetFile(Path.Combine(_rootPath, "Sessions"), "Daily.dat");
-            _sessionWeeklyFile = GetFile(Path.Combine(_rootPath, "Sessions"), "Weekly.dat");
-            _sessionMonthlyFile = GetFile(Path.Combine(_rootPath, "Sessions"), "Monthly.dat");
-            _sessionYearlyFile = GetFile(Path.Combine(_rootPath, "Sessions"), "Yearly.dat");
+            _sessionHourlyFileHuman = GetFile(Path.Combine(_rootPath, "Sessions"), "HourlyHuman.dat");
+            _sessionDailyFileHuman = GetFile(Path.Combine(_rootPath, "Sessions"), "DailyHuman.dat");
+            _sessionWeeklyFileHuman = GetFile(Path.Combine(_rootPath, "Sessions"), "WeeklyHuman.dat");
+            _sessionMonthlyFileHuman = GetFile(Path.Combine(_rootPath, "Sessions"), "MonthlyHuman.dat");
+            _sessionYearlyFileHuman = GetFile(Path.Combine(_rootPath, "Sessions"), "YearlyHuman.dat");
+            _sessionHourlyFileBot = GetFile(Path.Combine(_rootPath, "Sessions"), "HourlyBot.dat");
+            _sessionDailyFileBot = GetFile(Path.Combine(_rootPath, "Sessions"), "DailyBot.dat");
+            _sessionWeeklyFileBot = GetFile(Path.Combine(_rootPath, "Sessions"), "WeeklyBot.dat");
+            _sessionMonthlyFileBot = GetFile(Path.Combine(_rootPath, "Sessions"), "MonthlyBot.dat");
+            _sessionYearlyFileBot = GetFile(Path.Combine(_rootPath, "Sessions"), "YearlyBot.dat");
 
             _maxHours = settings.MaxHourlyData;
             _maxDays = settings.MaxDailyData;
@@ -145,11 +160,16 @@ namespace UserSessionMiddleware.Plugin.Classes
 
             LoadSessionData(_pageViewFile, ref _sessionPageViews);
             LoadSessionData(_referrerFile, ref _initialReferrers);
-            LoadSessionData(_sessionHourlyFile, ref _hourlySessionData);
-            LoadSessionData(_sessionDailyFile, ref _dailySessionData);
-            LoadSessionData(_sessionWeeklyFile, ref _weeklySessionData);
-            LoadSessionData(_sessionMonthlyFile, ref _monthlySessionData);
-            LoadSessionData(_sessionYearlyFile, ref _yearlySessionData);
+            LoadSessionData(_sessionHourlyFileHuman, ref _hourlySessionDataHuman);
+            LoadSessionData(_sessionDailyFileHuman, ref _dailySessionDataHuman);
+            LoadSessionData(_sessionWeeklyFileHuman, ref _weeklySessionDataHuman);
+            LoadSessionData(_sessionMonthlyFileHuman, ref _monthlySessionDataHuman);
+            LoadSessionData(_sessionYearlyFileHuman, ref _yearlySessionDataHuman);
+            LoadSessionData(_sessionHourlyFileBot, ref _hourlySessionDataBot);
+            LoadSessionData(_sessionDailyFileBot, ref _dailySessionDataBot);
+            LoadSessionData(_sessionWeeklyFileBot, ref _weeklySessionDataBot);
+            LoadSessionData(_sessionMonthlyFileBot, ref _monthlySessionDataBot);
+            LoadSessionData(_sessionYearlyFileBot, ref _yearlySessionDataBot);
 
             ThreadManager.ThreadStart(this, "Default User Session Service", System.Threading.ThreadPriority.BelowNormal);
         }
@@ -247,37 +267,77 @@ namespace UserSessionMiddleware.Plugin.Classes
             }
         }
 
-        internal static List<SessionDaily> GetDailyData()
+        internal static List<SessionDaily> GetDailyData(bool isBot)
         {
-            return CopySessionData<List<SessionDaily>>(_dailySessionData);
+            using (TimedLock timedLock = TimedLock.Lock(_lockObject))
+            {
+                if (isBot)
+                    return CopySessionData<List<SessionDaily>>(_dailySessionDataBot);
+
+                return CopySessionData<List<SessionDaily>>(_dailySessionDataHuman);
+            }
         }
 
-        internal static List<SessionHourly> GetHourlyData()
+        internal static List<SessionHourly> GetHourlyData(bool isBot)
         {
-            return CopySessionData<List<SessionHourly>>(_hourlySessionData);
+            using (TimedLock timedLock = TimedLock.Lock(_lockObject))
+            {
+                if (isBot)
+                    return CopySessionData<List<SessionHourly>>(_hourlySessionDataBot);
+
+                return CopySessionData<List<SessionHourly>>(_hourlySessionDataHuman);
+            }
         }
 
-        internal static List<SessionWeekly> GetWeeklyData()
+        internal static List<SessionWeekly> GetWeeklyData(bool isBot)
         {
-            return CopySessionData<List<SessionWeekly>>(_weeklySessionData);
+            using (TimedLock timedLock = TimedLock.Lock(_lockObject))
+            {
+                if (isBot)
+                    return CopySessionData<List<SessionWeekly>>(_weeklySessionDataBot);
+
+                return CopySessionData<List<SessionWeekly>>(_weeklySessionDataHuman);
+            }
         }
 
-        internal static List<SessionMonthly> GetMonthlyData()
+        internal static List<SessionMonthly> GetMonthlyData(bool isBot)
         {
-            return CopySessionData<List<SessionMonthly>>(_monthlySessionData);
+            using (TimedLock timedLock = TimedLock.Lock(_lockObject))
+            {
+                if (isBot)
+                    return CopySessionData<List<SessionMonthly>>(_monthlySessionDataBot);
+
+                return CopySessionData<List<SessionMonthly>>(_monthlySessionDataHuman);
+            }
         }
 
-        internal static List<SessionYearly> GetYearlyData()
+        internal static List<SessionYearly> GetYearlyData(bool isBot)
         {
-            return CopySessionData<List<SessionYearly>>(_yearlySessionData);
+            using (TimedLock timedLock = TimedLock.Lock(_lockObject))
+            {
+                if (isBot)
+                    return CopySessionData<List<SessionYearly>>(_yearlySessionDataBot);
+
+                return CopySessionData<List<SessionYearly>>(_yearlySessionDataHuman);
+            }
         }
 
         internal static List<SessionUserAgent> GetUserAgents()
         {
-            List<SessionYearly> yearlySessions = CopySessionData<List<SessionYearly>>(_yearlySessionData);
+            List<SessionYearly> yearlySessions = CopySessionData<List<SessionYearly>>(_yearlySessionDataBot);
 
             List<SessionUserAgent> Result = null;
 
+            AmalgamateSessionData(yearlySessions, ref Result);
+
+            yearlySessions = CopySessionData<List<SessionYearly>>(_yearlySessionDataHuman);
+            AmalgamateSessionData(yearlySessions, ref Result);
+
+            return Result;
+        }
+
+        private static List<SessionUserAgent> AmalgamateSessionData(List<SessionYearly> yearlySessions, ref List<SessionUserAgent> Result)
+        {
             foreach (SessionYearly year in yearlySessions)
             {
                 if (Result == null)
@@ -448,11 +508,16 @@ namespace UserSessionMiddleware.Plugin.Classes
                     UpdateYearlySessionData(session);
                 }
 
-                SaveSessionData(_sessionHourlyFile, _hourlySessionData);
-                SaveSessionData(_sessionDailyFile, _dailySessionData);
-                SaveSessionData(_sessionWeeklyFile, _weeklySessionData);
-                SaveSessionData(_sessionMonthlyFile, _monthlySessionData);
-                SaveSessionData(_sessionYearlyFile, _yearlySessionData);
+                SaveSessionData(_sessionHourlyFileHuman, _hourlySessionDataHuman);
+                SaveSessionData(_sessionDailyFileHuman, _dailySessionDataHuman);
+                SaveSessionData(_sessionWeeklyFileHuman, _weeklySessionDataHuman);
+                SaveSessionData(_sessionMonthlyFileHuman, _monthlySessionDataHuman);
+                SaveSessionData(_sessionYearlyFileHuman, _yearlySessionDataHuman);
+                SaveSessionData(_sessionHourlyFileBot, _hourlySessionDataBot);
+                SaveSessionData(_sessionDailyFileBot, _dailySessionDataBot);
+                SaveSessionData(_sessionWeeklyFileBot, _weeklySessionDataBot);
+                SaveSessionData(_sessionMonthlyFileBot, _monthlySessionDataBot);
+                SaveSessionData(_sessionYearlyFileBot, _yearlySessionDataBot);
 
                 if (_sessionPageViews.IsDirty)
                 {
@@ -479,7 +544,9 @@ namespace UserSessionMiddleware.Plugin.Classes
                 int hour = currentDate.Hour;
                 int quarter = Math.Abs(currentDate.Minute / 15) + 1;
 
-                SessionHourly hourly = _hourlySessionData
+                List<SessionHourly> hourlySessionData = session.IsBot ? _hourlySessionDataBot : _hourlySessionDataHuman;
+
+                SessionHourly hourly = hourlySessionData
                     .Where(h => h.Date.Date.Equals(currentDate.Date) && h.Hour == hour && h.Quarter == quarter)
                     .FirstOrDefault();
 
@@ -489,13 +556,13 @@ namespace UserSessionMiddleware.Plugin.Classes
                     hourly.Date = currentDate.Date;
                     hourly.Hour = hour;
                     hourly.Quarter = quarter;
-                    _hourlySessionData.Add(hourly);
+                    hourlySessionData.Add(hourly);
                 }
 
                 UpdateSessionData(session, hourly);
 
-                while (_hourlySessionData.Count > _maxHours)
-                    _hourlySessionData.RemoveAt(0);
+                while (hourlySessionData.Count > _maxHours)
+                    hourlySessionData.RemoveAt(0);
             }
         }
 
@@ -507,8 +574,9 @@ namespace UserSessionMiddleware.Plugin.Classes
             using (TimedLock timedLock = TimedLock.Lock(_lockObject))
             {
                 DateTime sessionDate = session.Created;
+                List<SessionDaily> hourlySessionData = session.IsBot ? _dailySessionDataBot : _dailySessionDataHuman;
 
-                SessionDaily daily = _dailySessionData
+                SessionDaily daily = hourlySessionData
                     .Where(h => h.Date.Date.Equals(sessionDate.Date))
                     .FirstOrDefault();
 
@@ -516,13 +584,13 @@ namespace UserSessionMiddleware.Plugin.Classes
                 {
                     daily = new SessionDaily();
                     daily.Date = sessionDate.Date;
-                    _dailySessionData.Add(daily);
+                    hourlySessionData.Add(daily);
                 }
 
                 UpdateSessionData(session, daily);
 
-                while (_dailySessionData.Count > _maxDays)
-                    _dailySessionData.RemoveAt(0);
+                while (hourlySessionData.Count > _maxDays)
+                    hourlySessionData.RemoveAt(0);
             }
         }
 
@@ -541,7 +609,8 @@ namespace UserSessionMiddleware.Plugin.Classes
                 int week = (sessionDate.DayOfYear / 7) + 1;
 #endif
 
-                SessionWeekly weekly = _weeklySessionData
+                List<SessionWeekly> weeklySessionData = session.IsBot ? _weeklySessionDataBot : _weeklySessionDataHuman;
+                SessionWeekly weekly = weeklySessionData
                     .Where(w => w.Week.Equals(week) && w.Year == sessionDate.Year)
                     .FirstOrDefault();
 
@@ -550,13 +619,13 @@ namespace UserSessionMiddleware.Plugin.Classes
                     weekly = new SessionWeekly();
                     weekly.Week = week;
                     weekly.Year = sessionDate.Year;
-                    _weeklySessionData.Add(weekly);
+                    weeklySessionData.Add(weekly);
                 }
 
                 UpdateSessionData(session, weekly);
 
-                while (_weeklySessionData.Count > _maxWeeks)
-                    _weeklySessionData.RemoveAt(0);
+                while (weeklySessionData.Count > _maxWeeks)
+                    weeklySessionData.RemoveAt(0);
             }
         }
 
@@ -569,7 +638,8 @@ namespace UserSessionMiddleware.Plugin.Classes
             {
                 DateTime sessionDate = session.Created;
 
-                SessionMonthly monthly = _monthlySessionData
+                List<SessionMonthly> monthlySessionData = session.IsBot ? _monthlySessionDataBot : _monthlySessionDataHuman;
+                SessionMonthly monthly = monthlySessionData
                     .Where(w => w.Month.Equals(sessionDate.Month) && w.Year == sessionDate.Year)
                     .FirstOrDefault();
 
@@ -578,13 +648,13 @@ namespace UserSessionMiddleware.Plugin.Classes
                     monthly = new SessionMonthly();
                     monthly.Month = sessionDate.Month;
                     monthly.Year = sessionDate.Year;
-                    _monthlySessionData.Add(monthly);
+                    monthlySessionData.Add(monthly);
                 }
 
                 UpdateSessionData(session, monthly);
 
-                while (_monthlySessionData.Count > _maxMonths)
-                    _monthlySessionData.RemoveAt(0);
+                while (monthlySessionData.Count > _maxMonths)
+                    monthlySessionData.RemoveAt(0);
             }
         }
 
@@ -596,8 +666,9 @@ namespace UserSessionMiddleware.Plugin.Classes
             using (TimedLock timedLock = TimedLock.Lock(_lockObject))
             {
                 DateTime sessionDate = session.Created;
+                List<SessionYearly> yearlySessionData = session.IsBot ? _yearlySessionDataBot : _yearlySessionDataHuman;
 
-                SessionYearly yearly = _yearlySessionData
+                SessionYearly yearly = yearlySessionData
                     .Where(y => y.Year.Equals(sessionDate.Year))
                     .FirstOrDefault();
 
@@ -605,13 +676,13 @@ namespace UserSessionMiddleware.Plugin.Classes
                 {
                     yearly = new SessionYearly();
                     yearly.Year = sessionDate.Year;
-                    _yearlySessionData.Add(yearly);
+                    yearlySessionData.Add(yearly);
                 }
 
                 UpdateSessionData(session, yearly);
 
-                while (_yearlySessionData.Count > _maxYears)
-                    _yearlySessionData.RemoveAt(0);
+                while (yearlySessionData.Count > _maxYears)
+                    yearlySessionData.RemoveAt(0);
             }
         }
 
@@ -628,7 +699,7 @@ namespace UserSessionMiddleware.Plugin.Classes
             else
                 baseSessionData.HumanVisits++;
 
-            if (session.Bounced)
+            if (!session.IsBot && session.Bounced)
                 baseSessionData.Bounced++;
 
             baseSessionData.TotalPages += (uint)session.Pages.Count;

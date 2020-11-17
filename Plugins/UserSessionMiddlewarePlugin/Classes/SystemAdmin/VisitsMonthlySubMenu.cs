@@ -40,6 +40,11 @@ using UserSessionMiddleware.Plugin.Classes.SessionData;
 
 namespace UserSessionMiddleware.Plugin.Classes.SystemAdmin
 {
+    /// <summary>
+    /// Returns data for monthly visits to be shown in a chart.  
+    /// 
+    /// This class descends from SystemAdminSubMenu.
+    /// </summary>
     public sealed class VisitsMonthlySubMenu : SystemAdminSubMenu
     {
         private readonly bool _enabled;
@@ -79,7 +84,7 @@ namespace UserSessionMiddleware.Plugin.Classes.SystemAdmin
 
             Result.ChartTitle = "Monthly Visitor Statistics";
 
-            List<SessionMonthly> sessionData = DefaultUserSessionService.GetMonthlyData()
+            List<SessionMonthly> sessionData = DefaultUserSessionService.GetMonthlyData(false)
                 .OrderBy(o => o.Year)
                 .ThenBy(o => o.Month)
                 .Take(24)
@@ -89,10 +94,8 @@ namespace UserSessionMiddleware.Plugin.Classes.SystemAdmin
                 return String.Empty;
 
             Result.DataNames.Add(new KeyValuePair<ChartDataType, string>(ChartDataType.String, "Month"));
-            Result.DataNames.Add(new KeyValuePair<ChartDataType, string>(ChartDataType.Number, "Total Visits"));
-            Result.DataNames.Add(new KeyValuePair<ChartDataType, string>(ChartDataType.Number, "Human Visits"));
+            Result.DataNames.Add(new KeyValuePair<ChartDataType, string>(ChartDataType.Number, "Visits"));
             Result.DataNames.Add(new KeyValuePair<ChartDataType, string>(ChartDataType.Number, "Mobile Visits"));
-            Result.DataNames.Add(new KeyValuePair<ChartDataType, string>(ChartDataType.Number, "Bot Visits"));
             Result.DataNames.Add(new KeyValuePair<ChartDataType, string>(ChartDataType.Number, "Bounced"));
 
             foreach (SessionMonthly month in sessionData)
@@ -102,10 +105,8 @@ namespace UserSessionMiddleware.Plugin.Classes.SystemAdmin
                     month.Month.ToString(Thread.CurrentThread.CurrentUICulture.DateTimeFormat),
                     datavalues);
 
-                datavalues.Add(month.TotalVisits);
                 datavalues.Add(month.HumanVisits);
                 datavalues.Add(month.MobileVisits);
-                datavalues.Add(month.BotVisits);
                 datavalues.Add(month.Bounced);
             }
 

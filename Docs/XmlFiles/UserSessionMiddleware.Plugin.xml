@@ -450,6 +450,71 @@
             Year of visit
             </summary>
         </member>
+        <member name="T:UserSessionMiddleware.Plugin.Classes.SystemAdmin.BotVisitsDailySubMenu">
+            <summary>
+            Returns data for daily bot visits to be shown in a chart.  
+            
+            This class descends from SystemAdminSubMenu.
+            </summary>
+        </member>
+        <member name="M:UserSessionMiddleware.Plugin.Classes.SystemAdmin.BotVisitsDailySubMenu.Data">
+            <summary>
+            Returns last 30 days of daily bot sessions.
+            </summary>
+            <returns>string</returns>
+        </member>
+        <member name="T:UserSessionMiddleware.Plugin.Classes.SystemAdmin.BotVisitsHourlySubMenu">
+            <summary>
+            Returns data for hourly bot visits to be shown in a chart.  
+            
+            This class descends from SystemAdminSubMenu.
+            </summary>
+        </member>
+        <member name="M:UserSessionMiddleware.Plugin.Classes.SystemAdmin.BotVisitsHourlySubMenu.Data">
+            <summary>
+            Returns last 24 hours of bot sessions by quarter of an hour.
+            </summary>
+            <returns>string</returns>
+        </member>
+        <member name="T:UserSessionMiddleware.Plugin.Classes.SystemAdmin.BotVisitsMonthlySubMenu">
+            <summary>
+            Returns data for monthly bot visits to be shown in a chart.  
+            
+            This class descends from SystemAdminSubMenu.
+            </summary>
+        </member>
+        <member name="M:UserSessionMiddleware.Plugin.Classes.SystemAdmin.BotVisitsMonthlySubMenu.Data">
+            <summary>
+            Returns last 24 months of bot sessions by month.
+            </summary>
+            <returns>string</returns>
+        </member>
+        <member name="T:UserSessionMiddleware.Plugin.Classes.SystemAdmin.BotVisitsWeeklySubMenu">
+            <summary>
+            Returns data for weekly bot visits to be shown in a chart.  
+            
+            This class descends from SystemAdminSubMenu.
+            </summary>
+        </member>
+        <member name="M:UserSessionMiddleware.Plugin.Classes.SystemAdmin.BotVisitsWeeklySubMenu.Data">
+            <summary>
+            Returns last 26 weeks of bot sessions by week.
+            </summary>
+            <returns>string</returns>
+        </member>
+        <member name="T:UserSessionMiddleware.Plugin.Classes.SystemAdmin.BotVisitsYearlySubMenu">
+            <summary>
+            Returns data for yearly bot visits to be shown in a chart.  
+            
+            This class descends from SystemAdminSubMenu.
+            </summary>
+        </member>
+        <member name="M:UserSessionMiddleware.Plugin.Classes.SystemAdmin.BotVisitsYearlySubMenu.Data">
+            <summary>
+            Returns last 10 years of bot sessions by year.
+            </summary>
+            <returns>string</returns>
+        </member>
         <member name="T:UserSessionMiddleware.Plugin.Classes.SystemAdmin.CurrentUserLocationMenu">
             <summary>
             Returns a list of active user sessions, including longitude and latitude for
@@ -517,11 +582,25 @@
             </summary>
             <returns>string</returns>
         </member>
+        <member name="T:UserSessionMiddleware.Plugin.Classes.SystemAdmin.VisitsHourlySubMenu">
+            <summary>
+            Returns data for hourly visits to be shown in a chart.  
+            
+            This class descends from SystemAdminSubMenu.
+            </summary>
+        </member>
         <member name="M:UserSessionMiddleware.Plugin.Classes.SystemAdmin.VisitsHourlySubMenu.Data">
             <summary>
             Returns last 24 hours of user sessions by quarter of an hour.
             </summary>
             <returns>string</returns>
+        </member>
+        <member name="T:UserSessionMiddleware.Plugin.Classes.SystemAdmin.VisitsMonthlySubMenu">
+            <summary>
+            Returns data for monthly visits to be shown in a chart.  
+            
+            This class descends from SystemAdminSubMenu.
+            </summary>
         </member>
         <member name="M:UserSessionMiddleware.Plugin.Classes.SystemAdmin.VisitsMonthlySubMenu.Data">
             <summary>
@@ -535,11 +614,25 @@
             </summary>
             <returns>string</returns>
         </member>
+        <member name="T:UserSessionMiddleware.Plugin.Classes.SystemAdmin.VisitsWeeklySubMenu">
+            <summary>
+            Returns data for weekly visits to be shown in a chart.  
+            
+            This class descends from SystemAdminSubMenu.
+            </summary>
+        </member>
         <member name="M:UserSessionMiddleware.Plugin.Classes.SystemAdmin.VisitsWeeklySubMenu.Data">
             <summary>
             Returns last 26 weeks of user sessions by week.
             </summary>
             <returns>string</returns>
+        </member>
+        <member name="T:UserSessionMiddleware.Plugin.Classes.SystemAdmin.VisitsYearlySubMenu">
+            <summary>
+            Returns data for yearly visits to be shown in a chart.  
+            
+            This class descends from SystemAdminSubMenu.
+            </summary>
         </member>
         <member name="M:UserSessionMiddleware.Plugin.Classes.SystemAdmin.VisitsYearlySubMenu.Data">
             <summary>

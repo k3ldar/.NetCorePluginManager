@@ -20,7 +20,7 @@
  *  Purpose:  
  *
  *  Date        Name                Reason
- *  27/09/2020  Simon Carter        Initially Created
+ *  17/11/2020  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
@@ -41,15 +41,15 @@ using UserSessionMiddleware.Plugin.Classes.SessionData;
 namespace UserSessionMiddleware.Plugin.Classes.SystemAdmin
 {
     /// <summary>
-    /// Returns data for weekly visits to be shown in a chart.  
+    /// Returns data for yearly bot visits to be shown in a chart.  
     /// 
     /// This class descends from SystemAdminSubMenu.
     /// </summary>
-    public sealed class VisitsWeeklySubMenu : SystemAdminSubMenu
+    public sealed class BotVisitsYearlySubMenu : SystemAdminSubMenu
     {
         private readonly bool _enabled;
 
-        public VisitsWeeklySubMenu(ISettingsProvider settingsProvider)
+        public BotVisitsYearlySubMenu(ISettingsProvider settingsProvider)
         {
             if (settingsProvider == null)
                 throw new ArgumentNullException(nameof(settingsProvider));
@@ -75,39 +75,36 @@ namespace UserSessionMiddleware.Plugin.Classes.SystemAdmin
         }
 
         /// <summary>
-        /// Returns last 26 weeks of user sessions by week.
+        /// Returns last 10 years of bot sessions by year.
         /// </summary>
         /// <returns>string</returns>
         public override string Data()
         {
             ChartModel Result = new ChartModel();
 
-            Result.ChartTitle = "Weekly Visitor Statistics";
+            Result.ChartTitle = "Yearly Bot Visitor Statistics";
 
-            List<SessionWeekly> sessionData = DefaultUserSessionService.GetWeeklyData(false)
+            List<SessionYearly> sessionData = DefaultUserSessionService.GetYearlyData(false)
                 .OrderBy(o => o.Year)
-                .ThenBy(o => o.Week)
-                .Take(26)
+                .Take(10)
                 .ToList();
 
             if (sessionData == null)
                 return String.Empty;
 
-            Result.DataNames.Add(new KeyValuePair<ChartDataType, string>(ChartDataType.String, "Week"));
-            Result.DataNames.Add(new KeyValuePair<ChartDataType, string>(ChartDataType.Number, "Visits"));
-            Result.DataNames.Add(new KeyValuePair<ChartDataType, string>(ChartDataType.Number, "Mobile Visits"));
+            Result.DataNames.Add(new KeyValuePair<ChartDataType, string>(ChartDataType.String, "Year"));
+            Result.DataNames.Add(new KeyValuePair<ChartDataType, string>(ChartDataType.Number, "Bot Visits"));
             Result.DataNames.Add(new KeyValuePair<ChartDataType, string>(ChartDataType.Number, "Bounced"));
 
-            foreach (SessionWeekly week in sessionData)
+            foreach (SessionYearly year in sessionData)
             {
                 List<Decimal> datavalues = new List<decimal>();
                 Result.DataValues.Add(
-                    week.Week.ToString(Thread.CurrentThread.CurrentUICulture),
+                    year.Year.ToString(Thread.CurrentThread.CurrentUICulture),
                     datavalues);
 
-                datavalues.Add(week.HumanVisits);
-                datavalues.Add(week.MobileVisits);
-                datavalues.Add(week.Bounced);
+                datavalues.Add(year.BotVisits);
+                datavalues.Add(year.Bounced);
             }
 
             return JsonConvert.SerializeObject(Result);
@@ -125,7 +122,7 @@ namespace UserSessionMiddleware.Plugin.Classes.SystemAdmin
 
         public override string Name()
         {
-            return "Visits - Weekly";
+            return "Bot Visits - Yearly";
         }
 
         public override string ParentMenuName()
@@ -135,7 +132,7 @@ namespace UserSessionMiddleware.Plugin.Classes.SystemAdmin
 
         public override int SortOrder()
         {
-            return 470;
+            return 690;
         }
 
         public override Boolean Enabled()

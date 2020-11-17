@@ -84,7 +84,7 @@ namespace UserSessionMiddleware.Plugin.Classes.SystemAdmin
 
             Result.ChartTitle = "Daily Visitor Statistics";
 
-            List<SessionDaily> sessionData = DefaultUserSessionService.GetDailyData()
+            List<SessionDaily> sessionData = DefaultUserSessionService.GetDailyData(false)
                 .OrderBy(o => o.Date)
                 .Take(30)
                 .ToList();
@@ -93,10 +93,8 @@ namespace UserSessionMiddleware.Plugin.Classes.SystemAdmin
                 return String.Empty;
 
             Result.DataNames.Add(new KeyValuePair<ChartDataType, string>(ChartDataType.String, "Day"));
-            Result.DataNames.Add(new KeyValuePair<ChartDataType, string>(ChartDataType.Number, "Total Visits"));
-            Result.DataNames.Add(new KeyValuePair<ChartDataType, string>(ChartDataType.Number, "Human Visits"));
+            Result.DataNames.Add(new KeyValuePair<ChartDataType, string>(ChartDataType.Number, "Visits"));
             Result.DataNames.Add(new KeyValuePair<ChartDataType, string>(ChartDataType.Number, "Mobile Visits"));
-            Result.DataNames.Add(new KeyValuePair<ChartDataType, string>(ChartDataType.Number, "Bot Visits"));
             Result.DataNames.Add(new KeyValuePair<ChartDataType, string>(ChartDataType.Number, "Bounced"));
 
             foreach (SessionDaily day in sessionData)
@@ -106,10 +104,8 @@ namespace UserSessionMiddleware.Plugin.Classes.SystemAdmin
                     day.Date.ToString(Thread.CurrentThread.CurrentUICulture.DateTimeFormat.ShortDatePattern),
                     datavalues);
 
-                datavalues.Add(day.TotalVisits);
                 datavalues.Add(day.HumanVisits);
                 datavalues.Add(day.MobileVisits);
-                datavalues.Add(day.BotVisits);
                 datavalues.Add(day.Bounced);
             }
 

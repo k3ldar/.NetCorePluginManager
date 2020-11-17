@@ -20,7 +20,7 @@
  *  Purpose:  
  *
  *  Date        Name                Reason
- *  27/09/2020  Simon Carter        Initially Created
+ *  17/11/2020  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
@@ -41,15 +41,15 @@ using UserSessionMiddleware.Plugin.Classes.SessionData;
 namespace UserSessionMiddleware.Plugin.Classes.SystemAdmin
 {
     /// <summary>
-    /// Returns data for weekly visits to be shown in a chart.  
+    /// Returns data for weekly bot visits to be shown in a chart.  
     /// 
     /// This class descends from SystemAdminSubMenu.
     /// </summary>
-    public sealed class VisitsWeeklySubMenu : SystemAdminSubMenu
+    public sealed class BotVisitsWeeklySubMenu : SystemAdminSubMenu
     {
         private readonly bool _enabled;
 
-        public VisitsWeeklySubMenu(ISettingsProvider settingsProvider)
+        public BotVisitsWeeklySubMenu(ISettingsProvider settingsProvider)
         {
             if (settingsProvider == null)
                 throw new ArgumentNullException(nameof(settingsProvider));
@@ -75,14 +75,14 @@ namespace UserSessionMiddleware.Plugin.Classes.SystemAdmin
         }
 
         /// <summary>
-        /// Returns last 26 weeks of user sessions by week.
+        /// Returns last 26 weeks of bot sessions by week.
         /// </summary>
         /// <returns>string</returns>
         public override string Data()
         {
             ChartModel Result = new ChartModel();
 
-            Result.ChartTitle = "Weekly Visitor Statistics";
+            Result.ChartTitle = "Weekly Bot Visitor Statistics";
 
             List<SessionWeekly> sessionData = DefaultUserSessionService.GetWeeklyData(false)
                 .OrderBy(o => o.Year)
@@ -94,8 +94,7 @@ namespace UserSessionMiddleware.Plugin.Classes.SystemAdmin
                 return String.Empty;
 
             Result.DataNames.Add(new KeyValuePair<ChartDataType, string>(ChartDataType.String, "Week"));
-            Result.DataNames.Add(new KeyValuePair<ChartDataType, string>(ChartDataType.Number, "Visits"));
-            Result.DataNames.Add(new KeyValuePair<ChartDataType, string>(ChartDataType.Number, "Mobile Visits"));
+            Result.DataNames.Add(new KeyValuePair<ChartDataType, string>(ChartDataType.Number, "Bot Visits"));
             Result.DataNames.Add(new KeyValuePair<ChartDataType, string>(ChartDataType.Number, "Bounced"));
 
             foreach (SessionWeekly week in sessionData)
@@ -105,8 +104,7 @@ namespace UserSessionMiddleware.Plugin.Classes.SystemAdmin
                     week.Week.ToString(Thread.CurrentThread.CurrentUICulture),
                     datavalues);
 
-                datavalues.Add(week.HumanVisits);
-                datavalues.Add(week.MobileVisits);
+                datavalues.Add(week.BotVisits);
                 datavalues.Add(week.Bounced);
             }
 
@@ -125,7 +123,7 @@ namespace UserSessionMiddleware.Plugin.Classes.SystemAdmin
 
         public override string Name()
         {
-            return "Visits - Weekly";
+            return "Bot Visits - Weekly";
         }
 
         public override string ParentMenuName()
@@ -135,7 +133,7 @@ namespace UserSessionMiddleware.Plugin.Classes.SystemAdmin
 
         public override int SortOrder()
         {
-            return 470;
+            return 670;
         }
 
         public override Boolean Enabled()

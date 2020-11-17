@@ -40,6 +40,11 @@ using UserSessionMiddleware.Plugin.Classes.SessionData;
 
 namespace UserSessionMiddleware.Plugin.Classes.SystemAdmin
 {
+    /// <summary>
+    /// Returns data for hourly visits to be shown in a chart.  
+    /// 
+    /// This class descends from SystemAdminSubMenu.
+    /// </summary>
     public sealed class VisitsHourlySubMenu : SystemAdminSubMenu
     {
         private readonly bool _enabled;
@@ -79,7 +84,7 @@ namespace UserSessionMiddleware.Plugin.Classes.SystemAdmin
 
             Result.ChartTitle = "Hourly Visitor Statistics";
 
-            List<SessionHourly> sessionData = DefaultUserSessionService.GetHourlyData()
+            List<SessionHourly> sessionData = DefaultUserSessionService.GetHourlyData(false)
                 .OrderBy(o => o.Date)
                 .ThenBy(h => h.Hour)
                 .ThenBy(q => q.Quarter)
@@ -90,10 +95,8 @@ namespace UserSessionMiddleware.Plugin.Classes.SystemAdmin
                 return String.Empty;
 
             Result.DataNames.Add(new KeyValuePair<ChartDataType, string>(ChartDataType.String, "Hour"));
-            Result.DataNames.Add(new KeyValuePair<ChartDataType, string>(ChartDataType.Number, "Total Visits"));
-            Result.DataNames.Add(new KeyValuePair<ChartDataType, string>(ChartDataType.Number, "Human Visits"));
+            Result.DataNames.Add(new KeyValuePair<ChartDataType, string>(ChartDataType.Number, "Visits"));
             Result.DataNames.Add(new KeyValuePair<ChartDataType, string>(ChartDataType.Number, "Mobile Visits"));
-            Result.DataNames.Add(new KeyValuePair<ChartDataType, string>(ChartDataType.Number, "Bot Visits"));
             Result.DataNames.Add(new KeyValuePair<ChartDataType, string>(ChartDataType.Number, "Bounced"));
 
             foreach (SessionHourly hour in sessionData)
@@ -103,10 +106,8 @@ namespace UserSessionMiddleware.Plugin.Classes.SystemAdmin
                     $"{hour.Date.ToString(Thread.CurrentThread.CurrentUICulture.DateTimeFormat.ShortDatePattern.Replace("y", ""))} H{hour.Hour.ToString(Thread.CurrentThread.CurrentUICulture)} Q{hour.Quarter}",
                     datavalues);
 
-                datavalues.Add(hour.TotalVisits);
                 datavalues.Add(hour.HumanVisits);
                 datavalues.Add(hour.MobileVisits);
-                datavalues.Add(hour.BotVisits);
                 datavalues.Add(hour.Bounced);
             }
 
