@@ -6,31 +6,44 @@
 
 <link rel="stylesheet" href="~/css/SystemAdmin.css" asp-append-version="true" />
 
-<div class="bc">@Html.Raw(Model.BreadcrumbData())</div>
 
-<h2>@Model.Title</h2>
-
-<div class="systemGrid">
-    <table>
-        <thead>
-            <tr>
-                @foreach (string header in Model.Headers)
-                {
-                    <th>@Localizer[header]</th>
-                }
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (string[] line in Model.Items)
-            {
+<div class="row">
+    <div class="col-sm-12">
+        <h2>@Model.Title</h2>
+    </div>
+</div>
+<div class="row">
+    <div class="col systemGrid">
+        <table>
+            <thead>
                 <tr>
-                    @foreach (string item in line)
+                    @foreach (string header in Model.Headers)
                     {
-                        <td>@Html.Raw(item.Replace("\n", "<br />"))</td>
+                        <th>@Localizer[header]</th>
                     }
                 </tr>
-            }
-        </tbody>
-    </table>
-</div>
+            </thead>
+            <tbody>
+                @foreach (string[] line in Model.Items)
+                {
+                    <tr>
+                        @{
+                            int colCount = 0;
+                            foreach (string item in line)
+                            {
+                                <td>@Html.Raw(item.Replace("\n", "<br />"))</td>
+                                colCount++;
+                            }
 
+                            while (colCount < Model.HeaderColumnCount)
+                            {
+                                <td></td>
+                                colCount++;
+                            }
+                        }
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

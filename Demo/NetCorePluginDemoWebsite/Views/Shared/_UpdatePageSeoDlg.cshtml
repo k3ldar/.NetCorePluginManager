@@ -1,0 +1,14 @@
+﻿@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
+<button type="button" class="btn btn-primary" id="btnUpdatePageSeo">@Localizer[nameof(Languages.LanguageStrings.SeoUpdate)]</button>
+<div class="modal fade" id="dlgSeo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+</div>
+<script type="text/javascript">
+$(document).ready(function () {
+$('#btnUpdatePageSeo').click(function () {
+let url = encodeURI(window.location.pathname + window.location.search).replace(/\//g, '%2F');
+$('#dlgSeo').load('/SystemAdmin/SeoData/' + url + '/', function () {
+$('#dlgSeo').modal('show');
+});
+});
+});
+</script>

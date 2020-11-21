@@ -28,21 +28,22 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Hosting;
-
+using DownloadPlugin.Classes;
 using DownloadPlugin.Models;
+
+using Languages;
+
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
+
+using Middleware;
+using Middleware.Downloads;
 
 using Shared.Classes;
 
 using SharedPluginFeatures;
 
-using Middleware;
-using Middleware.Downloads;
-
-using Languages;
-
-using DownloadPlugin.Classes;
+#pragma warning disable CS1591
 
 namespace DownloadPlugin.Controllers
 {
@@ -51,7 +52,11 @@ namespace DownloadPlugin.Controllers
         #region Private Members
 
         private static readonly CacheManager _downloadCache = new CacheManager("Downloads", new TimeSpan(0, 60, 0));
+#if NET_CORE_3_X
+        private readonly IWebHostEnvironment _hostingEnvironment;
+#else
         private readonly IHostingEnvironment _hostingEnvironment;
+#endif
         private readonly IDownloadProvider _downloadProvider;
         private readonly List<DownloadCategory> _categories;
         private readonly int _productsPerPage;
@@ -60,8 +65,12 @@ namespace DownloadPlugin.Controllers
 
         #region Constructors
 
-        public DownloadController(IHostingEnvironment hostingEnvironment, 
-            IDownloadProvider downloadProvider)
+        public DownloadController(IDownloadProvider downloadProvider,
+#if NET_CORE_3_X
+            IWebHostEnvironment hostingEnvironment)
+#else
+            IHostingEnvironment hostingEnvironment)
+#endif
         {
             _hostingEnvironment = hostingEnvironment ?? throw new ArgumentNullException(nameof(hostingEnvironment));
             _downloadProvider = downloadProvider ?? throw new ArgumentNullException(nameof(downloadProvider));
@@ -84,6 +93,7 @@ namespace DownloadPlugin.Controllers
 
         [Route("/Download/{id}/Category/{categoryName}")]
         [Route("/Download/{id}/Category/{categoryName}/Page/{page}")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", Justification = "Forms part of route name")]
         public IActionResult Category(int id, string categoryName, int? page)
         {
             if (_categories.Count == 0)
@@ -115,12 +125,11 @@ namespace DownloadPlugin.Controllers
                 categories.Add(new CategoriesModel(item.Id, item.Name));
             }
 
-            DownloadModel model = new DownloadModel(category.Name, downloads, categories);
-            model.Breadcrumbs.Add(new BreadcrumbItem(nameof(Languages.LanguageStrings.Home), "/", false));
+            DownloadModel model = new DownloadModel(GetModelData(), category.Name, downloads, categories);
             model.Breadcrumbs.Add(new BreadcrumbItem(nameof(Languages.LanguageStrings.Download), "/Download/", false));
             model.Breadcrumbs.Add(new BreadcrumbItem(category.Name, $"/Download/{category.Id}/Category/{model.RouteText(category.Name)}", true));
 
-            model.Pagination = BuildPagination(category.Downloads.Count, (int)_productsPerPage,
+            model.Pagination = BuildPagination(category.Downloads.Count, _productsPerPage,
                 page ?? 1,
                 $"/Download/{category.Id}/Category/{model.RouteText(category.Name)}/", "",
                 LanguageStrings.Previous, LanguageStrings.Next);
@@ -143,7 +152,7 @@ namespace DownloadPlugin.Controllers
             if (download == null)
                 return RedirectToAction(nameof(Index));
 
-            string type =String.Empty;
+            string type = String.Empty;
 
             // set known types based on file extension  
             switch (Path.GetExtension(download.Filename).ToLower())
@@ -188,7 +197,7 @@ namespace DownloadPlugin.Controllers
             size = String.Empty;
 
             string cacheName = $"FileInformation {fileName}";
-            FileInformation fileInformation = null;
+            FileInformation fileInformation;
             CacheItem cacheItem = _downloadCache.Get(cacheName);
 
             if (cacheItem == null)
@@ -205,7 +214,7 @@ namespace DownloadPlugin.Controllers
 
                 System.Diagnostics.FileVersionInfo versionInfo = System.Diagnostics.FileVersionInfo.GetVersionInfo(file);
 
-                fileInformation.Version = versionInfo == null || versionInfo.ProductVersion == null ? 
+                fileInformation.Version = versionInfo == null || versionInfo.ProductVersion == null ?
                     String.Empty : versionInfo.ProductVersion;
 
                 cacheItem = new CacheItem(cacheName, fileInformation);
@@ -222,3 +231,5 @@ namespace DownloadPlugin.Controllers
         #endregion Private Methods
     }
 }
+
+#pragma warning restore CS1591

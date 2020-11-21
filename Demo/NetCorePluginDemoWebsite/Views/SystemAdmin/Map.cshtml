@@ -1,0 +1,48 @@
+﻿@model SystemAdmin.Plugin.Models.MapViewModel
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
+@{
+ViewData["Title"] = "Grid";
+}
+<link rel="stylesheet" href="~/css/SystemAdmin.css" asp-append-version="true" />
+<div class="row ac-row">
+<div class="col">
+<h1>@Localizer[Model.Title]</h1>
+</div>
+</div>
+<div class="row">
+<div class="col-sm-12">
+<div id="mapid" class="map"></div>
+</div>
+</div>
+<div class="row">
+<div class="col-sm-12">
+<div class="mapLegend">
+<p>
+<img src="/images/SystemAdmin/MapIcon/blue.png" alt="blue" /> = @Localizer["Visitor"] <br />
+<img src="/images/SystemAdmin/MapIcon/green.png" alt="green" /> = @Localizer["RegisteredUser"] <br />
+<img src="/images/SystemAdmin/MapIcon/green-dot.png" alt="green-dot" /> = @Localizer["RegisteredUserMobile"] <br />
+<img src="/images/SystemAdmin/MapIcon/blue-pushpin.png" alt="blue-pushpin" /> = @Localizer["Sale"] <br />
+<img src="/images/SystemAdmin/MapIcon/grn-pushpin.png" alt="grn-pushpin" /> = @Localizer["SaleMobile"] <br />
+<img src="/images/SystemAdmin/MapIcon/yellow.png" alt="yellow" /> = @Localizer["Bounced"] <br />
+<img src="/images/SystemAdmin/MapIcon/orange.png" alt="orange" /> = @Localizer["Bot"] <br />
+</p>
+</div>
+</div>
+</div>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css" integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ==" crossorigin="" />
+<script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js" integrity="sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqDkyBKgOaB57QTMg7ztg8Jm2Og==" crossorigin=""></script>
+<script>
+let map = L.map('mapid').setView([0, 0], 2);
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+}).addTo(map);
+const ls = [@Html.Raw(Model.MapLocationData)];
+const MapIcon = L.Icon.extend({});
+for (var i = 0; i < ls.length; i++) {
+let l = ls[i];
+let cs = l[0];
+let ic = '/images/SystemAdmin/MapIcon/' + l[6] + '.png';
+L.marker([l[1], l[2]], { icon: new MapIcon({ iconUrl: ic }) })
+.bindPopup(cs).addTo(map);
+}
+</script>

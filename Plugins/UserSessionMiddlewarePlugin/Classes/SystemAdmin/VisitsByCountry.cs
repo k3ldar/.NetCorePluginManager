@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  SharedPluginFeatures
  *  
@@ -32,28 +32,36 @@ using Shared.Classes;
 
 using SharedPluginFeatures;
 
+#pragma warning disable CS1591
+
 namespace UserSessionMiddleware.Plugin.Classes.SystemAdmin
 {
+    /// <summary>
+    /// Returns a list of visitor count, by country and whether it's a bot or not and can 
+    /// be viewed within SystemAdmin.Plugin.  
+    /// 
+    /// This class descends from SystemAdminSubMenu.
+    /// </summary>
     public sealed class VisitsByCountry : SystemAdminSubMenu
     {
         public override string Action()
         {
-            return (String.Empty);
+            return String.Empty;
         }
 
         public override string Area()
         {
-            return (String.Empty);
+            return String.Empty;
         }
 
         public override string Controller()
         {
-            return (String.Empty);
+            return String.Empty;
         }
 
         public override Enums.SystemAdminMenuType MenuType()
         {
-            return (Enums.SystemAdminMenuType.Grid);
+            return Enums.SystemAdminMenuType.Grid;
         }
 
         public override string Data()
@@ -78,8 +86,8 @@ namespace UserSessionMiddleware.Plugin.Classes.SystemAdmin
                 stats.Count++;
             }
 
-            foreach(SessionStatistics stats in statistics)
-            { 
+            foreach (SessionStatistics stats in statistics)
+            {
                 Result.Append(stats.CountryCode + "|");
                 Result.Append(stats.Count.ToString() + "|");
                 //Result.Append(cpu.Substring(cpu.IndexOf("/") + 1) + "|");
@@ -89,32 +97,34 @@ namespace UserSessionMiddleware.Plugin.Classes.SystemAdmin
                 Result.Append(stats.IsBot ? "Yes" : "No" + "\r");
             }
 
-            return (Result.ToString().Trim());
+            return Result.ToString().Trim();
         }
 
         public override string Name()
         {
-            return ("VisitsbyCountry");
+            return "VisitsbyCountry";
         }
 
         public override string ParentMenuName()
         {
-            return ("User Sessions");
+            return "User Sessions";
         }
 
         public override int SortOrder()
         {
-            return (0);
+            return 0;
         }
 
         public override string Image()
         {
-            return (String.Empty);
+            return String.Empty;
         }
 
         public override string BackColor()
         {
-            return ("#3498DB");
+            return "#3498DB";
         }
     }
 }
+
+#pragma warning restore CS1591

@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  AspNetCore.PluginManager.DemoWebsite
  *  
@@ -27,14 +27,18 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
+using PluginManager.Abstractions;
+
 using Shared.Classes;
 
 using SharedPluginFeatures;
 
+#pragma warning disable CS1591
+
 namespace SystemAdmin.Plugin
 {
     /// <summary>
-    /// This class acts as a wrapper arund the elements you extend through plugin manager
+    /// This class acts as a wrapper around the elements you extend through plugin manager
     /// </summary>
     public sealed class SystemAdminHelper : ISystemAdminHelperService
     {
@@ -46,21 +50,19 @@ namespace SystemAdmin.Plugin
 
         #endregion Constants
 
-        #region Private Methods
+        #region Private Members
 
         private readonly IMemoryCache _memoryCache;
         private readonly IPluginClassesService _pluginClassesService;
 
-        #endregion Private Methods
+        #endregion Private Members
 
         #region Constructors
 
-        public SystemAdminHelper(IMemoryCache memoryCache, IPluginClassesService pluginClassesService, IBreadcrumbService breadcrumbService)
+        public SystemAdminHelper(IMemoryCache memoryCache, IPluginClassesService pluginClassesService)
         {
             _memoryCache = memoryCache ?? throw new ArgumentNullException(nameof(memoryCache));
             _pluginClassesService = pluginClassesService ?? throw new ArgumentNullException(nameof(pluginClassesService));
-
-            RegisterBreadcrumbs(breadcrumbService);
         }
 
         #endregion Constructors
@@ -81,7 +83,7 @@ namespace SystemAdmin.Plugin
                 List<SystemAdminSubMenu> allSubMenuItems = _pluginClassesService.GetPluginClasses<SystemAdminSubMenu>();
 
                 // get sub menu items
-                foreach (SystemAdminSubMenu menu in allSubMenuItems)
+                foreach (SystemAdminSubMenu menu in allSubMenuItems.Where(sm => sm.Enabled()).ToList())
                 {
                     menu.UniqueId = ++uniqueId;
 
@@ -97,7 +99,7 @@ namespace SystemAdmin.Plugin
                     menu.ParentMenu = parent;
                     parent.ChildMenuItems.Add(menu);
 
-                    _memoryCache.GetCache().Add(String.Format(SystemAdminMainMenu, menu.UniqueId), 
+                    _memoryCache.GetCache().Add(String.Format(SystemAdminMainMenu, menu.UniqueId),
                         new CacheItem(String.Format(SystemAdminMainMenu, menu.UniqueId), menu));
 
                     menu.UniqueId = ++uniqueId;
@@ -114,12 +116,12 @@ namespace SystemAdmin.Plugin
                 _memoryCache.GetCache().Add(SystemAdminMainMenuCache, cache);
             }
 
-            return ((List<SystemAdminMainMenu>)cache.Value);
+            return (List<SystemAdminMainMenu>)cache.Value;
         }
 
         public SystemAdminMainMenu GetSystemAdminDefaultMainMenu()
         {
-            return (GetSystemAdminMainMenu()[0]);
+            return GetSystemAdminMainMenu()[0];
         }
 
         public SystemAdminMainMenu GetSystemAdminMainMenu(in int id)
@@ -128,16 +130,16 @@ namespace SystemAdmin.Plugin
             CacheItem cacheItem = _memoryCache.GetCache().Get(String.Format(SystemAdminMainMenu, id));
 
             if (cacheItem != null)
-                return ((SystemAdminMainMenu)cacheItem.Value);
+                return (SystemAdminMainMenu)cacheItem.Value;
 
             // not in memory try looping all items
             foreach (SystemAdminMainMenu menu in GetSystemAdminMainMenu())
             {
                 if (menu.UniqueId == id)
-                    return (menu);
+                    return menu;
             }
 
-            return (null);
+            return null;
         }
 
         public List<SystemAdminSubMenu> GetSubMenuItems()
@@ -145,9 +147,9 @@ namespace SystemAdmin.Plugin
             List<SystemAdminMainMenu> allMenuItems = GetSystemAdminMainMenu();
 
             if (allMenuItems.Count > 0)
-                return (allMenuItems[0].ChildMenuItems);
+                return allMenuItems[0].ChildMenuItems;
 
-            return (new List<SystemAdminSubMenu>());
+            return new List<SystemAdminSubMenu>();
         }
 
         public List<SystemAdminSubMenu> GetSubMenuItems(in string mainMenuName)
@@ -157,10 +159,10 @@ namespace SystemAdmin.Plugin
             foreach (SystemAdminMainMenu menuItem in allMenuItems)
             {
                 if (menuItem.Name.Equals(mainMenuName))
-                    return (menuItem.ChildMenuItems);
+                    return menuItem.ChildMenuItems;
             }
 
-            return (new List<SystemAdminSubMenu>());
+            return new List<SystemAdminSubMenu>();
         }
 
         public SystemAdminSubMenu GetSubMenuItem(in int id)
@@ -169,50 +171,13 @@ namespace SystemAdmin.Plugin
             CacheItem cacheItem = _memoryCache.GetCache().Get(String.Format(SystemAdminSubMenu, id));
 
             if (cacheItem != null)
-                return ((SystemAdminSubMenu)cacheItem.Value);
+                return (SystemAdminSubMenu)cacheItem.Value;
 
-            return (null);
+            return null;
         }
 
         #endregion ISystemAdminHelperService Methods
-
-        #region Private Methods
-
-        private void RegisterBreadcrumbs(in IBreadcrumbService breadcrumbService)
-        {
-            string parentRoute = "/SystemAdmin";
-            breadcrumbService.AddBreadcrumb(nameof(Languages.LanguageStrings.SystemAdmin), parentRoute, false);
-
-            foreach (SystemAdminMainMenu item in GetSystemAdminMainMenu())
-            {
-                string route = $"/SystemAdmin/Index/{item.UniqueId}";
-                breadcrumbService.AddBreadcrumb(item.Name, route, parentRoute, false);
-
-                foreach (SystemAdminSubMenu childItem in item.ChildMenuItems)
-                {
-                    switch (childItem.MenuType())
-                    {
-                        case Enums.SystemAdminMenuType.Grid:
-                            breadcrumbService.AddBreadcrumb(childItem.Name(), $"/SystemAdmin/Grid/{childItem.UniqueId}", route, false);
-                            break;
-                        case Enums.SystemAdminMenuType.Text:
-                            breadcrumbService.AddBreadcrumb(childItem.Name(), $"/SystemAdmin/Text/{childItem.UniqueId}", route, false);
-                            break;
-                        case Enums.SystemAdminMenuType.PartialView:
-                            breadcrumbService.AddBreadcrumb(childItem.Name(), $"/SystemAdmin/View/{childItem.UniqueId}", route, false);
-                            break;
-                        case Enums.SystemAdminMenuType.Map:
-                            breadcrumbService.AddBreadcrumb(childItem.Name(), $"/SystemAdmin/Map/{childItem.UniqueId}", route, false);
-                            break;
-                        case Enums.SystemAdminMenuType.FormattedText:
-                            breadcrumbService.AddBreadcrumb(childItem.Name(), $"/SystemAdmin/TextEx/{childItem.UniqueId}", route, false);
-                            break;
-                    }
-
-                }
-            }
-        }
-
-        #endregion Private Methods
     }
 }
+
+#pragma warning restore CS1591

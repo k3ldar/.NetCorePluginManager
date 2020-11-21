@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  UserAccount.Plugin
  *  
@@ -27,16 +27,18 @@ using System.Globalization;
 
 using Microsoft.AspNetCore.Mvc;
 
-using SharedPluginFeatures;
-
 using Shared.Classes;
+
+using SharedPluginFeatures;
 
 namespace UserAccount.Plugin.Controllers
 {
+#pragma warning disable CS1591
+
     public partial class AccountController
     {
         [HttpPost]
-		[LoggedInOut]
+        [LoggedInOut]
         [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult SetLanguage(string culture, string returnUrl)
         {
@@ -51,4 +53,6 @@ namespace UserAccount.Plugin.Controllers
             return Redirect(returnUrl ?? "/");
         }
     }
+
+#pragma warning restore CS1591
 }

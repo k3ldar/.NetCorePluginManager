@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  SystemAdmin.Plugin
  *  
@@ -24,10 +24,11 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
-using System.Collections.Generic;
 using System.Text;
 
 using SharedPluginFeatures;
+
+#pragma warning disable CS1591
 
 namespace SystemAdmin.Plugin.Models
 {
@@ -35,7 +36,9 @@ namespace SystemAdmin.Plugin.Models
     {
         #region Constructors
 
-        public TextViewModel(SystemAdminSubMenu subMenu, List<BreadcrumbItem> breadcrumbs)
+        public TextViewModel(in BaseModelData modelData,
+            SystemAdminSubMenu subMenu)
+            : base(modelData)
         {
             if (subMenu == null)
                 throw new ArgumentNullException(nameof(subMenu));
@@ -77,8 +80,6 @@ namespace SystemAdmin.Plugin.Models
 
 
             Text = newData.ToString();
-
-            Breadcrumbs = breadcrumbs;
         }
 
         #endregion Constructors
@@ -92,3 +93,5 @@ namespace SystemAdmin.Plugin.Models
         #endregion Public Properties
     }
 }
+
+#pragma warning restore CS1591

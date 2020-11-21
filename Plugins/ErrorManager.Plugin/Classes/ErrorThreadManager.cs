@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  Error Manager Plugin
  *  
@@ -30,8 +30,13 @@ using Shared.Classes;
 
 using SharedPluginFeatures;
 
+#pragma warning disable CS1591
+
 namespace ErrorManager.Plugin
 {
+    /// <summary>
+    /// Internally managed thread that manages errors and ensures they are reported correctly usinng the IErrorManager interface.
+    /// </summary>
     public sealed class ErrorThreadManager : ThreadManager
     {
         #region Static Members
@@ -46,7 +51,7 @@ namespace ErrorManager.Plugin
         #region Constructors
 
         public ErrorThreadManager(IErrorManager errorManager)
-            : base (null, new TimeSpan(0, 0, 10))
+            : base(null, new TimeSpan(0, 0, 10))
         {
             _errorManager = errorManager ?? throw new ArgumentNullException(nameof(errorManager));
         }
@@ -69,7 +74,7 @@ namespace ErrorManager.Plugin
             try
             {
                 // process the list of errors
-                for (int i = _processList.Count -1; i >= 0; i--)
+                for (int i = _processList.Count - 1; i >= 0; i--)
                 {
                     ErrorInformation errorInformation = _processList[i];
 
@@ -109,3 +114,5 @@ namespace ErrorManager.Plugin
         #endregion Internal Methods
     }
 }
+
+#pragma warning restore CS1591

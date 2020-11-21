@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  Products.Plugin
  *  
@@ -28,6 +28,8 @@ using System.Collections.Generic;
 
 using SharedPluginFeatures;
 
+#pragma warning disable CS1591
+
 namespace ProductPlugin.Models
 {
     public class BaseProductModel : BaseModel
@@ -39,8 +41,15 @@ namespace ProductPlugin.Models
 
         }
 
-        public BaseProductModel(in List<BreadcrumbItem> breadcrumbs, in IEnumerable<ProductCategoryModel> productGroups)
-            : base(breadcrumbs)
+        public BaseProductModel(in BaseModelData modelData)
+            : base(modelData)
+        {
+
+        }
+
+        public BaseProductModel(in BaseModelData modelData,
+            in IEnumerable<ProductCategoryModel> productGroups)
+            : base(modelData)
         {
             ProductGroups = productGroups ?? throw new ArgumentNullException(nameof(productGroups));
         }
@@ -55,3 +64,5 @@ namespace ProductPlugin.Models
 
     }
 }
+
+#pragma warning restore CS1591

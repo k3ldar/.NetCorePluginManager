@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  UserAccount.Plugin
  *  
@@ -23,19 +23,25 @@
  *  06/01/2019  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 using SharedPluginFeatures;
 
 namespace UserAccount.Plugin.Models
 {
+#pragma warning disable CS1591
+
     public sealed class CreateLicenceViewModel : BaseModel
     {
         #region Constructors
 
-        public CreateLicenceViewModel(in List<BreadcrumbItem> breadcrumbs)
-            : base (breadcrumbs)
+        public CreateLicenceViewModel()
+        {
+
+        }
+
+        public CreateLicenceViewModel(in BaseModelData baseModelData)
+            : base(baseModelData)
         {
 
         }
@@ -49,4 +55,6 @@ namespace UserAccount.Plugin.Models
 
         #endregion Properties
     }
+
+#pragma warning restore CS1591
 }

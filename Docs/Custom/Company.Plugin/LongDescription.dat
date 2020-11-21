@@ -1,0 +1,43 @@
+<p>
+The Company plugin module is a web based plugin module that provides standard company type pages including:
+</p>
+<ul>
+<li>About</li>
+<li>Affiliate</li>
+<li>Careers</li>
+<li>Contact</li>
+<li>Cookies</li>
+<li>Delivery</li>
+<li>Newsletter</li>
+<li>Privacy</li>
+<li>Returns</li>
+<li>Terms</li>
+</ul>
+<h3>Customise Company Pages</h3>
+<p>
+As with all website plugin modules, the pages that are created in /Views/Company folder can be customised and personalised from their default settings to match the theme of the website where they will be shown and contain data that is pertinent to the website where they are implemented.
+</p>
+<h3>Settings</h3>
+<p>
+Please view CompanySettings for details on how to determine which pages are allowed to be shown or not.
+</p>
+<h3>Sample Json Settings</h3>
+<p>
+<pre style="font-family:Consolas;font-size:13px;color:black;background:white;"><span style="color:#2e75b6;">&quot;CompanySettings&quot;</span>:&nbsp;{
+&nbsp;&nbsp;<span style="color:#2e75b6;">&quot;ShowAbout&quot;</span>:&nbsp;<span style="color:blue;">true</span>,
+&nbsp;&nbsp;<span style="color:#2e75b6;">&quot;ShowCareers&quot;</span>:&nbsp;<span style="color:blue;">true</span>,
+&nbsp;&nbsp;<span style="color:#2e75b6;">&quot;ShowContact&quot;</span>:&nbsp;<span style="color:blue;">true</span>,
+&nbsp;&nbsp;<span style="color:#2e75b6;">&quot;ShowCookies&quot;</span>:&nbsp;<span style="color:blue;">true</span>,
+&nbsp;&nbsp;<span style="color:#2e75b6;">&quot;ShowDelivery&quot;</span>:&nbsp;<span style="color:blue;">true</span>,
+&nbsp;&nbsp;<span style="color:#2e75b6;">&quot;ShowNewsletter&quot;</span>:&nbsp;<span style="color:blue;">true</span>,
+&nbsp;&nbsp;<span style="color:#2e75b6;">&quot;ShowPrivacy&quot;</span>:&nbsp;<span style="color:blue;">true</span>,
+&nbsp;&nbsp;<span style="color:#2e75b6;">&quot;ShowReturns&quot;</span>:&nbsp;<span style="color:blue;">true</span>,
+&nbsp;&nbsp;<span style="color:#2e75b6;">&quot;ShowTerms&quot;</span>:&nbsp;<span style="color:blue;">true</span>,
+&nbsp;&nbsp;<span style="color:#2e75b6;">&quot;ShowAffiliates&quot;</span>:&nbsp;<span style="color:blue;">true</span>
+},
+</pre>
+</p>
+<h3>How to use</h3>
+<p>
+The Company plugin should be loaded using the Plugin Manager.
+</p>

@@ -4,15 +4,22 @@
 @{
     ViewData["Title"] = "Index";
 }
-<div class="bc">@Html.Raw(Model.BreadcrumbData())</div>
 
 
 <link rel="stylesheet" href="/css/error.css" />
-<h2>@Localizer[nameof(Languages.LanguageStrings.Error)]</h2>
+<div class="row">
+    <div class="col">
 
-<div class="errorMessage" style="height:unset;">
-    <div>
-        <p>@Localizer[nameof(Languages.LanguageStrings.OopsError)]</p>
-        <p><a href="/">@Localizer[nameof(Languages.LanguageStrings.ClickHere)]</a> @Localizer[nameof(Languages.LanguageStrings.ToGoHome)]</p>
+        <h1>@Localizer[nameof(Languages.LanguageStrings.Error)]</h1>
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+        <div class="errorMessage" style="height:unset;">
+            <div>
+                <p>@Localizer[nameof(Languages.LanguageStrings.OopsError)]</p>
+                <p><a href="/">@Localizer[nameof(Languages.LanguageStrings.ClickHere)]</a> @Localizer[nameof(Languages.LanguageStrings.ToGoHome)]</p>
+            </div>
+        </div>
     </div>
 </div>

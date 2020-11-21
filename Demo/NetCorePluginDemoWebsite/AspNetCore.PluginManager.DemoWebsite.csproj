@@ -1,0 +1,216 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <Version>4.0.0</Version>
+    <PackageReleaseNotes>Introduce new methods to query plugins for classes containing attributes and non instantiated class/interface types</PackageReleaseNotes>
+    <Description></Description>
+    <RazorCompileOnBuild>false</RazorCompileOnBuild>
+    <RazorCompileOnPublish>false</RazorCompileOnPublish>
+    <MvcRazorExcludeRefAssembliesFromPublish>false</MvcRazorExcludeRefAssembliesFromPublish>
+    <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)'=='Debug'">
+    <DefineConstants>CODE_ANALYSIS;DEBUG;TRACE</DefineConstants>
+    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)'=='Release'">
+    <DefineConstants />
+    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Plugin\**" />
+    <Compile Remove="Views\Account\**" />
+    <Content Remove="Plugin\**" />
+    <Content Remove="Views\Account\**" />
+    <EmbeddedResource Remove="Plugin\**" />
+    <None Remove="Plugin\**" />
+    <None Remove="Views\Account\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="wwwroot\css\SystemAdmin.css" />
+    <Content Remove="wwwroot\images\CustomPlugin.png" />
+    <Content Remove="wwwroot\images\DependencyInjection.png" />
+    <Content Remove="wwwroot\images\EmbeddedResources.png" />
+    <Content Remove="wwwroot\images\PluginTechnology.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="wwwroot\images\CustomPlugin.png" />
+    <EmbeddedResource Include="wwwroot\images\DependencyInjection.png" />
+    <EmbeddedResource Include="wwwroot\images\EmbeddedResources.png" />
+    <EmbeddedResource Include="wwwroot\images\PluginTechnology.png" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(Configuration)'=='Release'">
+    <PackageReference Include="AspNetCore.PluginManager" Version="$(Version)" />
+    <PackageReference Include="BadEgg.Plugin" Version="$(Version)" />
+    <PackageReference Include="Breadcrumb.Plugin" Version="$(Version)" />
+    <PackageReference Include="CacheControl.Plugin" Version="$(Version)" />
+    <PackageReference Include="ErrorManager.Plugin" Version="$(Version)" />
+    <PackageReference Include="GeoIp.Plugin" Version="$(Version)" />
+    <PackageReference Include="HelpdeskPlugin" Version="$(Version)" />
+    <PackageReference Include="Localization.Plugin" Version="$(Version)" />
+    <PackageReference Include="LoginPlugin" Version="$(Version)" />
+    <PackageReference Include="MemoryCache.Plugin" Version="$(Version)" />
+    <PackageReference Include="Middleware" Version="$(Version)" />
+    <PackageReference Include="AspNetCore.PluginManager.Languages" Version="$(Version)" />
+    <PackageReference Include="RestrictIp.Plugin" Version="$(Version)" />
+    <PackageReference Include="ShoppingCartPlugin" Version="$(Version)" />
+    <PackageReference Include="SieraDeltaGeoIp.Plugin" Version="$(Version)" />
+    <PackageReference Include="Spider.Plugin" Version="$(Version)" />
+    <PackageReference Include="SystemAdmin.Plugin" Version="$(Version)" />
+    <PackageReference Include="UserAccount.Plugin" Version="$(Version)" />
+    <PackageReference Include="UserSessionMiddleware.Plugin" Version="$(Version)" />
+    <PackageReference Include="ProductPlugin" Version="$(Version)" />
+    <PackageReference Include="Blog.Plugin" Version="$(Version)" />
+    <PackageReference Include="Company.Plugin" Version="$(Version)" />
+    <PackageReference Include="DownloadPlugin" Version="$(Version)" />
+    <PackageReference Include="BadEgg.Plugin" Version="$(Version)" />
+    <PackageReference Include="ErrorManager.Plugin" Version="$(Version)" />
+    <PackageReference Include="Breadcrumb.Plugin" Version="$(Version)" />
+    <PackageReference Include="Localization.Plugin" Version="$(Version)" />
+    <PackageReference Include="CacheControl.Plugin" Version="$(Version)" />
+    <PackageReference Include="SeoPlugin" Version="$(Version)" />
+    <PackageReference Include="Spider.Plugin" Version="$(Version)" />
+    <PackageReference Include="UserSessionMiddleware.Plugin" Version="$(Version)" />
+    <PackageReference Include="DocumentationPlugin" Version="$(Version)" />
+    <PackageReference Include="Sitemap.Plugin" Version="$(Version)" />
+    <PackageReference Include="SearchPlugin" Version="$(Version)" />
+    <PackageReference Include="WebSmokeTest.Plugin" Version="$(Version)" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(Configuration)'=='Debug'">
+    <ProjectReference Include="..\..\SharedPluginFeatures\SharedPluginFeatures.csproj" />
+    <ProjectReference Include="..\..\NetCorePluginManager\AspNetCore.PluginManager.csproj" />
+    <ProjectReference Include="..\..\Plugins\PluginMiddleware\PluginMiddleware.csproj" />
+    <ProjectReference Include="..\..\Plugins\Products.Plugin\ProductsPlugin.csproj" />
+    <ProjectReference Include="..\..\Plugins\ShoppingCart.Plugin\ShoppingCart.Plugin.csproj" />
+    <ProjectReference Include="..\..\Plugins\Helpdesk.Plugin\HelpdeskPlugin.csproj" />
+    <ProjectReference Include="..\..\Languages\Languages.csproj" />
+    <ProjectReference Include="..\..\Plugins\UserAccount.Plugin\UserAccount.Plugin.csproj" />
+    <ProjectReference Include="..\..\Plugins\Login.Plugin\Login.Plugin.csproj" />
+    <ProjectReference Include="..\..\Plugins\SystemAdmin.Plugin\SystemAdmin.Plugin.csproj" />
+    <ProjectReference Include="..\..\Plugins\Documentation.Plugin\Documentation.Plugin.csproj" />
+    <ProjectReference Include="..\..\Plugins\Sitemap.Plugin\Sitemap.Plugin.csproj" />
+    <ProjectReference Include="..\..\Plugins\BadEgg.Plugin\BadEgg.Plugin.csproj" />
+    <ProjectReference Include="..\..\Plugins\Blog.Plugin\Blog.Plugin.csproj" />
+    <ProjectReference Include="..\..\Plugins\Breadcrumb.Plugin\Breadcrumb.Plugin.csproj" />
+    <ProjectReference Include="..\..\Plugins\CacheControl.Plugin\CacheControl.Plugin.csproj" />
+    <ProjectReference Include="..\..\Plugins\Company.Plugin\CompanyPlugin.csproj" />
+    <ProjectReference Include="..\..\Plugins\Download.Plugin\DownloadPlugin.csproj" />
+    <ProjectReference Include="..\..\Plugins\ErrorManager.Plugin\ErrorManager.Plugin.csproj" />
+    <ProjectReference Include="..\..\Plugins\LocalizationPlugin\Localization.Plugin.csproj" />
+    <ProjectReference Include="..\..\Plugins\MemoryCachePlugin\MemoryCachePlugin.csproj" />
+    <ProjectReference Include="..\..\Plugins\RestrictIp.Plugin\RestrictIp.Plugin.csproj" />
+    <ProjectReference Include="..\..\Plugins\SeoPlugin\SeoPlugin.csproj" />
+    <ProjectReference Include="..\..\Plugins\Spider.Plugin\Spider.Plugin.csproj" />
+    <ProjectReference Include="..\..\Plugins\UserSessionMiddlewarePlugin\UserSessionMiddleware.Plugin.csproj" />
+    <ProjectReference Include="..\..\PluginManager\src\PluginManager.csproj" />
+    <ProjectReference Include="..\..\Plugins\Search.Plugin\Search.Plugin.csproj" />
+    <ProjectReference Include="..\..\Plugins\WebSmokeTest.Plugin\WebSmokeTest.Plugin.csproj" />
+    <ProjectReference Include="..\..\Plugins\GeoIpPlugin\GeoIpPlugin.csproj" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="3.1.3" />
+    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.8">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="SC.Shared.Library.Core" Version="2.17.0" />
+    <PackageReference Include="FirebirdSql.Data.FirebirdClient" Version="7.5.0" />    
+  </ItemGroup>
+  
+  <ItemGroup>
+    <ProjectReference Include="..\DemoRazorWebsitePlugin\DemoWebsitePlugin.csproj" />
+    <ProjectReference Include="..\DemoApiPlugin\DemoApiPlugin.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Views\Spider\" />
+    <Folder Include="wwwroot\images\Download\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.ViewFeatures" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Antiforgery" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Abstractions" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Core" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authorization" Version="3.1.3" />
+    <PackageReference Include="Microsoft.AspNetCore.Authorization.Policy" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Connections.Abstractions" Version="3.1.3" />
+    <PackageReference Include="Microsoft.AspNetCore.Cors" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Cryptography.Internal" Version="3.1.3" />
+    <PackageReference Include="Microsoft.AspNetCore.DataProtection" Version="3.1.3" />
+    <PackageReference Include="Microsoft.AspNetCore.DataProtection.Abstractions" Version="3.1.3" />
+    <PackageReference Include="Microsoft.AspNetCore.Diagnostics" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Diagnostics.Abstractions" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.HostFiltering" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Hosting" Version="2.2.7" />
+    <PackageReference Include="Microsoft.AspNetCore.Hosting.Abstractions" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Hosting.Server.Abstractions" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Html.Abstractions" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Http" Version="2.2.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Http.Extensions" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="3.1.3" />
+    <PackageReference Include="Microsoft.AspNetCore.HttpOverrides" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.JsonPatch" Version="3.1.3" />
+    <PackageReference Include="Microsoft.AspNetCore.Localization" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Razor.Language" Version="3.1.3" />
+    <PackageReference Include="Microsoft.AspNetCore.Razor.Runtime" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.ResponseCaching.Abstractions" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Routing" Version="2.2.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Routing.Abstractions" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Server.IISIntegration" Version="2.2.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Server.Kestrel" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Server.Kestrel.Core" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Server.Kestrel.Https" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Server.Kestrel.Transport.Abstractions" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets" Version="2.2.1" />
+    <PackageReference Include="Microsoft.AspNetCore.WebUtilities" Version="2.2.0" />
+    <PackageReference Include="Microsoft.CodeAnalysis.Razor" Version="3.1.3" />
+    <PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="3.1.3" />
+    <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="3.1.3" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="3.1.3" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="3.1.3" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="3.1.3" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.CommandLine" Version="3.1.3" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="3.1.3" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="3.1.3" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="3.1.3" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="3.1.3" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="3.1.3" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="3.1.3" />
+    <PackageReference Include="Microsoft.Extensions.FileProviders.Abstractions" Version="3.1.3" />
+    <PackageReference Include="Microsoft.Extensions.FileProviders.Composite" Version="3.1.3" />
+    <PackageReference Include="Microsoft.Extensions.FileProviders.Physical" Version="3.1.3" />
+    <PackageReference Include="Microsoft.Extensions.FileSystemGlobbing" Version="3.1.3" />
+    <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="3.1.3" />
+    <PackageReference Include="Microsoft.Extensions.Localization" Version="3.1.3" />
+    <PackageReference Include="Microsoft.Extensions.Localization.Abstractions" Version="3.1.3" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="3.1.3" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="3.1.3" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Configuration" Version="3.1.3" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="3.1.3" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="3.1.3" />
+    <PackageReference Include="Microsoft.Extensions.Logging.EventSource" Version="3.1.3" />
+    <PackageReference Include="Microsoft.Extensions.ObjectPool" Version="3.1.3" />
+    <PackageReference Include="Microsoft.Extensions.Options" Version="3.1.3" />
+    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="3.1.3" />
+    <PackageReference Include="Microsoft.Extensions.Primitives" Version="3.1.3" />
+    <PackageReference Include="Microsoft.Extensions.WebEncoders" Version="3.1.3" />
+    <PackageReference Include="Microsoft.Net.Http.Headers" Version="2.2.8" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.2" />
+  </ItemGroup>
+
+</Project>

@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  AspNetCore.PluginManager
  *  
@@ -26,34 +26,46 @@
 using System;
 using System.Text;
 
+using Shared.Classes;
+
 using SharedPluginFeatures;
 
-using Shared.Classes;
+#pragma warning disable CS1591
 
 namespace AspNetCore.PluginManager.Classes.SystemAdmin
 {
+    /// <summary>
+    /// Returns a list of all threads and their current status that can be viewed within 
+    /// SystemAdmin.Plugin.  
+    /// 
+    /// This class descends from SystemAdminSubMenu.
+    /// </summary>
     public class ThreadMenu : SystemAdminSubMenu
     {
         public override string Action()
         {
-            return (String.Empty);
+            return String.Empty;
         }
 
         public override string Area()
         {
-            return (String.Empty);
+            return String.Empty;
         }
 
         public override string Controller()
         {
-            return (String.Empty);
+            return String.Empty;
         }
 
         public override Enums.SystemAdminMenuType MenuType()
         {
-            return (Enums.SystemAdminMenuType.Grid);
+            return Enums.SystemAdminMenuType.Grid;
         }
 
+        /// <summary>
+        /// Returns delimited data on current active threads and their current status
+        /// </summary>
+        /// <returns>string</returns>
         public override string Data()
         {
             StringBuilder Result = new StringBuilder("Name|Process Usage|System Usage|Thread Id|Cancelled|Unresponsive|Marked For Removal\r");
@@ -75,27 +87,27 @@ namespace AspNetCore.PluginManager.Classes.SystemAdmin
                 Result.Append(SplitText(parts[5], ':') + "\r");
             }
 
-            return (Result.ToString().Trim());
+            return Result.ToString().Trim();
         }
 
         public override string Name()
         {
-            return ("Threads");
+            return "Threads";
         }
 
         public override string ParentMenuName()
         {
-            return ("System");
+            return "System";
         }
 
         public override int SortOrder()
         {
-            return (0);
+            return 0;
         }
 
         public override string Image()
         {
-            return (String.Empty);
+            return String.Empty;
         }
 
         private string SplitText(string text, char splitText)
@@ -103,10 +115,12 @@ namespace AspNetCore.PluginManager.Classes.SystemAdmin
             if (text.Contains(splitText.ToString()))
             {
                 string result = text.Substring(text.IndexOf(splitText) + 1);
-                return (result.Trim());
+                return result.Trim();
             }
             else
-                return (text);
+                return text;
         }
     }
 }
+
+#pragma warning restore CS1591

@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  Products.Plugin
  *  
@@ -27,43 +27,64 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
+using Languages;
+
 using Microsoft.AspNetCore.Mvc;
+
+using Middleware;
+using Middleware.Products;
+
+using PluginManager.Abstractions;
 
 using ProductPlugin.Models;
 
 using SharedPluginFeatures;
 
-using Middleware;
-using Middleware.Products;
-
-using Languages;
+#pragma warning disable CS1591
 
 namespace ProductPlugin.Controllers
 {
-    public class ProductController : BaseController
+    /// <summary>
+    /// Product controller displays standard product information on a website.
+    /// </summary>
+    public partial class ProductController : BaseController
     {
         #region Private Members
 
+        private readonly bool _hasShoppingCart;
         private readonly IProductProvider _productProvider;
-        private readonly uint _productsPerPage;
+        private readonly ProductControllerSettings _settings;
+        private readonly IStockProvider _stockProvider;
+        private readonly IMemoryCache _memoryCache;
 
         #endregion Private Members
 
         #region Constructors
 
-        public ProductController(IProductProvider productProvider,
-            ISettingsProvider settingsProvider)
+        public ProductController(IProductProvider productProvider, ISettingsProvider settingsProvider,
+            IPluginHelperService pluginHelper, IStockProvider stockProvider, IMemoryCache memoryCache)
         {
             if (settingsProvider == null)
                 throw new ArgumentNullException(nameof(settingsProvider));
 
-            ProductControllerSettings settings = settingsProvider.GetSettings<ProductControllerSettings>("Products");
+            if (pluginHelper == null)
+                throw new ArgumentNullException(nameof(pluginHelper));
+
+            _settings = settingsProvider.GetSettings<ProductControllerSettings>("Products");
 
             _productProvider = productProvider ?? throw new ArgumentNullException(nameof(productProvider));
-            _productsPerPage = settings.ProductsPerPage;
+            _stockProvider = stockProvider ?? throw new ArgumentNullException(nameof(stockProvider));
+            _memoryCache = memoryCache ?? throw new ArgumentNullException(nameof(memoryCache));
+            _hasShoppingCart = pluginHelper.PluginLoaded(SharedPluginFeatures.Constants.PluginNameShoppingCart, out _);
         }
 
         #endregion Constructors
+
+        #region Constants
+
+        public const string Name = "Product";
+
+        #endregion Constants
 
         #region Public Action Methods
 
@@ -76,7 +97,8 @@ namespace ProductPlugin.Controllers
         [HttpGet]
         [Route("/Products/{groupName}/{id?}/Page/{page}/")]
         [Route("/Products/{groupName}/{id?}/")]
-        public IActionResult Index(string groupName, int?id, int? page)
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", Justification = "Forms part of route name")]
+        public IActionResult Index(string groupName, int? id, int? page)
         {
             ProductGroup group = null;
 
@@ -89,7 +111,7 @@ namespace ProductPlugin.Controllers
             if (!page.HasValue || (page.HasValue && page.Value < 1))
                 page = 1;
 
-            List<Product> products = _productProvider.GetProducts(group, page.Value, (int)_productsPerPage);
+            List<Product> products = _productProvider.GetProducts(group, page.Value, (int)_settings.ProductsPerPage);
 
             ProductGroupModel model = GetProductGroupModel(group, products, page.Value);
 
@@ -98,6 +120,7 @@ namespace ProductPlugin.Controllers
 
         [HttpGet]
         [Route("/Product/{id}/{productName}/")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", Justification = "Forms part of route name")]
         public IActionResult Product(int id, string productName)
         {
             ProductModel model = GetProductModel(id);
@@ -106,6 +129,20 @@ namespace ProductPlugin.Controllers
                 return RedirectToAction(nameof(Index));
 
             return View(model);
+        }
+
+        [HttpPost]
+        [DenySpider]
+        public IActionResult AddToCart(AddToCartModel model)
+        {
+            if (model == null)
+                throw new ArgumentNullException(nameof(model));
+
+            Product product = _productProvider.GetProduct(model.Id);
+            IShoppingCartProvider provider = (IShoppingCartProvider)HttpContext.RequestServices.GetService(typeof(IShoppingCartProvider));
+            provider.AddToCart(GetUserSession(), GetCartSummary(), product, model.Quantity);
+
+            return RedirectToAction("Product", "Product", new { id = model.Id, productName = BaseModel.RouteFriendlyName(product.Name) });
         }
 
         #endregion Public Action Methods
@@ -125,25 +162,25 @@ namespace ProductPlugin.Controllers
 
             List<ProductCategoryModel> modelCategories = new List<ProductCategoryModel>();
 
-            foreach (var item in _productProvider.ProductGroupsGet())
+            foreach (ProductGroup item in _productProvider.ProductGroupsGet())
             {
                 modelCategories.Add(new ProductCategoryModel(item.Id, item.Description, item.Url));
             }
 
-            ProductGroupModel Result = new ProductGroupModel(GetBreadcrumbs(), modelCategories,
-                group.Description, group.TagLine);
+            ProductGroupModel Result = new ProductGroupModel(GetModelData(),
+                modelCategories, group.Description, group.TagLine);
 
             foreach (Product product in products)
             {
-                Result.Products.Add(new ProductCategoryProductModel(product.Id, product.Name, product.Images[0], 
-                    group.Id, product.NewProduct, product.BestSeller, product.LowestPrice));
+                Result.Products.Add(new ProductCategoryProductModel(product.Id, product.Name, product.Images[0],
+                    group.Id, product.NewProduct, product.BestSeller, product.RetailPrice));
             }
 
             Result.Breadcrumbs.Clear();
             Result.Breadcrumbs.Add(new BreadcrumbItem(LanguageStrings.Home, "/", false));
             Result.Breadcrumbs.Add(new BreadcrumbItem(group.Description, $"/Products/{group.Id}/", false));
 
-            Result.Pagination = BuildPagination(products.Count, (int)_productsPerPage, page, 
+            Result.Pagination = BuildPagination(products.Count, (int)_settings.ProductsPerPage, page,
                 $"/Products/{Result.RouteText(group.Description)}/{group.Id}/", "",
                 LanguageStrings.Previous, LanguageStrings.Next);
 
@@ -152,11 +189,11 @@ namespace ProductPlugin.Controllers
 
         private ProductModel GetProductModel(in int productId)
         {
-            ProductModel Result = null;
+            ProductModel Result;
 
             List<ProductCategoryModel> modelCategories = new List<ProductCategoryModel>();
 
-            foreach (var item in _productProvider.ProductGroupsGet())
+            foreach (ProductGroup item in _productProvider.ProductGroupsGet())
             {
                 modelCategories.Add(new ProductCategoryModel(item.Id, item.Description, item.Url));
             }
@@ -168,23 +205,28 @@ namespace ProductPlugin.Controllers
 
             if (product != null)
             {
+                _stockProvider.GetStockAvailability(product);
+
                 if (_productProvider.ProductGroupGet(product.ProductGroupId) == null)
                     return null;
 
-                Result = new ProductModel(GetBreadcrumbs(), modelCategories, product.Id, product.ProductGroupId,
-                    product.Name, product.Description, product.Features, product.VideoLink, product.Images, product.LowestPrice);
+                Result = new ProductModel(GetModelData(), modelCategories, product.Id, product.ProductGroupId,
+                    product.Name, product.Description, product.Features, product.VideoLink, product.Images,
+                    product.RetailPrice, _hasShoppingCart && product.RetailPrice > 0, product.StockAvailability);
             }
             else
             {
-                Result = new ProductModel(GetBreadcrumbs(), modelCategories);
+                Result = new ProductModel(GetModelData(), modelCategories);
             }
+
+
 
             ProductGroup primaryProductGroup = _productProvider.ProductGroupGet(product.ProductGroupId);
             Result.Breadcrumbs.Clear();
             Result.Breadcrumbs.Add(new BreadcrumbItem(LanguageStrings.Home, "/", false));
-            Result.Breadcrumbs.Add(new BreadcrumbItem(primaryProductGroup.Description, 
+            Result.Breadcrumbs.Add(new BreadcrumbItem(primaryProductGroup.Description,
                 $"/Products/{primaryProductGroup.Id}/", false));
-            Result.Breadcrumbs.Add(new BreadcrumbItem(product.Name, 
+            Result.Breadcrumbs.Add(new BreadcrumbItem(product.Name,
                 $"/Product/{product.Id}/{Result.RouteText(product.Name)}/", false));
 
             return Result;
@@ -193,3 +235,5 @@ namespace ProductPlugin.Controllers
         #endregion Private Methods
     }
 }
+
+#pragma warning restore CS1591

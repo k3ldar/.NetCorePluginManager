@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  SystemAdmin.Plugin
  *  
@@ -24,26 +24,25 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
-using System.Collections.Generic;
+
+using PluginManager.Abstractions;
 
 using SharedPluginFeatures;
+
+#pragma warning disable CS1591
 
 namespace SystemAdmin.Plugin.Models
 {
     public sealed class MapViewModel : BaseModel
     {
-        #region Private Members
-
-        private readonly ISettingsProvider _settingsProvider;
-
-        #endregion Private Members
-
         #region Constructors
 
-        public MapViewModel(in ISettingsProvider settingsProvider, in SystemAdminSubMenu subMenu, 
-            List<BreadcrumbItem> breadcrumbs)
+        public MapViewModel(in BaseModelData modelData,
+            in ISettingsProvider settingsProvider, in SystemAdminSubMenu subMenu)
+            : base(modelData)
         {
-            _settingsProvider = settingsProvider ?? throw new ArgumentNullException(nameof(settingsProvider));
+            if (settingsProvider == null)
+                throw new ArgumentNullException(nameof(settingsProvider));
 
             if (subMenu == null)
                 throw new ArgumentNullException(nameof(subMenu));
@@ -54,8 +53,6 @@ namespace SystemAdmin.Plugin.Models
             SystemAdminSettings settings = settingsProvider.GetSettings<SystemAdminSettings>("SystemAdmin");
 
             GoogleMapApiKey = settings.GoogleMapApiKey;
-
-            Breadcrumbs = breadcrumbs;
         }
 
         #endregion Constructors
@@ -71,3 +68,5 @@ namespace SystemAdmin.Plugin.Models
         #endregion Public Properties
     }
 }
+
+#pragma warning restore CS1591

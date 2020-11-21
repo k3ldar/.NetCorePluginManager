@@ -24,20 +24,15 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
 using System.Threading.Tasks;
 
-using Microsoft.Extensions.Localization;
-
-using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Http;
+
+using PluginManager.Abstractions;
 
 using Shared.Classes;
 
 using SharedPluginFeatures;
-using static SharedPluginFeatures.Enums;
 
 namespace MarketingPlugin
 {

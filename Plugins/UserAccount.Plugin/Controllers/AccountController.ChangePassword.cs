@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  UserAccount.Plugin
  *  
@@ -27,27 +27,29 @@ using System;
 
 using Microsoft.AspNetCore.Mvc;
 
-using SharedPluginFeatures;
-
 using Shared.Classes;
+
+using SharedPluginFeatures;
 
 using UserAccount.Plugin.Models;
 
 namespace UserAccount.Plugin.Controllers
 {
+#pragma warning disable CS1591
+
     public partial class AccountController : BaseController
     {
-		[HttpGet]
+        [HttpGet]
         [Breadcrumb(nameof(Languages.LanguageStrings.MyPassword), nameof(AccountController), nameof(Index))]
-		public IActionResult ChangePassword()
+        public IActionResult ChangePassword()
         {
             UserSession userSession = GetUserSession();
 
-            return View(new ChangePasswordViewModel(GetBreadcrumbs(), userSession.UserEmail));
+            return View(new ChangePasswordViewModel(GetModelData(), userSession.UserEmail));
         }
 
-		[HttpPost]
-		public IActionResult ChangePassword(ChangePasswordViewModel model)
+        [HttpPost]
+        public IActionResult ChangePassword(ChangePasswordViewModel model)
         {
             if (!model.NewPassword.Equals(model.ConfirmNewPassword))
                 ModelState.AddModelError(String.Empty, Languages.LanguageStrings.PasswordDoesNotMatch);
@@ -67,8 +69,11 @@ namespace UserAccount.Plugin.Controllers
             }
 
             model.Breadcrumbs = GetBreadcrumbs();
+            model.CartSummary = GetCartSummary();
 
             return View(model);
         }
     }
+
+#pragma warning restore CS1591
 }

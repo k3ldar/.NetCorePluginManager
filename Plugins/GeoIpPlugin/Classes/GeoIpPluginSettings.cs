@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  GeoIpPlugin
  *  
@@ -23,14 +23,22 @@
  *  22/10/2018  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+using AppSettings;
+
 using SharedPluginFeatures;
 
 namespace GeoIp.Plugin
 {
+    /// <summary>
+    /// Settings to determine how GeoIp.Plugin module is configured.
+    /// </summary>
     public class GeoIpPluginSettings
     {
         #region Constructors
 
+        /// <summary>
+        /// Default constructor
+        /// </summary>
         public GeoIpPluginSettings()
         {
             IpStack = new IpStackSettings();
@@ -40,10 +48,43 @@ namespace GeoIp.Plugin
 
         #region Properties
 
-        public string Webnet77CSVData { get; set; }
+        /// <summary>
+        /// Webnet77CSVData.  The filename and path for Webnet77 Ip Address data held in CSV format.
+        /// </summary>
+        /// <value>string</value>
+        public string Webnet77CSVDataPath { get; set; }
 
+        /// <summary>
+        /// Automatically downloads webnet 77 data if true
+        /// </summary>
+        /// <value>bool</value>
+        public bool AutoDownloadWebnet77Data { get; set; }
+
+        /// <summary>
+        /// Webnet77 download url
+        /// </summary>
+        /// <value>string</value>
+        [SettingDefault("http://software77.net/geo-ip/?DL=2")]
+        [SettingUri(false, System.UriKind.Absolute)]
+        public string Webnet77CsvUrl { get; set; }
+
+        /// <summary>
+        /// Frequency of download of Webnet77 data in days
+        /// </summary>
+        /// <value>int</value>
+        [SettingDefault(1)]
+        [SettingRange(1, 20)]
+        public int DownloadFrequency { get; set; }
+
+        /// <summary>
+        /// GeoIpProvider used by GeoIp.Plugin module.
+        /// </summary>
         public Enums.GeoIpProvider GeoIpProvider { get; set; }
 
+        /// <summary>
+        /// IpStackSettings, individual settings for retrieving data from Ip Stack.
+        /// </summary>
+        /// <value>IpStackSettings</value>
         public IpStackSettings IpStack { get; set; }
 
         #endregion Properties

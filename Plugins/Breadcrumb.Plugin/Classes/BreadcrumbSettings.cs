@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  Breadcrumb.Plugin
  *  
@@ -27,27 +27,51 @@ using AppSettings;
 
 using SharedPluginFeatures;
 
- namespace Breadcrumb.Plugin
+namespace Breadcrumb.Plugin
 {
+    /// <summary>
+    /// Settings which affect how breadcrumb data is served.
+    /// </summary>
     public class BreadcrumbSettings
     {
         #region Properties
 
+        /// <summary>
+        /// Determines whether breadcrumb data is applied to static filed, .css, .js etc
+        /// </summary>
+        /// <value>bool</value>
         public bool ProcessStaticFiles { get; set; }
 
+        /// <summary>
+        /// Delimited list of file extensions to ignore
+        /// </summary>
+        /// <value>string</value>
         [SettingDefault(Constants.StaticFileExtensions)]
         [SettingString(false)]
         [SettingDelimitedString(';', 1)]
         public string StaticFileExtensions { get; set; }
 
+        /// <summary>
+        /// Name of home, usually Home or similar.  If Localization is enabled then this will be the 
+        /// value looked up from resource strings.
+        /// </summary>
+        /// <value>string</value>
         [SettingDefault(nameof(Languages.LanguageStrings.Home))]
         [SettingString(false)]
         public string HomeName { get; set; }
 
+        /// <summary>
+        /// Name of home controller, without the Controller appendage, i.e. Home
+        /// </summary>
+        /// <value>string</value>
         [SettingDefault("Home")]
         [SettingString(false)]
         public string HomeController { get; set; }
 
+        /// <summary>
+        /// Default action name for home route.
+        /// </summary>
+        /// <value>string</value>
         [SettingDefault("Index")]
         [SettingString(false)]
         public string DefaultAction { get; set; }

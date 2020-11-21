@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  Error Manager Plugin
  *  
@@ -26,9 +26,11 @@
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 
+#pragma warning disable CS1591
+
 namespace ErrorManager.Plugin
 {
-    public class Program
+    public static class Program
     {
         public static void Main(string[] args)
         {
@@ -40,3 +42,5 @@ namespace ErrorManager.Plugin
                 .UseStartup<Startup>();
     }
 }
+
+#pragma warning restore CS1591

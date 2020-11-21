@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  BadEgg.Plugin
  *  
@@ -27,25 +27,36 @@ using System;
 
 using SharedPluginFeatures;
 
+#pragma warning disable CS1591
+
 namespace BadEgg.Plugin.Classes.SystemAdmin
 {
+    /// <summary>
+    /// Returns a list of current Timings and can be viewed within SystemAdmin.Plugin.  
+    /// 
+    /// This class descends from SystemAdminSubMenu.
+    /// </summary>
     public sealed class BadEggTimingsSubMenu : SystemAdminSubMenu
     {
         public override string Action()
         {
-            return (String.Empty);
+            return String.Empty;
         }
 
         public override string Area()
         {
-            return (String.Empty);
+            return String.Empty;
         }
 
         public override string Controller()
         {
-            return (String.Empty);
+            return String.Empty;
         }
 
+        /// <summary>
+        /// Returns Timings data in milliseconds for time spent processing by BadEgg.Plugin.
+        /// </summary>
+        /// <returns>string</returns>
         public override string Data()
         {
             string Result = "Setting|Value";
@@ -54,34 +65,37 @@ namespace BadEgg.Plugin.Classes.SystemAdmin
             Result += $"\rFastest ms|{BadEggMiddleware._timings.Fastest}";
             Result += $"\rSlowest ms|{BadEggMiddleware._timings.Slowest}";
             Result += $"\rAverage ms|{BadEggMiddleware._timings.Average}";
+            Result += $"\rTrimmed Avg ms|{BadEggMiddleware._timings.TrimmedAverage}";
             Result += $"\rTotal ms|{BadEggMiddleware._timings.Total}";
 
-            return (Result);
+            return Result;
         }
 
         public override string Image()
         {
-            return ("stopwatch");
+            return Constants.SystemImageStopWatch;
         }
 
         public override Enums.SystemAdminMenuType MenuType()
         {
-            return (Enums.SystemAdminMenuType.Grid);
+            return Enums.SystemAdminMenuType.Grid;
         }
 
         public override string Name()
         {
-            return ("Bad Egg");
+            return "Bad Egg";
         }
 
         public override string ParentMenuName()
         {
-            return ("Timings");
+            return "Timings";
         }
 
         public override int SortOrder()
         {
-            return (0);
+            return 0;
         }
     }
 }
+
+#pragma warning restore CS1591

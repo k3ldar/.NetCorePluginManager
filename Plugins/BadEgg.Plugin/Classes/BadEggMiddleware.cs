@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  BadEgg.Plugin
  *  
@@ -30,19 +30,26 @@ using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 
-using Microsoft.AspNetCore.Mvc.Infrastructure;
+using BadEgg.Plugin.WebDefender;
 
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
+
+using PluginManager.Abstractions;
 
 using Shared.Classes;
 
-using BadEgg.Plugin.WebDefender;
-
 using SharedPluginFeatures;
+
 using static SharedPluginFeatures.Enums;
+
+#pragma warning disable CS1591
 
 namespace BadEgg.Plugin
 {
+    /// <summary>
+    /// BadEgg Middleware
+    /// </summary>
     public sealed class BadEggMiddleware : BaseMiddleware
     {
         #region Private Members
@@ -54,16 +61,17 @@ namespace BadEgg.Plugin
         private readonly IIpValidation _ipValidation;
         private readonly string _staticFileExtensions = Constants.StaticFileExtensions;
         private readonly BadEggSettings _badEggSettings;
+        private readonly INotificationService _notificationService;
         internal static Timings _timings = new Timings();
 
         #endregion Private Members
 
         #region Constructors
 
-        public BadEggMiddleware(RequestDelegate next, IActionDescriptorCollectionProvider routeProvider, 
+        public BadEggMiddleware(RequestDelegate next, IActionDescriptorCollectionProvider routeProvider,
             IRouteDataService routeDataService, IPluginHelperService pluginHelperService,
-            IPluginTypesService pluginTypesService, IIpValidation ipValidation, 
-            ISettingsProvider settingsProvider)
+            IPluginTypesService pluginTypesService, IIpValidation ipValidation,
+            ISettingsProvider settingsProvider, INotificationService notificationService)
         {
             if (routeProvider == null)
                 throw new ArgumentNullException(nameof(routeProvider));
@@ -74,15 +82,22 @@ namespace BadEgg.Plugin
             if (pluginHelperService == null)
                 throw new ArgumentNullException(nameof(pluginHelperService));
 
-            _next = next;
+            if (pluginTypesService == null)
+                throw new ArgumentNullException(nameof(pluginTypesService));
 
-            _userSessionManagerLoaded = pluginHelperService.PluginLoaded("UserSessionMiddleware.Plugin.dll", out int version);
+            if (settingsProvider == null)
+                throw new ArgumentNullException(nameof(settingsProvider));
+
+            _next = next ?? throw new ArgumentNullException(nameof(next));
+
+            _userSessionManagerLoaded = pluginHelperService.PluginLoaded(Constants.PluginNameUserSession, out int version);
             _ipValidation = ipValidation ?? throw new ArgumentNullException(nameof(ipValidation));
+            _notificationService = notificationService ?? throw new ArgumentNullException(nameof(notificationService));
 
             _managedRoutes = new List<ManagedRoute>();
             LoadRouteData(routeProvider, routeDataService, pluginTypesService);
 
-            _badEggSettings = settingsProvider.GetSettings<BadEggSettings>("BadEgg.Plugin");
+            _badEggSettings = settingsProvider.GetSettings<BadEggSettings>(Constants.BadEggSettingsName);
 
             _validateConnections = new ValidateConnections(
                 _badEggSettings.ConnectionTimeOut,
@@ -92,7 +107,7 @@ namespace BadEgg.Plugin
             _validateConnections.OnReportConnection += ValidateConnections_OnReportConnection;
             _validateConnections.OnBanIPAddress += ValidateConnections_OnBanIPAddress;
 
-            ThreadManager.ThreadStart(_validateConnections, "Bad Egg Validation", ThreadPriority.Lowest);
+            ThreadManager.ThreadStart(_validateConnections, Constants.BadEggValidationThread, ThreadPriority.Lowest);
         }
 
         #endregion Constructors
@@ -101,6 +116,9 @@ namespace BadEgg.Plugin
 
         public async Task Invoke(HttpContext context)
         {
+            if (context == null)
+                throw new ArgumentNullException(nameof(context));
+
             string fileExtension = RouteFileExtension(context);
 
             if (!String.IsNullOrEmpty(fileExtension) && _staticFileExtensions.Contains($"{fileExtension};"))
@@ -108,6 +126,15 @@ namespace BadEgg.Plugin
                 await _next(context);
                 return;
             }
+
+            if (context.Request.Headers.ContainsKey(Constants.BadEggValidationIgnoreHeaderName) &&
+                context.Request.Headers[Constants.BadEggValidationIgnoreHeaderName].Equals(_badEggSettings.IgnoreValidationHeaderCode))
+            {
+                context.Response.Headers.Add(Constants.BadEggValidationIgnoreHeaderName, Boolean.TrueString);
+                await _next(context);
+                return;
+            }
+
 
             string route = RouteLowered(context);
 
@@ -117,14 +144,14 @@ namespace BadEgg.Plugin
 
                 foreach (ManagedRoute restrictedRoute in _managedRoutes)
                 {
-                    if (restrictedRoute.ValidateFormFields && route.StartsWith(restrictedRoute.Route))
+                    if (restrictedRoute.ValidateFormFields && restrictedRoute.Route.StartsWith(route))
                     {
                         validateFormInput = true;
                         break;
                     }
                 }
 
-                ValidateRequestResult validateResult = _validateConnections.ValidateRequest(context.Request, validateFormInput, out int count);
+                ValidateRequestResult validateResult = _validateConnections.ValidateRequest(context.Request, validateFormInput, out int _);
 
                 if (!validateResult.HasFlag(ValidateRequestResult.IpWhiteListed))
                 {
@@ -132,9 +159,10 @@ namespace BadEgg.Plugin
                     {
                         context.Response.StatusCode = _badEggSettings.BannedResponseCode;
                         return;
-                    } 
+                    }
                     else if (validateResult.HasFlag(ValidateRequestResult.TooManyRequests))
                     {
+                        _notificationService.RaiseEvent(nameof(ValidateRequestResult.TooManyRequests), GetIpAddress(context));
                         context.Response.StatusCode = _badEggSettings.TooManyRequestResponseCode;
                         return;
                     }
@@ -155,7 +183,7 @@ namespace BadEgg.Plugin
 
             if (badeggAttributes.Count > 0)
             {
-                // Cycle through all classes and methods which have the spider attribute
+                // Cycle through all classes and methods which have the bad egg attribute
                 foreach (Type type in badeggAttributes)
                 {
                     // is it a class attribute
@@ -169,7 +197,7 @@ namespace BadEgg.Plugin
                         if (String.IsNullOrEmpty(route))
                             continue;
 
-                        _managedRoutes.Add(new ManagedRoute($"/{route.ToLower()}/", attribute.ValidateQueryFields, attribute.ValidateFormFields));
+                        _managedRoutes.Add(new ManagedRoute($"{route.ToLower()}", attribute.ValidateQueryFields, attribute.ValidateFormFields));
                     }
 
                     // look for specific method disallows
@@ -187,7 +215,7 @@ namespace BadEgg.Plugin
                                 continue;
 
 
-                            _managedRoutes.Add(new ManagedRoute($"/{route.ToLower()}/", attribute.ValidateQueryFields, attribute.ValidateFormFields));
+                            _managedRoutes.Add(new ManagedRoute($"{route.ToLower()}", attribute.ValidateQueryFields, attribute.ValidateFormFields));
                         }
                     }
                 }
@@ -196,22 +224,22 @@ namespace BadEgg.Plugin
 
         #region IIpValidation Methods
 
-        private void ValidateConnections_OnBanIPAddress(object sender, RequestBanArgs e)
+        private void ValidateConnections_OnBanIPAddress(object sender, RequestBanEventArgs e)
         {
             e.AddToBlackList = _ipValidation.ConnectionBan(e.IPAddress, e.Hits, e.Requests, e.Duration);
         }
 
-        private void ValidateConnections_OnReportConnection(object sender, ConnectionReportArgs e)
+        private void ValidateConnections_OnReportConnection(object sender, ConnectionReportEventArgs e)
         {
             _ipValidation.ConnectionReport(e.IPAddress, e.QueryString, e.Result);
         }
 
-        private void ValidateConnections_ConnectionRemove(object sender, ConnectionRemoveArgs e)
+        private void ValidateConnections_ConnectionRemove(object sender, ConnectionRemoveEventArgs e)
         {
             _ipValidation.ConnectionRemove(e.IPAddress, e.Hits, e.Requests, e.Duration);
         }
 
-        private void ValidateConnections_ConnectionAdd(object sender, ConnectionArgs e)
+        private void ValidateConnections_ConnectionAdd(object sender, ConnectionEventArgs e)
         {
             _ipValidation.ConnectionAdd(e.IPAddress);
         }
@@ -221,3 +249,5 @@ namespace BadEgg.Plugin
         #endregion Private Methods
     }
 }
+
+#pragma warning restore CS1591

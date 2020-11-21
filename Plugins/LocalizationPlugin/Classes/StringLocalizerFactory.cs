@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  Localization.Plugin
  *  
@@ -31,7 +31,8 @@ using Shared.Classes;
 
 namespace Localization.Plugin
 {
-    public sealed class StringLocalizerFactory : IStringLocalizerFactory
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1812:AvoidUninstantiatedInternalClasses", Justification = "Used internally as part of IoC")]
+    internal sealed class StringLocalizerFactory : IStringLocalizerFactory
     {
         #region Private Members
 
@@ -46,7 +47,7 @@ namespace Localization.Plugin
         public StringLocalizerFactory()
         {
             if (_cacheManager == null)
-                _cacheManager = Initialisation.CultureCache;
+                _cacheManager = PluginInitialisation.CultureCache;
         }
 
         #endregion Constructors

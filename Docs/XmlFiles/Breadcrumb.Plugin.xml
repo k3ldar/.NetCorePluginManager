@@ -1,0 +1,85 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Breadcrumb.Plugin</name>
+    </assembly>
+    <members>
+        <member name="T:Breadcrumb.Plugin.BreadcrumbMiddleware">
+            <summary>
+            Breadcrumb middleware class, this module extends BaseMiddlware and is injected 
+            into the request pipeline.
+            </summary>
+        </member>
+        <member name="T:Breadcrumb.Plugin.BreadcrumbMiddlewareExtender">
+            <summary>
+            Breadcrumb middleware extender
+            </summary>
+        </member>
+        <member name="M:Breadcrumb.Plugin.BreadcrumbMiddlewareExtender.UseBreadcrumbs(Microsoft.AspNetCore.Builder.IApplicationBuilder)">
+            <summary>
+            IApplicationBuilder extender method.
+            
+            Allows easy use of registering UserSessionMiddleware.Plugin
+            </summary>
+            <param name="builder">IApplicationBuilder instance</param>
+            <returns>IApplicationBuilder</returns>
+            <example><pre style="font-family:Consolas;font-size:13px;color:black;background:white;"><span style="color:#1f377f;">app</span>.<span style="color:#74531f;">UseBreadcrumbs</span>();</pre></example>
+        </member>
+        <member name="T:Breadcrumb.Plugin.BreadcrumbSettings">
+            <summary>
+            Settings which affect how breadcrumb data is served.
+            </summary>
+        </member>
+        <member name="P:Breadcrumb.Plugin.BreadcrumbSettings.ProcessStaticFiles">
+            <summary>
+            Determines whether breadcrumb data is applied to static filed, .css, .js etc
+            </summary>
+            <value>bool</value>
+        </member>
+        <member name="P:Breadcrumb.Plugin.BreadcrumbSettings.StaticFileExtensions">
+            <summary>
+            Delimited list of file extensions to ignore
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:Breadcrumb.Plugin.BreadcrumbSettings.HomeName">
+            <summary>
+            Name of home, usually Home or similar.  If Localization is enabled then this will be the 
+            value looked up from resource strings.
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:Breadcrumb.Plugin.BreadcrumbSettings.HomeController">
+            <summary>
+            Name of home controller, without the Controller appendage, i.e. Home
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:Breadcrumb.Plugin.BreadcrumbSettings.DefaultAction">
+            <summary>
+            Default action name for home route.
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="T:Breadcrumb.Plugin.Classes.SystemAdmin.BreadcrumbTimingsSubMenu">
+            <summary>
+            Returns Timings information for all time spent processing Breadcrumb requests and can 
+            be viewed within SystemAdmin.Plugin.  
+            
+            This class descends from SystemAdminSubMenu.
+            </summary>
+        </member>
+        <member name="M:Breadcrumb.Plugin.Classes.SystemAdmin.BreadcrumbTimingsSubMenu.Data">
+            <summary>
+            Returns Timings data in milliseconds for time spent processing by Breadcrumb.Plugin requests.
+            </summary>
+            <returns>string</returns>
+        </member>
+        <member name="T:Breadcrumb.Plugin.PluginInitialisation">
+            <summary>
+            Implements IPlugin which allows the Breadcrumb.Plugin module to be
+            loaded as a plugin module
+            </summary>
+        </member>
+    </members>
+</doc>

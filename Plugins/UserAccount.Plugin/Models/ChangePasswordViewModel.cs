@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  UserAccount.Plugin
  *  
@@ -24,25 +24,31 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 using SharedPluginFeatures;
 
 namespace UserAccount.Plugin.Models
 {
+#pragma warning disable CS1591
+
     public class ChangePasswordViewModel : BaseModel
     {
         #region Constructors
 
-        public ChangePasswordViewModel(in List<BreadcrumbItem> breadcrumbs)
-            : base (breadcrumbs)
+        public ChangePasswordViewModel()
         {
 
         }
 
-        public ChangePasswordViewModel(in List<BreadcrumbItem> breadcrumbs, in string username)
-            : this (breadcrumbs)
+        public ChangePasswordViewModel(in BaseModelData baseModelData)
+            : base(baseModelData)
+        {
+
+        }
+
+        public ChangePasswordViewModel(in BaseModelData baseModelData, in string username)
+            : this(baseModelData)
         {
             if (String.IsNullOrEmpty(username))
                 throw new ArgumentNullException(nameof(username));
@@ -76,4 +82,6 @@ namespace UserAccount.Plugin.Models
 
         #endregion Properties
     }
+
+#pragma warning restore CS1591
 }

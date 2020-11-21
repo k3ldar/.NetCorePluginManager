@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  SystemAdmin.Plugin
  *  
@@ -27,14 +27,33 @@ using AppSettings;
 
 namespace SystemAdmin.Plugin
 {
+    /// <summary>
+    /// Contains settings and configuration data for displaying items within the SystemAdmin.Plugin module.
+    /// </summary>
     public class SystemAdminSettings
     {
+        /// <summary>
+        /// Google maps api key, should map data be viewed.
+        /// 
+        /// Must be between 15 and 80 characters long.
+        /// </summary>
+        /// <value>string</value>
         [SettingString(true, 15, 80)]
         public string GoogleMapApiKey { get; set; }
 
+        /// <summary>
+        /// Determines whether appsettings.json file can be viewed or not
+        /// 
+        /// Default value:  false.
+        /// </summary>
+        /// <value>bool.  If true the appsettings.json file can be viewed, this could potentially be a security vulnerability depending on what data is stored in there.</value>
         [SettingDefault(false)]
         public bool ShowAppSettingsJson { get; set; }
 
+        /// <summary>
+        /// Prevents formatted text being displayed.
+        /// </summary>
+        /// <value>bool.  If true the formatted text is disabled.</value>
         [SettingDefault(true)]
         public bool DisableFormattedText { get; set; }
     }

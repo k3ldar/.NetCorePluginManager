@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  Localization.Plugin
  *  
@@ -29,12 +29,19 @@ using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Http;
 
-using SharedPluginFeatures;
+using PluginManager.Abstractions;
 
 using Shared.Classes;
 
+using SharedPluginFeatures;
+
+#pragma warning disable CS1591
+
 namespace Localization.Plugin
 {
+    /// <summary>
+    /// Localization middleware class, processes all localiztion requests whilst in the request pipeline.
+    /// </summary>
     public sealed class LocalizationMiddleware : BaseMiddleware
     {
         #region Private Members
@@ -46,7 +53,7 @@ namespace Localization.Plugin
         #endregion Private Members
 
         #region Constructors
- 
+
         public LocalizationMiddleware(RequestDelegate next, ISettingsProvider settingsProvider)
         {
             if (settingsProvider == null)
@@ -54,8 +61,7 @@ namespace Localization.Plugin
 
             _next = next;
 
-            ThreadManager.Initialise();
-            _cultureCache = Initialisation.CultureCache;
+            _cultureCache = PluginInitialisation.CultureCache;
         }
 
         #endregion Constructors
@@ -64,6 +70,9 @@ namespace Localization.Plugin
 
         public async Task Invoke(HttpContext context)
         {
+            if (context == null)
+                throw new ArgumentNullException(nameof(context));
+
             using (StopWatchTimer stopwatchTimer = StopWatchTimer.Initialise(_timings))
             {
                 if (context.Items.TryGetValue(Constants.UserCulture, out object sessionCulture))
@@ -114,3 +123,5 @@ namespace Localization.Plugin
         #endregion Private Methods
     }
 }
+
+#pragma warning restore CS1591

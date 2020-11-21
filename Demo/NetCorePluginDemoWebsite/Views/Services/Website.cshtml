@@ -1,0 +1,53 @@
+﻿@model SharedPluginFeatures.BaseModel
+@{
+ViewData["Title"] = "Website";
+}
+<div class="row">
+<div class="col-sm-12">
+<h2>Plugin Website</h2>
+<p>A website is usually a collection of multiple types of content and services, these could be in the form of:</p>
+<ul>
+<li>A Shopping Cart</li>
+<li>Product Display</li>
+<li>Services Offered</li>
+<li>
+Customer/Member area
+<ul>
+<li>Invoicing</li>
+<li>Orders</li>
+<li>Billing/Shipping Addresses</li>
+<li>Licences</li>
+<li>Downloads</li>
+</ul>
+</li>
+<li>
+Payment Gateways
+<ul>
+<li>Card Payment Provider</li>
+<li>Paypal</li>
+<li>Cheque/Postal Order</li>
+</ul>
+</li>
+<li>
+Management/Admin Interface
+<ul>
+<li>Cusotomer Management</li>
+<li>Order Dispatch</li>
+<li>Stock Management</li>
+</ul>
+</li>
+</ul>
+<p>Each of these custom elements are systems within their own rights and can be loaded as plugins.</p>
+<h3>Advantages</h3>
+<p>Each section or sub section of a website can be developed and tested in isolation.</p>
+<p>Specific elements can be shared as plugins, between different customer websites, supporting the DRY pinciple.</p>
+<h3>How it Works</h3>
+<p>A sub system is developed using ASP.Net Core, and pre-defined routing agreed upon, this routing will ensure a system works together when all the pieces are plugged in.</p>
+<p>The resources required by the project can either be embedded in, or deployed seperately. Plugin Manager supports either method.</p>
+<p>If for instance you have a design team which creates the themes the views for each customer, these can be developed as part of the main host project. Alternatively the views, css, images and JScript files can be embedded into the plugin website. Plugin Manager will extract all resources where required, however, appsettings.json can be configured so that resources are not overridden.</p>
+<h3>Embedded Resources</h3>
+<p>To embed resources, these being .cshtml files, images, css or script etc, right click the item in the solution explorer, select properties and choose Embedded Resource as the build action.</p>
+<img src="~/images/EmbeddedResources.png" />
+<p>The resources are then extracted by the plugin manager, into the correct path for use when required</p>
+</div>
+</div>

@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  Breadcrumb.Plugin
  *  
@@ -27,25 +27,37 @@ using System;
 
 using SharedPluginFeatures;
 
+#pragma warning disable CS1591
+
 namespace Breadcrumb.Plugin.Classes.SystemAdmin
 {
+    /// <summary>
+    /// Returns Timings information for all time spent processing Breadcrumb requests and can 
+    /// be viewed within SystemAdmin.Plugin.  
+    /// 
+    /// This class descends from SystemAdminSubMenu.
+    /// </summary>
     public sealed class BreadcrumbTimingsSubMenu : SystemAdminSubMenu
     {
         public override string Action()
         {
-            return (String.Empty);
+            return String.Empty;
         }
 
         public override string Area()
         {
-            return (String.Empty);
+            return String.Empty;
         }
 
         public override string Controller()
         {
-            return (String.Empty);
+            return String.Empty;
         }
 
+        /// <summary>
+        /// Returns Timings data in milliseconds for time spent processing by Breadcrumb.Plugin requests.
+        /// </summary>
+        /// <returns>string</returns>
         public override string Data()
         {
             string Result = "Setting|Value";
@@ -54,34 +66,37 @@ namespace Breadcrumb.Plugin.Classes.SystemAdmin
             Result += $"\rFastest ms|{BreadcrumbMiddleware._timings.Fastest}";
             Result += $"\rSlowest ms|{BreadcrumbMiddleware._timings.Slowest}";
             Result += $"\rAverage ms|{BreadcrumbMiddleware._timings.Average}";
+            Result += $"\rTrimmed Avg ms|{BreadcrumbMiddleware._timings.TrimmedAverage}";
             Result += $"\rTotal ms|{BreadcrumbMiddleware._timings.Total}";
 
-            return (Result);
+            return Result;
         }
 
         public override string Image()
         {
-            return ("stopwatch");
+            return Constants.SystemImageStopWatch;
         }
 
         public override Enums.SystemAdminMenuType MenuType()
         {
-            return (Enums.SystemAdminMenuType.Grid);
+            return Enums.SystemAdminMenuType.Grid;
         }
 
         public override string Name()
         {
-            return ("Breadcrumbs");
+            return "Breadcrumbs";
         }
 
         public override string ParentMenuName()
         {
-            return ("Timings");
+            return "Timings";
         }
 
         public override int SortOrder()
         {
-            return (0);
+            return 0;
         }
     }
 }
+
+#pragma warning restore CS1591

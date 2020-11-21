@@ -1,0 +1,136 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>UserAccount.Plugin</name>
+    </assembly>
+    <members>
+        <member name="T:UserAccount.Plugin.AccountSettings">
+            <summary>
+            Settings that affect how the UserAccount.Plugin module is used and configured.
+            </summary>
+        </member>
+        <member name="P:UserAccount.Plugin.AccountSettings.ShowOrders">
+            <summary>
+            Determines whether orders are shown within the website.
+            </summary>
+        </member>
+        <member name="P:UserAccount.Plugin.AccountSettings.ShowInvoices">
+            <summary>
+            Detemines whether invoices are shown within the website.
+            </summary>
+            <value>bool</value>
+        </member>
+        <member name="P:UserAccount.Plugin.AccountSettings.ShowCreditCards">
+            <summary>
+            Show credit cards.
+            
+            If you show credit cards you  must never store the credit card number or other details that could be used by hackers.  
+            
+            As well as breaking a number of privacy rules it will leave you open to potential law suits.  Instead store tokenized card details that are encrypted.
+            </summary>
+            <value>bool</value>
+        </member>
+        <member name="P:UserAccount.Plugin.AccountSettings.ShowBillingAddress">
+            <summary>
+            Show billing address, if you take payments.
+            </summary>
+            <value>bool</value>
+        </member>
+        <member name="P:UserAccount.Plugin.AccountSettings.ShowDeliveryAddress">
+            <summary>
+            Show delivery addresses if you deliver physical products.
+            </summary>
+            <value>bool</value>
+        </member>
+        <member name="P:UserAccount.Plugin.AccountSettings.ShowMarketingPreferences">
+            <summary>
+            Show marketing preferences for the user.
+            </summary>
+            <value>bool</value>
+        </member>
+        <member name="P:UserAccount.Plugin.AccountSettings.ShowLicences">
+            <summary>
+            Shows the licences that are owned by the user.
+            </summary>
+            <value>bool</value>
+        </member>
+        <member name="P:UserAccount.Plugin.AccountSettings.ShowSupportTickets">
+            <summary>
+            Show support tickets that the user has created.
+            </summary>
+            <value>bool</value>
+        </member>
+        <member name="P:UserAccount.Plugin.AccountSettings.ShowAppointments">
+            <summary>
+            Show appointments made by the user, if your website supports appointments.
+            </summary>
+            <value>bool</value>
+        </member>
+        <member name="P:UserAccount.Plugin.AccountSettings.ShowDownloads">
+            <summary>
+            Show the downloads section, contains items the user has downloaded.
+            </summary>
+            <value>bool</value>
+        </member>
+        <member name="P:UserAccount.Plugin.AccountSettings.ShowBlog">
+            <summary>
+            If Blog.Plugin module is loaded, this will show an icon for the user to view their own blogs.
+            </summary>
+            <value>bool</value>
+        </member>
+        <member name="P:UserAccount.Plugin.AccountSettings.PasswordUppercaseCharCount">
+            <summary>
+            Minimum number of upper case characters that have to be in a password.
+            
+            Default: 1
+            Minimum: 0
+            Maximum: 3
+            </summary>
+            <value>int</value>
+        </member>
+        <member name="P:UserAccount.Plugin.AccountSettings.PasswordLowercaseCharCount">
+            <summary>
+            Minimum number of lower case characters that have to be in a password.
+            
+            Default: 1
+            Minimum: 0
+            Maximum: 3
+            </summary>
+            <value>int</value>
+        </member>
+        <member name="P:UserAccount.Plugin.AccountSettings.PasswordNumberCharCount">
+            <summary>
+            Minimum number of numbers that must appear within a password.
+            
+            Default: 1
+            Minimum: 0
+            Maximum: 3
+            </summary>
+            <value>int</value>
+        </member>
+        <member name="P:UserAccount.Plugin.AccountSettings.PasswordSpecialCharCount">
+            <summary>
+            Minimum number of special characters that must appear within a password.
+            
+            Default: 1
+            Minimum: 0
+            Maximum: 3
+            </summary>
+            <value>int</value>
+        </member>
+        <member name="P:UserAccount.Plugin.AccountSettings.PasswordSpecialCharacters">
+            <summary>
+            Special password characters that can be used for login password.
+            
+            Default: £$^*()#,.&lt;&gt;?:;!@
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="T:UserAccount.Plugin.PluginInitialisation">
+            <summary>
+            Implements IPlugin and IPluginVersion which allows the UserAccount.Plugin module to be
+            loaded as a plugin module
+            </summary>
+        </member>
+    </members>
+</doc>

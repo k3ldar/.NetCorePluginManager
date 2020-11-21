@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  UserAccount.Plugin
  *  
@@ -24,20 +24,24 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
+
 using Microsoft.AspNetCore.Mvc;
+
+using Middleware;
+
+using Shared.Classes;
 
 using SharedPluginFeatures;
 
-using Shared.Classes;
-using static Shared.Utilities;
-
 using UserAccount.Plugin.Models;
 
-using Middleware;
 using static Middleware.Constants;
+using static Shared.Utilities;
 
 namespace UserAccount.Plugin.Controllers
 {
+#pragma warning disable CS1591
+
     public partial class AccountController
     {
         #region Public Action Methods
@@ -45,9 +49,9 @@ namespace UserAccount.Plugin.Controllers
         [HttpGet]
         [LoggedOut]
         [Breadcrumb(nameof(Languages.LanguageStrings.CreateAccount), nameof(AccountController), nameof(Index))]
-        public IActionResult CreateAccount()
+        public IActionResult CreateAccount(string returnUrl)
         {
-            CreateAccountViewModel model = new CreateAccountViewModel();
+            CreateAccountViewModel model = new CreateAccountViewModel(GetModelData(), returnUrl);
             PrepareCreateAccountModel(ref model);
 
             return View(model);
@@ -64,9 +68,9 @@ namespace UserAccount.Plugin.Controllers
 
             if (ModelState.IsValid)
             {
-                if (_accountProvider.CreateAccount(model.Email, model.FirstName, model.Surname, 
-                    model.Password, model.Telephone, model.BusinessName, model.AddressLine1, 
-                    model.AddressLine2, model.AddressLine3, model.City, model.County, 
+                if (_accountProvider.CreateAccount(model.Email, model.FirstName, model.Surname,
+                    model.Password, model.Telephone, model.BusinessName, model.AddressLine1,
+                    model.AddressLine2, model.AddressLine3, model.City, model.County,
                     model.Postcode, model.Country, out Int64 userId))
                 {
                     UserSession session = GetUserSession();
@@ -74,7 +78,10 @@ namespace UserAccount.Plugin.Controllers
                     if (session != null)
                         session.Login(userId, $"{model.FirstName} {model.Surname}", model.Email);
 
-                    return Redirect("/Account/");
+                    if (String.IsNullOrEmpty(model.ReturnUrl))
+                        return Redirect("/Account/");
+                    else
+                        return Redirect(model.ReturnUrl);
                 }
             }
 
@@ -124,7 +131,7 @@ namespace UserAccount.Plugin.Controllers
             if (createAccountCacheItem.CreateAttempts > 10)
                 ModelState.AddModelError(String.Empty, Languages.LanguageStrings.TooManyAttempts);
 
-            AddressOptions addressOptions = _accountProvider.GetAddressOptions();
+            AddressOptions addressOptions = _accountProvider.GetAddressOptions(AddressOption.Billing);
 
             if (!ValidatePasswordComplexity(model.Password))
                 ModelState.AddModelError(String.Empty, Languages.LanguageStrings.PasswordComplexityFailed);
@@ -162,9 +169,10 @@ namespace UserAccount.Plugin.Controllers
 
         private void PrepareCreateAccountModel(ref CreateAccountViewModel model)
         {
-            AddressOptions addressOptions = _accountProvider.GetAddressOptions();
+            AddressOptions addressOptions = _accountProvider.GetAddressOptions(AddressOption.Billing);
 
             model.Breadcrumbs = GetBreadcrumbs();
+            model.CartSummary = GetCartSummary();
 
             model.ShowAddressLine1 = addressOptions.HasFlag(AddressOptions.AddressLine1Show);
             model.ShowAddressLine2 = addressOptions.HasFlag(AddressOptions.AddressLine2Show);
@@ -183,4 +191,6 @@ namespace UserAccount.Plugin.Controllers
 
         #endregion Private Members
     }
+
+#pragma warning restore CS1591
 }

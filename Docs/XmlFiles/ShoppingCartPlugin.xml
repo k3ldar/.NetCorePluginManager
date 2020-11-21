@@ -1,0 +1,180 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>ShoppingCartPlugin</name>
+    </assembly>
+    <members>
+        <member name="T:ShoppingCartPlugin.Classes.PaymentProviderSettings">
+            <summary>
+            Settings which affect how the payment providers are configured.  
+            
+            Each payment provider has its own settings, which determine how it is used.
+            </summary>
+        </member>
+        <member name="P:ShoppingCartPlugin.Classes.PaymentProviderSettings.Enabled">
+            <summary>
+            Determines whether the payment provider can be used or not.
+            </summary>
+            <value>bool.  If true the payment provider is enabled.</value>
+        </member>
+        <member name="P:ShoppingCartPlugin.Classes.PaymentProviderSettings.UniqueId">
+            <summary>
+            Unique guid which identifies the payment provider.
+            </summary>
+            <value>Guid</value>
+        </member>
+        <member name="P:ShoppingCartPlugin.Classes.PaymentProviderSettings.Currencies">
+            <summary>
+            Delimited list of supported currencies for the payment provider.
+            
+            Default:    GBP;USD;EUR
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="T:ShoppingCartPlugin.Classes.PaymentProviders.CashOnDelivery">
+            <summary>
+            Cash on delivry payment provider.  This payment provider is used when a user orders online, but then the goods are delivered and payment is taken upon delivery.
+            
+            This class implements IPaymentProvider interface.
+            </summary>
+        </member>
+        <member name="T:ShoppingCartPlugin.Classes.PaymentProviders.Cheque">
+            <summary>
+            Pay by cheque payment provider.  This payment provider is used when a user orders online, but then completes the sale and makes payment using a cheque.
+            
+            This class implements IPaymentProvider interface.
+            </summary>
+        </member>
+        <member name="T:ShoppingCartPlugin.Classes.PaymentProviders.ClickAndCollect">
+            <summary>
+            Click and collect payment provider.  This payment provider is used when a user orders online, but then visits a store to complete the sale and make payment.
+            
+            This class implements IPaymentProvider interface.
+            </summary>
+        </member>
+        <member name="T:ShoppingCartPlugin.Classes.PaymentProviders.DirectTransfer">
+            <summary>
+            Direct transfer payment provider.  This payment provider is used when a user orders online, but then makes a payment by directly transferring funds to a nominated bank account.
+            
+            This class implements IPaymentProvider interface.
+            </summary>
+        </member>
+        <member name="T:ShoppingCartPlugin.Classes.PaymentProviders.PaypointProvider">
+            <summary>
+            Paypoint payment provider.  This payment provider is used when a user orders online and makes a payment using the online Paypoint payment service.
+            
+            This class implements IPaymentProvider interface.
+            </summary>
+        </member>
+        <member name="T:ShoppingCartPlugin.Classes.PaymentProviders.Phone">
+            <summary>
+            Pay by phone payment provider.  This payment provider is used when a user orders online, but then telephones the office to complete the sale and make payment.
+            
+            This class implements IPaymentProvider interface.
+            </summary>
+        </member>
+        <member name="T:ShoppingCartPlugin.Classes.Paypoint.PostType">
+            <summary>
+            determines what type of post to perform.
+            Get: Does a get against the source.
+            Post: Does a post against the source.
+            </summary>
+        </member>
+        <member name="T:ShoppingCartPlugin.Classes.Paypoint.PaypointHelper">
+            <summary>
+            Summary description for ValCard.
+            </summary>
+        </member>
+        <member name="P:ShoppingCartPlugin.Classes.Paypoint.PaypointHelper.Url">
+            <summary>
+            Gets or sets the url to submit the post to.
+            </summary>
+        </member>
+        <member name="P:ShoppingCartPlugin.Classes.Paypoint.PaypointHelper.PostItems">
+            <summary>
+            Gets or sets the name value collection of items to post.
+            </summary>
+        </member>
+        <member name="P:ShoppingCartPlugin.Classes.Paypoint.PaypointHelper.PostType">
+            <summary>
+            Gets or sets the type of action to perform against the url.
+            </summary>
+        </member>
+        <member name="M:ShoppingCartPlugin.Classes.Paypoint.PaypointHelper.Post(System.String)">
+            <summary>
+            Posts the supplied data to specified url.
+            </summary>
+            <returns>a string containing the result of the post.</returns>
+        </member>
+        <member name="M:ShoppingCartPlugin.Classes.Paypoint.PaypointHelper.Post">
+            <summary>
+            Posts the supplied data to specified url.
+            </summary>
+            <returns>a string containing the result of the post.</returns>
+        </member>
+        <member name="M:ShoppingCartPlugin.Classes.Paypoint.PaypointHelper.PostData(System.String,System.String)">
+            <summary>
+            Posts data to a specified url. Note that this assumes that you have already url encoded the post data.
+            </summary>
+            <param name="postData">The data to post.</param>
+            <param name="url">the url to post to.</param>
+            <returns>Returns the result of the post.</returns>
+        </member>
+        <member name="T:ShoppingCartPlugin.Classes.CartSettings">
+            <summary>
+            Settings that configure how the Shopping cart is configured.
+            </summary>
+        </member>
+        <member name="P:ShoppingCartPlugin.Classes.CartSettings.DefaultCurrency">
+            <summary>
+            Default currency to be used.
+            </summary>
+        </member>
+        <member name="P:ShoppingCartPlugin.Classes.CartSettings.DefaultTaxRate">
+            <summary>
+            Default tax rate to be applied.  This can later be overridden depending on shipping address.
+            </summary>
+        </member>
+        <member name="T:ShoppingCartPlugin.Classes.PaypointSettings">
+            <summary>
+            Settings related specifically to Paypoint payment provider.
+            </summary>
+        </member>
+        <member name="P:ShoppingCartPlugin.Classes.PaypointSettings.MerchantId">
+            <summary>
+            Merchant Id
+            </summary>
+        </member>
+        <member name="P:ShoppingCartPlugin.Classes.PaypointSettings.RemotePassword">
+            <summary>
+            Remote password.
+            </summary>
+        </member>
+        <member name="T:ShoppingCartPlugin.ShoppingCartMiddleware">
+            <summary>
+            Middleware used in the request pipeline for inserting shopping cart data and information.
+            </summary>
+        </member>
+        <member name="T:ShoppingCartPlugin.ShoppingCartMiddlewareExtender">
+            <summary>
+            Shopping cart middleware extender
+            </summary>
+        </member>
+        <member name="M:ShoppingCartPlugin.ShoppingCartMiddlewareExtender.UseShoppingCart(Microsoft.AspNetCore.Builder.IApplicationBuilder)">
+            <summary>
+            IApplicationBuilder extender method.
+            
+            Allows easy use of registering ShoppingCart.Plugin services
+            </summary>
+            <param name="builder">IApplicationBuilder instance</param>
+            <returns>IApplicationBuilder</returns>
+            <example><pre style="font-family:Consolas;font-size:13px;color:black;background:white;"><span style="color:#1f377f;">app</span>.<span style="color:#74531f;">UseShoppingCart</span>();</pre></example>
+        </member>
+        <member name="T:ShoppingCartPlugin.PluginInitialisation">
+            <summary>
+            Implements IPlugin, IPluginVersion and IInitialiseEvents which allows the ShoppingCartPlugin module to be
+            loaded as a plugin module
+            </summary>
+        </member>
+    </members>
+</doc>

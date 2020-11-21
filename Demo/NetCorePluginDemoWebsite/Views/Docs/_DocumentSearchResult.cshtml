@@ -1,0 +1,10 @@
+﻿@model Middleware.Search.SearchResponseItem
+<a href="@Model.Url.ToString()">
+<img src="~/images/document-icon.png" style="float:left;" />
+<p>
+@Model.DisplayName
+</p>
+<p>
+@Model.Properties["ShortDescription"]
+</p>
+</a>

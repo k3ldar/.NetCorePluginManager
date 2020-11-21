@@ -1,0 +1,154 @@
+﻿@model SearchPlugin.Models.SearchViewModel
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
+@{
+ViewData["Title"] = "Index";
+}
+<link rel="stylesheet" type="text/css" href="~/css/Search.css" />
+<div class="row">
+<div class="col-sm-12">
+<h1>@Localizer[nameof(Languages.LanguageStrings.Search)]</h1>
+</div>
+</div>
+<div class="row">
+<div class="col-sm-12">
+<ul class="nav nav-tabs">
+<li class="nav-item">
+@if (String.IsNullOrEmpty(Model.ActiveTab) || Model.ActiveTab.Equals(Languages.LanguageStrings.All))
+{
+<a class="nav-link active" href="/Search/Index/">@Localizer[nameof(Languages.LanguageStrings.All)]</a>
+}
+else
+{
+<a class="nav-link" href="/Search/Index/">@Localizer[nameof(Languages.LanguageStrings.All)]</a>
+}
+</li>
+@foreach (var searchName in Model.AdvancedSearch)
+{
+if (Model.ActiveTab.Equals(searchName.Key))
+{
+<li class="nav-item"><a class="nav-link active" href="/Search/Advanced/@searchName.Key/">@Localizer[searchName.Key]</a></li>
+}
+else
+{
+<li class="nav-item"><a class="nav-link" href="/Search/Advanced/@searchName.Key/">@Localizer[searchName.Key]</a></li>
+}
+}
+</ul>
+</div>
+</div>
+<div class="nav-box">
+@if (String.IsNullOrEmpty(Model.ActiveTab) || Model.ActiveTab.Equals(Languages.LanguageStrings.All))
+{
+@using (Html.BeginForm(nameof(SearchPlugin.Controllers.SearchController.Search), SearchPlugin.Controllers.SearchController.Name, FormMethod.Get, new { id = "frmSearch" }))
+{
+<div class="row search-row">
+<div class="col-sm-12 col-md-4 col-lg-3">
+@Html.LabelFor(m => m.SearchText)
+</div>
+<div class="col-sm-12 col-md-5 col-lg-4">
+@Html.TextBoxFor(m => m.SearchText, new { @class = "form-control" })
+@Html.ValidationMessageFor(m => m.SearchText)
+</div>
+<div class="col-sm-12 col-md-3 col-lg-1">
+<input class="btn btn-primary" id="btnSearch" type="submit" value="@Localizer[nameof(Languages.LanguageStrings.Search)]" />
+</div>
+</div>
+}
+}
+else
+{
+@if (!String.IsNullOrEmpty(Model.StyleSheet))
+{
+<link rel="stylesheet" href="@Model.StyleSheet">
+}
+@if (!String.IsNullOrEmpty(Model.SearchOption))
+{
+@using (Html.BeginForm(Model.ActionName, Model.ControllerName, FormMethod.Get, new { id = "frmSearch" }))
+{
+<div class="row">
+<div class="col-sm-12 col-md-3">
+<div id="divSearchOptions"></div>
+</div>
+<div class="col-sm-12 col-md-9">
+<div class="row search-row">
+<div class="col-sm-12">
+<div id="divSearch"></div>
+</div>
+</div>
+@foreach (Middleware.Search.SearchResponseItem item in Model.SearchResults)
+{
+<div class="row">
+<div class="col-sm-12">
+<div class="searchEntry">
+@if (!String.IsNullOrEmpty(item.ViewName))
+{
+@await Html.PartialAsync(item.ViewName, item);
+}
+else
+{
+<a href="@item.Url.ToString()">
+<p>
+@item.DisplayName
+</p>
+</a>
+}
+</div>
+</div>
+</div>
+}
+</div>
+</div>
+}
+}
+else
+{
+<div id="divSearch"></div>
+}
+<script type="text/javascript">
+$(document).ready(function () {
+var url = '@Model.SearchName';
+var searchId = '@Model.SearchId';
+if (searchId !== '') {
+url += searchId + '/';
+}
+$('#divSearch').load(url);
+url = '@Model.SearchOption';
+if (url !== '') {
+if (searchId !== '') {
+url += searchId + '/';
+}
+$('#divSearchOptions').load(url);
+}
+});
+</script>
+}
+@if (String.IsNullOrEmpty(Model.SearchOption))
+{
+@foreach (Middleware.Search.SearchResponseItem item in Model.SearchResults)
+{
+<div class="row">
+<div class="col-sm-12">
+<div class="searchEntry">
+@if (!String.IsNullOrEmpty(item.ViewName))
+{
+@await Html.PartialAsync(item.ViewName, item);
+}
+else
+{
+<a href="@item.Url.ToString()">
+<p>
+@item.DisplayName
+</p>
+</a>
+}
+</div>
+</div>
+</div>
+}
+}
+<div class="row justify-content-sm-center" style="margin-top:20px;">
+<div class="col-sm-auto">
+@Html.Raw(Model.Pagination)
+</div>
+</div>
+</div>

@@ -1,0 +1,110 @@
+﻿@model UserAccount.Plugin.Models.InvoiceViewModel
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
+@{
+ViewData["Title"] = "View Invoice";
+}
+<div class="row">
+<div class="col">
+<h1>@Localizer[nameof(Languages.LanguageStrings.Invoice)] @Model.InvoiceId</h1>
+</div>
+</div>
+<link rel="stylesheet" href="/css/Account.css" />
+@if (!String.IsNullOrEmpty(Model.DeliveryAddress))
+{
+<div class="row ac-row">
+<div class="col-sm-12 col-md-4 col-lg-3">
+@Html.LabelFor(m => m.DeliveryAddress)
+</div>
+<div class="col-sm-12 col-md-5 col-lg-4">
+@Html.Raw(Model.DeliveryAddress)
+</div>
+</div>
+}
+<div class="row ac-row">
+<div class="col-sm-12 col-md-4 col-lg-3">
+@Html.LabelFor(m => m.Date)
+</div>
+<div class="col-sm-12 col-md-5 col-lg-4">
+@Model.Date.ToString()
+</div>
+</div>
+<div class="row ac-row">
+<div class="col-sm-12 col-md-4 col-lg-3">
+@Html.LabelFor(m => m.Status)
+</div>
+<div class="col-sm-12 col-md-5 col-lg-4">
+@Shared.Utilities.SplitCamelCase(Model.Status.ToString())
+</div>
+</div>
+<div class="row ac-row">
+<div class="col-sm-12 col-md-4 col-lg-3">
+@Html.LabelFor(m => m.SubTotal)
+</div>
+<div class="col-sm-12 col-md-5 col-lg-4">
+@Shared.Utilities.FormatMoney(Model.SubTotal, Model.Culture)
+</div>
+</div>
+<div class="row ac-row">
+<div class="col-sm-12 col-md-4 col-lg-3">
+@Html.LabelFor(m => m.Postage)
+</div>
+<div class="col-sm-12 col-md-5 col-lg-4">
+@Shared.Utilities.FormatMoney(Model.Postage, Model.Culture)
+</div>
+</div>
+<div class="row ac-row">
+<div class="col-sm-12 col-md-4 col-lg-3">
+@Html.LabelFor(m => m.Tax)
+</div>
+<div class="col-sm-12 col-md-5 col-lg-4">
+@Shared.Utilities.FormatMoney(Model.Tax, Model.Culture)
+</div>
+</div>
+<div class="row ac-row">
+<div class="col-sm-12 col-md-4 col-lg-3">
+@Html.LabelFor(m => m.Total)
+</div>
+<div class="col-sm-12 col-md-5 col-lg-4">
+@Shared.Utilities.FormatMoney(Model.Total, Model.Culture)
+</div>
+</div>
+<div class="row">
+<div class="col accountGrid">
+<table>
+<thead>
+<tr>
+<th>@Localizer[nameof(Languages.LanguageStrings.Status)]</th>
+<th>@Localizer[nameof(Languages.LanguageStrings.Description)]</th>
+<th>@Localizer[nameof(Languages.LanguageStrings.Price)]</th>
+<th>@Localizer[nameof(Languages.LanguageStrings.Quantity)]</th>
+<th>@Localizer[nameof(Languages.LanguageStrings.SubTotal)]</th>
+<th>@Localizer[nameof(Languages.LanguageStrings.VAT)]</th>
+<th>@Localizer[nameof(Languages.LanguageStrings.Discount)]</th>
+<th>@Localizer[nameof(Languages.LanguageStrings.Cost)]</th>
+</tr>
+</thead>
+<tbody>
+@foreach (Middleware.Accounts.Invoices.InvoiceItem orderItem in Model.InvoiceItems)
+{
+<tr>
+<td>@Shared.Utilities.SplitCamelCase(orderItem.Status.ToString())</td>
+<td>@orderItem.Description</td>
+<td>@Shared.Utilities.FormatMoney(orderItem.Price, Model.Culture)</td>
+<td>@orderItem.Quantity.ToString()</td>
+<td>@Shared.Utilities.FormatMoney(orderItem.SubTotal, Model.Culture)</td>
+<td>@Shared.Utilities.FormatMoney(orderItem.TotalTax, Model.Culture)</td>
+<td>
+@if (orderItem.TotalDiscount == 0)
+{@String.Empty;
+}
+else
+{ @Shared.Utilities.FormatMoney(orderItem.TotalDiscount, Model.Culture);
+}
+</td>
+<td>@Shared.Utilities.FormatMoney(orderItem.Cost, Model.Culture)</td>
+</tr>
+}
+</tbody>
+</table>
+</div>
+</div>

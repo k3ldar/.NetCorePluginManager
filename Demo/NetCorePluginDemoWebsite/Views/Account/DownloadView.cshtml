@@ -1,0 +1,49 @@
+﻿@model UserAccount.Plugin.Models.ViewDownloadViewItem
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
+@{
+ViewData["Title"] = "DownloadView";
+}
+<link rel="stylesheet" href="/css/Account.css" />
+<div class="row ac-row">
+<div class="col">
+<h1>@Localizer[nameof(Languages.LanguageStrings.Download)] @Model.Name</h1>
+</div>
+</div>
+<div class="row ac-row">
+<div class="col">
+<div class="account-block">
+<h3>@Localizer[nameof(Languages.LanguageStrings.Description)]</h3>
+<div class="account-row">
+<p>@Model.Description</p>
+</div>
+</div>
+</div>
+</div>
+<div class="row ac-row">
+<div class="col">
+<div class="account-block">
+<h3>@Localizer[nameof(Languages.LanguageStrings.Details)]</h3>
+@if (!String.IsNullOrEmpty(Model.Size))
+{
+<div class="account-row">
+<p><span>File Size:</span>@Model.Size</p>
+</div>
+}
+<div class="account-row">
+<p><span>@Localizer[nameof(Languages.LanguageStrings.FileName)]:</span>@System.IO.Path.GetFileName(Model.Filename)</p>
+</div>
+@if (!String.IsNullOrEmpty(Model.Version))
+{
+<div class="account-row">
+<p><span>File Version:</span>@Model.Version</p>
+</div>
+}
+@using (Html.BeginForm("DownloadFile", "Account", FormMethod.Post))
+{
+@Html.HiddenFor(m => m.Id)
+@Html.HiddenFor(m => m.Filename)
+<button class="btn btn-primary" type="submit">@Localizer[nameof(Languages.LanguageStrings.Download)]</button>
+}
+</div>
+</div>
+</div>

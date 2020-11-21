@@ -1,0 +1,100 @@
+﻿@model UserAccount.Plugin.Models.ViewLicenceViewModel
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
+@{
+ViewData["Title"] = "View Licence";
+}
+<link rel="stylesheet" href="/css/Account.css" />
+<script src="~/js/userAccount.js"></script>
+<div class="row ac-row">
+<div class="col">
+<h1>@Localizer[nameof(Languages.LanguageStrings.ViewLicence)]</h1>
+</div>
+</div>
+@using (Html.BeginForm("LicenceUpdateDomain", "Account", FormMethod.Post, new { id = "updateLicenceForm" }))
+{
+@Html.HiddenFor(m => m.Id)
+@Html.HiddenFor(m => m.Active)
+@Html.HiddenFor(m => m.Expires)
+@Html.HiddenFor(m => m.Licence)
+@Html.HiddenFor(m => m.Trial)
+@Html.HiddenFor(m => m.Updates)
+@Html.HiddenFor(m => m.LicenceType)
+<div class="row ac-row">
+<div class="col">
+@Html.ValidationSummary(true)
+</div>
+</div>
+<div class="row ac-row">
+<div class="col-sm-12 col-md-4 col-lg-3">
+@Html.LabelFor(m => m.Domain)
+</div>
+<div class="col-sm-12 col-md-5 col-lg-4">
+@Html.TextBoxFor(m => m.Domain)
+@Html.ValidationMessageFor(m => m.Domain)
+</div>
+</div>
+<div class="row ac-row">
+<div class="col-sm-12 col-md-4 col-lg-3">
+Updates Available:
+</div>
+<div class="col-sm-12 col-md-5 col-lg-4">
+@Model.AvailableUpdates
+</div>
+</div>
+<div class="row ac-row">
+<div class="col-sm-12 col-md-4 col-lg-3">
+@Html.LabelFor(m => m.LicenceType)
+</div>
+<div class="col-sm-12 col-md-5 col-lg-4">
+@Model.LicenceType
+</div>
+</div>
+<div class="row ac-row">
+<div class="col-sm-12 col-md-4 col-lg-3">
+@Html.LabelFor(m => m.Trial)
+</div>
+<div class="col-sm-12 col-md-5 col-lg-4">
+@Model.Trial.ToString()
+</div>
+</div>
+<div class="row ac-row">
+<div class="col-sm-12 col-md-4 col-lg-3">
+@Html.LabelFor(m => m.Active)
+</div>
+<div class="col-sm-12 col-md-5 col-lg-4">
+@Model.Active.ToString()
+</div>
+</div>
+<div class="row ac-row">
+<div class="col-sm-12 col-md-4 col-lg-3">
+@Html.LabelFor(m => m.Expires)
+</div>
+<div class="col-sm-12 col-md-5 col-lg-4">
+@Model.Expires.ToString()
+</div>
+</div>
+@if (Model.Active)
+{
+<div class="row ac-row">
+<div class="col-sm-12 col-md-4 col-lg-3">
+@Localizer[nameof(Languages.LanguageStrings.LicenceUpdateDescription)]
+</div>
+<div class="col-sm-12 col-md-5 col-lg-4">
+@Html.TextAreaFor(m => m.Licence, new { @readonly = "readonly", @class = "form-control" })
+</div>
+</div>
+}
+<div class="row ac-row">
+<div class="col">
+<input id="btnSendEmail" type="button" value="@Localizer[nameof(Languages.LanguageStrings.SendEmail)]" />
+<input id="btnUpdateLicence" class="btn btn-primary" type="submit" value="@Localizer[nameof(Languages.LanguageStrings.Update)]" />
+</div>
+</div>
+}
+<script type="text/javascript">
+var settings = {
+licenceSendEmailUrl: '/Account/LicenceSendEmail/@Model.Id',
+sendEmailLicenceBtn: 'btnSendEmail'
+};
+userAccount.init(settings);
+</script>

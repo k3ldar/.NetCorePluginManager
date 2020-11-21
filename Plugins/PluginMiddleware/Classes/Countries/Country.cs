@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  PluginMiddleware
  *  
@@ -26,15 +26,27 @@
 
 namespace Middleware
 {
+    /// <summary>
+    /// Country class designed to hold basic country data for viewing only.
+    /// </summary>
     public sealed class Country
     {
         #region Constructors
 
+        /// <summary>
+        /// Default constructor.
+        /// </summary>
         public Country()
         {
 
         }
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="name">Name of country.</param>
+        /// <param name="code">Country code.</param>
+        /// <param name="visible">Indicates whether the country is visible or not.</param>
         public Country(in string name, in string code, in bool visible)
         {
             Name = name;
@@ -46,10 +58,22 @@ namespace Middleware
 
         #region Properties
 
+        /// <summary>
+        /// Name of country.
+        /// </summary>
+        /// <value>string</value>
         public string Name { get; set; }
 
+        /// <summary>
+        /// Country code.
+        /// </summary>
+        /// <value>string</value>
         public string Code { get; set; }
 
+        /// <summary>
+        /// Indicates whether the country is visible or not.
+        /// </summary>
+        /// <value>bool</value>
         public bool Visible { get; set; }
 
         #endregion Properties

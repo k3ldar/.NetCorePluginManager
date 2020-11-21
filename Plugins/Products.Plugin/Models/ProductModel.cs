@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  Products.Plugin
  *  
@@ -25,13 +25,10 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Text;
 
 using SharedPluginFeatures;
 
-using Middleware.Products;
+#pragma warning disable CA1721, CS1591
 
 namespace ProductPlugin.Models
 {
@@ -43,8 +40,10 @@ namespace ProductPlugin.Models
         {
         }
 
-        public ProductModel(in int id, in string name, in string[] images, in int productGroupId, 
-            in bool newProduct, in bool bestSeller, in decimal lowestPrice)
+        public ProductModel(in BaseModelData modelData,
+            in int id, in string name, in string[] images, in int productGroupId,
+            in bool newProduct, in bool bestSeller, in decimal lowestPrice, bool allowAddToBasket)
+            : base(modelData)
         {
             if (String.IsNullOrEmpty(name))
                 throw new ArgumentNullException(nameof(name));
@@ -60,21 +59,26 @@ namespace ProductPlugin.Models
             BestSeller = bestSeller;
 
             if (lowestPrice == 0)
-                Price = Languages.LanguageStrings.Free;
+                RetailPrice = Languages.LanguageStrings.Free;
             else
-                Price = lowestPrice.ToString("C", System.Threading.Thread.CurrentThread.CurrentUICulture);
+                RetailPrice = lowestPrice.ToString("C", System.Threading.Thread.CurrentThread.CurrentUICulture);
+
+            AllowAddToBasket = allowAddToBasket;
         }
 
-        public ProductModel(in List<BreadcrumbItem> breadcrumbs, in IEnumerable<ProductCategoryModel> productGroups)
-            : base (breadcrumbs, productGroups)
+        public ProductModel(in BaseModelData modelData,
+            in IEnumerable<ProductCategoryModel> productGroups)
+            : base(modelData, productGroups)
         {
 
         }
 
-        public ProductModel(in List<BreadcrumbItem> breadcrumbs, in IEnumerable<ProductCategoryModel> productGroups, 
+        public ProductModel(in BaseModelData modelData,
+            in IEnumerable<ProductCategoryModel> productGroups,
             in int id, in int productGroupId, in string name, in string description, in string features,
-            in string videoLink, in string[] images, in decimal lowestPrice)
-            : this (breadcrumbs, productGroups)
+            in string videoLink, in string[] images, in decimal retailPrice,
+            in bool allowAddToBasket, in uint stockAvailability)
+            : this(modelData, productGroups)
         {
             if (String.IsNullOrEmpty(name))
                 throw new ArgumentNullException(nameof(name));
@@ -89,11 +93,17 @@ namespace ProductPlugin.Models
             Features = features;
             VideoLink = videoLink;
             Images = images;
+            StockAvailability = stockAvailability;
 
-            if (lowestPrice == 0)
-                Price = Languages.LanguageStrings.Free;
+            if (retailPrice == 0)
+                RetailPrice = Languages.LanguageStrings.Free;
             else
-                Price = lowestPrice.ToString("C", System.Threading.Thread.CurrentThread.CurrentUICulture);
+                RetailPrice = retailPrice.ToString("C", System.Threading.Thread.CurrentThread.CurrentUICulture);
+
+            AllowAddToBasket = allowAddToBasket;
+
+            if (retailPrice > 0)
+                AddToCart = new AddToCartModel(id, retailPrice, 0, stockAvailability);
         }
 
         #endregion Constructors
@@ -114,7 +124,7 @@ namespace ProductPlugin.Models
             {
                 //its from facebook
                 string fbReference = Result.Replace("video.php?v=", "v/");
-                Result = String.Format("<object width=\"640\" height=\"390\" ><param name=\"allowfullscreen\" value=\"true\" /> " +
+                Result = String.Format("<object class=\"productVideo\" ><param name=\"allowfullscreen\" value=\"true\" /> " +
                     "<param name=\"allowscriptaccess\" value=\"always\" /> <param name=\"movie\" value=\"{0}\" /> " +
                     "<embed src=\"{0}\" type=\"application/x-shockwave-flash\" allowscriptaccess=\"always\" " +
                     "allowfullscreen=\"true\" width=\"640\" height=\"390\"></embed></object>", fbReference);
@@ -122,10 +132,10 @@ namespace ProductPlugin.Models
             else if (!Result.ToLower().StartsWith("http"))
             {
                 //assume a you tube link here
-                Result = String.Format("<iframe width=\"640\" height=\"390\" src=\"https://www.youtube.com/embed/{0}\" frameborder=\"0\"></iframe>", Result);
+                Result = String.Format("<iframe class=\"productVideo\" src=\"https://www.youtube.com/embed/{0}\" frameborder=\"0\"></iframe>", Result);
             }
 
-            return (Result);
+            return Result;
         }
 
         public string[] FeatureList()
@@ -150,14 +160,23 @@ namespace ProductPlugin.Models
 
         public string VideoLink { get; private set; }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1819:Properties should not return arrays", Justification = "ok on this occasion")]
         public string[] Images { get; private set; }
 
         public bool NewProduct { get; private set; }
 
         public bool BestSeller { get; private set; }
 
-        public string Price { get; private set; }
+        public string RetailPrice { get; private set; }
+
+        public bool AllowAddToBasket { get; private set; }
+
+        public AddToCartModel AddToCart { get; private set; }
+
+        public uint StockAvailability { get; private set; }
 
         #endregion Properties
     }
 }
+
+#pragma warning restore CA1721, CS1591

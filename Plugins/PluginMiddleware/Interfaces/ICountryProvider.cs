@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  PluginMiddleware
  *  
@@ -27,16 +27,46 @@ using System.Collections.Generic;
 
 namespace Middleware
 {
+    /// <summary>
+    /// Provides country data used throughout the website.
+    /// 
+    /// This item must be implemented by the host application and made available via DI.
+    /// </summary>
     public interface ICountryProvider
     {
+        /// <summary>
+        /// Retrieve all countries.
+        /// </summary>
+        /// <returns>List&lt;Country&gt;</returns>
         List<Country> GetAllCountries();
 
+        /// <summary>
+        /// Retrieve a list of all visible (available) countries.
+        /// </summary>
+        /// <returns>List&lt;Country&gt;</returns>
         List<Country> GetVisibleCountries();
 
-        bool CountryUpdate(Country country);
+        /// <summary>
+        /// Update a country.
+        /// </summary>
+        /// <param name="country">Country to be updated.</param>
+        /// <returns>bool.  True if the country was updated.</returns>
+        bool CountryUpdate(in Country country);
 
-        bool CountryDelete(Country country);
+        /// <summary>
+        /// Deletes a country.
+        /// </summary>
+        /// <param name="country">Country to be deleted.</param>
+        /// <returns>bool.  True if the country has been deleted.</returns>
+        bool CountryDelete(in Country country);
 
+        /// <summary>
+        /// Create a country.
+        /// </summary>
+        /// <param name="name">Name of country.</param>
+        /// <param name="code">Country code.</param>
+        /// <param name="visible">bool.  Determines whether the country is visible or not.</param>
+        /// <returns>Country</returns>
         Country CountryCreate(in string name, in string code, in bool visible);
     }
 }

@@ -11,27 +11,28 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  Breadcrumb.Plugin
  *  
- *  File: BreadcrumbRoute.cs
+ *  File: BreadcrumbService.cs
  *
- *  Purpose:  Breadcrumb routes
+ *  Purpose:  
  *
  *  Date        Name                Reason
- *  21/01/2019  Simon Carter        Initially Created
+ *  20/01/2019  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
-using System.Collections.Generic;
-using System.Text;
+
+using PluginManager.Abstractions;
 
 using SharedPluginFeatures;
 
 namespace Breadcrumb.Plugin
 {
-    public sealed class BreadcrumbService : IBreadcrumbService
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1812:AvoidUninstantiatedInternalClasses", Justification = "Used internally as part of IoC")]
+    internal sealed class BreadcrumbService : IBreadcrumbService
     {
         #region Private Members
 
@@ -48,7 +49,7 @@ namespace Breadcrumb.Plugin
             if (settingsProvider == null)
                 throw new ArgumentNullException(nameof(settingsProvider));
 
-            BreadcrumbSettings settings = settingsProvider.GetSettings<BreadcrumbSettings>(Constants.PluginNameBreadcrumb);
+            BreadcrumbSettings settings = settingsProvider.GetSettings<BreadcrumbSettings>(Constants.PluginSettingBreadcrumb);
             _homeName = settings.HomeName;
             _homeController = settings.HomeController;
             _defaultMethod = settings.DefaultAction;
@@ -82,7 +83,7 @@ namespace Breadcrumb.Plugin
 
             BreadcrumbRoute newRoute = new BreadcrumbRoute(route, hasParameters);
 
-            if (!String.IsNullOrEmpty(parentRoute) && 
+            if (!String.IsNullOrEmpty(parentRoute) &&
                 BreadcrumbMiddleware.Routes.ContainsKey(parentRoute.ToLower()))
             {
                 BreadcrumbRoute breadcrumbRoute = BreadcrumbMiddleware.Routes[parentRoute.ToLower()];

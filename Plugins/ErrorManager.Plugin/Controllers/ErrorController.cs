@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  Error Manager Plugin
  *  
@@ -26,33 +26,55 @@
 using System;
 using System.IO;
 
-using Microsoft.AspNetCore.Mvc;
+using ErrorManager.Plugin.Models;
+
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
 
-using ErrorManager.Plugin.Models.Error;
-
-using static Shared.Utilities;
+using PluginManager.Abstractions;
 
 using SharedPluginFeatures;
 
+using static Shared.Utilities;
+
+#pragma warning disable CS1591
+
 namespace ErrorManager.Plugin.Controllers
 {
+    /// <summary>
+    /// Error Controller
+    /// </summary>
+    [DenySpider]
     public class ErrorController : BaseController
     {
         #region Private Members
 
+#if NET_CORE_3_X
+        private readonly IWebHostEnvironment _hostingEnvironment;
+#else
         private readonly IHostingEnvironment _hostingEnvironment;
+#endif
+
         private readonly ISettingsProvider _settingsProvider;
 
         #endregion Private Members
 
         #region Constructors
 
+#if NET_CORE_3_X
+        public ErrorController(IWebHostEnvironment hostingEnvironment, ISettingsProvider settingsProvider)
+        {
+            _hostingEnvironment = hostingEnvironment ?? throw new ArgumentNullException(nameof(hostingEnvironment));
+            _settingsProvider = settingsProvider ?? throw new ArgumentNullException(nameof(settingsProvider));
+        }
+#else
         public ErrorController(IHostingEnvironment hostingEnvironment, ISettingsProvider settingsProvider)
         {
             _hostingEnvironment = hostingEnvironment ?? throw new ArgumentNullException(nameof(hostingEnvironment));
             _settingsProvider = settingsProvider ?? throw new ArgumentNullException(nameof(settingsProvider));
         }
+#endif
+
 
         #endregion Constructors
 
@@ -61,14 +83,14 @@ namespace ErrorManager.Plugin.Controllers
         [Breadcrumb(nameof(Languages.LanguageStrings.Error))]
         public IActionResult Index()
         {
-            return View(new BaseModel(GetBreadcrumbs()));
+            return View(new BaseModel(GetModelData()));
         }
 
         [Breadcrumb(nameof(Languages.LanguageStrings.MissingLink))]
         public IActionResult NotFound404()
         {
             Response.StatusCode = 404;
-            Error404Model model = null;
+            Error404Model model;
 
             ErrorManagerSettings settings = _settingsProvider.GetSettings<ErrorManagerSettings>("ErrorManager");
 
@@ -77,7 +99,8 @@ namespace ErrorManager.Plugin.Controllers
                 // grab a random quote
                 Random rnd = new Random(Convert.ToInt32(DateTime.Now.ToString("Hmsffff")));
                 int quote = rnd.Next(settings.Count());
-                model = new Error404Model(Languages.LanguageStrings.PageNotFound, settings.GetQuote(quote), GetImageFile(quote));
+                model = new Error404Model(GetModelData(),
+                    Languages.LanguageStrings.PageNotFound, settings.GetQuote(quote), GetImageFile(quote));
             }
             else
             {
@@ -96,27 +119,33 @@ namespace ErrorManager.Plugin.Controllers
 
                 CookieAdd("Error404", Encrypt(Convert.ToString(index), settings.EncryptionKey), 30);
 
-                model = new Error404Model(Languages.LanguageStrings.PageNotFound, settings.GetQuote(index), GetImageFile(index));
+                model = new Error404Model(GetModelData(),
+                    Languages.LanguageStrings.PageNotFound, settings.GetQuote(index), GetImageFile(index));
             }
 
-            model.Breadcrumbs = GetBreadcrumbs();
-
-            return (View(model));
+            return View(model);
         }
 
         [Breadcrumb(nameof(Languages.LanguageStrings.HighVolume))]
         public IActionResult HighVolume()
         {
-            return (View(new BaseModel(GetBreadcrumbs())));
+            return View(new BaseModel(GetModelData()));
         }
 
         [Breadcrumb(nameof(Languages.LanguageStrings.NotAcceptable))]
         public IActionResult NotAcceptable()
         {
-            return (View(new BaseModel(GetBreadcrumbs())));
+            return View(new BaseModel(GetModelData()));
+        }
+
+        [Breadcrumb(nameof(Languages.LanguageStrings.AccessDenied))]
+        public IActionResult AccessDenied()
+        {
+            return View(new BaseModel(GetModelData()));
         }
 
 #if DEBUG
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1030:Use events where appropriate", Justification = "Debug Only")]
         public IActionResult Raise(string s)
         {
             if (String.IsNullOrEmpty(s))
@@ -140,11 +169,11 @@ namespace ErrorManager.Plugin.Controllers
                 foreach (string file in errorImageFiles)
                 {
                     if (Path.GetFileName(file).StartsWith(index.ToString()))
-                        return ($"/images/error/{Path.GetFileName(file)}");
+                        return $"/images/error/{Path.GetFileName(file)}";
                 }
 
                 if (System.IO.File.Exists(rootPath + "Default404.png"))
-                    return ("/images/error/Default404.png");
+                    return "/images/error/Default404.png";
             }
 
             return String.Empty;
@@ -153,3 +182,5 @@ namespace ErrorManager.Plugin.Controllers
         #endregion Private Methods
     }
 }
+
+#pragma warning restore CS1591

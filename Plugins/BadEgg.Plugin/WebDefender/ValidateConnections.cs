@@ -25,15 +25,16 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Linq;
-using static System.Web.HttpUtility;
+using System.Text;
 
 using Microsoft.AspNetCore.Http;
 
 using Shared.Classes;
 
 using SharedPluginFeatures;
+
+using static System.Web.HttpUtility;
 using static SharedPluginFeatures.Enums;
 
 namespace BadEgg.Plugin.WebDefender
@@ -84,37 +85,34 @@ namespace BadEgg.Plugin.WebDefender
         /// <summary>
         /// Address list lock object for unique access
         /// </summary>
-        private static object _lockObject = new object();
+        private static readonly object _lockObject = new object();
 
         private static Dictionary<string, IpConnectionInfo> _connectionInformation;
 
-        private HashSet<IpConnectionInfo> _connectionsAdd;
+        private readonly HashSet<IpConnectionInfo> _connectionsAdd;
 
-        private object _eventLockObject = new object();
+        private readonly object _eventLockObject = new object();
 
-        private uint _maximumConnectionsPerSecond;
+        private readonly uint _maximumConnectionsPerSecond;
 
         private ulong _iteration = 0;
 
-        internal static Dictionary<string, bool> _ipAddressList;
+        internal static readonly Dictionary<string, bool> _ipAddressList = new Dictionary<string, bool>();
 
-        internal static object _ipAddressLock = new object();
+        internal static readonly object _ipAddressLock = new object();
 
-        /// <summary>
-        /// Time out for each client (minutes)
-        /// </summary>
         private uint _connectionTimeoutMinutes { get; set; } = 5;
 
-        private HashSet<ConnectionReportArgs> _reports = new HashSet<ConnectionReportArgs>();
+        private readonly HashSet<ConnectionReportEventArgs> _reports = new HashSet<ConnectionReportEventArgs>();
 
-        private object _reportsLock = new object();
+        private readonly object _reportsLock = new object();
 
         #endregion Private Members / Constants
 
         #region Constructors
 
         internal ValidateConnections()
-            : this (10, uint.MaxValue)
+            : this(10, uint.MaxValue)
         {
 
         }
@@ -133,7 +131,6 @@ namespace BadEgg.Plugin.WebDefender
             }
 
             _connectionsAdd = new HashSet<IpConnectionInfo>();
-            _ipAddressList = new Dictionary<string, bool>();
             _connectionTimeoutMinutes = connectionTimeoutMinutes;
             _maximumConnectionsPerSecond = maximumConnectionsPerSecond;
         }
@@ -163,7 +160,7 @@ namespace BadEgg.Plugin.WebDefender
         private int BotHitsPerSecond { get; set; } = 10;
 
 
-        private byte MinimumSpiderUniqueRequests = 95;
+        private readonly byte MinimumSpiderUniqueRequests = 95;
 
         #endregion Properties
 
@@ -225,7 +222,7 @@ namespace BadEgg.Plugin.WebDefender
 
             using (TimedLock lck = TimedLock.Lock(_reportsLock))
             {
-                foreach (ConnectionReportArgs item in _reports)
+                foreach (ConnectionReportEventArgs item in _reports)
                 {
                     RaiseReportEvent(item.IPAddress, item.QueryString, item.Result);
                 }
@@ -263,7 +260,7 @@ namespace BadEgg.Plugin.WebDefender
             info.AddRequest(UrlDecode(request).ToLower(), String.Empty);
 
             if (Result.HasFlag(ValidateRequestResult.IpBlackListed) || Result.HasFlag(ValidateRequestResult.IpWhiteListed))
-                return (Result);
+                return Result;
 
             //Determine if a SQL Injection Attack
             DetermineSQLInjectionAttack(request, ref count, ref Result);
@@ -282,7 +279,7 @@ namespace BadEgg.Plugin.WebDefender
             if (!Result.HasFlag(ValidateRequestResult.Undetermined))
                 ReportWebData(hostAddress, request, Result);
 
-            return (Result);
+            return Result;
         }
 
         /// <summary>
@@ -295,13 +292,13 @@ namespace BadEgg.Plugin.WebDefender
         public ValidateRequestResult ValidateRequest(in HttpRequest request, in bool validatePostValues, out int count)
         {
             count = 0;
-            string hostAddress = request.HttpContext.Connection.RemoteIpAddress.ToString();
+            string hostAddress = GetIpAddress(request);
 
             //verify against white/black listed addresses
             ValidateRequestResult Result = VerifyAddress(hostAddress);
 
             if (Result.HasFlag(ValidateRequestResult.IpBlackListed) || Result.HasFlag(ValidateRequestResult.IpWhiteListed))
-                return (Result);
+                return Result;
 
             string url = request.Path;
             string physicalPath = request.PathBase.ToString();
@@ -312,7 +309,10 @@ namespace BadEgg.Plugin.WebDefender
             if (validatePostValues && request.HasFormContentType)
             {
                 foreach (string value in request.Form.Keys)
-                    postValues += $"{request.Form[value]} ";
+                    if (!IgnoreFormValue(value))
+                        postValues += $"{request.Form[value]} ";
+
+                query += $" {postValues}";
             }
 
             IpConnectionInfo info = GetConnectionInformation(hostAddress);
@@ -330,7 +330,7 @@ namespace BadEgg.Plugin.WebDefender
             DetermineHackAttemt(query, ref count, ref Result);
 
             //if the file does not exist then check for a hack attempt in the url
-            if (!System.IO.File.Exists(physicalPath))
+            if (!String.IsNullOrEmpty(physicalPath) && !System.IO.File.Exists(physicalPath))
                 DetermineHackAttemt(url, ref count, ref Result);
 
             //Is there a spider/bot is at work
@@ -345,13 +345,13 @@ namespace BadEgg.Plugin.WebDefender
             if ((int)Result > (int)ValidateRequestResult.Undetermined)
                 Result &= ~ValidateRequestResult.Undetermined;
 
-            return (Result);
+            return Result;
         }
 
         /// <summary>
         /// Adds an IP address to a black list
         /// </summary>
-        /// <param name="hostAddress">IP address to add to black list</param>
+        /// <param name="ipAddress">Ip address to add to black list</param>
         public void AddToBlackList(in string ipAddress)
         {
             using (TimedLock lockobj = TimedLock.Lock(_ipAddressLock))
@@ -366,7 +366,7 @@ namespace BadEgg.Plugin.WebDefender
         /// <summary>
         /// Adds an IP address to a black list
         /// </summary>
-        /// <param name="hostAddress">IP address to add to black list</param>
+        /// <param name="ipAddress">Ip address to add to black list</param>
         public void AddToWhiteList(in string ipAddress)
         {
             using (TimedLock lockobj = TimedLock.Lock(_ipAddressLock))
@@ -396,7 +396,7 @@ namespace BadEgg.Plugin.WebDefender
                         _connectionsAdd.Add(newConnection);
                 }
 
-                return (_connectionInformation[ipAddress]);
+                return _connectionInformation[ipAddress];
             }
         }
 
@@ -412,12 +412,12 @@ namespace BadEgg.Plugin.WebDefender
             {
                 foreach (KeyValuePair<string, IpConnectionInfo> item in _connectionInformation)
                 {
-                    Result.Append('\n');
+                    Result.Append('\r');
                     Result.Append(item.Value.ToString());
                 }
             }
 
-            return (Result.ToString().Trim());
+            return Result.ToString().Trim();
         }
 
         #endregion Internal Methods
@@ -426,8 +426,7 @@ namespace BadEgg.Plugin.WebDefender
 
         private void RaiseReportEvent(in string ipAddress, in string queryString, in ValidateRequestResult validation)
         {
-            if (OnReportConnection != null)
-                OnReportConnection(this, new ConnectionReportArgs(ipAddress, queryString, validation));
+            OnReportConnection?.Invoke(this, new ConnectionReportEventArgs(ipAddress, queryString, validation));
         }
 
         /// <summary>
@@ -436,8 +435,7 @@ namespace BadEgg.Plugin.WebDefender
         /// <param name="connection">connection info being removed</param>
         private void RaiseConnectionAdd(in IpConnectionInfo connection)
         {
-            if (ConnectionAdd != null)
-                ConnectionAdd(this, new ConnectionArgs(connection.IPAddress));
+            ConnectionAdd?.Invoke(this, new ConnectionEventArgs(connection.IPAddress));
         }
 
         /// <summary>
@@ -446,10 +444,9 @@ namespace BadEgg.Plugin.WebDefender
         /// <param name="connection">connection info being removed</param>
         private void RaiseConnectionRemoved(in IpConnectionInfo connection)
         {
-            if (ConnectionRemove != null)
-                ConnectionRemove(this, new ConnectionRemoveArgs(connection.IPAddress, 
-                    connection.HitsPerMinute(), connection.Requests, 
-                    connection.Created - connection.LastEntry));
+            ConnectionRemove?.Invoke(this, new ConnectionRemoveEventArgs(connection.IPAddress,
+                connection.HitsPerMinute(), connection.Requests,
+                connection.Created - connection.LastEntry));
         }
 
         /// <summary>
@@ -462,12 +459,11 @@ namespace BadEgg.Plugin.WebDefender
         /// <returns>True if the IP Address should be black listed and added to banned list, otherwise false</returns>
         private bool RaiseOnBanIPAddress(in string ipAddress, in double hits, in ulong requests, in TimeSpan span)
         {
-            RequestBanArgs args = new RequestBanArgs(ipAddress, hits, requests, span);
+            RequestBanEventArgs args = new RequestBanEventArgs(ipAddress, hits, requests, span);
 
-            if (OnBanIPAddress != null)
-                OnBanIPAddress(null, args);
+            OnBanIPAddress?.Invoke(null, args);
 
-            return (args.AddToBlackList);
+            return args.AddToBlackList;
         }
 
         #endregion Event Raise Methods
@@ -497,6 +493,31 @@ namespace BadEgg.Plugin.WebDefender
         #endregion Events
 
         #region Private Methods
+
+        private string GetIpAddress(HttpRequest request)
+        {
+            foreach (string key in Constants.ForwardForHeader)
+                if (request.Headers.ContainsKey(key))
+                    return request.Headers[key];
+
+            return request.HttpContext.Connection.RemoteIpAddress.ToString();
+        }
+
+        /// <summary>
+        /// Certain form values can be ignored and will not be evaluated
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns>true if value should be ignored, otherwise false</returns>
+        private bool IgnoreFormValue(in string value)
+        {
+            switch (value)
+            {
+                case "__RequestVerificationToken":
+                    return true;
+                default:
+                    return false;
+            }
+        }
 
         /// <summary>
         /// Updates result flags on connection info object
@@ -567,7 +588,7 @@ namespace BadEgg.Plugin.WebDefender
 
             foreach (IpConnectionInfo connection in banRequests)
             {
-                if (RaiseOnBanIPAddress(connection.IPAddress, connection.HitsPerMinute(), 
+                if (RaiseOnBanIPAddress(connection.IPAddress, connection.HitsPerMinute(),
                     connection.Requests, connection.TotalTime()))
                 {
                     if (!connection.Results.HasFlag(ValidateRequestResult.IpBlackListed))
@@ -588,7 +609,7 @@ namespace BadEgg.Plugin.WebDefender
         /// <summary>
         /// Verify's an address to see if it's black/white listed
         /// </summary>
-        /// <param name="IPAddress">IPAddress to verify</param>
+        /// <param name="ipAddress">Ip address to verify</param>
         /// <returns>ValidateRequestResult enum with results</returns>
         private ValidateRequestResult VerifyAddress(in string ipAddress)
         {
@@ -597,27 +618,27 @@ namespace BadEgg.Plugin.WebDefender
                 if (_ipAddressList.ContainsKey(ipAddress))
                 {
                     if (_ipAddressList[ipAddress])
-                        return (ValidateRequestResult.IpBlackListed);
+                        return ValidateRequestResult.IpBlackListed;
                     else
-                        return (ValidateRequestResult.IpWhiteListed);
+                        return ValidateRequestResult.IpWhiteListed;
                 }
             }
 
-            return (ValidateRequestResult.Undetermined);
+            return ValidateRequestResult.Undetermined;
         }
 
         private void ReportWebData(in string ipAddress, in string queryString, in ValidateRequestResult validation)
         {
             using (TimedLock lck = TimedLock.Lock(_reportsLock))
             {
-                _reports.Add(new ConnectionReportArgs(ipAddress, queryString, validation));
+                _reports.Add(new ConnectionReportEventArgs(ipAddress, queryString, validation));
             }
         }
 
         /// <summary>
         /// Determines the probability that user is bot/spider 
         /// </summary>
-        /// <param name="ipAddress">IP Address of user</param>
+        /// <param name="connectionInfo">Ip connection information</param>
         /// <param name="validation">validation Results</param>
         private void DetermineSpiderBot(in IpConnectionInfo connectionInfo, ref ValidateRequestResult validation)
         {
@@ -660,7 +681,7 @@ namespace BadEgg.Plugin.WebDefender
                 string word = keyWord;
                 int n = 0;
 
-                while (((n = url.IndexOf(word, n, StringComparison.InvariantCulture)) != -1))
+                while ((n = url.IndexOf(word, n, StringComparison.InvariantCulture)) != -1)
                 {
                     n += word.Trim().Length;
                     count++;
@@ -710,7 +731,7 @@ namespace BadEgg.Plugin.WebDefender
         /// <summary>
         /// Determines if the url contains sql which could be a SQL Injection
         /// </summary>
-        /// <param name="ipAddress">url being passed</param>
+        /// <param name="request">current request data</param>
         /// <param name="count">number of attempts found</param>
         /// <param name="validation">Result of the check</param>
         private void DetermineSQLInjectionAttack(in string request, ref int count, ref ValidateRequestResult validation)
@@ -732,7 +753,7 @@ namespace BadEgg.Plugin.WebDefender
                 string word = String.Format(" {0} ", keyWord);
                 int n = 0;
 
-                while (((n = url.IndexOf(word, n, StringComparison.InvariantCulture)) != -1))
+                while ((n = url.IndexOf(word, n, StringComparison.InvariantCulture)) != -1)
                 {
                     n += word.Trim().Length;
                     count++;
@@ -785,7 +806,7 @@ namespace BadEgg.Plugin.WebDefender
                 }
             }
 
-            return (Result);
+            return Result;
         }
 
         #endregion Private Methods

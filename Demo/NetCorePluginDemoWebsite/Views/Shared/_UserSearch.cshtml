@@ -1,0 +1,28 @@
+﻿@model SharedPluginFeatures.StringModel
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
+<table id="grid-users" class="table table-condensed table-hover table-striped">
+<thead>
+<tr>
+<th data-column-id="id" data-type="numeric" data-sortable="false" data-identifier="true">ID</th>
+<th data-column-id="name">Name</th>
+<th data-column-id="email" data-order="desc">Email</th>
+<th data-column-id="button" data-formatter="editButton" data-sortable="false"></th>
+</tr>
+</thead>
+<tbody></tbody>
+</table>
+<script type="text/javascript">
+$("#grid-users").bootgrid({
+ajax: true,
+ajaxSettings: {
+method: "GET",
+cache: false
+},
+url: "/SystemAdmin/UserSearch",
+formatters: {
+"editButton": function (column, row) {
+return "<input type='button' class='btn' value='@Localizer[nameof(Languages.LanguageStrings.Edit)]' onclick='@Model.Value (" + row.id + ");'>";
+}
+}
+});
+</script>

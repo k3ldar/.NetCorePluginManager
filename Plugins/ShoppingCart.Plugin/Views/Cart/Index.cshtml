@@ -1,0 +1,119 @@
+﻿@model ShoppingCartPlugin.Models.BasketModel
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
+@{
+    ViewData["Title"] = Localizer[nameof(Languages.LanguageStrings.ShoppingCart)];
+}
+
+
+<link rel="stylesheet" href="~/css/Cart.css" asp-append-version="true" />
+
+@if (Model.CartItems.Count > 0)
+{
+    <div class="row">
+        <div class="col">
+            <h1>@Localizer[nameof(Languages.LanguageStrings.ShoppingCart)]</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col shoppingCart">
+            <table>
+                <thead>
+                    <tr>
+                        <th>@Localizer[nameof(Languages.LanguageStrings.Product)]</th>
+                        <th>@Localizer[nameof(Languages.LanguageStrings.Price)]</th>
+                        <th>@Localizer[nameof(Languages.LanguageStrings.Quantity)]</th>
+                        <th>@Localizer[nameof(Languages.LanguageStrings.Available)]</th>
+                        @*<th">@Localizer[nameof(Languages.LanguageStrings.BackOrder)]</th>*@
+                        <th>@Localizer[nameof(Languages.LanguageStrings.SubTotal)]</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (ShoppingCartPlugin.Models.BasketItemModel item in Model.CartItems)
+                    {
+                        <tr>
+                            <td>
+                                <a href="@item.Url">
+                                    <img src="~/images/products/@item.Image" />
+                                    <h3>@item.Name</h3>
+                                    <div class="cartDetail">
+                                        @if (!String.IsNullOrEmpty(item.Sku))
+                                        {
+                                            @Html.Raw($"<span><strong>SKU: </strong>{item.Sku}</span>");
+                                        }
+                                        @if (!String.IsNullOrEmpty(item.Size))
+                                        {
+                                            @Html.Raw($"<span><strong>Size: </strong>{item.Size}</span>");
+                                        }
+
+                                    </div>
+                                    <p>@item.ShortDescription</p>
+                                </a>
+                            </td>
+                            <td>@item.Price.ToString("C", System.Threading.Thread.CurrentThread.CurrentUICulture)</td>
+                            <td>
+                                @await Html.PartialAsync("_QuantityUpdate.cshtml", new ShoppingCartPlugin.Models.UpdateQuantityModel(item.ProductId, item.Quantity))
+                            </td>
+                            <td>@item.Stock</td>
+                            @*<td>@if (item.BackOrder) { Html.Raw("<img src=\"/images/Cart/tick.png\" style=\"width:19px;margin:1px;\" />"); }</td>*@
+                            <td>@item.SubTotal.ToString("C", System.Threading.Thread.CurrentThread.CurrentUICulture)</td>
+                            <td><a href="/Cart/Delete/@item.ProductId/"><img src="~/images/Cart/Delete.png" style="width:16px;margin:1px;" /></a></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <div class="voucher">
+                @await Html.PartialAsync("_Voucher.cshtml", new ShoppingCartPlugin.Models.VoucherModel())
+            </div>
+        </div>
+    </div>
+    <div class="row justify-content-end">
+        <div class="col-sm-12 col-md-4 col-lg-3 cartSummary">
+            <h3>@Localizer[nameof(Languages.LanguageStrings.SubTotal)]<span>@Model.CartSummary.SubTotal.ToString("C", Model.CartSummary.Culture)</span></h3>
+
+            @if (Model.CartSummary.Discount > 0)
+            {
+                <h3>@Localizer[nameof(Languages.LanguageStrings.Discount)] @Model.DiscountDescription<span>@Model.CartSummary.Discount.ToString("C", Model.CartSummary.Culture)</span></h3>
+            }
+
+            @if (Model.CartSummary.Shipping > 0)
+            {
+                <h3>@Localizer[nameof(Languages.LanguageStrings.PostageAndPackaging)]<span>@Model.CartSummary.Shipping.ToString("C", Model.CartSummary.Culture)</span></h3>
+            }
+
+            <h3>@Localizer[nameof(Languages.LanguageStrings.VAT)] @@ @Model.CartSummary.TaxRate%<span>@Model.CartSummary.Tax.ToString("C", Model.CartSummary.Culture)</span></h3>
+
+            <h3>@Localizer[nameof(Languages.LanguageStrings.Total)]<span>@Model.CartSummary.Total.ToString("C", Model.CartSummary.Culture)</span></h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col voucher">
+            @if (Model.LoggedIn)
+            {
+                using (Html.BeginForm(nameof(ShoppingCartPlugin.Controllers.CartController.Shipping), "Cart", FormMethod.Get))
+                {
+                    <input class="btn btn-primary" type="submit" value="@Localizer[nameof(Languages.LanguageStrings.ContinueToCheckout)]" />
+                }
+            }
+            else
+            {
+                using (Html.BeginForm("Index", "Login", FormMethod.Get))
+                {
+                    <input type="hidden" value="/Cart/Shipping/" name="returnUrl" />
+                    <input class="btn btn-primary" type="submit" value="@Localizer[nameof(Languages.LanguageStrings.ContinueToCheckout)]" />
+                }
+            }
+        </div>
+    </div>
+}
+else
+{
+    <p>@Localizer[nameof(Languages.LanguageStrings.ShoppingCartEmpty)], <a href="/Product/">@Localizer[nameof(Languages.LanguageStrings.ContinueShopping)]</a></p>
+}
+
+<script src="~/js/Cart.js"></script>
+

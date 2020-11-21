@@ -1,0 +1,36 @@
+﻿@model UserAccount.Plugin.Models.InvoicesViewModel
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
+@{
+ViewData["Title"] = "Invoices";
+}
+<h1>@Localizer[nameof(Languages.LanguageStrings.Invoices)]</h1>
+<link rel="stylesheet" href="/css/Account.css" />
+<div class="row">
+<div class="col accountGrid">
+<table>
+<thead>
+<tr>
+<th>@Localizer[nameof(Languages.LanguageStrings.InvoiceNumber)]</th>
+<th>@Localizer[nameof(Languages.LanguageStrings.Date)]</th>
+<th>@Localizer[nameof(Languages.LanguageStrings.Status)]</th>
+<th>@Localizer[nameof(Languages.LanguageStrings.Items)]</th>
+<th>@Localizer[nameof(Languages.LanguageStrings.Total)]</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+@foreach (Middleware.Accounts.Invoices.Invoice invoice in Model.Invoices)
+{
+<tr>
+<td>@invoice.Id</td>
+<td>@invoice.Date.ToString(System.Threading.Thread.CurrentThread.CurrentUICulture.DateTimeFormat)</td>
+<td>@Shared.Utilities.SplitCamelCase(invoice.Status.ToString())</td>
+<td>@invoice.ItemCount.ToString()</td>
+<td>@Shared.Utilities.FormatMoney(invoice.Total, invoice.Culture)</td>
+<td><a href="/Account/InvoiceView/@invoice.Id">@Localizer[nameof(Languages.LanguageStrings.View)]</a></td>
+</tr>
+}
+</tbody>
+</table>
+</div>
+</div>

@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  UserAccount.Plugin
  *  
@@ -29,6 +29,8 @@ using SharedPluginFeatures;
 
 namespace UserAccount.Plugin.Models
 {
+#pragma warning disable CS1591
+
     public class AccountViewModel : BaseModel
     {
         #region Constructors
@@ -38,17 +40,18 @@ namespace UserAccount.Plugin.Models
             GrowlMessage = String.Empty;
         }
 
-        public AccountViewModel(AccountSettings accountSettings, string growl)
-            : this(accountSettings)
+        public AccountViewModel(in BaseModelData baseModelData,
+            AccountSettings accountSettings, string growl)
+            : this(baseModelData, accountSettings)
         {
             GrowlMessage = growl;
         }
 
-        public AccountViewModel(AccountSettings accountSettings)
-            : this()
+        public AccountViewModel(in BaseModelData baseModelData,
+            AccountSettings accountSettings)
+            : base(baseModelData)
         {
             Settings = accountSettings ?? throw new ArgumentNullException(nameof(accountSettings));
-            
         }
 
         #endregion Constructors
@@ -61,4 +64,6 @@ namespace UserAccount.Plugin.Models
 
         #endregion Properties
     }
+
+#pragma warning restore CS1591
 }

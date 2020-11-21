@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  Company.Plugin
  *  
@@ -25,8 +25,10 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
 
-using SharedPluginFeatures;
-using static SharedPluginFeatures.Enums;
+using PluginManager;
+using PluginManager.Abstractions;
+
+#pragma warning disable CS1591
 
 namespace Company.Plugin.Classes
 {
@@ -36,25 +38,42 @@ namespace Company.Plugin.Classes
 
         public void AddToLog(in LogLevel logLevel, in string data)
         {
-#if TRACE
-            System.Diagnostics.Trace.WriteLine($"{logLevel.ToString()} {data}");
-#endif
+            AddToLog(logLevel, String.Empty, data);
         }
 
         public void AddToLog(in LogLevel logLevel, in Exception exception)
         {
-#if TRACE
-            System.Diagnostics.Trace.WriteLine($"{logLevel.ToString()} {exception.Message}");
-#endif
+            AddToLog(logLevel, String.Empty, exception);
         }
 
         public void AddToLog(in LogLevel logLevel, in Exception exception, string data)
         {
+            AddToLog(logLevel, String.Empty, exception, data);
+        }
+
+        public void AddToLog(in LogLevel logLevel, in string module, in string data)
+        {
 #if TRACE
-            System.Diagnostics.Trace.WriteLine($"{logLevel.ToString()} {exception.Message}\r\n{data}");
+            System.Diagnostics.Trace.WriteLine($"{logLevel.ToString()} {data}");
+#endif   
+        }
+
+        public void AddToLog(in LogLevel logLevel, in string module, in Exception exception)
+        {
+#if TRACE
+            System.Diagnostics.Trace.WriteLine($"{logLevel.ToString()} {exception?.Message}");
+#endif
+        }
+
+        public void AddToLog(in LogLevel logLevel, in string module, in Exception exception, string data)
+        {
+#if TRACE
+            System.Diagnostics.Trace.WriteLine($"{logLevel.ToString()} {exception?.Message}\r\n{data}");
 #endif
         }
 
         #endregion ILogger Methods
     }
 }
+
+#pragma warning restore CS1591

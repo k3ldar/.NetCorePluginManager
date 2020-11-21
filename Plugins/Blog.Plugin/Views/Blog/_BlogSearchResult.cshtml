@@ -1,0 +1,12 @@
+﻿@model Middleware.Search.SearchResponseItem
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
+<a href="@Model.Url.ToString()" style="display:block;height:105px;">
+    <img src="~/images/Blog/blog64.png" style="float:left;width:64px;height:64px;" />
+    <p style="margin:5px 5px 5px 75px;height:70px;padding-top:5px;">
+        @Model.DisplayName
+    </p>
+    <p>
+        <span class="chip">@Localizer[Languages.LanguageStrings.Author]: @Model.Properties[nameof(Languages.LanguageStrings.Author)]</span>
+        <span class="chip">@Localizer[Languages.LanguageStrings.Published]: @Model.Properties[nameof(Languages.LanguageStrings.Published)]</span>
+    </p>
+</a>

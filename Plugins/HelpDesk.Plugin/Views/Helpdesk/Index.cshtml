@@ -1,0 +1,49 @@
+﻿@model HelpdeskPlugin.Models.IndexViewModel
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
+
+@{
+    ViewData["Title"] = @Localizer[nameof(Languages.LanguageStrings.Helpdesk)];
+}
+
+
+<link rel="stylesheet" href="/css/Helpdesk.css" />
+<script src="~/js/helpdesk.js"></script>
+<div class="row">
+    <div class="col">
+        <h1>@Localizer[nameof(Languages.LanguageStrings.Helpdesk)]</h1>
+    </div>
+</div>
+<div class="row helpdeskContent">
+    <div class="col">
+        <ul class="helpdeskOptions fixed">
+            @if (Model.ShowTickets)
+            {
+                <li class="findTicket"><a href="@Url.Action(nameof(HelpdeskPlugin.Controllers.HelpdeskController.FindTicket), HelpdeskPlugin.Controllers.HelpdeskController.Name)">@Localizer[nameof(Languages.LanguageStrings.FindATicket)]</a></li>
+                <li class="submitTicket"><a href="@Url.Action(nameof(HelpdeskPlugin.Controllers.HelpdeskController.SubmitTicket), HelpdeskPlugin.Controllers.HelpdeskController.Name)">@Localizer[nameof(Languages.LanguageStrings.SubmitTicket)]</a></li>
+            }
+
+            @if (Model.ShowFaq)
+            {
+                <li class="faq"><a href="@Url.Action(nameof(HelpdeskPlugin.Controllers.HelpdeskController.FaQ), HelpdeskPlugin.Controllers.HelpdeskController.Name)">@Localizer[nameof(Languages.LanguageStrings.FrequentlyAskedQuestions)]</a></li>
+            }
+
+            @if (Model.ShowFeedback)
+            {
+                <li class="feedback"><a href="@Url.Action(nameof(HelpdeskPlugin.Controllers.HelpdeskController.Feedback), HelpdeskPlugin.Controllers.HelpdeskController.Name)">@Localizer[nameof(Languages.LanguageStrings.Feedback)]</a></li>
+            }
+        </ul>
+    </div>
+</div>
+
+<script src="/js/growl.js" type="text/javascript"></script>
+<link href="/css/growl.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript">
+    var settings = {
+        growlTitle: '@Localizer[nameof(Languages.LanguageStrings.Helpdesk)]',
+        updateMsg: '@Model.GrowlMessage'
+    };
+
+    helpdesk.init(settings);
+</script>
+
+

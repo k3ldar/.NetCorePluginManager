@@ -1,0 +1,77 @@
+﻿@model DocumentationPlugin.Models.DocumentViewTypeViewModel
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
+@if (!String.IsNullOrEmpty(Model.Namespace))
+{
+<p><strong>Namespace</strong>: @Model.Namespace</p>
+}
+@if (!String.IsNullOrEmpty(Model.Assembly))
+{
+<p><strong>Assembly</strong>: <a href="/docs/Document/@Model.Assembly/">@Model.Assembly</a></p>
+}
+@if (!String.IsNullOrEmpty(Model.ClassName))
+{
+<p><strong>Class</strong>: <a href="/docs/Document/@Model.Assembly/@Model.ClassName/">@Model.ClassName</a></p>
+}
+@if (!String.IsNullOrEmpty(Model.Summary))
+{
+<p>@Html.Raw(Model.Summary)</p>
+}
+@if (!String.IsNullOrEmpty(Model.Value))
+{
+<p><strong>Value</strong>: @Html.Raw(Model.Value)</p>
+}
+@if (!String.IsNullOrEmpty(Model.LongDescription))
+{
+<h3 id="description">@Localizer[nameof(Languages.LanguageStrings.Description)]</h3>
+@Html.Raw(Model.LongDescription)
+}
+@if (!String.IsNullOrEmpty(Model.ShortDescription))
+{
+@Html.Raw(Model.ShortDescription)
+}
+@if (!String.IsNullOrEmpty(Model.ExampleUseage))
+{
+<h3 id="exampleuseage">Example Useage</h3>
+@Html.Raw(Model.ExampleUseage)
+}
+@if (Model.Parameters != null && Model.Parameters.Count > 0)
+{
+<h3 id="parameters">Parameters</h3>
+<div class="docTable">
+<table>
+<tbody>
+@foreach (var item in Model.Parameters)
+{
+<tr>
+<td>
+@Html.Raw(item.ParameterName)
+</td>
+<td>
+@Html.Raw(item.Value)
+</td>
+<td>
+@Html.Raw(item.Summary)
+</td>
+</tr>
+}
+</tbody>
+</table>
+</div>
+}
+@if (!String.IsNullOrEmpty(Model.Returns))
+{
+<h3>Returns</h3>
+@Html.Raw(Model.Returns)
+}
+@if (!String.IsNullOrEmpty(Model.Exceptions))
+{
+<h3>Exceptions</h3>
+@Html.Raw(Model.Exceptions)
+}
+@if (!String.IsNullOrEmpty(Model.Remarks))
+{
+<h3>Remarks</h3>
+<div class="remark">
+@Html.Raw(Model.Remarks)
+</div>
+}

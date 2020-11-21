@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  Error Manager Plugin
  *  
@@ -27,16 +27,17 @@ using SharedPluginFeatures;
 
 namespace ErrorManager.Plugin.Classes
 {
-    public class TempErrorManager : IErrorManager
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1812:AvoidUninstantiatedInternalClasses", Justification = "Used internally as part of IoC")]
+    internal class TempErrorManager : IErrorManager
     {
         public void ErrorRaised(in ErrorInformation errorInformation)
         {
-            
+
         }
 
         public bool MissingPage(in string path, ref string replacePath)
         {
-            return (false);
+            return false;
         }
     }
 }

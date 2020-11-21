@@ -1,0 +1,38 @@
+﻿@model SystemAdmin.Plugin.Models.SeoDataModel
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
+<div class="modal-dialog" role="document">
+<div class="modal-content">
+<div class="modal-header">
+<h5 class="modal-title" id="seoModalLabel">@Localizer[nameof(Languages.LanguageStrings.SeoUpdatePage)]</h5>
+<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+<span aria-hidden="true">&times;</span>
+</button>
+</div>
+@using (Html.BeginForm(nameof(SystemAdmin.Plugin.Controllers.SystemAdminController.SeoUpdateData), SystemAdmin.Plugin.Controllers.SystemAdminController.Name, FormMethod.Post))
+{
+@Html.HiddenFor(m => m.SeoUrl)
+<div class="modal-body">
+<div class="form-group">
+@Html.LabelFor(m => m.SeoTitle, new { @class = "col-form-label" })
+@Html.TextBoxFor(m => m.SeoTitle, new { @class = "form-control" })
+</div>
+<div class="form-group">
+@Html.LabelFor(m => m.SeoMetaDescription, new { @class = "col-form-label" })
+@Html.TextBoxFor(m => m.SeoMetaDescription, new { @class = "form-control" })
+</div>
+<div class="form-group">
+@Html.LabelFor(m => m.SeoTags, new { @class = "col-form-label" })
+@Html.TextBoxFor(m => m.SeoTags, new { @class = "form-control" })
+</div>
+<div class="form-group">
+@Html.LabelFor(m => m.SeoAuthor, new { @class = "col-form-label" })
+@Html.TextBoxFor(m => m.SeoAuthor, new { @class = "form-control" })
+</div>
+</div>
+<div class="modal-footer">
+<button type="button" class="btn btn-secondary" data-dismiss="modal">@Localizer[nameof(Languages.LanguageStrings.Cancel)]</button>
+<button type="submit" class="btn btn-primary">@Localizer[nameof(Languages.LanguageStrings.Save)]</button>
+</div>
+}
+</div>
+</div>

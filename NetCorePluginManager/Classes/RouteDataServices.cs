@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  AspNetCore.PluginManager
  *  
@@ -24,19 +24,19 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
-using System.Reflection;
 using System.Linq;
+using System.Reflection;
 
-using Microsoft.AspNetCore.Mvc.Abstractions;
-using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Abstractions;
 using Microsoft.AspNetCore.Mvc.Controllers;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 
 using SharedPluginFeatures;
 
-namespace AspNetCore.PluginManager.Classes
+namespace AspNetCore.PluginManager
 {
-    public sealed class RouteDataServices : IRouteDataService
+    internal sealed class RouteDataServices : IRouteDataService
     {
         public string GetRouteFromClass(Type type, IActionDescriptorCollectionProvider routeProvider)
         {
@@ -46,18 +46,18 @@ namespace AspNetCore.PluginManager.Classes
 
             if (classRouteAttribute != null && !String.IsNullOrEmpty(classRouteAttribute.Template))
             {
-                return (classRouteAttribute.Template);
+                return classRouteAttribute.Template;
             }
 
             ActionDescriptor route = routeProvider.ActionDescriptors.Items.Where(ad => ad
                 .DisplayName.StartsWith(type.FullName, StringComparison.CurrentCultureIgnoreCase)).FirstOrDefault();
 
             if (route == null)
-                return (String.Empty);
+                return String.Empty;
 
             if (route.AttributeRouteInfo != null)
             {
-                return ($"/{route.AttributeRouteInfo.Template}/{route.AttributeRouteInfo.Name}");
+                return $"/{route.AttributeRouteInfo.Template}/{route.AttributeRouteInfo.Name}";
             }
             else if (route.AttributeRouteInfo == null)
             {
@@ -76,7 +76,15 @@ namespace AspNetCore.PluginManager.Classes
 
             if (classRouteAttribute != null && !String.IsNullOrEmpty(classRouteAttribute.Template))
             {
-                return (classRouteAttribute.Template);
+                string template = classRouteAttribute.Template;
+
+                while (template.IndexOf('{') > -1)
+                    template = template.Substring(0, template.Length - 1);
+
+                if (template.EndsWith("/"))
+                    template = template.Substring(0, template.Length - 1);
+
+                return template;
             }
 
             string routeName = $"{method.DeclaringType.ToString()}.{method.Name}";
@@ -85,20 +93,20 @@ namespace AspNetCore.PluginManager.Classes
                 .DisplayName.StartsWith(routeName, StringComparison.CurrentCultureIgnoreCase)).FirstOrDefault();
 
             if (route == null)
-                return (String.Empty);
+                return String.Empty;
 
             if (route.AttributeRouteInfo != null)
             {
-                return ($"/{route.AttributeRouteInfo.Template}/{route.AttributeRouteInfo.Name}");
+                return $"/{route.AttributeRouteInfo.Template}/{route.AttributeRouteInfo.Name}";
             }
 
             if (route.RouteValues["controller"].ToString() == "Home")
             {
-                return ($"/{route.RouteValues["action"]}");
+                return $"/{route.RouteValues["action"]}";
             }
             else
             {
-                return ($"/{route.RouteValues["controller"]}/{route.RouteValues["action"]}");
+                return $"/{route.RouteValues["controller"]}/{route.RouteValues["action"]}";
             }
         }
     }

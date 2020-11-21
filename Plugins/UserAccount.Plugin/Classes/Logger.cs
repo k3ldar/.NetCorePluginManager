@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  UserAccount.Plugin
  *  
@@ -25,11 +25,13 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
 
-using SharedPluginFeatures;
-using static SharedPluginFeatures.Enums;
+using PluginManager;
+using PluginManager.Abstractions;
 
 namespace UserAccount.Plugin.Classes
 {
+#pragma warning disable CS1591
+
     public class Logger : ILogger
     {
         #region ILogger Methods
@@ -55,6 +57,29 @@ namespace UserAccount.Plugin.Classes
 #endif
         }
 
+        public void AddToLog(in LogLevel logLevel, in string module, in string data)
+        {
+#if TRACE
+            System.Diagnostics.Trace.WriteLine($"{logLevel.ToString()} {data}");
+#endif
+        }
+
+        public void AddToLog(in LogLevel logLevel, in string module, in Exception exception)
+        {
+#if TRACE
+            System.Diagnostics.Trace.WriteLine($"{logLevel.ToString()} {exception.Message}");
+#endif
+        }
+
+        public void AddToLog(in LogLevel logLevel, in string module, in Exception exception, string data)
+        {
+#if TRACE
+            System.Diagnostics.Trace.WriteLine($"{logLevel.ToString()} {exception.Message}\r\n{data}");
+#endif
+        }
+
         #endregion ILogger Methods
     }
+
+#pragma warning restore CS1591
 }

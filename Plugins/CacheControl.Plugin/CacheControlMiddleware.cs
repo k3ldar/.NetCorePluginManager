@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  CacheControl Plugin
  *  
@@ -30,12 +30,19 @@ using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Http;
 
+using PluginManager.Abstractions;
+
 using Shared.Classes;
 
 using SharedPluginFeatures;
 
+#pragma warning disable CS1591
+
 namespace CacheControl.Plugin
 {
+    /// <summary>
+    /// Implements rule based cache headers for individual routes
+    /// </summary>
     public class CacheControlMiddleware : BaseMiddleware
     {
         #region Private Members
@@ -54,7 +61,10 @@ namespace CacheControl.Plugin
 
         public CacheControlMiddleware(RequestDelegate next, ISettingsProvider settingsProvider)
         {
-            _next = next;
+            if (settingsProvider == null)
+                throw new ArgumentNullException(nameof(settingsProvider));
+
+            _next = next ?? throw new ArgumentNullException(nameof(next));
             _routePaths = new Dictionary<string, CacheControlRoute>();
             _ignoredRoutes = new HashSet<string>();
 
@@ -67,6 +77,9 @@ namespace CacheControl.Plugin
 
         public async Task Invoke(HttpContext context)
         {
+            if (context == null)
+                throw new ArgumentNullException(nameof(context));
+
             try
             {
                 if (_disabled)
@@ -136,3 +149,5 @@ namespace CacheControl.Plugin
         #endregion Private Methods
     }
 }
+
+#pragma warning restore CS1591

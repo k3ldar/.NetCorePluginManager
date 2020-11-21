@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  UserSessionMiddleware.Plugin
  *  
@@ -24,6 +24,8 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
+
+#pragma warning disable IDE0011
 
 namespace UserSessionMiddleware.Plugin
 {
@@ -64,7 +66,7 @@ namespace UserSessionMiddleware.Plugin
             if (String.IsNullOrEmpty(route))
                 throw new ArgumentNullException(nameof(route));
 
-            if (Route.Equals(route))
+            if (Route.Equals(route, StringComparison.InvariantCultureIgnoreCase))
                 return true;
 
             if (route.EndsWith("/") && Route.Equals(route.Substring(0, route.Length - 1)))
@@ -88,3 +90,5 @@ namespace UserSessionMiddleware.Plugin
         #endregion Properties
     }
 }
+
+#pragma warning restore IDE0011

@@ -6,48 +6,39 @@
 }
 <link rel="stylesheet" href="~/css/Products.css" asp-append-version="true" />
 
-<div class="bc">@Html.Raw(Model.BreadcrumbData())</div>
-
-<div class="wrapper">
-    <div class="content">
-
-        @await Html.PartialAsync("_LeftMenu.cshtml")
 
 
-        <div class="mainContent">
+<div class="row">
+    <div class="col">
+        <h1 id="divTitle">
+            @Model.Description
+        </h1>
 
-            <h1 id="divTitle">
-                @Model.Description
-            </h1>
-
-            <h4 class="tagLine">@Model.TagLine</h4>
-
-            <ul class="productList fixed">
-                @foreach (var item in Model.Products)
-                {
-                    <li class="product">
-                        <a href="@item.Url">
-                            <img src="~/images/Products/@item.Images" alt="@item.Name" border="0" width="178" height="128" />
-                            <span class="new" style="@if (item.NewProduct) { Html.Raw("display:block;"); }">@Localizer[nameof(Languages.LanguageStrings.NewProduct)]</span>
-                            <span class="best" style="@if (item.BestSeller) { Html.Raw("display:block;"); }">@Localizer[nameof(Languages.LanguageStrings.BestSeller)]</span>
-                            <br />@item.Name<strong>@item.Price</strong>
-                        </a>
-                    </li>
-                }
-            </ul>
-
-            <div class="pagination">
-                <ul class="fixed">
-                    @Html.Raw(Model.Pagination)
-                </ul>
-            </div><!-- end of .pagination -->
-
-        </div><!-- end of #mainContent -->
-
-
-        <div class="clear"><!-- clear --></div>
-
-    </div><!-- end of #content -->
+        <h4 class="tagLine">@Model.TagLine</h4>
+    </div>
 </div>
-<div class="clear"><!-- clear --></div>
-
+<div class="row">
+    <div class="col-sm-3">
+        @await Html.PartialAsync("_LeftMenu.cshtml")
+    </div>
+    <div class="col-sm-9 mainContent">
+        <ul class="productList">
+            @foreach (var item in Model.Products)
+            {
+                <li class="product">
+                    <a href="@item.Url">
+                        <img src="~/images/Products/@Shared.Utilities.ResizeImage(item.Images, 178).Replace(".jpg", ".png")" alt="@item.Name" border="0" width="178" height="128" />
+                        <span class="new" style="@if (item.NewProduct) { Html.Raw("display:block;"); }">@Localizer[nameof(Languages.LanguageStrings.NewProduct)]</span>
+                        <span class="best" style="@if (item.BestSeller) { Html.Raw("display:block;"); }">@Localizer[nameof(Languages.LanguageStrings.BestSeller)]</span>
+                        <br />@item.Name<strong>@item.Price</strong>
+                    </a>
+                </li>
+            }
+        </ul>
+    </div>
+</div>
+<div class="row justify-content-sm-center" style="margin-top:20px;">
+    <div class="col-sm-auto">
+        @Html.Raw(Model.Pagination)
+    </div>
+</div>

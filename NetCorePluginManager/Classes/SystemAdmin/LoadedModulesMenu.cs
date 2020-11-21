@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  AspNetCore.PluginManager
  *  
@@ -25,39 +25,53 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.IO;
+
+using PluginManager.Abstractions;
 
 using SharedPluginFeatures;
 
+#pragma warning disable CS1591
+
 namespace AspNetCore.PluginManager.Classes.SystemAdmin
 {
+    /// <summary>
+    /// Returns a list of all assemblies currently loaded by the application and can 
+    /// be viewed within SystemAdmin.Plugin.  
+    /// 
+    /// This class descends from SystemAdminSubMenu.
+    /// </summary>
     public sealed class LoadedModulesMenu : SystemAdminSubMenu
     {
         public override string Action()
         {
-            return (String.Empty);
+            return String.Empty;
         }
 
         public override string Area()
         {
-            return (String.Empty);
+            return String.Empty;
         }
 
         public override string Controller()
         {
-            return (String.Empty);
+            return String.Empty;
         }
 
         public override Enums.SystemAdminMenuType MenuType()
         {
-            return (Enums.SystemAdminMenuType.Grid);
+            return Enums.SystemAdminMenuType.Grid;
         }
 
+        /// <summary>
+        /// Returns delimited data on all loaded assemblies and their version.
+        /// </summary>
+        /// <returns>string</returns>
         public override string Data()
         {
-            Dictionary<string, IPluginModule> plugins = PluginManagerService.GetPluginManager().GetLoadedPlugins();
+            Dictionary<string, IPluginModule> plugins = PluginManagerService.GetPluginManager().PluginsGetLoaded();
 
             string Result = "Module|FileVersion";
             Dictionary<string, string> files = new Dictionary<string, string>();
@@ -82,7 +96,7 @@ namespace AspNetCore.PluginManager.Classes.SystemAdmin
                 }
                 catch (NotSupportedException)
                 {
-                    
+
                 }
 
 
@@ -93,27 +107,29 @@ namespace AspNetCore.PluginManager.Classes.SystemAdmin
             foreach (KeyValuePair<string, string> valuePair in files.OrderBy(key => key.Key.ToLower()))
                 Result += $"\r{valuePair.Key}|{valuePair.Value}";
 
-            return (Result);
+            return Result;
         }
 
         public override string Name()
         {
-            return ("Loaded Modules");
+            return "Loaded Modules";
         }
 
         public override string ParentMenuName()
         {
-            return ("System");
+            return "System";
         }
 
         public override int SortOrder()
         {
-            return (0);
+            return 0;
         }
 
         public override string Image()
         {
-            return (String.Empty);
+            return String.Empty;
         }
     }
 }
+
+#pragma warning restore CS1591

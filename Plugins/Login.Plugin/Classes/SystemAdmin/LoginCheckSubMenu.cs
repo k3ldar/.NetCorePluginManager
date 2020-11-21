@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  Login Plugin
  *  
@@ -26,23 +26,26 @@
 using System;
 
 using SharedPluginFeatures;
+
+#pragma warning disable CS1591
+
 namespace LoginPlugin.Classes.SystemAdmin
 {
     public class LoginCheckSubMenu : SystemAdminSubMenu
     {
         public override string Action()
         {
-            return (String.Empty);
+            return String.Empty;
         }
 
         public override string Area()
         {
-            return (String.Empty);
+            return String.Empty;
         }
 
         public override string Controller()
         {
-            return (String.Empty);
+            return String.Empty;
         }
 
         public override string Data()
@@ -53,34 +56,37 @@ namespace LoginPlugin.Classes.SystemAdmin
             Result += $"\rFastest ms|{LoginMiddleware._loginTimings.Fastest}";
             Result += $"\rSlowest ms|{LoginMiddleware._loginTimings.Slowest}";
             Result += $"\rAverage ms|{LoginMiddleware._loginTimings.Average}";
+            Result += $"\rTrimmed Avg ms|{LoginMiddleware._loginTimings.TrimmedAverage}";
             Result += $"\rTotal ms|{LoginMiddleware._loginTimings.Total}";
 
-            return (Result);
+            return Result;
         }
 
         public override string Image()
         {
-            return ("stopwatch");
+            return Constants.SystemImageStopWatch;
         }
 
         public override Enums.SystemAdminMenuType MenuType()
         {
-            return (Enums.SystemAdminMenuType.Grid);
+            return Enums.SystemAdminMenuType.Grid;
         }
 
         public override string Name()
         {
-            return (nameof(Languages.LanguageStrings.LoginValidation));
+            return nameof(Languages.LanguageStrings.LoginValidation);
         }
 
         public override string ParentMenuName()
         {
-            return (nameof(Languages.LanguageStrings.Timings));
+            return nameof(Languages.LanguageStrings.Timings);
         }
 
         public override int SortOrder()
         {
-            return (0);
+            return 0;
         }
     }
 }
+
+#pragma warning restore CS1591

@@ -1,0 +1,37 @@
+﻿@model SharedPluginFeatures.BaseModel
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
+@{
+ViewData["Title"] = @Localizer[nameof(Languages.LanguageStrings.CookiePolicy)];
+}
+<div class="row">
+<div class="col-sm-12">
+<h1>@Localizer[nameof(Languages.LanguageStrings.CookiePolicy)]</h1>
+<p>A cookie is a small piece of data (text file) that a website, when visited by a user, asks your browser to store on your device in order to remember information about you, such as your language preference or login information. Those cookies are set by us and called first-party cookies. We may also use third party cookies, which are cookies from a domain different than the domain of the website you are visiting, for our advertising and marketing efforts.</p>
+<p>More specifically, we use cookies and other tracking technologies for the following purposes:</p>
+<ul>
+<li>Assisting you in navigation;</li>
+<li>Assisting in registration to our website, login, and your ability to provide feedback;</li>
+<li>Analyzing your use of our products, services or applications;</li>
+<li>Assisting with our promotional and marketing efforts. (including behavioral advertising)</li>
+</ul>
+<p>The cookies we use can be categorised as follows:</p>
+<ul>
+<li>Strictly Necessary Cookies</li>
+<li>Performance Cookies</li>
+<li>Functional Cookies</li>
+<li>Targeting Cookies</li>
+</ul>
+<h2>Strictly Necessary Cookies</h2>
+<p>These cookies are necessary for the website to function and cannot be switched off in our systems. They are usually only set in response to actions made by you which amount to a request for services, such as setting your privacy preferences, logging in or filling in forms.</p>
+<p>You can set your browser to block or alert you about these cookies, but some parts of the site will not then work. These cookies do not store any personally identifiable information.</p>
+<h2>Performance Cookies</h2>
+<p>These cookies allow us to count visits and traffic sources so we can measure and improve the performance of our site. They help us to know which pages are the most and least popular and see how visitors move around the site.</p>
+<p>All information these cookies collect is aggregated and therefore anonymous. If you do not allow these cookies we will not know when you have visited our site, and will not be able to monitor its performance.</p>
+<h2>Functional Cookies</h2>
+<p>These cookies enable the website to provide enhanced functionality and personalisation. They may be set by us or by third party providers whose services we have added to our pages.</p>
+<p>If you do not allow these cookies then some or all of these services may not function properly.</p>
+<h2>Targeting Cookies</h2>
+<p>These cookies may be set through our site by our advertising partners. They may be used by those companies to build a profile of your interests and show you relevant adverts on other sites.</p>
+<p>They do not store directly personal information, but are based on uniquely identifying your browser and internet device. If you do not allow these cookies, you will experience less targeted advertising.</p>
+</div>
+</div>

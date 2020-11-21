@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  UserAccount.Plugin
  *  
@@ -23,15 +23,35 @@
  *  16/12/2018  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
 using System.ComponentModel.DataAnnotations;
 
 using SharedPluginFeatures;
 
 namespace UserAccount.Plugin.Models
 {
+#pragma warning disable CS1591
+
     public sealed class BillingAddressViewModel : BaseModel
     {
+        #region Constructors
+
+        public BillingAddressViewModel()
+        {
+
+        }
+
+        public BillingAddressViewModel(in BaseModelData baseModelData)
+            : base(baseModelData)
+        {
+
+        }
+
+        #endregion Constructors
+
+        #region Properties
+
+        public int AddressId { get; set; }
+
         public bool ShowBusinessName { get; set; }
 
         [Display(Name = nameof(Languages.LanguageStrings.BusinessName))]
@@ -76,5 +96,9 @@ namespace UserAccount.Plugin.Models
 
         [Display(Name = nameof(Languages.LanguageStrings.Country))]
         public string Country { get; set; }
+
+        #endregion Properties
     }
+
+#pragma warning restore CS1591
 }

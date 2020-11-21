@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  Products.Plugin
  *  
@@ -24,6 +24,8 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
+
+#pragma warning disable CS1591
 
 namespace ProductPlugin.Models
 {
@@ -85,10 +87,12 @@ namespace ProductPlugin.Models
         {
             get
             {
-                return ($"/Product/{Id}/{RouteFriendlyName(Name)}/");
+                return $"/Product/{Id}/{RouteFriendlyName(Name)}/";
             }
         }
 
         #endregion Properties
     }
 }
+
+#pragma warning restore CS1591

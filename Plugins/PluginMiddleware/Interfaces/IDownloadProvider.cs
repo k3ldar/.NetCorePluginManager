@@ -30,49 +30,54 @@ using Middleware.Downloads;
 
 namespace Middleware
 {
+    /// <summary>
+    /// Download provider.  Provides download information used by the DownloadPlugin module.
+    /// 
+    /// This item must be implemented by the host application and made available via DI.
+    /// </summary>
     public interface IDownloadProvider
     {
-
         #region Downloads
 
         /// <summary>
         /// User download file Categories
         /// </summary>
-        /// <param name="userId"></param>
-        /// <returns></returns>
+        /// <param name="userId">Id of the user requesting a download, if they are logged in.</param>
+        /// <returns>List&lt;DownloadCategory&gt;</returns>
         List<DownloadCategory> DownloadCategoriesGet(in Int64 userId);
 
         /// <summary>
         /// Publicy downloadable file Categories
         /// </summary>
-        /// <returns></returns>
+        /// <returns>List&lt;DownloadCategory&gt;</returns>
         List<DownloadCategory> DownloadCategoriesGet();
 
         /// <summary>
         /// Retrieve File
         /// </summary>
-        /// <param name="fileId"></param>
-        /// <returns></returns>
+        /// <param name="fileId">Unique id of the file being downloaded.</param>
+        /// <returns>DownloadItem</returns>
         DownloadItem GetDownloadItem(in int fileId);
 
         /// <summary>
         /// Retrieve File
         /// </summary>
-        /// <param name="fileId"></param>
-        /// <returns></returns>
+        /// <param name="userId">Id of the user requesting a download, if they are logged in.</param>
+        /// <param name="fileId">Unique id of the file being downloaded.</param>
+        /// <returns>DownloadItem</returns>
         DownloadItem GetDownloadItem(in Int64 userId, in int fileId);
 
         /// <summary>
         /// File download by a user
         /// </summary>
-        /// <param name="userId"></param>
-        /// <param name="fileId"></param>
+        /// <param name="userId">Id of the user requesting a download, if they are logged in.</param>
+        /// <param name="fileId">Unique id of the file being downloaded.</param>
         void ItemDownloaded(in Int64 userId, in int fileId);
 
         /// <summary>
         /// File download by anyone
         /// </summary>
-        /// <param name="fileId"></param>
+        /// <param name="fileId">Unique id of the file being downloaded.</param>
         void ItemDownloaded(in int fileId);
 
         #endregion Downloads

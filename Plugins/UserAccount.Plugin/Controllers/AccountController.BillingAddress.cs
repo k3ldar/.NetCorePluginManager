@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  UserAccount.Plugin
  *  
@@ -27,28 +27,30 @@ using System;
 
 using Microsoft.AspNetCore.Mvc;
 
-using UserAccount.Plugin.Models;
-
 using Middleware;
 
 using SharedPluginFeatures;
 
+using UserAccount.Plugin.Models;
+
 namespace UserAccount.Plugin.Controllers
 {
+#pragma warning disable CS1591
+
     public partial class AccountController
     {
         #region Public Controller Methods
 
-		[HttpGet]
+        [HttpGet]
         [Breadcrumb(nameof(Languages.LanguageStrings.MyBillingAddress), nameof(AccountController), nameof(Index))]
-		public IActionResult BillingAddress()
+        public IActionResult BillingAddress()
         {
             Address billingAddress = _accountProvider.GetBillingAddress(UserId());
 
             if (billingAddress == null)
                 throw new InvalidOperationException(nameof(billingAddress));
 
-            BillingAddressViewModel model = new BillingAddressViewModel();
+            BillingAddressViewModel model = new BillingAddressViewModel(GetModelData());
             PrepareBillingAddressModel(ref model, billingAddress);
 
             return View(model);
@@ -62,9 +64,9 @@ namespace UserAccount.Plugin.Controllers
 
             ValidateBillingAddressModel(ref model);
 
-			if (ModelState.IsValid)
+            if (ModelState.IsValid)
             {
-                Address billingAddress = new Address(model.BusinessName, model.AddressLine1,
+                Address billingAddress = new Address(model.AddressId, 0, model.BusinessName, model.AddressLine1,
                     model.AddressLine2, model.AddressLine3, model.City, model.County, model.Postcode, model.Country);
 
                 if (_accountProvider.SetBillingAddress(UserId(), billingAddress))
@@ -76,6 +78,7 @@ namespace UserAccount.Plugin.Controllers
                 ModelState.AddModelError(String.Empty, Languages.LanguageStrings.FailedToUpdateBillingAddress);
             }
 
+            model = new BillingAddressViewModel(GetModelData());
             PrepareBillingAddressModel(ref model, null);
 
             return View(model);
@@ -87,7 +90,7 @@ namespace UserAccount.Plugin.Controllers
 
         private void ValidateBillingAddressModel(ref BillingAddressViewModel model)
         {
-            AddressOptions addressOptions = _accountProvider.GetAddressOptions();
+            AddressOptions addressOptions = _accountProvider.GetAddressOptions(AddressOption.Delivery);
 
             if (addressOptions.HasFlag(AddressOptions.AddressLine1Mandatory) && String.IsNullOrEmpty(model.AddressLine1))
                 ModelState.AddModelError(nameof(model.AddressLine1), Languages.LanguageStrings.AddressLine1Required);
@@ -113,9 +116,7 @@ namespace UserAccount.Plugin.Controllers
 
         private void PrepareBillingAddressModel(ref BillingAddressViewModel model, in Address billingAddress)
         {
-            model.Breadcrumbs = GetBreadcrumbs();
-
-            AddressOptions addressOptions = _accountProvider.GetAddressOptions();
+            AddressOptions addressOptions = _accountProvider.GetAddressOptions(AddressOption.Billing);
 
             model.ShowAddressLine1 = addressOptions.HasFlag(AddressOptions.AddressLine1Show);
             model.ShowAddressLine2 = addressOptions.HasFlag(AddressOptions.AddressLine2Show);
@@ -139,4 +140,6 @@ namespace UserAccount.Plugin.Controllers
 
         #endregion Private Methods
     }
+
+#pragma warning restore CS1591
 }

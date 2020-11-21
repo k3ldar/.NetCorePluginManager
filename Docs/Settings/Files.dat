@@ -1,0 +1,36 @@
+Modular.xml
+AspNetCore.PluginManager.xml
+BadEgg.Plugin.xml
+SharedPluginFeatures.xml
+SharedLib.xml
+Inter Plugin Event Notification.xml
+Localization Within Net Core.xml
+UserSessionMiddleware.Plugin.xml
+Breadcrumb.Plugin.xml
+CacheControl.Plugin.xml
+GeoIp.Plugin.xml
+Localization.Plugin.xml
+MemoryCache.Plugin.xml
+Middleware.xml
+RestrictIp.Plugin.xml
+SeoPlugin.xml
+SieraDeltaGeoIp.Plugin.xml
+Spider.Plugin.xml
+Languages.xml
+Company.Plugin.xml
+DocumentationPlugin.xml
+DownloadPlugin.xml
+ErrorManager.Plugin.xml
+HelpdeskPlugin.xml
+LoginPlugin.xml
+ProductPlugin.xml
+ShoppingCartPlugin.xml
+SystemAdmin.Plugin.xml
+UserAccount.Plugin.xml
+Blog.Plugin.xml
+Sitemap.Plugin.xml
+Claims and Policies.xml
+PluginManager.xml
+Minification.xml
+SearchPlugin.xml
+WebSmokeTest.Plugin.xml

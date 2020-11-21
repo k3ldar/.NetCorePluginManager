@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  PluginMiddleware
  *  
@@ -28,10 +28,19 @@ using System.Collections.Generic;
 
 namespace Middleware.Downloads
 {
+    /// <summary>
+    /// Available download categories including a list of DownloadItem's that are available for the category.
+    /// </summary>
     public class DownloadCategory
     {
         #region Constructors
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="id">Unique id for category.</param>
+        /// <param name="name">Name of download category.</param>
+        /// <param name="downloads">List of all download items that are within the category.</param>
         public DownloadCategory(in int id, in string name, in List<DownloadItem> downloads)
         {
             if (String.IsNullOrEmpty(name))
@@ -46,10 +55,22 @@ namespace Middleware.Downloads
 
         #region Properties
 
+        /// <summary>
+        /// Unique id for category.
+        /// </summary>
+        /// <value>int</value>
         public int Id { get; private set; }
 
+        /// <summary>
+        /// Name of download category.
+        /// </summary>
+        /// <value>string</value>
         public string Name { get; private set; }
 
+        /// <summary>
+        /// List of all download items that are within the category.
+        /// </summary>
+        /// <value>List&lt;DownloadItem&gt;</value>
         public List<DownloadItem> Downloads { get; private set; }
 
         #endregion Properties

@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  PluginMiddleware
  *  
@@ -26,18 +26,39 @@
 
 namespace Middleware
 {
+    /// <summary>
+    /// Contains address details that can also be used for DeliveryAddress in IAccountProvider interface.
+    /// </summary>
     public class Address
     {
         #region Constructors
 
+        /// <summary>
+        /// Default constructor
+        /// </summary>
         public Address()
         {
 
         }
 
-        public Address(in string businessName, in string addressLine1, in string addressLine2,
-            in string addressLine3, in string city, in string county, in string postcode, in string country)
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="id">Shipping costs for the address.</param>
+        /// <param name="shipping">Shipping costs for the address.</param>
+        /// <param name="businessName">Business name if applicable.</param>
+        /// <param name="addressLine1">Address line 1.</param>
+        /// <param name="addressLine2">Address line 2.</param>
+        /// <param name="addressLine3">Address line 3.</param>
+        /// <param name="city">City name.</param>
+        /// <param name="county">County/state name.</param>
+        /// <param name="postcode">Postal or zip code.</param>
+        /// <param name="country">Postal or zip code.</param>
+        public Address(in int id, in decimal shipping, in string businessName, in string addressLine1,
+            in string addressLine2, in string addressLine3, in string city, in string county, in string postcode, in string country)
         {
+            Id = id;
+            Shipping = shipping;
             BusinessName = businessName;
             AddressLine1 = addressLine1;
             AddressLine2 = addressLine2;
@@ -52,20 +73,64 @@ namespace Middleware
 
         #region Properties
 
+        /// <summary>
+        /// Unique id for the address.
+        /// </summary>
+        /// <value>int</value>
+        public int Id { get; set; }
+
+        /// <summary>
+        /// Shipping costs for the address.
+        /// </summary>
+        /// <value>decimal</value>
+        public decimal Shipping { get; set; }
+
+        /// <summary>
+        /// Business name if applicable.
+        /// </summary>
+        /// <value>string</value>
         public string BusinessName { get; set; }
 
+        /// <summary>
+        /// Address line 1.
+        /// </summary>
+        /// <value>string</value>
         public string AddressLine1 { get; set; }
 
+        /// <summary>
+        /// Address line 2.
+        /// </summary>
+        /// <value>string</value>
         public string AddressLine2 { get; set; }
 
+        /// <summary>
+        /// Address line 3.
+        /// </summary>
+        /// <value>string</value>
         public string AddressLine3 { get; set; }
 
+        /// <summary>
+        /// City name.
+        /// </summary>
+        /// <value>string</value>
         public string City { get; set; }
 
+        /// <summary>
+        /// County/state name.
+        /// </summary>
+        /// <value>string</value>
         public string County { get; set; }
 
+        /// <summary>
+        /// Postal or zip code.
+        /// </summary>
+        /// <value>string</value>
         public string Postcode { get; set; }
 
+        /// <summary>
+        /// Country name.
+        /// </summary>
+        /// <value>string</value>
         public string Country { get; set; }
 
         #endregion Properties

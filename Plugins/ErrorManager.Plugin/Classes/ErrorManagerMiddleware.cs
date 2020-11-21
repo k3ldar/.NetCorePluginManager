@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  ErrorManager.Plugin
  *  
@@ -27,14 +27,23 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc.ViewFeatures;
+
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
+
+using PluginManager.Abstractions;
+
+using Shared.Classes;
 
 using SharedPluginFeatures;
-using Shared.Classes;
+
+#pragma warning disable CS1591
 
 namespace ErrorManager.Plugin
 {
+    /// <summary>
+    /// Error manager middleware pipeline service.
+    /// </summary>
     public sealed class ErrorManagerMiddleware : BaseMiddleware
     {
         #region Private Members
@@ -55,14 +64,15 @@ namespace ErrorManager.Plugin
 
         #region Constructors
 
-        public ErrorManagerMiddleware(RequestDelegate next, IErrorManager errorManager, 
+        public ErrorManagerMiddleware(RequestDelegate next, IErrorManager errorManager,
             ISettingsProvider settingsProvider)
         {
+            if (settingsProvider == null)
+                throw new ArgumentNullException(nameof(settingsProvider));
+
             _next = next ?? throw new ArgumentNullException(nameof(next));
             _errorManager = errorManager ?? throw new ArgumentNullException(nameof(errorManager));
             _errorThreadManager = new ErrorThreadManager(errorManager);
-
-            ThreadManager.Initialise();
 
             if (!ThreadManager.Exists("Error Manager"))
                 ThreadManager.ThreadStart(_errorThreadManager, "Error Manager", ThreadPriority.Lowest);
@@ -90,7 +100,7 @@ namespace ErrorManager.Plugin
                     {
                         case 403:
                             ITempDataDictionary tempData = GetTempData(context);
-                            tempData["ReturnUrl"] = context.Request.Path;
+                            tempData[Constants.ReturnUrl] = context.Request.Path;
                             context.Response.Redirect(_loginPage, false);
                             break;
 
@@ -114,17 +124,16 @@ namespace ErrorManager.Plugin
             }
             catch (Exception exception)
             {
-                using (StopWatchTimer stopWatch = StopWatchTimer.Initialise(_timingsExceptions))
+                using ( StopWatchTimer stopWatch = StopWatchTimer.Initialise(_timingsExceptions))
                 {
                     if (ProcessException(context, exception))
                     {
-                        string s = exception.Message;
                         context.Response.Redirect("/Error/Index/", false);
                     }
                     else
                     {
                         // this is only invoked if the error manager is the problem
-                        throw;
+                         throw;
                     }
                 }
             }
@@ -244,3 +253,5 @@ namespace ErrorManager.Plugin
         #endregion Private Methods
     }
 }
+
+#pragma warning restore CS1591

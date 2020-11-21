@@ -1,0 +1,49 @@
+<p>
+<a href="http://www.sieradelta.com" target="_blank">SieraDelta</a> GeoIp plugin module provides access to GeoIp data from a custom, self hosted data source using the following databases:
+</p>
+<ul>
+<li><a href="https://firebirdsql.org/" target="_blank">Firebird</a></li>
+<li><a href="https://www.mysql.com/" target="_blank">MySQL</a></li>
+<li><a href="https://www.microsoft.com/en-US/sql-server/" target="_blank">Sql Server</a></li>
+</ul>
+<h3>GeoIp</h3>
+<p>SieraDelta GeoIp is mutually exclusive with the GeoIp.Plugin module, you can not use both.  Both implement the IGeoIpDataService interface.</p>
+<h3>Settings</h3>
+<p>
+Settings to select the provider and individual provider settings are available using the GeoIpPluginSettings class.
+</p>
+<h3>How it Works</h3>
+<p>
+SieraDelta works slightly differently from the GeoIp.Plugin module, as data is stored within a local database you can choose to load all data into memory when the site is initialised, or alternatively you can load a select list of individual, most commonly used countries.  You can of course choose to query the database for each request so it fits within the needs of individual sites.
+</p>
+<h3>How to use</h3>
+<p>
+SieraDelta GeoIp plugin will be loaded by the plugin manager if it is used, otherwise you can manually add the GeoIp service as follows:
+</p>
+<p>
+<pre style="font-family:Consolas;font-size:13px;color:black;background:white;"><span style="color:#1f377f;">services</span>.<span style="color:#74531f;">UseSieraDeltaGeoIpService</span>();
+</pre>
+</p>
+<h3>Useage</p>
+<p>
+<pre style="font-family:Consolas;font-size:13px;color:black;background:white;"><span style="color:#8f08c4;">if</span>&nbsp;(<span style="color:#74531f;">LoadGeoIpService</span>()&nbsp;&amp;&amp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;_geoIpInstance.<span style="color:#74531f;">GetIPAddressDetails</span>(<span style="color:#1f377f;">e</span>.IPAddress,&nbsp;<span style="color:blue;">out</span>&nbsp;<span style="color:blue;">string</span>&nbsp;<span style="color:#1f377f;">countryCode</span>,&nbsp;<span style="color:blue;">out</span>&nbsp;<span style="color:blue;">string</span>&nbsp;<span style="color:#1f377f;">region</span>,&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">out</span>&nbsp;<span style="color:blue;">string</span>&nbsp;<span style="color:#1f377f;">cityName</span>,&nbsp;<span style="color:blue;">out</span>&nbsp;<span style="color:blue;">decimal</span>&nbsp;<span style="color:#1f377f;">latitude</span>,&nbsp;<span style="color:blue;">out</span>&nbsp;<span style="color:blue;">decimal</span>&nbsp;<span style="color:#1f377f;">longitude</span>,&nbsp;<span style="color:blue;">out</span>&nbsp;<span style="color:blue;">long</span>&nbsp;<span style="color:#1f377f;">ipUniqueId</span>))
+{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#1f377f;">e</span>.IPUniqueID&nbsp;=&nbsp;<span style="color:#1f377f;">ipUniqueId</span>;
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#1f377f;">e</span>.Latitude&nbsp;=&nbsp;<span style="color:#1f377f;">latitude</span>;
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#1f377f;">e</span>.Longitude&nbsp;=&nbsp;<span style="color:#1f377f;">longitude</span>;
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#1f377f;">e</span>.CityName&nbsp;=&nbsp;<span style="color:#1f377f;">cityName</span>;
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#1f377f;">e</span>.CountryCode&nbsp;=&nbsp;<span style="color:#1f377f;">countryCode</span>;
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#1f377f;">e</span>.Region&nbsp;=&nbsp;<span style="color:#1f377f;">region</span>;
+}
+<span style="color:#8f08c4;">else</span>
+{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#1f377f;">e</span>.CountryCode&nbsp;=&nbsp;<span style="color:#a31515;">&quot;ZZ&quot;</span>;
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#1f377f;">e</span>.CityName&nbsp;=&nbsp;<span style="color:#a31515;">&quot;Unknown&quot;</span>;
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#1f377f;">e</span>.Region&nbsp;=&nbsp;<span style="color:#2b91af;">String</span>.Empty;
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#1f377f;">e</span>.Latitude&nbsp;=&nbsp;0;
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#1f377f;">e</span>.Longitude&nbsp;=&nbsp;0;
+}
+</pre>
+</p>

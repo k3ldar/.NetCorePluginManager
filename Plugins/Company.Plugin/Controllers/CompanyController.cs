@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  Company.Plugin
  *  
@@ -23,11 +23,17 @@
  *  07/01/2019  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using Microsoft.AspNetCore.Mvc;
+using System;
 
 using Company.Plugin.Classes;
 
+using Microsoft.AspNetCore.Mvc;
+
+using PluginManager.Abstractions;
+
 using SharedPluginFeatures;
+
+#pragma warning disable CS1591
 
 namespace Company.Plugin.Controllers
 {
@@ -35,6 +41,7 @@ namespace Company.Plugin.Controllers
     {
         #region Private Members
 
+        public const string Name = "Company";
         private readonly CompanySettings _settings;
 
         #endregion Private Members
@@ -43,7 +50,10 @@ namespace Company.Plugin.Controllers
 
         public CompanyController(ISettingsProvider settingsProvider)
         {
-            _settings = settingsProvider.GetSettings<CompanySettings>("CompanySettings");
+            if (settingsProvider == null)
+                throw new ArgumentNullException(nameof(settingsProvider));
+
+            _settings = settingsProvider.GetSettings<CompanySettings>(nameof(CompanySettings));
         }
 
         #endregion Constructors
@@ -56,7 +66,7 @@ namespace Company.Plugin.Controllers
             if (!_settings.ShowAbout)
                 return Redirect("/");
 
-            return View(new BaseModel(GetBreadcrumbs()));
+            return View(new BaseModel(GetModelData()));
         }
 
         [Breadcrumb(nameof(Languages.LanguageStrings.Contact))]
@@ -65,7 +75,7 @@ namespace Company.Plugin.Controllers
             if (!_settings.ShowContact)
                 return Redirect("/");
 
-            return View(new BaseModel(GetBreadcrumbs()));
+            return View(new BaseModel(GetModelData()));
         }
 
         [Breadcrumb(nameof(Languages.LanguageStrings.Privacy))]
@@ -74,7 +84,7 @@ namespace Company.Plugin.Controllers
             if (!_settings.ShowPrivacy)
                 return Redirect("/");
 
-            return View(new BaseModel(GetBreadcrumbs()));
+            return View(new BaseModel(GetModelData()));
         }
 
         [Breadcrumb(nameof(Languages.LanguageStrings.TermsAndConditions))]
@@ -83,7 +93,7 @@ namespace Company.Plugin.Controllers
             if (!_settings.ShowTerms)
                 return Redirect("/");
 
-            return View(new BaseModel(GetBreadcrumbs()));
+            return View(new BaseModel(GetModelData()));
         }
 
         [Breadcrumb(nameof(Languages.LanguageStrings.Cookies))]
@@ -92,7 +102,7 @@ namespace Company.Plugin.Controllers
             if (!_settings.ShowCookies)
                 return Redirect("/");
 
-            return View(new BaseModel(GetBreadcrumbs()));
+            return View(new BaseModel(GetModelData()));
         }
 
         [Breadcrumb(nameof(Languages.LanguageStrings.Careers))]
@@ -101,7 +111,7 @@ namespace Company.Plugin.Controllers
             if (!_settings.ShowCareers)
                 return Redirect("/");
 
-            return View(new BaseModel(GetBreadcrumbs()));
+            return View(new BaseModel(GetModelData()));
         }
 
         [Breadcrumb(nameof(Languages.LanguageStrings.Returns))]
@@ -110,7 +120,7 @@ namespace Company.Plugin.Controllers
             if (!_settings.ShowReturns)
                 return Redirect("/");
 
-            return View(new BaseModel(GetBreadcrumbs()));
+            return View(new BaseModel(GetModelData()));
         }
 
         [Breadcrumb(nameof(Languages.LanguageStrings.Delivery))]
@@ -119,7 +129,7 @@ namespace Company.Plugin.Controllers
             if (!_settings.ShowDelivery)
                 return Redirect("/");
 
-            return View(new BaseModel(GetBreadcrumbs()));
+            return View(new BaseModel(GetModelData()));
         }
 
         [Breadcrumb(nameof(Languages.LanguageStrings.Newsletter))]
@@ -128,7 +138,7 @@ namespace Company.Plugin.Controllers
             if (!_settings.ShowNewsletter)
                 return Redirect("/");
 
-            return View(new BaseModel(GetBreadcrumbs()));
+            return View(new BaseModel(GetModelData()));
         }
 
         [Breadcrumb(nameof(Languages.LanguageStrings.Affiliate))]
@@ -137,9 +147,11 @@ namespace Company.Plugin.Controllers
             if (!_settings.ShowAffiliates)
                 return Redirect("/");
 
-            return View(new BaseModel(GetBreadcrumbs()));
+            return View(new BaseModel(GetModelData()));
         }
 
         #endregion Public Controller Methods
     }
 }
+
+#pragma warning restore CS1591

@@ -1,0 +1,68 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Localization.Plugin</name>
+    </assembly>
+    <members>
+        <member name="T:Localization.Plugin.LocalizationMiddleware">
+            <summary>
+            Localization middleware class, processes all localiztion requests whilst in the request pipeline.
+            </summary>
+        </member>
+        <member name="T:Localization.Plugin.LocalizationMiddlewareExtender">
+            <summary>
+            Localization Middleware Extender
+            </summary>
+        </member>
+        <member name="M:Localization.Plugin.LocalizationMiddlewareExtender.UseLocalizationMiddleware(Microsoft.AspNetCore.Builder.IApplicationBuilder)">
+            <summary>
+            IApplicationBuilder extender method.
+            
+            Allows easy use of registering UserSessionMiddleware.Plugin
+            </summary>
+            <param name="builder">IApplicationBuilder instance</param>
+            <returns>IApplicationBuilder</returns>
+            <example><pre style="font-family:Consolas;font-size:13px;color:black;background:white;"><span style="color:#1f377f;">app</span>.<span style="color:#74531f;">UseLocalizationMiddleware</span>();</pre></example>
+        </member>
+        <member name="T:Localization.Plugin.Classes.SystemAdmin.LocalizationTimings">
+            <summary>
+            Returns Timings information for all time spent processing localization requests and can 
+            be viewed within SystemAdmin.Plugin.  
+            
+            This class descends from SystemAdminSubMenu.
+            </summary>
+        </member>
+        <member name="M:Localization.Plugin.Classes.SystemAdmin.LocalizationTimings.Data">
+            <summary>
+            Returns Timings data in milliseconds for time spent processing by localization requests.
+            </summary>
+            <returns>string</returns>
+        </member>
+        <member name="T:Localization.Plugin.Classes.SystemAdmin.TranslationTimings">
+            <summary>
+            Returns Timings information for all time spent processing translation requests and can 
+            be viewed within SystemAdmin.Plugin.  
+            
+            This class descends from SystemAdminSubMenu.
+            </summary>
+        </member>
+        <member name="M:Localization.Plugin.Classes.SystemAdmin.TranslationTimings.Data">
+            <summary>
+            Returns Timings data in milliseconds for time spent processing translation requests.
+            </summary>
+            <returns>string</returns>
+        </member>
+        <member name="T:Localization.Plugin.PluginInitialisation">
+            <summary>
+            Implements IPlugin which allows the Localization.Plugin module to be
+            loaded as a plugin module
+            </summary>
+        </member>
+        <member name="M:Localization.Plugin.PluginInitialisation.ConfigureMvcBuilder(Microsoft.Extensions.DependencyInjection.IMvcBuilder@)">
+            <summary>
+            Configures localization within Mvc Builder
+            </summary>
+            <param name="mvcBuilder">IMvcBuilder instance</param>
+        </member>
+    </members>
+</doc>

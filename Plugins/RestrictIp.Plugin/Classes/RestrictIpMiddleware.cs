@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  RestrictIp.Plugin
  *  
@@ -28,17 +28,25 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Threading.Tasks;
 
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 
-using Microsoft.AspNetCore.Http;
+using PluginManager;
+using PluginManager.Abstractions;
 
 using SharedPluginFeatures;
-using static SharedPluginFeatures.Enums;
+
+#pragma warning disable CS1591, IDE0056, IDE0057
 
 namespace RestrictIp.Plugin
 {
+    /// <summary>
+    /// Middleware provider which processes requests and ensures that only authorised 
+    /// connections can connect to routes decorated with RestrictedIpRouteAttribute.
+    /// </summary>
     public sealed class RestrictIpMiddleware : BaseMiddleware
     {
+
         #region Constants
 
         private const string ProfileNotFound = "The requested restriction profile '{0}' was not found!  " +
@@ -56,15 +64,16 @@ namespace RestrictIp.Plugin
         private readonly RequestDelegate _next;
         private readonly HashSet<string> _localIpAddresses;
         private readonly bool _disabled;
+        private readonly ILogger _logger;
         internal static Timings _timings = new Timings();
 
         #endregion Private Members
 
         #region Constructors
 
-        public RestrictIpMiddleware(RequestDelegate next, IActionDescriptorCollectionProvider routeProvider, 
+        public RestrictIpMiddleware(RequestDelegate next, IActionDescriptorCollectionProvider routeProvider,
             IRouteDataService routeDataService, IPluginHelperService pluginHelperService,
-            IPluginTypesService pluginTypesService, ISettingsProvider settingsProvider)
+            IPluginTypesService pluginTypesService, ISettingsProvider settingsProvider, ILogger logger)
         {
             if (routeProvider == null)
                 throw new ArgumentNullException(nameof(routeProvider));
@@ -75,7 +84,14 @@ namespace RestrictIp.Plugin
             if (pluginHelperService == null)
                 throw new ArgumentNullException(nameof(pluginHelperService));
 
+            if (pluginTypesService == null)
+                throw new ArgumentNullException(nameof(pluginTypesService));
+
+            if (settingsProvider == null)
+                throw new ArgumentNullException(nameof(settingsProvider));
+
             _next = next;
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _localIpAddresses = new HashSet<string>();
             _restrictedRoutes = new Dictionary<string, List<string>>();
             GetLocalIpAddresses(_localIpAddresses);
@@ -83,7 +99,7 @@ namespace RestrictIp.Plugin
             _disabled = settings.Disabled;
 
             if (_disabled)
-                Initialisation.GetLogger.AddToLog(LogLevel.Information, RestrictedIpDisabled);
+                _logger.AddToLog(LogLevel.Information, RestrictedIpDisabled);
 
             LoadRestrictedIpRouteData(routeProvider, routeDataService, pluginTypesService, settings);
         }
@@ -94,6 +110,9 @@ namespace RestrictIp.Plugin
 
         public async Task Invoke(HttpContext context)
         {
+            if (context == null)
+                throw new ArgumentNullException(nameof(context));
+
             bool passRequestOn = true;
 
             try
@@ -130,8 +149,7 @@ namespace RestrictIp.Plugin
                             // if we get here, we are in a restricted route and ip does not match, so fail with forbidden
                             passRequestOn = false;
                             context.Response.StatusCode = 403;
-                            Initialisation.GetLogger.AddToLog(LogLevel.IpRestricted,
-                                String.Format(RouteForbidden, userIpAddress, route));
+                            _logger.AddToLog(LogLevel.IpRestricted, String.Format(RouteForbidden, userIpAddress, route));
                         }
                     }
                 }
@@ -148,7 +166,7 @@ namespace RestrictIp.Plugin
         #region Private Methods
 
         private void LoadRestrictedIpRouteData(in IActionDescriptorCollectionProvider routeProvider,
-            in IRouteDataService routeDataService, in IPluginTypesService pluginTypesService, 
+            in IRouteDataService routeDataService, in IPluginTypesService pluginTypesService,
             in RestrictIpSettings settings)
         {
             List<Type> classesWithIpAttributes = pluginTypesService.GetPluginTypesWithAttribute<RestrictedIpRouteAttribute>();
@@ -183,14 +201,14 @@ namespace RestrictIp.Plugin
 
                                 _restrictedRoutes[route.ToLower()].Add(ipAddress.Replace("*", String.Empty));
 
-                                Initialisation.GetLogger.AddToLog(LogLevel.Information, 
+                                _logger.AddToLog(LogLevel.Information,
                                     String.Format(RouteRestricted, restrictedIpRouteAttribute.ProfileName,
                                         route, ipAddress));
                             }
                         }
                         else
                         {
-                            Initialisation.GetLogger.AddToLog(LogLevel.Warning,
+                            _logger.AddToLog(LogLevel.Warning,
                                 String.Format(ProfileNotFound, restrictedIpRouteAttribute.ProfileName, route));
                             _restrictedRoutes[route.ToLower()].Add(LocalHost);
                         }
@@ -201,4 +219,7 @@ namespace RestrictIp.Plugin
 
         #endregion Private Methods
     }
+
 }
+
+#pragma warning restore CS1591, IDE0056, IDE0057

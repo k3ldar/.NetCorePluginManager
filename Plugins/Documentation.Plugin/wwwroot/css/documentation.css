@@ -1,0 +1,220 @@
+﻿.docContainer {
+    display: inline-block;
+    width: 100%;
+    margin: 5px 15px 5px 15px;
+}
+
+.docRow {
+    width: 100%;
+}
+
+    .docRow p {
+        font-size: 14px;
+    }
+
+.docModules {
+    align-content: center;
+    float: left;
+}
+
+.docModules {
+    width: 180px;
+    height: 120px;
+    margin: 20px 10px 0 0;
+    align-content: center;
+    border: solid 1px #707B7C;
+    cursor: pointer;
+}
+
+    .docModules a {
+        display: block;
+        width: 180px;
+        height: 120px;
+        text-decoration: none;
+    }
+
+        .docModules a .overlay {
+            display: block;
+        }
+
+        .docModules a:hover .overlay {
+            background: rgba(0,0,0,0.4);
+            display: block;
+            opacity: 0.6;
+        }
+
+        .docModules a h3 {
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 12px;
+            margin: 0 2px 2px 0;
+            padding: 8px 0 6px 8px;
+            word-break: break-word;
+            overflow: hidden;
+            background-color: #0094ff;
+            color: white;
+            text-align: center;
+        }
+
+        .docModules a span {
+            display: block;
+            width: 176px;
+            height: 88px;
+            font-size: 14px;
+            color: #000;
+            text-align: center;
+            margin: 0px 0 0 1px;
+            overflow: hidden;
+        }
+
+
+.docContents {
+    font-size: 14px;
+    width: 189px;
+    top: 48px;
+    position: sticky;
+    height: calc(100vh - 8rem);
+    overflow-y: auto;
+}
+
+    .docContents h3 {
+        font-size: 18px;
+    }
+
+    .docContents ul {
+        list-style-type: none;
+        padding: 2px 0 0 1px;
+        font-size: 12px;
+    }
+
+        .docContents ul li ul {
+            padding: 2px 0 0 10px;
+        }
+
+.docReferences {
+    font-size: 13px;
+    top: 48px;
+    position: sticky;
+    height: calc(85vh - 4rem);
+    overflow-y: auto;
+}
+
+    .docReferences h3 {
+        font-size: 15px;
+    }
+
+    .docReferences ul {
+        list-style-type: none;
+        padding: 2px 0 0 1px;
+    }
+
+
+.docPrevNext {
+    font-size: 14px;
+    margin: 25px 0 0 0;
+}
+
+    .docPrevNext ul {
+        list-style-type: none;
+        padding: 2px 0 0 1px;
+    }
+
+.stickyRef {
+    position: fixed;
+}
+
+.remark {
+    display: inline-block;
+    padding: 25px;
+    line-height: 25px;
+    width: 100%;
+    border-radius: 10px;
+    background-color: lightskyblue;
+}
+
+.information {
+    background-color: lightskyblue;
+}
+
+.warning {
+    background-color: yellow;
+}
+
+.docTable {
+    width: 100% !important;
+}
+
+    .docTable table {
+        width: 100% !important;
+    }
+
+        .docTable table tbody tr {
+            border-top: 1px solid rgba(0,0,0,0.4);
+        }
+
+            .docTable table tbody tr td:first-child {
+                width: 200px;
+                max-width: 200px !important;
+                min-width: 200px !important;
+                word-wrap: break-word;
+            }
+
+            .docTable table tbody tr td {
+                font-size: 13px;
+                padding: 10px 0 10px 2px;
+            }
+
+@media (min-width: 576px) {
+    .card {
+        width: 100%;
+        float: left;
+        margin: 0 10px 15px 0;
+        height: 250px;
+    }
+}
+
+@media (min-width: 768px) {
+    .card {
+        width: 45%;
+        float: left;
+        margin: 0 10px 15px 0;
+        height: 250px;
+    }
+}
+
+@media (min-width: 992px) {
+    .docContents {
+        font-size: 12px;
+    }
+
+        .docContents h3 {
+            font-size: 15px;
+        }
+
+        .docContents ul li {
+            font-size: 14px;
+        }
+
+    .docReferences {
+        font-size: 14px;
+    }
+
+        .docReferences h3 {
+            font-size: 15px;
+        }
+
+    .card {
+        width: 30%;
+        float: left;
+        margin: 0 10px 15px 0;
+        height: 250px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .card {
+        width: 23%;
+        float: left;
+        margin: 0 10px 15px 0;
+        height: 250px;
+    }
+}

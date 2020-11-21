@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  Login Plugin
  *  
@@ -25,31 +25,44 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
 using System.IO;
-
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Hosting;
-
-using Shared.Classes;
-using static Shared.Utilities;
-
-using SharedPluginFeatures;
+using System.Security.Claims;
 
 using LoginPlugin.Classes;
 using LoginPlugin.Models;
 
+using Microsoft.AspNetCore.Mvc;
+
 using Middleware;
+
+using PluginManager.Abstractions;
+
+using Shared.Classes;
+
+using SharedPluginFeatures;
+
 using static Middleware.Constants;
+using static Shared.Utilities;
+
+#pragma warning disable CS1591
 
 namespace LoginPlugin.Controllers
 {
+    /// <summary>
+    /// Login controller, allows users to login using a standard interface implemented by ILoginProvider interface.
+    /// </summary>
     [LoggedOut]
+    [DenySpider]
+    [DenySpider("Googlebot")]
+    [DenySpider("Facebot")]
+    [DenySpider("Bingbot")]
+    [DenySpider("Twitterbot")]
     public class LoginController : BaseController
     {
         #region Private Members
 
-        private readonly IHostingEnvironment _hostingEnvironment;
         private readonly ILoginProvider _loginProvider;
         private readonly LoginControllerSettings _settings;
+        private readonly IClaimsProvider _claimsProvider;
 
         private static readonly CacheManager _loginCache = new CacheManager("Login Cache", new TimeSpan(0, 30, 0));
 
@@ -57,15 +70,15 @@ namespace LoginPlugin.Controllers
 
         #region Constructors
 
-        public LoginController(IHostingEnvironment hostingEnvironment, ILoginProvider loginProvider, 
-            ISettingsProvider settingsProvider)
+        public LoginController(ILoginProvider loginProvider, ISettingsProvider settingsProvider,
+            IClaimsProvider claimsProvider)
         {
             if (settingsProvider == null)
                 throw new ArgumentNullException(nameof(settingsProvider));
 
-            _hostingEnvironment = hostingEnvironment ?? throw new ArgumentNullException(nameof(hostingEnvironment));
             _loginProvider = loginProvider ?? throw new ArgumentNullException(nameof(loginProvider));
-            _settings = settingsProvider.GetSettings<LoginControllerSettings>("LoginPlugin");
+            _claimsProvider = claimsProvider ?? throw new ArgumentNullException(nameof(claimsProvider));
+            _settings = settingsProvider.GetSettings<LoginControllerSettings>(nameof(LoginPlugin));
         }
 
         #endregion Constructors
@@ -74,6 +87,8 @@ namespace LoginPlugin.Controllers
 
         [HttpGet]
         [Breadcrumb(nameof(Languages.LanguageStrings.Login))]
+        [SmokeTest(200, PostType.Form, "loginForm", inputData: "Username=joe&Password=bloggs&RememberMe=False", searchData: "Don't have an account yet", submitSearchData: "Invalid User Name/Password;Please try again")]
+        [SmokeTest(200, PostType.Form, "loginForm", inputData: "Username=dennis&Password=mennace", searchData: "Don't have an account yet", submitSearchData: "Invalid User Name/Password;Please try again")]
         public IActionResult Index(string returnUrl)
         {
             // has the user been remembered?
@@ -82,10 +97,10 @@ namespace LoginPlugin.Controllers
                 if (String.IsNullOrEmpty(returnUrl))
                     return Redirect(_settings.LoginSuccessUrl);
                 else
-                    return (Redirect(returnUrl));
+                    return Redirect(returnUrl);
             }
 
-            LoginViewModel model = new LoginViewModel(
+            LoginViewModel model = new LoginViewModel(GetModelData(),
                 String.IsNullOrEmpty(returnUrl) ? _settings.LoginSuccessUrl : returnUrl,
                 _settings.ShowRememberMe);
 
@@ -98,14 +113,16 @@ namespace LoginPlugin.Controllers
                 loginCacheItem.CaptchaText = GetRandomWord(_settings.CaptchaWordLength, CaptchaCharacters);
             }
 
-            model.Breadcrumbs = GetBreadcrumbs();
-
             return View(model);
         }
 
+        [BadEgg]
         [HttpPost]
         public IActionResult Index(LoginViewModel model)
         {
+            if (model == null)
+                throw new ArgumentNullException(nameof(model));
+
             LoginCacheItem loginCacheItem = GetCachedLoginAttempt(true);
 
             if (!String.IsNullOrEmpty(loginCacheItem.CaptchaText))
@@ -121,29 +138,43 @@ namespace LoginPlugin.Controllers
             UserLoginDetails loginDetails = new UserLoginDetails();
 
             model.Breadcrumbs = GetBreadcrumbs();
+            model.CartSummary = GetCartSummary();
 
-            switch (_loginProvider.Login(model.Username, model.Password, GetIpAddress(), 
-                loginCacheItem.LoginAttempts, ref loginDetails))
+            LoginResult loginResult = _loginProvider.Login(model.Username, model.Password, GetIpAddress(),
+                loginCacheItem.LoginAttempts, ref loginDetails);
+
+            switch (loginResult)
             {
                 case LoginResult.Success:
+                case LoginResult.PasswordChangeRequired:
                     RemoveLoginAttempt();
-                    
+
                     UserSession session = GetUserSession();
 
                     if (session != null)
                         session.Login(loginDetails.UserId, loginDetails.Username, loginDetails.Email);
 
                     if (model.RememberMe)
-                        CookieAdd(_settings.RememberMeCookieName, Encrypt(loginDetails.UserId.ToString(), 
+                    {
+                        CookieAdd(_settings.RememberMeCookieName, Encrypt(loginDetails.UserId.ToString(),
                             _settings.EncryptionKey), _settings.LoginDays);
+                    }
+
+
+                    GetAuthenticationService().SignInAsync(HttpContext,
+                        _settings.AuthenticationScheme,
+                        new ClaimsPrincipal(_claimsProvider.GetUserClaims(loginDetails.UserId)),
+                        _claimsProvider.GetAuthenticationProperties());
+
+                    if (loginResult == LoginResult.PasswordChangeRequired)
+                    {
+                        return Redirect(_settings.ChangePasswordUrl);
+                    }
 
                     return Redirect(model.ReturnUrl);
 
                 case LoginResult.AccountLocked:
-                    return (RedirectToAction(nameof(AccountLocked), new { username = model.Username }));
-
-                case LoginResult.PasswordChangeRequired:
-                    return (Redirect(_settings.ChangePasswordUrl));
+                    return RedirectToAction(nameof(AccountLocked), new { username = model.Username });
 
                 case LoginResult.InvalidCredentials:
                     ModelState.AddModelError(String.Empty, Languages.LanguageStrings.InvalidUsernameOrPassword);
@@ -158,20 +189,21 @@ namespace LoginPlugin.Controllers
 
         [HttpGet]
         [Breadcrumb(nameof(Languages.LanguageStrings.AccountLocked))]
+        [SmokeTest(302, PostType.Form, parameters: "username=", redirectUrl: "/Login")]
+        [SmokeTest(200, PostType.Form, parameters: "username=fred@bloggs", searchData: "Your account has been temporarily locked due to authentication failures")]
+        [SmokeTest(200, PostType.Form, formId: "frmUnlockAccount", inputData: "Username=fred@bloggs.com&UnlockCode=123456", parameters: "username=fred@bloggs", searchData: "Please enter your Username/Email Address")]
         public IActionResult AccountLocked(string username)
         {
             if (String.IsNullOrEmpty(username))
-                RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index));
 
-            AccountLockedViewModel model = new AccountLockedViewModel(username)
-            {
-                Breadcrumbs = GetBreadcrumbs()
-            };
+            AccountLockedViewModel model = new AccountLockedViewModel(GetModelData(), username);
 
             return View(model);
         }
 
         [HttpPost]
+        [BadEgg]
         public IActionResult AccountLocked(AccountLockedViewModel model)
         {
             if (model == null)
@@ -185,6 +217,7 @@ namespace LoginPlugin.Controllers
             ModelState.AddModelError(String.Empty, Languages.LanguageStrings.CodeNotValid);
             model.UnlockCode = String.Empty;
             model.Breadcrumbs = GetBreadcrumbs();
+            model.CartSummary = GetCartSummary();
 
             return View(model);
         }
@@ -193,17 +226,17 @@ namespace LoginPlugin.Controllers
         [Breadcrumb(nameof(Languages.LanguageStrings.ForgotPassword))]
         public IActionResult ForgotPassword()
         {
-            ForgotPasswordViewModel model = new ForgotPasswordViewModel();
+            ForgotPasswordViewModel model = new ForgotPasswordViewModel(GetModelData());
 
             LoginCacheItem loginCacheItem = GetCachedLoginAttempt(true);
             loginCacheItem.CaptchaText = GetRandomWord(_settings.CaptchaWordLength, CaptchaCharacters);
-            model.CaptchaText = loginCacheItem.CaptchaText;
-            model.Breadcrumbs = GetBreadcrumbs();
+            //model.CaptchaText = loginCacheItem.CaptchaText;
 
-            return View();
+            return View(model);
         }
 
         [HttpPost]
+        [BadEgg]
         public IActionResult ForgotPassword(ForgotPasswordViewModel model)
         {
             if (model == null)
@@ -228,6 +261,7 @@ namespace LoginPlugin.Controllers
             loginCacheItem.CaptchaText = GetRandomWord(_settings.CaptchaWordLength, CaptchaCharacters);
             model.CaptchaText = loginCacheItem.CaptchaText;
             model.Breadcrumbs = GetBreadcrumbs();
+            model.CartSummary = GetCartSummary();
 
             return View(model);
         }
@@ -248,10 +282,16 @@ namespace LoginPlugin.Controllers
 
             CookieDelete(_settings.RememberMeCookieName);
 
+            GetAuthenticationService().SignOutAsync(HttpContext,
+                _settings.AuthenticationScheme,
+                _claimsProvider.GetAuthenticationProperties());
+
             return Redirect("/");
         }
 
         [HttpGet]
+        [DenySpider("Bingbot")]
+        [DenySpider("Twitterbot")]
         public ActionResult GetCaptchaImage()
         {
             LoginCacheItem loginCacheItem = GetCachedLoginAttempt(false);
@@ -280,13 +320,14 @@ namespace LoginPlugin.Controllers
                 ci.Dispose();
             }
 
-            return (null);
+            return null;
         }
 
         #endregion Public Action Methods
 
         #region Private Methods
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1031:Do not catch general exception types", Justification = "it's ok here, nothing to see, move along")]
         private bool ValidateRememberedLogin()
         {
             if (CookieExists(_settings.RememberMeCookieName))
@@ -303,17 +344,22 @@ namespace LoginPlugin.Controllers
 
                         if (session != null)
                             session.Login(loginDetails.UserId, loginDetails.Username, loginDetails.Email);
+
+                        GetAuthenticationService().SignInAsync(HttpContext,
+                            nameof(AspNetCore.PluginManager),
+                            new ClaimsPrincipal(_claimsProvider.GetUserClaims(loginDetails.UserId)),
+                            _claimsProvider.GetAuthenticationProperties());
                     }
 
                     return loggedIn;
                 }
                 catch
                 {
-
+                    CookieDelete(_settings.RememberMeCookieName);
                 }
             }
 
-            return (false);
+            return false;
         }
 
         private void RemoveLoginAttempt()
@@ -347,9 +393,11 @@ namespace LoginPlugin.Controllers
                 _loginCache.Add(cacheId, loginCache);
             }
 
-            return (Result);
+            return Result;
         }
 
         #endregion Private Methods
     }
 }
+
+#pragma warning restore CS1591

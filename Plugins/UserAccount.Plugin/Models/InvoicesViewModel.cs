@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  UserAccount.Plugin
  *  
@@ -32,6 +32,8 @@ using SharedPluginFeatures;
 
 namespace UserAccount.Plugin.Models
 {
+#pragma warning disable CS1591
+
     public sealed class InvoicesViewModel : BaseModel
     {
         #region Constructors
@@ -41,7 +43,9 @@ namespace UserAccount.Plugin.Models
             Invoices = new List<Invoice>();
         }
 
-        public InvoicesViewModel(List<Invoice> invoices)
+        public InvoicesViewModel(in BaseModelData baseModelData,
+            in List<Invoice> invoices)
+            : base(baseModelData)
         {
             Invoices = invoices ?? throw new ArgumentNullException(nameof(invoices));
         }
@@ -54,4 +58,6 @@ namespace UserAccount.Plugin.Models
 
         #endregion Properties
     }
+
+#pragma warning restore CS1591
 }

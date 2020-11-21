@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  Demo Website Plugin
  *  
@@ -31,34 +31,37 @@ namespace DemoWebsitePlugin.Controllers
 {
     public class ServicesController : BaseController
     {
+        public const string Name = "Services";
+
+
         [Breadcrumb(nameof(Languages.LanguageStrings.Middleware))]
         public IActionResult Middleware()
         {
-            return View(new BaseModel(GetBreadcrumbs()));
+            return View(new BaseModel(GetModelData()));
         }
 
         [Breadcrumb(nameof(Languages.LanguageStrings.Api))]
         public IActionResult Api()
         {
-            return View(new BaseModel(GetBreadcrumbs()));
+            return View(new BaseModel(GetModelData()));
         }
 
         [Breadcrumb(nameof(Languages.LanguageStrings.DependencyInjection))]
         public IActionResult DependencyInjection()
         {
-            return View(new BaseModel(GetBreadcrumbs()));
+            return View(new BaseModel(GetModelData()));
         }
 
         [Breadcrumb(nameof(Languages.LanguageStrings.Website))]
         public IActionResult Website()
         {
-            return View(new BaseModel(GetBreadcrumbs()));
+            return View(new BaseModel(GetModelData()));
         }
 
         [Breadcrumb(nameof(Languages.LanguageStrings.Custom))]
         public IActionResult Custom()
         {
-            return View(new BaseModel(GetBreadcrumbs()));
+            return View(new BaseModel(GetModelData()));
         }
     }
 }

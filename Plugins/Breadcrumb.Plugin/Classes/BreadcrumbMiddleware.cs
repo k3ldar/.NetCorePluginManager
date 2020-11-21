@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  Breadcrumb.Plugin
  *  
@@ -29,18 +29,25 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.Extensions.Localization;
 
-using Microsoft.AspNetCore.Mvc.Infrastructure;
-using Microsoft.AspNetCore.Http;
+using PluginManager;
+using PluginManager.Abstractions;
 
 using Shared.Classes;
 
 using SharedPluginFeatures;
-using static SharedPluginFeatures.Enums;
+
+#pragma warning disable CS1591
 
 namespace Breadcrumb.Plugin
 {
+    /// <summary>
+    /// Breadcrumb middleware class, this module extends BaseMiddlware and is injected 
+    /// into the request pipeline.
+    /// </summary>
     public sealed class BreadcrumbMiddleware : BaseMiddleware
     {
         #region Private Members
@@ -51,15 +58,17 @@ namespace Breadcrumb.Plugin
         private readonly string _staticFileExtensions = Constants.StaticFileExtensions;
         internal static Timings _timings = new Timings();
         private readonly IStringLocalizer _stringLocalizer;
+        private readonly BreadcrumbItem _homeBreadCrumb;
+        private readonly ILogger _logger;
 
         #endregion Private Members
 
         #region Constructors
 
-        public BreadcrumbMiddleware(RequestDelegate next, IActionDescriptorCollectionProvider routeProvider, 
+        public BreadcrumbMiddleware(RequestDelegate next, IActionDescriptorCollectionProvider routeProvider,
             IRouteDataService routeDataService, IPluginHelperService pluginHelperService,
             IPluginTypesService pluginTypesService, ISettingsProvider settingsProvider,
-            IPluginClassesService pluginClassesService)
+            IPluginClassesService pluginClassesService, ILogger logger)
         {
             if (routeProvider == null)
                 throw new ArgumentNullException(nameof(routeProvider));
@@ -70,11 +79,19 @@ namespace Breadcrumb.Plugin
             if (pluginHelperService == null)
                 throw new ArgumentNullException(nameof(pluginHelperService));
 
+            if (pluginClassesService == null)
+                throw new ArgumentNullException(nameof(pluginClassesService));
+
+            if (pluginTypesService == null)
+                throw new ArgumentNullException(nameof(pluginTypesService));
+
+            if (settingsProvider == null)
+                throw new ArgumentNullException(nameof(settingsProvider));
+
             _next = next;
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
-            ThreadManager.Initialise();
-
-            if (pluginHelperService.PluginLoaded(Constants.PluginNameLocalizationDll, out int version))
+            if (pluginHelperService.PluginLoaded(Constants.PluginNameLocalization, out int _))
             {
                 List<IStringLocalizer> stringLocalizers = pluginClassesService.GetPluginClasses<IStringLocalizer>();
 
@@ -83,7 +100,10 @@ namespace Breadcrumb.Plugin
 
             }
 
-            BreadcrumbSettings settings = settingsProvider.GetSettings<BreadcrumbSettings>(Constants.PluginNameBreadcrumb);
+            BreadcrumbSettings settings = settingsProvider.GetSettings<BreadcrumbSettings>(Constants.PluginSettingBreadcrumb);
+
+            _homeBreadCrumb = new BreadcrumbItem(settings.HomeName,
+                $"{Constants.ForwardSlash}{settings.HomeController}{Constants.ForwardSlash}{settings.DefaultAction}", false);
 
             LoadBreadcrumbData(routeProvider, routeDataService, pluginTypesService, settings);
 
@@ -95,8 +115,12 @@ namespace Breadcrumb.Plugin
 
         #region Public Methods
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1031:Do not catch general exception types", Justification = "it's ok here, nothing to see, move along")]
         public async Task Invoke(HttpContext context)
         {
+            if (context == null)
+                throw new ArgumentNullException(nameof(context));
+
             string fileExtension = RouteFileExtension(context);
 
             if (!String.IsNullOrEmpty(fileExtension) &&
@@ -110,15 +134,18 @@ namespace Breadcrumb.Plugin
             {
                 string route = RouteLowered(context);
 
-                if (route.Length > 1 && route[route.Length -1] == Constants.ForwardSlashChar)
+                if (route.Length > 1 && route[route.Length - 1] == Constants.ForwardSlashChar)
                     route = route.Substring(0, route.Length - 1);
 
                 try
                 {
+                    bool found = false;
+
                     if (_breadcrumbRoutes.ContainsKey(route))
                     {
-                        context.Items.Add(Constants.Breadcrumbs, 
+                        context.Items.Add(Constants.Breadcrumbs,
                             GetBreadCrumbs(route, _breadcrumbRoutes[route].Breadcrumbs, String.Empty));
+                        found = true;
                     }
                     else
                     {
@@ -126,15 +153,29 @@ namespace Breadcrumb.Plugin
                         {
                             if (route.StartsWith(kvp.Value.PartialRoute) && kvp.Value.HasParameters)
                             {
-                                context.Items.Add(Constants.Breadcrumbs, 
+                                context.Items.Add(Constants.Breadcrumbs,
                                     GetBreadCrumbs(route, kvp.Value.Breadcrumbs, Route(context).Substring(kvp.Value.PartialRoute.Length - 1)));
+                                found = true;
+                                break;
                             }
                         }
+                    }
+
+                    if (!found)
+                    {
+                        BreadcrumbItem homeBreadCrumb;
+
+                        if (_stringLocalizer != null)
+                            homeBreadCrumb = new BreadcrumbItem(_stringLocalizer[_homeBreadCrumb.Name], _homeBreadCrumb.Route, _homeBreadCrumb.HasParameters);
+                        else
+                            homeBreadCrumb = _homeBreadCrumb;
+
+                        context.Items.Add(Constants.Breadcrumbs, new List<BreadcrumbItem>() { homeBreadCrumb });
                     }
                 }
                 catch (Exception err)
                 {
-                    Initialisation.GetLogger.AddToLog(LogLevel.BreadcrumbError, err, MethodBase.GetCurrentMethod().Name);
+                    _logger.AddToLog(LogLevel.Error, nameof(BreadcrumbMiddleware), err, MethodBase.GetCurrentMethod().Name);
                 }
             }
 
@@ -157,7 +198,7 @@ namespace Breadcrumb.Plugin
 
         #region Private Methods
 
-        private List<BreadcrumbItem> GetBreadCrumbs(in string route, in List<BreadcrumbItem> breadcrumbs, 
+        private List<BreadcrumbItem> GetBreadCrumbs(in string route, in List<BreadcrumbItem> breadcrumbs,
             string routeParameters)
         {
             string cacheName = $"{route} {System.Threading.Thread.CurrentThread.CurrentUICulture} {routeParameters}";
@@ -196,8 +237,8 @@ namespace Breadcrumb.Plugin
         }
 
         private void LoadBreadcrumbData(in IActionDescriptorCollectionProvider routeProvider,
-            in IRouteDataService routeDataService, 
-            in IPluginTypesService pluginTypesService, 
+            in IRouteDataService routeDataService,
+            in IPluginTypesService pluginTypesService,
             in BreadcrumbSettings settings)
         {
             Dictionary<string, BreadcrumbAttribute> allBreadcrumbs = new Dictionary<string, BreadcrumbAttribute>();
@@ -223,8 +264,20 @@ namespace Breadcrumb.Plugin
                         if (String.IsNullOrEmpty(route))
                             continue;
 
-                        attribute.HasParams = method.GetParameters().Count() > 0 || method.ContainsGenericParameters;
-                        allBreadcrumbs.Add(route, attribute);
+                        attribute.HasParams = method.GetParameters().Length > 0 ||
+                            method.ContainsGenericParameters ||
+                            attribute.HasParams;
+
+                        // sanity check
+                        if (route.Equals(attribute.ParentRoute, StringComparison.CurrentCultureIgnoreCase))
+                        {
+                            _logger.AddToLog(LogLevel.Error, nameof(BreadcrumbMiddleware),
+                                String.Format(Constants.BreadcrumbRoutEqualsParentRoute, route, attribute.ParentRoute));
+                        }
+                        else
+                        {
+                            allBreadcrumbs.Add(route, attribute);
+                        }
                     }
                 }
 
@@ -236,14 +289,24 @@ namespace Breadcrumb.Plugin
 
                     BreadcrumbAttribute breadcrumbItem = keyValuePair.Value;
 
+                    byte loopCounter = 0;
+
                     do
                     {
-                        breadcrumbItem = GetParentRoute(ref allBreadcrumbs, 
+                        breadcrumbItem = GetParentRoute(ref allBreadcrumbs,
                             breadcrumbItem.ParentRoute, out string parentRoute);
 
                         if (breadcrumbItem != null)
                         {
                             route.Breadcrumbs.Insert(0, new BreadcrumbItem(breadcrumbItem.Name, parentRoute, breadcrumbItem.HasParams));
+                        }
+
+                        loopCounter++;
+
+                        if (loopCounter > 40)
+                        {
+                            _logger.AddToLog(LogLevel.Error, nameof(BreadcrumbMiddleware), Constants.TooManyBreadcrumbs);
+                            break;
                         }
 
                     } while (breadcrumbItem != null);
@@ -253,7 +316,7 @@ namespace Breadcrumb.Plugin
 
                     _breadcrumbRoutes.Add($"{route.Route.ToLower()}", route);
                     bool isDefaultAction = route.Route.EndsWith($"/{settings.DefaultAction}", StringComparison.InvariantCultureIgnoreCase);
-                    bool isDefaultController = type.FullName.EndsWith($".{settings.HomeController}Controller", 
+                    bool isDefaultController = type.FullName.EndsWith($".{settings.HomeController}Controller",
                         StringComparison.InvariantCultureIgnoreCase);
 
                     // insert root as Home if it is not the root node
@@ -261,9 +324,7 @@ namespace Breadcrumb.Plugin
                         (isDefaultController && !isDefaultAction) ||
                         (!isDefaultController && !isDefaultAction))
                     {
-                        route.Breadcrumbs.Insert(0, new BreadcrumbItem(settings.HomeName,
-                            $"{Constants.ForwardSlash}{settings.HomeController}{Constants.ForwardSlash}{settings.DefaultAction}", 
-                            false));
+                        route.Breadcrumbs.Insert(0, _homeBreadCrumb);
                     }
 
                     // is it the default method for controller
@@ -274,38 +335,38 @@ namespace Breadcrumb.Plugin
                         if (String.IsNullOrEmpty(routeDesc))
                             routeDesc = Constants.ForwardSlash;
 
-                        AddDefaultRoute(routeDesc, route.Breadcrumbs, settings.HomeController, route.HasParameters);
+                        AddDefaultRoute(routeDesc, route.Breadcrumbs, route.HasParameters);
                     }
 
                     // is it the default controller
                     if (isDefaultController)
                     {
                         AddDefaultRoute($"{Constants.ForwardSlash}{settings.HomeController}{route.Route}", route.Breadcrumbs,
-                            settings.HomeController, route.HasParameters);
+                            route.HasParameters);
 
                         if (isDefaultAction)
                             AddDefaultRoute($"{Constants.ForwardSlash}{settings.HomeController}", route.Breadcrumbs,
-                                settings.HomeController, route.HasParameters);
+                                route.HasParameters);
                     }
                 }
             }
         }
 
-        private void AddDefaultRoute(in string routeDescription, in List<BreadcrumbItem> breadcrumbs, 
-            in string homeController, in bool hasParameters)
+        private void AddDefaultRoute(in string routeDescription, in List<BreadcrumbItem> breadcrumbs,
+            in bool hasParameters)
         {
             BreadcrumbRoute defaultRoute = new BreadcrumbRoute(routeDescription, hasParameters);
 
             foreach (BreadcrumbItem item in breadcrumbs)
             {
-                defaultRoute.Breadcrumbs.Add(new BreadcrumbItem(item.Name, 
+                defaultRoute.Breadcrumbs.Add(new BreadcrumbItem(item.Name,
                     $"{item.Route}", item.HasParameters));
             }
 
             _breadcrumbRoutes.Add(defaultRoute.Route.ToLower(), defaultRoute);
         }
 
-        private BreadcrumbAttribute GetParentRoute(ref Dictionary<string, BreadcrumbAttribute> allBreadcrumbs, 
+        private BreadcrumbAttribute GetParentRoute(ref Dictionary<string, BreadcrumbAttribute> allBreadcrumbs,
             in string route, out string parentRoute)
         {
             if (!String.IsNullOrEmpty(route))
@@ -328,3 +389,5 @@ namespace Breadcrumb.Plugin
         #endregion Private Methods
     }
 }
+
+#pragma warning restore CS1591

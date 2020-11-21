@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  AspNetCore.PluginManager
  *  
@@ -26,35 +26,49 @@
 using System;
 using System.Collections.Generic;
 
+using PluginManager.Abstractions;
+
 using SharedPluginFeatures;
+
+#pragma warning disable CS1591
 
 namespace AspNetCore.PluginManager.Classes.SystemAdmin
 {
+    /// <summary>
+    /// Returns a list of all plugin modules that are loaded and can be viewed within 
+    /// SystemAdmin.Plugin.  
+    /// 
+    /// This class descends from SystemAdminSubMenu.
+    /// </summary>
     public class LoadedPluginsMenu : SystemAdminSubMenu
     {
         public override string Action()
         {
-            return (String.Empty);
+            return String.Empty;
         }
 
         public override string Area()
         {
-            return (String.Empty);
+            return String.Empty;
         }
 
         public override string Controller()
         {
-            return (String.Empty);
+            return String.Empty;
         }
 
         public override Enums.SystemAdminMenuType MenuType()
         {
-            return (Enums.SystemAdminMenuType.Grid);
+            return Enums.SystemAdminMenuType.Grid;
         }
 
+        /// <summary>
+        /// Returns delimited data on all plugin modules that have been loaded by AspNetCore.PluginManager.
+        /// </summary>
+        /// <returns>string</returns>
         public override string Data()
         {
-            Dictionary<string, IPluginModule> plugins = PluginManagerService.GetPluginManager().GetLoadedPlugins();
+            Dictionary<string, IPluginModule> plugins = PluginManagerService.GetPluginManager().PluginsGetLoaded();
 
             string Result = "Module|Plugin Version|File Version";
 
@@ -64,27 +78,29 @@ namespace AspNetCore.PluginManager.Classes.SystemAdmin
                     $"{keyValuePair.Value.FileVersion}";
             }
 
-            return (Result);
+            return Result;
         }
 
         public override string Name()
         {
-            return ("Loaded Plugins");
+            return "Loaded Plugins";
         }
 
         public override string ParentMenuName()
         {
-            return ("System");
+            return "System";
         }
 
         public override int SortOrder()
         {
-            return (0);
+            return 0;
         }
 
         public override string Image()
         {
-            return (String.Empty);
+            return String.Empty;
         }
     }
 }
+
+#pragma warning restore CS1591

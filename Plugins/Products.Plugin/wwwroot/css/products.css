@@ -55,7 +55,6 @@ h4 {
 
     .wrapper .tagLineHome {
         border-top: none;
-        color: #000;
         font-family: Arial, Georgia, "Times New Roman", Times, serif;
         font-size: 1.4em;
         color: #666;
@@ -84,7 +83,6 @@ h4 {
         color: #000;
         font-family: Arial, Georgia, "Times New Roman", Times, serif;
         font-size: 1.0em;
-        color: #666;
         font-style: normal;
         line-height: 1.25;
         width: 750px;
@@ -486,4 +484,104 @@ h4 {
     text-align: center;
     width: 100%;
     font-size: 1.5em;
+}
+
+.addToBasket {
+    float: right;
+    width: 150px;
+    display: block;
+    border: 1px #eee solid;
+    border-radius: 6px;
+    padding: 14px 5px 5px 14px;
+    margin-top: 14px;
+    background-color: #eee;
+    color: black;
+}
+
+    .addToBasket p {
+        font-size: 1.0em;
+    }
+
+    .addToBasket p span {
+        margin-left: 10px;
+    }
+
+    .addToBasket input[type=number] {
+        width: 56px;
+    }
+
+    .addToBasket input[type=submit] {
+        float: right;
+        margin: 10px 10px 10px 0;
+    }
+
+
+
+@media (min-width: 576px) {
+    .productVideo {
+        width: 100%;
+        height: 250px;
+    }
+}
+
+@media (min-width: 768px) {
+    .productVideo {
+        width: 600px;
+        height: 400px;
+    }
+}
+
+@media (min-width: 992px) {
+    .productVideo {
+        width: 680px;
+        height: 360px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .productVideo {
+        width: 800px;
+        height: 600px;
+    }
+}
+
+/*.fa {
+    display: inline-block;
+    font: normal normal normal 14px/1 FontAwesome;
+    font-size: inherit;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+}
+
+.fa-star:before {
+    content: "\f005"
+}*/
+
+.search-buy {
+    overflow: visible;
+    float:right;
+    width:145px;
+    height:70px;
+    font-size:14px;
+}
+
+    .search-buy span {
+        float: right;
+        padding-right: 53px;
+    }
+.star-checked {
+    color: orange;
+}
+
+.chip {
+    display:inline-block;
+    padding:0 25px;
+    height:28px;
+    line-height:25px;
+    border-radius:25px;
+    background-color:#f1f1f1;
+}
+
+.searchOption {
+    font-size: 13px;
 }

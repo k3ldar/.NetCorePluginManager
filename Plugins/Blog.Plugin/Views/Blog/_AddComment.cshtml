@@ -1,0 +1,41 @@
+﻿@model Blog.Plugin.Models.CommentViewModel
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
+
+<div class="row">
+    <div class="col-sm-12">
+        @if (Model.IsLoggedIn)
+        {
+            @using (Html.BeginForm(nameof(Blog.Plugin.Controllers.BlogController.Comment), Blog.Plugin.Controllers.BlogController.Name, FormMethod.Post))
+            {
+                @Html.HiddenFor(m => m.BlogId)
+                <div class="container blogComment">
+                    <h3>@Localizer[nameof(Languages.LanguageStrings.AddComment)]</h3>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            @Html.ValidationSummary()
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-2">
+                            @Html.LabelFor(m => m.Comment)
+                        </div>
+                        <div class="col-sm-10">
+                            @Html.TextAreaFor(m => m.Comment, new { @class = "form-control" })
+                            <br />@Html.ValidationMessageFor(m => m.Comment)
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <button class="btn btn-primary" type="submit">@Localizer[nameof(Languages.LanguageStrings.Add)]</button>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+        else
+        {
+            <p>@Localizer[nameof(Languages.LanguageStrings.PleaseLoginToComment)]</p>
+        }
+
+    </div>
+</div>

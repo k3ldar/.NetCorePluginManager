@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  SieraDeltaGeoIpPlugin
  *  
@@ -34,7 +34,7 @@ using SharedPluginFeatures;
 
 namespace SieraDeltaGeoIp.Plugin
 {
-    public class MySqlProvider : ThreadManager, IGeoIpProvider
+    internal class MySqlProvider : ThreadManager, IGeoIpProvider
     {
         #region Properties
 
@@ -55,6 +55,7 @@ namespace SieraDeltaGeoIp.Plugin
 
         #region Overridden Methods
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Security", "CA2100:Review SQL queries for security vulnerabilities", Justification = "take a chill pill man, it's ok...")]
         protected override bool Run(object parameters)
         {
             List<IpCity> rangeData = (List<IpCity>)parameters;
@@ -124,19 +125,19 @@ namespace SieraDeltaGeoIp.Plugin
             {
                 db.Close();
                 db.Dispose();
-                db = null;
             }
 
             rangeData.Sort();
 
 
-            return (false);
+            return false;
         }
 
         #endregion Overridden Methods
 
         #region IGeoIpProvider Methods
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Security", "CA2100:Review SQL queries for security vulnerabilities", Justification = "take a chill pill man, it's ok...")]
         public bool GetIpAddressDetails(in string ipAddress, out string countryCode, out string region,
             out string cityName, out decimal latitude, out decimal longitude, out long uniqueId,
             out long ipFrom, out long ipTo)
@@ -182,7 +183,7 @@ namespace SieraDeltaGeoIp.Plugin
                                 ipFrom = rdr.GetInt64(6);
                                 ipTo = rdr.GetInt64(7);
 
-                                return (true);
+                                return true;
                             }
                         }
                         finally
@@ -208,10 +209,9 @@ namespace SieraDeltaGeoIp.Plugin
             {
                 db.Close();
                 db.Dispose();
-                db = null;
             }
 
-            return (false);
+            return false;
         }
 
         #endregion IGeoIpProvider Methods

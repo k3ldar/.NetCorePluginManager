@@ -1,0 +1,521 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>DocumentationPlugin</name>
+    </assembly>
+    <members>
+        <member name="T:DocumentationPlugin.Classes.Constants">
+            <summary>
+            Global constants for <see cref="N:DocumentationPlugin"/>
+            </summary>
+        </member>
+        <member name="F:DocumentationPlugin.Classes.Constants.CountValueSee">
+            <summary>
+            Count value for &lt;see&gt; references replaced.
+            </summary>
+        </member>
+        <member name="F:DocumentationPlugin.Classes.Constants.CountValueSeeNotFound">
+            <summary>
+            Count value for &lt;see&gt; references not found.
+            </summary>
+        </member>
+        <member name="F:DocumentationPlugin.Classes.Constants.CountValueSeeAlso">
+            <summary>
+            Count value for &lt;seealso&gt; references replaced.
+            </summary>
+        </member>
+        <member name="F:DocumentationPlugin.Classes.Constants.CountValueSeeAlsoNotFound">
+            <summary>
+            Count value for &lt;seealso&gt; references not found.
+            </summary>
+        </member>
+        <member name="F:DocumentationPlugin.Classes.Constants.CountValueParaOpen">
+            <summary>
+            Count value for &lt;para&gt; references replaced.
+            </summary>
+        </member>
+        <member name="F:DocumentationPlugin.Classes.Constants.CountValueParaClose">
+            <summary>
+            Count value for &lt;/para&gt; references closing tag.
+            </summary>
+        </member>
+        <member name="F:DocumentationPlugin.Classes.Constants.CountValueCodeOpen">
+            <summary>
+            Count value for &lt;code&gt; references replaced.
+            </summary>
+        </member>
+        <member name="F:DocumentationPlugin.Classes.Constants.CountValueCodeClose">
+            <summary>
+            Count value for &lt;/code&gt; references closing tag.
+            </summary>
+        </member>
+        <member name="T:DocumentationPlugin.Classes.DocumentationModule">
+            <summary>
+            Provides a display class of documentation for a module.
+            </summary>
+        </member>
+        <member name="M:DocumentationPlugin.Classes.DocumentationModule.#ctor(System.String@,System.String@)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="title">Title of module.</param>
+            <param name="summary">Summary for module.</param>
+        </member>
+        <member name="P:DocumentationPlugin.Classes.DocumentationModule.Title">
+            <summary>
+            Title of module
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:DocumentationPlugin.Classes.DocumentationModule.Summary">
+            <summary>
+            Summary for module
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="T:DocumentationPlugin.Classes.DocumentationSettings">
+            <summary>
+            Settings which affect how the Documentation Plugin is configured.
+            </summary>
+        </member>
+        <member name="P:DocumentationPlugin.Classes.DocumentationSettings.Path">
+            <summary>
+            Default path where documentation files are located.
+            
+            Default value: %AppPath%\\Plugins
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="T:DocumentationPlugin.Classes.DocumentationSitemapProvider">
+            <summary>
+            Documentation sitemap provider, provides sitemap information for documentation items
+            </summary>
+        </member>
+        <member name="M:DocumentationPlugin.Classes.DocumentationSitemapProvider.#ctor(SharedPluginFeatures.IDocumentationService)">
+            <summary>
+            Default constructor
+            </summary>
+            <param name="documentationService">IDocumentationService instance</param>
+        </member>
+        <member name="M:DocumentationPlugin.Classes.DocumentationSitemapProvider.Items">
+            <summary>
+            Retrieve a list of all documents that will be included in the sitemap
+            </summary>
+            <returns>List&lt;ISitemapItem&gt;</returns>
+        </member>
+        <member name="T:DocumentationPlugin.Classes.DocumentLoadThread">
+            <summary>
+            Thread that loads all documentation data when the plugin is initialised, preventing
+            any delay in the showing of doucmentation which can take a little while to load depending on the 
+            quantity and composition of document files.
+            </summary>
+        </member>
+        <member name="T:DocumentationPlugin.Classes.DocumentPostProcess">
+            <summary>
+            Documentation cross reference and post process
+            </summary>
+        </member>
+        <member name="M:DocumentationPlugin.Classes.DocumentPostProcess.#ctor(System.Collections.Generic.List{Shared.Docs.Document}@)">
+            <summary>
+            Default constructor
+            </summary>
+            <param name="documents">List of document files to be post processed</param>
+        </member>
+        <member name="M:DocumentationPlugin.Classes.DocumentPostProcess.Process">
+            <summary>
+            Initiates the post process of all the <see cref="T:Shared.Docs.Document" />s
+            </summary>
+            <example>
+            The following example demonstrates creating a new <see cref="T:DocumentationPlugin.Classes.DocumentPostProcess"/> class and 
+            passing in a list of <see cref="T:Shared.Docs.Document" /> items and post processing them.
+            <code>
+            DocumentPostProcess postProcess = new DocumentPostProcess(GetDocuments());
+            postProcess.Process();
+            </code>
+            </example>
+            <returns><see cref="T:DocumentationPlugin.Classes.PostProcessResults" /></returns>
+        </member>
+        <member name="M:DocumentationPlugin.Classes.DocumentPostProcess.Process(Shared.Docs.Document@)">
+            <summary>
+            Initiates the post process of a single <see cref="T:Shared.Docs.Document" />
+            </summary>
+            <example>
+            The following example demonstrates creating a new <see cref="T:DocumentationPlugin.Classes.DocumentPostProcess"/> class and 
+            passing in a list of <see cref="T:Shared.Docs.Document" /> items and post processing them.
+            <code>
+            DocumentPostProcess postProcess = new DocumentPostProcess(GetDocuments());
+            postProcess.Process();
+            </code>
+            </example>
+            <param name="document"><see cref="T:Shared.Docs.Document"/> instance to be processed.</param>
+            <exception cref="T:System.ArgumentNullException">Thrown when document is null</exception>
+            <returns><see cref="T:DocumentationPlugin.Classes.PostProcessResults" /></returns>
+        </member>
+        <member name="T:DocumentationPlugin.Classes.InitialiseEvents">
+            <summary>
+            Implements IPlugin which allows the Documentation.Plugin module to be
+            loaded as a plugin module.  Extends IInitialiseEvents interface.
+            </summary>
+        </member>
+        <member name="T:DocumentationPlugin.Classes.KeywordSearchProvider">
+            <summary>
+            Documentation keyword provider
+            </summary>
+        </member>
+        <member name="M:DocumentationPlugin.Classes.KeywordSearchProvider.#ctor(SharedPluginFeatures.IDocumentationService)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="documentationService">IDocumentationService instance</param>
+        </member>
+        <member name="M:DocumentationPlugin.Classes.KeywordSearchProvider.Search(Middleware.Search.KeywordSearchOptions@)">
+            <summary>
+            Search keywords
+            </summary>
+            <param name="searchOptions"></param>
+            <returns>List&lt;SearchResponseItem&gt;</returns>
+        </member>
+        <member name="M:DocumentationPlugin.Classes.KeywordSearchProvider.AdvancedSearch">
+            <summary>
+            Retrieves the advanced search options for the provider
+            </summary>
+            <returns>Dictionary&lt;string, AdvancedSearchOptions&gt;</returns>
+        </member>
+        <member name="M:DocumentationPlugin.Classes.KeywordSearchProvider.SearchResponseTypes(System.Boolean@)">
+            <summary>
+            Returns a list of all available response types for the Documentation Plugin
+            </summary>
+            <param name="quickSearch">Indicates whether the response types are for quick or normal searching</param>
+            <returns>List&lt;string&gt;</returns>
+        </member>
+        <member name="T:DocumentationPlugin.Classes.PostProcessResults">
+            <summary>
+            Class that contains the post processing statistics
+            </summary>
+        </member>
+        <member name="M:DocumentationPlugin.Classes.PostProcessResults.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="P:DocumentationPlugin.Classes.PostProcessResults.DocumentsProcessed">
+            <summary>
+            Returns the total number of documents processed.
+            </summary>
+            <value>int</value>
+        </member>
+        <member name="P:DocumentationPlugin.Classes.PostProcessResults.Counts">
+            <summary>
+            Contains a dictionary of counts, these represent different elements within the post process results.
+            </summary>
+            <value>Dictionary&lt;string, int&gt;</value>
+        </member>
+        <member name="M:DocumentationPlugin.Classes.PostProcessResults.GetCountValue(System.String@)">
+            <summary>
+            Returns the count for the specificd countName
+            </summary>
+            <param name="countName">Name of count</param>
+            <returns>int</returns>
+            <exception cref="T:System.ArgumentNullException">Thrown when countName is null or empty.</exception>
+        </member>
+        <member name="M:DocumentationPlugin.Classes.PostProcessResults.IncrementCount(System.String@)">
+            <summary>
+            Increments the count value for a specific count type
+            </summary>
+            <param name="countName">Name of count to be incremented</param>
+        </member>
+        <member name="T:DocumentationPlugin.Models.DocumentViewModel">
+            <summary>
+            Model used when viewing a document
+            </summary>
+        </member>
+        <member name="M:DocumentationPlugin.Models.DocumentViewModel.#ctor(SharedPluginFeatures.BaseModelData@,System.String@,System.String@,System.String@,System.String@)">
+            <summary>
+            Default Constructor
+            </summary>
+            <param name="modelData">Base model data.</param>
+            <param name="title">Title of document.</param>
+            <param name="shortDescription">Short description for the document</param>
+            <param name="longDescription">Long description for the document.</param>
+            <param name="allReferences">Any references found in other documents.</param>
+        </member>
+        <member name="P:DocumentationPlugin.Models.DocumentViewModel.Title">
+            <summary>
+            Document title.
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:DocumentationPlugin.Models.DocumentViewModel.ShortDescription">
+            <summary>
+            Short description for the document.
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:DocumentationPlugin.Models.DocumentViewModel.LongDescription">
+            <summary>
+            Long description for the document.
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:DocumentationPlugin.Models.DocumentViewModel.AllReferences">
+            <summary>
+            All references found for the document.
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:DocumentationPlugin.Models.DocumentViewModel.TranslateStrings">
+            <summary>
+            Determines whether strings should be translated.
+            </summary>
+            <value>bool</value>
+        </member>
+        <member name="P:DocumentationPlugin.Models.DocumentViewModel.Contains">
+            <summary>
+            List of sub sections within the document.
+            </summary>
+            <value>Dictionary&lt;string, string&gt;</value>
+        </member>
+        <member name="P:DocumentationPlugin.Models.DocumentViewModel.SeeAlso">
+            <summary>
+            List of other Documents linked to this document.
+            </summary>
+            <value>Dictionary&lt;string, string&gt;</value>
+        </member>
+        <member name="P:DocumentationPlugin.Models.DocumentViewModel.Namespace">
+            <summary>
+            Namespace the document belongs to.
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:DocumentationPlugin.Models.DocumentViewModel.Assembly">
+            <summary>
+            Assembly the document belongs to.
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:DocumentationPlugin.Models.DocumentViewModel.Fields">
+            <summary>
+            List of any fields contained within the document.
+            </summary>
+            <value>List&lt;DocumentField&gt;</value>
+        </member>
+        <member name="P:DocumentationPlugin.Models.DocumentViewModel.Methods">
+            <summary>
+            List of any methods contained within the document.
+            </summary>
+            <value>List&lt;DocumentMethod&gt;</value>
+        </member>
+        <member name="P:DocumentationPlugin.Models.DocumentViewModel.Exceptions">
+            <summary>
+            Exceptions contained within the document.
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:DocumentationPlugin.Models.DocumentViewModel.Properties">
+            <summary>
+            List of any properties contained within the document
+            </summary>
+            <value>List&lt;DocumentProperty&gt;</value>
+        </member>
+        <member name="P:DocumentationPlugin.Models.DocumentViewModel.Constructors">
+            <summary>
+            List of constructors if any exist.
+            </summary>
+            <value>List&lt;DocumentMethod&gt;</value>
+        </member>
+        <member name="P:DocumentationPlugin.Models.DocumentViewModel.PreviousDocument">
+            <summary>
+            Previous root document in the list.
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:DocumentationPlugin.Models.DocumentViewModel.NextDocument">
+            <summary>
+            Next root document in the list.
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:DocumentationPlugin.Models.DocumentViewModel.Example">
+            <summary>
+            Example text, this should be formatted html
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:DocumentationPlugin.Models.DocumentViewModel.ShowShortDescription">
+            <summary>
+            Indicates whether the short description is shown or not.
+            </summary>
+            <value>bool.  If true and there is a short description, it will be shown.</value>
+        </member>
+        <member name="P:DocumentationPlugin.Models.DocumentViewModel.Remarks">
+            <summary>
+            Any supplementary information regarding the class, type, method, constructor, property etc
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="T:DocumentationPlugin.Models.DocumentViewTypeViewModel">
+            <summary>
+            Summary document for a documents type, method, field, constructor, property etc.
+            </summary>
+        </member>
+        <member name="M:DocumentationPlugin.Models.DocumentViewTypeViewModel.#ctor(SharedPluginFeatures.BaseModelData@,System.String@,System.String@)">
+            <summary>
+            Default constructor
+            </summary>
+            <param name="modelData">Base model data.</param>
+            <param name="title">Title of document</param>
+            <param name="allReferences">All references associated with the document.</param>
+        </member>
+        <member name="P:DocumentationPlugin.Models.DocumentViewTypeViewModel.Title">
+            <summary>
+            Title for type
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:DocumentationPlugin.Models.DocumentViewTypeViewModel.ShortDescription">
+            <summary>
+            Short description for the type.
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:DocumentationPlugin.Models.DocumentViewTypeViewModel.LongDescription">
+            <summary>
+            Long description of the type.
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:DocumentationPlugin.Models.DocumentViewTypeViewModel.AllReferences">
+            <summary>
+            All references associated with type.
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:DocumentationPlugin.Models.DocumentViewTypeViewModel.TranslateStrings">
+            <summary>
+            Determines whether strings are translated.
+            </summary>
+            <value>bool</value>
+        </member>
+        <member name="P:DocumentationPlugin.Models.DocumentViewTypeViewModel.SeeAlso">
+            <summary>
+            List of alternative references linked to this type.
+            </summary>
+            <value>Dictionary&lt;string, string&gt;</value>
+        </member>
+        <member name="P:DocumentationPlugin.Models.DocumentViewTypeViewModel.Namespace">
+            <summary>
+            Namespace for the type.
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:DocumentationPlugin.Models.DocumentViewTypeViewModel.Assembly">
+            <summary>
+            Name of assembly where the type belongs.
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:DocumentationPlugin.Models.DocumentViewTypeViewModel.ClassName">
+            <summary>
+            Class name that the type belongs to.
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:DocumentationPlugin.Models.DocumentViewTypeViewModel.TypeName">
+            <summary>
+            Name of type.
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:DocumentationPlugin.Models.DocumentViewTypeViewModel.ExampleUseage">
+            <summary>
+            Example useage.
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:DocumentationPlugin.Models.DocumentViewTypeViewModel.Value">
+            <summary>
+            Value of type.
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:DocumentationPlugin.Models.DocumentViewTypeViewModel.Returns">
+            <summary>
+            Value that is returned by the type.
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:DocumentationPlugin.Models.DocumentViewTypeViewModel.Parameters">
+            <summary>
+            Any parameters that exist for the type.
+            </summary>
+            <value>List&lt;DocumentMethodParameter&gt;</value>
+        </member>
+        <member name="P:DocumentationPlugin.Models.DocumentViewTypeViewModel.Summary">
+            <summary>
+            Document summary
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:DocumentationPlugin.Models.DocumentViewTypeViewModel.Remarks">
+            <summary>
+            Any supplementary information regarding the class, type, method, constructor, property etc
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:DocumentationPlugin.Models.DocumentViewTypeViewModel.Exceptions">
+            <summary>
+            Preformatted exceptions for the relevant constructor, method or property
+            </summary>
+        </member>
+        <member name="T:DocumentationPlugin.Models.IndexViewModel">
+            <summary>
+            View model for displaying module summaries.
+            </summary>
+        </member>
+        <member name="M:DocumentationPlugin.Models.IndexViewModel.#ctor(SharedPluginFeatures.BaseModelData@,System.String@,System.String@)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="modelData">Base model data.</param>
+            <param name="header">Header at the top of the page.</param>
+            <param name="description">Description at the top of the page.</param>
+        </member>
+        <member name="P:DocumentationPlugin.Models.IndexViewModel.AssemblyNames">
+            <summary>
+            List of all modules that have been loaded.
+            </summary>
+            <value>Dictionary&lt;string, DocumentationModule&gt;</value>
+        </member>
+        <member name="P:DocumentationPlugin.Models.IndexViewModel.DocumentationHeader">
+            <summary>
+            Header text that goes at the top of the page.
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:DocumentationPlugin.Models.IndexViewModel.DocumentationDescription">
+            <summary>
+            Description which goes at the top of the page.
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:DocumentationPlugin.Models.IndexViewModel.Image">
+            <summary>
+            Image to be displayed with the module.
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="M:DocumentationPlugin.Models.IndexViewModel.ProcessImage(System.String@)">
+            <summary>
+            Processes the image, if it doesn't exist returns a standard image.
+            </summary>
+            <param name="image">image to be displayed.</param>
+            <returns>string</returns>
+        </member>
+        <member name="T:DocumentationPlugin.PluginInitialisation">
+            <summary>
+            Implements IPlugin which allows the Documentation.Plugin module to be
+            loaded as a plugin module
+            </summary>
+        </member>
+    </members>
+</doc>

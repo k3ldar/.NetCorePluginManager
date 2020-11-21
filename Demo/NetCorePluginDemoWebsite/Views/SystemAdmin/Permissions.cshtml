@@ -1,0 +1,27 @@
+﻿@model SystemAdmin.Plugin.Models.PermissionsModel
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
+<link rel="stylesheet" href="~/css/SystemAdmin.css" asp-append-version="true" />
+<link rel="stylesheet" href="~/lib/jquery-bootgrid/jquery.bootgrid.min.css" asp-append-version="true" />
+<script src="~/lib/jquery-bootgrid/jquery.bootgrid.min.js"></script>
+<div class="row">
+<div class="col-sm-12">
+<h2>@Localizer[nameof(Languages.LanguageStrings.UserPermissions)]</h2>
+</div>
+</div>
+<div class="row">
+<div class="col-sm-12">
+@await Html.PartialAsync("/views/shared/_UserSearch.cshtml", new SharedPluginFeatures.StringModel("editUserPermissions"))
+</div>
+</div>
+<div class="modal fade" id="dlgPermissions" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+</div>
+<script type="text/javascript">
+function editUserPermissions(id, name) {
+$('#dlgPermissions').load('/SystemAdmin/GetUserPermissions/' + id + '/', function () {
+$('#dlgPermissions').modal('show');
+let header = $('#dlgPermissionHeader').val();
+header += " - " + name;
+$('#dlgPermissionHeader').val(header);
+});
+}
+</script>

@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  Error Manager Plugin
  *  
@@ -27,18 +27,31 @@ using System;
 
 using SharedPluginFeatures;
 
-namespace ErrorManager.Plugin.Models.Error
+namespace ErrorManager.Plugin.Models
 {
+    /// <summary>
+    /// View model for a 404 error.
+    /// </summary>
     public sealed class Error404Model : BaseModel
     {
         #region Constructors
 
+        /// <summary>
+        /// Default constructor
+        /// </summary>
         public Error404Model()
         {
 
         }
 
-        public Error404Model(string title)
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="modelData">Base model data.</param>
+        /// <param name="title">Title to be displayed on the page.</param>
+        public Error404Model(in BaseModelData modelData,
+            string title)
+            : base(modelData)
         {
             if (String.IsNullOrEmpty(title))
                 throw new ArgumentNullException(nameof(title));
@@ -46,8 +59,16 @@ namespace ErrorManager.Plugin.Models.Error
             Title = title;
         }
 
-        public Error404Model(string title, string message, string image)
-            : this(title)
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="modelData">Base model data.</param>
+        /// <param name="title">Title to be displayed on the page.</param>
+        /// <param name="message">Message to be displayed to the user.</param>
+        /// <param name="image">Image to be displayed on the page.</param>
+        public Error404Model(in BaseModelData modelData,
+            string title, string message, string image)
+            : this(modelData, title)
         {
             if (String.IsNullOrEmpty(title))
                 throw new ArgumentNullException(nameof(title));
@@ -61,10 +82,22 @@ namespace ErrorManager.Plugin.Models.Error
 
         #region Properties
 
+        /// <summary>
+        /// Title to be displayed on the page.
+        /// </summary>
+        /// <value>string</value>
         public string Title { get; set; }
 
+        /// <summary>
+        /// Message to be displayed to the user.
+        /// </summary>
+        /// <value>string</value>
         public string Message { get; set; }
 
+        /// <summary>
+        /// Image to be displayed on the page.
+        /// </summary>
+        /// <value>string</value>
         public string Image { get; set; }
 
         #endregion Properties

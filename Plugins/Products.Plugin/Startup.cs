@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  Products.Plugin
  *  
@@ -23,14 +23,13 @@
  *  31/01/2019  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+using AspNetCore.PluginManager;
+
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-using AspNetCore.PluginManager;
+#pragma warning disable CS1591
 
 namespace ProductPlugin
 {
@@ -48,42 +47,24 @@ namespace ProductPlugin
         {
             PluginManagerService.ConfigureServices(services);
 
-            services.Configure<CookiePolicyOptions>(options =>
-            {
-                // This lambda determines whether user consent for non-essential cookies is needed for a given request.
-                options.CheckConsentNeeded = context => false;
-                options.MinimumSameSitePolicy = SameSiteMode.None;
-            });
-
-            services.AddMemoryCache();
-            services.AddSession();
-
             services.AddMvc()
-                .SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
                 .AddSessionStateTempDataProvider()
                 .ConfigurePluginManager();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app)
         {
-            PluginManagerService.Configure(app, env);
+            PluginManagerService.Configure(app);
 
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
-            else
-            {
-                app.UseExceptionHandler("/Home/Error");
-                app.UseHsts();
-            }
+#if DEBUG
+            app.UseDeveloperExceptionPage();
+#else
+            app.UseExceptionHandler("/Home/Error");
+#endif
 
-            app.UseSession();
-            app.UseHttpsRedirection();
-            app.UseStaticFiles();
-            app.UseCookiePolicy();
 
+#if !NET_CORE_3_X
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
@@ -91,6 +72,9 @@ namespace ProductPlugin
                     template: "{controller=Product}/{action=Index}/{id?}");
             })
             .UsePluginManager();
+#endif
         }
     }
 }
+
+#pragma warning restore CS1591

@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  GeoIpPlugin
  *  
@@ -26,30 +26,53 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.IO.Compression;
+using System.Net;
 
+using PluginManager.Abstractions;
+
+using Shared;
 using Shared.Classes;
+
+using SharedPluginFeatures;
 
 namespace GeoIp.Plugin
 {
     /// <summary>
     /// Background thread used to load WebNet77 Geo Ip Data
     /// </summary>
-    public class LoadWebNet77Data : ThreadManager
+    internal class LoadWebNet77Data : ThreadManager
     {
         #region Properties
 
+        private readonly ILogger _logger;
         private readonly string _webNet77DataFile;
+        private readonly string _webNetDownloadDataFile;
+        private readonly bool _autoDownloadWebnet77Data;
+        private readonly Uri _webnet77CsvUrl;
+        private readonly int _downloadFrequency;
 
         #endregion Propertes
 
         #region Constructors
 
-        public LoadWebNet77Data(string webNet77DataFile, List<IpCity> ipRangeData)
-            : base (ipRangeData, new TimeSpan(24, 0, 0))
+        public LoadWebNet77Data(ILogger logger, string webNet77DataFile, List<IpCity> ipRangeData,
+            bool autoDownloadWebnet77Data, string webnet77CsvUrl, int downloadFrequency)
+            : base(ipRangeData, new TimeSpan(24, 0, 0))
         {
-            base.ContinueIfGlobalException = true;
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
-            _webNet77DataFile = webNet77DataFile;
+            if (ipRangeData == null)
+                throw new ArgumentNullException(nameof(ipRangeData));
+
+            base.ContinueIfGlobalException = false;
+
+            _webNet77DataFile = Path.Combine(webNet77DataFile, Constants.Webnet77CsvDataFileName);
+            _webNetDownloadDataFile = Path.ChangeExtension(_webNet77DataFile, Constants.FileExtensionDat);
+            _autoDownloadWebnet77Data = autoDownloadWebnet77Data;
+            _downloadFrequency = Utilities.CheckMinMax(downloadFrequency, 1, 20);
+
+            Uri.TryCreate(webnet77CsvUrl, UriKind.Absolute, out _webnet77CsvUrl);
         }
 
         #endregion Constructors
@@ -60,6 +83,11 @@ namespace GeoIp.Plugin
         {
             List<IpCity> rangeData = (List<IpCity>)parameters;
             rangeData.Clear();
+
+            if (_autoDownloadWebnet77Data)
+            {
+                DownloadAndUpackWebnet77Data();
+            }
 
             // if available, load Webnet77 data
             if (File.Exists(_webNet77DataFile))
@@ -74,13 +102,13 @@ namespace GeoIp.Plugin
                             continue;
 
                         if (HasCancelled())
-                            return (false);
+                            return false;
 
                         string[] parts = line.Split(',');
 
                         long startRange = Convert.ToInt64(parts[0].Replace("\"", ""));
                         long endRange = Convert.ToInt64(parts[1].Replace("\"", ""));
-                        string country = parts[4];
+                        string country = parts[4].Replace("\"", "");
                         rangeData.Add(new IpCity(startRange, endRange, country));
                     }
                 }
@@ -89,9 +117,71 @@ namespace GeoIp.Plugin
             rangeData.Sort();
 
 
-            return (false);
+            return false;
         }
 
         #endregion Overridden Methods
+
+        #region Private Members
+
+        private void DownloadAndUpackWebnet77Data()
+        {
+            if (CanDownloadWebnet77Data())
+            {
+                string downloadFile = Path.ChangeExtension(_webNetDownloadDataFile, Constants.FileExtensionZip);
+
+                if (DownloadWebnetData(downloadFile))
+                {
+                    ZipFile.ExtractToDirectory(downloadFile, Utilities.AddTrailingBackSlash(Path.GetDirectoryName(downloadFile)), true);
+                }
+            }
+        }
+
+        private bool DownloadWebnetData(string downloadFile)
+        {
+            bool Result = true;
+            try
+            {
+                using (WebClient client = new WebClient())
+                {
+                    client.DownloadFile(_webnet77CsvUrl, downloadFile);
+                }
+            }
+            catch (WebException err)
+            {
+                Result = false;
+                _logger.AddToLog(PluginManager.LogLevel.Error, err);
+            }
+            finally
+            {
+                // you only get one chance at a time, if it fails try again in 24 hours, otherwise could get banned
+                File.WriteAllText(_webNetDownloadDataFile, DateTime.UtcNow.Ticks.ToString());
+            }
+
+            return Result;
+        }
+
+        private bool CanDownloadWebnet77Data()
+        {
+            if (File.Exists(_webNetDownloadDataFile))
+            {
+                string fileContents = File.ReadAllText(_webNetDownloadDataFile);
+
+                if (Int64.TryParse(fileContents, out long lastUpdateTime))
+                {
+                    TimeSpan span = DateTime.UtcNow - new DateTime(lastUpdateTime, DateTimeKind.Utc);
+
+                    return span.TotalMinutes > _downloadFrequency * 1440;
+                }
+            }
+            else
+            {
+                File.WriteAllText(_webNetDownloadDataFile, DateTime.UtcNow.Ticks.ToString());
+            }
+
+            return true;
+        }
+
+        #endregion Private Members
     }
 }

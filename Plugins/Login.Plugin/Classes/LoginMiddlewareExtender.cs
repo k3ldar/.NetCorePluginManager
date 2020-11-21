@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  Login Plugin
  *  
@@ -27,8 +27,19 @@ using Microsoft.AspNetCore.Builder;
 
 namespace LoginPlugin
 {
+    /// <summary>
+    /// Login middleware extender
+    /// </summary>
     public static class LoginMiddlewareExtender
     {
+        /// <summary>
+        /// IApplicationBuilder extender method.
+        /// 
+        /// Allows easy use of registering Login.Plugin services
+        /// </summary>
+        /// <param name="builder">IApplicationBuilder instance</param>
+        /// <returns>IApplicationBuilder</returns>
+        /// <example><pre style="font-family:Consolas;font-size:13px;color:black;background:white;"><span style="color:#1f377f;">app</span>.<span style="color:#74531f;">UseLogin</span>();</pre></example>
         public static IApplicationBuilder UseLogin(this IApplicationBuilder builder)
         {
             return builder.UseMiddleware<LoginMiddleware>();

@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  UserAccount.Plugin
  *  
@@ -32,26 +32,33 @@ using SharedPluginFeatures;
 
 namespace UserAccount.Plugin.Models
 {
+#pragma warning disable CS1591
+
     public sealed class DeliveryAddressViewModel : BaseModel
     {
         #region Constructors
 
-        public DeliveryAddressViewModel(in List<BreadcrumbItem> breadcrumbs)
-            : base (breadcrumbs)
+        public DeliveryAddressViewModel()
         {
 
         }
 
-        public DeliveryAddressViewModel(in List<BreadcrumbItem> breadcrumbs, 
+        public DeliveryAddressViewModel(in BaseModelData baseModelData)
+            : base(baseModelData)
+        {
+
+        }
+
+        public DeliveryAddressViewModel(in BaseModelData baseModelData,
             in List<DeliveryAddress> addresses)
-            : this (breadcrumbs)
+            : this(baseModelData)
         {
             Addresses = addresses ?? throw new ArgumentNullException(nameof(addresses));
         }
 
-        public DeliveryAddressViewModel(in List<BreadcrumbItem> breadcrumbs, 
+        public DeliveryAddressViewModel(in BaseModelData baseModelData,
             in List<DeliveryAddress> addresses, in string growlMessage)
-            : this (breadcrumbs)
+            : this(baseModelData)
         {
             Addresses = addresses ?? throw new ArgumentNullException(nameof(addresses));
             GrowlMessage = growlMessage ?? throw new ArgumentNullException(nameof(growlMessage));
@@ -67,4 +74,6 @@ namespace UserAccount.Plugin.Models
 
         #endregion Properties
     }
+
+#pragma warning restore CS1591
 }

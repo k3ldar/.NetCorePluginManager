@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  UserAccount.Plugin
  *  
@@ -26,7 +26,14 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+
 using Microsoft.AspNetCore.Mvc;
+
+using Middleware;
+using Middleware.Accounts;
+using Middleware.Accounts.Licences;
+
+using PluginManager.Abstractions;
 
 using Shared.Classes;
 
@@ -34,15 +41,13 @@ using SharedPluginFeatures;
 
 using UserAccount.Plugin.Models;
 
-using Middleware;
-using Middleware.Accounts;
-using Middleware.Accounts.Licences;
-
 #pragma warning disable IDE0017
 
 namespace UserAccount.Plugin.Controllers
 {
+#pragma warning disable CS1591
     [LoggedIn]
+    [DenySpider]
     public partial class AccountController : BaseController
     {
         #region Private Members
@@ -53,6 +58,7 @@ namespace UserAccount.Plugin.Controllers
         private readonly ILicenceProvider _licenceProvider;
         private readonly IUserCultureChangeProvider _userCultureChanged;
         private readonly ICultureProvider _cultureProvider;
+        private readonly bool _blogLoaded;
 
         private static readonly CacheManager _createAccountCache = new CacheManager("Create Account Cache", new TimeSpan(0, 30, 0));
 
@@ -68,10 +74,10 @@ namespace UserAccount.Plugin.Controllers
 
         #region Constructors
 
-        public AccountController(ISettingsProvider settingsProvider, IAccountProvider accountProvider, 
-            IDownloadProvider downloadProvider, ICountryProvider countryProvider, 
+        public AccountController(ISettingsProvider settingsProvider, IAccountProvider accountProvider,
+            IDownloadProvider downloadProvider, ICountryProvider countryProvider,
             ILicenceProvider licenceProvider, IUserCultureChangeProvider userCultureChanged,
-            ICultureProvider cultureProvider)
+            ICultureProvider cultureProvider, IPluginHelperService pluginHelperService)
         {
             _settingsProvider = settingsProvider ?? throw new ArgumentNullException(nameof(settingsProvider));
             _accountProvider = accountProvider ?? throw new ArgumentNullException(nameof(accountProvider));
@@ -79,6 +85,9 @@ namespace UserAccount.Plugin.Controllers
             _licenceProvider = licenceProvider ?? throw new ArgumentNullException(nameof(licenceProvider));
             _userCultureChanged = userCultureChanged ?? throw new ArgumentNullException(nameof(userCultureChanged));
             _cultureProvider = cultureProvider ?? throw new ArgumentNullException(nameof(cultureProvider));
+
+            if (pluginHelperService == null)
+                throw new ArgumentNullException(nameof(pluginHelperService));
 
             if (countryProvider == null)
                 throw new ArgumentNullException(nameof(countryProvider));
@@ -88,6 +97,8 @@ namespace UserAccount.Plugin.Controllers
 
             if (LicenceTypes == null)
                 LicenceTypes = _licenceProvider.LicenceTypesGet();
+
+            _blogLoaded = pluginHelperService.PluginLoaded("Blog.Plugin.dll", out _);
         }
 
         #endregion Constructors
@@ -99,11 +110,13 @@ namespace UserAccount.Plugin.Controllers
         public IActionResult Index()
         {
             string growl = GrowlGet();
-            AccountViewModel model = new AccountViewModel(
+            AccountViewModel model = new AccountViewModel(GetModelData(),
                 _settingsProvider.GetSettings<AccountSettings>("UserAccount"),
                 growl ?? String.Empty);
+            model.Settings.ShowBlog = _blogLoaded;
 
             model.Breadcrumbs = GetBreadcrumbs();
+            model.CartSummary = GetCartSummary();
 
             return View(model);
         }
@@ -174,4 +187,5 @@ namespace UserAccount.Plugin.Controllers
 
         #endregion Private Methods
     }
+#pragma warning restore CS1591
 }

@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  PluginMiddleware
  *  
@@ -32,15 +32,46 @@ namespace Middleware
     /// </summary>
     public enum LoginResult
     {
+        /// <summary>
+        /// Login was successfull.
+        /// </summary>
         Success = 0,
 
-        InvalidCredentials =  1,
+        /// <summary>
+        /// Invalid credentials provided.
+        /// </summary>
+        InvalidCredentials = 1,
 
+        /// <summary>
+        /// Account is locked.
+        /// </summary>
         AccountLocked = 2,
 
+        /// <summary>
+        /// Password change is required.
+        /// </summary>
         PasswordChangeRequired = 3,
 
+        /// <summary>
+        /// Login details were remembered, Login was successfull.
+        /// </summary>
         Remembered = 4
+    }
+
+    /// <summary>
+    /// Address Option
+    /// </summary>
+    public enum AddressOption
+    {
+        /// <summary>
+        /// Delivery Address Option
+        /// </summary>
+        Delivery,
+
+        /// <summary>
+        /// Billing Address Option
+        /// </summary>
+        Billing,
     }
 
     /// <summary>
@@ -136,12 +167,24 @@ namespace Middleware
     [Flags]
     public enum MarketingOptions
     {
+        /// <summary>
+        /// Show email marketing check box.
+        /// </summary>
         ShowEmail = 1,
 
+        /// <summary>
+        /// Show telephone marketing check box.
+        /// </summary>
         ShowTelephone = 2,
 
+        /// <summary>
+        /// Show sms marketing check box.
+        /// </summary>
         ShowSMS = 4,
 
+        /// <summary>
+        /// Show postal marketing check box.
+        /// </summary>
         ShowPostal = 8,
     }
 
@@ -150,22 +193,49 @@ namespace Middleware
     /// </summary>
     public enum ProcessStatus
     {
+        /// <summary>
+        /// Order is in received status.
+        /// </summary>
         OrderReceived = 0,
 
+        /// <summary>
+        /// Order is being processed for fraud.
+        /// </summary>
         FraudCheck = 1,
 
+        /// <summary>
+        /// Payment is being verified.
+        /// </summary>
         PaymentCheck = 2,
 
+        /// <summary>
+        /// Order is being processed for dispatch.
+        /// </summary>
         Processing = 3,
 
+        /// <summary>
+        /// Order has been dispatched.
+        /// </summary>
         Dispatched = 4,
 
+        /// <summary>
+        /// Order is having a refund processed.
+        /// </summary>
         IssueRefund = 5,
 
+        /// <summary>
+        /// Payment is pending.
+        /// </summary>
         PaymentPending = 6,
 
+        /// <summary>
+        /// Order is on hold.
+        /// </summary>
         OnHold = 7,
 
+        /// <summary>
+        /// Order has been cancelled.
+        /// </summary>
         Cancelled = 10
     }
 
@@ -174,18 +244,39 @@ namespace Middleware
     /// </summary>
     public enum PaymentStatus
     {
+        /// <summary>
+        /// Invoice/order has not been paid.
+        /// </summary>
         Unpaid = 0,
 
+        /// <summary>
+        /// Invoice/order has been paid.
+        /// </summary>
         Paid = 1,
 
+        /// <summary>
+        /// Invoice/order has been paid using cash.
+        /// </summary>
         PaidCash = 2,
 
+        /// <summary>
+        /// Invoice/order has been paid using checkque.
+        /// </summary>
         PaidCheque = 3,
 
-        PaidCard= 4,
+        /// <summary>
+        /// Invoice/order has been paid using a credit/debit card.
+        /// </summary>
+        PaidCard = 4,
 
+        /// <summary>
+        /// Invoice/order has been paid using a voucher.
+        /// </summary>
         PaidVoucher = 5,
 
+        /// <summary>
+        /// Invoice/order has been paid using mixed payment types.
+        /// </summary>
         PaidMixed = 6
     }
 
@@ -194,36 +285,81 @@ namespace Middleware
     /// </summary>
     public enum ItemStatus
     {
+        /// <summary>
+        /// Invoice/order item has been received.
+        /// </summary>
         Received = 0,
 
+        /// <summary>
+        /// Invoice/order item is being processed.
+        /// </summary>
         Processing = 1,
 
+        /// <summary>
+        /// Invoice/order item has been dispatched.
+        /// </summary>
         Dispatched = 2,
 
+        /// <summary>
+        /// Invoice/order item is on hold.
+        /// </summary>
         OnHold = 3,
 
+        /// <summary>
+        /// Invoice/order item is on back order.
+        /// </summary>
         BackOrder = 4,
 
+        /// <summary>
+        /// Invoice/order item has been cancelled.
+        /// </summary>
         Cancelled = 10,
     }
 
+    /// <summary>
+    /// Type of discount that has been applied to an Invoice/Order
+    /// </summary>
     public enum DiscountType
     {
+        /// <summary>
+        /// Invoice/Order has no discount.
+        /// </summary>
         None = 0,
 
+        /// <summary>
+        /// Invoice/Order has a percentage discount on the total.
+        /// </summary>
         PercentageTotal = 1,
 
-        PercentageSubTotal= 2,
+        /// <summary>
+        /// Invoice/Order has a percentage discount on the sub total.
+        /// </summary>
+        PercentageSubTotal = 2,
 
+        /// <summary>
+        /// Invoice/Order has a monetary value discount (i.e. GBP10)
+        /// </summary>
         Value = 3
     }
 
+    /// <summary>
+    /// Licence creation results.
+    /// </summary>
     public enum LicenceCreate
     {
+        /// <summary>
+        /// Licence was successfully created.
+        /// </summary>
         Success = 0,
 
+        /// <summary>
+        /// Licence already exists.
+        /// </summary>
         Existing = 1,
 
+        /// <summary>
+        /// Failed to create a licence.
+        /// </summary>
         Failed = 2
     }
 }

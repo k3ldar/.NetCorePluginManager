@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  UserSessionMiddleware.Plugin
  *  
@@ -27,61 +27,76 @@ using System;
 
 using SharedPluginFeatures;
 
+#pragma warning disable CS1591
+
 namespace UserSessionMiddleware.Plugin.Classes.SystemAdmin
 {
+    /// <summary>
+    /// Returns Timings information for all time spent processing user session requests and can 
+    /// be viewed within SystemAdmin.Plugin.  
+    /// 
+    /// This class descends from SystemAdminSubMenu.
+    /// </summary>
     public sealed class UserSessionTimingsSubMenu : SystemAdminSubMenu
     {
         public override string Action()
         {
-            return (String.Empty);
+            return String.Empty;
         }
 
         public override string Area()
         {
-            return (String.Empty);
+            return String.Empty;
         }
 
         public override string Controller()
         {
-            return (String.Empty);
+            return String.Empty;
         }
 
+        /// <summary>
+        /// Returns Timings data in milliseconds for time spent processing by UserSession.Plugin requests.
+        /// </summary>
+        /// <returns>string</returns>
         public override string Data()
         {
             string Result = "Setting|Value";
 
-            Result += $"\rTotal Requests|{UserSessionMiddleware._timings.Requests}";
-            Result += $"\rFastest ms|{UserSessionMiddleware._timings.Fastest}";
-            Result += $"\rSlowest ms|{UserSessionMiddleware._timings.Slowest}";
-            Result += $"\rAverage ms|{UserSessionMiddleware._timings.Average}";
-            Result += $"\rTotal ms|{UserSessionMiddleware._timings.Total}";
+            Result += $"\rTotal Requests|{SessionMiddleware._timings.Requests}";
+            Result += $"\rFastest ms|{SessionMiddleware._timings.Fastest}";
+            Result += $"\rSlowest ms|{SessionMiddleware._timings.Slowest}";
+            Result += $"\rAverage ms|{SessionMiddleware._timings.Average}";
+            Result += $"\rTrimmed Avg ms|{SessionMiddleware._timings.TrimmedAverage}";
+            Result += $"\rTotal ms|{SessionMiddleware._timings.Total}";
 
-            return (Result);
+            return Result;
         }
 
         public override string Image()
         {
-            return ("stopwatch");
+            return Constants.SystemImageStopWatch;
         }
 
         public override Enums.SystemAdminMenuType MenuType()
         {
-            return (Enums.SystemAdminMenuType.Grid);
+            return Enums.SystemAdminMenuType.Grid;
         }
 
         public override string Name()
         {
-            return ("User Session");
+            return "User Session";
         }
 
         public override string ParentMenuName()
         {
-            return ("Timings");
+            return "Timings";
         }
 
         public override int SortOrder()
         {
-            return (0);
+            return 0;
         }
     }
 }
+
+#pragma warning restore CS1591

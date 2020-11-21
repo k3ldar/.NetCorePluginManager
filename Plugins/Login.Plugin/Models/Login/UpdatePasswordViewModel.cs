@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  Login Plugin
  *  
@@ -28,6 +28,8 @@ using System.ComponentModel.DataAnnotations;
 
 using SharedPluginFeatures;
 
+#pragma warning disable CS1591
+
 namespace LoginPlugin.Models
 {
     public sealed class UpdatePasswordViewModel : BaseModel
@@ -35,6 +37,12 @@ namespace LoginPlugin.Models
         #region Constructors
 
         public UpdatePasswordViewModel()
+        {
+            Username = String.Empty;
+        }
+
+        public UpdatePasswordViewModel(in BaseModelData modelData)
+            : base(modelData)
         {
             Username = String.Empty;
         }
@@ -65,3 +73,5 @@ namespace LoginPlugin.Models
         #endregion Properties
     }
 }
+
+#pragma warning restore CS1591

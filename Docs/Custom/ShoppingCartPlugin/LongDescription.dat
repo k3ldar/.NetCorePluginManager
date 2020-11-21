@@ -1,0 +1,36 @@
+<p>
+The shopping cart plugin module is a fully featured shopping cart, that supports multiple payment types and has a natural and easy flow to guide users through the checkout process.
+</p>
+<p>
+Currently the following payment providers are available:
+</p>
+<ul>
+<li> CashOnDelivery provider.</li>
+<li> Cheque provider.</li>
+<li> ClickAndCollect provider.</li>
+<li> DirectTransfer provider.</li>
+<li> Paypoint provider.</li>
+<li> Phone provider.</li>
+</ul>
+<p>
+Payment providers are simple to integrate, they only need to be enabled with the settings.  Certain payment providers will only be visible if the correct currency is used during checkout, however, the currencies supported by each provider is configurable.
+</p>
+<p>
+Need a new payment provider for a specific payment type, get in touch!
+</p>
+<h3>Integration with Middleware</h3>
+<p>
+The IShoppingCartProvider interface should be implemented by the host application, this contains all methods that are required to interact with the Shopping Cart plugin module.
+</p>
+<h3>Customise Shopping Cart Pages</h3>
+<p>
+As with all website plugin modules, the pages that are created in /Views/Cart folder can be customised and personalised from their default settings to match the theme of the website where they will be shown.
+</p>
+<h3>Settings</h3>
+<p>
+Please view CartSettings for details on how to customize the UserAccount plugin.  Individual settings may also exist for the payment providers.
+</p>
+<h3>How to use</h3>
+<p>
+The UserAccount plugin should be loaded using the Plugin Manager.
+</p>

@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  AspNetCore.PluginManager
  *  
@@ -31,10 +31,19 @@ using SharedPluginFeatures;
 
 namespace AspNetCore.PluginManager
 {
+    /// <summary>
+    /// Plugin Manager extender class.
+    /// </summary>
     public static class UsePluginManagerExtender
     {
         #region Public Static Methods
 
+        /// <summary>
+        /// IApplicationBuilder extender method used to provide easy access to UsePluginManager 
+        /// method when configuring an application.
+        /// </summary>
+        /// <param name="mvcApplication">IApplicationBuilder instance</param>
+        /// <returns>IApplicationBuilder</returns>
         public static IApplicationBuilder UsePluginManager(this IApplicationBuilder mvcApplication)
         {
             // allow plugins to configure MvcApplication
@@ -50,7 +59,7 @@ namespace AspNetCore.PluginManager
         private static void UsePlugins(in IApplicationBuilder applicationBuilder)
         {
             List<IConfigureApplicationBuilder> appBuilderServices = PluginManagerService
-                .GetPluginManager().GetPluginClasses<IConfigureApplicationBuilder>();
+                .GetPluginManager().PluginGetClasses<IConfigureApplicationBuilder>();
 
             foreach (IConfigureApplicationBuilder builder in appBuilderServices)
                 builder.ConfigureApplicationBuilder(applicationBuilder);

@@ -1,0 +1,15 @@
+﻿@model ProductPlugin.Models.AddToCartModel
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
+@using ProductPlugin.Controllers
+@{
+string productAvailability = Model.StockAvailability > 500 ? "> 500" : Model.StockAvailability.ToString();
+}
+<div class="addToBasket">
+@using (Html.BeginForm(nameof(ProductController.AddToCart), "Product", FormMethod.Post))
+{
+<p>Stock Availability: @productAvailability</p>
+@Html.HiddenFor(m => m.Id)
+<p>@Localizer[nameof(Languages.LanguageStrings.Quantity)]<span>@Html.TextBoxFor(m => m.Quantity, new { type = "number", min = "1", max = "3" })</span></p>
+<input class="btn btn-primary" type="submit" value="@Localizer[nameof(Languages.LanguageStrings.AddToBag)]" />
+}
+</div>

@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  UserAccount.Plugin
  *  
@@ -29,8 +29,27 @@ using SharedPluginFeatures;
 
 namespace UserAccount.Plugin.Models
 {
+#pragma warning disable CS1591
+
     public sealed class MarketingPreferencesViewModel : BaseModel
     {
+        #region Constructors
+
+        public MarketingPreferencesViewModel()
+        {
+
+        }
+
+        public MarketingPreferencesViewModel(in BaseModelData baseModelData)
+            : base(baseModelData)
+        {
+
+        }
+
+        #endregion Constructors
+
+        #region Properties
+
         [Display(Name = nameof(Languages.LanguageStrings.AcceptOffersEmail))]
         public bool EmailOffers { get; set; }
 
@@ -50,5 +69,9 @@ namespace UserAccount.Plugin.Models
         public bool ShowSMS { get; set; }
 
         public bool ShowPostal { get; set; }
+
+        #endregion Properties
     }
+
+#pragma warning restore CS1591
 }

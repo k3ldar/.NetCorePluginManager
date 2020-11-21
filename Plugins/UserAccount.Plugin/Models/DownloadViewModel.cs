@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  UserAccount.Plugin
  *  
@@ -32,12 +32,20 @@ using SharedPluginFeatures;
 
 namespace UserAccount.Plugin.Models
 {
+#pragma warning disable CS1591
+
     public class DownloadViewModel : BaseModel
     {
         #region Constructors
 
-        public DownloadViewModel(in List<DownloadCategory> categories, in string activeCategory, 
+        public DownloadViewModel()
+        {
+        }
+
+        public DownloadViewModel(in BaseModelData baseModelData,
+            in List<DownloadCategory> categories, in string activeCategory,
             in List<ViewDownloadViewItem> downloads)
+            : base(baseModelData)
         {
             if (categories == null)
                 throw new ArgumentNullException(nameof(categories));
@@ -65,4 +73,6 @@ namespace UserAccount.Plugin.Models
 
         #endregion Properties
     }
+
+#pragma warning restore CS1591
 }

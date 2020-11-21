@@ -1,0 +1,26 @@
+﻿@model ShoppingCartPlugin.Models.PaymentSuccessModel
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
+@{
+    ViewData["Title"] = Localizer[nameof(Languages.LanguageStrings.ThankyouOrder)];
+}
+
+<link rel="stylesheet" href="~/css/Cart.css" asp-append-version="true" />
+
+<div class="row">
+    <div class="col">
+        <h1>@Localizer[nameof(Languages.LanguageStrings.ThankyouOrder)]</h1>
+
+    </div>
+</div>
+
+<div class="row">
+    <div class="col">
+        <p>@Localizer[nameof(Languages.LanguageStrings.ThankyouOrderDescription)]</p>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col">
+        <p>@Localizer[nameof(Languages.LanguageStrings.OrderNumber)]: @Model.OrderId</p>
+    </div>
+</div>

@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  Login Plugin
  *  
@@ -28,6 +28,8 @@ using System.ComponentModel.DataAnnotations;
 
 using SharedPluginFeatures;
 
+#pragma warning disable CS1591
+
 namespace LoginPlugin.Models
 {
     public sealed class AccountLockedViewModel : BaseModel
@@ -39,7 +41,8 @@ namespace LoginPlugin.Models
             Username = String.Empty;
         }
 
-        public AccountLockedViewModel(string username)
+        public AccountLockedViewModel(in BaseModelData modelData, string username)
+            : base(modelData)
         {
             if (String.IsNullOrEmpty(username))
                 throw new ArgumentNullException(nameof(username));
@@ -62,3 +65,5 @@ namespace LoginPlugin.Models
         #endregion Properties
     }
 }
+
+#pragma warning restore CS1591

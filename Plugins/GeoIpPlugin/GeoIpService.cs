@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  MemoryCachePlugin
  *  
@@ -25,6 +25,8 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
 using System.Collections.Generic;
+using System.IO;
+using PluginManager.Abstractions;
 
 using Shared.Classes;
 
@@ -32,12 +34,12 @@ using SharedPluginFeatures;
 
 namespace GeoIp.Plugin
 {
-    public class GeoIpService : BaseCoreClass, IGeoIpDataService
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1812:AvoidUninstantiatedInternalClasses", Justification = "Used internally as part of IoC")]
+    internal class GeoIpService : BaseCoreClass, IGeoIpProvider
     {
         #region Private Members
 
         private readonly CacheManager _geoIpCache;
-        private readonly object _lockObject = new object();
         private readonly GeoIpPluginSettings _geoIpSettings;
         private IpCity[] _geoIpCityData;
         private List<IpCity> _tempIpCity = new List<IpCity>();
@@ -54,15 +56,19 @@ namespace GeoIp.Plugin
 
         }
 
-        public GeoIpService(ISettingsProvider settingsProvider)
+        public GeoIpService(ISettingsProvider settingsProvider, ILogger logger)
         {
             _geoIpSettings = settingsProvider.GetSettings<GeoIpPluginSettings>("GeoIpPluginConfiguration");
 
-            if (System.IO.File.Exists(_geoIpSettings.Webnet77CSVData))
+            if (_geoIpSettings.AutoDownloadWebnet77Data || 
+                File.Exists(Path.Combine(_geoIpSettings.Webnet77CSVDataPath, Constants.Webnet77CsvDataFileName)))
             {
-                ThreadManager.Initialise();
-
-                LoadWebNet77Data loadWebNet77DataThread = new LoadWebNet77Data(_geoIpSettings.Webnet77CSVData, _tempIpCity);
+                LoadWebNet77Data loadWebNet77DataThread = new LoadWebNet77Data(logger,
+                    _geoIpSettings.Webnet77CSVDataPath,
+                    _tempIpCity,
+                    _geoIpSettings.AutoDownloadWebnet77Data,
+                    _geoIpSettings.Webnet77CsvUrl,
+                    _geoIpSettings.DownloadFrequency);
                 loadWebNet77DataThread.ThreadFinishing += LoadWebNet77DataThread_ThreadFinishing;
                 ThreadManager.ThreadStart(loadWebNet77DataThread, "Load GeoIp Data", System.Threading.ThreadPriority.Highest);
             }
@@ -75,8 +81,9 @@ namespace GeoIp.Plugin
 
         #region Public Methods
 
-        public bool GetIPAddressDetails(in string ipAddress, out string countryCode, out string region, 
-            out string cityName, out decimal latitude, out decimal longitude, out long ipUniqueID)
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1303:Do not pass literals as localized parameters", Justification = "Intended for developers not end users")]
+        public bool GetIpAddressDetails(in string ipAddress, out string countryCode, out string region,
+            out string cityName, out decimal latitude, out decimal longitude, out long ipUniqueID, out long fromIp, out long toIp)
         {
             countryCode = "ZZ";
             region = String.Empty;
@@ -84,6 +91,8 @@ namespace GeoIp.Plugin
             latitude = -1;
             longitude = -1;
             ipUniqueID = -1;
+            fromIp = 0;
+            toIp = 0;
 
             // works in 2 ways, if we have loaded WebNet77 data, we have ip ranges and will supplement them
             // if we are using a geoip provider.  if no geoip provider only the country code is there lat/lon
@@ -94,11 +103,12 @@ namespace GeoIp.Plugin
 
                 using (StopWatchTimer stopwatchTimer = StopWatchTimer.Initialise(_timingsIpMemory))
                 {
-                     memoryIp = GetMemoryCity(ipAddress);
+                    memoryIp = GetMemoryCity(ipAddress);
                 }
 
                 if (memoryIp != null && !memoryIp.IsComplete)
                 {
+                    countryCode = memoryIp.CountryCode;
                     IGeoIpProvider provider = null;
                     switch (_geoIpSettings.GeoIpProvider)
                     {
@@ -117,7 +127,7 @@ namespace GeoIp.Plugin
                     if (provider != null)
                     {
                         memoryIp.IsComplete = provider.GetIpAddressDetails(ipAddress, out countryCode, out region,
-                            out cityName, out latitude, out longitude, out ipUniqueID, out long ipFrom, out long ipTo);
+                            out cityName, out latitude, out longitude, out ipUniqueID, out long _, out long _);
                     }
 
                     memoryIp.CountryCode = countryCode;
@@ -126,20 +136,21 @@ namespace GeoIp.Plugin
                     memoryIp.Latitude = latitude;
                     memoryIp.Region = region;
 
-                    return (true);
+                    return true;
                 }
             }
 
             // WebNet77 data is not present, check to see if we have the ip in memory, if we do
             // return that, if not, try and get it from ip provider
-            return (GetCachedIPAddressDetails(ipAddress, out countryCode, out region, 
-                out cityName, out latitude, out longitude, out ipUniqueID));
+            return GetCachedIPAddressDetails(ipAddress, out countryCode, out region,
+                out cityName, out latitude, out longitude, out ipUniqueID);
         }
 
         #endregion Public Methods
 
         #region Private Methods
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1303:Do not pass literals as localized parameters", Justification = "Intended for developers not end users")]
         private bool GetCachedIPAddressDetails(in string ipAddress, out string countryCode, out string region,
             out string cityName, out decimal latitude, out decimal longitude, out long ipUniqueID)
         {
@@ -190,13 +201,13 @@ namespace GeoIp.Plugin
                             Longitude = longitude
                         }));
 
-                        return (true);
+                        return true;
                     }
                 }
             }
 
             if (geoCacheItem == null)
-                return (false);
+                return false;
 
             IpCity city = (IpCity)geoCacheItem.Value;
             countryCode = city.CountryCode;
@@ -206,7 +217,7 @@ namespace GeoIp.Plugin
             longitude = city.Longitude;
             ipUniqueID = -1;
 
-            return (true);
+            return true;
         }
 
         private void LoadWebNet77DataThread_ThreadFinishing(object sender, Shared.ThreadManagerEventArgs e)
@@ -222,7 +233,7 @@ namespace GeoIp.Plugin
 
             long min = 0;
             long max = _geoIpCityData.Length - 1;
-            long mid = 0;
+            long mid;
 
             while (min <= max)
             {
@@ -230,7 +241,7 @@ namespace GeoIp.Plugin
 
                 if (ip <= _geoIpCityData[mid].IpEnd && ip >= _geoIpCityData[mid].IpStart)
                 {
-                    return (_geoIpCityData[mid]);
+                    return _geoIpCityData[mid];
                 }
 
                 if (ip < _geoIpCityData[mid].IpStart)
@@ -245,7 +256,7 @@ namespace GeoIp.Plugin
                 }
             }
 
-            return (null);
+            return null;
         }
 
         #endregion Private Methods

@@ -26,10 +26,9 @@
 using System;
 
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 
-using SharedPluginFeatures;
+using PluginManager.Abstractions;
 
 namespace MarketingPlugin
 {
@@ -61,14 +60,19 @@ namespace MarketingPlugin
 
         }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app)
         {
             app.UseMarketing();
         }
 
         public void ConfigureServices(IServiceCollection services)
         {
-            
+
+        }
+
+        public ushort GetVersion()
+        {
+            return 1;
         }
 
         #endregion IPlugin Methods

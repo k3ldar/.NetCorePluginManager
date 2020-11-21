@@ -1,0 +1,56 @@
+﻿@model UserAccount.Plugin.Models.LicenceViewModel
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
+@{
+ViewData["Title"] = "Licences";
+}
+<link rel="stylesheet" href="/css/Account.css" />
+<script src="~/js/userAccount.js"></script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<div class="row ac-row">
+<div class="col">
+<h1>@Localizer[nameof(Languages.LanguageStrings.Licences)]</h1>
+</div>
+</div>
+<div class="row ac-row">
+<div class="col accountGrid">
+<table>
+<thead>
+<tr>
+<th>@Localizer[nameof(Languages.LanguageStrings.LicenceDomain)]</th>
+<th>@Localizer[nameof(Languages.LanguageStrings.LicenceType)]</th>
+<th>@Localizer[nameof(Languages.LanguageStrings.Active)]</th>
+<th>@Localizer[nameof(Languages.LanguageStrings.Expires)]</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+@foreach (UserAccount.Plugin.Models.ViewLicenceViewModel licence in Model.Licences)
+{
+<tr>
+<td>@licence.Domain</td>
+<td>@licence.LicenceType</td>
+<td>@licence.Active.ToString()</td>
+<td>@licence.Expires.ToString()</td>
+<td><a href="/Account/LicenceView/@licence.Id">@Localizer[nameof(Languages.LanguageStrings.View)]</a></td>
+</tr>
+}
+</tbody>
+</table>
+</div>
+</div>
+<div class="row ac-row">
+<div class="col">
+<input id="createTrialLicence" type="button" class="btn" value="@Localizer[nameof(Languages.LanguageStrings.New)]" />
+</div>
+</div>
+<script src="/js/growl.js" type="text/javascript"></script>
+<link href="/css/growl.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript">
+var settings = {
+updateMsg: '@Model.GrowlMessage',
+trialLicenceUrl: '/Account/LicenceCreate/',
+createTrialLicenceBtn: 'createTrialLicence'
+};
+userAccount.init(settings);
+</script>

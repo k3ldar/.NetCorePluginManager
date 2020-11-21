@@ -493,7 +493,7 @@
     <value>Submit</value>
     <comment>Submit</comment>
   </data>
-  <data name="SubmitATicket" xml:space="preserve">
+  <data name="SubmitTicket" xml:space="preserve">
     <value>Submit a Ticket</value>
     <comment>Submit a Ticket</comment>
   </data>
@@ -9998,8 +9998,8 @@ Valid replaceable items are:
     <comment>Privacy Policy</comment>
   </data>
   <data name="Returns" xml:space="preserve">
-    <value>Returns Policy</value>
-    <comment>Returns Policy</comment>
+    <value>Returns</value>
+    <comment>Returns</comment>
   </data>
   <data name="AppStockMoveCancelledStockBackIn" xml:space="preserve">
     <value>Please select the stock you would like to move back into stock control</value>
@@ -13840,6 +13840,334 @@ If this continues, please contact support.</comment>
   <data name="TranslationTimings" xml:space="preserve">
     <value>Translation Timings</value>
     <comment>Translation Timings</comment>
+  </data>
+  <data name="BackOrder" xml:space="preserve">
+    <value>Back Order</value>
+    <comment>Back Order</comment>
+  </data>
+  <data name="InStock" xml:space="preserve">
+    <value>In Stock</value>
+    <comment>In Stock</comment>
+  </data>
+  <data name="Stock" xml:space="preserve">
+    <value>Stock</value>
+    <comment>Stock</comment>
+  </data>
+  <data name="Availability" xml:space="preserve">
+    <value>Availability</value>
+    <comment>Availability</comment>
+  </data>
+  <data name="ShoppingCartEmpty" xml:space="preserve">
+    <value>You have no items in your shopping cart</value>
+    <comment>You have no items in your shopping cart</comment>
+  </data>
+  <data name="VoucherInvalid" xml:space="preserve">
+    <value>The voucher entered is not valid.</value>
+    <comment>The voucher entered is not valid.</comment>
+  </data>
+  <data name="ContinueToCheckout" xml:space="preserve">
+    <value>Continue to Checkout</value>
+    <comment>Continue to Checkout</comment>
+  </data>
+  <data name="NoAccount" xml:space="preserve">
+    <value>Don't have an account yet ?</value>
+    <comment>Don't have an account yet ?</comment>
+  </data>
+  <data name="SelectDeliveryAddress" xml:space="preserve">
+    <value>Select Delivery Address</value>
+    <comment>Select Delivery Address</comment>
+  </data>
+  <data name="PaymentFailedDescription" xml:space="preserve">
+    <value>Your payment was not successful. Please try again or select a different payment type.</value>
+    <comment>Your payment was not successful. Please try again or select a different payment type.</comment>
+  </data>
+  <data name="Shipping" xml:space="preserve">
+    <value>Shipping</value>
+    <comment>Shipping</comment>
+  </data>
+  <data name="ThankyouOrder" xml:space="preserve">
+    <value>Thank you for your order</value>
+    <comment>Thank you for your order</comment>
+  </data>
+  <data name="ThankyouOrderDescription" xml:space="preserve">
+    <value>Thank you for your puchase from us.
+
+You will shortly receive an email with the details of your order.</value>
+    <comment>Thank you for your puchase from us.
+
+You will shortly receive an email with the details of your order.</comment>
+  </data>
+  <data name="FeedbackFailed" xml:space="preserve">
+    <value>Failed to add feedback, please try again.</value>
+    <comment>Failed to add feedback, please try again.</comment>
+  </data>
+  <data name="FeedbackRequired" xml:space="preserve">
+    <value>Please enter your feedback before clicking submit.</value>
+    <comment>Please enter your feedback before clicking submit.</comment>
+  </data>
+  <data name="FeedbackSubmitted" xml:space="preserve">
+    <value>Thankyou for your feedback.</value>
+    <comment>Thankyou for your feedback.</comment>
+  </data>
+  <data name="SupportTicketMessageRequired" xml:space="preserve">
+    <value>Please enter your support message.</value>
+    <comment>Please enter your support message.</comment>
+  </data>
+  <data name="SubjectInvalid" xml:space="preserve">
+    <value>Please enter a valid subject.</value>
+    <comment>Please enter a valid subject.</comment>
+  </data>
+  <data name="High" xml:space="preserve">
+    <value>High</value>
+    <comment>High</comment>
+  </data>
+  <data name="Low" xml:space="preserve">
+    <value>Low</value>
+    <comment>Low</comment>
+  </data>
+  <data name="Medium" xml:space="preserve">
+    <value>Medium</value>
+    <comment>Medium</comment>
+  </data>
+  <data name="Open" xml:space="preserve">
+    <value>Open</value>
+    <comment>Open</comment>
+  </data>
+  <data name="Sales" xml:space="preserve">
+    <value>Salses</value>
+    <comment>Sales</comment>
+  </data>
+  <data name="Support" xml:space="preserve">
+    <value>Support</value>
+    <comment>Support</comment>
+  </data>
+  <data name="SupportTicketKeyRequired" xml:space="preserve">
+    <value>Please enter a valid ticket key</value>
+    <comment>Please enter a valid ticket key</comment>
+  </data>
+  <data name="FaQViewCount" xml:space="preserve">
+    <value>Total Views</value>
+    <comment>Total Views</comment>
+  </data>
+  <data name="TicketFindDescription" xml:space="preserve">
+    <value>Please enter your email and ticket key and click submit.</value>
+    <comment>Please enter your email and ticket key and click submit.</comment>
+  </data>
+  <data name="APIReference" xml:space="preserve">
+    <value>API Reference</value>
+    <comment>API Reference</comment>
+  </data>
+  <data name="Documentation" xml:space="preserve">
+    <value>Documentation</value>
+    <comment>Documentation</comment>
+  </data>
+  <data name="Acquisition" xml:space="preserve">
+    <value>Acquisition</value>
+    <comment>Acquisition</comment>
+  </data>
+  <data name="ApiValue" xml:space="preserve">
+    <value>Value</value>
+    <comment>Value</comment>
+  </data>
+  <data name="Constructors" xml:space="preserve">
+    <value>Constructors</value>
+    <comment>Constructors</comment>
+  </data>
+  <data name="Example" xml:space="preserve">
+    <value>Example</value>
+    <comment>Example</comment>
+  </data>
+  <data name="Fields" xml:space="preserve">
+    <value>Fields</value>
+    <comment>Fields</comment>
+  </data>
+  <data name="InThisDocument" xml:space="preserve">
+    <value>In This Document</value>
+    <comment>In This Document</comment>
+  </data>
+  <data name="Methods" xml:space="preserve">
+    <value>Methods</value>
+    <comment>Methods</comment>
+  </data>
+  <data name="NextDocument" xml:space="preserve">
+    <value>Next Document</value>
+    <comment>Next Document</comment>
+  </data>
+  <data name="PreviousDocument" xml:space="preserve">
+    <value>Previous Document</value>
+    <comment>Previous Document</comment>
+  </data>
+  <data name="Properties" xml:space="preserve">
+    <value>Properties</value>
+    <comment>Properties</comment>
+  </data>
+  <data name="Remarks" xml:space="preserve">
+    <value>Remarks</value>
+    <comment>Remarks</comment>
+  </data>
+  <data name="ReturnValue" xml:space="preserve">
+    <value>Return Value</value>
+    <comment>Return Value</comment>
+  </data>
+  <data name="SeeAlso" xml:space="preserve">
+    <value>See Also</value>
+    <comment>See Also</comment>
+  </data>
+  <data name="PleaseEnterBlogText" xml:space="preserve">
+    <value>Please enter the blog text</value>
+    <comment>Please enter the blog text</comment>
+  </data>
+  <data name="PleaseEnterBlogTitle" xml:space="preserve">
+    <value>Please enter the title of the blog</value>
+    <comment>Please enter the title of the blog</comment>
+  </data>
+  <data name="PleaseEnterExcerpt" xml:space="preserve">
+    <value>Please enter the excerpt</value>
+    <comment>Please enter the excerpt</comment>
+  </data>
+  <data name="Published" xml:space="preserve">
+    <value>Published</value>
+    <comment>Published</comment>
+  </data>
+  <data name="InvalidBlog" xml:space="preserve">
+    <value>The blog is invalid.</value>
+    <comment>The bog is invalid.</comment>
+  </data>
+  <data name="NoBlogsFoundMatchingTags" xml:space="preserve">
+    <value>There were no blogs containing the keyword</value>
+    <comment>There were no blogs containing the keyword</comment>
+  </data>
+  <data name="SeeMore" xml:space="preserve">
+    <value>See More</value>
+    <comment>See More</comment>
+  </data>
+  <data name="AddComment" xml:space="preserve">
+    <value>Add Comment</value>
+    <comment>Add Comment</comment>
+  </data>
+  <data name="Author" xml:space="preserve">
+    <value>Author</value>
+    <comment>Author</comment>
+  </data>
+  <data name="BlogSearch" xml:space="preserve">
+    <value>Blog Search</value>
+    <comment>Blog Search</comment>
+  </data>
+  <data name="Options" xml:space="preserve">
+    <value>Options</value>
+    <comment>Options</comment>
+  </data>
+  <data name="PleaseEnterBlogTags" xml:space="preserve">
+    <value>Please enter at least 1 tag for the blog.</value>
+    <comment>Please enter at least 1 tag for the blog.</comment>
+  </data>
+  <data name="PleaseLoginToComment" xml:space="preserve">
+    <value>Please login to comment</value>
+    <comment>Please login to comment</comment>
+  </data>
+  <data name="SearchBlogTag" xml:space="preserve">
+    <value>Please enter a blog tag to search for.</value>
+    <comment>Please enter a blog tag to search for.</comment>
+  </data>
+  <data name="BlogEdit" xml:space="preserve">
+    <value>Edit Blog</value>
+    <comment>Edit Blog</comment>
+  </data>
+  <data name="BlogNew" xml:space="preserve">
+    <value>Create New Blog</value>
+    <comment>Create New Blog</comment>
+  </data>
+  <data name="MyBlogs" xml:space="preserve">
+    <value>My Blogs</value>
+    <comment>My Blogs</comment>
+  </data>
+  <data name="Available" xml:space="preserve">
+    <value>Available</value>
+    <comment>Available</comment>
+  </data>
+  <data name="MyDeliveryAddressesEdit" xml:space="preserve">
+    <value>Edit Delivery Address</value>
+    <comment>Edit Delivery Address</comment>
+  </data>
+  <data name="Sitemap" xml:space="preserve">
+    <value>Sitemap</value>
+    <comment>Sitemap</comment>
+  </data>
+  <data name="AccessDeniedDescription" xml:space="preserve">
+    <value>You do not have permission to access this area, please contact an administrator if you believe you should have access.</value>
+    <comment>You do not have permission to access this area, please contact an administrator if you believe you should have access.</comment>
+  </data>
+  <data name="SeoUpdatePage" xml:space="preserve">
+    <value>Update Seo Page Settings</value>
+    <comment>Update Seo Page Settings</comment>
+  </data>
+  <data name="MetaDescriptionRequired" xml:space="preserve">
+    <value>Meta description is a required field.</value>
+    <comment>Meta description is a required field.</comment>
+  </data>
+  <data name="SeoUpdate" xml:space="preserve">
+    <value>Update SEO</value>
+    <comment>Update SEO</comment>
+  </data>
+  <data name="TitleRequired" xml:space="preserve">
+    <value>The title is a required field.</value>
+    <comment>The title is a required field.</comment>
+  </data>
+  <data name="Permissions" xml:space="preserve">
+    <value>Permissions</value>
+    <comment>Permissions</comment>
+  </data>
+  <data name="UserPermissions" xml:space="preserve">
+    <value>User Permissions</value>
+    <comment>User Permissions</comment>
+  </data>
+  <data name="SearchInvalid" xml:space="preserve">
+    <value>Please enter valid search criteria</value>
+    <comment>Please enter valid search criteria</comment>
+  </data>
+  <data name="QuickSearch" xml:space="preserve">
+    <value>Quick Search</value>
+    <comment>Quick Search</comment>
+  </data>
+  <data name="AdvancedSearch" xml:space="preserve">
+    <value>Advanced Search</value>
+    <comment>Advanced Search</comment>
+  </data>
+  <data name="All" xml:space="preserve">
+    <value>All</value>
+    <comment>All</comment>
+  </data>
+  <data name="SearchContainsVideo" xml:space="preserve">
+    <value>Products with video</value>
+    <comment>Products with video</comment>
+  </data>
+  <data name="SearchTimeout" xml:space="preserve">
+    <value>Timed out waiting for search to complete</value>
+    <comment>Timed out waiting for search to complete</comment>
+  </data>
+  <data name="Over" xml:space="preserve">
+    <value>Over</value>
+    <comment>Over</comment>
+  </data>
+  <data name="Under" xml:space="preserve">
+    <value>Under</value>
+    <comment>Under</comment>
+  </data>
+  <data name="Other" xml:space="preserve">
+    <value>Other</value>
+    <comment>Other</comment>
+  </data>
+  <data name="AllTimings" xml:space="preserve">
+    <value>All Timings</value>
+    <comment>All Timings</comment>
+  </data>
+  <data name="AutoLoginBasicAuth" xml:space="preserve">
+    <value>Basic Auth Login</value>
+    <comment>Automatic Basic Auth Login</comment>
+  </data>
+  <data name="AutoLoginCookies" xml:space="preserve">
+    <value>Cookie Login</value>
+    <comment>Automatic Cookie Login</comment>
   </data>
   <data name="Marketing" xml:space="preserve">
     <value>Marketing</value>

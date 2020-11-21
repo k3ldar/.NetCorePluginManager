@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  SystemAdmin.Plugin
  *  
@@ -25,12 +25,36 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using SharedPluginFeatures;
 
+#pragma warning disable CS1591
+
 namespace SystemAdmin.Plugin.Models
 {
     public class ErrorViewModel : BaseModel
     {
-        public string RequestId { get; set; }
+        #region Constructors
+
+        public ErrorViewModel()
+        {
+
+        }
+
+        public ErrorViewModel(in BaseModelData modelData,
+            string requestId)
+            : base(modelData)
+        {
+            RequestId = requestId;
+        }
+
+        #endregion Constructors
+
+        #region Properties
+
+        public string RequestId { get; private set; }
 
         public bool ShowRequestId => !string.IsNullOrEmpty(RequestId);
+
+        #endregion Propertes
     }
 }
+
+#pragma warning restore CS1591

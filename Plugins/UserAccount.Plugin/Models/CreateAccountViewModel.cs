@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  UserAccount.Plugin
  *  
@@ -23,15 +23,31 @@
  *  13/12/2018  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
 using System.ComponentModel.DataAnnotations;
 
 using SharedPluginFeatures;
 
 namespace UserAccount.Plugin.Models
 {
+#pragma warning disable CS1591
+
     public class CreateAccountViewModel : BaseModel
     {
+        #region Constructors
+
+        public CreateAccountViewModel()
+        {
+
+        }
+
+        public CreateAccountViewModel(in BaseModelData baseModelData, string returnUrl)
+            : base(baseModelData)
+        {
+            ReturnUrl = returnUrl;
+        }
+
+        #endregion Constructors
+
         #region Properties
 
         [Required]
@@ -115,6 +131,10 @@ namespace UserAccount.Plugin.Models
 
         public bool ShowCaptchaImage { get; set; }
 
+        public string ReturnUrl { get; set; }
+
         #endregion Properties
     }
+
+#pragma warning restore CS1591
 }

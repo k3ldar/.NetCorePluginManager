@@ -1683,7 +1683,7 @@ Preusmjerili smo Vas na drugu interenetsku stranicu.</value>
     <value>Pošalji</value>
     <comment>Submit</comment>
   </data>
-  <data name="SubmitATicket" xml:space="preserve">
+  <data name="SubmitTicket" xml:space="preserve">
     <value>Pošalji zahtjev</value>
     <comment>Submit a Ticket</comment>
   </data>

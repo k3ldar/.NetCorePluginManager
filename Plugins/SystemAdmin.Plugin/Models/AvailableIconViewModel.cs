@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  SystemAdmin.Plugin
  *  
@@ -28,25 +28,31 @@ using System.Collections.Generic;
 
 using SharedPluginFeatures;
 
+#pragma warning disable CS1591
+
 namespace SystemAdmin.Plugin.Models
 {
     public class AvailableIconViewModel : BaseModel
     {
         #region Constructors
 
-        public AvailableIconViewModel(List<BreadcrumbItem> breadcrumbs)
+        public AvailableIconViewModel(in BaseModelData modelData)
+            : base(modelData)
         {
-            Breadcrumbs = breadcrumbs ?? throw new ArgumentNullException();
+
         }
 
-        public AvailableIconViewModel(in List<SystemAdminMainMenu> homeMenuItems, List<BreadcrumbItem> breadcrumbs)
-            : this (breadcrumbs)
+        public AvailableIconViewModel(in BaseModelData modelData,
+            in List<SystemAdminMainMenu> homeMenuItems)
+            : this(modelData)
         {
             HomeIcons = homeMenuItems ?? throw new ArgumentNullException(nameof(homeMenuItems));
         }
 
-        public AvailableIconViewModel(in SystemAdminMainMenu mainMenu, List<BreadcrumbItem> breadcrumbs)
-            : this (breadcrumbs)
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA2208:Instantiate argument exceptions correctly", Justification = "Valid in this context")]
+        public AvailableIconViewModel(in BaseModelData modelData,
+            in SystemAdminMainMenu mainMenu)
+            : this(modelData)
         {
             if (mainMenu == null)
                 throw new ArgumentNullException(nameof(mainMenu));
@@ -61,26 +67,30 @@ namespace SystemAdmin.Plugin.Models
 
         public AvailableIconViewModel ClearBreadCrumb()
         {
-            return (this);
+            return this;
         }
 
         public string ProcessImage(in string imageName)
         {
             switch (imageName)
             {
-                case "badegg":
-                    return ("/images/SystemAdmin/badegg.png");
+                case Constants.SystemImageBadEgg:
+                    return "/images/SystemAdmin/badegg.png";
 
-                case "stopwatch":
-                    return ("/images/SystemAdmin/stopwatch.png");
+                case Constants.SystemImageStopWatch:
+                    return "/images/SystemAdmin/stopwatch.png";
+
+                case Constants.SystemImageChart:
+                    return "/images/SystemAdmin/chart.png";
             }
 
             if (String.IsNullOrEmpty(imageName))
-                return ("/images/SystemAdmin/setting-icon.png");
+                return "/images/SystemAdmin/setting-icon.png";
 
-            return (imageName);
+            return imageName;
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0066:Convert switch statement to expression", Justification = "Like it how it is thanks")]
         public string GetMenuLink(in SystemAdminSubMenu menu)
         {
             if (menu == null)
@@ -89,15 +99,25 @@ namespace SystemAdmin.Plugin.Models
             switch (menu.MenuType())
             {
                 case Enums.SystemAdminMenuType.Grid:
-                    return ($"/SystemAdmin/Grid/{menu.UniqueId}");
+                    return $"/SystemAdmin/Grid/{menu.UniqueId}";
+
                 case Enums.SystemAdminMenuType.Text:
-                    return ($"/SystemAdmin/Text/{menu.UniqueId}");
+                    return $"/SystemAdmin/Text/{menu.UniqueId}";
+
                 case Enums.SystemAdminMenuType.PartialView:
-                    return ($"/SystemAdmin/View/{menu.UniqueId}");
+                    return $"/SystemAdmin/View/{menu.UniqueId}";
+
                 case Enums.SystemAdminMenuType.Map:
-                    return ($"/SystemAdmin/Map/{menu.UniqueId}");
+                    return $"/SystemAdmin/Map/{menu.UniqueId}";
+
                 case Enums.SystemAdminMenuType.FormattedText:
-                    return ($"/SystemAdmin/TextEx/{menu.UniqueId}");
+                    return $"/SystemAdmin/TextEx/{menu.UniqueId}";
+
+                case Enums.SystemAdminMenuType.View:
+                    return $"/{menu.Controller()}/{menu.Action()}/";
+
+                case Enums.SystemAdminMenuType.Chart:
+                    return $"/SystemAdmin/Chart/{menu.UniqueId}";
             }
 
             throw new InvalidOperationException();
@@ -116,3 +136,5 @@ namespace SystemAdmin.Plugin.Models
         #endregion Properties
     }
 }
+
+#pragma warning restore CS1591

@@ -1,0 +1,185 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>ProductPlugin</name>
+    </assembly>
+    <members>
+        <member name="T:ProductPlugin.Classes.KeywordSearchProvider">
+            <summary>
+            Product keyword provider
+            </summary>
+        </member>
+        <member name="M:ProductPlugin.Classes.KeywordSearchProvider.#ctor(Middleware.IProductProvider)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="productProvider">IProductProvider instance</param>
+        </member>
+        <member name="M:ProductPlugin.Classes.KeywordSearchProvider.Search(Middleware.Search.KeywordSearchOptions@)">
+            <summary>
+            Search keywords
+            </summary>
+            <param name="searchOptions"></param>
+            <returns>List&lt;SearchResponseItem&gt;</returns>
+        </member>
+        <member name="M:ProductPlugin.Classes.KeywordSearchProvider.AdvancedSearch">
+            <summary>
+            Retrieves the advanced search options for the provider
+            </summary>
+            <returns>Dictionary&lt;string, AdvancedSearchOptions&gt;</returns>
+        </member>
+        <member name="M:ProductPlugin.Classes.KeywordSearchProvider.SearchResponseTypes(System.Boolean@)">
+            <summary>
+            Returns a list of all available response types for the Documentation Plugin
+            </summary>
+            <param name="quickSearch">Indicates whether the response types are for quick or normal searching</param>
+            <returns>List&lt;string&gt;</returns>
+        </member>
+        <member name="T:ProductPlugin.Classes.ProductPriceInfo">
+            <summary>
+            Contains price information for displaying on the search page, a min and max value for the price range.
+            </summary>
+        </member>
+        <member name="M:ProductPlugin.Classes.ProductPriceInfo.#ctor(System.String@,System.Decimal@,System.Decimal@)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="text">Display text for price bracket</param>
+            <param name="minValue">Minimum price value</param>
+            <param name="maxValue">Maximum price value</param>
+        </member>
+        <member name="P:ProductPlugin.Classes.ProductPriceInfo.Text">
+            <summary>
+            Display text, e.g. Under $10
+            </summary>
+        </member>
+        <member name="P:ProductPlugin.Classes.ProductPriceInfo.MinValue">
+            <summary>
+            Minimum product value
+            </summary>
+        </member>
+        <member name="P:ProductPlugin.Classes.ProductPriceInfo.MaxValue">
+            <summary>
+            Maximum product value
+            </summary>
+        </member>
+        <member name="M:ProductPlugin.Classes.ProductPriceInfo.PriceMatch(System.Decimal@)">
+            <summary>
+            Determines whether a price matches the price value
+            </summary>
+            <param name="price"></param>
+            <returns></returns>
+        </member>
+        <member name="T:ProductPlugin.Classes.ProductSitemapProvider">
+            <summary>
+            Product sitemap provider, provides sitemap information for products
+            </summary>
+        </member>
+        <member name="M:ProductPlugin.Classes.ProductSitemapProvider.#ctor(Middleware.IProductProvider)">
+            <summary>
+            Default constructor
+            </summary>
+            <param name="productProvider">IProductProvider instance</param>
+        </member>
+        <member name="M:ProductPlugin.Classes.ProductSitemapProvider.Items">
+            <summary>
+            Retrieve a list of all product items that will be included in the sitemap
+            </summary>
+            <returns>List&lt;ISitemapItem&gt;</returns>
+        </member>
+        <member name="T:ProductPlugin.ProductControllerSettings">
+            <summary>
+            Products which affect how ProductsPlugin is configured.
+            </summary>
+        </member>
+        <member name="P:ProductPlugin.ProductControllerSettings.ProductsPerPage">
+            <summary>
+            Number of products to display on each page.
+            
+            Default: 12
+            Minimum: 1
+            Maximum: 500
+            </summary>
+            <value>uint</value>
+        </member>
+        <member name="P:ProductPlugin.ProductControllerSettings.PriceGroups">
+            <summary>
+            Price groups that users can search for, this is a delimited list that must contain decimal values
+            
+            e.g.
+            0;5.00;10.00;20.00;35.00;50.00
+            
+            This would be displayed as 
+            Free
+            Under 5
+            5 to 10
+            10to 20
+            20 to 35
+            35 to 50
+            Over 50
+            </summary>
+        </member>
+        <member name="P:ProductPlugin.ProductControllerSettings.ShowProductCounts">
+            <summary>
+            If true, the number of products that match the search item will be displayed in brackets next to the value.
+            
+            For instance, if 3 products are valued at 3.99, given the default PriceGroups you would see
+            
+            Under 5 (3)
+            </summary>
+        </member>
+        <member name="T:ProductPlugin.Controllers.ProductController">
+            <summary>
+            Product controller displays standard product information on a website.
+            </summary>
+        </member>
+        <member name="T:ProductPlugin.Models.ProductSearchViewModel">
+            <summary>
+            Model used for advanced product searches
+            </summary>
+        </member>
+        <member name="M:ProductPlugin.Models.ProductSearchViewModel.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="P:ProductPlugin.Models.ProductSearchViewModel.SearchText">
+            <summary>
+            Text to be searched
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:ProductPlugin.Models.ProductSearchViewModel.ProductGroups">
+            <summary>
+            List of product groups that can be individually selected or not
+            </summary>
+        </member>
+        <member name="P:ProductPlugin.Models.ProductSearchViewModel.Prices">
+            <summary>
+            List of product price groupings that can be searched
+            </summary>
+        </member>
+        <member name="P:ProductPlugin.Models.ProductSearchViewModel.ContainsVideo">
+            <summary>
+            Only show search results that contains video
+            </summary>
+            <value>bool</value>
+        </member>
+        <member name="P:ProductPlugin.Models.ProductSearchViewModel.SearchName">
+            <summary>
+            unique search name representing search options selected by the user
+            </summary>
+        </member>
+        <member name="P:ProductPlugin.Models.ProductSearchViewModel.VideoProductCount">
+            <summary>
+            Count of products with video content
+            </summary>
+        </member>
+        <member name="T:ProductPlugin.PluginInitialisation">
+            <summary>
+            Implements IPlugin and IPluginVersion which allows the ProductsPlugin module to be
+            loaded as a plugin module
+            </summary>
+        </member>
+    </members>
+</doc>

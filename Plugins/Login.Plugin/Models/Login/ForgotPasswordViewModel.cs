@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  Login Plugin
  *  
@@ -23,15 +23,33 @@
  *  29/11/2018  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
 using System.ComponentModel.DataAnnotations;
 
 using SharedPluginFeatures;
+
+#pragma warning disable CS1591
 
 namespace LoginPlugin.Models
 {
     public sealed class ForgotPasswordViewModel : BaseModel
     {
+        #region Constructors
+
+        public ForgotPasswordViewModel()
+        {
+
+        }
+
+        public ForgotPasswordViewModel(in BaseModelData modelData)
+            : base(modelData)
+        {
+
+        }
+
+        #endregion Constructors
+
+        #region Properties
+
         [Required(ErrorMessage = nameof(Languages.LanguageStrings.PleaseEnterUserNameOrEmail))]
         [Display(Name = nameof(Languages.LanguageStrings.Username))]
         public string Username { get; set; }
@@ -39,5 +57,9 @@ namespace LoginPlugin.Models
         [Required(ErrorMessage = nameof(Languages.LanguageStrings.CodeNotValid))]
         [Display(Name = nameof(Languages.LanguageStrings.Code))]
         public string CaptchaText { get; set; }
+
+        #endregion Properties
     }
 }
+
+#pragma warning restore CS1591

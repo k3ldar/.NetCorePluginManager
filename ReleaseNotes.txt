@@ -1,0 +1,179 @@
+Version 4.1.0
+=============
+
+#123 Add GC statistics to SystemAdmin
+#122 Allow manual configuration of Robots.txt
+#124 Show bot visits seperately in default user session
+
+Version 4.0.0
+=============
+
+* Update dependent package references
+#109 Update JS files to use CDN
+#105 Add all timings in a simple grid
+#112 Move IAuthenticationService from constructors to method params
+#113 User can not set name of session culture cookie
+#114 Password change required
+#115 Smoke Test Plugin for integrating with WebSmokeTest
+#117 Delete, lock and unlock user accounts
+#118 Provide the plugin host with the last say on registering services
+#119 Implement a default UserSessionService
+#120 Auto load Webnet77 GeoIp
+#116 Fully integrate Web Smoke Test
+#--- Fix bug where port is not specified
+
+Version 3.3.0
+=============
+
+#100 Fix logger not containing upto last 100 logs
+#101 Fix unit tests
+#102 BasePluginManager should implement IServiceCollection
+#103 Add Code Analysis
+#84  Minify Views
+#28  Search Plugin
+
+Version 3.2.1
+=============
+
+#106 Fix bug which prevented application parts being loaded in Core 3.1
+
+Version 3.2.0
+=============
+
+#96 Add support for Net Core 3.1
+#98 Remove Debug Release build option
+#97 Convert milliseconds to us
+#99 Split plugin manager
+
+Version 3.0.1
+=============
+
+
+
+Version 3.0.0
+=============
+#91 Allow plugin modules to define claim names
+#93 Provide support for IWebHostEnvironment
+#92 Support for Net Core 3.0
+
+
+Version 2.5.0
+=============
+#9 Create sitemap plugin
+#85 Convert googlemaps to openstreetmaps
+-- Create UsePlugin method which allows a plugin module to be progmatically added to the host.
+#86 Integrate claims and policies to Plugin Manager
+#87 Remove automatic x-ref of classes
+#89 Provide facilities for user with correct Claim to update Seo data for any page.
+#90 Update user claims
+#90 Add Policy for staff members and add it to system admin route.
+
+Version 2.4.0
+=============
+#75 Convert to bootstrap
+#75 Update bootstrap to 4.1.3
+#82 Rename Demo IPlugin instance file
+#81 Warn when unable to initialise plugin
+#83 Blog Updates
+#82 Provide mechanism to load statically loaded plugin module at start
+#Misc Update blog short description
+
+
+Version 2.3.0
+=============
+
+#79 - Optionally copy plugin modules to temp path prior to loading.
+#78 - Obtain real ip address if present.
+#40:2 - Blog Plugin.
+#40:1 - Add TinyMCE to demo host (prerequisite for Blog Plugin).
+#77 - Add home breadcrumb if no breadcrumbs found.
+#59 - Add Stock Control.
+
+
+Version 2.2.0
+=============
+
+#72 - Tidy location of projects
+Update test site and add documentation to menu
+#71 Duplicate key name in documentation service.
+Load all documentation via a thread when initializing
+New base model data for easily including all properties of BaseModel
+Change to extending cache instead of standard cache
+Remove references to IGeoIpStatistics and IGeoIpStatisticsUpdate which are deprecated.
+Add generate xml files to all non website assemblies
+Create helper class for unit tests, only available during debug builds
+Inline documentation of code and system generated document files.
+Automatically generated documentation place holders.
+Inline documentation completed
+Documentation Plugin
+New language strings
+Code tidy, remove unused code
+AspNetCore.PluginManager initial documentation
+Upgrade to sc.shared.library.core 2.9.0
+#71
+#70 Change to internal class
+#74 BadEgg Middleware Extender
+#70 Change from blocking notifications to blocking and non blocking message notifications
+Refactor Bad Egg Plugin
+Notification Events, enhance so a result can be sent by a listener
+Notification Events
+Seo Plugin
+MvcRazorExcludeRefAssembliesFromPublish false to demo website
+
+
+
+6363e07
+Version 2.1.2
+=============
+
+#69 Failed to find a dependent dll
+Fix typo in package description for Localization.Plugin
+Add RazorCompileOnPublish to web plugins
+Remove namespace AspNetCore.PluginManager.Classes favouring AspNetCore.PluginManager
+
+Version 2.1.0
+=============
+
+#26 Helpdesk Plugin
+#67 Unit Tests
+#66 Add config file to PluginManagerConfiguration
+#63 Allow an assembly to be dynamically added to list of plugins
+#67 Add Unit Tests
+### Code Tidy 
+
+
+Version 2.0.0
+=============
+
+Update demo References
+#62 Net Core 3 Compatibility
+#61 Default tax rate
+Change package licence url to package licence expression
+Update to latest sc.shared.library.core packages
+Tidy package references prior to core 3
+Update package references
+
+Version 1.7.0
+=============
+#58 - Fix breadcrumb
+#60 - Delete resources before replacing
+#25 - Shopping Cart
+
+Version 1.6.0
+=============
+
+#55 - Spider extender
+#54 - Route friendly name
+#53 - Convert DBNull to decimal
+#44 - validate product group exists
+#52 - Localization and Translation Timings
+#43 - Log if no IPlugin interface found
+#50 - Make System Admin strings translatable
+#48 - Facility to log downloads
+#51 - More detail when throwing an exception
+#46 - Login not remembered
+#49 - locaize System Admin
+#47 - Column Mismatch
+#45 - Unable to Logout
+Package Update
+#45 - Unable to Logout

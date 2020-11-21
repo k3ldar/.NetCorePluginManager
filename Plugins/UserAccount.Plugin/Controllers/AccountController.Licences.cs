@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  UserAccount.Plugin
  *  
@@ -29,14 +29,16 @@ using System.Linq;
 
 using Microsoft.AspNetCore.Mvc;
 
-using UserAccount.Plugin.Models;
+using Middleware.Accounts.Licences;
 
 using SharedPluginFeatures;
 
-using Middleware.Accounts.Licences;
+using UserAccount.Plugin.Models;
 
 namespace UserAccount.Plugin.Controllers
 {
+#pragma warning disable CS1591
+
     public partial class AccountController
     {
         #region Public Action Methods
@@ -49,19 +51,22 @@ namespace UserAccount.Plugin.Controllers
 
             foreach (Licence licence in _licenceProvider.LicencesGet(UserId()))
             {
-                licences.Add(new ViewLicenceViewModel(licence.Id, licence.DomainName, licence.LicenceType.Description,
+                licences.Add(new ViewLicenceViewModel(GetModelData(),
+                    licence.Id, licence.DomainName, licence.LicenceType.Description,
                     Shared.Utilities.DateWithin(licence.ExpireDate, licence.StartDate, DateTime.Now) && licence.IsValid,
                     licence.IsTrial, licence.ExpireDate, licence.UpdateCount, licence.EncryptedLicence));
             }
 
-            LicenceViewModel model = new LicenceViewModel(licences, GrowlGet());
+            LicenceViewModel model = new LicenceViewModel(GetModelData(), licences, GrowlGet());
 
             model.Breadcrumbs = GetBreadcrumbs();
+            model.CartSummary = GetCartSummary();
 
             return View(model);
         }
 
         [HttpGet]
+        [Breadcrumb(nameof(Languages.LanguageStrings.LicenceView), nameof(AccountController), nameof(AccountController.Licences))]
         public IActionResult LicenceView(int id)
         {
             ViewLicenceViewModel model = null;
@@ -69,7 +74,8 @@ namespace UserAccount.Plugin.Controllers
 
             if (licence != null)
             {
-                model = new ViewLicenceViewModel(licence.Id, licence.DomainName, licence.LicenceType.Description,
+                model = new ViewLicenceViewModel(GetModelData(),
+                    licence.Id, licence.DomainName, licence.LicenceType.Description,
                     Shared.Utilities.DateWithin(licence.ExpireDate, licence.StartDate, DateTime.Now) && licence.IsValid,
                     licence.IsTrial, licence.ExpireDate, licence.UpdateCount, licence.EncryptedLicence);
             }
@@ -78,14 +84,17 @@ namespace UserAccount.Plugin.Controllers
                 RedirectToAction(nameof(Licences));
 
             model.Breadcrumbs = GetBreadcrumbs();
+            model.CartSummary = GetCartSummary();
 
             return View(model);
         }
 
         [HttpGet]
+        [Breadcrumb(nameof(Languages.LanguageStrings.LicenceCreateTrial), nameof(AccountController), nameof(AccountController.Licences))]
+
         public IActionResult LicenceCreate()
         {
-            return View(new CreateLicenceViewModel(GetBreadcrumbs()));
+            return View(new CreateLicenceViewModel(GetModelData()));
         }
 
         [HttpPost]
@@ -121,6 +130,7 @@ namespace UserAccount.Plugin.Controllers
             }
 
             model.Breadcrumbs = GetBreadcrumbs();
+            model.CartSummary = GetCartSummary();
 
             return View(model);
         }
@@ -136,7 +146,7 @@ namespace UserAccount.Plugin.Controllers
                 return View(nameof(LicenceView), model);
             }
 
-            if (licence != null )
+            if (licence != null)
             {
                 if (_licenceProvider.LicenceUpdateDomain(UserId(), licence, model.Domain))
                 {
@@ -168,4 +178,6 @@ namespace UserAccount.Plugin.Controllers
 
         #endregion Public Action Methods
     }
+
+#pragma warning restore CS1591
 }

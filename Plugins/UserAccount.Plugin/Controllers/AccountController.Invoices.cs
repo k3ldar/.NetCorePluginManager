@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  UserAccount.Plugin
  *  
@@ -24,6 +24,7 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System.Linq;
+
 using Microsoft.AspNetCore.Mvc;
 
 using Middleware.Accounts.Invoices;
@@ -34,6 +35,8 @@ using UserAccount.Plugin.Models;
 
 namespace UserAccount.Plugin.Controllers
 {
+#pragma warning disable CS1591
+
     public partial class AccountController
     {
         #region Public Action Methods
@@ -42,9 +45,11 @@ namespace UserAccount.Plugin.Controllers
         [Breadcrumb(nameof(Languages.LanguageStrings.MyInvoices), nameof(AccountController), nameof(Index))]
         public ActionResult Invoices()
         {
-            InvoicesViewModel model = new InvoicesViewModel(_accountProvider.InvoicesGet(UserId()));
+            InvoicesViewModel model = new InvoicesViewModel(GetModelData(),
+                _accountProvider.InvoicesGet(UserId()));
 
             model.Breadcrumbs = GetBreadcrumbs();
+            model.CartSummary = GetCartSummary();
 
             return View(model);
         }
@@ -58,13 +63,16 @@ namespace UserAccount.Plugin.Controllers
             if (invoice == null)
                 return RedirectToAction(nameof(Index));
 
-            InvoiceViewModel model = new InvoiceViewModel(invoice);
+            InvoiceViewModel model = new InvoiceViewModel(GetModelData(), invoice);
 
             model.Breadcrumbs = GetBreadcrumbs();
+            model.CartSummary = GetCartSummary();
 
             return View(model);
         }
 
         #endregion Public Action Methods
     }
+
+#pragma warning restore CS1591
 }

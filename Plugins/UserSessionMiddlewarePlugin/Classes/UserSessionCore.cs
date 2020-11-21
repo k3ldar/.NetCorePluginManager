@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  UserSessionMiddleware.Plugin
  *  
@@ -31,12 +31,15 @@ using Shared.Classes;
 
 namespace UserSessionMiddleware.Plugin
 {
+    /// <summary>
+    /// Descendant of UserSession that is used for Net Core Applications.
+    /// </summary>
     public class UserSessionCore : UserSession
     {
         #region Constructor
 
         /// <summary>
-        /// 
+        /// Constructor
         /// </summary>
         public UserSessionCore()
             : base()
@@ -45,33 +48,33 @@ namespace UserSessionMiddleware.Plugin
         }
 
         /// <summary>
-        /// 
+        /// Constructor
         /// </summary>
         /// <param name="id"></param>
-        /// <param name="created"></param>
-        /// <param name="sessionID"></param>
-        /// <param name="userAgent"></param>
-        /// <param name="initialReferer"></param>
-        /// <param name="ipAddress"></param>
-        /// <param name="hostName"></param>
-        /// <param name="isMobile"></param>
-        /// <param name="isBrowserMobile"></param>
-        /// <param name="mobileRedirect"></param>
-        /// <param name="referralType"></param>
-        /// <param name="bounced"></param>
-        /// <param name="isBot"></param>
-        /// <param name="mobileManufacturer"></param>
-        /// <param name="mobileModel"></param>
-        /// <param name="userID"></param>
-        /// <param name="screenWidth"></param>
-        /// <param name="screenHeight"></param>
-        /// <param name="saleCurrency"></param>
-        /// <param name="saleAmount"></param>
-        public UserSessionCore(long id, DateTime created, string sessionID, string userAgent, string initialReferer,
+        /// <param name="created">Date time class created</param>
+        /// <param name="sessionID">User Session Id</param>
+        /// <param name="userAgent">Browser user agent</param>
+        /// <param name="initialReferrer">Initial referrer</param>
+        /// <param name="ipAddress">Ip Address of user</param>
+        /// <param name="hostName">Host name</param>
+        /// <param name="isMobile">Determines whether the user should be shown a mobile or standard site.</param>
+        /// <param name="isBrowserMobile">Determines whether the user is on a mobile device.</param>
+        /// <param name="mobileRedirect">Redirect if on a mobal device.</param>
+        /// <param name="referralType">Referral Type</param>
+        /// <param name="bounced">Indicates the user bounced, i.e. only visited one page.</param>
+        /// <param name="isBot">Determines if the session is a bot</param>
+        /// <param name="mobileManufacturer">Not Used</param>
+        /// <param name="mobileModel">Not Used</param>
+        /// <param name="userID">Id of user if known.</param>
+        /// <param name="screenWidth">Not Used</param>
+        /// <param name="screenHeight">Not Used</param>
+        /// <param name="saleCurrency">The currency used for the current sale.</param>
+        /// <param name="saleAmount">Amount of sale for current user session.</param>
+        public UserSessionCore(long id, DateTime created, string sessionID, string userAgent, string initialReferrer,
             string ipAddress, string hostName, bool isMobile, bool isBrowserMobile, bool mobileRedirect,
             ReferalType referralType, bool bounced, bool isBot, string mobileManufacturer, string mobileModel,
             long userID, int screenWidth, int screenHeight, string saleCurrency, decimal saleAmount)
-            : base(id, created, sessionID, userAgent, initialReferer, ipAddress, hostName, isMobile,
+            : base(id, created, sessionID, userAgent, initialReferrer, ipAddress, hostName, isMobile,
                   isBrowserMobile, mobileRedirect, referralType, bounced, isBot, mobileManufacturer, mobileModel,
                   userID, screenWidth, screenHeight, saleCurrency, saleAmount)
         {
@@ -83,6 +86,7 @@ namespace UserSessionMiddleware.Plugin
         /// Allows passing of user defined object
         /// </summary>
         /// <param name="context">HTTP Context </param>
+        /// <param name="sessionId">User session Id</param>
         /// <param name="tag">User defined object</param>
         public UserSessionCore(in HttpContext context, in string sessionId, in object tag)
             : this(context, sessionId)
@@ -96,8 +100,8 @@ namespace UserSessionMiddleware.Plugin
         /// 
         /// Allows passing of user name and email
         /// </summary>
-        /// <param name="Session">Current User Session</param>
-        /// <param name="Request">Current Web Request</param>
+        /// <param name="context">HttpContext</param>
+        /// <param name="sessionId">Current user session id</param>
         /// <param name="userName">Current user's name</param>
         /// <param name="userEmail">Current user's email address</param>
         /// <param name="userID">Current user's unique id</param>
@@ -115,18 +119,22 @@ namespace UserSessionMiddleware.Plugin
         /// 
         /// Standard constructor
         /// </summary>
-        /// <param name="Session">Current User Session</param>
-        /// <param name="Request">Current Web Request</param>
+        /// <param name="context">HttpContext</param>
+        /// <param name="sessionId">Current user session id</param>
         public UserSessionCore(HttpContext context, string sessionId)
             : base()
         {
-            Created = DateTime.Now;
+            if (context == null)
+                throw new ArgumentNullException(nameof(context));
+
+            Created = DateTime.UtcNow;
             CurrentSale = 0.00m;
             CurrentSaleCurrency = String.Empty;
             Tag = null;
 
             SessionID = sessionId;
-            IPAddress = context.Connection.RemoteIpAddress.ToString();
+
+            IPAddress = GetIpAddress(context);
 
             if (IPAddress == "::1")
                 IPAddress = "127.0.0.1";
@@ -145,7 +153,7 @@ namespace UserSessionMiddleware.Plugin
 
             try
             {
-                string referrer = context.Request.Headers["Referer"].ToString();
+                string referrer = context.Request.Headers["Referrer"].ToString();
                 if (String.IsNullOrEmpty(referrer))
                     Referal = ReferalType.Unknown;
                 else
@@ -171,5 +179,23 @@ namespace UserSessionMiddleware.Plugin
         }
 
         #endregion Constructor
+
+        #region Private Methods
+
+        private string GetIpAddress(in HttpContext context)
+        {
+            foreach (string key in SharedPluginFeatures.Constants.ForwardForHeader)
+                if (context.Request.Headers.ContainsKey(key))
+                    return context.Request.Headers[key];
+
+            string Result = context.Request.HttpContext.Connection.RemoteIpAddress.ToString();
+
+            if (Result == "::1")
+                Result = "127.0.0.1";
+
+            return Result;
+        }
+
+        #endregion Private Methods
     }
 }

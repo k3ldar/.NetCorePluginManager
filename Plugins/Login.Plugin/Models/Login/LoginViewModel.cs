@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  Login Plugin
  *  
@@ -28,6 +28,8 @@ using System.ComponentModel.DataAnnotations;
 
 using SharedPluginFeatures;
 
+#pragma warning disable CS1591
+
 namespace LoginPlugin.Models
 {
     public sealed class LoginViewModel : BaseModel
@@ -39,9 +41,11 @@ namespace LoginPlugin.Models
 
         }
 
-        public LoginViewModel(string returnUrl, bool showRememberMe)
+        public LoginViewModel(in BaseModelData modelData,
+            string returnUrl, bool showRememberMe)
+            : base(modelData)
         {
-            ReturnUrl = returnUrl ??  throw new ArgumentNullException(nameof(returnUrl));
+            ReturnUrl = returnUrl ?? throw new ArgumentNullException(nameof(returnUrl));
             ShowRememberMe = showRememberMe;
         }
 
@@ -73,3 +77,5 @@ namespace LoginPlugin.Models
         #endregion Properties
     }
 }
+
+#pragma warning restore CS1591

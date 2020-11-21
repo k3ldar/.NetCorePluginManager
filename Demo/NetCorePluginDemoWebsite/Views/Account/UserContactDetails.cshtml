@@ -1,0 +1,64 @@
+﻿@model UserAccount.Plugin.Models.UserContactDetailsViewModel
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
+@{
+ViewData["Title"] = "User Contact Details";
+}
+<link rel="stylesheet" href="/css/Account.css" />
+<div class="row">
+<div class="col">
+<h1>@Localizer[nameof(Languages.LanguageStrings.ContactDetails)]</h1>
+</div>
+</div>
+@using (Html.BeginForm("UserContactDetails", "Account", FormMethod.Post, new { id = "updateContactForm" }))
+{
+@Html.HiddenFor(m => m.ShowTelephone)
+<div class="row ac-row">
+<div class="col">
+@Html.ValidationSummary(true)
+</div>
+</div>
+<div class="row ac-row">
+<div class="col-sm-12 col-md-4 col-lg-3">
+@Html.LabelFor(m => m.FirstName)
+</div>
+<div class="col-sm-12 col-md-5 col-lg-4">
+@Html.TextBoxFor(m => m.FirstName)
+@Html.ValidationMessageFor(m => m.FirstName)
+</div>
+</div>
+<div class="row ac-row">
+<div class="col-sm-12 col-md-4 col-lg-3">
+@Html.LabelFor(m => m.LastName)
+</div>
+<div class="col-sm-12 col-md-5 col-lg-4">
+@Html.TextBoxFor(m => m.LastName)
+@Html.ValidationMessageFor(m => m.LastName)
+</div>
+</div>
+<div class="row ac-row">
+<div class="col-sm-12 col-md-4 col-lg-3">
+@Html.LabelFor(m => m.Email)
+</div>
+<div class="col-sm-12 col-md-5 col-lg-4">
+@Html.TextBoxFor(m => m.Email)
+@Html.ValidationMessageFor(m => m.Email)
+</div>
+</div>
+@if (Model.ShowTelephone)
+{
+<div class="row ac-row">
+<div class="col-sm-12 col-md-4 col-lg-3">
+@Html.LabelFor(m => m.Telephone)
+</div>
+<div class="col-sm-12 col-md-5 col-lg-4">
+@Html.TextBoxFor(m => m.Telephone)
+@Html.ValidationMessageFor(m => m.Telephone)
+</div>
+</div>
+}
+<div class="row ac-row">
+<div class="col">
+<input id="btnUpdate" class="btn btn-primary" type="submit" value="@Localizer[nameof(Languages.LanguageStrings.ContactDetailsUpdate)]" />
+</div>
+</div>
+}

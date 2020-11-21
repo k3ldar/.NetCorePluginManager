@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  BadEgg.Plugin
  *  
@@ -29,9 +29,11 @@ using Shared.Classes;
 
 using SharedPluginFeatures;
 
+#pragma warning disable CA1812
+
 namespace BadEgg.Plugin
 {
-    public class IpManagement : IIpManagement
+    internal class IpManagement : IIpManagement
     {
         #region IIpManagement Methods
 
@@ -86,3 +88,5 @@ namespace BadEgg.Plugin
         #endregion IIpManagement Methods
     }
 }
+
+#pragma warning restore CA1812

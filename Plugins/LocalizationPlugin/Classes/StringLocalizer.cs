@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  Localization.Plugin
  *  
@@ -30,19 +30,21 @@ using System.Resources;
 using System.Text;
 using System.Threading;
 
+using Languages;
+
 using Microsoft.Extensions.Localization;
 
-using Languages;
+using PluginManager;
 
 using SharedPluginFeatures;
 
 namespace Localization.Plugin
 {
-    public sealed class StringLocalizer : IStringLocalizer
+    internal sealed class StringLocalizer : IStringLocalizer
     {
         #region Private Members
 
-        private static readonly ResourceManager _resourceManager = new ResourceManager("Languages.LanguageStrings", 
+        private static readonly ResourceManager _resourceManager = new ResourceManager("Languages.LanguageStrings",
             typeof(LanguageStrings).Assembly);
 
         private static readonly Timings _timings = new Timings();
@@ -61,6 +63,7 @@ namespace Localization.Plugin
 
         #region IStringLocalizer Methods
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1031:Do not catch general exception types", Justification = "it's ok here, nothing to see, move along")]
         public LocalizedString this[string name]
         {
             get
@@ -82,17 +85,24 @@ namespace Localization.Plugin
                                 resourceName.Append(c);
                         }
 
-                        return new LocalizedString(name, _resourceManager.GetString(resourceName.ToString(), Thread.CurrentThread.CurrentUICulture));
+                        string locString = _resourceManager.GetString(resourceName.ToString(), 
+                            Thread.CurrentThread.CurrentUICulture);
+
+                        if (String.IsNullOrEmpty(locString))
+                            return new LocalizedString(name, name);
+
+                        return new LocalizedString(name, locString);
                     }
                     catch (Exception error)
                     {
-                        Initialisation.GetLogger.AddToLog(Enums.LogLevel.Localization, error, name);
+                        PluginInitialisation.GetLogger.AddToLog(LogLevel.Error, nameof(StringLocalizer), error, name);
                         return new LocalizedString(name, name);
                     }
                 }
             }
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1031:Do not catch general exception types", Justification = "it's ok here, nothing to see, move along")]
         public LocalizedString this[string name, params object[] arguments]
         {
             get
@@ -119,7 +129,7 @@ namespace Localization.Plugin
                     }
                     catch (Exception error)
                     {
-                        Initialisation.GetLogger.AddToLog(Enums.LogLevel.Localization, error, name);
+                        PluginInitialisation.GetLogger.AddToLog(LogLevel.Error, nameof(StringLocalizer), error, name);
                         return new LocalizedString(name, String.Format(name, arguments));
                     }
                 }

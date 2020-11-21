@@ -1,0 +1,15 @@
+﻿@model SharedPluginFeatures.BaseModel
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
+@{
+ViewData["Title"] = "Delivery";
+}
+<div class="row">
+<div class="col-sm-12">
+<h1>@Localizer[nameof(Languages.LanguageStrings.DeliveryInformation)]</h1>
+</div>
+</div>
+<div class="row">
+<div class="col-sm-12">
+<p>Use this area to provide information about your deivery process</p>
+</div>
+</div>

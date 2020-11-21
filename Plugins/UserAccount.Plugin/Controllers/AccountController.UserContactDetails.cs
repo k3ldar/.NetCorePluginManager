@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  UserAccount.Plugin
  *  
@@ -27,28 +27,31 @@ using System;
 
 using Microsoft.AspNetCore.Mvc;
 
-using UserAccount.Plugin.Models;
-
 using Middleware;
 
 using SharedPluginFeatures;
 
+using UserAccount.Plugin.Models;
+
 namespace UserAccount.Plugin.Controllers
 {
+#pragma warning disable CS1591, IDE0017
+
     public partial class AccountController
     {
-		[HttpGet]
+        [HttpGet]
         [Breadcrumb(nameof(Languages.LanguageStrings.MyMemberDetails), nameof(AccountController), nameof(Index))]
         public IActionResult UserContactDetails()
         {
             if (_accountProvider.GetUserAccountDetails(UserId(), out string firstName, out string lastName, out string email,
                 out bool emailConfirmed, out string telephone, out bool telephoneConfirmed))
             {
-                UserContactDetailsViewModel model = new UserContactDetailsViewModel(firstName, lastName,
-                    email, emailConfirmed, telephone, telephoneConfirmed,
-                    _accountProvider.GetAddressOptions().HasFlag(AddressOptions.TelephoneShow));
+                UserContactDetailsViewModel model = new UserContactDetailsViewModel(GetModelData(),
+                    firstName, lastName, email, emailConfirmed, telephone, telephoneConfirmed,
+                    _accountProvider.GetAddressOptions(AddressOption.Billing).HasFlag(AddressOptions.TelephoneShow));
 
                 model.Breadcrumbs = GetBreadcrumbs();
+                model.CartSummary = GetCartSummary();
 
                 return View(model);
             }
@@ -62,7 +65,7 @@ namespace UserAccount.Plugin.Controllers
             if (model == null)
                 throw new ArgumentNullException(nameof(model));
 
-            AddressOptions addressOptions = _accountProvider.GetAddressOptions();
+            AddressOptions addressOptions = _accountProvider.GetAddressOptions(AddressOption.Billing);
 
             if (addressOptions.HasFlag(AddressOptions.TelephoneMandatory) && String.IsNullOrEmpty(model.Telephone))
                 ModelState.AddModelError($"{nameof(model.Telephone)}", Languages.LanguageStrings.InvalidTelephoneNumber);
@@ -79,8 +82,11 @@ namespace UserAccount.Plugin.Controllers
             }
 
             model.Breadcrumbs = GetBreadcrumbs();
+            model.CartSummary = GetCartSummary();
 
             return View(model);
         }
     }
+
+#pragma warning restore CS1591, IDE0017
 }

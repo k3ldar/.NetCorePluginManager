@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  ErrorManager.Plugin
  *  
@@ -29,26 +29,36 @@ using System.Threading;
 
 using SharedPluginFeatures;
 
+#pragma warning disable CS1591
 
 namespace ErrorManager.Plugin.Classes.SystemAdmin
 {
+    /// <summary>
+    /// Returns a list of current errors that have been raised within ErrorManager.Plugin.  
+    /// 
+    /// This class descends from SystemAdminSubMenu.
+    /// </summary>
     public class Errors : SystemAdminSubMenu
     {
         public override string Action()
         {
-            return (String.Empty);
+            return String.Empty;
         }
 
         public override string Area()
         {
-            return (String.Empty);
+            return String.Empty;
         }
 
         public override string Controller()
         {
-            return (String.Empty);
+            return String.Empty;
         }
 
+        /// <summary>
+        /// Returns error information raised within ErrorManager.Plugin.
+        /// </summary>
+        /// <returns>string</returns>
         public override string Data()
         {
             string Result = "Date|Error|Count";
@@ -58,35 +68,37 @@ namespace ErrorManager.Plugin.Classes.SystemAdmin
             foreach (ErrorInformation item in errors)
             {
                 Result += $"\r{item.Date.ToString(Thread.CurrentThread.CurrentUICulture.DateTimeFormat)}|" +
-                    $"{item.Error.Message.Replace('|', ' ')}|{item.ErrorCount}";
+                    $"{item.Error.Message.Replace('|', ' ').Replace("\r\n", " ")}|{item.ErrorCount}";
             }
 
-            return (Result);
+            return Result;
         }
 
         public override string Image()
         {
-            return (String.Empty);
+            return String.Empty;
         }
 
         public override Enums.SystemAdminMenuType MenuType()
         {
-            return (Enums.SystemAdminMenuType.Grid);
+            return Enums.SystemAdminMenuType.Grid;
         }
 
         public override string Name()
         {
-            return ("Errors");
+            return "Errors";
         }
 
         public override string ParentMenuName()
         {
-            return ("Errors");
+            return "Errors";
         }
 
         public override int SortOrder()
         {
-            return (0);
+            return 0;
         }
     }
 }
+
+#pragma warning restore CS1591

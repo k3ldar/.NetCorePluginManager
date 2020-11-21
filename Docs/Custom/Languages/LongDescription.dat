@@ -1,0 +1,9 @@
+<p>
+The languages module is a generic module which contains translated string in multiple languages.  The work in this module has been an ongoing task that started many years ago.  Not all strings are translated, as new words and sentences are added they still require translation.
+</p>
+<p>
+This module requires help, if you have some spare time to translate commonly used strings, that could be useful to many, please get in touch.
+</p>
+<p>
+Please see the Localization.Plugin module for more information on useage.
+</p>

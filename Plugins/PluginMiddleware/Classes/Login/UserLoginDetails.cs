@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  PluginMiddleware
  *  
@@ -27,22 +27,37 @@
 
 namespace Middleware
 {
+    /// <summary>
+    /// User login details, used by ILoginProvider interface.
+    /// </summary>
     public sealed class UserLoginDetails
     {
         #region Constructors
 
+        /// <summary>
+        /// Default constructor
+        /// </summary>
         public UserLoginDetails()
         {
 
         }
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        /// <param name="userId">Unique user id.</param>
         public UserLoginDetails(long userId)
         {
             UserId = userId;
         }
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="userId">Unique user id.</param>
+        /// <param name="rememberMe">Indicates whether the login should be remembered or not (can include adding a cookie).</param>
         public UserLoginDetails(in long userId, in bool rememberMe)
-            : this (userId)
+            : this(userId)
         {
             RememberMe = rememberMe;
         }
@@ -51,12 +66,28 @@ namespace Middleware
 
         #region Properties
 
+        /// <summary>
+        /// Unique user id.
+        /// </summary>
+        /// <value>long</value>
         public long UserId { get; set; }
 
+        /// <summary>
+        /// Name of user.
+        /// </summary>
+        /// <value>string</value>
         public string Username { get; set; }
 
+        /// <summary>
+        /// Email address for the user
+        /// </summary>
+        /// <value>string</value>
         public string Email { get; set; }
 
+        /// <summary>
+        /// Indicates that the login details should be remembered.
+        /// </summary>
+        /// <value>bool</value>
         public bool RememberMe { get; set; }
 
         #endregion Properties
