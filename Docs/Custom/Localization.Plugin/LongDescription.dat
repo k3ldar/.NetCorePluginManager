@@ -1,0 +1,12 @@
+<p>
+The Localization.Plugin module provides a simple mechanism for ensuring a site is localizable.  It supports the UserSessionMiddleware.Plugin which contains the culture for the session and ensures that the executing thread uses the correct UI culture.
+</p>
+<h3>Languages</h3>
+<p>
+As well as augmenting UserSessionMiddleware, this plugin also implements the IStringLocalizer and IStringLocalizerFactory classes which override the default Net Core localization and allows the Languages module to be used by default.  Please see the following documents for more information:
+</p>
+<ul>
+<li><a href="/Docs/Document/Languages/">Languages</a></li>
+<li><a href="/Docs/Document/UserSessionMiddleware-Plugin/">User Session Middleware</a></li>
+<li><a href="/docs/Document/Localization-Within-Net-Core/">Localization within Net Core</a></li>
+</ul>

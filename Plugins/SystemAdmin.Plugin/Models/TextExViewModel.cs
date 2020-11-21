@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  SystemAdmin.Plugin
  *  
@@ -25,30 +25,42 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
 
+using PluginManager.Abstractions;
+
 using SharedPluginFeatures;
+
+#pragma warning disable CS1591
 
 namespace SystemAdmin.Plugin.Models
 {
-    public sealed class TextExViewModel : BaseCoreClass
+    public sealed class TextExViewModel : BaseModel
     {
+        #region Private Members
+
+        private readonly ISettingsProvider _settingsProvider;
+
+        #endregion Private Members
+
         #region Constructors
 
-        public TextExViewModel(SystemAdminSubMenu subMenu)
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1303:Do not pass literals as localized parameters", Justification = "OK in this context")]
+        public TextExViewModel(in BaseModelData modelData,
+            in ISettingsProvider settingsProvider, in SystemAdminSubMenu subMenu)
+            : base(modelData)
         {
+            _settingsProvider = settingsProvider ?? throw new ArgumentNullException(nameof(settingsProvider));
+
             if (subMenu == null)
                 throw new ArgumentNullException(nameof(subMenu));
 
             Title = subMenu.Name();
 
-            SystemAdminSettings settings = GetSettings<SystemAdminSettings>("SystemAdmin");
+            SystemAdminSettings settings = _settingsProvider.GetSettings<SystemAdminSettings>("SystemAdmin");
 
             if (settings.DisableFormattedText)
                 Text = "Formatted Text is not enabed";
             else
                 Text = subMenu.Data();
-
-            BreadCrumb = $"<ul><li><a href=\"/SystemAdmin/\">System Admin</a></li><li><a href=\"/SystemAdmin/Index/" +
-                $"{subMenu.ParentMenu.UniqueId}\">{subMenu.ParentMenu.Name()}</a></li><li>{Title}</li></ul>";
         }
 
         #endregion Constructors
@@ -57,10 +69,10 @@ namespace SystemAdmin.Plugin.Models
 
         public string Title { get; set; }
 
-        public string BreadCrumb { get; set; }
-
         public string Text { get; private set; }
 
         #endregion Public Properties
     }
 }
+
+#pragma warning restore CS1591

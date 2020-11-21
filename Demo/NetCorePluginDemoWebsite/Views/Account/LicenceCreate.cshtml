@@ -1,0 +1,32 @@
+﻿@model UserAccount.Plugin.Models.CreateLicenceViewModel
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
+@{
+ViewData["Title"] = "Create Trial Licence";
+}
+<link rel="stylesheet" href="/css/Account.css" />
+<div class="row ac-row">
+<div class="col">
+<h1>@Localizer[nameof(Languages.LanguageStrings.LicenceCreateTrial)]</h1>
+</div>
+</div>
+@using (Html.BeginForm("LicenceCreate", "Account", FormMethod.Post, new { id = "createTrialLicenceForm" }))
+{
+<div class="row ac-row">
+<div class="col">
+@Html.ValidationSummary(true)
+</div>
+</div>
+<div class="row ac-row">
+<div class="col-sm-12 col-md-4 col-lg-3">
+@Html.LabelFor(m => m.LicenceType)
+</div>
+<div class="col-sm-12 col-md-5 col-lg-4">
+@Html.DropDownListFor(m => m.LicenceType, new SelectList(UserAccount.Plugin.Controllers.AccountController.LicenceTypes, "Id", "Description")) @Html.ValidationMessageFor(m => m.LicenceType)
+</div>
+</div>
+<div class="row ac-row">
+<div class="col">
+<input id="btnCreateTrialLicence" class="btn btn-primary" type="submit" value="@Localizer[nameof(Languages.LanguageStrings.Create)]" />
+</div>
+</div>
+}

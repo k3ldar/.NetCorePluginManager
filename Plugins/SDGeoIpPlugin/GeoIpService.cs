@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  SieraDeltaGeoIpPlugin
  *  
@@ -25,8 +25,10 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
+
+using PluginManager;
+using PluginManager.Abstractions;
 
 using Shared.Classes;
 
@@ -34,28 +36,33 @@ using SharedPluginFeatures;
 
 namespace SieraDeltaGeoIp.Plugin
 {
-    public class GeoIpService : BaseCoreClass, IGeoIpDataService
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1812:AvoidUninstantiatedInternalClasses", Justification = "Used internally as part of IoC")]
+    internal class GeoIpService : BaseCoreClass, IGeoIpProvider
     {
         #region Private Members
 
         private readonly CacheManager _geoIpCache;
-        private readonly object _lockObject = new object();
         private readonly GeoIpPluginSettings _geoIpSettings;
         private readonly IGeoIpProvider _geoIpProvider;
-        private readonly IGeoIpStatisticsUpdate _geoIpStatistics;
+        private readonly INotificationService _notificationService;
+        private readonly ILogger _logger;
         private IpCity[] _geoIpCityData;
         private List<IpCity> _tempIpCity = new List<IpCity>();
+        internal static Timings _timingsIpCache = new Timings();
+        internal static Timings _timingsIpMemory = new Timings();
+        internal static Timings _timingsIpDatabase = new Timings();
 
         #endregion Private Members
 
         #region Constructors
 
-        public GeoIpService()
+        public GeoIpService(ISettingsProvider settingsProvider, INotificationService notificationService, ILogger logger)
         {
-            _geoIpStatistics = Initialisation.GeoIpUpdate ?? throw new InvalidOperationException();
+            _notificationService = notificationService ?? throw new InvalidOperationException();
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
             ThreadManager.Initialise();
-            _geoIpSettings = GetSettings<GeoIpPluginSettings>("SieraDeltaGeoIpPluginConfiguration");
+            _geoIpSettings = settingsProvider.GetSettings<GeoIpPluginSettings>("SieraDeltaGeoIpPluginConfiguration");
 
             // if the connection string is a file, it contains the actual connection string, load it
             if (_geoIpSettings.DatabaseConnectionString.IndexOfAny(Path.GetInvalidPathChars()) == -1 &&
@@ -69,24 +76,13 @@ namespace SieraDeltaGeoIp.Plugin
 
             ThreadManager dataThread = null;
 
-            switch (_geoIpSettings.GeoIpProvider)
+            dataThread = _geoIpSettings.GeoIpProvider switch
             {
-                case Enums.GeoIpProvider.Firebird:
-                    dataThread = new FirebirdDataProvider(_geoIpSettings, _tempIpCity);
-                    break;
-
-                case Enums.GeoIpProvider.MySql:
-                    dataThread = new MySqlProvider(_geoIpSettings, _tempIpCity);
-                    break;
-
-                case Enums.GeoIpProvider.MSSql:
-                    dataThread = new MSSQLProvider(_geoIpSettings, _tempIpCity);
-                    break;
-
-                default:
-                    throw new InvalidOperationException();
-
-            }
+                Enums.GeoIpProvider.Firebird => new FirebirdDataProvider(_geoIpSettings, _tempIpCity),
+                Enums.GeoIpProvider.MySql => new MySqlProvider(_geoIpSettings, _tempIpCity),
+                Enums.GeoIpProvider.MSSql => new MSSQLProvider(_geoIpSettings, _tempIpCity),
+                _ => throw new InvalidOperationException(),
+            };
 
             _geoIpProvider = dataThread as IGeoIpProvider;
 
@@ -104,8 +100,9 @@ namespace SieraDeltaGeoIp.Plugin
 
         #region Public Methods
 
-        public bool GetIPAddressDetails(in string ipAddress, out string countryCode, out string region, 
-            out string cityName, out decimal latitude, out decimal longitude, out long uniqueID)
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1031:Do not catch general exception types", Justification = "it's ok here, nothing to see, move along")]
+        public bool GetIpAddressDetails(in string ipAddress, out string countryCode, out string region,
+            out string cityName, out decimal latitude, out decimal longitude, out long uniqueID, out long fromIp, out long toIp)
         {
             countryCode = "ZZ";
             region = String.Empty;
@@ -113,53 +110,53 @@ namespace SieraDeltaGeoIp.Plugin
             latitude = -1;
             longitude = -1;
             uniqueID = -1;
+            fromIp = 0;
+            toIp = 0;
 
-            if (_geoIpCityData != null)
+            try
             {
-                IpCity memoryIp = null;
-                Stopwatch sw = new Stopwatch();
-                try
+                if (_geoIpCityData != null)
                 {
-                    sw.Start();
-                    memoryIp = GetMemoryCity(ipAddress);
-                    sw.Stop();
-                }
-                finally
-                {
-                    if (memoryIp != null)
+                    IpCity memoryIp = null;
+                    using (StopWatchTimer stopwatchTimer = StopWatchTimer.Initialise(_timingsIpMemory))
                     {
-                        _geoIpStatistics.MemoryRetrieve(sw.ElapsedMilliseconds);
+                        memoryIp = GetMemoryCity(ipAddress);
+                    }
+
+                    if (memoryIp != null && !memoryIp.IsComplete)
+                    {
+                        IGeoIpProvider provider = null;
+                        switch (_geoIpSettings.GeoIpProvider)
+                        {
+                            case Enums.GeoIpProvider.None:
+                                memoryIp.IsComplete = true;
+                                break;
+                        }
+
+                        if (provider != null)
+                        {
+                            memoryIp.IsComplete = provider.GetIpAddressDetails(ipAddress, out countryCode, out region,
+                                out cityName, out latitude, out longitude, out uniqueID, out long _, out long _);
+                        }
+
+                        memoryIp.CountryCode = countryCode;
+                        memoryIp.CityName = cityName;
+                        memoryIp.Longitude = longitude;
+                        memoryIp.Latitude = latitude;
+                        memoryIp.Region = region;
+
+                        return true;
                     }
                 }
 
-                if (memoryIp != null && !memoryIp.IsComplete)
-                {
-                    IGeoIpProvider provider = null;
-                    switch (_geoIpSettings.GeoIpProvider)
-                    {
-                        case Enums.GeoIpProvider.None:
-                            memoryIp.IsComplete = true;
-                            break;
-                    }
-
-                    if (provider != null)
-                    {
-                        memoryIp.IsComplete = provider.GetIpAddressDetails(ipAddress, out countryCode, out region,
-                            out cityName, out latitude, out longitude, out uniqueID, out long ipFrom, out long ipTo);
-                    }
-
-                    memoryIp.CountryCode = countryCode;
-                    memoryIp.CityName = cityName;
-                    memoryIp.Longitude = longitude;
-                    memoryIp.Latitude = latitude;
-                    memoryIp.Region = region;
-
-                    return (true);
-                }
+                return GetCachedIPAddressDetails(ipAddress, out countryCode, out region,
+                    out cityName, out latitude, out longitude, out uniqueID);
             }
-
-            return (GetCachedIPAddressDetails(ipAddress, out countryCode, out region, 
-                out cityName, out latitude, out longitude, out uniqueID));
+            catch (Exception err)
+            {
+                _logger.AddToLog(LogLevel.Error, nameof(GeoIpService), err, ipAddress);
+                return false;
+            }
         }
 
         #endregion Public Methods
@@ -170,10 +167,8 @@ namespace SieraDeltaGeoIp.Plugin
             out string cityName, out decimal latitude, out decimal longitude, out long uniqueID)
         {
             CacheItem geoCacheItem = null;
-            Stopwatch sw = new Stopwatch();
-            try
+            using (StopWatchTimer stopwatchTimer = StopWatchTimer.Initialise(_timingsIpCache))
             {
-                sw.Start();
                 countryCode = "ZZ";
                 region = String.Empty;
                 cityName = String.Empty;
@@ -183,57 +178,45 @@ namespace SieraDeltaGeoIp.Plugin
 
                 // Check to see if we have the ip in memory, if we do return that, if not, try and get it from ip provider
                 geoCacheItem = _geoIpCache.Get(ipAddress);
+            }
 
-                if (geoCacheItem == null)
+            if (geoCacheItem == null)
+            {
+                using (StopWatchTimer stopwatchDatabase = StopWatchTimer.Initialise(_timingsIpDatabase))
                 {
-                    Stopwatch dbSW = new Stopwatch();
-                    try
+                    if (_geoIpProvider != null &&
+                        _geoIpProvider.GetIpAddressDetails(ipAddress, out countryCode,
+                            out region, out cityName, out latitude, out longitude, out uniqueID, out long ipFrom, out long ipTo))
                     {
-                        dbSW.Start();
-
-                        if (_geoIpProvider != null &&
-                            _geoIpProvider.GetIpAddressDetails(ipAddress, out countryCode,
-                                out region, out cityName, out latitude, out longitude, out uniqueID, out long ipFrom, out long ipTo))
-                        {
-                            _geoIpCache.Add(ipAddress, new CacheItem(ipAddress, new IpCity(uniqueID, countryCode, region, cityName,
-                                latitude, longitude, ipFrom, ipTo)));
-                            return (true);
-                        }
-                    }
-                    finally
-                    {
-                        dbSW.Stop();
-                        _geoIpStatistics.DatabaseRetrieve(dbSW.ElapsedMilliseconds);
+                        _geoIpCache.Add(ipAddress, new CacheItem(ipAddress, new IpCity(uniqueID, countryCode, region, cityName,
+                            latitude, longitude, ipFrom, ipTo)));
+                        return true;
                     }
                 }
-
-                // if not found in database
-                if (geoCacheItem == null)
-                    return (false);
-
-                IpCity city = (IpCity)geoCacheItem.Value;
-                countryCode = city.CountryCode;
-                region = city.Region;
-                cityName = city.CityName;
-                latitude = city.Latitude;
-                longitude = city.Longitude;
-                uniqueID = city.IpUniqueID;
-
-                return (true);
             }
-            finally
-            {
-                sw.Stop();
 
-                if (geoCacheItem != null)
-                    _geoIpStatistics.CacheRetrieve(sw.ElapsedMilliseconds);
-            }
+            // if not found in database
+            if (geoCacheItem == null)
+                return false;
+
+            IpCity city = (IpCity)geoCacheItem.Value;
+            countryCode = city.CountryCode;
+            region = city.Region;
+            cityName = city.CityName;
+            latitude = city.Latitude;
+            longitude = city.Longitude;
+            uniqueID = city.IpUniqueID;
+
+            return true;
         }
 
         private void Thread_ThreadFinishing(object sender, Shared.ThreadManagerEventArgs e)
         {
             TimeSpan span = DateTime.Now - e.Thread.TimeStart;
-            _geoIpStatistics.Retrieve(Convert.ToInt64(span.TotalMilliseconds), (uint)_tempIpCity.Count);
+
+            //send results
+            _notificationService.RaiseEvent(Constants.NotificationEventGeoIpLoadTime, Convert.ToInt64(span.TotalMilliseconds));
+            _notificationService.RaiseEvent(Constants.NotificationEventGeoIpRecordCount, (uint)_tempIpCity.Count);
 
             _geoIpCityData = _tempIpCity.ToArray();
             _tempIpCity.Clear();
@@ -246,7 +229,7 @@ namespace SieraDeltaGeoIp.Plugin
 
             long min = 0;
             long max = _geoIpCityData.Length - 1;
-            long mid = 0;
+            long mid;
 
             while (min <= max)
             {
@@ -254,7 +237,7 @@ namespace SieraDeltaGeoIp.Plugin
 
                 if (ip <= _geoIpCityData[mid].IpEnd && ip >= _geoIpCityData[mid].IpStart)
                 {
-                    return (_geoIpCityData[mid]);
+                    return _geoIpCityData[mid];
                 }
 
                 if (ip < _geoIpCityData[mid].IpStart)
@@ -269,7 +252,7 @@ namespace SieraDeltaGeoIp.Plugin
                 }
             }
 
-            return (null);
+            return null;
         }
 
         #endregion Private Methods

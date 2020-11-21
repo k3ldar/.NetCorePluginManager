@@ -1,0 +1,59 @@
+﻿@model UserAccount.Plugin.Models.AccountViewModel
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
+@{
+ViewData["Title"] = "Account";
+}
+<h1>@Localizer[nameof(Languages.LanguageStrings.MyAccount)]</h1>
+<link rel="stylesheet" href="/css/Account.css" />
+<script src="~/js/userAccount.js"></script>
+<div class="accountContent">
+<ul class="accountOptions fixed">
+<li class="email"><a href="/Account/UserContactDetails">@Localizer[nameof(Languages.LanguageStrings.ContactDetails)]</a></li>
+<li class="password"><a href="/Account/ChangePassword">@Localizer[nameof(Languages.LanguageStrings.ChangePassword)]</a></li>
+@if (Model.Settings.ShowBillingAddress)
+{
+<li class="billing"><a href="/Account/BillingAddress">@Localizer[nameof(Languages.LanguageStrings.BillingAddress)]</a></li>
+}
+@if (Model.Settings.ShowDeliveryAddress)
+{
+<li class="delivery"><a href="/Account/DeliveryAddress">@Localizer[nameof(Languages.LanguageStrings.DeliveryAddress)]</a></li>
+}
+@if (Model.Settings.ShowMarketingPreferences)
+{
+<li class="offers"><a href="/Account/MarketingPreferences">@Localizer[nameof(Languages.LanguageStrings.AppMarketing)]</a></li>
+}
+@if (Model.Settings.ShowOrders)
+{
+<li class="orders"><a href="/Account/Orders">@Localizer[nameof(Languages.LanguageStrings.Orders)]</a></li>
+}
+@if (Model.Settings.ShowInvoices)
+{
+<li class="invoices"><a href="/Account/Invoices">@Localizer[nameof(Languages.LanguageStrings.Invoices)]</a></li>
+}
+@if (Model.Settings.ShowSupportTickets)
+{
+<li class="tickets"><a href="/Account/SupportTickets">@Localizer[nameof(Languages.LanguageStrings.SupportTickets)]</a></li>
+}
+@if (Model.Settings.ShowDownloads)
+{
+<li class="download"><a href="/Account/Downloads">@Localizer[nameof(Languages.LanguageStrings.Downloads)]</a></li>
+}
+@if (Model.Settings.ShowLicences)
+{
+<li class="licence"><a href="/Account/Licences">@Localizer[nameof(Languages.LanguageStrings.Licences)]</a></li>
+}
+@if (Model.Settings.ShowBlog)
+{
+<li class="blog"><a href="/Blog/Myblogs">@Localizer[nameof(Languages.LanguageStrings.MyBlogs)]</a></li>
+}
+</ul>
+</div>
+<script src="/js/growl.js" type="text/javascript"></script>
+<link href="/css/growl.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript">
+var settings = {
+updateMsg: '@Model.GrowlMessage'
+};
+userAccount.init(settings);
+
+</script>

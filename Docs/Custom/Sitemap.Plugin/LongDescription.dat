@@ -1,0 +1,67 @@
+<p>
+The sitemap plugin is designed to manage sitemap files for a website.  Sitemaps are not a requirement to a website but can improve overall search engine optimisation (SEO) by providing an easy way for robots to find and rank pages, index the pages which are more important to the site owner by providing ranks and find pages that are not directly linked, or have links that are too deeply rooted.
+</p>
+<p>
+This plugin follows the standards and protocols for creating sitemaps, but leaves the details down to individual plugins to provide the data which is used to generate the sitemap.
+</p>
+<p>
+To provide sitemap details a plugin must create a class that extends the ISitemapProvider interface, this interface provides a single method which is used by the sitemap plugin to generate a sitemap.
+</p>
+<p>
+This plugin generates the sitemap.xml as a sitemap index file, this sitemap index will contain a link for each ISitemapProvider implementation, the only caveat to this is that any plugin which provides more than 25,000 items will be split into multiple index files.  The maximum allowed limit is for the number of items is 50,000 items, however, there is also a limit of 50mb per xml file.  By splitting the sitemap items into chunks of 25,000 items this should ensure the maximum item limit is not exceeded.  
+</p>
+<h3>
+Example ISitemapProvider
+</h3>
+<p>
+The following example implementation registers all product groups and upto 65,535 products to the sitemap index.
+</p>
+<p>
+<pre style="font-family:Consolas;font-size:13px;color:black;background:white;"><span style="color:blue;">public</span>&nbsp;<span style="color:blue;">class</span>&nbsp;<span style="color:#2b91af;">ProductSitemapProvider</span>&nbsp;:&nbsp;<span style="color:#2b91af;">ISitemapProvider</span>
+{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">private</span>&nbsp;<span style="color:blue;">readonly</span>&nbsp;<span style="color:#2b91af;">IProductProvider</span>&nbsp;_productProvider;
+ 
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">public</span>&nbsp;<span style="color:#2b91af;">ProductSitemapProvider</span>(<span style="color:#2b91af;">IProductProvider</span>&nbsp;<span style="color:#1f377f;">productProvider</span>)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_productProvider&nbsp;=&nbsp;<span style="color:#1f377f;">productProvider</span>&nbsp;??&nbsp;<span style="color:#8f08c4;">throw</span>&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">ArgumentNullException</span>(<span style="color:blue;">nameof</span>(<span style="color:#1f377f;">productProvider</span>));
+&nbsp;&nbsp;&nbsp;&nbsp;}
+ 
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">public</span>&nbsp;<span style="color:#2b91af;">List</span>&lt;<span style="color:#2b91af;">SitemapItem</span>&gt;&nbsp;<span style="color:#74531f;">Items</span>()
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">List</span>&lt;<span style="color:#2b91af;">SitemapItem</span>&gt;&nbsp;<span style="color:#1f377f;">Result</span>&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">List</span>&lt;<span style="color:#2b91af;">SitemapItem</span>&gt;();
+ 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;Add&nbsp;product&nbsp;groups</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#8f08c4;">foreach</span>&nbsp;(<span style="color:#2b91af;">ProductGroup</span>&nbsp;<span style="color:#1f377f;">group</span>&nbsp;<span style="color:#8f08c4;">in</span>&nbsp;_productProvider.<span style="color:#74531f;">ProductGroupsGet</span>())
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#8f08c4;">if</span>&nbsp;(<span style="color:#1f377f;">group</span>.ShowOnWebsite)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">string</span>&nbsp;<span style="color:#1f377f;">groupUrl</span>&nbsp;=&nbsp;<span style="color:#2b91af;">String</span>.<span style="color:#74531f;">IsNullOrEmpty</span>(<span style="color:#1f377f;">group</span>.Url)&nbsp;?
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#a31515;">$&quot;Products/</span>{<span style="color:#2b91af;">HtmlHelper</span>.<span style="color:#74531f;">RouteFriendlyName</span>(<span style="color:#1f377f;">group</span>.Description)}<span style="color:#a31515;">/</span>{<span style="color:#1f377f;">group</span>.Id}<span style="color:#a31515;">/&quot;</span>&nbsp;:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#1f377f;">group</span>.Url;
+ 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#1f377f;">Result</span>.<span style="color:#74531f;">Add</span>(<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">SitemapItem</span>(<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">Uri</span>(<span style="color:#1f377f;">groupUrl</span>,&nbsp;<span style="color:#2b91af;">UriKind</span>.RelativeOrAbsolute),
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">SitemapChangeFrequency</span>.Daily,&nbsp;0.8m));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+ 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;Add&nbsp;all&nbsp;products</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#8f08c4;">foreach</span>&nbsp;(<span style="color:#2b91af;">Product</span>&nbsp;<span style="color:#1f377f;">product</span>&nbsp;<span style="color:#8f08c4;">in</span>&nbsp;_productProvider.<span style="color:#74531f;">GetProducts</span>(1,&nbsp;<span style="color:blue;">ushort</span>.MaxValue))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#1f377f;">Result</span>.<span style="color:#74531f;">Add</span>(<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">SitemapItem</span>(
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">Uri</span>(<span style="color:#a31515;">$&quot;Product/</span>{<span style="color:#1f377f;">product</span>.Id}<span style="color:#a31515;">/</span>{<span style="color:#2b91af;">HtmlHelper</span>.<span style="color:#74531f;">RouteFriendlyName</span>(<span style="color:#1f377f;">product</span>.Name)}<span style="color:#a31515;">/&quot;</span>,&nbsp;<span style="color:#2b91af;">UriKind</span>.RelativeOrAbsolute),
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">SitemapChangeFrequency</span>.Hourly,&nbsp;1.0m));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+ 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#8f08c4;">return</span>&nbsp;<span style="color:#1f377f;">Result</span>;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+}
+</pre>
+</p>
+<h3>Settings</h3>
+<p>
+There are no settings for this plugin.
+</p>
+<h3>How to use</h3>
+<p>
+The Sitemap plugin should be loaded using the Plugin Manager.
+</p>

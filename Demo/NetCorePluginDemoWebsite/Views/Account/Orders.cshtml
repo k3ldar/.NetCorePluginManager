@@ -1,0 +1,40 @@
+﻿@model UserAccount.Plugin.Models.OrdersViewModel
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
+@{
+ViewData["Title"] = "Orders";
+}
+<link rel="stylesheet" href="/css/Account.css" />
+<div class="row ac-row">
+<div class="col">
+<h1>@Localizer[nameof(Languages.LanguageStrings.Orders)]</h1>
+</div>
+</div>
+<div class="row">
+<div class="col accountGrid">
+<table>
+<thead>
+<tr>
+<th>@Localizer[nameof(Languages.LanguageStrings.OrderNumber)]</th>
+<th>@Localizer[nameof(Languages.LanguageStrings.Date)]</th>
+<th>@Localizer[nameof(Languages.LanguageStrings.Status)]</th>
+<th>@Localizer[nameof(Languages.LanguageStrings.Items)]</th>
+<th>@Localizer[nameof(Languages.LanguageStrings.Total)]</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+@foreach (Middleware.Accounts.Orders.Order order in Model.Orders)
+{
+<tr>
+<td>#@order.Id</td>
+<td>@order.Date.ToString(System.Threading.Thread.CurrentThread.CurrentUICulture.DateTimeFormat)</td>
+<td>@Shared.Utilities.SplitCamelCase(order.Status.ToString())</td>
+<td>@order.ItemCount.ToString()</td>
+<td>@Shared.Utilities.FormatMoney(order.Total, order.Culture)</td>
+<td><a href="/Account/OrderView/@order.Id">view</a></td>
+</tr>
+}
+</tbody>
+</table>
+</div>
+</div>

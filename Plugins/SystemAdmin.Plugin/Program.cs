@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  SystemAdmin.Plugin
  *  
@@ -26,15 +26,15 @@
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 
-using SystemAdmin.Plugin.Classes;
+#pragma warning disable CS1591
 
 namespace SystemAdmin.Plugin
 {
-    public class Program
+    public static class Program
     {
         public static void Main(string[] args)
         {
-            AspNetCore.PluginManager.PluginManagerService.Initialise(new Logger());
+            AspNetCore.PluginManager.PluginManagerService.Initialise();
 
             CreateWebHostBuilder(args).Build().Run();
         }
@@ -44,3 +44,5 @@ namespace SystemAdmin.Plugin
                 .UseStartup<Startup>();
     }
 }
+
+#pragma warning restore CS1591

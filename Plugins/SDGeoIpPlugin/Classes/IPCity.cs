@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  SieraDeltaGeoIpPlugin
  *  
@@ -27,11 +27,11 @@ using System;
 
 namespace SieraDeltaGeoIp.Plugin
 {
-    public class IpCity : IComparable
+    internal class IpCity : IComparable
     {
         #region Constructors
 
-        internal IpCity(in long id, in string countryCode, in string region, in string city, 
+        internal IpCity(in long id, in string countryCode, in string region, in string city,
             in decimal latitude, in decimal longitude, in long fromIp, in long toIP)
         {
             Id = id;
@@ -75,7 +75,7 @@ namespace SieraDeltaGeoIp.Plugin
 
         public int CompareTo(object obj)
         {
-            return (IpStart.CompareTo(((IpCity)obj).IpStart));
+            return IpStart.CompareTo(((IpCity)obj).IpStart);
         }
 
         #endregion Public Methods

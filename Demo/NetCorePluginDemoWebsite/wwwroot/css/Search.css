@@ -1,0 +1,88 @@
+﻿
+.search-block {
+padding: 6px 20px 8px 2px;
+margin: 0 0 10px 0;
+}
+.login-block input {
+padding: 5px 10px 5px 10px;
+margin: 0 10px 0 0;
+}
+.nav-box {
+width: 100%;
+padding: 10px 0 0 10px;
+}
+.search-row {
+padding: 10px 0 10px 0;
+}
+.ac-row {
+padding: 15px 0 0 0;
+}
+.autocomplete {
+position: relative;
+display: inline-block;
+}
+input {
+border: 1px solid transparent;
+background-color: #f1f1f1;
+padding: 10px;
+font-size: 16px;
+}
+input[type=text] {
+background-color: #f1f1f1;
+width: 100%;
+}
+input[type=submit] {
+background-color: DodgerBlue;
+color: #fff;
+cursor: pointer;
+}
+.autocomplete-items {
+position: relative;
+top: 0px;
+border: 1px solid #d4d4d4;
+border-bottom: none;
+border-top: none;
+z-index: 99;
+left: 0;
+right: 0;
+}
+.autocomplete-items div {
+padding: 10px;
+cursor: pointer;
+background-color: #fff;
+border-bottom: 1px solid #d4d4d4;
+}
+
+.autocomplete-items div:hover {
+background-color: #e9e9e9;
+}
+
+.autocomplete-active {
+background-color: DodgerBlue !important;
+color: #ffffff;
+}
+.searchDialog {
+height: 260px !important;
+}
+.searchEntry {
+border: none;
+margin: 3px;
+padding: 8px 2px 2px 2px;
+cursor: pointer;
+}
+.searchEntry a {
+width: 100%;
+height: 100%;
+text-decoration: none;
+display: block;
+color: black;
+}
+.searchEntry a:hover {
+background-color: lightyellow;
+color: black;
+}
+.searchEntry a img {
+width: 64px;
+height: 64px;
+padding: 5px 8px 5px 5px;
+}

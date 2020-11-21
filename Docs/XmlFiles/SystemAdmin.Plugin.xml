@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>SystemAdmin.Plugin</name>
+    </assembly>
+    <members>
+        <member name="T:SystemAdmin.Plugin.SystemAdminSettings">
+            <summary>
+            Contains settings and configuration data for displaying items within the SystemAdmin.Plugin module.
+            </summary>
+        </member>
+        <member name="P:SystemAdmin.Plugin.SystemAdminSettings.GoogleMapApiKey">
+            <summary>
+            Google maps api key, should map data be viewed.
+            
+            Must be between 15 and 80 characters long.
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:SystemAdmin.Plugin.SystemAdminSettings.ShowAppSettingsJson">
+            <summary>
+            Determines whether appsettings.json file can be viewed or not
+            
+            Default value:  false.
+            </summary>
+            <value>bool.  If true the appsettings.json file can be viewed, this could potentially be a security vulnerability depending on what data is stored in there.</value>
+        </member>
+        <member name="P:SystemAdmin.Plugin.SystemAdminSettings.DisableFormattedText">
+            <summary>
+            Prevents formatted text being displayed.
+            </summary>
+            <value>bool.  If true the formatted text is disabled.</value>
+        </member>
+        <member name="T:SystemAdmin.Plugin.SystemAdminHelper">
+            <summary>
+            This class acts as a wrapper around the elements you extend through plugin manager
+            </summary>
+        </member>
+        <member name="T:SystemAdmin.Plugin.PluginInitialisation">
+            <summary>
+            Implements IPlugin and IPluginVersion which allows the SystemAdmin.Plugin module to be
+            loaded as a plugin module
+            </summary>
+        </member>
+        <member name="M:SystemAdmin.Plugin.Startup.ConfigureServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            This method gets called by the runtime. Use this method to add services to the container.
+             
+            This method will not be used in a live environment as it will be inserted as a plugin
+            </summary>
+            <param name="services"></param>
+        </member>
+    </members>
+</doc>

@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  MemoryCachePlugin
  *  
@@ -29,11 +29,22 @@ using SharedPluginFeatures;
 
 namespace MemoryCache.Plugin
 {
+    /// <summary>
+    /// Memory Cache Middleware Extender
+    /// </summary>
     public static class MemoryCachePluginExtender
     {
+        /// <summary>
+        /// IServiceCollection extender method.
+        /// 
+        /// Allows easy use of registering MemoryCachePlugin services
+        /// </summary>
+        /// <param name="services">IServiceCollection instance</param>
+        /// <returns>IServiceCollection</returns>
+        /// <example><pre style="font-family:Consolas;font-size:13px;color:black;background:white;"><span style="color:#1f377f;">app</span>.<span style="color:#74531f;">UseMemoryCache</span>();</pre></example>
         public static void UseMemoryCache(this IServiceCollection services)
         {
-            services.AddSingleton<IMemoryCache, MemoryCache>();
+            services.AddSingleton<IMemoryCache, DefaultMemoryCache>();
         }
     }
 }

@@ -1,0 +1,159 @@
+<p>
+The search plugin introduces two areas that can be used for searching, they are:
+</p>
+<ul>
+<li>Quick Search.</li>
+<li>Advanced Search</li>
+</ul>
+<h3><see cref="T:Middleware.ISearchProvider" /> Interface</h3>
+<p>
+The ISearchProvider interface is used to facilitate searching within an ASP Core website, there should only be one instance of this interface registered as a singleton through DI, if a custom implementation is not registered then a default search provider will be registered.  
+</p>
+<p>
+The search provider is responsible for both performing a search and retrieving advanced search options for use within the UI to aid user searching.
+</p>
+<h3><see cref="T:Middleware.ISearchKeywordProvider" /> Interface</h3>
+<p>
+At the heart of both quick and advanced searching lies the <see cref="T:Middleware.ISearchKeywordProvider" /> interface which is implemented by each plugin that wishes to expose search facilities to the search plugin.
+</p>
+<p>
+This interface contians a method for searching which uses the KeywordSearchOptions class to pass search data and returns a list SearchResponseItem's for the search results.  It also allows implementations to return advanced search configuration data that can optionally be used to provide custom search facilities within the search plugin home page.
+</p>
+<h3>Adding an <see cref="T:Middleware.ISearchKeywordProvider" /></h3>
+<p>
+Each plugin can choose whether to implement <see cref="T:Middleware.ISearchKeywordProvider"/> the following list contains a few examples of plugins that could provide search facilities 
+</p>
+<ul>
+<li>Products</li>
+<li>News articles</li>
+<li>Blog posts</li>
+<li>Connect to a Solr instance</li>
+</ul>
+<p>
+There are litterally dozens of plugin types that could implement searching.  In this example we will demonstrate both a basic and advanced search for searching blogs.
+</p>
+<p>
+Creating a blog keyword search provider is relatively simple, the first step is to create a class that descends from <see cref="T:Middleware.ISearchKeywordProvider" />, this provides the basic building blocks for the blog search:
+</p>
+
+<pre style="font-family:Consolas;font-size:13px;color:black;background:white;"><span style="color:blue;">public</span>&nbsp;<span style="color:blue;">class</span>&nbsp;<span style="color:#2b91af;">BlogSearchKeywordProvider</span>&nbsp;:&nbsp;<span style="color:#2b91af;">ISearchKeywordProvider</span>
+{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">private</span>&nbsp;<span style="color:blue;">readonly</span>&nbsp;<span style="color:#2b91af;">IBlogProvider</span>&nbsp;_blogProvider;
+ 
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">public</span>&nbsp;<span style="color:#2b91af;">BlogSearchKeywordProvider</span>(<span style="color:#2b91af;">IBlogProvider</span>&nbsp;<span style="color:#1f377f;">blogProvider</span>)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_blogProvider&nbsp;=&nbsp;<span style="color:#1f377f;">blogProvider</span>&nbsp;??&nbsp;<span style="color:#8f08c4;">throw</span>&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">ArgumentNullException</span>(<span style="color:blue;">nameof</span>(<span style="color:#1f377f;">blogProvider</span>));
+&nbsp;&nbsp;&nbsp;&nbsp;}
+ 
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">public</span>&nbsp;<span style="color:#2b91af;">Dictionary</span>&lt;<span style="color:#2b91af;">String</span>,&nbsp;<span style="color:#2b91af;">AdvancedSearchOptions</span>&gt;&nbsp;<span style="color:#74531f;">AdvancedSearch</span>()
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#8f08c4;">return</span>&nbsp;<span style="color:blue;">null</span>;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+ 
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">public</span>&nbsp;<span style="color:#2b91af;">List</span>&lt;<span style="color:#2b91af;">SearchResponseItem</span>&gt;&nbsp;<span style="color:#74531f;">Search</span>(<span style="color:blue;">in</span>&nbsp;<span style="color:#2b91af;">KeywordSearchOptions</span>&nbsp;<span style="color:#1f377f;">searchOptions</span>)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#8f08c4;">if</span>&nbsp;(<span style="color:#1f377f;">searchOptions</span>&nbsp;==&nbsp;<span style="color:blue;">null</span>)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#8f08c4;">throw</span>&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">ArgumentNullException</span>(<span style="color:blue;">nameof</span>(<span style="color:#1f377f;">searchOptions</span>));
+ 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">List</span>&lt;<span style="color:#2b91af;">SearchResponseItem</span>&gt;&nbsp;<span style="color:#1f377f;">Result</span>&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">List</span>&lt;<span style="color:#2b91af;">SearchResponseItem</span>&gt;();
+ 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">List</span>&lt;<span style="color:#2b91af;">BlogItem</span>&gt;&nbsp;<span style="color:#1f377f;">foundBlogs</span>&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">List</span>&lt;<span style="color:#2b91af;">BlogItem</span>&gt;();
+ 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">string</span>[]&nbsp;<span style="color:#1f377f;">words</span>&nbsp;=&nbsp;<span style="color:#1f377f;">searchOptions</span>.SearchTerm.<span style="color:#74531f;">Split</span>(<span style="color:#a31515;">&quot;&nbsp;&quot;</span>,&nbsp;<span style="color:#2b91af;">StringSplitOptions</span>.RemoveEmptyEntries);
+ 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#8f08c4;">foreach</span>&nbsp;(<span style="color:blue;">string</span>&nbsp;<span style="color:#1f377f;">word</span>&nbsp;<span style="color:#8f08c4;">in</span>&nbsp;<span style="color:#1f377f;">words</span>)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">List</span>&lt;<span style="color:#2b91af;">BlogItem</span>&gt;&nbsp;<span style="color:#1f377f;">blogs</span>&nbsp;=&nbsp;_blogProvider.<span style="color:#74531f;">Search</span>(<span style="color:#1f377f;">word</span>);
+ 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#8f08c4;">foreach</span>&nbsp;(<span style="color:#2b91af;">BlogItem</span>&nbsp;<span style="color:#1f377f;">item</span>&nbsp;<span style="color:#8f08c4;">in</span>&nbsp;<span style="color:#1f377f;">blogs</span>)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#8f08c4;">if</span>&nbsp;(<span style="color:#1f377f;">foundBlogs</span>.Count&nbsp;==&nbsp;<span style="color:#1f377f;">searchOptions</span>.MaximumSearchResults)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#8f08c4;">break</span>;
+ 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#8f08c4;">if</span>&nbsp;(!<span style="color:#1f377f;">foundBlogs</span>.<span style="color:#74531f;">Contains</span>(<span style="color:#1f377f;">item</span>))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#1f377f;">foundBlogs</span>.<span style="color:#74531f;">Add</span>(<span style="color:#1f377f;">item</span>);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+ 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#8f08c4;">foreach</span>&nbsp;(<span style="color:#2b91af;">BlogItem</span>&nbsp;<span style="color:#1f377f;">blogItem</span>&nbsp;<span style="color:#8f08c4;">in</span>&nbsp;<span style="color:#1f377f;">foundBlogs</span>)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">string</span>&nbsp;<span style="color:#1f377f;">url</span>&nbsp;=&nbsp;<span style="color:#a31515;">$&quot;/Blog/</span>{<span style="color:#2b91af;">HtmlHelper</span>.<span style="color:#74531f;">RouteFriendlyName</span>(<span style="color:#1f377f;">blogItem</span>.Username)}<span style="color:#a31515;">/</span>{<span style="color:#1f377f;">blogItem</span>.Id}<span style="color:#a31515;">/&quot;</span>&nbsp;+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#a31515;">$&quot;</span>{<span style="color:#1f377f;">blogItem</span>.LastModified.<span style="color:#74531f;">ToString</span>(<span style="color:#a31515;">&quot;dd-MM-yyyy&quot;</span>)}<span style="color:#a31515;">/</span>{<span style="color:#2b91af;">HtmlHelper</span>.<span style="color:#74531f;">RouteFriendlyName</span>(<span style="color:#1f377f;">blogItem</span>.Title)}<span style="color:#a31515;">&quot;</span>;
+ 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#1f377f;">Result</span>.<span style="color:#74531f;">Add</span>(<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">SearchResponseItem</span>(<span style="color:#a31515;">&quot;Blog&quot;</span>,&nbsp;<span style="color:#1f377f;">blogItem</span>.Title,&nbsp;-1,&nbsp;<span style="color:#1f377f;">url</span>,&nbsp;<span style="color:#1f377f;">blogItem</span>.Title,&nbsp;<span style="color:blue;">null</span>));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+ 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#8f08c4;">return</span>&nbsp;<span style="color:#1f377f;">Result</span>;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+ 
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">public</span>&nbsp;<span style="color:#2b91af;">List</span>&lt;<span style="color:#2b91af;">String</span>&gt;&nbsp;<span style="color:#74531f;">SearchResponseTypes</span>(<span style="color:blue;">in</span>&nbsp;<span style="color:#2b91af;">Boolean</span>&nbsp;<span style="color:#1f377f;">quickSearch</span>)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#8f08c4;">return</span>&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">List</span>&lt;<span style="color:blue;">string</span>&gt;()&nbsp;{&nbsp;<span style="color:#a31515;">&quot;Blog&quot;</span>&nbsp;};
+&nbsp;&nbsp;&nbsp;&nbsp;}
+}
+</pre>
+
+<p>
+As can be seen, all blog tags within the blog will be searched, if they match a corresponding SearchResponseItem is created and returned to the ISearchProvider implementation.
+</p>
+<p>
+</p>
+<h3>Custom View</h3>
+<p>
+By default the search plugin will provide it's own view for showing search results, when accessed through the advanced search option.  This can be replaced with a custom partial view.
+</p>
+<p>
+Providing a custom partial view is extremely simple, within your plugin create a partial view, the view model will always be of type SearchResponseItem.  Essentially, when you perform a search, the SearchResponseItem you returned can be returned to the partial view for display.  Create a simple partial view to display a blog item:
+</p>
+<pre style="font-family:Consolas;font-size:13px;color:black;background:white;"><span style="background:yellow;">@model</span>&nbsp;Middleware.Search.<span style="color:#2b91af;">SearchResponseItem</span>
+<span style="color:blue;">&lt;</span><span style="color:maroon;">a</span>&nbsp;<span style="color:red;">href</span><span style="color:blue;">=</span><span style="color:blue;">&quot;</span><span style="background:yellow;">@</span>Model.Url.<span style="color:#74531f;">ToString</span>()<span style="color:blue;">&quot;</span>&nbsp;<span style="color:red;">style</span><span style="color:blue;">=</span><span style="color:blue;">&quot;</span><span style="color:red;">display</span>:<span style="color:blue;">block</span>;<span style="color:red;">height</span>:<span style="color:blue;">105px</span>;<span style="color:blue;">&quot;</span><span style="color:blue;">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">&lt;</span><span style="color:maroon;">img</span>&nbsp;<span style="color:red;">src</span><span style="color:blue;">=</span><span style="color:blue;">&quot;~/images/Blog/blog64.png&quot;</span>&nbsp;<span style="color:red;">style</span><span style="color:blue;">=</span><span style="color:blue;">&quot;</span><span style="color:red;">float</span>:<span style="color:blue;">left</span>;<span style="color:red;">width</span>:<span style="color:blue;">64px</span>;<span style="color:red;">height</span>:<span style="color:blue;">64px</span>;<span style="color:blue;">&quot;</span>&nbsp;<span style="color:blue;">/&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">&lt;</span><span style="color:maroon;">p</span>&nbsp;<span style="color:red;">style</span><span style="color:blue;">=</span><span style="color:blue;">&quot;</span><span style="color:red;">margin</span>:<span style="color:blue;">5px</span>&nbsp;<span style="color:blue;">5px</span>&nbsp;<span style="color:blue;">5px</span>&nbsp;<span style="color:blue;">75px</span>;<span style="color:red;">height</span>:<span style="color:blue;">70px</span>;<span style="color:red;">padding-top</span>:<span style="color:blue;">5px</span>;<span style="color:blue;">&quot;</span><span style="color:blue;">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="background:yellow;">@</span>Model.DisplayName
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">&lt;/</span><span style="color:maroon;">p</span><span style="color:blue;">&gt;</span>
+<span style="color:blue;">&lt;/</span><span style="color:maroon;">a</span><span style="color:blue;">&gt;</span></pre><p>
+After creating a partial view update this line which is used to create the SearchResponseItem and add the partial view name:
+</p>
+<pre style="font-family:Consolas;font-size:13px;color:black;background:white;"><span style="color:#1f377f;">Result</span>.<span style="color:#74531f;">Add</span>(<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">SearchResponseItem</span>(<span style="color:#a31515;">&quot;Blog&quot;</span>,&nbsp;<span style="color:#1f377f;">blogItem</span>.Title,&nbsp;-1,&nbsp;<span style="color:#1f377f;">url</span>,&nbsp;<span style="color:#1f377f;">blogItem</span>.Title,&nbsp;<span style="color:blue;">null</span>));
+</pre>
+<p>
+Becomes
+</p>
+<pre style="font-family:Consolas;font-size:13px;color:black;background:white;"><span style="color:#1f377f;">Result</span>.<span style="color:#74531f;">Add</span>(<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">SearchResponseItem</span>(<span style="color:#a31515;">&quot;Blog&quot;</span>,&nbsp;<span style="color:#1f377f;">blogItem</span>.Title,&nbsp;-1,&nbsp;<span style="color:#1f377f;">url</span>,&nbsp;<span style="color:#1f377f;">blogItem</span>.Title,&nbsp;<span style="color:#a31515;">&quot;~/Views/Blog/_BlogSearchResult.cshtml&quot;</span>));
+</pre>
+<p>
+As can be seen in the search results, the search results for a blog item will have a small image to the left.  This in iteself is OK, however, the view can be further extended to include extra information, such as author and date published.  To achieve this we can add properties to the SearchResponseItem which represent the values we want to later display in the partial view for blog searches.
+</p>
+<pre style="font-family:Consolas;font-size:13px;color:black;background:white;"><span style="color:#8f08c4;">foreach</span>&nbsp;(<span style="color:#2b91af;">BlogItem</span>&nbsp;<span style="color:#1f377f;">blogItem</span>&nbsp;<span style="color:#8f08c4;">in</span>&nbsp;<span style="color:#1f377f;">foundBlogs</span>)
+{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">string</span>&nbsp;<span style="color:#1f377f;">url</span>&nbsp;=&nbsp;<span style="color:#a31515;">$&quot;/Blog/</span>{<span style="color:#2b91af;">HtmlHelper</span>.<span style="color:#74531f;">RouteFriendlyName</span>(<span style="color:#1f377f;">blogItem</span>.Username)}<span style="color:#a31515;">/</span>{<span style="color:#1f377f;">blogItem</span>.Id}<span style="color:#a31515;">/&quot;</span>&nbsp;+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#a31515;">$&quot;</span>{<span style="color:#1f377f;">blogItem</span>.LastModified.<span style="color:#74531f;">ToString</span>(<span style="color:#a31515;">&quot;dd-MM-yyyy&quot;</span>)}<span style="color:#a31515;">/</span>{<span style="color:#2b91af;">HtmlHelper</span>.<span style="color:#74531f;">RouteFriendlyName</span>(<span style="color:#1f377f;">blogItem</span>.Title)}<span style="color:#a31515;">&quot;</span>;
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2b91af;">SearchResponseItem</span>&nbsp;<span style="color:#1f377f;">responseItem</span>&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;<span style="color:#2b91af;">SearchResponseItem</span>(<span style="color:#a31515;">&quot;Blog&quot;</span>,&nbsp;<span style="color:#1f377f;">blogItem</span>.Title,&nbsp;-1,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#1f377f;">url</span>,&nbsp;<span style="color:#1f377f;">blogItem</span>.Title,&nbsp;<span style="color:#a31515;">&quot;~/Views/Blog/_BlogSearchResult.cshtml&quot;</span>);
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#1f377f;">responseItem</span>.Properties.<span style="color:#74531f;">Add</span>(<span style="color:#a31515;">&quot;Author&quot;</span>,&nbsp;<span style="color:#1f377f;">blogItem</span>.Username);
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#1f377f;">responseItem</span>.Properties.<span style="color:#74531f;">Add</span>(<span style="color:#a31515;">&quot;Date&quot;</span>,&nbsp;<span style="color:#1f377f;">blogItem</span>.PublishDateTime.<span style="color:#74531f;">ToString</span>(<span style="color:#a31515;">&quot;dd-MM-yyyy&quot;</span>));
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#1f377f;">Result</span>.<span style="color:#74531f;">Add</span>(<span style="color:#1f377f;">responseItem</span>);
+}
+</pre>
+<p>
+Now we have added items to the properties, we can utilise them in the blog search result partial view:
+</p>
+<pre style="font-family:Consolas;font-size:13px;color:black;background:white;"><span style="background:yellow;">@model</span>&nbsp;Middleware.Search.<span style="color:#2b91af;">SearchResponseItem</span>
+<span style="color:blue;">&lt;</span><span style="color:maroon;">a</span>&nbsp;<span style="color:red;">href</span><span style="color:blue;">=</span><span style="color:blue;">&quot;</span><span style="background:yellow;">@</span>Model.Url.<span style="color:#74531f;">ToString</span>()<span style="color:blue;">&quot;</span>&nbsp;<span style="color:red;">style</span><span style="color:blue;">=</span><span style="color:blue;">&quot;</span><span style="color:red;">display</span>:<span style="color:blue;">block</span>;<span style="color:red;">height</span>:<span style="color:blue;">105px</span>;<span style="color:blue;">&quot;</span><span style="color:blue;">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">&lt;</span><span style="color:maroon;">img</span>&nbsp;<span style="color:red;">src</span><span style="color:blue;">=</span><span style="color:blue;">&quot;~/images/Blog/blog64.png&quot;</span>&nbsp;<span style="color:red;">style</span><span style="color:blue;">=</span><span style="color:blue;">&quot;</span><span style="color:red;">float</span>:<span style="color:blue;">left</span>;<span style="color:red;">width</span>:<span style="color:blue;">64px</span>;<span style="color:red;">height</span>:<span style="color:blue;">64px</span>;<span style="color:blue;">&quot;</span>&nbsp;<span style="color:blue;">/&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">&lt;</span><span style="color:maroon;">p</span>&nbsp;<span style="color:red;">style</span><span style="color:blue;">=</span><span style="color:blue;">&quot;</span><span style="color:red;">margin</span>:<span style="color:blue;">5px</span>&nbsp;<span style="color:blue;">5px</span>&nbsp;<span style="color:blue;">5px</span>&nbsp;<span style="color:blue;">75px</span>;<span style="color:red;">height</span>:<span style="color:blue;">70px</span>;<span style="color:red;">padding-top</span>:<span style="color:blue;">5px</span>;<span style="color:blue;">&quot;</span><span style="color:blue;">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="background:yellow;">@</span>Model.DisplayName
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">&lt;/</span><span style="color:maroon;">p</span><span style="color:blue;">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">&lt;</span><span style="color:maroon;">p</span><span style="color:blue;">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">&lt;</span><span style="color:maroon;">span</span>&nbsp;<span style="color:red;">class</span><span style="color:blue;">=</span><span style="color:blue;">&quot;chip&quot;</span><span style="color:blue;">&gt;</span>Author:&nbsp;<span style="background:yellow;">@</span>Model.Properties[<span style="color:#a31515;">&quot;Author&quot;</span>]<span style="color:blue;">&lt;/</span><span style="color:maroon;">span</span><span style="color:blue;">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">&lt;</span><span style="color:maroon;">span</span>&nbsp;<span style="color:red;">class</span><span style="color:blue;">=</span><span style="color:blue;">&quot;chip&quot;</span><span style="color:blue;">&gt;</span>Published:&nbsp;<span style="background:yellow;">@</span>Model.Properties[<span style="color:#a31515;">&quot;Date&quot;</span>]<span style="color:blue;">&lt;/</span><span style="color:maroon;">span</span><span style="color:blue;">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">&lt;/</span><span style="color:maroon;">p</span><span style="color:blue;">&gt;</span>
+<span style="color:blue;">&lt;/</span><span style="color:maroon;">a</span><span style="color:blue;">&gt;</span>
+</pre>
+<p>
+The author and publish date will now appear within the search row.
+</p>
+<h3>Summary</h3>
+<p>
+As can be seen, extending any plugin to add search facility is extremely easy to accomplish, the results can be customised to suit the individual plugin and website.  The SearchResponseItem is highly customisable and facilitates custom search results.  You can implement as many <see cref="T:Middleware.ISearchKeywordProvider" /> concrete classes as you wish, each serving a single search action, if required.
+</p>

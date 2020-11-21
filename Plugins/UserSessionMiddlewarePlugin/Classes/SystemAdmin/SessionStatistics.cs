@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  SharedPluginFeatures
  *  
@@ -38,7 +38,7 @@ namespace UserSessionMiddleware.Plugin.Classes.SystemAdmin
         }
 
         internal SessionStatistics(in string countryCode)
-            : this ()
+            : this()
         {
             if (String.IsNullOrEmpty(countryCode))
                 throw new ArgumentNullException(nameof(countryCode));
@@ -50,7 +50,7 @@ namespace UserSessionMiddleware.Plugin.Classes.SystemAdmin
 
         #region Static Methods
 
-        
+
 
         #endregion Static Methods
 

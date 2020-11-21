@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  SharedPluginFeatures
  *  
@@ -24,36 +24,42 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 
 using Shared.Classes;
 
 using SharedPluginFeatures;
 
+#pragma warning disable CS1591
+
 namespace UserSessionMiddleware.Plugin.Classes.SystemAdmin
 {
+    /// <summary>
+    /// Returns a list of detailed information of all active sessions currently 
+    /// active within the website and can be viewed within SystemAdmin.Plugin.  
+    /// 
+    /// This class descends from SystemAdminSubMenu.
+    /// </summary>
     public sealed class UserDetailsMenu : SystemAdminSubMenu
     {
         public override string Action()
         {
-            return (String.Empty);
+            return String.Empty;
         }
 
         public override string Area()
         {
-            return (String.Empty);
+            return String.Empty;
         }
 
         public override string Controller()
         {
-            return (String.Empty);
+            return String.Empty;
         }
 
         public override Enums.SystemAdminMenuType MenuType()
         {
-            return (Enums.SystemAdminMenuType.FormattedText);
+            return Enums.SystemAdminMenuType.FormattedText;
         }
 
         public override string Data()
@@ -73,7 +79,7 @@ namespace UserSessionMiddleware.Plugin.Classes.SystemAdmin
                 Result.Append($"Bot: {session.IsBot}<br />");
                 Result.Append($"User Agent: {session.UserAgent}");
                 Result.Append($"Referrer: {session.InitialReferrer}<br />");
-                Result.Append($"Ip Address: {session.IPAddress}<br />");
+                Result.Append($"IP Address: {session.IPAddress}<br />");
 
                 if (!String.IsNullOrEmpty(session.UserEmail))
                 {
@@ -86,7 +92,7 @@ namespace UserSessionMiddleware.Plugin.Classes.SystemAdmin
                 Result.Append($"<h3>Pages Visited</h3>");
                 Result.Append("<table><tr><th>Total time</th><th>Page</th></tr>");
 
-                foreach (var page in session.Pages)
+                foreach (PageViewData page in session.Pages)
                 {
                     Result.Append($"<tr><td>{page.TotalTime}</td>");
                     Result.Append($"<td>{page.URL}</td></tr>");
@@ -95,35 +101,34 @@ namespace UserSessionMiddleware.Plugin.Classes.SystemAdmin
                 Result.Append("</table>");
             }
 
-            return (Result.ToString().Trim());
+            return Result.ToString().Trim();
         }
 
         public override string Name()
         {
-            return ("User Session Details");
+            return "User Session Details";
         }
 
         public override string ParentMenuName()
         {
-            return ("User Sessions");
+            return "User Sessions";
         }
 
         public override int SortOrder()
         {
-            return (0);
+            return 0;
         }
 
         public override string Image()
         {
-            return (String.Empty);
+            return String.Empty;
         }
 
         public override string BackColor()
         {
-            if (ParentMenu != null)
-                return (ParentMenu.BackColor());
-
-            return ("#3498DB");
+            return "#3498DB";
         }
     }
 }
+
+#pragma warning restore CS1591

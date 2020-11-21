@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  SieraDeltaGeoIpPlugin
  *  
@@ -29,11 +29,23 @@ using SharedPluginFeatures;
 
 namespace SieraDeltaGeoIp.Plugin
 {
+    /// <summary>
+    /// SieraDelta Geo Ip service extender.
+    /// </summary>
     public static class GeoIpPluginExtender
     {
+        /// <summary>
+        /// IApplicationBuilder extender method.
+        /// 
+        /// Allows easy use of registering SieraDeltaGeoIpPlugin
+        /// </summary>
+        /// <param name="services">IServiceCollection instance</param>
+        /// <returns>IApplicationBuilder</returns>
+        /// <example><pre style="font-family:Consolas;font-size:13px;color:black;background:white;"><span style="color:#1f377f;">app</span>.<span style="color:#74531f;">UseSieraDeltaGeoIpService</span>();</pre></example>
         public static void UseSieraDeltaGeoIpService(this IServiceCollection services)
         {
-            services.AddSingleton<IGeoIpDataService, GeoIpService>();
+            services.AddSingleton<IGeoIpProvider, GeoIpService>();
         }
     }
 }
+

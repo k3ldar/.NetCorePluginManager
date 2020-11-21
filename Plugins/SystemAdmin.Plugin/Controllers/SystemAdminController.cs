@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  SystemAdmin.Plugin
  *  
@@ -26,31 +26,56 @@
 using System;
 using System.Diagnostics;
 
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-using SystemAdmin.Plugin.Models;
+using Middleware;
+
+using PluginManager.Abstractions;
 
 using SharedPluginFeatures;
 
+using SystemAdmin.Plugin.Models;
+
+#pragma warning disable CS1591
+
 namespace SystemAdmin.Plugin.Controllers
 {
+    [LoggedIn]
     [RestrictedIpRoute("SystemAdminRoute")]
-    public class SystemAdminController : Controller
+    [Authorize(Policy = SharedPluginFeatures.Constants.PolicyNameStaff)]
+    [DenySpider]
+    public partial class SystemAdminController : BaseController
     {
         #region Private Members
 
         private readonly ISystemAdminHelperService _systemAdminHelperService;
+        private readonly ISettingsProvider _settingsProvider;
+        private readonly ISeoProvider _seoProvider;
+        private readonly IUserSearch _userSearch;
+        private readonly IClaimsProvider _claimsProvider;
 
         #endregion Private Members
 
         #region Constructors
 
-        public SystemAdminController(ISystemAdminHelperService systemAdminHelperService)
+        public SystemAdminController(ISettingsProvider settingsProvider, ISystemAdminHelperService systemAdminHelperService,
+            ISeoProvider seoProvider, IUserSearch userSearch, IClaimsProvider claimsProvider)
         {
+            _settingsProvider = settingsProvider ?? throw new ArgumentNullException(nameof(settingsProvider));
             _systemAdminHelperService = systemAdminHelperService ?? throw new ArgumentNullException(nameof(systemAdminHelperService));
+            _seoProvider = seoProvider ?? throw new ArgumentNullException(nameof(seoProvider));
+            _userSearch = userSearch ?? throw new ArgumentNullException(nameof(userSearch));
+            _claimsProvider = claimsProvider ?? throw new ArgumentNullException(nameof(claimsProvider));
         }
 
         #endregion Constructors
+
+        #region Constants
+
+        public const string Name = "SystemAdmin";
+
+        #endregion Constants
 
         #region Controller Action Methods
 
@@ -59,9 +84,10 @@ namespace SystemAdmin.Plugin.Controllers
             SystemAdminMainMenu selectedMenu = _systemAdminHelperService.GetSystemAdminMainMenu(id);
 
             if (selectedMenu == null)
-                return View(new AvailableIconViewModel(_systemAdminHelperService.GetSystemAdminMainMenu()));
+                return View(new AvailableIconViewModel(GetModelData(),
+                    _systemAdminHelperService.GetSystemAdminMainMenu()));
 
-            return (View(new AvailableIconViewModel(selectedMenu)));
+            return View(new AvailableIconViewModel(GetModelData(), selectedMenu));
         }
 
         public IActionResult Grid(int id)
@@ -69,9 +95,9 @@ namespace SystemAdmin.Plugin.Controllers
             SystemAdminSubMenu subMenu = _systemAdminHelperService.GetSubMenuItem(id);
 
             if (subMenu == null)
-                return (Redirect("/SystemAdmin/"));
+                return Redirect("/SystemAdmin/");
 
-            return (View(new GridViewModel(subMenu)));
+            return View(new GridViewModel(GetModelData(), subMenu));
         }
 
         public IActionResult Map(int id)
@@ -79,9 +105,19 @@ namespace SystemAdmin.Plugin.Controllers
             SystemAdminSubMenu subMenu = _systemAdminHelperService.GetSubMenuItem(id);
 
             if (subMenu == null)
-                return (Redirect("/SystemAdmin/"));
+                return Redirect("/SystemAdmin/");
 
-            return (View(new MapViewModel(subMenu)));
+            return View(new MapViewModel(GetModelData(), _settingsProvider, subMenu));
+        }
+
+        public IActionResult View(int id)
+        {
+            SystemAdminSubMenu subMenu = _systemAdminHelperService.GetSubMenuItem(id);
+
+            if (subMenu == null)
+                return Redirect("/SystemAdmin/");
+
+            return View("PartialView", new PartialViewModel(GetModelData(), subMenu));
         }
 
         public IActionResult Text(int id)
@@ -89,9 +125,9 @@ namespace SystemAdmin.Plugin.Controllers
             SystemAdminSubMenu subMenu = _systemAdminHelperService.GetSubMenuItem(id);
 
             if (subMenu == null)
-                return (Redirect("/SystemAdmin"));
+                return Redirect("/SystemAdmin/");
 
-            return (View(new TextViewModel(subMenu)));
+            return View(new TextViewModel(GetModelData(), subMenu));
         }
 
         public IActionResult TextEx(int id)
@@ -99,17 +135,30 @@ namespace SystemAdmin.Plugin.Controllers
             SystemAdminSubMenu subMenu = _systemAdminHelperService.GetSubMenuItem(id);
 
             if (subMenu == null)
-                return (Redirect("/SystemAdmin"));
+                return Redirect("/SystemAdmin/");
 
-            return (View(new TextExViewModel(subMenu)));
+            return View(new TextExViewModel(GetModelData(), _settingsProvider, subMenu));
+        }
+
+        public IActionResult Chart(int id)
+        {
+            SystemAdminSubMenu subMenu = _systemAdminHelperService.GetSubMenuItem(id);
+
+            if (subMenu == null)
+                return Redirect("/SystemAdmin/");
+
+            return View(new ChartViewModel(GetModelData(), subMenu));
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error ()
+        public IActionResult Error()
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            return View(new ErrorViewModel(GetModelData(),
+                Activity.Current?.Id ?? HttpContext.TraceIdentifier));
         }
 
         #endregion Controller Action Methods
     }
 }
+
+#pragma warning restore CS1591

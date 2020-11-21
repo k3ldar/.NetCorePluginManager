@@ -1,0 +1,89 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Spider.Plugin</name>
+    </assembly>
+    <members>
+        <member name="T:Spider.Plugin.Classes.SystemAdmin.BotTrapTimingsSubMenu">
+            <summary>
+            Returns Timings information for all time spent processing spider requests and can 
+            be viewed within SystemAdmin.Plugin.  
+            
+            This class descends from SystemAdminSubMenu.
+            </summary>
+        </member>
+        <member name="M:Spider.Plugin.Classes.SystemAdmin.BotTrapTimingsSubMenu.Data">
+            <summary>
+            Returns Timings data in milliseconds for time spent processing by Spider.Plugin requests.
+            </summary>
+            <returns>string</returns>
+        </member>
+        <member name="T:Spider.Plugin.Classes.SystemAdmin.SpiderTimingsSubMenu">
+            <summary>
+            Returns Timings information for all time spent processing spider requests and can 
+            be viewed within SystemAdmin.Plugin.  
+            
+            This class descends from SystemAdminSubMenu.
+            </summary>
+        </member>
+        <member name="M:Spider.Plugin.Classes.SystemAdmin.SpiderTimingsSubMenu.Data">
+            <summary>
+            Returns Timings data in milliseconds for time spent processing by Spider.Plugin requests.
+            </summary>
+            <returns>string</returns>
+        </member>
+        <member name="T:Spider.Plugin.SpiderMiddleware">
+            <summary>
+            Spider middleware, serves robots.txt on request and denies access to route for spider connections.
+            </summary>
+        </member>
+        <member name="T:Spider.Plugin.UserSessionMiddlewareExtender">
+            <summary>
+            Spider Middleware extender
+            </summary>
+        </member>
+        <member name="M:Spider.Plugin.UserSessionMiddlewareExtender.UseSpider(Microsoft.AspNetCore.Builder.IApplicationBuilder)">
+            <summary>
+            IApplicationBuilder extender method.
+            
+            Allows easy use of registering Spider.Plugin
+            </summary>
+            <param name="builder">IApplicationBuilder instance</param>
+            <returns>IApplicationBuilder</returns>
+            <example><pre style="font-family:Consolas;font-size:13px;color:black;background:white;"><span style="color:#1f377f;">app</span>.<span style="color:#74531f;">UseSpider</span>();</pre></example>
+        </member>
+        <member name="T:Spider.Plugin.SpiderSettings">
+            <summary>
+            Contains setting values that determine how Spider.Plugin is configured.
+            </summary>
+        </member>
+        <member name="P:Spider.Plugin.SpiderSettings.ProcessStaticFiles">
+            <summary>
+            Determines whether static files are ignored when determining whether a connection is allowed to connect to the resource.
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:Spider.Plugin.SpiderSettings.StaticFileExtensions">
+            <summary>
+            Delimited list of file extensions to ignore
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:Spider.Plugin.SpiderSettings.BotTrapRoute">
+            <summary>
+            Provides an opportunity to add a non existant route to sitemap which is dissalowed, if a bot goes to the route
+            data is logged about the none behaving bot who is abusing sitemap.
+            
+            The value must be a valid root, i.e. /api/v19.x/ that is not in use elsewhere, this route is added to the sitemap
+            and any visits to the route are notified.
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="T:Spider.Plugin.PluginInitialisation">
+            <summary>
+            Implements IPlugin which allows the Spider.Plugin module to be
+            loaded as a plugin module
+            </summary>
+        </member>
+    </members>
+</doc>

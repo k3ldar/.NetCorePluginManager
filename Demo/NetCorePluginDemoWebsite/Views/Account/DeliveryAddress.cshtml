@@ -1,0 +1,58 @@
+﻿@model UserAccount.Plugin.Models.DeliveryAddressViewModel
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
+@{
+ViewData["Title"] = "DeliveryAddress";
+}
+<div class="row">
+<div class="col">
+<h1>@Localizer[nameof(Languages.LanguageStrings.MyDeliveryAddresses)]</h1>
+</div>
+</div>
+<link rel="stylesheet" href="/css/Account.css" />
+<script src="~/js/userAccount.js"></script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<div class="row ac-row">
+<div class="col accountGrid">
+<table>
+<thead>
+<tr>
+<th>@Localizer[nameof(Languages.LanguageStrings.AddressLine1)]</th>
+<th>@Localizer[nameof(Languages.LanguageStrings.City)]</th>
+<th>@Localizer[nameof(Languages.LanguageStrings.Country)]</th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+@foreach (Middleware.Accounts.DeliveryAddress address in Model.Addresses)
+{
+<tr>
+<td>@address.AddressLine1</td>
+<td>@address.City</td>
+<td>@address.Country</td>
+<td><a href="/Account/DeliveryAddressEdit/@address.AddressId">@Localizer[nameof(Languages.LanguageStrings.Edit)]</a></td>
+<td><a href="javascript:userAccount.deleteAddress(@address.AddressId);">@Localizer[nameof(Languages.LanguageStrings.Delete)]</a></td>
+</tr>
+}
+</tbody>
+</table>
+</div>
+</div>
+<div class="row ac-row">
+<div class="col accountGrid">
+<input id="createDeliveryAddress" type="button" value="@Localizer[nameof(Languages.LanguageStrings.New)]" />
+</div>
+</div>
+<script src="/js/growl.js" type="text/javascript"></script>
+<link href="/css/growl.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript">
+var settings = {
+updateMsg: '@Model.GrowlMessage',
+deliveryAddressUrl: '/Account/DeliveryAddress',
+deleteAddressUrl: '/Account/DeliveryAddressDelete',
+deleteAddressCreateUrl: '/Account/DeliveryAddressAdd',
+createDeliveryAddressBtn: 'createDeliveryAddress'
+};
+userAccount.init(settings);
+</script>

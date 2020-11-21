@@ -1,0 +1,118 @@
+﻿@model UserAccount.Plugin.Models.BillingAddressViewModel
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
+@{
+ViewData["Title"] = "BillingAddress";
+}
+<div class="row ac-row">
+<div class="col">
+<h1>@Localizer[nameof(Languages.LanguageStrings.MyBillingAddress)]</h1>
+</div>
+</div>
+<link rel="stylesheet" href="/css/Account.css" />
+<div class="row">
+<div class="col">
+@Html.ValidationSummary(true)
+</div>
+</div>
+@using (Html.BeginForm("BillingAddress", "Account", FormMethod.Post, new { id = "billingAddressForm" }))
+{
+@Html.HiddenFor(m => m.AddressId)
+<div class="row ac-row">
+<div class="col-sm-12 col-md-4 col-lg-3">
+@Html.LabelFor(m => m.Country)
+</div>
+<div class="col-sm-12 col-md-5 col-lg-4">
+@Html.DropDownListFor(m => m.Country, new SelectList(UserAccount.Plugin.Controllers.AccountController.Countries, "Code", "Name"), new { @class = "form-control" })
+@Html.ValidationMessageFor(m => m.Country)
+</div>
+</div>
+@if (Model.ShowBusinessName)
+{
+<div class="row ac-row">
+<div class="col-sm-12 col-md-4 col-lg-3">
+@Html.LabelFor(m => m.BusinessName)
+</div>
+<div class="col-sm-12 col-md-5 col-lg-4">
+@Html.TextBoxFor(m => m.BusinessName, new { @class = "form-control" })
+@Html.ValidationMessageFor(m => m.BusinessName)
+</div>
+</div>
+}
+@if (Model.ShowAddressLine1)
+{
+<div class="row ac-row">
+<div class="col-sm-12 col-md-4 col-lg-3">
+@Html.LabelFor(m => m.AddressLine1)
+</div>
+<div class="col-sm-12 col-md-5 col-lg-4">
+@Html.TextBoxFor(m => m.AddressLine1, new { @class = "form-control" })
+@Html.ValidationMessageFor(m => m.AddressLine1)
+</div>
+</div>
+}
+@if (Model.ShowAddressLine2)
+{
+<div class="row ac-row">
+<div class="col-sm-12 col-md-4 col-lg-3">
+@Html.LabelFor(m => m.AddressLine2)
+</div>
+<div class="col-sm-12 col-md-5 col-lg-4">
+@Html.TextBoxFor(m => m.AddressLine2, new { @class = "form-control" })
+@Html.ValidationMessageFor(m => m.AddressLine2)
+</div>
+</div>
+}
+@if (Model.ShowAddressLine3)
+{
+<div class="row ac-row">
+<div class="col-sm-12 col-md-4 col-lg-3">
+@Html.LabelFor(m => m.AddressLine3)
+</div>
+<div class="col-sm-12 col-md-5 col-lg-4">
+@Html.TextBoxFor(m => m.AddressLine3, new { @class = "form-control" })
+@Html.ValidationMessageFor(m => m.AddressLine3)
+</div>
+</div>
+}
+@if (Model.ShowCity)
+{
+<div class="row ac-row">
+<div class="col-sm-12 col-md-4 col-lg-3">
+@Html.LabelFor(m => m.City)
+</div>
+<div class="col-sm-12 col-md-5 col-lg-4">
+@Html.TextBoxFor(m => m.City, new { @class = "form-control" })
+@Html.ValidationMessageFor(m => m.City)
+</div>
+</div>
+}
+@if (Model.ShowCounty)
+{
+<div class="row ac-row">
+<div class="col-sm-12 col-md-4 col-lg-3">
+@Html.LabelFor(m => m.County)
+</div>
+<div class="col-sm-12 col-md-5 col-lg-4">
+@Html.TextBoxFor(m => m.County, new { @class = "form-control" })
+@Html.ValidationMessageFor(m => m.County)
+</div>
+</div>
+}
+@if (Model.ShowPostcode)
+{
+<div class="row ac-row">
+<div class="col-sm-12 col-md-4 col-lg-3">
+@Html.LabelFor(m => m.Postcode)
+</div>
+<div class="col-sm-12 col-md-5 col-lg-4">
+@Html.TextBoxFor(m => m.Postcode, new { @class = "form-control" })
+@Html.ValidationMessageFor(m => m.Postcode)
+</div>
+</div>
+}
+<div class="row ac-row">
+<div class="col">
+<input id="btnUpdateBillingAddress" class="btn btn-primary" type="submit" value="@Localizer[nameof(Languages.LanguageStrings.Update)]" />
+</div>
+</div>
+}

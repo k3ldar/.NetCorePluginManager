@@ -1,0 +1,132 @@
+﻿@model SystemAdmin.Plugin.Models.UserPermissionsViewModel
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
+<style>
+.state-icon {
+left: -5px;
+}
+.list-group-item-primary {
+color: rgb(255, 255, 255);
+background-color: rgb(66, 139, 202);
+}
+.well .list-group {
+margin-bottom: 0px;
+}
+.hidden {
+display: none !important;
+visibility: hidden !important;
+}
+</style>
+<div class="modal-dialog" role="document">
+<div class="modal-content">
+<div class="modal-header">
+<h5 class="modal-title" id="dlgPermissionHeader">@Localizer[nameof(Languages.LanguageStrings.UserPermissions)]</h5>
+<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+<span aria-hidden="true">&times;</span>
+</button>
+</div>
+@using (Html.BeginForm(nameof(SystemAdmin.Plugin.Controllers.SystemAdminController.SetUserPermissions), SystemAdmin.Plugin.Controllers.SystemAdminController.Name, FormMethod.Post, new { id = "frmClaims" }))
+{
+@Html.HiddenFor(m => m.UserId)
+@Html.HiddenFor(m => m.SelectedClaims)
+<div class="modal-body">
+<div class="form-group">
+<div class="well" style="max-height: 300px;overflow: auto;">
+<ul id="check-list-box" class="list-group checked-list-box">
+@foreach (string claim in Model.SystemClaims)
+{
+if (Model.UserClaims.Contains(claim))
+{
+<li class="list-group-item" data-checked="true" data-style="info" style="cursor: pointer;" data-color="success">@claim</li>
+}
+else
+{
+<li class="list-group-item" data-style="button" style="cursor: pointer;" data-color="success">@claim</li>
+}
+}
+</ul>
+</div>
+</div>
+</div>
+<div class="modal-footer">
+<button type="button" class="btn btn-secondary" data-dismiss="modal">@Localizer[nameof(Languages.LanguageStrings.Cancel)]</button>
+<button type="button" class="btn btn-primary" id="btnUpdateClaims">@Localizer[nameof(Languages.LanguageStrings.Save)]</button>
+</div>
+}
+</div>
+</div>
+<script type="text/javascript">
+$(function () {
+$('.list-group.checked-list-box .list-group-item').each(function () {
+var $widget = $(this),
+$checkbox = $('<input type="checkbox" class="hidden" />'),
+color = ($widget.data('color') ? $widget.data('color') : "primary"),
+style = ($widget.data('style') == "button" ? "btn-" : "list-group-item-"),
+settings = {
+on: {
+icon: 'glyphicon glyphicon-check'
+},
+off: {
+icon: 'glyphicon glyphicon-unchecked'
+}
+};
+$widget.css('cursor', 'pointer')
+$widget.append($checkbox);
+// Event Handlers
+$widget.on('click', function () {
+$checkbox.prop('checked', !$checkbox.is(':checked'));
+$checkbox.triggerHandler('change');
+updateSelection();
+updateDisplay();
+});
+$checkbox.on('change', function () {
+updateDisplay();
+});
+// Actions
+function updateDisplay() {
+var isChecked = $checkbox.is(':checked');
+// Set the button's state
+$widget.data('state', (isChecked) ? "on" : "off");
+// Set the button's icon
+$widget.find('.state-icon')
+.removeClass()
+.addClass('state-icon ' + settings[$widget.data('state')].icon);
+// Update the button's color
+if (isChecked) {
+$widget.addClass(style + color + ' active');
+} else {
+$widget.removeClass(style + color + ' active');
+}
+}
+function updateSelection() {
+var checkedItems = '';
+$("#check-list-box li.active").each(function (idx, li) {
+checkedItems += $(li).text() + ';';
+});
+$('#@Html.IdFor(m => m.SelectedClaims)').val(checkedItems);
+}
+function init() {
+if ($widget.data('checked') == true) {
+$checkbox.prop('checked', !$checkbox.is(':checked'));
+}
+updateDisplay();
+if ($widget.find('.state-icon').length == 0) {
+$widget.prepend('<span class="state-icon ' + settings[$widget.data('state')].icon + '"></span>');
+}
+}
+init();
+});
+});
+$(document).ready(function () {
+$('#btnUpdateClaims').click(function (e) {
+let form = $('#frmClaims');
+$.ajax({
+type: 'POST',
+url: form.attr('action'),
+data: form.serialize(),
+success: function (response) {
+$('#dlgPermissions').modal('hide');
+},
+});
+})
+});
+</script>

@@ -1,31 +1,35 @@
-﻿
+﻿@model SharedPluginFeatures.BaseModel
+
 @{
     ViewData["Title"] = "Middleware";
 }
 
-<link rel="stylesheet" href="~/css/vs.css">
-<script src="~/js/highlight/pack.js"></script>
-<script>hljs.initHighlightingOnLoad();</script>
-<h2>Middleware Extensions</h2>
-<p>Middleware extensions are the pipeline used for requests in asp.net core. Each middleware plugin can process part or all of the request, and then either choose to return the result or pass on down to the next piece of middleware</p>
-<div>
-    <img src="https://docs.microsoft.com/en-us/aspnet/core/fundamentals/middleware/index/_static/request-delegate-pipeline.png?view=aspnetcore-2.1" />
-</div>
-<h3>Benefits of using Middleware Plugins</h3>
+<div class="row">
+    <div class="col-sm-12">
 
-<p>There are many uses for middleware within ASP.Net Core, a few examples are:</p>
-<ul>
-    <li>Add security headers</li>
-    <li>User session management</li>
-    <li>Extracting Marketing data</li>
-</ul>
-<p>The list is as open as the developers mind.</p>
+        <link rel="stylesheet" href="~/css/vs.css">
+        <script src="~/js/highlight/pack.js"></script>
+        <script>hljs.initHighlightingOnLoad();</script>
+        <h2>Middleware Extensions</h2>
+        <p>Middleware extensions are the pipeline used for requests in asp.net core. Each middleware plugin can process part or all of the request, and then either choose to return the result or pass on down to the next piece of middleware</p>
+        <div>
+            <img src="https://docs.microsoft.com/en-us/aspnet/core/fundamentals/middleware/index/_static/request-delegate-pipeline.png?view=aspnetcore-2.1" />
+        </div>
+        <h3>Benefits of using Middleware Plugins</h3>
 
-<h2>UserSession Manager Example</h2>
-<p>Included in the sample source code is a <a href="https://sicarterblog.wordpress.com/category/user-session/" target="_blank">UserSession Manager</a>.  This plugin is a Middleware extension that looks for an existing session, creates one if one does not already exist and then add's it to the HttpContext for use in Controllers loaded into the application.</p>
-<p>The UserSession is highly optimised and allows the developer to store custom information to identify each vistor to a website.  If required GeoIp data can be attached to the UserSession class.</p>
-<p>A variety of <a href="https://sicarterblog.wordpress.com/category/reports/" target="_blank">reporting options</a> are available to make maximum use of the Seo data collected.</p>
-<p>To access the user session within a controller, simply obtain a reference from the HttpContext instance.</p>
+        <p>There are many uses for middleware within ASP.Net Core, a few examples are:</p>
+        <ul>
+            <li>Add security headers</li>
+            <li>User session management</li>
+            <li>Extracting Marketing data</li>
+        </ul>
+        <p>The list is as open as the developers mind.</p>
+
+        <h3>UserSession Manager Example</h3>
+        <p>Included in the sample source code is a <a href="https://sicarterblog.wordpress.com/category/user-session/" target="_blank">UserSession Manager</a>.  This plugin is a Middleware extension that looks for an existing session, creates one if one does not already exist and then add's it to the HttpContext for use in Controllers loaded into the application.</p>
+        <p>The UserSession is highly optimised and allows the developer to store custom information to identify each vistor to a website.  If required GeoIp data can be attached to the UserSession class.</p>
+        <p>A variety of <a href="https://sicarterblog.wordpress.com/category/reports/" target="_blank">reporting options</a> are available to make maximum use of the Seo data collected.</p>
+        <p>To access the user session within a controller, simply obtain a reference from the HttpContext instance.</p>
 <pre><code class="c#">
 using System;
 
@@ -56,3 +60,5 @@ namespace DemoWebsitePlugin.Controllers
     }
 }
 </code></pre>
+    </div>
+</div>

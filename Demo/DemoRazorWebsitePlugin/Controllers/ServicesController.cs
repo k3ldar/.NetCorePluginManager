@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  Demo Website Plugin
  *  
@@ -25,33 +25,43 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using Microsoft.AspNetCore.Mvc;
 
+using SharedPluginFeatures;
+
 namespace DemoWebsitePlugin.Controllers
 {
-    public class ServicesController : Controller
+    public class ServicesController : BaseController
     {
+        public const string Name = "Services";
+
+
+        [Breadcrumb(nameof(Languages.LanguageStrings.Middleware))]
         public IActionResult Middleware()
         {
-            return View();
+            return View(new BaseModel(GetModelData()));
         }
 
+        [Breadcrumb(nameof(Languages.LanguageStrings.Api))]
         public IActionResult Api()
         {
-            return View();
+            return View(new BaseModel(GetModelData()));
         }
 
+        [Breadcrumb(nameof(Languages.LanguageStrings.DependencyInjection))]
         public IActionResult DependencyInjection()
         {
-            return View();
+            return View(new BaseModel(GetModelData()));
         }
 
+        [Breadcrumb(nameof(Languages.LanguageStrings.Website))]
         public IActionResult Website()
         {
-            return View();
+            return View(new BaseModel(GetModelData()));
         }
 
+        [Breadcrumb(nameof(Languages.LanguageStrings.Custom))]
         public IActionResult Custom()
         {
-            return View();
+            return View(new BaseModel(GetModelData()));
         }
     }
 }

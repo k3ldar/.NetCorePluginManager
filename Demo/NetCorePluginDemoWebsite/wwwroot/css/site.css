@@ -1,0 +1,264 @@
+﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification\ 
+for details on configuring this project to bundle and minify static web assets. */
+body {
+    padding-top: 5px;
+    padding-bottom: 20px;
+}
+.modal-open {
+    padding-right: 17px !important;
+}
+/* Wrapping element */
+/* Set some basic padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+
+.nav-item:hover {
+    border-bottom: 4px solid #3d3d3d;
+    height: 33px;
+    margin-bottom: 4px;
+}
+
+.nav-item-nohover {
+    border: 0;
+    height: 33px;
+    margin-bottom: 4px;
+    font-size: 14px;
+    margin-left;
+}
+
+/* Carousel */
+.carousel-caption p {
+    font-size: 20px;
+    line-height: 1.4;
+}
+
+/* Make .svg files in the carousel display properly in older browsers */
+.carousel-inner .item img[src$=".svg"] {
+    width: 100%;
+}
+
+/* QR code generator */
+#qrCode {
+    margin: 15px;
+}
+
+/* Hide/rearrange for smaller screens */
+@media screen and (max-width: 576px) {
+    .navbar-brand {
+        font-size: 12px;
+    }
+
+    .nav-item {
+        font-size: 13px;
+    }
+
+    .cart-summary {
+        font-size: 13px;
+    }
+
+    .footer {
+        font-size: 11px;
+        margin-top: 25px;
+    }
+
+    .footer .btn {
+        font-size: 11px;
+    }
+
+    #mapid {
+        height: 200px;
+    }
+}
+@media screen and (min-width: 768px) {
+    /* Hide captions */
+    .carousel-caption {
+        display: none;
+    }
+
+    .nav-item {
+        font-size: 12px;
+    }
+
+    .cart-summary {
+        font-size: 12px;
+    }
+
+    .footer {
+        font-size: 11px;
+        margin-top: 25px;
+    }
+
+    #mapid {
+        height: 300px;
+    }
+}
+@media screen and (min-width: 992px) {
+    .navbar-brand {
+        font-size: 15px;
+    }
+
+    .nav-item {
+        font-size: 13px;
+    }
+
+    .cart-summary {
+        font-size: 13px;
+    }
+
+    .footer {
+        font-size: 14px;
+        margin-top: 25px;
+    }
+
+    #mapid {
+        height: 600px;
+    }
+}
+@media screen and (min-width: 1200px) {
+    .navbar-brand {
+        font-size: 1.25em;
+    }
+
+    .nav-item {
+        font-size: 14px;
+    }
+
+    .cart-summary {
+        font-size: 14px;
+    }
+
+    .footer {
+        font-size: 14px;
+        margin-top: 25px;
+    }
+
+    #mapid {
+        height: 600px;
+    }
+}
+
+
+.validation-summary-errors {
+    color: red;
+}
+
+    .validation-summary-errors ul {
+        list-style-type: none;
+        padding-left: 0px;
+    }
+
+.field-validation-error {
+    color: red;
+}
+
+.bc {
+    padding: 8px 0px 2px 0px;
+    min-height: 36px !important;
+    display: contents;
+}
+
+    .bc ul {
+        list-style: none;
+        padding-left: 6px;
+    }
+
+        .bc ul li {
+            display: inline;
+            font-size: 12px;
+        }
+
+            .bc ul li + li:before {
+                padding: 8px;
+                color: black;
+                content: "/\00a0";
+            }
+
+            .bc ul li a {
+                color: #0275d8;
+                text-decoration: none;
+            }
+
+                .bc ul li a:hover {
+                    color: #01447e;
+                    text-decoration: underline;
+                }
+
+
+.cart-summary {
+    float: right;
+    width: 160px;
+    height: 50px;
+}
+
+    .cart-summary img {
+        padding-top: 13px;
+        max-width:24px !important;
+    }
+
+    .cart-summary a, .cart-summary a:hover {
+        display: inline-block;
+        padding-left: 16px;
+        color: #9d9d9d;
+        font-size: 1.0em;
+        text-decoration: none;
+    }
+
+        .cart-summary a p, .cart-summary a p:hover {
+            display: inline-block;
+            padding-left: 16px;
+            color: #9d9d9d;
+            font-size: 1.0em;
+        }
+
+    .cart-summary p span {
+        display: table;
+        font-size: 0.8em;
+    }
+
+
+@media screen and (max-width: 768px) {
+    img {
+        width: 100%;
+        height: auto;
+    }
+
+    h1 {
+        font-size: 1.35rem;
+    }
+    h2 {
+        font-size: 1.32rem;
+    }
+    h3 {
+        font-size: 1.25rem;
+    }
+}
+
+.card {
+    font-size: 15px;
+}
+
+.search-buy {
+    overflow: visible;
+    float: right;
+    width: 145px;
+    height: 70px;
+    font-size: 14px;
+}
+
+    .search-buy span {
+        float: right;
+        padding-right: 53px;
+    }
+
+
+.chip {
+    display: inline-block;
+    padding: 0 25px;
+    height: 28px;
+    line-height: 25px;
+    border-radius: 25px;
+    background-color: #f1f1f1;
+}

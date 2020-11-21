@@ -1,0 +1,12 @@
+﻿@model ShoppingCartPlugin.Models.VoucherModel
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
+@using (Html.BeginForm(nameof(ShoppingCartPlugin.Controllers.CartController.AddVoucher), "Cart", FormMethod.Post))
+{
+@Html.TextBoxFor(m => m.Voucher)
+<input class="btn btn-default" type="submit" value="@Localizer[nameof(Languages.LanguageStrings.ApplyCode)]" />
+@Html.ValidationMessageFor(m => m.Voucher)
+}
+<script type="text/javascript">
+var ph = '@Localizer[nameof(Languages.LanguageStrings.VoucherCodeEnter)]';
+document.getElementById('@Html.IdFor(m => m.Voucher)').placeholder = ph;
+</script>

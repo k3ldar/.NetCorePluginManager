@@ -1,0 +1,16 @@
+﻿@model SystemAdmin.Plugin.Models.TextViewModel
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
+@{
+ViewData["Title"] = "Grid";
+}
+<link rel="stylesheet" href="~/css/SystemAdmin.css" asp-append-version="true" />
+<div class="row">
+<div class="col">
+<h2>@Model.Title</h2>
+</div>
+</div>
+<div class="row">
+<div class="col textBlock">
+@Html.Raw(Model.Text)
+</div>
+</div>

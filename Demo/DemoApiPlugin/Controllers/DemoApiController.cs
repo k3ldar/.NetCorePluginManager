@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  Demo Api Plugin
  *  
@@ -25,10 +25,12 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
 using System.Collections.Generic;
+
 using Microsoft.AspNetCore.Mvc;
 
-using SharedPluginFeatures;
 using Shared.Classes;
+
+using SharedPluginFeatures;
 
 namespace DemoApiPlugin.Controllers
 {
@@ -87,6 +89,7 @@ namespace DemoApiPlugin.Controllers
 
         // GET api/values/5
         [HttpGet("{id}")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", Justification = "Forms part of route name")]
         public ActionResult<string> Get(int id)
         {
             return "value";
@@ -94,20 +97,33 @@ namespace DemoApiPlugin.Controllers
 
         // POST api/values
         [HttpPost]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", Justification = "Forms part of route name")]
         public void Post([FromBody] string value)
         {
         }
 
         // PUT api/values/5
         [HttpPut("{id}")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", Justification = "Forms part of route name")]
         public void Put(int id, [FromBody] string value)
         {
         }
 
         // DELETE api/values/5
         [HttpDelete("{id}")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", Justification = "Forms part of route name")]
         public void Delete(int id)
         {
+        }
+
+        [HttpGet]
+        [Route("/api/ex")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1030:Use events where appropriate", Justification = "Used as a route to raise an exception")]
+        public void RaiseError()
+        {
+            List<string> list = null;
+
+            list.Add("oops");
         }
     }
 }

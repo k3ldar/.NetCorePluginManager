@@ -1,0 +1,90 @@
+﻿@model LoginPlugin.Models.LoginViewModel
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
+@{
+ViewData["Title"] = "Index";
+var returnUrl = "/Account/CreateAccount";
+if (!String.IsNullOrEmpty(Model.ReturnUrl))
+{
+returnUrl += $"/?returnUrl={Model.ReturnUrl}";
+}
+}
+<script src="/js/Login.js"></script>
+<link rel="stylesheet" href="/css/login.css" />
+<div class="row">
+<div class="col-sm-12">
+<h1>@Localizer[nameof(Languages.LanguageStrings.Login)]</h1>
+</div>
+</div>
+<div class="row">
+<div class="col-sm-12">
+<div>@Html.ValidationSummary(true)</div>
+</div>
+</div>
+@using (Html.BeginForm("Index", "Login", FormMethod.Post, new { id = "loginForm" }))
+{
+@Html.HiddenFor(m => m.ReturnUrl)
+@Html.HiddenFor(m => m.ShowCaptchaImage)
+@Html.HiddenFor(m => m.ShowRememberMe)
+<div class="row ac-row">
+<div class="col-sm-12 col-md-4 col-lg-3">
+@Html.LabelFor(m => m.Username)
+</div>
+<div class="col-sm-12 col-md-5 col-lg-4">
+@Html.TextBoxFor(m => m.Username, new { @class = "form-control" })
+@Html.ValidationMessageFor(m => m.Username)
+</div>
+</div>
+<div class="row ac-row">
+<div class="col-sm-12 col-md-4 col-lg-3">
+@Html.LabelFor(m => m.Password)
+</div>
+<div class="col-sm-12 col-md-5 col-lg-4">
+@Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+@Html.ValidationMessageFor(m => m.Password)
+</div>
+</div>
+@if (Model.ShowRememberMe)
+{
+<div class="row ac-row">
+<div class="col-sm-12 col-md-4 col-lg-3">
+</div>
+<div class="col-sm-12 col-md-5 col-lg-4">
+<div class="form-check">
+@Html.CheckBoxFor(m => m.RememberMe, new { @class = "form-check-input" })
+@Html.LabelFor(m => m.RememberMe, new { @class = "form-check-label" })
+@Html.ValidationMessageFor(m => m.RememberMe)
+</div>
+</div>
+</div>
+}
+@if (Model.ShowCaptchaImage)
+{
+<div class="row ac-row">
+<div class="col-sm-12 col-md-5 col-lg-4">
+@Html.TextBoxFor(m => m.CaptchaText)
+@Html.ValidationMessageFor(m => m.CaptchaText)
+</div>
+</div>
+}
+<div class="row ac-row">
+<div class="col">
+<input class="btn btn-primary" id="btnLogon" type="submit" value="@Localizer[nameof(Languages.LanguageStrings.Login)]" />
+<input class="btn" id="btnForgotPassword" type="button" value="@Localizer[nameof(Languages.LanguageStrings.ForgotPassword)]" />
+</div>
+</div>
+}
+<div class="row ac-row">
+<div class="col-sm-12 col-md-4 col-lg-3">
+@Localizer[nameof(Languages.LanguageStrings.NoAccount)]
+</div>
+<div class="col-sm-12 col-md-5 col-lg-4">
+<a href="@returnUrl">@Localizer[nameof(Languages.LanguageStrings.CreateAccount)]</a>
+</div>
+</div>
+<script>
+var controls = {
+btnForgotPassword: '#btnForgotPassword',
+btnLogon: '#btnLogon'
+};
+loginPlugin.init(controls);
+</script>

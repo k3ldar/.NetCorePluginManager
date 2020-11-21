@@ -1,0 +1,99 @@
+<p>
+Nobody likes it when people don't play fair; the bad egg plugin is designed to complete several functions:
+</p>
+<ul>
+<li>Limit number of requests per minute.</li>
+<li>Determine the probability that a Sql injection attack is taking place.</li>
+<li>Determine the probability that a hack attempt is taking place.</li>
+<li>Allow for individual Ip addresses to be white/black listed.</li>
+</ul>
+<p>
+The important element to take into consideration is that Bad Egg does not make decisions on its own, in conjunction with IIpValidation which is implemented by the host application, reports are made through the interface which include:
+</p>
+<ul>
+<li>Ip Address.</li>
+<li>Query/Form data being submitted.</li>
+<li>Result of validation.</li>
+</ul>
+<p>
+Given the information the host implementation can decide to ban the Ip address, if it wishes.
+</p>
+<p>
+To prevent unnecessary delays in the request pipeline, Bad Egg middleware employs a background thread which is used to communicate with the IIpValidation implementation, this means there could be a slight delay in a ban being requested and actioned or a report being made for a request so as the host application can make decisions.
+</p>
+<h3>Request Limits</h3>
+<p>
+A normal web user would not complete too many web requests within a one minute period, excluding static files like images, css files and java script files, the number of requests would remain relatively low.  Bad Egg middleware monitors the number of requests being sent, excluding static files, and if the average amount exceeds the value set by the host application then a http response of too many requests (429) is returned.  As soon as the average hit rate (default of 100) falls below the rate set then pages will be served once more.
+</p>
+<p>
+This will help prevent the server becoming overloaded by hacking, sql injection attacks, denial of service or rogue spider bots that are badly designed.
+</p>
+<p>
+Extensive tests have been conducted and on average a google bot will submit less than 4 requests per minute, on average.  Not all bots are this well behaved and the request limits can help combat this cyber nuisance.
+</p>
+<p>
+The default number of requests is an average of one hundred a minute, the minimum value allowed is five and goes up to the maximum value for an unsigned int.
+</p>
+<h3>Sql Injection and Hack Attacks</h3>
+<p>
+Despite better design within web applications, Sql injection attacks are still quite prevalent within the web, hacking attempts continue to be attempted as exploits are realised in standard off the shelf solutions.  Whether you utilise standard web based solutions or not, these types of attacks can become annoying, they utilise valuable server resources serving requests and can ultimately degrade the performance of your web application.
+</p>
+<p>
+Bad Egg employs a highly optimised, unique algorithm, which automatically validates query strings and form input on specific routes within your web application.  It validates form and query string input data for known keywords that can be used to hack websites.  Given the scale of words being submitted this is weighed against the probability that an attack could be underway.  Again, it is down to the host application to act upon the information provided by the Bad Egg middleware.
+</p>
+<p>
+To include automatic form and query string validation, the attribute BadEgg needs to be included on the public action method receiving the input.  The following simplified code example, demonstrates the BadEgg attribute being used on the Login method
+</p>
+<p>
+<pre style="font-family:Consolas;font-size:13px;color:black;background:white;">[<span style="color:#2b91af;">HttpPost</span>]
+[<span style="color:#2b91af;">BadEgg</span>]
+<span style="color:blue;">public</span>&nbsp;<span style="color:#2b91af;">IActionResult</span>&nbsp;<span style="color:#74531f;">Index</span>(<span style="color:#2b91af;">LoginViewModel</span>&nbsp;<span style="color:#1f377f;">model</span>)
+{
+&nbsp;&nbsp;&nbsp;&nbsp;// login validation code...
+  
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#8f08c4;">return</span>&nbsp;<span style="color:#74531f;">View</span>(<span style="color:#1f377f;">model</span>);
+}
+</pre>
+</p>
+<h3>Black/White Lists</h3>
+<p>
+Bad Egg middleware does not maintain a black/white list of Ip addresses, instead it holds a list of ip addresses supplied by the host application.  The host application can request an instance of IIpManagement via the IoC container, this interface has methods for adding black/white list of addresses.
+</p>
+<p>
+The start of the validation process is used to determine whether the ip address is black/white listed, if it is then no further validation is completed.  White listed ip addresses are always excluded from validation, no matter how badly they behave whilst requests from black listed addresses are always prevented from continuing down the request pipeline by providing an http error response (default value of 400, invalid request).
+</p>
+
+</h3>Firewalls</h3>
+<p>
+Whilst the Bad Egg middleware provides a good software based solution to banning certain ip addresses, there is no substitution to banning an ip address using hardware.  Using a firewall prevents the server from wasting valuable resources and in turn will help ensure you web application runs at an optimal rate.  
+</p>
+<p>
+Using integrated services, could be a way of ensuring that badly behaved ip addresses identified by Bad Egg middleware are passed to the firewall for server blocking.
+</p>
+<h3>Installing Bad Egg Middleware</h3>
+<p>
+Bad Egg is available from nuget and can be installed from:
+</p>
+<p>
+PM> Install-Package BadEgg.Plugin -Version 2.1.0
+</p>
+<p>
+Where version 2.1.0 represents the latest current version.  It is recommended that you upgrade to the latest available version for your platform.  Currently the plugin manager supports:
+</p>
+<ul>
+<li>Net Core 2.1</li>
+<li>Net Core 2.2</li>
+<li>Net Core 3.0 </li>
+<li>Net Framework 4.6.1</li>
+</ul>
+<p>
+If used as part of the plugin manager then no configuration is required, it will be loaded and its services will be automatically added to the middleware layer.  To use independently you would need to manually register the IIpManagement interface and manually add the library to the middleware using one of the following methods:
+</p>
+<p>
+<pre style="font-family:Consolas;font-size:13px;color:black;background:white;"><span style="color:#1f377f;">app</span>.<span style="color:#74531f;">UseBadEgg</span>();
+</pre>
+</p>
+<p>
+<pre style="font-family:Consolas;font-size:13px;color:black;background:white;">&nbsp;<span style="color:#1f377f;">app</span>.<span style="color:#74531f;">UseMiddleware</span>&lt;<span style="color:#2b91af;">BadEggMiddleware</span>&gt;();
+</pre>
+</p>

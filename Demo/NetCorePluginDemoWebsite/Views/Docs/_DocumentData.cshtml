@@ -1,0 +1,119 @@
+﻿@model DocumentationPlugin.Models.DocumentViewModel
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
+@if (!String.IsNullOrEmpty(Model.Namespace))
+{
+<p><strong>Namespace</strong>: @Model.Namespace</p>
+}
+@if (!String.IsNullOrEmpty(Model.Assembly))
+{
+<p><strong>Assembly</strong>: <a href="/docs/Document/@Model.Assembly/">@Model.Assembly</a></p>
+}
+@if (!String.IsNullOrEmpty(Model.LongDescription))
+{
+<h3 id="description">@Localizer[nameof(Languages.LanguageStrings.Description)]</h3>
+@Html.Raw(Model.LongDescription)
+}
+@if (Model.ShowShortDescription && !String.IsNullOrEmpty(Model.ShortDescription))
+{
+@Html.Raw(Model.ShortDescription)
+}
+@if (!String.IsNullOrEmpty(Model.Example))
+{
+@Html.Raw(Model.Example)
+}
+@if (Model.Constructors != null)
+{
+<h3 id="constructors">Constructors</h3>
+<div class="docTable">
+<table>
+<tbody>
+@foreach (var item in Model.Constructors)
+{
+<tr>
+<td>
+<a href="/Docs/Document/@item.ClassName/Type/Constructor/@SharedPluginFeatures.HtmlHelper.RouteFriendlyName(item.MethodName)/">@Html.Raw(item.MethodName)</a>
+</td>
+<td>
+@Html.Raw(item.Summary)
+</td>
+</tr>
+}
+</tbody>
+</table>
+</div>
+}
+@if (Model.Properties != null)
+{
+<h3 id="properties">Properties</h3>
+<div class="docTable">
+<table>
+<tbody>
+@foreach (var item in Model.Properties)
+{
+<tr>
+<td>
+<a href="/Docs/Document/@item.ClassName/Type/Property/@SharedPluginFeatures.HtmlHelper.RouteFriendlyName(item.PropertyName)/">@Html.Raw(item.PropertyName)</a>
+</td>
+<td>
+@Html.Raw(item.Summary)
+</td>
+</tr>
+}
+</tbody>
+</table>
+</div>
+}
+@if (Model.Methods != null)
+{
+<h3 id="methods">Methods</h3>
+<div class="docTable">
+<table>
+<tbody>
+@foreach (var item in Model.Methods)
+{
+<tr>
+<td>
+<a href="/Docs/Document/@item.ClassName/Type/Method/@SharedPluginFeatures.HtmlHelper.RouteFriendlyName(item.MethodName)/">@Html.Raw(item.MethodName)</a>
+</td>
+<td>
+@Html.Raw(item.Summary)
+</td>
+</tr>
+}
+</tbody>
+</table>
+</div>
+}
+@if (Model.Fields != null)
+{
+<h3 id="fields">Fields</h3>
+<div class="docTable">
+<table>
+<tbody>
+@foreach (var item in Model.Fields)
+{
+<tr>
+<td>
+<a href="/Docs/Document/@item.ClassName/Type/Field/@SharedPluginFeatures.HtmlHelper.RouteFriendlyName(item.FieldName)/">@Html.Raw(item.FieldName)</a>
+</td>
+<td>
+@Html.Raw(item.Summary)
+</td>
+</tr>
+}
+</tbody>
+</table>
+</div>
+}
+@if (!String.IsNullOrEmpty(Model.Exceptions))
+{
+<h3>Exceptions</h3>
+@Html.Raw(Model.Exceptions)
+}
+@if (!String.IsNullOrEmpty(Model.Remarks))
+{
+<h3>Remarks</h3>
+<div class="remark">
+@Html.Raw(Model.Remarks)
+</div>
+}

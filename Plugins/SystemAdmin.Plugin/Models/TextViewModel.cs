@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  SystemAdmin.Plugin
  *  
@@ -28,13 +28,17 @@ using System.Text;
 
 using SharedPluginFeatures;
 
+#pragma warning disable CS1591
+
 namespace SystemAdmin.Plugin.Models
 {
-    public sealed class TextViewModel
+    public sealed class TextViewModel : BaseModel
     {
         #region Constructors
 
-        public TextViewModel(SystemAdminSubMenu subMenu)
+        public TextViewModel(in BaseModelData modelData,
+            SystemAdminSubMenu subMenu)
+            : base(modelData)
         {
             if (subMenu == null)
                 throw new ArgumentNullException(nameof(subMenu));
@@ -76,9 +80,6 @@ namespace SystemAdmin.Plugin.Models
 
 
             Text = newData.ToString();
-
-            BreadCrumb = $"<ul><li><a href=\"/SystemAdmin/\">System Admin</a></li><li><a href=\"/SystemAdmin/Index/" +
-                $"{subMenu.ParentMenu.UniqueId}\">{subMenu.ParentMenu.Name()}</a></li><li>{Title}</li></ul>";
         }
 
         #endregion Constructors
@@ -87,10 +88,10 @@ namespace SystemAdmin.Plugin.Models
 
         public string Title { get; set; }
 
-        public string BreadCrumb { get; set; }
-
         public string Text { get; private set; }
 
         #endregion Public Properties
     }
 }
+
+#pragma warning restore CS1591

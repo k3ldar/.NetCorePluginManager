@@ -1,0 +1,78 @@
+﻿@model HelpdeskPlugin.Models.FindTicketViewModel
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
+@{
+ViewData["Title"] = Localizer[nameof(Languages.LanguageStrings.FindATicket)];
+}
+<link rel="stylesheet" href="/css/Helpdesk.css" />
+<script src="~/js/helpdesk.js"></script>
+<div class="row">
+<div class="col">
+<h1>@Localizer[nameof(Languages.LanguageStrings.FindATicket)]</h1>
+</div>
+</div>
+<div class="row">
+<div class="col">
+@Html.ValidationSummary()
+</div>
+</div>
+<div class="row">
+<div class="col">
+<p>@Localizer[nameof(Languages.LanguageStrings.TicketFindDescription)]</p>
+</div>
+</div>
+@using (Html.BeginForm(nameof(HelpdeskPlugin.Controllers.HelpdeskController.FindTicket), HelpdeskPlugin.Controllers.HelpdeskController.Name, FormMethod.Post))
+{
+<div class="row hd-row">
+<div class="col">
+<p>@Html.LabelFor(m => m.Email)</p>
+</div>
+</div>
+<div class="row">
+<div class="col col-sm-12 col-md-6 col-lg-7">
+@Html.ValidationMessageFor(m => m.Email)
+</div>
+</div>
+<div class="row">
+<div class="col col-sm-12 col-md-6 col-lg-5">
+@Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+</div>
+</div>
+<div class="row hd-row">
+<div class="col">
+<p>@Html.LabelFor(m => m.Key)</p>
+</div>
+</div>
+<div class="row">
+<div class="col col-sm-12 col-md-6 col-lg-7">
+@Html.ValidationMessageFor(m => m.Key)
+</div>
+</div>
+<div class="row">
+<div class="col col-sm-12 col-md-6 col-lg-5">
+@Html.TextBoxFor(m => m.Key, new { @class = "form-control" })
+</div>
+</div>
+@if (Model.ShowCaptchaText)
+{
+<div class="row hd-row">
+<div class="col">
+@Html.LabelFor(m => m.CaptchaText)
+</div>
+</div>
+<div class="row">
+<div class="col col-sm-12 col-md-6 col-lg-7">
+@Html.TextBoxFor(m => m.CaptchaText) @Html.ValidationMessageFor(m => m.CaptchaText)
+</div>
+</div>
+<div class="row">
+<div class="col col-sm-12 col-md-6 col-lg-5">
+<img src="/Helpdesk/GetCaptchaImage/" />
+</div>
+</div>
+}
+<div class="row hd-row">
+<div class="col">
+<input class="btn btn-primary" type="submit" value="@Localizer[nameof(Languages.LanguageStrings.Submit)]" />
+</div>
+</div>
+}

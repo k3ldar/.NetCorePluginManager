@@ -1,0 +1,8 @@
+﻿@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
+<button type="button" class="btn btn-primary" id="btnQuickSearch">@Localizer[nameof(Languages.LanguageStrings.Search)]</button>
+<div class="modal fade" id="dlgQuickSearch" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+</div>
+<script src="~/js/Search.js"></script>
+<script type="text/javascript">
+searchPlugin.init();
+</script>

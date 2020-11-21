@@ -1,0 +1,28 @@
+﻿@model DocumentationPlugin.Models.DocumentViewTypeViewModel
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
+@{
+ViewData["Title"] = "Type";
+}
+<link rel="stylesheet" type="text/css" href="/css/documentation.css" />
+<div class="row flex-xl-nowrap">
+<div class="d-none d-lg-block col-lg-3 bd-sidebar docContents">
+<h3>@Localizer[nameof(Languages.LanguageStrings.Contents)]</h3>
+@Html.Raw(Model.AllReferences)
+</div>
+<div class="col-md-12 col-lg-7">
+<h2>@Model.TypeName</h2>
+@await Html.PartialAsync("_DocumentDataType.cshtml", Model)
+</div>
+<div class="d-none d-lg-block col-lg-2 bd-toc docReferences">
+@if (Model.SeeAlso != null && Model.SeeAlso.Count > 0)
+{
+<h3>@Localizer[nameof(Languages.LanguageStrings.SeeAlso)]</h3>
+<ul>
+@foreach (var item in Model.SeeAlso)
+{
+<li>@Html.Raw($"<a href=\"{item.Key}\">{item.Value}</a>")</li>
+}
+</ul>
+}
+</div>
+</div>

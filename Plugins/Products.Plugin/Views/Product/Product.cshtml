@@ -1,0 +1,97 @@
+﻿@model ProductPlugin.Models.ProductModel
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
+
+@{
+    ViewData["Title"] = "Index";
+    var image = Shared.Utilities.ResizeImage(Model.Images[0], 288).Replace(".jpg", ".png");
+}
+
+<link rel="stylesheet" href="~/css/Products.css" asp-append-version="true" />
+
+
+<div class="row">
+    <div class="d-none d-lg-block col-lg-3 bd-sidebar categories">
+        @await Html.PartialAsync("_LeftMenu.cshtml", Model)
+    </div>
+    <div class="col col-lg-9">
+        <div class="row">
+            <div class="col">
+                <h1>@Model.Name</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col col-md-8 col-lg-7">
+                <div class="productImg">
+                    <asp:HyperLink ID="linkZoom">
+                        <img src="~/images/Products/@image" alt="" border="0" width="288" height="268" />
+                    </asp:HyperLink>
+
+                </div>
+            </div>
+            @if (Model.AllowAddToBasket)
+            {
+                <div class="col col-md-4 col-lg-2">
+                    @await Html.PartialAsync("_AddToCart.cshtml", Model.AddToCart)
+                </div>
+            }
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="productDescription">
+                    @Html.Raw(Model.Description)
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="productFeatures">
+                    <h2>@Localizer[nameof(Languages.LanguageStrings.Features)]</h2>
+                    <div>
+                        <ul>
+                            @foreach (string feature in Model.FeatureList())
+                            {
+                                <li>@Html.Raw(feature)</li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        @if (!String.IsNullOrEmpty(Model.VideoLink))
+        {
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="productVideo" id="divVideoLink">
+                        <h2>@Localizer[nameof(Languages.LanguageStrings.Video)]</h2>
+                        <p>@Html.Raw(Model.GetVideoLink())</p>
+                        <span>@Localizer[nameof(Languages.LanguageStrings.VideoDescription)] <a href="<%=GetFullVideoLink() %>" target="_blank">@Localizer[nameof(Languages.LanguageStrings.ClickHere)]</a></span>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col">
+    </div>
+</div>
+
+<div class="row">
+    <div class="col">
+    </div>
+</div>
+
+<div class="wrapper">
+    <div class="content">
+
+        <div class="mainContent">
+
+
+
+        </div>
+    </div>
+</div>
+<div class="clear"><!-- clear --></div>

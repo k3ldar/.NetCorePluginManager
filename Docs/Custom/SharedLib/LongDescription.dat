@@ -1,0 +1,12 @@
+<p>
+SharedLib is a seperate library of shared utils which is also distributed under an open source licence.  The primary classes used from this library are:
+</p>
+<ul>
+<li>ThreadManager</li>
+<li>CacheManager</li>
+<li>UserSession</li>
+<li>Document</li>
+</ul>
+<p>
+SharedLib can be downloaded from nuget, search for SC.Shared.Library.Core which is currently at version 2.9.4 and the source code is on <a href="https://github.com/k3ldar/SharedLib">github</a>
+</p>

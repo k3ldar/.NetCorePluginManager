@@ -1,0 +1,148 @@
+﻿
+.systemIcon {
+width: 170px !important;
+height: 200px !important;
+margin: 20px 20px 0 0;
+align-content:center;
+float: left;
+}
+.systemIcon a {
+text-decoration: none;
+display: block;
+width: 169px;
+height: 200px;
+}
+.systemIcon a h3 {
+font-family: Arial, Helvetica, sans-serif;
+font-size: 14px;
+margin: 0 0 5px 0;
+padding: 8px 10px 6px 14px;
+word-break: break-word;
+overflow: hidden;
+}
+.systemIcon a img {
+width: 128px;
+height: 128px;
+margin: 15px 0 0 21px;
+}
+.systemGrid table {
+font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+border-collapse: collapse;
+width: 100%;
+width: 100%;
+padding: 10px 20px 10px 20px;
+}
+.systemGrid td, .systemGrid th {
+border: 1px solid #ddd;
+padding: 8px;
+}
+.systemGrid table thead tr td {
+padding-right: 20px;
+}
+.systemGrid tr:nth-child(even) {
+background-color: #f2f2f2;
+}
+.systemGrid tr:hover {
+background-color: #ddd;
+}
+.systemGrid th {
+padding-top: 12px;
+padding-bottom: 12px;
+text-align: left;
+background-color: #707B7C;
+color: white;
+}
+div:empty {
+display: none;
+}
+.bc {
+padding: 8px 0px 2px 0px;
+background-color: #eee;
+height: 36px;
+}
+.bc ul{
+list-style: none;
+padding-left: 6px;
+}
+.bc ul li {
+display: inline;
+font-size: 12px;
+}
+.bc ul li + li:before {
+padding: 8px;
+color: black;
+content: "/\00a0";
+}
+.bc ul li a {
+color: #0275d8;
+text-decoration: none;
+}
+.bc ul li a:hover {
+color: #01447e;
+text-decoration: underline;
+}
+.mapContent {
+height: 500px;
+}
+.textBlock {
+font-family: Arial, Helvetica, sans-serif;
+font-size: 12px;
+font-weight: normal;
+}
+.textBlock h2 {
+font-size: 16px;
+font-weight:600;
+}
+.textBlock h3 {
+font-size: 14px;
+font-weight: 600;
+}
+@media (max-width: 767px) {
+.mapLegend {
+float: left;
+}
+.mapLegend p img {
+padding-bottom: 10px;
+width: 24px !important;
+height: 24px !important;
+}
+.map {
+float: right;
+overflow: hidden;
+height: 350px;
+width: 100%;
+padding-bottom: 10px;
+}
+}
+@media (min-width: 768px) {
+.mapLegend {
+float: left;
+}
+.mapLegend p img {
+padding-bottom: 10px;
+width: 32px !important;
+height: 32px !important;
+}
+.map {
+float: right;
+overflow: hidden;
+height: 500px;
+width: 100%;
+padding-bottom: 10px;
+}
+}
+@media (min-width: 992px) {
+.mapLegend {
+float: left;
+}
+.mapLegend p img {
+padding-bottom: 10px;
+}
+.map {
+float: right;
+overflow: hidden;
+height: 500px;
+width: 100%;
+padding-bottom: 10px;
+}
+}

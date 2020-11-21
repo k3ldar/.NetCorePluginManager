@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  SystemAdmin.Plugin
  *  
@@ -28,13 +28,18 @@ using System.Collections.Generic;
 
 using SharedPluginFeatures;
 
+#pragma warning disable CS1591
+
 namespace SystemAdmin.Plugin.Models
 {
-    public sealed class GridViewModel
+    public sealed class GridViewModel : BaseModel
     {
         #region Constructors
 
-        public GridViewModel(SystemAdminSubMenu subMenu)
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA2208:Instantiate argument exceptions correctly", Justification = "Validating property of param so ok")]
+        public GridViewModel(in BaseModelData modelData,
+            SystemAdminSubMenu subMenu)
+            : base(modelData)
         {
             if (subMenu == null)
                 throw new ArgumentNullException(nameof(subMenu));
@@ -44,7 +49,7 @@ namespace SystemAdmin.Plugin.Models
             // data has to have the header on first row, each column seperated by a pipe |
             // the data is on all following lines and is also seperated by pipe |
             // each line is seperated with \r
-            string[] allLines = subMenu.Data().Split('\r');
+            string[] allLines = subMenu.Data().Trim().Split('\r');
 
             // must have a header at the very least!
             if (allLines.Length == 0)
@@ -52,7 +57,7 @@ namespace SystemAdmin.Plugin.Models
 
             Headers = allLines[0].Split('|');
 
-            int columnCount = Headers.Length;
+            HeaderColumnCount = Headers.Length;
 
             Items = new List<string[]>();
 
@@ -60,28 +65,29 @@ namespace SystemAdmin.Plugin.Models
             {
                 string[] line = allLines[i].Split('|');
 
-                if (line.Length != Headers.Length)
-                    throw new InvalidOperationException("column count much match header column count");
+                if (line.Length > Headers.Length)
+                    throw new InvalidOperationException("line column count much match header column count" +
+                        $"\r\n\r\n{subMenu.Data()}");
 
                 Items.Add(line);
             }
-
-            BreadCrumb = $"<ul><li><a href=\"/SystemAdmin/\">System Admin</a></li><li><a href=\"/SystemAdmin/Index/" +
-                $"{subMenu.ParentMenu.UniqueId}\">{subMenu.ParentMenu.Name()}</a></li><li>{Title}</li></ul>";
         }
 
         #endregion Constructors
 
         #region Public Properties
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1819:Properties should not return arrays", Justification = "ok on this occasion")]
         public string[] Headers { get; set; }
 
         public List<string[]> Items { get; set; }
 
         public string Title { get; set; }
 
-        public string BreadCrumb { get; set; }
+        public int HeaderColumnCount { get; private set; }
 
         #endregion Public Properties
     }
 }
+
+#pragma warning restore CS1591

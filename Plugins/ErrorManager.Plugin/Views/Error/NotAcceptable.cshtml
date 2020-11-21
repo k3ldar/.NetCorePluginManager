@@ -1,0 +1,20 @@
+﻿@model SharedPluginFeatures.BaseModel
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
+
+@{
+    ViewData["Title"] = "NotAcceptable";
+}
+
+<div class="row">
+    <div class="col">
+
+        <h1>@Localizer[nameof(Languages.LanguageStrings.NotAcceptable)]</h1>
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+        <div class="errorMessage">
+            <p>@Localizer[nameof(Languages.LanguageStrings.NotAcceptableDescription)]</p>
+        </div>
+    </div>
+</div>

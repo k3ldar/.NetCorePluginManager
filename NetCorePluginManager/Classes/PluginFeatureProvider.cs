@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  AspNetCore.PluginManager
  *  
@@ -35,23 +35,29 @@ using Microsoft.AspNetCore.Mvc.Razor.Compilation;
 using Microsoft.CodeAnalysis;
 using Microsoft.Extensions.DependencyModel;
 
-namespace AspNetCore.PluginManager.Classes
+using PluginManager;
+
+#pragma warning disable CS0618
+
+namespace AspNetCore.PluginManager
 {
-    public class PluginFeatureProvider : IApplicationFeatureProvider<MetadataReferenceFeature>
+#if NET_CORE_2_2 || NET_CORE_2_1 || NET_CORE_2_0 || NET461
+
+    internal class PluginFeatureProvider : IApplicationFeatureProvider<MetadataReferenceFeature>
     {
         public void PopulateFeature(IEnumerable<ApplicationPart> parts, MetadataReferenceFeature feature)
         {
-            var libraryPaths = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
-            foreach (var assemblyPart in parts.OfType<AssemblyPart>())
+            HashSet<String> libraryPaths = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+            foreach (AssemblyPart assemblyPart in parts.OfType<AssemblyPart>())
             {
-                var dependencyContext = DependencyContext.Load(assemblyPart.Assembly);
+                DependencyContext dependencyContext = DependencyContext.Load(assemblyPart.Assembly);
                 if (dependencyContext != null)
                 {
-                    foreach (var library in dependencyContext.CompileLibraries)
+                    foreach (CompilationLibrary library in dependencyContext.CompileLibraries)
                     {
                         if (string.Equals("reference", library.Type, StringComparison.OrdinalIgnoreCase))
                         {
-                            foreach (var libraryAssembly in library.Assemblies)
+                            foreach (string libraryAssembly in library.Assemblies)
                             {
                                 libraryPaths.Add(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, libraryAssembly));
                             }
@@ -61,20 +67,29 @@ namespace AspNetCore.PluginManager.Classes
 
                             try
                             {
-                                foreach (var path in library.ResolveReferencePaths())
+                                foreach (string path in library.ResolveReferencePaths())
                                 {
                                     libraryPaths.Add(path);
                                 }
                             }
-                            catch (InvalidOperationException)
+                            catch (InvalidOperationException err)
                             {
-                                if (PluginManagerService.GetPluginManager().PluginLoaded(library.Name + ".dll", 
-                                    out int version, out string module))
+                                string libName = library.Name + ".dll";
+
+                                if (String.IsNullOrEmpty(libraryPaths.Where(lp => lp.EndsWith(libName, StringComparison.InvariantCultureIgnoreCase))
+                                    .FirstOrDefault()))
                                 {
-                                    libraryPaths.Add(module);
+                                    if (PluginManagerService.GetPluginManager().PluginLoaded(libName,
+                                        out int _, out string module))
+                                    {
+                                        libraryPaths.Add(module);
+                                    }
+                                    else
+                                    {
+                                        PluginManagerService.GetLogger().AddToLog(LogLevel.Critical, err, libName);
+                                        throw;
+                                    }
                                 }
-                                else
-                                    throw;
                             }
                         }
                     }
@@ -85,21 +100,25 @@ namespace AspNetCore.PluginManager.Classes
                 }
             }
 
-            foreach (var path in libraryPaths)
+            foreach (string path in libraryPaths)
             {
                 feature.MetadataReferences.Add(CreateMetadataReference(path));
             }
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Reliability", "CA2000:Dispose objects before losing scope", Justification = "Returned to Net Core, so not fussed")]
         private static MetadataReference CreateMetadataReference(string path)
         {
-            using (var stream = File.OpenRead(path))
+            using (FileStream stream = File.OpenRead(path))
             {
-                var moduleMetadata = ModuleMetadata.CreateFromStream(stream, PEStreamOptions.PrefetchMetadata);
-                var assemblyMetadata = AssemblyMetadata.Create(moduleMetadata);
+                ModuleMetadata moduleMetadata = ModuleMetadata.CreateFromStream(stream, PEStreamOptions.PrefetchMetadata);
+                AssemblyMetadata assemblyMetadata = AssemblyMetadata.Create(moduleMetadata);
 
                 return assemblyMetadata.GetReference(filePath: path);
             }
         }
     }
+#endif
 }
+
+#pragma warning restore CS0618

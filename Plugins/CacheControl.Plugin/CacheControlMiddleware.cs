@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  CacheControl Plugin
  *  
@@ -30,14 +30,19 @@ using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Http;
 
+using PluginManager.Abstractions;
+
 using Shared.Classes;
 
 using SharedPluginFeatures;
 
-using static SharedPluginFeatures.Enums;
+#pragma warning disable CS1591
 
 namespace CacheControl.Plugin
 {
+    /// <summary>
+    /// Implements rule based cache headers for individual routes
+    /// </summary>
     public class CacheControlMiddleware : BaseMiddleware
     {
         #region Private Members
@@ -47,19 +52,23 @@ namespace CacheControl.Plugin
         private readonly Dictionary<string, CacheControlRoute> _routePaths;
         private readonly HashSet<string> _ignoredRoutes;
         private bool _disabled;
-        private object _lockObject = new object();
+        private readonly object _lockObject = new object();
+        internal static Timings _timings = new Timings();
 
         #endregion Private Members
 
         #region Constructors
 
-        public CacheControlMiddleware(RequestDelegate next)
+        public CacheControlMiddleware(RequestDelegate next, ISettingsProvider settingsProvider)
         {
-            _next = next;
+            if (settingsProvider == null)
+                throw new ArgumentNullException(nameof(settingsProvider));
+
+            _next = next ?? throw new ArgumentNullException(nameof(next));
             _routePaths = new Dictionary<string, CacheControlRoute>();
             _ignoredRoutes = new HashSet<string>();
 
-            LoadSettings(GetSettings<CacheControlSettings>("CacheControlRoute"));
+            LoadSettings(settingsProvider.GetSettings<CacheControlSettings>("CacheControlRoute"));
         }
 
         #endregion Constructors
@@ -68,43 +77,44 @@ namespace CacheControl.Plugin
 
         public async Task Invoke(HttpContext context)
         {
+            if (context == null)
+                throw new ArgumentNullException(nameof(context));
+
             try
             {
                 if (_disabled)
                     return;
 
-                string routeLowered = RouteLowered(context);
-
-                using (TimedLock lck = TimedLock.Lock(_lockObject))
+                using (StopWatchTimer stopwatchTimer = StopWatchTimer.Initialise(_timings))
                 {
-                    if (_ignoredRoutes.Contains(routeLowered))
-                        return;
-                }
+                    string routeLowered = RouteLowered(context);
 
-                if (!context.Response.Headers.ContainsKey("Cache-Control"))
-                {
-
-                    foreach (KeyValuePair<string, CacheControlRoute> keyValuePair in _routePaths)
+                    using (TimedLock lck = TimedLock.Lock(_lockObject))
                     {
-                        if (routeLowered.StartsWith(keyValuePair.Key))
-                        {
-                            context.Response.Headers.Add("Cache-Control", $"max-age={keyValuePair.Value.CacheValue}");
+                        if (_ignoredRoutes.Contains(routeLowered))
                             return;
+                    }
+
+                    if (!context.Response.Headers.ContainsKey("Cache-Control"))
+                    {
+
+                        foreach (KeyValuePair<string, CacheControlRoute> keyValuePair in _routePaths)
+                        {
+                            if (routeLowered.StartsWith(keyValuePair.Key))
+                            {
+                                context.Response.Headers.Add("Cache-Control", $"max-age={keyValuePair.Value.CacheValue}");
+                                return;
+                            }
                         }
                     }
-                }
 
-                using (TimedLock lck = TimedLock.Lock(_lockObject))
-                {
-                    _ignoredRoutes.Add(routeLowered);
+                    using (TimedLock lck = TimedLock.Lock(_lockObject))
+                    {
+                        _ignoredRoutes.Add(routeLowered);
+                    }
                 }
             }
-            catch (Exception error)
-            {
-                if (Initialisation.GetLogger != null)
-                    Initialisation.GetLogger.AddToLog(LogLevel.CacheControlError, error, 
-                        System.Reflection.MethodBase.GetCurrentMethod().Name);
-            }
+
             finally
             {
                 await _next(context);
@@ -139,3 +149,5 @@ namespace CacheControl.Plugin
         #endregion Private Methods
     }
 }
+
+#pragma warning restore CS1591

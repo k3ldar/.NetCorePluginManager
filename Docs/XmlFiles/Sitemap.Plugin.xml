@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Sitemap.Plugin</name>
+    </assembly>
+    <members>
+        <member name="T:Sitemap.Plugin.SitemapMiddleware">
+            <summary>
+            Sitemap middleware class, this module extends BaseMiddlware and is injected into the request pipeline.
+            </summary>
+        </member>
+        <member name="T:Sitemap.Plugin.SitemapMiddlewareExtender">
+            <summary>
+            Sitemap middleware extender
+            </summary>
+        </member>
+        <member name="M:Sitemap.Plugin.SitemapMiddlewareExtender.UseSitemaps(Microsoft.AspNetCore.Builder.IApplicationBuilder)">
+            <summary>
+            IApplicationBuilder extender method.
+            
+            Allows easy use of registering SitemapMiddleware.Plugin
+            </summary>
+            <param name="builder">IApplicationBuilder instance</param>
+            <returns>IApplicationBuilder</returns>
+            <example><pre style="font-family:Consolas;font-size:13px;color:black;background:white;"><span style="color:#1f377f;">app</span>.<span style="color:#74531f;">UseSitemaps</span>();</pre></example>
+        </member>
+        <member name="T:Sitemap.Plugin.Classes.SystemAdmin.SitemapTimingsSubMenu">
+            <summary>
+            Returns Timings information for all time spent processing Sitemap requests and can 
+            be viewed within SystemAdmin.Plugin.  
+            
+            This class descends from SystemAdminSubMenu.
+            </summary>
+        </member>
+        <member name="M:Sitemap.Plugin.Classes.SystemAdmin.SitemapTimingsSubMenu.Data">
+            <summary>
+            Returns Timings data in milliseconds for time spent processing by Sitemap.Plugin requests.
+            </summary>
+            <returns>string</returns>
+        </member>
+        <member name="T:Sitemap.Plugin.PluginInitialisation">
+            <summary>
+            Implements IPlugin which allows the Sitemap.Plugin module to be
+            loaded as a plugin module
+            </summary>
+        </member>
+    </members>
+</doc>

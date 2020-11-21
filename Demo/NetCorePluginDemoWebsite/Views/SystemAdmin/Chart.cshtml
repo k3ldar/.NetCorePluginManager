@@ -1,0 +1,106 @@
+﻿@model SystemAdmin.Plugin.Models.ChartViewModel
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
+@{
+ViewData["Title"] = "Grid";
+bool isLine = Model.DataValues.Count > 1;
+}
+<link rel="stylesheet" href="~/css/SystemAdmin.css" asp-append-version="true" />
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript">
+@if (isLine)
+{
+@Html.Raw("google.charts.load('current', { 'packages': ['line'] });");
+@Html.Raw("google.charts.setOnLoadCallback(drawLineChart);");
+}
+else
+{
+@Html.Raw("google.charts.load('current', { 'packages': ['bar'] });");
+@Html.Raw("google.charts.setOnLoadCallback(drawBarChart);");
+}
+function drawLineChart() {
+var data = new google.visualization.DataTable();
+@{
+foreach (KeyValuePair<SharedPluginFeatures.ChartDataType, string> header in Model.DataNames)
+{
+@Html.Raw($"data.addColumn('{header.Key.ToString().ToLower()}', '{header.Value}');");
+}
+System.Text.StringBuilder chartData = new System.Text.StringBuilder();
+chartData.Append("data.addRows([");
+bool newLineRow = false;
+foreach (KeyValuePair<string, List<decimal>> dataValues in Model.DataValues)
+{
+if (newLineRow)
+chartData.Append(',');
+chartData.Append('[');
+chartData.Append($"'{dataValues.Key}',");
+for (int i = 0; i < dataValues.Value.Count; i++)
+{
+chartData.Append(dataValues.Value[i].ToString(System.Threading.Thread.CurrentThread.CurrentUICulture));
+if (i < dataValues.Value.Count - 1)
+chartData.Append(',');
+}
+chartData.Append(']');
+newLineRow = true;
+}
+chartData.Append("]);");
+@Html.Raw(chartData.ToString());
+}
+var options = {
+chart: {
+title: '@Model.ChartTitle',
+},
+width: 900,
+height: 500
+};
+var chart = new google.charts.Line(document.getElementById('chart_data'));
+chart.draw(data, google.charts.Line.convertOptions(options));
+}
+function drawBarChart() {
+var data = new google.visualization.DataTable();
+@{
+foreach (KeyValuePair<SharedPluginFeatures.ChartDataType, string> header in Model.DataNames)
+{
+@Html.Raw($"data.addColumn('{header.Key.ToString().ToLower()}', '{header.Value}');");
+}
+System.Text.StringBuilder barData = new System.Text.StringBuilder();
+barData.Append("data.addRows([");
+bool newbarRow = false;
+foreach (KeyValuePair<string, List<decimal>> dataValues in Model.DataValues)
+{
+if (newbarRow)
+barData.Append(',');
+barData.Append('[');
+barData.Append($"'{dataValues.Key}',");
+for (int i = 0; i < dataValues.Value.Count; i++)
+{
+barData.Append(dataValues.Value[i].ToString(System.Threading.Thread.CurrentThread.CurrentUICulture));
+if (i < dataValues.Value.Count - 1)
+barData.Append(',');
+}
+barData.Append(']');
+newbarRow = true;
+}
+barData.Append("]);");
+@Html.Raw(barData.ToString());
+}
+var options = {
+chart: {
+title: '@Model.ChartTitle',
+},
+width: 900,
+height: 500
+};
+var chart = new google.charts.Bar(document.getElementById('chart_data'));
+chart.draw(data, google.charts.Bar.convertOptions(options));
+}
+</script>
+<div class="row">
+<div class="col-sm-12">
+<h2>@Model.Title</h2>
+</div>
+</div>
+<div class="row">
+<div class="col systemGrid">
+<div id="chart_data"></div>
+</div>
+</div>

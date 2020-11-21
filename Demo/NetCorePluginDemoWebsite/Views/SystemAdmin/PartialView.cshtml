@@ -1,0 +1,34 @@
+﻿@model SystemAdmin.Plugin.Models.PartialViewModel
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
+@{
+ViewData["Title"] = "Grid";
+}
+<link rel="stylesheet" href="~/css/SystemAdmin.css" asp-append-version="true" />
+<div class="row">
+<div class="col-sm-12">
+<h2>@Model.Title</h2>
+</div>
+</div>
+<div class="row">
+<div class="col systemGrid">
+<div id="pView"></div>
+</div>
+</div>
+<script type="text/javascript">
+$(document).ready(function () {
+$.ajax({
+type: 'GET',
+url: '@Model.PartialView',
+cache: false,
+success: function (response) {
+$('#pView').html(response);
+systemAdmin.hookForms();
+},
+})
+});
+var settings = {
+partialViewContent: '#pView',
+controllerRoot: '@Model.ControllerRoot',
+}
+systemAdmin.init(settings);
+</script>

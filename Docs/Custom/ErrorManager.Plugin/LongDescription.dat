@@ -1,0 +1,39 @@
+<p>
+The error manager plugin module is both a website and middleware plugin module.  The middleware contains exception handling and should be loaded first to ensure that it can capture any exceptions generated.  Host applications should implement the IErrorManager interface which is used by the middleware to obtain extra information for missing links or provide extra information on other exceptions.
+</p>
+<h3>Exceptions</h3>
+<p>
+Should an exception be raised within the application, the Error Manager plugin modules middleware will call the IErrorManager ErrorRaised method.  The error information is also cached so that repeated errors raised at the same location do not repeatedly call ErrorRaised method.
+</p>
+<h3>403 - Forbidden</h3>
+<p>
+Should a controller action return status 403, the error manager will intercept and redirect the request to the login page.  A return url can be provided so the request can go back to the originating page after the user has logged in.  Spider.Plugin will also raise a 403 should a bot attempt to access a forbidden area.  RestrictIp.Plugin will also generate a 403 response if a user attempt to access a restricted route.
+</p>
+<h3>404 - Missing Links</h3>
+<p>
+If the error manager plugin detects missing links, it will first call the MissingPage method of IErrorManager, if a replacement page is provided then the context will be redircted to the new page.  If no replacement page is provided then a standard 404 page will be shown.
+</p>
+<h3>406 - Not Acceptable</h3>
+<p>
+If a controller action returns status 406, the context is redirected to the Error Managers NotAcceptable page.
+</p>
+<h3>420/429 - Too Many Requests</h3>
+<p>
+If a controller returns status 420 or 429, the context is redirected to the Error Managers HighVolume page.  BadEgg.Plugin module returns 429 by default if it detects that requests exceed the set limit.
+</p>
+<h3>System Admin Plugin</h3>
+<p>
+The error manager plugin enables three system admin menu items, one for general exceptions, one for missing links and a further Timings menu to view how much time was spent processing errors.
+</p>
+<h3>Customise Error Pages</h3>
+<p>
+As with all website plugin modules, the pages that are created in /Views/Error folder can be customised and personalised from their default settings to match the theme of the website where they will be shown.
+</p>
+<h3>Settings</h3>
+<p>
+Please view ErrorManagerSettings for details on how to customize the Error Manager plugin.
+</p>
+<h3>How to use</h3>
+<p>
+The Error Manager plugin should be loaded using the Plugin Manager, this module should be the first module in the PluginFiles list in PluginSettings.
+</p>
