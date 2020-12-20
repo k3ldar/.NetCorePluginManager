@@ -28,10 +28,10 @@ using AspNetCore.PluginManager.DemoWebsite.Helpers;
 
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 
 using Middleware;
 using Middleware.Accounts;
+using Middleware.DynamicContent;
 using Middleware.Helpdesk;
 
 using PluginManager.Abstractions;
@@ -64,6 +64,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
             services.AddSingleton<IBlogProvider, MockBlogProvider>();
             services.AddSingleton<IClaimsProvider, MockClaimsProvider>();
             services.AddSingleton<IUserSearch, MockUserSearch>();
+            services.AddSingleton<IDynamicContentProvider, MockDynamicContentProvider>();
         }
 
         public void Finalise()

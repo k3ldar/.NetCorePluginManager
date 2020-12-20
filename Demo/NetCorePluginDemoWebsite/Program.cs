@@ -47,6 +47,7 @@ namespace AspNetCore.PluginManager.DemoWebsite
             PluginManagerService.UsePlugin(typeof(SeoPlugin.PluginInitialisation));
             PluginManagerService.UsePlugin(typeof(Localization.Plugin.PluginInitialisation));
             PluginManagerService.UsePlugin(typeof(Breadcrumb.Plugin.PluginInitialisation));
+            PluginManagerService.UsePlugin(typeof(LoginPlugin.PluginInitialisation));
             PluginManagerService.UsePlugin(typeof(WebSmokeTest.Plugin.PluginInitialisation));
             PluginManagerService.UsePlugin(typeof(GeoIp.Plugin.PluginInitialisation));
 
@@ -63,7 +64,6 @@ namespace AspNetCore.PluginManager.DemoWebsite
                 PluginManagerService.UsePlugin(typeof(ShoppingCartPlugin.PluginInitialisation));
                 PluginManagerService.UsePlugin(typeof(HelpdeskPlugin.PluginInitialisation));
                 PluginManagerService.UsePlugin(typeof(UserAccount.Plugin.PluginInitialisation));
-                PluginManagerService.UsePlugin(typeof(LoginPlugin.PluginInitialisation));
                 PluginManagerService.UsePlugin(typeof(Sitemap.Plugin.PluginInitialisation));
                 PluginManagerService.UsePlugin(typeof(SystemAdmin.Plugin.PluginInitialisation));
                 PluginManagerService.UsePlugin(typeof(DownloadPlugin.PluginInitialisation));
@@ -71,6 +71,7 @@ namespace AspNetCore.PluginManager.DemoWebsite
                 PluginManagerService.UsePlugin(typeof(Blog.Plugin.PluginInitialisation));
                 PluginManagerService.UsePlugin(typeof(DemoWebsitePlugin.Plugin.PluginInitialisation));
                 PluginManagerService.UsePlugin(typeof(DemoApiPlugin.PluginInitialisation));
+                PluginManagerService.UsePlugin(typeof(DynamicContent.Plugin.PluginInitialisation));
 
                 CreateWebHostBuilder(args).Build().Run();
             }

@@ -414,7 +414,7 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
             IPluginTypesService pluginTypesService = _testPluginSmokeTest.GetRequiredService<IPluginTypesService>();
 
             TestHttpContext httpContext = new TestHttpContext(httpRequest, httpResponse,
-                _testPluginSmokeTest.GetServiceProvider());
+                _testPluginSmokeTest.GetServiceProvider(), null);
             ILogger logger = new Logger();
             bool nextDelegateCalled = false;
             RequestDelegate requestDelegate = async (context) => { nextDelegateCalled = true; await Task.Delay(0); };
@@ -458,7 +458,7 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
             serviceCollection.AddSingleton<ISmokeTestProvider>(smokeTestProvider);
 
             TestHttpContext httpContext = new TestHttpContext(httpRequest, httpResponse,
-                serviceCollection.BuildServiceProvider());
+                serviceCollection.BuildServiceProvider(), null);
             ILogger logger = new Logger();
             bool nextDelegateCalled = false;
             RequestDelegate requestDelegate = async (context) => { nextDelegateCalled = true; await Task.Delay(0); };
@@ -508,7 +508,7 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
             serviceCollection.AddSingleton<ISmokeTestProvider>(smokeTestProvider);
 
             TestHttpContext httpContext = new TestHttpContext(httpRequest, httpResponse,
-                serviceCollection.BuildServiceProvider());
+                serviceCollection.BuildServiceProvider(), null);
             ILogger logger = new Logger();
             bool nextDelegateCalled = false;
             RequestDelegate requestDelegate = async (context) => { nextDelegateCalled = true; await Task.Delay(0); };
@@ -553,7 +553,7 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
             IServiceCollection serviceCollection = new ServiceCollection() as IServiceCollection;
 
             TestHttpContext httpContext = new TestHttpContext(httpRequest, httpResponse,
-                serviceCollection.BuildServiceProvider());
+                serviceCollection.BuildServiceProvider(), null);
             ILogger logger = new Logger();
             bool nextDelegateCalled = false;
             RequestDelegate requestDelegate = async (context) => { nextDelegateCalled = true; await Task.Delay(0); };
@@ -590,7 +590,7 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
             serviceCollection.AddSingleton<ISmokeTestProvider>(smokeTestProvider);
 
             TestHttpContext httpContext = new TestHttpContext(httpRequest, httpResponse,
-                serviceCollection.BuildServiceProvider());
+                serviceCollection.BuildServiceProvider(), null);
             ILogger logger = new Logger();
             bool nextDelegateCalled = false;
             RequestDelegate requestDelegate = async (context) => { nextDelegateCalled = true; await Task.Delay(0); };

@@ -1197,6 +1197,58 @@
             </summary>
             <value>string</value>
         </member>
+        <member name="T:Middleware.DynamicContent.DynamicContentPage">
+            <summary>
+            Contains the contents for a dynamic page
+            </summary>
+        </member>
+        <member name="M:Middleware.DynamicContent.DynamicContentPage.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="P:Middleware.DynamicContent.DynamicContentPage.Id">
+            <summary>
+            Unique page id
+            </summary>
+        </member>
+        <member name="P:Middleware.DynamicContent.DynamicContentPage.Name">
+            <summary>
+            Name of dynamic page
+            </summary>
+        </member>
+        <member name="P:Middleware.DynamicContent.DynamicContentPage.Content">
+            <summary>
+            Dynamic content that will be displayed within the page
+            </summary>
+        </member>
+        <member name="T:Middleware.DynamicContent.IDynamicContentProvider">
+            <summary>
+            Dynamic content provider for integrating with the DynamicContent.Plugin module.
+            
+            This item must be implemented by the host application and made available via DI.
+            </summary>
+        </member>
+        <member name="M:Middleware.DynamicContent.IDynamicContentProvider.RenderDynamicPage(SharedPluginFeatures.DynamicContent.DynamicContentTemplate)">
+            <summary>
+            Renders the contents of a dynamic content template
+            </summary>
+            <param name="contentTemplate">Dynamic content template to be rendered.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Middleware.DynamicContent.IDynamicContentProvider.GetActiveCustomPages">
+            <summary>
+            Retrieves a list of custom pages
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Middleware.DynamicContent.IDynamicContentProvider.GetCustomPage(System.Int32)">
+            <summary>
+            Retrieves dynamic page content
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
         <member name="T:Middleware.Helpdesk.Feedback">
             <summary>
             Feedback item used in HelpdeskPlugin module and IHelpdeskProvider interface.
@@ -2958,6 +3010,26 @@
             File download by anyone
             </summary>
             <param name="fileId">Unique id of the file being downloaded.</param>
+        </member>
+        <member name="T:Middleware.IDynamicContentPage">
+            <summary>
+            Interface for dynamic content page
+            </summary>
+        </member>
+        <member name="P:Middleware.IDynamicContentPage.Id">
+            <summary>
+            Unique page id
+            </summary>
+        </member>
+        <member name="P:Middleware.IDynamicContentPage.Name">
+            <summary>
+            Name of dynamic page
+            </summary>
+        </member>
+        <member name="P:Middleware.IDynamicContentPage.Content">
+            <summary>
+            Dynamic content that will be displayed within the page
+            </summary>
         </member>
         <member name="T:Middleware.ILicenceProvider">
             <summary>

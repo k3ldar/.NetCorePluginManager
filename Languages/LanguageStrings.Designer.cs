@@ -22831,6 +22831,15 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Dynamic Content.
+        /// </summary>
+        public static string DynamicContent {
+            get {
+                return ResourceManager.GetString("DynamicContent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Eczema.
         /// </summary>
         public static string Eczema {
@@ -23939,6 +23948,24 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Height must be between {0} and {1}.
+        /// </summary>
+        public static string InvalidHeightBetween {
+            get {
+                return ResourceManager.GetString("InvalidHeightBetween", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Height must be at least {0}.
+        /// </summary>
+        public static string InvalidHeightMinimum {
+            get {
+                return ResourceManager.GetString("InvalidHeightMinimum", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Invalid Permissions.
         /// </summary>
         public static string InvalidPermission {
@@ -23989,6 +24016,24 @@ namespace Languages {
         public static string InvalidUsernameOrPassword {
             get {
                 return ResourceManager.GetString("InvalidUsernameOrPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Width must be between {0} and {1}.
+        /// </summary>
+        public static string InvalidWidthBetween {
+            get {
+                return ResourceManager.GetString("InvalidWidthBetween", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Width must be at least {0}.
+        /// </summary>
+        public static string InvalidWidthMinimum {
+            get {
+                return ResourceManager.GetString("InvalidWidthMinimum", resourceCulture);
             }
         }
         
@@ -29302,6 +29347,33 @@ namespace Languages {
         public static string TelephoneRequired {
             get {
                 return ResourceManager.GetString("TelephoneRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Template Editor.
+        /// </summary>
+        public static string TemplateEditor {
+            get {
+                return ResourceManager.GetString("TemplateEditor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Html Content.
+        /// </summary>
+        public static string TemplateNameHtml {
+            get {
+                return ResourceManager.GetString("TemplateNameHtml", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Image.
+        /// </summary>
+        public static string TemplateNameImage {
+            get {
+                return ResourceManager.GetString("TemplateNameImage", resourceCulture);
             }
         }
         

@@ -24,6 +24,7 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
@@ -46,12 +47,16 @@ namespace AspNetCore.PluginManager.Tests.Controllers
         protected static bool? _pluginLoadedSpiderPlugin = null;
         protected static IPluginClassesService _pluginServicesSpiderPlugin;
 
-        protected ControllerContext CreateTestControllerContext()
+        protected static TestPluginManager _testDynamicContentPlugin = new TestPluginManager();
+        protected static bool? _pluginLoadedDynamicContentPlugin = null;
+        protected static IPluginClassesService _pluginServicesDynamicContent;
+
+        protected ControllerContext CreateTestControllerContext(List<BreadcrumbItem> breadcrumbs = null)
         {
             TestHttpRequest httpRequest = new TestHttpRequest();
             TestHttpResponse httpResponse = new TestHttpResponse();
             ControllerContext Result = new ControllerContext();
-            Result.HttpContext = new TestHttpContext(httpRequest, httpResponse);
+            Result.HttpContext = new TestHttpContext(httpRequest, httpResponse,  breadcrumbs);
 
             return Result;
         }
@@ -88,6 +93,29 @@ namespace AspNetCore.PluginManager.Tests.Controllers
                 throw new InvalidOperationException($"Method {methodName} does not exist");
 
             return methodInfo.IsDefined(typeof(T));
+        }
+
+        public bool MethodRouteAttribute(Type classType, string methodName, string routeValue)
+        {
+            if (classType == null)
+                throw new ArgumentNullException(nameof(classType));
+
+            if (String.IsNullOrEmpty(methodName))
+                throw new ArgumentNullException(nameof(methodName));
+
+            MethodInfo methodInfo = classType.GetMethod(methodName);
+
+            if (methodInfo == null)
+                throw new InvalidOperationException($"Method {methodName} does not exist");
+
+            bool isDefined = methodInfo.IsDefined(typeof(RouteAttribute));
+
+            if (!isDefined)
+                return false;
+
+            RouteAttribute routeAttribute = methodInfo.GetCustomAttributes(true).OfType<RouteAttribute>().FirstOrDefault();
+
+            return routeAttribute.Template.Equals(routeValue);
         }
 
         protected void ValidateBaseModel(ViewResult viewResult)
@@ -134,6 +162,43 @@ namespace AspNetCore.PluginManager.Tests.Controllers
             }
 
             Assert.IsNotNull(_pluginServicesSpiderPlugin);
+
+        }
+
+        protected void InitializeDynamicContentPluginManager()
+        {
+            lock (_testDynamicContentPlugin)
+            {
+                while (_pluginLoadedDynamicContentPlugin.HasValue && !_pluginLoadedDynamicContentPlugin.Value)
+                {
+                    System.Threading.Thread.Sleep(30);
+                }
+
+                if (_pluginLoadedDynamicContentPlugin.HasValue && _pluginLoadedDynamicContentPlugin.Value)
+                {
+                    return;
+                }
+
+                if (_pluginLoadedDynamicContentPlugin == null)
+                {
+                    _pluginLoadedDynamicContentPlugin = false;
+                }
+
+                _testDynamicContentPlugin.AddAssembly(Assembly.GetExecutingAssembly());
+                _testDynamicContentPlugin.UsePlugin(typeof(DemoWebsite.Classes.PluginInitialisation));
+                _testDynamicContentPlugin.UsePlugin(typeof(MemoryCache.Plugin.PluginInitialisation));
+                _testDynamicContentPlugin.UsePlugin(typeof(LoginPlugin.PluginInitialisation));
+                _testDynamicContentPlugin.UsePlugin(typeof(Spider.Plugin.PluginInitialisation));
+                _testDynamicContentPlugin.UsePlugin(typeof(DynamicContent.Plugin.PluginInitialisation));
+
+                _testDynamicContentPlugin.ConfigureServices();
+
+                _pluginServicesDynamicContent = new pm.PluginServices(_testDynamicContentPlugin) as IPluginClassesService;
+
+                _pluginLoadedDynamicContentPlugin = true;
+            }
+
+            Assert.IsNotNull(_pluginServicesDynamicContent);
 
         }
 

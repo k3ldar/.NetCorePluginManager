@@ -47,6 +47,7 @@ namespace AspNetCore.PluginManager.Tests
         private readonly TestHttpRequest _httpRequest;
         private readonly TestHttpResponse _httpResponse;
         private readonly IServiceProvider _serviceProvider;
+        private readonly List<BreadcrumbItem> _breadcrumbs;
 
         #endregion Private Members
 
@@ -58,16 +59,20 @@ namespace AspNetCore.PluginManager.Tests
             _httpResponse = new TestHttpResponse();
         }
 
-        public TestHttpContext(in TestHttpRequest httpRequest, in TestHttpResponse httpResponse)
+        public TestHttpContext(in TestHttpRequest httpRequest, in TestHttpResponse httpResponse, 
+            List<BreadcrumbItem> breadcrumbs = null)
         {
             _httpRequest = httpRequest ?? throw new ArgumentNullException(nameof(httpRequest));
             _httpResponse = httpResponse ?? throw new ArgumentNullException(nameof(httpResponse));
+            _breadcrumbs = breadcrumbs;
         }
 
-        public TestHttpContext(in TestHttpRequest httpRequest, in TestHttpResponse httpResponse, IServiceProvider serviceProvider)
+        public TestHttpContext(in TestHttpRequest httpRequest, in TestHttpResponse httpResponse, 
+            IServiceProvider serviceProvider, List<BreadcrumbItem> breadcrumbs)
             : this(httpRequest, httpResponse)
         {
             _serviceProvider = serviceProvider ?? throw new ArgumentNullException(nameof(serviceProvider));
+            _breadcrumbs = breadcrumbs;
         }
 
         #endregion Constructors
@@ -104,11 +109,18 @@ namespace AspNetCore.PluginManager.Tests
         {
             get
             {
-                return new Dictionary<object, object>
+                Dictionary<object, object> Result = new Dictionary<object, object>
                 {
                     { Constants.BasketSummary, new ShoppingCartSummary(1, 0, 0, 0, 0, 0, new System.Globalization.CultureInfo("en-GB"), "GBP") },
                     { Constants.UserSession, new UserSession() { InternalSessionID = DateTime.Now.Ticks} }
                 };
+
+                if (_breadcrumbs != null)
+                {
+                    Result.Add(Constants.Breadcrumbs, _breadcrumbs);
+                }
+
+                return Result;
             }
 
             set

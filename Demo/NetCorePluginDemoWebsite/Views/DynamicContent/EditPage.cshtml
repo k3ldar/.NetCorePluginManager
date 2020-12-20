@@ -1,0 +1,35 @@
+﻿@model DynamicContent.Plugin.Model.EditPageModel
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="~/js/dynamicContent.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<link href="~/css/DynamicContent.css" rel="stylesheet" type="text/css" />
+<div class="row">
+<div class="col-sm-2">
+<button value="Preview" onclick="dynamicContent.preview()">@Localizer[Languages.LanguageStrings.Preview]</button>
+</div>
+<div class="col-sm-10">
+<ul id="sortable">
+<li>Loading...</li>
+</ul>
+</div>
+</div>
+<div class="modal fade" id="dlgEdit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true"></div>
+<div class="modal fade" id="dlgDelete" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-id="-1"></div>
+<script>
+var settings = {
+dynamicContainer: '#sortable',
+dynamicContainerId: 'sortable',
+cacheId: '@Model.CacheId',
+getDynamicUrlContent: '/@DynamicContent.Plugin.Controllers.DynamicContentController.Name/@nameof(DynamicContent.Plugin.Controllers.DynamicContentController.GetContent)/',
+updatePositionUrl: '/@DynamicContent.Plugin.Controllers.DynamicContentController.Name/UpdatePosition',
+editDialogue: '#dlgEdit',
+editDialogueUrl: '/DynamicContent/TemplateEditor/',
+errorList: '#errorList',
+previewUrl: '/@DynamicContent.Plugin.Controllers.DynamicContentController.Name/@nameof(DynamicContent.Plugin.Controllers.DynamicContentController.Preview)/',
+deleteDialogue: '#dlgDelete',
+deleteDialogueUrl: '/@DynamicContent.Plugin.Controllers.DynamicContentController.Name/@nameof(DynamicContent.Plugin.Controllers.DynamicContentController.DeleteControl)/',
+};
+dynamicContent.init(settings);
+</script>

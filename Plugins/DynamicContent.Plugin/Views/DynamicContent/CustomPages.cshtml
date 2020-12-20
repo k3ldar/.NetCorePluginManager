@@ -1,0 +1,27 @@
+﻿@model DynamicContent.Plugin.Model.CustomPagesModel
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
+
+<div class="row">
+    <div class="col-sm-12 col-lg-10">
+        <h3>@Localizer[Languages.LanguageStrings.DynamicContent]</h3>
+    </div>
+</div>
+
+@foreach (SharedPluginFeatures.NameIdModel customPage in Model.CustomPages)
+{
+    using (Html.BeginForm(nameof(DynamicContent.Plugin.Controllers.DynamicContentController.EditPage), DynamicContent.Plugin.Controllers.DynamicContentController.Name, FormMethod.Get))
+    {
+        <input type="hidden" name="id" value="@customPage.Id" />
+        <div class="row" style="margin:0 0 8px 0;">
+            <div class="col-sm-8">
+                @customPage.Name
+            </div>
+            <div class="col-sm-2">
+                <input class="btn btn-primary" type="submit" value="Edit" />
+            </div>
+            <div class="col-sm-2">
+                <input class="btn" type="button" value="View" onclick="window.location.href='/Page/@customPage.Name';" />
+            </div>
+        </div>
+    }
+}

@@ -78,6 +78,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Search.Plugin", "Plugins\Se
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebSmokeTest.Plugin", "Plugins\WebSmokeTest.Plugin\WebSmokeTest.Plugin.csproj", "{C004BA86-0F3E-4A16-BA00-2D23E8C1210A}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DynamicContent.Plugin", "Plugins\DynamicContent.Plugin\DynamicContent.Plugin.csproj", "{636D69A3-40F5-49D4-BA46-D5FAEC67D425}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -224,6 +226,10 @@ Global
 		{C004BA86-0F3E-4A16-BA00-2D23E8C1210A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C004BA86-0F3E-4A16-BA00-2D23E8C1210A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C004BA86-0F3E-4A16-BA00-2D23E8C1210A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{636D69A3-40F5-49D4-BA46-D5FAEC67D425}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{636D69A3-40F5-49D4-BA46-D5FAEC67D425}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{636D69A3-40F5-49D4-BA46-D5FAEC67D425}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{636D69A3-40F5-49D4-BA46-D5FAEC67D425}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

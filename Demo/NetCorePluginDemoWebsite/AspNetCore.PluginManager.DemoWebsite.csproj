@@ -129,11 +129,13 @@
   </ItemGroup>
   
   <ItemGroup>
+    <ProjectReference Include="..\..\Plugins\DynamicContent.Plugin\DynamicContent.Plugin.csproj" />
     <ProjectReference Include="..\DemoRazorWebsitePlugin\DemoWebsitePlugin.csproj" />
     <ProjectReference Include="..\DemoApiPlugin\DemoApiPlugin.csproj" />
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Views\DynamicContent\" />
     <Folder Include="Views\Spider\" />
     <Folder Include="wwwroot\images\Download\" />
   </ItemGroup>

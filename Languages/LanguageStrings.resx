@@ -14169,4 +14169,36 @@ You will shortly receive an email with the details of your order.</comment>
     <value>Cookie Login</value>
     <comment>Automatic Cookie Login</comment>
   </data>
+  <data name="TemplateNameImage" xml:space="preserve">
+    <value>Image</value>
+    <comment>Image</comment>
+  </data>
+  <data name="TemplateNameHtml" xml:space="preserve">
+    <value>Html Content</value>
+    <comment>Html Content</comment>
+  </data>
+  <data name="DynamicContent" xml:space="preserve">
+    <value>Dynamic Content</value>
+    <comment>Dynamic Content</comment>
+  </data>
+  <data name="TemplateEditor" xml:space="preserve">
+    <value>Template Editor</value>
+    <comment>Template Editor</comment>
+  </data>
+  <data name="InvalidHeightBetween" xml:space="preserve">
+    <value>Height must be between {0} and {1}</value>
+    <comment>Height must be between {0} and {1}</comment>
+  </data>
+  <data name="InvalidHeightMinimum" xml:space="preserve">
+    <value>Height must be at least {0}</value>
+    <comment>Height must be at least {0}</comment>
+  </data>
+  <data name="InvalidWidthBetween" xml:space="preserve">
+    <value>Width must be between {0} and {1}</value>
+    <comment>Width must be between {0} and {1}</comment>
+  </data>
+  <data name="InvalidWidthMinimum" xml:space="preserve">
+    <value>Width must be at least {0}</value>
+    <comment>Width must be at least {0}</comment>
+  </data>
 </root>

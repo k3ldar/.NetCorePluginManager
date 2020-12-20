@@ -343,6 +343,16 @@ namespace SharedPluginFeatures
         public const string PolicyNameStaff = "MemberOfStaff";
 
         /// <summary>
+        /// User can edit dynamic content
+        /// </summary>
+        public const string PolicyNameContentEditor = "ContentEditor";
+
+        /// <summary>
+        /// Claim name for allowing user to manage content
+        /// </summary>
+        public const string ClaimNameManageContent = "ManageContent";
+
+        /// <summary>
         /// Claim name for administrators
         /// </summary>
         public const string ClaimNameAdministrator = "Administrator";
