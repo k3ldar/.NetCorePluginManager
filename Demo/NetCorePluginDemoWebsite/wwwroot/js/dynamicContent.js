@@ -2,6 +2,8 @@
 let _settings = {
 dynamicContainer: '',
 dynamicContainerId: '',
+templateId: '',
+templateUrl: '',
 cacheId: '',
 getDynamicUrlContent: '',
 updatePositionUrl: '',
@@ -22,6 +24,7 @@ $(_settings.dynamicContainer).sortable({
 stop: root.updated
 });
 root.updatePage(_settings.cacheId);
+root.updateTemplates();
 });
 },
 updatePage: function (cacheId) {
@@ -144,6 +147,25 @@ root.submitData(form, route, data, method, encoding, _settings.deleteDialogue);
 preview: function () {
 let url = _settings.previewUrl + _settings.cacheId;
 window.open(url, '_blank');
+},
+updateTemplates: function () {
+$.ajax({
+type: 'POST',
+url: _settings.templateUrl,
+cache: false,
+success: function (response) {
+$(_settings.templateId).html(response);
+},
+});
+},
+dragStart: function (event) {
+event.dataTransfer.setData('text', event.target.id);
+},
+dragOver: function (event) {
+event.preventDefault();
+},
+dropTemplate: function (event) {
+debugger;
 }
 };
 return root;

@@ -356,6 +356,53 @@ namespace DynamicContent.Plugin.Controllers
             return GenerateSuccessResponse();
         }
 
+        [LoggedIn]
+        [HttpPost]
+        [AjaxOnly]
+        public IActionResult GetTemplates()
+        {
+            TemplatesModel model = new TemplatesModel();
+
+            foreach (DynamicContentTemplate template in _dynamicContentProvider.Templates())
+            {
+                model.Templates.Add(new TemplateModel(template.UniqueId, 
+                    template.Name, 
+                    $"/images/dynamiccontent/templates/{HtmlHelper.RouteFriendlyName(template.Name)}.png"));
+            }
+
+            return PartialView("/Views/DynamicContent/_Templates.cshtml", model);
+        }
+
+        [HttpPost]
+        [LoggedIn]
+        [AjaxOnly]
+        [Route("DynamicContent/AddTemplate/{cacheId}/{templateId}")]
+        public IActionResult AddTemplateToPage(string cacheId, string templateId)
+        {
+            if (String.IsNullOrEmpty(cacheId))
+                return GenerateErrorResponse(400);
+
+            if (String.IsNullOrEmpty(templateId))
+                return GenerateErrorResponse(400);
+
+            CacheItem cacheItem = _memoryCache.GetExtendingCache().Get(cacheId);
+
+            if (cacheItem == null)
+                return GenerateErrorResponse(400);
+
+            DynamicContentPage dynamicContentPage = cacheItem.Value as DynamicContentPage;
+
+            if (dynamicContentPage == null)
+                return GenerateErrorResponse(400);
+
+            DynamicContentTemplate control = dynamicContentPage.Content.Where(ctl => ctl.UniqueId.Equals(templateId)).FirstOrDefault();
+
+            if (control == null)
+                return GenerateErrorResponse(400);
+
+            return PartialView("/Views/DynamicContent/_DeleteControl.cshtml", CreateDeleteControlModel(cacheId, control));
+        }
+
         #endregion Public Action Methods
 
         #region Private Methods

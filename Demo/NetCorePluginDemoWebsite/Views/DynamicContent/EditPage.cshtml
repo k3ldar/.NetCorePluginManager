@@ -8,9 +8,10 @@
 <div class="row">
 <div class="col-sm-2">
 <button value="Preview" onclick="dynamicContent.preview()">@Localizer[Languages.LanguageStrings.Preview]</button>
+<div id="templates"></div>
 </div>
 <div class="col-sm-10">
-<ul id="sortable">
+<ul id="sortable" ondragover="dynamicContent.dragOver(event)" ondrop="dynamicContent.dropTemplate(event)">
 <li>Loading...</li>
 </ul>
 </div>
@@ -21,6 +22,8 @@
 var settings = {
 dynamicContainer: '#sortable',
 dynamicContainerId: 'sortable',
+templateId: '#templates',
+templateUrl: '/@DynamicContent.Plugin.Controllers.DynamicContentController.Name/@nameof(DynamicContent.Plugin.Controllers.DynamicContentController.GetTemplates)/',
 cacheId: '@Model.CacheId',
 getDynamicUrlContent: '/@DynamicContent.Plugin.Controllers.DynamicContentController.Name/@nameof(DynamicContent.Plugin.Controllers.DynamicContentController.GetContent)/',
 updatePositionUrl: '/@DynamicContent.Plugin.Controllers.DynamicContentController.Name/UpdatePosition',

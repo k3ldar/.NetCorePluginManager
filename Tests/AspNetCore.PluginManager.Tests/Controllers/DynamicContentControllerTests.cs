@@ -92,7 +92,8 @@ namespace AspNetCore.PluginManager.Tests.Controllers
         [ExpectedException(typeof(ArgumentNullException))]
         public void Construct_DynamicContentController_InvalidMemoryCache_Throws_ArgumentNullException()
         {
-            DynamicContentController Result = new DynamicContentController(new MockDynamicContentProvider(), null);
+            IPluginClassesService pluginServices = new pm.PluginServices(_testDynamicContentPlugin) as IPluginClassesService;
+            DynamicContentController Result = new DynamicContentController(new MockDynamicContentProvider(pluginServices), null);
         }
 
         [TestMethod]
@@ -160,7 +161,7 @@ namespace AspNetCore.PluginManager.Tests.Controllers
 
             Assert.IsNotNull(sut);
 
-            Assert.AreEqual(3, sut.CustomPages.Count);
+            Assert.AreEqual(4, sut.CustomPages.Count);
         }
 
         [TestMethod]
@@ -193,7 +194,7 @@ namespace AspNetCore.PluginManager.Tests.Controllers
         [TestMethod]
         public void DynamicContentController_EditCustomPage_ReturnsValidCustomPage()
         {
-            DynamicContentController dynamicContentController = CreateDynamicContentController(breadcrumbs: GetBreadcrumbs());
+            DynamicContentController dynamicContentController = CreateDynamicContentController(breadcrumbs: GetDynamicBreadcrumbs());
 
             IActionResult response = dynamicContentController.EditPage(1);
 
@@ -281,7 +282,7 @@ namespace AspNetCore.PluginManager.Tests.Controllers
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
             DefaultMemoryCache memoryCache = new DefaultMemoryCache(settingsProvider);
 
-            DynamicContentController dynamicContentController = CreateDynamicContentController(memoryCache, GetBreadcrumbs());
+            DynamicContentController dynamicContentController = CreateDynamicContentController(memoryCache, GetDynamicBreadcrumbs());
 
             IActionResult editPageResponse = dynamicContentController.EditPage(2);
             ViewResult viewResult = editPageResponse as ViewResult;
@@ -386,7 +387,7 @@ namespace AspNetCore.PluginManager.Tests.Controllers
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
             DefaultMemoryCache memoryCache = new DefaultMemoryCache(settingsProvider);
 
-            DynamicContentController dynamicContentController = CreateDynamicContentController(memoryCache, GetBreadcrumbs());
+            DynamicContentController dynamicContentController = CreateDynamicContentController(memoryCache, GetDynamicBreadcrumbs());
 
             IActionResult editPageResponse = dynamicContentController.EditPage(2);
             ViewResult viewResult = editPageResponse as ViewResult;
@@ -412,7 +413,7 @@ namespace AspNetCore.PluginManager.Tests.Controllers
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
             DefaultMemoryCache memoryCache = new DefaultMemoryCache(settingsProvider);
 
-            DynamicContentController dynamicContentController = CreateDynamicContentController(memoryCache, GetBreadcrumbs());
+            DynamicContentController dynamicContentController = CreateDynamicContentController(memoryCache, GetDynamicBreadcrumbs());
 
             IActionResult editPageResponse = dynamicContentController.EditPage(2);
             ViewResult viewResult = editPageResponse as ViewResult;
@@ -438,7 +439,7 @@ namespace AspNetCore.PluginManager.Tests.Controllers
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
             DefaultMemoryCache memoryCache = new DefaultMemoryCache(settingsProvider);
 
-            DynamicContentController dynamicContentController = CreateDynamicContentController(memoryCache, GetBreadcrumbs());
+            DynamicContentController dynamicContentController = CreateDynamicContentController(memoryCache, GetDynamicBreadcrumbs());
 
             IActionResult editPageResponse = dynamicContentController.EditPage(2);
             ViewResult viewResult = editPageResponse as ViewResult;
@@ -464,7 +465,7 @@ namespace AspNetCore.PluginManager.Tests.Controllers
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
             DefaultMemoryCache memoryCache = new DefaultMemoryCache(settingsProvider);
 
-            DynamicContentController dynamicContentController = CreateDynamicContentController(memoryCache, GetBreadcrumbs());
+            DynamicContentController dynamicContentController = CreateDynamicContentController(memoryCache, GetDynamicBreadcrumbs());
 
             IActionResult editPageResponse = dynamicContentController.EditPage(10);
             ViewResult viewResult = editPageResponse as ViewResult;
@@ -563,7 +564,7 @@ namespace AspNetCore.PluginManager.Tests.Controllers
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
             DefaultMemoryCache memoryCache = new DefaultMemoryCache(settingsProvider);
 
-            DynamicContentController dynamicContentController = CreateDynamicContentController(memoryCache, GetBreadcrumbs());
+            DynamicContentController dynamicContentController = CreateDynamicContentController(memoryCache, GetDynamicBreadcrumbs());
 
             IActionResult editPageResponse = dynamicContentController.EditPage(10);
             ViewResult viewResult = editPageResponse as ViewResult;
@@ -693,7 +694,7 @@ namespace AspNetCore.PluginManager.Tests.Controllers
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
             DefaultMemoryCache memoryCache = new DefaultMemoryCache(settingsProvider);
 
-            DynamicContentController dynamicContentController = CreateDynamicContentController(memoryCache, GetBreadcrumbs());
+            DynamicContentController dynamicContentController = CreateDynamicContentController(memoryCache, GetDynamicBreadcrumbs());
 
             IActionResult editPageResponse = dynamicContentController.EditPage(10);
             ViewResult viewResult = editPageResponse as ViewResult;
@@ -720,7 +721,7 @@ namespace AspNetCore.PluginManager.Tests.Controllers
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
             DefaultMemoryCache memoryCache = new DefaultMemoryCache(settingsProvider);
 
-            DynamicContentController dynamicContentController = CreateDynamicContentController(memoryCache, GetBreadcrumbs());
+            DynamicContentController dynamicContentController = CreateDynamicContentController(memoryCache, GetDynamicBreadcrumbs());
 
             IActionResult editPageResponse = dynamicContentController.EditPage(10);
             ViewResult viewResult = editPageResponse as ViewResult;
@@ -895,7 +896,7 @@ namespace AspNetCore.PluginManager.Tests.Controllers
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
             DefaultMemoryCache memoryCache = new DefaultMemoryCache(settingsProvider);
 
-            DynamicContentController dynamicContentController = CreateDynamicContentController(memoryCache, GetBreadcrumbs());
+            DynamicContentController dynamicContentController = CreateDynamicContentController(memoryCache, GetDynamicBreadcrumbs());
 
             IActionResult editPageResponse = dynamicContentController.EditPage(1);
             ViewResult viewResult = editPageResponse as ViewResult;
@@ -927,7 +928,7 @@ namespace AspNetCore.PluginManager.Tests.Controllers
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
             DefaultMemoryCache memoryCache = new DefaultMemoryCache(settingsProvider);
 
-            DynamicContentController dynamicContentController = CreateDynamicContentController(memoryCache, GetBreadcrumbs());
+            DynamicContentController dynamicContentController = CreateDynamicContentController(memoryCache, GetDynamicBreadcrumbs());
 
             IActionResult editPageResponse = dynamicContentController.EditPage(10);
             ViewResult viewResult = editPageResponse as ViewResult;
@@ -962,7 +963,7 @@ namespace AspNetCore.PluginManager.Tests.Controllers
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
             DefaultMemoryCache memoryCache = new DefaultMemoryCache(settingsProvider);
 
-            DynamicContentController dynamicContentController = CreateDynamicContentController(memoryCache, GetBreadcrumbs());
+            DynamicContentController dynamicContentController = CreateDynamicContentController(memoryCache, GetDynamicBreadcrumbs());
 
             IActionResult editPageResponse = dynamicContentController.EditPage(10);
             ViewResult viewResult = editPageResponse as ViewResult;
@@ -997,7 +998,7 @@ namespace AspNetCore.PluginManager.Tests.Controllers
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
             DefaultMemoryCache memoryCache = new DefaultMemoryCache(settingsProvider);
 
-            DynamicContentController dynamicContentController = CreateDynamicContentController(memoryCache, GetBreadcrumbs());
+            DynamicContentController dynamicContentController = CreateDynamicContentController(memoryCache, GetDynamicBreadcrumbs());
 
             IActionResult editPageResponse = dynamicContentController.EditPage(10);
             ViewResult viewResult = editPageResponse as ViewResult;
@@ -1032,7 +1033,7 @@ namespace AspNetCore.PluginManager.Tests.Controllers
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
             DefaultMemoryCache memoryCache = new DefaultMemoryCache(settingsProvider);
 
-            DynamicContentController dynamicContentController = CreateDynamicContentController(memoryCache, GetBreadcrumbs());
+            DynamicContentController dynamicContentController = CreateDynamicContentController(memoryCache, GetDynamicBreadcrumbs());
 
             IActionResult editPageResponse = dynamicContentController.EditPage(10);
             ViewResult viewResult = editPageResponse as ViewResult;
@@ -1067,7 +1068,7 @@ namespace AspNetCore.PluginManager.Tests.Controllers
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
             DefaultMemoryCache memoryCache = new DefaultMemoryCache(settingsProvider);
 
-            DynamicContentController dynamicContentController = CreateDynamicContentController(memoryCache, GetBreadcrumbs());
+            DynamicContentController dynamicContentController = CreateDynamicContentController(memoryCache, GetDynamicBreadcrumbs());
 
             IActionResult editPageResponse = dynamicContentController.EditPage(10);
             ViewResult viewResult = editPageResponse as ViewResult;
@@ -1102,7 +1103,7 @@ namespace AspNetCore.PluginManager.Tests.Controllers
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
             DefaultMemoryCache memoryCache = new DefaultMemoryCache(settingsProvider);
 
-            DynamicContentController dynamicContentController = CreateDynamicContentController(memoryCache, GetBreadcrumbs());
+            DynamicContentController dynamicContentController = CreateDynamicContentController(memoryCache, GetDynamicBreadcrumbs());
 
             IActionResult editPageResponse = dynamicContentController.EditPage(10);
             ViewResult viewResult = editPageResponse as ViewResult;
@@ -1139,7 +1140,7 @@ namespace AspNetCore.PluginManager.Tests.Controllers
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
             DefaultMemoryCache memoryCache = new DefaultMemoryCache(settingsProvider);
 
-            DynamicContentController dynamicContentController = CreateDynamicContentController(memoryCache, GetBreadcrumbs());
+            DynamicContentController dynamicContentController = CreateDynamicContentController(memoryCache, GetDynamicBreadcrumbs());
 
             IActionResult editPageResponse = dynamicContentController.EditPage(10);
             ViewResult viewResult = editPageResponse as ViewResult;
@@ -1176,7 +1177,7 @@ namespace AspNetCore.PluginManager.Tests.Controllers
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
             DefaultMemoryCache memoryCache = new DefaultMemoryCache(settingsProvider);
 
-            DynamicContentController dynamicContentController = CreateDynamicContentController(memoryCache, GetBreadcrumbs());
+            DynamicContentController dynamicContentController = CreateDynamicContentController(memoryCache, GetDynamicBreadcrumbs());
 
             IActionResult editPageResponse = dynamicContentController.EditPage(10);
             ViewResult viewResult = editPageResponse as ViewResult;
@@ -1213,7 +1214,7 @@ namespace AspNetCore.PluginManager.Tests.Controllers
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
             DefaultMemoryCache memoryCache = new DefaultMemoryCache(settingsProvider);
 
-            DynamicContentController dynamicContentController = CreateDynamicContentController(memoryCache, GetBreadcrumbs());
+            DynamicContentController dynamicContentController = CreateDynamicContentController(memoryCache, GetDynamicBreadcrumbs());
 
             IActionResult editPageResponse = dynamicContentController.EditPage(10);
             ViewResult viewResult = editPageResponse as ViewResult;
@@ -1406,7 +1407,7 @@ namespace AspNetCore.PluginManager.Tests.Controllers
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
             DefaultMemoryCache memoryCache = new DefaultMemoryCache(settingsProvider);
 
-            DynamicContentController dynamicContentController = CreateDynamicContentController(memoryCache, GetBreadcrumbs());
+            DynamicContentController dynamicContentController = CreateDynamicContentController(memoryCache, GetDynamicBreadcrumbs());
 
             IActionResult editPageResponse = dynamicContentController.EditPage(10);
             ViewResult viewResult = editPageResponse as ViewResult;
@@ -1433,7 +1434,7 @@ namespace AspNetCore.PluginManager.Tests.Controllers
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
             DefaultMemoryCache memoryCache = new DefaultMemoryCache(settingsProvider);
 
-            DynamicContentController dynamicContentController = CreateDynamicContentController(memoryCache, GetBreadcrumbs());
+            DynamicContentController dynamicContentController = CreateDynamicContentController(memoryCache, GetDynamicBreadcrumbs());
 
             IActionResult editPageResponse = dynamicContentController.EditPage(10);
             ViewResult viewResult = editPageResponse as ViewResult;
@@ -1610,7 +1611,7 @@ namespace AspNetCore.PluginManager.Tests.Controllers
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
             DefaultMemoryCache memoryCache = new DefaultMemoryCache(settingsProvider);
 
-            DynamicContentController dynamicContentController = CreateDynamicContentController(memoryCache, GetBreadcrumbs());
+            DynamicContentController dynamicContentController = CreateDynamicContentController(memoryCache, GetDynamicBreadcrumbs());
 
             IActionResult editPageResponse = dynamicContentController.EditPage(10);
             ViewResult viewResult = editPageResponse as ViewResult;
@@ -1642,7 +1643,7 @@ namespace AspNetCore.PluginManager.Tests.Controllers
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
             DefaultMemoryCache memoryCache = new DefaultMemoryCache(settingsProvider);
 
-            DynamicContentController dynamicContentController = CreateDynamicContentController(memoryCache, GetBreadcrumbs());
+            DynamicContentController dynamicContentController = CreateDynamicContentController(memoryCache, GetDynamicBreadcrumbs());
 
             IActionResult editPageResponse = dynamicContentController.EditPage(10);
             ViewResult viewResult = editPageResponse as ViewResult;
@@ -1679,15 +1680,65 @@ namespace AspNetCore.PluginManager.Tests.Controllers
 
         #endregion Delete Item
 
+        #region Retrieve Templates
+
+        [TestMethod]
+        public void DynamicContentController_GetTemplates_Validate_Attributes()
+        {
+            Assert.IsTrue(MethodHasAttribute<HttpPostAttribute>(typeof(DynamicContentController), nameof(DynamicContentController.GetTemplates)));
+            Assert.IsTrue(MethodHasAttribute<AjaxOnlyAttribute>(typeof(DynamicContentController), nameof(DynamicContentController.GetTemplates)));
+            Assert.IsTrue(MethodHasAttribute<LoggedInAttribute>(typeof(DynamicContentController), nameof(DynamicContentController.GetTemplates)));
+
+            Assert.IsFalse(MethodHasAttribute<RouteAttribute>(typeof(DynamicContentController), nameof(DynamicContentController.GetTemplates)));
+            Assert.IsFalse(MethodHasAttribute<HttpGetAttribute>(typeof(DynamicContentController), nameof(DynamicContentController.GetTemplates)));
+            Assert.IsFalse(MethodHasAttribute<HttpPutAttribute>(typeof(DynamicContentController), nameof(DynamicContentController.GetTemplates)));
+            Assert.IsFalse(MethodHasAttribute<HttpDeleteAttribute>(typeof(DynamicContentController), nameof(DynamicContentController.GetTemplates)));
+        }
+
+        [TestMethod]
+        public void DynamicContentController_GetTemplates_ReturnsValidTemplatesList()
+        {
+            DynamicContentController dynamicContentController = CreateDynamicContentController();
+
+            IActionResult response = dynamicContentController.GetTemplates();
+
+            PartialViewResult viewResult = response as PartialViewResult;
+
+            Assert.IsNotNull(viewResult.Model);
+
+            Assert.IsInstanceOfType(viewResult.Model, typeof(TemplatesModel));
+
+            TemplatesModel sut = viewResult.Model as TemplatesModel;
+
+            Assert.IsNotNull(sut);
+
+            Assert.AreEqual(2, sut.Templates.Count);
+        }
+
+        [TestMethod]
+        public void DynamicContentController_GetTemplates_ReturnsValidViewName()
+        {
+            DynamicContentController dynamicContentController = CreateDynamicContentController();
+
+            IActionResult response = dynamicContentController.GetTemplates();
+
+            PartialViewResult viewResult = response as PartialViewResult;
+
+            Assert.AreEqual("/Views/DynamicContent/_Templates.cshtml", viewResult.ViewName);
+        }
+
+        #endregion Retrieve Templates
+
         #region Private Methods
 
         private DynamicContentController CreateDynamicContentController(DefaultMemoryCache memoryCache = null,
             List<BreadcrumbItem> breadcrumbs = null)
         {
+            IPluginClassesService pluginServices = new pm.PluginServices(_testDynamicContentPlugin) as IPluginClassesService;
             IPluginHelperService pluginHelperService = new pm.PluginServices(_testDynamicContentPlugin) as IPluginHelperService;
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
 
-            DynamicContentController Result = new DynamicContentController(new MockDynamicContentProvider(),
+            DynamicContentController Result = new DynamicContentController(new MockDynamicContentProvider(pluginServices),
                 memoryCache ?? new DefaultMemoryCache(settingsProvider));
 
             Result.ControllerContext = CreateTestControllerContext(breadcrumbs);
@@ -1695,7 +1746,7 @@ namespace AspNetCore.PluginManager.Tests.Controllers
             return Result;
         }
 
-        private List<BreadcrumbItem> GetBreadcrumbs()
+        private List<BreadcrumbItem> GetDynamicBreadcrumbs()
         {
             List<BreadcrumbItem> breadcrumbs = new List<BreadcrumbItem>();
             breadcrumbs.Add(new BreadcrumbItem("Home", "/", false));

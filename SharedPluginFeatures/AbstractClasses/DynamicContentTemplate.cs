@@ -179,10 +179,15 @@ namespace SharedPluginFeatures.DynamicContent
         public abstract string Data { get; set; }
 
         /// <summary>
-        /// The date/time the dynamic content is active
+        /// The date/time the dynamic content is active from
         /// </summary>
         /// <value>DateTime</value>
         public abstract DateTime ActiveFrom { get; set; }
+
+        /// <summary>
+        /// The date/time the dynamic content ceases to be active
+        /// </summary>
+        public abstract DateTime ActiveTo { get; set; }
 
         #endregion Abstract Properties
 
@@ -212,9 +217,14 @@ namespace SharedPluginFeatures.DynamicContent
 
             if (WidthType == DynamicContentWidthType.Columns)
             {
-                stringBuilder.Append("<div class=\"col-sm-");
-                stringBuilder.Append(ColumnCount);
-                stringBuilder.Append("\">");
+                stringBuilder.AppendFormat("<div class=\"col-sm-{0}\"", ColumnCount);
+
+                if (HeightType != DynamicContentHeightType.Automatic)
+                {
+                    stringBuilder.AppendFormat(" style=\"{0}\"", GetHeight());
+                }
+
+                stringBuilder.Append(">");
             }
             else if (WidthType == DynamicContentWidthType.Percentage)
             {

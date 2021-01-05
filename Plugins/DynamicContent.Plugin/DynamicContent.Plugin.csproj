@@ -91,9 +91,12 @@
     <Content Remove="Views\DynamicContent\Index.cshtml" />
     <Content Remove="Views\DynamicContent\_DeleteControl.cshtml" />
     <Content Remove="Views\DynamicContent\_TemplateEditor.cshtml" />
+    <Content Remove="Views\DynamicContent\_Templates.cshtml" />
     <Content Remove="Views\DynamicContent\_TextTemplateEditor.cshtml" />
     <Content Remove="Views\Shared\_DynamicContentView.cshtml" />
     <Content Remove="wwwroot\css\DynamicContent.css" />
+    <Content Remove="wwwroot\images\DynamicContent\Templates\html-content.png" />
+    <Content Remove="wwwroot\images\DynamicContent\Templates\spacer.png" />
     <Content Remove="wwwroot\js\dynamicContent.js" />
   </ItemGroup>
 
@@ -102,20 +105,19 @@
     <EmbeddedResource Include="Views\DynamicContent\EditPage.cshtml" />
     <EmbeddedResource Include="Views\DynamicContent\_DeleteControl.cshtml" />
     <EmbeddedResource Include="Views\DynamicContent\_TemplateEditor.cshtml" />
+    <EmbeddedResource Include="Views\DynamicContent\_Templates.cshtml" />
     <EmbeddedResource Include="Views\DynamicContent\_TextTemplateEditor.cshtml" />
     <EmbeddedResource Include="Views\Shared\_DynamicContentView.cshtml" />
     <EmbeddedResource Include="Views\DynamicContent\Index.cshtml" />
     <EmbeddedResource Include="wwwroot\css\DynamicContent.css" />
+    <EmbeddedResource Include="wwwroot\images\DynamicContent\Templates\html-content.png" />
+    <EmbeddedResource Include="wwwroot\images\DynamicContent\Templates\spacer.png" />
     <EmbeddedResource Include="wwwroot\js\dynamicContent.js" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="ApplicationSettings" Version="1.4.0" />
     <PackageReference Include="SC.Shared.Library.Core" Version="2.17.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="wwwroot\images\" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(Configuration)'=='Release'">

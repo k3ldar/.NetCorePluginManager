@@ -68,6 +68,12 @@ namespace DynamicContent.Plugin.Internal
         {
             return null;
         }
+ 
+        public List<DynamicContentTemplate> Templates()
+        {
+            throw new NotImplementedException();
+        }
+
 
         #endregion IDynamicContentProvider Methods
 

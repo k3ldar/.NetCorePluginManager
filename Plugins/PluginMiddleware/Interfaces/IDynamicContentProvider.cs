@@ -41,20 +41,26 @@ namespace Middleware.DynamicContent
         /// Renders the contents of a dynamic content template
         /// </summary>
         /// <param name="contentTemplate">Dynamic content template to be rendered.</param>
-        /// <returns></returns>
+        /// <returns>string</returns>
         string RenderDynamicPage(DynamicContentTemplate contentTemplate);
 
         /// <summary>
         /// Retrieves a list of custom pages
         /// </summary>
-        /// <returns></returns>
+        /// <returns>List&lt;DynamicContentTemplate&gt;</returns>
         List<LookupListItem> GetActiveCustomPages();
 
         /// <summary>
-        /// Retrieves dynamic page content
+        /// Retrieves dynamic page content by id
         /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
+        /// <param name="id">Id of page to find</param>
+        /// <returns>IDynamicContentPage</returns>
         IDynamicContentPage GetCustomPage(int id);
+
+        /// <summary>
+        /// Retrieves all dynamic content templates
+        /// </summary>
+        /// <returns>List&lt;DynamicContentTemplate&gt;</returns>
+        List<DynamicContentTemplate> Templates();
     }
 }

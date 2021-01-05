@@ -104,9 +104,14 @@
         </member>
         <member name="P:SharedPluginFeatures.DynamicContent.DynamicContentTemplate.ActiveFrom">
             <summary>
-            The date/time the dynamic content is active
+            The date/time the dynamic content is active from
             </summary>
             <value>DateTime</value>
+        </member>
+        <member name="P:SharedPluginFeatures.DynamicContent.DynamicContentTemplate.ActiveTo">
+            <summary>
+            The date/time the dynamic content ceases to be active
+            </summary>
         </member>
         <member name="M:SharedPluginFeatures.DynamicContent.DynamicContentTemplate.Content">
             <summary>

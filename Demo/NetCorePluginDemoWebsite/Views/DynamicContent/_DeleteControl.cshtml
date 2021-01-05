@@ -1,28 +1,29 @@
 ﻿@model DynamicContent.Plugin.Model.DeleteControlModel
 @inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
 <div class="modal-dialog" role="document">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h5 class="modal-title" id="seoModalLabel">@Localizer[nameof(Languages.LanguageStrings.Delete)]</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-        <div class="validation-summary-errors" data-valmsg-summary="true">
-            <ul id="errorList">
-                <li style="display:none"></li>
-            </ul>
-        </div>
-        @using (Html.BeginForm(nameof(DynamicContent.Plugin.Controllers.DynamicContentController.DeleteItem), DynamicContent.Plugin.Controllers.DynamicContentController.Name, FormMethod.Post))
-        {
+<div class="modal-content">
+<div class="modal-header">
+<h5 class="modal-title" id="seoModalLabel">@Localizer[nameof(Languages.LanguageStrings.Delete)]</h5>
+<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+<span aria-hidden="true">&times;</span>
+</button>
+</div>
+<div class="validation-summary-errors" data-valmsg-summary="true">
+<ul id="errorList">
+<li style="display:none"></li>
+</ul>
+</div>
+@using (Html.BeginForm(nameof(DynamicContent.Plugin.Controllers.DynamicContentController.DeleteItem), DynamicContent.Plugin.Controllers.DynamicContentController.Name, FormMethod.Post))
+{
 @Html.HiddenFor(m => m.CacheId)
-                @Html.HiddenFor(m => m.ControlId)
-                                <div class="modal-body">
-                                    <p>Are you sure you want to delete this item?</p>
-                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" data-dismiss="modal" class="btn btn-secondary">Cancel</button>
-                                                    <button type="button" class="btn btn-primary" onclick="dynamicContent.deleteItem(this)">@Localizer[Languages.LanguageStrings.Delete]</button>
-                                                </div>}
-    </div>
+@Html.HiddenFor(m => m.ControlId)
+<div class="modal-body">
+<p>Are you sure you want to delete this item?</p>
+</div>
+<div class="modal-footer">
+<button type="button" data-dismiss="modal" class="btn btn-secondary">Cancel</button>
+<button type="button" class="btn btn-primary" onclick="dynamicContent.deleteItem(this)">@Localizer[Languages.LanguageStrings.Delete]</button>
+</div>
+}
+</div>
 </div>

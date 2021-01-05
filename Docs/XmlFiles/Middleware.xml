@@ -1234,20 +1234,26 @@
             Renders the contents of a dynamic content template
             </summary>
             <param name="contentTemplate">Dynamic content template to be rendered.</param>
-            <returns></returns>
+            <returns>string</returns>
         </member>
         <member name="M:Middleware.DynamicContent.IDynamicContentProvider.GetActiveCustomPages">
             <summary>
             Retrieves a list of custom pages
             </summary>
-            <returns></returns>
+            <returns>List&lt;DynamicContentTemplate&gt;</returns>
         </member>
         <member name="M:Middleware.DynamicContent.IDynamicContentProvider.GetCustomPage(System.Int32)">
             <summary>
-            Retrieves dynamic page content
+            Retrieves dynamic page content by id
             </summary>
-            <param name="id"></param>
-            <returns></returns>
+            <param name="id">Id of page to find</param>
+            <returns>IDynamicContentPage</returns>
+        </member>
+        <member name="M:Middleware.DynamicContent.IDynamicContentProvider.Templates">
+            <summary>
+            Retrieves all dynamic content templates
+            </summary>
+            <returns>List&lt;DynamicContentTemplate&gt;</returns>
         </member>
         <member name="T:Middleware.Helpdesk.Feedback">
             <summary>

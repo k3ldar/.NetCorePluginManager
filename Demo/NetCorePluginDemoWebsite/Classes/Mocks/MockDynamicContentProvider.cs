@@ -28,16 +28,31 @@ using System.Collections.Generic;
 using DynamicContent.Plugin.Templates;
 using Middleware;
 using Middleware.DynamicContent;
-
+using PluginManager.Abstractions;
 using SharedPluginFeatures.DynamicContent;
 
 namespace AspNetCore.PluginManager.DemoWebsite.Classes.Mocks
 {
     public class MockDynamicContentProvider : IDynamicContentProvider
     {
+        #region Private Members
+
+        private readonly IPluginClassesService _pluginClassesService;
         private IDynamicContentPage _dynamicContentPage1;
         private IDynamicContentPage _dynamicContentPage2;
+        private IDynamicContentPage _dynamicContentPage3;
         private IDynamicContentPage _dynamicContentPage10;
+
+        #endregion Private Members
+
+        #region Constructors
+
+        public MockDynamicContentProvider(IPluginClassesService pluginClassesService)
+        {
+            _pluginClassesService = pluginClassesService ?? throw new ArgumentNullException(nameof(pluginClassesService));
+        }
+
+        #endregion Constructors
 
         #region IDynamicContentProvider Members
 
@@ -52,6 +67,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes.Mocks
 
             Result.Add(new LookupListItem(GetPage1().Id, GetPage1().Name));
             Result.Add(new LookupListItem(GetPage2().Id, GetPage2().Name));
+            Result.Add(new LookupListItem(GetPage3().Id, GetPage3().Name));
             Result.Add(new LookupListItem(GetPage10().Id, GetPage10().Name));
 
             return Result;
@@ -69,12 +85,22 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes.Mocks
                 return GetPage2();
             }
 
+            if (id == 3)
+            {
+                return GetPage3();
+            }
+
             if (id == 10)
             {
                 return GetPage10();
             }
 
             return null;
+        }
+
+        public List<DynamicContentTemplate> Templates()
+        {
+            return _pluginClassesService.GetPluginClasses<DynamicContentTemplate>();
         }
 
         #endregion IDynamicContentProvider Members
@@ -143,6 +169,52 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes.Mocks
             }
 
             return _dynamicContentPage2;
+        }
+
+        private IDynamicContentPage GetPage3()
+        {
+            if (_dynamicContentPage3 == null)
+            {
+                _dynamicContentPage3 = new DynamicContentPage()
+                {
+                    Id = 3,
+                    Name = "Custom Page 3",
+                };
+
+                HtmlTextTemplate htmlLayout1 = new HtmlTextTemplate()
+                {
+                    UniqueId = "control-1",
+                    SortOrder = 0,
+                    WidthType = SharedPluginFeatures.DynamicContentWidthType.Columns,
+                    Width = 12,
+                    HeightType = SharedPluginFeatures.DynamicContentHeightType.Automatic,
+                    Data = "<p>This is <br />html over<br />three lines</p>"
+                };
+
+                _dynamicContentPage3.Content.Add(htmlLayout1);
+
+                SpacerTemplate spacerTemplate1 = new SpacerTemplate()
+                { 
+                    SortOrder = 1,
+                    Width = 8
+                };
+
+                _dynamicContentPage3.Content.Add(spacerTemplate1);
+
+                HtmlTextTemplate htmlLayout2 = new HtmlTextTemplate()
+                {
+                    UniqueId = "control-2",
+                    SortOrder = 2,
+                    WidthType = SharedPluginFeatures.DynamicContentWidthType.Columns,
+                    Width = 4,
+                    HeightType = SharedPluginFeatures.DynamicContentHeightType.Automatic,
+                    Data = "<p>This is html<br />over two lines</p>"
+                };
+
+                _dynamicContentPage3.Content.Add(htmlLayout2);
+            }
+
+            return _dynamicContentPage3;
         }
 
         private IDynamicContentPage GetPage10()

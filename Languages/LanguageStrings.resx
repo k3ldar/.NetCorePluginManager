@@ -14201,4 +14201,8 @@ You will shortly receive an email with the details of your order.</comment>
     <value>Width must be at least {0}</value>
     <comment>Width must be at least {0}</comment>
   </data>
+  <data name="TemplateNameSpacer" xml:space="preserve">
+    <value>Spacer</value>
+    <comment>Spacer</comment>
+  </data>
 </root>

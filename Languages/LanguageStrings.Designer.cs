@@ -29378,6 +29378,15 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Spacer.
+        /// </summary>
+        public static string TemplateNameSpacer {
+            get {
+                return ResourceManager.GetString("TemplateNameSpacer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Terms &amp; Conditions.
         /// </summary>
         public static string Terms {
