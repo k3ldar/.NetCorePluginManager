@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2021 Simon Carter.  All Rights Reserved.
  *
  *  Product:  AspNetCore.PluginManager
  *  
@@ -148,11 +148,11 @@ namespace AspNetCore.PluginManager
                                 continue;
                             }
                         }
-//#if NET_CORE_3_0
-//                        _logger.AddToLog(LogLevel.PluginConfigureError, $"Unable to load {pluginFile} dynamically, use UsePlugin() method instead.");
-//#else
+                        //#if NET_CORE_3_0
+                        //                        _logger.AddToLog(LogLevel.PluginConfigureError, $"Unable to load {pluginFile} dynamically, use UsePlugin() method instead.");
+                        //#else
                         _pluginManagerInstance.PluginLoad(pluginFile, _pluginSettings.CreateLocalCopy);
-//#endif
+                        //#endif
                     }
                 }
 

@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2012 - 2018 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2012 - 2021 Simon Carter.  All Rights Reserved.
  *
  *  Product:  PluginMiddleware
  *  
@@ -47,7 +47,7 @@ namespace SharedPluginFeatures
         /// <param name="culture">Culture used by the shopping cart.</param>
         /// <param name="currencyCode">Currency code used by the shopping cart.</param>
         public ShoppingCartSummary(in long id, in int totalItems, in decimal subTotal,
-            in decimal discountRate, in decimal shipping, in decimal taxRate, 
+            in decimal discountRate, in decimal shipping, in decimal taxRate,
             in CultureInfo culture, in string currencyCode)
         {
             Id = id;

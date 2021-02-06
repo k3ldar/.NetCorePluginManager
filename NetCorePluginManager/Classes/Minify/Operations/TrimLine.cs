@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2021 Simon Carter.  All Rights Reserved.
  *
  *  Product:  AspNetCore.PluginManager
  *  
@@ -23,8 +23,8 @@
  *  23/01/2020  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using System.Text;
 using System.Collections.Generic;
+using System.Text;
 
 using SharedPluginFeatures;
 
@@ -77,7 +77,7 @@ namespace AspNetCore.PluginManager.Classes.Minify
                     continue;
                 }
 
-                if (((currentChar == '\t' || currentChar == ' ') && peekBack && Result[Result.Length -1] == '\n') ||
+                if (((currentChar == '\t' || currentChar == ' ') && peekBack && Result[Result.Length - 1] == '\n') ||
                     (currentChar == ' ' && peekForward && (data[i + 1] == ' ' || data[i + 1] == '\n')))
                 {
                     continue;

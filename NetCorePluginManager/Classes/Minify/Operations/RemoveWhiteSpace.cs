@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2021 Simon Carter.  All Rights Reserved.
  *
  *  Product:  AspNetCore.PluginManager
  *  
@@ -23,8 +23,8 @@
  *  26/01/2020  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using System.Text;
 using System.Collections.Generic;
+using System.Text;
 
 using SharedPluginFeatures;
 
@@ -68,7 +68,7 @@ namespace AspNetCore.PluginManager.Classes.Minify
                 char currentChar = data[i];
 
 
-                if (currentChar == ' ' && peekBackwards && Result[Result.Length -1] == '\n')
+                if (currentChar == ' ' && peekBackwards && Result[Result.Length - 1] == '\n')
                     continue;
 
                 if (currentChar == ' ' && peekForward && data[i + 1] == ' ')
@@ -96,7 +96,7 @@ namespace AspNetCore.PluginManager.Classes.Minify
                 {
                     if (peekBackwards && peekForward && currentChar == ' ' && Result[Result.Length - 1] == '>' && data[i + 1] == '<')
                         continue;
-                    
+
                     if (peekBackwards && peekForward && currentChar == '\t' && Result[Result.Length - 1] == '>' && data[i + 1] == '<')
                         continue;
                 }
@@ -109,7 +109,7 @@ namespace AspNetCore.PluginManager.Classes.Minify
                     continue;
                 }
 
-                
+
                 Result.Append(currentChar);
             }
 
