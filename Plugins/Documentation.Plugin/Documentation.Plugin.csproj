@@ -1,16 +1,16 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFrameworks>netcoreapp3.1;netcoreapp3.0;netcoreapp2.2;netcoreapp2.1</TargetFrameworks>
+    <TargetFrameworks>net5.0;netcoreapp3.1;netcoreapp3.0;netcoreapp2.2;netcoreapp2.1</TargetFrameworks>
     <LangVersion>latest</LangVersion>
-    <Version>4.0.0</Version>
+    <Version>4.1.0</Version>
     <RazorCompileOnBuild>false</RazorCompileOnBuild>
     <RazorCompileOnPublish>true</RazorCompileOnPublish>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Description>Documentation plugin asp net core plugin manager.  Easily create documentation from an xml documentation file.</Description>
     <Authors>Simon Carter</Authors>
     <Company>Simon Carter</Company>
-    <Copyright>Copyright (c) 2018 - 2020.  Simon Carter.  All rights reserved.</Copyright>
+    <Copyright>Copyright (c) 2018 - 2021.  Simon Carter.  All rights reserved.</Copyright>
     <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
     <PackageProjectUrl>http://pluginmanager.website/</PackageProjectUrl>
     <RepositoryType>git</RepositoryType>
@@ -23,11 +23,19 @@
     <RepositoryUrl>https://github.com/k3ldar/.NetCorePluginManager</RepositoryUrl>
   </PropertyGroup>
 
-  <ItemGroup>
-    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
-      <_Parameter1>AspNetCore.PluginManager.Tests</_Parameter1>
-    </AssemblyAttribute>
-  </ItemGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)'=='Debug|net5.0'">
+    <DefineConstants>CODE_ANALYSIS;DEBUG;TRACE;NET_CORE;NET_CORE_5_0;NET_CORE_5_X</DefineConstants>
+    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
+    <DebugType>full</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)'=='Release|net5.0'">
+    <DefineConstants>CODE_ANALYSIS;NET_CORE;NET_CORE_5_0;NET_CORE_5_X</DefineConstants>
+    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
+    <DebugType>portable</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)'=='Debug|netcoreapp2.1'">
     <DefineConstants>CODE_ANALYSIS;DEBUG;TRACE;NET_CORE;NET_CORE_2_1</DefineConstants>
@@ -88,6 +96,12 @@
   <PropertyGroup Condition="'$(TargetFramework)'=='netcoreapp3.1'">
     <DocumentationFile>..\..\Docs\XmlFiles\DocumentationPlugin.xml</DocumentationFile>
   </PropertyGroup>
+
+  <ItemGroup>
+    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
+      <_Parameter1>AspNetCore.PluginManager.Tests</_Parameter1>
+    </AssemblyAttribute>
+  </ItemGroup>
 
   <ItemGroup>
     <Compile Remove="Views\Login\**" />
@@ -218,7 +232,7 @@
     <PackageReference Include="Microsoft.Extensions.Primitives" Version="3.1.3" />
     <PackageReference Include="Microsoft.Extensions.WebEncoders" Version="3.1.3" />
     <PackageReference Include="Microsoft.Net.Http.Headers" Version="2.2.8" />
-    <PackageReference Include="SC.Shared.Library.Core" Version="2.17.0" />
+    <PackageReference Include="SC.Shared.Library.Core" Version="2.20.0" />
   </ItemGroup>
 
 </Project>
