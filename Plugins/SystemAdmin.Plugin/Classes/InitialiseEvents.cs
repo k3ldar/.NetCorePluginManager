@@ -56,7 +56,7 @@ namespace SystemAdmin.Plugin.Classes
             if (breadcrumbService != null && systemAdminHelper != null)
                 RegisterBreadcrumbs(breadcrumbService, systemAdminHelper);
 
-#if NET_CORE_3_X
+#if NET_CORE_3_X || NET_CORE_5_X
             services.AddAuthorization(options =>
             {
                 options.AddPolicy(

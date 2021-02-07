@@ -50,7 +50,7 @@ namespace Blog.Plugin
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc(
-#if NET_CORE_3_X
+#if NET_CORE_3_X || NET_CORE_5_X
                 option => option.EnableEndpointRouting = false
 #endif
                 );
@@ -59,7 +59,7 @@ namespace Blog.Plugin
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1801:ReviewUnusedParameters", MessageId = "Reviewed and ok in this context")]
         public void Configure(IApplicationBuilder app,
-#if NET_CORE_3_X
+#if NET_CORE_3_X || NET_CORE_5_X
             IWebHostEnvironment env)
 #else
             IHostingEnvironment env)
