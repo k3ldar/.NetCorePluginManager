@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2021 Simon Carter.  All Rights Reserved.
  *
  *  Product:  AspNetCore.PluginManager.Tests
  *  
@@ -28,8 +28,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
-
-using DocumentationPlugin.Classes;
 
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Primitives;
@@ -111,7 +109,7 @@ namespace AspNetCore.PluginManager.Tests
             }
         }
 
-        public override HostString Host 
+        public override HostString Host
         {
             get
             {
@@ -119,7 +117,7 @@ namespace AspNetCore.PluginManager.Tests
                 return new HostString(uri.Host);
             }
 
-            set => throw new NotImplementedException(); 
+            set => throw new NotImplementedException();
         }
 
         public override HttpContext HttpContext
@@ -161,8 +159,8 @@ namespace AspNetCore.PluginManager.Tests
             }
         }
 
-        public override QueryString QueryString 
-        { 
+        public override QueryString QueryString
+        {
             get
             {
                 return _queryString;
@@ -173,7 +171,7 @@ namespace AspNetCore.PluginManager.Tests
                 throw new NotImplementedException();
             }
         }
-        public override String Scheme 
+        public override String Scheme
         {
             get
             {
@@ -206,8 +204,8 @@ namespace AspNetCore.PluginManager.Tests
 
         public string IpAddress { get; set; }
 
-        public string UserAgent 
-        { 
+        public string UserAgent
+        {
             get
             {
                 return Headers[SharedPluginFeatures.Constants.UserAgent];

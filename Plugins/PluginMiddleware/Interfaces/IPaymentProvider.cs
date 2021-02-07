@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2012 - 2018 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2012 - 2021 Simon Carter.  All Rights Reserved.
  *
  *  Product:  PluginMiddleware
  *  
@@ -25,9 +25,9 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
 
-using Middleware.Accounts.Orders;
-
 using Microsoft.AspNetCore.Http;
+
+using Middleware.Accounts.Orders;
 
 using Shared.Classes;
 
@@ -64,7 +64,7 @@ namespace Middleware
         /// <param name="userSession">UserSession for the user who is making the payment.</param>
         /// <param name="urlParameters">Url where the user is to be redirected to, so that the order can be completed.</param>
         /// <returns>bool.  True if the payment was successfully executed.  This could vary depending on the payment provider in question.</returns>
-        bool Execute(in HttpRequest request, in Order order, in PaymentStatus paymentStatus, 
+        bool Execute(in HttpRequest request, in Order order, in PaymentStatus paymentStatus,
             in UserSession userSession, out string urlParameters);
 
         /// <summary>

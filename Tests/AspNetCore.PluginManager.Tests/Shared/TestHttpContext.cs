@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2021 Simon Carter.  All Rights Reserved.
  *
  *  Product:  AspNetCore.PluginManager.Tests
  *  
@@ -35,8 +35,6 @@ using Microsoft.AspNetCore.Http.Features;
 using Shared.Classes;
 
 using SharedPluginFeatures;
-
-using static Shared.Utilities;
 
 namespace AspNetCore.PluginManager.Tests
 {
