@@ -94,10 +94,6 @@
   <ItemGroup>
     <PackageReference Include="ApplicationSettings" Version="1.4.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Analyzers" Version="2.2.0" />
-    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.8">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
   </ItemGroup>
 
   <ItemGroup Condition="'$(Configuration)'=='Release'">
