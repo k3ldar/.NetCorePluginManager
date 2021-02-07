@@ -4,6 +4,7 @@ Version 4.1.0
 #123 Add GC statistics to SystemAdmin
 #122 Allow manual configuration of Robots.txt
 #124 Show bot visits seperately in default user session
+#126 Update for Net 5
 
 Version 4.0.0
 =============
