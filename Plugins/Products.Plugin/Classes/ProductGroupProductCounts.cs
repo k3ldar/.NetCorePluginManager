@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2021 Simon Carter.  All Rights Reserved.
  *
  *  Product:  Products.Plugin
  *  
@@ -62,7 +62,7 @@ namespace ProductPlugin.Classes
 
             List<string> productGroups = (List<string>)parameters;
 
-            for (int i = 0; i < productGroups.Count; i++) 
+            for (int i = 0; i < productGroups.Count; i++)
             {
                 ProductGroup group = _productProvider.ProductGroupsGet()
                     .Where(p => p.Description.Equals(productGroups[i])).FirstOrDefault();

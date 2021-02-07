@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2021 Simon Carter.  All Rights Reserved.
  *
  *  Product:  Company.Plugin
  *  
@@ -51,7 +51,7 @@ namespace Company.Plugin
 
 
             services.AddMvc(
-#if NET_CORE_3_0
+#if NET_CORE_3_X || NET_CORE_5_X
                 option => option.EnableEndpointRouting = false
 #endif
                 )
@@ -60,7 +60,7 @@ namespace Company.Plugin
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app,
-#if NET_CORE_3_X
+#if NET_CORE_3_X || NET_CORE_5_X
             IWebHostEnvironment env)
 #else
             IHostingEnvironment env)

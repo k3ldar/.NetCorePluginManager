@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2021 Simon Carter.  All Rights Reserved.
  *
  *  Product:  Error Manager Plugin
  *  
@@ -49,7 +49,7 @@ namespace ErrorManager.Plugin.Controllers
     {
         #region Private Members
 
-#if NET_CORE_3_X
+#if NET_CORE_3_X || NET_CORE_5_X
         private readonly IWebHostEnvironment _hostingEnvironment;
 #else
         private readonly IHostingEnvironment _hostingEnvironment;
@@ -61,7 +61,7 @@ namespace ErrorManager.Plugin.Controllers
 
         #region Constructors
 
-#if NET_CORE_3_X
+#if NET_CORE_3_X || NET_CORE_5_X
         public ErrorController(IWebHostEnvironment hostingEnvironment, ISettingsProvider settingsProvider)
         {
             _hostingEnvironment = hostingEnvironment ?? throw new ArgumentNullException(nameof(hostingEnvironment));

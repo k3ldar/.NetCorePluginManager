@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2012 - 2018 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2012 - 2021 Simon Carter.  All Rights Reserved.
  *
  *  Product:  SharedPluginFeatues
  *  
@@ -79,7 +79,7 @@ namespace SharedPluginFeatures
         /// <param name="requests">Total number of reuests.</param>
         /// <param name="duration">Total duration the Ip address remained active.</param>
         public ConnectionRemoveEventArgs(in string ipAddress, in double hits, in ulong requests, in TimeSpan duration)
-            : base (ipAddress)
+            : base(ipAddress)
         {
             Hits = hits;
             Requests = requests;
@@ -133,7 +133,7 @@ namespace SharedPluginFeatures
         /// <param name="requests">Total number of requests</param>
         /// <param name="duration">Total duration the Ip address remained active.</param>
         public RequestBanEventArgs(in string ipAddress, in double hits, in ulong requests, in TimeSpan duration)
-            : base (ipAddress, hits, requests, duration)
+            : base(ipAddress, hits, requests, duration)
         {
 
         }
@@ -172,7 +172,7 @@ namespace SharedPluginFeatures
         /// <param name="queryString">Query or Form values used when validating the request.</param>
         /// <param name="validation">Result of validation.</param>
         public ConnectionReportEventArgs(in string ipAddress, in string queryString, in ValidateRequestResult validation)
-            : base (ipAddress)
+            : base(ipAddress)
         {
             QueryString = queryString;
             Result = validation;

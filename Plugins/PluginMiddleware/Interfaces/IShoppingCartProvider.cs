@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2012 - 2018 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2012 - 2021 Simon Carter.  All Rights Reserved.
  *
  *  Product:  PluginMiddleware
  *  
@@ -27,9 +27,9 @@ using Middleware.Accounts.Orders;
 using Middleware.Products;
 using Middleware.ShoppingCart;
 
-using SharedPluginFeatures;
-
 using Shared.Classes;
+
+using SharedPluginFeatures;
 
 namespace Middleware
 {
@@ -55,7 +55,7 @@ namespace Middleware
         /// <param name="product">Product item to be added to a cart.</param>
         /// <param name="count">Number of items to add.</param>
         /// <returns>long.  Unique id of the item within the shopping cart.</returns>
-        long AddToCart(in UserSession userSession, in ShoppingCartSummary shoppingCart, 
+        long AddToCart(in UserSession userSession, in ShoppingCartSummary shoppingCart,
             in Product product, in int count);
 
         /// <summary>

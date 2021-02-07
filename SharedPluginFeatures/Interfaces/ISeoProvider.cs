@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2012 - 2018 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2012 - 2021 Simon Carter.  All Rights Reserved.
  *
  *  Product:  SharedPluginFeatues
  *  
@@ -45,7 +45,7 @@ namespace SharedPluginFeatures
         /// <param name="author">out string.  Route author.</param>
         /// <param name="keywords">out List&lt;string&gt;.  Route keywords.</param>
         /// <returns></returns>
-        bool GetSeoDataForRoute(in string route, out string title, out string metaDescription, 
+        bool GetSeoDataForRoute(in string route, out string title, out string metaDescription,
             out string author, out List<string> keywords);
 
         /// <summary>

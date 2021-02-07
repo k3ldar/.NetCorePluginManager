@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2021 Simon Carter.  All Rights Reserved.
  *
  *  Product:  UserAccount.Plugin
  *  
@@ -67,7 +67,7 @@ namespace UserAccount.Plugin
 
 
             services.AddMvc(
-#if NET_CORE_3_0
+#if NET_CORE_3_X || NET_CORE_5_X
                 option => option.EnableEndpointRouting = false
 #endif
                 )
@@ -75,7 +75,7 @@ namespace UserAccount.Plugin
         }
 
         public void Configure(IApplicationBuilder app,
-#if NET_CORE_3_X
+#if NET_CORE_3_X ||NET_CORE_5_X
             IWebHostEnvironment env)
 #else
             IHostingEnvironment env)

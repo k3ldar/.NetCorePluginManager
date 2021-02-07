@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2021 Simon Carter.  All Rights Reserved.
  *
  *  Product:  Blog Plugin
  *  
@@ -48,7 +48,7 @@ namespace Blog.Plugin.Classes
 
         public void AfterConfigureServices(in IServiceCollection services)
         {
-#if NET_CORE_3_X
+#if NET_CORE_3_X || NET_CORE_5_X
             // Add blog specific policies
             services.AddAuthorization(options =>
             {

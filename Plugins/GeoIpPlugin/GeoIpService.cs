@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2021 Simon Carter.  All Rights Reserved.
  *
  *  Product:  MemoryCachePlugin
  *  
@@ -26,6 +26,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+
 using PluginManager.Abstractions;
 
 using Shared.Classes;
@@ -60,7 +61,7 @@ namespace GeoIp.Plugin
         {
             _geoIpSettings = settingsProvider.GetSettings<GeoIpPluginSettings>("GeoIpPluginConfiguration");
 
-            if (_geoIpSettings.AutoDownloadWebnet77Data || 
+            if (_geoIpSettings.AutoDownloadWebnet77Data ||
                 File.Exists(Path.Combine(_geoIpSettings.Webnet77CSVDataPath, Constants.Webnet77CsvDataFileName)))
             {
                 LoadWebNet77Data loadWebNet77DataThread = new LoadWebNet77Data(logger,
