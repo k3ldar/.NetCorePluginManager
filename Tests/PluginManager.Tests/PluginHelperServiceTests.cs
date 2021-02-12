@@ -23,6 +23,7 @@
  *  28/04/2019  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -34,6 +35,7 @@ using PluginManager.Tests.Mocks;
 namespace PluginManager.Tests
 {
     [TestClass]
+    [ExcludeFromCodeCoverage]
     public class PluginHelperServiceTests
     {
         #region Private Members

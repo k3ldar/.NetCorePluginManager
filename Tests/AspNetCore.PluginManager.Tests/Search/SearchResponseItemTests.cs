@@ -24,6 +24,7 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
+using System.Diagnostics.CodeAnalysis;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -33,6 +34,7 @@ using Middleware.Search;
 namespace AspNetCore.PluginManager.Tests.Search
 {
     [TestClass]
+    [ExcludeFromCodeCoverage]
     public class SearchResponseItemTests
     {
 

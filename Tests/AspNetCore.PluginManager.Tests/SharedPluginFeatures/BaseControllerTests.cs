@@ -25,6 +25,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -33,6 +34,7 @@ using SharedPluginFeatures;
 namespace AspNetCore.PluginManager.Tests.PluginFeatures
 {
     [TestClass]
+    [ExcludeFromCodeCoverage]
     public class BaseControllerTests
     {
         private List<int> CreateList(in int count)

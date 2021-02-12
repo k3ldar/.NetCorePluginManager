@@ -25,6 +25,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
 using DocumentationPlugin.Classes;
@@ -40,6 +41,7 @@ using sl = Shared;
 namespace AspNetCore.PluginManager.Tests.Documentation
 {
     [TestClass]
+    [ExcludeFromCodeCoverage]
     public sealed class DocumentTests : BaseDocumentTests
     {
         #region Private Members

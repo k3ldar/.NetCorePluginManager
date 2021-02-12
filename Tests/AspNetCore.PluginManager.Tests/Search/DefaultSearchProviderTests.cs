@@ -25,6 +25,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -42,6 +43,7 @@ using pm = PluginManager.Internal;
 namespace AspNetCore.PluginManager.Tests.Search
 {
     [TestClass]
+    [ExcludeFromCodeCoverage]
     public class DefaultSearchProviderTests : TestBasePlugin
     {
         [TestInitialize]

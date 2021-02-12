@@ -25,6 +25,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 using System;
+using System.Diagnostics.CodeAnalysis;
 
 using DynamicContent.Plugin.Templates;
 
@@ -37,6 +38,7 @@ using SharedPluginFeatures;
 namespace AspNetCore.PluginManager.Tests.Templates.DynamicContent
 {
     [TestClass]
+    [ExcludeFromCodeCoverage]
     public class TemplateTests
     {
         #region HtmlTextTemplate Tests

@@ -24,12 +24,15 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+using System.Diagnostics.CodeAnalysis;
+
 using Microsoft.Extensions.DependencyInjection;
 
 using PluginManager.Abstractions;
 
 namespace PluginManager.Tests.Mocks
 {
+    [ExcludeFromCodeCoverage]
     public class MockServiceConfigurator : IServiceConfigurator
     {
         public void RegisterServices(IServiceCollection services)

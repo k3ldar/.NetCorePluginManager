@@ -23,10 +23,13 @@
  *  16/01/2020  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+using System.Diagnostics.CodeAnalysis;
+
 using PluginManager.Abstractions;
 
 namespace PluginManager.Tests.Mocks
 {
+    [ExcludeFromCodeCoverage]
     public class MockPluginHelperClass
     {
         public MockPluginHelperClass(IPluginHelperService pluginHelperService)
@@ -37,6 +40,7 @@ namespace PluginManager.Tests.Mocks
         public IPluginHelperService PluginHelperService { get; private set; }
     }
 
+    [ExcludeFromCodeCoverage]
     public class MockPluginHelperTest : MockPluginHelperClass
     {
         public MockPluginHelperTest(IPluginHelperService pluginHelperService)

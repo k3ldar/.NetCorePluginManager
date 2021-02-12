@@ -24,6 +24,7 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 using Microsoft.AspNetCore.Mvc;
 
@@ -31,6 +32,7 @@ using SharedPluginFeatures;
 
 namespace AspNetCore.PluginManager.Tests.PluginFeatures
 {
+    [ExcludeFromCodeCoverage]
     internal class BaseControllerWrapper : BaseController
     {
         public BaseControllerWrapper()

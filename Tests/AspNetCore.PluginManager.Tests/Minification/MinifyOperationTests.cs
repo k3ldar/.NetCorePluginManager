@@ -24,6 +24,7 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 using AspNetCore.PluginManager.Classes.Minify;
 
@@ -34,6 +35,7 @@ using SharedPluginFeatures;
 namespace AspNetCore.PluginManager.Tests.MinifyOperations
 {
     [TestClass]
+    [ExcludeFromCodeCoverage]
     public class MinifyUnitTests
     {
         [TestMethod]

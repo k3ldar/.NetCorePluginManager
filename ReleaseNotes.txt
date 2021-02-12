@@ -1,3 +1,8 @@
+Version 4.2.0
+=============
+
+#127 Update Document Post Process to exclude C# native types
+
 Version 4.1.0
 =============
 

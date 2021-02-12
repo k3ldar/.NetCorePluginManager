@@ -25,6 +25,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
 
@@ -45,6 +46,7 @@ using sl = Shared.Classes;
 namespace AspNetCore.PluginManager.Tests.Search
 {
     [TestClass]
+    [ExcludeFromCodeCoverage]
     public sealed class KeywordSearchTests
     {
         private static TestPluginManager _documentationLoadPlugin = new TestPluginManager();

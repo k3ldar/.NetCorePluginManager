@@ -24,6 +24,7 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 
 using Microsoft.Extensions.DependencyInjection;
@@ -32,6 +33,7 @@ using PluginManager.Abstractions;
 
 namespace PluginManager.Tests.Mocks
 {
+    [ExcludeFromCodeCoverage]
     internal class TestPluginManager : BasePluginManager
     {
         internal TestPluginManager()

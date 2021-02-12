@@ -23,6 +23,8 @@
  *  15/01/2020  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+using System.Diagnostics.CodeAnalysis;
+
 using Microsoft.Extensions.DependencyInjection;
 
 using PluginManager.Abstractions;
@@ -35,6 +37,7 @@ namespace PluginManager.Tests
     /// Implements IPlugin which allows the RestrictIp.Plugin module to be
     /// loaded as a plugin module
     /// </summary>
+    [ExcludeFromCodeCoverage]
     public sealed class PluginInitialisation : IPlugin
     {
         #region IPlugin Methods
