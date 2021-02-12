@@ -41,6 +41,9 @@ namespace DocumentationPlugin.Classes
     {
         #region Private Members
 
+        private static readonly string[] BuiltIntypesAndReferences = { "bool", "boolean", "byte", "sbyte", "char", "decimal",
+            "double", "float", "int", "uint", "long", "ulong", "short", "ushort", "object", "string", "dynamic",
+            "enum", "struct", "void" };
         private static readonly string[] ValidTags = { "c", "code", "/c", "/code", "para", "/para", "see", "seealso", "example", "exception", "include" };
         private readonly List<Document> _documents;
         private PostProcessResults _processResult;
@@ -418,6 +421,14 @@ namespace DocumentationPlugin.Classes
 
         private StringBuilder AttemptFindClass(string text, in bool createHyperlinks, in bool removeNamespace)
         {
+            foreach (string value in BuiltIntypesAndReferences)
+            {
+                if (value.Equals(text, StringComparison.InvariantCultureIgnoreCase))
+                {
+                    return new StringBuilder(value);
+                }
+            }
+
             Document memberDoc = _documents
                 .Where(d => d.DocumentType == Shared.DocumentType.Class && d.FullMemberName.EndsWith(text))
                 .FirstOrDefault();
