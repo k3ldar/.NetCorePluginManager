@@ -26,6 +26,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 using System.Reflection;
 
 using Microsoft.AspNetCore.Mvc;
@@ -55,7 +56,7 @@ namespace AspNetCore.PluginManager.Tests.Controllers
             TestHttpRequest httpRequest = new TestHttpRequest();
             TestHttpResponse httpResponse = new TestHttpResponse();
             ControllerContext Result = new ControllerContext();
-            Result.HttpContext = new TestHttpContext(httpRequest, httpResponse,  breadcrumbs);
+            Result.HttpContext = new TestHttpContext(httpRequest, httpResponse, breadcrumbs);
 
             return Result;
         }
