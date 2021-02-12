@@ -25,12 +25,14 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
 using PluginManager.Abstractions;
 
 namespace AspNetCore.PluginManager.Tests.Shared
 {
+    [ExcludeFromCodeCoverage]
     public class TestNotificationService : INotificationService
     {
         private List<string> _raisedEvents = new List<string>();

@@ -24,6 +24,7 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Net;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading;
@@ -33,6 +34,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace AspNetCore.PluginManager.Tests
 {
+    [ExcludeFromCodeCoverage]
     public class TestConnectionInfo : ConnectionInfo
     {
         #region ConnectionInfo Methods

@@ -24,9 +24,11 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace PluginManager.Tests.Mocks
 {
+    [ExcludeFromCodeCoverage]
     public sealed class TestLoggerItem
     {
         #region Constructors

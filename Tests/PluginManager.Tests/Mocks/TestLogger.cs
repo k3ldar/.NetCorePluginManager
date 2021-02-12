@@ -25,11 +25,13 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 using PluginManager.Abstractions;
 
 namespace PluginManager.Tests.Mocks
 {
+    [ExcludeFromCodeCoverage]
     public sealed class TestLogger : ILogger
     {
         #region Private Methods

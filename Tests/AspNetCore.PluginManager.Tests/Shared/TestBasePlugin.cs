@@ -24,6 +24,7 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -38,6 +39,7 @@ using sl = Shared.Classes;
 
 namespace AspNetCore.PluginManager.Tests
 {
+    [ExcludeFromCodeCoverage]
     public class TestBasePlugin
     {
         protected static TestPluginManager _testPluginBadEgg = new TestPluginManager();

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Text;
 
 using Middleware;
@@ -8,6 +9,7 @@ using Shared.Classes;
 
 namespace AspNetCore.PluginManager.Tests.MiddlewareTests
 {
+    [ExcludeFromCodeCoverage]
     public class MockSmokeTestProvider : ISmokeTestProvider
     {
         private readonly NVPCodec _codec;

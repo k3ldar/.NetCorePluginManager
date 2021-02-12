@@ -25,6 +25,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 
 using Microsoft.AspNetCore.Mvc;
@@ -44,6 +45,7 @@ using pm = PluginManager.Internal;
 namespace AspNetCore.PluginManager.Tests.Search
 {
     [TestClass]
+    [ExcludeFromCodeCoverage]
     public class SearchControllerTests : TestBasePlugin
     {
         [TestInitialize]

@@ -23,6 +23,8 @@
  *  23/01/2020  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+using System.Diagnostics.CodeAnalysis;
+
 using AspNetCore.PluginManager.Classes.Minify;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -37,6 +39,7 @@ namespace AspNetCore.PluginManager.Tests
         protected IMinificationEngine _minifyFileContents;
 
         [TestInitialize]
+        [ExcludeFromCodeCoverage]
         public void InitialiseTest()
         {
             _minifyFileContents = new MinificationEngine();

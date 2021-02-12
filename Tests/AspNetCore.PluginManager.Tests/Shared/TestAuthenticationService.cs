@@ -24,6 +24,7 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
@@ -32,6 +33,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace AspNetCore.PluginManager.Tests
 {
+    [ExcludeFromCodeCoverage]
     public class TestAuthenticationService : IAuthenticationService
     {
         #region IAuthenticationService Methods

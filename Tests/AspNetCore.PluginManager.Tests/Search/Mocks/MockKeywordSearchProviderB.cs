@@ -25,12 +25,14 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 using Middleware;
 using Middleware.Search;
 
 namespace AspNetCore.PluginManager.Tests.Search.Mocks
 {
+    [ExcludeFromCodeCoverage]
     public class MockKeywordSearchProviderB : ISearchKeywordProvider
     {
         public Dictionary<String, AdvancedSearchOptions> AdvancedSearch()

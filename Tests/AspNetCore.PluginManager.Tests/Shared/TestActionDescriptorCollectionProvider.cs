@@ -24,11 +24,13 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
+using System.Diagnostics.CodeAnalysis;
 
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 
 namespace AspNetCore.PluginManager.Tests
 {
+    [ExcludeFromCodeCoverage]
     public class TestActionDescriptorCollectionProvider : IActionDescriptorCollectionProvider
     {
         #region Private Members

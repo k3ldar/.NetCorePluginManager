@@ -25,6 +25,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 
 using AppSettings;
@@ -37,6 +38,7 @@ using PluginManager.Tests.Mocks;
 namespace PluginManager.Tests
 {
     [TestClass]
+    [ExcludeFromCodeCoverage]
     public class PluginManagerTests
     {
         [TestMethod]
@@ -113,6 +115,17 @@ namespace PluginManager.Tests
             Assert.AreEqual(testLogger.Logs[1].LogLevel, LogLevel.PluginConfigureError);
             Assert.AreEqual(testLogger.Logs[2].LogLevel, LogLevel.PluginLoadSuccess);
             Assert.AreEqual(testLogger.Logs[2].Data, "BadEgg.Plugin.dll");
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void CreatePluginManagerCallGetParameterInstances_ThrowsArgumentNullException()
+        {
+            TestLogger testLogger = new TestLogger();
+            using (TestPluginManager pluginManager = new TestPluginManager(testLogger))
+            {
+                pluginManager.GetParameterInstances(null);
+            }
         }
 
         [TestMethod]

@@ -33,6 +33,7 @@ using Microsoft.Extensions.Primitives;
 
 namespace AspNetCore.PluginManager.Tests
 {
+    [ExcludeFromCodeCoverage]
     public class TestHeaderDictionary : IHeaderDictionary
     {
         #region Private Members

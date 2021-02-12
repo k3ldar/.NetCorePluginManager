@@ -24,6 +24,7 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
+using System.Diagnostics.CodeAnalysis;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -34,6 +35,7 @@ using PluginManager.Tests.Mocks;
 namespace AspNetCore.PluginManager.Tests.PluginServices
 {
     [TestClass]
+    [ExcludeFromCodeCoverage]
     public class PluginManagerServiceTests
     {
         [TestMethod]

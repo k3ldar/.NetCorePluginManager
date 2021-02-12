@@ -24,12 +24,14 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
+using System.Diagnostics.CodeAnalysis;
 
 using PluginManager;
 using PluginManager.Abstractions;
 
 namespace AspNetCore.PluginManager.Tests.Shared
 {
+    [ExcludeFromCodeCoverage]
     public class TestLogger : ILogger
     {
         private string _data;

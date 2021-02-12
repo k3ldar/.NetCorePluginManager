@@ -24,6 +24,7 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Threading.Tasks;
 
@@ -43,6 +44,7 @@ using pm = PluginManager.Internal;
 namespace AspNetCore.PluginManager.Tests.MiddlewareTests
 {
     [TestClass]
+    [ExcludeFromCodeCoverage]
     public class LoginMiddlewareTests : TestBasePlugin
     {
         [TestInitialize]
