@@ -504,6 +504,30 @@ namespace AspNetCore.PluginManager.Tests.Controllers
             Assert.AreEqual(17, dynamicContentPage.Content[9].SortOrder);
         }
 
+        [TestMethod]
+        public void DynamicContentController_GetWidthTypes_ReturnsSuccess()
+        {
+            ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
+            DefaultMemoryCache memoryCache = new DefaultMemoryCache(settingsProvider);
+
+            DynamicContentController dynamicContentController = CreateDynamicContentController(memoryCache, GetDynamicBreadcrumbs());
+
+            List<Middleware.LookupListItem> widthTypes = DynamicContentController.GetWidthTypes();
+            Assert.AreEqual(3, widthTypes.Count);
+        }
+
+        [TestMethod]
+        public void DynamicContentController_GetHeightTypes_ReturnsSuccess()
+        {
+            ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
+            DefaultMemoryCache memoryCache = new DefaultMemoryCache(settingsProvider);
+
+            DynamicContentController dynamicContentController = CreateDynamicContentController(memoryCache, GetDynamicBreadcrumbs());
+
+            List<Middleware.LookupListItem> heightTypes = DynamicContentController.GetHeightTypes();
+            Assert.AreEqual(3, heightTypes.Count);
+        }
+
         #region Preview
 
         [TestMethod]
@@ -1728,6 +1752,119 @@ namespace AspNetCore.PluginManager.Tests.Controllers
         }
 
         #endregion Retrieve Templates
+
+        #region Add Template To Page
+
+        [TestMethod]
+        public void DynamicContentController_AddTemplateToPage_Validate_Attributes()
+        {
+            Assert.IsTrue(MethodHasAttribute<HttpPostAttribute>(typeof(DynamicContentController), nameof(DynamicContentController.AddTemplateToPage)));
+            Assert.IsTrue(MethodHasAttribute<AjaxOnlyAttribute>(typeof(DynamicContentController), nameof(DynamicContentController.AddTemplateToPage)));
+            Assert.IsTrue(MethodHasAttribute<LoggedInAttribute>(typeof(DynamicContentController), nameof(DynamicContentController.AddTemplateToPage)));
+            Assert.IsTrue(MethodRouteAttribute(typeof(DynamicContentController), nameof(DynamicContentController.AddTemplateToPage), "DynamicContent/AddTemplate/{cacheId}/{templateId}"));
+
+            Assert.IsFalse(MethodHasAttribute<HttpGetAttribute>(typeof(DynamicContentController), nameof(DynamicContentController.AddTemplateToPage)));
+            Assert.IsFalse(MethodHasAttribute<HttpPutAttribute>(typeof(DynamicContentController), nameof(DynamicContentController.AddTemplateToPage)));
+            Assert.IsFalse(MethodHasAttribute<HttpDeleteAttribute>(typeof(DynamicContentController), nameof(DynamicContentController.AddTemplateToPage)));
+        }
+
+        [TestMethod]
+        public void DynamicContentController_AddTemplateToPage_NullCacheId_Returns400()
+        {
+            DynamicContentController dynamicContentController = CreateDynamicContentController();
+
+            IActionResult response = dynamicContentController.AddTemplateToPage(null, "123");
+
+            JsonResult sut = response as JsonResult;
+
+            Assert.AreEqual(400, sut.StatusCode.Value);
+        }
+
+        [TestMethod]
+        public void DynamicContentController_AddTemplateToPage_EmptyCacheId_Returns400()
+        {
+            DynamicContentController dynamicContentController = CreateDynamicContentController();
+
+            IActionResult response = dynamicContentController.AddTemplateToPage("", "123");
+
+            JsonResult sut = response as JsonResult;
+
+            Assert.AreEqual(400, sut.StatusCode.Value);
+        }
+
+        [TestMethod]
+        public void DynamicContentController_AddTemplateToPage_NullTemplateIdId_Returns400()
+        {
+            DynamicContentController dynamicContentController = CreateDynamicContentController();
+
+            IActionResult response = dynamicContentController.AddTemplateToPage("123", null);
+
+            JsonResult sut = response as JsonResult;
+
+            Assert.AreEqual(400, sut.StatusCode.Value);
+        }
+
+        [TestMethod]
+        public void DynamicContentController_AddTemplateToPage_EmptyTemplateId_Returns400()
+        {
+            DynamicContentController dynamicContentController = CreateDynamicContentController();
+
+            IActionResult response = dynamicContentController.AddTemplateToPage("123", "");
+
+            JsonResult sut = response as JsonResult;
+
+            Assert.AreEqual(400, sut.StatusCode.Value);
+        }
+
+        [TestMethod]
+        public void DynamicContentController_AddTemplateToPage_CacheItemDoesNotExist()
+        {
+            DynamicContentController dynamicContentController = CreateDynamicContentController();
+
+            IActionResult response = dynamicContentController.AddTemplateToPage("123", "123");
+
+            JsonResult sut = response as JsonResult;
+
+            Assert.AreEqual(400, sut.StatusCode.Value);
+            //ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
+            //DefaultMemoryCache memoryCache = new DefaultMemoryCache(settingsProvider);
+
+            //DynamicContentController dynamicContentController = CreateDynamicContentController(memoryCache, GetDynamicBreadcrumbs());
+
+            //IActionResult editPageResponse = dynamicContentController.EditPage(10);
+            //ViewResult viewResult = editPageResponse as ViewResult;
+            //Assert.IsNotNull(viewResult.Model);
+            //EditPageModel editPageModel = viewResult.Model as EditPageModel;
+
+            //CacheItem cacheItem = memoryCache.GetExtendingCache().Get(editPageModel.CacheId);
+            //DynamicContentPage dynamicContentPage = cacheItem.Value as DynamicContentPage;
+
+            //Assert.IsNotNull(dynamicContentPage);
+            //Assert.AreEqual(10, dynamicContentPage.Content.Count);
+
+            //DeleteControlModel deleteControlModel = new DeleteControlModel()
+            //{
+            //    CacheId = editPageModel.CacheId,
+            //    ControlId = "control-1"
+            //};
+
+            //IActionResult response = dynamicContentController.DeleteItem(deleteControlModel);
+
+            //JsonResult jsonResult = response as JsonResult;
+
+            //Assert.AreEqual("application/json", jsonResult.ContentType);
+            //Assert.AreEqual(200, jsonResult.StatusCode);
+
+            //DynamicContentModel sut = jsonResult.Value as DynamicContentModel;
+
+            //Assert.IsNotNull(sut);
+            //Assert.IsTrue(sut.Success);
+
+            //Assert.AreEqual(9, dynamicContentPage.Content.Count);
+            //Assert.IsFalse(dynamicContentPage.Content.Where(dcp => dcp.UniqueId.Equals("control-1")).Any());
+        }
+
+        #endregion Add Template To Page
 
         #region Private Methods
 

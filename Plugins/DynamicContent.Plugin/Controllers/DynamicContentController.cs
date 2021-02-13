@@ -400,7 +400,7 @@ namespace DynamicContent.Plugin.Controllers
             if (control == null)
                 return GenerateErrorResponse(400);
 
-            return PartialView("/Views/DynamicContent/_DeleteControl.cshtml", CreateDeleteControlModel(cacheId, control));
+            throw new NotImplementedException();
         }
 
         #endregion Public Action Methods
