@@ -33,7 +33,8 @@ using PluginManager.Abstractions;
 
 using SharedPluginFeatures;
 
-using Constants = SharedPluginFeatures.Constants;
+using static SharedPluginFeatures.Constants;
+
 using pm = PluginManager.Internal;
 using sl = Shared.Classes;
 
@@ -97,7 +98,7 @@ namespace AspNetCore.PluginManager.Tests
                 TimeSpan docLoadTime = new TimeSpan(0, 0, 30);
                 DateTime startLoadDocs = DateTime.Now;
 
-                while (sl.ThreadManager.Exists(SharedPluginFeatures.Constants.DocumentationLoadThread))
+                while (sl.ThreadManager.Exists(DocumentationLoadThread))
                 {
                     System.Threading.Thread.Sleep(100);
 

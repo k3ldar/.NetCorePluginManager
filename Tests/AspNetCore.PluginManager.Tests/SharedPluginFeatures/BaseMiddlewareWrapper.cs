@@ -15,51 +15,65 @@
  *
  *  Product:  AspNetCore.PluginManager.Tests
  *  
- *  File: BaseControllerWrapper.cs
+ *  File: BaseMiddlewareWrapper.cs
  *
- *  Purpose:  Tests wrappers for BaseController tests
+ *  Purpose:  Tests wrappers for BaseMiddleware tests
  *
  *  Date        Name                Reason
- *  01/10/2020  Simon Carter        Initially Created
+ *  13/02/2021  Simon Carter        Initially Created
  *
- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
+
+using Shared.Classes;
 
 using SharedPluginFeatures;
 
 namespace AspNetCore.PluginManager.Tests.SharedPluginFeatures
 {
     [ExcludeFromCodeCoverage]
-    internal class BaseControllerWrapper : BaseController
+    public class BaseMiddlewareWrapper : BaseMiddleware
     {
-        public BaseControllerWrapper()
+        public Uri TestGetCurrentUri(HttpContext context)
         {
-            ControllerContext.HttpContext = new TestHttpContext();
+            return GetCurrentUri(context);
         }
 
-        internal string TestGetCoreSessionId()
+        public string TestGetHost(HttpContext context)
         {
-            return GetCoreSessionId();
+            return GetHost(context);
         }
 
-        internal ShoppingCartSummary TestGetShoppingCartSummary()
+        public ITempDataDictionary TestGetTempData(HttpContext context)
         {
-            return GetCartSummary();
+            return GetTempData(context);
         }
 
-        internal void TestCalculatePageOffsets<T>(List<T> items, int page, int pageSize,
-            out int startItem, out int endItem, out int availablePages)
+        public UserSession TestGetUserSession(HttpContext context)
         {
-            CalculatePageOffsets<T>(items, page, pageSize, out startItem, out endItem, out availablePages);
+            return GetUserSession(context);
         }
 
-        internal void TestCalculatePageOffsets(int totalItems, int page, int pageSize,
-            out int startItem, out int endItem, out int availablePages)
+        public bool TestIsUserLoggedIn(HttpContext context)
         {
-            CalculatePageOffsets(totalItems, page, pageSize, out startItem, out endItem, out availablePages);
+            return IsUserLoggedIn(context);
+        }
+
+        public string TestRoute(HttpContext context)
+        {
+            return Route(context);
+        }
+
+        public string TestRouteLowered(HttpContext context)
+        {
+            return RouteLowered(context);
         }
     }
 }

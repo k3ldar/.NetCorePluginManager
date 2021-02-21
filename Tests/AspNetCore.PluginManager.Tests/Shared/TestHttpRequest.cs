@@ -33,6 +33,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Primitives;
 
+using sp = SharedPluginFeatures;
+
 namespace AspNetCore.PluginManager.Tests
 {
     [ExcludeFromCodeCoverage]
@@ -115,8 +117,7 @@ namespace AspNetCore.PluginManager.Tests
         {
             get
             {
-                Uri uri = new Uri(_hostString.Value);
-                return new HostString(uri.Host);
+                return _hostString;
             }
 
             set => throw new NotImplementedException();
@@ -173,12 +174,22 @@ namespace AspNetCore.PluginManager.Tests
                 throw new NotImplementedException();
             }
         }
+
         public override String Scheme
         {
             get
             {
-                Uri uri = new Uri(_hostString.Value);
-                return uri.Scheme;
+                try
+                {
+                    Uri uri = new Uri(_hostString.Value);
+                    return uri.Scheme;
+                }
+                catch (Exception e) when (
+                    e is InvalidOperationException ||
+                    e is UriFormatException)
+                {
+                    return "http";
+                }
             }
 
             set => throw new NotImplementedException();
@@ -210,11 +221,11 @@ namespace AspNetCore.PluginManager.Tests
         {
             get
             {
-                return Headers[SharedPluginFeatures.Constants.UserAgent];
+                return Headers[sp.Constants.UserAgent];
             }
             set
             {
-                Headers[SharedPluginFeatures.Constants.UserAgent] = value;
+                Headers[sp.Constants.UserAgent] = value;
             }
         }
 
