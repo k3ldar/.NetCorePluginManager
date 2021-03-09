@@ -936,6 +936,7 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
             IPluginTypesService pluginTypesServices = new pm.PluginServices(_testPluginSpider) as IPluginTypesService;
 
             ActionDescriptorCollection actionDescriptorCollection = null;
+
             if (createDescriptors)
             {
                 var descriptors = new List<ActionDescriptor>()

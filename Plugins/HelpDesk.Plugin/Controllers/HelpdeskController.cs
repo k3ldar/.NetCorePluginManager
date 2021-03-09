@@ -44,6 +44,7 @@ namespace HelpdeskPlugin.Controllers
     /// <summary>
     /// Helpdesk controller, provides Helpdesk functionality for any website.
     /// </summary>
+    [Subdomain("Helpdesk")]
     public partial class HelpdeskController : BaseController
     {
         #region Constants 

@@ -11,16 +11,16 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2021 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2021 Simon Carter.  All Rights Reserved.
  *
  *  Product:  AspNetCore.PluginManager.Tests
  *  
- *  File: TestActionDescriptorCollectionProvider.cs
+ *  File: TestApplicationBuilder.cs
  *
- *  Purpose:  Mock IActionDescriptorCollectionProvider class
+ *  Purpose:  Test IApplicationBuilder class
  *
  *  Date        Name                Reason
- *  21/02/2021  Simon Carter        Initially Created
+ *  07/03/2021  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
@@ -30,32 +30,47 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using Microsoft.AspNetCore.Http.Features;
 
-namespace AspNetCore.PluginManager.Tests
+
+namespace AspNetCore.PluginManager.Tests.Shared
 {
     [ExcludeFromCodeCoverage]
-    public class TestTempDataProvider : ITempDataProvider
+    public class TestApplicationBuilder : IApplicationBuilder
     {
-        private readonly Dictionary<string, object> _tempData;
+        #region IApplicationBuilder Methods/Properties
 
-        public TestTempDataProvider()
+        public IServiceProvider ApplicationServices { get; set; }
+
+        public IFeatureCollection ServerFeatures => throw new NotImplementedException();
+
+        public IDictionary<string, object> Properties => throw new NotImplementedException();
+
+        public RequestDelegate Build()
         {
-            _tempData = new Dictionary<string, object>();
+            throw new NotImplementedException();
         }
 
-        public IDictionary<string, object> LoadTempData(HttpContext context)
+        public IApplicationBuilder New()
         {
-            return _tempData;
+            throw new NotImplementedException();
         }
 
-        public void SaveTempData(HttpContext context, IDictionary<string, object> values)
+        public IApplicationBuilder Use(Func<RequestDelegate, RequestDelegate> middleware)
         {
-            foreach (var item in values)
-            {
-                _tempData.Add(item.Key, item.Value);
-            }
+            UseCalled = true;
+
+            return null;
         }
+
+        #endregion IApplicationBuilder Methods/Properties
+
+        #region Public Properties
+
+        public bool UseCalled { get; set; }
+
+        #endregion Public Properties
     }
 }

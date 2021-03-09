@@ -11,51 +11,30 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2021 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2021 Simon Carter.  All Rights Reserved.
  *
  *  Product:  AspNetCore.PluginManager.Tests
  *  
- *  File: TestActionDescriptorCollectionProvider.cs
+ *  File: SubdomainMiddlewareTests.cs
  *
- *  Purpose:  Mock IActionDescriptorCollectionProvider class
+ *  Purpose:  Test class for Subdomain Middleware where the class does not descend from controller
  *
  *  Date        Name                Reason
- *  21/02/2021  Simon Carter        Initially Created
+ *  27/02/2021  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using SharedPluginFeatures;
 
-namespace AspNetCore.PluginManager.Tests
+namespace AspNetCore.PluginManager.Tests.MVCMiddlewareTests.Mocks
 {
-    [ExcludeFromCodeCoverage]
-    public class TestTempDataProvider : ITempDataProvider
+    [Subdomain("MockClassWithAttributeNotOnControllerDescendent")]
+    public sealed class MockClassWithAttributeNotOnControllerDescendent
     {
-        private readonly Dictionary<string, object> _tempData;
-
-        public TestTempDataProvider()
-        {
-            _tempData = new Dictionary<string, object>();
-        }
-
-        public IDictionary<string, object> LoadTempData(HttpContext context)
-        {
-            return _tempData;
-        }
-
-        public void SaveTempData(HttpContext context, IDictionary<string, object> values)
-        {
-            foreach (var item in values)
-            {
-                _tempData.Add(item.Key, item.Value);
-            }
-        }
     }
 }

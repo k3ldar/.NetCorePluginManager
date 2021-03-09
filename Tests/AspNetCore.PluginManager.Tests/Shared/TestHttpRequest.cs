@@ -179,17 +179,7 @@ namespace AspNetCore.PluginManager.Tests
         {
             get
             {
-                try
-                {
-                    Uri uri = new Uri(_hostString.Value);
-                    return uri.Scheme;
-                }
-                catch (Exception e) when (
-                    e is InvalidOperationException ||
-                    e is UriFormatException)
-                {
-                    return "http";
-                }
+                return IsHttpsScheme ? "https" : "http";
             }
 
             set => throw new NotImplementedException();
@@ -228,6 +218,8 @@ namespace AspNetCore.PluginManager.Tests
                 Headers[sp.Constants.UserAgent] = value;
             }
         }
+
+        public bool IsHttpsScheme { get; set; }
 
         #endregion Public Methods
     }

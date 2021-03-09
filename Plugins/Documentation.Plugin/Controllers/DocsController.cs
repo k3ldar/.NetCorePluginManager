@@ -46,6 +46,7 @@ using SharedPluginFeatures;
 
 namespace DocumentationPlugin.Controllers
 {
+    [Subdomain("Docs")]
     public class DocsController : BaseController
     {
         #region Constants

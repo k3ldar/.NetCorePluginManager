@@ -47,6 +47,7 @@ using ShoppingCartPlugin.Models;
 namespace ShoppingCartPlugin.Controllers
 {
     [DenySpider]
+    [Subdomain("ShoppingCart")]
     public partial class CartController : BaseController
     {
         #region Private Members

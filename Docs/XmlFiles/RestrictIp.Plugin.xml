@@ -1,48 +1,55 @@
 <?xml version="1.0"?>
 <doc>
     <assembly>
-        <name>Subdomain.Plugin</name>
+        <name>RestrictIp.Plugin</name>
     </assembly>
     <members>
-        <member name="T:Subdomain.Plugin.SubdomainMiddleware">
+        <member name="T:RestrictIp.Plugin.Classes.SystemAdmin.RestrictIpTimingsSubMenu">
             <summary>
-            Middleware provider which processes subdomain requests and ensures that any routes identified
-            as subdomains are correctly routed
-            </summary>
-        </member>
-        <member name="T:Subdomain.Plugin.SubdomainSettings">
-            <summary>
-            Loads settings to configure the routes that are subdomains.
-            </summary>
-        </member>
-        <member name="M:Subdomain.Plugin.SubdomainSettings.#ctor">
-            <summary>
-            Default constructor
-            </summary>
-        </member>
-        <member name="P:Subdomain.Plugin.SubdomainSettings.Disabled">
-            <summary>
-            Determines whether the subdomain routing is disabled or not.
-            </summary>
-            <value>bool</value>
-        </member>
-        <member name="T:Subdomain.Plugin.Classes.SystemAdmin.SubdomainTimingsSubMenu">
-            <summary>
-            Returns Timings information for all time spent processing subdomain requests and can 
+            Returns Timings information for all time spent processing restricted Ip route requests and can 
             be viewed within SystemAdmin.Plugin.  
             
             This class descends from SystemAdminSubMenu.
             </summary>
         </member>
-        <member name="M:Subdomain.Plugin.Classes.SystemAdmin.SubdomainTimingsSubMenu.Data">
+        <member name="M:RestrictIp.Plugin.Classes.SystemAdmin.RestrictIpTimingsSubMenu.Data">
             <summary>
-            Returns Timings data in milliseconds for time spent processing by Subdomain.Plugin requests.
+            Returns Timings data in milliseconds for time spent processing by RestrictIp.Plugin requests.
             </summary>
             <returns>string</returns>
         </member>
-        <member name="T:Subdomain.Plugin.PluginInitialisation">
+        <member name="T:RestrictIp.Plugin.RestrictIpMiddleware">
             <summary>
-            Implements IPlugin which allows the Subdomain.Plugin module to be
+            Middleware provider which processes requests and ensures that only authorised 
+            connections can connect to routes decorated with RestrictedIpRouteAttribute.
+            </summary>
+        </member>
+        <member name="T:RestrictIp.Plugin.RestrictIpSettings">
+            <summary>
+            Loads settings us ISettingsProvider to configure the routes that are restricted to
+            specific Ip addresses etc using RestrictedIpRouteAttribute.
+            </summary>
+        </member>
+        <member name="M:RestrictIp.Plugin.RestrictIpSettings.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="P:RestrictIp.Plugin.RestrictIpSettings.Disabled">
+            <summary>
+            Determines whether the middleware router is disabled or not.
+            </summary>
+            <value>bool</value>
+        </member>
+        <member name="P:RestrictIp.Plugin.RestrictIpSettings.RouteRestrictions">
+            <summary>
+            Dictionary of restricted routes
+            </summary>
+            <value>Dictionary&lt;string, string&gt;</value>
+        </member>
+        <member name="T:RestrictIp.Plugin.PluginInitialisation">
+            <summary>
+            Implements IPlugin which allows the RestrictIp.Plugin module to be
             loaded as a plugin module
             </summary>
         </member>

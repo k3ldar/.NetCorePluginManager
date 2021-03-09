@@ -24,6 +24,7 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 
 using PluginManager;
@@ -37,19 +38,22 @@ namespace AspNetCore.PluginManager.Tests.Shared
         private string _data;
         private LogLevel _logLevel;
         private Exception _exception;
+        private List<string> _messages = new List<string>();
 
         public void AddToLog(in LogLevel logLevel, in String data)
         {
-
+            _messages.Add($"{logLevel} {data}");
         }
 
         public void AddToLog(in LogLevel logLevel, in Exception exception)
         {
-
+            _messages.Add($"{logLevel} {exception.Message}");
         }
 
         public void AddToLog(in LogLevel logLevel, in Exception exception, String data)
         {
+            _messages.Add($"{logLevel} {exception.Message} {data}");
+
             _logLevel = logLevel;
             _exception = exception;
             _data = data;
@@ -57,22 +61,27 @@ namespace AspNetCore.PluginManager.Tests.Shared
 
         public void AddToLog(in LogLevel logLevel, in String moduleName, in String data)
         {
-
+            _messages.Add($"{logLevel} {moduleName} {data}");
         }
 
         public void AddToLog(in LogLevel logLevel, in String moduleName, in Exception exception)
         {
-
+            _messages.Add($"{logLevel} {moduleName} {exception.Message}");
         }
 
         public void AddToLog(in LogLevel logLevel, in String moduleName, in Exception exception, String data)
         {
-
+            _messages.Add($"{logLevel} {moduleName} {exception.Message} {data}");
         }
 
         public bool ExceptionLogged(Type exception)
         {
             return exception.Equals(_exception.GetType());
+        }
+
+        public bool ContainsMessage(string message)
+        {
+            return _messages.Contains(message);
         }
     }
 }

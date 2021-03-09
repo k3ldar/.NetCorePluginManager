@@ -47,6 +47,8 @@ namespace AspNetCore.PluginManager.Tests
         {
             _body = new MemoryStream();
             StatusCode = 200;
+            RedirectPermanent = null;
+            RedirectCount = 0;
         }
 
         #region HttpResponse Methods
@@ -72,7 +74,7 @@ namespace AspNetCore.PluginManager.Tests
             }
         }
 
-        public override Boolean HasStarted => ContentLength > 0;
+        public override Boolean HasStarted => ContentLength > 0 || TestHasStarted;
 
         public override IHeaderDictionary Headers
         {
@@ -98,9 +100,19 @@ namespace AspNetCore.PluginManager.Tests
 
         public override void Redirect(String location, Boolean permanent)
         {
-            throw new NotImplementedException();
+            RedirectLocation = location;
+            RedirectPermanent = permanent;
+            RedirectCount++;
         }
 
         #endregion HttpResponse Methods
+
+        public int RedirectCount { get; set; }
+
+        public bool? RedirectPermanent { get; set; }
+
+        public string RedirectLocation { get; set; }
+
+        public bool TestHasStarted { get; set; }
     }
 }

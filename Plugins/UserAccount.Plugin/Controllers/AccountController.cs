@@ -48,6 +48,7 @@ namespace UserAccount.Plugin.Controllers
 #pragma warning disable CS1591
     [LoggedIn]
     [DenySpider]
+    [Subdomain("Account")]
     public partial class AccountController : BaseController
     {
         #region Private Members
