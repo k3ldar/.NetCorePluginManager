@@ -7,7 +7,7 @@
         <member name="T:Subdomain.Plugin.SubdomainMiddleware">
             <summary>
             Middleware provider which processes subdomain requests and ensures that any routes identified
-            as subdomains are correctly routed
+            as subdomains are correctly routed <seealso cref="!:"/>
             </summary>
         </member>
         <member name="T:Subdomain.Plugin.SubdomainMiddlewareExtender">

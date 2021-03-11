@@ -47,7 +47,7 @@ namespace ProductPlugin.Controllers
     /// <summary>
     /// Product controller displays standard product information on a website.
     /// </summary>
-    [Subdomain("Products")]
+    [Subdomain(ProductController.Name)]
     public partial class ProductController : BaseController
     {
         #region Private Members

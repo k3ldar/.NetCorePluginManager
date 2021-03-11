@@ -78,8 +78,8 @@ namespace Subdomain.Plugin
         #region Constructors
 
         public SubdomainMiddleware(RequestDelegate next, IActionDescriptorCollectionProvider routeProvider,
-            IRouteDataService routeDataService, IPluginHelperService pluginHelperService, 
-            IPluginClassesService pluginClassesService, IPluginTypesService pluginTypesService, 
+            IRouteDataService routeDataService, IPluginHelperService pluginHelperService,
+            IPluginClassesService pluginClassesService, IPluginTypesService pluginTypesService,
             ISettingsProvider settingsProvider, ILogger logger)
         {
             if (routeProvider == null)
@@ -106,7 +106,7 @@ namespace Subdomain.Plugin
             _subdomainMappings = new Dictionary<string, SubdomainSetting>();
             _routesWithoutSubdomains = new List<string>();
             GetLocalIpAddresses(_localIpAddresses);
-            
+
 
             SubdomainSettings settings = settingsProvider.GetSettings<SubdomainSettings>(nameof(SubdomainSettings));
             _enabled = settings.Enabled;
@@ -197,7 +197,7 @@ namespace Subdomain.Plugin
                         subdomainName = uri.Host.Remove(uri.Host.Length - _domainName.Length - 1);
                         isSubdomain = _subdomainMappings.ContainsKey($"/{subdomainName}");
                     }
-                        
+
                     if (isSubdomain && _routesWithoutSubdomains.Contains(strippedRoute))
                     {
                         // currently in a subdomain but routing to a path that should not be a subdomin
@@ -321,7 +321,7 @@ namespace Subdomain.Plugin
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private string RouteFromRouteProvider(in Type classType, 
+        private string RouteFromRouteProvider(in Type classType,
             in IActionDescriptorCollectionProvider routeProvider,
             in IRouteDataService routeDataService)
         {

@@ -51,7 +51,7 @@ namespace Blog.Plugin.Controllers
     /// <summary>
     /// Controller for blogs.
     /// </summary>
-    [Subdomain("Blog")]
+    [Subdomain(BlogController.Name)]
     public class BlogController : BaseController
     {
         #region Private Members

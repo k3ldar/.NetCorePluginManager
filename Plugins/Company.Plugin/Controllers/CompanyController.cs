@@ -37,6 +37,7 @@ using SharedPluginFeatures;
 
 namespace Company.Plugin.Controllers
 {
+    [Subdomain(CompanyController.Name)]
     public class CompanyController : BaseController
     {
         #region Private Members
