@@ -42,13 +42,15 @@ using PluginManager.Abstractions;
 
 using SharedPluginFeatures;
 
+using static SharedPluginFeatures.Constants;
+
 using pm = PluginManager.Internal;
 
 namespace AspNetCore.PluginManager.Tests.MiddlewareTests
 {
     [TestClass]
     [ExcludeFromCodeCoverage]
-    public class BadEggTests : TestBasePlugin
+    public class BadEggTests : BaseMiddlewareTests
     {
         [TestInitialize]
         public void InitialiseBadEggTests()
@@ -57,6 +59,7 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
         }
 
         [TestMethod]
+        [TestCategory(TestCategoryMiddleware)]
         [ExpectedException(typeof(ArgumentNullException))]
         public void BadEggValidationInvalidRequestDelegate()
         {
@@ -87,6 +90,7 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
         }
 
         [TestMethod]
+        [TestCategory(TestCategoryMiddleware)]
         [ExpectedException(typeof(ArgumentNullException))]
         public void BadEggValidationInvalidRouteProvider()
         {
@@ -116,6 +120,7 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
         }
 
         [TestMethod]
+        [TestCategory(TestCategoryMiddleware)]
         [ExpectedException(typeof(ArgumentNullException))]
         public void BadEggValidationInvalidRouteDataServices()
         {
@@ -146,6 +151,7 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
         }
 
         [TestMethod]
+        [TestCategory(TestCategoryMiddleware)]
         [ExpectedException(typeof(ArgumentNullException))]
         public void BadEggValidationInvalidPluginHelperServices()
         {
@@ -176,6 +182,7 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
         }
 
         [TestMethod]
+        [TestCategory(TestCategoryMiddleware)]
         [ExpectedException(typeof(ArgumentNullException))]
         public void BadEggValidationInvalidPluginTypesService()
         {
@@ -206,6 +213,7 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
         }
 
         [TestMethod]
+        [TestCategory(TestCategoryMiddleware)]
         [ExpectedException(typeof(ArgumentNullException))]
         public void BadEggValidationInvalidIpValidation()
         {
@@ -236,6 +244,7 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
         }
 
         [TestMethod]
+        [TestCategory(TestCategoryMiddleware)]
         [ExpectedException(typeof(ArgumentNullException))]
         public void BadEggValidationInvalidSettingsProvider()
         {
@@ -265,6 +274,7 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
         }
 
         [TestMethod]
+        [TestCategory(TestCategoryMiddleware)]
         [ExpectedException(typeof(ArgumentNullException))]
         public void BadEggValidationInvalidNotificationService()
         {
@@ -295,6 +305,7 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
         }
 
         [TestMethod]
+        [TestCategory(TestCategoryMiddleware)]
         public async Task BadEggValidationSuccess()
         {
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
@@ -330,6 +341,7 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
         }
 
         [TestMethod]
+        [TestCategory(TestCategoryMiddleware)]
         public async Task BadEggValidationIpBlackListed()
         {
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
@@ -371,6 +383,7 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
         }
 
         [TestMethod]
+        [TestCategory(TestCategoryMiddleware)]
         public async Task BadEggValidationIpWhiteListed()
         {
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
@@ -412,10 +425,11 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
         }
 
         [TestMethod]
+        [TestCategory(TestCategoryMiddleware)]
         public async Task BadEggValidationIgnoreValidation()
         {
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
-            BadEggSettings badEggSettings = settingsProvider.GetSettings<BadEggSettings>(SharedPluginFeatures.Constants.BadEggSettingsName);
+            BadEggSettings badEggSettings = settingsProvider.GetSettings<BadEggSettings>(BadEggSettingsName);
 
             TestHttpRequest httpRequest = new TestHttpRequest();
             TestHttpResponse httpResponse = new TestHttpResponse();
@@ -440,7 +454,7 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
             RouteDataServices routeDataServices = new RouteDataServices();
 
 
-            httpRequest.Headers.Add(SharedPluginFeatures.Constants.BadEggValidationIgnoreHeaderName,
+            httpRequest.Headers.Add(BadEggValidationIgnoreHeaderName,
                 badEggSettings.IgnoreValidationHeaderCode);
 
             BadEggMiddleware badEgg = new BadEggMiddleware(requestDelegate, testActionDescriptorCollectionProvider,

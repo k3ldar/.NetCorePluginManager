@@ -56,9 +56,12 @@ namespace LoginPlugin.Controllers
     [DenySpider("Facebot")]
     [DenySpider("Bingbot")]
     [DenySpider("Twitterbot")]
+    [Subdomain(LoginController.Name)]
     public class LoginController : BaseController
     {
         #region Private Members
+
+        private const string Name = "Login";
 
         private readonly ILoginProvider _loginProvider;
         private readonly LoginControllerSettings _settings;

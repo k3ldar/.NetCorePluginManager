@@ -128,7 +128,10 @@ namespace ErrorManager.Plugin
                 {
                     if (ProcessException(context, exception))
                     {
-                        context.Response.Redirect("/Error/Index/", false);
+                        if (!context.Response.HasStarted)
+                        {
+                            context.Response.Redirect("/Error/Index/", false);
+                        }
                     }
                     else
                     {

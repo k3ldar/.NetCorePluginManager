@@ -45,6 +45,7 @@ namespace SystemAdmin.Plugin.Controllers
     [RestrictedIpRoute("SystemAdminRoute")]
     [Authorize(Policy = SharedPluginFeatures.Constants.PolicyNameStaff)]
     [DenySpider]
+    [Subdomain(SystemAdminController.Name)]
     public partial class SystemAdminController : BaseController
     {
         #region Private Members

@@ -29,6 +29,7 @@ using SharedPluginFeatures;
 
 namespace DemoWebsitePlugin.Controllers
 {
+    [Subdomain(ServicesController.Name)]
     public class ServicesController : BaseController
     {
         public const string Name = "Services";

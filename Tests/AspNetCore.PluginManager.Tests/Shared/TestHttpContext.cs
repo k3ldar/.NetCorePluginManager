@@ -47,6 +47,7 @@ namespace AspNetCore.PluginManager.Tests
         private readonly TestHttpRequest _httpRequest;
         private readonly TestHttpResponse _httpResponse;
         private readonly IServiceProvider _serviceProvider;
+        private IDictionary<object, object> _items;
 
         #endregion Private Members
 
@@ -56,12 +57,14 @@ namespace AspNetCore.PluginManager.Tests
         {
             _httpRequest = new TestHttpRequest();
             _httpResponse = new TestHttpResponse();
+            CreateSession = true;
         }
 
         public TestHttpContext(in TestHttpRequest httpRequest, in TestHttpResponse httpResponse)
         {
             _httpRequest = httpRequest ?? throw new ArgumentNullException(nameof(httpRequest));
             _httpResponse = httpResponse ?? throw new ArgumentNullException(nameof(httpResponse));
+            CreateSession = true;
         }
 
         public TestHttpContext(in TestHttpRequest httpRequest, in TestHttpResponse httpResponse, IServiceProvider serviceProvider)
@@ -71,6 +74,14 @@ namespace AspNetCore.PluginManager.Tests
         }
 
         #endregion Constructors
+
+        #region Properties
+
+        public bool CreateSession { get; set; }
+
+        public bool LogUserIn { get; set; }
+
+        #endregion Properties
 
         #region HttpContext Methods
 
@@ -104,11 +115,21 @@ namespace AspNetCore.PluginManager.Tests
         {
             get
             {
-                return new Dictionary<object, object>
+                if (_items == null)
                 {
-                    { Constants.BasketSummary, new ShoppingCartSummary(1, 0, 0, 0, 0, 0, new System.Globalization.CultureInfo("en-GB"), "GBP") },
-                    { Constants.UserSession, new UserSession() { InternalSessionID = DateTime.Now.Ticks} }
-                };
+                    _items = new Dictionary<object, object>
+                    {
+                        { Constants.BasketSummary, new ShoppingCartSummary(1, 0, 0, 0, 0, 0, new System.Globalization.CultureInfo("en-GB"), "GBP") },
+                    };
+
+                    if (CreateSession)
+                        _items.Add(Constants.UserSession, new UserSession() { InternalSessionID = DateTime.Now.Ticks });
+
+                    if (CreateSession && LogUserIn)
+                        ((UserSession)_items[Constants.UserSession]).UserEmail = "john.doe@test.com";
+                }
+
+                return _items;
             }
 
             set

@@ -48,6 +48,7 @@ namespace SearchPlugin.Controllers
     /// Search controller, allows users to search using a standard interface implemented by ISearchProvider interface.
     /// </summary>
     [DenySpider]
+    [Subdomain(SearchController.Name)]
     public class SearchController : BaseController
     {
         #region Private Members

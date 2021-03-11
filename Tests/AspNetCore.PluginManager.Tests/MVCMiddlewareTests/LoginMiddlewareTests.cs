@@ -38,6 +38,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using PluginManager.Abstractions;
 
 using static Shared.Utilities;
+using static SharedPluginFeatures.Constants;
 
 using pm = PluginManager.Internal;
 
@@ -45,7 +46,7 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
 {
     [TestClass]
     [ExcludeFromCodeCoverage]
-    public class LoginMiddlewareTests : TestBasePlugin
+    public class LoginMiddlewareTests : BaseMiddlewareTests
     {
         [TestInitialize]
         public void InitializeLoginTests()
@@ -54,6 +55,7 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
         }
 
         [TestMethod]
+        [TestCategory(TestCategoryMiddleware)]
         [ExpectedException(typeof(System.ArgumentNullException))]
         public async Task LoginNullContextValue()
         {
@@ -72,6 +74,7 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
         }
 
         [TestMethod]
+        [TestCategory(TestCategoryMiddleware)]
         [ExpectedException(typeof(System.ArgumentNullException))]
         public void LoginNullLoginProviderValue()
         {
@@ -86,6 +89,7 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
         }
 
         [TestMethod]
+        [TestCategory(TestCategoryMiddleware)]
         [ExpectedException(typeof(System.ArgumentNullException))]
         public void LoginNullSettingsProviderValue()
         {
@@ -100,6 +104,7 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
         }
 
         [TestMethod]
+        [TestCategory(TestCategoryMiddleware)]
         [ExpectedException(typeof(System.ArgumentNullException))]
         public async Task LoginNullAuthenticationValueOnInvoke()
         {
@@ -124,6 +129,7 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
         }
 
         [TestMethod]
+        [TestCategory(TestCategoryMiddleware)]
         [ExpectedException(typeof(System.ArgumentNullException))]
         public void LoginNullClaimsProviderValue()
         {
@@ -138,6 +144,7 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
         }
 
         [TestMethod]
+        [TestCategory(TestCategoryMiddleware)]
         [ExpectedException(typeof(System.ArgumentNullException))]
         public void LoginNullRequestDelegateValue()
         {
@@ -152,6 +159,7 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
         }
 
         [TestMethod]
+        [TestCategory(TestCategoryMiddleware)]
         [ExpectedException(typeof(System.FormatException))]
         public async Task LoginFromCookieValueCookieValueNotEncrypted()
         {
@@ -177,6 +185,7 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
         }
 
         [TestMethod]
+        [TestCategory(TestCategoryMiddleware)]
         public async Task LoginFromCookieValueCookieInvalidLoginUserNotFound()
         {
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
@@ -208,6 +217,7 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
         }
 
         [TestMethod]
+        [TestCategory(TestCategoryMiddleware)]
         public async Task LoginFromCookieValueCookieValidLoginUserFound()
         {
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
@@ -239,6 +249,7 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
         }
 
         [TestMethod]
+        [TestCategory(TestCategoryMiddleware)]
         public async Task LoginAutoLoginFromHeadersValidUsernameAndPassword()
         {
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
@@ -257,7 +268,7 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
             RequestDelegate requestDelegate = async (context) => { await Task.Delay(0); };
 
             string encoded = Convert.ToBase64String(System.Text.Encoding.GetEncoding("ISO-8859-1").GetBytes("admin:password"));
-            httpRequest.Headers.Add(SharedPluginFeatures.Constants.HeaderAuthorizationName, "Basic " + encoded);
+            httpRequest.Headers.Add(HeaderAuthorizationName, "Basic " + encoded);
 
             LoginMiddleware login = new LoginMiddleware(requestDelegate, loginProvider, settingsProvider,
                 claimsProvider);
@@ -271,6 +282,7 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
         }
 
         [TestMethod]
+        [TestCategory(TestCategoryMiddleware)]
         public async Task LoginAutoLoginFromHeadersInvalidSplitter()
         {
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
@@ -289,7 +301,7 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
             RequestDelegate requestDelegate = async (context) => { await Task.Delay(0); };
 
             string encoded = Convert.ToBase64String(System.Text.Encoding.GetEncoding("ISO-8859-1").GetBytes("MileyCyrus"));
-            httpRequest.Headers.Add(SharedPluginFeatures.Constants.HeaderAuthorizationName, "Basic " + encoded);
+            httpRequest.Headers.Add(HeaderAuthorizationName, "Basic " + encoded);
 
             LoginMiddleware login = new LoginMiddleware(requestDelegate, loginProvider, settingsProvider,
                 claimsProvider);
@@ -301,6 +313,7 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
         }
 
         [TestMethod]
+        [TestCategory(TestCategoryMiddleware)]
         public async Task LoginAutoLoginFromHeadersInvalidUsernameAndPassword()
         {
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
@@ -319,7 +332,7 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
             RequestDelegate requestDelegate = async (context) => { await Task.Delay(0); };
 
             string encoded = Convert.ToBase64String(System.Text.Encoding.GetEncoding("ISO-8859-1").GetBytes("Miley:Cyrus"));
-            httpRequest.Headers.Add(SharedPluginFeatures.Constants.HeaderAuthorizationName, "Basic " + encoded);
+            httpRequest.Headers.Add(HeaderAuthorizationName, "Basic " + encoded);
 
             LoginMiddleware login = new LoginMiddleware(requestDelegate, loginProvider, settingsProvider,
                 claimsProvider);
@@ -330,6 +343,7 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
         }
 
         [TestMethod]
+        [TestCategory(TestCategoryMiddleware)]
         public async Task LoginAutoLoginFromHeadersInvalidValueBasicMissing()
         {
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
@@ -347,7 +361,7 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
             TestAuthenticationService authenticationService = new TestAuthenticationService();
             RequestDelegate requestDelegate = async (context) => { await Task.Delay(0); };
 
-            httpRequest.Headers.Add(SharedPluginFeatures.Constants.HeaderAuthorizationName, "blahblahblah");
+            httpRequest.Headers.Add(HeaderAuthorizationName, "blahblahblah");
 
             LoginMiddleware login = new LoginMiddleware(requestDelegate, loginProvider, settingsProvider,
                 claimsProvider);
@@ -359,6 +373,7 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
         }
 
         [TestMethod]
+        [TestCategory(TestCategoryMiddleware)]
         public async Task LoginAutoLoginFromHeadersInvalidEncoding()
         {
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
@@ -376,7 +391,7 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
             TestAuthenticationService authenticationService = new TestAuthenticationService();
             RequestDelegate requestDelegate = async (context) => { await Task.Delay(0); };
 
-            httpRequest.Headers.Add(SharedPluginFeatures.Constants.HeaderAuthorizationName, "Basic blahblahblah");
+            httpRequest.Headers.Add(HeaderAuthorizationName, "Basic blahblahblah");
 
             LoginMiddleware login = new LoginMiddleware(requestDelegate, loginProvider, settingsProvider,
                 claimsProvider);

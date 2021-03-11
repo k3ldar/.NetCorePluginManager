@@ -26,10 +26,10 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
-
 
 using Shared.Classes;
 
@@ -56,20 +56,28 @@ namespace SharedPluginFeatures
         /// </summary>
         /// <param name="context">Valid HttpContext for the request.</param>
         /// <returns>Uri</returns>
-        protected Uri GetCurrentUri(in HttpContext context)
+        protected static Uri GetCurrentUri(in HttpContext context)
         {
             if (context == null)
                 throw new ArgumentNullException(nameof(context));
 
-            UriBuilder uriBuilder = new UriBuilder(context.Request.Scheme,
-                context.Request.Host.Host.ToString(),
-                context.Request.Host.Port.Value,
-                context.Request.Path.ToString())
-            {
-                Query = context.Request.QueryString.ToString()
-            };
+            UriBuilder Result = null;
 
-            return uriBuilder.Uri;
+            if (context.Request.Host.Port.HasValue)
+            {
+                Result = new UriBuilder(context.Request.Scheme,
+                    context.Request.Host.Host.ToString(CultureInfo.InvariantCulture),
+                    context.Request.Host.Port.Value);
+            }
+            else
+            {
+                Result = new UriBuilder(context.Request.Host.Value);
+            }
+
+            Result.Query = context.Request.QueryString.ToString();
+            Result.Path = context.Request.Path.ToString();
+
+            return Result.Uri;
         }
 
         /// <summary>
@@ -77,7 +85,7 @@ namespace SharedPluginFeatures
         /// </summary>
         /// <param name="context">Valid HttpContext for the request.</param>
         /// <returns>string</returns>
-        protected string GetHost(in HttpContext context)
+        protected static string GetHost(in HttpContext context)
         {
             if (context == null)
                 throw new ArgumentNullException(nameof(context));
@@ -85,13 +93,14 @@ namespace SharedPluginFeatures
             if (context.Request.Host.Port.HasValue)
             {
                 return new UriBuilder(context.Request.Scheme,
-                    context.Request.Host.Host.ToString(),
+                    context.Request.Host.Host.ToString(CultureInfo.InvariantCulture),
                     context.Request.Host.Port.Value).ToString();
             }
             else
             {
-                return new UriBuilder(context.Request.Scheme,
-                    context.Request.Host.Host.ToString()).ToString();
+                UriBuilder builder = new UriBuilder(context.Request.Host.Value);
+                Uri uri = new Uri(builder.ToString());
+                return uri.GetComponents(UriComponents.AbsoluteUri & ~UriComponents.Port, UriFormat.UriEscaped);
             }
         }
 
@@ -100,7 +109,7 @@ namespace SharedPluginFeatures
         /// </summary>
         /// <param name="context">Valid HttpContext for the request.</param>
         /// <returns></returns>
-        protected ITempDataDictionary GetTempData(in HttpContext context)
+        protected static ITempDataDictionary GetTempData(in HttpContext context)
         {
             if (context == null)
                 throw new ArgumentNullException(nameof(context));
@@ -117,7 +126,7 @@ namespace SharedPluginFeatures
         /// <param name="context">Valid HttpContext for the request.</param>
         /// <returns>null if the UserSessionMiddleware.Plugin is not loaded otherwise a valid UserSession item representing 
         /// the current users session.</returns>
-        protected UserSession GetUserSession(in HttpContext context)
+        protected static UserSession GetUserSession(in HttpContext context)
         {
             if (context == null)
                 throw new ArgumentNullException(nameof(context));
@@ -137,7 +146,7 @@ namespace SharedPluginFeatures
         /// </summary>
         /// <param name="context">Valid HttpContext for the request.</param>
         /// <returns>True if the user is logged in, otherwise false.</returns>
-        protected bool IsUserLoggedIn(in HttpContext context)
+        protected static bool IsUserLoggedIn(in HttpContext context)
         {
             UserSession session = GetUserSession(context);
 
@@ -154,7 +163,7 @@ namespace SharedPluginFeatures
         /// </summary>
         /// <param name="context">Valid HttpContext for the request.</param>
         /// <returns>string</returns>
-        protected string Route(in HttpContext context)
+        protected static string Route(in HttpContext context)
         {
             if (context == null)
                 throw new ArgumentNullException(nameof(context));
@@ -169,12 +178,14 @@ namespace SharedPluginFeatures
             return route;
         }
 
+
         /// <summary>
         /// Retrieves the current route being requested through the pipeline in lowercase.
         /// </summary>
         /// <param name="context">Valid HttpContext for the request.</param>
         /// <returns>string</returns>
-        protected string RouteLowered(in HttpContext context)
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1308:Normalize strings to uppercase", Justification = "The purpose of this function is to return lower not upper")]
+        protected static string RouteLowered(in HttpContext context)
         {
             if (context == null)
                 throw new ArgumentNullException(nameof(context));
@@ -182,7 +193,7 @@ namespace SharedPluginFeatures
             if (context.Items.ContainsKey(LoweredRoute))
                 return context.Items[LoweredRoute].ToString();
 
-            string routeLowered = Route(context).ToLower();
+            string routeLowered = Route(context).ToLowerInvariant();
 
             context.Items.Add(LoweredRoute, routeLowered);
 
@@ -196,7 +207,7 @@ namespace SharedPluginFeatures
         /// </summary>
         /// <param name="context">Valid HttpContext for the request.</param>
         /// <returns>string</returns>
-        protected string RouteFileExtension(in HttpContext context)
+        protected static string RouteFileExtension(in HttpContext context)
         {
             if (context == null)
                 throw new ArgumentNullException(nameof(context));
@@ -216,7 +227,7 @@ namespace SharedPluginFeatures
         /// </summary>
         /// <param name="context">Valid HttpContext for the request.</param>
         /// <returns>string</returns>
-        protected string GetIpAddress(in HttpContext context)
+        protected static string GetIpAddress(in HttpContext context)
         {
             if (context == null)
                 throw new ArgumentNullException(nameof(context));
@@ -238,7 +249,7 @@ namespace SharedPluginFeatures
         /// </summary>
         /// <param name="context">Valid HttpContext for the request.</param>
         /// <returns>string</returns>
-        protected string GetUserAgent(in HttpContext context)
+        protected static string GetUserAgent(in HttpContext context)
         {
             if (context == null)
                 throw new ArgumentNullException(nameof(context));
@@ -250,7 +261,7 @@ namespace SharedPluginFeatures
         /// Retrieves a list of all local Ip Addresses on the current server.
         /// </summary>
         /// <param name="ipAddressList">List of HashSet&lt;string&gt; which will be populated with the ip addresses from the current computer.</param>
-        protected void GetLocalIpAddresses(in HashSet<string> ipAddressList)
+        protected static void GetLocalIpAddresses(in HashSet<string> ipAddressList)
         {
             if (ipAddressList == null)
                 throw new ArgumentNullException(nameof(ipAddressList));
@@ -275,7 +286,7 @@ namespace SharedPluginFeatures
         /// <param name="context">Valid HttpContext for the request.</param>
         /// <param name="name">Name of the cookie.</param>
         /// <returns>bool</returns>
-        protected bool CookieExists(in HttpContext context, in string name)
+        protected static bool CookieExists(in HttpContext context, in string name)
         {
             if (context == null)
                 throw new ArgumentNullException(nameof(context));
@@ -291,7 +302,7 @@ namespace SharedPluginFeatures
         /// </summary>
         /// <param name="context">Valid HttpContext for the request.</param>
         /// <param name="name">Name of the cookie.</param>
-        protected void CookieDelete(in HttpContext context, in string name)
+        protected static void CookieDelete(in HttpContext context, in string name)
         {
             if (context == null)
                 throw new ArgumentNullException(nameof(context));
@@ -310,7 +321,7 @@ namespace SharedPluginFeatures
         /// <param name="name">Name of the cookie.</param>
         /// <param name="defaultValue">Value to be returned if the cookie does not exist.</param>
         /// <returns>string</returns>
-        protected string CookieValue(in HttpContext context, in string name, in string defaultValue = "")
+        protected static string CookieValue(in HttpContext context, in string name, in string defaultValue = "")
         {
             if (context == null)
                 throw new ArgumentNullException(nameof(context));
@@ -331,7 +342,7 @@ namespace SharedPluginFeatures
         /// <param name="name">Name of the cookie.</param>
         /// <param name="defaultValue">Value to be returned if the cookie does not exist.</param>
         /// <returns>long</returns>
-        protected long CookieValue(in HttpContext context, in string name, in long defaultValue)
+        protected static long CookieValue(in HttpContext context, in string name, in long defaultValue)
         {
             string value = CookieValue(context, name, String.Empty);
 
@@ -352,7 +363,7 @@ namespace SharedPluginFeatures
         /// <param name="encryptionKey">Key used to decrypt the contents when retrieved.</param>
         /// <param name="defaultValue">Value to be returned if the cookie does not exist.</param>
         /// <returns>string</returns>
-        protected string CookieValue(in HttpContext context, in string name, in string encryptionKey, in string defaultValue = "")
+        protected static string CookieValue(in HttpContext context, in string name, in string encryptionKey, in string defaultValue = "")
         {
             if (context == null)
                 throw new ArgumentNullException(nameof(context));
@@ -381,7 +392,7 @@ namespace SharedPluginFeatures
         /// <param name="name">Name of the cookie.</param>
         /// <param name="value">Value to be stored within the cookie.</param>
         /// <param name="days">Number of days the cookie is valid for.  A value of -1 indicates a session cookie which will expire when the session ends.</param>
-        protected void CookieAdd(in HttpContext context, in string name, in string value, in int days)
+        protected static void CookieAdd(in HttpContext context, in string name, in string value, in int days)
         {
             if (context == null)
                 throw new ArgumentNullException(nameof(context));

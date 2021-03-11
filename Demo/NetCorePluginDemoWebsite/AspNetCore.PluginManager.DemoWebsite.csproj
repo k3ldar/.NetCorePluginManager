@@ -117,6 +117,7 @@
     <ProjectReference Include="..\..\Plugins\Search.Plugin\Search.Plugin.csproj" />
     <ProjectReference Include="..\..\Plugins\WebSmokeTest.Plugin\WebSmokeTest.Plugin.csproj" />
     <ProjectReference Include="..\..\Plugins\GeoIpPlugin\GeoIpPlugin.csproj" />
+    <ProjectReference Include="..\..\Plugins\Subdomain.Plugin\Subdomain.Plugin.csproj" />
   </ItemGroup>
   
   <ItemGroup>
