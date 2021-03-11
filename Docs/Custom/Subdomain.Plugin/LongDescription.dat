@@ -35,13 +35,9 @@ apiv2.mywebsite.com/
 <p>
 This allows us to split the behaviour of a website into individual subdomains with specific areas of responsibility.
 </p>
-<p>
-</p>
-<p>
-</p>
 <h3>Subdomain Attribute</h3>
 <p>
-To enable subdomain routing for an attribute you must add a <seealso cref="SharedPluginFeatures.SubdomainAttribute"/>SubdomainAttribute</a> to the controller:
+To enable subdomain routing for an attribute you must add a <seealso cref="T:SharedPluginFeatures.SubdomainAttribute"/> to the controller:
 </p>
 <p>
 <pre style="font-family:Consolas;font-size:13px;color:black;background:white;">[<span style="color:#2b91af;">Subdomain</span>(<span style="color:#a31515;">&quot;Blog&quot;</span>)]
