@@ -1644,6 +1644,11 @@
             </summary>
             <value>string</value>
         </member>
+        <member name="T:Middleware.MarketingCampaign">
+            <summary>
+            Represents a marketing campaign that is used with Marketing plugin
+            </summary>
+        </member>
         <member name="P:Middleware.MarketingCampaign.Id">
             <summary>
             Id of campaign
@@ -3086,6 +3091,66 @@
             </summary>
             <param name="username">Name or email address of user who is requesting a new password.</param>
             <returns>bool.  True if a reminder or change password was sent to the user.</returns>
+        </member>
+        <member name="T:Middleware.Interfaces.IMarketingCampaign">
+            <summary>
+            Interface for marketing campaign item
+            </summary>
+        </member>
+        <member name="P:Middleware.Interfaces.IMarketingCampaign.Id">
+            <summary>
+            Id of campaign
+            </summary>
+        </member>
+        <member name="P:Middleware.Interfaces.IMarketingCampaign.StartDateTime">
+            <summary>
+            Start date/time of campaign
+            </summary>
+        </member>
+        <member name="P:Middleware.Interfaces.IMarketingCampaign.FinishDateTime">
+            <summary>
+            Finish date/time of campaign
+            </summary>
+        </member>
+        <member name="P:Middleware.Interfaces.IMarketingCampaign.Title">
+            <summary>
+            Title for Campaign
+            </summary>
+        </member>
+        <member name="P:Middleware.Interfaces.IMarketingCampaign.CampaignName">
+            <summary>
+            Name of campaign
+            </summary>
+        </member>
+        <member name="P:Middleware.Interfaces.IMarketingCampaign.ImageMainPage">
+            <summary>
+            Image to be placed on main index page
+            </summary>
+        </member>
+        <member name="P:Middleware.Interfaces.IMarketingCampaign.ImageLeftMenu">
+            <summary>
+            Image to be placed on left menu for each page
+            </summary>
+        </member>
+        <member name="P:Middleware.Interfaces.IMarketingCampaign.ImageOffersPage">
+            <summary>
+            Image to be placed on offers page
+            </summary>
+        </member>
+        <member name="P:Middleware.Interfaces.IMarketingCampaign.OffersPageText">
+            <summary>
+            Text to be displayed on offers page
+            </summary>
+        </member>
+        <member name="P:Middleware.Interfaces.IMarketingCampaign.LinkOverride">
+            <summary>
+            Override's the link that jumps straight to the Offers Page
+            </summary>
+        </member>
+        <member name="T:Middleware.Interfaces.ISpecialOfferProvider">
+            <summary>
+            Middleware special offer provider
+            </summary>
         </member>
         <member name="T:Middleware.IPaymentProvider">
             <summary>

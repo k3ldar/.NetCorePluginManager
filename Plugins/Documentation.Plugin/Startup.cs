@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2021 Simon Carter.  All Rights Reserved.
  *
  *  Product:  Documentation Plugin
  *  
@@ -47,7 +47,7 @@ namespace DocumentationPlugin
             services.AddMemoryCache();
 
             services.AddMvc(
-#if NET_CORE_3_X
+#if NET_CORE_3_X || NET_CORE_5_X
                 option => option.EnableEndpointRouting = false
 #endif
                 )
@@ -57,13 +57,13 @@ namespace DocumentationPlugin
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1801:ReviewUnusedParameters", MessageId = "Reviewed and ok in this context")]
         public void Configure(
-#if !NET_CORE_3_X
+#if !NET_CORE_3_X && !NET_CORE_5_X
             IApplicationBuilder app, IHostingEnvironment env
 #endif
             )
         {
 
-#if !NET_CORE_3_X
+#if !NET_CORE_3_X && !NET_CORE_5_X
             app.UseMvc(routes =>
             {
                 routes.MapRoute(

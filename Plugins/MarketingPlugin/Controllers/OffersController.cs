@@ -29,16 +29,19 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using MarketingPlugin.Models;
 
 using SharedPluginFeatures;
 
 namespace MarketingPlugin.Controllers
 {
+    /// <summary>
+    /// Displays current customer offers.
+    /// </summary>
     public class OffersController : BaseController
     {
         #region Private Members
 
+        public const string Name = "Offers";
 
         #endregion Private Members
 

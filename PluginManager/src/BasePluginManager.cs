@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2021 Simon Carter.  All Rights Reserved.
  *
  *  Product:  PluginManager
  *  
@@ -647,19 +647,22 @@ namespace PluginManager
 
                 foreach (ConstructorInfo constructor in constructors)
                 {
-
                     foreach (ParameterInfo param in constructor.GetParameters())
                     {
                         object paramClass = _serviceProvider.GetService(param.ParameterType);
 
                         // if we didn't find a specific param type for this constructor, try the next constructor
                         if (paramClass == null)
-                            continue;
+                        {
+                            Result.Clear();
+                            break;
+                        }
 
                         Result.Add(paramClass);
                     }
 
-                    return Result.ToArray();
+                    if (Result.Count > 0)
+                        return Result.ToArray();
                 }
             }
 

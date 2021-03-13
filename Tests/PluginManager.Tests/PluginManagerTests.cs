@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2021 Simon Carter.  All Rights Reserved.
  *
  *  Product:  PluginManager.Tests
  *  
@@ -25,17 +25,20 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
+
+using AppSettings;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-using AppSettings;
 using PluginManager.Abstractions;
 using PluginManager.Tests.Mocks;
 
 namespace PluginManager.Tests
 {
     [TestClass]
+    [ExcludeFromCodeCoverage]
     public class PluginManagerTests
     {
         [TestMethod]
@@ -112,6 +115,17 @@ namespace PluginManager.Tests
             Assert.AreEqual(testLogger.Logs[1].LogLevel, LogLevel.PluginConfigureError);
             Assert.AreEqual(testLogger.Logs[2].LogLevel, LogLevel.PluginLoadSuccess);
             Assert.AreEqual(testLogger.Logs[2].Data, "BadEgg.Plugin.dll");
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void CreatePluginManagerCallGetParameterInstances_ThrowsArgumentNullException()
+        {
+            TestLogger testLogger = new TestLogger();
+            using (TestPluginManager pluginManager = new TestPluginManager(testLogger))
+            {
+                pluginManager.GetParameterInstances(null);
+            }
         }
 
         [TestMethod]

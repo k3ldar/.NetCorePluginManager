@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2021 Simon Carter.  All Rights Reserved.
  *
  *  Product:  AspNetCore.PluginManager.Tests
  *  
@@ -25,6 +25,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
 
@@ -34,6 +35,8 @@ using Middleware;
 using Middleware.Search;
 
 using PluginManager.Abstractions;
+
+using static SharedPluginFeatures.Constants;
 
 using SharedPluginFeatures;
 
@@ -45,6 +48,7 @@ using sl = Shared.Classes;
 namespace AspNetCore.PluginManager.Tests.Search
 {
     [TestClass]
+    [ExcludeFromCodeCoverage]
     public sealed class KeywordSearchTests
     {
         private static TestPluginManager _documentationLoadPlugin = new TestPluginManager();
@@ -86,7 +90,7 @@ namespace AspNetCore.PluginManager.Tests.Search
                 TimeSpan docLoadTime = new TimeSpan(0, 0, 30);
                 DateTime startLoadDocs = DateTime.Now;
 
-                while (sl.ThreadManager.Exists(SharedPluginFeatures.Constants.DocumentationLoadThread))
+                while (sl.ThreadManager.Exists(DocumentationLoadThread))
                 {
                     System.Threading.Thread.Sleep(100);
 
@@ -94,7 +98,7 @@ namespace AspNetCore.PluginManager.Tests.Search
                         break;
                 }
 
-                Assert.IsFalse(sl.ThreadManager.Exists(SharedPluginFeatures.Constants.DocumentationLoadThread));
+                Assert.IsFalse(sl.ThreadManager.Exists(DocumentationLoadThread));
 
                 _documentationService = (IDocumentationService)_documentationLoadPlugin.GetServiceProvider()
                     .GetService(typeof(IDocumentationService));
@@ -190,7 +194,7 @@ namespace AspNetCore.PluginManager.Tests.Search
         [TestMethod]
         public void FindAllProvidersAndRetrieveInstanciatedClasses()
         {
-            Assert.IsFalse(sl.ThreadManager.Exists(SharedPluginFeatures.Constants.DocumentationLoadThread));
+            Assert.IsFalse(sl.ThreadManager.Exists(DocumentationLoadThread));
 
             IDocumentationService documentationService = (IDocumentationService)_documentationLoadPlugin.GetServiceProvider()
                 .GetService(typeof(IDocumentationService));

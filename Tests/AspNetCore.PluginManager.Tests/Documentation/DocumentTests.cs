@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2021 Simon Carter.  All Rights Reserved.
  *
  *  Product:  AspNetCore.PluginManager.Tests
  *  
@@ -25,6 +25,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
 using DocumentationPlugin.Classes;
@@ -33,13 +34,14 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using Shared.Classes;
 using Shared.Docs;
-using sl = Shared;
 
 using consts = SharedPluginFeatures.Constants;
+using sl = Shared;
 
 namespace AspNetCore.PluginManager.Tests.Documentation
 {
     [TestClass]
+    [ExcludeFromCodeCoverage]
     public sealed class DocumentTests : BaseDocumentTests
     {
         #region Private Members

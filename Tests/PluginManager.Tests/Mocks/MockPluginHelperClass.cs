@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2021 Simon Carter.  All Rights Reserved.
  *
  *  Product:  PluginManager.Tests
  *  
@@ -23,10 +23,13 @@
  *  16/01/2020  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+using System.Diagnostics.CodeAnalysis;
+
 using PluginManager.Abstractions;
 
 namespace PluginManager.Tests.Mocks
 {
+    [ExcludeFromCodeCoverage]
     public class MockPluginHelperClass
     {
         public MockPluginHelperClass(IPluginHelperService pluginHelperService)
@@ -37,10 +40,11 @@ namespace PluginManager.Tests.Mocks
         public IPluginHelperService PluginHelperService { get; private set; }
     }
 
+    [ExcludeFromCodeCoverage]
     public class MockPluginHelperTest : MockPluginHelperClass
     {
         public MockPluginHelperTest(IPluginHelperService pluginHelperService)
-            : base (pluginHelperService)
+            : base(pluginHelperService)
         {
 
         }

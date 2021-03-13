@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2012 - 2018 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2012 - 2021 Simon Carter.  All Rights Reserved.
  *
  *  Product:  BadEgg.Plugin
  *  
@@ -44,7 +44,7 @@ namespace BadEgg.Plugin.WebDefender
         /// </summary>
         /// <param name="ipAddress">Address of client</param>
         internal IpConnectionInfo(in string ipAddress)
-            : this (ipAddress, DateTime.Now)
+            : this(ipAddress, DateTime.Now)
         {
         }
 

@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2021 Simon Carter.  All Rights Reserved.
  *
  *  Product:  AspNetCore.PluginManager.Tests
  *  
@@ -254,7 +254,7 @@ namespace AspNetCore.PluginManager.Tests.Controllers
         {
             SpiderController sut = CreateSpiderControllerInstance();
             EditRobotsModel model = new EditRobotsModel()
-            { 
+            {
                 AgentName = "*",
                 Route = "/Home/Error/"
             };
@@ -313,10 +313,10 @@ namespace AspNetCore.PluginManager.Tests.Controllers
             Assert.IsTrue(returnModel.Agents.Contains(model.AgentName));
 
             CustomAgentModel customAgentModel = returnModel.Routes
-                .Where(ca => 
-                    ca.Agent.Equals(model.AgentName) && 
-                    ca.Route.Equals(model.Route) && 
-                    ca.IsCustom && 
+                .Where(ca =>
+                    ca.Agent.Equals(model.AgentName) &&
+                    ca.Route.Equals(model.Route) &&
+                    ca.IsCustom &&
                     !ca.Allowed)
                 .FirstOrDefault();
 
@@ -410,7 +410,7 @@ namespace AspNetCore.PluginManager.Tests.Controllers
             SpiderController sut = CreateSpiderControllerInstance();
 
             EditRobotsModel model = new EditRobotsModel()
-            { 
+            {
                 AgentName = "MyCoolAgent"
             };
 
@@ -576,7 +576,7 @@ namespace AspNetCore.PluginManager.Tests.Controllers
                 actionDescriptorCollection = new ActionDescriptorCollection(new List<ActionDescriptor>(), 1);
             }
 
-            robots = new Robots(new TestActionDescriptorCollectionProvider(actionDescriptorCollection), 
+            robots = new Robots(new TestActionDescriptorCollectionProvider(actionDescriptorCollection),
                 new RouteDataServices(), pluginTypesServices, new MockLoadData());
 
             SpiderController Result = new SpiderController(robots, mockSaveData);

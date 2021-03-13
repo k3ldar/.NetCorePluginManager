@@ -11,22 +11,18 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2012 - 2018 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2012 - 2021 Simon Carter.  All Rights Reserved.
  *
  *  Product:  PluginMiddleware
  *  
- *  File: IStockProvider.cs
+ *  File: ISmokeTestProvider.cs
  *
- *  Purpose:  Returns stock count for individual products
+ *  Purpose:  Smoke test provider
  *
  *  Date        Name                Reason
  *  19/06/2019  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using System;
-using System.Collections.Generic;
-using System.Text;
-
 using Shared.Classes;
 
 namespace Middleware

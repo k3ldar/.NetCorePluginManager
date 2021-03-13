@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Text;
 using AspNetCore.PluginManager.DemoWebsite.Classes;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -8,6 +9,7 @@ using Middleware;
 namespace AspNetCore.PluginManager.Tests.Provider
 {
     [TestClass]
+    [ExcludeFromCodeCoverage]
     public class ProviderTests
     {
         [TestMethod]

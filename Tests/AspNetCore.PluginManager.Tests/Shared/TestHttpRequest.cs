@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2021 Simon Carter.  All Rights Reserved.
  *
  *  Product:  AspNetCore.PluginManager.Tests
  *  
@@ -25,17 +25,19 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 
-using DocumentationPlugin.Classes;
-
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Primitives;
 
+using sp = SharedPluginFeatures;
+
 namespace AspNetCore.PluginManager.Tests
 {
+    [ExcludeFromCodeCoverage]
     public class TestHttpRequest : HttpRequest
     {
         #region Private Members
@@ -111,15 +113,14 @@ namespace AspNetCore.PluginManager.Tests
             }
         }
 
-        public override HostString Host 
+        public override HostString Host
         {
             get
             {
-                Uri uri = new Uri(_hostString.Value);
-                return new HostString(uri.Host);
+                return _hostString;
             }
 
-            set => throw new NotImplementedException(); 
+            set => throw new NotImplementedException();
         }
 
         public override HttpContext HttpContext
@@ -161,8 +162,8 @@ namespace AspNetCore.PluginManager.Tests
             }
         }
 
-        public override QueryString QueryString 
-        { 
+        public override QueryString QueryString
+        {
             get
             {
                 return _queryString;
@@ -173,12 +174,12 @@ namespace AspNetCore.PluginManager.Tests
                 throw new NotImplementedException();
             }
         }
-        public override String Scheme 
+
+        public override String Scheme
         {
             get
             {
-                Uri uri = new Uri(_hostString.Value);
-                return uri.Scheme;
+                return IsHttpsScheme ? "https" : "http";
             }
 
             set => throw new NotImplementedException();
@@ -206,17 +207,19 @@ namespace AspNetCore.PluginManager.Tests
 
         public string IpAddress { get; set; }
 
-        public string UserAgent 
-        { 
+        public string UserAgent
+        {
             get
             {
-                return Headers[SharedPluginFeatures.Constants.UserAgent];
+                return Headers[sp.Constants.UserAgent];
             }
             set
             {
-                Headers[SharedPluginFeatures.Constants.UserAgent] = value;
+                Headers[sp.Constants.UserAgent] = value;
             }
         }
+
+        public bool IsHttpsScheme { get; set; }
 
         #endregion Public Methods
     }

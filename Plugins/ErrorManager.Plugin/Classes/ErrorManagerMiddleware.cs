@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2021 Simon Carter.  All Rights Reserved.
  *
  *  Product:  ErrorManager.Plugin
  *  
@@ -124,16 +124,19 @@ namespace ErrorManager.Plugin
             }
             catch (Exception exception)
             {
-                using ( StopWatchTimer stopWatch = StopWatchTimer.Initialise(_timingsExceptions))
+                using (StopWatchTimer stopWatch = StopWatchTimer.Initialise(_timingsExceptions))
                 {
                     if (ProcessException(context, exception))
                     {
-                        context.Response.Redirect("/Error/Index/", false);
+                        if (!context.Response.HasStarted)
+                        {
+                            context.Response.Redirect("/Error/Index/", false);
+                        }
                     }
                     else
                     {
                         // this is only invoked if the error manager is the problem
-                         throw;
+                        throw;
                     }
                 }
             }

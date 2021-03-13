@@ -1,0 +1,122 @@
+<p>
+A subdomain allows you to seperate portions of a website or API into a dedicated heirerarchy, for instance you could have specific subdomains for:
+</p>
+<ul>
+<li>Searching</li>
+<li>Login</li>
+<li>Blogs</li>
+<li>Helpdesk</li>
+<li>Specific API Versions</li>
+</ul>
+<p>
+The default subdomain for any website is typically www (world wide web) and most websites will easily function with a single subdomain, using MVC and a domain name of mywebsite.com, the default uri would be
+</p>
+<p>
+www.mywebsite.com/
+</p>
+<p>
+The above uri would invoke the home controller and the same page as a uri of www.mywebsite.com/home (assuming a standard setup).  Given the above examples we would have controllers for specific areas e.g.
+</p>
+<p>
+www.mywebsite.com/Login<br/>
+www.mywebsite.com/Blogs<br/>
+www.mywebsite.com/Helpdesk<br/>
+www.mywebsite.com/api/v2/
+</p>
+<p>
+To reconfigure to use subdomains for the above you would instead have something similar to:
+</p>
+<p>
+login.mywebsite.com/<br/>
+blogs.mywebsite.com/<br/>
+helpdesk.mywebsite.com/<br/>
+apiv2.mywebsite.com/
+</p>
+<p>
+This allows us to split the behaviour of a website into individual subdomains with specific areas of responsibility.
+</p>
+<h3>Subdomain Attribute</h3>
+<p>
+To enable subdomain routing for an attribute you must add a <seealso cref="T:SharedPluginFeatures.SubdomainAttribute"/> to the controller:
+</p>
+<p>
+<pre style="font-family:Consolas;font-size:13px;color:black;background:white;">[<span style="color:#2b91af;">Subdomain</span>(<span style="color:#a31515;">&quot;Blog&quot;</span>)]
+<span style="color:blue;">public</span>&nbsp;<span style="color:blue;">class</span>&nbsp;<span style="color:#2b91af;">BlogController</span>&nbsp;:&nbsp;<span style="color:#2b91af;">Controller</span>
+</pre>
+</p>
+<p>
+The name of the subdomain attribute must correspond to an entry in the <a href="#Configuration">Configuration</a> section in order to enable the subdomain routing.
+</p>
+<h3>Configuration</h3>
+<p>
+Configuring the subdomain plugin is accomplished using appsettings.json.  By default all subdomain routing is disabled, each subdomain has to be specifically enabled in order for it to work.  See <a href="#dns">DNS</a> topic for configuring CNAME or A records.
+</p>
+
+<p>
+<pre style="font-family:Consolas;font-size:13px;color:black;background:white;"><span style="color:#2e75b6;">&quot;SubdomainSettings&quot;</span>:&nbsp;{
+&nbsp;&nbsp;<span style="color:#2e75b6;">&quot;DomainName&quot;</span>:&nbsp;<span style="color:#a31515;">&quot;mywebsite.com&quot;</span>,
+&nbsp;&nbsp;<span style="color:#2e75b6;">&quot;Enabled&quot;</span>:&nbsp;<span style="color:blue;">true</span>,
+&nbsp;&nbsp;<span style="color:#2e75b6;">&quot;Subdomains&quot;</span>:&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2e75b6;">&quot;Blog&quot;</span>:&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2e75b6;">&quot;Disabled&quot;</span>:&nbsp;<span style="color:blue;">false</span>,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2e75b6;">&quot;RedirectedRoute&quot;</span>:&nbsp;<span style="color:#a31515;">&quot;blog&quot;</span>,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2e75b6;">&quot;PermanentRedirect&quot;</span>:&nbsp;<span style="color:blue;">true</span>
+&nbsp;&nbsp;&nbsp;&nbsp;},
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2e75b6;">&quot;Helpdesk&quot;</span>:&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2e75b6;">&quot;Disabled&quot;</span>:&nbsp;<span style="color:blue;">false</span>,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2e75b6;">&quot;RedirectedRoute&quot;</span>:&nbsp;<span style="color:#a31515;">&quot;helpdesk&quot;</span>,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2e75b6;">&quot;PermanentRedirect&quot;</span>:&nbsp;<span style="color:blue;">true</span>
+&nbsp;&nbsp;&nbsp;&nbsp;},
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2e75b6;">&quot;Account&quot;</span>:&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2e75b6;">&quot;Disabled&quot;</span>:&nbsp;<span style="color:blue;">false</span>,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2e75b6;">&quot;RedirectedRoute&quot;</span>:&nbsp;<span style="color:#a31515;">&quot;account&quot;</span>,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#2e75b6;">&quot;PermanentRedirect&quot;</span>:&nbsp;<span style="color:blue;">true</span>
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;}
+</pre>
+</p>
+<p>
+There are three distinct options to configure for enabling subdomain routing, they are:
+</p>
+<ul>
+<li>DomainName - This is the name of the primary domain</li>
+<li>Enabled - Setting to true enables subdomain routing, false disables this feature completely.</li>
+<li>Subdomains - Configuration settings for each subdomain</li>
+</ul>
+<p>
+Each Subdomain settings has a further 3 options:
+</p>
+<ul>
+<li>Disabled - Setting to false enables subdomain routing, true disables this feature completely.</li>
+<li>RedirectedRoute - This is the name of subdomain under the primary domain</li>
+<li>PermanentRedirect - Determines whether the response for redirecting to a subdomain is permanent or not.</li>
+</ul>
+<p>
+It is important to note that the name of the subdomain within the subdomains list has to correspond with the subdomain attribute applied to each controller.
+</p>
+
+<h3>DNS</h3>
+<p>
+It is important to note that CNAME or A records will need to be created for each type of subdomain within a root domain.  This is typically accomplished by configuring the DNS entries for each domain using your domain host.
+</p>
+<h3>Drawbacks</h3>
+<p>
+Although relatively easy to setup, additional steps need to be considered when using subdomains, they include:
+</p>
+<ul>
+<li>If cookies are to be read across all subdomains, you need to ensure they have the domain set to the primary domain, i.e. ".mysebsite.com"</li>
+<li>If using SSL you will need to ensure you have individual SSL certificates for each subdomain or a wildcard certificate.</li>
+<li>Consideration for same-origin policy must be made.</li>
+<li>Ensure security implication are met especially in respect ot cross site scripting.</li>
+</ul>
+<h3>Middleware</h3>
+<p>
+The Subdomain middleware class can be used in any supported MVC website by manually configuring the application builder
+</p>
+<p>
+<pre style="font-family:Consolas;font-size:13px;color:black;background:white;"><span style="color:#1f377f;">app</span>.<span style="color:#74531f;">UseSubdomainRouting</span>();
+</pre>
+</p>
+<p>
+If used as part of the plugin manager configuration is automatic.
+</p> 

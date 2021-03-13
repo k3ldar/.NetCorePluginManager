@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2021 Simon Carter.  All Rights Reserved.
  *
  *  Product:  UserSessionMiddleware.Plugin
  *  
@@ -114,7 +114,7 @@ namespace UserSessionMiddleware.Plugin
             if (context == null)
                 throw new ArgumentNullException(nameof(context));
 
-            string fileExtension = base.RouteFileExtension(context);
+            string fileExtension = RouteFileExtension(context);
 
             // if it's a static file, don't add user session data to the context
             if (!String.IsNullOrEmpty(fileExtension) &&

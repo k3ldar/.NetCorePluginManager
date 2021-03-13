@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2021 Simon Carter.  All Rights Reserved.
  *
  *  Product:  Documentation Plugin
  *  
@@ -41,6 +41,9 @@ namespace DocumentationPlugin.Classes
     {
         #region Private Members
 
+        private static readonly string[] BuiltIntypesAndReferences = { "bool", "boolean", "byte", "sbyte", "char", "decimal",
+            "double", "float", "int", "uint", "long", "ulong", "short", "ushort", "object", "string", "dynamic",
+            "enum", "struct", "void" };
         private static readonly string[] ValidTags = { "c", "code", "/c", "/code", "para", "/para", "see", "seealso", "example", "exception", "include" };
         private readonly List<Document> _documents;
         private PostProcessResults _processResult;
@@ -418,6 +421,14 @@ namespace DocumentationPlugin.Classes
 
         private StringBuilder AttemptFindClass(string text, in bool createHyperlinks, in bool removeNamespace)
         {
+            foreach (string value in BuiltIntypesAndReferences)
+            {
+                if (value.Equals(text, StringComparison.InvariantCultureIgnoreCase))
+                {
+                    return new StringBuilder(value);
+                }
+            }
+
             Document memberDoc = _documents
                 .Where(d => d.DocumentType == Shared.DocumentType.Class && d.FullMemberName.EndsWith(text))
                 .FirstOrDefault();
@@ -632,7 +643,9 @@ namespace DocumentationPlugin.Classes
                     xRefDoc.SeeAlso.Add(document.ClassName,
                         $"<a href=\"/docs/Document/{HtmlHelper.RouteFriendlyName(document.AssemblyName)}/" +
                         $"{HtmlHelper.RouteFriendlyName(document.ClassName)}/\">{document.ClassName}</a>");
-
+                    document.SeeAlso.Add(xRefDoc.ClassName,
+                        $"<a href=\"/docs/Document/{HtmlHelper.RouteFriendlyName(xRefDoc.AssemblyName)}/" +
+                        $"{HtmlHelper.RouteFriendlyName(xRefDoc.ClassName)}/\">{xRefDoc.ClassName}</a>");
                 }
 
                 if (!linkDocument.SeeAlso.ContainsKey(xRefDoc.ClassName))

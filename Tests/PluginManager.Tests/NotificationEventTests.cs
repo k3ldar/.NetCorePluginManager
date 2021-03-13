@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2021 Simon Carter.  All Rights Reserved.
  *
  *  Product:  PluginManager.Tests
  *  
@@ -25,15 +25,17 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-using PluginManager.Internal;
 using PluginManager.Abstractions;
+using PluginManager.Internal;
 
 namespace PluginManager.Tests
 {
     [TestClass]
+    [ExcludeFromCodeCoverage]
     public class NotificationEventTests
     {
         [TestMethod]
@@ -140,6 +142,7 @@ namespace PluginManager.Tests
         }
     }
 
+    [ExcludeFromCodeCoverage]
     public class InvalidEvents1 : INotificationListener
     {
         public bool EventRaised(in string eventId, in object param1, in object param2, ref object result)
@@ -158,6 +161,7 @@ namespace PluginManager.Tests
         }
     }
 
+    [ExcludeFromCodeCoverage]
     public class InvalidEvents2 : INotificationListener
     {
         public bool EventRaised(in string eventId, in object param1, in object param2, ref object result)
@@ -176,6 +180,7 @@ namespace PluginManager.Tests
         }
     }
 
+    [ExcludeFromCodeCoverage]
     public class ValidEvents1 : INotificationListener
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1303:Do not pass literals as localized parameters", Justification = "Intended for developers not end users")]
@@ -207,6 +212,7 @@ namespace PluginManager.Tests
         public uint EventCount { get; private set; }
     }
 
+    [ExcludeFromCodeCoverage]
     public class ValidEvents2 : INotificationListener
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1303:Do not pass literals as localized parameters", Justification = "Intended for developers not end users")]

@@ -1,4 +1,4 @@
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+﻿/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  *  .Net Core Plugin Manager is distributed under the GNU General Public License version 3 and  
  *  is also available under alternative licenses negotiated directly with Simon Carter.  
  *  If you obtained Service Manager under the GPL, then the GPL applies to all loadable 
@@ -11,26 +11,29 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2012 - 2021 Simon Carter.  All Rights Reserved.
  *
- *  Product:  MarketingPlugin
+ *  Product:  PluginMiddleware
  *  
- *  File: MarketingViewModel.cs
+ *  File: ISpecialOfferProvider.cs
  *
- *  Purpose:  Marketing View Model
- *  
+ *  Purpose:  Data provider for special offers
+ *
  *  Date        Name                Reason
- *  21/02/2019  Simon Carter        Initially Created
+ *  13/03/2021  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
+using System.Collections.Generic;
+using System.Text;
 
-namespace MarketingPlugin.Models
+namespace Middleware.Interfaces
 {
-    public class MarketingViewModel
+    /// <summary>
+    /// Middleware special offer provider
+    /// </summary>
+    public interface ISpecialOfferProvider
     {
-        public string RequestId { get; set; }
-
-        public bool ShowRequestId => !string.IsNullOrEmpty(RequestId);
+        
     }
 }

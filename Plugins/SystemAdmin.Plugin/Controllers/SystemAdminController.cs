@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2021 Simon Carter.  All Rights Reserved.
  *
  *  Product:  SystemAdmin.Plugin
  *  
@@ -45,6 +45,7 @@ namespace SystemAdmin.Plugin.Controllers
     [RestrictedIpRoute("SystemAdminRoute")]
     [Authorize(Policy = SharedPluginFeatures.Constants.PolicyNameStaff)]
     [DenySpider]
+    [Subdomain(SystemAdminController.Name)]
     public partial class SystemAdminController : BaseController
     {
         #region Private Members

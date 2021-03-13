@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2021 Simon Carter.  All Rights Reserved.
  *
  *  Product:  AspNetCore.PluginManager.Tests
  *  
@@ -24,14 +24,15 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Http;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace AspNetCore.PluginManager.Tests
 {
+    [ExcludeFromCodeCoverage]
     public class TestHttpResponse : HttpResponse
     {
         #region Private Members
@@ -46,18 +47,20 @@ namespace AspNetCore.PluginManager.Tests
         {
             _body = new MemoryStream();
             StatusCode = 200;
+            RedirectPermanent = null;
+            RedirectCount = 0;
         }
 
         #region HttpResponse Methods
 
-        public override Stream Body 
-        { 
+        public override Stream Body
+        {
             get
             {
                 return _body;
             }
 
-            set => throw new NotImplementedException(); 
+            set => throw new NotImplementedException();
         }
 
         public override Int64? ContentLength { get => _body.Length; set => throw new NotImplementedException(); }
@@ -71,7 +74,7 @@ namespace AspNetCore.PluginManager.Tests
             }
         }
 
-        public override Boolean HasStarted => ContentLength > 0;
+        public override Boolean HasStarted => ContentLength > 0 || TestHasStarted;
 
         public override IHeaderDictionary Headers
         {
@@ -97,9 +100,19 @@ namespace AspNetCore.PluginManager.Tests
 
         public override void Redirect(String location, Boolean permanent)
         {
-            throw new NotImplementedException();
+            RedirectLocation = location;
+            RedirectPermanent = permanent;
+            RedirectCount++;
         }
 
         #endregion HttpResponse Methods
+
+        public int RedirectCount { get; set; }
+
+        public bool? RedirectPermanent { get; set; }
+
+        public string RedirectLocation { get; set; }
+
+        public bool TestHasStarted { get; set; }
     }
 }

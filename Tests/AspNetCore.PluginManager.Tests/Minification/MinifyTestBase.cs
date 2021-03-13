@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2021 Simon Carter.  All Rights Reserved.
  *
  *  Product:  AspNetCore.PluginManager.Tests
  *  
@@ -23,6 +23,8 @@
  *  23/01/2020  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+using System.Diagnostics.CodeAnalysis;
+
 using AspNetCore.PluginManager.Classes.Minify;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -37,6 +39,7 @@ namespace AspNetCore.PluginManager.Tests
         protected IMinificationEngine _minifyFileContents;
 
         [TestInitialize]
+        [ExcludeFromCodeCoverage]
         public void InitialiseTest()
         {
             _minifyFileContents = new MinificationEngine();

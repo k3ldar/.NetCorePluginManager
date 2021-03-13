@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2021 Simon Carter.  All Rights Reserved.
  *
  *  Product:  Search Plugin
  *  
@@ -48,6 +48,7 @@ namespace SearchPlugin.Controllers
     /// Search controller, allows users to search using a standard interface implemented by ISearchProvider interface.
     /// </summary>
     [DenySpider]
+    [Subdomain(SearchController.Name)]
     public class SearchController : BaseController
     {
         #region Private Members

@@ -25,11 +25,15 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
 
+using Middleware.Interfaces;
+
 namespace Middleware
 {
-    public sealed class MarketingCampaign
+    /// <summary>
+    /// Represents a marketing campaign that is used with Marketing plugin
+    /// </summary>
+    public sealed class MarketingCampaign : IMarketingCampaign
     {
-
         #region Properties
 
         /// <summary>

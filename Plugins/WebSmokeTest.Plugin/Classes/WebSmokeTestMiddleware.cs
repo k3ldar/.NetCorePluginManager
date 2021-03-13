@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2021 Simon Carter.  All Rights Reserved.
  *
  *  Product:  WebSmokeTest.Plugin
  *  
@@ -138,7 +138,7 @@ namespace WebSmokeTest.Plugin
                             if (smokeTestProvider != null)
                             {
                                 NVPCodec codec = smokeTestProvider.SmokeTestStart();
-                                
+
                                 if (codec != null)
                                 {
                                     byte[] testNVPData = Encoding.UTF8.GetBytes(

@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2021 Simon Carter.  All Rights Reserved.
  *
  *  Product:  Documentation Plugin
  *  
@@ -46,6 +46,7 @@ using SharedPluginFeatures;
 
 namespace DocumentationPlugin.Controllers
 {
+    [Subdomain(DocsController.Name)]
     public class DocsController : BaseController
     {
         #region Constants
@@ -403,7 +404,7 @@ namespace DocumentationPlugin.Controllers
                     model.SeeAlso.Add(item.Key, item.Value);
             }
 
-            if  (selected.SeeAlso != null && selected.SeeAlso.Count > 0)
+            if (selected.SeeAlso != null && selected.SeeAlso.Count > 0)
             {
                 foreach (KeyValuePair<string, string> item in selected.SeeAlso)
                     model.SeeAlso.Add(item.Key, item.Value);

@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2021 Simon Carter.  All Rights Reserved.
  *
  *  Product:  AspNetCore.PluginManager.Tests
  *  
@@ -24,6 +24,7 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 using AspNetCore.PluginManager.Classes.Minify;
 
@@ -34,6 +35,7 @@ using SharedPluginFeatures;
 namespace AspNetCore.PluginManager.Tests.MinifyOperations
 {
     [TestClass]
+    [ExcludeFromCodeCoverage]
     public class MinifyUnitTests
     {
         [TestMethod]

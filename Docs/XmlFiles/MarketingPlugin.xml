@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>MaketingPlugin</name>
+    </assembly>
+    <members>
+        <member name="T:MarketingPlugin.Controllers.OffersController">
+            <summary>
+            Displays current customer offers.
+            </summary>
+        </member>
+    </members>
+</doc>

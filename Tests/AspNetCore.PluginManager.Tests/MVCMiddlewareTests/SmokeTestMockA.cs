@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Text;
 
 using SharedPluginFeatures;
 
 namespace AspNetCore.PluginManager.Tests.MVCMiddlewareTests
 {
+    [ExcludeFromCodeCoverage]
     public class SmokeTestMockA
     {
         public SmokeTestMockA(int count)
@@ -19,6 +21,8 @@ namespace AspNetCore.PluginManager.Tests.MVCMiddlewareTests
             return null;
         }
     }
+
+    [ExcludeFromCodeCoverage]
     public class SmokeTestMockB
     {
         public SmokeTestMockB()

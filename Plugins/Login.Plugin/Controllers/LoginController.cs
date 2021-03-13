@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2021 Simon Carter.  All Rights Reserved.
  *
  *  Product:  Login Plugin
  *  
@@ -56,9 +56,12 @@ namespace LoginPlugin.Controllers
     [DenySpider("Facebot")]
     [DenySpider("Bingbot")]
     [DenySpider("Twitterbot")]
+    [Subdomain(LoginController.Name)]
     public class LoginController : BaseController
     {
         #region Private Members
+
+        private const string Name = "Login";
 
         private readonly ILoginProvider _loginProvider;
         private readonly LoginControllerSettings _settings;

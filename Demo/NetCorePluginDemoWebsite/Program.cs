@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2021 Simon Carter.  All Rights Reserved.
  *
  *  Product:  AspNetCore.PluginManager.DemoWebsite
  *  
@@ -43,6 +43,7 @@ namespace AspNetCore.PluginManager.DemoWebsite
             PluginManagerService.UsePlugin(typeof(UserSessionMiddleware.Plugin.PluginInitialisation));
             PluginManagerService.UsePlugin(typeof(CacheControl.Plugin.PluginInitialisation));
             PluginManagerService.UsePlugin(typeof(MemoryCache.Plugin.PluginInitialisation));
+            PluginManagerService.UsePlugin(typeof(Subdomain.Plugin.PluginInitialisation));
             PluginManagerService.UsePlugin(typeof(Spider.Plugin.PluginInitialisation));
             PluginManagerService.UsePlugin(typeof(SeoPlugin.PluginInitialisation));
             PluginManagerService.UsePlugin(typeof(Localization.Plugin.PluginInitialisation));

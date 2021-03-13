@@ -473,6 +473,24 @@
             </summary>
             <value>string</value>
         </member>
+        <member name="T:SharedPluginFeatures.SubdomainAttribute">
+            <summary>
+            Attribute which provides the name of the configuration setting to be used when
+            routing requests to a controller through to a subdomain of the main site
+            </summary>
+        </member>
+        <member name="M:SharedPluginFeatures.SubdomainAttribute.#ctor(System.String)">
+            <summary>
+            Initialises a new subdomain and applies the configuration name for the controller
+            </summary>
+            <param name="configurationName">Name of the configuration for the subdomain.</param>
+            <exception cref="T:System.ArgumentNullException">Thrown if <see cref="!:configurationName"/> is null or empty</exception>
+        </member>
+        <member name="P:SharedPluginFeatures.SubdomainAttribute.ConfigurationName">
+            <summary>
+            Name of the configuration entry which is used to manage the subdomain 
+            </summary>
+        </member>
         <member name="T:SharedPluginFeatures.BaseModelData">
             <summary>
             Generic model data that can be displayed on all web pages.

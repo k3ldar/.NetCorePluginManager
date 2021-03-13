@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2021 Simon Carter.  All Rights Reserved.
  *
  *  Product:  UserAccount.Plugin
  *  
@@ -48,9 +48,12 @@ namespace UserAccount.Plugin.Controllers
 #pragma warning disable CS1591
     [LoggedIn]
     [DenySpider]
+    [Subdomain(AccountController.Name)]
     public partial class AccountController : BaseController
     {
         #region Private Members
+
+        private const string Name = "Account";
 
         private readonly ISettingsProvider _settingsProvider;
         private readonly IAccountProvider _accountProvider;

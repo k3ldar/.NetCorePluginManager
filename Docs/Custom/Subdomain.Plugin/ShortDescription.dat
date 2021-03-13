@@ -1,0 +1,1 @@
+Reroute requests through to subdomains, based on SubDomainAttribute and configuration.
