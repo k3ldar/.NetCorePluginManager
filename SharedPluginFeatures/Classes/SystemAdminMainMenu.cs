@@ -26,6 +26,8 @@
 using System;
 using System.Collections.Generic;
 
+#pragma warning disable CA1822
+
 namespace SharedPluginFeatures
 {
     /// <summary>
@@ -117,7 +119,7 @@ namespace SharedPluginFeatures
             int Result = SortOrder.CompareTo(compareTo.SortOrder);
 
             if (Result == 0)
-                return Name.CompareTo(compareTo.Name);
+                return String.Compare(Name, compareTo.Name, StringComparison.InvariantCultureIgnoreCase);
 
             return Result;
         }
@@ -130,7 +132,7 @@ namespace SharedPluginFeatures
         /// Child menu items within the menu.
         /// </summary>
         /// <value>List&lt;SystemAdminSubMenu&gt;</value>
-        public List<SystemAdminSubMenu> ChildMenuItems { get; set; }
+        public List<SystemAdminSubMenu> ChildMenuItems { get; }
 
         /// <summary>
         /// Unique id applied to the menu item.
@@ -170,3 +172,5 @@ namespace SharedPluginFeatures
         #endregion Properties
     }
 }
+
+#pragma warning restore CA1822

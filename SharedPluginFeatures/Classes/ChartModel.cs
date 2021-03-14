@@ -56,12 +56,12 @@ namespace SharedPluginFeatures
         /// <summary>
         /// Names of the data types being displayed
         /// </summary>
-        public List<KeyValuePair<ChartDataType, string>> DataNames { get; set; }
+        public List<KeyValuePair<ChartDataType, string>> DataNames { get; }
 
         /// <summary>
         /// Dictionary of data values
         /// </summary>
-        public Dictionary<string, List<decimal>> DataValues { get; set; }
+        public Dictionary<string, List<decimal>> DataValues { get; }
 
         #endregion Properties
     }

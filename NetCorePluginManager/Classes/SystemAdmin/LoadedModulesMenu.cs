@@ -33,7 +33,12 @@ using PluginManager.Abstractions;
 
 using SharedPluginFeatures;
 
+#pragma warning disable IDE0079
 #pragma warning disable CS1591
+
+#if NET_CORE_5_X || NET_CORE_3_X
+#pragma warning disable IDE0057
+#endif
 
 namespace AspNetCore.PluginManager.Classes.SystemAdmin
 {
@@ -82,7 +87,11 @@ namespace AspNetCore.PluginManager.Classes.SystemAdmin
                 string file = String.Empty;
                 try
                 {
+#if NET_CORE_5_X
+                    string path = assembly.Location;
+#else
                     string path = String.IsNullOrEmpty(assembly.Location) ? assembly.CodeBase : assembly.Location;
+#endif
 
                     if (path.StartsWith("file:///"))
                         path = path.Substring(8);
@@ -132,4 +141,10 @@ namespace AspNetCore.PluginManager.Classes.SystemAdmin
     }
 }
 
+
+#if NET_CORE_5_X || NET_CORE_3_X
+#pragma warning restore IDE0057
+#endif
+
 #pragma warning restore CS1591
+#pragma warning restore IDE0079

@@ -82,7 +82,7 @@ namespace SharedPluginFeatures
             if (String.IsNullOrEmpty(parentActionName))
                 throw new ArgumentNullException(nameof(parentActionName));
 
-            if (parentControllerName.EndsWith("Controller"))
+            if (parentControllerName.EndsWith("Controller", StringComparison.InvariantCultureIgnoreCase))
                 parentControllerName = parentControllerName.Substring(0, parentControllerName.Length - 10);
 
             ParentRoute = $"/{parentControllerName}/{parentActionName}";
