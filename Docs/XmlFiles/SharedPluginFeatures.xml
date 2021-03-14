@@ -1407,6 +1407,7 @@
             A list of strings that can be searched for in the response data after a form post. If the 
             strings are not found the test would be deemed to fail.
             </summary>
+            <value>List&lt;string&gt;</value>
         </member>
         <member name="P:SharedPluginFeatures.WebSmokeTestItem.FormId">
             <summary>

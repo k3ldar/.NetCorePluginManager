@@ -25,6 +25,10 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
 
+#if NET_CORE_3_1
+#pragma warning disable CS1574
+#endif
+
 namespace SharedPluginFeatures
 {
     /// <summary>
@@ -53,3 +57,7 @@ namespace SharedPluginFeatures
         public string ConfigurationName { get; private set; }
     }
 }
+
+#if NET_CORE_3_1
+#pragma warning restore CS1574
+#endif

@@ -24,6 +24,8 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+#pragma warning disable CA1055
+
 namespace SharedPluginFeatures
 {
     /// <summary>
@@ -53,3 +55,5 @@ namespace SharedPluginFeatures
         public abstract int SortOrder();
     }
 }
+
+#pragma warning restore CA1055
