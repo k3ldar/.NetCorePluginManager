@@ -89,7 +89,9 @@ namespace Subdomain.Plugin
         /// Default value is: .less;.ico;.css;.js;.svg;.jpg;.jpeg;.gif;.png;.eot;.map;
         /// </summary>
         /// <value>string</value>
-        [SettingString(true)]
+        [SettingDefault(Constants.StaticFileExtensions)]
+        [SettingString(false)]
+        [SettingDelimitedString(';', 1)]
         public string StaticFileExtensions { get; set; }
 
         /// <summary>

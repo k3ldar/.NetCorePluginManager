@@ -4,9 +4,31 @@
         <name>MaketingPlugin</name>
     </assembly>
     <members>
+        <member name="T:MarketingPlugin.MarketingSettings">
+            <summary>
+            Settings which affect the marketing plugin
+            </summary>
+        </member>
+        <member name="P:MarketingPlugin.MarketingSettings.ProcessStaticFiles">
+            <summary>
+            Indicates whether static files are processed or not when managing marketing routes
+            </summary>
+            <value>bool</value>
+        </member>
+        <member name="P:MarketingPlugin.MarketingSettings.StaticFileExtensions">
+            <summary>
+            Semicolon seperated list of static file extensions to be ignored when processing requests for marketing
+            </summary>
+        </member>
         <member name="T:MarketingPlugin.Controllers.OffersController">
             <summary>
             Displays current customer offers.
+            </summary>
+        </member>
+        <member name="T:MarketingPlugin.PluginInitialisation">
+            <summary>
+            Implements IPlugin and IPluginVersion which allows the Login.Plugin module to be
+            loaded as a plugin module
             </summary>
         </member>
     </members>

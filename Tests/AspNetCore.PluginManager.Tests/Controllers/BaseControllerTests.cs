@@ -45,6 +45,10 @@ namespace AspNetCore.PluginManager.Tests.Controllers
         protected static bool? _pluginLoadedSpiderPlugin = null;
         protected static IPluginClassesService _pluginServicesSpiderPlugin;
 
+        protected static TestPluginManager _testMarketingPlugin = new TestPluginManager();
+        protected static bool? _pluginLoadedMarketingPlugin = null;
+        protected static IPluginClassesService _pluginServicesMarketingPlugin;
+
         protected ControllerContext CreateTestControllerContext()
         {
             TestHttpRequest httpRequest = new TestHttpRequest();
@@ -133,8 +137,42 @@ namespace AspNetCore.PluginManager.Tests.Controllers
             }
 
             Assert.IsNotNull(_pluginServicesSpiderPlugin);
-
         }
 
+        protected void InitializeMarketingPluginPluginManager()
+        {
+            lock (_testMarketingPlugin)
+            {
+                while (_pluginLoadedMarketingPlugin.HasValue && !_pluginLoadedMarketingPlugin.Value)
+                {
+                    System.Threading.Thread.Sleep(30);
+                }
+
+                if (_pluginLoadedMarketingPlugin.HasValue && _pluginLoadedMarketingPlugin.Value)
+                {
+                    return;
+                }
+
+                if (_pluginLoadedMarketingPlugin == null)
+                {
+                    _pluginLoadedMarketingPlugin = false;
+                }
+
+                _testMarketingPlugin.AddAssembly(Assembly.GetExecutingAssembly());
+                _testMarketingPlugin.UsePlugin(typeof(DemoWebsite.Classes.PluginInitialisation));
+                _testMarketingPlugin.UsePlugin(typeof(MemoryCache.Plugin.PluginInitialisation));
+                _testMarketingPlugin.UsePlugin(typeof(LoginPlugin.PluginInitialisation));
+                _testMarketingPlugin.UsePlugin(typeof(MarketingPlugin.PluginInitialisation));
+                _testMarketingPlugin.UsePlugin(typeof(LoginPlugin.PluginInitialisation));
+
+                _testMarketingPlugin.ConfigureServices();
+
+                _pluginServicesMarketingPlugin = new pm.PluginServices(_testMarketingPlugin) as IPluginClassesService;
+
+                _pluginLoadedMarketingPlugin = true;
+            }
+
+            Assert.IsNotNull(_pluginServicesMarketingPlugin);
+        }
     }
 }

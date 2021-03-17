@@ -54,6 +54,7 @@ namespace MarketingPlugin.Classes.SystemAdmin
             Result += $"\rFastest ms|{MarketingMiddleware.MarketingTimings.Fastest}";
             Result += $"\rSlowest ms|{MarketingMiddleware.MarketingTimings.Slowest}";
             Result += $"\rAverage ms|{MarketingMiddleware.MarketingTimings.Average}";
+            Result += $"\rTrimmed Avg ms|{MarketingMiddleware.MarketingTimings.TrimmedAverage}";
             Result += $"\rTotal ms|{MarketingMiddleware.MarketingTimings.Total}";
 
             return (Result);

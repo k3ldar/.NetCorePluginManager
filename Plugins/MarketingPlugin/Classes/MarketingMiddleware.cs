@@ -26,6 +26,8 @@
 using System;
 using System.Threading.Tasks;
 
+using MarketingPlugin.Controllers;
+
 using Microsoft.AspNetCore.Http;
 
 using PluginManager.Abstractions;
@@ -43,6 +45,7 @@ namespace MarketingPlugin
         private static readonly CacheManager _marketingCache = new CacheManager("Marketing Cache", new TimeSpan(0, 20, 0), true);
         private readonly RequestDelegate _next;
         private readonly string _staticFileExtensions = Constants.StaticFileExtensions;
+        private readonly bool _processStaticFiles;
 
         #endregion Private Members
 
@@ -52,9 +55,12 @@ namespace MarketingPlugin
         {
             _next = next;
 
-            ThreadManager.Initialise();
+            if (settingsProvider == null)
+                throw new ArgumentNullException(nameof(settingsProvider));
 
-            MarketingSettings settings = settingsProvider.GetSettings<MarketingSettings>(Constants.PluginNameMarketing);
+            MarketingSettings settings = settingsProvider.GetSettings<MarketingSettings>(OffersController.Name);
+
+            _processStaticFiles = settings.ProcessStaticFiles;
 
             if (!String.IsNullOrEmpty(settings.StaticFileExtensions))
                 _staticFileExtensions = settings.StaticFileExtensions;
@@ -66,38 +72,50 @@ namespace MarketingPlugin
 
         public async Task Invoke(HttpContext context)
         {
-            string fileExtension = RouteFileExtension(context);
+            if (context == null)
+                throw new ArgumentNullException(nameof(context));
 
-            if (!String.IsNullOrEmpty(fileExtension) &&
-                _staticFileExtensions.Contains($"{fileExtension};"))
+            bool passRequestOn = true;
+
+            try
             {
-                await _next(context);
-                return;
-            }
+                string fileExtension = RouteFileExtension(context);
 
-            using (StopWatchTimer stopwatchTimer = StopWatchTimer.Initialise(MarketingTimings))
-            {
-                CacheItem cache = _marketingCache.Get(Constants.CacheMarketing);
-
-                if (cache == null)
+                if (!_processStaticFiles && !String.IsNullOrEmpty(fileExtension) &&
+                    _staticFileExtensions.Contains(fileExtension))
                 {
-
+                    return;
                 }
+
+                using (StopWatchTimer stopwatchTimer = StopWatchTimer.Initialise(MarketingTimings))
+                {
+                    CacheItem cache = _marketingCache.Get(Constants.CacheMarketing);
+
+                    if (cache == null)
+                    {
+
+                    }
+                }
+
+                await _next(context);
             }
-
-            await _next(context);
-        }
-
-        #endregion Public Methods
-
-        #region Internal Properties
-
-        internal static Timings MarketingTimings { get; } = new Timings();
-
-        #endregion Internal Properties
-
-        #region Private Methods
-
-        #endregion Private Methods
+            finally
+            {
+                if (passRequestOn)
+                    await _next(context);
+            }
     }
+
+    #endregion Public Methods
+
+    #region Internal Properties
+
+    internal static Timings MarketingTimings { get; } = new Timings();
+
+    #endregion Internal Properties
+
+    #region Private Methods
+
+    #endregion Private Methods
+}
 }

@@ -193,7 +193,7 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
         public async Task SubdomainMiddleware_Invoke_BlogRoute_ResetsContextRequestPath()
         {
             bool delegateCalled = false;
-            RequestDelegate nextDelegate = async (context) => { delegateCalled = true; ; await Task.Delay(0); };
+            RequestDelegate nextDelegate = async (context) => { delegateCalled = true; await Task.Delay(0); };
             TestLogger testLogger = new TestLogger();
             ISettingsProvider settingsProvider = new TestSettingsProvider(SubdomainAllEnabled);
             SubdomainMiddleware sut = CreateSubdomainMiddlewareInstance(testLogger, settingsProvider, null, true, nextDelegate);
@@ -245,7 +245,7 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
         public async Task SubdomainMiddleware_Invoke_EmptyHost_CallsNextDelegate_Success()
         {
             bool delegateCalled = false;
-            RequestDelegate nextDelegate = async (context) => { delegateCalled = true; ; await Task.Delay(0); };
+            RequestDelegate nextDelegate = async (context) => { delegateCalled = true; await Task.Delay(0); };
             TestLogger testLogger = new TestLogger();
             ISettingsProvider settingsProvider = new TestSettingsProvider(SubdomainAllEnabled);
             SubdomainMiddleware sut = CreateSubdomainMiddlewareInstance(testLogger, settingsProvider, null, true, nextDelegate);
@@ -320,7 +320,7 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
         public async Task SubdomainMiddleware_Invoke_StaticFile_CallsNextDelegate()
         {
             bool delegateCalled = false;
-            RequestDelegate nextDelegate = async (context) => { delegateCalled = true; ; await Task.Delay(0); };
+            RequestDelegate nextDelegate = async (context) => { delegateCalled = true; await Task.Delay(0); };
             TestLogger testLogger = new TestLogger();
             ISettingsProvider settingsProvider = new TestSettingsProvider(SubdomainAllEnabledPreventStaticFiles);
             SubdomainMiddleware sut = CreateSubdomainMiddlewareInstance(testLogger, settingsProvider, null, true, nextDelegate);
@@ -345,7 +345,7 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
         public async Task SubdomainMiddleware_Invoke_ValidContext_DisabledMiddleware_CallsNextDelegate()
         {
             bool delegateCalled = false;
-            RequestDelegate nextDelegate = async (context) => { delegateCalled = true; ; await Task.Delay(0); };
+            RequestDelegate nextDelegate = async (context) => { delegateCalled = true; await Task.Delay(0); };
             TestLogger testLogger = new TestLogger();
             ISettingsProvider settingsProvider = new TestSettingsProvider(SubDomainDisbledJson);
             SubdomainMiddleware sut = CreateSubdomainMiddlewareInstance(testLogger, settingsProvider, null, true, nextDelegate);

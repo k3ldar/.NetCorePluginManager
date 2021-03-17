@@ -23,6 +23,7 @@
  *  05/03/2021  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */using System;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 
 using Microsoft.Extensions.Configuration;
@@ -31,6 +32,7 @@ using PluginManager.Abstractions;
 
 namespace AspNetCore.PluginManager.Tests.Shared
 {
+    [ExcludeFromCodeCoverage]
     public class TestSettingsProvider : ISettingsProvider
     {
         private readonly string _jsonData;

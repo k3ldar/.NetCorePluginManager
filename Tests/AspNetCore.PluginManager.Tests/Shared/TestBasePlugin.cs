@@ -63,6 +63,10 @@ namespace AspNetCore.PluginManager.Tests
         protected static bool? _pluginLoadedSubdomain = null;
         protected static IPluginClassesService _pluginServicesSubdomain;
 
+        protected static TestPluginManager _testPluginMarketing = new TestPluginManager();
+        protected static bool? _pluginLoadedMarketing = null;
+        protected static IPluginClassesService _pluginServicesMarketing;
+
         protected static TestPluginManager _testPluginDocs = new TestPluginManager();
         protected static bool? _pluginLoadedDocs = null;
         protected static IPluginClassesService _pluginServicesDocs;
@@ -302,6 +306,44 @@ namespace AspNetCore.PluginManager.Tests
             }
 
             Assert.IsNotNull(_testPluginSubdomain);
+        }
+
+        protected void InitializeMarketingManager()
+        {
+            lock (_testPluginMarketing)
+            {
+                while (_pluginLoadedMarketing.HasValue && !_pluginLoadedMarketing.Value)
+                {
+                    System.Threading.Thread.Sleep(30);
+                }
+
+                if (_pluginLoadedMarketing.HasValue && _pluginLoadedMarketing.Value)
+                {
+                    return;
+                }
+
+                if (_pluginLoadedMarketing == null)
+                {
+                    _pluginLoadedMarketing = false;
+                }
+
+                _testPluginMarketing.AddAssembly(Assembly.GetExecutingAssembly());
+                _testPluginMarketing.UsePlugin(typeof(MarketingPlugin.PluginInitialisation));
+                _testPluginMarketing.UsePlugin(typeof(DemoWebsite.Classes.PluginInitialisation));
+                _testPluginMarketing.UsePlugin(typeof(MemoryCache.Plugin.PluginInitialisation));
+                _testPluginMarketing.UsePlugin(typeof(LoginPlugin.PluginInitialisation));
+                _testPluginMarketing.UsePlugin(typeof(Blog.Plugin.PluginInitialisation));
+                _testPluginMarketing.UsePlugin(typeof(HelpdeskPlugin.PluginInitialisation));
+                _testPluginMarketing.UsePlugin(typeof(UserAccount.Plugin.PluginInitialisation));
+
+                _testPluginMarketing.ConfigureServices();
+
+                _pluginServicesMarketing = new pm.PluginServices(_testPluginMarketing) as IPluginClassesService;
+
+                _pluginLoadedMarketing = true;
+            }
+
+            Assert.IsNotNull(_testPluginMarketing);
         }
     }
 }

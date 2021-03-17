@@ -1,4 +1,4 @@
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+﻿/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  *  .Net Core Plugin Manager is distributed under the GNU General Public License version 3 and  
  *  is also available under alternative licenses negotiated directly with Simon Carter.  
  *  If you obtained Service Manager under the GPL, then the GPL applies to all loadable 
@@ -11,61 +11,72 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2021 Simon Carter.  All Rights Reserved.
  *
- *  Product:  MarketingPlugin
+ *  Product:  Login Plugin
  *  
- *  File: Initialisation.cs
+ *  File: PluginInitialisation.cs
  *
- *  Purpose:  
+ *  Purpose:  Net Core Plugin Manager Integration
  *
  *  Date        Name                Reason
- *  21/02/2019  Simon Carter        Initially Created
+ *  14/03/2021  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using System;
-
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 
 using PluginManager.Abstractions;
 
+using SharedPluginFeatures;
+
+#pragma warning disable IDE0060, CS1591
+
 namespace MarketingPlugin
 {
-    public sealed class Initialisation : IPlugin
+    /// <summary>
+    /// Implements IPlugin and IPluginVersion which allows the Login.Plugin module to be
+    /// loaded as a plugin module
+    /// </summary>
+    public class PluginInitialisation : IPlugin, IInitialiseEvents
     {
-        #region Constructors
+        #region IInitialiseEvents Methods
 
-        public Initialisation()
-        {
-        }
-
-        #endregion Constructors
-
-        #region Internal Static Properties
-
-        internal static ILogger GetLogger { get; private set; }
-
-        #endregion Internal Static Properties
-
-        #region IPlugin Methods
-
-        public void Initialise(ILogger logger)
-        {
-            GetLogger = logger ?? throw new ArgumentNullException(nameof(logger));
-        }
-
-        public void Finalise()
+        public void AfterConfigure(in IApplicationBuilder app)
         {
 
         }
 
-        public void Configure(IApplicationBuilder app)
+        public void AfterConfigureServices(in IServiceCollection services)
+        {
+
+        }
+
+        public void BeforeConfigure(in IApplicationBuilder app)
+        {
+
+        }
+
+        public void BeforeConfigureServices(in IServiceCollection services)
+        {
+
+        }
+
+        public void Configure(in IApplicationBuilder app)
         {
             app.UseMarketing();
         }
 
+        #endregion IInitialiseEvents Methods
+
+        #region IPlugin Methods
+
         public void ConfigureServices(IServiceCollection services)
+        {
+
+        }
+
+        public void Finalise()
         {
 
         }
@@ -75,6 +86,13 @@ namespace MarketingPlugin
             return 1;
         }
 
+        public void Initialise(ILogger logger)
+        {
+
+        }
+
         #endregion IPlugin Methods
     }
 }
+
+#pragma warning restore IDE0060, CS1591

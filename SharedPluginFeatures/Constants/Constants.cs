@@ -110,7 +110,7 @@ namespace SharedPluginFeatures
         /// <summary>
         /// Default static file extensions
         /// </summary>
-        public const string StaticFileExtensions = ".less;.ico;.css;.js;.svg;.jpg;.jpeg;.gif;.png;.eot;.map;";
+        public const string StaticFileExtensions = ".less;.ico;.css;.js;.svg;.jpg;.jpeg;.gif;.png;.eot;.map;.xml;.txt";
 
         /// <summary>
         /// File Extension for a compiled view assembly.

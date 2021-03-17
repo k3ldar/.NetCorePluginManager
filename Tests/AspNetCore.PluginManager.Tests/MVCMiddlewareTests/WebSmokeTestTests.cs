@@ -370,7 +370,7 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
                 httpResponse.Body.Read(data, 0, data.Length);
                 string test = Decrypt(Encoding.UTF8.GetString(data), EncryptionKey);
 
-                Assert.IsTrue(test.Contains("Please try again"));
+                Assert.IsTrue(test.Contains("Please try again"), test.ToLower());
                 Assert.IsTrue(test.Contains("Method\":\"POST") || test.Contains("Method\":\"GET"));
             }
         }

@@ -37,6 +37,7 @@ namespace MarketingPlugin.Controllers
     /// <summary>
     /// Displays current customer offers.
     /// </summary>
+    [Subdomain(OffersController.Name)]
     public class OffersController : BaseController
     {
         #region Private Members
@@ -47,6 +48,10 @@ namespace MarketingPlugin.Controllers
 
         #region Constructors
 
+        public OffersController()
+        {
+
+        }
 
         #endregion Constructors
 

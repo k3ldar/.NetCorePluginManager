@@ -29,12 +29,22 @@ using SharedPluginFeatures;
 
  namespace MarketingPlugin
 {
+    /// <summary>
+    /// Settings which affect the marketing plugin
+    /// </summary>
     public class MarketingSettings
     {
         #region Properties
 
+        /// <summary>
+        /// Indicates whether static files are processed or not when managing marketing routes
+        /// </summary>
+        /// <value>bool</value>
         public bool ProcessStaticFiles { get; set; }
 
+        /// <summary>
+        /// Semicolon seperated list of static file extensions to be ignored when processing requests for marketing
+        /// </summary>
         [SettingDefault(Constants.StaticFileExtensions)]
         [SettingString(false)]
         [SettingDelimitedString(';', 1)]
