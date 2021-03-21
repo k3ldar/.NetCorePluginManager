@@ -12,7 +12,7 @@
         </member>
         <member name="M:PluginManager.BasePluginManager.#ctor">
             <summary>
-            Internal constructor, used internally by the BasePluginManager to initialise the class internals
+            Private constructor, used internally by the BasePluginManager to initialise the class internals
             </summary>
         </member>
         <member name="M:PluginManager.BasePluginManager.#ctor(PluginManager.PluginManagerConfiguration@,PluginManager.PluginSettings@)">
@@ -26,6 +26,12 @@
             <summary>
             Destructor
             </summary>
+        </member>
+        <member name="P:PluginManager.BasePluginManager.ServiceConfigurator">
+            <summary>
+            Current service configurator, this will be set to null after configuration is complete
+            </summary>
+            <value>IServiceConfigurator</value>
         </member>
         <member name="P:PluginManager.BasePluginManager.RootPath">
             <summary>
@@ -906,6 +912,11 @@
         <member name="T:PluginManager.PluginSettings">
             <summary>
             Settings that affect how PluginManager works.
+            </summary>
+        </member>
+        <member name="M:PluginManager.PluginSettings.#ctor">
+            <summary>
+            Default constructor
             </summary>
         </member>
         <member name="P:PluginManager.PluginSettings.Disabled">

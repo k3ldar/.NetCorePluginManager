@@ -59,19 +59,19 @@ namespace PluginManager
         /// Date and time the log entry was made
         /// </summary>
         /// <value>DateTime</value>
-        public DateTime Date { get; private set; }
+        public DateTime Date { get; }
 
         /// <summary>
         /// Log level, the severity or log type for the entry.
         /// </summary>
         /// <value>LogLevel</value>
-        public LogLevel Level { get; private set; }
+        public LogLevel Level { get; }
 
         /// <summary>
         /// The log entry message
         /// </summary>
         /// <value>string</value>
-        public string Message { get; private set; }
+        public string Message { get; }
 
         #endregion Properties
     }
