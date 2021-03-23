@@ -12,7 +12,7 @@
         </member>
         <member name="M:PluginManager.BasePluginManager.#ctor">
             <summary>
-            Internal constructor, used internally by the BasePluginManager to initialise the class internals
+            Private constructor, used internally by the BasePluginManager to initialise the class internals
             </summary>
         </member>
         <member name="M:PluginManager.BasePluginManager.#ctor(PluginManager.PluginManagerConfiguration@,PluginManager.PluginSettings@)">
@@ -26,6 +26,12 @@
             <summary>
             Destructor
             </summary>
+        </member>
+        <member name="P:PluginManager.BasePluginManager.ServiceConfigurator">
+            <summary>
+            Current service configurator, this will be set to null after configuration is complete
+            </summary>
+            <value>IServiceConfigurator</value>
         </member>
         <member name="P:PluginManager.BasePluginManager.RootPath">
             <summary>
@@ -103,6 +109,18 @@
             <summary>
             Indicates that configuration of the IServiceCollection is now complete
             </summary>
+        </member>
+        <member name="M:PluginManager.BasePluginManager.AddPluginModule(System.String@,PluginManager.Abstractions.IPluginModule)">
+            <summary>
+            Adds a plugin module to the list of added plugin modules.
+            
+            This method should ONLY be used for testing purposes
+            </summary>
+            <param name="assemblyName">Name of assembly</param>
+            <param name="pluginModule">Plugin module to be added</param>
+            <returns>bool</returns>
+            <exception cref="T:System.ArgumentNullException">Assembly name is null or empty</exception>
+            <exception cref="T:System.ArgumentNullException">pluginModule is null</exception>
         </member>
         <member name="M:PluginManager.BasePluginManager.PluginsGetLoaded">
             <summary>
@@ -196,15 +214,6 @@
             </summary>
             <param name="pluginFile">Path and File name of the plugin that will be loaded.</param>
             <returns>string</returns>
-        </member>
-        <member name="M:PluginManager.BasePluginManager.GetMinMaxValue(System.UInt16@,System.UInt16@,System.UInt16@)">
-            <summary>
-            Checks a value, to ensure it is between min/max Value
-            </summary>
-            <param name="value">Value to check</param>
-            <param name="minValue">Min value allowed</param>
-            <param name="maxValue">Max value allowed</param>
-            <returns></returns>
         </member>
         <member name="M:PluginManager.BasePluginManager.GetPluginClass``1(PluginManager.Internal.PluginModule@)">
             <summary>
@@ -906,6 +915,11 @@
         <member name="T:PluginManager.PluginSettings">
             <summary>
             Settings that affect how PluginManager works.
+            </summary>
+        </member>
+        <member name="M:PluginManager.PluginSettings.#ctor">
+            <summary>
+            Default constructor
             </summary>
         </member>
         <member name="P:PluginManager.PluginSettings.Disabled">

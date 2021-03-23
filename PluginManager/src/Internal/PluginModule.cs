@@ -46,6 +46,7 @@ namespace PluginManager.Internal
             Assembly = assembly ?? throw new ArgumentNullException(nameof(assembly));
             Module = module;
             Plugin = pluginService ?? throw new ArgumentNullException(nameof(pluginService));
+            FileVersion = "unknown";
         }
 
         #endregion Constructors

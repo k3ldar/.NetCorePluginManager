@@ -13,47 +13,46 @@
  *
  *  Copyright (c) 2018 - 2021 Simon Carter.  All Rights Reserved.
  *
- *  Product:  PluginManager
+ *  Product:  PluginManager.Tests
  *  
- *  File: NotificationQueueItem.cs
+ *  File: MockIPlugin.cs
  *
- *  Purpose:  Item used for queueing notifications
+ *  Purpose:  Mock IPlugin for testing
  *
  *  Date        Name                Reason
- *  15/05/2019  Simon Carter        Initially Created
- *  28/12/2019  Simon Carter        Converted to generic plugin that can be used by any 
- *                                  application type.  Originally part of .Net 
- *                                  Core Plugin Manager (AspNetCore.PluginManager)
+ *  19/03/2021  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
+using System.Diagnostics.CodeAnalysis;
 
-namespace PluginManager.Internal
+using Microsoft.Extensions.DependencyInjection;
+
+using PluginManager.Abstractions;
+
+namespace PluginManager.Tests.Mocks
 {
-    internal sealed class NotificationQueueItem
+    [ExcludeFromCodeCoverage]
+    public class MockIPlugin : IPlugin
     {
-        #region Constructors
-
-        internal NotificationQueueItem(in string eventId, in object param1, in object param2)
+        public void ConfigureServices(IServiceCollection services)
         {
-            if (String.IsNullOrEmpty(eventId))
-                throw new ArgumentNullException(nameof(eventId));
-
-            EventId = eventId;
-            Param1 = param1;
-            Param2 = param2;
+            throw new NotImplementedException();
         }
 
-        #endregion Constructors
+        public void Finalise()
+        {
+            throw new NotImplementedException();
+        }
 
-        #region Properties
+        public ushort GetVersion()
+        {
+            throw new NotImplementedException();
+        }
 
-        internal string EventId { get; }
-
-        internal object Param1 { get; }
-
-        internal object Param2 { get; }
-
-        #endregion Properties
+        public void Initialise(ILogger logger)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

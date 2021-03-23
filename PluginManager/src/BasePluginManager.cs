@@ -51,15 +51,14 @@ namespace PluginManager
     {
         #region Private Members
 
+        private const ushort MinPluginVersion = 1;
         private const ushort MaxPluginVersion = 1;
 
         private readonly Dictionary<string, IPluginModule> _plugins;
         private readonly PluginSettings _pluginSettings;
         private readonly PluginManagerConfiguration _configuration;
         private bool _disposed;
-
         private static IServiceProvider _serviceProvider;
-        private IServiceConfigurator _serviceConfigurator;
         private bool _serviceConfigurationComplete;
 
         #endregion Private Members
@@ -67,7 +66,7 @@ namespace PluginManager
         #region Constructors / Destructors
 
         /// <summary>
-        /// Internal constructor, used internally by the BasePluginManager to initialise the class internals
+        /// Private constructor, used internally by the BasePluginManager to initialise the class internals
         /// </summary>
         private BasePluginManager()
         {
@@ -91,9 +90,6 @@ namespace PluginManager
                 SetServiceConfigurator(_configuration.ServiceConfigurator);
 
             Logger = configuration.Logger;
-
-            if (_pluginSettings.Plugins == null)
-                _pluginSettings.Plugins = new List<PluginSetting>();
 
             ThreadManagerInitialisation.Initialise(Logger);
 
@@ -120,6 +116,12 @@ namespace PluginManager
         #endregion Constructors / Destructors
 
         #region Properties
+
+        /// <summary>
+        /// Current service configurator, this will be set to null after configuration is complete
+        /// </summary>
+        /// <value>IServiceConfigurator</value>
+        protected IServiceConfigurator ServiceConfigurator { get; private set; }
 
         /// <summary>
         /// Internal property for retrieving the application defined root path
@@ -158,13 +160,13 @@ namespace PluginManager
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1303:Do not pass literals as localized parameters", Justification = "Configuration issues should be handled by the host app when starting.")]
         protected void SetServiceConfigurator(in IServiceConfigurator serviceConfigurator)
         {
-            if (_serviceConfigurator != null)
+            if (ServiceConfigurator != null)
                 throw new InvalidOperationException("Only one IServiceConfigurator can be loaded");
 
             if (_serviceConfigurationComplete)
                 throw new InvalidOperationException("The plugin manager has already configured its services");
 
-            _serviceConfigurator = serviceConfigurator ?? throw new ArgumentNullException(nameof(serviceConfigurator));
+            ServiceConfigurator = serviceConfigurator ?? throw new ArgumentNullException(nameof(serviceConfigurator));
         }
 
         #endregion Properties
@@ -227,6 +229,36 @@ namespace PluginManager
 
         #endregion Abstract Methods
 
+        #region Protected Methods
+
+        /// <summary>
+        /// Adds a plugin module to the list of added plugin modules.
+        /// 
+        /// This method should ONLY be used for testing purposes
+        /// </summary>
+        /// <param name="assemblyName">Name of assembly</param>
+        /// <param name="pluginModule">Plugin module to be added</param>
+        /// <returns>bool</returns>
+        /// <exception cref="ArgumentNullException">Assembly name is null or empty</exception>
+        /// <exception cref="ArgumentNullException">pluginModule is null</exception>
+        protected bool AddPluginModule(in string assemblyName, IPluginModule pluginModule)
+        {
+            if (String.IsNullOrEmpty(assemblyName))
+                throw new ArgumentNullException(nameof(assemblyName));
+
+            if (pluginModule == null)
+                throw new ArgumentNullException(nameof(pluginModule));
+
+            if (_plugins.ContainsKey(assemblyName))
+                return false;
+
+            _plugins.Add(assemblyName, pluginModule);
+
+            return true;
+        }
+
+        #endregion Protected Methods
+
         #region Public Methods
 
         /// <summary>
@@ -250,6 +282,12 @@ namespace PluginManager
             if (assembly == null)
                 throw new ArgumentNullException(nameof(assembly));
 
+            if (_pluginSettings.Disabled)
+            {
+                Logger.AddToLog(LogLevel.Warning, "PluginManager is disabled");
+                return;
+            }
+
             PluginLoading(assembly);
 
             string assemblyName = Path.GetFileName(assembly.ManifestModule.ScopeName);
@@ -266,7 +304,7 @@ namespace PluginManager
 
             if (pluginSetting.Disabled)
             {
-                Logger.AddToLog(LogLevel.Warning, "PluginManager is disabled");
+                Logger.AddToLog(LogLevel.Warning, pluginSetting.Name, "PluginManager is disabled");
                 return;
             }
 
@@ -290,18 +328,20 @@ namespace PluginManager
 
                         IPluginVersion version = GetPluginClass<IPluginVersion>(pluginModule);
 
-                        pluginModule.Version = version == null ? (ushort)1 :
-                            GetMinMaxValue(version.GetVersion(), 1, MaxPluginVersion);
+                        pluginModule.Version = version.GetVersion();
+
+                        if (pluginModule.Version < MinPluginVersion || pluginModule.Version > MaxPluginVersion)
+                        {
+                            Logger.AddToLog(LogLevel.PluginLoadError, $"Version must be between {MinPluginVersion} and {MaxPluginVersion}", $"Actual Version: {pluginModule.Version}");
+                            return;
+                        }
 
                         try
                         {
                             string file = Path.GetFullPath(
                                 String.IsNullOrEmpty(assembly.Location) ? fileLocation : assembly.Location);
 
-                            if (File.Exists(file))
-                                pluginModule.FileVersion = FileVersionInfo.GetVersionInfo(file).FileVersion;
-                            else
-                                pluginModule.FileVersion = "unknown";
+                            pluginModule.FileVersion = FileVersionInfo.GetVersionInfo(file).FileVersion;
                         }
                         catch (Exception err)
                         {
@@ -316,7 +356,6 @@ namespace PluginManager
                         _plugins.Add(assemblyName, pluginModule);
 
                         Logger.AddToLog(LogLevel.PluginLoadSuccess, assemblyName);
-
 
                         // only interested in first reference of IPlugin
                         break;
@@ -348,13 +387,19 @@ namespace PluginManager
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1031:Do not catch general exception types", Justification = "it's ok here, nothing to see, move along")]
         public void PluginLoad(in string pluginName, in bool copyLocal)
         {
+            if (String.IsNullOrEmpty(pluginName))
+                throw new ArgumentNullException(nameof(pluginName));
+
             try
             {
+                if (!File.Exists(pluginName))
+                    throw new FileNotFoundException($"Assembly file not found: {nameof(pluginName)}");
+
                 string pluginFile = copyLocal ? GetLocalCopyOfPlugin(pluginName) : pluginName;
 
                 PluginSetting setting = GetPluginSetting(pluginName);
 
-                if (setting != null && !setting.Disabled)
+                if (!setting.Disabled)
                 {
                     PluginLoad(LoadAssembly(pluginFile), pluginFile, true);
                 }
@@ -407,10 +452,10 @@ namespace PluginManager
 
             PostConfigurePluginServices(services);
 
-            if (_serviceConfigurator != null)
+            if (ServiceConfigurator != null)
             {
-                _serviceConfigurator.RegisterServices(services);
-                _serviceConfigurator = null;
+                ServiceConfigurator.RegisterServices(services);
+                ServiceConfigurator = null;
                 _serviceConfigurationComplete = true;
             }
 
@@ -691,7 +736,7 @@ namespace PluginManager
         {
             if (disposing || !_disposed)
             {
-                if (_plugins != null && _plugins.Count > 0)
+                if (_plugins.Count > 0)
                 {
                     foreach (KeyValuePair<string, IPluginModule> plugin in _plugins)
                     {
@@ -727,6 +772,9 @@ namespace PluginManager
 
             if (!File.Exists(pluginCopy))
             {
+                if (!Directory.Exists(_pluginSettings.LocalCopyPath))
+                    Directory.CreateDirectory(_pluginSettings.LocalCopyPath);
+
                 File.Copy(pluginFile, pluginCopy, false);
                 return pluginCopy;
             }
@@ -745,23 +793,6 @@ namespace PluginManager
             }
 
             return pluginCopy;
-        }
-
-        /// <summary>
-        /// Checks a value, to ensure it is between min/max Value
-        /// </summary>
-        /// <param name="value">Value to check</param>
-        /// <param name="minValue">Min value allowed</param>
-        /// <param name="maxValue">Max value allowed</param>
-        /// <returns></returns>
-        private ushort GetMinMaxValue(in ushort value, in ushort minValue, in ushort maxValue)
-        {
-            if (value < minValue)
-                return minValue;
-            else if (value > maxValue)
-                return maxValue;
-
-            return value;
         }
 
         /// <summary>
@@ -869,12 +900,6 @@ namespace PluginManager
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1303:Do not pass literals as localized parameters", Justification = "I wanted to...")]
         private Assembly LoadAssembly(in string assemblyName)
         {
-            if (String.IsNullOrEmpty(assemblyName))
-                throw new ArgumentNullException(nameof(assemblyName));
-
-            if (!File.Exists(assemblyName))
-                throw new FileNotFoundException($"Assembly file not found: {nameof(assemblyName)}");
-
             string assembly = assemblyName;
 
             if (!Path.IsPathRooted(assembly))
@@ -926,9 +951,6 @@ namespace PluginManager
         /// <returns></returns>
         private PluginSetting GetPluginSetting(in string pluginName)
         {
-            if (_pluginSettings == null || _pluginSettings.PluginFiles == null)
-                return new PluginSetting(pluginName);
-
             string name = Path.GetFileName(pluginName);
 
             foreach (PluginSetting setting in _pluginSettings.Plugins)

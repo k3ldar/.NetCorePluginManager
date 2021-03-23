@@ -47,6 +47,7 @@ using Subdomain.Plugin;
 using Subdomain.Plugin.Classes.SystemAdmin;
 
 using pm = PluginManager.Internal;
+using PluginManager.Tests.Mocks;
 
 namespace AspNetCore.PluginManager.Tests.MiddlewareTests
 {
@@ -703,6 +704,16 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
             PluginInitialisation sut = new PluginInitialisation();
 
             sut.Finalise();
+        }
+
+        [TestMethod]
+        [TestCategory(TestCategoryMiddleware)]
+        public void PluginInitialisation_ConfigureServices_DoesNotThrowException()
+        {
+            TestApplicationBuilder testApplicationBuilder = new TestApplicationBuilder();
+            PluginInitialisation sut = new PluginInitialisation();
+
+            sut.ConfigureServices(new MockServiceCollection());
         }
 
         #endregion PluginInitialisation

@@ -37,6 +37,20 @@ namespace PluginManager
     /// </summary>
     public class PluginSettings
     {
+        #region Constructors
+
+        /// <summary>
+        /// Default constructor
+        /// </summary>
+        public PluginSettings()
+        {
+            Plugins = new List<PluginSetting>();
+        }
+
+        #endregion Constructors
+
+        #region Properties
+
         /// <summary>
         /// Opionally disable plugin manager and prevent it from loading any plugins.
         /// </summary>
@@ -94,6 +108,8 @@ namespace PluginManager
         /// Individual plugin module settings.
         /// </summary>
         /// <value>List&lt;PluginSetting&gt;</value>
-        public List<PluginSetting> Plugins { get; set; }
+        public List<PluginSetting> Plugins { get; }
+
+        #endregion Properties
     }
 }

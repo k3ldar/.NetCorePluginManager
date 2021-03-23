@@ -24,6 +24,8 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
+using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 
 namespace Languages
@@ -33,26 +35,55 @@ namespace Languages
     /// </summary>
     public static class LanguageWrapper
     {
+        private const string DefaultLanguageCultureName = "en-GB";
+
         /// <summary>
-        /// Gets all installed language files
+        /// Gets all installed language files, default culture is first in the list
+        /// </summary>
+        /// <param name="path">Path where search to begin</param>
+        /// <param name="defaultCulture">Default culture in use</param>
+        /// <returns>String array of installed languages</returns>
+        public static string[] GetInstalledLanguages(string path, CultureInfo defaultCulture)
+        {
+            string[] files = Directory.GetFiles(path, "Languages.resources*", SearchOption.AllDirectories);
+
+            List<string> Result = new List<string>();
+            Result.Add(defaultCulture.Name);
+
+            for (int i = 1; i < files.Length; i++)
+            {
+                string file = files[i - 1].Replace(path, String.Empty);
+                file = file.Substring(0, file.LastIndexOf('\\'));
+                string language = file.Substring(file.LastIndexOf('\\') + 1);
+
+                if (!Result.Contains(language))
+                    Result.Add(language);
+            }
+
+            if (!Result.Contains(DefaultLanguageCultureName))
+                Result.Add(DefaultLanguageCultureName);
+
+            Result.Sort();
+
+            int defaultCultureIndex = Result.IndexOf(defaultCulture.Name);
+
+            if (defaultCultureIndex != 0)
+            {
+                Result.RemoveAt(defaultCultureIndex);
+                Result.Insert(0, defaultCulture.Name);
+            }
+
+            return Result.ToArray();
+        }
+
+        /// <summary>
+        /// Gets all installed language files, default culture is en-GB
         /// </summary>
         /// <param name="path">Path where search to begin</param>
         /// <returns>String array of installed languages</returns>
         public static string[] GetInstalledLanguages(string path)
         {
-            string[] files = Directory.GetFiles(path, "Languages.resources*", SearchOption.AllDirectories);
-
-            string[] Result = new string[files.Length + 1];
-            Result[0] = "en-GB";
-
-            for (int i = 1; i < Result.Length; i++)
-            {
-                string file = files[i - 1].Replace(path, String.Empty);
-                file = file.Substring(0, file.LastIndexOf('\\'));
-                Result[i] = file.Substring(file.LastIndexOf('\\') + 1);
-            }
-
-            return (Result);
+            return GetInstalledLanguages(path, new CultureInfo(DefaultLanguageCultureName));
         }
     }
 }
