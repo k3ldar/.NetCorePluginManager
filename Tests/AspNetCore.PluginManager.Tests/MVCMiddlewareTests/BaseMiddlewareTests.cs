@@ -24,10 +24,12 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 
 namespace AspNetCore.PluginManager.Tests.MiddlewareTests
 {
+    [ExcludeFromCodeCoverage]
     public class BaseMiddlewareTests : TestBasePlugin
     {
         protected const string TestCategoryMiddleware = "MiddlewareTests";
