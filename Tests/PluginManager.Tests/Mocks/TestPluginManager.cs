@@ -125,6 +125,16 @@ namespace PluginManager.Tests.Mocks
             base.SetServiceConfigurator(serviceConfigurator as IServiceConfigurator);
         }
 
+        internal void TestDispose(bool disposing)
+        {
+            Dispose(disposing);
+        }
+
+        internal bool TestAddPluginModule(in string assemblyName, IPluginModule pluginModule)
+        {
+            return base.AddPluginModule(assemblyName, pluginModule);
+        }
+
         internal bool TestCanExtractResources { get; set; }
     }
 }

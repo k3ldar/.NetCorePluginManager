@@ -46,6 +46,9 @@ namespace PluginManager
         /// <param name="message">Log message</param>
         public LoggerQueueItem(in LogLevel logLevel, in string message)
         {
+            if (String.IsNullOrEmpty(message))
+                throw new ArgumentNullException(nameof(message));
+
             Date = DateTime.Now;
             Level = logLevel;
             Message = message;

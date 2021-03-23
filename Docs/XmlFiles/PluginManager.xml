@@ -110,6 +110,18 @@
             Indicates that configuration of the IServiceCollection is now complete
             </summary>
         </member>
+        <member name="M:PluginManager.BasePluginManager.AddPluginModule(System.String@,PluginManager.Abstractions.IPluginModule)">
+            <summary>
+            Adds a plugin module to the list of added plugin modules.
+            
+            This method should ONLY be used for testing purposes
+            </summary>
+            <param name="assemblyName">Name of assembly</param>
+            <param name="pluginModule">Plugin module to be added</param>
+            <returns>bool</returns>
+            <exception cref="T:System.ArgumentNullException">Assembly name is null or empty</exception>
+            <exception cref="T:System.ArgumentNullException">pluginModule is null</exception>
+        </member>
         <member name="M:PluginManager.BasePluginManager.PluginsGetLoaded">
             <summary>
             Returns all loaded plugin data
@@ -202,15 +214,6 @@
             </summary>
             <param name="pluginFile">Path and File name of the plugin that will be loaded.</param>
             <returns>string</returns>
-        </member>
-        <member name="M:PluginManager.BasePluginManager.GetMinMaxValue(System.UInt16@,System.UInt16@,System.UInt16@)">
-            <summary>
-            Checks a value, to ensure it is between min/max Value
-            </summary>
-            <param name="value">Value to check</param>
-            <param name="minValue">Min value allowed</param>
-            <param name="maxValue">Max value allowed</param>
-            <returns></returns>
         </member>
         <member name="M:PluginManager.BasePluginManager.GetPluginClass``1(PluginManager.Internal.PluginModule@)">
             <summary>

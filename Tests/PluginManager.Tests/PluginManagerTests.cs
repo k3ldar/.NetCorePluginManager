@@ -31,6 +31,7 @@ using System.Reflection;
 
 using AppSettings;
 
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using PluginManager.Abstractions;
@@ -512,7 +513,7 @@ namespace PluginManager.Tests
             TestLogger testLogger = new TestLogger();
             PluginManagerConfiguration pluginManagerConfiguration = new PluginManagerConfiguration(testLogger);
             PluginSettings pluginSettings = new PluginSettings();
-            
+
             PluginSetting badEggSetting = new PluginSetting("BadEgg.Plugin.dll")
             {
                 Disabled = true
@@ -800,7 +801,7 @@ namespace PluginManager.Tests
                 pluginManager.ConfigureServices();
 
                 List<Type> classes = pluginManager.PluginGetClassTypes<IPlugin>();
-                Assert.AreEqual(classes.Count, 3);
+                Assert.AreEqual(6, classes.Count);
             }
         }
 
@@ -915,5 +916,240 @@ namespace PluginManager.Tests
                 Assert.IsTrue(executingAssemblyPath.StartsWith(root, StringComparison.InvariantCultureIgnoreCase));
             }
         }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void AddPluginModule_InvalidParamAssemblyName_Null_Throws_ArgumentNullException()
+        {
+            TestLogger testLogger = new TestLogger();
+            TestPluginManager sut = new TestPluginManager(testLogger);
+            sut.TestAddPluginModule(null, new TestPluginModule());
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void AddPluginModule_InvalidParamAssemblyName_EmptyString_Throws_ArgumentNullException()
+        {
+            TestLogger testLogger = new TestLogger();
+            TestPluginManager sut = new TestPluginManager(testLogger);
+            sut.TestAddPluginModule("", new TestPluginModule());
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void AddPluginModule_InvalidParamPluginModule_Null_Throws_ArgumentNullException()
+        {
+            TestLogger testLogger = new TestLogger();
+            TestPluginManager sut = new TestPluginManager(testLogger);
+            sut.TestAddPluginModule("test", null);
+        }
+
+        [TestMethod]
+        public void AddPluginModule_SuccessfullyAdds_CannotAddTwice()
+        {
+            TestLogger testLogger = new TestLogger();
+            TestPluginManager sut = new TestPluginManager(testLogger);
+            IPluginModule testPluginModule = new TestPluginModule();
+
+            bool added = sut.TestAddPluginModule("test", testPluginModule);
+            Assert.IsTrue(added);
+
+            added = sut.TestAddPluginModule("test", testPluginModule);
+            Assert.IsFalse(added);
+        }
+
+        [TestMethod]
+        public void Dispose_Disposing_FinalisesPlugins_Success()
+        {
+            TestLogger testLogger = new TestLogger();
+            TestPluginManager sut = new TestPluginManager(testLogger);
+            sut.PluginLoad(typeof(TestDisposePlugin).Assembly.Location, false);
+
+            TestDisposePlugin testDisposePlugin = new TestDisposePlugin();
+
+            TestPluginModule testPluginModule = new TestPluginModule()
+            {
+                Plugin = testDisposePlugin
+            };
+
+            bool addPlugin = sut.TestAddPluginModule("test", testPluginModule);
+
+            Assert.IsTrue(addPlugin);
+
+            sut.TestDispose(false);
+
+            Assert.IsTrue(testDisposePlugin.FinaliseCalled);
+        }
+
+        [TestMethod]
+        public void Dispose_Disposing_FinalisesPlugins_ThrowsExceptionAndLogsError()
+        {
+            TestLogger testLogger = new TestLogger();
+            TestPluginManager sut = new TestPluginManager(testLogger);
+            sut.PluginLoad(typeof(TestDisposePlugin).Assembly.Location, false);
+
+            TestDisposeExceptionPlugin testDisposePlugin = new TestDisposeExceptionPlugin();
+
+            TestPluginModule testPluginModule = new TestPluginModule()
+            {
+                Plugin = testDisposePlugin
+            };
+
+            bool addPlugin = sut.TestAddPluginModule("test", testPluginModule);
+
+            Assert.IsTrue(addPlugin);
+
+            sut.TestDispose(false);
+
+            Assert.IsTrue(testLogger.ContainsMessage("Error Specified argument was out of the range of valid values. (Parameter 'raised from test plugin') testDispose"));
+        }
+
+        [TestMethod]
+        public void PluginLoad_CreatesInstanceOfPlugin_ThrowsExceptionAndLogsError()
+        {
+            TestLogger testLogger = new TestLogger();
+            TestPluginManager sut = new TestPluginManager(testLogger);
+            sut.PluginLoad(typeof(TestDisposePlugin).Assembly.Location, false);
+
+            TestDisposeExceptionPlugin testDisposePlugin = new TestDisposeExceptionPlugin();
+
+            TestPluginModule testPluginModule = new TestPluginModule()
+            {
+                Plugin = testDisposePlugin
+            };
+
+            bool addPlugin = sut.TestAddPluginModule("test", testPluginModule);
+
+            Assert.IsTrue(addPlugin);
+
+            sut.TestDispose(false);
+
+            Assert.IsTrue(testLogger.ContainsMessage("Error Specified argument was out of the range of valid values. (Parameter 'raised from test plugin') testDispose"));
+        }
+
+        //[TestMethod]
+        //public void PluginLoad_()
+        //{
+        //    TestLogger testLogger = new TestLogger();
+        //    TestPluginManager sut = new TestPluginManager(testLogger);
+        //    sut.PluginLoad(typeof(TestDisposePlugin).Assembly.Location, false);
+
+        //    TestDisposeExceptionPlugin testDisposePlugin = new TestDisposeExceptionPlugin();
+
+        //    TestPluginModule testPluginModule = new TestPluginModule()
+        //    {
+        //        Plugin = testDisposePlugin
+        //    };
+
+        //    bool addPlugin = sut.TestAddPluginModule("test", testPluginModule);
+
+        //    Assert.IsTrue(addPlugin);
+
+        //    sut.TestDispose(false);
+
+        //    Assert.IsTrue(testLogger.ContainsMessage("Error Specified argument was out of the range of valid values. (Parameter 'raised from test plugin') testDispose"));
+        //}
     }
+
+    [ExcludeFromCodeCoverage]
+    public class TestPluginModule : IPluginModule
+    {
+        public ushort Version { get; set; }
+
+        public string Module { get; set; }
+
+        public Assembly Assembly { get; set; }
+
+        public IPlugin Plugin { get; set; }
+
+        public string FileVersion { get; set; }
+    }
+
+    [ExcludeFromCodeCoverage]
+    public class TestDisposePlugin : IPlugin
+    {
+        public void ConfigureServices(IServiceCollection services)
+        {
+
+        }
+
+        public void Finalise()
+        {
+            FinaliseCalled = true;
+        }
+
+        public ushort GetVersion()
+        {
+            return 0;
+        }
+
+        public void Initialise(ILogger logger)
+        {
+
+        }
+
+        public bool FinaliseCalled { get; private set; }
+    }
+
+
+    [ExcludeFromCodeCoverage]
+    public class TestDisposeExceptionPlugin : IPlugin
+    {
+        public void ConfigureServices(IServiceCollection services)
+        {
+
+        }
+
+        public void Finalise()
+        {
+            throw new ArgumentOutOfRangeException("raised from test plugin");
+        }
+
+        public ushort GetVersion()
+        {
+            return 0;
+        }
+
+        public void Initialise(ILogger logger)
+        {
+
+        }
+    }
+
+    [ExcludeFromCodeCoverage]
+    public class TestPluginMinMaxVersion : IPlugin
+    {
+        private readonly ushort _version;
+
+        private TestPluginMinMaxVersion()
+        {
+
+        }
+
+        public TestPluginMinMaxVersion(ushort version)
+        {
+            _version = version;
+        }
+
+        public void ConfigureServices(IServiceCollection services)
+        {
+
+        }
+
+        public void Finalise()
+        {
+
+        }
+
+        public ushort GetVersion()
+        {
+            return _version;
+        }
+
+        public void Initialise(ILogger logger)
+        {
+
+        }
+    }
+
 }

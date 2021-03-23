@@ -51,6 +51,7 @@ namespace PluginManager
     {
         #region Private Members
 
+        private const ushort MinPluginVersion = 1;
         private const ushort MaxPluginVersion = 1;
 
         private readonly Dictionary<string, IPluginModule> _plugins;
@@ -228,6 +229,36 @@ namespace PluginManager
 
         #endregion Abstract Methods
 
+        #region Protected Methods
+
+        /// <summary>
+        /// Adds a plugin module to the list of added plugin modules.
+        /// 
+        /// This method should ONLY be used for testing purposes
+        /// </summary>
+        /// <param name="assemblyName">Name of assembly</param>
+        /// <param name="pluginModule">Plugin module to be added</param>
+        /// <returns>bool</returns>
+        /// <exception cref="ArgumentNullException">Assembly name is null or empty</exception>
+        /// <exception cref="ArgumentNullException">pluginModule is null</exception>
+        protected bool AddPluginModule(in string assemblyName, IPluginModule pluginModule)
+        {
+            if (String.IsNullOrEmpty(assemblyName))
+                throw new ArgumentNullException(nameof(assemblyName));
+
+            if (pluginModule == null)
+                throw new ArgumentNullException(nameof(pluginModule));
+
+            if (_plugins.ContainsKey(assemblyName))
+                return false;
+
+            _plugins.Add(assemblyName, pluginModule);
+
+            return true;
+        }
+
+        #endregion Protected Methods
+
         #region Public Methods
 
         /// <summary>
@@ -297,18 +328,20 @@ namespace PluginManager
 
                         IPluginVersion version = GetPluginClass<IPluginVersion>(pluginModule);
 
-                        pluginModule.Version = version == null ? (ushort)1 :
-                            GetMinMaxValue(version.GetVersion(), 1, MaxPluginVersion);
+                        pluginModule.Version = version.GetVersion();
+
+                        if (pluginModule.Version < MinPluginVersion || pluginModule.Version > MaxPluginVersion)
+                        {
+                            Logger.AddToLog(LogLevel.PluginLoadError, $"Version must be between {MinPluginVersion} and {MaxPluginVersion}", $"Actual Version: {pluginModule.Version}");
+                            return;
+                        }
 
                         try
                         {
                             string file = Path.GetFullPath(
                                 String.IsNullOrEmpty(assembly.Location) ? fileLocation : assembly.Location);
 
-                            if (File.Exists(file))
-                                pluginModule.FileVersion = FileVersionInfo.GetVersionInfo(file).FileVersion;
-                            else
-                                pluginModule.FileVersion = "unknown";
+                            pluginModule.FileVersion = FileVersionInfo.GetVersionInfo(file).FileVersion;
                         }
                         catch (Exception err)
                         {
@@ -323,7 +356,6 @@ namespace PluginManager
                         _plugins.Add(assemblyName, pluginModule);
 
                         Logger.AddToLog(LogLevel.PluginLoadSuccess, assemblyName);
-
 
                         // only interested in first reference of IPlugin
                         break;
@@ -704,7 +736,7 @@ namespace PluginManager
         {
             if (disposing || !_disposed)
             {
-                if (_plugins != null && _plugins.Count > 0)
+                if (_plugins.Count > 0)
                 {
                     foreach (KeyValuePair<string, IPluginModule> plugin in _plugins)
                     {
@@ -761,23 +793,6 @@ namespace PluginManager
             }
 
             return pluginCopy;
-        }
-
-        /// <summary>
-        /// Checks a value, to ensure it is between min/max Value
-        /// </summary>
-        /// <param name="value">Value to check</param>
-        /// <param name="minValue">Min value allowed</param>
-        /// <param name="maxValue">Max value allowed</param>
-        /// <returns></returns>
-        private ushort GetMinMaxValue(in ushort value, in ushort minValue, in ushort maxValue)
-        {
-            if (value < minValue)
-                return minValue;
-            else if (value > maxValue)
-                return maxValue;
-
-            return value;
         }
 
         /// <summary>

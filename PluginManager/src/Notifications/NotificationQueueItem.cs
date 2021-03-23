@@ -48,11 +48,11 @@ namespace PluginManager.Internal
 
         #region Properties
 
-        internal string EventId { get; private set; }
+        internal string EventId { get; }
 
-        internal object Param1 { get; private set; }
+        internal object Param1 { get; }
 
-        internal object Param2 { get; private set; }
+        internal object Param2 { get; }
 
         #endregion Properties
     }
