@@ -48,6 +48,12 @@ namespace PluginManager.Tests.Mocks
 
         }
 
+        internal TestPluginManager(in PluginManagerConfiguration configuration, in PluginSettings pluginSettings)
+            : base(configuration, pluginSettings)
+        {
+
+        }
+
         internal IServiceProvider GetServiceProvider()
         {
             return base.ServiceProvider;
@@ -58,9 +64,20 @@ namespace PluginManager.Tests.Mocks
             return RootPath;
         }
 
+        internal IServiceConfigurator GetServiceConfigurator()
+        {
+
+            return ServiceConfigurator;
+        }
+
+        internal void TestSetServiceConfigurator(IServiceConfigurator serviceConfigurator)
+        {
+            SetServiceConfigurator(serviceConfigurator);
+        }
+
         protected override bool CanExtractResource(in string resourceName)
         {
-            return false;
+            return TestCanExtractResources;
         }
 
         protected override void ModifyPluginResourceName(ref string resourceName)
@@ -107,5 +124,17 @@ namespace PluginManager.Tests.Mocks
         {
             base.SetServiceConfigurator(serviceConfigurator as IServiceConfigurator);
         }
+
+        internal void TestDispose(bool disposing)
+        {
+            Dispose(disposing);
+        }
+
+        internal bool TestAddPluginModule(in string assemblyName, IPluginModule pluginModule)
+        {
+            return base.AddPluginModule(assemblyName, pluginModule);
+        }
+
+        internal bool TestCanExtractResources { get; set; }
     }
 }

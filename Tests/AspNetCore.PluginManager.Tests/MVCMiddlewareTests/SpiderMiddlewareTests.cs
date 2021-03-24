@@ -39,6 +39,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using PluginManager.Abstractions;
+using PluginManager.Tests.Mocks;
 
 using SharedPluginFeatures;
 
@@ -51,7 +52,7 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
 {
     [TestClass]
     [ExcludeFromCodeCoverage]
-    public class SpiderMiddlewareTests : TestBasePlugin
+    public class SpiderMiddlewareTests : BaseMiddlewareTests
     {
         [TestInitialize]
         public void InitializeTest()
@@ -60,6 +61,7 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
         }
 
         [TestMethod]
+        [TestCategory(TestCategoryMiddleware)]
         public void SpiderMiddleware_Construct_Success()
         {
             SpiderMiddleware sut = CreateSpiderMiddlewareInstance();
@@ -67,6 +69,7 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
         }
 
         [TestMethod]
+        [TestCategory(TestCategoryMiddleware)]
         [ExpectedException(typeof(ArgumentNullException))]
         public void Create_Invalid_RouteDataServices_ThrowsArgumentNullException()
         {
@@ -86,6 +89,7 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
         }
 
         [TestMethod]
+        [TestCategory(TestCategoryMiddleware)]
         [ExpectedException(typeof(ArgumentNullException))]
         public void Create_Invalid_IRobots_ThrowsArgumentNullException()
         {
@@ -103,6 +107,7 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
         }
 
         [TestMethod]
+        [TestCategory(TestCategoryMiddleware)]
         [ExpectedException(typeof(ArgumentNullException))]
         public void Create_Invalid_ISettingsProvider_ThrowsArgumentNullException()
         {
@@ -120,6 +125,7 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
         }
 
         [TestMethod]
+        [TestCategory(TestCategoryMiddleware)]
         [ExpectedException(typeof(ArgumentNullException))]
         public void Create_Invalid_ILogger_ThrowsArgumentNullException()
         {
@@ -137,6 +143,7 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
         }
 
         [TestMethod]
+        [TestCategory(TestCategoryMiddleware)]
         [ExpectedException(typeof(ArgumentNullException))]
         public void Create_Invalid_INotificationService_ThrowsArgumentNullException()
         {
@@ -154,6 +161,7 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
         }
 
         [TestMethod]
+        [TestCategory(TestCategoryMiddleware)]
         [ExpectedException(typeof(ArgumentNullException))]
         public async Task Call_Invoke_InvalidContext_Success()
         {
@@ -164,6 +172,7 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
         }
 
         [TestMethod]
+        [TestCategory(TestCategoryMiddleware)]
         public async Task Call_Invoke_ValidContext_Success()
         {
             SpiderMiddleware sut = CreateSpiderMiddlewareInstance();
@@ -179,6 +188,7 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
         }
 
         [TestMethod]
+        [TestCategory(TestCategoryMiddleware)]
         public async Task Call_Invoke_ValidContext_RobotsRoute_Success()
         {
             TestNotificationService testNotificationService = new TestNotificationService(new List<object>() { "/sitemap.xml" });
@@ -201,6 +211,7 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
         }
 
         [TestMethod]
+        [TestCategory(TestCategoryMiddleware)]
         public async Task Call_Invoke_ValidContext_RobotsRoute_NoSitemap_Success()
         {
             SpiderMiddleware sut = CreateSpiderMiddlewareInstance(null, true);
@@ -220,6 +231,7 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
         }
 
         [TestMethod]
+        [TestCategory(TestCategoryMiddleware)]
         public async Task Call_Invoke_ValidContext_DenyLogin_Success()
         {
             SpiderMiddleware sut = CreateSpiderMiddlewareInstance(null, true);
@@ -241,6 +253,7 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
         }
 
         [TestMethod]
+        [TestCategory(TestCategoryMiddleware)]
         public async Task BotTrap_AddToAllAgents_Success()
         {
             SpiderMiddleware sut = CreateSpiderMiddlewareInstance(null, true);
@@ -261,6 +274,7 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
         }
 
         [TestMethod]
+        [TestCategory(TestCategoryMiddleware)]
         public async Task BotTrap_CallRoute_IBotTrap_NotRegistered_Returns_403()
         {
             SpiderMiddleware sut = CreateSpiderMiddlewareInstance(null, true);
@@ -274,6 +288,7 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
         }
 
         [TestMethod]
+        [TestCategory(TestCategoryMiddleware)]
         public async Task BotTrap_CallRoute_IBotTrap_Registered_Returns405()
         {
             SpiderMiddleware sut = CreateSpiderMiddlewareInstance(null, true);
@@ -297,6 +312,7 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
         }
 
         [TestMethod]
+        [TestCategory(TestCategoryMiddleware)]
         public async Task BotTrap_CallRoute_IBotTrap_Registered_ThrowsException_Returns405()
         {
             TestLogger testLogger = new TestLogger();
@@ -316,6 +332,7 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
         }
 
         [TestMethod]
+        [TestCategory(TestCategoryMiddleware)]
         [ExpectedException(typeof(ArgumentNullException))]
         public void Construct_Robot_InvalidActionDescriptor_Throws_ArgumentNullException()
         {
@@ -325,6 +342,7 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
         }
 
         [TestMethod]
+        [TestCategory(TestCategoryMiddleware)]
         [ExpectedException(typeof(ArgumentNullException))]
         public void Construct_Robot_InvalidRouteDataServices_Throws_ArgumentNullException()
         {
@@ -366,6 +384,7 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
         }
 
         [TestMethod]
+        [TestCategory(TestCategoryMiddleware)]
         [ExpectedException(typeof(ArgumentNullException))]
         public void Construct_Robot_InvalidSaveData_Throws_ArgumentNullException()
         {
@@ -407,6 +426,7 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
         }
 
         [TestMethod]
+        [TestCategory(TestCategoryMiddleware)]
         [ExpectedException(typeof(ArgumentNullException))]
         public void Construct_Robot_InvalidPluginTypesService_Throws_ArgumentNullException()
         {
@@ -446,6 +466,7 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
         }
 
         [TestMethod]
+        [TestCategory(TestCategoryMiddleware)]
         public void Construct_Robot_Success()
         {
             var sut = CreateRobotsInstance();
@@ -453,6 +474,7 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
         }
 
         [TestMethod]
+        [TestCategory(TestCategoryMiddleware)]
         public void Robots_Retrieve_Agents()
         {
             var sut = CreateRobotsInstance();
@@ -468,6 +490,7 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
         }
 
         [TestMethod]
+        [TestCategory(TestCategoryMiddleware)]
         public void Robots_Retrieve_GetRoutes_AllAgents()
         {
             var sut = CreateRobotsInstance();
@@ -478,6 +501,7 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
         }
 
         [TestMethod]
+        [TestCategory(TestCategoryMiddleware)]
         public void Robots_Retrieve_DeniedRoutes()
         {
             var sut = CreateRobotsInstance();
@@ -489,6 +513,7 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
         }
 
         [TestMethod]
+        [TestCategory(TestCategoryMiddleware)]
         public void Robots_EnsureRouteStartsWithSingleSlash_Success()
         {
             var sut = CreateRobotsInstance();
@@ -501,6 +526,7 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
         }
 
         [TestMethod]
+        [TestCategory(TestCategoryMiddleware)]
         public void Robots_AddRemoveCustomAgent_Success()
         {
             var sut = CreateRobotsInstance();
@@ -516,6 +542,7 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
         }
 
         [TestMethod]
+        [TestCategory(TestCategoryMiddleware)]
         public void Robots_SaveAndReloadCustomData()
         {
             string rootPath = Path.GetTempPath();
@@ -547,6 +574,7 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
         }
 
         [TestMethod]
+        [TestCategory(TestCategoryMiddleware)]
         [ExpectedException(typeof(ArgumentNullException))]
         public void Robots_AddAllowedRoute_NullAgent_Throws_ArgumentNullException()
         {
@@ -555,6 +583,7 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
         }
 
         [TestMethod]
+        [TestCategory(TestCategoryMiddleware)]
         [ExpectedException(typeof(ArgumentNullException))]
         public void Robots_AddAllowedRoute_EmptyAgent_Throws_ArgumentNullException()
         {
@@ -563,6 +592,7 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
         }
 
         [TestMethod]
+        [TestCategory(TestCategoryMiddleware)]
         [ExpectedException(typeof(ArgumentException))]
         public void Robots_AddAllowedRoute_AgnetNotRegistered_Throws_ArgumentException()
         {
@@ -571,6 +601,7 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
         }
 
         [TestMethod]
+        [TestCategory(TestCategoryMiddleware)]
         [ExpectedException(typeof(ArgumentNullException))]
         public void Robots_AddAllowedRoute_NullRoute_Throws_ArgumentNullException()
         {
@@ -579,6 +610,7 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
         }
 
         [TestMethod]
+        [TestCategory(TestCategoryMiddleware)]
         [ExpectedException(typeof(ArgumentNullException))]
         public void Robots_AddAllowedRoute_EmptyRoute_Throws_ArgumentNullException()
         {
@@ -587,6 +619,7 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
         }
 
         [TestMethod]
+        [TestCategory(TestCategoryMiddleware)]
         [ExpectedException(typeof(ArgumentNullException))]
         public void Robots_AddDeniedRoute_NullAgent_Throws_ArgumentNullException()
         {
@@ -595,6 +628,7 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
         }
 
         [TestMethod]
+        [TestCategory(TestCategoryMiddleware)]
         [ExpectedException(typeof(ArgumentNullException))]
         public void Robots_AddDeniedRoute_EmptyAgent_Throws_ArgumentNullException()
         {
@@ -603,6 +637,7 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
         }
 
         [TestMethod]
+        [TestCategory(TestCategoryMiddleware)]
         [ExpectedException(typeof(ArgumentException))]
         public void Robots_AddDeniedRoute_AgnetNotRegistered_Throws_ArgumentException()
         {
@@ -611,6 +646,7 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
         }
 
         [TestMethod]
+        [TestCategory(TestCategoryMiddleware)]
         [ExpectedException(typeof(ArgumentNullException))]
         public void Robots_AddDeniedRoute_NullRoute_Throws_ArgumentNullException()
         {
@@ -619,6 +655,7 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
         }
 
         [TestMethod]
+        [TestCategory(TestCategoryMiddleware)]
         [ExpectedException(typeof(ArgumentNullException))]
         public void Robots_AddDeniedRoute_EmptyRoute_Throws_ArgumentNullException()
         {
@@ -627,6 +664,7 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
         }
 
         [TestMethod]
+        [TestCategory(TestCategoryMiddleware)]
         public void Robots_AddAllowedRoute_Returns_True()
         {
             var sut = CreateRobotsInstance();
@@ -641,6 +679,7 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
         }
 
         [TestMethod]
+        [TestCategory(TestCategoryMiddleware)]
         public void Robots_AddDuplicateAllowedRoute_Returns_False()
         {
             var sut = CreateRobotsInstance();
@@ -658,6 +697,7 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
         }
 
         [TestMethod]
+        [TestCategory(TestCategoryMiddleware)]
         public void Robots_RemoveExistingCustomRoute_Returns_True()
         {
             var sut = CreateRobotsInstance();
@@ -675,6 +715,7 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
         }
 
         [TestMethod]
+        [TestCategory(TestCategoryMiddleware)]
         public void Robots_RemoveNonExistingCustomRoute_Returns_False()
         {
             var sut = CreateRobotsInstance();
@@ -689,6 +730,7 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
         }
 
         [TestMethod]
+        [TestCategory(TestCategoryMiddleware)]
         public void Robots_AddDeniedRoute_Returns_True()
         {
             var sut = CreateRobotsInstance();
@@ -703,6 +745,7 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
         }
 
         [TestMethod]
+        [TestCategory(TestCategoryMiddleware)]
         public void Robots_AddDuplicateDeniedRoute_Returns_False()
         {
             var sut = CreateRobotsInstance();
@@ -720,6 +763,7 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
         }
 
         [TestMethod]
+        [TestCategory(TestCategoryMiddleware)]
         [ExpectedException(typeof(ArgumentNullException))]
         public void Construct_RobotRouteData_InvalidAgent_Null_Throws_ArgumentNullException()
         {
@@ -727,6 +771,7 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
         }
 
         [TestMethod]
+        [TestCategory(TestCategoryMiddleware)]
         [ExpectedException(typeof(ArgumentNullException))]
         public void Construct_RobotRouteData_InvalidRoute_Null_Throws_ArgumentNullException()
         {
@@ -734,6 +779,7 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
         }
 
         [TestMethod]
+        [TestCategory(TestCategoryMiddleware)]
         [ExpectedException(typeof(ArgumentException))]
         public void Construct_RobotRouteData_InvalidRoute_ValidUri_Throws_ArgumentException()
         {
@@ -741,6 +787,7 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
         }
 
         [TestMethod]
+        [TestCategory(TestCategoryMiddleware)]
         public void Construct_RobotRouteData_Valid_StoresValues()
         {
             RobotRouteData sut = new RobotRouteData("testAgent", "comment", "/route", true, true);
@@ -749,6 +796,7 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
         }
 
         [TestMethod]
+        [TestCategory(TestCategoryMiddleware)]
         public void Construct_RobotRouteData_Valid_StoresValues_CaseSensitive()
         {
             RobotRouteData sut = new RobotRouteData("testAgent", null, "/route", true, true);
@@ -757,6 +805,7 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
         }
 
         [TestMethod]
+        [TestCategory(TestCategoryMiddleware)]
         public async Task Call_Invoke_ValidContext_FindCustomDeniedRoute_Success()
         {
             var robot = CreateRobotsInstance();
@@ -786,6 +835,7 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
         }
 
         [TestMethod]
+        [TestCategory(TestCategoryMiddleware)]
         public async Task AddCustomAgent_NoRoutes_NotFoundInRobots_txt_Success()
         {
             var robot = CreateRobotsInstance();
@@ -809,6 +859,7 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
         }
 
         [TestMethod]
+        [TestCategory(TestCategoryMiddleware)]
         public async Task Call_Invoke_ValidContext_FindCustomAllowedRoute_Success()
         {
             var robot = CreateRobotsInstance();
@@ -886,6 +937,7 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
             IPluginTypesService pluginTypesServices = new pm.PluginServices(_testPluginSpider) as IPluginTypesService;
 
             ActionDescriptorCollection actionDescriptorCollection = null;
+
             if (createDescriptors)
             {
                 var descriptors = new List<ActionDescriptor>()

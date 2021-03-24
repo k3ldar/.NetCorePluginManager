@@ -33,7 +33,8 @@ using PluginManager.Abstractions;
 
 using SharedPluginFeatures;
 
-using Constants = SharedPluginFeatures.Constants;
+using static SharedPluginFeatures.Constants;
+
 using pm = PluginManager.Internal;
 using sl = Shared.Classes;
 
@@ -57,6 +58,10 @@ namespace AspNetCore.PluginManager.Tests
         protected static TestPluginManager _testPluginSpider = new TestPluginManager();
         protected static bool? _pluginLoadedSpider = null;
         protected static IPluginClassesService _pluginServicesSpider;
+
+        protected static TestPluginManager _testPluginSubdomain = new TestPluginManager();
+        protected static bool? _pluginLoadedSubdomain = null;
+        protected static IPluginClassesService _pluginServicesSubdomain;
 
         protected static TestPluginManager _testPluginDocs = new TestPluginManager();
         protected static bool? _pluginLoadedDocs = null;
@@ -97,7 +102,7 @@ namespace AspNetCore.PluginManager.Tests
                 TimeSpan docLoadTime = new TimeSpan(0, 0, 30);
                 DateTime startLoadDocs = DateTime.Now;
 
-                while (sl.ThreadManager.Exists(SharedPluginFeatures.Constants.DocumentationLoadThread))
+                while (sl.ThreadManager.Exists(DocumentationLoadThread))
                 {
                     System.Threading.Thread.Sleep(100);
 
@@ -259,6 +264,44 @@ namespace AspNetCore.PluginManager.Tests
 
             Assert.IsNotNull(_pluginServicesSpider);
 
+        }
+
+        protected void InitializeSubdomainManager()
+        {
+            lock (_testPluginSubdomain)
+            {
+                while (_pluginLoadedSubdomain.HasValue && !_pluginLoadedSubdomain.Value)
+                {
+                    System.Threading.Thread.Sleep(30);
+                }
+
+                if (_pluginLoadedSubdomain.HasValue && _pluginLoadedSubdomain.Value)
+                {
+                    return;
+                }
+
+                if (_pluginLoadedSubdomain == null)
+                {
+                    _pluginLoadedSubdomain = false;
+                }
+
+                _testPluginSubdomain.AddAssembly(Assembly.GetExecutingAssembly());
+                _testPluginSubdomain.UsePlugin(typeof(Subdomain.Plugin.PluginInitialisation));
+                _testPluginSubdomain.UsePlugin(typeof(DemoWebsite.Classes.PluginInitialisation));
+                _testPluginSubdomain.UsePlugin(typeof(MemoryCache.Plugin.PluginInitialisation));
+                _testPluginSubdomain.UsePlugin(typeof(LoginPlugin.PluginInitialisation));
+                _testPluginSubdomain.UsePlugin(typeof(Blog.Plugin.PluginInitialisation));
+                _testPluginSubdomain.UsePlugin(typeof(HelpdeskPlugin.PluginInitialisation));
+                _testPluginSubdomain.UsePlugin(typeof(UserAccount.Plugin.PluginInitialisation));
+
+                _testPluginSubdomain.ConfigureServices();
+
+                _pluginServicesSubdomain = new pm.PluginServices(_testPluginSubdomain) as IPluginClassesService;
+
+                _pluginLoadedSubdomain = true;
+            }
+
+            Assert.IsNotNull(_testPluginSubdomain);
         }
     }
 }

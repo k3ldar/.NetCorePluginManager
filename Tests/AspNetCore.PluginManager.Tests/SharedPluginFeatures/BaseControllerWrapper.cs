@@ -30,7 +30,7 @@ using Microsoft.AspNetCore.Mvc;
 
 using SharedPluginFeatures;
 
-namespace AspNetCore.PluginManager.Tests.PluginFeatures
+namespace AspNetCore.PluginManager.Tests.SharedPluginFeatures
 {
     [ExcludeFromCodeCoverage]
     internal class BaseControllerWrapper : BaseController
@@ -62,6 +62,4 @@ namespace AspNetCore.PluginManager.Tests.PluginFeatures
             CalculatePageOffsets(totalItems, page, pageSize, out startItem, out endItem, out availablePages);
         }
     }
-
-
 }

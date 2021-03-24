@@ -26,6 +26,8 @@
 using System;
 using System.Collections.Generic;
 
+#pragma warning disable CA1054, CA1056
+
 namespace SharedPluginFeatures
 {
     /// <summary>
@@ -173,13 +175,14 @@ namespace SharedPluginFeatures
         /// strings are not found the test would be deemed to fail.
         /// </summary>
         /// <value>List&lt;string&gt;</value>
-        public List<string> ResponseData { get; set; }
+        public List<string> ResponseData { get; }
 
         /// <summary>
         /// A list of strings that can be searched for in the response data after a form post. If the 
         /// strings are not found the test would be deemed to fail.
         /// </summary>
-        public List<string> SubmitResponseData { get; set; }
+        /// <value>List&lt;string&gt;</value>
+        public List<string> SubmitResponseData { get; }
 
         /// <summary>
         /// The id of the form that will be tested
@@ -217,3 +220,5 @@ namespace SharedPluginFeatures
         #endregion Properties
     }
 }
+
+#pragma warning restore CA1054, CA1056

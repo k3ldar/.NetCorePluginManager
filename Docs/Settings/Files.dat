@@ -34,3 +34,4 @@ PluginManager.xml
 Minification.xml
 SearchPlugin.xml
 WebSmokeTest.Plugin.xml
+Subdomain.Plugin.xml

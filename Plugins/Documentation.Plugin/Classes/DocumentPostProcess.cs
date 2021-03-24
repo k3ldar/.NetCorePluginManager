@@ -643,7 +643,9 @@ namespace DocumentationPlugin.Classes
                     xRefDoc.SeeAlso.Add(document.ClassName,
                         $"<a href=\"/docs/Document/{HtmlHelper.RouteFriendlyName(document.AssemblyName)}/" +
                         $"{HtmlHelper.RouteFriendlyName(document.ClassName)}/\">{document.ClassName}</a>");
-
+                    document.SeeAlso.Add(xRefDoc.ClassName,
+                        $"<a href=\"/docs/Document/{HtmlHelper.RouteFriendlyName(xRefDoc.AssemblyName)}/" +
+                        $"{HtmlHelper.RouteFriendlyName(xRefDoc.ClassName)}/\">{xRefDoc.ClassName}</a>");
                 }
 
                 if (!linkDocument.SeeAlso.ContainsKey(xRefDoc.ClassName))

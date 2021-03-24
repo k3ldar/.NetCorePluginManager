@@ -36,6 +36,10 @@ namespace PluginManager.Tests.Mocks
     {
         #region Private Methods
 
+        private string _data;
+        private LogLevel _logLevel;
+        private Exception _exception;
+        private readonly List<string> _messages = new List<string>();
         private readonly List<TestLoggerItem> _errors;
         private readonly List<TestLoggerItem> _logs;
 
@@ -71,35 +75,60 @@ namespace PluginManager.Tests.Mocks
 
         #endregion Properties
 
+        #region Public Methods
+
+
+        public bool ExceptionLogged(Type exception)
+        {
+            return exception.Equals(_exception.GetType());
+        }
+
+        public bool ContainsMessage(string message)
+        {
+            return _messages.Contains(message);
+        }
+
+        #endregion Public Methods
+
         #region ILogger Methods
 
         public void AddToLog(in LogLevel logLevel, in string data)
         {
+            _messages.Add($"{logLevel} {data}");
             AddToLog(logLevel, String.Empty, data);
         }
 
         public void AddToLog(in LogLevel logLevel, in Exception exception)
         {
+            _messages.Add($"{logLevel} {exception.Message}");
             AddToLog(logLevel, String.Empty, exception, String.Empty);
         }
 
         public void AddToLog(in LogLevel logLevel, in Exception exception, string data)
         {
+            _messages.Add($"{logLevel} {exception.Message} {data}");
+
+            _logLevel = logLevel;
+            _exception = exception;
+            _data = data;
             AddToLog(logLevel, String.Empty, exception, data);
         }
 
         public void AddToLog(in LogLevel logLevel, in string module, in string data)
         {
+            _messages.Add($"{logLevel} {module} {data}");
             _logs.Add(new TestLoggerItem(logLevel, module, data));
         }
 
         public void AddToLog(in LogLevel logLevel, in string module, in Exception exception)
         {
+            _messages.Add($"{logLevel} {module} {exception.Message}");
             AddToLog(logLevel, module, exception, String.Empty);
         }
 
         public void AddToLog(in LogLevel logLevel, in string module, in Exception exception, string data)
         {
+            _messages.Add($"{logLevel} {module} {exception.Message} {data}");
             _errors.Add(new TestLoggerItem(logLevel, module, exception, data));
         }
 

@@ -114,7 +114,7 @@ namespace UserSessionMiddleware.Plugin
             if (context == null)
                 throw new ArgumentNullException(nameof(context));
 
-            string fileExtension = base.RouteFileExtension(context);
+            string fileExtension = RouteFileExtension(context);
 
             // if it's a static file, don't add user session data to the context
             if (!String.IsNullOrEmpty(fileExtension) &&

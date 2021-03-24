@@ -64,7 +64,7 @@ namespace ProductPlugin
 #endif
 
 
-#if !NET_CORE_3_X
+#if !NET_CORE_3_X &&  !NET_CORE_5_X
             app.UseMvc(routes =>
             {
                 routes.MapRoute(

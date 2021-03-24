@@ -47,9 +47,12 @@ using ShoppingCartPlugin.Models;
 namespace ShoppingCartPlugin.Controllers
 {
     [DenySpider]
+    [Subdomain(CartController.Name)]
     public partial class CartController : BaseController
     {
         #region Private Members
+
+        private const string Name = "Cart";
 
         private readonly IShoppingCartProvider _shoppingCartProvider;
         private readonly IAccountProvider _accountProvider;

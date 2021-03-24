@@ -25,6 +25,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Text;
 
 using Microsoft.AspNetCore.Authentication;
@@ -35,7 +36,7 @@ using Shared.Classes;
 
 using static Shared.Utilities;
 
-#pragma warning disable CS1591
+#pragma warning disable CS1591, CA1822
 
 namespace SharedPluginFeatures
 {
@@ -203,7 +204,7 @@ namespace SharedPluginFeatures
         protected decimal GetDefaultTaxRate()
         {
             if (HttpContext.Items.ContainsKey(Constants.DefaultTaxRate))
-                return Convert.ToDecimal(HttpContext.Items[Constants.DefaultTaxRate]);
+                return Convert.ToDecimal(HttpContext.Items[Constants.DefaultTaxRate], CultureInfo.CurrentCulture);
 
             return 0;
         }
@@ -364,9 +365,9 @@ namespace SharedPluginFeatures
             }
 
             if (currentPage == 1 || pageCount == 1)
-                Result.Append(String.Format(Constants.PaginationPrevDisabled, previous));
+                Result.Append(String.Format(CultureInfo.CurrentCulture, Constants.PaginationPrevDisabled, previous));
             else
-                Result.Append(String.Format(Constants.PaginationPrevEnabled,
+                Result.Append(String.Format(CultureInfo.CurrentCulture, Constants.PaginationPrevEnabled,
                     page, currentPage - 1, paginationParameters, previous));
 
             //can only allow max of 7 items normal page and 5 for mobile
@@ -407,17 +408,17 @@ namespace SharedPluginFeatures
             for (int i = startFrom; i <= endAt; i++)
             {
                 if (i == currentPage)
-                    Result.Append(String.Format(Constants.PaginationPageActive,
+                    Result.Append(String.Format(CultureInfo.CurrentCulture, Constants.PaginationPageActive,
                         page, i, paginationParameters));
                 else
-                    Result.Append(String.Format(Constants.PaginationPage,
+                    Result.Append(String.Format(CultureInfo.CurrentCulture, Constants.PaginationPage,
                         page, i, paginationParameters));
             }
 
             if (currentPage >= pageCount)
-                Result.Append(String.Format(Constants.PaginationNextDisabled, next));
+                Result.Append(String.Format(CultureInfo.CurrentCulture, Constants.PaginationNextDisabled, next));
             else
-                Result.Append(String.Format(Constants.PaginationNext,
+                Result.Append(String.Format(CultureInfo.CurrentCulture, Constants.PaginationNext,
                     page, currentPage + 1, paginationParameters, next));
 
             Result.Append(Constants.PaginationEnd);
@@ -593,6 +594,7 @@ namespace SharedPluginFeatures
 
             return $"~/{controller}/{viewName}.cshtml";
         }
+
         #endregion Views
 
         #region Authentication
@@ -612,4 +614,4 @@ namespace SharedPluginFeatures
     }
 }
 
-#pragma warning restore CS1591
+#pragma warning restore CS1591, CA1822

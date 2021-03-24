@@ -40,6 +40,7 @@ using SearchPlugin.Models;
 
 using SharedPluginFeatures;
 
+#pragma warning disable IDE0079
 #pragma warning disable CS1591
 
 namespace SearchPlugin.Controllers
@@ -48,6 +49,7 @@ namespace SearchPlugin.Controllers
     /// Search controller, allows users to search using a standard interface implemented by ISearchProvider interface.
     /// </summary>
     [DenySpider]
+    [Subdomain(SearchController.Name)]
     public class SearchController : BaseController
     {
         #region Private Members
@@ -253,7 +255,7 @@ namespace SearchPlugin.Controllers
                 if (String.IsNullOrEmpty(paginationText))
                 {
                     Result.Pagination = BuildPagination(results.Count, _settings.ItemsPerPage, Result.Page,
-                        $"/Search/Result/{model.RouteText(Result.SearchText)}/", "",
+                        $"/Search/Result/{Result.RouteText(Result.SearchText)}/", "",
                         LanguageStrings.Previous, LanguageStrings.Next);
                 }
                 else
@@ -277,3 +279,4 @@ namespace SearchPlugin.Controllers
 }
 
 #pragma warning restore CS1591
+#pragma warning restore IDE0079

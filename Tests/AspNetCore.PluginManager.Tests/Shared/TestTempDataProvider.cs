@@ -15,64 +15,47 @@
  *
  *  Product:  AspNetCore.PluginManager.Tests
  *  
- *  File: TestLogger.cs
+ *  File: TestActionDescriptorCollectionProvider.cs
  *
- *  Purpose:  Mock ILogger class
+ *  Purpose:  Mock IActionDescriptorCollectionProvider class
  *
  *  Date        Name                Reason
- *  12/10/2020  Simon Carter        Initially Created
+ *  21/02/2021  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-using PluginManager;
-using PluginManager.Abstractions;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 
-namespace AspNetCore.PluginManager.Tests.Shared
+namespace AspNetCore.PluginManager.Tests
 {
     [ExcludeFromCodeCoverage]
-    public class TestLogger : ILogger
+    public class TestTempDataProvider : ITempDataProvider
     {
-        private string _data;
-        private LogLevel _logLevel;
-        private Exception _exception;
+        private readonly Dictionary<string, object> _tempData;
 
-        public void AddToLog(in LogLevel logLevel, in String data)
+        public TestTempDataProvider()
         {
-
+            _tempData = new Dictionary<string, object>();
         }
 
-        public void AddToLog(in LogLevel logLevel, in Exception exception)
+        public IDictionary<string, object> LoadTempData(HttpContext context)
         {
-
+            return _tempData;
         }
 
-        public void AddToLog(in LogLevel logLevel, in Exception exception, String data)
+        public void SaveTempData(HttpContext context, IDictionary<string, object> values)
         {
-            _logLevel = logLevel;
-            _exception = exception;
-            _data = data;
-        }
-
-        public void AddToLog(in LogLevel logLevel, in String moduleName, in String data)
-        {
-
-        }
-
-        public void AddToLog(in LogLevel logLevel, in String moduleName, in Exception exception)
-        {
-
-        }
-
-        public void AddToLog(in LogLevel logLevel, in String moduleName, in Exception exception, String data)
-        {
-
-        }
-
-        public bool ExceptionLogged(Type exception)
-        {
-            return exception.Equals(_exception.GetType());
+            foreach (var item in values)
+            {
+                _tempData.Add(item.Key, item.Value);
+            }
         }
     }
 }

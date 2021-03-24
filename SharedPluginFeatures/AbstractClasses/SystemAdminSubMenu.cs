@@ -145,7 +145,7 @@ namespace SharedPluginFeatures
             int Result = SortOrder().CompareTo(compareTo.SortOrder());
 
             if (Result == 0)
-                return Name().CompareTo(compareTo.Name());
+                return String.Compare(Name(), compareTo.Name(), StringComparison.InvariantCultureIgnoreCase);
 
             return Result;
         }

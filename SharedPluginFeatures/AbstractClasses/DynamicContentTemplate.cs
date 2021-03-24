@@ -27,6 +27,8 @@
 using System;
 using System.Text;
 
+#pragma warning disable CA1305, CA1307
+
 namespace SharedPluginFeatures.DynamicContent
 {
     /// <summary>
@@ -275,3 +277,5 @@ namespace SharedPluginFeatures.DynamicContent
         #endregion Private Methods
     }
 }
+
+#pragma warning restore CA1305, CA1307

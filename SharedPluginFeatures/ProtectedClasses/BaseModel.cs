@@ -27,6 +27,8 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
+#pragma warning disable CA2227, CA1822
+
 namespace SharedPluginFeatures
 {
     /// <summary>
@@ -191,3 +193,5 @@ namespace SharedPluginFeatures
         #endregion Public Methods
     }
 }
+
+#pragma warning restore CA2227, CA1822

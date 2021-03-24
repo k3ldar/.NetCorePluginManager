@@ -43,6 +43,7 @@ namespace AspNetCore.PluginManager.DemoWebsite
             PluginManagerService.UsePlugin(typeof(UserSessionMiddleware.Plugin.PluginInitialisation));
             PluginManagerService.UsePlugin(typeof(CacheControl.Plugin.PluginInitialisation));
             PluginManagerService.UsePlugin(typeof(MemoryCache.Plugin.PluginInitialisation));
+            PluginManagerService.UsePlugin(typeof(Subdomain.Plugin.PluginInitialisation));
             PluginManagerService.UsePlugin(typeof(Spider.Plugin.PluginInitialisation));
             PluginManagerService.UsePlugin(typeof(SeoPlugin.PluginInitialisation));
             PluginManagerService.UsePlugin(typeof(Localization.Plugin.PluginInitialisation));

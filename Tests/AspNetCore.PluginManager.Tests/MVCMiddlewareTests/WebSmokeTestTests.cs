@@ -55,7 +55,7 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
 {
     [TestClass]
     [ExcludeFromCodeCoverage]
-    public class WebSmokeTestTests : TestBasePlugin
+    public class WebSmokeTestTests : BaseMiddlewareTests
     {
         private string EncryptionKey;
 
@@ -69,6 +69,7 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
         }
 
         [TestMethod]
+        [TestCategory(TestCategoryMiddleware)]
         public void LoadSmokeTests()
         {
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
@@ -88,6 +89,7 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
         }
 
         [TestMethod]
+        [TestCategory(TestCategoryMiddleware)]
         public void LoadSmokeTests_ClearCache_LoadFromFile()
         {
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
@@ -108,6 +110,7 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
         }
 
         [TestMethod]
+        [TestCategory(TestCategoryMiddleware)]
         public async Task RetrieveUniqueId_InvalidRequest_SiteId_Returns404()
         {
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
@@ -137,6 +140,7 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
         }
 
         [TestMethod]
+        [TestCategory(TestCategoryMiddleware)]
         public async Task RetrieveUniqueId_ValidRequest_SiteId_Returns200()
         {
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
@@ -174,6 +178,7 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
         }
 
         [TestMethod]
+        [TestCategory(TestCategoryMiddleware)]
         public async Task RetrieveUniqueId_ValidRequest_SiteId_Disabled_Returns200()
         {
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
@@ -212,6 +217,7 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
         }
 
         [TestMethod]
+        [TestCategory(TestCategoryMiddleware)]
         public async Task RetrieveUniqueId_ValidRequest_Count_Disabled_Returns200()
         {
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
@@ -250,6 +256,7 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
         }
 
         [TestMethod]
+        [TestCategory(TestCategoryMiddleware)]
         public async Task RetrieveUniqueId_ValidRequest_Count_Enabled_Returns200()
         {
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
@@ -290,6 +297,7 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
         }
 
         [TestMethod]
+        [TestCategory(TestCategoryMiddleware)]
         public async Task RetrieveUniqueId_ValidRequest_RetrieveTest_Disabled_Returns200()
         {
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
@@ -328,6 +336,7 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
         }
 
         [TestMethod]
+        [TestCategory(TestCategoryMiddleware)]
         public async Task RetrieveUniqueId_ValidRequest_RetrieveTest_Enabled_Returns200()
         {
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
@@ -367,6 +376,7 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
         }
 
         [TestMethod]
+        [TestCategory(TestCategoryMiddleware)]
         public async Task RetrieveUniqueId_ValidRequest_RetrieveTest_Enabled_InvalidTestId_Returns400()
         {
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
@@ -405,6 +415,7 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
         }
 
         [TestMethod]
+        [TestCategory(TestCategoryMiddleware)]
         public async Task Validate_TestStartCalled_ISmokeTestProviderNotRegistered_Returns_EmptyString()
         {
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
@@ -444,6 +455,7 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
         }
 
         [TestMethod]
+        [TestCategory(TestCategoryMiddleware)]
         public async Task Validate_TestStartCalled_ISmokeTestProviderRegistered_Returns_NvpCodecValues()
         {
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
@@ -496,6 +508,7 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
         }
 
         [TestMethod]
+        [TestCategory(TestCategoryMiddleware)]
         public async Task Validate_TestStartCalled_ISmokeTestProviderRegistered_Returns_NullNvpCodecValues()
         {
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
@@ -543,6 +556,7 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
         }
 
         [TestMethod]
+        [TestCategory(TestCategoryMiddleware)]
         public async Task Validate_TestEndCalled_ISmokeTestProviderNotRegistered_Void()
         {
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
@@ -576,6 +590,7 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
         }
 
         [TestMethod]
+        [TestCategory(TestCategoryMiddleware)]
         public async Task Validate_TestEndCalled_ISmokeTestProviderRegistered_Void()
         {
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
@@ -620,6 +635,7 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
         }
 
         [SmokeTest]
+        [TestCategory(TestCategoryMiddleware)]
         public string LoadTestData_InvalidReturnType_String()
         {
             return String.Empty;
