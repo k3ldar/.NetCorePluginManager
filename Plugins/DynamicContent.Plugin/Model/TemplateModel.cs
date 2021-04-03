@@ -51,11 +51,11 @@ namespace DynamicContent.Plugin.Model
 
         #region Properties
 
-        public string TemplateId { get; private set; }
+        public string TemplateId { get; }
 
-        public string TemplateName { get; private set; }
+        public string TemplateName { get; }
 
-        public string TemplateImage { get; private set; }
+        public string TemplateImage { get; }
 
         #endregion Properties
     }

@@ -50,23 +50,23 @@ namespace DynamicContent.Plugin.Model
             if (String.IsNullOrEmpty(cacheId))
                 throw new ArgumentNullException(nameof(cacheId));
 
+            DynamicContents = dynamicContents ?? throw new ArgumentNullException(nameof(dynamicContents));
             CacheId = cacheId;
             Id = id;
             Name = name;
-            DynamicContents = dynamicContents ?? throw new ArgumentNullException(nameof(dynamicContents));
         }
 
         #endregion Constructors
 
         #region Properties
 
-        public string CacheId { get; private set; }
+        public string CacheId { get; }
 
-        public int Id { get; private set; }
+        public int Id { get; }
 
-        public string Name { get; private set; }
+        public string Name { get; }
 
-        public List<DynamicContentTemplate> DynamicContents { get; private set; }
+        public List<DynamicContentTemplate> DynamicContents { get; }
 
         #endregion Properties
     }

@@ -39,7 +39,7 @@ namespace DynamicContent.Plugin.Model
 
         #region Properties
 
-        public string Content { get; private set; }
+        public string Content { get; }
 
         #endregion Properties
     }

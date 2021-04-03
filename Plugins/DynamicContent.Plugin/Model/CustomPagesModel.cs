@@ -59,7 +59,7 @@ namespace DynamicContent.Plugin.Model
         /// <summary>
         /// List of custom pages
         /// </summary>
-        public List<NameIdModel> CustomPages { get; private set; }
+        public List<NameIdModel> CustomPages { get; }
 
         #endregion Properties
     }

@@ -83,7 +83,7 @@ namespace DynamicContent.Plugin.Templates
 
             HtmlStart(Result);
 
-            Result.Append("&nbsp;");
+            Result.Append("<p>&nbsp;</p>");
 
             HtmlEnd(Result);
 

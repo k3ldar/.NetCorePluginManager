@@ -40,7 +40,7 @@ namespace DynamicContent.Plugin.Model
 
         #region Properties
 
-        public List<TemplateModel> Templates { get; private set; }
+        public List<TemplateModel> Templates { get; }
 
         #endregion Properties
     }

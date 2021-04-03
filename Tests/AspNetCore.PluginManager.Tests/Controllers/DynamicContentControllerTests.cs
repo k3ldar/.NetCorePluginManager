@@ -1736,7 +1736,7 @@ namespace AspNetCore.PluginManager.Tests.Controllers
 
             Assert.IsNotNull(sut);
 
-            Assert.AreEqual(2, sut.Templates.Count);
+            Assert.AreEqual(3, sut.Templates.Count);
         }
 
         [TestMethod]

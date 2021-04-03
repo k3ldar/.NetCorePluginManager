@@ -23,19 +23,22 @@
  *  13/08/2019  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using AspNetCore.PluginManager;
+using System.Diagnostics.CodeAnalysis;
 
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 
 namespace DynamicContent.Plugin
 {
+#if NET_5_X
+    [ExcludeFromCodeCoverage(Justification = "Unable to unit test main")]
+#else
+    [ExcludeFromCodeCoverage]
+#endif
     public class Program
     {
         public static void Main(string[] args)
         {
-            PluginManagerService.Initialise();
-
             CreateWebHostBuilder(args).Build().Run();
         }
 

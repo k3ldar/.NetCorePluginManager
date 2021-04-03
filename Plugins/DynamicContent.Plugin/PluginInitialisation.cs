@@ -52,12 +52,13 @@ namespace DynamicContent.Plugin
 
         public void AfterConfigureServices(in IServiceCollection services)
         {
-#if NET_CORE_3_X || NET_CORE_5_X
+#if NET_CORE_3_X || NET_5_X
             services.AddAuthorization(options =>
             {
                 options.AddPolicy(
                     Constants.PolicyNameContentEditor,
-                    policyBuilder => policyBuilder.RequireClaim(SharedPluginFeatures.Constants.ClaimNameManageContent)
+                    policyBuilder => policyBuilder
+                        .RequireClaim(Constants.ClaimNameManageContent)
                         .RequireClaim(Constants.ClaimNameStaff)
                         .RequireClaim(Constants.ClaimNameUsername)
                         .RequireClaim(Constants.ClaimNameUserId)
@@ -75,7 +76,7 @@ namespace DynamicContent.Plugin
 
         public void BeforeConfigureServices(in IServiceCollection services)
         {
-
+            
         }
 
         public void Configure(in IApplicationBuilder app)
@@ -86,11 +87,6 @@ namespace DynamicContent.Plugin
         #endregion IInitialiseEvents Methods
 
         #region IPlugin Methods
-
-        public void Configure(IApplicationBuilder app)
-        {
-
-        }
 
         public void ConfigureServices(IServiceCollection services)
         {

@@ -35,12 +35,17 @@ namespace DynamicContent.Plugin.Templates
 {
     public class HtmlTextTemplate : DynamicContentTemplate
     {
-        #region Private Members
+        #region Constructors
 
-        private DynamicContentWidthType _widthType = DynamicContentWidthType.Columns;
-        private int _width = 12;
+        public HtmlTextTemplate()
+        {
+            WidthType = DynamicContentWidthType.Columns;
+            Width = 12;
+            ActiveFrom = DateTime.MinValue;
+            ActiveTo = DateTime.MaxValue;
+        }
 
-        #endregion Private Members
+        #endregion Constructors
 
         #region DynamicContentTemplate Properties
 
@@ -90,31 +95,9 @@ namespace DynamicContent.Plugin.Templates
             }
         }
 
-        public override DynamicContentWidthType WidthType
-        {
-            get
-            {
-                return _widthType;
-            }
+        public override DynamicContentWidthType WidthType { get; set; }
 
-            set
-            {
-                _widthType = value;
-            }
-        }
-
-        public override int Width
-        {
-            get
-            {
-                return _width;
-            }
-
-            set
-            {
-                _width = value;
-            }
-        }
+        public override int Width { get; set; }
 
         public override string Data { get; set; }
 

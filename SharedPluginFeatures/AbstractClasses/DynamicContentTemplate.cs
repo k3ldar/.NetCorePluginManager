@@ -27,7 +27,7 @@
 using System;
 using System.Text;
 
-#pragma warning disable CA1305, CA1307
+#pragma warning disable CA1303, CA1305, CA1307, CA1822
 
 namespace SharedPluginFeatures.DynamicContent
 {
@@ -62,7 +62,6 @@ namespace SharedPluginFeatures.DynamicContent
         /// <value>string</value>
         /// <exception cref="InvalidOperationException">When setting the property with a null or empty unique id</exception>
         /// <exception cref="InvalidOperationException">If the unique id contians characters other than a to Z, dash (-) and 0 to 9</exception>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1303:Do not pass literals as localized parameters", Justification = "Not required to be localized")]
         public string UniqueId
         {
             get
@@ -221,7 +220,7 @@ namespace SharedPluginFeatures.DynamicContent
             {
                 stringBuilder.AppendFormat("<div class=\"col-sm-{0}\"", ColumnCount);
 
-                if (HeightType != DynamicContentHeightType.Automatic)
+                if (HeightType != DynamicContentHeightType.Automatic && Height > 0)
                 {
                     stringBuilder.AppendFormat(" style=\"{0}\"", GetHeight());
                 }
@@ -230,11 +229,11 @@ namespace SharedPluginFeatures.DynamicContent
             }
             else if (WidthType == DynamicContentWidthType.Percentage)
             {
-                stringBuilder.AppendFormat("<div style=\"width:{0}% !important;{1};display:block;\" />", Width, GetHeight());
+                stringBuilder.AppendFormat("<div style=\"width:{0}% !important;{1}display:block;\">", Width, GetHeight());
             }
             else if (WidthType == DynamicContentWidthType.Pixels)
             {
-                stringBuilder.AppendFormat("<div style=\"width:{0}px !important;{1};display:block;\" />", Width, GetHeight());
+                stringBuilder.AppendFormat("<div style=\"width:{0}px !important;{1}display:block;\">", Width, GetHeight());
             }
         }
 
@@ -250,10 +249,7 @@ namespace SharedPluginFeatures.DynamicContent
                 throw new ArgumentNullException(nameof(stringBuilder));
             }
 
-            if (WidthType == DynamicContentWidthType.Columns)
-            {
-                stringBuilder.Append("</div>");
-            }
+            stringBuilder.Append("</div>");
         }
 
         #endregion Protected Methods
@@ -262,6 +258,9 @@ namespace SharedPluginFeatures.DynamicContent
 
         private string GetHeight()
         {
+            if (Height < 1)
+                return String.Empty;
+
             if (HeightType == DynamicContentHeightType.Percentage)
             {
                 return String.Format("height:{0}% !important;", Height);
@@ -278,4 +277,4 @@ namespace SharedPluginFeatures.DynamicContent
     }
 }
 
-#pragma warning restore CA1305, CA1307
+#pragma warning restore CA1303, CA1305, CA1307, CA1822

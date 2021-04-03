@@ -23,8 +23,11 @@
  *  13/08/2019  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+using System;
+
+using AspNetCore.PluginManager;
+
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -32,38 +35,45 @@ namespace DynamicContent.Plugin
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public Startup()
         {
-            Configuration = configuration;
-        }
+            if (!PluginManagerService.HasInitialised)
+                PluginManagerService.Initialise();
 
-        public IConfiguration Configuration { get; }
+            PluginManagerService.UsePlugin(typeof(PluginInitialisation));
+        }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            if (services == null)
+                throw new ArgumentNullException(nameof(services));
+
+            PluginManagerService.ConfigureServices(services);
+
             services.AddMvc(
-#if NET_CORE_3_X
+#if NET_CORE_3_X || NET_5_X
                 option => option.EnableEndpointRouting = false
 #endif
                 )
-                .AddSessionStateTempDataProvider();
+                .AddSessionStateTempDataProvider()
+                .ConfigurePluginManager();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app,
-#if NET_CORE_3_X
-            IWebHostEnvironment env)
-#else
-            IHostingEnvironment env)
-#endif
+        public void Configure(IApplicationBuilder app)
         {
+            if (app == null)
+                throw new ArgumentNullException(nameof(app));
+
+            PluginManagerService.Configure(app);
+
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=DynamicContent}/{action=Index}/{id?}");
-            });
+            }).UsePluginManager();
         }
     }
 }

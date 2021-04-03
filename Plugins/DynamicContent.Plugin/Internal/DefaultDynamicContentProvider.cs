@@ -66,7 +66,7 @@ namespace DynamicContent.Plugin.Internal
 
         public IDynamicContentPage GetCustomPage(int id)
         {
-            return null;
+            throw new NotImplementedException();
         }
  
         public List<DynamicContentTemplate> Templates()
