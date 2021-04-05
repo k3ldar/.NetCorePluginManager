@@ -23,6 +23,8 @@
  *  22/09/2018  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+using System.Diagnostics.CodeAnalysis;
+
 using Shared.Classes;
 
 namespace AspNetCore.PluginManager.DemoWebsite.Helpers
@@ -31,6 +33,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Helpers
     /// The purpose of this static class is to provide a conduit to integrating with the user session
     /// and obtaining geo ip data, if required
     /// </summary>
+    [ExcludeFromCodeCoverage(Justification = "Code coverage not required only intended as demonstration")]
     public static class SessionHelper
     {
         public static void InitSessionHelper()
