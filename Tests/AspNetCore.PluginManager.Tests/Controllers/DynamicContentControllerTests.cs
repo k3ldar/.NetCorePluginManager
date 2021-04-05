@@ -97,7 +97,7 @@ namespace AspNetCore.PluginManager.Tests.Controllers
         }
 
         [TestMethod]
-        public void DynamicContentController_ValidateAttributes()
+        public void ValidateAttributes()
         {
             Assert.IsTrue(ClassHasAttribute<DenySpiderAttribute>(typeof(DynamicContentController)));
         }
@@ -111,7 +111,7 @@ namespace AspNetCore.PluginManager.Tests.Controllers
         }
 
         [TestMethod]
-        public void DynamicContentController_GetCustomPages_Validate_Attributes()
+        public void GetCustomPages_Validate_Attributes()
         {
             Assert.IsTrue(MethodHasAttribute<HttpGetAttribute>(typeof(DynamicContentController), nameof(DynamicContentController.GetCustomPages)));
             Assert.IsTrue(MethodHasAttribute<BreadcrumbAttribute>(typeof(DynamicContentController), nameof(DynamicContentController.GetCustomPages)));
@@ -124,7 +124,7 @@ namespace AspNetCore.PluginManager.Tests.Controllers
         }
 
         [TestMethod]
-        public void DynamicContentController_GetCustomPages_Validate_IActionResult()
+        public void GetCustomPages_Validate_IActionResult()
         {
             DynamicContentController sut = CreateDynamicContentController();
 
@@ -145,7 +145,7 @@ namespace AspNetCore.PluginManager.Tests.Controllers
         }
 
         [TestMethod]
-        public void DynamicContentController_GetCustomPages_Validate_ContainsExistingModels()
+        public void GetCustomPages_Validate_ContainsExistingModels()
         {
             DynamicContentController dynamicContentController = CreateDynamicContentController();
 
@@ -165,7 +165,7 @@ namespace AspNetCore.PluginManager.Tests.Controllers
         }
 
         [TestMethod]
-        public void DynamicContentController_EditCustomPage_Validate_Attributes()
+        public void EditCustomPage_Validate_Attributes()
         {
             Assert.IsTrue(MethodHasAttribute<HttpGetAttribute>(typeof(DynamicContentController), nameof(DynamicContentController.EditPage)));
             Assert.IsTrue(MethodHasAttribute<BreadcrumbAttribute>(typeof(DynamicContentController), nameof(DynamicContentController.EditPage)));
@@ -178,7 +178,7 @@ namespace AspNetCore.PluginManager.Tests.Controllers
         }
 
         [TestMethod]
-        public void DynamicContentController_EditCustomPage_InvalidPageId_RedirectsToGetcustomPages()
+        public void EditCustomPage_InvalidPageId_RedirectsToGetcustomPages()
         {
             DynamicContentController dynamicContentController = CreateDynamicContentController();
 
@@ -192,7 +192,7 @@ namespace AspNetCore.PluginManager.Tests.Controllers
         }
 
         [TestMethod]
-        public void DynamicContentController_EditCustomPage_ReturnsValidCustomPage()
+        public void EditCustomPage_ReturnsValidCustomPage()
         {
             DynamicContentController dynamicContentController = CreateDynamicContentController(breadcrumbs: GetDynamicBreadcrumbs());
 
@@ -216,7 +216,7 @@ namespace AspNetCore.PluginManager.Tests.Controllers
         }
 
         [TestMethod]
-        public void DynamicContentController_GetContent_Validate_Attributes()
+        public void GetContent_Validate_Attributes()
         {
             Assert.IsTrue(MethodHasAttribute<HttpGetAttribute>(typeof(DynamicContentController), nameof(DynamicContentController.GetContent)));
             Assert.IsTrue(MethodHasAttribute<AjaxOnlyAttribute>(typeof(DynamicContentController), nameof(DynamicContentController.GetContent)));
@@ -229,7 +229,7 @@ namespace AspNetCore.PluginManager.Tests.Controllers
         }
 
         [TestMethod]
-        public void DynamicContentController_GetContent_InvalidCahceId_Null_Returns_FailResult()
+        public void GetContent_InvalidCahceId_Null_Returns_FailResult()
         {
             DynamicContentController dynamicContentController = CreateDynamicContentController();
             IActionResult response = dynamicContentController.GetContent(null);
@@ -245,7 +245,7 @@ namespace AspNetCore.PluginManager.Tests.Controllers
         }
 
         [TestMethod]
-        public void DynamicContentController_GetContent_InvalidCahceId_EmptyString_Returns_FailResult()
+        public void GetContent_InvalidCahceId_EmptyString_Returns_FailResult()
         {
             DynamicContentController dynamicContentController = CreateDynamicContentController();
             IActionResult response = dynamicContentController.GetContent("");
@@ -261,7 +261,7 @@ namespace AspNetCore.PluginManager.Tests.Controllers
         }
 
         [TestMethod]
-        public void DynamicContentController_GetContent_CacheItemNotFound_ReturnsNonSuccess()
+        public void GetContent_CacheItemNotFound_ReturnsNonSuccess()
         {
             DynamicContentController dynamicContentController = CreateDynamicContentController();
             IActionResult response = dynamicContentController.GetContent("cachetest");
@@ -277,7 +277,7 @@ namespace AspNetCore.PluginManager.Tests.Controllers
         }
 
         [TestMethod]
-        public void DynamicContentController_GetContent_CacheItemFound_ReturnsSuccess()
+        public void GetContent_CacheItemFound_ReturnsSuccess()
         {
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
             DefaultMemoryCache memoryCache = new DefaultMemoryCache(settingsProvider);
@@ -304,7 +304,7 @@ namespace AspNetCore.PluginManager.Tests.Controllers
         }
 
         [TestMethod]
-        public void DynamicContentController_UpdateControlPosition_Validate_Attributes()
+        public void UpdateControlPosition_Validate_Attributes()
         {
             Assert.IsTrue(MethodHasAttribute<HttpPostAttribute>(typeof(DynamicContentController), nameof(DynamicContentController.UpdateControlPosition)));
             Assert.IsTrue(MethodHasAttribute<LoggedInAttribute>(typeof(DynamicContentController), nameof(DynamicContentController.UpdateControlPosition)));
@@ -318,7 +318,7 @@ namespace AspNetCore.PluginManager.Tests.Controllers
         }
 
         [TestMethod]
-        public void DynamicContentController_UpdateControlPosition_NullValue_ReturnsNonSuccess()
+        public void UpdateControlPosition_NullValue_ReturnsNonSuccess()
         {
             DynamicContentController dynamicContentController = CreateDynamicContentController();
             IActionResult response = dynamicContentController.UpdateControlPosition(null);
@@ -334,7 +334,7 @@ namespace AspNetCore.PluginManager.Tests.Controllers
         }
 
         [TestMethod]
-        public void DynamicContentController_UpdateControlPosition_ValidModel_InvalidCacheId_Null_ReturnsNonSuccess()
+        public void UpdateControlPosition_ValidModel_InvalidCacheId_Null_ReturnsNonSuccess()
         {
             DynamicContentController dynamicContentController = CreateDynamicContentController();
             IActionResult response = dynamicContentController.UpdateControlPosition(new UpdatePositionModel());
@@ -350,7 +350,7 @@ namespace AspNetCore.PluginManager.Tests.Controllers
         }
 
         [TestMethod]
-        public void DynamicContentController_UpdateControlPosition_ValidModel_InvalidCacheId_EmptyString_ReturnsNonSuccess()
+        public void UpdateControlPosition_ValidModel_InvalidCacheId_EmptyString_ReturnsNonSuccess()
         {
             DynamicContentController dynamicContentController = CreateDynamicContentController();
             IActionResult response = dynamicContentController.UpdateControlPosition(new UpdatePositionModel() { CacheId = "" });
@@ -366,10 +366,14 @@ namespace AspNetCore.PluginManager.Tests.Controllers
         }
 
         [TestMethod]
-        public void DynamicContentController_UpdateControlPosition_ValidModel_InvalidCacheId_NotFound_ReturnsNonSuccess()
+        public void UpdateControlPosition_ValidModel_InvalidCacheId_NotFound_ReturnsNonSuccess()
         {
             DynamicContentController dynamicContentController = CreateDynamicContentController();
-            IActionResult response = dynamicContentController.UpdateControlPosition(new UpdatePositionModel() { CacheId = "blah" });
+            IActionResult response = dynamicContentController.UpdateControlPosition(new UpdatePositionModel() 
+            { 
+                CacheId = "blah",
+                ControlId = "control-id"
+            });
             JsonResult jsonResult = response as JsonResult;
 
             Assert.AreEqual("application/json", jsonResult.ContentType);
@@ -382,7 +386,7 @@ namespace AspNetCore.PluginManager.Tests.Controllers
         }
 
         [TestMethod]
-        public void DynamicContentController_UpdateControlPosition_ValidModel_InvalidControlId_Null_ReturnsNonSuccess()
+        public void UpdateControlPosition_ValidModel_InvalidControlId_Null_ReturnsNonSuccess()
         {
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
             DefaultMemoryCache memoryCache = new DefaultMemoryCache(settingsProvider);
@@ -408,7 +412,7 @@ namespace AspNetCore.PluginManager.Tests.Controllers
         }
 
         [TestMethod]
-        public void DynamicContentController_UpdateControlPosition_ValidModel_InvalidControlId_EmptyString_ReturnsNonSuccess()
+        public void UpdateControlPosition_ValidModel_InvalidControlId_EmptyString_ReturnsNonSuccess()
         {
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
             DefaultMemoryCache memoryCache = new DefaultMemoryCache(settingsProvider);
@@ -434,7 +438,7 @@ namespace AspNetCore.PluginManager.Tests.Controllers
         }
 
         [TestMethod]
-        public void DynamicContentController_UpdateControlPosition_ValidModel_InvalidControlId_NotFound_ReturnsNonSuccess()
+        public void UpdateControlPosition_ValidModel_InvalidControlId_NotFound_ReturnsNonSuccess()
         {
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
             DefaultMemoryCache memoryCache = new DefaultMemoryCache(settingsProvider);
@@ -458,9 +462,35 @@ namespace AspNetCore.PluginManager.Tests.Controllers
             Assert.IsNotNull(sut);
             Assert.IsFalse(sut.Success);
         }
+        [TestMethod]
+        public void UpdateControlPosition_InalidCacheItem_NotValidDynamicContentModel_Returns404()
+        {
+            ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
+            DefaultMemoryCache memoryCache = new DefaultMemoryCache(settingsProvider);
+
+            DynamicContentController dynamicContentController = CreateDynamicContentController(memoryCache, GetDynamicBreadcrumbs());
+
+            IActionResult editPageResponse = dynamicContentController.EditPage(10);
+            ViewResult viewResult = editPageResponse as ViewResult;
+            Assert.IsNotNull(viewResult.Model);
+            EditPageModel editPageModel = viewResult.Model as EditPageModel;
+            memoryCache.GetExtendingCache().Add(editPageModel.CacheId, new CacheItem(editPageModel.CacheId, "a string"), true);
+
+            IActionResult response = dynamicContentController.UpdateControlPosition(new UpdatePositionModel()
+            {
+                CacheId = editPageModel.CacheId,
+                ControlId = "control-2",
+                Controls = new string[] { "control-8", "control-7" }
+            });
+
+            JsonResult jsonResult = response as JsonResult;
+
+            Assert.AreEqual("application/json", jsonResult.ContentType);
+            Assert.AreEqual(400, jsonResult.StatusCode);
+        }
 
         [TestMethod]
-        public void DynamicContentController_UpdateControlPosition_ValidModel_ValidControlId_PositionsUpdated_ReturnsSuccess()
+        public void UpdateControlPosition_ValidModel_ValidControlId_PositionsUpdated_ReturnsSuccess()
         {
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
             DefaultMemoryCache memoryCache = new DefaultMemoryCache(settingsProvider);
@@ -505,7 +535,7 @@ namespace AspNetCore.PluginManager.Tests.Controllers
         }
 
         [TestMethod]
-        public void DynamicContentController_GetWidthTypes_ReturnsSuccess()
+        public void GetWidthTypes_ReturnsSuccess()
         {
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
             DefaultMemoryCache memoryCache = new DefaultMemoryCache(settingsProvider);
@@ -517,7 +547,7 @@ namespace AspNetCore.PluginManager.Tests.Controllers
         }
 
         [TestMethod]
-        public void DynamicContentController_GetHeightTypes_ReturnsSuccess()
+        public void GetHeightTypes_ReturnsSuccess()
         {
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
             DefaultMemoryCache memoryCache = new DefaultMemoryCache(settingsProvider);
@@ -562,6 +592,31 @@ namespace AspNetCore.PluginManager.Tests.Controllers
             DynamicContentController dynamicContentController = CreateDynamicContentController();
 
             IActionResult response = dynamicContentController.Preview(null);
+            StatusCodeResult sut = response as StatusCodeResult;
+
+            Assert.IsNotNull(sut);
+
+            Assert.AreEqual(400, sut.StatusCode);
+        }
+
+        [TestMethod]
+        public void Preview_InvalidCacheItem_NotIDynamicContentPage_Returns_StatusCode400()
+        {
+            ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
+            DefaultMemoryCache defaultMemoryCache = new DefaultMemoryCache(settingsProvider);
+            DynamicContentController dynamicContentController = CreateDynamicContentController(defaultMemoryCache, GetDynamicBreadcrumbs());
+
+            IActionResult editPageResponse = dynamicContentController.EditPage(10);
+            ViewResult viewResult = editPageResponse as ViewResult;
+            Assert.IsNotNull(viewResult.Model);
+
+            ValidateBaseModel(viewResult);
+
+            EditPageModel editPageModel = viewResult.Model as EditPageModel;
+
+            defaultMemoryCache.GetExtendingCache().Add(editPageModel.CacheId, new CacheItem(editPageModel.CacheId, "string"), true);
+
+            IActionResult response = dynamicContentController.Preview(editPageModel.CacheId);
             StatusCodeResult sut = response as StatusCodeResult;
 
             Assert.IsNotNull(sut);
@@ -915,6 +970,32 @@ namespace AspNetCore.PluginManager.Tests.Controllers
         }
 
         [TestMethod]
+        public void UpdateTemplate_InvalidCache_NotValidDynamicContentModel_Returns_NonSucess()
+        {
+            ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
+            DefaultMemoryCache defaultMemoryCache = new DefaultMemoryCache(settingsProvider);
+            defaultMemoryCache.GetExtendingCache().Add("test", new CacheItem("test", "string"));
+            DynamicContentController dynamicContentController = CreateDynamicContentController(defaultMemoryCache);
+
+            EditTemplateModel model = new EditTemplateModel()
+            {
+                CacheId = "test",
+                UniqueId = "control-7"
+            };
+
+            IActionResult response = dynamicContentController.UpdateTemplate(model);
+            JsonResult jsonResult = response as JsonResult;
+
+            Assert.AreEqual("application/json", jsonResult.ContentType);
+            Assert.AreEqual(400, jsonResult.StatusCode);
+
+            DynamicContentModel sut = jsonResult.Value as DynamicContentModel;
+
+            Assert.IsNotNull(sut);
+            Assert.IsFalse(sut.Success);
+        }
+
+        [TestMethod]
         public void UpdateTemplate_InvalidControlId_ControlNotFound_Returns_NonSucess()
         {
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
@@ -1049,6 +1130,79 @@ namespace AspNetCore.PluginManager.Tests.Controllers
             Assert.IsNotNull(sut);
             Assert.IsFalse(sut.Success);
             Assert.AreEqual("Width must be between 1 and 100", sut.Data);
+        }
+
+        [TestMethod]
+        public void UpdateTemplate_ValidHeight_PixelsOne_Returns_NonSucess()
+        {
+            ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
+            DefaultMemoryCache memoryCache = new DefaultMemoryCache(settingsProvider);
+
+            DynamicContentController dynamicContentController = CreateDynamicContentController(memoryCache, GetDynamicBreadcrumbs());
+
+            IActionResult editPageResponse = dynamicContentController.EditPage(10);
+            ViewResult viewResult = editPageResponse as ViewResult;
+            Assert.IsNotNull(viewResult.Model);
+            EditPageModel editPageModel = viewResult.Model as EditPageModel;
+
+
+            EditTemplateModel model = new EditTemplateModel()
+            {
+                CacheId = editPageModel.CacheId,
+                UniqueId = "control-7",
+                WidthType = DynamicContentWidthType.Percentage,
+                Width = 10,
+                HeightType = DynamicContentHeightType.Pixels,
+                Height = 1
+            };
+
+            IActionResult response = dynamicContentController.UpdateTemplate(model);
+            JsonResult jsonResult = response as JsonResult;
+
+            Assert.AreEqual("application/json", jsonResult.ContentType);
+            Assert.AreEqual(200, jsonResult.StatusCode);
+
+            DynamicContentModel sut = jsonResult.Value as DynamicContentModel;
+
+            Assert.IsNotNull(sut);
+            Assert.IsTrue(sut.Success);
+            Assert.AreEqual("", sut.Data);
+        }
+        [TestMethod]
+        public void UpdateTemplate_ValidHeight_PercentageOne_Returns_NonSucess()
+        {
+            ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
+            DefaultMemoryCache memoryCache = new DefaultMemoryCache(settingsProvider);
+
+            DynamicContentController dynamicContentController = CreateDynamicContentController(memoryCache, GetDynamicBreadcrumbs());
+
+            IActionResult editPageResponse = dynamicContentController.EditPage(10);
+            ViewResult viewResult = editPageResponse as ViewResult;
+            Assert.IsNotNull(viewResult.Model);
+            EditPageModel editPageModel = viewResult.Model as EditPageModel;
+
+
+            EditTemplateModel model = new EditTemplateModel()
+            {
+                CacheId = editPageModel.CacheId,
+                UniqueId = "control-7",
+                WidthType = DynamicContentWidthType.Percentage,
+                Width = 10,
+                HeightType = DynamicContentHeightType.Percentage,
+                Height = 1
+            };
+
+            IActionResult response = dynamicContentController.UpdateTemplate(model);
+            JsonResult jsonResult = response as JsonResult;
+
+            Assert.AreEqual("application/json", jsonResult.ContentType);
+            Assert.AreEqual(200, jsonResult.StatusCode);
+
+            DynamicContentModel sut = jsonResult.Value as DynamicContentModel;
+
+            Assert.IsNotNull(sut);
+            Assert.IsTrue(sut.Success);
+            Assert.AreEqual("", sut.Data);
         }
 
         [TestMethod]
@@ -1426,6 +1580,26 @@ namespace AspNetCore.PluginManager.Tests.Controllers
         }
 
         [TestMethod]
+        public void DeleteControl_InvalidCache_NotDynamicContentModel_ReturnsNonSuccess()
+        {
+            ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
+            DefaultMemoryCache defaultMemoryCache = new DefaultMemoryCache(settingsProvider);
+            defaultMemoryCache.GetExtendingCache().Add("cachename", new CacheItem("cachename", "string"));
+            DynamicContentController dynamicContentController = CreateDynamicContentController(defaultMemoryCache);
+
+            IActionResult response = dynamicContentController.DeleteControl("cachename", "controlname");
+            JsonResult jsonResult = response as JsonResult;
+
+            Assert.AreEqual("application/json", jsonResult.ContentType);
+            Assert.AreEqual(400, jsonResult.StatusCode);
+
+            DynamicContentModel sut = jsonResult.Value as DynamicContentModel;
+
+            Assert.IsNotNull(sut);
+            Assert.IsFalse(sut.Success);
+        }
+
+        [TestMethod]
         public void DeleteControl_ValidCache_InvalidControlId_ReturnsSuccess()
         {
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
@@ -1630,6 +1804,32 @@ namespace AspNetCore.PluginManager.Tests.Controllers
         }
 
         [TestMethod]
+        public void DeleteItem_InvalidCache_NotDynamicContentModel_ReturnsNonSuccess()
+        {
+            ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
+            DefaultMemoryCache defaultMemoryCache = new DefaultMemoryCache(settingsProvider);
+            defaultMemoryCache.GetExtendingCache().Add("test", new CacheItem("test", "string"));
+            DynamicContentController dynamicContentController = CreateDynamicContentController(defaultMemoryCache);
+
+            DeleteControlModel deleteControlModel = new DeleteControlModel()
+            {
+                CacheId = "test",
+                ControlId = "adsf"
+            };
+
+            IActionResult response = dynamicContentController.DeleteItem(deleteControlModel);
+            JsonResult jsonResult = response as JsonResult;
+
+            Assert.AreEqual("application/json", jsonResult.ContentType);
+            Assert.AreEqual(400, jsonResult.StatusCode);
+
+            DynamicContentModel sut = jsonResult.Value as DynamicContentModel;
+
+            Assert.IsNotNull(sut);
+            Assert.IsFalse(sut.Success);
+        }
+
+        [TestMethod]
         public void DeleteItem_ValidCache_InvalidControlId_ReturnsSuccess()
         {
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
@@ -1707,7 +1907,7 @@ namespace AspNetCore.PluginManager.Tests.Controllers
         #region Retrieve Templates
 
         [TestMethod]
-        public void DynamicContentController_GetTemplates_Validate_Attributes()
+        public void GetTemplates_Validate_Attributes()
         {
             Assert.IsTrue(MethodHasAttribute<HttpPostAttribute>(typeof(DynamicContentController), nameof(DynamicContentController.GetTemplates)));
             Assert.IsTrue(MethodHasAttribute<AjaxOnlyAttribute>(typeof(DynamicContentController), nameof(DynamicContentController.GetTemplates)));
@@ -1720,7 +1920,7 @@ namespace AspNetCore.PluginManager.Tests.Controllers
         }
 
         [TestMethod]
-        public void DynamicContentController_GetTemplates_ReturnsValidTemplatesList()
+        public void GetTemplates_ReturnsValidTemplatesList_Success()
         {
             DynamicContentController dynamicContentController = CreateDynamicContentController();
 
@@ -1740,7 +1940,7 @@ namespace AspNetCore.PluginManager.Tests.Controllers
         }
 
         [TestMethod]
-        public void DynamicContentController_GetTemplates_ReturnsValidViewName()
+        public void GetTemplates_ReturnsValidViewName()
         {
             DynamicContentController dynamicContentController = CreateDynamicContentController();
 
@@ -1756,12 +1956,12 @@ namespace AspNetCore.PluginManager.Tests.Controllers
         #region Add Template To Page
 
         [TestMethod]
-        public void DynamicContentController_AddTemplateToPage_Validate_Attributes()
+        public void AddTemplateToPage_Validate_Attributes()
         {
             Assert.IsTrue(MethodHasAttribute<HttpPostAttribute>(typeof(DynamicContentController), nameof(DynamicContentController.AddTemplateToPage)));
             Assert.IsTrue(MethodHasAttribute<AjaxOnlyAttribute>(typeof(DynamicContentController), nameof(DynamicContentController.AddTemplateToPage)));
             Assert.IsTrue(MethodHasAttribute<LoggedInAttribute>(typeof(DynamicContentController), nameof(DynamicContentController.AddTemplateToPage)));
-            Assert.IsTrue(MethodRouteAttribute(typeof(DynamicContentController), nameof(DynamicContentController.AddTemplateToPage), "DynamicContent/AddTemplate/{cacheId}/{templateId}"));
+            Assert.IsTrue(MethodRouteAttribute(typeof(DynamicContentController), nameof(DynamicContentController.AddTemplateToPage), "DynamicContent/AddTemplate/{cacheId}/{templateId}/{position}"));
 
             Assert.IsFalse(MethodHasAttribute<HttpGetAttribute>(typeof(DynamicContentController), nameof(DynamicContentController.AddTemplateToPage)));
             Assert.IsFalse(MethodHasAttribute<HttpPutAttribute>(typeof(DynamicContentController), nameof(DynamicContentController.AddTemplateToPage)));
@@ -1769,11 +1969,11 @@ namespace AspNetCore.PluginManager.Tests.Controllers
         }
 
         [TestMethod]
-        public void DynamicContentController_AddTemplateToPage_NullCacheId_Returns400()
+        public void AddTemplateToPage_NullCacheId_Returns400()
         {
             DynamicContentController dynamicContentController = CreateDynamicContentController();
 
-            IActionResult response = dynamicContentController.AddTemplateToPage(null, "123");
+            IActionResult response = dynamicContentController.AddTemplateToPage(null, "123", 0);
 
             JsonResult sut = response as JsonResult;
 
@@ -1781,11 +1981,11 @@ namespace AspNetCore.PluginManager.Tests.Controllers
         }
 
         [TestMethod]
-        public void DynamicContentController_AddTemplateToPage_EmptyCacheId_Returns400()
+        public void AddTemplateToPage_EmptyCacheId_Returns400()
         {
             DynamicContentController dynamicContentController = CreateDynamicContentController();
 
-            IActionResult response = dynamicContentController.AddTemplateToPage("", "123");
+            IActionResult response = dynamicContentController.AddTemplateToPage("", "123", 0);
 
             JsonResult sut = response as JsonResult;
 
@@ -1793,11 +1993,11 @@ namespace AspNetCore.PluginManager.Tests.Controllers
         }
 
         [TestMethod]
-        public void DynamicContentController_AddTemplateToPage_NullTemplateIdId_Returns400()
+        public void AddTemplateToPage_NullTemplateIdId_Returns400()
         {
             DynamicContentController dynamicContentController = CreateDynamicContentController();
 
-            IActionResult response = dynamicContentController.AddTemplateToPage("123", null);
+            IActionResult response = dynamicContentController.AddTemplateToPage("123", null, 0);
 
             JsonResult sut = response as JsonResult;
 
@@ -1805,11 +2005,11 @@ namespace AspNetCore.PluginManager.Tests.Controllers
         }
 
         [TestMethod]
-        public void DynamicContentController_AddTemplateToPage_EmptyTemplateId_Returns400()
+        public void AddTemplateToPage_EmptyTemplateId_Returns400()
         {
             DynamicContentController dynamicContentController = CreateDynamicContentController();
 
-            IActionResult response = dynamicContentController.AddTemplateToPage("123", "");
+            IActionResult response = dynamicContentController.AddTemplateToPage("123", "", 0);
 
             JsonResult sut = response as JsonResult;
 
@@ -1817,51 +2017,94 @@ namespace AspNetCore.PluginManager.Tests.Controllers
         }
 
         [TestMethod]
-        public void DynamicContentController_AddTemplateToPage_CacheItemDoesNotExist()
+        public void AddTemplateToPage_CacheItemDoesNotExist_Returns400()
         {
             DynamicContentController dynamicContentController = CreateDynamicContentController();
 
-            IActionResult response = dynamicContentController.AddTemplateToPage("123", "123");
+            IActionResult response = dynamicContentController.AddTemplateToPage("123", "123", 0);
 
             JsonResult sut = response as JsonResult;
 
             Assert.AreEqual(400, sut.StatusCode.Value);
-            //ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
-            //DefaultMemoryCache memoryCache = new DefaultMemoryCache(settingsProvider);
+        }
 
-            //DynamicContentController dynamicContentController = CreateDynamicContentController(memoryCache, GetDynamicBreadcrumbs());
+        [TestMethod]
+        public void AddTemplateToPage_CacheItemIsNotDynamicContentPage_Returns400()
+        {
+            ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
+            DefaultMemoryCache memoryCache = new DefaultMemoryCache(settingsProvider);
 
-            //IActionResult editPageResponse = dynamicContentController.EditPage(10);
-            //ViewResult viewResult = editPageResponse as ViewResult;
-            //Assert.IsNotNull(viewResult.Model);
-            //EditPageModel editPageModel = viewResult.Model as EditPageModel;
+            DynamicContentController dynamicContentController = CreateDynamicContentController(memoryCache, GetDynamicBreadcrumbs());
 
-            //CacheItem cacheItem = memoryCache.GetExtendingCache().Get(editPageModel.CacheId);
-            //DynamicContentPage dynamicContentPage = cacheItem.Value as DynamicContentPage;
+            IActionResult editPageResponse = dynamicContentController.EditPage(10);
+            ViewResult viewResult = editPageResponse as ViewResult;
+            Assert.IsNotNull(viewResult.Model);
+            EditPageModel editPageModel = viewResult.Model as EditPageModel;
 
-            //Assert.IsNotNull(dynamicContentPage);
-            //Assert.AreEqual(10, dynamicContentPage.Content.Count);
+            memoryCache.GetExtendingCache().Add(editPageModel.CacheId, new CacheItem(editPageModel.CacheId, "a string"), true);
 
-            //DeleteControlModel deleteControlModel = new DeleteControlModel()
-            //{
-            //    CacheId = editPageModel.CacheId,
-            //    ControlId = "control-1"
-            //};
+            IActionResult response = dynamicContentController.AddTemplateToPage(editPageModel.CacheId, "123", 0);
 
-            //IActionResult response = dynamicContentController.DeleteItem(deleteControlModel);
+            JsonResult sut = response as JsonResult;
 
-            //JsonResult jsonResult = response as JsonResult;
+            Assert.AreEqual(400, sut.StatusCode.Value);
+        }
 
-            //Assert.AreEqual("application/json", jsonResult.ContentType);
-            //Assert.AreEqual(200, jsonResult.StatusCode);
+        [TestMethod]
+        public void AddTemplateToPage_TemplateIdNotFound_Returns400()
+        {
+            ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
+            DefaultMemoryCache memoryCache = new DefaultMemoryCache(settingsProvider);
 
-            //DynamicContentModel sut = jsonResult.Value as DynamicContentModel;
+            DynamicContentController dynamicContentController = CreateDynamicContentController(memoryCache, GetDynamicBreadcrumbs());
 
-            //Assert.IsNotNull(sut);
-            //Assert.IsTrue(sut.Success);
+            IActionResult editPageResponse = dynamicContentController.EditPage(10);
+            ViewResult viewResult = editPageResponse as ViewResult;
+            Assert.IsNotNull(viewResult.Model);
+            EditPageModel editPageModel = viewResult.Model as EditPageModel;
 
-            //Assert.AreEqual(9, dynamicContentPage.Content.Count);
-            //Assert.IsFalse(dynamicContentPage.Content.Where(dcp => dcp.UniqueId.Equals("control-1")).Any());
+            IActionResult response = dynamicContentController.AddTemplateToPage(editPageModel.CacheId, "123", 0);
+
+            JsonResult sut = response as JsonResult;
+
+            Assert.AreEqual(400, sut.StatusCode.Value);
+        }
+
+        [TestMethod]
+        public void AddTemplateToPage_TemplateIdFoundAndAdded_ReturnsPartialViewContainingNewTemplate()
+        {
+            ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
+            DefaultMemoryCache memoryCache = new DefaultMemoryCache(settingsProvider);
+
+            DynamicContentController dynamicContentController = CreateDynamicContentController(memoryCache, GetDynamicBreadcrumbs());
+
+            var templates = dynamicContentController.GetTemplates();
+            PartialViewResult templateResult = templates as PartialViewResult;
+            Assert.IsNotNull(templateResult.Model);
+            Assert.IsInstanceOfType(templateResult.Model, typeof(TemplatesModel));
+            TemplatesModel templatesModel = templateResult.Model as TemplatesModel;
+            TemplateModel template = templatesModel.Templates.Where(t => t.TemplateName.Equals("Spacer")).FirstOrDefault();
+            
+
+            IActionResult editPageResponse = dynamicContentController.EditPage(10);
+            ViewResult viewResult = editPageResponse as ViewResult;
+            Assert.IsNotNull(viewResult.Model);
+            EditPageModel editPageModel = viewResult.Model as EditPageModel;
+
+            string currentTemplateIdPosition3 = editPageModel.DynamicContents[3].UniqueId;
+            Assert.AreEqual(10, editPageModel.DynamicContents.Count);
+
+            IActionResult response = dynamicContentController.AddTemplateToPage(editPageModel.CacheId, template.TemplateId, 3);
+
+            ViewResult addTemplateViewResult = editPageResponse as ViewResult;
+            Assert.IsNotNull(addTemplateViewResult.Model);
+            EditPageModel addTemplatePageModel = addTemplateViewResult.Model as EditPageModel;
+
+            Assert.IsNotNull(addTemplatePageModel);
+
+            Assert.AreEqual(11, addTemplatePageModel.DynamicContents.Count);
+            Assert.AreNotEqual(currentTemplateIdPosition3, addTemplatePageModel.DynamicContents[3].UniqueId);
+            Assert.AreEqual("Spacer", addTemplatePageModel.DynamicContents[3].Name);
         }
 
         #endregion Add Template To Page
@@ -1869,13 +2112,15 @@ namespace AspNetCore.PluginManager.Tests.Controllers
         #region Private Methods
 
         private DynamicContentController CreateDynamicContentController(DefaultMemoryCache memoryCache = null,
-            List<BreadcrumbItem> breadcrumbs = null)
+            List<BreadcrumbItem> breadcrumbs = null,
+            MockDynamicContentProvider mockDynamicContentProvider = null)
         {
             IPluginClassesService pluginServices = new pm.PluginServices(_testDynamicContentPlugin) as IPluginClassesService;
             IPluginHelperService pluginHelperService = new pm.PluginServices(_testDynamicContentPlugin) as IPluginHelperService;
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
 
-            DynamicContentController Result = new DynamicContentController(new MockDynamicContentProvider(pluginServices),
+            DynamicContentController Result = new DynamicContentController(
+                mockDynamicContentProvider ?? new MockDynamicContentProvider(pluginServices),
                 memoryCache ?? new DefaultMemoryCache(settingsProvider));
 
             Result.ControllerContext = CreateTestControllerContext(breadcrumbs);

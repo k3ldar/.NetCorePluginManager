@@ -25,6 +25,8 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+
 using DynamicContent.Plugin.Templates;
 using Middleware;
 using Middleware.DynamicContent;
@@ -33,11 +35,13 @@ using SharedPluginFeatures.DynamicContent;
 
 namespace AspNetCore.PluginManager.DemoWebsite.Classes.Mocks
 {
+    [ExcludeFromCodeCoverage]
     public class MockDynamicContentProvider : IDynamicContentProvider
     {
         #region Private Members
 
         private readonly IPluginClassesService _pluginClassesService;
+        private List<DynamicContentTemplate> _templates;
         private IDynamicContentPage _dynamicContentPage1;
         private IDynamicContentPage _dynamicContentPage2;
         private IDynamicContentPage _dynamicContentPage3;
@@ -100,7 +104,12 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes.Mocks
 
         public List<DynamicContentTemplate> Templates()
         {
-            return _pluginClassesService.GetPluginClasses<DynamicContentTemplate>();
+            if (_templates != null)
+                return _templates;
+
+            _templates = _pluginClassesService.GetPluginClasses<DynamicContentTemplate>();
+
+            return _templates;
         }
 
         #endregion IDynamicContentProvider Members

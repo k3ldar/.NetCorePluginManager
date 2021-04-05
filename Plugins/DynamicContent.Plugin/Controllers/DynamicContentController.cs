@@ -126,16 +126,16 @@ namespace DynamicContent.Plugin.Controllers
         [Breadcrumb(nameof(Languages.LanguageStrings.Edit))]
         public IActionResult EditPage(int id)
         {
-            IDynamicContentPage pageContent = _dynamicContentProvider.GetCustomPage(id);
+            IDynamicContentPage dynamicContentPage = _dynamicContentProvider.GetCustomPage(id);
 
-            if (pageContent == null)
+            if (dynamicContentPage == null)
                 return RedirectToAction(nameof(GetCustomPages));
 
-            string cacheId = $"{GetUserSession().InternalSessionID}-{pageContent.Id}";
+            string cacheId = $"{GetUserSession().InternalSessionID}-{dynamicContentPage.Id}";
 
-            _memoryCache.GetExtendingCache().Add(cacheId, new CacheItem(cacheId, pageContent));
+            _memoryCache.GetExtendingCache().Add(cacheId, new CacheItem(cacheId, dynamicContentPage));
 
-            return View(GetEditPageModel(cacheId, pageContent));
+            return View(GetEditPageModel(cacheId, dynamicContentPage));
         }
 
         [LoggedIn]
@@ -376,8 +376,8 @@ namespace DynamicContent.Plugin.Controllers
         [HttpPost]
         [LoggedIn]
         [AjaxOnly]
-        [Route("DynamicContent/AddTemplate/{cacheId}/{templateId}")]
-        public IActionResult AddTemplateToPage(string cacheId, string templateId)
+        [Route("DynamicContent/AddTemplate/{cacheId}/{templateId}/{position}")]
+        public IActionResult AddTemplateToPage(string cacheId, string templateId, int position)
         {
             if (String.IsNullOrEmpty(cacheId))
                 return GenerateErrorResponse(400);
@@ -395,12 +395,14 @@ namespace DynamicContent.Plugin.Controllers
             if (dynamicContentPage == null)
                 return GenerateErrorResponse(400);
 
-            DynamicContentTemplate control = dynamicContentPage.Content.Where(ctl => ctl.UniqueId.Equals(templateId)).FirstOrDefault();
+            DynamicContentTemplate template = _dynamicContentProvider.Templates().Where(t => t.UniqueId.Equals(templateId)).FirstOrDefault();
 
-            if (control == null)
+            if (template == null)
                 return GenerateErrorResponse(400);
 
-            throw new NotImplementedException();
+            dynamicContentPage.Content.Insert(position, template);
+
+            return View(GetEditPageModel(cacheId, dynamicContentPage));
         }
 
         #endregion Public Action Methods
@@ -487,10 +489,10 @@ namespace DynamicContent.Plugin.Controllers
 
         private DynamicContentModel GetDynamicContentModel(CacheItem cacheItem)
         {
-            IDynamicContentPage pageContent = cacheItem.Value as IDynamicContentPage;
+            IDynamicContentPage dynamicContentPage = cacheItem.Value as IDynamicContentPage;
 
             StringBuilder content = new StringBuilder(4096);
-            foreach (DynamicContentTemplate template in pageContent.Content.OrderBy(pc => pc.SortOrder))
+            foreach (DynamicContentTemplate template in dynamicContentPage.Content.OrderBy(pc => pc.SortOrder))
             {
                 content.AppendFormat(ControlRow,
                     template.UniqueId,
@@ -547,11 +549,11 @@ namespace DynamicContent.Plugin.Controllers
             return Result;
         }
 
-        private PageModel GetDynamicContentPageModel(IDynamicContentPage pageContent, bool ignoreDates)
+        private PageModel GetDynamicContentPageModel(IDynamicContentPage dynamicContentPage, bool ignoreDates)
         {
             IEnumerable<DynamicContentTemplate> templates = ignoreDates ?
-                pageContent.Content.OrderBy(pc => pc.SortOrder) :
-                pageContent.Content.Where(c => c.ActiveFrom >= DateTime.Now).OrderBy(o => o.SortOrder);
+                dynamicContentPage.Content.OrderBy(pc => pc.SortOrder) :
+                dynamicContentPage.Content.Where(c => c.ActiveFrom >= DateTime.Now).OrderBy(o => o.SortOrder);
 
             StringBuilder content = new StringBuilder(4096);
 
