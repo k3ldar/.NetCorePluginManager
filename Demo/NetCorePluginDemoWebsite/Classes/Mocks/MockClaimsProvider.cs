@@ -25,6 +25,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Security.Claims;
 
 using Microsoft.AspNetCore.Authentication;
@@ -35,6 +36,7 @@ using SharedPluginFeatures;
 
 namespace AspNetCore.PluginManager.DemoWebsite.Classes
 {
+    [ExcludeFromCodeCoverage(Justification = "Code coverage not required for mock classes")]
     public class MockClaimsProvider : IClaimsProvider
     {
         #region Private Members

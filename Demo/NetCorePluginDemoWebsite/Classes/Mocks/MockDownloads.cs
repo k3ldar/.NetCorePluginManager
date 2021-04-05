@@ -25,12 +25,14 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 using Middleware;
 using Middleware.Downloads;
 
 namespace AspNetCore.PluginManager.DemoWebsite.Classes
 {
+    [ExcludeFromCodeCoverage(Justification = "Code coverage not required for mock classes")]
     public class MockDownloads : IDownloadProvider
     {
         #region Private Static Members

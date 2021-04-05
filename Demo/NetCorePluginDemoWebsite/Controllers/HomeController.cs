@@ -24,9 +24,7 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
-using System.Diagnostics;
 
-using AspNetCore.PluginManager.DemoWebsite.Models;
 
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
@@ -64,13 +62,6 @@ namespace AspNetCore.PluginManager.DemoWebsite.Controllers
             ViewBag.Username = String.IsNullOrEmpty(session.UserName) ? "Guest" : session.UserName;
 
             return View(new BaseModel(GetModelData()));
-        }
-
-        [DenySpider("*")]
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }
 }

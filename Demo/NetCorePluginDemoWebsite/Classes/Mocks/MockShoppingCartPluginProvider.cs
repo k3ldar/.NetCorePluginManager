@@ -25,6 +25,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
 using Middleware;
@@ -41,6 +42,7 @@ using SharedPluginFeatures;
 
 namespace AspNetCore.PluginManager.DemoWebsite.Classes
 {
+    [ExcludeFromCodeCoverage(Justification = "Code coverage not required for mock classes")]
     public sealed class MockShoppingCartPluginProvider : IShoppingCartProvider, IShoppingCartService, IDisposable
     {
         #region Private Members

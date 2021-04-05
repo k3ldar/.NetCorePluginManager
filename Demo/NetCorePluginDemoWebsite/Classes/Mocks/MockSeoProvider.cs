@@ -24,11 +24,13 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 using SharedPluginFeatures;
 
 namespace AspNetCore.PluginManager.DemoWebsite.Classes
 {
+    [ExcludeFromCodeCoverage(Justification = "Code coverage not required for mock classes")]
     public sealed class MockSeoProvider : ISeoProvider
     {
         #region Private Members

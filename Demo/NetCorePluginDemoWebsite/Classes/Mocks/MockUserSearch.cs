@@ -24,6 +24,7 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 using Middleware;
 
@@ -31,6 +32,7 @@ using Middleware.Users;
 
 namespace AspNetCore.PluginManager.DemoWebsite.Classes
 {
+    [ExcludeFromCodeCoverage(Justification = "Code coverage not required for mock classes")]
     public class MockUserSearch : IUserSearch
     {
         public List<SearchUser> GetUsers(in int pageNumber, in int pageSize, string searchField, string searchOrder)

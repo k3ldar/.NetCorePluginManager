@@ -24,12 +24,14 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
+using System.Diagnostics.CodeAnalysis;
 
 using PluginManager;
 using PluginManager.Abstractions;
 
 namespace AspNetCore.PluginManager.DemoWebsite.Classes
 {
+    [ExcludeFromCodeCoverage(Justification = "Code coverage not required, only intended as demonstration")]
     public class Logger : ILogger
     {
         #region ILogger Methods

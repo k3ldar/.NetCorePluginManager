@@ -23,6 +23,8 @@
  *  22/09/2018  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+using System.Diagnostics.CodeAnalysis;
+
 using AspNetCore.PluginManager.DemoWebsite.Classes;
 
 using Microsoft.AspNetCore;
@@ -32,6 +34,7 @@ using PluginManager;
 
 namespace AspNetCore.PluginManager.DemoWebsite
 {
+    [ExcludeFromCodeCoverage(Justification = "Code coverage not required for Main")]
     public static class Program
     {
         public static void Main(string[] args)

@@ -24,11 +24,13 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
+using System.Diagnostics.CodeAnalysis;
 
 using Middleware;
 
 namespace AspNetCore.PluginManager.DemoWebsite.Classes
 {
+    [ExcludeFromCodeCoverage(Justification = "Code coverage not required for mock classes")]
     public class MockLoginProvider : ILoginProvider
     {
         public LoginResult Login(in string username, in string password, in string ipAddress,

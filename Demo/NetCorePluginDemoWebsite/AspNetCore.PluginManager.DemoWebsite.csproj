@@ -133,7 +133,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Views\DynamicContent\" />
+    <Folder Include="Models\" />
     <Folder Include="Views\Spider\" />
     <Folder Include="wwwroot\images\Download\" />
   </ItemGroup>
