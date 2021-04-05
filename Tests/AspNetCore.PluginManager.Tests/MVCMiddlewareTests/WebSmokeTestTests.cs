@@ -62,6 +62,7 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
         [TestInitialize]
         public void InitialiseSmokeTestPluginManager()
         {
+            CacheManager.ClearAllCaches();
             InitializeSmokeTestPluginManager();
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
             WebSmokeTestSettings settings = settingsProvider.GetSettings<WebSmokeTestSettings>(nameof(WebSmokeTest));
@@ -370,7 +371,7 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
                 httpResponse.Body.Read(data, 0, data.Length);
                 string test = Decrypt(Encoding.UTF8.GetString(data), EncryptionKey);
 
-                Assert.IsTrue(test.Contains("Please try again"));
+                Assert.IsTrue(test.Contains("Please try again"), $"test data failed: {test}");
                 Assert.IsTrue(test.Contains("Method\":\"POST") || test.Contains("Method\":\"GET"));
             }
         }
