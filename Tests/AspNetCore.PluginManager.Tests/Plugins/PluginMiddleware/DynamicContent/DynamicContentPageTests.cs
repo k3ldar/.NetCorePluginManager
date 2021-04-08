@@ -30,7 +30,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using DynamicContent.Plugin.Templates;
+
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+using Middleware.DynamicContent;
 
 namespace AspNetCore.PluginManager.Tests.Plugins.PluginMiddleware.DynamicContent
 {
@@ -38,5 +42,99 @@ namespace AspNetCore.PluginManager.Tests.Plugins.PluginMiddleware.DynamicContent
     [ExcludeFromCodeCoverage]
     public class DynamicContentPageTests
     {
+        [TestMethod]
+        public void Construct_ValidInstance_Success()
+        {
+            DynamicContentPage sut = new DynamicContentPage();
+            Assert.IsNotNull(sut);
+            Assert.IsNotNull(sut.Content);
+            Assert.IsNull(sut.Name);
+            Assert.AreEqual(0, sut.Id);
+        }
+
+        [TestMethod]
+        public void Construct_ValidInstanceWithPropertiesSet_Success()
+        {
+            DynamicContentPage sut = new DynamicContentPage()
+            {
+                Id = 123,
+                Name = "My test page"
+            };
+
+            Assert.IsNotNull(sut);
+            Assert.IsNotNull(sut.Content);
+            Assert.IsNotNull(sut.Name);
+            Assert.AreEqual(123, sut.Id);
+            Assert.AreEqual("My test page", sut.Name);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void AddContentTemplate_InvalidParamDynamicContentTemplateNull_Throws_ArgumentNullException()
+        {
+            DynamicContentPage sut = new DynamicContentPage()
+            {
+                Id = 123,
+                Name = "My test page"
+            };
+
+            sut.AddContentTemplate(null, null);
+        }
+
+        [TestMethod]
+        public void AddContentTemplate_BeforeControlIdNull_Success()
+        {
+            DynamicContentPage sut = new DynamicContentPage()
+            {
+                Id = 123,
+                Name = "My test page"
+            };
+
+            SpacerTemplate spacerTemplate = new SpacerTemplate();
+
+            sut.AddContentTemplate(spacerTemplate, null);
+            Assert.AreEqual(1, sut.Content.Count);
+            Assert.AreNotEqual(spacerTemplate, sut.Content[0]);
+            Assert.AreNotEqual(spacerTemplate.UniqueId, sut.Content[0].UniqueId);
+        }
+
+        [TestMethod]
+        public void AddContentTemplate_BeforeControlIdValid_Success()
+        {
+            DynamicContentPage sut = new DynamicContentPage()
+            {
+                Id = 123,
+                Name = "My test page"
+            };
+
+            SpacerTemplate spacerTemplate = new SpacerTemplate();
+
+            sut.AddContentTemplate(spacerTemplate, null);
+            Assert.AreEqual(1, sut.Content.Count);
+            Assert.AreNotEqual(spacerTemplate, sut.Content[0]);
+            Assert.AreNotEqual(spacerTemplate.UniqueId, sut.Content[0].UniqueId);
+
+            sut.AddContentTemplate(spacerTemplate, "");
+            Assert.AreEqual(2, sut.Content.Count);
+            Assert.AreNotEqual(spacerTemplate, sut.Content[0]);
+            Assert.AreNotEqual(spacerTemplate.UniqueId, sut.Content[0].UniqueId);
+            Assert.AreNotEqual(spacerTemplate, sut.Content[1]);
+            Assert.AreNotEqual(spacerTemplate.UniqueId, sut.Content[1].UniqueId);
+            Assert.AreEqual("Control-1", sut.Content[0].UniqueId);
+            Assert.AreEqual("Control-2", sut.Content[1].UniqueId);
+
+            sut.AddContentTemplate(spacerTemplate, "Control-1");
+            Assert.AreEqual(3, sut.Content.Count);
+            Assert.AreNotEqual(spacerTemplate, sut.Content[0]);
+            Assert.AreNotEqual(spacerTemplate.UniqueId, sut.Content[0].UniqueId);
+            Assert.AreNotEqual(spacerTemplate, sut.Content[1]);
+            Assert.AreNotEqual(spacerTemplate.UniqueId, sut.Content[1].UniqueId);
+            Assert.AreNotEqual(spacerTemplate, sut.Content[2]);
+            Assert.AreNotEqual(spacerTemplate.UniqueId, sut.Content[2].UniqueId);
+
+            Assert.AreEqual("Control-3", sut.Content[0].UniqueId);
+            Assert.AreEqual("Control-1", sut.Content[1].UniqueId);
+            Assert.AreEqual("Control-2", sut.Content[2].UniqueId);
+        }
     }
 }

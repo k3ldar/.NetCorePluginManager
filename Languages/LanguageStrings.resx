@@ -14205,4 +14205,8 @@ You will shortly receive an email with the details of your order.</comment>
     <value>Spacer</value>
     <comment>Spacer</comment>
   </data>
+  <data name="TemplateNameHorizontalRule" xml:space="preserve">
+    <value>Horizontal Rule</value>
+    <comment>Horizontal Rule</comment>
+  </data>
 </root>

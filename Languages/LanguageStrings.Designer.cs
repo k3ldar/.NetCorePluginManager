@@ -29360,6 +29360,15 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Horizontal Rule.
+        /// </summary>
+        public static string TemplateNameHorizontalRule {
+            get {
+                return ResourceManager.GetString("TemplateNameHorizontalRule", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Html Content.
         /// </summary>
         public static string TemplateNameHtml {

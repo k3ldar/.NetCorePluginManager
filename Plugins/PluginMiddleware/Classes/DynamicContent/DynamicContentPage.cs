@@ -77,6 +77,9 @@ namespace Middleware.DynamicContent
         /// <param name="beforeControlId">Unique id of the control which the new template will be placed next to (before).</param>
         public void AddContentTemplate(DynamicContentTemplate dynamicContentTemplate, string beforeControlId)
         {
+            if (dynamicContentTemplate == null)
+                throw new ArgumentNullException(nameof(dynamicContentTemplate));
+
             int index = Content.Count;
 
             if (Content.Count > 0 && !String.IsNullOrEmpty(beforeControlId))
