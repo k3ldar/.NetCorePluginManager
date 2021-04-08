@@ -31,9 +31,9 @@ using DynamicContent.Plugin.Templates;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using SharedPluginFeatures;
+using SharedPluginFeatures.DynamicContent;
 
-
-namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests.TemplateTests
+namespace AspNetCore.PluginManager.Tests.Templates.DynamicContentTests.TemplateTests
 {
     [TestClass]
     [ExcludeFromCodeCoverage]
@@ -182,14 +182,15 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests.TemplateTes
         }
 
         [TestMethod]
-        [ExpectedException(typeof(InvalidOperationException))]
         [TestCategory(TestCategoryName)]
-        public void Data_SetValue_Throws_InvalidOperationException()
+        public void Data_SetValue_ValueIsNotRemembered_Success()
         {
             SpacerTemplate sut = new SpacerTemplate();
             sut.WidthType = DynamicContentWidthType.Columns;
             sut.Width = 10;
             sut.Data = "<p>new data</p>";
+
+            Assert.IsTrue(String.IsNullOrEmpty(sut.Data));
         }
 
         [TestMethod]
@@ -246,6 +247,50 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests.TemplateTes
             string content = sut.Content();
 
             Assert.AreEqual("<div style=\"width:538px !important;height:200px !important;display:block;\"><p>&nbsp;</p></div>", content);
+        }
+
+        [TestMethod]
+        [TestCategory(TestCategoryName)]
+        public void Clone_EmptyUniqueId_ContainsGuid_Success()
+        {
+            SpacerTemplate sut = new SpacerTemplate();
+
+            DynamicContentTemplate clone = sut.Clone(String.Empty);
+
+            Assert.IsNotNull(clone);
+            Assert.IsInstanceOfType(clone, typeof(SpacerTemplate));
+            bool guidParsed = Guid.TryParse(clone.UniqueId, out Guid uniqueId);
+            Assert.IsTrue(guidParsed);
+        }
+
+        [TestMethod]
+        [TestCategory(TestCategoryName)]
+        public void Clone_NullUniqueId_ContainsGuid_Success()
+        {
+            SpacerTemplate sut = new SpacerTemplate();
+
+            DynamicContentTemplate clone = sut.Clone(null);
+
+            Assert.IsNotNull(clone);
+            Assert.IsInstanceOfType(clone, typeof(SpacerTemplate));
+            bool guidParsed = Guid.TryParse(clone.UniqueId, out Guid uniqueId);
+            Assert.IsTrue(guidParsed);
+        }
+
+        [TestMethod]
+        [TestCategory(TestCategoryName)]
+        public void Clone_ValidUniqueId_ContainsGuid_Success()
+        {
+            SpacerTemplate sut = new SpacerTemplate();
+
+            DynamicContentTemplate clone = sut.Clone("my-unique-id");
+
+            Assert.IsNotNull(clone);
+            Assert.IsInstanceOfType(clone, typeof(SpacerTemplate));
+            bool guidParsed = Guid.TryParse(clone.UniqueId, out Guid uniqueId);
+            Assert.IsFalse(guidParsed);
+
+            Assert.AreEqual("my-unique-id", clone.UniqueId);
         }
     }
 }

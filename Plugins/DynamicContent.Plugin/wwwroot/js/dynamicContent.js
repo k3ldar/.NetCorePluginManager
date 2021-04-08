@@ -12,6 +12,7 @@
         errorList: '',
         previewUrl: '',
         deleteDialogue: '',
+        addTemplateUrl: '',
     };
 
     let root = {
@@ -189,7 +190,49 @@
         },
 
         dropTemplate: function (event) {
-            debugger;
+            var nextControl = "";
+            var nearliId = ""
+            var nearest = document.elementFromPoint(event.pageX, event.pageY);
+            if (nearest != null && nearest != undefined) {
+                var nearli = nearest.closest("li");
+                if (nearli != null && nearli != undefined) {
+                    var nearul = nearli.closest("ul");
+                    if (nearul != null && nearul != undefined) {
+                        nearliId = nearli.id;
+
+                        for (var i = 0; i < nearul.childNodes.length; i++) {
+                            if (nearul.childNodes[i].id === nearliId) {
+                                nextControl = nearul.childNodes[i].id;
+                                break;
+                            }
+                        }
+                   }
+                }
+            }
+
+            let addControlJson = {
+                cacheId: _settings.cacheId,
+                templateId: event.dataTransfer.getData('text'),
+                nextControl: nextControl
+            };
+
+            $.ajax({
+                type: 'POST',
+                url: _settings.addTemplateUrl,
+                data: addControlJson,
+                cache: false,
+                success: function (response) {
+                    if (response.success) {
+                        root.updatePage(_settings.cacheId);
+                    }
+                    else {
+                        $(_settings.dynamicContainer).html("Error updating custom page");
+                    }
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    root.updatePage(_settings.cacheId);
+                }
+            });
         }
     };
 

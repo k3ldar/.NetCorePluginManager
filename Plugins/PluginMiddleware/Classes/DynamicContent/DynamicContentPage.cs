@@ -24,7 +24,9 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+using System;
 using System.Collections.Generic;
+using System.Linq;
 
 using SharedPluginFeatures.DynamicContent;
 
@@ -65,5 +67,62 @@ namespace Middleware.DynamicContent
         public List<DynamicContentTemplate> Content { get; private set; }
 
         #endregion Properties
+
+        #region Public Methods
+
+        /// <summary>
+        /// Adds a new template items to the dynamic content page
+        /// </summary>
+        /// <param name="dynamicContentTemplate">New dynamic content template to be added.</param>
+        /// <param name="beforeControlId">Unique id of the control which the new template will be placed next to (before).</param>
+        public void AddContentTemplate(DynamicContentTemplate dynamicContentTemplate, string beforeControlId)
+        {
+            int index = Content.Count;
+
+            if (Content.Count > 0 && !String.IsNullOrEmpty(beforeControlId))
+            {
+                DynamicContentTemplate nextPage = Content.Where(c => c.UniqueId.Equals(beforeControlId)).FirstOrDefault();
+
+                if (nextPage != null)
+                {
+                    index = Content.IndexOf(nextPage);
+                }
+            }
+
+            DynamicContentTemplate clone = dynamicContentTemplate.Clone(GetNextControlName());
+            Content.Insert(index, clone);
+            UpdateSortOrders();
+        }
+
+        #endregion Public Methods
+
+        #region Private Methods
+
+        private void UpdateSortOrders()
+        {
+            for (int i = 0; i < Content.Count; i++)
+            {
+                Content[i].SortOrder = i;
+            }
+        }
+
+        private string GetNextControlName()
+        {
+            const string ControlName = "Control-{0}";
+
+            int nextIndex = Content.Count;
+            string Result = String.Empty;
+
+            do
+            {
+                nextIndex++;
+                Result = String.Format(ControlName, nextIndex);
+            }
+            while (Content.Where(c => c.UniqueId.Equals(Result)).Any());
+
+            return Result;
+        }
+
+        #endregion Private Methods
     }
 }

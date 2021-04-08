@@ -67,7 +67,17 @@ namespace DynamicContent.Plugin.Templates
 
         public override Int32 Height { get; set; }
 
-        public override String Data { get => String.Empty; set => throw new InvalidOperationException(); }
+        public override String Data
+        {
+            get
+            {
+                return String.Empty;
+            }
+
+            set 
+            { 
+            }
+        }
 
         public override DateTime ActiveFrom { get; set; }
 
@@ -88,6 +98,17 @@ namespace DynamicContent.Plugin.Templates
             HtmlEnd(Result);
 
             return Result.ToString();
+        }
+
+        public override DynamicContentTemplate Clone(string uniqueId)
+        {
+            if (String.IsNullOrEmpty(uniqueId))
+                uniqueId = Guid.NewGuid().ToString();
+
+            return new SpacerTemplate()
+            {
+                UniqueId = uniqueId
+            };
         }
 
         #endregion Methods

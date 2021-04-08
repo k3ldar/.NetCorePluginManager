@@ -13,58 +13,30 @@
  *
  *  Copyright (c) 2018 - 2021 Simon Carter.  All Rights Reserved.
  *
- *  Product:  PluginManager.Tests
+ *  Product:  AspNetCore.PluginManager.Tests
  *  
- *  File: MockLoggerFactory.cs
+ *  File: DynamicContentPageTests.cs
  *
- *  Purpose:  Mock ILoggerFactory for unit tests
+ *  Purpose:  Tests for DynamicContentPage
  *
  *  Date        Name                Reason
- *  01/04/2021  Simon Carter        Initially Created
+ *  08/04/2021  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-using Microsoft.Extensions.Logging;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace PluginManager.Tests.Mocks
+namespace AspNetCore.PluginManager.Tests.Plugins.PluginMiddleware.DynamicContent
 {
+    [TestClass]
     [ExcludeFromCodeCoverage]
-    public class MockLoggerFactory : ILoggerFactory
+    public class DynamicContentPageTests
     {
-        public void AddProvider(ILoggerProvider provider)
-        {
-
-        }
-
-        public ILogger CreateLogger(string categoryName)
-        {
-            return new MockLogger();
-        }
-
-        public void Dispose()
-        {
-
-        }
-    }
-
-    [ExcludeFromCodeCoverage]
-    public class MockLogger : ILogger
-    {
-        public IDisposable BeginScope<TState>(TState state)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool IsEnabled(Microsoft.Extensions.Logging.LogLevel logLevel)
-        {
-            return true;
-        }
-
-        public void Log<TState>(Microsoft.Extensions.Logging.LogLevel logLevel, EventId eventId, TState state, Exception exception, Func<TState, Exception, string> formatter)
-        {
-
-        }
     }
 }

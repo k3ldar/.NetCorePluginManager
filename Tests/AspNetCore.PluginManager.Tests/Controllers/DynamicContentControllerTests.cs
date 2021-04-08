@@ -1961,7 +1961,7 @@ namespace AspNetCore.PluginManager.Tests.Controllers
             Assert.IsTrue(MethodHasAttribute<HttpPostAttribute>(typeof(DynamicContentController), nameof(DynamicContentController.AddTemplateToPage)));
             Assert.IsTrue(MethodHasAttribute<AjaxOnlyAttribute>(typeof(DynamicContentController), nameof(DynamicContentController.AddTemplateToPage)));
             Assert.IsTrue(MethodHasAttribute<LoggedInAttribute>(typeof(DynamicContentController), nameof(DynamicContentController.AddTemplateToPage)));
-            Assert.IsTrue(MethodRouteAttribute(typeof(DynamicContentController), nameof(DynamicContentController.AddTemplateToPage), "DynamicContent/AddTemplate/{cacheId}/{templateId}/{position}"));
+            Assert.IsTrue(MethodRouteAttribute(typeof(DynamicContentController), nameof(DynamicContentController.AddTemplateToPage), "DynamicContent/AddTemplate/"));
 
             Assert.IsFalse(MethodHasAttribute<HttpGetAttribute>(typeof(DynamicContentController), nameof(DynamicContentController.AddTemplateToPage)));
             Assert.IsFalse(MethodHasAttribute<HttpPutAttribute>(typeof(DynamicContentController), nameof(DynamicContentController.AddTemplateToPage)));
@@ -1969,11 +1969,30 @@ namespace AspNetCore.PluginManager.Tests.Controllers
         }
 
         [TestMethod]
+        public void AddTemplateToPage_NullModel_Returns400()
+        {
+            DynamicContentController dynamicContentController = CreateDynamicContentController();
+
+            IActionResult response = dynamicContentController.AddTemplateToPage(null);
+
+            JsonResult sut = response as JsonResult;
+
+            Assert.AreEqual(400, sut.StatusCode.Value);
+        }
+
+        [TestMethod]
         public void AddTemplateToPage_NullCacheId_Returns400()
         {
             DynamicContentController dynamicContentController = CreateDynamicContentController();
 
-            IActionResult response = dynamicContentController.AddTemplateToPage(null, "123", 0);
+            AddControlModel model = new AddControlModel()
+            {
+                CacheId = null,
+                TemplateId = "123",
+                NextControl = ""
+            };
+
+            IActionResult response = dynamicContentController.AddTemplateToPage(model);
 
             JsonResult sut = response as JsonResult;
 
@@ -1985,7 +2004,14 @@ namespace AspNetCore.PluginManager.Tests.Controllers
         {
             DynamicContentController dynamicContentController = CreateDynamicContentController();
 
-            IActionResult response = dynamicContentController.AddTemplateToPage("", "123", 0);
+            AddControlModel model = new AddControlModel()
+            {
+                CacheId = "",
+                TemplateId = "123",
+                NextControl = ""
+            };
+
+            IActionResult response = dynamicContentController.AddTemplateToPage(model);
 
             JsonResult sut = response as JsonResult;
 
@@ -1997,7 +2023,14 @@ namespace AspNetCore.PluginManager.Tests.Controllers
         {
             DynamicContentController dynamicContentController = CreateDynamicContentController();
 
-            IActionResult response = dynamicContentController.AddTemplateToPage("123", null, 0);
+            AddControlModel model = new AddControlModel()
+            {
+                CacheId = "123",
+                TemplateId = null,
+                NextControl = ""
+            };
+
+            IActionResult response = dynamicContentController.AddTemplateToPage(model);
 
             JsonResult sut = response as JsonResult;
 
@@ -2009,7 +2042,14 @@ namespace AspNetCore.PluginManager.Tests.Controllers
         {
             DynamicContentController dynamicContentController = CreateDynamicContentController();
 
-            IActionResult response = dynamicContentController.AddTemplateToPage("123", "", 0);
+            AddControlModel model = new AddControlModel()
+            {
+                CacheId = "123",
+                TemplateId = "",
+                NextControl = ""
+            };
+
+            IActionResult response = dynamicContentController.AddTemplateToPage(model);
 
             JsonResult sut = response as JsonResult;
 
@@ -2021,7 +2061,14 @@ namespace AspNetCore.PluginManager.Tests.Controllers
         {
             DynamicContentController dynamicContentController = CreateDynamicContentController();
 
-            IActionResult response = dynamicContentController.AddTemplateToPage("123", "123", 0);
+            AddControlModel model = new AddControlModel()
+            {
+                CacheId = "123",
+                TemplateId = "123",
+                NextControl = ""
+            };
+
+            IActionResult response = dynamicContentController.AddTemplateToPage(model);
 
             JsonResult sut = response as JsonResult;
 
@@ -2043,7 +2090,14 @@ namespace AspNetCore.PluginManager.Tests.Controllers
 
             memoryCache.GetExtendingCache().Add(editPageModel.CacheId, new CacheItem(editPageModel.CacheId, "a string"), true);
 
-            IActionResult response = dynamicContentController.AddTemplateToPage(editPageModel.CacheId, "123", 0);
+            AddControlModel model = new AddControlModel()
+            {
+                CacheId = editPageModel.CacheId,
+                TemplateId = "123",
+                NextControl = ""
+            };
+
+            IActionResult response = dynamicContentController.AddTemplateToPage(model);
 
             JsonResult sut = response as JsonResult;
 
@@ -2063,7 +2117,14 @@ namespace AspNetCore.PluginManager.Tests.Controllers
             Assert.IsNotNull(viewResult.Model);
             EditPageModel editPageModel = viewResult.Model as EditPageModel;
 
-            IActionResult response = dynamicContentController.AddTemplateToPage(editPageModel.CacheId, "123", 0);
+            AddControlModel model = new AddControlModel()
+            {
+                CacheId = editPageModel.CacheId,
+                TemplateId = "123",
+                NextControl = ""
+            };
+
+            IActionResult response = dynamicContentController.AddTemplateToPage(model);
 
             JsonResult sut = response as JsonResult;
 
@@ -2094,7 +2155,14 @@ namespace AspNetCore.PluginManager.Tests.Controllers
             string currentTemplateIdPosition3 = editPageModel.DynamicContents[3].UniqueId;
             Assert.AreEqual(10, editPageModel.DynamicContents.Count);
 
-            IActionResult response = dynamicContentController.AddTemplateToPage(editPageModel.CacheId, template.TemplateId, 3);
+            AddControlModel model = new AddControlModel()
+            {
+                CacheId = editPageModel.CacheId,
+                TemplateId = template.TemplateId,
+                NextControl = editPageModel.DynamicContents[3].UniqueId
+            };
+
+            IActionResult response = dynamicContentController.AddTemplateToPage(model);
 
             ViewResult addTemplateViewResult = editPageResponse as ViewResult;
             Assert.IsNotNull(addTemplateViewResult.Model);

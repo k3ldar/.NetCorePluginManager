@@ -293,6 +293,16 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         }
 
         [TestMethod]
+        public void AddControlModel_Construct_Success()
+        {
+            AddControlModel sut = new AddControlModel();
+
+            Assert.IsNull(sut.CacheId);
+            Assert.IsNull(sut.TemplateId);
+            Assert.IsNull(sut.NextControl);
+        }
+
+        [TestMethod]
         public void EditTemplateModel_Construct_PropertiesContainDefaultValues_Success()
         {
             EditTemplateModel sut = new EditTemplateModel();

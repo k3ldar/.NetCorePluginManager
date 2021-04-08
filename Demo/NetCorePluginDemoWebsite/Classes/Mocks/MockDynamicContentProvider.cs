@@ -41,7 +41,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes.Mocks
         #region Private Members
 
         private readonly IPluginClassesService _pluginClassesService;
-        private List<DynamicContentTemplate> _templates;
+        private static List<DynamicContentTemplate> _templates;
         private IDynamicContentPage _dynamicContentPage1;
         private IDynamicContentPage _dynamicContentPage2;
         private IDynamicContentPage _dynamicContentPage3;

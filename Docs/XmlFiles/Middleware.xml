@@ -1222,6 +1222,13 @@
             Dynamic content that will be displayed within the page
             </summary>
         </member>
+        <member name="M:Middleware.DynamicContent.DynamicContentPage.AddContentTemplate(SharedPluginFeatures.DynamicContent.DynamicContentTemplate,System.String)">
+            <summary>
+            Adds a new template items to the dynamic content page
+            </summary>
+            <param name="dynamicContentTemplate">New dynamic content template to be added.</param>
+            <param name="beforeControlId">Unique id of the control which the new template will be placed next to (before).</param>
+        </member>
         <member name="T:Middleware.DynamicContent.IDynamicContentProvider">
             <summary>
             Dynamic content provider for integrating with the DynamicContent.Plugin module.

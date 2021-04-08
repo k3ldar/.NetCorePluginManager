@@ -55,6 +55,17 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
             return Data;
         }
 
+        public override DynamicContentTemplate Clone(string uniqueId)
+        {
+            if (String.IsNullOrEmpty(uniqueId))
+                uniqueId = Guid.NewGuid().ToString();
+
+            return new TestDynamicTemplate()
+            {
+                UniqueId = uniqueId
+            };
+        }
+
         public void TestHtmlStart(StringBuilder stringBuilder)
         {
             HtmlStart(stringBuilder);

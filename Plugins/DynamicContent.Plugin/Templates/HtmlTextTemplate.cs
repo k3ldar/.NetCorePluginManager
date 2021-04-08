@@ -101,6 +101,14 @@ namespace DynamicContent.Plugin.Templates
 
         public override string Data { get; set; }
 
+        public override DateTime ActiveFrom { get; set; }
+
+        public override DateTime ActiveTo { get; set; }
+
+        #endregion DynamicContentTemplate Properties
+
+        #region DynamicContentTemplate Methods
+
         public override String Content()
         {
             StringBuilder Result = new StringBuilder(2048);
@@ -114,10 +122,17 @@ namespace DynamicContent.Plugin.Templates
             return Result.ToString();
         }
 
-        public override DateTime ActiveFrom { get; set; }
+        public override DynamicContentTemplate Clone(string uniqueId)
+        {
+            if (String.IsNullOrEmpty(uniqueId))
+                uniqueId = Guid.NewGuid().ToString();
 
-        public override DateTime ActiveTo { get; set; }
+            return new HtmlTextTemplate()
+            {
+                UniqueId = uniqueId
+            };
+        }
 
-        #endregion DynamicContentTemplate Properties
+        #endregion DynamicContentTemplate Methods
     }
 }

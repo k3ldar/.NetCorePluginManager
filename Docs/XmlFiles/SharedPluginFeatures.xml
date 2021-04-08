@@ -119,6 +119,13 @@
             </summary>
             <value>string</value>
         </member>
+        <member name="M:SharedPluginFeatures.DynamicContent.DynamicContentTemplate.Clone(System.String)">
+            <summary>
+            Creates a clone of the template
+            </summary>
+            <param name="uniqueId">Unique id of the cloned DynamicContentTemplate instance</param>
+            <returns>DynamicContentTemplate</returns>
+        </member>
         <member name="M:SharedPluginFeatures.DynamicContent.DynamicContentTemplate.HtmlStart(System.Text.StringBuilder)">
             <summary>
             Generates the html used as start of the custom block, taking into account the width/height types

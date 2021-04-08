@@ -200,6 +200,13 @@ namespace SharedPluginFeatures.DynamicContent
         /// <value>string</value>
         public abstract string Content();
 
+        /// <summary>
+        /// Creates a clone of the template
+        /// </summary>
+        /// <param name="uniqueId">Unique id of the cloned DynamicContentTemplate instance</param>
+        /// <returns>DynamicContentTemplate</returns>
+        public abstract DynamicContentTemplate Clone(string uniqueId);
+
         #endregion Abstract Methods
 
         #region Pretected Methods

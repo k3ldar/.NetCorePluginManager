@@ -25,11 +25,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Models\**" />
     <Compile Remove="Plugin\**" />
     <Compile Remove="Views\Account\**" />
+    <Content Remove="Models\**" />
     <Content Remove="Plugin\**" />
     <Content Remove="Views\Account\**" />
+    <EmbeddedResource Remove="Models\**" />
     <EmbeddedResource Remove="Plugin\**" />
+    <None Remove="Models\**" />
     <None Remove="Plugin\**" />
     <None Remove="Views\Account\**" />
   </ItemGroup>
@@ -133,7 +137,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Models\" />
     <Folder Include="Views\Spider\" />
     <Folder Include="wwwroot\images\Download\" />
   </ItemGroup>

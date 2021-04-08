@@ -31,8 +31,9 @@ using DynamicContent.Plugin.Templates;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using SharedPluginFeatures;
+using SharedPluginFeatures.DynamicContent;
 
-namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests.TemplateTests
+namespace AspNetCore.PluginManager.Tests.Templates.DynamicContentTests.TemplateTests
 {
     [TestClass]
     [ExcludeFromCodeCoverage]
@@ -251,6 +252,50 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests.TemplateTes
             string content = sut.Content();
 
             Assert.AreEqual("<div style=\"width:538px !important;display:block;\"><p>test</p></div>", content);
+        }
+
+        [TestMethod]
+        [TestCategory(TestCategoryName)]
+        public void Clone_EmptyUniqueId_ContainsGuid_Success()
+        {
+            HtmlTextTemplate sut = new HtmlTextTemplate();
+
+            DynamicContentTemplate clone = sut.Clone(String.Empty);
+
+            Assert.IsNotNull(clone);
+            Assert.IsInstanceOfType(clone, typeof(HtmlTextTemplate));
+            bool guidParsed = Guid.TryParse(clone.UniqueId, out Guid uniqueId);
+            Assert.IsTrue(guidParsed);
+        }
+
+        [TestMethod]
+        [TestCategory(TestCategoryName)]
+        public void Clone_NullUniqueId_ContainsGuid_Success()
+        {
+            HtmlTextTemplate sut = new HtmlTextTemplate();
+
+            DynamicContentTemplate clone = sut.Clone(null);
+
+            Assert.IsNotNull(clone);
+            Assert.IsInstanceOfType(clone, typeof(HtmlTextTemplate));
+            bool guidParsed = Guid.TryParse(clone.UniqueId, out Guid uniqueId);
+            Assert.IsTrue(guidParsed);
+        }
+
+        [TestMethod]
+        [TestCategory(TestCategoryName)]
+        public void Clone_ValidUniqueId_ContainsGuid_Success()
+        {
+            HtmlTextTemplate sut = new HtmlTextTemplate();
+
+            DynamicContentTemplate clone = sut.Clone("my-unique-id");
+
+            Assert.IsNotNull(clone);
+            Assert.IsInstanceOfType(clone, typeof(HtmlTextTemplate));
+            bool guidParsed = Guid.TryParse(clone.UniqueId, out Guid uniqueId);
+            Assert.IsFalse(guidParsed);
+
+            Assert.AreEqual("my-unique-id", clone.UniqueId);
         }
     }
 }
