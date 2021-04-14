@@ -369,8 +369,8 @@ namespace AspNetCore.PluginManager.Tests.Controllers
         public void UpdateControlPosition_ValidModel_InvalidCacheId_NotFound_ReturnsNonSuccess()
         {
             DynamicContentController dynamicContentController = CreateDynamicContentController();
-            IActionResult response = dynamicContentController.UpdateControlPosition(new UpdatePositionModel() 
-            { 
+            IActionResult response = dynamicContentController.UpdateControlPosition(new UpdatePositionModel()
+            {
                 CacheId = "blah",
                 ControlId = "control-id"
             });
@@ -1936,7 +1936,7 @@ namespace AspNetCore.PluginManager.Tests.Controllers
 
             Assert.IsNotNull(sut);
 
-            Assert.AreEqual(3, sut.Templates.Count);
+            Assert.AreEqual(4, sut.Templates.Count);
         }
 
         [TestMethod]
@@ -2145,7 +2145,7 @@ namespace AspNetCore.PluginManager.Tests.Controllers
             Assert.IsInstanceOfType(templateResult.Model, typeof(TemplatesModel));
             TemplatesModel templatesModel = templateResult.Model as TemplatesModel;
             TemplateModel template = templatesModel.Templates.Where(t => t.TemplateName.Equals("Spacer")).FirstOrDefault();
-            
+
 
             IActionResult editPageResponse = dynamicContentController.EditPage(10);
             ViewResult viewResult = editPageResponse as ViewResult;
