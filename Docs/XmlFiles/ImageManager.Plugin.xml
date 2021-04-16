@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>ImageManager.Plugin</name>
+    </assembly>
+    <members>
+        <member name="T:ImageManager.Plugin.Controllers.ImageManagerController">
+            <summary>
+            Error Controller
+            </summary>
+        </member>
+        <member name="T:ImageManager.Plugin.PluginInitialisation">
+            <summary>
+            Implements IPlugin and IInitialiseEvents which allows the ImageManager.Plugin module to be
+            loaded as a plugin module
+            </summary>
+        </member>
+    </members>
+</doc>

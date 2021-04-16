@@ -85,6 +85,7 @@
     <PackageReference Include="Sitemap.Plugin" Version="$(Version)" />
     <PackageReference Include="SearchPlugin" Version="$(Version)" />
     <PackageReference Include="WebSmokeTest.Plugin" Version="$(Version)" />
+	  <PackageReference Include="ImageManager.Plugin" Version="$(Version)" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(Configuration)'=='Debug'">
@@ -118,6 +119,7 @@
     <ProjectReference Include="..\..\Plugins\WebSmokeTest.Plugin\WebSmokeTest.Plugin.csproj" />
     <ProjectReference Include="..\..\Plugins\GeoIpPlugin\GeoIpPlugin.csproj" />
     <ProjectReference Include="..\..\Plugins\Subdomain.Plugin\Subdomain.Plugin.csproj" />
+	<ProjectReference Include="..\..\Plugins\ImageManager.Plugin\ImageManager.Plugin.csproj" />
   </ItemGroup>
   
   <ItemGroup>
