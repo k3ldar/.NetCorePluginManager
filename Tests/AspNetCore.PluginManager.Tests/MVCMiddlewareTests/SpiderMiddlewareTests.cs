@@ -912,7 +912,7 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
             {
                 Assert.IsNotNull(serviceCollection);
 
-                Result = new TestHttpContext(httpRequest, httpResponse, serviceCollection.BuildServiceProvider());
+                Result = new TestHttpContext(httpRequest, httpResponse, serviceCollection.BuildServiceProvider(), null);
             }
             else
             {

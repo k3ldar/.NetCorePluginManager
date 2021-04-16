@@ -62,6 +62,7 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
         [TestInitialize]
         public void InitialiseSmokeTestPluginManager()
         {
+            CacheManager.ClearAllCaches();
             InitializeSmokeTestPluginManager();
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
             WebSmokeTestSettings settings = settingsProvider.GetSettings<WebSmokeTestSettings>(nameof(WebSmokeTest));
@@ -370,7 +371,7 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
                 httpResponse.Body.Read(data, 0, data.Length);
                 string test = Decrypt(Encoding.UTF8.GetString(data), EncryptionKey);
 
-                Assert.IsTrue(test.Contains("Please try again"));
+                Assert.IsTrue(test.Contains("Please try again"), $"test data failed: {test}");
                 Assert.IsTrue(test.Contains("Method\":\"POST") || test.Contains("Method\":\"GET"));
             }
         }
@@ -428,7 +429,7 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
             IPluginTypesService pluginTypesService = _testPluginSmokeTest.GetRequiredService<IPluginTypesService>();
 
             TestHttpContext httpContext = new TestHttpContext(httpRequest, httpResponse,
-                _testPluginSmokeTest.GetServiceProvider());
+                _testPluginSmokeTest.GetServiceProvider(), null);
             ILogger logger = new Logger();
             bool nextDelegateCalled = false;
             RequestDelegate requestDelegate = async (context) => { nextDelegateCalled = true; await Task.Delay(0); };
@@ -473,7 +474,7 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
             serviceCollection.AddSingleton<ISmokeTestProvider>(smokeTestProvider);
 
             TestHttpContext httpContext = new TestHttpContext(httpRequest, httpResponse,
-                serviceCollection.BuildServiceProvider());
+                serviceCollection.BuildServiceProvider(), null);
             ILogger logger = new Logger();
             bool nextDelegateCalled = false;
             RequestDelegate requestDelegate = async (context) => { nextDelegateCalled = true; await Task.Delay(0); };
@@ -524,7 +525,7 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
             serviceCollection.AddSingleton<ISmokeTestProvider>(smokeTestProvider);
 
             TestHttpContext httpContext = new TestHttpContext(httpRequest, httpResponse,
-                serviceCollection.BuildServiceProvider());
+                serviceCollection.BuildServiceProvider(), null);
             ILogger logger = new Logger();
             bool nextDelegateCalled = false;
             RequestDelegate requestDelegate = async (context) => { nextDelegateCalled = true; await Task.Delay(0); };
@@ -570,7 +571,7 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
             IServiceCollection serviceCollection = new ServiceCollection() as IServiceCollection;
 
             TestHttpContext httpContext = new TestHttpContext(httpRequest, httpResponse,
-                serviceCollection.BuildServiceProvider());
+                serviceCollection.BuildServiceProvider(), null);
             ILogger logger = new Logger();
             bool nextDelegateCalled = false;
             RequestDelegate requestDelegate = async (context) => { nextDelegateCalled = true; await Task.Delay(0); };
@@ -608,7 +609,7 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
             serviceCollection.AddSingleton<ISmokeTestProvider>(smokeTestProvider);
 
             TestHttpContext httpContext = new TestHttpContext(httpRequest, httpResponse,
-                serviceCollection.BuildServiceProvider());
+                serviceCollection.BuildServiceProvider(), null);
             ILogger logger = new Logger();
             bool nextDelegateCalled = false;
             RequestDelegate requestDelegate = async (context) => { nextDelegateCalled = true; await Task.Delay(0); };

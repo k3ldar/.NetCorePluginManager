@@ -1,52 +1,68 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
-    <Version>4.1.0</Version>
-    <IsPackable>false</IsPackable>
-    <RunAnalyzersDuringBuild>false</RunAnalyzersDuringBuild>
-    <RunAnalyzersDuringLiveAnalysis>false</RunAnalyzersDuringLiveAnalysis>
+	<TargetFramework>net5.0</TargetFramework>
+	<Version>4.1.0</Version>
+	<IsPackable>false</IsPackable>
+	<RunAnalyzersDuringBuild>false</RunAnalyzersDuringBuild>
+	<RunAnalyzersDuringLiveAnalysis>false</RunAnalyzersDuringLiveAnalysis>
   </PropertyGroup>
 
-  <ItemGroup>
-    <None Remove="appsettings.json" />
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)'=='Debug|net5.0'">
+		<DefineConstants>CODE_ANALYSIS;DEBUG;TRACE;NET_CORE;NET_5_0;NET_5_X</DefineConstants>
+		<CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
+		<DebugType>full</DebugType>
+		<DebugSymbols>true</DebugSymbols>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)'=='Release|net5.0'">
+		<DefineConstants>CODE_ANALYSIS;NET_CORE;NET_5_0;NET_5_X</DefineConstants>
+		<CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
+		<DebugType>portable</DebugType>
+		<DebugSymbols>true</DebugSymbols>
+	</PropertyGroup>
+
+	<ItemGroup>
+	<None Remove="appsettings.json" />
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="appsettings.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+	<Content Include="appsettings.json">
+	  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	</Content>
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.8.3" />
-    <PackageReference Include="MSTest.TestAdapter" Version="2.1.2" />
-    <PackageReference Include="MSTest.TestFramework" Version="2.1.2" />
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
-    <PackageReference Include="SC.Shared.Library.Core" Version="2.20.0" />
+	<PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.8.3" />
+	<PackageReference Include="MSTest.TestAdapter" Version="2.1.2" />
+	<PackageReference Include="MSTest.TestFramework" Version="2.1.2" />
+	<PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+	<PackageReference Include="SC.Shared.Library.Core" Version="2.20.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Demo\NetCorePluginDemoWebsite\AspNetCore.PluginManager.DemoWebsite.csproj" />
-    <ProjectReference Include="..\..\NetCorePluginManager\AspNetCore.PluginManager.csproj" />
-    <ProjectReference Include="..\..\PluginManager\src\PluginManager.csproj" />
-    <ProjectReference Include="..\..\Plugins\Login.Plugin\Login.Plugin.csproj" />
-    <ProjectReference Include="..\..\Plugins\PluginMiddleware\PluginMiddleware.csproj" />
-    <ProjectReference Include="..\..\Plugins\Products.Plugin\ProductsPlugin.csproj" />
-    <ProjectReference Include="..\..\Plugins\Search.Plugin\Search.Plugin.csproj" />
-    <ProjectReference Include="..\..\Plugins\Spider.Plugin\Spider.Plugin.csproj" />
-    <ProjectReference Include="..\..\Plugins\Subdomain.Plugin\Subdomain.Plugin.csproj" />
-    <ProjectReference Include="..\..\Plugins\SystemAdmin.Plugin\SystemAdmin.Plugin.csproj" />
-    <ProjectReference Include="..\..\Plugins\WebSmokeTest.Plugin\WebSmokeTest.Plugin.csproj" />
-    <ProjectReference Include="..\..\SharedPluginFeatures\SharedPluginFeatures.csproj" />
-    <ProjectReference Include="..\PluginManager.Tests\PluginManager.Tests.csproj" />
-    <ProjectReference Include="..\..\Plugins\Documentation.Plugin\Documentation.Plugin.csproj" />
-    <ProjectReference Include="..\..\Plugins\MemoryCachePlugin\MemoryCachePlugin.csproj" />
-    <ProjectReference Include="..\..\Plugins\Blog.Plugin\Blog.Plugin.csproj" />
+	<ProjectReference Include="..\..\Demo\NetCorePluginDemoWebsite\AspNetCore.PluginManager.DemoWebsite.csproj" />
+	<ProjectReference Include="..\..\NetCorePluginManager\AspNetCore.PluginManager.csproj" />
+	<ProjectReference Include="..\..\PluginManager\src\PluginManager.csproj" />
+	<ProjectReference Include="..\..\Plugins\DynamicContent.Plugin\DynamicContent.Plugin.csproj" />
+	<ProjectReference Include="..\..\Plugins\Login.Plugin\Login.Plugin.csproj" />
+	<ProjectReference Include="..\..\Plugins\PluginMiddleware\PluginMiddleware.csproj" />
+	<ProjectReference Include="..\..\Plugins\Products.Plugin\ProductsPlugin.csproj" />
+	<ProjectReference Include="..\..\Plugins\Search.Plugin\Search.Plugin.csproj" />
+	<ProjectReference Include="..\..\Plugins\Spider.Plugin\Spider.Plugin.csproj" />
+	<ProjectReference Include="..\..\Plugins\Subdomain.Plugin\Subdomain.Plugin.csproj" />
+	<ProjectReference Include="..\..\Plugins\SystemAdmin.Plugin\SystemAdmin.Plugin.csproj" />
+	<ProjectReference Include="..\..\Plugins\WebSmokeTest.Plugin\WebSmokeTest.Plugin.csproj" />
+	<ProjectReference Include="..\..\SharedPluginFeatures\SharedPluginFeatures.csproj" />
+	<ProjectReference Include="..\PluginManager.Tests\PluginManager.Tests.csproj" />
+	<ProjectReference Include="..\..\Plugins\Documentation.Plugin\Documentation.Plugin.csproj" />
+	<ProjectReference Include="..\..\Plugins\MemoryCachePlugin\MemoryCachePlugin.csproj" />
+	<ProjectReference Include="..\..\Plugins\Blog.Plugin\Blog.Plugin.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="InternalClasses\" />
+	<Folder Include="InternalClasses\" />
+	<Folder Include="Plugins\PluginMiddleware\DynamicContent\" />
   </ItemGroup>
 
 </Project>
