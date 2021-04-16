@@ -27,8 +27,15 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authorization.Infrastructure;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace PluginManager.Tests.Mocks
 {
@@ -41,6 +48,85 @@ namespace PluginManager.Tests.Mocks
         {
             _serviceDescriptors = new List<ServiceDescriptor>();
         }
+
+        public bool HasServiceRegistered<T>(ServiceLifetime serviceLifetime)
+        {
+            return _serviceDescriptors.Where(sd => sd.Lifetime.Equals(serviceLifetime) && sd.ServiceType != null && sd.ServiceType.Equals(typeof(T))).Any();
+        }
+
+        public bool HasPolicyConfigured(string policyName, string[] requiredClaimNames)
+        {
+            List<ServiceDescriptor> configureOptions = _serviceDescriptors.Where(sd => sd.ServiceType != null && sd.ServiceType.Equals(typeof(IConfigureOptions<AuthorizationOptions>))).ToList();
+
+            if (configureOptions == null)
+                return false;
+
+            foreach (ServiceDescriptor configureOption in configureOptions)
+            {
+                ConfigureNamedOptions<AuthorizationOptions> configureNamedOptions = (ConfigureNamedOptions<AuthorizationOptions>)configureOption.ImplementationInstance;
+
+                AuthorizationOptions authorizationOptions = new AuthorizationOptions();
+                configureNamedOptions.Action.Invoke(authorizationOptions);
+
+                AuthorizationPolicy authorizationPolicy = authorizationOptions.GetPolicy(policyName);
+
+                if (authorizationPolicy == null)
+                    continue;
+
+                Assert.AreEqual(requiredClaimNames.Length, authorizationPolicy.Requirements.Count, "Policy claim count does not match expected claim count");
+
+                foreach (ClaimsAuthorizationRequirement requirement in authorizationPolicy.Requirements)
+                {
+                    if (!requiredClaimNames.Contains(requirement.ClaimType))
+                        continue;
+                }
+
+                return true;
+            }
+
+            return false;
+        }
+
+        public bool HasMvcEndpointRouting()
+        {
+            List<ServiceDescriptor> configureOptions = _serviceDescriptors
+                .Where(sd => sd.ServiceType != null && sd.ImplementationInstance != null && sd.Lifetime == ServiceLifetime.Singleton && sd.ServiceType.Equals(typeof(IConfigureOptions<MvcOptions>)))
+                .ToList();
+
+            Assert.IsNotNull(configureOptions, "Could not find ServiceDescriptor for MvcOptions");
+
+            foreach (ServiceDescriptor configureOption in configureOptions)
+            {
+                ConfigureNamedOptions<MvcOptions> configureNamedOptions = (ConfigureNamedOptions<MvcOptions>)configureOption.ImplementationInstance;
+
+                MvcOptions authorizationOptions = new MvcOptions();
+                configureNamedOptions.Action.Invoke(authorizationOptions);
+
+                return authorizationOptions.EnableEndpointRouting;
+            }
+
+            throw new InvalidOperationException("Could not find ServiceDescriptor for MvcOptions");
+        }
+
+        public bool HasMvcConfigured()
+        {
+            List<ServiceDescriptor> configureOptions = _serviceDescriptors
+                .Where(sd => sd.ServiceType != null && sd.Lifetime == ServiceLifetime.Singleton && sd.ServiceType.Equals(typeof(IActionInvokerFactory)))
+                .ToList();
+
+            return configureOptions != null;
+        }
+
+        public bool HasSessionStateTempDataProvider()
+        {
+            List<ServiceDescriptor> configureOptions = _serviceDescriptors
+                .Where(sd => sd.ServiceType != null && sd.Lifetime == ServiceLifetime.Singleton && sd.ServiceType.Equals(typeof(IMvcBuilder)))
+                .ToList();
+
+            return configureOptions != null;
+        }
+
+        #region IServiceCollection 
 
         public ServiceDescriptor this[int index] { get => _serviceDescriptors[index]; set => throw new NotImplementedException(); }
 
@@ -85,7 +171,7 @@ namespace PluginManager.Tests.Mocks
 
         public bool Remove(ServiceDescriptor item)
         {
-            throw new NotImplementedException();
+            return _serviceDescriptors.Remove(item);
         }
 
         public void RemoveAt(int index)
@@ -97,5 +183,7 @@ namespace PluginManager.Tests.Mocks
         {
             throw new NotImplementedException();
         }
+
+        #endregion IServiceCollection
     }
 }

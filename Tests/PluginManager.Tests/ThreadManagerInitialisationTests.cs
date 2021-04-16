@@ -54,7 +54,7 @@ namespace PluginManager.Tests
 
             ThreadManagerInitialisation.Initialise(testLogger);
 
-            ThreadManager.ThreadStart(new TestThreadThatStops(), "Test that stops", System.Threading.ThreadPriority.BelowNormal);
+            ThreadManager.ThreadStart(new TestThreadThatStops(), "Test that stops", ThreadPriority.BelowNormal);
 
             ThreadManager.CancelAll(3);
 

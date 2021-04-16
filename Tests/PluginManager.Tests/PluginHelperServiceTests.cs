@@ -134,7 +134,7 @@ namespace PluginManager.Tests
                 List<Type> classTypes = pluginClassesServices.GetPluginClassTypes<ILogger>();
 
                 Assert.IsNotNull(classTypes);
-                Assert.AreEqual(2, classTypes.Count);
+                Assert.AreEqual(3, classTypes.Count);
             }
         }
 
