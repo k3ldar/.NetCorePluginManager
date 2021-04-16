@@ -189,7 +189,6 @@ namespace AspNetCore.PluginManager.Tests.Controllers
                 _testDynamicContentPlugin.UsePlugin(typeof(MemoryCache.Plugin.PluginInitialisation));
                 _testDynamicContentPlugin.UsePlugin(typeof(LoginPlugin.PluginInitialisation));
                 _testDynamicContentPlugin.UsePlugin(typeof(Spider.Plugin.PluginInitialisation));
-                _testDynamicContentPlugin.UsePlugin(typeof(DynamicContent.Plugin.PluginInitialisation));
 
                 _testDynamicContentPlugin.ConfigureServices();
 
