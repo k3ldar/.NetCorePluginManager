@@ -47,6 +47,7 @@ namespace AspNetCore.PluginManager.Tests
         private readonly TestHttpRequest _httpRequest;
         private readonly TestHttpResponse _httpResponse;
         private readonly IServiceProvider _serviceProvider;
+        private readonly List<BreadcrumbItem> _breadcrumbs;
         private IDictionary<object, object> _items;
 
         #endregion Private Members
@@ -60,17 +61,27 @@ namespace AspNetCore.PluginManager.Tests
             CreateSession = true;
         }
 
-        public TestHttpContext(in TestHttpRequest httpRequest, in TestHttpResponse httpResponse)
+        public TestHttpContext(in TestHttpRequest httpRequest, in TestHttpResponse httpResponse, 
+            List<BreadcrumbItem> breadcrumbs = null)
         {
             _httpRequest = httpRequest ?? throw new ArgumentNullException(nameof(httpRequest));
             _httpResponse = httpResponse ?? throw new ArgumentNullException(nameof(httpResponse));
             CreateSession = true;
+            _breadcrumbs = breadcrumbs;
         }
 
-        public TestHttpContext(in TestHttpRequest httpRequest, in TestHttpResponse httpResponse, IServiceProvider serviceProvider)
+        public TestHttpContext(in TestHttpRequest httpRequest, in TestHttpResponse httpResponse, 
+            IServiceProvider serviceProvider)
             : this(httpRequest, httpResponse)
         {
             _serviceProvider = serviceProvider ?? throw new ArgumentNullException(nameof(serviceProvider));
+        }
+
+        public TestHttpContext(in TestHttpRequest httpRequest, in TestHttpResponse httpResponse,
+            IServiceProvider serviceProvider, List<BreadcrumbItem> breadcrumbs)
+            : this(httpRequest, httpResponse, serviceProvider)
+        {
+            _breadcrumbs = breadcrumbs;
         }
 
         #endregion Constructors
@@ -127,6 +138,11 @@ namespace AspNetCore.PluginManager.Tests
 
                     if (CreateSession && LogUserIn)
                         ((UserSession)_items[Constants.UserSession]).UserEmail = "john.doe@test.com";
+
+                    if (_breadcrumbs != null)
+                    {
+                        _items.Add(Constants.Breadcrumbs, _breadcrumbs);
+                    }
                 }
 
                 return _items;
