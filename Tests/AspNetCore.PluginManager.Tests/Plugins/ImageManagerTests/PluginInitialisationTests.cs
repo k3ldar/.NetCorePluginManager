@@ -26,11 +26,14 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
+using AspNetCore.PluginManager.Tests.Shared;
+
 using ImageManager.Plugin;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using PluginManager.Abstractions;
+using PluginManager.Tests.Mocks;
 
 using SharedPluginFeatures;
 
@@ -167,7 +170,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
 
             sut.AfterConfigureServices(mockServiceCollection);
 
-            Assert.IsTrue(mockServiceCollection.HasServiceRegistered<IDynamicContentProvider>(ServiceLifetime.Singleton));
+            //Assert.IsTrue(mockServiceCollection.HasServiceRegistered<IDynamicContentProvider>(ServiceLifetime.Singleton));
 
             string[] claims = { "ManageContent", "StaffMember", "Name", "UserId", "Email" };
             Assert.IsTrue(mockServiceCollection.HasPolicyConfigured("ContentEditor", claims));
