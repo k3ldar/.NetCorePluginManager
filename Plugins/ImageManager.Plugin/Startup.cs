@@ -24,8 +24,6 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 #pragma warning disable CS1591
@@ -34,12 +32,10 @@ namespace ImageManager.Plugin
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public Startup()
         {
-            Configuration = configuration;
-        }
 
-        public IConfiguration Configuration { get; }
+        }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -53,14 +49,8 @@ namespace ImageManager.Plugin
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1801:ReviewUnusedParameters", MessageId = "Reviewed and ok in this context")]
-        public void Configure(IApplicationBuilder app,
-#if NET_CORE_3_X || NET_5_X
-            IWebHostEnvironment env)
-#else
-            IHostingEnvironment env)
-#endif
+        public void Configure(IApplicationBuilder app)
         {
-
 #if !NET_CORE_3_X || NET_5_X
             app.UseMvc(routes =>
             {
