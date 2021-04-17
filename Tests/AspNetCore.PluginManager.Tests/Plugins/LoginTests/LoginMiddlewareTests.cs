@@ -29,6 +29,7 @@ using System.IO;
 using System.Threading.Tasks;
 
 using AspNetCore.PluginManager.DemoWebsite.Classes;
+using AspNetCore.PluginManager.Tests.MiddlewareTests;
 
 using LoginPlugin;
 
@@ -42,7 +43,7 @@ using static SharedPluginFeatures.Constants;
 
 using pm = PluginManager.Internal;
 
-namespace AspNetCore.PluginManager.Tests.MiddlewareTests
+namespace AspNetCore.PluginManager.Tests.Plugins.LoginTests
 {
     [TestClass]
     [ExcludeFromCodeCoverage]

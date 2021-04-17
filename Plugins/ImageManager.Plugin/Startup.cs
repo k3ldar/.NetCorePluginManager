@@ -23,6 +23,10 @@
  *  15/04/2021  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+using System;
+
+using AspNetCore.PluginManager;
+
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -34,12 +38,20 @@ namespace ImageManager.Plugin
     {
         public Startup()
         {
+            if (!PluginManagerService.HasInitialised)
+                PluginManagerService.Initialise();
 
+            PluginManagerService.UsePlugin(typeof(PluginInitialisation));
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            if (services == null)
+                throw new ArgumentNullException(nameof(services));
+
+            PluginManagerService.ConfigureServices(services);
+
             services.AddMvc(
 #if NET_CORE_3_X || NET_5_X
                 option => option.EnableEndpointRouting = false
@@ -51,13 +63,18 @@ namespace ImageManager.Plugin
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1801:ReviewUnusedParameters", MessageId = "Reviewed and ok in this context")]
         public void Configure(IApplicationBuilder app)
         {
+            if (app == null)
+                throw new ArgumentNullException(nameof(app));
+
+            PluginManagerService.Configure(app);
+
 #if !NET_CORE_3_X || NET_5_X
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
-            });
+            }).UsePluginManager();
 #endif
         }
     }

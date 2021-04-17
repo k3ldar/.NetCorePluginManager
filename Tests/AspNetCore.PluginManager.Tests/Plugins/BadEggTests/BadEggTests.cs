@@ -30,6 +30,7 @@ using System.IO;
 using System.Threading.Tasks;
 
 using AspNetCore.PluginManager.DemoWebsite.Classes;
+using AspNetCore.PluginManager.Tests.MiddlewareTests;
 
 using BadEgg.Plugin;
 
@@ -46,7 +47,7 @@ using static SharedPluginFeatures.Constants;
 
 using pm = PluginManager.Internal;
 
-namespace AspNetCore.PluginManager.Tests.MiddlewareTests
+namespace AspNetCore.PluginManager.Tests.Plugins.BadEggTests
 {
     [TestClass]
     [ExcludeFromCodeCoverage]

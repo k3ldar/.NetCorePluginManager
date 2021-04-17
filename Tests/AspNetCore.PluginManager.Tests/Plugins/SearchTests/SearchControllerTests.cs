@@ -42,7 +42,7 @@ using SearchPlugin.Models;
 
 using pm = PluginManager.Internal;
 
-namespace AspNetCore.PluginManager.Tests.Search
+namespace AspNetCore.PluginManager.Tests.Plugins.SearchTests
 {
     [TestClass]
     [ExcludeFromCodeCoverage]

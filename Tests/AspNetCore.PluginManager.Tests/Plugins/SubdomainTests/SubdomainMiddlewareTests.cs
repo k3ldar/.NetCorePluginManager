@@ -29,6 +29,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Threading.Tasks;
 
+using AspNetCore.PluginManager.Tests.MiddlewareTests;
 using AspNetCore.PluginManager.Tests.Shared;
 
 using Microsoft.AspNetCore.Http;
@@ -37,9 +38,8 @@ using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-using Microsoft.AspNetCore.Builder;
-
 using PluginManager.Abstractions;
+using PluginManager.Tests.Mocks;
 
 using SharedPluginFeatures;
 
@@ -47,9 +47,8 @@ using Subdomain.Plugin;
 using Subdomain.Plugin.Classes.SystemAdmin;
 
 using pm = PluginManager.Internal;
-using PluginManager.Tests.Mocks;
 
-namespace AspNetCore.PluginManager.Tests.MiddlewareTests
+namespace AspNetCore.PluginManager.Tests.Plugins.SubdomainTests
 {
     [TestClass]
     [ExcludeFromCodeCoverage]
@@ -63,7 +62,7 @@ namespace AspNetCore.PluginManager.Tests.MiddlewareTests
         private const string SubdomainAllEnabled = "{\"SubdomainSettings\":{\"Enabled\":true,\"DomainName\":\"pluginManager.website\",\"Subdomains\":{\"Blog\":" +
             "{\"Disabled\":false,\"RedirectedRoute\":\"blog\",\"PermanentRedirect\":true},\"Helpdesk\":{\"Disabled\":false,\"RedirectedRoute\":\"blog\"," +
             "\"PermanentRedirect\":true},\"Account\":{\"Disabled\":false,\"RedirectedRoute\":\"account\",\"PermanentRedirect\":true}}}}";
-        private const string SubdomainAllEnabledPreventStaticFiles = "{\"SubdomainSettings\":{\"Enabled\":true,\"StaticFileExtensions\":\".js;.css;\"," + 
+        private const string SubdomainAllEnabledPreventStaticFiles = "{\"SubdomainSettings\":{\"Enabled\":true,\"StaticFileExtensions\":\".js;.css;\"," +
             "\"DomainName\":\"pluginManager.website\",\"Subdomains\":{\"Blog\":" +
             "{\"Disabled\":false,\"RedirectedRoute\":\"blog\",\"PermanentRedirect\":true},\"Helpdesk\":{\"Disabled\":false,\"RedirectedRoute\":\"blog\"," +
             "\"PermanentRedirect\":true},\"Account\":{\"Disabled\":false,\"RedirectedRoute\":\"account\",\"PermanentRedirect\":true}}}}";

@@ -36,16 +36,16 @@ using Middleware.Search;
 
 using PluginManager.Abstractions;
 
-using static SharedPluginFeatures.Constants;
-
 using SharedPluginFeatures;
+
+using static SharedPluginFeatures.Constants;
 
 using pm = PluginManager.Internal;
 using sl = Shared.Classes;
 
 #pragma warning disable IDE0059
 
-namespace AspNetCore.PluginManager.Tests.Search
+namespace AspNetCore.PluginManager.Tests.Plugins.SearchTests
 {
     [TestClass]
     [ExcludeFromCodeCoverage]

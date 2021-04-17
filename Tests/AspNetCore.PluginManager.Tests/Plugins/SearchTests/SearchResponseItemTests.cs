@@ -15,12 +15,12 @@
  *
  *  Product:  AspNetCore.PluginManager.Tests
  *  
- *  File: SearchResponseTests.cs
+ *  File: SearchResponseItemTests.cs
  *
- *  Purpose:  Tests for Search Response
+ *  Purpose:  Tests for Search Response Items
  *
  *  Date        Name                Reason
- *  03/02/2020  Simon Carter        Initially Created
+ *  02/03/2020  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
@@ -30,45 +30,19 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using Middleware.Search;
 
-#pragma warning disable IDE0059
 
-namespace AspNetCore.PluginManager.Tests.Search
+namespace AspNetCore.PluginManager.Tests.Plugins.SearchTests
 {
     [TestClass]
     [ExcludeFromCodeCoverage]
-    public class SearchResponseTests
+    public class SearchResponseItemTests
     {
-        [TestMethod]
-        public void SearchResponseLoggedInValidSearchTerm()
-        {
-            SearchResponse response = new SearchResponse(true, "test");
-
-            Assert.IsTrue(response.IsLoggedIn);
-            Assert.AreEqual(response.SearchTerm, "test");
-        }
 
         [TestMethod]
-        public void SearchResponseLoggedOutValidSearchTerm()
+        [ExpectedException(typeof(ArgumentException))]
+        public void SearchResponseWithInvalidViewNameAndDisplayName()
         {
-            SearchResponse response = new SearchResponse(false, "test");
-
-            Assert.IsFalse(response.IsLoggedIn);
-            Assert.AreEqual(response.SearchTerm, "test");
-        }
-
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
-        public void SearchResponseLoggedOutInvalidSearchTermNull()
-        {
-            SearchResponse response = new SearchResponse(false, null);
-        }
-
-        [TestMethod]
-        public void SearchResponseLoggedOutValidSearchTermEmptyString()
-        {
-            SearchResponse response = new SearchResponse(false, "");
+            new SearchResponseItem("Test", "Response", 1, "", null, String.Empty);
         }
     }
 }
-
-#pragma warning restore IDE0059

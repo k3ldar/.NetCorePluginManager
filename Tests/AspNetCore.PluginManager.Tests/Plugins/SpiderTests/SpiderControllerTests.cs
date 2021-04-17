@@ -29,6 +29,8 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
+using AspNetCore.PluginManager.Tests.Controllers;
+
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Abstractions;
@@ -45,7 +47,7 @@ using Spider.Plugin.Models;
 
 using pm = PluginManager.Internal;
 
-namespace AspNetCore.PluginManager.Tests.Controllers
+namespace AspNetCore.PluginManager.Tests.Plugins.SpiderTests
 {
     [TestClass]
     [ExcludeFromCodeCoverage]

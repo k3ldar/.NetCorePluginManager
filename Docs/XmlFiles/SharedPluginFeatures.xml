@@ -491,6 +491,444 @@
             Name of the configuration entry which is used to manage the subdomain 
             </summary>
         </member>
+        <member name="T:SharedPluginFeatures.BaseController">
+            <summary>
+            Base Controller for use as a base for all controllers to obtain information from plugins loaded through PluginManager.
+            </summary>
+        </member>
+        <member name="M:SharedPluginFeatures.BaseController.GetUserSession">
+            <summary>
+            Retrieves the current users UserSession instance which contains data for the user.
+            
+            Requires UserSessionMiddleware.Plugin module to be loaded.
+            </summary>
+            <returns>null if the UserSessionMiddleware.Plugin is not loaded otherwise a valid UserSession item representing 
+            the current users session.</returns>
+        </member>
+        <member name="M:SharedPluginFeatures.BaseController.IsUserLoggedIn">
+            <summary>
+            Determines if the current user is logged in or not.
+            
+            Requires UserSessionMiddleware.Plugin module to be loaded.
+            </summary>
+            <returns>True if the user is logged in, otherwise false.</returns>
+        </member>
+        <member name="M:SharedPluginFeatures.BaseController.UserGuid">
+            <summary>
+            Retrieves a unique guid representing the currently logged in user.
+            
+            Requires UserSessionMiddleware.Plugin module to be loaded.
+            </summary>
+            <returns>Guid.Empty if user is not logged in or a guid is not used, otherwise a valid unique guid for the user.</returns>
+        </member>
+        <member name="M:SharedPluginFeatures.BaseController.UserId">
+            <summary>
+            Retrieves a unique id representing the currently logged in user.
+            
+            Requires UserSessionMiddleware.Plugin module to be loaded.
+            </summary>
+            <returns>Valid user id if the user is logged in, otherwise -1 will be returned.</returns>
+        </member>
+        <member name="M:SharedPluginFeatures.BaseController.GetSessionId">
+            <summary>
+            Retrieves a unique http session id for the current users session.  This is not related
+            to UserSession.
+            </summary>
+            <returns>string.  Unique http session id.</returns>
+        </member>
+        <member name="M:SharedPluginFeatures.BaseController.GetCoreSessionId">
+            <summary>
+            Retrieves a unique http session id for the current session.  this is not related
+            to UserSession
+            </summary>
+            <returns>string.  Unique http session id.</returns>
+        </member>
+        <member name="M:SharedPluginFeatures.BaseController.GetBreadcrumbs">
+            <summary>
+            Retrieves the breadcrumbs created for the request from Breadcrumb.Plugin module.  If
+            no breadcrumbs exist an empty list will be returned.
+            </summary>
+            <returns>List&lt;BreadcrumbItem&gt;</returns>
+        </member>
+        <member name="M:SharedPluginFeatures.BaseController.GetCartSummary">
+            <summary>
+            Returns a valid ShoppingCartSummary class representing the shopping cart
+            for the current user.
+            </summary>
+            <returns>ShoppingCartSummary</returns>
+        </member>
+        <member name="M:SharedPluginFeatures.BaseController.GetDefaultTaxRate">
+            <summary>
+            Retrieves the default tax rate for the application.
+            
+            Requires ShoppingCart.Plugin module to be loaded.
+            </summary>
+            <returns>decimal.  Default tax rate if found, otherwise zero.</returns>
+        </member>
+        <member name="M:SharedPluginFeatures.BaseController.GetShoppingCartId">
+            <summary>
+            Retrieves the current shopping cart id for the current user session.
+            
+            Requires UserSessionMiddleware.Plugin module to be loaded.
+            </summary>
+            <returns>long.  Unique shopping cart id.</returns>
+        </member>
+        <member name="M:SharedPluginFeatures.BaseController.CookieExists(System.String@)">
+            <summary>
+            Determines whether a cookie exists or not.
+            </summary>
+            <param name="name">Name of the cookie.</param>
+            <returns>bool</returns>
+        </member>
+        <member name="M:SharedPluginFeatures.BaseController.CookieDelete(System.String@)">
+            <summary>
+            Deletes an existing cookie if it exists.
+            </summary>
+            <param name="name">Name of the cookie.</param>
+        </member>
+        <member name="M:SharedPluginFeatures.BaseController.CookieValue(System.String@,System.String@)">
+            <summary>
+            Retrieves the value from an existing cookie, if it exists.
+            </summary>
+            <param name="name">Name of the cookie.</param>
+            <param name="defaultValue">Value to be returned if the cookie does not exist.</param>
+            <returns>string.  Value from the cookie.</returns>
+        </member>
+        <member name="M:SharedPluginFeatures.BaseController.CookieAdd(System.String@,System.String@,System.Int32@)">
+            <summary>
+            Adds a cookie.
+            </summary>
+            <param name="name">Name of the cookie.</param>
+            <param name="value">Value to be stored within the cookie.</param>
+            <param name="days">Number of days the cookie is valid for.  A value of 
+            -1 means it will be a session cookie and will expire when the user session ends.</param>
+        </member>
+        <member name="M:SharedPluginFeatures.BaseController.GetIpAddress">
+            <summary>
+            Retrieves the Ip address for the current user session.
+            
+            Please note that this could be masked if the user is using a proxy service or something similar.
+            </summary>
+            <returns>string</returns>
+        </member>
+        <member name="M:SharedPluginFeatures.BaseController.GrowlGet">
+            <summary>
+            Retreives a previously stored growl message.
+            </summary>
+            <returns>string.  A valid growl message if one exists, otherwise an empty string.</returns>
+        </member>
+        <member name="M:SharedPluginFeatures.BaseController.GrowlAdd(System.String)">
+            <summary>
+            Adds a growl message which can be retrieved on the next request.
+            </summary>
+            <param name="s"></param>
+        </member>
+        <member name="M:SharedPluginFeatures.BaseController.BuildPagination(System.Int32@,System.Int32@,System.Int32@,System.String@,System.String@,System.String@,System.String@)">
+            <summary>
+            Builds a paginated list of html li elements for display in a view where pages are required.
+            </summary>
+            <param name="itemCount">int.  Number of items.</param>
+            <param name="itemsPerPage">int.  Number of items per page.</param>
+            <param name="currentPage">int.  Current page number.</param>
+            <param name="page">string.  Page or route being used to obtain pagination</param>
+            <param name="parameters">string.  Parameters to be added to each page item.</param>
+            <param name="previous">string.  Display text (localized or not) to be shown to indicate previous page.</param>
+            <param name="next">string.  Display text (localized or not) to be shown to indicate next page.</param>
+            <returns>string.  List of html li elements for pagination within a view.</returns>
+        </member>
+        <member name="M:SharedPluginFeatures.BaseController.CalculatePageOffsets``1(System.Collections.Generic.List{``0}@,System.Int32@,System.Int32@,System.Int32@,System.Int32@,System.Int32@)">
+            <summary>
+            Calculates a page offset, this method is designed to be used with creating pages, it will return the zero index
+            start and end item and available pages for the offset criteria.
+            </summary>
+            <param name="items">List of items to be paginated</param>
+            <param name="page">Current Page Number</param>
+            <param name="pageSize">Size of Page</param>
+            <param name="startItem">First item in the list of items</param>
+            <param name="endItem">Last item in the list of items</param>
+            <param name="availablePages">Number of available pages based on the list</param>
+        </member>
+        <member name="M:SharedPluginFeatures.BaseController.CalculatePageOffsets(System.Int32@,System.Int32@,System.Int32@,System.Int32@,System.Int32@,System.Int32@)">
+            <summary>
+            Calculates a page offset, this method is designed to be used with creating pages, it will return the zero index
+            start and end item and available pages for the offset criteria.
+            </summary>
+            <param name="itemCount">Number of items to be paginated</param>
+            <param name="page">Current Page Number</param>
+            <param name="pageSize">Size of Page</param>
+            <param name="startItem">First item in the list of items</param>
+            <param name="endItem">Last item in the list of items</param>
+            <param name="availablePages">Number of available pages based on the itemCount</param>
+        </member>
+        <member name="M:SharedPluginFeatures.BaseController.GetModelData">
+            <summary>
+            Returns basic model data to populate BaseModel.
+            </summary>
+            <returns>BaseModelData instance.</returns>
+        </member>
+        <member name="M:SharedPluginFeatures.BaseController.GetSeoTitle">
+            <summary>
+            Retrieves the Seo title loaded by Seo Plugin module.
+            </summary>
+            <returns>string</returns>
+        </member>
+        <member name="M:SharedPluginFeatures.BaseController.GetSeoAuthor">
+            <summary>
+            Retrieves the Seo author loaded by Seo Plugin module.
+            </summary>
+            <returns>string</returns>
+        </member>
+        <member name="M:SharedPluginFeatures.BaseController.GetSeoKeyWords">
+            <summary>
+            Retrieves the Seo keywords loaded by Seo Plugin module.
+            </summary>
+            <returns>string</returns>
+        </member>
+        <member name="M:SharedPluginFeatures.BaseController.GetSeoDescription">
+            <summary>
+            Retrieves the Seo description loaded by Seo Plugin module.
+            </summary>
+            <returns>string</returns>
+        </member>
+        <member name="M:SharedPluginFeatures.BaseController.GetViewName(System.String@,System.String@)">
+            <summary>
+            Creates the name of a view based on the controller and view name.
+            
+            i.e. if the controller is BlogController and the view name is Index it returns:
+            
+            /BlogController/Index.cshtml
+            </summary>
+            <param name="controller">Name of the controller.</param>
+            <param name="viewName">Name of the view.</param>
+            <returns></returns>
+        </member>
+        <member name="T:SharedPluginFeatures.BaseMiddleware">
+            <summary>
+            Generic functions that can be used by middleware plugins to obtain generic information 
+            to be used when serving requests within the pipeline.
+            </summary>
+        </member>
+        <member name="M:SharedPluginFeatures.BaseMiddleware.GetCurrentUri(Microsoft.AspNetCore.Http.HttpContext@)">
+            <summary>
+            Retrieves the current Uri for the request.
+            </summary>
+            <param name="context">Valid HttpContext for the request.</param>
+            <returns>Uri</returns>
+        </member>
+        <member name="M:SharedPluginFeatures.BaseMiddleware.GetHost(Microsoft.AspNetCore.Http.HttpContext@)">
+            <summary>
+            Retreives the host name for the context.
+            </summary>
+            <param name="context">Valid HttpContext for the request.</param>
+            <returns>string</returns>
+        </member>
+        <member name="M:SharedPluginFeatures.BaseMiddleware.GetTempData(Microsoft.AspNetCore.Http.HttpContext@)">
+            <summary>
+            Retrieves an instance of ITempDataDictionary used to manipulate temp data for the curent request.
+            </summary>
+            <param name="context">Valid HttpContext for the request.</param>
+            <returns></returns>
+        </member>
+        <member name="M:SharedPluginFeatures.BaseMiddleware.GetUserSession(Microsoft.AspNetCore.Http.HttpContext@)">
+            <summary>
+            Retrieves the current users UserSession instance which contains data for the user.
+            
+            Requires UserSessionMiddleware.Plugin module to be loaded.
+            </summary>
+            <param name="context">Valid HttpContext for the request.</param>
+            <returns>null if the UserSessionMiddleware.Plugin is not loaded otherwise a valid UserSession item representing 
+            the current users session.</returns>
+        </member>
+        <member name="M:SharedPluginFeatures.BaseMiddleware.IsUserLoggedIn(Microsoft.AspNetCore.Http.HttpContext@)">
+            <summary>
+            Determines if the current user is logged in or not.
+            
+            Requires UserSessionMiddleware.Plugin module to be loaded.
+            </summary>
+            <param name="context">Valid HttpContext for the request.</param>
+            <returns>True if the user is logged in, otherwise false.</returns>
+        </member>
+        <member name="M:SharedPluginFeatures.BaseMiddleware.Route(Microsoft.AspNetCore.Http.HttpContext@)">
+            <summary>
+            Retrieves the current route being requested through the pipeline.
+            </summary>
+            <param name="context">Valid HttpContext for the request.</param>
+            <returns>string</returns>
+        </member>
+        <member name="M:SharedPluginFeatures.BaseMiddleware.RouteLowered(Microsoft.AspNetCore.Http.HttpContext@)">
+            <summary>
+            Retrieves the current route being requested through the pipeline in lowercase.
+            </summary>
+            <param name="context">Valid HttpContext for the request.</param>
+            <returns>string</returns>
+        </member>
+        <member name="M:SharedPluginFeatures.BaseMiddleware.RouteFileExtension(Microsoft.AspNetCore.Http.HttpContext@)">
+            <summary>
+            Retrieves the file extension for the file requested in the current request in lowercase.
+            
+            Primarily used to determine if the request is for a static file.
+            </summary>
+            <param name="context">Valid HttpContext for the request.</param>
+            <returns>string</returns>
+        </member>
+        <member name="M:SharedPluginFeatures.BaseMiddleware.GetIpAddress(Microsoft.AspNetCore.Http.HttpContext@)">
+            <summary>
+            Retrieves the current Ip address for the current request.
+            </summary>
+            <param name="context">Valid HttpContext for the request.</param>
+            <returns>string</returns>
+        </member>
+        <member name="M:SharedPluginFeatures.BaseMiddleware.GetUserAgent(Microsoft.AspNetCore.Http.HttpContext@)">
+            <summary>
+            Returns the user agent from the HttpContext
+            </summary>
+            <param name="context">Valid HttpContext for the request.</param>
+            <returns>string</returns>
+        </member>
+        <member name="M:SharedPluginFeatures.BaseMiddleware.GetLocalIpAddresses(System.Collections.Generic.HashSet{System.String}@)">
+            <summary>
+            Retrieves a list of all local Ip Addresses on the current server.
+            </summary>
+            <param name="ipAddressList">List of HashSet&lt;string&gt; which will be populated with the ip addresses from the current computer.</param>
+        </member>
+        <member name="M:SharedPluginFeatures.BaseMiddleware.CookieExists(Microsoft.AspNetCore.Http.HttpContext@,System.String@)">
+            <summary>
+            Determines whether a cookie exists or not.
+            </summary>
+            <param name="context">Valid HttpContext for the request.</param>
+            <param name="name">Name of the cookie.</param>
+            <returns>bool</returns>
+        </member>
+        <member name="M:SharedPluginFeatures.BaseMiddleware.CookieDelete(Microsoft.AspNetCore.Http.HttpContext@,System.String@)">
+            <summary>
+            Deletes a cookie if it exists.
+            </summary>
+            <param name="context">Valid HttpContext for the request.</param>
+            <param name="name">Name of the cookie.</param>
+        </member>
+        <member name="M:SharedPluginFeatures.BaseMiddleware.CookieValue(Microsoft.AspNetCore.Http.HttpContext@,System.String@,System.String@)">
+            <summary>
+            Retrieves the contents of a cookie.
+            </summary>
+            <param name="context">Valid HttpContext for the request.</param>
+            <param name="name">Name of the cookie.</param>
+            <param name="defaultValue">Value to be returned if the cookie does not exist.</param>
+            <returns>string</returns>
+        </member>
+        <member name="M:SharedPluginFeatures.BaseMiddleware.CookieValue(Microsoft.AspNetCore.Http.HttpContext@,System.String@,System.Int64@)">
+            <summary>
+            Retrieves the contents of a cookie.
+            </summary>
+            <param name="context">Valid HttpContext for the request.</param>
+            <param name="name">Name of the cookie.</param>
+            <param name="defaultValue">Value to be returned if the cookie does not exist.</param>
+            <returns>long</returns>
+        </member>
+        <member name="M:SharedPluginFeatures.BaseMiddleware.CookieValue(Microsoft.AspNetCore.Http.HttpContext@,System.String@,System.String@,System.String@)">
+            <summary>
+            Retrieves the contents of a cookie.
+            </summary>
+            <param name="context">Valid HttpContext for the request.</param>
+            <param name="name">Name of the cookie.</param>
+            <param name="encryptionKey">Key used to decrypt the contents when retrieved.</param>
+            <param name="defaultValue">Value to be returned if the cookie does not exist.</param>
+            <returns>string</returns>
+        </member>
+        <member name="M:SharedPluginFeatures.BaseMiddleware.CookieAdd(Microsoft.AspNetCore.Http.HttpContext@,System.String@,System.String@,System.Int32@)">
+            <summary>
+            Adds a cookie.
+            </summary>
+            <param name="context">Valid HttpContext for the request.</param>
+            <param name="name">Name of the cookie.</param>
+            <param name="value">Value to be stored within the cookie.</param>
+            <param name="days">Number of days the cookie is valid for.  A value of -1 indicates a session cookie which will expire when the session ends.</param>
+        </member>
+        <member name="T:SharedPluginFeatures.BaseModel">
+            <summary>
+            Base model value containing data that can be displayed on every page.
+            </summary>
+        </member>
+        <member name="M:SharedPluginFeatures.BaseModel.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="M:SharedPluginFeatures.BaseModel.#ctor(SharedPluginFeatures.BaseModelData@)">
+            <summary>
+            Constructor allowing developer to pass all generic base model data in one pass.
+            </summary>
+            <param name="modelData">BaseModelData</param>
+        </member>
+        <member name="P:SharedPluginFeatures.BaseModel.Breadcrumbs">
+            <summary>
+            Set the list of BreadcrumbItem.
+            </summary>
+            <value>List&lt;BreadCrumbItem&gt;</value>
+        </member>
+        <member name="P:SharedPluginFeatures.BaseModel.CartSummary">
+            <summary>
+            ShoppingCartSummary instance.
+            </summary>
+            <value>ShoppingCartSummary</value>
+        </member>
+        <member name="M:SharedPluginFeatures.BaseModel.RouteFriendlyName(System.String@)">
+            <summary>
+            Converts a string to a route friendly name, removing all but alpha numeric charactes.
+            </summary>
+            <param name="text">Route text to be converted.</param>
+            <returns>string</returns>
+        </member>
+        <member name="M:SharedPluginFeatures.BaseModel.RouteText(System.String@)">
+            <summary>
+            Converts a string to a route friendly name, removing all but alpha numeric charactes.
+            </summary>
+            <param name="text">Route text to be converted.</param>
+            <returns>string</returns>
+        </member>
+        <member name="M:SharedPluginFeatures.BaseModel.BreadcrumbData">
+            <summary>
+            Retrieve a list of BreadcrumbItem object items converted to a ul/li list for display within a page.
+            
+            The last item in the list will not have a link generated.
+            </summary>
+            <returns>string</returns>
+        </member>
+        <member name="M:SharedPluginFeatures.BaseModel.BreadcrumbData(System.Boolean@)">
+             <summary>
+            Retrieve a list of BreadcrumbItem object items converted to a ul/li list for display within a page.
+             </summary>
+             <param name="lastItemLinked">bool.  If true the last item will have an a href link, otherwise it wont.</param>
+             <returns>string</returns>
+        </member>
+        <member name="P:SharedPluginFeatures.BaseModel.SeoAuthor">
+            <summary>
+            Contains Seo Author data to be displayed on a web page.
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:SharedPluginFeatures.BaseModel.SeoTitle">
+            <summary>
+            Contains the Seo Title for a web page
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:SharedPluginFeatures.BaseModel.SeoTags">
+            <summary>
+            Contains the Seo tags that will be inserted into a web page.
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:SharedPluginFeatures.BaseModel.SeoDescription">
+            <summary>
+            Contains Seo description to be inserted into a web page.
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:SharedPluginFeatures.BaseModel.CanManageSeoData">
+            <summary>
+            Indicates the user can manage Seo data.
+            </summary>
+        </member>
         <member name="T:SharedPluginFeatures.BaseModelData">
             <summary>
             Generic model data that can be displayed on all web pages.
@@ -3184,444 +3622,6 @@
             session and page data.
             </summary>
             <param name="userSession">UserSession that has been created.</param>
-        </member>
-        <member name="T:SharedPluginFeatures.BaseController">
-            <summary>
-            Base Controller for use as a base for all controllers to obtain information from plugins loaded through PluginManager.
-            </summary>
-        </member>
-        <member name="M:SharedPluginFeatures.BaseController.GetUserSession">
-            <summary>
-            Retrieves the current users UserSession instance which contains data for the user.
-            
-            Requires UserSessionMiddleware.Plugin module to be loaded.
-            </summary>
-            <returns>null if the UserSessionMiddleware.Plugin is not loaded otherwise a valid UserSession item representing 
-            the current users session.</returns>
-        </member>
-        <member name="M:SharedPluginFeatures.BaseController.IsUserLoggedIn">
-            <summary>
-            Determines if the current user is logged in or not.
-            
-            Requires UserSessionMiddleware.Plugin module to be loaded.
-            </summary>
-            <returns>True if the user is logged in, otherwise false.</returns>
-        </member>
-        <member name="M:SharedPluginFeatures.BaseController.UserGuid">
-            <summary>
-            Retrieves a unique guid representing the currently logged in user.
-            
-            Requires UserSessionMiddleware.Plugin module to be loaded.
-            </summary>
-            <returns>Guid.Empty if user is not logged in or a guid is not used, otherwise a valid unique guid for the user.</returns>
-        </member>
-        <member name="M:SharedPluginFeatures.BaseController.UserId">
-            <summary>
-            Retrieves a unique id representing the currently logged in user.
-            
-            Requires UserSessionMiddleware.Plugin module to be loaded.
-            </summary>
-            <returns>Valid user id if the user is logged in, otherwise -1 will be returned.</returns>
-        </member>
-        <member name="M:SharedPluginFeatures.BaseController.GetSessionId">
-            <summary>
-            Retrieves a unique http session id for the current users session.  This is not related
-            to UserSession.
-            </summary>
-            <returns>string.  Unique http session id.</returns>
-        </member>
-        <member name="M:SharedPluginFeatures.BaseController.GetCoreSessionId">
-            <summary>
-            Retrieves a unique http session id for the current session.  this is not related
-            to UserSession
-            </summary>
-            <returns>string.  Unique http session id.</returns>
-        </member>
-        <member name="M:SharedPluginFeatures.BaseController.GetBreadcrumbs">
-            <summary>
-            Retrieves the breadcrumbs created for the request from Breadcrumb.Plugin module.  If
-            no breadcrumbs exist an empty list will be returned.
-            </summary>
-            <returns>List&lt;BreadcrumbItem&gt;</returns>
-        </member>
-        <member name="M:SharedPluginFeatures.BaseController.GetCartSummary">
-            <summary>
-            Returns a valid ShoppingCartSummary class representing the shopping cart
-            for the current user.
-            </summary>
-            <returns>ShoppingCartSummary</returns>
-        </member>
-        <member name="M:SharedPluginFeatures.BaseController.GetDefaultTaxRate">
-            <summary>
-            Retrieves the default tax rate for the application.
-            
-            Requires ShoppingCart.Plugin module to be loaded.
-            </summary>
-            <returns>decimal.  Default tax rate if found, otherwise zero.</returns>
-        </member>
-        <member name="M:SharedPluginFeatures.BaseController.GetShoppingCartId">
-            <summary>
-            Retrieves the current shopping cart id for the current user session.
-            
-            Requires UserSessionMiddleware.Plugin module to be loaded.
-            </summary>
-            <returns>long.  Unique shopping cart id.</returns>
-        </member>
-        <member name="M:SharedPluginFeatures.BaseController.CookieExists(System.String@)">
-            <summary>
-            Determines whether a cookie exists or not.
-            </summary>
-            <param name="name">Name of the cookie.</param>
-            <returns>bool</returns>
-        </member>
-        <member name="M:SharedPluginFeatures.BaseController.CookieDelete(System.String@)">
-            <summary>
-            Deletes an existing cookie if it exists.
-            </summary>
-            <param name="name">Name of the cookie.</param>
-        </member>
-        <member name="M:SharedPluginFeatures.BaseController.CookieValue(System.String@,System.String@)">
-            <summary>
-            Retrieves the value from an existing cookie, if it exists.
-            </summary>
-            <param name="name">Name of the cookie.</param>
-            <param name="defaultValue">Value to be returned if the cookie does not exist.</param>
-            <returns>string.  Value from the cookie.</returns>
-        </member>
-        <member name="M:SharedPluginFeatures.BaseController.CookieAdd(System.String@,System.String@,System.Int32@)">
-            <summary>
-            Adds a cookie.
-            </summary>
-            <param name="name">Name of the cookie.</param>
-            <param name="value">Value to be stored within the cookie.</param>
-            <param name="days">Number of days the cookie is valid for.  A value of 
-            -1 means it will be a session cookie and will expire when the user session ends.</param>
-        </member>
-        <member name="M:SharedPluginFeatures.BaseController.GetIpAddress">
-            <summary>
-            Retrieves the Ip address for the current user session.
-            
-            Please note that this could be masked if the user is using a proxy service or something similar.
-            </summary>
-            <returns>string</returns>
-        </member>
-        <member name="M:SharedPluginFeatures.BaseController.GrowlGet">
-            <summary>
-            Retreives a previously stored growl message.
-            </summary>
-            <returns>string.  A valid growl message if one exists, otherwise an empty string.</returns>
-        </member>
-        <member name="M:SharedPluginFeatures.BaseController.GrowlAdd(System.String)">
-            <summary>
-            Adds a growl message which can be retrieved on the next request.
-            </summary>
-            <param name="s"></param>
-        </member>
-        <member name="M:SharedPluginFeatures.BaseController.BuildPagination(System.Int32@,System.Int32@,System.Int32@,System.String@,System.String@,System.String@,System.String@)">
-            <summary>
-            Builds a paginated list of html li elements for display in a view where pages are required.
-            </summary>
-            <param name="itemCount">int.  Number of items.</param>
-            <param name="itemsPerPage">int.  Number of items per page.</param>
-            <param name="currentPage">int.  Current page number.</param>
-            <param name="page">string.  Page or route being used to obtain pagination</param>
-            <param name="parameters">string.  Parameters to be added to each page item.</param>
-            <param name="previous">string.  Display text (localized or not) to be shown to indicate previous page.</param>
-            <param name="next">string.  Display text (localized or not) to be shown to indicate next page.</param>
-            <returns>string.  List of html li elements for pagination within a view.</returns>
-        </member>
-        <member name="M:SharedPluginFeatures.BaseController.CalculatePageOffsets``1(System.Collections.Generic.List{``0}@,System.Int32@,System.Int32@,System.Int32@,System.Int32@,System.Int32@)">
-            <summary>
-            Calculates a page offset, this method is designed to be used with creating pages, it will return the zero index
-            start and end item and available pages for the offset criteria.
-            </summary>
-            <param name="items">List of items to be paginated</param>
-            <param name="page">Current Page Number</param>
-            <param name="pageSize">Size of Page</param>
-            <param name="startItem">First item in the list of items</param>
-            <param name="endItem">Last item in the list of items</param>
-            <param name="availablePages">Number of available pages based on the list</param>
-        </member>
-        <member name="M:SharedPluginFeatures.BaseController.CalculatePageOffsets(System.Int32@,System.Int32@,System.Int32@,System.Int32@,System.Int32@,System.Int32@)">
-            <summary>
-            Calculates a page offset, this method is designed to be used with creating pages, it will return the zero index
-            start and end item and available pages for the offset criteria.
-            </summary>
-            <param name="itemCount">Number of items to be paginated</param>
-            <param name="page">Current Page Number</param>
-            <param name="pageSize">Size of Page</param>
-            <param name="startItem">First item in the list of items</param>
-            <param name="endItem">Last item in the list of items</param>
-            <param name="availablePages">Number of available pages based on the itemCount</param>
-        </member>
-        <member name="M:SharedPluginFeatures.BaseController.GetModelData">
-            <summary>
-            Returns basic model data to populate BaseModel.
-            </summary>
-            <returns>BaseModelData instance.</returns>
-        </member>
-        <member name="M:SharedPluginFeatures.BaseController.GetSeoTitle">
-            <summary>
-            Retrieves the Seo title loaded by Seo Plugin module.
-            </summary>
-            <returns>string</returns>
-        </member>
-        <member name="M:SharedPluginFeatures.BaseController.GetSeoAuthor">
-            <summary>
-            Retrieves the Seo author loaded by Seo Plugin module.
-            </summary>
-            <returns>string</returns>
-        </member>
-        <member name="M:SharedPluginFeatures.BaseController.GetSeoKeyWords">
-            <summary>
-            Retrieves the Seo keywords loaded by Seo Plugin module.
-            </summary>
-            <returns>string</returns>
-        </member>
-        <member name="M:SharedPluginFeatures.BaseController.GetSeoDescription">
-            <summary>
-            Retrieves the Seo description loaded by Seo Plugin module.
-            </summary>
-            <returns>string</returns>
-        </member>
-        <member name="M:SharedPluginFeatures.BaseController.GetViewName(System.String@,System.String@)">
-            <summary>
-            Creates the name of a view based on the controller and view name.
-            
-            i.e. if the controller is BlogController and the view name is Index it returns:
-            
-            /BlogController/Index.cshtml
-            </summary>
-            <param name="controller">Name of the controller.</param>
-            <param name="viewName">Name of the view.</param>
-            <returns></returns>
-        </member>
-        <member name="T:SharedPluginFeatures.BaseMiddleware">
-            <summary>
-            Generic functions that can be used by middleware plugins to obtain generic information 
-            to be used when serving requests within the pipeline.
-            </summary>
-        </member>
-        <member name="M:SharedPluginFeatures.BaseMiddleware.GetCurrentUri(Microsoft.AspNetCore.Http.HttpContext@)">
-            <summary>
-            Retrieves the current Uri for the request.
-            </summary>
-            <param name="context">Valid HttpContext for the request.</param>
-            <returns>Uri</returns>
-        </member>
-        <member name="M:SharedPluginFeatures.BaseMiddleware.GetHost(Microsoft.AspNetCore.Http.HttpContext@)">
-            <summary>
-            Retreives the host name for the context.
-            </summary>
-            <param name="context">Valid HttpContext for the request.</param>
-            <returns>string</returns>
-        </member>
-        <member name="M:SharedPluginFeatures.BaseMiddleware.GetTempData(Microsoft.AspNetCore.Http.HttpContext@)">
-            <summary>
-            Retrieves an instance of ITempDataDictionary used to manipulate temp data for the curent request.
-            </summary>
-            <param name="context">Valid HttpContext for the request.</param>
-            <returns></returns>
-        </member>
-        <member name="M:SharedPluginFeatures.BaseMiddleware.GetUserSession(Microsoft.AspNetCore.Http.HttpContext@)">
-            <summary>
-            Retrieves the current users UserSession instance which contains data for the user.
-            
-            Requires UserSessionMiddleware.Plugin module to be loaded.
-            </summary>
-            <param name="context">Valid HttpContext for the request.</param>
-            <returns>null if the UserSessionMiddleware.Plugin is not loaded otherwise a valid UserSession item representing 
-            the current users session.</returns>
-        </member>
-        <member name="M:SharedPluginFeatures.BaseMiddleware.IsUserLoggedIn(Microsoft.AspNetCore.Http.HttpContext@)">
-            <summary>
-            Determines if the current user is logged in or not.
-            
-            Requires UserSessionMiddleware.Plugin module to be loaded.
-            </summary>
-            <param name="context">Valid HttpContext for the request.</param>
-            <returns>True if the user is logged in, otherwise false.</returns>
-        </member>
-        <member name="M:SharedPluginFeatures.BaseMiddleware.Route(Microsoft.AspNetCore.Http.HttpContext@)">
-            <summary>
-            Retrieves the current route being requested through the pipeline.
-            </summary>
-            <param name="context">Valid HttpContext for the request.</param>
-            <returns>string</returns>
-        </member>
-        <member name="M:SharedPluginFeatures.BaseMiddleware.RouteLowered(Microsoft.AspNetCore.Http.HttpContext@)">
-            <summary>
-            Retrieves the current route being requested through the pipeline in lowercase.
-            </summary>
-            <param name="context">Valid HttpContext for the request.</param>
-            <returns>string</returns>
-        </member>
-        <member name="M:SharedPluginFeatures.BaseMiddleware.RouteFileExtension(Microsoft.AspNetCore.Http.HttpContext@)">
-            <summary>
-            Retrieves the file extension for the file requested in the current request in lowercase.
-            
-            Primarily used to determine if the request is for a static file.
-            </summary>
-            <param name="context">Valid HttpContext for the request.</param>
-            <returns>string</returns>
-        </member>
-        <member name="M:SharedPluginFeatures.BaseMiddleware.GetIpAddress(Microsoft.AspNetCore.Http.HttpContext@)">
-            <summary>
-            Retrieves the current Ip address for the current request.
-            </summary>
-            <param name="context">Valid HttpContext for the request.</param>
-            <returns>string</returns>
-        </member>
-        <member name="M:SharedPluginFeatures.BaseMiddleware.GetUserAgent(Microsoft.AspNetCore.Http.HttpContext@)">
-            <summary>
-            Returns the user agent from the HttpContext
-            </summary>
-            <param name="context">Valid HttpContext for the request.</param>
-            <returns>string</returns>
-        </member>
-        <member name="M:SharedPluginFeatures.BaseMiddleware.GetLocalIpAddresses(System.Collections.Generic.HashSet{System.String}@)">
-            <summary>
-            Retrieves a list of all local Ip Addresses on the current server.
-            </summary>
-            <param name="ipAddressList">List of HashSet&lt;string&gt; which will be populated with the ip addresses from the current computer.</param>
-        </member>
-        <member name="M:SharedPluginFeatures.BaseMiddleware.CookieExists(Microsoft.AspNetCore.Http.HttpContext@,System.String@)">
-            <summary>
-            Determines whether a cookie exists or not.
-            </summary>
-            <param name="context">Valid HttpContext for the request.</param>
-            <param name="name">Name of the cookie.</param>
-            <returns>bool</returns>
-        </member>
-        <member name="M:SharedPluginFeatures.BaseMiddleware.CookieDelete(Microsoft.AspNetCore.Http.HttpContext@,System.String@)">
-            <summary>
-            Deletes a cookie if it exists.
-            </summary>
-            <param name="context">Valid HttpContext for the request.</param>
-            <param name="name">Name of the cookie.</param>
-        </member>
-        <member name="M:SharedPluginFeatures.BaseMiddleware.CookieValue(Microsoft.AspNetCore.Http.HttpContext@,System.String@,System.String@)">
-            <summary>
-            Retrieves the contents of a cookie.
-            </summary>
-            <param name="context">Valid HttpContext for the request.</param>
-            <param name="name">Name of the cookie.</param>
-            <param name="defaultValue">Value to be returned if the cookie does not exist.</param>
-            <returns>string</returns>
-        </member>
-        <member name="M:SharedPluginFeatures.BaseMiddleware.CookieValue(Microsoft.AspNetCore.Http.HttpContext@,System.String@,System.Int64@)">
-            <summary>
-            Retrieves the contents of a cookie.
-            </summary>
-            <param name="context">Valid HttpContext for the request.</param>
-            <param name="name">Name of the cookie.</param>
-            <param name="defaultValue">Value to be returned if the cookie does not exist.</param>
-            <returns>long</returns>
-        </member>
-        <member name="M:SharedPluginFeatures.BaseMiddleware.CookieValue(Microsoft.AspNetCore.Http.HttpContext@,System.String@,System.String@,System.String@)">
-            <summary>
-            Retrieves the contents of a cookie.
-            </summary>
-            <param name="context">Valid HttpContext for the request.</param>
-            <param name="name">Name of the cookie.</param>
-            <param name="encryptionKey">Key used to decrypt the contents when retrieved.</param>
-            <param name="defaultValue">Value to be returned if the cookie does not exist.</param>
-            <returns>string</returns>
-        </member>
-        <member name="M:SharedPluginFeatures.BaseMiddleware.CookieAdd(Microsoft.AspNetCore.Http.HttpContext@,System.String@,System.String@,System.Int32@)">
-            <summary>
-            Adds a cookie.
-            </summary>
-            <param name="context">Valid HttpContext for the request.</param>
-            <param name="name">Name of the cookie.</param>
-            <param name="value">Value to be stored within the cookie.</param>
-            <param name="days">Number of days the cookie is valid for.  A value of -1 indicates a session cookie which will expire when the session ends.</param>
-        </member>
-        <member name="T:SharedPluginFeatures.BaseModel">
-            <summary>
-            Base model value containing data that can be displayed on every page.
-            </summary>
-        </member>
-        <member name="M:SharedPluginFeatures.BaseModel.#ctor">
-            <summary>
-            Default constructor
-            </summary>
-        </member>
-        <member name="M:SharedPluginFeatures.BaseModel.#ctor(SharedPluginFeatures.BaseModelData@)">
-            <summary>
-            Constructor allowing developer to pass all generic base model data in one pass.
-            </summary>
-            <param name="modelData">BaseModelData</param>
-        </member>
-        <member name="P:SharedPluginFeatures.BaseModel.Breadcrumbs">
-            <summary>
-            Set the list of BreadcrumbItem.
-            </summary>
-            <value>List&lt;BreadCrumbItem&gt;</value>
-        </member>
-        <member name="P:SharedPluginFeatures.BaseModel.CartSummary">
-            <summary>
-            ShoppingCartSummary instance.
-            </summary>
-            <value>ShoppingCartSummary</value>
-        </member>
-        <member name="M:SharedPluginFeatures.BaseModel.RouteFriendlyName(System.String@)">
-            <summary>
-            Converts a string to a route friendly name, removing all but alpha numeric charactes.
-            </summary>
-            <param name="text">Route text to be converted.</param>
-            <returns>string</returns>
-        </member>
-        <member name="M:SharedPluginFeatures.BaseModel.RouteText(System.String@)">
-            <summary>
-            Converts a string to a route friendly name, removing all but alpha numeric charactes.
-            </summary>
-            <param name="text">Route text to be converted.</param>
-            <returns>string</returns>
-        </member>
-        <member name="M:SharedPluginFeatures.BaseModel.BreadcrumbData">
-            <summary>
-            Retrieve a list of BreadcrumbItem object items converted to a ul/li list for display within a page.
-            
-            The last item in the list will not have a link generated.
-            </summary>
-            <returns>string</returns>
-        </member>
-        <member name="M:SharedPluginFeatures.BaseModel.BreadcrumbData(System.Boolean@)">
-             <summary>
-            Retrieve a list of BreadcrumbItem object items converted to a ul/li list for display within a page.
-             </summary>
-             <param name="lastItemLinked">bool.  If true the last item will have an a href link, otherwise it wont.</param>
-             <returns>string</returns>
-        </member>
-        <member name="P:SharedPluginFeatures.BaseModel.SeoAuthor">
-            <summary>
-            Contains Seo Author data to be displayed on a web page.
-            </summary>
-            <value>string</value>
-        </member>
-        <member name="P:SharedPluginFeatures.BaseModel.SeoTitle">
-            <summary>
-            Contains the Seo Title for a web page
-            </summary>
-            <value>string</value>
-        </member>
-        <member name="P:SharedPluginFeatures.BaseModel.SeoTags">
-            <summary>
-            Contains the Seo tags that will be inserted into a web page.
-            </summary>
-            <value>string</value>
-        </member>
-        <member name="P:SharedPluginFeatures.BaseModel.SeoDescription">
-            <summary>
-            Contains Seo description to be inserted into a web page.
-            </summary>
-            <value>string</value>
-        </member>
-        <member name="P:SharedPluginFeatures.BaseModel.CanManageSeoData">
-            <summary>
-            Indicates the user can manage Seo data.
-            </summary>
         </member>
     </members>
 </doc>

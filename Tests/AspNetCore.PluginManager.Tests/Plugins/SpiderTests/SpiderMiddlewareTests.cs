@@ -30,6 +30,7 @@ using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 
+using AspNetCore.PluginManager.Tests.MiddlewareTests;
 using AspNetCore.PluginManager.Tests.Shared;
 
 using Microsoft.AspNetCore.Http;
@@ -48,7 +49,7 @@ using Spider.Plugin.Classes;
 
 using pm = PluginManager.Internal;
 
-namespace AspNetCore.PluginManager.Tests.MiddlewareTests
+namespace AspNetCore.PluginManager.Tests.Plugins.SpiderTests
 {
     [TestClass]
     [ExcludeFromCodeCoverage]

@@ -15,9 +15,9 @@
  *
  *  Product:  AspNetCore.PluginManager.Tests
  *  
- *  File: BasicSearchOptionsTests.cs
+ *  File: SearchResponseTests.cs
  *
- *  Purpose:  Tests for basic search options
+ *  Purpose:  Tests for Search Response
  *
  *  Date        Name                Reason
  *  03/02/2020  Simon Carter        Initially Created
@@ -32,35 +32,41 @@ using Middleware.Search;
 
 #pragma warning disable IDE0059
 
-namespace AspNetCore.PluginManager.Tests.Search
+namespace AspNetCore.PluginManager.Tests.Plugins.SearchTests
 {
     [TestClass]
     [ExcludeFromCodeCoverage]
-    public class BasicSearchOptionsTests
+    public class SearchResponseTests
     {
         [TestMethod]
-        public void CreateBaseSearchOptionsLoggedInValidEmptySearchTerm()
+        public void SearchResponseLoggedInValidSearchTerm()
         {
-            BaseSearchOptions baseSearchOptions = new BaseSearchOptions(true, "");
+            SearchResponse response = new SearchResponse(true, "test");
+
+            Assert.IsTrue(response.IsLoggedIn);
+            Assert.AreEqual(response.SearchTerm, "test");
+        }
+
+        [TestMethod]
+        public void SearchResponseLoggedOutValidSearchTerm()
+        {
+            SearchResponse response = new SearchResponse(false, "test");
+
+            Assert.IsFalse(response.IsLoggedIn);
+            Assert.AreEqual(response.SearchTerm, "test");
         }
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
-        public void CreateBaseSearchOptionsLoggedOutInvalidSearchTerm()
+        public void SearchResponseLoggedOutInvalidSearchTermNull()
         {
-            BaseSearchOptions baseSearchOptions = new BaseSearchOptions(false, null);
+            SearchResponse response = new SearchResponse(false, null);
         }
 
         [TestMethod]
-        public void CreateBaseSearchOptionsLoggedIn()
+        public void SearchResponseLoggedOutValidSearchTermEmptyString()
         {
-            BaseSearchOptions baseSearchOptions = new BaseSearchOptions(true, "anything");
-        }
-
-        [TestMethod]
-        public void CreateBaseSearchOptionsLoggedOut()
-        {
-            BaseSearchOptions baseSearchOptions = new BaseSearchOptions(false, "anything");
+            SearchResponse response = new SearchResponse(false, "");
         }
     }
 }

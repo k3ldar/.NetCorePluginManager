@@ -62,7 +62,8 @@
 
   <ItemGroup>
 	<Folder Include="InternalClasses\" />
-	<Folder Include="Plugins\PluginMiddleware\DynamicContent\" />
+	<Folder Include="Plugins\PluginMiddlewareTests\DynamicContent\" />
+	<Folder Include="SharedPluginFeatures\Attributes\" />
   </ItemGroup>
 
 </Project>

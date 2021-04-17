@@ -15,12 +15,12 @@
  *
  *  Product:  AspNetCore.PluginManager.Tests
  *  
- *  File: SearchResponseItemTests.cs
+ *  File: BasicSearchOptionsTests.cs
  *
- *  Purpose:  Tests for Search Response Items
+ *  Purpose:  Tests for basic search options
  *
  *  Date        Name                Reason
- *  02/03/2020  Simon Carter        Initially Created
+ *  03/02/2020  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
@@ -30,19 +30,39 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using Middleware.Search;
 
+#pragma warning disable IDE0059
 
-namespace AspNetCore.PluginManager.Tests.Search
+namespace AspNetCore.PluginManager.Tests.Plugins.SearchTests
 {
     [TestClass]
     [ExcludeFromCodeCoverage]
-    public class SearchResponseItemTests
+    public class BasicSearchOptionsTests
     {
+        [TestMethod]
+        public void CreateBaseSearchOptionsLoggedInValidEmptySearchTerm()
+        {
+            BaseSearchOptions baseSearchOptions = new BaseSearchOptions(true, "");
+        }
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
-        public void SearchResponseWithInvalidViewNameAndDisplayName()
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void CreateBaseSearchOptionsLoggedOutInvalidSearchTerm()
         {
-            new SearchResponseItem("Test", "Response", 1, "", null, String.Empty);
+            BaseSearchOptions baseSearchOptions = new BaseSearchOptions(false, null);
+        }
+
+        [TestMethod]
+        public void CreateBaseSearchOptionsLoggedIn()
+        {
+            BaseSearchOptions baseSearchOptions = new BaseSearchOptions(true, "anything");
+        }
+
+        [TestMethod]
+        public void CreateBaseSearchOptionsLoggedOut()
+        {
+            BaseSearchOptions baseSearchOptions = new BaseSearchOptions(false, "anything");
         }
     }
 }
+
+#pragma warning restore IDE0059

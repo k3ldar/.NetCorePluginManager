@@ -32,6 +32,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using AspNetCore.PluginManager.DemoWebsite.Classes;
+using AspNetCore.PluginManager.Tests.MiddlewareTests;
 
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
@@ -51,7 +52,7 @@ using static Shared.Utilities;
 
 using pm = PluginManager.Internal;
 
-namespace AspNetCore.PluginManager.Tests.MiddlewareTests
+namespace AspNetCore.PluginManager.Tests.Plugins.SmokeTestTests
 {
     [TestClass]
     [ExcludeFromCodeCoverage]

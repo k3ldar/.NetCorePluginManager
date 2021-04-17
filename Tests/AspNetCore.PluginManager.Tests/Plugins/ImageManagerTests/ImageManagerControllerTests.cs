@@ -11,60 +11,50 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2021 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2021 Simon Carter.  All Rights Reserved.
  *
  *  Product:  AspNetCore.PluginManager.Tests
  *  
- *  File: DemoWebsiteTests.cs
+ *  File: ImageManagerControllerTests.cs
  *
- *  Purpose:  Unit tests for demo webiste
+ *  Purpose:  Unit tests for Image Manager Controller
  *
  *  Date        Name                Reason
- *  05/04/2021  Simon Carter        Initially Created
+ *  16/04/2021  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 
-using AspNetCore.PluginManager.DemoWebsite.Classes;
+using AspNetCore.PluginManager.Tests.Controllers;
 
+using ImageManager.Plugin.Controllers;
+
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Abstractions;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace AspNetCore.PluginManager.Tests.MVCMiddlewareTests
+using PluginManager.Abstractions;
+
+using SharedPluginFeatures;
+
+using pm = PluginManager.Internal;
+
+namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
 {
     [TestClass]
     [ExcludeFromCodeCoverage]
-    public class DemoWebsiteTests
+    public class ImageManagerControllerTests : BaseControllerTests
     {
-        #region ErrorManagerProvider
-
         [TestMethod]
-        public void ErrorManagerProvider_Construct_Success()
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void Construct_InvalidSettingsProvider_Null_Throws_ArgumentNullException()
         {
-            ErrorManagerProvider sut = new ErrorManagerProvider();
-            Assert.IsNotNull(sut);
+            ImageManagerController sut = new ImageManagerController(null);
         }
-
-        [TestMethod]
-        public void ErrorManagerProvider_ErrorRaised_Success()
-        {
-            ErrorManagerProvider sut = new ErrorManagerProvider();
-            sut.ErrorRaised(null);
-        }
-
-        [TestMethod]
-        public void ErrorManagerProvider_MissingPage_ReturnsFalse()
-        {
-            string replacePath = String.Empty;
-            ErrorManagerProvider sut = new ErrorManagerProvider();
-
-            bool result = sut.MissingPage(String.Empty, ref replacePath);
-
-            Assert.IsFalse(result);
-
-            Assert.AreEqual(String.Empty, replacePath);
-        }
-
-        #endregion ErrorManagerProvider
     }
 }
