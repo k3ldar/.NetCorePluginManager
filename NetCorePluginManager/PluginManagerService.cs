@@ -179,6 +179,8 @@ namespace AspNetCore.PluginManager
                 return false;
             }
 
+            HasInitialised = true;
+
             return true;
         }
 
@@ -197,6 +199,7 @@ namespace AspNetCore.PluginManager
             _logger = null;
             _pluginSettings = null;
             _configuration = null;
+            HasInitialised = false;
         }
 
         /// <summary>
@@ -281,6 +284,16 @@ namespace AspNetCore.PluginManager
         }
 
         #endregion Static Methods
+
+        #region Static Properties
+
+        /// <summary>
+        /// Indicates whether the Plugin manager service has been initialised or not
+        /// </summary>
+        /// <value>bool</value>
+        public static bool HasInitialised { get; private set; }
+
+        #endregion Static Properties
 
         #region Internal Static Methods
 
