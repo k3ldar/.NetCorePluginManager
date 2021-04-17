@@ -75,8 +75,16 @@ namespace ImageManager.Plugin
 
         public void AfterConfigureServices(in IServiceCollection services)
         {
-
-
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy(
+                    Constants.PolicyNameImageManager,
+                    policyBuilder => policyBuilder.RequireClaim(Constants.ClaimNameManageImages)
+                        .RequireClaim(Constants.ClaimNameStaff)
+                        .RequireClaim(Constants.ClaimNameUsername)
+                        .RequireClaim(Constants.ClaimNameUserId)
+                        .RequireClaim(Constants.ClaimNameUserEmail));
+            });
         }
 
         public void BeforeConfigure(in IApplicationBuilder app)

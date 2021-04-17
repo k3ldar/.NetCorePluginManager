@@ -24,7 +24,6 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System.Diagnostics.CodeAnalysis;
-using System.Linq;
 
 using AspNetCore.PluginManager.Tests.Shared;
 
@@ -172,8 +171,8 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
 
             //Assert.IsTrue(mockServiceCollection.HasServiceRegistered<IDynamicContentProvider>(ServiceLifetime.Singleton));
 
-            string[] claims = { "ManageContent", "StaffMember", "Name", "UserId", "Email" };
-            Assert.IsTrue(mockServiceCollection.HasPolicyConfigured("ContentEditor", claims));
+            string[] claims = { "ManageImages", "StaffMember", "Name", "UserId", "Email" };
+            Assert.IsTrue(mockServiceCollection.HasPolicyConfigured("ImageManager", claims));
         }
     }
 }

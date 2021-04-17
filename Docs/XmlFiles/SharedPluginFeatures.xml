@@ -1757,6 +1757,11 @@
             Name of policy for members of staff
             </summary>
         </member>
+        <member name="F:SharedPluginFeatures.Constants.PolicyNameImageManager">
+            <summary>
+            Name of policy for managing images
+            </summary>
+        </member>
         <member name="F:SharedPluginFeatures.Constants.ClaimNameAdministrator">
             <summary>
             Claim name for administrators
@@ -1795,6 +1800,11 @@
         <member name="F:SharedPluginFeatures.Constants.ClaimNameUserPermissions">
             <summary>
             Name of claim for managing user permissions
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Constants.ClaimNameManageImages">
+            <summary>
+            Name of claim for managing images
             </summary>
         </member>
         <member name="F:SharedPluginFeatures.Constants.ClaimIdentityUser">

@@ -343,6 +343,11 @@ namespace SharedPluginFeatures
         public const string PolicyNameStaff = "MemberOfStaff";
 
         /// <summary>
+        /// Name of policy for managing images
+        /// </summary>
+        public const string PolicyNameImageManager = "ImageManager";
+
+        /// <summary>
         /// Claim name for administrators
         /// </summary>
         public const string ClaimNameAdministrator = "Administrator";
@@ -381,6 +386,11 @@ namespace SharedPluginFeatures
         /// Name of claim for managing user permissions
         /// </summary>
         public const string ClaimNameUserPermissions = "UserPermissions";
+
+        /// <summary>
+        /// Name of claim for managing images
+        /// </summary>
+        public const string ClaimNameManageImages = "ManageImages";
 
         /// <summary>
         /// Name of claim identity for user claims
