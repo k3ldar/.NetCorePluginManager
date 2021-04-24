@@ -95,6 +95,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="Views\ImageManager\Index.cshtml" />
+    <Content Remove="Views\ImageManager\_LeftMenu.cshtml" />
+    <Content Remove="wwwroot\images\ImageManager\imMenu.png" />
+  </ItemGroup>
+
+  <ItemGroup>
 	<PackageReference Include="ApplicationSettings" Version="1.4.0" />
   </ItemGroup>
 
@@ -104,7 +110,8 @@
 	<PackageReference Include="AspNetCore.PluginManager" Version="$(Version)" />
 	<PackageReference Include="SharedPluginFeatures" Version="$(Version)" />
 	<PackageReference Include="AspNetCore.PluginManager.Languages" Version="$(Version)" />
-	<PackageReference Include="PluginManager" Version="$(Version)" />
+	  <PackageReference Include="Middleware" Version="$(Version)" />
+	  <PackageReference Include="PluginManager" Version="$(Version)" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(Configuration)'=='Debug'">
@@ -113,7 +120,8 @@
 	<ProjectReference Include="..\MemoryCachePlugin\MemoryCachePlugin.csproj" />
 	<ProjectReference Include="..\RestrictIp.Plugin\RestrictIp.Plugin.csproj" />
 	<ProjectReference Include="..\..\Languages\Languages.csproj" />
-	<ProjectReference Include="..\..\PluginManager\src\PluginManager.csproj" />
+	  <ProjectReference Include="..\PluginMiddleware\PluginMiddleware.csproj" />
+	  <ProjectReference Include="..\..\PluginManager\src\PluginManager.csproj" />
   </ItemGroup>
 
   <ItemGroup>
@@ -141,17 +149,19 @@
   </ItemGroup>
 
   <ItemGroup>
-	<Folder Include="Classes\SystemAdmin\" />
-	<Folder Include="Models\" />
-	<Folder Include="Views\ImageManager\" />
 	<Folder Include="wwwroot\css\" />
-	<Folder Include="wwwroot\images\" />
   </ItemGroup>
 
 	<ItemGroup>
 		<AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
 			<_Parameter1>AspNetCore.PluginManager.Tests</_Parameter1>
 		</AssemblyAttribute>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <EmbeddedResource Include="Views\ImageManager\Index.cshtml" />
+	  <EmbeddedResource Include="Views\ImageManager\_LeftMenu.cshtml" />
+	  <EmbeddedResource Include="wwwroot\images\ImageManager\imMenu.png" />
 	</ItemGroup>
 
 </Project>

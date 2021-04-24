@@ -22,121 +22,85 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
-using System.IO;
+using System.Collections.Generic;
+using System.Linq;
 
-using Microsoft.AspNetCore.Hosting;
+using ImageManager.Plugin.Models;
+
+using Languages;
+
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+
+using Middleware.Images;
+using Middleware.Interfaces;
 
 using PluginManager.Abstractions;
 
 using SharedPluginFeatures;
 
-using static Shared.Utilities;
-
 #pragma warning disable CS1591
 
 namespace ImageManager.Plugin.Controllers
 {
-    /// <summary>
-    /// Error Controller
-    /// </summary>
     [DenySpider]
+    [LoggedIn]
+    [Authorize(Policy = Constants.PolicyNameImageManager)]
+
     public class ImageManagerController : BaseController
     {
+        #region Public Consts
+
+        public const string Name = nameof(ImageManager);
+
+        #endregion Public Consts
+
         #region Private Members
 
         private readonly ISettingsProvider _settingsProvider;
+        private readonly IImageProvider _imageProvider;
 
         #endregion Private Members
 
         #region Constructors
 
-        public ImageManagerController(ISettingsProvider settingsProvider)
+        public ImageManagerController(ISettingsProvider settingsProvider, IImageProvider imageProvider)
         {
             _settingsProvider = settingsProvider ?? throw new ArgumentNullException(nameof(settingsProvider));
+            _imageProvider = imageProvider ?? throw new ArgumentNullException(nameof(imageProvider));
         }
 
         #endregion Constructors
 
         #region Public Action Methods
 
-//        [Breadcrumb(nameof(Languages.LanguageStrings.Error))]
-//        public IActionResult Index()
-//        {
-//            return View(new BaseModel(GetModelData()));
-//        }
+        [Breadcrumb(nameof(Languages.LanguageStrings.AppImageManagement))]
+        public IActionResult Index()
+        {
+            string groupName = String.Empty;
+            List<ImageFile> images = _imageProvider.Images(groupName);
 
-//        [Breadcrumb(nameof(Languages.LanguageStrings.MissingLink))]
-//        public IActionResult NotFound404()
-//        {
-//            Response.StatusCode = 404;
-//            Error404Model model;
+            return View(CreateImagesViewModel(groupName, images));
+        }
 
-//            ErrorManagerSettings settings = _settingsProvider.GetSettings<ErrorManagerSettings>("ErrorManager");
-
-//            if (settings.RandomQuotes)
-//            {
-//                // grab a random quote
-//                Random rnd = new Random(Convert.ToInt32(DateTime.Now.ToString("Hmsffff")));
-//                int quote = rnd.Next(settings.Count());
-//                model = new Error404Model(GetModelData(),
-//                    Languages.LanguageStrings.PageNotFound, settings.GetQuote(quote), GetImageFile(quote));
-//            }
-//            else
-//            {
-//                int index = 0;
-
-//                // sequential, save current state to cookie
-//                if (CookieExists("Error404"))
-//                {
-//                    // get index from cookie
-//                    string cookieValue = Decrypt(CookieValue("Error404"), settings.EncryptionKey);
-//                    index = StrToInt(cookieValue, 0) + 1;
-//                }
-
-//                if (index < 0 || index > settings.Count())
-//                    index = 0;
-
-//                CookieAdd("Error404", Encrypt(Convert.ToString(index), settings.EncryptionKey), 30);
-
-//                model = new Error404Model(GetModelData(),
-//                    Languages.LanguageStrings.PageNotFound, settings.GetQuote(index), GetImageFile(index));
-//            }
-
-//            return View(model);
-//        }
-
-//        [Breadcrumb(nameof(Languages.LanguageStrings.HighVolume))]
-//        public IActionResult HighVolume()
-//        {
-//            return View(new BaseModel(GetModelData()));
-//        }
-
-//        [Breadcrumb(nameof(Languages.LanguageStrings.NotAcceptable))]
-//        public IActionResult NotAcceptable()
-//        {
-//            return View(new BaseModel(GetModelData()));
-//        }
-
-//        [Breadcrumb(nameof(Languages.LanguageStrings.AccessDenied))]
-//        public IActionResult AccessDenied()
-//        {
-//            return View(new BaseModel(GetModelData()));
-//        }
-
-//#if DEBUG
-//        [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1030:Use events where appropriate", Justification = "Debug Only")]
-//        public IActionResult Raise(string s)
-//        {
-//            if (String.IsNullOrEmpty(s))
-//                s = "Oopsies";
-
-//            throw new Exception(s);
-//        }
-//#endif
         #endregion Public Action Methods
 
         #region Private Methods
+
+        private ImagesViewModel CreateImagesViewModel(string groupName, List<ImageFile> images, int page = 1)
+        {
+            List<string> groups = new List<string>();
+
+            _imageProvider.Groups().ForEach(g => groups.Add(g));
+
+            ImagesViewModel Result = new ImagesViewModel(GetModelData(), groupName, groups, images);
+
+            //Result.Pagination = BuildPagination(images.Count, (int)_settings.ProductsPerPage, page,
+            //    $"/Products/{Result.RouteText(groupName)}/{group.Id}/", "",
+            //    LanguageStrings.Previous, LanguageStrings.Next);
+
+            return Result;
+        }
 
         #endregion Private Methods
     }

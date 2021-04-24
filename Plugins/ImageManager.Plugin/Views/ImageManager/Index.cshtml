@@ -1,0 +1,46 @@
+﻿@model ImageManager.Plugin.Models.ImagesViewModel
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
+
+<div class="row">
+    <div class="col-sm-12">
+        <h1>@Localizer[nameof(Languages.LanguageStrings.AppImageManagement)]</h1>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-3">
+        @await Html.PartialAsync("_LeftMenu.cshtml")
+    </div>
+    <div class="col-sm-9 mainContent">
+        <nav style="margin: 0 5px 0 5px;">
+            <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                <a class="nav-item nav-link active" id="nav-images-tab" data-toggle="tab" href="#nav-images" role="tab" aria-controls="nav-images" aria-selected="true">Layout</a>
+                <a class="nav-item nav-link" id="nav-settings-tab" data-toggle="tab" href="#nav-settings" role="tab" aria-controls="nav-settings" aria-selected="false">Settings</a>
+            </div>
+        </nav>
+        <div class="tab-content" id="nav-tabContent" style="margin: 5px;">
+            <div class="tab-pane fade show active" id="nav-images" role="tabpanel" aria-labelledby="nav-images-tab">
+                <div class="row">
+                    <ul class="imageList">
+                        @foreach (var item in Model.ImageFiles)
+                        {
+                            <li class="imageItem">
+                                <a href="@item.ImageUri.ToString()">
+                                    <img src="@item.ImageUri.ToString()" alt="@item.Name" border="0" width="178" height="128" />
+                                    <br />@item.Name
+                                </a>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="nav-settings" role="tabpanel" aria-labelledby="nav-settings-tab">
+            </div>
+        </div>
+    </div>
+</div>
+@*<div class="row justify-content-sm-center" style="margin-top:20px;">
+    <div class="col-sm-auto">
+        @Html.Raw(Model.Pagination)
+    </div>
+</div>*@
+

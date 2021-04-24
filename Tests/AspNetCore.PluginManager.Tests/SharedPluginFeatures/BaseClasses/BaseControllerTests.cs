@@ -29,6 +29,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
 
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -50,6 +51,10 @@ namespace AspNetCore.PluginManager.Tests.Controllers
         protected static TestPluginManager _testDynamicContentPlugin = new TestPluginManager();
         protected static bool? _pluginLoadedDynamicContentPlugin = null;
         protected static IPluginClassesService _pluginServicesDynamicContent;
+
+        protected static TestPluginManager _testImageManagerPlugin = new TestPluginManager();
+        protected static bool? _pluginLoadedImageManagerPlugin = null;
+        protected static IPluginClassesService _pluginServicesImageManager;
 
         protected ControllerContext CreateTestControllerContext(List<BreadcrumbItem> breadcrumbs = null)
         {
@@ -77,6 +82,28 @@ namespace AspNetCore.PluginManager.Tests.Controllers
                 throw new ArgumentNullException(nameof(classType));
 
             return classType.IsDefined(typeof(T));
+        }
+
+        public bool ClassAuthorizeAttributeHasCorrectPolicy(Type classType, string expectedPolicyName)
+        {
+            if (classType == null)
+                throw new ArgumentNullException(nameof(classType));
+
+            if (!ClassHasAttribute<AuthorizeAttribute>(classType))
+                return false;
+
+            foreach (Attribute attr in classType.GetCustomAttributes(false))
+            {
+                if (attr.GetType().Equals(typeof(AuthorizeAttribute)))
+                {
+                    AuthorizeAttribute authorizeAttribute = (AuthorizeAttribute)attr;
+
+                    if (authorizeAttribute.Policy.Equals(expectedPolicyName))
+                        return true;
+                }
+            }
+
+            return false;
         }
 
         public bool MethodHasAttribute<T>(Type classType, string methodName) where T : Attribute
@@ -201,5 +228,40 @@ namespace AspNetCore.PluginManager.Tests.Controllers
 
         }
 
+        protected void InitializeImageManagerPluginManager()
+        {
+            lock (_testImageManagerPlugin)
+            {
+                while (_pluginLoadedImageManagerPlugin.HasValue && !_pluginLoadedImageManagerPlugin.Value)
+                {
+                    System.Threading.Thread.Sleep(30);
+                }
+
+                if (_pluginLoadedImageManagerPlugin.HasValue && _pluginLoadedImageManagerPlugin.Value)
+                {
+                    return;
+                }
+
+                if (_pluginLoadedImageManagerPlugin == null)
+                {
+                    _pluginLoadedImageManagerPlugin = false;
+                }
+
+                _testImageManagerPlugin.AddAssembly(Assembly.GetExecutingAssembly());
+                _testImageManagerPlugin.UsePlugin(typeof(DemoWebsite.Classes.PluginInitialisation));
+                _testImageManagerPlugin.UsePlugin(typeof(MemoryCache.Plugin.PluginInitialisation));
+                _testImageManagerPlugin.UsePlugin(typeof(LoginPlugin.PluginInitialisation));
+                _testImageManagerPlugin.UsePlugin(typeof(Spider.Plugin.PluginInitialisation));
+
+                _testImageManagerPlugin.ConfigureServices();
+
+                _pluginServicesImageManager = new pm.PluginServices(_testImageManagerPlugin) as IPluginClassesService;
+
+                _pluginLoadedImageManagerPlugin = true;
+            }
+
+            Assert.IsNotNull(_pluginServicesImageManager);
+
+        }
     }
 }

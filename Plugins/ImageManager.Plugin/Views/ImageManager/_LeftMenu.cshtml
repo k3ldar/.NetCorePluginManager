@@ -1,0 +1,19 @@
+﻿@model ImageManager.Plugin.Models.ImagesViewModel
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
+
+<div class="leftColumn">
+    <h5 id="subHeader">@Localizer[nameof(Languages.LanguageStrings.Categories)]</h5>
+    <ul>
+        @foreach (string item in Model.Groups)
+        {
+            if (item.Equals(Model.SelectedGroupName))
+            {
+                <li class="selected"><a href="/ImageManager/ViewGroup/@item/">@item</a></li>
+            }
+            else
+            {
+                <li><a href="/ImageManager/ViewGroup/@item/">@item</a></li>
+            }
+        }
+    </ul>
+</div>

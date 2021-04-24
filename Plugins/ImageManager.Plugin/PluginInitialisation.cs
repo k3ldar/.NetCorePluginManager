@@ -23,8 +23,14 @@
  *  15/04/2021  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+using ImageManager.Plugin.Classes;
+
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.Extensions.Hosting;
+
+using Middleware.Interfaces;
 
 using PluginManager.Abstractions;
 
@@ -85,6 +91,12 @@ namespace ImageManager.Plugin
                         .RequireClaim(Constants.ClaimNameUserId)
                         .RequireClaim(Constants.ClaimNameUserEmail));
             });
+
+            ServiceProvider serviceProvider = services.BuildServiceProvider();
+            ISettingsProvider settingsProvider = serviceProvider.GetService<ISettingsProvider>();
+            IHostEnvironment hostEnvironment = serviceProvider.GetService<IHostEnvironment>();
+
+            services.TryAddSingleton<IImageProvider, DefaultImageProvider>();
         }
 
         public void BeforeConfigure(in IApplicationBuilder app)

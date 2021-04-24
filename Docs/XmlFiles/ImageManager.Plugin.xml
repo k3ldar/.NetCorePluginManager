@@ -4,10 +4,98 @@
         <name>ImageManager.Plugin</name>
     </assembly>
     <members>
-        <member name="T:ImageManager.Plugin.Controllers.ImageManagerController">
+        <member name="T:ImageManager.Plugin.Classes.DefaultImageProvider">
             <summary>
-            Error Controller
+            Default image provider, used by default when no other image provider is registered.
+            
+            The default provider is designed to work with physical folders and files
             </summary>
+        </member>
+        <member name="M:ImageManager.Plugin.Classes.DefaultImageProvider.#ctor(Microsoft.Extensions.Hosting.IHostEnvironment,PluginManager.Abstractions.ISettingsProvider)">
+            <summary>
+            Default constructor
+            </summary>
+            <param name="hostEnvironment">IHostEnvironment instance</param>
+            <param name="settingsProvider">ISettingsProvider instance</param>
+        </member>
+        <member name="M:ImageManager.Plugin.Classes.DefaultImageProvider.CreateGroup(System.String)">
+            <summary>
+            Creates an image group, an image group will logically co-locate images which are naturally grouped.
+            </summary>
+            <param name="groupName">Name of group to create</param>
+            <exception cref="T:System.ArgumentNullException">Thrown if groupName is null or an empty string.</exception>
+            <exception cref="T:System.InvalidOperationException">Thrown if groupName already exists</exception>
+            <returns>bool</returns>
+        </member>
+        <member name="M:ImageManager.Plugin.Classes.DefaultImageProvider.DeleteGroup(System.String)">
+            <summary>
+            Deletes an image group.
+            </summary>
+            <param name="groupName">Name of group to delete.</param>
+            <exception cref="T:System.ArgumentNullException">Thrown if groupName is null or an empty string.</exception>
+            <returns>bool</returns>
+        </member>
+        <member name="M:ImageManager.Plugin.Classes.DefaultImageProvider.Groups">
+            <summary>
+            Retrieves a list of available image groups
+            </summary>
+            <returns>List&lt;string&gt;</returns>
+        </member>
+        <member name="M:ImageManager.Plugin.Classes.DefaultImageProvider.Images(System.String)">
+            <summary>
+            Retrieves a list of all images within an image group
+            </summary>
+            <param name="groupName">Name of group where images will be retrieved from</param>
+            <exception cref="T:System.ArgumentNullException">Thrown if groupName is null or an empty string.</exception>
+            <returns>List&lt;ImageFile&gt;</returns>
+        </member>
+        <member name="T:ImageManager.Plugin.Classes.ImageManagerSettings">
+            <summary>
+            Settings for controlling image manager
+            </summary>
+        </member>
+        <member name="P:ImageManager.Plugin.Classes.ImageManagerSettings.ImagePath">
+            <summary>
+            Root path of all images
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="T:ImageManager.Plugin.Models.ImagesViewModel">
+            <summary>
+            View model used when viewing images using <see cref="T:ImageManager.Plugin.Controllers.ImageManagerController"/>
+            </summary>
+        </member>
+        <member name="M:ImageManager.Plugin.Models.ImagesViewModel.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="M:ImageManager.Plugin.Models.ImagesViewModel.#ctor(SharedPluginFeatures.BaseModelData@,System.String,System.Collections.Generic.List{System.String},System.Collections.Generic.List{Middleware.Images.ImageFile})">
+            <summary>
+            Constructor for use when displaying data within controller
+            </summary>
+            <param name="modelData"></param>
+            <param name="selectedGroupName">Name of group, or empty string if root path</param>
+            <param name="groups">List of all groups</param>
+            <param name="imageFiles">List of images that belong to the group</param>
+        </member>
+        <member name="P:ImageManager.Plugin.Models.ImagesViewModel.SelectedGroupName">
+            <summary>
+            Name of group
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:ImageManager.Plugin.Models.ImagesViewModel.Groups">
+            <summary>
+            List of all image groups
+            </summary>
+            <value>List&lt;string&gt;</value>
+        </member>
+        <member name="P:ImageManager.Plugin.Models.ImagesViewModel.ImageFiles">
+            <summary>
+            List of images that belong to the group
+            </summary>
+            <value>List&lt;ImageFile&gt;</value>
         </member>
         <member name="T:ImageManager.Plugin.PluginInitialisation">
             <summary>

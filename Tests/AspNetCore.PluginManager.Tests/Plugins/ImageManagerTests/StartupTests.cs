@@ -26,12 +26,15 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
 
+using AspNetCore.PluginManager.Tests.Shared;
+
 using ImageManager.Plugin;
 
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
+using PluginManager.Abstractions;
 using PluginManager.Tests.Mocks;
 
 namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
@@ -40,14 +43,17 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
     [ExcludeFromCodeCoverage]
     public class StartupTests
     {
+        private const string ImageManagerTestsCategory = "Image Manager Tests";
+
         [TestCleanup]
+        [TestCategory(ImageManagerTestsCategory)]
         public void CleanupStartupTests()
         {
             PluginManagerService.Finalise();
         }
 
-
         [TestMethod]
+        [TestCategory(ImageManagerTestsCategory)]
         public void Construct_InitialisesPluginManager_Success()
         {
             Assert.IsFalse(PluginManagerService.HasInitialised);
@@ -59,6 +65,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         }
 
         [TestMethod]
+        [TestCategory(ImageManagerTestsCategory)]
         [ExpectedException(typeof(ArgumentNullException))]
         public void ConfigureService_InvalidParamNull_Throws_ArgumentNullException()
         {
@@ -68,6 +75,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         }
 
         [TestMethod]
+        [TestCategory(ImageManagerTestsCategory)]
         public void ConfigureServices_EnableEndpointRoutingIsFalse_Success()
         {
             Startup sut = new Startup();
@@ -81,6 +89,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         }
 
         [TestMethod]
+        [TestCategory(ImageManagerTestsCategory)]
         [ExpectedException(typeof(ArgumentNullException))]
         public void Configure_InvalidParamNull_Throws_ArgumentNullException()
         {
@@ -90,10 +99,12 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         }
 
         [TestMethod]
+        [TestCategory(ImageManagerTestsCategory)]
         public void Configure_UseMvcIsCalled_CorrectDefaultRouteAdded()
         {
             IWebHost host = WebHost.CreateDefaultBuilder(new string[] { })
                 .UseStartup<Startup>().Build();
+
 
             Startup sut = new Startup();
 

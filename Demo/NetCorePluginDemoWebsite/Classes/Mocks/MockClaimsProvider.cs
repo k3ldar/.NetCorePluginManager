@@ -82,7 +82,9 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
             webClaims.Add(new Claim(Constants.ClaimNameAdministrator, "true"));
             webClaims.Add(new Claim(Constants.ClaimNameStaff, "true"));
             webClaims.Add(new Claim(Constants.ClaimNameManageSeo, "true"));
+            webClaims.Add(new Claim(Constants.ClaimNameManageImages, "true"));
             Result.Add(new ClaimsIdentity(webClaims, Constants.ClaimIdentityWebsite));
+
 
             return Result;
         }

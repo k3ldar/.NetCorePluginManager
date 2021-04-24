@@ -29,7 +29,10 @@ using AspNetCore.PluginManager.Tests.Shared;
 
 using ImageManager.Plugin;
 
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+using Middleware.Interfaces;
 
 using PluginManager.Abstractions;
 using PluginManager.Tests.Mocks;
@@ -42,10 +45,12 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
     [ExcludeFromCodeCoverage]
     public class PluginInitialisationTests
     {
-        private const string GeneralTestsCategory = "Image Manager General Tests";
+        private const string ImageManagerTestsCategory = "Image Manager General Tests";
+        private const string DemoWebsiteImagePath = "..\\..\\..\\..\\..\\..\\.NetCorePluginManager\\Demo\\NetCorePluginDemoWebsite\\wwwroot\\images";
+
 
         [TestMethod]
-        [TestCategory(GeneralTestsCategory)]
+        [TestCategory(ImageManagerTestsCategory)]
         public void ExtendsIPluginAndIInitialiseEvents()
         {
             PluginInitialisation sut = new PluginInitialisation();
@@ -55,7 +60,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         }
 
         [TestMethod]
-        [TestCategory(GeneralTestsCategory)]
+        [TestCategory(ImageManagerTestsCategory)]
         public void GetVersion_ReturnsCurrentVersion_Success()
         {
             PluginInitialisation sut = new PluginInitialisation();
@@ -64,7 +69,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         }
 
         [TestMethod]
-        [TestCategory(GeneralTestsCategory)]
+        [TestCategory(ImageManagerTestsCategory)]
         public void Initialize_DoesNotAddItemsToLogger()
         {
             PluginInitialisation sut = new PluginInitialisation();
@@ -76,7 +81,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         }
 
         [TestMethod]
-        [TestCategory(GeneralTestsCategory)]
+        [TestCategory(ImageManagerTestsCategory)]
         public void AfterConfigure_DoesNotConfigurePipeline_Success()
         {
             TestApplicationBuilder testApplicationBuilder = new TestApplicationBuilder();
@@ -88,7 +93,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         }
 
         [TestMethod]
-        [TestCategory(GeneralTestsCategory)]
+        [TestCategory(ImageManagerTestsCategory)]
         public void Configure_DoesNotConfigurePipeline_Success()
         {
             TestApplicationBuilder testApplicationBuilder = new TestApplicationBuilder();
@@ -100,7 +105,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         }
 
         [TestMethod]
-        [TestCategory(GeneralTestsCategory)]
+        [TestCategory(ImageManagerTestsCategory)]
         public void BeforeConfigure_DoesNotRegisterApplicationServices()
         {
             TestApplicationBuilder testApplicationBuilder = new TestApplicationBuilder();
@@ -112,7 +117,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         }
 
         [TestMethod]
-        [TestCategory(GeneralTestsCategory)]
+        [TestCategory(ImageManagerTestsCategory)]
         public void Configure_DoesNotRegisterApplicationServices()
         {
             TestApplicationBuilder testApplicationBuilder = new TestApplicationBuilder();
@@ -124,7 +129,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         }
 
         [TestMethod]
-        [TestCategory(GeneralTestsCategory)]
+        [TestCategory(ImageManagerTestsCategory)]
         public void Finalise_DoesNotThrowException()
         {
             TestApplicationBuilder testApplicationBuilder = new TestApplicationBuilder();
@@ -134,7 +139,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         }
 
         [TestMethod]
-        [TestCategory(GeneralTestsCategory)]
+        [TestCategory(ImageManagerTestsCategory)]
         public void BeforeConfigureServices_DoesNotThrowException()
         {
             TestApplicationBuilder testApplicationBuilder = new TestApplicationBuilder();
@@ -147,7 +152,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         }
 
         [TestMethod]
-        [TestCategory(GeneralTestsCategory)]
+        [TestCategory(ImageManagerTestsCategory)]
         public void ConfigureServices_DoesNotThrowException()
         {
             TestApplicationBuilder testApplicationBuilder = new TestApplicationBuilder();
@@ -160,19 +165,34 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         }
 
         [TestMethod]
-        [TestCategory(GeneralTestsCategory)]
+        [TestCategory(ImageManagerTestsCategory)]
         public void AfterConfigureServices_CreatesContentEditorPolicy_Success()
         {
             TestApplicationBuilder testApplicationBuilder = new TestApplicationBuilder();
             PluginInitialisation sut = new PluginInitialisation();
             MockServiceCollection mockServiceCollection = new MockServiceCollection();
+            string imageManagerSettingsJson = "{\"ImageManager\": {\"ImagePath\": \"" + DemoWebsiteImagePath.Replace("\\", "\\\\") + "\"}}";
+            mockServiceCollection.AddSingleton<ISettingsProvider>(new TestSettingsProvider(imageManagerSettingsJson));
 
             sut.AfterConfigureServices(mockServiceCollection);
 
-            //Assert.IsTrue(mockServiceCollection.HasServiceRegistered<IDynamicContentProvider>(ServiceLifetime.Singleton));
-
             string[] claims = { "ManageImages", "StaffMember", "Name", "UserId", "Email" };
             Assert.IsTrue(mockServiceCollection.HasPolicyConfigured("ImageManager", claims));
+        }
+
+        [TestMethod]
+        [TestCategory(ImageManagerTestsCategory)]
+        public void AfterConfigureServices_RegistersDefaultImageProvider_Success()
+        {
+            TestApplicationBuilder testApplicationBuilder = new TestApplicationBuilder();
+            PluginInitialisation sut = new PluginInitialisation();
+            MockServiceCollection mockServiceCollection = new MockServiceCollection();
+            string imageManagerSettingsJson = "{\"ImageManager\": {\"ImagePath\": \"" + DemoWebsiteImagePath.Replace("\\", "\\\\") + "\"}}";
+            mockServiceCollection.AddSingleton<ISettingsProvider>(new TestSettingsProvider(imageManagerSettingsJson));
+
+            sut.AfterConfigureServices(mockServiceCollection);
+
+            Assert.IsTrue(mockServiceCollection.HasServiceRegistered<IImageProvider>(ServiceLifetime.Singleton));
         }
     }
 }

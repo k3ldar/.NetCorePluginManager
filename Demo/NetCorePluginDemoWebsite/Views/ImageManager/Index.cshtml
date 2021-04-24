@@ -1,0 +1,30 @@
+﻿@model ImageManager.Plugin.Models.ImagesViewModel
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
+<div class="row">
+<div class="col-sm-12">
+<h1>@Localizer[nameof(Languages.LanguageStrings.AppImageManagement)]</h1>
+</div>
+</div>
+<div class="row">
+<div class="col-sm-3">
+@await Html.PartialAsync("_LeftMenu.cshtml")
+</div>
+<div class="col-sm-9 mainContent">
+<ul class="imageList">
+@foreach (var item in Model.ImageFiles)
+{
+<li class="imageItem">
+<a href="@item.ImageUri.ToString()">
+<img src="@item.ImageUri.ToString()" alt="@item.Name" border="0" width="178" height="128" />
+<br />@item.Name
+</a>
+</li>
+}
+</ul>
+</div>
+</div>
+<div class="row justify-content-sm-center" style="margin-top:20px;">
+<div class="col-sm-auto">
+@Html.Raw(Model.Pagination)
+</div>
+</div>

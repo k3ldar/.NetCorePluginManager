@@ -1573,6 +1573,72 @@
             </summary>
             <param name="item">KnowledgeBaseItem being viewed.</param>
         </member>
+        <member name="T:Middleware.Images.ImageFile">
+            <summary>
+            Contains details for image files return by <see cref="T:Middleware.Interfaces.IImageProvider"/>
+            </summary>
+        </member>
+        <member name="M:Middleware.Images.ImageFile.#ctor(System.Uri,System.String)">
+            <summary>
+            Constructor used for valid existing disk based file
+            </summary>
+            <param name="uriBuilder">Uri builder containing root path for the </param>
+            <param name="fileName">Path and name of file</param>
+            <exception cref="T:System.ArgumentNullException">Thrown if uri is null</exception>
+            <exception cref="T:System.ArgumentNullException">Thrown if fileName is null or empty</exception>
+            <exception cref="T:System.ArgumentException">Thrown if fileName does not exist</exception>
+        </member>
+        <member name="M:Middleware.Images.ImageFile.#ctor(System.Uri,System.String,System.String,System.Int64,System.DateTime,System.DateTime)">
+            <summary>
+            Constructor used for non disk based file information
+            </summary>
+            <param name="uriBuilder">Uri builder containing root path for the </param>
+            <param name="fileName">Name of file</param>
+            <param name="fileExtension">File extension type</param>
+            <param name="size">Size of file</param>
+            <param name="createdDate">Date and time created</param>
+            <param name="modifiedDate">Date and time last modified</param>
+            <exception cref="T:System.ArgumentNullException">Thrown if uri is null</exception>
+            <exception cref="T:System.ArgumentNullException">Thrown if fileName is null or empty</exception>
+            <exception cref="T:System.ArgumentNullException">Thrown if fileExtension is null or empty</exception>
+            <exception cref="T:System.ArgumentOutOfRangeException">Thrown if size is less than zero</exception>
+        </member>
+        <member name="P:Middleware.Images.ImageFile.Name">
+            <summary>
+            Name of image file
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:Middleware.Images.ImageFile.FileExtension">
+            <summary>
+            Extension type for file
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:Middleware.Images.ImageFile.Size">
+            <summary>
+            Size of file in bytes
+            </summary>
+            <value>long</value>
+        </member>
+        <member name="P:Middleware.Images.ImageFile.CreateDate">
+            <summary>
+            Date/Time file created
+            </summary>
+            <value>DateTime</value>
+        </member>
+        <member name="P:Middleware.Images.ImageFile.ModifiedDate">
+            <summary>
+            Date/Time file last modified
+            </summary>
+            <value>DateTime</value>
+        </member>
+        <member name="P:Middleware.Images.ImageFile.ImageUri">
+            <summary>
+            Uri for image
+            </summary>
+            <value>string</value>
+        </member>
         <member name="T:Middleware.UserLoginDetails">
             <summary>
             User login details, used by ILoginProvider interface.
@@ -2958,6 +3024,41 @@
             File download by anyone
             </summary>
             <param name="fileId">Unique id of the file being downloaded.</param>
+        </member>
+        <member name="T:Middleware.Interfaces.IImageProvider">
+            <summary>
+            Image provider interface, provides methods used to manage images within the system
+            </summary>
+        </member>
+        <member name="M:Middleware.Interfaces.IImageProvider.CreateGroup(System.String)">
+            <summary>
+            Creates an image group, an image group will logically co-locate images which are naturally grouped.
+            </summary>
+            <param name="groupName">Name of group to create</param>
+            <exception cref="!:ArgumentNullException">Thrown if groupName is null or an empty string.</exception>
+            <returns>bool</returns>
+        </member>
+        <member name="M:Middleware.Interfaces.IImageProvider.DeleteGroup(System.String)">
+            <summary>
+            Deletes an image group.
+            </summary>
+            <param name="groupName">Name of group to delete.</param>
+            <exception cref="!:ArgumentNullException">Thrown if groupName is null or an empty string.</exception>
+            <returns>bool</returns>
+        </member>
+        <member name="M:Middleware.Interfaces.IImageProvider.Groups">
+            <summary>
+            Retrieves a list of available image groups
+            </summary>
+            <returns>List&lt;string&gt;</returns>
+        </member>
+        <member name="M:Middleware.Interfaces.IImageProvider.Images(System.String)">
+            <summary>
+            Retrieves a list of all images within an image group
+            </summary>
+            <param name="groupName">Name of group where images will be retrieved from</param>
+            <exception cref="!:ArgumentNullException">Thrown if groupName is null or an empty string.</exception>
+            <returns>List&lt;ImageFile&gt;</returns>
         </member>
         <member name="T:Middleware.ILicenceProvider">
             <summary>
