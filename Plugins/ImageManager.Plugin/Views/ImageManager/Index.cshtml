@@ -1,20 +1,20 @@
 ﻿@model ImageManager.Plugin.Models.ImagesViewModel
 @inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
-
+    <link rel="stylesheet" href="~/css/imageManager.css" />
 <div class="row">
     <div class="col-sm-12">
         <h1>@Localizer[nameof(Languages.LanguageStrings.AppImageManagement)]</h1>
     </div>
 </div>
 <div class="row">
-    <div class="col-sm-3">
+    <div class="col-sm-2">
         @await Html.PartialAsync("_LeftMenu.cshtml")
     </div>
-    <div class="col-sm-9 mainContent">
+    <div class="col-sm-10 mainContent">
         <nav style="margin: 0 5px 0 5px;">
             <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                <a class="nav-item nav-link active" id="nav-images-tab" data-toggle="tab" href="#nav-images" role="tab" aria-controls="nav-images" aria-selected="true">Layout</a>
-                <a class="nav-item nav-link" id="nav-settings-tab" data-toggle="tab" href="#nav-settings" role="tab" aria-controls="nav-settings" aria-selected="false">Settings</a>
+                <a class="nav-item nav-link active" id="nav-images-tab" data-toggle="tab" href="#nav-images" role="tab" aria-controls="nav-images" aria-selected="true">@Localizer[nameof(Languages.LanguageStrings.AppCardImages)]</a>
+                <a class="nav-item nav-link" id="nav-settings-tab" data-toggle="tab" href="#nav-settings" role="tab" aria-controls="nav-settings" aria-selected="false">@Localizer[nameof(Languages.LanguageStrings.Settings)]</a>
             </div>
         </nav>
         <div class="tab-content" id="nav-tabContent" style="margin: 5px;">
@@ -24,9 +24,11 @@
                         @foreach (var item in Model.ImageFiles)
                         {
                             <li class="imageItem">
-                                <a href="@item.ImageUri.ToString()">
-                                    <img src="@item.ImageUri.ToString()" alt="@item.Name" border="0" width="178" height="128" />
-                                    <br />@item.Name
+                                <a href="/ImageManager/ViewImage/@Model.SelectedGroupName/@item.Name">
+                                    <div class="imageBox">
+                                        <img src="@item.ImageUri.ToString()" alt="@item.Name" class="viewImage" />
+                                    </div>
+                                    @item.Name
                                 </a>
                             </li>
                         }

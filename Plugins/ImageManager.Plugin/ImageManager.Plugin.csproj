@@ -97,6 +97,7 @@
   <ItemGroup>
     <Content Remove="Views\ImageManager\Index.cshtml" />
     <Content Remove="Views\ImageManager\_LeftMenu.cshtml" />
+    <Content Remove="wwwroot\css\imageManager.css" />
     <Content Remove="wwwroot\images\ImageManager\imMenu.png" />
   </ItemGroup>
 
@@ -148,10 +149,6 @@
 	<PackageReference Include="Microsoft.Net.Http.Headers" Version="2.2.8" />
   </ItemGroup>
 
-  <ItemGroup>
-	<Folder Include="wwwroot\css\" />
-  </ItemGroup>
-
 	<ItemGroup>
 		<AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
 			<_Parameter1>AspNetCore.PluginManager.Tests</_Parameter1>
@@ -161,6 +158,7 @@
 	<ItemGroup>
 	  <EmbeddedResource Include="Views\ImageManager\Index.cshtml" />
 	  <EmbeddedResource Include="Views\ImageManager\_LeftMenu.cshtml" />
+	  <EmbeddedResource Include="wwwroot\css\imageManager.css" />
 	  <EmbeddedResource Include="wwwroot\images\ImageManager\imMenu.png" />
 	</ItemGroup>
 

@@ -1,0 +1,63 @@
+﻿.leftColumn {
+}
+
+    .leftColumn h5 {
+        font-size: 1.25rem;
+        border-bottom: 1px solid black;
+        padding: 10px 0 0px 0;
+        margin: 0 0 8px 0;
+    }
+
+    .leftColumn .subHeader {
+        border: 0 0 1px 0 solid black;
+    }
+
+    .leftColumn ul {
+        padding: 0px;
+    }
+
+        .leftColumn ul li {
+            font-size: 1em;
+            line-height: 1;
+            list-style: none;
+            margin: 0 0 0 0;
+            padding: 0 0 10px 0;
+        }
+
+.imageList {
+    font-size: 1em;
+    line-height: 1;
+    list-style: none;
+    margin: 0 0 10px 10px;
+    padding: 0;
+}
+
+ul.imageList {
+}
+
+    ul.imageList li {
+        display: block;
+        float: left;
+        margin: 8px 15px 15px 2px;
+        padding: 5px;
+        width: 208px !important;
+        height: 150px !important;
+    }
+
+        ul.imageList li .imageBox {
+            width: 210px !important;
+            height: 130px !important;
+            border: none;
+        }
+
+            ul.imageList li .imageBox:hover {
+                border: 1px solid black;
+            }
+
+        .viewImage {
+            display: block;
+            max-width: 178px;
+            max-height: 128px;
+            width: auto;
+            height: auto;
+        }

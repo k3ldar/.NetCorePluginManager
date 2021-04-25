@@ -23794,6 +23794,15 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Image Groups.
+        /// </summary>
+        public static string ImageGroups {
+            get {
+                return ResourceManager.GetString("ImageGroups", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Ingredients.
         /// </summary>
         public static string Ingredients {

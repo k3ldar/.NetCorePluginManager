@@ -14169,4 +14169,8 @@ You will shortly receive an email with the details of your order.</comment>
     <value>Cookie Login</value>
     <comment>Automatic Cookie Login</comment>
   </data>
+  <data name="ImageGroups" xml:space="preserve">
+    <value>Image Groups</value>
+    <comment>Image Groups</comment>
+  </data>
 </root>
