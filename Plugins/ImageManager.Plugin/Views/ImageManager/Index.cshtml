@@ -1,6 +1,6 @@
 ﻿@model ImageManager.Plugin.Models.ImagesViewModel
 @inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
-    <link rel="stylesheet" href="~/css/imageManager.css" />
+<link rel="stylesheet" href="~/css/imageManager.css" />
 <div class="row">
     <div class="col-sm-12">
         <h1>@Localizer[nameof(Languages.LanguageStrings.AppImageManagement)]</h1>
@@ -27,8 +27,9 @@
                                 <a href="/ImageManager/ViewImage/@Model.SelectedGroupName/@item.Name">
                                     <div class="imageBox">
                                         <img src="@item.ImageUri.ToString()" alt="@item.Name" class="viewImage" />
+                                        <br />
+                                        @item.Name
                                     </div>
-                                    @item.Name
                                 </a>
                             </li>
                         }
@@ -41,8 +42,8 @@
     </div>
 </div>
 @*<div class="row justify-content-sm-center" style="margin-top:20px;">
-    <div class="col-sm-auto">
-        @Html.Raw(Model.Pagination)
-    </div>
-</div>*@
+        <div class="col-sm-auto">
+            @Html.Raw(Model.Pagination)
+        </div>
+    </div>*@
 

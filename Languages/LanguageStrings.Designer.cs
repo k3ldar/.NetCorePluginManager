@@ -30289,6 +30289,15 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to View Group.
+        /// </summary>
+        public static string ViewGroup {
+            get {
+                return ResourceManager.GetString("ViewGroup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to View Invoice.
         /// </summary>
         public static string ViewInvoice {

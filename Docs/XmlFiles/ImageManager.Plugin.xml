@@ -18,6 +18,29 @@
             <param name="hostEnvironment">IHostEnvironment instance</param>
             <param name="settingsProvider">ISettingsProvider instance</param>
         </member>
+        <member name="M:ImageManager.Plugin.Classes.DefaultImageProvider.Groups">
+            <summary>
+            Retrieves a list of available image groups
+            </summary>
+            <returns>List&lt;string&gt;</returns>
+        </member>
+        <member name="M:ImageManager.Plugin.Classes.DefaultImageProvider.Images(System.String)">
+            <summary>
+            Retrieves a list of all images within an image group
+            </summary>
+            <param name="groupName">Name of group where images will be retrieved from</param>
+            <exception cref="T:System.ArgumentNullException">Thrown if groupName is null or an empty string.</exception>
+            <returns>List&lt;ImageFile&gt;</returns>
+        </member>
+        <member name="M:ImageManager.Plugin.Classes.DefaultImageProvider.Images(System.String,System.String)">
+            <summary>
+            Retrieves a list of all images within an image group
+            </summary>
+            <param name="groupName">Name of group where images will be retrieved from</param>
+            <param name="subgroupName">Name of subgroup where images reside, or null if only require group images.</param>
+            <exception cref="T:System.ArgumentNullException">Thrown if groupName is null or an empty string.</exception>
+            <returns>List&lt;ImageFile&gt;</returns>
+        </member>
         <member name="M:ImageManager.Plugin.Classes.DefaultImageProvider.CreateGroup(System.String)">
             <summary>
             Creates an image group, an image group will logically co-locate images which are naturally grouped.
@@ -35,19 +58,36 @@
             <exception cref="T:System.ArgumentNullException">Thrown if groupName is null or an empty string.</exception>
             <returns>bool</returns>
         </member>
-        <member name="M:ImageManager.Plugin.Classes.DefaultImageProvider.Groups">
+        <member name="M:ImageManager.Plugin.Classes.DefaultImageProvider.GroupExists(System.String)">
             <summary>
-            Retrieves a list of available image groups
+            Determines whether a group exists or not
             </summary>
-            <returns>List&lt;string&gt;</returns>
+            <param name="groupName">Name of group to find if exists</param>
+            <returns>bool</returns>
         </member>
-        <member name="M:ImageManager.Plugin.Classes.DefaultImageProvider.Images(System.String)">
+        <member name="M:ImageManager.Plugin.Classes.DefaultImageProvider.AddSubGroup(System.String,System.String)">
             <summary>
-            Retrieves a list of all images within an image group
+            Adds a new subgroup to an existing image group
             </summary>
-            <param name="groupName">Name of group where images will be retrieved from</param>
-            <exception cref="T:System.ArgumentNullException">Thrown if groupName is null or an empty string.</exception>
-            <returns>List&lt;ImageFile&gt;</returns>
+            <param name="groupName">Name of group under which the subgroup will be added.</param>
+            <param name="subGroupName">Name of subgroup to add.</param>
+            <returns>bool</returns>
+        </member>
+        <member name="M:ImageManager.Plugin.Classes.DefaultImageProvider.DeleteSubGroup(System.String,System.String)">
+            <summary>
+            Deletes a subgroup and all image files contained within the subgroup.
+            </summary>
+            <param name="groupName">Name of group where the subgroup resides.</param>
+            <param name="subGroupName">Name of subgroup to be deleted.</param>
+            <returns>bool</returns>
+        </member>
+        <member name="M:ImageManager.Plugin.Classes.DefaultImageProvider.SubGroupExists(System.String,System.String)">
+            <summary>
+            Determines whether a subgroup exists or not
+            </summary>
+            <param name="groupName">Name of group that should contain subgroup.</param>
+            <param name="subGroupName">Name of subgroup whose existence is being verified.</param>
+            <returns>bool</returns>
         </member>
         <member name="T:ImageManager.Plugin.Classes.ImageManagerSettings">
             <summary>
@@ -70,18 +110,25 @@
             Default constructor
             </summary>
         </member>
-        <member name="M:ImageManager.Plugin.Models.ImagesViewModel.#ctor(SharedPluginFeatures.BaseModelData@,System.String,System.Collections.Generic.List{System.String},System.Collections.Generic.List{Middleware.Images.ImageFile})">
+        <member name="M:ImageManager.Plugin.Models.ImagesViewModel.#ctor(SharedPluginFeatures.BaseModelData@,System.String,System.String,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Collections.Generic.List{Middleware.Images.ImageFile})">
             <summary>
             Constructor for use when displaying data within controller
             </summary>
             <param name="modelData"></param>
             <param name="selectedGroupName">Name of group, or empty string if root path</param>
+            <param name="selectedSubgroupName">Name of subgroup, or empty string if no subgroup is being highlighted</param>
             <param name="groups">List of all groups</param>
             <param name="imageFiles">List of images that belong to the group</param>
         </member>
         <member name="P:ImageManager.Plugin.Models.ImagesViewModel.SelectedGroupName">
             <summary>
             Name of group
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:ImageManager.Plugin.Models.ImagesViewModel.SelectedSubgroupName">
+            <summary>
+            Name of subgroup
             </summary>
             <value>string</value>
         </member>

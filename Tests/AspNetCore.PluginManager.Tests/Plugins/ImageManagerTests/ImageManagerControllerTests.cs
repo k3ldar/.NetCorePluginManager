@@ -96,6 +96,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         }
 
         [TestMethod]
+        [TestCategory(ImageManagerTestsCategory)]
         public void Validate_ControllerHasCorrectAttributes_Success()
         {
             Assert.IsTrue(ClassHasAttribute<DenySpiderAttribute>(typeof(ImageManagerController)));
@@ -106,22 +107,10 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         }
 
         [TestMethod]
+        [TestCategory(ImageManagerTestsCategory)]
         public void Index_ReturnsCorrectModel_Success()
         {
-            List<string> groups = new List<string>()
-            {
-                "Group 1",
-                "Group 2"
-            };
-
-            List<ImageFile> images = new List<ImageFile>()
-            {
-                { new ImageFile(new Uri("/", UriKind.RelativeOrAbsolute), "myfile.gif", ".gif", 23, DateTime.Now, DateTime.Now) }
-            };
-
-
-            MockImageProvider mockImageProvider = new MockImageProvider(groups, images);
-            ImageManagerController sut = CreateDynamicContentController(null, null, mockImageProvider);
+            ImageManagerController sut = CreateDynamicContentController(null, null, CreateDefaultMockImageProvider());
 
             IActionResult response = sut.Index();
 
@@ -141,12 +130,245 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
 
             Assert.AreEqual("", imagesViewModel.SelectedGroupName);
             Assert.AreEqual(2, imagesViewModel.Groups.Count);
-            Assert.AreEqual("Group 1", imagesViewModel.Groups[0]);
-            Assert.AreEqual("Group 2", imagesViewModel.Groups[1]);
+            Assert.IsTrue(imagesViewModel.Groups.ContainsKey("Group 1"));
+            Assert.IsTrue(imagesViewModel.Groups.ContainsKey("Group 2"));
+            Assert.AreEqual(0, imagesViewModel.Groups["Group 1"].Count);
+            Assert.AreEqual(0, imagesViewModel.Groups["Group 2"].Count);
             Assert.AreEqual(1, imagesViewModel.ImageFiles.Count);
             Assert.AreEqual("myfile.gif", imagesViewModel.ImageFiles[0].Name);
         }
 
+        [TestMethod]
+        [TestCategory(ImageManagerTestsCategory)]
+        public void ViewGroup_InvalidParam_GroupName_Null_RedirectsToIndex()
+        {
+            ImageManagerController sut = CreateDynamicContentController();
+
+            IActionResult response = sut.ViewGroup(null);
+
+            Assert.IsInstanceOfType(response, typeof(RedirectToActionResult));
+
+            RedirectToActionResult viewResult = response as RedirectToActionResult;
+
+            Assert.IsFalse(viewResult.Permanent);
+            Assert.AreEqual("Index", viewResult.ActionName);
+        }
+
+        [TestMethod]
+        [TestCategory(ImageManagerTestsCategory)]
+        public void ViewGroup_InvalidParam_GroupName_EmptyString_RedirectsToIndex()
+        {
+            ImageManagerController sut = CreateDynamicContentController();
+
+            IActionResult response = sut.ViewGroup("");
+
+            Assert.IsInstanceOfType(response, typeof(RedirectToActionResult));
+
+            RedirectToActionResult viewResult = response as RedirectToActionResult;
+
+            Assert.IsFalse(viewResult.Permanent);
+            Assert.AreEqual("Index", viewResult.ActionName);
+        }
+
+        [TestMethod]
+        [TestCategory(ImageManagerTestsCategory)]
+        public void ViewGroup_InvalidGroupName_DoesNotExist_RedirectsToIndex()
+        {
+            ImageManagerController sut = CreateDynamicContentController();
+
+            IActionResult response = sut.ViewGroup("Image Group");
+
+            Assert.IsInstanceOfType(response, typeof(RedirectToActionResult));
+
+            RedirectToActionResult viewResult = response as RedirectToActionResult;
+
+            Assert.IsFalse(viewResult.Permanent);
+            Assert.AreEqual("Index", viewResult.ActionName);
+        }
+
+        [TestMethod]
+        [TestCategory(ImageManagerTestsCategory)]
+        public void ViewGroup_ValidGroupName_ReturnsCorrectModelAndView_Success()
+        {
+            ImageManagerController sut = CreateDynamicContentController(null, null, CreateDefaultMockImageProvider());
+
+            IActionResult response = sut.ViewGroup("Group 1");
+
+            // Assert
+            Assert.IsInstanceOfType(response, typeof(ViewResult));
+
+            ViewResult viewResult = response as ViewResult;
+
+            Assert.IsNotNull(viewResult.Model);
+
+            ValidateBaseModel(viewResult);
+
+            Assert.AreEqual("/Views/ImageManager/Index.cshtml", viewResult.ViewName);
+            Assert.IsInstanceOfType(viewResult.Model, typeof(ImagesViewModel));
+
+            ImagesViewModel imagesViewModel = (ImagesViewModel)viewResult.Model;
+
+            Assert.AreEqual("Group 1", imagesViewModel.SelectedGroupName);
+            Assert.AreEqual(2, imagesViewModel.Groups.Count);
+            Assert.IsTrue(imagesViewModel.Groups.ContainsKey("Group 1"));
+            Assert.IsTrue(imagesViewModel.Groups.ContainsKey("Group 2"));
+            Assert.AreEqual(2, imagesViewModel.Groups["Group 1"].Count);
+            Assert.IsTrue(imagesViewModel.Groups["Group 1"].Contains("Group 1 Subgroup 1"));
+            Assert.IsTrue(imagesViewModel.Groups["Group 1"].Contains("Group 1 Subgroup 2"));
+            Assert.AreEqual(1, imagesViewModel.ImageFiles.Count);
+            Assert.AreEqual("myfile.gif", imagesViewModel.ImageFiles[0].Name);
+        }
+
+        [TestMethod]
+        [TestCategory(ImageManagerTestsCategory)]
+        public void ViewSubgroup_InvalidParam_GroupName_Null_RedirectsToIndex()
+        {
+            ImageManagerController sut = CreateDynamicContentController();
+
+            IActionResult response = sut.ViewSubgroup(null, "subgroup");
+
+            Assert.IsInstanceOfType(response, typeof(RedirectToActionResult));
+
+            RedirectToActionResult viewResult = response as RedirectToActionResult;
+
+            Assert.IsFalse(viewResult.Permanent);
+            Assert.AreEqual("Index", viewResult.ActionName);
+        }
+
+        [TestMethod]
+        [TestCategory(ImageManagerTestsCategory)]
+        public void ViewSubgroup_InvalidParam_GroupName_EmptyString_RedirectsToIndex()
+        {
+            ImageManagerController sut = CreateDynamicContentController();
+
+            IActionResult response = sut.ViewSubgroup("", "subgroup");
+
+            Assert.IsInstanceOfType(response, typeof(RedirectToActionResult));
+
+            RedirectToActionResult viewResult = response as RedirectToActionResult;
+
+            Assert.IsFalse(viewResult.Permanent);
+            Assert.AreEqual("Index", viewResult.ActionName);
+        }
+
+        [TestMethod]
+        [TestCategory(ImageManagerTestsCategory)]
+        public void ViewSubgroup_InvalidParam_SubgroupName_Null_RedirectsToIndex()
+        {
+            ImageManagerController sut = CreateDynamicContentController(null, null, CreateDefaultMockImageProvider());
+
+            IActionResult response = sut.ViewSubgroup("Group 1", null);
+
+            Assert.IsInstanceOfType(response, typeof(RedirectToActionResult));
+
+            RedirectToActionResult viewResult = response as RedirectToActionResult;
+
+            Assert.IsFalse(viewResult.Permanent);
+            Assert.AreEqual("Index", viewResult.ActionName);
+        }
+
+        [TestMethod]
+        [TestCategory(ImageManagerTestsCategory)]
+        public void ViewSubgroup_InvalidParam_SubgroupName_EmptyString_RedirectsToIndex()
+        {
+            ImageManagerController sut = CreateDynamicContentController(null, null, CreateDefaultMockImageProvider());
+
+            IActionResult response = sut.ViewSubgroup("Group 1", "");
+
+            Assert.IsInstanceOfType(response, typeof(RedirectToActionResult));
+
+            RedirectToActionResult viewResult = response as RedirectToActionResult;
+
+            Assert.IsFalse(viewResult.Permanent);
+            Assert.AreEqual("Index", viewResult.ActionName);
+        }
+
+        [TestMethod]
+        [TestCategory(ImageManagerTestsCategory)]
+        public void ViewSubgroup_SubgroupName_DoesNotExist_RedirectsToIndex()
+        {
+            ImageManagerController sut = CreateDynamicContentController(null, null, CreateDefaultMockImageProvider());
+
+            IActionResult response = sut.ViewSubgroup("Group 1", "Subgroup 1");
+
+            Assert.IsInstanceOfType(response, typeof(RedirectToActionResult));
+
+            RedirectToActionResult viewResult = response as RedirectToActionResult;
+
+            Assert.IsFalse(viewResult.Permanent);
+            Assert.AreEqual("Index", viewResult.ActionName);
+        }
+
+        [TestMethod]
+        [TestCategory(ImageManagerTestsCategory)]
+        public void ViewSubgroup_InvalidGroupName_DoesNotExist_RedirectsToIndex()
+        {
+            ImageManagerController sut = CreateDynamicContentController();
+
+            IActionResult response = sut.ViewSubgroup("Image Group", "subgroup");
+
+            Assert.IsInstanceOfType(response, typeof(RedirectToActionResult));
+
+            RedirectToActionResult viewResult = response as RedirectToActionResult;
+
+            Assert.IsFalse(viewResult.Permanent);
+            Assert.AreEqual("Index", viewResult.ActionName);
+        }
+
+        [TestMethod]
+        [TestCategory(ImageManagerTestsCategory)]
+        public void ViewSubgroup_ValidGroupName_ReturnsCorrectModelAndView_Success()
+        {
+            ImageManagerController sut = CreateDynamicContentController(null, null, CreateDefaultMockImageProvider());
+
+            IActionResult response = sut.ViewSubgroup("Group 1", "Group 1 Subgroup 1");
+
+            // Assert
+            Assert.IsInstanceOfType(response, typeof(ViewResult));
+
+            ViewResult viewResult = response as ViewResult;
+
+            Assert.IsNotNull(viewResult.Model);
+
+            ValidateBaseModel(viewResult);
+
+            Assert.AreEqual("/Views/ImageManager/Index.cshtml", viewResult.ViewName);
+            Assert.IsInstanceOfType(viewResult.Model, typeof(ImagesViewModel));
+
+            ImagesViewModel imagesViewModel = (ImagesViewModel)viewResult.Model;
+
+            Assert.AreEqual("Group 1", imagesViewModel.SelectedGroupName);
+            Assert.AreEqual(2, imagesViewModel.Groups.Count);
+            Assert.IsTrue(imagesViewModel.Groups.ContainsKey("Group 1"));
+            Assert.IsTrue(imagesViewModel.Groups.ContainsKey("Group 2"));
+            Assert.AreEqual(2, imagesViewModel.Groups["Group 1"].Count);
+            Assert.IsTrue(imagesViewModel.Groups["Group 1"].Contains("Group 1 Subgroup 1"));
+            Assert.IsTrue(imagesViewModel.Groups["Group 1"].Contains("Group 1 Subgroup 2"));
+            Assert.AreEqual(1, imagesViewModel.ImageFiles.Count);
+            Assert.AreEqual("myfile.gif", imagesViewModel.ImageFiles[0].Name);
+        }
+
+        #region Private Methods
+
+        private MockImageProvider CreateDefaultMockImageProvider()
+        {
+            Dictionary<string, List<string>> groups = new Dictionary<string, List<string>>()
+            {
+                { "Group 1", new List<string>() },
+                { "Group 2", new List<string>() }
+            };
+
+            groups["Group 1"].Add("Group 1 Subgroup 1");
+            groups["Group 1"].Add("Group 1 Subgroup 2");
+
+            List<ImageFile> images = new List<ImageFile>()
+            {
+                { new ImageFile(new Uri("/", UriKind.RelativeOrAbsolute), "myfile.gif", ".gif", 23, DateTime.Now, DateTime.Now) }
+            };
+
+
+            return new MockImageProvider(groups, images);
+        }
 
         private ImageManagerController CreateDynamicContentController(DefaultMemoryCache memoryCache = null,
             List<BreadcrumbItem> breadcrumbs = null, MockImageProvider mockImageProvider = null)
@@ -164,5 +386,6 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
             return Result;
         }
 
+        #endregion Private Methods
     }
 }

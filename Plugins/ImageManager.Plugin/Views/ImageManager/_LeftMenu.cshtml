@@ -4,15 +4,36 @@
 <div class="leftColumn">
     <h5 id="subHeader">@Localizer[nameof(Languages.LanguageStrings.ImageGroups)]</h5>
     <ul>
-        @foreach (string item in Model.Groups)
+        @foreach (KeyValuePair<string, List<string>> item in Model.Groups)
         {
-            if (item.Equals(Model.SelectedGroupName))
+            if (item.Key.Equals(Model.SelectedGroupName) && String.IsNullOrEmpty(Model.SelectedSubgroupName))
             {
-                <li class="selected"><a href="/ImageManager/ViewGroup/@item/">@item</a></li>
+                <li class="selected"><a href="/ImageManager/ViewGroup/@item.Key/">@item.Key</a></li>
             }
             else
             {
-                <li><a href="/ImageManager/ViewGroup/@item/">@item</a></li>
+                <li><a href="/ImageManager/ViewGroup/@item.Key/">@item.Key</a></li>
+            }
+
+            if (item.Value.Count > 0)
+            {
+                <ul class="imgSubgroups">
+                    @foreach (string subGroup in item.Value)
+                    {
+                        if (subGroup.Equals(Model.SelectedSubgroupName))
+                        {
+                            <li class="selected">
+                                <a href="/ImageManager/ViewSubgroup/@item.Key/@subGroup/">@subGroup</a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li>
+                                <a href="/ImageManager/ViewSubgroup/@item.Key/@subGroup/">@subGroup</a>
+                            </li>
+                        }
+                    }
+                </ul>
             }
         }
     </ul>

@@ -52,17 +52,58 @@ namespace Middleware.Interfaces
         bool DeleteGroup(string groupName);
 
         /// <summary>
-        /// Retrieves a list of available image groups
+        /// Determines whether a group exists or not
         /// </summary>
-        /// <returns>List&lt;string&gt;</returns>
-        List<string> Groups();
+        /// <param name="groupName">Name of group to find if exists</param>
+        /// <returns>bool</returns>
+        bool GroupExists(string groupName);
+
+        /// <summary>
+        /// Retrieves a list of available image groups with subgroups
+        /// </summary>
+        /// <returns>Dictionary&lt;string, List&lt;string&gt;&gt;</returns>
+        Dictionary<string, List<string>> Groups();
 
         /// <summary>
         /// Retrieves a list of all images within an image group
         /// </summary>
-        /// <param name="groupName">Name of group where images will be retrieved from</param>
+        /// <param name="groupName">Name of group where images will be retrieved from.</param>
         /// <exception cref="ArgumentNullException">Thrown if groupName is null or an empty string.</exception>
         /// <returns>List&lt;ImageFile&gt;</returns>
         List<ImageFile> Images(string groupName);
+
+        /// <summary>
+        /// Retrieves a list of all images within an image subgroup
+        /// </summary>
+        /// <param name="groupName">Name of group where images will be retrieved from.</param>
+        /// <param name="subgroupName">Name of subgroup where images will be retrieved from.</param>
+        /// <exception cref="ArgumentNullException">Thrown if groupName is null or an empty string.</exception>
+        /// <exception cref="ArgumentNullException">Thrown if subgroupName is null or an empty string.</exception>
+        /// <returns>List&lt;ImageFile&gt;</returns>
+        List<ImageFile> Images(string groupName, string subgroupName);
+
+        /// <summary>
+        /// Determines whether a subgroup exists or not
+        /// </summary>
+        /// <param name="groupName">Name of group that should contain subgroup.</param>
+        /// <param name="subGroupName">Name of subgroup whose existence is being verified.</param>
+        /// <returns>bool</returns>
+        bool SubGroupExists(string groupName, string subGroupName);
+
+        /// <summary>
+        /// Adds a new subgroup to an existing image group
+        /// </summary>
+        /// <param name="groupName">Name of group under which the subgroup will be added.</param>
+        /// <param name="subGroupName">Name of subgroup to add.</param>
+        /// <returns>bool</returns>
+        bool AddSubGroup(string groupName, string subGroupName);
+
+        /// <summary>
+        /// Deletes a subgroup and all image files contained within the subgroup.
+        /// </summary>
+        /// <param name="groupName">Name of group where the subgroup resides.</param>
+        /// <param name="subGroupName">Name of subgroup to be deleted.</param>
+        /// <returns>bool</returns>
+        bool DeleteSubGroup(string groupName, string subGroupName);
     }
 }

@@ -37,40 +37,55 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests.Mocks
     [ExcludeFromCodeCoverage]
     internal class MockImageProvider : IImageProvider
     {
-        private readonly List<string> _groups;
+        private readonly Dictionary<string, List<string>> _groups;
         private readonly List<ImageFile> _imageFiles;
 
         public MockImageProvider()
         {
-            _groups = new List<string>();
+            _groups = new Dictionary<string, List<string>>();
             _imageFiles = new List<ImageFile>();
         }
 
-        public MockImageProvider(List<string> groups, List<ImageFile> images)
+        public MockImageProvider(Dictionary<string, List<string>> groups, List<ImageFile> images)
         {
             _groups = groups ?? throw new ArgumentNullException(nameof(groups));
             _imageFiles = images ?? throw new ArgumentNullException(nameof(groups));
         }
 
+        public bool AddSubGroup(string groupName, string subGroupName)
+        {
+            throw new NotImplementedException();
+        }
+
         public bool CreateGroup(string groupName)
         {
-            if (_groups.Contains(groupName))
+            if (_groups.ContainsKey(groupName))
                 return false;
 
-            _groups.Add(groupName);
+            _groups.Add(groupName, new List<string>());
             return true;
         }
 
         public bool DeleteGroup(string groupName)
         {
-            if (!_groups.Contains(groupName))
+            if (!_groups.ContainsKey(groupName))
                 return false;
 
             _groups.Remove(groupName);
             return true;
         }
 
-        public List<string> Groups()
+        public bool DeleteSubGroup(string groupName, string subGroupName)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool GroupExists(string groupName)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Dictionary<string, List<string>> Groups()
         {
             return _groups;
         }
@@ -78,6 +93,16 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests.Mocks
         public List<ImageFile> Images(string groupName)
         {
             return _imageFiles;
+        }
+
+        public List<ImageFile> Images(string groupName, string subgroupName)
+        {
+            return _imageFiles;
+        }
+
+        public bool SubGroupExists(string groupName, string subGroupName)
+        {
+            throw new NotImplementedException();
         }
     }
 }

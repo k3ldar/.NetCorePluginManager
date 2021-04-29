@@ -56,34 +56,41 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         [ExpectedException(typeof(ArgumentNullException))]
         public void Construct_InvalidParamBaseModelData_Null_Throws_ArgumentNullException()
         {
-            ImagesViewModel sut = new ImagesViewModel(null, String.Empty, new List<string>(), new List<ImageFile>());
+            ImagesViewModel sut = new ImagesViewModel(null, String.Empty, String.Empty, new Dictionary<string, List<string>>(), new List<ImageFile>());
         }
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
         public void Construct_InvalidParamGroupName_Null_Throws_ArgumentNullException()
         {
-            ImagesViewModel sut = new ImagesViewModel(GenerateTestBaseModelData(), null, new List<string>(), new List<ImageFile>());
+            ImagesViewModel sut = new ImagesViewModel(GenerateTestBaseModelData(), null, String.Empty, new Dictionary<string, List<string>>(), new List<ImageFile>());
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void Construct_InvalidParamSubgroupName_Null_Throws_ArgumentNullException()
+        {
+            ImagesViewModel sut = new ImagesViewModel(GenerateTestBaseModelData(), "group", null, new Dictionary<string, List<string>>(), new List<ImageFile>());
         }
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
         public void Construct_InvalidParamGroups_Null_Throws_ArgumentNullException()
         {
-            ImagesViewModel sut = new ImagesViewModel(GenerateTestBaseModelData(), String.Empty, null, new List<ImageFile>());
+            ImagesViewModel sut = new ImagesViewModel(GenerateTestBaseModelData(), String.Empty, String.Empty, null, new List<ImageFile>());
         }
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
         public void Construct_InvalidParamImageFiles_Null_Throws_ArgumentNullException()
         {
-            ImagesViewModel sut = new ImagesViewModel(GenerateTestBaseModelData(), String.Empty, new List<string>(), null);
+            ImagesViewModel sut = new ImagesViewModel(GenerateTestBaseModelData(), String.Empty, String.Empty, new Dictionary<string, List<string>>(), null);
         }
 
         [TestMethod]
         public void Construct_ValidInstanceEmptyGroupName_Success()
         {
-            ImagesViewModel sut = new ImagesViewModel(GenerateTestBaseModelData(), "", new List<string>(), new List<ImageFile>());
+            ImagesViewModel sut = new ImagesViewModel(GenerateTestBaseModelData(), "", String.Empty, new Dictionary<string, List<string>>(), new List<ImageFile>());
             Assert.IsNotNull(sut);
             Assert.AreEqual("", sut.SelectedGroupName);
             Assert.IsNotNull(sut.ImageFiles);
@@ -92,10 +99,10 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         [TestMethod]
         public void Construct_ValidInstance_Success()
         {
-            List<string> groups = new List<string>()
+            Dictionary<string, List<string>> groups = new Dictionary<string, List<string>>()
             {
-                "My group",
-                "Second Group"
+                { "My group", new List<string>() },
+                { "Second Group", new List<string>() }
             };
 
             List<ImageFile> imageFiles = new List<ImageFile>()
@@ -103,17 +110,18 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
                 { new ImageFile(new Uri("/PathName/validGifFile.gif", UriKind.RelativeOrAbsolute), "validGifFile.gif", ".gif", 23, DateTime.Now, DateTime.Now) }
             };
 
-            ImagesViewModel sut = new ImagesViewModel(GenerateTestBaseModelData(), "My group", groups, imageFiles);
+            ImagesViewModel sut = new ImagesViewModel(GenerateTestBaseModelData(), "My group", "Subgroup 1", groups, imageFiles);
 
             Assert.IsNotNull(sut);
             Assert.AreEqual("My group", sut.SelectedGroupName);
+            Assert.AreEqual("Subgroup 1", sut.SelectedSubgroupName);
             Assert.IsNotNull(sut.ImageFiles);
             Assert.AreEqual(1, sut.ImageFiles.Count);
             Assert.AreEqual("/PathName/validGifFile.gif", sut.ImageFiles[0].ImageUri.ToString());
             Assert.AreEqual("validGifFile.gif", sut.ImageFiles[0].Name);
             Assert.AreEqual(2, sut.Groups.Count);
-            Assert.AreEqual("My group", sut.Groups[0]);
-            Assert.AreEqual("Second Group", sut.Groups[1]);
+            Assert.IsTrue(sut.Groups.ContainsKey("My group"));
+            Assert.IsTrue(sut.Groups.ContainsKey("Second Group"));
         }
     }
 }

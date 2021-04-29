@@ -34,6 +34,8 @@ using Middleware.Interfaces;
 
 using PluginManager.Abstractions;
 
+using SharedPluginFeatures;
+
 namespace ImageManager.Plugin.Classes
 {
     /// <summary>
@@ -79,6 +81,91 @@ namespace ImageManager.Plugin.Classes
         #region IImageProvider Methods
 
         /// <summary>
+        /// Retrieves a list of available image groups
+        /// </summary>
+        /// <returns>List&lt;string&gt;</returns>
+        public Dictionary<string, List<string>> Groups()
+        {
+            Dictionary<string, List<string>> Result = new Dictionary<string, List<string>>();
+
+            foreach (string group in Directory.GetDirectories(_rootPath, Constants.Asterix.ToString(), SearchOption.TopDirectoryOnly))
+            {
+                List<string> subGroups = new List<string>();
+
+                foreach (string subGroup in Directory.GetDirectories(group, Constants.Asterix.ToString(), SearchOption.TopDirectoryOnly))
+                {
+                    subGroups.Add(Path.GetFileName(subGroup));
+                }
+
+                Result.Add(Path.GetFileName(group), subGroups);
+            }
+
+            return Result;
+        }
+
+        /// <summary>
+        /// Retrieves a list of all images within an image group
+        /// </summary>
+        /// <param name="groupName">Name of group where images will be retrieved from</param>
+        /// <exception cref="ArgumentNullException">Thrown if groupName is null or an empty string.</exception>
+        /// <returns>List&lt;ImageFile&gt;</returns>
+        public List<ImageFile> Images(string groupName)
+        {
+            if (groupName == null)
+                throw new ArgumentNullException(nameof(groupName));
+
+            string groupPath = String.IsNullOrEmpty(groupName) ? _rootPath : Path.Combine(_rootPath, groupName);
+
+            if (!Directory.Exists(groupPath))
+                throw new ArgumentException($"{groupName} does not exist");
+
+            List<ImageFile> Result = new List<ImageFile>();
+
+            foreach (string file in Directory.GetFiles(groupPath, "*", SearchOption.TopDirectoryOnly))
+            {
+                string uriFile = file.Substring(_rootPath.Length + 1).Replace("\\", "/");
+
+                Uri uri = new Uri($"/images/{uriFile}", UriKind.RelativeOrAbsolute);
+                Result.Add(new ImageFile(uri, file));
+            }
+
+            return Result;
+        }
+
+        /// <summary>
+        /// Retrieves a list of all images within an image group
+        /// </summary>
+        /// <param name="groupName">Name of group where images will be retrieved from</param>
+        /// <param name="subgroupName">Name of subgroup where images reside, or null if only require group images.</param>
+        /// <exception cref="ArgumentNullException">Thrown if groupName is null or an empty string.</exception>
+        /// <returns>List&lt;ImageFile&gt;</returns>
+        public List<ImageFile> Images(string groupName, string subgroupName)
+        {
+            if (String.IsNullOrEmpty(groupName))
+                throw new ArgumentNullException(nameof(groupName));
+
+            if (String.IsNullOrEmpty(subgroupName))
+                throw new ArgumentNullException(nameof(subgroupName));
+
+            string groupPath = Path.Combine(_rootPath, groupName, subgroupName);
+
+            if (!Directory.Exists(groupPath))
+                throw new ArgumentException($"{groupName} does not exist");
+
+            List<ImageFile> Result = new List<ImageFile>();
+
+            foreach (string file in Directory.GetFiles(groupPath, "*", SearchOption.TopDirectoryOnly))
+            {
+                string uriFile = file.Substring(_rootPath.Length + 1).Replace("\\", "/");
+
+                Uri uri = new Uri($"/images/{uriFile}", UriKind.RelativeOrAbsolute);
+                Result.Add(new ImageFile(uri, file));
+            }
+
+            return Result;
+        }
+
+        /// <summary>
         /// Creates an image group, an image group will logically co-locate images which are naturally grouped.
         /// </summary>
         /// <param name="groupName">Name of group to create</param>
@@ -122,46 +209,85 @@ namespace ImageManager.Plugin.Classes
         }
 
         /// <summary>
-        /// Retrieves a list of available image groups
+        /// Determines whether a group exists or not
         /// </summary>
-        /// <returns>List&lt;string&gt;</returns>
-        public List<string> Groups()
+        /// <param name="groupName">Name of group to find if exists</param>
+        /// <returns>bool</returns>
+        public bool GroupExists(string groupName)
         {
-            List<string> Result = new List<string>();
+            if (String.IsNullOrEmpty(groupName))
+                throw new ArgumentNullException(nameof(groupName));
 
-            foreach (string group in Directory.GetDirectories(_rootPath))
-                Result.Add(Path.GetFileName(group));
+            string groupPath = Path.Combine(_rootPath, groupName);
 
-            return Result;
+            return Directory.Exists(groupPath);
         }
 
         /// <summary>
-        /// Retrieves a list of all images within an image group
+        /// Adds a new subgroup to an existing image group
         /// </summary>
-        /// <param name="groupName">Name of group where images will be retrieved from</param>
-        /// <exception cref="ArgumentNullException">Thrown if groupName is null or an empty string.</exception>
-        /// <returns>List&lt;ImageFile&gt;</returns>
-        public List<ImageFile> Images(string groupName)
+        /// <param name="groupName">Name of group under which the subgroup will be added.</param>
+        /// <param name="subGroupName">Name of subgroup to add.</param>
+        /// <returns>bool</returns>
+        public bool AddSubGroup(string groupName, string subGroupName)
         {
-            if (groupName == null)
+            if (String.IsNullOrEmpty(groupName))
                 throw new ArgumentNullException(nameof(groupName));
 
-            string groupPath = String.IsNullOrEmpty(groupName) ? _rootPath : Path.Combine(_rootPath, groupName);
+            if (String.IsNullOrEmpty(subGroupName))
+                throw new ArgumentNullException(nameof(subGroupName));
 
-            if (!Directory.Exists(groupPath))
-                throw new ArgumentException($"{groupName} does not exist");
+            if (SubGroupExists(groupName, subGroupName))
+                return false;
 
-            List<ImageFile> Result = new List<ImageFile>();
+            string groupPath = Path.Combine(_rootPath, groupName, subGroupName);
 
-            foreach (string file in Directory.GetFiles(groupPath, "*", SearchOption.TopDirectoryOnly))
-            {
-                string uriFile = file.Substring(_rootPath.Length + 1).Replace("\\", "/");
+            Directory.CreateDirectory(groupPath);
 
-                Uri uri = new Uri($"/images/{uriFile}", UriKind.RelativeOrAbsolute);
-                Result.Add(new ImageFile(uri, file));
-            }
+            return SubGroupExists(groupName, subGroupName);
+        }
 
-            return Result;
+        /// <summary>
+        /// Deletes a subgroup and all image files contained within the subgroup.
+        /// </summary>
+        /// <param name="groupName">Name of group where the subgroup resides.</param>
+        /// <param name="subGroupName">Name of subgroup to be deleted.</param>
+        /// <returns>bool</returns>
+        public bool DeleteSubGroup(string groupName, string subGroupName)
+        {
+            if (String.IsNullOrEmpty(groupName))
+                throw new ArgumentNullException(nameof(groupName));
+
+            if (String.IsNullOrEmpty(subGroupName))
+                throw new ArgumentNullException(nameof(subGroupName));
+
+            if (!SubGroupExists(groupName, subGroupName))
+                return false;
+
+            string groupPath = Path.Combine(_rootPath, groupName, subGroupName);
+
+            Directory.Delete(groupPath, true);
+
+            return !SubGroupExists(groupName, subGroupName);
+        }
+
+        /// <summary>
+        /// Determines whether a subgroup exists or not
+        /// </summary>
+        /// <param name="groupName">Name of group that should contain subgroup.</param>
+        /// <param name="subGroupName">Name of subgroup whose existence is being verified.</param>
+        /// <returns>bool</returns>
+        public bool SubGroupExists(string groupName, string subGroupName)
+        {
+            if (String.IsNullOrEmpty(groupName))
+                throw new ArgumentNullException(nameof(groupName));
+
+            if (String.IsNullOrEmpty(subGroupName))
+                throw new ArgumentNullException(nameof(subGroupName));
+
+            string groupPath = Path.Combine(_rootPath, groupName, subGroupName);
+
+            return Directory.Exists(groupPath);
         }
 
         #endregion IImageProvider Methods

@@ -137,6 +137,9 @@ namespace SharedPluginFeatures
         /// </summary>
         public const char ForwardSlashChar = '/';
 
+
+        public const char Asterix = '*';
+
         /// <summary>
         /// Dash (-) char constant.
         /// </summary>

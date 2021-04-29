@@ -38,18 +38,29 @@ ul.imageList {
     ul.imageList li {
         display: block;
         float: left;
-        margin: 8px 15px 15px 2px;
         padding: 5px;
         width: 208px !important;
-        height: 150px !important;
+        height: 155px !important;
     }
+
+        ul.imageList li a:hover {
+            text-decoration: none;
+        }
 
         ul.imageList li .imageBox {
             width: 210px !important;
-            height: 130px !important;
+            height: 135px !important;
             border: none;
+            text-align: center;
+            margin: 10px 15px 15px 2px;
+            padding: 3px 2px;
         }
 
+            ul.imageList li .imageBox:hover {
+                border: 1px solid black;
+                margin: 9px 14px 14px 2px;
+                
+            }
 
 .viewImage {
     display: block;
@@ -57,4 +68,25 @@ ul.imageList {
     max-height: 128px;
     width: auto;
     height: auto;
+    margin-left: auto;
+    margin-right: auto;
 }
+
+.imgSubgroups {
+    margin: 0 0 0 15px;
+}
+
+
+
+li.selected {
+    display: block;
+    color: white;
+    background-color: deepskyblue;
+}
+
+    li.selected a {
+        display: block;
+        color: white;
+        background-color: deepskyblue;
+        padding: 6px 2px 0px 4px;
+    }
