@@ -51,14 +51,21 @@ namespace ImageManager.Plugin.Models
         /// <param name="modelData"></param>
         /// <param name="selectedGroupName">Name of group, or empty string if root path</param>
         /// <param name="selectedSubgroupName">Name of subgroup, or empty string if no subgroup is being highlighted</param>
+        /// <param name="selectedImageFile">The selected image file if applicable, otherwise null</param>
         /// <param name="groups">List of all groups</param>
         /// <param name="imageFiles">List of images that belong to the group</param>
-        public ImagesViewModel(in BaseModelData modelData, string selectedGroupName, string selectedSubgroupName, 
-            Dictionary<string, List<string>> groups, List<ImageFile> imageFiles)
+        public ImagesViewModel(in BaseModelData modelData, 
+            string selectedGroupName, 
+            string selectedSubgroupName,
+            ImageFile selectedImageFile,
+            Dictionary<string, 
+            List<string>> groups, 
+            List<ImageFile> imageFiles)
             : base(modelData)
         {
             SelectedGroupName = selectedGroupName ?? throw new ArgumentNullException(nameof(selectedGroupName));
             SelectedSubgroupName = selectedSubgroupName ?? throw new ArgumentNullException(nameof(selectedSubgroupName));
+            SelectedImageFile = selectedImageFile;
             Groups = groups ?? throw new ArgumentNullException(nameof(groups));
             ImageFiles = imageFiles ?? throw new ArgumentNullException(nameof(imageFiles));
         }
@@ -78,6 +85,11 @@ namespace ImageManager.Plugin.Models
         /// </summary>
         /// <value>string</value>
         public string SelectedSubgroupName { get; set; }
+
+        /// <summary>
+        /// The currently selected image file, if applicable
+        /// </summary>
+        public ImageFile SelectedImageFile { get; set; }
 
         /// <summary>
         /// List of all image groups

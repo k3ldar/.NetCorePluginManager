@@ -40,7 +40,7 @@ namespace Middleware.Images
         /// <summary>
         /// Constructor used for valid existing disk based file
         /// </summary>
-        /// <param name="uriBuilder">Uri builder containing root path for the </param>
+        /// <param name="uri">Uri for the image file</param>
         /// <param name="fileName">Path and name of file</param>
         /// <exception cref="ArgumentNullException">Thrown if uri is null</exception>
         /// <exception cref="ArgumentNullException">Thrown if fileName is null or empty</exception>
@@ -66,7 +66,7 @@ namespace Middleware.Images
         /// <summary>
         /// Constructor used for non disk based file information
         /// </summary>
-        /// <param name="uriBuilder">Uri builder containing root path for the </param>
+        /// <param name="uri">Uri for the image file</param>
         /// <param name="fileName">Name of file</param>
         /// <param name="fileExtension">File extension type</param>
         /// <param name="size">Size of file</param>

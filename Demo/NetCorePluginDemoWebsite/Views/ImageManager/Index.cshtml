@@ -23,8 +23,17 @@
 <ul class="imageList">
 @foreach (var item in Model.ImageFiles)
 {
+string imagePath = null;
+if (String.IsNullOrEmpty(Model.SelectedSubgroupName))
+{
+imagePath = $"/ImageManager/ViewImage/{Model.SelectedGroupName}/{item.Name}";
+}
+else
+{
+imagePath = $"/ImageManager/ViewSubgroupImage/{Model.SelectedGroupName}/{Model.SelectedSubgroupName}/{item.Name}";
+}
 <li class="imageItem">
-<a href="/ImageManager/ViewImage/@Model.SelectedGroupName/@item.Name">
+<a href="@imagePath">
 <div class="imageBox">
 <img src="@item.ImageUri.ToString()" alt="@item.Name" class="viewImage" />
 <br />

@@ -23794,11 +23794,29 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Image.
+        /// </summary>
+        public static string Image {
+            get {
+                return ResourceManager.GetString("Image", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Image Groups.
         /// </summary>
         public static string ImageGroups {
             get {
                 return ResourceManager.GetString("ImageGroups", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Images.
+        /// </summary>
+        public static string Images {
+            get {
+                return ResourceManager.GetString("Images", resourceCulture);
             }
         }
         
@@ -30298,6 +30316,15 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to View Image.
+        /// </summary>
+        public static string ViewImage {
+            get {
+                return ResourceManager.GetString("ViewImage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to View Invoice.
         /// </summary>
         public static string ViewInvoice {
@@ -30330,6 +30357,15 @@ namespace Languages {
         public static string ViewShoppingBag {
             get {
                 return ResourceManager.GetString("ViewShoppingBag", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to View Sub Group.
+        /// </summary>
+        public static string ViewSubgroup {
+            get {
+                return ResourceManager.GetString("ViewSubgroup", resourceCulture);
             }
         }
         

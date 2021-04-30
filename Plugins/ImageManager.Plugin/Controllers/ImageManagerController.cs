@@ -23,6 +23,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 using ImageManager.Plugin.Models;
 
@@ -73,14 +74,16 @@ namespace ImageManager.Plugin.Controllers
 
         #region Public Action Methods
 
+        [HttpGet]
         [Breadcrumb(nameof(LanguageStrings.AppImageManagement))]
         public IActionResult Index()
         {
             string groupName = String.Empty;
 
-            return View(CreateImagesViewModel(groupName, String.Empty));
+            return View(CreateImagesViewModel(groupName, String.Empty, String.Empty));
         }
 
+        [HttpGet]
         [Breadcrumb(nameof(LanguageStrings.ViewGroup), nameof(Index), HasParams = true)]
         [Route("ImageManager/ViewGroup/{groupName}")]
         public IActionResult ViewGroup(string groupName)
@@ -91,10 +94,11 @@ namespace ImageManager.Plugin.Controllers
             if (!_imageProvider.Groups().ContainsKey(groupName))
                 return RedirectToAction(nameof(Index));
 
-            return View("/Views/ImageManager/Index.cshtml", CreateImagesViewModel(groupName, String.Empty));
+            return View("/Views/ImageManager/Index.cshtml", CreateImagesViewModel(groupName, String.Empty, String.Empty));
         }
 
-        [Breadcrumb(nameof(LanguageStrings.ViewGroup), nameof(Index), HasParams = true)]
+        [HttpGet]
+        [Breadcrumb(nameof(LanguageStrings.ViewSubgroup), nameof(ViewGroup), HasParams = true)]
         [Route("ImageManager/ViewSubgroup/{groupName}/{subgroupName}")]
         public IActionResult ViewSubgroup(string groupName, string subgroupName)
         {
@@ -112,14 +116,45 @@ namespace ImageManager.Plugin.Controllers
             if (!groups[groupName].Contains(subgroupName))
                 return RedirectToAction(nameof(Index));
 
-            return View("/Views/ImageManager/Index.cshtml", CreateImagesViewModel(groupName, subgroupName));
+            return View("/Views/ImageManager/Index.cshtml", CreateImagesViewModel(groupName, subgroupName, String.Empty));
+        }
+
+        [HttpGet]
+        [Breadcrumb(nameof(LanguageStrings.ViewImage), nameof(ViewGroup), HasParams = true)]
+        [Route("ImageManager/ViewImage/{groupName}/{imageName}")]
+        public IActionResult ViewImage(string groupName, string imageName)
+        {
+            if (String.IsNullOrEmpty(groupName))
+                return RedirectToAction(nameof(Index));
+
+            if (String.IsNullOrEmpty(imageName))
+                return RedirectToAction(nameof(Index));
+
+            return View(CreateImagesViewModel(groupName, String.Empty, imageName));
+        }
+
+        [HttpGet]
+        [Breadcrumb(nameof(LanguageStrings.ViewImage), nameof(ViewGroup), HasParams = true)]
+        [Route("ImageManager/ViewSubgroupImage/{groupName}/{subgroupName}/{imageName}")]
+        public IActionResult ViewSubgroupImage(string groupName, string subgroupName, string imageName)
+        {
+            if (String.IsNullOrEmpty(groupName))
+                return RedirectToAction(nameof(Index));
+
+            if (String.IsNullOrEmpty(subgroupName))
+                return RedirectToAction(nameof(Index));
+
+            if (String.IsNullOrEmpty(imageName))
+                return RedirectToAction(nameof(Index));
+
+            return View("/Views/ImageManager/ViewImage.cshtml", CreateImagesViewModel(groupName, subgroupName, imageName));
         }
 
         #endregion Public Action Methods
 
         #region Private Methods
 
-        private ImagesViewModel CreateImagesViewModel(string groupName, string subgroupName/*, int page = 1*/)
+        private ImagesViewModel CreateImagesViewModel(string groupName, string subgroupName, string imageName/*, int page = 1*/)
         {
             List<ImageFile> images = null;
 
@@ -143,7 +178,12 @@ namespace ImageManager.Plugin.Controllers
                 }
             }
 
-            ImagesViewModel Result = new ImagesViewModel(GetModelData(), groupName, subgroupName, groups, images);
+            ImageFile image = null;
+
+            if (!String.IsNullOrEmpty(imageName))
+                image = _imageProvider.Images(groupName, subgroupName).Where(i => i.Name.Equals(imageName)).FirstOrDefault();
+
+            ImagesViewModel Result = new ImagesViewModel(GetModelData(), groupName, subgroupName, image, groups, images);
 
             //Result.Pagination = BuildPagination(images.Count, (int)_settings.ProductsPerPage, page,
             //    $"/Products/{Result.RouteText(groupName)}/{group.Id}/", "",

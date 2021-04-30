@@ -38,6 +38,8 @@ namespace AspNetCore.PluginManager.Tests.Middleware.Images
     [ExcludeFromCodeCoverage]
     public class ImageFileTests
     {
+        private const string ForwardSlash = "/";
+
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
         public void Construct_InvalidParamUri_Null_Throws_ArgumentNullException()
@@ -49,14 +51,14 @@ namespace AspNetCore.PluginManager.Tests.Middleware.Images
         [ExpectedException(typeof(ArgumentNullException))]
         public void Construct_InvalidParamFileName_Null_Throws_ArgumentNullException()
         {
-            new ImageFile(new Uri("/", UriKind.RelativeOrAbsolute), null);
+            new ImageFile(new Uri(ForwardSlash, UriKind.RelativeOrAbsolute), null);
         }
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
         public void Construct_InvalidParamFileName_EmptyString_Throws_ArgumentNullException()
         {
-            new ImageFile(new Uri("/", UriKind.RelativeOrAbsolute), "");
+            new ImageFile(new Uri(ForwardSlash, UriKind.RelativeOrAbsolute), "");
         }
 
         [TestMethod]
@@ -68,7 +70,7 @@ namespace AspNetCore.PluginManager.Tests.Middleware.Images
             if (File.Exists(tmpFile))
                 File.Delete(tmpFile);
 
-            new ImageFile(new Uri("/", UriKind.RelativeOrAbsolute), tmpFile);
+            new ImageFile(new Uri(ForwardSlash, UriKind.RelativeOrAbsolute), tmpFile);
         }
 
         [TestMethod]
@@ -104,35 +106,35 @@ namespace AspNetCore.PluginManager.Tests.Middleware.Images
         [ExpectedException(typeof(ArgumentNullException))]
         public void Construct_NonFileBased_InvalidParamFileName_Null_Throws_ArgumentNullException()
         {
-            new ImageFile(new Uri("/", UriKind.RelativeOrAbsolute), null, ".txt", 23, DateTime.Now, DateTime.Now);
+            new ImageFile(new Uri(ForwardSlash, UriKind.RelativeOrAbsolute), null, ".txt", 23, DateTime.Now, DateTime.Now);
         }
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
         public void Construct_NonFileBased_InvalidParamFileName_EmptyString_Throws_ArgumentNullException()
         {
-            new ImageFile(new Uri("/", UriKind.RelativeOrAbsolute), "", ".txt", 23, DateTime.Now, DateTime.Now);
+            new ImageFile(new Uri(ForwardSlash, UriKind.RelativeOrAbsolute), "", ".txt", 23, DateTime.Now, DateTime.Now);
         }
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
         public void Construct_NonFileBased_InvalidParamFileExtension_Null_Throws_ArgumentNullException()
         {
-            new ImageFile(new Uri("/", UriKind.RelativeOrAbsolute), "testfile.gif", null, 23, DateTime.Now, DateTime.Now);
+            new ImageFile(new Uri(ForwardSlash, UriKind.RelativeOrAbsolute), "testfile.gif", null, 23, DateTime.Now, DateTime.Now);
         }
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
         public void Construct_NonFileBased_InvalidParamFileExtension_EmptyString_Throws_ArgumentNullException()
         {
-            new ImageFile(new Uri("/", UriKind.RelativeOrAbsolute), "testfile.gif", "", 23, DateTime.Now, DateTime.Now);
+            new ImageFile(new Uri(ForwardSlash, UriKind.RelativeOrAbsolute), "testfile.gif", "", 23, DateTime.Now, DateTime.Now);
         }
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void Construct_NonFileBased_InvalidParamFileExtension_EmptyString_Throws_ArgumentOutOfRangeExceptionn()
         {
-            new ImageFile(new Uri("/", UriKind.RelativeOrAbsolute), "testfile.gif", ".gif", -1, DateTime.Now, DateTime.Now);
+            new ImageFile(new Uri(ForwardSlash, UriKind.RelativeOrAbsolute), "testfile.gif", ".gif", -1, DateTime.Now, DateTime.Now);
         }
 
         [TestMethod]

@@ -1582,7 +1582,7 @@
             <summary>
             Constructor used for valid existing disk based file
             </summary>
-            <param name="uriBuilder">Uri builder containing root path for the </param>
+            <param name="uri">Uri for the image file</param>
             <param name="fileName">Path and name of file</param>
             <exception cref="T:System.ArgumentNullException">Thrown if uri is null</exception>
             <exception cref="T:System.ArgumentNullException">Thrown if fileName is null or empty</exception>
@@ -1592,7 +1592,7 @@
             <summary>
             Constructor used for non disk based file information
             </summary>
-            <param name="uriBuilder">Uri builder containing root path for the </param>
+            <param name="uri">Uri for the image file</param>
             <param name="fileName">Name of file</param>
             <param name="fileExtension">File extension type</param>
             <param name="size">Size of file</param>
@@ -3035,7 +3035,7 @@
             Creates an image group, an image group will logically co-locate images which are naturally grouped.
             </summary>
             <param name="groupName">Name of group to create</param>
-            <exception cref="!:ArgumentNullException">Thrown if groupName is null or an empty string.</exception>
+            <exception cref="T:System.ArgumentNullException">Thrown if groupName is null or an empty string.</exception>
             <returns>bool</returns>
         </member>
         <member name="M:Middleware.Interfaces.IImageProvider.DeleteGroup(System.String)">
@@ -3043,7 +3043,7 @@
             Deletes an image group.
             </summary>
             <param name="groupName">Name of group to delete.</param>
-            <exception cref="!:ArgumentNullException">Thrown if groupName is null or an empty string.</exception>
+            <exception cref="T:System.ArgumentNullException">Thrown if groupName is null or an empty string.</exception>
             <returns>bool</returns>
         </member>
         <member name="M:Middleware.Interfaces.IImageProvider.GroupExists(System.String)">
@@ -3064,7 +3064,7 @@
             Retrieves a list of all images within an image group
             </summary>
             <param name="groupName">Name of group where images will be retrieved from.</param>
-            <exception cref="!:ArgumentNullException">Thrown if groupName is null or an empty string.</exception>
+            <exception cref="T:System.ArgumentNullException">Thrown if groupName is null or an empty string.</exception>
             <returns>List&lt;ImageFile&gt;</returns>
         </member>
         <member name="M:Middleware.Interfaces.IImageProvider.Images(System.String,System.String)">
@@ -3073,8 +3073,8 @@
             </summary>
             <param name="groupName">Name of group where images will be retrieved from.</param>
             <param name="subgroupName">Name of subgroup where images will be retrieved from.</param>
-            <exception cref="!:ArgumentNullException">Thrown if groupName is null or an empty string.</exception>
-            <exception cref="!:ArgumentNullException">Thrown if subgroupName is null or an empty string.</exception>
+            <exception cref="T:System.ArgumentNullException">Thrown if groupName is null or an empty string.</exception>
+            <exception cref="T:System.ArgumentNullException">Thrown if subgroupName is null or an empty string.</exception>
             <returns>List&lt;ImageFile&gt;</returns>
         </member>
         <member name="M:Middleware.Interfaces.IImageProvider.SubGroupExists(System.String,System.String)">

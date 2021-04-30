@@ -145,6 +145,36 @@ namespace AspNetCore.PluginManager.Tests.Controllers
             return routeAttribute.Template.Equals(routeValue);
         }
 
+        public bool MethodHasBreadcrumbAttribute(Type classType, string methodName, string breadcrumbValue, string parentName = "", bool hasParams = false)
+        {
+            if (classType == null)
+                throw new ArgumentNullException(nameof(classType));
+
+            if (String.IsNullOrEmpty(methodName))
+                throw new ArgumentNullException(nameof(methodName));
+
+            MethodInfo methodInfo = classType.GetMethod(methodName);
+
+            if (methodInfo == null)
+                throw new InvalidOperationException($"Method {methodName} does not exist");
+
+            BreadcrumbAttribute routeAttribute = methodInfo.GetCustomAttributes(true).OfType<BreadcrumbAttribute>().FirstOrDefault();
+
+            if (routeAttribute == null)
+                return false;
+
+            if (!routeAttribute.Name.Equals(breadcrumbValue))
+                return false;
+
+            if (!String.IsNullOrEmpty(parentName) && !routeAttribute.ParentRoute.Equals(parentName))
+                return false;
+
+            if (!routeAttribute.HasParams.Equals(hasParams))
+                return false;
+
+            return true;
+        }
+
         protected void ValidateBaseModel(ViewResult viewResult)
         {
             Assert.IsInstanceOfType(viewResult.Model, typeof(BaseModel));

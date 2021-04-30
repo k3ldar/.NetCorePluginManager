@@ -110,13 +110,14 @@
             Default constructor
             </summary>
         </member>
-        <member name="M:ImageManager.Plugin.Models.ImagesViewModel.#ctor(SharedPluginFeatures.BaseModelData@,System.String,System.String,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Collections.Generic.List{Middleware.Images.ImageFile})">
+        <member name="M:ImageManager.Plugin.Models.ImagesViewModel.#ctor(SharedPluginFeatures.BaseModelData@,System.String,System.String,Middleware.Images.ImageFile,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Collections.Generic.List{Middleware.Images.ImageFile})">
             <summary>
             Constructor for use when displaying data within controller
             </summary>
             <param name="modelData"></param>
             <param name="selectedGroupName">Name of group, or empty string if root path</param>
             <param name="selectedSubgroupName">Name of subgroup, or empty string if no subgroup is being highlighted</param>
+            <param name="selectedImageFile">The selected image file if applicable, otherwise null</param>
             <param name="groups">List of all groups</param>
             <param name="imageFiles">List of images that belong to the group</param>
         </member>
@@ -131,6 +132,11 @@
             Name of subgroup
             </summary>
             <value>string</value>
+        </member>
+        <member name="P:ImageManager.Plugin.Models.ImagesViewModel.SelectedImageFile">
+            <summary>
+            The currently selected image file, if applicable
+            </summary>
         </member>
         <member name="P:ImageManager.Plugin.Models.ImagesViewModel.Groups">
             <summary>

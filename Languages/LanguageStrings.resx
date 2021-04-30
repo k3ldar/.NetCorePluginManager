@@ -14177,4 +14177,20 @@ You will shortly receive an email with the details of your order.</comment>
     <value>View Group</value>
     <comment>View Group</comment>
   </data>
+  <data name="ViewImage" xml:space="preserve">
+    <value>View Image</value>
+    <comment>View Image</comment>
+  </data>
+  <data name="ViewSubgroup" xml:space="preserve">
+    <value>View Sub Group</value>
+    <comment>View Sub Group</comment>
+  </data>
+  <data name="Image" xml:space="preserve">
+    <value>Image</value>
+    <comment>Image</comment>
+  </data>
+  <data name="Images" xml:space="preserve">
+    <value>Images</value>
+    <comment>Images</comment>
+  </data>
 </root>

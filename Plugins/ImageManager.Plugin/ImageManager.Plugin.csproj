@@ -94,8 +94,13 @@
 	<DocumentationFile>..\..\Docs\XmlFiles\ImageManager.Plugin.xml</DocumentationFile>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net5.0|AnyCPU'">
+    <WarningsAsErrors>NU1605</WarningsAsErrors>
+  </PropertyGroup>
+
   <ItemGroup>
     <Content Remove="Views\ImageManager\Index.cshtml" />
+    <Content Remove="Views\ImageManager\ViewImage.cshtml" />
     <Content Remove="Views\ImageManager\_LeftMenu.cshtml" />
     <Content Remove="wwwroot\css\imageManager.css" />
     <Content Remove="wwwroot\images\ImageManager\imMenu.png" />
@@ -157,6 +162,7 @@
 
 	<ItemGroup>
 	  <EmbeddedResource Include="Views\ImageManager\Index.cshtml" />
+	  <EmbeddedResource Include="Views\ImageManager\ViewImage.cshtml" />
 	  <EmbeddedResource Include="Views\ImageManager\_LeftMenu.cshtml" />
 	  <EmbeddedResource Include="wwwroot\css\imageManager.css" />
 	  <EmbeddedResource Include="wwwroot\images\ImageManager\imMenu.png" />

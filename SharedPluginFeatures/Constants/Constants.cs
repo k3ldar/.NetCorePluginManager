@@ -137,7 +137,9 @@ namespace SharedPluginFeatures
         /// </summary>
         public const char ForwardSlashChar = '/';
 
-
+        /// <summary>
+        /// Asterix (*) char
+        /// </summary>
         public const char Asterix = '*';
 
         /// <summary>

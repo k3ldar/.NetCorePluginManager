@@ -1990,6 +1990,11 @@
             Forward slash (/) char constant.
             </summary>
         </member>
+        <member name="F:SharedPluginFeatures.Constants.Asterix">
+            <summary>
+            Asterix (*) char
+            </summary>
+        </member>
         <member name="F:SharedPluginFeatures.Constants.Dash">
             <summary>
             Dash (-) char constant.
