@@ -24,6 +24,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Text;
 
 using ImageManager.Plugin.Models;
 
@@ -45,15 +47,19 @@ namespace ImageManager.Plugin.Controllers
 {
     [DenySpider]
     [LoggedIn]
-    [Authorize(Policy = Constants.PolicyNameImageManager)]
+    [Authorize(Policy = Constants.PolicyNameViewImageManager)]
 
     public class ImageManagerController : BaseController
     {
-        #region Public Consts
+        #region Public / Private Consts
 
         public const string Name = nameof(ImageManager);
+        private const string ErrorInvalidImageName = "Invalid ImageName";
+        private const string ErrorInvalidGroupName = "Invalid GroupName";
+        private const string ErrorInvalidSubgroupName = "Invalid SubgroupName";
+        private const string ErrorUnableToDeleteImage = "Unable to delete image";
 
-        #endregion Public Consts
+        #endregion Public / Private Consts
 
         #region Private Members
 
@@ -75,12 +81,9 @@ namespace ImageManager.Plugin.Controllers
         #region Public Action Methods
 
         [HttpGet]
-        [Breadcrumb(nameof(LanguageStrings.AppImageManagement))]
         public IActionResult Index()
         {
-            string groupName = String.Empty;
-
-            return View(CreateImagesViewModel(groupName, String.Empty, String.Empty));
+            return View(CreateImagesViewModel(String.Empty, String.Empty, String.Empty));
         }
 
         [HttpGet]
@@ -130,7 +133,7 @@ namespace ImageManager.Plugin.Controllers
             if (String.IsNullOrEmpty(imageName))
                 return RedirectToAction(nameof(Index));
 
-            return View(CreateImagesViewModel(groupName, String.Empty, imageName));
+            return View(CreateImagesViewModel(groupName, String.Empty, ReplaceLastDash(imageName)));
         }
 
         [HttpGet]
@@ -147,14 +150,79 @@ namespace ImageManager.Plugin.Controllers
             if (String.IsNullOrEmpty(imageName))
                 return RedirectToAction(nameof(Index));
 
-            return View("/Views/ImageManager/ViewImage.cshtml", CreateImagesViewModel(groupName, subgroupName, imageName));
+            return View("/Views/ImageManager/ViewImage.cshtml", CreateImagesViewModel(groupName, subgroupName, ReplaceLastDash(imageName)));
+        }
+
+        [HttpPost]
+        [AjaxOnly]
+        [Authorize(Policy = Constants.PolicyNameImageManagerManage)]
+        public IActionResult DeleteImage([FromBody]DeleteImageModel model)
+        {
+            if (model == null)
+                return GenerateJsonErrorResponse(Constants.HtmlResponseBadRequest);
+
+            if (!model.ConfirmDelete)
+                return GenerateJsonErrorResponse(Constants.HtmlResponseBadRequest);
+
+            if (String.IsNullOrEmpty(model.ImageName))
+                return GenerateJsonErrorResponse(Constants.HtmlResponseBadRequest, ErrorInvalidImageName);
+
+            if (String.IsNullOrEmpty(model.GroupName) || !_imageProvider.GroupExists(model.GroupName))
+                return GenerateJsonErrorResponse(Constants.HtmlResponseBadRequest, ErrorInvalidGroupName);
+
+            if (!String.IsNullOrEmpty(model.SubgroupName) && !_imageProvider.SubgroupExists(model.GroupName, model.SubgroupName))
+                return GenerateJsonErrorResponse(Constants.HtmlResponseBadRequest, ErrorInvalidSubgroupName);
+
+            bool imageExists;
+            model.ImageName = ReplaceLastDash(model.ImageName);
+
+            if (String.IsNullOrEmpty(model.SubgroupName))
+            {
+                imageExists = _imageProvider.ImageExists(model.GroupName, model.ImageName);
+            }
+            else 
+            {
+                imageExists = _imageProvider.ImageExists(model.GroupName, model.SubgroupName, model.ImageName);
+            }
+
+            if (!imageExists)
+                return GenerateJsonErrorResponse(Constants.HtmlResponseBadRequest, ErrorInvalidImageName);
+
+            bool imageDeleted;
+
+            if (String.IsNullOrEmpty(model.SubgroupName))
+                imageDeleted = _imageProvider.ImageDelete(model.GroupName, model.ImageName);
+            else 
+                imageDeleted = _imageProvider.ImageDelete(model.GroupName, model.SubgroupName, model.ImageName);
+
+            if (imageDeleted)
+                return GenerateJsonSuccessResponse();
+            else
+                return GenerateJsonErrorResponse(Constants.HtmlResponseBadRequest, ErrorUnableToDeleteImage);
         }
 
         #endregion Public Action Methods
 
         #region Private Methods
 
-        private ImagesViewModel CreateImagesViewModel(string groupName, string subgroupName, string imageName/*, int page = 1*/)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static string ReplaceLastDash(string s)
+        {
+            StringBuilder Result = new StringBuilder(s);
+
+            for (int i = s.Length - 1; i >= 0; i--)
+            {
+                if (Result[i] == '-')
+                {
+                    Result[i] = '.';
+                    break;
+                }
+            }
+
+            return Result.ToString();
+        }
+
+        private ImagesViewModel CreateImagesViewModel(string groupName, string subgroupName, string imageName)
         {
             List<ImageFile> images = null;
 
@@ -181,13 +249,34 @@ namespace ImageManager.Plugin.Controllers
             ImageFile image = null;
 
             if (!String.IsNullOrEmpty(imageName))
-                image = _imageProvider.Images(groupName, subgroupName).Where(i => i.Name.Equals(imageName)).FirstOrDefault();
+            {
+                if (String.IsNullOrEmpty(subgroupName))
+                    image = _imageProvider.Images(groupName).Where(i => i.Name.Equals(imageName)).FirstOrDefault();
+                else
+                    image = _imageProvider.Images(groupName, subgroupName).Where(i => i.Name.Equals(imageName)).FirstOrDefault();
+            }
 
-            ImagesViewModel Result = new ImagesViewModel(GetModelData(), groupName, subgroupName, image, groups, images);
+            bool canManageImages = ControllerContext.HttpContext.User.HasClaim(Constants.ClaimNameManageImages, "true");
 
-            //Result.Pagination = BuildPagination(images.Count, (int)_settings.ProductsPerPage, page,
-            //    $"/Products/{Result.RouteText(groupName)}/{group.Id}/", "",
-            //    LanguageStrings.Previous, LanguageStrings.Next);
+            ImagesViewModel Result = new ImagesViewModel(GetModelData(), canManageImages, groupName, subgroupName, image, groups, images);
+
+            Result.Breadcrumbs.Add(new BreadcrumbItem(LanguageStrings.ImageManager, $"/{Name}", true));
+
+            if (!String.IsNullOrEmpty(groupName))
+                Result.Breadcrumbs.Add(new BreadcrumbItem(groupName, $"/{Name}/ViewGroup/{groupName}/", true));
+
+            if (!String.IsNullOrEmpty(subgroupName))
+            {
+                Result.Breadcrumbs.Add(new BreadcrumbItem(subgroupName, $"/{Name}/ViewSubgroup/{groupName}/{subgroupName}/", true));
+
+                if (!String.IsNullOrEmpty(imageName))
+                    Result.Breadcrumbs.Add(new BreadcrumbItem(imageName, $"ImageManager/ViewSubgroupImage/{groupName}/{subgroupName}/{SharedPluginFeatures.BaseModel.RouteFriendlyName(imageName)}/", true));
+
+            }
+            else if (!String.IsNullOrEmpty(imageName))
+            {
+                Result.Breadcrumbs.Add(new BreadcrumbItem(imageName, $"ImageManager/ViewImage/{groupName}/{SharedPluginFeatures.BaseModel.RouteFriendlyName(imageName)}/", true));
+            }
 
             return Result;
         }

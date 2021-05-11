@@ -33,9 +33,9 @@ using SharedPluginFeatures;
 namespace AspNetCore.PluginManager.Tests.SharedPluginFeatures
 {
     [ExcludeFromCodeCoverage]
-    internal class BaseControllerWrapper : BaseController
+    internal class TestBaseControllerWrapper : BaseController
     {
-        public BaseControllerWrapper()
+        public TestBaseControllerWrapper()
         {
             ControllerContext.HttpContext = new TestHttpContext();
         }
@@ -60,6 +60,21 @@ namespace AspNetCore.PluginManager.Tests.SharedPluginFeatures
             out int startItem, out int endItem, out int availablePages)
         {
             CalculatePageOffsets(totalItems, page, pageSize, out startItem, out endItem, out availablePages);
+        }
+
+        internal JsonResult TestGenerateJsonErrorResponse(int statusCode)
+        {
+            return GenerateJsonErrorResponse(statusCode);
+        }
+
+        internal JsonResult TestGenerateJsonErrorResponse(int statusCode, string jsonData)
+        {
+            return GenerateJsonErrorResponse(statusCode, jsonData);
+        }
+
+        internal JsonResult TestGenerateJsonSuccessResponse()
+        {
+            return GenerateJsonSuccessResponse();
         }
     }
 }

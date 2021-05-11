@@ -145,6 +145,29 @@ namespace AspNetCore.PluginManager.Tests.Controllers
             return routeAttribute.Template.Equals(routeValue);
         }
 
+        public bool MethodHasAuthorizeAttribute(Type classType, string methodName, string policyName)
+        {
+            if (classType == null)
+                throw new ArgumentNullException(nameof(classType));
+
+            if (String.IsNullOrEmpty(methodName))
+                throw new ArgumentNullException(nameof(methodName));
+
+            MethodInfo methodInfo = classType.GetMethod(methodName);
+
+            if (methodInfo == null)
+                throw new InvalidOperationException($"Method {methodName} does not exist");
+
+            bool isDefined = methodInfo.IsDefined(typeof(AuthorizeAttribute));
+
+            if (!isDefined)
+                return false;
+
+            AuthorizeAttribute routeAttribute = methodInfo.GetCustomAttributes(true).OfType<AuthorizeAttribute>().FirstOrDefault();
+
+            return routeAttribute.Policy.Equals(policyName);
+        }
+
         public bool MethodHasBreadcrumbAttribute(Type classType, string methodName, string breadcrumbValue, string parentName = "", bool hasParams = false)
         {
             if (classType == null)

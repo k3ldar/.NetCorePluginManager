@@ -65,29 +65,73 @@
             <param name="groupName">Name of group to find if exists</param>
             <returns>bool</returns>
         </member>
-        <member name="M:ImageManager.Plugin.Classes.DefaultImageProvider.AddSubGroup(System.String,System.String)">
+        <member name="M:ImageManager.Plugin.Classes.DefaultImageProvider.AddSubgroup(System.String,System.String)">
             <summary>
             Adds a new subgroup to an existing image group
             </summary>
             <param name="groupName">Name of group under which the subgroup will be added.</param>
-            <param name="subGroupName">Name of subgroup to add.</param>
+            <param name="subgroupName">Name of subgroup to add.</param>
             <returns>bool</returns>
         </member>
-        <member name="M:ImageManager.Plugin.Classes.DefaultImageProvider.DeleteSubGroup(System.String,System.String)">
+        <member name="M:ImageManager.Plugin.Classes.DefaultImageProvider.DeleteSubgroup(System.String,System.String)">
             <summary>
             Deletes a subgroup and all image files contained within the subgroup.
             </summary>
             <param name="groupName">Name of group where the subgroup resides.</param>
-            <param name="subGroupName">Name of subgroup to be deleted.</param>
+            <param name="subgroupName">Name of subgroup to be deleted.</param>
             <returns>bool</returns>
         </member>
-        <member name="M:ImageManager.Plugin.Classes.DefaultImageProvider.SubGroupExists(System.String,System.String)">
+        <member name="M:ImageManager.Plugin.Classes.DefaultImageProvider.SubgroupExists(System.String,System.String)">
             <summary>
             Determines whether a subgroup exists or not
             </summary>
             <param name="groupName">Name of group that should contain subgroup.</param>
-            <param name="subGroupName">Name of subgroup whose existence is being verified.</param>
+            <param name="subgroupName">Name of subgroup whose existence is being verified.</param>
             <returns>bool</returns>
+        </member>
+        <member name="M:ImageManager.Plugin.Classes.DefaultImageProvider.ImageExists(System.String,System.String)">
+            <summary>
+            Determines whether an image exists within a group
+            </summary>
+            <param name="groupName">Name of group where images will be found.</param>
+            <param name="imageName">Name of image</param>
+            <returns>bool</returns>
+            <exception cref="T:System.ArgumentNullException">Thrown if groupName is null or an empty string.</exception>
+            <exception cref="T:System.ArgumentNullException">Thrown if subgroupName is null or an empty string.</exception>
+        </member>
+        <member name="M:ImageManager.Plugin.Classes.DefaultImageProvider.ImageExists(System.String,System.String,System.String)">
+            <summary>
+            Determines whether an image exists within a subgroup
+            </summary>
+            <param name="groupName">Name of group where images will be found.</param>
+            <param name="subgroupName">Name of subgroup where image will be found.</param>
+            <param name="imageName">Name of image</param>
+            <returns>bool</returns>
+            <exception cref="T:System.ArgumentNullException">Thrown if groupName is null or an empty string.</exception>
+            <exception cref="T:System.ArgumentNullException">Thrown if subgroupName is null or an empty string.</exception>
+            <exception cref="T:System.ArgumentNullException">Thrown if imageName is null or an empty string.</exception>
+        </member>
+        <member name="M:ImageManager.Plugin.Classes.DefaultImageProvider.ImageDelete(System.String,System.String)">
+            <summary>
+            Deletes an image from within a group
+            </summary>
+            <param name="groupName">Name of group where images will be found.</param>
+            <param name="imageName">Name of image</param>
+            <returns>bool</returns>
+            <exception cref="T:System.ArgumentNullException">Thrown if groupName is null or an empty string.</exception>
+            <exception cref="T:System.ArgumentNullException">Thrown if imageName is null or an empty string.</exception>
+        </member>
+        <member name="M:ImageManager.Plugin.Classes.DefaultImageProvider.ImageDelete(System.String,System.String,System.String)">
+            <summary>
+            Deletes an image from within a subgroup
+            </summary>
+            <param name="groupName">Name of group where images will be found.</param>
+            <param name="subgroupName">Name of subgroup where image will be found.</param>
+            <param name="imageName">Name of image</param>
+            <returns>bool</returns>
+            <exception cref="T:System.ArgumentNullException">Thrown if groupName is null or an empty string.</exception>
+            <exception cref="T:System.ArgumentNullException">Thrown if subgroupName is null or an empty string.</exception>
+            <exception cref="T:System.ArgumentNullException">Thrown if imageName is null or an empty string.</exception>
         </member>
         <member name="T:ImageManager.Plugin.Classes.ImageManagerSettings">
             <summary>
@@ -100,6 +144,35 @@
             </summary>
             <value>string</value>
         </member>
+        <member name="T:ImageManager.Plugin.Models.DeleteImageModel">
+            <summary>
+            Model used for deleting images
+            </summary>
+        </member>
+        <member name="P:ImageManager.Plugin.Models.DeleteImageModel.ImageName">
+            <summary>
+            Name of image
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:ImageManager.Plugin.Models.DeleteImageModel.GroupName">
+            <summary>
+            Name of group
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:ImageManager.Plugin.Models.DeleteImageModel.SubgroupName">
+            <summary>
+            Name of sub group
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:ImageManager.Plugin.Models.DeleteImageModel.ConfirmDelete">
+            <summary>
+            Check box confirming the item can be deleted
+            </summary>
+            <value>bool</value>
+        </member>
         <member name="T:ImageManager.Plugin.Models.ImagesViewModel">
             <summary>
             View model used when viewing images using <see cref="T:ImageManager.Plugin.Controllers.ImageManagerController"/>
@@ -110,11 +183,12 @@
             Default constructor
             </summary>
         </member>
-        <member name="M:ImageManager.Plugin.Models.ImagesViewModel.#ctor(SharedPluginFeatures.BaseModelData@,System.String,System.String,Middleware.Images.ImageFile,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Collections.Generic.List{Middleware.Images.ImageFile})">
+        <member name="M:ImageManager.Plugin.Models.ImagesViewModel.#ctor(SharedPluginFeatures.BaseModelData@,System.Boolean,System.String,System.String,Middleware.Images.ImageFile,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Collections.Generic.List{Middleware.Images.ImageFile})">
             <summary>
             Constructor for use when displaying data within controller
             </summary>
             <param name="modelData"></param>
+            <param name="canManageImages">Determines whether the user can manage image data or not (add, delete etc)</param>
             <param name="selectedGroupName">Name of group, or empty string if root path</param>
             <param name="selectedSubgroupName">Name of subgroup, or empty string if no subgroup is being highlighted</param>
             <param name="selectedImageFile">The selected image file if applicable, otherwise null</param>
@@ -149,6 +223,11 @@
             List of images that belong to the group
             </summary>
             <value>List&lt;ImageFile&gt;</value>
+        </member>
+        <member name="P:ImageManager.Plugin.Models.ImagesViewModel.CanManageImages">
+            <summary>
+            Determines whether images can be managed by the current user
+            </summary>
         </member>
         <member name="T:ImageManager.Plugin.PluginInitialisation">
             <summary>

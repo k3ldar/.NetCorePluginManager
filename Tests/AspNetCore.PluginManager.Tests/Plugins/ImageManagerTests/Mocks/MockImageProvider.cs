@@ -26,8 +26,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Linq;
 
 using Middleware.Images;
 using Middleware.Interfaces;
@@ -39,20 +38,25 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests.Mocks
     {
         private readonly Dictionary<string, List<string>> _groups;
         private readonly List<ImageFile> _imageFiles;
+        private readonly List<string> _deletedImageNames;
 
         public MockImageProvider()
         {
             _groups = new Dictionary<string, List<string>>();
             _imageFiles = new List<ImageFile>();
+            _deletedImageNames = new List<string>();
+            CanDeleteImages = true;
         }
 
         public MockImageProvider(Dictionary<string, List<string>> groups, List<ImageFile> images)
         {
             _groups = groups ?? throw new ArgumentNullException(nameof(groups));
             _imageFiles = images ?? throw new ArgumentNullException(nameof(groups));
+            _deletedImageNames = new List<string>();
+            CanDeleteImages = true;
         }
 
-        public bool AddSubGroup(string groupName, string subGroupName)
+        public bool AddSubgroup(string groupName, string subGroupName)
         {
             throw new NotImplementedException();
         }
@@ -75,19 +79,45 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests.Mocks
             return true;
         }
 
-        public bool DeleteSubGroup(string groupName, string subGroupName)
+        public bool DeleteSubgroup(string groupName, string subGroupName)
         {
             throw new NotImplementedException();
         }
 
         public bool GroupExists(string groupName)
         {
-            throw new NotImplementedException();
+            return _groups.ContainsKey(groupName);
         }
 
         public Dictionary<string, List<string>> Groups()
         {
             return _groups;
+        }
+
+        public bool ImageDelete(string groupName, string imageName)
+        {
+            if (CanDeleteImages)
+                _deletedImageNames.Add(imageName);
+
+            return CanDeleteImages;
+        }
+
+        public bool ImageDelete(string groupName, string subgroupName, string imageName)
+        {
+            if (CanDeleteImages)
+                _deletedImageNames.Add(imageName);
+
+            return CanDeleteImages;
+        }
+
+        public bool ImageExists(string groupName, string imageName)
+        {
+            return _imageFiles.Where(i => i.Name.Equals(imageName)).Any();
+        }
+
+        public bool ImageExists(string groupName, string subgroupName, string imageName)
+        {
+            return _imageFiles.Where(i => i.Name.Equals(imageName)).Any();
         }
 
         public List<ImageFile> Images(string groupName)
@@ -100,9 +130,13 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests.Mocks
             return _imageFiles;
         }
 
-        public bool SubGroupExists(string groupName, string subGroupName)
+        public bool SubgroupExists(string groupName, string subGroupName)
         {
-            throw new NotImplementedException();
+            return _groups[groupName].Contains(subGroupName);
         }
+
+        public List<string> DeletedImageList => _deletedImageNames;
+
+        public bool CanDeleteImages { get; set; }
     }
 }

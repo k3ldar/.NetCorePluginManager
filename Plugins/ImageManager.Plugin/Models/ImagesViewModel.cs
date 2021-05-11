@@ -49,20 +49,23 @@ namespace ImageManager.Plugin.Models
         /// Constructor for use when displaying data within controller
         /// </summary>
         /// <param name="modelData"></param>
+        /// <param name="canManageImages">Determines whether the user can manage image data or not (add, delete etc)</param>
         /// <param name="selectedGroupName">Name of group, or empty string if root path</param>
         /// <param name="selectedSubgroupName">Name of subgroup, or empty string if no subgroup is being highlighted</param>
         /// <param name="selectedImageFile">The selected image file if applicable, otherwise null</param>
         /// <param name="groups">List of all groups</param>
         /// <param name="imageFiles">List of images that belong to the group</param>
-        public ImagesViewModel(in BaseModelData modelData, 
-            string selectedGroupName, 
+        public ImagesViewModel(in BaseModelData modelData,
+            bool canManageImages,
+            string selectedGroupName,
             string selectedSubgroupName,
             ImageFile selectedImageFile,
-            Dictionary<string, 
-            List<string>> groups, 
+            Dictionary<string,
+            List<string>> groups,
             List<ImageFile> imageFiles)
             : base(modelData)
         {
+            CanManageImages = canManageImages;
             SelectedGroupName = selectedGroupName ?? throw new ArgumentNullException(nameof(selectedGroupName));
             SelectedSubgroupName = selectedSubgroupName ?? throw new ArgumentNullException(nameof(selectedSubgroupName));
             SelectedImageFile = selectedImageFile;
@@ -102,6 +105,11 @@ namespace ImageManager.Plugin.Models
         /// </summary>
         /// <value>List&lt;ImageFile&gt;</value>
         public List<ImageFile> ImageFiles { get; }
+
+        /// <summary>
+        /// Determines whether images can be managed by the current user
+        /// </summary>
+        public bool CanManageImages { get; }
 
         #endregion Properties
     }

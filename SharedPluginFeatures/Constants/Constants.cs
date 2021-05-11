@@ -348,9 +348,14 @@ namespace SharedPluginFeatures
         public const string PolicyNameStaff = "MemberOfStaff";
 
         /// <summary>
-        /// Name of policy for managing images
+        /// Name of policy for viewing images within image manager
         /// </summary>
-        public const string PolicyNameImageManager = "ImageManager";
+        public const string PolicyNameViewImageManager = "ImageManager";
+
+        /// <summary>
+        /// Name of policy for managing images within image manager
+        /// </summary>
+        public const string PolicyNameImageManagerManage = "ImageManagerManage";
 
         /// <summary>
         /// Claim name for administrators
@@ -393,7 +398,12 @@ namespace SharedPluginFeatures
         public const string ClaimNameUserPermissions = "UserPermissions";
 
         /// <summary>
-        /// Name of claim for managing images
+        /// Name of claim for viewing image manager images
+        /// </summary>
+        public const string ClaimNameViewImageManager = "ViewImageManager";
+
+        /// <summary>
+        /// Name of claim for managing images (add/delete etc) within image manager
         /// </summary>
         public const string ClaimNameManageImages = "ManageImages";
 
@@ -471,5 +481,25 @@ namespace SharedPluginFeatures
         /// .dat file extension
         /// </summary>
         public const string FileExtensionDat = ".dat";
+
+        /// <summary>
+        /// Content type for application/json
+        /// </summary>
+        public const string ContentTypeApplicationJson = "application/json";
+
+        /// <summary>
+        /// Successful html response code
+        /// </summary>
+        public const int HtmlResponseSuccess = 200;
+
+        /// <summary>
+        /// Temporarily moved html response code
+        /// </summary>
+        public const int HtmlResponseMovedTemporarily = 302;
+
+        /// <summary>
+        /// Bad request response code
+        /// </summary>
+        public const int HtmlResponseBadRequest = 400;
     }
 }

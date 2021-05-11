@@ -84,7 +84,15 @@ namespace ImageManager.Plugin
             services.AddAuthorization(options =>
             {
                 options.AddPolicy(
-                    Constants.PolicyNameImageManager,
+                    Constants.PolicyNameViewImageManager,
+                    policyBuilder => policyBuilder.RequireClaim(Constants.ClaimNameViewImageManager)
+                        .RequireClaim(Constants.ClaimNameStaff)
+                        .RequireClaim(Constants.ClaimNameUsername)
+                        .RequireClaim(Constants.ClaimNameUserId)
+                        .RequireClaim(Constants.ClaimNameUserEmail));
+
+                options.AddPolicy(
+                    Constants.PolicyNameImageManagerManage,
                     policyBuilder => policyBuilder.RequireClaim(Constants.ClaimNameManageImages)
                         .RequireClaim(Constants.ClaimNameStaff)
                         .RequireClaim(Constants.ClaimNameUsername)

@@ -700,7 +700,34 @@
             </summary>
             <param name="controller">Name of the controller.</param>
             <param name="viewName">Name of the view.</param>
-            <returns></returns>
+            <returns>string</returns>
+        </member>
+        <member name="M:SharedPluginFeatures.BaseController.GetAuthenticationService">
+            <summary>
+            Retrieves the authentication service for the request.
+            </summary>
+            <returns>IAuthenticationService</returns>
+        </member>
+        <member name="M:SharedPluginFeatures.BaseController.GenerateJsonErrorResponse(System.Int32)">
+            <summary>
+            Creates a generic JsonResult for an error with status code (http response)
+            </summary>
+            <param name="statusCode">Status code being returned.</param>
+            <returns>JsonResult</returns>
+        </member>
+        <member name="M:SharedPluginFeatures.BaseController.GenerateJsonErrorResponse(System.Int32,System.String)">
+            <summary>
+            Creates a generic JsonResult for an error with status code (http response)
+            </summary>
+            <param name="statusCode">Status code being returned.</param>
+            <param name="jsonData">Json data to be returned as part of the response.</param>
+            <returns>JsonResult</returns>
+        </member>
+        <member name="M:SharedPluginFeatures.BaseController.GenerateJsonSuccessResponse">
+            <summary>
+            Generates a generic JsonResult for successful operation with status code of 200
+            </summary>
+            <returns>JsonResult</returns>
         </member>
         <member name="T:SharedPluginFeatures.BaseMiddleware">
             <summary>
@@ -1368,6 +1395,49 @@
             <summary>
             Default implementation of File storage for ISaveData
             </summary>
+        </member>
+        <member name="T:SharedPluginFeatures.JsonResponseModel">
+            <summary>
+            Simple model that is used in combination with JsonResult to supply specific data
+            in response to a request
+            </summary>
+        </member>
+        <member name="M:SharedPluginFeatures.JsonResponseModel.#ctor">
+            <summary>
+            Default constructor, sets success to false and provides empty data string.
+            </summary>
+        </member>
+        <member name="M:SharedPluginFeatures.JsonResponseModel.#ctor(System.Boolean)">
+            <summary>
+            Constructor allowing the setting of the success element and provides empty data string.
+            </summary>
+            <param name="success">Indicates whether the response is successful or not.</param>
+        </member>
+        <member name="M:SharedPluginFeatures.JsonResponseModel.#ctor(System.String)">
+            <summary>
+            Constructor for success with mandatory data string.
+            </summary>
+            <param name="data">response data, json, xml plain string etc</param>
+            <exception cref="T:System.ArgumentNullException">Thrown if data is null or empty string.</exception>
+        </member>
+        <member name="M:SharedPluginFeatures.JsonResponseModel.#ctor(System.Boolean,System.String)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="success">Indicates whether the response is successful or not.</param>
+            <param name="data">response data, json, xml plain string etc</param>
+        </member>
+        <member name="P:SharedPluginFeatures.JsonResponseModel.Success">
+            <summary>
+            Indicates success or failure
+            </summary>
+            <value>bool</value>
+        </member>
+        <member name="P:SharedPluginFeatures.JsonResponseModel.Data">
+            <summary>
+            Response data, this can be a string of any type including Json, xml etc
+            </summary>
+            <value>string</value>
         </member>
         <member name="T:SharedPluginFeatures.ShoppingCartSummary">
             <summary>
@@ -2200,9 +2270,14 @@
             Name of policy for members of staff
             </summary>
         </member>
-        <member name="F:SharedPluginFeatures.Constants.PolicyNameImageManager">
+        <member name="F:SharedPluginFeatures.Constants.PolicyNameViewImageManager">
             <summary>
-            Name of policy for managing images
+            Name of policy for viewing images within image manager
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Constants.PolicyNameImageManagerManage">
+            <summary>
+            Name of policy for managing images within image manager
             </summary>
         </member>
         <member name="F:SharedPluginFeatures.Constants.ClaimNameAdministrator">
@@ -2245,9 +2320,14 @@
             Name of claim for managing user permissions
             </summary>
         </member>
+        <member name="F:SharedPluginFeatures.Constants.ClaimNameViewImageManager">
+            <summary>
+            Name of claim for viewing image manager images
+            </summary>
+        </member>
         <member name="F:SharedPluginFeatures.Constants.ClaimNameManageImages">
             <summary>
-            Name of claim for managing images
+            Name of claim for managing images (add/delete etc) within image manager
             </summary>
         </member>
         <member name="F:SharedPluginFeatures.Constants.ClaimIdentityUser">
@@ -2323,6 +2403,26 @@
         <member name="F:SharedPluginFeatures.Constants.FileExtensionDat">
             <summary>
             .dat file extension
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Constants.ContentTypeApplicationJson">
+            <summary>
+            Content type for application/json
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Constants.HtmlResponseSuccess">
+            <summary>
+            Successful html response code
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Constants.HtmlResponseMovedTemporarily">
+            <summary>
+            Temporarily moved html response code
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Constants.HtmlResponseBadRequest">
+            <summary>
+            Bad request response code
             </summary>
         </member>
         <member name="T:SharedPluginFeatures.Enums">

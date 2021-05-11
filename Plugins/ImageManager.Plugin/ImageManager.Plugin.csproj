@@ -104,6 +104,7 @@
     <Content Remove="Views\ImageManager\_LeftMenu.cshtml" />
     <Content Remove="wwwroot\css\imageManager.css" />
     <Content Remove="wwwroot\images\ImageManager\imMenu.png" />
+    <Content Remove="wwwroot\js\ImageManager.js" />
   </ItemGroup>
 
   <ItemGroup>
@@ -166,6 +167,7 @@
 	  <EmbeddedResource Include="Views\ImageManager\_LeftMenu.cshtml" />
 	  <EmbeddedResource Include="wwwroot\css\imageManager.css" />
 	  <EmbeddedResource Include="wwwroot\images\ImageManager\imMenu.png" />
+	  <EmbeddedResource Include="wwwroot\js\ImageManager.js" />
 	</ItemGroup>
 
 </Project>

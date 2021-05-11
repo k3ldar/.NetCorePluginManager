@@ -227,67 +227,171 @@ namespace ImageManager.Plugin.Classes
         /// Adds a new subgroup to an existing image group
         /// </summary>
         /// <param name="groupName">Name of group under which the subgroup will be added.</param>
-        /// <param name="subGroupName">Name of subgroup to add.</param>
+        /// <param name="subgroupName">Name of subgroup to add.</param>
         /// <returns>bool</returns>
-        public bool AddSubGroup(string groupName, string subGroupName)
+        public bool AddSubgroup(string groupName, string subgroupName)
         {
             if (String.IsNullOrEmpty(groupName))
                 throw new ArgumentNullException(nameof(groupName));
 
-            if (String.IsNullOrEmpty(subGroupName))
-                throw new ArgumentNullException(nameof(subGroupName));
+            if (String.IsNullOrEmpty(subgroupName))
+                throw new ArgumentNullException(nameof(subgroupName));
 
-            if (SubGroupExists(groupName, subGroupName))
+            if (SubgroupExists(groupName, subgroupName))
                 return false;
 
-            string groupPath = Path.Combine(_rootPath, groupName, subGroupName);
+            string groupPath = Path.Combine(_rootPath, groupName, subgroupName);
 
             Directory.CreateDirectory(groupPath);
 
-            return SubGroupExists(groupName, subGroupName);
+            return SubgroupExists(groupName, subgroupName);
         }
 
         /// <summary>
         /// Deletes a subgroup and all image files contained within the subgroup.
         /// </summary>
         /// <param name="groupName">Name of group where the subgroup resides.</param>
-        /// <param name="subGroupName">Name of subgroup to be deleted.</param>
+        /// <param name="subgroupName">Name of subgroup to be deleted.</param>
         /// <returns>bool</returns>
-        public bool DeleteSubGroup(string groupName, string subGroupName)
+        public bool DeleteSubgroup(string groupName, string subgroupName)
         {
             if (String.IsNullOrEmpty(groupName))
                 throw new ArgumentNullException(nameof(groupName));
 
-            if (String.IsNullOrEmpty(subGroupName))
-                throw new ArgumentNullException(nameof(subGroupName));
+            if (String.IsNullOrEmpty(subgroupName))
+                throw new ArgumentNullException(nameof(subgroupName));
 
-            if (!SubGroupExists(groupName, subGroupName))
+            if (!SubgroupExists(groupName, subgroupName))
                 return false;
 
-            string groupPath = Path.Combine(_rootPath, groupName, subGroupName);
+            string groupPath = Path.Combine(_rootPath, groupName, subgroupName);
 
             Directory.Delete(groupPath, true);
 
-            return !SubGroupExists(groupName, subGroupName);
+            return !SubgroupExists(groupName, subgroupName);
         }
 
         /// <summary>
         /// Determines whether a subgroup exists or not
         /// </summary>
         /// <param name="groupName">Name of group that should contain subgroup.</param>
-        /// <param name="subGroupName">Name of subgroup whose existence is being verified.</param>
+        /// <param name="subgroupName">Name of subgroup whose existence is being verified.</param>
         /// <returns>bool</returns>
-        public bool SubGroupExists(string groupName, string subGroupName)
+        public bool SubgroupExists(string groupName, string subgroupName)
         {
             if (String.IsNullOrEmpty(groupName))
                 throw new ArgumentNullException(nameof(groupName));
 
-            if (String.IsNullOrEmpty(subGroupName))
-                throw new ArgumentNullException(nameof(subGroupName));
+            if (String.IsNullOrEmpty(subgroupName))
+                throw new ArgumentNullException(nameof(subgroupName));
 
-            string groupPath = Path.Combine(_rootPath, groupName, subGroupName);
+            string groupPath = Path.Combine(_rootPath, groupName, subgroupName);
 
             return Directory.Exists(groupPath);
+        }
+
+        /// <summary>
+        /// Determines whether an image exists within a group
+        /// </summary>
+        /// <param name="groupName">Name of group where images will be found.</param>
+        /// <param name="imageName">Name of image</param>
+        /// <returns>bool</returns>
+        /// <exception cref="ArgumentNullException">Thrown if groupName is null or an empty string.</exception>
+        /// <exception cref="ArgumentNullException">Thrown if subgroupName is null or an empty string.</exception>
+        public bool ImageExists(string groupName, string imageName)
+        {
+            if (String.IsNullOrEmpty(groupName))
+                throw new ArgumentNullException(nameof(groupName));
+
+            if (String.IsNullOrEmpty(imageName))
+                throw new ArgumentNullException(nameof(imageName));
+
+            string fileName = Path.Combine(_rootPath, groupName, imageName);
+
+            return File.Exists(fileName);
+        }
+
+        /// <summary>
+        /// Determines whether an image exists within a subgroup
+        /// </summary>
+        /// <param name="groupName">Name of group where images will be found.</param>
+        /// <param name="subgroupName">Name of subgroup where image will be found.</param>
+        /// <param name="imageName">Name of image</param>
+        /// <returns>bool</returns>
+        /// <exception cref="ArgumentNullException">Thrown if groupName is null or an empty string.</exception>
+        /// <exception cref="ArgumentNullException">Thrown if subgroupName is null or an empty string.</exception>
+        /// <exception cref="ArgumentNullException">Thrown if imageName is null or an empty string.</exception>
+        public bool ImageExists(string groupName, string subgroupName, string imageName)
+        {
+            if (String.IsNullOrEmpty(groupName))
+                throw new ArgumentNullException(nameof(groupName));
+
+            if (String.IsNullOrEmpty(subgroupName))
+                throw new ArgumentNullException(nameof(subgroupName));
+
+            if (String.IsNullOrEmpty(imageName))
+                throw new ArgumentNullException(nameof(imageName));
+
+            string fileName = Path.Combine(_rootPath, groupName, subgroupName, imageName);
+
+            return File.Exists(fileName);
+        }
+
+        /// <summary>
+        /// Deletes an image from within a group
+        /// </summary>
+        /// <param name="groupName">Name of group where images will be found.</param>
+        /// <param name="imageName">Name of image</param>
+        /// <returns>bool</returns>
+        /// <exception cref="ArgumentNullException">Thrown if groupName is null or an empty string.</exception>
+        /// <exception cref="ArgumentNullException">Thrown if imageName is null or an empty string.</exception>
+        public bool ImageDelete(string groupName, string imageName)
+        {
+            if (String.IsNullOrEmpty(groupName))
+                throw new ArgumentNullException(nameof(groupName));
+
+            if (String.IsNullOrEmpty(imageName))
+                throw new ArgumentNullException(nameof(imageName));
+
+            string fileName = Path.Combine(_rootPath, groupName, imageName);
+
+            if (!File.Exists(fileName))
+                return false;
+
+            File.Delete(fileName);
+
+            return !File.Exists(fileName);
+        }
+
+        /// <summary>
+        /// Deletes an image from within a subgroup
+        /// </summary>
+        /// <param name="groupName">Name of group where images will be found.</param>
+        /// <param name="subgroupName">Name of subgroup where image will be found.</param>
+        /// <param name="imageName">Name of image</param>
+        /// <returns>bool</returns>
+        /// <exception cref="ArgumentNullException">Thrown if groupName is null or an empty string.</exception>
+        /// <exception cref="ArgumentNullException">Thrown if subgroupName is null or an empty string.</exception>
+        /// <exception cref="ArgumentNullException">Thrown if imageName is null or an empty string.</exception>
+        public bool ImageDelete(string groupName, string subgroupName, string imageName)
+        {
+            if (String.IsNullOrEmpty(groupName))
+                throw new ArgumentNullException(nameof(groupName));
+
+            if (String.IsNullOrEmpty(subgroupName))
+                throw new ArgumentNullException(nameof(subgroupName));
+
+            if (String.IsNullOrEmpty(imageName))
+                throw new ArgumentNullException(nameof(imageName));
+
+            string fileName = Path.Combine(_rootPath, groupName, subgroupName, imageName);
+
+            if (!File.Exists(fileName))
+                return false;
+
+            File.Delete(fileName);
+
+            return !File.Exists(fileName);
         }
 
         #endregion IImageProvider Methods

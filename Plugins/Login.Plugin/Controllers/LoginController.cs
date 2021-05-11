@@ -43,6 +43,8 @@ using SharedPluginFeatures;
 using static Middleware.Constants;
 using static Shared.Utilities;
 
+using Constants = SharedPluginFeatures.Constants;
+
 #pragma warning disable CS1591
 
 namespace LoginPlugin.Controllers
@@ -90,8 +92,8 @@ namespace LoginPlugin.Controllers
 
         [HttpGet]
         [Breadcrumb(nameof(Languages.LanguageStrings.Login))]
-        [SmokeTest(200, PostType.Form, "loginForm", inputData: "Username=joe&Password=bloggs&RememberMe=False", searchData: "Don't have an account yet", submitSearchData: "Invalid User Name/Password;Please try again")]
-        [SmokeTest(200, PostType.Form, "loginForm", inputData: "Username=dennis&Password=mennace", searchData: "Don't have an account yet", submitSearchData: "Invalid User Name/Password;Please try again")]
+        [SmokeTest(Constants.HtmlResponseSuccess, PostType.Form, "loginForm", inputData: "Username=joe&Password=bloggs&RememberMe=False", searchData: "Don't have an account yet", submitSearchData: "Invalid User Name/Password;Please try again")]
+        [SmokeTest(Constants.HtmlResponseSuccess, PostType.Form, "loginForm", inputData: "Username=dennis&Password=mennace", searchData: "Don't have an account yet", submitSearchData: "Invalid User Name/Password;Please try again")]
         public IActionResult Index(string returnUrl)
         {
             // has the user been remembered?
@@ -192,9 +194,9 @@ namespace LoginPlugin.Controllers
 
         [HttpGet]
         [Breadcrumb(nameof(Languages.LanguageStrings.AccountLocked))]
-        [SmokeTest(302, PostType.Form, parameters: "username=", redirectUrl: "/Login")]
-        [SmokeTest(200, PostType.Form, parameters: "username=fred@bloggs", searchData: "Your account has been temporarily locked due to authentication failures")]
-        [SmokeTest(200, PostType.Form, formId: "frmUnlockAccount", inputData: "Username=fred@bloggs.com&UnlockCode=123456", parameters: "username=fred@bloggs", searchData: "Please enter your Username/Email Address")]
+        [SmokeTest(Constants.HtmlResponseMovedTemporarily, PostType.Form, parameters: "username=", redirectUrl: "/Login")]
+        [SmokeTest(Constants.HtmlResponseSuccess, PostType.Form, parameters: "username=fred@bloggs", searchData: "Your account has been temporarily locked due to authentication failures")]
+        [SmokeTest(Constants.HtmlResponseSuccess, PostType.Form, formId: "frmUnlockAccount", inputData: "Username=fred@bloggs.com&UnlockCode=123456", parameters: "username=fred@bloggs", searchData: "Please enter your Username/Email Address")]
         public IActionResult AccountLocked(string username)
         {
             if (String.IsNullOrEmpty(username))

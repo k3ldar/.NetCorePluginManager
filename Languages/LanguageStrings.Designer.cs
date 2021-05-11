@@ -21765,6 +21765,15 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Please tick the box to confirm you want to delete the selected item..
+        /// </summary>
+        public static string ConfirmDeleteCheckbox {
+            get {
+                return ResourceManager.GetString("ConfirmDeleteCheckbox", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Confirm New Password.
         /// </summary>
         public static string ConfirmNewPassword {
@@ -22570,6 +22579,24 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Delete Image.
+        /// </summary>
+        public static string DeleteImage {
+            get {
+                return ResourceManager.GetString("DeleteImage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to delete this image?.
+        /// </summary>
+        public static string DeleteImageConfirm {
+            get {
+                return ResourceManager.GetString("DeleteImageConfirm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Delivery.
         /// </summary>
         public static string Delivery {
@@ -23124,6 +23151,15 @@ namespace Languages {
         public static string ErrorCodeSQL {
             get {
                 return ResourceManager.GetString("ErrorCodeSQL", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An error occurred deleting the item..
+        /// </summary>
+        public static string ErrorDeletingItem {
+            get {
+                return ResourceManager.GetString("ErrorDeletingItem", resourceCulture);
             }
         }
         
@@ -23808,6 +23844,15 @@ namespace Languages {
         public static string ImageGroups {
             get {
                 return ResourceManager.GetString("ImageGroups", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Image Manager.
+        /// </summary>
+        public static string ImageManager {
+            get {
+                return ResourceManager.GetString("ImageManager", resourceCulture);
             }
         }
         

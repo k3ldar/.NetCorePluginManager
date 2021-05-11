@@ -36,7 +36,7 @@ using Shared.Classes;
 
 using static Shared.Utilities;
 
-#pragma warning disable CS1591, CA1822
+#pragma warning disable CA1822
 
 namespace SharedPluginFeatures
 {
@@ -223,11 +223,6 @@ namespace SharedPluginFeatures
             }
 
             return 0;
-        }
-
-        protected void AddToCart()
-        {
-
         }
 
         #endregion Shopping Cart
@@ -582,7 +577,7 @@ namespace SharedPluginFeatures
         /// </summary>
         /// <param name="controller">Name of the controller.</param>
         /// <param name="viewName">Name of the view.</param>
-        /// <returns></returns>
+        /// <returns>string</returns>
         protected string GetViewName(in string controller, in string viewName)
         {
             if (String.IsNullOrEmpty(controller))
@@ -599,6 +594,10 @@ namespace SharedPluginFeatures
 
         #region Authentication
 
+        /// <summary>
+        /// Retrieves the authentication service for the request.
+        /// </summary>
+        /// <returns>IAuthenticationService</returns>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1303:Do not pass literals as localized parameters", Justification = "Not fussed with this exception")]
         protected IAuthenticationService GetAuthenticationService()
         {
@@ -611,7 +610,53 @@ namespace SharedPluginFeatures
         }
 
         #endregion Authentication
+
+        #region Generic JsonResult Responses
+
+        /// <summary>
+        /// Creates a generic JsonResult for an error with status code (http response)
+        /// </summary>
+        /// <param name="statusCode">Status code being returned.</param>
+        /// <returns>JsonResult</returns>
+        protected JsonResult GenerateJsonErrorResponse(int statusCode)
+        {
+            return GenerateJsonErrorResponse(statusCode, String.Empty);
+        }
+
+
+        /// <summary>
+        /// Creates a generic JsonResult for an error with status code (http response)
+        /// </summary>
+        /// <param name="statusCode">Status code being returned.</param>
+        /// <param name="jsonData">Json data to be returned as part of the response.</param>
+        /// <returns>JsonResult</returns>
+        protected JsonResult GenerateJsonErrorResponse(int statusCode, string jsonData)
+        {
+            if (jsonData == null)
+                throw new ArgumentNullException(nameof(jsonData));
+
+            return new JsonResult(new JsonResponseModel(false, jsonData))
+            {
+                ContentType = Constants.ContentTypeApplicationJson,
+                StatusCode = statusCode
+            };
+        }
+
+        /// <summary>
+        /// Generates a generic JsonResult for successful operation with status code of 200
+        /// </summary>
+        /// <returns>JsonResult</returns>
+        protected JsonResult GenerateJsonSuccessResponse()
+        {
+            return new JsonResult(new JsonResponseModel(true))
+            {
+                ContentType = Constants.ContentTypeApplicationJson,
+                StatusCode = Constants.HtmlResponseSuccess
+            };
+        }
+
+        #endregion Generic JsonResult Responses
     }
 }
 
-#pragma warning restore CS1591, CA1822
+#pragma warning restore CA1822

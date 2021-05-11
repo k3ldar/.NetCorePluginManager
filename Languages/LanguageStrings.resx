@@ -14193,4 +14193,24 @@ You will shortly receive an email with the details of your order.</comment>
     <value>Images</value>
     <comment>Images</comment>
   </data>
+  <data name="ConfirmDeleteCheckbox" xml:space="preserve">
+    <value>Please tick the box to confirm you want to delete the selected item.</value>
+    <comment>Please tick the box to confirm you want to delete the selected item.</comment>
+  </data>
+  <data name="DeleteImage" xml:space="preserve">
+    <value>Delete Image</value>
+    <comment>Delete Image</comment>
+  </data>
+  <data name="DeleteImageConfirm" xml:space="preserve">
+    <value>Are you sure you want to delete this image?</value>
+    <comment>Are you sure you want to delete this image?</comment>
+  </data>
+  <data name="ImageManager" xml:space="preserve">
+    <value>Image Manager</value>
+    <comment>Image Manager</comment>
+  </data>
+  <data name="ErrorDeletingItem" xml:space="preserve">
+    <value>An error occurred deleting the item.</value>
+    <comment>An error occurred deleting the item.</comment>
+  </data>
 </root>

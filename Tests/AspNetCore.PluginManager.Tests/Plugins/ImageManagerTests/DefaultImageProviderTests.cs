@@ -393,15 +393,15 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
             Assert.IsTrue(addGroup);
             Assert.IsTrue(sut.GroupExists("FirstGroup"));
 
-            sut.AddSubGroup("FirstGroup", "SubGroup 1");
-            Assert.IsTrue(sut.SubGroupExists("FirstGroup", "SubGroup 1"));
+            sut.AddSubgroup("FirstGroup", "SubGroup 1");
+            Assert.IsTrue(sut.SubgroupExists("FirstGroup", "SubGroup 1"));
 
             File.WriteAllText(Path.Combine(subGroup1, "subgroup 1 file1.txt"), "text for file 1 in sub group 1");
             File.WriteAllText(Path.Combine(subGroup1, "subgroup 1 file2.txt"), "text for file 2 in sub group 1");
 
-            bool addSubGroup = sut.AddSubGroup("FirstGroup", "SubGroup 2");
+            bool addSubGroup = sut.AddSubgroup("FirstGroup", "SubGroup 2");
             Assert.IsTrue(addSubGroup);
-            Assert.IsTrue(sut.SubGroupExists("FirstGroup", "SubGroup 2"));
+            Assert.IsTrue(sut.SubgroupExists("FirstGroup", "SubGroup 2"));
             File.WriteAllText(Path.Combine(subGroup2, "subgroup 2 file1.txt"), "text for file 1 in sub group 2");
             File.WriteAllText(Path.Combine(subGroup2, "subgroup 2 file2.txt"), "text for file 2 in sub group 2");
             File.WriteAllText(Path.Combine(subGroup2, "subgroup 2 file3.txt"), "text for file 3 in sub group 2");
@@ -409,7 +409,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
             File.WriteAllText(Path.Combine(newGroupPath, "file1.txt"), "text for file 1");
             File.WriteAllText(Path.Combine(newGroupPath, "file2.txt"), "text for file 2");
 
-            addSubGroup = sut.AddSubGroup("FirstGroup", "SubGroup 2");
+            addSubGroup = sut.AddSubgroup("FirstGroup", "SubGroup 2");
             Assert.IsFalse(addSubGroup);
 
             List<ImageFile> images = sut.Images("FirstGroup", "Subgroup 2");
@@ -438,15 +438,15 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
             Assert.IsTrue(addGroup);
             Assert.IsTrue(sut.GroupExists("FirstGroup"));
 
-            sut.AddSubGroup("FirstGroup", "SubGroup 1");
-            Assert.IsTrue(sut.SubGroupExists("FirstGroup", "SubGroup 1"));
+            sut.AddSubgroup("FirstGroup", "SubGroup 1");
+            Assert.IsTrue(sut.SubgroupExists("FirstGroup", "SubGroup 1"));
 
             File.WriteAllText(Path.Combine(subGroup1, "subgroup 1 file1.txt"), "text for file 1 in sub group 1");
             File.WriteAllText(Path.Combine(subGroup1, "subgroup 1 file2.txt"), "text for file 2 in sub group 1");
 
-            bool addSubGroup = sut.AddSubGroup("FirstGroup", "SubGroup 2");
+            bool addSubGroup = sut.AddSubgroup("FirstGroup", "SubGroup 2");
             Assert.IsTrue(addSubGroup);
-            Assert.IsTrue(sut.SubGroupExists("FirstGroup", "SubGroup 2"));
+            Assert.IsTrue(sut.SubgroupExists("FirstGroup", "SubGroup 2"));
             File.WriteAllText(Path.Combine(subGroup2, "subgroup 2 file1.txt"), "text for file 1 in sub group 2");
             File.WriteAllText(Path.Combine(subGroup2, "subgroup 2 file2.txt"), "text for file 2 in sub group 2");
             File.WriteAllText(Path.Combine(subGroup2, "subgroup 2 file3.txt"), "text for file 3 in sub group 2");
@@ -454,7 +454,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
             File.WriteAllText(Path.Combine(newGroupPath, "file1.txt"), "text for file 1");
             File.WriteAllText(Path.Combine(newGroupPath, "file2.txt"), "text for file 2");
 
-            addSubGroup = sut.AddSubGroup("FirstGroup", "SubGroup 2");
+            addSubGroup = sut.AddSubgroup("FirstGroup", "SubGroup 2");
             Assert.IsFalse(addSubGroup);
 
             List<ImageFile> images = sut.Images("FirstGroup");
@@ -470,15 +470,15 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
             Assert.AreEqual("SubGroup 1", group["FirstGroup"][0]);
             Assert.AreEqual("SubGroup 2", group["FirstGroup"][1]);
 
-            bool subGroupDeleted = sut.DeleteSubGroup("FirstGroup", "SubGroup 1");
+            bool subGroupDeleted = sut.DeleteSubgroup("FirstGroup", "SubGroup 1");
             Assert.IsTrue(subGroupDeleted);
-            Assert.IsFalse(sut.SubGroupExists("FirstGroup", "SubGroup 1"));
+            Assert.IsFalse(sut.SubgroupExists("FirstGroup", "SubGroup 1"));
 
-            subGroupDeleted = sut.DeleteSubGroup("FirstGroup", "SubGroup 2");
+            subGroupDeleted = sut.DeleteSubgroup("FirstGroup", "SubGroup 2");
             Assert.IsTrue(subGroupDeleted);
-            Assert.IsFalse(sut.SubGroupExists("FirstGroup", "SubGroup 2"));
+            Assert.IsFalse(sut.SubgroupExists("FirstGroup", "SubGroup 2"));
 
-            subGroupDeleted = sut.DeleteSubGroup("FirstGroup", "SubGroup 2");
+            subGroupDeleted = sut.DeleteSubgroup("FirstGroup", "SubGroup 2");
             Assert.IsFalse(subGroupDeleted);
 
             bool groupDeleted = sut.DeleteGroup("FirstGroup");
@@ -539,7 +539,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
             try
             {
                 DefaultImageProvider sut = CreateDefaultImageProvider(testPath);
-                sut.SubGroupExists(null, "subgroup name");
+                sut.SubgroupExists(null, "subgroup name");
             }
             catch
             {
@@ -559,7 +559,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
             try
             {
                 DefaultImageProvider sut = CreateDefaultImageProvider(testPath);
-                sut.SubGroupExists("", "subgroup name");
+                sut.SubgroupExists("", "subgroup name");
             }
             catch
             {
@@ -579,7 +579,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
             try
             {
                 DefaultImageProvider sut = CreateDefaultImageProvider(testPath);
-                sut.SubGroupExists("group", null);
+                sut.SubgroupExists("group", null);
             }
             catch
             {
@@ -599,7 +599,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
             try
             {
                 DefaultImageProvider sut = CreateDefaultImageProvider(testPath);
-                sut.SubGroupExists("group", "");
+                sut.SubgroupExists("group", "");
             }
             catch
             {
@@ -610,12 +610,6 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
             }
         }
 
-
-
-
-
-
-
         [TestMethod]
         [TestCategory(ImageManagerTestsCategory)]
         [ExpectedException(typeof(ArgumentNullException))]
@@ -625,7 +619,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
             try
             {
                 DefaultImageProvider sut = CreateDefaultImageProvider(testPath);
-                sut.DeleteSubGroup(null, "subgroup name");
+                sut.DeleteSubgroup(null, "subgroup name");
             }
             catch
             {
@@ -645,7 +639,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
             try
             {
                 DefaultImageProvider sut = CreateDefaultImageProvider(testPath);
-                sut.DeleteSubGroup("", "subgroup name");
+                sut.DeleteSubgroup("", "subgroup name");
             }
             catch
             {
@@ -665,7 +659,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
             try
             {
                 DefaultImageProvider sut = CreateDefaultImageProvider(testPath);
-                sut.DeleteSubGroup("group", null);
+                sut.DeleteSubgroup("group", null);
             }
             catch
             {
@@ -685,7 +679,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
             try
             {
                 DefaultImageProvider sut = CreateDefaultImageProvider(testPath);
-                sut.DeleteSubGroup("group", "");
+                sut.DeleteSubgroup("group", "");
             }
             catch
             {
@@ -696,17 +690,6 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
             }
         }
 
-
-
-
-
-
-
-
-
-
-
-
         [TestMethod]
         [TestCategory(ImageManagerTestsCategory)]
         [ExpectedException(typeof(ArgumentNullException))]
@@ -716,7 +699,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
             try
             {
                 DefaultImageProvider sut = CreateDefaultImageProvider(testPath);
-                sut.AddSubGroup(null, "subgroup name");
+                sut.AddSubgroup(null, "subgroup name");
             }
             catch
             {
@@ -736,7 +719,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
             try
             {
                 DefaultImageProvider sut = CreateDefaultImageProvider(testPath);
-                sut.AddSubGroup("", "subgroup name");
+                sut.AddSubgroup("", "subgroup name");
             }
             catch
             {
@@ -750,13 +733,13 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         [TestMethod]
         [TestCategory(ImageManagerTestsCategory)]
         [ExpectedException(typeof(ArgumentNullException))]
-        public void AddSubGroup_InvalidParamSubroupName_Null_Throws_ArgumentNullException()
+        public void AddSubGroup_InvalidParamSubgroupName_Null_Throws_ArgumentNullException()
         {
             string testPath = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
             try
             {
                 DefaultImageProvider sut = CreateDefaultImageProvider(testPath);
-                sut.AddSubGroup("group", null);
+                sut.AddSubgroup("group", null);
             }
             catch
             {
@@ -770,13 +753,13 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         [TestMethod]
         [TestCategory(ImageManagerTestsCategory)]
         [ExpectedException(typeof(ArgumentNullException))]
-        public void AddSubGroup_InvalidParamSubroupName_EmptyString_Throws_ArgumentNullException()
+        public void AddSubGroup_InvalidParamSubgroupName_EmptyString_Throws_ArgumentNullException()
         {
             string testPath = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
             try
             {
                 DefaultImageProvider sut = CreateDefaultImageProvider(testPath);
-                sut.AddSubGroup("group", "");
+                sut.AddSubgroup("group", "");
             }
             catch
             {
@@ -786,6 +769,568 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
                 throw;
             }
         }
+
+        [TestMethod]
+        [TestCategory(ImageManagerTestsCategory)]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void ImageExists_InvalidParamGroupName_Null_Throws_ArgumentNullException()
+        {
+            string testPath = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            try
+            {
+                DefaultImageProvider sut = CreateDefaultImageProvider(testPath);
+                sut.ImageExists(null, "image.jpeg");
+            }
+            catch
+            {
+                if (Directory.Exists(testPath))
+                    Directory.Delete(testPath);
+
+                throw;
+            }
+        }
+
+        [TestMethod]
+        [TestCategory(ImageManagerTestsCategory)]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void ImageExists_InvalidParamGroupName_EmptyString_Throws_ArgumentNullException()
+        {
+            string testPath = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            try
+            {
+                DefaultImageProvider sut = CreateDefaultImageProvider(testPath);
+                sut.ImageExists("", "image.jpeg");
+            }
+            catch
+            {
+                if (Directory.Exists(testPath))
+                    Directory.Delete(testPath);
+
+                throw;
+            }
+        }
+
+        [TestMethod]
+        [TestCategory(ImageManagerTestsCategory)]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void ImageExists_InvalidParamImageName_Null_Throws_ArgumentNullException()
+        {
+            string testPath = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            try
+            {
+                DefaultImageProvider sut = CreateDefaultImageProvider(testPath);
+                sut.ImageExists("group", null);
+            }
+            catch
+            {
+                if (Directory.Exists(testPath))
+                    Directory.Delete(testPath);
+
+                throw;
+            }
+        }
+
+        [TestMethod]
+        [TestCategory(ImageManagerTestsCategory)]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void ImageExists_InvalidParamImageName_EmptyString_Throws_ArgumentNullException()
+        {
+            string testPath = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            try
+            {
+                DefaultImageProvider sut = CreateDefaultImageProvider(testPath);
+                sut.ImageExists("group", "");
+            }
+            catch
+            {
+                if (Directory.Exists(testPath))
+                    Directory.Delete(testPath);
+
+                throw;
+            }
+        }
+
+        [TestMethod]
+        [TestCategory(ImageManagerTestsCategory)]
+        public void ImageExists_FileNotFound_ReturnsFalse()
+        {
+            string testPath = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            try
+            {
+                string newGroupPath = Path.Combine(testPath, "FirstGroup");
+
+                DefaultImageProvider sut = CreateDefaultImageProvider(testPath);
+                Assert.IsFalse(sut.GroupExists("FirstGroup"));
+
+                bool addGroup = sut.CreateGroup("FirstGroup");
+                Assert.IsTrue(addGroup);
+                Assert.IsTrue(sut.GroupExists("FirstGroup"));
+
+                File.WriteAllText(Path.Combine(newGroupPath, "file1.txt"), "text for file 1 in sub group 1");
+
+                sut.ImageExists("group", "file2.txt");
+            }
+            catch
+            {
+                if (Directory.Exists(testPath))
+                    Directory.Delete(testPath);
+
+                throw;
+            }
+        }
+
+        [TestMethod]
+        [TestCategory(ImageManagerTestsCategory)]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void ImageExists_WithSubgroupInvalidParamGroupName_Null_Throws_ArgumentNullException()
+        {
+            string testPath = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            try
+            {
+                DefaultImageProvider sut = CreateDefaultImageProvider(testPath);
+                sut.ImageExists(null, "subgroup", "image.jpeg");
+            }
+            catch
+            {
+                if (Directory.Exists(testPath))
+                    Directory.Delete(testPath);
+
+                throw;
+            }
+        }
+
+        [TestMethod]
+        [TestCategory(ImageManagerTestsCategory)]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void ImageExists_WithSubgroupInvalidParamGroupName_EmptyString_Throws_ArgumentNullException()
+        {
+            string testPath = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            try
+            {
+                DefaultImageProvider sut = CreateDefaultImageProvider(testPath);
+                sut.ImageExists("", "subgroup", "image.jpeg");
+            }
+            catch
+            {
+                if (Directory.Exists(testPath))
+                    Directory.Delete(testPath);
+
+                throw;
+            }
+        }
+
+        [TestMethod]
+        [TestCategory(ImageManagerTestsCategory)]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void ImageExists_WithSubgroupInvalidParamSubgroupName_Null_Throws_ArgumentNullException()
+        {
+            string testPath = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            try
+            {
+                DefaultImageProvider sut = CreateDefaultImageProvider(testPath);
+                sut.ImageExists("group", null, "image.jpeg");
+            }
+            catch
+            {
+                if (Directory.Exists(testPath))
+                    Directory.Delete(testPath);
+
+                throw;
+            }
+        }
+
+        [TestMethod]
+        [TestCategory(ImageManagerTestsCategory)]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void ImageExists_WithSubgroupInvalidParamSubgroupName_EmptyString_Throws_ArgumentNullException()
+        {
+            string testPath = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            try
+            {
+                DefaultImageProvider sut = CreateDefaultImageProvider(testPath);
+                sut.ImageExists("group", "", "image.jpeg");
+            }
+            catch
+            {
+                if (Directory.Exists(testPath))
+                    Directory.Delete(testPath);
+
+                throw;
+            }
+        }
+
+        [TestMethod]
+        [TestCategory(ImageManagerTestsCategory)]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void ImageExists_WithSubgroupInvalidParamImageName_Null_Throws_ArgumentNullException()
+        {
+            string testPath = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            try
+            {
+                DefaultImageProvider sut = CreateDefaultImageProvider(testPath);
+                sut.ImageExists("group", "subgroup", null);
+            }
+            catch
+            {
+                if (Directory.Exists(testPath))
+                    Directory.Delete(testPath);
+
+                throw;
+            }
+        }
+
+        [TestMethod]
+        [TestCategory(ImageManagerTestsCategory)]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void ImageExists_WithSubgroupInvalidParamImageName_EmptyString_Throws_ArgumentNullException()
+        {
+            string testPath = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            try
+            {
+                DefaultImageProvider sut = CreateDefaultImageProvider(testPath);
+                sut.ImageExists("group", "subgroup", "");
+            }
+            catch
+            {
+                if (Directory.Exists(testPath))
+                    Directory.Delete(testPath);
+
+                throw;
+            }
+        }
+
+        [TestMethod]
+        [TestCategory(ImageManagerTestsCategory)]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void ImageDelete_WithoutSubgroupInvalidParamGroupName_Null_Throws_ArgumentNullException()
+        {
+            string testPath = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            try
+            {
+                DefaultImageProvider sut = CreateDefaultImageProvider(testPath);
+                sut.ImageDelete(null, "image.jpeg");
+            }
+            catch
+            {
+                if (Directory.Exists(testPath))
+                    Directory.Delete(testPath);
+
+                throw;
+            }
+        }
+
+        [TestMethod]
+        [TestCategory(ImageManagerTestsCategory)]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void ImageDelete_WithoutSubgroupInvalidParamGroupName_EmptyString_Throws_ArgumentNullException()
+        {
+            string testPath = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            try
+            {
+                DefaultImageProvider sut = CreateDefaultImageProvider(testPath);
+                sut.ImageDelete("", "image.jpeg");
+            }
+            catch
+            {
+                if (Directory.Exists(testPath))
+                    Directory.Delete(testPath);
+
+                throw;
+            }
+        }
+
+        [TestMethod]
+        [TestCategory(ImageManagerTestsCategory)]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void ImageDelete_WithoutSubgroupInvalidParamImageName_Null_Throws_ArgumentNullException()
+        {
+            string testPath = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            try
+            {
+                DefaultImageProvider sut = CreateDefaultImageProvider(testPath);
+                sut.ImageDelete("group", null);
+            }
+            catch
+            {
+                if (Directory.Exists(testPath))
+                    Directory.Delete(testPath);
+
+                throw;
+            }
+        }
+
+        [TestMethod]
+        [TestCategory(ImageManagerTestsCategory)]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void ImageDelete_WithoutSubgroupInvalidParamImageName_EmptyString_Throws_ArgumentNullException()
+        {
+            string testPath = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            try
+            {
+                DefaultImageProvider sut = CreateDefaultImageProvider(testPath);
+                sut.ImageDelete("group", "");
+            }
+            catch
+            {
+                if (Directory.Exists(testPath))
+                    Directory.Delete(testPath);
+
+                throw;
+            }
+        }
+
+        [TestMethod]
+        [TestCategory(ImageManagerTestsCategory)]
+        public void ImageDelete_FileNotFound_ReturnsFalse()
+        {
+            string testPath = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            try
+            {
+                string newGroupPath = Path.Combine(testPath, "FirstGroup");
+
+                DefaultImageProvider sut = CreateDefaultImageProvider(testPath);
+                Assert.IsFalse(sut.GroupExists("FirstGroup"));
+
+                bool addGroup = sut.CreateGroup("FirstGroup");
+                Assert.IsTrue(addGroup);
+                Assert.IsTrue(sut.GroupExists("FirstGroup"));
+
+                File.WriteAllText(Path.Combine(newGroupPath, "file1.txt"), "text for file 1 in group 1");
+
+                Assert.IsTrue(sut.ImageExists("FirstGroup", "file1.txt"));
+                bool imageDeleted = sut.ImageDelete("FirstGroup", "file2.txt");
+                Assert.IsFalse(imageDeleted);
+                Assert.IsTrue(sut.ImageExists("FirstGroup", "file1.txt"));
+            }
+            catch
+            {
+                if (Directory.Exists(testPath))
+                    Directory.Delete(testPath);
+
+                throw;
+            }
+        }
+
+        [TestMethod]
+        [TestCategory(ImageManagerTestsCategory)]
+        public void ImageDelete_FileFound_ReturnsTrue()
+        {
+            string testPath = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            try
+            {
+                string newGroupPath = Path.Combine(testPath, "FirstGroup");
+
+                DefaultImageProvider sut = CreateDefaultImageProvider(testPath);
+                Assert.IsFalse(sut.GroupExists("FirstGroup"));
+
+                bool addGroup = sut.CreateGroup("FirstGroup");
+                Assert.IsTrue(addGroup);
+                Assert.IsTrue(sut.GroupExists("FirstGroup"));
+
+                File.WriteAllText(Path.Combine(newGroupPath, "file1.txt"), "text for file 1 in group 1");
+
+                Assert.IsTrue(sut.ImageExists("FirstGroup", "file1.txt"));
+                bool imageDeleted = sut.ImageDelete("FirstGroup", "file1.txt");
+                Assert.IsTrue(imageDeleted);
+            }
+            catch
+            {
+                if (Directory.Exists(testPath))
+                    Directory.Delete(testPath);
+
+                throw;
+            }
+        }
+
+        [TestMethod]
+        [TestCategory(ImageManagerTestsCategory)]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void ImageDelete_WithSubgroupInvalidParamGroupName_Null_Throws_ArgumentNullException()
+        {
+            string testPath = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            try
+            {
+                DefaultImageProvider sut = CreateDefaultImageProvider(testPath);
+                sut.ImageDelete(null, "subgroup", "image.jpeg");
+            }
+            catch
+            {
+                if (Directory.Exists(testPath))
+                    Directory.Delete(testPath);
+
+                throw;
+            }
+        }
+
+        [TestMethod]
+        [TestCategory(ImageManagerTestsCategory)]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void ImageDelete_WithSubgroupInvalidParamGroupName_EmptyString_Throws_ArgumentNullException()
+        {
+            string testPath = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            try
+            {
+                DefaultImageProvider sut = CreateDefaultImageProvider(testPath);
+                sut.ImageDelete("", "subgroup", "image.jpeg");
+            }
+            catch
+            {
+                if (Directory.Exists(testPath))
+                    Directory.Delete(testPath);
+
+                throw;
+            }
+        }
+
+        [TestMethod]
+        [TestCategory(ImageManagerTestsCategory)]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void ImageDelete_WithSubgroupInvalidParamSubgroupName_Null_Throws_ArgumentNullException()
+        {
+            string testPath = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            try
+            {
+                DefaultImageProvider sut = CreateDefaultImageProvider(testPath);
+                sut.ImageDelete("group", null, "image.jpeg");
+            }
+            catch
+            {
+                if (Directory.Exists(testPath))
+                    Directory.Delete(testPath);
+
+                throw;
+            }
+        }
+
+        [TestMethod]
+        [TestCategory(ImageManagerTestsCategory)]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void ImageDelete_WithSubgroupInvalidParamSubgroupName_EmptyString_Throws_ArgumentNullException()
+        {
+            string testPath = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            try
+            {
+                DefaultImageProvider sut = CreateDefaultImageProvider(testPath);
+                sut.ImageDelete("group", "", "image.jpeg");
+            }
+            catch
+            {
+                if (Directory.Exists(testPath))
+                    Directory.Delete(testPath);
+
+                throw;
+            }
+        }
+
+        [TestMethod]
+        [TestCategory(ImageManagerTestsCategory)]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void ImageDelete_WithSubgroupInvalidParamImageName_Null_Throws_ArgumentNullException()
+        {
+            string testPath = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            try
+            {
+                DefaultImageProvider sut = CreateDefaultImageProvider(testPath);
+                sut.ImageDelete("group", "subgroup", null);
+            }
+            catch
+            {
+                if (Directory.Exists(testPath))
+                    Directory.Delete(testPath);
+
+                throw;
+            }
+        }
+
+        [TestMethod]
+        [TestCategory(ImageManagerTestsCategory)]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void ImageDelete_WithSubgroupInvalidParamImageName_EmptyString_Throws_ArgumentNullException()
+        {
+            string testPath = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            try
+            {
+                DefaultImageProvider sut = CreateDefaultImageProvider(testPath);
+                sut.ImageDelete("group", "subgroup", "");
+            }
+            catch
+            {
+                if (Directory.Exists(testPath))
+                    Directory.Delete(testPath);
+
+                throw;
+            }
+        }
+
+        [TestMethod]
+        [TestCategory(ImageManagerTestsCategory)]
+        public void ImageDelete_WithSubgroup_FileNotFound_ReturnsFalse()
+        {
+            string testPath = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            try
+            {
+                string newGroupPath = Path.Combine(testPath, "FirstGroup");
+
+                DefaultImageProvider sut = CreateDefaultImageProvider(testPath);
+                Assert.IsFalse(sut.GroupExists("FirstGroup"));
+
+                bool addGroup = sut.CreateGroup("FirstGroup");
+                Assert.IsTrue(addGroup);
+                Assert.IsTrue(sut.GroupExists("FirstGroup"));
+
+                Assert.IsFalse(sut.ImageExists("FirstGroup", "subgroup", "file2.txt"));
+                bool imageDeleted = sut.ImageDelete("FirstGroup", "subgroup", "file2.txt");
+                Assert.IsFalse(imageDeleted);
+                Assert.IsFalse(sut.ImageExists("FirstGroup", "subgroup", "file2.txt"));
+            }
+            catch
+            {
+                if (Directory.Exists(testPath))
+                    Directory.Delete(testPath);
+
+                throw;
+            }
+        }
+
+        [TestMethod]
+        [TestCategory(ImageManagerTestsCategory)]
+        public void ImageDelete_WithSubgroup_FileFound_ReturnsTrue()
+        {
+            string testPath = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            try
+            {
+                string newGroupPath = Path.Combine(testPath, "FirstGroup");
+
+                DefaultImageProvider sut = CreateDefaultImageProvider(testPath);
+                Assert.IsFalse(sut.GroupExists("FirstGroup"));
+
+                bool addGroup = sut.CreateGroup("FirstGroup");
+                Assert.IsTrue(addGroup);
+                Assert.IsTrue(sut.GroupExists("FirstGroup"));
+
+                bool addSubgroup = sut.AddSubgroup("FirstGroup", "subgroup");
+                Assert.IsTrue(addSubgroup);
+                Assert.IsTrue(sut.SubgroupExists("FirstGroup", "subgroup"));
+
+                File.WriteAllText(Path.Combine(newGroupPath, "subgroup", "file1.txt"), "text for file 1 in sub group 1");
+
+                Assert.IsTrue(sut.ImageExists("FirstGroup", "subgroup", "file1.txt"));
+                bool imageDeleted = sut.ImageDelete("FirstGroup", "subgroup", "file1.txt");
+                Assert.IsTrue(imageDeleted);
+                Assert.IsFalse(sut.ImageExists("FirstGroup", "subgroup", "file1.txt"));
+            }
+            catch
+            {
+                if (Directory.Exists(testPath))
+                    Directory.Delete(testPath);
+
+                throw;
+            }
+        }
+
+
+
+
 
 
 

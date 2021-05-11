@@ -156,7 +156,7 @@ namespace UserAccount.Plugin.Controllers
                     return "video/mp4";
 
                 case ".json":
-                    return "application/json";
+                    return Constants.ContentTypeApplicationJson;
 
                 case ".pdf":
                     return "application/pdf";

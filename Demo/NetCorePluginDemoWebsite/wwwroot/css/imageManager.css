@@ -73,3 +73,30 @@ color: white;
 background-color: deepskyblue;
 padding: 6px 2px 0px 4px;
 }
+.imageViewItem {
+display: block;
+}
+.imageViewBox {
+width: 100% !important;
+display: block;
+vertical-align: middle;
+max-width: 100%;
+overflow: auto;
+margin: 10px 0 0 0;
+}
+.viewImageItem {
+margin-top: auto;
+margin-bottom: auto;
+margin-left: auto;
+margin-right: auto;
+display: block;
+vertical-align: middle;
+max-width: 100%;
+overflow: auto;
+}
+.imageProperties {
+}
+.imageProperties span {
+font-weight: bold;
+margin: 0 10px 0 0;
+}

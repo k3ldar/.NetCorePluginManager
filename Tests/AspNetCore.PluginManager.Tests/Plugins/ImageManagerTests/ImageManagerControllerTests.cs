@@ -27,6 +27,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
+using System.Security.Claims;
 
 using AspNetCore.PluginManager.Tests.Controllers;
 using AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests.Mocks;
@@ -111,7 +112,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         public void Index_HasCorrectAttributes_Success()
         {
             string methodName = "Index";
-            Assert.IsTrue(MethodHasBreadcrumbAttribute(typeof(ImageManagerController), methodName, "AppImageManagement"));
+            Assert.IsFalse(MethodHasAttribute<BreadcrumbAttribute>(typeof(ImageManagerController), methodName));
             Assert.IsFalse(MethodHasAttribute<RouteAttribute>(typeof(ImageManagerController), methodName));
 
             Assert.IsTrue(MethodHasAttribute<HttpGetAttribute>(typeof(ImageManagerController), methodName));
@@ -129,7 +130,6 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
 
             IActionResult response = sut.Index();
 
-            // Assert
             Assert.IsInstanceOfType(response, typeof(ViewResult));
 
             ViewResult viewResult = response as ViewResult;
@@ -151,6 +151,40 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
             Assert.AreEqual(0, imagesViewModel.Groups["Group 2"].Count);
             Assert.AreEqual(1, imagesViewModel.ImageFiles.Count);
             Assert.AreEqual("myfile.gif", imagesViewModel.ImageFiles[0].Name);
+            Assert.AreEqual(1, imagesViewModel.Breadcrumbs.Count);
+            Assert.AreEqual("Image Manager", imagesViewModel.Breadcrumbs[0].Name);
+        }
+
+        [TestMethod]
+        [TestCategory(ImageManagerTestsCategory)]
+        public void Index_ReturnsCorrectModel_WithUserThatCanManageImages_Success()
+        {
+            ImageManagerController sut = CreateDynamicContentController(null, null, CreateDefaultMockImageProvider());
+            List<ClaimsIdentity> claimsIdentities = new List<ClaimsIdentity>();
+
+            List<Claim> webClaims = new List<Claim>();
+            webClaims.Add(new Claim(Constants.ClaimNameManageImages, "true"));
+
+            claimsIdentities.Add(new ClaimsIdentity(webClaims, Constants.ClaimIdentityWebsite));
+
+            sut.ControllerContext.HttpContext.User = new System.Security.Claims.ClaimsPrincipal(claimsIdentities);
+
+            IActionResult response = sut.Index();
+
+            Assert.IsInstanceOfType(response, typeof(ViewResult));
+
+            ViewResult viewResult = response as ViewResult;
+
+            Assert.IsNotNull(viewResult.Model);
+
+            ValidateBaseModel(viewResult);
+
+            Assert.AreEqual(null, viewResult.ViewName);
+            Assert.IsInstanceOfType(viewResult.Model, typeof(ImagesViewModel));
+
+            ImagesViewModel imagesViewModel = (ImagesViewModel)viewResult.Model;
+
+            Assert.IsTrue(imagesViewModel.CanManageImages);
         }
 
         [TestMethod]
@@ -224,7 +258,6 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
 
             IActionResult response = sut.ViewGroup("Group 1");
 
-            // Assert
             Assert.IsInstanceOfType(response, typeof(ViewResult));
 
             ViewResult viewResult = response as ViewResult;
@@ -247,6 +280,9 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
             Assert.IsTrue(imagesViewModel.Groups["Group 1"].Contains("Group 1 Subgroup 2"));
             Assert.AreEqual(1, imagesViewModel.ImageFiles.Count);
             Assert.AreEqual("myfile.gif", imagesViewModel.ImageFiles[0].Name);
+            Assert.AreEqual(2, imagesViewModel.Breadcrumbs.Count);
+            Assert.AreEqual("Image Manager", imagesViewModel.Breadcrumbs[0].Name);
+            Assert.AreEqual("Group 1", imagesViewModel.Breadcrumbs[1].Name);
         }
 
         [TestMethod]
@@ -368,7 +404,6 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
 
             IActionResult response = sut.ViewSubgroup("Group 1", "Group 1 Subgroup 1");
 
-            // Assert
             Assert.IsInstanceOfType(response, typeof(ViewResult));
 
             ViewResult viewResult = response as ViewResult;
@@ -391,6 +426,10 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
             Assert.IsTrue(imagesViewModel.Groups["Group 1"].Contains("Group 1 Subgroup 2"));
             Assert.AreEqual(1, imagesViewModel.ImageFiles.Count);
             Assert.AreEqual("myfile.gif", imagesViewModel.ImageFiles[0].Name);
+            Assert.AreEqual(3, imagesViewModel.Breadcrumbs.Count);
+            Assert.AreEqual("Image Manager", imagesViewModel.Breadcrumbs[0].Name);
+            Assert.AreEqual("Group 1", imagesViewModel.Breadcrumbs[1].Name);
+            Assert.AreEqual("Group 1 Subgroup 1", imagesViewModel.Breadcrumbs[2].Name);
         }
 
         [TestMethod]
@@ -478,9 +517,8 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         {
             ImageManagerController sut = CreateDynamicContentController(null, null, CreateDefaultMockImageProvider());
 
-            IActionResult response = sut.ViewImage("Group 1", "myfile.gif");
+            IActionResult response = sut.ViewImage("Group 1", "myfile-gif");
 
-            // Assert
             Assert.IsInstanceOfType(response, typeof(ViewResult));
 
             ViewResult viewResult = response as ViewResult;
@@ -503,6 +541,11 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
             Assert.IsTrue(imagesViewModel.Groups["Group 1"].Contains("Group 1 Subgroup 2"));
             Assert.AreEqual(1, imagesViewModel.ImageFiles.Count);
             Assert.AreEqual("myfile.gif", imagesViewModel.ImageFiles[0].Name);
+            Assert.AreEqual(3, imagesViewModel.Breadcrumbs.Count);
+            Assert.AreEqual("Image Manager", imagesViewModel.Breadcrumbs[0].Name);
+            Assert.AreEqual("Group 1", imagesViewModel.Breadcrumbs[1].Name);
+            //Assert.AreEqual("Group 1 Subgroup 1", imagesViewModel.Breadcrumbs[2].Name);
+            Assert.AreEqual("myfile.gif", imagesViewModel.Breadcrumbs[2].Name);
         }
 
         [TestMethod]
@@ -622,9 +665,8 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         {
             ImageManagerController sut = CreateDynamicContentController(null, null, CreateDefaultMockImageProvider());
 
-            IActionResult response = sut.ViewSubgroupImage("Group 1", "Group 1 Subgroup 1", "myfile.gif");
+            IActionResult response = sut.ViewSubgroupImage("Group 1", "Group 1 Subgroup 1", "myfile-gif");
 
-            // Assert
             Assert.IsInstanceOfType(response, typeof(ViewResult));
 
             ViewResult viewResult = response as ViewResult;
@@ -647,9 +689,255 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
             Assert.IsTrue(imagesViewModel.Groups["Group 1"].Contains("Group 1 Subgroup 2"));
             Assert.AreEqual(1, imagesViewModel.ImageFiles.Count);
             Assert.AreEqual("myfile.gif", imagesViewModel.ImageFiles[0].Name);
+            Assert.AreEqual(4, imagesViewModel.Breadcrumbs.Count);
+            Assert.AreEqual("Image Manager", imagesViewModel.Breadcrumbs[0].Name);
+            Assert.AreEqual("Group 1", imagesViewModel.Breadcrumbs[1].Name);
+            Assert.AreEqual("Group 1 Subgroup 1", imagesViewModel.Breadcrumbs[2].Name);
+            Assert.AreEqual("myfile.gif", imagesViewModel.Breadcrumbs[3].Name);
+        }
+
+        [TestMethod]
+        [TestCategory(ImageManagerTestsCategory)]
+        public void DeleteImage_HasCorrectAttributes_Success()
+        {
+            string methodName = "DeleteImage";
+            Assert.IsTrue(MethodHasAttribute<HttpPostAttribute>(typeof(ImageManagerController), methodName));
+            Assert.IsTrue(MethodHasAttribute<AjaxOnlyAttribute>(typeof(ImageManagerController), methodName));
+            Assert.IsTrue(MethodHasAuthorizeAttribute(typeof(ImageManagerController), methodName, "ImageManagerManage"));
+
+            Assert.IsFalse(MethodHasAttribute<BreadcrumbAttribute>(typeof(ImageManagerController), methodName));
+            Assert.IsFalse(MethodHasAttribute<RouteAttribute>(typeof(ImageManagerController), methodName));
+            Assert.IsFalse(MethodHasAttribute<HttpGetAttribute>(typeof(ImageManagerController), methodName));
+            Assert.IsFalse(MethodHasAttribute<HttpPutAttribute>(typeof(ImageManagerController), methodName));
+            Assert.IsFalse(MethodHasAttribute<HttpDeleteAttribute>(typeof(ImageManagerController), methodName));
+            Assert.IsFalse(MethodHasAttribute<HttpPatchAttribute>(typeof(ImageManagerController), methodName));
+        }
+
+        [TestMethod]
+        [TestCategory(ImageManagerTestsCategory)]
+        public void DeleteImage_InvalidParamModel_Null_NoGroupOrSubgroup_ReturnsCorrectInvalidResponse()
+        {
+            ImageManagerController sut = CreateDynamicContentController(null, null, CreateDefaultMockImageProvider());
+            IActionResult response = sut.DeleteImage(null);
+
+            ValidateJsonResult(response, "");
+        }
+
+        [TestMethod]
+        [TestCategory(ImageManagerTestsCategory)]
+        public void DeleteImage_InvalidModel_ConfirmDeleteFalse_NoGroupOrSubgroup_ReturnsCorrectInvalidResponse()
+        {
+            ImageManagerController sut = CreateDynamicContentController(null, null, CreateDefaultMockImageProvider());
+            IActionResult response = sut.DeleteImage(new DeleteImageModel());
+
+            ValidateJsonResult(response, "");
+        }
+
+        [TestMethod]
+        [TestCategory(ImageManagerTestsCategory)]
+        public void DeleteImage_InvalidModel_ImageName_Null_NoGroupOrSubgroup_ReturnsCorrectInvalidResponse()
+        {
+            ImageManagerController sut = CreateDynamicContentController(null, null, CreateDefaultMockImageProvider());
+            DeleteImageModel deleteImageModel = new DeleteImageModel()
+            {
+                ConfirmDelete = true
+            };
+            IActionResult response = sut.DeleteImage(deleteImageModel);
+
+            ValidateJsonResult(response, "Invalid ImageName");
+        }
+
+        [TestMethod]
+        [TestCategory(ImageManagerTestsCategory)]
+        public void DeleteImage_InvalidModel_ImageName_EmptyString_NoGroupOrSubgroup_ReturnsCorrectInvalidResponse()
+        {
+            ImageManagerController sut = CreateDynamicContentController(null, null, CreateDefaultMockImageProvider());
+            DeleteImageModel deleteImageModel = new DeleteImageModel()
+            {
+                ConfirmDelete = true,
+                ImageName = ""
+            };
+            IActionResult response = sut.DeleteImage(deleteImageModel);
+
+            ValidateJsonResult(response, "Invalid ImageName");
+        }
+
+        [TestMethod]
+        [TestCategory(ImageManagerTestsCategory)]
+        public void DeleteImage_InvalidModel_GroupName_Null_ReturnsCorrectInvalidResponse()
+        {
+            ImageManagerController sut = CreateDynamicContentController(null, null, CreateDefaultMockImageProvider());
+            DeleteImageModel deleteImageModel = new DeleteImageModel()
+            {
+                ConfirmDelete = true,
+                GroupName = null,
+                ImageName = "invalidimage.jpeg"
+            };
+            IActionResult response = sut.DeleteImage(deleteImageModel);
+
+            ValidateJsonResult(response, "Invalid GroupName");
+        }
+
+        [TestMethod]
+        [TestCategory(ImageManagerTestsCategory)]
+        public void DeleteImage_InvalidModel_GroupName_EmptyString_ReturnsCorrectInvalidResponse()
+        {
+            ImageManagerController sut = CreateDynamicContentController(null, null, CreateDefaultMockImageProvider());
+            DeleteImageModel deleteImageModel = new DeleteImageModel()
+            {
+                ConfirmDelete = true,
+                GroupName = "",
+                ImageName = "invalidimage.jpeg"
+            };
+            IActionResult response = sut.DeleteImage(deleteImageModel);
+
+            ValidateJsonResult(response, "Invalid GroupName");
+        }
+
+        [TestMethod]
+        [TestCategory(ImageManagerTestsCategory)]
+        public void DeleteImage_InvalidModel_GroupName_DoesNotExist_ReturnsCorrectInvalidResponse()
+        {
+            ImageManagerController sut = CreateDynamicContentController(null, null, CreateDefaultMockImageProvider());
+            DeleteImageModel deleteImageModel = new DeleteImageModel()
+            {
+                ConfirmDelete = true,
+                GroupName = "FictionalGroup",
+                ImageName = "invalidimage.jpeg"
+            };
+            IActionResult response = sut.DeleteImage(deleteImageModel);
+
+            ValidateJsonResult(response, "Invalid GroupName");
+        }
+
+        [TestMethod]
+        [TestCategory(ImageManagerTestsCategory)]
+        public void DeleteImage_InvalidModel_ImageNotFound_ReturnsCorrectInvalidResponse()
+        {
+            ImageManagerController sut = CreateDynamicContentController(null, null, CreateDefaultMockImageProvider());
+            DeleteImageModel deleteImageModel = new DeleteImageModel()
+            {
+                ConfirmDelete = true,
+                GroupName = "Group 1",
+                ImageName = "invalidimage.jpeg"
+            };
+            IActionResult response = sut.DeleteImage(deleteImageModel);
+
+            ValidateJsonResult(response, "Invalid ImageName");
+        }
+
+        [TestMethod]
+        [TestCategory(ImageManagerTestsCategory)]
+        public void DeleteImage_InvalidModel_SubgroupNoGroup_ReturnsCorrectInvalidResponse()
+        {
+            ImageManagerController sut = CreateDynamicContentController(null, null, CreateDefaultMockImageProvider());
+            DeleteImageModel deleteImageModel = new DeleteImageModel()
+            {
+                ConfirmDelete = true,
+                SubgroupName = "Group 1",
+                ImageName = "invalidimage.jpeg"
+            };
+
+            IActionResult response = sut.DeleteImage(deleteImageModel);
+
+            ValidateJsonResult(response, "Invalid GroupName");
+        }
+
+        [TestMethod]
+        [TestCategory(ImageManagerTestsCategory)]
+        public void DeleteImage_ValidModel_WithoutSubgroup_ReturnsCorrectValidResponse()
+        {
+            MockImageProvider mockImageProvider = CreateDefaultMockImageProvider();
+            ImageManagerController sut = CreateDynamicContentController(null, null, mockImageProvider);
+            DeleteImageModel deleteImageModel = new DeleteImageModel()
+            {
+                ConfirmDelete = true,
+                GroupName = "Group 1",
+                ImageName = "myfile.gif"
+            };
+            IActionResult response = sut.DeleteImage(deleteImageModel);
+            Assert.IsTrue(mockImageProvider.DeletedImageList.Contains("myfile.gif"));
+            ValidateJsonResult(response, "", 200, "application/json", true);
+        }
+
+        [TestMethod]
+        [TestCategory(ImageManagerTestsCategory)]
+        public void DeleteImage_ValidModel_WithNonExistantSubgroup_ReturnsCorrectInvalidResponse()
+        {
+            MockImageProvider mockImageProvider = CreateDefaultMockImageProvider();
+            ImageManagerController sut = CreateDynamicContentController(null, null, mockImageProvider);
+            DeleteImageModel deleteImageModel = new DeleteImageModel()
+            {
+                ConfirmDelete = true,
+                GroupName = "Group 1",
+                SubgroupName = "Sub group",
+                ImageName = "myfile.gif"
+            };
+            IActionResult response = sut.DeleteImage(deleteImageModel);
+            Assert.IsFalse(mockImageProvider.DeletedImageList.Contains("myfile.gif"));
+            ValidateJsonResult(response, "Invalid SubgroupName", 400);
+        }
+
+        [TestMethod]
+        [TestCategory(ImageManagerTestsCategory)]
+        public void DeleteImage_ValidModel_WithSubgroup_ReturnsCorrectValidResponse()
+        {
+            MockImageProvider mockImageProvider = CreateDefaultMockImageProvider();
+            ImageManagerController sut = CreateDynamicContentController(null, null, mockImageProvider);
+            DeleteImageModel deleteImageModel = new DeleteImageModel()
+            {
+                ConfirmDelete = true,
+                GroupName = "Group 1",
+                SubgroupName = "Group 1 Subgroup 1",
+                ImageName = "myfile.gif"
+            };
+            IActionResult response = sut.DeleteImage(deleteImageModel);
+            Assert.IsTrue(mockImageProvider.DeletedImageList.Contains("myfile.gif"));
+            ValidateJsonResult(response, "", 200, "application/json", true);
+        }
+
+        [TestMethod]
+        [TestCategory(ImageManagerTestsCategory)]
+        public void DeleteImage_ValidModel_WithoutSubgroup_ImageNotDeleted_ReturnsCorrectInvalidResponse()
+        {
+            MockImageProvider mockImageProvider = CreateDefaultMockImageProvider();
+            mockImageProvider.CanDeleteImages = false;
+
+            ImageManagerController sut = CreateDynamicContentController(null, null, mockImageProvider);
+            DeleteImageModel deleteImageModel = new DeleteImageModel()
+            {
+                ConfirmDelete = true,
+                GroupName = "Group 1",
+                ImageName = "myfile-gif"
+            };
+            IActionResult response = sut.DeleteImage(deleteImageModel);
+            Assert.IsFalse(mockImageProvider.DeletedImageList.Contains("myfile.gif"));
+            ValidateJsonResult(response, "Unable to delete image", 400);
         }
 
         #region Private Methods
+
+        private void ValidateJsonResult(IActionResult response, 
+            string expectedData,
+            int expectedStatusCode = 400, 
+            string expectedContentType = "application/json",
+            bool successResponse = false)
+        {
+            Assert.IsInstanceOfType(response, typeof(JsonResult));
+
+            JsonResult jsonResult = response as JsonResult;
+
+            Assert.IsNotNull(jsonResult);
+            Assert.AreEqual(expectedStatusCode, jsonResult.StatusCode);
+            Assert.AreEqual(expectedContentType, jsonResult.ContentType);
+            Assert.IsNotNull(jsonResult.Value);
+            Assert.IsInstanceOfType(jsonResult.Value, typeof(JsonResponseModel));
+
+            JsonResponseModel jsonResponseModel = jsonResult.Value as JsonResponseModel;
+            Assert.IsNotNull(jsonResponseModel);
+            Assert.AreEqual(successResponse, jsonResponseModel.Success);
+            Assert.AreEqual(expectedData, jsonResponseModel.Data);
+        }
 
         private MockImageProvider CreateDefaultMockImageProvider()
         {
@@ -666,7 +954,6 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
             {
                 { new ImageFile(new Uri("/", UriKind.RelativeOrAbsolute), "myfile.gif", ".gif", 23, DateTime.Now, DateTime.Now) }
             };
-
 
             return new MockImageProvider(groups, images);
         }

@@ -26,6 +26,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.IO;
 using System.Security.Claims;
 
 using Microsoft.AspNetCore.Authentication;
@@ -82,7 +83,15 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
             webClaims.Add(new Claim(Constants.ClaimNameAdministrator, "true"));
             webClaims.Add(new Claim(Constants.ClaimNameStaff, "true"));
             webClaims.Add(new Claim(Constants.ClaimNameManageSeo, "true"));
-            webClaims.Add(new Claim(Constants.ClaimNameManageImages, "true"));
+            webClaims.Add(new Claim(Constants.ClaimNameViewImageManager, "true"));
+
+            // Only enable imagemanager if the file exists to prevent malicious use
+            // when deployed live as a demo site
+            if (File.Exists("t:\\testimages.tst"))
+            {
+                webClaims.Add(new Claim(Constants.ClaimNameManageImages, "true"));
+            }
+
             Result.Add(new ClaimsIdentity(webClaims, Constants.ClaimIdentityWebsite));
 
 

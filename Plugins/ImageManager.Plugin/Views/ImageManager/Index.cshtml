@@ -14,7 +14,10 @@
         <nav style="margin: 0 5px 0 5px;">
             <div class="nav nav-tabs" id="nav-tab" role="tablist">
                 <a class="nav-item nav-link active" id="nav-images-tab" data-toggle="tab" href="#nav-images" role="tab" aria-controls="nav-images" aria-selected="true">@Localizer[nameof(Languages.LanguageStrings.Images)]</a>
-                <a class="nav-item nav-link" id="nav-settings-tab" data-toggle="tab" href="#nav-settings" role="tab" aria-controls="nav-settings" aria-selected="false">@Localizer[nameof(Languages.LanguageStrings.Settings)]</a>
+                @if (Model.CanManageImages)
+                {
+                    <a class="nav-item nav-link" id="nav-settings-tab" data-toggle="tab" href="#nav-settings" role="tab" aria-controls="nav-settings" aria-selected="false">@Localizer[nameof(Languages.LanguageStrings.AppImageManagement)]</a>
+                }
             </div>
         </nav>
         <div class="tab-content" id="nav-tabContent" style="margin: 5px;">
@@ -24,14 +27,15 @@
                         @foreach (var item in Model.ImageFiles)
                         {
                             string imagePath = null;
+                            string imageName = SharedPluginFeatures.BaseModel.RouteFriendlyName(item.Name);
 
                             if (String.IsNullOrEmpty(Model.SelectedSubgroupName))
                             {
-                                imagePath = $"/ImageManager/ViewImage/{Model.SelectedGroupName}/{item.Name}";
+                                imagePath = $"/ImageManager/ViewImage/{Model.SelectedGroupName}/{imageName}/";
                             }
                             else
                             {
-                                imagePath = $"/ImageManager/ViewSubgroupImage/{Model.SelectedGroupName}/{Model.SelectedSubgroupName}/{item.Name}";
+                                imagePath = $"/ImageManager/ViewSubgroupImage/{Model.SelectedGroupName}/{Model.SelectedSubgroupName}/{imageName}";
                             }
 
                             <li class="imageItem">
@@ -47,8 +51,11 @@
                     </ul>
                 </div>
             </div>
-            <div class="tab-pane fade" id="nav-settings" role="tabpanel" aria-labelledby="nav-settings-tab">
-            </div>
+            @if (Model.CanManageImages)
+            {
+                <div class="tab-pane fade" id="nav-settings" role="tabpanel" aria-labelledby="nav-settings-tab">
+                </div>
+            }
         </div>
     </div>
 </div>
