@@ -42,7 +42,10 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
     [ExcludeFromCodeCoverage]
     public class ImageManagerSystemMenuMenuTests
     {
+        private const string ImageManagerTestsCategory = "Image Manager Tests";
+
         [TestMethod]
+        [TestCategory(ImageManagerTestsCategory)]
         public void Validate_MenuSettings_Success()
         {
             ImageManagerSystemAdminMenu sut = new ImageManagerSystemAdminMenu();

@@ -26,6 +26,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.IO;
 using System.Linq;
 
 using Middleware.Images;
@@ -39,12 +40,14 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests.Mocks
         private readonly Dictionary<string, List<string>> _groups;
         private readonly List<ImageFile> _imageFiles;
         private readonly List<string> _deletedImageNames;
+        private readonly List<string> _temporaryFileNames;
 
         public MockImageProvider()
         {
             _groups = new Dictionary<string, List<string>>();
             _imageFiles = new List<ImageFile>();
             _deletedImageNames = new List<string>();
+            _temporaryFileNames = new List<string>();
             CanDeleteImages = true;
         }
 
@@ -53,6 +56,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests.Mocks
             _groups = groups ?? throw new ArgumentNullException(nameof(groups));
             _imageFiles = images ?? throw new ArgumentNullException(nameof(groups));
             _deletedImageNames = new List<string>();
+            _temporaryFileNames = new List<string>();
             CanDeleteImages = true;
         }
 
@@ -135,7 +139,17 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests.Mocks
             return _groups[groupName].Contains(subGroupName);
         }
 
+        public string TemporaryImageFile()
+        {
+            string tempFile = Path.GetTempFileName();
+            _temporaryFileNames.Add(tempFile);
+
+            return tempFile;
+        }
+
         public List<string> DeletedImageList => _deletedImageNames;
+
+        public List<string> TemporaryFiles => _temporaryFileNames;
 
         public bool CanDeleteImages { get; set; }
     }

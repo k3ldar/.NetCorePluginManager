@@ -14213,4 +14213,8 @@ You will shortly receive an email with the details of your order.</comment>
     <value>An error occurred deleting the item.</value>
     <comment>An error occurred deleting the item.</comment>
   </data>
+  <data name="InvalidData" xml:space="preserve">
+    <value>The data provided was invalid</value>
+    <comment>The data provided was invalid</comment>
+  </data>
 </root>

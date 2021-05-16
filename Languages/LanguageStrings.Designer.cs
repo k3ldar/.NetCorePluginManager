@@ -23993,6 +23993,15 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The data provided was invalid.
+        /// </summary>
+        public static string InvalidData {
+            get {
+                return ResourceManager.GetString("InvalidData", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Invalid Date of Birth, you must use the format dd/mm/yyyy.
         /// </summary>
         public static string InvalidDateOfBirth {

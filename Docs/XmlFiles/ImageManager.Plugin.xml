@@ -133,6 +133,12 @@
             <exception cref="T:System.ArgumentNullException">Thrown if subgroupName is null or an empty string.</exception>
             <exception cref="T:System.ArgumentNullException">Thrown if imageName is null or an empty string.</exception>
         </member>
+        <member name="M:ImageManager.Plugin.Classes.DefaultImageProvider.TemporaryImageFile">
+            <summary>
+            Retreives the name of a file which can be used for temporary storage of image files
+            </summary>
+            <returns>string</returns>
+        </member>
         <member name="T:ImageManager.Plugin.Classes.ImageManagerSettings">
             <summary>
             Settings for controlling image manager
@@ -172,6 +178,26 @@
             Check box confirming the item can be deleted
             </summary>
             <value>bool</value>
+        </member>
+        <member name="T:ImageManager.Plugin.Models.ImageProcessViewModel">
+            <summary>
+            View model for processing uploaded images
+            </summary>
+        </member>
+        <member name="M:ImageManager.Plugin.Models.ImageProcessViewModel.#ctor(SharedPluginFeatures.BaseModelData,System.String)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="modelData"><see cref="T:SharedPluginFeatures.BaseModelData"/> instance.</param>
+            <param name="fileUploadId">Unique id of file upload session.</param>
+            <exception cref="T:System.ArgumentNullException">Thrown if modelData is null or invalid.</exception>
+            <exception cref="T:System.ArgumentNullException">Thrown if fileUploadId is null or empty.</exception>
+        </member>
+        <member name="P:ImageManager.Plugin.Models.ImageProcessViewModel.FileUploadId">
+            <summary>
+            Unique file upload id
+            </summary>
+            <value>string</value>
         </member>
         <member name="T:ImageManager.Plugin.Models.ImagesViewModel">
             <summary>
@@ -228,6 +254,51 @@
             <summary>
             Determines whether images can be managed by the current user
             </summary>
+        </member>
+        <member name="T:ImageManager.Plugin.Models.UploadImageModel">
+            <summary>
+            View model for uploading images
+            </summary>
+        </member>
+        <member name="M:ImageManager.Plugin.Models.UploadImageModel.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="M:ImageManager.Plugin.Models.UploadImageModel.#ctor(SharedPluginFeatures.BaseModelData)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="modelData">Valid BaseModelData instance</param>
+            <exception cref="T:System.ArgumentNullException">Thrown if modelData is null</exception>
+        </member>
+        <member name="M:ImageManager.Plugin.Models.UploadImageModel.#ctor(SharedPluginFeatures.BaseModelData,System.String,System.String)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="modelData">Valid BaseModelData instance</param>
+            <param name="groupName">Name of group for uploaded images</param>
+            <param name="subgroupName">Name of subgroup for uploaded images</param>
+            <exception cref="T:System.ArgumentNullException">Thrown if modelData is null</exception>
+            <exception cref="T:System.ArgumentNullException">Thrown if groupName is null or empty</exception>
+        </member>
+        <member name="P:ImageManager.Plugin.Models.UploadImageModel.Files">
+            <summary>
+            List of files to be uploaded
+            </summary>
+            <value>List&lt;IFormFile&gt;</value>
+        </member>
+        <member name="P:ImageManager.Plugin.Models.UploadImageModel.GroupName">
+            <summary>
+            Name of group where image is being uploaded to
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:ImageManager.Plugin.Models.UploadImageModel.SubgroupName">
+            <summary>
+            Name of subgroup where image is being uploaded to
+            </summary>
+            <value>string</value>
         </member>
         <member name="T:ImageManager.Plugin.PluginInitialisation">
             <summary>

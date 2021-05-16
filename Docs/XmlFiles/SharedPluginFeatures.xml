@@ -1067,6 +1067,46 @@
             </summary>
             <value>bool</value>
         </member>
+        <member name="T:SharedPluginFeatures.CachedImageUpload">
+            <summary>
+            Cached image upload data
+            </summary>
+        </member>
+        <member name="M:SharedPluginFeatures.CachedImageUpload.#ctor(System.String,System.String)">
+            <summary>
+            Constructor
+            </summary>
+            <exception cref="T:System.ArgumentNullException">Thrown if groupName is null or empty.</exception>
+        </member>
+        <member name="M:SharedPluginFeatures.CachedImageUpload.#ctor(System.String)">
+            <summary>
+            Constructor
+            </summary>
+            <exception cref="T:System.ArgumentNullException">Thrown if groupName is null or empty.</exception>
+        </member>
+        <member name="P:SharedPluginFeatures.CachedImageUpload.Files">
+            <summary>
+            List of files that have been uploaded
+            </summary>
+            <value>List&lt;string&gt;</value>
+        </member>
+        <member name="P:SharedPluginFeatures.CachedImageUpload.GroupName">
+            <summary>
+            Name of group images are being uploaded to
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:SharedPluginFeatures.CachedImageUpload.SubgroupName">
+            <summary>
+            Name of subgroup images are being uploaded to
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:SharedPluginFeatures.CachedImageUpload.MemoryCacheName">
+            <summary>
+            Name of memory cache item for uploaded images
+            </summary>
+        </member>
         <member name="T:SharedPluginFeatures.CaptchaImage">
             <summary>
             Generates an image that can be used when confirming that form entry is from a human and not a computer.
@@ -2145,6 +2185,11 @@
             Notification event name for obtaining GeoIp record count.
             </summary>
         </member>
+        <member name="F:SharedPluginFeatures.Constants.NotificationEventImageUploaded">
+            <summary>
+            Notification event name for uploading an image.
+            </summary>
+        </member>
         <member name="F:SharedPluginFeatures.Constants.NotificationSitemapNames">
             <summary>
             Name of sitemap listener
@@ -2403,6 +2448,11 @@
         <member name="F:SharedPluginFeatures.Constants.FileExtensionDat">
             <summary>
             .dat file extension
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Constants.FileExtensionTmp">
+            <summary>
+            .tmp file extension
             </summary>
         </member>
         <member name="F:SharedPluginFeatures.Constants.ContentTypeApplicationJson">

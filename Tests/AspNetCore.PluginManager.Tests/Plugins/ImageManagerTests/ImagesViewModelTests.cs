@@ -44,7 +44,10 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
     [ExcludeFromCodeCoverage]
     public class ImagesViewModelTests : GenericBaseClass
     {
+        private const string ImageManagerTestsCategory = "Image Manager Tests";
+
         [TestMethod]
+        [TestCategory(ImageManagerTestsCategory)]
         public void Construct_ValidInstanceUsingDefaultConstructor_Success()
         {
             ImagesViewModel sut = new ImagesViewModel();
@@ -53,6 +56,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         }
 
         [TestMethod]
+        [TestCategory(ImageManagerTestsCategory)]
         [ExpectedException(typeof(ArgumentNullException))]
         public void Construct_InvalidParamBaseModelData_Null_Throws_ArgumentNullException()
         {
@@ -60,6 +64,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         }
 
         [TestMethod]
+        [TestCategory(ImageManagerTestsCategory)]
         [ExpectedException(typeof(ArgumentNullException))]
         public void Construct_InvalidParamGroupName_Null_Throws_ArgumentNullException()
         {
@@ -67,6 +72,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         }
 
         [TestMethod]
+        [TestCategory(ImageManagerTestsCategory)]
         [ExpectedException(typeof(ArgumentNullException))]
         public void Construct_InvalidParamSubgroupName_Null_Throws_ArgumentNullException()
         {
@@ -74,6 +80,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         }
 
         [TestMethod]
+        [TestCategory(ImageManagerTestsCategory)]
         [ExpectedException(typeof(ArgumentNullException))]
         public void Construct_InvalidParamGroups_Null_Throws_ArgumentNullException()
         {
@@ -81,6 +88,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         }
 
         [TestMethod]
+        [TestCategory(ImageManagerTestsCategory)]
         [ExpectedException(typeof(ArgumentNullException))]
         public void Construct_InvalidParamImageFiles_Null_Throws_ArgumentNullException()
         {
@@ -88,6 +96,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         }
 
         [TestMethod]
+        [TestCategory(ImageManagerTestsCategory)]
         public void Construct_ValidInstanceEmptyGroupName_Success()
         {
             ImagesViewModel sut = new ImagesViewModel(GenerateTestBaseModelData(), false, "", String.Empty, null, new Dictionary<string, List<string>>(), new List<ImageFile>());
@@ -97,6 +106,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         }
 
         [TestMethod]
+        [TestCategory(ImageManagerTestsCategory)]
         public void Construct_ValidInstance_WithoutImage_Success()
         {
             Dictionary<string, List<string>> groups = new Dictionary<string, List<string>>()
@@ -125,6 +135,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         }
 
         [TestMethod]
+        [TestCategory(ImageManagerTestsCategory)]
         public void Construct_ValidInstance_WithImageAndImageManagement_Success()
         {
             Dictionary<string, List<string>> groups = new Dictionary<string, List<string>>()
@@ -161,6 +172,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         }
 
         [TestMethod]
+        [TestCategory(ImageManagerTestsCategory)]
         public void Construct_ValidInstance_WithImageAndWithoutImageManagement_Success()
         {
             Dictionary<string, List<string>> groups = new Dictionary<string, List<string>>()

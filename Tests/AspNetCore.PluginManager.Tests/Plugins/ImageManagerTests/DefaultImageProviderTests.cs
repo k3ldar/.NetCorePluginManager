@@ -1328,14 +1328,33 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
             }
         }
 
+        [TestMethod]
+        [TestCategory(ImageManagerTestsCategory)]
+        public void TemporaryImageFile_RetrieveTemporaryImageFileName_Success()
+        {
+            DateTime fileCreated = DateTime.UtcNow;
 
+            string testPath = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            try
+            {
+                string newGroupPath = Path.Combine(testPath, "TempImages");
 
+                DefaultImageProvider sut = CreateDefaultImageProvider(testPath);
 
+                string tempFile = sut.TemporaryImageFile();
 
-
-
-
-
+                Assert.IsTrue(File.Exists(tempFile));
+                FileInfo fileInfo = new FileInfo(tempFile);
+                Assert.IsNotNull(fileInfo);
+                Assert.AreEqual(0, fileInfo.Length);
+                Assert.IsTrue(fileInfo.CreationTimeUtc > fileCreated);
+            }
+            finally
+            {
+                if (Directory.Exists(testPath))
+                    Directory.Delete(testPath, true);
+            }
+        }
 
         private DefaultImageProvider CreateDefaultImageProvider(string imagePath = "")
         {

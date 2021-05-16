@@ -3153,6 +3153,12 @@
             <exception cref="T:System.ArgumentNullException">Thrown if groupName is null or an empty string.</exception>
             <exception cref="T:System.ArgumentNullException">Thrown if subgroupName is null or an empty string.</exception>
         </member>
+        <member name="M:Middleware.Interfaces.IImageProvider.TemporaryImageFile">
+            <summary>
+            Retreives the name of a file which can be used for temporary storage of image files
+            </summary>
+            <returns>string</returns>
+        </member>
         <member name="T:Middleware.ILicenceProvider">
             <summary>
             Licence provider for managing user licences.

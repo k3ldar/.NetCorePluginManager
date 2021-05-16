@@ -15,46 +15,59 @@
  *
  *  Product:  AspNetCore.PluginManager.Tests
  *  
- *  File: DeleteImageModelTests.cs
+ *  File: ImageProcessViewModelTests.cs
  *
- *  Purpose:  Unit tests for delete image view model
+ *  Purpose:  Unit tests for ImageProcessViewModel
  *
  *  Date        Name                Reason
- *  03/05/2021  Simon Carter        Initially Created
+ *  14/05/2021  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+using System;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+using AspNetCore.PluginManager.Tests.Shared;
 
 using ImageManager.Plugin.Models;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
+using Middleware.Images;
 
 namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
 {
     [TestClass]
     [ExcludeFromCodeCoverage]
-    public class DeleteImageModelTests
+    public class ImageProcessViewModelTests : GenericBaseClass
     {
         private const string ImageManagerTestsCategory = "Image Manager Tests";
 
         [TestMethod]
         [TestCategory(ImageManagerTestsCategory)]
-        public void Construct_ValidInstance_ValidatePropertiesAreReadWrite_Success()
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void Construct_InvalidParam_BaseModelData_Null_Throws_ArgumentNullException()
         {
-            DeleteImageModel sut = new DeleteImageModel()
-            {
-                ImageName = "myimage-gif",
-                GroupName = "My Group",
-                SubgroupName = "My Subgroup",
-                ConfirmDelete = true
-            };
+            ImageProcessViewModel sut = new ImageProcessViewModel(null, "a string");
+        }
 
-            Assert.IsNotNull(sut);
-            Assert.AreEqual("myimage-gif", sut.ImageName);
-            Assert.AreEqual("My Group", sut.GroupName);
-            Assert.AreEqual("My Subgroup", sut.SubgroupName);
-            Assert.IsTrue(sut.ConfirmDelete);
+        [TestMethod]
+        [TestCategory(ImageManagerTestsCategory)]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void Construct_InvalidParam_FileUploadId_Null_Throws_ArgumentNullException()
+        {
+            ImageProcessViewModel sut = new ImageProcessViewModel(GenerateTestBaseModelData(), null);
+        }
+
+        [TestMethod]
+        [TestCategory(ImageManagerTestsCategory)]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void Construct_InvalidParam_FileUploadId_EmptyString_Throws_ArgumentNullException()
+        {
+            ImageProcessViewModel sut = new ImageProcessViewModel(GenerateTestBaseModelData(), "");
         }
     }
 }

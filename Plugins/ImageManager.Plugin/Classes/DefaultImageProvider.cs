@@ -47,6 +47,7 @@ namespace ImageManager.Plugin.Classes
     {
         #region Private Members
 
+        private const string TempPathName = "Temp";
         private readonly string _rootPath;
 
         #endregion Private Members
@@ -392,6 +393,31 @@ namespace ImageManager.Plugin.Classes
             File.Delete(fileName);
 
             return !File.Exists(fileName);
+        }
+
+        /// <summary>
+        /// Retreives the name of a file which can be used for temporary storage of image files
+        /// </summary>
+        /// <returns>string</returns>
+        public string TemporaryImageFile()
+        {
+            string path = Path.Combine(_rootPath, TempPathName);
+
+            if (!Directory.Exists(path))
+                Directory.CreateDirectory(path);
+
+            string Result;
+
+            do
+            {
+                Result = Path.Combine(path, Path.GetRandomFileName());
+                Path.ChangeExtension(Result, Constants.FileExtensionTmp);
+            }
+            while (File.Exists(Result));
+
+            File.Create(Result).Dispose();
+
+            return Result;
         }
 
         #endregion IImageProvider Methods

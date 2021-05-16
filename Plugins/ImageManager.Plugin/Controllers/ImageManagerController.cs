@@ -23,6 +23,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -32,12 +33,15 @@ using ImageManager.Plugin.Models;
 using Languages;
 
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 using Middleware.Images;
 using Middleware.Interfaces;
 
 using PluginManager.Abstractions;
+
+using Shared.Classes;
 
 using SharedPluginFeatures;
 
@@ -65,15 +69,22 @@ namespace ImageManager.Plugin.Controllers
 
         private readonly ISettingsProvider _settingsProvider;
         private readonly IImageProvider _imageProvider;
+        private readonly INotificationService _notificationService;
+        private readonly IMemoryCache _memoryCache;
 
         #endregion Private Members
 
         #region Constructors
 
-        public ImageManagerController(ISettingsProvider settingsProvider, IImageProvider imageProvider)
+        public ImageManagerController(ISettingsProvider settingsProvider,
+            IImageProvider imageProvider,
+            INotificationService notificationService,
+            IMemoryCache memoryCache)
         {
             _settingsProvider = settingsProvider ?? throw new ArgumentNullException(nameof(settingsProvider));
             _imageProvider = imageProvider ?? throw new ArgumentNullException(nameof(imageProvider));
+            _notificationService = notificationService ?? throw new ArgumentNullException(nameof(notificationService));
+            _memoryCache = memoryCache ?? throw new ArgumentNullException(nameof(memoryCache));
         }
 
         #endregion Constructors
@@ -156,43 +167,20 @@ namespace ImageManager.Plugin.Controllers
         [HttpPost]
         [AjaxOnly]
         [Authorize(Policy = Constants.PolicyNameImageManagerManage)]
-        public IActionResult DeleteImage([FromBody]DeleteImageModel model)
+        public IActionResult DeleteImage([FromBody] DeleteImageModel model)
         {
-            if (model == null)
-                return GenerateJsonErrorResponse(Constants.HtmlResponseBadRequest);
+            if (!ValidModel(model, out JsonResult response))
+                return response;
 
-            if (!model.ConfirmDelete)
-                return GenerateJsonErrorResponse(Constants.HtmlResponseBadRequest);
+            if (!ValidateImageExists(model, out response))
+                return response;
 
-            if (String.IsNullOrEmpty(model.ImageName))
-                return GenerateJsonErrorResponse(Constants.HtmlResponseBadRequest, ErrorInvalidImageName);
-
-            if (String.IsNullOrEmpty(model.GroupName) || !_imageProvider.GroupExists(model.GroupName))
-                return GenerateJsonErrorResponse(Constants.HtmlResponseBadRequest, ErrorInvalidGroupName);
-
-            if (!String.IsNullOrEmpty(model.SubgroupName) && !_imageProvider.SubgroupExists(model.GroupName, model.SubgroupName))
-                return GenerateJsonErrorResponse(Constants.HtmlResponseBadRequest, ErrorInvalidSubgroupName);
-
-            bool imageExists;
-            model.ImageName = ReplaceLastDash(model.ImageName);
-
-            if (String.IsNullOrEmpty(model.SubgroupName))
-            {
-                imageExists = _imageProvider.ImageExists(model.GroupName, model.ImageName);
-            }
-            else 
-            {
-                imageExists = _imageProvider.ImageExists(model.GroupName, model.SubgroupName, model.ImageName);
-            }
-
-            if (!imageExists)
-                return GenerateJsonErrorResponse(Constants.HtmlResponseBadRequest, ErrorInvalidImageName);
 
             bool imageDeleted;
 
             if (String.IsNullOrEmpty(model.SubgroupName))
                 imageDeleted = _imageProvider.ImageDelete(model.GroupName, model.ImageName);
-            else 
+            else
                 imageDeleted = _imageProvider.ImageDelete(model.GroupName, model.SubgroupName, model.ImageName);
 
             if (imageDeleted)
@@ -201,9 +189,134 @@ namespace ImageManager.Plugin.Controllers
                 return GenerateJsonErrorResponse(Constants.HtmlResponseBadRequest, ErrorUnableToDeleteImage);
         }
 
+        [HttpPost]
+        [Authorize(Policy = Constants.PolicyNameImageManagerManage)]
+        [ValidateAntiForgeryToken]
+        public IActionResult UploadImage(UploadImageModel model)
+        {
+            if (model == null || model.Files == null || model.Files.Count == 0)
+                ModelState.AddModelError("", LanguageStrings.InvalidData);
+
+            if (ModelState.IsValid && String.IsNullOrEmpty(model.GroupName))
+                ModelState.AddModelError(nameof(model.GroupName), LanguageStrings.InvalidData);
+
+            if (ModelState.IsValid)
+            {
+                CachedImageUpload cachedImageUpload = new CachedImageUpload(model.GroupName, model.SubgroupName);
+
+                foreach (IFormFile formFile in model.Files)
+                {
+                    if (formFile.Length > 0)
+                    {
+                        string filePath = _imageProvider.TemporaryImageFile();
+
+                        using (FileStream stream = System.IO.File.Create(filePath))
+                        {
+                            formFile.CopyTo(stream);
+                            cachedImageUpload.Files.Add(filePath);
+                        }
+                    }
+                }
+
+                cachedImageUpload.MemoryCacheName = GetCacheId();
+
+                _memoryCache.GetCache().Add(cachedImageUpload.MemoryCacheName,
+                    new CacheItem(cachedImageUpload.MemoryCacheName, cachedImageUpload));
+
+                return View("/Views/ImageManager/ProcessImage.cshtml", new ImageProcessViewModel(GetModelData(), cachedImageUpload.MemoryCacheName));
+            }
+
+            return View("/Views/ImageManager/ImageUpload.cshtml", new UploadImageModel(GetModelData()));
+        }
+
+        [HttpPost]
+        [Authorize(Policy = Constants.PolicyNameImageManagerManage)]
+        [AjaxOnly]
+        public IActionResult ProcessImage(ImageProcessViewModel model)
+        {
+            if (model == null)
+                return GenerateJsonErrorResponse(Constants.HtmlResponseBadRequest);
+
+            CacheItem uploadCache = _memoryCache.GetCache().Get(model.FileUploadId);
+
+            if (uploadCache == null)
+                return GenerateJsonErrorResponse(Constants.HtmlResponseBadRequest);
+
+            CachedImageUpload cachedImageUpload = uploadCache.Value as CachedImageUpload;
+
+            if (cachedImageUpload == null)
+                return GenerateJsonErrorResponse(Constants.HtmlResponseBadRequest);
+
+            object redirectViewName = null;
+
+            if (_notificationService.RaiseEvent(Constants.NotificationEventImageUploaded, cachedImageUpload, null, ref redirectViewName))
+            {
+
+            }
+
+            throw new NotImplementedException();
+        }
+
         #endregion Public Action Methods
 
         #region Private Methods
+
+        private string GetCacheId()
+        {
+            string Result;
+
+            do
+            {
+                Result = $"ImageManager - {DateTime.UtcNow.Ticks.ToString("X")}";
+            }
+            while (_memoryCache.GetCache().Get(Result) != null);
+
+            return Result;
+        }
+
+        private bool ValidateImageExists(DeleteImageModel model, out JsonResult invalidResponse)
+        {
+            bool imageExists;
+            model.ImageName = ReplaceLastDash(model.ImageName);
+
+            if (String.IsNullOrEmpty(model.SubgroupName))
+            {
+                imageExists = _imageProvider.ImageExists(model.GroupName, model.ImageName);
+            }
+            else
+            {
+                imageExists = _imageProvider.ImageExists(model.GroupName, model.SubgroupName, model.ImageName);
+            }
+
+            if (!imageExists)
+                invalidResponse = GenerateJsonErrorResponse(Constants.HtmlResponseBadRequest, ErrorInvalidImageName);
+            else
+                invalidResponse = null;
+
+            return imageExists;
+        }
+
+        private bool ValidModel(DeleteImageModel model, out JsonResult invalidResponse)
+        {
+            invalidResponse = null;
+
+            if (model == null)
+                invalidResponse = GenerateJsonErrorResponse(Constants.HtmlResponseBadRequest);
+
+            if (invalidResponse == null && !model.ConfirmDelete)
+                invalidResponse = GenerateJsonErrorResponse(Constants.HtmlResponseBadRequest);
+
+            if (invalidResponse == null && String.IsNullOrEmpty(model.ImageName))
+                invalidResponse = GenerateJsonErrorResponse(Constants.HtmlResponseBadRequest, ErrorInvalidImageName);
+
+            if (invalidResponse == null && (String.IsNullOrEmpty(model.GroupName) || !_imageProvider.GroupExists(model.GroupName)))
+                invalidResponse = GenerateJsonErrorResponse(Constants.HtmlResponseBadRequest, ErrorInvalidGroupName);
+
+            if (invalidResponse == null && (!String.IsNullOrEmpty(model.SubgroupName) && !_imageProvider.SubgroupExists(model.GroupName, model.SubgroupName)))
+                invalidResponse = GenerateJsonErrorResponse(Constants.HtmlResponseBadRequest, ErrorInvalidSubgroupName);
+
+            return invalidResponse == null;
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static string ReplaceLastDash(string s)

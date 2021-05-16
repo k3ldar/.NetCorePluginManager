@@ -128,8 +128,6 @@ namespace Middleware.Interfaces
         /// <exception cref="ArgumentNullException">Thrown if imageName is null or an empty string.</exception>
         bool ImageDelete(string groupName, string subgroupName, string imageName);
 
-
-
         /// <summary>
         /// Determines whether a subgroup exists or not
         /// </summary>
@@ -159,5 +157,11 @@ namespace Middleware.Interfaces
         /// <exception cref="ArgumentNullException">Thrown if groupName is null or an empty string.</exception>
         /// <exception cref="ArgumentNullException">Thrown if subgroupName is null or an empty string.</exception>
         bool DeleteSubgroup(string groupName, string subgroupName);
+
+        /// <summary>
+        /// Retreives the name of a file which can be used for temporary storage of image files
+        /// </summary>
+        /// <returns>string</returns>
+        string TemporaryImageFile();
     }
 }

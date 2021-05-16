@@ -223,6 +223,11 @@ namespace SharedPluginFeatures
         public const string NotificationEventGeoIpRecordCount = "GeoIpRecordCount";
 
         /// <summary>
+        /// Notification event name for uploading an image.
+        /// </summary>
+        public const string NotificationEventImageUploaded = "ImageUploadedEvent";
+
+        /// <summary>
         /// Name of sitemap listener
         /// </summary>
         public const string NotificationSitemapNames = "Sitemap Names";
@@ -481,6 +486,11 @@ namespace SharedPluginFeatures
         /// .dat file extension
         /// </summary>
         public const string FileExtensionDat = ".dat";
+
+        /// <summary>
+        /// .tmp file extension
+        /// </summary>
+        public const string FileExtensionTmp = ".tmp";
 
         /// <summary>
         /// Content type for application/json

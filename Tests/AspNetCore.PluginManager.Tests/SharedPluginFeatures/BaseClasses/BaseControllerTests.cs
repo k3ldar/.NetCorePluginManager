@@ -28,6 +28,7 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
+using System.Threading;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -206,6 +207,16 @@ namespace AspNetCore.PluginManager.Tests.Controllers
         protected void ValidateBaseModel(PartialViewResult viewResult)
         {
             Assert.IsInstanceOfType(viewResult.Model, typeof(BaseModel));
+        }
+
+        protected BaseModelData GenerateTestBaseModelData()
+        {
+            BaseModelData Result = new BaseModelData(new List<BreadcrumbItem>(),
+                new ShoppingCartSummary(1, 0, 0, 0, 0, 20, Thread.CurrentThread.CurrentUICulture, "GBP"),
+                "The Title", "The Author", "The Description", "The Tags", false);
+
+
+            return Result;
         }
 
         protected void InitializeSpiderPluginPluginManager()
