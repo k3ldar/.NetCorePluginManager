@@ -70,7 +70,7 @@ namespace PluginManager.Internal
             {
                 foreach (INotificationListener listener in _eventListener[eventId])
                 {
-                    if (!listener.EventRaised(eventId, param1, param2, ref result))
+                    if (listener.EventRaised(eventId, param1, param2, ref result))
                         break;
                 }
 
