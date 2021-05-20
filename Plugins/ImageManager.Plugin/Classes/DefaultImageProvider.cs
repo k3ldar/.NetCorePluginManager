@@ -399,8 +399,16 @@ namespace ImageManager.Plugin.Classes
         /// Retreives the name of a file which can be used for temporary storage of image files
         /// </summary>
         /// <returns>string</returns>
-        public string TemporaryImageFile()
+        public string TemporaryImageFile(string fileExtension)
         {
+            if (String.IsNullOrEmpty(fileExtension))
+            {
+                throw new ArgumentNullException(nameof(fileExtension));
+            }
+
+            if (fileExtension[0] != '.')
+                throw new ArgumentException();
+
             string path = Path.Combine(_rootPath, TempPathName);
 
             if (!Directory.Exists(path))
@@ -411,13 +419,51 @@ namespace ImageManager.Plugin.Classes
             do
             {
                 Result = Path.Combine(path, Path.GetRandomFileName());
-                Path.ChangeExtension(Result, Constants.FileExtensionTmp);
+                Result = Path.ChangeExtension(Result, fileExtension.ToLower());
             }
             while (File.Exists(Result));
 
             File.Create(Result).Dispose();
 
             return Result;
+        }
+
+        /// <summary>
+        /// Adds a file to the specific group or subgroup
+        /// </summary>
+        /// <param name="groupName">Name of group</param>
+        /// <param name="subgroupName">Name of subgroup or null if not applicable</param>
+        /// <param name="fileName">Name of file to be saved</param>
+        /// <param name="fileContents">Contents of file</param>
+        /// <exception cref="ArgumentNullException">Thrown if groupName is null or empty.</exception>
+        /// <exception cref="ArgumentNullException">Thrown if fileName is null or empty.</exception>
+        /// <exception cref="ArgumentException">Thrown if fileContents length is 0.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown if the file already exists.</exception>
+        public void AddFile(string groupName, string subgroupName, string fileName, byte[] fileContents)
+        {
+            if (String.IsNullOrEmpty(groupName))
+                throw new ArgumentNullException(nameof(groupName));
+
+            if (String.IsNullOrEmpty(fileName))
+                throw new ArgumentNullException(nameof(fileName));
+
+            if (fileContents.Length < 1)
+                throw new ArgumentException();
+
+            string newFilePath = Path.Combine(_rootPath, groupName);
+
+            if (!String.IsNullOrEmpty(subgroupName))
+                newFilePath = Path.Combine(newFilePath, subgroupName);
+
+            if (!Directory.Exists(newFilePath))
+                Directory.CreateDirectory(newFilePath);
+
+            string newFileName = Path.Combine(newFilePath, fileName);
+
+            if (File.Exists(newFileName))
+                throw new ArgumentOutOfRangeException();
+
+            File.WriteAllBytes(newFileName, fileContents);
         }
 
         #endregion IImageProvider Methods

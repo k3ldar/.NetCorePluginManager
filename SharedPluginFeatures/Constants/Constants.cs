@@ -228,6 +228,11 @@ namespace SharedPluginFeatures
         public const string NotificationEventImageUploaded = "ImageUploadedEvent";
 
         /// <summary>
+        /// Notification event name for image upload options.
+        /// </summary>
+        public const string NotificationEventImageUploadOptions = "ImageUploadOptions";
+
+        /// <summary>
         /// Name of sitemap listener
         /// </summary>
         public const string NotificationSitemapNames = "Sitemap Names";
@@ -486,6 +491,46 @@ namespace SharedPluginFeatures
         /// .dat file extension
         /// </summary>
         public const string FileExtensionDat = ".dat";
+
+        /// <summary>
+        /// .apng file extension
+        /// </summary>
+        public const string FileExtensionApng = ".apng";
+
+        /// <summary>
+        /// .avif file extension
+        /// </summary>
+        public const string FileExtensionAvif = ".avif";
+
+        /// <summary>
+        /// .gif file extension
+        /// </summary>
+        public const string FileExtensionGif = ".gif";
+
+        /// <summary>
+        /// .jpeg file extension
+        /// </summary>
+        public const string FileExtensionJpeg = ".jpeg";
+
+        /// <summary>
+        /// .jpg file extension
+        /// </summary>
+        public const string FileExtensionJpg = ".jpg";
+
+        /// <summary>
+        /// .png file extension
+        /// </summary>
+        public const string FileExtensionPng = ".png";
+
+        /// <summary>
+        /// .svg file extension
+        /// </summary>
+        public const string FileExtensionSvg = ".svg";
+
+        /// <summary>
+        /// .webp file extension
+        /// </summary>
+        public const string FileExtensionWebP = ".webp";
 
         /// <summary>
         /// .tmp file extension

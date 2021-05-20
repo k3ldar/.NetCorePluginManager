@@ -14217,4 +14217,16 @@ You will shortly receive an email with the details of your order.</comment>
     <value>The data provided was invalid</value>
     <comment>The data provided was invalid</comment>
   </data>
+  <data name="ImageUploadFiles" xml:space="preserve">
+    <value>Upload Files</value>
+    <comment>Upload Files</comment>
+  </data>
+  <data name="InvalidFileType" xml:space="preserve">
+    <value>The selected file type is not supported</value>
+    <comment>The selected file type is not supported</comment>
+  </data>
+  <data name="Upload" xml:space="preserve">
+    <value>Upload</value>
+    <comment>Upload</comment>
+  </data>
 </root>

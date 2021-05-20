@@ -161,7 +161,22 @@ namespace Middleware.Interfaces
         /// <summary>
         /// Retreives the name of a file which can be used for temporary storage of image files
         /// </summary>
+        /// <param name="fileExtension">File extension to be used for new file</param>
         /// <returns>string</returns>
-        string TemporaryImageFile();
+        /// <exception cref="ArgumentNullException">Thrown if fileExtension is null or empty</exception>
+        /// <exception cref="ArgumentException">Thrown if fileExtension does not start with a period (.)</exception>
+        string TemporaryImageFile(string fileExtension);
+
+        /// <summary>
+        /// Adds a file to the specific group or subgroup
+        /// </summary>
+        /// <param name="groupName">Name of group</param>
+        /// <param name="subgroupName">Name of subgroup or null if not applicable</param>
+        /// <param name="fileName">Name of file to be saved</param>
+        /// <param name="fileContents">Contents of file</param>
+        /// <exception cref="ArgumentNullException">Thrown if groupName is null or empty.</exception>
+        /// <exception cref="ArgumentNullException">Thrown if fileName is null or empty.</exception>
+        /// <exception cref="ArgumentException">Thrown if fileContents length is 0</exception>
+        void AddFile(string groupName, string subgroupName, string fileName, byte[] fileContents);
     }
 }

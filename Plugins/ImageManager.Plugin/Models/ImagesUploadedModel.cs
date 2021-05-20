@@ -11,58 +11,41 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2012 - 2021 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2021 Simon Carter.  All Rights Reserved.
  *
- *  Product:  SharedPluginFeatues
+ *  Product:  Image Manager Plugin
  *  
- *  File: CachedImageUpload.cs
- *
- *  Purpose:  Contains data for file held in memory for uploading
+ *  File: ImagesUploadedModel.cs
  *
  *  Date        Name                Reason
- *  14/05/2021  Simon Carter        Initially Created
+ *  20/05/2021  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
-using System.Collections.Generic;
 
-namespace SharedPluginFeatures
+namespace ImageManager.Plugin.Models
 {
     /// <summary>
     /// Cached image upload data
     /// </summary>
-    public sealed class CachedImageUpload
+    public sealed class ImagesUploadedModel
     {
         /// <summary>
         /// Constructor
         /// </summary>
         /// <exception cref="ArgumentNullException">Thrown if groupName is null or empty.</exception>
-        public CachedImageUpload(string groupName, string subgroupName)
+        public ImagesUploadedModel(string groupName, string subgroupName, string memoryCacheName)
         {
             if (String.IsNullOrEmpty(groupName))
                 throw new ArgumentNullException(nameof(groupName));
 
+            if (String.IsNullOrEmpty(memoryCacheName))
+                throw new ArgumentNullException(nameof(memoryCacheName));
+
             GroupName = groupName;
             SubgroupName = subgroupName;
-
-            Files = new List<string>();
+            MemoryCacheName = memoryCacheName;
         }
-
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <exception cref="ArgumentNullException">Thrown if groupName is null or empty.</exception>
-        public CachedImageUpload(string groupName)
-            : this(groupName, null)
-        {
-
-        }
-
-        /// <summary>
-        /// List of files that have been uploaded
-        /// </summary>
-        /// <value>List&lt;string&gt;</value>
-        public List<string> Files { get; }
 
         /// <summary>
         /// Name of group images are being uploaded to

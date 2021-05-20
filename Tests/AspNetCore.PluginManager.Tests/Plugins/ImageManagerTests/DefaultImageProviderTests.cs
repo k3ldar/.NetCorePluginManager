@@ -1330,6 +1330,72 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
 
         [TestMethod]
         [TestCategory(ImageManagerTestsCategory)]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void TemporaryImageFile_InvalidParam_Null_Throws_ArgumentNullException()
+        {
+            DateTime fileCreated = DateTime.UtcNow;
+
+            string testPath = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            try
+            {
+                string newGroupPath = Path.Combine(testPath, "TempImages");
+
+                DefaultImageProvider sut = CreateDefaultImageProvider(testPath);
+                sut.TemporaryImageFile(null);
+            }
+            finally
+            {
+                if (Directory.Exists(testPath))
+                    Directory.Delete(testPath, true);
+            }
+        }
+
+        [TestMethod]
+        [TestCategory(ImageManagerTestsCategory)]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void TemporaryImageFile_InvalidParam_EmptyString_Throws_ArgumentNullException()
+        {
+            DateTime fileCreated = DateTime.UtcNow;
+
+            string testPath = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            try
+            {
+                string newGroupPath = Path.Combine(testPath, "TempImages");
+
+                DefaultImageProvider sut = CreateDefaultImageProvider(testPath);
+                sut.TemporaryImageFile("");
+            }
+            finally
+            {
+                if (Directory.Exists(testPath))
+                    Directory.Delete(testPath, true);
+            }
+        }
+
+        [TestMethod]
+        [TestCategory(ImageManagerTestsCategory)]
+        [ExpectedException(typeof(ArgumentException))]
+        public void TemporaryImageFile_InvalidParam_DoesNotStartWithFullStop_Throws_ArgumentException()
+        {
+            DateTime fileCreated = DateTime.UtcNow;
+
+            string testPath = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            try
+            {
+                string newGroupPath = Path.Combine(testPath, "TempImages");
+
+                DefaultImageProvider sut = CreateDefaultImageProvider(testPath);
+                sut.TemporaryImageFile("gif");
+            }
+            finally
+            {
+                if (Directory.Exists(testPath))
+                    Directory.Delete(testPath, true);
+            }
+        }
+
+        [TestMethod]
+        [TestCategory(ImageManagerTestsCategory)]
         public void TemporaryImageFile_RetrieveTemporaryImageFileName_Success()
         {
             DateTime fileCreated = DateTime.UtcNow;
@@ -1341,13 +1407,213 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
 
                 DefaultImageProvider sut = CreateDefaultImageProvider(testPath);
 
-                string tempFile = sut.TemporaryImageFile();
+                string tempFile = sut.TemporaryImageFile(".GiF");
 
                 Assert.IsTrue(File.Exists(tempFile));
                 FileInfo fileInfo = new FileInfo(tempFile);
                 Assert.IsNotNull(fileInfo);
                 Assert.AreEqual(0, fileInfo.Length);
                 Assert.IsTrue(fileInfo.CreationTimeUtc > fileCreated);
+                Assert.AreEqual(".gif", Path.GetExtension(fileInfo.Name));
+            }
+            finally
+            {
+                if (Directory.Exists(testPath))
+                    Directory.Delete(testPath, true);
+            }
+        }
+
+        [TestMethod]
+        [TestCategory(ImageManagerTestsCategory)]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void AddFile_InvalidParam_GroupName_Null_Throws_ArgumentNullException()
+        {
+            DateTime fileCreated = DateTime.UtcNow;
+
+            string testPath = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            try
+            {
+                string newGroupPath = Path.Combine(testPath, "TempImages");
+
+                DefaultImageProvider sut = CreateDefaultImageProvider(testPath);
+
+                sut.AddFile(null, null, "filename.dat", new byte[] { 0, 1, 2 });
+            }
+            finally
+            {
+                if (Directory.Exists(testPath))
+                    Directory.Delete(testPath, true);
+            }
+        }
+
+        [TestMethod]
+        [TestCategory(ImageManagerTestsCategory)]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void AddFile_InvalidParam_GroupName_EmptyString_Throws_ArgumentNullException()
+        {
+            DateTime fileCreated = DateTime.UtcNow;
+
+            string testPath = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            try
+            {
+                string newGroupPath = Path.Combine(testPath, "TempImages");
+
+                DefaultImageProvider sut = CreateDefaultImageProvider(testPath);
+
+                sut.AddFile("", null, "filename.dat", new byte[] { 0, 1, 2 });
+            }
+            finally
+            {
+                if (Directory.Exists(testPath))
+                    Directory.Delete(testPath, true);
+            }
+        }
+
+        [TestMethod]
+        [TestCategory(ImageManagerTestsCategory)]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void AddFile_InvalidParam_FileName_Null_Throws_ArgumentNullException()
+        {
+            DateTime fileCreated = DateTime.UtcNow;
+
+            string testPath = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            try
+            {
+                string newGroupPath = Path.Combine(testPath, "TempImages");
+
+                DefaultImageProvider sut = CreateDefaultImageProvider(testPath);
+
+                sut.AddFile("Group", null, null, new byte[] { 0, 1, 2 });
+            }
+            finally
+            {
+                if (Directory.Exists(testPath))
+                    Directory.Delete(testPath, true);
+            }
+        }
+
+        [TestMethod]
+        [TestCategory(ImageManagerTestsCategory)]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void AddFile_InvalidParam_FileName_EmptyString_Throws_ArgumentNullException()
+        {
+            DateTime fileCreated = DateTime.UtcNow;
+
+            string testPath = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            try
+            {
+                string newGroupPath = Path.Combine(testPath, "TempImages");
+
+                DefaultImageProvider sut = CreateDefaultImageProvider(testPath);
+
+                sut.AddFile("Group", null, "", new byte[] { 0, 1, 2 });
+            }
+            finally
+            {
+                if (Directory.Exists(testPath))
+                    Directory.Delete(testPath, true);
+            }
+        }
+
+        [TestMethod]
+        [TestCategory(ImageManagerTestsCategory)]
+        [ExpectedException(typeof(ArgumentException))]
+        public void AddFile_InvalidParam_FileContents_ZeroLength_Throws_ArgumentException()
+        {
+            DateTime fileCreated = DateTime.UtcNow;
+
+            string testPath = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            try
+            {
+                string newGroupPath = Path.Combine(testPath, "TempImages");
+
+                DefaultImageProvider sut = CreateDefaultImageProvider(testPath);
+
+                sut.AddFile("Group", null, "filename.dat", new byte[] { });
+            }
+            finally
+            {
+                if (Directory.Exists(testPath))
+                    Directory.Delete(testPath, true);
+            }
+        }
+
+        [TestMethod]
+        [TestCategory(ImageManagerTestsCategory)]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void AddFile_InvalidParam_FileName_AlreadyExists_Throws_ArgumentOutOfRangeException()
+        {
+            DateTime fileCreated = DateTime.UtcNow;
+
+            string testPath = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            try
+            {
+                string directoryName = Path.Combine(testPath, "Group");
+
+                if (!Directory.Exists(directoryName))
+                    Directory.CreateDirectory(directoryName);
+
+                string fileName = Path.Combine(directoryName, "filename.dat");
+
+                File.WriteAllBytes(fileName, new byte[] { 2, 3, 4 });
+
+                DefaultImageProvider sut = CreateDefaultImageProvider(testPath);
+
+                sut.AddFile("Group", null, "filename.dat", new byte[] { 10, 9, 8 });
+            }
+            finally
+            {
+                if (Directory.Exists(testPath))
+                    Directory.Delete(testPath, true);
+            }
+        }
+
+        [TestMethod]
+        [TestCategory(ImageManagerTestsCategory)]
+        public void AddFile_WithoutSubgroup_Success()
+        {
+            DateTime fileCreated = DateTime.UtcNow;
+
+            string testPath = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            try
+            {
+                string directoryName = Path.Combine(testPath, "Group");
+
+                string fileName = Path.Combine(directoryName, "filename.dat");
+
+                DefaultImageProvider sut = CreateDefaultImageProvider(testPath);
+
+                sut.AddFile("Group", null, "filename.dat", new byte[] { 10, 9, 8 });
+
+                Assert.IsTrue(File.Exists(fileName));
+                Assert.IsTrue(File.ReadAllBytes(fileName).SequenceEqual(new byte[] { 10, 9, 8 }));
+            }
+            finally
+            {
+                if (Directory.Exists(testPath))
+                    Directory.Delete(testPath, true);
+            }
+        }
+
+        [TestMethod]
+        [TestCategory(ImageManagerTestsCategory)]
+        public void AddFile_WithSubgroup_Success()
+        {
+            DateTime fileCreated = DateTime.UtcNow;
+
+            string testPath = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            try
+            {
+                string directoryName = Path.Combine(testPath, "Group", "Subgroup");
+
+                string fileName = Path.Combine(directoryName, "filename.dat");
+
+                DefaultImageProvider sut = CreateDefaultImageProvider(testPath);
+
+                sut.AddFile("Group", "Subgroup", "filename.dat", new byte[] { 11, 10, 9 });
+
+                Assert.IsTrue(File.Exists(fileName));
+                Assert.IsTrue(File.ReadAllBytes(fileName).SequenceEqual(new byte[] { 11, 10, 9 }));
             }
             finally
             {

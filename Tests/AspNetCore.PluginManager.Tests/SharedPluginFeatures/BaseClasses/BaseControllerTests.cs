@@ -107,6 +107,23 @@ namespace AspNetCore.PluginManager.Tests.Controllers
             return false;
         }
 
+        public bool AssemblyHasViewResource(Type classType, string location, string viewName)
+        {
+            string assemblyName = classType.Assembly.FullName.Split(',')[0];
+
+            foreach (string resource in classType.Assembly.GetManifestResourceNames())
+            {
+                if (String.IsNullOrEmpty(resource))
+                    continue;
+
+                if (resource.Equals($"{assemblyName}.Views.{location}.{viewName}.cshtml"))
+                    return true;
+            }
+
+
+            return false;
+        }
+
         public bool MethodHasAttribute<T>(Type classType, string methodName) where T : Attribute
         {
             if (classType == null)

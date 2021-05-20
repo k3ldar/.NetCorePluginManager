@@ -38,6 +38,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests.Mocks
     internal class MockImageProvider : IImageProvider
     {
         private readonly Dictionary<string, List<string>> _groups;
+        private readonly Dictionary<string, byte[]> _filesAdded;
         private readonly List<ImageFile> _imageFiles;
         private readonly List<string> _deletedImageNames;
         private readonly List<string> _temporaryFileNames;
@@ -45,6 +46,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests.Mocks
         public MockImageProvider()
         {
             _groups = new Dictionary<string, List<string>>();
+            _filesAdded = new Dictionary<string, byte[]>();
             _imageFiles = new List<ImageFile>();
             _deletedImageNames = new List<string>();
             _temporaryFileNames = new List<string>();
@@ -54,6 +56,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests.Mocks
         public MockImageProvider(Dictionary<string, List<string>> groups, List<ImageFile> images)
         {
             _groups = groups ?? throw new ArgumentNullException(nameof(groups));
+            _filesAdded = new Dictionary<string, byte[]>();
             _imageFiles = images ?? throw new ArgumentNullException(nameof(groups));
             _deletedImageNames = new List<string>();
             _temporaryFileNames = new List<string>();
@@ -139,17 +142,27 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests.Mocks
             return _groups[groupName].Contains(subGroupName);
         }
 
-        public string TemporaryImageFile()
+        public string TemporaryImageFile(string fileExtension)
         {
             string tempFile = Path.GetTempFileName();
-            _temporaryFileNames.Add(tempFile);
+            _temporaryFileNames.Add(Path.ChangeExtension(tempFile, fileExtension));
 
             return tempFile;
+        }
+
+        public void AddFile(string groupName, string subgroupName, string fileName, byte[] fileContents)
+        {
+            if (String.IsNullOrEmpty(subgroupName))
+                _filesAdded.Add($"{groupName}.{fileName}", fileContents);
+            else
+                _filesAdded.Add($"{groupName}.{subgroupName}.{fileName}", fileContents);
         }
 
         public List<string> DeletedImageList => _deletedImageNames;
 
         public List<string> TemporaryFiles => _temporaryFileNames;
+
+        public Dictionary<string, byte[]> FilesAdded => _filesAdded;
 
         public bool CanDeleteImages { get; set; }
     }

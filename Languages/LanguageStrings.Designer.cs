@@ -23866,6 +23866,15 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Upload Files.
+        /// </summary>
+        public static string ImageUploadFiles {
+            get {
+                return ResourceManager.GetString("ImageUploadFiles", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Ingredients.
         /// </summary>
         public static string Ingredients {
@@ -24016,6 +24025,15 @@ namespace Languages {
         public static string InvalidEmailAddress {
             get {
                 return ResourceManager.GetString("InvalidEmailAddress", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The selected file type is not supported.
+        /// </summary>
+        public static string InvalidFileType {
+            get {
+                return ResourceManager.GetString("InvalidFileType", resourceCulture);
             }
         }
         
@@ -30150,6 +30168,15 @@ namespace Languages {
         public static string UpdateSalons {
             get {
                 return ResourceManager.GetString("UpdateSalons", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Upload.
+        /// </summary>
+        public static string Upload {
+            get {
+                return ResourceManager.GetString("Upload", resourceCulture);
             }
         }
         

@@ -99,8 +99,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="Views\ImageManager\ImageUpload.cshtml" />
     <Content Remove="Views\ImageManager\Index.cshtml" />
     <Content Remove="Views\ImageManager\ViewImage.cshtml" />
+    <Content Remove="Views\ImageManager\_ImageUpload.cshtml" />
     <Content Remove="Views\ImageManager\_LeftMenu.cshtml" />
     <Content Remove="wwwroot\css\imageManager.css" />
     <Content Remove="wwwroot\images\ImageManager\imMenu.png" />
@@ -162,8 +164,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <EmbeddedResource Include="Views\ImageManager\ImageUpload.cshtml" />
 	  <EmbeddedResource Include="Views\ImageManager\Index.cshtml" />
 	  <EmbeddedResource Include="Views\ImageManager\ViewImage.cshtml" />
+	  <EmbeddedResource Include="Views\ImageManager\_ImageUpload.cshtml" />
 	  <EmbeddedResource Include="Views\ImageManager\_LeftMenu.cshtml" />
 	  <EmbeddedResource Include="wwwroot\css\imageManager.css" />
 	  <EmbeddedResource Include="wwwroot\images\ImageManager\imMenu.png" />

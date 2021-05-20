@@ -30,6 +30,8 @@ using System.Diagnostics.CodeAnalysis;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
+using Newtonsoft.Json;
+
 using SharedPluginFeatures;
 
 namespace AspNetCore.PluginManager.Tests.SharedPluginFeatures
@@ -38,6 +40,8 @@ namespace AspNetCore.PluginManager.Tests.SharedPluginFeatures
     [ExcludeFromCodeCoverage]
     public class BaseControllerTests
     {
+        private const string ExpectedResponseWithData = "{\"Number\":21,\"Text\":\"Some data\"}";
+
         private List<int> CreateList(in int count)
         {
             Random random = new Random();
@@ -211,50 +215,22 @@ namespace AspNetCore.PluginManager.Tests.SharedPluginFeatures
         }
 
         [TestMethod]
-        public void GenerateJsonErrorResponse_NonHttpStatusCode_Success()
-        {
-            using (TestBaseControllerWrapper baseController = new TestBaseControllerWrapper())
-            {
-                JsonResult result = baseController.TestGenerateJsonErrorResponse(-1);
-
-                Assert.AreEqual(-1, result.StatusCode);
-                Assert.AreEqual("application/json", result.ContentType);
-                Assert.IsNotNull(result.Value);
-                Assert.IsInstanceOfType(result.Value, typeof(JsonResponseModel));
-
-                JsonResponseModel jsonResponse = result.Value as JsonResponseModel;
-
-                Assert.AreEqual("", jsonResponse.Data);
-                Assert.IsFalse(jsonResponse.Success);
-            }
-        }
-
-        [TestMethod]
-        public void GenerateJsonErrorResponse_ValidHttpStatusCode_Success()
-        {
-            using (TestBaseControllerWrapper baseController = new TestBaseControllerWrapper())
-            {
-                JsonResult result = baseController.TestGenerateJsonErrorResponse(400);
-
-                Assert.AreEqual(400, result.StatusCode);
-                Assert.AreEqual("application/json", result.ContentType);
-                Assert.IsNotNull(result.Value);
-                Assert.IsInstanceOfType(result.Value, typeof(JsonResponseModel));
-
-                JsonResponseModel jsonResponse = result.Value as JsonResponseModel;
-
-                Assert.AreEqual("", jsonResponse.Data);
-                Assert.IsFalse(jsonResponse.Success);
-            }
-        }
-
-        [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
         public void GenerateJsonErrorResponse_InvalidParamJsonData_Null_Throws_ArgumentNullException()
         {
             using (TestBaseControllerWrapper baseController = new TestBaseControllerWrapper())
             {
                 JsonResult result = baseController.TestGenerateJsonErrorResponse(400, null);
+            }
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void GenerateJsonErrorResponse_InvalidParamJsonData_EmptyString_Throws_ArgumentNullException()
+        {
+            using (TestBaseControllerWrapper baseController = new TestBaseControllerWrapper())
+            {
+                JsonResult result = baseController.TestGenerateJsonErrorResponse(400, "");
             }
         }
 
@@ -295,5 +271,46 @@ namespace AspNetCore.PluginManager.Tests.SharedPluginFeatures
                 Assert.IsTrue(jsonResponse.Success);
             }
         }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void GenerateJsonSuccessResponse_InvalidParam_Null_Throws_ArgumentNullException()
+        {
+            TestResponseData responseData = JsonConvert.DeserializeObject<TestResponseData>(ExpectedResponseWithData);
+
+            using (TestBaseControllerWrapper baseController = new TestBaseControllerWrapper())
+            {
+                JsonResult result = baseController.TestGenerateJsonSuccessResponse(null);
+            }
+        }
+
+        [TestMethod]
+        public void GenerateJsonSuccessResponse_WithResponseData_Success()
+        {
+            TestResponseData responseData = JsonConvert.DeserializeObject<TestResponseData>(ExpectedResponseWithData);
+
+            using (TestBaseControllerWrapper baseController = new TestBaseControllerWrapper())
+            {
+                JsonResult result = baseController.TestGenerateJsonSuccessResponse(responseData);
+
+                Assert.AreEqual(200, result.StatusCode);
+                Assert.AreEqual("application/json", result.ContentType);
+                Assert.IsNotNull(result.Value);
+                Assert.IsInstanceOfType(result.Value, typeof(JsonResponseModel));
+
+                JsonResponseModel jsonResponse = result.Value as JsonResponseModel;
+
+                Assert.AreEqual(ExpectedResponseWithData, jsonResponse.Data);
+                Assert.IsTrue(jsonResponse.Success);
+            }
+        }
+    }
+
+    [ExcludeFromCodeCoverage]
+    public class TestResponseData
+    {
+        public int Number { get; set; }
+
+        public string Text { get; set; }
     }
 }

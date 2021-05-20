@@ -708,13 +708,6 @@
             </summary>
             <returns>IAuthenticationService</returns>
         </member>
-        <member name="M:SharedPluginFeatures.BaseController.GenerateJsonErrorResponse(System.Int32)">
-            <summary>
-            Creates a generic JsonResult for an error with status code (http response)
-            </summary>
-            <param name="statusCode">Status code being returned.</param>
-            <returns>JsonResult</returns>
-        </member>
         <member name="M:SharedPluginFeatures.BaseController.GenerateJsonErrorResponse(System.Int32,System.String)">
             <summary>
             Creates a generic JsonResult for an error with status code (http response)
@@ -728,6 +721,14 @@
             Generates a generic JsonResult for successful operation with status code of 200
             </summary>
             <returns>JsonResult</returns>
+        </member>
+        <member name="M:SharedPluginFeatures.BaseController.GenerateJsonSuccessResponse(System.Object)">
+            <summary>
+            Generates a generic JsonResult for successful operation with status code of 200
+            </summary>
+            <param name="responseData">Valid class instance that will be converted to json and set as Data for JsonResponseModel</param>
+            <returns>JsonResult</returns>
+            <exception cref="T:System.ArgumentNullException">Thrown if responseData is null</exception>
         </member>
         <member name="T:SharedPluginFeatures.BaseMiddleware">
             <summary>
@@ -2190,6 +2191,11 @@
             Notification event name for uploading an image.
             </summary>
         </member>
+        <member name="F:SharedPluginFeatures.Constants.NotificationEventImageUploadOptions">
+            <summary>
+            Notification event name for image upload options.
+            </summary>
+        </member>
         <member name="F:SharedPluginFeatures.Constants.NotificationSitemapNames">
             <summary>
             Name of sitemap listener
@@ -2448,6 +2454,46 @@
         <member name="F:SharedPluginFeatures.Constants.FileExtensionDat">
             <summary>
             .dat file extension
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Constants.FileExtensionApng">
+            <summary>
+            .apng file extension
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Constants.FileExtensionAvif">
+            <summary>
+            .avif file extension
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Constants.FileExtensionGif">
+            <summary>
+            .gif file extension
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Constants.FileExtensionJpeg">
+            <summary>
+            .jpeg file extension
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Constants.FileExtensionJpg">
+            <summary>
+            .jpg file extension
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Constants.FileExtensionPng">
+            <summary>
+            .png file extension
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Constants.FileExtensionSvg">
+            <summary>
+            .svg file extension
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Constants.FileExtensionWebP">
+            <summary>
+            .webp file extension
             </summary>
         </member>
         <member name="F:SharedPluginFeatures.Constants.FileExtensionTmp">

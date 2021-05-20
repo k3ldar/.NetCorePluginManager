@@ -44,6 +44,8 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using Middleware.Images;
 
+using Newtonsoft.Json;
+
 using PluginManager.Abstractions;
 
 using Shared.Classes;
@@ -59,6 +61,8 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
     public class ImageManagerControllerTests : BaseControllerTests
     {
         private const string ImageManagerTestsCategory = "Image Manager Tests";
+        private const string ExpectedResponseWithNoListener = "{\"GroupName\":\"Group\",\"SubgroupName\":\"test subgrouP\",\"ShowSubgroup\":true,\"AdditionalDataName\":null,\"AdditionalData\":null,\"AdditionalDataMandatory\":false}";
+        private const string ExpectedResponseWithListener = "{\"GroupName\":\"Images\",\"SubgroupName\":null,\"ShowSubgroup\":false,\"AdditionalDataName\":\"Enter product code/sku\",\"AdditionalData\":null,\"AdditionalDataMandatory\":true}";
 
         [TestInitialize]
         public void InitialiseImageManagerPlugin()
@@ -123,6 +127,17 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
             Assert.IsTrue(ClassHasAttribute<AuthorizeAttribute>(typeof(ImageManagerController)));
 
             Assert.IsTrue(ClassAuthorizeAttributeHasCorrectPolicy(typeof(ImageManagerController), "ImageManager"));
+        }
+
+        [TestMethod]
+        [TestCategory(ImageManagerTestsCategory)]
+        public void Validate_ControllerViewsAreIncludedAsResources_Success()
+        {
+            Assert.IsTrue(AssemblyHasViewResource(typeof(ImageManagerController), ImageManagerController.Name, "_LeftMenu"));
+            Assert.IsTrue(AssemblyHasViewResource(typeof(ImageManagerController), ImageManagerController.Name, "ImageUpload"));
+            Assert.IsTrue(AssemblyHasViewResource(typeof(ImageManagerController), ImageManagerController.Name, "Index"));
+            Assert.IsTrue(AssemblyHasViewResource(typeof(ImageManagerController), ImageManagerController.Name, "ViewImage"));
+            Assert.IsTrue(AssemblyHasViewResource(typeof(ImageManagerController), ImageManagerController.Name, "_ImageUpload"));
         }
 
         [TestMethod]
@@ -738,7 +753,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
             ImageManagerController sut = CreateDynamicContentController(null, null, CreateDefaultMockImageProvider());
             IActionResult response = sut.DeleteImage(null);
 
-            ValidateJsonResult(response, "");
+            ValidateJsonResult(response, "Invalid Model");
         }
 
         [TestMethod]
@@ -748,7 +763,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
             ImageManagerController sut = CreateDynamicContentController(null, null, CreateDefaultMockImageProvider());
             IActionResult response = sut.DeleteImage(new DeleteImageModel());
 
-            ValidateJsonResult(response, "");
+            ValidateJsonResult(response, "Confirmation required");
         }
 
         [TestMethod]
@@ -940,9 +955,9 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
             string methodName = "UploadImage";
             Assert.IsTrue(MethodHasAttribute<HttpPostAttribute>(typeof(ImageManagerController), methodName));
             Assert.IsTrue(MethodHasAuthorizeAttribute(typeof(ImageManagerController), methodName, "ImageManagerManage"));
-            Assert.IsTrue(MethodHasAttribute<ValidateAntiForgeryTokenAttribute>(typeof(ImageManagerController), methodName));
+            Assert.IsTrue(MethodHasAttribute<AjaxOnlyAttribute>(typeof(ImageManagerController), methodName));
 
-            Assert.IsFalse(MethodHasAttribute<AjaxOnlyAttribute>(typeof(ImageManagerController), methodName));
+            Assert.IsFalse(MethodHasAttribute<ValidateAntiForgeryTokenAttribute>(typeof(ImageManagerController), methodName));
             Assert.IsFalse(MethodHasAttribute<BreadcrumbAttribute>(typeof(ImageManagerController), methodName));
             Assert.IsFalse(MethodHasAttribute<RouteAttribute>(typeof(ImageManagerController), methodName));
             Assert.IsFalse(MethodHasAttribute<HttpGetAttribute>(typeof(ImageManagerController), methodName));
@@ -958,7 +973,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
             ImageManagerController sut = CreateDynamicContentController(null, null, CreateDefaultMockImageProvider());
             IActionResult response = sut.UploadImage(null);
 
-            ValidateUploadImageResponse(response, false, 0, 1);
+            ValidateJsonResult(response, "Invalid Model");
         }
 
         [TestMethod]
@@ -968,7 +983,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
             ImageManagerController sut = CreateDynamicContentController(null, null, CreateDefaultMockImageProvider());
             IActionResult response = sut.UploadImage(new UploadImageModel(GenerateTestBaseModelData(), "My Group", null));
 
-            ValidateUploadImageResponse(response, false, 0, 1);
+            ValidateJsonResult(response, "Invalid Model");
         }
 
         [TestMethod]
@@ -985,7 +1000,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
             ImageManagerController sut = CreateDynamicContentController(null, null, CreateDefaultMockImageProvider());
             IActionResult response = sut.UploadImage(model);
 
-            ValidateUploadImageResponse(response, false, 0, 1);
+            ValidateJsonResult(response, "Invalid GroupName");
         }
 
         [TestMethod]
@@ -1000,19 +1015,42 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
 
             UploadImageModel model = new UploadImageModel(GenerateTestBaseModelData(), "My Pictures", null);
 
-            IFormFile formFile = new FormFile(new MemoryStream(fileContents), 0, fileContents.Length, "test", "testdata.dat");
+            IFormFile formFile = new FormFile(new MemoryStream(fileContents), 0, fileContents.Length, "test", "testdata.jpeg");
             model.Files.Add(formFile);
 
 
             IActionResult response = sut.UploadImage(model);
             try
             {
-                ValidateValidUploadImageResponse(response, memoryCache, true, 1, "My Pictures");
+                ImagesUploadedModel responseModel = ValidateUploadImageResponse(response);
+                Assert.AreEqual("My Pictures", responseModel.GroupName);
+                Assert.IsNull(responseModel.SubgroupName);
+                Assert.IsNotNull(memoryCache.GetCache().Get(responseModel.MemoryCacheName));
             }
             finally
             {
                 System.IO.File.Delete(mockImageProvider.TemporaryFiles[0]);
             }
+        }
+
+        [TestMethod]
+        [TestCategory(ImageManagerTestsCategory)]
+        public void UploadImage_FileExtensionNotSupported_ReturnsCorrectInvalidResponse()
+        {
+            TestMemoryCache memoryCache = new TestMemoryCache();
+            MockImageProvider mockImageProvider = CreateDefaultMockImageProvider();
+            ImageManagerController sut = CreateDynamicContentController(memoryCache, null, mockImageProvider);
+            const string FileData = "test file data";
+            byte[] fileContents = Encoding.UTF8.GetBytes(FileData);
+
+            UploadImageModel model = new UploadImageModel(GenerateTestBaseModelData(), "My Pictures", null);
+
+            IFormFile formFile = new FormFile(new MemoryStream(fileContents), 0, fileContents.Length, "test", "testdata.dat");
+            model.Files.Add(formFile);
+
+
+            IActionResult response = sut.UploadImage(model);
+            ValidateJsonResult(response, "The selected file type is not supported");
         }
 
         [TestMethod]
@@ -1027,14 +1065,17 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
 
             UploadImageModel model = new UploadImageModel(GenerateTestBaseModelData(), "My Pictures", "Subgroup 1");
 
-            IFormFile formFile = new FormFile(new MemoryStream(fileContents), 0, fileContents.Length, "test", "testdata.dat");
+            IFormFile formFile = new FormFile(new MemoryStream(fileContents), 0, fileContents.Length, "test", "testdata.svg");
             model.Files.Add(formFile);
 
 
             IActionResult response = sut.UploadImage(model);
             try
             {
-                ValidateValidUploadImageResponse(response, memoryCache, true, 1, "My Pictures", "Subgroup 1");
+                ImagesUploadedModel responseModel = ValidateUploadImageResponse(response);
+                Assert.AreEqual("My Pictures", responseModel.GroupName);
+                Assert.AreEqual("Subgroup 1", responseModel.SubgroupName);
+                Assert.IsNotNull(memoryCache.GetCache().Get(responseModel.MemoryCacheName));
             }
             finally
             {
@@ -1056,16 +1097,19 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
 
             UploadImageModel model = new UploadImageModel(GenerateTestBaseModelData(), "My Pictures", "Subgroup 1");
 
-            IFormFile formFile = new FormFile(new MemoryStream(fileContents1), 0, fileContents1.Length, "test", "testdata1.dat");
+            IFormFile formFile = new FormFile(new MemoryStream(fileContents1), 0, fileContents1.Length, "test", "testdata1.gif");
             model.Files.Add(formFile);
 
-            formFile = new FormFile(new MemoryStream(fileContents2), 0, fileContents2.Length, "test", "testdata2.dat");
+            formFile = new FormFile(new MemoryStream(fileContents2), 0, fileContents2.Length, "test", "testdata2.gif");
             model.Files.Add(formFile);
 
             IActionResult response = sut.UploadImage(model);
             try
             {
-                ValidateValidUploadImageResponse(response, memoryCache, true, 2, "My Pictures", "Subgroup 1");
+                ImagesUploadedModel responseModel = ValidateUploadImageResponse(response);
+                Assert.AreEqual("My Pictures", responseModel.GroupName);
+                Assert.AreEqual("Subgroup 1", responseModel.SubgroupName);
+                Assert.IsNotNull(memoryCache.GetCache().Get(responseModel.MemoryCacheName));
             }
             finally
             {
@@ -1099,7 +1143,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
             Assert.IsNotNull(sut);
 
             IActionResult response = sut.ProcessImage(null);
-            ValidateJsonResult(response, "");
+            ValidateJsonResult(response, "Invalid Model");
         }
 
         [TestMethod]
@@ -1110,7 +1154,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
             Assert.IsNotNull(sut);
 
             IActionResult response = sut.ProcessImage(new ImageProcessViewModel(GenerateTestBaseModelData(), "not found"));
-            ValidateJsonResult(response, "");
+            ValidateJsonResult(response, "Image cache not found");
         }
 
         [TestMethod]
@@ -1124,15 +1168,15 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
             Assert.IsNotNull(sut);
 
             IActionResult response = sut.ProcessImage(new ImageProcessViewModel(GenerateTestBaseModelData(), "found item"));
-            ValidateJsonResult(response, "");
+            ValidateJsonResult(response, "Image cache not found");
         }
 
         [TestMethod]
         [TestCategory(ImageManagerTestsCategory)]
-        public void ProcessImage_MultipleFileUploaded_WithSubgroup_NotificationServiceCalled_ReturnsCorrectValidResponse()
+        public void ProcessImage_SingleFileUploaded_WithSubgroup_NotificationServiceCalled_ReturnsCorrectValidResponse()
         {
             TestMemoryCache memoryCache = new TestMemoryCache();
-            TestNotificationService notificationService = new TestNotificationService(false)
+            TestNotificationService notificationService = new TestNotificationService(null)
             {
                 EventParam1Name = "ImageUploadedEvent"
             };
@@ -1144,16 +1188,24 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
 
             UploadImageModel model = new UploadImageModel(GenerateTestBaseModelData(), "My Pictures", "Subgroup 1");
 
-            IFormFile formFile = new FormFile(new MemoryStream(fileContents1), 0, fileContents1.Length, "test", "testdata1.dat");
+            IFormFile formFile = new FormFile(new MemoryStream(fileContents1), 0, fileContents1.Length, "test", "testdata1.gif");
             model.Files.Add(formFile);
 
             IActionResult response = sut.UploadImage(model);
             try
             {
-                var (imageProcessViewModel, cachedImageUpload) = ValidateValidUploadImageResponse(response, memoryCache, true, 1, "My Pictures", "Subgroup 1");
+                ImagesUploadedModel responseModel = ValidateUploadImageResponse(response);
+                Assert.AreEqual("My Pictures", responseModel.GroupName);
+                Assert.AreEqual("Subgroup 1", responseModel.SubgroupName);
+                Assert.IsNotNull(memoryCache.GetCache().Get(responseModel.MemoryCacheName));
 
+                CachedImageUpload cachedImageUpload = memoryCache.GetCache().Get(responseModel.MemoryCacheName).Value as CachedImageUpload;
+                Assert.IsNotNull(cachedImageUpload);
+
+                ImageProcessViewModel imageProcessViewModel = new ImageProcessViewModel(GenerateTestBaseModelData(), responseModel.MemoryCacheName);
                 IActionResult processResponse = sut.ProcessImage(imageProcessViewModel);
 
+                Assert.AreEqual(1, mockImageProvider.FilesAdded.Count);
                 Assert.IsTrue(notificationService.NotificationRaised("ImageUploadedEvent", cachedImageUpload));
                 Assert.AreEqual(cachedImageUpload, notificationService.EventParam1);
             }
@@ -1161,6 +1213,197 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
             {
                 System.IO.File.Delete(mockImageProvider.TemporaryFiles[0]);
             }
+        }
+
+        [TestMethod]
+        [TestCategory(ImageManagerTestsCategory)]
+        public void ProcessImage_MultipleFileUploaded_WithSubgroup_NotificationServiceCalled_ReturnsCorrectValidResponse()
+        {
+            TestMemoryCache memoryCache = new TestMemoryCache();
+            TestNotificationService notificationService = new TestNotificationService(null)
+            {
+                EventParam1Name = "ImageUploadedEvent"
+            };
+
+            MockImageProvider mockImageProvider = CreateDefaultMockImageProvider();
+            ImageManagerController sut = CreateDynamicContentController(memoryCache, null, mockImageProvider, notificationService);
+            const string File1Data = "test file data for file 1";
+            const string File2Data = "test file data for file 2";
+            byte[] fileContents1 = Encoding.UTF8.GetBytes(File1Data);
+            byte[] fileContents2 = Encoding.UTF8.GetBytes(File2Data);
+
+            UploadImageModel model = new UploadImageModel(GenerateTestBaseModelData(), "My Pictures", "Subgroup 1");
+
+            IFormFile formFile = new FormFile(new MemoryStream(fileContents1), 0, fileContents1.Length, "test", "testdata1.gif");
+            model.Files.Add(formFile);
+            formFile = new FormFile(new MemoryStream(fileContents2), 0, fileContents2.Length, "test", "testdata2.svg");
+            model.Files.Add(formFile);
+
+            IActionResult response = sut.UploadImage(model);
+            try
+            {
+                ImagesUploadedModel responseModel = ValidateUploadImageResponse(response);
+                Assert.AreEqual("My Pictures", responseModel.GroupName);
+                Assert.AreEqual("Subgroup 1", responseModel.SubgroupName);
+                Assert.IsNotNull(memoryCache.GetCache().Get(responseModel.MemoryCacheName));
+
+                CachedImageUpload cachedImageUpload = memoryCache.GetCache().Get(responseModel.MemoryCacheName).Value as CachedImageUpload;
+                Assert.IsNotNull(cachedImageUpload);
+                ImageProcessViewModel imageProcessViewModel = new ImageProcessViewModel(GenerateTestBaseModelData(), responseModel.MemoryCacheName);
+                IActionResult processResponse = sut.ProcessImage(imageProcessViewModel);
+
+                Assert.AreEqual(2, mockImageProvider.FilesAdded.Count);
+                Assert.IsTrue(notificationService.NotificationRaised("ImageUploadedEvent", cachedImageUpload));
+                Assert.AreEqual(cachedImageUpload, notificationService.EventParam1);
+            }
+            finally
+            {
+                System.IO.File.Delete(mockImageProvider.TemporaryFiles[0]);
+            }
+        }
+
+        [TestMethod]
+        [TestCategory(ImageManagerTestsCategory)]
+        public void ProcessImage_MultipleFileUploaded_ProcessedBy_NotificationService_ReturnsCorrectValidResponse()
+        {
+            TestMemoryCache memoryCache = new TestMemoryCache();
+            TestNotificationService notificationService = new TestNotificationService(true)
+            {
+                EventParam1Name = "ImageUploadedEvent"
+            };
+
+            MockImageProvider mockImageProvider = CreateDefaultMockImageProvider();
+            ImageManagerController sut = CreateDynamicContentController(memoryCache, null, mockImageProvider, notificationService);
+            const string File1Data = "test file data for file 1";
+            const string File2Data = "test file data for file 2";
+            byte[] fileContents1 = Encoding.UTF8.GetBytes(File1Data);
+            byte[] fileContents2 = Encoding.UTF8.GetBytes(File2Data);
+
+            UploadImageModel model = new UploadImageModel(GenerateTestBaseModelData(), "My Pictures", "Subgroup 1");
+
+            IFormFile formFile = new FormFile(new MemoryStream(fileContents1), 0, fileContents1.Length, "test", "testdata1.gif");
+            model.Files.Add(formFile);
+            formFile = new FormFile(new MemoryStream(fileContents2), 0, fileContents2.Length, "test", "testdata2.svg");
+            model.Files.Add(formFile);
+
+            IActionResult response = sut.UploadImage(model);
+            try
+            {
+                ImagesUploadedModel responseModel = ValidateUploadImageResponse(response);
+                Assert.AreEqual("My Pictures", responseModel.GroupName);
+                Assert.AreEqual("Subgroup 1", responseModel.SubgroupName);
+                Assert.IsNotNull(memoryCache.GetCache().Get(responseModel.MemoryCacheName));
+
+                CachedImageUpload cachedImageUpload = memoryCache.GetCache().Get(responseModel.MemoryCacheName).Value as CachedImageUpload;
+                Assert.IsNotNull(cachedImageUpload);
+                ImageProcessViewModel imageProcessViewModel = new ImageProcessViewModel(GenerateTestBaseModelData(), responseModel.MemoryCacheName);
+                IActionResult processResponse = sut.ProcessImage(imageProcessViewModel);
+
+                Assert.AreEqual(0, mockImageProvider.FilesAdded.Count);
+                Assert.IsTrue(notificationService.NotificationRaised("ImageUploadedEvent", cachedImageUpload));
+                Assert.AreEqual(cachedImageUpload, notificationService.EventParam1);
+            }
+            finally
+            {
+                System.IO.File.Delete(mockImageProvider.TemporaryFiles[0]);
+            }
+        }
+
+
+        [TestMethod]
+        [TestCategory(ImageManagerTestsCategory)]
+        public void ProcessImageOptions_HasCorrectAttributes_Success()
+        {
+            string methodName = "ProcessImageOptions";
+            Assert.IsTrue(MethodHasAttribute<HttpPostAttribute>(typeof(ImageManagerController), methodName));
+            Assert.IsTrue(MethodHasAuthorizeAttribute(typeof(ImageManagerController), methodName, "ImageManagerManage"));
+            Assert.IsTrue(MethodHasAttribute<AjaxOnlyAttribute>(typeof(ImageManagerController), methodName));
+
+            Assert.IsFalse(MethodHasAttribute<ValidateAntiForgeryTokenAttribute>(typeof(ImageManagerController), methodName));
+            Assert.IsFalse(MethodHasAttribute<BreadcrumbAttribute>(typeof(ImageManagerController), methodName));
+            Assert.IsFalse(MethodHasAttribute<RouteAttribute>(typeof(ImageManagerController), methodName));
+            Assert.IsFalse(MethodHasAttribute<HttpGetAttribute>(typeof(ImageManagerController), methodName));
+            Assert.IsFalse(MethodHasAttribute<HttpPutAttribute>(typeof(ImageManagerController), methodName));
+            Assert.IsFalse(MethodHasAttribute<HttpDeleteAttribute>(typeof(ImageManagerController), methodName));
+            Assert.IsFalse(MethodHasAttribute<HttpPatchAttribute>(typeof(ImageManagerController), methodName));
+        }
+
+        [TestMethod]
+        [TestCategory(ImageManagerTestsCategory)]
+        public void ProcessImageOptions_Construct_InvalidParamModel_Null_ReturnsCorrectInvalidResponse()
+        {
+            ImageManagerController sut = CreateDynamicContentController(null, null, CreateDefaultMockImageProvider());
+            Assert.IsNotNull(sut);
+
+            IActionResult response = sut.ProcessImageOptions(null);
+            ValidateJsonResult(response, "Invalid GroupName");
+        }
+
+        [TestMethod]
+        [TestCategory(ImageManagerTestsCategory)]
+        public void ProcessImageOptions_Construct_InvalidParamGroupName_Null_ReturnsCorrectInvalidResponse()
+        {
+            ImageManagerController sut = CreateDynamicContentController(null, null, CreateDefaultMockImageProvider());
+            Assert.IsNotNull(sut);
+
+            IActionResult response = sut.ProcessImageOptions(new ImageProcessOptionsViewModel());
+            ValidateJsonResult(response, "Invalid GroupName");
+        }
+
+        [TestMethod]
+        [TestCategory(ImageManagerTestsCategory)]
+        public void ProcessImageOptions_NoListener_ReturnsCorrectValidResponse_WithDefaultOptions()
+        {
+            TestNotificationService notificationService = new TestNotificationService(null)
+            {
+                EventParam1Name = "ImageUploadOptions"
+            };
+
+            ImageManagerController sut = CreateDynamicContentController(null, null, CreateDefaultMockImageProvider(), notificationService);
+            Assert.IsNotNull(sut);
+
+            ImageProcessOptionsViewModel options = new ImageProcessOptionsViewModel()
+            {
+                GroupName = "Group",
+                SubgroupName = "test subgrouP",
+            };
+
+            IActionResult response = sut.ProcessImageOptions(options);
+            ValidateJsonResult(response, ExpectedResponseWithNoListener, 200, "application/json", true);
+            Assert.AreEqual(1, notificationService.NotificationRaised("ImageUploadOptions"));
+        }
+
+        [TestMethod]
+        [TestCategory(ImageManagerTestsCategory)]
+        public void ProcessImageOptions_WithValidListener_ReturnsCorrectValidResponse_WithDefaultOptions()
+        {
+            ImageProcessOptionsViewModel expectedResponseModel = new ImageProcessOptionsViewModel()
+            {
+                GroupName = "Images",
+                SubgroupName = null,
+                ShowSubgroup = false,
+                AdditionalDataName = "Enter product code/sku",
+                AdditionalDataMandatory = true
+            };
+
+            TestNotificationService notificationService = new TestNotificationService(expectedResponseModel)
+            {
+                EventParam1Name = "ImageUploadOptions"
+            };
+
+            ImageManagerController sut = CreateDynamicContentController(null, null, CreateDefaultMockImageProvider(), notificationService);
+            Assert.IsNotNull(sut);
+
+            ImageProcessOptionsViewModel options = new ImageProcessOptionsViewModel()
+            {
+                GroupName = "Group",
+                SubgroupName = "test subgrouP",
+            };
+
+            IActionResult response = sut.ProcessImageOptions(options);
+            ValidateJsonResult(response, ExpectedResponseWithListener, 200, "application/json", true);
+            Assert.AreEqual(1, notificationService.NotificationRaised("ImageUploadOptions"));
+            Assert.AreEqual(options, notificationService.EventParam1);
         }
 
         #region Private Methods
@@ -1198,23 +1441,22 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
             return (imageProcessViewModel, cachedImageUpload);
         }
 
-        private void ValidateUploadImageResponse(IActionResult response, bool modelStateValid, int fileCount, int errorCount = 0)
+        private ImagesUploadedModel ValidateUploadImageResponse(IActionResult response)
         {
-            Assert.IsInstanceOfType(response, typeof(ViewResult));
+            Assert.IsInstanceOfType(response, typeof(JsonResult));
 
-            ViewResult viewResult = response as ViewResult;
-            Assert.AreEqual("/Views/ImageManager/ImageUpload.cshtml", viewResult.ViewName);
-            Assert.IsNotNull(viewResult.Model);
-            Assert.IsNotNull(viewResult.ViewData);
-            Assert.AreEqual(modelStateValid, viewResult.ViewData.ModelState.IsValid);
-            Assert.AreEqual(errorCount, viewResult.ViewData.ModelState.ErrorCount);
+            JsonResult jsonResult = response as JsonResult;
 
-            ValidateBaseModel(viewResult);
+            Assert.IsNotNull(jsonResult);
+            Assert.AreEqual(200, jsonResult.StatusCode);
+            Assert.AreEqual("application/json", jsonResult.ContentType);
+            Assert.IsNotNull(jsonResult.Value);
+            Assert.IsInstanceOfType(jsonResult.Value, typeof(JsonResponseModel));
 
-            Assert.IsInstanceOfType(viewResult.Model, typeof(UploadImageModel));
-
-            UploadImageModel imagesViewModel = (UploadImageModel)viewResult.Model;
-            Assert.AreEqual(fileCount, imagesViewModel.Files.Count);
+            JsonResponseModel jsonResponseModel = jsonResult.Value as JsonResponseModel;
+            Assert.IsNotNull(jsonResponseModel);
+            Assert.IsTrue(jsonResponseModel.Success);
+            return JsonConvert.DeserializeObject<ImagesUploadedModel>(jsonResponseModel.Data);
         }
 
         private void ValidateJsonResult(IActionResult response,

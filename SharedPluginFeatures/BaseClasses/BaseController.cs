@@ -32,6 +32,8 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
+using Newtonsoft.Json;
+
 using Shared.Classes;
 
 using static Shared.Utilities;
@@ -617,22 +619,11 @@ namespace SharedPluginFeatures
         /// Creates a generic JsonResult for an error with status code (http response)
         /// </summary>
         /// <param name="statusCode">Status code being returned.</param>
-        /// <returns>JsonResult</returns>
-        protected JsonResult GenerateJsonErrorResponse(int statusCode)
-        {
-            return GenerateJsonErrorResponse(statusCode, String.Empty);
-        }
-
-
-        /// <summary>
-        /// Creates a generic JsonResult for an error with status code (http response)
-        /// </summary>
-        /// <param name="statusCode">Status code being returned.</param>
         /// <param name="jsonData">Json data to be returned as part of the response.</param>
         /// <returns>JsonResult</returns>
         protected JsonResult GenerateJsonErrorResponse(int statusCode, string jsonData)
         {
-            if (jsonData == null)
+            if (String.IsNullOrEmpty(jsonData))
                 throw new ArgumentNullException(nameof(jsonData));
 
             return new JsonResult(new JsonResponseModel(false, jsonData))
@@ -649,6 +640,24 @@ namespace SharedPluginFeatures
         protected JsonResult GenerateJsonSuccessResponse()
         {
             return new JsonResult(new JsonResponseModel(true))
+            {
+                ContentType = Constants.ContentTypeApplicationJson,
+                StatusCode = Constants.HtmlResponseSuccess
+            };
+        }
+
+        /// <summary>
+        /// Generates a generic JsonResult for successful operation with status code of 200
+        /// </summary>
+        /// <param name="responseData">Valid class instance that will be converted to json and set as Data for JsonResponseModel</param>
+        /// <returns>JsonResult</returns>
+        /// <exception cref="ArgumentNullException">Thrown if responseData is null</exception>
+        protected JsonResult GenerateJsonSuccessResponse(object responseData)
+        {
+            if (responseData == null)
+                throw new ArgumentNullException(nameof(responseData));
+
+            return new JsonResult(new JsonResponseModel(true, JsonConvert.SerializeObject(responseData)))
             {
                 ContentType = Constants.ContentTypeApplicationJson,
                 StatusCode = Constants.HtmlResponseSuccess

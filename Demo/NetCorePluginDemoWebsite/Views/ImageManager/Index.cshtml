@@ -52,6 +52,7 @@ imagePath = $"/ImageManager/ViewSubgroupImage/{Model.SelectedGroupName}/{Model.S
 @if (Model.CanManageImages)
 {
 <div class="tab-pane fade" id="nav-settings" role="tabpanel" aria-labelledby="nav-settings-tab">
+@await Html.PartialAsync("_ImageUpload.cshtml", new ImageManager.Plugin.Models.UploadImageModel(){ GroupName = Model.SelectedGroupName, SubgroupName = Model.SelectedSubgroupName})
 </div>
 }
 </div>

@@ -58,10 +58,14 @@ namespace ImageManager.Plugin.Controllers
         #region Public / Private Consts
 
         public const string Name = nameof(ImageManager);
+
+        private const string ErrorInvalidModel = "Invalid Model";
         private const string ErrorInvalidImageName = "Invalid ImageName";
         private const string ErrorInvalidGroupName = "Invalid GroupName";
         private const string ErrorInvalidSubgroupName = "Invalid SubgroupName";
         private const string ErrorUnableToDeleteImage = "Unable to delete image";
+        private const string ErrorNoConfirmation = "Confirmation required";
+        private const string ErrorInvalidImageCache = "Image cache not found";
 
         #endregion Public / Private Consts
 
@@ -190,43 +194,41 @@ namespace ImageManager.Plugin.Controllers
         }
 
         [HttpPost]
+        [AjaxOnly]
         [Authorize(Policy = Constants.PolicyNameImageManagerManage)]
-        [ValidateAntiForgeryToken]
         public IActionResult UploadImage(UploadImageModel model)
         {
             if (model == null || model.Files == null || model.Files.Count == 0)
-                ModelState.AddModelError("", LanguageStrings.InvalidData);
+                return GenerateJsonErrorResponse(Constants.HtmlResponseBadRequest, ErrorInvalidModel);
 
-            if (ModelState.IsValid && String.IsNullOrEmpty(model.GroupName))
-                ModelState.AddModelError(nameof(model.GroupName), LanguageStrings.InvalidData);
+            if (String.IsNullOrEmpty(model.GroupName))
+                return GenerateJsonErrorResponse(Constants.HtmlResponseBadRequest, ErrorInvalidGroupName);
 
-            if (ModelState.IsValid)
+            CachedImageUpload cachedImageUpload = new CachedImageUpload(model.GroupName, model.SubgroupName);
+
+            foreach (IFormFile formFile in model.Files)
             {
-                CachedImageUpload cachedImageUpload = new CachedImageUpload(model.GroupName, model.SubgroupName);
-
-                foreach (IFormFile formFile in model.Files)
+                if (formFile.Length > 0)
                 {
-                    if (formFile.Length > 0)
-                    {
-                        string filePath = _imageProvider.TemporaryImageFile();
+                    if (!FileExtensionAccepted(formFile))
+                        return GenerateJsonErrorResponse(Constants.HtmlResponseBadRequest, LanguageStrings.InvalidFileType);
 
-                        using (FileStream stream = System.IO.File.Create(filePath))
-                        {
-                            formFile.CopyTo(stream);
-                            cachedImageUpload.Files.Add(filePath);
-                        }
+                    string filePath = _imageProvider.TemporaryImageFile(Path.GetExtension(formFile.FileName));
+
+                    using (FileStream stream = System.IO.File.Create(filePath))
+                    {
+                        formFile.CopyTo(stream);
+                        cachedImageUpload.Files.Add(filePath);
                     }
                 }
-
-                cachedImageUpload.MemoryCacheName = GetCacheId();
-
-                _memoryCache.GetCache().Add(cachedImageUpload.MemoryCacheName,
-                    new CacheItem(cachedImageUpload.MemoryCacheName, cachedImageUpload));
-
-                return View("/Views/ImageManager/ProcessImage.cshtml", new ImageProcessViewModel(GetModelData(), cachedImageUpload.MemoryCacheName));
             }
 
-            return View("/Views/ImageManager/ImageUpload.cshtml", new UploadImageModel(GetModelData()));
+            cachedImageUpload.MemoryCacheName = GetCacheId();
+
+            _memoryCache.GetCache().Add(cachedImageUpload.MemoryCacheName,
+                new CacheItem(cachedImageUpload.MemoryCacheName, cachedImageUpload));
+
+            return GenerateJsonSuccessResponse(new ImagesUploadedModel(model.GroupName, model.SubgroupName, cachedImageUpload.MemoryCacheName));
         }
 
         [HttpPost]
@@ -235,31 +237,88 @@ namespace ImageManager.Plugin.Controllers
         public IActionResult ProcessImage(ImageProcessViewModel model)
         {
             if (model == null)
-                return GenerateJsonErrorResponse(Constants.HtmlResponseBadRequest);
+                return GenerateJsonErrorResponse(Constants.HtmlResponseBadRequest, ErrorInvalidModel);
 
             CacheItem uploadCache = _memoryCache.GetCache().Get(model.FileUploadId);
 
             if (uploadCache == null)
-                return GenerateJsonErrorResponse(Constants.HtmlResponseBadRequest);
+                return GenerateJsonErrorResponse(Constants.HtmlResponseBadRequest, ErrorInvalidImageCache);
 
             CachedImageUpload cachedImageUpload = uploadCache.Value as CachedImageUpload;
 
             if (cachedImageUpload == null)
-                return GenerateJsonErrorResponse(Constants.HtmlResponseBadRequest);
+                return GenerateJsonErrorResponse(Constants.HtmlResponseBadRequest, ErrorInvalidImageCache);
 
-            object redirectViewName = null;
+            object notificationResponse = null;
 
-            if (_notificationService.RaiseEvent(Constants.NotificationEventImageUploaded, cachedImageUpload, null, ref redirectViewName))
+            _notificationService.RaiseEvent(Constants.NotificationEventImageUploaded, cachedImageUpload, null, ref notificationResponse);
+
+            if (notificationResponse != null)
+                return GenerateJsonSuccessResponse();
+
+            // custom processing has not taken place, move files to correct location and report success
+            foreach (string file in cachedImageUpload.Files)
             {
-
+                if (System.IO.File.Exists(file))
+                {
+                    byte[] fileContents = System.IO.File.ReadAllBytes(file);
+                    _imageProvider.AddFile(cachedImageUpload.GroupName, cachedImageUpload.SubgroupName, Path.GetFileName(file), fileContents);
+                }
             }
 
-            throw new NotImplementedException();
+            return GenerateJsonSuccessResponse();
+        }
+
+        [HttpPost]
+        [Authorize(Policy = Constants.PolicyNameImageManagerManage)]
+        [AjaxOnly]
+        public IActionResult ProcessImageOptions(ImageProcessOptionsViewModel model)
+        {
+            if (model == null || String.IsNullOrEmpty(model.GroupName))
+                return GenerateJsonErrorResponse(Constants.HtmlResponseBadRequest, ErrorInvalidGroupName);
+
+            object notificationResponse = null;
+
+            _notificationService.RaiseEvent(Constants.NotificationEventImageUploadOptions, model, null, ref notificationResponse);
+
+
+            ImageProcessOptionsViewModel Result = notificationResponse as ImageProcessOptionsViewModel;
+
+            if (Result == null)
+            {
+                Result = new ImageProcessOptionsViewModel()
+                {
+                    GroupName = model.GroupName,
+                    SubgroupName = model.SubgroupName
+                };
+            }
+
+            return GenerateJsonSuccessResponse(Result);
         }
 
         #endregion Public Action Methods
 
         #region Private Methods
+
+        private bool FileExtensionAccepted(IFormFile formFile)
+        {
+            string extension = Path.GetExtension(formFile.FileName).ToLower();
+
+            switch (extension)
+            {
+                case Constants.FileExtensionApng:
+                case Constants.FileExtensionAvif:
+                case Constants.FileExtensionGif:
+                case Constants.FileExtensionJpg:
+                case Constants.FileExtensionJpeg:
+                case Constants.FileExtensionPng:
+                case Constants.FileExtensionSvg:
+                case Constants.FileExtensionWebP:
+                    return true;
+            }
+
+            return false;
+        }
 
         private string GetCacheId()
         {
@@ -301,10 +360,10 @@ namespace ImageManager.Plugin.Controllers
             invalidResponse = null;
 
             if (model == null)
-                invalidResponse = GenerateJsonErrorResponse(Constants.HtmlResponseBadRequest);
+                invalidResponse = GenerateJsonErrorResponse(Constants.HtmlResponseBadRequest, ErrorInvalidModel);
 
             if (invalidResponse == null && !model.ConfirmDelete)
-                invalidResponse = GenerateJsonErrorResponse(Constants.HtmlResponseBadRequest);
+                invalidResponse = GenerateJsonErrorResponse(Constants.HtmlResponseBadRequest, ErrorNoConfirmation);
 
             if (invalidResponse == null && String.IsNullOrEmpty(model.ImageName))
                 invalidResponse = GenerateJsonErrorResponse(Constants.HtmlResponseBadRequest, ErrorInvalidImageName);

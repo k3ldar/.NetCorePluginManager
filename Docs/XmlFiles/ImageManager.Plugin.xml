@@ -133,11 +133,24 @@
             <exception cref="T:System.ArgumentNullException">Thrown if subgroupName is null or an empty string.</exception>
             <exception cref="T:System.ArgumentNullException">Thrown if imageName is null or an empty string.</exception>
         </member>
-        <member name="M:ImageManager.Plugin.Classes.DefaultImageProvider.TemporaryImageFile">
+        <member name="M:ImageManager.Plugin.Classes.DefaultImageProvider.TemporaryImageFile(System.String)">
             <summary>
             Retreives the name of a file which can be used for temporary storage of image files
             </summary>
             <returns>string</returns>
+        </member>
+        <member name="M:ImageManager.Plugin.Classes.DefaultImageProvider.AddFile(System.String,System.String,System.String,System.Byte[])">
+            <summary>
+            Adds a file to the specific group or subgroup
+            </summary>
+            <param name="groupName">Name of group</param>
+            <param name="subgroupName">Name of subgroup or null if not applicable</param>
+            <param name="fileName">Name of file to be saved</param>
+            <param name="fileContents">Contents of file</param>
+            <exception cref="T:System.ArgumentNullException">Thrown if groupName is null or empty.</exception>
+            <exception cref="T:System.ArgumentNullException">Thrown if fileName is null or empty.</exception>
+            <exception cref="T:System.ArgumentException">Thrown if fileContents length is 0.</exception>
+            <exception cref="T:System.ArgumentOutOfRangeException">Thrown if the file already exists.</exception>
         </member>
         <member name="T:ImageManager.Plugin.Classes.ImageManagerSettings">
             <summary>
@@ -179,6 +192,52 @@
             </summary>
             <value>bool</value>
         </member>
+        <member name="T:ImageManager.Plugin.Models.ImageProcessOptionsViewModel">
+            <summary>
+            Options for processing image options
+            </summary>
+        </member>
+        <member name="M:ImageManager.Plugin.Models.ImageProcessOptionsViewModel.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="P:ImageManager.Plugin.Models.ImageProcessOptionsViewModel.GroupName">
+            <summary>
+            Name of group to which the options apply
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:ImageManager.Plugin.Models.ImageProcessOptionsViewModel.SubgroupName">
+            <summary>
+            Name of subgroup to which the options apply
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:ImageManager.Plugin.Models.ImageProcessOptionsViewModel.ShowSubgroup">
+            <summary>
+            Indicates whether the subgroup will be shown or not
+            </summary>
+            <value>bool</value>
+        </member>
+        <member name="P:ImageManager.Plugin.Models.ImageProcessOptionsViewModel.AdditionalDataName">
+            <summary>
+            Name of additional data
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:ImageManager.Plugin.Models.ImageProcessOptionsViewModel.AdditionalData">
+            <summary>
+            Additional data supplied by user
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:ImageManager.Plugin.Models.ImageProcessOptionsViewModel.AdditionalDataMandatory">
+            <summary>
+            Indicates that additional data is mandatory
+            </summary>
+            <value>bool</value>
+        </member>
         <member name="T:ImageManager.Plugin.Models.ImageProcessViewModel">
             <summary>
             View model for processing uploaded images
@@ -198,6 +257,34 @@
             Unique file upload id
             </summary>
             <value>string</value>
+        </member>
+        <member name="T:ImageManager.Plugin.Models.ImagesUploadedModel">
+            <summary>
+            Cached image upload data
+            </summary>
+        </member>
+        <member name="M:ImageManager.Plugin.Models.ImagesUploadedModel.#ctor(System.String,System.String,System.String)">
+            <summary>
+            Constructor
+            </summary>
+            <exception cref="T:System.ArgumentNullException">Thrown if groupName is null or empty.</exception>
+        </member>
+        <member name="P:ImageManager.Plugin.Models.ImagesUploadedModel.GroupName">
+            <summary>
+            Name of group images are being uploaded to
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:ImageManager.Plugin.Models.ImagesUploadedModel.SubgroupName">
+            <summary>
+            Name of subgroup images are being uploaded to
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:ImageManager.Plugin.Models.ImagesUploadedModel.MemoryCacheName">
+            <summary>
+            Name of memory cache item for uploaded images
+            </summary>
         </member>
         <member name="T:ImageManager.Plugin.Models.ImagesViewModel">
             <summary>

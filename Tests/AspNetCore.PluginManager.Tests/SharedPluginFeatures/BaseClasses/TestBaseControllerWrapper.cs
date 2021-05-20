@@ -62,11 +62,6 @@ namespace AspNetCore.PluginManager.Tests.SharedPluginFeatures
             CalculatePageOffsets(totalItems, page, pageSize, out startItem, out endItem, out availablePages);
         }
 
-        internal JsonResult TestGenerateJsonErrorResponse(int statusCode)
-        {
-            return GenerateJsonErrorResponse(statusCode);
-        }
-
         internal JsonResult TestGenerateJsonErrorResponse(int statusCode, string jsonData)
         {
             return GenerateJsonErrorResponse(statusCode, jsonData);
@@ -75,6 +70,11 @@ namespace AspNetCore.PluginManager.Tests.SharedPluginFeatures
         internal JsonResult TestGenerateJsonSuccessResponse()
         {
             return GenerateJsonSuccessResponse();
+        }
+
+        internal JsonResult TestGenerateJsonSuccessResponse(object responseData)
+        {
+            return GenerateJsonSuccessResponse(responseData);
         }
     }
 }
