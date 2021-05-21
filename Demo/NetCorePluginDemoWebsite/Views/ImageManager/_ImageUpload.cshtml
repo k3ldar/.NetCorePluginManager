@@ -1,57 +1,57 @@
 ﻿@model ImageManager.Plugin.Models.UploadImageModel
 @inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
 <div class="row">
-    <div class="col-sm-12">
-        <h3>@Localizer[nameof(Languages.LanguageStrings.ImageUploadFiles)]</h3>
-    </div>
+<div class="col-sm-12">
+<h3>@Localizer[nameof(Languages.LanguageStrings.ImageUploadFiles)]</h3>
 </div>
-
+</div>
 <div class="row">
-    <form action="/ImageManager/UploadImage/" method="post" enctype="multipart/form-data" onsubmit="AjaxUpload(this); return false;">
-        @Html.HiddenFor(m => m.GroupName)
-        @Html.HiddenFor(m => m.SubgroupName)
-        <div class="col-sm-12">
-            <div class="form-group">
-                <label for="Files">Files</label>
-                <input class="form-control-file" id="Files" multiple name="Files" type="file" />
-            </div>
-        </div>
-        <div class="col-sm-12">
-            <input class="btn btn-primary" type="submit" value="Upload" />
-        </div>
-    </form>
+<form action="/ImageManager/UploadImage/" method="post" enctype="multipart/form-data" onsubmit="AjaxUpload(this); return false;">
+@Html.HiddenFor(m => m.GroupName)
+@Html.HiddenFor(m => m.SubgroupName)
+<div class="col-sm-12">
+<div class="form-group">
+<label for="Files">Files</label>
+<input class="form-control-file" id="Files" multiple name="Files" type="file" />
+<label id="uploadErrors" class="has-error">There was an error</label>
+</div>
+</div>
+<div class="col-sm-12">
+<input class="btn btn-primary" type="submit" value="Upload" />
+</div>
+</form>
 </div>
 <script>
-    async function AjaxUpload(oFormElement) {
-        content = new Object();
-        content.GroupName = $('#GroupName').val();
-        content.SubgroupName = $('#SubgroupName').val();
-
-        var formData = new FormData();
-        var fileList = $('#Files').get(0).files;
-        for (var x = 0; x < fileList.length; x++) {
-            formData.append('file' + x, fileList.item(x));
-        }
-
-        content.Files = formData;
-        $.ajax(
-            {
-                url: oFormElement.action,
-                data: content,
-                processData: false,
-                contentType: false,
-                type: "POST",
-                success: function (data) {
-                    alert("Files Uploaded!");
-                }
-            }
-        );
-        //var request = new XMLHttpRequest();
-        //request.open('POST', oFormElement.action);
-        //request.send(content);
-
-        //request.onload = function (e) {
-        //    console.log('Request Status', request.status);
-    };
-    }
+function AjaxUpload(frm) {
+var errorText = $('#uploadErrors');
+errorText.hide();
+content = new Object();
+content.GroupName = $('#GroupName').val();
+content.SubgroupName = $('#SubgroupName').val();
+var formData = new FormData();
+var fileList = $('#Files').get(0).files;
+for (var x = 0; x < fileList.length; x++) {
+formData.append('file' + x, fileList.item(x));
+}
+content.Files = formData;
+$.ajax(
+{
+url: frm.action,
+data: content,
+//processData: false,
+//contentType: false,//frm.contentType,
+//enctype: "multipart/form-data",
+type: "POST",
+success: function (data) {
+debugger;
+alert("Files Uploaded!");
+},
+error: function (jqXHR, textStatus, errorThrown) {
+var err = jqXHR.responseJSON;
+errorText.show();
+errorText.val("Error: " + err.data);
+}
+}
+);
+}
 </script>

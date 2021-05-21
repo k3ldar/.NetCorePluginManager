@@ -14,6 +14,7 @@
             <div class="form-group">
                 <label for="Files">Files</label>
                 <input class="form-control-file" id="Files" multiple name="Files" type="file" />
+                <label id="uploadErrors" class="has-error">There was an error</label>
             </div>
         </div>
         <div class="col-sm-12">
@@ -22,27 +23,40 @@
     </form>
 </div>
 <script>
-    async function AjaxUpload(oFormElement) {
+    function AjaxUpload(frm) {
+        var errorText = $('#uploadErrors');
+
+        errorText.hide();
         content = new Object();
         content.GroupName = $('#GroupName').val();
         content.SubgroupName = $('#SubgroupName').val();
 
         var formData = new FormData();
         var fileList = $('#Files').get(0).files;
+
         for (var x = 0; x < fileList.length; x++) {
             formData.append('file' + x, fileList.item(x));
         }
 
         content.Files = formData;
+
         $.ajax(
             {
-                url: oFormElement.action,
+                url: frm.action,
                 data: content,
-                processData: false,
-                contentType: false,
+                //processData: false,
+                //contentType: false,//frm.contentType,
+                //enctype: "multipart/form-data",
                 type: "POST",
                 success: function (data) {
+                    debugger;
                     alert("Files Uploaded!");
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    var err = jqXHR.responseJSON;
+
+                    errorText.show();
+                    errorText.val("Error: " + err.data);
                 }
             }
         );
