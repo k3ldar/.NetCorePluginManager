@@ -66,11 +66,13 @@ namespace ImageManager.Plugin.Controllers
         private const string ErrorUnableToDeleteImage = "Unable to delete image";
         private const string ErrorNoConfirmation = "Confirmation required";
         private const string ErrorInvalidImageCache = "Image cache not found";
+        private const string EmptyUploadCacheName = "Not Cached";
 
         #endregion Public / Private Consts
 
         #region Private Members
 
+        private static int _uploadId = 0;
         private readonly ISettingsProvider _settingsProvider;
         private readonly IImageProvider _imageProvider;
         private readonly INotificationService _notificationService;
@@ -194,7 +196,6 @@ namespace ImageManager.Plugin.Controllers
         }
 
         [HttpPost]
-        [AjaxOnly]
         [Authorize(Policy = Constants.PolicyNameImageManagerManage)]
         public IActionResult UploadImage(UploadImageModel model)
         {
@@ -223,12 +224,11 @@ namespace ImageManager.Plugin.Controllers
                 }
             }
 
-            cachedImageUpload.MemoryCacheName = GetCacheId();
+            string cacheName = $"ImageManager {DateTime.UtcNow.Ticks}/{_uploadId++}";
 
-            _memoryCache.GetCache().Add(cachedImageUpload.MemoryCacheName,
-                new CacheItem(cachedImageUpload.MemoryCacheName, cachedImageUpload));
+            _memoryCache.GetCache().Add(cacheName, new CacheItem(cacheName, cachedImageUpload));
 
-            return GenerateJsonSuccessResponse(new ImagesUploadedModel(model.GroupName, model.SubgroupName, cachedImageUpload.MemoryCacheName));
+            return View("/Views/ImageManager/ImageUpload.cshtml", CreateImageUploadViewModel(model.GroupName, model.SubgroupName, null, cacheName));
         }
 
         [HttpPost]
@@ -394,7 +394,13 @@ namespace ImageManager.Plugin.Controllers
             return Result.ToString();
         }
 
+
         private ImagesViewModel CreateImagesViewModel(string groupName, string subgroupName, string imageName)
+        {
+            return CreateImageUploadViewModel(groupName, subgroupName, imageName, EmptyUploadCacheName) as ImagesViewModel;
+        }
+
+        private ProcessImagesViewModel CreateImageUploadViewModel(string groupName, string subgroupName, string imageName, string memoryCacheName)
         {
             List<ImageFile> images = null;
 
@@ -430,7 +436,14 @@ namespace ImageManager.Plugin.Controllers
 
             bool canManageImages = ControllerContext.HttpContext.User.HasClaim(Constants.ClaimNameManageImages, "true");
 
-            ImagesViewModel Result = new ImagesViewModel(GetModelData(), canManageImages, groupName, subgroupName, image, groups, images);
+            ProcessImagesViewModel Result = new ProcessImagesViewModel(GetModelData(), 
+                canManageImages, 
+                groupName, 
+                subgroupName ?? String.Empty, 
+                image, 
+                groups, 
+                images, 
+                memoryCacheName);
 
             Result.Breadcrumbs.Add(new BreadcrumbItem(LanguageStrings.ImageManager, $"/{Name}", true));
 
@@ -442,13 +455,16 @@ namespace ImageManager.Plugin.Controllers
                 Result.Breadcrumbs.Add(new BreadcrumbItem(subgroupName, $"/{Name}/ViewSubgroup/{groupName}/{subgroupName}/", true));
 
                 if (!String.IsNullOrEmpty(imageName))
-                    Result.Breadcrumbs.Add(new BreadcrumbItem(imageName, $"ImageManager/ViewSubgroupImage/{groupName}/{subgroupName}/{SharedPluginFeatures.BaseModel.RouteFriendlyName(imageName)}/", true));
+                    Result.Breadcrumbs.Add(new BreadcrumbItem(imageName, $"ImageManager/ViewSubgroupImage/{groupName}/{subgroupName}/{BaseModel.RouteFriendlyName(imageName)}/", true));
 
             }
             else if (!String.IsNullOrEmpty(imageName))
             {
-                Result.Breadcrumbs.Add(new BreadcrumbItem(imageName, $"ImageManager/ViewImage/{groupName}/{SharedPluginFeatures.BaseModel.RouteFriendlyName(imageName)}/", true));
+                Result.Breadcrumbs.Add(new BreadcrumbItem(imageName, $"ImageManager/ViewImage/{groupName}/{BaseModel.RouteFriendlyName(imageName)}/", true));
             }
+
+            if (memoryCacheName != EmptyUploadCacheName)
+                Result.Breadcrumbs.Add(new BreadcrumbItem(LanguageStrings.ImageUploadFiles, $"ImageManager/UploadImage/", false));
 
             return Result;
         }

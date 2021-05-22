@@ -34,17 +34,16 @@ namespace ImageManager.Plugin.Models
     {
         #region Constructors
 
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="modelData"><see cref="BaseModelData"/> instance.</param>
-        /// <param name="fileUploadId">Unique id of file upload session.</param>
-        /// <exception cref="ArgumentNullException">Thrown if modelData is null or invalid.</exception>
-        /// <exception cref="ArgumentNullException">Thrown if fileUploadId is null or empty.</exception>
-        public ImageProcessViewModel(BaseModelData modelData, string fileUploadId)
+        public ImageProcessViewModel()
+            : base()
+        {
+
+        }
+
+        public ImageProcessViewModel(in BaseModelData modelData, string fileUploadId)
             : base(modelData)
         {
-            if (String.IsNullOrEmpty(fileUploadId))
+            if (string.IsNullOrEmpty(fileUploadId))
                 throw new ArgumentNullException(nameof(fileUploadId));
 
             FileUploadId = fileUploadId;

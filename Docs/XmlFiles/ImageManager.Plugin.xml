@@ -243,15 +243,6 @@
             View model for processing uploaded images
             </summary>
         </member>
-        <member name="M:ImageManager.Plugin.Models.ImageProcessViewModel.#ctor(SharedPluginFeatures.BaseModelData,System.String)">
-            <summary>
-            Constructor
-            </summary>
-            <param name="modelData"><see cref="T:SharedPluginFeatures.BaseModelData"/> instance.</param>
-            <param name="fileUploadId">Unique id of file upload session.</param>
-            <exception cref="T:System.ArgumentNullException">Thrown if modelData is null or invalid.</exception>
-            <exception cref="T:System.ArgumentNullException">Thrown if fileUploadId is null or empty.</exception>
-        </member>
         <member name="P:ImageManager.Plugin.Models.ImageProcessViewModel.FileUploadId">
             <summary>
             Unique file upload id
@@ -295,6 +286,12 @@
             <summary>
             Default constructor
             </summary>
+        </member>
+        <member name="M:ImageManager.Plugin.Models.ImagesViewModel.#ctor(SharedPluginFeatures.BaseModelData@)">
+            <summary>
+            Constructor for <see cref="T:SharedPluginFeatures.BaseModelData"/>
+            </summary>
+            <param name="baseModelData">Valid BaseModelData instance</param>
         </member>
         <member name="M:ImageManager.Plugin.Models.ImagesViewModel.#ctor(SharedPluginFeatures.BaseModelData@,System.Boolean,System.String,System.String,Middleware.Images.ImageFile,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Collections.Generic.List{Middleware.Images.ImageFile})">
             <summary>
@@ -342,6 +339,88 @@
             Determines whether images can be managed by the current user
             </summary>
         </member>
+        <member name="T:ImageManager.Plugin.Models.ImageViewModel">
+            <summary>
+            View model used when viewing images using <see cref="T:ImageManager.Plugin.Controllers.ImageManagerController"/>
+            </summary>
+        </member>
+        <member name="M:ImageManager.Plugin.Models.ImageViewModel.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="M:ImageManager.Plugin.Models.ImageViewModel.#ctor(SharedPluginFeatures.BaseModelData@,System.Boolean,System.String,System.String,Middleware.Images.ImageFile,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Collections.Generic.List{Middleware.Images.ImageFile})">
+            <summary>
+            Constructor for use when displaying data within controller
+            </summary>
+            <param name="modelData"></param>
+            <param name="canManageImages">Determines whether the user can manage image data or not (add, delete etc)</param>
+            <param name="selectedGroupName">Name of group, or empty string if root path</param>
+            <param name="selectedSubgroupName">Name of subgroup, or empty string if no subgroup is being highlighted</param>
+            <param name="selectedImageFile">The selected image file if applicable, otherwise null</param>
+            <param name="groups">List of all groups</param>
+            <param name="imageFiles">List of images that belong to the group</param>
+        </member>
+        <member name="P:ImageManager.Plugin.Models.ImageViewModel.SelectedGroupName">
+            <summary>
+            Name of group
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:ImageManager.Plugin.Models.ImageViewModel.SelectedSubgroupName">
+            <summary>
+            Name of subgroup
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:ImageManager.Plugin.Models.ImageViewModel.SelectedImageFile">
+            <summary>
+            The currently selected image file, if applicable
+            </summary>
+        </member>
+        <member name="P:ImageManager.Plugin.Models.ImageViewModel.Groups">
+            <summary>
+            List of all image groups
+            </summary>
+            <value>List&lt;string&gt;</value>
+        </member>
+        <member name="P:ImageManager.Plugin.Models.ImageViewModel.ImageFiles">
+            <summary>
+            List of images that belong to the group
+            </summary>
+            <value>List&lt;ImageFile&gt;</value>
+        </member>
+        <member name="P:ImageManager.Plugin.Models.ImageViewModel.CanManageImages">
+            <summary>
+            Determines whether images can be managed by the current user
+            </summary>
+        </member>
+        <member name="T:ImageManager.Plugin.Models.ProcessImagesViewModel">
+            <summary>
+            View model for processing images which have just been uploaded
+            </summary>
+        </member>
+        <member name="M:ImageManager.Plugin.Models.ProcessImagesViewModel.#ctor(SharedPluginFeatures.BaseModelData@,System.Boolean,System.String,System.String,Middleware.Images.ImageFile,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Collections.Generic.List{Middleware.Images.ImageFile},System.String)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="modelData"><see cref="T:SharedPluginFeatures.BaseModelData"/> instance.</param>
+            <param name="canManageImages"></param>
+            <param name="selectedGroupName"></param>
+            <param name="selectedSubgroupName"></param>
+            <param name="selectedImageFile"></param>
+            <param name="groups"></param>
+            <param name="imageFiles"></param>
+            <param name="fileUploadId">Unique id of file upload session.</param>
+            <exception cref="T:System.ArgumentNullException">Thrown if modelData is null or invalid.</exception>
+            <exception cref="T:System.ArgumentNullException">Thrown if fileUploadId is null or empty.</exception>
+        </member>
+        <member name="P:ImageManager.Plugin.Models.ProcessImagesViewModel.FileUploadId">
+            <summary>
+            Unique file upload id
+            </summary>
+            <value>string</value>
+        </member>
         <member name="T:ImageManager.Plugin.Models.UploadImageModel">
             <summary>
             View model for uploading images
@@ -382,6 +461,51 @@
             <value>string</value>
         </member>
         <member name="P:ImageManager.Plugin.Models.UploadImageModel.SubgroupName">
+            <summary>
+            Name of subgroup where image is being uploaded to
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="T:ImageManager.Plugin.Models.UploadImageViewModel">
+            <summary>
+            View model for uploading images
+            </summary>
+        </member>
+        <member name="M:ImageManager.Plugin.Models.UploadImageViewModel.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="M:ImageManager.Plugin.Models.UploadImageViewModel.#ctor(SharedPluginFeatures.BaseModelData)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="modelData">Valid BaseModelData instance</param>
+            <exception cref="T:System.ArgumentNullException">Thrown if modelData is null</exception>
+        </member>
+        <member name="M:ImageManager.Plugin.Models.UploadImageViewModel.#ctor(SharedPluginFeatures.BaseModelData,System.String,System.String)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="modelData">Valid BaseModelData instance</param>
+            <param name="groupName">Name of group for uploaded images</param>
+            <param name="subgroupName">Name of subgroup for uploaded images</param>
+            <exception cref="T:System.ArgumentNullException">Thrown if modelData is null</exception>
+            <exception cref="T:System.ArgumentNullException">Thrown if groupName is null or empty</exception>
+        </member>
+        <member name="P:ImageManager.Plugin.Models.UploadImageViewModel.Files">
+            <summary>
+            List of files to be uploaded
+            </summary>
+            <value>List&lt;IFormFile&gt;</value>
+        </member>
+        <member name="P:ImageManager.Plugin.Models.UploadImageViewModel.GroupName">
+            <summary>
+            Name of group where image is being uploaded to
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:ImageManager.Plugin.Models.UploadImageViewModel.SubgroupName">
             <summary>
             Name of subgroup where image is being uploaded to
             </summary>

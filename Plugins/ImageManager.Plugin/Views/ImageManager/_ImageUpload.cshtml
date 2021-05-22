@@ -1,4 +1,4 @@
-﻿@model ImageManager.Plugin.Models.UploadImageModel
+﻿@model ImageManager.Plugin.Models.UploadImageViewModel
 @inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
 <div class="row">
     <div class="col-sm-12">
@@ -44,14 +44,8 @@
             {
                 url: frm.action,
                 data: content,
-                //processData: false,
-                //contentType: false,//frm.contentType,
-                //enctype: "multipart/form-data",
                 type: "POST",
-                success: function (data) {
-                    debugger;
-                    alert("Files Uploaded!");
-                },
+                dataType: "json",
                 error: function (jqXHR, textStatus, errorThrown) {
                     var err = jqXHR.responseJSON;
 
@@ -60,5 +54,7 @@
                 }
             }
         );
+
+        return false;
     }
 </script>

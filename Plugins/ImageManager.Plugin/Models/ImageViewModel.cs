@@ -15,7 +15,7 @@
  *
  *  Product:  Image Manager Plugin
  *  
- *  File: ImagesViewModel.cs
+ *  File: ImageViewModel.cs
  *
  *  Date        Name                Reason
  *  21/04/2021  Simon Carter        Initially Created
@@ -33,24 +33,14 @@ namespace ImageManager.Plugin.Models
     /// <summary>
     /// View model used when viewing images using <see cref="Controllers.ImageManagerController"/>
     /// </summary>
-    public class ImagesViewModel : BaseModel
+    public sealed class ImageViewModel : BaseModel
     {
         #region Constructors
 
         /// <summary>
         /// Default constructor
         /// </summary>
-        public ImagesViewModel()
-        {
-
-        }
-
-        /// <summary>
-        /// Constructor for <see cref="BaseModelData"/>
-        /// </summary>
-        /// <param name="baseModelData">Valid BaseModelData instance</param>
-        public ImagesViewModel(in BaseModelData baseModelData)
-            : base(baseModelData)
+        public ImageViewModel()
         {
 
         }
@@ -65,7 +55,7 @@ namespace ImageManager.Plugin.Models
         /// <param name="selectedImageFile">The selected image file if applicable, otherwise null</param>
         /// <param name="groups">List of all groups</param>
         /// <param name="imageFiles">List of images that belong to the group</param>
-        public ImagesViewModel(in BaseModelData modelData,
+        public ImageViewModel(in BaseModelData modelData,
             bool canManageImages,
             string selectedGroupName,
             string selectedSubgroupName,

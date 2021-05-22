@@ -1,5 +1,28 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿@model ImageManager.Plugin.Models.ProcessImagesViewModel
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
+<link rel="stylesheet" href="~/css/imageManager.css" />
+<div class="row">
+    <div class="col-sm-12">
+        <h1>@Localizer[nameof(Languages.LanguageStrings.AppImageManagement)]</h1>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-2">
+        @await Html.PartialAsync("_LeftMenu.cshtml", Model as ImageManager.Plugin.Models.ImagesViewModel)
+    </div>
+    <div class="col-sm-10 mainContent">
+        <nav style="margin: 0 5px 0 5px;">
+            <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                <a class="nav-item nav-link active" id="nav-images-tab" data-toggle="tab" href="#nav-images" role="tab" aria-controls="nav-images" aria-selected="true">@Localizer[nameof(Languages.LanguageStrings.ImageUploadFiles)]</a>
+            </div>
+        </nav>
+        <div class="tab-content" id="nav-tabContent" style="margin: 5px;">
+            <div class="tab-pane fade show active" id="nav-images" role="tabpanel" aria-labelledby="nav-images-tab">
+                <div class="row">
+                    <ul class="imageList">
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

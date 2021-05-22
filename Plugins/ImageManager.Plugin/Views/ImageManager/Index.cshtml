@@ -54,15 +54,11 @@
             @if (Model.CanManageImages)
             {
                 <div class="tab-pane fade" id="nav-settings" role="tabpanel" aria-labelledby="nav-settings-tab">
-                    @await Html.PartialAsync("_ImageUpload.cshtml", new ImageManager.Plugin.Models.UploadImageModel(){ GroupName = Model.SelectedGroupName, SubgroupName = Model.SelectedSubgroupName})
+                    @await Html.PartialAsync("_ImageUpload.cshtml", new ImageManager.Plugin.Models.UploadImageViewModel(){ GroupName = Model.SelectedGroupName, SubgroupName = Model.SelectedSubgroupName})
                 </div>
             }
         </div>
     </div>
 </div>
-@*<div class="row justify-content-sm-center" style="margin-top:20px;">
-        <div class="col-sm-auto">
-            @Html.Raw(Model.Pagination)
-        </div>
-    </div>*@
+
 
