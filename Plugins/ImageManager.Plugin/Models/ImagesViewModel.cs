@@ -46,16 +46,6 @@ namespace ImageManager.Plugin.Models
         }
 
         /// <summary>
-        /// Constructor for <see cref="BaseModelData"/>
-        /// </summary>
-        /// <param name="baseModelData">Valid BaseModelData instance</param>
-        public ImagesViewModel(in BaseModelData baseModelData)
-            : base(baseModelData)
-        {
-
-        }
-
-        /// <summary>
         /// Constructor for use when displaying data within controller
         /// </summary>
         /// <param name="modelData"></param>

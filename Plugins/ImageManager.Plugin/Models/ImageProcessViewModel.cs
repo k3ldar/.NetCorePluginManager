@@ -34,12 +34,6 @@ namespace ImageManager.Plugin.Models
     {
         #region Constructors
 
-        public ImageProcessViewModel()
-            : base()
-        {
-
-        }
-
         public ImageProcessViewModel(in BaseModelData modelData, string fileUploadId)
             : base(modelData)
         {

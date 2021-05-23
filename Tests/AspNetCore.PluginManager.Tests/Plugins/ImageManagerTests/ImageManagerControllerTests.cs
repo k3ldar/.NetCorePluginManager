@@ -1186,7 +1186,20 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
             IActionResult response = sut.UploadImage(model);
             try
             {
-                ValidateUploadImageResponse(response, memoryCache, "My Pictures", "Subgroup 1", 1);
+                ImagesUploadedModel responseModel = ValidateUploadImageResponse(response, memoryCache, "My Pictures", "Subgroup 1", 1);
+                Assert.AreEqual("My Pictures", responseModel.GroupName);
+                Assert.AreEqual("Subgroup 1", responseModel.SubgroupName);
+                Assert.IsNotNull(memoryCache.GetCache().Get(responseModel.MemoryCacheName));
+
+                CachedImageUpload cachedImageUpload = memoryCache.GetCache().Get(responseModel.MemoryCacheName).Value as CachedImageUpload;
+                Assert.IsNotNull(cachedImageUpload);
+
+                ImageProcessViewModel imageProcessViewModel = new ImageProcessViewModel(GenerateTestBaseModelData(), responseModel.MemoryCacheName);
+                IActionResult processResponse = sut.ProcessImage(imageProcessViewModel);
+
+                Assert.AreEqual(1, mockImageProvider.FilesAdded.Count);
+                Assert.IsTrue(notificationService.NotificationRaised("ImageUploadedEvent", cachedImageUpload));
+                Assert.AreEqual(cachedImageUpload, notificationService.EventParam1);
             }
             finally
             {
@@ -1221,7 +1234,20 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
             IActionResult response = sut.UploadImage(model);
             try
             {
-                ValidateUploadImageResponse(response, memoryCache, "My Pictures", "Subgroup 1", 2);
+                ImagesUploadedModel responseModel = ValidateUploadImageResponse(response, memoryCache, "My Pictures", "Subgroup 1", 2);
+
+                Assert.AreEqual("My Pictures", responseModel.GroupName);
+                Assert.AreEqual("Subgroup 1", responseModel.SubgroupName);
+                Assert.IsNotNull(memoryCache.GetCache().Get(responseModel.MemoryCacheName));
+
+                CachedImageUpload cachedImageUpload = memoryCache.GetCache().Get(responseModel.MemoryCacheName).Value as CachedImageUpload;
+                Assert.IsNotNull(cachedImageUpload);
+                ImageProcessViewModel imageProcessViewModel = new ImageProcessViewModel(GenerateTestBaseModelData(), responseModel.MemoryCacheName);
+                IActionResult processResponse = sut.ProcessImage(imageProcessViewModel);
+
+                Assert.AreEqual(2, mockImageProvider.FilesAdded.Count);
+                Assert.IsTrue(notificationService.NotificationRaised("ImageUploadedEvent", cachedImageUpload));
+                Assert.AreEqual(cachedImageUpload, notificationService.EventParam1);
             }
             finally
             {
@@ -1256,7 +1282,20 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
             IActionResult response = sut.UploadImage(model);
             try
             {
-                ValidateUploadImageResponse(response, memoryCache, "My Pictures", "Subgroup 1", 2);
+                ImagesUploadedModel responseModel = ValidateUploadImageResponse(response, memoryCache, "My Pictures", "Subgroup 1", 2);
+
+                Assert.AreEqual("My Pictures", responseModel.GroupName);
+                Assert.AreEqual("Subgroup 1", responseModel.SubgroupName);
+                Assert.IsNotNull(memoryCache.GetCache().Get(responseModel.MemoryCacheName));
+
+                CachedImageUpload cachedImageUpload = memoryCache.GetCache().Get(responseModel.MemoryCacheName).Value as CachedImageUpload;
+                Assert.IsNotNull(cachedImageUpload);
+                ImageProcessViewModel imageProcessViewModel = new ImageProcessViewModel(GenerateTestBaseModelData(), responseModel.MemoryCacheName);
+                IActionResult processResponse = sut.ProcessImage(imageProcessViewModel);
+
+                Assert.AreEqual(0, mockImageProvider.FilesAdded.Count);
+                Assert.IsTrue(notificationService.NotificationRaised("ImageUploadedEvent", cachedImageUpload));
+                Assert.AreEqual(cachedImageUpload, notificationService.EventParam1);
             }
             finally
             {
@@ -1396,7 +1435,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
             return (imageProcessViewModel, cachedImageUpload);
         }
 
-        private void ValidateUploadImageResponse(IActionResult response, TestMemoryCache memoryCache, 
+        private ImagesUploadedModel ValidateUploadImageResponse(IActionResult response, TestMemoryCache memoryCache, 
             string groupName, string subgroupName, int fileCount)
         {
             Assert.IsInstanceOfType(response, typeof(ViewResult));
@@ -1426,6 +1465,8 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
             Assert.AreEqual(subgroupName, cachedImageUpload.SubgroupName);
             Assert.AreEqual(fileCount, cachedImageUpload.Files.Count);
             Assert.IsNotNull(memoryCache.GetCache().Get(imageProcessViewModel.FileUploadId));
+
+            return new ImagesUploadedModel(cachedImageUpload.GroupName, cachedImageUpload.SubgroupName, imageProcessViewModel.FileUploadId);
         }
 
         private void ValidateJsonResult(IActionResult response,

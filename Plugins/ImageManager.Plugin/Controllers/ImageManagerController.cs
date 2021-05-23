@@ -224,7 +224,7 @@ namespace ImageManager.Plugin.Controllers
                 }
             }
 
-            string cacheName = $"ImageManager {DateTime.UtcNow.Ticks}/{_uploadId++}";
+            string cacheName = GetCacheId();
 
             _memoryCache.GetCache().Add(cacheName, new CacheItem(cacheName, cachedImageUpload));
 
@@ -326,7 +326,7 @@ namespace ImageManager.Plugin.Controllers
 
             do
             {
-                Result = $"ImageManager - {DateTime.UtcNow.Ticks.ToString("X")}";
+                Result = $"ImageManager - {DateTime.UtcNow.Ticks.ToString("X")}-{_uploadId++}";
             }
             while (_memoryCache.GetCache().Get(Result) != null);
 

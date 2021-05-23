@@ -287,12 +287,6 @@
             Default constructor
             </summary>
         </member>
-        <member name="M:ImageManager.Plugin.Models.ImagesViewModel.#ctor(SharedPluginFeatures.BaseModelData@)">
-            <summary>
-            Constructor for <see cref="T:SharedPluginFeatures.BaseModelData"/>
-            </summary>
-            <param name="baseModelData">Valid BaseModelData instance</param>
-        </member>
         <member name="M:ImageManager.Plugin.Models.ImagesViewModel.#ctor(SharedPluginFeatures.BaseModelData@,System.Boolean,System.String,System.String,Middleware.Images.ImageFile,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Collections.Generic.List{Middleware.Images.ImageFile})">
             <summary>
             Constructor for use when displaying data within controller

@@ -14,12 +14,6 @@ namespace ImageManager.Plugin.Models
     {
         #region Constructors
 
-        public ProcessImagesViewModel()
-            : base()
-        {
-
-        }
-
         /// <summary>
         /// Constructor
         /// </summary>
