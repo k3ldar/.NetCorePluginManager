@@ -68,10 +68,15 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         [TestCategory(ImageManagerTestsCategory)]
         public void Construct_ValidParameters_Success()
         {
-            ProcessImagesViewModel sut = new ProcessImagesViewModel(GenerateTestBaseModelData(), false, "My Group", String.Empty, null, 
+            ProcessImagesViewModel sut = new ProcessImagesViewModel(GenerateTestBaseModelData(), false, "My Group", String.Empty, null,
                 new Dictionary<string, List<string>>(), new List<ImageFile>(), "file cache name");
             Assert.IsNotNull(sut);
             Assert.AreEqual("file cache name", sut.FileUploadId);
+            Assert.IsNull(sut.SubgroupName);
+            Assert.IsFalse(sut.ShowSubgroup);
+            Assert.IsNull(sut.AdditionalData);
+            Assert.IsFalse(sut.AdditionalDataMandatory);
+            Assert.IsNull(sut.AdditionalDataName);
         }
     }
 }

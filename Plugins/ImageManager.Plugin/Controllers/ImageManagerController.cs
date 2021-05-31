@@ -234,10 +234,13 @@ namespace ImageManager.Plugin.Controllers
         [HttpPost]
         [Authorize(Policy = Constants.PolicyNameImageManagerManage)]
         [AjaxOnly]
-        public IActionResult ProcessImage(ImageProcessViewModel model)
+        public IActionResult ProcessImage([FromBody]ImageProcessViewModel model)
         {
             if (model == null)
                 return GenerateJsonErrorResponse(Constants.HtmlResponseBadRequest, ErrorInvalidModel);
+
+            if (model.FileUploadId == null)
+                return GenerateJsonErrorResponse(Constants.HtmlResponseBadRequest, ErrorInvalidImageCache);
 
             CacheItem uploadCache = _memoryCache.GetCache().Get(model.FileUploadId);
 
@@ -251,7 +254,7 @@ namespace ImageManager.Plugin.Controllers
 
             object notificationResponse = null;
 
-            _notificationService.RaiseEvent(Constants.NotificationEventImageUploaded, cachedImageUpload, null, ref notificationResponse);
+            _notificationService.RaiseEvent(Constants.NotificationEventImageUploaded, cachedImageUpload, model.AdditionalData, ref notificationResponse);
 
             if (notificationResponse != null)
                 return GenerateJsonSuccessResponse();
@@ -267,33 +270,6 @@ namespace ImageManager.Plugin.Controllers
             }
 
             return GenerateJsonSuccessResponse();
-        }
-
-        [HttpPost]
-        [Authorize(Policy = Constants.PolicyNameImageManagerManage)]
-        [AjaxOnly]
-        public IActionResult ProcessImageOptions(ImageProcessOptionsViewModel model)
-        {
-            if (model == null || String.IsNullOrEmpty(model.GroupName))
-                return GenerateJsonErrorResponse(Constants.HtmlResponseBadRequest, ErrorInvalidGroupName);
-
-            object notificationResponse = null;
-
-            _notificationService.RaiseEvent(Constants.NotificationEventImageUploadOptions, model, null, ref notificationResponse);
-
-
-            ImageProcessOptionsViewModel Result = notificationResponse as ImageProcessOptionsViewModel;
-
-            if (Result == null)
-            {
-                Result = new ImageProcessOptionsViewModel()
-                {
-                    GroupName = model.GroupName,
-                    SubgroupName = model.SubgroupName
-                };
-            }
-
-            return GenerateJsonSuccessResponse(Result);
         }
 
         #endregion Public Action Methods
@@ -436,13 +412,13 @@ namespace ImageManager.Plugin.Controllers
 
             bool canManageImages = ControllerContext.HttpContext.User.HasClaim(Constants.ClaimNameManageImages, "true");
 
-            ProcessImagesViewModel Result = new ProcessImagesViewModel(GetModelData(), 
-                canManageImages, 
-                groupName, 
-                subgroupName ?? String.Empty, 
-                image, 
-                groups, 
-                images, 
+            ProcessImagesViewModel Result = new ProcessImagesViewModel(GetModelData(),
+                canManageImages,
+                groupName,
+                subgroupName ?? String.Empty,
+                image,
+                groups,
+                images,
                 memoryCacheName);
 
             Result.Breadcrumbs.Add(new BreadcrumbItem(LanguageStrings.ImageManager, $"/{Name}", true));
@@ -464,9 +440,33 @@ namespace ImageManager.Plugin.Controllers
             }
 
             if (memoryCacheName != EmptyUploadCacheName)
+            {
                 Result.Breadcrumbs.Add(new BreadcrumbItem(LanguageStrings.ImageUploadFiles, $"ImageManager/UploadImage/", false));
+                ProcessImageOptions(Result);
+            }
 
             return Result;
+        }
+
+        private void ProcessImageOptions(ProcessImagesViewModel processImagesViewModel)
+        {
+            ImageProcessOptionsViewModel processOptionsViewModel = new ImageProcessOptionsViewModel()
+            {
+                GroupName = processImagesViewModel.SelectedGroupName,
+                SubgroupName = processImagesViewModel.SelectedSubgroupName
+            };
+
+            object notificationResponse = null;
+
+            _notificationService.RaiseEvent(Constants.NotificationEventImageUploadOptions, processOptionsViewModel, null, ref notificationResponse);
+
+            processOptionsViewModel = notificationResponse as ImageProcessOptionsViewModel ?? processOptionsViewModel;
+
+            processImagesViewModel.SubgroupName = processOptionsViewModel.SubgroupName;
+            processImagesViewModel.ShowSubgroup = processOptionsViewModel.ShowSubgroup;
+            processImagesViewModel.AdditionalData = processOptionsViewModel.AdditionalData;
+            processImagesViewModel.AdditionalDataMandatory = processOptionsViewModel.AdditionalDataMandatory;
+            processImagesViewModel.AdditionalDataName = processOptionsViewModel.AdditionalDataName;
         }
 
         #endregion Private Methods

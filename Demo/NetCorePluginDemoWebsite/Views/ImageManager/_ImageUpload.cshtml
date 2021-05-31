@@ -6,6 +6,11 @@
 </div>
 </div>
 <div class="row">
+<div class="col-sm-12">
+<p id="errorMessage" style="color:red;"></p>
+</div>
+</div>
+<div class="row">
 <form action="/ImageManager/UploadImage/" method="post" enctype="multipart/form-data" onsubmit="AjaxUpload(this); return false;">
 @Html.HiddenFor(m => m.GroupName)
 @Html.HiddenFor(m => m.SubgroupName)
@@ -13,7 +18,6 @@
 <div class="form-group">
 <label for="Files">Files</label>
 <input class="form-control-file" id="Files" multiple name="Files" type="file" />
-<label id="uploadErrors" class="has-error">There was an error</label>
 </div>
 </div>
 <div class="col-sm-12">
@@ -23,13 +27,17 @@
 </div>
 <script>
 function AjaxUpload(frm) {
-var errorText = $('#uploadErrors');
-errorText.hide();
+$('#errorMessage').hide();
 content = new Object();
 content.GroupName = $('#GroupName').val();
 content.SubgroupName = $('#SubgroupName').val();
 var formData = new FormData();
 var fileList = $('#Files').get(0).files;
+if (fileList.length == 0) {
+$('#errorMessage').val("Error: " + err.data)
+$('#errorMessage').show();
+}
+else {
 for (var x = 0; x < fileList.length; x++) {
 formData.append('file' + x, fileList.item(x));
 }
@@ -40,13 +48,18 @@ url: frm.action,
 data: content,
 type: "POST",
 dataType: "json",
-error: function (jqXHR, textStatus, errorThrown) {
+contentType: "application/json; charset=utf-8",
+error: function (jqXHR) {
 var err = jqXHR.responseJSON;
-errorText.show();
-errorText.val("Error: " + err.data);
+$('#errorMessage').val("Error: " + err.data)
+$('#errorMessage').show();
 }
 }
 );
+}
 return false;
 }
+$(document).ready(function () {
+$('#errorMessage').hide();
+});
 </script>

@@ -23677,6 +23677,15 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Group Name.
+        /// </summary>
+        public static string GroupName {
+            get {
+                return ResourceManager.GetString("GroupName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Hair.
         /// </summary>
         public static string Hair {
@@ -28852,6 +28861,15 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Subgroup Name.
+        /// </summary>
+        public static string SubgroupName {
+            get {
+                return ResourceManager.GetString("SubgroupName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Sub Groups.
         /// </summary>
         public static string SubGroups {
@@ -30591,6 +30609,15 @@ namespace Languages {
         public static string YouMayAlsoLike {
             get {
                 return ResourceManager.GetString("YouMayAlsoLike", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You must enter {0}.
+        /// </summary>
+        public static string YouMustEnter {
+            get {
+                return ResourceManager.GetString("YouMustEnter", resourceCulture);
             }
         }
         

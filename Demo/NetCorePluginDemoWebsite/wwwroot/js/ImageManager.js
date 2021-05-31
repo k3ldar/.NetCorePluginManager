@@ -7,6 +7,9 @@ confirmDeleteId: '',
 confirmMessage: '',
 deleteImageDialog: '',
 errorId: '',
+group: '',
+subgroup: '',
+extraData: '',
 };
 var root = {
 init: function (options) {

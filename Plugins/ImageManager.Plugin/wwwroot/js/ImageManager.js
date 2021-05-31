@@ -7,6 +7,9 @@
         confirmMessage: '',
         deleteImageDialog: '',
         errorId: '',
+        group: '',
+        subgroup: '',
+        extraData: '',
     };
 
     var root = {
@@ -15,6 +18,7 @@
 
             $(document).ready(function () {
                 $(_options.errorId).hide();
+
                 $(_options.confirmMessage).hide();
                 $(_options.submitButton).click(root.validateAndSubmit);
 

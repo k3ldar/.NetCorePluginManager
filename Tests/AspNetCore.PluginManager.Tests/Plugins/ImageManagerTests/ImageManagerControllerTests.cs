@@ -1145,7 +1145,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
             ImageManagerController sut = CreateDynamicContentController(null, null, CreateDefaultMockImageProvider());
             Assert.IsNotNull(sut);
 
-            IActionResult response = sut.ProcessImage(new ImageProcessViewModel(GenerateTestBaseModelData(), "not found"));
+            IActionResult response = sut.ProcessImage(new ImageProcessViewModel("not found"));
             ValidateJsonResult(response, "Image cache not found");
         }
 
@@ -1159,7 +1159,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
 
             Assert.IsNotNull(sut);
 
-            IActionResult response = sut.ProcessImage(new ImageProcessViewModel(GenerateTestBaseModelData(), "found item"));
+            IActionResult response = sut.ProcessImage(new ImageProcessViewModel("found item"));
             ValidateJsonResult(response, "Image cache not found");
         }
 
@@ -1194,7 +1194,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
                 CachedImageUpload cachedImageUpload = memoryCache.GetCache().Get(responseModel.MemoryCacheName).Value as CachedImageUpload;
                 Assert.IsNotNull(cachedImageUpload);
 
-                ImageProcessViewModel imageProcessViewModel = new ImageProcessViewModel(GenerateTestBaseModelData(), responseModel.MemoryCacheName);
+                ImageProcessViewModel imageProcessViewModel = new ImageProcessViewModel(responseModel.MemoryCacheName);
                 IActionResult processResponse = sut.ProcessImage(imageProcessViewModel);
 
                 Assert.AreEqual(1, mockImageProvider.FilesAdded.Count);
@@ -1242,7 +1242,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
 
                 CachedImageUpload cachedImageUpload = memoryCache.GetCache().Get(responseModel.MemoryCacheName).Value as CachedImageUpload;
                 Assert.IsNotNull(cachedImageUpload);
-                ImageProcessViewModel imageProcessViewModel = new ImageProcessViewModel(GenerateTestBaseModelData(), responseModel.MemoryCacheName);
+                ImageProcessViewModel imageProcessViewModel = new ImageProcessViewModel(responseModel.MemoryCacheName);
                 IActionResult processResponse = sut.ProcessImage(imageProcessViewModel);
 
                 Assert.AreEqual(2, mockImageProvider.FilesAdded.Count);
@@ -1290,7 +1290,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
 
                 CachedImageUpload cachedImageUpload = memoryCache.GetCache().Get(responseModel.MemoryCacheName).Value as CachedImageUpload;
                 Assert.IsNotNull(cachedImageUpload);
-                ImageProcessViewModel imageProcessViewModel = new ImageProcessViewModel(GenerateTestBaseModelData(), responseModel.MemoryCacheName);
+                ImageProcessViewModel imageProcessViewModel = new ImageProcessViewModel(responseModel.MemoryCacheName);
                 IActionResult processResponse = sut.ProcessImage(imageProcessViewModel);
 
                 Assert.AreEqual(0, mockImageProvider.FilesAdded.Count);
@@ -1303,102 +1303,61 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
             }
         }
 
+        //[TestMethod]
+        //[TestCategory(ImageManagerTestsCategory)]
+        //public void ProcessImage_NoListener_ReturnsCorrectValidResponse_WithDefaultOptions()
+        //{
+        //    TestNotificationService notificationService = new TestNotificationService(null)
+        //    {
+        //        EventParam1Name = "ImageUploadOptions"
+        //    };
 
-        [TestMethod]
-        [TestCategory(ImageManagerTestsCategory)]
-        public void ProcessImageOptions_HasCorrectAttributes_Success()
-        {
-            string methodName = "ProcessImageOptions";
-            Assert.IsTrue(MethodHasAttribute<HttpPostAttribute>(typeof(ImageManagerController), methodName));
-            Assert.IsTrue(MethodHasAuthorizeAttribute(typeof(ImageManagerController), methodName, "ImageManagerManage"));
-            Assert.IsTrue(MethodHasAttribute<AjaxOnlyAttribute>(typeof(ImageManagerController), methodName));
+        //    ImageManagerController sut = CreateDynamicContentController(null, null, CreateDefaultMockImageProvider(), notificationService);
+        //    Assert.IsNotNull(sut);
 
-            Assert.IsFalse(MethodHasAttribute<ValidateAntiForgeryTokenAttribute>(typeof(ImageManagerController), methodName));
-            Assert.IsFalse(MethodHasAttribute<BreadcrumbAttribute>(typeof(ImageManagerController), methodName));
-            Assert.IsFalse(MethodHasAttribute<RouteAttribute>(typeof(ImageManagerController), methodName));
-            Assert.IsFalse(MethodHasAttribute<HttpGetAttribute>(typeof(ImageManagerController), methodName));
-            Assert.IsFalse(MethodHasAttribute<HttpPutAttribute>(typeof(ImageManagerController), methodName));
-            Assert.IsFalse(MethodHasAttribute<HttpDeleteAttribute>(typeof(ImageManagerController), methodName));
-            Assert.IsFalse(MethodHasAttribute<HttpPatchAttribute>(typeof(ImageManagerController), methodName));
-        }
+        //    ImageProcessOptionsViewModel options = new ImageProcessOptionsViewModel()
+        //    {
+        //        GroupName = "Group",
+        //        SubgroupName = "test subgrouP",
+        //    };
 
-        [TestMethod]
-        [TestCategory(ImageManagerTestsCategory)]
-        public void ProcessImageOptions_Construct_InvalidParamModel_Null_ReturnsCorrectInvalidResponse()
-        {
-            ImageManagerController sut = CreateDynamicContentController(null, null, CreateDefaultMockImageProvider());
-            Assert.IsNotNull(sut);
+        //    IActionResult response = sut.ProcessImageOptions(options);
+        //    ValidateJsonResult(response, ExpectedResponseWithNoListener, 200, "application/json", true);
+        //    Assert.AreEqual(1, notificationService.NotificationRaised("ImageUploadOptions"));
+        //}
 
-            IActionResult response = sut.ProcessImageOptions(null);
-            ValidateJsonResult(response, "Invalid GroupName");
-        }
+        //[TestMethod]
+        //[TestCategory(ImageManagerTestsCategory)]
+        //public void ProcessImage_WithValidListener_ReturnsCorrectValidResponse_WithDefaultOptions()
+        //{
+        //    ImageProcessOptionsViewModel expectedResponseModel = new ImageProcessOptionsViewModel()
+        //    {
+        //        GroupName = "Images",
+        //        SubgroupName = null,
+        //        ShowSubgroup = false,
+        //        AdditionalDataName = "Enter product code/sku",
+        //        AdditionalDataMandatory = true
+        //    };
 
-        [TestMethod]
-        [TestCategory(ImageManagerTestsCategory)]
-        public void ProcessImageOptions_Construct_InvalidParamGroupName_Null_ReturnsCorrectInvalidResponse()
-        {
-            ImageManagerController sut = CreateDynamicContentController(null, null, CreateDefaultMockImageProvider());
-            Assert.IsNotNull(sut);
+        //    TestNotificationService notificationService = new TestNotificationService(expectedResponseModel)
+        //    {
+        //        EventParam1Name = "ImageUploadOptions"
+        //    };
 
-            IActionResult response = sut.ProcessImageOptions(new ImageProcessOptionsViewModel());
-            ValidateJsonResult(response, "Invalid GroupName");
-        }
+        //    ImageManagerController sut = CreateDynamicContentController(null, null, CreateDefaultMockImageProvider(), notificationService);
+        //    Assert.IsNotNull(sut);
 
-        [TestMethod]
-        [TestCategory(ImageManagerTestsCategory)]
-        public void ProcessImageOptions_NoListener_ReturnsCorrectValidResponse_WithDefaultOptions()
-        {
-            TestNotificationService notificationService = new TestNotificationService(null)
-            {
-                EventParam1Name = "ImageUploadOptions"
-            };
+        //    ImageProcessOptionsViewModel options = new ImageProcessOptionsViewModel()
+        //    {
+        //        GroupName = "Group",
+        //        SubgroupName = "test subgrouP",
+        //    };
 
-            ImageManagerController sut = CreateDynamicContentController(null, null, CreateDefaultMockImageProvider(), notificationService);
-            Assert.IsNotNull(sut);
-
-            ImageProcessOptionsViewModel options = new ImageProcessOptionsViewModel()
-            {
-                GroupName = "Group",
-                SubgroupName = "test subgrouP",
-            };
-
-            IActionResult response = sut.ProcessImageOptions(options);
-            ValidateJsonResult(response, ExpectedResponseWithNoListener, 200, "application/json", true);
-            Assert.AreEqual(1, notificationService.NotificationRaised("ImageUploadOptions"));
-        }
-
-        [TestMethod]
-        [TestCategory(ImageManagerTestsCategory)]
-        public void ProcessImageOptions_WithValidListener_ReturnsCorrectValidResponse_WithDefaultOptions()
-        {
-            ImageProcessOptionsViewModel expectedResponseModel = new ImageProcessOptionsViewModel()
-            {
-                GroupName = "Images",
-                SubgroupName = null,
-                ShowSubgroup = false,
-                AdditionalDataName = "Enter product code/sku",
-                AdditionalDataMandatory = true
-            };
-
-            TestNotificationService notificationService = new TestNotificationService(expectedResponseModel)
-            {
-                EventParam1Name = "ImageUploadOptions"
-            };
-
-            ImageManagerController sut = CreateDynamicContentController(null, null, CreateDefaultMockImageProvider(), notificationService);
-            Assert.IsNotNull(sut);
-
-            ImageProcessOptionsViewModel options = new ImageProcessOptionsViewModel()
-            {
-                GroupName = "Group",
-                SubgroupName = "test subgrouP",
-            };
-
-            IActionResult response = sut.ProcessImageOptions(options);
-            ValidateJsonResult(response, ExpectedResponseWithListener, 200, "application/json", true);
-            Assert.AreEqual(1, notificationService.NotificationRaised("ImageUploadOptions"));
-            Assert.AreEqual(options, notificationService.EventParam1);
-        }
+        //    IActionResult response = sut.ProcessImageOptions(options);
+        //    ValidateJsonResult(response, ExpectedResponseWithListener, 200, "application/json", true);
+        //    Assert.AreEqual(1, notificationService.NotificationRaised("ImageUploadOptions"));
+        //    Assert.AreEqual(options, notificationService.EventParam1);
+        //}
 
         #region Private Methods
 

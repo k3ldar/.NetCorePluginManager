@@ -54,6 +54,36 @@ namespace ImageManager.Plugin.Models
         /// <value>string</value>
         public string FileUploadId { get; }
 
+        /// <summary>
+        /// Name of subgroup to which the options apply
+        /// </summary>
+        /// <value>string</value>
+        public string SubgroupName { get; set; }
+
+        /// <summary>
+        /// Indicates whether the subgroup will be shown or not
+        /// </summary>
+        /// <value>bool</value>
+        public bool ShowSubgroup { get; set; }
+
+        /// <summary>
+        /// Name of additional data
+        /// </summary>
+        /// <value>string</value>
+        public string AdditionalDataName { get; set; }
+
+        /// <summary>
+        /// Additional data supplied by user
+        /// </summary>
+        /// <value>string</value>
+        public string AdditionalData { get; set; }
+
+        /// <summary>
+        /// Indicates that additional data is mandatory
+        /// </summary>
+        /// <value>bool</value>
+        public bool AdditionalDataMandatory { get; set; }
+
         #endregion Properties
     }
 }

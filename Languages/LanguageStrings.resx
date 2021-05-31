@@ -14229,4 +14229,16 @@ You will shortly receive an email with the details of your order.</comment>
     <value>Upload</value>
     <comment>Upload</comment>
   </data>
+  <data name="GroupName" xml:space="preserve">
+    <value>Group Name</value>
+    <comment>Group Name</comment>
+  </data>
+  <data name="SubgroupName" xml:space="preserve">
+    <value>Subgroup Name</value>
+    <comment>Subgroup Name</comment>
+  </data>
+  <data name="YouMustEnter" xml:space="preserve">
+    <value>You must enter {0}</value>
+    <comment>You must enter {0}</comment>
+  </data>
 </root>

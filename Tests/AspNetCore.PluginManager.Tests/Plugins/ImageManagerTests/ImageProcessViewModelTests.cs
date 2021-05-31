@@ -24,19 +24,13 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
-using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 using AspNetCore.PluginManager.Tests.Shared;
 
 using ImageManager.Plugin.Models;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-
-using Middleware.Images;
 
 namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
 {
@@ -49,25 +43,49 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         [TestMethod]
         [TestCategory(ImageManagerTestsCategory)]
         [ExpectedException(typeof(ArgumentNullException))]
-        public void Construct_InvalidParam_BaseModelData_Null_Throws_ArgumentNullException()
+        public void Construct_InvalidParamFileUploadId_Null_Throws_ArgumentNullException()
         {
-            ImageProcessViewModel sut = new ImageProcessViewModel(null, "a string");
+            ImageProcessViewModel sut = new ImageProcessViewModel(null);
         }
 
         [TestMethod]
         [TestCategory(ImageManagerTestsCategory)]
         [ExpectedException(typeof(ArgumentNullException))]
-        public void Construct_InvalidParam_FileUploadId_Null_Throws_ArgumentNullException()
+        public void Construct_InvalidParamFileUploadId_EmptyString_Throws_ArgumentNullException()
         {
-            ImageProcessViewModel sut = new ImageProcessViewModel(GenerateTestBaseModelData(), null);
+            ImageProcessViewModel sut = new ImageProcessViewModel("");
         }
 
         [TestMethod]
         [TestCategory(ImageManagerTestsCategory)]
-        [ExpectedException(typeof(ArgumentNullException))]
-        public void Construct_InvalidParam_FileUploadId_EmptyString_Throws_ArgumentNullException()
+        public void Construct_ValidParamFileUploadId_Success()
         {
-            ImageProcessViewModel sut = new ImageProcessViewModel(GenerateTestBaseModelData(), "");
+            ImageProcessViewModel sut = new ImageProcessViewModel("uploadId");
+            Assert.AreEqual("uploadId", sut.FileUploadId);
+        }
+
+        [TestMethod]
+        [TestCategory(ImageManagerTestsCategory)]
+        public void Construct_ValidInstance_PropertiesHaveDefaultValues_Success()
+        {
+            ImageProcessViewModel sut = new ImageProcessViewModel();
+
+            Assert.IsNull(sut.FileUploadId);
+            Assert.IsNull(sut.AdditionalData);
+        }
+
+        [TestMethod]
+        [TestCategory(ImageManagerTestsCategory)]
+        public void Construct_ValidInstance_AssignedPropertiesRemembered_Success()
+        {
+            ImageProcessViewModel sut = new ImageProcessViewModel()
+            {
+                FileUploadId = "test upload",
+                AdditionalData = "extra data"
+            };
+
+            Assert.AreEqual("test upload", sut.FileUploadId);
+            Assert.AreEqual("extra data", sut.AdditionalData);
         }
     }
 }

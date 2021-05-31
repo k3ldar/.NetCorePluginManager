@@ -243,9 +243,27 @@
             View model for processing uploaded images
             </summary>
         </member>
+        <member name="M:ImageManager.Plugin.Models.ImageProcessViewModel.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="M:ImageManager.Plugin.Models.ImageProcessViewModel.#ctor(System.String)">
+            <summary>
+            Constructor accepting id of file upload
+            </summary>
+            <param name="fileUploadId">Id for the file upload</param>
+            <exception cref="T:System.ArgumentNullException">Thrown if fileUploadId is null or an empty string</exception>
+        </member>
         <member name="P:ImageManager.Plugin.Models.ImageProcessViewModel.FileUploadId">
             <summary>
             Unique file upload id
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:ImageManager.Plugin.Models.ImageProcessViewModel.AdditionalData">
+            <summary>
+            Additional data supplied by user
             </summary>
             <value>string</value>
         </member>
@@ -414,6 +432,36 @@
             Unique file upload id
             </summary>
             <value>string</value>
+        </member>
+        <member name="P:ImageManager.Plugin.Models.ProcessImagesViewModel.SubgroupName">
+            <summary>
+            Name of subgroup to which the options apply
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:ImageManager.Plugin.Models.ProcessImagesViewModel.ShowSubgroup">
+            <summary>
+            Indicates whether the subgroup will be shown or not
+            </summary>
+            <value>bool</value>
+        </member>
+        <member name="P:ImageManager.Plugin.Models.ProcessImagesViewModel.AdditionalDataName">
+            <summary>
+            Name of additional data
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:ImageManager.Plugin.Models.ProcessImagesViewModel.AdditionalData">
+            <summary>
+            Additional data supplied by user
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:ImageManager.Plugin.Models.ProcessImagesViewModel.AdditionalDataMandatory">
+            <summary>
+            Indicates that additional data is mandatory
+            </summary>
+            <value>bool</value>
         </member>
         <member name="T:ImageManager.Plugin.Models.UploadImageModel">
             <summary>

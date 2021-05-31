@@ -56,7 +56,8 @@ namespace ImageManager.Plugin
 #if NET_CORE_3_X || NET_5_X
                 option => option.EnableEndpointRouting = false
 #endif
-                );
+                )
+                .ConfigurePluginManager();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -1,6 +1,8 @@
 ﻿@model ImageManager.Plugin.Models.ImagesViewModel
 @inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
 <link rel="stylesheet" href="~/css/imageManager.css" />
+<script src="/js/ImageManager.js"></script>
+
 <div class="row">
     <div class="col-sm-12">
         <h1>@Localizer[nameof(Languages.LanguageStrings.AppImageManagement)]</h1>
@@ -54,7 +56,7 @@
             @if (Model.CanManageImages)
             {
                 <div class="tab-pane fade" id="nav-settings" role="tabpanel" aria-labelledby="nav-settings-tab">
-                    @await Html.PartialAsync("_ImageUpload.cshtml", new ImageManager.Plugin.Models.UploadImageViewModel(){ GroupName = Model.SelectedGroupName, SubgroupName = Model.SelectedSubgroupName})
+                    @await Html.PartialAsync("_ImageUpload.cshtml", new ImageManager.Plugin.Models.UploadImageViewModel() { GroupName = Model.SelectedGroupName, SubgroupName = Model.SelectedSubgroupName })
                 </div>
             }
         </div>
