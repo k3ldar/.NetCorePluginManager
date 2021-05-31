@@ -17,7 +17,7 @@
  *  
  *  File: StartupTests.cs
  *
- *  Purpose:  Tests for plugin startup class
+ *  Purpose:  Tests for product plugin startup class
  *
  *  Date        Name                Reason
  *  30/05/2021  Simon Carter        Initially Created
@@ -40,17 +40,17 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ProductTests
     [ExcludeFromCodeCoverage]
     public class StartupTests
     {
-        private const string ProductManagerTestsCategory = "Product Manager Tests";
+        private const string TestCategoryName = "Product Manager Tests";
 
         [TestCleanup]
-        [TestCategory(ProductManagerTestsCategory)]
+        [TestCategory(TestCategoryName)]
         public void CleanupStartupTests()
         {
             PluginManagerService.Finalise();
         }
 
         [TestMethod]
-        [TestCategory(ProductManagerTestsCategory)]
+        [TestCategory(TestCategoryName)]
         public void Construct_InitialisesPluginManager_Success()
         {
             Assert.IsFalse(PluginManagerService.HasInitialised);
@@ -62,7 +62,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ProductTests
         }
 
         [TestMethod]
-        [TestCategory(ProductManagerTestsCategory)]
+        [TestCategory(TestCategoryName)]
         [ExpectedException(typeof(ArgumentNullException))]
         public void ConfigureService_InvalidParamNull_Throws_ArgumentNullException()
         {
@@ -72,7 +72,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ProductTests
         }
 
         [TestMethod]
-        [TestCategory(ProductManagerTestsCategory)]
+        [TestCategory(TestCategoryName)]
         public void ConfigureServices_EnableEndpointRoutingIsFalse_Success()
         {
             Startup sut = new Startup();
@@ -86,7 +86,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ProductTests
         }
 
         [TestMethod]
-        [TestCategory(ProductManagerTestsCategory)]
+        [TestCategory(TestCategoryName)]
         [ExpectedException(typeof(ArgumentNullException))]
         public void Configure_InvalidParamNull_Throws_ArgumentNullException()
         {
@@ -96,7 +96,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ProductTests
         }
 
         [TestMethod]
-        [TestCategory(ProductManagerTestsCategory)]
+        [TestCategory(TestCategoryName)]
         public void Configure_UseMvcIsCalled_CorrectDefaultRouteAdded()
         {
             IWebHost host = WebHost.CreateDefaultBuilder(new string[] { })

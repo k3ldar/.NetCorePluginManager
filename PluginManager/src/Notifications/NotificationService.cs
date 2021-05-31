@@ -151,6 +151,38 @@ namespace PluginManager.Internal
 
         #endregion Public INotificationService Methods
 
+        #region Internal Methods
+
+        internal bool ListenerRegistered<T>()
+        {
+            foreach (KeyValuePair<string, List<INotificationListener>> item in _eventListener)
+            {
+                foreach (INotificationListener listener in item.Value)
+                {
+                    if (listener.GetType().Equals(typeof(T)))
+                        return true;
+                }
+            }
+
+            return false;
+        }
+
+        internal bool ListenerRegisteredEvent<T>(string eventName)
+        {
+            if (!_eventListener.ContainsKey(eventName))
+                return false;
+
+            foreach (INotificationListener listener in _eventListener[eventName])
+            {
+                if (listener.GetType().Equals(typeof(T)))
+                    return true;
+            }
+
+            return false;
+        }
+
+        #endregion Internal Methods
+
         #region ThreadManager Methods
 
         protected override bool Run(object parameters)

@@ -17,7 +17,7 @@
  *  
  *  File: ImageUploadNotificationListenerTests.cs
  *
- *  Purpose:  Tests for image upload notifications
+ *  Purpose:  Tests for product plugin notifications
  *
  *  Date        Name                Reason
  *  30/05/2021  Simon Carter        Initially Created
@@ -37,10 +37,10 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ProductTests
     [ExcludeFromCodeCoverage]
     public class ImageUploadNotificationListenerTests
     {
-        private const string ProductManagerTestsCategory = "Product Manager Tests";
+        private const string TestCategoryName = "Product Manager Tests";
 
         [TestMethod]
-        [TestCategory(ProductManagerTestsCategory)]
+        [TestCategory(TestCategoryName)]
         public void Construct_ValidInstanceSuccess()
         {
             ImageUploadNotificationListener sut = new ImageUploadNotificationListener();
