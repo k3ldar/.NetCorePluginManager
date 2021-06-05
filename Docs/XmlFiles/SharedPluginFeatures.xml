@@ -1474,7 +1474,7 @@
             </summary>
             <value>bool</value>
         </member>
-        <member name="P:SharedPluginFeatures.JsonResponseModel.Data">
+        <member name="P:SharedPluginFeatures.JsonResponseModel.ResponseData">
             <summary>
             Response data, this can be a string of any type including Json, xml etc
             </summary>
@@ -2521,6 +2521,11 @@
             Bad request response code
             </summary>
         </member>
+        <member name="F:SharedPluginFeatures.Constants.ProductImageFolderName">
+            <summary>
+            Name of product image folder
+            </summary>
+        </member>
         <member name="T:SharedPluginFeatures.Enums">
             <summary>
             Standard Enum values shared across all plugin modules.
@@ -3173,6 +3178,47 @@
             <param name="milliseconds">Total number of milliseconds taken to load the data.</param>
             <param name="recordCount">Total number of records loaded.</param>
         </member>
+        <member name="T:SharedPluginFeatures.IImageProcessOptions">
+            <summary>
+            Options for processing image options
+            </summary>
+        </member>
+        <member name="P:SharedPluginFeatures.IImageProcessOptions.GroupName">
+            <summary>
+            Name of group to which the options apply
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:SharedPluginFeatures.IImageProcessOptions.SubgroupName">
+            <summary>
+            Name of subgroup to which the options apply
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:SharedPluginFeatures.IImageProcessOptions.ShowSubgroup">
+            <summary>
+            Indicates whether the subgroup will be shown or not
+            </summary>
+            <value>bool</value>
+        </member>
+        <member name="P:SharedPluginFeatures.IImageProcessOptions.AdditionalDataName">
+            <summary>
+            Name of additional data
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:SharedPluginFeatures.IImageProcessOptions.AdditionalData">
+            <summary>
+            Additional data supplied by user
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:SharedPluginFeatures.IImageProcessOptions.AdditionalDataMandatory">
+            <summary>
+            Indicates that additional data is mandatory
+            </summary>
+            <value>bool</value>
+        </member>
         <member name="T:SharedPluginFeatures.IInitialiseEvents">
             <summary>
             Provides initialisation events that can be used by plugins to affect the configuration
@@ -3823,6 +3869,29 @@
             session and page data.
             </summary>
             <param name="userSession">UserSession that has been created.</param>
+        </member>
+        <member name="T:SharedPluginFeatures.IVirusScanner">
+            <summary>
+            Interface for antivirus scanning of files or directories
+            </summary>
+        </member>
+        <member name="M:SharedPluginFeatures.IVirusScanner.ScanDirectory(System.String@)">
+            <summary>
+            Forces a scan of the directory specified, if it exists.
+            </summary>
+            <param name="directory">Name of directory that will be scanned.</param>
+        </member>
+        <member name="M:SharedPluginFeatures.IVirusScanner.ScanFile(System.String@)">
+            <summary>
+            Forces a scan of an individual file
+            </summary>
+            <param name="fileName">Name of file to be scanned, must include the full path to the file</param>
+        </member>
+        <member name="M:SharedPluginFeatures.IVirusScanner.ScanFile(System.String[]@)">
+            <summary>
+            Forces a scan of an array of files
+            </summary>
+            <param name="fileName">Name of files to be scanned, must include the full path to the file</param>
         </member>
     </members>
 </doc>

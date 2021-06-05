@@ -26,6 +26,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 
@@ -85,5 +86,52 @@ namespace AspNetCore.PluginManager.Tests.Shared
 
             return Result;
         }
+
+        protected void ExtractImageResources(in string directory)
+        {
+            Assembly testAssembly = Assembly.GetExecutingAssembly();
+            foreach (string resource in testAssembly.GetManifestResourceNames())
+            {
+                if (String.IsNullOrEmpty(resource))
+                    continue;
+
+                using (Stream stream = testAssembly.GetManifestResourceStream(resource))
+                {
+                    string resourceFileName = GetLiveFilePath(directory, resource);
+
+                    if (!Directory.Exists(directory))
+                        Directory.CreateDirectory(directory);
+
+                    if (File.Exists(resourceFileName))
+                        File.Delete(resourceFileName);
+
+                    using (Stream fileStream = File.OpenWrite(resourceFileName))
+                    {
+                        byte[] buffer = new byte[stream.Length];
+
+                        stream.Read(buffer, 0, buffer.Length);
+                        fileStream.Write(buffer, 0, buffer.Length);
+                    }
+                }
+            }
+        }
+        private string GetLiveFilePath(in string directory, in string resourceName)
+        {
+            // remove the first part of the name which is the library
+            string Result = resourceName;
+
+            int lastIndex = Result.LastIndexOf('\\');
+
+            while (lastIndex > 0)
+            {
+                Result = Result.Substring(lastIndex);
+                lastIndex = Result.LastIndexOf('\\');
+            }
+
+            Result = Path.Combine(directory, Result).Replace("AspNetCore.PluginManager.Tests.Properties.Images.", "");
+
+            return Result;
+        }
+
     }
 }

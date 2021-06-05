@@ -28,6 +28,8 @@ using System;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 
+using Middleware.Interfaces;
+
 using PluginManager.Abstractions;
 
 using ProductPlugin.Classes;
@@ -48,13 +50,7 @@ namespace ProductPlugin
 
         public void ConfigureServices(IServiceCollection services)
         {
-            if (services == null)
-                throw new ArgumentNullException(nameof(services));
 
-            ServiceProvider serviceProvider = services.BuildServiceProvider();
-            INotificationService notificationService = serviceProvider.GetService<INotificationService>();
-
-            notificationService.RegisterListener(new ImageUploadNotificationListener());
         }
 
         public void Finalise()
@@ -83,7 +79,16 @@ namespace ProductPlugin
 
         public void AfterConfigureServices(in IServiceCollection services)
         {
+            if (services == null)
+                throw new ArgumentNullException(nameof(services));
 
+            ServiceProvider serviceProvider = services.BuildServiceProvider();
+            INotificationService notificationService = serviceProvider.GetService<INotificationService>();
+            IImageProvider imageProvider = serviceProvider.GetService<IImageProvider>();
+            ISettingsProvider settingsProvider = serviceProvider.GetService<ISettingsProvider>();
+
+            if (imageProvider != null)
+                notificationService.RegisterListener(new ImageUploadNotificationListener(imageProvider, settingsProvider));
         }
 
         public void BeforeConfigure(in IApplicationBuilder app)

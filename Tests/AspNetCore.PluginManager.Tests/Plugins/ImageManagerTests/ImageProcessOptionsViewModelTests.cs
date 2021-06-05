@@ -23,16 +23,13 @@
  *  21/04/2021  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using System;
-using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
+using ImageManager.Plugin.Models;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-using ImageManager.Plugin.Models;
+using SharedPluginFeatures;
 
 namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
 {
@@ -41,6 +38,14 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
     public sealed class ImageProcessOptionsViewModelTests
     {
         private const string ImageManagerTestsCategory = "Image Manager Tests";
+
+        [TestMethod]
+        [TestCategory(ImageManagerTestsCategory)]
+        public void Descends_FromIImageProcessOptions_Success()
+        {
+            ImageProcessOptionsViewModel sut = new ImageProcessOptionsViewModel();
+            Assert.IsInstanceOfType(sut, typeof(IImageProcessOptions));
+        }
 
         [TestMethod]
         [TestCategory(ImageManagerTestsCategory)]

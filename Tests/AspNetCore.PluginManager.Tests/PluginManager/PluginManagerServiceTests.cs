@@ -32,13 +32,16 @@ using PluginManager;
 using PluginManager.Abstractions;
 using PluginManager.Tests.Mocks;
 
-namespace AspNetCore.PluginManager.Tests.PluginServices
+namespace AspNetCore.PluginManager.Tests.AspNetCore.PluginManager
 {
     [TestClass]
     [ExcludeFromCodeCoverage]
     public class PluginManagerServiceTests
     {
+        private const string TestCategoryName = "AspNetCore Plugin Manager Tests";
+
         [TestMethod]
+        [TestCategory(TestCategoryName)]
         [ExpectedException(typeof(InvalidOperationException))]
         public void ConfigureServicesInvalidParam()
         {
@@ -46,6 +49,7 @@ namespace AspNetCore.PluginManager.Tests.PluginServices
         }
 
         [TestMethod]
+        [TestCategory(TestCategoryName)]
         [ExpectedException(typeof(InvalidOperationException))]
         public void FinaliseWithoutInitialiseFailWithException()
         {
@@ -53,6 +57,7 @@ namespace AspNetCore.PluginManager.Tests.PluginServices
         }
 
         [TestMethod]
+        [TestCategory(TestCategoryName)]
         public void InitialiseWithoutParametersAndFinalise()
         {
             PluginManagerService.Initialise();
@@ -61,6 +66,7 @@ namespace AspNetCore.PluginManager.Tests.PluginServices
 
 
         [TestMethod]
+        [TestCategory(TestCategoryName)]
         [ExpectedExceptionAttribute(typeof(ArgumentNullException))]
         public void InitialiseWithNullParametersRaiseException()
         {
@@ -68,12 +74,14 @@ namespace AspNetCore.PluginManager.Tests.PluginServices
         }
 
         [TestMethod]
+        [TestCategory(TestCategoryName)]
         public void InitialiseWithDefaultParameters()
         {
             PluginManagerService.Initialise(new PluginManagerConfiguration());
         }
 
         [TestMethod]
+        [TestCategory(TestCategoryName)]
         public void InitialiseWithCustomILogger()
         {
             TestLogger testLogger = new TestLogger();

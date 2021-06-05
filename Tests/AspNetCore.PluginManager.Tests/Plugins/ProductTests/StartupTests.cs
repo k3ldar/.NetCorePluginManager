@@ -28,11 +28,16 @@ using System.Diagnostics.CodeAnalysis;
 
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
+using PluginManager.Abstractions;
+using PluginManager.Internal;
 using PluginManager.Tests.Mocks;
-
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using ProductPlugin;
+using Middleware.Interfaces;
+using AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests.Mocks;
 
 namespace AspNetCore.PluginManager.Tests.Plugins.ProductTests
 {
@@ -77,7 +82,13 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ProductTests
         {
             Startup sut = new Startup();
 
-            MockServiceCollection serviceCollection = new MockServiceCollection();
+            ServiceDescriptor[] serviceDescriptors = new ServiceDescriptor[]
+            {
+                new ServiceDescriptor(typeof(INotificationService), new NotificationService()),
+                new ServiceDescriptor(typeof(IImageProvider), new MockImageProvider()),
+            };
+
+            MockServiceCollection serviceCollection = new MockServiceCollection(serviceDescriptors);
             sut.ConfigureServices(serviceCollection);
 
             Assert.IsTrue(serviceCollection.HasMvcConfigured());
@@ -99,7 +110,14 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ProductTests
         [TestCategory(TestCategoryName)]
         public void Configure_UseMvcIsCalled_CorrectDefaultRouteAdded()
         {
+            Action<IServiceCollection> configureServices = (IServiceCollection services) =>
+            {
+                services.TryAddSingleton<INotificationService>(new NotificationService());
+                services.TryAddSingleton<IImageProvider>(new MockImageProvider());
+            };
+
             IWebHost host = WebHost.CreateDefaultBuilder(new string[] { })
+                .ConfigureServices(configureServices)
                 .UseStartup<Startup>().Build();
 
 

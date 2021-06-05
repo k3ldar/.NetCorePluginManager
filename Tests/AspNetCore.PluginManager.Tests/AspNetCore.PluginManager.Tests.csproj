@@ -24,12 +24,33 @@
 
 	<ItemGroup>
 	<None Remove="appsettings.json" />
+	<None Remove="Properties\Images\banksy-no-ball-games.-graffiti-street-fine-art-print-poster.-sizes-a4-a3-a2-a1-001187--4305-p.jpg" />
+	<None Remove="Properties\Images\banksy-pulp-fiction.-banana-graffiti-street-fine-art-print-poster.-sizes-a4-a3-a2-a1-00344--4244-p.jpg" />
+	<None Remove="Properties\Images\Banksy_077_preview.jpg" />
+	<None Remove="Properties\Images\Banksy_191_preview.jpg" />
+	<None Remove="Properties\Images\Banksy_215_preview.jpg" />
+	<None Remove="Properties\Images\fit together.jpg" />
+	<None Remove="Properties\Images\InvalidImage.txt" />
+	<None Remove="Properties\Images\life.jpg" />
+	<None Remove="Properties\Images\racism is stupid.jpg" />
+	<None Remove="Properties\Images\this_tall.jpg" />
   </ItemGroup>
 
   <ItemGroup>
 	<Content Include="appsettings.json">
 	  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	</Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Images\Banksy_077_preview.jpg" />
+    <EmbeddedResource Include="Properties\Images\Banksy_191_preview.jpg" />
+    <EmbeddedResource Include="Properties\Images\Banksy_215_preview.jpg" />
+    <EmbeddedResource Include="Properties\Images\fit together.jpg" />
+    <EmbeddedResource Include="Properties\Images\InvalidImage.txt" />
+    <EmbeddedResource Include="Properties\Images\life.jpg" />
+    <EmbeddedResource Include="Properties\Images\racism is stupid.jpg" />
+    <EmbeddedResource Include="Properties\Images\this_tall.jpg" />
   </ItemGroup>
 
   <ItemGroup>
@@ -64,6 +85,19 @@
 	<Folder Include="InternalClasses\" />
 	<Folder Include="Plugins\PluginMiddlewareTests\DynamicContent\" />
 	<Folder Include="SharedPluginFeatures\Attributes\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Properties\Images\banksy-no-ball-games.jpg" />
+    <Resource Include="Properties\Images\banksy-pulp-fiction.jpg" />
+    <Resource Include="Properties\Images\Banksy_077_preview.jpg" />
+    <Resource Include="Properties\Images\Banksy_191_preview.jpg" />
+    <Resource Include="Properties\Images\Banksy_215_preview.jpg" />
+    <Resource Include="Properties\Images\fit together.jpg" />
+    <Resource Include="Properties\Images\InvalidImage.txt" />
+    <Resource Include="Properties\Images\life.jpg" />
+    <Resource Include="Properties\Images\racism is stupid.jpg" />
+    <Resource Include="Properties\Images\this_tall.jpg" />
   </ItemGroup>
 
 </Project>

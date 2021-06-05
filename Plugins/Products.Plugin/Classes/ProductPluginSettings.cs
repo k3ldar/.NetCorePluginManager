@@ -15,12 +15,13 @@
  *
  *  Product:  Products.Plugin
  *  
- *  File: ProductControllerSettings.cs
+ *  File: ProductPluginSettings.cs
  *
- *  Purpose:  Product Controller Settings
+ *  Purpose:  Product Plugin Settings
  *
  *  Date        Name                Reason
  *  31/01/2019  Simon Carter        Initially Created
+ *  03/06/2021  Simon Carter        Renamed
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using AppSettings;
@@ -30,7 +31,7 @@ namespace ProductPlugin
     /// <summary>
     /// Products which affect how ProductsPlugin is configured.
     /// </summary>
-    public sealed class ProductControllerSettings
+    public sealed class ProductPluginSettings
     {
         /// <summary>
         /// Number of products to display on each page.
@@ -59,6 +60,7 @@ namespace ProductPlugin
         /// 35 to 50
         /// Over 50
         /// </summary>
+        /// <value>string</value>
         [SettingDelimitedString(';', 1u, 8u)]
         [SettingDefault("0;5.00;10.00;20.00;35.00;50.00")]
         public string PriceGroups { get; set; }
@@ -70,7 +72,33 @@ namespace ProductPlugin
         /// 
         /// Under 5 (3)
         /// </summary>
+        /// <value>bool</value>
         [SettingDefault(true)]
         public bool ShowProductCounts { get; set; }
+
+        /// <summary>
+        /// Indicates that images that are uploaded will be resized to standard sizes
+        /// </summary>
+        /// <value>bool</value>
+        [SettingDefault(true)]
+        public bool ResizeImages { get; set; }
+
+        /// <summary>
+        /// Indicates the size of new images (widthxheight) from the original, for instance a web page could display images as thumbnails, within a product list etc.  Sizes 
+        /// are automatically created based on the original size.  Therefor it is important that the new sizes are relative to original image size
+        /// 
+        /// Numbers less than 1 will be ignored, duplicate numbers will be ignored. 
+        /// </summary>
+        /// <value>string</value>
+        [SettingDelimitedString(';', 1u, 8u)]
+        [SettingDefault("178x128;148x114;200x145;89x64;288x268")]
+        public string ResizeWidths { get; set; }
+
+        /// <summary>
+        /// Hexadecimal color value that will be used as a backfill when resizing images
+        /// </summary>
+        /// <value>string</value>
+        [SettingDefault("#FFFFFF")]
+        public string ResizeBackfillColor { get; set; }
     }
 }

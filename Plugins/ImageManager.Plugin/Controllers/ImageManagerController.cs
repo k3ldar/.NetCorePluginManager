@@ -77,6 +77,7 @@ namespace ImageManager.Plugin.Controllers
         private readonly IImageProvider _imageProvider;
         private readonly INotificationService _notificationService;
         private readonly IMemoryCache _memoryCache;
+        private readonly IVirusScanner _virusScanner;
 
         #endregion Private Members
 
@@ -85,12 +86,14 @@ namespace ImageManager.Plugin.Controllers
         public ImageManagerController(ISettingsProvider settingsProvider,
             IImageProvider imageProvider,
             INotificationService notificationService,
-            IMemoryCache memoryCache)
+            IMemoryCache memoryCache,
+            IVirusScanner virusScanner)
         {
             _settingsProvider = settingsProvider ?? throw new ArgumentNullException(nameof(settingsProvider));
             _imageProvider = imageProvider ?? throw new ArgumentNullException(nameof(imageProvider));
             _notificationService = notificationService ?? throw new ArgumentNullException(nameof(notificationService));
             _memoryCache = memoryCache ?? throw new ArgumentNullException(nameof(memoryCache));
+            _virusScanner = virusScanner ?? throw new ArgumentNullException(nameof(virusScanner));
         }
 
         #endregion Constructors
@@ -212,18 +215,23 @@ namespace ImageManager.Plugin.Controllers
                 if (formFile.Length > 0)
                 {
                     if (!FileExtensionAccepted(formFile))
-                        return GenerateJsonErrorResponse(Constants.HtmlResponseBadRequest, LanguageStrings.InvalidFileType);
-
-                    string filePath = _imageProvider.TemporaryImageFile(Path.GetExtension(formFile.FileName));
-
-                    using (FileStream stream = System.IO.File.Create(filePath))
                     {
-                        formFile.CopyTo(stream);
-                        cachedImageUpload.Files.Add(filePath);
+                        ModelState.AddModelError(String.Empty, $"{LanguageStrings.InvalidFileType} {formFile.FileName}");
+                    }
+                    else
+                    {
+                        string filePath = _imageProvider.TemporaryImageFile(Path.GetExtension(formFile.FileName));
+
+                        using (FileStream stream = System.IO.File.Create(filePath))
+                        {
+                            formFile.CopyTo(stream);
+                            cachedImageUpload.Files.Add(filePath);
+                        }
                     }
                 }
             }
 
+            _virusScanner.ScanFile(cachedImageUpload.Files.ToArray());
             string cacheName = GetCacheId();
 
             _memoryCache.GetCache().Add(cacheName, new CacheItem(cacheName, cachedImageUpload));
@@ -256,20 +264,27 @@ namespace ImageManager.Plugin.Controllers
 
             _notificationService.RaiseEvent(Constants.NotificationEventImageUploaded, cachedImageUpload, model.AdditionalData, ref notificationResponse);
 
-            if (notificationResponse != null)
-                return GenerateJsonSuccessResponse();
-
-            // custom processing has not taken place, move files to correct location and report success
-            foreach (string file in cachedImageUpload.Files)
+            if (notificationResponse == null)
             {
-                if (System.IO.File.Exists(file))
+                // custom processing has not taken place, move files to correct location and report success
+                foreach (string file in cachedImageUpload.Files)
                 {
-                    byte[] fileContents = System.IO.File.ReadAllBytes(file);
-                    _imageProvider.AddFile(cachedImageUpload.GroupName, cachedImageUpload.SubgroupName, Path.GetFileName(file), fileContents);
+                    if (System.IO.File.Exists(file))
+                    {
+                        byte[] fileContents = System.IO.File.ReadAllBytes(file);
+                        _imageProvider.AddFile(cachedImageUpload.GroupName, cachedImageUpload.SubgroupName, Path.GetFileName(file), fileContents);
+                    }
                 }
             }
 
-            return GenerateJsonSuccessResponse();
+            string successUri = "";
+            
+            if (String.IsNullOrWhiteSpace(cachedImageUpload.SubgroupName))
+                successUri = $"/{Name}/ViewGroup/{cachedImageUpload.GroupName}";
+            else
+                successUri += $"/{Name}/ViewSubgroup/{cachedImageUpload.GroupName}/{cachedImageUpload.SubgroupName}";
+
+            return GenerateJsonSuccessResponse(new { uri = successUri });
         }
 
         #endregion Public Action Methods

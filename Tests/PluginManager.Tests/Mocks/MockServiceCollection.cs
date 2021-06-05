@@ -48,11 +48,21 @@ namespace PluginManager.Tests.Mocks
         private readonly List<ServiceDescriptor> _serviceDescriptors;
         private readonly NotificationService _notificationService;
 
-        public MockServiceCollection()
+        public MockServiceCollection(ServiceDescriptor[] serviceDescriptors = null)
         {
             _serviceDescriptors = new List<ServiceDescriptor>();
-            _notificationService = new NotificationService();
-            Add(new ServiceDescriptor(typeof(INotificationService), _notificationService));
+           
+            if (serviceDescriptors != null)
+            {
+                foreach (ServiceDescriptor serviceDescriptor in serviceDescriptors)
+                {
+                    if (serviceDescriptor.ImplementationInstance.GetType().Equals(typeof(NotificationService)))
+                        _notificationService = serviceDescriptor.ImplementationInstance as NotificationService;
+
+                    Add(serviceDescriptor);
+                }
+            }
+
             ServicesRegistered = 0;
         }
 
@@ -65,11 +75,17 @@ namespace PluginManager.Tests.Mocks
 
         public bool HasListenerRegistered<T>()
         {
+            if (_notificationService == null)
+                return false;
+
             return _notificationService.ListenerRegistered<T>();
         }
 
         public bool HasListenerRegisteredEvent<T>(string eventName)
         {
+            if (_notificationService == null)
+                return false;
+
             return _notificationService.ListenerRegisteredEvent<T>(eventName);
         }
 

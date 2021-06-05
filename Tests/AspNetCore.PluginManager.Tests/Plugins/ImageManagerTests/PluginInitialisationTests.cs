@@ -23,6 +23,7 @@
  *  16/04/2021  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+using System;
 using System.Diagnostics.CodeAnalysis;
 
 using AspNetCore.PluginManager.Tests.Shared;
@@ -162,6 +163,20 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
             sut.ConfigureServices(mockServiceCollection);
 
             Assert.AreEqual(0, mockServiceCollection.ServicesRegistered);
+        }
+
+        [TestMethod]
+        [TestCategory(ImageManagerTestsCategory)]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void AfterConfigureServices_InvalidParam_Services_Null_Throws_ArgumentNullException()
+        {
+            TestApplicationBuilder testApplicationBuilder = new TestApplicationBuilder();
+            PluginInitialisation sut = new PluginInitialisation();
+            MockServiceCollection mockServiceCollection = new MockServiceCollection();
+            string imageManagerSettingsJson = "{\"ImageManager\": {\"ImagePath\": \"" + DemoWebsiteImagePath.Replace("\\", "\\\\") + "\"}}";
+            mockServiceCollection.AddSingleton<ISettingsProvider>(new TestSettingsProvider(imageManagerSettingsJson));
+
+            sut.AfterConfigureServices(null);
         }
 
         [TestMethod]

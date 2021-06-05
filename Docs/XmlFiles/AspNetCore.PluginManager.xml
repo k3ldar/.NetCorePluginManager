@@ -17,6 +17,11 @@
             <param name="mvcBuilder">IMvcBuilder instance.</param>
             <returns>IMvcBuilder</returns>
         </member>
+        <member name="P:AspNetCore.PluginManager.Internal.MicrosoftDefenderVirusScanner.Enabled">
+            <summary>
+            Indicates whether the virus scanner is enabled or not
+            </summary>
+        </member>
         <member name="T:AspNetCore.PluginManager.Classes.Minify.MinifyResult">
             <summary>
             Indicates the individual timings, start and end length of data and name of minification process.

@@ -556,5 +556,10 @@ namespace SharedPluginFeatures
         /// Bad request response code
         /// </summary>
         public const int HtmlResponseBadRequest = 400;
+
+        /// <summary>
+        /// Name of product image folder
+        /// </summary>
+        public const string ProductImageFolderName = "Products";
     }
 }

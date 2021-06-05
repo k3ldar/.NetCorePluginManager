@@ -54,7 +54,7 @@ namespace ProductPlugin.Controllers
 
         private readonly bool _hasShoppingCart;
         private readonly IProductProvider _productProvider;
-        private readonly ProductControllerSettings _settings;
+        private readonly ProductPluginSettings _settings;
         private readonly IStockProvider _stockProvider;
         private readonly IMemoryCache _memoryCache;
 
@@ -71,7 +71,7 @@ namespace ProductPlugin.Controllers
             if (pluginHelper == null)
                 throw new ArgumentNullException(nameof(pluginHelper));
 
-            _settings = settingsProvider.GetSettings<ProductControllerSettings>("Products");
+            _settings = settingsProvider.GetSettings<ProductPluginSettings>("Products");
 
             _productProvider = productProvider ?? throw new ArgumentNullException(nameof(productProvider));
             _stockProvider = stockProvider ?? throw new ArgumentNullException(nameof(stockProvider));

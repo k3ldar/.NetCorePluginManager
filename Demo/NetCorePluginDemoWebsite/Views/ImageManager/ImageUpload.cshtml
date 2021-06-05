@@ -54,7 +54,7 @@
                                 </div>
                             </div>
                         }
-                        @if (!String.IsNullOrEmpty(Model.AdditionalData))
+                        @if (!String.IsNullOrEmpty(Model.AdditionalDataName))
                         {
                             <div class="col-sm-12" id="extraData">
                                 <div class="form-group">
@@ -93,7 +93,7 @@
         $(options.errorId).empty();
         var ul = document.getElementById('errorMessage');
         var at = '';
-        debugger;
+
         if (options.additionalMandatory) {
             at = $(options.extraData).val();
 
@@ -122,7 +122,9 @@
                 dataType: "json",
                 success: function (data) {
                     debugger;
-                    $(options.extraData).show();
+                    let responseData = JSON.parse(data.data);
+                    window.location = responseData.uri;
+
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
                     debugger;

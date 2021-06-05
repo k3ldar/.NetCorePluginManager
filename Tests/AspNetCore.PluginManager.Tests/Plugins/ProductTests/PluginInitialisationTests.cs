@@ -28,6 +28,7 @@ using System.Diagnostics.CodeAnalysis;
 using AspNetCore.PluginManager.Tests.Shared;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.Extensions.DependencyInjection;
 
 using PluginManager.Abstractions;
 using PluginManager.Tests.Mocks;
@@ -36,6 +37,10 @@ using ProductPlugin;
 using ProductPlugin.Classes;
 
 using SharedPluginFeatures;
+using Middleware.Interfaces;
+using AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests.Mocks;
+using PluginManager.Internal;
+using System;
 
 namespace AspNetCore.PluginManager.Tests.Plugins.ProductTests
 {
@@ -166,15 +171,41 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ProductTests
         [TestCategory(TestCategoryName)]
         public void ConfigureServices_RegistersImageUploadNotificationListener_Success()
         {
+            ServiceDescriptor[] serviceDescriptors = new ServiceDescriptor[]
+            {
+                new ServiceDescriptor(typeof(INotificationService), new NotificationService()),
+                new ServiceDescriptor(typeof(IImageProvider), new MockImageProvider()),
+                new ServiceDescriptor(typeof(ISettingsProvider), new TestSettingsProvider("{}")),
+            };
+
             TestApplicationBuilder testApplicationBuilder = new TestApplicationBuilder();
             PluginInitialisation sut = new PluginInitialisation();
-            MockServiceCollection mockServiceCollection = new MockServiceCollection();
+            MockServiceCollection mockServiceCollection = new MockServiceCollection(serviceDescriptors);
 
-            sut.ConfigureServices(mockServiceCollection);
+            sut.AfterConfigureServices(mockServiceCollection);
 
             Assert.IsTrue(mockServiceCollection.HasListenerRegistered<ImageUploadNotificationListener>());
             Assert.IsTrue(mockServiceCollection.HasListenerRegisteredEvent<ImageUploadNotificationListener>("ImageUploadedEvent"));
             Assert.IsTrue(mockServiceCollection.HasListenerRegisteredEvent<ImageUploadNotificationListener>("ImageUploadOptions"));
+        }
+
+        [TestMethod]
+        [TestCategory(TestCategoryName)]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void ConfigureServices_InvalidParam_Services_Null_Throws_ArgumentNullException()
+        {
+            ServiceDescriptor[] serviceDescriptors = new ServiceDescriptor[]
+            {
+                new ServiceDescriptor(typeof(INotificationService), new NotificationService()),
+                new ServiceDescriptor(typeof(IImageProvider), new MockImageProvider()),
+                new ServiceDescriptor(typeof(ISettingsProvider), new TestSettingsProvider("{}")),
+            };
+
+            TestApplicationBuilder testApplicationBuilder = new TestApplicationBuilder();
+            PluginInitialisation sut = new PluginInitialisation();
+            MockServiceCollection mockServiceCollection = new MockServiceCollection(serviceDescriptors);
+
+            sut.AfterConfigureServices(null);
         }
     }
 }

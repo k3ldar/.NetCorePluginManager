@@ -11,37 +11,26 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2021 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2012 - 2021 Simon Carter.  All Rights Reserved.
  *
- *  Product:  Image Manager Plugin
+ *  Product:  SharedPluginFeatues
  *  
- *  File: ImageProcessOptionsViewModel.cs
+ *  File: IImageProcessOptions.cs
+ *
+ *  Purpose:  Options for manipulating image uploads
  *
  *  Date        Name                Reason
- *  17/05/2021  Simon Carter        Initially Created
+ *  31/05/2021  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using SharedPluginFeatures;
 
-namespace ImageManager.Plugin.Models
+namespace SharedPluginFeatures
 {
     /// <summary>
     /// Options for processing image options
     /// </summary>
-    public sealed class ImageProcessOptionsViewModel : IImageProcessOptions
+    public interface IImageProcessOptions
     {
-        #region Constructors
-
-        /// <summary>
-        /// Default constructor
-        /// </summary>
-        public ImageProcessOptionsViewModel()
-        {
-            ShowSubgroup = true;
-        }
-
-        #endregion Constructors
-
         #region Properties
 
         /// <summary>

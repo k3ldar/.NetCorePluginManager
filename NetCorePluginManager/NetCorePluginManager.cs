@@ -28,8 +28,10 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
+using System.Runtime.InteropServices;
 
 using AspNetCore.PluginManager.Classes.Minify;
+using AspNetCore.PluginManager.Internal;
 
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
@@ -118,8 +120,20 @@ namespace AspNetCore.PluginManager
 
             // if no minification engine has been added, add a default one now
             serviceProvider.TryAddTransient<IMinificationEngine, MinificationEngine>();
+
+            // if no save/load data has been registered, add new default file storage options
             serviceProvider.TryAddSingleton<ISaveData>(new FileStorageSaveData(Logger, RootPath));
             serviceProvider.TryAddSingleton<ILoadData>(new FileStorageLoadData(Logger, RootPath));
+
+            // if no custom virus scanner has been registered, add the default Microsoft virus scanner if on windows, otherwise a placebo scanner
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                serviceProvider.TryAddTransient<IVirusScanner, MicrosoftDefenderVirusScanner>();
+            }
+            else
+            {
+                serviceProvider.TryAddTransient<IVirusScanner, PlaceboVirusScanner>();
+            }
         }
 
         protected override void PreConfigurePluginServices(in IServiceCollection serviceProvider)
