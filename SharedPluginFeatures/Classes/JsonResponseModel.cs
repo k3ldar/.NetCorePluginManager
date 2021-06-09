@@ -50,7 +50,7 @@ namespace SharedPluginFeatures
         public JsonResponseModel(bool success)
         {
             Success = success;
-            Data = String.Empty;
+            ResponseData = String.Empty;
         }
 
         /// <summary>
@@ -64,7 +64,7 @@ namespace SharedPluginFeatures
                 throw new ArgumentNullException(nameof(data));
 
             Success = true;
-            Data = data;
+            ResponseData = data;
         }
 
         /// <summary>
@@ -75,7 +75,7 @@ namespace SharedPluginFeatures
         public JsonResponseModel(bool success, string data)
         {
             Success = success;
-            Data = data ?? throw new ArgumentNullException(nameof(data));
+            ResponseData = data ?? throw new ArgumentNullException(nameof(data));
         }
 
         #endregion Constructors
@@ -92,7 +92,7 @@ namespace SharedPluginFeatures
         /// Response data, this can be a string of any type including Json, xml etc
         /// </summary>
         /// <value>string</value>
-        public string Data { get; set; }
+        public string ResponseData { get; set; }
 
         #endregion Public Properties
     }

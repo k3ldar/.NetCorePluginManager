@@ -1,83 +1,149 @@
 ﻿@model ProductPlugin.Models.ProductModel
 @inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
+
 @{
-ViewData["Title"] = "Index";
-var image = Shared.Utilities.ResizeImage(Model.Images[0], 288).Replace(".jpg", ".png");
+    ViewData["Title"] = "Index";
+    string image;
+    bool setSelClass = true;
+    if (Model.Images.Length == 0)
+        image = $"/images/Products/NoImage_288.png";
+    else
+        image = $"/images/Products/{Model.Sku}/{Model.Images[0]}_288.png";
 }
+
 <link rel="stylesheet" href="~/css/Products.css" asp-append-version="true" />
+<script src="/js/js-image-zoom.js"></script>
+
 <div class="row">
-<div class="d-none d-lg-block col-lg-3 bd-sidebar categories">
-@await Html.PartialAsync("_LeftMenu.cshtml", Model)
+    <div class="d-none d-lg-block col-lg-3 bd-sidebar categories">
+        @await Html.PartialAsync("_LeftMenu.cshtml", Model)
+    </div>
+    <div class="col col-lg-9">
+        <div class="row">
+            <div class="col">
+                <h1>@Model.Name</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col col-sm-2 col-md-2">
+                @if (Model.Images.Length > 0)
+                {
+                    <div id="imgCollection" class="imCollection">
+                        <ul class="mi">
+                            @foreach (string mii in Model.Images)
+                            {
+                                string classNames = setSelClass ? "mii misel" : "mii";
+                                string id = "id" + mii;
+                                setSelClass = false;
+                                string miImage = $"/{Model.Sku}/{mii}_89.png";
+                                <li id="@id" class="@classNames"><img src="/images/Products/@miImage" alt="" border="0" onclick="updateImage(this, '@Model.Sku', '@mii');" /></li>
+                            }
+                        </ul>
+                    </div>
+                }
+            </div>
+            <div class="col col-sm-9 col-md-7">
+
+                <div id="imgContainer" class="productImg">
+                    <img id="mainImage" src="@image" alt="" border="0" width="288" height="268" />
+                    @if (Model.NewProduct)
+                    {
+                        <span class="badge badge-pill badge-primary" style="top: 24px; left: 2px; position: absolute; -webkit-transform: rotate( -35deg ); display: inline-block;">@Localizer[nameof(Languages.LanguageStrings.NewProduct)]</span>
+                    }
+                    else if (Model.BestSeller)
+                    {
+                        <span class="badge badge-pill badge-success" style="top: 24px; left: 2px; position: absolute; -webkit-transform: rotate( -35deg ); display: inline-block;">@Localizer[nameof(Languages.LanguageStrings.BestSeller)]</span>
+                    }
+                </div>
+            </div>
+            @if (Model.AllowAddToBasket)
+            {
+                <div class="col col-sm-3 col-md-3">
+                    @await Html.PartialAsync("_AddToCart.cshtml", Model.AddToCart)
+                </div>
+            }
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="productDescription">
+                    @Html.Raw(Model.Description)
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="productFeatures">
+                    <h2>@Localizer[nameof(Languages.LanguageStrings.Features)]</h2>
+                    <div>
+                        <ul>
+                            @foreach (string feature in Model.FeatureList())
+                            {
+                                <li>@Html.Raw(feature)</li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        @if (!String.IsNullOrEmpty(Model.VideoLink))
+        {
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="productVideo" id="divVideoLink">
+                        <h2>@Localizer[nameof(Languages.LanguageStrings.Video)]</h2>
+                        <p>
+                            @Html.Raw(Model.GetVideoLink())
+                            <span>@Localizer[nameof(Languages.LanguageStrings.VideoDescription)] <a href="<%=GetFullVideoLink() %>" target="_blank">@Localizer[nameof(Languages.LanguageStrings.ClickHere)]</a></span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
 </div>
-<div class="col col-lg-9">
+
+
 <div class="row">
-<div class="col">
-<h1>@Model.Name</h1>
+    <div class="col">
+    </div>
 </div>
-</div>
+
 <div class="row">
-<div class="col col-md-8 col-lg-7">
-<div class="productImg">
-<asp:HyperLink ID="linkZoom">
-<img src="~/images/Products/@image" alt="" border="0" width="288" height="268" />
-</asp:HyperLink>
+    <div class="col">
+    </div>
 </div>
-</div>
-@if (Model.AllowAddToBasket)
-{
-<div class="col col-md-4 col-lg-2">
-@await Html.PartialAsync("_AddToCart.cshtml", Model.AddToCart)
-</div>
-}
-</div>
-<div class="row">
-<div class="col">
-<div class="productDescription">
-@Html.Raw(Model.Description)
-</div>
-</div>
-</div>
-<div class="row">
-<div class="col">
-<div class="productFeatures">
-<h2>@Localizer[nameof(Languages.LanguageStrings.Features)]</h2>
-<div>
-<ul>
-@foreach (string feature in Model.FeatureList())
-{
-<li>@Html.Raw(feature)</li>
-}
-</ul>
-</div>
-</div>
-</div>
-</div>
-@if (!String.IsNullOrEmpty(Model.VideoLink))
-{
-<div class="row">
-<div class="col-sm-12">
-<div class="productVideo" id="divVideoLink">
-<h2>@Localizer[nameof(Languages.LanguageStrings.Video)]</h2>
-<p>@Html.Raw(Model.GetVideoLink())</p>
-<span>@Localizer[nameof(Languages.LanguageStrings.VideoDescription)] <a href="<%=GetFullVideoLink() %>" target="_blank">@Localizer[nameof(Languages.LanguageStrings.ClickHere)]</a></span>
-</div>
-</div>
-</div>
-}
-</div>
-</div>
-<div class="row">
-<div class="col">
-</div>
-</div>
-<div class="row">
-<div class="col">
-</div>
-</div>
+
 <div class="wrapper">
-<div class="content">
-<div class="mainContent">
+    <div class="content">
+
+        <div class="mainContent">
+
+
+
+        </div>
+    </div>
 </div>
-</div>
-</div>
-<div class="clear"></div>
+<div class="clear"><!-- clear --></div>
+
+<script type="text/javascript">
+    function updateImage(e, sku, img) {
+        var ph = document.getElementById("mainImage");
+        ph.src = "/images/Products/" + sku + "/" + img + "_288.png";
+
+        var liList = document.getElementsByClassName("mii");
+        for (var i = 0; i < liList.length; i++) {
+            var liItem = liList[i];
+            liItem.classList.remove("misel");
+        }
+
+        $("#id" + img).addClass("misel");
+
+        var orig = "/images/Products/" + sku + "/" + img + "_orig.png";
+        var za = document.getElementsByClassName("js-image-zoom__zoomed-image");
+
+        if (za.length > 0) {
+            za[0].style.backgroundImage = "url('" + orig + "')";
+        }
+    };
+</script>

@@ -1,39 +1,61 @@
 ﻿@model ProductPlugin.Models.ProductGroupModel
 @inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
+
 @{
-ViewData["Title"] = "Index";
+    ViewData["Title"] = "Index";
 }
 <link rel="stylesheet" href="~/css/Products.css" asp-append-version="true" />
+
+
+
 <div class="row">
-<div class="col">
-<h1 id="divTitle">
-@Model.Description
-</h1>
-<h4 class="tagLine">@Model.TagLine</h4>
-</div>
+    <div class="col">
+        <h1 id="divTitle">
+            @Model.Description
+        </h1>
+
+        <h4 class="tagLine">@Model.TagLine</h4>
+    </div>
 </div>
 <div class="row">
-<div class="col-sm-3">
-@await Html.PartialAsync("_LeftMenu.cshtml")
-</div>
-<div class="col-sm-9 mainContent">
-<ul class="productList">
-@foreach (var item in Model.Products)
-{
-<li class="product">
-<a href="@item.Url">
-<img src="~/images/Products/@Shared.Utilities.ResizeImage(item.Images, 178).Replace(".jpg", ".png")" alt="@item.Name" border="0" width="178" height="128" />
-<span class="new" style="@if (item.NewProduct) { Html.Raw("display:block;"); }">@Localizer[nameof(Languages.LanguageStrings.NewProduct)]</span>
-<span class="best" style="@if (item.BestSeller) { Html.Raw("display:block;"); }">@Localizer[nameof(Languages.LanguageStrings.BestSeller)]</span>
-<br />@item.Name<strong>@item.Price</strong>
-</a>
-</li>
-}
-</ul>
-</div>
+    <div class="col-sm-3">
+        @await Html.PartialAsync("_LeftMenu.cshtml")
+    </div>
+    <div class="col-sm-9 mainContent">
+        <ul class="productList">
+            @foreach (var item in Model.Products)
+            {
+                string image;
+                if (item.Images.Length == 0)
+                    image = $"/images/Products/NoImage_178.png";
+                else
+                    image = $"/images/Products/{item.Sku}/{item.Images}_178.png";
+
+                <li class="product">
+                    <a href="@item.Url">
+                        <div>
+                            <img src="@image" alt="@item.Name" border="0" width="178" height="128" />
+                            @if (item.NewProduct)
+                            {
+                                <span class="badge badge-pill badge-primary" style="top: -114px; left: -49px; position: relative; -webkit-transform: rotate( -35deg ); display: inline-block;">@Localizer[nameof(Languages.LanguageStrings.NewProduct)]</span>
+                            }
+                            else if (item.BestSeller)
+                            {
+                                <span class="badge badge-pill badge-success" style="top: -114px; left: -49px; position: relative; -webkit-transform: rotate( -35deg ); display: inline-block;">@Localizer[nameof(Languages.LanguageStrings.BestSeller)]</span>
+                            }
+
+                            <span class="price">
+                                @item.Name<strong>@item.Price</strong>
+                            </span>
+                        </div>
+                    </a>
+                </li>
+            }
+        </ul>
+    </div>
 </div>
 <div class="row justify-content-sm-center" style="margin-top:20px;">
-<div class="col-sm-auto">
-@Html.Raw(Model.Pagination)
-</div>
+    <div class="col-sm-auto">
+        @Html.Raw(Model.Pagination)
+    </div>
 </div>

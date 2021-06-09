@@ -63,11 +63,17 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
         {
             return new List<Product>()
             {
-                new Product(1, 1, "Product A & - &", "This is product a", "1 year guarantee", "", new string[] { "geoip" }, 0, "ProdA", false, false),
-                new Product(2, 1, "Product B", "This is product b", "1 year guarantee", "", new string[] { "geoip" }, 0, "ProdB", true, false),
-                new Product(3, 1, "Product C", "This is product c", "1 year guarantee", "E7Voso411Vs", new string[] { "geoip" }, 1.99m, "ProdC", true, true, false, true),
-                new Product(4, 2, "Product D", "This is product d", "1 year guarantee", "", new string[] { "geoip" }, 22.99m, "ProdD", false, true, true, true),
-                new Product(5, 2, "Product E", "This is product e", "1 year guarantee", "pCvZtjoRq1I", new string[] { "geoip" }, 0, "ProdE", false, false)
+                new Product(1, 1, "Product A & - &", "This is product a", "1 year guarantee", "", new string[] { "ProdA_1" }, 0, "ProdA", false, false),
+                new Product(2, 1, "Product B", "This is product b", "1 year guarantee", "", new string[] { "ProdB_1" }, 0, "ProdB", true, false),
+                new Product(3, 1, "Product C", "This is product c", "1 year guarantee", "E7Voso411Vs", new string[] { "ProdC_1" }, 1.99m, "ProdC", true, true, false, true),
+                new Product(4, 2, "Product D", "This is product d", "1 year guarantee", "", new string[] { "ProdD_1" }, 22.99m, "ProdD", false, true, true, true),
+                new Product(5, 2, "Product E", "This is product e", "1 year guarantee", "pCvZtjoRq1I", new string[] { "ProdE_1" }, 0, "ProdE", false, false),
+
+
+                new Product(6, 2, "Product F", "This is product f", "1 year guarantee", "pCvZtjoRq1I", new string[] { "ProdF_1" }, 0, "ProdF", false, false, true, true),
+                new Product(7, 2, "Product G", "This is product g", "1 year guarantee", "", new string[] { "ProdG_1" }, 15.95m, "ProdG", false, false, true, false),
+                new Product(8, 2, "Product H", "This is product h", "1 year guarantee", "", new string[] { "ProdH_1" }, 1.99m, "ProdH", false, false, false, true),
+                new Product(9, 2, "Product I", "This is product i", "1 year guarantee", "", new string[] { "ProdI_1" }, 0, "ProdI", false, false, false, true)
             };
         }
 

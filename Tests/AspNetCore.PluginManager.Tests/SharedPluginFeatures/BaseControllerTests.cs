@@ -248,7 +248,7 @@ namespace AspNetCore.PluginManager.Tests.SharedPluginFeatures
 
                 JsonResponseModel jsonResponse = result.Value as JsonResponseModel;
 
-                Assert.AreEqual("There was an error", jsonResponse.Data);
+                Assert.AreEqual("There was an error", jsonResponse.ResponseData);
                 Assert.IsFalse(jsonResponse.Success);
             }
         }
@@ -267,7 +267,7 @@ namespace AspNetCore.PluginManager.Tests.SharedPluginFeatures
 
                 JsonResponseModel jsonResponse = result.Value as JsonResponseModel;
 
-                Assert.AreEqual("", jsonResponse.Data);
+                Assert.AreEqual("", jsonResponse.ResponseData);
                 Assert.IsTrue(jsonResponse.Success);
             }
         }
@@ -300,7 +300,7 @@ namespace AspNetCore.PluginManager.Tests.SharedPluginFeatures
 
                 JsonResponseModel jsonResponse = result.Value as JsonResponseModel;
 
-                Assert.AreEqual(ExpectedResponseWithData, jsonResponse.Data);
+                Assert.AreEqual(ExpectedResponseWithData, jsonResponse.ResponseData);
                 Assert.IsTrue(jsonResponse.Success);
             }
         }

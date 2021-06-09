@@ -2,136 +2,125 @@
 @inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
 <link rel="stylesheet" href="~/css/imageManager.css" />
 <script src="/js/ImageManager.js"></script>
-
 <div class="row">
-    <div class="col-sm-12">
-        <h1>@Localizer[nameof(Languages.LanguageStrings.AppImageManagement)]</h1>
-    </div>
+<div class="col-sm-12">
+<h1>@Localizer[nameof(Languages.LanguageStrings.AppImageManagement)]</h1>
+</div>
 </div>
 <div class="row">
-    <div class="col-sm-12">
-        <ul id="errorMessage" style="color:red;"></ul>
-    </div>
+<div class="col-sm-12">
+<ul id="errorMessage" style="color:red;"></ul>
+</div>
 </div>
 @using (Html.BeginForm("Register", "Home", FormMethod.Post, new { @id = "frmUploadImages", @class = "form-horizontal", role = "form" }))
 {
-    <div class="row">
-        <div class="col-sm-2">
-            @await Html.PartialAsync("_LeftMenu.cshtml", Model as ImageManager.Plugin.Models.ImagesViewModel)
-        </div>
-        <div class="col-sm-10 mainContent">
-
-            <nav style="margin: 0 5px 0 5px;">
-                <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                    <a class="nav-item nav-link active" id="nav-images-tab" data-toggle="tab" href="#nav-images" role="tab" aria-controls="nav-images" aria-selected="true">@Localizer[nameof(Languages.LanguageStrings.ImageUploadFiles)]</a>
-                </div>
-            </nav>
-            <div class="tab-content" id="nav-tabContent" style="margin: 5px;">
-                <div class="tab-pane fade show active" id="nav-images" role="tabpanel" aria-labelledby="nav-images-tab">
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <div class="form-group">
-                                <label id="SelectedGroupName">@Localizer[nameof(Languages.LanguageStrings.GroupName)]</label>
-                                <label>@Model.SelectedGroupName</label>
-                            </div>
-                        </div>
-                        @if (!String.IsNullOrEmpty(Model.SelectedSubgroupName))
-                        {
-                            <div class="col-sm-12">
-                                <div class="form-group">
-                                    <label id="SelectedSubgroupName">@Localizer[nameof(Languages.LanguageStrings.SubgroupName)]</label>
-                                    <label>@Model.SelectedSubgroupName</label>
-                                </div>
-                            </div>
-                        }
-                        @if (Model.ShowSubgroup)
-                        {
-                            <div class="col-sm-12" id="extraData">
-                                <div class="form-group">
-                                    @Html.LabelFor(m => m.SubgroupName)
-                                    @Html.TextBoxFor(m => m.SubgroupName)
-                                    @Html.ValidationMessageFor(m => m.SubgroupName)
-                                </div>
-                            </div>
-                        }
-                        @if (!String.IsNullOrEmpty(Model.AdditionalDataName))
-                        {
-                            <div class="col-sm-12" id="extraData">
-                                <div class="form-group">
-                                    @Html.LabelFor(m => m.AdditionalDataName)
-                                    @Html.TextBoxFor(m => m.AdditionalData)
-                                    @Html.ValidationMessageFor(m => m.AdditionalData)
-                                </div>
-                            </div>
-                        }
-                        <div class="col-sm-12">
-                            <input class="btn btn-primary" type="button" value="Upload" onclick="validateAndSubmitImages();" />
-                        </div>
-                    </div>
-                    <div class="row">
-                        <ul class="imageList">
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+<div class="row">
+<div class="col-sm-2">
+@await Html.PartialAsync("_LeftMenu.cshtml", Model as ImageManager.Plugin.Models.ImagesViewModel)
+</div>
+<div class="col-sm-10 mainContent">
+<nav style="margin: 0 5px 0 5px;">
+<div class="nav nav-tabs" id="nav-tab" role="tablist">
+<a class="nav-item nav-link active" id="nav-images-tab" data-toggle="tab" href="#nav-images" role="tab" aria-controls="nav-images" aria-selected="true">@Localizer[nameof(Languages.LanguageStrings.ImageUploadFiles)]</a>
+</div>
+</nav>
+<div class="tab-content" id="nav-tabContent" style="margin: 5px;">
+<div class="tab-pane fade show active" id="nav-images" role="tabpanel" aria-labelledby="nav-images-tab">
+<div class="row">
+<div class="col-sm-12">
+<div class="form-group">
+<label id="SelectedGroupName">@Localizer[nameof(Languages.LanguageStrings.GroupName)]</label>
+<label>@Model.SelectedGroupName</label>
+</div>
+</div>
+@if (!String.IsNullOrEmpty(Model.SelectedSubgroupName))
+{
+<div class="col-sm-12">
+<div class="form-group">
+<label id="SelectedSubgroupName">@Localizer[nameof(Languages.LanguageStrings.SubgroupName)]</label>
+<label>@Model.SelectedSubgroupName</label>
+</div>
+</div>
+}
+@if (Model.ShowSubgroup)
+{
+<div class="col-sm-12" id="extraData">
+<div class="form-group">
+@Html.LabelFor(m => m.SubgroupName)
+@Html.TextBoxFor(m => m.SubgroupName)
+@Html.ValidationMessageFor(m => m.SubgroupName)
+</div>
+</div>
+}
+@if (!String.IsNullOrEmpty(Model.AdditionalDataName))
+{
+<div class="col-sm-12" id="extraData">
+<div class="form-group">
+@Html.LabelFor(m => m.AdditionalDataName)
+@Html.TextBoxFor(m => m.AdditionalData)
+@Html.ValidationMessageFor(m => m.AdditionalData)
+</div>
+</div>
+}
+<div class="col-sm-12">
+<input class="btn btn-primary" type="button" value="Upload" onclick="validateAndSubmitImages();" />
+</div>
+</div>
+<div class="row">
+<ul class="imageList">
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
 }
 <script type="text/javascript">
-    var options = {
-        errorId: '#errorMessage',
-        group: '#@Html.IdFor(m => m.SelectedGroupName)',
-        subgroup: '#@Html.IdFor(m => m.SelectedSubgroupName)',
-        hasSubGroup: @Json.Serialize(!String.IsNullOrEmpty(Model.SelectedSubgroupName)),
-        extraData: '#@Html.IdFor(m => m.AdditionalData)',
-        additionalMandatory: @Model.AdditionalDataMandatory.ToString().ToLower(),
-    };
-
-    function validateAndSubmitImages() {
-        var errors = false;
-        $(options.errorId).hide();
-        $(options.errorId).empty();
-        var ul = document.getElementById('errorMessage');
-        var at = '';
-
-        if (options.additionalMandatory) {
-            at = $(options.extraData).val();
-
-            if (at === '') {
-                errors = true;
-                var aterr = document.createElement('li');
-                aterr.innerHTML = '@String.Format(Languages.LanguageStrings.YouMustEnter, Model.AdditionalDataName)'
-                ul.appendChild()
-            }
-        }
-
-        if (errors) {
-            $(options.errorId.show());
-        }
-        else {
-            json = new Object();
-            json.FileUploadId = '@Model.FileUploadId';
-            json.AdditionalData = at;
-
-
-            $.ajax({
-                url: '/ImageManager/ProcessImage/',
-                type: 'POST',
-                data: JSON.stringify(json),
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: function (data) {
-                    debugger;
-                    let responseData = JSON.parse(data.data);
-                    window.location = responseData.uri;
-
-                },
-                error: function (jqXHR, textStatus, errorThrown) {
-                    debugger;
-                    $(options.errorId).show();
-                }
-            });
-        }
-
-    }
+var options = {
+errorId: '#errorMessage',
+group: '#@Html.IdFor(m => m.SelectedGroupName)',
+subgroup: '#@Html.IdFor(m => m.SelectedSubgroupName)',
+hasSubGroup: @Json.Serialize(!String.IsNullOrEmpty(Model.SelectedSubgroupName)),
+extraData: '#@Html.IdFor(m => m.AdditionalData)',
+additionalMandatory: @Model.AdditionalDataMandatory.ToString().ToLower(),
+};
+function validateAndSubmitImages() {
+var errors = false;
+$(options.errorId).hide();
+$(options.errorId).empty();
+var ul = document.getElementById('errorMessage');
+var at = '';
+if (options.additionalMandatory) {
+at = $(options.extraData).val();
+if (at === '') {
+errors = true;
+var aterr = document.createElement('li');
+aterr.innerHTML = '@String.Format(Languages.LanguageStrings.YouMustEnter, Model.AdditionalDataName)'
+ul.appendChild()
+}
+}
+if (errors) {
+$(options.errorId.show());
+}
+else {
+json = new Object();
+json.FileUploadId = '@Model.FileUploadId';
+json.AdditionalData = at;
+$.ajax({
+url: '/ImageManager/ProcessImage/',
+type: 'POST',
+data: JSON.stringify(json),
+contentType: "application/json; charset=utf-8",
+dataType: "json",
+success: function (data) {
+let responseData = JSON.parse(data.responseData);
+window.location = responseData.uri;
+},
+error: function (jqXHR, textStatus, errorThrown) {
+debugger;
+$(options.errorId).show();
+}
+});
+}
+}
 </script>

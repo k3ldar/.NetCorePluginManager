@@ -32,6 +32,7 @@ using Languages;
 using Microsoft.AspNetCore.Mvc;
 
 using Middleware;
+using Middleware.Interfaces;
 using Middleware.Products;
 
 using PluginManager.Abstractions;
@@ -57,13 +58,15 @@ namespace ProductPlugin.Controllers
         private readonly ProductPluginSettings _settings;
         private readonly IStockProvider _stockProvider;
         private readonly IMemoryCache _memoryCache;
+        private readonly IImageProvider _imageProvider;
 
         #endregion Private Members
 
         #region Constructors
 
         public ProductController(IProductProvider productProvider, ISettingsProvider settingsProvider,
-            IPluginHelperService pluginHelper, IStockProvider stockProvider, IMemoryCache memoryCache)
+            IPluginHelperService pluginHelper, IStockProvider stockProvider, IMemoryCache memoryCache,
+            IImageProvider imageProvider)
         {
             if (settingsProvider == null)
                 throw new ArgumentNullException(nameof(settingsProvider));
@@ -77,6 +80,7 @@ namespace ProductPlugin.Controllers
             _stockProvider = stockProvider ?? throw new ArgumentNullException(nameof(stockProvider));
             _memoryCache = memoryCache ?? throw new ArgumentNullException(nameof(memoryCache));
             _hasShoppingCart = pluginHelper.PluginLoaded(SharedPluginFeatures.Constants.PluginNameShoppingCart, out _);
+            _imageProvider = imageProvider ?? throw new ArgumentNullException(nameof(imageProvider));
         }
 
         #endregion Constructors
@@ -174,7 +178,7 @@ namespace ProductPlugin.Controllers
             foreach (Product product in products)
             {
                 Result.Products.Add(new ProductCategoryProductModel(product.Id, product.Name, product.Images[0],
-                    group.Id, product.NewProduct, product.BestSeller, product.RetailPrice));
+                    group.Id, product.NewProduct, product.BestSeller, product.RetailPrice, product.Sku));
             }
 
             Result.Breadcrumbs.Clear();
@@ -211,9 +215,12 @@ namespace ProductPlugin.Controllers
                 if (_productProvider.ProductGroupGet(product.ProductGroupId) == null)
                     return null;
 
+
+
                 Result = new ProductModel(GetModelData(), modelCategories, product.Id, product.ProductGroupId,
-                    product.Name, product.Description, product.Features, product.VideoLink, product.Images,
-                    product.RetailPrice, _hasShoppingCart && product.RetailPrice > 0, product.StockAvailability);
+                    product.Name, product.Description, product.Features, product.VideoLink, GetImageNameArray(product),
+                    product.RetailPrice, product.Sku, product.NewProduct, product.BestSeller,
+                    _hasShoppingCart && product.RetailPrice > 0, product.StockAvailability);
             }
             else
             {
@@ -231,6 +238,18 @@ namespace ProductPlugin.Controllers
                 $"/Product/{product.Id}/{Result.RouteText(product.Name)}/", false));
 
             return Result;
+        }
+
+        private string[] GetImageNameArray(Product product)
+        {
+            List<Middleware.Images.ImageFile> images = _imageProvider.Images(SharedPluginFeatures.Constants.ProductImageFolderName, product.Sku)
+                    .Where(i => i.Name.Contains("_orig"))
+                    .ToList();
+
+            List<string> imageNames = new List<string>();
+            images.ForEach(i => imageNames.Add(i.Name.Substring(0, i.Name.IndexOf("_orig"))));
+
+            return imageNames.ToArray();
         }
 
         #endregion Private Methods

@@ -2111,6 +2111,11 @@
             Dash (-) char constant.
             </summary>
         </member>
+        <member name="F:SharedPluginFeatures.Constants.Underscore">
+            <summary>
+            Underscore (_) char constant
+            </summary>
+        </member>
         <member name="F:SharedPluginFeatures.Constants.PluginSettingBreadcrumb">
             <summary>
             Name of the Breadcrumb.Plugin module.

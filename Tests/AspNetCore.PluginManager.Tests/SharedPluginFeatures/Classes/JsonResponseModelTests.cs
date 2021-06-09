@@ -46,7 +46,7 @@ namespace AspNetCore.PluginManager.Tests.SharedPluginFeatures.Classes
 
             Assert.IsNotNull(sut);
             Assert.IsFalse(sut.Success);
-            Assert.AreEqual("", sut.Data);
+            Assert.AreEqual("", sut.ResponseData);
         }
 
         [TestMethod]
@@ -57,7 +57,7 @@ namespace AspNetCore.PluginManager.Tests.SharedPluginFeatures.Classes
 
             Assert.IsNotNull(sut);
             Assert.IsFalse(sut.Success);
-            Assert.AreEqual("", sut.Data);
+            Assert.AreEqual("", sut.ResponseData);
         }
 
         [TestMethod]
@@ -68,7 +68,7 @@ namespace AspNetCore.PluginManager.Tests.SharedPluginFeatures.Classes
 
             Assert.IsNotNull(sut);
             Assert.IsTrue(sut.Success);
-            Assert.AreEqual("", sut.Data);
+            Assert.AreEqual("", sut.ResponseData);
         }
 
         [TestMethod]
@@ -95,7 +95,7 @@ namespace AspNetCore.PluginManager.Tests.SharedPluginFeatures.Classes
 
             Assert.IsNotNull(sut);
             Assert.IsTrue(sut.Success);
-            Assert.AreEqual("some data", sut.Data);
+            Assert.AreEqual("some data", sut.ResponseData);
         }
 
         [TestMethod]
@@ -113,7 +113,7 @@ namespace AspNetCore.PluginManager.Tests.SharedPluginFeatures.Classes
             JsonResponseModel sut = new JsonResponseModel(true, "");
             Assert.IsNotNull(sut);
             Assert.IsTrue(sut.Success);
-            Assert.AreEqual("", sut.Data);
+            Assert.AreEqual("", sut.ResponseData);
         }
 
         [TestMethod]
@@ -124,7 +124,7 @@ namespace AspNetCore.PluginManager.Tests.SharedPluginFeatures.Classes
 
             Assert.IsNotNull(sut);
             Assert.IsFalse(sut.Success);
-            Assert.AreEqual("An error occurred", sut.Data);
+            Assert.AreEqual("An error occurred", sut.ResponseData);
         }
     }
 }

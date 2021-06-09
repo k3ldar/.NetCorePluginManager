@@ -148,6 +148,11 @@ namespace SharedPluginFeatures
         public const char Dash = '-';
 
         /// <summary>
+        /// Underscore (_) char constant
+        /// </summary>
+        public const char Underscore = '_';
+
+        /// <summary>
         /// Name of the Breadcrumb.Plugin module.
         /// </summary>
         public const string PluginSettingBreadcrumb = "Breadcrumb.Plugin";

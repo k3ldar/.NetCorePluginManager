@@ -146,15 +146,14 @@ namespace ProductPlugin.Classes
 
         private Color GetColorFromHex(string resizeBackfillColor)
         {
-            if (Int32.TryParse(resizeBackfillColor.Replace("#", ""), NumberStyles.HexNumber, CultureInfo.InvariantCulture, out int argb))
+            try
             {
-                return Color.FromArgb((byte)((argb & -16777216) >> 0x18),
-                    (byte)((argb & 0xff0000) >> 0x10),
-                    (byte)((argb & 0xff00) >> 8),
-                    (byte)(argb & 0xff));
+                return ColorTranslator.FromHtml(resizeBackfillColor);
             }
-
-            return Color.White;
+            catch(Exception)
+            {
+                return Color.White;
+            }
         }
 
         private bool CopyImagesToSubGroupAndVerify(List<string> files, List<Size> additionalSizes, 

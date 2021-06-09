@@ -277,6 +277,14 @@ namespace ImageManager.Plugin.Controllers
                 }
             }
 
+            _memoryCache.GetCache().Remove(uploadCache);
+
+            foreach (string file in cachedImageUpload.Files)
+            {
+                if (System.IO.File.Exists(file))
+                    System.IO.File.Delete(file);
+            }
+
             string successUri = "";
             
             if (String.IsNullOrWhiteSpace(cachedImageUpload.SubgroupName))
