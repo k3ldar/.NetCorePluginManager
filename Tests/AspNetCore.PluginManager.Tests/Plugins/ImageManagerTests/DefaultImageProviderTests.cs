@@ -1310,7 +1310,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
                 string newGroupPath = Path.Combine(testPath, "FirstGroup");
 
                 DefaultImageProvider sut = CreateDefaultImageProvider(testPath);
-                Assert.IsTrue(CacheManagerExists("Default Image Provider"));
+                Assert.IsTrue(CacheManagerExists("DefaultImageProvider"));
                 Assert.IsFalse(sut.GroupExists("FirstGroup"));
 
                 bool addGroup = sut.CreateGroup("FirstGroup");
