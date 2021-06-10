@@ -16,7 +16,7 @@
                 </p>
             }
             <ul>
-                <li>@Languages.LanguageStrings.Tags</li>
+                <li>@Localizer[nameof(Languages.LanguageStrings.Tags)]</li>
                 @foreach (string tag in Model.Tags.Split(' '))
                 {
                     <li><a href="/Blog/Search/@tag/">@tag</a></li>

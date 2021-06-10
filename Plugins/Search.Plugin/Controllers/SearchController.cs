@@ -40,6 +40,8 @@ using SearchPlugin.Models;
 
 using SharedPluginFeatures;
 
+using Constants = SharedPluginFeatures.Constants;
+
 #pragma warning disable IDE0079
 #pragma warning disable CS1591
 
@@ -198,8 +200,8 @@ namespace SearchPlugin.Controllers
 
             return new JsonResult(topResults)
             {
-                StatusCode = 200,
-                ContentType = "application/json"
+                StatusCode = Constants.HtmlResponseSuccess,
+                ContentType = Constants.ContentTypeApplicationJson
             };
         }
 

@@ -4,7 +4,7 @@
 
 <link rel="stylesheet" href="~/css/products.css" />
 <div class="searchOption">
-    <p><strong>@Languages.LanguageStrings.Price</strong></p>
+    <p><strong>@Localizer[nameof(Languages.LanguageStrings.Price)]</strong></p>
     @for (int i = 0; i < Model.Prices.Count; i++)
     {
         <div>
@@ -14,7 +14,7 @@
         </div>
     }
 
-    <p><strong>@Languages.LanguageStrings.AppProductGroups</strong></p>
+    <p><strong>@Localizer[nameof(Languages.LanguageStrings.AppProductGroups)]</strong></p>
     @for (int i = 0; i < Model.ProductGroups.Count; i++)
     {
         <div>
@@ -23,7 +23,7 @@
             @Html.LabelFor(m => m.ProductGroups[i].Selected, Model.ProductGroups[i].Name)
         </div>
     }
-    <p><strong>@Languages.LanguageStrings.Other</strong></p>
+    <p><strong>@Localizer[nameof(Languages.LanguageStrings.Other)]</strong></p>
     <div>
         @Html.CheckBoxFor(m => m.ContainsVideo)
         @Html.LabelFor(m => m.ContainsVideo) (@Model.VideoProductCount)

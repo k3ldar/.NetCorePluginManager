@@ -108,8 +108,8 @@ h4 {
 
     .mainContent ul.productList li {
         float: left;
-        width: 195px;
-        height: 205px;
+        width: 190px;
+        height: 190px;
         padding: 0 0 0 0;
     }
 
@@ -168,6 +168,12 @@ h4 {
 
         .mainContent ul.productList li.product a span.new, .mainContent ul.productList li.product a span.best {
             top: -20px;
+        }
+
+        .mainContent ul.productList li.product a span.price {
+            height: 45px;
+            display: block;
+            overflow: hidden;
         }
 
         .mainContent ul.productList li a span.newPress {
@@ -521,6 +527,7 @@ h4 {
     .productVideo {
         width: 100%;
         height: 250px;
+        display: inline-block;
     }
 }
 
@@ -584,4 +591,42 @@ h4 {
 
 .searchOption {
     font-size: 13px;
+}
+
+.imCollection {
+    display: block;
+}
+
+.mi {
+    list-style-type: none;
+    max-height: 290px;
+    width: auto;
+    overflow: hidden;
+    overflow-y: auto;
+    padding: 5px 2px 5px 0;
+    float: left;
+}
+
+    .mi li {
+        width: 95px;
+        border: 2px solid transparent;
+        border-radius: 4px;
+        padding: 1px;
+    }
+
+        .mi li:hover {
+            border: 2px solid #eee;
+        }
+
+
+.misel {
+    border: 2px solid #d0d0d0;
+    background: #d0d0d0;
+}
+
+.productImg {
+    position: relative;
+    display: block;
+    width:288px;
+    height: 268px;
 }

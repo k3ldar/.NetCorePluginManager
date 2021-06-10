@@ -1,0 +1,563 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>ImageManager.Plugin</name>
+    </assembly>
+    <members>
+        <member name="T:ImageManager.Plugin.Classes.DefaultImageProvider">
+            <summary>
+            Default image provider, used by default when no other image provider is registered.
+            
+            The default provider is designed to work with physical folders and files
+            </summary>
+        </member>
+        <member name="M:ImageManager.Plugin.Classes.DefaultImageProvider.#ctor(Microsoft.Extensions.Hosting.IHostEnvironment,PluginManager.Abstractions.ISettingsProvider)">
+            <summary>
+            Default constructor
+            </summary>
+            <param name="hostEnvironment">IHostEnvironment instance</param>
+            <param name="settingsProvider">ISettingsProvider instance</param>
+        </member>
+        <member name="M:ImageManager.Plugin.Classes.DefaultImageProvider.Groups">
+            <summary>
+            Retrieves a list of available image groups
+            </summary>
+            <returns>List&lt;string&gt;</returns>
+        </member>
+        <member name="M:ImageManager.Plugin.Classes.DefaultImageProvider.Images(System.String)">
+            <summary>
+            Retrieves a list of all images within an image group
+            </summary>
+            <param name="groupName">Name of group where images will be retrieved from</param>
+            <exception cref="T:System.ArgumentNullException">Thrown if groupName is null or an empty string.</exception>
+            <returns>List&lt;ImageFile&gt;</returns>
+        </member>
+        <member name="M:ImageManager.Plugin.Classes.DefaultImageProvider.Images(System.String,System.String)">
+            <summary>
+            Retrieves a list of all images within an image group
+            </summary>
+            <param name="groupName">Name of group where images will be retrieved from</param>
+            <param name="subgroupName">Name of subgroup where images reside, or null if only require group images.</param>
+            <exception cref="T:System.ArgumentNullException">Thrown if groupName is null or an empty string.</exception>
+            <returns>List&lt;ImageFile&gt;</returns>
+        </member>
+        <member name="M:ImageManager.Plugin.Classes.DefaultImageProvider.CreateGroup(System.String)">
+            <summary>
+            Creates an image group, an image group will logically co-locate images which are naturally grouped.
+            </summary>
+            <param name="groupName">Name of group to create</param>
+            <exception cref="T:System.ArgumentNullException">Thrown if groupName is null or an empty string.</exception>
+            <exception cref="T:System.InvalidOperationException">Thrown if groupName already exists</exception>
+            <returns>bool</returns>
+        </member>
+        <member name="M:ImageManager.Plugin.Classes.DefaultImageProvider.DeleteGroup(System.String)">
+            <summary>
+            Deletes an image group.
+            </summary>
+            <param name="groupName">Name of group to delete.</param>
+            <exception cref="T:System.ArgumentNullException">Thrown if groupName is null or an empty string.</exception>
+            <returns>bool</returns>
+        </member>
+        <member name="M:ImageManager.Plugin.Classes.DefaultImageProvider.GroupExists(System.String)">
+            <summary>
+            Determines whether a group exists or not
+            </summary>
+            <param name="groupName">Name of group to find if exists</param>
+            <returns>bool</returns>
+        </member>
+        <member name="M:ImageManager.Plugin.Classes.DefaultImageProvider.AddSubgroup(System.String,System.String)">
+            <summary>
+            Adds a new subgroup to an existing image group
+            </summary>
+            <param name="groupName">Name of group under which the subgroup will be added.</param>
+            <param name="subgroupName">Name of subgroup to add.</param>
+            <returns>bool</returns>
+        </member>
+        <member name="M:ImageManager.Plugin.Classes.DefaultImageProvider.DeleteSubgroup(System.String,System.String)">
+            <summary>
+            Deletes a subgroup and all image files contained within the subgroup.
+            </summary>
+            <param name="groupName">Name of group where the subgroup resides.</param>
+            <param name="subgroupName">Name of subgroup to be deleted.</param>
+            <returns>bool</returns>
+        </member>
+        <member name="M:ImageManager.Plugin.Classes.DefaultImageProvider.SubgroupExists(System.String,System.String)">
+            <summary>
+            Determines whether a subgroup exists or not
+            </summary>
+            <param name="groupName">Name of group that should contain subgroup.</param>
+            <param name="subgroupName">Name of subgroup whose existence is being verified.</param>
+            <returns>bool</returns>
+        </member>
+        <member name="M:ImageManager.Plugin.Classes.DefaultImageProvider.ImageExists(System.String,System.String)">
+            <summary>
+            Determines whether an image exists within a group
+            </summary>
+            <param name="groupName">Name of group where images will be found.</param>
+            <param name="imageName">Name of image</param>
+            <returns>bool</returns>
+            <exception cref="T:System.ArgumentNullException">Thrown if groupName is null or an empty string.</exception>
+            <exception cref="T:System.ArgumentNullException">Thrown if subgroupName is null or an empty string.</exception>
+        </member>
+        <member name="M:ImageManager.Plugin.Classes.DefaultImageProvider.ImageExists(System.String,System.String,System.String)">
+            <summary>
+            Determines whether an image exists within a subgroup
+            </summary>
+            <param name="groupName">Name of group where images will be found.</param>
+            <param name="subgroupName">Name of subgroup where image will be found.</param>
+            <param name="imageName">Name of image</param>
+            <returns>bool</returns>
+            <exception cref="T:System.ArgumentNullException">Thrown if groupName is null or an empty string.</exception>
+            <exception cref="T:System.ArgumentNullException">Thrown if subgroupName is null or an empty string.</exception>
+            <exception cref="T:System.ArgumentNullException">Thrown if imageName is null or an empty string.</exception>
+        </member>
+        <member name="M:ImageManager.Plugin.Classes.DefaultImageProvider.ImageDelete(System.String,System.String)">
+            <summary>
+            Deletes an image from within a group
+            </summary>
+            <param name="groupName">Name of group where images will be found.</param>
+            <param name="imageName">Name of image</param>
+            <returns>bool</returns>
+            <exception cref="T:System.ArgumentNullException">Thrown if groupName is null or an empty string.</exception>
+            <exception cref="T:System.ArgumentNullException">Thrown if imageName is null or an empty string.</exception>
+        </member>
+        <member name="M:ImageManager.Plugin.Classes.DefaultImageProvider.ImageDelete(System.String,System.String,System.String)">
+            <summary>
+            Deletes an image from within a subgroup
+            </summary>
+            <param name="groupName">Name of group where images will be found.</param>
+            <param name="subgroupName">Name of subgroup where image will be found.</param>
+            <param name="imageName">Name of image</param>
+            <returns>bool</returns>
+            <exception cref="T:System.ArgumentNullException">Thrown if groupName is null or an empty string.</exception>
+            <exception cref="T:System.ArgumentNullException">Thrown if subgroupName is null or an empty string.</exception>
+            <exception cref="T:System.ArgumentNullException">Thrown if imageName is null or an empty string.</exception>
+        </member>
+        <member name="M:ImageManager.Plugin.Classes.DefaultImageProvider.TemporaryImageFile(System.String)">
+            <summary>
+            Retreives the name of a file which can be used for temporary storage of image files
+            </summary>
+            <returns>string</returns>
+        </member>
+        <member name="M:ImageManager.Plugin.Classes.DefaultImageProvider.AddFile(System.String,System.String,System.String,System.Byte[])">
+            <summary>
+            Adds a file to the specific group or subgroup
+            </summary>
+            <param name="groupName">Name of group</param>
+            <param name="subgroupName">Name of subgroup or null if not applicable</param>
+            <param name="fileName">Name of file to be saved</param>
+            <param name="fileContents">Contents of file</param>
+            <exception cref="T:System.ArgumentNullException">Thrown if groupName is null or empty.</exception>
+            <exception cref="T:System.ArgumentNullException">Thrown if fileName is null or empty.</exception>
+            <exception cref="T:System.ArgumentException">Thrown if fileContents length is 0.</exception>
+            <exception cref="T:System.ArgumentOutOfRangeException">Thrown if the file already exists.</exception>
+        </member>
+        <member name="T:ImageManager.Plugin.Classes.ImageManagerSettings">
+            <summary>
+            Settings for controlling image manager
+            </summary>
+        </member>
+        <member name="P:ImageManager.Plugin.Classes.ImageManagerSettings.ImagePath">
+            <summary>
+            Root path of all images
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="T:ImageManager.Plugin.Models.DeleteImageModel">
+            <summary>
+            Model used for deleting images
+            </summary>
+        </member>
+        <member name="P:ImageManager.Plugin.Models.DeleteImageModel.ImageName">
+            <summary>
+            Name of image
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:ImageManager.Plugin.Models.DeleteImageModel.GroupName">
+            <summary>
+            Name of group
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:ImageManager.Plugin.Models.DeleteImageModel.SubgroupName">
+            <summary>
+            Name of sub group
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:ImageManager.Plugin.Models.DeleteImageModel.ConfirmDelete">
+            <summary>
+            Check box confirming the item can be deleted
+            </summary>
+            <value>bool</value>
+        </member>
+        <member name="T:ImageManager.Plugin.Models.ImageProcessOptionsViewModel">
+            <summary>
+            Options for processing image options
+            </summary>
+        </member>
+        <member name="M:ImageManager.Plugin.Models.ImageProcessOptionsViewModel.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="P:ImageManager.Plugin.Models.ImageProcessOptionsViewModel.GroupName">
+            <summary>
+            Name of group to which the options apply
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:ImageManager.Plugin.Models.ImageProcessOptionsViewModel.SubgroupName">
+            <summary>
+            Name of subgroup to which the options apply
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:ImageManager.Plugin.Models.ImageProcessOptionsViewModel.ShowSubgroup">
+            <summary>
+            Indicates whether the subgroup will be shown or not
+            </summary>
+            <value>bool</value>
+        </member>
+        <member name="P:ImageManager.Plugin.Models.ImageProcessOptionsViewModel.AdditionalDataName">
+            <summary>
+            Name of additional data
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:ImageManager.Plugin.Models.ImageProcessOptionsViewModel.AdditionalData">
+            <summary>
+            Additional data supplied by user
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:ImageManager.Plugin.Models.ImageProcessOptionsViewModel.AdditionalDataMandatory">
+            <summary>
+            Indicates that additional data is mandatory
+            </summary>
+            <value>bool</value>
+        </member>
+        <member name="T:ImageManager.Plugin.Models.ImageProcessViewModel">
+            <summary>
+            View model for processing uploaded images
+            </summary>
+        </member>
+        <member name="M:ImageManager.Plugin.Models.ImageProcessViewModel.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="M:ImageManager.Plugin.Models.ImageProcessViewModel.#ctor(System.String)">
+            <summary>
+            Constructor accepting id of file upload
+            </summary>
+            <param name="fileUploadId">Id for the file upload</param>
+            <exception cref="T:System.ArgumentNullException">Thrown if fileUploadId is null or an empty string</exception>
+        </member>
+        <member name="P:ImageManager.Plugin.Models.ImageProcessViewModel.FileUploadId">
+            <summary>
+            Unique file upload id
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:ImageManager.Plugin.Models.ImageProcessViewModel.AdditionalData">
+            <summary>
+            Additional data supplied by user
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="T:ImageManager.Plugin.Models.ImagesUploadedModel">
+            <summary>
+            Cached image upload data
+            </summary>
+        </member>
+        <member name="M:ImageManager.Plugin.Models.ImagesUploadedModel.#ctor(System.String,System.String,System.String)">
+            <summary>
+            Constructor
+            </summary>
+            <exception cref="T:System.ArgumentNullException">Thrown if groupName is null or empty.</exception>
+        </member>
+        <member name="P:ImageManager.Plugin.Models.ImagesUploadedModel.GroupName">
+            <summary>
+            Name of group images are being uploaded to
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:ImageManager.Plugin.Models.ImagesUploadedModel.SubgroupName">
+            <summary>
+            Name of subgroup images are being uploaded to
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:ImageManager.Plugin.Models.ImagesUploadedModel.MemoryCacheName">
+            <summary>
+            Name of memory cache item for uploaded images
+            </summary>
+        </member>
+        <member name="T:ImageManager.Plugin.Models.ImagesViewModel">
+            <summary>
+            View model used when viewing images using <see cref="T:ImageManager.Plugin.Controllers.ImageManagerController"/>
+            </summary>
+        </member>
+        <member name="M:ImageManager.Plugin.Models.ImagesViewModel.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="M:ImageManager.Plugin.Models.ImagesViewModel.#ctor(SharedPluginFeatures.BaseModelData@,System.Boolean,System.String,System.String,Middleware.Images.ImageFile,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Collections.Generic.List{Middleware.Images.ImageFile})">
+            <summary>
+            Constructor for use when displaying data within controller
+            </summary>
+            <param name="modelData"></param>
+            <param name="canManageImages">Determines whether the user can manage image data or not (add, delete etc)</param>
+            <param name="selectedGroupName">Name of group, or empty string if root path</param>
+            <param name="selectedSubgroupName">Name of subgroup, or empty string if no subgroup is being highlighted</param>
+            <param name="selectedImageFile">The selected image file if applicable, otherwise null</param>
+            <param name="groups">List of all groups</param>
+            <param name="imageFiles">List of images that belong to the group</param>
+        </member>
+        <member name="P:ImageManager.Plugin.Models.ImagesViewModel.SelectedGroupName">
+            <summary>
+            Name of group
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:ImageManager.Plugin.Models.ImagesViewModel.SelectedSubgroupName">
+            <summary>
+            Name of subgroup
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:ImageManager.Plugin.Models.ImagesViewModel.SelectedImageFile">
+            <summary>
+            The currently selected image file, if applicable
+            </summary>
+        </member>
+        <member name="P:ImageManager.Plugin.Models.ImagesViewModel.Groups">
+            <summary>
+            List of all image groups
+            </summary>
+            <value>List&lt;string&gt;</value>
+        </member>
+        <member name="P:ImageManager.Plugin.Models.ImagesViewModel.ImageFiles">
+            <summary>
+            List of images that belong to the group
+            </summary>
+            <value>List&lt;ImageFile&gt;</value>
+        </member>
+        <member name="P:ImageManager.Plugin.Models.ImagesViewModel.CanManageImages">
+            <summary>
+            Determines whether images can be managed by the current user
+            </summary>
+        </member>
+        <member name="T:ImageManager.Plugin.Models.ImageViewModel">
+            <summary>
+            View model used when viewing images using <see cref="T:ImageManager.Plugin.Controllers.ImageManagerController"/>
+            </summary>
+        </member>
+        <member name="M:ImageManager.Plugin.Models.ImageViewModel.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="M:ImageManager.Plugin.Models.ImageViewModel.#ctor(SharedPluginFeatures.BaseModelData@,System.Boolean,System.String,System.String,Middleware.Images.ImageFile,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Collections.Generic.List{Middleware.Images.ImageFile})">
+            <summary>
+            Constructor for use when displaying data within controller
+            </summary>
+            <param name="modelData"></param>
+            <param name="canManageImages">Determines whether the user can manage image data or not (add, delete etc)</param>
+            <param name="selectedGroupName">Name of group, or empty string if root path</param>
+            <param name="selectedSubgroupName">Name of subgroup, or empty string if no subgroup is being highlighted</param>
+            <param name="selectedImageFile">The selected image file if applicable, otherwise null</param>
+            <param name="groups">List of all groups</param>
+            <param name="imageFiles">List of images that belong to the group</param>
+        </member>
+        <member name="P:ImageManager.Plugin.Models.ImageViewModel.SelectedGroupName">
+            <summary>
+            Name of group
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:ImageManager.Plugin.Models.ImageViewModel.SelectedSubgroupName">
+            <summary>
+            Name of subgroup
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:ImageManager.Plugin.Models.ImageViewModel.SelectedImageFile">
+            <summary>
+            The currently selected image file, if applicable
+            </summary>
+        </member>
+        <member name="P:ImageManager.Plugin.Models.ImageViewModel.Groups">
+            <summary>
+            List of all image groups
+            </summary>
+            <value>List&lt;string&gt;</value>
+        </member>
+        <member name="P:ImageManager.Plugin.Models.ImageViewModel.ImageFiles">
+            <summary>
+            List of images that belong to the group
+            </summary>
+            <value>List&lt;ImageFile&gt;</value>
+        </member>
+        <member name="P:ImageManager.Plugin.Models.ImageViewModel.CanManageImages">
+            <summary>
+            Determines whether images can be managed by the current user
+            </summary>
+        </member>
+        <member name="T:ImageManager.Plugin.Models.ProcessImagesViewModel">
+            <summary>
+            View model for processing images which have just been uploaded
+            </summary>
+        </member>
+        <member name="M:ImageManager.Plugin.Models.ProcessImagesViewModel.#ctor(SharedPluginFeatures.BaseModelData@,System.Boolean,System.String,System.String,Middleware.Images.ImageFile,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Collections.Generic.List{Middleware.Images.ImageFile},System.String)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="modelData"><see cref="T:SharedPluginFeatures.BaseModelData"/> instance.</param>
+            <param name="canManageImages"></param>
+            <param name="selectedGroupName"></param>
+            <param name="selectedSubgroupName"></param>
+            <param name="selectedImageFile"></param>
+            <param name="groups"></param>
+            <param name="imageFiles"></param>
+            <param name="fileUploadId">Unique id of file upload session.</param>
+            <exception cref="T:System.ArgumentNullException">Thrown if modelData is null or invalid.</exception>
+            <exception cref="T:System.ArgumentNullException">Thrown if fileUploadId is null or empty.</exception>
+        </member>
+        <member name="P:ImageManager.Plugin.Models.ProcessImagesViewModel.FileUploadId">
+            <summary>
+            Unique file upload id
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:ImageManager.Plugin.Models.ProcessImagesViewModel.SubgroupName">
+            <summary>
+            Name of subgroup to which the options apply
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:ImageManager.Plugin.Models.ProcessImagesViewModel.ShowSubgroup">
+            <summary>
+            Indicates whether the subgroup will be shown or not
+            </summary>
+            <value>bool</value>
+        </member>
+        <member name="P:ImageManager.Plugin.Models.ProcessImagesViewModel.AdditionalDataName">
+            <summary>
+            Name of additional data
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:ImageManager.Plugin.Models.ProcessImagesViewModel.AdditionalData">
+            <summary>
+            Additional data supplied by user
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:ImageManager.Plugin.Models.ProcessImagesViewModel.AdditionalDataMandatory">
+            <summary>
+            Indicates that additional data is mandatory
+            </summary>
+            <value>bool</value>
+        </member>
+        <member name="T:ImageManager.Plugin.Models.UploadImageModel">
+            <summary>
+            View model for uploading images
+            </summary>
+        </member>
+        <member name="M:ImageManager.Plugin.Models.UploadImageModel.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="M:ImageManager.Plugin.Models.UploadImageModel.#ctor(SharedPluginFeatures.BaseModelData)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="modelData">Valid BaseModelData instance</param>
+            <exception cref="T:System.ArgumentNullException">Thrown if modelData is null</exception>
+        </member>
+        <member name="M:ImageManager.Plugin.Models.UploadImageModel.#ctor(SharedPluginFeatures.BaseModelData,System.String,System.String)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="modelData">Valid BaseModelData instance</param>
+            <param name="groupName">Name of group for uploaded images</param>
+            <param name="subgroupName">Name of subgroup for uploaded images</param>
+            <exception cref="T:System.ArgumentNullException">Thrown if modelData is null</exception>
+            <exception cref="T:System.ArgumentNullException">Thrown if groupName is null or empty</exception>
+        </member>
+        <member name="P:ImageManager.Plugin.Models.UploadImageModel.Files">
+            <summary>
+            List of files to be uploaded
+            </summary>
+            <value>List&lt;IFormFile&gt;</value>
+        </member>
+        <member name="P:ImageManager.Plugin.Models.UploadImageModel.GroupName">
+            <summary>
+            Name of group where image is being uploaded to
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:ImageManager.Plugin.Models.UploadImageModel.SubgroupName">
+            <summary>
+            Name of subgroup where image is being uploaded to
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="T:ImageManager.Plugin.Models.UploadImageViewModel">
+            <summary>
+            View model for uploading images
+            </summary>
+        </member>
+        <member name="M:ImageManager.Plugin.Models.UploadImageViewModel.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="M:ImageManager.Plugin.Models.UploadImageViewModel.#ctor(SharedPluginFeatures.BaseModelData)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="modelData">Valid BaseModelData instance</param>
+            <exception cref="T:System.ArgumentNullException">Thrown if modelData is null</exception>
+        </member>
+        <member name="M:ImageManager.Plugin.Models.UploadImageViewModel.#ctor(SharedPluginFeatures.BaseModelData,System.String,System.String)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="modelData">Valid BaseModelData instance</param>
+            <param name="groupName">Name of group for uploaded images</param>
+            <param name="subgroupName">Name of subgroup for uploaded images</param>
+            <exception cref="T:System.ArgumentNullException">Thrown if modelData is null</exception>
+            <exception cref="T:System.ArgumentNullException">Thrown if groupName is null or empty</exception>
+        </member>
+        <member name="P:ImageManager.Plugin.Models.UploadImageViewModel.Files">
+            <summary>
+            List of files to be uploaded
+            </summary>
+            <value>List&lt;IFormFile&gt;</value>
+        </member>
+        <member name="P:ImageManager.Plugin.Models.UploadImageViewModel.GroupName">
+            <summary>
+            Name of group where image is being uploaded to
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:ImageManager.Plugin.Models.UploadImageViewModel.SubgroupName">
+            <summary>
+            Name of subgroup where image is being uploaded to
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="T:ImageManager.Plugin.PluginInitialisation">
+            <summary>
+            Implements IPlugin and IInitialiseEvents which allows the ImageManager.Plugin module to be
+            loaded as a plugin module
+            </summary>
+        </member>
+    </members>
+</doc>

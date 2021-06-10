@@ -1573,6 +1573,72 @@
             </summary>
             <param name="item">KnowledgeBaseItem being viewed.</param>
         </member>
+        <member name="T:Middleware.Images.ImageFile">
+            <summary>
+            Contains details for image files return by <see cref="T:Middleware.Interfaces.IImageProvider"/>
+            </summary>
+        </member>
+        <member name="M:Middleware.Images.ImageFile.#ctor(System.Uri,System.String)">
+            <summary>
+            Constructor used for valid existing disk based file
+            </summary>
+            <param name="uri">Uri for the image file</param>
+            <param name="fileName">Path and name of file</param>
+            <exception cref="T:System.ArgumentNullException">Thrown if uri is null</exception>
+            <exception cref="T:System.ArgumentNullException">Thrown if fileName is null or empty</exception>
+            <exception cref="T:System.ArgumentException">Thrown if fileName does not exist</exception>
+        </member>
+        <member name="M:Middleware.Images.ImageFile.#ctor(System.Uri,System.String,System.String,System.Int64,System.DateTime,System.DateTime)">
+            <summary>
+            Constructor used for non disk based file information
+            </summary>
+            <param name="uri">Uri for the image file</param>
+            <param name="fileName">Name of file</param>
+            <param name="fileExtension">File extension type</param>
+            <param name="size">Size of file</param>
+            <param name="createdDate">Date and time created</param>
+            <param name="modifiedDate">Date and time last modified</param>
+            <exception cref="T:System.ArgumentNullException">Thrown if uri is null</exception>
+            <exception cref="T:System.ArgumentNullException">Thrown if fileName is null or empty</exception>
+            <exception cref="T:System.ArgumentNullException">Thrown if fileExtension is null or empty</exception>
+            <exception cref="T:System.ArgumentOutOfRangeException">Thrown if size is less than zero</exception>
+        </member>
+        <member name="P:Middleware.Images.ImageFile.Name">
+            <summary>
+            Name of image file
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:Middleware.Images.ImageFile.FileExtension">
+            <summary>
+            Extension type for file
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:Middleware.Images.ImageFile.Size">
+            <summary>
+            Size of file in bytes
+            </summary>
+            <value>long</value>
+        </member>
+        <member name="P:Middleware.Images.ImageFile.CreateDate">
+            <summary>
+            Date/Time file created
+            </summary>
+            <value>DateTime</value>
+        </member>
+        <member name="P:Middleware.Images.ImageFile.ModifiedDate">
+            <summary>
+            Date/Time file last modified
+            </summary>
+            <value>DateTime</value>
+        </member>
+        <member name="P:Middleware.Images.ImageFile.ImageUri">
+            <summary>
+            Uri for image
+            </summary>
+            <value>string</value>
+        </member>
         <member name="T:Middleware.UserLoginDetails">
             <summary>
             User login details, used by ILoginProvider interface.
@@ -2958,6 +3024,155 @@
             File download by anyone
             </summary>
             <param name="fileId">Unique id of the file being downloaded.</param>
+        </member>
+        <member name="T:Middleware.Interfaces.IImageProvider">
+            <summary>
+            Image provider interface, provides methods used to manage images within the system
+            </summary>
+        </member>
+        <member name="M:Middleware.Interfaces.IImageProvider.CreateGroup(System.String)">
+            <summary>
+            Creates an image group, an image group will logically co-locate images which are naturally grouped.
+            </summary>
+            <param name="groupName">Name of group to create</param>
+            <exception cref="T:System.ArgumentNullException">Thrown if groupName is null or an empty string.</exception>
+            <returns>bool</returns>
+        </member>
+        <member name="M:Middleware.Interfaces.IImageProvider.DeleteGroup(System.String)">
+            <summary>
+            Deletes an image group.
+            </summary>
+            <param name="groupName">Name of group to delete.</param>
+            <exception cref="T:System.ArgumentNullException">Thrown if groupName is null or an empty string.</exception>
+            <returns>bool</returns>
+        </member>
+        <member name="M:Middleware.Interfaces.IImageProvider.GroupExists(System.String)">
+            <summary>
+            Determines whether a group exists or not
+            </summary>
+            <param name="groupName">Name of group to find if exists</param>
+            <returns>bool</returns>
+            <exception cref="T:System.ArgumentNullException">Thrown if groupName is null or an empty string.</exception>
+        </member>
+        <member name="M:Middleware.Interfaces.IImageProvider.Groups">
+            <summary>
+            Retrieves a list of available image groups with subgroups
+            </summary>
+            <returns>Dictionary&lt;string, List&lt;string&gt;&gt;</returns>
+        </member>
+        <member name="M:Middleware.Interfaces.IImageProvider.Images(System.String)">
+            <summary>
+            Retrieves a list of all images within an image group
+            </summary>
+            <param name="groupName">Name of group where images will be retrieved from.</param>
+            <exception cref="T:System.ArgumentNullException">Thrown if groupName is null or an empty string.</exception>
+            <returns>List&lt;ImageFile&gt;</returns>
+            <exception cref="T:System.ArgumentNullException">Thrown if groupName is null or an empty string.</exception>
+        </member>
+        <member name="M:Middleware.Interfaces.IImageProvider.Images(System.String,System.String)">
+            <summary>
+            Retrieves a list of all images within an image subgroup
+            </summary>
+            <param name="groupName">Name of group where images will be retrieved from.</param>
+            <param name="subgroupName">Name of subgroup where images will be retrieved from.</param>
+            <exception cref="T:System.ArgumentNullException">Thrown if groupName is null or an empty string.</exception>
+            <exception cref="T:System.ArgumentNullException">Thrown if subgroupName is null or an empty string.</exception>
+            <returns>List&lt;ImageFile&gt;</returns>
+        </member>
+        <member name="M:Middleware.Interfaces.IImageProvider.ImageExists(System.String,System.String)">
+            <summary>
+            Determines whether an image exists within a group
+            </summary>
+            <param name="groupName">Name of group where images will be found.</param>
+            <param name="imageName">Name of image</param>
+            <returns>bool</returns>
+            <exception cref="T:System.ArgumentNullException">Thrown if groupName is null or an empty string.</exception>
+            <exception cref="T:System.ArgumentNullException">Thrown if subgroupName is null or an empty string.</exception>
+        </member>
+        <member name="M:Middleware.Interfaces.IImageProvider.ImageExists(System.String,System.String,System.String)">
+            <summary>
+            Determines whether an image exists within a subgroup
+            </summary>
+            <param name="groupName">Name of group where images will be found.</param>
+            <param name="subgroupName">Name of subgroup where image will be found.</param>
+            <param name="imageName">Name of image</param>
+            <returns>bool</returns>
+            <exception cref="T:System.ArgumentNullException">Thrown if groupName is null or an empty string.</exception>
+            <exception cref="T:System.ArgumentNullException">Thrown if subgroupName is null or an empty string.</exception>
+            <exception cref="T:System.ArgumentNullException">Thrown if imageName is null or an empty string.</exception>
+        </member>
+        <member name="M:Middleware.Interfaces.IImageProvider.ImageDelete(System.String,System.String)">
+            <summary>
+            Deletes an image from within a group
+            </summary>
+            <param name="groupName">Name of group where images will be found.</param>
+            <param name="imageName">Name of image</param>
+            <returns>bool</returns>
+            <exception cref="T:System.ArgumentNullException">Thrown if groupName is null or an empty string.</exception>
+            <exception cref="T:System.ArgumentNullException">Thrown if imageName is null or an empty string.</exception>
+        </member>
+        <member name="M:Middleware.Interfaces.IImageProvider.ImageDelete(System.String,System.String,System.String)">
+            <summary>
+            Deletes an image from within a subgroup
+            </summary>
+            <param name="groupName">Name of group where images will be found.</param>
+            <param name="subgroupName">Name of subgroup where image will be found.</param>
+            <param name="imageName">Name of image</param>
+            <returns>bool</returns>
+            <exception cref="T:System.ArgumentNullException">Thrown if groupName is null or an empty string.</exception>
+            <exception cref="T:System.ArgumentNullException">Thrown if subgroupName is null or an empty string.</exception>
+            <exception cref="T:System.ArgumentNullException">Thrown if imageName is null or an empty string.</exception>
+        </member>
+        <member name="M:Middleware.Interfaces.IImageProvider.SubgroupExists(System.String,System.String)">
+            <summary>
+            Determines whether a subgroup exists or not
+            </summary>
+            <param name="groupName">Name of group that should contain subgroup.</param>
+            <param name="subgroupName">Name of subgroup whose existence is being verified.</param>
+            <returns>bool</returns>
+            <exception cref="T:System.ArgumentNullException">Thrown if groupName is null or an empty string.</exception>
+            <exception cref="T:System.ArgumentNullException">Thrown if subgroupName is null or an empty string.</exception>
+        </member>
+        <member name="M:Middleware.Interfaces.IImageProvider.AddSubgroup(System.String,System.String)">
+            <summary>
+            Adds a new subgroup to an existing image group
+            </summary>
+            <param name="groupName">Name of group under which the subgroup will be added.</param>
+            <param name="subgroupName">Name of subgroup to add.</param>
+            <returns>bool</returns>
+            <exception cref="T:System.ArgumentNullException">Thrown if groupName is null or an empty string.</exception>
+            <exception cref="T:System.ArgumentNullException">Thrown if subgroupName is null or an empty string.</exception>
+        </member>
+        <member name="M:Middleware.Interfaces.IImageProvider.DeleteSubgroup(System.String,System.String)">
+            <summary>
+            Deletes a subgroup and all image files contained within the subgroup.
+            </summary>
+            <param name="groupName">Name of group where the subgroup resides.</param>
+            <param name="subgroupName">Name of subgroup to be deleted.</param>
+            <returns>bool</returns>
+            <exception cref="T:System.ArgumentNullException">Thrown if groupName is null or an empty string.</exception>
+            <exception cref="T:System.ArgumentNullException">Thrown if subgroupName is null or an empty string.</exception>
+        </member>
+        <member name="M:Middleware.Interfaces.IImageProvider.TemporaryImageFile(System.String)">
+            <summary>
+            Retreives the name of a file which can be used for temporary storage of image files
+            </summary>
+            <param name="fileExtension">File extension to be used for new file</param>
+            <returns>string</returns>
+            <exception cref="T:System.ArgumentNullException">Thrown if fileExtension is null or empty</exception>
+            <exception cref="T:System.ArgumentException">Thrown if fileExtension does not start with a period (.)</exception>
+        </member>
+        <member name="M:Middleware.Interfaces.IImageProvider.AddFile(System.String,System.String,System.String,System.Byte[])">
+            <summary>
+            Adds a file to the specific group or subgroup
+            </summary>
+            <param name="groupName">Name of group</param>
+            <param name="subgroupName">Name of subgroup or null if not applicable</param>
+            <param name="fileName">Name of file to be saved</param>
+            <param name="fileContents">Contents of file</param>
+            <exception cref="T:System.ArgumentNullException">Thrown if groupName is null or empty.</exception>
+            <exception cref="T:System.ArgumentNullException">Thrown if fileName is null or empty.</exception>
+            <exception cref="T:System.ArgumentException">Thrown if fileContents length is 0</exception>
         </member>
         <member name="T:Middleware.ILicenceProvider">
             <summary>

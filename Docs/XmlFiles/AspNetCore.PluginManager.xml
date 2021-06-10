@@ -17,6 +17,11 @@
             <param name="mvcBuilder">IMvcBuilder instance.</param>
             <returns>IMvcBuilder</returns>
         </member>
+        <member name="P:AspNetCore.PluginManager.Internal.MicrosoftDefenderVirusScanner.Enabled">
+            <summary>
+            Indicates whether the virus scanner is enabled or not
+            </summary>
+        </member>
         <member name="T:AspNetCore.PluginManager.Classes.Minify.MinifyResult">
             <summary>
             Indicates the individual timings, start and end length of data and name of minification process.
@@ -244,6 +249,12 @@
             </summary>
             <param name="iPluginType">Type of IPlugin interface.  The type passed in must inherit IPlugin interface.</param>
             <exception cref="T:System.InvalidOperationException">Thrown when the iPluginType does not implement IPlugin interface.</exception>
+        </member>
+        <member name="P:AspNetCore.PluginManager.PluginManagerService.HasInitialised">
+            <summary>
+            Indicates whether the Plugin manager service has been initialised or not
+            </summary>
+            <value>bool</value>
         </member>
     </members>
 </doc>

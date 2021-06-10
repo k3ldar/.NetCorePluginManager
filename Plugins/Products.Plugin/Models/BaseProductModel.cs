@@ -61,7 +61,6 @@ namespace ProductPlugin.Models
         public IEnumerable<ProductCategoryModel> ProductGroups { get; private set; }
 
         #endregion Properties
-
     }
 }
 

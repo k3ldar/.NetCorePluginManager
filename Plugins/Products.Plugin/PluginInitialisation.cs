@@ -23,9 +23,18 @@
  *  31/01/2019  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+using System;
+
+using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 
+using Middleware.Interfaces;
+
 using PluginManager.Abstractions;
+
+using ProductPlugin.Classes;
+
+using SharedPluginFeatures;
 
 #pragma warning disable CS1591
 
@@ -35,8 +44,10 @@ namespace ProductPlugin
     /// Implements IPlugin and IPluginVersion which allows the ProductsPlugin module to be
     /// loaded as a plugin module
     /// </summary>
-    public class PluginInitialisation : IPlugin, IPluginVersion
+    public class PluginInitialisation : IPlugin, IInitialiseEvents
     {
+        #region IPlugin
+
         public void ConfigureServices(IServiceCollection services)
         {
 
@@ -56,6 +67,46 @@ namespace ProductPlugin
         {
 
         }
+
+        #endregion IPlugin
+
+        #region IInitialiseEvents Methods
+
+        public void AfterConfigure(in IApplicationBuilder app)
+        {
+
+        }
+
+        public void AfterConfigureServices(in IServiceCollection services)
+        {
+            if (services == null)
+                throw new ArgumentNullException(nameof(services));
+
+            ServiceProvider serviceProvider = services.BuildServiceProvider();
+            INotificationService notificationService = serviceProvider.GetService<INotificationService>();
+            IImageProvider imageProvider = serviceProvider.GetService<IImageProvider>();
+            ISettingsProvider settingsProvider = serviceProvider.GetService<ISettingsProvider>();
+
+            if (imageProvider != null)
+                notificationService.RegisterListener(new ImageUploadNotificationListener(imageProvider, settingsProvider));
+        }
+
+        public void BeforeConfigure(in IApplicationBuilder app)
+        {
+
+        }
+
+        public void BeforeConfigureServices(in IServiceCollection services)
+        {
+
+        }
+
+        public void Configure(in IApplicationBuilder app)
+        {
+
+        }
+
+        #endregion IInitialiseEvents Methods
     }
 }
 

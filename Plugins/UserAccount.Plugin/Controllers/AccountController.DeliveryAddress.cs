@@ -153,7 +153,7 @@ namespace UserAccount.Plugin.Controllers
 
                 GrowlAdd(Languages.LanguageStrings.DeliveryAddressDeleted);
 
-                return StatusCode(200);
+                return StatusCode(SharedPluginFeatures.Constants.HtmlResponseSuccess);
             }
 
             throw new ArgumentOutOfRangeException(nameof(id));

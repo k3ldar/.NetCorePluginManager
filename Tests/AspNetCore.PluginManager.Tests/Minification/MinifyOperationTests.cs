@@ -32,11 +32,11 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using SharedPluginFeatures;
 
-namespace AspNetCore.PluginManager.Tests.MinifyOperations
+namespace AspNetCore.PluginManager.Tests.Minify
 {
     [TestClass]
     [ExcludeFromCodeCoverage]
-    public class MinifyUnitTests
+    public class MinifyOperationsUnitTests
     {
         [TestMethod]
         public void RemoveThreeBlankLines()

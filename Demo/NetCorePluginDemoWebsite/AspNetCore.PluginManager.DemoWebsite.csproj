@@ -25,11 +25,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Models\**" />
     <Compile Remove="Plugin\**" />
     <Compile Remove="Views\Account\**" />
+    <Content Remove="Models\**" />
     <Content Remove="Plugin\**" />
     <Content Remove="Views\Account\**" />
+    <EmbeddedResource Remove="Models\**" />
     <EmbeddedResource Remove="Plugin\**" />
+    <None Remove="Models\**" />
     <None Remove="Plugin\**" />
     <None Remove="Views\Account\**" />
   </ItemGroup>
@@ -85,6 +89,7 @@
     <PackageReference Include="Sitemap.Plugin" Version="$(Version)" />
     <PackageReference Include="SearchPlugin" Version="$(Version)" />
     <PackageReference Include="WebSmokeTest.Plugin" Version="$(Version)" />
+	  <PackageReference Include="ImageManager.Plugin" Version="$(Version)" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(Configuration)'=='Debug'">
@@ -118,6 +123,7 @@
     <ProjectReference Include="..\..\Plugins\WebSmokeTest.Plugin\WebSmokeTest.Plugin.csproj" />
     <ProjectReference Include="..\..\Plugins\GeoIpPlugin\GeoIpPlugin.csproj" />
     <ProjectReference Include="..\..\Plugins\Subdomain.Plugin\Subdomain.Plugin.csproj" />
+	<ProjectReference Include="..\..\Plugins\ImageManager.Plugin\ImageManager.Plugin.csproj" />
   </ItemGroup>
   
   <ItemGroup>
@@ -132,7 +138,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Models\" />
     <Folder Include="Views\Spider\" />
     <Folder Include="wwwroot\images\Download\" />
   </ItemGroup>

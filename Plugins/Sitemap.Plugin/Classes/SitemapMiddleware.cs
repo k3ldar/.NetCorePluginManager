@@ -111,7 +111,7 @@ namespace Sitemap.Plugin
 
                         if (sitemaps.ContainsKey(route))
                         {
-                            context.Response.StatusCode = 200;
+                            context.Response.StatusCode = Constants.HtmlResponseSuccess;
                             await context.Response.WriteAsync(sitemaps[route]);
                             return;
                         }

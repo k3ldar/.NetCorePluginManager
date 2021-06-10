@@ -64,11 +64,11 @@ namespace ProductPlugin.Models
 
         #region Properties
 
-        public string Description { get; private set; }
+        public string Description { get; }
 
-        public int Id { get; private set; }
+        public int Id { get; }
 
-        public string Url { get; private set; }
+        public string Url { get; }
 
         #endregion Properties
     }

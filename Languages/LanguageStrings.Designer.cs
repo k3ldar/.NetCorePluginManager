@@ -21765,6 +21765,15 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Please tick the box to confirm you want to delete the selected item..
+        /// </summary>
+        public static string ConfirmDeleteCheckbox {
+            get {
+                return ResourceManager.GetString("ConfirmDeleteCheckbox", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Confirm New Password.
         /// </summary>
         public static string ConfirmNewPassword {
@@ -22570,6 +22579,24 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Delete Image.
+        /// </summary>
+        public static string DeleteImage {
+            get {
+                return ResourceManager.GetString("DeleteImage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to delete this image?.
+        /// </summary>
+        public static string DeleteImageConfirm {
+            get {
+                return ResourceManager.GetString("DeleteImageConfirm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Delivery.
         /// </summary>
         public static string Delivery {
@@ -23128,6 +23155,15 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to An error occurred deleting the item..
+        /// </summary>
+        public static string ErrorDeletingItem {
+            get {
+                return ResourceManager.GetString("ErrorDeletingItem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Error Message.
         /// </summary>
         public static string ErrorMessage {
@@ -23641,6 +23677,15 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Group Name.
+        /// </summary>
+        public static string GroupName {
+            get {
+                return ResourceManager.GetString("GroupName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Hair.
         /// </summary>
         public static string Hair {
@@ -23794,6 +23839,51 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Image.
+        /// </summary>
+        public static string Image {
+            get {
+                return ResourceManager.GetString("Image", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Image Groups.
+        /// </summary>
+        public static string ImageGroups {
+            get {
+                return ResourceManager.GetString("ImageGroups", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Image Manager.
+        /// </summary>
+        public static string ImageManager {
+            get {
+                return ResourceManager.GetString("ImageManager", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Images.
+        /// </summary>
+        public static string Images {
+            get {
+                return ResourceManager.GetString("Images", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Upload Files.
+        /// </summary>
+        public static string ImageUploadFiles {
+            get {
+                return ResourceManager.GetString("ImageUploadFiles", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Ingredients.
         /// </summary>
         public static string Ingredients {
@@ -23921,6 +24011,15 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The data provided was invalid.
+        /// </summary>
+        public static string InvalidData {
+            get {
+                return ResourceManager.GetString("InvalidData", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Invalid Date of Birth, you must use the format dd/mm/yyyy.
         /// </summary>
         public static string InvalidDateOfBirth {
@@ -23935,6 +24034,15 @@ namespace Languages {
         public static string InvalidEmailAddress {
             get {
                 return ResourceManager.GetString("InvalidEmailAddress", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The selected file type is not supported.
+        /// </summary>
+        public static string InvalidFileType {
+            get {
+                return ResourceManager.GetString("InvalidFileType", resourceCulture);
             }
         }
         
@@ -28753,6 +28861,15 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Subgroup Name.
+        /// </summary>
+        public static string SubgroupName {
+            get {
+                return ResourceManager.GetString("SubgroupName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Sub Groups.
         /// </summary>
         public static string SubGroups {
@@ -30073,6 +30190,15 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Upload.
+        /// </summary>
+        public static string Upload {
+            get {
+                return ResourceManager.GetString("Upload", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to User.
         /// </summary>
         public static string User {
@@ -30280,6 +30406,24 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to View Group.
+        /// </summary>
+        public static string ViewGroup {
+            get {
+                return ResourceManager.GetString("ViewGroup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to View Image.
+        /// </summary>
+        public static string ViewImage {
+            get {
+                return ResourceManager.GetString("ViewImage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to View Invoice.
         /// </summary>
         public static string ViewInvoice {
@@ -30312,6 +30456,15 @@ namespace Languages {
         public static string ViewShoppingBag {
             get {
                 return ResourceManager.GetString("ViewShoppingBag", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to View Sub Group.
+        /// </summary>
+        public static string ViewSubgroup {
+            get {
+                return ResourceManager.GetString("ViewSubgroup", resourceCulture);
             }
         }
         
@@ -30456,6 +30609,15 @@ namespace Languages {
         public static string YouMayAlsoLike {
             get {
                 return ResourceManager.GetString("YouMayAlsoLike", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You must enter {0}.
+        /// </summary>
+        public static string YouMustEnter {
+            get {
+                return ResourceManager.GetString("YouMustEnter", resourceCulture);
             }
         }
         
