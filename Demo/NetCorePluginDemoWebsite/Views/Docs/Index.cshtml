@@ -22,7 +22,7 @@ ViewData["Title"] = @Model.DocumentationHeader;
 </div>
 <div class="card-body">
 <p class="card-text">@item.Value.Summary</p>
-<a href="/Docs/Document/@Html.RouteFriendlyName(item.Key)/" class="card-link">@Localizer[Languages.LanguageStrings.SeeMore]</a>
+<a href="/Docs/Document/@Html.RouteFriendlyName(item.Key)/" class="card-link">@Localizer[nameof(Languages.LanguageStrings.SeeMore)]</a>
 </div>
 </div>
 }

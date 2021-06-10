@@ -1,0 +1,61 @@
+﻿@model ImageManager.Plugin.Models.ImagesViewModel
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
+<link rel="stylesheet" href="~/css/imageManager.css" />
+<script src="/js/ImageManager.js"></script>
+<div class="row">
+<div class="col-sm-12">
+<h1>@Localizer[nameof(Languages.LanguageStrings.AppImageManagement)]</h1>
+</div>
+</div>
+<div class="row">
+<div class="col-sm-2">
+@await Html.PartialAsync("_LeftMenu.cshtml")
+</div>
+<div class="col-sm-10 mainContent">
+<nav style="margin: 0 5px 0 5px;">
+<div class="nav nav-tabs" id="nav-tab" role="tablist">
+<a class="nav-item nav-link active" id="nav-images-tab" data-toggle="tab" href="#nav-images" role="tab" aria-controls="nav-images" aria-selected="true">@Localizer[nameof(Languages.LanguageStrings.Images)]</a>
+@if (Model.CanManageImages)
+{
+<a class="nav-item nav-link" id="nav-settings-tab" data-toggle="tab" href="#nav-settings" role="tab" aria-controls="nav-settings" aria-selected="false">@Localizer[nameof(Languages.LanguageStrings.AppImageManagement)]</a>
+}
+</div>
+</nav>
+<div class="tab-content" id="nav-tabContent" style="margin: 5px;">
+<div class="tab-pane fade show active" id="nav-images" role="tabpanel" aria-labelledby="nav-images-tab">
+<div class="row">
+<ul class="imageList">
+@foreach (var item in Model.ImageFiles)
+{
+string imagePath = null;
+string imageName = SharedPluginFeatures.BaseModel.RouteFriendlyName(item.Name);
+if (String.IsNullOrEmpty(Model.SelectedSubgroupName))
+{
+imagePath = $"/ImageManager/ViewImage/{Model.SelectedGroupName}/{imageName}/";
+}
+else
+{
+imagePath = $"/ImageManager/ViewSubgroupImage/{Model.SelectedGroupName}/{Model.SelectedSubgroupName}/{imageName}";
+}
+<li class="imageItem">
+<a href="@imagePath">
+<div class="imageBox">
+<img src="@item.ImageUri.ToString()" alt="@item.Name" class="viewImage" />
+<br />
+@item.Name
+</div>
+</a>
+</li>
+}
+</ul>
+</div>
+</div>
+@if (Model.CanManageImages)
+{
+<div class="tab-pane fade" id="nav-settings" role="tabpanel" aria-labelledby="nav-settings-tab">
+@await Html.PartialAsync("_ImageUpload.cshtml", new ImageManager.Plugin.Models.UploadImageViewModel() { GroupName = Model.SelectedGroupName, SubgroupName = Model.SelectedSubgroupName })
+</div>
+}
+</div>
+</div>
+</div>

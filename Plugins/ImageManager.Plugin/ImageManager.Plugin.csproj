@@ -1,0 +1,177 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+	<TargetFrameworks>net5.0;netcoreapp3.1;netcoreapp3.0;netcoreapp2.2;netcoreapp2.1</TargetFrameworks>
+	<LangVersion>latest</LangVersion>
+	<Version>4.1.0</Version>
+	<RazorCompileOnBuild>false</RazorCompileOnBuild>
+	<RazorCompileOnPublish>true</RazorCompileOnPublish>
+	<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+	<Description>Image Manager Manager plugin asp net core plugin manager.</Description>
+	<Authors>Simon Carter</Authors>
+	<Company>Simon Carter</Company>
+	<Copyright>Copyright (c) 2018 - 2021.  Simon Carter.  All rights reserved.</Copyright>
+	<PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
+	<PackageProjectUrl>http://pluginmanager.website/</PackageProjectUrl>
+	<RepositoryType>git</RepositoryType>
+	<PackageTags>asp net core plugin manager image manager</PackageTags>
+	<IsPackable>true</IsPackable>
+	<PackageIconUrl></PackageIconUrl>
+	<RepositoryUrl>https://github.com/k3ldar/.NetCorePluginManager</RepositoryUrl>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)'=='Debug|net5.0'">
+	<DefineConstants>CODE_ANALYSIS;DEBUG;TRACE;NET_CORE;NET_5_0;NET_5_X</DefineConstants>
+	<CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
+	<DebugType>full</DebugType>
+	<DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)'=='Release|net5.0'">
+	<DefineConstants>CODE_ANALYSIS;NET_CORE;NET_5_0;NET_5_X</DefineConstants>
+	<CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
+	<DebugType>portable</DebugType>
+	<DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)'=='Debug|netcoreapp2.1'">
+	<DefineConstants>CODE_ANALYSIS;DEBUG;TRACE;NET_CORE;NET_CORE_2_1</DefineConstants>
+	<CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
+	<DebugType>full</DebugType>
+	<DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)'=='Release|netcoreapp2.1'">
+	<DefineConstants>CODE_ANALYSIS;CODE_ANALYSIS;NET_CORE;NET_CORE_2_1</DefineConstants>
+	<CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
+	<DebugType>portable</DebugType>
+	<DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)'=='Debug|netcoreapp2.2'">
+	<DefineConstants>CODE_ANALYSIS;DEBUG;TRACE;NET_CORE;NET_CORE_2_2</DefineConstants>
+	<CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
+	<DebugType>full</DebugType>
+	<DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)'=='Release|netcoreapp2.2'">
+	<DefineConstants>CODE_ANALYSIS;NET_CORE;NET_CORE_2_2</DefineConstants>
+	<CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
+	<DebugType>portable</DebugType>
+	<DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)'=='Debug|netcoreapp3.0'">
+	<DefineConstants>CODE_ANALYSIS;DEBUG;TRACE;NET_CORE;NET_CORE_3_0;NET_CORE_3_X</DefineConstants>
+	<CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
+	<DebugType>full</DebugType>
+	<DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)'=='Release|netcoreapp3.0'">
+	<DefineConstants>CODE_ANALYSIS;NET_CORE;NET_CORE_3_0;NET_CORE_3_X</DefineConstants>
+	<CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
+	<DebugType>portable</DebugType>
+	<DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)'=='Debug|netcoreapp3.1'">
+	<DefineConstants>CODE_ANALYSIS;DEBUG;TRACE;NET_CORE;NET_CORE_3_1;NET_CORE_3_X</DefineConstants>
+	<CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
+	<DebugType>full</DebugType>
+	<DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)'=='Release|netcoreapp3.1'">
+	<DefineConstants>CODE_ANALYSIS;NET_CORE;NET_CORE_3_1;NET_CORE_3_X</DefineConstants>
+	<CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
+	<DebugType>portable</DebugType>
+	<DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(TargetFramework)'=='net5.0'">
+	<DocumentationFile>..\..\Docs\XmlFiles\ImageManager.Plugin.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net5.0|AnyCPU'">
+    <WarningsAsErrors>NU1605</WarningsAsErrors>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Remove="Views\ImageManager\ImageUpload.cshtml" />
+    <Content Remove="Views\ImageManager\Index.cshtml" />
+    <Content Remove="Views\ImageManager\ViewImage.cshtml" />
+    <Content Remove="Views\ImageManager\_ImageUpload.cshtml" />
+    <Content Remove="Views\ImageManager\_LeftMenu.cshtml" />
+    <Content Remove="wwwroot\css\imageManager.css" />
+    <Content Remove="wwwroot\images\ImageManager\imMenu.png" />
+    <Content Remove="wwwroot\js\ImageManager.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+	<PackageReference Include="ApplicationSettings" Version="1.4.0" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(Configuration)'=='Release'">
+	<PackageReference Include="RestrictIp.Plugin" Version="$(Version)" />
+	<PackageReference Include="MemoryCache.Plugin" Version="$(Version)" />
+	<PackageReference Include="AspNetCore.PluginManager" Version="$(Version)" />
+	<PackageReference Include="SharedPluginFeatures" Version="$(Version)" />
+	<PackageReference Include="AspNetCore.PluginManager.Languages" Version="$(Version)" />
+	  <PackageReference Include="Middleware" Version="$(Version)" />
+	  <PackageReference Include="PluginManager" Version="$(Version)" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(Configuration)'=='Debug'">
+	<ProjectReference Include="..\..\NetCorePluginManager\AspNetCore.PluginManager.csproj" />
+	<ProjectReference Include="..\..\SharedPluginFeatures\SharedPluginFeatures.csproj" />
+	<ProjectReference Include="..\MemoryCachePlugin\MemoryCachePlugin.csproj" />
+	<ProjectReference Include="..\RestrictIp.Plugin\RestrictIp.Plugin.csproj" />
+	<ProjectReference Include="..\..\Languages\Languages.csproj" />
+	  <ProjectReference Include="..\PluginMiddleware\PluginMiddleware.csproj" />
+	  <ProjectReference Include="..\..\PluginManager\src\PluginManager.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+	<PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="5.0.0" />
+	<PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="5.0.0" />
+	<PackageReference Include="Microsoft.Extensions.Configuration" Version="5.0.0" />
+	<PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="5.0.0" />
+	<PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="5.0.0" />
+	<PackageReference Include="Microsoft.Extensions.Configuration.CommandLine" Version="5.0.0" />
+	<PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="5.0.0" />
+	<PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="5.0.0" />
+	<PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="5.0.0" />
+	<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="5.0.1" />
+	<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="5.0.0" />
+	<PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="5.0.0" />
+	<PackageReference Include="Microsoft.Extensions.Localization" Version="5.0.2" />
+	<PackageReference Include="Microsoft.Extensions.Localization.Abstractions" Version="5.0.2" />
+	<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="5.0.0" />
+	<PackageReference Include="Microsoft.Extensions.ObjectPool" Version="5.0.2" />
+	<PackageReference Include="Microsoft.Extensions.Options" Version="5.0.0" />
+	<PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="5.0.0" />
+	<PackageReference Include="Microsoft.Extensions.Primitives" Version="5.0.0" />
+	<PackageReference Include="Microsoft.Extensions.WebEncoders" Version="5.0.2" />
+	<PackageReference Include="Microsoft.Net.Http.Headers" Version="2.2.8" />
+  </ItemGroup>
+
+	<ItemGroup>
+		<AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
+			<_Parameter1>AspNetCore.PluginManager.Tests</_Parameter1>
+		</AssemblyAttribute>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <EmbeddedResource Include="Views\ImageManager\ImageUpload.cshtml" />
+	  <EmbeddedResource Include="Views\ImageManager\Index.cshtml" />
+	  <EmbeddedResource Include="Views\ImageManager\ViewImage.cshtml" />
+	  <EmbeddedResource Include="Views\ImageManager\_ImageUpload.cshtml" />
+	  <EmbeddedResource Include="Views\ImageManager\_LeftMenu.cshtml" />
+	  <EmbeddedResource Include="wwwroot\css\imageManager.css" />
+	  <EmbeddedResource Include="wwwroot\images\ImageManager\imMenu.png" />
+	  <EmbeddedResource Include="wwwroot\js\ImageManager.js" />
+	</ItemGroup>
+
+</Project>

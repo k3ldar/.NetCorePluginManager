@@ -24,7 +24,7 @@ ViewData["Title"] = "Index";
 <div class="card-body d-flex flex-column">
 <p class="card-text"><img src="~/images/Download/@item.Icon" alt="@item.Name" class="card-img" />@item.Description</p>
 <a class="mt-auto btn btn-sm btn-block btn-primary" role="button" aria-pressed="true" href="/Download/File/@item.Id/@Model.RouteText(item.Name)" class="card-link">
-@Localizer[Languages.LanguageStrings.Download]
+@Localizer[nameof(Languages.LanguageStrings.Download)]
 </a>
 </div>
 </div>

@@ -87,12 +87,12 @@
             </summary>
             <returns>List&lt;ISitemapItem&gt;</returns>
         </member>
-        <member name="T:ProductPlugin.ProductControllerSettings">
+        <member name="T:ProductPlugin.ProductPluginSettings">
             <summary>
             Products which affect how ProductsPlugin is configured.
             </summary>
         </member>
-        <member name="P:ProductPlugin.ProductControllerSettings.ProductsPerPage">
+        <member name="P:ProductPlugin.ProductPluginSettings.ProductsPerPage">
             <summary>
             Number of products to display on each page.
             
@@ -102,7 +102,7 @@
             </summary>
             <value>uint</value>
         </member>
-        <member name="P:ProductPlugin.ProductControllerSettings.PriceGroups">
+        <member name="P:ProductPlugin.ProductPluginSettings.PriceGroups">
             <summary>
             Price groups that users can search for, this is a delimited list that must contain decimal values
             
@@ -118,8 +118,9 @@
             35 to 50
             Over 50
             </summary>
+            <value>string</value>
         </member>
-        <member name="P:ProductPlugin.ProductControllerSettings.ShowProductCounts">
+        <member name="P:ProductPlugin.ProductPluginSettings.ShowProductCounts">
             <summary>
             If true, the number of products that match the search item will be displayed in brackets next to the value.
             
@@ -127,6 +128,24 @@
             
             Under 5 (3)
             </summary>
+            <value>bool</value>
+        </member>
+        <member name="P:ProductPlugin.ProductPluginSettings.ResizeImages">
+            <summary>
+            Indicates that images that are uploaded will be resized to standard sizes
+            </summary>
+            <value>bool</value>
+        </member>
+        <member name="P:ProductPlugin.ProductPluginSettings.ResizeWidths">
+            <summary>
+            Indicates the width of new images from the original, for instance a web page could display images as thumbnails, within a product list etc.  Sizes 
+            are automatically created based on the original size.  Therefor it is important that the new sizes are relative to original image size
+            
+            Numbers less than 1 will be ignored, duplicate numbers will be ignored. 
+            
+            The widths are fixed and the heights will be relative to the original width
+            </summary>
+            <value>string</value>
         </member>
         <member name="T:ProductPlugin.Controllers.ProductController">
             <summary>
@@ -180,6 +199,23 @@
             Implements IPlugin and IPluginVersion which allows the ProductsPlugin module to be
             loaded as a plugin module
             </summary>
+        </member>
+        <member name="M:ProductPlugin.Startup.#ctor">
+            <summary>
+            Default Constructor
+            </summary>
+        </member>
+        <member name="M:ProductPlugin.Startup.ConfigureServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            This method gets called by the runtime. Use this method to add services to the container.
+            </summary>
+            <param name="services"></param>
+        </member>
+        <member name="M:ProductPlugin.Startup.Configure(Microsoft.AspNetCore.Builder.IApplicationBuilder)">
+            <summary>
+            This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+            </summary>
+            <param name="app"></param>
         </member>
     </members>
 </doc>

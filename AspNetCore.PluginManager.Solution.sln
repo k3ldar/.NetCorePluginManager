@@ -80,6 +80,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebSmokeTest.Plugin", "Plug
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Subdomain.Plugin", "Plugins\Subdomain.Plugin\Subdomain.Plugin.csproj", "{21A9AD10-D91B-43EF-BA2B-FCCB4D1514B8}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImageManager.Plugin", "Plugins\ImageManager.Plugin\ImageManager.Plugin.csproj", "{429D935D-1568-4708-ABFC-DC2E9A8332FE}"
+EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DynamicContent.Plugin", "Plugins\DynamicContent.Plugin\DynamicContent.Plugin.csproj", "{8D931063-F3A2-45B1-85D4-5E1424D1A3A6}"
 EndProject
 Global
@@ -232,6 +234,10 @@ Global
 		{21A9AD10-D91B-43EF-BA2B-FCCB4D1514B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{21A9AD10-D91B-43EF-BA2B-FCCB4D1514B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{21A9AD10-D91B-43EF-BA2B-FCCB4D1514B8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{429D935D-1568-4708-ABFC-DC2E9A8332FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{429D935D-1568-4708-ABFC-DC2E9A8332FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{429D935D-1568-4708-ABFC-DC2E9A8332FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{429D935D-1568-4708-ABFC-DC2E9A8332FE}.Release|Any CPU.Build.0 = Release|Any CPU
 		{8D931063-F3A2-45B1-85D4-5E1424D1A3A6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{8D931063-F3A2-45B1-85D4-5E1424D1A3A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8D931063-F3A2-45B1-85D4-5E1424D1A3A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
