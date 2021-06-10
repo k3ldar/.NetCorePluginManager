@@ -26,25 +26,29 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Drawing;
 using System.IO;
 
+using AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests.Mocks;
 using AspNetCore.PluginManager.Tests.Shared;
 
+using ImageManager.Plugin.Classes;
 using ImageManager.Plugin.Models;
+
+using MemoryCache.Plugin;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
+using Middleware.Interfaces;
+
+using Newtonsoft.Json;
+
 using PluginManager.Abstractions;
 
+using ProductPlugin;
 using ProductPlugin.Classes;
 
 using SharedPluginFeatures;
-using AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests.Mocks;
-using ProductPlugin;
-using Newtonsoft.Json;
-using Middleware.Interfaces;
-using ImageManager.Plugin.Classes;
-using System.Drawing;
 
 namespace AspNetCore.PluginManager.Tests.Plugins.ProductTests
 {
@@ -439,7 +443,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ProductTests
         private ImageUploadNotificationListener CreateListener(IImageProvider mockImageProvider = null, TestSettingsProvider testSettingsProvider = null)
         {
             return new ImageUploadNotificationListener(
-                mockImageProvider ?? new MockImageProvider(), 
+                mockImageProvider ?? new MockImageProvider(),
                 testSettingsProvider ?? new TestSettingsProvider("{}"));
         }
 

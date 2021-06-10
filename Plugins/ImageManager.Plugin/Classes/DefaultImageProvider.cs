@@ -34,6 +34,8 @@ using Middleware.Interfaces;
 
 using PluginManager.Abstractions;
 
+using Shared.Classes;
+
 using SharedPluginFeatures;
 
 namespace ImageManager.Plugin.Classes
@@ -49,6 +51,7 @@ namespace ImageManager.Plugin.Classes
 
         private const string TempPathName = "Temp";
         private readonly string _rootPath;
+        private static readonly CacheManager _imageProviderCache = new CacheManager(nameof(DefaultImageProvider), new TimeSpan(12, 0, 0), false, true);
 
         #endregion Private Members
 
@@ -87,21 +90,30 @@ namespace ImageManager.Plugin.Classes
         /// <returns>List&lt;string&gt;</returns>
         public Dictionary<string, List<string>> Groups()
         {
-            Dictionary<string, List<string>> Result = new Dictionary<string, List<string>>();
+            string CacheNameGroups = "Default Image Provider - Groups";
+            CacheItem groupsCache = _imageProviderCache.Get(CacheNameGroups);
 
-            foreach (string group in Directory.GetDirectories(_rootPath, Constants.Asterix.ToString(), SearchOption.TopDirectoryOnly))
+            if (groupsCache == null)
             {
-                List<string> subGroups = new List<string>();
+                Dictionary<string, List<string>> Result = new Dictionary<string, List<string>>();
 
-                foreach (string subGroup in Directory.GetDirectories(group, Constants.Asterix.ToString(), SearchOption.TopDirectoryOnly))
+                foreach (string group in Directory.GetDirectories(_rootPath, Constants.Asterix.ToString(), SearchOption.TopDirectoryOnly))
                 {
-                    subGroups.Add(Path.GetFileName(subGroup));
+                    List<string> subGroups = new List<string>();
+
+                    foreach (string subGroup in Directory.GetDirectories(group, Constants.Asterix.ToString(), SearchOption.TopDirectoryOnly))
+                    {
+                        subGroups.Add(Path.GetFileName(subGroup));
+                    }
+
+                    Result.Add(Path.GetFileName(group), subGroups);
                 }
 
-                Result.Add(Path.GetFileName(group), subGroups);
+                groupsCache = new CacheItem(CacheNameGroups, Result);
+                _imageProviderCache.Add(CacheNameGroups, groupsCache);
             }
 
-            return Result;
+            return (Dictionary<string, List<string>>)groupsCache.Value;
         }
 
         /// <summary>
@@ -120,17 +132,26 @@ namespace ImageManager.Plugin.Classes
             if (!Directory.Exists(groupPath))
                 throw new ArgumentException($"{groupName} does not exist");
 
-            List<ImageFile> Result = new List<ImageFile>();
+            string cacheNameImageGroup = $"Default Image Provider Image Group - {groupName}";
+            CacheItem imageCache = _imageProviderCache.Get(cacheNameImageGroup);
 
-            foreach (string file in Directory.GetFiles(groupPath, "*", SearchOption.TopDirectoryOnly))
+            if (imageCache == null)
             {
-                string uriFile = file.Substring(_rootPath.Length + 1).Replace("\\", "/");
+                List<ImageFile> Result = new List<ImageFile>();
 
-                Uri uri = new Uri($"/images/{uriFile}", UriKind.RelativeOrAbsolute);
-                Result.Add(new ImageFile(uri, file));
+                foreach (string file in Directory.GetFiles(groupPath, "*", SearchOption.TopDirectoryOnly))
+                {
+                    string uriFile = file.Substring(_rootPath.Length + 1).Replace("\\", "/");
+
+                    Uri uri = new Uri($"/images/{uriFile}", UriKind.RelativeOrAbsolute);
+                    Result.Add(new ImageFile(uri, file));
+                }
+
+                imageCache = new CacheItem(cacheNameImageGroup, Result);
+                _imageProviderCache.Add(cacheNameImageGroup, imageCache);
             }
 
-            return Result;
+            return (List<ImageFile>)imageCache.Value;
         }
 
         /// <summary>
@@ -153,17 +174,26 @@ namespace ImageManager.Plugin.Classes
             if (!Directory.Exists(groupPath))
                 throw new ArgumentException($"{groupName} does not exist");
 
-            List<ImageFile> Result = new List<ImageFile>();
+            string cacheNameImageGroup = $"Default Image Provider Image Subgroup - {groupName} {subgroupName}";
+            CacheItem imageCache = _imageProviderCache.Get(cacheNameImageGroup);
 
-            foreach (string file in Directory.GetFiles(groupPath, "*", SearchOption.TopDirectoryOnly))
+            if (imageCache == null)
             {
-                string uriFile = file.Substring(_rootPath.Length + 1).Replace("\\", "/");
+                List<ImageFile> Result = new List<ImageFile>();
 
-                Uri uri = new Uri($"/images/{uriFile}", UriKind.RelativeOrAbsolute);
-                Result.Add(new ImageFile(uri, file));
+                foreach (string file in Directory.GetFiles(groupPath, "*", SearchOption.TopDirectoryOnly))
+                {
+                    string uriFile = file.Substring(_rootPath.Length + 1).Replace("\\", "/");
+
+                    Uri uri = new Uri($"/images/{uriFile}", UriKind.RelativeOrAbsolute);
+                    Result.Add(new ImageFile(uri, file));
+                }
+
+                imageCache = new CacheItem(cacheNameImageGroup, Result);
+                _imageProviderCache.Add(cacheNameImageGroup, imageCache);
             }
 
-            return Result;
+            return (List<ImageFile>)imageCache.Value;
         }
 
         /// <summary>
@@ -184,6 +214,7 @@ namespace ImageManager.Plugin.Classes
                 return false;
 
             Directory.CreateDirectory(groupPath);
+            _imageProviderCache.Clear();
 
             return Directory.Exists(groupPath);
         }
@@ -204,6 +235,8 @@ namespace ImageManager.Plugin.Classes
             if (!Directory.Exists(groupPath))
                 return false;
 
+            _imageProviderCache.Clear();
+
             Directory.Delete(groupPath, true);
 
             return !Directory.Exists(groupPath);
@@ -221,7 +254,16 @@ namespace ImageManager.Plugin.Classes
 
             string groupPath = Path.Combine(_rootPath, groupName);
 
-            return Directory.Exists(groupPath);
+            string cacheNameGroup = $"Default Image Provider Image Group Exists - {groupName}";
+            CacheItem imageCache = _imageProviderCache.Get(cacheNameGroup);
+
+            if (imageCache == null)
+            {
+                imageCache = new CacheItem(cacheNameGroup, Directory.Exists(groupPath));
+                _imageProviderCache.Add(cacheNameGroup, imageCache);
+            }
+
+            return (bool)imageCache.Value;
         }
 
         /// <summary>
@@ -240,6 +282,8 @@ namespace ImageManager.Plugin.Classes
 
             if (SubgroupExists(groupName, subgroupName))
                 return false;
+
+            _imageProviderCache.Clear();
 
             string groupPath = Path.Combine(_rootPath, groupName, subgroupName);
 
@@ -265,6 +309,8 @@ namespace ImageManager.Plugin.Classes
             if (!SubgroupExists(groupName, subgroupName))
                 return false;
 
+            _imageProviderCache.Clear();
+
             string groupPath = Path.Combine(_rootPath, groupName, subgroupName);
 
             Directory.Delete(groupPath, true);
@@ -288,7 +334,16 @@ namespace ImageManager.Plugin.Classes
 
             string groupPath = Path.Combine(_rootPath, groupName, subgroupName);
 
-            return Directory.Exists(groupPath);
+            string cacheNameGroup = $"Default Image Provider Image Subgroup Exists - {groupName} {subgroupName}";
+            CacheItem imageCache = _imageProviderCache.Get(cacheNameGroup);
+
+            if (imageCache == null)
+            {
+                imageCache = new CacheItem(cacheNameGroup, Directory.Exists(groupPath));
+                _imageProviderCache.Add(cacheNameGroup, imageCache);
+            }
+
+            return (bool)imageCache.Value;
         }
 
         /// <summary>
@@ -309,7 +364,16 @@ namespace ImageManager.Plugin.Classes
 
             string fileName = Path.Combine(_rootPath, groupName, imageName);
 
-            return File.Exists(fileName);
+            string cacheNameImage = $"Default Image Provider ImageExists - {groupName} {imageName}";
+            CacheItem imageCache = _imageProviderCache.Get(cacheNameImage);
+
+            if (imageCache == null)
+            {
+                imageCache = new CacheItem(cacheNameImage, File.Exists(fileName));
+                _imageProviderCache.Add(cacheNameImage, imageCache);
+            }
+
+            return (bool)imageCache.Value;
         }
 
         /// <summary>
@@ -359,6 +423,8 @@ namespace ImageManager.Plugin.Classes
             if (!File.Exists(fileName))
                 return false;
 
+            _imageProviderCache.Clear();
+
             File.Delete(fileName);
 
             return !File.Exists(fileName);
@@ -389,6 +455,8 @@ namespace ImageManager.Plugin.Classes
 
             if (!File.Exists(fileName))
                 return false;
+
+            _imageProviderCache.Clear();
 
             File.Delete(fileName);
 
@@ -462,6 +530,8 @@ namespace ImageManager.Plugin.Classes
 
             if (File.Exists(newFileName))
                 throw new ArgumentOutOfRangeException();
+
+            _imageProviderCache.Clear();
 
             File.WriteAllBytes(newFileName, fileContents);
         }

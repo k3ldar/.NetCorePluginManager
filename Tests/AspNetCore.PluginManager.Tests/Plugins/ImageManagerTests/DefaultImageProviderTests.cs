@@ -37,14 +37,22 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using Middleware.Images;
 
+using sc = Shared.Classes;
+
 namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
 {
     [TestClass]
     [ExcludeFromCodeCoverage]
-    public class DefaultImageProviderTests
+    public class DefaultImageProviderTests : GenericBaseClass
     {
         private const string ImageManagerTestsCategory = "Image Manager Tests";
         private const string DemoWebsiteImagePath = "..\\..\\..\\..\\..\\..\\.NetCorePluginManager\\Demo\\NetCorePluginDemoWebsite\\wwwroot\\images";
+
+        [TestInitialize]
+        public void InitializeTest()
+        {
+            sc.CacheManager.ClearAllCaches();
+        }
 
         [TestMethod]
         [TestCategory(ImageManagerTestsCategory)]
@@ -1302,6 +1310,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
                 string newGroupPath = Path.Combine(testPath, "FirstGroup");
 
                 DefaultImageProvider sut = CreateDefaultImageProvider(testPath);
+                Assert.IsTrue(CacheManagerExists("Default Image Provider"));
                 Assert.IsFalse(sut.GroupExists("FirstGroup"));
 
                 bool addGroup = sut.CreateGroup("FirstGroup");

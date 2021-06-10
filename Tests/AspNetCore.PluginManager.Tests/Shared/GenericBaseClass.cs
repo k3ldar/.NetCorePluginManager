@@ -35,6 +35,8 @@ using System.Threading;
 
 using SharedPluginFeatures;
 
+using sc = Shared.Classes;
+
 namespace AspNetCore.PluginManager.Tests.Shared
 {
     [ExcludeFromCodeCoverage]
@@ -114,6 +116,19 @@ namespace AspNetCore.PluginManager.Tests.Shared
                     }
                 }
             }
+        }
+        
+        protected bool CacheManagerExists(string cacheName)
+        {
+            for (int i = 0; i < sc.CacheManager.GetCount(); i++)
+            {
+                if (sc.CacheManager.GetCacheName(i).Equals(cacheName, StringComparison.InvariantCultureIgnoreCase))
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
         private string GetLiveFilePath(in string directory, in string resourceName)
         {
