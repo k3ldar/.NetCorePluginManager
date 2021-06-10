@@ -38,10 +38,13 @@ namespace ProductPlugin.Models
         }
 
         public ProductCategoryProductModel(in int id, in string name, in string image, in int productGroupId,
-            in bool newProduct, in bool bestSeller, in decimal lowestPrice)
+            in bool newProduct, in bool bestSeller, in decimal lowestPrice, in string sku)
         {
             if (String.IsNullOrEmpty(name))
                 throw new ArgumentNullException(nameof(name));
+
+            if (String.IsNullOrEmpty(sku))
+                throw new ArgumentNullException(nameof(sku));
 
             Id = id;
             ProductGroupId = productGroupId;
@@ -49,6 +52,7 @@ namespace ProductPlugin.Models
             Images = image;
             NewProduct = newProduct;
             BestSeller = bestSeller;
+            Sku = sku;
 
             if (lowestPrice == 0)
                 Price = Languages.LanguageStrings.Free;
@@ -69,19 +73,19 @@ namespace ProductPlugin.Models
 
         #region Properties
 
-        public int Id { get; private set; }
+        public int Id { get; }
 
-        public int ProductGroupId { get; private set; }
+        public int ProductGroupId { get; }
 
-        public string Name { get; private set; }
+        public string Name { get; }
 
-        public string Images { get; private set; }
+        public string Images { get; }
 
-        public bool NewProduct { get; private set; }
+        public bool NewProduct { get; }
 
-        public bool BestSeller { get; private set; }
+        public bool BestSeller { get; }
 
-        public string Price { get; private set; }
+        public string Price { get; }
 
         public string Url
         {
@@ -90,6 +94,11 @@ namespace ProductPlugin.Models
                 return $"/Product/{Id}/{RouteFriendlyName(Name)}/";
             }
         }
+
+        /// <summary>
+        /// Unique product identifier
+        /// </summary>
+        public string Sku { get; }
 
         #endregion Properties
     }

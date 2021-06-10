@@ -37,21 +37,56 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
+using PluginManager.Abstractions;
+using PluginManager.Internal;
+
 namespace PluginManager.Tests.Mocks
 {
     [ExcludeFromCodeCoverage]
     public class MockServiceCollection : IServiceCollection
     {
         private readonly List<ServiceDescriptor> _serviceDescriptors;
+        private readonly NotificationService _notificationService;
 
-        public MockServiceCollection()
+        public MockServiceCollection(ServiceDescriptor[] serviceDescriptors = null)
         {
             _serviceDescriptors = new List<ServiceDescriptor>();
+           
+            if (serviceDescriptors != null)
+            {
+                foreach (ServiceDescriptor serviceDescriptor in serviceDescriptors)
+                {
+                    if (serviceDescriptor.ImplementationInstance.GetType().Equals(typeof(NotificationService)))
+                        _notificationService = serviceDescriptor.ImplementationInstance as NotificationService;
+
+                    Add(serviceDescriptor);
+                }
+            }
+
+            ServicesRegistered = 0;
         }
+
+        public int ServicesRegistered { get; set; }
 
         public bool HasServiceRegistered<T>(ServiceLifetime serviceLifetime)
         {
             return _serviceDescriptors.Where(sd => sd.Lifetime.Equals(serviceLifetime) && sd.ServiceType != null && sd.ServiceType.Equals(typeof(T))).Any();
+        }
+
+        public bool HasListenerRegistered<T>()
+        {
+            if (_notificationService == null)
+                return false;
+
+            return _notificationService.ListenerRegistered<T>();
+        }
+
+        public bool HasListenerRegisteredEvent<T>(string eventName)
+        {
+            if (_notificationService == null)
+                return false;
+
+            return _notificationService.ListenerRegisteredEvent<T>(eventName);
         }
 
         public bool HasPolicyConfigured(string policyName, string[] requiredClaimNames)
@@ -137,6 +172,7 @@ namespace PluginManager.Tests.Mocks
         public void Add(ServiceDescriptor item)
         {
             _serviceDescriptors.Add(item);
+            ServicesRegistered++;
         }
 
         public void Clear()

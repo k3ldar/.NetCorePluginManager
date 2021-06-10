@@ -23,10 +23,11 @@
  *  31/01/2019  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+using System;
+
 using AspNetCore.PluginManager;
 
 using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 #pragma warning disable CS1591
@@ -35,36 +36,48 @@ namespace ProductPlugin
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        /// <summary>
+        /// Default Constructor
+        /// </summary>
+        public Startup()
         {
-            Configuration = configuration;
+            if (!PluginManagerService.HasInitialised)
+                PluginManagerService.Initialise();
+
+            PluginManagerService.UsePlugin(typeof(PluginInitialisation));
         }
 
-        public IConfiguration Configuration { get; }
-
-        // This method gets called by the runtime. Use this method to add services to the container.
+        /// <summary>
+        /// This method gets called by the runtime. Use this method to add services to the container.
+        /// </summary>
+        /// <param name="services"></param>
         public void ConfigureServices(IServiceCollection services)
         {
+            if (services == null)
+                throw new ArgumentNullException(nameof(services));
+
             PluginManagerService.ConfigureServices(services);
 
-            services.AddMvc()
-                .AddSessionStateTempDataProvider()
+            services.AddMvc(
+#if NET_CORE_3_X || NET_5_X
+                option => option.EnableEndpointRouting = false
+#endif
+                )                
                 .ConfigurePluginManager();
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        /// <summary>
+        /// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        /// </summary>
+        /// <param name="app"></param>
         public void Configure(IApplicationBuilder app)
         {
+            if (app == null)
+                throw new ArgumentNullException(nameof(app));
+
             PluginManagerService.Configure(app);
 
-#if DEBUG
-            app.UseDeveloperExceptionPage();
-#else
-            app.UseExceptionHandler("/Home/Error");
-#endif
-
-
-#if !NET_CORE_3_X &&  !NET_5_X
+#if !NET_CORE_3_X || NET_5_X
             app.UseMvc(routes =>
             {
                 routes.MapRoute(

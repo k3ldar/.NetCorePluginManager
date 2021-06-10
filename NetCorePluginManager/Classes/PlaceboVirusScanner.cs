@@ -13,55 +13,36 @@
  *
  *  Copyright (c) 2018 - 2021 Simon Carter.  All Rights Reserved.
  *
- *  Product:  Products.Plugin
+ *  Product:  AspNetCore.PluginManager
  *  
- *  File: BaseProductModel.cs
+ *  File: PlaceboVirusScanner.cs
  *
- *  Purpose:  Base Product Model
+ *  Purpose:  Provides a placebo virus scanner for registering if no custom virus scanner has
+ *            been registered and the OS is running on other than Windows 
  *
  *  Date        Name                Reason
- *  02/02/2019  Simon Carter        Initially Created
+ *  02/06/2021  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using System;
-using System.Collections.Generic;
-
 using SharedPluginFeatures;
 
-#pragma warning disable CS1591
-
-namespace ProductPlugin.Models
+namespace AspNetCore.PluginManager.Internal
 {
-    public class BaseProductModel : BaseModel
+    internal sealed class PlaceboVirusScanner : IVirusScanner
     {
-        #region Constructors
-
-        public BaseProductModel()
+        public void ScanDirectory(in string directory)
         {
 
         }
 
-        public BaseProductModel(in BaseModelData modelData)
-            : base(modelData)
+        public void ScanFile(in string fileName)
         {
 
         }
 
-        public BaseProductModel(in BaseModelData modelData,
-            in IEnumerable<ProductCategoryModel> productGroups)
-            : base(modelData)
+        public void ScanFile(in string[] fileNames)
         {
-            ProductGroups = productGroups ?? throw new ArgumentNullException(nameof(productGroups));
+
         }
-
-        #endregion Constructors
-
-        #region Properties
-
-        public IEnumerable<ProductCategoryModel> ProductGroups { get; private set; }
-
-        #endregion Properties
     }
 }
-
-#pragma warning restore CS1591

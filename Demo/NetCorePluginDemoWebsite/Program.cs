@@ -54,9 +54,12 @@ namespace AspNetCore.PluginManager.DemoWebsite
             PluginManagerService.UsePlugin(typeof(LoginPlugin.PluginInitialisation));
             PluginManagerService.UsePlugin(typeof(WebSmokeTest.Plugin.PluginInitialisation));
             PluginManagerService.UsePlugin(typeof(GeoIp.Plugin.PluginInitialisation));
+            PluginManagerService.UsePlugin(typeof(ImageManager.Plugin.PluginInitialisation));
 
-            PluginManagerConfiguration configuration = new PluginManagerConfiguration();
-            configuration.ServiceConfigurator = new ServiceConfigurator();
+            PluginManagerConfiguration configuration = new PluginManagerConfiguration
+            {
+                ServiceConfigurator = new ServiceConfigurator()
+            };
 
             // Initialise the plugin manager service
             PluginManagerService.Initialise(configuration);

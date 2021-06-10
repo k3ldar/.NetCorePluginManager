@@ -42,11 +42,14 @@ namespace ProductPlugin.Models
 
         public ProductModel(in BaseModelData modelData,
             in int id, in string name, in string[] images, in int productGroupId,
-            in bool newProduct, in bool bestSeller, in decimal lowestPrice, bool allowAddToBasket)
+            in bool newProduct, in bool bestSeller, in decimal lowestPrice, bool allowAddToBasket, string sku)
             : base(modelData)
         {
             if (String.IsNullOrEmpty(name))
                 throw new ArgumentNullException(nameof(name));
+
+            if (String.IsNullOrEmpty(sku))
+                throw new ArgumentNullException(nameof(sku));
 
             Id = id;
             ProductGroupId = productGroupId;
@@ -57,6 +60,7 @@ namespace ProductPlugin.Models
             Images = images;
             NewProduct = newProduct;
             BestSeller = bestSeller;
+            Sku = sku;
 
             if (lowestPrice == 0)
                 RetailPrice = Languages.LanguageStrings.Free;
@@ -76,7 +80,8 @@ namespace ProductPlugin.Models
         public ProductModel(in BaseModelData modelData,
             in IEnumerable<ProductCategoryModel> productGroups,
             in int id, in int productGroupId, in string name, in string description, in string features,
-            in string videoLink, in string[] images, in decimal retailPrice,
+            in string videoLink, in string[] images, in decimal retailPrice, in string sku,
+            in bool newProduct, in bool bestSeller,
             in bool allowAddToBasket, in uint stockAvailability)
             : this(modelData, productGroups)
         {
@@ -86,6 +91,9 @@ namespace ProductPlugin.Models
             if (String.IsNullOrEmpty(description))
                 throw new ArgumentNullException(nameof(description));
 
+            if (String.IsNullOrEmpty(sku))
+                throw new ArgumentNullException(nameof(sku));
+
             Id = id;
             ProductGroupId = productGroupId;
             Name = name;
@@ -94,6 +102,9 @@ namespace ProductPlugin.Models
             VideoLink = videoLink;
             Images = images;
             StockAvailability = stockAvailability;
+            Sku = sku;
+            NewProduct = newProduct;
+            BestSeller = bestSeller;
 
             if (retailPrice == 0)
                 RetailPrice = Languages.LanguageStrings.Free;
@@ -148,32 +159,34 @@ namespace ProductPlugin.Models
 
         #region Properties
 
-        public int Id { get; private set; }
+        public int Id { get; }
 
-        public int ProductGroupId { get; private set; }
+        public int ProductGroupId { get; }
 
-        public string Name { get; private set; }
+        public string Name { get; }
 
-        public string Description { get; private set; }
+        public string Description { get; }
 
-        public string Features { get; private set; }
+        public string Features { get; }
 
-        public string VideoLink { get; private set; }
+        public string VideoLink { get; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1819:Properties should not return arrays", Justification = "ok on this occasion")]
-        public string[] Images { get; private set; }
+        public string[] Images { get; }
 
-        public bool NewProduct { get; private set; }
+        public bool NewProduct { get; }
 
-        public bool BestSeller { get; private set; }
+        public bool BestSeller { get; }
 
-        public string RetailPrice { get; private set; }
+        public string RetailPrice { get; }
 
-        public bool AllowAddToBasket { get; private set; }
+        public bool AllowAddToBasket { get; }
 
-        public AddToCartModel AddToCart { get; private set; }
+        public AddToCartModel AddToCart { get; }
 
-        public uint StockAvailability { get; private set; }
+        public uint StockAvailability { get; }
+
+        public string Sku { get; }
 
         #endregion Properties
     }

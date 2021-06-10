@@ -88,61 +88,63 @@ namespace PluginManager.Tests
         }
 
         [TestMethod]
-        public void ListenerTest1()
+        public void RaiseEvent_TwoListeners_FirstListenerRespondsTrue_SecondListenerNotProcessed_Success()
         {
-            ValidEventsListener valid1 = new ValidEventsListener();
-            ValidEvents2 valid2 = new ValidEvents2();
+            ValidEventsListener validListnerProcessingEvent = new ValidEventsListener();
+            ValidEvents2 validListenerNotProcessingEvent = new ValidEvents2();
             INotificationService service = new NotificationService() as INotificationService;
 
             Assert.IsNotNull(service);
 
-            service.RegisterListener(valid1);
-            service.RegisterListener(valid2);
+            service.RegisterListener(validListnerProcessingEvent);
+            service.RegisterListener(validListenerNotProcessingEvent);
 
             object result = new object();
             bool eventProcessed = service.RaiseEvent("Test1", null, null, ref result);
 
             Assert.IsTrue(eventProcessed);
-            Assert.IsTrue(valid1.EventCount == 1);
-            Assert.IsTrue(valid2.EventCount == 1);
+            Assert.IsTrue(validListnerProcessingEvent.EventCount == 1);
+            Assert.IsTrue(validListenerNotProcessingEvent.EventCount == 0);
 
 
             eventProcessed = service.RaiseEvent("Test1", null, null, ref result);
 
             Assert.IsTrue(eventProcessed);
-            Assert.IsTrue(valid1.EventCount == 2);
-            Assert.IsTrue(valid2.EventCount == 2);
+            Assert.IsTrue(validListnerProcessingEvent.EventCount == 2);
+            Assert.IsTrue(validListenerNotProcessingEvent.EventCount == 0);
 
             eventProcessed = service.RaiseEvent("Test1", null, null, ref result);
 
             Assert.IsTrue(eventProcessed);
-            Assert.IsTrue(valid1.EventCount == 3);
-            Assert.IsTrue(valid2.EventCount == 3);
+            Assert.IsTrue(validListnerProcessingEvent.EventCount == 3);
+            Assert.IsTrue(validListenerNotProcessingEvent.EventCount == 0);
 
             eventProcessed = service.RaiseEvent("Test1", null, null, ref result);
 
             Assert.IsTrue(eventProcessed);
-            Assert.IsTrue(valid1.EventCount == 4);
-            Assert.IsTrue(valid2.EventCount == 4);
+            Assert.IsTrue(validListnerProcessingEvent.EventCount == 4);
+            Assert.IsTrue(validListenerNotProcessingEvent.EventCount == 0);
         }
 
         [TestMethod]
-        public void ListenerTest2()
+        public void RaiseEvent_MultipleListeners_FirstListenerDoesNotProcessEvent_SecondListenerDoes_Success()
         {
-            ValidEventsListener valid1 = new ValidEventsListener();
-            ValidEvents2 valid2 = new ValidEvents2();
+            ValidEventsListener listenerNotProcessing = new ValidEventsListener();
+            ValidEvents2 listenerProcessing = new ValidEvents2();
             INotificationService service = new NotificationService() as INotificationService;
 
             Assert.IsNotNull(service);
 
-            service.RegisterListener(valid1);
-            service.RegisterListener(valid2);
+            service.RegisterListener(listenerNotProcessing);
+            service.RegisterListener(listenerProcessing);
 
             object result = new object();
             service.RaiseEvent("Test2", null, null, ref result);
 
-            Assert.IsTrue(valid1.EventCount == 1);
-            Assert.IsTrue(valid2.EventCount == 0);
+            Assert.IsTrue(listenerNotProcessing.EventCount == 1);
+            Assert.IsTrue(listenerProcessing.EventCount == 1);
+            Assert.IsFalse(listenerNotProcessing.EventProcessed);
+            Assert.IsTrue(listenerProcessing.EventProcessed);
         }
 
         [TestMethod]
@@ -483,12 +485,14 @@ namespace PluginManager.Tests
                     Event1Count++;
                     param1Values.Add(param1);
                     param2Values.Add(param2);
+                    EventProcessed = true;
                     return true;
                 case "Test2":
                     EventCount++;
                     Event2Count++;
                     param1Values.Add(param1);
                     param2Values.Add(param2);
+                    EventProcessed = false;
                     return false;
                 default:
                     throw new InvalidOperationException("Invalid Event Name");
@@ -528,6 +532,8 @@ namespace PluginManager.Tests
         public int Event1Count { get; private set; }
 
         public int Event2Count { get; private set; }
+
+        public bool EventProcessed { get; private set; }
     }
 
     [ExcludeFromCodeCoverage]
@@ -572,9 +578,11 @@ namespace PluginManager.Tests
             {
                 case "Test1":
                     EventCount++;
+                    EventProcessed = true;
                     return true;
                 case "Test2":
                     EventCount++;
+                    EventProcessed = true;
                     return true;
                 default:
                     throw new InvalidOperationException("Invalid Event Name");
@@ -592,5 +600,7 @@ namespace PluginManager.Tests
         }
 
         public uint EventCount { get; private set; }
+
+        public bool EventProcessed { get; private set; }
     }
 }

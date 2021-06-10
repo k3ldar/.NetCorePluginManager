@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFrameworks>net5.0;netcoreapp3.1;netcoreapp3.0;netcoreapp2.2;netcoreapp2.1</TargetFrameworks>
+    <TargetFrameworks>net5.0</TargetFrameworks>
     <LangVersion>latest</LangVersion>
     <Version>4.1.0</Version>
     <RazorCompileOnBuild>false</RazorCompileOnBuild>
@@ -119,11 +119,13 @@
     <Content Remove="Views\Product\_ProductSearchResult.cshtml" />
     <Content Remove="wwwroot\css\Login.css" />
     <Content Remove="wwwroot\css\products.css" />
-    <Content Remove="wwwroot\images\Products\geoip_148.png" />
-    <Content Remove="wwwroot\images\Products\geoip_178.png" />
-    <Content Remove="wwwroot\images\Products\geoip_200.png" />
-    <Content Remove="wwwroot\images\Products\geoip_288.png" />
-    <Content Remove="wwwroot\images\Products\geoip_89.png" />
+    <Content Remove="wwwroot\images\Products\NoImage_148.png" />
+    <Content Remove="wwwroot\images\Products\NoImage_178.png" />
+    <Content Remove="wwwroot\images\Products\NoImage_200.png" />
+    <Content Remove="wwwroot\images\Products\NoImage_288.png" />
+    <Content Remove="wwwroot\images\Products\NoImage_89.png" />
+    <Content Remove="wwwroot\images\Products\NoImage_orig.png" />
+    <Content Remove="wwwroot\js\js-image-zoom.js" />
     <Content Remove="wwwroot\js\Login.js" />
   </ItemGroup>
 
@@ -137,11 +139,13 @@
     <EmbeddedResource Include="Views\Product\_ProductSearchResult.cshtml" />
     <EmbeddedResource Include="wwwroot\css\Login.css" />
     <EmbeddedResource Include="wwwroot\css\products.css" />
-    <EmbeddedResource Include="wwwroot\images\Products\geoip_148.png" />
-    <EmbeddedResource Include="wwwroot\images\Products\geoip_178.png" />
-    <EmbeddedResource Include="wwwroot\images\Products\geoip_200.png" />
-    <EmbeddedResource Include="wwwroot\images\Products\geoip_288.png" />
-    <EmbeddedResource Include="wwwroot\images\Products\geoip_89.png" />
+    <EmbeddedResource Include="wwwroot\images\Products\NoImage_148.png" />
+    <EmbeddedResource Include="wwwroot\images\Products\NoImage_178.png" />
+    <EmbeddedResource Include="wwwroot\images\Products\NoImage_200.png" />
+    <EmbeddedResource Include="wwwroot\images\Products\NoImage_288.png" />
+    <EmbeddedResource Include="wwwroot\images\Products\NoImage_89.png" />
+    <EmbeddedResource Include="wwwroot\images\Products\NoImage_orig.png" />
+    <EmbeddedResource Include="wwwroot\js\js-image-zoom.js" />
     <EmbeddedResource Include="wwwroot\js\Login.js" />
   </ItemGroup>
 
