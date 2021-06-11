@@ -138,9 +138,19 @@ namespace SharedPluginFeatures
         public const char ForwardSlashChar = '/';
 
         /// <summary>
+        /// Asterix (*) char
+        /// </summary>
+        public const char Asterix = '*';
+
+        /// <summary>
         /// Dash (-) char constant.
         /// </summary>
         public const char Dash = '-';
+
+        /// <summary>
+        /// Underscore (_) char constant
+        /// </summary>
+        public const char Underscore = '_';
 
         /// <summary>
         /// Name of the Breadcrumb.Plugin module.
@@ -216,6 +226,16 @@ namespace SharedPluginFeatures
         /// Notification event name for obtaining GeoIp record count.
         /// </summary>
         public const string NotificationEventGeoIpRecordCount = "GeoIpRecordCount";
+
+        /// <summary>
+        /// Notification event name for uploading an image.
+        /// </summary>
+        public const string NotificationEventImageUploaded = "ImageUploadedEvent";
+
+        /// <summary>
+        /// Notification event name for image upload options.
+        /// </summary>
+        public const string NotificationEventImageUploadOptions = "ImageUploadOptions";
 
         /// <summary>
         /// Name of sitemap listener
@@ -343,6 +363,15 @@ namespace SharedPluginFeatures
         public const string PolicyNameStaff = "MemberOfStaff";
 
         /// <summary>
+        /// Name of policy for viewing images within image manager
+        /// </summary>
+        public const string PolicyNameViewImageManager = "ImageManager";
+
+        /// <summary>
+        /// Name of policy for managing images within image manager
+        /// </summary>
+        public const string PolicyNameImageManagerManage = "ImageManagerManage";
+/// <summary>
         /// User can edit dynamic content
         /// </summary>
         public const string PolicyNameContentEditor = "ContentEditor";
@@ -351,7 +380,6 @@ namespace SharedPluginFeatures
         /// Claim name for allowing user to manage content
         /// </summary>
         public const string ClaimNameManageContent = "ManageContent";
-
         /// <summary>
         /// Claim name for administrators
         /// </summary>
@@ -391,6 +419,16 @@ namespace SharedPluginFeatures
         /// Name of claim for managing user permissions
         /// </summary>
         public const string ClaimNameUserPermissions = "UserPermissions";
+
+        /// <summary>
+        /// Name of claim for viewing image manager images
+        /// </summary>
+        public const string ClaimNameViewImageManager = "ViewImageManager";
+
+        /// <summary>
+        /// Name of claim for managing images (add/delete etc) within image manager
+        /// </summary>
+        public const string ClaimNameManageImages = "ManageImages";
 
         /// <summary>
         /// Name of claim identity for user claims
@@ -466,5 +504,75 @@ namespace SharedPluginFeatures
         /// .dat file extension
         /// </summary>
         public const string FileExtensionDat = ".dat";
+
+        /// <summary>
+        /// .apng file extension
+        /// </summary>
+        public const string FileExtensionApng = ".apng";
+
+        /// <summary>
+        /// .avif file extension
+        /// </summary>
+        public const string FileExtensionAvif = ".avif";
+
+        /// <summary>
+        /// .gif file extension
+        /// </summary>
+        public const string FileExtensionGif = ".gif";
+
+        /// <summary>
+        /// .jpeg file extension
+        /// </summary>
+        public const string FileExtensionJpeg = ".jpeg";
+
+        /// <summary>
+        /// .jpg file extension
+        /// </summary>
+        public const string FileExtensionJpg = ".jpg";
+
+        /// <summary>
+        /// .png file extension
+        /// </summary>
+        public const string FileExtensionPng = ".png";
+
+        /// <summary>
+        /// .svg file extension
+        /// </summary>
+        public const string FileExtensionSvg = ".svg";
+
+        /// <summary>
+        /// .webp file extension
+        /// </summary>
+        public const string FileExtensionWebP = ".webp";
+
+        /// <summary>
+        /// .tmp file extension
+        /// </summary>
+        public const string FileExtensionTmp = ".tmp";
+
+        /// <summary>
+        /// Content type for application/json
+        /// </summary>
+        public const string ContentTypeApplicationJson = "application/json";
+
+        /// <summary>
+        /// Successful html response code
+        /// </summary>
+        public const int HtmlResponseSuccess = 200;
+
+        /// <summary>
+        /// Temporarily moved html response code
+        /// </summary>
+        public const int HtmlResponseMovedTemporarily = 302;
+
+        /// <summary>
+        /// Bad request response code
+        /// </summary>
+        public const int HtmlResponseBadRequest = 400;
+
+        /// <summary>
+        /// Name of product image folder
+        /// </summary>
+        public const string ProductImageFolderName = "Products";
     }
 }

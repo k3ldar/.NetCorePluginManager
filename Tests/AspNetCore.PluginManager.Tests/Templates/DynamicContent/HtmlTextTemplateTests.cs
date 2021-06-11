@@ -33,7 +33,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SharedPluginFeatures;
 using SharedPluginFeatures.DynamicContent;
 
-namespace AspNetCore.PluginManager.Tests.Templates.DynamicContentTests.TemplateTests
+namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
 {
     [TestClass]
     [ExcludeFromCodeCoverage]

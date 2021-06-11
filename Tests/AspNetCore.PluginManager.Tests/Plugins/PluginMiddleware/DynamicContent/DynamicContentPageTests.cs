@@ -24,11 +24,7 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
-using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 using DynamicContent.Plugin.Templates;
 
@@ -36,7 +32,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using Middleware.DynamicContent;
 
-namespace AspNetCore.PluginManager.Tests.Plugins.PluginMiddleware.DynamicContent
+namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
 {
     [TestClass]
     [ExcludeFromCodeCoverage]

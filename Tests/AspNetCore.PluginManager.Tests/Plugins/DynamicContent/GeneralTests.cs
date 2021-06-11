@@ -469,7 +469,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         [ExpectedException(typeof(ArgumentNullException))]
         public void CustomPagesModel_Construct_InvalidParam_ModelData_Null_Throws_ArgumentNullException()
         {
-            new CustomPagesModel(null, new List<Middleware.LookupListItem>());
+            new CustomPagesModel(null, new List<LookupListItem>());
         }
 
         [TestMethod]

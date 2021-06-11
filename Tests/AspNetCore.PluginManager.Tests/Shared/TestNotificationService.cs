@@ -53,10 +53,24 @@ namespace AspNetCore.PluginManager.Tests.Shared
             return _raisedEvents.Where(e => e.Equals(eventId)).Count();
         }
 
+        public bool NotificationRaised(string eventId, object eventParam1)
+        {
+            if (_raisedEvents.Contains(eventId))
+                return eventParam1.Equals(EventParam1);
+
+            return false;
+        }
+
         public Boolean RaiseEvent(in String eventId, in Object param1, in Object param2, ref Object result)
         {
             _raisedEvents.Add(eventId);
             result = _result;
+
+            if (eventId.Equals(EventParam1Name) && EventParam1 == null)
+            {
+                EventParam1 = param1;
+            }
+
             return result != null;
         }
 
@@ -84,5 +98,9 @@ namespace AspNetCore.PluginManager.Tests.Shared
         {
             throw new NotImplementedException();
         }
+
+        public object EventParam1 { get; private set; }
+
+        public string EventParam1Name { get; set; }
     }
 }

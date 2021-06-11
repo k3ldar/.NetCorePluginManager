@@ -149,7 +149,7 @@ namespace Spider.Plugin
                 }
                 else if (route.EndsWith("/robots.txt"))
                 {
-                    context.Response.StatusCode = 200;
+                    context.Response.StatusCode = Constants.HtmlResponseSuccess;
 
                     // append sitemaps if there are any
                     object notificationResult = new object();

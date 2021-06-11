@@ -27,7 +27,10 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+using Newtonsoft.Json;
 
 using SharedPluginFeatures;
 
@@ -37,6 +40,8 @@ namespace AspNetCore.PluginManager.Tests.SharedPluginFeatures
     [ExcludeFromCodeCoverage]
     public class BaseControllerTests
     {
+        private const string ExpectedResponseWithData = "{\"Number\":21,\"Text\":\"Some data\"}";
+
         private List<int> CreateList(in int count)
         {
             Random random = new Random();
@@ -52,7 +57,7 @@ namespace AspNetCore.PluginManager.Tests.SharedPluginFeatures
         [TestMethod]
         public void CreateBaseController()
         {
-            using (BaseControllerWrapper baseController = new BaseControllerWrapper())
+            using (TestBaseControllerWrapper baseController = new TestBaseControllerWrapper())
             {
                 Assert.IsNotNull(baseController);
             }
@@ -61,7 +66,7 @@ namespace AspNetCore.PluginManager.Tests.SharedPluginFeatures
         [TestMethod]
         public void GetSessionId()
         {
-            using (BaseControllerWrapper baseController = new BaseControllerWrapper())
+            using (TestBaseControllerWrapper baseController = new TestBaseControllerWrapper())
             {
                 string sessionId = baseController.TestGetCoreSessionId();
                 Assert.IsNotNull(sessionId);
@@ -72,7 +77,7 @@ namespace AspNetCore.PluginManager.Tests.SharedPluginFeatures
         [TestMethod]
         public void GetShoppingCartSummary()
         {
-            using (BaseControllerWrapper baseController = new BaseControllerWrapper())
+            using (TestBaseControllerWrapper baseController = new TestBaseControllerWrapper())
             {
                 ShoppingCartSummary cart = baseController.TestGetShoppingCartSummary();
                 Assert.IsNotNull(cart);
@@ -82,7 +87,7 @@ namespace AspNetCore.PluginManager.Tests.SharedPluginFeatures
         [TestMethod]
         public void CalucalatePageOffsets_Page1_PerPage5_13Items()
         {
-            using (BaseControllerWrapper baseController = new BaseControllerWrapper())
+            using (TestBaseControllerWrapper baseController = new TestBaseControllerWrapper())
             {
                 baseController.TestCalculatePageOffsets(13, 1, 5, out int startItem, out int endItem, out int availablePages);
 
@@ -95,7 +100,7 @@ namespace AspNetCore.PluginManager.Tests.SharedPluginFeatures
         [TestMethod]
         public void CalucalatePageOffsets_Page8_PerPage5_13Items()
         {
-            using (BaseControllerWrapper baseController = new BaseControllerWrapper())
+            using (TestBaseControllerWrapper baseController = new TestBaseControllerWrapper())
             {
                 baseController.TestCalculatePageOffsets(13, 8, 5, out int startItem, out int endItem, out int availablePages);
 
@@ -108,7 +113,7 @@ namespace AspNetCore.PluginManager.Tests.SharedPluginFeatures
         [TestMethod]
         public void CalucalatePageOffsets_Page1_PerPage50_3Items()
         {
-            using (BaseControllerWrapper baseController = new BaseControllerWrapper())
+            using (TestBaseControllerWrapper baseController = new TestBaseControllerWrapper())
             {
                 baseController.TestCalculatePageOffsets(3, 1, 50, out int startItem, out int endItem, out int availablePages);
 
@@ -121,7 +126,7 @@ namespace AspNetCore.PluginManager.Tests.SharedPluginFeatures
         [TestMethod]
         public void CalucalatePageOffsets_Page4_PerPage50_7328Items()
         {
-            using (BaseControllerWrapper baseController = new BaseControllerWrapper())
+            using (TestBaseControllerWrapper baseController = new TestBaseControllerWrapper())
             {
                 baseController.TestCalculatePageOffsets(7328, 4, 50, out int startItem, out int endItem, out int availablePages);
 
@@ -134,7 +139,7 @@ namespace AspNetCore.PluginManager.Tests.SharedPluginFeatures
         [TestMethod]
         public void CalucalatePageOffsets_Page147_PerPage50_7328Items()
         {
-            using (BaseControllerWrapper baseController = new BaseControllerWrapper())
+            using (TestBaseControllerWrapper baseController = new TestBaseControllerWrapper())
             {
                 baseController.TestCalculatePageOffsets(7328, 147, 50, out int startItem, out int endItem, out int availablePages);
 
@@ -147,7 +152,7 @@ namespace AspNetCore.PluginManager.Tests.SharedPluginFeatures
         [TestMethod]
         public void CalucalatePageOffsets_List_Page1_PerPage5_13Items()
         {
-            using (BaseControllerWrapper baseController = new BaseControllerWrapper())
+            using (TestBaseControllerWrapper baseController = new TestBaseControllerWrapper())
             {
                 baseController.TestCalculatePageOffsets<int>(CreateList(13), 1, 5, out int startItem, out int endItem, out int availablePages);
 
@@ -160,7 +165,7 @@ namespace AspNetCore.PluginManager.Tests.SharedPluginFeatures
         [TestMethod]
         public void CalucalatePageOffsets_List_Page8_PerPage5_13Items()
         {
-            using (BaseControllerWrapper baseController = new BaseControllerWrapper())
+            using (TestBaseControllerWrapper baseController = new TestBaseControllerWrapper())
             {
                 baseController.TestCalculatePageOffsets<int>(CreateList(13), 8, 5, out int startItem, out int endItem, out int availablePages);
 
@@ -173,7 +178,7 @@ namespace AspNetCore.PluginManager.Tests.SharedPluginFeatures
         [TestMethod]
         public void CalucalatePageOffsets_List_Page1_PerPage50_3Items()
         {
-            using (BaseControllerWrapper baseController = new BaseControllerWrapper())
+            using (TestBaseControllerWrapper baseController = new TestBaseControllerWrapper())
             {
                 baseController.TestCalculatePageOffsets<int>(CreateList(3), 1, 50, out int startItem, out int endItem, out int availablePages);
 
@@ -186,7 +191,7 @@ namespace AspNetCore.PluginManager.Tests.SharedPluginFeatures
         [TestMethod]
         public void CalucalatePageOffsets_List_Page4_PerPage50_7328Items()
         {
-            using (BaseControllerWrapper baseController = new BaseControllerWrapper())
+            using (TestBaseControllerWrapper baseController = new TestBaseControllerWrapper())
             {
                 baseController.TestCalculatePageOffsets<int>(CreateList(7328), 4, 50, out int startItem, out int endItem, out int availablePages);
 
@@ -199,7 +204,7 @@ namespace AspNetCore.PluginManager.Tests.SharedPluginFeatures
         [TestMethod]
         public void CalucalatePageOffsets_List_Page147_PerPage50_7328Items()
         {
-            using (BaseControllerWrapper baseController = new BaseControllerWrapper())
+            using (TestBaseControllerWrapper baseController = new TestBaseControllerWrapper())
             {
                 baseController.TestCalculatePageOffsets<int>(CreateList(7328), 147, 50, out int startItem, out int endItem, out int availablePages);
 
@@ -208,5 +213,104 @@ namespace AspNetCore.PluginManager.Tests.SharedPluginFeatures
                 Assert.AreEqual(147, availablePages);
             }
         }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void GenerateJsonErrorResponse_InvalidParamJsonData_Null_Throws_ArgumentNullException()
+        {
+            using (TestBaseControllerWrapper baseController = new TestBaseControllerWrapper())
+            {
+                JsonResult result = baseController.TestGenerateJsonErrorResponse(400, null);
+            }
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void GenerateJsonErrorResponse_InvalidParamJsonData_EmptyString_Throws_ArgumentNullException()
+        {
+            using (TestBaseControllerWrapper baseController = new TestBaseControllerWrapper())
+            {
+                JsonResult result = baseController.TestGenerateJsonErrorResponse(400, "");
+            }
+        }
+
+        [TestMethod]
+        public void GenerateJsonErrorResponse_ValidHttpStatusCodeAndJsonData_Success()
+        {
+            using (TestBaseControllerWrapper baseController = new TestBaseControllerWrapper())
+            {
+                JsonResult result = baseController.TestGenerateJsonErrorResponse(400, "There was an error");
+
+                Assert.AreEqual(400, result.StatusCode);
+                Assert.AreEqual("application/json", result.ContentType);
+                Assert.IsNotNull(result.Value);
+                Assert.IsInstanceOfType(result.Value, typeof(JsonResponseModel));
+
+                JsonResponseModel jsonResponse = result.Value as JsonResponseModel;
+
+                Assert.AreEqual("There was an error", jsonResponse.ResponseData);
+                Assert.IsFalse(jsonResponse.Success);
+            }
+        }
+
+        [TestMethod]
+        public void GenerateJsonSuccessResponse_Valid_Success()
+        {
+            using (TestBaseControllerWrapper baseController = new TestBaseControllerWrapper())
+            {
+                JsonResult result = baseController.TestGenerateJsonSuccessResponse();
+
+                Assert.AreEqual(200, result.StatusCode);
+                Assert.AreEqual("application/json", result.ContentType);
+                Assert.IsNotNull(result.Value);
+                Assert.IsInstanceOfType(result.Value, typeof(JsonResponseModel));
+
+                JsonResponseModel jsonResponse = result.Value as JsonResponseModel;
+
+                Assert.AreEqual("", jsonResponse.ResponseData);
+                Assert.IsTrue(jsonResponse.Success);
+            }
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void GenerateJsonSuccessResponse_InvalidParam_Null_Throws_ArgumentNullException()
+        {
+            TestResponseData responseData = JsonConvert.DeserializeObject<TestResponseData>(ExpectedResponseWithData);
+
+            using (TestBaseControllerWrapper baseController = new TestBaseControllerWrapper())
+            {
+                JsonResult result = baseController.TestGenerateJsonSuccessResponse(null);
+            }
+        }
+
+        [TestMethod]
+        public void GenerateJsonSuccessResponse_WithResponseData_Success()
+        {
+            TestResponseData responseData = JsonConvert.DeserializeObject<TestResponseData>(ExpectedResponseWithData);
+
+            using (TestBaseControllerWrapper baseController = new TestBaseControllerWrapper())
+            {
+                JsonResult result = baseController.TestGenerateJsonSuccessResponse(responseData);
+
+                Assert.AreEqual(200, result.StatusCode);
+                Assert.AreEqual("application/json", result.ContentType);
+                Assert.IsNotNull(result.Value);
+                Assert.IsInstanceOfType(result.Value, typeof(JsonResponseModel));
+
+                JsonResponseModel jsonResponse = result.Value as JsonResponseModel;
+
+                Assert.AreEqual(ExpectedResponseWithData, jsonResponse.ResponseData);
+                Assert.IsTrue(jsonResponse.Success);
+            }
+        }
+    }
+
+    [ExcludeFromCodeCoverage]
+    public class TestResponseData
+    {
+        public int Number { get; set; }
+
+        public string Text { get; set; }
     }
 }

@@ -75,7 +75,7 @@ namespace UserAccount.Plugin
         }
 
         public void Configure(IApplicationBuilder app,
-#if NET_CORE_3_X ||NET_5_X
+#if NET_CORE_3_X || NET_5_X
             IWebHostEnvironment env)
 #else
             IHostingEnvironment env)

@@ -49,6 +49,7 @@ namespace AspNetCore.PluginManager.Tests
         private readonly IServiceProvider _serviceProvider;
         private readonly List<BreadcrumbItem> _breadcrumbs;
         private IDictionary<object, object> _items;
+        private ClaimsPrincipal _user;
 
         #endregion Private Members
 
@@ -227,12 +228,15 @@ namespace AspNetCore.PluginManager.Tests
         {
             get
             {
-                return new ClaimsPrincipal();
+                if (_user == null)
+                    return new ClaimsPrincipal();
+
+                return _user;
             }
 
             set
             {
-
+                _user = value;
             }
         }
 

@@ -28,6 +28,8 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
+using AspNetCore.PluginManager.Tests.Documentation;
+
 using DocumentationPlugin.Classes;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -38,7 +40,7 @@ using Shared.Docs;
 using consts = SharedPluginFeatures.Constants;
 using sl = Shared;
 
-namespace AspNetCore.PluginManager.Tests.Documentation
+namespace AspNetCore.PluginManager.Tests.Plugins.DocumentationTests
 {
     [TestClass]
     [ExcludeFromCodeCoverage]

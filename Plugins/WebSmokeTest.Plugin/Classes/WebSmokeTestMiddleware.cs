@@ -45,6 +45,8 @@ using SharedPluginFeatures;
 
 using static Shared.Utilities;
 
+using Constants = SharedPluginFeatures.Constants;
+
 #pragma warning disable CS1591
 
 namespace WebSmokeTest.Plugin
@@ -162,7 +164,7 @@ namespace WebSmokeTest.Plugin
                                 number >= 0 &&
                                 number < testItems.Count)
                             {
-                                context.Response.ContentType = "application/json";
+                                context.Response.ContentType = Constants.ContentTypeApplicationJson;
                                 byte[] testData = Encoding.UTF8.GetBytes(
                                     Encrypt(JsonConvert.SerializeObject(testItems[number]), _settings.EncryptionKey));
                                 await context.Response.Body.WriteAsync(testData, 0, testData.Length);
