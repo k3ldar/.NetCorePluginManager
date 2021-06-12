@@ -32,7 +32,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using SharedPluginFeatures;
 
-namespace AspNetCore.PluginManager.Tests.Minify
+namespace AspNetCore.PluginManager.Tests.AspNetCore.PluginManager
 {
     [TestClass]
     [ExcludeFromCodeCoverage]
