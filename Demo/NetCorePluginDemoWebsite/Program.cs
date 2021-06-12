@@ -41,6 +41,7 @@ namespace AspNetCore.PluginManager.DemoWebsite
         {
             // add plugins which need to be loaded first
             PluginManagerService.UsePlugin(typeof(ErrorManager.Plugin.PluginInitialisation));
+            PluginManagerService.UsePlugin(typeof(SystemAdmin.Plugin.PluginInitialisation));
             PluginManagerService.UsePlugin(typeof(BadEgg.Plugin.PluginInitialisation));
             PluginManagerService.UsePlugin(typeof(RestrictIp.Plugin.PluginInitialisation));
             PluginManagerService.UsePlugin(typeof(UserSessionMiddleware.Plugin.PluginInitialisation));
@@ -72,7 +73,6 @@ namespace AspNetCore.PluginManager.DemoWebsite
                 PluginManagerService.UsePlugin(typeof(HelpdeskPlugin.PluginInitialisation));
                 PluginManagerService.UsePlugin(typeof(UserAccount.Plugin.PluginInitialisation));
                 PluginManagerService.UsePlugin(typeof(Sitemap.Plugin.PluginInitialisation));
-                PluginManagerService.UsePlugin(typeof(SystemAdmin.Plugin.PluginInitialisation));
                 PluginManagerService.UsePlugin(typeof(DownloadPlugin.PluginInitialisation));
                 PluginManagerService.UsePlugin(typeof(Company.Plugin.PluginInitialisation));
                 PluginManagerService.UsePlugin(typeof(Blog.Plugin.PluginInitialisation));

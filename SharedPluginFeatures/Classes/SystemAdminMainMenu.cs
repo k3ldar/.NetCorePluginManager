@@ -37,7 +37,7 @@ namespace SharedPluginFeatures
     /// is down the host application to determine how or if they are used.
     /// </summary>
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1036:Override methods on comparable types", Justification = "Not required for how this class is being implemented.")]
-    public sealed class SystemAdminMainMenu : BaseCoreClass, IComparable<SystemAdminMainMenu>
+    public class SystemAdminMainMenu : BaseCoreClass, IComparable<SystemAdminMainMenu>
     {
         #region Constructors
 
