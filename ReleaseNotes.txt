@@ -5,6 +5,7 @@ Version 4.2.0
 #65  Subdomain attribute routing
 #129 See also references only appear on xref docs
 #132 Image Manager Plugin for uploading images and managing images
+#130 Fix cookie consent
 
 Version 4.1.0
 =============

@@ -3,40 +3,26 @@
 
 @{
     var consentFeature = Context.Features.Get<ITrackingConsentFeature>();
-    var showBanner = !consentFeature?.CanTrack ?? false;
-    var cookieString = consentFeature?.CreateConsentCookie();
+    bool showBanner = !consentFeature?.CanTrack ?? false;
 }
 
 @if (showBanner)
 {
-    <nav id="cookieConsent" class="navbar navbar-default navbar-fixed-top" role="alert">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#cookieConsent .navbar-collapse">
-                    <span class="sr-only">Toggle cookie consent banner</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <span class="navbar-brand"><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span></span>
-            </div>
-            <div class="collapse navbar-collapse">
-                <p class="navbar-text">
-                    @Localizer[nameof(Languages.LanguageStrings.CookieMessage)]
-                </p>
-                <div class="navbar-right">
-                    <a href="/Company/Cookies/" class="btn btn-info navbar-btn">@Localizer[nameof(Languages.LanguageStrings.CookieLearnMore)]</a>
-                    <button type="button" class="btn btn-default navbar-btn" data-cookie-string="@cookieString">@Localizer[nameof(Languages.LanguageStrings.CookieAccept)]</button>
-                </div>
+    <div id="cookieConsent">
+        <div class="ccOuter">
+            <div class="ccInner">
+                <p>@Localizer[nameof(Languages.LanguageStrings.CookieMessage)]. <a href="/Company/Cookies/">@Localizer[nameof(Languages.LanguageStrings.CookieLearnMore)]</a><button class="btn btn-primary" style="margin:0 0 0 20px;">@Localizer[nameof(Languages.LanguageStrings.CookieAccept)]</button></p>
             </div>
         </div>
-    </nav>
+    </div>
     <script>
-        (function () {
-            document.querySelector("#cookieConsent button[data-cookie-string]").addEventListener("click", function (el) {
-                document.cookie = el.target.dataset.cookieString;
-                document.querySelector("#cookieConsent").classList.add("hidden");
-            }, false);
-        })();
+        $(document).ready(function () {
+            if (document.cookie != "") {
+                $("#cookieConsent").click(function () {
+                    document.cookie = '@consentFeature?.CreateConsentCookie()';
+                    document.getElementById("cookieConsent").style.display = "none";
+                });
+            }
+        });
     </script>
 }

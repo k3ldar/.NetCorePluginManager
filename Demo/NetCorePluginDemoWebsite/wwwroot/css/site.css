@@ -262,3 +262,19 @@ body {
     border-radius: 25px;
     background-color: #f1f1f1;
 }
+
+.ccOuter {
+    margin: auto;
+    width: 45%;
+    padding: 5px;
+}
+
+.ccInner {
+    border: 2px solid rgb(0, 0, 0);
+    border-radius: 5px;
+    margin: 0 0 15px 0;
+    padding: 10px 10px 0 10px;
+    width: auto;
+    display: inline-block;
+    text-align: center;
+}
