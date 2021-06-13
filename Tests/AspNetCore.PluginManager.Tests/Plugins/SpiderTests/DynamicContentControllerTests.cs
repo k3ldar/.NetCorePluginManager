@@ -1939,7 +1939,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
 
             Assert.IsNotNull(sut);
 
-            Assert.AreEqual(4, sut.Templates.Count);
+            Assert.AreEqual(5, sut.Templates.Count);
         }
 
         [TestMethod]
