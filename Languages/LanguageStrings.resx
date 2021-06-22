@@ -398,7 +398,7 @@
     <comment>Oily Skin</comment>
   </data>
   <data name="Page" xml:space="preserve">
-    <value>Peage</value>
+    <value>Page</value>
     <comment>Page</comment>
   </data>
   <data name="PageNotFound" xml:space="preserve">
@@ -14169,7 +14169,7 @@ You will shortly receive an email with the details of your order.</comment>
     <value>Cookie Login</value>
     <comment>Automatic Cookie Login</comment>
   </data>
-    <data name="TemplateNameImage" xml:space="preserve">
+  <data name="TemplateNameImage" xml:space="preserve">
     <value>Image</value>
     <comment>Image</comment>
   </data>
@@ -14209,7 +14209,6 @@ You will shortly receive an email with the details of your order.</comment>
     <value>Horizontal Rule</value>
     <comment>Horizontal Rule</comment>
   </data>
-
   <data name="ImageGroups" xml:space="preserve">
     <value>Image Groups</value>
     <comment>Image Groups</comment>
@@ -14281,5 +14280,49 @@ You will shortly receive an email with the details of your order.</comment>
   <data name="YouMustEnter" xml:space="preserve">
     <value>You must enter {0}</value>
     <comment>You must enter {0}</comment>
+  </data>
+  <data name="ActiveFrom" xml:space="preserve">
+    <value>Date active from</value>
+    <comment>Date active from</comment>
+  </data>
+  <data name="ActiveTo" xml:space="preserve">
+    <value>Date active to</value>
+    <comment>Date active to</comment>
+  </data>
+  <data name="PageName" xml:space="preserve">
+    <value>Name of page</value>
+    <comment>Name of page</comment>
+  </data>
+  <data name="PleaseEnterNameOfPage" xml:space="preserve">
+    <value>Please enter the name of the page</value>
+    <comment>Please enter the name of the page</comment>
+  </data>
+  <data name="RouteName" xml:space="preserve">
+    <value>Name of route</value>
+    <comment>Name of route</comment>
+  </data>
+  <data name="Controls" xml:space="preserve">
+    <value>Controls</value>
+    <comment>Controls</comment>
+  </data>
+  <data name="FailedToSavePage" xml:space="preserve">
+    <value>Failed to save page</value>
+    <comment>Failed to save page</comment>
+  </data>
+  <data name="NameAlreadyExists" xml:space="preserve">
+    <value>Name already exists</value>
+    <comment>Name already exists</comment>
+  </data>
+  <data name="RouteNameAlreadyExists" xml:space="preserve">
+    <value>Route name already exists</value>
+    <comment>Route name already exists</comment>
+  </data>
+  <data name="TemplateNameYouTube" xml:space="preserve">
+    <value>YouTube Video</value>
+    <comment>YouTube Video</comment>
+  </data>
+  <data name="WaitLoading" xml:space="preserve">
+    <value>Loading...</value>
+    <comment>Loading...</comment>
   </data>
 </root>

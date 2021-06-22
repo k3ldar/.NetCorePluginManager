@@ -15,31 +15,42 @@
  *
  *  Product:  DynamicContent.Plugin
  *  
- *  File: DynamicContentController.cs
+ *  File: YouTubeTemplateEditorModel.cs
  *
- *  Purpose:  Dynamic Content Controller
+ *  Purpose: YouTube template editor model
  *
  *  Date        Name                Reason
- *  22/11/2020  Simon Carter        Initially Created
+ *  21/06/2021  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-using System.Web;
-using DynamicContent.Plugin.Model;
-
-using Microsoft.AspNetCore.Mvc;
+using System;
 
 using SharedPluginFeatures;
 
-namespace DynamicContent.Plugin.Controllers
+namespace DynamicContent.Plugin.Model
 {
-    public partial class DynamicContentController
+    public sealed class YouTubeTemplateEditorModel
     {
-        [HttpGet]
-        [AjaxOnly]
-        public IActionResult TextTemplateEditor(string data)
+        public YouTubeTemplateEditorModel(string data)
         {
-            return PartialView("/Views/DynamicContent/_TextTemplateEditor.cshtml", new TextTemplateEditorModel(HttpUtility.HtmlDecode(data)));
+            if (String.IsNullOrEmpty(data))
+                data = Constants.PipeString;
+
+            string[] parts = data.Split(Constants.PipeChar, StringSplitOptions.None);
+
+            if (parts.Length > 0)
+                VideoId = parts[0];
+
+            if (parts.Length > 1)
+                AutoPlay = parts[1].Equals(Boolean.TrueString, StringComparison.InvariantCultureIgnoreCase);
+
+            Data = data;
         }
+
+        public string VideoId { get; }
+
+        public bool AutoPlay { get; }
+
+        public string Data { get; set; }
     }
 }

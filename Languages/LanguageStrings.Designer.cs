@@ -196,11 +196,29 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Date active from.
+        /// </summary>
+        public static string ActiveFrom {
+            get {
+                return ResourceManager.GetString("ActiveFrom", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Active Page Views.
         /// </summary>
         public static string ActivePageViews {
             get {
                 return ResourceManager.GetString("ActivePageViews", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Date active to.
+        /// </summary>
+        public static string ActiveTo {
+            get {
+                return ResourceManager.GetString("ActiveTo", resourceCulture);
             }
         }
         
@@ -21936,6 +21954,15 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Controls.
+        /// </summary>
+        public static string Controls {
+            get {
+                return ResourceManager.GetString("Controls", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Conversion Rate.
         /// </summary>
         public static string ConversionRate {
@@ -23290,6 +23317,15 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Failed to save page.
+        /// </summary>
+        public static string FailedToSavePage {
+            get {
+                return ResourceManager.GetString("FailedToSavePage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Failed to update user account.
         /// </summary>
         public static string FailedToUpdateAccount {
@@ -24054,6 +24090,7 @@ namespace Languages {
                 return ResourceManager.GetString("InvalidFileType", resourceCulture);
             }
         }
+        
         /// <summary>
         ///   Looks up a localized string similar to Height must be between {0} and {1}.
         /// </summary>
@@ -25776,6 +25813,15 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Name already exists.
+        /// </summary>
+        public static string NameAlreadyExists {
+            get {
+                return ResourceManager.GetString("NameAlreadyExists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Name on Card.
         /// </summary>
         public static string NameOnCard {
@@ -26433,11 +26479,20 @@ namespace Languages {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Peage.
+        ///   Looks up a localized string similar to Page.
         /// </summary>
         public static string Page {
             get {
                 return ResourceManager.GetString("Page", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Name of page.
+        /// </summary>
+        public static string PageName {
+            get {
+                return ResourceManager.GetString("PageName", resourceCulture);
             }
         }
         
@@ -26969,6 +27024,15 @@ namespace Languages {
         public static string PleaseEnterFirstLastName {
             get {
                 return ResourceManager.GetString("PleaseEnterFirstLastName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please enter the name of the page.
+        /// </summary>
+        public static string PleaseEnterNameOfPage {
+            get {
+                return ResourceManager.GetString("PleaseEnterNameOfPage", resourceCulture);
             }
         }
         
@@ -27807,6 +27871,24 @@ namespace Languages {
         public static string RoleName {
             get {
                 return ResourceManager.GetString("RoleName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Name of route.
+        /// </summary>
+        public static string RouteName {
+            get {
+                return ResourceManager.GetString("RouteName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Route name already exists.
+        /// </summary>
+        public static string RouteNameAlreadyExists {
+            get {
+                return ResourceManager.GetString("RouteNameAlreadyExists", resourceCulture);
             }
         }
         
@@ -29512,6 +29594,15 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to YouTube Video.
+        /// </summary>
+        public static string TemplateNameYouTube {
+            get {
+                return ResourceManager.GetString("TemplateNameYouTube", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Terms &amp; Conditions.
         /// </summary>
         public static string Terms {
@@ -30608,6 +30699,15 @@ namespace Languages {
         public static string Vouchers {
             get {
                 return ResourceManager.GetString("Vouchers", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Loading....
+        /// </summary>
+        public static string WaitLoading {
+            get {
+                return ResourceManager.GetString("WaitLoading", resourceCulture);
             }
         }
         

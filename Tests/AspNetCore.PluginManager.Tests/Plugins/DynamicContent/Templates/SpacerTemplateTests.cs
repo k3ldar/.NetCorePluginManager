@@ -226,6 +226,19 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
 
         [TestMethod]
         [TestCategory(TestCategoryName)]
+        public void EditorContent_WidthTypeColumn_Valid()
+        {
+            SpacerTemplate sut = new SpacerTemplate();
+            sut.WidthType = DynamicContentWidthType.Columns;
+            sut.Width = 8;
+
+            string content = sut.EditorContent();
+
+            Assert.AreEqual("<div class=\"col-sm-12\" style=\"height:200px !important;\"><p>&nbsp;</p></div>", content);
+        }
+
+        [TestMethod]
+        [TestCategory(TestCategoryName)]
         public void Content_WidthTypePercentage_Valid()
         {
             SpacerTemplate sut = new SpacerTemplate();

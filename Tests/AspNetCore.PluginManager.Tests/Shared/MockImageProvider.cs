@@ -165,5 +165,45 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests.Mocks
         public Dictionary<string, byte[]> FilesAdded => _filesAdded;
 
         public bool CanDeleteImages { get; set; }
+
+
+        public static MockImageProvider CreateDefaultMockImageProvider()
+        {
+            Dictionary<string, List<string>> groups = new Dictionary<string, List<string>>()
+            {
+                { "Group 1", new List<string>() },
+                { "Group 2", new List<string>() }
+            };
+
+            groups["Group 1"].Add("Group 1 Subgroup 1");
+            groups["Group 1"].Add("Group 1 Subgroup 2");
+
+            List<ImageFile> images = new List<ImageFile>()
+            {
+                { new ImageFile(new Uri("/", UriKind.RelativeOrAbsolute), "myfile.gif", ".gif", 23, DateTime.Now, DateTime.Now) }
+            };
+
+            return new MockImageProvider(groups, images);
+        }
+
+        public static MockImageProvider CreateDefaultMockImageProviderWithSubgroupAndImage()
+        {
+            Dictionary<string, List<string>> groups = new Dictionary<string, List<string>>()
+            {
+                { "Products", new List<string>() },
+                { "General", new List<string>() }
+            };
+
+            groups["Products"].Add("C230");
+            groups["Products"].Add("C330");
+
+            List<ImageFile> images = new List<ImageFile>()
+            {
+                { new ImageFile(new Uri("/", UriKind.RelativeOrAbsolute), "myfile.gif", ".gif", 23, DateTime.Now, DateTime.Now) }
+            };
+
+            return new MockImageProvider(groups, images);
+        }
+
     }
 }

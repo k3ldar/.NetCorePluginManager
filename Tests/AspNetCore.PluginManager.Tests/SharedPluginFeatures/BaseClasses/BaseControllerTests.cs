@@ -32,6 +32,8 @@ using System.Threading;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using PluginManager.Abstractions;
@@ -226,6 +228,23 @@ namespace AspNetCore.PluginManager.Tests.Controllers
             Assert.IsInstanceOfType(viewResult.Model, typeof(BaseModel));
         }
 
+        protected bool ViewResultContainsModelStateError(ViewResult viewResult, string name, string value)
+        {
+            if (viewResult == null)
+                throw new ArgumentNullException(nameof(viewResult));
+
+            if (name == null)
+                throw new ArgumentException(nameof(name));
+
+            if (String.IsNullOrEmpty(value))
+                throw new ArgumentNullException(nameof(value));
+
+            if (!viewResult.ViewData.ModelState.ContainsKey(name))
+                return false;
+
+            return viewResult.ViewData.ModelState[name].Errors.Where(e => e.ErrorMessage.Equals(value)).Any();
+        }
+
         protected BaseModelData GenerateTestBaseModelData()
         {
             BaseModelData Result = new BaseModelData(new List<BreadcrumbItem>(),
@@ -343,7 +362,6 @@ namespace AspNetCore.PluginManager.Tests.Controllers
             }
 
             Assert.IsNotNull(_pluginServicesImageManager);
-
         }
     }
 }

@@ -105,15 +105,18 @@
     <Content Remove="Views\DynamicContent\EditPage.cshtml" />
     <Content Remove="Views\DynamicContent\Index.cshtml" />
     <Content Remove="Views\DynamicContent\_DeleteControl.cshtml" />
+    <Content Remove="Views\DynamicContent\_ImageTemplateEditor.cshtml" />
     <Content Remove="Views\DynamicContent\_TemplateEditor.cshtml" />
     <Content Remove="Views\DynamicContent\_Templates.cshtml" />
     <Content Remove="Views\DynamicContent\_TextTemplateEditor.cshtml" />
+    <Content Remove="Views\DynamicContent\_YouTubeTemplateEditor.cshtml" />
     <Content Remove="Views\Shared\_DynamicContentView.cshtml" />
     <Content Remove="wwwroot\css\DynamicContent.css" />
     <Content Remove="wwwroot\images\DynamicContent\Templates\Horizontal-Rule.png" />
     <Content Remove="wwwroot\images\DynamicContent\Templates\html-content.png" />
-    <Content Remove="wwwroot\images\DynamicContent\Templates\picture.png" />
+    <Content Remove="wwwroot\images\DynamicContent\Templates\Image.png" />
     <Content Remove="wwwroot\images\DynamicContent\Templates\spacer.png" />
+    <Content Remove="wwwroot\images\DynamicContent\Templates\youtube-video.png" />
     <Content Remove="wwwroot\js\dynamicContent.js" />
   </ItemGroup>
 
@@ -121,16 +124,19 @@
     <EmbeddedResource Include="Views\DynamicContent\CustomPages.cshtml" />
     <EmbeddedResource Include="Views\DynamicContent\EditPage.cshtml" />
     <EmbeddedResource Include="Views\DynamicContent\_DeleteControl.cshtml" />
+    <EmbeddedResource Include="Views\DynamicContent\_ImageTemplateEditor.cshtml" />
     <EmbeddedResource Include="Views\DynamicContent\_TemplateEditor.cshtml" />
     <EmbeddedResource Include="Views\DynamicContent\_Templates.cshtml" />
     <EmbeddedResource Include="Views\DynamicContent\_TextTemplateEditor.cshtml" />
+    <EmbeddedResource Include="Views\DynamicContent\_YouTubeTemplateEditor.cshtml" />
     <EmbeddedResource Include="Views\Shared\_DynamicContentView.cshtml" />
     <EmbeddedResource Include="Views\DynamicContent\Index.cshtml" />
     <EmbeddedResource Include="wwwroot\css\DynamicContent.css" />
     <EmbeddedResource Include="wwwroot\images\DynamicContent\Templates\Horizontal-Rule.png" />
     <EmbeddedResource Include="wwwroot\images\DynamicContent\Templates\html-content.png" />
-    <EmbeddedResource Include="wwwroot\images\DynamicContent\Templates\picture.png" />
+    <EmbeddedResource Include="wwwroot\images\DynamicContent\Templates\Image.png" />
     <EmbeddedResource Include="wwwroot\images\DynamicContent\Templates\spacer.png" />
+    <EmbeddedResource Include="wwwroot\images\DynamicContent\Templates\youtube-video.png" />
     <EmbeddedResource Include="wwwroot\js\dynamicContent.js" />
   </ItemGroup>
 

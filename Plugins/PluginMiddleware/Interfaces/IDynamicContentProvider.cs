@@ -48,7 +48,13 @@ namespace Middleware.DynamicContent
         /// Retrieves a list of custom pages
         /// </summary>
         /// <returns>List&lt;DynamicContentTemplate&gt;</returns>
-        List<LookupListItem> GetActiveCustomPages();
+        List<LookupListItem> GetCustomPageList();
+
+        /// <summary>
+        /// Retrieves all custom pages
+        /// </summary>
+        /// <returns>List&lt;IDynamicContentPage&gt;</returns>
+        List<IDynamicContentPage> GetCustomPages();
 
         /// <summary>
         /// Retrieves dynamic page content by id
@@ -62,5 +68,28 @@ namespace Middleware.DynamicContent
         /// </summary>
         /// <returns>List&lt;DynamicContentTemplate&gt;</returns>
         List<DynamicContentTemplate> Templates();
+
+        /// <summary>
+        /// Determines whether the page name already exists
+        /// </summary>
+        /// <param name="id">Id of current page</param>
+        /// <param name="pageName">Name of page to be validated.</param>
+        /// <returns>bool</returns>
+        bool PageNameExists(int id, string pageName);
+
+        /// <summary>
+        /// Determines whether a route name already exists
+        /// </summary>
+        /// <param name="id">Id of current page</param>
+        /// <param name="routeName">Name of route to be validated.</param>
+        /// <returns></returns>
+        bool RouteNameExists(int id, string routeName);
+
+        /// <summary>
+        /// Saves the dynamic content page
+        /// </summary>
+        /// <param name="dynamicContentPage">Dynamic content page to be saved</param>
+        /// <returns>bool</returns>
+        bool Save(IDynamicContentPage dynamicContentPage);
     }
 }

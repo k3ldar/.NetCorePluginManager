@@ -24,6 +24,7 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+using System;
 using System.Collections.Generic;
 
 using SharedPluginFeatures.DynamicContent;
@@ -38,16 +39,37 @@ namespace Middleware
         /// <summary>
         /// Unique page id
         /// </summary>
+        /// <value>int</value>
         int Id { get; set; }
 
         /// <summary>
         /// Name of dynamic page
         /// </summary>
+        /// <value>string</value>
         string Name { get; set; }
+
+        /// <summary>
+        /// Date and time the page becomes active
+        /// </summary>
+        /// <value>DateTime</value>
+        DateTime ActiveFrom { get; set; }
+
+        /// <summary>
+        /// Date and time the page expires
+        /// </summary>
+        /// <value>DateTime</value>
+        DateTime ActiveTo { get; set; }
+
+        /// <summary>
+        /// Route name that will form part of the Uri
+        /// </summary>
+        /// <value>string</value>
+        string RouteName { get; set; }
 
         /// <summary>
         /// Dynamic content that will be displayed within the page
         /// </summary>
+        /// <value>List&lt;DynamicContentTemplate&gt;</value>
         List<DynamicContentTemplate> Content { get; }
     }
 }

@@ -159,7 +159,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         {
             ImageTemplate sut = new ImageTemplate();
 
-            Assert.AreEqual(2, sut.Width);
+            Assert.AreEqual(3, sut.Width);
         }
 
         [TestMethod]
@@ -221,7 +221,35 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
 
             string content = sut.Content();
 
-            Assert.AreEqual("<div class=\"col-sm-8\" style=\"height:200px !important;\"></div>", content);
+            Assert.AreEqual("<div class=\"col-sm-8\" style=\"height:200px !important;\"><p>Please select an image</p></div>", content);
+        }
+
+        [TestMethod]
+        [TestCategory(TestCategoryName)]
+        public void EditorContent_WidthTypeColumn_WithData_Valid()
+        {
+            ImageTemplate sut = new ImageTemplate();
+            sut.WidthType = DynamicContentWidthType.Columns;
+            sut.Width = 8;
+            sut.Data = "/images/test.gif";
+
+            string content = sut.EditorContent();
+
+            Assert.AreEqual("<div class=\"col-sm-12\" style=\"height:200px !important;\"><img src=\"/images/test.gif\" alt=\"image\" style=\"max-height:100%;width:100%;\"></div>", content);
+        }
+
+        [TestMethod]
+        [TestCategory(TestCategoryName)]
+        public void Content_WidthTypeColumn_WithData_Valid()
+        {
+            ImageTemplate sut = new ImageTemplate();
+            sut.WidthType = DynamicContentWidthType.Columns;
+            sut.Width = 8;
+            sut.Data = "/images/test.gif";
+
+            string content = sut.Content();
+
+            Assert.AreEqual("<div class=\"col-sm-8\" style=\"height:200px !important;\"><img src=\"/images/test.gif\" alt=\"image\" style=\"max-height:100%;\"></div>", content);
         }
 
         [TestMethod]
@@ -232,9 +260,9 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
             sut.WidthType = DynamicContentWidthType.Percentage;
             sut.Width = 40;
 
-            string content = sut.Content();
+            string content = sut.EditorContent();
 
-            Assert.AreEqual("<div style=\"width:40% !important;height:200px !important;display:block;\"></div>", content);
+            Assert.AreEqual("<div style=\"width:40% !important;height:200px !important;display:block;\"><p>Please select an image</p></div>", content);
         }
 
         [TestMethod]
@@ -246,7 +274,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
             sut.Width = 538;
             string content = sut.Content();
 
-            Assert.AreEqual("<div style=\"width:538px !important;height:200px !important;display:block;\"></div>", content);
+            Assert.AreEqual("<div style=\"width:538px !important;height:200px !important;display:block;\"><p>Please select an image</p></div>", content);
         }
 
         [TestMethod]

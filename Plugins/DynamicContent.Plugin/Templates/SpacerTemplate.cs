@@ -49,7 +49,7 @@ namespace DynamicContent.Plugin.Templates
 
         #endregion Constructors
 
-        #region Properties
+        #region DynamicContentTemplate Properties
 
         public override String AssemblyQualifiedName => typeof(SpacerTemplate).AssemblyQualifiedName;
 
@@ -74,8 +74,8 @@ namespace DynamicContent.Plugin.Templates
                 return String.Empty;
             }
 
-            set 
-            { 
+            set
+            {
             }
         }
 
@@ -83,21 +83,18 @@ namespace DynamicContent.Plugin.Templates
 
         public override DateTime ActiveTo { get; set; }
 
-        #endregion Properties
+        #endregion DynamicContentTemplate Properties
 
-        #region Methods
+        #region DynamicContentTemplate Methods
 
         public override String Content()
         {
-            StringBuilder Result = new StringBuilder(1024);
+            return GenerateContent(false);
+        }
 
-            HtmlStart(Result);
-
-            Result.Append("<p>&nbsp;</p>");
-
-            HtmlEnd(Result);
-
-            return Result.ToString();
+        public override string EditorContent()
+        {
+            return GenerateContent(true);
         }
 
         public override DynamicContentTemplate Clone(string uniqueId)
@@ -111,6 +108,23 @@ namespace DynamicContent.Plugin.Templates
             };
         }
 
-        #endregion Methods
+        #endregion DynamicContentTemplate Methods
+
+        #region Private Methods
+
+        private string GenerateContent(bool isEditing)
+        {
+            StringBuilder Result = new StringBuilder(1024);
+
+            HtmlStart(Result, isEditing);
+
+            Result.Append("<p>&nbsp;</p>");
+
+            HtmlEnd(Result);
+
+            return Result.ToString();
+        }
+
+        #endregion Private Methods
     }
 }

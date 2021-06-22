@@ -11,16 +11,16 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2021 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  DynamicContent.Plugin
  *  
- *  File: HorizontalRuleTemplate.cs
+ *  File: YoutubeVideo.cs
  *
- *  Purpose:  Html hr template for dynamic pages
+ *  Purpose:  Template for YouTube videos
  *
  *  Date        Name                Reason
- *  08/04/2021  Simon Carter        Initially Created
+ *  19/06/2021  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
@@ -33,70 +33,70 @@ using SharedPluginFeatures.DynamicContent;
 
 namespace DynamicContent.Plugin.Templates
 {
-    public class HorizontalRuleTemplate : DynamicContentTemplate
+    public class YouTubeVideoTemplate : DynamicContentTemplate
     {
+        #region Private Members
+
+        private string _youTubeId;
+        private bool _autoPlay;
+
+        #endregion Private Members
+
         #region Constructors
 
-        public HorizontalRuleTemplate()
+        public YouTubeVideoTemplate()
         {
-            WidthType = DynamicContentWidthType.Columns;
             Width = 12;
+            WidthType = DynamicContentWidthType.Columns;
+            Height = 450;
+            HeightType = DynamicContentHeightType.Pixels;
             ActiveFrom = DateTime.MinValue;
             ActiveTo = DateTime.MaxValue;
+            _autoPlay = true;
         }
 
         #endregion Constructors
 
         #region DynamicContentTemplate Properties
 
-        public override string AssemblyQualifiedName => typeof(HorizontalRuleTemplate).AssemblyQualifiedName;
+        public override String AssemblyQualifiedName => typeof(YouTubeVideoTemplate).AssemblyQualifiedName;
 
-        public override string EditorAction => String.Empty;
+        public override String EditorAction
+        {
+            get
+            {
+                return $"/{Controllers.DynamicContentController.Name}/{nameof(Controllers.DynamicContentController.YouTubeTemplateEditor)}/";
+            }
+        }
 
-        public override string Name => LanguageStrings.TemplateNameHorizontalRule;
+        public override String Name => LanguageStrings.TemplateNameYouTube;
 
         public override Int32 SortOrder { get; set; }
 
-        public override DynamicContentHeightType HeightType
-        {
-            get
-            {
-                return DynamicContentHeightType.Automatic;
-            }
-
-            set
-            {
-
-            }
-        }
-
-        public override int Height
-        {
-            get
-            {
-                return -1;
-            }
-
-            set
-            {
-
-            }
-        }
-
         public override DynamicContentWidthType WidthType { get; set; }
 
-        public override int Width { get; set; }
+        public override Int32 Width { get; set; }
 
-        public override string Data
+        public override DynamicContentHeightType HeightType { get; set; }
+
+        public override Int32 Height { get; set; }
+
+        public override String Data
         {
             get
             {
-                return "<hr />";
+                return $"{_youTubeId}|{_autoPlay}";
             }
 
             set
             {
+                string[] parts = value.Split('|', StringSplitOptions.RemoveEmptyEntries);
 
+                if (parts.Length > 0)
+                    _youTubeId = parts[0];
+
+                if (parts.Length > 1)
+                    _autoPlay = parts[1].Equals(Boolean.TrueString, StringComparison.InvariantCultureIgnoreCase);
             }
         }
 
@@ -123,7 +123,7 @@ namespace DynamicContent.Plugin.Templates
             if (String.IsNullOrEmpty(uniqueId))
                 uniqueId = Guid.NewGuid().ToString();
 
-            return new HorizontalRuleTemplate()
+            return new YouTubeVideoTemplate()
             {
                 UniqueId = uniqueId
             };
@@ -135,11 +135,32 @@ namespace DynamicContent.Plugin.Templates
 
         private string GenerateContent(bool isEditing)
         {
-            StringBuilder Result = new StringBuilder(256);
+            StringBuilder Result = new StringBuilder(1024);
 
             HtmlStart(Result, isEditing);
 
-            Result.Append(Data);
+            if (String.IsNullOrEmpty(_youTubeId))
+            {
+                Result.Append("<p>Please enter a valid video Id</p>");
+            }
+            else
+            {
+                Result.Append("<iframe type=\"text/html\" width=\"100%\" height=\"100%\" src=\"https://www.youtube.com/embed/");
+
+                Result.Append(_youTubeId);
+
+                if (_autoPlay)
+                    Result.Append("?autoplay=1\"");
+                else
+                    Result.Append("\"");
+
+                Result.Append(" frameborder=\"0\"");
+
+                if (_autoPlay)
+                    Result.Append(" allow=\"autoplay\"");
+
+                Result.Append("></iframe>");
+            }
 
             HtmlEnd(Result);
 

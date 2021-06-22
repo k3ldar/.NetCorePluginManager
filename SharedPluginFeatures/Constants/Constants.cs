@@ -138,6 +138,16 @@ namespace SharedPluginFeatures
         public const char ForwardSlashChar = '/';
 
         /// <summary>
+        /// Pipe character (|) char constant
+        /// </summary>
+        public const char PipeChar = '|';
+
+        /// <summary>
+        /// Pipe character (|) string constant
+        /// </summary>
+        public const string PipeString = "|";
+
+        /// <summary>
         /// Asterix (*) char
         /// </summary>
         public const char Asterix = '*';
@@ -371,7 +381,7 @@ namespace SharedPluginFeatures
         /// Name of policy for managing images within image manager
         /// </summary>
         public const string PolicyNameImageManagerManage = "ImageManagerManage";
-/// <summary>
+        /// <summary>
         /// User can edit dynamic content
         /// </summary>
         public const string PolicyNameContentEditor = "ContentEditor";

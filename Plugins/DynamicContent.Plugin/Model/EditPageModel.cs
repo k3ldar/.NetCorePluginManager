@@ -25,6 +25,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 using SharedPluginFeatures;
 using SharedPluginFeatures.DynamicContent;
@@ -40,8 +41,9 @@ namespace DynamicContent.Plugin.Model
             DynamicContents = new List<DynamicContentTemplate>();
         }
 
-        public EditPageModel(in BaseModelData modelData, string cacheId, int id, 
-            string name, List<DynamicContentTemplate> dynamicContents)
+        public EditPageModel(in BaseModelData modelData, string cacheId, int id,
+            string name, string routeName, DateTime activeFrom, DateTime activeTo,
+            List<DynamicContentTemplate> dynamicContents)
             : base(modelData)
         {
             if (String.IsNullOrEmpty(name))
@@ -54,17 +56,35 @@ namespace DynamicContent.Plugin.Model
             CacheId = cacheId;
             Id = id;
             Name = name;
+            RouteName = routeName;
+
+            if (String.IsNullOrEmpty(RouteName) && !String.IsNullOrEmpty(Name))
+                RouteName = RouteFriendlyName(Name);
+
+            ActiveFrom = activeFrom;
+            ActiveTo = activeTo;
         }
 
         #endregion Constructors
 
         #region Properties
 
-        public string CacheId { get; }
+        public string CacheId { get; set; }
 
-        public int Id { get; }
+        public int Id { get; set; }
 
-        public string Name { get; }
+        [Required(ErrorMessage = nameof(Languages.LanguageStrings.PleaseEnterNameOfPage))]
+        [Display(Name = nameof(Languages.LanguageStrings.PageName))]
+        public string Name { get; set; }
+
+        [Display(Name = nameof(Languages.LanguageStrings.RouteName))]
+        public string RouteName { get; set; }
+
+        [Display(Name = nameof(Languages.LanguageStrings.ActiveFrom))]
+        public DateTime ActiveFrom { get; set; }
+
+        [Display(Name = nameof(Languages.LanguageStrings.ActiveTo))]
+        public DateTime ActiveTo { get; set; }
 
         public List<DynamicContentTemplate> DynamicContents { get; }
 

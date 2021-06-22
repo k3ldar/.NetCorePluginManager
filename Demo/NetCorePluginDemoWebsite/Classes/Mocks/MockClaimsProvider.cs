@@ -73,6 +73,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
             List<ClaimsIdentity> Result = new List<ClaimsIdentity>();
 
             List<Claim> userClaims = new List<Claim>();
+            userClaims.Add(new Claim("sub", "123"));
             userClaims.Add(new Claim(Constants.ClaimNameUsername, "Administrator"));
             userClaims.Add(new Claim(Constants.ClaimNameUserEmail, "admin@nowhere.com"));
             userClaims.Add(new Claim(Constants.ClaimNameUserId, "123"));
@@ -94,7 +95,6 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
             }
 
             Result.Add(new ClaimsIdentity(webClaims, Constants.ClaimIdentityWebsite));
-
 
             return Result;
         }

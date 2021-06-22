@@ -26,11 +26,15 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 
 using DynamicContent.Plugin.Templates;
+
 using Middleware;
 using Middleware.DynamicContent;
+
 using PluginManager.Abstractions;
+
 using SharedPluginFeatures.DynamicContent;
 
 namespace AspNetCore.PluginManager.DemoWebsite.Classes.Mocks
@@ -42,6 +46,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes.Mocks
 
         private readonly IPluginClassesService _pluginClassesService;
         private static List<DynamicContentTemplate> _templates;
+        private readonly List<IDynamicContentPage> _dynamicContent;
         private IDynamicContentPage _dynamicContentPage1;
         private IDynamicContentPage _dynamicContentPage2;
         private IDynamicContentPage _dynamicContentPage3;
@@ -54,9 +59,26 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes.Mocks
         public MockDynamicContentProvider(IPluginClassesService pluginClassesService)
         {
             _pluginClassesService = pluginClassesService ?? throw new ArgumentNullException(nameof(pluginClassesService));
+            _dynamicContent = new List<IDynamicContentPage>();
+            UseDefaultContent = true;
+            AllowSavePage = true;
         }
 
         #endregion Constructors
+
+        public bool UseDefaultContent { get; set; }
+
+        public bool AllowSavePage { get; set; }
+
+        public void AddPage(IDynamicContentPage dynamicContentPage)
+        {
+            _dynamicContent.Add(dynamicContentPage ?? throw new ArgumentNullException(nameof(dynamicContentPage)));
+        }
+
+        public void ClearAllPages()
+        {
+            _dynamicContent.Clear();
+        }
 
         #region IDynamicContentProvider Members
 
@@ -65,36 +87,59 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes.Mocks
             throw new NotImplementedException();
         }
 
-        public List<LookupListItem> GetActiveCustomPages()
+        public List<LookupListItem> GetCustomPageList()
         {
             List<LookupListItem> Result = new List<LookupListItem>();
 
-            Result.Add(new LookupListItem(GetPage1().Id, GetPage1().Name));
-            Result.Add(new LookupListItem(GetPage2().Id, GetPage2().Name));
-            Result.Add(new LookupListItem(GetPage3().Id, GetPage3().Name));
-            Result.Add(new LookupListItem(GetPage10().Id, GetPage10().Name));
+            if (UseDefaultContent)
+            {
+                Result.Add(new LookupListItem(GetPage1().Id, GetPage1().Name));
+                Result.Add(new LookupListItem(GetPage2().Id, GetPage2().Name));
+                Result.Add(new LookupListItem(GetPage3().Id, GetPage3().Name));
+                Result.Add(new LookupListItem(GetPage10().Id, GetPage10().Name));
+            }
+
+
+            _dynamicContent.ForEach(dc => Result.Add(new LookupListItem(dc.Id, dc.Name)));
+
+            return Result;
+        }
+
+        public List<IDynamicContentPage> GetCustomPages()
+        {
+            List<IDynamicContentPage> Result = new List<IDynamicContentPage>();
+
+            if (UseDefaultContent)
+            {
+                Result.Add(GetPage1());
+                Result.Add(GetPage2());
+                Result.Add(GetPage3());
+                Result.Add(GetPage10());
+            }
+
+            _dynamicContent.ForEach(dc => Result.Add(dc));
 
             return Result;
         }
 
         public IDynamicContentPage GetCustomPage(int id)
         {
-            if (id == 1)
+            if (UseDefaultContent && id == 1)
             {
                 return GetPage1();
             }
 
-            if (id == 2)
+            if (UseDefaultContent && id == 2)
             {
                 return GetPage2();
             }
 
-            if (id == 3)
+            if (UseDefaultContent && id == 3)
             {
                 return GetPage3();
             }
 
-            if (id == 10)
+            if (UseDefaultContent && id == 10)
             {
                 return GetPage10();
             }
@@ -110,6 +155,21 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes.Mocks
             _templates = _pluginClassesService.GetPluginClasses<DynamicContentTemplate>();
 
             return _templates;
+        }
+
+        public bool PageNameExists(int id, string pageName)
+        {
+            return GetCustomPages().Where(p => p.Id != id && p.Name.Equals(pageName, StringComparison.InvariantCultureIgnoreCase)).Any();
+        }
+
+        public bool RouteNameExists(int id, string routeName)
+        {
+            return GetCustomPages().Where(p => p.Id != id && p.RouteName.Equals(routeName, StringComparison.InvariantCultureIgnoreCase)).Any();
+        }
+
+        public bool Save(IDynamicContentPage dynamicContentPage)
+        {
+            return AllowSavePage;
         }
 
         #endregion IDynamicContentProvider Members
@@ -203,7 +263,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes.Mocks
                 _dynamicContentPage3.Content.Add(htmlLayout1);
 
                 SpacerTemplate spacerTemplate1 = new SpacerTemplate()
-                { 
+                {
                     SortOrder = 1,
                     Width = 8
                 };

@@ -404,42 +404,42 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         [ExpectedException(typeof(ArgumentNullException))]
         public void EditPageModel_Construct_InvalidBaseModelDataParam_Null_Throws_ArgumentNullException()
         {
-            new EditPageModel(null, "cache id", 1, "name", new List<DynamicContentTemplate>());
+            new EditPageModel(null, "cache id", 1, "name", "name", DateTime.MinValue, DateTime.MaxValue, new List<DynamicContentTemplate>());
         }
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
         public void EditPageModel_Construct_InvalidCacheIdParam_Null_Throws_ArgumentNullException()
         {
-            new EditPageModel(GenerateTestBaseModelData(), null, 1, "name", new List<DynamicContentTemplate>());
+            new EditPageModel(GenerateTestBaseModelData(), null, 1, "name", "name", DateTime.MinValue, DateTime.MaxValue, new List<DynamicContentTemplate>());
         }
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
         public void EditPageModel_Construct_InvalidCacheIdParam_EmptyString_Throws_ArgumentNullException()
         {
-            new EditPageModel(GenerateTestBaseModelData(), "", 1, "name", new List<DynamicContentTemplate>());
+            new EditPageModel(GenerateTestBaseModelData(), "", 1, "name", "name", DateTime.MinValue, DateTime.MaxValue, new List<DynamicContentTemplate>());
         }
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
         public void EditPageModel_Construct_InvalidNameParam_Null_Throws_ArgumentNullException()
         {
-            new EditPageModel(GenerateTestBaseModelData(), "cache id", 1, null, new List<DynamicContentTemplate>());
+            new EditPageModel(GenerateTestBaseModelData(), "cache id", 1, null, "name", DateTime.MinValue, DateTime.MaxValue, new List<DynamicContentTemplate>());
         }
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
         public void EditPageModel_Construct_InvalidNameParam_EmptyString_Throws_ArgumentNullException()
         {
-            new EditPageModel(GenerateTestBaseModelData(), "cache id", 1, "", new List<DynamicContentTemplate>());
+            new EditPageModel(GenerateTestBaseModelData(), "cache id", 1, "", "name", DateTime.MinValue, DateTime.MaxValue, new List<DynamicContentTemplate>());
         }
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
         public void EditPageModel_Construct_InvalidDynamicContentsParam_Null_Throws_ArgumentNullException()
         {
-            new EditPageModel(GenerateTestBaseModelData(), "cache id", 1, "name", null);
+            new EditPageModel(GenerateTestBaseModelData(), "cache id", 1, "name", "name", DateTime.MinValue, DateTime.MaxValue, null);
         }
 
         [TestMethod]
@@ -448,13 +448,16 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
             List<DynamicContentTemplate> dynamicContents = new List<DynamicContentTemplate>();
             dynamicContents.Add(new TestDynamicTemplate());
 
-            EditPageModel sut = new EditPageModel(GenerateTestBaseModelData(), "cache id", 123, "the name", dynamicContents);
+            EditPageModel sut = new EditPageModel(GenerateTestBaseModelData(), "cache id", 123, "the name", "name", DateTime.MinValue, DateTime.MaxValue, dynamicContents);
             Assert.IsNotNull(sut);
             Assert.IsNotNull(sut.DynamicContents);
             Assert.AreEqual(1, sut.DynamicContents.Count);
             Assert.AreEqual("cache id", sut.CacheId);
             Assert.AreEqual("the name", sut.Name);
             Assert.AreEqual(123, sut.Id);
+            Assert.AreEqual("name", sut.RouteName);
+            Assert.AreEqual(DateTime.MinValue, sut.ActiveFrom);
+            Assert.AreEqual(DateTime.MaxValue, sut.ActiveTo);
         }
 
         [TestMethod]

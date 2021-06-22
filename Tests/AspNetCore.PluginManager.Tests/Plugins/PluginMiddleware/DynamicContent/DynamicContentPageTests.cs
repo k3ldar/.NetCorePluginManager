@@ -44,7 +44,8 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
             DynamicContentPage sut = new DynamicContentPage();
             Assert.IsNotNull(sut);
             Assert.IsNotNull(sut.Content);
-            Assert.IsNull(sut.Name);
+            Assert.AreEqual("", sut.Name);
+            Assert.AreEqual("", sut.RouteName);
             Assert.AreEqual(0, sut.Id);
         }
 
@@ -60,6 +61,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
             Assert.IsNotNull(sut);
             Assert.IsNotNull(sut.Content);
             Assert.IsNotNull(sut.Name);
+            Assert.AreEqual("", sut.RouteName);
             Assert.AreEqual(123, sut.Id);
             Assert.AreEqual("My test page", sut.Name);
         }

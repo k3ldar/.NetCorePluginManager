@@ -1,5 +1,5 @@
 ﻿@model DynamicContent.Plugin.Model.PageModel
 
 <div class="row">
-    @Html.Raw(Model.Content)
+    @Html.Raw(System.Web.HttpUtility.HtmlDecode(Model.Content))
 </div>

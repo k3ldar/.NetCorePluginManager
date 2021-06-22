@@ -59,7 +59,7 @@ namespace DynamicContent.Plugin.Internal
             throw new NotImplementedException();
         }
 
-        public List<LookupListItem> GetActiveCustomPages()
+        public List<LookupListItem> GetCustomPageList()
         {
             throw new NotImplementedException();
         }
@@ -68,8 +68,28 @@ namespace DynamicContent.Plugin.Internal
         {
             throw new NotImplementedException();
         }
- 
+
         public List<DynamicContentTemplate> Templates()
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<IDynamicContentPage> GetCustomPages()
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool PageNameExists(int id, string pageName)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool RouteNameExists(int id, string routeName)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool Save(IDynamicContentPage dynamicContentPage)
         {
             throw new NotImplementedException();
         }

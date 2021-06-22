@@ -1222,6 +1222,24 @@
             Dynamic content that will be displayed within the page
             </summary>
         </member>
+        <member name="P:Middleware.DynamicContent.DynamicContentPage.ActiveFrom">
+            <summary>
+            Date/time the page will be active from
+            </summary>
+            <value>DateTime</value>
+        </member>
+        <member name="P:Middleware.DynamicContent.DynamicContentPage.ActiveTo">
+            <summary>
+            Date/time the page will be active until
+            </summary>
+            <value>DateTime</value>
+        </member>
+        <member name="P:Middleware.DynamicContent.DynamicContentPage.RouteName">
+            <summary>
+            RouteName that is used as part of the Uri to navigate to the page
+            </summary>
+            <value>string</value>
+        </member>
         <member name="M:Middleware.DynamicContent.DynamicContentPage.AddContentTemplate(SharedPluginFeatures.DynamicContent.DynamicContentTemplate,System.String)">
             <summary>
             Adds a new template items to the dynamic content page
@@ -1243,11 +1261,17 @@
             <param name="contentTemplate">Dynamic content template to be rendered.</param>
             <returns>string</returns>
         </member>
-        <member name="M:Middleware.DynamicContent.IDynamicContentProvider.GetActiveCustomPages">
+        <member name="M:Middleware.DynamicContent.IDynamicContentProvider.GetCustomPageList">
             <summary>
             Retrieves a list of custom pages
             </summary>
             <returns>List&lt;DynamicContentTemplate&gt;</returns>
+        </member>
+        <member name="M:Middleware.DynamicContent.IDynamicContentProvider.GetCustomPages">
+            <summary>
+            Retrieves all custom pages
+            </summary>
+            <returns>List&lt;IDynamicContentPage&gt;</returns>
         </member>
         <member name="M:Middleware.DynamicContent.IDynamicContentProvider.GetCustomPage(System.Int32)">
             <summary>
@@ -1261,6 +1285,29 @@
             Retrieves all dynamic content templates
             </summary>
             <returns>List&lt;DynamicContentTemplate&gt;</returns>
+        </member>
+        <member name="M:Middleware.DynamicContent.IDynamicContentProvider.PageNameExists(System.Int32,System.String)">
+            <summary>
+            Determines whether the page name already exists
+            </summary>
+            <param name="id">Id of current page</param>
+            <param name="pageName">Name of page to be validated.</param>
+            <returns>bool</returns>
+        </member>
+        <member name="M:Middleware.DynamicContent.IDynamicContentProvider.RouteNameExists(System.Int32,System.String)">
+            <summary>
+            Determines whether a route name already exists
+            </summary>
+            <param name="id">Id of current page</param>
+            <param name="routeName">Name of route to be validated.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Middleware.DynamicContent.IDynamicContentProvider.Save(Middleware.IDynamicContentPage)">
+            <summary>
+            Saves the dynamic content page
+            </summary>
+            <param name="dynamicContentPage">Dynamic content page to be saved</param>
+            <returns>bool</returns>
         </member>
         <member name="T:Middleware.Helpdesk.Feedback">
             <summary>
@@ -3099,16 +3146,37 @@
             <summary>
             Unique page id
             </summary>
+            <value>int</value>
         </member>
         <member name="P:Middleware.IDynamicContentPage.Name">
             <summary>
             Name of dynamic page
             </summary>
+            <value>string</value>
+        </member>
+        <member name="P:Middleware.IDynamicContentPage.ActiveFrom">
+            <summary>
+            Date and time the page becomes active
+            </summary>
+            <value>DateTime</value>
+        </member>
+        <member name="P:Middleware.IDynamicContentPage.ActiveTo">
+            <summary>
+            Date and time the page expires
+            </summary>
+            <value>DateTime</value>
+        </member>
+        <member name="P:Middleware.IDynamicContentPage.RouteName">
+            <summary>
+            Route name that will form part of the Uri
+            </summary>
+            <value>string</value>
         </member>
         <member name="P:Middleware.IDynamicContentPage.Content">
             <summary>
             Dynamic content that will be displayed within the page
             </summary>
+            <value>List&lt;DynamicContentTemplate&gt;</value>
         </member>
         <member name="T:Middleware.Interfaces.IImageProvider">
             <summary>

@@ -1,0 +1,149 @@
+﻿@model DynamicContent.Plugin.Model.ImageTemplateEditorModel
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@Html.HiddenFor(m => m.Data)
+
+<div class="tab-content" id="nav-tabContent" style="margin: 5px;">
+    <div class="form-group">
+        <label for="groups">Select Group:</label>
+        <select name="image-group" id="image-group" class="form-control" onchange="updateImages(this, 0);">
+            @foreach (string group in Model.Groups)
+            {
+                <option value="@group">@group</option>
+            }
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="groups">Select Subgroup:</label>
+        <select name="image-group" id="image-subgroups" class="form-control" onchange="updateImages(this, 1);">
+            @foreach (string subgroup in Model.Subgroups)
+            {
+                <option value="@subgroup">@subgroup</option>
+            }
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="groups">Select Image:</label>
+        <select name="image-group" id="image-images" class="form-control" onchange="updateImages(this, 2);" style="width:75%">
+            @foreach (string file in Model.Images)
+            {
+                <option value="@file">@file</option>
+            }
+        </select>
+        <img id="selectedImage" alt="Image when selected" src="" style="max-width: 80px; width: 80px;top: 290px; position: absolute; left: 390px;" />
+    </div>
+</div>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        var grp = document.getElementById("image-group");
+        selectItemByValue(grp, '@Model.ActiveGroup');
+        var subgrp = document.getElementById("image-subgroups");
+        selectItemByValue(subgrp, '@Model.ActiveSubgroup');
+        var img = document.getElementById("image-images");
+        selectItemByValue(img, '@Model.ActiveFile');
+        updateHD(grp, subgrp, img);
+    });
+
+    function updateImages(e, updateType) {
+        var grp = document.getElementById("image-group");
+        var subgrp = document.getElementById("image-subgroups");
+        var img = document.getElementById("image-images");
+
+        var subgrpName = updateType == 0 ? "" : subgrp.selectedIndex >= 0 ? subgrp.options[subgrp.selectedIndex].value : '';
+
+        let updateJson = {
+            groupName: grp.options[grp.selectedIndex].value,
+            subgroupName: subgrpName,
+        };
+
+        if (updateType != 2) {
+            $.ajax({
+                type: 'POST',
+                url: '/DynamicContent/ImageTemplateEditorSubGroups/',
+                data: updateJson,
+                cache: false,
+                success: function (response) {
+                    if (response.success) {
+                        var responseData = JSON.parse(response.responseData);
+
+                        if (updateType != 1) {
+                            removeOptions(subgrp);
+
+                            if (responseData.Subgroups.length >= 0) {
+                                var blankOption = document.createElement("option");
+                                blankOption.text = "";
+                                subgrp.add(blankOption);
+                            }
+                            for (var i = 0; i < responseData.Subgroups.length; i++) {
+                                var option = document.createElement("option");
+                                option.text = responseData.Subgroups[i];
+                                subgrp.add(option);
+                            }
+                        }
+
+                        removeOptions(img);
+
+                        if (responseData.Subgroups.length >= 0) {
+                            var blankiOption = document.createElement("option");
+                            blankiOption.text = "";
+                            img.add(blankiOption);
+                        }
+                        for (var i = 0; i < responseData.Images.length; i++) {
+                            var option = document.createElement("option");
+                            option.text = responseData.Images[i];
+                            img.add(option);
+                        }
+
+                        updateHD(grp, subgrp, img);
+                    }
+                    else {
+                        $(_settings.dynamicContainer).html("Error updating custom page");
+                    }
+                },
+            });
+        }
+        else {
+            updateHD(grp, subgrp, img);
+        }
+    };
+
+    function updateHD(grp, subgrp, img) {
+        var ni = "";
+        if (img.selectedIndex >= 0) {
+            var hd = document.getElementById("Data");
+
+            ni = "/images/" + grp.options[grp.selectedIndex].value;
+
+            if (subgrp.selectedIndex >= 0) {
+                ni += "/" + subgrp.options[subgrp.selectedIndex].value;
+            }
+
+            ni += "/" + img.options[img.selectedIndex].value;
+
+            hd.value = ni;
+        }
+
+        var si = document.getElementById("selectedImage");
+        si.src = ni;
+    };
+
+    function removeOptions(selectElement) {
+        var i, L = selectElement.options.length - 1;
+        for (i = L; i >= 0; i--) {
+            selectElement.remove(i);
+        }
+    };
+
+    function selectItemByValue(e, v) {
+        for (var i = 0; i < e.options.length; i++) {
+            if (e.options[i].value === v) {
+                e.selectedIndex = i;
+                break;
+            }
+        }
+    }
+</script>

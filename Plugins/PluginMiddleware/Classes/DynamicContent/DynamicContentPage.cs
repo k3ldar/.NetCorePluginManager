@@ -45,6 +45,10 @@ namespace Middleware.DynamicContent
         public DynamicContentPage()
         {
             Content = new List<DynamicContentTemplate>();
+            ActiveFrom = DateTime.MinValue;
+            ActiveTo = DateTime.MaxValue;
+            Name = String.Empty;
+            RouteName = String.Empty;
         }
 
         #endregion Constructors
@@ -65,6 +69,24 @@ namespace Middleware.DynamicContent
         /// Dynamic content that will be displayed within the page
         /// </summary>
         public List<DynamicContentTemplate> Content { get; private set; }
+
+        /// <summary>
+        /// Date/time the page will be active from
+        /// </summary>
+        /// <value>DateTime</value>
+        public DateTime ActiveFrom { get; set; }
+
+        /// <summary>
+        /// Date/time the page will be active until
+        /// </summary>
+        /// <value>DateTime</value>
+        public DateTime ActiveTo { get; set; }
+
+        /// <summary>
+        /// RouteName that is used as part of the Uri to navigate to the page
+        /// </summary>
+        /// <value>string</value>
+        public string RouteName { get; set; }
 
         #endregion Properties
 

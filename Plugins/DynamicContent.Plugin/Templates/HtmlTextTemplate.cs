@@ -111,15 +111,12 @@ namespace DynamicContent.Plugin.Templates
 
         public override String Content()
         {
-            StringBuilder Result = new StringBuilder(2048);
+            return GenerateContent(false);
+        }
 
-            HtmlStart(Result);
-
-            Result.Append(Data);
-
-            HtmlEnd(Result);
-
-            return Result.ToString();
+        public override string EditorContent()
+        {
+            return GenerateContent(true);
         }
 
         public override DynamicContentTemplate Clone(string uniqueId)
@@ -134,5 +131,22 @@ namespace DynamicContent.Plugin.Templates
         }
 
         #endregion DynamicContentTemplate Methods
+
+        #region Private Methods
+
+        private string GenerateContent(bool isEditing)
+        {
+            StringBuilder Result = new StringBuilder(2048);
+
+            HtmlStart(Result, isEditing);
+
+            Result.Append(Data);
+
+            HtmlEnd(Result);
+
+            return Result.ToString();
+        }
+
+        #endregion Private Methods
     }
 }

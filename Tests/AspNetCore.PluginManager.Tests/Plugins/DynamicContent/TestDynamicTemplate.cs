@@ -55,6 +55,11 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
             return Data;
         }
 
+        public override string EditorContent()
+        {
+            return Data;
+        }
+
         public override DynamicContentTemplate Clone(string uniqueId)
         {
             if (String.IsNullOrEmpty(uniqueId))
@@ -68,12 +73,14 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
 
         public void TestHtmlStart(StringBuilder stringBuilder)
         {
-            HtmlStart(stringBuilder);
+            HtmlStart(stringBuilder, IsEditing);
         }
 
         public void TestHtmlEnd(StringBuilder stringBuilder)
         {
             HtmlEnd(stringBuilder);
         }
+
+        public bool IsEditing { get; set; }
     }
 }

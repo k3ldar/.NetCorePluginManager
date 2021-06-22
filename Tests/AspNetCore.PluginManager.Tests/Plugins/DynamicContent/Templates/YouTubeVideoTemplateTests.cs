@@ -15,12 +15,12 @@
  *
  *  Product:  AspNetCore.PluginManager.Tests
  *  
- *  File: HtmlTextTemplateTests.cs
+ *  File: YouTubeVideoTemplateTests.cs
  *
  *  Purpose:  Tests for html text template
  *
  *  Date        Name                Reason
- *  24/03/2021  Simon Carter        Initially Created
+ *  19/06/2021  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
@@ -37,15 +37,20 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
 {
     [TestClass]
     [ExcludeFromCodeCoverage]
-    public class HtmlTextTemplateTests
+    public class YouTubeVideoTemplateTests
     {
         private const string TestCategoryName = "Dynamic Content";
+
+        private const string WidthTypeValidationColumn = "<div class=\"col-sm-8\" style=\"height:450px !important;\"><iframe type=\"text/html\" width=\"100%\" height=\"100%\" src=\"https://www.youtube.com/embed/aAbBcCdD?autoplay=1\" frameborder=\"0\" allow=\"autoplay\"></iframe></div>";
+        private const string WidthTypeValidationPercent = "<div style=\"width:40% !important;height:450px !important;display:block;\"><iframe type=\"text/html\" width=\"100%\" height=\"100%\" src=\"https://www.youtube.com/embed/<p>test</p>?autoplay=1\" frameborder=\"0\" allow=\"autoplay\"></iframe></div>";
+        private const string WidthTypeValidationPixels = "<div style=\"width:538px !important;height:450px !important;display:block;\"><iframe type=\"text/html\" width=\"100%\" height=\"100%\" src=\"https://www.youtube.com/embed/<p>test</p>?autoplay=1\" frameborder=\"0\" allow=\"autoplay\"></iframe></div>";
+        private const string ExtraValuesResponse = "<div class=\"col-sm-12\" style=\"height:450px !important;\"><iframe type=\"text/html\" width=\"100%\" height=\"100%\" src=\"https://www.youtube.com/embed/test\" frameborder=\"0\"></iframe></div>";
 
         [TestMethod]
         [TestCategory(TestCategoryName)]
         public void Construct_Success()
         {
-            HtmlTextTemplate sut = new HtmlTextTemplate();
+            YouTubeVideoTemplate sut = new YouTubeVideoTemplate();
 
             Assert.IsNotNull(sut);
         }
@@ -54,34 +59,34 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         [TestCategory(TestCategoryName)]
         public void AssemblyNameValid_Success()
         {
-            HtmlTextTemplate sut = new HtmlTextTemplate();
+            YouTubeVideoTemplate sut = new YouTubeVideoTemplate();
 
-            Assert.IsTrue(sut.AssemblyQualifiedName.StartsWith("DynamicContent.Plugin.Templates.HtmlTextTemplate, DynamicContent.Plugin, Version="));
+            Assert.IsTrue(sut.AssemblyQualifiedName.StartsWith("DynamicContent.Plugin.Templates.YouTubeVideoTemplate, DynamicContent.Plugin, Version="));
         }
 
         [TestMethod]
         [TestCategory(TestCategoryName)]
-        public void EditorAction_ReturnsValidControllerName_Success()
+        public void EditorAction_ReturnsEmptyControllerName_Success()
         {
-            HtmlTextTemplate sut = new HtmlTextTemplate();
+            YouTubeVideoTemplate sut = new YouTubeVideoTemplate();
 
-            Assert.AreEqual("/DynamicContent/TextTemplateEditor/", sut.EditorAction);
+            Assert.AreEqual("/DynamicContent/YouTubeTemplateEditor/", sut.EditorAction);
         }
 
         [TestMethod]
         [TestCategory(TestCategoryName)]
         public void Name_ReturnsValidValidName_Success()
         {
-            HtmlTextTemplate sut = new HtmlTextTemplate();
+            YouTubeVideoTemplate sut = new YouTubeVideoTemplate();
 
-            Assert.AreEqual("Html Content", sut.Name);
+            Assert.AreEqual("YouTube Video", sut.Name);
         }
 
         [TestMethod]
         [TestCategory(TestCategoryName)]
         public void SortOrder_ReturnsDefaultSortOrder_Success()
         {
-            HtmlTextTemplate sut = new HtmlTextTemplate();
+            YouTubeVideoTemplate sut = new YouTubeVideoTemplate();
 
             Assert.AreEqual(0, sut.SortOrder);
         }
@@ -90,7 +95,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         [TestCategory(TestCategoryName)]
         public void SortOrder_RemembersNewValue_Success()
         {
-            HtmlTextTemplate sut = new HtmlTextTemplate();
+            YouTubeVideoTemplate sut = new YouTubeVideoTemplate();
             sut.SortOrder = 123;
 
             Assert.AreEqual(123, sut.SortOrder);
@@ -100,17 +105,17 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         [TestCategory(TestCategoryName)]
         public void HeightType_ReturnsAutomatic_Success()
         {
-            HtmlTextTemplate sut = new HtmlTextTemplate();
+            YouTubeVideoTemplate sut = new YouTubeVideoTemplate();
 
-            Assert.AreEqual(DynamicContentHeightType.Automatic, sut.HeightType);
+            Assert.AreEqual(DynamicContentHeightType.Pixels, sut.HeightType);
         }
 
         [TestMethod]
         [TestCategory(TestCategoryName)]
         public void HeightType_SettingOtherValueReturnsAutomatic_Success()
         {
-            HtmlTextTemplate sut = new HtmlTextTemplate();
-            sut.HeightType = DynamicContentHeightType.Percentage;
+            YouTubeVideoTemplate sut = new YouTubeVideoTemplate();
+            sut.HeightType = DynamicContentHeightType.Automatic;
 
             Assert.AreEqual(DynamicContentHeightType.Automatic, sut.HeightType);
         }
@@ -119,26 +124,26 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         [TestCategory(TestCategoryName)]
         public void Height_ReturnsDefaultValue_Success()
         {
-            HtmlTextTemplate sut = new HtmlTextTemplate();
+            YouTubeVideoTemplate sut = new YouTubeVideoTemplate();
 
-            Assert.AreEqual(-1, sut.Height);
+            Assert.AreEqual(450, sut.Height);
         }
 
         [TestMethod]
         [TestCategory(TestCategoryName)]
         public void Height_SettingOtherValueReturnsDefaultHeight_Success()
         {
-            HtmlTextTemplate sut = new HtmlTextTemplate();
+            YouTubeVideoTemplate sut = new YouTubeVideoTemplate();
             sut.Height = 100;
 
-            Assert.AreEqual(-1, sut.Height);
+            Assert.AreEqual(100, sut.Height);
         }
 
         [TestMethod]
         [TestCategory(TestCategoryName)]
         public void WidthType_ReturnsAutomatic_Success()
         {
-            HtmlTextTemplate sut = new HtmlTextTemplate();
+            YouTubeVideoTemplate sut = new YouTubeVideoTemplate();
 
             Assert.AreEqual(DynamicContentWidthType.Columns, sut.WidthType);
         }
@@ -147,7 +152,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         [TestCategory(TestCategoryName)]
         public void WidthType_SettingOtherValueReturnsAutomatic_Success()
         {
-            HtmlTextTemplate sut = new HtmlTextTemplate();
+            YouTubeVideoTemplate sut = new YouTubeVideoTemplate();
             sut.WidthType = DynamicContentWidthType.Percentage;
 
             Assert.AreEqual(DynamicContentWidthType.Percentage, sut.WidthType);
@@ -157,7 +162,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         [TestCategory(TestCategoryName)]
         public void Width_ReturnsDefaultValue_Success()
         {
-            HtmlTextTemplate sut = new HtmlTextTemplate();
+            YouTubeVideoTemplate sut = new YouTubeVideoTemplate();
 
             Assert.AreEqual(12, sut.Width);
         }
@@ -166,7 +171,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         [TestCategory(TestCategoryName)]
         public void Width_SettingOtherValueReturnsDefaultWidth_Success()
         {
-            HtmlTextTemplate sut = new HtmlTextTemplate();
+            YouTubeVideoTemplate sut = new YouTubeVideoTemplate();
             sut.Width = 100;
 
             Assert.AreEqual(100, sut.Width);
@@ -176,30 +181,30 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         [TestCategory(TestCategoryName)]
         public void Data_DefaultValue_Success()
         {
-            HtmlTextTemplate sut = new HtmlTextTemplate();
+            YouTubeVideoTemplate sut = new YouTubeVideoTemplate();
 
-            Assert.AreEqual(null, sut.Data);
+            Assert.AreEqual("|True", sut.Data);
         }
 
         [TestMethod]
         [TestCategory(TestCategoryName)]
-        public void Data_SetValue_Success()
+        public void Data_SetValueMissingYouTubeId_Success()
         {
-            HtmlTextTemplate sut = new HtmlTextTemplate();
+            YouTubeVideoTemplate sut = new YouTubeVideoTemplate();
             sut.WidthType = DynamicContentWidthType.Columns;
             sut.Width = 10;
-            sut.Data = "<p>new data</p>";
+            sut.Data = "";
 
             string content = sut.Content();
 
-            Assert.AreEqual("<div class=\"col-sm-10\"><p>new data</p></div>", content);
+            Assert.AreEqual("<div class=\"col-sm-10\" style=\"height:450px !important;\"><p>Please enter a valid video Id</p></div>", content);
         }
 
         [TestMethod]
         [TestCategory(TestCategoryName)]
         public void ActiveFrom_DefaultValue_Success()
         {
-            HtmlTextTemplate sut = new HtmlTextTemplate();
+            YouTubeVideoTemplate sut = new YouTubeVideoTemplate();
 
             Assert.AreEqual(DateTime.MinValue, sut.ActiveFrom);
         }
@@ -208,7 +213,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         [TestCategory(TestCategoryName)]
         public void ActiveTo_DefaultValue_Success()
         {
-            HtmlTextTemplate sut = new HtmlTextTemplate();
+            YouTubeVideoTemplate sut = new YouTubeVideoTemplate();
 
             Assert.AreEqual(DateTime.MaxValue, sut.ActiveTo);
         }
@@ -217,81 +222,67 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         [TestCategory(TestCategoryName)]
         public void Content_WidthTypeColumn_Valid()
         {
-            HtmlTextTemplate sut = new HtmlTextTemplate();
+            YouTubeVideoTemplate sut = new YouTubeVideoTemplate();
             sut.WidthType = DynamicContentWidthType.Columns;
             sut.Width = 8;
-            sut.Data = "<p>test</p>";
+            sut.Data = "aAbBcCdD|True";
 
             string content = sut.Content();
 
-            Assert.AreEqual("<div class=\"col-sm-8\"><p>test</p></div>", content);
+            Assert.AreEqual(WidthTypeValidationColumn, content);
         }
 
         [TestMethod]
         [TestCategory(TestCategoryName)]
-        public void EditorContent_WidthTypeColumn_Valid()
+        public void EditorContent_MultipleExtraValues_Valid()
         {
-            HtmlTextTemplate sut = new HtmlTextTemplate();
+            YouTubeVideoTemplate sut = new YouTubeVideoTemplate();
             sut.WidthType = DynamicContentWidthType.Columns;
             sut.Width = 8;
-            sut.Data = "<p>test</p>";
+            sut.Data = "test|123|value|another";
 
             string content = sut.EditorContent();
 
-            Assert.AreEqual("<div class=\"col-sm-12\"><p>test</p></div>", content);
-        }
-
-        [TestMethod]
-        [TestCategory(TestCategoryName)]
-        public void Content_WidthTypeColumn_EditorContent_Valid()
-        {
-            HtmlTextTemplate sut = new HtmlTextTemplate();
-            sut.WidthType = DynamicContentWidthType.Columns;
-            sut.Width = 8;
-            sut.Data = "<p>test</p>";
-
-            string content = sut.EditorContent();
-
-            Assert.AreEqual("<div class=\"col-sm-12\"><p>test</p></div>", content);
+            Assert.AreEqual(ExtraValuesResponse, content);
         }
 
         [TestMethod]
         [TestCategory(TestCategoryName)]
         public void Content_WidthTypePercentage_Valid()
         {
-            HtmlTextTemplate sut = new HtmlTextTemplate();
+            YouTubeVideoTemplate sut = new YouTubeVideoTemplate();
             sut.Data = "<p>test</p>";
             sut.WidthType = DynamicContentWidthType.Percentage;
             sut.Width = 40;
 
             string content = sut.Content();
 
-            Assert.AreEqual("<div style=\"width:40% !important;display:block;\"><p>test</p></div>", content);
+            Assert.AreEqual(WidthTypeValidationPercent, content);
         }
 
         [TestMethod]
         [TestCategory(TestCategoryName)]
         public void Content_WidthTypePixels_Valid()
         {
-            HtmlTextTemplate sut = new HtmlTextTemplate();
+            YouTubeVideoTemplate sut = new YouTubeVideoTemplate();
             sut.Data = "<p>test</p>";
             sut.WidthType = DynamicContentWidthType.Pixels;
             sut.Width = 538;
             string content = sut.Content();
 
-            Assert.AreEqual("<div style=\"width:538px !important;display:block;\"><p>test</p></div>", content);
+            Assert.AreEqual(WidthTypeValidationPixels, content);
         }
 
         [TestMethod]
         [TestCategory(TestCategoryName)]
         public void Clone_EmptyUniqueId_ContainsGuid_Success()
         {
-            HtmlTextTemplate sut = new HtmlTextTemplate();
+            YouTubeVideoTemplate sut = new YouTubeVideoTemplate();
 
             DynamicContentTemplate clone = sut.Clone(String.Empty);
 
             Assert.IsNotNull(clone);
-            Assert.IsInstanceOfType(clone, typeof(HtmlTextTemplate));
+            Assert.IsInstanceOfType(clone, typeof(YouTubeVideoTemplate));
             bool guidParsed = Guid.TryParse(clone.UniqueId, out Guid uniqueId);
             Assert.IsTrue(guidParsed);
         }
@@ -300,12 +291,12 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         [TestCategory(TestCategoryName)]
         public void Clone_NullUniqueId_ContainsGuid_Success()
         {
-            HtmlTextTemplate sut = new HtmlTextTemplate();
+            YouTubeVideoTemplate sut = new YouTubeVideoTemplate();
 
             DynamicContentTemplate clone = sut.Clone(null);
 
             Assert.IsNotNull(clone);
-            Assert.IsInstanceOfType(clone, typeof(HtmlTextTemplate));
+            Assert.IsInstanceOfType(clone, typeof(YouTubeVideoTemplate));
             bool guidParsed = Guid.TryParse(clone.UniqueId, out Guid uniqueId);
             Assert.IsTrue(guidParsed);
         }
@@ -314,12 +305,12 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         [TestCategory(TestCategoryName)]
         public void Clone_ValidUniqueId_ContainsGuid_Success()
         {
-            HtmlTextTemplate sut = new HtmlTextTemplate();
+            YouTubeVideoTemplate sut = new YouTubeVideoTemplate();
 
             DynamicContentTemplate clone = sut.Clone("my-unique-id");
 
             Assert.IsNotNull(clone);
-            Assert.IsInstanceOfType(clone, typeof(HtmlTextTemplate));
+            Assert.IsInstanceOfType(clone, typeof(YouTubeVideoTemplate));
             bool guidParsed = Guid.TryParse(clone.UniqueId, out Guid uniqueId);
             Assert.IsFalse(guidParsed);
 

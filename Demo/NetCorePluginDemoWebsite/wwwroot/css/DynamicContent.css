@@ -77,7 +77,7 @@ width: 8.1666666% !important;
 .pageDetails {
 padding: 5px 0 0 0;
 }
-.previewBtn {
+.editPageBtn {
 box-shadow: inset 0px 1px 0px 0px #97c4fe;
 background: linear-gradient(to bottom, #3d94f6 5%, #1e62d0 100%);
 background-color: #3d94f6;
@@ -93,12 +93,13 @@ padding: 6px 24px;
 text-decoration: none;
 text-shadow: 0px 1px 0px #1570cd;
 margin: 0 0 15px 0;
+width: 100%;
 }
-.previewBtn:hover {
+.editPageBtn:hover {
 background: linear-gradient(to bottom, #1e62d0 5%, #3d94f6 100%);
 background-color: #1e62d0;
 }
-.previewBtn:active {
+.editPageBtn:active {
 position: relative;
 top: 1px;
 }

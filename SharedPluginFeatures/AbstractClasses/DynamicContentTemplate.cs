@@ -201,6 +201,12 @@ namespace SharedPluginFeatures.DynamicContent
         public abstract string Content();
 
         /// <summary>
+        /// Retrieves the content in a manner that can be used within the UI editor
+        /// </summary>
+        /// <returns></returns>
+        public abstract string EditorContent();
+
+        /// <summary>
         /// Creates a clone of the template
         /// </summary>
         /// <param name="uniqueId">Unique id of the cloned DynamicContentTemplate instance</param>
@@ -216,7 +222,7 @@ namespace SharedPluginFeatures.DynamicContent
         /// </summary>
         /// <param name="stringBuilder">StringBuilder instance where start block will be appended to.</param>
         /// <exception cref="ArgumentNullException">Raised if stringBuilder parameter is null</exception>
-        protected void HtmlStart(StringBuilder stringBuilder)
+        protected void HtmlStart(StringBuilder stringBuilder, bool isEditing)
         {
             if (stringBuilder == null)
             {
@@ -225,7 +231,7 @@ namespace SharedPluginFeatures.DynamicContent
 
             if (WidthType == DynamicContentWidthType.Columns)
             {
-                stringBuilder.AppendFormat("<div class=\"col-sm-{0}\"", ColumnCount);
+                stringBuilder.AppendFormat("<div class=\"col-sm-{0}\"", isEditing ? 12 : ColumnCount);
 
                 if (HeightType != DynamicContentHeightType.Automatic && Height > 0)
                 {

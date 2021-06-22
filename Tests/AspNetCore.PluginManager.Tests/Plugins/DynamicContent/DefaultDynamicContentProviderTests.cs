@@ -58,7 +58,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         public void GetActiveCustomPages_TemporaryTest_Throws_NotImplementedException()
         {
             DefaultDynamicContentProvider sut = new DefaultDynamicContentProvider(new TestPluginClassesService());
-            sut.GetActiveCustomPages();
+            sut.GetCustomPageList();
         }
 
         [TestMethod]

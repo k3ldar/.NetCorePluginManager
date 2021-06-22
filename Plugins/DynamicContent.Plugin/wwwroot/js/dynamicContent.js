@@ -13,6 +13,9 @@
         previewUrl: '',
         deleteDialogue: '',
         addTemplateUrl: '',
+        navLayout: '',
+        navSettings: '',
+        navControls: '',
     };
 
     let root = {
@@ -28,7 +31,23 @@
                 });
                 root.updatePage(_settings.cacheId);
                 root.updateTemplates();
+
+                $('#' + _settings.navLayout).click(function (e) {
+                    root.layoutTabSelected();
+                });
+
+                $('#' + _settings.navSettings).click(function (e) {
+                    root.settingsTabSelected();
+                });
             });
+        },
+
+        layoutTabSelected: function () {
+            $('#' + _settings.navControls)[0].style.display = "block";
+        },
+
+        settingsTabSelected: function () {
+            $('#' + _settings.navControls)[0].style.display = "none";
         },
 
         updatePage: function (cacheId) {

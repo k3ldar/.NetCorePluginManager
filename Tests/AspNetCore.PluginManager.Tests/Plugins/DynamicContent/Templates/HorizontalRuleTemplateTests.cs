@@ -229,6 +229,20 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
 
         [TestMethod]
         [TestCategory(TestCategoryName)]
+        public void EditorContent_WidthTypeColumn_Valid()
+        {
+            HorizontalRuleTemplate sut = new HorizontalRuleTemplate();
+            sut.WidthType = DynamicContentWidthType.Columns;
+            sut.Width = 8;
+            sut.Data = "<p>test</p>";
+
+            string content = sut.EditorContent();
+
+            Assert.AreEqual("<div class=\"col-sm-12\"><hr /></div>", content);
+        }
+
+        [TestMethod]
+        [TestCategory(TestCategoryName)]
         public void Content_WidthTypePercentage_Valid()
         {
             HorizontalRuleTemplate sut = new HorizontalRuleTemplate();

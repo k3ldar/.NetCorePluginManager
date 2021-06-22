@@ -165,7 +165,6 @@ namespace LoginPlugin.Controllers
                             _settings.EncryptionKey), _settings.LoginDays);
                     }
 
-
                     GetAuthenticationService().SignInAsync(HttpContext,
                         _settings.AuthenticationScheme,
                         new ClaimsPrincipal(_claimsProvider.GetUserClaims(loginDetails.UserId)),
@@ -173,10 +172,10 @@ namespace LoginPlugin.Controllers
 
                     if (loginResult == LoginResult.PasswordChangeRequired)
                     {
-                        return Redirect(_settings.ChangePasswordUrl);
+                        return LocalRedirect(_settings.ChangePasswordUrl);
                     }
 
-                    return Redirect(model.ReturnUrl);
+                    return LocalRedirect(model.ReturnUrl);
 
                 case LoginResult.AccountLocked:
                     return RedirectToAction(nameof(AccountLocked), new { username = model.Username });

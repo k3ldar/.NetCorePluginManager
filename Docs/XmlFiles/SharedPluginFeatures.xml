@@ -119,6 +119,12 @@
             </summary>
             <value>string</value>
         </member>
+        <member name="M:SharedPluginFeatures.DynamicContent.DynamicContentTemplate.EditorContent">
+            <summary>
+            Retrieves the content in a manner that can be used within the UI editor
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:SharedPluginFeatures.DynamicContent.DynamicContentTemplate.Clone(System.String)">
             <summary>
             Creates a clone of the template
@@ -126,7 +132,7 @@
             <param name="uniqueId">Unique id of the cloned DynamicContentTemplate instance</param>
             <returns>DynamicContentTemplate</returns>
         </member>
-        <member name="M:SharedPluginFeatures.DynamicContent.DynamicContentTemplate.HtmlStart(System.Text.StringBuilder)">
+        <member name="M:SharedPluginFeatures.DynamicContent.DynamicContentTemplate.HtmlStart(System.Text.StringBuilder,System.Boolean)">
             <summary>
             Generates the html used as start of the custom block, taking into account the width/height types
             </summary>
@@ -2234,6 +2240,16 @@
         <member name="F:SharedPluginFeatures.Constants.ForwardSlashChar">
             <summary>
             Forward slash (/) char constant.
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Constants.PipeChar">
+            <summary>
+            Pipe character (|) char constant
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Constants.PipeString">
+            <summary>
+            Pipe character (|) string constant
             </summary>
         </member>
         <member name="F:SharedPluginFeatures.Constants.Asterix">
