@@ -14325,4 +14325,12 @@ You will shortly receive an email with the details of your order.</comment>
     <value>Loading...</value>
     <comment>Loading...</comment>
   </data>
+  <data name="PleaseEnterBackgroundColor" xml:space="preserve">
+    <value>Please enter a background colour</value>
+    <comment>Please enter a background colour</comment>
+  </data>
+  <data name="NoCustomPages" xml:space="preserve">
+    <value>You do not have any custom pages, click New to create one</value>
+    <comment>You do not have any custom pages, click New to create one</comment>
+  </data>
 </root>

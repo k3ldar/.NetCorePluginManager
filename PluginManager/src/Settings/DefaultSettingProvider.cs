@@ -28,6 +28,8 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
 
+using AppSettings;
+
 using Microsoft.Extensions.Configuration;
 
 using PluginManager.Abstractions;
@@ -39,16 +41,26 @@ namespace PluginManager.Internal
         #region Private Members
 
         private readonly string _rootPath;
+        private readonly IApplicationOverride _appOverride;
+        private readonly ISettingError _settingsError;
 
         #endregion Private Members
 
         #region Constructors
 
         public DefaultSettingProvider(in string rootPath)
+            : this(rootPath, null, null)
+        {
+
+        }
+
+        public DefaultSettingProvider(in string rootPath, IApplicationOverride appOverride, ISettingError settingsError)
         {
             if (String.IsNullOrEmpty(rootPath))
                 throw new ArgumentNullException(nameof(rootPath));
 
+            _appOverride = appOverride;
+            _settingsError = settingsError;
             _rootPath = rootPath;
         }
 
@@ -71,7 +83,7 @@ namespace PluginManager.Internal
             T Result = (T)Activator.CreateInstance(typeof(T));
             config.GetSection(sectionName).Bind(Result);
 
-            return AppSettings.ValidateSettings<T>.Validate(Result);
+            return ValidateSettings<T>.Validate(Result, null, _settingsError, _appOverride);
         }
 
         public T GetSettings<T>(in string sectionName)

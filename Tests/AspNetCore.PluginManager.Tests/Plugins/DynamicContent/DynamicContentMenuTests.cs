@@ -13,42 +13,43 @@
  *
  *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
- *  Product:  DynamicContent.Plugin
+ *  Product:  AspNetCore.PluginManager.Tests
  *  
- *  File: DynamicContentModel.cs
+ *  File: DynamicContentMenuTests.cs
  *
- *  Purpose:  Dynamic content result model
+ *  Purpose:  Tests for dynamic content system admin menu
  *
  *  Date        Name                Reason
- *  19/12/2020  Simon Carter        Initially Created
+ *  29/06/2021  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using System;
+using System.Diagnostics.CodeAnalysis;
 
-namespace DynamicContent.Plugin.Model
+using DynamicContent.Plugin.Classes.SystemAdmin;
+
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+using SharedPluginFeatures;
+
+namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
 {
-    public sealed class DynamicContentModel
+    [TestClass]
+    [ExcludeFromCodeCoverage]
+    public class DynamicContentMenuTests
     {
-        public DynamicContentModel()
+        private const string TestCategoryName = "Dynamic Content";
+
+        [TestMethod]
+        [TestCategory(TestCategoryName)]
+        public void CreateValidInstance_Success()
         {
-            Success = false;
-            Data = String.Empty;
+            DynamicContentMenu sut = new DynamicContentMenu();
+
+            Assert.IsInstanceOfType(sut, typeof(SystemAdminMainMenu));
+            Assert.AreEqual("DynamicContent", sut.Name);
+            Assert.AreEqual("DynamicContent", sut.Controller());
+            Assert.AreEqual("GetCustomPages", sut.Action());
+            Assert.AreEqual("/Images/DynamicContent/dcicon.png", sut.Image);
         }
-
-        public DynamicContentModel(bool success)
-        {
-            Success = success;
-            Data = String.Empty;
-        }
-
-        public DynamicContentModel(string data)
-        {
-            Data = data ?? throw new ArgumentNullException(nameof(data));
-            Success = true;
-        }
-
-        public bool Success { get; set; }
-
-        public string Data { get; set; }
     }
 }

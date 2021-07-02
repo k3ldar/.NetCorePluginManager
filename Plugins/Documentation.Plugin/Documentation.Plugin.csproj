@@ -144,7 +144,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="ApplicationSettings" Version="1.4.0" />
+    <PackageReference Include="ApplicationSettings" Version="2.0.0" />
     <PackageReference Include="HtmlAgilityPack" Version="1.11.30" />
     <PackageReference Include="SC.Shared.Library.Core" Version="2.20.0" />
   </ItemGroup>

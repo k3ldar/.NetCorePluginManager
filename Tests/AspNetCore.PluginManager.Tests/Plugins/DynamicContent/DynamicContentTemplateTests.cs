@@ -40,12 +40,14 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         private const string TestCategoryName = "Dynamic Content";
 
         [TestMethod]
+        [TestCategory(TestCategoryName)]
         public void Construct_Test()
         {
             TestDynamicTemplate sut = new TestDynamicTemplate();
         }
 
         [TestMethod]
+        [TestCategory(TestCategoryName)]
         public void UniqueId_Get_ExistingIsNull_ReturnsNewGuid_Success()
         {
             TestDynamicTemplate sut = new TestDynamicTemplate();
@@ -59,6 +61,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         }
 
         [TestMethod]
+        [TestCategory(TestCategoryName)]
         [ExpectedException(typeof(InvalidOperationException))]
         public void UniqueId_Set_InvalidValue_Null_Throws_InvalidOperationException()
         {
@@ -68,6 +71,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         }
 
         [TestMethod]
+        [TestCategory(TestCategoryName)]
         [ExpectedException(typeof(InvalidOperationException))]
         public void UniqueId_Set_InvalidValue_EmptyString_Throws_InvalidOperationException()
         {
@@ -77,6 +81,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         }
 
         [TestMethod]
+        [TestCategory(TestCategoryName)]
         [ExpectedException(typeof(InvalidOperationException))]
         public void UniqueId_Set_InvalidValue_InvalidChars_Throws_InvalidOperationException()
         {
@@ -86,6 +91,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         }
 
         [TestMethod]
+        [TestCategory(TestCategoryName)]
         public void UniqueId_Set_ValidValue_Success()
         {
             TestDynamicTemplate sut = new TestDynamicTemplate();
@@ -96,6 +102,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         }
 
         [TestMethod]
+        [TestCategory(TestCategoryName)]
         public void ColumnCount_Get_Percentage_50Percent_Expects_6Columns()
         {
             TestDynamicTemplate sut = new TestDynamicTemplate();
@@ -107,6 +114,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         }
 
         [TestMethod]
+        [TestCategory(TestCategoryName)]
         public void ColumnCount_Get_Percentage_66Percent_Expects_8Columns()
         {
             TestDynamicTemplate sut = new TestDynamicTemplate();
@@ -118,6 +126,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         }
 
         [TestMethod]
+        [TestCategory(TestCategoryName)]
         public void ColumnCount_Get_Percentage_Minus10Percent_Expects_1Columns()
         {
             TestDynamicTemplate sut = new TestDynamicTemplate();
@@ -129,6 +138,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         }
 
         [TestMethod]
+        [TestCategory(TestCategoryName)]
         public void ColumnCount_Get_Percentage_101Percent_Expects_12Columns()
         {
             TestDynamicTemplate sut = new TestDynamicTemplate();
@@ -140,6 +150,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         }
 
         [TestMethod]
+        [TestCategory(TestCategoryName)]
         public void ColumnCount_Get_Pixels_400Pixels_Expects_6Columns()
         {
             TestDynamicTemplate sut = new TestDynamicTemplate();
@@ -151,6 +162,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         }
 
         [TestMethod]
+        [TestCategory(TestCategoryName)]
         public void ColumnCount_Get_Pixels_528Pixels_Expects_8Columns()
         {
             TestDynamicTemplate sut = new TestDynamicTemplate();
@@ -162,6 +174,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         }
 
         [TestMethod]
+        [TestCategory(TestCategoryName)]
         public void ColumnCount_Get_Pixels_ExceedsMaxPixedWidth_50000Pixels_Expects_12Columns()
         {
             TestDynamicTemplate sut = new TestDynamicTemplate();
@@ -173,6 +186,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         }
 
         [TestMethod]
+        [TestCategory(TestCategoryName)]
         public void ColumnCount_Get_Pixels_BelowMinPixedWidth_Minus10Pixels_Expects_1Column()
         {
             TestDynamicTemplate sut = new TestDynamicTemplate();
@@ -184,6 +198,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         }
 
         [TestMethod]
+        [TestCategory(TestCategoryName)]
         public void ColumnCount_Get_Columns_BelowMinColumnCount_Minus10_Expects_1Column()
         {
             TestDynamicTemplate sut = new TestDynamicTemplate();
@@ -195,6 +210,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         }
 
         [TestMethod]
+        [TestCategory(TestCategoryName)]
         public void ColumnCount_Get_Columns_AboveMaxColumnCount_38_Expects_12Columns()
         {
             TestDynamicTemplate sut = new TestDynamicTemplate();
@@ -206,6 +222,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         }
 
         [TestMethod]
+        [TestCategory(TestCategoryName)]
         public void ColumnCount_Get_Columns_ValidColumnCount7_Expects_7Columns()
         {
             TestDynamicTemplate sut = new TestDynamicTemplate();
@@ -217,6 +234,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         }
 
         [TestMethod]
+        [TestCategory(TestCategoryName)]
         [ExpectedException(typeof(ArgumentNullException))]
         public void HtmlEnd_InvalidParam_Null_Throws_ArgumentNullException()
         {
@@ -226,6 +244,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         }
 
         [TestMethod]
+        [TestCategory(TestCategoryName)]
         public void HtmlEnd_ReturnsProperlyFormattedHtmlEndBlock_Success()
         {
             TestDynamicTemplate sut = new TestDynamicTemplate();
@@ -239,6 +258,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         }
 
         [TestMethod]
+        [TestCategory(TestCategoryName)]
         [ExpectedException(typeof(ArgumentNullException))]
         public void HtmlStart_InvalidParam_Null_Throws_ArgumentNullException()
         {
@@ -248,6 +268,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         }
 
         [TestMethod]
+        [TestCategory(TestCategoryName)]
         public void HtmlStart_WidthTypeColumnsZeroPercentHeight_ReturnsValidHtmlStart()
         {
             TestDynamicTemplate sut = new TestDynamicTemplate();
@@ -265,6 +286,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         }
 
         [TestMethod]
+        [TestCategory(TestCategoryName)]
         public void HtmlStart_WidthTypeColumnsAutomaticHeight_ReturnsValidHtmlStart()
         {
             TestDynamicTemplate sut = new TestDynamicTemplate();
@@ -282,6 +304,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         }
 
         [TestMethod]
+        [TestCategory(TestCategoryName)]
         public void HtmlStart_WidthTypeColumns_WithHeight_ReturnsValidHtmlStart()
         {
             TestDynamicTemplate sut = new TestDynamicTemplate();
@@ -299,6 +322,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         }
 
         [TestMethod]
+        [TestCategory(TestCategoryName)]
         public void HtmlStart_WidthTypePercent_WithoutHeight_ReturnsValidHtmlStart()
         {
             TestDynamicTemplate sut = new TestDynamicTemplate();
@@ -316,6 +340,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         }
 
         [TestMethod]
+        [TestCategory(TestCategoryName)]
         public void HtmlStart_WidthTypePercent_WithHeightPixels_ReturnsValidHtmlStart()
         {
             TestDynamicTemplate sut = new TestDynamicTemplate();
@@ -333,6 +358,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         }
 
         [TestMethod]
+        [TestCategory(TestCategoryName)]
         public void HtmlStart_WidthTypePercent_WithHeightPercent_ReturnsValidHtmlStart()
         {
             TestDynamicTemplate sut = new TestDynamicTemplate();
@@ -350,6 +376,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         }
 
         [TestMethod]
+        [TestCategory(TestCategoryName)]
         public void HtmlStart_WidthTypePercent_WithHeightAutomatic_ReturnsValidHtmlStart()
         {
             TestDynamicTemplate sut = new TestDynamicTemplate();
@@ -367,6 +394,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         }
 
         [TestMethod]
+        [TestCategory(TestCategoryName)]
         public void HtmlStart_WidthTypePixels_WithoutHeight_ReturnsValidHtmlStart()
         {
             TestDynamicTemplate sut = new TestDynamicTemplate();
@@ -384,6 +412,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         }
 
         [TestMethod]
+        [TestCategory(TestCategoryName)]
         public void HtmlStart_WidthTypePixels_WithHeightPixels_ReturnsValidHtmlStart()
         {
             TestDynamicTemplate sut = new TestDynamicTemplate();
@@ -401,6 +430,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         }
 
         [TestMethod]
+        [TestCategory(TestCategoryName)]
         public void HtmlStart_WidthTypePixels_WithHeightPercent_ReturnsValidHtmlStart()
         {
             TestDynamicTemplate sut = new TestDynamicTemplate();
@@ -418,6 +448,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         }
 
         [TestMethod]
+        [TestCategory(TestCategoryName)]
         public void HtmlStart_WidthTypePixels_WithHeightAutomatic_ReturnsValidHtmlStart()
         {
             TestDynamicTemplate sut = new TestDynamicTemplate();

@@ -80,6 +80,7 @@ namespace SystemAdmin.Plugin
                 //should loop through all child items, add to a parent (create if not found) and then finally sort all parent and parent menu items
 
                 List<SystemAdminMainMenu> menuItems = _pluginClassesService.GetPluginClasses<SystemAdminMainMenu>();
+                menuItems.ForEach(mi => mi.UniqueId = ++uniqueId);
                 List<SystemAdminSubMenu> allSubMenuItems = _pluginClassesService.GetPluginClasses<SystemAdminSubMenu>();
 
                 // get sub menu items

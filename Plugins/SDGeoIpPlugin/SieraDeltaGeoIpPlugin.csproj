@@ -100,7 +100,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="ApplicationSettings" Version="1.4.0" />
+    <PackageReference Include="ApplicationSettings" Version="2.0.0" />
     <PackageReference Include="FirebirdSql.Data.FirebirdClient" Version="7.10.1" />
     <PackageReference Include="MySql.Data" Version="8.0.23" />
     <PackageReference Include="SC.Shared.Library.Core" Version="2.20.0" />

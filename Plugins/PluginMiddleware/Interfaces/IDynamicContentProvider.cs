@@ -38,11 +38,10 @@ namespace Middleware.DynamicContent
     public interface IDynamicContentProvider
     {
         /// <summary>
-        /// Renders the contents of a dynamic content template
+        /// Creates a new custom page and returns the id of the new page
         /// </summary>
-        /// <param name="contentTemplate">Dynamic content template to be rendered.</param>
-        /// <returns>string</returns>
-        string RenderDynamicPage(DynamicContentTemplate contentTemplate);
+        /// <returns>int</returns>
+        int CreateCustomPage();
 
         /// <summary>
         /// Retrieves a list of custom pages

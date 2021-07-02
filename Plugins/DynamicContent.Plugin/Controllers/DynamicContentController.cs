@@ -131,9 +131,19 @@ namespace DynamicContent.Plugin.Controllers
         //}
 
         [LoggedIn]
+        [HttpPost]
+        [Authorize(Policy = PolicyNameContentEditor)]
+        public IActionResult NewPage()
+        {
+            int newId = _dynamicContentProvider.CreateCustomPage();
+
+            return RedirectToAction(nameof(EditPage), new { id = newId });
+        }
+
+        [LoggedIn]
         [HttpGet]
         [Breadcrumb(nameof(Languages.LanguageStrings.DynamicContent))]
-        [Authorize(Policy = SharedPluginFeatures.Constants.PolicyNameContentEditor)]
+        [Authorize(Policy = PolicyNameContentEditor)]
         public IActionResult GetCustomPages()
         {
             return View("/Views/DynamicContent/CustomPages.cshtml", GetCustomPagesModel());
@@ -141,7 +151,7 @@ namespace DynamicContent.Plugin.Controllers
 
         [LoggedIn]
         [HttpGet]
-        [Authorize(Policy = SharedPluginFeatures.Constants.PolicyNameContentEditor)]
+        [Authorize(Policy = PolicyNameContentEditor)]
         [Breadcrumb(nameof(Languages.LanguageStrings.Edit))]
         public IActionResult EditPage(int id)
         {
@@ -602,7 +612,8 @@ namespace DynamicContent.Plugin.Controllers
         private EditPageModel GetEditPageModel(string cacheId, IDynamicContentPage dynamicContentPage)
         {
             EditPageModel Result = new EditPageModel(GetModelData(), cacheId, dynamicContentPage.Id, dynamicContentPage.Name,
-                dynamicContentPage.RouteName, dynamicContentPage.ActiveFrom, dynamicContentPage.ActiveTo, dynamicContentPage.Content);
+                dynamicContentPage.RouteName, dynamicContentPage.ActiveFrom, dynamicContentPage.ActiveTo, dynamicContentPage.Content,
+                dynamicContentPage.BackgroundColor, dynamicContentPage.BackgroundImage);
 
             Result.Breadcrumbs.Add(new BreadcrumbItem("Dynamic Content", $"/{Name}/{nameof(GetCustomPages)}", false));
             Result.Breadcrumbs.Add(new BreadcrumbItem($"{Languages.LanguageStrings.Edit} {dynamicContentPage.Name}", Result.Breadcrumbs[1].Route, Result.Breadcrumbs[1].HasParameters));

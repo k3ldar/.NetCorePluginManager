@@ -70,7 +70,7 @@ namespace SharedPluginFeatures
         /// Controller to be called when the menu is clicked.
         /// </summary>
         /// <returns></returns>
-        public string Controller()
+        public virtual string Controller()
         {
             return "SystemAdmin";
         }
@@ -79,7 +79,7 @@ namespace SharedPluginFeatures
         /// Action to be called when the menu is clicked.
         /// </summary>
         /// <returns></returns>
-        public string Action()
+        public virtual string Action()
         {
             return "Index";
         }

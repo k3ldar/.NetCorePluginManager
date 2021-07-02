@@ -26011,6 +26011,15 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to You do not have any custom pages, click New to create one.
+        /// </summary>
+        public static string NoCustomPages {
+            get {
+                return ResourceManager.GetString("NoCustomPages", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to There are no news items at the present time..
         /// </summary>
         public static string NoNews {
@@ -26979,6 +26988,15 @@ namespace Languages {
         public static string Picture {
             get {
                 return ResourceManager.GetString("Picture", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please enter a background colour.
+        /// </summary>
+        public static string PleaseEnterBackgroundColor {
+            get {
+                return ResourceManager.GetString("PleaseEnterBackgroundColor", resourceCulture);
             }
         }
         

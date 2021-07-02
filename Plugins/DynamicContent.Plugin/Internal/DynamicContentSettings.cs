@@ -24,12 +24,29 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+using AppSettings;
+
 namespace DynamicContent.Plugin
 {
     /// <summary>
     /// Settings which affect how dynamic content plugin is configured.
     /// </summary>
-    public sealed class DynamicContentControllerSettings
+    public sealed class DynamicContentSettings
     {
+
+        /// <summary>
+        /// Path where dynamic content files will be placed.
+        /// </summary>
+        /// <value>string</value>
+        [SettingString(true)]
+        [SettingValidPath]
+        [SettingDefault("%RootPath%")]
+        public string DynamicContentLocation { get; set; }
+
+
+        public void ValidateSettings()
+        {
+            DynamicContentLocation += "\\wwwroot\\DynamicContent";
+        }
     }
 }

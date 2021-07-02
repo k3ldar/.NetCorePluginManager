@@ -67,6 +67,18 @@ namespace Middleware
         string RouteName { get; set; }
 
         /// <summary>
+        /// Color of background, default is white.  Defined as hex color
+        /// </summary>
+        /// <value>string</value>
+        string BackgroundColor { get; set; }
+
+        /// <summary>
+        /// Uri for image for background, this will be stretched across entire page.
+        /// </summary>
+        /// <value>string</value>
+        string BackgroundImage { get; set; }
+
+        /// <summary>
         /// Dynamic content that will be displayed within the page
         /// </summary>
         /// <value>List&lt;DynamicContentTemplate&gt;</value>

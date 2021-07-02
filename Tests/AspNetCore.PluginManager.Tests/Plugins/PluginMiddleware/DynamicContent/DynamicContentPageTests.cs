@@ -38,7 +38,10 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
     [ExcludeFromCodeCoverage]
     public class DynamicContentPageTests
     {
+        private const string TestCategoryName = "Plugin Middleware";
+
         [TestMethod]
+        [TestCategory(TestCategoryName)]
         public void Construct_ValidInstance_Success()
         {
             DynamicContentPage sut = new DynamicContentPage();
@@ -50,6 +53,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         }
 
         [TestMethod]
+        [TestCategory(TestCategoryName)]
         public void Construct_ValidInstanceWithPropertiesSet_Success()
         {
             DynamicContentPage sut = new DynamicContentPage()
@@ -67,6 +71,22 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         }
 
         [TestMethod]
+        [TestCategory(TestCategoryName)]
+        public void Construct_ValidInstance_ValidBackgroundImageAndColor_Success()
+        {
+            DynamicContentPage sut = new DynamicContentPage();
+            Assert.IsNotNull(sut);
+            Assert.IsNotNull(sut.Content);
+            Assert.AreEqual("", sut.Name);
+            Assert.AreEqual("", sut.RouteName);
+            Assert.AreEqual(DateTime.MinValue, sut.ActiveFrom);
+            Assert.AreEqual(DateTime.MaxValue, sut.ActiveTo);
+            Assert.AreEqual("#FFFFFF", sut.BackgroundColor);
+            Assert.IsNull(sut.BackgroundImage);
+        }
+
+        [TestMethod]
+        [TestCategory(TestCategoryName)]
         [ExpectedException(typeof(ArgumentNullException))]
         public void AddContentTemplate_InvalidParamDynamicContentTemplateNull_Throws_ArgumentNullException()
         {
@@ -80,6 +100,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         }
 
         [TestMethod]
+        [TestCategory(TestCategoryName)]
         public void AddContentTemplate_BeforeControlIdNull_Success()
         {
             DynamicContentPage sut = new DynamicContentPage()
@@ -97,6 +118,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         }
 
         [TestMethod]
+        [TestCategory(TestCategoryName)]
         public void AddContentTemplate_BeforeControlIdValid_Success()
         {
             DynamicContentPage sut = new DynamicContentPage()

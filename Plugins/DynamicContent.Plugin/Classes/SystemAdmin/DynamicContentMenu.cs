@@ -11,44 +11,39 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2012 - 2021 Simon Carter.  All Rights Reserved.
  *
- *  Product:  DynamicContent.Plugin
+ *  Product:  ImageManager Plugin
  *  
- *  File: DynamicContentModel.cs
+ *  File: DynamicContentMenu.cs
  *
- *  Purpose:  Dynamic content result model
+ *  Purpose:  System Admin for dynamic content
  *
  *  Date        Name                Reason
- *  19/12/2020  Simon Carter        Initially Created
+ *  28/06/2021  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using System;
 
-namespace DynamicContent.Plugin.Model
+using SharedPluginFeatures;
+
+namespace DynamicContent.Plugin.Classes.SystemAdmin
 {
-    public sealed class DynamicContentModel
+    public class DynamicContentMenu : SystemAdminMainMenu
     {
-        public DynamicContentModel()
+        public DynamicContentMenu()
+            : base(Controllers.DynamicContentController.Name, -10000)
         {
-            Success = false;
-            Data = String.Empty;
+            Image = "/Images/DynamicContent/dcicon.png";
         }
 
-        public DynamicContentModel(bool success)
+        public override string Controller()
         {
-            Success = success;
-            Data = String.Empty;
+            return Controllers.DynamicContentController.Name;
         }
 
-        public DynamicContentModel(string data)
+        public override string Action()
         {
-            Data = data ?? throw new ArgumentNullException(nameof(data));
-            Success = true;
+            return nameof(Controllers.DynamicContentController.GetCustomPages);
         }
-
-        public bool Success { get; set; }
-
-        public string Data { get; set; }
     }
 }

@@ -43,7 +43,8 @@ namespace DynamicContent.Plugin.Model
 
         public EditPageModel(in BaseModelData modelData, string cacheId, int id,
             string name, string routeName, DateTime activeFrom, DateTime activeTo,
-            List<DynamicContentTemplate> dynamicContents)
+            List<DynamicContentTemplate> dynamicContents, string backgroundColor,
+            string backgroundImage)
             : base(modelData)
         {
             if (String.IsNullOrEmpty(name))
@@ -63,6 +64,8 @@ namespace DynamicContent.Plugin.Model
 
             ActiveFrom = activeFrom;
             ActiveTo = activeTo;
+            BackgroundColor = backgroundColor;
+            BackgroundImage = backgroundImage;
         }
 
         #endregion Constructors
@@ -87,6 +90,11 @@ namespace DynamicContent.Plugin.Model
         public DateTime ActiveTo { get; set; }
 
         public List<DynamicContentTemplate> DynamicContents { get; }
+
+        [Required(ErrorMessage = nameof(Languages.LanguageStrings.PleaseEnterBackgroundColor))]
+        public string BackgroundColor { get; set; }
+
+        public string BackgroundImage { get; set; }
 
         #endregion Properties
     }

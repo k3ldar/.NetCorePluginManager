@@ -2402,6 +2402,11 @@
             Defines the names of the forward for header, should the request be received via a proxy.
             </summary>
         </member>
+        <member name="F:SharedPluginFeatures.Constants.ColorWhiteHex">
+            <summary>
+            Hex value for color white 
+            </summary>
+        </member>
         <member name="F:SharedPluginFeatures.Constants.TempPluginPath">
             <summary>
             Name of the folder that will contain copies of the plugin that will be loaded.

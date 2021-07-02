@@ -140,6 +140,7 @@
 
   <ItemGroup>
     <Folder Include="Views\Spider\" />
+    <Folder Include="wwwroot\DynamicContent\" />
     <Folder Include="wwwroot\images\Download\" />
   </ItemGroup>
 

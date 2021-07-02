@@ -49,6 +49,13 @@ namespace Middleware.DynamicContent
             ActiveTo = DateTime.MaxValue;
             Name = String.Empty;
             RouteName = String.Empty;
+            BackgroundColor = SharedPluginFeatures.Constants.ColorWhiteHex;
+        }
+
+        public DynamicContentPage(int id)
+            : this()
+        {
+            Id = id;
         }
 
         #endregion Constructors
@@ -87,6 +94,18 @@ namespace Middleware.DynamicContent
         /// </summary>
         /// <value>string</value>
         public string RouteName { get; set; }
+
+        /// <summary>
+        /// Color of background, default is white.  Defined as hex color
+        /// </summary>
+        /// <value>string</value>
+        public string BackgroundColor { get; set; }
+
+        /// <summary>
+        /// Uri for image for background, this will be stretched across entire page.
+        /// </summary>
+        /// <value>string</value>
+        public string BackgroundImage { get; set; }
 
         #endregion Properties
 

@@ -5,7 +5,17 @@
 <h3>@Localizer[Languages.LanguageStrings.DynamicContent]</h3>
 </div>
 </div>
-@foreach (SharedPluginFeatures.NameIdModel customPage in Model.CustomPages)
+@if (Model.CustomPages.Count == 0)
+{
+<div class="row">
+<div class="col-sm-12">
+@Localizer[Languages.LanguageStrings.NoCustomPages]
+</div>
+</div>
+}
+else
+{
+foreach (SharedPluginFeatures.NameIdModel customPage in Model.CustomPages)
 {
 using (Html.BeginForm(nameof(DynamicContent.Plugin.Controllers.DynamicContentController.EditPage), DynamicContent.Plugin.Controllers.DynamicContentController.Name, FormMethod.Get))
 {
@@ -23,3 +33,16 @@ using (Html.BeginForm(nameof(DynamicContent.Plugin.Controllers.DynamicContentCon
 </div>
 }
 }
+}
+<div class="row">
+<div class="col-sm-12">
+@using (Html.BeginForm(nameof(DynamicContent.Plugin.Controllers.DynamicContentController.NewPage), DynamicContent.Plugin.Controllers.DynamicContentController.Name, FormMethod.Post))
+{
+<div class="row" style="margin:15px 0 8px 0;">
+<div class="col-sm-12">
+<input class="btn btn-primary" style="float:right;" type="submit" value="@Localizer[Languages.LanguageStrings.New]" />
+</div>
+</div>
+}
+</div>
+</div>

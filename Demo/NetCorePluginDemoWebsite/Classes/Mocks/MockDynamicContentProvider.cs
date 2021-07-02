@@ -70,6 +70,11 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes.Mocks
 
         public bool AllowSavePage { get; set; }
 
+        public int CreateCustomPage()
+        {
+            return 50;
+        }
+
         public void AddPage(IDynamicContentPage dynamicContentPage)
         {
             _dynamicContent.Add(dynamicContentPage ?? throw new ArgumentNullException(nameof(dynamicContentPage)));
@@ -81,11 +86,6 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes.Mocks
         }
 
         #region IDynamicContentProvider Members
-
-        public String RenderDynamicPage(DynamicContentTemplate contentTemplate)
-        {
-            throw new NotImplementedException();
-        }
 
         public List<LookupListItem> GetCustomPageList()
         {

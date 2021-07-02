@@ -298,6 +298,11 @@ namespace SharedPluginFeatures
         public static readonly string[] ForwardForHeader = new string[] { "HTTP_X_FORWARDED_FOR", "X-Forwarded-For", "http-X-Forwarded-For", "X-Real-IP" };
 
         /// <summary>
+        /// Hex value for color white 
+        /// </summary>
+        public const string ColorWhiteHex = "#FFFFFF";
+
+        /// <summary>
         /// Name of the folder that will contain copies of the plugin that will be loaded.
         /// </summary>
         public const string TempPluginPath = "PluginModules";

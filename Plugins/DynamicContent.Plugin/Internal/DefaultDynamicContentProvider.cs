@@ -25,12 +25,19 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Reflection;
+using System.Text;
 
 using Middleware;
 using Middleware.DynamicContent;
 
 using PluginManager.Abstractions;
 
+using Shared.Classes;
+
+using SharedPluginFeatures;
 using SharedPluginFeatures.DynamicContent;
 
 namespace DynamicContent.Plugin.Internal
@@ -39,432 +46,321 @@ namespace DynamicContent.Plugin.Internal
     {
         #region Private Members
 
+        private const int FileVersion1 = 1;
+        private const int ReservedSpace1 = 65;
+        private const int ReservedSpace2 = 99;
+        private static readonly byte[] Header = { 44, 43 };
+        private const int MinimumByteSize = 54;
+
+        private readonly string _rootContentPath;
+        private readonly List<IDynamicContentPage> _dynamicContent;
         private readonly IPluginClassesService _pluginClassesService;
+        private readonly object _lockObject = new object();
+        private static List<DynamicContentTemplate> _templates;
 
         #endregion Private Members
 
-        #region Costructors
+        #region Constructors
 
-        public DefaultDynamicContentProvider(IPluginClassesService pluginClassesService)
+        public DefaultDynamicContentProvider(IPluginClassesService pluginClassesService, ISettingsProvider settingsProvider)
         {
             _pluginClassesService = pluginClassesService ?? throw new ArgumentNullException(nameof(pluginClassesService));
+
+            if (settingsProvider == null)
+                throw new ArgumentNullException(nameof(settingsProvider));
+
+            DynamicContentSettings dynamicContentSettings = settingsProvider.GetSettings<DynamicContentSettings>(Controllers.DynamicContentController.Name);
+            _rootContentPath = dynamicContentSettings.DynamicContentLocation;
+
+            _dynamicContent = new List<IDynamicContentPage>();
+
+            InitializeDynamicContent();
         }
 
         #endregion Constructors
 
         #region IDynamicContentProvider Methods
 
-        public String RenderDynamicPage(DynamicContentTemplate contentTemplate)
+        public int CreateCustomPage()
         {
-            throw new NotImplementedException();
+            int Result = 1;
+
+            using (TimedLock tl = TimedLock.Lock(_lockObject))
+            {
+                while (File.Exists(Path.Combine(_rootContentPath, $"{Result}.page")))
+                {
+                    Result++;
+                }
+
+                IDynamicContentPage newPage = new DynamicContentPage(Result);
+                newPage.Name = $"Page-{Result}";
+                _dynamicContent.Add(newPage);
+                Save(newPage);
+            }
+
+            return Result;
         }
 
         public List<LookupListItem> GetCustomPageList()
         {
-            throw new NotImplementedException();
+            List<LookupListItem> Result = new List<LookupListItem>();
+
+            _dynamicContent.ForEach(dc => Result.Add(new LookupListItem(dc.Id, dc.Name)));
+
+            return Result;
         }
 
         public IDynamicContentPage GetCustomPage(int id)
         {
-            throw new NotImplementedException();
+            return _dynamicContent.Where(dc => dc.Id.Equals(id)).FirstOrDefault();
         }
 
         public List<DynamicContentTemplate> Templates()
         {
-            throw new NotImplementedException();
+            if (_templates != null)
+                return _templates;
+
+            _templates = _pluginClassesService.GetPluginClasses<DynamicContentTemplate>();
+
+            return _templates;
         }
 
         public List<IDynamicContentPage> GetCustomPages()
         {
-            throw new NotImplementedException();
+            return _dynamicContent;
         }
 
         public bool PageNameExists(int id, string pageName)
         {
-            throw new NotImplementedException();
+            if (String.IsNullOrEmpty(pageName))
+                throw new ArgumentNullException(nameof(pageName));
+
+            return _dynamicContent.Where(dc => !dc.Id.Equals(id) && dc.Name.Equals(pageName, StringComparison.InvariantCultureIgnoreCase)).Any();
         }
 
         public bool RouteNameExists(int id, string routeName)
         {
-            throw new NotImplementedException();
+            if (String.IsNullOrEmpty(routeName))
+                throw new ArgumentNullException(nameof(routeName));
+
+            return _dynamicContent.Where(dc => !dc.Id.Equals(id) && dc.RouteName.Equals(routeName, StringComparison.InvariantCultureIgnoreCase)).Any();
         }
 
         public bool Save(IDynamicContentPage dynamicContentPage)
         {
-            throw new NotImplementedException();
-        }
+            if (dynamicContentPage == null)
+                throw new ArgumentNullException(nameof(dynamicContentPage));
 
+            WriteFileContents(dynamicContentPage);
+
+            return true;
+        }
 
         #endregion IDynamicContentProvider Methods
 
+        #region Static Methods
+
+        public static byte[] ConvertFromDynamicContent(IDynamicContentPage dynamicContentPage)
+        {
+            using (MemoryStream memoryStream = new MemoryStream())
+            using (BinaryWriter writer = new BinaryWriter(memoryStream))
+            {
+                writer.Write(Header);
+                writer.Write(ReservedSpace1);
+                writer.Write(ReservedSpace2);
+                writer.Write(FileVersion1);
+                writer.Write(dynamicContentPage.Id);
+                WriteStringData(writer, dynamicContentPage.Name);
+                WriteStringData(writer, dynamicContentPage.RouteName);
+                WriteStringData(writer, dynamicContentPage.BackgroundColor);
+                WriteStringData(writer, dynamicContentPage.BackgroundImage);
+                writer.Write(dynamicContentPage.ActiveFrom.Ticks);
+                writer.Write(dynamicContentPage.ActiveTo.Ticks);
+                writer.Write(dynamicContentPage.Content.Count);
+
+                foreach (DynamicContentTemplate page in dynamicContentPage.Content)
+                {
+                    WriteStringData(writer, page.UniqueId);
+                    WriteStringData(writer, page.AssemblyQualifiedName);
+                    writer.Write(page.ActiveFrom.Ticks);
+                    writer.Write(page.ActiveTo.Ticks);
+                    WriteStringData(writer, page.Data);
+                    writer.Write(page.Height);
+                    writer.Write((int)page.HeightType);
+                    writer.Write(page.SortOrder);
+                    writer.Write(page.Width);
+                    writer.Write((int)page.WidthType);
+                }
+
+                return memoryStream.ToArray();
+            }
+        }
+
+        public static IDynamicContentPage ConvertFromByteArray(byte[] content)
+        {
+            if (content == null)
+                throw new ArgumentNullException(nameof(content));
+
+            if (content.Length < MinimumByteSize)
+                throw new ArgumentException(nameof(content));
+
+            using (MemoryStream memoryStream = new MemoryStream(content))
+            using (BinaryReader reader = new BinaryReader(memoryStream))
+            {
+                memoryStream.Position = 0;
+
+                if (reader.ReadByte() == Header[0] && reader.ReadByte() == Header[1])
+                {
+                    // reserved space for future changes
+                    reader.ReadInt32();
+                    reader.ReadInt32();
+
+                    int version = reader.ReadInt32();
+
+                    switch (version)
+                    {
+                        case FileVersion1:
+                            DynamicContentPage Result = new DynamicContentPage();
+
+                            LoadDynamicContentVersion1(reader, Result);
+                            return Result;
+
+                        default:
+                            throw new InvalidOperationException();
+                    }
+                }
+            }
+
+            return null;
+        }
+
+        private static void WriteStringData(BinaryWriter writer, string data)
+        {
+            byte[] byteData;
+
+            if (String.IsNullOrEmpty(data))
+                byteData = new byte[] { };
+            else
+                byteData = Encoding.UTF8.GetBytes(data);
+
+            writer.Write(byteData.Length);
+
+            if (byteData.Length > 0)
+                writer.Write(byteData);
+        }
+
+        private static string ReadStringData(BinaryReader reader)
+        {
+            int len = reader.ReadInt32();
+
+            if (len > 0)
+                return Encoding.UTF8.GetString(reader.ReadBytes(len));
+
+            return String.Empty;
+        }
+
+        private static void LoadDynamicContentVersion1(BinaryReader reader, DynamicContentPage dynamicContentPage)
+        {
+            dynamicContentPage.Id = reader.ReadInt32();
+            dynamicContentPage.Name = ReadStringData(reader);
+            dynamicContentPage.RouteName = ReadStringData(reader);
+            dynamicContentPage.BackgroundColor = ReadStringData(reader);
+            dynamicContentPage.BackgroundImage = ReadStringData(reader);
+            dynamicContentPage.ActiveFrom = new DateTime(reader.ReadInt64());
+            dynamicContentPage.ActiveTo = new DateTime(reader.ReadInt64());
+            int itemCount = reader.ReadInt32();
+            int item = 0;
+
+            while (item < itemCount)
+            {
+                string uniqueId = ReadStringData(reader);
+                string className = ReadStringData(reader);
+
+                string[] classParts = className.Split(",");
+
+                if (classParts.Length < 2)
+                    throw new InvalidOperationException();
+
+                DynamicContentTemplate instance = CreateTemplateItem(classParts[1].Trim(), classParts[0].Trim(), uniqueId, out bool templateClassFound);
+                instance.ActiveFrom = new DateTime(reader.ReadInt64());
+                instance.ActiveTo = new DateTime(reader.ReadInt64());
+                string data = ReadStringData(reader);
+
+                if (templateClassFound)
+                    instance.Data = data;
+                else
+                    instance.Data = "<p>Content template not found</p>";
+
+                instance.Height = reader.ReadInt32();
+                instance.HeightType = (DynamicContentHeightType)reader.ReadInt32();
+                instance.SortOrder = reader.ReadInt32();
+                instance.Width = reader.ReadInt32();
+                instance.WidthType = (DynamicContentWidthType)reader.ReadInt32();
+                dynamicContentPage.Content.Add(instance);
+                item++;
+            }
+        }
+
+        private static DynamicContentTemplate CreateTemplateItem(string assemblyName, string className, string uniqueId, out bool templateClassFound)
+        {
+            DynamicContentTemplate baseInstance;
+
+            try
+            {
+                Assembly classAssembly = Assembly.Load(assemblyName);
+                Type t = classAssembly.GetType(className);
+
+                if (t == null)
+                {
+                    baseInstance = new Templates.HtmlTextTemplate();
+                    templateClassFound = false;
+                }
+                else
+                {
+                    baseInstance = (DynamicContentTemplate)Activator.CreateInstance(t);
+                    templateClassFound = true;
+                }
+            }
+            catch
+            {
+                baseInstance = new Templates.HtmlTextTemplate();
+                templateClassFound = false;
+            }
+
+            return baseInstance.Clone(uniqueId);
+        }
+
+        #endregion Static Methods
+
         #region Private Methods
 
-        //private string ProcessCreateWebContent(IDynamicContentProvider dynamicContentProvider, WebControl webControl,
-        //    out ushort errors)
-        //{
-        //errors = 0;
-        //StringBuilder Result = new StringBuilder(2048);
-        //Result.AppendFormat("<div class=\"col-sm-{0} col-md-{1} col-lg-{2}\">",
-        //    webControl.WidthSmall, webControl.WidthMedium, webControl.WidthLarge);
-        //Result.Append(webControl.Content);
-
-        //List<WebContentProperty> properties = ProcessGetProperties(webControl);
-
-        //foreach (WebContentProperty property in properties)
-        //{
-        //    WebContent webContent = dynamicContentProvider.GetWebContent(property.ContentName);
-
-        //    if (webContent == null)
-        //    {
-        //        errors++;
-        //        continue;
-        //    }
-
-        //    switch (webContent.ContentType)
-        //    {
-        //        case DynamicContentType.Image:
-        //        case DynamicContentType.Text:
-        //        case DynamicContentType.Url:
-        //            Result = Result.Replace($"[*{property.Name}={property.ContentName}*]", webContent.Data);
-        //            break;
-
-        //        case DynamicContentType.Class:
-        //            Result = Result.Replace($"[*{property.Name}={property.ContentName}*]",
-        //                GetClassDynamicContent(webContent.Data, ref errors));
-        //            break;
-
-        //        default:
-        //            throw new NotImplementedException();
-        //    }
-        //}
-
-        //Result.Append("</div>");
-
-        //return Result.ToString();
-        //}
-
-        //private string GetClassDynamicContent(string className, ref ushort errors)
-        //{
-        //    List<Type> customContentProviders = _pluginClassesService.GetPluginClassTypes<ICustomDynamicContentProvider>();
-
-        //    Type customProviderType = customContentProviders.Where(t => t.Name.Equals(className)).FirstOrDefault();
-
-        //    if (customProviderType == null)
-        //    {
-        //        errors++;
-        //        return String.Empty;
-        //    }
-
-        //    object[] paramInstances = _pluginClassesService.GetPluginClassParameters(customProviderType);
-
-        //    ICustomDynamicContentProvider customProvider = Activator.CreateInstance(customProviderType, paramInstances) as ICustomDynamicContentProvider;
-
-        //    if (customProvider == null)
-        //    {
-        //        errors++;
-        //        return String.Empty;
-        //    }
-
-        //    return customProvider.GenerateCustomData();
-        //}
-
-        //private List<WebContentProperty> ProcessGetProperties(in WebControl webControl)
-        //{
-        //    List<WebContentProperty> Result = new List<WebContentProperty>();
-
-        //    string data = webControl.Content;
-        //    StringBuilder propertyData = new StringBuilder(100);
-        //    bool inProperty = false;
-        //    char lastChar = '\0';
-        //    int startPos = -1;
-
-        //    for (int i = 0; i < data.Length; i++)
-        //    {
-        //        char currentChar = data[i];
-        //        bool canPeek = i < data.Length;
-
-        //        if (currentChar == '*' && !inProperty && lastChar == '[')
-        //        {
-        //            inProperty = true;
-        //            lastChar = currentChar;
-        //            propertyData.Clear();
-        //            startPos = i - 1;
-        //            continue;
-        //        }
-
-        //        if (inProperty && currentChar == ']' && lastChar == '*')
-        //        {
-        //            inProperty = false;
-        //            lastChar = currentChar;
-        //            string[] parts = propertyData.ToString().Split('=');
-        //            Result.Add(new WebContentProperty(parts[0], parts[1], startPos, i));
-        //            continue;
-        //        }
-
-        //        if (inProperty)
-        //        {
-        //            if (currentChar == '*' && canPeek && data[i + 1] == ']')
-        //            {
-        //                lastChar = currentChar;
-        //                continue;
-        //            }
-
-        //            propertyData.Append(currentChar);
-        //        }
-
-
-        //        lastChar = currentChar;
-        //    }
-
-
-        //    return Result;
-        //}
-
-        //private bool ProcessValidateWebControl(in WebControl webControl, ref List<string> errors, ref int propertCount)
-        //{
-        //    string data = webControl.Content;
-        //    StringBuilder propertyData = new StringBuilder(100);
-        //    Dictionary<string, string> duplicatePropertyNames = new Dictionary<string, string>();
-        //    bool inProperty = false;
-        //    bool isOpen = false;
-        //    char lastChar = '\0';
-
-        //    for (int i = 0; i < data.Length; i++)
-        //    {
-        //        char currentChar = data[i];
-        //        bool canPeek = i < data.Length;
-
-        //        if (currentChar == '*' && !inProperty && lastChar == '[')
-        //        {
-        //            if (isOpen)
-        //                errors.Add(LanguageStrings.WebControlOpenProperty);
-
-        //            inProperty = true;
-        //            isOpen = true;
-        //            lastChar = currentChar;
-        //            propertyData.Clear();
-        //            continue;
-        //        }
-
-        //        if (currentChar == '*' && inProperty && lastChar == '[')
-        //        {
-        //            if (isOpen)
-        //                errors.Add(LanguageStrings.WebControlOpenProperty);
-
-        //            inProperty = true;
-        //            isOpen = true;
-        //            lastChar = currentChar;
-        //            propertyData.Clear();
-        //            continue;
-        //        }
-
-        //        if (inProperty && currentChar == ']' && lastChar == '*')
-        //        {
-        //            propertCount++;
-        //            isOpen = false;
-        //            inProperty = false;
-        //            lastChar = currentChar;
-
-        //            if (!propertyData.ToString().Contains('='))
-        //            {
-        //                errors.Add(LanguageStrings.WebControlNoSeperator);
-        //                continue;
-        //            }
-
-        //            string[] parts = propertyData.ToString().Split('=');
-
-        //            if (parts.Length > 2)
-        //            {
-        //                errors.Add(LanguageStrings.WebControlTooManySeparators);
-        //                continue;
-        //            }
-
-        //            if (parts[0].Trim().Length == 0)
-        //            {
-        //                errors.Add(LanguageStrings.WebControlPropertyEmpty);
-        //                continue;
-        //            }
-
-        //            if (parts[0].Trim().Length > 30)
-        //                errors.Add(LanguageStrings.WebControlPropertyNameTooLong);
-
-        //            if (parts[0].Length != parts[0].Trim().Length)
-        //                errors.Add(LanguageStrings.WebControlRequiresTrim);
-
-        //            if (InvalidCharacters(parts[0], false))
-        //                errors.Add(LanguageStrings.WebControlPropertyInvalidCharacters);
-
-        //            if (duplicatePropertyNames.ContainsKey(parts[0].Trim()))
-        //                errors.Add(LanguageStrings.WebControlPropertyNameDuplicates);
-        //            else
-        //                duplicatePropertyNames.Add(parts[0], String.Empty);
-
-        //            if (parts[1].Length != parts[1].Trim().Length)
-        //                errors.Add(LanguageStrings.WebControlPropertyValueHasSpaces);
-
-        //            if (parts[1].Trim().Length == 0)
-        //                errors.Add(LanguageStrings.WebControlPropertyValueNotFound);
-
-        //            continue;
-        //        }
-
-        //        if (inProperty)
-        //        {
-        //            if (currentChar == '*' && canPeek && data[i + 1] == ']')
-        //            {
-        //                lastChar = currentChar;
-        //                continue;
-        //            }
-
-        //            propertyData.Append(currentChar);
-        //        }
-
-
-        //        lastChar = currentChar;
-        //    }
-
-        //    if (isOpen)
-        //        errors.Add(LanguageStrings.WebControlOpenProperty);
-
-        //    return errors.Count > 0;
-        //}
-
-        //private bool ProcessValidateWebControlTemplate(in WebControlTemplate webControlTemplate, ref List<string> errors, ref int propertCount)
-        //{
-        //    string data = webControlTemplate.Content;
-        //    StringBuilder propertyData = new StringBuilder(100);
-        //    Dictionary<string, string> duplicatePropertyNames = new Dictionary<string, string>();
-        //    bool inProperty = false;
-        //    bool isOpen = false;
-        //    char lastChar = '\0';
-
-        //    for (int i = 0; i < data.Length; i++)
-        //    {
-        //        char currentChar = data[i];
-        //        bool canPeek = i < data.Length;
-
-        //        if (currentChar == '*' && !inProperty && lastChar == '[')
-        //        {
-        //            if (isOpen)
-        //                errors.Add(LanguageStrings.WebControlOpenProperty);
-
-        //            inProperty = true;
-        //            isOpen = true;
-        //            lastChar = currentChar;
-        //            propertyData.Clear();
-        //            continue;
-        //        }
-
-        //        if (currentChar == '*' && inProperty && lastChar == '[')
-        //        {
-        //            if (isOpen)
-        //                errors.Add(LanguageStrings.WebControlOpenProperty);
-
-        //            inProperty = true;
-        //            isOpen = true;
-        //            lastChar = currentChar;
-        //            propertyData.Clear();
-        //            continue;
-        //        }
-
-        //        if (inProperty && currentChar == ']' && lastChar == '*')
-        //        {
-        //            propertCount++;
-        //            isOpen = false;
-        //            inProperty = false;
-        //            lastChar = currentChar;
-
-        //            if (!propertyData.ToString().Contains('='))
-        //            {
-        //                errors.Add(LanguageStrings.WebControlNoSeperator);
-        //                continue;
-        //            }
-
-        //            string[] parts = propertyData.ToString().Split('=');
-
-        //            if (parts.Length > 2)
-        //            {
-        //                errors.Add(LanguageStrings.WebControlTooManySeparators);
-        //                continue;
-        //            }
-
-        //            if (parts[0].Trim().Length == 0)
-        //            {
-        //                errors.Add(LanguageStrings.WebControlPropertyEmpty);
-        //                continue;
-        //            }
-
-        //            if (parts[0].Trim().Length > 30)
-        //                errors.Add(LanguageStrings.WebControlPropertyNameTooLong);
-
-        //            if (parts[0].Length != parts[0].Trim().Length)
-        //                errors.Add(LanguageStrings.WebControlRequiresTrim);
-
-        //            if (InvalidCharacters(parts[0], false))
-        //                errors.Add(LanguageStrings.WebControlPropertyInvalidCharacters);
-
-        //            if (duplicatePropertyNames.ContainsKey(parts[0].Trim()))
-        //                errors.Add(LanguageStrings.WebControlPropertyNameDuplicates);
-        //            else
-        //                duplicatePropertyNames.Add(parts[0], String.Empty);
-
-        //            if (parts[1].Length != parts[1].Trim().Length)
-        //                errors.Add(LanguageStrings.WebControlPropertyValueHasSpaces);
-
-        //            if (parts[1].Trim().Length != 0)
-        //                errors.Add(LanguageStrings.WebControlTemplatePropertyValueHasValue);
-
-        //            continue;
-        //        }
-
-        //        if (inProperty)
-        //        {
-        //            if (currentChar == '*' && canPeek && data[i + 1] == ']')
-        //            {
-        //                lastChar = currentChar;
-        //                continue;
-        //            }
-
-        //            propertyData.Append(currentChar);
-        //        }
-
-
-        //        lastChar = currentChar;
-        //    }
-
-        //    if (isOpen)
-        //        errors.Add(LanguageStrings.WebControlOpenProperty);
-
-        //    return errors.Count > 0;
-        //}
-
-        //private bool ProcessValidateWebContent(in WebContent webContent, ref List<string> errors)
-        //{
-        //    if (InvalidCharacters(webContent.Name, true))
-        //        errors.Add(LanguageStrings.WebContentInvalidName);
-
-        //    if (webContent.Name.Length != webContent.Name.Trim().Length)
-        //        errors.Add(LanguageStrings.WebContentInvalidLeadingTrailingSpaces);
-
-        //    return errors.Count > 0;
-        //}
-
-        //private bool InvalidCharacters(in string value, in bool allowSpaces)
-        //{
-        //    foreach (char c in value)
-        //    {
-        //        bool isInvalidChar = !((c >= 65 && c <= 90) ||
-        //            (c >= 61 && c <= 122) ||
-        //            (c >= 48 && c <= 57) ||
-        //            (c == 45) ||
-        //            (allowSpaces && c == 32));
-
-        //        if (isInvalidChar)
-        //            return true;
-        //    }
-
-        //    return false;
-        //}
+        private void WriteFileContents(IDynamicContentPage dynamicContentPage)
+        {
+            byte[] contents = ConvertFromDynamicContent(dynamicContentPage);
+            string filename = Path.Combine(_rootContentPath, $"{dynamicContentPage.Id}.page");
+            File.WriteAllBytes(filename, contents);
+        }
+
+        private IDynamicContentPage ReadFileContents(string filename)
+        {
+            return ConvertFromByteArray(File.ReadAllBytes(filename));
+        }
+
+        private void InitializeDynamicContent()
+        {
+            if (!Directory.Exists(_rootContentPath))
+                Directory.CreateDirectory(_rootContentPath);
+
+            string[] pages = Directory.GetFiles(_rootContentPath, "*.page");
+
+            foreach (string page in pages)
+            {
+                IDynamicContentPage convertedPage = ReadFileContents(page);
+
+                if (convertedPage != null)
+                    _dynamicContent.Add(convertedPage);
+            }
+        }
 
         #endregion Private Methods
     }

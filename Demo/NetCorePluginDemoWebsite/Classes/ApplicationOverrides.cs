@@ -11,44 +11,33 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2021 Simon Carter.  All Rights Reserved.
  *
- *  Product:  DynamicContent.Plugin
+ *  Product:  AspNetCore.PluginManager.DemoWebsite
  *  
- *  File: DynamicContentModel.cs
+ *  File: ApplicationOverrides.cs
  *
- *  Purpose:  Dynamic content result model
+ *  Purpose:  
  *
  *  Date        Name                Reason
- *  19/12/2020  Simon Carter        Initially Created
+ *  26/06/2021  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using System;
+using AppSettings;
 
-namespace DynamicContent.Plugin.Model
+namespace AspNetCore.PluginManager.DemoWebsite.Classes
 {
-    public sealed class DynamicContentModel
+    public class ApplicationOverrides : IApplicationOverride
     {
-        public DynamicContentModel()
+        public bool ExpandApplicationVariable(string variableName, ref object value)
         {
-            Success = false;
-            Data = String.Empty;
+            if (variableName.Equals("RootPath"))
+            {
+                value = PluginManagerService.ApplicationRootPath;
+                return true;
+            }
+
+            return false;
         }
-
-        public DynamicContentModel(bool success)
-        {
-            Success = success;
-            Data = String.Empty;
-        }
-
-        public DynamicContentModel(string data)
-        {
-            Data = data ?? throw new ArgumentNullException(nameof(data));
-            Success = true;
-        }
-
-        public bool Success { get; set; }
-
-        public string Data { get; set; }
     }
 }

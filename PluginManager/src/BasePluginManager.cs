@@ -35,6 +35,8 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 
+using AppSettings;
+
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
@@ -444,8 +446,12 @@ namespace PluginManager
             // if no ILogger instance has been registered, register the default instance now.
             services.TryAddSingleton<ILogger>(Logger);
 
+            _serviceProvider = services.BuildServiceProvider();
+
             // if no plugin has registered a setting provider, add the default appsettings json provider
-            DefaultSettingProvider settingProvider = new DefaultSettingProvider(RootPath);
+            IApplicationOverride appOverride = _serviceProvider.GetService<IApplicationOverride>();
+            ISettingError settingsError = _serviceProvider.GetService<ISettingError>();
+            DefaultSettingProvider settingProvider = new DefaultSettingProvider(RootPath, appOverride, settingsError);
             services.TryAddSingleton<ISettingsProvider>(settingProvider);
 
             _serviceProvider = services.BuildServiceProvider();
