@@ -57,7 +57,7 @@
                 cache: false,
                 success: function (response) {
                     if (response.success) {
-                        $(_settings.dynamicContainer).html(response.data);
+                        $(_settings.dynamicContainer).html(response.responseData);
                         var editButtons = document.getElementsByClassName("editBtn");
 
                         for (var i = 0; i < editButtons.length; i++) {
@@ -153,7 +153,7 @@
                         root.updatePage(_settings.cacheId);
                     }
                     else {
-                        let errMessage = response.data;
+                        let errMessage = response.responseData;
                         $(_settings.errorList).html('<li>' + errMessage + '</li>');
                     }
                 },

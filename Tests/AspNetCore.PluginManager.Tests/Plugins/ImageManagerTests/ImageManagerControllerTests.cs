@@ -58,7 +58,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
     [ExcludeFromCodeCoverage]
     public class ImageManagerControllerTests : BaseControllerTests
     {
-        private const string ImageManagerTestsCategory = "Image Manager Tests";
+        private const string TestCategoryName = "Image Manager Tests";
         private const string ExpectedResponseWithNoListener = "{\"GroupName\":\"Group\",\"SubgroupName\":\"test subgrouP\",\"ShowSubgroup\":true,\"AdditionalDataName\":null,\"AdditionalData\":null,\"AdditionalDataMandatory\":false}";
         private const string ExpectedResponseWithListener = "{\"GroupName\":\"Images\",\"SubgroupName\":null,\"ShowSubgroup\":false,\"AdditionalDataName\":\"Enter product code/sku\",\"AdditionalData\":null,\"AdditionalDataMandatory\":true}";
 
@@ -69,7 +69,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         }
 
         [TestMethod]
-        [TestCategory(ImageManagerTestsCategory)]
+        [TestCategory(TestCategoryName)]
         [ExpectedException(typeof(ArgumentNullException))]
         public void Construct_InvalidSettingsProvider_Null_Throws_ArgumentNullException()
         {
@@ -77,7 +77,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         }
 
         [TestMethod]
-        [TestCategory(ImageManagerTestsCategory)]
+        [TestCategory(TestCategoryName)]
         [ExpectedException(typeof(ArgumentNullException))]
         public void Construct_InvalidImageProvider_Null_Throws_ArgumentNullException()
         {
@@ -85,7 +85,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         }
 
         [TestMethod]
-        [TestCategory(ImageManagerTestsCategory)]
+        [TestCategory(TestCategoryName)]
         [ExpectedException(typeof(ArgumentNullException))]
         public void Construct_InvalidNotificationService_Null_Throws_ArgumentNullException()
         {
@@ -93,7 +93,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         }
 
         [TestMethod]
-        [TestCategory(ImageManagerTestsCategory)]
+        [TestCategory(TestCategoryName)]
         [ExpectedException(typeof(ArgumentNullException))]
         public void Construct_InvalidMemoryCache_Null_Throws_ArgumentNullException()
         {
@@ -101,7 +101,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         }
 
         [TestMethod]
-        [TestCategory(ImageManagerTestsCategory)]
+        [TestCategory(TestCategoryName)]
         [ExpectedException(typeof(ArgumentNullException))]
         public void Construct_InvalidVirusScanner_Null_Throws_ArgumentNullException()
         {
@@ -109,7 +109,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         }
 
         [TestMethod]
-        [TestCategory(ImageManagerTestsCategory)]
+        [TestCategory(TestCategoryName)]
         public void Construct_ValidInstance_Success()
         {
             ImageManagerController sut = new ImageManagerController(new TestSettingsProvider("{}"), new MockImageProvider(), new TestNotificationService(), new TestMemoryCache(), new TestVirusScanner());
@@ -118,14 +118,14 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         }
 
         [TestMethod]
-        [TestCategory(ImageManagerTestsCategory)]
+        [TestCategory(TestCategoryName)]
         public void Validate_ControllerName_Success()
         {
             Assert.AreEqual("ImageManager", ImageManagerController.Name);
         }
 
         [TestMethod]
-        [TestCategory(ImageManagerTestsCategory)]
+        [TestCategory(TestCategoryName)]
         public void Validate_ControllerHasCorrectAttributes_Success()
         {
             Assert.IsTrue(ClassHasAttribute<DenySpiderAttribute>(typeof(ImageManagerController)));
@@ -136,7 +136,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         }
 
         [TestMethod]
-        [TestCategory(ImageManagerTestsCategory)]
+        [TestCategory(TestCategoryName)]
         public void Validate_ControllerViewsAreIncludedAsResources_Success()
         {
             Assert.IsTrue(AssemblyHasViewResource(typeof(ImageManagerController), ImageManagerController.Name, "_LeftMenu"));
@@ -147,7 +147,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         }
 
         [TestMethod]
-        [TestCategory(ImageManagerTestsCategory)]
+        [TestCategory(TestCategoryName)]
         public void Index_HasCorrectAttributes_Success()
         {
             string methodName = "Index";
@@ -162,10 +162,10 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         }
 
         [TestMethod]
-        [TestCategory(ImageManagerTestsCategory)]
+        [TestCategory(TestCategoryName)]
         public void Index_ReturnsCorrectModel_Success()
         {
-            ImageManagerController sut = CreateDynamicContentController(null, null, CreateDefaultMockImageProvider());
+            ImageManagerController sut = CreateImageManagerController(null, null, CreateDefaultMockImageProvider());
 
             IActionResult response = sut.Index();
 
@@ -195,10 +195,10 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         }
 
         [TestMethod]
-        [TestCategory(ImageManagerTestsCategory)]
+        [TestCategory(TestCategoryName)]
         public void Index_ReturnsCorrectModel_WithUserThatCanManageImages_Success()
         {
-            ImageManagerController sut = CreateDynamicContentController(null, null, CreateDefaultMockImageProvider());
+            ImageManagerController sut = CreateImageManagerController(null, null, CreateDefaultMockImageProvider());
             List<ClaimsIdentity> claimsIdentities = new List<ClaimsIdentity>();
 
             List<Claim> webClaims = new List<Claim>();
@@ -227,7 +227,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         }
 
         [TestMethod]
-        [TestCategory(ImageManagerTestsCategory)]
+        [TestCategory(TestCategoryName)]
         public void ViewGroup_HasCorrectAttributes_Success()
         {
             string methodName = "ViewGroup";
@@ -242,10 +242,10 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         }
 
         [TestMethod]
-        [TestCategory(ImageManagerTestsCategory)]
+        [TestCategory(TestCategoryName)]
         public void ViewGroup_InvalidParam_GroupName_Null_RedirectsToIndex()
         {
-            ImageManagerController sut = CreateDynamicContentController();
+            ImageManagerController sut = CreateImageManagerController();
 
             IActionResult response = sut.ViewGroup(null);
 
@@ -258,10 +258,10 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         }
 
         [TestMethod]
-        [TestCategory(ImageManagerTestsCategory)]
+        [TestCategory(TestCategoryName)]
         public void ViewGroup_InvalidParam_GroupName_EmptyString_RedirectsToIndex()
         {
-            ImageManagerController sut = CreateDynamicContentController();
+            ImageManagerController sut = CreateImageManagerController();
 
             IActionResult response = sut.ViewGroup("");
 
@@ -274,10 +274,10 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         }
 
         [TestMethod]
-        [TestCategory(ImageManagerTestsCategory)]
+        [TestCategory(TestCategoryName)]
         public void ViewGroup_InvalidGroupName_DoesNotExist_RedirectsToIndex()
         {
-            ImageManagerController sut = CreateDynamicContentController();
+            ImageManagerController sut = CreateImageManagerController();
 
             IActionResult response = sut.ViewGroup("Image Group");
 
@@ -290,10 +290,10 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         }
 
         [TestMethod]
-        [TestCategory(ImageManagerTestsCategory)]
+        [TestCategory(TestCategoryName)]
         public void ViewGroup_ValidGroupName_ReturnsCorrectModelAndView_Success()
         {
-            ImageManagerController sut = CreateDynamicContentController(null, null, CreateDefaultMockImageProvider());
+            ImageManagerController sut = CreateImageManagerController(null, null, CreateDefaultMockImageProvider());
 
             IActionResult response = sut.ViewGroup("Group 1");
 
@@ -325,7 +325,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         }
 
         [TestMethod]
-        [TestCategory(ImageManagerTestsCategory)]
+        [TestCategory(TestCategoryName)]
         public void ViewSubgroup_HasCorrectAttributes_Success()
         {
             string methodName = "ViewSubgroup";
@@ -340,10 +340,10 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         }
 
         [TestMethod]
-        [TestCategory(ImageManagerTestsCategory)]
+        [TestCategory(TestCategoryName)]
         public void ViewSubgroup_InvalidParam_GroupName_Null_RedirectsToIndex()
         {
-            ImageManagerController sut = CreateDynamicContentController();
+            ImageManagerController sut = CreateImageManagerController();
 
             IActionResult response = sut.ViewSubgroup(null, "subgroup");
 
@@ -356,10 +356,10 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         }
 
         [TestMethod]
-        [TestCategory(ImageManagerTestsCategory)]
+        [TestCategory(TestCategoryName)]
         public void ViewSubgroup_InvalidParam_GroupName_EmptyString_RedirectsToIndex()
         {
-            ImageManagerController sut = CreateDynamicContentController();
+            ImageManagerController sut = CreateImageManagerController();
 
             IActionResult response = sut.ViewSubgroup("", "subgroup");
 
@@ -372,10 +372,10 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         }
 
         [TestMethod]
-        [TestCategory(ImageManagerTestsCategory)]
+        [TestCategory(TestCategoryName)]
         public void ViewSubgroup_InvalidParam_SubgroupName_Null_RedirectsToIndex()
         {
-            ImageManagerController sut = CreateDynamicContentController(null, null, CreateDefaultMockImageProvider());
+            ImageManagerController sut = CreateImageManagerController(null, null, CreateDefaultMockImageProvider());
 
             IActionResult response = sut.ViewSubgroup("Group 1", null);
 
@@ -388,10 +388,10 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         }
 
         [TestMethod]
-        [TestCategory(ImageManagerTestsCategory)]
+        [TestCategory(TestCategoryName)]
         public void ViewSubgroup_InvalidParam_SubgroupName_EmptyString_RedirectsToIndex()
         {
-            ImageManagerController sut = CreateDynamicContentController(null, null, CreateDefaultMockImageProvider());
+            ImageManagerController sut = CreateImageManagerController(null, null, CreateDefaultMockImageProvider());
 
             IActionResult response = sut.ViewSubgroup("Group 1", "");
 
@@ -404,10 +404,10 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         }
 
         [TestMethod]
-        [TestCategory(ImageManagerTestsCategory)]
+        [TestCategory(TestCategoryName)]
         public void ViewSubgroup_SubgroupName_DoesNotExist_RedirectsToIndex()
         {
-            ImageManagerController sut = CreateDynamicContentController(null, null, CreateDefaultMockImageProvider());
+            ImageManagerController sut = CreateImageManagerController(null, null, CreateDefaultMockImageProvider());
 
             IActionResult response = sut.ViewSubgroup("Group 1", "Subgroup 1");
 
@@ -420,10 +420,10 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         }
 
         [TestMethod]
-        [TestCategory(ImageManagerTestsCategory)]
+        [TestCategory(TestCategoryName)]
         public void ViewSubgroup_InvalidGroupName_DoesNotExist_RedirectsToIndex()
         {
-            ImageManagerController sut = CreateDynamicContentController();
+            ImageManagerController sut = CreateImageManagerController();
 
             IActionResult response = sut.ViewSubgroup("Image Group", "subgroup");
 
@@ -436,10 +436,10 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         }
 
         [TestMethod]
-        [TestCategory(ImageManagerTestsCategory)]
+        [TestCategory(TestCategoryName)]
         public void ViewSubgroup_ValidGroupName_ReturnsCorrectModelAndView_Success()
         {
-            ImageManagerController sut = CreateDynamicContentController(null, null, CreateDefaultMockImageProvider());
+            ImageManagerController sut = CreateImageManagerController(null, null, CreateDefaultMockImageProvider());
 
             IActionResult response = sut.ViewSubgroup("Group 1", "Group 1 Subgroup 1");
 
@@ -472,7 +472,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         }
 
         [TestMethod]
-        [TestCategory(ImageManagerTestsCategory)]
+        [TestCategory(TestCategoryName)]
         public void ViewImage_HasCorrectAttributes_Success()
         {
             string methodName = "ViewImage";
@@ -487,10 +487,10 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         }
 
         [TestMethod]
-        [TestCategory(ImageManagerTestsCategory)]
+        [TestCategory(TestCategoryName)]
         public void ViewImage_InvalidParam_GroupName_Null_RedirectsToIndex()
         {
-            ImageManagerController sut = CreateDynamicContentController();
+            ImageManagerController sut = CreateImageManagerController();
 
             IActionResult response = sut.ViewImage(null, "image name");
 
@@ -503,10 +503,10 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         }
 
         [TestMethod]
-        [TestCategory(ImageManagerTestsCategory)]
+        [TestCategory(TestCategoryName)]
         public void ViewImage_InvalidParam_GroupName_EmptyString_RedirectsToIndex()
         {
-            ImageManagerController sut = CreateDynamicContentController();
+            ImageManagerController sut = CreateImageManagerController();
 
             IActionResult response = sut.ViewImage("", "image name");
 
@@ -519,10 +519,10 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         }
 
         [TestMethod]
-        [TestCategory(ImageManagerTestsCategory)]
+        [TestCategory(TestCategoryName)]
         public void ViewImage_InvalidParam_ImageName_Null_RedirectsToIndex()
         {
-            ImageManagerController sut = CreateDynamicContentController();
+            ImageManagerController sut = CreateImageManagerController();
 
             IActionResult response = sut.ViewImage("Image Group", null);
 
@@ -535,10 +535,10 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         }
 
         [TestMethod]
-        [TestCategory(ImageManagerTestsCategory)]
+        [TestCategory(TestCategoryName)]
         public void ViewImage_InvalidParam_ImageName_EmptyString_RedirectsToIndex()
         {
-            ImageManagerController sut = CreateDynamicContentController();
+            ImageManagerController sut = CreateImageManagerController();
 
             IActionResult response = sut.ViewImage("Image Group", "");
 
@@ -551,10 +551,10 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         }
 
         [TestMethod]
-        [TestCategory(ImageManagerTestsCategory)]
+        [TestCategory(TestCategoryName)]
         public void ViewImage_ValidImage_ReturnsCorrectModelAndView_Success()
         {
-            ImageManagerController sut = CreateDynamicContentController(null, null, CreateDefaultMockImageProvider());
+            ImageManagerController sut = CreateImageManagerController(null, null, CreateDefaultMockImageProvider());
 
             IActionResult response = sut.ViewImage("Group 1", "myfile-gif");
 
@@ -588,7 +588,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         }
 
         [TestMethod]
-        [TestCategory(ImageManagerTestsCategory)]
+        [TestCategory(TestCategoryName)]
         public void ViewImage_WithSubgroup_HasCorrectAttributes_Success()
         {
             string methodName = "ViewSubgroupImage";
@@ -603,10 +603,10 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         }
 
         [TestMethod]
-        [TestCategory(ImageManagerTestsCategory)]
+        [TestCategory(TestCategoryName)]
         public void ViewImage_WithSubgroup_InvalidParam_GroupName_Null_RedirectsToIndex()
         {
-            ImageManagerController sut = CreateDynamicContentController();
+            ImageManagerController sut = CreateImageManagerController();
 
             IActionResult response = sut.ViewSubgroupImage(null, "subgroup", "image name");
 
@@ -619,10 +619,10 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         }
 
         [TestMethod]
-        [TestCategory(ImageManagerTestsCategory)]
+        [TestCategory(TestCategoryName)]
         public void ViewImage_WithSubgroup_InvalidParam_GroupName_EmptyString_RedirectsToIndex()
         {
-            ImageManagerController sut = CreateDynamicContentController();
+            ImageManagerController sut = CreateImageManagerController();
 
             IActionResult response = sut.ViewSubgroupImage("", "subgroup", "image name");
 
@@ -635,10 +635,10 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         }
 
         [TestMethod]
-        [TestCategory(ImageManagerTestsCategory)]
+        [TestCategory(TestCategoryName)]
         public void ViewImage_WithSubgroup_InvalidParam_SubgroupName_Null_RedirectsToIndex()
         {
-            ImageManagerController sut = CreateDynamicContentController();
+            ImageManagerController sut = CreateImageManagerController();
 
             IActionResult response = sut.ViewSubgroupImage("Image Group", null, "image name");
 
@@ -651,10 +651,10 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         }
 
         [TestMethod]
-        [TestCategory(ImageManagerTestsCategory)]
+        [TestCategory(TestCategoryName)]
         public void ViewImage_WithSubgroup_InvalidParam_SubgroupName_EmptyString_RedirectsToIndex()
         {
-            ImageManagerController sut = CreateDynamicContentController();
+            ImageManagerController sut = CreateImageManagerController();
 
             IActionResult response = sut.ViewSubgroupImage("Image Group", "", "image name");
 
@@ -667,10 +667,10 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         }
 
         [TestMethod]
-        [TestCategory(ImageManagerTestsCategory)]
+        [TestCategory(TestCategoryName)]
         public void ViewImage_WithSubgroup_InvalidParam_ImageName_Null_RedirectsToIndex()
         {
-            ImageManagerController sut = CreateDynamicContentController();
+            ImageManagerController sut = CreateImageManagerController();
 
             IActionResult response = sut.ViewSubgroupImage("Image Group", "sub group", null);
 
@@ -683,10 +683,10 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         }
 
         [TestMethod]
-        [TestCategory(ImageManagerTestsCategory)]
+        [TestCategory(TestCategoryName)]
         public void ViewImage_WithSubgroup_InvalidParam_ImageName_EmptyString_RedirectsToIndex()
         {
-            ImageManagerController sut = CreateDynamicContentController();
+            ImageManagerController sut = CreateImageManagerController();
 
             IActionResult response = sut.ViewSubgroupImage("Image Group", "sub group", "");
 
@@ -699,10 +699,10 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         }
 
         [TestMethod]
-        [TestCategory(ImageManagerTestsCategory)]
+        [TestCategory(TestCategoryName)]
         public void ViewImage_WithSubgroup_ValidImage_ReturnsCorrectModelAndView_Success()
         {
-            ImageManagerController sut = CreateDynamicContentController(null, null, CreateDefaultMockImageProvider());
+            ImageManagerController sut = CreateImageManagerController(null, null, CreateDefaultMockImageProvider());
 
             IActionResult response = sut.ViewSubgroupImage("Group 1", "Group 1 Subgroup 1", "myfile-gif");
 
@@ -737,7 +737,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         }
 
         [TestMethod]
-        [TestCategory(ImageManagerTestsCategory)]
+        [TestCategory(TestCategoryName)]
         public void DeleteImage_HasCorrectAttributes_Success()
         {
             string methodName = "DeleteImage";
@@ -754,30 +754,30 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         }
 
         [TestMethod]
-        [TestCategory(ImageManagerTestsCategory)]
+        [TestCategory(TestCategoryName)]
         public void DeleteImage_InvalidParamModel_Null_NoGroupOrSubgroup_ReturnsCorrectInvalidResponse()
         {
-            ImageManagerController sut = CreateDynamicContentController(null, null, CreateDefaultMockImageProvider());
+            ImageManagerController sut = CreateImageManagerController(null, null, CreateDefaultMockImageProvider());
             IActionResult response = sut.DeleteImage(null);
 
             ValidateJsonResult(response, "Invalid Model");
         }
 
         [TestMethod]
-        [TestCategory(ImageManagerTestsCategory)]
+        [TestCategory(TestCategoryName)]
         public void DeleteImage_InvalidModel_ConfirmDeleteFalse_NoGroupOrSubgroup_ReturnsCorrectInvalidResponse()
         {
-            ImageManagerController sut = CreateDynamicContentController(null, null, CreateDefaultMockImageProvider());
+            ImageManagerController sut = CreateImageManagerController(null, null, CreateDefaultMockImageProvider());
             IActionResult response = sut.DeleteImage(new DeleteImageModel());
 
             ValidateJsonResult(response, "Confirmation required");
         }
 
         [TestMethod]
-        [TestCategory(ImageManagerTestsCategory)]
+        [TestCategory(TestCategoryName)]
         public void DeleteImage_InvalidModel_ImageName_Null_NoGroupOrSubgroup_ReturnsCorrectInvalidResponse()
         {
-            ImageManagerController sut = CreateDynamicContentController(null, null, CreateDefaultMockImageProvider());
+            ImageManagerController sut = CreateImageManagerController(null, null, CreateDefaultMockImageProvider());
             DeleteImageModel deleteImageModel = new DeleteImageModel()
             {
                 ConfirmDelete = true
@@ -788,10 +788,10 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         }
 
         [TestMethod]
-        [TestCategory(ImageManagerTestsCategory)]
+        [TestCategory(TestCategoryName)]
         public void DeleteImage_InvalidModel_ImageName_EmptyString_NoGroupOrSubgroup_ReturnsCorrectInvalidResponse()
         {
-            ImageManagerController sut = CreateDynamicContentController(null, null, CreateDefaultMockImageProvider());
+            ImageManagerController sut = CreateImageManagerController(null, null, CreateDefaultMockImageProvider());
             DeleteImageModel deleteImageModel = new DeleteImageModel()
             {
                 ConfirmDelete = true,
@@ -803,10 +803,10 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         }
 
         [TestMethod]
-        [TestCategory(ImageManagerTestsCategory)]
+        [TestCategory(TestCategoryName)]
         public void DeleteImage_InvalidModel_GroupName_Null_ReturnsCorrectInvalidResponse()
         {
-            ImageManagerController sut = CreateDynamicContentController(null, null, CreateDefaultMockImageProvider());
+            ImageManagerController sut = CreateImageManagerController(null, null, CreateDefaultMockImageProvider());
             DeleteImageModel deleteImageModel = new DeleteImageModel()
             {
                 ConfirmDelete = true,
@@ -819,10 +819,10 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         }
 
         [TestMethod]
-        [TestCategory(ImageManagerTestsCategory)]
+        [TestCategory(TestCategoryName)]
         public void DeleteImage_InvalidModel_GroupName_EmptyString_ReturnsCorrectInvalidResponse()
         {
-            ImageManagerController sut = CreateDynamicContentController(null, null, CreateDefaultMockImageProvider());
+            ImageManagerController sut = CreateImageManagerController(null, null, CreateDefaultMockImageProvider());
             DeleteImageModel deleteImageModel = new DeleteImageModel()
             {
                 ConfirmDelete = true,
@@ -835,10 +835,10 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         }
 
         [TestMethod]
-        [TestCategory(ImageManagerTestsCategory)]
+        [TestCategory(TestCategoryName)]
         public void DeleteImage_InvalidModel_GroupName_DoesNotExist_ReturnsCorrectInvalidResponse()
         {
-            ImageManagerController sut = CreateDynamicContentController(null, null, CreateDefaultMockImageProvider());
+            ImageManagerController sut = CreateImageManagerController(null, null, CreateDefaultMockImageProvider());
             DeleteImageModel deleteImageModel = new DeleteImageModel()
             {
                 ConfirmDelete = true,
@@ -851,10 +851,10 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         }
 
         [TestMethod]
-        [TestCategory(ImageManagerTestsCategory)]
+        [TestCategory(TestCategoryName)]
         public void DeleteImage_InvalidModel_ImageNotFound_ReturnsCorrectInvalidResponse()
         {
-            ImageManagerController sut = CreateDynamicContentController(null, null, CreateDefaultMockImageProvider());
+            ImageManagerController sut = CreateImageManagerController(null, null, CreateDefaultMockImageProvider());
             DeleteImageModel deleteImageModel = new DeleteImageModel()
             {
                 ConfirmDelete = true,
@@ -867,10 +867,10 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         }
 
         [TestMethod]
-        [TestCategory(ImageManagerTestsCategory)]
+        [TestCategory(TestCategoryName)]
         public void DeleteImage_InvalidModel_SubgroupNoGroup_ReturnsCorrectInvalidResponse()
         {
-            ImageManagerController sut = CreateDynamicContentController(null, null, CreateDefaultMockImageProvider());
+            ImageManagerController sut = CreateImageManagerController(null, null, CreateDefaultMockImageProvider());
             DeleteImageModel deleteImageModel = new DeleteImageModel()
             {
                 ConfirmDelete = true,
@@ -884,11 +884,11 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         }
 
         [TestMethod]
-        [TestCategory(ImageManagerTestsCategory)]
+        [TestCategory(TestCategoryName)]
         public void DeleteImage_ValidModel_WithoutSubgroup_ReturnsCorrectValidResponse()
         {
             MockImageProvider mockImageProvider = CreateDefaultMockImageProvider();
-            ImageManagerController sut = CreateDynamicContentController(null, null, mockImageProvider);
+            ImageManagerController sut = CreateImageManagerController(null, null, mockImageProvider);
             DeleteImageModel deleteImageModel = new DeleteImageModel()
             {
                 ConfirmDelete = true,
@@ -901,11 +901,11 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         }
 
         [TestMethod]
-        [TestCategory(ImageManagerTestsCategory)]
+        [TestCategory(TestCategoryName)]
         public void DeleteImage_ValidModel_WithNonExistantSubgroup_ReturnsCorrectInvalidResponse()
         {
             MockImageProvider mockImageProvider = CreateDefaultMockImageProvider();
-            ImageManagerController sut = CreateDynamicContentController(null, null, mockImageProvider);
+            ImageManagerController sut = CreateImageManagerController(null, null, mockImageProvider);
             DeleteImageModel deleteImageModel = new DeleteImageModel()
             {
                 ConfirmDelete = true,
@@ -919,11 +919,11 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         }
 
         [TestMethod]
-        [TestCategory(ImageManagerTestsCategory)]
+        [TestCategory(TestCategoryName)]
         public void DeleteImage_ValidModel_WithSubgroup_ReturnsCorrectValidResponse()
         {
             MockImageProvider mockImageProvider = CreateDefaultMockImageProvider();
-            ImageManagerController sut = CreateDynamicContentController(null, null, mockImageProvider);
+            ImageManagerController sut = CreateImageManagerController(null, null, mockImageProvider);
             DeleteImageModel deleteImageModel = new DeleteImageModel()
             {
                 ConfirmDelete = true,
@@ -937,13 +937,13 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         }
 
         [TestMethod]
-        [TestCategory(ImageManagerTestsCategory)]
+        [TestCategory(TestCategoryName)]
         public void DeleteImage_ValidModel_WithoutSubgroup_ImageNotDeleted_ReturnsCorrectInvalidResponse()
         {
             MockImageProvider mockImageProvider = CreateDefaultMockImageProvider();
             mockImageProvider.CanDeleteImages = false;
 
-            ImageManagerController sut = CreateDynamicContentController(null, null, mockImageProvider);
+            ImageManagerController sut = CreateImageManagerController(null, null, mockImageProvider);
             DeleteImageModel deleteImageModel = new DeleteImageModel()
             {
                 ConfirmDelete = true,
@@ -956,7 +956,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         }
 
         [TestMethod]
-        [TestCategory(ImageManagerTestsCategory)]
+        [TestCategory(TestCategoryName)]
         public void UploadImage_HasCorrectAttributes_Success()
         {
             string methodName = "UploadImage";
@@ -974,27 +974,27 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         }
 
         [TestMethod]
-        [TestCategory(ImageManagerTestsCategory)]
+        [TestCategory(TestCategoryName)]
         public void UploadImage_InvalidFileList_Null_ReturnsCorrectInvalidResponse()
         {
-            ImageManagerController sut = CreateDynamicContentController(null, null, CreateDefaultMockImageProvider());
+            ImageManagerController sut = CreateImageManagerController(null, null, CreateDefaultMockImageProvider());
             IActionResult response = sut.UploadImage(null);
 
             ValidateJsonResult(response, "Invalid Model");
         }
 
         [TestMethod]
-        [TestCategory(ImageManagerTestsCategory)]
+        [TestCategory(TestCategoryName)]
         public void UploadImage_InvalidFileList_Empty_ReturnsCorrectInvalidResponse()
         {
-            ImageManagerController sut = CreateDynamicContentController(null, null, CreateDefaultMockImageProvider());
+            ImageManagerController sut = CreateImageManagerController(null, null, CreateDefaultMockImageProvider());
             IActionResult response = sut.UploadImage(new UploadImageModel(GenerateTestBaseModelData(), "My Group", null));
 
             ValidateJsonResult(response, "Invalid Model");
         }
 
         [TestMethod]
-        [TestCategory(ImageManagerTestsCategory)]
+        [TestCategory(TestCategoryName)]
         public void UploadImage_InvalidGroupName_Null_ReturnsCorrectInvalidResponse()
         {
             const string FileData = "test file data";
@@ -1004,19 +1004,19 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
 
             IFormFile formFile = new FormFile(new MemoryStream(fileContents), 0, fileContents.Length, "test", "testdata.dat");
             model.Files.Add(formFile);
-            ImageManagerController sut = CreateDynamicContentController(null, null, CreateDefaultMockImageProvider());
+            ImageManagerController sut = CreateImageManagerController(null, null, CreateDefaultMockImageProvider());
             IActionResult response = sut.UploadImage(model);
 
             ValidateJsonResult(response, "Invalid GroupName");
         }
 
         [TestMethod]
-        [TestCategory(ImageManagerTestsCategory)]
+        [TestCategory(TestCategoryName)]
         public void UploadImage_SingleFileUploaded_ReturnsCorrectValidResponse()
         {
             TestMemoryCache memoryCache = new TestMemoryCache();
             MockImageProvider mockImageProvider = CreateDefaultMockImageProvider();
-            ImageManagerController sut = CreateDynamicContentController(memoryCache, null, mockImageProvider);
+            ImageManagerController sut = CreateImageManagerController(memoryCache, null, mockImageProvider);
             const string FileData = "test file data";
             byte[] fileContents = Encoding.UTF8.GetBytes(FileData);
 
@@ -1039,12 +1039,12 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         }
 
         [TestMethod]
-        [TestCategory(ImageManagerTestsCategory)]
+        [TestCategory(TestCategoryName)]
         public void UploadImage_FileExtensionNotSupported_ReturnsCorrectResponseWithModelStateError()
         {
             TestMemoryCache memoryCache = new TestMemoryCache();
             MockImageProvider mockImageProvider = CreateDefaultMockImageProvider();
-            ImageManagerController sut = CreateDynamicContentController(memoryCache, null, mockImageProvider);
+            ImageManagerController sut = CreateImageManagerController(memoryCache, null, mockImageProvider);
             const string FileData = "test file data";
             byte[] fileContents = Encoding.UTF8.GetBytes(FileData);
 
@@ -1059,12 +1059,12 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         }
 
         [TestMethod]
-        [TestCategory(ImageManagerTestsCategory)]
+        [TestCategory(TestCategoryName)]
         public void UploadImage_SingleFileUploaded_WithSubgroup_ReturnsCorrectValidResponse()
         {
             TestMemoryCache memoryCache = new TestMemoryCache();
             MockImageProvider mockImageProvider = CreateDefaultMockImageProvider();
-            ImageManagerController sut = CreateDynamicContentController(memoryCache, null, mockImageProvider);
+            ImageManagerController sut = CreateImageManagerController(memoryCache, null, mockImageProvider);
             const string FileData = "test file data";
             byte[] fileContents = Encoding.UTF8.GetBytes(FileData);
 
@@ -1086,12 +1086,12 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         }
 
         [TestMethod]
-        [TestCategory(ImageManagerTestsCategory)]
+        [TestCategory(TestCategoryName)]
         public void UploadImage_MultipleFileUploaded_WithSubgroup_ReturnsCorrectValidResponse()
         {
             TestMemoryCache memoryCache = new TestMemoryCache();
             MockImageProvider mockImageProvider = CreateDefaultMockImageProvider();
-            ImageManagerController sut = CreateDynamicContentController(memoryCache, null, mockImageProvider);
+            ImageManagerController sut = CreateImageManagerController(memoryCache, null, mockImageProvider);
             const string File1Data = "test file data for file 1";
             const string File2Data = "test file data for file 2";
             byte[] fileContents1 = Encoding.UTF8.GetBytes(File1Data);
@@ -1117,7 +1117,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         }
 
         [TestMethod]
-        [TestCategory(ImageManagerTestsCategory)]
+        [TestCategory(TestCategoryName)]
         public void ProcessImage_HasCorrectAttributes_Success()
         {
             string methodName = "ProcessImage";
@@ -1135,10 +1135,10 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         }
 
         [TestMethod]
-        [TestCategory(ImageManagerTestsCategory)]
+        [TestCategory(TestCategoryName)]
         public void ProcessImage_Construct_InvalidParamModel_Null_ReturnsCorrectInvalidResponse()
         {
-            ImageManagerController sut = CreateDynamicContentController(null, null, CreateDefaultMockImageProvider());
+            ImageManagerController sut = CreateImageManagerController(null, null, CreateDefaultMockImageProvider());
             Assert.IsNotNull(sut);
 
             IActionResult response = sut.ProcessImage(null);
@@ -1146,10 +1146,10 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         }
 
         [TestMethod]
-        [TestCategory(ImageManagerTestsCategory)]
+        [TestCategory(TestCategoryName)]
         public void ProcessImage_Construct_InvalidParamModel_NonExistentCacheItem_ReturnsCorrectInvalidResponse()
         {
-            ImageManagerController sut = CreateDynamicContentController(null, null, CreateDefaultMockImageProvider());
+            ImageManagerController sut = CreateImageManagerController(null, null, CreateDefaultMockImageProvider());
             Assert.IsNotNull(sut);
 
             IActionResult response = sut.ProcessImage(new ImageProcessViewModel("not found"));
@@ -1157,10 +1157,10 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         }
 
         [TestMethod]
-        [TestCategory(ImageManagerTestsCategory)]
+        [TestCategory(TestCategoryName)]
         public void ProcessImage_Construct_InvalidParamModelFileUploadId_NonExistentCacheItem_ReturnsCorrectInvalidResponse()
         {
-            ImageManagerController sut = CreateDynamicContentController(null, null, CreateDefaultMockImageProvider());
+            ImageManagerController sut = CreateImageManagerController(null, null, CreateDefaultMockImageProvider());
             Assert.IsNotNull(sut);
 
             IActionResult response = sut.ProcessImage(new ImageProcessViewModel());
@@ -1168,12 +1168,12 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         }
 
         [TestMethod]
-        [TestCategory(ImageManagerTestsCategory)]
+        [TestCategory(TestCategoryName)]
         public void ProcessImage_Construct_InvalidParamModel_CachedItemNotValidClass_ReturnsCorrectInvalidResponse()
         {
             TestMemoryCache memoryCache = new TestMemoryCache();
             memoryCache.GetCache().Add("found item", new CacheItem("found item", 123));
-            ImageManagerController sut = CreateDynamicContentController(memoryCache, null, CreateDefaultMockImageProvider());
+            ImageManagerController sut = CreateImageManagerController(memoryCache, null, CreateDefaultMockImageProvider());
 
             Assert.IsNotNull(sut);
 
@@ -1182,7 +1182,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         }
 
         [TestMethod]
-        [TestCategory(ImageManagerTestsCategory)]
+        [TestCategory(TestCategoryName)]
         public void ProcessImage_SingleFileUploaded_WithSubgroup_NotificationServiceCalled_ReturnsCorrectValidResponse()
         {
             TestMemoryCache memoryCache = new TestMemoryCache();
@@ -1192,7 +1192,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
             };
 
             MockImageProvider mockImageProvider = CreateDefaultMockImageProvider();
-            ImageManagerController sut = CreateDynamicContentController(memoryCache, null, mockImageProvider, notificationService);
+            ImageManagerController sut = CreateImageManagerController(memoryCache, null, mockImageProvider, notificationService);
             const string File1Data = "test file data for file 1";
             byte[] fileContents1 = Encoding.UTF8.GetBytes(File1Data);
 
@@ -1226,7 +1226,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         }
 
         [TestMethod]
-        [TestCategory(ImageManagerTestsCategory)]
+        [TestCategory(TestCategoryName)]
         public void ProcessImage_MultipleFileUploaded_WithSubgroup_NotificationServiceCalled_ReturnsCorrectValidResponse()
         {
             TestMemoryCache memoryCache = new TestMemoryCache();
@@ -1236,7 +1236,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
             };
 
             MockImageProvider mockImageProvider = CreateDefaultMockImageProvider();
-            ImageManagerController sut = CreateDynamicContentController(memoryCache, null, mockImageProvider, notificationService);
+            ImageManagerController sut = CreateImageManagerController(memoryCache, null, mockImageProvider, notificationService);
             const string File1Data = "test file data for file 1";
             const string File2Data = "test file data for file 2";
             byte[] fileContents1 = Encoding.UTF8.GetBytes(File1Data);
@@ -1275,7 +1275,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         }
 
         [TestMethod]
-        [TestCategory(ImageManagerTestsCategory)]
+        [TestCategory(TestCategoryName)]
         public void ProcessImage_MultipleFileUploaded_WithoutSubgroup_NotificationServiceCalled_ReturnsCorrectValidResponse()
         {
             TestMemoryCache memoryCache = new TestMemoryCache();
@@ -1285,7 +1285,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
             };
 
             MockImageProvider mockImageProvider = CreateDefaultMockImageProvider();
-            ImageManagerController sut = CreateDynamicContentController(memoryCache, null, mockImageProvider, notificationService);
+            ImageManagerController sut = CreateImageManagerController(memoryCache, null, mockImageProvider, notificationService);
             const string File1Data = "test file data for file 1";
             const string File2Data = "test file data for file 2";
             byte[] fileContents1 = Encoding.UTF8.GetBytes(File1Data);
@@ -1324,7 +1324,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         }
 
         [TestMethod]
-        [TestCategory(ImageManagerTestsCategory)]
+        [TestCategory(TestCategoryName)]
         public void ProcessImage_MultipleFileUploaded_ProcessedBy_NotificationService_ReturnsCorrectValidResponse()
         {
             TestMemoryCache memoryCache = new TestMemoryCache();
@@ -1335,7 +1335,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
             TestVirusScanner testVirusScanner = new TestVirusScanner();
 
             MockImageProvider mockImageProvider = CreateDefaultMockImageProvider();
-            ImageManagerController sut = CreateDynamicContentController(memoryCache, null, mockImageProvider, notificationService, testVirusScanner);
+            ImageManagerController sut = CreateImageManagerController(memoryCache, null, mockImageProvider, notificationService, testVirusScanner);
             const string File1Data = "test file data for file 1";
             const string File2Data = "test file data for file 2";
             byte[] fileContents1 = Encoding.UTF8.GetBytes(File1Data);
@@ -1372,6 +1372,191 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
                 System.IO.File.Delete(mockImageProvider.TemporaryFiles[0]);
             }
         }
+
+        #region Image Template Editor
+
+        [TestMethod]
+        [TestCategory(TestCategoryName)]
+        public void ImageTemplateEditor_Validate_Attributes()
+        {
+            string methodName = "ImageTemplateEditor";
+            Assert.IsTrue(MethodHasAttribute<HttpGetAttribute>(typeof(ImageManagerController), methodName));
+            Assert.IsTrue(MethodHasAttribute<AjaxOnlyAttribute>(typeof(ImageManagerController), methodName));
+
+            Assert.IsFalse(MethodHasAttribute<HttpPostAttribute>(typeof(ImageManagerController), methodName));
+            Assert.IsFalse(MethodHasAttribute<HttpDeleteAttribute>(typeof(ImageManagerController), methodName));
+            Assert.IsFalse(MethodHasAttribute<HttpPutAttribute>(typeof(ImageManagerController), methodName));
+        }
+
+        [TestMethod]
+        [TestCategory(TestCategoryName)]
+        public void ImageTemplateEditor_Validate_IActionResult_ReturnsPartialView()
+        {
+            CacheManager.ClearAllCaches();
+            InitializeImageManagerPluginManager();
+            ImageManagerController sut = CreateImageManagerController(null, null, MockImageProvider.CreateDefaultMockImageProvider());
+
+            IActionResult response = sut.ImageTemplateEditor("hello world");
+
+            Assert.IsInstanceOfType(response, typeof(PartialViewResult));
+
+            PartialViewResult viewResult = response as PartialViewResult;
+
+            Assert.IsNotNull(viewResult.Model);
+
+            Assert.AreEqual("/Views/ImageManager/_ImageTemplateEditor.cshtml", viewResult.ViewName);
+
+            Assert.IsInstanceOfType(viewResult.Model, typeof(ImageTemplateEditorModel));
+            ImageTemplateEditorModel model = viewResult.Model as ImageTemplateEditorModel;
+            model.Data.Equals("hello world");
+            Assert.AreEqual(2, model.Groups.Length);
+            Assert.AreEqual(2, model.Subgroups.Length);
+            Assert.IsNotNull(model.Images);
+        }
+
+        [TestMethod]
+        [TestCategory(TestCategoryName)]
+        public void ImageTemplateEditorSubGroups_Validate_Attributes()
+        {
+            string methodName = "ImageTemplateEditorSubGroups";
+            Assert.IsTrue(MethodHasAttribute<HttpPostAttribute>(typeof(ImageManagerController), methodName));
+            Assert.IsTrue(MethodHasAttribute<AjaxOnlyAttribute>(typeof(ImageManagerController), methodName));
+
+            Assert.IsFalse(MethodHasAttribute<HttpGetAttribute>(typeof(ImageManagerController), methodName));
+            Assert.IsFalse(MethodHasAttribute<HttpDeleteAttribute>(typeof(ImageManagerController), methodName));
+            Assert.IsFalse(MethodHasAttribute<HttpPutAttribute>(typeof(ImageManagerController), methodName));
+        }
+
+        [TestMethod]
+        [TestCategory(TestCategoryName)]
+        public void ImageTemplateEditorSubGroups_InvalidGroupName_Null_ReturnsValidErrorResponse_Success()
+        {
+            ImageManagerController sut = CreateImageManagerController();
+            IActionResult response = sut.ImageTemplateEditorSubGroups(null, null);
+
+            JsonResult jsonResult = response as JsonResult;
+
+            Assert.AreEqual("application/json", jsonResult.ContentType);
+            Assert.AreEqual(400, jsonResult.StatusCode);
+
+            JsonResponseModel contentModel = jsonResult.Value as JsonResponseModel;
+
+            Assert.IsNotNull(contentModel);
+            Assert.IsFalse(contentModel.Success);
+            Assert.AreEqual("Invalid GroupName", contentModel.ResponseData);
+        }
+
+        [TestMethod]
+        [TestCategory(TestCategoryName)]
+        public void ImageTemplateEditorSubGroups_InvalidGroupName_EmptyString_ReturnsValidErrorResponse_Success()
+        {
+            ImageManagerController sut = CreateImageManagerController();
+            IActionResult response = sut.ImageTemplateEditorSubGroups("", null);
+
+            JsonResult jsonResult = response as JsonResult;
+
+            Assert.AreEqual("application/json", jsonResult.ContentType);
+            Assert.AreEqual(400, jsonResult.StatusCode);
+
+            JsonResponseModel contentModel = jsonResult.Value as JsonResponseModel;
+
+            Assert.IsNotNull(contentModel);
+            Assert.IsFalse(contentModel.Success);
+            Assert.AreEqual("Invalid GroupName", contentModel.ResponseData);
+        }
+
+        [TestMethod]
+        [TestCategory(TestCategoryName)]
+        public void ImageTemplateEditorSubGroups_InvalidGroupName_NotFound_ReturnsValidErrorResponse_Success()
+        {
+            ImageManagerController sut = CreateImageManagerController();
+            IActionResult response = sut.ImageTemplateEditorSubGroups("A group", null);
+
+            JsonResult jsonResult = response as JsonResult;
+
+            Assert.AreEqual("application/json", jsonResult.ContentType);
+            Assert.AreEqual(400, jsonResult.StatusCode);
+
+            JsonResponseModel contentModel = jsonResult.Value as JsonResponseModel;
+
+            Assert.IsNotNull(contentModel);
+            Assert.IsFalse(contentModel.Success);
+            Assert.AreEqual("Invalid GroupName", contentModel.ResponseData);
+        }
+
+        [TestMethod]
+        [TestCategory(TestCategoryName)]
+        public void ImageTemplateEditorSubGroups_ValidGroupName_TwoItemsFound_ReturnsValidList_Success()
+        {
+            ImageManagerController sut = CreateImageManagerController(null, null, MockImageProvider.CreateDefaultMockImageProvider());
+            IActionResult response = sut.ImageTemplateEditorSubGroups("Group 1", null);
+
+            JsonResult jsonResult = response as JsonResult;
+
+            Assert.AreEqual("application/json", jsonResult.ContentType);
+            Assert.AreEqual(200, jsonResult.StatusCode);
+
+            JsonResponseModel responseModel = jsonResult.Value as JsonResponseModel;
+            Assert.IsNotNull(responseModel);
+
+            RetrieveImagesModel imagesModel = Newtonsoft.Json.JsonConvert.DeserializeObject<RetrieveImagesModel>(responseModel.ResponseData);
+            Assert.IsNotNull(imagesModel);
+
+            Assert.AreEqual(2, imagesModel.Subgroups.Count);
+            Assert.AreEqual("Group 1 Subgroup 1", imagesModel.Subgroups[0]);
+            Assert.AreEqual("Group 1 Subgroup 2", imagesModel.Subgroups[1]);
+
+            Assert.AreEqual(1, imagesModel.Images.Count);
+        }
+
+        [TestMethod]
+        [TestCategory(TestCategoryName)]
+        public void ImageTemplateEditorSubGroups_ValidGroupNameAndSubgroupName_TwoItemsFound_ReturnsValidList_Success()
+        {
+            ImageManagerController sut = CreateImageManagerController(null, null, MockImageProvider.CreateDefaultMockImageProvider());
+            IActionResult response = sut.ImageTemplateEditorSubGroups("Group 1", "Group 1 Subgroup 2");
+
+            JsonResult jsonResult = response as JsonResult;
+
+            Assert.AreEqual("application/json", jsonResult.ContentType);
+            Assert.AreEqual(200, jsonResult.StatusCode);
+
+            JsonResponseModel responseModel = jsonResult.Value as JsonResponseModel;
+            Assert.IsNotNull(responseModel);
+
+            RetrieveImagesModel imagesModel = Newtonsoft.Json.JsonConvert.DeserializeObject<RetrieveImagesModel>(responseModel.ResponseData);
+            Assert.IsNotNull(imagesModel);
+
+            Assert.AreEqual(2, imagesModel.Subgroups.Count);
+            Assert.AreEqual("Group 1 Subgroup 1", imagesModel.Subgroups[0]);
+            Assert.AreEqual("Group 1 Subgroup 2", imagesModel.Subgroups[1]);
+
+            Assert.AreEqual(1, imagesModel.Images.Count);
+        }
+
+        [TestMethod]
+        [TestCategory(TestCategoryName)]
+        public void ImageTemplateEditorSubGroups_ValidGroupName_NoSubgroupsFound_ReturnsValidList_Success()
+        {
+            ImageManagerController sut = CreateImageManagerController(null, null, MockImageProvider.CreateDefaultMockImageProvider());
+            IActionResult response = sut.ImageTemplateEditorSubGroups("Group 2", null);
+
+            JsonResult jsonResult = response as JsonResult;
+
+            Assert.AreEqual("application/json", jsonResult.ContentType);
+            Assert.AreEqual(200, jsonResult.StatusCode);
+
+            JsonResponseModel responseModel = jsonResult.Value as JsonResponseModel;
+            Assert.IsNotNull(responseModel);
+
+            RetrieveImagesModel imagesModel = Newtonsoft.Json.JsonConvert.DeserializeObject<RetrieveImagesModel>(responseModel.ResponseData);
+            Assert.IsNotNull(imagesModel);
+
+            Assert.AreEqual(0, imagesModel.Subgroups.Count);
+            Assert.AreEqual(1, imagesModel.Images.Count);
+        }
+
+        #endregion Image Template Editor
 
         #region Private Methods
 
@@ -1487,7 +1672,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
             return new MockImageProvider(groups, images);
         }
 
-        private ImageManagerController CreateDynamicContentController(TestMemoryCache memoryCache = null,
+        private ImageManagerController CreateImageManagerController(TestMemoryCache memoryCache = null,
             List<BreadcrumbItem> breadcrumbs = null, MockImageProvider mockImageProvider = null,
             TestNotificationService testNotificationService = null,
             TestVirusScanner testVirusScanner = null)

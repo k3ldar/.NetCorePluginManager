@@ -11,44 +11,33 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2021 Simon Carter.  All Rights Reserved.
  *
  *  Product:  DynamicContent.Plugin
  *  
- *  File: DynamicContentModel.cs
+ *  File: RetrieveImagesModel.cs
  *
- *  Purpose:  Dynamic content result model
+ *  Purpose:  Model for retrieving subgroups and images for a given group
  *
  *  Date        Name                Reason
- *  19/12/2020  Simon Carter        Initially Created
+ *  16/06/2021  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
+using System.Collections.Generic;
 
-namespace DynamicContent.Plugin.Model
+namespace ImageManager.Plugin.Models
 {
-    public sealed class DynamicContentModel
+    public sealed class RetrieveImagesModel
     {
-        public DynamicContentModel()
+        public RetrieveImagesModel(List<string> subgroups, List<string> images)
         {
-            Success = false;
-            Data = String.Empty;
+            Subgroups = subgroups ?? throw new ArgumentNullException(nameof(subgroups));
+            Images = images ?? throw new ArgumentNullException(nameof(images));
         }
 
-        public DynamicContentModel(bool success)
-        {
-            Success = success;
-            Data = String.Empty;
-        }
+        public List<string> Subgroups { get; }
 
-        public DynamicContentModel(string data)
-        {
-            Data = data ?? throw new ArgumentNullException(nameof(data));
-            Success = true;
-        }
-
-        public bool Success { get; set; }
-
-        public string Data { get; set; }
+        public List<string> Images { get; }
     }
 }

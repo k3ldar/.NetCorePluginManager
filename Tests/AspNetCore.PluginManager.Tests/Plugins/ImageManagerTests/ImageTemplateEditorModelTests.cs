@@ -30,9 +30,11 @@ using AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests.Mocks;
 
 using DynamicContent.Plugin.Model;
 
+using ImageManager.Plugin.Models;
+
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
+namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
 {
     [TestClass]
     [ExcludeFromCodeCoverage]

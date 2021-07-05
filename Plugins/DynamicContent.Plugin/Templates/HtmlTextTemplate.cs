@@ -59,6 +59,7 @@ namespace DynamicContent.Plugin.Templates
             }
         }
 
+        public override string EditorInstructions => String.Empty;
         public override string Name
         {
             get

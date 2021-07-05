@@ -39,6 +39,8 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
 
         public override string EditorAction => "not applicable";
 
+        public override string EditorInstructions => throw new NotImplementedException();
+
         public override string Name => "test only template";
 
         public override int SortOrder { get; set; }

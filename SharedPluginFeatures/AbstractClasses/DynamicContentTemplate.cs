@@ -140,6 +140,11 @@ namespace SharedPluginFeatures.DynamicContent
         public abstract string EditorAction { get; }
 
         /// <summary>
+        /// Instructions for the user when editing the control
+        /// </summary>
+        public abstract string EditorInstructions { get; }
+
+        /// <summary>
         /// Name of dynamic content template
         /// </summary>
         /// <value>string</value>

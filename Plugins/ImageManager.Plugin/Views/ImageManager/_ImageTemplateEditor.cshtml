@@ -1,9 +1,4 @@
-﻿@model DynamicContent.Plugin.Model.ImageTemplateEditorModel
-@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿@model ImageManager.Plugin.Models.ImageTemplateEditorModel
 @Html.HiddenFor(m => m.Data)
 
 <div class="tab-content" id="nav-tabContent" style="margin: 5px;">
@@ -63,7 +58,7 @@
         if (updateType != 2) {
             $.ajax({
                 type: 'POST',
-                url: '/DynamicContent/ImageTemplateEditorSubGroups/',
+                url: '/ImageManager/ImageTemplateEditorSubGroups/',
                 data: updateJson,
                 cache: false,
                 success: function (response) {

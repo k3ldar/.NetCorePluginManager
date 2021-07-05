@@ -60,6 +60,14 @@
 </div>
 @if (!String.IsNullOrEmpty(Model.TemplateEditor))
 {
+if (!String.IsNullOrEmpty(Model.EditorInstructions))
+{
+<div class="form-row">
+<div class="col">
+@Model.EditorInstructions
+</div>
+</div>
+}
 <div class="tab-pane fade" id="nav-custom" role="tabpanel" aria-labelledby="nav-custom-tab">
 </div>
 <script type="text/javascript">

@@ -236,10 +236,10 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         [TestCategory(GeneralTestsCategory)]
         public void DynamicContentModel_Construct_DefaultConstructor_Valid_Success()
         {
-            DynamicContentModel sut = new DynamicContentModel();
+            JsonResponseModel sut = new JsonResponseModel();
             Assert.IsNotNull(sut);
-            Assert.IsNotNull(sut.Data);
-            Assert.AreEqual("", sut.Data);
+            Assert.IsNotNull(sut.ResponseData);
+            Assert.AreEqual("", sut.ResponseData);
             Assert.IsFalse(sut.Success);
         }
 
@@ -247,10 +247,10 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         [TestCategory(GeneralTestsCategory)]
         public void DynamicContentModel_Construct_SuccessParamTrue_Valid_Success()
         {
-            DynamicContentModel sut = new DynamicContentModel(true);
+            JsonResponseModel sut = new JsonResponseModel(true);
             Assert.IsNotNull(sut);
-            Assert.IsNotNull(sut.Data);
-            Assert.AreEqual("", sut.Data);
+            Assert.IsNotNull(sut.ResponseData);
+            Assert.AreEqual("", sut.ResponseData);
             Assert.IsTrue(sut.Success);
         }
 
@@ -258,10 +258,10 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         [TestCategory(GeneralTestsCategory)]
         public void DynamicContentModel_Construct_SuccessParamFalse_Valid_Success()
         {
-            DynamicContentModel sut = new DynamicContentModel(false);
+            JsonResponseModel sut = new JsonResponseModel(false);
             Assert.IsNotNull(sut);
-            Assert.IsNotNull(sut.Data);
-            Assert.AreEqual("", sut.Data);
+            Assert.IsNotNull(sut.ResponseData);
+            Assert.AreEqual("", sut.ResponseData);
             Assert.IsFalse(sut.Success);
         }
 
@@ -270,18 +270,18 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         [TestCategory(GeneralTestsCategory)]
         public void DynamicContentModel_Construct_InvalidData_Null_Throws_ArgumentNullException()
         {
-            DynamicContentModel sut = new DynamicContentModel(null);
+            JsonResponseModel sut = new JsonResponseModel(null);
         }
 
         [TestMethod]
         [TestCategory(GeneralTestsCategory)]
         public void DynamicContentModel_Construct_Data_Success()
         {
-            DynamicContentModel sut = new DynamicContentModel("test data");
+            JsonResponseModel sut = new JsonResponseModel("test data");
             Assert.IsNotNull(sut);
             Assert.IsTrue(sut.Success);
-            Assert.IsNotNull(sut.Data);
-            Assert.AreEqual("test data", sut.Data);
+            Assert.IsNotNull(sut.ResponseData);
+            Assert.AreEqual("test data", sut.ResponseData);
         }
 
         [TestMethod]
@@ -322,6 +322,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
                 CacheId = "cache1",
                 UniqueId = "unique1",
                 TemplateEditor = "template1",
+                EditorInstructions = "please enter a value",
                 Name = "name",
                 SortOrder = 23,
                 WidthType = DynamicContentWidthType.Percentage,
@@ -339,6 +340,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
             Assert.AreEqual("unique1", sut.UniqueId);
             Assert.IsNotNull(sut.TemplateEditor);
             Assert.AreEqual("template1", sut.TemplateEditor);
+            Assert.AreEqual("please enter a value", sut.EditorInstructions);
             Assert.IsNotNull(sut.Name);
             Assert.AreEqual("name", sut.Name);
             Assert.AreEqual(23, sut.SortOrder);

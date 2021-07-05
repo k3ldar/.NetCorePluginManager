@@ -71,6 +71,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
             YouTubeVideoTemplate sut = new YouTubeVideoTemplate();
 
             Assert.AreEqual("/DynamicContent/YouTubeTemplateEditor/", sut.EditorAction);
+            Assert.AreEqual("", sut.EditorInstructions);
         }
 
         [TestMethod]

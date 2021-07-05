@@ -29,7 +29,7 @@ using System.Collections.Generic;
 using Middleware.Images;
 using Middleware.Interfaces;
 
-namespace DynamicContent.Plugin.Model
+namespace ImageManager.Plugin.Models
 {
     public sealed class ImageTemplateEditorModel
     {

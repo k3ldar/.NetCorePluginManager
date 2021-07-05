@@ -14333,4 +14333,20 @@ You will shortly receive an email with the details of your order.</comment>
     <value>You do not have any custom pages, click New to create one</value>
     <comment>You do not have any custom pages, click New to create one</comment>
   </data>
+  <data name="TemplateNameLargeHeader" xml:space="preserve">
+    <value>Large Header</value>
+    <comment>Large Header</comment>
+  </data>
+  <data name="TemplateNameMediumHeader" xml:space="preserve">
+    <value>Medium Header</value>
+    <comment>Medium Header</comment>
+  </data>
+  <data name="TemplateNameParagraph" xml:space="preserve">
+    <value>Paragraph</value>
+    <comment>Paragraph</comment>
+  </data>
+  <data name="TemplateNameSmallHeader" xml:space="preserve">
+    <value>Small Header</value>
+    <comment>Small Header</comment>
+  </data>
 </root>

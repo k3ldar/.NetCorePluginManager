@@ -15,12 +15,12 @@
  *
  *  Product:  AspNetCore.PluginManager.Tests
  *  
- *  File: ImageTemplateTests.cs
+ *  File: ParagraphTemplateTests.cs
  *
- *  Purpose:  Tests for spacer template
+ *  Purpose:  Tests for html paragraph template
  *
  *  Date        Name                Reason
- *  12/06/2021  Simon Carter        Initially Created
+ *  05/07/2021  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
@@ -37,7 +37,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
 {
     [TestClass]
     [ExcludeFromCodeCoverage]
-    public class ImageTemplateTests
+    public class ParagraphTemplateTests
     {
         private const string TestCategoryName = "Dynamic Content";
 
@@ -45,7 +45,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         [TestCategory(TestCategoryName)]
         public void Construct_Success()
         {
-            ImageTemplate sut = new ImageTemplate();
+            ParagraphTemplate sut = new ParagraphTemplate();
 
             Assert.IsNotNull(sut);
         }
@@ -54,34 +54,35 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         [TestCategory(TestCategoryName)]
         public void AssemblyNameValid_Success()
         {
-            ImageTemplate sut = new ImageTemplate();
+            ParagraphTemplate sut = new ParagraphTemplate();
 
-            Assert.IsTrue(sut.AssemblyQualifiedName.StartsWith("DynamicContent.Plugin.Templates.ImageTemplate, DynamicContent.Plugin, Version="));
+            Assert.IsTrue(sut.AssemblyQualifiedName.StartsWith("DynamicContent.Plugin.Templates.ParagraphTemplate, DynamicContent.Plugin, Version="));
         }
 
         [TestMethod]
         [TestCategory(TestCategoryName)]
-        public void EditorAction_ReturnsCorrectControllerAction_Success()
+        public void EditorAction_ReturnsValidControllerName_Success()
         {
-            ImageTemplate sut = new ImageTemplate();
+            ParagraphTemplate sut = new ParagraphTemplate();
 
-            Assert.AreEqual("/DynamicContent/ImageTemplateEditor/", sut.EditorAction);
+            Assert.AreEqual("/DynamicContent/TextTemplateEditor/", sut.EditorAction);
+            Assert.AreEqual("", sut.EditorInstructions);
         }
 
         [TestMethod]
         [TestCategory(TestCategoryName)]
         public void Name_ReturnsValidValidName_Success()
         {
-            ImageTemplate sut = new ImageTemplate();
+            ParagraphTemplate sut = new ParagraphTemplate();
 
-            Assert.AreEqual("Image", sut.Name);
+            Assert.AreEqual("Paragraph", sut.Name);
         }
 
         [TestMethod]
         [TestCategory(TestCategoryName)]
         public void SortOrder_ReturnsDefaultSortOrder_Success()
         {
-            ImageTemplate sut = new ImageTemplate();
+            ParagraphTemplate sut = new ParagraphTemplate();
 
             Assert.AreEqual(0, sut.SortOrder);
         }
@@ -90,7 +91,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         [TestCategory(TestCategoryName)]
         public void SortOrder_RemembersNewValue_Success()
         {
-            ImageTemplate sut = new ImageTemplate();
+            ParagraphTemplate sut = new ParagraphTemplate();
             sut.SortOrder = 123;
 
             Assert.AreEqual(123, sut.SortOrder);
@@ -98,47 +99,47 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
 
         [TestMethod]
         [TestCategory(TestCategoryName)]
-        public void HeightType_ReturnsPixels_Success()
+        public void HeightType_ReturnsAutomatic_Success()
         {
-            ImageTemplate sut = new ImageTemplate();
+            ParagraphTemplate sut = new ParagraphTemplate();
 
-            Assert.AreEqual(DynamicContentHeightType.Pixels, sut.HeightType);
+            Assert.AreEqual(DynamicContentHeightType.Automatic, sut.HeightType);
         }
 
         [TestMethod]
         [TestCategory(TestCategoryName)]
-        public void HeightType_SettingOtherValue_Success()
+        public void HeightType_SettingOtherValueReturnsAutomatic_Success()
         {
-            ImageTemplate sut = new ImageTemplate();
+            ParagraphTemplate sut = new ParagraphTemplate();
             sut.HeightType = DynamicContentHeightType.Percentage;
 
-            Assert.AreEqual(DynamicContentHeightType.Percentage, sut.HeightType);
+            Assert.AreEqual(DynamicContentHeightType.Automatic, sut.HeightType);
         }
 
         [TestMethod]
         [TestCategory(TestCategoryName)]
         public void Height_ReturnsDefaultValue_Success()
         {
-            ImageTemplate sut = new ImageTemplate();
+            ParagraphTemplate sut = new ParagraphTemplate();
 
-            Assert.AreEqual(200, sut.Height);
+            Assert.AreEqual(-1, sut.Height);
         }
 
         [TestMethod]
         [TestCategory(TestCategoryName)]
         public void Height_SettingOtherValueReturnsDefaultHeight_Success()
         {
-            ImageTemplate sut = new ImageTemplate();
+            ParagraphTemplate sut = new ParagraphTemplate();
             sut.Height = 100;
 
-            Assert.AreEqual(100, sut.Height);
+            Assert.AreEqual(-1, sut.Height);
         }
 
         [TestMethod]
         [TestCategory(TestCategoryName)]
         public void WidthType_ReturnsAutomatic_Success()
         {
-            ImageTemplate sut = new ImageTemplate();
+            ParagraphTemplate sut = new ParagraphTemplate();
 
             Assert.AreEqual(DynamicContentWidthType.Columns, sut.WidthType);
         }
@@ -147,7 +148,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         [TestCategory(TestCategoryName)]
         public void WidthType_SettingOtherValueReturnsAutomatic_Success()
         {
-            ImageTemplate sut = new ImageTemplate();
+            ParagraphTemplate sut = new ParagraphTemplate();
             sut.WidthType = DynamicContentWidthType.Percentage;
 
             Assert.AreEqual(DynamicContentWidthType.Percentage, sut.WidthType);
@@ -157,16 +158,16 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         [TestCategory(TestCategoryName)]
         public void Width_ReturnsDefaultValue_Success()
         {
-            ImageTemplate sut = new ImageTemplate();
+            ParagraphTemplate sut = new ParagraphTemplate();
 
-            Assert.AreEqual(3, sut.Width);
+            Assert.AreEqual(12, sut.Width);
         }
 
         [TestMethod]
         [TestCategory(TestCategoryName)]
         public void Width_SettingOtherValueReturnsDefaultWidth_Success()
         {
-            ImageTemplate sut = new ImageTemplate();
+            ParagraphTemplate sut = new ParagraphTemplate();
             sut.Width = 100;
 
             Assert.AreEqual(100, sut.Width);
@@ -176,28 +177,30 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         [TestCategory(TestCategoryName)]
         public void Data_DefaultValue_Success()
         {
-            ImageTemplate sut = new ImageTemplate();
+            ParagraphTemplate sut = new ParagraphTemplate();
 
-            Assert.AreEqual(String.Empty, sut.Data);
+            Assert.AreEqual(null, sut.Data);
         }
 
         [TestMethod]
         [TestCategory(TestCategoryName)]
-        public void Data_SetValue_ValueIsRemembered_Success()
+        public void Data_SetValue_Success()
         {
-            ImageTemplate sut = new ImageTemplate();
+            ParagraphTemplate sut = new ParagraphTemplate();
             sut.WidthType = DynamicContentWidthType.Columns;
             sut.Width = 10;
-            sut.Data = "/Images/Product/CS1234/Image.png";
+            sut.Data = "new data";
 
-            Assert.AreEqual("/Images/Product/CS1234/Image.png", sut.Data);
+            string content = sut.Content();
+
+            Assert.AreEqual("<div class=\"col-sm-10\"><p>new data</p></div>", content);
         }
 
         [TestMethod]
         [TestCategory(TestCategoryName)]
         public void ActiveFrom_DefaultValue_Success()
         {
-            ImageTemplate sut = new ImageTemplate();
+            ParagraphTemplate sut = new ParagraphTemplate();
 
             Assert.AreEqual(DateTime.MinValue, sut.ActiveFrom);
         }
@@ -206,7 +209,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         [TestCategory(TestCategoryName)]
         public void ActiveTo_DefaultValue_Success()
         {
-            ImageTemplate sut = new ImageTemplate();
+            ParagraphTemplate sut = new ParagraphTemplate();
 
             Assert.AreEqual(DateTime.MaxValue, sut.ActiveTo);
         }
@@ -215,78 +218,81 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         [TestCategory(TestCategoryName)]
         public void Content_WidthTypeColumn_Valid()
         {
-            ImageTemplate sut = new ImageTemplate();
+            ParagraphTemplate sut = new ParagraphTemplate();
             sut.WidthType = DynamicContentWidthType.Columns;
             sut.Width = 8;
+            sut.Data = "test";
 
             string content = sut.Content();
 
-            Assert.AreEqual("<div class=\"col-sm-8\" style=\"height:200px !important;\"><p>Please select an image</p></div>", content);
+            Assert.AreEqual("<div class=\"col-sm-8\"><p>test</p></div>", content);
         }
 
         [TestMethod]
         [TestCategory(TestCategoryName)]
-        public void EditorContent_WidthTypeColumn_WithData_Valid()
+        public void EditorContent_WidthTypeColumn_Valid()
         {
-            ImageTemplate sut = new ImageTemplate();
+            ParagraphTemplate sut = new ParagraphTemplate();
             sut.WidthType = DynamicContentWidthType.Columns;
             sut.Width = 8;
-            sut.Data = "/images/test.gif";
+            sut.Data = "test";
 
             string content = sut.EditorContent();
 
-            Assert.AreEqual("<div class=\"col-sm-12\" style=\"height:200px !important;\"><img src=\"/images/test.gif\" alt=\"image\" style=\"max-height:100%;width:100%;\"></div>", content);
+            Assert.AreEqual("<div class=\"col-sm-12\"><p>test</p></div>", content);
         }
 
         [TestMethod]
         [TestCategory(TestCategoryName)]
-        public void Content_WidthTypeColumn_WithData_Valid()
+        public void Content_WidthTypeColumn_EditorContent_Valid()
         {
-            ImageTemplate sut = new ImageTemplate();
+            ParagraphTemplate sut = new ParagraphTemplate();
             sut.WidthType = DynamicContentWidthType.Columns;
             sut.Width = 8;
-            sut.Data = "/images/test.gif";
+            sut.Data = "test";
 
-            string content = sut.Content();
+            string content = sut.EditorContent();
 
-            Assert.AreEqual("<div class=\"col-sm-8\" style=\"height:200px !important;\"><img src=\"/images/test.gif\" alt=\"image\" style=\"max-height:100%;\"></div>", content);
+            Assert.AreEqual("<div class=\"col-sm-12\"><p>test</p></div>", content);
         }
 
         [TestMethod]
         [TestCategory(TestCategoryName)]
         public void Content_WidthTypePercentage_Valid()
         {
-            ImageTemplate sut = new ImageTemplate();
+            ParagraphTemplate sut = new ParagraphTemplate();
+            sut.Data = "test";
             sut.WidthType = DynamicContentWidthType.Percentage;
             sut.Width = 40;
 
-            string content = sut.EditorContent();
+            string content = sut.Content();
 
-            Assert.AreEqual("<div style=\"width:40% !important;height:200px !important;display:block;\"><p>Please select an image</p></div>", content);
+            Assert.AreEqual("<div style=\"width:40% !important;display:block;\"><p>test</p></div>", content);
         }
 
         [TestMethod]
         [TestCategory(TestCategoryName)]
         public void Content_WidthTypePixels_Valid()
         {
-            ImageTemplate sut = new ImageTemplate();
+            ParagraphTemplate sut = new ParagraphTemplate();
+            sut.Data = "test";
             sut.WidthType = DynamicContentWidthType.Pixels;
             sut.Width = 538;
             string content = sut.Content();
 
-            Assert.AreEqual("<div style=\"width:538px !important;height:200px !important;display:block;\"><p>Please select an image</p></div>", content);
+            Assert.AreEqual("<div style=\"width:538px !important;display:block;\"><p>test</p></div>", content);
         }
 
         [TestMethod]
         [TestCategory(TestCategoryName)]
         public void Clone_EmptyUniqueId_ContainsGuid_Success()
         {
-            ImageTemplate sut = new ImageTemplate();
+            ParagraphTemplate sut = new ParagraphTemplate();
 
             DynamicContentTemplate clone = sut.Clone(String.Empty);
 
             Assert.IsNotNull(clone);
-            Assert.IsInstanceOfType(clone, typeof(ImageTemplate));
+            Assert.IsInstanceOfType(clone, typeof(ParagraphTemplate));
             bool guidParsed = Guid.TryParse(clone.UniqueId, out Guid uniqueId);
             Assert.IsTrue(guidParsed);
         }
@@ -295,12 +301,12 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         [TestCategory(TestCategoryName)]
         public void Clone_NullUniqueId_ContainsGuid_Success()
         {
-            ImageTemplate sut = new ImageTemplate();
+            ParagraphTemplate sut = new ParagraphTemplate();
 
             DynamicContentTemplate clone = sut.Clone(null);
 
             Assert.IsNotNull(clone);
-            Assert.IsInstanceOfType(clone, typeof(ImageTemplate));
+            Assert.IsInstanceOfType(clone, typeof(ParagraphTemplate));
             bool guidParsed = Guid.TryParse(clone.UniqueId, out Guid uniqueId);
             Assert.IsTrue(guidParsed);
         }
@@ -309,12 +315,12 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         [TestCategory(TestCategoryName)]
         public void Clone_ValidUniqueId_ContainsGuid_Success()
         {
-            ImageTemplate sut = new ImageTemplate();
+            ParagraphTemplate sut = new ParagraphTemplate();
 
             DynamicContentTemplate clone = sut.Clone("my-unique-id");
 
             Assert.IsNotNull(clone);
-            Assert.IsInstanceOfType(clone, typeof(ImageTemplate));
+            Assert.IsInstanceOfType(clone, typeof(ParagraphTemplate));
             bool guidParsed = Guid.TryParse(clone.UniqueId, out Guid uniqueId);
             Assert.IsFalse(guidParsed);
 

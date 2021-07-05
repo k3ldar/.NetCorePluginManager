@@ -55,6 +55,8 @@ namespace DynamicContent.Plugin.Templates
 
         public override String EditorAction => String.Empty;
 
+        public override string EditorInstructions => String.Empty;
+
         public override String Name => LanguageStrings.TemplateNameSpacer;
 
         public override Int32 SortOrder { get; set; }

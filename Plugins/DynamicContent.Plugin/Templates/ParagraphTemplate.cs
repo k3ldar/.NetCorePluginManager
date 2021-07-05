@@ -11,16 +11,16 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2021 Simon Carter.  All Rights Reserved.
  *
  *  Product:  DynamicContent.Plugin
  *  
- *  File: ImageTemplate.cs
+ *  File: ParagraphTemplate.cs
  *
- *  Purpose:  Image template for dynamic pages
+ *  Purpose:  Paragraph text template for dynamic pages
  *
  *  Date        Name                Reason
- *  12/06/2021  Simon Carter        Initially Created
+ *  05/07/2021  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
@@ -33,46 +33,72 @@ using SharedPluginFeatures.DynamicContent;
 
 namespace DynamicContent.Plugin.Templates
 {
-    public sealed class ImageTemplate : DynamicContentTemplate
+    public class ParagraphTemplate : DynamicContentTemplate
     {
         #region Constructors
 
-        public ImageTemplate()
+        public ParagraphTemplate()
         {
-            Width = 3;
             WidthType = DynamicContentWidthType.Columns;
-            Height = 200;
-            HeightType = DynamicContentHeightType.Pixels;
+            Width = 12;
             ActiveFrom = DateTime.MinValue;
             ActiveTo = DateTime.MaxValue;
-            Data = String.Empty;
         }
 
         #endregion Constructors
 
         #region DynamicContentTemplate Properties
 
-        public override string AssemblyQualifiedName => typeof(ImageTemplate).AssemblyQualifiedName;
+        public override string AssemblyQualifiedName => typeof(ParagraphTemplate).AssemblyQualifiedName;
 
         public override string EditorAction
         {
             get
             {
-                return $"/{Controllers.DynamicContentController.Name}/{nameof(Controllers.DynamicContentController.ImageTemplateEditor)}/";
+                return $"/{Controllers.DynamicContentController.Name}/{nameof(Controllers.DynamicContentController.TextTemplateEditor)}/";
             }
         }
 
-        public override string Name => LanguageStrings.TemplateNameImage;
+        public override string EditorInstructions => String.Empty;
+        public override string Name
+        {
+            get
+            {
+                return LanguageStrings.TemplateNameParagraph;
+            }
+        }
 
-        public override int SortOrder { get; set; }
+        public override Int32 SortOrder { get; set; }
+
+        public override DynamicContentHeightType HeightType
+        {
+            get
+            {
+                return DynamicContentHeightType.Automatic;
+            }
+
+            set
+            {
+
+            }
+        }
+
+        public override int Height
+        {
+            get
+            {
+                return -1;
+            }
+
+            set
+            {
+
+            }
+        }
 
         public override DynamicContentWidthType WidthType { get; set; }
 
         public override int Width { get; set; }
-
-        public override DynamicContentHeightType HeightType { get; set; }
-
-        public override int Height { get; set; }
 
         public override string Data { get; set; }
 
@@ -84,18 +110,7 @@ namespace DynamicContent.Plugin.Templates
 
         #region DynamicContentTemplate Methods
 
-        public override DynamicContentTemplate Clone(string uniqueId)
-        {
-            if (String.IsNullOrEmpty(uniqueId))
-                uniqueId = Guid.NewGuid().ToString();
-
-            return new ImageTemplate()
-            {
-                UniqueId = uniqueId
-            };
-        }
-
-        public override string Content()
+        public override String Content()
         {
             return GenerateContent(false);
         }
@@ -103,6 +118,17 @@ namespace DynamicContent.Plugin.Templates
         public override string EditorContent()
         {
             return GenerateContent(true);
+        }
+
+        public override DynamicContentTemplate Clone(string uniqueId)
+        {
+            if (String.IsNullOrEmpty(uniqueId))
+                uniqueId = Guid.NewGuid().ToString();
+
+            return new ParagraphTemplate()
+            {
+                UniqueId = uniqueId
+            };
         }
 
         #endregion DynamicContentTemplate Methods
@@ -114,23 +140,9 @@ namespace DynamicContent.Plugin.Templates
             StringBuilder Result = new StringBuilder(2048);
 
             HtmlStart(Result, isEditing);
-
-            if (String.IsNullOrEmpty(Data))
-            {
-                Result.Append("<p>Please select an image</p>");
-            }
-            else
-            {
-                Result.Append("<img src=\"");
-                Result.Append(Data);
-                Result.Append("\" alt=\"image\" style=\"max-height:100%;");
-
-                if (isEditing)
-                    Result.Append("width:100%;");
-
-                Result.Append("\">");
-            }
-
+            Result.Append("<p>");
+            Result.Append(Data);
+            Result.Append("</p>");
             HtmlEnd(Result);
 
             return Result.ToString();

@@ -29603,6 +29603,42 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Large Header.
+        /// </summary>
+        public static string TemplateNameLargeHeader {
+            get {
+                return ResourceManager.GetString("TemplateNameLargeHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Medium Header.
+        /// </summary>
+        public static string TemplateNameMediumHeader {
+            get {
+                return ResourceManager.GetString("TemplateNameMediumHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Paragraph.
+        /// </summary>
+        public static string TemplateNameParagraph {
+            get {
+                return ResourceManager.GetString("TemplateNameParagraph", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Small Header.
+        /// </summary>
+        public static string TemplateNameSmallHeader {
+            get {
+                return ResourceManager.GetString("TemplateNameSmallHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Spacer.
         /// </summary>
         public static string TemplateNameSpacer {

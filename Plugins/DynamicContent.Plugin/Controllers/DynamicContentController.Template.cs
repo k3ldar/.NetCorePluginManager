@@ -42,45 +42,11 @@ namespace DynamicContent.Plugin.Controllers
 {
     public partial class DynamicContentController
     {
-        private const string InvalidGroupName = "Invalid group name";
-
         [HttpGet]
         [AjaxOnly]
         public IActionResult TextTemplateEditor(string data)
         {
             return PartialView("/Views/DynamicContent/_TextTemplateEditor.cshtml", new TextTemplateEditorModel(HttpUtility.HtmlDecode(data)));
-        }
-
-        [HttpGet]
-        [AjaxOnly]
-        public IActionResult ImageTemplateEditor(string data)
-        {
-            return PartialView("/Views/DynamicContent/_ImageTemplateEditor.cshtml", new ImageTemplateEditorModel(_imageProvider, HttpUtility.HtmlDecode(data)));
-        }
-
-        [HttpPost]
-        [AjaxOnly]
-        public IActionResult ImageTemplateEditorSubGroups(string groupName, string subgroupName)
-        {
-            if (string.IsNullOrEmpty(groupName))
-                return GenerateErrorResponse(HtmlResponseBadRequest, InvalidGroupName);
-
-            if (!_imageProvider.GroupExists(groupName))
-                return GenerateErrorResponse(HtmlResponseBadRequest, InvalidGroupName);
-
-            List<string> subgroupNames = _imageProvider.Groups()[groupName];
-            List<ImageFile> images = null;
-
-            if (String.IsNullOrEmpty(subgroupName))
-                images = _imageProvider.Images(groupName);
-            else
-                images = _imageProvider.Images(groupName, subgroupName);
-
-            List<string> imageNames = new List<string>();
-
-            images.ForEach(i => imageNames.Add(i.Name));
-
-            return GenerateJsonSuccessResponse(new RetrieveImagesModel(subgroupNames, imageNames));
         }
 
         [HttpGet]

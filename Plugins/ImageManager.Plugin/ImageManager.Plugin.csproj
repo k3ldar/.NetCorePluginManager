@@ -102,6 +102,7 @@
     <Content Remove="Views\ImageManager\ImageUpload.cshtml" />
     <Content Remove="Views\ImageManager\Index.cshtml" />
     <Content Remove="Views\ImageManager\ViewImage.cshtml" />
+    <Content Remove="Views\ImageManager\_ImageTemplateEditor.cshtml" />
     <Content Remove="Views\ImageManager\_ImageUpload.cshtml" />
     <Content Remove="Views\ImageManager\_LeftMenu.cshtml" />
     <Content Remove="wwwroot\css\imageManager.css" />
@@ -167,6 +168,7 @@
 	  <EmbeddedResource Include="Views\ImageManager\ImageUpload.cshtml" />
 	  <EmbeddedResource Include="Views\ImageManager\Index.cshtml" />
 	  <EmbeddedResource Include="Views\ImageManager\ViewImage.cshtml" />
+	  <EmbeddedResource Include="Views\ImageManager\_ImageTemplateEditor.cshtml" />
 	  <EmbeddedResource Include="Views\ImageManager\_ImageUpload.cshtml" />
 	  <EmbeddedResource Include="Views\ImageManager\_LeftMenu.cshtml" />
 	  <EmbeddedResource Include="wwwroot\css\imageManager.css" />

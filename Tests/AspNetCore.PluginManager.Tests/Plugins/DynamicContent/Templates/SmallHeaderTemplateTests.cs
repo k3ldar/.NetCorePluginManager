@@ -15,12 +15,12 @@
  *
  *  Product:  AspNetCore.PluginManager.Tests
  *  
- *  File: HtmlTextTemplateTests.cs
+ *  File: SmallHeaderTemplateTests.cs
  *
- *  Purpose:  Tests for html text template
+ *  Purpose:  Tests for h5 template
  *
  *  Date        Name                Reason
- *  24/03/2021  Simon Carter        Initially Created
+ *  05/07/2021  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
@@ -37,7 +37,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
 {
     [TestClass]
     [ExcludeFromCodeCoverage]
-    public class HtmlTextTemplateTests
+    public class SmallHeaderTemplateTests
     {
         private const string TestCategoryName = "Dynamic Content";
 
@@ -45,7 +45,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         [TestCategory(TestCategoryName)]
         public void Construct_Success()
         {
-            HtmlTextTemplate sut = new HtmlTextTemplate();
+            SmallHeaderTemplate sut = new SmallHeaderTemplate();
 
             Assert.IsNotNull(sut);
         }
@@ -54,16 +54,16 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         [TestCategory(TestCategoryName)]
         public void AssemblyNameValid_Success()
         {
-            HtmlTextTemplate sut = new HtmlTextTemplate();
+            SmallHeaderTemplate sut = new SmallHeaderTemplate();
 
-            Assert.IsTrue(sut.AssemblyQualifiedName.StartsWith("DynamicContent.Plugin.Templates.HtmlTextTemplate, DynamicContent.Plugin, Version="));
+            Assert.IsTrue(sut.AssemblyQualifiedName.StartsWith("DynamicContent.Plugin.Templates.SmallHeaderTemplate, DynamicContent.Plugin, Version="));
         }
 
         [TestMethod]
         [TestCategory(TestCategoryName)]
         public void EditorAction_ReturnsValidControllerName_Success()
         {
-            HtmlTextTemplate sut = new HtmlTextTemplate();
+            SmallHeaderTemplate sut = new SmallHeaderTemplate();
 
             Assert.AreEqual("/DynamicContent/TextTemplateEditor/", sut.EditorAction);
             Assert.AreEqual("", sut.EditorInstructions);
@@ -73,16 +73,16 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         [TestCategory(TestCategoryName)]
         public void Name_ReturnsValidValidName_Success()
         {
-            HtmlTextTemplate sut = new HtmlTextTemplate();
+            SmallHeaderTemplate sut = new SmallHeaderTemplate();
 
-            Assert.AreEqual("Html Content", sut.Name);
+            Assert.AreEqual("Small Header", sut.Name);
         }
 
         [TestMethod]
         [TestCategory(TestCategoryName)]
         public void SortOrder_ReturnsDefaultSortOrder_Success()
         {
-            HtmlTextTemplate sut = new HtmlTextTemplate();
+            SmallHeaderTemplate sut = new SmallHeaderTemplate();
 
             Assert.AreEqual(0, sut.SortOrder);
         }
@@ -91,7 +91,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         [TestCategory(TestCategoryName)]
         public void SortOrder_RemembersNewValue_Success()
         {
-            HtmlTextTemplate sut = new HtmlTextTemplate();
+            SmallHeaderTemplate sut = new SmallHeaderTemplate();
             sut.SortOrder = 123;
 
             Assert.AreEqual(123, sut.SortOrder);
@@ -101,7 +101,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         [TestCategory(TestCategoryName)]
         public void HeightType_ReturnsAutomatic_Success()
         {
-            HtmlTextTemplate sut = new HtmlTextTemplate();
+            SmallHeaderTemplate sut = new SmallHeaderTemplate();
 
             Assert.AreEqual(DynamicContentHeightType.Automatic, sut.HeightType);
         }
@@ -110,7 +110,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         [TestCategory(TestCategoryName)]
         public void HeightType_SettingOtherValueReturnsAutomatic_Success()
         {
-            HtmlTextTemplate sut = new HtmlTextTemplate();
+            SmallHeaderTemplate sut = new SmallHeaderTemplate();
             sut.HeightType = DynamicContentHeightType.Percentage;
 
             Assert.AreEqual(DynamicContentHeightType.Automatic, sut.HeightType);
@@ -120,7 +120,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         [TestCategory(TestCategoryName)]
         public void Height_ReturnsDefaultValue_Success()
         {
-            HtmlTextTemplate sut = new HtmlTextTemplate();
+            SmallHeaderTemplate sut = new SmallHeaderTemplate();
 
             Assert.AreEqual(-1, sut.Height);
         }
@@ -129,7 +129,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         [TestCategory(TestCategoryName)]
         public void Height_SettingOtherValueReturnsDefaultHeight_Success()
         {
-            HtmlTextTemplate sut = new HtmlTextTemplate();
+            SmallHeaderTemplate sut = new SmallHeaderTemplate();
             sut.Height = 100;
 
             Assert.AreEqual(-1, sut.Height);
@@ -139,7 +139,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         [TestCategory(TestCategoryName)]
         public void WidthType_ReturnsAutomatic_Success()
         {
-            HtmlTextTemplate sut = new HtmlTextTemplate();
+            SmallHeaderTemplate sut = new SmallHeaderTemplate();
 
             Assert.AreEqual(DynamicContentWidthType.Columns, sut.WidthType);
         }
@@ -148,7 +148,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         [TestCategory(TestCategoryName)]
         public void WidthType_SettingOtherValueReturnsAutomatic_Success()
         {
-            HtmlTextTemplate sut = new HtmlTextTemplate();
+            SmallHeaderTemplate sut = new SmallHeaderTemplate();
             sut.WidthType = DynamicContentWidthType.Percentage;
 
             Assert.AreEqual(DynamicContentWidthType.Percentage, sut.WidthType);
@@ -158,7 +158,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         [TestCategory(TestCategoryName)]
         public void Width_ReturnsDefaultValue_Success()
         {
-            HtmlTextTemplate sut = new HtmlTextTemplate();
+            SmallHeaderTemplate sut = new SmallHeaderTemplate();
 
             Assert.AreEqual(12, sut.Width);
         }
@@ -167,7 +167,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         [TestCategory(TestCategoryName)]
         public void Width_SettingOtherValueReturnsDefaultWidth_Success()
         {
-            HtmlTextTemplate sut = new HtmlTextTemplate();
+            SmallHeaderTemplate sut = new SmallHeaderTemplate();
             sut.Width = 100;
 
             Assert.AreEqual(100, sut.Width);
@@ -177,7 +177,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         [TestCategory(TestCategoryName)]
         public void Data_DefaultValue_Success()
         {
-            HtmlTextTemplate sut = new HtmlTextTemplate();
+            SmallHeaderTemplate sut = new SmallHeaderTemplate();
 
             Assert.AreEqual(null, sut.Data);
         }
@@ -186,21 +186,21 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         [TestCategory(TestCategoryName)]
         public void Data_SetValue_Success()
         {
-            HtmlTextTemplate sut = new HtmlTextTemplate();
+            SmallHeaderTemplate sut = new SmallHeaderTemplate();
             sut.WidthType = DynamicContentWidthType.Columns;
             sut.Width = 10;
-            sut.Data = "<p>new data</p>";
+            sut.Data = "new data";
 
             string content = sut.Content();
 
-            Assert.AreEqual("<div class=\"col-sm-10\"><p>new data</p></div>", content);
+            Assert.AreEqual("<div class=\"col-sm-10\"><h5>new data</h5></div>", content);
         }
 
         [TestMethod]
         [TestCategory(TestCategoryName)]
         public void ActiveFrom_DefaultValue_Success()
         {
-            HtmlTextTemplate sut = new HtmlTextTemplate();
+            SmallHeaderTemplate sut = new SmallHeaderTemplate();
 
             Assert.AreEqual(DateTime.MinValue, sut.ActiveFrom);
         }
@@ -209,7 +209,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         [TestCategory(TestCategoryName)]
         public void ActiveTo_DefaultValue_Success()
         {
-            HtmlTextTemplate sut = new HtmlTextTemplate();
+            SmallHeaderTemplate sut = new SmallHeaderTemplate();
 
             Assert.AreEqual(DateTime.MaxValue, sut.ActiveTo);
         }
@@ -218,81 +218,81 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         [TestCategory(TestCategoryName)]
         public void Content_WidthTypeColumn_Valid()
         {
-            HtmlTextTemplate sut = new HtmlTextTemplate();
+            SmallHeaderTemplate sut = new SmallHeaderTemplate();
             sut.WidthType = DynamicContentWidthType.Columns;
             sut.Width = 8;
-            sut.Data = "<p>test</p>";
+            sut.Data = "test";
 
             string content = sut.Content();
 
-            Assert.AreEqual("<div class=\"col-sm-8\"><p>test</p></div>", content);
+            Assert.AreEqual("<div class=\"col-sm-8\"><h5>test</h5></div>", content);
         }
 
         [TestMethod]
         [TestCategory(TestCategoryName)]
         public void EditorContent_WidthTypeColumn_Valid()
         {
-            HtmlTextTemplate sut = new HtmlTextTemplate();
+            SmallHeaderTemplate sut = new SmallHeaderTemplate();
             sut.WidthType = DynamicContentWidthType.Columns;
             sut.Width = 8;
-            sut.Data = "<p>test</p>";
+            sut.Data = "test";
 
             string content = sut.EditorContent();
 
-            Assert.AreEqual("<div class=\"col-sm-12\"><p>test</p></div>", content);
+            Assert.AreEqual("<div class=\"col-sm-12\"><h5>test</h5></div>", content);
         }
 
         [TestMethod]
         [TestCategory(TestCategoryName)]
         public void Content_WidthTypeColumn_EditorContent_Valid()
         {
-            HtmlTextTemplate sut = new HtmlTextTemplate();
+            SmallHeaderTemplate sut = new SmallHeaderTemplate();
             sut.WidthType = DynamicContentWidthType.Columns;
             sut.Width = 8;
-            sut.Data = "<p>test</p>";
+            sut.Data = "test";
 
             string content = sut.EditorContent();
 
-            Assert.AreEqual("<div class=\"col-sm-12\"><p>test</p></div>", content);
+            Assert.AreEqual("<div class=\"col-sm-12\"><h5>test</h5></div>", content);
         }
 
         [TestMethod]
         [TestCategory(TestCategoryName)]
         public void Content_WidthTypePercentage_Valid()
         {
-            HtmlTextTemplate sut = new HtmlTextTemplate();
-            sut.Data = "<p>test</p>";
+            SmallHeaderTemplate sut = new SmallHeaderTemplate();
+            sut.Data = "test";
             sut.WidthType = DynamicContentWidthType.Percentage;
             sut.Width = 40;
 
             string content = sut.Content();
 
-            Assert.AreEqual("<div style=\"width:40% !important;display:block;\"><p>test</p></div>", content);
+            Assert.AreEqual("<div style=\"width:40% !important;display:block;\"><h5>test</h5></div>", content);
         }
 
         [TestMethod]
         [TestCategory(TestCategoryName)]
         public void Content_WidthTypePixels_Valid()
         {
-            HtmlTextTemplate sut = new HtmlTextTemplate();
-            sut.Data = "<p>test</p>";
+            SmallHeaderTemplate sut = new SmallHeaderTemplate();
+            sut.Data = "test";
             sut.WidthType = DynamicContentWidthType.Pixels;
             sut.Width = 538;
             string content = sut.Content();
 
-            Assert.AreEqual("<div style=\"width:538px !important;display:block;\"><p>test</p></div>", content);
+            Assert.AreEqual("<div style=\"width:538px !important;display:block;\"><h5>test</h5></div>", content);
         }
 
         [TestMethod]
         [TestCategory(TestCategoryName)]
         public void Clone_EmptyUniqueId_ContainsGuid_Success()
         {
-            HtmlTextTemplate sut = new HtmlTextTemplate();
+            SmallHeaderTemplate sut = new SmallHeaderTemplate();
 
             DynamicContentTemplate clone = sut.Clone(String.Empty);
 
             Assert.IsNotNull(clone);
-            Assert.IsInstanceOfType(clone, typeof(HtmlTextTemplate));
+            Assert.IsInstanceOfType(clone, typeof(SmallHeaderTemplate));
             bool guidParsed = Guid.TryParse(clone.UniqueId, out Guid uniqueId);
             Assert.IsTrue(guidParsed);
         }
@@ -301,12 +301,12 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         [TestCategory(TestCategoryName)]
         public void Clone_NullUniqueId_ContainsGuid_Success()
         {
-            HtmlTextTemplate sut = new HtmlTextTemplate();
+            SmallHeaderTemplate sut = new SmallHeaderTemplate();
 
             DynamicContentTemplate clone = sut.Clone(null);
 
             Assert.IsNotNull(clone);
-            Assert.IsInstanceOfType(clone, typeof(HtmlTextTemplate));
+            Assert.IsInstanceOfType(clone, typeof(SmallHeaderTemplate));
             bool guidParsed = Guid.TryParse(clone.UniqueId, out Guid uniqueId);
             Assert.IsTrue(guidParsed);
         }
@@ -315,12 +315,12 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         [TestCategory(TestCategoryName)]
         public void Clone_ValidUniqueId_ContainsGuid_Success()
         {
-            HtmlTextTemplate sut = new HtmlTextTemplate();
+            SmallHeaderTemplate sut = new SmallHeaderTemplate();
 
             DynamicContentTemplate clone = sut.Clone("my-unique-id");
 
             Assert.IsNotNull(clone);
-            Assert.IsInstanceOfType(clone, typeof(HtmlTextTemplate));
+            Assert.IsInstanceOfType(clone, typeof(SmallHeaderTemplate));
             bool guidParsed = Guid.TryParse(clone.UniqueId, out Guid uniqueId);
             Assert.IsFalse(guidParsed);
 

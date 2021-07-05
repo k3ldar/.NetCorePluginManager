@@ -11,16 +11,16 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2021 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  DynamicContent.Plugin
  *  
- *  File: HorizontalRuleTemplate.cs
+ *  File: ImageTemplate.cs
  *
- *  Purpose:  Html hr template for dynamic pages
+ *  Purpose:  Image template for dynamic pages
  *
  *  Date        Name                Reason
- *  08/04/2021  Simon Carter        Initially Created
+ *  12/06/2021  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
@@ -31,76 +31,52 @@ using Languages;
 using SharedPluginFeatures;
 using SharedPluginFeatures.DynamicContent;
 
-namespace DynamicContent.Plugin.Templates
+namespace ImageManager.Plugin.Templates
 {
-    public class HorizontalRuleTemplate : DynamicContentTemplate
+    public sealed class ImageTemplate : DynamicContentTemplate
     {
         #region Constructors
 
-        public HorizontalRuleTemplate()
+        public ImageTemplate()
         {
+            Width = 3;
             WidthType = DynamicContentWidthType.Columns;
-            Width = 12;
+            Height = 200;
+            HeightType = DynamicContentHeightType.Pixels;
             ActiveFrom = DateTime.MinValue;
             ActiveTo = DateTime.MaxValue;
+            Data = String.Empty;
         }
 
         #endregion Constructors
 
         #region DynamicContentTemplate Properties
 
-        public override string AssemblyQualifiedName => typeof(HorizontalRuleTemplate).AssemblyQualifiedName;
+        public override string AssemblyQualifiedName => typeof(ImageTemplate).AssemblyQualifiedName;
 
-        public override string EditorAction => String.Empty;
+        public override string EditorAction
+        {
+            get
+            {
+                return $"/{Controllers.ImageManagerController.Name}/{nameof(Controllers.ImageManagerController.ImageTemplateEditor)}/";
+            }
+        }
 
         public override string EditorInstructions => String.Empty;
 
-        public override string Name => LanguageStrings.TemplateNameHorizontalRule;
+        public override string Name => LanguageStrings.TemplateNameImage;
 
-        public override Int32 SortOrder { get; set; }
-
-        public override DynamicContentHeightType HeightType
-        {
-            get
-            {
-                return DynamicContentHeightType.Automatic;
-            }
-
-            set
-            {
-
-            }
-        }
-
-        public override int Height
-        {
-            get
-            {
-                return -1;
-            }
-
-            set
-            {
-
-            }
-        }
+        public override int SortOrder { get; set; }
 
         public override DynamicContentWidthType WidthType { get; set; }
 
         public override int Width { get; set; }
 
-        public override string Data
-        {
-            get
-            {
-                return "<hr />";
-            }
+        public override DynamicContentHeightType HeightType { get; set; }
 
-            set
-            {
+        public override int Height { get; set; }
 
-            }
-        }
+        public override string Data { get; set; }
 
         public override DateTime ActiveFrom { get; set; }
 
@@ -110,7 +86,18 @@ namespace DynamicContent.Plugin.Templates
 
         #region DynamicContentTemplate Methods
 
-        public override String Content()
+        public override DynamicContentTemplate Clone(string uniqueId)
+        {
+            if (String.IsNullOrEmpty(uniqueId))
+                uniqueId = Guid.NewGuid().ToString();
+
+            return new ImageTemplate()
+            {
+                UniqueId = uniqueId
+            };
+        }
+
+        public override string Content()
         {
             return GenerateContent(false);
         }
@@ -120,28 +107,31 @@ namespace DynamicContent.Plugin.Templates
             return GenerateContent(true);
         }
 
-        public override DynamicContentTemplate Clone(string uniqueId)
-        {
-            if (String.IsNullOrEmpty(uniqueId))
-                uniqueId = Guid.NewGuid().ToString();
-
-            return new HorizontalRuleTemplate()
-            {
-                UniqueId = uniqueId
-            };
-        }
-
         #endregion DynamicContentTemplate Methods
 
         #region Private Methods
 
         private string GenerateContent(bool isEditing)
         {
-            StringBuilder Result = new StringBuilder(256);
+            StringBuilder Result = new StringBuilder(2048);
 
             HtmlStart(Result, isEditing);
 
-            Result.Append(Data);
+            if (String.IsNullOrEmpty(Data))
+            {
+                Result.Append("<p>Please select an image</p>");
+            }
+            else
+            {
+                Result.Append("<img src=\"");
+                Result.Append(Data);
+                Result.Append("\" alt=\"image\" style=\"max-height:100%;");
+
+                if (isEditing)
+                    Result.Append("width:100%;");
+
+                Result.Append("\">");
+            }
 
             HtmlEnd(Result);
 

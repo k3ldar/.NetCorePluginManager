@@ -66,6 +66,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
             SpacerTemplate sut = new SpacerTemplate();
 
             Assert.AreEqual("", sut.EditorAction);
+            Assert.AreEqual("", sut.EditorInstructions);
         }
 
         [TestMethod]

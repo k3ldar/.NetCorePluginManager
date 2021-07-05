@@ -15,12 +15,12 @@
  *
  *  Product:  DynamicContent.Plugin
  *  
- *  File: HorizontalRuleTemplate.cs
+ *  File: MediumHeaderTemplate.cs
  *
- *  Purpose:  Html hr template for dynamic pages
+ *  Purpose:  H3 text template for dynamic pages
  *
  *  Date        Name                Reason
- *  08/04/2021  Simon Carter        Initially Created
+ *  05/07/2021  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
@@ -33,11 +33,11 @@ using SharedPluginFeatures.DynamicContent;
 
 namespace DynamicContent.Plugin.Templates
 {
-    public class HorizontalRuleTemplate : DynamicContentTemplate
+    public class MediumHeaderTemplate : DynamicContentTemplate
     {
         #region Constructors
 
-        public HorizontalRuleTemplate()
+        public MediumHeaderTemplate()
         {
             WidthType = DynamicContentWidthType.Columns;
             Width = 12;
@@ -49,13 +49,24 @@ namespace DynamicContent.Plugin.Templates
 
         #region DynamicContentTemplate Properties
 
-        public override string AssemblyQualifiedName => typeof(HorizontalRuleTemplate).AssemblyQualifiedName;
+        public override string AssemblyQualifiedName => typeof(MediumHeaderTemplate).AssemblyQualifiedName;
 
-        public override string EditorAction => String.Empty;
+        public override string EditorAction
+        {
+            get
+            {
+                return $"/{Controllers.DynamicContentController.Name}/{nameof(Controllers.DynamicContentController.TextTemplateEditor)}/";
+            }
+        }
 
         public override string EditorInstructions => String.Empty;
-
-        public override string Name => LanguageStrings.TemplateNameHorizontalRule;
+        public override string Name
+        {
+            get
+            {
+                return LanguageStrings.TemplateNameMediumHeader;
+            }
+        }
 
         public override Int32 SortOrder { get; set; }
 
@@ -89,18 +100,7 @@ namespace DynamicContent.Plugin.Templates
 
         public override int Width { get; set; }
 
-        public override string Data
-        {
-            get
-            {
-                return "<hr />";
-            }
-
-            set
-            {
-
-            }
-        }
+        public override string Data { get; set; }
 
         public override DateTime ActiveFrom { get; set; }
 
@@ -125,7 +125,7 @@ namespace DynamicContent.Plugin.Templates
             if (String.IsNullOrEmpty(uniqueId))
                 uniqueId = Guid.NewGuid().ToString();
 
-            return new HorizontalRuleTemplate()
+            return new MediumHeaderTemplate()
             {
                 UniqueId = uniqueId
             };
@@ -137,11 +137,13 @@ namespace DynamicContent.Plugin.Templates
 
         private string GenerateContent(bool isEditing)
         {
-            StringBuilder Result = new StringBuilder(256);
+            StringBuilder Result = new StringBuilder(2048);
 
             HtmlStart(Result, isEditing);
 
+            Result.Append("<h3>");
             Result.Append(Data);
+            Result.Append("</h3>");
 
             HtmlEnd(Result);
 

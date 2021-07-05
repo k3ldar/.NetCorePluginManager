@@ -222,12 +222,12 @@ namespace DynamicContent.Plugin.Controllers
         public IActionResult GetContent(string cacheId)
         {
             if (String.IsNullOrEmpty(cacheId))
-                return GenerateErrorResponse(HtmlResponseBadRequest, InvalidCacheId);
+                return GenerateJsonErrorResponse(HtmlResponseBadRequest, InvalidCacheId);
 
             CacheItem cacheItem = _memoryCache.GetExtendingCache().Get(cacheId);
 
             if (cacheItem == null)
-                return GenerateErrorResponse(SharedPluginFeatures.Constants.HtmlResponseBadRequest, InvalidCacheItem);
+                return GenerateJsonErrorResponse(SharedPluginFeatures.Constants.HtmlResponseBadRequest, InvalidCacheItem);
 
             return new JsonResult(GetDynamicContentModel(cacheItem))
             {
@@ -243,26 +243,26 @@ namespace DynamicContent.Plugin.Controllers
         public IActionResult UpdateControlPosition(UpdatePositionModel model)
         {
             if (model == null)
-                return GenerateErrorResponse(HtmlResponseBadRequest, InvalidModelData);
+                return GenerateJsonErrorResponse(HtmlResponseBadRequest, InvalidModelData);
 
             if (String.IsNullOrEmpty(model.CacheId))
-                return GenerateErrorResponse(HtmlResponseBadRequest, InvalidCacheId);
+                return GenerateJsonErrorResponse(HtmlResponseBadRequest, InvalidCacheId);
 
             if (String.IsNullOrEmpty(model.ControlId))
-                return GenerateErrorResponse(HtmlResponseBadRequest, InvalidControlId);
+                return GenerateJsonErrorResponse(HtmlResponseBadRequest, InvalidControlId);
 
             CacheItem cacheItem = _memoryCache.GetExtendingCache().Get(model.CacheId);
 
             if (cacheItem == null)
-                return GenerateErrorResponse(HtmlResponseBadRequest, InvalidCacheItem);
+                return GenerateJsonErrorResponse(HtmlResponseBadRequest, InvalidCacheItem);
 
             DynamicContentPage dynamicContentPage = cacheItem.Value as DynamicContentPage;
 
             if (dynamicContentPage == null)
-                return GenerateErrorResponse(HtmlResponseBadRequest, InvalidDynamicPage);
+                return GenerateJsonErrorResponse(HtmlResponseBadRequest, InvalidDynamicPage);
 
             if (dynamicContentPage.Content.Where(ctl => ctl.UniqueId.Equals(model.ControlId)).FirstOrDefault() == null)
-                return GenerateErrorResponse(HtmlResponseBadRequest, InvalidControl);
+                return GenerateJsonErrorResponse(HtmlResponseBadRequest, InvalidControl);
 
             RepositionControls(dynamicContentPage, model.Controls);
 
@@ -280,25 +280,25 @@ namespace DynamicContent.Plugin.Controllers
         public IActionResult TemplateEditor(string cacheId, string controlId)
         {
             if (String.IsNullOrEmpty(cacheId))
-                return GenerateErrorResponse(HtmlResponseBadRequest, InvalidCacheId);
+                return GenerateJsonErrorResponse(HtmlResponseBadRequest, InvalidCacheId);
 
             if (String.IsNullOrEmpty(controlId))
-                return GenerateErrorResponse(HtmlResponseBadRequest, InvalidControlId);
+                return GenerateJsonErrorResponse(HtmlResponseBadRequest, InvalidControlId);
 
             CacheItem cacheItem = _memoryCache.GetExtendingCache().Get(cacheId);
 
             if (cacheItem == null)
-                return GenerateErrorResponse(HtmlResponseBadRequest, InvalidCacheItem);
+                return GenerateJsonErrorResponse(HtmlResponseBadRequest, InvalidCacheItem);
 
             DynamicContentPage dynamicContentPage = cacheItem.Value as DynamicContentPage;
 
             if (dynamicContentPage == null)
-                return GenerateErrorResponse(HtmlResponseBadRequest, InvalidDynamicPage);
+                return GenerateJsonErrorResponse(HtmlResponseBadRequest, InvalidDynamicPage);
 
             DynamicContentTemplate control = dynamicContentPage.Content.Where(ctl => ctl.UniqueId.Equals(controlId)).FirstOrDefault();
 
             if (control == null)
-                return GenerateErrorResponse(HtmlResponseBadRequest, InvalidContentPage);
+                return GenerateJsonErrorResponse(HtmlResponseBadRequest, InvalidContentPage);
 
             return PartialView("/Views/DynamicContent/_TemplateEditor.cshtml", CreateEditTemplateModel(cacheId, control));
         }
@@ -309,34 +309,34 @@ namespace DynamicContent.Plugin.Controllers
         public IActionResult UpdateTemplate(EditTemplateModel model)
         {
             if (model == null)
-                return GenerateErrorResponse(HtmlResponseBadRequest, InvalidModelData);
+                return GenerateJsonErrorResponse(HtmlResponseBadRequest, InvalidModelData);
 
             if (String.IsNullOrEmpty(model.CacheId))
-                return GenerateErrorResponse(HtmlResponseBadRequest, InvalidCacheId);
+                return GenerateJsonErrorResponse(HtmlResponseBadRequest, InvalidCacheId);
 
             if (String.IsNullOrEmpty(model.UniqueId))
-                return GenerateErrorResponse(HtmlResponseBadRequest, InvalidUniqueId);
+                return GenerateJsonErrorResponse(HtmlResponseBadRequest, InvalidUniqueId);
 
             CacheItem cacheItem = _memoryCache.GetExtendingCache().Get(model.CacheId);
 
             if (cacheItem == null)
-                return GenerateErrorResponse(HtmlResponseBadRequest, InvalidCacheItem);
+                return GenerateJsonErrorResponse(HtmlResponseBadRequest, InvalidCacheItem);
 
             DynamicContentPage dynamicContentPage = cacheItem.Value as DynamicContentPage;
 
             if (dynamicContentPage == null)
-                return GenerateErrorResponse(HtmlResponseBadRequest, InvalidContentPage);
+                return GenerateJsonErrorResponse(HtmlResponseBadRequest, InvalidContentPage);
 
             DynamicContentTemplate control = dynamicContentPage.Content.Where(ctl => ctl.UniqueId.Equals(model.UniqueId)).FirstOrDefault();
 
             if (control == null)
-                return GenerateErrorResponse(HtmlResponseBadRequest, InvalidControlId);
+                return GenerateJsonErrorResponse(HtmlResponseBadRequest, InvalidControlId);
 
             if (!ValidateWidth(model, out string widthError))
-                return GenerateErrorResponse(200, widthError);
+                return GenerateJsonErrorResponse(200, widthError);
 
             if (!ValidateHeight(model, out string heightError))
-                return GenerateErrorResponse(200, heightError);
+                return GenerateJsonErrorResponse(200, heightError);
 
             control.Height = model.Height;
             control.HeightType = model.HeightType;
@@ -344,7 +344,7 @@ namespace DynamicContent.Plugin.Controllers
             control.WidthType = model.WidthType;
             control.Data = model.Data ?? String.Empty;
 
-            return GenerateSuccessResponse();
+            return GenerateJsonSuccessResponse();
         }
 
         [LoggedIn]
@@ -376,25 +376,25 @@ namespace DynamicContent.Plugin.Controllers
         public IActionResult DeleteControl(string cacheId, string controlId)
         {
             if (String.IsNullOrEmpty(cacheId))
-                return GenerateErrorResponse(HtmlResponseBadRequest, InvalidCacheId);
+                return GenerateJsonErrorResponse(HtmlResponseBadRequest, InvalidCacheId);
 
             if (String.IsNullOrEmpty(controlId))
-                return GenerateErrorResponse(HtmlResponseBadRequest, InvalidControlId);
+                return GenerateJsonErrorResponse(HtmlResponseBadRequest, InvalidControlId);
 
             CacheItem cacheItem = _memoryCache.GetExtendingCache().Get(cacheId);
 
             if (cacheItem == null)
-                return GenerateErrorResponse(HtmlResponseBadRequest, InvalidCacheItem);
+                return GenerateJsonErrorResponse(HtmlResponseBadRequest, InvalidCacheItem);
 
             DynamicContentPage dynamicContentPage = cacheItem.Value as DynamicContentPage;
 
             if (dynamicContentPage == null)
-                return GenerateErrorResponse(HtmlResponseBadRequest, InvalidContentPage);
+                return GenerateJsonErrorResponse(HtmlResponseBadRequest, InvalidContentPage);
 
             DynamicContentTemplate control = dynamicContentPage.Content.Where(ctl => ctl.UniqueId.Equals(controlId)).FirstOrDefault();
 
             if (control == null)
-                return GenerateErrorResponse(HtmlResponseBadRequest, InvalidControl);
+                return GenerateJsonErrorResponse(HtmlResponseBadRequest, InvalidControl);
 
             return PartialView("/Views/DynamicContent/_DeleteControl.cshtml", CreateDeleteControlModel(cacheId, control));
         }
@@ -405,32 +405,32 @@ namespace DynamicContent.Plugin.Controllers
         public IActionResult DeleteItem(DeleteControlModel model)
         {
             if (model == null)
-                return GenerateErrorResponse(HtmlResponseBadRequest, InvalidModelData);
+                return GenerateJsonErrorResponse(HtmlResponseBadRequest, InvalidModelData);
 
             if (String.IsNullOrEmpty(model.CacheId))
-                return GenerateErrorResponse(HtmlResponseBadRequest, InvalidCacheId);
+                return GenerateJsonErrorResponse(HtmlResponseBadRequest, InvalidCacheId);
 
             if (String.IsNullOrEmpty(model.ControlId))
-                return GenerateErrorResponse(HtmlResponseBadRequest, InvalidControlId);
+                return GenerateJsonErrorResponse(HtmlResponseBadRequest, InvalidControlId);
 
             CacheItem cacheItem = _memoryCache.GetExtendingCache().Get(model.CacheId);
 
             if (cacheItem == null)
-                return GenerateErrorResponse(HtmlResponseBadRequest, InvalidCacheItem);
+                return GenerateJsonErrorResponse(HtmlResponseBadRequest, InvalidCacheItem);
 
             DynamicContentPage dynamicContentPage = cacheItem.Value as DynamicContentPage;
 
             if (dynamicContentPage == null)
-                return GenerateErrorResponse(HtmlResponseBadRequest, InvalidContentPage);
+                return GenerateJsonErrorResponse(HtmlResponseBadRequest, InvalidContentPage);
 
             DynamicContentTemplate control = dynamicContentPage.Content.Where(ctl => ctl.UniqueId.Equals(model.ControlId)).FirstOrDefault();
 
             if (control == null)
-                return GenerateErrorResponse(HtmlResponseBadRequest, InvalidControl);
+                return GenerateJsonErrorResponse(HtmlResponseBadRequest, InvalidControl);
 
             dynamicContentPage.Content.Remove(control);
 
-            return GenerateSuccessResponse();
+            return GenerateJsonSuccessResponse();
         }
 
         [LoggedIn]
@@ -457,32 +457,32 @@ namespace DynamicContent.Plugin.Controllers
         public IActionResult AddTemplateToPage(AddControlModel model)
         {
             if (model == null)
-                return GenerateErrorResponse(HtmlResponseBadRequest, InvalidModelData);
+                return GenerateJsonErrorResponse(HtmlResponseBadRequest, InvalidModelData);
 
             if (String.IsNullOrEmpty(model.CacheId))
-                return GenerateErrorResponse(HtmlResponseBadRequest, InvalidCacheId);
+                return GenerateJsonErrorResponse(HtmlResponseBadRequest, InvalidCacheId);
 
             if (String.IsNullOrEmpty(model.TemplateId))
-                return GenerateErrorResponse(HtmlResponseBadRequest, InvalidTemplate);
+                return GenerateJsonErrorResponse(HtmlResponseBadRequest, InvalidTemplate);
 
             CacheItem cacheItem = _memoryCache.GetExtendingCache().Get(model.CacheId);
 
             if (cacheItem == null)
-                return GenerateErrorResponse(HtmlResponseBadRequest, InvalidCacheItem);
+                return GenerateJsonErrorResponse(HtmlResponseBadRequest, InvalidCacheItem);
 
             DynamicContentPage dynamicContentPage = cacheItem.Value as DynamicContentPage;
 
             if (dynamicContentPage == null)
-                return GenerateErrorResponse(HtmlResponseBadRequest, InvalidContentPage);
+                return GenerateJsonErrorResponse(HtmlResponseBadRequest, InvalidContentPage);
 
             DynamicContentTemplate template = _dynamicContentProvider.Templates().Where(t => t.UniqueId.Equals(model.TemplateId)).FirstOrDefault();
 
             if (template == null)
-                return GenerateErrorResponse(HtmlResponseBadRequest, InvalidTemplateNotFound);
+                return GenerateJsonErrorResponse(HtmlResponseBadRequest, InvalidTemplateNotFound);
 
             dynamicContentPage.AddContentTemplate(template, model.NextControl);
 
-            return GenerateSuccessResponse();
+            return GenerateJsonSuccessResponse();
         }
 
         #endregion Public Action Methods
@@ -530,6 +530,7 @@ namespace DynamicContent.Plugin.Controllers
             return new EditTemplateModel()
             {
                 CacheId = cacheId,
+                EditorInstructions = control.EditorInstructions,
                 TemplateEditor = control.EditorAction,
                 UniqueId = control.UniqueId,
                 Name = control.Name,
@@ -567,7 +568,7 @@ namespace DynamicContent.Plugin.Controllers
             }
         }
 
-        private DynamicContentModel GetDynamicContentModel(CacheItem cacheItem)
+        private JsonResponseModel GetDynamicContentModel(CacheItem cacheItem)
         {
             IDynamicContentPage dynamicContentPage = cacheItem.Value as IDynamicContentPage;
 
@@ -583,25 +584,10 @@ namespace DynamicContent.Plugin.Controllers
                     template.EditorAction);
             }
 
-            return new DynamicContentModel(content.ToString());
-        }
-
-        private JsonResult GenerateErrorResponse(int statusCode, string message)
-        {
-            return new JsonResult(new DynamicContentModel() { Data = message })
-            {
-                ContentType = "application/json",
-                StatusCode = statusCode
-            };
-        }
-
-        private JsonResult GenerateSuccessResponse()
-        {
-            return new JsonResult(new DynamicContentModel(true))
-            {
-                ContentType = "application/json",
-                StatusCode = 200
-            };
+            if (content.Length == 0)
+                return new JsonResponseModel(true);
+            else
+                return new JsonResponseModel(content.ToString());
         }
 
         private CustomPagesModel GetCustomPagesModel()

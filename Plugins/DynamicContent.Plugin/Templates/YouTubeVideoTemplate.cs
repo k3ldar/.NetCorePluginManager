@@ -69,6 +69,8 @@ namespace DynamicContent.Plugin.Templates
             }
         }
 
+        public override string EditorInstructions => String.Empty;
+
         public override String Name => LanguageStrings.TemplateNameYouTube;
 
         public override Int32 SortOrder { get; set; }

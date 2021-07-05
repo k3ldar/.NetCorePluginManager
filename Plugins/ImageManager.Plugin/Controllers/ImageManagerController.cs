@@ -27,6 +27,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Web;
 
 using ImageManager.Plugin.Models;
 
@@ -44,6 +45,8 @@ using PluginManager.Abstractions;
 using Shared.Classes;
 
 using SharedPluginFeatures;
+
+using static SharedPluginFeatures.Constants;
 
 #pragma warning disable CS1591
 
@@ -293,6 +296,38 @@ namespace ImageManager.Plugin.Controllers
                 successUri += $"/{Name}/ViewSubgroup/{cachedImageUpload.GroupName}/{cachedImageUpload.SubgroupName}";
 
             return GenerateJsonSuccessResponse(new { uri = successUri });
+        }
+
+        [HttpGet]
+        [AjaxOnly]
+        public IActionResult ImageTemplateEditor(string data)
+        {
+            return PartialView("/Views/ImageManager/_ImageTemplateEditor.cshtml", new ImageTemplateEditorModel(_imageProvider, HttpUtility.HtmlDecode(data)));
+        }
+
+        [HttpPost]
+        [AjaxOnly]
+        public IActionResult ImageTemplateEditorSubGroups(string groupName, string subgroupName)
+        {
+            if (string.IsNullOrEmpty(groupName))
+                return GenerateJsonErrorResponse(HtmlResponseBadRequest, ErrorInvalidGroupName);
+
+            if (!_imageProvider.GroupExists(groupName))
+                return GenerateJsonErrorResponse(HtmlResponseBadRequest, ErrorInvalidGroupName);
+
+            List<string> subgroupNames = _imageProvider.Groups()[groupName];
+            List<ImageFile> images = null;
+
+            if (String.IsNullOrEmpty(subgroupName))
+                images = _imageProvider.Images(groupName);
+            else
+                images = _imageProvider.Images(groupName, subgroupName);
+
+            List<string> imageNames = new List<string>();
+
+            images.ForEach(i => imageNames.Add(i.Name));
+
+            return GenerateJsonSuccessResponse(new RetrieveImagesModel(subgroupNames, imageNames));
         }
 
         #endregion Public Action Methods

@@ -144,7 +144,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes.Mocks
                 return GetPage10();
             }
 
-            return null;
+            return _dynamicContent.Where(dc => dc.Id.Equals(id)).FirstOrDefault();
         }
 
         public List<DynamicContentTemplate> Templates()

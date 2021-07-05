@@ -37,6 +37,8 @@ namespace DynamicContent.Plugin.Model
 
         public string UniqueId { get; set; }
 
+        public string EditorInstructions { get; set; }
+
         public string TemplateEditor { get; set; }
 
         public string Name { get; set; }

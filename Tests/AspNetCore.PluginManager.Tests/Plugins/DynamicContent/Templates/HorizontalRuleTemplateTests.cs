@@ -66,6 +66,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
             HorizontalRuleTemplate sut = new HorizontalRuleTemplate();
 
             Assert.AreEqual("", sut.EditorAction);
+            Assert.AreEqual("", sut.EditorInstructions);
         }
 
         [TestMethod]

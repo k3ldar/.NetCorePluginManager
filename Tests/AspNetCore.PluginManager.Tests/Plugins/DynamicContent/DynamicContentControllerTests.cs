@@ -274,7 +274,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
             Assert.AreEqual("application/json", jsonResult.ContentType);
             Assert.AreEqual(400, jsonResult.StatusCode);
 
-            DynamicContentModel sut = jsonResult.Value as DynamicContentModel;
+            JsonResponseModel sut = jsonResult.Value as JsonResponseModel;
 
             Assert.IsNotNull(sut);
             Assert.IsFalse(sut.Success);
@@ -291,7 +291,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
             Assert.AreEqual("application/json", jsonResult.ContentType);
             Assert.AreEqual(400, jsonResult.StatusCode);
 
-            DynamicContentModel sut = jsonResult.Value as DynamicContentModel;
+            JsonResponseModel sut = jsonResult.Value as JsonResponseModel;
 
             Assert.IsNotNull(sut);
             Assert.IsFalse(sut.Success);
@@ -308,7 +308,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
             Assert.AreEqual("application/json", jsonResult.ContentType);
             Assert.AreEqual(400, jsonResult.StatusCode);
 
-            DynamicContentModel sut = jsonResult.Value as DynamicContentModel;
+            JsonResponseModel sut = jsonResult.Value as JsonResponseModel;
 
             Assert.IsNotNull(sut);
             Assert.IsFalse(sut.Success);
@@ -335,11 +335,45 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
             Assert.AreEqual("application/json", jsonResult.ContentType);
             Assert.AreEqual(200, jsonResult.StatusCode);
 
-            DynamicContentModel sut = jsonResult.Value as DynamicContentModel;
+            JsonResponseModel sut = jsonResult.Value as JsonResponseModel;
 
             Assert.IsNotNull(sut);
             Assert.IsTrue(sut.Success);
-            Assert.AreEqual(GetContentData, sut.Data);
+            Assert.AreEqual(GetContentData, sut.ResponseData);
+        }
+
+        [TestMethod]
+        [TestCategory(TestCategoryName)]
+        public void GetContent_CacheItemFound_EmptyPageReturnsEmptyString_Success()
+        {
+            ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory(), null, null);
+            DefaultMemoryCache memoryCache = new DefaultMemoryCache(settingsProvider);
+            IPluginClassesService pluginServices = new pm.PluginServices(_testDynamicContentPlugin) as IPluginClassesService;
+            MockDynamicContentProvider mockDynamicContentProvider = new MockDynamicContentProvider(pluginServices);
+            mockDynamicContentProvider.AddPage(new DynamicContentPage(59)
+            {
+                Name = "test"
+            });
+
+            DynamicContentController dynamicContentController = CreateDynamicContentController(memoryCache, GetDynamicBreadcrumbs(), mockDynamicContentProvider);
+
+            IActionResult editPageResponse = dynamicContentController.EditPage(59);
+            ViewResult viewResult = editPageResponse as ViewResult;
+            Assert.IsNotNull(viewResult.Model);
+            EditPageModel editPageModel = viewResult.Model as EditPageModel;
+
+
+            IActionResult response = dynamicContentController.GetContent(editPageModel.CacheId);
+            JsonResult jsonResult = response as JsonResult;
+
+            Assert.AreEqual("application/json", jsonResult.ContentType);
+            Assert.AreEqual(200, jsonResult.StatusCode);
+
+            JsonResponseModel sut = jsonResult.Value as JsonResponseModel;
+
+            Assert.IsNotNull(sut);
+            Assert.IsTrue(sut.Success);
+            Assert.AreEqual("", sut.ResponseData);
         }
 
         [TestMethod]
@@ -368,7 +402,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
             Assert.AreEqual("application/json", jsonResult.ContentType);
             Assert.AreEqual(400, jsonResult.StatusCode);
 
-            DynamicContentModel sut = jsonResult.Value as DynamicContentModel;
+            JsonResponseModel sut = jsonResult.Value as JsonResponseModel;
 
             Assert.IsNotNull(sut);
             Assert.IsFalse(sut.Success);
@@ -385,7 +419,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
             Assert.AreEqual("application/json", jsonResult.ContentType);
             Assert.AreEqual(400, jsonResult.StatusCode);
 
-            DynamicContentModel sut = jsonResult.Value as DynamicContentModel;
+            JsonResponseModel sut = jsonResult.Value as JsonResponseModel;
 
             Assert.IsNotNull(sut);
             Assert.IsFalse(sut.Success);
@@ -402,7 +436,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
             Assert.AreEqual("application/json", jsonResult.ContentType);
             Assert.AreEqual(400, jsonResult.StatusCode);
 
-            DynamicContentModel sut = jsonResult.Value as DynamicContentModel;
+            JsonResponseModel sut = jsonResult.Value as JsonResponseModel;
 
             Assert.IsNotNull(sut);
             Assert.IsFalse(sut.Success);
@@ -423,7 +457,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
             Assert.AreEqual("application/json", jsonResult.ContentType);
             Assert.AreEqual(400, jsonResult.StatusCode);
 
-            DynamicContentModel sut = jsonResult.Value as DynamicContentModel;
+            JsonResponseModel sut = jsonResult.Value as JsonResponseModel;
 
             Assert.IsNotNull(sut);
             Assert.IsFalse(sut.Success);
@@ -450,7 +484,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
             Assert.AreEqual("application/json", jsonResult.ContentType);
             Assert.AreEqual(400, jsonResult.StatusCode);
 
-            DynamicContentModel sut = jsonResult.Value as DynamicContentModel;
+            JsonResponseModel sut = jsonResult.Value as JsonResponseModel;
 
             Assert.IsNotNull(sut);
             Assert.IsFalse(sut.Success);
@@ -477,7 +511,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
             Assert.AreEqual("application/json", jsonResult.ContentType);
             Assert.AreEqual(400, jsonResult.StatusCode);
 
-            DynamicContentModel sut = jsonResult.Value as DynamicContentModel;
+            JsonResponseModel sut = jsonResult.Value as JsonResponseModel;
 
             Assert.IsNotNull(sut);
             Assert.IsFalse(sut.Success);
@@ -504,14 +538,14 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
             Assert.AreEqual("application/json", jsonResult.ContentType);
             Assert.AreEqual(400, jsonResult.StatusCode);
 
-            DynamicContentModel sut = jsonResult.Value as DynamicContentModel;
+            JsonResponseModel sut = jsonResult.Value as JsonResponseModel;
 
             Assert.IsNotNull(sut);
             Assert.IsFalse(sut.Success);
         }
         [TestMethod]
         [TestCategory(TestCategoryName)]
-        public void UpdateControlPosition_InalidCacheItem_NotValidDynamicContentModel_Returns404()
+        public void UpdateControlPosition_InalidCacheItem_NotValidJsonResponseModel_Returns404()
         {
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory(), null, null);
             DefaultMemoryCache memoryCache = new DefaultMemoryCache(settingsProvider);
@@ -564,7 +598,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
             Assert.AreEqual("application/json", jsonResult.ContentType);
             Assert.AreEqual(200, jsonResult.StatusCode);
 
-            DynamicContentModel sut = jsonResult.Value as DynamicContentModel;
+            JsonResponseModel sut = jsonResult.Value as JsonResponseModel;
 
             Assert.IsNotNull(sut);
             Assert.IsTrue(sut.Success);
@@ -752,7 +786,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
             Assert.AreEqual("application/json", jsonResult.ContentType);
             Assert.AreEqual(400, jsonResult.StatusCode);
 
-            DynamicContentModel sut = jsonResult.Value as DynamicContentModel;
+            JsonResponseModel sut = jsonResult.Value as JsonResponseModel;
 
             Assert.IsNotNull(sut);
             Assert.IsFalse(sut.Success);
@@ -770,7 +804,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
             Assert.AreEqual("application/json", jsonResult.ContentType);
             Assert.AreEqual(400, jsonResult.StatusCode);
 
-            DynamicContentModel sut = jsonResult.Value as DynamicContentModel;
+            JsonResponseModel sut = jsonResult.Value as JsonResponseModel;
 
             Assert.IsNotNull(sut);
             Assert.IsFalse(sut.Success);
@@ -788,7 +822,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
             Assert.AreEqual("application/json", jsonResult.ContentType);
             Assert.AreEqual(400, jsonResult.StatusCode);
 
-            DynamicContentModel sut = jsonResult.Value as DynamicContentModel;
+            JsonResponseModel sut = jsonResult.Value as JsonResponseModel;
 
             Assert.IsNotNull(sut);
             Assert.IsFalse(sut.Success);
@@ -808,7 +842,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
             Assert.AreEqual("application/json", jsonResult.ContentType);
             Assert.AreEqual(400, jsonResult.StatusCode);
 
-            DynamicContentModel sut = jsonResult.Value as DynamicContentModel;
+            JsonResponseModel sut = jsonResult.Value as JsonResponseModel;
 
             Assert.IsNotNull(sut);
             Assert.IsFalse(sut.Success);
@@ -826,7 +860,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
             Assert.AreEqual("application/json", jsonResult.ContentType);
             Assert.AreEqual(400, jsonResult.StatusCode);
 
-            DynamicContentModel sut = jsonResult.Value as DynamicContentModel;
+            JsonResponseModel sut = jsonResult.Value as JsonResponseModel;
 
             Assert.IsNotNull(sut);
             Assert.IsFalse(sut.Success);
@@ -844,7 +878,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
             Assert.AreEqual("application/json", jsonResult.ContentType);
             Assert.AreEqual(400, jsonResult.StatusCode);
 
-            DynamicContentModel sut = jsonResult.Value as DynamicContentModel;
+            JsonResponseModel sut = jsonResult.Value as JsonResponseModel;
 
             Assert.IsNotNull(sut);
             Assert.IsFalse(sut.Success);
@@ -872,7 +906,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
             Assert.AreEqual("application/json", jsonResult.ContentType);
             Assert.AreEqual(400, jsonResult.StatusCode);
 
-            DynamicContentModel sut = jsonResult.Value as DynamicContentModel;
+            JsonResponseModel sut = jsonResult.Value as JsonResponseModel;
 
             Assert.IsNotNull(sut);
             Assert.IsFalse(sut.Success);
@@ -941,7 +975,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
             Assert.AreEqual("application/json", jsonResult.ContentType);
             Assert.AreEqual(400, jsonResult.StatusCode);
 
-            DynamicContentModel sut = jsonResult.Value as DynamicContentModel;
+            JsonResponseModel sut = jsonResult.Value as JsonResponseModel;
 
             Assert.IsNotNull(sut);
             Assert.IsFalse(sut.Success);
@@ -961,7 +995,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
             Assert.AreEqual("application/json", jsonResult.ContentType);
             Assert.AreEqual(400, jsonResult.StatusCode);
 
-            DynamicContentModel sut = jsonResult.Value as DynamicContentModel;
+            JsonResponseModel sut = jsonResult.Value as JsonResponseModel;
 
             Assert.IsNotNull(sut);
             Assert.IsFalse(sut.Success);
@@ -984,7 +1018,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
             Assert.AreEqual("application/json", jsonResult.ContentType);
             Assert.AreEqual(400, jsonResult.StatusCode);
 
-            DynamicContentModel sut = jsonResult.Value as DynamicContentModel;
+            JsonResponseModel sut = jsonResult.Value as JsonResponseModel;
 
             Assert.IsNotNull(sut);
             Assert.IsFalse(sut.Success);
@@ -1007,7 +1041,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
             Assert.AreEqual("application/json", jsonResult.ContentType);
             Assert.AreEqual(400, jsonResult.StatusCode);
 
-            DynamicContentModel sut = jsonResult.Value as DynamicContentModel;
+            JsonResponseModel sut = jsonResult.Value as JsonResponseModel;
 
             Assert.IsNotNull(sut);
             Assert.IsFalse(sut.Success);
@@ -1031,7 +1065,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
             Assert.AreEqual("application/json", jsonResult.ContentType);
             Assert.AreEqual(400, jsonResult.StatusCode);
 
-            DynamicContentModel sut = jsonResult.Value as DynamicContentModel;
+            JsonResponseModel sut = jsonResult.Value as JsonResponseModel;
 
             Assert.IsNotNull(sut);
             Assert.IsFalse(sut.Success);
@@ -1055,7 +1089,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
             Assert.AreEqual("application/json", jsonResult.ContentType);
             Assert.AreEqual(400, jsonResult.StatusCode);
 
-            DynamicContentModel sut = jsonResult.Value as DynamicContentModel;
+            JsonResponseModel sut = jsonResult.Value as JsonResponseModel;
 
             Assert.IsNotNull(sut);
             Assert.IsFalse(sut.Success);
@@ -1063,7 +1097,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
 
         [TestMethod]
         [TestCategory(TestCategoryName)]
-        public void UpdateTemplate_InvalidCache_NotValidDynamicContentModel_Returns_NonSucess()
+        public void UpdateTemplate_InvalidCache_NotValidJsonResponseModel_Returns_NonSucess()
         {
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
             DefaultMemoryCache defaultMemoryCache = new DefaultMemoryCache(settingsProvider);
@@ -1082,7 +1116,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
             Assert.AreEqual("application/json", jsonResult.ContentType);
             Assert.AreEqual(400, jsonResult.StatusCode);
 
-            DynamicContentModel sut = jsonResult.Value as DynamicContentModel;
+            JsonResponseModel sut = jsonResult.Value as JsonResponseModel;
 
             Assert.IsNotNull(sut);
             Assert.IsFalse(sut.Success);
@@ -1115,7 +1149,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
             Assert.AreEqual("application/json", jsonResult.ContentType);
             Assert.AreEqual(400, jsonResult.StatusCode);
 
-            DynamicContentModel sut = jsonResult.Value as DynamicContentModel;
+            JsonResponseModel sut = jsonResult.Value as JsonResponseModel;
 
             Assert.IsNotNull(sut);
             Assert.IsFalse(sut.Success);
@@ -1150,11 +1184,11 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
             Assert.AreEqual("application/json", jsonResult.ContentType);
             Assert.AreEqual(200, jsonResult.StatusCode);
 
-            DynamicContentModel sut = jsonResult.Value as DynamicContentModel;
+            JsonResponseModel sut = jsonResult.Value as JsonResponseModel;
 
             Assert.IsNotNull(sut);
             Assert.IsFalse(sut.Success);
-            Assert.AreEqual("Width must be between 1 and 12", sut.Data);
+            Assert.AreEqual("Width must be between 1 and 12", sut.ResponseData);
         }
 
         [TestMethod]
@@ -1186,11 +1220,11 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
             Assert.AreEqual("application/json", jsonResult.ContentType);
             Assert.AreEqual(200, jsonResult.StatusCode);
 
-            DynamicContentModel sut = jsonResult.Value as DynamicContentModel;
+            JsonResponseModel sut = jsonResult.Value as JsonResponseModel;
 
             Assert.IsNotNull(sut);
             Assert.IsFalse(sut.Success);
-            Assert.AreEqual("Width must be between 1 and 12", sut.Data);
+            Assert.AreEqual("Width must be between 1 and 12", sut.ResponseData);
         }
 
         [TestMethod]
@@ -1222,11 +1256,11 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
             Assert.AreEqual("application/json", jsonResult.ContentType);
             Assert.AreEqual(200, jsonResult.StatusCode);
 
-            DynamicContentModel sut = jsonResult.Value as DynamicContentModel;
+            JsonResponseModel sut = jsonResult.Value as JsonResponseModel;
 
             Assert.IsNotNull(sut);
             Assert.IsFalse(sut.Success);
-            Assert.AreEqual("Width must be between 1 and 100", sut.Data);
+            Assert.AreEqual("Width must be between 1 and 100", sut.ResponseData);
         }
 
         [TestMethod]
@@ -1260,11 +1294,11 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
             Assert.AreEqual("application/json", jsonResult.ContentType);
             Assert.AreEqual(200, jsonResult.StatusCode);
 
-            DynamicContentModel sut = jsonResult.Value as DynamicContentModel;
+            JsonResponseModel sut = jsonResult.Value as JsonResponseModel;
 
             Assert.IsNotNull(sut);
             Assert.IsTrue(sut.Success);
-            Assert.AreEqual("", sut.Data);
+            Assert.AreEqual("", sut.ResponseData);
         }
 
         [TestMethod]
@@ -1298,11 +1332,11 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
             Assert.AreEqual("application/json", jsonResult.ContentType);
             Assert.AreEqual(200, jsonResult.StatusCode);
 
-            DynamicContentModel sut = jsonResult.Value as DynamicContentModel;
+            JsonResponseModel sut = jsonResult.Value as JsonResponseModel;
 
             Assert.IsNotNull(sut);
             Assert.IsTrue(sut.Success);
-            Assert.AreEqual("", sut.Data);
+            Assert.AreEqual("", sut.ResponseData);
         }
 
         [TestMethod]
@@ -1334,11 +1368,11 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
             Assert.AreEqual("application/json", jsonResult.ContentType);
             Assert.AreEqual(200, jsonResult.StatusCode);
 
-            DynamicContentModel sut = jsonResult.Value as DynamicContentModel;
+            JsonResponseModel sut = jsonResult.Value as JsonResponseModel;
 
             Assert.IsNotNull(sut);
             Assert.IsFalse(sut.Success);
-            Assert.AreEqual("Width must be between 1 and 100", sut.Data);
+            Assert.AreEqual("Width must be between 1 and 100", sut.ResponseData);
         }
 
         [TestMethod]
@@ -1370,11 +1404,11 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
             Assert.AreEqual("application/json", jsonResult.ContentType);
             Assert.AreEqual(200, jsonResult.StatusCode);
 
-            DynamicContentModel sut = jsonResult.Value as DynamicContentModel;
+            JsonResponseModel sut = jsonResult.Value as JsonResponseModel;
 
             Assert.IsNotNull(sut);
             Assert.IsFalse(sut.Success);
-            Assert.AreEqual("Width must be at least 1", sut.Data);
+            Assert.AreEqual("Width must be at least 1", sut.ResponseData);
         }
 
         [TestMethod]
@@ -1408,11 +1442,11 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
             Assert.AreEqual("application/json", jsonResult.ContentType);
             Assert.AreEqual(200, jsonResult.StatusCode);
 
-            DynamicContentModel sut = jsonResult.Value as DynamicContentModel;
+            JsonResponseModel sut = jsonResult.Value as JsonResponseModel;
 
             Assert.IsNotNull(sut);
             Assert.IsFalse(sut.Success);
-            Assert.AreEqual("Height must be between 1 and 100", sut.Data);
+            Assert.AreEqual("Height must be between 1 and 100", sut.ResponseData);
         }
 
         [TestMethod]
@@ -1446,11 +1480,11 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
             Assert.AreEqual("application/json", jsonResult.ContentType);
             Assert.AreEqual(200, jsonResult.StatusCode);
 
-            DynamicContentModel sut = jsonResult.Value as DynamicContentModel;
+            JsonResponseModel sut = jsonResult.Value as JsonResponseModel;
 
             Assert.IsNotNull(sut);
             Assert.IsFalse(sut.Success);
-            Assert.AreEqual("Height must be between 1 and 100", sut.Data);
+            Assert.AreEqual("Height must be between 1 and 100", sut.ResponseData);
         }
 
         [TestMethod]
@@ -1484,11 +1518,11 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
             Assert.AreEqual("application/json", jsonResult.ContentType);
             Assert.AreEqual(200, jsonResult.StatusCode);
 
-            DynamicContentModel sut = jsonResult.Value as DynamicContentModel;
+            JsonResponseModel sut = jsonResult.Value as JsonResponseModel;
 
             Assert.IsNotNull(sut);
             Assert.IsFalse(sut.Success);
-            Assert.AreEqual("Height must be at least 1", sut.Data);
+            Assert.AreEqual("Height must be at least 1", sut.ResponseData);
         }
 
         [TestMethod]
@@ -1523,7 +1557,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
             Assert.AreEqual("application/json", jsonResult.ContentType);
             Assert.AreEqual(200, jsonResult.StatusCode);
 
-            DynamicContentModel sut = jsonResult.Value as DynamicContentModel;
+            JsonResponseModel sut = jsonResult.Value as JsonResponseModel;
 
             Assert.IsNotNull(sut);
             Assert.IsTrue(sut.Success);
@@ -1615,7 +1649,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
             Assert.AreEqual("application/json", jsonResult.ContentType);
             Assert.AreEqual(400, jsonResult.StatusCode);
 
-            DynamicContentModel sut = jsonResult.Value as DynamicContentModel;
+            JsonResponseModel sut = jsonResult.Value as JsonResponseModel;
 
             Assert.IsNotNull(sut);
             Assert.IsFalse(sut.Success);
@@ -1633,7 +1667,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
             Assert.AreEqual("application/json", jsonResult.ContentType);
             Assert.AreEqual(400, jsonResult.StatusCode);
 
-            DynamicContentModel sut = jsonResult.Value as DynamicContentModel;
+            JsonResponseModel sut = jsonResult.Value as JsonResponseModel;
 
             Assert.IsNotNull(sut);
             Assert.IsFalse(sut.Success);
@@ -1651,7 +1685,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
             Assert.AreEqual("application/json", jsonResult.ContentType);
             Assert.AreEqual(400, jsonResult.StatusCode);
 
-            DynamicContentModel sut = jsonResult.Value as DynamicContentModel;
+            JsonResponseModel sut = jsonResult.Value as JsonResponseModel;
 
             Assert.IsNotNull(sut);
             Assert.IsFalse(sut.Success);
@@ -1669,7 +1703,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
             Assert.AreEqual("application/json", jsonResult.ContentType);
             Assert.AreEqual(400, jsonResult.StatusCode);
 
-            DynamicContentModel sut = jsonResult.Value as DynamicContentModel;
+            JsonResponseModel sut = jsonResult.Value as JsonResponseModel;
 
             Assert.IsNotNull(sut);
             Assert.IsFalse(sut.Success);
@@ -1687,7 +1721,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
             Assert.AreEqual("application/json", jsonResult.ContentType);
             Assert.AreEqual(400, jsonResult.StatusCode);
 
-            DynamicContentModel sut = jsonResult.Value as DynamicContentModel;
+            JsonResponseModel sut = jsonResult.Value as JsonResponseModel;
 
             Assert.IsNotNull(sut);
             Assert.IsFalse(sut.Success);
@@ -1695,7 +1729,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
 
         [TestMethod]
         [TestCategory(TestCategoryName)]
-        public void DeleteControl_InvalidCache_NotDynamicContentModel_ReturnsNonSuccess()
+        public void DeleteControl_InvalidCache_NotJsonResponseModel_ReturnsNonSuccess()
         {
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
             DefaultMemoryCache defaultMemoryCache = new DefaultMemoryCache(settingsProvider);
@@ -1708,7 +1742,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
             Assert.AreEqual("application/json", jsonResult.ContentType);
             Assert.AreEqual(400, jsonResult.StatusCode);
 
-            DynamicContentModel sut = jsonResult.Value as DynamicContentModel;
+            JsonResponseModel sut = jsonResult.Value as JsonResponseModel;
 
             Assert.IsNotNull(sut);
             Assert.IsFalse(sut.Success);
@@ -1736,7 +1770,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
             Assert.AreEqual("application/json", jsonResult.ContentType);
             Assert.AreEqual(400, jsonResult.StatusCode);
 
-            DynamicContentModel sut = jsonResult.Value as DynamicContentModel;
+            JsonResponseModel sut = jsonResult.Value as JsonResponseModel;
 
             Assert.IsNotNull(sut);
             Assert.IsFalse(sut.Success);
@@ -1801,7 +1835,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
             Assert.AreEqual("application/json", jsonResult.ContentType);
             Assert.AreEqual(400, jsonResult.StatusCode);
 
-            DynamicContentModel sut = jsonResult.Value as DynamicContentModel;
+            JsonResponseModel sut = jsonResult.Value as JsonResponseModel;
 
             Assert.IsNotNull(sut);
             Assert.IsFalse(sut.Success);
@@ -1825,7 +1859,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
             Assert.AreEqual("application/json", jsonResult.ContentType);
             Assert.AreEqual(400, jsonResult.StatusCode);
 
-            DynamicContentModel sut = jsonResult.Value as DynamicContentModel;
+            JsonResponseModel sut = jsonResult.Value as JsonResponseModel;
 
             Assert.IsNotNull(sut);
             Assert.IsFalse(sut.Success);
@@ -1849,7 +1883,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
             Assert.AreEqual("application/json", jsonResult.ContentType);
             Assert.AreEqual(400, jsonResult.StatusCode);
 
-            DynamicContentModel sut = jsonResult.Value as DynamicContentModel;
+            JsonResponseModel sut = jsonResult.Value as JsonResponseModel;
 
             Assert.IsNotNull(sut);
             Assert.IsFalse(sut.Success);
@@ -1873,7 +1907,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
             Assert.AreEqual("application/json", jsonResult.ContentType);
             Assert.AreEqual(400, jsonResult.StatusCode);
 
-            DynamicContentModel sut = jsonResult.Value as DynamicContentModel;
+            JsonResponseModel sut = jsonResult.Value as JsonResponseModel;
 
             Assert.IsNotNull(sut);
             Assert.IsFalse(sut.Success);
@@ -1897,7 +1931,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
             Assert.AreEqual("application/json", jsonResult.ContentType);
             Assert.AreEqual(400, jsonResult.StatusCode);
 
-            DynamicContentModel sut = jsonResult.Value as DynamicContentModel;
+            JsonResponseModel sut = jsonResult.Value as JsonResponseModel;
 
             Assert.IsNotNull(sut);
             Assert.IsFalse(sut.Success);
@@ -1921,7 +1955,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
             Assert.AreEqual("application/json", jsonResult.ContentType);
             Assert.AreEqual(400, jsonResult.StatusCode);
 
-            DynamicContentModel sut = jsonResult.Value as DynamicContentModel;
+            JsonResponseModel sut = jsonResult.Value as JsonResponseModel;
 
             Assert.IsNotNull(sut);
             Assert.IsFalse(sut.Success);
@@ -1929,7 +1963,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
 
         [TestMethod]
         [TestCategory(TestCategoryName)]
-        public void DeleteItem_InvalidCache_NotDynamicContentModel_ReturnsNonSuccess()
+        public void DeleteItem_InvalidCache_NotJsonResponseModel_ReturnsNonSuccess()
         {
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
             DefaultMemoryCache defaultMemoryCache = new DefaultMemoryCache(settingsProvider);
@@ -1948,7 +1982,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
             Assert.AreEqual("application/json", jsonResult.ContentType);
             Assert.AreEqual(400, jsonResult.StatusCode);
 
-            DynamicContentModel sut = jsonResult.Value as DynamicContentModel;
+            JsonResponseModel sut = jsonResult.Value as JsonResponseModel;
 
             Assert.IsNotNull(sut);
             Assert.IsFalse(sut.Success);
@@ -1981,7 +2015,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
             Assert.AreEqual("application/json", jsonResult.ContentType);
             Assert.AreEqual(400, jsonResult.StatusCode);
 
-            DynamicContentModel sut = jsonResult.Value as DynamicContentModel;
+            JsonResponseModel sut = jsonResult.Value as JsonResponseModel;
 
             Assert.IsNotNull(sut);
             Assert.IsFalse(sut.Success);
@@ -2020,7 +2054,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
             Assert.AreEqual("application/json", jsonResult.ContentType);
             Assert.AreEqual(200, jsonResult.StatusCode);
 
-            DynamicContentModel sut = jsonResult.Value as DynamicContentModel;
+            JsonResponseModel sut = jsonResult.Value as JsonResponseModel;
 
             Assert.IsNotNull(sut);
             Assert.IsTrue(sut.Success);
@@ -2065,7 +2099,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
 
             Assert.IsNotNull(sut);
 
-            Assert.AreEqual(6, sut.Templates.Count);
+            Assert.AreEqual(9, sut.Templates.Count);
         }
 
         [TestMethod]
@@ -2612,189 +2646,6 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
 
 
         #endregion New Page
-
-        #region Image Template Editor
-
-        [TestMethod]
-        [TestCategory(TestCategoryName)]
-        public void ImageTemplateEditor_Validate_Attributes()
-        {
-            string methodName = "ImageTemplateEditor";
-            Assert.IsTrue(MethodHasAttribute<HttpGetAttribute>(typeof(DynamicContentController), methodName));
-            Assert.IsTrue(MethodHasAttribute<AjaxOnlyAttribute>(typeof(DynamicContentController), methodName));
-
-            Assert.IsFalse(MethodHasAttribute<HttpPostAttribute>(typeof(DynamicContentController), methodName));
-            Assert.IsFalse(MethodHasAttribute<HttpDeleteAttribute>(typeof(DynamicContentController), methodName));
-            Assert.IsFalse(MethodHasAttribute<HttpPutAttribute>(typeof(DynamicContentController), methodName));
-        }
-
-        [TestMethod]
-        [TestCategory(TestCategoryName)]
-        public void ImageTemplateEditor_Validate_IActionResult_ReturnsPartialView()
-        {
-            DynamicContentController sut = CreateDynamicContentController();
-
-            IActionResult response = sut.ImageTemplateEditor("hello world");
-
-            Assert.IsInstanceOfType(response, typeof(PartialViewResult));
-
-            PartialViewResult viewResult = response as PartialViewResult;
-
-            Assert.IsNotNull(viewResult.Model);
-
-            Assert.AreEqual("/Views/DynamicContent/_ImageTemplateEditor.cshtml", viewResult.ViewName);
-
-            Assert.IsInstanceOfType(viewResult.Model, typeof(ImageTemplateEditorModel));
-            ImageTemplateEditorModel model = viewResult.Model as ImageTemplateEditorModel;
-            model.Data.Equals("hello world");
-            Assert.AreEqual(2, model.Groups.Length);
-            Assert.AreEqual(2, model.Subgroups.Length);
-            Assert.IsNotNull(model.Images);
-        }
-
-        [TestMethod]
-        [TestCategory(TestCategoryName)]
-        public void ImageTemplateEditorSubGroups_Validate_Attributes()
-        {
-            string methodName = "ImageTemplateEditorSubGroups";
-            Assert.IsTrue(MethodHasAttribute<HttpPostAttribute>(typeof(DynamicContentController), methodName));
-            Assert.IsTrue(MethodHasAttribute<AjaxOnlyAttribute>(typeof(DynamicContentController), methodName));
-
-            Assert.IsFalse(MethodHasAttribute<HttpGetAttribute>(typeof(DynamicContentController), methodName));
-            Assert.IsFalse(MethodHasAttribute<HttpDeleteAttribute>(typeof(DynamicContentController), methodName));
-            Assert.IsFalse(MethodHasAttribute<HttpPutAttribute>(typeof(DynamicContentController), methodName));
-        }
-
-        [TestMethod]
-        [TestCategory(TestCategoryName)]
-        public void ImageTemplateEditorSubGroups_InvalidGroupName_Null_ReturnsValidErrorResponse_Success()
-        {
-            DynamicContentController sut = CreateDynamicContentController();
-            IActionResult response = sut.ImageTemplateEditorSubGroups(null, null);
-
-            JsonResult jsonResult = response as JsonResult;
-
-            Assert.AreEqual("application/json", jsonResult.ContentType);
-            Assert.AreEqual(400, jsonResult.StatusCode);
-
-            DynamicContentModel contentModel = jsonResult.Value as DynamicContentModel;
-
-            Assert.IsNotNull(contentModel);
-            Assert.IsFalse(contentModel.Success);
-            Assert.AreEqual("Invalid group name", contentModel.Data);
-        }
-
-        [TestMethod]
-        [TestCategory(TestCategoryName)]
-        public void ImageTemplateEditorSubGroups_InvalidGroupName_EmptyString_ReturnsValidErrorResponse_Success()
-        {
-            DynamicContentController sut = CreateDynamicContentController();
-            IActionResult response = sut.ImageTemplateEditorSubGroups("", null);
-
-            JsonResult jsonResult = response as JsonResult;
-
-            Assert.AreEqual("application/json", jsonResult.ContentType);
-            Assert.AreEqual(400, jsonResult.StatusCode);
-
-            DynamicContentModel contentModel = jsonResult.Value as DynamicContentModel;
-
-            Assert.IsNotNull(contentModel);
-            Assert.IsFalse(contentModel.Success);
-            Assert.AreEqual("Invalid group name", contentModel.Data);
-        }
-
-        [TestMethod]
-        [TestCategory(TestCategoryName)]
-        public void ImageTemplateEditorSubGroups_InvalidGroupName_NotFound_ReturnsValidErrorResponse_Success()
-        {
-            DynamicContentController sut = CreateDynamicContentController();
-            IActionResult response = sut.ImageTemplateEditorSubGroups("A group", null);
-
-            JsonResult jsonResult = response as JsonResult;
-
-            Assert.AreEqual("application/json", jsonResult.ContentType);
-            Assert.AreEqual(400, jsonResult.StatusCode);
-
-            DynamicContentModel contentModel = jsonResult.Value as DynamicContentModel;
-
-            Assert.IsNotNull(contentModel);
-            Assert.IsFalse(contentModel.Success);
-            Assert.AreEqual("Invalid group name", contentModel.Data);
-        }
-
-        [TestMethod]
-        [TestCategory(TestCategoryName)]
-        public void ImageTemplateEditorSubGroups_ValidGroupName_TwoItemsFound_ReturnsValidList_Success()
-        {
-            DynamicContentController sut = CreateDynamicContentController();
-            IActionResult response = sut.ImageTemplateEditorSubGroups("Group 1", null);
-
-            JsonResult jsonResult = response as JsonResult;
-
-            Assert.AreEqual("application/json", jsonResult.ContentType);
-            Assert.AreEqual(200, jsonResult.StatusCode);
-
-            JsonResponseModel responseModel = jsonResult.Value as JsonResponseModel;
-            Assert.IsNotNull(responseModel);
-
-            RetrieveImagesModel imagesModel = Newtonsoft.Json.JsonConvert.DeserializeObject<RetrieveImagesModel>(responseModel.ResponseData);
-            Assert.IsNotNull(imagesModel);
-
-            Assert.AreEqual(2, imagesModel.Subgroups.Count);
-            Assert.AreEqual("Group 1 Subgroup 1", imagesModel.Subgroups[0]);
-            Assert.AreEqual("Group 1 Subgroup 2", imagesModel.Subgroups[1]);
-
-            Assert.AreEqual(1, imagesModel.Images.Count);
-        }
-
-        [TestMethod]
-        [TestCategory(TestCategoryName)]
-        public void ImageTemplateEditorSubGroups_ValidGroupNameAndSubgroupName_TwoItemsFound_ReturnsValidList_Success()
-        {
-            DynamicContentController sut = CreateDynamicContentController();
-            IActionResult response = sut.ImageTemplateEditorSubGroups("Group 1", "Group 1 Subgroup 2");
-
-            JsonResult jsonResult = response as JsonResult;
-
-            Assert.AreEqual("application/json", jsonResult.ContentType);
-            Assert.AreEqual(200, jsonResult.StatusCode);
-
-            JsonResponseModel responseModel = jsonResult.Value as JsonResponseModel;
-            Assert.IsNotNull(responseModel);
-
-            RetrieveImagesModel imagesModel = Newtonsoft.Json.JsonConvert.DeserializeObject<RetrieveImagesModel>(responseModel.ResponseData);
-            Assert.IsNotNull(imagesModel);
-
-            Assert.AreEqual(2, imagesModel.Subgroups.Count);
-            Assert.AreEqual("Group 1 Subgroup 1", imagesModel.Subgroups[0]);
-            Assert.AreEqual("Group 1 Subgroup 2", imagesModel.Subgroups[1]);
-
-            Assert.AreEqual(1, imagesModel.Images.Count);
-        }
-
-        [TestMethod]
-        [TestCategory(TestCategoryName)]
-        public void ImageTemplateEditorSubGroups_ValidGroupName_NoSubgroupsFound_ReturnsValidList_Success()
-        {
-            DynamicContentController sut = CreateDynamicContentController();
-            IActionResult response = sut.ImageTemplateEditorSubGroups("Group 2", null);
-
-            JsonResult jsonResult = response as JsonResult;
-
-            Assert.AreEqual("application/json", jsonResult.ContentType);
-            Assert.AreEqual(200, jsonResult.StatusCode);
-
-            JsonResponseModel responseModel = jsonResult.Value as JsonResponseModel;
-            Assert.IsNotNull(responseModel);
-
-            RetrieveImagesModel imagesModel = Newtonsoft.Json.JsonConvert.DeserializeObject<RetrieveImagesModel>(responseModel.ResponseData);
-            Assert.IsNotNull(imagesModel);
-
-            Assert.AreEqual(0, imagesModel.Subgroups.Count);
-            Assert.AreEqual(1, imagesModel.Images.Count);
-        }
-
-        #endregion Image Template Editor
 
         #region YouTube Template Editor
 

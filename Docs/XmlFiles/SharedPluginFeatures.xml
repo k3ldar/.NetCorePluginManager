@@ -62,6 +62,11 @@
             <value>string</value>
             <exception cref="T:System.InvalidOperationException">If the value returned is null, empty or a duplicate</exception>
         </member>
+        <member name="P:SharedPluginFeatures.DynamicContent.DynamicContentTemplate.EditorInstructions">
+            <summary>
+            Instructions for the user when editing the control
+            </summary>
+        </member>
         <member name="P:SharedPluginFeatures.DynamicContent.DynamicContentTemplate.Name">
             <summary>
             Name of dynamic content template
