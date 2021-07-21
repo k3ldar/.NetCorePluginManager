@@ -50,8 +50,8 @@ namespace DynamicContent.Plugin.Templates
             WidthType = DynamicContentWidthType.Columns;
             Height = 450;
             HeightType = DynamicContentHeightType.Pixels;
-            ActiveFrom = DateTime.MinValue;
-            ActiveTo = DateTime.MaxValue;
+            ActiveFrom = new DateTime(2020, 1, 1, 0, 0, 0);
+            ActiveTo = new DateTime(2050, 12, 31, 23, 59, 59);
             _autoPlay = true;
         }
 
@@ -72,6 +72,10 @@ namespace DynamicContent.Plugin.Templates
         public override string EditorInstructions => String.Empty;
 
         public override String Name => LanguageStrings.TemplateNameYouTube;
+
+        public override DynamicContentTemplateType TemplateType => DynamicContentTemplateType.Default;
+
+        public override int TemplateSortOrder => 600;
 
         public override Int32 SortOrder { get; set; }
 
@@ -147,7 +151,9 @@ namespace DynamicContent.Plugin.Templates
             }
             else
             {
-                Result.Append("<iframe type=\"text/html\" width=\"100%\" height=\"100%\" src=\"https://www.youtube.com/embed/");
+                Result.AppendFormat("<iframe{0} ", RetrieveCssClassAndStyle()); 
+                
+                Result.Append("type=\"text/html\" width=\"100%\" height=\"100%\" src=\"https://www.youtube.com/embed/");
 
                 Result.Append(_youTubeId);
 

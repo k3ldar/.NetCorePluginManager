@@ -18600,6 +18600,33 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Align label to the left.
+        /// </summary>
+        public static string AppTextAlignmentLeft {
+            get {
+                return ResourceManager.GetString("AppTextAlignmentLeft", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Align label to the right.
+        /// </summary>
+        public static string AppTextAlignmentRight {
+            get {
+                return ResourceManager.GetString("AppTextAlignmentRight", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Align label on top.
+        /// </summary>
+        public static string AppTextAlignmentTop {
+            get {
+                return ResourceManager.GetString("AppTextAlignmentTop", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Text Magic Integration.
         /// </summary>
         public static string AppTextMagic {
@@ -22148,6 +22175,24 @@ namespace Languages {
         public static string CreditDebitCard {
             get {
                 return ResourceManager.GetString("CreditDebitCard", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Class Name.
+        /// </summary>
+        public static string CssClassName {
+            get {
+                return ResourceManager.GetString("CssClassName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Style.
+        /// </summary>
+        public static string CssStyle {
+            get {
+                return ResourceManager.GetString("CssStyle", resourceCulture);
             }
         }
         
@@ -26227,6 +26272,24 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Enter options, 1 per line.
+        /// </summary>
+        public static string OptionsOnePerLine {
+            get {
+                return ResourceManager.GetString("OptionsOnePerLine", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Option Style.
+        /// </summary>
+        public static string OptionStyle {
+            get {
+                return ResourceManager.GetString("OptionStyle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Order.
         /// </summary>
         public static string Order {
@@ -29576,6 +29639,51 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Check Box.
+        /// </summary>
+        public static string TemplateNameFormCheckBox {
+            get {
+                return ResourceManager.GetString("TemplateNameFormCheckBox", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to List Box.
+        /// </summary>
+        public static string TemplateNameFormListBox {
+            get {
+                return ResourceManager.GetString("TemplateNameFormListBox", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Radio Button.
+        /// </summary>
+        public static string TemplateNameFormRadioButton {
+            get {
+                return ResourceManager.GetString("TemplateNameFormRadioButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Submit Button.
+        /// </summary>
+        public static string TemplateNameFormSubmitButton {
+            get {
+                return ResourceManager.GetString("TemplateNameFormSubmitButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Text Box.
+        /// </summary>
+        public static string TemplateNameFormTextBox {
+            get {
+                return ResourceManager.GetString("TemplateNameFormTextBox", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Horizontal Rule.
         /// </summary>
         public static string TemplateNameHorizontalRule {
@@ -29644,6 +29752,15 @@ namespace Languages {
         public static string TemplateNameSpacer {
             get {
                 return ResourceManager.GetString("TemplateNameSpacer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Submit.
+        /// </summary>
+        public static string TemplateNameSubmit {
+            get {
+                return ResourceManager.GetString("TemplateNameSubmit", resourceCulture);
             }
         }
         

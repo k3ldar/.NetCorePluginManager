@@ -936,7 +936,8 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
 
             EditTemplateModel model = sut.Model as EditTemplateModel;
 
-            Assert.AreEqual(DateTime.MinValue, model.ActiveFrom);
+            Assert.AreEqual(DefaultActiveFrom, model.ActiveFrom);
+            Assert.AreEqual(DefaultActiveTo, model.ActiveTo);
             Assert.AreEqual(-1, model.Height);
             Assert.AreEqual(DynamicContentHeightType.Automatic, model.HeightType);
             Assert.AreEqual("control-1", model.UniqueId);
@@ -2099,7 +2100,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
 
             Assert.IsNotNull(sut);
 
-            Assert.AreEqual(9, sut.Templates.Count);
+            Assert.AreEqual(14, sut.Templates.Count);
         }
 
         [TestMethod]
@@ -2467,10 +2468,54 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
             Assert.IsNotNull(viewResult);
             Assert.AreEqual("/Views/DynamicContent/EditPage.cshtml", viewResult.ViewName);
             Assert.IsFalse(viewResult.ViewData.ModelState.IsValid);
-            Assert.AreEqual(3, viewResult.ViewData.ModelState.ErrorCount);
+            Assert.AreEqual(2, viewResult.ViewData.ModelState.ErrorCount);
             Assert.IsTrue(ViewResultContainsModelStateError(viewResult, "", "Failed to save page"));
             Assert.IsTrue(ViewResultContainsModelStateError(viewResult, "Name", "Name already exists"));
-            Assert.IsTrue(ViewResultContainsModelStateError(viewResult, "RouteName", "Route name already exists"));
+        }
+
+        [TestMethod]
+        [TestCategory(TestCategoryName)]
+        public void SavePage_RouteAlreadyExists_AcceptableAsStartStopTimeMayVary_Success()
+        {
+            ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
+            DefaultMemoryCache memoryCache = new DefaultMemoryCache(settingsProvider);
+
+            DynamicContentPage cachedPage = new DynamicContentPage()
+            {
+                Id = 2,
+                Name = "My Page 2",
+                RouteName = "my-route-2"
+            };
+
+            memoryCache.GetExtendingCache().Add("abc", new CacheItem("abc", cachedPage));
+
+
+            IPluginClassesService pluginServices = new pm.PluginServices(_testDynamicContentPlugin) as IPluginClassesService;
+            DynamicContentPage dynamicContentPageExistingName = new DynamicContentPage()
+            {
+                Id = 1,
+                Name = "My Page",
+                RouteName = "my-route"
+            };
+            MockDynamicContentProvider mockDynamicContentProvider = new MockDynamicContentProvider(pluginServices);
+            mockDynamicContentProvider.UseDefaultContent = false;
+            mockDynamicContentProvider.AllowSavePage = true;
+            mockDynamicContentProvider.AddPage(dynamicContentPageExistingName);
+
+            EditPageModel model = new EditPageModel()
+            {
+                CacheId = "abc",
+                Name = "My Page 3",
+                RouteName = "my-route"
+            };
+
+            DynamicContentController dynamicContentController = CreateDynamicContentController(memoryCache, GetDynamicBreadcrumbs(), mockDynamicContentProvider);
+            IActionResult savePageResponse = dynamicContentController.SavePage(model);
+            RedirectToActionResult redirectResult = savePageResponse as RedirectToActionResult;
+            Assert.IsNotNull(redirectResult);
+            Assert.IsFalse(redirectResult.Permanent);
+            Assert.AreEqual("My Page 3", cachedPage.Name);
+            Assert.AreEqual("my-route", cachedPage.RouteName);
         }
 
         [TestMethod]
@@ -2709,6 +2754,274 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         }
 
         #endregion YouTube Template Editor
+
+        #region Form Input Template Editor
+
+        [TestMethod]
+        [TestCategory(TestCategoryName)]
+        public void FormControlTemplateEditor_Validate_Attributes()
+        {
+            string methodName = "FormControlTemplateEditor";
+            Assert.IsTrue(MethodHasAttribute<HttpGetAttribute>(typeof(DynamicContentController), methodName));
+            Assert.IsTrue(MethodHasAttribute<AjaxOnlyAttribute>(typeof(DynamicContentController), methodName));
+
+            Assert.IsFalse(MethodHasAttribute<HttpPostAttribute>(typeof(DynamicContentController), methodName));
+            Assert.IsFalse(MethodHasAttribute<HttpDeleteAttribute>(typeof(DynamicContentController), methodName));
+            Assert.IsFalse(MethodHasAttribute<HttpPutAttribute>(typeof(DynamicContentController), methodName));
+        }
+
+        [TestMethod]
+        [TestCategory(TestCategoryName)]
+        public void FormControlTemplateEditor_ReturnsValidViewAndModel_Success()
+        {
+            DynamicContentController sut = CreateDynamicContentController();
+
+            IActionResult response = sut.FormControlTemplateEditor("hello world");
+
+            Assert.IsInstanceOfType(response, typeof(PartialViewResult));
+
+            PartialViewResult viewResult = response as PartialViewResult;
+
+            Assert.IsNotNull(viewResult.Model);
+
+            Assert.AreEqual("/Views/DynamicContent/_FormControlTemplateEditor.cshtml", viewResult.ViewName);
+
+            Assert.IsInstanceOfType(viewResult.Model, typeof(FormTemplateEditorModel));
+            FormTemplateEditorModel model = viewResult.Model as FormTemplateEditorModel;
+            Assert.AreEqual("hello world", model.Data);
+            Assert.AreEqual("hello-world", model.ControlName);
+            Assert.AreEqual("", model.LabelText);
+            Assert.AreEqual("Align label to the left", model.AlignLeftText);
+            Assert.IsFalse(model.AlignTop);
+        }
+
+        [TestMethod]
+        [TestCategory(TestCategoryName)]
+        public void FormControlTemplateEditor_ReturnsValidViewAndModel_WithAutoplay_Success()
+        {
+            DynamicContentController sut = CreateDynamicContentController();
+
+            IActionResult response = sut.FormControlTemplateEditor("ZzSsBbNnJjKK|MyControl|TrUe");
+
+            Assert.IsInstanceOfType(response, typeof(PartialViewResult));
+
+            PartialViewResult viewResult = response as PartialViewResult;
+
+            Assert.IsNotNull(viewResult.Model);
+
+            Assert.AreEqual("/Views/DynamicContent/_FormControlTemplateEditor.cshtml", viewResult.ViewName);
+
+            Assert.IsInstanceOfType(viewResult.Model, typeof(FormTemplateEditorModel));
+            FormTemplateEditorModel model = viewResult.Model as FormTemplateEditorModel;
+            Assert.AreEqual("ZzSsBbNnJjKK|MyControl|TrUe", model.Data);
+            Assert.AreEqual("ZzSsBbNnJjKK", model.ControlName);
+            Assert.AreEqual("MyControl", model.LabelText);
+            Assert.AreEqual("Align label to the left", model.AlignLeftText);
+            Assert.IsTrue(model.AlignTop);
+        }
+
+        #endregion Form Input Template Editor
+
+        #region Form Input Template Editor Right Align
+
+        [TestMethod]
+        [TestCategory(TestCategoryName)]
+        public void FormControlTemplateEditorRightAlign_Validate_Attributes()
+        {
+            string methodName = "FormControlTemplateEditorRightAlign";
+            Assert.IsTrue(MethodHasAttribute<HttpGetAttribute>(typeof(DynamicContentController), methodName));
+            Assert.IsTrue(MethodHasAttribute<AjaxOnlyAttribute>(typeof(DynamicContentController), methodName));
+
+            Assert.IsFalse(MethodHasAttribute<HttpPostAttribute>(typeof(DynamicContentController), methodName));
+            Assert.IsFalse(MethodHasAttribute<HttpDeleteAttribute>(typeof(DynamicContentController), methodName));
+            Assert.IsFalse(MethodHasAttribute<HttpPutAttribute>(typeof(DynamicContentController), methodName));
+        }
+
+        [TestMethod]
+        [TestCategory(TestCategoryName)]
+        public void FormControlTemplateEditorRightAlign_ReturnsValidViewAndModel_Success()
+        {
+            DynamicContentController sut = CreateDynamicContentController();
+
+            IActionResult response = sut.FormControlTemplateEditorRightAlign("hello world");
+
+            Assert.IsInstanceOfType(response, typeof(PartialViewResult));
+
+            PartialViewResult viewResult = response as PartialViewResult;
+
+            Assert.IsNotNull(viewResult.Model);
+
+            Assert.AreEqual("/Views/DynamicContent/_FormControlTemplateEditor.cshtml", viewResult.ViewName);
+
+            Assert.IsInstanceOfType(viewResult.Model, typeof(FormTemplateEditorModel));
+            FormTemplateEditorModel model = viewResult.Model as FormTemplateEditorModel;
+            Assert.AreEqual("hello world", model.Data);
+            Assert.AreEqual("hello-world", model.ControlName);
+            Assert.AreEqual("", model.LabelText);
+            Assert.AreEqual("Align label to the right", model.AlignLeftText);
+            Assert.IsFalse(model.AlignTop);
+        }
+
+        [TestMethod]
+        [TestCategory(TestCategoryName)]
+        public void FormControlTemplateEditorRightAlign_ReturnsValidViewAndModel_WithAutoplay_Success()
+        {
+            DynamicContentController sut = CreateDynamicContentController();
+
+            IActionResult response = sut.FormControlTemplateEditorRightAlign("ZzSsBbNnJjKK|MyControl|TrUe");
+
+            Assert.IsInstanceOfType(response, typeof(PartialViewResult));
+
+            PartialViewResult viewResult = response as PartialViewResult;
+
+            Assert.IsNotNull(viewResult.Model);
+
+            Assert.AreEqual("/Views/DynamicContent/_FormControlTemplateEditor.cshtml", viewResult.ViewName);
+
+            Assert.IsInstanceOfType(viewResult.Model, typeof(FormTemplateEditorModel));
+            FormTemplateEditorModel model = viewResult.Model as FormTemplateEditorModel;
+            Assert.AreEqual("ZzSsBbNnJjKK|MyControl|TrUe", model.Data);
+            Assert.AreEqual("ZzSsBbNnJjKK", model.ControlName);
+            Assert.AreEqual("MyControl", model.LabelText);
+            Assert.AreEqual("Align label to the right", model.AlignLeftText);
+            Assert.IsTrue(model.AlignTop);
+        }
+
+        #endregion Form Input Template Editor Right Align
+
+        #region Form Input Template Editor Radio Group
+
+        [TestMethod]
+        [TestCategory(TestCategoryName)]
+        public void FormControlTemplateEditorRadioGroup_Validate_Attributes()
+        {
+            string methodName = "FormControlTemplateEditorRadioGroup";
+            Assert.IsTrue(MethodHasAttribute<HttpGetAttribute>(typeof(DynamicContentController), methodName));
+            Assert.IsTrue(MethodHasAttribute<AjaxOnlyAttribute>(typeof(DynamicContentController), methodName));
+
+            Assert.IsFalse(MethodHasAttribute<HttpPostAttribute>(typeof(DynamicContentController), methodName));
+            Assert.IsFalse(MethodHasAttribute<HttpDeleteAttribute>(typeof(DynamicContentController), methodName));
+            Assert.IsFalse(MethodHasAttribute<HttpPutAttribute>(typeof(DynamicContentController), methodName));
+        }
+
+        [TestMethod]
+        [TestCategory(TestCategoryName)]
+        public void FormControlTemplateEditorRadioGroup_ReturnsValidViewAndModel_Success()
+        {
+            DynamicContentController sut = CreateDynamicContentController();
+
+            IActionResult response = sut.FormControlTemplateEditorRadioGroup("hello world");
+
+            Assert.IsInstanceOfType(response, typeof(PartialViewResult));
+
+            PartialViewResult viewResult = response as PartialViewResult;
+
+            Assert.IsNotNull(viewResult.Model);
+
+            Assert.AreEqual("/Views/DynamicContent/_FormControlTemplateEditorRadioGroup.cshtml", viewResult.ViewName);
+
+            Assert.IsInstanceOfType(viewResult.Model, typeof(FormTemplateEditorModel));
+            FormTemplateEditorModel model = viewResult.Model as FormTemplateEditorModel;
+            Assert.AreEqual("hello world", model.Data);
+            Assert.AreEqual("hello-world", model.ControlName);
+            Assert.AreEqual("", model.LabelText);
+            Assert.AreEqual("Align label to the right", model.AlignLeftText);
+            Assert.IsFalse(model.AlignTop);
+        }
+
+        [TestMethod]
+        [TestCategory(TestCategoryName)]
+        public void FormControlTemplateEditorRadioGroup_ReturnsValidViewAndModel_WithAutoplay_Success()
+        {
+            DynamicContentController sut = CreateDynamicContentController();
+
+            IActionResult response = sut.FormControlTemplateEditorRadioGroup("ZzSsBbNnJjKK|MyControl|TrUe");
+
+            Assert.IsInstanceOfType(response, typeof(PartialViewResult));
+
+            PartialViewResult viewResult = response as PartialViewResult;
+
+            Assert.IsNotNull(viewResult.Model);
+
+            Assert.AreEqual("/Views/DynamicContent/_FormControlTemplateEditorRadioGroup.cshtml", viewResult.ViewName);
+
+            Assert.IsInstanceOfType(viewResult.Model, typeof(FormTemplateEditorModel));
+            FormTemplateEditorModel model = viewResult.Model as FormTemplateEditorModel;
+            Assert.AreEqual("ZzSsBbNnJjKK|MyControl|TrUe", model.Data);
+            Assert.AreEqual("ZzSsBbNnJjKK", model.ControlName);
+            Assert.AreEqual("MyControl", model.LabelText);
+            Assert.AreEqual("Align label to the right", model.AlignLeftText);
+            Assert.IsTrue(model.AlignTop);
+        }
+
+        #endregion Form Input Template Editor Radio Group
+
+        #region Form Input Template Editor List Box
+
+        [TestMethod]
+        [TestCategory(TestCategoryName)]
+        public void FormControlTemplateEditorListBox_Validate_Attributes()
+        {
+            string methodName = "FormControlTemplateEditorListBox";
+            Assert.IsTrue(MethodHasAttribute<HttpGetAttribute>(typeof(DynamicContentController), methodName));
+            Assert.IsTrue(MethodHasAttribute<AjaxOnlyAttribute>(typeof(DynamicContentController), methodName));
+
+            Assert.IsFalse(MethodHasAttribute<HttpPostAttribute>(typeof(DynamicContentController), methodName));
+            Assert.IsFalse(MethodHasAttribute<HttpDeleteAttribute>(typeof(DynamicContentController), methodName));
+            Assert.IsFalse(MethodHasAttribute<HttpPutAttribute>(typeof(DynamicContentController), methodName));
+        }
+
+        [TestMethod]
+        [TestCategory(TestCategoryName)]
+        public void FormControlTemplateEditorListBox_ReturnsValidViewAndModel_Success()
+        {
+            DynamicContentController sut = CreateDynamicContentController();
+
+            IActionResult response = sut.FormControlTemplateEditorListBox("hello world");
+
+            Assert.IsInstanceOfType(response, typeof(PartialViewResult));
+
+            PartialViewResult viewResult = response as PartialViewResult;
+
+            Assert.IsNotNull(viewResult.Model);
+
+            Assert.AreEqual("/Views/DynamicContent/_FormControlTemplateEditorListBox.cshtml", viewResult.ViewName);
+
+            Assert.IsInstanceOfType(viewResult.Model, typeof(FormTemplateEditorModel));
+            FormTemplateEditorModel model = viewResult.Model as FormTemplateEditorModel;
+            Assert.AreEqual("hello world", model.Data);
+            Assert.AreEqual("hello-world", model.ControlName);
+            Assert.AreEqual("", model.LabelText);
+            Assert.AreEqual("Align label to the left", model.AlignLeftText);
+            Assert.IsFalse(model.AlignTop);
+        }
+
+        [TestMethod]
+        [TestCategory(TestCategoryName)]
+        public void FormControlTemplateEditorListBox_ReturnsValidViewAndModel_WithAutoplay_Success()
+        {
+            DynamicContentController sut = CreateDynamicContentController();
+
+            IActionResult response = sut.FormControlTemplateEditorListBox("ZzSsBbNnJjKK|MyControl|TrUe");
+
+            Assert.IsInstanceOfType(response, typeof(PartialViewResult));
+
+            PartialViewResult viewResult = response as PartialViewResult;
+
+            Assert.IsNotNull(viewResult.Model);
+
+            Assert.AreEqual("/Views/DynamicContent/_FormControlTemplateEditorListBox.cshtml", viewResult.ViewName);
+
+            Assert.IsInstanceOfType(viewResult.Model, typeof(FormTemplateEditorModel));
+            FormTemplateEditorModel model = viewResult.Model as FormTemplateEditorModel;
+            Assert.AreEqual("ZzSsBbNnJjKK|MyControl|TrUe", model.Data);
+            Assert.AreEqual("ZzSsBbNnJjKK", model.ControlName);
+            Assert.AreEqual("MyControl", model.LabelText);
+            Assert.AreEqual("Align label to the left", model.AlignLeftText);
+            Assert.IsTrue(model.AlignTop);
+        }
+
+        #endregion Form Input Template Editor List Box
 
         #region Private Methods
 

@@ -31,6 +31,16 @@ namespace DynamicContent.Plugin.Model
 {
     public sealed class EditTemplateModel
     {
+        #region Constructors
+
+        public EditTemplateModel()
+        {
+            ActiveFrom = new DateTime(2020, 1, 1, 0, 0, 0);
+            ActiveTo = new DateTime(2050, 12, 31, 23, 59, 59);
+        }
+
+        #endregion Constructors
+
         #region Properties
 
         public string CacheId { get; set; }
@@ -56,6 +66,12 @@ namespace DynamicContent.Plugin.Model
         public string Data { get; set; }
 
         public DateTime ActiveFrom { get; set; }
+
+        public DateTime ActiveTo { get; set; }
+
+        public string CssClassName { get; set; }
+
+        public string CssStyle { get; set; }
 
         #endregion Properties
     }

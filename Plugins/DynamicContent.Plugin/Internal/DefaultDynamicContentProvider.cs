@@ -94,6 +94,9 @@ namespace DynamicContent.Plugin.Internal
 
                 IDynamicContentPage newPage = new DynamicContentPage(Result);
                 newPage.Name = $"Page-{Result}";
+                newPage.ActiveFrom = new DateTime(2020, 1, 1, 0, 0, 0);
+                newPage.ActiveTo = new DateTime(2050, 12, 31, 23, 59, 59);
+
                 _dynamicContent.Add(newPage);
                 Save(newPage);
             }

@@ -91,7 +91,7 @@ namespace AspNetCore.PluginManager.Tests.SharedPluginFeatures
 
             string sut = RouteFriendlyName(sb.ToString());
 
-            Assert.AreEqual("-0123456789-ABCDEFGHIJKLMNOPQRSTUVWXYZ-_-abcdefghijklmnopqrstuvwxyz", sut);
+            Assert.AreEqual("0123456789-ABCDEFGHIJKLMNOPQRSTUVWXYZ-_-abcdefghijklmnopqrstuvwxyz", sut);
         }
     }
 }

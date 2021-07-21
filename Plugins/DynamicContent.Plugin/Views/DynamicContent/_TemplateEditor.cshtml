@@ -31,8 +31,20 @@
                 <div class="tab-pane fade show active" id="nav-general" role="tabpanel" aria-labelledby="nav-general-tab">
                     <div class="form-row">
                         <div class="col">
-                            @Html.LabelFor(m => m.SortOrder)
+                            @Html.LabelFor(m => m.SortOrder, Localizer[Languages.LanguageStrings.AppSortOrder])
                             @Html.TextBoxFor(m => m.SortOrder, new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col">
+                            @Html.LabelFor(m => m.CssClassName, Localizer[Languages.LanguageStrings.CssClassName])
+                            @Html.TextBoxFor(m => m.CssClassName, new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col">
+                            @Html.LabelFor(m => m.CssStyle, Localizer[Languages.LanguageStrings.CssStyle])
+                            @Html.TextBoxFor(m => m.CssStyle, new { @class = "form-control" })
                         </div>
                     </div>
 

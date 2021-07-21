@@ -26,6 +26,8 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
 
+using AspNetCore.PluginManager.Tests.Shared;
+
 using DynamicContent.Plugin.Templates;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -37,7 +39,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
 {
     [TestClass]
     [ExcludeFromCodeCoverage]
-    public class HorizontalRuleTemplateTests
+    public class HorizontalRuleTemplateTests : GenericBaseClass
     {
         private const string TestCategoryName = "Dynamic Content";
 
@@ -48,6 +50,8 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
             HorizontalRuleTemplate sut = new HorizontalRuleTemplate();
 
             Assert.IsNotNull(sut);
+            Assert.AreEqual(DynamicContentTemplateType.Default, sut.TemplateType);
+            Assert.AreEqual(11000, sut.TemplateSortOrder);
         }
 
         [TestMethod]
@@ -202,7 +206,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         {
             HorizontalRuleTemplate sut = new HorizontalRuleTemplate();
 
-            Assert.AreEqual(DateTime.MinValue, sut.ActiveFrom);
+            Assert.AreEqual(DefaultActiveFrom, sut.ActiveFrom);
         }
 
         [TestMethod]
@@ -211,7 +215,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         {
             HorizontalRuleTemplate sut = new HorizontalRuleTemplate();
 
-            Assert.AreEqual(DateTime.MaxValue, sut.ActiveTo);
+            Assert.AreEqual(DefaultActiveTo, sut.ActiveTo);
         }
 
         [TestMethod]
@@ -311,6 +315,21 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
             Assert.IsFalse(guidParsed);
 
             Assert.AreEqual("my-unique-id", clone.UniqueId);
+        }
+
+        [TestMethod]
+        [TestCategory(TestCategoryName)]
+        public void Content_ContainsCssStyleAndClass_Success()
+        {
+            HorizontalRuleTemplate sut = new HorizontalRuleTemplate();
+            sut.WidthType = DynamicContentWidthType.Columns;
+            sut.Width = 10;
+            sut.CssClassName = "css-class";
+            sut.CssStyle = "border: 1px solid green;";
+
+            string content = sut.Content();
+
+            Assert.AreEqual("<div class=\"col-sm-10\"><hr class=\"css-class\" style=\"border: 1px solid green;\" /></div>", content);
         }
     }
 }

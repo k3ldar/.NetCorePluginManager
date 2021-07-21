@@ -26,6 +26,8 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
 
+using AspNetCore.PluginManager.Tests.Shared;
+
 using ImageManager.Plugin.Templates;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -37,9 +39,10 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
 {
     [TestClass]
     [ExcludeFromCodeCoverage]
-    public class ImageTemplateTests
+    public class ImageTemplateTests : GenericBaseClass
     {
         private const string TestCategoryName = "Dynamic Content";
+        private const string ContentWithCssStyleAndClass = "<div style=\"width:538px !important;height:200px !important;display:block;\"><img src=\"/images/myimage.gif\" alt=\"image\" style=\"max-height:100%;border:1px solid blue;\" class=\"myclass\"></div>";
 
         [TestMethod]
         [TestCategory(TestCategoryName)]
@@ -48,6 +51,8 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
             ImageTemplate sut = new ImageTemplate();
 
             Assert.IsNotNull(sut);
+            Assert.AreEqual(DynamicContentTemplateType.Default, sut.TemplateType);
+            Assert.AreEqual(400, sut.TemplateSortOrder);
         }
 
         [TestMethod]
@@ -200,7 +205,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         {
             ImageTemplate sut = new ImageTemplate();
 
-            Assert.AreEqual(DateTime.MinValue, sut.ActiveFrom);
+            Assert.AreEqual(DefaultActiveFrom, sut.ActiveFrom);
         }
 
         [TestMethod]
@@ -209,7 +214,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         {
             ImageTemplate sut = new ImageTemplate();
 
-            Assert.AreEqual(DateTime.MaxValue, sut.ActiveTo);
+            Assert.AreEqual(DefaultActiveTo, sut.ActiveTo);
         }
 
         [TestMethod]
@@ -320,6 +325,21 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
             Assert.IsFalse(guidParsed);
 
             Assert.AreEqual("my-unique-id", clone.UniqueId);
+        }
+
+        [TestMethod]
+        [TestCategory(TestCategoryName)]
+        public void Content_ContainsCssClassAndCssStyle_Success()
+        {
+            ImageTemplate sut = new ImageTemplate();
+            sut.WidthType = DynamicContentWidthType.Pixels;
+            sut.Width = 538;
+            sut.Data = "/images/myimage.gif";
+            sut.CssClassName = "myclass";
+            sut.CssStyle = "border:1px solid blue;";
+            string content = sut.Content();
+
+            Assert.AreEqual(ContentWithCssStyleAndClass, content);
         }
     }
 }

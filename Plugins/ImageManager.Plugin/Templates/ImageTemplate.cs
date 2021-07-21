@@ -43,8 +43,8 @@ namespace ImageManager.Plugin.Templates
             WidthType = DynamicContentWidthType.Columns;
             Height = 200;
             HeightType = DynamicContentHeightType.Pixels;
-            ActiveFrom = DateTime.MinValue;
-            ActiveTo = DateTime.MaxValue;
+            ActiveFrom = new DateTime(2020, 1, 1, 0, 0, 0);
+            ActiveTo = new DateTime(2050, 12, 31, 23, 59, 59);
             Data = String.Empty;
         }
 
@@ -65,6 +65,10 @@ namespace ImageManager.Plugin.Templates
         public override string EditorInstructions => String.Empty;
 
         public override string Name => LanguageStrings.TemplateNameImage;
+
+        public override DynamicContentTemplateType TemplateType => DynamicContentTemplateType.Default;
+
+        public override int TemplateSortOrder => 400;
 
         public override int SortOrder { get; set; }
 
@@ -128,9 +132,21 @@ namespace ImageManager.Plugin.Templates
                 Result.Append("\" alt=\"image\" style=\"max-height:100%;");
 
                 if (isEditing)
-                    Result.Append("width:100%;");
+                {
+                    Result.Append("width:100%;\"");
+                }
+                else
+                {
+                    Result.Append(CssStyle);
+                    Result.Append("\"");
 
-                Result.Append("\">");
+                    if (!String.IsNullOrEmpty(CssClassName))
+                    {
+                        Result.AppendFormat(" class=\"{0}\"", CssClassName);
+                    }
+                }
+
+                Result.Append(">");
             }
 
             HtmlEnd(Result);

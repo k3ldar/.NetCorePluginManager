@@ -26,6 +26,8 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
 
+using AspNetCore.PluginManager.Tests.Shared;
+
 using DynamicContent.Plugin.Templates;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -37,7 +39,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
 {
     [TestClass]
     [ExcludeFromCodeCoverage]
-    public class YouTubeVideoTemplateTests
+    public class YouTubeVideoTemplateTests : GenericBaseClass
     {
         private const string TestCategoryName = "Dynamic Content";
 
@@ -45,6 +47,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         private const string WidthTypeValidationPercent = "<div style=\"width:40% !important;height:450px !important;display:block;\"><iframe type=\"text/html\" width=\"100%\" height=\"100%\" src=\"https://www.youtube.com/embed/<p>test</p>?autoplay=1\" frameborder=\"0\" allow=\"autoplay\"></iframe></div>";
         private const string WidthTypeValidationPixels = "<div style=\"width:538px !important;height:450px !important;display:block;\"><iframe type=\"text/html\" width=\"100%\" height=\"100%\" src=\"https://www.youtube.com/embed/<p>test</p>?autoplay=1\" frameborder=\"0\" allow=\"autoplay\"></iframe></div>";
         private const string ExtraValuesResponse = "<div class=\"col-sm-12\" style=\"height:450px !important;\"><iframe type=\"text/html\" width=\"100%\" height=\"100%\" src=\"https://www.youtube.com/embed/test\" frameborder=\"0\"></iframe></div>";
+        private const string ContainsCssStyleAndClass = "<div class=\"col-sm-8\" style=\"height:450px !important;\"><iframe class=\"my-class\" style=\"border: 1px solid black;\" type=\"text/html\" width=\"100%\" height=\"100%\" src=\"https://www.youtube.com/embed/aAbBcCdD?autoplay=1\" frameborder=\"0\" allow=\"autoplay\"></iframe></div>";
 
         [TestMethod]
         [TestCategory(TestCategoryName)]
@@ -53,6 +56,8 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
             YouTubeVideoTemplate sut = new YouTubeVideoTemplate();
 
             Assert.IsNotNull(sut);
+            Assert.AreEqual(DynamicContentTemplateType.Default, sut.TemplateType);
+            Assert.AreEqual(600, sut.TemplateSortOrder);
         }
 
         [TestMethod]
@@ -207,7 +212,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         {
             YouTubeVideoTemplate sut = new YouTubeVideoTemplate();
 
-            Assert.AreEqual(DateTime.MinValue, sut.ActiveFrom);
+            Assert.AreEqual(DefaultActiveFrom, sut.ActiveFrom);
         }
 
         [TestMethod]
@@ -216,7 +221,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         {
             YouTubeVideoTemplate sut = new YouTubeVideoTemplate();
 
-            Assert.AreEqual(DateTime.MaxValue, sut.ActiveTo);
+            Assert.AreEqual(DefaultActiveTo, sut.ActiveTo);
         }
 
         [TestMethod]
@@ -232,6 +237,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
 
             Assert.AreEqual(WidthTypeValidationColumn, content);
         }
+
 
         [TestMethod]
         [TestCategory(TestCategoryName)]
@@ -316,6 +322,22 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
             Assert.IsFalse(guidParsed);
 
             Assert.AreEqual("my-unique-id", clone.UniqueId);
+        }
+
+        [TestMethod]
+        [TestCategory(TestCategoryName)]
+        public void Content_ContainsCssStyleAndClass_Valid()
+        {
+            YouTubeVideoTemplate sut = new YouTubeVideoTemplate();
+            sut.WidthType = DynamicContentWidthType.Columns;
+            sut.Width = 8;
+            sut.Data = "aAbBcCdD|True";
+            sut.CssClassName = "my-class";
+            sut.CssStyle = "border: 1px solid black;";
+
+            string content = sut.Content();
+
+            Assert.AreEqual(ContainsCssStyleAndClass, content);
         }
     }
 }

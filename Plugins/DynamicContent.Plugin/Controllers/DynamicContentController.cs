@@ -193,9 +193,6 @@ namespace DynamicContent.Plugin.Controllers
                 if (_dynamicContentProvider.PageNameExists(dynamicContentPage.Id, model.Name))
                     ModelState.AddModelError(nameof(model.Name), Languages.LanguageStrings.NameAlreadyExists);
 
-                if (_dynamicContentProvider.RouteNameExists(dynamicContentPage.Id, model.RouteName))
-                    ModelState.AddModelError(nameof(model.RouteName), Languages.LanguageStrings.RouteNameAlreadyExists);
-
                 if (!ModelState.IsValid || !_dynamicContentProvider.Save(dynamicContentPage))
                     ModelState.AddModelError(String.Empty, Languages.LanguageStrings.FailedToSavePage);
 
@@ -227,7 +224,7 @@ namespace DynamicContent.Plugin.Controllers
             CacheItem cacheItem = _memoryCache.GetExtendingCache().Get(cacheId);
 
             if (cacheItem == null)
-                return GenerateJsonErrorResponse(SharedPluginFeatures.Constants.HtmlResponseBadRequest, InvalidCacheItem);
+                return GenerateJsonErrorResponse(HtmlResponseBadRequest, InvalidCacheItem);
 
             return new JsonResult(GetDynamicContentModel(cacheItem))
             {
@@ -343,6 +340,8 @@ namespace DynamicContent.Plugin.Controllers
             control.Width = model.Width;
             control.WidthType = model.WidthType;
             control.Data = model.Data ?? String.Empty;
+            control.CssStyle = model.CssStyle ?? String.Empty;
+            control.CssClassName = model.CssClassName ?? String.Empty;
 
             return GenerateJsonSuccessResponse();
         }
@@ -440,7 +439,7 @@ namespace DynamicContent.Plugin.Controllers
         {
             TemplatesModel model = new TemplatesModel();
 
-            foreach (DynamicContentTemplate template in _dynamicContentProvider.Templates())
+            foreach (DynamicContentTemplate template in _dynamicContentProvider.Templates().OrderBy(t => t.TemplateSortOrder))
             {
                 model.Templates.Add(new TemplateModel(template.UniqueId,
                     template.Name,
@@ -540,7 +539,10 @@ namespace DynamicContent.Plugin.Controllers
                 HeightType = control.HeightType,
                 Height = control.Height,
                 Data = control.Data,
-                ActiveFrom = control.ActiveFrom
+                ActiveFrom = control.ActiveFrom,
+                ActiveTo = control.ActiveTo,
+                CssClassName = control.CssClassName,
+                CssStyle = control.CssStyle,
             };
         }
 

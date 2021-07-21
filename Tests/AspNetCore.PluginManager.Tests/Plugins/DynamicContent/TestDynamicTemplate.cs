@@ -43,6 +43,9 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
 
         public override string Name => "test only template";
 
+        public override DynamicContentTemplateType TemplateType => DynamicContentTemplateType.Default;
+
+        public override int TemplateSortOrder => Int32.MaxValue;
         public override int SortOrder { get; set; }
         public override DynamicContentWidthType WidthType { get; set; }
         public override int Width { get; set; }

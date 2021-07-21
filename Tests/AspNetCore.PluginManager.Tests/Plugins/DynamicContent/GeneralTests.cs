@@ -309,7 +309,8 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
             Assert.AreEqual(DynamicContentHeightType.Pixels, sut.HeightType);
             Assert.AreEqual(0, sut.Height);
             Assert.IsNull(sut.Data);
-            Assert.AreEqual(DateTime.MinValue, sut.ActiveFrom);
+            Assert.AreEqual(DefaultActiveFrom, sut.ActiveFrom);
+            Assert.AreEqual(DefaultActiveTo, sut.ActiveTo);
         }
 
         [TestMethod]

@@ -26,6 +26,8 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
 
+using AspNetCore.PluginManager.Tests.Shared;
+
 using DynamicContent.Plugin.Templates;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -37,7 +39,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
 {
     [TestClass]
     [ExcludeFromCodeCoverage]
-    public class SmallHeaderTemplateTests
+    public class SmallHeaderTemplateTests : GenericBaseClass
     {
         private const string TestCategoryName = "Dynamic Content";
 
@@ -48,6 +50,8 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
             SmallHeaderTemplate sut = new SmallHeaderTemplate();
 
             Assert.IsNotNull(sut);
+            Assert.AreEqual(DynamicContentTemplateType.Default, sut.TemplateType);
+            Assert.AreEqual(320, sut.TemplateSortOrder);
         }
 
         [TestMethod]
@@ -202,7 +206,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         {
             SmallHeaderTemplate sut = new SmallHeaderTemplate();
 
-            Assert.AreEqual(DateTime.MinValue, sut.ActiveFrom);
+            Assert.AreEqual(DefaultActiveFrom, sut.ActiveFrom);
         }
 
         [TestMethod]
@@ -211,7 +215,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         {
             SmallHeaderTemplate sut = new SmallHeaderTemplate();
 
-            Assert.AreEqual(DateTime.MaxValue, sut.ActiveTo);
+            Assert.AreEqual(DefaultActiveTo, sut.ActiveTo);
         }
 
         [TestMethod]
@@ -325,6 +329,22 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
             Assert.IsFalse(guidParsed);
 
             Assert.AreEqual("my-unique-id", clone.UniqueId);
+        }
+
+        [TestMethod]
+        [TestCategory(TestCategoryName)]
+        public void Content_WithCssStyleAndClass_Success()
+        {
+            SmallHeaderTemplate sut = new SmallHeaderTemplate();
+            sut.WidthType = DynamicContentWidthType.Columns;
+            sut.Width = 10;
+            sut.Data = "new data";
+            sut.CssClassName = "myclass";
+            sut.CssStyle = "border: 1px solid yellow;";
+
+            string content = sut.Content();
+
+            Assert.AreEqual("<div class=\"col-sm-10\"><h5 class=\"myclass\" style=\"border: 1px solid yellow;\">new data</h5></div>", content);
         }
     }
 }

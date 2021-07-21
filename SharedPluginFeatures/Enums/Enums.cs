@@ -184,6 +184,22 @@ namespace SharedPluginFeatures
     }
 
     /// <summary>
+    /// Type of dynamic content template type
+    /// </summary>
+    public enum DynamicContentTemplateType
+    {
+        /// <summary>
+        /// Standard template type
+        /// </summary>
+        Default,
+
+        /// <summary>
+        /// Template is a form input type
+        /// </summary>
+        Input
+    }
+
+    /// <summary>
     /// Type of data to be posted to a controller action
     /// </summary>
     public enum PostType

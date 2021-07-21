@@ -26,6 +26,8 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
 
+using AspNetCore.PluginManager.Tests.Shared;
+
 using DynamicContent.Plugin.Templates;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -37,7 +39,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
 {
     [TestClass]
     [ExcludeFromCodeCoverage]
-    public class SpacerTemplateTests
+    public class SpacerTemplateTests : GenericBaseClass
     {
         private const string TestCategoryName = "Dynamic Content";
 
@@ -48,6 +50,8 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
             SpacerTemplate sut = new SpacerTemplate();
 
             Assert.IsNotNull(sut);
+            Assert.AreEqual(DynamicContentTemplateType.Default, sut.TemplateType);
+            Assert.AreEqual(1000, sut.TemplateSortOrder);
         }
 
         [TestMethod]
@@ -200,7 +204,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         {
             SpacerTemplate sut = new SpacerTemplate();
 
-            Assert.AreEqual(DateTime.MinValue, sut.ActiveFrom);
+            Assert.AreEqual(DefaultActiveFrom, sut.ActiveFrom);
         }
 
         [TestMethod]
@@ -209,7 +213,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         {
             SpacerTemplate sut = new SpacerTemplate();
 
-            Assert.AreEqual(DateTime.MaxValue, sut.ActiveTo);
+            Assert.AreEqual(DefaultActiveTo, sut.ActiveTo);
         }
 
         [TestMethod]
@@ -305,6 +309,21 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
             Assert.IsFalse(guidParsed);
 
             Assert.AreEqual("my-unique-id", clone.UniqueId);
+        }
+
+        [TestMethod]
+        [TestCategory(TestCategoryName)]
+        public void Content_WithCssStyleAndClass_Valid()
+        {
+            SpacerTemplate sut = new SpacerTemplate();
+            sut.WidthType = DynamicContentWidthType.Columns;
+            sut.Width = 8;
+            sut.CssClassName = "css-class";
+            sut.CssStyle = "border: 1px solid red;";
+
+            string content = sut.Content();
+
+            Assert.AreEqual("<div class=\"col-sm-8\" style=\"height:200px !important;\"><p class=\"css-class\" style=\"border: 1px solid red;\">&nbsp;</p></div>", content);
         }
     }
 }

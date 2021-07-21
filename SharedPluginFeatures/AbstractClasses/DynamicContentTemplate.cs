@@ -36,8 +36,9 @@ namespace SharedPluginFeatures.DynamicContent
     /// </summary>
     public abstract class DynamicContentTemplate
     {
-        #region Private Members
+        #region Private/Protected Members
 
+        protected const int DefaultFormTemplateSortOrder = 15000;
         private const int DefaultPixelWidth = 800;
         private const int MaximumColumnCount = 12;
         private const int MinimumColumnCount = 1;
@@ -50,7 +51,7 @@ namespace SharedPluginFeatures.DynamicContent
 
         private string _uniqueId;
 
-        #endregion Private Members
+        #endregion Private/Protected Members
 
         #region Properties
 
@@ -123,6 +124,18 @@ namespace SharedPluginFeatures.DynamicContent
             }
         }
 
+        /// <summary>
+        /// Name of the class that will be used for the template control
+        /// </summary>
+        /// <value>string</value>
+        public string CssClassName { get; set; }
+
+        /// <summary>
+        /// Style information that will be applied to the template control
+        /// </summary>
+        /// <value>string</value>
+        public string CssStyle { get; set; }
+
         #endregion Properties
 
         #region Abstract Properties
@@ -149,6 +162,17 @@ namespace SharedPluginFeatures.DynamicContent
         /// </summary>
         /// <value>string</value>
         public abstract string Name { get; }
+
+        /// <summary>
+        /// Type of dynamic content template
+        /// </summary>
+        /// <value>DynamicContentTemplateType</value>
+        public abstract DynamicContentTemplateType TemplateType { get; }
+
+        /// <summary>
+        /// The sort order of the template relative to other templates, primarily used for listing templates
+        /// </summary>
+        public abstract int TemplateSortOrder { get; }
 
         /// <summary>
         /// The sort order of the control relative to others when being displayed
@@ -220,7 +244,7 @@ namespace SharedPluginFeatures.DynamicContent
 
         #endregion Abstract Methods
 
-        #region Pretected Methods
+        #region Protected Methods
 
         /// <summary>
         /// Generates the html used as start of the custom block, taking into account the width/height types
@@ -268,6 +292,35 @@ namespace SharedPluginFeatures.DynamicContent
             }
 
             stringBuilder.Append("</div>");
+        }
+
+        protected string RetrieveCssClassAndStyle()
+        {
+            return RetrieveCssClassAndStyle(null);
+        }
+
+        protected string RetrieveCssClassAndStyle(string existingClassNames)
+        {
+            StringBuilder Result = new StringBuilder(1024);
+
+            if (!String.IsNullOrEmpty(CssClassName))
+            {
+                string classNames = CssClassName;
+
+                if (!String.IsNullOrEmpty(existingClassNames))
+                    classNames = $"{existingClassNames} {CssClassName}";
+
+                Result.AppendFormat(" class=\"{0}\"", classNames);
+            }
+            else if (!String.IsNullOrEmpty(existingClassNames))
+            {
+                Result.AppendFormat(" class=\"{0}\"", existingClassNames);
+            }
+
+            if (!String.IsNullOrEmpty(CssStyle))
+                Result.AppendFormat(" style=\"{0}\"", CssStyle);
+
+            return Result.ToString();
         }
 
         #endregion Protected Methods

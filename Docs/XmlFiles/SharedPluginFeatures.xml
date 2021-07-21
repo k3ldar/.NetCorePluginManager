@@ -50,6 +50,18 @@
             </summary>
             <value>int</value>
         </member>
+        <member name="P:SharedPluginFeatures.DynamicContent.DynamicContentTemplate.CssClassName">
+            <summary>
+            Name of the class that will be used for the template control
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:SharedPluginFeatures.DynamicContent.DynamicContentTemplate.CssStyle">
+            <summary>
+            Style information that will be applied to the template control
+            </summary>
+            <value>string</value>
+        </member>
         <member name="P:SharedPluginFeatures.DynamicContent.DynamicContentTemplate.AssemblyQualifiedName">
             <summary>
             Gets the underlying assembly qualified name
@@ -72,6 +84,17 @@
             Name of dynamic content template
             </summary>
             <value>string</value>
+        </member>
+        <member name="P:SharedPluginFeatures.DynamicContent.DynamicContentTemplate.TemplateType">
+            <summary>
+            Type of dynamic content template
+            </summary>
+            <value>DynamicContentTemplateType</value>
+        </member>
+        <member name="P:SharedPluginFeatures.DynamicContent.DynamicContentTemplate.TemplateSortOrder">
+            <summary>
+            The sort order of the template relative to other templates, primarily used for listing templates
+            </summary>
         </member>
         <member name="P:SharedPluginFeatures.DynamicContent.DynamicContentTemplate.SortOrder">
             <summary>
@@ -2847,6 +2870,21 @@
         <member name="F:SharedPluginFeatures.Enums.ValidateRequestResult.BanRequested">
             <summary>
             A Ban has been requested on the IP Address
+            </summary>
+        </member>
+        <member name="T:SharedPluginFeatures.DynamicContentTemplateType">
+            <summary>
+            Type of dynamic content template type
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.DynamicContentTemplateType.Default">
+            <summary>
+            Standard template type
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.DynamicContentTemplateType.Input">
+            <summary>
+            Template is a form input type
             </summary>
         </member>
         <member name="T:SharedPluginFeatures.PostType">

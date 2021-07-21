@@ -24,19 +24,13 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-using System;
-using System.Collections.Generic;
 using System.Web;
 
 using DynamicContent.Plugin.Model;
 
 using Microsoft.AspNetCore.Mvc;
 
-using Middleware.Images;
-
 using SharedPluginFeatures;
-
-using static SharedPluginFeatures.Constants;
 
 namespace DynamicContent.Plugin.Controllers
 {
@@ -54,6 +48,35 @@ namespace DynamicContent.Plugin.Controllers
         public IActionResult YouTubeTemplateEditor(string data)
         {
             return PartialView("/Views/DynamicContent/_YouTubeTemplateEditor.cshtml", new YouTubeTemplateEditorModel(HttpUtility.HtmlDecode(data)));
+        }
+
+        [HttpGet]
+        [AjaxOnly]
+        public IActionResult FormControlTemplateEditor(string data)
+        {
+            return PartialView("/Views/DynamicContent/_FormControlTemplateEditor.cshtml", new FormTemplateEditorModel(HttpUtility.HtmlDecode(data)));
+        }
+
+        [HttpGet]
+        [AjaxOnly]
+        public IActionResult FormControlTemplateEditorRightAlign(string data)
+        {
+            return PartialView("/Views/DynamicContent/_FormControlTemplateEditor.cshtml", new FormTemplateEditorModel(HttpUtility.HtmlDecode(data), true));
+        }
+
+        [HttpGet]
+        [AjaxOnly]
+        public IActionResult FormControlTemplateEditorRadioGroup(string data)
+        {
+            return PartialView("/Views/DynamicContent/_FormControlTemplateEditorRadioGroup.cshtml", new FormTemplateEditorModel(HttpUtility.HtmlDecode(data), true));
+        }
+
+
+        [HttpGet]
+        [AjaxOnly]
+        public IActionResult FormControlTemplateEditorListBox(string data)
+        {
+            return PartialView("/Views/DynamicContent/_FormControlTemplateEditorListBox.cshtml", new FormTemplateEditorModel(HttpUtility.HtmlDecode(data), false));
         }
     }
 }

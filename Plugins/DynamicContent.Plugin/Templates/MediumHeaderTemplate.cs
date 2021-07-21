@@ -41,8 +41,8 @@ namespace DynamicContent.Plugin.Templates
         {
             WidthType = DynamicContentWidthType.Columns;
             Width = 12;
-            ActiveFrom = DateTime.MinValue;
-            ActiveTo = DateTime.MaxValue;
+            ActiveFrom = new DateTime(2020, 1, 1, 0, 0, 0);
+            ActiveTo = new DateTime(2050, 12, 31, 23, 59, 59);
         }
 
         #endregion Constructors
@@ -60,6 +60,7 @@ namespace DynamicContent.Plugin.Templates
         }
 
         public override string EditorInstructions => String.Empty;
+
         public override string Name
         {
             get
@@ -67,6 +68,10 @@ namespace DynamicContent.Plugin.Templates
                 return LanguageStrings.TemplateNameMediumHeader;
             }
         }
+
+        public override int TemplateSortOrder => 310;
+
+        public override DynamicContentTemplateType TemplateType => DynamicContentTemplateType.Default;
 
         public override Int32 SortOrder { get; set; }
 
@@ -141,7 +146,7 @@ namespace DynamicContent.Plugin.Templates
 
             HtmlStart(Result, isEditing);
 
-            Result.Append("<h3>");
+            Result.AppendFormat("<h3{0}>", RetrieveCssClassAndStyle());
             Result.Append(Data);
             Result.Append("</h3>");
 
