@@ -248,6 +248,11 @@ namespace SharedPluginFeatures
         public const string NotificationEventImageUploadOptions = "ImageUploadOptions";
 
         /// <summary>
+        /// Notification event name for dynamic content updated.
+        /// </summary>
+        public const string NotificationEventDynamicContentUpdated = "DynamicContentUpdated";
+
+        /// <summary>
         /// Name of sitemap listener
         /// </summary>
         public const string NotificationSitemapNames = "Sitemap Names";
@@ -271,6 +276,11 @@ namespace SharedPluginFeatures
         /// Name of the permanent cache manager.
         /// </summary>
         public const string CacheNamePermanent = "Permanent Cache Manager";
+
+        /// <summary>
+        /// Name of the permanent cache manager.
+        /// </summary>
+        public const string CacheNameDynamicContent = "Dynamic Content Cache Manager";
 
         /// <summary>
         /// Name of the Sitemap  cache
@@ -584,6 +594,11 @@ namespace SharedPluginFeatures
         /// Bad request response code
         /// </summary>
         public const int HtmlResponseBadRequest = 400;
+
+        /// <summary>
+        /// Bad request response code
+        /// </summary>
+        public const int HtmlResponseNotFound = 404;
 
         /// <summary>
         /// Name of product image folder

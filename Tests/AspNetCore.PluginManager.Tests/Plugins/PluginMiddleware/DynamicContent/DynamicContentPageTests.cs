@@ -38,7 +38,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
     [ExcludeFromCodeCoverage]
     public class DynamicContentPageTests
     {
-        private const string TestCategoryName = "Plugin Middleware";
+        private const string TestCategoryName = "Dynamic Content";
 
         [TestMethod]
         [TestCategory(TestCategoryName)]

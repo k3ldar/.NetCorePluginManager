@@ -53,18 +53,11 @@ namespace PluginManager.Tests
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
-        public void PluginServices_Construct_NullPluginManager_Throws_ArgumentNullException()
-        {
-            new PluginServices(null);
-        }
-
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
         public void PluginServices_AddAssembly_NullPluginManager_Throws_ArgumentNullException()
         {
             using (TestPluginManager pluginManager = new TestPluginManager())
             {
-                IPluginHelperService pluginServices = new PluginServices(pluginManager) as IPluginHelperService;
+                IPluginHelperService pluginServices = pluginManager as IPluginHelperService;
                 pluginServices.AddAssembly(null);
             }
         }
@@ -74,7 +67,7 @@ namespace PluginManager.Tests
         {
             using (TestPluginManager pluginManager = new TestPluginManager())
             {
-                IPluginHelperService pluginServices = new PluginServices(pluginManager) as IPluginHelperService;
+                IPluginHelperService pluginServices = pluginManager as IPluginHelperService;
 
                 Assert.IsNotNull(pluginServices);
 
@@ -95,7 +88,7 @@ namespace PluginManager.Tests
         {
             using (TestPluginManager pluginManager = new TestPluginManager())
             {
-                IPluginHelperService pluginServices = new PluginServices(pluginManager) as IPluginHelperService;
+                IPluginHelperService pluginServices = pluginManager as IPluginHelperService;
 
                 Assert.IsNotNull(pluginServices);
 
@@ -120,8 +113,8 @@ namespace PluginManager.Tests
         {
             using (TestPluginManager pluginManager = new TestPluginManager())
             {
-                IPluginClassesService pluginClassesServices = new PluginServices(pluginManager) as IPluginClassesService;
-                IPluginHelperService pluginServices = new PluginServices(pluginManager) as IPluginHelperService;
+                IPluginClassesService pluginClassesServices = pluginManager as IPluginClassesService;
+                IPluginHelperService pluginServices = pluginManager as IPluginHelperService;
 
                 Assert.IsNotNull(pluginClassesServices);
 
@@ -143,8 +136,8 @@ namespace PluginManager.Tests
         {
             using (TestPluginManager pluginManager = new TestPluginManager())
             {
-                IPluginClassesService pluginClassesServices = new PluginServices(pluginManager) as IPluginClassesService;
-                IPluginHelperService pluginServices = new PluginServices(pluginManager) as IPluginHelperService;
+                IPluginClassesService pluginClassesServices = pluginManager as IPluginClassesService;
+                IPluginHelperService pluginServices = pluginManager as IPluginHelperService;
 
                 Assert.IsNotNull(pluginClassesServices);
 
@@ -166,8 +159,8 @@ namespace PluginManager.Tests
         {
             using (TestPluginManager pluginManager = new TestPluginManager())
             {
-                IPluginTypesService pluginTypesServices = new PluginServices(pluginManager) as IPluginTypesService;
-                IPluginHelperService pluginServices = new PluginServices(pluginManager) as IPluginHelperService;
+                IPluginTypesService pluginTypesServices = pluginManager as IPluginTypesService;
+                IPluginHelperService pluginServices = pluginManager as IPluginHelperService;
 
                 Assert.IsNotNull(pluginTypesServices);
 

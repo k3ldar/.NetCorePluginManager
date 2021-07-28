@@ -98,7 +98,7 @@ namespace AspNetCore.PluginManager.Tests
 
                 _testPluginDocs.ConfigureServices();
 
-                _pluginServicesDocs = new pm.PluginServices(_testPluginDocs) as IPluginClassesService;
+                _pluginServicesDocs = _testPluginDocs as IPluginClassesService;
                 TimeSpan docLoadTime = new TimeSpan(0, 0, 30);
                 DateTime startLoadDocs = DateTime.Now;
 
@@ -149,7 +149,7 @@ namespace AspNetCore.PluginManager.Tests
 
                 _testPluginSmokeTest.ConfigureServices();
 
-                _pluginServicesSmokeTest = new pm.PluginServices(_testPluginSmokeTest) as IPluginClassesService;
+                _pluginServicesSmokeTest = _testPluginSmokeTest as IPluginClassesService;
 
                 _pluginLoadedSmokeTest = true;
             }
@@ -183,7 +183,7 @@ namespace AspNetCore.PluginManager.Tests
 
                 _testPluginLogin.ConfigureServices();
 
-                _pluginServicesLogin = new pm.PluginServices(_testPluginLogin) as IPluginClassesService;
+                _pluginServicesLogin = _testPluginLogin as IPluginClassesService;
 
                 _pluginLoadedLogin = true;
             }
@@ -220,7 +220,7 @@ namespace AspNetCore.PluginManager.Tests
 
                 _testPluginBadEgg.ConfigureServices();
 
-                _pluginServicesBadEgg = new pm.PluginServices(_testPluginBadEgg) as IPluginClassesService;
+                _pluginServicesBadEgg = _testPluginBadEgg as IPluginClassesService;
 
                 _pluginLoadedBadEgg = true;
             }
@@ -257,7 +257,7 @@ namespace AspNetCore.PluginManager.Tests
 
                 _testPluginSpider.ConfigureServices();
 
-                _pluginServicesSpider = new pm.PluginServices(_testPluginSpider) as IPluginClassesService;
+                _pluginServicesSpider = _testPluginSpider as IPluginClassesService;
 
                 _pluginLoadedSpider = true;
             }
@@ -296,7 +296,7 @@ namespace AspNetCore.PluginManager.Tests
 
                 _testPluginSubdomain.ConfigureServices();
 
-                _pluginServicesSubdomain = new pm.PluginServices(_testPluginSubdomain) as IPluginClassesService;
+                _pluginServicesSubdomain = _testPluginSubdomain as IPluginClassesService;
 
                 _pluginLoadedSubdomain = true;
             }

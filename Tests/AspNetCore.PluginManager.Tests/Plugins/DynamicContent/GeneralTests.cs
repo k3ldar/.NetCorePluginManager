@@ -29,6 +29,7 @@ using System.Diagnostics.CodeAnalysis;
 
 using AspNetCore.PluginManager.Tests.Shared;
 
+using DynamicContent.Plugin.Classes;
 using DynamicContent.Plugin.Model;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -285,6 +286,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         }
 
         [TestMethod]
+        [TestCategory(GeneralTestsCategory)]
         public void AddControlModel_Construct_Success()
         {
             AddControlModel sut = new AddControlModel();
@@ -295,6 +297,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         }
 
         [TestMethod]
+        [TestCategory(GeneralTestsCategory)]
         public void EditTemplateModel_Construct_PropertiesContainDefaultValues_Success()
         {
             EditTemplateModel sut = new EditTemplateModel();
@@ -314,6 +317,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         }
 
         [TestMethod]
+        [TestCategory(GeneralTestsCategory)]
         public void EditTemplateModel_Construct_SetProperties_Success()
         {
             DateTime activeFromDateTime = DateTime.Now;
@@ -355,38 +359,61 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         }
 
         [TestMethod]
+        [TestCategory(GeneralTestsCategory)]
         [ExpectedException(typeof(ArgumentNullException))]
-        public void BaseModel_Construct_InvalidParam_ModelData_Null_Throws_ArgumentNullException()
+        public void PageModel_Construct_InvalidParam_ModelData_Null_Throws_ArgumentNullException()
         {
-            PageModel sut = new PageModel(null, "content");
+            PageModel sut = new PageModel(null, "path", "content", null, null, true);
         }
 
         [TestMethod]
+        [TestCategory(GeneralTestsCategory)]
         [ExpectedException(typeof(ArgumentNullException))]
-        public void BaseModel_Construct_InvalidParam_Content_Null_Throws_ArgumentNullException()
+        public void PageModel_Construct_InvalidParam_Content_Null_Throws_ArgumentNullException()
         {
-            PageModel sut = new PageModel(GenerateTestBaseModelData(), null);
+            PageModel sut = new PageModel(GenerateTestBaseModelData(), "path", null, null, null, true);
         }
 
         [TestMethod]
-        public void BaseModel_Construct_ValidParams_SetsEmptyContent_Success()
+        [TestCategory(GeneralTestsCategory)]
+        public void PageModel_Construct_ValidParams_SetsEmptyContent_Success()
         {
-            PageModel sut = new PageModel(GenerateTestBaseModelData(), String.Empty);
+            PageModel sut = new PageModel(GenerateTestBaseModelData(), "path", String.Empty, null, null, true);
             Assert.IsNotNull(sut);
             Assert.IsNotNull(sut.Content);
             Assert.AreEqual("", sut.Content);
         }
 
         [TestMethod]
-        public void BaseModel_Construct_ValidParams_SetsContent_Success()
+        [TestCategory(GeneralTestsCategory)]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void PageModel_Construct_InvalidParam_Path_Null_Throws_ArgumentNullException()
         {
-            PageModel sut = new PageModel(GenerateTestBaseModelData(), "this is the content");
-            Assert.IsNotNull(sut);
-            Assert.IsNotNull(sut.Content);
-            Assert.AreEqual("this is the content", sut.Content);
+            new PageModel(GenerateTestBaseModelData(), null, "this is the content", null, null, true);
         }
 
         [TestMethod]
+        [TestCategory(GeneralTestsCategory)]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void PageModel_Construct_InvalidParam_Path_EmptyString_Throws_ArgumentNullException()
+        {
+            new PageModel(GenerateTestBaseModelData(), "", "this is the content", null, null, true);
+        }
+
+        [TestMethod]
+        [TestCategory(GeneralTestsCategory)]
+        public void PageModel_Construct_ValidParams_SetsContent_Success()
+        {
+            PageModel sut = new PageModel(GenerateTestBaseModelData(), "path", "this is the content", null, null, true);
+            Assert.IsNotNull(sut);
+            Assert.IsNotNull(sut.Content);
+            Assert.AreEqual("this is the content", sut.Content);
+            Assert.IsTrue(sut.HasDataSaved);
+            Assert.AreEqual("path", sut.Path);
+        }
+
+        [TestMethod]
+        [TestCategory(GeneralTestsCategory)]
         public void EditPageModel_Construct_EmptyParameter_Success()
         {
             EditPageModel sut = new EditPageModel();
@@ -396,6 +423,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         }
 
         [TestMethod]
+        [TestCategory(GeneralTestsCategory)]
         [ExpectedException(typeof(ArgumentNullException))]
         public void EditPageModel_Construct_InvalidBaseModelDataParam_Null_Throws_ArgumentNullException()
         {
@@ -403,6 +431,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         }
 
         [TestMethod]
+        [TestCategory(GeneralTestsCategory)]
         [ExpectedException(typeof(ArgumentNullException))]
         public void EditPageModel_Construct_InvalidCacheIdParam_Null_Throws_ArgumentNullException()
         {
@@ -410,6 +439,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         }
 
         [TestMethod]
+        [TestCategory(GeneralTestsCategory)]
         [ExpectedException(typeof(ArgumentNullException))]
         public void EditPageModel_Construct_InvalidCacheIdParam_EmptyString_Throws_ArgumentNullException()
         {
@@ -417,6 +447,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         }
 
         [TestMethod]
+        [TestCategory(GeneralTestsCategory)]
         [ExpectedException(typeof(ArgumentNullException))]
         public void EditPageModel_Construct_InvalidNameParam_Null_Throws_ArgumentNullException()
         {
@@ -424,6 +455,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         }
 
         [TestMethod]
+        [TestCategory(GeneralTestsCategory)]
         [ExpectedException(typeof(ArgumentNullException))]
         public void EditPageModel_Construct_InvalidNameParam_EmptyString_Throws_ArgumentNullException()
         {
@@ -431,6 +463,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         }
 
         [TestMethod]
+        [TestCategory(GeneralTestsCategory)]
         [ExpectedException(typeof(ArgumentNullException))]
         public void EditPageModel_Construct_InvalidDynamicContentsParam_Null_Throws_ArgumentNullException()
         {
@@ -438,6 +471,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         }
 
         [TestMethod]
+        [TestCategory(GeneralTestsCategory)]
         public void EditPageModel_Construct_ValidInstance_Success()
         {
             List<DynamicContentTemplate> dynamicContents = new List<DynamicContentTemplate>();
@@ -458,6 +492,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         }
 
         [TestMethod]
+        [TestCategory(GeneralTestsCategory)]
         public void CustomPagesModel_Construct_DefaultConstructor_Success()
         {
             CustomPagesModel sut = new CustomPagesModel();
@@ -466,6 +501,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         }
 
         [TestMethod]
+        [TestCategory(GeneralTestsCategory)]
         [ExpectedException(typeof(ArgumentNullException))]
         public void CustomPagesModel_Construct_InvalidParam_ModelData_Null_Throws_ArgumentNullException()
         {
@@ -473,6 +509,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         }
 
         [TestMethod]
+        [TestCategory(GeneralTestsCategory)]
         [ExpectedException(typeof(ArgumentNullException))]
         public void CustomPagesModel_Construct_InvalidParam_CustomPages_Null_Throws_ArgumentNullException()
         {
@@ -480,6 +517,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         }
 
         [TestMethod]
+        [TestCategory(GeneralTestsCategory)]
         public void CustomPagesModel_Construct_ValidInstanceWithCustomPages()
         {
             List<LookupListItem> customPages = new List<LookupListItem>();
@@ -491,6 +529,52 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
             Assert.AreEqual(1, sut.CustomPages.Count);
             Assert.AreEqual("test", sut.CustomPages[0].Name);
             Assert.AreEqual(321, sut.CustomPages[0].Id);
+        }
+
+        [TestMethod]
+        [TestCategory(GeneralTestsCategory)]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void ApplicationOverrides_InvalidParam_VariableName_Null_Throws_ArgumentNullException()
+        {
+            ApplicationOverrides sut = new ApplicationOverrides();
+
+            object value = null;
+            sut.ExpandApplicationVariable(null, ref value);
+        }
+
+        [TestMethod]
+        [TestCategory(GeneralTestsCategory)]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void ApplicationOverrides_InvalidParam_VariableName_EmptyString_Throws_ArgumentNullException()
+        {
+            ApplicationOverrides sut = new ApplicationOverrides();
+
+            object value = null;
+            sut.ExpandApplicationVariable(null, ref value);
+        }
+
+        [TestMethod]
+        [TestCategory(GeneralTestsCategory)]
+        public void ApplicationOverrides_ValidateRootPath_ReturnsTrue()
+        {
+            ApplicationOverrides sut = new ApplicationOverrides();
+
+            object value = null;
+            bool success = sut.ExpandApplicationVariable("RootPath", ref value);
+
+            Assert.IsTrue(success);
+        }
+
+        [TestMethod]
+        [TestCategory(GeneralTestsCategory)]
+        public void ApplicationOverrides_ValidateUnknownValue_ReturnsFalse()
+        {
+            ApplicationOverrides sut = new ApplicationOverrides();
+
+            object value = null;
+            bool success = sut.ExpandApplicationVariable("Unknown", ref value);
+
+            Assert.IsFalse(success);
         }
     }
 }

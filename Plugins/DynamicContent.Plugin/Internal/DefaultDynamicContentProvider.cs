@@ -108,14 +108,20 @@ namespace DynamicContent.Plugin.Internal
         {
             List<LookupListItem> Result = new List<LookupListItem>();
 
-            _dynamicContent.ForEach(dc => Result.Add(new LookupListItem(dc.Id, dc.Name)));
+            using (TimedLock tl = TimedLock.Lock(_lockObject))
+            {
+                _dynamicContent.ForEach(dc => Result.Add(new LookupListItem(dc.Id, dc.Name)));
+            }
 
             return Result;
         }
 
         public IDynamicContentPage GetCustomPage(int id)
         {
-            return _dynamicContent.Where(dc => dc.Id.Equals(id)).FirstOrDefault();
+            using (TimedLock tl = TimedLock.Lock(_lockObject))
+            {
+                return _dynamicContent.Where(dc => dc.Id.Equals(id)).FirstOrDefault();
+            }
         }
 
         public List<DynamicContentTemplate> Templates()
@@ -130,7 +136,10 @@ namespace DynamicContent.Plugin.Internal
 
         public List<IDynamicContentPage> GetCustomPages()
         {
-            return _dynamicContent;
+            using (TimedLock tl = TimedLock.Lock(_lockObject))
+            {
+                return _dynamicContent;
+            }
         }
 
         public bool PageNameExists(int id, string pageName)
@@ -138,7 +147,10 @@ namespace DynamicContent.Plugin.Internal
             if (String.IsNullOrEmpty(pageName))
                 throw new ArgumentNullException(nameof(pageName));
 
-            return _dynamicContent.Where(dc => !dc.Id.Equals(id) && dc.Name.Equals(pageName, StringComparison.InvariantCultureIgnoreCase)).Any();
+            using (TimedLock tl = TimedLock.Lock(_lockObject))
+            {
+                return _dynamicContent.Where(dc => !dc.Id.Equals(id) && dc.Name.Equals(pageName, StringComparison.InvariantCultureIgnoreCase)).Any();
+            }
         }
 
         public bool RouteNameExists(int id, string routeName)
@@ -146,7 +158,10 @@ namespace DynamicContent.Plugin.Internal
             if (String.IsNullOrEmpty(routeName))
                 throw new ArgumentNullException(nameof(routeName));
 
-            return _dynamicContent.Where(dc => !dc.Id.Equals(id) && dc.RouteName.Equals(routeName, StringComparison.InvariantCultureIgnoreCase)).Any();
+            using (TimedLock tl = TimedLock.Lock(_lockObject))
+            {
+                return _dynamicContent.Where(dc => !dc.Id.Equals(id) && dc.RouteName.Equals(routeName, StringComparison.InvariantCultureIgnoreCase)).Any();
+            }
         }
 
         public bool Save(IDynamicContentPage dynamicContentPage)
@@ -154,9 +169,32 @@ namespace DynamicContent.Plugin.Internal
             if (dynamicContentPage == null)
                 throw new ArgumentNullException(nameof(dynamicContentPage));
 
-            WriteFileContents(dynamicContentPage);
+            using (TimedLock tl = TimedLock.Lock(_lockObject))
+            {
+                WriteFileContents(dynamicContentPage);
+
+                _dynamicContent.Remove(GetCustomPage(dynamicContentPage.Id));
+                _dynamicContent.Add(dynamicContentPage);
+            }
 
             return true;
+        }
+
+        public bool SaveUserInput(string data)
+        {
+            if (String.IsNullOrEmpty(data))
+                return false;
+
+            string inputPath = Path.Combine(_rootContentPath, "Input");
+
+            if (!Directory.Exists(inputPath))
+                Directory.CreateDirectory(inputPath);
+
+            inputPath = Path.Combine(inputPath, DateTime.Now.Ticks.ToString() + ".input");
+
+            File.WriteAllText(inputPath, data);
+
+            return File.Exists(inputPath);
         }
 
         #endregion IDynamicContentProvider Methods
@@ -354,14 +392,17 @@ namespace DynamicContent.Plugin.Internal
             if (!Directory.Exists(_rootContentPath))
                 Directory.CreateDirectory(_rootContentPath);
 
-            string[] pages = Directory.GetFiles(_rootContentPath, "*.page");
-
-            foreach (string page in pages)
+            using (TimedLock tl = TimedLock.Lock(_lockObject))
             {
-                IDynamicContentPage convertedPage = ReadFileContents(page);
+                string[] pages = Directory.GetFiles(_rootContentPath, "*.page");
 
-                if (convertedPage != null)
-                    _dynamicContent.Add(convertedPage);
+                foreach (string page in pages)
+                {
+                    IDynamicContentPage convertedPage = ReadFileContents(page);
+
+                    if (convertedPage != null)
+                        _dynamicContent.Add(convertedPage);
+                }
             }
         }
 

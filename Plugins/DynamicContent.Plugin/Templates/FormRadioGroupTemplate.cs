@@ -162,7 +162,7 @@ namespace DynamicContent.Plugin.Templates
                 string optionText = option.Trim();
                 string routeOption = HtmlHelper.RouteFriendlyName(optionText);
 
-                Result.AppendFormat("<input type=\"radio\" name=\"{0}\" id=\"{1}\" class=\"form-check-input\" {2}{3}>", 
+                Result.AppendFormat("<input type=\"radio\" name=\"{0}\" id=\"{1}\" onclick=\"updateUC();\" onfocusout=\"updateUC();\" class=\"form-check-input\" {2}{3}>", 
                     formModel.ControlName, routeOption, ctlStyle, disabled);
 
                 Result.AppendFormat("<label for=\"{0}\" class=\"form-check-label\"{1}>{2}</label><br />", 

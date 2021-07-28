@@ -164,7 +164,7 @@ namespace DynamicContent.Plugin.Templates
             string disabled = isEditing ? " disabled" : "";
             string ctlStyle = String.IsNullOrEmpty(formModel.ControlStyle) ? "" : $" style=\"{formModel.ControlStyle}\"";
 
-            Result.AppendFormat("<input type=\"checkbox\" class=\"form-check-input\" id=\"{0}\"{1}{2}>", formModel.ControlName, ctlStyle, disabled);
+            Result.AppendFormat("<input type=\"checkbox\" class=\"form-check-input\" id=\"{0}\" onclick=\"updateUC();\" onfocusout=\"updateUC();\"{1}{2}>", formModel.ControlName, ctlStyle, disabled);
 
             if (!formModel.AlignTop && !String.IsNullOrEmpty(formModel.LabelText))
             {

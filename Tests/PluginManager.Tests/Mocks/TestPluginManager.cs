@@ -135,6 +135,12 @@ namespace PluginManager.Tests.Mocks
             return base.AddPluginModule(assemblyName, pluginModule);
         }
 
+        internal bool ContainsRegisteredStartupThread(string threadName, Type type)
+        {
+            return RegisteredStartupThreads.ContainsKey(threadName) &&
+                RegisteredStartupThreads[threadName].IsEquivalentTo(type);
+        }
+
         internal bool TestCanExtractResources { get; set; }
     }
 }

@@ -1320,6 +1320,13 @@
             <param name="dynamicContentPage">Dynamic content page to be saved</param>
             <returns>bool</returns>
         </member>
+        <member name="M:Middleware.DynamicContent.IDynamicContentProvider.SaveUserInput(System.String)">
+            <summary>
+            Provides an opportunity for user input that is input via custom forms to be saved
+            </summary>
+            <param name="data">Form data to be saved</param>
+            <returns>bool</returns>
+        </member>
         <member name="T:Middleware.Helpdesk.Feedback">
             <summary>
             Feedback item used in HelpdeskPlugin module and IHelpdeskProvider interface.

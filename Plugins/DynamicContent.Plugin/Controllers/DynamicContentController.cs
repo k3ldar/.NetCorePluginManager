@@ -26,6 +26,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 
 using DynamicContent.Plugin.Model;
@@ -36,6 +37,8 @@ using Microsoft.AspNetCore.Mvc;
 using Middleware;
 using Middleware.DynamicContent;
 using Middleware.Interfaces;
+
+using PluginManager.Abstractions;
 
 using Shared.Classes;
 
@@ -52,6 +55,8 @@ namespace DynamicContent.Plugin.Controllers
     [DenySpider]
     public partial class DynamicContentController : BaseController
     {
+        #region Private Members
+
         public const string Name = "DynamicContent";
 
         private const string ViewEditPage = "/Views/DynamicContent/EditPage.cshtml";
@@ -67,15 +72,13 @@ namespace DynamicContent.Plugin.Controllers
         private const string InvalidControl = "Invalid page control";
         private const string InvalidUniqueId = "Invalid unique id";
 
-        #region Private Members
-
         private const string EditControlRow = "<li id=\"{0}\" class=\"col-edit-{2} ui-state-default editControl\">" +
                 "<p class=\"ctlHeader\">{1}<span class=\"deleteBtn\" id=\"{0}\">X</span><span class=\"editBtn\" id=\"{0}\" data-cs=\"{5}\">{3}</span></p><div class=\"ctlContent\">{4}</div></li>";
 
         private readonly IDynamicContentProvider _dynamicContentProvider;
         private readonly IMemoryCache _memoryCache;
         private readonly IImageProvider _imageProvider;
-        //private readonly IDynamicContentServices _dynamicContentServices;
+        private readonly INotificationService _notificationService;
 
         #endregion Private Members
 
@@ -83,20 +86,13 @@ namespace DynamicContent.Plugin.Controllers
 
         public DynamicContentController(IDynamicContentProvider dynamicContentProvider,
             IMemoryCache memoryCache,
-            IImageProvider imageProvider
-            //ISettingsProvider settingsProvider,
-            //IPluginHelperService pluginHelper
-            )
+            IImageProvider imageProvider,
+            INotificationService notificationService)
         {
-            //if (settingsProvider == null)
-            //    throw new ArgumentNullException(nameof(settingsProvider));
-
-            //DynamicContentControllerSettings settings = settingsProvider
-            //    .GetSettings<DynamicContentControllerSettings>(nameof(DynamicContentControllerSettings));
             _dynamicContentProvider = dynamicContentProvider ?? throw new ArgumentNullException(nameof(dynamicContentProvider));
             _memoryCache = memoryCache ?? throw new ArgumentNullException(nameof(memoryCache));
             _imageProvider = imageProvider ?? throw new ArgumentNullException(nameof(imageProvider));
-            //_dynamicContentServices = dynamicContentServices ?? throw new ArgumentNullException(nameof(dynamicContentServices));
+            _notificationService = notificationService ?? throw new ArgumentNullException(nameof(notificationService));
         }
 
         #endregion Constructors
@@ -123,12 +119,50 @@ namespace DynamicContent.Plugin.Controllers
             };
         }
 
-        //[HttpGet]
-        //[Route("Page/{*path}")]
-        //public IActionResult Index(string path)
-        //{
-        //    return View(new BaseModel(GetModelData()));
-        //}
+        [HttpGet]
+        [Route("Page/{*path}")]
+        public IActionResult Index(string path)
+        {
+            if (String.IsNullOrEmpty(path))
+            {
+                return StatusCode(HtmlResponseNotFound);
+            }
+
+            CacheItem cacheItem = PluginInitialisation.DynamicContentCache.Get(path);
+
+            if (cacheItem == null)
+                return StatusCode(HtmlResponseNotFound);
+
+            IDynamicContentPage dynamicContentPage = cacheItem.Value as IDynamicContentPage;
+
+            if (dynamicContentPage == null)
+                return StatusCode(HtmlResponseNotFound);
+
+            return View("/Views/DynamicContent/Index.cshtml", GetDynamicContentPageModel(dynamicContentPage, false));
+        }
+
+        [HttpPost]
+        public IActionResult SubmitData(string path, string data)
+        {
+            if (String.IsNullOrEmpty(path))
+            {
+                return StatusCode(HtmlResponseNotFound);
+            }
+
+            CacheItem cacheItem = PluginInitialisation.DynamicContentCache.Get(path);
+
+            if (cacheItem == null)
+                return StatusCode(HtmlResponseNotFound);
+
+            IDynamicContentPage dynamicContentPage = cacheItem.Value as IDynamicContentPage;
+
+            if (dynamicContentPage == null)
+                return StatusCode(HtmlResponseNotFound);
+
+            bool saveUserData = _dynamicContentProvider.SaveUserInput(data);
+
+            return View("/Views/DynamicContent/Index.cshtml", GetDynamicContentPageModel(dynamicContentPage, saveUserData));
+        }
 
         [LoggedIn]
         [HttpPost]
@@ -193,17 +227,23 @@ namespace DynamicContent.Plugin.Controllers
                 if (_dynamicContentProvider.PageNameExists(dynamicContentPage.Id, model.Name))
                     ModelState.AddModelError(nameof(model.Name), Languages.LanguageStrings.NameAlreadyExists);
 
-                if (!ModelState.IsValid || !_dynamicContentProvider.Save(dynamicContentPage))
-                    ModelState.AddModelError(String.Empty, Languages.LanguageStrings.FailedToSavePage);
-
                 if (ModelState.IsValid)
                 {
                     dynamicContentPage.ActiveFrom = model.ActiveFrom;
                     dynamicContentPage.ActiveTo = model.ActiveTo;
                     dynamicContentPage.Name = model.Name;
                     dynamicContentPage.RouteName = model.RouteName;
+                    dynamicContentPage.BackgroundColor = model.BackgroundColor;
+                    dynamicContentPage.BackgroundImage = model.BackgroundImage;
 
-                    return RedirectToAction(nameof(GetCustomPages));
+                    if (!_dynamicContentProvider.Save(dynamicContentPage))
+                        ModelState.AddModelError(String.Empty, Languages.LanguageStrings.FailedToSavePage);
+
+                    if (ModelState.IsValid)
+                    {
+                        _notificationService.RaiseEvent(NotificationEventDynamicContentUpdated);
+                        return RedirectToAction(nameof(GetCustomPages));
+                    }
                 }
 
                 return View(ViewEditPage, GetEditPageModel(cacheId, dynamicContentPage));
@@ -354,7 +394,6 @@ namespace DynamicContent.Plugin.Controllers
             if (String.IsNullOrEmpty(cacheId))
                 return StatusCode(HtmlResponseBadRequest);
 
-
             CacheItem cacheItem = _memoryCache.GetExtendingCache().Get(cacheId);
 
             if (cacheItem == null)
@@ -365,7 +404,7 @@ namespace DynamicContent.Plugin.Controllers
             if (dynamicContentPage == null)
                 return StatusCode(HtmlResponseBadRequest);
 
-            return View("/Views/DynamicContent/Index.cshtml", GetDynamicContentPageModel(dynamicContentPage));
+            return View("/Views/DynamicContent/Index.cshtml", GetDynamicContentPageModel(dynamicContentPage, false));
         }
 
         [HttpGet]
@@ -610,18 +649,50 @@ namespace DynamicContent.Plugin.Controllers
             return Result;
         }
 
-        private PageModel GetDynamicContentPageModel(IDynamicContentPage dynamicContentPage)
+        private PageModel GetDynamicContentPageModel(IDynamicContentPage dynamicContentPage, bool hasDataSaved)
         {
             IEnumerable<DynamicContentTemplate> templates = dynamicContentPage.Content.OrderBy(pc => pc.SortOrder);
 
             StringBuilder content = new StringBuilder(4096);
+            List<string> inputControlIds = new List<string>();
 
             foreach (DynamicContentTemplate template in templates)
             {
                 content.Append(template.Content());
+
+                if (template.TemplateType == DynamicContentTemplateType.Input)
+                {
+                    if (GetInputId(template, out string inputId) && !inputControlIds.Contains(inputId))
+                        inputControlIds.Add(inputId);
+                }
             }
 
-            return new PageModel(GetModelData(), content.ToString());
+            string pageCss = "";
+
+            if (!String.IsNullOrEmpty(dynamicContentPage.BackgroundColor) || !String.IsNullOrEmpty(dynamicContentPage.BackgroundImage))
+            {
+                pageCss = "<style>body {";
+
+                if (!String.IsNullOrEmpty(dynamicContentPage.BackgroundColor))
+                    pageCss += $"background-color: {dynamicContentPage.BackgroundColor}";
+
+                if (!String.IsNullOrEmpty(dynamicContentPage.BackgroundImage))
+                    pageCss += $"background-image: url('{dynamicContentPage.BackgroundImage}');background-size: 100% 100%;";
+
+                pageCss += "}</style>";
+            }
+
+            return new PageModel(GetModelData(), dynamicContentPage.Name, content.ToString(), pageCss, inputControlIds.ToArray(), hasDataSaved);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private bool GetInputId(DynamicContentTemplate template, out string value)
+        {
+            FormTemplateEditorModel formModel = new FormTemplateEditorModel(template.Data);
+
+            value = formModel.ControlName;
+
+            return !String.IsNullOrEmpty(value);
         }
 
         #endregion Private Methods

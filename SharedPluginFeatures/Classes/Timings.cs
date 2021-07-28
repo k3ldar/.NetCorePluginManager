@@ -58,6 +58,19 @@ namespace SharedPluginFeatures
             _average = 0;
             _total = 0;
             DecimalPlaces = 5;
+            IsCloned = false;
+        }
+
+        private Timings(decimal fastest, decimal slowest, decimal average, decimal total, uint requests, byte decimalPlaces)
+        {
+            _lockObject = new object();
+            _fastest = fastest;
+            _slowest = slowest;
+            _average = average;
+            _total = total;
+            Requests = requests;
+            DecimalPlaces = decimalPlaces;
+            IsCloned = true;
         }
 
         #endregion Constructors
@@ -141,6 +154,12 @@ namespace SharedPluginFeatures
         /// <value>byte</value>
         public byte DecimalPlaces { get; set; }
 
+        /// <summary>
+        /// Indicates whether the Timings have been cloned or not
+        /// </summary>
+        /// <value>bool</value>
+        public bool IsCloned { get; }
+
         #endregion Properties
 
         #region Public Methods
@@ -177,6 +196,18 @@ namespace SharedPluginFeatures
 
                 if (_total > 0)
                     _average = _total / Requests;
+            }
+        }
+
+        /// <summary>
+        /// Clones an instance of a Timings class
+        /// </summary>
+        /// <returns>Timings</returns>
+        public Timings Clone()
+        {
+            lock (_lockObject)
+            {
+                return new Timings(_fastest, _slowest, _average, _total, Requests, DecimalPlaces);
             }
         }
 

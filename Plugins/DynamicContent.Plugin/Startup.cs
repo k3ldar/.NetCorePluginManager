@@ -25,7 +25,11 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
 
+using AppSettings;
+
 using AspNetCore.PluginManager;
+
+using DynamicContent.Plugin.Classes;
 
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
@@ -48,6 +52,9 @@ namespace DynamicContent.Plugin
         {
             if (services == null)
                 throw new ArgumentNullException(nameof(services));
+
+            services.AddSingleton<IApplicationOverride, ApplicationOverrides>();
+
 
             PluginManagerService.ConfigureServices(services);
 

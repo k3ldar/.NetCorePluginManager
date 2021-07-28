@@ -90,5 +90,12 @@ namespace Middleware.DynamicContent
         /// <param name="dynamicContentPage">Dynamic content page to be saved</param>
         /// <returns>bool</returns>
         bool Save(IDynamicContentPage dynamicContentPage);
+
+        /// <summary>
+        /// Provides an opportunity for user input that is input via custom forms to be saved
+        /// </summary>
+        /// <param name="data">Form data to be saved</param>
+        /// <returns>bool</returns>
+        bool SaveUserInput(string data);
     }
 }

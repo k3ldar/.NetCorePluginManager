@@ -23,6 +23,8 @@
  *  13/08/2019  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+using System;
+
 using DynamicContent.Plugin.Internal;
 
 using Microsoft.AspNetCore.Builder;
@@ -33,7 +35,11 @@ using Middleware.DynamicContent;
 
 using PluginManager.Abstractions;
 
+using Shared.Classes;
+
 using SharedPluginFeatures;
+
+using static SharedPluginFeatures.Constants;
 
 namespace DynamicContent.Plugin
 {
@@ -43,6 +49,18 @@ namespace DynamicContent.Plugin
     /// </summary>
     public class PluginInitialisation : IPlugin, IInitialiseEvents
     {
+        private readonly IThreadManagerServices _threadManagerServices;
+        internal static readonly CacheManager DynamicContentCache = new CacheManager(CacheNameDynamicContent, new TimeSpan(100, 0, 0, 0), true);
+
+        #region Constructors
+
+        public PluginInitialisation(IThreadManagerServices threadManagerServices)
+        {
+            _threadManagerServices = threadManagerServices ?? throw new ArgumentNullException(nameof(threadManagerServices));
+        }
+
+        #endregion Constructors
+
         #region IInitialiseEvents Methods
 
         public void AfterConfigure(in IApplicationBuilder app)
@@ -67,6 +85,8 @@ namespace DynamicContent.Plugin
 #endif
 
             services.TryAddSingleton<IDynamicContentProvider, DefaultDynamicContentProvider>();
+
+            _threadManagerServices.RegisterStartupThread(nameof(DynamicContentThreadManager), typeof(DynamicContentThreadManager));
         }
 
         public void BeforeConfigure(in IApplicationBuilder app)
@@ -76,7 +96,7 @@ namespace DynamicContent.Plugin
 
         public void BeforeConfigureServices(in IServiceCollection services)
         {
-            
+
         }
 
         public void Configure(in IApplicationBuilder app)

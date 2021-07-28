@@ -1677,8 +1677,8 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
             TestNotificationService testNotificationService = null,
             TestVirusScanner testVirusScanner = null)
         {
-            IPluginClassesService pluginServices = new pm.PluginServices(_testDynamicContentPlugin) as IPluginClassesService;
-            IPluginHelperService pluginHelperService = new pm.PluginServices(_testDynamicContentPlugin) as IPluginHelperService;
+            IPluginClassesService pluginServices = _testDynamicContentPlugin as IPluginClassesService;
+            IPluginHelperService pluginHelperService = _testDynamicContentPlugin as IPluginHelperService;
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
 
             ImageManagerController Result = new ImageManagerController(

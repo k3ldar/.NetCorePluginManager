@@ -75,8 +75,8 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SpiderTests
         public void Create_Invalid_RouteDataServices_ThrowsArgumentNullException()
         {
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
-            IPluginHelperService pluginServices = new pm.PluginServices(_testPluginSpider) as IPluginHelperService;
-            IPluginTypesService pluginTypesServices = new pm.PluginServices(_testPluginSpider) as IPluginTypesService;
+            IPluginHelperService pluginServices = _testPluginSpider as IPluginHelperService;
+            IPluginTypesService pluginTypesServices = _testPluginSpider as IPluginTypesService;
             ActionDescriptorCollection actionDescriptorCollection = new ActionDescriptorCollection(new List<ActionDescriptor>(), 1);
             RequestDelegate requestDelegate = async (context) => { await Task.Delay(0); };
             new SpiderMiddleware(requestDelegate,
@@ -95,8 +95,8 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SpiderTests
         public void Create_Invalid_IRobots_ThrowsArgumentNullException()
         {
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
-            IPluginHelperService pluginServices = new pm.PluginServices(_testPluginSpider) as IPluginHelperService;
-            IPluginTypesService pluginTypesServices = new pm.PluginServices(_testPluginSpider) as IPluginTypesService;
+            IPluginHelperService pluginServices = _testPluginSpider as IPluginHelperService;
+            IPluginTypesService pluginTypesServices = _testPluginSpider as IPluginTypesService;
             ActionDescriptorCollection actionDescriptorCollection = new ActionDescriptorCollection(new List<ActionDescriptor>(), 1);
             RequestDelegate requestDelegate = async (context) => { await Task.Delay(0); };
             new SpiderMiddleware(requestDelegate,
@@ -113,8 +113,8 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SpiderTests
         public void Create_Invalid_ISettingsProvider_ThrowsArgumentNullException()
         {
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
-            IPluginTypesService pluginTypesServices = new pm.PluginServices(_testPluginSpider) as IPluginTypesService;
-            IPluginHelperService pluginServices = new pm.PluginServices(_testPluginSpider) as IPluginHelperService;
+            IPluginTypesService pluginTypesServices = _testPluginSpider as IPluginTypesService;
+            IPluginHelperService pluginServices = _testPluginSpider as IPluginHelperService;
             ActionDescriptorCollection actionDescriptorCollection = new ActionDescriptorCollection(new List<ActionDescriptor>(), 1);
             RequestDelegate requestDelegate = async (context) => { await Task.Delay(0); };
             new SpiderMiddleware(requestDelegate,
@@ -131,8 +131,8 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SpiderTests
         public void Create_Invalid_ILogger_ThrowsArgumentNullException()
         {
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
-            IPluginHelperService pluginServices = new pm.PluginServices(_testPluginSpider) as IPluginHelperService;
-            IPluginTypesService pluginTypesServices = new pm.PluginServices(_testPluginSpider) as IPluginTypesService;
+            IPluginHelperService pluginServices = _testPluginSpider as IPluginHelperService;
+            IPluginTypesService pluginTypesServices = _testPluginSpider as IPluginTypesService;
             ActionDescriptorCollection actionDescriptorCollection = new ActionDescriptorCollection(new List<ActionDescriptor>(), 1);
             RequestDelegate requestDelegate = async (context) => { await Task.Delay(0); };
             new SpiderMiddleware(requestDelegate,
@@ -149,8 +149,8 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SpiderTests
         public void Create_Invalid_INotificationService_ThrowsArgumentNullException()
         {
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
-            IPluginHelperService pluginServices = new pm.PluginServices(_testPluginSpider) as IPluginHelperService;
-            IPluginTypesService pluginTypesServices = new pm.PluginServices(_testPluginSpider) as IPluginTypesService;
+            IPluginHelperService pluginServices = _testPluginSpider as IPluginHelperService;
+            IPluginTypesService pluginTypesServices = _testPluginSpider as IPluginTypesService;
             ActionDescriptorCollection actionDescriptorCollection = new ActionDescriptorCollection(new List<ActionDescriptor>(), 1);
             RequestDelegate requestDelegate = async (context) => { await Task.Delay(0); };
             new SpiderMiddleware(requestDelegate,
@@ -337,7 +337,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SpiderTests
         [ExpectedException(typeof(ArgumentNullException))]
         public void Construct_Robot_InvalidActionDescriptor_Throws_ArgumentNullException()
         {
-            IPluginTypesService pluginTypesServices = new pm.PluginServices(_testPluginSpider) as IPluginTypesService;
+            IPluginTypesService pluginTypesServices = _testPluginSpider as IPluginTypesService;
 
             new Robots(null, new RouteDataServices(), pluginTypesServices, new MockLoadData());
         }
@@ -347,7 +347,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SpiderTests
         [ExpectedException(typeof(ArgumentNullException))]
         public void Construct_Robot_InvalidRouteDataServices_Throws_ArgumentNullException()
         {
-            IPluginTypesService pluginTypesServices = new pm.PluginServices(_testPluginSpider) as IPluginTypesService;
+            IPluginTypesService pluginTypesServices = _testPluginSpider as IPluginTypesService;
 
             var descriptors = new List<ActionDescriptor>()
                 {
@@ -389,7 +389,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SpiderTests
         [ExpectedException(typeof(ArgumentNullException))]
         public void Construct_Robot_InvalidSaveData_Throws_ArgumentNullException()
         {
-            IPluginTypesService pluginTypesServices = new pm.PluginServices(_testPluginSpider) as IPluginTypesService;
+            IPluginTypesService pluginTypesServices = _testPluginSpider as IPluginTypesService;
 
             var descriptors = new List<ActionDescriptor>()
                 {
@@ -935,7 +935,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SpiderTests
             TestNotificationService customNotification = null,
             bool createDescriptors = false)
         {
-            IPluginTypesService pluginTypesServices = new pm.PluginServices(_testPluginSpider) as IPluginTypesService;
+            IPluginTypesService pluginTypesServices = _testPluginSpider as IPluginTypesService;
 
             ActionDescriptorCollection actionDescriptorCollection = null;
 
@@ -988,7 +988,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SpiderTests
             TestNotificationService customNotification = null)
         {
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
-            IPluginHelperService pluginServices = new pm.PluginServices(_testPluginSpider) as IPluginHelperService;
+            IPluginHelperService pluginServices = _testPluginSpider as IPluginHelperService;
 
             RequestDelegate requestDelegate = async (context) => { await Task.Delay(0); };
 
@@ -1003,8 +1003,8 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SpiderTests
         private Robots CreateRobotsInstance(ILoadData loadData = null)
         {
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
-            IPluginHelperService pluginServices = new pm.PluginServices(_testPluginSpider) as IPluginHelperService;
-            IPluginTypesService pluginTypesServices = new pm.PluginServices(_testPluginSpider) as IPluginTypesService;
+            IPluginHelperService pluginServices = _testPluginSpider as IPluginHelperService;
+            IPluginTypesService pluginTypesServices = _testPluginSpider as IPluginTypesService;
 
             var descriptors = new List<ActionDescriptor>()
                 {

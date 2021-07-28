@@ -56,12 +56,18 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes.Mocks
 
         #region Constructors
 
-        public MockDynamicContentProvider(IPluginClassesService pluginClassesService)
+        public MockDynamicContentProvider(IPluginClassesService pluginClassesService, bool useDefaultContent)
         {
             _pluginClassesService = pluginClassesService ?? throw new ArgumentNullException(nameof(pluginClassesService));
             _dynamicContent = new List<IDynamicContentPage>();
-            UseDefaultContent = true;
+            UseDefaultContent = useDefaultContent;
             AllowSavePage = true;
+        }
+
+        public MockDynamicContentProvider(IPluginClassesService pluginClassesService)
+            : this(pluginClassesService, true)
+        {
+
         }
 
         #endregion Constructors
@@ -69,6 +75,8 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes.Mocks
         public bool UseDefaultContent { get; set; }
 
         public bool AllowSavePage { get; set; }
+
+        public bool HasSaveUserInput { get; set; }
 
         public int CreateCustomPage()
         {
@@ -172,6 +180,13 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes.Mocks
             return AllowSavePage;
         }
 
+        public bool SaveUserInput(string data)
+        {
+            HasSaveUserInput = true;
+
+            return HasSaveUserInput;
+        }
+
         #endregion IDynamicContentProvider Members
 
         #region Private Methods
@@ -184,6 +199,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes.Mocks
                 {
                     Id = 1,
                     Name = "Custom Page 1",
+                    RouteName = "page-1"
                 };
 
                 HtmlTextTemplate htmlLayout1 = new HtmlTextTemplate()
@@ -210,6 +226,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes.Mocks
                 {
                     Id = 2,
                     Name = "Custom Page 2",
+                    RouteName = "page-2",
                 };
 
                 HtmlTextTemplate htmlLayout1 = new HtmlTextTemplate()
@@ -248,6 +265,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes.Mocks
                 {
                     Id = 3,
                     Name = "Custom Page 3",
+                    RouteName = "page-3",
                 };
 
                 HtmlTextTemplate htmlLayout1 = new HtmlTextTemplate()
@@ -294,6 +312,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes.Mocks
                 {
                     Id = 10,
                     Name = "Custom Page 10",
+                    RouteName = "page-10",
                 };
 
                 HtmlTextTemplate htmlLayout1 = new HtmlTextTemplate()

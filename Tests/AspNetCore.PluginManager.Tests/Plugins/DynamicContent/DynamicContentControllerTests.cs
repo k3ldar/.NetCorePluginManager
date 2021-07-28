@@ -36,6 +36,7 @@ using AspNetCore.PluginManager.Tests.Shared;
 
 using DynamicContent.Plugin.Controllers;
 using DynamicContent.Plugin.Model;
+using DynamicContent.Plugin.Templates;
 
 using MemoryCache.Plugin;
 
@@ -84,7 +85,438 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         public void InitializeDynamicContentControllerTests()
         {
             CacheManager.ClearAllCaches();
+            DynamicContent.Plugin.PluginInitialisation.DynamicContentCache.Clear();
             InitializeDynamicContentPluginManager();
+        }
+
+        [TestMethod]
+        [TestCategory(TestCategoryName)]
+        public void Index_InvalidPath_Null_Returns404Response()
+        {
+            DynamicContentController sut = CreateDynamicContentController();
+            IActionResult response = sut.Index(null);
+
+            StatusCodeResult result = response as StatusCodeResult;
+
+            Assert.IsNotNull(result);
+            Assert.AreEqual(404, result.StatusCode);
+        }
+
+        [TestMethod]
+        [TestCategory(TestCategoryName)]
+        public void Index_InvalidPath_EmptyString_Returns404Response()
+        {
+            DynamicContentController sut = CreateDynamicContentController();
+            IActionResult response = sut.Index("");
+
+            StatusCodeResult result = response as StatusCodeResult;
+
+            Assert.IsNotNull(result);
+            Assert.AreEqual(404, result.StatusCode);
+        }
+
+        [TestMethod]
+        [TestCategory(TestCategoryName)]
+        public void Index_PathNotFoundInCache_Returns404Response()
+        {
+            DynamicContentController sut = CreateDynamicContentController();
+            IActionResult response = sut.Index("mypage");
+
+            StatusCodeResult result = response as StatusCodeResult;
+
+            Assert.IsNotNull(result);
+            Assert.AreEqual(404, result.StatusCode);
+        }
+
+        [TestMethod]
+        [TestCategory(TestCategoryName)]
+        public void Index_PathFoundInCache_InvalidCacheItem_Returns404Response()
+        {
+            DynamicContent.Plugin.PluginInitialisation.DynamicContentCache.Add("mypage", new CacheItem("mypage", "test"));
+            ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
+
+            DynamicContentController sut = CreateDynamicContentController();
+            IActionResult response = sut.Index("mypage");
+
+            StatusCodeResult result = response as StatusCodeResult;
+
+            Assert.IsNotNull(result);
+            Assert.AreEqual(404, result.StatusCode);
+        }
+
+        [TestMethod]
+        [TestCategory(TestCategoryName)]
+        public void Index_PathFoundInCache_ReturnsValidModel_Success()
+        {
+            IPluginClassesService pluginServices = _testDynamicContentPlugin as IPluginClassesService;
+            MockDynamicContentProvider mockDynamicContentProvider = new MockDynamicContentProvider(pluginServices);
+            IDynamicContentPage page = mockDynamicContentProvider.GetCustomPages()[0];
+            DynamicContent.Plugin.PluginInitialisation.DynamicContentCache.Add(page.RouteName, new CacheItem(page.RouteName, page));
+
+            DynamicContentController sut = CreateDynamicContentController(null, null, mockDynamicContentProvider);
+            IActionResult response = sut.Index(page.RouteName);
+
+            ViewResult result = response as ViewResult;
+
+            Assert.IsNotNull(result);
+            Assert.IsNotNull(result.Model);
+            Assert.AreEqual("/Views/DynamicContent/Index.cshtml", result.ViewName);
+
+
+            PageModel pageModel = result.Model as PageModel;
+
+            Assert.IsNotNull(pageModel);
+            Assert.AreEqual("<div class=\"col-sm-12\"><p>This is <br />html over<br />three lines</p></div>", pageModel.Content);
+        }
+
+        [TestMethod]
+        [TestCategory(TestCategoryName)]
+        public void Index_ReturnsValidModel_WithInputControlIds_Success()
+        {
+            IPluginClassesService pluginServices = _testDynamicContentPlugin as IPluginClassesService;
+            MockDynamicContentProvider mockDynamicContentProvider = new MockDynamicContentProvider(pluginServices);
+            IDynamicContentPage page = mockDynamicContentProvider.GetCustomPages()[0];
+
+            FormRadioGroupTemplate radioGroup = new FormRadioGroupTemplate()
+            {
+                Data = "test|||||Option A;Option B"
+            };
+            page.Content.Add(radioGroup);
+
+            FormTextBoxTemplate textBox = new FormTextBoxTemplate()
+            {
+                Data = "textbox1|Fill in the data|true"
+            };
+            page.Content.Add(textBox);
+
+            FormCheckBoxTemplate checkBox = new FormCheckBoxTemplate()
+            {
+
+            };
+            page.Content.Add(checkBox);
+
+            DynamicContent.Plugin.PluginInitialisation.DynamicContentCache.Add(page.RouteName, new CacheItem(page.RouteName, page));
+
+            DynamicContentController sut = CreateDynamicContentController(null, null, mockDynamicContentProvider);
+            IActionResult response = sut.Index(page.RouteName);
+
+            ViewResult result = response as ViewResult;
+
+            Assert.IsNotNull(result);
+            Assert.IsNotNull(result.Model);
+            Assert.AreEqual("/Views/DynamicContent/Index.cshtml", result.ViewName);
+
+
+            PageModel pageModel = result.Model as PageModel;
+
+            Assert.IsNotNull(pageModel);
+            Assert.IsTrue(pageModel.HasInputControls);
+            Assert.AreEqual(2, pageModel.DynamicContentIds.Length);
+            Assert.AreEqual("test", pageModel.DynamicContentIds[0]);
+            Assert.AreEqual("textbox1", pageModel.DynamicContentIds[1]);
+        }
+
+        [TestMethod]
+        [TestCategory(TestCategoryName)]
+        public void Index_ReturnsValidModel_WithBackgroundImageAndColor_Success()
+        {
+            IPluginClassesService pluginServices = _testDynamicContentPlugin as IPluginClassesService;
+            MockDynamicContentProvider mockDynamicContentProvider = new MockDynamicContentProvider(pluginServices);
+            IDynamicContentPage page = mockDynamicContentProvider.GetCustomPages()[0];
+            page.BackgroundColor = "#294b6y;";
+            page.BackgroundImage = "/images/custombackground.jpg";
+            DynamicContent.Plugin.PluginInitialisation.DynamicContentCache.Add(page.RouteName, new CacheItem(page.RouteName, page));
+
+            DynamicContentController sut = CreateDynamicContentController(null, null, mockDynamicContentProvider);
+            IActionResult response = sut.Index(page.RouteName);
+
+            ViewResult result = response as ViewResult;
+
+            Assert.IsNotNull(result);
+            Assert.IsNotNull(result.Model);
+            Assert.AreEqual("/Views/DynamicContent/Index.cshtml", result.ViewName);
+
+
+            PageModel pageModel = result.Model as PageModel;
+
+            Assert.IsNotNull(pageModel);
+            Assert.AreEqual("<div class=\"col-sm-12\"><p>This is <br />html over<br />three lines</p></div>", pageModel.Content);
+            Assert.AreEqual("<style>body {background-color: #294b6y;background-image: url('/images/custombackground.jpg');background-size: 100% 100%;}</style>", pageModel.PageCSS);
+        }
+
+        [TestMethod]
+        [TestCategory(TestCategoryName)]
+        public void Index_ReturnsValidModel_WithNoBackgroundImage_HasBackgroundColor_Success()
+        {
+            IPluginClassesService pluginServices = _testDynamicContentPlugin as IPluginClassesService;
+            MockDynamicContentProvider mockDynamicContentProvider = new MockDynamicContentProvider(pluginServices);
+            IDynamicContentPage page = mockDynamicContentProvider.GetCustomPages()[0];
+            page.BackgroundColor = "#294b6y;";
+            DynamicContent.Plugin.PluginInitialisation.DynamicContentCache.Add(page.RouteName, new CacheItem(page.RouteName, page));
+
+            DynamicContentController sut = CreateDynamicContentController(null, null, mockDynamicContentProvider);
+            IActionResult response = sut.Index(page.RouteName);
+
+            ViewResult result = response as ViewResult;
+
+            Assert.IsNotNull(result);
+            Assert.IsNotNull(result.Model);
+            Assert.AreEqual("/Views/DynamicContent/Index.cshtml", result.ViewName);
+
+
+            PageModel pageModel = result.Model as PageModel;
+
+            Assert.IsNotNull(pageModel);
+            Assert.AreEqual("<div class=\"col-sm-12\"><p>This is <br />html over<br />three lines</p></div>", pageModel.Content);
+            Assert.AreEqual("<style>body {background-color: #294b6y;}</style>", pageModel.PageCSS);
+        }
+
+        [TestMethod]
+        [TestCategory(TestCategoryName)]
+        public void Index_ReturnsValidModel_WithBackgroundImage_HasNoBackgroundColor_Success()
+        {
+            IPluginClassesService pluginServices = _testDynamicContentPlugin as IPluginClassesService;
+            MockDynamicContentProvider mockDynamicContentProvider = new MockDynamicContentProvider(pluginServices);
+            IDynamicContentPage page = mockDynamicContentProvider.GetCustomPages()[0];
+            page.BackgroundColor = null;
+            page.BackgroundImage = "/images/custombackground.jpg";
+            DynamicContent.Plugin.PluginInitialisation.DynamicContentCache.Add(page.RouteName, new CacheItem(page.RouteName, page));
+
+            DynamicContentController sut = CreateDynamicContentController(null, null, mockDynamicContentProvider);
+            IActionResult response = sut.Index(page.RouteName);
+
+            ViewResult result = response as ViewResult;
+
+            Assert.IsNotNull(result);
+            Assert.IsNotNull(result.Model);
+            Assert.AreEqual("/Views/DynamicContent/Index.cshtml", result.ViewName);
+
+
+            PageModel pageModel = result.Model as PageModel;
+
+            Assert.IsNotNull(pageModel);
+            Assert.AreEqual("<div class=\"col-sm-12\"><p>This is <br />html over<br />three lines</p></div>", pageModel.Content);
+            Assert.AreEqual("<style>body {background-image: url('/images/custombackground.jpg');background-size: 100% 100%;}</style>", pageModel.PageCSS);
+        }
+
+        [TestMethod]
+        [TestCategory(TestCategoryName)]
+        public void SubmitData_Validate_Attributes()
+        {
+            string MethodName = "SubmitData";
+            Assert.IsTrue(MethodHasAttribute<HttpPostAttribute>(typeof(DynamicContentController), MethodName));
+
+            Assert.IsFalse(MethodHasAttribute<LoggedInAttribute>(typeof(DynamicContentController), MethodName));
+            Assert.IsFalse(MethodHasAttribute<HttpGetAttribute>(typeof(DynamicContentController), MethodName));
+            Assert.IsFalse(MethodHasAttribute<RouteAttribute>(typeof(DynamicContentController), MethodName));
+            Assert.IsFalse(MethodHasAttribute<AjaxOnlyAttribute>(typeof(DynamicContentController), MethodName));
+            Assert.IsFalse(MethodHasAttribute<HttpDeleteAttribute>(typeof(DynamicContentController), MethodName));
+            Assert.IsFalse(MethodHasAttribute<HttpPutAttribute>(typeof(DynamicContentController), MethodName));
+        }
+
+        [TestMethod]
+        [TestCategory(TestCategoryName)]
+        public void SubmitData_InvalidPath_Null_Returns404Response()
+        {
+            DynamicContentController sut = CreateDynamicContentController();
+            IActionResult response = sut.SubmitData(null, "");
+
+            StatusCodeResult result = response as StatusCodeResult;
+
+            Assert.IsNotNull(result);
+            Assert.AreEqual(404, result.StatusCode);
+        }
+
+        [TestMethod]
+        [TestCategory(TestCategoryName)]
+        public void SubmitData_InvalidPath_EmptyString_Returns404Response()
+        {
+            DynamicContentController sut = CreateDynamicContentController();
+            IActionResult response = sut.SubmitData("", "");
+
+            StatusCodeResult result = response as StatusCodeResult;
+
+            Assert.IsNotNull(result);
+            Assert.AreEqual(404, result.StatusCode);
+        }
+
+        [TestMethod]
+        [TestCategory(TestCategoryName)]
+        public void SubmitData_PathNotFoundInCache_Returns404Response()
+        {
+            DynamicContentController sut = CreateDynamicContentController();
+            IActionResult response = sut.SubmitData("mypage", "");
+
+            StatusCodeResult result = response as StatusCodeResult;
+
+            Assert.IsNotNull(result);
+            Assert.AreEqual(404, result.StatusCode);
+        }
+
+        [TestMethod]
+        [TestCategory(TestCategoryName)]
+        public void SubmitData_PathFoundInCache_InvalidCacheItem_Returns404Response()
+        {
+            DynamicContent.Plugin.PluginInitialisation.DynamicContentCache.Add("mypage", new CacheItem("mypage", "test"));
+            ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
+
+            DynamicContentController sut = CreateDynamicContentController();
+            IActionResult response = sut.SubmitData("mypage", "");
+
+            StatusCodeResult result = response as StatusCodeResult;
+
+            Assert.IsNotNull(result);
+            Assert.AreEqual(404, result.StatusCode);
+        }
+
+        [TestMethod]
+        [TestCategory(TestCategoryName)]
+        public void SubmitData_PathFoundInCache_ReturnsValidModel_Success()
+        {
+            IPluginClassesService pluginServices = _testDynamicContentPlugin as IPluginClassesService;
+            MockDynamicContentProvider mockDynamicContentProvider = new MockDynamicContentProvider(pluginServices);
+            IDynamicContentPage page = mockDynamicContentProvider.GetCustomPages()[0];
+            DynamicContent.Plugin.PluginInitialisation.DynamicContentCache.Add(page.RouteName, new CacheItem(page.RouteName, page));
+
+            DynamicContentController sut = CreateDynamicContentController(null, null, mockDynamicContentProvider);
+            IActionResult response = sut.SubmitData(page.RouteName, "");
+
+            ViewResult result = response as ViewResult;
+
+            Assert.IsNotNull(result);
+            Assert.IsNotNull(result.Model);
+            Assert.AreEqual("/Views/DynamicContent/Index.cshtml", result.ViewName);
+
+
+            PageModel pageModel = result.Model as PageModel;
+            Assert.IsNotNull(pageModel);
+            Assert.IsTrue(pageModel.HasDataSaved);
+        }
+
+        [TestMethod]
+        [TestCategory(TestCategoryName)]
+        public void SubmitData_ReturnsValidModel_WithInputControlIds_Success()
+        {
+            IPluginClassesService pluginServices = _testDynamicContentPlugin as IPluginClassesService;
+            MockDynamicContentProvider mockDynamicContentProvider = new MockDynamicContentProvider(pluginServices);
+            IDynamicContentPage page = mockDynamicContentProvider.GetCustomPages()[0];
+
+            FormRadioGroupTemplate radioGroup = new FormRadioGroupTemplate()
+            {
+                Data = "test|||||Option A;Option B"
+            };
+            page.Content.Add(radioGroup);
+
+            FormTextBoxTemplate textBox = new FormTextBoxTemplate()
+            {
+                Data = "textbox1|Fill in the data|true"
+            };
+            page.Content.Add(textBox);
+
+            FormCheckBoxTemplate checkBox = new FormCheckBoxTemplate()
+            {
+
+            };
+            page.Content.Add(checkBox);
+
+            DynamicContent.Plugin.PluginInitialisation.DynamicContentCache.Add(page.RouteName, new CacheItem(page.RouteName, page));
+
+            DynamicContentController sut = CreateDynamicContentController(null, null, mockDynamicContentProvider);
+            IActionResult response = sut.SubmitData(page.RouteName, "");
+
+            ViewResult result = response as ViewResult;
+
+            Assert.IsNotNull(result);
+            Assert.IsNotNull(result.Model);
+            Assert.AreEqual("/Views/DynamicContent/Index.cshtml", result.ViewName);
+
+
+            PageModel pageModel = result.Model as PageModel;
+
+            Assert.IsNotNull(pageModel);
+            Assert.IsTrue(pageModel.HasInputControls);
+            Assert.AreEqual(2, pageModel.DynamicContentIds.Length);
+            Assert.IsTrue(pageModel.HasDataSaved);
+        }
+
+        [TestMethod]
+        [TestCategory(TestCategoryName)]
+        public void SubmitData_ReturnsValidModel_WithBackgroundImageAndColor_Success()
+        {
+            IPluginClassesService pluginServices = _testDynamicContentPlugin as IPluginClassesService;
+            MockDynamicContentProvider mockDynamicContentProvider = new MockDynamicContentProvider(pluginServices);
+            IDynamicContentPage page = mockDynamicContentProvider.GetCustomPages()[0];
+            page.BackgroundColor = "#294b6y;";
+            page.BackgroundImage = "/images/custombackground.jpg";
+            DynamicContent.Plugin.PluginInitialisation.DynamicContentCache.Add(page.RouteName, new CacheItem(page.RouteName, page));
+
+            DynamicContentController sut = CreateDynamicContentController(null, null, mockDynamicContentProvider);
+            IActionResult response = sut.SubmitData(page.RouteName, "some data");
+
+            ViewResult result = response as ViewResult;
+
+            Assert.IsNotNull(result);
+            Assert.IsNotNull(result.Model);
+            Assert.AreEqual("/Views/DynamicContent/Index.cshtml", result.ViewName);
+
+
+            PageModel pageModel = result.Model as PageModel;
+
+            Assert.IsNotNull(pageModel);
+            Assert.IsTrue(pageModel.HasDataSaved);
+        }
+
+        [TestMethod]
+        [TestCategory(TestCategoryName)]
+        public void SubmitData_ReturnsValidModel_WithNoBackgroundImage_HasBackgroundColor_Success()
+        {
+            IPluginClassesService pluginServices = _testDynamicContentPlugin as IPluginClassesService;
+            MockDynamicContentProvider mockDynamicContentProvider = new MockDynamicContentProvider(pluginServices);
+            IDynamicContentPage page = mockDynamicContentProvider.GetCustomPages()[0];
+            page.BackgroundColor = "#294b6y;";
+            DynamicContent.Plugin.PluginInitialisation.DynamicContentCache.Add(page.RouteName, new CacheItem(page.RouteName, page));
+
+            DynamicContentController sut = CreateDynamicContentController(null, null, mockDynamicContentProvider);
+            IActionResult response = sut.SubmitData(page.RouteName, "");
+
+            ViewResult result = response as ViewResult;
+
+            Assert.IsNotNull(result);
+            Assert.IsNotNull(result.Model);
+            Assert.AreEqual("/Views/DynamicContent/Index.cshtml", result.ViewName);
+
+
+            PageModel pageModel = result.Model as PageModel;
+
+            Assert.IsNotNull(pageModel);
+            Assert.IsTrue(pageModel.HasDataSaved);
+        }
+
+        [TestMethod]
+        [TestCategory(TestCategoryName)]
+        public void SubmitData_ReturnsValidModel_WithBackgroundImage_HasNoBackgroundColor_Success()
+        {
+            IPluginClassesService pluginServices = _testDynamicContentPlugin as IPluginClassesService;
+            MockDynamicContentProvider mockDynamicContentProvider = new MockDynamicContentProvider(pluginServices);
+            IDynamicContentPage page = mockDynamicContentProvider.GetCustomPages()[0];
+            page.BackgroundColor = null;
+            page.BackgroundImage = "/images/custombackground.jpg";
+            DynamicContent.Plugin.PluginInitialisation.DynamicContentCache.Add(page.RouteName, new CacheItem(page.RouteName, page));
+
+            DynamicContentController sut = CreateDynamicContentController(null, null, mockDynamicContentProvider);
+            IActionResult response = sut.SubmitData(page.RouteName, "");
+
+            ViewResult result = response as ViewResult;
+
+            Assert.IsNotNull(result);
+            Assert.IsNotNull(result.Model);
+            Assert.AreEqual("/Views/DynamicContent/Index.cshtml", result.ViewName);
+
+
+            PageModel pageModel = result.Model as PageModel;
+
+            Assert.IsNotNull(pageModel);
+            Assert.IsTrue(pageModel.HasDataSaved);
         }
 
         [TestMethod]
@@ -100,7 +532,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         public void Construct_DynamicContentController_InvalidDynamicContentProvider_Throws_ArgumentNullException()
         {
             ISettingsProvider settingsProvider = new DefaultSettingProvider(Directory.GetCurrentDirectory(), null, null);
-            DynamicContentController Result = new DynamicContentController(null, new DefaultMemoryCache(settingsProvider), new MockImageProvider());
+            DynamicContentController Result = new DynamicContentController(null, new DefaultMemoryCache(settingsProvider), new MockImageProvider(), new TestNotificationService());
         }
 
         [TestMethod]
@@ -108,8 +540,8 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         [ExpectedException(typeof(ArgumentNullException))]
         public void Construct_DynamicContentController_InvalidMemoryCache_Throws_ArgumentNullException()
         {
-            IPluginClassesService pluginServices = new pm.PluginServices(_testDynamicContentPlugin) as IPluginClassesService;
-            DynamicContentController Result = new DynamicContentController(new MockDynamicContentProvider(pluginServices), null, new MockImageProvider());
+            IPluginClassesService pluginServices = _testDynamicContentPlugin as IPluginClassesService;
+            DynamicContentController Result = new DynamicContentController(new MockDynamicContentProvider(pluginServices), null, new MockImageProvider(), new TestNotificationService());
         }
 
         [TestMethod]
@@ -117,9 +549,19 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         [ExpectedException(typeof(ArgumentNullException))]
         public void Construct_DynamicContentController_InvalidImageProvider_Throws_ArgumentNullException()
         {
-            IPluginClassesService pluginServices = new pm.PluginServices(_testDynamicContentPlugin) as IPluginClassesService;
+            IPluginClassesService pluginServices = _testDynamicContentPlugin as IPluginClassesService;
             ISettingsProvider settingsProvider = new DefaultSettingProvider(Directory.GetCurrentDirectory(), null, null);
-            DynamicContentController Result = new DynamicContentController(new MockDynamicContentProvider(pluginServices), new DefaultMemoryCache(settingsProvider), null);
+            DynamicContentController Result = new DynamicContentController(new MockDynamicContentProvider(pluginServices), new DefaultMemoryCache(settingsProvider), null, new TestNotificationService());
+        }
+
+        [TestMethod]
+        [TestCategory(TestCategoryName)]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void Construct_DynamicContentController_InvalidNotificationService_Throws_ArgumentNullException()
+        {
+            IPluginClassesService pluginServices = _testDynamicContentPlugin as IPluginClassesService;
+            ISettingsProvider settingsProvider = new DefaultSettingProvider(Directory.GetCurrentDirectory(), null, null);
+            DynamicContentController Result = new DynamicContentController(new MockDynamicContentProvider(pluginServices), new DefaultMemoryCache(settingsProvider), new MockImageProvider(), null);
         }
 
         [TestMethod]
@@ -348,7 +790,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         {
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory(), null, null);
             DefaultMemoryCache memoryCache = new DefaultMemoryCache(settingsProvider);
-            IPluginClassesService pluginServices = new pm.PluginServices(_testDynamicContentPlugin) as IPluginClassesService;
+            IPluginClassesService pluginServices = _testDynamicContentPlugin as IPluginClassesService;
             MockDynamicContentProvider mockDynamicContentProvider = new MockDynamicContentProvider(pluginServices);
             mockDynamicContentProvider.AddPage(new DynamicContentPage(59)
             {
@@ -2443,7 +2885,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
             memoryCache.GetExtendingCache().Add("abc", new CacheItem("abc", cachedPage));
 
 
-            IPluginClassesService pluginServices = new pm.PluginServices(_testDynamicContentPlugin) as IPluginClassesService;
+            IPluginClassesService pluginServices = _testDynamicContentPlugin as IPluginClassesService;
             DynamicContentPage dynamicContentPageExistingName = new DynamicContentPage()
             {
                 Id = 1,
@@ -2468,8 +2910,8 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
             Assert.IsNotNull(viewResult);
             Assert.AreEqual("/Views/DynamicContent/EditPage.cshtml", viewResult.ViewName);
             Assert.IsFalse(viewResult.ViewData.ModelState.IsValid);
-            Assert.AreEqual(2, viewResult.ViewData.ModelState.ErrorCount);
-            Assert.IsTrue(ViewResultContainsModelStateError(viewResult, "", "Failed to save page"));
+            Assert.AreEqual(1, viewResult.ViewData.ModelState.ErrorCount);
+            Assert.IsFalse(ViewResultContainsModelStateError(viewResult, "", "Failed to save page"));
             Assert.IsTrue(ViewResultContainsModelStateError(viewResult, "Name", "Name already exists"));
         }
 
@@ -2490,7 +2932,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
             memoryCache.GetExtendingCache().Add("abc", new CacheItem("abc", cachedPage));
 
 
-            IPluginClassesService pluginServices = new pm.PluginServices(_testDynamicContentPlugin) as IPluginClassesService;
+            IPluginClassesService pluginServices = _testDynamicContentPlugin as IPluginClassesService;
             DynamicContentPage dynamicContentPageExistingName = new DynamicContentPage()
             {
                 Id = 1,
@@ -2535,7 +2977,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
             memoryCache.GetExtendingCache().Add("abc", new CacheItem("abc", cachedPage));
 
 
-            IPluginClassesService pluginServices = new pm.PluginServices(_testDynamicContentPlugin) as IPluginClassesService;
+            IPluginClassesService pluginServices = _testDynamicContentPlugin as IPluginClassesService;
             MockDynamicContentProvider mockDynamicContentProvider = new MockDynamicContentProvider(pluginServices);
             mockDynamicContentProvider.UseDefaultContent = false;
             mockDynamicContentProvider.AllowSavePage = false;
@@ -2576,7 +3018,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
             memoryCache.GetExtendingCache().Add("abc", new CacheItem("abc", cachedPage));
 
 
-            IPluginClassesService pluginServices = new pm.PluginServices(_testDynamicContentPlugin) as IPluginClassesService;
+            IPluginClassesService pluginServices = _testDynamicContentPlugin as IPluginClassesService;
             MockDynamicContentProvider mockDynamicContentProvider = new MockDynamicContentProvider(pluginServices);
             mockDynamicContentProvider.UseDefaultContent = false;
             mockDynamicContentProvider.AllowSavePage = false;
@@ -2611,6 +3053,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
 
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
             DefaultMemoryCache memoryCache = new DefaultMemoryCache(settingsProvider);
+            TestNotificationService testNotificationService = new TestNotificationService();
 
             DynamicContentPage cachedPage = new DynamicContentPage()
             {
@@ -2623,7 +3066,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
 
             memoryCache.GetExtendingCache().Add("abc", new CacheItem("abc", cachedPage));
 
-            IPluginClassesService pluginServices = new pm.PluginServices(_testDynamicContentPlugin) as IPluginClassesService;
+            IPluginClassesService pluginServices = _testDynamicContentPlugin as IPluginClassesService;
             MockDynamicContentProvider mockDynamicContentProvider = new MockDynamicContentProvider(pluginServices);
             mockDynamicContentProvider.UseDefaultContent = false;
             mockDynamicContentProvider.AllowSavePage = true;
@@ -2637,7 +3080,8 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
                 ActiveTo = activeTo,
             };
 
-            DynamicContentController dynamicContentController = CreateDynamicContentController(memoryCache, GetDynamicBreadcrumbs(), mockDynamicContentProvider);
+            DynamicContentController dynamicContentController = CreateDynamicContentController(memoryCache, GetDynamicBreadcrumbs(),
+                mockDynamicContentProvider, null, testNotificationService);
             IActionResult savePageResponse = dynamicContentController.SavePage(model);
             RedirectToActionResult redirectResult = savePageResponse as RedirectToActionResult;
             Assert.IsNotNull(redirectResult);
@@ -2646,6 +3090,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
             Assert.AreEqual("my-route", cachedPage.RouteName);
             Assert.AreEqual(activeFrom, cachedPage.ActiveFrom);
             Assert.AreEqual(activeTo, cachedPage.ActiveTo);
+            Assert.AreEqual(1, testNotificationService.NotificationRaised("DynamicContentUpdated"));
         }
 
         #endregion SavePage
@@ -3028,16 +3473,18 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         private DynamicContentController CreateDynamicContentController(DefaultMemoryCache memoryCache = null,
             List<BreadcrumbItem> breadcrumbs = null,
             MockDynamicContentProvider mockDynamicContentProvider = null,
-            MockImageProvider mockImageProvider = null)
+            MockImageProvider mockImageProvider = null,
+            TestNotificationService testNotificationService = null)
         {
-            IPluginClassesService pluginServices = new pm.PluginServices(_testDynamicContentPlugin) as IPluginClassesService;
-            IPluginHelperService pluginHelperService = new pm.PluginServices(_testDynamicContentPlugin) as IPluginHelperService;
+            IPluginClassesService pluginServices = _testDynamicContentPlugin as IPluginClassesService;
+            IPluginHelperService pluginHelperService = _testDynamicContentPlugin as IPluginHelperService;
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
 
             DynamicContentController Result = new DynamicContentController(
                 mockDynamicContentProvider ?? new MockDynamicContentProvider(pluginServices),
                 memoryCache ?? new DefaultMemoryCache(settingsProvider),
-                mockImageProvider ?? MockImageProvider.CreateDefaultMockImageProvider());
+                mockImageProvider ?? MockImageProvider.CreateDefaultMockImageProvider(),
+                testNotificationService ?? new TestNotificationService());
 
             Result.ControllerContext = CreateTestControllerContext(breadcrumbs);
 

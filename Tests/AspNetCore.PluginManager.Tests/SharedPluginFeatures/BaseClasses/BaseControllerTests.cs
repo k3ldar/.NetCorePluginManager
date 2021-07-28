@@ -287,7 +287,7 @@ namespace AspNetCore.PluginManager.Tests.Controllers
 
                 _testSpiderPlugin.ConfigureServices();
 
-                _pluginServicesSpiderPlugin = new pm.PluginServices(_testSpiderPlugin) as IPluginClassesService;
+                _pluginServicesSpiderPlugin = _testSpiderPlugin as IPluginClassesService;
 
                 _pluginLoadedSpiderPlugin = true;
             }
@@ -324,7 +324,7 @@ namespace AspNetCore.PluginManager.Tests.Controllers
 
                 _testDynamicContentPlugin.ConfigureServices();
 
-                _pluginServicesDynamicContent = new pm.PluginServices(_testDynamicContentPlugin) as IPluginClassesService;
+                _pluginServicesDynamicContent = _testDynamicContentPlugin as IPluginClassesService;
 
                 _pluginLoadedDynamicContentPlugin = true;
             }
@@ -360,7 +360,7 @@ namespace AspNetCore.PluginManager.Tests.Controllers
 
                 _testImageManagerPlugin.ConfigureServices();
 
-                _pluginServicesImageManager = new pm.PluginServices(_testImageManagerPlugin) as IPluginClassesService;
+                _pluginServicesImageManager = _testImageManagerPlugin as IPluginClassesService;
 
                 _pluginLoadedImageManagerPlugin = true;
             }

@@ -25,21 +25,39 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 using System;
+
 using SharedPluginFeatures;
 
 namespace DynamicContent.Plugin.Model
 {
     public sealed class PageModel : BaseModel
     {
-        public PageModel(BaseModelData modelData, string content)
-            : base (modelData)
+        public PageModel(BaseModelData modelData, string path, string content, string css, string[] dynamicContentIds, bool hasDataSaved)
+            : base(modelData)
         {
+            if (String.IsNullOrEmpty(path))
+                throw new ArgumentNullException(nameof(path));
+
+            Path = path;
             Content = content ?? throw new ArgumentNullException(nameof(content));
+            PageCSS = css;
+            DynamicContentIds = dynamicContentIds ?? new string[] { };
+            HasDataSaved = hasDataSaved;
         }
 
         #region Properties
 
+        public string Path { get; }
+
         public string Content { get; }
+
+        public string PageCSS { get; }
+
+        public string[] DynamicContentIds { get; }
+
+        public bool HasInputControls => DynamicContentIds.Length > 0;
+
+        public bool HasDataSaved { get; }
 
         #endregion Properties
     }
