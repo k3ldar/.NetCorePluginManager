@@ -351,6 +351,12 @@
             Determines whether images can be managed by the current user
             </summary>
         </member>
+        <member name="P:ImageManager.Plugin.Models.ImageTemplateEditorModel.Data">
+            <summary>
+            Image template data
+            </summary>
+            <value>string</value>
+        </member>
         <member name="T:ImageManager.Plugin.Models.ImageViewModel">
             <summary>
             View model used when viewing images using <see cref="T:ImageManager.Plugin.Controllers.ImageManagerController"/>

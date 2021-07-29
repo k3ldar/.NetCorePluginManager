@@ -37,7 +37,7 @@ namespace SharedPluginFeatures
     /// is down the host application to determine how or if they are used.
     /// </summary>
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1036:Override methods on comparable types", Justification = "Not required for how this class is being implemented.")]
-    public sealed class SystemAdminMainMenu : BaseCoreClass, IComparable<SystemAdminMainMenu>
+    public class SystemAdminMainMenu : BaseCoreClass, IComparable<SystemAdminMainMenu>
     {
         #region Constructors
 
@@ -70,7 +70,7 @@ namespace SharedPluginFeatures
         /// Controller to be called when the menu is clicked.
         /// </summary>
         /// <returns></returns>
-        public string Controller()
+        public virtual string Controller()
         {
             return "SystemAdmin";
         }
@@ -79,7 +79,7 @@ namespace SharedPluginFeatures
         /// Action to be called when the menu is clicked.
         /// </summary>
         /// <returns></returns>
-        public string Action()
+        public virtual string Action()
         {
             return "Index";
         }

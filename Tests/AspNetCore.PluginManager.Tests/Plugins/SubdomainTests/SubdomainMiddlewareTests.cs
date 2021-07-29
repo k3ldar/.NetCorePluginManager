@@ -320,7 +320,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SubdomainTests
         public async Task SubdomainMiddleware_Invoke_StaticFile_CallsNextDelegate()
         {
             bool delegateCalled = false;
-            RequestDelegate nextDelegate = async (context) => { delegateCalled = true; ; await Task.Delay(0); };
+            RequestDelegate nextDelegate = async (context) => { delegateCalled = true; await Task.Delay(0); };
             TestLogger testLogger = new TestLogger();
             ISettingsProvider settingsProvider = new TestSettingsProvider(SubdomainAllEnabledPreventStaticFiles);
             SubdomainMiddleware sut = CreateSubdomainMiddlewareInstance(testLogger, settingsProvider, null, true, nextDelegate);
@@ -345,7 +345,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SubdomainTests
         public async Task SubdomainMiddleware_Invoke_ValidContext_DisabledMiddleware_CallsNextDelegate()
         {
             bool delegateCalled = false;
-            RequestDelegate nextDelegate = async (context) => { delegateCalled = true; ; await Task.Delay(0); };
+            RequestDelegate nextDelegate = async (context) => { delegateCalled = true; await Task.Delay(0); };
             TestLogger testLogger = new TestLogger();
             ISettingsProvider settingsProvider = new TestSettingsProvider(SubDomainDisbledJson);
             SubdomainMiddleware sut = CreateSubdomainMiddlewareInstance(testLogger, settingsProvider, null, true, nextDelegate);
@@ -353,6 +353,56 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SubdomainTests
             TestHttpRequest httpRequest = new TestHttpRequest()
             {
                 Path = "/blog/"
+            };
+
+            httpRequest.SetHost(new HostString("www.pluginmanager.website"));
+            TestHttpResponse httpResponse = new TestHttpResponse();
+            TestHttpContext httpContext = new TestHttpContext(httpRequest, httpResponse);
+            httpRequest.SetContext(httpContext);
+
+            await sut.Invoke(httpContext);
+
+            Assert.IsTrue(delegateCalled);
+        }
+
+        [TestMethod]
+        [TestCategory(TestCategoryMiddleware)]
+        public async Task SubdomainMiddleware_Invoke_ValidContext_NoMappingsFound_NoDescriptorsCreated_Success()
+        {
+            bool delegateCalled = false;
+            RequestDelegate nextDelegate = async (context) => { delegateCalled = true; await Task.Delay(0); };
+            TestLogger testLogger = new TestLogger();
+            ISettingsProvider settingsProvider = new TestSettingsProvider(BlogDisbledSubDomainJson);
+            SubdomainMiddleware sut = CreateSubdomainMiddlewareInstance(testLogger, settingsProvider, null, false, nextDelegate);
+
+            TestHttpRequest httpRequest = new TestHttpRequest()
+            {
+                Path = "/products/"
+            };
+
+            httpRequest.SetHost(new HostString("www.pluginmanager.website"));
+            TestHttpResponse httpResponse = new TestHttpResponse();
+            TestHttpContext httpContext = new TestHttpContext(httpRequest, httpResponse);
+            httpRequest.SetContext(httpContext);
+
+            await sut.Invoke(httpContext);
+
+            Assert.IsTrue(delegateCalled);
+        }
+
+        [TestMethod]
+        [TestCategory(TestCategoryMiddleware)]
+        public async Task SubdomainMiddleware_Invoke_ValidContext_NoMappingsFound_WithDescriptorsCreated_Success()
+        {
+            bool delegateCalled = false;
+            RequestDelegate nextDelegate = async (context) => { delegateCalled = true; await Task.Delay(0); };
+            TestLogger testLogger = new TestLogger();
+            ISettingsProvider settingsProvider = new TestSettingsProvider(SubdomainAllEnabled);
+            SubdomainMiddleware sut = CreateSubdomainMiddlewareInstance(testLogger, settingsProvider, null, true, nextDelegate);
+
+            TestHttpRequest httpRequest = new TestHttpRequest()
+            {
+                Path = "/products/"
             };
 
             httpRequest.SetHost(new HostString("www.pluginmanager.website"));
@@ -419,11 +469,11 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SubdomainTests
         [TestCategory(TestCategoryMiddleware)]
         public void SubdomainMiddleware_Construct_InvalidRequestDelegate_DoesNotThrow_ArgumentNullException()
         {
-            IPluginTypesService pluginTypesServices = new pm.PluginServices(_testPluginSubdomain) as IPluginTypesService;
+            IPluginTypesService pluginTypesServices = _testPluginSubdomain as IPluginTypesService;
             ActionDescriptorCollection actionDescriptorCollection = new ActionDescriptorCollection(new List<ActionDescriptor>(), 1);
             ISettingsProvider settingsProvider = new TestSettingsProvider(SubdomainAllEnabled);
-            IPluginClassesService pluginClassesService = new pm.PluginServices(_testPluginSubdomain) as IPluginClassesService;
-            IPluginHelperService pluginHelperService = new pm.PluginServices(_testPluginSubdomain) as IPluginHelperService;
+            IPluginClassesService pluginClassesService = _testPluginSubdomain as IPluginClassesService;
+            IPluginHelperService pluginHelperService = _testPluginSubdomain as IPluginHelperService;
             TestActionDescriptorCollectionProvider actionDescriptorCollectionProvider = new TestActionDescriptorCollectionProvider(actionDescriptorCollection);
             TestLogger testLogger = new TestLogger();
 
@@ -436,11 +486,11 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SubdomainTests
         [ExpectedException(typeof(ArgumentNullException))]
         public void SubdomainMiddleware_Construct_InvalidRouteProvider_Throws_ArgumentNullException()
         {
-            IPluginTypesService pluginTypesServices = new pm.PluginServices(_testPluginSubdomain) as IPluginTypesService;
+            IPluginTypesService pluginTypesServices = _testPluginSubdomain as IPluginTypesService;
             RequestDelegate requestDelegate = async (context) => { await Task.Delay(0); };
             ISettingsProvider settingsProvider = new TestSettingsProvider(SubdomainAllEnabled);
-            IPluginClassesService pluginClassesService = new pm.PluginServices(_testPluginSubdomain) as IPluginClassesService;
-            IPluginHelperService pluginHelperService = new pm.PluginServices(_testPluginSubdomain) as IPluginHelperService;
+            IPluginClassesService pluginClassesService = _testPluginSubdomain as IPluginClassesService;
+            IPluginHelperService pluginHelperService = _testPluginSubdomain as IPluginHelperService;
             TestLogger testLogger = new TestLogger();
 
             new SubdomainMiddleware(requestDelegate, null, new RouteDataServices(),
@@ -452,12 +502,12 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SubdomainTests
         [ExpectedException(typeof(ArgumentNullException))]
         public void SubdomainMiddleware_Construct_InvalidRouteDataServices_Throws_ArgumentNullException()
         {
-            IPluginTypesService pluginTypesServices = new pm.PluginServices(_testPluginSubdomain) as IPluginTypesService;
+            IPluginTypesService pluginTypesServices = _testPluginSubdomain as IPluginTypesService;
             ActionDescriptorCollection actionDescriptorCollection = new ActionDescriptorCollection(new List<ActionDescriptor>(), 1);
             RequestDelegate requestDelegate = async (context) => { await Task.Delay(0); };
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
-            IPluginHelperService pluginHelperService = new pm.PluginServices(_testPluginSubdomain) as IPluginHelperService;
-            IPluginClassesService pluginClassesService = new pm.PluginServices(_testPluginSubdomain) as IPluginClassesService;
+            IPluginHelperService pluginHelperService = _testPluginSubdomain as IPluginHelperService;
+            IPluginClassesService pluginClassesService = _testPluginSubdomain as IPluginClassesService;
             TestActionDescriptorCollectionProvider actionDescriptorCollectionProvider = new TestActionDescriptorCollectionProvider(actionDescriptorCollection);
             TestLogger testLogger = new TestLogger();
 
@@ -470,8 +520,8 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SubdomainTests
         [ExpectedException(typeof(ArgumentNullException))]
         public void SubdomainMiddleware_Construct_InvalidPluginHelperServices_Throws_ArgumentNullException()
         {
-            IPluginTypesService pluginTypesServices = new pm.PluginServices(_testPluginSubdomain) as IPluginTypesService;
-            IPluginClassesService pluginClassesService = new pm.PluginServices(_testPluginSubdomain) as IPluginClassesService;
+            IPluginTypesService pluginTypesServices = _testPluginSubdomain as IPluginTypesService;
+            IPluginClassesService pluginClassesService = _testPluginSubdomain as IPluginClassesService;
             ActionDescriptorCollection actionDescriptorCollection = new ActionDescriptorCollection(new List<ActionDescriptor>(), 1);
             RequestDelegate requestDelegate = async (context) => { await Task.Delay(0); };
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
@@ -490,8 +540,8 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SubdomainTests
             ActionDescriptorCollection actionDescriptorCollection = new ActionDescriptorCollection(new List<ActionDescriptor>(), 1);
             RequestDelegate requestDelegate = async (context) => { await Task.Delay(0); };
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
-            IPluginHelperService pluginHelperService = new pm.PluginServices(_testPluginSubdomain) as IPluginHelperService;
-            IPluginClassesService pluginClassesService = new pm.PluginServices(_testPluginSubdomain) as IPluginClassesService;
+            IPluginHelperService pluginHelperService = _testPluginSubdomain as IPluginHelperService;
+            IPluginClassesService pluginClassesService = _testPluginSubdomain as IPluginClassesService;
             TestActionDescriptorCollectionProvider actionDescriptorCollectionProvider = new TestActionDescriptorCollectionProvider(actionDescriptorCollection);
             TestLogger testLogger = new TestLogger();
 
@@ -504,11 +554,11 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SubdomainTests
         [ExpectedException(typeof(ArgumentNullException))]
         public void SubdomainMiddleware_Construct_InvalidSettingsProvider_Throws_ArgumentNullException()
         {
-            IPluginTypesService pluginTypesServices = new pm.PluginServices(_testPluginSubdomain) as IPluginTypesService;
-            IPluginClassesService pluginClassesService = new pm.PluginServices(_testPluginSubdomain) as IPluginClassesService;
+            IPluginTypesService pluginTypesServices = _testPluginSubdomain as IPluginTypesService;
+            IPluginClassesService pluginClassesService = _testPluginSubdomain as IPluginClassesService;
             ActionDescriptorCollection actionDescriptorCollection = new ActionDescriptorCollection(new List<ActionDescriptor>(), 1);
             RequestDelegate requestDelegate = async (context) => { await Task.Delay(0); };
-            IPluginHelperService pluginHelperService = new pm.PluginServices(_testPluginSubdomain) as IPluginHelperService;
+            IPluginHelperService pluginHelperService = _testPluginSubdomain as IPluginHelperService;
             TestActionDescriptorCollectionProvider actionDescriptorCollectionProvider = new TestActionDescriptorCollectionProvider(actionDescriptorCollection);
             TestLogger testLogger = new TestLogger();
 
@@ -521,12 +571,12 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SubdomainTests
         [ExpectedException(typeof(ArgumentNullException))]
         public void SubdomainMiddleware_Construct_InvalidLogger_Throws_ArgumentNullException()
         {
-            IPluginTypesService pluginTypesServices = new pm.PluginServices(_testPluginSubdomain) as IPluginTypesService;
-            IPluginClassesService pluginClassesService = new pm.PluginServices(_testPluginSubdomain) as IPluginClassesService;
+            IPluginTypesService pluginTypesServices = _testPluginSubdomain as IPluginTypesService;
+            IPluginClassesService pluginClassesService = _testPluginSubdomain as IPluginClassesService;
             ActionDescriptorCollection actionDescriptorCollection = new ActionDescriptorCollection(new List<ActionDescriptor>(), 1);
             RequestDelegate requestDelegate = async (context) => { await Task.Delay(0); };
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
-            IPluginHelperService pluginHelperService = new pm.PluginServices(_testPluginSubdomain) as IPluginHelperService;
+            IPluginHelperService pluginHelperService = _testPluginSubdomain as IPluginHelperService;
             TestActionDescriptorCollectionProvider actionDescriptorCollectionProvider = new TestActionDescriptorCollectionProvider(actionDescriptorCollection);
             TestLogger testLogger = new TestLogger();
 
@@ -539,11 +589,11 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SubdomainTests
         [ExpectedException(typeof(ArgumentNullException))]
         public void SubdomainMiddleware_Construct_InvalidIPluginClassesService_Throws_ArgumentNullException()
         {
-            IPluginTypesService pluginTypesServices = new pm.PluginServices(_testPluginSubdomain) as IPluginTypesService;
+            IPluginTypesService pluginTypesServices = _testPluginSubdomain as IPluginTypesService;
             ActionDescriptorCollection actionDescriptorCollection = new ActionDescriptorCollection(new List<ActionDescriptor>(), 1);
             RequestDelegate requestDelegate = async (context) => { await Task.Delay(0); };
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
-            IPluginHelperService pluginHelperService = new pm.PluginServices(_testPluginSubdomain) as IPluginHelperService;
+            IPluginHelperService pluginHelperService = _testPluginSubdomain as IPluginHelperService;
             TestActionDescriptorCollectionProvider actionDescriptorCollectionProvider = new TestActionDescriptorCollectionProvider(actionDescriptorCollection);
             TestLogger testLogger = new TestLogger();
 
@@ -841,7 +891,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SubdomainTests
             bool createDescriptors = false,
             RequestDelegate nextDelegate = null)
         {
-            IPluginTypesService pluginTypesServices = new pm.PluginServices(_testPluginSubdomain) as IPluginTypesService;
+            IPluginTypesService pluginTypesServices = _testPluginSubdomain as IPluginTypesService;
 
             ActionDescriptorCollection actionDescriptorCollection = null;
 
@@ -903,8 +953,8 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SubdomainTests
             if (settingsProvider == null)
                 settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
 
-            IPluginHelperService pluginHelperService = new pm.PluginServices(_testPluginSubdomain) as IPluginHelperService;
-            IPluginClassesService pluginClassesService = new pm.PluginServices(_testPluginSubdomain) as IPluginClassesService;
+            IPluginHelperService pluginHelperService = _testPluginSubdomain as IPluginHelperService;
+            IPluginClassesService pluginClassesService = _testPluginSubdomain as IPluginClassesService;
             TestActionDescriptorCollectionProvider actionDescriptorCollectionProvider = new TestActionDescriptorCollectionProvider(actionDescriptorCollection);
 
             return new SubdomainMiddleware(nextDelegate, actionDescriptorCollectionProvider, new RouteDataServices(),

@@ -32,6 +32,8 @@ using System.Threading;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using PluginManager.Abstractions;
@@ -45,6 +47,10 @@ namespace AspNetCore.PluginManager.Tests.Controllers
     [ExcludeFromCodeCoverage]
     public class BaseControllerTests : BaseController
     {
+        protected readonly static DateTime DefaultActiveFrom = new DateTime(2020, 1, 1, 0, 0, 0);
+        protected readonly static DateTime DefaultActiveTo = new DateTime(2050, 12, 31, 23, 59, 59);
+
+
         protected static TestPluginManager _testSpiderPlugin = new TestPluginManager();
         protected static bool? _pluginLoadedSpiderPlugin = null;
         protected static IPluginClassesService _pluginServicesSpiderPlugin;
@@ -226,6 +232,23 @@ namespace AspNetCore.PluginManager.Tests.Controllers
             Assert.IsInstanceOfType(viewResult.Model, typeof(BaseModel));
         }
 
+        protected bool ViewResultContainsModelStateError(ViewResult viewResult, string name, string value)
+        {
+            if (viewResult == null)
+                throw new ArgumentNullException(nameof(viewResult));
+
+            if (name == null)
+                throw new ArgumentException(nameof(name));
+
+            if (String.IsNullOrEmpty(value))
+                throw new ArgumentNullException(nameof(value));
+
+            if (!viewResult.ViewData.ModelState.ContainsKey(name))
+                return false;
+
+            return viewResult.ViewData.ModelState[name].Errors.Where(e => e.ErrorMessage.Equals(value)).Any();
+        }
+
         protected BaseModelData GenerateTestBaseModelData()
         {
             BaseModelData Result = new BaseModelData(new List<BreadcrumbItem>(),
@@ -264,7 +287,7 @@ namespace AspNetCore.PluginManager.Tests.Controllers
 
                 _testSpiderPlugin.ConfigureServices();
 
-                _pluginServicesSpiderPlugin = new pm.PluginServices(_testSpiderPlugin) as IPluginClassesService;
+                _pluginServicesSpiderPlugin = _testSpiderPlugin as IPluginClassesService;
 
                 _pluginLoadedSpiderPlugin = true;
             }
@@ -297,10 +320,11 @@ namespace AspNetCore.PluginManager.Tests.Controllers
                 _testDynamicContentPlugin.UsePlugin(typeof(MemoryCache.Plugin.PluginInitialisation));
                 _testDynamicContentPlugin.UsePlugin(typeof(LoginPlugin.PluginInitialisation));
                 _testDynamicContentPlugin.UsePlugin(typeof(Spider.Plugin.PluginInitialisation));
+                _testDynamicContentPlugin.UsePlugin(typeof(DynamicContent.Plugin.PluginInitialisation));
 
                 _testDynamicContentPlugin.ConfigureServices();
 
-                _pluginServicesDynamicContent = new pm.PluginServices(_testDynamicContentPlugin) as IPluginClassesService;
+                _pluginServicesDynamicContent = _testDynamicContentPlugin as IPluginClassesService;
 
                 _pluginLoadedDynamicContentPlugin = true;
             }
@@ -336,13 +360,12 @@ namespace AspNetCore.PluginManager.Tests.Controllers
 
                 _testImageManagerPlugin.ConfigureServices();
 
-                _pluginServicesImageManager = new pm.PluginServices(_testImageManagerPlugin) as IPluginClassesService;
+                _pluginServicesImageManager = _testImageManagerPlugin as IPluginClassesService;
 
                 _pluginLoadedImageManagerPlugin = true;
             }
 
             Assert.IsNotNull(_pluginServicesImageManager);
-
         }
     }
 }

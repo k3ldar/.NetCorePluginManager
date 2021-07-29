@@ -45,7 +45,7 @@ namespace PluginManager.Tests
         {
             using (TestPluginManager pluginManager = new TestPluginManager())
             {
-                IPluginClassesService pluginServices = new PluginServices(pluginManager) as IPluginClassesService;
+                IPluginClassesService pluginServices = pluginManager as IPluginClassesService;
 
                 Assert.IsNotNull(pluginServices);
 
@@ -63,7 +63,7 @@ namespace PluginManager.Tests
             using (TestPluginManager pluginManager = new TestPluginManager())
             {
                 pluginManager.PluginLoad(Assembly.GetExecutingAssembly(), String.Empty, false);
-                IPluginClassesService pluginServices = new PluginServices(pluginManager) as IPluginClassesService;
+                IPluginClassesService pluginServices = pluginManager as IPluginClassesService;
 
                 Assert.IsNotNull(pluginServices);
 
@@ -81,7 +81,7 @@ namespace PluginManager.Tests
             using (TestPluginManager pluginManager = new TestPluginManager())
             {
                 pluginManager.PluginLoad(Assembly.GetExecutingAssembly(), String.Empty, false);
-                IPluginClassesService pluginServices = new PluginServices(pluginManager) as IPluginClassesService;
+                IPluginClassesService pluginServices = pluginManager as IPluginClassesService;
 
                 Assert.IsNotNull(pluginServices);
 

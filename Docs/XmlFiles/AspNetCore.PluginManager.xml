@@ -256,5 +256,11 @@
             </summary>
             <value>bool</value>
         </member>
+        <member name="P:AspNetCore.PluginManager.PluginManagerService.ApplicationRootPath">
+            <summary>
+            Returns the root path for the application
+            </summary>
+            <value>string</value>
+        </member>
     </members>
 </doc>

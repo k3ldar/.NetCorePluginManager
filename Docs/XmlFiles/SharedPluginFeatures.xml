@@ -29,6 +29,151 @@
             </summary>
             <returns>int.  Order in which the item will be sorted.</returns>
         </member>
+        <member name="T:SharedPluginFeatures.DynamicContent.DynamicContentTemplate">
+            <summary>
+            Abstract class for implementing a dyncamic content template item
+            </summary>
+        </member>
+        <member name="P:SharedPluginFeatures.DynamicContent.DynamicContentTemplate.UniqueId">
+            <summary>
+            Unique id for this template item
+            
+            If no user defined id is specified, this will return a new guid
+            </summary>
+            <value>string</value>
+            <exception cref="T:System.InvalidOperationException">When setting the property with a null or empty unique id</exception>
+            <exception cref="T:System.InvalidOperationException">If the unique id contians characters other than a to Z, dash (-) and 0 to 9</exception>
+        </member>
+        <member name="P:SharedPluginFeatures.DynamicContent.DynamicContentTemplate.ColumnCount">
+            <summary>
+            Returns the number of columns that would be used to display the control if using bootstrap or other column based framework
+            </summary>
+            <value>int</value>
+        </member>
+        <member name="P:SharedPluginFeatures.DynamicContent.DynamicContentTemplate.CssClassName">
+            <summary>
+            Name of the class that will be used for the template control
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:SharedPluginFeatures.DynamicContent.DynamicContentTemplate.CssStyle">
+            <summary>
+            Style information that will be applied to the template control
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:SharedPluginFeatures.DynamicContent.DynamicContentTemplate.AssemblyQualifiedName">
+            <summary>
+            Gets the underlying assembly qualified name
+            </summary>
+        </member>
+        <member name="P:SharedPluginFeatures.DynamicContent.DynamicContentTemplate.EditorAction">
+            <summary>
+            Name of the partial view used to edit the template item.
+            </summary>
+            <value>string</value>
+            <exception cref="T:System.InvalidOperationException">If the value returned is null, empty or a duplicate</exception>
+        </member>
+        <member name="P:SharedPluginFeatures.DynamicContent.DynamicContentTemplate.EditorInstructions">
+            <summary>
+            Instructions for the user when editing the control
+            </summary>
+        </member>
+        <member name="P:SharedPluginFeatures.DynamicContent.DynamicContentTemplate.Name">
+            <summary>
+            Name of dynamic content template
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:SharedPluginFeatures.DynamicContent.DynamicContentTemplate.TemplateType">
+            <summary>
+            Type of dynamic content template
+            </summary>
+            <value>DynamicContentTemplateType</value>
+        </member>
+        <member name="P:SharedPluginFeatures.DynamicContent.DynamicContentTemplate.TemplateSortOrder">
+            <summary>
+            The sort order of the template relative to other templates, primarily used for listing templates
+            </summary>
+        </member>
+        <member name="P:SharedPluginFeatures.DynamicContent.DynamicContentTemplate.SortOrder">
+            <summary>
+            The sort order of the control relative to others when being displayed
+            </summary>
+            <value>int</value>
+        </member>
+        <member name="P:SharedPluginFeatures.DynamicContent.DynamicContentTemplate.WidthType">
+            <summary>
+            Specifies the content width type
+            </summary>
+        </member>
+        <member name="P:SharedPluginFeatures.DynamicContent.DynamicContentTemplate.Width">
+            <summary>
+            Width of the control when laid out, this is also dependent on <seealso cref="P:SharedPluginFeatures.DynamicContent.DynamicContentTemplate.WidthType"/>
+            </summary>
+            <value>int</value>
+        </member>
+        <member name="P:SharedPluginFeatures.DynamicContent.DynamicContentTemplate.HeightType">
+            <summary>
+            Defines the Height type
+            </summary>
+        </member>
+        <member name="P:SharedPluginFeatures.DynamicContent.DynamicContentTemplate.Height">
+            <summary>
+            Height of the control when laid out, this is also dependent on <seealso cref="P:SharedPluginFeatures.DynamicContent.DynamicContentTemplate.HeightType"/>
+            </summary>
+            <value>int</value>
+        </member>
+        <member name="P:SharedPluginFeatures.DynamicContent.DynamicContentTemplate.Data">
+            <summary>
+            The data provided by the dynamic content template
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:SharedPluginFeatures.DynamicContent.DynamicContentTemplate.ActiveFrom">
+            <summary>
+            The date/time the dynamic content is active from
+            </summary>
+            <value>DateTime</value>
+        </member>
+        <member name="P:SharedPluginFeatures.DynamicContent.DynamicContentTemplate.ActiveTo">
+            <summary>
+            The date/time the dynamic content ceases to be active
+            </summary>
+        </member>
+        <member name="M:SharedPluginFeatures.DynamicContent.DynamicContentTemplate.Content">
+            <summary>
+            Retrieves the content in a manner that can be displayed within the UI
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="M:SharedPluginFeatures.DynamicContent.DynamicContentTemplate.EditorContent">
+            <summary>
+            Retrieves the content in a manner that can be used within the UI editor
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:SharedPluginFeatures.DynamicContent.DynamicContentTemplate.Clone(System.String)">
+            <summary>
+            Creates a clone of the template
+            </summary>
+            <param name="uniqueId">Unique id of the cloned DynamicContentTemplate instance</param>
+            <returns>DynamicContentTemplate</returns>
+        </member>
+        <member name="M:SharedPluginFeatures.DynamicContent.DynamicContentTemplate.HtmlStart(System.Text.StringBuilder,System.Boolean)">
+            <summary>
+            Generates the html used as start of the custom block, taking into account the width/height types
+            </summary>
+            <param name="stringBuilder">StringBuilder instance where start block will be appended to.</param>
+            <exception cref="T:System.ArgumentNullException">Raised if stringBuilder parameter is null</exception>
+        </member>
+        <member name="M:SharedPluginFeatures.DynamicContent.DynamicContentTemplate.HtmlEnd(System.Text.StringBuilder)">
+            <summary>
+            Generates the end of the html block taking into account the width/height types
+            </summary>
+            <param name="stringBuilder">StringBuilder instance where end block will be appended to.</param>
+            <exception cref="T:System.ArgumentNullException">Raised if stringBuilder parameter is null</exception>
+        </member>
         <member name="T:SharedPluginFeatures.MainMenuItem">
             <summary>
             Abstract class used to provide easy access to menu items for display within a view.
@@ -1480,6 +1625,30 @@
             </summary>
             <value>string</value>
         </member>
+        <member name="T:SharedPluginFeatures.NameIdModel">
+            <summary>
+            Default model for containing Names with Ids
+            </summary>
+        </member>
+        <member name="M:SharedPluginFeatures.NameIdModel.#ctor(System.Int64,System.String)">
+            <summary>
+            Default Constructor
+            </summary>
+            <param name="id"></param>
+            <param name="name"></param>
+        </member>
+        <member name="P:SharedPluginFeatures.NameIdModel.Id">
+            <summary>
+            Id value
+            </summary>
+            <value>long</value>
+        </member>
+        <member name="P:SharedPluginFeatures.NameIdModel.Name">
+            <summary>
+            Name
+            </summary>
+            <value>string</value>
+        </member>
         <member name="T:SharedPluginFeatures.ShoppingCartSummary">
             <summary>
             Shopping cart summary, used if the website is implementing a shopping cart and data needs to be displayed on each page.
@@ -1834,6 +2003,12 @@
             </summary>
             <value>byte</value>
         </member>
+        <member name="P:SharedPluginFeatures.Timings.IsCloned">
+            <summary>
+            Indicates whether the Timings have been cloned or not
+            </summary>
+            <value>bool</value>
+        </member>
         <member name="M:SharedPluginFeatures.Timings.Increment(System.Diagnostics.Stopwatch@)">
             <summary>
             Increments the total milliseconds
@@ -1845,6 +2020,12 @@
             Increments the total ticks
             </summary>
             <param name="totalTicks">Total number of ticks to increment by.</param>
+        </member>
+        <member name="M:SharedPluginFeatures.Timings.Clone">
+            <summary>
+            Clones an instance of a Timings class
+            </summary>
+            <returns>Timings</returns>
         </member>
         <member name="T:SharedPluginFeatures.WebSmokeTestItem">
             <summary>
@@ -2101,6 +2282,16 @@
             Forward slash (/) char constant.
             </summary>
         </member>
+        <member name="F:SharedPluginFeatures.Constants.PipeChar">
+            <summary>
+            Pipe character (|) char constant
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Constants.PipeString">
+            <summary>
+            Pipe character (|) string constant
+            </summary>
+        </member>
         <member name="F:SharedPluginFeatures.Constants.Asterix">
             <summary>
             Asterix (*) char
@@ -2201,6 +2392,11 @@
             Notification event name for image upload options.
             </summary>
         </member>
+        <member name="F:SharedPluginFeatures.Constants.NotificationEventDynamicContentUpdated">
+            <summary>
+            Notification event name for dynamic content updated.
+            </summary>
+        </member>
         <member name="F:SharedPluginFeatures.Constants.NotificationSitemapNames">
             <summary>
             Name of sitemap listener
@@ -2222,6 +2418,11 @@
             </summary>
         </member>
         <member name="F:SharedPluginFeatures.Constants.CacheNamePermanent">
+            <summary>
+            Name of the permanent cache manager.
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Constants.CacheNameDynamicContent">
             <summary>
             Name of the permanent cache manager.
             </summary>
@@ -2249,6 +2450,11 @@
         <member name="F:SharedPluginFeatures.Constants.ForwardForHeader">
             <summary>
             Defines the names of the forward for header, should the request be received via a proxy.
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Constants.ColorWhiteHex">
+            <summary>
+            Hex value for color white 
             </summary>
         </member>
         <member name="F:SharedPluginFeatures.Constants.TempPluginPath">
@@ -2334,6 +2540,16 @@
         <member name="F:SharedPluginFeatures.Constants.PolicyNameImageManagerManage">
             <summary>
             Name of policy for managing images within image manager
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Constants.PolicyNameContentEditor">
+            <summary>
+            User can edit dynamic content
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Constants.ClaimNameManageContent">
+            <summary>
+            Claim name for allowing user to manage content
             </summary>
         </member>
         <member name="F:SharedPluginFeatures.Constants.ClaimNameAdministrator">
@@ -2526,6 +2742,11 @@
             Bad request response code
             </summary>
         </member>
+        <member name="F:SharedPluginFeatures.Constants.HtmlResponseNotFound">
+            <summary>
+            Bad request response code
+            </summary>
+        </member>
         <member name="F:SharedPluginFeatures.Constants.ProductImageFolderName">
             <summary>
             Name of product image folder
@@ -2676,6 +2897,21 @@
         <member name="F:SharedPluginFeatures.Enums.ValidateRequestResult.BanRequested">
             <summary>
             A Ban has been requested on the IP Address
+            </summary>
+        </member>
+        <member name="T:SharedPluginFeatures.DynamicContentTemplateType">
+            <summary>
+            Type of dynamic content template type
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.DynamicContentTemplateType.Default">
+            <summary>
+            Standard template type
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.DynamicContentTemplateType.Input">
+            <summary>
+            Template is a form input type
             </summary>
         </member>
         <member name="T:SharedPluginFeatures.PostType">
@@ -2861,6 +3097,46 @@
         <member name="F:SharedPluginFeatures.ChartDataType.TimeOfDay">
             <summary>
             Time of day chart data type
+            </summary>
+        </member>
+        <member name="T:SharedPluginFeatures.DynamicContentWidthType">
+            <summary>
+            Enum with width options for dynamic content templates
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.DynamicContentWidthType.Columns">
+            <summary>
+            Value is defined in terms of columns (for use in bootstrap etc)
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.DynamicContentWidthType.Pixels">
+            <summary>
+            Value is defined in terms of pixels
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.DynamicContentWidthType.Percentage">
+            <summary>
+            The value is defined as a percentage
+            </summary>
+        </member>
+        <member name="T:SharedPluginFeatures.DynamicContentHeightType">
+            <summary>
+            Enum with height options for dynamic content templates
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.DynamicContentHeightType.Pixels">
+            <summary>
+            Value is defined in terms of pixels
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.DynamicContentHeightType.Percentage">
+            <summary>
+            The value is defined as a percentage
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.DynamicContentHeightType.Automatic">
+            <summary>
+            The control fits the size of the internal data
             </summary>
         </member>
         <member name="T:SharedPluginFeatures.HtmlHelper">

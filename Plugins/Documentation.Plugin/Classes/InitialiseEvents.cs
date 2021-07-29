@@ -24,10 +24,11 @@
  *  19/05/2019  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using System.Threading;
+using System;
 
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 using PluginManager.Abstractions;
 
@@ -45,6 +46,13 @@ namespace DocumentationPlugin.Classes
     /// </summary>
     public sealed class InitialiseEvents : IInitialiseEvents
     {
+        private readonly IThreadManagerServices _threadManagerServices;
+
+        public InitialiseEvents(IThreadManagerServices threadManagerServices)
+        {
+            _threadManagerServices = threadManagerServices ?? throw new ArgumentNullException(nameof(threadManagerServices));
+        }
+
         public void AfterConfigure(in IApplicationBuilder app)
         {
 
@@ -52,19 +60,9 @@ namespace DocumentationPlugin.Classes
 
         public void AfterConfigureServices(in IServiceCollection services)
         {
-            ServiceProvider serviceProvider = services.BuildServiceProvider();
+            services.TryAddSingleton<IDocumentationService, DefaultDocumentationService>();
 
-            IDocumentationService defaultDocumentation = new DefaultDocumentationService(
-                serviceProvider.GetRequiredService<ISettingsProvider>(),
-                serviceProvider.GetRequiredService<IMemoryCache>());
-
-            if (serviceProvider.GetService(typeof(IDocumentationService)) == null)
-                services.AddSingleton(defaultDocumentation);
-
-            DocumentLoadThread documentLoadThread = new DocumentLoadThread(defaultDocumentation as IDocumentationService);
-            Shared.Classes.ThreadManager.ThreadStart(documentLoadThread,
-                DocumentationLoadThread,
-                ThreadPriority.BelowNormal);
+            _threadManagerServices.RegisterStartupThread(DocumentationLoadThread, typeof(DocumentLoadThread));
         }
 
         public void BeforeConfigure(in IApplicationBuilder app)

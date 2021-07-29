@@ -34,9 +34,29 @@ namespace AspNetCore.PluginManager.Tests.Shared
     [ExcludeFromCodeCoverage]
     public class TestPluginClassesService : IPluginClassesService
     {
+        private readonly List<object> _items;
+
+        public TestPluginClassesService()
+        {
+
+        }
+
+        public TestPluginClassesService(List<object> items)
+        {
+            _items = items ?? new List<object>();
+        }
+
         public List<T> GetPluginClasses<T>()
         {
-            throw new NotImplementedException();
+            List<T> Result = new List<T>();
+
+            foreach (object item in _items)
+            {
+                if (item.GetType().IsAssignableTo(typeof(T)))
+                    Result.Add((T)item);
+            }
+
+            return Result;
         }
 
         public List<Type> GetPluginClassTypes<T>()

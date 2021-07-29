@@ -293,6 +293,12 @@ namespace AspNetCore.PluginManager
         /// <value>bool</value>
         public static bool HasInitialised { get; private set; }
 
+        /// <summary>
+        /// Returns the root path for the application
+        /// </summary>
+        /// <value>string</value>
+        public static string ApplicationRootPath => _rootPath;
+
         #endregion Static Properties
 
         #region Internal Static Methods
@@ -305,11 +311,6 @@ namespace AspNetCore.PluginManager
         internal static ILogger GetLogger()
         {
             return _logger;
-        }
-
-        internal static string RootPath()
-        {
-            return _rootPath;
         }
 
         internal static PluginManagerConfiguration Configuration()

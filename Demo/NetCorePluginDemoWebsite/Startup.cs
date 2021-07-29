@@ -23,6 +23,8 @@
  *  22/09/2018  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+using System;
+
 using AspNetCore.PluginManager.DemoWebsite.Helpers;
 
 using Microsoft.AspNetCore.Builder;
@@ -52,11 +54,15 @@ namespace AspNetCore.PluginManager.DemoWebsite
             services.AddAuthentication("DefaultAuthSchemeName")
                 .AddCookie("DefaultAuthSchemeName", options =>
                 {
+                    options.Cookie.Name = "pm_session";
                     options.AccessDeniedPath = "/Error/AccessDenied";
                     options.LoginPath = "/Login/";
+
 #if NET_CORE_2_2 || NET_CORE_2_1 || NET_CORE_2_0 || NET461
                     options.SlidingExpiration = true;
                     options.Cookie.Expiration = new TimeSpan(7, 0, 0, 0);
+#else
+                    options.ExpireTimeSpan = new TimeSpan(7, 0, 0, 0);
 #endif
                 });
 

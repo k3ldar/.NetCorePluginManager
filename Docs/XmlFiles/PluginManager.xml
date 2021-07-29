@@ -197,6 +197,13 @@
             <param name="assembly"></param>
             <returns></returns>
         </member>
+        <member name="M:PluginManager.BasePluginManager.RegisterStartupThread(System.String,System.Type)">
+            <summary>
+            Allows descendant plugin managers to register start up threads that will be run after plugin initialisation
+            </summary>
+            <param name="threadName">Name of thread</param>
+            <param name="type">Class type, must descend from ThreadManager</param>
+        </member>
         <member name="M:PluginManager.BasePluginManager.Dispose">
             <summary>
             IDisposable Dispose method
@@ -713,6 +720,23 @@
             <typeparam name="T">Class who's settings are being requested.</typeparam>
             <param name="sectionName">Name of configuration data required.</param>
             <returns>Instance of type T initialised with the required settings.</returns>
+        </member>
+        <member name="T:PluginManager.Abstractions.IThreadManagerServices">
+            <summary>
+            Interface managed by plugin manager which allows plugins to register threads for starting
+            after the plugin application has been initialised.
+            
+            Registered threads must descend from ThreadManager class.
+            
+            DI is used to obtain any required classes needed to instantiate the type
+            </summary>
+        </member>
+        <member name="M:PluginManager.Abstractions.IThreadManagerServices.RegisterStartupThread(System.String,System.Type)">
+            <summary>
+            Registers a ThreadManager class that will be instantiated and run once the plugin application manager
+            has finished loading.
+            </summary>
+            <param name="type">Type of class, this must descend from ThreadManager</param>
         </member>
         <member name="T:PluginManager.Abstractions.INotificationListener">
             <summary>

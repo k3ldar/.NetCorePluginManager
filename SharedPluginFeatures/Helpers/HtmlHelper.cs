@@ -60,7 +60,7 @@ namespace SharedPluginFeatures
                 return name;
 
             StringBuilder Result = new StringBuilder(name.Length);
-            char lastChar = ' ';
+            char lastChar = '\0';
 
             foreach (char c in name)
             {
@@ -134,7 +134,7 @@ namespace SharedPluginFeatures
                         break;
 
                     default:
-                        if (lastChar != Constants.Dash)
+                        if (lastChar != Constants.Dash && lastChar != '\0')
                         {
                             Result.Append(Constants.Dash);
                             lastChar = Constants.Dash;

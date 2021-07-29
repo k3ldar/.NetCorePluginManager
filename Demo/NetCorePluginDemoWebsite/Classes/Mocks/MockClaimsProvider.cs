@@ -73,6 +73,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
             List<ClaimsIdentity> Result = new List<ClaimsIdentity>();
 
             List<Claim> userClaims = new List<Claim>();
+            userClaims.Add(new Claim("sub", "123"));
             userClaims.Add(new Claim(Constants.ClaimNameUsername, "Administrator"));
             userClaims.Add(new Claim(Constants.ClaimNameUserEmail, "admin@nowhere.com"));
             userClaims.Add(new Claim(Constants.ClaimNameUserId, "123"));
@@ -84,6 +85,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
             webClaims.Add(new Claim(Constants.ClaimNameStaff, "true"));
             webClaims.Add(new Claim(Constants.ClaimNameManageSeo, "true"));
             webClaims.Add(new Claim(Constants.ClaimNameViewImageManager, "true"));
+            webClaims.Add(new Claim(Constants.ClaimNameManageContent, "true"));
 
             // Only enable imagemanager if the file exists to prevent malicious use
             // when deployed live as a demo site
@@ -93,7 +95,6 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
             }
 
             Result.Add(new ClaimsIdentity(webClaims, Constants.ClaimIdentityWebsite));
-
 
             return Result;
         }

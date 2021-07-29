@@ -33,7 +33,7 @@ using SharedPluginFeatures;
 
 #pragma warning disable CS1591
 
-namespace SystemAdmin.Plugin.Classes
+namespace SystemAdmin.Plugin.Classes.MenuItems
 {
     public sealed class AppSettingsJsonMenu : SystemAdminSubMenu
     {

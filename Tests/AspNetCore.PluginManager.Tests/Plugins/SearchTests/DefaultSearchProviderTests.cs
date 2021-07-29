@@ -56,7 +56,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SearchTests
         [TestMethod]
         public void NormalSearchFindAllKeywordProdALoggedOut()
         {
-            IPluginClassesService pluginServices = new pm.PluginServices(_testPluginDocs) as IPluginClassesService;
+            IPluginClassesService pluginServices = _testPluginDocs as IPluginClassesService;
 
             Assert.IsNotNull(pluginServices);
 
@@ -80,7 +80,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SearchTests
                 keywordSearchOptions.SearchTerm, keywordSearchOptions.QuickSearch);
 
 
-            IPluginClassesService pluginServices = new pm.PluginServices(_testPluginDocs) as IPluginClassesService;
+            IPluginClassesService pluginServices = _testPluginDocs as IPluginClassesService;
 
             Assert.IsNotNull(pluginServices);
 
@@ -104,7 +104,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SearchTests
         [TestMethod]
         public void RetrieveAvailableSearchResponseTypesQuickSearch()
         {
-            IPluginClassesService pluginServices = new pm.PluginServices(_testPluginDocs) as IPluginClassesService;
+            IPluginClassesService pluginServices = _testPluginDocs as IPluginClassesService;
 
             Assert.IsNotNull(pluginServices);
 
@@ -125,7 +125,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SearchTests
         [TestMethod]
         public void RetrieveAvailableSearchResponseTypesNormalSearch()
         {
-            IPluginClassesService pluginServices = new pm.PluginServices(_testPluginDocs) as IPluginClassesService;
+            IPluginClassesService pluginServices = _testPluginDocs as IPluginClassesService;
 
             Assert.IsNotNull(pluginServices);
 
@@ -151,7 +151,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SearchTests
         [TestMethod]
         public void RetrieveAvailableSearchNamesForAdvancedSearchingOptions()
         {
-            IPluginClassesService pluginServices = new pm.PluginServices(_testPluginDocs) as IPluginClassesService;
+            IPluginClassesService pluginServices = _testPluginDocs as IPluginClassesService;
 
             Assert.IsNotNull(pluginServices);
 

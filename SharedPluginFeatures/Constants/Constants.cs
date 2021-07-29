@@ -138,6 +138,16 @@ namespace SharedPluginFeatures
         public const char ForwardSlashChar = '/';
 
         /// <summary>
+        /// Pipe character (|) char constant
+        /// </summary>
+        public const char PipeChar = '|';
+
+        /// <summary>
+        /// Pipe character (|) string constant
+        /// </summary>
+        public const string PipeString = "|";
+
+        /// <summary>
         /// Asterix (*) char
         /// </summary>
         public const char Asterix = '*';
@@ -238,6 +248,11 @@ namespace SharedPluginFeatures
         public const string NotificationEventImageUploadOptions = "ImageUploadOptions";
 
         /// <summary>
+        /// Notification event name for dynamic content updated.
+        /// </summary>
+        public const string NotificationEventDynamicContentUpdated = "DynamicContentUpdated";
+
+        /// <summary>
         /// Name of sitemap listener
         /// </summary>
         public const string NotificationSitemapNames = "Sitemap Names";
@@ -263,6 +278,11 @@ namespace SharedPluginFeatures
         public const string CacheNamePermanent = "Permanent Cache Manager";
 
         /// <summary>
+        /// Name of the permanent cache manager.
+        /// </summary>
+        public const string CacheNameDynamicContent = "Dynamic Content Cache Manager";
+
+        /// <summary>
         /// Name of the Sitemap  cache
         /// </summary>
         public const string CacheSitemaps = "Sitemap Cache";
@@ -286,6 +306,11 @@ namespace SharedPluginFeatures
         /// Defines the names of the forward for header, should the request be received via a proxy.
         /// </summary>
         public static readonly string[] ForwardForHeader = new string[] { "HTTP_X_FORWARDED_FOR", "X-Forwarded-For", "http-X-Forwarded-For", "X-Real-IP" };
+
+        /// <summary>
+        /// Hex value for color white 
+        /// </summary>
+        public const string ColorWhiteHex = "#FFFFFF";
 
         /// <summary>
         /// Name of the folder that will contain copies of the plugin that will be loaded.
@@ -371,7 +396,15 @@ namespace SharedPluginFeatures
         /// Name of policy for managing images within image manager
         /// </summary>
         public const string PolicyNameImageManagerManage = "ImageManagerManage";
+        /// <summary>
+        /// User can edit dynamic content
+        /// </summary>
+        public const string PolicyNameContentEditor = "ContentEditor";
 
+        /// <summary>
+        /// Claim name for allowing user to manage content
+        /// </summary>
+        public const string ClaimNameManageContent = "ManageContent";
         /// <summary>
         /// Claim name for administrators
         /// </summary>
@@ -561,6 +594,11 @@ namespace SharedPluginFeatures
         /// Bad request response code
         /// </summary>
         public const int HtmlResponseBadRequest = 400;
+
+        /// <summary>
+        /// Bad request response code
+        /// </summary>
+        public const int HtmlResponseNotFound = 404;
 
         /// <summary>
         /// Name of product image folder

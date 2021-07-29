@@ -1197,6 +1197,136 @@
             </summary>
             <value>string</value>
         </member>
+        <member name="T:Middleware.DynamicContent.DynamicContentPage">
+            <summary>
+            Contains the contents for a dynamic page
+            </summary>
+        </member>
+        <member name="M:Middleware.DynamicContent.DynamicContentPage.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="P:Middleware.DynamicContent.DynamicContentPage.Id">
+            <summary>
+            Unique page id
+            </summary>
+        </member>
+        <member name="P:Middleware.DynamicContent.DynamicContentPage.Name">
+            <summary>
+            Name of dynamic page
+            </summary>
+        </member>
+        <member name="P:Middleware.DynamicContent.DynamicContentPage.Content">
+            <summary>
+            Dynamic content that will be displayed within the page
+            </summary>
+        </member>
+        <member name="P:Middleware.DynamicContent.DynamicContentPage.ActiveFrom">
+            <summary>
+            Date/time the page will be active from
+            </summary>
+            <value>DateTime</value>
+        </member>
+        <member name="P:Middleware.DynamicContent.DynamicContentPage.ActiveTo">
+            <summary>
+            Date/time the page will be active until
+            </summary>
+            <value>DateTime</value>
+        </member>
+        <member name="P:Middleware.DynamicContent.DynamicContentPage.RouteName">
+            <summary>
+            RouteName that is used as part of the Uri to navigate to the page
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:Middleware.DynamicContent.DynamicContentPage.BackgroundColor">
+            <summary>
+            Color of background, default is white.  Defined as hex color
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:Middleware.DynamicContent.DynamicContentPage.BackgroundImage">
+            <summary>
+            Uri for image for background, this will be stretched across entire page.
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="M:Middleware.DynamicContent.DynamicContentPage.AddContentTemplate(SharedPluginFeatures.DynamicContent.DynamicContentTemplate,System.String)">
+            <summary>
+            Adds a new template items to the dynamic content page
+            </summary>
+            <param name="dynamicContentTemplate">New dynamic content template to be added.</param>
+            <param name="beforeControlId">Unique id of the control which the new template will be placed next to (before).</param>
+        </member>
+        <member name="T:Middleware.DynamicContent.IDynamicContentProvider">
+            <summary>
+            Dynamic content provider for integrating with the DynamicContent.Plugin module.
+            
+            This item must be implemented by the host application and made available via DI.
+            </summary>
+        </member>
+        <member name="M:Middleware.DynamicContent.IDynamicContentProvider.CreateCustomPage">
+            <summary>
+            Creates a new custom page and returns the id of the new page
+            </summary>
+            <returns>int</returns>
+        </member>
+        <member name="M:Middleware.DynamicContent.IDynamicContentProvider.GetCustomPageList">
+            <summary>
+            Retrieves a list of custom pages
+            </summary>
+            <returns>List&lt;DynamicContentTemplate&gt;</returns>
+        </member>
+        <member name="M:Middleware.DynamicContent.IDynamicContentProvider.GetCustomPages">
+            <summary>
+            Retrieves all custom pages
+            </summary>
+            <returns>List&lt;IDynamicContentPage&gt;</returns>
+        </member>
+        <member name="M:Middleware.DynamicContent.IDynamicContentProvider.GetCustomPage(System.Int32)">
+            <summary>
+            Retrieves dynamic page content by id
+            </summary>
+            <param name="id">Id of page to find</param>
+            <returns>IDynamicContentPage</returns>
+        </member>
+        <member name="M:Middleware.DynamicContent.IDynamicContentProvider.Templates">
+            <summary>
+            Retrieves all dynamic content templates
+            </summary>
+            <returns>List&lt;DynamicContentTemplate&gt;</returns>
+        </member>
+        <member name="M:Middleware.DynamicContent.IDynamicContentProvider.PageNameExists(System.Int32,System.String)">
+            <summary>
+            Determines whether the page name already exists
+            </summary>
+            <param name="id">Id of current page</param>
+            <param name="pageName">Name of page to be validated.</param>
+            <returns>bool</returns>
+        </member>
+        <member name="M:Middleware.DynamicContent.IDynamicContentProvider.RouteNameExists(System.Int32,System.String)">
+            <summary>
+            Determines whether a route name already exists
+            </summary>
+            <param name="id">Id of current page</param>
+            <param name="routeName">Name of route to be validated.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Middleware.DynamicContent.IDynamicContentProvider.Save(Middleware.IDynamicContentPage)">
+            <summary>
+            Saves the dynamic content page
+            </summary>
+            <param name="dynamicContentPage">Dynamic content page to be saved</param>
+            <returns>bool</returns>
+        </member>
+        <member name="M:Middleware.DynamicContent.IDynamicContentProvider.SaveUserInput(System.String)">
+            <summary>
+            Provides an opportunity for user input that is input via custom forms to be saved
+            </summary>
+            <param name="data">Form data to be saved</param>
+            <returns>bool</returns>
+        </member>
         <member name="T:Middleware.Helpdesk.Feedback">
             <summary>
             Feedback item used in HelpdeskPlugin module and IHelpdeskProvider interface.
@@ -3024,6 +3154,59 @@
             File download by anyone
             </summary>
             <param name="fileId">Unique id of the file being downloaded.</param>
+        </member>
+        <member name="T:Middleware.IDynamicContentPage">
+            <summary>
+            Interface for dynamic content page
+            </summary>
+        </member>
+        <member name="P:Middleware.IDynamicContentPage.Id">
+            <summary>
+            Unique page id
+            </summary>
+            <value>int</value>
+        </member>
+        <member name="P:Middleware.IDynamicContentPage.Name">
+            <summary>
+            Name of dynamic page
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:Middleware.IDynamicContentPage.ActiveFrom">
+            <summary>
+            Date and time the page becomes active
+            </summary>
+            <value>DateTime</value>
+        </member>
+        <member name="P:Middleware.IDynamicContentPage.ActiveTo">
+            <summary>
+            Date and time the page expires
+            </summary>
+            <value>DateTime</value>
+        </member>
+        <member name="P:Middleware.IDynamicContentPage.RouteName">
+            <summary>
+            Route name that will form part of the Uri
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:Middleware.IDynamicContentPage.BackgroundColor">
+            <summary>
+            Color of background, default is white.  Defined as hex color
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:Middleware.IDynamicContentPage.BackgroundImage">
+            <summary>
+            Uri for image for background, this will be stretched across entire page.
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:Middleware.IDynamicContentPage.Content">
+            <summary>
+            Dynamic content that will be displayed within the page
+            </summary>
+            <value>List&lt;DynamicContentTemplate&gt;</value>
         </member>
         <member name="T:Middleware.Interfaces.IImageProvider">
             <summary>

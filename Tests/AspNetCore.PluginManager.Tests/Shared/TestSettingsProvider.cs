@@ -23,8 +23,11 @@
  *  05/03/2021  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */using System;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
+
+using AppSettings;
 
 using Microsoft.Extensions.Configuration;
 
@@ -36,13 +39,22 @@ namespace AspNetCore.PluginManager.Tests.Shared
     public class TestSettingsProvider : ISettingsProvider
     {
         private readonly string _jsonData;
+        private readonly IApplicationOverride _applicationOverrides;
 
-        public TestSettingsProvider(string jsonData)
+        public TestSettingsProvider(string jsonData, Dictionary<string, string> applicationOverrides)
         {
+            _applicationOverrides = new TestApplicationOverrides(applicationOverrides);
+
             if (String.IsNullOrEmpty(jsonData))
                 throw new ArgumentNullException(nameof(jsonData));
 
             _jsonData = jsonData;
+        }
+
+        public TestSettingsProvider(string jsonData)
+            : this (jsonData, new Dictionary<string, string>())
+        {
+
         }
 
         public T GetSettings<T>(in string storage, in string sectionName)
@@ -64,7 +76,7 @@ namespace AspNetCore.PluginManager.Tests.Shared
                 T Result = (T)Activator.CreateInstance(typeof(T));
                 config.GetSection(sectionName).Bind(Result);
 
-                return AppSettings.ValidateSettings<T>.Validate(Result);
+                return AppSettings.ValidateSettings<T>.Validate(Result, _applicationOverrides);
             }
             finally
             {

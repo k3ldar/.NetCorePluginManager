@@ -534,7 +534,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SpiderTests
 
         private SpiderController CreateSpiderControllerInstance(out IRobots robots, MockSaveData mockSaveData, bool createDescriptors = true)
         {
-            IPluginTypesService pluginTypesServices = new pm.PluginServices(_testSpiderPlugin) as IPluginTypesService;
+            IPluginTypesService pluginTypesServices = _testSpiderPlugin as IPluginTypesService;
 
             ActionDescriptorCollection actionDescriptorCollection = null;
 

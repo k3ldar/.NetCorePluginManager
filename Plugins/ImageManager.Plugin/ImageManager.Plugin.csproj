@@ -102,15 +102,17 @@
     <Content Remove="Views\ImageManager\ImageUpload.cshtml" />
     <Content Remove="Views\ImageManager\Index.cshtml" />
     <Content Remove="Views\ImageManager\ViewImage.cshtml" />
+    <Content Remove="Views\ImageManager\_ImageTemplateEditor.cshtml" />
     <Content Remove="Views\ImageManager\_ImageUpload.cshtml" />
     <Content Remove="Views\ImageManager\_LeftMenu.cshtml" />
     <Content Remove="wwwroot\css\imageManager.css" />
+    <Content Remove="wwwroot\images\ImageManager\Image.png" />
     <Content Remove="wwwroot\images\ImageManager\imMenu.png" />
     <Content Remove="wwwroot\js\ImageManager.js" />
   </ItemGroup>
 
   <ItemGroup>
-	<PackageReference Include="ApplicationSettings" Version="1.4.0" />
+	<PackageReference Include="ApplicationSettings" Version="2.0.0" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(Configuration)'=='Release'">
@@ -167,9 +169,11 @@
 	  <EmbeddedResource Include="Views\ImageManager\ImageUpload.cshtml" />
 	  <EmbeddedResource Include="Views\ImageManager\Index.cshtml" />
 	  <EmbeddedResource Include="Views\ImageManager\ViewImage.cshtml" />
+	  <EmbeddedResource Include="Views\ImageManager\_ImageTemplateEditor.cshtml" />
 	  <EmbeddedResource Include="Views\ImageManager\_ImageUpload.cshtml" />
 	  <EmbeddedResource Include="Views\ImageManager\_LeftMenu.cshtml" />
 	  <EmbeddedResource Include="wwwroot\css\imageManager.css" />
+	  <EmbeddedResource Include="wwwroot\images\DynamicContent\Templates\Image.png" />
 	  <EmbeddedResource Include="wwwroot\images\ImageManager\imMenu.png" />
 	  <EmbeddedResource Include="wwwroot\js\ImageManager.js" />
 	</ItemGroup>

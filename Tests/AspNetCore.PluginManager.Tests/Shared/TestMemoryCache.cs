@@ -37,13 +37,13 @@ namespace AspNetCore.PluginManager.Tests.Shared
     {
         #region Private Members
 
-        private CacheManager _cacheShort;
+        private readonly CacheManager _cacheShort;
 
-        private CacheManager _cache;
+        private readonly CacheManager _cache;
 
-        private CacheManager _extendingCache;
+        private readonly CacheManager _extendingCache;
 
-        private CacheManager _permanentCache;
+        private readonly CacheManager _permanentCache;
 
         #endregion Private Members
 

@@ -33,6 +33,11 @@ using System.Reflection;
 using System.Text.Json.Serialization;
 using System.Threading;
 
+using DynamicContent.Plugin.Templates;
+
+using Middleware;
+using Middleware.DynamicContent;
+
 using SharedPluginFeatures;
 
 using sc = Shared.Classes;
@@ -42,6 +47,9 @@ namespace AspNetCore.PluginManager.Tests.Shared
     [ExcludeFromCodeCoverage]
     public class GenericBaseClass
     {
+        protected readonly static DateTime DefaultActiveFrom = new DateTime(2020, 1, 1, 0, 0, 0);
+        protected readonly static DateTime DefaultActiveTo = new DateTime(2050, 12, 31, 23, 59, 59);
+
         protected bool MethodHasAttribute<T>(Type classType, string methodName) where T : Attribute
         {
             if (classType == null)
@@ -130,7 +138,8 @@ namespace AspNetCore.PluginManager.Tests.Shared
 
             return false;
         }
-        private string GetLiveFilePath(in string directory, in string resourceName)
+
+        protected string GetLiveFilePath(in string directory, in string resourceName)
         {
             // remove the first part of the name which is the library
             string Result = resourceName;
@@ -144,6 +153,242 @@ namespace AspNetCore.PluginManager.Tests.Shared
             }
 
             Result = Path.Combine(directory, Result).Replace("AspNetCore.PluginManager.Tests.Properties.Images.", "");
+
+            return Result;
+        }
+
+        protected IDynamicContentPage GetPage1()
+        {
+            IDynamicContentPage Result = new DynamicContentPage()
+            {
+                Id = 1,
+                Name = "Custom Page 1",
+                RouteName = "Page-1",
+            };
+
+            HtmlTextTemplate htmlLayout1 = new HtmlTextTemplate()
+            {
+                UniqueId = "1",
+                SortOrder = 0,
+                WidthType = DynamicContentWidthType.Columns,
+                Width = 12,
+                HeightType = DynamicContentHeightType.Automatic,
+                Data = "<p>This is <br />html over<br />three lines</p>"
+            };
+
+            Result.Content.Add(htmlLayout1);
+
+            return Result;
+        }
+
+        protected IDynamicContentPage GetPage2()
+        {
+            IDynamicContentPage Result = new DynamicContentPage()
+            {
+                Id = 2,
+                Name = "Custom Page 2",
+                RouteName = "Page-2",
+            };
+
+            HtmlTextTemplate htmlLayout1 = new HtmlTextTemplate()
+            {
+                UniqueId = "control-1",
+                SortOrder = 0,
+                WidthType = DynamicContentWidthType.Columns,
+                Width = 12,
+                HeightType = DynamicContentHeightType.Automatic,
+                Data = "<p>This is <br />html over<br />three lines</p>"
+            };
+
+            Result.Content.Add(htmlLayout1);
+
+            HtmlTextTemplate htmlLayout2 = new HtmlTextTemplate()
+            {
+                UniqueId = "control-2",
+                SortOrder = 2,
+                WidthType = DynamicContentWidthType.Columns,
+                Width = 4,
+                HeightType = DynamicContentHeightType.Automatic,
+                Data = "<p>This is html<br />over two lines</p>"
+            };
+
+            Result.Content.Add(htmlLayout2);
+
+            return Result;
+        }
+
+        protected IDynamicContentPage GetPage3()
+        {
+            IDynamicContentPage Result = new DynamicContentPage()
+            {
+                Id = 3,
+                Name = "Custom Page 3",
+                RouteName = "Page-3",
+            };
+
+            HtmlTextTemplate htmlLayout1 = new HtmlTextTemplate()
+            {
+                UniqueId = "control-1",
+                SortOrder = 0,
+                WidthType = DynamicContentWidthType.Columns,
+                Width = 12,
+                HeightType = DynamicContentHeightType.Automatic,
+                Data = "<p>This is <br />html over<br />three lines</p>"
+            };
+
+            Result.Content.Add(htmlLayout1);
+
+            SpacerTemplate spacerTemplate1 = new SpacerTemplate()
+            {
+                SortOrder = 1,
+                Width = 8
+            };
+
+            Result.Content.Add(spacerTemplate1);
+
+            HtmlTextTemplate htmlLayout2 = new HtmlTextTemplate()
+            {
+                UniqueId = "control-2",
+                SortOrder = 2,
+                WidthType = DynamicContentWidthType.Columns,
+                Width = 4,
+                HeightType = DynamicContentHeightType.Automatic,
+                Data = "<p>This is html<br />over two lines</p>"
+            };
+
+            Result.Content.Add(htmlLayout2);
+
+            return Result;
+        }
+
+        protected IDynamicContentPage GetPage10()
+        {
+            IDynamicContentPage Result = new DynamicContentPage()
+            {
+                Id = 10,
+                Name = "Custom Page 10",
+                RouteName = "Page-10"
+            };
+
+            HtmlTextTemplate htmlLayout1 = new HtmlTextTemplate()
+            {
+                UniqueId = "control-1",
+                SortOrder = 0,
+                WidthType = DynamicContentWidthType.Columns,
+                Width = 12,
+                HeightType = DynamicContentHeightType.Automatic,
+                Data = "<p>This is <br />html over<br />three lines</p>"
+            };
+
+            Result.Content.Add(htmlLayout1);
+
+            HtmlTextTemplate htmlLayout2 = new HtmlTextTemplate()
+            {
+                UniqueId = "control-2",
+                SortOrder = 2,
+                WidthType = DynamicContentWidthType.Columns,
+                Width = 4,
+                HeightType = DynamicContentHeightType.Automatic,
+                Data = "<p>This is html<br />Content 2</p>"
+            };
+
+            Result.Content.Add(htmlLayout2);
+
+            HtmlTextTemplate htmlLayout3 = new HtmlTextTemplate()
+            {
+                UniqueId = "control-3",
+                SortOrder = 9,
+                WidthType = DynamicContentWidthType.Columns,
+                Width = 4,
+                HeightType = DynamicContentHeightType.Automatic,
+                Data = "<p>This is html<br />Content 3</p>"
+            };
+
+            Result.Content.Add(htmlLayout3);
+
+            HtmlTextTemplate htmlLayout4 = new HtmlTextTemplate()
+            {
+                UniqueId = "control-4",
+                SortOrder = 8,
+                WidthType = DynamicContentWidthType.Columns,
+                Width = 4,
+                HeightType = DynamicContentHeightType.Automatic,
+                Data = "<p>This is html<br />Content 4</p>"
+            };
+
+            Result.Content.Add(htmlLayout4);
+
+            HtmlTextTemplate htmlLayout5 = new HtmlTextTemplate()
+            {
+                UniqueId = "control-5",
+                SortOrder = 7,
+                WidthType = DynamicContentWidthType.Columns,
+                Width = 4,
+                HeightType = DynamicContentHeightType.Automatic,
+                Data = "<p>This is html<br />Content 5</p>"
+            };
+
+            Result.Content.Add(htmlLayout5);
+
+            HtmlTextTemplate htmlLayout6 = new HtmlTextTemplate()
+            {
+                UniqueId = "control-6",
+                SortOrder = 6,
+                WidthType = DynamicContentWidthType.Columns,
+                Width = 4,
+                HeightType = DynamicContentHeightType.Automatic,
+                Data = "<p>This is html<br />Content 6</p>"
+            };
+
+            Result.Content.Add(htmlLayout6);
+
+            HtmlTextTemplate htmlLayout7 = new HtmlTextTemplate()
+            {
+                UniqueId = "control-7",
+                SortOrder = 5,
+                WidthType = DynamicContentWidthType.Columns,
+                Width = 4,
+                HeightType = DynamicContentHeightType.Automatic,
+                Data = "<p>This is html<br />Content 7</p>"
+            };
+
+            Result.Content.Add(htmlLayout7);
+
+            HtmlTextTemplate htmlLayout8 = new HtmlTextTemplate()
+            {
+                UniqueId = "control-8",
+                SortOrder = 4,
+                WidthType = DynamicContentWidthType.Columns,
+                Width = 4,
+                HeightType = DynamicContentHeightType.Automatic,
+                Data = "<p>This is html<br />Content 8</p>"
+            };
+
+            Result.Content.Add(htmlLayout8);
+
+            HtmlTextTemplate htmlLayout9 = new HtmlTextTemplate()
+            {
+                UniqueId = "control-9",
+                SortOrder = 3,
+                WidthType = DynamicContentWidthType.Columns,
+                Width = 4,
+                HeightType = DynamicContentHeightType.Automatic,
+                Data = "<p>This is html<br />Content 9</p>"
+            };
+
+            Result.Content.Add(htmlLayout9);
+
+            HtmlTextTemplate htmlLayout10 = new HtmlTextTemplate()
+            {
+                UniqueId = "control-10",
+                SortOrder = 20,
+                WidthType = DynamicContentWidthType.Columns,
+                Width = 4,
+                HeightType = DynamicContentHeightType.Automatic,
+                Data = "<p>This is html<br />Content 10</p>"
+            };
+
+            Result.Content.Add(htmlLayout10);
 
             return Result;
         }

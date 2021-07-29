@@ -199,9 +199,9 @@ namespace AspNetCore.PluginManager.Tests.AspNetCore.PluginManager
                 Assert.IsTrue(sut.Enabled);
                 sut.ScanFile(files);
                 Assert.AreEqual(0, logger.Errors.Count);
-                Assert.AreEqual(8, logger.Logs.Count);
+                Assert.AreEqual(9, logger.Logs.Count);
                 Assert.IsTrue(logger.Logs[0].Data.Contains("found no threats"));
-                Assert.AreEqual(8u, sut.ScanTimings.Requests);
+                Assert.AreEqual(9u, sut.ScanTimings.Requests);
             }
             finally
             {

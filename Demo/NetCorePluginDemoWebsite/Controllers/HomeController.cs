@@ -63,5 +63,12 @@ namespace AspNetCore.PluginManager.DemoWebsite.Controllers
 
             return View(new BaseModel(GetModelData()));
         }
+
+        [DenySpider("*")]
+        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        public IActionResult Error()
+        {
+            return RedirectToAction(nameof(Index));
+        }
     }
 }

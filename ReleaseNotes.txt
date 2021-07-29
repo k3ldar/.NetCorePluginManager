@@ -6,6 +6,7 @@ Version 4.2.0
 #129 See also references only appear on xref docs
 #132 Image Manager Plugin for uploading images and managing images
 #130 Fix cookie consent
+#88  Dynamic web content
 
 Version 4.1.0
 =============

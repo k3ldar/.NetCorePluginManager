@@ -398,7 +398,7 @@
     <comment>Oily Skin</comment>
   </data>
   <data name="Page" xml:space="preserve">
-    <value>Peage</value>
+    <value>Page</value>
     <comment>Page</comment>
   </data>
   <data name="PageNotFound" xml:space="preserve">
@@ -14169,6 +14169,46 @@ You will shortly receive an email with the details of your order.</comment>
     <value>Cookie Login</value>
     <comment>Automatic Cookie Login</comment>
   </data>
+  <data name="TemplateNameImage" xml:space="preserve">
+    <value>Image</value>
+    <comment>Image</comment>
+  </data>
+  <data name="TemplateNameHtml" xml:space="preserve">
+    <value>Html Content</value>
+    <comment>Html Content</comment>
+  </data>
+  <data name="DynamicContent" xml:space="preserve">
+    <value>Dynamic Content</value>
+    <comment>Dynamic Content</comment>
+  </data>
+  <data name="TemplateEditor" xml:space="preserve">
+    <value>Template Editor</value>
+    <comment>Template Editor</comment>
+  </data>
+  <data name="InvalidHeightBetween" xml:space="preserve">
+    <value>Height must be between {0} and {1}</value>
+    <comment>Height must be between {0} and {1}</comment>
+  </data>
+  <data name="InvalidHeightMinimum" xml:space="preserve">
+    <value>Height must be at least {0}</value>
+    <comment>Height must be at least {0}</comment>
+  </data>
+  <data name="InvalidWidthBetween" xml:space="preserve">
+    <value>Width must be between {0} and {1}</value>
+    <comment>Width must be between {0} and {1}</comment>
+  </data>
+  <data name="InvalidWidthMinimum" xml:space="preserve">
+    <value>Width must be at least {0}</value>
+    <comment>Width must be at least {0}</comment>
+  </data>
+  <data name="TemplateNameSpacer" xml:space="preserve">
+    <value>Spacer</value>
+    <comment>Spacer</comment>
+  </data>
+  <data name="TemplateNameHorizontalRule" xml:space="preserve">
+    <value>Horizontal Rule</value>
+    <comment>Horizontal Rule</comment>
+  </data>
   <data name="ImageGroups" xml:space="preserve">
     <value>Image Groups</value>
     <comment>Image Groups</comment>
@@ -14240,5 +14280,125 @@ You will shortly receive an email with the details of your order.</comment>
   <data name="YouMustEnter" xml:space="preserve">
     <value>You must enter {0}</value>
     <comment>You must enter {0}</comment>
+  </data>
+  <data name="ActiveFrom" xml:space="preserve">
+    <value>Date active from</value>
+    <comment>Date active from</comment>
+  </data>
+  <data name="ActiveTo" xml:space="preserve">
+    <value>Date active to</value>
+    <comment>Date active to</comment>
+  </data>
+  <data name="PageName" xml:space="preserve">
+    <value>Name of page</value>
+    <comment>Name of page</comment>
+  </data>
+  <data name="PleaseEnterNameOfPage" xml:space="preserve">
+    <value>Please enter the name of the page</value>
+    <comment>Please enter the name of the page</comment>
+  </data>
+  <data name="RouteName" xml:space="preserve">
+    <value>Name of route</value>
+    <comment>Name of route</comment>
+  </data>
+  <data name="Controls" xml:space="preserve">
+    <value>Controls</value>
+    <comment>Controls</comment>
+  </data>
+  <data name="FailedToSavePage" xml:space="preserve">
+    <value>Failed to save page</value>
+    <comment>Failed to save page</comment>
+  </data>
+  <data name="NameAlreadyExists" xml:space="preserve">
+    <value>Name already exists</value>
+    <comment>Name already exists</comment>
+  </data>
+  <data name="RouteNameAlreadyExists" xml:space="preserve">
+    <value>Route name already exists</value>
+    <comment>Route name already exists</comment>
+  </data>
+  <data name="TemplateNameYouTube" xml:space="preserve">
+    <value>YouTube Video</value>
+    <comment>YouTube Video</comment>
+  </data>
+  <data name="WaitLoading" xml:space="preserve">
+    <value>Loading...</value>
+    <comment>Loading...</comment>
+  </data>
+  <data name="PleaseEnterBackgroundColor" xml:space="preserve">
+    <value>Please enter a background colour</value>
+    <comment>Please enter a background colour</comment>
+  </data>
+  <data name="NoCustomPages" xml:space="preserve">
+    <value>You do not have any custom pages, click New to create one</value>
+    <comment>You do not have any custom pages, click New to create one</comment>
+  </data>
+  <data name="TemplateNameLargeHeader" xml:space="preserve">
+    <value>Large Header</value>
+    <comment>Large Header</comment>
+  </data>
+  <data name="TemplateNameMediumHeader" xml:space="preserve">
+    <value>Medium Header</value>
+    <comment>Medium Header</comment>
+  </data>
+  <data name="TemplateNameParagraph" xml:space="preserve">
+    <value>Paragraph</value>
+    <comment>Paragraph</comment>
+  </data>
+  <data name="TemplateNameSmallHeader" xml:space="preserve">
+    <value>Small Header</value>
+    <comment>Small Header</comment>
+  </data>
+  <data name="CssClassName" xml:space="preserve">
+    <value>Class Name</value>
+    <comment>Class Name</comment>
+  </data>
+  <data name="CssStyle" xml:space="preserve">
+    <value>Style</value>
+    <comment>Style</comment>
+  </data>
+  <data name="TemplateNameFormCheckBox" xml:space="preserve">
+    <value>Check Box</value>
+    <comment>Check Box</comment>
+  </data>
+  <data name="TemplateNameFormListBox" xml:space="preserve">
+    <value>List Box</value>
+    <comment>List Box</comment>
+  </data>
+  <data name="TemplateNameFormRadioButton" xml:space="preserve">
+    <value>Radio Button</value>
+    <comment>Radio Button</comment>
+  </data>
+  <data name="TemplateNameFormSubmitButton" xml:space="preserve">
+    <value>Submit Button</value>
+    <comment>Submit Button</comment>
+  </data>
+  <data name="TemplateNameFormTextBox" xml:space="preserve">
+    <value>Text Box</value>
+    <comment>Text Box</comment>
+  </data>
+  <data name="AppTextAlignmentLeft" xml:space="preserve">
+    <value>Align label to the left</value>
+    <comment>Align label to the left</comment>
+  </data>
+  <data name="AppTextAlignmentRight" xml:space="preserve">
+    <value>Align label to the right</value>
+    <comment>Align label to the right</comment>
+  </data>
+  <data name="AppTextAlignmentTop" xml:space="preserve">
+    <value>Align label on top</value>
+    <comment>Align label on top</comment>
+  </data>
+  <data name="OptionsOnePerLine" xml:space="preserve">
+    <value>Enter options, 1 per line</value>
+    <comment>Enter options, 1 per line</comment>
+  </data>
+  <data name="OptionStyle" xml:space="preserve">
+    <value>Option Style</value>
+    <comment>Option Style</comment>
+  </data>
+  <data name="TemplateNameSubmit" xml:space="preserve">
+    <value>Submit</value>
+    <comment>Submit</comment>
   </data>
 </root>

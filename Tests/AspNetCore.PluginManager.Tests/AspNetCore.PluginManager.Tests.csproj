@@ -63,16 +63,32 @@
 
   <ItemGroup>
 	<ProjectReference Include="..\..\Demo\NetCorePluginDemoWebsite\AspNetCore.PluginManager.DemoWebsite.csproj" />
+	<ProjectReference Include="..\..\Languages\Languages.csproj" />
 	<ProjectReference Include="..\..\NetCorePluginManager\AspNetCore.PluginManager.csproj" />
 	<ProjectReference Include="..\..\PluginManager\src\PluginManager.csproj" />
+	<ProjectReference Include="..\..\Plugins\BadEgg.Plugin\BadEgg.Plugin.csproj" />
+	<ProjectReference Include="..\..\Plugins\Breadcrumb.Plugin\Breadcrumb.Plugin.csproj" />
+	<ProjectReference Include="..\..\Plugins\Download.Plugin\DownloadPlugin.csproj" />
+	<ProjectReference Include="..\..\Plugins\ErrorManager.Plugin\ErrorManager.Plugin.csproj" />
+	<ProjectReference Include="..\..\Plugins\GeoIpPlugin\GeoIpPlugin.csproj" />
+	<ProjectReference Include="..\..\Plugins\HelpDesk.Plugin\HelpdeskPlugin.csproj" />
     <ProjectReference Include="..\..\Plugins\ImageManager.Plugin\ImageManager.Plugin.csproj" />
+    <ProjectReference Include="..\..\Plugins\DynamicContent.Plugin\DynamicContent.Plugin.csproj" />
+    <ProjectReference Include="..\..\Plugins\LocalizationPlugin\Localization.Plugin.csproj" />
 	<ProjectReference Include="..\..\Plugins\Login.Plugin\Login.Plugin.csproj" />
 	<ProjectReference Include="..\..\Plugins\PluginMiddleware\PluginMiddleware.csproj" />
 	<ProjectReference Include="..\..\Plugins\Products.Plugin\ProductsPlugin.csproj" />
+	<ProjectReference Include="..\..\Plugins\RestrictIp.Plugin\RestrictIp.Plugin.csproj" />
+	<ProjectReference Include="..\..\Plugins\SDGeoIpPlugin\SieraDeltaGeoIpPlugin.csproj" />
 	<ProjectReference Include="..\..\Plugins\Search.Plugin\Search.Plugin.csproj" />
+	<ProjectReference Include="..\..\Plugins\SeoPlugin\SeoPlugin.csproj" />
+	<ProjectReference Include="..\..\Plugins\ShoppingCart.Plugin\ShoppingCart.Plugin.csproj" />
+	<ProjectReference Include="..\..\Plugins\Sitemap.Plugin\Sitemap.Plugin.csproj" />
 	<ProjectReference Include="..\..\Plugins\Spider.Plugin\Spider.Plugin.csproj" />
 	<ProjectReference Include="..\..\Plugins\Subdomain.Plugin\Subdomain.Plugin.csproj" />
 	<ProjectReference Include="..\..\Plugins\SystemAdmin.Plugin\SystemAdmin.Plugin.csproj" />
+	<ProjectReference Include="..\..\Plugins\UserAccount.Plugin\UserAccount.Plugin.csproj" />
+	<ProjectReference Include="..\..\Plugins\UserSessionMiddlewarePlugin\UserSessionMiddleware.Plugin.csproj" />
 	<ProjectReference Include="..\..\Plugins\WebSmokeTest.Plugin\WebSmokeTest.Plugin.csproj" />
 	<ProjectReference Include="..\..\SharedPluginFeatures\SharedPluginFeatures.csproj" />
 	<ProjectReference Include="..\PluginManager.Tests\PluginManager.Tests.csproj" />
@@ -98,6 +114,21 @@
     <Resource Include="Properties\Images\life.jpg" />
     <Resource Include="Properties\Images\racism is stupid.jpg" />
     <Resource Include="Properties\Images\this_tall.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Properties\Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
 
 </Project>

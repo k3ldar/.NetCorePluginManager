@@ -184,6 +184,22 @@ namespace SharedPluginFeatures
     }
 
     /// <summary>
+    /// Type of dynamic content template type
+    /// </summary>
+    public enum DynamicContentTemplateType
+    {
+        /// <summary>
+        /// Standard template type
+        /// </summary>
+        Default,
+
+        /// <summary>
+        /// Template is a form input type
+        /// </summary>
+        Input
+    }
+
+    /// <summary>
     /// Type of data to be posted to a controller action
     /// </summary>
     public enum PostType
@@ -373,5 +389,47 @@ namespace SharedPluginFeatures
         /// Time of day chart data type
         /// </summary>
         TimeOfDay
+    }
+
+    /// <summary>
+    /// Enum with width options for dynamic content templates
+    /// </summary>
+    public enum DynamicContentWidthType
+    {
+        /// <summary>
+        /// Value is defined in terms of columns (for use in bootstrap etc)
+        /// </summary>
+        Columns,
+
+        /// <summary>
+        /// Value is defined in terms of pixels
+        /// </summary>
+        Pixels,
+
+        /// <summary>
+        /// The value is defined as a percentage
+        /// </summary>
+        Percentage
+    }
+
+    /// <summary>
+    /// Enum with height options for dynamic content templates
+    /// </summary>
+    public enum DynamicContentHeightType
+    {
+        /// <summary>
+        /// Value is defined in terms of pixels
+        /// </summary>
+        Pixels,
+
+        /// <summary>
+        /// The value is defined as a percentage
+        /// </summary>
+        Percentage,
+
+        /// <summary>
+        /// The control fits the size of the internal data
+        /// </summary>
+        Automatic
     }
 }

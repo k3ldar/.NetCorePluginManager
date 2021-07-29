@@ -49,68 +49,14 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SearchTests
 {
     [TestClass]
     [ExcludeFromCodeCoverage]
-    public sealed class KeywordSearchTests
+    public sealed class KeywordSearchTests : TestBasePlugin
     {
-        private static TestPluginManager _documentationLoadPlugin = new TestPluginManager();
-        private static bool? _pluginLoaded = null;
-        private static IPluginClassesService _pluginServices;
-        private static IDocumentationService _documentationService;
         private const int _searchClassCount = 4;
 
         [TestInitialize]
         public void InitializeDocumentationLoadTest()
         {
-            lock (_documentationLoadPlugin)
-            {
-                while (_pluginLoaded.HasValue && !_pluginLoaded.Value)
-                {
-                    System.Threading.Thread.Sleep(30);
-                }
-
-                if (_pluginLoaded.HasValue && _pluginLoaded.Value)
-                {
-                    return;
-                }
-
-                if (_pluginLoaded == null)
-                {
-                    _pluginLoaded = false;
-                }
-
-                _documentationLoadPlugin = new TestPluginManager();
-                _documentationLoadPlugin.AddAssembly(Assembly.GetExecutingAssembly());
-                _documentationLoadPlugin.UsePlugin(typeof(DemoWebsite.Classes.PluginInitialisation));
-                _documentationLoadPlugin.UsePlugin(typeof(DocumentationPlugin.PluginInitialisation));
-                _documentationLoadPlugin.UsePlugin(typeof(MemoryCache.Plugin.PluginInitialisation));
-                _documentationLoadPlugin.UsePlugin(typeof(ProductPlugin.PluginInitialisation));
-
-                _documentationLoadPlugin.ConfigureServices();
-
-                _pluginServices = new pm.PluginServices(_documentationLoadPlugin) as IPluginClassesService;
-                TimeSpan docLoadTime = new TimeSpan(0, 0, 30);
-                DateTime startLoadDocs = DateTime.Now;
-
-                while (sl.ThreadManager.Exists(DocumentationLoadThread))
-                {
-                    System.Threading.Thread.Sleep(100);
-
-                    if (DateTime.Now - startLoadDocs > docLoadTime)
-                        break;
-                }
-
-                Assert.IsFalse(sl.ThreadManager.Exists(DocumentationLoadThread));
-
-                _documentationService = (IDocumentationService)_documentationLoadPlugin.GetServiceProvider()
-                    .GetService(typeof(IDocumentationService));
-
-                Assert.IsNotNull(_documentationService);
-
-                Assert.IsTrue(_documentationService.GetDocuments().Count > 100);
-                _pluginLoaded = true;
-            }
-
-            Assert.IsNotNull(_pluginServices);
-
+            InitializeDocumentationPluginManager();
         }
 
         [TestMethod]
@@ -152,7 +98,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SearchTests
             using (TestPluginManager pluginManager = new TestPluginManager())
             {
                 pluginManager.AddAssembly(Assembly.GetExecutingAssembly());
-                IPluginClassesService pluginServices = new pm.PluginServices(pluginManager) as IPluginClassesService;
+                IPluginClassesService pluginServices = pluginManager as IPluginClassesService;
 
                 Assert.IsNotNull(pluginServices);
 
@@ -171,7 +117,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SearchTests
             using (TestPluginManager pluginManager = new TestPluginManager())
             {
                 pluginManager.AddAssembly(Assembly.GetExecutingAssembly());
-                IPluginClassesService pluginServices = new pm.PluginServices(pluginManager) as IPluginClassesService;
+                IPluginClassesService pluginServices = pluginManager as IPluginClassesService;
 
                 Assert.IsNotNull(pluginServices);
 
@@ -196,7 +142,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SearchTests
         {
             Assert.IsFalse(sl.ThreadManager.Exists(DocumentationLoadThread));
 
-            IDocumentationService documentationService = (IDocumentationService)_documentationLoadPlugin.GetServiceProvider()
+            IDocumentationService documentationService = (IDocumentationService)_testPluginDocs.GetServiceProvider()
                 .GetService(typeof(IDocumentationService));
 
             Assert.IsNotNull(documentationService);
@@ -207,7 +153,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SearchTests
         [TestMethod]
         public void QuickSearchFindAllKeywordsModularLoggedOut()
         {
-            List<ISearchKeywordProvider> classTypes = _pluginServices.GetPluginClasses<ISearchKeywordProvider>();
+            List<ISearchKeywordProvider> classTypes = _testPluginDocs.GetPluginClasses<ISearchKeywordProvider>();
 
             Assert.AreEqual(_searchClassCount, classTypes.Count);
 
@@ -234,7 +180,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SearchTests
         [TestMethod]
         public void QuickSearchValidOffset()
         {
-            List<ISearchKeywordProvider> classTypes = _pluginServices.GetPluginClasses<ISearchKeywordProvider>();
+            List<ISearchKeywordProvider> classTypes = _testPluginDocs.GetPluginClasses<ISearchKeywordProvider>();
 
             Assert.AreEqual(_searchClassCount, classTypes.Count);
 
@@ -266,7 +212,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SearchTests
         [TestMethod]
         public void QuickSearchFindAllKeywordModularLoggedIn()
         {
-            List<ISearchKeywordProvider> classTypes = _pluginServices.GetPluginClasses<ISearchKeywordProvider>();
+            List<ISearchKeywordProvider> classTypes = _testPluginDocs.GetPluginClasses<ISearchKeywordProvider>();
 
             Assert.AreEqual(_searchClassCount, classTypes.Count);
 
@@ -293,7 +239,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SearchTests
         [TestMethod]
         public void QuickSearchFindAllKeywordPluginLoggedOut()
         {
-            List<ISearchKeywordProvider> classTypes = _pluginServices.GetPluginClasses<ISearchKeywordProvider>();
+            List<ISearchKeywordProvider> classTypes = _testPluginDocs.GetPluginClasses<ISearchKeywordProvider>();
 
             Assert.AreEqual(_searchClassCount, classTypes.Count);
 
@@ -316,7 +262,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SearchTests
         [TestMethod]
         public void NormalSearchFindAllKeywordPluginLoggedOut()
         {
-            List<ISearchKeywordProvider> classTypes = _pluginServices.GetPluginClasses<ISearchKeywordProvider>();
+            List<ISearchKeywordProvider> classTypes = _testPluginDocs.GetPluginClasses<ISearchKeywordProvider>();
 
             Assert.AreEqual(_searchClassCount, classTypes.Count);
 
@@ -339,7 +285,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SearchTests
         [TestMethod]
         public void QuickSearchFindAllKeywordProductLoggedOut()
         {
-            List<ISearchKeywordProvider> classTypes = _pluginServices.GetPluginClasses<ISearchKeywordProvider>();
+            List<ISearchKeywordProvider> classTypes = _testPluginDocs.GetPluginClasses<ISearchKeywordProvider>();
 
             Assert.AreEqual(_searchClassCount, classTypes.Count);
 
@@ -364,7 +310,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SearchTests
         [TestMethod]
         public void NormalSearchFindAllKeywordProdALoggedOut()
         {
-            List<ISearchKeywordProvider> classTypes = _pluginServices.GetPluginClasses<ISearchKeywordProvider>();
+            List<ISearchKeywordProvider> classTypes = _testPluginDocs.GetPluginClasses<ISearchKeywordProvider>();
 
             Assert.AreEqual(_searchClassCount, classTypes.Count);
 

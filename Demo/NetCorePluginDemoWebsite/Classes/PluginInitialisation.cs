@@ -23,6 +23,11 @@
  *  22/09/2018  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+using System.IO;
+
+using AppSettings;
+
+using AspNetCore.PluginManager.DemoWebsite.Classes.Mocks;
 using AspNetCore.PluginManager.DemoWebsite.Helpers;
 
 using Microsoft.AspNetCore.Builder;
@@ -30,6 +35,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 using Middleware;
 using Middleware.Accounts;
+using Middleware.DynamicContent;
 using Middleware.Helpdesk;
 
 using PluginManager.Abstractions;
@@ -62,6 +68,10 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
             services.AddSingleton<IBlogProvider, MockBlogProvider>();
             services.AddSingleton<IClaimsProvider, MockClaimsProvider>();
             services.AddSingleton<IUserSearch, MockUserSearch>();
+            services.AddSingleton<IApplicationOverride, ApplicationOverrides>();
+
+            if (!File.Exists("t:\\UseDefaultDynamicContentProvider.dat"))
+                services.AddSingleton<IDynamicContentProvider, MockDynamicContentProvider>();
         }
 
         public void Finalise()

@@ -35,11 +35,15 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 
+using AppSettings;
+
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
 using PluginManager.Abstractions;
 using PluginManager.Internal;
+
+using Shared.Classes;
 
 namespace PluginManager
 {
@@ -47,7 +51,7 @@ namespace PluginManager
     /// Base plugin manager, contains methods and properties to load and interact
     /// with plugins within an application
     /// </summary>
-    public abstract class BasePluginManager : IDisposable
+    public abstract class BasePluginManager : IDisposable, IPluginClassesService, IPluginHelperService, IPluginTypesService, IThreadManagerServices
     {
         #region Private Members
 
@@ -58,8 +62,9 @@ namespace PluginManager
         private readonly PluginSettings _pluginSettings;
         private readonly PluginManagerConfiguration _configuration;
         private bool _disposed;
-        private static IServiceProvider _serviceProvider;
+        private IServiceProvider _serviceProvider;
         private bool _serviceConfigurationComplete;
+        private readonly NotificationService _notificationService;
 
         #endregion Private Members
 
@@ -71,7 +76,10 @@ namespace PluginManager
         private BasePluginManager()
         {
             _plugins = new Dictionary<string, IPluginModule>();
+            RegisteredStartupThreads = new Dictionary<string, Type>();
+            _notificationService = new NotificationService();
             AppDomain.CurrentDomain.AssemblyResolve += CurrentDomainAssemblyResolve;
+
             _disposed = false;
         }
 
@@ -92,6 +100,8 @@ namespace PluginManager
             Logger = configuration.Logger;
 
             ThreadManagerInitialisation.Initialise(Logger);
+
+            _serviceProvider = CreateBasicServiceProvider(configuration, pluginSettings);
 
             // Load ourselves as a plugin
             PluginLoad(Assembly.GetExecutingAssembly(), String.Empty, false);
@@ -168,6 +178,8 @@ namespace PluginManager
 
             ServiceConfigurator = serviceConfigurator ?? throw new ArgumentNullException(nameof(serviceConfigurator));
         }
+
+        protected Dictionary<string, Type> RegisteredStartupThreads { get; private set; }
 
         #endregion Properties
 
@@ -419,22 +431,21 @@ namespace PluginManager
             if (services == null)
                 throw new ArgumentNullException(nameof(services));
 
-            NotificationService notificationService = new NotificationService();
-            services.AddSingleton<INotificationService>(notificationService);
+            services.AddSingleton<IPluginClassesService>(this);
+            services.AddSingleton<IPluginHelperService>(this);
+            services.AddSingleton<IPluginTypesService>(this);
+            services.AddSingleton<IThreadManagerServices>(this);
+            services.AddSingleton<INotificationService>(_notificationService);
 
             _serviceProvider = services.BuildServiceProvider();
 
             // run pre-initialise events
             PreConfigurePluginServices(services);
 
-            Shared.Classes.ThreadManager.ThreadStart(notificationService,
+            ThreadManager.ThreadStart(_notificationService,
                 Constants.ThreadNotificationService,
                 System.Threading.ThreadPriority.Lowest);
 
-            PluginServices pluginServices = new PluginServices(this);
-            services.AddSingleton<IPluginClassesService>(pluginServices);
-            services.AddSingleton<IPluginHelperService>(pluginServices);
-            services.AddSingleton<IPluginTypesService>(pluginServices);
 
             foreach (IPluginModule pluginModule in _plugins.Values)
             {
@@ -444,8 +455,12 @@ namespace PluginManager
             // if no ILogger instance has been registered, register the default instance now.
             services.TryAddSingleton<ILogger>(Logger);
 
+            _serviceProvider = services.BuildServiceProvider();
+
             // if no plugin has registered a setting provider, add the default appsettings json provider
-            DefaultSettingProvider settingProvider = new DefaultSettingProvider(RootPath);
+            IApplicationOverride appOverride = _serviceProvider.GetService<IApplicationOverride>();
+            ISettingError settingsError = _serviceProvider.GetService<ISettingError>();
+            DefaultSettingProvider settingProvider = new DefaultSettingProvider(RootPath, appOverride, settingsError);
             services.TryAddSingleton<ISettingsProvider>(settingProvider);
 
             _serviceProvider = services.BuildServiceProvider();
@@ -462,6 +477,14 @@ namespace PluginManager
             _serviceProvider = services.BuildServiceProvider();
 
             ServiceConfigurationComplete(_serviceProvider);
+
+            foreach (KeyValuePair<string, Type> registeredThread in RegisteredStartupThreads)
+            {
+                ThreadManager threadToStart = (ThreadManager)Activator.CreateInstance(registeredThread.Value, GetParameterInstances(registeredThread.Value));
+                ThreadManager.ThreadStart(threadToStart, registeredThread.Key, System.Threading.ThreadPriority.Normal);
+            }
+
+            RegisteredStartupThreads = null;
         }
 
         /// <summary>
@@ -670,6 +693,43 @@ namespace PluginManager
             return DynamicLoadResult.Success;
         }
 
+        /// <summary>
+        /// Allows descendant plugin managers to register start up threads that will be run after plugin initialisation
+        /// </summary>
+        /// <param name="threadName">Name of thread</param>
+        /// <param name="type">Class type, must descend from ThreadManager</param>
+        public void RegisterStartupThread(string threadName, Type type)
+        {
+            if (String.IsNullOrEmpty(threadName))
+                throw new ArgumentNullException(nameof(threadName));
+
+            if (RegisteredStartupThreads.ContainsKey(threadName))
+                throw new InvalidOperationException("Thread name is already registered");
+
+            if (!type.IsSubclassOf(typeof(ThreadManager)))
+                throw new ArgumentException("Type must descend from ThreadManager class");
+
+            RegisteredStartupThreads.Add(threadName, type);
+        }
+
+        public List<Type> GetPluginClassTypes<T>()
+        {
+            return PluginGetClassTypes<T>();
+        }
+
+        public List<T> GetPluginClasses<T>()
+        {
+            return PluginGetClasses<T>();
+        }
+        public bool PluginLoaded(in string pluginLibraryName, out int version)
+        {
+            return PluginLoaded(pluginLibraryName, out version, out _);
+        }
+        public List<Type> GetPluginTypesWithAttribute<T>()
+        {
+            return PluginGetTypesWithAttribute<T>();
+        }
+
         #endregion Public Methods
 
         #region Internal Methods
@@ -760,6 +820,21 @@ namespace PluginManager
         #endregion IDisposable Methods
 
         #region Private Methods
+
+
+        private ServiceProvider CreateBasicServiceProvider(PluginManagerConfiguration configuration, PluginSettings pluginSettings)
+        {
+            IServiceCollection services = new ServiceCollection();
+            services.AddSingleton<INotificationService>(_notificationService);
+            services.AddSingleton(configuration);
+            services.AddSingleton(pluginSettings);
+            services.AddSingleton<IPluginClassesService>(this);
+            services.AddSingleton<IPluginHelperService>(this);
+            services.AddSingleton<IPluginTypesService>(this);
+            services.AddSingleton<IThreadManagerServices>(this);
+
+            return services.BuildServiceProvider();
+        }
 
         /// <summary>
         /// Copies the plugin file to a local temp area, that will be used to load the plugin from.

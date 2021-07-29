@@ -37,6 +37,7 @@ namespace AspNetCore.PluginManager.Tests.Shared
     {
         private List<string> _raisedEvents = new List<string>();
         private object _result = null;
+        public readonly List<INotificationListener> RegisteredListeners = new List<INotificationListener>();
 
         public TestNotificationService()
         {
@@ -76,27 +77,31 @@ namespace AspNetCore.PluginManager.Tests.Shared
 
         public void RaiseEvent(in String eventId, in Object param1, in Object param2)
         {
-
+            _raisedEvents.Add(eventId);
         }
 
         public void RaiseEvent(in String eventId, in Object param1)
         {
-
+            _raisedEvents.Add(eventId);
         }
 
         public void RaiseEvent(in String eventId)
         {
-
+            _raisedEvents.Add(eventId);
         }
 
         public Boolean RegisterListener(in INotificationListener listener)
         {
-            throw new NotImplementedException();
+            RegisteredListeners.Add(listener);
+
+            return RegisteredListeners.Contains(listener);
         }
 
         public Boolean UnregisterListener(in INotificationListener listener)
         {
-            throw new NotImplementedException();
+            RegisteredListeners.Remove(listener);
+
+            return !RegisteredListeners.Contains(listener);
         }
 
         public object EventParam1 { get; private set; }

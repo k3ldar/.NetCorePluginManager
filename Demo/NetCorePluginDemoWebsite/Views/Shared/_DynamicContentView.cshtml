@@ -1,0 +1,2 @@
+﻿@inject Middleware.DynamicContent.IDynamicContentProvider ContentProvider
+Html.Raw(ContentProvider.RenderDynamicPage(Context.Request.Path))*@

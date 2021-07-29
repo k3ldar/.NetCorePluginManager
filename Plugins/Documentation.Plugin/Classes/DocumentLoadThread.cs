@@ -46,7 +46,7 @@ namespace DocumentationPlugin.Classes
 
         #region Constructors
 
-        internal DocumentLoadThread(IDocumentationService documentationService)
+        public DocumentLoadThread(IDocumentationService documentationService)
             : base(null, new TimeSpan(0, 5, 0))
         {
             HangTimeout = 0;
