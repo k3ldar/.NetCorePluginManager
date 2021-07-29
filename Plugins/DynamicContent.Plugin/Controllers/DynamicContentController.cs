@@ -128,7 +128,7 @@ namespace DynamicContent.Plugin.Controllers
                 return StatusCode(HtmlResponseNotFound);
             }
 
-            CacheItem cacheItem = PluginInitialisation.DynamicContentCache.Get(path);
+            CacheItem cacheItem = PluginInitialisation.DynamicContentCache.Get(path.ToLower());
 
             if (cacheItem == null)
                 return StatusCode(HtmlResponseNotFound);

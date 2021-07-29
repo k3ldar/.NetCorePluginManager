@@ -255,7 +255,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
             DynamicContent.Plugin.PluginInitialisation.DynamicContentCache.Add(page.RouteName, new CacheItem(page.RouteName, page));
 
             DynamicContentController sut = CreateDynamicContentController(null, null, mockDynamicContentProvider);
-            IActionResult response = sut.Index(page.RouteName);
+            IActionResult response = sut.Index("PaGe-1");
 
             ViewResult result = response as ViewResult;
 
@@ -283,7 +283,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
             DynamicContent.Plugin.PluginInitialisation.DynamicContentCache.Add(page.RouteName, new CacheItem(page.RouteName, page));
 
             DynamicContentController sut = CreateDynamicContentController(null, null, mockDynamicContentProvider);
-            IActionResult response = sut.Index(page.RouteName);
+            IActionResult response = sut.Index("Page-1");
 
             ViewResult result = response as ViewResult;
 

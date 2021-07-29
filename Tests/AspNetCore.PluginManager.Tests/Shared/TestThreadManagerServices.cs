@@ -25,6 +25,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 using PluginManager.Abstractions;
 
@@ -32,6 +33,7 @@ using Shared.Classes;
 
 namespace AspNetCore.PluginManager.Tests.Shared
 {
+    [ExcludeFromCodeCoverage]
     public class TestThreadManagerServices : IThreadManagerServices
     {
         private readonly Dictionary<string, Type> _registeredThreads = new Dictionary<string, Type>();
