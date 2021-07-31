@@ -123,6 +123,32 @@
             </summary>
             <returns>string</returns>
         </member>
+        <member name="T:AspNetCore.PluginManager.Classes.SystemAdmin.LoggerStatisticsMenu">
+            <summary>
+            Returns a list of the last 100 log entries that can be viewed within SystemAdmin.Plugin.  
+            
+            This class descends from SystemAdminSubMenu and ILogger
+            </summary>
+        </member>
+        <member name="M:AspNetCore.PluginManager.Classes.SystemAdmin.LoggerStatisticsMenu.Data">
+            <summary>
+            Returns delimited data on current log data, this will only store the last 100 entries.
+            </summary>
+            <returns>string</returns>
+        </member>
+        <member name="T:AspNetCore.PluginManager.Classes.SystemAdmin.RouteLoadTimeMenu">
+            <summary>
+            Returns a list of load times for individual pages and can be viewed within SystemAdmin.Plugin.  
+            
+            This class descends from SystemAdminSubMenu.
+            </summary>
+        </member>
+        <member name="M:AspNetCore.PluginManager.Classes.SystemAdmin.RouteLoadTimeMenu.Data">
+            <summary>
+            Returns delimited data on all loaded assemblies and their version.
+            </summary>
+            <returns>string</returns>
+        </member>
         <member name="T:AspNetCore.PluginManager.Classes.SystemAdmin.ThreadMenu">
             <summary>
             Returns a list of all threads and their current status that can be viewed within 
@@ -134,19 +160,6 @@
         <member name="M:AspNetCore.PluginManager.Classes.SystemAdmin.ThreadMenu.Data">
             <summary>
             Returns delimited data on current active threads and their current status
-            </summary>
-            <returns>string</returns>
-        </member>
-        <member name="T:AspNetCore.PluginManager.Classes.LoggerStatistics">
-            <summary>
-            Returns a list of the last 100 log entries that can be viewed within SystemAdmin.Plugin.  
-            
-            This class descends from SystemAdminSubMenu and ILogger
-            </summary>
-        </member>
-        <member name="M:AspNetCore.PluginManager.Classes.LoggerStatistics.Data">
-            <summary>
-            Returns delimited data on current log data, this will only store the last 100 entries.
             </summary>
             <returns>string</returns>
         </member>
@@ -162,6 +175,16 @@
             </summary>
             <param name="mvcApplication">IApplicationBuilder instance</param>
             <returns>IApplicationBuilder</returns>
+        </member>
+        <member name="M:AspNetCore.PluginManager.RouteLoadTimeMiddlewareExtender.UseRouteLoadTimes(Microsoft.AspNetCore.Builder.IApplicationBuilder)">
+            <summary>
+            IApplicationBuilder extender method.
+            
+            Allows easy use of registering PageLoadSpeedMiddleware.Plugin
+            </summary>
+            <param name="builder">IApplicationBuilder instance</param>
+            <returns>IApplicationBuilder</returns>
+            <example><pre style="font-family:Consolas;font-size:13px;color:black;background:white;"><span style="color:#1f377f;">app</span>.<span style="color:#74531f;">UsePageLoadSpeed</span>();</pre></example>
         </member>
         <member name="M:AspNetCore.PluginManager.NetCorePluginManager.Configure(Microsoft.AspNetCore.Builder.IApplicationBuilder@)">
             <summary>
@@ -196,6 +219,13 @@
             <summary>
             Indicates that files should be minified
             </summary>
+            <value>bool</value>
+        </member>
+        <member name="P:AspNetCore.PluginManager.NetCorePluginSettings.MonitorRouteLoadTimes">
+            <summary>
+            Indicates that page load times will be monitored, these can be viewed within system admin
+            </summary>
+            <value>bool</value>
         </member>
         <member name="T:AspNetCore.PluginManager.PluginManagerService">
             <summary>

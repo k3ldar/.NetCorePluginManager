@@ -37,14 +37,14 @@ using SharedPluginFeatures;
 
 #pragma warning disable CS1591
 
-namespace AspNetCore.PluginManager.Classes
+namespace AspNetCore.PluginManager.Classes.SystemAdmin
 {
     /// <summary>
     /// Returns a list of the last 100 log entries that can be viewed within SystemAdmin.Plugin.  
     /// 
     /// This class descends from SystemAdminSubMenu and ILogger
     /// </summary>
-    public class LoggerStatistics : SystemAdminSubMenu, ILogger
+    public class LoggerStatisticsMenu : SystemAdminSubMenu, ILogger
     {
         #region Private Static Members
 
@@ -60,6 +60,11 @@ namespace AspNetCore.PluginManager.Classes
         internal static void SetLogger(in ILogger logger)
         {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+        }
+
+        internal static void ClearLogger()
+        {
+            _logger = null;
         }
 
         #endregion Internal Static Methods
@@ -142,7 +147,7 @@ namespace AspNetCore.PluginManager.Classes
 
         public void AddToLog(in LogLevel logLevel, in Exception exception)
         {
-            AddToLog(logLevel, String.Empty, exception, String.Empty);
+            AddToLog(logLevel, exception, String.Empty);
         }
 
         public void AddToLog(in LogLevel logLevel, in Exception exception, string data)
@@ -181,8 +186,6 @@ namespace AspNetCore.PluginManager.Classes
 #if TRACE
             System.Diagnostics.Trace.WriteLine($"{logLevel.ToString()} {exception.Message}\r\n{data}");
 #endif
-            if (exception == null)
-                throw new ArgumentNullException(nameof(exception));
 
             string message = exception.Message.Replace("\r", " ");
 

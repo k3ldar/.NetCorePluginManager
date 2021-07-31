@@ -162,6 +162,11 @@ namespace AspNetCore.PluginManager
         /// <param name="app"></param>
         internal void Configure(in IApplicationBuilder app)
         {
+            if (_netCorePluginSettings.MonitorRouteLoadTimes)
+            {
+                app.UseRouteLoadTimes();
+            }
+
             foreach (IInitialiseEvents initialiseEvents in _initializablePlugins)
                 initialiseEvents.BeforeConfigure(app);
 

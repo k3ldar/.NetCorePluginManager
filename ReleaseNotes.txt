@@ -7,6 +7,7 @@ Version 4.2.0
 #132 Image Manager Plugin for uploading images and managing images
 #130 Fix cookie consent
 #88  Dynamic web content
+#131 Route Load Times
 
 Version 4.1.0
 =============

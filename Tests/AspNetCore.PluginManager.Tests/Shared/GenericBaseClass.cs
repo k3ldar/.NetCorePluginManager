@@ -35,6 +35,8 @@ using System.Threading;
 
 using DynamicContent.Plugin.Templates;
 
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+
 using Middleware;
 using Middleware.DynamicContent;
 
@@ -125,7 +127,7 @@ namespace AspNetCore.PluginManager.Tests.Shared
                 }
             }
         }
-        
+
         protected bool CacheManagerExists(string cacheName)
         {
             for (int i = 0; i < sc.CacheManager.GetCount(); i++)
@@ -155,6 +157,49 @@ namespace AspNetCore.PluginManager.Tests.Shared
             Result = Path.Combine(directory, Result).Replace("AspNetCore.PluginManager.Tests.Properties.Images.", "");
 
             return Result;
+        }
+
+        protected void ValidateSystemAdminColumnCounts(string data)
+        {
+            bool first = true;
+            int colCount = 0;
+            int rowColCount = 0;
+            int line = 0;
+
+            foreach (char c in data)
+            {
+                if (first)
+                {
+                    if (c == '|')
+                    {
+                        colCount++;
+                    }
+
+                    if (c == '\r')
+                    {
+                        first = false;
+                        line++;
+                    }
+                }
+                else
+                {
+                    if (c == '|')
+                    {
+                        rowColCount++;
+                    }
+
+                    if (c == '\r')
+                    {
+                        Assert.AreEqual(rowColCount, colCount, $"Column counts do not match on line {line}");
+
+                        line++;
+                        rowColCount = 0;
+                    }
+                }
+            }
+
+            if (line > 0)
+                Assert.AreEqual(rowColCount, colCount, "Column counts do not match on last line");
         }
 
         protected IDynamicContentPage GetPage1()

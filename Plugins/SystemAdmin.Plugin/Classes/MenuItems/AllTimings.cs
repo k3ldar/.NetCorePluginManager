@@ -40,6 +40,8 @@ namespace SystemAdmin.Plugin.Classes.MenuItems
     {
         #region Private Members
 
+        private readonly static string[] IgnoredTimingMenus = { "Route Load Times" };
+
         private const int MinimumResetMilliseconds = 1500;
 
         private static List<SystemAdminSubMenu> _timingItems;
@@ -96,6 +98,9 @@ namespace SystemAdmin.Plugin.Classes.MenuItems
 
                 foreach (SystemAdminSubMenu item in _timingItems)
                 {
+                    if (IgnoredTimingMenus.Contains(item.Name()))
+                        continue;
+
                     Result.Append('\r');
                     Result.Append(item.Name());
                     string[] data = item.Data().Split('\r');

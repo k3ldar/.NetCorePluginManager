@@ -80,8 +80,8 @@ namespace AspNetCore.PluginManager
         public static bool Initialise(in PluginManagerConfiguration configuration)
         {
             _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
-            _logger = new Classes.LoggerStatistics();
-            Classes.LoggerStatistics.SetLogger(configuration.Logger);
+            _logger = new Classes.SystemAdmin.LoggerStatisticsMenu();
+            Classes.SystemAdmin.LoggerStatisticsMenu.SetLogger(configuration.Logger);
             configuration.ReplaceLogger(_logger);
 
             try

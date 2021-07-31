@@ -32,15 +32,17 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using Middleware.Images;
 
-namespace AspNetCore.PluginManager.Tests.Middleware.Images
+namespace AspNetCore.PluginManager.Tests.Middleware
 {
     [TestClass]
     [ExcludeFromCodeCoverage]
     public class ImageFileTests
     {
+        private const string TestCategoryName = "Middleware";
         private const string ForwardSlash = "/";
 
         [TestMethod]
+        [TestCategory(TestCategoryName)]
         [ExpectedException(typeof(ArgumentNullException))]
         public void Construct_InvalidParamUri_Null_Throws_ArgumentNullException()
         {
@@ -48,6 +50,7 @@ namespace AspNetCore.PluginManager.Tests.Middleware.Images
         }
 
         [TestMethod]
+        [TestCategory(TestCategoryName)]
         [ExpectedException(typeof(ArgumentNullException))]
         public void Construct_InvalidParamFileName_Null_Throws_ArgumentNullException()
         {
@@ -55,6 +58,7 @@ namespace AspNetCore.PluginManager.Tests.Middleware.Images
         }
 
         [TestMethod]
+        [TestCategory(TestCategoryName)]
         [ExpectedException(typeof(ArgumentNullException))]
         public void Construct_InvalidParamFileName_EmptyString_Throws_ArgumentNullException()
         {
@@ -62,6 +66,7 @@ namespace AspNetCore.PluginManager.Tests.Middleware.Images
         }
 
         [TestMethod]
+        [TestCategory(TestCategoryName)]
         [ExpectedException(typeof(ArgumentException))]
         public void Construct_InvalidParamFileName_DoesNotExist_Throws_ArgumentException()
         {
@@ -74,6 +79,7 @@ namespace AspNetCore.PluginManager.Tests.Middleware.Images
         }
 
         [TestMethod]
+        [TestCategory(TestCategoryName)]
         public void Construct_ValidInstance_ExistingFile_Success()
         {
             string tmpFile = Path.GetTempFileName();
@@ -96,6 +102,7 @@ namespace AspNetCore.PluginManager.Tests.Middleware.Images
         }
 
         [TestMethod]
+        [TestCategory(TestCategoryName)]
         [ExpectedException(typeof(ArgumentNullException))]
         public void Construct_NonFileBased_InvalidParamUri_Null_Throws_ArgumentNullException()
         {
@@ -103,6 +110,7 @@ namespace AspNetCore.PluginManager.Tests.Middleware.Images
         }
 
         [TestMethod]
+        [TestCategory(TestCategoryName)]
         [ExpectedException(typeof(ArgumentNullException))]
         public void Construct_NonFileBased_InvalidParamFileName_Null_Throws_ArgumentNullException()
         {
@@ -110,6 +118,7 @@ namespace AspNetCore.PluginManager.Tests.Middleware.Images
         }
 
         [TestMethod]
+        [TestCategory(TestCategoryName)]
         [ExpectedException(typeof(ArgumentNullException))]
         public void Construct_NonFileBased_InvalidParamFileName_EmptyString_Throws_ArgumentNullException()
         {
@@ -117,6 +126,7 @@ namespace AspNetCore.PluginManager.Tests.Middleware.Images
         }
 
         [TestMethod]
+        [TestCategory(TestCategoryName)]
         [ExpectedException(typeof(ArgumentNullException))]
         public void Construct_NonFileBased_InvalidParamFileExtension_Null_Throws_ArgumentNullException()
         {
@@ -124,6 +134,7 @@ namespace AspNetCore.PluginManager.Tests.Middleware.Images
         }
 
         [TestMethod]
+        [TestCategory(TestCategoryName)]
         [ExpectedException(typeof(ArgumentNullException))]
         public void Construct_NonFileBased_InvalidParamFileExtension_EmptyString_Throws_ArgumentNullException()
         {
@@ -131,6 +142,7 @@ namespace AspNetCore.PluginManager.Tests.Middleware.Images
         }
 
         [TestMethod]
+        [TestCategory(TestCategoryName)]
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void Construct_NonFileBased_InvalidParamFileExtension_EmptyString_Throws_ArgumentOutOfRangeExceptionn()
         {
@@ -138,6 +150,7 @@ namespace AspNetCore.PluginManager.Tests.Middleware.Images
         }
 
         [TestMethod]
+        [TestCategory(TestCategoryName)]
         public void Construct_NonFileBased_ValidInstance_ExistingFile_Success()
         {
             DateTime fileDate = DateTime.Now.AddMinutes(-5);

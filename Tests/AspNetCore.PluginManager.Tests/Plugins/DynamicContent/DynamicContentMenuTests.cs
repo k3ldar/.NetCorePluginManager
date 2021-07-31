@@ -38,9 +38,11 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
     public class DynamicContentMenuTests
     {
         private const string TestCategoryName = "Dynamic Content";
+        private const string SystemAdminCategoryName = "System Admin";
 
         [TestMethod]
         [TestCategory(TestCategoryName)]
+        [TestCategory(SystemAdminCategoryName)]
         public void CreateValidInstance_Success()
         {
             DynamicContentMenu sut = new DynamicContentMenu();

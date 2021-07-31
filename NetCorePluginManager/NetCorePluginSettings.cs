@@ -59,6 +59,14 @@ namespace AspNetCore.PluginManager
         /// <summary>
         /// Indicates that files should be minified
         /// </summary>
+        /// <value>bool</value>
         public bool MinifyFiles { get; set; }
+
+        /// <summary>
+        /// Indicates that page load times will be monitored, these can be viewed within system admin
+        /// </summary>
+        /// <value>bool</value>
+        [SettingDefault(false)]
+        public bool MonitorRouteLoadTimes { get; set; }
     }
 }

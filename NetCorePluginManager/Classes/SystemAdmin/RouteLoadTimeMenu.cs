@@ -15,12 +15,12 @@
  *
  *  Product:  AspNetCore.PluginManager
  *  
- *  File: LoadedModulesMenu.cs
+ *  File: PageLoadSpeedMenu.cs
  *
  *  Purpose:  
  *
  *  Date        Name                Reason
- *  31/10/2018  Simon Carter        Initially Created
+ *  30/07/2021  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
@@ -30,26 +30,20 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 
+using AspNetCore.PluginManager.Middleware;
+
 using PluginManager.Abstractions;
 
 using SharedPluginFeatures;
 
-#pragma warning disable IDE0079
-#pragma warning disable CS1591
-
-#if NET_5_X || NET_CORE_3_X
-#pragma warning disable IDE0057
-#endif
-
 namespace AspNetCore.PluginManager.Classes.SystemAdmin
 {
     /// <summary>
-    /// Returns a list of all assemblies currently loaded by the application and can 
-    /// be viewed within SystemAdmin.Plugin.  
+    /// Returns a list of load times for individual pages and can be viewed within SystemAdmin.Plugin.  
     /// 
     /// This class descends from SystemAdminSubMenu.
     /// </summary>
-    public sealed class LoadedModulesMenu : SystemAdminSubMenu
+    public sealed class RouteLoadTimeMenu : SystemAdminSubMenu
     {
         public override string Action()
         {
@@ -77,57 +71,33 @@ namespace AspNetCore.PluginManager.Classes.SystemAdmin
         /// <returns>string</returns>
         public override string Data()
         {
-            Dictionary<string, IPluginModule> plugins = PluginManagerService.GetPluginManager().PluginsGetLoaded();
+            Dictionary<string, Timings> routeTimings = RouteLoadTimeMiddleware.ClonePageTimings();
+            StringBuilder Result = new StringBuilder("Route ms|Total Requests|Fastest ms|Slowest ms|Average ms|Trimmed Avg ms|Total ms");
 
-            StringBuilder Result = new StringBuilder("Module|FileVersion", 2048);
-            Dictionary<string, string> files = new Dictionary<string, string>();
-
-            foreach (Assembly assembly in AppDomain.CurrentDomain.GetAssemblies())
+            foreach (KeyValuePair<string, Timings> route in routeTimings)
             {
-                string fileVersion = String.Empty;
-                string file = String.Empty;
-                try
-                {
-#if NET_5_X
-                    string path = assembly.Location;
-#else
-                    string path = String.IsNullOrEmpty(assembly.Location) ? assembly.CodeBase : assembly.Location;
-#endif
-
-                    if (path.StartsWith("file:///"))
-                        path = path.Substring(8);
-
-                    file = Path.GetFullPath(path);
-
-                    if (File.Exists(file))
-                        fileVersion = System.Diagnostics.FileVersionInfo.GetVersionInfo(file).FileVersion;
-
-                    file = Path.GetFileName(file);
-                }
-                catch (NotSupportedException)
-                {
-
-                }
-
-
-                if (!String.IsNullOrEmpty(file) && !files.ContainsKey(file))
-                    files.Add(file, fileVersion);
+                Result.AppendFormat("\r{0}|{1}|{2}|{3}|{4}|{5}|{6}", 
+                    route.Key, 
+                    route.Value.Requests, 
+                    route.Value.Fastest, 
+                    route.Value.Slowest, 
+                    route.Value.Average, 
+                    route.Value.TrimmedAverage, 
+                    route.Value.Total);
             }
 
-            foreach (KeyValuePair<string, string> valuePair in files.OrderBy(key => key.Key.ToLower()))
-                Result.Append($"\r{valuePair.Key}|{valuePair.Value}");
 
             return Result.ToString();
         }
 
         public override string Name()
         {
-            return "Loaded Modules";
+            return "Route Load Times";
         }
 
         public override string ParentMenuName()
         {
-            return "System";
+            return "Timings";
         }
 
         public override int SortOrder()
@@ -137,15 +107,7 @@ namespace AspNetCore.PluginManager.Classes.SystemAdmin
 
         public override string Image()
         {
-            return String.Empty;
+            return Constants.SystemImageStopWatch;
         }
     }
 }
-
-
-#if NET_5_X || NET_CORE_3_X
-#pragma warning restore IDE0057
-#endif
-
-#pragma warning restore CS1591
-#pragma warning restore IDE0079

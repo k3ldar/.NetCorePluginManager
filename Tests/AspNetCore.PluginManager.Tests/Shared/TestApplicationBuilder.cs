@@ -26,9 +26,6 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
@@ -40,6 +37,12 @@ namespace AspNetCore.PluginManager.Tests.Shared
     [ExcludeFromCodeCoverage]
     public class TestApplicationBuilder : IApplicationBuilder
     {
+        public TestApplicationBuilder()
+        {
+            UseCalled = false;
+            UseCalledCount = 0;
+        }
+
         #region IApplicationBuilder Methods/Properties
 
         public IServiceProvider ApplicationServices { get; set; }
@@ -61,6 +64,7 @@ namespace AspNetCore.PluginManager.Tests.Shared
         public IApplicationBuilder Use(Func<RequestDelegate, RequestDelegate> middleware)
         {
             UseCalled = true;
+            UseCalledCount++;
 
             return null;
         }
@@ -70,6 +74,9 @@ namespace AspNetCore.PluginManager.Tests.Shared
         #region Public Properties
 
         public bool UseCalled { get; set; }
+
+
+        public int UseCalledCount { get; private set; }
 
         #endregion Public Properties
     }
