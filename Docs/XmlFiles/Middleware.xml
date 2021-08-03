@@ -1207,6 +1207,12 @@
             Default constructor
             </summary>
         </member>
+        <member name="M:Middleware.DynamicContent.DynamicContentPage.#ctor(System.Int32)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="id">Id of page</param>
+        </member>
         <member name="P:Middleware.DynamicContent.DynamicContentPage.Id">
             <summary>
             Unique page id

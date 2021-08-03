@@ -321,7 +321,7 @@ namespace Subdomain.Plugin
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private string RouteFromRouteProvider(in Type classType,
+        private static string RouteFromRouteProvider(in Type classType,
             in IActionDescriptorCollectionProvider routeProvider,
             in IRouteDataService routeDataService)
         {

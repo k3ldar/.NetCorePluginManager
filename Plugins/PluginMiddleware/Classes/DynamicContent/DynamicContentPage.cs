@@ -52,6 +52,10 @@ namespace Middleware.DynamicContent
             BackgroundColor = SharedPluginFeatures.Constants.ColorWhiteHex;
         }
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="id">Id of page</param>
         public DynamicContentPage(int id)
             : this()
         {

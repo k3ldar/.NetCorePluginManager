@@ -179,6 +179,9 @@ namespace PluginManager
             ServiceConfigurator = serviceConfigurator ?? throw new ArgumentNullException(nameof(serviceConfigurator));
         }
 
+        /// <summary>
+        /// Lists threads that will automatically be run after load up is complete.
+        /// </summary>
         protected Dictionary<string, Type> RegisteredStartupThreads { get; private set; }
 
         #endregion Properties
@@ -503,7 +506,7 @@ namespace PluginManager
         /// the methods or properties have attribute T
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <returns></returns>
+        /// <returns>List&lt;Type&gt;</returns>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1031:Do not catch general exception types", Justification = "it's ok here, nothing to see, move along")]
         public List<Type> PluginGetTypesWithAttribute<T>()
         {
@@ -565,7 +568,7 @@ namespace PluginManager
         /// interface T
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <returns></returns>
+        /// <returns>List&lt;Type&gt;</returns>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1031:Do not catch general exception types", Justification = "it's ok here, nothing to see, move along")]
         public List<Type> PluginGetClassTypes<T>()
         {
@@ -604,7 +607,7 @@ namespace PluginManager
         /// or interface from within the plugin modules
         /// </summary>
         /// <typeparam name="T">Type of interface/class</typeparam>
-        /// <returns></returns>
+        /// <returns>List&lt;Type&gt;</returns>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1031:Do not catch general exception types", Justification = "it's ok here, nothing to see, move along")]
         public List<T> PluginGetClasses<T>()
         {
@@ -712,19 +715,45 @@ namespace PluginManager
             RegisteredStartupThreads.Add(threadName, type);
         }
 
+        /// <summary>
+        /// Retrieves the non instantiated classes which inherit from T or implement 
+        /// interface T
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns>List&lt;Type&gt;</returns>
         public List<Type> GetPluginClassTypes<T>()
         {
             return PluginGetClassTypes<T>();
         }
 
+        /// <summary>
+        /// Retreives an instantiated specific type of class which inherits from a specific class 
+        /// or interface from within the plugin modules
+        /// </summary>
+        /// <typeparam name="T">Type of interface/class</typeparam>
+        /// <returns>List&lt;Type&gt;</returns>
         public List<T> GetPluginClasses<T>()
         {
             return PluginGetClasses<T>();
         }
+
+        /// <summary>
+        /// Determines whether a plugin is loaded, and retrieves the version
+        /// </summary>
+        /// <param name="pluginLibraryName"></param>
+        /// <param name="version"></param>
+        /// <returns></returns>
         public bool PluginLoaded(in string pluginLibraryName, out int version)
         {
             return PluginLoaded(pluginLibraryName, out version, out _);
         }
+
+        /// <summary>
+        /// Retrieves the non instantiated classes which have attribute T, or if any of
+        /// the methods or properties have attribute T
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns>List&lt;Type&gt;</returns>
         public List<Type> GetPluginTypesWithAttribute<T>()
         {
             return PluginGetTypesWithAttribute<T>();

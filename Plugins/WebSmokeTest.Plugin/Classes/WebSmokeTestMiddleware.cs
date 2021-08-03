@@ -265,7 +265,7 @@ namespace WebSmokeTest.Plugin
 
         #region Internal Methods
 
-        internal void ClearCache()
+        internal static void ClearCache()
         {
             _testCache.Clear();
         }
@@ -356,7 +356,7 @@ namespace WebSmokeTest.Plugin
             return null;
         }
 
-        private WebSmokeTestItem GetSmokeTestFromControllerAction(in Type type, in MethodInfo method, in SmokeTestAttribute attribute)
+        private static WebSmokeTestItem GetSmokeTestFromControllerAction(in Type type, in MethodInfo method, in SmokeTestAttribute attribute)
         {
             string name = attribute.Name;
             string route = $"{type.Name.Substring(0, type.Name.Length - 10)}/{method.Name}/";
@@ -394,7 +394,7 @@ namespace WebSmokeTest.Plugin
                 attribute.SubmitSearchData.Split(';', StringSplitOptions.RemoveEmptyEntries).ToList());
         }
 
-        private string GetHttpMethodFromMethodInfo(in IEnumerable<CustomAttributeData> attributes)
+        private static string GetHttpMethodFromMethodInfo(in IEnumerable<CustomAttributeData> attributes)
         {
             if (attributes.Where(a => a.AttributeType.Name.Equals("HttpGetAttribute")).Any())
                 return "GET";

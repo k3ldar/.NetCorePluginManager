@@ -26,6 +26,8 @@
 using System;
 using System.Collections.Generic;
 
+#pragma warning disable CS1591
+
 namespace ImageManager.Plugin.Models
 {
     public sealed class RetrieveImagesModel
@@ -41,3 +43,5 @@ namespace ImageManager.Plugin.Models
         public List<string> Images { get; }
     }
 }
+
+#pragma warning restore CS1591

@@ -29,6 +29,8 @@ using System.Collections.Generic;
 using Middleware.Images;
 using Middleware.Interfaces;
 
+#pragma warning disable CS1591
+
 namespace ImageManager.Plugin.Models
 {
     public sealed class ImageTemplateEditorModel
@@ -163,3 +165,5 @@ namespace ImageManager.Plugin.Models
     }
 
 }
+
+#pragma warning restore CS1591

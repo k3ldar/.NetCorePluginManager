@@ -56,6 +56,11 @@
             is completed by the host and all plugins.
             </summary>
         </member>
+        <member name="P:PluginManager.BasePluginManager.RegisteredStartupThreads">
+            <summary>
+            Lists threads that will automatically be run after load up is complete.
+            </summary>
+        </member>
         <member name="M:PluginManager.BasePluginManager.PluginLoading(System.Reflection.Assembly@)">
             <summary>
             Indicates that a plugin is about to be loaded.
@@ -162,7 +167,7 @@
             the methods or properties have attribute T
             </summary>
             <typeparam name="T"></typeparam>
-            <returns></returns>
+            <returns>List&lt;Type&gt;</returns>
         </member>
         <member name="M:PluginManager.BasePluginManager.PluginGetClassTypes``1">
             <summary>
@@ -170,7 +175,7 @@
             interface T
             </summary>
             <typeparam name="T"></typeparam>
-            <returns></returns>
+            <returns>List&lt;Type&gt;</returns>
         </member>
         <member name="M:PluginManager.BasePluginManager.PluginGetClasses``1">
             <summary>
@@ -178,7 +183,7 @@
             or interface from within the plugin modules
             </summary>
             <typeparam name="T">Type of interface/class</typeparam>
-            <returns></returns>
+            <returns>List&lt;Type&gt;</returns>
         </member>
         <member name="M:PluginManager.BasePluginManager.PluginLoaded(System.String@,System.Int32@,System.String@)">
             <summary>
@@ -203,6 +208,38 @@
             </summary>
             <param name="threadName">Name of thread</param>
             <param name="type">Class type, must descend from ThreadManager</param>
+        </member>
+        <member name="M:PluginManager.BasePluginManager.GetPluginClassTypes``1">
+            <summary>
+            Retrieves the non instantiated classes which inherit from T or implement 
+            interface T
+            </summary>
+            <typeparam name="T"></typeparam>
+            <returns>List&lt;Type&gt;</returns>
+        </member>
+        <member name="M:PluginManager.BasePluginManager.GetPluginClasses``1">
+            <summary>
+            Retreives an instantiated specific type of class which inherits from a specific class 
+            or interface from within the plugin modules
+            </summary>
+            <typeparam name="T">Type of interface/class</typeparam>
+            <returns>List&lt;Type&gt;</returns>
+        </member>
+        <member name="M:PluginManager.BasePluginManager.PluginLoaded(System.String@,System.Int32@)">
+            <summary>
+            Determines whether a plugin is loaded, and retrieves the version
+            </summary>
+            <param name="pluginLibraryName"></param>
+            <param name="version"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PluginManager.BasePluginManager.GetPluginTypesWithAttribute``1">
+            <summary>
+            Retrieves the non instantiated classes which have attribute T, or if any of
+            the methods or properties have attribute T
+            </summary>
+            <typeparam name="T"></typeparam>
+            <returns>List&lt;Type&gt;</returns>
         </member>
         <member name="M:PluginManager.BasePluginManager.Dispose">
             <summary>
@@ -736,6 +773,7 @@
             Registers a ThreadManager class that will be instantiated and run once the plugin application manager
             has finished loading.
             </summary>
+            <param name="threadName">Name of thread to be created.  This must be a unique name</param>
             <param name="type">Type of class, this must descend from ThreadManager</param>
         </member>
         <member name="T:PluginManager.Abstractions.INotificationListener">

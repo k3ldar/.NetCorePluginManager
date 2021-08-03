@@ -2,7 +2,7 @@
 
   <PropertyGroup>
 	<TargetFramework>net5.0</TargetFramework>
-	<Version>4.1.0</Version>
+	<Version>4.2.0</Version>
 	<IsPackable>false</IsPackable>
 	<RunAnalyzersDuringBuild>false</RunAnalyzersDuringBuild>
 	<RunAnalyzersDuringLiveAnalysis>false</RunAnalyzersDuringLiveAnalysis>
@@ -43,14 +43,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Properties\Images\Banksy_077_preview.jpg" />
-    <EmbeddedResource Include="Properties\Images\Banksy_191_preview.jpg" />
-    <EmbeddedResource Include="Properties\Images\Banksy_215_preview.jpg" />
-    <EmbeddedResource Include="Properties\Images\fit together.jpg" />
-    <EmbeddedResource Include="Properties\Images\InvalidImage.txt" />
-    <EmbeddedResource Include="Properties\Images\life.jpg" />
-    <EmbeddedResource Include="Properties\Images\racism is stupid.jpg" />
-    <EmbeddedResource Include="Properties\Images\this_tall.jpg" />
+	<EmbeddedResource Include="Properties\Images\Banksy_077_preview.jpg" />
+	<EmbeddedResource Include="Properties\Images\Banksy_191_preview.jpg" />
+	<EmbeddedResource Include="Properties\Images\Banksy_215_preview.jpg" />
+	<EmbeddedResource Include="Properties\Images\fit together.jpg" />
+	<EmbeddedResource Include="Properties\Images\InvalidImage.txt" />
+	<EmbeddedResource Include="Properties\Images\life.jpg" />
+	<EmbeddedResource Include="Properties\Images\racism is stupid.jpg" />
+	<EmbeddedResource Include="Properties\Images\this_tall.jpg" />
   </ItemGroup>
 
   <ItemGroup>
@@ -59,6 +59,7 @@
 	<PackageReference Include="MSTest.TestFramework" Version="2.1.2" />
 	<PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
 	<PackageReference Include="SC.Shared.Library.Core" Version="2.20.0" />
+	<PackageReference Include="ApplicationSettings" Version="2.0.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -72,9 +73,9 @@
 	<ProjectReference Include="..\..\Plugins\ErrorManager.Plugin\ErrorManager.Plugin.csproj" />
 	<ProjectReference Include="..\..\Plugins\GeoIpPlugin\GeoIpPlugin.csproj" />
 	<ProjectReference Include="..\..\Plugins\HelpDesk.Plugin\HelpdeskPlugin.csproj" />
-    <ProjectReference Include="..\..\Plugins\ImageManager.Plugin\ImageManager.Plugin.csproj" />
-    <ProjectReference Include="..\..\Plugins\DynamicContent.Plugin\DynamicContent.Plugin.csproj" />
-    <ProjectReference Include="..\..\Plugins\LocalizationPlugin\Localization.Plugin.csproj" />
+	<ProjectReference Include="..\..\Plugins\ImageManager.Plugin\ImageManager.Plugin.csproj" />
+	<ProjectReference Include="..\..\Plugins\DynamicContent.Plugin\DynamicContent.Plugin.csproj" />
+	<ProjectReference Include="..\..\Plugins\LocalizationPlugin\Localization.Plugin.csproj" />
 	<ProjectReference Include="..\..\Plugins\Login.Plugin\Login.Plugin.csproj" />
 	<ProjectReference Include="..\..\Plugins\PluginMiddleware\PluginMiddleware.csproj" />
 	<ProjectReference Include="..\..\Plugins\Products.Plugin\ProductsPlugin.csproj" />
@@ -104,31 +105,31 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Properties\Images\banksy-no-ball-games.jpg" />
-    <Resource Include="Properties\Images\banksy-pulp-fiction.jpg" />
-    <Resource Include="Properties\Images\Banksy_077_preview.jpg" />
-    <Resource Include="Properties\Images\Banksy_191_preview.jpg" />
-    <Resource Include="Properties\Images\Banksy_215_preview.jpg" />
-    <Resource Include="Properties\Images\fit together.jpg" />
-    <Resource Include="Properties\Images\InvalidImage.txt" />
-    <Resource Include="Properties\Images\life.jpg" />
-    <Resource Include="Properties\Images\racism is stupid.jpg" />
-    <Resource Include="Properties\Images\this_tall.jpg" />
+	<Resource Include="Properties\Images\banksy-no-ball-games.jpg" />
+	<Resource Include="Properties\Images\banksy-pulp-fiction.jpg" />
+	<Resource Include="Properties\Images\Banksy_077_preview.jpg" />
+	<Resource Include="Properties\Images\Banksy_191_preview.jpg" />
+	<Resource Include="Properties\Images\Banksy_215_preview.jpg" />
+	<Resource Include="Properties\Images\fit together.jpg" />
+	<Resource Include="Properties\Images\InvalidImage.txt" />
+	<Resource Include="Properties\Images\life.jpg" />
+	<Resource Include="Properties\Images\racism is stupid.jpg" />
+	<Resource Include="Properties\Images\this_tall.jpg" />
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Properties\Resources.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
+	<Compile Update="Properties\Resources.Designer.cs">
+	  <DesignTime>True</DesignTime>
+	  <AutoGen>True</AutoGen>
+	  <DependentUpon>Resources.resx</DependentUpon>
+	</Compile>
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Update="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
+	<EmbeddedResource Update="Properties\Resources.resx">
+	  <Generator>ResXFileCodeGenerator</Generator>
+	  <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+	</EmbeddedResource>
   </ItemGroup>
 
 </Project>

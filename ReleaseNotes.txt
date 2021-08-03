@@ -8,6 +8,7 @@ Version 4.2.0
 #130 Fix cookie consent
 #88  Dynamic web content
 #131 Route Load Times
+#136 Remove support for non supported net core versions
 
 Version 4.1.0
 =============

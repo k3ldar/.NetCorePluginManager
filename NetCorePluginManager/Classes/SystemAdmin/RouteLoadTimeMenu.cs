@@ -25,16 +25,13 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Reflection;
 using System.Text;
 
 using AspNetCore.PluginManager.Middleware;
 
-using PluginManager.Abstractions;
-
 using SharedPluginFeatures;
+
+#pragma warning disable CS1591
 
 namespace AspNetCore.PluginManager.Classes.SystemAdmin
 {
@@ -76,13 +73,13 @@ namespace AspNetCore.PluginManager.Classes.SystemAdmin
 
             foreach (KeyValuePair<string, Timings> route in routeTimings)
             {
-                Result.AppendFormat("\r{0}|{1}|{2}|{3}|{4}|{5}|{6}", 
-                    route.Key, 
-                    route.Value.Requests, 
-                    route.Value.Fastest, 
-                    route.Value.Slowest, 
-                    route.Value.Average, 
-                    route.Value.TrimmedAverage, 
+                Result.AppendFormat("\r{0}|{1}|{2}|{3}|{4}|{5}|{6}",
+                    route.Key,
+                    route.Value.Requests,
+                    route.Value.Fastest,
+                    route.Value.Slowest,
+                    route.Value.Average,
+                    route.Value.TrimmedAverage,
                     route.Value.Total);
             }
 
@@ -111,3 +108,5 @@ namespace AspNetCore.PluginManager.Classes.SystemAdmin
         }
     }
 }
+
+#pragma warning restore CS1591

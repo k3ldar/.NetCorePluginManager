@@ -45,7 +45,7 @@ namespace PluginManager.Tests.Mocks
 
         public void Dispose()
         {
-
+            GC.SuppressFinalize(this);
         }
     }
 

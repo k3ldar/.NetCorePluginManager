@@ -38,7 +38,11 @@ namespace SharedPluginFeatures.DynamicContent
     {
         #region Private/Protected Members
 
+        /// <summary>
+        /// Default sort order for form template types
+        /// </summary>
         protected const int DefaultFormTemplateSortOrder = 15000;
+
         private const int DefaultPixelWidth = 800;
         private const int MaximumColumnCount = 12;
         private const int MinimumColumnCount = 1;
@@ -52,6 +56,18 @@ namespace SharedPluginFeatures.DynamicContent
         private string _uniqueId;
 
         #endregion Private/Protected Members
+
+        #region Constructors
+
+        /// <summary>
+        /// Default constructor
+        /// </summary>
+        public DynamicContentTemplate()
+        {
+
+        }
+
+        #endregion Constructors
 
         #region Properties
 
@@ -250,6 +266,7 @@ namespace SharedPluginFeatures.DynamicContent
         /// Generates the html used as start of the custom block, taking into account the width/height types
         /// </summary>
         /// <param name="stringBuilder">StringBuilder instance where start block will be appended to.</param>
+        /// <param name="isEditing">Indicates that the request is made when editing the page (true), rather than displaying the page (false)</param>
         /// <exception cref="ArgumentNullException">Raised if stringBuilder parameter is null</exception>
         protected void HtmlStart(StringBuilder stringBuilder, bool isEditing)
         {
@@ -294,11 +311,21 @@ namespace SharedPluginFeatures.DynamicContent
             stringBuilder.Append("</div>");
         }
 
+        /// <summary>
+        /// Retrieves the css class and style information for adding to html tag
+        /// </summary>
+        /// <returns>string</returns>
         protected string RetrieveCssClassAndStyle()
         {
             return RetrieveCssClassAndStyle(null);
         }
 
+        /// <summary>
+        /// Retrieves the css class and style information for adding to html tag.
+        /// 
+        /// The name of an existing class can be specified, this will form part of the class name returned
+        /// </summary>
+        /// <returns>string</returns>
         protected string RetrieveCssClassAndStyle(string existingClassNames)
         {
             StringBuilder Result = new StringBuilder(1024);

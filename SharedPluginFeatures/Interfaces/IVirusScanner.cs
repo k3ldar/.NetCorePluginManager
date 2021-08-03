@@ -46,7 +46,7 @@ namespace SharedPluginFeatures
         /// <summary>
         /// Forces a scan of an array of files
         /// </summary>
-        /// <param name="fileName">Name of files to be scanned, must include the full path to the file</param>
+        /// <param name="fileNames">Name of files to be scanned, must include the full path to the file</param>
         void ScanFile(in string[] fileNames);
     }
 }

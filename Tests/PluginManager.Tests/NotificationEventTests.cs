@@ -424,8 +424,10 @@ namespace PluginManager.Tests
 
         public List<string> GetEvents()
         {
-            List<string> Result = new List<string>();
-            Result.Add(null);
+            List<string> Result = new List<string>
+            {
+                null
+            };
 
             return Result;
         }

@@ -41,6 +41,7 @@ namespace PluginManager.Abstractions
         /// Registers a ThreadManager class that will be instantiated and run once the plugin application manager
         /// has finished loading.
         /// </summary>
+        /// <param name="threadName">Name of thread to be created.  This must be a unique name</param>
         /// <param name="type">Type of class, this must descend from ThreadManager</param>
         void RegisterStartupThread(string threadName, Type type);
     }

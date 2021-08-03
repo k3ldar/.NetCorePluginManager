@@ -34,6 +34,8 @@ using Shared.Classes;
 
 using SharedPluginFeatures;
 
+#pragma warning disable CS1591
+
 namespace AspNetCore.PluginManager.Middleware
 {
     public sealed class RouteLoadTimeMiddleware : BaseMiddleware
@@ -117,3 +119,5 @@ namespace AspNetCore.PluginManager.Middleware
         #endregion Private Methods
     }
 }
+
+#pragma warning restore CS1591

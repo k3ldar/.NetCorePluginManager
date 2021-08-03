@@ -104,7 +104,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SmokeTestTests
             using (WebSmokeTestMiddleware sut = new WebSmokeTestMiddleware(null, pluginHelperServices,
                 pluginTypesService, settingsProvider, logger))
             {
-                sut.ClearCache();
+                WebSmokeTestMiddleware.ClearCache();
                 List<WebSmokeTestItem> smokeTests = sut.SmokeTests;
 
                 Assert.IsTrue(smokeTests.Count > 1);
