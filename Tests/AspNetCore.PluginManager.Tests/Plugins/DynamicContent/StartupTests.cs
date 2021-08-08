@@ -39,6 +39,8 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using PluginManager.Tests.Mocks;
 
+using Shared.Classes;
+
 namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
 {
     [TestClass]
@@ -75,14 +77,22 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         [TestMethod]
         public void ConfigureServices_EnableEndpointRoutingIsFalse_Success()
         {
-            Startup sut = new Startup();
+            ThreadManager.Initialise();
+            try
+            {
+                Startup sut = new Startup();
 
-            MockServiceCollection serviceCollection = new MockServiceCollection();
-            sut.ConfigureServices(serviceCollection);
+                MockServiceCollection serviceCollection = new MockServiceCollection();
+                sut.ConfigureServices(serviceCollection);
 
-            Assert.IsTrue(serviceCollection.HasMvcConfigured());
-            Assert.IsFalse(serviceCollection.HasMvcEndpointRouting());
-            Assert.IsTrue(serviceCollection.HasSessionStateTempDataProvider());
+                Assert.IsTrue(serviceCollection.HasMvcConfigured());
+                Assert.IsFalse(serviceCollection.HasMvcEndpointRouting());
+                Assert.IsTrue(serviceCollection.HasSessionStateTempDataProvider());
+            }
+            finally
+            {
+                ThreadManager.Finalise();
+            }
         }
 
         [TestMethod]
@@ -97,16 +107,24 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         [TestMethod]
         public void Configure_UseMvcIsCalled_CorrectDefaultRouteAdded()
         {
-            IWebHost host = WebHost.CreateDefaultBuilder(new string[] { })
-                .UseStartup<Startup>().Build();
+            ThreadManager.Initialise();
+            try
+            {
+                IWebHost host = WebHost.CreateDefaultBuilder(new string[] { })
+                    .UseStartup<Startup>().Build();
 
-            Startup sut = new Startup();
-            
-            MockApplicationBuilder applicationBuilder = new MockApplicationBuilder(host.Services);
-            
-            sut.Configure(applicationBuilder);
+                Startup sut = new Startup();
 
-            Assert.IsTrue(applicationBuilder.UseMvcCalled);
+                MockApplicationBuilder applicationBuilder = new MockApplicationBuilder(host.Services);
+
+                sut.Configure(applicationBuilder);
+
+                Assert.IsTrue(applicationBuilder.UseMvcCalled);
+            }
+            finally
+            {
+                ThreadManager.Finalise();
+            }
         }
     }
 }

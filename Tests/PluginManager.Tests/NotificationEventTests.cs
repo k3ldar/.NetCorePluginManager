@@ -214,148 +214,179 @@ namespace PluginManager.Tests
         [TestMethod]
         public void NotificationService_Run_NotifiesAllInterestedListeners_Success()
         {
+            ThreadManager.Initialise();
             TestLogger testLogger = new TestLogger();
-            ThreadManagerInitialisation.Initialise(testLogger);
-            NotificationService sut = new NotificationService();
-            ValidEventsListener listener1 = new ValidEventsListener();
-            ValidEventsListener listener2 = new ValidEventsListener();
-            ValidEventsNotUsed listener3 = new ValidEventsNotUsed();
 
-            Assert.IsTrue(sut.RegisterListener(listener1));
-            Assert.IsTrue(sut.RegisterListener(listener2));
-            Assert.IsTrue(sut.RegisterListener(listener3));
-
-            ThreadManager.ThreadStart(sut, "TestListener", System.Threading.ThreadPriority.Normal);
-
-            sut.RaiseEvent("Test1");
-            sut.RaiseEvent("Test2", 123);
-            sut.RaiseEvent("Test1", "test", sut);
-
-            int waitCount = 0;
-            bool keepWaiting = true;
-
-            while (keepWaiting)
+            ThreadManagerInitialisation tmi = new ThreadManagerInitialisation();
+            tmi.Initialise(testLogger);
+            try
             {
-                if (waitCount > 60)
-                    keepWaiting = false;
+                NotificationService sut = new NotificationService();
+                ValidEventsListener listener1 = new ValidEventsListener();
+                ValidEventsListener listener2 = new ValidEventsListener();
+                ValidEventsNotUsed listener3 = new ValidEventsNotUsed();
 
-                Thread.Sleep(50);
-                waitCount++;
+                Assert.IsTrue(sut.RegisterListener(listener1));
+                Assert.IsTrue(sut.RegisterListener(listener2));
+                Assert.IsTrue(sut.RegisterListener(listener3));
 
-                if (listener2.EventCount > 2)
-                    keepWaiting = false;
+                ThreadManager.ThreadStart(sut, "TestListener", System.Threading.ThreadPriority.Normal);
+
+                sut.RaiseEvent("Test1");
+                sut.RaiseEvent("Test2", 123);
+                sut.RaiseEvent("Test1", "test", sut);
+
+                int waitCount = 0;
+                bool keepWaiting = true;
+
+                while (keepWaiting)
+                {
+                    if (waitCount > 60)
+                        keepWaiting = false;
+
+                    Thread.Sleep(50);
+                    waitCount++;
+
+                    if (listener2.EventCount > 2)
+                        keepWaiting = false;
+                }
+
+                Assert.AreEqual(3, listener1.EventCount);
+                Assert.AreEqual(1, listener1.Event2Count);
+                Assert.AreEqual(2, listener1.Event1Count);
+                Assert.IsNull(listener1.param1Values[0]);
+                Assert.IsNotNull(listener1.param1Values[1]);
+                Assert.IsInstanceOfType(listener1.param1Values[1], typeof(Int32));
+                Assert.AreEqual(123, listener1.param1Values[1]);
+                Assert.IsInstanceOfType(listener1.param1Values[2], typeof(string));
+                Assert.AreEqual("test", listener1.param1Values[2]);
+                Assert.IsNull(listener1.param2Values[0]);
+                Assert.IsNull(listener1.param2Values[1]);
+                Assert.IsNotNull(listener1.param2Values[2]);
+                Assert.AreEqual(sut, listener1.param2Values[2]);
+
+
+                Assert.AreEqual(3, listener2.EventCount);
+                Assert.AreEqual(1, listener2.Event2Count);
+                Assert.AreEqual(2, listener2.Event1Count);
+                Assert.IsNull(listener2.param1Values[0]);
+                Assert.IsNotNull(listener2.param1Values[1]);
+                Assert.IsInstanceOfType(listener2.param1Values[1], typeof(Int32));
+                Assert.AreEqual(123, listener2.param1Values[1]);
+                Assert.IsInstanceOfType(listener2.param1Values[2], typeof(string));
+                Assert.AreEqual("test", listener2.param1Values[2]);
+                Assert.IsNull(listener2.param2Values[0]);
+                Assert.IsNull(listener2.param2Values[1]);
+                Assert.IsNotNull(listener2.param2Values[2]);
+                Assert.AreEqual(sut, listener2.param2Values[2]);
+
+
+                Assert.IsTrue(sut.UnregisterListener(listener1));
+                Assert.IsTrue(sut.UnregisterListener(listener2));
+                Assert.IsTrue(sut.UnregisterListener(listener3));
+
+                sut.CancelThread();
             }
-
-            Assert.AreEqual(3, listener1.EventCount);
-            Assert.AreEqual(1, listener1.Event2Count);
-            Assert.AreEqual(2, listener1.Event1Count);
-            Assert.IsNull(listener1.param1Values[0]);
-            Assert.IsNotNull(listener1.param1Values[1]);
-            Assert.IsInstanceOfType(listener1.param1Values[1], typeof(Int32));
-            Assert.AreEqual(123, listener1.param1Values[1]);
-            Assert.IsInstanceOfType(listener1.param1Values[2], typeof(string));
-            Assert.AreEqual("test", listener1.param1Values[2]);
-            Assert.IsNull(listener1.param2Values[0]);
-            Assert.IsNull(listener1.param2Values[1]);
-            Assert.IsNotNull(listener1.param2Values[2]);
-            Assert.AreEqual(sut, listener1.param2Values[2]);
-
-
-            Assert.AreEqual(3, listener2.EventCount);
-            Assert.AreEqual(1, listener2.Event2Count);
-            Assert.AreEqual(2, listener2.Event1Count);
-            Assert.IsNull(listener2.param1Values[0]);
-            Assert.IsNotNull(listener2.param1Values[1]);
-            Assert.IsInstanceOfType(listener2.param1Values[1], typeof(Int32));
-            Assert.AreEqual(123, listener2.param1Values[1]);
-            Assert.IsInstanceOfType(listener2.param1Values[2], typeof(string));
-            Assert.AreEqual("test", listener2.param1Values[2]);
-            Assert.IsNull(listener2.param2Values[0]);
-            Assert.IsNull(listener2.param2Values[1]);
-            Assert.IsNotNull(listener2.param2Values[2]);
-            Assert.AreEqual(sut, listener2.param2Values[2]);
-
-
-            Assert.IsTrue(sut.UnregisterListener(listener1));
-            Assert.IsTrue(sut.UnregisterListener(listener2));
-            Assert.IsTrue(sut.UnregisterListener(listener3));
-
-            sut.CancelThread();
+            finally
+            {
+                tmi.Finalise();
+                ThreadManager.Finalise();
+            }
         }
 
         [TestMethod]
         public void NotificationService_Run_NotifiesAllInterestedListeners_ExceedsQueueSize_Success()
         {
+            ThreadManager.Initialise();
             TestLogger testLogger = new TestLogger();
-            ThreadManagerInitialisation.Initialise(testLogger);
-            NotificationService sut = new NotificationService();
-            ValidEventsListener listener1 = new ValidEventsListener();
-
-            Assert.IsTrue(sut.RegisterListener(listener1));
-
-            ThreadManager.ThreadStart(sut, "TestListener", System.Threading.ThreadPriority.Normal);
-
-            for (int i = 0; i < 305; i++)
+            ThreadManagerInitialisation tmi = new ThreadManagerInitialisation();
+            tmi.Initialise(testLogger);
+            try
             {
-                sut.RaiseEvent("Test1");
+                NotificationService sut = new NotificationService();
+                ValidEventsListener listener1 = new ValidEventsListener();
+
+                Assert.IsTrue(sut.RegisterListener(listener1));
+
+                ThreadManager.ThreadStart(sut, "TestListener", System.Threading.ThreadPriority.Normal);
+
+                for (int i = 0; i < 305; i++)
+                {
+                    sut.RaiseEvent("Test1");
+                }
+
+                int waitCount = 0;
+                bool keepWaiting = true;
+
+                while (keepWaiting)
+                {
+                    if (waitCount > 60)
+                        keepWaiting = false;
+
+                    Thread.Sleep(50);
+                    waitCount++;
+
+                    if (listener1.EventCount > 300)
+                        keepWaiting = false;
+                }
+
+                Assert.AreEqual(305, listener1.EventCount);
+                Assert.AreEqual(0, listener1.Event2Count);
+                Assert.AreEqual(305, listener1.Event1Count);
+
+
+                Assert.IsTrue(sut.UnregisterListener(listener1));
+
+                sut.CancelThread();
             }
-
-            int waitCount = 0;
-            bool keepWaiting = true;
-
-            while (keepWaiting)
+            finally
             {
-                if (waitCount > 60)
-                    keepWaiting = false;
-
-                Thread.Sleep(50);
-                waitCount++;
-
-                if (listener1.EventCount > 300)
-                    keepWaiting = false;
+                tmi.Finalise();
+                ThreadManager.Finalise();
             }
-
-            Assert.AreEqual(305, listener1.EventCount);
-            Assert.AreEqual(0, listener1.Event2Count);
-            Assert.AreEqual(305, listener1.Event1Count);
-
-
-            Assert.IsTrue(sut.UnregisterListener(listener1));
-
-            sut.CancelThread();
         }
 
         [TestMethod]
         public void NotificationService_Run_NotifiesAllInterestedListeners_NoneFoundSuccess()
         {
+            ThreadManager.Initialise();
             TestLogger testLogger = new TestLogger();
-            ThreadManagerInitialisation.Initialise(testLogger);
-            NotificationService sut = new NotificationService();
-            ValidEventsNotUsed listener3 = new ValidEventsNotUsed();
-
-            Assert.IsTrue(sut.RegisterListener(listener3));
-
-            ThreadManager.ThreadStart(sut, "TestListener", System.Threading.ThreadPriority.Normal);
-
-            sut.RaiseEvent("Test1");
-
-            int waitCount = 0;
-            bool keepWaiting = true;
-
-            while (keepWaiting)
+            ThreadManagerInitialisation tmi = new ThreadManagerInitialisation();
+            tmi.Initialise(testLogger);
+            try
             {
-                if (waitCount > 40)
-                    keepWaiting = false;
+                NotificationService sut = new NotificationService();
+                ValidEventsNotUsed listener3 = new ValidEventsNotUsed();
 
-                Thread.Sleep(50);
-                waitCount++;
+                Assert.IsTrue(sut.RegisterListener(listener3));
+
+                ThreadManager.ThreadStart(sut, "TestListener", System.Threading.ThreadPriority.Normal);
+
+                sut.RaiseEvent("Test1");
+
+                int waitCount = 0;
+                bool keepWaiting = true;
+
+                while (keepWaiting)
+                {
+                    if (waitCount > 40)
+                        keepWaiting = false;
+
+                    Thread.Sleep(50);
+                    waitCount++;
+                }
+
+                Assert.AreEqual(0, listener3.EventCount);
+
+                Assert.IsTrue(sut.UnregisterListener(listener3));
+
+                sut.CancelThread();
             }
-
-            Assert.AreEqual(0, listener3.EventCount);
-
-            Assert.IsTrue(sut.UnregisterListener(listener3));
-
-            sut.CancelThread();
+            finally
+            {
+                tmi.Finalise();
+                ThreadManager.Finalise();
+            }
         }
 
         #region Notification Queue Item

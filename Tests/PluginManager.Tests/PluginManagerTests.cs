@@ -37,6 +37,8 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using PluginManager.Abstractions;
 using PluginManager.Tests.Mocks;
 
+using Shared.Classes;
+
 namespace PluginManager.Tests
 {
     [TestClass]
@@ -46,11 +48,20 @@ namespace PluginManager.Tests
         [TestInitialize]
         public void StartTest()
         {
+            ThreadManager.Initialise();
+
             //plugin test dir
             string path = Path.Combine(Path.GetTempPath(), "plugintest");
 
             if (Directory.Exists(path))
                 Directory.Delete(path, true);
+        }
+
+        [TestCleanup]
+        public void EndTest()
+        {
+            ThreadManager.CancelAll();
+            ThreadManager.Finalise();
         }
 
         [TestMethod]

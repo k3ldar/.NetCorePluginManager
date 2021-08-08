@@ -32,6 +32,8 @@ using Microsoft.AspNetCore.Hosting;
 
 using PluginManager;
 
+using Shared.Classes;
+
 namespace AspNetCore.PluginManager.DemoWebsite
 {
     [ExcludeFromCodeCoverage(Justification = "Code coverage not required for Main")]
@@ -39,6 +41,11 @@ namespace AspNetCore.PluginManager.DemoWebsite
     {
         public static void Main(string[] args)
         {
+            ThreadManager.Initialise(new SharedLib.Win.WindowsCpuUsage());
+            ThreadManager.MaximumPoolSize = 500;
+            ThreadManager.MaximumRunningThreads = 50;
+            ThreadManager.ThreadCpuChangeNotification = 0;
+
             // add plugins which need to be loaded first
             PluginManagerService.UsePlugin(typeof(ErrorManager.Plugin.PluginInitialisation));
             PluginManagerService.UsePlugin(typeof(SystemAdmin.Plugin.PluginInitialisation));

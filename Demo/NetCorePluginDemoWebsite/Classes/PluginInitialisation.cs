@@ -40,6 +40,8 @@ using Middleware.Helpdesk;
 
 using PluginManager.Abstractions;
 
+using Shared;
+
 using SharedPluginFeatures;
 
 namespace AspNetCore.PluginManager.DemoWebsite.Classes

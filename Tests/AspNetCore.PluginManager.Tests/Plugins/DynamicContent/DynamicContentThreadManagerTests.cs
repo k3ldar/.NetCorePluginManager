@@ -56,6 +56,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         [TestInitialize]
         public void TestInitialize()
         {
+            ThreadManager.Initialise();
             _currentTestPath = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
 
             while (Directory.Exists(_currentTestPath))
@@ -63,6 +64,12 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
                 Thread.Sleep(10);
                 _currentTestPath = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
             }
+        }
+
+        [TestCleanup]
+        public void TestFinalize()
+        {
+            ThreadManager.Finalise();
         }
 
         [TestMethod]

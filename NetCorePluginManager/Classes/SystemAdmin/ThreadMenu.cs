@@ -70,6 +70,8 @@ namespace AspNetCore.PluginManager.Classes.SystemAdmin
         {
             StringBuilder Result = new StringBuilder("Name|Process Usage|System Usage|Thread Id|Cancelled|Unresponsive|Marked For Removal\r");
 
+            Result.AppendFormat("Process||{0}%||||\r", ThreadManager.CpuUsage.ToString("F"));
+
             for (int i = 0; i < ThreadManager.ThreadCount; i++)
             {
                 ThreadManager thread = ThreadManager.Get(i);

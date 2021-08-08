@@ -34,7 +34,7 @@ using Shared.Classes;
 
 namespace PluginManager.Internal
 {
-    internal static class ThreadManagerInitialisation
+    internal sealed class ThreadManagerInitialisation
     {
         #region Private Members
 
@@ -44,67 +44,106 @@ namespace PluginManager.Internal
 
         #region Internal Methods
 
-        internal static void Initialise(in ILogger logger)
+        internal void Initialise(in ILogger logger)
         {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
             ThreadManager.ThreadAbortForced += ThreadManager_ThreadAbortForced;
-            ThreadManager.ThreadForcedToClose += ThreadManager_ThreadForcedToClose;
             ThreadManager.ThreadCancellAll += ThreadManager_ThreadCancellAll;
             ThreadManager.ThreadExceptionRaised += ThreadManager_ThreadExceptionRaised;
+            ThreadManager.ThreadForcedToClose += ThreadManager_ThreadForcedToClose;
+            ThreadManager.ThreadQueueAddItem += ThreadManager_ThreadQueueAddItem;
+            ThreadManager.ThreadQueueCleared += ThreadManager_ThreadQueueCleared;
+            ThreadManager.ThreadQueueRemoveItem += ThreadManager_ThreadQueueRemoveItem;
             ThreadManager.ThreadStarted += ThreadManager_ThreadStarted;
             ThreadManager.ThreadStopped += ThreadManager_ThreadStopped;
+        }
+
+        internal void Finalise()
+        {
+            ThreadManager.ThreadAbortForced -= ThreadManager_ThreadAbortForced;
+            ThreadManager.ThreadCancellAll -= ThreadManager_ThreadCancellAll;
+            ThreadManager.ThreadExceptionRaised -= ThreadManager_ThreadExceptionRaised;
+            ThreadManager.ThreadForcedToClose -= ThreadManager_ThreadForcedToClose;
+            ThreadManager.ThreadQueueAddItem -= ThreadManager_ThreadQueueAddItem;
+            ThreadManager.ThreadQueueCleared -= ThreadManager_ThreadQueueCleared;
+            ThreadManager.ThreadQueueRemoveItem -= ThreadManager_ThreadQueueRemoveItem;
+            ThreadManager.ThreadStarted -= ThreadManager_ThreadStarted;
+            ThreadManager.ThreadStopped -= ThreadManager_ThreadStopped;
         }
 
         #endregion Internal Methods
 
         #region Private Static Methods
 
-        private static void ThreadManager_ThreadStopped(object sender, Shared.ThreadManagerEventArgs e)
+        private void ThreadManager_ThreadStopped(object sender, Shared.ThreadManagerEventArgs e)
         {
-            _logger.AddToLog(LogLevel.ThreadManager,
+            _logger?.AddToLog(LogLevel.ThreadManager,
                 String.Format("Thread stopped: {0}, Unresponsive: {1}, Marked For Removal: {2}, " +
                 "Start Time: {3}, End Time: {4}", e.Thread.Name, e.Thread.UnResponsive.ToString(),
                 e.Thread.MarkedForRemoval.ToString(), e.Thread.TimeStart.ToString("g"),
                 e.Thread.TimeFinish.ToString("g")));
         }
 
-        private static void ThreadManager_ThreadStarted(object sender, Shared.ThreadManagerEventArgs e)
+        private void ThreadManager_ThreadStarted(object sender, Shared.ThreadManagerEventArgs e)
         {
-            _logger.AddToLog(LogLevel.ThreadManager,
+            _logger?.AddToLog(LogLevel.ThreadManager,
                 String.Format("Thread started: {0}, Unresponsive: {1}, Marked For Removal: {2}, " +
                 "Start Time: {3}, End Time: {4}", e.Thread.Name, e.Thread.UnResponsive.ToString(),
                 e.Thread.MarkedForRemoval.ToString(), e.Thread.TimeStart.ToString("g"),
                 e.Thread.TimeFinish.ToString("g")));
         }
 
-        private static void ThreadManager_ThreadExceptionRaised(object sender, Shared.ThreadManagerExceptionEventArgs e)
+        private void ThreadManager_ThreadExceptionRaised(object sender, Shared.ThreadManagerExceptionEventArgs e)
         {
-            _logger.AddToLog(LogLevel.ThreadManager, e.Error,
+            _logger?.AddToLog(LogLevel.ThreadManager, e.Error,
                 String.Format("Thread exception raised: {0}, Unresponsive: {1}, Marked For Removal: {2}, " +
                 "Start Time: {3}, End Time: {4}", e.Thread.Name, e.Thread.UnResponsive.ToString(),
                 e.Thread.MarkedForRemoval.ToString(), e.Thread.TimeStart.ToString("g"),
                 e.Thread.TimeFinish.ToString("g")));
         }
 
-        private static void ThreadManager_ThreadCancellAll(object sender, EventArgs e)
+        private void ThreadManager_ThreadCancellAll(object sender, EventArgs e)
         {
-            _logger.AddToLog(LogLevel.ThreadManager, "Thread cancel all");
+            _logger?.AddToLog(LogLevel.ThreadManager, "Thread cancel all");
         }
 
-        private static void ThreadManager_ThreadAbortForced(object sender, Shared.ThreadManagerEventArgs e)
+        private void ThreadManager_ThreadAbortForced(object sender, Shared.ThreadManagerEventArgs e)
         {
-            _logger.AddToLog(LogLevel.ThreadManager,
+            _logger?.AddToLog(LogLevel.ThreadManager,
                 String.Format("Thread abort forced to close: {0}, Unresponsive: {1}, Marked For Removal: {2}, " +
                 "Start Time: {3}, End Time: {4}", e.Thread.Name, e.Thread.UnResponsive.ToString(),
                 e.Thread.MarkedForRemoval.ToString(), e.Thread.TimeStart.ToString("g"),
                 e.Thread.TimeFinish.ToString("g")));
         }
 
-        private static void ThreadManager_ThreadForcedToClose(object sender, Shared.ThreadManagerEventArgs e)
+        private void ThreadManager_ThreadForcedToClose(object sender, Shared.ThreadManagerEventArgs e)
         {
-            _logger.AddToLog(LogLevel.ThreadManager,
+            _logger?.AddToLog(LogLevel.ThreadManager,
                 String.Format("Thread forced to close: {0}, Unresponsive: {1}, Marked For Removal: {2}, " +
+                "Start Time: {3}, End Time: {4}", e.Thread.Name, e.Thread.UnResponsive.ToString(),
+                e.Thread.MarkedForRemoval.ToString(), e.Thread.TimeStart.ToString("g"),
+                e.Thread.TimeFinish.ToString("g")));
+        }
+
+        private void ThreadManager_ThreadQueueRemoveItem(object sender, Shared.ThreadManagerEventArgs e)
+        {
+            _logger?.AddToLog(LogLevel.ThreadManager,
+                String.Format("Thread Queue item removed: {0}, Unresponsive: {1}, Marked For Removal: {2}, " +
+                "Start Time: {3}, End Time: {4}", e.Thread.Name, e.Thread.UnResponsive.ToString(),
+                e.Thread.MarkedForRemoval.ToString(), e.Thread.TimeStart.ToString("g"),
+                e.Thread.TimeFinish.ToString("g")));
+        }
+
+        private void ThreadManager_ThreadQueueCleared(object sender, EventArgs e)
+        {
+            _logger?.AddToLog(LogLevel.ThreadManager, "Thread Queue cleared");
+        }
+
+        private void ThreadManager_ThreadQueueAddItem(object sender, Shared.ThreadManagerEventArgs e)
+        {
+            _logger?.AddToLog(LogLevel.ThreadManager,
+                String.Format("Thread Queue item added: {0}, Unresponsive: {1}, Marked For Removal: {2}, " +
                 "Start Time: {3}, End Time: {4}", e.Thread.Name, e.Thread.UnResponsive.ToString(),
                 e.Thread.MarkedForRemoval.ToString(), e.Thread.TimeStart.ToString("g"),
                 e.Thread.TimeFinish.ToString("g")));

@@ -128,39 +128,47 @@ namespace AspNetCore.PluginManager.Tests.AspNetCore.PluginManager
         [TestCategory(SystemAdminCategoryName)]
         public void ThreadMenu_CreateValidInstance_Success()
         {
-            string DefaultDataStart = "Name|Process Usage|System Usage|Thread Id|Cancelled|Unresponsive|Marked For Removal";
-            string[] DefaultDataContains = { "Name|Process Usage|System Usage|Thread Id|Cancelled|Unresponsive|Marked For Removal\r", "Just a test|" };
-
-            TestThread testThread = new TestThread();
-
-            PluginManagerService.Initialise();
+            ThreadManager.Initialise();
             try
             {
-                ThreadManager.ThreadStart(testThread, "Just a test", System.Threading.ThreadPriority.Normal);
+                string DefaultDataStart = "Name|Process Usage|System Usage|Thread Id|Cancelled|Unresponsive|Marked For Removal";
+                string[] DefaultDataContains = { "Name|Process Usage|System Usage|Thread Id|Cancelled|Unresponsive|Marked For Removal\r", "Just a test|" };
 
-                ThreadMenu sut = new ThreadMenu();
+                TestThread testThread = new TestThread();
 
-                Assert.IsInstanceOfType(sut, typeof(SystemAdminSubMenu));
-                Assert.AreEqual("", sut.Action());
-                Assert.AreEqual("", sut.Area());
-                Assert.AreEqual("", sut.Controller());
-                Assert.AreEqual(Enums.SystemAdminMenuType.Grid, sut.MenuType());
-                Assert.AreEqual("Threads", sut.Name());
-                Assert.AreEqual("System", sut.ParentMenuName());
-                Assert.AreEqual(0, sut.SortOrder());
-                Assert.AreEqual("", sut.Image());
-                string data = sut.Data();
+                PluginManagerService.Initialise();
+                try
+                {
+                    ThreadManager.ThreadStart(testThread, "Just a test", System.Threading.ThreadPriority.Normal);
 
-                ValidateSystemAdminColumnCounts(data);
-                Assert.IsTrue(data.StartsWith(DefaultDataStart));
+                    ThreadMenu sut = new ThreadMenu();
 
-                for (int i = 0; i < DefaultDataContains.Length; i++)
-                    Assert.IsTrue(data.Contains(DefaultDataContains[i]), "Should contain " + DefaultDataContains[i]);
+                    Assert.IsInstanceOfType(sut, typeof(SystemAdminSubMenu));
+                    Assert.AreEqual("", sut.Action());
+                    Assert.AreEqual("", sut.Area());
+                    Assert.AreEqual("", sut.Controller());
+                    Assert.AreEqual(Enums.SystemAdminMenuType.Grid, sut.MenuType());
+                    Assert.AreEqual("Threads", sut.Name());
+                    Assert.AreEqual("System", sut.ParentMenuName());
+                    Assert.AreEqual(0, sut.SortOrder());
+                    Assert.AreEqual("", sut.Image());
+                    string data = sut.Data();
+
+                    ValidateSystemAdminColumnCounts(data);
+                    Assert.IsTrue(data.StartsWith(DefaultDataStart));
+
+                    for (int i = 0; i < DefaultDataContains.Length; i++)
+                        Assert.IsTrue(data.Contains(DefaultDataContains[i]), "Should contain " + DefaultDataContains[i]);
+                }
+                finally
+                {
+                    testThread.CancelThread();
+                    PluginManagerService.Finalise();
+                }
             }
             finally
             {
-                testThread.CancelThread();
-                PluginManagerService.Finalise();
+                ThreadManager.Finalise();
             }
         }
 

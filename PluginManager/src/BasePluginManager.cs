@@ -65,6 +65,7 @@ namespace PluginManager
         private IServiceProvider _serviceProvider;
         private bool _serviceConfigurationComplete;
         private readonly NotificationService _notificationService;
+        private readonly ThreadManagerInitialisation _threadManagerInitialisation;
 
         #endregion Private Members
 
@@ -99,7 +100,8 @@ namespace PluginManager
 
             Logger = configuration.Logger;
 
-            ThreadManagerInitialisation.Initialise(Logger);
+            _threadManagerInitialisation = new ThreadManagerInitialisation();
+            _threadManagerInitialisation.Initialise(Logger);
 
             _serviceProvider = CreateBasicServiceProvider(configuration, pluginSettings);
 
@@ -825,6 +827,8 @@ namespace PluginManager
         {
             if (disposing || !_disposed)
             {
+                _threadManagerInitialisation.Finalise();
+
                 if (_plugins.Count > 0)
                 {
                     foreach (KeyValuePair<string, IPluginModule> plugin in _plugins)
@@ -1023,7 +1027,8 @@ namespace PluginManager
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1031:Do not catch general exception types", Justification = "it's ok here, nothing to see, move along")]
         private Assembly CurrentDomainAssemblyResolve(object sender, ResolveEventArgs args)
         {
-            if (String.IsNullOrWhiteSpace(_pluginSettings.SystemFiles) ||
+            if (_pluginSettings == null ||
+                String.IsNullOrWhiteSpace(_pluginSettings.SystemFiles) ||
                 !Directory.Exists(_pluginSettings.SystemFiles))
             {
                 return null;

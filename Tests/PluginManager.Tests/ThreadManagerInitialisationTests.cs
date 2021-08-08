@@ -44,38 +44,68 @@ namespace PluginManager.Tests
         [ExpectedException(typeof(ArgumentNullException))]
         public void Initialise_InvalidParam_Null_Throws_ArgumentNullException()
         {
-            ThreadManagerInitialisation.Initialise(null);
+            ThreadManagerInitialisation sut = new ThreadManagerInitialisation();
+            sut.Initialise(null);
         }
 
         [TestMethod]
         public void ThreadStarts_RaisesThreadStartMessage_Success()
         {
+            ThreadManager.Initialise();
             TestLogger testLogger = new TestLogger();
 
-            ThreadManagerInitialisation.Initialise(testLogger);
+            ThreadManagerInitialisation sut = new ThreadManagerInitialisation();
+            sut.Initialise(testLogger);
+            try
+            {
+                ThreadManager.ThreadStart(new TestThreadThatStops(), "Test that stops", ThreadPriority.BelowNormal);
 
-            ThreadManager.ThreadStart(new TestThreadThatStops(), "Test that stops", ThreadPriority.BelowNormal);
+                ThreadManager.CancelAll(3);
 
-            ThreadManager.CancelAll(3);
-
-            Assert.IsTrue(testLogger.ContainsMessage("ThreadManager Thread cancel all"));
-            Assert.IsTrue(testLogger.Logs[1].Data.StartsWith("Thread started: Test that stops, "));
+                Assert.IsTrue(testLogger.ContainsMessage("ThreadManager Thread cancel all"));
+                Assert.IsTrue(testLogger.ContainsMessage("ThreadManager Thread started: Test that stops, "));
+            }
+            finally
+            {
+                sut.Finalise();
+                ThreadManager.Finalise();
+            }
         }
 
         [TestMethod]
         public void ThreadStarts_ThreadThrowsExceptionAddedToLog_Success()
         {
+            const string PartialErrorMessage = "ThreadManager Operation is not valid due to the current state of the object. Thread exception raised: Test that stops,";
+            ThreadManager.Initialise();
             TestLogger testLogger = new TestLogger();
 
-            ThreadManagerInitialisation.Initialise(testLogger);
+            ThreadManagerInitialisation sut = new ThreadManagerInitialisation();
+            sut.Initialise(testLogger);
+            try
+            {
+                ThreadManager.ThreadStart(new TestThreadThatThrowsException(), "Test that stops", ThreadPriority.AboveNormal);
 
-            ThreadManager.ThreadStart(new TestThreadThatThrowsException(), "Test that stops", System.Threading.ThreadPriority.BelowNormal);
+                DateTime dateTime = DateTime.Now.AddSeconds(3);
 
-            Thread.Sleep(1000);
-            ThreadManager.CancelAll(3);
+                while (dateTime > DateTime.Now)
+                {
+                    Thread.Sleep(20);
 
-            Assert.IsTrue(testLogger.ContainsMessage("ThreadManager Thread cancel all"));
-            Assert.IsTrue(testLogger.Errors[0].Data.Contains("Thread exception raised: Test that stops, "));
+                    if (testLogger.ContainsMessage(PartialErrorMessage))
+                        break;
+                }
+
+                Assert.IsTrue(testLogger.ContainsMessage(PartialErrorMessage));
+
+
+                ThreadManager.CancelAll(3);
+                Assert.IsTrue(testLogger.ContainsMessage("ThreadManager Thread cancel all"));
+            }
+            finally
+            {
+                sut.Finalise();
+                ThreadManager.Finalise();
+            }
         }
     }
 
@@ -97,6 +127,8 @@ namespace PluginManager.Tests
     [ExcludeFromCodeCoverage]
     internal class TestThreadThatThrowsException : ThreadManager
     {
+        private bool _hasRun = false;
+
         internal TestThreadThatThrowsException()
             : base(null, new TimeSpan())
         {
@@ -105,6 +137,10 @@ namespace PluginManager.Tests
 
         protected override bool Run(object parameters)
         {
+            if (_hasRun)
+                return false;
+
+            _hasRun = true;
             throw new InvalidOperationException();
         }
     }
