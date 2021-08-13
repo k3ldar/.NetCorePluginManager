@@ -13,41 +13,40 @@
  *
  *  Copyright (c) 2018 - 2021 Simon Carter.  All Rights Reserved.
  *
- *  Product:  Login Plugin
+ *  Product:  AspNetCore.PluginManager.Tests
  *  
- *  File: Program.cs
+ *  File: LoginCacheItemTests.cs
  *
- *  Purpose:  
+ *  Purpose:  Test units for LoginCacheItem
  *
  *  Date        Name                Reason
- *  17/11/2018  Simon Carter        Initially Created
+ *  09/08/2020  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+using System;
 using System.Diagnostics.CodeAnalysis;
 
-using Microsoft.AspNetCore;
-using Microsoft.AspNetCore.Hosting;
+using LoginPlugin.Classes;
 
-#pragma warning disable CS1591
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace LoginPlugin
+namespace AspNetCore.PluginManager.Tests.Plugins.LoginTests
 {
-#if NET_5_X
-    [ExcludeFromCodeCoverage(Justification = "Unable to unit test main")]
-#else
+    [TestClass]
     [ExcludeFromCodeCoverage]
-#endif
-    public static class Program
+    public class LoginCacheItemTests
     {
-        public static void Main(string[] args)
-        {
-            CreateWebHostBuilder(args).Build().Run();
-        }
+        private const string TestCategoryName = "Login";
 
-        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>();
+        [TestMethod]
+        [TestCategory(TestCategoryName)]
+        public void Construct_ValidInstance_Success()
+        {
+            LoginCacheItem sut = new LoginCacheItem();
+            Assert.IsNotNull(sut);
+            Assert.IsTrue(sut.FirstAttempt <= DateTime.Now);
+            Assert.AreEqual((byte)0, sut.LoginAttempts);
+            Assert.AreEqual("", sut.CaptchaText);
+        }
     }
 }
-
-#pragma warning restore CS1591

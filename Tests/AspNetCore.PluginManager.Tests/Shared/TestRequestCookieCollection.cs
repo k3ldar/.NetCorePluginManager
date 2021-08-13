@@ -37,7 +37,7 @@ namespace AspNetCore.PluginManager.Tests
     {
         #region Private Members
 
-        private Dictionary<string, string> _cookies = new Dictionary<string, string>();
+        private Dictionary<string, CookieValue> _cookies = new Dictionary<string, CookieValue>();
 
         #endregion Private Members
 
@@ -56,13 +56,16 @@ namespace AspNetCore.PluginManager.Tests
         {
             get
             {
-                return _cookies[key];
+                if (_cookies.ContainsKey(key))
+                    return _cookies[key].Value;
+
+                return null;
             }
         }
 
-        public Int32 Count => throw new NotImplementedException();
+        public Int32 Count => _cookies.Count;
 
-        public ICollection<String> Keys => throw new NotImplementedException();
+        public ICollection<String> Keys => _cookies.Keys;
 
         public Boolean ContainsKey(String key)
         {
@@ -93,9 +96,26 @@ namespace AspNetCore.PluginManager.Tests
             if (String.IsNullOrEmpty(name))
                 throw new ArgumentNullException(nameof(name));
 
-            _cookies.Add(name, value ?? String.Empty);
+            CookieValue cookieValue = new CookieValue()
+            {
+                Name = name,
+                Value = value ?? String.Empty,
+                Options = new CookieOptions()
+            };
+
+            _cookies.Add(name, cookieValue);
         }
 
         #endregion Public Methods
+    }
+
+    [ExcludeFromCodeCoverage]
+    public class CookieValue
+    {
+        public string Name { get; set; }
+
+        public string Value { get; set; }
+
+        public CookieOptions Options { get; set; }
     }
 }

@@ -49,6 +49,8 @@ namespace AspNetCore.PluginManager.Tests.Plugins.LoginTests
     [ExcludeFromCodeCoverage]
     public class LoginMiddlewareTests : BaseMiddlewareTests
     {
+        private const string TestCategoryName = "Login";
+
         [TestInitialize]
         public void InitializeLoginTests()
         {
@@ -56,6 +58,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.LoginTests
         }
 
         [TestMethod]
+        [TestCategory(TestCategoryName)]
         [TestCategory(TestCategoryMiddleware)]
         [ExpectedException(typeof(System.ArgumentNullException))]
         public async Task LoginNullContextValue()
@@ -75,6 +78,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.LoginTests
         }
 
         [TestMethod]
+        [TestCategory(TestCategoryName)]
         [TestCategory(TestCategoryMiddleware)]
         [ExpectedException(typeof(System.ArgumentNullException))]
         public void LoginNullLoginProviderValue()
@@ -90,6 +94,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.LoginTests
         }
 
         [TestMethod]
+        [TestCategory(TestCategoryName)]
         [TestCategory(TestCategoryMiddleware)]
         [ExpectedException(typeof(System.ArgumentNullException))]
         public void LoginNullSettingsProviderValue()
@@ -105,6 +110,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.LoginTests
         }
 
         [TestMethod]
+        [TestCategory(TestCategoryName)]
         [TestCategory(TestCategoryMiddleware)]
         [ExpectedException(typeof(System.ArgumentNullException))]
         public async Task LoginNullAuthenticationValueOnInvoke()
@@ -130,6 +136,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.LoginTests
         }
 
         [TestMethod]
+        [TestCategory(TestCategoryName)]
         [TestCategory(TestCategoryMiddleware)]
         [ExpectedException(typeof(System.ArgumentNullException))]
         public void LoginNullClaimsProviderValue()
@@ -145,6 +152,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.LoginTests
         }
 
         [TestMethod]
+        [TestCategory(TestCategoryName)]
         [TestCategory(TestCategoryMiddleware)]
         [ExpectedException(typeof(System.ArgumentNullException))]
         public void LoginNullRequestDelegateValue()
@@ -160,6 +168,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.LoginTests
         }
 
         [TestMethod]
+        [TestCategory(TestCategoryName)]
         [TestCategory(TestCategoryMiddleware)]
         [ExpectedException(typeof(System.FormatException))]
         public async Task LoginFromCookieValueCookieValueNotEncrypted()
@@ -186,6 +195,34 @@ namespace AspNetCore.PluginManager.Tests.Plugins.LoginTests
         }
 
         [TestMethod]
+        [TestCategory(TestCategoryName)]
+        [TestCategory(TestCategoryMiddleware)]
+        [ExpectedException(typeof(System.FormatException))]
+        public async Task LoginFromCookieValueCookieValueNotValid()
+        {
+            TestRequestCookieCollection cookies = new TestRequestCookieCollection();
+            cookies.AddCookie("RememberMe", "asdfasdfasf");
+
+            TestHttpRequest httpRequest = new TestHttpRequest(cookies);
+            TestHttpResponse httpResponse = new TestHttpResponse();
+
+            IPluginClassesService pluginServices = _testPluginLogin as IPluginClassesService;
+            TestHttpContext httpContext = new TestHttpContext(httpRequest, httpResponse);
+            MockLoginProvider loginProvider = new MockLoginProvider();
+
+            ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
+            MockClaimsProvider claimsProvider = new MockClaimsProvider(pluginServices);
+            TestAuthenticationService authenticationService = new TestAuthenticationService();
+            RequestDelegate requestDelegate = async (context) => { await Task.Delay(0); };
+
+            LoginMiddleware login = new LoginMiddleware(requestDelegate, loginProvider, settingsProvider,
+                claimsProvider);
+
+            await login.Invoke(httpContext, authenticationService);
+        }
+
+        [TestMethod]
+        [TestCategory(TestCategoryName)]
         [TestCategory(TestCategoryMiddleware)]
         public async Task LoginFromCookieValueCookieInvalidLoginUserNotFound()
         {
@@ -218,6 +255,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.LoginTests
         }
 
         [TestMethod]
+        [TestCategory(TestCategoryName)]
         [TestCategory(TestCategoryMiddleware)]
         public async Task LoginFromCookieValueCookieValidLoginUserFound()
         {
@@ -250,8 +288,47 @@ namespace AspNetCore.PluginManager.Tests.Plugins.LoginTests
         }
 
         [TestMethod]
+        [TestCategory(TestCategoryName)]
         [TestCategory(TestCategoryMiddleware)]
-        public async Task LoginAutoLoginFromHeadersValidUsernameAndPassword()
+        public async Task Login_FromCookieValue_CookieInvalid_CookieDeleted()
+        {
+            ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
+            LoginControllerSettings loginControllerSettings = settingsProvider.GetSettings<LoginControllerSettings>(nameof(LoginPlugin));
+            TestRequestCookieCollection cookies = new TestRequestCookieCollection();
+            cookies.AddCookie("RememberMe", Encrypt("adfasfd", loginControllerSettings.EncryptionKey));
+
+            TestHttpRequest httpRequest = new TestHttpRequest(cookies);
+            TestHttpResponse httpResponse = new TestHttpResponse();
+
+            IPluginClassesService pluginServices = _testPluginLogin as IPluginClassesService;
+            TestHttpContext httpContext = new TestHttpContext(httpRequest, httpResponse);
+            httpRequest.SetContext(httpContext);
+            MockLoginProvider loginProvider = new MockLoginProvider();
+
+            MockClaimsProvider claimsProvider = new MockClaimsProvider(pluginServices);
+            TestAuthenticationService authenticationService = new TestAuthenticationService();
+            RequestDelegate requestDelegate = async (context) => { await Task.Delay(0); };
+
+            LoginMiddleware login = new LoginMiddleware(requestDelegate, loginProvider, settingsProvider,
+                claimsProvider);
+
+            await login.Invoke(httpContext, authenticationService);
+
+            TestResponseCookies responseCookies = httpResponse.Cookies as TestResponseCookies;
+
+            Assert.IsNotNull(responseCookies);
+            Assert.IsFalse(authenticationService.SignInAsyncCalled);
+
+            TestResponseCookie rememberMeCookie = responseCookies.Get("RememberMe");
+
+            Assert.IsNotNull(rememberMeCookie);
+            Assert.IsTrue(rememberMeCookie.CookieOptions.Expires < DateTime.Now);
+        }
+
+        [TestMethod]
+        [TestCategory(TestCategoryName)]
+        [TestCategory(TestCategoryMiddleware)]
+        public async Task Login_AutoLoginFromHeaders_ValidUsernameAndPassword()
         {
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
             LoginControllerSettings loginControllerSettings = settingsProvider.GetSettings<LoginControllerSettings>(nameof(LoginPlugin));
@@ -283,8 +360,44 @@ namespace AspNetCore.PluginManager.Tests.Plugins.LoginTests
         }
 
         [TestMethod]
+        [TestCategory(TestCategoryName)]
         [TestCategory(TestCategoryMiddleware)]
-        public async Task LoginAutoLoginFromHeadersInvalidSplitter()
+        public async Task Login_AutoLoginFromHeaders_ValidUsernameAndPassword_InvalidSession()
+        {
+            ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
+            LoginControllerSettings loginControllerSettings = settingsProvider.GetSettings<LoginControllerSettings>(nameof(LoginPlugin));
+
+            TestHttpRequest httpRequest = new TestHttpRequest();
+            TestHttpResponse httpResponse = new TestHttpResponse();
+
+            IPluginClassesService pluginServices = _testPluginLogin as IPluginClassesService;
+            TestHttpContext httpContext = new TestHttpContext(httpRequest, httpResponse);
+            httpContext.CreateSession = false;
+            httpRequest.SetContext(httpContext);
+            MockLoginProvider loginProvider = new MockLoginProvider();
+
+            MockClaimsProvider claimsProvider = new MockClaimsProvider(pluginServices);
+            TestAuthenticationService authenticationService = new TestAuthenticationService();
+            RequestDelegate requestDelegate = async (context) => { await Task.Delay(0); };
+
+            string encoded = Convert.ToBase64String(System.Text.Encoding.GetEncoding("ISO-8859-1").GetBytes("admin:password"));
+            httpRequest.Headers.Add(HeaderAuthorizationName, "Basic " + encoded);
+
+            LoginMiddleware login = new LoginMiddleware(requestDelegate, loginProvider, settingsProvider,
+                claimsProvider);
+
+            await login.Invoke(httpContext, authenticationService);
+
+            Assert.AreNotEqual(400, httpContext.Response.StatusCode);
+            Assert.AreNotEqual(401, httpContext.Response.StatusCode);
+            Assert.AreEqual(200, httpContext.Response.StatusCode);
+            Assert.IsFalse(authenticationService.SignInAsyncCalled);
+        }
+
+        [TestMethod]
+        [TestCategory(TestCategoryName)]
+        [TestCategory(TestCategoryMiddleware)]
+        public async Task Login_AutoLoginFromHeaders_InvalidSplitter()
         {
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
             LoginControllerSettings loginControllerSettings = settingsProvider.GetSettings<LoginControllerSettings>(nameof(LoginPlugin));
@@ -314,38 +427,9 @@ namespace AspNetCore.PluginManager.Tests.Plugins.LoginTests
         }
 
         [TestMethod]
+        [TestCategory(TestCategoryName)]
         [TestCategory(TestCategoryMiddleware)]
-        public async Task LoginAutoLoginFromHeadersInvalidUsernameAndPassword()
-        {
-            ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
-            LoginControllerSettings loginControllerSettings = settingsProvider.GetSettings<LoginControllerSettings>(nameof(LoginPlugin));
-
-            TestHttpRequest httpRequest = new TestHttpRequest();
-            TestHttpResponse httpResponse = new TestHttpResponse();
-
-            IPluginClassesService pluginServices = _testPluginLogin as IPluginClassesService;
-            TestHttpContext httpContext = new TestHttpContext(httpRequest, httpResponse);
-            httpRequest.SetContext(httpContext);
-            MockLoginProvider loginProvider = new MockLoginProvider();
-
-            MockClaimsProvider claimsProvider = new MockClaimsProvider(pluginServices);
-            TestAuthenticationService authenticationService = new TestAuthenticationService();
-            RequestDelegate requestDelegate = async (context) => { await Task.Delay(0); };
-
-            string encoded = Convert.ToBase64String(System.Text.Encoding.GetEncoding("ISO-8859-1").GetBytes("Miley:Cyrus"));
-            httpRequest.Headers.Add(HeaderAuthorizationName, "Basic " + encoded);
-
-            LoginMiddleware login = new LoginMiddleware(requestDelegate, loginProvider, settingsProvider,
-                claimsProvider);
-
-            await login.Invoke(httpContext, authenticationService);
-
-            Assert.IsFalse(authenticationService.SignInAsyncCalled);
-        }
-
-        [TestMethod]
-        [TestCategory(TestCategoryMiddleware)]
-        public async Task LoginAutoLoginFromHeadersInvalidValueBasicMissing()
+        public async Task Login_AutoLoginFromHeaders_InvalidValueBasicMissing()
         {
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
             LoginControllerSettings loginControllerSettings = settingsProvider.GetSettings<LoginControllerSettings>(nameof(LoginPlugin));
@@ -374,8 +458,9 @@ namespace AspNetCore.PluginManager.Tests.Plugins.LoginTests
         }
 
         [TestMethod]
+        [TestCategory(TestCategoryName)]
         [TestCategory(TestCategoryMiddleware)]
-        public async Task LoginAutoLoginFromHeadersInvalidEncoding()
+        public async Task Login_AutoLoginFromHeaders_InvalidEncoding()
         {
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
             LoginControllerSettings loginControllerSettings = settingsProvider.GetSettings<LoginControllerSettings>(nameof(LoginPlugin));

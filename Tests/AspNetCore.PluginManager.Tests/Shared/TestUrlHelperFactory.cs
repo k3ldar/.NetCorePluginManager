@@ -13,41 +13,32 @@
  *
  *  Copyright (c) 2018 - 2021 Simon Carter.  All Rights Reserved.
  *
- *  Product:  Login Plugin
+ *  Product:  AspNetCore.PluginManager.Tests
  *  
- *  File: Program.cs
+ *  File: TestUrlHelperFactory.cs
  *
- *  Purpose:  
+ *  Purpose:  Mock IUrlHelperFactory class
  *
  *  Date        Name                Reason
- *  17/11/2018  Simon Carter        Initially Created
+ *  12/08/2021  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using System.Diagnostics.CodeAnalysis;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-using Microsoft.AspNetCore;
-using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Routing;
 
-#pragma warning disable CS1591
-
-namespace LoginPlugin
+namespace AspNetCore.PluginManager.Tests.Shared
 {
-#if NET_5_X
-    [ExcludeFromCodeCoverage(Justification = "Unable to unit test main")]
-#else
-    [ExcludeFromCodeCoverage]
-#endif
-    public static class Program
+    public class TestUrlHelperFactory : IUrlHelperFactory
     {
-        public static void Main(string[] args)
+        public IUrlHelper GetUrlHelper(ActionContext context)
         {
-            CreateWebHostBuilder(args).Build().Run();
+            return new TestUrlHelper();
         }
-
-        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>();
     }
 }
-
-#pragma warning restore CS1591

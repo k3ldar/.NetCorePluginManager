@@ -100,9 +100,9 @@ namespace LoginPlugin.Controllers
             if (ValidateRememberedLogin())
             {
                 if (String.IsNullOrEmpty(returnUrl))
-                    return Redirect(_settings.LoginSuccessUrl);
+                    return LocalRedirect(_settings.LoginSuccessUrl);
                 else
-                    return Redirect(returnUrl);
+                    return LocalRedirect(returnUrl);
             }
 
             LoginViewModel model = new LoginViewModel(GetModelData(),
@@ -140,53 +140,61 @@ namespace LoginPlugin.Controllers
 
             model.ShowCaptchaImage = loginCacheItem.LoginAttempts >= _settings.CaptchaShowFailCount;
 
+            if (!model.ShowCaptchaImage)
+                model.CaptchaText = null;
+
             UserLoginDetails loginDetails = new UserLoginDetails();
 
             model.Breadcrumbs = GetBreadcrumbs();
             model.CartSummary = GetCartSummary();
 
-            LoginResult loginResult = _loginProvider.Login(model.Username, model.Password, GetIpAddress(),
-                loginCacheItem.LoginAttempts, ref loginDetails);
+            if (String.IsNullOrEmpty(model.ReturnUrl))
+                model.ReturnUrl = Constants.ForwardSlash;
 
-            switch (loginResult)
+            if (ModelState.IsValid)
             {
-                case LoginResult.Success:
-                case LoginResult.PasswordChangeRequired:
-                    RemoveLoginAttempt();
+                LoginResult loginResult = _loginProvider.Login(model.Username, model.Password, GetIpAddress(),
+                    loginCacheItem.LoginAttempts, ref loginDetails);
 
-                    UserSession session = GetUserSession();
+                switch (loginResult)
+                {
+                    case LoginResult.Success:
+                    case LoginResult.PasswordChangeRequired:
+                        RemoveLoginAttempt();
 
-                    if (session != null)
-                        session.Login(loginDetails.UserId, loginDetails.Username, loginDetails.Email);
+                        UserSession session = GetUserSession();
 
-                    if (model.RememberMe)
-                    {
-                        CookieAdd(_settings.RememberMeCookieName, Encrypt(loginDetails.UserId.ToString(),
-                            _settings.EncryptionKey), _settings.LoginDays);
-                    }
+                        if (session != null)
+                            session.Login(loginDetails.UserId, loginDetails.Username, loginDetails.Email);
 
-                    GetAuthenticationService().SignInAsync(HttpContext,
-                        _settings.AuthenticationScheme,
-                        new ClaimsPrincipal(_claimsProvider.GetUserClaims(loginDetails.UserId)),
-                        _claimsProvider.GetAuthenticationProperties());
+                        if (model.RememberMe)
+                        {
+                            CookieAdd(_settings.RememberMeCookieName, Encrypt(loginDetails.UserId.ToString(),
+                                _settings.EncryptionKey), _settings.LoginDays);
+                        }
 
-                    if (loginResult == LoginResult.PasswordChangeRequired)
-                    {
-                        return LocalRedirect(_settings.ChangePasswordUrl);
-                    }
+                        GetAuthenticationService().SignInAsync(HttpContext,
+                            _settings.AuthenticationScheme,
+                            new ClaimsPrincipal(_claimsProvider.GetUserClaims(loginDetails.UserId)),
+                            _claimsProvider.GetAuthenticationProperties());
 
-                    return LocalRedirect(model.ReturnUrl);
+                        if (loginResult == LoginResult.PasswordChangeRequired)
+                        {
+                            return LocalRedirect(_settings.ChangePasswordUrl);
+                        }
 
-                case LoginResult.AccountLocked:
-                    return RedirectToAction(nameof(AccountLocked), new { username = model.Username });
+                        return LocalRedirect(model.ReturnUrl);
 
-                case LoginResult.InvalidCredentials:
-                    ModelState.AddModelError(String.Empty, Languages.LanguageStrings.InvalidUsernameOrPassword);
-                    break;
+                    case LoginResult.AccountLocked:
+                        return RedirectToAction(nameof(AccountLocked), new { username = model.Username });
+
+                    case LoginResult.InvalidCredentials:
+                        ModelState.AddModelError(String.Empty, Languages.LanguageStrings.InvalidUsernameOrPassword);
+                        break;
+                }
             }
 
-            if (model.ShowCaptchaImage)
-                loginCacheItem.CaptchaText = GetRandomWord(_settings.CaptchaWordLength, CaptchaCharacters);
+            loginCacheItem.CaptchaText = model.ShowCaptchaImage ? GetRandomWord(_settings.CaptchaWordLength, CaptchaCharacters) : null;
 
             return View(model);
         }
@@ -234,7 +242,6 @@ namespace LoginPlugin.Controllers
 
             LoginCacheItem loginCacheItem = GetCachedLoginAttempt(true);
             loginCacheItem.CaptchaText = GetRandomWord(_settings.CaptchaWordLength, CaptchaCharacters);
-            //model.CaptchaText = loginCacheItem.CaptchaText;
 
             return View(model);
         }

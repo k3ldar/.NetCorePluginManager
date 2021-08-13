@@ -11,45 +11,54 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2021 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2020 Simon Carter.  All Rights Reserved.
  *
  *  Product:  AspNetCore.PluginManager.Tests
  *  
- *  File: ProviderTests.cs
+ *  File: AutoLoginCookieSubMenuTests.cs
  *
- *  Purpose:  Tests for Provider
+ *  Purpose:  Tests for AutoLoginCookieSubMenu
  *
  *  Date        Name                Reason
- *  31/07/2021  Simon Carter        Initially Created
+ *  09/08/2021  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System.Diagnostics.CodeAnalysis;
 
-using AspNetCore.PluginManager.DemoWebsite.Classes;
+using LoginPlugin.Classes.SystemAdmin;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-using Middleware;
+using static SharedPluginFeatures.Enums;
 
 namespace AspNetCore.PluginManager.Tests.Plugins.LoginTests
 {
     [TestClass]
     [ExcludeFromCodeCoverage]
-    public class ProviderTests
+    public class AutoLoginCookieSubMenuTests
     {
         private const string TestCategoryName = "Login";
+        private const string SystemAdminCategoryName = "System Admin";
 
         [TestMethod]
         [TestCategory(TestCategoryName)]
-        public void LoginProvider_ValidLogon_PasswordChangeRequired()
+        [TestCategory(SystemAdminCategoryName)]
+        public void CreateValidInstance_Success()
         {
-            ILoginProvider loginProvider = new MockLoginProvider();
+            const string DataResult = "Setting|Value\rTotal Requests|0\rFastest ms|0\rSlowest ms|0\rAverage ms|0\rTrimmed Avg ms|0\rTotal ms|0";
+            AutoLoginCookieSubMenu sut = new AutoLoginCookieSubMenu();
 
-            UserLoginDetails userLoginDetails = new UserLoginDetails();
-            LoginResult loginResult = loginProvider.Login("admin", "changepassword", "::1", 0, ref userLoginDetails);
+            Assert.IsNotNull(sut);
 
-            Assert.AreEqual(LoginResult.PasswordChangeRequired, loginResult);
-            Assert.AreEqual(124, userLoginDetails.UserId);
+            Assert.AreEqual("", sut.Action());
+            Assert.AreEqual("", sut.Area());
+            Assert.AreEqual("", sut.Controller());
+            Assert.AreEqual(DataResult, sut.Data());
+            Assert.AreEqual("stopwatch", sut.Image());
+            Assert.AreEqual(SystemAdminMenuType.Grid, sut.MenuType());
+            Assert.AreEqual("Cookie Login", sut.Name());
+            Assert.AreEqual("Timings", sut.ParentMenuName());
+            Assert.AreEqual(0, sut.SortOrder());
         }
     }
 }

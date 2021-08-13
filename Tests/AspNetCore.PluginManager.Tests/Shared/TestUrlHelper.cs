@@ -15,41 +15,52 @@
  *
  *  Product:  AspNetCore.PluginManager.Tests
  *  
- *  File: ProviderTests.cs
+ *  File: TestUrlHelper.cs
  *
- *  Purpose:  Tests for Provider
+ *  Purpose:  Mock IUrlHelper class
  *
  *  Date        Name                Reason
- *  31/07/2021  Simon Carter        Initially Created
+ *  12/08/2021  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using System.Diagnostics.CodeAnalysis;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-using AspNetCore.PluginManager.DemoWebsite.Classes;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Routing;
 
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-
-using Middleware;
-
-namespace AspNetCore.PluginManager.Tests.Plugins.LoginTests
+namespace AspNetCore.PluginManager.Tests.Shared
 {
-    [TestClass]
-    [ExcludeFromCodeCoverage]
-    public class ProviderTests
+    public class TestUrlHelper : IUrlHelper
     {
-        private const string TestCategoryName = "Login";
+        public ActionContext ActionContext => throw new NotImplementedException();
 
-        [TestMethod]
-        [TestCategory(TestCategoryName)]
-        public void LoginProvider_ValidLogon_PasswordChangeRequired()
+        public string Action(UrlActionContext actionContext)
         {
-            ILoginProvider loginProvider = new MockLoginProvider();
+            throw new NotImplementedException();
+        }
 
-            UserLoginDetails userLoginDetails = new UserLoginDetails();
-            LoginResult loginResult = loginProvider.Login("admin", "changepassword", "::1", 0, ref userLoginDetails);
+        public string Content(string contentPath)
+        {
+            throw new NotImplementedException();
+        }
 
-            Assert.AreEqual(LoginResult.PasswordChangeRequired, loginResult);
-            Assert.AreEqual(124, userLoginDetails.UserId);
+        public bool IsLocalUrl(string url)
+        {
+            throw new NotImplementedException();
+        }
+
+        public string Link(string routeName, object values)
+        {
+            throw new NotImplementedException();
+        }
+
+        public string RouteUrl(UrlRouteContext routeContext)
+        {
+            throw new NotImplementedException();
         }
     }
 }

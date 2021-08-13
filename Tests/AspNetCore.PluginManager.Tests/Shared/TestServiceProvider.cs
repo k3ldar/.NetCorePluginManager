@@ -13,41 +13,38 @@
  *
  *  Copyright (c) 2018 - 2021 Simon Carter.  All Rights Reserved.
  *
- *  Product:  Login Plugin
+ *  Product:  AspNetCore.PluginManager.Tests
  *  
- *  File: Program.cs
+ *  File: TestServiceProvider.cs
  *
- *  Purpose:  
+ *  Purpose:  Mock IServiceProvider class
  *
  *  Date        Name                Reason
- *  17/11/2018  Simon Carter        Initially Created
+ *  10/08/2021  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using System.Diagnostics.CodeAnalysis;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-using Microsoft.AspNetCore;
-using Microsoft.AspNetCore.Hosting;
-
-#pragma warning disable CS1591
-
-namespace LoginPlugin
+namespace AspNetCore.PluginManager.Tests.Shared
 {
-#if NET_5_X
-    [ExcludeFromCodeCoverage(Justification = "Unable to unit test main")]
-#else
-    [ExcludeFromCodeCoverage]
-#endif
-    public static class Program
+    public class TestServiceProvider : IServiceProvider
     {
-        public static void Main(string[] args)
+        Dictionary<Type, object> _services;
+        public TestServiceProvider(Dictionary<Type, object> services)
         {
-            CreateWebHostBuilder(args).Build().Run();
+            _services = services ?? throw new ArgumentNullException(nameof(services));
         }
 
-        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>();
+        public object GetService(Type serviceType)
+        {
+            if (_services.ContainsKey(serviceType))
+                return _services[serviceType];
+
+            return null;
+        }
     }
 }
-
-#pragma warning restore CS1591
