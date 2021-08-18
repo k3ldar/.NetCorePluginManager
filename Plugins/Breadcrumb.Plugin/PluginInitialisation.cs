@@ -23,6 +23,8 @@
  *  20/01/2019  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+using System;
+
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -91,7 +93,8 @@ namespace Breadcrumb.Plugin
 
         public void AfterConfigureServices(in IServiceCollection services)
         {
-
+            if (services == null)
+                throw new ArgumentNullException();
         }
 
         #endregion IInitialiseEvents Methods

@@ -600,6 +600,9 @@ namespace SharedPluginFeatures
         /// </summary>
         public const int HtmlResponseNotFound = 404;
 
+
+        public const int HtmlResponseMethodFailure = 420;
+
         /// <summary>
         /// Name of product image folder
         /// </summary>

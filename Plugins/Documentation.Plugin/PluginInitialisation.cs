@@ -23,9 +23,19 @@
  *  19/05/2019  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+using System;
+
+using DocumentationPlugin.Classes;
+
+using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 using PluginManager.Abstractions;
+
+using SharedPluginFeatures;
+
+using static SharedPluginFeatures.Constants;
 
 #pragma warning disable CS1591
 
@@ -35,8 +45,15 @@ namespace DocumentationPlugin
     /// Implements IPlugin which allows the Documentation.Plugin module to be
     /// loaded as a plugin module
     /// </summary>
-    public class PluginInitialisation : IPlugin, IPluginVersion
+    public class PluginInitialisation : IPlugin, IInitialiseEvents
     {
+        private readonly IThreadManagerServices _threadManagerServices;
+
+        public PluginInitialisation(IThreadManagerServices threadManagerServices)
+        {
+            _threadManagerServices = threadManagerServices ?? throw new ArgumentNullException(nameof(threadManagerServices));
+        }
+
         public void ConfigureServices(IServiceCollection services)
         {
 
@@ -53,6 +70,32 @@ namespace DocumentationPlugin
         }
 
         public void Initialise(ILogger logger)
+        {
+
+        }
+        public void AfterConfigure(in IApplicationBuilder app)
+        {
+
+        }
+
+        public void AfterConfigureServices(in IServiceCollection services)
+        {
+            services.TryAddSingleton<IDocumentationService, DefaultDocumentationService>();
+
+            _threadManagerServices.RegisterStartupThread(DocumentationLoadThread, typeof(DocumentLoadThread));
+        }
+
+        public void BeforeConfigure(in IApplicationBuilder app)
+        {
+
+        }
+
+        public void BeforeConfigureServices(in IServiceCollection services)
+        {
+
+        }
+
+        public void Configure(in IApplicationBuilder app)
         {
 
         }

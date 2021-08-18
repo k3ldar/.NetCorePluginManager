@@ -23,11 +23,14 @@
  *  16/11/2018  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 
 using PluginManager.Abstractions;
 
 using Shared.Classes;
+
+using SharedPluginFeatures;
 
 #pragma warning disable CS1591
 
@@ -37,7 +40,7 @@ namespace ErrorManager.Plugin
     /// Implements IPlugin and IPluginVersion which allows the ErrorManager.Plugin module to be
     /// loaded as a plugin module
     /// </summary>
-    public class PluginInitialisation : IPlugin, IPluginVersion
+    public class PluginInitialisation : IPlugin, IInitialiseEvents
     {
         public void ConfigureServices(IServiceCollection services)
         {
@@ -58,6 +61,36 @@ namespace ErrorManager.Plugin
         {
             ThreadManager.Initialise();
         }
+
+        #region IInitialiseEvents Methods
+
+        public void AfterConfigure(in IApplicationBuilder app)
+        {
+
+        }
+
+        public void AfterConfigureServices(in IServiceCollection services)
+        {
+
+
+        }
+
+        public void BeforeConfigure(in IApplicationBuilder app)
+        {
+            app.UseErrorManager();
+        }
+
+        public void BeforeConfigureServices(in IServiceCollection services)
+        {
+
+        }
+
+        public void Configure(in IApplicationBuilder app)
+        {
+
+        }
+
+        #endregion IInitialiseEvents Methods
     }
 }
 

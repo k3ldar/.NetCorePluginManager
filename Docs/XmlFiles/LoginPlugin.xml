@@ -30,14 +30,6 @@
             </summary>
             <value>string</value>
         </member>
-        <member name="P:LoginPlugin.LoginControllerSettings.CacheUseSession">
-            <summary>
-            Determines whether the ip address or unique Net Core session id is used to cache data.
-            
-            This is mainly useful in a debug environment and should be set to true.
-            </summary>
-            <value>bool</value>
-        </member>
         <member name="P:LoginPlugin.LoginControllerSettings.ShowRememberMe">
             <summary>
             Determines whether the Remember Me option is shown or not.

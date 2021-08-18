@@ -18,17 +18,6 @@
             </summary>
             <returns>string</returns>
         </member>
-        <member name="T:MemoryCache.Plugin.Classes.PluginVersion">
-            <summary>
-            Implements IPluginVersion
-            </summary>
-        </member>
-        <member name="M:MemoryCache.Plugin.Classes.PluginVersion.GetVersion">
-            <summary>
-            Returns the current internal plugin version supported by MemoryCachePlugin
-            </summary>
-            <returns>ushort</returns>
-        </member>
         <member name="T:MemoryCache.Plugin.MemoryClassPluginSettings">
             <summary>
             Provides settings loaded by ISettingsProvider that determine how MemoryCachePlugin is configures.

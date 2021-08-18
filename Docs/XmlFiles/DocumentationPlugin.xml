@@ -151,12 +151,6 @@
             <exception cref="T:System.ArgumentNullException">Thrown when document is null</exception>
             <returns><see cref="T:DocumentationPlugin.Classes.PostProcessResults" /></returns>
         </member>
-        <member name="T:DocumentationPlugin.Classes.InitialiseEvents">
-            <summary>
-            Implements IPlugin which allows the Documentation.Plugin module to be
-            loaded as a plugin module.  Extends IInitialiseEvents interface.
-            </summary>
-        </member>
         <member name="T:DocumentationPlugin.Classes.KeywordSearchProvider">
             <summary>
             Documentation keyword provider

@@ -39,7 +39,10 @@ namespace AspNetCore.PluginManager.Tests.Shared
     {
         public bool ForgottenPassword(in string username)
         {
-            throw new NotImplementedException();
+            if (username == "user not found")
+                return false;
+
+            return true;
         }
 
         public LoginResult Login(in string username, in string password, in string ipAddress, in byte attempts, ref UserLoginDetails loginDetails)

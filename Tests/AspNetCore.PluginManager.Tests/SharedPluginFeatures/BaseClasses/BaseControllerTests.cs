@@ -272,6 +272,35 @@ namespace AspNetCore.PluginManager.Tests.Controllers
             return true;
         }
 
+        public bool MethodHasDenySpiderAttribute(Type classType, string methodName, string userAgent)
+        {
+            if (classType == null)
+                throw new ArgumentNullException(nameof(classType));
+
+            if (String.IsNullOrEmpty(methodName))
+                throw new ArgumentNullException(nameof(methodName));
+
+            MethodInfo methodInfo = classType.GetMethod(methodName);
+
+            if (methodInfo == null)
+                throw new InvalidOperationException($"Method {methodName} does not exist");
+
+            bool isDefined = methodInfo.IsDefined(typeof(DenySpiderAttribute));
+
+            if (!isDefined)
+                return false;
+
+            List<DenySpiderAttribute> spiderAttributes = methodInfo.GetCustomAttributes(true).OfType<DenySpiderAttribute>().ToList();
+
+            foreach (DenySpiderAttribute spiderAttribute in spiderAttributes)
+            {
+                if (spiderAttribute.UserAgent.Equals(userAgent))
+                    return true;
+            }
+            
+            return false;
+        }
+
         protected void ValidateBaseModel(ViewResult viewResult)
         {
             Assert.IsInstanceOfType(viewResult.Model, typeof(BaseModel));

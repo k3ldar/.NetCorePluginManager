@@ -973,7 +973,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.LoginTests
 
         [TestMethod]
         [TestCategory(TestCategoryName)]
-        public void ForgotPassword_Post_ReturnsViewAndModel_WithCaptchaTest()
+        public void ForgotPassword_Get_ReturnsViewAndModel_WithCaptchaTest()
         {
             ThreadManager.Initialise();
 
@@ -1007,6 +1007,393 @@ namespace AspNetCore.PluginManager.Tests.Plugins.LoginTests
             Assert.IsNull(responseModel.Username);
             Assert.IsNull(responseModel.CaptchaText);
             Assert.AreEqual(0, viewResult.ViewData.ModelState.ErrorCount);
+        }
+
+        [TestMethod]
+        [TestCategory(TestCategoryName)]
+        public void ForgotPassword_Post_Validate_MethodHasCorrectAttributes_Success()
+        {
+            const string MethodName = "ForgotPassword";
+            Assert.IsTrue(MethodHasAttribute<HttpPostAttribute>(typeof(LoginController), MethodName, new Type[] { typeof(ForgotPasswordViewModel) }));
+            Assert.IsTrue(MethodHasAttribute<BadEggAttribute>(typeof(LoginController), MethodName, new Type[] { typeof(ForgotPasswordViewModel) }));
+
+            Assert.IsFalse(MethodHasBreadcrumbAttribute(typeof(LoginController), MethodName, "ForgotPassword", new Type[] { typeof(ForgotPasswordViewModel) }));
+            Assert.IsFalse(MethodHasAttribute<HttpGetAttribute>(typeof(LoginController), MethodName, new Type[] { typeof(ForgotPasswordViewModel) }));
+            Assert.IsFalse(MethodHasAttribute<HttpPutAttribute>(typeof(LoginController), MethodName, new Type[] { typeof(ForgotPasswordViewModel) }));
+            Assert.IsFalse(MethodHasAttribute<HttpDeleteAttribute>(typeof(LoginController), MethodName, new Type[] { typeof(ForgotPasswordViewModel) }));
+            Assert.IsFalse(MethodHasAttribute<HttpPatchAttribute>(typeof(LoginController), MethodName, new Type[] { typeof(ForgotPasswordViewModel) }));
+            Assert.IsFalse(MethodHasAttribute<AuthorizeAttribute>(typeof(LoginController), MethodName, new Type[] { typeof(ForgotPasswordViewModel) }));
+            Assert.IsFalse(MethodHasAttribute<LoggedInAttribute>(typeof(LoginController), MethodName, new Type[] { typeof(ForgotPasswordViewModel) }));
+        }
+
+        [TestMethod]
+        [TestCategory(TestCategoryName)]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void ForgotPassword_Post_InvalidModel_Null_Throws_ArgumentNullException()
+        {
+            LoginController sut = CreateLoginController();
+            sut.ForgotPassword(model: null);
+        }
+
+        [TestMethod]
+        [TestCategory(TestCategoryName)]
+        public void ForgotPassword_Post_InvalidCaptchaText_Null_ReturnsViewResult_WithModelStateError()
+        {
+            ThreadManager.Initialise();
+
+            ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
+            LoginControllerSettings loginControllerSettings = settingsProvider.GetSettings<LoginControllerSettings>(nameof(LoginPlugin));
+
+            TestHttpResponse testHttpResponse = new TestHttpResponse();
+
+            Dictionary<Type, object> services = new Dictionary<Type, object>();
+            services.Add(typeof(IAuthenticationService), new TestAuthenticationService());
+
+            ITempDataProvider tempDataProvider = new TestTempDataProvider();
+            services.Add(typeof(ITempDataDictionaryFactory), new TempDataDictionaryFactory(tempDataProvider));
+
+            TestUrlHelperFactory testUrlHelperFactory = new TestUrlHelperFactory();
+            services.Add(typeof(IUrlHelperFactory), testUrlHelperFactory);
+
+            TestServiceProvider testServiceProvider = new TestServiceProvider(services);
+
+            LoginController sut = CreateLoginController(null, null, null, null, null, testServiceProvider, testHttpResponse);
+            ForgotPasswordViewModel model = new ForgotPasswordViewModel()
+            {
+                Username = "user not found"
+            };
+
+            IActionResult response = sut.ForgotPassword(model: model);
+
+            Assert.IsNotNull(response);
+
+            ViewResult viewResult = response as ViewResult;
+            Assert.IsNotNull(viewResult);
+
+            ForgotPasswordViewModel responseModel = viewResult.Model as ForgotPasswordViewModel;
+            Assert.IsNotNull(responseModel);
+            Assert.AreEqual("user not found", responseModel.Username);
+            Assert.IsNotNull(responseModel.CaptchaText);
+            Assert.IsTrue(responseModel.CaptchaText.Length > 5);
+            Assert.AreEqual(1, viewResult.ViewData.ModelState.ErrorCount);
+            Assert.IsTrue(ViewResultContainsModelStateError(viewResult, "", "The code you entered is not valid!"));
+        }
+
+        [TestMethod]
+        [TestCategory(TestCategoryName)]
+        public void ForgotPassword_Post_CaptchaValueNotFoundInMemory_ReturnsViewResult_WithModelStateError()
+        {
+            ThreadManager.Initialise();
+
+            ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
+            LoginControllerSettings loginControllerSettings = settingsProvider.GetSettings<LoginControllerSettings>(nameof(LoginPlugin));
+
+            TestHttpResponse testHttpResponse = new TestHttpResponse();
+
+            Dictionary<Type, object> services = new Dictionary<Type, object>();
+            services.Add(typeof(IAuthenticationService), new TestAuthenticationService());
+
+            ITempDataProvider tempDataProvider = new TestTempDataProvider();
+            services.Add(typeof(ITempDataDictionaryFactory), new TempDataDictionaryFactory(tempDataProvider));
+
+            TestUrlHelperFactory testUrlHelperFactory = new TestUrlHelperFactory();
+            services.Add(typeof(IUrlHelperFactory), testUrlHelperFactory);
+
+            TestServiceProvider testServiceProvider = new TestServiceProvider(services);
+
+            LoginController sut = CreateLoginController(null, null, null, null, null, testServiceProvider, testHttpResponse);
+            ForgotPasswordViewModel model = new ForgotPasswordViewModel()
+            {
+                Username = "user not found",
+                CaptchaText = "1-2-3-4-5"
+            };
+
+            IActionResult response = sut.ForgotPassword(model: model);
+
+            Assert.IsNotNull(response);
+
+            ViewResult viewResult = response as ViewResult;
+            Assert.IsNotNull(viewResult);
+
+            ForgotPasswordViewModel responseModel = viewResult.Model as ForgotPasswordViewModel;
+            Assert.IsNotNull(responseModel);
+            Assert.AreEqual("user not found", responseModel.Username);
+            Assert.IsNotNull(responseModel.CaptchaText);
+            Assert.IsTrue(responseModel.CaptchaText.Length > 5);
+            Assert.AreEqual(1, viewResult.ViewData.ModelState.ErrorCount);
+            Assert.IsTrue(ViewResultContainsModelStateError(viewResult, "", "The code you entered is not valid!"));
+        }
+
+        [TestMethod]
+        [TestCategory(TestCategoryName)]
+        public void ForgotPassword_Post_WrontCaptchaValue_ReturnsViewResult_WithModelStateError()
+        {
+            ThreadManager.Initialise();
+
+            ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
+            LoginControllerSettings loginControllerSettings = settingsProvider.GetSettings<LoginControllerSettings>(nameof(LoginPlugin));
+
+            TestHttpResponse testHttpResponse = new TestHttpResponse();
+
+            Dictionary<Type, object> services = new Dictionary<Type, object>();
+            services.Add(typeof(IAuthenticationService), new TestAuthenticationService());
+
+            ITempDataProvider tempDataProvider = new TestTempDataProvider();
+            services.Add(typeof(ITempDataDictionaryFactory), new TempDataDictionaryFactory(tempDataProvider));
+
+            TestUrlHelperFactory testUrlHelperFactory = new TestUrlHelperFactory();
+            services.Add(typeof(IUrlHelperFactory), testUrlHelperFactory);
+
+            TestServiceProvider testServiceProvider = new TestServiceProvider(services);
+
+            LoginController sut = CreateLoginController(null, null, null, null, null, testServiceProvider, testHttpResponse);
+            sut.ForgotPassword();
+            ForgotPasswordViewModel model = new ForgotPasswordViewModel()
+            {
+                Username = "valid user",
+                CaptchaText = sut.GetCacheValue("abc123").CaptchaText + "_wrong"
+            };
+
+            IActionResult response = sut.ForgotPassword(model: model);
+
+            Assert.IsNotNull(response);
+
+            ViewResult viewResult = response as ViewResult;
+            Assert.IsNotNull(viewResult);
+
+            ForgotPasswordViewModel responseModel = viewResult.Model as ForgotPasswordViewModel;
+            Assert.IsNotNull(responseModel);
+            Assert.AreEqual("valid user", responseModel.Username);
+            Assert.IsNotNull(responseModel.CaptchaText);
+            Assert.IsTrue(responseModel.CaptchaText.Length > 5);
+            Assert.AreEqual(1, viewResult.ViewData.ModelState.ErrorCount);
+            Assert.IsTrue(ViewResultContainsModelStateError(viewResult, "", "The code you entered is not valid!"));
+        }
+
+        [TestMethod]
+        [TestCategory(TestCategoryName)]
+        public void ForgotPassword_Post_UserNotFound_ReturnsViewResult_WithModelStateError()
+        {
+            ThreadManager.Initialise();
+
+            ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
+            LoginControllerSettings loginControllerSettings = settingsProvider.GetSettings<LoginControllerSettings>(nameof(LoginPlugin));
+
+            TestHttpResponse testHttpResponse = new TestHttpResponse();
+
+            Dictionary<Type, object> services = new Dictionary<Type, object>();
+            services.Add(typeof(IAuthenticationService), new TestAuthenticationService());
+
+            ITempDataProvider tempDataProvider = new TestTempDataProvider();
+            services.Add(typeof(ITempDataDictionaryFactory), new TempDataDictionaryFactory(tempDataProvider));
+
+            TestUrlHelperFactory testUrlHelperFactory = new TestUrlHelperFactory();
+            services.Add(typeof(IUrlHelperFactory), testUrlHelperFactory);
+
+            TestServiceProvider testServiceProvider = new TestServiceProvider(services);
+
+            LoginController sut = CreateLoginController(null, null, null, null, null, testServiceProvider, testHttpResponse);
+            sut.ForgotPassword();
+            ForgotPasswordViewModel model = new ForgotPasswordViewModel()
+            {
+                Username = "user not found",
+                CaptchaText = sut.GetCacheValue("abc123").CaptchaText
+            };
+
+            IActionResult response = sut.ForgotPassword(model: model);
+
+            Assert.IsNotNull(response);
+
+            ViewResult viewResult = response as ViewResult;
+            Assert.IsNotNull(viewResult);
+
+            ForgotPasswordViewModel responseModel = viewResult.Model as ForgotPasswordViewModel;
+            Assert.IsNotNull(responseModel);
+            Assert.AreEqual("user not found", responseModel.Username);
+            Assert.IsNotNull(responseModel.CaptchaText);
+            Assert.IsTrue(responseModel.CaptchaText.Length > 5);
+            Assert.AreEqual(1, viewResult.ViewData.ModelState.ErrorCount);
+            Assert.IsTrue(ViewResultContainsModelStateError(viewResult, "", "Invalid User Name/Password.  Please try again"));
+        }
+
+        [TestMethod]
+        [TestCategory(TestCategoryName)]
+        public void ForgotPassword_Post_UserFound_ForgotPasswordProcessedCorrectly_RedirectedToLogin()
+        {
+            ThreadManager.Initialise();
+
+            ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
+            LoginControllerSettings loginControllerSettings = settingsProvider.GetSettings<LoginControllerSettings>(nameof(LoginPlugin));
+
+            TestHttpResponse testHttpResponse = new TestHttpResponse();
+
+            Dictionary<Type, object> services = new Dictionary<Type, object>();
+            services.Add(typeof(IAuthenticationService), new TestAuthenticationService());
+
+            ITempDataProvider tempDataProvider = new TestTempDataProvider();
+            services.Add(typeof(ITempDataDictionaryFactory), new TempDataDictionaryFactory(tempDataProvider));
+
+            TestUrlHelperFactory testUrlHelperFactory = new TestUrlHelperFactory();
+            services.Add(typeof(IUrlHelperFactory), testUrlHelperFactory);
+
+            TestServiceProvider testServiceProvider = new TestServiceProvider(services);
+
+            LoginController sut = CreateLoginController(null, null, null, null, null, testServiceProvider, testHttpResponse);
+            sut.ForgotPassword();
+            ForgotPasswordViewModel model = new ForgotPasswordViewModel()
+            {
+                Username = "valid user",
+                CaptchaText = sut.GetCacheValue("abc123").CaptchaText
+            };
+
+            IActionResult response = sut.ForgotPassword(model: model);
+
+            Assert.IsNotNull(response);
+
+            RedirectToActionResult redirectViewResult = response as RedirectToActionResult;
+            Assert.IsNotNull(redirectViewResult);
+            Assert.AreEqual("Index", redirectViewResult.ActionName);
+            Assert.IsNull(redirectViewResult.ControllerName);
+            Assert.IsFalse(redirectViewResult.Permanent);
+        }
+
+        [TestMethod]
+        [TestCategory(TestCategoryName)]
+        public void GetCacheValue_NullCacheName_Returns_Null()
+        {
+            LoginController sut = CreateLoginController();
+            Assert.IsNull(sut.GetCacheValue(null));
+            Assert.IsNull(sut.GetCacheValue(""));
+        }
+
+        [TestMethod]
+        [TestCategory(TestCategoryName)]
+        public void GetCacheValue_CacheItemNotFound_Returns_Null()
+        {
+            LoginController sut = CreateLoginController();
+            Assert.IsNull(sut.GetCacheValue("invalid cache item"));
+        }
+
+        [TestMethod]
+        [TestCategory(TestCategoryName)]
+        public void GetCacheValue_CacheItemIsNotLoginCacheItem_Returns_Null()
+        {
+
+        }
+
+        [TestMethod]
+        [TestCategory(TestCategoryName)]
+        public void Logout_Validate_MethodHasCorrectAttributes_Success()
+        {
+            const string MethodName = "Logout";
+            Assert.IsTrue(MethodHasAttribute<HttpGetAttribute>(typeof(LoginController), MethodName));
+            Assert.IsTrue(MethodHasBreadcrumbAttribute(typeof(LoginController), MethodName, "Logout"));
+            Assert.IsTrue(MethodHasAttribute<LoggedInAttribute>(typeof(LoginController), MethodName));
+
+            Assert.IsFalse(MethodHasAttribute<BadEggAttribute>(typeof(LoginController), MethodName));
+            Assert.IsFalse(MethodHasAttribute<HttpPostAttribute>(typeof(LoginController), MethodName));
+            Assert.IsFalse(MethodHasAttribute<HttpPutAttribute>(typeof(LoginController), MethodName));
+            Assert.IsFalse(MethodHasAttribute<HttpDeleteAttribute>(typeof(LoginController), MethodName));
+            Assert.IsFalse(MethodHasAttribute<HttpPatchAttribute>(typeof(LoginController), MethodName));
+            Assert.IsFalse(MethodHasAttribute<AuthorizeAttribute>(typeof(LoginController), MethodName));
+        }
+
+        [TestMethod]
+        [TestCategory(TestCategoryName)]
+        public void Logout_UserSessionNotFound_CookieDeleted_RedirectedToHome()
+        {
+            ThreadManager.Initialise();
+
+            ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
+            LoginControllerSettings loginControllerSettings = settingsProvider.GetSettings<LoginControllerSettings>(nameof(LoginPlugin));
+
+            TestRequestCookieCollection cookies = new TestRequestCookieCollection();
+            cookies.AddCookie("RememberMe", utils.Encrypt("123", loginControllerSettings.EncryptionKey));
+
+            TestAuthenticationService testAuthenticationService = new TestAuthenticationService();
+            Dictionary<Type, object> services = new Dictionary<Type, object>();
+            services.Add(typeof(IAuthenticationService), testAuthenticationService);
+
+            TestServiceProvider testServiceProvider = new TestServiceProvider(services);
+            TestHttpResponse testHttpResponse = new TestHttpResponse();
+
+            LoginController sut = CreateLoginController(null, null, null, null, cookies, testServiceProvider, testHttpResponse);
+            IActionResult indexResponse = sut.Index("/Home");
+            Assert.IsNotNull(indexResponse);
+
+            IActionResult response = sut.Logout();
+
+            Assert.IsNotNull(response);
+
+            Assert.IsTrue(testAuthenticationService.SignOutAsyncCalled);
+
+            RedirectResult redirectViewResult = response as RedirectResult;
+            Assert.IsNotNull(redirectViewResult);
+            Assert.AreEqual("/", redirectViewResult.Url);
+            Assert.IsFalse(redirectViewResult.Permanent);
+
+
+            TestResponseCookies testResponseCookies = testHttpResponse.Cookies as TestResponseCookies;
+
+            Assert.IsNotNull(testResponseCookies);
+            TestResponseCookie testResponseCookie = testResponseCookies.Get("RememberMe");
+            Assert.IsNotNull(testResponseCookie);
+
+            Assert.IsTrue(testResponseCookie.CookieOptions.Expires < DateTime.Now);
+            Assert.AreEqual("", testResponseCookie.Value);
+
+        }
+
+        [TestMethod]
+        [TestCategory(TestCategoryName)]
+        public void GetCaptchaImage_Validate_MethodHasCorrectAttributes_Success()
+        {
+            const string MethodName = "GetCaptchaImage";
+            Assert.IsTrue(MethodHasAttribute<HttpGetAttribute>(typeof(LoginController), MethodName));
+            Assert.IsTrue(MethodHasDenySpiderAttribute(typeof(LoginController), MethodName, "*"));
+
+            Assert.IsFalse(MethodHasAttribute<LoggedInAttribute>(typeof(LoginController), MethodName));
+            Assert.IsFalse(MethodHasAttribute<BreadcrumbAttribute>(typeof(LoginController), MethodName));
+            Assert.IsFalse(MethodHasAttribute<BadEggAttribute>(typeof(LoginController), MethodName));
+            Assert.IsFalse(MethodHasAttribute<HttpPostAttribute>(typeof(LoginController), MethodName));
+            Assert.IsFalse(MethodHasAttribute<HttpPutAttribute>(typeof(LoginController), MethodName));
+            Assert.IsFalse(MethodHasAttribute<HttpDeleteAttribute>(typeof(LoginController), MethodName));
+            Assert.IsFalse(MethodHasAttribute<HttpPatchAttribute>(typeof(LoginController), MethodName));
+            Assert.IsFalse(MethodHasAttribute<AuthorizeAttribute>(typeof(LoginController), MethodName));
+        }
+
+        [TestMethod]
+        [TestCategory(TestCategoryName)]
+        public void GetCaptchaImage_LoginCacheItemNotFound_ReturnsHttp400()
+        {
+            LoginController sut = CreateLoginController();
+            IActionResult actionResult = sut.GetCaptchaImage();
+
+            Assert.IsNotNull(actionResult);
+
+            StatusCodeResult statusCodeResult = actionResult as StatusCodeResult;
+
+            Assert.IsNotNull(statusCodeResult);
+            Assert.AreEqual(400, statusCodeResult.StatusCode);
+        }
+
+        [TestMethod]
+        [TestCategory(TestCategoryName)]
+        public void GetCaptchaImage_LoginCacheItemFound_ReturnsHttp400()
+        {
+            LoginController sut = CreateLoginController();
+
+            sut.ForgotPassword();
+
+            IActionResult actionResult = sut.GetCaptchaImage();
+
+            Assert.IsNotNull(actionResult);
+
+            FileContentResult fileContentResult = actionResult as FileContentResult;
+
+            Assert.AreEqual("image/png", fileContentResult.ContentType);
+            Assert.IsTrue(fileContentResult.FileContents.Length > 100);
+            Assert.AreEqual("", fileContentResult.FileDownloadName);
         }
 
         private LoginController CreateLoginController(TestLoginProvider testLoginProvider = null,

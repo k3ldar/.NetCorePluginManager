@@ -58,15 +58,6 @@ namespace LoginPlugin
         public string LoginSuccessUrl { get; set; }
 
         /// <summary>
-        /// Determines whether the ip address or unique Net Core session id is used to cache data.
-        /// 
-        /// This is mainly useful in a debug environment and should be set to true.
-        /// </summary>
-        /// <value>bool</value>
-        [SettingDefault(false)]
-        public bool CacheUseSession { get; set; }
-
-        /// <summary>
         /// Determines whether the Remember Me option is shown or not.
         /// </summary>
         /// <value>bool</value>
