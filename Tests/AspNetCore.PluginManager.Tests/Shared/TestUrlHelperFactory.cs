@@ -13,57 +13,34 @@
  *
  *  Copyright (c) 2018 - 2021 Simon Carter.  All Rights Reserved.
  *
- *  Product:  ErrorManager.Plugin.Plugin
+ *  Product:  AspNetCore.PluginManager.Tests
  *  
- *  File: InitialiseEvents.cs
+ *  File: TestUrlHelperFactory.cs
  *
- *  Purpose:  Initialisation events
+ *  Purpose:  Mock IUrlHelperFactory class
  *
  *  Date        Name                Reason
- *  07/01/2020  Simon Carter        Initially Created
+ *  12/08/2021  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.DependencyInjection;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-using SharedPluginFeatures;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Routing;
 
-#pragma warning disable CS1591
-
-namespace ErrorManager.Plugin.Classes
+namespace AspNetCore.PluginManager.Tests.Shared
 {
-    public class InitialiseEvents : IInitialiseEvents
+    [ExcludeFromCodeCoverage]
+    public class TestUrlHelperFactory : IUrlHelperFactory
     {
-        #region IInitialiseEvents Methods
-
-        public void AfterConfigure(in IApplicationBuilder app)
+        public IUrlHelper GetUrlHelper(ActionContext context)
         {
-
+            return new TestUrlHelper();
         }
-
-        public void AfterConfigureServices(in IServiceCollection services)
-        {
-
-
-        }
-
-        public void BeforeConfigure(in IApplicationBuilder app)
-        {
-            app.UseErrorManager();
-        }
-
-        public void BeforeConfigureServices(in IServiceCollection services)
-        {
-
-        }
-
-        public void Configure(in IApplicationBuilder app)
-        {
-
-        }
-
-        #endregion IInitialiseEvents Methods
     }
 }
-
-#pragma warning disable CS1591

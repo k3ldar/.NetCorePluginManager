@@ -25,9 +25,12 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
 
+using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 
 using PluginManager.Abstractions;
+
+using SharedPluginFeatures;
 
 #pragma warning disable CS1591
 
@@ -37,7 +40,7 @@ namespace RestrictIp.Plugin
     /// Implements IPlugin which allows the RestrictIp.Plugin module to be
     /// loaded as a plugin module
     /// </summary>
-    public sealed class PluginInitialisation : IPlugin
+    public sealed class PluginInitialisation : IPlugin, IInitialiseEvents
     {
         #region Internal Static Properties
 
@@ -68,6 +71,36 @@ namespace RestrictIp.Plugin
         }
 
         #endregion IPlugin Methods
+
+        #region IInitialiseEvents Methods
+
+        public void AfterConfigure(in IApplicationBuilder app)
+        {
+
+        }
+
+        public void AfterConfigureServices(in IServiceCollection services)
+        {
+
+
+        }
+
+        public void BeforeConfigure(in IApplicationBuilder app)
+        {
+            app.UseMiddleware<RestrictIpMiddleware>();
+        }
+
+        public void BeforeConfigureServices(in IServiceCollection services)
+        {
+
+        }
+
+        public void Configure(in IApplicationBuilder app)
+        {
+
+        }
+
+        #endregion IInitialiseEvents Methods
     }
 }
 

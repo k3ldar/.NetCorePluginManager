@@ -228,7 +228,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SpiderTests
             byte[] responseDataBytes = new byte[httpResponse.Body.Length];
             await httpResponse.Body.ReadAsync(responseDataBytes, 0, responseDataBytes.Length);
             string result = Encoding.UTF8.GetString(responseDataBytes);
-            Assert.IsTrue(result.Length > 374);
+            Assert.IsTrue(result.Length > 300);
         }
 
         [TestMethod]
@@ -497,7 +497,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SpiderTests
             var sut = CreateRobotsInstance();
             List<string> items = sut.GetRoutes("*");
 
-            Assert.AreEqual(2, items.Count);
+            Assert.AreEqual(3, items.Count);
             Assert.IsTrue(items.Contains("Disallow: /Test/Login/"));
         }
 
@@ -508,7 +508,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SpiderTests
             var sut = CreateRobotsInstance();
             var items = sut.DeniedRoutes;
 
-            Assert.AreEqual(8, sut.DeniedRoutes.Count);
+            Assert.AreEqual(7, sut.DeniedRoutes.Count);
             Assert.AreEqual("/home/error/", items[0].Route);
             Assert.AreEqual("*", items[0].UserAgent);
         }

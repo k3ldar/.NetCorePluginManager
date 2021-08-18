@@ -23,10 +23,14 @@
  *  14/10/2018  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+using System;
 
+using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 
 using PluginManager.Abstractions;
+
+using SharedPluginFeatures;
 
 #pragma warning disable CS1591
 
@@ -36,7 +40,7 @@ namespace CacheControl.Plugin
     /// Implements IPlugin which allows the CacheControl.Plugin module to be
     /// loaded as a plugin module
     /// </summary>
-    public class PluginInitialisation : IPlugin
+    public class PluginInitialisation : IPlugin, IInitialiseEvents
     {
         #region IPlugin Methods
 
@@ -61,6 +65,37 @@ namespace CacheControl.Plugin
         }
 
         #endregion IPlugin Methods
+
+        #region IInitialiseEvents Methods
+
+        public void AfterConfigure(in IApplicationBuilder app)
+        {
+
+        }
+
+        public void AfterConfigureServices(in IServiceCollection services)
+        {
+            if (services == null)
+                throw new ArgumentNullException();
+
+        }
+
+        public void BeforeConfigure(in IApplicationBuilder app)
+        {
+            app.UseCacheControl();
+        }
+
+        public void BeforeConfigureServices(in IServiceCollection services)
+        {
+
+        }
+
+        public void Configure(in IApplicationBuilder app)
+        {
+
+        }
+
+        #endregion IInitialiseEvents Methods
     }
 }
 

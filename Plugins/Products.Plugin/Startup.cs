@@ -30,6 +30,8 @@ using AspNetCore.PluginManager;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 
+using Shared.Classes;
+
 #pragma warning disable CS1591
 
 namespace ProductPlugin
@@ -41,6 +43,8 @@ namespace ProductPlugin
         /// </summary>
         public Startup()
         {
+            ThreadManager.Initialise();
+
             if (!PluginManagerService.HasInitialised)
                 PluginManagerService.Initialise();
 

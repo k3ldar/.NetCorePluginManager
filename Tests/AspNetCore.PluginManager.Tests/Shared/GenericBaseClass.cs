@@ -25,6 +25,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
@@ -68,6 +69,48 @@ namespace AspNetCore.PluginManager.Tests.Shared
             return methodInfo.IsDefined(typeof(T));
         }
 
+        protected bool PropertyHasDisplayAttribute(Type classType, string propertyName, string nameValue)
+        {
+            if (classType == null)
+                throw new ArgumentNullException(nameof(classType));
+
+            if (String.IsNullOrEmpty(propertyName))
+                throw new ArgumentNullException(nameof(propertyName));
+
+            var propertyInfo = classType.GetProperty(propertyName);
+
+            if (propertyInfo == null)
+                throw new InvalidOperationException($"Property {propertyName} does not exist");
+
+            if (!propertyInfo.IsDefined(typeof(DisplayAttribute)))
+                throw new InvalidOperationException($"Property {propertyName} does not have DisplayAttribute attribute");
+
+            DisplayAttribute attribute = propertyInfo.GetCustomAttributes<DisplayAttribute>().FirstOrDefault();
+
+            return attribute.Name.Equals(nameValue);
+        }
+
+        protected bool PropertyHasRequiredAttribute(Type classType, string propertyName, string errorValue)
+        {
+            if (classType == null)
+                throw new ArgumentNullException(nameof(classType));
+
+            if (String.IsNullOrEmpty(propertyName))
+                throw new ArgumentNullException(nameof(propertyName));
+
+            var propertyInfo = classType.GetProperty(propertyName);
+
+            if (propertyInfo == null)
+                throw new InvalidOperationException($"Property {propertyName} does not exist");
+
+            if (!propertyInfo.IsDefined(typeof(RequiredAttribute)))
+                throw new InvalidOperationException($"Property {propertyName} does not have RequiredAttribute attribute");
+
+            RequiredAttribute attribute = propertyInfo.GetCustomAttributes<RequiredAttribute>().FirstOrDefault();
+
+            return attribute.ErrorMessage.Equals(errorValue);
+        }
+
         protected bool PropertyHasJsonAttribute(Type classType, string propertyName, string value)
         {
             if (classType == null)
@@ -79,10 +122,10 @@ namespace AspNetCore.PluginManager.Tests.Shared
             var propertyInfo = classType.GetProperty(propertyName);
 
             if (propertyInfo == null)
-                throw new InvalidOperationException($"Method {propertyName} does not exist");
+                throw new InvalidOperationException($"Property {propertyName} does not exist");
 
             if (!propertyInfo.IsDefined(typeof(JsonPropertyNameAttribute)))
-                throw new InvalidOperationException($"Method {propertyName} does not chave JsonPropertyName attribute");
+                throw new InvalidOperationException($"Property {propertyName} does not have JsonPropertyName attribute");
 
             JsonPropertyNameAttribute attribute = propertyInfo.GetCustomAttributes<JsonPropertyNameAttribute>().FirstOrDefault();
 

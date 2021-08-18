@@ -24,8 +24,11 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
+using System.Linq;
 
+using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 using PluginManager.Abstractions;
 
@@ -33,13 +36,15 @@ using Shared.Classes;
 
 using SharedPluginFeatures;
 
+using UserSessionMiddleware.Plugin.Classes;
+
 namespace UserSessionMiddleware.Plugin
 {
     /// <summary>
     /// Implements IPlugin which allows the UserSessionMiddleware.Plugin module to be
     /// loaded as a plugin module
     /// </summary>
-    public sealed class PluginInitialisation : IPlugin
+    public sealed class PluginInitialisation : IPlugin, IInitialiseEvents
     {
         #region Internal Static Properties
 
@@ -89,5 +94,47 @@ namespace UserSessionMiddleware.Plugin
         }
 
         #endregion IPlugin Methods
+        #region IInitialiseEvents Methods
+
+        public void AfterConfigure(in IApplicationBuilder app)
+        {
+
+        }
+
+        public void AfterConfigureServices(in IServiceCollection services)
+        {
+            ServiceProvider serviceProvider = services.BuildServiceProvider();
+
+            ISettingsProvider settingsProvider = serviceProvider.GetService<ISettingsProvider>();
+
+            if (settingsProvider != null)
+            {
+                UserSessionSettings settings = settingsProvider.GetSettings<UserSessionSettings>(Constants.UserSessionConfiguration);
+
+                if (settings.EnableDefaultSessionService && !services.Any(x => x.ServiceType == typeof(IUserSessionService)))
+                {
+                    services.TryAddSingleton<IUserSessionService, DefaultUserSessionService>();
+                }
+            }
+
+            SessionHelper.InitSessionHelper(services.BuildServiceProvider());
+        }
+
+        public void BeforeConfigure(in IApplicationBuilder app)
+        {
+            app.UseUserSessionMiddleware();
+        }
+
+        public void BeforeConfigureServices(in IServiceCollection services)
+        {
+
+        }
+
+        public void Configure(in IApplicationBuilder app)
+        {
+
+        }
+
+        #endregion IInitialiseEvents Methods
     }
 }

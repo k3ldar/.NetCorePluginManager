@@ -13,57 +13,56 @@
  *
  *  Copyright (c) 2018 - 2021 Simon Carter.  All Rights Reserved.
  *
- *  Product:  RestrictIp.Plugin.Plugin
+ *  Product:  AspNetCore.PluginManager.Tests
  *  
- *  File: InitialiseEvents.cs
+ *  File: TestUrlHelper.cs
  *
- *  Purpose:  Initialisation events
+ *  Purpose:  Mock IUrlHelper class
  *
  *  Date        Name                Reason
- *  07/01/2020  Simon Carter        Initially Created
+ *  12/08/2021  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.DependencyInjection;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-using SharedPluginFeatures;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Routing;
 
-#pragma warning disable CS1591
-
-namespace RestrictIp.Plugin.Classes
+namespace AspNetCore.PluginManager.Tests.Shared
 {
-    public class InitialiseEvents : IInitialiseEvents
+    [ExcludeFromCodeCoverage]
+    public class TestUrlHelper : IUrlHelper
     {
-        #region IInitialiseEvents Methods
+        public ActionContext ActionContext => throw new NotImplementedException();
 
-        public void AfterConfigure(in IApplicationBuilder app)
+        public string Action(UrlActionContext actionContext)
         {
-
+            throw new NotImplementedException();
         }
 
-        public void AfterConfigureServices(in IServiceCollection services)
+        public string Content(string contentPath)
         {
-
-
+            throw new NotImplementedException();
         }
 
-        public void BeforeConfigure(in IApplicationBuilder app)
+        public bool IsLocalUrl(string url)
         {
-            app.UseMiddleware<RestrictIpMiddleware>();
+            throw new NotImplementedException();
         }
 
-        public void BeforeConfigureServices(in IServiceCollection services)
+        public string Link(string routeName, object values)
         {
-
+            throw new NotImplementedException();
         }
 
-        public void Configure(in IApplicationBuilder app)
+        public string RouteUrl(UrlRouteContext routeContext)
         {
-
+            throw new NotImplementedException();
         }
-
-        #endregion IInitialiseEvents Methods
     }
 }
-
-#pragma warning disable CS1591

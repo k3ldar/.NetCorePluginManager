@@ -74,7 +74,7 @@ namespace LoginPlugin.Classes.SystemAdmin
 
         public override string Name()
         {
-            return nameof(Languages.LanguageStrings.AutoLoginBasicAuth);
+            return Languages.LanguageStrings.AutoLoginBasicAuth;
         }
 
         public override string ParentMenuName()

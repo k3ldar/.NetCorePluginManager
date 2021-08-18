@@ -30,6 +30,8 @@ using System.Linq;
 using System.Reflection;
 using System.Threading;
 
+using AspNetCore.PluginManager.Tests.Shared;
+
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
@@ -63,12 +65,15 @@ namespace AspNetCore.PluginManager.Tests.Controllers
         protected static bool? _pluginLoadedImageManagerPlugin = null;
         protected static IPluginClassesService _pluginServicesImageManager;
 
-        protected ControllerContext CreateTestControllerContext(List<BreadcrumbItem> breadcrumbs = null)
+        protected ControllerContext CreateTestControllerContext(List<BreadcrumbItem> breadcrumbs = null, 
+            TestRequestCookieCollection testCookieCollection = null,
+            TestServiceProvider testServiceProvider = null,
+            TestHttpResponse testHttpResponse = null)
         {
-            TestHttpRequest httpRequest = new TestHttpRequest();
-            TestHttpResponse httpResponse = new TestHttpResponse();
+            TestHttpRequest httpRequest = testCookieCollection == null ? new TestHttpRequest() : new TestHttpRequest(testCookieCollection);
+            TestHttpResponse httpResponse = testHttpResponse ?? new TestHttpResponse();
             ControllerContext Result = new ControllerContext();
-            Result.HttpContext = new TestHttpContext(httpRequest, httpResponse, breadcrumbs);
+            Result.HttpContext = testServiceProvider == null ? new TestHttpContext(httpRequest, httpResponse, breadcrumbs) : new TestHttpContext(httpRequest, httpResponse, testServiceProvider, breadcrumbs);
 
             return Result;
         }
@@ -139,6 +144,21 @@ namespace AspNetCore.PluginManager.Tests.Controllers
                 throw new ArgumentNullException(nameof(methodName));
 
             MethodInfo methodInfo = classType.GetMethod(methodName);
+
+            if (methodInfo == null)
+                throw new InvalidOperationException($"Method {methodName} does not exist");
+
+            return methodInfo.IsDefined(typeof(T));
+        }
+        public bool MethodHasAttribute<T>(Type classType, string methodName, Type[] methodParams) where T : Attribute
+        {
+            if (classType == null)
+                throw new ArgumentNullException(nameof(classType));
+
+            if (String.IsNullOrEmpty(methodName))
+                throw new ArgumentNullException(nameof(methodName));
+
+            MethodInfo methodInfo = classType.GetMethod(methodName, methodParams);
 
             if (methodInfo == null)
                 throw new InvalidOperationException($"Method {methodName} does not exist");
@@ -220,6 +240,65 @@ namespace AspNetCore.PluginManager.Tests.Controllers
                 return false;
 
             return true;
+        }
+
+        public bool MethodHasBreadcrumbAttribute(Type classType, string methodName, string breadcrumbValue, Type[] paramTypes, string parentName = "", bool hasParams = false)
+        {
+            if (classType == null)
+                throw new ArgumentNullException(nameof(classType));
+
+            if (String.IsNullOrEmpty(methodName))
+                throw new ArgumentNullException(nameof(methodName));
+
+            MethodInfo methodInfo = classType.GetMethod(methodName, paramTypes);
+
+            if (methodInfo == null)
+                throw new InvalidOperationException($"Method {methodName} does not exist");
+
+            BreadcrumbAttribute routeAttribute = methodInfo.GetCustomAttributes(true).OfType<BreadcrumbAttribute>().FirstOrDefault();
+
+            if (routeAttribute == null)
+                return false;
+
+            if (!routeAttribute.Name.Equals(breadcrumbValue))
+                return false;
+
+            if (!String.IsNullOrEmpty(parentName) && !routeAttribute.ParentRoute.Equals(parentName))
+                return false;
+
+            if (!routeAttribute.HasParams.Equals(hasParams))
+                return false;
+
+            return true;
+        }
+
+        public bool MethodHasDenySpiderAttribute(Type classType, string methodName, string userAgent)
+        {
+            if (classType == null)
+                throw new ArgumentNullException(nameof(classType));
+
+            if (String.IsNullOrEmpty(methodName))
+                throw new ArgumentNullException(nameof(methodName));
+
+            MethodInfo methodInfo = classType.GetMethod(methodName);
+
+            if (methodInfo == null)
+                throw new InvalidOperationException($"Method {methodName} does not exist");
+
+            bool isDefined = methodInfo.IsDefined(typeof(DenySpiderAttribute));
+
+            if (!isDefined)
+                return false;
+
+            List<DenySpiderAttribute> spiderAttributes = methodInfo.GetCustomAttributes(true).OfType<DenySpiderAttribute>().ToList();
+
+            foreach (DenySpiderAttribute spiderAttribute in spiderAttributes)
+            {
+                if (spiderAttribute.UserAgent.Equals(userAgent))
+                    return true;
+            }
+            
+            return false;
         }
 
         protected void ValidateBaseModel(ViewResult viewResult)

@@ -61,7 +61,8 @@ namespace AspNetCore.PluginManager.Tests
 
         public Task SignOutAsync(HttpContext context, String scheme, AuthenticationProperties properties)
         {
-            throw new NotImplementedException();
+            SignOutAsyncCalled = true;
+            return Task.Delay(0);
         }
 
         #endregion IAuthenticationService Methods
@@ -69,6 +70,8 @@ namespace AspNetCore.PluginManager.Tests
         #region Properties
 
         public bool SignInAsyncCalled { get; private set; }
+
+        public bool SignOutAsyncCalled { get; private set; }
 
         #endregion Properties
     }

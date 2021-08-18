@@ -13,32 +13,40 @@
  *
  *  Copyright (c) 2018 - 2021 Simon Carter.  All Rights Reserved.
  *
- *  Product:  MemoryCachePlugin
+ *  Product:  AspNetCore.PluginManager.Tests
  *  
- *  File: PluginVersion.cs
+ *  File: TestServiceProvider.cs
  *
- *  Purpose:  
+ *  Purpose:  Mock IServiceProvider class
  *
  *  Date        Name                Reason
- *  22/09/2018  Simon Carter        Initially Created
+ *  10/08/2021  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using PluginManager.Abstractions;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace MemoryCache.Plugin.Classes
+namespace AspNetCore.PluginManager.Tests.Shared
 {
-    /// <summary>
-    /// Implements IPluginVersion
-    /// </summary>
-    public class PluginVersion : IPluginVersion
+    [ExcludeFromCodeCoverage]
+    public class TestServiceProvider : IServiceProvider
     {
-        /// <summary>
-        /// Returns the current internal plugin version supported by MemoryCachePlugin
-        /// </summary>
-        /// <returns>ushort</returns>
-        public ushort GetVersion()
+        Dictionary<Type, object> _services;
+        public TestServiceProvider(Dictionary<Type, object> services)
         {
-            return 1;
+            _services = services ?? throw new ArgumentNullException(nameof(services));
+        }
+
+        public object GetService(Type serviceType)
+        {
+            if (_services.ContainsKey(serviceType))
+                return _services[serviceType];
+
+            return null;
         }
     }
 }

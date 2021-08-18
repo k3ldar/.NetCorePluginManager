@@ -13,57 +13,40 @@
  *
  *  Copyright (c) 2018 - 2021 Simon Carter.  All Rights Reserved.
  *
- *  Product:  CacheControl.Plugin.Plugin
+ *  Product:  AspNetCore.PluginManager.Tests
  *  
- *  File: InitialiseEvents.cs
+ *  File: LoginCacheItemTests.cs
  *
- *  Purpose:  Initialisation events
+ *  Purpose:  Test units for LoginCacheItem
  *
  *  Date        Name                Reason
- *  07/01/2020  Simon Carter        Initially Created
+ *  09/08/2020  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.DependencyInjection;
+using System;
+using System.Diagnostics.CodeAnalysis;
 
-using SharedPluginFeatures;
+using LoginPlugin.Classes;
 
-#pragma warning disable CS1591
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace CacheControl.Plugin.Classes
+namespace AspNetCore.PluginManager.Tests.Plugins.LoginTests
 {
-    public class InitialiseEvents : IInitialiseEvents
+    [TestClass]
+    [ExcludeFromCodeCoverage]
+    public class LoginCacheItemTests
     {
-        #region IInitialiseEvents Methods
+        private const string TestCategoryName = "Login";
 
-        public void AfterConfigure(in IApplicationBuilder app)
+        [TestMethod]
+        [TestCategory(TestCategoryName)]
+        public void Construct_ValidInstance_Success()
         {
-
+            LoginCacheItem sut = new LoginCacheItem();
+            Assert.IsNotNull(sut);
+            Assert.IsTrue(sut.FirstAttempt <= DateTime.Now);
+            Assert.AreEqual((byte)0, sut.LoginAttempts);
+            Assert.AreEqual("", sut.CaptchaText);
         }
-
-        public void AfterConfigureServices(in IServiceCollection services)
-        {
-
-
-        }
-
-        public void BeforeConfigure(in IApplicationBuilder app)
-        {
-            app.UseCacheControl();
-        }
-
-        public void BeforeConfigureServices(in IServiceCollection services)
-        {
-
-        }
-
-        public void Configure(in IApplicationBuilder app)
-        {
-
-        }
-
-        #endregion IInitialiseEvents Methods
     }
 }
-
-#pragma warning restore CS1591

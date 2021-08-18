@@ -35,6 +35,7 @@ namespace LoginPlugin.Classes
         {
             FirstAttempt = DateTime.Now;
             CaptchaText = String.Empty;
+            LoginAttempts = 0;
         }
 
         #endregion Constructors

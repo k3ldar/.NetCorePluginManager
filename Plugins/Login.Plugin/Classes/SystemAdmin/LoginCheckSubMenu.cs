@@ -74,12 +74,12 @@ namespace LoginPlugin.Classes.SystemAdmin
 
         public override string Name()
         {
-            return nameof(Languages.LanguageStrings.LoginValidation);
+            return Languages.LanguageStrings.LoginValidation;
         }
 
         public override string ParentMenuName()
         {
-            return nameof(Languages.LanguageStrings.Timings);
+            return Languages.LanguageStrings.Timings;
         }
 
         public override int SortOrder()

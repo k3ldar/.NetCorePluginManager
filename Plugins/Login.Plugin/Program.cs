@@ -23,6 +23,8 @@
  *  17/11/2018  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+using System.Diagnostics.CodeAnalysis;
+
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 
@@ -30,6 +32,11 @@ using Microsoft.AspNetCore.Hosting;
 
 namespace LoginPlugin
 {
+#if NET_5_X
+    [ExcludeFromCodeCoverage(Justification = "Unable to unit test main")]
+#else
+    [ExcludeFromCodeCoverage]
+#endif
     public static class Program
     {
         public static void Main(string[] args)

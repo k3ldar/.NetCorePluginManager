@@ -270,8 +270,8 @@ namespace SharedPluginFeatures
         /// </summary>
         /// <param name="name">Name of the cookie.</param>
         /// <param name="value">Value to be stored within the cookie.</param>
-        /// <param name="days">Number of days the cookie is valid for.  A value of 
-        /// -1 means it will be a session cookie and will expire when the user session ends.</param>
+        /// <param name="days">Number of days the cookie is valid for.  A value less than
+        /// 1 means it will be a session cookie and will expire when the user session ends.</param>
         protected void CookieAdd(in string name, in string value, in int days)
         {
             CookieOptions options = new CookieOptions()
@@ -280,7 +280,7 @@ namespace SharedPluginFeatures
                 SameSite = SameSiteMode.Strict,
             };
 
-            if (days > -1)
+            if (days > 0)
                 options.Expires = DateTime.Now.AddDays(days);
 
             HttpContext.Response.Cookies.Append(name, value, options);

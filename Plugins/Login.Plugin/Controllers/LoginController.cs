@@ -100,9 +100,9 @@ namespace LoginPlugin.Controllers
             if (ValidateRememberedLogin())
             {
                 if (String.IsNullOrEmpty(returnUrl))
-                    return Redirect(_settings.LoginSuccessUrl);
+                    return LocalRedirect(_settings.LoginSuccessUrl);
                 else
-                    return Redirect(returnUrl);
+                    return LocalRedirect(returnUrl);
             }
 
             LoginViewModel model = new LoginViewModel(GetModelData(),
@@ -140,53 +140,61 @@ namespace LoginPlugin.Controllers
 
             model.ShowCaptchaImage = loginCacheItem.LoginAttempts >= _settings.CaptchaShowFailCount;
 
+            if (!model.ShowCaptchaImage)
+                model.CaptchaText = null;
+
             UserLoginDetails loginDetails = new UserLoginDetails();
 
             model.Breadcrumbs = GetBreadcrumbs();
             model.CartSummary = GetCartSummary();
 
-            LoginResult loginResult = _loginProvider.Login(model.Username, model.Password, GetIpAddress(),
-                loginCacheItem.LoginAttempts, ref loginDetails);
+            if (String.IsNullOrEmpty(model.ReturnUrl))
+                model.ReturnUrl = Constants.ForwardSlash;
 
-            switch (loginResult)
+            if (ModelState.IsValid)
             {
-                case LoginResult.Success:
-                case LoginResult.PasswordChangeRequired:
-                    RemoveLoginAttempt();
+                LoginResult loginResult = _loginProvider.Login(model.Username, model.Password, GetIpAddress(),
+                    loginCacheItem.LoginAttempts, ref loginDetails);
 
-                    UserSession session = GetUserSession();
+                switch (loginResult)
+                {
+                    case LoginResult.Success:
+                    case LoginResult.PasswordChangeRequired:
+                        RemoveLoginAttempt();
 
-                    if (session != null)
-                        session.Login(loginDetails.UserId, loginDetails.Username, loginDetails.Email);
+                        UserSession session = GetUserSession();
 
-                    if (model.RememberMe)
-                    {
-                        CookieAdd(_settings.RememberMeCookieName, Encrypt(loginDetails.UserId.ToString(),
-                            _settings.EncryptionKey), _settings.LoginDays);
-                    }
+                        if (session != null)
+                            session.Login(loginDetails.UserId, loginDetails.Username, loginDetails.Email);
 
-                    GetAuthenticationService().SignInAsync(HttpContext,
-                        _settings.AuthenticationScheme,
-                        new ClaimsPrincipal(_claimsProvider.GetUserClaims(loginDetails.UserId)),
-                        _claimsProvider.GetAuthenticationProperties());
+                        if (model.RememberMe)
+                        {
+                            CookieAdd(_settings.RememberMeCookieName, Encrypt(loginDetails.UserId.ToString(),
+                                _settings.EncryptionKey), _settings.LoginDays);
+                        }
 
-                    if (loginResult == LoginResult.PasswordChangeRequired)
-                    {
-                        return LocalRedirect(_settings.ChangePasswordUrl);
-                    }
+                        GetAuthenticationService().SignInAsync(HttpContext,
+                            _settings.AuthenticationScheme,
+                            new ClaimsPrincipal(_claimsProvider.GetUserClaims(loginDetails.UserId)),
+                            _claimsProvider.GetAuthenticationProperties());
 
-                    return LocalRedirect(model.ReturnUrl);
+                        if (loginResult == LoginResult.PasswordChangeRequired)
+                        {
+                            return LocalRedirect(_settings.ChangePasswordUrl);
+                        }
 
-                case LoginResult.AccountLocked:
-                    return RedirectToAction(nameof(AccountLocked), new { username = model.Username });
+                        return LocalRedirect(model.ReturnUrl);
 
-                case LoginResult.InvalidCredentials:
-                    ModelState.AddModelError(String.Empty, Languages.LanguageStrings.InvalidUsernameOrPassword);
-                    break;
+                    case LoginResult.AccountLocked:
+                        return RedirectToAction(nameof(AccountLocked), new { username = model.Username });
+
+                    case LoginResult.InvalidCredentials:
+                        ModelState.AddModelError(String.Empty, Languages.LanguageStrings.InvalidUsernameOrPassword);
+                        break;
+                }
             }
 
-            if (model.ShowCaptchaImage)
-                loginCacheItem.CaptchaText = GetRandomWord(_settings.CaptchaWordLength, CaptchaCharacters);
+            loginCacheItem.CaptchaText = model.ShowCaptchaImage ? GetRandomWord(_settings.CaptchaWordLength, CaptchaCharacters) : null;
 
             return View(model);
         }
@@ -234,7 +242,6 @@ namespace LoginPlugin.Controllers
 
             LoginCacheItem loginCacheItem = GetCachedLoginAttempt(true);
             loginCacheItem.CaptchaText = GetRandomWord(_settings.CaptchaWordLength, CaptchaCharacters);
-            //model.CaptchaText = loginCacheItem.CaptchaText;
 
             return View(model);
         }
@@ -248,7 +255,10 @@ namespace LoginPlugin.Controllers
 
             LoginCacheItem loginCacheItem = GetCachedLoginAttempt(true);
 
-            if (!String.IsNullOrEmpty(loginCacheItem.CaptchaText))
+            if (String.IsNullOrEmpty(model.CaptchaText) || String.IsNullOrEmpty(loginCacheItem.CaptchaText))
+                ModelState.AddModelError(String.Empty, Languages.LanguageStrings.CodeNotValid);
+
+            if (ModelState.IsValid && !String.IsNullOrEmpty(loginCacheItem.CaptchaText))
             {
                 if (!loginCacheItem.CaptchaText.Equals(model.CaptchaText))
                     ModelState.AddModelError(String.Empty, Languages.LanguageStrings.CodeNotValid);
@@ -257,10 +267,11 @@ namespace LoginPlugin.Controllers
             if (ModelState.IsValid && _loginProvider.ForgottenPassword(model.Username))
             {
                 RemoveLoginAttempt();
-                return Redirect("/Login/");
+                return RedirectToAction(nameof(Index));
             }
 
-            ModelState.AddModelError(String.Empty, Languages.LanguageStrings.InvalidUsernameOrPassword);
+            if (ModelState.IsValid)
+                ModelState.AddModelError(String.Empty, Languages.LanguageStrings.InvalidUsernameOrPassword);
 
             loginCacheItem.CaptchaText = GetRandomWord(_settings.CaptchaWordLength, CaptchaCharacters);
             model.CaptchaText = loginCacheItem.CaptchaText;
@@ -273,7 +284,7 @@ namespace LoginPlugin.Controllers
         [HttpGet]
         [Breadcrumb(nameof(Languages.LanguageStrings.Logout))]
         [LoggedIn]
-        public ActionResult Logout()
+        public IActionResult Logout()
         {
             UserSession session = GetUserSession();
 
@@ -290,13 +301,12 @@ namespace LoginPlugin.Controllers
                 _settings.AuthenticationScheme,
                 _claimsProvider.GetAuthenticationProperties());
 
-            return Redirect("/");
+            return Redirect(Constants.ForwardSlash);
         }
 
         [HttpGet]
-        [DenySpider("Bingbot")]
-        [DenySpider("Twitterbot")]
-        public ActionResult GetCaptchaImage()
+        [DenySpider("*")]
+        public IActionResult GetCaptchaImage()
         {
             LoginCacheItem loginCacheItem = GetCachedLoginAttempt(false);
 
@@ -316,18 +326,37 @@ namespace LoginPlugin.Controllers
             }
             catch (Exception err)
             {
-                if (!err.Message.Contains("Specified method is not supported."))
-                    throw;
+                if (err.Message.Contains("Specified method is not supported."))
+                    return StatusCode(Constants.HtmlResponseMethodFailure);
+                    
+                throw;
             }
             finally
             {
                 ci.Dispose();
             }
 
-            return null;
+            return StatusCode(400);
         }
 
         #endregion Public Action Methods
+
+        #region Internal Testing Methods
+
+        internal LoginCacheItem GetCacheValue(string cacheName)
+        {
+            if (String.IsNullOrEmpty(cacheName))
+                return null;
+
+            CacheItem item = _loginCache.Get(cacheName);
+
+            if (item == null)
+                return null;
+
+            return (LoginCacheItem)item.Value;
+        }
+
+        #endregion Internal Testing Methods
 
         #region Private Methods
 
@@ -368,7 +397,7 @@ namespace LoginPlugin.Controllers
 
         private void RemoveLoginAttempt()
         {
-            string cacheId = _settings.CacheUseSession ? GetCoreSessionId() : GetIpAddress();
+            string cacheId = GetCoreSessionId();
 
             CacheItem loginCache = _loginCache.Get(cacheId);
 
@@ -382,7 +411,7 @@ namespace LoginPlugin.Controllers
         {
             LoginCacheItem Result = null;
 
-            string cacheId = _settings.CacheUseSession ? GetCoreSessionId() : GetIpAddress();
+            string cacheId = GetCoreSessionId();
 
             CacheItem loginCache = _loginCache.Get(cacheId);
 
