@@ -20,7 +20,7 @@
  *  Purpose:  Tests for Image Manager Plugin Initialisation
  *
  *  Date        Name                Reason
- *  16/04/2021  Simon Carter        Initially Created
+ *  18/08/2021  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
