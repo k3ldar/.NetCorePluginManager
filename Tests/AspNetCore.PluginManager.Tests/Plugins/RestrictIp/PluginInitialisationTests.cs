@@ -91,38 +91,38 @@ namespace AspNetCore.PluginManager.Tests.Plugins.RestrictIpTests
 
         [TestMethod]
         [TestCategory(TestsCategory)]
-        public void Configure_DoesConfigurePipeline_Success()
+        public void Configure_DoesNotConfigurePipeline_Success()
         {
             TestApplicationBuilder testApplicationBuilder = new TestApplicationBuilder();
             PluginInitialisation sut = new PluginInitialisation();
 
             sut.Configure(testApplicationBuilder);
-
-            Assert.IsTrue(testApplicationBuilder.UseCalled);
-        }
-
-        [TestMethod]
-        [TestCategory(TestsCategory)]
-        public void BeforeConfigure_DoesNotRegisterApplicationServices()
-        {
-            TestApplicationBuilder testApplicationBuilder = new TestApplicationBuilder();
-            PluginInitialisation sut = new PluginInitialisation();
-
-            sut.BeforeConfigure(testApplicationBuilder);
 
             Assert.IsFalse(testApplicationBuilder.UseCalled);
         }
 
         [TestMethod]
         [TestCategory(TestsCategory)]
-        public void Configure_DoesRegisterApplicationServices()
+        public void BeforeConfigure_RegistersApplicationServices()
+        {
+            TestApplicationBuilder testApplicationBuilder = new TestApplicationBuilder();
+            PluginInitialisation sut = new PluginInitialisation();
+
+            sut.BeforeConfigure(testApplicationBuilder);
+
+            Assert.IsTrue(testApplicationBuilder.UseCalled);
+        }
+
+        [TestMethod]
+        [TestCategory(TestsCategory)]
+        public void Configure_DoesNotRegisterApplicationServices()
         {
             TestApplicationBuilder testApplicationBuilder = new TestApplicationBuilder();
             PluginInitialisation sut = new PluginInitialisation();
 
             sut.Configure(testApplicationBuilder);
 
-            Assert.IsTrue(testApplicationBuilder.UseCalled);
+            Assert.IsFalse(testApplicationBuilder.UseCalled);
         }
 
         [TestMethod]
@@ -146,20 +146,6 @@ namespace AspNetCore.PluginManager.Tests.Plugins.RestrictIpTests
             sut.BeforeConfigureServices(mockServiceCollection);
 
             Assert.AreEqual(0, mockServiceCollection.ServicesRegistered);
-        }
-
-        [TestMethod]
-        [TestCategory(TestsCategory)]
-        public void ConfigureServices_RegistersIBreadcrumbService()
-        {
-            TestApplicationBuilder testApplicationBuilder = new TestApplicationBuilder();
-            PluginInitialisation sut = new PluginInitialisation();
-            MockServiceCollection mockServiceCollection = new MockServiceCollection();
-
-            sut.ConfigureServices(mockServiceCollection);
-
-            Assert.AreEqual(1, mockServiceCollection.ServicesRegistered);
-            Assert.IsTrue(mockServiceCollection.HasServiceRegistered<IBreadcrumbService>(ServiceLifetime.Singleton));
         }
 
         [TestMethod]

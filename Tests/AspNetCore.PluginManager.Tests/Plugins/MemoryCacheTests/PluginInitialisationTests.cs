@@ -36,6 +36,8 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using PluginManager.Abstractions;
 using PluginManager.Tests.Mocks;
 
+using Shared.Classes;
+
 using SharedPluginFeatures;
 
 namespace AspNetCore.PluginManager.Tests.Plugins.MemoryCacheTests
@@ -45,16 +47,6 @@ namespace AspNetCore.PluginManager.Tests.Plugins.MemoryCacheTests
     public class PluginInitialisationTests
     {
         private const string TestsCategory = "MemoryCache General Tests";
-
-        [TestMethod]
-        [TestCategory(TestsCategory)]
-        public void ExtendsIPluginAndIInitialiseEvents()
-        {
-            PluginInitialisation sut = new PluginInitialisation();
-
-            Assert.IsInstanceOfType(sut, typeof(IPlugin));
-            Assert.IsInstanceOfType(sut, typeof(IInitialiseEvents));
-        }
 
         [TestMethod]
         [TestCategory(TestsCategory)]
@@ -81,24 +73,11 @@ namespace AspNetCore.PluginManager.Tests.Plugins.MemoryCacheTests
         [TestCategory(TestsCategory)]
         public void Finalise_DoesNotThrowException()
         {
+            ThreadManager.Initialise();
             TestApplicationBuilder testApplicationBuilder = new TestApplicationBuilder();
             PluginInitialisation sut = new PluginInitialisation();
 
             sut.Finalise();
-        }
-
-        [TestMethod]
-        [TestCategory(TestsCategory)]
-        public void ConfigureServices_RegistersIBreadcrumbService()
-        {
-            TestApplicationBuilder testApplicationBuilder = new TestApplicationBuilder();
-            PluginInitialisation sut = new PluginInitialisation();
-            MockServiceCollection mockServiceCollection = new MockServiceCollection();
-
-            sut.ConfigureServices(mockServiceCollection);
-
-            Assert.AreEqual(1, mockServiceCollection.ServicesRegistered);
-            Assert.IsTrue(mockServiceCollection.HasServiceRegistered<IBreadcrumbService>(ServiceLifetime.Singleton));
         }
     }
 }

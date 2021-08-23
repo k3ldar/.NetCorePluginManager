@@ -47,16 +47,6 @@ namespace AspNetCore.PluginManager.Tests.Plugins.GeoIpTests
 
         [TestMethod]
         [TestCategory(TestsCategory)]
-        public void ExtendsIPluginAndIInitialiseEvents()
-        {
-            PluginInitialisation sut = new PluginInitialisation();
-
-            Assert.IsInstanceOfType(sut, typeof(IPlugin));
-            Assert.IsInstanceOfType(sut, typeof(IInitialiseEvents));
-        }
-
-        [TestMethod]
-        [TestCategory(TestsCategory)]
         public void GetVersion_ReturnsCurrentVersion_Success()
         {
             PluginInitialisation sut = new PluginInitialisation();
@@ -84,20 +74,6 @@ namespace AspNetCore.PluginManager.Tests.Plugins.GeoIpTests
             PluginInitialisation sut = new PluginInitialisation();
 
             sut.Finalise();
-        }
-
-        [TestMethod]
-        [TestCategory(TestsCategory)]
-        public void ConfigureServices_RegistersIBreadcrumbService()
-        {
-            TestApplicationBuilder testApplicationBuilder = new TestApplicationBuilder();
-            PluginInitialisation sut = new PluginInitialisation();
-            MockServiceCollection mockServiceCollection = new MockServiceCollection();
-
-            sut.ConfigureServices(mockServiceCollection);
-
-            Assert.AreEqual(1, mockServiceCollection.ServicesRegistered);
-            Assert.IsTrue(mockServiceCollection.HasServiceRegistered<IBreadcrumbService>(ServiceLifetime.Singleton));
         }
     }
 }

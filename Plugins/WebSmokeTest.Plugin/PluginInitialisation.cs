@@ -23,6 +23,8 @@
  *  08/06/2020  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+using System;
+
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -91,7 +93,8 @@ namespace WebSmokeTest.Plugin
 
         public void AfterConfigureServices(in IServiceCollection services)
         {
-
+            if (services == null)
+                throw new ArgumentNullException(nameof(services));
         }
 
         #endregion IInitialiseEvents Methods

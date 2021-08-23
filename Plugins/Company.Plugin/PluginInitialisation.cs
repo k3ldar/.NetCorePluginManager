@@ -35,7 +35,7 @@ namespace Company.Plugin
     /// Implements IPlugin which allows the CompanyPlugin module to be
     /// loaded as a plugin module
     /// </summary>
-    public class PluginInitialisation : IPlugin, IPluginVersion
+    public class PluginInitialisation : IPlugin
     {
         public void ConfigureServices(IServiceCollection services)
         {

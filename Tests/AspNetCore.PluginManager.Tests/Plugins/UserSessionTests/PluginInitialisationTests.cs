@@ -91,38 +91,40 @@ namespace AspNetCore.PluginManager.Tests.Plugins.UserSessionMiddlewareTests
 
         [TestMethod]
         [TestCategory(TestsCategory)]
-        public void Configure_DoesConfigurePipeline_Success()
+        public void Configure_DoesNotConfigurePipeline_Success()
         {
             TestApplicationBuilder testApplicationBuilder = new TestApplicationBuilder();
             PluginInitialisation sut = new PluginInitialisation();
 
             sut.Configure(testApplicationBuilder);
 
-            Assert.IsTrue(testApplicationBuilder.UseCalled);
+            Assert.IsFalse(testApplicationBuilder.UseCalled);
+            Assert.AreEqual(0, testApplicationBuilder.UseCalledCount);
         }
 
         [TestMethod]
         [TestCategory(TestsCategory)]
-        public void BeforeConfigure_DoesNotRegisterApplicationServices()
+        public void BeforeConfigure_RegistersApplicationServices_Success()
         {
             TestApplicationBuilder testApplicationBuilder = new TestApplicationBuilder();
             PluginInitialisation sut = new PluginInitialisation();
 
             sut.BeforeConfigure(testApplicationBuilder);
 
-            Assert.IsFalse(testApplicationBuilder.UseCalled);
+            Assert.IsTrue(testApplicationBuilder.UseCalled);
+            Assert.AreEqual(1, testApplicationBuilder.UseCalledCount);
         }
 
         [TestMethod]
         [TestCategory(TestsCategory)]
-        public void Configure_DoesRegisterApplicationServices()
+        public void Configure_DoesNotRegisterApplicationServices()
         {
             TestApplicationBuilder testApplicationBuilder = new TestApplicationBuilder();
             PluginInitialisation sut = new PluginInitialisation();
 
             sut.Configure(testApplicationBuilder);
 
-            Assert.IsTrue(testApplicationBuilder.UseCalled);
+            Assert.IsFalse(testApplicationBuilder.UseCalled);
         }
 
         [TestMethod]
@@ -150,7 +152,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.UserSessionMiddlewareTests
 
         [TestMethod]
         [TestCategory(TestsCategory)]
-        public void ConfigureServices_RegistersIBreadcrumbService()
+        public void ConfigureServices_ConfigureServices_Success()
         {
             TestApplicationBuilder testApplicationBuilder = new TestApplicationBuilder();
             PluginInitialisation sut = new PluginInitialisation();
@@ -159,7 +161,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.UserSessionMiddlewareTests
             sut.ConfigureServices(mockServiceCollection);
 
             Assert.AreEqual(1, mockServiceCollection.ServicesRegistered);
-            Assert.IsTrue(mockServiceCollection.HasServiceRegistered<IBreadcrumbService>(ServiceLifetime.Singleton));
+            Assert.IsTrue(mockServiceCollection.HasServiceRegistered<IUserCultureChangeProvider>(ServiceLifetime.Singleton));
         }
 
         [TestMethod]

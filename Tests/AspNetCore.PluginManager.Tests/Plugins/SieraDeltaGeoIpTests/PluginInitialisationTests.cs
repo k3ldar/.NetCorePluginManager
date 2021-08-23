@@ -91,14 +91,15 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SieraDeltaGeoIpTests
 
         [TestMethod]
         [TestCategory(TestsCategory)]
-        public void Configure_DoesConfigurePipeline_Success()
+        public void Configure_DoesNotConfigurePipeline_Success()
         {
             TestApplicationBuilder testApplicationBuilder = new TestApplicationBuilder();
             PluginInitialisation sut = new PluginInitialisation();
 
             sut.Configure(testApplicationBuilder);
 
-            Assert.IsTrue(testApplicationBuilder.UseCalled);
+            Assert.IsFalse(testApplicationBuilder.UseCalled);
+            Assert.AreEqual(0, testApplicationBuilder.UseCalledCount);
         }
 
         [TestMethod]
@@ -122,7 +123,8 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SieraDeltaGeoIpTests
 
             sut.Configure(testApplicationBuilder);
 
-            Assert.IsTrue(testApplicationBuilder.UseCalled);
+            Assert.IsFalse(testApplicationBuilder.UseCalled);
+            Assert.AreEqual(0, testApplicationBuilder.UseCalledCount);
         }
 
         [TestMethod]
@@ -150,7 +152,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SieraDeltaGeoIpTests
 
         [TestMethod]
         [TestCategory(TestsCategory)]
-        public void ConfigureServices_RegistersIBreadcrumbService()
+        public void ConfigureServices_RegistersService_Success()
         {
             TestApplicationBuilder testApplicationBuilder = new TestApplicationBuilder();
             PluginInitialisation sut = new PluginInitialisation();
@@ -159,7 +161,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SieraDeltaGeoIpTests
             sut.ConfigureServices(mockServiceCollection);
 
             Assert.AreEqual(1, mockServiceCollection.ServicesRegistered);
-            Assert.IsTrue(mockServiceCollection.HasServiceRegistered<IBreadcrumbService>(ServiceLifetime.Singleton));
+            Assert.IsTrue(mockServiceCollection.HasServiceRegistered<IGeoIpProvider>(ServiceLifetime.Singleton));
         }
 
         [TestMethod]

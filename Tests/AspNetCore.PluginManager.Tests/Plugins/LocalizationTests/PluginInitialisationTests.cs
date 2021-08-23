@@ -36,6 +36,8 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using PluginManager.Abstractions;
 using PluginManager.Tests.Mocks;
 
+using Shared.Classes;
+
 using SharedPluginFeatures;
 
 namespace AspNetCore.PluginManager.Tests.Plugins.LocalizationTests
@@ -86,19 +88,8 @@ namespace AspNetCore.PluginManager.Tests.Plugins.LocalizationTests
 
             sut.AfterConfigure(testApplicationBuilder);
 
-            Assert.IsFalse(testApplicationBuilder.UseCalled);
-        }
-
-        [TestMethod]
-        [TestCategory(TestsCategory)]
-        public void Configure_DoesConfigurePipeline_Success()
-        {
-            TestApplicationBuilder testApplicationBuilder = new TestApplicationBuilder();
-            PluginInitialisation sut = new PluginInitialisation();
-
-            sut.Configure(testApplicationBuilder);
-
             Assert.IsTrue(testApplicationBuilder.UseCalled);
+            Assert.AreEqual(2, testApplicationBuilder.UseCalledCount);
         }
 
         [TestMethod]
@@ -115,20 +106,21 @@ namespace AspNetCore.PluginManager.Tests.Plugins.LocalizationTests
 
         [TestMethod]
         [TestCategory(TestsCategory)]
-        public void Configure_DoesRegisterApplicationServices()
+        public void Configure_DoesNotRegisterApplicationServices()
         {
             TestApplicationBuilder testApplicationBuilder = new TestApplicationBuilder();
             PluginInitialisation sut = new PluginInitialisation();
 
             sut.Configure(testApplicationBuilder);
 
-            Assert.IsTrue(testApplicationBuilder.UseCalled);
+            Assert.IsFalse(testApplicationBuilder.UseCalled);
         }
 
         [TestMethod]
         [TestCategory(TestsCategory)]
         public void Finalise_DoesNotThrowException()
         {
+            ThreadManager.Initialise();
             TestApplicationBuilder testApplicationBuilder = new TestApplicationBuilder();
             PluginInitialisation sut = new PluginInitialisation();
 
@@ -146,20 +138,6 @@ namespace AspNetCore.PluginManager.Tests.Plugins.LocalizationTests
             sut.BeforeConfigureServices(mockServiceCollection);
 
             Assert.AreEqual(0, mockServiceCollection.ServicesRegistered);
-        }
-
-        [TestMethod]
-        [TestCategory(TestsCategory)]
-        public void ConfigureServices_RegistersIBreadcrumbService()
-        {
-            TestApplicationBuilder testApplicationBuilder = new TestApplicationBuilder();
-            PluginInitialisation sut = new PluginInitialisation();
-            MockServiceCollection mockServiceCollection = new MockServiceCollection();
-
-            sut.ConfigureServices(mockServiceCollection);
-
-            Assert.AreEqual(1, mockServiceCollection.ServicesRegistered);
-            Assert.IsTrue(mockServiceCollection.HasServiceRegistered<IBreadcrumbService>(ServiceLifetime.Singleton));
         }
 
         [TestMethod]

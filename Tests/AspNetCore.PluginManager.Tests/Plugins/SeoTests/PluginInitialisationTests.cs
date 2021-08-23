@@ -150,20 +150,6 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SeoTests
 
         [TestMethod]
         [TestCategory(TestsCategory)]
-        public void ConfigureServices_RegistersIBreadcrumbService()
-        {
-            TestApplicationBuilder testApplicationBuilder = new TestApplicationBuilder();
-            PluginInitialisation sut = new PluginInitialisation();
-            MockServiceCollection mockServiceCollection = new MockServiceCollection();
-
-            sut.ConfigureServices(mockServiceCollection);
-
-            Assert.AreEqual(1, mockServiceCollection.ServicesRegistered);
-            Assert.IsTrue(mockServiceCollection.HasServiceRegistered<IBreadcrumbService>(ServiceLifetime.Singleton));
-        }
-
-        [TestMethod]
-        [TestCategory(TestsCategory)]
         [ExpectedException(typeof(ArgumentNullException))]
         public void AfterConfigureServices_InvalidParam_Services_Null_Throws_ArgumentNullException()
         {

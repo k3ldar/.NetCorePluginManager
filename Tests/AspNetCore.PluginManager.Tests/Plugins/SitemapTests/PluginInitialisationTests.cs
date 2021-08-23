@@ -150,7 +150,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SitemapTests
 
         [TestMethod]
         [TestCategory(TestsCategory)]
-        public void ConfigureServices_RegistersIBreadcrumbService()
+        public void ConfigureServices_DoesNotConfigureServices_Success()
         {
             TestApplicationBuilder testApplicationBuilder = new TestApplicationBuilder();
             PluginInitialisation sut = new PluginInitialisation();
@@ -158,8 +158,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SitemapTests
 
             sut.ConfigureServices(mockServiceCollection);
 
-            Assert.AreEqual(1, mockServiceCollection.ServicesRegistered);
-            Assert.IsTrue(mockServiceCollection.HasServiceRegistered<IBreadcrumbService>(ServiceLifetime.Singleton));
+            Assert.AreEqual(0, mockServiceCollection.ServicesRegistered);
         }
 
         [TestMethod]

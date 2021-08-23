@@ -91,18 +91,6 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DocumentationTests
 
         [TestMethod]
         [TestCategory(TestsCategory)]
-        public void Configure_DoesConfigurePipeline_Success()
-        {
-            TestApplicationBuilder testApplicationBuilder = new TestApplicationBuilder();
-            PluginInitialisation sut = new PluginInitialisation(new TestThreadManagerServices());
-
-            sut.Configure(testApplicationBuilder);
-
-            Assert.IsTrue(testApplicationBuilder.UseCalled);
-        }
-
-        [TestMethod]
-        [TestCategory(TestsCategory)]
         public void BeforeConfigure_DoesNotRegisterApplicationServices()
         {
             TestApplicationBuilder testApplicationBuilder = new TestApplicationBuilder();
@@ -111,18 +99,6 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DocumentationTests
             sut.BeforeConfigure(testApplicationBuilder);
 
             Assert.IsFalse(testApplicationBuilder.UseCalled);
-        }
-
-        [TestMethod]
-        [TestCategory(TestsCategory)]
-        public void Configure_DoesRegisterApplicationServices()
-        {
-            TestApplicationBuilder testApplicationBuilder = new TestApplicationBuilder();
-            PluginInitialisation sut = new PluginInitialisation(new TestThreadManagerServices());
-
-            sut.Configure(testApplicationBuilder);
-
-            Assert.IsTrue(testApplicationBuilder.UseCalled);
         }
 
         [TestMethod]
@@ -150,20 +126,6 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DocumentationTests
 
         [TestMethod]
         [TestCategory(TestsCategory)]
-        public void ConfigureServices_RegistersIBreadcrumbService()
-        {
-            TestApplicationBuilder testApplicationBuilder = new TestApplicationBuilder();
-            PluginInitialisation sut = new PluginInitialisation(new TestThreadManagerServices());
-            MockServiceCollection mockServiceCollection = new MockServiceCollection();
-
-            sut.ConfigureServices(mockServiceCollection);
-
-            Assert.AreEqual(1, mockServiceCollection.ServicesRegistered);
-            Assert.IsTrue(mockServiceCollection.HasServiceRegistered<IBreadcrumbService>(ServiceLifetime.Singleton));
-        }
-
-        [TestMethod]
-        [TestCategory(TestsCategory)]
         [ExpectedException(typeof(ArgumentNullException))]
         public void AfterConfigureServices_InvalidParam_Services_Null_Throws_ArgumentNullException()
         {
@@ -172,6 +134,32 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DocumentationTests
             MockServiceCollection mockServiceCollection = new MockServiceCollection();
 
             sut.AfterConfigureServices(null);
+        }
+
+        [TestMethod]
+        [TestCategory(TestsCategory)]
+        public void Configure_DoesNotRegisterApplicationServices_Success()
+        {
+            TestApplicationBuilder testApplicationBuilder = new TestApplicationBuilder();
+            PluginInitialisation sut = new PluginInitialisation(new TestThreadManagerServices());
+
+            sut.Configure(testApplicationBuilder);
+
+            Assert.IsFalse(testApplicationBuilder.UseCalled);
+            Assert.AreEqual(0, testApplicationBuilder.UseCalledCount);
+        }
+
+        [TestMethod]
+        [TestCategory(TestsCategory)]
+        public void ConfigureServices_DoesNotRegisterAnyServices_Success()
+        {
+            TestApplicationBuilder testApplicationBuilder = new TestApplicationBuilder();
+            PluginInitialisation sut = new PluginInitialisation(new TestThreadManagerServices());
+            MockServiceCollection mockServiceCollection = new MockServiceCollection();
+
+            sut.ConfigureServices(mockServiceCollection);
+
+            Assert.AreEqual(0, mockServiceCollection.ServicesRegistered);
         }
     }
 }

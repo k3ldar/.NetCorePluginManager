@@ -23,6 +23,8 @@
  *  16/11/2018  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+using System;
+
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -71,7 +73,8 @@ namespace ErrorManager.Plugin
 
         public void AfterConfigureServices(in IServiceCollection services)
         {
-
+            if (services == null)
+                throw new ArgumentNullException(nameof(services));
 
         }
 

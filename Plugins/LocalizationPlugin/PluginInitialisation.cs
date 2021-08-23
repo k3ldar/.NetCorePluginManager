@@ -118,7 +118,8 @@ namespace Localization.Plugin
 
         public void AfterConfigure(in IApplicationBuilder app)
         {
-            app.UseRequestLocalization().UseLocalizationMiddleware();
+            app.UseRequestLocalization();
+            app.UseLocalizationMiddleware();
         }
 
         public void Configure(in IApplicationBuilder app)
@@ -133,7 +134,8 @@ namespace Localization.Plugin
 
         public void AfterConfigureServices(in IServiceCollection services)
         {
-
+            if (services == null)
+                throw new ArgumentNullException(nameof(services));
         }
 
         #region IConfigureMvcBuilder Methods

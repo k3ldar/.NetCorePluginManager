@@ -48,16 +48,6 @@ namespace AspNetCore.PluginManager.Tests.Plugins.UserAccountTests
 
         [TestMethod]
         [TestCategory(TestsCategory)]
-        public void ExtendsIPluginAndIInitialiseEvents()
-        {
-            PluginInitialisation sut = new PluginInitialisation();
-
-            Assert.IsInstanceOfType(sut, typeof(IPlugin));
-            Assert.IsInstanceOfType(sut, typeof(IInitialiseEvents));
-        }
-
-        [TestMethod]
-        [TestCategory(TestsCategory)]
         public void GetVersion_ReturnsCurrentVersion_Success()
         {
             PluginInitialisation sut = new PluginInitialisation();
@@ -89,7 +79,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.UserAccountTests
 
         [TestMethod]
         [TestCategory(TestsCategory)]
-        public void ConfigureServices_RegistersIBreadcrumbService()
+        public void ConfigureServices_DoesNotRegisterServices_Success()
         {
             TestApplicationBuilder testApplicationBuilder = new TestApplicationBuilder();
             PluginInitialisation sut = new PluginInitialisation();
@@ -97,8 +87,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.UserAccountTests
 
             sut.ConfigureServices(mockServiceCollection);
 
-            Assert.AreEqual(1, mockServiceCollection.ServicesRegistered);
-            Assert.IsTrue(mockServiceCollection.HasServiceRegistered<IBreadcrumbService>(ServiceLifetime.Singleton));
+            Assert.AreEqual(0, mockServiceCollection.ServicesRegistered);
         }
     }
 }

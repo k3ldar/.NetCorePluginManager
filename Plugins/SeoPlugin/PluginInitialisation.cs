@@ -23,6 +23,8 @@
  *  12/05/2019  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+using System;
+
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -96,7 +98,8 @@ namespace SeoPlugin
 
         public void AfterConfigureServices(in IServiceCollection services)
         {
-
+            if (services == null)
+                throw new ArgumentNullException(nameof(services));
         }
 
         #endregion IInitialiseEvents Methods
