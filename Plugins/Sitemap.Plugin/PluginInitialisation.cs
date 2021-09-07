@@ -90,8 +90,7 @@ namespace Sitemap.Plugin
 
         public void AfterConfigureServices(in IServiceCollection services)
         {
-            if (services == null)
-                throw new ArgumentNullException(nameof(services));
+
         }
 
         #endregion IInitialiseEvents Methods

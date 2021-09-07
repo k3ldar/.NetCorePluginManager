@@ -43,6 +43,11 @@
             </summary>
             <value>int</value>
         </member>
+        <member name="M:MemoryCache.Plugin.DefaultMemoryCache.RemoveAllCaches">
+            <summary>
+            Internal method for unit test purposes only!
+            </summary>
+        </member>
         <member name="T:MemoryCache.Plugin.MemoryCachePluginExtender">
             <summary>
             Memory Cache Middleware Extender

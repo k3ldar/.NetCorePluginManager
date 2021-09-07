@@ -600,7 +600,9 @@ namespace SharedPluginFeatures
         /// </summary>
         public const int HtmlResponseNotFound = 404;
 
-
+        /// <summary>
+        /// Method failure response code
+        /// </summary>
         public const int HtmlResponseMethodFailure = 420;
 
         /// <summary>

@@ -163,8 +163,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SitemapTests
 
         [TestMethod]
         [TestCategory(TestsCategory)]
-        [ExpectedException(typeof(ArgumentNullException))]
-        public void AfterConfigureServices_InvalidParam_Services_Null_Throws_ArgumentNullException()
+        public void AfterConfigureServices_DoesNotThrowException()
         {
             TestApplicationBuilder testApplicationBuilder = new TestApplicationBuilder();
             PluginInitialisation sut = new PluginInitialisation();

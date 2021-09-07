@@ -23,6 +23,8 @@
  *  22/09/2018  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+using System;
+
 using Microsoft.Extensions.DependencyInjection;
 
 using PluginManager.Abstractions;
@@ -53,6 +55,9 @@ namespace MemoryCache.Plugin
 
         public void ConfigureServices(IServiceCollection services)
         {
+            if (services == null)
+                throw new ArgumentNullException(nameof(services));
+
             services.UseMemoryCache();
         }
 

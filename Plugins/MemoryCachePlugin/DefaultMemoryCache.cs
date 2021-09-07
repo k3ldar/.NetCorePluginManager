@@ -107,5 +107,24 @@ namespace MemoryCache.Plugin
         }
 
         #endregion Public Methods
+
+        #region Internal Methods
+
+        /// <summary>
+        /// Internal method for unit test purposes only!
+        /// </summary>
+        internal void RemoveAllCaches()
+        {
+            CacheManager.RemoveCacheManager(_cache.Name);
+            _cache = null;
+            CacheManager.RemoveCacheManager(_cacheShort.Name);
+            _cacheShort = null;
+            CacheManager.RemoveCacheManager(_extendingCache.Name);
+            _extendingCache = null;
+            CacheManager.RemoveCacheManager(_permanentCache.Name);
+            _permanentCache = null;
+        }
+
+        #endregion Internal Methods
     }
 }

@@ -35,7 +35,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
 {
     [TestClass]
     [ExcludeFromCodeCoverage]
-    public class DynamicContentMenuTests
+    public class MemoryCacheMenuTests
     {
         private const string TestCategoryName = "Dynamic Content";
         private const string SystemAdminCategoryName = "System Admin";

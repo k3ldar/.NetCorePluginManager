@@ -79,5 +79,28 @@ namespace AspNetCore.PluginManager.Tests.Plugins.MemoryCacheTests
 
             sut.Finalise();
         }
+
+        [TestMethod]
+        [TestCategory(TestsCategory)]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void ConfigureServices_InvalidParam_Null_Throws_ArgumentNullException()
+        {
+            PluginInitialisation sut = new PluginInitialisation();
+
+            sut.ConfigureServices(null);
+        }
+
+        [TestMethod]
+        [TestCategory(TestsCategory)]
+        public void ConfigureServices_CallsUseMemoryCache_Success()
+        {
+            PluginInitialisation sut = new PluginInitialisation();
+            MockServiceCollection mockServiceCollection = new MockServiceCollection();
+
+            sut.ConfigureServices(mockServiceCollection);
+
+            Assert.AreEqual(1, mockServiceCollection.ServicesRegistered);
+            Assert.IsTrue(mockServiceCollection.HasServiceRegistered<IMemoryCache>(ServiceLifetime.Singleton));
+        }
     }
 }
