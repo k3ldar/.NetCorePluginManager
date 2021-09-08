@@ -26,6 +26,8 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
+using System.IO.Pipelines;
+using System.Threading;
 using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Http;
@@ -40,12 +42,14 @@ namespace AspNetCore.PluginManager.Tests
         private readonly TestResponseCookies _cookies = new TestResponseCookies();
         private readonly IHeaderDictionary _headerDictionary = new TestHeaderDictionary();
         private readonly Stream _body;
+        private readonly PipeWriter _pipeWriter;
 
         #endregion Private Members
 
         public TestHttpResponse()
         {
             _body = new MemoryStream();
+            _pipeWriter = PipeWriter.Create(_body);
             StatusCode = 200;
             RedirectPermanent = null;
             RedirectCount = 0;
@@ -104,6 +108,18 @@ namespace AspNetCore.PluginManager.Tests
             RedirectPermanent = permanent;
             RedirectCount++;
         }
+
+        public override Task StartAsync(CancellationToken cancellationToken = default)
+        {
+            return Task.CompletedTask;
+        }
+
+        public override Task CompleteAsync()
+        {
+            return Task.CompletedTask;
+        }
+
+        public override PipeWriter BodyWriter => _pipeWriter;
 
         #endregion HttpResponse Methods
 

@@ -59,7 +59,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SitemapTests
             Assert.IsTrue(data.Contains("\rAverage ms|"));
             Assert.IsTrue(data.Contains("\rTrimmed Avg ms|"));
             Assert.IsTrue(data.Contains("\rTotal ms|"));
-            Assert.IsTrue(data.Length < 110, "Has a new column been added to data as it is too long");
+            Assert.IsTrue(data.Length < 150, "Has a new column been added to data as it is too long");
             Assert.AreEqual("stopwatch", sut.Image());
             Assert.AreEqual(SystemAdminMenuType.Grid, sut.MenuType());
             Assert.AreEqual("Sitemap", sut.Name());

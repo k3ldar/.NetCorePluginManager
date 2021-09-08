@@ -133,7 +133,12 @@ namespace Sitemap.Plugin
         {
             if (eventId == Constants.NotificationSitemapNames)
             {
-                result = GetSitemaps((HttpContext)param1).Keys.ToList();
+                HttpContext httpContext = param1 as HttpContext;
+
+                if (httpContext == null)
+                    return false;
+
+                result = GetSitemaps(httpContext).Keys.ToList();
 
                 return true;
             }
