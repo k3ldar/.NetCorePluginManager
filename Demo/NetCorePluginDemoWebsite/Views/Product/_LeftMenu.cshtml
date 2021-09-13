@@ -1,23 +1,26 @@
 ﻿@model ProductPlugin.Models.BaseProductModel
 @inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
+
 @{
-ViewData["Title"] = "Products";
+    ViewData["Title"] = "Products";
 }
 <div class="leftColumn">
-<h5 id="subHeader">@Localizer[nameof(Languages.LanguageStrings.Categories)]</h5>
-<ul>
-@foreach (var item in Model.ProductGroups)
-{
-if (String.IsNullOrEmpty(item.Url))
-{
-<li><a href="/Products/{@Html.Raw(Model.RouteText(item.Description))}/{@item.Id}/">@item.Description</a></li>
-}
-else
-{
-<li><a href="@item.Url">@item.Description</a></li>
-}
-}
-</ul>
-<ul id="subOptions" visible="false"></ul>
-<div id="subOptionsOther" visible="false"></div>
+    <h5 id="subHeader">@Localizer[nameof(Languages.LanguageStrings.Categories)]</h5>
+    <ul>
+        @foreach (var item in Model.ProductGroups)
+        {
+            if (String.IsNullOrEmpty(item.Url))
+            {
+                <li><a href="/Products/{@Html.Raw(Model.RouteText(item.Description))}/{@item.Id}/">@item.Description</a></li>
+            }
+            else
+            {
+                <li><a href="@item.Url">@item.Description</a></li>
+
+            }
+        }
+    </ul>
+    <ul id="subOptions" visible="false"></ul>
+
+    <div id="subOptionsOther" visible="false"></div>
 </div>

@@ -46,6 +46,7 @@ using Middleware.Images;
 
 using PluginManager.Abstractions;
 
+using Shared.Abstractions;
 using Shared.Classes;
 
 using SharedPluginFeatures;
@@ -66,6 +67,13 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         public void InitialiseImageManagerPlugin()
         {
             InitializeImageManagerPluginManager();
+        }
+
+        [TestCleanup]
+        public void FinalizeTest()
+        {
+            ICacheManagerFactory cacheManagerFactory = new CacheManagerFactory();
+            cacheManagerFactory.RemoveCache(Constants.CacheManagerImageManager);
         }
 
         [TestMethod]
@@ -1392,7 +1400,8 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         [TestCategory(TestCategoryName)]
         public void ImageTemplateEditor_Validate_IActionResult_ReturnsPartialView()
         {
-            CacheManager.ClearAllCaches();
+            ICacheManagerFactory cacheManagerFactory = new CacheManagerFactory();
+            cacheManagerFactory.ClearAllCaches();
             InitializeImageManagerPluginManager();
             ImageManagerController sut = CreateImageManagerController(null, null, MockImageProvider.CreateDefaultMockImageProvider());
 

@@ -33,6 +33,7 @@ using MemoryCache.Plugin.Classes;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
+using Shared.Abstractions;
 using Shared.Classes;
 
 using static SharedPluginFeatures.Enums;
@@ -49,7 +50,8 @@ namespace AspNetCore.PluginManager.Tests.Plugins.MemoryCacheTests
         [TestInitialize]
         public void InitializeMenuTests()
         {
-            CacheManager.ClearAllCaches();
+            ICacheManagerFactory cacheManagerFactory = new CacheManagerFactory();
+            cacheManagerFactory.ClearAllCaches();
 
             DefaultMemoryCache defaultMemoryCache = new DefaultMemoryCache(new TestSettingsProvider("{}"));
             defaultMemoryCache.RemoveAllCaches();
@@ -57,7 +59,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.MemoryCacheTests
             CacheManager.RemoveCacheManager("Test Cache");
             CacheManager.RemoveCacheManager("Available Cultures");
             CacheManager.RemoveCacheManager("Dynamic Content Cache Manager");
-            CacheManager.RemoveCacheManager("DefaultImageProvider");
+            CacheManager.RemoveCacheManager("Image Manager Cache");
         }
 
         [TestMethod]

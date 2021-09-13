@@ -1,57 +1,70 @@
 ﻿@model DynamicContent.Plugin.Model.PageModel
+
 @Html.Raw(Model.PageCSS)
 <div class="row">
-@if (Model.HasInputControls)
-{
-using (Html.BeginForm(nameof(DynamicContent.Plugin.Controllers.DynamicContentController.SubmitData), DynamicContent.Plugin.Controllers.DynamicContentController.Name, FormMethod.Post))
-{
-<input type="hidden" id="inputData" name="inputData" value="" />
-@Html.Raw(System.Web.HttpUtility.HtmlDecode(Model.Content))
-}
-<script type="text/javascript">
-$(document).ready(function () {
-updateUC();
-});
-function updateUC() {
-var ctls = [];
-@foreach (string id in Model.DynamicContentIds)
-{
-@:ctls.push("@id");
-}
-var allValues = "";
-for (var i = 0; i < ctls.length; i++) {
-var ctl = document.getElementById(ctls[i]);
-var val;
-if (ctl == null) {
-ctl = $("input[type='radio'][name='" + ctls[i] + "']:checked");
-if (ctl != null && ctl[0] != undefined) {
-val = ctl[0].id;
-}
-else {
-val = "nothing selected";
-}
-}
-else if (ctl != null) {
-switch (ctl.type) {
-case "text":
-val = ctl.value;
-break;
-case "checkbox":
-val = ctl.checked;
-break;
-case "select-one":
-val = ctl.value;
-break;
-}
-}
-allValues = allValues + ctls[i] + ' : ' + val + "\n\n\n";
-}
-document.getElementById("inputData").value = allValues;
-};
-</script>
-}
-else
-{
-@Html.Raw(System.Web.HttpUtility.HtmlDecode(Model.Content))
-}
+
+    @if (Model.HasInputControls)
+    {
+        using (Html.BeginForm(nameof(DynamicContent.Plugin.Controllers.DynamicContentController.SubmitData), DynamicContent.Plugin.Controllers.DynamicContentController.Name, FormMethod.Post))
+        {
+            <input type="hidden" id="inputData" name="inputData" value="" />
+
+            @Html.Raw(System.Web.HttpUtility.HtmlDecode(Model.Content))
+        }
+
+        <script type="text/javascript">
+
+            $(document).ready(function () {
+                updateUC();
+            });
+
+            function updateUC() {
+                var ctls = [];
+
+                @foreach (string id in Model.DynamicContentIds)
+                {
+                    @:ctls.push("@id");
+                }
+
+                var allValues = "";
+                for (var i = 0; i < ctls.length; i++) {
+                    var ctl = document.getElementById(ctls[i]);
+                    var val;
+
+                    if (ctl == null) {
+                       ctl = $("input[type='radio'][name='" + ctls[i] + "']:checked");
+
+                        if (ctl != null && ctl[0] != undefined) {
+                            val = ctl[0].id;
+                        }
+                        else {
+                            val = "nothing selected";
+                        }
+                    }
+                    else if (ctl != null) {
+                        switch (ctl.type) {
+                            case "text":
+                                val = ctl.value;
+                                break;
+                            case "checkbox":
+                                val = ctl.checked;
+                                break;
+                            case "select-one":
+                                val = ctl.value;
+                                break;
+                        }
+                    }
+
+
+                    allValues = allValues + ctls[i] + ' : ' + val + "\n\n\n";
+                }
+
+                document.getElementById("inputData").value = allValues;
+            };
+        </script>
+    }
+    else
+    {
+        @Html.Raw(System.Web.HttpUtility.HtmlDecode(Model.Content))
+    }
 </div>

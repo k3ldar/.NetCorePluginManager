@@ -30,10 +30,10 @@ using System.Globalization;
 using Languages;
 
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Localization;
 
 using PluginManager.Abstractions;
@@ -54,9 +54,8 @@ namespace Localization.Plugin
     {
         #region Internal Static Properties / Members
 
-        internal static CacheManager CultureCache = new CacheManager("Available Cultures", new TimeSpan(24, 0, 0), true, true);
-        internal static ILogger GetLogger { get; private set; }
-        internal static IServiceProvider GetServiceProvider { get; private set; }
+        internal readonly static CacheManager CultureCacheManager = new CacheManager("Available Cultures", new TimeSpan(24, 0, 0), true, true);
+
         internal static string[] InstalledCultures { get; private set; }
 
         #endregion Internal Static Properties / Members
@@ -66,7 +65,6 @@ namespace Localization.Plugin
         public void Initialise(ILogger logger)
         {
             ThreadManager.Initialise();
-            GetLogger = logger;
         }
 
         public void Finalise()
@@ -79,9 +77,9 @@ namespace Localization.Plugin
             services.AddSingleton<ICultureProvider, CultureProvider>();
             services.AddSingleton<IStringLocalizerFactory, StringLocalizerFactory>();
 
-            GetServiceProvider = services.BuildServiceProvider();
+            IServiceProvider serviceProvider = services.BuildServiceProvider();
 
-            IHostingEnvironment environment = GetServiceProvider.GetRequiredService<IHostingEnvironment>();
+            IHostEnvironment environment = serviceProvider.GetRequiredService<IHostEnvironment>();
 
             InstalledCultures = LanguageWrapper.GetInstalledLanguages(environment.ContentRootPath);
 
@@ -134,8 +132,7 @@ namespace Localization.Plugin
 
         public void AfterConfigureServices(in IServiceCollection services)
         {
-            if (services == null)
-                throw new ArgumentNullException(nameof(services));
+
         }
 
         #region IConfigureMvcBuilder Methods
@@ -146,6 +143,9 @@ namespace Localization.Plugin
         /// <param name="mvcBuilder">IMvcBuilder instance</param>
         public void ConfigureMvcBuilder(in IMvcBuilder mvcBuilder)
         {
+            if (mvcBuilder == null)
+                throw new ArgumentNullException(nameof(mvcBuilder));
+
             mvcBuilder
                 .AddViewLocalization(
                     LanguageViewLocationExpanderFormat.Suffix,

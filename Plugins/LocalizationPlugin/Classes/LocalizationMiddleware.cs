@@ -61,7 +61,7 @@ namespace Localization.Plugin
 
             _next = next;
 
-            _cultureCache = PluginInitialisation.CultureCache;
+            _cultureCache = PluginInitialisation.CultureCacheManager;
         }
 
         #endregion Constructors
@@ -92,7 +92,7 @@ namespace Localization.Plugin
         {
             get
             {
-                return _timings;
+                return _timings.Clone();
             }
         }
 

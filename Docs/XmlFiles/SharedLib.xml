@@ -14,11 +14,6 @@
             cache lock object
             </summary>
         </member>
-        <member name="F:Shared.Classes.CacheManager._allCaches">
-            <summary>
-            List of all cache's created by application
-            </summary>
-        </member>
         <member name="M:Shared.Classes.CacheManager.#ctor(System.String,System.TimeSpan,System.Boolean,System.Boolean)">
             <summary>
             Constructor
@@ -66,43 +61,6 @@
             </summary>
             <returns>List of CacheItem's if found, otherwise null</returns>
         </member>
-        <member name="M:Shared.Classes.CacheManager.CleanAllCaches">
-            <summary>
-            Forces a clean up of all caches, removing older items that have expired
-            </summary>
-        </member>
-        <member name="M:Shared.Classes.CacheManager.ClearAllCaches">
-            <summary>
-            Forces a clean up of all caches, removing all items
-            </summary>
-        </member>
-        <member name="M:Shared.Classes.CacheManager.GetCount">
-            <summary>
-            Returns the numer of caches
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:Shared.Classes.CacheManager.GetCacheName(System.Int32)">
-            <summary>
-            Get's the name of the cache
-            </summary>
-            <param name="index">Index of the caches</param>
-            <returns>Cache name</returns>
-        </member>
-        <member name="M:Shared.Classes.CacheManager.GetCacheAge(System.Int32)">
-            <summary>
-            Get's the maximum age of a cache
-            </summary>
-            <param name="index"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Shared.Classes.CacheManager.GetCacheCount(System.Int32)">
-            <summary>
-            Returns the number of items in the cache
-            </summary>
-            <param name="index">Index of cache</param>
-            <returns>integer</returns>
-        </member>
         <member name="M:Shared.Classes.CacheManager.Add(System.String,Shared.Classes.CacheItem,System.Boolean)">
             <summary>
             Add's an item to the cached list
@@ -149,6 +107,65 @@
         <member name="E:Shared.Classes.CacheManager.ItemRemoved">
             <summary>
             Event raised when item removed from the cache
+            </summary>
+        </member>
+        <member name="F:Shared.Classes.CacheManager._allCaches">
+            <summary>
+            List of all cache's created by application
+            </summary>
+        </member>
+        <member name="M:Shared.Classes.CacheManager.CleanAllCaches">
+            <summary>
+            Forces a clean up of all caches, removing older items that have expired
+            </summary>
+        </member>
+        <member name="M:Shared.Classes.CacheManager.ClearAllCaches">
+            <summary>
+            Forces a clean up of all caches, removing all items
+            </summary>
+        </member>
+        <member name="M:Shared.Classes.CacheManager.CacheExists(System.String)">
+            <summary>
+            Returns the numer of caches
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Shared.Classes.CacheManager.GetCache(System.String)">
+            <summary>
+            Returns the numer of caches
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Shared.Classes.CacheManager.GetCount">
+            <summary>
+            Returns the numer of caches
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Shared.Classes.CacheManager.GetCacheName(System.Int32)">
+            <summary>
+            Get's the name of the cache
+            </summary>
+            <param name="index">Index of the caches</param>
+            <returns>Cache name</returns>
+        </member>
+        <member name="M:Shared.Classes.CacheManager.GetCacheAge(System.Int32)">
+            <summary>
+            Get's the maximum age of a cache
+            </summary>
+            <param name="index"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Shared.Classes.CacheManager.GetCacheCount(System.Int32)">
+            <summary>
+            Returns the number of items in the cache
+            </summary>
+            <param name="index">Index of cache</param>
+            <returns>integer</returns>
+        </member>
+        <member name="F:Shared.Classes.CacheManagerFactory._dictionaryLockObject">
+            <summary>
+            List of all cache's created by application
             </summary>
         </member>
         <member name="T:Shared.Classes.CacheItem">
@@ -4783,6 +4800,79 @@
             </summary>
             <param name="sender"></param>
             <param name="e"></param>
+        </member>
+        <member name="T:Shared.Abstractions.ICacheManagerFactory">
+            <summary>
+            Cache manager factory for retrieving individual caches
+            </summary>
+        </member>
+        <member name="M:Shared.Abstractions.ICacheManagerFactory.GetCacheIfExists(System.String)">
+            <summary>
+            Retreives a cache by name if it exists.
+            </summary>
+            <param name="cacheName">Name of cache to retrieve</param>
+            <returns>CacheManager instance if found, otherwise null</returns>
+            <exception cref="T:System.ArgumentNullException">Thrown if cacheName is null or empty</exception>
+        </member>
+        <member name="M:Shared.Abstractions.ICacheManagerFactory.GetCache(System.String)">
+            <summary>
+            Retreives a cache by name if it exists.
+            </summary>
+            <param name="cacheName">Name of cache to retrieve</param>
+            <returns>CacheManager instance if found, otherwise InvalidOperationException</returns>
+            <exception cref="T:System.InvalidOperationException">Thrown if the cache does not exist</exception>
+            <exception cref="T:System.ArgumentNullException">Thrown if cacheName is null or empty</exception>
+        </member>
+        <member name="M:Shared.Abstractions.ICacheManagerFactory.CacheExists(System.String)">
+            <summary>
+            Determines whether a cache exists or not
+            </summary>
+            <param name="cacheName"></param>
+            <returns></returns>
+            <exception cref="T:System.ArgumentNullException">Thrown if cacheName is null or empty</exception>
+        </member>
+        <member name="M:Shared.Abstractions.ICacheManagerFactory.CreateCache(System.String,System.TimeSpan)">
+            <summary>
+            Creates an instance of CacheManager
+            
+            Maximum age will not be reset, Items can be cleared.
+            </summary>
+            <param name="cacheName">Name of cache, must be unique</param>
+            <param name="maximumAge">Maximum age of items within the cache</param>
+            <returns>CacheManager instance</returns>
+            <exception cref="T:System.ArgumentNullException">Thrown if cacheName is null or empty</exception>
+            <exception cref="T:System.InvalidOperationException">Thrown if a cache by cacheName already exists</exception>
+            
+        </member>
+        <member name="M:Shared.Abstractions.ICacheManagerFactory.CreateCache(System.String,System.TimeSpan,System.Boolean,System.Boolean)">
+            <summary>
+            Creates an instance of CacheManager
+            </summary>
+            <param name="cacheName">Name of cache, must be unique</param>
+            <param name="maximumAge">Maximum age of items within the cache</param>
+            <param name="resetMaximumAge">Reset age of item when retrieved</param>
+            <param name="allowClearAll">Allows the cache to be cleared automatically</param>
+            <returns>CacheManager instance</returns>
+            <exception cref="T:System.ArgumentNullException">Thrown if cacheName is null or empty</exception>
+            <exception cref="T:System.InvalidOperationException">Thrown if a cache by cacheName already exists</exception>
+            
+        </member>
+        <member name="M:Shared.Abstractions.ICacheManagerFactory.RemoveCache(System.String)">
+            <summary>
+            Removes a cache, by name if it exists.
+            </summary>
+            <param name="cacheName">Name of cache, must be unique</param>
+            <exception cref="T:System.ArgumentNullException">Thrown if cacheName is null or empty</exception>
+        </member>
+        <member name="M:Shared.Abstractions.ICacheManagerFactory.ClearAllCaches">
+            <summary>
+            Forces a clean up of all caches, removing all items.  This will not clear any cache manager instance where the AllowClearAll flag is set to false.
+            </summary>
+        </member>
+        <member name="M:Shared.Abstractions.ICacheManagerFactory.CleanAllCaches">
+            <summary>
+            Forces a clean up of all caches, removing older items that have expired
+            </summary>
         </member>
         <member name="T:Shared.EventLog">
             <summary>

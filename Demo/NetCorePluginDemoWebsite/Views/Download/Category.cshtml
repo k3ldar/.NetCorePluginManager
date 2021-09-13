@@ -2,37 +2,39 @@
 @inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
 @using DownloadPlugin.Models
 @{
-ViewData["Title"] = "Index";
+    ViewData["Title"] = "Index";
 }
 <link rel="stylesheet" href="~/css/Downloads.css" asp-append-version="true" />
 <div class="row">
-<div class="col">
-<h1 class="dlHeader" id="divTitle">@Model.Category @Localizer[nameof(Languages.LanguageStrings.Downloads)]</h1>
-</div>
+    <div class="col">
+        <h1 class="dlHeader" id="divTitle">@Model.Category @Localizer[nameof(Languages.LanguageStrings.Downloads)]</h1>
+    </div>
 </div>
 <div class="row flex-xl-nowrap">
-<div class="d-none d-lg-block col-lg-3 bd-sidebar dlContents">
-@await Html.PartialAsync("_LeftMenu.cshtml")
-</div>
-<div class="col-md-12 col-lg-9">
-@foreach (var item in Model.Downloads)
-{
-<div class="card">
-<div class="card-header">
-@item.Name
-</div>
-<div class="card-body d-flex flex-column">
-<p class="card-text"><img src="~/images/Download/@item.Icon" alt="@item.Name" class="card-img" />@item.Description</p>
-<a class="mt-auto btn btn-sm btn-block btn-primary" role="button" aria-pressed="true" href="/Download/File/@item.Id/@Model.RouteText(item.Name)" class="card-link">
-@Localizer[nameof(Languages.LanguageStrings.Download)]
-</a>
-</div>
-</div>
-}
-</div>
+    <div class="d-none d-lg-block col-lg-3 bd-sidebar dlContents">
+        @await Html.PartialAsync("_LeftMenu.cshtml")
+    </div>
+    <div class="col-md-12 col-lg-9">
+        @foreach (var item in Model.Downloads)
+        {
+            <div class="card">
+                <div class="card-header">
+                    @item.Name
+                </div>
+                <div class="card-body d-flex flex-column">
+                    <p class="card-text"><img src="~/images/Download/@item.Icon" alt="@item.Name" class="card-img" />@item.Description</p>
+                    <a class="mt-auto btn btn-sm btn-block btn-primary" role="button" aria-pressed="true" href="/Download/File/@item.Id/@Model.RouteText(item.Name)" class="card-link">
+                        @Localizer[nameof(Languages.LanguageStrings.Download)]
+                    </a>
+                </div>
+            </div>
+        }
+    </div>
+
 </div>
 <div class="row justify-content-sm-center" style="margin-top:20px;">
-<div class="col-sm-auto">
-@Html.Raw(Model.Pagination)
+    <div class="col-sm-auto">
+        @Html.Raw(Model.Pagination)
+    </div>
 </div>
-</div>
+

@@ -25,12 +25,21 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
 using System.Diagnostics.CodeAnalysis;
+using System.IO;
+using System.Reflection;
 
 using AspNetCore.PluginManager.Tests.Shared;
 
 using Localization.Plugin;
-
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
+using Microsoft.AspNetCore.Mvc.Localization;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Localization;
+using Microsoft.Extensions.Options;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using PluginManager.Abstractions;
@@ -39,6 +48,7 @@ using PluginManager.Tests.Mocks;
 using Shared.Classes;
 
 using SharedPluginFeatures;
+using Microsoft.AspNetCore.Mvc.DataAnnotations;
 
 namespace AspNetCore.PluginManager.Tests.Plugins.LocalizationTests
 {
@@ -142,14 +152,72 @@ namespace AspNetCore.PluginManager.Tests.Plugins.LocalizationTests
 
         [TestMethod]
         [TestCategory(TestsCategory)]
-        [ExpectedException(typeof(ArgumentNullException))]
-        public void AfterConfigureServices_InvalidParam_Services_Null_Throws_ArgumentNullException()
+        public void AfterConfigureServices_InvalidParam_Services_Null_DoesNotThrowException()
         {
             TestApplicationBuilder testApplicationBuilder = new TestApplicationBuilder();
             PluginInitialisation sut = new PluginInitialisation();
             MockServiceCollection mockServiceCollection = new MockServiceCollection();
 
             sut.AfterConfigureServices(null);
+        }
+
+        [TestMethod]
+        [TestCategory(TestsCategory)]
+        public void ConfigureServices_ConfigureServices_Success()
+        {
+            TestApplicationBuilder testApplicationBuilder = new TestApplicationBuilder();
+            PluginInitialisation sut = new PluginInitialisation();
+
+            TestHostEnvironment testHostEnvironment = new TestHostEnvironment(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location));
+            MockServiceCollection mockServiceCollection = new MockServiceCollection();
+            mockServiceCollection.Add(new ServiceDescriptor(typeof(IHostEnvironment), testHostEnvironment));
+            sut.ConfigureServices(mockServiceCollection);
+
+            Assert.IsTrue(mockServiceCollection.HasServiceRegistered<ICultureProvider>(ServiceLifetime.Singleton));
+            Assert.IsTrue(mockServiceCollection.HasServiceRegistered<IStringLocalizerFactory>(ServiceLifetime.Singleton));
+            Assert.IsTrue(mockServiceCollection.HasServiceRegistered<IConfigureOptions<RequestLocalizationOptions>>(ServiceLifetime.Singleton));
+
+            IServiceProvider serviceProvider = mockServiceCollection.BuildServiceProvider();
+
+            var optionsSnapshot = serviceProvider.GetService(typeof(IOptionsSnapshot<RequestLocalizationOptions>));
+
+            Assert.IsNotNull(optionsSnapshot);
+
+            RequestLocalizationOptions localizationOptions = ((OptionsManager<RequestLocalizationOptions>)optionsSnapshot).Value;
+
+            Assert.IsNotNull(localizationOptions);
+            Assert.AreEqual(15, localizationOptions.SupportedCultures.Count);
+            Assert.AreEqual(15, localizationOptions.SupportedUICultures.Count);
+            Assert.AreEqual("en-GB", localizationOptions.DefaultRequestCulture.Culture.Name);
+        }
+
+        [TestMethod]
+        [TestCategory(TestsCategory)]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void ConfigureMvcBuilder_InvalidParam_Null_Throws_ArgumentNullException()
+        {
+            TestApplicationBuilder testApplicationBuilder = new TestApplicationBuilder();
+            PluginInitialisation sut = new PluginInitialisation();
+
+            sut.ConfigureMvcBuilder(null);
+        }
+
+        [TestMethod]
+        [TestCategory(TestsCategory)]
+        public void ConfigureMvcBuilder_AddsViewLocalization_Success()
+        {
+            TestApplicationBuilder testApplicationBuilder = new TestApplicationBuilder();
+            PluginInitialisation sut = new PluginInitialisation();
+            MockServiceCollection serviceCollection = new MockServiceCollection();
+            MockMvcBuilder mockMvcBuilder = new MockMvcBuilder(serviceCollection);
+            
+            sut.ConfigureMvcBuilder(mockMvcBuilder);
+
+            Assert.AreEqual(13, serviceCollection.ServicesRegistered);
+            Assert.IsTrue(serviceCollection.HasServiceRegistered<IHtmlLocalizerFactory>(ServiceLifetime.Singleton));
+            Assert.IsTrue(serviceCollection.HasServiceRegistered<IHtmlLocalizer>(ServiceLifetime.Transient));
+            Assert.IsTrue(serviceCollection.HasServiceRegistered<IConfigureOptions<MvcDataAnnotationsLocalizationOptions>>(ServiceLifetime.Transient));
+            Assert.IsTrue(serviceCollection.HasConfigurationOptions(typeof(IConfigureOptions<MvcDataAnnotationsLocalizationOptions>), ServiceLifetime.Transient));
         }
     }
 }

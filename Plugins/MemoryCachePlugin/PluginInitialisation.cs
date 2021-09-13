@@ -25,11 +25,15 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
 
+using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 
 using PluginManager.Abstractions;
 
+using Shared.Abstractions;
 using Shared.Classes;
+
+using SharedPluginFeatures;
 
 #pragma warning disable CS1591
 
@@ -39,7 +43,7 @@ namespace MemoryCache.Plugin
     /// Implements IPlugin which allows the MemoryCache.Plugin module to be
     /// loaded as a plugin module
     /// </summary>
-    public class PluginInitialisation : IPlugin
+    public class PluginInitialisation : IPlugin, IInitialiseEvents
     {
         #region IPlugin Methods
 
@@ -67,6 +71,35 @@ namespace MemoryCache.Plugin
         }
 
         #endregion IPlugin Methods
+
+        #region IInitialiseEvents Methods
+
+        public void BeforeConfigure(in IApplicationBuilder app)
+        {
+
+        }
+
+        public void AfterConfigure(in IApplicationBuilder app)
+        {
+
+        }
+
+        public void Configure(in IApplicationBuilder app)
+        {
+
+        }
+
+        public void BeforeConfigureServices(in IServiceCollection services)
+        {
+            services.AddScoped<ICacheManagerFactory, CacheManagerFactory>();
+        }
+
+        public void AfterConfigureServices(in IServiceCollection services)
+        {
+
+        }
+
+        #endregion IInitialiseEvents Methods
     }
 }
 

@@ -1,127 +1,136 @@
 ﻿@model DynamicContent.Plugin.Model.EditPageModel
 @inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
+
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script src="~/js/dynamicContent.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+
 <link href="~/css/DynamicContent.css" rel="stylesheet" type="text/css" />
+
 @using (Html.BeginForm(nameof(DynamicContent.Plugin.Controllers.DynamicContentController.EditPage), DynamicContent.Plugin.Controllers.DynamicContentController.Name, FormMethod.Post))
 {
-@Html.HiddenFor(m => m.CacheId)
-@Html.HiddenFor(m => m.Id)
-<div class="row pageDetails">
-<div class="col-sm-2">
-<div id="accordion">
-<div class="card">
-<div class="card-header" id="headerPage">
-<h5 class="mb-0">
-<button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapsePage" aria-expanded="true" aria-controls="collapsePage">
-@Localizer[Languages.LanguageStrings.Page]
-</button>
-</h5>
-</div>
-<div id="collapsePage" class="collapse show" aria-labelledby="headerPage" data-parent="#accordion">
-<div class="card-body">
-<button class="editPageBtn" type="submit">@Localizer[Languages.LanguageStrings.Save]</button>
-<button class="editPageBtn" type="button" value="Preview" onclick="dynamicContent.preview()">@Localizer[Languages.LanguageStrings.Preview]</button>
-</div>
-</div>
-</div>
-<div class="card" id="card-controls">
-<div class="card-header" id="headerControls">
-<h5 class="mb-0">
-<button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseControls" aria-expanded="false" aria-controls="collapseControls">
-@Localizer[Languages.LanguageStrings.Controls]
-</button>
-</h5>
-</div>
-<div id="collapseControls" class="collapse" aria-labelledby="headerControls" data-parent="#accordion">
-<div class="card-body">
-<div id="templates"></div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="col-sm-10">
-<div class="row">
-<div class="col-sm-12">
-<div asp-validation-summary="All" class="text-danger"></div>
-</div>
-</div>
-<nav style="margin: 0 5px 0 5px;">
-<div class="nav nav-tabs" id="nav-tab" role="tablist">
-<a class="nav-item nav-link active" id="nav-layout-tab" data-toggle="tab" href="#nav-layout" role="tab" aria-controls="nav-layout" aria-selected="true">Layout</a>
-<a class="nav-item nav-link" id="nav-settings-tab" data-toggle="tab" href="#nav-settings" role="tab" aria-controls="nav-settings" aria-selected="false">Settings</a>
-</div>
-</nav>
-<div class="tab-content" id="nav-tabContent" style="margin: 5px;">
-<div class="tab-pane fade show active" id="nav-layout" role="tabpanel" aria-labelledby="nav-layout-tab">
-<div class="row">
-<div class="col-sm-12 pageLayout">
-<ul id="sortable" ondragover="dynamicContent.dragOver(event)" ondrop="dynamicContent.dropTemplate(event)" style="min-height: 500px;">
-<li>@Localizer[Languages.LanguageStrings.WaitLoading]</li>
-</ul>
-</div>
-</div>
-</div>
-<div class="tab-pane fade" id="nav-settings" role="tabpanel" aria-labelledby="nav-settings-tab">
-<div class="form-group">
-@Html.LabelFor(m => m.Name)
-@Html.TextBoxFor(m => m.Name)
-@Html.ValidationMessageFor(m => m.Name)
-</div>
-<div class="form-group">
-@Html.LabelFor(m => m.RouteName)
-@Html.TextBoxFor(m => m.RouteName)
-@Html.ValidationMessageFor(m => m.RouteName)
-</div>
-<div class="form-group">
-@Html.LabelFor(m => m.ActiveFrom)
-@Html.TextBoxFor(m => m.ActiveFrom, "{0:yyyy-MM-ddThh:mm}", new { type = "datetime-local" })
-@Html.ValidationMessageFor(m => m.ActiveFrom)
-</div>
-<div class="form-group">
-@Html.LabelFor(m => m.ActiveTo)
-@Html.TextBoxFor(m => m.ActiveTo, "{0:yyyy-MM-ddThh:mm}", new { type = "datetime-local" })
-@Html.ValidationMessageFor(m => m.ActiveTo)
-</div>
-<div class="form-group">
-@Html.LabelFor(m => m.BackgroundColor)
-@Html.TextBoxFor(m => m.BackgroundColor, new { type = "color" })
-@Html.ValidationMessageFor(m => m.BackgroundColor)
-</div>
-<div class="form-group">
-@Html.LabelFor(m => m.BackgroundImage)
-@Html.TextBoxFor(m => m.BackgroundImage)
-@Html.ValidationMessageFor(m => m.BackgroundImage)
-</div>
-</div>
-</div>
-</div>
-</div>
+    @Html.HiddenFor(m => m.CacheId)
+    @Html.HiddenFor(m => m.Id)
+    <div class="row pageDetails">
+        <div class="col-sm-2">
+            <div id="accordion">
+                <div class="card">
+                    <div class="card-header" id="headerPage">
+                        <h5 class="mb-0">
+                            <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapsePage" aria-expanded="true" aria-controls="collapsePage">
+                                @Localizer[Languages.LanguageStrings.Page]
+                            </button>
+                        </h5>
+                    </div>
+
+                    <div id="collapsePage" class="collapse show" aria-labelledby="headerPage" data-parent="#accordion">
+                        <div class="card-body">
+                            <button class="editPageBtn" type="submit">@Localizer[Languages.LanguageStrings.Save]</button>
+                            <button class="editPageBtn" type="button" value="Preview" onclick="dynamicContent.preview()">@Localizer[Languages.LanguageStrings.Preview]</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card" id="card-controls">
+                    <div class="card-header" id="headerControls">
+                        <h5 class="mb-0">
+                            <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseControls" aria-expanded="false" aria-controls="collapseControls">
+                                @Localizer[Languages.LanguageStrings.Controls]
+                            </button>
+                        </h5>
+                    </div>
+
+                    <div id="collapseControls" class="collapse" aria-labelledby="headerControls" data-parent="#accordion">
+                        <div class="card-body">
+                            <div id="templates"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-10">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div asp-validation-summary="All" class="text-danger"></div>
+                </div>
+            </div>
+            <nav style="margin: 0 5px 0 5px;">
+                <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                    <a class="nav-item nav-link active" id="nav-layout-tab" data-toggle="tab" href="#nav-layout" role="tab" aria-controls="nav-layout" aria-selected="true">Layout</a>
+                    <a class="nav-item nav-link" id="nav-settings-tab" data-toggle="tab" href="#nav-settings" role="tab" aria-controls="nav-settings" aria-selected="false">Settings</a>
+                </div>
+            </nav>
+            <div class="tab-content" id="nav-tabContent" style="margin: 5px;">
+                <div class="tab-pane fade show active" id="nav-layout" role="tabpanel" aria-labelledby="nav-layout-tab">
+                    <div class="row">
+                        <div class="col-sm-12 pageLayout">
+                            <ul id="sortable" ondragover="dynamicContent.dragOver(event)" ondrop="dynamicContent.dropTemplate(event)" style="min-height: 500px;">
+                                <li>@Localizer[Languages.LanguageStrings.WaitLoading]</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="nav-settings" role="tabpanel" aria-labelledby="nav-settings-tab">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Name)
+                        @Html.TextBoxFor(m => m.Name)
+                        @Html.ValidationMessageFor(m => m.Name)
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.RouteName)
+                        @Html.TextBoxFor(m => m.RouteName)
+                        @Html.ValidationMessageFor(m => m.RouteName)
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.ActiveFrom)
+                        @Html.TextBoxFor(m => m.ActiveFrom, "{0:yyyy-MM-ddThh:mm}", new { type = "datetime-local" })
+                        @Html.ValidationMessageFor(m => m.ActiveFrom)
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.ActiveTo)
+                        @Html.TextBoxFor(m => m.ActiveTo, "{0:yyyy-MM-ddThh:mm}", new { type = "datetime-local" })
+                        @Html.ValidationMessageFor(m => m.ActiveTo)
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.BackgroundColor)
+                        @Html.TextBoxFor(m => m.BackgroundColor, new { type = "color" })
+                        @Html.ValidationMessageFor(m => m.BackgroundColor)
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.BackgroundImage)
+                        @Html.TextBoxFor(m => m.BackgroundImage)
+                        @Html.ValidationMessageFor(m => m.BackgroundImage)
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 }
+
 <div class="modal fade" id="dlgEdit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true"></div>
 <div class="modal fade" id="dlgDelete" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-id="-1"></div>
 <script>
-var settings = {
-dynamicContainer: '#sortable',
-dynamicContainerId: 'sortable',
-templateId: '#templates',
-templateUrl: '/@DynamicContent.Plugin.Controllers.DynamicContentController.Name/@nameof(DynamicContent.Plugin.Controllers.DynamicContentController.GetTemplates)/',
-cacheId: '@Model.CacheId',
-getDynamicUrlContent: '/@DynamicContent.Plugin.Controllers.DynamicContentController.Name/@nameof(DynamicContent.Plugin.Controllers.DynamicContentController.GetContent)/',
-updatePositionUrl: '/@DynamicContent.Plugin.Controllers.DynamicContentController.Name/UpdatePosition',
-editDialogue: '#dlgEdit',
-editDialogueUrl: '/DynamicContent/TemplateEditor/',
-errorList: '#errorList',
-previewUrl: '/@DynamicContent.Plugin.Controllers.DynamicContentController.Name/@nameof(DynamicContent.Plugin.Controllers.DynamicContentController.Preview)/',
-deleteDialogue: '#dlgDelete',
-deleteDialogueUrl: '/@DynamicContent.Plugin.Controllers.DynamicContentController.Name/@nameof(DynamicContent.Plugin.Controllers.DynamicContentController.DeleteControl)/',
-addTemplateUrl: '/@DynamicContent.Plugin.Controllers.DynamicContentController.Name/AddTemplate/',
-navLayout: 'nav-layout-tab',
-navSettings: 'nav-settings-tab',
-navControls: 'card-controls',
-};
-dynamicContent.init(settings);
+    var settings = {
+        dynamicContainer: '#sortable',
+        dynamicContainerId: 'sortable',
+        templateId: '#templates',
+        templateUrl: '/@DynamicContent.Plugin.Controllers.DynamicContentController.Name/@nameof(DynamicContent.Plugin.Controllers.DynamicContentController.GetTemplates)/',
+        cacheId: '@Model.CacheId',
+        getDynamicUrlContent: '/@DynamicContent.Plugin.Controllers.DynamicContentController.Name/@nameof(DynamicContent.Plugin.Controllers.DynamicContentController.GetContent)/',
+        updatePositionUrl: '/@DynamicContent.Plugin.Controllers.DynamicContentController.Name/UpdatePosition',
+        editDialogue: '#dlgEdit',
+        editDialogueUrl: '/DynamicContent/TemplateEditor/',
+        errorList: '#errorList',
+        previewUrl: '/@DynamicContent.Plugin.Controllers.DynamicContentController.Name/@nameof(DynamicContent.Plugin.Controllers.DynamicContentController.Preview)/',
+        deleteDialogue: '#dlgDelete',
+        deleteDialogueUrl: '/@DynamicContent.Plugin.Controllers.DynamicContentController.Name/@nameof(DynamicContent.Plugin.Controllers.DynamicContentController.DeleteControl)/',
+        addTemplateUrl: '/@DynamicContent.Plugin.Controllers.DynamicContentController.Name/AddTemplate/',
+        navLayout: 'nav-layout-tab',
+        navSettings: 'nav-settings-tab',
+        navControls: 'card-controls',
+    };
+
+    dynamicContent.init(settings);
 </script>

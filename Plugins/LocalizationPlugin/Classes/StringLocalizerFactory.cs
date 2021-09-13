@@ -27,6 +27,8 @@ using System;
 
 using Microsoft.Extensions.Localization;
 
+using PluginManager.Abstractions;
+
 using Shared.Classes;
 
 namespace Localization.Plugin
@@ -36,18 +38,16 @@ namespace Localization.Plugin
     {
         #region Private Members
 
+        private readonly ILogger _logger;
         private const string _cacheName = "IStringLocalizerFactory";
-
-        private readonly CacheManager _cacheManager;
 
         #endregion Private Members
 
         #region Constructors
 
-        public StringLocalizerFactory()
+        public StringLocalizerFactory(ILogger logger)
         {
-            if (_cacheManager == null)
-                _cacheManager = PluginInitialisation.CultureCache;
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
         #endregion Constructors
@@ -56,12 +56,12 @@ namespace Localization.Plugin
 
         public IStringLocalizer Create(Type resourceSource)
         {
-            CacheItem cacheItem = _cacheManager.Get(_cacheName);
+            CacheItem cacheItem = PluginInitialisation.CultureCacheManager.Get(_cacheName);
 
             if (cacheItem == null)
             {
-                cacheItem = new CacheItem(_cacheName, new StringLocalizer());
-                _cacheManager.Add(_cacheName, cacheItem);
+                cacheItem = new CacheItem(_cacheName, new StringLocalizer(_logger));
+                PluginInitialisation.CultureCacheManager.Add(_cacheName, cacheItem);
             }
 
             return (IStringLocalizer)cacheItem.Value;
@@ -69,12 +69,12 @@ namespace Localization.Plugin
 
         public IStringLocalizer Create(string baseName, string location)
         {
-            CacheItem cacheItem = _cacheManager.Get(_cacheName);
+            CacheItem cacheItem = PluginInitialisation.CultureCacheManager.Get(_cacheName);
 
             if (cacheItem == null)
             {
-                cacheItem = new CacheItem(_cacheName, new StringLocalizer());
-                _cacheManager.Add(_cacheName, cacheItem);
+                cacheItem = new CacheItem(_cacheName, new StringLocalizer(_logger));
+                PluginInitialisation.CultureCacheManager.Add(_cacheName, cacheItem);
             }
 
             return (IStringLocalizer)cacheItem.Value;

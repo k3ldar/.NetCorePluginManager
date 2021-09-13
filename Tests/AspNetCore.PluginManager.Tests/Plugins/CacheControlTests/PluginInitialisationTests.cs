@@ -159,17 +159,5 @@ namespace AspNetCore.PluginManager.Tests.Plugins.CacheControlTests
 
             Assert.AreEqual(0, mockServiceCollection.ServicesRegistered);
         }
-
-        [TestMethod]
-        [TestCategory(TestsCategory)]
-        [ExpectedException(typeof(ArgumentNullException))]
-        public void AfterConfigureServices_InvalidParam_Services_Null_Throws_ArgumentNullException()
-        {
-            TestApplicationBuilder testApplicationBuilder = new TestApplicationBuilder();
-            PluginInitialisation sut = new PluginInitialisation();
-            MockServiceCollection mockServiceCollection = new MockServiceCollection();
-
-            sut.AfterConfigureServices(null);
-        }
     }
 }

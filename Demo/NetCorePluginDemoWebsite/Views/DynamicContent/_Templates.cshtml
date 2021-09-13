@@ -1,8 +1,8 @@
 ﻿@model DynamicContent.Plugin.Model.TemplatesModel
 @inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
 <ul class="template">
-@foreach (DynamicContent.Plugin.Model.TemplateModel template in Model.Templates)
-{
-<li id="@template.TemplateId"><img id="@template.TemplateId" src="@template.TemplateImage" border="0" draggable="true" ondragstart="dynamicContent.dragStart(event)" /></li>
-}
+    @foreach (DynamicContent.Plugin.Model.TemplateModel template in Model.Templates)
+    {
+        <li id="@template.TemplateId"><img id="@template.TemplateId" src="@template.TemplateImage" border="0" draggable="true" ondragstart="dynamicContent.dragStart(event)" /></li>
+    }
 </ul>

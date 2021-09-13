@@ -1,65 +1,69 @@
 ﻿@model ImageManager.Plugin.Models.UploadImageViewModel
 @inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
 <div class="row">
-<div class="col-sm-12">
-<h3>@Localizer[nameof(Languages.LanguageStrings.ImageUploadFiles)]</h3>
-</div>
-</div>
-<div class="row">
-<div class="col-sm-12">
-<p id="errorMessage" style="color:red;"></p>
-</div>
+    <div class="col-sm-12">
+        <h3>@Localizer[nameof(Languages.LanguageStrings.ImageUploadFiles)]</h3>
+    </div>
 </div>
 <div class="row">
-<form action="/ImageManager/UploadImage/" method="post" enctype="multipart/form-data" onsubmit="AjaxUpload(this); return false;">
-@Html.HiddenFor(m => m.GroupName)
-@Html.HiddenFor(m => m.SubgroupName)
-<div class="col-sm-12">
-<div class="form-group">
-<label for="Files">Files</label>
-<input class="form-control-file" id="Files" multiple name="Files" type="file" />
+    <div class="col-sm-12">
+        <p id="errorMessage" style="color:red;"></p>
+    </div>
 </div>
-</div>
-<div class="col-sm-12">
-<input class="btn btn-primary" type="submit" value="Upload" />
-</div>
-</form>
+<div class="row">
+    <form action="/ImageManager/UploadImage/" method="post" enctype="multipart/form-data" onsubmit="AjaxUpload(this); return false;">
+        @Html.HiddenFor(m => m.GroupName)
+        @Html.HiddenFor(m => m.SubgroupName)
+        <div class="col-sm-12">
+            <div class="form-group">
+                <label for="Files">Files</label>
+                <input class="form-control-file" id="Files" multiple name="Files" type="file" />
+            </div>
+        </div>
+        <div class="col-sm-12">
+            <input class="btn btn-primary" type="submit" value="Upload" />
+        </div>
+    </form>
 </div>
 <script>
-function AjaxUpload(frm) {
-$('#errorMessage').hide();
-content = new Object();
-content.GroupName = $('#GroupName').val();
-content.SubgroupName = $('#SubgroupName').val();
-var formData = new FormData();
-var fileList = $('#Files').get(0).files;
-if (fileList.length == 0) {
-$('#errorMessage').val("Error: " + err.data)
-$('#errorMessage').show();
-}
-else {
-for (var x = 0; x < fileList.length; x++) {
-formData.append('file' + x, fileList.item(x));
-}
-content.Files = formData;
-$.ajax(
-{
-url: frm.action,
-data: content,
-type: "POST",
-dataType: "json",
-contentType: "application/json; charset=utf-8",
-error: function (jqXHR) {
-var err = jqXHR.responseJSON;
-$('#errorMessage').val("Error: " + err.data)
-$('#errorMessage').show();
-}
-}
-);
-}
-return false;
-}
-$(document).ready(function () {
-$('#errorMessage').hide();
-});
+    function AjaxUpload(frm) {
+        $('#errorMessage').hide();
+        content = new Object();
+        content.GroupName = $('#GroupName').val();
+        content.SubgroupName = $('#SubgroupName').val();
+
+        var formData = new FormData();
+        var fileList = $('#Files').get(0).files;
+
+        if (fileList.length == 0) {
+            $('#errorMessage').val("Error: " + err.data)
+            $('#errorMessage').show();
+        }
+        else {
+            for (var x = 0; x < fileList.length; x++) {
+                formData.append('file' + x, fileList.item(x));
+            }
+            content.Files = formData;
+            $.ajax(
+                {
+                    url: frm.action,
+                    data: content,
+                    type: "POST",
+                    dataType: "json",
+                    contentType: "application/json; charset=utf-8",
+                    error: function (jqXHR) {
+                        var err = jqXHR.responseJSON;
+                        $('#errorMessage').val("Error: " + err.data)
+                        $('#errorMessage').show();
+                    }
+                }
+            );
+        }
+
+        return false;
+    }
+
+    $(document).ready(function () {
+        $('#errorMessage').hide();
+    });
 </script>

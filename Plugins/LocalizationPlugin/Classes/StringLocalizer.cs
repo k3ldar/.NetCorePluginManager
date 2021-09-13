@@ -35,6 +35,7 @@ using Languages;
 using Microsoft.Extensions.Localization;
 
 using PluginManager;
+using PluginManager.Abstractions;
 
 using SharedPluginFeatures;
 
@@ -44,6 +45,7 @@ namespace Localization.Plugin
     {
         #region Private Members
 
+        private readonly ILogger _logger;
         private static readonly ResourceManager _resourceManager = new ResourceManager("Languages.LanguageStrings",
             typeof(LanguageStrings).Assembly);
 
@@ -53,9 +55,9 @@ namespace Localization.Plugin
 
         #region Constructors
 
-        public StringLocalizer()
+        public StringLocalizer(ILogger logger)
         {
-
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
 
@@ -95,7 +97,7 @@ namespace Localization.Plugin
                     }
                     catch (Exception error)
                     {
-                        PluginInitialisation.GetLogger.AddToLog(LogLevel.Error, nameof(StringLocalizer), error, name);
+                        _logger.AddToLog(LogLevel.Error, nameof(StringLocalizer), error, name);
                         return new LocalizedString(name, name);
                     }
                 }
@@ -129,7 +131,7 @@ namespace Localization.Plugin
                     }
                     catch (Exception error)
                     {
-                        PluginInitialisation.GetLogger.AddToLog(LogLevel.Error, nameof(StringLocalizer), error, name);
+                        _logger.AddToLog(LogLevel.Error, nameof(StringLocalizer), error, name);
                         return new LocalizedString(name, String.Format(name, arguments));
                     }
                 }
@@ -154,7 +156,7 @@ namespace Localization.Plugin
         {
             get
             {
-                return _timings;
+                return _timings.Clone();
             }
         }
 

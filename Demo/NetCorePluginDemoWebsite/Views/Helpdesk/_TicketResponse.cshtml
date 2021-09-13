@@ -1,41 +1,51 @@
 ﻿@model HelpdeskPlugin.Models.TicketResponseViewModel
 @inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
+
 @using (Html.BeginForm(nameof(HelpdeskPlugin.Controllers.HelpdeskController.TicketRespond), HelpdeskPlugin.Controllers.HelpdeskController.Name, FormMethod.Post))
 {
-@Html.HiddenFor(m => m.Id)
-<div class="row hd-row">
-<div class="col">
-<p>@Localizer[nameof(Languages.LanguageStrings.Name)]</p>
-</div>
-</div>
-<div class="row">
-<div class="col col-sm-12 col-md-6 col-lg-7">
-@Html.ValidationMessageFor(m => m.Name)
-</div>
-</div>
-<div class="row">
-<div class="col col-sm-12 col-md-6 col-lg-5">
-@Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
-</div>
-</div>
-<div class="row hd-row">
-<div class="col">
-@Localizer[nameof(Languages.LanguageStrings.Message)]
-</div>
-</div>
-<div class="row">
-<div class="col col-sm-12 col-md-6 col-lg-7">
-@Html.ValidationMessageFor(m => m.Message)
-</div>
-</div>
-<div class="row">
-<div class="col col-sm-12 col-md-6 col-lg-5">
-@Html.TextAreaFor(m => m.Message, new { @class = "form-control" })
-</div>
-</div>
-<div class="row hd-row">
-<div class="col">
-<input class="btn btn-primary" type="submit" value="@Localizer[nameof(Languages.LanguageStrings.Submit)]" />
-</div>
-</div>
+    @Html.HiddenFor(m => m.Id)
+
+
+
+    <div class="row hd-row">
+        <div class="col">
+            <p>@Localizer[nameof(Languages.LanguageStrings.Name)]</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col col-sm-12 col-md-6 col-lg-7">
+            @Html.ValidationMessageFor(m => m.Name)
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col col-sm-12 col-md-6 col-lg-5">
+            @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+        </div>
+    </div>
+
+    <div class="row hd-row">
+        <div class="col">
+            @Localizer[nameof(Languages.LanguageStrings.Message)]
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col col-sm-12 col-md-6 col-lg-7">
+            @Html.ValidationMessageFor(m => m.Message)
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col col-sm-12 col-md-6 col-lg-5">
+            @Html.TextAreaFor(m => m.Message, new { @class = "form-control" })
+        </div>
+    </div>
+
+    <div class="row hd-row">
+        <div class="col">
+            <input class="btn btn-primary" type="submit" value="@Localizer[nameof(Languages.LanguageStrings.Submit)]" />
+        </div>
+    </div>
 }

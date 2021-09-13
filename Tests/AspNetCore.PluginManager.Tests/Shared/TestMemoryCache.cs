@@ -26,6 +26,7 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
 
+using Shared.Abstractions;
 using Shared.Classes;
 
 using SharedPluginFeatures;
@@ -51,20 +52,38 @@ namespace AspNetCore.PluginManager.Tests.Shared
 
         public TestMemoryCache()
         {
-            _cache = new CacheManager(Constants.CacheNameDefault,
-                new TimeSpan(0, 100, 0));
+            
 
-            _cacheShort = new CacheManager(Constants.CacheNameShort,
-                new TimeSpan(0, 100, 0));
+            _cache = CreateCache(Constants.CacheNameDefault);
 
-            _extendingCache = new CacheManager(Constants.CacheNameExtending,
-                new TimeSpan(0, 100, 0), true);
+            _cacheShort = CreateCache(Constants.CacheNameShort);
 
-            _permanentCache = new CacheManager(Constants.CacheNamePermanent,
-                new TimeSpan(0, 100, 0), true);
+            _cacheShort = CreateCache(Constants.CacheNameExtending);
+
+            _permanentCache = CreateCache(Constants.CacheNamePermanent);
         }
 
         #endregion Constructors
+
+        #region Private Methods
+
+        private CacheManager CreateCache(string name)
+        {
+            ICacheManagerFactory cacheManagerFactory = new CacheManagerFactory();
+
+            CacheManager Result = cacheManagerFactory.GetCacheIfExists(name);
+
+            if (Result == null)
+            {
+                cacheManagerFactory.CreateCache(name, new TimeSpan(0, 100, 0));
+            }
+
+            Result.Clear();
+
+            return Result;
+        }
+
+        #endregion Private Methods
 
         #region Public Methods
 

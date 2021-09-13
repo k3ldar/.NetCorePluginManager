@@ -31,6 +31,7 @@ using AspNetCore.PluginManager.Tests.Shared;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
+using Shared.Abstractions;
 using Shared.Classes;
 
 using SharedPluginFeatures;
@@ -49,7 +50,8 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SystemAdminTests
         [TestInitialize]
         public void InitializeTests()
         {
-            CacheManager.CleanAllCaches();
+            ICacheManagerFactory cacheManagerFactory = new CacheManagerFactory();
+            cacheManagerFactory.ClearAllCaches();
         }
 
         [TestMethod]

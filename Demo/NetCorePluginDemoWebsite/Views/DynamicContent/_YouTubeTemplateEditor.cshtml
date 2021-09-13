@@ -1,23 +1,26 @@
 ﻿@model DynamicContent.Plugin.Model.YouTubeTemplateEditorModel
 <div class="tab-content" id="nav-tabContent" style="margin: 5px;">
-@Html.HiddenFor(m => m.Data)
-<div class="form-group">
-@Html.LabelFor(m => m.VideoId)
-<input id="VideoId" name="VideoId" type="text" value="@Model.VideoId" onclick="updateYT();" onfocusout="updateYT();">
-</div>
-<div class="form-group">
-@Html.LabelFor(m => m.AutoPlay)
-@Html.CheckBoxFor(m => m.AutoPlay, new { onclick = "updateYT();" })
-</div>
+    @Html.HiddenFor(m => m.Data)
+    <div class="form-group">
+        @Html.LabelFor(m => m.VideoId)
+        <input id="VideoId" name="VideoId" type="text" value="@Model.VideoId" onclick="updateYT();" onfocusout="updateYT();">
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.AutoPlay)
+        @Html.CheckBoxFor(m => m.AutoPlay, new { onclick = "updateYT();" })
+    </div>
 </div>
 <script type="text/javascript">
-$(document).ready(function () {
-updateYT();
-});
-function updateYT() {
-var vId = document.getElementById('@nameof(Model.VideoId)');
-var aPlay = document.getElementById('@nameof(Model.AutoPlay)');
-var vData = document.getElementById('@nameof(Model.Data)');
-vData.value = vId.value + '|' + aPlay.value;
-};
+
+    $(document).ready(function () {
+
+        updateYT();
+    });
+
+    function updateYT() {
+        var vId = document.getElementById('@nameof(Model.VideoId)');
+        var aPlay = document.getElementById('@nameof(Model.AutoPlay)');
+        var vData = document.getElementById('@nameof(Model.Data)');
+        vData.value = vId.value + '|' + aPlay.value;
+    };
 </script>

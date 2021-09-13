@@ -49,6 +49,7 @@ using Middleware.DynamicContent;
 using PluginManager.Abstractions;
 using PluginManager.Internal;
 
+using Shared.Abstractions;
 using Shared.Classes;
 
 using SharedPluginFeatures;
@@ -84,7 +85,8 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         [TestInitialize]
         public void InitializeDynamicContentControllerTests()
         {
-            CacheManager.ClearAllCaches();
+            ICacheManagerFactory cacheManagerFactory = new CacheManagerFactory();
+            cacheManagerFactory.ClearAllCaches();
             DynamicContent.Plugin.PluginInitialisation.DynamicContentCache.Clear();
             InitializeDynamicContentPluginManager();
         }

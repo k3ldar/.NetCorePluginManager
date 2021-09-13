@@ -71,7 +71,7 @@ namespace AspNetCore.PluginManager.Internal
         {
             get
             {
-                return _timingsVirusScan;
+                return _timingsVirusScan.Clone();
             }
         }
 

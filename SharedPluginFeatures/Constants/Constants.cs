@@ -33,6 +33,41 @@ namespace SharedPluginFeatures
     public sealed class Constants
     {
         /// <summary>
+        /// Name of web smoke test cache manager
+        /// </summary>
+        public const string CacheManagerWebSmokeTest = "Web Smoke Test Cache";
+
+        /// <summary>
+        /// Name of login cache manager
+        /// </summary>
+        public const string CacheManagerLogin = "Login Cache";
+
+        /// <summary>
+        /// Name of error manager cache
+        /// </summary>
+        public const string CacheManagerErrorManager = "Error Manager Cache";
+
+        /// <summary>
+        /// Name of download cache
+        /// </summary>
+        public const string CacheManagerDownload = "Download Cache";
+
+        /// <summary>
+        /// Name of helpdesk cache
+        /// </summary>
+        public const string CacheManagerHelpdesk = "Helpdesk Cache";
+
+        /// <summary>
+        /// Name of image manager cache
+        /// </summary>
+        public const string CacheManagerImageManager = "Image Manager Cache";
+
+        /// <summary>
+        /// Name of create account cache
+        /// </summary>
+        public const string CacheManagerCreateAccount = "Create Account Cache";
+
+        /// <summary>
         /// Authorization header name
         /// </summary>
         public const string HeaderAuthorizationName = "Authorization";

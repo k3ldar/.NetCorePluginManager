@@ -56,8 +56,11 @@ namespace PluginManager.Tests.Mocks
             {
                 foreach (ServiceDescriptor serviceDescriptor in serviceDescriptors)
                 {
-                    if (serviceDescriptor.ImplementationInstance.GetType().Equals(typeof(NotificationService)))
+                    if (serviceDescriptor.ImplementationInstance != null &&
+                        serviceDescriptor.ImplementationInstance.GetType().Equals(typeof(NotificationService)))
+                    {
                         _notificationService = serviceDescriptor.ImplementationInstance as NotificationService;
+                    }
 
                     Add(serviceDescriptor);
                 }
@@ -70,7 +73,14 @@ namespace PluginManager.Tests.Mocks
 
         public bool HasServiceRegistered<T>(ServiceLifetime serviceLifetime)
         {
-            return _serviceDescriptors.Where(sd => sd.Lifetime.Equals(serviceLifetime) && sd.ServiceType != null && sd.ServiceType.Equals(typeof(T))).Any();
+            bool Result = _serviceDescriptors.Where(sd => sd.Lifetime.Equals(serviceLifetime) && sd.ServiceType != null && sd.ServiceType.Equals(typeof(T))).Any();
+
+            if (!Result)
+            {
+                Result = _serviceDescriptors.Where(sd => sd.Lifetime.Equals(serviceLifetime) && sd.ServiceType != null && sd.ServiceType.Equals(typeof(T))).Any();
+            }
+
+            return Result;
         }
 
         public bool HasListenerRegistered<T>()
@@ -156,6 +166,16 @@ namespace PluginManager.Tests.Mocks
         {
             List<ServiceDescriptor> configureOptions = _serviceDescriptors
                 .Where(sd => sd.ServiceType != null && sd.Lifetime == ServiceLifetime.Singleton && sd.ServiceType.Equals(typeof(IMvcBuilder)))
+                .ToList();
+
+            return configureOptions != null;
+        }
+
+
+        public bool HasConfigurationOptions(Type options, ServiceLifetime serviceLifetime)
+        {
+            List<ServiceDescriptor> configureOptions = _serviceDescriptors
+                .Where(sd => sd.ServiceType != null && sd.Lifetime == serviceLifetime && sd.ServiceType.Equals(options))
                 .ToList();
 
             return configureOptions != null;
