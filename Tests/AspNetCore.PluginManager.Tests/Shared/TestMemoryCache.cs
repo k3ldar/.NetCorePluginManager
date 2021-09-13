@@ -75,7 +75,7 @@ namespace AspNetCore.PluginManager.Tests.Shared
 
             if (Result == null)
             {
-                cacheManagerFactory.CreateCache(name, new TimeSpan(0, 100, 0));
+                Result = cacheManagerFactory.CreateCache(name, new TimeSpan(0, 100, 0));
             }
 
             Result.Clear();

@@ -42,6 +42,7 @@ using Middleware;
 
 using PluginManager.Abstractions;
 
+using Shared.Abstractions;
 using Shared.Classes;
 
 using SharedPluginFeatures;
@@ -63,7 +64,8 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SmokeTestTests
         [TestInitialize]
         public void InitialiseSmokeTestPluginManager()
         {
-            CacheManager.ClearAllCaches();
+            ICacheManagerFactory cacheManagerFactory = new CacheManagerFactory();
+            cacheManagerFactory.ClearAllCaches();
             InitializeSmokeTestPluginManager();
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
             WebSmokeTestSettings settings = settingsProvider.GetSettings<WebSmokeTestSettings>(nameof(WebSmokeTest));

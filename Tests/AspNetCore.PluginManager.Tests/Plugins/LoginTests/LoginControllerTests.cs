@@ -44,6 +44,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using PluginManager.Abstractions;
 
+using Shared.Abstractions;
 using Shared.Classes;
 
 using SharedPluginFeatures;
@@ -72,7 +73,8 @@ namespace AspNetCore.PluginManager.Tests.Plugins.LoginTests
         [TestCleanup]
         public void FinalizeTest()
         {
-            CacheManager.ClearAllCaches();
+            ICacheManagerFactory cacheManagerFactory = new CacheManagerFactory();
+            cacheManagerFactory.ClearAllCaches();
         }
 
 

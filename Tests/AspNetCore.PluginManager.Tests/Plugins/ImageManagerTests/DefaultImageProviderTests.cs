@@ -37,6 +37,9 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using Middleware.Images;
 
+using Shared.Abstractions;
+using Shared.Classes;
+
 using sc = Shared.Classes;
 
 namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
@@ -51,7 +54,8 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         [TestInitialize]
         public void InitializeTest()
         {
-            sc.CacheManager.ClearAllCaches();
+            ICacheManagerFactory cacheManagerFactory = new CacheManagerFactory();
+            cacheManagerFactory.ClearAllCaches();
         }
 
         [TestMethod]
