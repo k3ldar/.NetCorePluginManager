@@ -98,7 +98,7 @@ namespace AspNetCore.PluginManager.DemoWebsite
             app.UseStaticFiles();
 
             app.UseHsts();
-
+            app.UseSession();
             app.UseHttpsRedirection();
             app.UseCookiePolicy();
 

@@ -63,6 +63,7 @@ namespace PluginManager
         private readonly PluginManagerConfiguration _configuration;
         private bool _disposed;
         private IServiceProvider _serviceProvider;
+        private IServiceCollection _serviceCollection;
         private bool _serviceConfigurationComplete;
         private readonly NotificationService _notificationService;
         private readonly ThreadManagerInitialisation _threadManagerInitialisation;
@@ -103,7 +104,10 @@ namespace PluginManager
             _threadManagerInitialisation = new ThreadManagerInitialisation();
             _threadManagerInitialisation.Initialise(Logger);
 
-            _serviceProvider = CreateBasicServiceProvider(configuration, pluginSettings);
+            // initial service collection can ONLY contain instances managed by base plugin manager
+            // so that multiple singleton instances are not created.
+            _serviceCollection = new ServiceCollection();
+            RegisterBasePluginMangerServices(_serviceCollection);
 
             // Load ourselves as a plugin
             PluginLoad(Assembly.GetExecutingAssembly(), String.Empty, false);
@@ -162,23 +166,12 @@ namespace PluginManager
             {
                 return _serviceProvider;
             }
-        }
 
-
-        /// <summary>
-        /// Sets the IServiceConfigurator instance which will be called after service configurtion 
-        /// is completed by the host and all plugins.
-        /// </summary>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1303:Do not pass literals as localized parameters", Justification = "Configuration issues should be handled by the host app when starting.")]
-        protected void SetServiceConfigurator(in IServiceConfigurator serviceConfigurator)
-        {
-            if (ServiceConfigurator != null)
-                throw new InvalidOperationException("Only one IServiceConfigurator can be loaded");
-
-            if (_serviceConfigurationComplete)
-                throw new InvalidOperationException("The plugin manager has already configured its services");
-
-            ServiceConfigurator = serviceConfigurator ?? throw new ArgumentNullException(nameof(serviceConfigurator));
+            set
+            {
+                if (_serviceProvider == null)
+                    _serviceProvider = value;
+            }
         }
 
         /// <summary>
@@ -242,11 +235,27 @@ namespace PluginManager
         /// <summary>
         /// Indicates that configuration of the IServiceCollection is now complete
         /// </summary>
-        protected abstract void ServiceConfigurationComplete(in IServiceProvider serviceProvider);
+        protected abstract void ServiceConfigurationComplete(in IServiceCollection serviceCollection);
 
         #endregion Abstract Methods
 
         #region Protected Methods
+
+        /// <summary>
+        /// Sets the IServiceConfigurator instance which will be called after service configurtion 
+        /// is completed by the host and all plugins.
+        /// </summary>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1303:Do not pass literals as localized parameters", Justification = "Configuration issues should be handled by the host app when starting.")]
+        protected void SetServiceConfigurator(in IServiceConfigurator serviceConfigurator)
+        {
+            if (ServiceConfigurator != null)
+                throw new InvalidOperationException("Only one IServiceConfigurator can be loaded");
+
+            if (_serviceConfigurationComplete)
+                throw new InvalidOperationException("The plugin manager has already configured its services");
+
+            ServiceConfigurator = serviceConfigurator ?? throw new ArgumentNullException(nameof(serviceConfigurator));
+        }
 
         /// <summary>
         /// Adds a plugin module to the list of added plugin modules.
@@ -427,22 +436,26 @@ namespace PluginManager
             }
         }
 
+        private void RegisterBasePluginMangerServices(IServiceCollection services)
+        {
+            services.TryAddSingleton(_configuration);
+            services.TryAddSingleton(_pluginSettings);
+            services.TryAddSingleton<IPluginClassesService>(this);
+            services.TryAddSingleton<IPluginHelperService>(this);
+            services.TryAddSingleton<IPluginTypesService>(this);
+            services.TryAddSingleton<IThreadManagerServices>(this);
+            services.TryAddSingleton<INotificationService>(_notificationService);
+        }
+
         /// <summary>
         /// Allows plugins to configure the services for all plugins
         /// </summary>
         /// <param name="services"></param>
         public void ConfigureServices(IServiceCollection services)
         {
-            if (services == null)
-                throw new ArgumentNullException(nameof(services));
+            _serviceCollection = services ?? throw new ArgumentNullException(nameof(services));
 
-            services.AddSingleton<IPluginClassesService>(this);
-            services.AddSingleton<IPluginHelperService>(this);
-            services.AddSingleton<IPluginTypesService>(this);
-            services.AddSingleton<IThreadManagerServices>(this);
-            services.AddSingleton<INotificationService>(_notificationService);
-
-            _serviceProvider = services.BuildServiceProvider();
+            RegisterBasePluginMangerServices(services);
 
             // run pre-initialise events
             PreConfigurePluginServices(services);
@@ -460,15 +473,11 @@ namespace PluginManager
             // if no ILogger instance has been registered, register the default instance now.
             services.TryAddSingleton<ILogger>(Logger);
 
-            _serviceProvider = services.BuildServiceProvider();
-
             // if no plugin has registered a setting provider, add the default appsettings json provider
-            IApplicationOverride appOverride = _serviceProvider.GetService<IApplicationOverride>();
-            ISettingError settingsError = _serviceProvider.GetService<ISettingError>();
+            IApplicationOverride appOverride = services.GetServiceInstance<IApplicationOverride>();
+            ISettingError settingsError = services.GetServiceInstance<ISettingError>();
             DefaultSettingProvider settingProvider = new DefaultSettingProvider(RootPath, appOverride, settingsError);
             services.TryAddSingleton<ISettingsProvider>(settingProvider);
-
-            _serviceProvider = services.BuildServiceProvider();
 
             PostConfigurePluginServices(services);
 
@@ -479,9 +488,7 @@ namespace PluginManager
                 _serviceConfigurationComplete = true;
             }
 
-            _serviceProvider = services.BuildServiceProvider();
-
-            ServiceConfigurationComplete(_serviceProvider);
+            ServiceConfigurationComplete(services);
 
             foreach (KeyValuePair<string, Type> registeredThread in RegisteredStartupThreads)
             {
@@ -490,16 +497,19 @@ namespace PluginManager
             }
 
             RegisteredStartupThreads = null;
+            _serviceCollection = null;
         }
 
         /// <summary>
         /// Provides an opportunity for plugins to configure services that can be used in IOC, this method creates 
         /// a custom IServiceCollection class and should only be used where the host does not natively include
-        /// it's own IServiceCollection
+        /// it's own IServiceCollection.  i.e. unit test environment
         /// </summary>
         public void ConfigureServices()
         {
-            ConfigureServices(new ServiceCollection() as IServiceCollection);
+            IServiceCollection serviceCollection = new ServiceCollection();
+            ConfigureServices(serviceCollection);
+            _serviceProvider = serviceCollection.BuildServiceProvider();
         }
 
 
@@ -773,6 +783,11 @@ namespace PluginManager
 
             List<object> Result = new List<object>();
 
+            if (_serviceCollection != null)
+            {
+                return ServiceCollectionHelper.GetInstancesConstructorParameters(_serviceCollection, type);
+            }
+
             if (_serviceProvider != null)
             {
                 //grab a list of all constructors in the class, start with the one with most parameters
@@ -853,21 +868,6 @@ namespace PluginManager
         #endregion IDisposable Methods
 
         #region Private Methods
-
-
-        private ServiceProvider CreateBasicServiceProvider(PluginManagerConfiguration configuration, PluginSettings pluginSettings)
-        {
-            IServiceCollection services = new ServiceCollection();
-            services.AddSingleton<INotificationService>(_notificationService);
-            services.AddSingleton(configuration);
-            services.AddSingleton(pluginSettings);
-            services.AddSingleton<IPluginClassesService>(this);
-            services.AddSingleton<IPluginHelperService>(this);
-            services.AddSingleton<IPluginTypesService>(this);
-            services.AddSingleton<IThreadManagerServices>(this);
-
-            return services.BuildServiceProvider();
-        }
 
         /// <summary>
         /// Copies the plugin file to a local temp area, that will be used to load the plugin from.

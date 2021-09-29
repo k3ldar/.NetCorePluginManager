@@ -2,33 +2,30 @@
 @using SharedPluginFeatures
 @inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
 @{
-    ViewData["Title"] = @Model.DocumentationHeader;
+ViewData["Title"] = @Model.DocumentationHeader;
 }
-
 <link rel="stylesheet" type="text/css" href="/css/documentation.css" />
-
 <h2>@Model.DocumentationHeader</h2>
-
 <div class="docContainer">
-    <div class="row">
-        <div class="col">
-            <p>@Model.DocumentationDescription</p>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col">
-            @foreach (var item in Model.AssemblyNames)
-            {
-                <div class="card">
-                    <div class="card-header">
-                        @item.Key
-                    </div>
-                    <div class="card-body">
-                        <p class="card-text">@item.Value.Summary</p>
-                        <a href="/Docs/Document/@Html.RouteFriendlyName(item.Key)/" class="card-link">@Localizer[nameof(Languages.LanguageStrings.SeeMore)]</a>
-                    </div>
-                </div>
-            }
-        </div>
-    </div>
+<div class="row">
+<div class="col">
+<p>@Model.DocumentationDescription</p>
+</div>
+</div>
+<div class="row">
+<div class="col">
+@foreach (var item in Model.AssemblyNames)
+{
+<div class="card">
+<div class="card-header">
+@item.Key
+</div>
+<div class="card-body">
+<p class="card-text">@item.Value.Summary</p>
+<a href="/Docs/Document/@Html.RouteFriendlyName(item.Key)/" class="card-link">@Localizer[nameof(Languages.LanguageStrings.SeeMore)]</a>
+</div>
+</div>
+}
+</div>
+</div>
 </div>

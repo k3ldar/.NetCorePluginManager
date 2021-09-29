@@ -23,7 +23,6 @@
  *  05/03/2019  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using System;
 using System.Collections.Generic;
 
 using Microsoft.AspNetCore.Builder;
@@ -44,18 +43,16 @@ namespace SystemAdmin.Plugin.Classes
         public void AfterConfigure(in IApplicationBuilder app)
         {
             ThreadManager.ThreadStart(new GCAnalysis(), nameof(GCAnalysis), System.Threading.ThreadPriority.Lowest);
+
+            IBreadcrumbService breadcrumbService = app.ApplicationServices.GetService<IBreadcrumbService>();
+            ISystemAdminHelperService systemAdminHelper = app.ApplicationServices.GetService<ISystemAdminHelperService>();
+
+            if (breadcrumbService != null && systemAdminHelper != null)
+                RegisterBreadcrumbs(breadcrumbService, systemAdminHelper);
         }
 
         public void AfterConfigureServices(in IServiceCollection services)
         {
-            IServiceProvider serviceProvider = services.BuildServiceProvider();
-
-            IBreadcrumbService breadcrumbService = serviceProvider.GetService<IBreadcrumbService>();
-            ISystemAdminHelperService systemAdminHelper = serviceProvider.GetService<ISystemAdminHelperService>();
-
-            if (breadcrumbService != null && systemAdminHelper != null)
-                RegisterBreadcrumbs(breadcrumbService, systemAdminHelper);
-
 #if NET_CORE_3_X || NET_5_X
             services.AddAuthorization(options =>
             {

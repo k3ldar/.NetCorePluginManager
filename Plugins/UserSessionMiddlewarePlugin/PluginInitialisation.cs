@@ -30,6 +30,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
+using PluginManager;
 using PluginManager.Abstractions;
 
 using Shared.Classes;
@@ -37,6 +38,8 @@ using Shared.Classes;
 using SharedPluginFeatures;
 
 using UserSessionMiddleware.Plugin.Classes;
+
+#pragma warning disable CS1591
 
 namespace UserSessionMiddleware.Plugin
 {
@@ -98,14 +101,15 @@ namespace UserSessionMiddleware.Plugin
 
         public void AfterConfigure(in IApplicationBuilder app)
         {
-
+            SessionHelper.InitSessionHelper(app.ApplicationServices);
         }
 
         public void AfterConfigureServices(in IServiceCollection services)
         {
-            ServiceProvider serviceProvider = services.BuildServiceProvider();
+            if (services == null)
+                throw new ArgumentNullException(nameof(services));
 
-            ISettingsProvider settingsProvider = serviceProvider.GetService<ISettingsProvider>();
+            ISettingsProvider settingsProvider = services.GetServiceInstance<ISettingsProvider>();
 
             if (settingsProvider != null)
             {
@@ -116,8 +120,6 @@ namespace UserSessionMiddleware.Plugin
                     services.TryAddSingleton<IUserSessionService, DefaultUserSessionService>();
                 }
             }
-
-            SessionHelper.InitSessionHelper(services.BuildServiceProvider());
         }
 
         public void BeforeConfigure(in IApplicationBuilder app)
@@ -138,3 +140,5 @@ namespace UserSessionMiddleware.Plugin
         #endregion IInitialiseEvents Methods
     }
 }
+
+#pragma warning restore CS1591

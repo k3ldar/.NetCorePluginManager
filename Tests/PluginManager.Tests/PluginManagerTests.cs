@@ -45,6 +45,10 @@ namespace PluginManager.Tests
     [ExcludeFromCodeCoverage]
     public class PluginManagerTests
     {
+        private const string BadEggPluginFilePath = "..\\..\\..\\..\\..\\Plugins\\BadEgg.Plugin\\bin\\Debug\\net5.0\\BadEgg.Plugin.dll";
+        private const string CompanyPluginFilePath = "..\\..\\..\\..\\..\\Plugins\\Company.Plugin\\bin\\Debug\\net5.0\\Company.Plugin.dll";
+        private const string CompanyPluginPath = "..\\..\\..\\..\\..\\Plugins\\Company.Plugin\\bin\\Debug\\net5.0\\";
+
         [TestInitialize]
         public void StartTest()
         {
@@ -226,7 +230,7 @@ namespace PluginManager.Tests
             {
                 Assert.AreEqual(pluginManager.PluginsGetLoaded().Count, 1);
 
-                pluginManager.PluginLoad("..\\..\\..\\..\\..\\Plugins\\BadEgg.Plugin\\bin\\Debug\\netcoreapp3.1\\BadEgg.Plugin.dll", false);
+                pluginManager.PluginLoad(BadEggPluginFilePath, false);
 
                 Assert.AreEqual(pluginManager.PluginsGetLoaded().Count, 2);
 
@@ -249,7 +253,7 @@ namespace PluginManager.Tests
             {
                 Assert.AreEqual(pluginManager.PluginsGetLoaded().Count, 1);
 
-                pluginManager.PluginLoad("..\\..\\..\\..\\..\\Plugins\\BadEgg.Plugin\\bin\\Debug\\netcoreapp3.1\\BadEgg.Plugin.dll", false);
+                pluginManager.PluginLoad(BadEggPluginFilePath, false);
 
                 Assert.AreEqual(pluginManager.PluginsGetLoaded().Count, 2);
             }
@@ -280,7 +284,7 @@ namespace PluginManager.Tests
             {
                 Assert.AreEqual(pluginManager.PluginsGetLoaded().Count, 1);
 
-                pluginManager.PluginLoad("..\\..\\..\\..\\..\\Plugins\\BadEgg.Plugin\\bin\\Debug\\netcoreapp3.1\\BadEgg.Plugin.dll", false);
+                pluginManager.PluginLoad(BadEggPluginFilePath, false);
 
                 Assert.AreEqual(pluginManager.PluginsGetLoaded().Count, 2);
 
@@ -312,7 +316,7 @@ namespace PluginManager.Tests
             {
                 Assert.AreEqual(pluginManager.PluginsGetLoaded().Count, 1);
 
-                pluginManager.PluginLoad("..\\..\\..\\..\\..\\Plugins\\BadEgg.Plugin\\bin\\Debug\\netcoreapp3.1\\BadEgg.Plugin.dll", false);
+                pluginManager.PluginLoad(BadEggPluginFilePath, false);
 
                 Assert.AreEqual(pluginManager.PluginsGetLoaded().Count, 2);
 
@@ -326,10 +330,7 @@ namespace PluginManager.Tests
                 Assert.IsNotNull(mockPluginHelper);
             }
 
-            Assert.AreEqual(testLogger.Logs[0].LogLevel, LogLevel.PluginLoadSuccess);
-            Assert.AreEqual(testLogger.Logs[1].LogLevel, LogLevel.PluginConfigureError);
-            Assert.AreEqual(testLogger.Logs[2].LogLevel, LogLevel.PluginLoadSuccess);
-            Assert.AreEqual(testLogger.Logs[2].Data, "BadEgg.Plugin.dll");
+            Assert.IsTrue(testLogger.ContainsMessage("PluginLoadSuccess BadEgg.Plugin.dll"));
         }
 
         [TestMethod]
@@ -340,7 +341,7 @@ namespace PluginManager.Tests
             {
                 Assert.AreEqual(pluginManager.PluginsGetLoaded().Count, 1);
 
-                pluginManager.PluginLoad("..\\..\\..\\..\\..\\Plugins\\BadEgg.Plugin\\bin\\Debug\\netcoreapp3.1\\BadEgg.Plugin.dll", false);
+                pluginManager.PluginLoad(BadEggPluginFilePath, false);
 
                 Assert.AreEqual(pluginManager.PluginsGetLoaded().Count, 2);
 
@@ -355,10 +356,7 @@ namespace PluginManager.Tests
                 Assert.AreNotEqual(mockPluginHelpers.Count, 0);
             }
 
-            Assert.AreEqual(testLogger.Logs[0].LogLevel, LogLevel.PluginLoadSuccess);
-            Assert.AreEqual(testLogger.Logs[1].LogLevel, LogLevel.PluginConfigureError);
-            Assert.AreEqual(testLogger.Logs[2].LogLevel, LogLevel.PluginLoadSuccess);
-            Assert.AreEqual(testLogger.Logs[2].Data, "BadEgg.Plugin.dll");
+            Assert.IsTrue(testLogger.ContainsMessage("PluginLoadSuccess BadEgg.Plugin.dll"));
         }
 
         [TestMethod]
@@ -369,7 +367,7 @@ namespace PluginManager.Tests
             {
                 Assert.AreEqual(pluginManager.PluginsGetLoaded().Count, 1);
 
-                pluginManager.PluginLoad("..\\..\\..\\..\\..\\Plugins\\BadEgg.Plugin\\bin\\Debug\\netcoreapp3.1\\BadEgg.Plugin.dll", false);
+                pluginManager.PluginLoad(BadEggPluginFilePath, false);
 
                 Assert.AreEqual(pluginManager.PluginsGetLoaded().Count, 2);
 
@@ -393,12 +391,12 @@ namespace PluginManager.Tests
             {
                 Assert.AreEqual(pluginManager.PluginsGetLoaded().Count, 1);
 
-                pluginManager.PluginLoad("..\\..\\..\\..\\..\\Plugins\\BadEgg.Plugin\\bin\\Debug\\netcoreapp3.1\\BadEgg.Plugin.dll", false);
+                pluginManager.PluginLoad(BadEggPluginFilePath, false);
 
                 Assert.AreEqual(pluginManager.PluginsGetLoaded().Count, 2);
                 Assert.IsTrue(pluginManager.PluginLoaded("BadEgg.Plugin.dll", out int _, out string _));
 
-                DynamicLoadResult loadResult = pluginManager.AddAssembly(Assembly.LoadFrom("..\\..\\..\\..\\..\\Plugins\\BadEgg.Plugin\\bin\\Debug\\netcoreapp3.1\\BadEgg.Plugin.dll"));
+                DynamicLoadResult loadResult = pluginManager.AddAssembly(Assembly.LoadFrom(BadEggPluginFilePath));
 
                 Assert.AreEqual(DynamicLoadResult.AlreadyLoaded, loadResult);
                 Assert.AreEqual(pluginManager.PluginsGetLoaded().Count, 2);
@@ -448,7 +446,7 @@ namespace PluginManager.Tests
                 Assert.AreEqual(sut.PluginsGetLoaded().Count, 0);
 
                 Assert.AreEqual(2, testLogger.Logs.Count);
-                Assembly pluginAssembly = Assembly.LoadFrom("..\\..\\..\\..\\..\\Plugins\\BadEgg.Plugin\\bin\\Debug\\netcoreapp3.1\\BadEgg.Plugin.dll");
+                Assembly pluginAssembly = Assembly.LoadFrom(BadEggPluginFilePath);
 
                 sut.PluginLoad(pluginAssembly, "", false);
 
@@ -479,7 +477,7 @@ namespace PluginManager.Tests
                 Assert.AreEqual(sut.PluginsGetLoaded().Count, 1);
 
                 Assert.AreEqual(2, testLogger.Logs.Count);
-                Assembly pluginAssembly = Assembly.LoadFrom("..\\..\\..\\..\\..\\Plugins\\BadEgg.Plugin\\bin\\Debug\\netcoreapp3.1\\BadEgg.Plugin.dll");
+                Assembly pluginAssembly = Assembly.LoadFrom(BadEggPluginFilePath);
 
                 sut.PluginLoad(pluginAssembly, "", false);
 
@@ -536,7 +534,7 @@ namespace PluginManager.Tests
             {
                 Assert.AreEqual(pluginManager.PluginsGetLoaded().Count, 1);
 
-                pluginManager.PluginLoad("..\\..\\..\\..\\..\\Plugins\\BadEgg.Plugin\\bin\\Debug\\netcoreapp3.1\\BadEgg.Plugin.dll", false);
+                pluginManager.PluginLoad(BadEggPluginFilePath, false);
 
                 Assert.AreEqual(pluginManager.PluginsGetLoaded().Count, 1);
                 Assert.IsFalse(pluginManager.PluginLoaded("BadEgg.Plugin.dll", out int _, out string _));
@@ -552,7 +550,7 @@ namespace PluginManager.Tests
             {
                 Assert.AreEqual(pluginManager.PluginsGetLoaded().Count, 1);
 
-                pluginManager.PluginLoad("..\\..\\..\\..\\..\\Plugins\\BadEgg.Plugin\\bin\\Debug\\netcoreapp3.1\\BadEgg.Plugin.dll", false);
+                pluginManager.PluginLoad(BadEggPluginFilePath, false);
 
                 Assert.AreEqual(pluginManager.PluginsGetLoaded().Count, 2);
                 Assert.IsTrue(pluginManager.PluginLoaded("BadEgg.Plugin.dll", out int _, out string _));
@@ -573,7 +571,7 @@ namespace PluginManager.Tests
             {
                 Assert.AreEqual(pluginManager.PluginsGetLoaded().Count, 1);
 
-                pluginManager.PluginLoad("..\\..\\..\\..\\..\\Plugins\\BadEgg.Plugin\\bin\\Debug\\netcoreapp3.1\\BadEgg.Plugin.dll", true);
+                pluginManager.PluginLoad(BadEggPluginFilePath, true);
 
                 Assert.AreEqual(pluginManager.PluginsGetLoaded().Count, 2);
                 Assert.IsTrue(pluginManager.PluginLoaded("BadEgg.Plugin.dll", out int _, out string _));
@@ -596,13 +594,13 @@ namespace PluginManager.Tests
             if (!Directory.Exists(pluginSettings.LocalCopyPath))
                 Directory.CreateDirectory(pluginSettings.LocalCopyPath);
 
-            File.Copy("..\\..\\..\\..\\..\\Plugins\\BadEgg.Plugin\\bin\\Debug\\netcoreapp3.1\\BadEgg.Plugin.dll", Path.Combine(pluginSettings.LocalCopyPath, "BadEgg.Plugin.dll"));
+            File.Copy(BadEggPluginFilePath, Path.Combine(pluginSettings.LocalCopyPath, "BadEgg.Plugin.dll"));
 
             using (TestPluginManager pluginManager = new TestPluginManager(pluginManagerConfiguration, pluginSettings))
             {
                 Assert.AreEqual(pluginManager.PluginsGetLoaded().Count, 1);
 
-                pluginManager.PluginLoad("..\\..\\..\\..\\..\\Plugins\\BadEgg.Plugin\\bin\\Debug\\netcoreapp3.1\\BadEgg.Plugin.dll", true);
+                pluginManager.PluginLoad(BadEggPluginFilePath, true);
 
                 Assert.AreEqual(pluginManager.PluginsGetLoaded().Count, 2);
                 Assert.IsTrue(pluginManager.PluginLoaded("BadEgg.Plugin.dll", out int _, out string _));
@@ -648,9 +646,9 @@ namespace PluginManager.Tests
                 pluginManager.TestCanExtractResources = true;
                 Assert.AreEqual(pluginManager.PluginsGetLoaded().Count, 1);
 
-                Assembly companyPlugin = Assembly.LoadFrom("..\\..\\..\\..\\..\\Plugins\\Company.Plugin\\bin\\Debug\\netcoreapp3.1\\Company.Plugin.dll");
+                Assembly companyPlugin = Assembly.LoadFrom(CompanyPluginFilePath);
                 pluginManager.PluginLoad(companyPlugin,
-                    "..\\..\\..\\..\\..\\Plugins\\Company.Plugin\\bin\\Debug\\netcoreapp3.1\\", true);
+                    "..\\..\\..\\..\\..\\Plugins\\Company.Plugin\\bin\\Debug\\net5.0\\", true);
 
                 Assert.AreEqual(pluginManager.PluginsGetLoaded().Count, 2);
                 Assert.IsTrue(pluginManager.PluginLoaded("Company.Plugin.dll", out int _, out string _));
@@ -689,9 +687,8 @@ namespace PluginManager.Tests
                 pluginManager.TestCanExtractResources = true;
                 Assert.AreEqual(pluginManager.PluginsGetLoaded().Count, 1);
 
-                Assembly companyPlugin = Assembly.LoadFrom("..\\..\\..\\..\\..\\Plugins\\Company.Plugin\\bin\\Debug\\netcoreapp3.1\\Company.Plugin.dll");
-                pluginManager.PluginLoad(companyPlugin,
-                    "..\\..\\..\\..\\..\\Plugins\\Company.Plugin\\bin\\Debug\\netcoreapp3.1\\", true);
+                Assembly companyPlugin = Assembly.LoadFrom(CompanyPluginFilePath);
+                pluginManager.PluginLoad(companyPlugin, CompanyPluginPath, true);
 
                 Assert.AreEqual(pluginManager.PluginsGetLoaded().Count, 2);
                 Assert.IsTrue(pluginManager.PluginLoaded("Company.Plugin.dll", out int _, out string _));
@@ -731,9 +728,8 @@ namespace PluginManager.Tests
                 pluginManager.TestCanExtractResources = true;
                 Assert.AreEqual(pluginManager.PluginsGetLoaded().Count, 1);
 
-                Assembly companyPlugin = Assembly.LoadFrom("..\\..\\..\\..\\..\\Plugins\\Company.Plugin\\bin\\Debug\\netcoreapp3.1\\Company.Plugin.dll");
-                pluginManager.PluginLoad(companyPlugin,
-                    "..\\..\\..\\..\\..\\Plugins\\Company.Plugin\\bin\\Debug\\netcoreapp3.1\\", true);
+                Assembly companyPlugin = Assembly.LoadFrom(CompanyPluginFilePath);
+                pluginManager.PluginLoad(companyPlugin, CompanyPluginPath, true);
 
                 Assert.AreEqual(pluginManager.PluginsGetLoaded().Count, 2);
                 Assert.IsTrue(pluginManager.PluginLoaded("Company.Plugin.dll", out int _, out string _));
@@ -773,9 +769,8 @@ namespace PluginManager.Tests
                 pluginManager.TestCanExtractResources = false;
                 Assert.AreEqual(pluginManager.PluginsGetLoaded().Count, 1);
 
-                Assembly companyPlugin = Assembly.LoadFrom("..\\..\\..\\..\\..\\Plugins\\Company.Plugin\\bin\\Debug\\netcoreapp3.1\\Company.Plugin.dll");
-                pluginManager.PluginLoad(companyPlugin,
-                    "..\\..\\..\\..\\..\\Plugins\\Company.Plugin\\bin\\Debug\\netcoreapp3.1\\", true);
+                Assembly companyPlugin = Assembly.LoadFrom(CompanyPluginFilePath);
+                pluginManager.PluginLoad(companyPlugin, CompanyPluginPath, true);
 
                 Assert.AreEqual(pluginManager.PluginsGetLoaded().Count, 2);
                 Assert.IsTrue(pluginManager.PluginLoaded("Company.Plugin.dll", out int _, out string _));
@@ -843,7 +838,7 @@ namespace PluginManager.Tests
                 pluginManager.AddAssembly(Assembly.GetExecutingAssembly());
                 pluginManager.ConfigureServices();
 
-                Object serviceType = pluginManager.GetServiceProvider().GetService(typeof(IPluginClassesService));
+                object serviceType = pluginManager.GetServiceProvider().GetService(typeof(IPluginClassesService));
                 Assert.IsNotNull(serviceType);
             }
         }
@@ -859,7 +854,7 @@ namespace PluginManager.Tests
                 pluginManager.AddAssembly(Assembly.GetExecutingAssembly());
                 pluginManager.ConfigureServices();
 
-                Object serviceType = pluginManager.GetServiceProvider().GetService(typeof(IPluginHelperService));
+                object serviceType = pluginManager.GetServiceProvider().GetService(typeof(IPluginHelperService));
                 Assert.IsNotNull(serviceType);
             }
         }
@@ -875,7 +870,7 @@ namespace PluginManager.Tests
                 pluginManager.AddAssembly(Assembly.GetExecutingAssembly());
                 pluginManager.ConfigureServices();
 
-                Object serviceType = pluginManager.GetServiceProvider().GetService(typeof(IPluginTypesService));
+                object serviceType = pluginManager.GetServiceProvider().GetService(typeof(IPluginTypesService));
                 Assert.IsNotNull(serviceType);
             }
         }
@@ -891,7 +886,7 @@ namespace PluginManager.Tests
                 pluginManager.AddAssembly(Assembly.GetExecutingAssembly());
                 pluginManager.ConfigureServices();
 
-                Object serviceType = pluginManager.GetServiceProvider().GetService(typeof(ILogger));
+                object serviceType = pluginManager.GetServiceProvider().GetService(typeof(ILogger));
                 Assert.IsNotNull(serviceType);
             }
         }
@@ -907,7 +902,7 @@ namespace PluginManager.Tests
                 pluginManager.AddAssembly(Assembly.GetExecutingAssembly());
                 pluginManager.ConfigureServices();
 
-                Object serviceType = pluginManager.GetServiceProvider().GetService(typeof(ISettingsProvider));
+                object serviceType = pluginManager.GetServiceProvider().GetService(typeof(ISettingsProvider));
                 Assert.IsNotNull(serviceType);
             }
         }
@@ -920,7 +915,7 @@ namespace PluginManager.Tests
             {
                 string root = pluginManager.Path();
 
-                Assert.IsFalse(String.IsNullOrWhiteSpace(root));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(root));
 
                 string executingAssemblyPath = Assembly.GetExecutingAssembly().Location;
 

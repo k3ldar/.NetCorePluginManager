@@ -1,16 +1,15 @@
 ﻿@model ProductPlugin.Models.ProductSearchViewModel
 @inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
-    <div class="row">
-        @Html.HiddenFor(m => m.SearchName)
-        <div class="col-sm-12 col-md-4 col-lg-3">
-            @Html.LabelFor(m => m.SearchText)
-        </div>
-        <div class="col-sm-12 col-md-5 col-lg-7">
-            @Html.TextBoxFor(m => m.SearchText, new { @class = "form-control" })
-            @Html.ValidationMessageFor(m => m.SearchText)
-        </div>
-        <div class="col-sm-12 col-md-3 col-lg-2">
-            <input class="btn btn-primary" id="btnSearch" type="submit" value="@Localizer[nameof(Languages.LanguageStrings.Search)]" />
-        </div>
-    </div>
-
+<div class="row">
+@Html.HiddenFor(m => m.SearchName)
+<div class="col-sm-12 col-md-4 col-lg-3">
+@Html.LabelFor(m => m.SearchText)
+</div>
+<div class="col-sm-12 col-md-5 col-lg-7">
+@Html.TextBoxFor(m => m.SearchText, new { @class = "form-control" })
+@Html.ValidationMessageFor(m => m.SearchText)
+</div>
+<div class="col-sm-12 col-md-3 col-lg-2">
+<input class="btn btn-primary" id="btnSearch" type="submit" value="@Localizer[nameof(Languages.LanguageStrings.Search)]" />
+</div>
+</div>

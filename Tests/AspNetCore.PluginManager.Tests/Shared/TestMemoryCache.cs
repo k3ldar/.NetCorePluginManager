@@ -58,7 +58,7 @@ namespace AspNetCore.PluginManager.Tests.Shared
 
             _cacheShort = CreateCache(Constants.CacheNameShort);
 
-            _cacheShort = CreateCache(Constants.CacheNameExtending);
+            _extendingCache = CreateCache(Constants.CacheNameExtending);
 
             _permanentCache = CreateCache(Constants.CacheNamePermanent);
         }

@@ -1,51 +1,43 @@
 ﻿@model DynamicContent.Plugin.Model.FormTemplateEditorModel
 @inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
 @{
-    string optionValue = String.Empty;
-
-    foreach (string option in Model.Options)
-    {
-        optionValue += $"{option.Trim()}\n";
-    }
-
+string optionValue = String.Empty;
+foreach (string option in Model.Options)
+{
+optionValue += $"{option.Trim()}\n";
+}
 }
 <div class="tab-content" id="nav-tabContent" style="margin: 5px;">
-    @Html.HiddenFor(m => m.Data)
-    <div class="form-group">
-        @Html.LabelFor(m => m.ControlName)
-        <input id="ControlName" name="ControlName" type="text" style="width:60%;float:right;" class="form-control" value="@Model.ControlName" onclick="updateFC();" onfocusout="updateFC();">
-    </div>
-
-    <div class="form-group">
-        @Html.LabelFor(m => m.ControlStyle)
-        <input id="ControlStyle" name="ControlStyle" type="text" style="width:60%;float:right;" class="form-control" value="@Model.ControlStyle" onclick="updateFC();" onfocusout="updateFC();">
-    </div>
-
-    <div class="form-group">
-        <label for="LabelText">@Localizer[Languages.LanguageStrings.OptionsOnePerLine]</label><br />
-        <textarea id="LabelText" name="LabelText" rows="5" class="form-control" onclick="updateFC();" onfocusout="updateFC();">
-            @optionValue.Trim()
-        </textarea>
-    </div>
-
-    <div class="form-group">
-        <label for="LabelStyle">@Localizer[Languages.LanguageStrings.OptionStyle]</label>
-        <input id="LabelStyle" name="LabelStyle" type="text" style="width:60%;float:right;" class="form-control" value="@Model.LabelStyle" onclick="updateFC();" onfocusout="updateFC();">
-    </div>
+@Html.HiddenFor(m => m.Data)
+<div class="form-group">
+@Html.LabelFor(m => m.ControlName)
+<input id="ControlName" name="ControlName" type="text" style="width:60%;float:right;" class="form-control" value="@Model.ControlName" onclick="updateFC();" onfocusout="updateFC();">
 </div>
-
+<div class="form-group">
+@Html.LabelFor(m => m.ControlStyle)
+<input id="ControlStyle" name="ControlStyle" type="text" style="width:60%;float:right;" class="form-control" value="@Model.ControlStyle" onclick="updateFC();" onfocusout="updateFC();">
+</div>
+<div class="form-group">
+<label for="LabelText">@Localizer[Languages.LanguageStrings.OptionsOnePerLine]</label><br />
+<textarea id="LabelText" name="LabelText" rows="5" class="form-control" onclick="updateFC();" onfocusout="updateFC();">
+@optionValue.Trim()
+</textarea>
+</div>
+<div class="form-group">
+<label for="LabelStyle">@Localizer[Languages.LanguageStrings.OptionStyle]</label>
+<input id="LabelStyle" name="LabelStyle" type="text" style="width:60%;float:right;" class="form-control" value="@Model.LabelStyle" onclick="updateFC();" onfocusout="updateFC();">
+</div>
+</div>
 <script type="text/javascript">
-
-    $(document).ready(function () {
-        updateFC();
-    });
-
-    function updateFC() {
-        var vlStyle = document.getElementById('@nameof(Model.LabelStyle)');
-        var vName = document.getElementById('@nameof(Model.ControlName)');
-        var vcStyle = document.getElementById('@nameof(Model.ControlStyle)');
-        var vLblText = document.getElementById('@nameof(Model.LabelText)');
-        var vData = document.getElementById('@nameof(Model.Data)');
-        vData.value = vName.value + '|||' + vlStyle.value + '|' + vcStyle.value + '|' + vLblText.value.replace(/\n/g, ';');
-    };
+$(document).ready(function () {
+updateFC();
+});
+function updateFC() {
+var vlStyle = document.getElementById('@nameof(Model.LabelStyle)');
+var vName = document.getElementById('@nameof(Model.ControlName)');
+var vcStyle = document.getElementById('@nameof(Model.ControlStyle)');
+var vLblText = document.getElementById('@nameof(Model.LabelText)');
+var vData = document.getElementById('@nameof(Model.Data)');
+vData.value = vName.value + '|||' + vlStyle.value + '|' + vcStyle.value + '|' + vLblText.value.replace(/\n/g, ';');
+};
 </script>

@@ -100,10 +100,6 @@ namespace ImageManager.Plugin
                         .RequireClaim(Constants.ClaimNameUserEmail));
             });
 
-            ServiceProvider serviceProvider = services.BuildServiceProvider();
-            ISettingsProvider settingsProvider = serviceProvider.GetService<ISettingsProvider>();
-            IHostEnvironment hostEnvironment = serviceProvider.GetService<IHostEnvironment>();
-
             services.TryAddSingleton<IImageProvider, DefaultImageProvider>();
         }
 

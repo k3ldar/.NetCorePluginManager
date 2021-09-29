@@ -68,7 +68,13 @@
     <DocumentationFile>..\..\Docs\XmlFiles\SystemAdmin.Plugin.xml</DocumentationFile>
   </PropertyGroup>
 
-  <ItemGroup>
+	<ItemGroup>
+		<AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
+			<_Parameter1>AspNetCore.PluginManager.Tests</_Parameter1>
+		</AssemblyAttribute>
+	</ItemGroup>
+
+	<ItemGroup>
     <Content Remove="Views\Shared\_UpdatePageSeoDlg.cshtml" />
     <Content Remove="Views\Shared\_UserSearch.cshtml" />
     <Content Remove="Views\SystemAdmin\Chart.cshtml" />

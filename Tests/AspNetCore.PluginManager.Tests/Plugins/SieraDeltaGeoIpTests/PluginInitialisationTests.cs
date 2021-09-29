@@ -24,6 +24,7 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 
 using AspNetCore.PluginManager.Tests.Shared;
@@ -83,6 +84,10 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SieraDeltaGeoIpTests
         {
             TestApplicationBuilder testApplicationBuilder = new TestApplicationBuilder();
             PluginInitialisation sut = new PluginInitialisation();
+
+            Dictionary<Type, object> registeredServices = new Dictionary<Type, object>();
+            registeredServices.Add(typeof(INotificationService), new TestNotificationService());
+            testApplicationBuilder.ApplicationServices = new TestServiceProvider(registeredServices);
 
             sut.AfterConfigure(testApplicationBuilder);
 
@@ -162,18 +167,6 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SieraDeltaGeoIpTests
 
             Assert.AreEqual(1, mockServiceCollection.ServicesRegistered);
             Assert.IsTrue(mockServiceCollection.HasServiceRegistered<IGeoIpProvider>(ServiceLifetime.Singleton));
-        }
-
-        [TestMethod]
-        [TestCategory(TestsCategory)]
-        [ExpectedException(typeof(ArgumentNullException))]
-        public void AfterConfigureServices_InvalidParam_Services_Null_Throws_ArgumentNullException()
-        {
-            TestApplicationBuilder testApplicationBuilder = new TestApplicationBuilder();
-            PluginInitialisation sut = new PluginInitialisation();
-            MockServiceCollection mockServiceCollection = new MockServiceCollection();
-
-            sut.AfterConfigureServices(null);
         }
     }
 }

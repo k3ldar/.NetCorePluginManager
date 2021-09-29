@@ -25,19 +25,18 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Diagnostics.CodeAnalysis;
 
 using SharedPluginFeatures;
 
 namespace AspNetCore.PluginManager.Tests.Shared
 {
+    [ExcludeFromCodeCoverage]
     class TestSitemapProviderWithDomain : ISitemapProvider
     {
         public List<SitemapItem> Items()
         {
-            List<SitemapItem> Result =  new List<SitemapItem>();
+            List<SitemapItem> Result = new List<SitemapItem>();
 
             for (int i = 0; i < 30000; i++)
             {

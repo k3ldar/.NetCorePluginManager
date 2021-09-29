@@ -36,7 +36,7 @@ using SharedPluginFeatures;
 
 namespace SystemAdmin.Plugin.Classes
 {
-    public class GCAnalysis : ThreadManager
+    public sealed class GCAnalysis : ThreadManager
     {
         #region Private Members
 

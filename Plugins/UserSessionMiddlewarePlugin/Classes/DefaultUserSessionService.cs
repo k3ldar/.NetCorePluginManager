@@ -368,6 +368,9 @@ namespace UserSessionMiddleware.Plugin.Classes
                 }
             }
 
+            if (Result == null)
+                return new List<SessionUserAgent>();
+
             return Result.OrderBy(o => o.IsBot).ThenByDescending(d => d.Count).ToList();
         }
 

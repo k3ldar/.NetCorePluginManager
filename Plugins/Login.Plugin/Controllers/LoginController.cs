@@ -328,15 +328,13 @@ namespace LoginPlugin.Controllers
             {
                 if (err.Message.Contains("Specified method is not supported."))
                     return StatusCode(Constants.HtmlResponseMethodFailure);
-                    
+
                 throw;
             }
             finally
             {
                 ci.Dispose();
             }
-
-            return StatusCode(400);
         }
 
         #endregion Public Action Methods

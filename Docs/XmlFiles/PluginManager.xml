@@ -50,12 +50,6 @@
             </summary>
             <value>IServiceProvider</value>
         </member>
-        <member name="M:PluginManager.BasePluginManager.SetServiceConfigurator(PluginManager.Abstractions.IServiceConfigurator@)">
-            <summary>
-            Sets the IServiceConfigurator instance which will be called after service configurtion 
-            is completed by the host and all plugins.
-            </summary>
-        </member>
         <member name="P:PluginManager.BasePluginManager.RegisteredStartupThreads">
             <summary>
             Lists threads that will automatically be run after load up is complete.
@@ -110,9 +104,15 @@
             </summary>
             <param name="resourceName">string name of the resource to be extracted.</param>
         </member>
-        <member name="M:PluginManager.BasePluginManager.ServiceConfigurationComplete(System.IServiceProvider@)">
+        <member name="M:PluginManager.BasePluginManager.ServiceConfigurationComplete(Microsoft.Extensions.DependencyInjection.IServiceCollection@)">
             <summary>
             Indicates that configuration of the IServiceCollection is now complete
+            </summary>
+        </member>
+        <member name="M:PluginManager.BasePluginManager.SetServiceConfigurator(PluginManager.Abstractions.IServiceConfigurator@)">
+            <summary>
+            Sets the IServiceConfigurator instance which will be called after service configurtion 
+            is completed by the host and all plugins.
             </summary>
         </member>
         <member name="M:PluginManager.BasePluginManager.AddPluginModule(System.String@,PluginManager.Abstractions.IPluginModule)">
@@ -158,7 +158,7 @@
             <summary>
             Provides an opportunity for plugins to configure services that can be used in IOC, this method creates 
             a custom IServiceCollection class and should only be used where the host does not natively include
-            it's own IServiceCollection
+            it's own IServiceCollection.  i.e. unit test environment
             </summary>
         </member>
         <member name="M:PluginManager.BasePluginManager.PluginGetTypesWithAttribute``1">
@@ -471,6 +471,20 @@
             <summary>
             The module was already loaded as a plugin module within the PluginManager.
             </summary>
+        </member>
+        <member name="T:PluginManager.ServiceCollectionHelper">
+            <summary>
+            IServiceCollection helper method which allows the retrieval of a class instance prior to the 
+            Service Provider being built
+            </summary>
+        </member>
+        <member name="M:PluginManager.ServiceCollectionHelper.GetServiceInstance``1(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            Retrieves an instance of a class from within an IServiceCollection
+            </summary>
+            <typeparam name="T">Type of class instance being sought</typeparam>
+            <param name="serviceCollection"></param>
+            <returns>Instance of type T if found within the service collection, otherwise null</returns>
         </member>
         <member name="T:PluginManager.Abstractions.ILoadSettingsService">
             <summary>

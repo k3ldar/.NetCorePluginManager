@@ -53,6 +53,12 @@ namespace AspNetCore.PluginManager.Tests.Plugins.MemoryCacheTests
             ICacheManagerFactory cacheManagerFactory = new CacheManagerFactory();
             cacheManagerFactory.ClearAllCaches();
 
+            cacheManagerFactory.RemoveCache("DefaultImageProvider");
+            //cacheManagerFactory.RemoveCache("");
+            //cacheManagerFactory.RemoveCache("");
+            //cacheManagerFactory.RemoveCache("");
+
+
             DefaultMemoryCache defaultMemoryCache = new DefaultMemoryCache(new TestSettingsProvider("{}"));
             defaultMemoryCache.RemoveAllCaches();
             CacheManager.RemoveCacheManager("Login Cache");

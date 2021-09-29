@@ -81,7 +81,9 @@ namespace SieraDeltaGeoIp.Plugin
 
         public void AfterConfigure(in IApplicationBuilder app)
         {
-
+            INotificationService notificationService = app.ApplicationServices.GetRequiredService<INotificationService>();
+            GeoIpStatistics = new GeoIpStatistics();
+            notificationService.RegisterListener(GeoIpStatistics);
         }
 
         public void BeforeConfigureServices(in IServiceCollection services)
@@ -91,11 +93,6 @@ namespace SieraDeltaGeoIp.Plugin
 
         public void AfterConfigureServices(in IServiceCollection services)
         {
-            ServiceProvider serviceProvider = services.BuildServiceProvider();
-
-            INotificationService notificationService = serviceProvider.GetRequiredService<INotificationService>();
-            GeoIpStatistics = new GeoIpStatistics();
-            notificationService.RegisterListener(GeoIpStatistics);
         }
 
         public void Configure(in IApplicationBuilder app)

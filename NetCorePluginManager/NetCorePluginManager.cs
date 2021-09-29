@@ -144,11 +144,11 @@ namespace AspNetCore.PluginManager
                 initialiseEvents.BeforeConfigureServices(serviceProvider);
         }
 
-        protected override void ServiceConfigurationComplete(in IServiceProvider serviceProvider)
+        protected override void ServiceConfigurationComplete(in IServiceCollection serviceCollection)
         {
             if (_netCorePluginSettings.MinifyFiles)
             {
-                MinifyFilesIfRequired(serviceProvider);
+                MinifyFilesIfRequired(serviceCollection);
             }
         }
 
@@ -162,6 +162,8 @@ namespace AspNetCore.PluginManager
         /// <param name="app"></param>
         internal void Configure(in IApplicationBuilder app)
         {
+            ServiceProvider = app.ApplicationServices;
+
             if (_netCorePluginSettings.MonitorRouteLoadTimes)
             {
                 app.UseRouteLoadTimes();
@@ -181,13 +183,16 @@ namespace AspNetCore.PluginManager
 
         #region Private Methods
 
-        private void MinifyFilesIfRequired(in IServiceProvider services)
+        private void MinifyFilesIfRequired(in IServiceCollection serviceCollection)
         {
-            ILogger logger = services.GetRequiredService<ILogger>();
-            IMinificationEngine minifyEngine = services.GetRequiredService<IMinificationEngine>();
-            INotificationService notificationService = services.GetRequiredService<INotificationService>();
-            object files = new object();
+            ILogger logger = serviceCollection.GetServiceInstance<ILogger>();
+            IMinificationEngine minifyEngine = serviceCollection.GetServiceInstance<IMinificationEngine>();
+            INotificationService notificationService = serviceCollection.GetServiceInstance<INotificationService>();
 
+            if (logger == null || minifyEngine == null || notificationService == null)
+                return;
+
+            object files = new object();
 
             if (notificationService.RaiseEvent(Constants.NotificationEventMinifyFiles, null, null, ref files))
             {

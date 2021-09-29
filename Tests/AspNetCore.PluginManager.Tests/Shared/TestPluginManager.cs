@@ -129,7 +129,7 @@ namespace AspNetCore.PluginManager.Tests
                 initialiseEvents.BeforeConfigureServices(serviceProvider);
         }
 
-        protected override void ServiceConfigurationComplete(in IServiceProvider serviceProvider)
+        protected override void ServiceConfigurationComplete(in IServiceCollection serviceCollection)
         {
 
         }

@@ -77,7 +77,7 @@ namespace PluginManager.Tests.Mocks
 
             if (!Result)
             {
-                Result = _serviceDescriptors.Where(sd => sd.Lifetime.Equals(serviceLifetime) && sd.ServiceType != null && sd.ServiceType.Equals(typeof(T))).Any();
+                Result = _serviceDescriptors.Where(sd => sd.Lifetime.Equals(serviceLifetime) && sd.ServiceType != null && GetNameWithoutGenericArity(sd.ServiceType).Equals(GetNameWithoutGenericArity(typeof(T)))).Any();
             }
 
             return Result;
@@ -241,5 +241,16 @@ namespace PluginManager.Tests.Mocks
         }
 
         #endregion IServiceCollection
+
+        #region Private Methods
+
+        private string GetNameWithoutGenericArity(Type t)
+        {
+            string name = t.Name;
+            int index = name.IndexOf('`');
+            return index == -1 ? name : name.Substring(0, index);
+        }
+
+        #endregion Private Methods
     }
 }

@@ -36,6 +36,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using PluginManager.Abstractions;
 using PluginManager.Tests.Mocks;
 
+using Shared.Abstractions;
 using Shared.Classes;
 
 using SharedPluginFeatures;
@@ -101,6 +102,66 @@ namespace AspNetCore.PluginManager.Tests.Plugins.MemoryCacheTests
 
             Assert.AreEqual(1, mockServiceCollection.ServicesRegistered);
             Assert.IsTrue(mockServiceCollection.HasServiceRegistered<IMemoryCache>(ServiceLifetime.Singleton));
+        }
+
+        [TestMethod]
+        [TestCategory(TestsCategory)]
+        public void Configure_InvalidParam_Null_DoesNotThrowException()
+        {
+            PluginInitialisation sut = new PluginInitialisation();
+
+            sut.Configure(null);
+        }
+
+        [TestMethod]
+        [TestCategory(TestsCategory)]
+        public void BeforeConfigure_InvalidParam_Null_DoesNotThrowException()
+        {
+            PluginInitialisation sut = new PluginInitialisation();
+
+            sut.BeforeConfigure(null);
+        }
+
+        [TestMethod]
+        [TestCategory(TestsCategory)]
+        public void AfterConfigure_InvalidParam_Null_DoesNotThrowException()
+        {
+            PluginInitialisation sut = new PluginInitialisation();
+
+            sut.AfterConfigure(null);
+        }
+
+        [TestMethod]
+        [TestCategory(TestsCategory)]
+        public void AfterConfigureServices_InvalidParam_Null_DoesNotThrowException()
+        {
+            PluginInitialisation sut = new PluginInitialisation();
+
+            sut.AfterConfigureServices(null);
+        }
+
+        [TestMethod]
+        [TestCategory(TestsCategory)]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void BeforeConfigureServices_InvalidParam_Null_Throws_ArgumentNullException()
+        {
+            PluginInitialisation sut = new PluginInitialisation();
+
+            sut.BeforeConfigureServices(null);
+        }
+
+        [TestMethod]
+        [TestCategory(TestsCategory)]
+        public void BeforeConfigureServices_Registers_ICacheManagerFactory_Successfully()
+        {
+            PluginInitialisation sut = new PluginInitialisation();
+            MockServiceCollection mockServiceCollection = new MockServiceCollection();
+
+            sut.BeforeConfigureServices(mockServiceCollection);
+
+            Assert.AreEqual(1, mockServiceCollection.ServicesRegistered);
+            Assert.IsTrue(mockServiceCollection.HasServiceRegistered<ICacheManagerFactory>(ServiceLifetime.Scoped));
+
         }
     }
 }

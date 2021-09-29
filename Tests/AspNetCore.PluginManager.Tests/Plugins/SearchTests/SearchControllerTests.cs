@@ -40,6 +40,8 @@ using PluginManager.Abstractions;
 using SearchPlugin.Controllers;
 using SearchPlugin.Models;
 
+using Shared.Classes;
+
 using pm = PluginManager.Internal;
 
 namespace AspNetCore.PluginManager.Tests.Plugins.SearchTests
@@ -51,21 +53,15 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SearchTests
         [TestInitialize]
         public void InitializeSearchTests()
         {
+            ThreadManager.Initialise();
             InitializeDocumentationPluginManager();
         }
 
-        //[TestMethod]
-        //public void CreateQuickSearchViewModelValidModelData()
-        //{
-        //    using (BaseControllerWrapper baseController = new BaseControllerWrapper())
-        //    {
-        //        BaseModelData modelData = new BaseModelData(null, baseController.TestGetShoppingCartSummary(),
-        //            String.Empty, String.Empty, String.Empty, String.Empty, false);
-        //        QuickSearchViewModel viewModel = new QuickSearchViewModel(modelData);
-
-        //        Assert.IsNotNull(viewModel);
-        //    }
-        //}
+        [TestCleanup]
+        public void FinaliseSearchTests()
+        {
+            ThreadManager.Finalise();
+        }
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]

@@ -74,7 +74,12 @@ namespace ProductPlugin
 
         public void AfterConfigure(in IApplicationBuilder app)
         {
+            INotificationService notificationService = app.ApplicationServices.GetService<INotificationService>();
+            IImageProvider imageProvider = app.ApplicationServices.GetService<IImageProvider>();
+            ISettingsProvider settingsProvider = app.ApplicationServices.GetService<ISettingsProvider>();
 
+            if (imageProvider != null)
+                notificationService.RegisterListener(new ImageUploadNotificationListener(imageProvider, settingsProvider));
         }
 
         public void AfterConfigureServices(in IServiceCollection services)
@@ -82,13 +87,6 @@ namespace ProductPlugin
             if (services == null)
                 throw new ArgumentNullException(nameof(services));
 
-            ServiceProvider serviceProvider = services.BuildServiceProvider();
-            INotificationService notificationService = serviceProvider.GetService<INotificationService>();
-            IImageProvider imageProvider = serviceProvider.GetService<IImageProvider>();
-            ISettingsProvider settingsProvider = serviceProvider.GetService<ISettingsProvider>();
-
-            if (imageProvider != null)
-                notificationService.RegisterListener(new ImageUploadNotificationListener(imageProvider, settingsProvider));
         }
 
         public void BeforeConfigure(in IApplicationBuilder app)

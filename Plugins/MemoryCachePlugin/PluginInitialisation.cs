@@ -91,6 +91,9 @@ namespace MemoryCache.Plugin
 
         public void BeforeConfigureServices(in IServiceCollection services)
         {
+            if (services == null)
+                throw new ArgumentNullException(nameof(services));
+
             services.AddScoped<ICacheManagerFactory, CacheManagerFactory>();
         }
 

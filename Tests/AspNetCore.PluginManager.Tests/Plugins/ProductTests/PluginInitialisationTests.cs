@@ -41,6 +41,7 @@ using Middleware.Interfaces;
 using AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests.Mocks;
 using PluginManager.Internal;
 using System;
+using System.Collections.Generic;
 
 namespace AspNetCore.PluginManager.Tests.Plugins.ProductTests
 {
@@ -89,6 +90,12 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ProductTests
         {
             TestApplicationBuilder testApplicationBuilder = new TestApplicationBuilder();
             PluginInitialisation sut = new PluginInitialisation();
+
+            Dictionary<Type, object> registeredServices = new Dictionary<Type, object>();
+            registeredServices.Add(typeof(INotificationService), new TestNotificationService());
+            registeredServices.Add(typeof(IImageProvider), new MockImageProvider());
+            registeredServices.Add(typeof(ISettingsProvider), new TestSettingsProvider("{}"));
+            testApplicationBuilder.ApplicationServices = new TestServiceProvider(registeredServices);
 
             sut.AfterConfigure(testApplicationBuilder);
 
@@ -171,22 +178,21 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ProductTests
         [TestCategory(TestCategoryName)]
         public void ConfigureServices_RegistersImageUploadNotificationListener_Success()
         {
-            ServiceDescriptor[] serviceDescriptors = new ServiceDescriptor[]
-            {
-                new ServiceDescriptor(typeof(INotificationService), new NotificationService()),
-                new ServiceDescriptor(typeof(IImageProvider), new MockImageProvider()),
-                new ServiceDescriptor(typeof(ISettingsProvider), new TestSettingsProvider("{}")),
-            };
-
             TestApplicationBuilder testApplicationBuilder = new TestApplicationBuilder();
             PluginInitialisation sut = new PluginInitialisation();
-            MockServiceCollection mockServiceCollection = new MockServiceCollection(serviceDescriptors);
+            TestNotificationService testNotificationService = new TestNotificationService();
 
-            sut.AfterConfigureServices(mockServiceCollection);
+            Dictionary<Type, object> registeredServices = new Dictionary<Type, object>();
+            registeredServices.Add(typeof(INotificationService), testNotificationService);
+            registeredServices.Add(typeof(IImageProvider), new MockImageProvider());
+            registeredServices.Add(typeof(ISettingsProvider), new TestSettingsProvider("{}"));
+            testApplicationBuilder.ApplicationServices = new TestServiceProvider(registeredServices);
 
-            Assert.IsTrue(mockServiceCollection.HasListenerRegistered<ImageUploadNotificationListener>());
-            Assert.IsTrue(mockServiceCollection.HasListenerRegisteredEvent<ImageUploadNotificationListener>("ImageUploadedEvent"));
-            Assert.IsTrue(mockServiceCollection.HasListenerRegisteredEvent<ImageUploadNotificationListener>("ImageUploadOptions"));
+
+            sut.AfterConfigure(testApplicationBuilder);
+
+            Assert.AreEqual(1, testNotificationService.RegisteredListeners.Count);
+            Assert.IsInstanceOfType(testNotificationService.RegisteredListeners[0], typeof(ImageUploadNotificationListener));
         }
 
         [TestMethod]

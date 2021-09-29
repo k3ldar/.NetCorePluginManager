@@ -2,110 +2,102 @@
 @inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
 <link rel="stylesheet" href="~/css/imageManager.css" />
 <script src="/js/ImageManager.js"></script>
-
 <div class="row">
-    <div class="col-sm-12">
-        <h1>@Localizer[nameof(Languages.LanguageStrings.ImageManager)]</h1>
-    </div>
+<div class="col-sm-12">
+<h1>@Localizer[nameof(Languages.LanguageStrings.ImageManager)]</h1>
 </div>
-
+</div>
 <div class="modal fade" id="deleteDialog" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="searchModalLabel">@Localizer[nameof(Languages.LanguageStrings.DeleteImage)]</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            @using (Html.BeginForm(nameof(ImageManager.Plugin.Controllers.ImageManagerController.DeleteImage), ImageManager.Plugin.Controllers.ImageManagerController.Name, FormMethod.Post, new { id = "frmDeleteImage" }))
-            {
-                @Html.Hidden(nameof(ImageManager.Plugin.Models.DeleteImageModel.ImageName), Model.SelectedImageFile.Name)
-                @Html.Hidden(nameof(ImageManager.Plugin.Models.DeleteImageModel.GroupName), Model.SelectedGroupName)
-                @Html.Hidden(nameof(ImageManager.Plugin.Models.DeleteImageModel.SubgroupName), Model.SelectedSubgroupName)
-                @Html.Hidden(nameof(ImageManager.Plugin.Models.DeleteImageModel.ConfirmDelete), Model.SelectedSubgroupName)
-                <div class="modal-body">
-                    <div>
-                        <p id="errorMessage" style="color:red;">@Localizer[nameof(Languages.LanguageStrings.ErrorDeletingItem)]</p>
-                    </div>
-                    @Html.Label("lblConfirm", Languages.LanguageStrings.DeleteImageConfirm, new { @class = "col-form-label" })
-                    <div class="form-group">
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="idConfirmDelete">
-                            <label class="form-check-label" for="idConfirmDelete">
-                                @Localizer[nameof(Languages.LanguageStrings.ConfirmDelete)]
-                            </label>
-                        </div>
-                        <p id="confirmDeleteValidation" style="color:red;">@Localizer[nameof(Languages.LanguageStrings.ConfirmDeleteCheckbox)]</p>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">@Localizer[nameof(Languages.LanguageStrings.Cancel)]</button>
-                    <button type="button" class="btn btn-primary" id="btnDelete">@Localizer[nameof(Languages.LanguageStrings.Delete)]</button>
-                </div>
-            }
-        </div>
-    </div>
+<div class="modal-dialog" role="document">
+<div class="modal-content">
+<div class="modal-header">
+<h5 class="modal-title" id="searchModalLabel">@Localizer[nameof(Languages.LanguageStrings.DeleteImage)]</h5>
+<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+<span aria-hidden="true">&times;</span>
+</button>
 </div>
-
+@using (Html.BeginForm(nameof(ImageManager.Plugin.Controllers.ImageManagerController.DeleteImage), ImageManager.Plugin.Controllers.ImageManagerController.Name, FormMethod.Post, new { id = "frmDeleteImage" }))
+{
+@Html.Hidden(nameof(ImageManager.Plugin.Models.DeleteImageModel.ImageName), Model.SelectedImageFile.Name)
+@Html.Hidden(nameof(ImageManager.Plugin.Models.DeleteImageModel.GroupName), Model.SelectedGroupName)
+@Html.Hidden(nameof(ImageManager.Plugin.Models.DeleteImageModel.SubgroupName), Model.SelectedSubgroupName)
+@Html.Hidden(nameof(ImageManager.Plugin.Models.DeleteImageModel.ConfirmDelete), Model.SelectedSubgroupName)
+<div class="modal-body">
+<div>
+<p id="errorMessage" style="color:red;">@Localizer[nameof(Languages.LanguageStrings.ErrorDeletingItem)]</p>
+</div>
+@Html.Label("lblConfirm", Languages.LanguageStrings.DeleteImageConfirm, new { @class = "col-form-label" })
+<div class="form-group">
+<div class="form-check">
+<input class="form-check-input" type="checkbox" id="idConfirmDelete">
+<label class="form-check-label" for="idConfirmDelete">
+@Localizer[nameof(Languages.LanguageStrings.ConfirmDelete)]
+</label>
+</div>
+<p id="confirmDeleteValidation" style="color:red;">@Localizer[nameof(Languages.LanguageStrings.ConfirmDeleteCheckbox)]</p>
+</div>
+</div>
+<div class="modal-footer">
+<button type="button" class="btn btn-secondary" data-dismiss="modal">@Localizer[nameof(Languages.LanguageStrings.Cancel)]</button>
+<button type="button" class="btn btn-primary" id="btnDelete">@Localizer[nameof(Languages.LanguageStrings.Delete)]</button>
+</div>
+}
+</div>
+</div>
+</div>
 <div class="row">
-    <div class="col-sm-2">
-        @await Html.PartialAsync("_LeftMenu.cshtml")
-    </div>
-    <div class="col-sm-10 mainContent">
-        <nav style="margin: 0 5px 0 5px;">
-            <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                <a class="nav-item nav-link active" id="nav-images-tab" data-toggle="tab" href="#nav-images" role="tab" aria-controls="nav-images" aria-selected="true">@Localizer[nameof(Languages.LanguageStrings.Image)]</a>
-            </div>
-        </nav>
-        <div class="tab-content" id="nav-tabContent" style="margin: 5px;">
-            <div class="tab-pane fade show active" id="nav-images" role="tabpanel" aria-labelledby="nav-images-tab">
-                @if (Model.SelectedImageFile != null)
-                {
-                    <div class="row">
-                        <div class="col-sm-4">
-                            <div class="imageProperties">
-                                <p><span>Name:</span>@Model.SelectedImageFile.Name</p>
-                                <p><span>Extension:</span>@Model.SelectedImageFile.FileExtension</p>
-                                <p><span>Size:</span>@Shared.Utilities.FileSize(Model.SelectedImageFile.Size, 2)</p>
-                                <p><span>Created:</span>@Model.SelectedImageFile.CreateDate</p>
-                                <p><span>Modified:</span>@Model.SelectedImageFile.ModifiedDate</p>
-                            </div>
-
-                            @if (Model.CanManageImages)
-                            {
-                                <div class="imageActions">
-                                    <button type="button" class="btn btn-primary" id="btnShowDelete">
-                                        @Localizer[nameof(Languages.LanguageStrings.Delete)]
-                                    </button>
-                                </div>
-                            }
-                        </div>
-                        <div class="col-sm-8 imageViewItem">
-                            <div class="imageViewBox">
-                                <img src="@Model.SelectedImageFile.ImageUri.ToString()" alt="@Model.SelectedImageFile.Name" class="viewImageItem" />
-                            </div>
-                        </div>
-                    </div>
-                }
-            </div>
-        </div>
-    </div>
+<div class="col-sm-2">
+@await Html.PartialAsync("_LeftMenu.cshtml")
 </div>
-
-
-
+<div class="col-sm-10 mainContent">
+<nav style="margin: 0 5px 0 5px;">
+<div class="nav nav-tabs" id="nav-tab" role="tablist">
+<a class="nav-item nav-link active" id="nav-images-tab" data-toggle="tab" href="#nav-images" role="tab" aria-controls="nav-images" aria-selected="true">@Localizer[nameof(Languages.LanguageStrings.Image)]</a>
+</div>
+</nav>
+<div class="tab-content" id="nav-tabContent" style="margin: 5px;">
+<div class="tab-pane fade show active" id="nav-images" role="tabpanel" aria-labelledby="nav-images-tab">
+@if (Model.SelectedImageFile != null)
+{
+<div class="row">
+<div class="col-sm-4">
+<div class="imageProperties">
+<p><span>Name:</span>@Model.SelectedImageFile.Name</p>
+<p><span>Extension:</span>@Model.SelectedImageFile.FileExtension</p>
+<p><span>Size:</span>@Shared.Utilities.FileSize(Model.SelectedImageFile.Size, 2)</p>
+<p><span>Created:</span>@Model.SelectedImageFile.CreateDate</p>
+<p><span>Modified:</span>@Model.SelectedImageFile.ModifiedDate</p>
+</div>
+@if (Model.CanManageImages)
+{
+<div class="imageActions">
+<button type="button" class="btn btn-primary" id="btnShowDelete">
+@Localizer[nameof(Languages.LanguageStrings.Delete)]
+</button>
+</div>
+}
+</div>
+<div class="col-sm-8 imageViewItem">
+<div class="imageViewBox">
+<img src="@Model.SelectedImageFile.ImageUri.ToString()" alt="@Model.SelectedImageFile.Name" class="viewImageItem" />
+</div>
+</div>
+</div>
+}
+</div>
+</div>
+</div>
+</div>
 <script type="text/javascript">
-    var options = {
-        submitButton: '#btnDelete',
-        showDeleteButton: '#btnShowDelete',
-        submitForm: 'frmDeleteImage',
-        confirmDeleteId: '#idConfirmDelete',
-        confirmMessage: '#confirmDeleteValidation',
-        deleteImageDialog: '#deleteDialog',
-        errorId: '#errorMessage',
-        type: 'delete',
-    };
-
-    imageManager.init(options);
+var options = {
+submitButton: '#btnDelete',
+showDeleteButton: '#btnShowDelete',
+submitForm: 'frmDeleteImage',
+confirmDeleteId: '#idConfirmDelete',
+confirmMessage: '#confirmDeleteValidation',
+deleteImageDialog: '#deleteDialog',
+errorId: '#errorMessage',
+type: 'delete',
+};
+imageManager.init(options);
 </script>

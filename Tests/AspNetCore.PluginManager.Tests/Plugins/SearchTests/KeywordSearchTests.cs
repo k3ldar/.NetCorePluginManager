@@ -36,6 +36,8 @@ using Middleware.Search;
 
 using PluginManager.Abstractions;
 
+using Shared.Classes;
+
 using SharedPluginFeatures;
 
 using static SharedPluginFeatures.Constants;
@@ -56,6 +58,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SearchTests
         [TestInitialize]
         public void InitializeDocumentationLoadTest()
         {
+            ThreadManager.Initialise();
             InitializeDocumentationPluginManager();
         }
 

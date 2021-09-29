@@ -64,6 +64,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SmokeTestTests
         [TestInitialize]
         public void InitialiseSmokeTestPluginManager()
         {
+            ThreadManager.Initialise();
             ICacheManagerFactory cacheManagerFactory = new CacheManagerFactory();
             cacheManagerFactory.ClearAllCaches();
             InitializeSmokeTestPluginManager();

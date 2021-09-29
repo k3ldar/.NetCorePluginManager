@@ -36,6 +36,8 @@ using PluginManager.Abstractions;
 
 using SearchPlugin.Classes.Search;
 
+using Shared.Classes;
+
 using SharedPluginFeatures;
 
 using pm = PluginManager.Internal;
@@ -50,7 +52,14 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SearchTests
         public void InitializeSearchTests()
         {
             //InitializeSearchPluginManager();
+            ThreadManager.Initialise();
             InitializeDocumentationPluginManager();
+        }
+
+        [TestCleanup]
+        public void FinalizeSearchTests()
+        {
+            ThreadManager.Finalise();
         }
 
         [TestMethod]

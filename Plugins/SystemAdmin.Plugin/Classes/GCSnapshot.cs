@@ -40,10 +40,10 @@ namespace SystemAdmin.Plugin.Classes
             MemorySaved = memorySaved;
         }
 
-        internal DateTime TimeStarted { get; private set; }
+        internal DateTime TimeStarted { get; }
 
-        internal double TimeTaken { get; private set; }
+        internal double TimeTaken { get; }
 
-        internal long MemorySaved { get; private set; }
+        internal long MemorySaved { get; }
     }
 }

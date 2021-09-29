@@ -36,6 +36,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Localization;
 
+using PluginManager;
 using PluginManager.Abstractions;
 
 using Shared.Classes;
@@ -77,9 +78,7 @@ namespace Localization.Plugin
             services.AddSingleton<ICultureProvider, CultureProvider>();
             services.AddSingleton<IStringLocalizerFactory, StringLocalizerFactory>();
 
-            IServiceProvider serviceProvider = services.BuildServiceProvider();
-
-            IHostEnvironment environment = serviceProvider.GetRequiredService<IHostEnvironment>();
+            IHostEnvironment environment = services.GetServiceInstance<IHostEnvironment>();
 
             InstalledCultures = LanguageWrapper.GetInstalledLanguages(environment.ContentRootPath);
 

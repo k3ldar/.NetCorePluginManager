@@ -42,12 +42,6 @@ namespace RestrictIp.Plugin
     /// </summary>
     public sealed class PluginInitialisation : IPlugin, IInitialiseEvents
     {
-        #region Internal Static Properties
-
-        internal static IServiceProvider GetServiceProvider { get; private set; }
-
-        #endregion Internal Static Properties
-
         #region IPlugin Methods
 
         public void Initialise(ILogger logger)
@@ -62,7 +56,7 @@ namespace RestrictIp.Plugin
 
         public void ConfigureServices(IServiceCollection services)
         {
-            GetServiceProvider = services.BuildServiceProvider();
+
         }
 
         public ushort GetVersion()

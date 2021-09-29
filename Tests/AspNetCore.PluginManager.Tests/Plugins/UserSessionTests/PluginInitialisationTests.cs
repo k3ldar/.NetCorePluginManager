@@ -24,6 +24,7 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 
 using AspNetCore.PluginManager.Tests.Shared;
@@ -33,6 +34,8 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using PluginManager.Abstractions;
 using PluginManager.Tests.Mocks;
+
+using Shared.Classes;
 
 using SharedPluginFeatures;
 
@@ -81,12 +84,24 @@ namespace AspNetCore.PluginManager.Tests.Plugins.UserSessionMiddlewareTests
         [TestCategory(TestsCategory)]
         public void AfterConfigure_DoesNotConfigurePipeline_Success()
         {
-            TestApplicationBuilder testApplicationBuilder = new TestApplicationBuilder();
-            PluginInitialisation sut = new PluginInitialisation();
+            ThreadManager.Initialise();
+            try
+            {
+                TestApplicationBuilder testApplicationBuilder = new TestApplicationBuilder();
+                PluginInitialisation sut = new PluginInitialisation();
 
-            sut.AfterConfigure(testApplicationBuilder);
+                Dictionary<Type, object> registeredServices = new Dictionary<Type, object>();
+                registeredServices.Add(typeof(IPluginClassesService), new TestPluginClassesService());
+                testApplicationBuilder.ApplicationServices = new TestServiceProvider(registeredServices);
 
-            Assert.IsFalse(testApplicationBuilder.UseCalled);
+                sut.AfterConfigure(testApplicationBuilder);
+
+                Assert.IsFalse(testApplicationBuilder.UseCalled);
+            }
+            finally
+            {
+                ThreadManager.Finalise();
+            }
         }
 
         [TestMethod]
@@ -131,6 +146,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.UserSessionMiddlewareTests
         [TestCategory(TestsCategory)]
         public void Finalise_DoesNotThrowException()
         {
+            ThreadManager.Initialise(new SharedLib.Win.WindowsCpuUsage());
             TestApplicationBuilder testApplicationBuilder = new TestApplicationBuilder();
             PluginInitialisation sut = new PluginInitialisation();
 
