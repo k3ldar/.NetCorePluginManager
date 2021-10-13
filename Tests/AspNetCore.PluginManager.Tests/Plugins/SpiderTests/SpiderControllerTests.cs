@@ -578,7 +578,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SpiderTests
                 actionDescriptorCollection = new ActionDescriptorCollection(new List<ActionDescriptor>(), 1);
             }
 
-            robots = new Robots(new TestActionDescriptorCollectionProvider(actionDescriptorCollection),
+            robots = new Robots(new MockActionDescriptorCollectionProvider(actionDescriptorCollection),
                 new RouteDataServices(), pluginTypesServices, new MockLoadData());
 
             SpiderController Result = new SpiderController(robots, mockSaveData);

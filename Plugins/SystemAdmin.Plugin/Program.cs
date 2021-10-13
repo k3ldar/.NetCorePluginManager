@@ -23,6 +23,8 @@
  *  28/10/2018  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+using System.Diagnostics.CodeAnalysis;
+
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 
@@ -30,6 +32,7 @@ using Microsoft.AspNetCore.Hosting;
 
 namespace SystemAdmin.Plugin
 {
+    [ExcludeFromCodeCoverage]
     public static class Program
     {
         public static void Main(string[] args)

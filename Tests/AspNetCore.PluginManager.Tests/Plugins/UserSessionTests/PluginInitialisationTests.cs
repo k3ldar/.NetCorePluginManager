@@ -73,7 +73,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.UserSessionMiddlewareTests
         public void Initialize_DoesNotAddItemsToLogger()
         {
             PluginInitialisation sut = new PluginInitialisation();
-            TestLogger testLogger = new TestLogger();
+            MockLogger testLogger = new MockLogger();
 
             sut.Initialise(testLogger);
 
@@ -87,12 +87,12 @@ namespace AspNetCore.PluginManager.Tests.Plugins.UserSessionMiddlewareTests
             ThreadManager.Initialise();
             try
             {
-                TestApplicationBuilder testApplicationBuilder = new TestApplicationBuilder();
+                MockApplicationBuilder testApplicationBuilder = new MockApplicationBuilder();
                 PluginInitialisation sut = new PluginInitialisation();
 
                 Dictionary<Type, object> registeredServices = new Dictionary<Type, object>();
-                registeredServices.Add(typeof(IPluginClassesService), new TestPluginClassesService());
-                testApplicationBuilder.ApplicationServices = new TestServiceProvider(registeredServices);
+                registeredServices.Add(typeof(IPluginClassesService), new MockPluginClassesService());
+                testApplicationBuilder.ApplicationServices = new MockServiceProvider(registeredServices);
 
                 sut.AfterConfigure(testApplicationBuilder);
 
@@ -108,7 +108,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.UserSessionMiddlewareTests
         [TestCategory(TestsCategory)]
         public void Configure_DoesNotConfigurePipeline_Success()
         {
-            TestApplicationBuilder testApplicationBuilder = new TestApplicationBuilder();
+            MockApplicationBuilder testApplicationBuilder = new MockApplicationBuilder();
             PluginInitialisation sut = new PluginInitialisation();
 
             sut.Configure(testApplicationBuilder);
@@ -121,7 +121,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.UserSessionMiddlewareTests
         [TestCategory(TestsCategory)]
         public void BeforeConfigure_RegistersApplicationServices_Success()
         {
-            TestApplicationBuilder testApplicationBuilder = new TestApplicationBuilder();
+            MockApplicationBuilder testApplicationBuilder = new MockApplicationBuilder();
             PluginInitialisation sut = new PluginInitialisation();
 
             sut.BeforeConfigure(testApplicationBuilder);
@@ -134,7 +134,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.UserSessionMiddlewareTests
         [TestCategory(TestsCategory)]
         public void Configure_DoesNotRegisterApplicationServices()
         {
-            TestApplicationBuilder testApplicationBuilder = new TestApplicationBuilder();
+            MockApplicationBuilder testApplicationBuilder = new MockApplicationBuilder();
             PluginInitialisation sut = new PluginInitialisation();
 
             sut.Configure(testApplicationBuilder);
@@ -147,7 +147,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.UserSessionMiddlewareTests
         public void Finalise_DoesNotThrowException()
         {
             ThreadManager.Initialise(new SharedLib.Win.WindowsCpuUsage());
-            TestApplicationBuilder testApplicationBuilder = new TestApplicationBuilder();
+            MockApplicationBuilder testApplicationBuilder = new MockApplicationBuilder();
             PluginInitialisation sut = new PluginInitialisation();
 
             sut.Finalise();
@@ -157,7 +157,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.UserSessionMiddlewareTests
         [TestCategory(TestsCategory)]
         public void BeforeConfigureServices_DoesNotThrowException()
         {
-            TestApplicationBuilder testApplicationBuilder = new TestApplicationBuilder();
+            MockApplicationBuilder testApplicationBuilder = new MockApplicationBuilder();
             PluginInitialisation sut = new PluginInitialisation();
             MockServiceCollection mockServiceCollection = new MockServiceCollection();
 
@@ -170,7 +170,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.UserSessionMiddlewareTests
         [TestCategory(TestsCategory)]
         public void ConfigureServices_ConfigureServices_Success()
         {
-            TestApplicationBuilder testApplicationBuilder = new TestApplicationBuilder();
+            MockApplicationBuilder testApplicationBuilder = new MockApplicationBuilder();
             PluginInitialisation sut = new PluginInitialisation();
             MockServiceCollection mockServiceCollection = new MockServiceCollection();
 
@@ -185,7 +185,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.UserSessionMiddlewareTests
         [ExpectedException(typeof(ArgumentNullException))]
         public void AfterConfigureServices_InvalidParam_Services_Null_Throws_ArgumentNullException()
         {
-            TestApplicationBuilder testApplicationBuilder = new TestApplicationBuilder();
+            MockApplicationBuilder testApplicationBuilder = new MockApplicationBuilder();
             PluginInitialisation sut = new PluginInitialisation();
             MockServiceCollection mockServiceCollection = new MockServiceCollection();
 

@@ -54,7 +54,7 @@ namespace SystemAdmin.Plugin
         /// Prevents formatted text being displayed.
         /// </summary>
         /// <value>bool.  If true the formatted text is disabled.</value>
-        [SettingDefault(true)]
-        public bool DisableFormattedText { get; set; }
+        [SettingDefault(false)]
+        public bool EnableFormattedText { get; set; }
     }
 }

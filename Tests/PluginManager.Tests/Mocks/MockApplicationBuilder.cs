@@ -51,8 +51,17 @@ namespace PluginManager.Tests.Mocks
 
         #region Constructors
 
+        public MockApplicationBuilder()
+        {
+            UseCalled = false;
+            UseCalledCount = 0;
+            _serviceProvider = new MockServiceProvider(new Dictionary<Type, object>());
+        }
+
         public MockApplicationBuilder(IServiceProvider serviceProvider)
         {
+            UseCalled = false;
+            UseCalledCount = 0;
             _serviceProvider = serviceProvider;
         }
 
@@ -95,6 +104,8 @@ namespace PluginManager.Tests.Mocks
 
         public IApplicationBuilder Use(Func<RequestDelegate, RequestDelegate> middleware)
         {
+            UseCalled = true;
+            UseCalledCount++;
             _middleware.Add(middleware);
 
             if (!UseMvcCalled)
@@ -127,5 +138,14 @@ namespace PluginManager.Tests.Mocks
         }
 
         #endregion IApplicationBuilder Methods/Properties
+
+        #region Public Properties
+
+        public bool UseCalled { get; set; }
+
+
+        public int UseCalledCount { get; private set; }
+
+        #endregion Public Properties
     }
 }

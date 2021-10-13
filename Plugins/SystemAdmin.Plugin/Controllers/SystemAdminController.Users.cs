@@ -28,6 +28,8 @@ using System.Linq;
 
 using Microsoft.AspNetCore.Mvc;
 
+using Middleware.Users;
+
 using SharedPluginFeatures;
 
 #pragma warning disable CS1591
@@ -36,12 +38,13 @@ namespace SystemAdmin.Plugin.Controllers
 {
     public partial class SystemAdminController
     {
+        [HttpGet]
         public JsonResult UserSearch(BootgridRequestData model)
         {
             if (model == null)
                 throw new ArgumentNullException(nameof(model));
 
-            BootgridResponseData<Middleware.Users.SearchUser> Result = new BootgridResponseData<Middleware.Users.SearchUser>
+            BootgridResponseData<SearchUser> Result = new BootgridResponseData<SearchUser>
             {
                 rows = _userSearch.GetUsers(model.current, model.rowCount, model.searchPhrase, ""),
                 current = model.current,

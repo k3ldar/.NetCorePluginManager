@@ -55,7 +55,7 @@ namespace PluginManager.Tests
         [ExpectedException(typeof(ArgumentNullException))]
         public void PluginServices_AddAssembly_NullPluginManager_Throws_ArgumentNullException()
         {
-            using (TestPluginManager pluginManager = new TestPluginManager())
+            using (MockPluginManager pluginManager = new MockPluginManager())
             {
                 IPluginHelperService pluginServices = pluginManager as IPluginHelperService;
                 pluginServices.AddAssembly(null);
@@ -65,7 +65,7 @@ namespace PluginManager.Tests
         [TestMethod]
         public void PluginServices_TestAddAssembly()
         {
-            using (TestPluginManager pluginManager = new TestPluginManager())
+            using (MockPluginManager pluginManager = new MockPluginManager())
             {
                 IPluginHelperService pluginServices = pluginManager as IPluginHelperService;
 
@@ -86,7 +86,7 @@ namespace PluginManager.Tests
         [TestMethod]
         public void PluginServices_TestAddAssemblyTwice()
         {
-            using (TestPluginManager pluginManager = new TestPluginManager())
+            using (MockPluginManager pluginManager = new MockPluginManager())
             {
                 IPluginHelperService pluginServices = pluginManager as IPluginHelperService;
 
@@ -111,7 +111,7 @@ namespace PluginManager.Tests
         [TestMethod]
         public void PluginServices_GetPluginClassTypes_ReturnsValidTypes()
         {
-            using (TestPluginManager pluginManager = new TestPluginManager())
+            using (MockPluginManager pluginManager = new MockPluginManager())
             {
                 IPluginClassesService pluginClassesServices = pluginManager as IPluginClassesService;
                 IPluginHelperService pluginServices = pluginManager as IPluginHelperService;
@@ -134,7 +134,7 @@ namespace PluginManager.Tests
         [TestMethod]
         public void PluginServices_GetPluginClass_ReturnsValidClasses()
         {
-            using (TestPluginManager pluginManager = new TestPluginManager())
+            using (MockPluginManager pluginManager = new MockPluginManager())
             {
                 IPluginClassesService pluginClassesServices = pluginManager as IPluginClassesService;
                 IPluginHelperService pluginServices = pluginManager as IPluginHelperService;
@@ -157,7 +157,7 @@ namespace PluginManager.Tests
         [TestMethod]
         public void PluginServices_GetPluginTypesWithAttributes_TestClasses_ReturnsValidClasses()
         {
-            using (TestPluginManager pluginManager = new TestPluginManager())
+            using (MockPluginManager pluginManager = new MockPluginManager())
             {
                 IPluginTypesService pluginTypesServices = pluginManager as IPluginTypesService;
                 IPluginHelperService pluginServices = pluginManager as IPluginHelperService;

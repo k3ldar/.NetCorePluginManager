@@ -58,13 +58,13 @@ namespace SystemAdmin.Plugin.Models
 
         #region Public Properties
 
-        public string Title { get; private set; }
+        public string Title { get; }
 
-        public string ChartTitle { get; private set; }
+        public string ChartTitle { get; }
 
-        public List<KeyValuePair<ChartDataType, string>> DataNames { get; private set; }
+        public List<KeyValuePair<ChartDataType, string>> DataNames { get; }
 
-        public Dictionary<string, List<decimal>> DataValues { get; private set; }
+        public Dictionary<string, List<decimal>> DataValues { get; }
 
         #endregion Public Properties
     }

@@ -52,7 +52,7 @@ namespace PluginManager.Tests
         public void ThreadStarts_RaisesThreadStartMessage_Success()
         {
             ThreadManager.Initialise();
-            TestLogger testLogger = new TestLogger();
+            MockLogger testLogger = new MockLogger();
 
             ThreadManagerInitialisation sut = new ThreadManagerInitialisation();
             sut.Initialise(testLogger);
@@ -77,7 +77,7 @@ namespace PluginManager.Tests
         {
             const string PartialErrorMessage = "ThreadManager Operation is not valid due to the current state of the object. Thread exception raised: Test that stops,";
             ThreadManager.Initialise();
-            TestLogger testLogger = new TestLogger();
+            MockLogger testLogger = new MockLogger();
 
             ThreadManagerInitialisation sut = new ThreadManagerInitialisation();
             sut.Initialise(testLogger);

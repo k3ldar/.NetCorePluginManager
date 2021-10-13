@@ -58,17 +58,12 @@ namespace SystemAdmin.Plugin.Models
                 throw new ArgumentNullException(nameof(mainMenu));
 
             Title = mainMenu.Name;
-            MenuItems = mainMenu.ChildMenuItems ?? throw new ArgumentNullException(nameof(mainMenu.ChildMenuItems));
+            MenuItems = mainMenu.ChildMenuItems;
         }
 
         #endregion Constructors
 
         #region Public Methods
-
-        public AvailableIconViewModel ClearBreadCrumb()
-        {
-            return this;
-        }
 
         public string ProcessImage(in string imageName)
         {

@@ -77,7 +77,7 @@ namespace AspNetCore.PluginManager.Tests.AspNetCore.PluginManager
         [TestCategory(TestCategoryName)]
         public void Construct_MicrosoftDefender_Success()
         {
-            MicrosoftDefenderVirusScanner sut = new MicrosoftDefenderVirusScanner(new TestLogger());
+            MicrosoftDefenderVirusScanner sut = new MicrosoftDefenderVirusScanner(new MockLogger());
             Assert.IsNotNull(sut);
             Assert.IsInstanceOfType(sut, typeof(IVirusScanner));
             Assert.IsTrue(sut.Enabled);
@@ -90,7 +90,7 @@ namespace AspNetCore.PluginManager.Tests.AspNetCore.PluginManager
             string testFolder = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
             try
             {
-                TestLogger logger = new TestLogger();
+                MockLogger logger = new MockLogger();
                 MicrosoftDefenderVirusScanner sut = new MicrosoftDefenderVirusScanner(logger);
                 Assert.IsNotNull(sut);
                 Assert.IsTrue(sut.Enabled);
@@ -114,7 +114,7 @@ namespace AspNetCore.PluginManager.Tests.AspNetCore.PluginManager
             {
                 Directory.CreateDirectory(testFolder);
                 ExtractImageResources(testFolder);
-                TestLogger logger = new TestLogger();
+                MockLogger logger = new MockLogger();
                 MicrosoftDefenderVirusScanner sut = new MicrosoftDefenderVirusScanner(logger);
                 Assert.IsNotNull(sut);
                 Assert.IsTrue(sut.Enabled);
@@ -138,7 +138,7 @@ namespace AspNetCore.PluginManager.Tests.AspNetCore.PluginManager
             {
                 Directory.CreateDirectory(testFolder);
                 ExtractImageResources(testFolder);
-                TestLogger logger = new TestLogger();
+                MockLogger logger = new MockLogger();
                 MicrosoftDefenderVirusScanner sut = new MicrosoftDefenderVirusScanner(logger);
                 Assert.IsNotNull(sut);
                 Assert.IsTrue(sut.Enabled);
@@ -162,7 +162,7 @@ namespace AspNetCore.PluginManager.Tests.AspNetCore.PluginManager
             {
                 Directory.CreateDirectory(testFolder);
                 ExtractImageResources(testFolder);
-                TestLogger logger = new TestLogger();
+                MockLogger logger = new MockLogger();
                 MicrosoftDefenderVirusScanner sut = new MicrosoftDefenderVirusScanner(logger);
                 Assert.IsNotNull(sut);
                 Assert.IsTrue(sut.Enabled);
@@ -193,7 +193,7 @@ namespace AspNetCore.PluginManager.Tests.AspNetCore.PluginManager
                 fileList.Insert(2, "asdf");
                 files = fileList.ToArray();
 
-                TestLogger logger = new TestLogger();
+                MockLogger logger = new MockLogger();
                 MicrosoftDefenderVirusScanner sut = new MicrosoftDefenderVirusScanner(logger);
                 Assert.IsNotNull(sut);
                 Assert.IsTrue(sut.Enabled);

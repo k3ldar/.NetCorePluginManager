@@ -39,6 +39,7 @@ using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using PluginManager.Abstractions;
+using PluginManager.Tests.Mocks;
 
 using SharedPluginFeatures;
 
@@ -53,37 +54,37 @@ namespace AspNetCore.PluginManager.Tests.Controllers
         protected readonly static DateTime DefaultActiveTo = new DateTime(2050, 12, 31, 23, 59, 59);
 
 
-        protected static TestPluginManager _testSpiderPlugin = new TestPluginManager();
+        protected static MockPluginManager _testSpiderPlugin = new MockPluginManager();
         protected static bool? _pluginLoadedSpiderPlugin = null;
         protected static IPluginClassesService _pluginServicesSpiderPlugin;
 
-        protected static TestPluginManager _testDynamicContentPlugin = new TestPluginManager();
+        protected static MockPluginManager _testDynamicContentPlugin = new MockPluginManager();
         protected static bool? _pluginLoadedDynamicContentPlugin = null;
         protected static IPluginClassesService _pluginServicesDynamicContent;
 
-        protected static TestPluginManager _testImageManagerPlugin = new TestPluginManager();
+        protected static MockPluginManager _testImageManagerPlugin = new MockPluginManager();
         protected static bool? _pluginLoadedImageManagerPlugin = null;
         protected static IPluginClassesService _pluginServicesImageManager;
 
         protected ControllerContext CreateTestControllerContext(List<BreadcrumbItem> breadcrumbs = null, 
-            TestRequestCookieCollection testCookieCollection = null,
-            TestServiceProvider testServiceProvider = null,
-            TestHttpResponse testHttpResponse = null)
+            MockRequestCookieCollection testCookieCollection = null,
+            MockServiceProvider testServiceProvider = null,
+            MockHttpResponse testHttpResponse = null)
         {
-            TestHttpRequest httpRequest = testCookieCollection == null ? new TestHttpRequest() : new TestHttpRequest(testCookieCollection);
-            TestHttpResponse httpResponse = testHttpResponse ?? new TestHttpResponse();
+            MockHttpRequest httpRequest = testCookieCollection == null ? new MockHttpRequest() : new MockHttpRequest(testCookieCollection);
+            MockHttpResponse httpResponse = testHttpResponse ?? new MockHttpResponse();
             ControllerContext Result = new ControllerContext();
-            Result.HttpContext = testServiceProvider == null ? new TestHttpContext(httpRequest, httpResponse, breadcrumbs) : new TestHttpContext(httpRequest, httpResponse, testServiceProvider, breadcrumbs);
+            Result.HttpContext = testServiceProvider == null ? new MockHttpContext(httpRequest, httpResponse, breadcrumbs) : new MockHttpContext(httpRequest, httpResponse, testServiceProvider, breadcrumbs);
 
             return Result;
         }
 
         protected void SetTestControllerContext()
         {
-            TestHttpRequest httpRequest = new TestHttpRequest();
-            TestHttpResponse httpResponse = new TestHttpResponse();
+            MockHttpRequest httpRequest = new MockHttpRequest();
+            MockHttpResponse httpResponse = new MockHttpResponse();
             ControllerContext Result = new ControllerContext();
-            Result.HttpContext = new TestHttpContext(httpRequest, httpResponse);
+            Result.HttpContext = new MockHttpContext(httpRequest, httpResponse);
 
             ControllerContext = Result;
         }
@@ -166,7 +167,7 @@ namespace AspNetCore.PluginManager.Tests.Controllers
             return methodInfo.IsDefined(typeof(T));
         }
 
-        public bool MethodRouteAttribute(Type classType, string methodName, string routeValue)
+        public bool MethodHasRouteAttribute(Type classType, string methodName, string routeValue)
         {
             if (classType == null)
                 throw new ArgumentNullException(nameof(classType));

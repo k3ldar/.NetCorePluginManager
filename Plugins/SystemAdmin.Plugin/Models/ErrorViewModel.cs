@@ -49,7 +49,7 @@ namespace SystemAdmin.Plugin.Models
 
         #region Properties
 
-        public string RequestId { get; private set; }
+        public string RequestId { get; }
 
         public bool ShowRequestId => !string.IsNullOrEmpty(RequestId);
 

@@ -33,8 +33,6 @@ using PluginManager.Abstractions;
 
 using ProductPlugin;
 
-using pm = PluginManager.Internal;
-
 namespace AspNetCore.PluginManager.Tests.Plugins.ProductTests
 {
     [TestClass]
@@ -87,7 +85,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ProductTests
         [TestCategory(TestCategoryName)]
         public void Construct_ViaSettingsProvider_ContainsDefaultValues_Success()
         {
-            ISettingsProvider settingsProvider = new TestSettingsProvider("{}");
+            ISettingsProvider settingsProvider = new MockSettingsProvider();
             ProductPluginSettings sut = settingsProvider.GetSettings<ProductPluginSettings>("Products");
             Assert.IsNotNull(sut);
 

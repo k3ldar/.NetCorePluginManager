@@ -46,7 +46,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.MemoryCacheTests
         [TestCategory(TestsCategory)]
         public void Construct_DefaultCachesAreCreated()
         {
-            DefaultMemoryCache sut = new DefaultMemoryCache(new TestSettingsProvider("{}"));
+            DefaultMemoryCache sut = new DefaultMemoryCache(new MockSettingsProvider());
             try
             {
                 Assert.IsNotNull(sut);
@@ -66,7 +66,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.MemoryCacheTests
         [TestCategory(TestsCategory)]
         public void ResetCaches_EnsureCachedItemsAreCleared()
         {
-            DefaultMemoryCache sut = new DefaultMemoryCache(new TestSettingsProvider("{}"));
+            DefaultMemoryCache sut = new DefaultMemoryCache(new MockSettingsProvider());
             try
             {
                 Assert.IsNotNull(sut);

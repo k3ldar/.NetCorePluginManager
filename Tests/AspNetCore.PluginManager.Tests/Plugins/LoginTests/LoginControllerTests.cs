@@ -43,6 +43,7 @@ using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using PluginManager.Abstractions;
+using PluginManager.Tests.Mocks;
 
 using Shared.Abstractions;
 using Shared.Classes;
@@ -92,7 +93,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.LoginTests
         [ExpectedException(typeof(ArgumentNullException))]
         public void Construct_InvalidParam_LoginProvider_Null_Throws_ArgumentNullException()
         {
-            LoginController sut = new LoginController(null, new TestSettingsProvider(SettingsEmpty), new TestClaimsProvider());
+            LoginController sut = new LoginController(null, new MockSettingsProvider(SettingsEmpty), new MockClaimsProvider());
         }
 
         [TestMethod]
@@ -100,7 +101,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.LoginTests
         [ExpectedException(typeof(ArgumentNullException))]
         public void Construct_InvalidParam_SettingsProvider_Null_Throws_ArgumentNullException()
         {
-            LoginController sut = new LoginController(new TestLoginProvider(), null, new TestClaimsProvider());
+            LoginController sut = new LoginController(new MockLoginProvider(), null, new MockClaimsProvider());
         }
 
         [TestMethod]
@@ -108,14 +109,14 @@ namespace AspNetCore.PluginManager.Tests.Plugins.LoginTests
         [ExpectedException(typeof(ArgumentNullException))]
         public void Construct_InvalidParam_ClaimsProvider_Null_Throws_ArgumentNullException()
         {
-            LoginController sut = new LoginController(new TestLoginProvider(), new TestSettingsProvider(SettingsEmpty), null);
+            LoginController sut = new LoginController(new MockLoginProvider(), new MockSettingsProvider(SettingsEmpty), null);
         }
 
         [TestMethod]
         [TestCategory(TestCategoryName)]
         public void Construct_ValidInstance_Success()
         {
-            LoginController sut = new LoginController(new TestLoginProvider(), new TestSettingsProvider(SettingsEmpty), new TestClaimsProvider());
+            LoginController sut = new LoginController(new MockLoginProvider(), new MockSettingsProvider(SettingsEmpty), new MockClaimsProvider());
         }
 
         [TestMethod]
@@ -185,14 +186,13 @@ namespace AspNetCore.PluginManager.Tests.Plugins.LoginTests
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
             LoginControllerSettings loginControllerSettings = settingsProvider.GetSettings<LoginControllerSettings>(nameof(LoginPlugin));
 
-            TestRequestCookieCollection cookies = new TestRequestCookieCollection();
+            MockRequestCookieCollection cookies = new MockRequestCookieCollection();
             cookies.AddCookie("RememberMe", utils.Encrypt("123", loginControllerSettings.EncryptionKey));
 
             Dictionary<Type, object> services = new Dictionary<Type, object>();
-            services.Add(typeof(IAuthenticationService), new TestAuthenticationService());
+            services.Add(typeof(IAuthenticationService), new MockAuthenticationService());
 
-            TestServiceProvider testServiceProvider = new TestServiceProvider(services);
-            //TestLoginProvider testLoginProvider = new TestLoginProvider();
+            MockServiceProvider testServiceProvider = new MockServiceProvider(services);
 
             LoginController sut = CreateLoginController(null, null, null, null, cookies, testServiceProvider);
             IActionResult response = sut.Index("/Home");
@@ -214,13 +214,13 @@ namespace AspNetCore.PluginManager.Tests.Plugins.LoginTests
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
             LoginControllerSettings loginControllerSettings = settingsProvider.GetSettings<LoginControllerSettings>(nameof(LoginPlugin));
 
-            TestRequestCookieCollection cookies = new TestRequestCookieCollection();
+            MockRequestCookieCollection cookies = new MockRequestCookieCollection();
             cookies.AddCookie("RememberMe", utils.Encrypt("123", loginControllerSettings.EncryptionKey));
 
             Dictionary<Type, object> services = new Dictionary<Type, object>();
-            services.Add(typeof(IAuthenticationService), new TestAuthenticationService());
+            services.Add(typeof(IAuthenticationService), new MockAuthenticationService());
 
-            TestServiceProvider testServiceProvider = new TestServiceProvider(services);
+            MockServiceProvider testServiceProvider = new MockServiceProvider(services);
             //TestLoginProvider testLoginProvider = new TestLoginProvider();
 
             LoginController sut = CreateLoginController(null, null, null, null, cookies, testServiceProvider);
@@ -243,18 +243,18 @@ namespace AspNetCore.PluginManager.Tests.Plugins.LoginTests
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
             LoginControllerSettings loginControllerSettings = settingsProvider.GetSettings<LoginControllerSettings>(nameof(LoginPlugin));
 
-            TestRequestCookieCollection cookies = new TestRequestCookieCollection();
+            MockRequestCookieCollection cookies = new MockRequestCookieCollection();
             cookies.AddCookie("RememberMe", utils.Encrypt("999", loginControllerSettings.EncryptionKey));
 
-            TestHttpResponse testHttpResponse = new TestHttpResponse();
+            MockHttpResponse testHttpResponse = new MockHttpResponse();
 
             Dictionary<Type, object> services = new Dictionary<Type, object>();
-            services.Add(typeof(IAuthenticationService), new TestAuthenticationService());
+            services.Add(typeof(IAuthenticationService), new MockAuthenticationService());
 
-            ITempDataProvider tempDataProvider = new TestTempDataProvider();
+            ITempDataProvider tempDataProvider = new MockTempDataProvider();
             services.Add(typeof(ITempDataDictionaryFactory), new TempDataDictionaryFactory(tempDataProvider));
 
-            TestServiceProvider testServiceProvider = new TestServiceProvider(services);
+            MockServiceProvider testServiceProvider = new MockServiceProvider(services);
             //TestLoginProvider testLoginProvider = new TestLoginProvider();
 
             LoginController sut = CreateLoginController(null, null, null, null, cookies, testServiceProvider, testHttpResponse);
@@ -262,10 +262,10 @@ namespace AspNetCore.PluginManager.Tests.Plugins.LoginTests
 
             Assert.IsNotNull(response);
 
-            TestResponseCookies testResponseCookies = testHttpResponse.Cookies as TestResponseCookies;
+            MockResponseCookies testResponseCookies = testHttpResponse.Cookies as MockResponseCookies;
 
             Assert.IsNotNull(testResponseCookies);
-            TestResponseCookie testResponseCookie = testResponseCookies.Get("RememberMe");
+            MockResponseCookie testResponseCookie = testResponseCookies.Get("RememberMe");
             Assert.IsNotNull(testResponseCookie);
 
             Assert.IsTrue(testResponseCookie.CookieOptions.Expires < DateTime.Now);
@@ -344,18 +344,18 @@ namespace AspNetCore.PluginManager.Tests.Plugins.LoginTests
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
             LoginControllerSettings loginControllerSettings = settingsProvider.GetSettings<LoginControllerSettings>(nameof(LoginPlugin));
 
-            TestHttpResponse testHttpResponse = new TestHttpResponse();
+            MockHttpResponse testHttpResponse = new MockHttpResponse();
 
             Dictionary<Type, object> services = new Dictionary<Type, object>();
-            services.Add(typeof(IAuthenticationService), new TestAuthenticationService());
+            services.Add(typeof(IAuthenticationService), new MockAuthenticationService());
 
-            ITempDataProvider tempDataProvider = new TestTempDataProvider();
+            ITempDataProvider tempDataProvider = new MockTempDataProvider();
             services.Add(typeof(ITempDataDictionaryFactory), new TempDataDictionaryFactory(tempDataProvider));
 
-            TestUrlHelperFactory testUrlHelperFactory = new TestUrlHelperFactory();
+            MockUrlHelperFactory testUrlHelperFactory = new MockUrlHelperFactory();
             services.Add(typeof(IUrlHelperFactory), testUrlHelperFactory);
 
-            TestServiceProvider testServiceProvider = new TestServiceProvider(services);
+            MockServiceProvider testServiceProvider = new MockServiceProvider(services);
 
             LoginController sut = CreateLoginController(null, null, null, null, null, testServiceProvider, testHttpResponse);
             IActionResult response = sut.Index(new LoginViewModel()
@@ -385,18 +385,18 @@ namespace AspNetCore.PluginManager.Tests.Plugins.LoginTests
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
             LoginControllerSettings loginControllerSettings = settingsProvider.GetSettings<LoginControllerSettings>(nameof(LoginPlugin));
 
-            TestHttpResponse testHttpResponse = new TestHttpResponse();
+            MockHttpResponse testHttpResponse = new MockHttpResponse();
 
             Dictionary<Type, object> services = new Dictionary<Type, object>();
-            services.Add(typeof(IAuthenticationService), new TestAuthenticationService());
+            services.Add(typeof(IAuthenticationService), new MockAuthenticationService());
 
-            ITempDataProvider tempDataProvider = new TestTempDataProvider();
+            ITempDataProvider tempDataProvider = new MockTempDataProvider();
             services.Add(typeof(ITempDataDictionaryFactory), new TempDataDictionaryFactory(tempDataProvider));
 
-            TestUrlHelperFactory testUrlHelperFactory = new TestUrlHelperFactory();
+            MockUrlHelperFactory testUrlHelperFactory = new MockUrlHelperFactory();
             services.Add(typeof(IUrlHelperFactory), testUrlHelperFactory);
 
-            TestServiceProvider testServiceProvider = new TestServiceProvider(services);
+            MockServiceProvider testServiceProvider = new MockServiceProvider(services);
 
             LoginController sut = CreateLoginController(null, null, null, null, null, testServiceProvider, testHttpResponse);
             IActionResult response = sut.Index(new LoginViewModel()
@@ -422,18 +422,18 @@ namespace AspNetCore.PluginManager.Tests.Plugins.LoginTests
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
             LoginControllerSettings loginControllerSettings = settingsProvider.GetSettings<LoginControllerSettings>(nameof(LoginPlugin));
 
-            TestHttpResponse testHttpResponse = new TestHttpResponse();
+            MockHttpResponse testHttpResponse = new MockHttpResponse();
 
             Dictionary<Type, object> services = new Dictionary<Type, object>();
-            services.Add(typeof(IAuthenticationService), new TestAuthenticationService());
+            services.Add(typeof(IAuthenticationService), new MockAuthenticationService());
 
-            ITempDataProvider tempDataProvider = new TestTempDataProvider();
+            ITempDataProvider tempDataProvider = new MockTempDataProvider();
             services.Add(typeof(ITempDataDictionaryFactory), new TempDataDictionaryFactory(tempDataProvider));
 
-            TestUrlHelperFactory testUrlHelperFactory = new TestUrlHelperFactory();
+            MockUrlHelperFactory testUrlHelperFactory = new MockUrlHelperFactory();
             services.Add(typeof(IUrlHelperFactory), testUrlHelperFactory);
 
-            TestServiceProvider testServiceProvider = new TestServiceProvider(services);
+            MockServiceProvider testServiceProvider = new MockServiceProvider(services);
 
             LoginController sut = CreateLoginController(null, null, null, null, null, testServiceProvider, testHttpResponse);
             IActionResult response = sut.Index(new LoginViewModel()
@@ -450,11 +450,11 @@ namespace AspNetCore.PluginManager.Tests.Plugins.LoginTests
             Assert.AreEqual("/Account/ChangePassword", redirectViewResult.Url);
             Assert.IsFalse(redirectViewResult.Permanent);
 
-            TestResponseCookies testResponseCookies = testHttpResponse.Cookies as TestResponseCookies;
+            MockResponseCookies testResponseCookies = testHttpResponse.Cookies as MockResponseCookies;
 
             Assert.IsNotNull(testResponseCookies);
 
-            TestResponseCookie testResponseCookie = testResponseCookies.Get("RememberMe");
+            MockResponseCookie testResponseCookie = testResponseCookies.Get("RememberMe");
             Assert.IsNotNull(testResponseCookie);
 
             Assert.IsTrue(testResponseCookie.CookieOptions.Expires > DateTime.Now.AddDays(29));
@@ -470,18 +470,18 @@ namespace AspNetCore.PluginManager.Tests.Plugins.LoginTests
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
             LoginControllerSettings loginControllerSettings = settingsProvider.GetSettings<LoginControllerSettings>(nameof(LoginPlugin));
 
-            TestHttpResponse testHttpResponse = new TestHttpResponse();
+            MockHttpResponse testHttpResponse = new MockHttpResponse();
 
             Dictionary<Type, object> services = new Dictionary<Type, object>();
-            services.Add(typeof(IAuthenticationService), new TestAuthenticationService());
+            services.Add(typeof(IAuthenticationService), new MockAuthenticationService());
 
-            ITempDataProvider tempDataProvider = new TestTempDataProvider();
+            ITempDataProvider tempDataProvider = new MockTempDataProvider();
             services.Add(typeof(ITempDataDictionaryFactory), new TempDataDictionaryFactory(tempDataProvider));
 
-            TestUrlHelperFactory testUrlHelperFactory = new TestUrlHelperFactory();
+            MockUrlHelperFactory testUrlHelperFactory = new MockUrlHelperFactory();
             services.Add(typeof(IUrlHelperFactory), testUrlHelperFactory);
 
-            TestServiceProvider testServiceProvider = new TestServiceProvider(services);
+            MockServiceProvider testServiceProvider = new MockServiceProvider(services);
 
             LoginController sut = CreateLoginController(null, null, null, null, null, testServiceProvider, testHttpResponse);
             IActionResult response = sut.Index(new LoginViewModel()
@@ -499,11 +499,11 @@ namespace AspNetCore.PluginManager.Tests.Plugins.LoginTests
             Assert.AreEqual("/Home", redirectViewResult.Url);
             Assert.IsFalse(redirectViewResult.Permanent);
 
-            TestResponseCookies testResponseCookies = testHttpResponse.Cookies as TestResponseCookies;
+            MockResponseCookies testResponseCookies = testHttpResponse.Cookies as MockResponseCookies;
 
             Assert.IsNotNull(testResponseCookies);
 
-            TestResponseCookie testResponseCookie = testResponseCookies.Get("RememberMe");
+            MockResponseCookie testResponseCookie = testResponseCookies.Get("RememberMe");
             Assert.IsNotNull(testResponseCookie);
 
             Assert.IsTrue(testResponseCookie.CookieOptions.Expires > DateTime.Now.AddDays(29));
@@ -519,18 +519,18 @@ namespace AspNetCore.PluginManager.Tests.Plugins.LoginTests
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
             LoginControllerSettings loginControllerSettings = settingsProvider.GetSettings<LoginControllerSettings>(nameof(LoginPlugin));
 
-            TestHttpResponse testHttpResponse = new TestHttpResponse();
+            MockHttpResponse testHttpResponse = new MockHttpResponse();
 
             Dictionary<Type, object> services = new Dictionary<Type, object>();
-            services.Add(typeof(IAuthenticationService), new TestAuthenticationService());
+            services.Add(typeof(IAuthenticationService), new MockAuthenticationService());
 
-            ITempDataProvider tempDataProvider = new TestTempDataProvider();
+            ITempDataProvider tempDataProvider = new MockTempDataProvider();
             services.Add(typeof(ITempDataDictionaryFactory), new TempDataDictionaryFactory(tempDataProvider));
 
-            TestUrlHelperFactory testUrlHelperFactory = new TestUrlHelperFactory();
+            MockUrlHelperFactory testUrlHelperFactory = new MockUrlHelperFactory();
             services.Add(typeof(IUrlHelperFactory), testUrlHelperFactory);
 
-            TestServiceProvider testServiceProvider = new TestServiceProvider(services);
+            MockServiceProvider testServiceProvider = new MockServiceProvider(services);
 
             LoginViewModel loginViewModel = new LoginViewModel()
             {
@@ -582,18 +582,18 @@ namespace AspNetCore.PluginManager.Tests.Plugins.LoginTests
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
             LoginControllerSettings loginControllerSettings = settingsProvider.GetSettings<LoginControllerSettings>(nameof(LoginPlugin));
 
-            TestHttpResponse testHttpResponse = new TestHttpResponse();
+            MockHttpResponse testHttpResponse = new MockHttpResponse();
 
             Dictionary<Type, object> services = new Dictionary<Type, object>();
-            services.Add(typeof(IAuthenticationService), new TestAuthenticationService());
+            services.Add(typeof(IAuthenticationService), new MockAuthenticationService());
 
-            ITempDataProvider tempDataProvider = new TestTempDataProvider();
+            ITempDataProvider tempDataProvider = new MockTempDataProvider();
             services.Add(typeof(ITempDataDictionaryFactory), new TempDataDictionaryFactory(tempDataProvider));
 
-            TestUrlHelperFactory testUrlHelperFactory = new TestUrlHelperFactory();
+            MockUrlHelperFactory testUrlHelperFactory = new MockUrlHelperFactory();
             services.Add(typeof(IUrlHelperFactory), testUrlHelperFactory);
 
-            TestServiceProvider testServiceProvider = new TestServiceProvider(services);
+            MockServiceProvider testServiceProvider = new MockServiceProvider(services);
 
             LoginViewModel loginViewModel = new LoginViewModel()
             {
@@ -665,18 +665,18 @@ namespace AspNetCore.PluginManager.Tests.Plugins.LoginTests
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
             LoginControllerSettings loginControllerSettings = settingsProvider.GetSettings<LoginControllerSettings>(nameof(LoginPlugin));
 
-            TestHttpResponse testHttpResponse = new TestHttpResponse();
+            MockHttpResponse testHttpResponse = new MockHttpResponse();
 
             Dictionary<Type, object> services = new Dictionary<Type, object>();
-            services.Add(typeof(IAuthenticationService), new TestAuthenticationService());
+            services.Add(typeof(IAuthenticationService), new MockAuthenticationService());
 
-            ITempDataProvider tempDataProvider = new TestTempDataProvider();
+            ITempDataProvider tempDataProvider = new MockTempDataProvider();
             services.Add(typeof(ITempDataDictionaryFactory), new TempDataDictionaryFactory(tempDataProvider));
 
-            TestUrlHelperFactory testUrlHelperFactory = new TestUrlHelperFactory();
+            MockUrlHelperFactory testUrlHelperFactory = new MockUrlHelperFactory();
             services.Add(typeof(IUrlHelperFactory), testUrlHelperFactory);
 
-            TestServiceProvider testServiceProvider = new TestServiceProvider(services);
+            MockServiceProvider testServiceProvider = new MockServiceProvider(services);
 
             LoginViewModel loginViewModel = new LoginViewModel()
             {
@@ -729,7 +729,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.LoginTests
             Assert.IsNotNull(responseModel);
             Assert.IsNull(responseModel.CaptchaText);
             Assert.IsTrue(responseModel.ShowCaptchaImage);
-            Assert.AreEqual("/ALink", responseModel.ReturnUrl); 
+            Assert.AreEqual("/ALink", responseModel.ReturnUrl);
             Assert.AreEqual(0, viewResult.ViewData.ModelState.ErrorCount);
         }
 
@@ -758,18 +758,18 @@ namespace AspNetCore.PluginManager.Tests.Plugins.LoginTests
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
             LoginControllerSettings loginControllerSettings = settingsProvider.GetSettings<LoginControllerSettings>(nameof(LoginPlugin));
 
-            TestHttpResponse testHttpResponse = new TestHttpResponse();
+            MockHttpResponse testHttpResponse = new MockHttpResponse();
 
             Dictionary<Type, object> services = new Dictionary<Type, object>();
-            services.Add(typeof(IAuthenticationService), new TestAuthenticationService());
+            services.Add(typeof(IAuthenticationService), new MockAuthenticationService());
 
-            ITempDataProvider tempDataProvider = new TestTempDataProvider();
+            ITempDataProvider tempDataProvider = new MockTempDataProvider();
             services.Add(typeof(ITempDataDictionaryFactory), new TempDataDictionaryFactory(tempDataProvider));
 
-            TestUrlHelperFactory testUrlHelperFactory = new TestUrlHelperFactory();
+            MockUrlHelperFactory testUrlHelperFactory = new MockUrlHelperFactory();
             services.Add(typeof(IUrlHelperFactory), testUrlHelperFactory);
 
-            TestServiceProvider testServiceProvider = new TestServiceProvider(services);
+            MockServiceProvider testServiceProvider = new MockServiceProvider(services);
 
             LoginController sut = CreateLoginController(null, null, null, null, null, testServiceProvider, testHttpResponse);
             IActionResult response = sut.AccountLocked(username: null);
@@ -792,18 +792,18 @@ namespace AspNetCore.PluginManager.Tests.Plugins.LoginTests
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
             LoginControllerSettings loginControllerSettings = settingsProvider.GetSettings<LoginControllerSettings>(nameof(LoginPlugin));
 
-            TestHttpResponse testHttpResponse = new TestHttpResponse();
+            MockHttpResponse testHttpResponse = new MockHttpResponse();
 
             Dictionary<Type, object> services = new Dictionary<Type, object>();
-            services.Add(typeof(IAuthenticationService), new TestAuthenticationService());
+            services.Add(typeof(IAuthenticationService), new MockAuthenticationService());
 
-            ITempDataProvider tempDataProvider = new TestTempDataProvider();
+            ITempDataProvider tempDataProvider = new MockTempDataProvider();
             services.Add(typeof(ITempDataDictionaryFactory), new TempDataDictionaryFactory(tempDataProvider));
 
-            TestUrlHelperFactory testUrlHelperFactory = new TestUrlHelperFactory();
+            MockUrlHelperFactory testUrlHelperFactory = new MockUrlHelperFactory();
             services.Add(typeof(IUrlHelperFactory), testUrlHelperFactory);
 
-            TestServiceProvider testServiceProvider = new TestServiceProvider(services);
+            MockServiceProvider testServiceProvider = new MockServiceProvider(services);
 
             LoginController sut = CreateLoginController(null, null, null, null, null, testServiceProvider, testHttpResponse);
             IActionResult response = sut.AccountLocked(username: "");
@@ -826,18 +826,18 @@ namespace AspNetCore.PluginManager.Tests.Plugins.LoginTests
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
             LoginControllerSettings loginControllerSettings = settingsProvider.GetSettings<LoginControllerSettings>(nameof(LoginPlugin));
 
-            TestHttpResponse testHttpResponse = new TestHttpResponse();
+            MockHttpResponse testHttpResponse = new MockHttpResponse();
 
             Dictionary<Type, object> services = new Dictionary<Type, object>();
-            services.Add(typeof(IAuthenticationService), new TestAuthenticationService());
+            services.Add(typeof(IAuthenticationService), new MockAuthenticationService());
 
-            ITempDataProvider tempDataProvider = new TestTempDataProvider();
+            ITempDataProvider tempDataProvider = new MockTempDataProvider();
             services.Add(typeof(ITempDataDictionaryFactory), new TempDataDictionaryFactory(tempDataProvider));
 
-            TestUrlHelperFactory testUrlHelperFactory = new TestUrlHelperFactory();
+            MockUrlHelperFactory testUrlHelperFactory = new MockUrlHelperFactory();
             services.Add(typeof(IUrlHelperFactory), testUrlHelperFactory);
 
-            TestServiceProvider testServiceProvider = new TestServiceProvider(services);
+            MockServiceProvider testServiceProvider = new MockServiceProvider(services);
 
             LoginController sut = CreateLoginController(null, null, null, null, null, testServiceProvider, testHttpResponse);
             IActionResult response = sut.AccountLocked(username: "test user");
@@ -889,18 +889,18 @@ namespace AspNetCore.PluginManager.Tests.Plugins.LoginTests
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
             LoginControllerSettings loginControllerSettings = settingsProvider.GetSettings<LoginControllerSettings>(nameof(LoginPlugin));
 
-            TestHttpResponse testHttpResponse = new TestHttpResponse();
+            MockHttpResponse testHttpResponse = new MockHttpResponse();
 
             Dictionary<Type, object> services = new Dictionary<Type, object>();
-            services.Add(typeof(IAuthenticationService), new TestAuthenticationService());
+            services.Add(typeof(IAuthenticationService), new MockAuthenticationService());
 
-            ITempDataProvider tempDataProvider = new TestTempDataProvider();
+            ITempDataProvider tempDataProvider = new MockTempDataProvider();
             services.Add(typeof(ITempDataDictionaryFactory), new TempDataDictionaryFactory(tempDataProvider));
 
-            TestUrlHelperFactory testUrlHelperFactory = new TestUrlHelperFactory();
+            MockUrlHelperFactory testUrlHelperFactory = new MockUrlHelperFactory();
             services.Add(typeof(IUrlHelperFactory), testUrlHelperFactory);
 
-            TestServiceProvider testServiceProvider = new TestServiceProvider(services);
+            MockServiceProvider testServiceProvider = new MockServiceProvider(services);
 
             LoginController sut = CreateLoginController(null, null, null, null, null, testServiceProvider, testHttpResponse);
             IActionResult response = sut.AccountLocked(model: new AccountLockedViewModel(GenerateTestBaseModelData(), "unlock me") { UnlockCode = "123" });
@@ -922,24 +922,24 @@ namespace AspNetCore.PluginManager.Tests.Plugins.LoginTests
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
             LoginControllerSettings loginControllerSettings = settingsProvider.GetSettings<LoginControllerSettings>(nameof(LoginPlugin));
 
-            TestHttpResponse testHttpResponse = new TestHttpResponse();
+            MockHttpResponse testHttpResponse = new MockHttpResponse();
 
             Dictionary<Type, object> services = new Dictionary<Type, object>();
-            services.Add(typeof(IAuthenticationService), new TestAuthenticationService());
+            services.Add(typeof(IAuthenticationService), new MockAuthenticationService());
 
-            ITempDataProvider tempDataProvider = new TestTempDataProvider();
+            ITempDataProvider tempDataProvider = new MockTempDataProvider();
             services.Add(typeof(ITempDataDictionaryFactory), new TempDataDictionaryFactory(tempDataProvider));
 
-            TestUrlHelperFactory testUrlHelperFactory = new TestUrlHelperFactory();
+            MockUrlHelperFactory testUrlHelperFactory = new MockUrlHelperFactory();
             services.Add(typeof(IUrlHelperFactory), testUrlHelperFactory);
 
-            TestServiceProvider testServiceProvider = new TestServiceProvider(services);
+            MockServiceProvider testServiceProvider = new MockServiceProvider(services);
 
             LoginController sut = CreateLoginController(null, null, null, null, null, testServiceProvider, testHttpResponse);
 
-            AccountLockedViewModel model = new AccountLockedViewModel(GenerateTestBaseModelData(), "a user") 
-            { 
-                UnlockCode = "1234" 
+            AccountLockedViewModel model = new AccountLockedViewModel(GenerateTestBaseModelData(), "a user")
+            {
+                UnlockCode = "1234"
             };
 
             IActionResult response = sut.AccountLocked(model: model);
@@ -982,18 +982,18 @@ namespace AspNetCore.PluginManager.Tests.Plugins.LoginTests
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
             LoginControllerSettings loginControllerSettings = settingsProvider.GetSettings<LoginControllerSettings>(nameof(LoginPlugin));
 
-            TestHttpResponse testHttpResponse = new TestHttpResponse();
+            MockHttpResponse testHttpResponse = new MockHttpResponse();
 
             Dictionary<Type, object> services = new Dictionary<Type, object>();
-            services.Add(typeof(IAuthenticationService), new TestAuthenticationService());
+            services.Add(typeof(IAuthenticationService), new MockAuthenticationService());
 
-            ITempDataProvider tempDataProvider = new TestTempDataProvider();
+            ITempDataProvider tempDataProvider = new MockTempDataProvider();
             services.Add(typeof(ITempDataDictionaryFactory), new TempDataDictionaryFactory(tempDataProvider));
 
-            TestUrlHelperFactory testUrlHelperFactory = new TestUrlHelperFactory();
+            MockUrlHelperFactory testUrlHelperFactory = new MockUrlHelperFactory();
             services.Add(typeof(IUrlHelperFactory), testUrlHelperFactory);
 
-            TestServiceProvider testServiceProvider = new TestServiceProvider(services);
+            MockServiceProvider testServiceProvider = new MockServiceProvider(services);
 
             LoginController sut = CreateLoginController(null, null, null, null, null, testServiceProvider, testHttpResponse);
 
@@ -1046,18 +1046,18 @@ namespace AspNetCore.PluginManager.Tests.Plugins.LoginTests
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
             LoginControllerSettings loginControllerSettings = settingsProvider.GetSettings<LoginControllerSettings>(nameof(LoginPlugin));
 
-            TestHttpResponse testHttpResponse = new TestHttpResponse();
+            MockHttpResponse testHttpResponse = new MockHttpResponse();
 
             Dictionary<Type, object> services = new Dictionary<Type, object>();
-            services.Add(typeof(IAuthenticationService), new TestAuthenticationService());
+            services.Add(typeof(IAuthenticationService), new MockAuthenticationService());
 
-            ITempDataProvider tempDataProvider = new TestTempDataProvider();
+            ITempDataProvider tempDataProvider = new MockTempDataProvider();
             services.Add(typeof(ITempDataDictionaryFactory), new TempDataDictionaryFactory(tempDataProvider));
 
-            TestUrlHelperFactory testUrlHelperFactory = new TestUrlHelperFactory();
+            MockUrlHelperFactory testUrlHelperFactory = new MockUrlHelperFactory();
             services.Add(typeof(IUrlHelperFactory), testUrlHelperFactory);
 
-            TestServiceProvider testServiceProvider = new TestServiceProvider(services);
+            MockServiceProvider testServiceProvider = new MockServiceProvider(services);
 
             LoginController sut = CreateLoginController(null, null, null, null, null, testServiceProvider, testHttpResponse);
             ForgotPasswordViewModel model = new ForgotPasswordViewModel()
@@ -1090,18 +1090,18 @@ namespace AspNetCore.PluginManager.Tests.Plugins.LoginTests
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
             LoginControllerSettings loginControllerSettings = settingsProvider.GetSettings<LoginControllerSettings>(nameof(LoginPlugin));
 
-            TestHttpResponse testHttpResponse = new TestHttpResponse();
+            MockHttpResponse testHttpResponse = new MockHttpResponse();
 
             Dictionary<Type, object> services = new Dictionary<Type, object>();
-            services.Add(typeof(IAuthenticationService), new TestAuthenticationService());
+            services.Add(typeof(IAuthenticationService), new MockAuthenticationService());
 
-            ITempDataProvider tempDataProvider = new TestTempDataProvider();
+            ITempDataProvider tempDataProvider = new MockTempDataProvider();
             services.Add(typeof(ITempDataDictionaryFactory), new TempDataDictionaryFactory(tempDataProvider));
 
-            TestUrlHelperFactory testUrlHelperFactory = new TestUrlHelperFactory();
+            MockUrlHelperFactory testUrlHelperFactory = new MockUrlHelperFactory();
             services.Add(typeof(IUrlHelperFactory), testUrlHelperFactory);
 
-            TestServiceProvider testServiceProvider = new TestServiceProvider(services);
+            MockServiceProvider testServiceProvider = new MockServiceProvider(services);
 
             LoginController sut = CreateLoginController(null, null, null, null, null, testServiceProvider, testHttpResponse);
             ForgotPasswordViewModel model = new ForgotPasswordViewModel()
@@ -1135,18 +1135,18 @@ namespace AspNetCore.PluginManager.Tests.Plugins.LoginTests
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
             LoginControllerSettings loginControllerSettings = settingsProvider.GetSettings<LoginControllerSettings>(nameof(LoginPlugin));
 
-            TestHttpResponse testHttpResponse = new TestHttpResponse();
+            MockHttpResponse testHttpResponse = new MockHttpResponse();
 
             Dictionary<Type, object> services = new Dictionary<Type, object>();
-            services.Add(typeof(IAuthenticationService), new TestAuthenticationService());
+            services.Add(typeof(IAuthenticationService), new MockAuthenticationService());
 
-            ITempDataProvider tempDataProvider = new TestTempDataProvider();
+            ITempDataProvider tempDataProvider = new MockTempDataProvider();
             services.Add(typeof(ITempDataDictionaryFactory), new TempDataDictionaryFactory(tempDataProvider));
 
-            TestUrlHelperFactory testUrlHelperFactory = new TestUrlHelperFactory();
+            MockUrlHelperFactory testUrlHelperFactory = new MockUrlHelperFactory();
             services.Add(typeof(IUrlHelperFactory), testUrlHelperFactory);
 
-            TestServiceProvider testServiceProvider = new TestServiceProvider(services);
+            MockServiceProvider testServiceProvider = new MockServiceProvider(services);
 
             LoginController sut = CreateLoginController(null, null, null, null, null, testServiceProvider, testHttpResponse);
             sut.ForgotPassword();
@@ -1181,18 +1181,18 @@ namespace AspNetCore.PluginManager.Tests.Plugins.LoginTests
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
             LoginControllerSettings loginControllerSettings = settingsProvider.GetSettings<LoginControllerSettings>(nameof(LoginPlugin));
 
-            TestHttpResponse testHttpResponse = new TestHttpResponse();
+            MockHttpResponse testHttpResponse = new MockHttpResponse();
 
             Dictionary<Type, object> services = new Dictionary<Type, object>();
-            services.Add(typeof(IAuthenticationService), new TestAuthenticationService());
+            services.Add(typeof(IAuthenticationService), new MockAuthenticationService());
 
-            ITempDataProvider tempDataProvider = new TestTempDataProvider();
+            ITempDataProvider tempDataProvider = new MockTempDataProvider();
             services.Add(typeof(ITempDataDictionaryFactory), new TempDataDictionaryFactory(tempDataProvider));
 
-            TestUrlHelperFactory testUrlHelperFactory = new TestUrlHelperFactory();
+            MockUrlHelperFactory testUrlHelperFactory = new MockUrlHelperFactory();
             services.Add(typeof(IUrlHelperFactory), testUrlHelperFactory);
 
-            TestServiceProvider testServiceProvider = new TestServiceProvider(services);
+            MockServiceProvider testServiceProvider = new MockServiceProvider(services);
 
             LoginController sut = CreateLoginController(null, null, null, null, null, testServiceProvider, testHttpResponse);
             sut.ForgotPassword();
@@ -1227,18 +1227,18 @@ namespace AspNetCore.PluginManager.Tests.Plugins.LoginTests
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
             LoginControllerSettings loginControllerSettings = settingsProvider.GetSettings<LoginControllerSettings>(nameof(LoginPlugin));
 
-            TestHttpResponse testHttpResponse = new TestHttpResponse();
+            MockHttpResponse testHttpResponse = new MockHttpResponse();
 
             Dictionary<Type, object> services = new Dictionary<Type, object>();
-            services.Add(typeof(IAuthenticationService), new TestAuthenticationService());
+            services.Add(typeof(IAuthenticationService), new MockAuthenticationService());
 
-            ITempDataProvider tempDataProvider = new TestTempDataProvider();
+            ITempDataProvider tempDataProvider = new MockTempDataProvider();
             services.Add(typeof(ITempDataDictionaryFactory), new TempDataDictionaryFactory(tempDataProvider));
 
-            TestUrlHelperFactory testUrlHelperFactory = new TestUrlHelperFactory();
+            MockUrlHelperFactory testUrlHelperFactory = new MockUrlHelperFactory();
             services.Add(typeof(IUrlHelperFactory), testUrlHelperFactory);
 
-            TestServiceProvider testServiceProvider = new TestServiceProvider(services);
+            MockServiceProvider testServiceProvider = new MockServiceProvider(services);
 
             LoginController sut = CreateLoginController(null, null, null, null, null, testServiceProvider, testHttpResponse);
             sut.ForgotPassword();
@@ -1309,15 +1309,15 @@ namespace AspNetCore.PluginManager.Tests.Plugins.LoginTests
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
             LoginControllerSettings loginControllerSettings = settingsProvider.GetSettings<LoginControllerSettings>(nameof(LoginPlugin));
 
-            TestRequestCookieCollection cookies = new TestRequestCookieCollection();
+            MockRequestCookieCollection cookies = new MockRequestCookieCollection();
             cookies.AddCookie("RememberMe", utils.Encrypt("123", loginControllerSettings.EncryptionKey));
 
-            TestAuthenticationService testAuthenticationService = new TestAuthenticationService();
+            MockAuthenticationService testAuthenticationService = new MockAuthenticationService();
             Dictionary<Type, object> services = new Dictionary<Type, object>();
             services.Add(typeof(IAuthenticationService), testAuthenticationService);
 
-            TestServiceProvider testServiceProvider = new TestServiceProvider(services);
-            TestHttpResponse testHttpResponse = new TestHttpResponse();
+            MockServiceProvider testServiceProvider = new MockServiceProvider(services);
+            MockHttpResponse testHttpResponse = new MockHttpResponse();
 
             LoginController sut = CreateLoginController(null, null, null, null, cookies, testServiceProvider, testHttpResponse);
             IActionResult indexResponse = sut.Index("/Home");
@@ -1335,10 +1335,10 @@ namespace AspNetCore.PluginManager.Tests.Plugins.LoginTests
             Assert.IsFalse(redirectViewResult.Permanent);
 
 
-            TestResponseCookies testResponseCookies = testHttpResponse.Cookies as TestResponseCookies;
+            MockResponseCookies testResponseCookies = testHttpResponse.Cookies as MockResponseCookies;
 
             Assert.IsNotNull(testResponseCookies);
-            TestResponseCookie testResponseCookie = testResponseCookies.Get("RememberMe");
+            MockResponseCookie testResponseCookie = testResponseCookies.Get("RememberMe");
             Assert.IsNotNull(testResponseCookie);
 
             Assert.IsTrue(testResponseCookie.CookieOptions.Expires < DateTime.Now);
@@ -1398,22 +1398,22 @@ namespace AspNetCore.PluginManager.Tests.Plugins.LoginTests
             Assert.AreEqual("", fileContentResult.FileDownloadName);
         }
 
-        private LoginController CreateLoginController(TestLoginProvider testLoginProvider = null,
+        private LoginController CreateLoginController(MockLoginProvider testLoginProvider = null,
             List<BreadcrumbItem> breadcrumbs = null,
-            TestSettingsProvider testSettingsProvider = null,
-            TestClaimsProvider testClaimsProvider = null,
-            TestRequestCookieCollection cookieCollection = null,
-            TestServiceProvider testServiceProvider = null,
-            TestHttpResponse testHttpResponse = null)
+            MockSettingsProvider testSettingsProvider = null,
+            MockClaimsProvider testClaimsProvider = null,
+            MockRequestCookieCollection cookieCollection = null,
+            MockServiceProvider testServiceProvider = null,
+            MockHttpResponse testHttpResponse = null)
         {
             IPluginClassesService pluginServices = _testDynamicContentPlugin as IPluginClassesService;
             IPluginHelperService pluginHelperService = _testDynamicContentPlugin as IPluginHelperService;
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
 
             LoginController Result = new LoginController(
-                testLoginProvider ?? new TestLoginProvider(),
-                testSettingsProvider ?? new TestSettingsProvider(SettingsEmpty),
-                testClaimsProvider ?? new TestClaimsProvider());
+                testLoginProvider ?? new MockLoginProvider(),
+                testSettingsProvider ?? new MockSettingsProvider(SettingsEmpty),
+                testClaimsProvider ?? new MockClaimsProvider());
 
             Result.ControllerContext = CreateTestControllerContext(breadcrumbs, cookieCollection, testServiceProvider, testHttpResponse);
 

@@ -77,7 +77,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         [ExpectedException(typeof(ArgumentNullException))]
         public void Construct_InvalidParam_NotificationServer_Null_Throws_ArgumentNullException()
         {
-            MockDynamicContentProvider dynamicContentProvider = new MockDynamicContentProvider(new TestPluginClassesService(), false);
+            MockDynamicContentProvider dynamicContentProvider = new MockDynamicContentProvider(new MockPluginClassesService(), false);
 
             new DynamicContentThreadManager(null, dynamicContentProvider);
         }
@@ -87,7 +87,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         [ExpectedException(typeof(ArgumentNullException))]
         public void Construct_InvalidParam_DynamicContentProvider_Null_Throws_ArgumentNullException()
         {
-            INotificationService notificationService = new TestNotificationService();
+            INotificationService notificationService = new MockNotificationService();
 
             new DynamicContentThreadManager(notificationService, null);
         }
@@ -96,8 +96,8 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         [TestCategory(TestCategoryName)]
         public void Construct_ValidInstance_Success()
         {
-            INotificationService notificationService = new TestNotificationService();
-            MockDynamicContentProvider dynamicContentProvider = new MockDynamicContentProvider(new TestPluginClassesService(), false);
+            INotificationService notificationService = new MockNotificationService();
+            MockDynamicContentProvider dynamicContentProvider = new MockDynamicContentProvider(new MockPluginClassesService(), false);
 
             DynamicContentThreadManager sut = new DynamicContentThreadManager(notificationService, dynamicContentProvider);
 
@@ -109,8 +109,8 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         [TestCategory(TestCategoryName)]
         public void GetEvents_HasCorrectEventsRegistered_Success()
         {
-            INotificationService notificationService = new TestNotificationService();
-            MockDynamicContentProvider dynamicContentProvider = new MockDynamicContentProvider(new TestPluginClassesService(), false);
+            INotificationService notificationService = new MockNotificationService();
+            MockDynamicContentProvider dynamicContentProvider = new MockDynamicContentProvider(new MockPluginClassesService(), false);
 
             DynamicContentThreadManager sut = new DynamicContentThreadManager(notificationService, dynamicContentProvider);
 
@@ -123,8 +123,8 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         [TestCategory(TestCategoryName)]
         public void EventRaised_WithBoolResult_HasCorrectEvents_ReturnsTrue()
         {
-            INotificationService notificationService = new TestNotificationService();
-            MockDynamicContentProvider dynamicContentProvider = new MockDynamicContentProvider(new TestPluginClassesService(), false);
+            INotificationService notificationService = new MockNotificationService();
+            MockDynamicContentProvider dynamicContentProvider = new MockDynamicContentProvider(new MockPluginClassesService(), false);
 
             DynamicContentThreadManager sut = new DynamicContentThreadManager(notificationService, dynamicContentProvider);
             object returnValue = null;
@@ -135,8 +135,8 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         [TestCategory(TestCategoryName)]
         public void EventRaised_WithBoolResult_InvalidEvent_ReturnsFalse()
         {
-            INotificationService notificationService = new TestNotificationService();
-            MockDynamicContentProvider dynamicContentProvider = new MockDynamicContentProvider(new TestPluginClassesService(), false);
+            INotificationService notificationService = new MockNotificationService();
+            MockDynamicContentProvider dynamicContentProvider = new MockDynamicContentProvider(new MockPluginClassesService(), false);
 
             DynamicContentThreadManager sut = new DynamicContentThreadManager(notificationService, dynamicContentProvider);
             object returnValue = null;
@@ -147,8 +147,8 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         [TestCategory(TestCategoryName)]
         public void EventRaised_UpdateRequiredSetToTrue_Success()
         {
-            INotificationService notificationService = new TestNotificationService();
-            MockDynamicContentProvider dynamicContentProvider = new MockDynamicContentProvider(new TestPluginClassesService(), false);
+            INotificationService notificationService = new MockNotificationService();
+            MockDynamicContentProvider dynamicContentProvider = new MockDynamicContentProvider(new MockPluginClassesService(), false);
 
             DynamicContentThreadManager sut = new DynamicContentThreadManager(notificationService, dynamicContentProvider);
             ThreadManager.ThreadStart(sut, nameof(DynamicContentThreadManager), ThreadPriority.Normal);
@@ -170,8 +170,8 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         [TestCategory(TestCategoryName)]
         public void Run_UpdatesUpdateRequired_Success()
         {
-            INotificationService notificationService = new TestNotificationService();
-            MockDynamicContentProvider dynamicContentProvider = new MockDynamicContentProvider(new TestPluginClassesService(), false);
+            INotificationService notificationService = new MockNotificationService();
+            MockDynamicContentProvider dynamicContentProvider = new MockDynamicContentProvider(new MockPluginClassesService(), false);
 
             DynamicContentThreadManager sut = new DynamicContentThreadManager(notificationService, dynamicContentProvider);
             Assert.IsTrue(sut.UpdateRequired);
@@ -195,8 +195,8 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         {
             DateTime currentDate = DateTime.Now.AddSeconds(1);
 
-            INotificationService notificationService = new TestNotificationService();
-            MockDynamicContentProvider dynamicContentProvider = new MockDynamicContentProvider(new TestPluginClassesService(), false);
+            INotificationService notificationService = new MockNotificationService();
+            MockDynamicContentProvider dynamicContentProvider = new MockDynamicContentProvider(new MockPluginClassesService(), false);
 
             IDynamicContentPage page1 = GetPage1();
             page1.ActiveFrom = currentDate;
@@ -225,8 +225,8 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         {
             DateTime currentDate = DateTime.Now.AddSeconds(10);
 
-            INotificationService notificationService = new TestNotificationService();
-            MockDynamicContentProvider dynamicContentProvider = new MockDynamicContentProvider(new TestPluginClassesService(), false);
+            INotificationService notificationService = new MockNotificationService();
+            MockDynamicContentProvider dynamicContentProvider = new MockDynamicContentProvider(new MockPluginClassesService(), false);
 
             IDynamicContentPage page1 = GetPage1();
             page1.ActiveFrom = currentDate;
@@ -256,8 +256,8 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         {
             DateTime currentDate = DateTime.Now.AddSeconds(1);
 
-            INotificationService notificationService = new TestNotificationService();
-            MockDynamicContentProvider dynamicContentProvider = new MockDynamicContentProvider(new TestPluginClassesService(), false);
+            INotificationService notificationService = new MockNotificationService();
+            MockDynamicContentProvider dynamicContentProvider = new MockDynamicContentProvider(new MockPluginClassesService(), false);
 
             IDynamicContentPage page1 = GetPage1();
             page1.ActiveFrom = currentDate.AddDays(-10);

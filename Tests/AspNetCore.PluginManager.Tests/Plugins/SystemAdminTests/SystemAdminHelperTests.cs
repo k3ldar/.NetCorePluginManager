@@ -59,7 +59,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SystemAdminTests
         [ExpectedException(typeof(ArgumentNullException))]
         public void Construct_InvalidParamMemoryCache_Null_Throws_ArgumentNullException()
         {
-            new SystemAdminHelper(null, new TestPluginClassesService());
+            new SystemAdminHelper(null, new MockPluginClassesService());
         }
 
         [TestMethod]
@@ -67,7 +67,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SystemAdminTests
         [ExpectedException(typeof(ArgumentNullException))]
         public void Construct_InvalidParamPluginClassServices_Null_Throws_ArgumentNullException()
         {
-            new SystemAdminHelper(new TestMemoryCache(), null);
+            new SystemAdminHelper(new MockMemoryCache(), null);
         }
 
         [TestMethod]
@@ -75,7 +75,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SystemAdminTests
 
         public void Construct_ValidInstance_Success()
         {
-            SystemAdminHelper sut = new SystemAdminHelper(new TestMemoryCache(), new TestPluginClassesService());
+            SystemAdminHelper sut = new SystemAdminHelper(new MockMemoryCache(), new MockPluginClassesService());
             Assert.IsNotNull(sut);
             Assert.IsInstanceOfType(sut, typeof(ISystemAdminHelperService));
         }
@@ -85,7 +85,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SystemAdminTests
 
         public void GetSystemAdminMainMenu_ReturnsValidAdminMenuList_WithZeroItems_Success()
         {
-            SystemAdminHelper sut = new SystemAdminHelper(new TestMemoryCache(), new TestPluginClassesService(null));
+            SystemAdminHelper sut = new SystemAdminHelper(new MockMemoryCache(), new MockPluginClassesService(null));
             Assert.IsNotNull(sut);
 
             List<SystemAdminMainMenu> Result = sut.GetSystemAdminMainMenu();
@@ -100,11 +100,11 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SystemAdminTests
         {
             List<object> registeredServices = new List<object>();
 
-            registeredServices.Add(new AppSettingsJsonMenu(new TestSettingsProvider("{}")));
+            registeredServices.Add(new AppSettingsJsonMenu(new MockSettingsProvider()));
             registeredServices.Add(new GCAdminMenu());
 
-            TestPluginClassesService testPluginClassesService = new TestPluginClassesService(registeredServices);
-            SystemAdminHelper sut = new SystemAdminHelper(new TestMemoryCache(), testPluginClassesService);
+            MockPluginClassesService testPluginClassesService = new MockPluginClassesService(registeredServices);
+            SystemAdminHelper sut = new SystemAdminHelper(new MockMemoryCache(), testPluginClassesService);
             Assert.IsNotNull(sut);
 
             List<SystemAdminMainMenu> Result = sut.GetSystemAdminMainMenu();
@@ -120,11 +120,11 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SystemAdminTests
         {
             List<object> registeredServices = new List<object>();
 
-            registeredServices.Add(new AppSettingsJsonMenu(new TestSettingsProvider("{}")));
+            registeredServices.Add(new AppSettingsJsonMenu(new MockSettingsProvider()));
             registeredServices.Add(new GCAdminMenu());
 
-            TestPluginClassesService testPluginClassesService = new TestPluginClassesService(registeredServices);
-            SystemAdminHelper sut = new SystemAdminHelper(new TestMemoryCache(), testPluginClassesService);
+            MockPluginClassesService testPluginClassesService = new MockPluginClassesService(registeredServices);
+            SystemAdminHelper sut = new SystemAdminHelper(new MockMemoryCache(), testPluginClassesService);
             Assert.IsNotNull(sut);
 
             SystemAdminMainMenu Result = sut.GetSystemAdminDefaultMainMenu();
@@ -138,11 +138,11 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SystemAdminTests
         {
             List<object> registeredServices = new List<object>();
 
-            registeredServices.Add(new AppSettingsJsonMenu(new TestSettingsProvider("{}")));
+            registeredServices.Add(new AppSettingsJsonMenu(new MockSettingsProvider()));
             registeredServices.Add(new GCAdminMenu());
 
-            TestPluginClassesService testPluginClassesService = new TestPluginClassesService(registeredServices);
-            SystemAdminHelper sut = new SystemAdminHelper(new TestMemoryCache(), testPluginClassesService);
+            MockPluginClassesService testPluginClassesService = new MockPluginClassesService(registeredServices);
+            SystemAdminHelper sut = new SystemAdminHelper(new MockMemoryCache(), testPluginClassesService);
             Assert.IsNotNull(sut);
 
             SystemAdminMainMenu Result = sut.GetSystemAdminMainMenu(150);
@@ -155,11 +155,11 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SystemAdminTests
         {
             List<object> registeredServices = new List<object>();
 
-            registeredServices.Add(new AppSettingsJsonMenu(new TestSettingsProvider("{}")));
+            registeredServices.Add(new AppSettingsJsonMenu(new MockSettingsProvider()));
             registeredServices.Add(new GCAdminMenu());
 
-            TestPluginClassesService testPluginClassesService = new TestPluginClassesService(registeredServices);
-            TestMemoryCache testMemoryCache = new TestMemoryCache();
+            MockPluginClassesService testPluginClassesService = new MockPluginClassesService(registeredServices);
+            MockMemoryCache testMemoryCache = new MockMemoryCache();
             SystemAdminHelper sut = new SystemAdminHelper(testMemoryCache, testPluginClassesService);
             Assert.IsNotNull(sut);
 
@@ -181,8 +181,8 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SystemAdminTests
         {
             List<object> registeredServices = new List<object>();
 
-            TestPluginClassesService testPluginClassesService = new TestPluginClassesService(registeredServices);
-            TestMemoryCache testMemoryCache = new TestMemoryCache();
+            MockPluginClassesService testPluginClassesService = new MockPluginClassesService(registeredServices);
+            MockMemoryCache testMemoryCache = new MockMemoryCache();
             SystemAdminHelper sut = new SystemAdminHelper(testMemoryCache, testPluginClassesService);
             Assert.IsNotNull(sut);
 
@@ -198,11 +198,11 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SystemAdminTests
         {
             List<object> registeredServices = new List<object>();
 
-            registeredServices.Add(new AppSettingsJsonMenu(new TestSettingsProvider("{}")));
+            registeredServices.Add(new AppSettingsJsonMenu(new MockSettingsProvider()));
             registeredServices.Add(new GCAdminMenu());
 
-            TestPluginClassesService testPluginClassesService = new TestPluginClassesService(registeredServices);
-            TestMemoryCache testMemoryCache = new TestMemoryCache();
+            MockPluginClassesService testPluginClassesService = new MockPluginClassesService(registeredServices);
+            MockMemoryCache testMemoryCache = new MockMemoryCache();
             SystemAdminHelper sut = new SystemAdminHelper(testMemoryCache, testPluginClassesService);
             Assert.IsNotNull(sut);
 
@@ -218,8 +218,8 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SystemAdminTests
         {
             List<object> registeredServices = new List<object>();
 
-            TestPluginClassesService testPluginClassesService = new TestPluginClassesService(registeredServices);
-            TestMemoryCache testMemoryCache = new TestMemoryCache();
+            MockPluginClassesService testPluginClassesService = new MockPluginClassesService(registeredServices);
+            MockMemoryCache testMemoryCache = new MockMemoryCache();
             SystemAdminHelper sut = new SystemAdminHelper(testMemoryCache, testPluginClassesService);
             Assert.IsNotNull(sut);
 
@@ -235,12 +235,12 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SystemAdminTests
         {
             List<object> registeredServices = new List<object>();
 
-            registeredServices.Add(new TestSystemAdminMainMenu("Unused", 9876543));
-            registeredServices.Add(new AppSettingsJsonMenu(new TestSettingsProvider("{}")));
+            registeredServices.Add(new MockSystemAdminMainMenu("Unused", 9876543));
+            registeredServices.Add(new AppSettingsJsonMenu(new MockSettingsProvider()));
             registeredServices.Add(new GCAdminMenu());
 
-            TestPluginClassesService testPluginClassesService = new TestPluginClassesService(registeredServices);
-            TestMemoryCache testMemoryCache = new TestMemoryCache();
+            MockPluginClassesService testPluginClassesService = new MockPluginClassesService(registeredServices);
+            MockMemoryCache testMemoryCache = new MockMemoryCache();
             SystemAdminHelper sut = new SystemAdminHelper(testMemoryCache, testPluginClassesService);
             Assert.IsNotNull(sut);
 
@@ -261,8 +261,8 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SystemAdminTests
         {
             List<object> registeredServices = new List<object>();
 
-            TestPluginClassesService testPluginClassesService = new TestPluginClassesService(registeredServices);
-            TestMemoryCache testMemoryCache = new TestMemoryCache();
+            MockPluginClassesService testPluginClassesService = new MockPluginClassesService(registeredServices);
+            MockMemoryCache testMemoryCache = new MockMemoryCache();
             SystemAdminHelper sut = new SystemAdminHelper(testMemoryCache, testPluginClassesService);
             Assert.IsNotNull(sut);
 
@@ -278,11 +278,11 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SystemAdminTests
         {
             List<object> registeredServices = new List<object>();
 
-            registeredServices.Add(new AppSettingsJsonMenu(new TestSettingsProvider("{}")));
+            registeredServices.Add(new AppSettingsJsonMenu(new MockSettingsProvider()));
             registeredServices.Add(new GCAdminMenu());
 
-            TestPluginClassesService testPluginClassesService = new TestPluginClassesService(registeredServices);
-            TestMemoryCache testMemoryCache = new TestMemoryCache();
+            MockPluginClassesService testPluginClassesService = new MockPluginClassesService(registeredServices);
+            MockMemoryCache testMemoryCache = new MockMemoryCache();
             SystemAdminHelper sut = new SystemAdminHelper(testMemoryCache, testPluginClassesService);
             Assert.IsNotNull(sut);
 

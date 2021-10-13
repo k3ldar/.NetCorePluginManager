@@ -64,7 +64,7 @@ namespace PluginManager.Tests
         [TestCategory(TestCategoryDescription)]
         public void GetServiceInstance_Singleton_ImplementationInstance_ReturnsInstance_Success()
         {
-            TestLogger testLogger = new TestLogger();
+            MockLogger testLogger = new MockLogger();
 
             MockServiceCollection msc = new MockServiceCollection();
             msc.AddSingleton<ILogger>(testLogger);
@@ -80,7 +80,7 @@ namespace PluginManager.Tests
         public void GetServiceInstance_Singleton_ImplementationType_ReturnsInstance_Success()
         {
             MockServiceCollection msc = new MockServiceCollection();
-            msc.AddSingleton<ILogger, TestLogger>();
+            msc.AddSingleton<ILogger, MockLogger>();
             Assert.IsNull(msc[0].ImplementationInstance);
             Assert.IsNull(msc[0].ImplementationFactory);
             Assert.IsNotNull(msc[0].ImplementationType);
@@ -97,7 +97,7 @@ namespace PluginManager.Tests
         [TestCategory(TestCategoryDescription)]
         public void GetServiceInstance_Singleton_ImplementationFactory_ReturnsInstance_Success()
         {
-            TestLogger testLogger = new TestLogger();
+            MockLogger testLogger = new MockLogger();
 
             MockServiceCollection msc = new MockServiceCollection();
             msc.AddSingleton<ILogger>(factory => testLogger);
@@ -119,7 +119,7 @@ namespace PluginManager.Tests
         [TestCategory(TestCategoryDescription)]
         public void GetServiceInstance_Transient_ImplementationFactory_ReturnsInstance_Success()
         {
-            TestLogger testLogger = new TestLogger();
+            MockLogger testLogger = new MockLogger();
 
             MockServiceCollection msc = new MockServiceCollection();
             msc.AddTransient<ILogger>(factory => testLogger);
@@ -142,7 +142,7 @@ namespace PluginManager.Tests
         public void GetServiceInstance_Transient_ImplementationType_ReturnsInstance_Success()
         {
             MockServiceCollection msc = new MockServiceCollection();
-            msc.AddTransient<ILogger, TestLogger>();
+            msc.AddTransient<ILogger, MockLogger>();
 
             Assert.IsNull(msc[0].ImplementationFactory);
             Assert.IsNull(msc[0].ImplementationInstance);
@@ -229,7 +229,7 @@ namespace PluginManager.Tests
         [TestCategory(TestCategoryDescription)]
         public void GetServiceInstance_ConstructInstanceWithConstructorClassesRegistered_Success()
         {
-            TestLogger testLogger = new TestLogger();
+            MockLogger testLogger = new MockLogger();
 
             MockServiceCollection msc = new MockServiceCollection();
             msc.AddTransient<TestClassWithConstructorParams>();
@@ -253,7 +253,7 @@ namespace PluginManager.Tests
         [TestCategory(TestCategoryDescription)]
         public void GetServiceInstance_ConstructInstanceWithMultipleConstructor_NotAllClassesRegistered_Success()
         {
-            TestLogger testLogger = new TestLogger();
+            MockLogger testLogger = new MockLogger();
 
             MockServiceCollection msc = new MockServiceCollection();
             msc.AddTransient<TestClassWithMultipleConstructors>();

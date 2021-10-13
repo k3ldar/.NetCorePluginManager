@@ -59,7 +59,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.GeoIpTests
         public void Initialize_DoesNotAddItemsToLogger()
         {
             PluginInitialisation sut = new PluginInitialisation();
-            TestLogger testLogger = new TestLogger();
+            MockLogger testLogger = new MockLogger();
 
             sut.Initialise(testLogger);
 
@@ -70,7 +70,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.GeoIpTests
         [TestCategory(TestsCategory)]
         public void Finalise_DoesNotThrowException()
         {
-            TestApplicationBuilder testApplicationBuilder = new TestApplicationBuilder();
+            MockApplicationBuilder testApplicationBuilder = new MockApplicationBuilder();
             PluginInitialisation sut = new PluginInitialisation();
 
             sut.Finalise();

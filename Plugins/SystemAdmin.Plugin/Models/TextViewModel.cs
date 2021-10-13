@@ -86,9 +86,9 @@ namespace SystemAdmin.Plugin.Models
 
         #region Public Properties
 
-        public string Title { get; set; }
+        public string Title { get; }
 
-        public string Text { get; private set; }
+        public string Text { get; }
 
         #endregion Public Properties
     }

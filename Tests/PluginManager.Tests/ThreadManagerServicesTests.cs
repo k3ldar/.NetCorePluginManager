@@ -45,7 +45,7 @@ namespace PluginManager.Tests
         [ExpectedException(typeof(ArgumentNullException))]
         public void RegisterStartupThread_InvalidThreadName_Null_Throws_ArgumentNullException()
         {
-            using (TestPluginManager pluginManager = new TestPluginManager())
+            using (MockPluginManager pluginManager = new MockPluginManager())
             {
                 pluginManager.RegisterStartupThread(null, typeof(TestThreadManager));
             }
@@ -56,7 +56,7 @@ namespace PluginManager.Tests
         [ExpectedException(typeof(ArgumentNullException))]
         public void RegisterStartupThread_InvalidThreadName_EmptyString_Throws_ArgumentNullException()
         {
-            using (TestPluginManager pluginManager = new TestPluginManager())
+            using (MockPluginManager pluginManager = new MockPluginManager())
             {
                 pluginManager.RegisterStartupThread("", typeof(TestThreadManager));
             }
@@ -67,7 +67,7 @@ namespace PluginManager.Tests
         [ExpectedException(typeof(ArgumentException))]
         public void RegisterStartupThread_InvalidType_DoesNotDescendFromThreadManager_Throws_ArgumentException()
         {
-            using (TestPluginManager pluginManager = new TestPluginManager())
+            using (MockPluginManager pluginManager = new MockPluginManager())
             {
                 pluginManager.RegisterStartupThread("My thread", this.GetType());
             }
@@ -78,7 +78,7 @@ namespace PluginManager.Tests
         [ExpectedException(typeof(InvalidOperationException))]
         public void RegisterStartupThread_ThreadNameAlreadyExists_Throws_InvalidOperationException()
         {
-            using (TestPluginManager pluginManager = new TestPluginManager())
+            using (MockPluginManager pluginManager = new MockPluginManager())
             {
                 pluginManager.RegisterStartupThread("test", typeof(TestThreadManager));
                 pluginManager.RegisterStartupThread("test", typeof(TestThreadManager));
@@ -89,7 +89,7 @@ namespace PluginManager.Tests
         [TestCategory(TestCategoryName)]
         public void RegisterStartupThread_RegistersThreadForStartingAfterConfiguration_Success()
         {
-            using (TestPluginManager pluginManager = new TestPluginManager())
+            using (MockPluginManager pluginManager = new MockPluginManager())
             {
                 pluginManager.RegisterStartupThread("test", typeof(TestThreadManager));
 

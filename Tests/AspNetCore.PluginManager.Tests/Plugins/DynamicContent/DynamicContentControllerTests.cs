@@ -534,7 +534,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         public void Construct_DynamicContentController_InvalidDynamicContentProvider_Throws_ArgumentNullException()
         {
             ISettingsProvider settingsProvider = new DefaultSettingProvider(Directory.GetCurrentDirectory(), null, null);
-            DynamicContentController Result = new DynamicContentController(null, new DefaultMemoryCache(settingsProvider), new MockImageProvider(), new TestNotificationService());
+            DynamicContentController Result = new DynamicContentController(null, new DefaultMemoryCache(settingsProvider), new MockImageProvider(), new MockNotificationService());
         }
 
         [TestMethod]
@@ -543,7 +543,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         public void Construct_DynamicContentController_InvalidMemoryCache_Throws_ArgumentNullException()
         {
             IPluginClassesService pluginServices = _testDynamicContentPlugin as IPluginClassesService;
-            DynamicContentController Result = new DynamicContentController(new MockDynamicContentProvider(pluginServices), null, new MockImageProvider(), new TestNotificationService());
+            DynamicContentController Result = new DynamicContentController(new MockDynamicContentProvider(pluginServices), null, new MockImageProvider(), new MockNotificationService());
         }
 
         [TestMethod]
@@ -553,7 +553,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         {
             IPluginClassesService pluginServices = _testDynamicContentPlugin as IPluginClassesService;
             ISettingsProvider settingsProvider = new DefaultSettingProvider(Directory.GetCurrentDirectory(), null, null);
-            DynamicContentController Result = new DynamicContentController(new MockDynamicContentProvider(pluginServices), new DefaultMemoryCache(settingsProvider), null, new TestNotificationService());
+            DynamicContentController Result = new DynamicContentController(new MockDynamicContentProvider(pluginServices), new DefaultMemoryCache(settingsProvider), null, new MockNotificationService());
         }
 
         [TestMethod]
@@ -700,7 +700,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
             Assert.IsTrue(MethodHasAttribute<HttpGetAttribute>(typeof(DynamicContentController), nameof(DynamicContentController.GetContent)));
             Assert.IsTrue(MethodHasAttribute<AjaxOnlyAttribute>(typeof(DynamicContentController), nameof(DynamicContentController.GetContent)));
             Assert.IsTrue(MethodHasAttribute<LoggedInAttribute>(typeof(DynamicContentController), nameof(DynamicContentController.GetContent)));
-            Assert.IsTrue(MethodRouteAttribute(typeof(DynamicContentController), nameof(DynamicContentController.GetContent), "DynamicContent/GetContent/{*cacheId}"));
+            Assert.IsTrue(MethodHasRouteAttribute(typeof(DynamicContentController), nameof(DynamicContentController.GetContent), "DynamicContent/GetContent/{*cacheId}"));
 
             Assert.IsFalse(MethodHasAttribute<HttpPostAttribute>(typeof(DynamicContentController), nameof(DynamicContentController.GetContent)));
             Assert.IsFalse(MethodHasAttribute<HttpPutAttribute>(typeof(DynamicContentController), nameof(DynamicContentController.GetContent)));
@@ -827,7 +827,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
             Assert.IsTrue(MethodHasAttribute<HttpPostAttribute>(typeof(DynamicContentController), nameof(DynamicContentController.UpdateControlPosition)));
             Assert.IsTrue(MethodHasAttribute<LoggedInAttribute>(typeof(DynamicContentController), nameof(DynamicContentController.UpdateControlPosition)));
             Assert.IsTrue(MethodHasAttribute<AjaxOnlyAttribute>(typeof(DynamicContentController), nameof(DynamicContentController.UpdateControlPosition)));
-            Assert.IsTrue(MethodRouteAttribute(typeof(DynamicContentController), nameof(DynamicContentController.UpdateControlPosition), "DynamicContent/UpdatePosition"));
+            Assert.IsTrue(MethodHasRouteAttribute(typeof(DynamicContentController), nameof(DynamicContentController.UpdateControlPosition), "DynamicContent/UpdatePosition"));
 
             Assert.IsFalse(MethodHasAttribute<HttpGetAttribute>(typeof(DynamicContentController), nameof(DynamicContentController.UpdateControlPosition)));
             Assert.IsFalse(MethodHasAttribute<HttpPutAttribute>(typeof(DynamicContentController), nameof(DynamicContentController.UpdateControlPosition)));
@@ -1095,7 +1095,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         {
             Assert.IsTrue(MethodHasAttribute<LoggedInAttribute>(typeof(DynamicContentController), nameof(DynamicContentController.Preview)));
             Assert.IsTrue(MethodHasAttribute<HttpGetAttribute>(typeof(DynamicContentController), nameof(DynamicContentController.Preview)));
-            Assert.IsTrue(MethodRouteAttribute(typeof(DynamicContentController), nameof(DynamicContentController.Preview), "DynamicContent/Preview/{cacheId}"));
+            Assert.IsTrue(MethodHasRouteAttribute(typeof(DynamicContentController), nameof(DynamicContentController.Preview), "DynamicContent/Preview/{cacheId}"));
 
             Assert.IsFalse(MethodHasAttribute<AjaxOnlyAttribute>(typeof(DynamicContentController), nameof(DynamicContentController.Preview)));
             Assert.IsFalse(MethodHasAttribute<HttpPostAttribute>(typeof(DynamicContentController), nameof(DynamicContentController.Preview)));
@@ -1211,7 +1211,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
             Assert.IsTrue(MethodHasAttribute<LoggedInAttribute>(typeof(DynamicContentController), nameof(DynamicContentController.TemplateEditor)));
             Assert.IsTrue(MethodHasAttribute<HttpGetAttribute>(typeof(DynamicContentController), nameof(DynamicContentController.TemplateEditor)));
             Assert.IsTrue(MethodHasAttribute<AjaxOnlyAttribute>(typeof(DynamicContentController), nameof(DynamicContentController.TemplateEditor)));
-            Assert.IsTrue(MethodRouteAttribute(typeof(DynamicContentController), nameof(DynamicContentController.TemplateEditor), "DynamicContent/TemplateEditor/{cacheId}/{controlId}"));
+            Assert.IsTrue(MethodHasRouteAttribute(typeof(DynamicContentController), nameof(DynamicContentController.TemplateEditor), "DynamicContent/TemplateEditor/{cacheId}/{controlId}"));
 
             Assert.IsFalse(MethodHasAttribute<HttpPostAttribute>(typeof(DynamicContentController), nameof(DynamicContentController.TemplateEditor)));
             Assert.IsFalse(MethodHasAttribute<HttpDeleteAttribute>(typeof(DynamicContentController), nameof(DynamicContentController.TemplateEditor)));
@@ -1276,7 +1276,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         [TestCategory(TestCategoryName)]
         public void TemplateEditor_InvalidCacheItem_NotDynamicContent_ReturnsNonSuccess()
         {
-            DefaultMemoryCache defaultMemoryCache = new DefaultMemoryCache(new TestSettingsProvider("{}"));
+            DefaultMemoryCache defaultMemoryCache = new DefaultMemoryCache(new MockSettingsProvider());
             defaultMemoryCache.GetExtendingCache().Add("cachename", new CacheItem("cachename", new List<string>()));
             DynamicContentController dynamicContentController = CreateDynamicContentController(defaultMemoryCache);
 
@@ -2075,7 +2075,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
             Assert.IsTrue(MethodHasAttribute<LoggedInAttribute>(typeof(DynamicContentController), nameof(DynamicContentController.DeleteControl)));
             Assert.IsTrue(MethodHasAttribute<HttpGetAttribute>(typeof(DynamicContentController), nameof(DynamicContentController.DeleteControl)));
             Assert.IsTrue(MethodHasAttribute<AjaxOnlyAttribute>(typeof(DynamicContentController), nameof(DynamicContentController.DeleteControl)));
-            Assert.IsTrue(MethodRouteAttribute(typeof(DynamicContentController), nameof(DynamicContentController.DeleteControl), "DynamicContent/DeleteControl/{cacheId}/{controlId}"));
+            Assert.IsTrue(MethodHasRouteAttribute(typeof(DynamicContentController), nameof(DynamicContentController.DeleteControl), "DynamicContent/DeleteControl/{cacheId}/{controlId}"));
 
             Assert.IsFalse(MethodHasAttribute<HttpPostAttribute>(typeof(DynamicContentController), nameof(DynamicContentController.DeleteControl)));
             Assert.IsFalse(MethodHasAttribute<HttpDeleteAttribute>(typeof(DynamicContentController), nameof(DynamicContentController.DeleteControl)));
@@ -2571,7 +2571,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
             Assert.IsTrue(MethodHasAttribute<HttpPostAttribute>(typeof(DynamicContentController), nameof(DynamicContentController.AddTemplateToPage)));
             Assert.IsTrue(MethodHasAttribute<AjaxOnlyAttribute>(typeof(DynamicContentController), nameof(DynamicContentController.AddTemplateToPage)));
             Assert.IsTrue(MethodHasAttribute<LoggedInAttribute>(typeof(DynamicContentController), nameof(DynamicContentController.AddTemplateToPage)));
-            Assert.IsTrue(MethodRouteAttribute(typeof(DynamicContentController), nameof(DynamicContentController.AddTemplateToPage), "DynamicContent/AddTemplate/"));
+            Assert.IsTrue(MethodHasRouteAttribute(typeof(DynamicContentController), nameof(DynamicContentController.AddTemplateToPage), "DynamicContent/AddTemplate/"));
 
             Assert.IsFalse(MethodHasAttribute<HttpGetAttribute>(typeof(DynamicContentController), nameof(DynamicContentController.AddTemplateToPage)));
             Assert.IsFalse(MethodHasAttribute<HttpPutAttribute>(typeof(DynamicContentController), nameof(DynamicContentController.AddTemplateToPage)));
@@ -2806,7 +2806,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
             Assert.IsTrue(MethodHasAttribute<HttpPostAttribute>(typeof(DynamicContentController), methodName));
             Assert.IsTrue(MethodHasAttribute<LoggedInAttribute>(typeof(DynamicContentController), methodName));
             Assert.IsTrue(MethodHasAuthorizeAttribute(typeof(DynamicContentController), methodName, "ContentEditor"));
-            Assert.IsTrue(MethodRouteAttribute(typeof(DynamicContentController), methodName, "DynamicContent/EditPage"));
+            Assert.IsTrue(MethodHasRouteAttribute(typeof(DynamicContentController), methodName, "DynamicContent/EditPage"));
 
             Assert.IsFalse(MethodHasAttribute<AjaxOnlyAttribute>(typeof(DynamicContentController), methodName));
             Assert.IsFalse(MethodHasAttribute<HttpGetAttribute>(typeof(DynamicContentController), methodName));
@@ -3055,7 +3055,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
 
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
             DefaultMemoryCache memoryCache = new DefaultMemoryCache(settingsProvider);
-            TestNotificationService testNotificationService = new TestNotificationService();
+            MockNotificationService testNotificationService = new MockNotificationService();
 
             DynamicContentPage cachedPage = new DynamicContentPage()
             {
@@ -3476,7 +3476,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
             List<BreadcrumbItem> breadcrumbs = null,
             MockDynamicContentProvider mockDynamicContentProvider = null,
             MockImageProvider mockImageProvider = null,
-            TestNotificationService testNotificationService = null)
+            MockNotificationService testNotificationService = null)
         {
             IPluginClassesService pluginServices = _testDynamicContentPlugin as IPluginClassesService;
             IPluginHelperService pluginHelperService = _testDynamicContentPlugin as IPluginHelperService;
@@ -3486,7 +3486,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
                 mockDynamicContentProvider ?? new MockDynamicContentProvider(pluginServices),
                 memoryCache ?? new DefaultMemoryCache(settingsProvider),
                 mockImageProvider ?? MockImageProvider.CreateDefaultMockImageProvider(),
-                testNotificationService ?? new TestNotificationService());
+                testNotificationService ?? new MockNotificationService());
 
             Result.ControllerContext = CreateTestControllerContext(breadcrumbs);
 

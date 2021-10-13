@@ -112,7 +112,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ProductTests
         {
             Action<IServiceCollection> configureServices = (IServiceCollection services) =>
             {
-                services.TryAddSingleton<ILogger>(new TestLogger());
+                services.TryAddSingleton<ILogger>(new MockLogger());
                 services.TryAddSingleton<INotificationService>(new NotificationService());
                 services.TryAddSingleton<IImageProvider>(new MockImageProvider());
             };

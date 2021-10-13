@@ -59,7 +59,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         [TestCategory(ImageManagerTestsCategory)]
         public void ImagePath_Loads_Successfully()
         {
-            TestSettingsProvider testSettingsProvider = new TestSettingsProvider("{\"ImageManager\": {\"ImagePath\": \"" + DemoWebsiteImagePath.Replace("\\", "\\\\") + "\"}}");
+            MockSettingsProvider testSettingsProvider = new MockSettingsProvider("{\"ImageManager\": {\"ImagePath\": \"" + DemoWebsiteImagePath.Replace("\\", "\\\\") + "\"}}");
             ImageManagerSettings sut = testSettingsProvider.GetSettings<ImageManagerSettings>("ImageManager");
 
             Assert.IsNotNull(sut);

@@ -26,7 +26,10 @@
 using System;
 using System.Linq;
 
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+
+using SharedPluginFeatures;
 
 using SystemAdmin.Plugin.Models;
 
@@ -45,6 +48,7 @@ namespace SystemAdmin.Plugin.Controllers
         }
 
         [HttpGet]
+        [Authorize(Policy = Constants.PolicyNameManagePermissions)]
         public IActionResult GetUserPermissions(long id)
         {
             UserPermissionsViewModel model = new UserPermissionsViewModel(id,
@@ -54,6 +58,7 @@ namespace SystemAdmin.Plugin.Controllers
         }
 
         [HttpPost]
+        [Authorize(Policy = Constants.PolicyNameManagePermissions)]
         public IActionResult SetUserPermissions(UserPermissionsViewModel model)
         {
             if (model == null)

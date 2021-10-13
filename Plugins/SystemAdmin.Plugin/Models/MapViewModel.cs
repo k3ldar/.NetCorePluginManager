@@ -50,6 +50,10 @@ namespace SystemAdmin.Plugin.Models
             Title = subMenu.Name();
 
             MapLocationData = subMenu.Data();
+
+            if (String.IsNullOrWhiteSpace(MapLocationData))
+                throw new InvalidOperationException("map data not found");
+
             SystemAdminSettings settings = settingsProvider.GetSettings<SystemAdminSettings>("SystemAdmin");
 
             GoogleMapApiKey = settings.GoogleMapApiKey;

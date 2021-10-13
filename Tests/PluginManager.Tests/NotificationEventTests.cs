@@ -215,7 +215,7 @@ namespace PluginManager.Tests
         public void NotificationService_Run_NotifiesAllInterestedListeners_Success()
         {
             ThreadManager.Initialise();
-            TestLogger testLogger = new TestLogger();
+            MockLogger testLogger = new MockLogger();
 
             ThreadManagerInitialisation tmi = new ThreadManagerInitialisation();
             tmi.Initialise(testLogger);
@@ -298,7 +298,7 @@ namespace PluginManager.Tests
         public void NotificationService_Run_NotifiesAllInterestedListeners_ExceedsQueueSize_Success()
         {
             ThreadManager.Initialise();
-            TestLogger testLogger = new TestLogger();
+            MockLogger testLogger = new MockLogger();
             ThreadManagerInitialisation tmi = new ThreadManagerInitialisation();
             tmi.Initialise(testLogger);
             try
@@ -350,7 +350,7 @@ namespace PluginManager.Tests
         public void NotificationService_Run_NotifiesAllInterestedListeners_NoneFoundSuccess()
         {
             ThreadManager.Initialise();
-            TestLogger testLogger = new TestLogger();
+            MockLogger testLogger = new MockLogger();
             ThreadManagerInitialisation tmi = new ThreadManagerInitialisation();
             tmi.Initialise(testLogger);
             try
@@ -408,7 +408,7 @@ namespace PluginManager.Tests
         [TestMethod]
         public void NotificationQueueItem_ContainsValidData_Success()
         {
-            NotificationQueueItem sut = new NotificationQueueItem("test", new TestLogger(), 123);
+            NotificationQueueItem sut = new NotificationQueueItem("test", new MockLogger(), 123);
 
             Assert.AreEqual("test", sut.EventId);
             Assert.IsNotNull(sut.Param1);

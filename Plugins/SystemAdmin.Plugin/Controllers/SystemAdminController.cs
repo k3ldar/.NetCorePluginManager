@@ -37,17 +37,26 @@ using SharedPluginFeatures;
 
 using SystemAdmin.Plugin.Models;
 
+using static SharedPluginFeatures.Constants;
+
 #pragma warning disable CS1591
 
 namespace SystemAdmin.Plugin.Controllers
 {
     [LoggedIn]
     [RestrictedIpRoute("SystemAdminRoute")]
-    [Authorize(Policy = SharedPluginFeatures.Constants.PolicyNameStaff)]
+    [Authorize(Policy = PolicyNameStaff)]
     [DenySpider]
     [Subdomain(SystemAdminController.Name)]
     public partial class SystemAdminController : BaseController
     {
+        #region Constants
+
+        public const string Name = "SystemAdmin";
+        public const string DefaultSysAdminRoute = ForwardSlash + Name + ForwardSlash;
+
+        #endregion Constants
+
         #region Private Members
 
         private readonly ISystemAdminHelperService _systemAdminHelperService;
@@ -72,90 +81,83 @@ namespace SystemAdmin.Plugin.Controllers
 
         #endregion Constructors
 
-        #region Constants
-
-        public const string Name = "SystemAdmin";
-
-        #endregion Constants
-
         #region Controller Action Methods
 
+        [HttpGet]
         public IActionResult Index(int id)
         {
             SystemAdminMainMenu selectedMenu = _systemAdminHelperService.GetSystemAdminMainMenu(id);
 
             if (selectedMenu == null)
-                return View(new AvailableIconViewModel(GetModelData(),
-                    _systemAdminHelperService.GetSystemAdminMainMenu()));
+                return View(new AvailableIconViewModel(GetModelData(), _systemAdminHelperService.GetSystemAdminMainMenu()));
 
             return View(new AvailableIconViewModel(GetModelData(), selectedMenu));
         }
 
+        [HttpGet]
         public IActionResult Grid(int id)
         {
             SystemAdminSubMenu subMenu = _systemAdminHelperService.GetSubMenuItem(id);
 
             if (subMenu == null)
-                return Redirect("/SystemAdmin/");
+                return Redirect(DefaultSysAdminRoute);
 
             return View(new GridViewModel(GetModelData(), subMenu));
         }
 
+        [HttpGet]
         public IActionResult Map(int id)
         {
             SystemAdminSubMenu subMenu = _systemAdminHelperService.GetSubMenuItem(id);
 
             if (subMenu == null)
-                return Redirect("/SystemAdmin/");
+                return Redirect(DefaultSysAdminRoute);
 
             return View(new MapViewModel(GetModelData(), _settingsProvider, subMenu));
         }
 
+        [HttpGet]
         public IActionResult View(int id)
         {
             SystemAdminSubMenu subMenu = _systemAdminHelperService.GetSubMenuItem(id);
 
             if (subMenu == null)
-                return Redirect("/SystemAdmin/");
+                return Redirect(DefaultSysAdminRoute);
 
             return View("PartialView", new PartialViewModel(GetModelData(), subMenu));
         }
 
+        [HttpGet]
         public IActionResult Text(int id)
         {
             SystemAdminSubMenu subMenu = _systemAdminHelperService.GetSubMenuItem(id);
 
             if (subMenu == null)
-                return Redirect("/SystemAdmin/");
+                return Redirect(DefaultSysAdminRoute);
 
             return View(new TextViewModel(GetModelData(), subMenu));
         }
 
+        [HttpGet]
         public IActionResult TextEx(int id)
         {
             SystemAdminSubMenu subMenu = _systemAdminHelperService.GetSubMenuItem(id);
 
             if (subMenu == null)
-                return Redirect("/SystemAdmin/");
+                return Redirect(DefaultSysAdminRoute);
 
             return View(new TextExViewModel(GetModelData(), _settingsProvider, subMenu));
         }
 
+        [HttpGet]
         public IActionResult Chart(int id)
         {
             SystemAdminSubMenu subMenu = _systemAdminHelperService.GetSubMenuItem(id);
 
             if (subMenu == null)
-                return Redirect("/SystemAdmin/");
+                return Redirect(DefaultSysAdminRoute);
 
             return View(new ChartViewModel(GetModelData(), subMenu));
-        }
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel(GetModelData(),
-                Activity.Current?.Id ?? HttpContext.TraceIdentifier));
         }
 
         #endregion Controller Action Methods

@@ -23,11 +23,18 @@
  *  28/10/2018  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+using System.Collections.Generic;
+
+using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 
 using PluginManager.Abstractions;
 
+using Shared.Classes;
+
 using SharedPluginFeatures;
+
+using SystemAdmin.Plugin.Classes;
 
 #pragma warning disable CS1591
 
@@ -37,7 +44,7 @@ namespace SystemAdmin.Plugin
     /// Implements IPlugin and IPluginVersion which allows the SystemAdmin.Plugin module to be
     /// loaded as a plugin module
     /// </summary>
-    public class PluginInitialisation : IPlugin, IPluginVersion
+    public class PluginInitialisation : IPlugin, IInitialiseEvents, IClaimsService
     {
         public void ConfigureServices(IServiceCollection services)
         {
@@ -58,6 +65,129 @@ namespace SystemAdmin.Plugin
         {
 
         }
+        #region IInitialiseEvents Methods
+
+        public void AfterConfigure(in IApplicationBuilder app)
+        {
+            ThreadManager.ThreadStart(new GCAnalysis(), nameof(GCAnalysis), System.Threading.ThreadPriority.Lowest);
+
+            IBreadcrumbService breadcrumbService = app.ApplicationServices.GetService<IBreadcrumbService>();
+            ISystemAdminHelperService systemAdminHelper = app.ApplicationServices.GetService<ISystemAdminHelperService>();
+
+            if (breadcrumbService != null && systemAdminHelper != null)
+                RegisterBreadcrumbs(breadcrumbService, systemAdminHelper);
+        }
+
+        public void AfterConfigureServices(in IServiceCollection services)
+        {
+#if NET_CORE_3_X || NET_5_X
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy(
+                    Constants.PolicyNameAlterSeoData,
+                    policyBuilder => policyBuilder.RequireClaim(Constants.ClaimNameManageSeo)
+                        .RequireClaim(Constants.ClaimNameStaff)
+                        .RequireClaim(Constants.ClaimNameUsername)
+                        .RequireClaim(Constants.ClaimNameUserId)
+                        .RequireClaim(Constants.ClaimNameUserEmail));
+            });
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy(
+                    Constants.PolicyNameManagePermissions,
+                    policyBuilder => policyBuilder.RequireClaim(Constants.ClaimNameAdministrator)
+                        .RequireClaim(Constants.ClaimNameUserPermissions)
+                        .RequireClaim(Constants.ClaimNameStaff));
+
+                options.AddPolicy(
+                    Constants.PolicyNameStaff,
+                    policyBuilder => policyBuilder.RequireClaim(Constants.ClaimNameStaff)
+                        .RequireClaim(Constants.ClaimNameUserId));
+            });
+#endif
+        }
+
+        public void BeforeConfigure(in IApplicationBuilder app)
+        {
+
+        }
+
+        public void BeforeConfigureServices(in IServiceCollection services)
+        {
+
+        }
+
+        public void Configure(in IApplicationBuilder app)
+        {
+
+        }
+
+        #endregion IInitialiseEvents Methods
+
+        #region IClaimsService
+
+        public List<string> GetClaims()
+        {
+            return new List<string>()
+            {
+                Constants.ClaimNameStaff,
+                Constants.ClaimNameUsername,
+                Constants.ClaimNameUserId,
+                Constants.ClaimNameUserEmail,
+                Constants.ClaimNameAdministrator,
+                Constants.ClaimNameManageSeo,
+                Constants.ClaimNameUserPermissions,
+            };
+        }
+
+        #endregion IClaimsService
+
+        #region Private Methods
+
+        private void RegisterBreadcrumbs(in IBreadcrumbService breadcrumbService,
+            in ISystemAdminHelperService systemAdminHelper)
+        {
+            string parentRoute = "/SystemAdmin";
+            breadcrumbService.AddBreadcrumb(nameof(Languages.LanguageStrings.SystemAdmin), parentRoute, false);
+
+            foreach (SystemAdminMainMenu item in systemAdminHelper.GetSystemAdminMainMenu())
+            {
+                string route = $"/SystemAdmin/Index/{item.UniqueId}";
+                breadcrumbService.AddBreadcrumb(item.Name, route, parentRoute, false);
+
+                foreach (SystemAdminSubMenu childItem in item.ChildMenuItems)
+                {
+                    switch (childItem.MenuType())
+                    {
+                        case Enums.SystemAdminMenuType.Grid:
+                            breadcrumbService.AddBreadcrumb(childItem.Name(), $"/SystemAdmin/Grid/{childItem.UniqueId}", route, false);
+                            break;
+                        case Enums.SystemAdminMenuType.Text:
+                            breadcrumbService.AddBreadcrumb(childItem.Name(), $"/SystemAdmin/Text/{childItem.UniqueId}", route, false);
+                            break;
+                        case Enums.SystemAdminMenuType.PartialView:
+                            breadcrumbService.AddBreadcrumb(childItem.Name(), $"/SystemAdmin/View/{childItem.UniqueId}", route, false);
+                            break;
+                        case Enums.SystemAdminMenuType.Map:
+                            breadcrumbService.AddBreadcrumb(childItem.Name(), $"/SystemAdmin/Map/{childItem.UniqueId}", route, false);
+                            break;
+                        case Enums.SystemAdminMenuType.FormattedText:
+                            breadcrumbService.AddBreadcrumb(childItem.Name(), $"/SystemAdmin/TextEx/{childItem.UniqueId}", route, false);
+                            break;
+                        case Enums.SystemAdminMenuType.View:
+                            breadcrumbService.AddBreadcrumb(childItem.Name(), $"/{childItem.Controller()}/{childItem.Action()}/", route, false);
+                            break;
+                        case Enums.SystemAdminMenuType.Chart:
+                            breadcrumbService.AddBreadcrumb(childItem.Name(), $"/SystemAdmin/Chart/{childItem.UniqueId}", route, false);
+                            break;
+                    }
+
+                }
+            }
+        }
+
+        #endregion Private Methods
     }
 }
 

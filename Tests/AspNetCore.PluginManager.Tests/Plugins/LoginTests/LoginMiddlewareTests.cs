@@ -68,7 +68,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.LoginTests
 
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
             MockClaimsProvider claimsProvider = new MockClaimsProvider(pluginServices);
-            TestAuthenticationService authenticationService = new TestAuthenticationService();
+            MockAuthenticationService authenticationService = new MockAuthenticationService();
             RequestDelegate requestDelegate = async (context) => { await Task.Delay(0); };
 
             LoginMiddleware login = new LoginMiddleware(requestDelegate, loginProvider, settingsProvider,
@@ -115,14 +115,14 @@ namespace AspNetCore.PluginManager.Tests.Plugins.LoginTests
         [ExpectedException(typeof(System.ArgumentNullException))]
         public async Task LoginNullAuthenticationValueOnInvoke()
         {
-            TestRequestCookieCollection cookies = new TestRequestCookieCollection();
+            MockRequestCookieCollection cookies = new MockRequestCookieCollection();
             cookies.AddCookie("RememberMe", "1");
 
-            TestHttpRequest httpRequest = new TestHttpRequest(cookies);
-            TestHttpResponse httpResponse = new TestHttpResponse();
+            MockHttpRequest httpRequest = new MockHttpRequest(cookies);
+            MockHttpResponse httpResponse = new MockHttpResponse();
 
             IPluginClassesService pluginServices = _testPluginLogin as IPluginClassesService;
-            TestHttpContext httpContext = new TestHttpContext(httpRequest, httpResponse);
+            MockHttpContext httpContext = new MockHttpContext(httpRequest, httpResponse);
             MockLoginProvider loginProvider = new MockLoginProvider();
 
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
@@ -173,19 +173,19 @@ namespace AspNetCore.PluginManager.Tests.Plugins.LoginTests
         [ExpectedException(typeof(System.FormatException))]
         public async Task LoginFromCookieValueCookieValueNotEncrypted()
         {
-            TestRequestCookieCollection cookies = new TestRequestCookieCollection();
+            MockRequestCookieCollection cookies = new MockRequestCookieCollection();
             cookies.AddCookie("RememberMe", "1");
 
-            TestHttpRequest httpRequest = new TestHttpRequest(cookies);
-            TestHttpResponse httpResponse = new TestHttpResponse();
+            MockHttpRequest httpRequest = new MockHttpRequest(cookies);
+            MockHttpResponse httpResponse = new MockHttpResponse();
 
             IPluginClassesService pluginServices = _testPluginLogin as IPluginClassesService;
-            TestHttpContext httpContext = new TestHttpContext(httpRequest, httpResponse);
+            MockHttpContext httpContext = new MockHttpContext(httpRequest, httpResponse);
             MockLoginProvider loginProvider = new MockLoginProvider();
 
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
             MockClaimsProvider claimsProvider = new MockClaimsProvider(pluginServices);
-            TestAuthenticationService authenticationService = new TestAuthenticationService();
+            MockAuthenticationService authenticationService = new MockAuthenticationService();
             RequestDelegate requestDelegate = async (context) => { await Task.Delay(0); };
 
             LoginMiddleware login = new LoginMiddleware(requestDelegate, loginProvider, settingsProvider,
@@ -200,19 +200,19 @@ namespace AspNetCore.PluginManager.Tests.Plugins.LoginTests
         [ExpectedException(typeof(System.FormatException))]
         public async Task LoginFromCookieValueCookieValueNotValid()
         {
-            TestRequestCookieCollection cookies = new TestRequestCookieCollection();
+            MockRequestCookieCollection cookies = new MockRequestCookieCollection();
             cookies.AddCookie("RememberMe", "asdfasdfasf");
 
-            TestHttpRequest httpRequest = new TestHttpRequest(cookies);
-            TestHttpResponse httpResponse = new TestHttpResponse();
+            MockHttpRequest httpRequest = new MockHttpRequest(cookies);
+            MockHttpResponse httpResponse = new MockHttpResponse();
 
             IPluginClassesService pluginServices = _testPluginLogin as IPluginClassesService;
-            TestHttpContext httpContext = new TestHttpContext(httpRequest, httpResponse);
+            MockHttpContext httpContext = new MockHttpContext(httpRequest, httpResponse);
             MockLoginProvider loginProvider = new MockLoginProvider();
 
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
             MockClaimsProvider claimsProvider = new MockClaimsProvider(pluginServices);
-            TestAuthenticationService authenticationService = new TestAuthenticationService();
+            MockAuthenticationService authenticationService = new MockAuthenticationService();
             RequestDelegate requestDelegate = async (context) => { await Task.Delay(0); };
 
             LoginMiddleware login = new LoginMiddleware(requestDelegate, loginProvider, settingsProvider,
@@ -228,19 +228,19 @@ namespace AspNetCore.PluginManager.Tests.Plugins.LoginTests
         {
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
             LoginControllerSettings loginControllerSettings = settingsProvider.GetSettings<LoginControllerSettings>(nameof(LoginPlugin));
-            TestRequestCookieCollection cookies = new TestRequestCookieCollection();
+            MockRequestCookieCollection cookies = new MockRequestCookieCollection();
             cookies.AddCookie("RememberMe", Encrypt("1", loginControllerSettings.EncryptionKey));
 
-            TestHttpRequest httpRequest = new TestHttpRequest(cookies);
-            TestHttpResponse httpResponse = new TestHttpResponse();
+            MockHttpRequest httpRequest = new MockHttpRequest(cookies);
+            MockHttpResponse httpResponse = new MockHttpResponse();
 
             IPluginClassesService pluginServices = _testPluginLogin as IPluginClassesService;
-            TestHttpContext httpContext = new TestHttpContext(httpRequest, httpResponse);
+            MockHttpContext httpContext = new MockHttpContext(httpRequest, httpResponse);
             httpRequest.SetContext(httpContext);
             MockLoginProvider loginProvider = new MockLoginProvider();
 
             MockClaimsProvider claimsProvider = new MockClaimsProvider(pluginServices);
-            TestAuthenticationService authenticationService = new TestAuthenticationService();
+            MockAuthenticationService authenticationService = new MockAuthenticationService();
             RequestDelegate requestDelegate = async (context) => { await Task.Delay(0); };
 
             LoginMiddleware login = new LoginMiddleware(requestDelegate, loginProvider, settingsProvider,
@@ -248,7 +248,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.LoginTests
 
             await login.Invoke(httpContext, authenticationService);
 
-            TestResponseCookies responseCookies = httpResponse.Cookies as TestResponseCookies;
+            MockResponseCookies responseCookies = httpResponse.Cookies as MockResponseCookies;
 
             Assert.IsNotNull(responseCookies);
             Assert.IsTrue(responseCookies.Get("RememberMe").CookieOptions.Expires < DateTime.Now.AddMinutes(-1439));
@@ -261,19 +261,19 @@ namespace AspNetCore.PluginManager.Tests.Plugins.LoginTests
         {
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
             LoginControllerSettings loginControllerSettings = settingsProvider.GetSettings<LoginControllerSettings>(nameof(LoginPlugin));
-            TestRequestCookieCollection cookies = new TestRequestCookieCollection();
+            MockRequestCookieCollection cookies = new MockRequestCookieCollection();
             cookies.AddCookie("RememberMe", Encrypt("123", loginControllerSettings.EncryptionKey));
 
-            TestHttpRequest httpRequest = new TestHttpRequest(cookies);
-            TestHttpResponse httpResponse = new TestHttpResponse();
+            MockHttpRequest httpRequest = new MockHttpRequest(cookies);
+            MockHttpResponse httpResponse = new MockHttpResponse();
 
             IPluginClassesService pluginServices = _testPluginLogin as IPluginClassesService;
-            TestHttpContext httpContext = new TestHttpContext(httpRequest, httpResponse);
+            MockHttpContext httpContext = new MockHttpContext(httpRequest, httpResponse);
             httpRequest.SetContext(httpContext);
             MockLoginProvider loginProvider = new MockLoginProvider();
 
             MockClaimsProvider claimsProvider = new MockClaimsProvider(pluginServices);
-            TestAuthenticationService authenticationService = new TestAuthenticationService();
+            MockAuthenticationService authenticationService = new MockAuthenticationService();
             RequestDelegate requestDelegate = async (context) => { await Task.Delay(0); };
 
             LoginMiddleware login = new LoginMiddleware(requestDelegate, loginProvider, settingsProvider,
@@ -281,7 +281,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.LoginTests
 
             await login.Invoke(httpContext, authenticationService);
 
-            TestResponseCookies responseCookies = httpResponse.Cookies as TestResponseCookies;
+            MockResponseCookies responseCookies = httpResponse.Cookies as MockResponseCookies;
 
             Assert.IsNotNull(responseCookies);
             Assert.IsTrue(authenticationService.SignInAsyncCalled);
@@ -294,19 +294,19 @@ namespace AspNetCore.PluginManager.Tests.Plugins.LoginTests
         {
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
             LoginControllerSettings loginControllerSettings = settingsProvider.GetSettings<LoginControllerSettings>(nameof(LoginPlugin));
-            TestRequestCookieCollection cookies = new TestRequestCookieCollection();
+            MockRequestCookieCollection cookies = new MockRequestCookieCollection();
             cookies.AddCookie("RememberMe", Encrypt("adfasfd", loginControllerSettings.EncryptionKey));
 
-            TestHttpRequest httpRequest = new TestHttpRequest(cookies);
-            TestHttpResponse httpResponse = new TestHttpResponse();
+            MockHttpRequest httpRequest = new MockHttpRequest(cookies);
+            MockHttpResponse httpResponse = new MockHttpResponse();
 
             IPluginClassesService pluginServices = _testPluginLogin as IPluginClassesService;
-            TestHttpContext httpContext = new TestHttpContext(httpRequest, httpResponse);
+            MockHttpContext httpContext = new MockHttpContext(httpRequest, httpResponse);
             httpRequest.SetContext(httpContext);
             MockLoginProvider loginProvider = new MockLoginProvider();
 
             MockClaimsProvider claimsProvider = new MockClaimsProvider(pluginServices);
-            TestAuthenticationService authenticationService = new TestAuthenticationService();
+            MockAuthenticationService authenticationService = new MockAuthenticationService();
             RequestDelegate requestDelegate = async (context) => { await Task.Delay(0); };
 
             LoginMiddleware login = new LoginMiddleware(requestDelegate, loginProvider, settingsProvider,
@@ -314,12 +314,12 @@ namespace AspNetCore.PluginManager.Tests.Plugins.LoginTests
 
             await login.Invoke(httpContext, authenticationService);
 
-            TestResponseCookies responseCookies = httpResponse.Cookies as TestResponseCookies;
+            MockResponseCookies responseCookies = httpResponse.Cookies as MockResponseCookies;
 
             Assert.IsNotNull(responseCookies);
             Assert.IsFalse(authenticationService.SignInAsyncCalled);
 
-            TestResponseCookie rememberMeCookie = responseCookies.Get("RememberMe");
+            MockResponseCookie rememberMeCookie = responseCookies.Get("RememberMe");
 
             Assert.IsNotNull(rememberMeCookie);
             Assert.IsTrue(rememberMeCookie.CookieOptions.Expires < DateTime.Now);
@@ -333,16 +333,16 @@ namespace AspNetCore.PluginManager.Tests.Plugins.LoginTests
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
             LoginControllerSettings loginControllerSettings = settingsProvider.GetSettings<LoginControllerSettings>(nameof(LoginPlugin));
 
-            TestHttpRequest httpRequest = new TestHttpRequest();
-            TestHttpResponse httpResponse = new TestHttpResponse();
+            MockHttpRequest httpRequest = new MockHttpRequest();
+            MockHttpResponse httpResponse = new MockHttpResponse();
 
             IPluginClassesService pluginServices = _testPluginLogin as IPluginClassesService;
-            TestHttpContext httpContext = new TestHttpContext(httpRequest, httpResponse);
+            MockHttpContext httpContext = new MockHttpContext(httpRequest, httpResponse);
             httpRequest.SetContext(httpContext);
             MockLoginProvider loginProvider = new MockLoginProvider();
 
             MockClaimsProvider claimsProvider = new MockClaimsProvider(pluginServices);
-            TestAuthenticationService authenticationService = new TestAuthenticationService();
+            MockAuthenticationService authenticationService = new MockAuthenticationService();
             RequestDelegate requestDelegate = async (context) => { await Task.Delay(0); };
 
             string encoded = Convert.ToBase64String(System.Text.Encoding.GetEncoding("ISO-8859-1").GetBytes("admin:password"));
@@ -367,17 +367,17 @@ namespace AspNetCore.PluginManager.Tests.Plugins.LoginTests
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
             LoginControllerSettings loginControllerSettings = settingsProvider.GetSettings<LoginControllerSettings>(nameof(LoginPlugin));
 
-            TestHttpRequest httpRequest = new TestHttpRequest();
-            TestHttpResponse httpResponse = new TestHttpResponse();
+            MockHttpRequest httpRequest = new MockHttpRequest();
+            MockHttpResponse httpResponse = new MockHttpResponse();
 
             IPluginClassesService pluginServices = _testPluginLogin as IPluginClassesService;
-            TestHttpContext httpContext = new TestHttpContext(httpRequest, httpResponse);
+            MockHttpContext httpContext = new MockHttpContext(httpRequest, httpResponse);
             httpContext.CreateSession = false;
             httpRequest.SetContext(httpContext);
             MockLoginProvider loginProvider = new MockLoginProvider();
 
             MockClaimsProvider claimsProvider = new MockClaimsProvider(pluginServices);
-            TestAuthenticationService authenticationService = new TestAuthenticationService();
+            MockAuthenticationService authenticationService = new MockAuthenticationService();
             RequestDelegate requestDelegate = async (context) => { await Task.Delay(0); };
 
             string encoded = Convert.ToBase64String(System.Text.Encoding.GetEncoding("ISO-8859-1").GetBytes("admin:password"));
@@ -402,16 +402,16 @@ namespace AspNetCore.PluginManager.Tests.Plugins.LoginTests
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
             LoginControllerSettings loginControllerSettings = settingsProvider.GetSettings<LoginControllerSettings>(nameof(LoginPlugin));
 
-            TestHttpRequest httpRequest = new TestHttpRequest();
-            TestHttpResponse httpResponse = new TestHttpResponse();
+            MockHttpRequest httpRequest = new MockHttpRequest();
+            MockHttpResponse httpResponse = new MockHttpResponse();
 
             IPluginClassesService pluginServices = _testPluginLogin as IPluginClassesService;
-            TestHttpContext httpContext = new TestHttpContext(httpRequest, httpResponse);
+            MockHttpContext httpContext = new MockHttpContext(httpRequest, httpResponse);
             httpRequest.SetContext(httpContext);
             MockLoginProvider loginProvider = new MockLoginProvider();
 
             MockClaimsProvider claimsProvider = new MockClaimsProvider(pluginServices);
-            TestAuthenticationService authenticationService = new TestAuthenticationService();
+            MockAuthenticationService authenticationService = new MockAuthenticationService();
             RequestDelegate requestDelegate = async (context) => { await Task.Delay(0); };
 
             string encoded = Convert.ToBase64String(System.Text.Encoding.GetEncoding("ISO-8859-1").GetBytes("MileyCyrus"));
@@ -434,16 +434,16 @@ namespace AspNetCore.PluginManager.Tests.Plugins.LoginTests
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
             LoginControllerSettings loginControllerSettings = settingsProvider.GetSettings<LoginControllerSettings>(nameof(LoginPlugin));
 
-            TestHttpRequest httpRequest = new TestHttpRequest();
-            TestHttpResponse httpResponse = new TestHttpResponse();
+            MockHttpRequest httpRequest = new MockHttpRequest();
+            MockHttpResponse httpResponse = new MockHttpResponse();
 
             IPluginClassesService pluginServices = _testPluginLogin as IPluginClassesService;
-            TestHttpContext httpContext = new TestHttpContext(httpRequest, httpResponse);
+            MockHttpContext httpContext = new MockHttpContext(httpRequest, httpResponse);
             httpRequest.SetContext(httpContext);
             MockLoginProvider loginProvider = new MockLoginProvider();
 
             MockClaimsProvider claimsProvider = new MockClaimsProvider(pluginServices);
-            TestAuthenticationService authenticationService = new TestAuthenticationService();
+            MockAuthenticationService authenticationService = new MockAuthenticationService();
             RequestDelegate requestDelegate = async (context) => { await Task.Delay(0); };
 
             httpRequest.Headers.Add(HeaderAuthorizationName, "blahblahblah");
@@ -465,16 +465,16 @@ namespace AspNetCore.PluginManager.Tests.Plugins.LoginTests
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
             LoginControllerSettings loginControllerSettings = settingsProvider.GetSettings<LoginControllerSettings>(nameof(LoginPlugin));
 
-            TestHttpRequest httpRequest = new TestHttpRequest();
-            TestHttpResponse httpResponse = new TestHttpResponse();
+            MockHttpRequest httpRequest = new MockHttpRequest();
+            MockHttpResponse httpResponse = new MockHttpResponse();
 
             IPluginClassesService pluginServices = _testPluginLogin as IPluginClassesService;
-            TestHttpContext httpContext = new TestHttpContext(httpRequest, httpResponse);
+            MockHttpContext httpContext = new MockHttpContext(httpRequest, httpResponse);
             httpRequest.SetContext(httpContext);
             MockLoginProvider loginProvider = new MockLoginProvider();
 
             MockClaimsProvider claimsProvider = new MockClaimsProvider(pluginServices);
-            TestAuthenticationService authenticationService = new TestAuthenticationService();
+            MockAuthenticationService authenticationService = new MockAuthenticationService();
             RequestDelegate requestDelegate = async (context) => { await Task.Delay(0); };
 
             httpRequest.Headers.Add(HeaderAuthorizationName, "Basic blahblahblah");

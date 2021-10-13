@@ -63,7 +63,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         [ExpectedException(typeof(ArgumentNullException))]
         public void Construct_InvalidSettingsProvider_Null_Throws_ArgumentNullException()
         {
-            DefaultImageProvider sut = new DefaultImageProvider(new TestHostEnvironment(), null);
+            DefaultImageProvider sut = new DefaultImageProvider(new MockHostEnvironment(), null);
         }
 
         [TestMethod]
@@ -71,7 +71,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         [ExpectedException(typeof(ArgumentNullException))]
         public void Construct_InvalidIHostEnvironment_Null_Throws_ArgumentNullException()
         {
-            TestSettingsProvider testSettingsProvider = new TestSettingsProvider("{\"ImageManager\": {\"ImagePath\": \"" + DemoWebsiteImagePath.Replace("\\", "\\\\") + "\"}}");
+            MockSettingsProvider testSettingsProvider = new MockSettingsProvider("{\"ImageManager\": {\"ImagePath\": \"" + DemoWebsiteImagePath.Replace("\\", "\\\\") + "\"}}");
             DefaultImageProvider sut = new DefaultImageProvider(null, testSettingsProvider);
 
             Assert.IsNotNull(sut);
@@ -81,8 +81,8 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         [TestCategory(ImageManagerTestsCategory)]
         public void Construct_ValidInstance_Success()
         {
-            TestSettingsProvider testSettingsProvider = new TestSettingsProvider("{\"ImageManager\": {\"ImagePath\": \"" + DemoWebsiteImagePath.Replace("\\", "\\\\") + "\"}}");
-            DefaultImageProvider sut = new DefaultImageProvider(new TestHostEnvironment(), testSettingsProvider);
+            MockSettingsProvider testSettingsProvider = new MockSettingsProvider("{\"ImageManager\": {\"ImagePath\": \"" + DemoWebsiteImagePath.Replace("\\", "\\\\") + "\"}}");
+            DefaultImageProvider sut = new DefaultImageProvider(new MockHostEnvironment(), testSettingsProvider);
 
             Assert.IsNotNull(sut);
         }
@@ -91,8 +91,8 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         [TestCategory(ImageManagerTestsCategory)]
         public void Construct_ValidInstanceWithEmptyPath_Success()
         {
-            TestSettingsProvider testSettingsProvider = new TestSettingsProvider("{\"ImageManager\": {\"ImagePath\": \"\"}}");
-            DefaultImageProvider sut = new DefaultImageProvider(new TestHostEnvironment(), testSettingsProvider);
+            MockSettingsProvider testSettingsProvider = new MockSettingsProvider("{\"ImageManager\": {\"ImagePath\": \"\"}}");
+            DefaultImageProvider sut = new DefaultImageProvider(new MockHostEnvironment(), testSettingsProvider);
 
             Assert.IsNotNull(sut);
         }
@@ -1643,9 +1643,9 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
             if (!String.IsNullOrEmpty(imagePath))
                 imagePath = imagePath.Replace("\\", "\\\\");
 
-            TestSettingsProvider testSettingsProvider = new TestSettingsProvider("{\"ImageManager\": {\"ImagePath\": \"" + imagePath + "\"}}");
+            MockSettingsProvider testSettingsProvider = new MockSettingsProvider("{\"ImageManager\": {\"ImagePath\": \"" + imagePath + "\"}}");
 
-            return new DefaultImageProvider(new TestHostEnvironment(), testSettingsProvider);
+            return new DefaultImageProvider(new MockHostEnvironment(), testSettingsProvider);
         }
     }
 }

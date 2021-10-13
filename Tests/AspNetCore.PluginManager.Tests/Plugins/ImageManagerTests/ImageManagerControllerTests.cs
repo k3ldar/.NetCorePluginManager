@@ -81,7 +81,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         [ExpectedException(typeof(ArgumentNullException))]
         public void Construct_InvalidSettingsProvider_Null_Throws_ArgumentNullException()
         {
-            ImageManagerController sut = new ImageManagerController(null, new MockImageProvider(), new TestNotificationService(), new TestMemoryCache(), new TestVirusScanner());
+            ImageManagerController sut = new ImageManagerController(null, new MockImageProvider(), new MockNotificationService(), new MockMemoryCache(), new MockVirusScanner());
         }
 
         [TestMethod]
@@ -89,7 +89,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         [ExpectedException(typeof(ArgumentNullException))]
         public void Construct_InvalidImageProvider_Null_Throws_ArgumentNullException()
         {
-            ImageManagerController sut = new ImageManagerController(new TestSettingsProvider("{}"), null, new TestNotificationService(), new TestMemoryCache(), new TestVirusScanner());
+            ImageManagerController sut = new ImageManagerController(new MockSettingsProvider(), null, new MockNotificationService(), new MockMemoryCache(), new MockVirusScanner());
         }
 
         [TestMethod]
@@ -97,7 +97,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         [ExpectedException(typeof(ArgumentNullException))]
         public void Construct_InvalidNotificationService_Null_Throws_ArgumentNullException()
         {
-            ImageManagerController sut = new ImageManagerController(new TestSettingsProvider("{}"), new MockImageProvider(), null, new TestMemoryCache(), new TestVirusScanner());
+            ImageManagerController sut = new ImageManagerController(new MockSettingsProvider(), new MockImageProvider(), null, new MockMemoryCache(), new MockVirusScanner());
         }
 
         [TestMethod]
@@ -105,7 +105,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         [ExpectedException(typeof(ArgumentNullException))]
         public void Construct_InvalidMemoryCache_Null_Throws_ArgumentNullException()
         {
-            ImageManagerController sut = new ImageManagerController(new TestSettingsProvider("{}"), new MockImageProvider(), new TestNotificationService(), null, new TestVirusScanner());
+            ImageManagerController sut = new ImageManagerController(new MockSettingsProvider(), new MockImageProvider(), new MockNotificationService(), null, new MockVirusScanner());
         }
 
         [TestMethod]
@@ -113,14 +113,14 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         [ExpectedException(typeof(ArgumentNullException))]
         public void Construct_InvalidVirusScanner_Null_Throws_ArgumentNullException()
         {
-            ImageManagerController sut = new ImageManagerController(new TestSettingsProvider("{}"), new MockImageProvider(), new TestNotificationService(), new TestMemoryCache(), null);
+            ImageManagerController sut = new ImageManagerController(new MockSettingsProvider(), new MockImageProvider(), new MockNotificationService(), new MockMemoryCache(), null);
         }
 
         [TestMethod]
         [TestCategory(TestCategoryName)]
         public void Construct_ValidInstance_Success()
         {
-            ImageManagerController sut = new ImageManagerController(new TestSettingsProvider("{}"), new MockImageProvider(), new TestNotificationService(), new TestMemoryCache(), new TestVirusScanner());
+            ImageManagerController sut = new ImageManagerController(new MockSettingsProvider(), new MockImageProvider(), new MockNotificationService(), new MockMemoryCache(), new MockVirusScanner());
 
             Assert.IsNotNull(sut);
         }
@@ -240,7 +240,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         {
             string methodName = "ViewGroup";
             Assert.IsTrue(MethodHasBreadcrumbAttribute(typeof(ImageManagerController), methodName, "ViewGroup", "Index", true));
-            Assert.IsTrue(MethodRouteAttribute(typeof(ImageManagerController), methodName, "ImageManager/ViewGroup/{groupName}"));
+            Assert.IsTrue(MethodHasRouteAttribute(typeof(ImageManagerController), methodName, "ImageManager/ViewGroup/{groupName}"));
 
             Assert.IsTrue(MethodHasAttribute<HttpGetAttribute>(typeof(ImageManagerController), methodName));
             Assert.IsFalse(MethodHasAttribute<HttpPutAttribute>(typeof(ImageManagerController), methodName));
@@ -338,7 +338,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         {
             string methodName = "ViewSubgroup";
             Assert.IsTrue(MethodHasBreadcrumbAttribute(typeof(ImageManagerController), methodName, "ViewSubgroup", "ViewGroup", true));
-            Assert.IsTrue(MethodRouteAttribute(typeof(ImageManagerController), methodName, "ImageManager/ViewSubgroup/{groupName}/{subgroupName}"));
+            Assert.IsTrue(MethodHasRouteAttribute(typeof(ImageManagerController), methodName, "ImageManager/ViewSubgroup/{groupName}/{subgroupName}"));
 
             Assert.IsTrue(MethodHasAttribute<HttpGetAttribute>(typeof(ImageManagerController), methodName));
             Assert.IsFalse(MethodHasAttribute<HttpPutAttribute>(typeof(ImageManagerController), methodName));
@@ -485,7 +485,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         {
             string methodName = "ViewImage";
             Assert.IsTrue(MethodHasBreadcrumbAttribute(typeof(ImageManagerController), methodName, "ViewImage", "ViewGroup", true));
-            Assert.IsTrue(MethodRouteAttribute(typeof(ImageManagerController), methodName, "ImageManager/ViewImage/{groupName}/{imageName}"));
+            Assert.IsTrue(MethodHasRouteAttribute(typeof(ImageManagerController), methodName, "ImageManager/ViewImage/{groupName}/{imageName}"));
 
             Assert.IsTrue(MethodHasAttribute<HttpGetAttribute>(typeof(ImageManagerController), methodName));
             Assert.IsFalse(MethodHasAttribute<HttpPutAttribute>(typeof(ImageManagerController), methodName));
@@ -601,7 +601,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         {
             string methodName = "ViewSubgroupImage";
             Assert.IsTrue(MethodHasBreadcrumbAttribute(typeof(ImageManagerController), methodName, "ViewImage", "ViewGroup", true));
-            Assert.IsTrue(MethodRouteAttribute(typeof(ImageManagerController), methodName, "ImageManager/ViewSubgroupImage/{groupName}/{subgroupName}/{imageName}"));
+            Assert.IsTrue(MethodHasRouteAttribute(typeof(ImageManagerController), methodName, "ImageManager/ViewSubgroupImage/{groupName}/{subgroupName}/{imageName}"));
 
             Assert.IsTrue(MethodHasAttribute<HttpGetAttribute>(typeof(ImageManagerController), methodName));
             Assert.IsFalse(MethodHasAttribute<HttpPutAttribute>(typeof(ImageManagerController), methodName));
@@ -1022,7 +1022,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         [TestCategory(TestCategoryName)]
         public void UploadImage_SingleFileUploaded_ReturnsCorrectValidResponse()
         {
-            TestMemoryCache memoryCache = new TestMemoryCache();
+            MockMemoryCache memoryCache = new MockMemoryCache();
             MockImageProvider mockImageProvider = CreateDefaultMockImageProvider();
             ImageManagerController sut = CreateImageManagerController(memoryCache, null, mockImageProvider);
             const string FileData = "test file data";
@@ -1050,7 +1050,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         [TestCategory(TestCategoryName)]
         public void UploadImage_FileExtensionNotSupported_ReturnsCorrectResponseWithModelStateError()
         {
-            TestMemoryCache memoryCache = new TestMemoryCache();
+            MockMemoryCache memoryCache = new MockMemoryCache();
             MockImageProvider mockImageProvider = CreateDefaultMockImageProvider();
             ImageManagerController sut = CreateImageManagerController(memoryCache, null, mockImageProvider);
             const string FileData = "test file data";
@@ -1070,7 +1070,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         [TestCategory(TestCategoryName)]
         public void UploadImage_SingleFileUploaded_WithSubgroup_ReturnsCorrectValidResponse()
         {
-            TestMemoryCache memoryCache = new TestMemoryCache();
+            MockMemoryCache memoryCache = new MockMemoryCache();
             MockImageProvider mockImageProvider = CreateDefaultMockImageProvider();
             ImageManagerController sut = CreateImageManagerController(memoryCache, null, mockImageProvider);
             const string FileData = "test file data";
@@ -1097,7 +1097,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         [TestCategory(TestCategoryName)]
         public void UploadImage_MultipleFileUploaded_WithSubgroup_ReturnsCorrectValidResponse()
         {
-            TestMemoryCache memoryCache = new TestMemoryCache();
+            MockMemoryCache memoryCache = new MockMemoryCache();
             MockImageProvider mockImageProvider = CreateDefaultMockImageProvider();
             ImageManagerController sut = CreateImageManagerController(memoryCache, null, mockImageProvider);
             const string File1Data = "test file data for file 1";
@@ -1179,7 +1179,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         [TestCategory(TestCategoryName)]
         public void ProcessImage_Construct_InvalidParamModel_CachedItemNotValidClass_ReturnsCorrectInvalidResponse()
         {
-            TestMemoryCache memoryCache = new TestMemoryCache();
+            MockMemoryCache memoryCache = new MockMemoryCache();
             memoryCache.GetCache().Add("found item", new CacheItem("found item", 123));
             ImageManagerController sut = CreateImageManagerController(memoryCache, null, CreateDefaultMockImageProvider());
 
@@ -1193,8 +1193,8 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         [TestCategory(TestCategoryName)]
         public void ProcessImage_SingleFileUploaded_WithSubgroup_NotificationServiceCalled_ReturnsCorrectValidResponse()
         {
-            TestMemoryCache memoryCache = new TestMemoryCache();
-            TestNotificationService notificationService = new TestNotificationService(null)
+            MockMemoryCache memoryCache = new MockMemoryCache();
+            MockNotificationService notificationService = new MockNotificationService(null)
             {
                 EventParam1Name = "ImageUploadedEvent"
             };
@@ -1237,8 +1237,8 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         [TestCategory(TestCategoryName)]
         public void ProcessImage_MultipleFileUploaded_WithSubgroup_NotificationServiceCalled_ReturnsCorrectValidResponse()
         {
-            TestMemoryCache memoryCache = new TestMemoryCache();
-            TestNotificationService notificationService = new TestNotificationService(null)
+            MockMemoryCache memoryCache = new MockMemoryCache();
+            MockNotificationService notificationService = new MockNotificationService(null)
             {
                 EventParam1Name = "ImageUploadedEvent"
             };
@@ -1286,8 +1286,8 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         [TestCategory(TestCategoryName)]
         public void ProcessImage_MultipleFileUploaded_WithoutSubgroup_NotificationServiceCalled_ReturnsCorrectValidResponse()
         {
-            TestMemoryCache memoryCache = new TestMemoryCache();
-            TestNotificationService notificationService = new TestNotificationService(null)
+            MockMemoryCache memoryCache = new MockMemoryCache();
+            MockNotificationService notificationService = new MockNotificationService(null)
             {
                 EventParam1Name = "ImageUploadedEvent"
             };
@@ -1335,12 +1335,12 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
         [TestCategory(TestCategoryName)]
         public void ProcessImage_MultipleFileUploaded_ProcessedBy_NotificationService_ReturnsCorrectValidResponse()
         {
-            TestMemoryCache memoryCache = new TestMemoryCache();
-            TestNotificationService notificationService = new TestNotificationService(true)
+            MockMemoryCache memoryCache = new MockMemoryCache();
+            MockNotificationService notificationService = new MockNotificationService(true)
             {
                 EventParam1Name = "ImageUploadedEvent"
             };
-            TestVirusScanner testVirusScanner = new TestVirusScanner();
+            MockVirusScanner testVirusScanner = new MockVirusScanner();
 
             MockImageProvider mockImageProvider = CreateDefaultMockImageProvider();
             ImageManagerController sut = CreateImageManagerController(memoryCache, null, mockImageProvider, notificationService, testVirusScanner);
@@ -1569,7 +1569,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
 
         #region Private Methods
 
-        private (ImageProcessViewModel, CachedImageUpload) ValidateValidUploadImageResponse(IActionResult response, TestMemoryCache memoryCache, bool modelStateValid,
+        private (ImageProcessViewModel, CachedImageUpload) ValidateValidUploadImageResponse(IActionResult response, MockMemoryCache memoryCache, bool modelStateValid,
             int fileCount, string groupName, string subgroupName = null)
         {
             Assert.IsInstanceOfType(response, typeof(ViewResult));
@@ -1602,7 +1602,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
             return (imageProcessViewModel, cachedImageUpload);
         }
 
-        private ImagesUploadedModel ValidateUploadImageResponse(IActionResult response, TestMemoryCache memoryCache,
+        private ImagesUploadedModel ValidateUploadImageResponse(IActionResult response, MockMemoryCache memoryCache,
             string groupName, string subgroupName, int fileCount, int modelStateErrorCount = 0)
         {
             Assert.IsInstanceOfType(response, typeof(ViewResult));
@@ -1681,21 +1681,21 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
             return new MockImageProvider(groups, images);
         }
 
-        private ImageManagerController CreateImageManagerController(TestMemoryCache memoryCache = null,
+        private ImageManagerController CreateImageManagerController(MockMemoryCache memoryCache = null,
             List<BreadcrumbItem> breadcrumbs = null, MockImageProvider mockImageProvider = null,
-            TestNotificationService testNotificationService = null,
-            TestVirusScanner testVirusScanner = null)
+            MockNotificationService testNotificationService = null,
+            MockVirusScanner testVirusScanner = null)
         {
             IPluginClassesService pluginServices = _testDynamicContentPlugin as IPluginClassesService;
             IPluginHelperService pluginHelperService = _testDynamicContentPlugin as IPluginHelperService;
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
 
             ImageManagerController Result = new ImageManagerController(
-                new TestSettingsProvider("{}"),
+                new MockSettingsProvider(),
                 mockImageProvider ?? new MockImageProvider(),
-                testNotificationService ?? new TestNotificationService(),
-                memoryCache ?? new TestMemoryCache(),
-                testVirusScanner ?? new TestVirusScanner());
+                testNotificationService ?? new MockNotificationService(),
+                memoryCache ?? new MockMemoryCache(),
+                testVirusScanner ?? new MockVirusScanner());
 
             Result.ControllerContext = CreateTestControllerContext(breadcrumbs);
 

@@ -268,7 +268,7 @@ namespace AspNetCore.PluginManager.Tests.AspNetCore.PluginManager
             PluginManagerService.Initialise();
             try
             {
-                TestLogger testLogger = new TestLogger();
+                MockLogger testLogger = new MockLogger();
                 LoggerStatisticsMenu.SetLogger(testLogger);
                 LoggerStatisticsMenu sut = new LoggerStatisticsMenu();
 
@@ -323,14 +323,14 @@ namespace AspNetCore.PluginManager.Tests.AspNetCore.PluginManager
                 RequestDelegate nextDelegate = async (context) => { delegateCalled = true; await Task.Delay(0); };
                 RouteLoadTimeMiddleware routeLoadTimeMiddleware = new RouteLoadTimeMiddleware(nextDelegate);
 
-                TestHttpRequest httpRequest = new TestHttpRequest()
+                MockHttpRequest httpRequest = new MockHttpRequest()
                 {
                     Path = "/products/"
                 };
 
                 httpRequest.SetHost(new HostString("www.pluginmanager.website"));
-                TestHttpResponse httpResponse = new TestHttpResponse();
-                TestHttpContext httpContext = new TestHttpContext(httpRequest, httpResponse);
+                MockHttpResponse httpResponse = new MockHttpResponse();
+                MockHttpContext httpContext = new MockHttpContext(httpRequest, httpResponse);
                 httpRequest.SetContext(httpContext);
 
                 await routeLoadTimeMiddleware.Invoke(httpContext);

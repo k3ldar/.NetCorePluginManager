@@ -70,7 +70,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SitemapTests
         public void Initialize_DoesNotAddItemsToLogger()
         {
             PluginInitialisation sut = new PluginInitialisation();
-            TestLogger testLogger = new TestLogger();
+            MockLogger testLogger = new MockLogger();
 
             sut.Initialise(testLogger);
 
@@ -81,7 +81,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SitemapTests
         [TestCategory(TestsCategory)]
         public void AfterConfigure_DoesNotConfigurePipeline_Success()
         {
-            TestApplicationBuilder testApplicationBuilder = new TestApplicationBuilder();
+            MockApplicationBuilder testApplicationBuilder = new MockApplicationBuilder();
             PluginInitialisation sut = new PluginInitialisation();
 
             sut.AfterConfigure(testApplicationBuilder);
@@ -93,7 +93,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SitemapTests
         [TestCategory(TestsCategory)]
         public void Configure_DoesConfigurePipeline_Success()
         {
-            TestApplicationBuilder testApplicationBuilder = new TestApplicationBuilder();
+            MockApplicationBuilder testApplicationBuilder = new MockApplicationBuilder();
             PluginInitialisation sut = new PluginInitialisation();
 
             sut.Configure(testApplicationBuilder);
@@ -105,7 +105,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SitemapTests
         [TestCategory(TestsCategory)]
         public void BeforeConfigure_DoesNotRegisterApplicationServices()
         {
-            TestApplicationBuilder testApplicationBuilder = new TestApplicationBuilder();
+            MockApplicationBuilder testApplicationBuilder = new MockApplicationBuilder();
             PluginInitialisation sut = new PluginInitialisation();
 
             sut.BeforeConfigure(testApplicationBuilder);
@@ -117,7 +117,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SitemapTests
         [TestCategory(TestsCategory)]
         public void Configure_DoesRegisterApplicationServices()
         {
-            TestApplicationBuilder testApplicationBuilder = new TestApplicationBuilder();
+            MockApplicationBuilder testApplicationBuilder = new MockApplicationBuilder();
             PluginInitialisation sut = new PluginInitialisation();
 
             sut.Configure(testApplicationBuilder);
@@ -129,7 +129,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SitemapTests
         [TestCategory(TestsCategory)]
         public void Finalise_DoesNotThrowException()
         {
-            TestApplicationBuilder testApplicationBuilder = new TestApplicationBuilder();
+            MockApplicationBuilder testApplicationBuilder = new MockApplicationBuilder();
             PluginInitialisation sut = new PluginInitialisation();
 
             sut.Finalise();
@@ -139,7 +139,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SitemapTests
         [TestCategory(TestsCategory)]
         public void BeforeConfigureServices_DoesNotThrowException()
         {
-            TestApplicationBuilder testApplicationBuilder = new TestApplicationBuilder();
+            MockApplicationBuilder testApplicationBuilder = new MockApplicationBuilder();
             PluginInitialisation sut = new PluginInitialisation();
             MockServiceCollection mockServiceCollection = new MockServiceCollection();
 
@@ -152,7 +152,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SitemapTests
         [TestCategory(TestsCategory)]
         public void ConfigureServices_DoesNotConfigureServices_Success()
         {
-            TestApplicationBuilder testApplicationBuilder = new TestApplicationBuilder();
+            MockApplicationBuilder testApplicationBuilder = new MockApplicationBuilder();
             PluginInitialisation sut = new PluginInitialisation();
             MockServiceCollection mockServiceCollection = new MockServiceCollection();
 
@@ -165,7 +165,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SitemapTests
         [TestCategory(TestsCategory)]
         public void AfterConfigureServices_DoesNotThrowException()
         {
-            TestApplicationBuilder testApplicationBuilder = new TestApplicationBuilder();
+            MockApplicationBuilder testApplicationBuilder = new MockApplicationBuilder();
             PluginInitialisation sut = new PluginInitialisation();
             MockServiceCollection mockServiceCollection = new MockServiceCollection();
 

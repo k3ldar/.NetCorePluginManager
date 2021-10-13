@@ -72,7 +72,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ErrorManagerTests
         public void Initialize_DoesNotAddItemsToLogger()
         {
             PluginInitialisation sut = new PluginInitialisation();
-            TestLogger testLogger = new TestLogger();
+            MockLogger testLogger = new MockLogger();
 
             sut.Initialise(testLogger);
 
@@ -83,7 +83,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ErrorManagerTests
         [TestCategory(TestsCategory)]
         public void AfterConfigure_DoesNotConfigurePipeline_Success()
         {
-            TestApplicationBuilder testApplicationBuilder = new TestApplicationBuilder();
+            MockApplicationBuilder testApplicationBuilder = new MockApplicationBuilder();
             PluginInitialisation sut = new PluginInitialisation();
 
             sut.AfterConfigure(testApplicationBuilder);
@@ -95,7 +95,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ErrorManagerTests
         [TestCategory(TestsCategory)]
         public void BeforeConfigure_RegistersApplicationServices()
         {
-            TestApplicationBuilder testApplicationBuilder = new TestApplicationBuilder();
+            MockApplicationBuilder testApplicationBuilder = new MockApplicationBuilder();
             PluginInitialisation sut = new PluginInitialisation();
 
             sut.BeforeConfigure(testApplicationBuilder);
@@ -108,7 +108,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ErrorManagerTests
         public void Finalise_DoesNotThrowException()
         {
             ThreadManager.Initialise();
-            TestApplicationBuilder testApplicationBuilder = new TestApplicationBuilder();
+            MockApplicationBuilder testApplicationBuilder = new MockApplicationBuilder();
             PluginInitialisation sut = new PluginInitialisation();
 
             sut.Finalise();
@@ -118,7 +118,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ErrorManagerTests
         [TestCategory(TestsCategory)]
         public void BeforeConfigureServices_DoesNotThrowException()
         {
-            TestApplicationBuilder testApplicationBuilder = new TestApplicationBuilder();
+            MockApplicationBuilder testApplicationBuilder = new MockApplicationBuilder();
             PluginInitialisation sut = new PluginInitialisation();
             MockServiceCollection mockServiceCollection = new MockServiceCollection();
 
@@ -132,7 +132,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ErrorManagerTests
         [ExpectedException(typeof(ArgumentNullException))]
         public void AfterConfigureServices_InvalidParam_Services_Null_Throws_ArgumentNullException()
         {
-            TestApplicationBuilder testApplicationBuilder = new TestApplicationBuilder();
+            MockApplicationBuilder testApplicationBuilder = new MockApplicationBuilder();
             PluginInitialisation sut = new PluginInitialisation();
             MockServiceCollection mockServiceCollection = new MockServiceCollection();
 

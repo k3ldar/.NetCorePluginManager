@@ -120,14 +120,14 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SmokeTestTests
         {
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
 
-            TestHttpRequest httpRequest = new TestHttpRequest();
+            MockHttpRequest httpRequest = new MockHttpRequest();
             httpRequest.Path = "/smokeTest/SiteId";
-            TestHttpResponse httpResponse = new TestHttpResponse();
+            MockHttpResponse httpResponse = new MockHttpResponse();
 
             IPluginHelperService pluginHelperServices = _testPluginSmokeTest.GetRequiredService<IPluginHelperService>();
             IPluginTypesService pluginTypesService = _testPluginSmokeTest.GetRequiredService<IPluginTypesService>();
 
-            TestHttpContext httpContext = new TestHttpContext(httpRequest, httpResponse);
+            MockHttpContext httpContext = new MockHttpContext(httpRequest, httpResponse);
             ILogger logger = new Logger();
 
 
@@ -150,14 +150,14 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SmokeTestTests
         {
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
 
-            TestHttpRequest httpRequest = new TestHttpRequest();
+            MockHttpRequest httpRequest = new MockHttpRequest();
             httpRequest.Path = "/smokeTest/SiteId/";
-            TestHttpResponse httpResponse = new TestHttpResponse();
+            MockHttpResponse httpResponse = new MockHttpResponse();
 
             IPluginHelperService pluginHelperServices = _testPluginSmokeTest.GetRequiredService<IPluginHelperService>();
             IPluginTypesService pluginTypesService = _testPluginSmokeTest.GetRequiredService<IPluginTypesService>();
 
-            TestHttpContext httpContext = new TestHttpContext(httpRequest, httpResponse);
+            MockHttpContext httpContext = new MockHttpContext(httpRequest, httpResponse);
             ILogger logger = new Logger();
             bool nextDelegateCalled = false;
             RequestDelegate requestDelegate = async (context) => { nextDelegateCalled = true; await Task.Delay(0); };
@@ -188,14 +188,14 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SmokeTestTests
         {
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
 
-            TestHttpRequest httpRequest = new TestHttpRequest();
+            MockHttpRequest httpRequest = new MockHttpRequest();
             httpRequest.Path = "/smokeTest/SiteId/";
-            TestHttpResponse httpResponse = new TestHttpResponse();
+            MockHttpResponse httpResponse = new MockHttpResponse();
 
             IPluginHelperService pluginHelperServices = _testPluginSmokeTest.GetRequiredService<IPluginHelperService>();
             IPluginTypesService pluginTypesService = _testPluginSmokeTest.GetRequiredService<IPluginTypesService>();
 
-            TestHttpContext httpContext = new TestHttpContext(httpRequest, httpResponse);
+            MockHttpContext httpContext = new MockHttpContext(httpRequest, httpResponse);
             ILogger logger = new Logger();
             bool nextDelegateCalled = false;
             RequestDelegate requestDelegate = async (context) => { nextDelegateCalled = true; await Task.Delay(0); };
@@ -227,14 +227,14 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SmokeTestTests
         {
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
 
-            TestHttpRequest httpRequest = new TestHttpRequest();
+            MockHttpRequest httpRequest = new MockHttpRequest();
             httpRequest.Path = "/smokeTest/Count/";
-            TestHttpResponse httpResponse = new TestHttpResponse();
+            MockHttpResponse httpResponse = new MockHttpResponse();
 
             IPluginHelperService pluginHelperServices = _testPluginSmokeTest.GetRequiredService<IPluginHelperService>();
             IPluginTypesService pluginTypesService = _testPluginSmokeTest.GetRequiredService<IPluginTypesService>();
 
-            TestHttpContext httpContext = new TestHttpContext(httpRequest, httpResponse);
+            MockHttpContext httpContext = new MockHttpContext(httpRequest, httpResponse);
             ILogger logger = new Logger();
             bool nextDelegateCalled = false;
             RequestDelegate requestDelegate = async (context) => { nextDelegateCalled = true; await Task.Delay(0); };
@@ -266,14 +266,14 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SmokeTestTests
         {
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
 
-            TestHttpRequest httpRequest = new TestHttpRequest();
+            MockHttpRequest httpRequest = new MockHttpRequest();
             httpRequest.Path = "/smokeTest/Count/";
-            TestHttpResponse httpResponse = new TestHttpResponse();
+            MockHttpResponse httpResponse = new MockHttpResponse();
 
             IPluginHelperService pluginHelperServices = _testPluginSmokeTest.GetRequiredService<IPluginHelperService>();
             IPluginTypesService pluginTypesService = _testPluginSmokeTest.GetRequiredService<IPluginTypesService>();
 
-            TestHttpContext httpContext = new TestHttpContext(httpRequest, httpResponse);
+            MockHttpContext httpContext = new MockHttpContext(httpRequest, httpResponse);
             ILogger logger = new Logger();
             bool nextDelegateCalled = false;
             RequestDelegate requestDelegate = async (context) => { nextDelegateCalled = true; await Task.Delay(0); };
@@ -307,14 +307,14 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SmokeTestTests
         {
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
 
-            TestHttpRequest httpRequest = new TestHttpRequest();
+            MockHttpRequest httpRequest = new MockHttpRequest();
             httpRequest.Path = "/smokeTest/Test/0";
-            TestHttpResponse httpResponse = new TestHttpResponse();
+            MockHttpResponse httpResponse = new MockHttpResponse();
 
             IPluginHelperService pluginHelperServices = _testPluginSmokeTest.GetRequiredService<IPluginHelperService>();
             IPluginTypesService pluginTypesService = _testPluginSmokeTest.GetRequiredService<IPluginTypesService>();
 
-            TestHttpContext httpContext = new TestHttpContext(httpRequest, httpResponse);
+            MockHttpContext httpContext = new MockHttpContext(httpRequest, httpResponse);
             ILogger logger = new Logger();
             bool nextDelegateCalled = false;
             RequestDelegate requestDelegate = async (context) => { nextDelegateCalled = true; await Task.Delay(0); };
@@ -346,14 +346,14 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SmokeTestTests
         {
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
 
-            TestHttpRequest httpRequest = new TestHttpRequest();
+            MockHttpRequest httpRequest = new MockHttpRequest();
             httpRequest.Path = "/smokeTest/Test/1";
-            TestHttpResponse httpResponse = new TestHttpResponse();
+            MockHttpResponse httpResponse = new MockHttpResponse();
 
             IPluginHelperService pluginHelperServices = _testPluginSmokeTest.GetRequiredService<IPluginHelperService>();
             IPluginTypesService pluginTypesService = _testPluginSmokeTest.GetRequiredService<IPluginTypesService>();
 
-            TestHttpContext httpContext = new TestHttpContext(httpRequest, httpResponse);
+            MockHttpContext httpContext = new MockHttpContext(httpRequest, httpResponse);
             ILogger logger = new Logger();
             bool nextDelegateCalled = false;
             RequestDelegate requestDelegate = async (context) => { nextDelegateCalled = true; await Task.Delay(0); };
@@ -386,14 +386,14 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SmokeTestTests
         {
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
 
-            TestHttpRequest httpRequest = new TestHttpRequest();
+            MockHttpRequest httpRequest = new MockHttpRequest();
             httpRequest.Path = "/smokeTest/Test/100000";
-            TestHttpResponse httpResponse = new TestHttpResponse();
+            MockHttpResponse httpResponse = new MockHttpResponse();
 
             IPluginHelperService pluginHelperServices = _testPluginSmokeTest.GetRequiredService<IPluginHelperService>();
             IPluginTypesService pluginTypesService = _testPluginSmokeTest.GetRequiredService<IPluginTypesService>();
 
-            TestHttpContext httpContext = new TestHttpContext(httpRequest, httpResponse);
+            MockHttpContext httpContext = new MockHttpContext(httpRequest, httpResponse);
             ILogger logger = new Logger();
             bool nextDelegateCalled = false;
             RequestDelegate requestDelegate = async (context) => { nextDelegateCalled = true; await Task.Delay(0); };
@@ -425,14 +425,14 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SmokeTestTests
         {
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
 
-            TestHttpRequest httpRequest = new TestHttpRequest();
+            MockHttpRequest httpRequest = new MockHttpRequest();
             httpRequest.Path = "/smokeTest/Start/";
-            TestHttpResponse httpResponse = new TestHttpResponse();
+            MockHttpResponse httpResponse = new MockHttpResponse();
 
             IPluginHelperService pluginHelperServices = _testPluginSmokeTest.GetRequiredService<IPluginHelperService>();
             IPluginTypesService pluginTypesService = _testPluginSmokeTest.GetRequiredService<IPluginTypesService>();
 
-            TestHttpContext httpContext = new TestHttpContext(httpRequest, httpResponse,
+            MockHttpContext httpContext = new MockHttpContext(httpRequest, httpResponse,
                 _testPluginSmokeTest.GetServiceProvider(), null);
             ILogger logger = new Logger();
             bool nextDelegateCalled = false;
@@ -465,9 +465,9 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SmokeTestTests
         {
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
 
-            TestHttpRequest httpRequest = new TestHttpRequest();
+            MockHttpRequest httpRequest = new MockHttpRequest();
             httpRequest.Path = "/smokeTest/Start/";
-            TestHttpResponse httpResponse = new TestHttpResponse();
+            MockHttpResponse httpResponse = new MockHttpResponse();
 
             IPluginHelperService pluginHelperServices = _testPluginSmokeTest.GetRequiredService<IPluginHelperService>();
             IPluginTypesService pluginTypesService = _testPluginSmokeTest.GetRequiredService<IPluginTypesService>();
@@ -477,7 +477,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SmokeTestTests
             MockSmokeTestProvider smokeTestProvider = new MockSmokeTestProvider(codecValues);
             serviceCollection.AddSingleton<ISmokeTestProvider>(smokeTestProvider);
 
-            TestHttpContext httpContext = new TestHttpContext(httpRequest, httpResponse,
+            MockHttpContext httpContext = new MockHttpContext(httpRequest, httpResponse,
                 serviceCollection.BuildServiceProvider(), null);
             ILogger logger = new Logger();
             bool nextDelegateCalled = false;
@@ -518,9 +518,9 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SmokeTestTests
         {
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
 
-            TestHttpRequest httpRequest = new TestHttpRequest();
+            MockHttpRequest httpRequest = new MockHttpRequest();
             httpRequest.Path = "/smokeTest/Start/";
-            TestHttpResponse httpResponse = new TestHttpResponse();
+            MockHttpResponse httpResponse = new MockHttpResponse();
 
             IPluginHelperService pluginHelperServices = _testPluginSmokeTest.GetRequiredService<IPluginHelperService>();
             IPluginTypesService pluginTypesService = _testPluginSmokeTest.GetRequiredService<IPluginTypesService>();
@@ -528,7 +528,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SmokeTestTests
             MockSmokeTestProvider smokeTestProvider = new MockSmokeTestProvider();
             serviceCollection.AddSingleton<ISmokeTestProvider>(smokeTestProvider);
 
-            TestHttpContext httpContext = new TestHttpContext(httpRequest, httpResponse,
+            MockHttpContext httpContext = new MockHttpContext(httpRequest, httpResponse,
                 serviceCollection.BuildServiceProvider(), null);
             ILogger logger = new Logger();
             bool nextDelegateCalled = false;
@@ -566,15 +566,15 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SmokeTestTests
         {
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
 
-            TestHttpRequest httpRequest = new TestHttpRequest();
+            MockHttpRequest httpRequest = new MockHttpRequest();
             httpRequest.Path = "/smokeTest/end/";
-            TestHttpResponse httpResponse = new TestHttpResponse();
+            MockHttpResponse httpResponse = new MockHttpResponse();
 
             IPluginHelperService pluginHelperServices = _testPluginSmokeTest.GetRequiredService<IPluginHelperService>();
             IPluginTypesService pluginTypesService = _testPluginSmokeTest.GetRequiredService<IPluginTypesService>();
             IServiceCollection serviceCollection = new ServiceCollection() as IServiceCollection;
 
-            TestHttpContext httpContext = new TestHttpContext(httpRequest, httpResponse,
+            MockHttpContext httpContext = new MockHttpContext(httpRequest, httpResponse,
                 serviceCollection.BuildServiceProvider(), null);
             ILogger logger = new Logger();
             bool nextDelegateCalled = false;
@@ -600,9 +600,9 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SmokeTestTests
         {
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
 
-            TestHttpRequest httpRequest = new TestHttpRequest();
+            MockHttpRequest httpRequest = new MockHttpRequest();
             httpRequest.Path = "/SmokeTest/End/";
-            TestHttpResponse httpResponse = new TestHttpResponse();
+            MockHttpResponse httpResponse = new MockHttpResponse();
 
             IPluginHelperService pluginHelperServices = _testPluginSmokeTest.GetRequiredService<IPluginHelperService>();
             IPluginTypesService pluginTypesService = _testPluginSmokeTest.GetRequiredService<IPluginTypesService>();
@@ -612,7 +612,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SmokeTestTests
             MockSmokeTestProvider smokeTestProvider = new MockSmokeTestProvider(codecValues);
             serviceCollection.AddSingleton<ISmokeTestProvider>(smokeTestProvider);
 
-            TestHttpContext httpContext = new TestHttpContext(httpRequest, httpResponse,
+            MockHttpContext httpContext = new MockHttpContext(httpRequest, httpResponse,
                 serviceCollection.BuildServiceProvider(), null);
             ILogger logger = new Logger();
             bool nextDelegateCalled = false;

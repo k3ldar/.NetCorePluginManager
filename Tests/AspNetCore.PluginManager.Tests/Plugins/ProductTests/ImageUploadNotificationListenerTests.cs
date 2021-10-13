@@ -35,8 +35,6 @@ using AspNetCore.PluginManager.Tests.Shared;
 using ImageManager.Plugin.Classes;
 using ImageManager.Plugin.Models;
 
-using MemoryCache.Plugin;
-
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using Middleware.Interfaces;
@@ -62,7 +60,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ProductTests
         [TestCategory(TestCategoryName)]
         public void Construct_ValidInstanceSuccess()
         {
-            ImageUploadNotificationListener sut = new ImageUploadNotificationListener(new MockImageProvider(), new TestSettingsProvider("{}"));
+            ImageUploadNotificationListener sut = new ImageUploadNotificationListener(new MockImageProvider(), new MockSettingsProvider());
             Assert.IsNotNull(sut);
             Assert.IsInstanceOfType(sut, typeof(INotificationListener));
         }
@@ -72,7 +70,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ProductTests
         [ExpectedException(typeof(ArgumentNullException))]
         public void Construct_InvalidParamImageProvider_Null_Throws_ArgumentNullException()
         {
-            ImageUploadNotificationListener sut = new ImageUploadNotificationListener(null, new TestSettingsProvider("{}"));
+            ImageUploadNotificationListener sut = new ImageUploadNotificationListener(null, new MockSettingsProvider());
         }
 
         [TestMethod]
@@ -306,7 +304,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ProductTests
                 };
 
                 IImageProvider mockImageProvider = CreateDefaultImageProvider(imagePath);
-                TestSettingsProvider testSettingsProvider = new TestSettingsProvider("{\"Products\":" + JsonConvert.SerializeObject(settings) + "}");
+                MockSettingsProvider testSettingsProvider = new MockSettingsProvider("{\"Products\":" + JsonConvert.SerializeObject(settings) + "}");
 
                 ExtractImageResources(imagePath);
                 ImageUploadNotificationListener sut = CreateListener(mockImageProvider, testSettingsProvider);
@@ -352,7 +350,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ProductTests
                 };
 
                 IImageProvider mockImageProvider = CreateDefaultImageProvider(imagePath);
-                TestSettingsProvider testSettingsProvider = new TestSettingsProvider("{\"Products\":" + JsonConvert.SerializeObject(settings) + "}");
+                MockSettingsProvider testSettingsProvider = new MockSettingsProvider("{\"Products\":" + JsonConvert.SerializeObject(settings) + "}");
 
                 ExtractImageResources(imagePath);
                 ImageUploadNotificationListener sut = CreateListener(mockImageProvider, testSettingsProvider);
@@ -394,7 +392,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ProductTests
                 };
 
                 IImageProvider mockImageProvider = CreateDefaultImageProvider(imagePath);
-                TestSettingsProvider testSettingsProvider = new TestSettingsProvider("{\"Products\":" + JsonConvert.SerializeObject(settings) + "}");
+                MockSettingsProvider testSettingsProvider = new MockSettingsProvider("{\"Products\":" + JsonConvert.SerializeObject(settings) + "}");
 
                 ExtractImageResources(imagePath);
                 ImageUploadNotificationListener sut = CreateListener(mockImageProvider, testSettingsProvider);
@@ -440,11 +438,11 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ProductTests
             return true;
         }
 
-        private ImageUploadNotificationListener CreateListener(IImageProvider mockImageProvider = null, TestSettingsProvider testSettingsProvider = null)
+        private ImageUploadNotificationListener CreateListener(IImageProvider mockImageProvider = null, MockSettingsProvider testSettingsProvider = null)
         {
             return new ImageUploadNotificationListener(
                 mockImageProvider ?? new MockImageProvider(),
-                testSettingsProvider ?? new TestSettingsProvider("{}"));
+                testSettingsProvider ?? new MockSettingsProvider());
         }
 
         private DefaultImageProvider CreateDefaultImageProvider(string imagePath = "")
@@ -455,9 +453,9 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ProductTests
             if (!String.IsNullOrEmpty(imagePath))
                 imagePath = imagePath.Replace("\\", "\\\\");
 
-            TestSettingsProvider testSettingsProvider = new TestSettingsProvider("{\"ImageManager\": {\"ImagePath\": \"" + imagePath + "\"}}");
+            MockSettingsProvider testSettingsProvider = new MockSettingsProvider("{\"ImageManager\": {\"ImagePath\": \"" + imagePath + "\"}}");
 
-            return new DefaultImageProvider(new TestHostEnvironment(), testSettingsProvider);
+            return new DefaultImageProvider(new MockHostEnvironment(), testSettingsProvider);
         }
 
     }

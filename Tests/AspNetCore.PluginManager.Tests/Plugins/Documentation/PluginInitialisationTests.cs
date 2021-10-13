@@ -50,7 +50,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DocumentationTests
         [TestCategory(TestsCategory)]
         public void ExtendsIPluginAndIInitialiseEvents()
         {
-            PluginInitialisation sut = new PluginInitialisation(new TestThreadManagerServices());
+            PluginInitialisation sut = new PluginInitialisation(new MockThreadManagerServices());
 
             Assert.IsInstanceOfType(sut, typeof(IPlugin));
             Assert.IsInstanceOfType(sut, typeof(IInitialiseEvents));
@@ -60,7 +60,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DocumentationTests
         [TestCategory(TestsCategory)]
         public void GetVersion_ReturnsCurrentVersion_Success()
         {
-            PluginInitialisation sut = new PluginInitialisation(new TestThreadManagerServices());
+            PluginInitialisation sut = new PluginInitialisation(new MockThreadManagerServices());
 
             Assert.AreEqual((ushort)1, sut.GetVersion());
         }
@@ -69,8 +69,8 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DocumentationTests
         [TestCategory(TestsCategory)]
         public void Initialize_DoesNotAddItemsToLogger()
         {
-            PluginInitialisation sut = new PluginInitialisation(new TestThreadManagerServices());
-            TestLogger testLogger = new TestLogger();
+            PluginInitialisation sut = new PluginInitialisation(new MockThreadManagerServices());
+            MockLogger testLogger = new MockLogger();
 
             sut.Initialise(testLogger);
 
@@ -81,8 +81,8 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DocumentationTests
         [TestCategory(TestsCategory)]
         public void AfterConfigure_DoesNotConfigurePipeline_Success()
         {
-            TestApplicationBuilder testApplicationBuilder = new TestApplicationBuilder();
-            PluginInitialisation sut = new PluginInitialisation(new TestThreadManagerServices());
+            MockApplicationBuilder testApplicationBuilder = new MockApplicationBuilder();
+            PluginInitialisation sut = new PluginInitialisation(new MockThreadManagerServices());
 
             sut.AfterConfigure(testApplicationBuilder);
 
@@ -93,8 +93,8 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DocumentationTests
         [TestCategory(TestsCategory)]
         public void BeforeConfigure_DoesNotRegisterApplicationServices()
         {
-            TestApplicationBuilder testApplicationBuilder = new TestApplicationBuilder();
-            PluginInitialisation sut = new PluginInitialisation(new TestThreadManagerServices());
+            MockApplicationBuilder testApplicationBuilder = new MockApplicationBuilder();
+            PluginInitialisation sut = new PluginInitialisation(new MockThreadManagerServices());
 
             sut.BeforeConfigure(testApplicationBuilder);
 
@@ -105,8 +105,8 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DocumentationTests
         [TestCategory(TestsCategory)]
         public void Finalise_DoesNotThrowException()
         {
-            TestApplicationBuilder testApplicationBuilder = new TestApplicationBuilder();
-            PluginInitialisation sut = new PluginInitialisation(new TestThreadManagerServices());
+            MockApplicationBuilder testApplicationBuilder = new MockApplicationBuilder();
+            PluginInitialisation sut = new PluginInitialisation(new MockThreadManagerServices());
 
             sut.Finalise();
         }
@@ -115,8 +115,8 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DocumentationTests
         [TestCategory(TestsCategory)]
         public void BeforeConfigureServices_DoesNotThrowException()
         {
-            TestApplicationBuilder testApplicationBuilder = new TestApplicationBuilder();
-            PluginInitialisation sut = new PluginInitialisation(new TestThreadManagerServices());
+            MockApplicationBuilder testApplicationBuilder = new MockApplicationBuilder();
+            PluginInitialisation sut = new PluginInitialisation(new MockThreadManagerServices());
             MockServiceCollection mockServiceCollection = new MockServiceCollection();
 
             sut.BeforeConfigureServices(mockServiceCollection);
@@ -129,8 +129,8 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DocumentationTests
         [ExpectedException(typeof(ArgumentNullException))]
         public void AfterConfigureServices_InvalidParam_Services_Null_Throws_ArgumentNullException()
         {
-            TestApplicationBuilder testApplicationBuilder = new TestApplicationBuilder();
-            PluginInitialisation sut = new PluginInitialisation(new TestThreadManagerServices());
+            MockApplicationBuilder testApplicationBuilder = new MockApplicationBuilder();
+            PluginInitialisation sut = new PluginInitialisation(new MockThreadManagerServices());
             MockServiceCollection mockServiceCollection = new MockServiceCollection();
 
             sut.AfterConfigureServices(null);
@@ -140,8 +140,8 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DocumentationTests
         [TestCategory(TestsCategory)]
         public void Configure_DoesNotRegisterApplicationServices_Success()
         {
-            TestApplicationBuilder testApplicationBuilder = new TestApplicationBuilder();
-            PluginInitialisation sut = new PluginInitialisation(new TestThreadManagerServices());
+            MockApplicationBuilder testApplicationBuilder = new MockApplicationBuilder();
+            PluginInitialisation sut = new PluginInitialisation(new MockThreadManagerServices());
 
             sut.Configure(testApplicationBuilder);
 
@@ -153,8 +153,8 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DocumentationTests
         [TestCategory(TestsCategory)]
         public void ConfigureServices_DoesNotRegisterAnyServices_Success()
         {
-            TestApplicationBuilder testApplicationBuilder = new TestApplicationBuilder();
-            PluginInitialisation sut = new PluginInitialisation(new TestThreadManagerServices());
+            MockApplicationBuilder testApplicationBuilder = new MockApplicationBuilder();
+            PluginInitialisation sut = new PluginInitialisation(new MockThreadManagerServices());
             MockServiceCollection mockServiceCollection = new MockServiceCollection();
 
             sut.ConfigureServices(mockServiceCollection);

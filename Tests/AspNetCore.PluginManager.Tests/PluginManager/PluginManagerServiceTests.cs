@@ -84,7 +84,7 @@ namespace AspNetCore.PluginManager.Tests.AspNetCore.PluginManager
         [TestCategory(TestCategoryName)]
         public void InitialiseWithCustomILogger()
         {
-            TestLogger testLogger = new TestLogger();
+            MockLogger testLogger = new MockLogger();
             PluginManagerConfiguration configuration = new PluginManagerConfiguration(testLogger);
 
             PluginManagerService.Initialise(configuration);

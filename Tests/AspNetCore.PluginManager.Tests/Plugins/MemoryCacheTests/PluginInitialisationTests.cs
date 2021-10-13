@@ -63,7 +63,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.MemoryCacheTests
         public void Initialize_DoesNotAddItemsToLogger()
         {
             PluginInitialisation sut = new PluginInitialisation();
-            TestLogger testLogger = new TestLogger();
+            MockLogger testLogger = new MockLogger();
 
             sut.Initialise(testLogger);
 
@@ -75,7 +75,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.MemoryCacheTests
         public void Finalise_DoesNotThrowException()
         {
             ThreadManager.Initialise();
-            TestApplicationBuilder testApplicationBuilder = new TestApplicationBuilder();
+            MockApplicationBuilder testApplicationBuilder = new MockApplicationBuilder();
             PluginInitialisation sut = new PluginInitialisation();
 
             sut.Finalise();

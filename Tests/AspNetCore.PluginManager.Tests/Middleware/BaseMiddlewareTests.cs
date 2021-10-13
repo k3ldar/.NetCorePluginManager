@@ -30,7 +30,7 @@ using System.Reflection;
 namespace AspNetCore.PluginManager.Tests.MiddlewareTests
 {
     [ExcludeFromCodeCoverage]
-    public class BaseMiddlewareTests : TestBasePlugin
+    public class BaseMiddlewareTests : MockBasePlugin
     {
         protected const string TestCategoryMiddleware = "MiddlewareTests";
 

@@ -65,9 +65,9 @@ namespace AspNetCore.PluginManager.Tests.SharedPluginFeatures
         [TestCategory(TestCategory)]
         public void GetCurrentUri_NullPort_ValidContext_ReturnsValidUri()
         {
-            TestHttpRequest testRequest = new TestHttpRequest();
-            TestHttpResponse testResponse = new TestHttpResponse();
-            TestHttpContext testContext = new TestHttpContext(testRequest, testResponse);
+            MockHttpRequest testRequest = new MockHttpRequest();
+            MockHttpResponse testResponse = new MockHttpResponse();
+            MockHttpContext testContext = new MockHttpContext(testRequest, testResponse);
 
             BaseMiddlewareWrapper sut = new BaseMiddlewareWrapper();
             Uri uri = sut.TestGetCurrentUri(testContext);
@@ -80,10 +80,10 @@ namespace AspNetCore.PluginManager.Tests.SharedPluginFeatures
         [TestCategory(TestCategory)]
         public void GetCurrentUri_ValidPort_ValidContext_ReturnsValidUri()
         {
-            TestHttpRequest testRequest = new TestHttpRequest();
+            MockHttpRequest testRequest = new MockHttpRequest();
             testRequest.SetHost(new Microsoft.AspNetCore.Http.HostString("15.23.25.43", 800));
-            TestHttpResponse testResponse = new TestHttpResponse();
-            TestHttpContext testContext = new TestHttpContext(testRequest, testResponse);
+            MockHttpResponse testResponse = new MockHttpResponse();
+            MockHttpContext testContext = new MockHttpContext(testRequest, testResponse);
 
             BaseMiddlewareWrapper sut = new BaseMiddlewareWrapper();
             Uri uri = sut.TestGetCurrentUri(testContext);
@@ -105,9 +105,9 @@ namespace AspNetCore.PluginManager.Tests.SharedPluginFeatures
         [TestCategory(TestCategory)]
         public void GetHost_NullPort_ValidContext_ReturnsValidUri()
         {
-            TestHttpRequest testRequest = new TestHttpRequest();
-            TestHttpResponse testResponse = new TestHttpResponse();
-            TestHttpContext testContext = new TestHttpContext(testRequest, testResponse);
+            MockHttpRequest testRequest = new MockHttpRequest();
+            MockHttpResponse testResponse = new MockHttpResponse();
+            MockHttpContext testContext = new MockHttpContext(testRequest, testResponse);
 
             BaseMiddlewareWrapper sut = new BaseMiddlewareWrapper();
             string Result = sut.TestGetHost(testContext);
@@ -120,10 +120,10 @@ namespace AspNetCore.PluginManager.Tests.SharedPluginFeatures
         [TestCategory(TestCategory)]
         public void GetHost_ValidPort_ValidContext_ReturnsValidUri()
         {
-            TestHttpRequest testRequest = new TestHttpRequest();
+            MockHttpRequest testRequest = new MockHttpRequest();
             testRequest.SetHost(new Microsoft.AspNetCore.Http.HostString("15.23.25.43", 800));
-            TestHttpResponse testResponse = new TestHttpResponse();
-            TestHttpContext testContext = new TestHttpContext(testRequest, testResponse);
+            MockHttpResponse testResponse = new MockHttpResponse();
+            MockHttpContext testContext = new MockHttpContext(testRequest, testResponse);
 
             BaseMiddlewareWrapper sut = new BaseMiddlewareWrapper();
             string Result = sut.TestGetHost(testContext);
@@ -145,12 +145,12 @@ namespace AspNetCore.PluginManager.Tests.SharedPluginFeatures
         [TestCategory(TestCategory)]
         public void GetTempData_ValidContext_ReturnsEmptyTempDataDictionary()
         {
-            ITempDataProvider tempDataProvider = new TestTempDataProvider();
+            ITempDataProvider tempDataProvider = new MockTempDataProvider();
             IServiceCollection serviceCollection = new ServiceCollection() as IServiceCollection;
             serviceCollection.AddSingleton<ITempDataDictionaryFactory>(new TempDataDictionaryFactory(tempDataProvider));
-            TestHttpRequest testRequest = new TestHttpRequest();
-            TestHttpResponse testResponse = new TestHttpResponse();
-            TestHttpContext testContext = new TestHttpContext(testRequest, testResponse, serviceCollection.BuildServiceProvider());
+            MockHttpRequest testRequest = new MockHttpRequest();
+            MockHttpResponse testResponse = new MockHttpResponse();
+            MockHttpContext testContext = new MockHttpContext(testRequest, testResponse, serviceCollection.BuildServiceProvider());
 
 
             BaseMiddlewareWrapper sut = new BaseMiddlewareWrapper();
@@ -164,12 +164,12 @@ namespace AspNetCore.PluginManager.Tests.SharedPluginFeatures
         [TestCategory(TestCategory)]
         public void GetTempData_ValidContext_ReturnsNonEmptyTempDataDictionary()
         {
-            ITempDataProvider tempDataProvider = new TestTempDataProvider();
+            ITempDataProvider tempDataProvider = new MockTempDataProvider();
             IServiceCollection serviceCollection = new ServiceCollection() as IServiceCollection;
             serviceCollection.AddSingleton<ITempDataDictionaryFactory>(new TempDataDictionaryFactory(tempDataProvider));
-            TestHttpRequest testRequest = new TestHttpRequest();
-            TestHttpResponse testResponse = new TestHttpResponse();
-            TestHttpContext testContext = new TestHttpContext(testRequest, testResponse, serviceCollection.BuildServiceProvider());
+            MockHttpRequest testRequest = new MockHttpRequest();
+            MockHttpResponse testResponse = new MockHttpResponse();
+            MockHttpContext testContext = new MockHttpContext(testRequest, testResponse, serviceCollection.BuildServiceProvider());
             Dictionary<string, object> tempData = new Dictionary<string, object>();
             tempData.Add("test", new object());
             tempDataProvider.SaveTempData(testContext, tempData);
@@ -196,9 +196,9 @@ namespace AspNetCore.PluginManager.Tests.SharedPluginFeatures
         [TestCategory(TestCategory)]
         public void GetUserSession_ValidContext_SessionNotFound_ReturnsNull()
         {
-            TestHttpRequest testRequest = new TestHttpRequest();
-            TestHttpResponse testResponse = new TestHttpResponse();
-            TestHttpContext testContext = new TestHttpContext(testRequest, testResponse);
+            MockHttpRequest testRequest = new MockHttpRequest();
+            MockHttpResponse testResponse = new MockHttpResponse();
+            MockHttpContext testContext = new MockHttpContext(testRequest, testResponse);
             testContext.CreateSession = false;
 
             BaseMiddlewareWrapper sut = new BaseMiddlewareWrapper();
@@ -212,9 +212,9 @@ namespace AspNetCore.PluginManager.Tests.SharedPluginFeatures
         [TestCategory(TestCategory)]
         public void GetUserSession_ValidContext_SessionFound_ReturnsUserSession()
         {
-            TestHttpRequest testRequest = new TestHttpRequest();
-            TestHttpResponse testResponse = new TestHttpResponse();
-            TestHttpContext testContext = new TestHttpContext(testRequest, testResponse);
+            MockHttpRequest testRequest = new MockHttpRequest();
+            MockHttpResponse testResponse = new MockHttpResponse();
+            MockHttpContext testContext = new MockHttpContext(testRequest, testResponse);
 
             BaseMiddlewareWrapper sut = new BaseMiddlewareWrapper();
 
@@ -236,9 +236,9 @@ namespace AspNetCore.PluginManager.Tests.SharedPluginFeatures
         [TestCategory(TestCategory)]
         public void IsUserLoggedIn_ValidContext_SessionNotFound_ReturnsFalse()
         {
-            TestHttpRequest testRequest = new TestHttpRequest();
-            TestHttpResponse testResponse = new TestHttpResponse();
-            TestHttpContext testContext = new TestHttpContext(testRequest, testResponse);
+            MockHttpRequest testRequest = new MockHttpRequest();
+            MockHttpResponse testResponse = new MockHttpResponse();
+            MockHttpContext testContext = new MockHttpContext(testRequest, testResponse);
             testContext.CreateSession = false;
 
             BaseMiddlewareWrapper sut = new BaseMiddlewareWrapper();
@@ -252,9 +252,9 @@ namespace AspNetCore.PluginManager.Tests.SharedPluginFeatures
         [TestCategory(TestCategory)]
         public void IsUserLoggedIn_ValidContext_SessionFound_ReturnsUserSession()
         {
-            TestHttpRequest testRequest = new TestHttpRequest();
-            TestHttpResponse testResponse = new TestHttpResponse();
-            TestHttpContext testContext = new TestHttpContext(testRequest, testResponse);
+            MockHttpRequest testRequest = new MockHttpRequest();
+            MockHttpResponse testResponse = new MockHttpResponse();
+            MockHttpContext testContext = new MockHttpContext(testRequest, testResponse);
             testContext.LogUserIn = true;
 
             BaseMiddlewareWrapper sut = new BaseMiddlewareWrapper();
@@ -277,11 +277,11 @@ namespace AspNetCore.PluginManager.Tests.SharedPluginFeatures
         [TestCategory(TestCategory)]
         public void Route_ValidContext_ReturnsValidRoute()
         {
-            TestHttpRequest testRequest = new TestHttpRequest();
+            MockHttpRequest testRequest = new MockHttpRequest();
             testRequest.Path = "/MyRoute/Test";
 
-            TestHttpResponse testResponse = new TestHttpResponse();
-            TestHttpContext testContext = new TestHttpContext(testRequest, testResponse);
+            MockHttpResponse testResponse = new MockHttpResponse();
+            MockHttpContext testContext = new MockHttpContext(testRequest, testResponse);
             testContext.LogUserIn = true;
 
             BaseMiddlewareWrapper sut = new BaseMiddlewareWrapper();
@@ -297,11 +297,11 @@ namespace AspNetCore.PluginManager.Tests.SharedPluginFeatures
         [TestCategory(TestCategory)]
         public void Route_ValidContext_ReturnsValidRouteFromItems()
         {
-            TestHttpRequest testRequest = new TestHttpRequest();
+            MockHttpRequest testRequest = new MockHttpRequest();
             testRequest.Path = "/MyRoute/Test";
 
-            TestHttpResponse testResponse = new TestHttpResponse();
-            TestHttpContext testContext = new TestHttpContext(testRequest, testResponse);
+            MockHttpResponse testResponse = new MockHttpResponse();
+            MockHttpContext testContext = new MockHttpContext(testRequest, testResponse);
             testContext.LogUserIn = true;
 
             BaseMiddlewareWrapper sut = new BaseMiddlewareWrapper();
@@ -330,11 +330,11 @@ namespace AspNetCore.PluginManager.Tests.SharedPluginFeatures
         [TestCategory(TestCategory)]
         public void RouteLowered_ValidContext_ReturnsValidRoute()
         {
-            TestHttpRequest testRequest = new TestHttpRequest();
+            MockHttpRequest testRequest = new MockHttpRequest();
             testRequest.Path = "/MyRoute/Test";
 
-            TestHttpResponse testResponse = new TestHttpResponse();
-            TestHttpContext testContext = new TestHttpContext(testRequest, testResponse);
+            MockHttpResponse testResponse = new MockHttpResponse();
+            MockHttpContext testContext = new MockHttpContext(testRequest, testResponse);
             testContext.LogUserIn = true;
 
             BaseMiddlewareWrapper sut = new BaseMiddlewareWrapper();
@@ -350,11 +350,11 @@ namespace AspNetCore.PluginManager.Tests.SharedPluginFeatures
         [TestCategory(TestCategory)]
         public void RouteLowered_ValidContext_ReturnsValidRouteFromItems()
         {
-            TestHttpRequest testRequest = new TestHttpRequest();
+            MockHttpRequest testRequest = new MockHttpRequest();
             testRequest.Path = "/MyRoute/Test";
 
-            TestHttpResponse testResponse = new TestHttpResponse();
-            TestHttpContext testContext = new TestHttpContext(testRequest, testResponse);
+            MockHttpResponse testResponse = new MockHttpResponse();
+            MockHttpContext testContext = new MockHttpContext(testRequest, testResponse);
             testContext.LogUserIn = true;
 
             BaseMiddlewareWrapper sut = new BaseMiddlewareWrapper();

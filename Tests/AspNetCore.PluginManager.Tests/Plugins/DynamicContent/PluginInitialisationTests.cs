@@ -24,11 +24,7 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
-using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using System.IO;
-
-using AppSettings;
 
 using AspNetCore.PluginManager.Tests.Shared;
 
@@ -41,7 +37,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Middleware.DynamicContent;
 
 using PluginManager.Abstractions;
-using PluginManager.Internal;
 using PluginManager.Tests.Mocks;
 
 using SharedPluginFeatures;
@@ -58,7 +53,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         [TestCategory(GeneralTestsCategory)]
         public void ExtendsIPluginAndIInitialiseEvents()
         {
-            PluginInitialisation sut = new PluginInitialisation(new TestThreadManagerServices());
+            PluginInitialisation sut = new PluginInitialisation(new MockThreadManagerServices());
 
             Assert.IsInstanceOfType(sut, typeof(IPlugin));
             Assert.IsInstanceOfType(sut, typeof(IInitialiseEvents));
@@ -76,7 +71,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         [TestCategory(GeneralTestsCategory)]
         public void GetVersion_ReturnsCurrentVersion_Success()
         {
-            PluginInitialisation sut = new PluginInitialisation(new TestThreadManagerServices());
+            PluginInitialisation sut = new PluginInitialisation(new MockThreadManagerServices());
 
             Assert.AreEqual((ushort)1, sut.GetVersion());
         }
@@ -85,8 +80,8 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         [TestCategory(GeneralTestsCategory)]
         public void Initialize_DoesNotAddItemsToLogger()
         {
-            PluginInitialisation sut = new PluginInitialisation(new TestThreadManagerServices());
-            TestLogger testLogger = new TestLogger();
+            PluginInitialisation sut = new PluginInitialisation(new MockThreadManagerServices());
+            MockLogger testLogger = new MockLogger();
 
             sut.Initialise(testLogger);
 
@@ -97,8 +92,8 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         [TestCategory(GeneralTestsCategory)]
         public void AfterConfigure_DoesNotConfigurePipeline_Success()
         {
-            TestApplicationBuilder testApplicationBuilder = new TestApplicationBuilder();
-            PluginInitialisation sut = new PluginInitialisation(new TestThreadManagerServices());
+            MockApplicationBuilder testApplicationBuilder = new MockApplicationBuilder();
+            PluginInitialisation sut = new PluginInitialisation(new MockThreadManagerServices());
 
             sut.AfterConfigure(testApplicationBuilder);
 
@@ -109,8 +104,8 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         [TestCategory(GeneralTestsCategory)]
         public void Configure_DoesNotConfigurePipeline_Success()
         {
-            TestApplicationBuilder testApplicationBuilder = new TestApplicationBuilder();
-            PluginInitialisation sut = new PluginInitialisation(new TestThreadManagerServices());
+            MockApplicationBuilder testApplicationBuilder = new MockApplicationBuilder();
+            PluginInitialisation sut = new PluginInitialisation(new MockThreadManagerServices());
 
             sut.Configure(testApplicationBuilder);
 
@@ -121,8 +116,8 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         [TestCategory(GeneralTestsCategory)]
         public void BeforeConfigure_DoesNotRegisterApplicationServices()
         {
-            TestApplicationBuilder testApplicationBuilder = new TestApplicationBuilder();
-            PluginInitialisation sut = new PluginInitialisation(new TestThreadManagerServices());
+            MockApplicationBuilder testApplicationBuilder = new MockApplicationBuilder();
+            PluginInitialisation sut = new PluginInitialisation(new MockThreadManagerServices());
 
             sut.BeforeConfigure(testApplicationBuilder);
 
@@ -133,8 +128,8 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         [TestCategory(GeneralTestsCategory)]
         public void Configure_DoesNotRegisterApplicationServices()
         {
-            TestApplicationBuilder testApplicationBuilder = new TestApplicationBuilder();
-            PluginInitialisation sut = new PluginInitialisation(new TestThreadManagerServices());
+            MockApplicationBuilder testApplicationBuilder = new MockApplicationBuilder();
+            PluginInitialisation sut = new PluginInitialisation(new MockThreadManagerServices());
 
             sut.Configure(testApplicationBuilder);
 
@@ -145,8 +140,8 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         [TestCategory(GeneralTestsCategory)]
         public void Finalise_DoesNotThrowException()
         {
-            TestApplicationBuilder testApplicationBuilder = new TestApplicationBuilder();
-            PluginInitialisation sut = new PluginInitialisation(new TestThreadManagerServices());
+            MockApplicationBuilder testApplicationBuilder = new MockApplicationBuilder();
+            PluginInitialisation sut = new PluginInitialisation(new MockThreadManagerServices());
 
             sut.Finalise();
         }
@@ -155,8 +150,8 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         [TestCategory(GeneralTestsCategory)]
         public void BeforeConfigureServices_DoesNotThrowException()
         {
-            TestApplicationBuilder testApplicationBuilder = new TestApplicationBuilder();
-            PluginInitialisation sut = new PluginInitialisation(new TestThreadManagerServices());
+            MockApplicationBuilder testApplicationBuilder = new MockApplicationBuilder();
+            PluginInitialisation sut = new PluginInitialisation(new MockThreadManagerServices());
             MockServiceCollection mockServiceCollection = new MockServiceCollection();
 
             sut.BeforeConfigureServices(mockServiceCollection);
@@ -168,8 +163,8 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         [TestCategory(GeneralTestsCategory)]
         public void ConfigureServices_DoesNotThrowException()
         {
-            TestApplicationBuilder testApplicationBuilder = new TestApplicationBuilder();
-            PluginInitialisation sut = new PluginInitialisation(new TestThreadManagerServices());
+            MockApplicationBuilder testApplicationBuilder = new MockApplicationBuilder();
+            PluginInitialisation sut = new PluginInitialisation(new MockThreadManagerServices());
             MockServiceCollection mockServiceCollection = new MockServiceCollection();
 
             sut.ConfigureServices(mockServiceCollection);
@@ -181,23 +176,23 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         [TestCategory(GeneralTestsCategory)]
         public void AfterConfigureServices_CreatesContentEditorPolicy_Success()
         {
-                ServiceDescriptor[] serviceDescriptors = new ServiceDescriptor[]
-                {
-                    new ServiceDescriptor(typeof(INotificationService), new TestNotificationService()),
-                    new ServiceDescriptor(typeof(IPluginClassesService), new TestPluginClassesService()),
-                    new ServiceDescriptor(typeof(ISettingsProvider), new TestSettingsProvider("{}")),
-                };
+            ServiceDescriptor[] serviceDescriptors = new ServiceDescriptor[]
+            {
+                    new ServiceDescriptor(typeof(INotificationService), new MockNotificationService()),
+                    new ServiceDescriptor(typeof(IPluginClassesService), new MockPluginClassesService()),
+                    new ServiceDescriptor(typeof(ISettingsProvider), new MockSettingsProvider()),
+            };
 
-                TestApplicationBuilder testApplicationBuilder = new TestApplicationBuilder();
-                PluginInitialisation sut = new PluginInitialisation(new TestThreadManagerServices());
-                MockServiceCollection mockServiceCollection = new MockServiceCollection(serviceDescriptors);
+            MockApplicationBuilder testApplicationBuilder = new MockApplicationBuilder();
+            PluginInitialisation sut = new PluginInitialisation(new MockThreadManagerServices());
+            MockServiceCollection mockServiceCollection = new MockServiceCollection(serviceDescriptors);
 
-                sut.AfterConfigureServices(mockServiceCollection);
+            sut.AfterConfigureServices(mockServiceCollection);
 
-                Assert.IsTrue(mockServiceCollection.HasServiceRegistered<IDynamicContentProvider>(ServiceLifetime.Singleton));
+            Assert.IsTrue(mockServiceCollection.HasServiceRegistered<IDynamicContentProvider>(ServiceLifetime.Singleton));
 
-                string[] claims = { "ManageContent", "StaffMember", "Name", "UserId", "Email" };
-                Assert.IsTrue(mockServiceCollection.HasPolicyConfigured("ContentEditor", claims));
+            string[] claims = { "ManageContent", "StaffMember", "Name", "UserId", "Email" };
+            Assert.IsTrue(mockServiceCollection.HasPolicyConfigured("ContentEditor", claims));
         }
 
         [TestMethod]
@@ -206,13 +201,13 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         {
             ServiceDescriptor[] serviceDescriptors = new ServiceDescriptor[]
             {
-                new ServiceDescriptor(typeof(INotificationService), new TestNotificationService()),
-                new ServiceDescriptor(typeof(IPluginClassesService), new TestPluginClassesService()),
-                new ServiceDescriptor(typeof(ISettingsProvider), new TestSettingsProvider("{}")),
+                new ServiceDescriptor(typeof(INotificationService), new MockNotificationService()),
+                new ServiceDescriptor(typeof(IPluginClassesService), new MockPluginClassesService()),
+                new ServiceDescriptor(typeof(ISettingsProvider), new MockSettingsProvider()),
             };
 
-            TestThreadManagerServices tmServices = new TestThreadManagerServices();
-            TestApplicationBuilder testApplicationBuilder = new TestApplicationBuilder();
+            MockThreadManagerServices tmServices = new MockThreadManagerServices();
+            MockApplicationBuilder testApplicationBuilder = new MockApplicationBuilder();
             PluginInitialisation sut = new PluginInitialisation(tmServices);
             MockServiceCollection mockServiceCollection = new MockServiceCollection(serviceDescriptors);
 

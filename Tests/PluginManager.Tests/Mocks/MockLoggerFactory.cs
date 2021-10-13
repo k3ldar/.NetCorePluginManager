@@ -40,7 +40,7 @@ namespace PluginManager.Tests.Mocks
 
         public ILogger CreateLogger(string categoryName)
         {
-            return new MockLogger();
+            return new MockMicrosoftLogger();
         }
 
         public void Dispose()
@@ -50,7 +50,7 @@ namespace PluginManager.Tests.Mocks
     }
 
     [ExcludeFromCodeCoverage]
-    public class MockLogger : ILogger
+    public class MockMicrosoftLogger : ILogger
     {
         public IDisposable BeginScope<TState>(TState state)
         {

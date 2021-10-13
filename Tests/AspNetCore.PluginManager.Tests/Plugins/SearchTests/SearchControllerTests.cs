@@ -48,7 +48,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SearchTests
 {
     [TestClass]
     [ExcludeFromCodeCoverage]
-    public class SearchControllerTests : TestBasePlugin
+    public class SearchControllerTests : MockBasePlugin
     {
         [TestInitialize]
         public void InitializeSearchTests()
@@ -97,7 +97,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SearchTests
             {
                 Assert.IsNotNull(searchController);
 
-                searchController.ControllerContext.HttpContext = new TestHttpContext();
+                searchController.ControllerContext.HttpContext = new MockHttpContext();
 
                 ViewResult contentResult = searchController.Index() as ViewResult;
 
@@ -136,7 +136,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SearchTests
             {
                 Assert.IsNotNull(searchController);
 
-                searchController.ControllerContext.HttpContext = new TestHttpContext();
+                searchController.ControllerContext.HttpContext = new MockHttpContext();
 
                 ViewResult contentResult = searchController.Index(new SearchViewModel()) as ViewResult;
 
@@ -161,7 +161,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SearchTests
             {
                 Assert.IsNotNull(searchController);
 
-                searchController.ControllerContext.HttpContext = new TestHttpContext();
+                searchController.ControllerContext.HttpContext = new MockHttpContext();
 
                 StatusCodeResult statusResult = searchController.QuickKeywordSearch(null) as StatusCodeResult;
 
@@ -182,7 +182,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SearchTests
             {
                 Assert.IsNotNull(searchController);
 
-                searchController.ControllerContext.HttpContext = new TestHttpContext();
+                searchController.ControllerContext.HttpContext = new MockHttpContext();
 
                 StatusCodeResult statusResult = searchController.QuickKeywordSearch(new QuickSearchModel() { keywords = "" }) as StatusCodeResult;
 
@@ -203,7 +203,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SearchTests
             {
                 Assert.IsNotNull(searchController);
 
-                searchController.ControllerContext.HttpContext = new TestHttpContext();
+                searchController.ControllerContext.HttpContext = new MockHttpContext();
 
                 StatusCodeResult statusResult = searchController.QuickKeywordSearch(new QuickSearchModel() { keywords = " \n \r \t  " }) as StatusCodeResult;
 
@@ -224,7 +224,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SearchTests
             {
                 Assert.IsNotNull(searchController);
 
-                searchController.ControllerContext.HttpContext = new TestHttpContext();
+                searchController.ControllerContext.HttpContext = new MockHttpContext();
 
                 StatusCodeResult statusResult = searchController.QuickKeywordSearch(new QuickSearchModel() { keywords = "as" }) as StatusCodeResult;
 
@@ -245,7 +245,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SearchTests
             {
                 Assert.IsNotNull(searchController);
 
-                searchController.ControllerContext.HttpContext = new TestHttpContext();
+                searchController.ControllerContext.HttpContext = new MockHttpContext();
 
                 JsonResult statusResult = searchController.QuickKeywordSearch(new QuickSearchModel() { keywords = "Plugin" }) as JsonResult;
 
@@ -278,7 +278,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SearchTests
             {
                 Assert.IsNotNull(searchController);
 
-                searchController.ControllerContext.HttpContext = new TestHttpContext();
+                searchController.ControllerContext.HttpContext = new MockHttpContext();
 
                 ViewResult contentResult = searchController.Index(new SearchViewModel() { SearchText = "Plugin" }) as ViewResult;
                 Assert.IsTrue(searchController.ModelState.IsValid);

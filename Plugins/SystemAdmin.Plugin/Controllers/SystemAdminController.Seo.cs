@@ -45,6 +45,9 @@ namespace SystemAdmin.Plugin.Controllers
         [Route("SystemAdmin/SeoData/{routeName}/")]
         public IActionResult SeoData(string routeName)
         {
+            if (String.IsNullOrEmpty(routeName))
+                return new StatusCodeResult(Constants.HtmlResponseBadRequest);
+
             string seoRoute = System.Net.WebUtility.UrlDecode(routeName);
             SeoDataModel model = new SeoDataModel(seoRoute);
 
@@ -82,7 +85,7 @@ namespace SystemAdmin.Plugin.Controllers
                 _seoProvider.UpdateTitle(model.SeoUrl, model.SeoTitle);
 
             _seoProvider.RemoveKeywords(model.SeoUrl, keywords);
-            _seoProvider.AddKeywords(model.SeoUrl, model.SeoTags.Split(' ').ToList());
+            _seoProvider.AddKeywords(model.SeoUrl, model.SeoTags.Split(' ', StringSplitOptions.RemoveEmptyEntries).ToList());
             return Redirect(model.SeoUrl);
         }
     }

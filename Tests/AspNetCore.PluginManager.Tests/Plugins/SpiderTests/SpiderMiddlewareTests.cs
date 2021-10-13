@@ -82,9 +82,9 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SpiderTests
             new SpiderMiddleware(requestDelegate,
                 null,
                 settingsProvider,
-                new TestLogger(),
-                new TestNotificationService(),
-                new Robots(new TestActionDescriptorCollectionProvider(actionDescriptorCollection),
+                new MockLogger(),
+                new MockNotificationService(),
+                new Robots(new MockActionDescriptorCollectionProvider(actionDescriptorCollection),
                     new RouteDataServices(), pluginTypesServices, new MockLoadData()));
 
         }
@@ -102,8 +102,8 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SpiderTests
             new SpiderMiddleware(requestDelegate,
                 pluginServices,
                 settingsProvider,
-                new TestLogger(),
-                new TestNotificationService(),
+                new MockLogger(),
+                new MockNotificationService(),
                 null);
         }
 
@@ -120,9 +120,9 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SpiderTests
             new SpiderMiddleware(requestDelegate,
                 pluginServices,
                 null,
-                new TestLogger(),
-                new TestNotificationService(),
-                new Robots(new TestActionDescriptorCollectionProvider(actionDescriptorCollection), new RouteDataServices(), pluginTypesServices, new MockLoadData()));
+                new MockLogger(),
+                new MockNotificationService(),
+                new Robots(new MockActionDescriptorCollectionProvider(actionDescriptorCollection), new RouteDataServices(), pluginTypesServices, new MockLoadData()));
         }
 
         [TestMethod]
@@ -139,8 +139,8 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SpiderTests
                 pluginServices,
                 settingsProvider,
                 null,
-                new TestNotificationService(),
-                new Robots(new TestActionDescriptorCollectionProvider(actionDescriptorCollection), new RouteDataServices(), pluginTypesServices, new MockLoadData()));
+                new MockNotificationService(),
+                new Robots(new MockActionDescriptorCollectionProvider(actionDescriptorCollection), new RouteDataServices(), pluginTypesServices, new MockLoadData()));
         }
 
         [TestMethod]
@@ -156,9 +156,9 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SpiderTests
             new SpiderMiddleware(requestDelegate,
                 pluginServices,
                 settingsProvider,
-                new TestLogger(),
+                new MockLogger(),
                 null,
-                new Robots(new TestActionDescriptorCollectionProvider(actionDescriptorCollection), new RouteDataServices(), pluginTypesServices, new MockLoadData()));
+                new Robots(new MockActionDescriptorCollectionProvider(actionDescriptorCollection), new RouteDataServices(), pluginTypesServices, new MockLoadData()));
         }
 
         [TestMethod]
@@ -179,11 +179,11 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SpiderTests
             SpiderMiddleware sut = CreateSpiderMiddlewareInstance();
             Assert.IsNotNull(sut);
 
-            TestRequestCookieCollection cookies = new TestRequestCookieCollection();
-            TestHttpRequest httpRequest = new TestHttpRequest(cookies);
-            TestHttpResponse httpResponse = new TestHttpResponse();
+            MockRequestCookieCollection cookies = new MockRequestCookieCollection();
+            MockHttpRequest httpRequest = new MockHttpRequest(cookies);
+            MockHttpResponse httpResponse = new MockHttpResponse();
 
-            TestHttpContext httpContext = new TestHttpContext(httpRequest, httpResponse);
+            MockHttpContext httpContext = new MockHttpContext(httpRequest, httpResponse);
 
             await sut.Invoke(httpContext);
         }
@@ -192,11 +192,11 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SpiderTests
         [TestCategory(TestCategoryMiddleware)]
         public async Task Call_Invoke_ValidContext_RobotsRoute_Success()
         {
-            TestNotificationService testNotificationService = new TestNotificationService(new List<object>() { "/sitemap.xml" });
+            MockNotificationService testNotificationService = new MockNotificationService(new List<object>() { "/sitemap.xml" });
             SpiderMiddleware sut = CreateSpiderMiddlewareInstance(testNotificationService);
 
-            TestHttpContext httpContext = CreateContext("/robots.txt", false,
-                out TestHttpResponse httpResponse, out _);
+            MockHttpContext httpContext = CreateContext("/robots.txt", false,
+                out MockHttpResponse httpResponse, out _);
 
             await sut.Invoke(httpContext);
 
@@ -217,8 +217,8 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SpiderTests
         {
             SpiderMiddleware sut = CreateSpiderMiddlewareInstance(null, true);
 
-            TestHttpContext httpContext = CreateContext("/robots.txt", false,
-                out TestHttpResponse httpResponse, out _);
+            MockHttpContext httpContext = CreateContext("/robots.txt", false,
+                out MockHttpResponse httpResponse, out _);
 
             await sut.Invoke(httpContext);
 
@@ -237,8 +237,8 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SpiderTests
         {
             SpiderMiddleware sut = CreateSpiderMiddlewareInstance(null, true);
 
-            TestHttpContext httpContext = CreateContext("/robots.txt", false,
-                out TestHttpResponse httpResponse, out _);
+            MockHttpContext httpContext = CreateContext("/robots.txt", false,
+                out MockHttpResponse httpResponse, out _);
 
             await sut.Invoke(httpContext);
 
@@ -259,8 +259,8 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SpiderTests
         {
             SpiderMiddleware sut = CreateSpiderMiddlewareInstance(null, true);
 
-            TestHttpContext httpContext = CreateContext("/robots.txt", false,
-                out TestHttpResponse httpResponse, out _);
+            MockHttpContext httpContext = CreateContext("/robots.txt", false,
+                out MockHttpResponse httpResponse, out _);
 
             await sut.Invoke(httpContext);
 
@@ -280,8 +280,8 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SpiderTests
         {
             SpiderMiddleware sut = CreateSpiderMiddlewareInstance(null, true);
 
-            TestHttpContext httpContext = CreateContext("/identities/reveal", true,
-                out TestHttpResponse httpResponse, out _);
+            MockHttpContext httpContext = CreateContext("/identities/reveal", true,
+                out MockHttpResponse httpResponse, out _);
 
             await sut.Invoke(httpContext);
 
@@ -297,11 +297,11 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SpiderTests
             string ipAddress = "10.10.10.111";
             string userAgent = "TestBotTrap/v1.0";
 
-            TestBotTrap testBotTrap = new TestBotTrap();
+            MockBotTrap testBotTrap = new MockBotTrap();
             serviceCollection.AddSingleton<IBotTrap>(testBotTrap);
 
-            TestHttpContext httpContext = CreateContext("/identities/reveal", true, serviceCollection,
-                out TestHttpResponse httpResponse, out TestHttpRequest testHttpRequest);
+            MockHttpContext httpContext = CreateContext("/identities/reveal", true, serviceCollection,
+                out MockHttpResponse httpResponse, out MockHttpRequest testHttpRequest);
 
             testHttpRequest.IpAddress = ipAddress;
             testHttpRequest.UserAgent = userAgent;
@@ -316,15 +316,15 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SpiderTests
         [TestCategory(TestCategoryMiddleware)]
         public async Task BotTrap_CallRoute_IBotTrap_Registered_ThrowsException_Returns405()
         {
-            TestLogger testLogger = new TestLogger();
+            MockLogger testLogger = new MockLogger();
             SpiderMiddleware sut = CreateSpiderMiddlewareInstance(testLogger, null, true);
             IServiceCollection serviceCollection = new ServiceCollection() as IServiceCollection;
 
-            TestBotTrap testBotTrap = new TestBotTrap(true);
+            MockBotTrap testBotTrap = new MockBotTrap(true);
             serviceCollection.AddSingleton<IBotTrap>(testBotTrap);
 
-            TestHttpContext httpContext = CreateContext("/identities/reveal", true, serviceCollection,
-                out TestHttpResponse httpResponse, out TestHttpRequest testHttpRequest);
+            MockHttpContext httpContext = CreateContext("/identities/reveal", true, serviceCollection,
+                out MockHttpResponse httpResponse, out MockHttpRequest testHttpRequest);
 
             await sut.Invoke(httpContext);
 
@@ -381,7 +381,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SpiderTests
                 };
             ActionDescriptorCollection actionDescriptorCollection = new ActionDescriptorCollection(descriptors, 1);
 
-            new Robots(new TestActionDescriptorCollectionProvider(actionDescriptorCollection), null, pluginTypesServices, new MockLoadData());
+            new Robots(new MockActionDescriptorCollectionProvider(actionDescriptorCollection), null, pluginTypesServices, new MockLoadData());
         }
 
         [TestMethod]
@@ -423,7 +423,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SpiderTests
                 };
             ActionDescriptorCollection actionDescriptorCollection = new ActionDescriptorCollection(descriptors, 1);
 
-            new Robots(new TestActionDescriptorCollectionProvider(actionDescriptorCollection), new RouteDataServices(), pluginTypesServices, null);
+            new Robots(new MockActionDescriptorCollectionProvider(actionDescriptorCollection), new RouteDataServices(), pluginTypesServices, null);
         }
 
         [TestMethod]
@@ -463,7 +463,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SpiderTests
                 };
             ActionDescriptorCollection actionDescriptorCollection = new ActionDescriptorCollection(descriptors, 1);
 
-            new Robots(new TestActionDescriptorCollectionProvider(actionDescriptorCollection), new RouteDataServices(), null, new MockLoadData());
+            new Robots(new MockActionDescriptorCollectionProvider(actionDescriptorCollection), new RouteDataServices(), null, new MockLoadData());
         }
 
         [TestMethod]
@@ -547,8 +547,8 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SpiderTests
         public void Robots_SaveAndReloadCustomData()
         {
             string rootPath = Path.GetTempPath();
-            ISaveData saveData = new FileStorageSaveData(new TestLogger(), rootPath);
-            ILoadData loadData = new FileStorageLoadData(new TestLogger(), rootPath);
+            ISaveData saveData = new FileStorageSaveData(new MockLogger(), rootPath);
+            ILoadData loadData = new FileStorageLoadData(new MockLogger(), rootPath);
 
             var sut = CreateRobotsInstance();
             int currentAgentCount = sut.Agents.Count;
@@ -816,11 +816,11 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SpiderTests
             bool added = robot.AddDeniedRoute("testAgent", "/*");
             Assert.IsTrue(added);
 
-            TestNotificationService testNotificationService = new TestNotificationService(new List<object>() { "/sitemap.xml" });
-            SpiderMiddleware sut = CreateSpiderMiddlewareInstance(new TestLogger(), robot, testNotificationService);
+            MockNotificationService testNotificationService = new MockNotificationService(new List<object>() { "/sitemap.xml" });
+            SpiderMiddleware sut = CreateSpiderMiddlewareInstance(new MockLogger(), robot, testNotificationService);
 
-            TestHttpContext httpContext = CreateContext("/robots.txt", false,
-                out TestHttpResponse httpResponse, out _);
+            MockHttpContext httpContext = CreateContext("/robots.txt", false,
+                out MockHttpResponse httpResponse, out _);
 
             await sut.Invoke(httpContext);
 
@@ -844,11 +844,11 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SpiderTests
             bool agentAdded = robot.AgentAdd("testAgent");
             Assert.IsTrue(agentAdded);
 
-            TestNotificationService testNotificationService = new TestNotificationService(new List<object>() { "/sitemap.xml" });
-            SpiderMiddleware sut = CreateSpiderMiddlewareInstance(new TestLogger(), robot, testNotificationService);
+            MockNotificationService testNotificationService = new MockNotificationService(new List<object>() { "/sitemap.xml" });
+            SpiderMiddleware sut = CreateSpiderMiddlewareInstance(new MockLogger(), robot, testNotificationService);
 
-            TestHttpContext httpContext = CreateContext("/robots.txt", false,
-                out TestHttpResponse httpResponse, out _);
+            MockHttpContext httpContext = CreateContext("/robots.txt", false,
+                out MockHttpResponse httpResponse, out _);
 
             await sut.Invoke(httpContext);
 
@@ -870,11 +870,11 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SpiderTests
             bool added = robot.AddAllowedRoute("testAgent", "/*");
             Assert.IsTrue(added);
 
-            TestNotificationService testNotificationService = new TestNotificationService(new List<object>() { "/sitemap.xml" });
-            SpiderMiddleware sut = CreateSpiderMiddlewareInstance(new TestLogger(), robot, testNotificationService);
+            MockNotificationService testNotificationService = new MockNotificationService(new List<object>() { "/sitemap.xml" });
+            SpiderMiddleware sut = CreateSpiderMiddlewareInstance(new MockLogger(), robot, testNotificationService);
 
-            TestHttpContext httpContext = CreateContext("/robots.txt", false,
-                out TestHttpResponse httpResponse, out _);
+            MockHttpContext httpContext = CreateContext("/robots.txt", false,
+                out MockHttpResponse httpResponse, out _);
 
             await sut.Invoke(httpContext);
 
@@ -892,32 +892,32 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SpiderTests
 
         #region Private Methods
 
-        private TestHttpContext CreateContext(string path, bool includeServiceCollection,
-            out TestHttpResponse httpResponse, out TestHttpRequest httpRequest)
+        private MockHttpContext CreateContext(string path, bool includeServiceCollection,
+            out MockHttpResponse httpResponse, out MockHttpRequest httpRequest)
         {
             IServiceCollection serviceCollection = new ServiceCollection() as IServiceCollection;
             return CreateContext(path, includeServiceCollection, serviceCollection, out httpResponse, out httpRequest);
         }
 
-        private TestHttpContext CreateContext(string path, bool includeServiceCollection,
+        private MockHttpContext CreateContext(string path, bool includeServiceCollection,
             IServiceCollection serviceCollection,
-            out TestHttpResponse httpResponse, out TestHttpRequest httpRequest)
+            out MockHttpResponse httpResponse, out MockHttpRequest httpRequest)
         {
-            TestRequestCookieCollection cookies = new TestRequestCookieCollection();
-            httpRequest = new TestHttpRequest(cookies);
-            httpResponse = new TestHttpResponse();
+            MockRequestCookieCollection cookies = new MockRequestCookieCollection();
+            httpRequest = new MockHttpRequest(cookies);
+            httpResponse = new MockHttpResponse();
             httpRequest.Path = path;
-            TestHttpContext Result = null;
+            MockHttpContext Result = null;
 
             if (includeServiceCollection)
             {
                 Assert.IsNotNull(serviceCollection);
 
-                Result = new TestHttpContext(httpRequest, httpResponse, serviceCollection.BuildServiceProvider(), null);
+                Result = new MockHttpContext(httpRequest, httpResponse, serviceCollection.BuildServiceProvider(), null);
             }
             else
             {
-                Result = new TestHttpContext(httpRequest, httpResponse);
+                Result = new MockHttpContext(httpRequest, httpResponse);
             }
 
             httpRequest.SetContext(Result);
@@ -925,14 +925,14 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SpiderTests
             return Result;
         }
 
-        private SpiderMiddleware CreateSpiderMiddlewareInstance(TestNotificationService customNotification = null,
+        private SpiderMiddleware CreateSpiderMiddlewareInstance(MockNotificationService customNotification = null,
             bool createDescriptors = false)
         {
-            return CreateSpiderMiddlewareInstance(new TestLogger(), customNotification, createDescriptors);
+            return CreateSpiderMiddlewareInstance(new MockLogger(), customNotification, createDescriptors);
         }
 
-        private SpiderMiddleware CreateSpiderMiddlewareInstance(TestLogger testLogger,
-            TestNotificationService customNotification = null,
+        private SpiderMiddleware CreateSpiderMiddlewareInstance(MockLogger testLogger,
+            MockNotificationService customNotification = null,
             bool createDescriptors = false)
         {
             IPluginTypesService pluginTypesServices = _testPluginSpider as IPluginTypesService;
@@ -979,13 +979,13 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SpiderTests
             }
 
             return CreateSpiderMiddlewareInstance(testLogger,
-                new Robots(new TestActionDescriptorCollectionProvider(actionDescriptorCollection), new RouteDataServices(), pluginTypesServices, new MockLoadData()),
+                new Robots(new MockActionDescriptorCollectionProvider(actionDescriptorCollection), new RouteDataServices(), pluginTypesServices, new MockLoadData()),
                 customNotification);
         }
 
-        private SpiderMiddleware CreateSpiderMiddlewareInstance(TestLogger testLogger,
+        private SpiderMiddleware CreateSpiderMiddlewareInstance(MockLogger testLogger,
             IRobots robots,
-            TestNotificationService customNotification = null)
+            MockNotificationService customNotification = null)
         {
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
             IPluginHelperService pluginServices = _testPluginSpider as IPluginHelperService;
@@ -996,7 +996,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SpiderTests
                 pluginServices,
                 settingsProvider,
                 testLogger,
-                customNotification ?? new TestNotificationService(),
+                customNotification ?? new MockNotificationService(),
                 robots);
         }
 
@@ -1041,7 +1041,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SpiderTests
             if (loadData == null)
                 loadData = new MockLoadData();
 
-            return new Robots(new TestActionDescriptorCollectionProvider(actionDescriptorCollection), new RouteDataServices(), pluginTypesServices, loadData);
+            return new Robots(new MockActionDescriptorCollectionProvider(actionDescriptorCollection), new RouteDataServices(), pluginTypesServices, loadData);
         }
 
         #endregion Private Methods

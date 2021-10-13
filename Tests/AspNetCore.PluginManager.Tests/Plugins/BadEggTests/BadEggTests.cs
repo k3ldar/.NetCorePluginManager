@@ -66,23 +66,23 @@ namespace AspNetCore.PluginManager.Tests.Plugins.BadEggTests
         {
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
 
-            TestHttpRequest httpRequest = new TestHttpRequest();
-            TestHttpResponse httpResponse = new TestHttpResponse();
+            MockHttpRequest httpRequest = new MockHttpRequest();
+            MockHttpResponse httpResponse = new MockHttpResponse();
 
             IPluginClassesService pluginServices = _testPluginBadEgg as IPluginClassesService;
             IPluginHelperService pluginHelperServices = _testPluginBadEgg.GetRequiredService<IPluginHelperService>();
             IPluginTypesService pluginTypesService = _testPluginBadEgg.GetRequiredService<IPluginTypesService>();
             INotificationService notificationService = _testPluginBadEgg.GetRequiredService<INotificationService>();
-            IIpValidation iPValidation = new TestIPValidation();
+            IIpValidation iPValidation = new MockIpValidation();
 
-            TestHttpContext httpContext = new TestHttpContext(httpRequest, httpResponse);
+            MockHttpContext httpContext = new MockHttpContext(httpRequest, httpResponse);
             httpRequest.SetContext(httpContext);
             MockLoginProvider loginProvider = new MockLoginProvider();
 
             MockClaimsProvider claimsProvider = new MockClaimsProvider(pluginServices);
-            TestAuthenticationService authenticationService = new TestAuthenticationService();
+            MockAuthenticationService authenticationService = new MockAuthenticationService();
             ActionDescriptorCollection actionDescriptorCollection = new ActionDescriptorCollection(new List<ActionDescriptor>(), 1);
-            TestActionDescriptorCollectionProvider testActionDescriptorCollectionProvider = new TestActionDescriptorCollectionProvider(actionDescriptorCollection);
+            MockActionDescriptorCollectionProvider testActionDescriptorCollectionProvider = new MockActionDescriptorCollectionProvider(actionDescriptorCollection);
             RouteDataServices routeDataServices = new RouteDataServices();
 
             BadEggMiddleware badEgg = new BadEggMiddleware(null, testActionDescriptorCollectionProvider,
@@ -97,21 +97,21 @@ namespace AspNetCore.PluginManager.Tests.Plugins.BadEggTests
         {
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
 
-            TestHttpRequest httpRequest = new TestHttpRequest();
-            TestHttpResponse httpResponse = new TestHttpResponse();
+            MockHttpRequest httpRequest = new MockHttpRequest();
+            MockHttpResponse httpResponse = new MockHttpResponse();
 
             IPluginClassesService pluginServices = _testPluginBadEgg as IPluginClassesService;
             IPluginHelperService pluginHelperServices = _testPluginBadEgg.GetRequiredService<IPluginHelperService>();
             IPluginTypesService pluginTypesService = _testPluginBadEgg.GetRequiredService<IPluginTypesService>();
             INotificationService notificationService = _testPluginBadEgg.GetRequiredService<INotificationService>();
-            IIpValidation iPValidation = new TestIPValidation();
+            IIpValidation iPValidation = new MockIpValidation();
 
-            TestHttpContext httpContext = new TestHttpContext(httpRequest, httpResponse);
+            MockHttpContext httpContext = new MockHttpContext(httpRequest, httpResponse);
             httpRequest.SetContext(httpContext);
             MockLoginProvider loginProvider = new MockLoginProvider();
 
             MockClaimsProvider claimsProvider = new MockClaimsProvider(pluginServices);
-            TestAuthenticationService authenticationService = new TestAuthenticationService();
+            MockAuthenticationService authenticationService = new MockAuthenticationService();
             RequestDelegate requestDelegate = async (context) => { await Task.Delay(0); };
             RouteDataServices routeDataServices = new RouteDataServices();
 
@@ -127,24 +127,24 @@ namespace AspNetCore.PluginManager.Tests.Plugins.BadEggTests
         {
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
 
-            TestHttpRequest httpRequest = new TestHttpRequest();
-            TestHttpResponse httpResponse = new TestHttpResponse();
+            MockHttpRequest httpRequest = new MockHttpRequest();
+            MockHttpResponse httpResponse = new MockHttpResponse();
 
             IPluginClassesService pluginServices = _testPluginBadEgg as IPluginClassesService;
             IPluginHelperService pluginHelperServices = _testPluginBadEgg.GetRequiredService<IPluginHelperService>();
             IPluginTypesService pluginTypesService = _testPluginBadEgg.GetRequiredService<IPluginTypesService>();
             INotificationService notificationService = _testPluginBadEgg.GetRequiredService<INotificationService>();
-            IIpValidation iPValidation = new TestIPValidation();
+            IIpValidation iPValidation = new MockIpValidation();
 
-            TestHttpContext httpContext = new TestHttpContext(httpRequest, httpResponse);
+            MockHttpContext httpContext = new MockHttpContext(httpRequest, httpResponse);
             httpRequest.SetContext(httpContext);
             MockLoginProvider loginProvider = new MockLoginProvider();
 
             MockClaimsProvider claimsProvider = new MockClaimsProvider(pluginServices);
-            TestAuthenticationService authenticationService = new TestAuthenticationService();
+            MockAuthenticationService authenticationService = new MockAuthenticationService();
             RequestDelegate requestDelegate = async (context) => { await Task.Delay(0); };
             ActionDescriptorCollection actionDescriptorCollection = new ActionDescriptorCollection(new List<ActionDescriptor>(), 1);
-            TestActionDescriptorCollectionProvider testActionDescriptorCollectionProvider = new TestActionDescriptorCollectionProvider(actionDescriptorCollection);
+            MockActionDescriptorCollectionProvider testActionDescriptorCollectionProvider = new MockActionDescriptorCollectionProvider(actionDescriptorCollection);
 
             BadEggMiddleware badEgg = new BadEggMiddleware(requestDelegate, testActionDescriptorCollectionProvider,
                 null, pluginHelperServices, pluginTypesService, iPValidation,
@@ -158,23 +158,23 @@ namespace AspNetCore.PluginManager.Tests.Plugins.BadEggTests
         {
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
 
-            TestHttpRequest httpRequest = new TestHttpRequest();
-            TestHttpResponse httpResponse = new TestHttpResponse();
+            MockHttpRequest httpRequest = new MockHttpRequest();
+            MockHttpResponse httpResponse = new MockHttpResponse();
 
             IPluginClassesService pluginServices = _testPluginBadEgg as IPluginClassesService;
             IPluginTypesService pluginTypesService = _testPluginBadEgg.GetRequiredService<IPluginTypesService>();
             INotificationService notificationService = _testPluginBadEgg.GetRequiredService<INotificationService>();
-            IIpValidation iPValidation = new TestIPValidation();
+            IIpValidation iPValidation = new MockIpValidation();
 
-            TestHttpContext httpContext = new TestHttpContext(httpRequest, httpResponse);
+            MockHttpContext httpContext = new MockHttpContext(httpRequest, httpResponse);
             httpRequest.SetContext(httpContext);
             MockLoginProvider loginProvider = new MockLoginProvider();
 
             MockClaimsProvider claimsProvider = new MockClaimsProvider(pluginServices);
-            TestAuthenticationService authenticationService = new TestAuthenticationService();
+            MockAuthenticationService authenticationService = new MockAuthenticationService();
             RequestDelegate requestDelegate = async (context) => { await Task.Delay(0); };
             ActionDescriptorCollection actionDescriptorCollection = new ActionDescriptorCollection(new List<ActionDescriptor>(), 1);
-            TestActionDescriptorCollectionProvider testActionDescriptorCollectionProvider = new TestActionDescriptorCollectionProvider(actionDescriptorCollection);
+            MockActionDescriptorCollectionProvider testActionDescriptorCollectionProvider = new MockActionDescriptorCollectionProvider(actionDescriptorCollection);
             RouteDataServices routeDataServices = new RouteDataServices();
 
             BadEggMiddleware badEgg = new BadEggMiddleware(requestDelegate, testActionDescriptorCollectionProvider,
@@ -189,23 +189,23 @@ namespace AspNetCore.PluginManager.Tests.Plugins.BadEggTests
         {
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
 
-            TestHttpRequest httpRequest = new TestHttpRequest();
-            TestHttpResponse httpResponse = new TestHttpResponse();
+            MockHttpRequest httpRequest = new MockHttpRequest();
+            MockHttpResponse httpResponse = new MockHttpResponse();
 
             IPluginClassesService pluginServices = _testPluginBadEgg as IPluginClassesService;
             IPluginHelperService pluginHelperServices = _testPluginBadEgg.GetRequiredService<IPluginHelperService>();
             INotificationService notificationService = _testPluginBadEgg.GetRequiredService<INotificationService>();
-            IIpValidation iPValidation = new TestIPValidation();
+            IIpValidation iPValidation = new MockIpValidation();
 
-            TestHttpContext httpContext = new TestHttpContext(httpRequest, httpResponse);
+            MockHttpContext httpContext = new MockHttpContext(httpRequest, httpResponse);
             httpRequest.SetContext(httpContext);
             MockLoginProvider loginProvider = new MockLoginProvider();
 
             MockClaimsProvider claimsProvider = new MockClaimsProvider(pluginServices);
-            TestAuthenticationService authenticationService = new TestAuthenticationService();
+            MockAuthenticationService authenticationService = new MockAuthenticationService();
             RequestDelegate requestDelegate = async (context) => { await Task.Delay(0); };
             ActionDescriptorCollection actionDescriptorCollection = new ActionDescriptorCollection(new List<ActionDescriptor>(), 1);
-            TestActionDescriptorCollectionProvider testActionDescriptorCollectionProvider = new TestActionDescriptorCollectionProvider(actionDescriptorCollection);
+            MockActionDescriptorCollectionProvider testActionDescriptorCollectionProvider = new MockActionDescriptorCollectionProvider(actionDescriptorCollection);
             RouteDataServices routeDataServices = new RouteDataServices();
 
             BadEggMiddleware badEgg = new BadEggMiddleware(requestDelegate, testActionDescriptorCollectionProvider,
@@ -220,23 +220,23 @@ namespace AspNetCore.PluginManager.Tests.Plugins.BadEggTests
         {
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
 
-            TestHttpRequest httpRequest = new TestHttpRequest();
-            TestHttpResponse httpResponse = new TestHttpResponse();
+            MockHttpRequest httpRequest = new MockHttpRequest();
+            MockHttpResponse httpResponse = new MockHttpResponse();
 
             IPluginClassesService pluginServices = _testPluginBadEgg as IPluginClassesService;
             IPluginHelperService pluginHelperServices = _testPluginBadEgg.GetRequiredService<IPluginHelperService>();
             IPluginTypesService pluginTypesService = _testPluginBadEgg.GetRequiredService<IPluginTypesService>();
             INotificationService notificationService = _testPluginBadEgg.GetRequiredService<INotificationService>();
 
-            TestHttpContext httpContext = new TestHttpContext(httpRequest, httpResponse);
+            MockHttpContext httpContext = new MockHttpContext(httpRequest, httpResponse);
             httpRequest.SetContext(httpContext);
             MockLoginProvider loginProvider = new MockLoginProvider();
 
             MockClaimsProvider claimsProvider = new MockClaimsProvider(pluginServices);
-            TestAuthenticationService authenticationService = new TestAuthenticationService();
+            MockAuthenticationService authenticationService = new MockAuthenticationService();
             RequestDelegate requestDelegate = async (context) => { await Task.Delay(0); };
             ActionDescriptorCollection actionDescriptorCollection = new ActionDescriptorCollection(new List<ActionDescriptor>(), 1);
-            TestActionDescriptorCollectionProvider testActionDescriptorCollectionProvider = new TestActionDescriptorCollectionProvider(actionDescriptorCollection);
+            MockActionDescriptorCollectionProvider testActionDescriptorCollectionProvider = new MockActionDescriptorCollectionProvider(actionDescriptorCollection);
             RouteDataServices routeDataServices = new RouteDataServices();
 
             BadEggMiddleware badEgg = new BadEggMiddleware(requestDelegate, testActionDescriptorCollectionProvider,
@@ -249,24 +249,24 @@ namespace AspNetCore.PluginManager.Tests.Plugins.BadEggTests
         [ExpectedException(typeof(ArgumentNullException))]
         public void BadEggValidationInvalidSettingsProvider()
         {
-            TestHttpRequest httpRequest = new TestHttpRequest();
-            TestHttpResponse httpResponse = new TestHttpResponse();
+            MockHttpRequest httpRequest = new MockHttpRequest();
+            MockHttpResponse httpResponse = new MockHttpResponse();
 
             IPluginClassesService pluginServices = _testPluginBadEgg as IPluginClassesService;
             IPluginHelperService pluginHelperServices = _testPluginBadEgg.GetRequiredService<IPluginHelperService>();
             IPluginTypesService pluginTypesService = _testPluginBadEgg.GetRequiredService<IPluginTypesService>();
             INotificationService notificationService = _testPluginBadEgg.GetRequiredService<INotificationService>();
-            IIpValidation iPValidation = new TestIPValidation();
+            IIpValidation iPValidation = new MockIpValidation();
 
-            TestHttpContext httpContext = new TestHttpContext(httpRequest, httpResponse);
+            MockHttpContext httpContext = new MockHttpContext(httpRequest, httpResponse);
             httpRequest.SetContext(httpContext);
             MockLoginProvider loginProvider = new MockLoginProvider();
 
             MockClaimsProvider claimsProvider = new MockClaimsProvider(pluginServices);
-            TestAuthenticationService authenticationService = new TestAuthenticationService();
+            MockAuthenticationService authenticationService = new MockAuthenticationService();
             RequestDelegate requestDelegate = async (context) => { await Task.Delay(0); };
             ActionDescriptorCollection actionDescriptorCollection = new ActionDescriptorCollection(new List<ActionDescriptor>(), 1);
-            TestActionDescriptorCollectionProvider testActionDescriptorCollectionProvider = new TestActionDescriptorCollectionProvider(actionDescriptorCollection);
+            MockActionDescriptorCollectionProvider testActionDescriptorCollectionProvider = new MockActionDescriptorCollectionProvider(actionDescriptorCollection);
             RouteDataServices routeDataServices = new RouteDataServices();
 
             BadEggMiddleware badEgg = new BadEggMiddleware(requestDelegate, testActionDescriptorCollectionProvider,
@@ -281,23 +281,23 @@ namespace AspNetCore.PluginManager.Tests.Plugins.BadEggTests
         {
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
 
-            TestHttpRequest httpRequest = new TestHttpRequest();
-            TestHttpResponse httpResponse = new TestHttpResponse();
+            MockHttpRequest httpRequest = new MockHttpRequest();
+            MockHttpResponse httpResponse = new MockHttpResponse();
 
             IPluginClassesService pluginServices = _testPluginBadEgg as IPluginClassesService;
             IPluginHelperService pluginHelperServices = _testPluginBadEgg.GetRequiredService<IPluginHelperService>();
             IPluginTypesService pluginTypesService = _testPluginBadEgg.GetRequiredService<IPluginTypesService>();
-            IIpValidation iPValidation = new TestIPValidation();
+            IIpValidation iPValidation = new MockIpValidation();
 
-            TestHttpContext httpContext = new TestHttpContext(httpRequest, httpResponse);
+            MockHttpContext httpContext = new MockHttpContext(httpRequest, httpResponse);
             httpRequest.SetContext(httpContext);
             MockLoginProvider loginProvider = new MockLoginProvider();
 
             MockClaimsProvider claimsProvider = new MockClaimsProvider(pluginServices);
-            TestAuthenticationService authenticationService = new TestAuthenticationService();
+            MockAuthenticationService authenticationService = new MockAuthenticationService();
             RequestDelegate requestDelegate = async (context) => { await Task.Delay(0); };
             ActionDescriptorCollection actionDescriptorCollection = new ActionDescriptorCollection(new List<ActionDescriptor>(), 1);
-            TestActionDescriptorCollectionProvider testActionDescriptorCollectionProvider = new TestActionDescriptorCollectionProvider(actionDescriptorCollection);
+            MockActionDescriptorCollectionProvider testActionDescriptorCollectionProvider = new MockActionDescriptorCollectionProvider(actionDescriptorCollection);
             RouteDataServices routeDataServices = new RouteDataServices();
 
             BadEggMiddleware badEgg = new BadEggMiddleware(requestDelegate, testActionDescriptorCollectionProvider,
@@ -311,25 +311,25 @@ namespace AspNetCore.PluginManager.Tests.Plugins.BadEggTests
         {
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
 
-            TestHttpRequest httpRequest = new TestHttpRequest();
-            TestHttpResponse httpResponse = new TestHttpResponse();
+            MockHttpRequest httpRequest = new MockHttpRequest();
+            MockHttpResponse httpResponse = new MockHttpResponse();
 
             IPluginClassesService pluginServices = _testPluginBadEgg as IPluginClassesService;
             IPluginHelperService pluginHelperServices = _testPluginBadEgg.GetRequiredService<IPluginHelperService>();
             IPluginTypesService pluginTypesService = _testPluginBadEgg.GetRequiredService<IPluginTypesService>();
             INotificationService notificationService = _testPluginBadEgg.GetRequiredService<INotificationService>();
-            IIpValidation iPValidation = new TestIPValidation();
+            IIpValidation iPValidation = new MockIpValidation();
 
-            TestHttpContext httpContext = new TestHttpContext(httpRequest, httpResponse);
+            MockHttpContext httpContext = new MockHttpContext(httpRequest, httpResponse);
             httpRequest.SetContext(httpContext);
             MockLoginProvider loginProvider = new MockLoginProvider();
 
             MockClaimsProvider claimsProvider = new MockClaimsProvider(pluginServices);
-            TestAuthenticationService authenticationService = new TestAuthenticationService();
+            MockAuthenticationService authenticationService = new MockAuthenticationService();
             bool nextDelegateCalled = false;
             RequestDelegate requestDelegate = async (context) => { nextDelegateCalled = true; await Task.Delay(0); };
             ActionDescriptorCollection actionDescriptorCollection = new ActionDescriptorCollection(new List<ActionDescriptor>(), 1);
-            TestActionDescriptorCollectionProvider testActionDescriptorCollectionProvider = new TestActionDescriptorCollectionProvider(actionDescriptorCollection);
+            MockActionDescriptorCollectionProvider testActionDescriptorCollectionProvider = new MockActionDescriptorCollectionProvider(actionDescriptorCollection);
             RouteDataServices routeDataServices = new RouteDataServices();
 
             BadEggMiddleware badEgg = new BadEggMiddleware(requestDelegate, testActionDescriptorCollectionProvider,
@@ -347,26 +347,26 @@ namespace AspNetCore.PluginManager.Tests.Plugins.BadEggTests
         {
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
 
-            TestHttpRequest httpRequest = new TestHttpRequest();
-            TestHttpResponse httpResponse = new TestHttpResponse();
+            MockHttpRequest httpRequest = new MockHttpRequest();
+            MockHttpResponse httpResponse = new MockHttpResponse();
 
             IPluginClassesService pluginServices = _testPluginBadEgg as IPluginClassesService;
             IPluginHelperService pluginHelperServices = _testPluginBadEgg.GetRequiredService<IPluginHelperService>();
             IPluginTypesService pluginTypesService = _testPluginBadEgg.GetRequiredService<IPluginTypesService>();
             INotificationService notificationService = _testPluginBadEgg.GetRequiredService<INotificationService>();
-            IIpValidation iPValidation = new TestIPValidation();
+            IIpValidation iPValidation = new MockIpValidation();
             IIpManagement ipManagement = _testPluginBadEgg.GetRequiredService<IIpManagement>();
 
-            TestHttpContext httpContext = new TestHttpContext(httpRequest, httpResponse);
+            MockHttpContext httpContext = new MockHttpContext(httpRequest, httpResponse);
             httpRequest.SetContext(httpContext);
             MockLoginProvider loginProvider = new MockLoginProvider();
 
             MockClaimsProvider claimsProvider = new MockClaimsProvider(pluginServices);
-            TestAuthenticationService authenticationService = new TestAuthenticationService();
+            MockAuthenticationService authenticationService = new MockAuthenticationService();
             bool nextDelegateCalled = false;
             RequestDelegate requestDelegate = async (context) => { nextDelegateCalled = true; await Task.Delay(0); };
             ActionDescriptorCollection actionDescriptorCollection = new ActionDescriptorCollection(new List<ActionDescriptor>(), 1);
-            TestActionDescriptorCollectionProvider testActionDescriptorCollectionProvider = new TestActionDescriptorCollectionProvider(actionDescriptorCollection);
+            MockActionDescriptorCollectionProvider testActionDescriptorCollectionProvider = new MockActionDescriptorCollectionProvider(actionDescriptorCollection);
             RouteDataServices routeDataServices = new RouteDataServices();
 
             ipManagement.AddBlackListedIp(httpContext.Connection.RemoteIpAddress.ToString());
@@ -389,26 +389,26 @@ namespace AspNetCore.PluginManager.Tests.Plugins.BadEggTests
         {
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
 
-            TestHttpRequest httpRequest = new TestHttpRequest();
-            TestHttpResponse httpResponse = new TestHttpResponse();
+            MockHttpRequest httpRequest = new MockHttpRequest();
+            MockHttpResponse httpResponse = new MockHttpResponse();
 
             IPluginClassesService pluginServices = _testPluginBadEgg as IPluginClassesService;
             IPluginHelperService pluginHelperServices = _testPluginBadEgg.GetRequiredService<IPluginHelperService>();
             IPluginTypesService pluginTypesService = _testPluginBadEgg.GetRequiredService<IPluginTypesService>();
             INotificationService notificationService = _testPluginBadEgg.GetRequiredService<INotificationService>();
-            IIpValidation iPValidation = new TestIPValidation();
+            IIpValidation iPValidation = new MockIpValidation();
             IIpManagement ipManagement = _testPluginBadEgg.GetRequiredService<IIpManagement>();
 
-            TestHttpContext httpContext = new TestHttpContext(httpRequest, httpResponse);
+            MockHttpContext httpContext = new MockHttpContext(httpRequest, httpResponse);
             httpRequest.SetContext(httpContext);
             MockLoginProvider loginProvider = new MockLoginProvider();
 
             MockClaimsProvider claimsProvider = new MockClaimsProvider(pluginServices);
-            TestAuthenticationService authenticationService = new TestAuthenticationService();
+            MockAuthenticationService authenticationService = new MockAuthenticationService();
             bool nextDelegateCalled = false;
             RequestDelegate requestDelegate = async (context) => { nextDelegateCalled = true; await Task.Delay(0); };
             ActionDescriptorCollection actionDescriptorCollection = new ActionDescriptorCollection(new List<ActionDescriptor>(), 1);
-            TestActionDescriptorCollectionProvider testActionDescriptorCollectionProvider = new TestActionDescriptorCollectionProvider(actionDescriptorCollection);
+            MockActionDescriptorCollectionProvider testActionDescriptorCollectionProvider = new MockActionDescriptorCollectionProvider(actionDescriptorCollection);
             RouteDataServices routeDataServices = new RouteDataServices();
 
             ipManagement.AddWhiteListedIp(httpContext.Connection.RemoteIpAddress.ToString());
@@ -432,26 +432,26 @@ namespace AspNetCore.PluginManager.Tests.Plugins.BadEggTests
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
             BadEggSettings badEggSettings = settingsProvider.GetSettings<BadEggSettings>(BadEggSettingsName);
 
-            TestHttpRequest httpRequest = new TestHttpRequest();
-            TestHttpResponse httpResponse = new TestHttpResponse();
+            MockHttpRequest httpRequest = new MockHttpRequest();
+            MockHttpResponse httpResponse = new MockHttpResponse();
 
             IPluginClassesService pluginServices = _testPluginBadEgg as IPluginClassesService;
             IPluginHelperService pluginHelperServices = _testPluginBadEgg.GetRequiredService<IPluginHelperService>();
             IPluginTypesService pluginTypesService = _testPluginBadEgg.GetRequiredService<IPluginTypesService>();
             INotificationService notificationService = _testPluginBadEgg.GetRequiredService<INotificationService>();
-            IIpValidation iPValidation = new TestIPValidation();
+            IIpValidation iPValidation = new MockIpValidation();
             IIpManagement ipManagement = _testPluginBadEgg.GetRequiredService<IIpManagement>();
 
-            TestHttpContext httpContext = new TestHttpContext(httpRequest, httpResponse);
+            MockHttpContext httpContext = new MockHttpContext(httpRequest, httpResponse);
             httpRequest.SetContext(httpContext);
             MockLoginProvider loginProvider = new MockLoginProvider();
 
             MockClaimsProvider claimsProvider = new MockClaimsProvider(pluginServices);
-            TestAuthenticationService authenticationService = new TestAuthenticationService();
+            MockAuthenticationService authenticationService = new MockAuthenticationService();
             bool nextDelegateCalled = false;
             RequestDelegate requestDelegate = async (context) => { nextDelegateCalled = true; await Task.Delay(0); };
             ActionDescriptorCollection actionDescriptorCollection = new ActionDescriptorCollection(new List<ActionDescriptor>(), 1);
-            TestActionDescriptorCollectionProvider testActionDescriptorCollectionProvider = new TestActionDescriptorCollectionProvider(actionDescriptorCollection);
+            MockActionDescriptorCollectionProvider testActionDescriptorCollectionProvider = new MockActionDescriptorCollectionProvider(actionDescriptorCollection);
             RouteDataServices routeDataServices = new RouteDataServices();
 
 

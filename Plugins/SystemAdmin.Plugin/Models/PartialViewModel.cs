@@ -53,11 +53,11 @@ namespace SystemAdmin.Plugin.Models
 
         #region Public Properties
 
-        public string Title { get; private set; }
+        public string Title { get; }
 
-        public string PartialView { get; private set; }
+        public string PartialView { get; }
 
-        public string ControllerRoot { get; set; }
+        public string ControllerRoot { get; }
 
         #endregion Public Properties
     }

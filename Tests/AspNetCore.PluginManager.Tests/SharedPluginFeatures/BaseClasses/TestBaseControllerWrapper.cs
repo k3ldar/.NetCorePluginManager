@@ -37,7 +37,7 @@ namespace AspNetCore.PluginManager.Tests.SharedPluginFeatures
     {
         public TestBaseControllerWrapper()
         {
-            ControllerContext.HttpContext = new TestHttpContext();
+            ControllerContext.HttpContext = new MockHttpContext();
         }
 
         internal string TestGetCoreSessionId()

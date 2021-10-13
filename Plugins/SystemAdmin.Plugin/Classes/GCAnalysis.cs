@@ -42,6 +42,7 @@ namespace SystemAdmin.Plugin.Classes
 
         private static readonly object _lockObject = new object();
         private const int MaximumStatistics = 20;
+        private const int WaitForGCTimeout = 500;
         private readonly Timings _timings = new Timings();
         private static readonly Queue<GCSnapshot> _gcStatistics = new Queue<GCSnapshot>(MaximumStatistics);
 
@@ -66,7 +67,7 @@ namespace SystemAdmin.Plugin.Classes
             bool completed = false;
 
             // Check for a notification of an approaching collection.
-            GCNotificationStatus status = GC.WaitForFullGCApproach(1000);
+            GCNotificationStatus status = GC.WaitForFullGCApproach(WaitForGCTimeout);
 
             if (status == GCNotificationStatus.Succeeded)
             {

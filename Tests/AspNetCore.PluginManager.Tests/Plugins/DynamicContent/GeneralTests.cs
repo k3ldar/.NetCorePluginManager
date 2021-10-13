@@ -475,7 +475,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         public void EditPageModel_Construct_ValidInstance_Success()
         {
             List<DynamicContentTemplate> dynamicContents = new List<DynamicContentTemplate>();
-            dynamicContents.Add(new TestDynamicTemplate());
+            dynamicContents.Add(new MockDynamicTemplate());
 
             EditPageModel sut = new EditPageModel(GenerateTestBaseModelData(), "cache id", 123, "the name", "name", DateTime.MinValue, DateTime.MaxValue, dynamicContents, "#ffffff", "/img/img.gif");
             Assert.IsNotNull(sut);

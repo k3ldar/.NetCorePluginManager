@@ -51,7 +51,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SearchTests
 {
     [TestClass]
     [ExcludeFromCodeCoverage]
-    public sealed class KeywordSearchTests : TestBasePlugin
+    public sealed class KeywordSearchTests : MockBasePlugin
     {
         private const int _searchClassCount = 4;
 
@@ -98,7 +98,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SearchTests
         [TestMethod]
         public void KeywordSearchFindAllProviders()
         {
-            using (TestPluginManager pluginManager = new TestPluginManager())
+            using (MockPluginManager pluginManager = new MockPluginManager())
             {
                 pluginManager.AddAssembly(Assembly.GetExecutingAssembly());
                 IPluginClassesService pluginServices = pluginManager as IPluginClassesService;
@@ -117,7 +117,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SearchTests
         [TestMethod]
         public void FindAllProvidersIncludingDocumentationPluginProvider()
         {
-            using (TestPluginManager pluginManager = new TestPluginManager())
+            using (MockPluginManager pluginManager = new MockPluginManager())
             {
                 pluginManager.AddAssembly(Assembly.GetExecutingAssembly());
                 IPluginClassesService pluginServices = pluginManager as IPluginClassesService;

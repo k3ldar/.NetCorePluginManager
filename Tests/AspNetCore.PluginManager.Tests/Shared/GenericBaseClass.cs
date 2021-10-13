@@ -134,12 +134,9 @@ namespace AspNetCore.PluginManager.Tests.Shared
 
         protected BaseModelData GenerateTestBaseModelData()
         {
-            BaseModelData Result = new BaseModelData(new List<BreadcrumbItem>(),
+            return new BaseModelData(new List<BreadcrumbItem>(),
                 new ShoppingCartSummary(1, 0, 0, 0, 0, 20, Thread.CurrentThread.CurrentUICulture, "GBP"),
                 "The Title", "The Author", "The Description", "The Tags", false);
-
-
-            return Result;
         }
 
         protected void ExtractImageResources(in string directory)

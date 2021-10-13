@@ -34,6 +34,8 @@ using AspNetCore.PluginManager.Tests.Shared;
 using Microsoft.AspNetCore.Http;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
+using PluginManager.Tests.Mocks;
+
 using SharedPluginFeatures;
 
 namespace AspNetCore.PluginManager.Tests.AspNetCore.PluginManager
@@ -79,14 +81,14 @@ namespace AspNetCore.PluginManager.Tests.AspNetCore.PluginManager
             RequestDelegate nextDelegate = async (context) => { delegateCalled = true; await Task.Delay(0); };
             RouteLoadTimeMiddleware sut = new RouteLoadTimeMiddleware(nextDelegate);
 
-            TestHttpRequest httpRequest = new TestHttpRequest()
+            MockHttpRequest httpRequest = new MockHttpRequest()
             {
                 Path = "/products/"
             };
 
             httpRequest.SetHost(new HostString("www.pluginmanager.website"));
-            TestHttpResponse httpResponse = new TestHttpResponse();
-            TestHttpContext httpContext = new TestHttpContext(httpRequest, httpResponse);
+            MockHttpResponse httpResponse = new MockHttpResponse();
+            MockHttpContext httpContext = new MockHttpContext(httpRequest, httpResponse);
             httpRequest.SetContext(httpContext);
 
             await sut.Invoke(httpContext);
@@ -108,14 +110,14 @@ namespace AspNetCore.PluginManager.Tests.AspNetCore.PluginManager
             RequestDelegate nextDelegate = async (context) => { delegateCalled = true; await Task.Delay(0); };
             RouteLoadTimeMiddleware sut = new RouteLoadTimeMiddleware(nextDelegate);
 
-            TestHttpRequest httpRequest = new TestHttpRequest()
+            MockHttpRequest httpRequest = new MockHttpRequest()
             {
                 Path = "/products/"
             };
 
             httpRequest.SetHost(new HostString("www.pluginmanager.website"));
-            TestHttpResponse httpResponse = new TestHttpResponse();
-            TestHttpContext httpContext = new TestHttpContext(httpRequest, httpResponse);
+            MockHttpResponse httpResponse = new MockHttpResponse();
+            MockHttpContext httpContext = new MockHttpContext(httpRequest, httpResponse);
             httpRequest.SetContext(httpContext);
 
             for (int i = 0; i < 10; i++)
@@ -137,7 +139,7 @@ namespace AspNetCore.PluginManager.Tests.AspNetCore.PluginManager
         [TestCategory(MiddlewareCategoryName)]
         public void PageLoadSpeedMiddlewareExtender_UseSubdomainRouting_RegistersPageLoadSpeedMiddlewareExtender_Success()
         {
-            TestApplicationBuilder testApplicationBuilder = new TestApplicationBuilder();
+            MockApplicationBuilder testApplicationBuilder = new MockApplicationBuilder();
 
             RouteLoadTimeMiddlewareExtender.UseRouteLoadTimes(testApplicationBuilder);
             RouteLoadTimeMiddlewareExtender.UseRouteLoadTimes(testApplicationBuilder);

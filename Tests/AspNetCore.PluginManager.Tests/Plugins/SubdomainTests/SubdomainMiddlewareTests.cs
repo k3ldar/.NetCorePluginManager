@@ -86,21 +86,21 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SubdomainTests
         [TestCategory(TestCategoryMiddleware)]
         public async Task SubdomainMiddleware_Invoke_MiddlewareResponseStarted_LogsWarningAndDoesNotRedirect()
         {
-            TestLogger testLogger = new TestLogger();
-            ISettingsProvider settingsProvider = new TestSettingsProvider(SubdomainAllEnabledWwwDisabled);
+            MockLogger testLogger = new MockLogger();
+            ISettingsProvider settingsProvider = new MockSettingsProvider(SubdomainAllEnabledWwwDisabled);
             SubdomainMiddleware sut = CreateSubdomainMiddlewareInstance(testLogger, settingsProvider, null, true);
 
-            TestHttpRequest httpRequest = new TestHttpRequest()
+            MockHttpRequest httpRequest = new MockHttpRequest()
             {
                 Path = "/Login/"
             };
 
             httpRequest.SetHost(new HostString("blog.pluginmanager.website"));
-            TestHttpResponse httpResponse = new TestHttpResponse()
+            MockHttpResponse httpResponse = new MockHttpResponse()
             {
                 TestHasStarted = true
             };
-            TestHttpContext httpContext = new TestHttpContext(httpRequest, httpResponse);
+            MockHttpContext httpContext = new MockHttpContext(httpRequest, httpResponse);
             httpRequest.SetContext(httpContext);
 
             await sut.Invoke(httpContext);
@@ -114,18 +114,18 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SubdomainTests
         [TestCategory(TestCategoryMiddleware)]
         public async Task SubdomainMiddleware_Invoke_BlogSubdomainAttemptLogin_RedirectsToHostOnly_Returns_302()
         {
-            TestLogger testLogger = new TestLogger();
-            ISettingsProvider settingsProvider = new TestSettingsProvider(SubdomainAllEnabledWwwDisabled);
+            MockLogger testLogger = new MockLogger();
+            ISettingsProvider settingsProvider = new MockSettingsProvider(SubdomainAllEnabledWwwDisabled);
             SubdomainMiddleware sut = CreateSubdomainMiddlewareInstance(testLogger, settingsProvider, null, true);
 
-            TestHttpRequest httpRequest = new TestHttpRequest()
+            MockHttpRequest httpRequest = new MockHttpRequest()
             {
                 Path = "/Login/"
             };
 
             httpRequest.SetHost(new HostString("blog.pluginmanager.website"));
-            TestHttpResponse httpResponse = new TestHttpResponse();
-            TestHttpContext httpContext = new TestHttpContext(httpRequest, httpResponse);
+            MockHttpResponse httpResponse = new MockHttpResponse();
+            MockHttpContext httpContext = new MockHttpContext(httpRequest, httpResponse);
             httpRequest.SetContext(httpContext);
 
             await sut.Invoke(httpContext);
@@ -140,18 +140,18 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SubdomainTests
         [TestCategory(TestCategoryMiddleware)]
         public async Task SubdomainMiddleware_Invoke_BlogSubdomainAttemptLogin_RedirectsToWwwSubdomain_Returns_302()
         {
-            TestLogger testLogger = new TestLogger();
-            ISettingsProvider settingsProvider = new TestSettingsProvider(SubdomainAllEnabled);
+            MockLogger testLogger = new MockLogger();
+            ISettingsProvider settingsProvider = new MockSettingsProvider(SubdomainAllEnabled);
             SubdomainMiddleware sut = CreateSubdomainMiddlewareInstance(testLogger, settingsProvider, null, true);
 
-            TestHttpRequest httpRequest = new TestHttpRequest()
+            MockHttpRequest httpRequest = new MockHttpRequest()
             {
                 Path = "/Login/"
             };
 
             httpRequest.SetHost(new HostString("blog.pluginmanager.website"));
-            TestHttpResponse httpResponse = new TestHttpResponse();
-            TestHttpContext httpContext = new TestHttpContext(httpRequest, httpResponse);
+            MockHttpResponse httpResponse = new MockHttpResponse();
+            MockHttpContext httpContext = new MockHttpContext(httpRequest, httpResponse);
             httpRequest.SetContext(httpContext);
 
             await sut.Invoke(httpContext);
@@ -166,18 +166,18 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SubdomainTests
         [TestCategory(TestCategoryMiddleware)]
         public async Task SubdomainMiddleware_Invoke_BlogSubdomainAttemptLoginWithPort_RedirectsToWwwSubdomain_Returns_302()
         {
-            TestLogger testLogger = new TestLogger();
-            ISettingsProvider settingsProvider = new TestSettingsProvider(SubdomainAllEnabled);
+            MockLogger testLogger = new MockLogger();
+            ISettingsProvider settingsProvider = new MockSettingsProvider(SubdomainAllEnabled);
             SubdomainMiddleware sut = CreateSubdomainMiddlewareInstance(testLogger, settingsProvider, null, true);
 
-            TestHttpRequest httpRequest = new TestHttpRequest()
+            MockHttpRequest httpRequest = new MockHttpRequest()
             {
                 Path = "/Login/"
             };
 
             httpRequest.SetHost(new HostString("blog.pluginmanager.website", 1928));
-            TestHttpResponse httpResponse = new TestHttpResponse();
-            TestHttpContext httpContext = new TestHttpContext(httpRequest, httpResponse);
+            MockHttpResponse httpResponse = new MockHttpResponse();
+            MockHttpContext httpContext = new MockHttpContext(httpRequest, httpResponse);
             httpRequest.SetContext(httpContext);
 
             await sut.Invoke(httpContext);
@@ -194,18 +194,18 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SubdomainTests
         {
             bool delegateCalled = false;
             RequestDelegate nextDelegate = async (context) => { delegateCalled = true; ; await Task.Delay(0); };
-            TestLogger testLogger = new TestLogger();
-            ISettingsProvider settingsProvider = new TestSettingsProvider(SubdomainAllEnabled);
+            MockLogger testLogger = new MockLogger();
+            ISettingsProvider settingsProvider = new MockSettingsProvider(SubdomainAllEnabled);
             SubdomainMiddleware sut = CreateSubdomainMiddlewareInstance(testLogger, settingsProvider, null, true, nextDelegate);
 
-            TestHttpRequest httpRequest = new TestHttpRequest()
+            MockHttpRequest httpRequest = new MockHttpRequest()
             {
                 Path = "/"
             };
 
             httpRequest.SetHost(new HostString("blog.pluginmanager.website"));
-            TestHttpResponse httpResponse = new TestHttpResponse();
-            TestHttpContext httpContext = new TestHttpContext(httpRequest, httpResponse);
+            MockHttpResponse httpResponse = new MockHttpResponse();
+            MockHttpContext httpContext = new MockHttpContext(httpRequest, httpResponse);
             httpRequest.SetContext(httpContext);
 
             await sut.Invoke(httpContext);
@@ -218,18 +218,18 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SubdomainTests
         [TestCategory(TestCategoryMiddleware)]
         public async Task SubdomainMiddleware_Invoke_BlogRoute_RedirectsToBlogSubdomain_Returns_302()
         {
-            TestLogger testLogger = new TestLogger();
-            ISettingsProvider settingsProvider = new TestSettingsProvider(SubdomainAllEnabled);
+            MockLogger testLogger = new MockLogger();
+            ISettingsProvider settingsProvider = new MockSettingsProvider(SubdomainAllEnabled);
             SubdomainMiddleware sut = CreateSubdomainMiddlewareInstance(testLogger, settingsProvider, null, true);
 
-            TestHttpRequest httpRequest = new TestHttpRequest()
+            MockHttpRequest httpRequest = new MockHttpRequest()
             {
                 Path = "/blog/"
             };
 
             httpRequest.SetHost(new HostString("www.pluginmanager.website"));
-            TestHttpResponse httpResponse = new TestHttpResponse();
-            TestHttpContext httpContext = new TestHttpContext(httpRequest, httpResponse);
+            MockHttpResponse httpResponse = new MockHttpResponse();
+            MockHttpContext httpContext = new MockHttpContext(httpRequest, httpResponse);
             httpRequest.SetContext(httpContext);
 
             await sut.Invoke(httpContext);
@@ -246,18 +246,18 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SubdomainTests
         {
             bool delegateCalled = false;
             RequestDelegate nextDelegate = async (context) => { delegateCalled = true; ; await Task.Delay(0); };
-            TestLogger testLogger = new TestLogger();
-            ISettingsProvider settingsProvider = new TestSettingsProvider(SubdomainAllEnabled);
+            MockLogger testLogger = new MockLogger();
+            ISettingsProvider settingsProvider = new MockSettingsProvider(SubdomainAllEnabled);
             SubdomainMiddleware sut = CreateSubdomainMiddlewareInstance(testLogger, settingsProvider, null, true, nextDelegate);
 
-            TestHttpRequest httpRequest = new TestHttpRequest()
+            MockHttpRequest httpRequest = new MockHttpRequest()
             {
                 Path = "/blog/"
             };
 
             httpRequest.SetHost(new HostString());
-            TestHttpResponse httpResponse = new TestHttpResponse();
-            TestHttpContext httpContext = new TestHttpContext(httpRequest, httpResponse);
+            MockHttpResponse httpResponse = new MockHttpResponse();
+            MockHttpContext httpContext = new MockHttpContext(httpRequest, httpResponse);
             httpRequest.SetContext(httpContext);
 
             await sut.Invoke(httpContext);
@@ -270,18 +270,18 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SubdomainTests
         [TestCategory(TestCategoryMiddleware)]
         public async Task SubdomainMiddleware_Invoke_BlogRouteWithPort_RedirectsToBlogSubdomain_Returns_302()
         {
-            TestLogger testLogger = new TestLogger();
-            ISettingsProvider settingsProvider = new TestSettingsProvider(SubdomainAllEnabled);
+            MockLogger testLogger = new MockLogger();
+            ISettingsProvider settingsProvider = new MockSettingsProvider(SubdomainAllEnabled);
             SubdomainMiddleware sut = CreateSubdomainMiddlewareInstance(testLogger, settingsProvider, null, true);
 
-            TestHttpRequest httpRequest = new TestHttpRequest()
+            MockHttpRequest httpRequest = new MockHttpRequest()
             {
                 Path = "/blog/"
             };
 
             httpRequest.SetHost(new HostString("www.pluginmanager.website", 6500));
-            TestHttpResponse httpResponse = new TestHttpResponse();
-            TestHttpContext httpContext = new TestHttpContext(httpRequest, httpResponse);
+            MockHttpResponse httpResponse = new MockHttpResponse();
+            MockHttpContext httpContext = new MockHttpContext(httpRequest, httpResponse);
             httpRequest.SetContext(httpContext);
 
             await sut.Invoke(httpContext);
@@ -296,8 +296,8 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SubdomainTests
         [TestCategory(TestCategoryMiddleware)]
         public void SubdomainMiddleware_InitiallyLoadsValidSubdomains_Success()
         {
-            TestLogger testLogger = new TestLogger();
-            ISettingsProvider settingsProvider = new TestSettingsProvider(SubdomainAllEnabled);
+            MockLogger testLogger = new MockLogger();
+            ISettingsProvider settingsProvider = new MockSettingsProvider(SubdomainAllEnabled);
             SubdomainMiddleware sut = CreateSubdomainMiddlewareInstance(testLogger, settingsProvider, null, true);
 
             Assert.AreEqual(1, sut.RoutesWithoutSubdomain.Count);
@@ -308,8 +308,8 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SubdomainTests
         [TestCategory(TestCategoryMiddleware)]
         public void SubdomainMiddleware_AttributeAppliedToNonControllerClass_AddsWarningToLogger()
         {
-            TestLogger testLogger = new TestLogger();
-            ISettingsProvider settingsProvider = new TestSettingsProvider(SubdomainAllEnabled);
+            MockLogger testLogger = new MockLogger();
+            ISettingsProvider settingsProvider = new MockSettingsProvider(SubdomainAllEnabled);
             SubdomainMiddleware sut = CreateSubdomainMiddlewareInstance(testLogger, settingsProvider);
 
             Assert.IsTrue(testLogger.ContainsMessage(InvalidControllerClass));
@@ -321,18 +321,18 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SubdomainTests
         {
             bool delegateCalled = false;
             RequestDelegate nextDelegate = async (context) => { delegateCalled = true; await Task.Delay(0); };
-            TestLogger testLogger = new TestLogger();
-            ISettingsProvider settingsProvider = new TestSettingsProvider(SubdomainAllEnabledPreventStaticFiles);
+            MockLogger testLogger = new MockLogger();
+            ISettingsProvider settingsProvider = new MockSettingsProvider(SubdomainAllEnabledPreventStaticFiles);
             SubdomainMiddleware sut = CreateSubdomainMiddlewareInstance(testLogger, settingsProvider, null, true, nextDelegate);
 
-            TestHttpRequest httpRequest = new TestHttpRequest()
+            MockHttpRequest httpRequest = new MockHttpRequest()
             {
                 Path = "/myfile.css"
             };
 
             httpRequest.SetHost(new HostString("www.pluginmanager.website"));
-            TestHttpResponse httpResponse = new TestHttpResponse();
-            TestHttpContext httpContext = new TestHttpContext(httpRequest, httpResponse);
+            MockHttpResponse httpResponse = new MockHttpResponse();
+            MockHttpContext httpContext = new MockHttpContext(httpRequest, httpResponse);
             httpRequest.SetContext(httpContext);
 
             await sut.Invoke(httpContext);
@@ -346,18 +346,18 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SubdomainTests
         {
             bool delegateCalled = false;
             RequestDelegate nextDelegate = async (context) => { delegateCalled = true; await Task.Delay(0); };
-            TestLogger testLogger = new TestLogger();
-            ISettingsProvider settingsProvider = new TestSettingsProvider(SubDomainDisbledJson);
+            MockLogger testLogger = new MockLogger();
+            ISettingsProvider settingsProvider = new MockSettingsProvider(SubDomainDisbledJson);
             SubdomainMiddleware sut = CreateSubdomainMiddlewareInstance(testLogger, settingsProvider, null, true, nextDelegate);
 
-            TestHttpRequest httpRequest = new TestHttpRequest()
+            MockHttpRequest httpRequest = new MockHttpRequest()
             {
                 Path = "/blog/"
             };
 
             httpRequest.SetHost(new HostString("www.pluginmanager.website"));
-            TestHttpResponse httpResponse = new TestHttpResponse();
-            TestHttpContext httpContext = new TestHttpContext(httpRequest, httpResponse);
+            MockHttpResponse httpResponse = new MockHttpResponse();
+            MockHttpContext httpContext = new MockHttpContext(httpRequest, httpResponse);
             httpRequest.SetContext(httpContext);
 
             await sut.Invoke(httpContext);
@@ -371,18 +371,18 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SubdomainTests
         {
             bool delegateCalled = false;
             RequestDelegate nextDelegate = async (context) => { delegateCalled = true; await Task.Delay(0); };
-            TestLogger testLogger = new TestLogger();
-            ISettingsProvider settingsProvider = new TestSettingsProvider(BlogDisbledSubDomainJson);
+            MockLogger testLogger = new MockLogger();
+            ISettingsProvider settingsProvider = new MockSettingsProvider(BlogDisbledSubDomainJson);
             SubdomainMiddleware sut = CreateSubdomainMiddlewareInstance(testLogger, settingsProvider, null, false, nextDelegate);
 
-            TestHttpRequest httpRequest = new TestHttpRequest()
+            MockHttpRequest httpRequest = new MockHttpRequest()
             {
                 Path = "/products/"
             };
 
             httpRequest.SetHost(new HostString("www.pluginmanager.website"));
-            TestHttpResponse httpResponse = new TestHttpResponse();
-            TestHttpContext httpContext = new TestHttpContext(httpRequest, httpResponse);
+            MockHttpResponse httpResponse = new MockHttpResponse();
+            MockHttpContext httpContext = new MockHttpContext(httpRequest, httpResponse);
             httpRequest.SetContext(httpContext);
 
             await sut.Invoke(httpContext);
@@ -396,18 +396,18 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SubdomainTests
         {
             bool delegateCalled = false;
             RequestDelegate nextDelegate = async (context) => { delegateCalled = true; await Task.Delay(0); };
-            TestLogger testLogger = new TestLogger();
-            ISettingsProvider settingsProvider = new TestSettingsProvider(SubdomainAllEnabled);
+            MockLogger testLogger = new MockLogger();
+            ISettingsProvider settingsProvider = new MockSettingsProvider(SubdomainAllEnabled);
             SubdomainMiddleware sut = CreateSubdomainMiddlewareInstance(testLogger, settingsProvider, null, true, nextDelegate);
 
-            TestHttpRequest httpRequest = new TestHttpRequest()
+            MockHttpRequest httpRequest = new MockHttpRequest()
             {
                 Path = "/products/"
             };
 
             httpRequest.SetHost(new HostString("www.pluginmanager.website"));
-            TestHttpResponse httpResponse = new TestHttpResponse();
-            TestHttpContext httpContext = new TestHttpContext(httpRequest, httpResponse);
+            MockHttpResponse httpResponse = new MockHttpResponse();
+            MockHttpContext httpContext = new MockHttpContext(httpRequest, httpResponse);
             httpRequest.SetContext(httpContext);
 
             await sut.Invoke(httpContext);
@@ -420,8 +420,8 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SubdomainTests
         [ExpectedException(typeof(ArgumentNullException))]
         public async Task SubdomainMiddleware_Invoke_NullContext_Throws_ArgumentNullException()
         {
-            TestLogger testLogger = new TestLogger();
-            ISettingsProvider settingsProvider = new TestSettingsProvider(SubdomainAllEnabled);
+            MockLogger testLogger = new MockLogger();
+            ISettingsProvider settingsProvider = new MockSettingsProvider(SubdomainAllEnabled);
             SubdomainMiddleware sut = CreateSubdomainMiddlewareInstance(testLogger, settingsProvider, null, true);
 
             await sut.Invoke(null);
@@ -431,8 +431,8 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SubdomainTests
         [TestCategory(TestCategoryMiddleware)]
         public void SubdomainMiddleware_BlogRouteFoundAndDisabled_AddsWarningToLogger()
         {
-            TestLogger testLogger = new TestLogger();
-            ISettingsProvider settingsProvider = new TestSettingsProvider(BlogDisbledSubDomainJson);
+            MockLogger testLogger = new MockLogger();
+            ISettingsProvider settingsProvider = new MockSettingsProvider(BlogDisbledSubDomainJson);
             SubdomainMiddleware sut = CreateSubdomainMiddlewareInstance(testLogger, settingsProvider);
 
             Assert.IsTrue(testLogger.ContainsMessage("Warning Configuration for subdomain Blog is disabled"));
@@ -445,8 +445,8 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SubdomainTests
         [TestCategory(TestCategoryMiddleware)]
         public void SubdomainMiddleware_DisabledViaConfig_AddsWarningToLogger()
         {
-            TestLogger testLogger = new TestLogger();
-            ISettingsProvider settingsProvider = new TestSettingsProvider(SubDomainDisbledJson);
+            MockLogger testLogger = new MockLogger();
+            ISettingsProvider settingsProvider = new MockSettingsProvider(SubDomainDisbledJson);
             SubdomainMiddleware sut = CreateSubdomainMiddlewareInstance(testLogger, settingsProvider);
 
             Assert.IsTrue(testLogger.ContainsMessage("Information Subdomain Middleware is disabled"));
@@ -456,8 +456,8 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SubdomainTests
         [TestCategory(TestCategoryMiddleware)]
         public void SubdomainMiddleware_BlogRouteDisabled_AddsWarningToLogger()
         {
-            TestLogger testLogger = new TestLogger();
-            ISettingsProvider settingsProvider = new TestSettingsProvider(BlogDisbledSubDomainJson);
+            MockLogger testLogger = new MockLogger();
+            ISettingsProvider settingsProvider = new MockSettingsProvider(BlogDisbledSubDomainJson);
             SubdomainMiddleware sut = CreateSubdomainMiddlewareInstance(testLogger, settingsProvider);
 
             Assert.IsTrue(testLogger.ContainsMessage("Warning Configuration for subdomain Blog is disabled"));
@@ -471,11 +471,11 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SubdomainTests
         {
             IPluginTypesService pluginTypesServices = _testPluginSubdomain as IPluginTypesService;
             ActionDescriptorCollection actionDescriptorCollection = new ActionDescriptorCollection(new List<ActionDescriptor>(), 1);
-            ISettingsProvider settingsProvider = new TestSettingsProvider(SubdomainAllEnabled);
+            ISettingsProvider settingsProvider = new MockSettingsProvider(SubdomainAllEnabled);
             IPluginClassesService pluginClassesService = _testPluginSubdomain as IPluginClassesService;
             IPluginHelperService pluginHelperService = _testPluginSubdomain as IPluginHelperService;
-            TestActionDescriptorCollectionProvider actionDescriptorCollectionProvider = new TestActionDescriptorCollectionProvider(actionDescriptorCollection);
-            TestLogger testLogger = new TestLogger();
+            MockActionDescriptorCollectionProvider actionDescriptorCollectionProvider = new MockActionDescriptorCollectionProvider(actionDescriptorCollection);
+            MockLogger testLogger = new MockLogger();
 
             new SubdomainMiddleware(null, actionDescriptorCollectionProvider, new RouteDataServices(),
                 pluginHelperService, pluginClassesService, pluginTypesServices, settingsProvider, testLogger);
@@ -488,10 +488,10 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SubdomainTests
         {
             IPluginTypesService pluginTypesServices = _testPluginSubdomain as IPluginTypesService;
             RequestDelegate requestDelegate = async (context) => { await Task.Delay(0); };
-            ISettingsProvider settingsProvider = new TestSettingsProvider(SubdomainAllEnabled);
+            ISettingsProvider settingsProvider = new MockSettingsProvider(SubdomainAllEnabled);
             IPluginClassesService pluginClassesService = _testPluginSubdomain as IPluginClassesService;
             IPluginHelperService pluginHelperService = _testPluginSubdomain as IPluginHelperService;
-            TestLogger testLogger = new TestLogger();
+            MockLogger testLogger = new MockLogger();
 
             new SubdomainMiddleware(requestDelegate, null, new RouteDataServices(),
                 pluginHelperService, pluginClassesService, pluginTypesServices, settingsProvider, testLogger);
@@ -508,8 +508,8 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SubdomainTests
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
             IPluginHelperService pluginHelperService = _testPluginSubdomain as IPluginHelperService;
             IPluginClassesService pluginClassesService = _testPluginSubdomain as IPluginClassesService;
-            TestActionDescriptorCollectionProvider actionDescriptorCollectionProvider = new TestActionDescriptorCollectionProvider(actionDescriptorCollection);
-            TestLogger testLogger = new TestLogger();
+            MockActionDescriptorCollectionProvider actionDescriptorCollectionProvider = new MockActionDescriptorCollectionProvider(actionDescriptorCollection);
+            MockLogger testLogger = new MockLogger();
 
             new SubdomainMiddleware(requestDelegate, actionDescriptorCollectionProvider, null,
                 pluginHelperService, pluginClassesService, pluginTypesServices, settingsProvider, testLogger);
@@ -525,8 +525,8 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SubdomainTests
             ActionDescriptorCollection actionDescriptorCollection = new ActionDescriptorCollection(new List<ActionDescriptor>(), 1);
             RequestDelegate requestDelegate = async (context) => { await Task.Delay(0); };
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
-            TestActionDescriptorCollectionProvider actionDescriptorCollectionProvider = new TestActionDescriptorCollectionProvider(actionDescriptorCollection);
-            TestLogger testLogger = new TestLogger();
+            MockActionDescriptorCollectionProvider actionDescriptorCollectionProvider = new MockActionDescriptorCollectionProvider(actionDescriptorCollection);
+            MockLogger testLogger = new MockLogger();
 
             new SubdomainMiddleware(requestDelegate, actionDescriptorCollectionProvider, new RouteDataServices(),
                 null, pluginClassesService, pluginTypesServices, settingsProvider, testLogger);
@@ -542,8 +542,8 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SubdomainTests
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
             IPluginHelperService pluginHelperService = _testPluginSubdomain as IPluginHelperService;
             IPluginClassesService pluginClassesService = _testPluginSubdomain as IPluginClassesService;
-            TestActionDescriptorCollectionProvider actionDescriptorCollectionProvider = new TestActionDescriptorCollectionProvider(actionDescriptorCollection);
-            TestLogger testLogger = new TestLogger();
+            MockActionDescriptorCollectionProvider actionDescriptorCollectionProvider = new MockActionDescriptorCollectionProvider(actionDescriptorCollection);
+            MockLogger testLogger = new MockLogger();
 
             new SubdomainMiddleware(requestDelegate, actionDescriptorCollectionProvider, new RouteDataServices(),
                 pluginHelperService, pluginClassesService, null, settingsProvider, testLogger);
@@ -559,8 +559,8 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SubdomainTests
             ActionDescriptorCollection actionDescriptorCollection = new ActionDescriptorCollection(new List<ActionDescriptor>(), 1);
             RequestDelegate requestDelegate = async (context) => { await Task.Delay(0); };
             IPluginHelperService pluginHelperService = _testPluginSubdomain as IPluginHelperService;
-            TestActionDescriptorCollectionProvider actionDescriptorCollectionProvider = new TestActionDescriptorCollectionProvider(actionDescriptorCollection);
-            TestLogger testLogger = new TestLogger();
+            MockActionDescriptorCollectionProvider actionDescriptorCollectionProvider = new MockActionDescriptorCollectionProvider(actionDescriptorCollection);
+            MockLogger testLogger = new MockLogger();
 
             new SubdomainMiddleware(requestDelegate, actionDescriptorCollectionProvider, new RouteDataServices(),
                 pluginHelperService, pluginClassesService, pluginTypesServices, null, testLogger);
@@ -577,8 +577,8 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SubdomainTests
             RequestDelegate requestDelegate = async (context) => { await Task.Delay(0); };
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
             IPluginHelperService pluginHelperService = _testPluginSubdomain as IPluginHelperService;
-            TestActionDescriptorCollectionProvider actionDescriptorCollectionProvider = new TestActionDescriptorCollectionProvider(actionDescriptorCollection);
-            TestLogger testLogger = new TestLogger();
+            MockActionDescriptorCollectionProvider actionDescriptorCollectionProvider = new MockActionDescriptorCollectionProvider(actionDescriptorCollection);
+            MockLogger testLogger = new MockLogger();
 
             new SubdomainMiddleware(requestDelegate, actionDescriptorCollectionProvider, new RouteDataServices(),
                 pluginHelperService, pluginClassesService, pluginTypesServices, settingsProvider, null);
@@ -594,8 +594,8 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SubdomainTests
             RequestDelegate requestDelegate = async (context) => { await Task.Delay(0); };
             ISettingsProvider settingsProvider = new pm.DefaultSettingProvider(Directory.GetCurrentDirectory());
             IPluginHelperService pluginHelperService = _testPluginSubdomain as IPluginHelperService;
-            TestActionDescriptorCollectionProvider actionDescriptorCollectionProvider = new TestActionDescriptorCollectionProvider(actionDescriptorCollection);
-            TestLogger testLogger = new TestLogger();
+            MockActionDescriptorCollectionProvider actionDescriptorCollectionProvider = new MockActionDescriptorCollectionProvider(actionDescriptorCollection);
+            MockLogger testLogger = new MockLogger();
 
             new SubdomainMiddleware(requestDelegate, actionDescriptorCollectionProvider, new RouteDataServices(),
                 pluginHelperService, null, pluginTypesServices, settingsProvider, testLogger);
@@ -713,7 +713,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SubdomainTests
         [TestCategory(TestCategoryMiddleware)]
         public void PluginInitialisation_AfterConfigure_DoesNotConfigurePipeline_Success()
         {
-            TestApplicationBuilder testApplicationBuilder = new TestApplicationBuilder();
+            MockApplicationBuilder testApplicationBuilder = new MockApplicationBuilder();
             PluginInitialisation sut = new PluginInitialisation();
 
             sut.AfterConfigure(testApplicationBuilder);
@@ -725,7 +725,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SubdomainTests
         [TestCategory(TestCategoryMiddleware)]
         public void PluginInitialisation_Configure_DoesNotConfigurePipeline_Success()
         {
-            TestApplicationBuilder testApplicationBuilder = new TestApplicationBuilder();
+            MockApplicationBuilder testApplicationBuilder = new MockApplicationBuilder();
             PluginInitialisation sut = new PluginInitialisation();
 
             sut.Configure(testApplicationBuilder);
@@ -737,7 +737,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SubdomainTests
         [TestCategory(TestCategoryMiddleware)]
         public void PluginInitialisation_BeforeConfigure_RegistersSubdomainRouting()
         {
-            TestApplicationBuilder testApplicationBuilder = new TestApplicationBuilder();
+            MockApplicationBuilder testApplicationBuilder = new MockApplicationBuilder();
             PluginInitialisation sut = new PluginInitialisation();
 
             sut.BeforeConfigure(testApplicationBuilder);
@@ -749,7 +749,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SubdomainTests
         [TestCategory(TestCategoryMiddleware)]
         public void PluginInitialisation_Finalise_DoesNotThrowException()
         {
-            TestApplicationBuilder testApplicationBuilder = new TestApplicationBuilder();
+            MockApplicationBuilder testApplicationBuilder = new MockApplicationBuilder();
             PluginInitialisation sut = new PluginInitialisation();
 
             sut.Finalise();
@@ -759,7 +759,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SubdomainTests
         [TestCategory(TestCategoryMiddleware)]
         public void PluginInitialisation_ConfigureServices_DoesNotThrowException()
         {
-            TestApplicationBuilder testApplicationBuilder = new TestApplicationBuilder();
+            MockApplicationBuilder testApplicationBuilder = new MockApplicationBuilder();
             PluginInitialisation sut = new PluginInitialisation();
 
             sut.ConfigureServices(new MockServiceCollection());
@@ -773,7 +773,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SubdomainTests
         [TestCategory(TestCategoryMiddleware)]
         public void SubdomainMiddlewareExtender_UseSubdomainRouting_RegistersSubdomainMiddleware_Success()
         {
-            TestApplicationBuilder testApplicationBuilder = new TestApplicationBuilder();
+            MockApplicationBuilder testApplicationBuilder = new MockApplicationBuilder();
 
             SubdomainMiddlewareExtender.UseSubdomainRouting(testApplicationBuilder);
 
@@ -885,9 +885,9 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SubdomainTests
 
         #region Private Methods
 
-        private SubdomainMiddleware CreateSubdomainMiddlewareInstance(TestLogger testLogger,
+        private SubdomainMiddleware CreateSubdomainMiddlewareInstance(MockLogger testLogger,
             ISettingsProvider settingsProvider,
-            TestNotificationService customNotification = null,
+            MockNotificationService customNotification = null,
             bool createDescriptors = false,
             RequestDelegate nextDelegate = null)
         {
@@ -955,7 +955,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SubdomainTests
 
             IPluginHelperService pluginHelperService = _testPluginSubdomain as IPluginHelperService;
             IPluginClassesService pluginClassesService = _testPluginSubdomain as IPluginClassesService;
-            TestActionDescriptorCollectionProvider actionDescriptorCollectionProvider = new TestActionDescriptorCollectionProvider(actionDescriptorCollection);
+            MockActionDescriptorCollectionProvider actionDescriptorCollectionProvider = new MockActionDescriptorCollectionProvider(actionDescriptorCollection);
 
             return new SubdomainMiddleware(nextDelegate, actionDescriptorCollectionProvider, new RouteDataServices(),
                 pluginHelperService, pluginClassesService, pluginTypesServices, settingsProvider, testLogger);

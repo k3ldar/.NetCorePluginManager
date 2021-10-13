@@ -35,12 +35,6 @@ namespace SystemAdmin.Plugin.Models
 {
     public sealed class TextExViewModel : BaseModel
     {
-        #region Private Members
-
-        private readonly ISettingsProvider _settingsProvider;
-
-        #endregion Private Members
-
         #region Constructors
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1303:Do not pass literals as localized parameters", Justification = "OK in this context")]
@@ -48,16 +42,17 @@ namespace SystemAdmin.Plugin.Models
             in ISettingsProvider settingsProvider, in SystemAdminSubMenu subMenu)
             : base(modelData)
         {
-            _settingsProvider = settingsProvider ?? throw new ArgumentNullException(nameof(settingsProvider));
+            if (settingsProvider == null)
+                throw new ArgumentNullException(nameof(settingsProvider));
 
             if (subMenu == null)
                 throw new ArgumentNullException(nameof(subMenu));
 
             Title = subMenu.Name();
 
-            SystemAdminSettings settings = _settingsProvider.GetSettings<SystemAdminSettings>("SystemAdmin");
+            SystemAdminSettings settings = settingsProvider.GetSettings<SystemAdminSettings>("SystemAdmin");
 
-            if (settings.DisableFormattedText)
+            if (!settings.EnableFormattedText)
                 Text = "Formatted Text is not enabed";
             else
                 Text = subMenu.Data();
@@ -67,9 +62,9 @@ namespace SystemAdmin.Plugin.Models
 
         #region Public Properties
 
-        public string Title { get; set; }
+        public string Title { get; }
 
-        public string Text { get; private set; }
+        public string Text { get; }
 
         #endregion Public Properties
     }

@@ -23,25 +23,26 @@
  *  31/05/2021  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+using System;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 
+using AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests.Mocks;
 using AspNetCore.PluginManager.Tests.Shared;
 
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+using Middleware.Interfaces;
 
 using PluginManager.Abstractions;
+using PluginManager.Internal;
 using PluginManager.Tests.Mocks;
 
 using ProductPlugin;
 using ProductPlugin.Classes;
 
 using SharedPluginFeatures;
-using Middleware.Interfaces;
-using AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests.Mocks;
-using PluginManager.Internal;
-using System;
-using System.Collections.Generic;
 
 namespace AspNetCore.PluginManager.Tests.Plugins.ProductTests
 {
@@ -77,7 +78,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ProductTests
         public void Initialize_DoesNotAddItemsToLogger()
         {
             PluginInitialisation sut = new PluginInitialisation();
-            TestLogger testLogger = new TestLogger();
+            MockLogger testLogger = new MockLogger();
 
             sut.Initialise(testLogger);
 
@@ -88,14 +89,14 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ProductTests
         [TestCategory(TestCategoryName)]
         public void AfterConfigure_DoesNotConfigurePipeline_Success()
         {
-            TestApplicationBuilder testApplicationBuilder = new TestApplicationBuilder();
+            MockApplicationBuilder testApplicationBuilder = new MockApplicationBuilder();
             PluginInitialisation sut = new PluginInitialisation();
 
             Dictionary<Type, object> registeredServices = new Dictionary<Type, object>();
-            registeredServices.Add(typeof(INotificationService), new TestNotificationService());
+            registeredServices.Add(typeof(INotificationService), new MockNotificationService());
             registeredServices.Add(typeof(IImageProvider), new MockImageProvider());
-            registeredServices.Add(typeof(ISettingsProvider), new TestSettingsProvider("{}"));
-            testApplicationBuilder.ApplicationServices = new TestServiceProvider(registeredServices);
+            registeredServices.Add(typeof(ISettingsProvider), new MockSettingsProvider());
+            testApplicationBuilder.ApplicationServices = new MockServiceProvider(registeredServices);
 
             sut.AfterConfigure(testApplicationBuilder);
 
@@ -106,7 +107,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ProductTests
         [TestCategory(TestCategoryName)]
         public void Configure_DoesNotConfigurePipeline_Success()
         {
-            TestApplicationBuilder testApplicationBuilder = new TestApplicationBuilder();
+            MockApplicationBuilder testApplicationBuilder = new MockApplicationBuilder();
             PluginInitialisation sut = new PluginInitialisation();
 
             sut.Configure(testApplicationBuilder);
@@ -118,7 +119,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ProductTests
         [TestCategory(TestCategoryName)]
         public void BeforeConfigure_DoesNotRegisterApplicationServices()
         {
-            TestApplicationBuilder testApplicationBuilder = new TestApplicationBuilder();
+            MockApplicationBuilder testApplicationBuilder = new MockApplicationBuilder();
             PluginInitialisation sut = new PluginInitialisation();
 
             sut.BeforeConfigure(testApplicationBuilder);
@@ -130,7 +131,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ProductTests
         [TestCategory(TestCategoryName)]
         public void Configure_DoesNotRegisterApplicationServices()
         {
-            TestApplicationBuilder testApplicationBuilder = new TestApplicationBuilder();
+            MockApplicationBuilder testApplicationBuilder = new MockApplicationBuilder();
             PluginInitialisation sut = new PluginInitialisation();
 
             sut.Configure(testApplicationBuilder);
@@ -142,7 +143,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ProductTests
         [TestCategory(TestCategoryName)]
         public void Finalise_DoesNotThrowException()
         {
-            TestApplicationBuilder testApplicationBuilder = new TestApplicationBuilder();
+            MockApplicationBuilder testApplicationBuilder = new MockApplicationBuilder();
             PluginInitialisation sut = new PluginInitialisation();
 
             sut.Finalise();
@@ -152,7 +153,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ProductTests
         [TestCategory(TestCategoryName)]
         public void BeforeConfigureServices_DoesNotThrowException()
         {
-            TestApplicationBuilder testApplicationBuilder = new TestApplicationBuilder();
+            MockApplicationBuilder testApplicationBuilder = new MockApplicationBuilder();
             PluginInitialisation sut = new PluginInitialisation();
             MockServiceCollection mockServiceCollection = new MockServiceCollection();
 
@@ -165,7 +166,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ProductTests
         [TestCategory(TestCategoryName)]
         public void ConfigureServices_DoesNotThrowException()
         {
-            TestApplicationBuilder testApplicationBuilder = new TestApplicationBuilder();
+            MockApplicationBuilder testApplicationBuilder = new MockApplicationBuilder();
             PluginInitialisation sut = new PluginInitialisation();
             MockServiceCollection mockServiceCollection = new MockServiceCollection();
 
@@ -178,15 +179,15 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ProductTests
         [TestCategory(TestCategoryName)]
         public void ConfigureServices_RegistersImageUploadNotificationListener_Success()
         {
-            TestApplicationBuilder testApplicationBuilder = new TestApplicationBuilder();
+            MockApplicationBuilder testApplicationBuilder = new MockApplicationBuilder();
             PluginInitialisation sut = new PluginInitialisation();
-            TestNotificationService testNotificationService = new TestNotificationService();
+            MockNotificationService testNotificationService = new MockNotificationService();
 
             Dictionary<Type, object> registeredServices = new Dictionary<Type, object>();
             registeredServices.Add(typeof(INotificationService), testNotificationService);
             registeredServices.Add(typeof(IImageProvider), new MockImageProvider());
-            registeredServices.Add(typeof(ISettingsProvider), new TestSettingsProvider("{}"));
-            testApplicationBuilder.ApplicationServices = new TestServiceProvider(registeredServices);
+            registeredServices.Add(typeof(ISettingsProvider), new MockSettingsProvider());
+            testApplicationBuilder.ApplicationServices = new MockServiceProvider(registeredServices);
 
 
             sut.AfterConfigure(testApplicationBuilder);
@@ -204,10 +205,10 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ProductTests
             {
                 new ServiceDescriptor(typeof(INotificationService), new NotificationService()),
                 new ServiceDescriptor(typeof(IImageProvider), new MockImageProvider()),
-                new ServiceDescriptor(typeof(ISettingsProvider), new TestSettingsProvider("{}")),
+                new ServiceDescriptor(typeof(ISettingsProvider), new MockSettingsProvider()),
             };
 
-            TestApplicationBuilder testApplicationBuilder = new TestApplicationBuilder();
+            MockApplicationBuilder testApplicationBuilder = new MockApplicationBuilder();
             PluginInitialisation sut = new PluginInitialisation();
             MockServiceCollection mockServiceCollection = new MockServiceCollection(serviceDescriptors);
 

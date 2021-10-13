@@ -43,9 +43,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using PluginManager.Tests.Mocks;
 
 using Sitemap.Plugin;
-using Sitemap.Plugin.Classes.SystemAdmin;
-
-using static SharedPluginFeatures.Enums;
 
 namespace AspNetCore.PluginManager.Tests.Plugins.SitemapTests
 {
@@ -60,7 +57,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SitemapTests
         [ExpectedException(typeof(ArgumentNullException))]
         public void Construct_InvalidParam_INotificationService_Null_Throws_ArgumentNullException()
         {
-            SitemapMiddleware sut = new SitemapMiddleware(null, new TestPluginClassesService(), new TestMemoryCache(), null, new TestLogger());
+            SitemapMiddleware sut = new SitemapMiddleware(null, new MockPluginClassesService(), new MockMemoryCache(), null, new MockLogger());
         }
 
         [TestMethod]
@@ -68,7 +65,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SitemapTests
         [ExpectedException(typeof(ArgumentNullException))]
         public void Construct_InvalidParam_IPluginClassesService_Null_Throws_ArgumentNullException()
         {
-            SitemapMiddleware sut = new SitemapMiddleware(null, null, new TestMemoryCache(), new TestNotificationService(), new TestLogger());
+            SitemapMiddleware sut = new SitemapMiddleware(null, null, new MockMemoryCache(), new MockNotificationService(), new MockLogger());
         }
 
         [TestMethod]
@@ -76,7 +73,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SitemapTests
         [ExpectedException(typeof(ArgumentNullException))]
         public void Construct_InvalidParam_IMemoryCache_Null_Throws_ArgumentNullException()
         {
-            SitemapMiddleware sut = new SitemapMiddleware(null, new TestPluginClassesService(), null, new TestNotificationService(), new TestLogger());
+            SitemapMiddleware sut = new SitemapMiddleware(null, new MockPluginClassesService(), null, new MockNotificationService(), new MockLogger());
         }
 
         [TestMethod]
@@ -84,7 +81,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SitemapTests
         [ExpectedException(typeof(ArgumentNullException))]
         public void Construct_InvalidParam_ILogger_Null_Throws_ArgumentNullException()
         {
-            SitemapMiddleware sut = new SitemapMiddleware(null, new TestPluginClassesService(), new TestMemoryCache(), new TestNotificationService(), null);
+            SitemapMiddleware sut = new SitemapMiddleware(null, new MockPluginClassesService(), new MockMemoryCache(), new MockNotificationService(), null);
         }
 
         [TestMethod]
@@ -93,7 +90,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SitemapTests
         {
             RequestDelegate requestDelegate = async (context) => { await Task.Delay(0); };
 
-            SitemapMiddleware sut = new SitemapMiddleware(requestDelegate, new TestPluginClassesService(), new TestMemoryCache(), new TestNotificationService(), new TestLogger());
+            SitemapMiddleware sut = new SitemapMiddleware(requestDelegate, new MockPluginClassesService(), new MockMemoryCache(), new MockNotificationService(), new MockLogger());
         }
 
         [TestMethod]
@@ -103,7 +100,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SitemapTests
         {
             RequestDelegate requestDelegate = async (context) => { await Task.Delay(0); };
 
-            SitemapMiddleware sut = new SitemapMiddleware(requestDelegate, new TestPluginClassesService(), new TestMemoryCache(), new TestNotificationService(), new TestLogger());
+            SitemapMiddleware sut = new SitemapMiddleware(requestDelegate, new MockPluginClassesService(), new MockMemoryCache(), new MockNotificationService(), new MockLogger());
 
             await sut.Invoke(null);
         }
@@ -114,16 +111,16 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SitemapTests
         {
             bool delegateCalled = false;
             RequestDelegate nextDelegate = async (context) => { delegateCalled = true; ; await Task.Delay(0); };
-            TestHttpRequest httpRequest = new TestHttpRequest()
+            MockHttpRequest httpRequest = new MockHttpRequest()
             {
                 Path = "/"
             };
 
-            TestHttpResponse httpResponse = new TestHttpResponse();
-            TestHttpContext httpContext = new TestHttpContext(httpRequest, httpResponse);
+            MockHttpResponse httpResponse = new MockHttpResponse();
+            MockHttpContext httpContext = new MockHttpContext(httpRequest, httpResponse);
             httpRequest.SetContext(httpContext);
 
-            SitemapMiddleware sut = new SitemapMiddleware(nextDelegate, new TestPluginClassesService(), new TestMemoryCache(), new TestNotificationService(), new TestLogger());
+            SitemapMiddleware sut = new SitemapMiddleware(nextDelegate, new MockPluginClassesService(), new MockMemoryCache(), new MockNotificationService(), new MockLogger());
 
             await sut.Invoke(httpContext);
 
@@ -136,7 +133,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SitemapTests
         {
             bool delegateCalled = false;
             RequestDelegate nextDelegate = async (context) => { delegateCalled = true; ; await Task.Delay(0); };
-            TestHttpRequest httpRequest = new TestHttpRequest()
+            MockHttpRequest httpRequest = new MockHttpRequest()
             {
                 Path = "/sitemap998765.xml"
             };
@@ -145,14 +142,14 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SitemapTests
 
             registeredServices.Add(new BlogSitemapProvider(new DemoWebsite.Classes.MockBlogProvider()));
             registeredServices.Add(new HelpdeskSitemapProvider(new DemoWebsite.Classes.MockHelpdeskProvider()));
-            registeredServices.Add(new CompanySitemapProvider(new TestSettingsProvider("{}")));
+            registeredServices.Add(new CompanySitemapProvider(new MockSettingsProvider()));
 
-            TestPluginClassesService testPluginClassesService = new TestPluginClassesService(registeredServices);
-            TestHttpResponse httpResponse = new TestHttpResponse();
-            TestHttpContext httpContext = new TestHttpContext(httpRequest, httpResponse);
+            MockPluginClassesService testPluginClassesService = new MockPluginClassesService(registeredServices);
+            MockHttpResponse httpResponse = new MockHttpResponse();
+            MockHttpContext httpContext = new MockHttpContext(httpRequest, httpResponse);
             httpRequest.SetContext(httpContext);
 
-            SitemapMiddleware sut = new SitemapMiddleware(nextDelegate, testPluginClassesService, new TestMemoryCache(), new TestNotificationService(), new TestLogger());
+            SitemapMiddleware sut = new SitemapMiddleware(nextDelegate, testPluginClassesService, new MockMemoryCache(), new MockNotificationService(), new MockLogger());
 
             await sut.Invoke(httpContext);
 
@@ -164,17 +161,17 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SitemapTests
         public async Task Invoke_RouteIsSitemapRoute_NoSitemapDataRegistered_Throws_NullReferenceException()
         {
             RequestDelegate nextDelegate = async (context) => { await Task.Delay(0); };
-            TestHttpRequest httpRequest = new TestHttpRequest()
+            MockHttpRequest httpRequest = new MockHttpRequest()
             {
                 Path = "/SitemaP"
             };
 
-            TestLogger testLogger = new TestLogger();
-            TestHttpResponse httpResponse = new TestHttpResponse();
-            TestHttpContext httpContext = new TestHttpContext(httpRequest, httpResponse);
+            MockLogger testLogger = new MockLogger();
+            MockHttpResponse httpResponse = new MockHttpResponse();
+            MockHttpContext httpContext = new MockHttpContext(httpRequest, httpResponse);
             httpRequest.SetContext(httpContext);
 
-            SitemapMiddleware sut = new SitemapMiddleware(nextDelegate, new TestPluginClassesService(), new TestMemoryCache(), new TestNotificationService(), testLogger);
+            SitemapMiddleware sut = new SitemapMiddleware(nextDelegate, new MockPluginClassesService(), new MockMemoryCache(), new MockNotificationService(), testLogger);
 
             try
             {
@@ -200,7 +197,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SitemapTests
         {
             bool delegateCalled = false;
             RequestDelegate nextDelegate = async (context) => { delegateCalled = true; ; await Task.Delay(0); };
-            TestHttpRequest httpRequest = new TestHttpRequest()
+            MockHttpRequest httpRequest = new MockHttpRequest()
             {
                 Path = "/SiTEMap.XmL"
             };
@@ -209,14 +206,14 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SitemapTests
 
             registeredServices.Add(new BlogSitemapProvider(new DemoWebsite.Classes.MockBlogProvider()));
             registeredServices.Add(new HelpdeskSitemapProvider(new DemoWebsite.Classes.MockHelpdeskProvider()));
-            registeredServices.Add(new CompanySitemapProvider(new TestSettingsProvider("{}")));
+            registeredServices.Add(new CompanySitemapProvider(new MockSettingsProvider()));
 
-            TestPluginClassesService testPluginClassesService = new TestPluginClassesService(registeredServices);
-            TestHttpResponse httpResponse = new TestHttpResponse();
-            TestHttpContext httpContext = new TestHttpContext(httpRequest, httpResponse);
+            MockPluginClassesService testPluginClassesService = new MockPluginClassesService(registeredServices);
+            MockHttpResponse httpResponse = new MockHttpResponse();
+            MockHttpContext httpContext = new MockHttpContext(httpRequest, httpResponse);
             httpRequest.SetContext(httpContext);
 
-            SitemapMiddleware sut = new SitemapMiddleware(nextDelegate, testPluginClassesService, new TestMemoryCache(), new TestNotificationService(), new TestLogger());
+            SitemapMiddleware sut = new SitemapMiddleware(nextDelegate, testPluginClassesService, new MockMemoryCache(), new MockNotificationService(), new MockLogger());
 
             await sut.Invoke(httpContext);
 
@@ -241,7 +238,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SitemapTests
             List<string> events = new List<string>();
             RequestDelegate requestDelegate = async (context) => { await Task.Delay(0); };
 
-            SitemapMiddleware sut = new SitemapMiddleware(requestDelegate, new TestPluginClassesService(), new TestMemoryCache(), new TestNotificationService(), new TestLogger());
+            SitemapMiddleware sut = new SitemapMiddleware(requestDelegate, new MockPluginClassesService(), new MockMemoryCache(), new MockNotificationService(), new MockLogger());
             events = sut.GetEvents();
 
             Assert.AreEqual(1, events.Count);
@@ -254,7 +251,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SitemapTests
         {
             RequestDelegate requestDelegate = async (context) => { await Task.Delay(0); };
 
-            SitemapMiddleware sut = new SitemapMiddleware(requestDelegate, new TestPluginClassesService(), new TestMemoryCache(), new TestNotificationService(), new TestLogger());
+            SitemapMiddleware sut = new SitemapMiddleware(requestDelegate, new MockPluginClassesService(), new MockMemoryCache(), new MockNotificationService(), new MockLogger());
             sut.EventRaised("event name", null, null);
         }
 
@@ -264,7 +261,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SitemapTests
         {
             RequestDelegate requestDelegate = async (context) => { await Task.Delay(0); };
 
-            SitemapMiddleware sut = new SitemapMiddleware(requestDelegate, new TestPluginClassesService(), new TestMemoryCache(), new TestNotificationService(), new TestLogger());
+            SitemapMiddleware sut = new SitemapMiddleware(requestDelegate, new MockPluginClassesService(), new MockMemoryCache(), new MockNotificationService(), new MockLogger());
             object refObject = new object();
             bool eventResponse = sut.EventRaised("Sitemap Names", null, null, ref refObject);
 
@@ -277,7 +274,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SitemapTests
         {
             RequestDelegate requestDelegate = async (context) => { await Task.Delay(0); };
 
-            SitemapMiddleware sut = new SitemapMiddleware(requestDelegate, new TestPluginClassesService(), new TestMemoryCache(), new TestNotificationService(), new TestLogger());
+            SitemapMiddleware sut = new SitemapMiddleware(requestDelegate, new MockPluginClassesService(), new MockMemoryCache(), new MockNotificationService(), new MockLogger());
             object refObject = new object();
             bool eventResponse = sut.EventRaised("event name", null, null, ref refObject);
 
@@ -289,23 +286,23 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SitemapTests
         public void EventRaised_EventNameRecognised_ValidContext_ReturnsListOfSitemapKeys()
         {
             RequestDelegate requestDelegate = async (context) => { await Task.Delay(0); };
-            TestHttpRequest httpRequest = new TestHttpRequest()
+            MockHttpRequest httpRequest = new MockHttpRequest()
             {
                 Path = "/SiTEMap.XmL"
             };
 
             List<object> registeredServices = new List<object>();
 
-            registeredServices.Add(new TestSitemapProviderWithDomain());
+            registeredServices.Add(new MockSitemapProviderWithDomain());
             registeredServices.Add(new BlogSitemapProvider(new DemoWebsite.Classes.MockBlogProvider()));
             registeredServices.Add(new HelpdeskSitemapProvider(new DemoWebsite.Classes.MockHelpdeskProvider()));
-            registeredServices.Add(new CompanySitemapProvider(new TestSettingsProvider("{}")));
+            registeredServices.Add(new CompanySitemapProvider(new MockSettingsProvider()));
 
-            TestPluginClassesService testPluginClassesService = new TestPluginClassesService(registeredServices);
-            TestHttpResponse httpResponse = new TestHttpResponse();
-            TestHttpContext httpContext = new TestHttpContext(httpRequest, httpResponse);
+            MockPluginClassesService testPluginClassesService = new MockPluginClassesService(registeredServices);
+            MockHttpResponse httpResponse = new MockHttpResponse();
+            MockHttpContext httpContext = new MockHttpContext(httpRequest, httpResponse);
 
-            SitemapMiddleware sut = new SitemapMiddleware(requestDelegate, testPluginClassesService, new TestMemoryCache(), new TestNotificationService(), new TestLogger());
+            SitemapMiddleware sut = new SitemapMiddleware(requestDelegate, testPluginClassesService, new MockMemoryCache(), new MockNotificationService(), new MockLogger());
             List<string> keys;
             object refObject = null;
             bool eventResponse = sut.EventRaised("Sitemap Names", httpContext, null, ref refObject);

@@ -36,7 +36,6 @@ namespace SystemAdmin.Plugin.Models
     {
         #region Constructors
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA2208:Instantiate argument exceptions correctly", Justification = "Validating property of param so ok")]
         public GridViewModel(in BaseModelData modelData,
             SystemAdminSubMenu subMenu)
             : base(modelData)
@@ -46,14 +45,17 @@ namespace SystemAdmin.Plugin.Models
 
             Title = subMenu.Name();
 
+            if (String.IsNullOrEmpty(subMenu.Data()))
+                throw new ArgumentException("No data has been returned");
+
             // data has to have the header on first row, each column seperated by a pipe |
             // the data is on all following lines and is also seperated by pipe |
             // each line is seperated with \r
             string[] allLines = subMenu.Data().Trim().Split('\r');
 
             // must have a header at the very least!
-            if (allLines.Length == 0)
-                throw new ArgumentNullException(nameof(subMenu.Data));
+            if (allLines.Length == 1 && String.IsNullOrEmpty(allLines[0].Trim()))
+                throw new InvalidOperationException(nameof(subMenu.Data));
 
             Headers = allLines[0].Split('|');
 
@@ -65,7 +67,7 @@ namespace SystemAdmin.Plugin.Models
             {
                 string[] line = allLines[i].Split('|');
 
-                if (line.Length > Headers.Length)
+                if (line.Length != Headers.Length)
                     throw new InvalidOperationException("line column count much match header column count" +
                         $"\r\n\r\n{subMenu.Data()}");
 
@@ -84,7 +86,7 @@ namespace SystemAdmin.Plugin.Models
 
         public string Title { get; set; }
 
-        public int HeaderColumnCount { get; private set; }
+        public int HeaderColumnCount { get; }
 
         #endregion Public Properties
     }

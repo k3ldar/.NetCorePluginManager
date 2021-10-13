@@ -60,7 +60,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.CompanyTests
         public void Initialize_DoesNotAddItemsToLogger()
         {
             PluginInitialisation sut = new PluginInitialisation();
-            TestLogger testLogger = new TestLogger();
+            MockLogger testLogger = new MockLogger();
 
             sut.Initialise(testLogger);
 
@@ -71,7 +71,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.CompanyTests
         [TestCategory(TestsCategory)]
         public void Finalise_DoesNotThrowException()
         {
-            TestApplicationBuilder testApplicationBuilder = new TestApplicationBuilder();
+            MockApplicationBuilder testApplicationBuilder = new MockApplicationBuilder();
             PluginInitialisation sut = new PluginInitialisation();
 
             sut.Finalise();
@@ -81,7 +81,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.CompanyTests
         [TestCategory(TestsCategory)]
         public void ConfigureServices_DoesNotRegisterServices_Success()
         {
-            TestApplicationBuilder testApplicationBuilder = new TestApplicationBuilder();
+            MockApplicationBuilder testApplicationBuilder = new MockApplicationBuilder();
             PluginInitialisation sut = new PluginInitialisation();
             MockServiceCollection mockServiceCollection = new MockServiceCollection();
 

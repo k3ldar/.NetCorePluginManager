@@ -69,7 +69,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.LoginTests
         public void Initialize_DoesNotAddItemsToLogger()
         {
             PluginInitialisation sut = new PluginInitialisation();
-            TestLogger testLogger = new TestLogger();
+            MockLogger testLogger = new MockLogger();
 
             sut.Initialise(testLogger);
 
@@ -80,7 +80,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.LoginTests
         [TestCategory(GeneralTestsCategory)]
         public void AfterConfigure_DoesNotConfigurePipeline_Success()
         {
-            TestApplicationBuilder testApplicationBuilder = new TestApplicationBuilder();
+            MockApplicationBuilder testApplicationBuilder = new MockApplicationBuilder();
             PluginInitialisation sut = new PluginInitialisation();
 
             sut.AfterConfigure(testApplicationBuilder);
@@ -92,7 +92,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.LoginTests
         [TestCategory(GeneralTestsCategory)]
         public void Configure_ConfiguresPipeline_Success()
         {
-            TestApplicationBuilder testApplicationBuilder = new TestApplicationBuilder();
+            MockApplicationBuilder testApplicationBuilder = new MockApplicationBuilder();
             PluginInitialisation sut = new PluginInitialisation();
 
             sut.Configure(testApplicationBuilder);
@@ -105,7 +105,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.LoginTests
         [TestCategory(GeneralTestsCategory)]
         public void BeforeConfigure_DoesNotRegisterApplicationServices()
         {
-            TestApplicationBuilder testApplicationBuilder = new TestApplicationBuilder();
+            MockApplicationBuilder testApplicationBuilder = new MockApplicationBuilder();
             PluginInitialisation sut = new PluginInitialisation();
 
             sut.BeforeConfigure(testApplicationBuilder);
@@ -117,7 +117,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.LoginTests
         [TestCategory(GeneralTestsCategory)]
         public void Finalise_DoesNotThrowException()
         {
-            TestApplicationBuilder testApplicationBuilder = new TestApplicationBuilder();
+            MockApplicationBuilder testApplicationBuilder = new MockApplicationBuilder();
             PluginInitialisation sut = new PluginInitialisation();
 
             sut.Finalise();
@@ -127,7 +127,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.LoginTests
         [TestCategory(GeneralTestsCategory)]
         public void BeforeConfigureServices_DoesNotThrowException()
         {
-            TestApplicationBuilder testApplicationBuilder = new TestApplicationBuilder();
+            MockApplicationBuilder testApplicationBuilder = new MockApplicationBuilder();
             PluginInitialisation sut = new PluginInitialisation();
             MockServiceCollection mockServiceCollection = new MockServiceCollection();
 
@@ -140,7 +140,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.LoginTests
         [TestCategory(GeneralTestsCategory)]
         public void ConfigureServices_Registers_LoginMiddleware()
         {
-            TestApplicationBuilder testApplicationBuilder = new TestApplicationBuilder();
+            MockApplicationBuilder testApplicationBuilder = new MockApplicationBuilder();
             PluginInitialisation sut = new PluginInitialisation();
             MockServiceCollection mockServiceCollection = new MockServiceCollection();
 
@@ -155,12 +155,12 @@ namespace AspNetCore.PluginManager.Tests.Plugins.LoginTests
         {
             ServiceDescriptor[] serviceDescriptors = new ServiceDescriptor[]
             {
-                new ServiceDescriptor(typeof(INotificationService), new TestNotificationService()),
-                new ServiceDescriptor(typeof(IPluginClassesService), new TestPluginClassesService()),
-                new ServiceDescriptor(typeof(ISettingsProvider), new TestSettingsProvider("{}")),
+                new ServiceDescriptor(typeof(INotificationService), new MockNotificationService()),
+                new ServiceDescriptor(typeof(IPluginClassesService), new MockPluginClassesService()),
+                new ServiceDescriptor(typeof(ISettingsProvider), new MockSettingsProvider()),
             };
 
-            TestApplicationBuilder testApplicationBuilder = new TestApplicationBuilder();
+            MockApplicationBuilder testApplicationBuilder = new MockApplicationBuilder();
             PluginInitialisation sut = new PluginInitialisation();
             MockServiceCollection mockServiceCollection = new MockServiceCollection(serviceDescriptors);
 
@@ -175,12 +175,12 @@ namespace AspNetCore.PluginManager.Tests.Plugins.LoginTests
         {
             ServiceDescriptor[] serviceDescriptors = new ServiceDescriptor[]
             {
-                new ServiceDescriptor(typeof(INotificationService), new TestNotificationService()),
-                new ServiceDescriptor(typeof(IPluginClassesService), new TestPluginClassesService()),
-                new ServiceDescriptor(typeof(ISettingsProvider), new TestSettingsProvider("{}")),
+                new ServiceDescriptor(typeof(INotificationService), new MockNotificationService()),
+                new ServiceDescriptor(typeof(IPluginClassesService), new MockPluginClassesService()),
+                new ServiceDescriptor(typeof(ISettingsProvider), new MockSettingsProvider()),
             };
 
-            TestApplicationBuilder testApplicationBuilder = new TestApplicationBuilder();
+            MockApplicationBuilder testApplicationBuilder = new MockApplicationBuilder();
             PluginInitialisation sut = new PluginInitialisation();
             MockServiceCollection mockServiceCollection = new MockServiceCollection(serviceDescriptors);
 

@@ -23,7 +23,8 @@
  *  28/10/2018  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using Microsoft.Extensions.Configuration;
+using System;
+
 using Microsoft.Extensions.DependencyInjection;
 
 #pragma warning disable CA1801, IDE0060, CS1591
@@ -32,14 +33,6 @@ namespace SystemAdmin.Plugin
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
-        {
-            Configuration = configuration;
-        }
-
-        public IConfiguration Configuration { get; }
-
-
         /// <summary>
         /// This method gets called by the runtime. Use this method to add services to the container.
         ///  
@@ -49,7 +42,8 @@ namespace SystemAdmin.Plugin
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1822:Mark members as static", Justification = "only used for debug")]
         public void ConfigureServices(IServiceCollection services)
         {
-
+            if (services == null)
+                throw new ArgumentNullException(nameof(services));
         }
     }
 }

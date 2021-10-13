@@ -25,7 +25,7 @@
             </summary>
             <value>bool.  If true the appsettings.json file can be viewed, this could potentially be a security vulnerability depending on what data is stored in there.</value>
         </member>
-        <member name="P:SystemAdmin.Plugin.SystemAdminSettings.DisableFormattedText">
+        <member name="P:SystemAdmin.Plugin.SystemAdminSettings.EnableFormattedText">
             <summary>
             Prevents formatted text being displayed.
             </summary>

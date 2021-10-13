@@ -71,7 +71,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SieraDeltaGeoIpTests
         public void Initialize_DoesNotAddItemsToLogger()
         {
             PluginInitialisation sut = new PluginInitialisation();
-            TestLogger testLogger = new TestLogger();
+            MockLogger testLogger = new MockLogger();
 
             sut.Initialise(testLogger);
 
@@ -82,12 +82,12 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SieraDeltaGeoIpTests
         [TestCategory(TestsCategory)]
         public void AfterConfigure_DoesNotConfigurePipeline_Success()
         {
-            TestApplicationBuilder testApplicationBuilder = new TestApplicationBuilder();
+            MockApplicationBuilder testApplicationBuilder = new MockApplicationBuilder();
             PluginInitialisation sut = new PluginInitialisation();
 
             Dictionary<Type, object> registeredServices = new Dictionary<Type, object>();
-            registeredServices.Add(typeof(INotificationService), new TestNotificationService());
-            testApplicationBuilder.ApplicationServices = new TestServiceProvider(registeredServices);
+            registeredServices.Add(typeof(INotificationService), new MockNotificationService());
+            testApplicationBuilder.ApplicationServices = new MockServiceProvider(registeredServices);
 
             sut.AfterConfigure(testApplicationBuilder);
 
@@ -98,7 +98,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SieraDeltaGeoIpTests
         [TestCategory(TestsCategory)]
         public void Configure_DoesNotConfigurePipeline_Success()
         {
-            TestApplicationBuilder testApplicationBuilder = new TestApplicationBuilder();
+            MockApplicationBuilder testApplicationBuilder = new MockApplicationBuilder();
             PluginInitialisation sut = new PluginInitialisation();
 
             sut.Configure(testApplicationBuilder);
@@ -111,7 +111,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SieraDeltaGeoIpTests
         [TestCategory(TestsCategory)]
         public void BeforeConfigure_DoesNotRegisterApplicationServices()
         {
-            TestApplicationBuilder testApplicationBuilder = new TestApplicationBuilder();
+            MockApplicationBuilder testApplicationBuilder = new MockApplicationBuilder();
             PluginInitialisation sut = new PluginInitialisation();
 
             sut.BeforeConfigure(testApplicationBuilder);
@@ -123,7 +123,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SieraDeltaGeoIpTests
         [TestCategory(TestsCategory)]
         public void Configure_DoesRegisterApplicationServices()
         {
-            TestApplicationBuilder testApplicationBuilder = new TestApplicationBuilder();
+            MockApplicationBuilder testApplicationBuilder = new MockApplicationBuilder();
             PluginInitialisation sut = new PluginInitialisation();
 
             sut.Configure(testApplicationBuilder);
@@ -136,7 +136,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SieraDeltaGeoIpTests
         [TestCategory(TestsCategory)]
         public void Finalise_DoesNotThrowException()
         {
-            TestApplicationBuilder testApplicationBuilder = new TestApplicationBuilder();
+            MockApplicationBuilder testApplicationBuilder = new MockApplicationBuilder();
             PluginInitialisation sut = new PluginInitialisation();
 
             sut.Finalise();
@@ -146,7 +146,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SieraDeltaGeoIpTests
         [TestCategory(TestsCategory)]
         public void BeforeConfigureServices_DoesNotThrowException()
         {
-            TestApplicationBuilder testApplicationBuilder = new TestApplicationBuilder();
+            MockApplicationBuilder testApplicationBuilder = new MockApplicationBuilder();
             PluginInitialisation sut = new PluginInitialisation();
             MockServiceCollection mockServiceCollection = new MockServiceCollection();
 
@@ -159,7 +159,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SieraDeltaGeoIpTests
         [TestCategory(TestsCategory)]
         public void ConfigureServices_RegistersService_Success()
         {
-            TestApplicationBuilder testApplicationBuilder = new TestApplicationBuilder();
+            MockApplicationBuilder testApplicationBuilder = new MockApplicationBuilder();
             PluginInitialisation sut = new PluginInitialisation();
             MockServiceCollection mockServiceCollection = new MockServiceCollection();
 

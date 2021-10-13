@@ -87,7 +87,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         [ExpectedException(typeof(ArgumentNullException))]
         public void Construct_InvalidParamSettingsProvider_Null_Throws_ArgumentNullException()
         {
-            new DefaultDynamicContentProvider(new TestPluginClassesService(), null);
+            new DefaultDynamicContentProvider(new MockPluginClassesService(), null);
         }
 
         [TestMethod]
@@ -95,7 +95,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         [ExpectedException(typeof(ArgumentNullException))]
         public void Save_InvalidParam_Null_Throws_ArgumentNullException()
         {
-            DefaultDynamicContentProvider sut = new DefaultDynamicContentProvider(new TestPluginClassesService(), GetSettingsProvider(null, false));
+            DefaultDynamicContentProvider sut = new DefaultDynamicContentProvider(new MockPluginClassesService(), GetSettingsProvider(null, false));
             bool saved = sut.Save(null);
         }
 
@@ -103,7 +103,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         [TestCategory(TestCategoryName)]
         public void Save_DynamicContentAddedToCustomList_ContentSavedToDisk_Success()
         {
-            DefaultDynamicContentProvider sut = new DefaultDynamicContentProvider(new TestPluginClassesService(), GetSettingsProvider(null, false));
+            DefaultDynamicContentProvider sut = new DefaultDynamicContentProvider(new MockPluginClassesService(), GetSettingsProvider(null, false));
             bool saved = sut.Save(GetPage1());
             Assert.IsTrue(saved);
             Assert.IsTrue(File.Exists(Path.Combine(_currentTestPath, "wwwroot", "DynamicContent", "1.page")));
@@ -113,7 +113,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         [TestCategory(TestCategoryName)]
         public void SaveUserInput_ContentSavedToDisk_Success()
         {
-            DefaultDynamicContentProvider sut = new DefaultDynamicContentProvider(new TestPluginClassesService(), GetSettingsProvider(null, false));
+            DefaultDynamicContentProvider sut = new DefaultDynamicContentProvider(new MockPluginClassesService(), GetSettingsProvider(null, false));
             bool saved = sut.SaveUserInput("some data");
             Assert.IsTrue(saved);
         }
@@ -122,7 +122,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         [TestCategory(TestCategoryName)]
         public void SaveUserInput_InvalidParam_Null_ReturnsFalse()
         {
-            DefaultDynamicContentProvider sut = new DefaultDynamicContentProvider(new TestPluginClassesService(), GetSettingsProvider(null, false));
+            DefaultDynamicContentProvider sut = new DefaultDynamicContentProvider(new MockPluginClassesService(), GetSettingsProvider(null, false));
             bool saved = sut.SaveUserInput(null);
             Assert.IsFalse(saved);
         }
@@ -131,7 +131,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         [TestCategory(TestCategoryName)]
         public void SaveUserInput_InvalidParam_EmptyString_ReturnsFalse()
         {
-            DefaultDynamicContentProvider sut = new DefaultDynamicContentProvider(new TestPluginClassesService(), GetSettingsProvider(null, false));
+            DefaultDynamicContentProvider sut = new DefaultDynamicContentProvider(new MockPluginClassesService(), GetSettingsProvider(null, false));
             bool saved = sut.SaveUserInput("");
             Assert.IsFalse(saved);
         }
@@ -220,7 +220,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         [TestCategory(TestCategoryName)]
         public void GetCustomPageList_ReturnsCustomPages_Success()
         {
-            DefaultDynamicContentProvider sut = new DefaultDynamicContentProvider(new TestPluginClassesService(), GetSettingsProvider());
+            DefaultDynamicContentProvider sut = new DefaultDynamicContentProvider(new MockPluginClassesService(), GetSettingsProvider());
             List<LookupListItem> pages = sut.GetCustomPageList();
             Assert.AreEqual(4, pages.Count);
             Assert.AreEqual(1, pages[0].Id);
@@ -234,7 +234,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         [TestCategory(TestCategoryName)]
         public void RouteNameExists_InvalidParamRouteName_Null_Throws_ArgumentNullException()
         {
-            DefaultDynamicContentProvider sut = new DefaultDynamicContentProvider(new TestPluginClassesService(), GetSettingsProvider());
+            DefaultDynamicContentProvider sut = new DefaultDynamicContentProvider(new MockPluginClassesService(), GetSettingsProvider());
             sut.RouteNameExists(1, null);
         }
 
@@ -243,7 +243,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         [ExpectedException(typeof(ArgumentNullException))]
         public void RouteNameExists_InvalidParamRouteName_EmptyString_Throws_ArgumentNullException()
         {
-            DefaultDynamicContentProvider sut = new DefaultDynamicContentProvider(new TestPluginClassesService(), GetSettingsProvider());
+            DefaultDynamicContentProvider sut = new DefaultDynamicContentProvider(new MockPluginClassesService(), GetSettingsProvider());
             sut.RouteNameExists(1, "");
         }
 
@@ -251,7 +251,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         [TestCategory(TestCategoryName)]
         public void RouteNameExists_ExistingRouteNameNotFound_ReturnsFalse()
         {
-            DefaultDynamicContentProvider sut = new DefaultDynamicContentProvider(new TestPluginClassesService(), GetSettingsProvider());
+            DefaultDynamicContentProvider sut = new DefaultDynamicContentProvider(new MockPluginClassesService(), GetSettingsProvider());
             bool routeNameFound = sut.RouteNameExists(1, "non-existant");
             Assert.IsFalse(routeNameFound);
         }
@@ -260,7 +260,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         [TestCategory(TestCategoryName)]
         public void RouteNameExists_ExistingRouteNameFound_ReturnsTrue()
         {
-            DefaultDynamicContentProvider sut = new DefaultDynamicContentProvider(new TestPluginClassesService(), GetSettingsProvider());
+            DefaultDynamicContentProvider sut = new DefaultDynamicContentProvider(new MockPluginClassesService(), GetSettingsProvider());
             bool routeNameFound = sut.RouteNameExists(1, "Page-10");
             Assert.IsTrue(routeNameFound);
         }
@@ -270,7 +270,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         [ExpectedException(typeof(ArgumentNullException))]
         public void PageNameExists_InvalidParamPageName_Null_Throws_ArgumentNullException()
         {
-            DefaultDynamicContentProvider sut = new DefaultDynamicContentProvider(new TestPluginClassesService(), GetSettingsProvider());
+            DefaultDynamicContentProvider sut = new DefaultDynamicContentProvider(new MockPluginClassesService(), GetSettingsProvider());
             sut.PageNameExists(1, null);
         }
 
@@ -279,7 +279,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         [ExpectedException(typeof(ArgumentNullException))]
         public void PageNameExists_InvalidParamPageName_EmptyString_Throws_ArgumentNullException()
         {
-            DefaultDynamicContentProvider sut = new DefaultDynamicContentProvider(new TestPluginClassesService(), GetSettingsProvider());
+            DefaultDynamicContentProvider sut = new DefaultDynamicContentProvider(new MockPluginClassesService(), GetSettingsProvider());
             sut.PageNameExists(1, "");
         }
 
@@ -287,7 +287,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         [TestCategory(TestCategoryName)]
         public void PageNameExists_ExistingNameNotFound_ReturnsFalse()
         {
-            DefaultDynamicContentProvider sut = new DefaultDynamicContentProvider(new TestPluginClassesService(), GetSettingsProvider());
+            DefaultDynamicContentProvider sut = new DefaultDynamicContentProvider(new MockPluginClassesService(), GetSettingsProvider());
             bool routeNameFound = sut.PageNameExists(1, "non-existant");
             Assert.IsFalse(routeNameFound);
         }
@@ -296,7 +296,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         [TestCategory(TestCategoryName)]
         public void PageNameExists_ExistingNameFound_ReturnsTrue()
         {
-            DefaultDynamicContentProvider sut = new DefaultDynamicContentProvider(new TestPluginClassesService(), GetSettingsProvider());
+            DefaultDynamicContentProvider sut = new DefaultDynamicContentProvider(new MockPluginClassesService(), GetSettingsProvider());
             bool routeNameFound = sut.PageNameExists(1, "Custom Page 2");
             Assert.IsTrue(routeNameFound);
         }
@@ -305,7 +305,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         [TestCategory(TestCategoryName)]
         public void GetCustomPages_ReturnsListOfDynamicPages_Success()
         {
-            DefaultDynamicContentProvider sut = new DefaultDynamicContentProvider(new TestPluginClassesService(), GetSettingsProvider());
+            DefaultDynamicContentProvider sut = new DefaultDynamicContentProvider(new MockPluginClassesService(), GetSettingsProvider());
             List<IDynamicContentPage> pages = sut.GetCustomPages();
             Assert.IsNotNull(pages);
             Assert.AreEqual(4, pages.Count);
@@ -315,7 +315,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         [TestCategory(TestCategoryName)]
         public void GetCustomPage_PageFound_ReturnsValidInstance()
         {
-            DefaultDynamicContentProvider sut = new DefaultDynamicContentProvider(new TestPluginClassesService(), GetSettingsProvider());
+            DefaultDynamicContentProvider sut = new DefaultDynamicContentProvider(new MockPluginClassesService(), GetSettingsProvider());
             IDynamicContentPage page = sut.GetCustomPage(10);
             Assert.IsNotNull(page);
             Assert.AreEqual(10, page.Id);
@@ -325,7 +325,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         [TestCategory(TestCategoryName)]
         public void GetCustomPage_PageNotFound_ReturnsNull()
         {
-            DefaultDynamicContentProvider sut = new DefaultDynamicContentProvider(new TestPluginClassesService(), GetSettingsProvider());
+            DefaultDynamicContentProvider sut = new DefaultDynamicContentProvider(new MockPluginClassesService(), GetSettingsProvider());
             IDynamicContentPage page = sut.GetCustomPage(100000);
             Assert.IsNull(page);
         }
@@ -340,7 +340,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
             testTemplates.Add(new HtmlTextTemplate());
             testTemplates.Add(new YouTubeVideoTemplate());
 
-            DefaultDynamicContentProvider sut = new DefaultDynamicContentProvider(new TestPluginClassesService(testTemplates), GetSettingsProvider());
+            DefaultDynamicContentProvider sut = new DefaultDynamicContentProvider(new MockPluginClassesService(testTemplates), GetSettingsProvider());
 
             List<DynamicContentTemplate> templates = sut.Templates();
             Assert.IsNotNull(templates);
@@ -356,7 +356,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
         [TestCategory(TestCategoryName)]
         public void CreateCustomPage_CreatesAndSavesPage_Success()
         {
-            DefaultDynamicContentProvider sut = new DefaultDynamicContentProvider(new TestPluginClassesService(), GetSettingsProvider());
+            DefaultDynamicContentProvider sut = new DefaultDynamicContentProvider(new MockPluginClassesService(), GetSettingsProvider());
             Assert.AreEqual(4, sut.GetCustomPageList().Count);
             int newPageId = sut.CreateCustomPage();
 
@@ -367,7 +367,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
 
         #region Private Methods
 
-        private TestSettingsProvider GetSettingsProvider(string json = null, bool exportTestFiles = true)
+        private MockSettingsProvider GetSettingsProvider(string json = null, bool exportTestFiles = true)
         {
             if (String.IsNullOrEmpty(json))
             {
@@ -394,7 +394,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
                 File.WriteAllBytes(Path.Combine(_currentTestPath, "10.page"), page10);
             }
 
-            return new TestSettingsProvider(json);
+            return new MockSettingsProvider(json);
         }
 
         private byte[] CreateByteArray(int version = 1, string assemblyQualifiedName = null)

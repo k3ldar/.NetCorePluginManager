@@ -46,7 +46,7 @@ namespace AspNetCore.PluginManager.Tests.SharedPluginFeatures
         [TestCategory(TestCategoryName)]
         public void Validate_ClassMethod_RouteFriendlyName_Success()
         {
-            IHtmlHelper htmlHelper = new TestHtmlHelper();
+            IHtmlHelper htmlHelper = new MockHtmlHelper();
             string sut = htmlHelper.RouteFriendlyName("ab!\"£$%%^&*()_-+\\|,.<>/?#~@':;}{*-----");
 
             Assert.AreEqual("ab-_", sut);
