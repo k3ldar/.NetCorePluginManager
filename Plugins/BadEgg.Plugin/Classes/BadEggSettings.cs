@@ -42,21 +42,21 @@ namespace BadEgg.Plugin
         /// Maximum value: 300
         /// </summary>
         /// <value>uint</value>
-        [SettingRange(1u, 300u)]
-        [SettingDefault(5u)]
-        public uint ConnectionTimeOut { get; set; }
+        [SettingRange(1, 300)]
+        [SettingDefault(5)]
+        public int ConnectionTimeOut { get; set; }
 
         /// <summary>
-        /// Maximum average connection per minute, if this value is exceeded then http response from TooManyRequestResponseCode will be returned
+        /// Maximum average connection per second, if this value is exceeded then http response from TooManyRequestResponseCode will be returned
         /// 
         /// Default value: 100
-        /// Minimum value: 5
+        /// Minimum value: 1
         /// Maximum value: uint.MaxValue
         /// </summary>
         /// <value>uint</value>
-        [SettingRange(5u, uint.MaxValue)]
+        [SettingRange(1u, uint.MaxValue)]
         [SettingDefault(100u)]
-        public uint ConnectionsPerMinute { get; set; }
+        public uint ConnectionsPerSecond { get; set; }
 
         /// <summary>
         /// Http response code provided should the connection be banned.

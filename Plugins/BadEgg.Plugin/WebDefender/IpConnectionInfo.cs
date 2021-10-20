@@ -132,7 +132,7 @@ namespace BadEgg.Plugin.WebDefender
         public double UniquePages()
         {
             if (_uniquePages > 1)
-                return (_uniquePages / (double)Requests) * 100;
+                return _uniquePages / (double)Requests * 100;
             else
                 return _uniquePages;
         }

@@ -59,7 +59,13 @@
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(TargetFramework)'=='netcoreapp3.1'">
+	<ItemGroup>
+		<AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
+			<_Parameter1>AspNetCore.PluginManager.Tests</_Parameter1>
+		</AssemblyAttribute>
+	</ItemGroup>
+
+	<PropertyGroup Condition="'$(TargetFramework)'=='net5.01'">
     <DocumentationFile>..\..\Docs\XmlFiles\BadEgg.Plugin.xml</DocumentationFile>
   </PropertyGroup>
 

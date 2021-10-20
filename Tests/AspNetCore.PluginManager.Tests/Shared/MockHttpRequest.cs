@@ -46,8 +46,10 @@ namespace AspNetCore.PluginManager.Tests
         private HttpContext _httpContext;
         private IHeaderDictionary _headerDictionary;
         private readonly List<KeyValuePair<string, StringValues>> _queryCollection;
-        private readonly QueryString _queryString;
+        private QueryString _queryString;
         private HostString _hostString = new HostString("http://localhost/");
+        private PathString _pathBase;
+        private IFormCollection _formCollection;
 
         #endregion Private Members
 
@@ -72,6 +74,24 @@ namespace AspNetCore.PluginManager.Tests
             _httpContext = context ?? throw new ArgumentNullException(nameof(context));
         }
 
+        public MockHttpRequest(string ipAddress, string queryString, string path)
+            : this (new MockHttpContext(), new MockRequestCookieCollection())
+        {
+            if (String.IsNullOrEmpty(ipAddress))
+                throw new ArgumentNullException(nameof(ipAddress));
+
+            IpAddress = ipAddress;
+
+            if (!String.IsNullOrEmpty(queryString))
+                QueryString = new QueryString(queryString);
+
+            if (String.IsNullOrEmpty(path))
+                path = "/";
+
+            Path = path;
+            _httpContext = new MockHttpContext(this, new MockHttpResponse());
+        }
+
         #endregion Constructors
 
         #region HttpRequest Methods
@@ -94,9 +114,23 @@ namespace AspNetCore.PluginManager.Tests
                 _requestCookieCollection = value;
             }
         }
-        public override IFormCollection Form { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public override IFormCollection Form 
+        {
+            get
+            {
+                if (_formCollection == null)
+                    _formCollection = new MockFormCollection();
 
-        public override Boolean HasFormContentType => throw new NotImplementedException();
+                return _formCollection;
+            }
+
+            set
+            {
+                _formCollection = value;
+            }
+        }
+
+        public override Boolean HasFormContentType => _formCollection.Count > 0;
 
         public override IHeaderDictionary Headers
         {
@@ -132,18 +166,24 @@ namespace AspNetCore.PluginManager.Tests
         }
 
         public override Boolean IsHttps { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+
         public override String Method { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+
         public override PathString Path { get; set; }
+
         public override PathString PathBase
         {
             get
             {
-                return new PathString();
+                if (_pathBase == null)
+                    _pathBase = new PathString();
+
+                return _pathBase;
             }
 
             set
             {
-                throw new NotImplementedException();
+                _pathBase = value;
             }
         }
 
@@ -171,7 +211,7 @@ namespace AspNetCore.PluginManager.Tests
 
             set
             {
-                throw new NotImplementedException();
+                _queryString = value;
             }
         }
 

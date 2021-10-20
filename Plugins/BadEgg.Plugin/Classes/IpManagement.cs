@@ -42,12 +42,9 @@ namespace BadEgg.Plugin
             if (String.IsNullOrEmpty(ipAddress))
                 throw new ArgumentNullException(nameof(ipAddress));
 
-            using (TimedLock lck = TimedLock.Lock(WebDefender.ValidateConnections._ipAddressLock))
+            using (TimedLock lck = TimedLock.Lock(WebDefender.ValidateConnections.InternalIpAddressLock))
             {
-                if (WebDefender.ValidateConnections._ipAddressList.ContainsKey(ipAddress))
-                    WebDefender.ValidateConnections._ipAddressList.Remove(ipAddress);
-
-                WebDefender.ValidateConnections._ipAddressList.Add(ipAddress, true);
+                WebDefender.ValidateConnections.InternalIpAddressList[ipAddress] = true;
             }
         }
 
@@ -56,20 +53,17 @@ namespace BadEgg.Plugin
             if (String.IsNullOrEmpty(ipAddress))
                 throw new ArgumentNullException(nameof(ipAddress));
 
-            using (TimedLock lck = TimedLock.Lock(WebDefender.ValidateConnections._ipAddressLock))
+            using (TimedLock lck = TimedLock.Lock(WebDefender.ValidateConnections.InternalIpAddressLock))
             {
-                if (WebDefender.ValidateConnections._ipAddressList.ContainsKey(ipAddress))
-                    WebDefender.ValidateConnections._ipAddressList.Remove(ipAddress);
-
-                WebDefender.ValidateConnections._ipAddressList.Add(ipAddress, false);
+                WebDefender.ValidateConnections.InternalIpAddressList[ipAddress] = false;
             }
         }
 
         public void ClearAllIpAddresses()
         {
-            using (TimedLock lck = TimedLock.Lock(WebDefender.ValidateConnections._ipAddressLock))
+            using (TimedLock lck = TimedLock.Lock(WebDefender.ValidateConnections.InternalIpAddressLock))
             {
-                WebDefender.ValidateConnections._ipAddressList.Clear();
+                WebDefender.ValidateConnections.InternalIpAddressList.Clear();
             }
         }
 
@@ -78,10 +72,10 @@ namespace BadEgg.Plugin
             if (String.IsNullOrEmpty(ipAddress))
                 throw new ArgumentNullException(nameof(ipAddress));
 
-            using (TimedLock lck = TimedLock.Lock(WebDefender.ValidateConnections._ipAddressLock))
+            using (TimedLock lck = TimedLock.Lock(WebDefender.ValidateConnections.InternalIpAddressLock))
             {
-                if (WebDefender.ValidateConnections._ipAddressList.ContainsKey(ipAddress))
-                    WebDefender.ValidateConnections._ipAddressList.Remove(ipAddress);
+                if (WebDefender.ValidateConnections.InternalIpAddressList.ContainsKey(ipAddress))
+                    WebDefender.ValidateConnections.InternalIpAddressList.Remove(ipAddress);
             }
         }
 

@@ -100,8 +100,8 @@ namespace BadEgg.Plugin
             _badEggSettings = settingsProvider.GetSettings<BadEggSettings>(Constants.BadEggSettingsName);
 
             _validateConnections = new ValidateConnections(
-                _badEggSettings.ConnectionTimeOut,
-                _badEggSettings.ConnectionsPerMinute);
+                new TimeSpan(0, _badEggSettings.ConnectionTimeOut, 0),
+                _badEggSettings.ConnectionsPerSecond);
             _validateConnections.ConnectionAdd += ValidateConnections_ConnectionAdd;
             _validateConnections.ConnectionRemove += ValidateConnections_ConnectionRemove;
             _validateConnections.OnReportConnection += ValidateConnections_OnReportConnection;
