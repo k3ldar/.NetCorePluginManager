@@ -1,3 +1,7 @@
+Version 4.3.0
+=============
+Multiple minor bug fixes and extend unit test coverage
+
 Version 4.2.0
 =============
 

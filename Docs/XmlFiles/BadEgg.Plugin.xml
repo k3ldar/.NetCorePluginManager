@@ -37,12 +37,12 @@
             </summary>
             <value>uint</value>
         </member>
-        <member name="P:BadEgg.Plugin.BadEggSettings.ConnectionsPerMinute">
+        <member name="P:BadEgg.Plugin.BadEggSettings.ConnectionsPerSecond">
             <summary>
-            Maximum average connection per minute, if this value is exceeded then http response from TooManyRequestResponseCode will be returned
+            Maximum average connection per second, if this value is exceeded then http response from TooManyRequestResponseCode will be returned
             
             Default value: 100
-            Minimum value: 5
+            Minimum value: 1
             Maximum value: uint.MaxValue
             </summary>
             <value>uint</value>
@@ -208,7 +208,12 @@
             Address list lock object for unique access
             </summary>
         </member>
-        <member name="M:BadEgg.Plugin.WebDefender.ValidateConnections.#ctor(System.UInt32@,System.UInt32@)">
+        <member name="P:BadEgg.Plugin.WebDefender.ValidateConnections.ConnectionTimeout">
+            <summary>
+            Period of inactivity in which a connection times out
+            </summary>
+        </member>
+        <member name="M:BadEgg.Plugin.WebDefender.ValidateConnections.#ctor(System.TimeSpan@,System.UInt32@)">
             <summary>
             Constructor
             </summary>

@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>DynamicContent.Plugin</name>
+    </assembly>
+    <members>
+        <member name="T:DynamicContent.Plugin.Controllers.DynamicContentController">
+            <summary>
+            Dynamic content controller allows for editing of dynamic content on a website.
+            </summary>
+        </member>
+        <member name="T:DynamicContent.Plugin.DynamicContentSettings">
+            <summary>
+            Settings which affect how dynamic content plugin is configured.
+            </summary>
+        </member>
+        <member name="P:DynamicContent.Plugin.DynamicContentSettings.DynamicContentLocation">
+            <summary>
+            Path where dynamic content files will be placed.
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:DynamicContent.Plugin.Model.CustomPagesModel.CustomPages">
+            <summary>
+            List of custom pages
+            </summary>
+        </member>
+        <member name="T:DynamicContent.Plugin.PluginInitialisation">
+            <summary>
+            Implements IPlugin and IInitialiseEvents which allows the Dynamic Content plugin module to be
+            loaded as a plugin module
+            </summary>
+        </member>
+    </members>
+</doc>

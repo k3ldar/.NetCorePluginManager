@@ -770,8 +770,8 @@
             </summary>
             <param name="name">Name of the cookie.</param>
             <param name="value">Value to be stored within the cookie.</param>
-            <param name="days">Number of days the cookie is valid for.  A value of 
-            -1 means it will be a session cookie and will expire when the user session ends.</param>
+            <param name="days">Number of days the cookie is valid for.  A value less than
+            1 means it will be a session cookie and will expire when the user session ends.</param>
         </member>
         <member name="M:SharedPluginFeatures.BaseController.GetIpAddress">
             <summary>
@@ -2202,6 +2202,41 @@
             Constant values shared between all plugin modules and the AspNetCore.PluginManager
             </summary>
         </member>
+        <member name="F:SharedPluginFeatures.Constants.CacheManagerWebSmokeTest">
+            <summary>
+            Name of web smoke test cache manager
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Constants.CacheManagerLogin">
+            <summary>
+            Name of login cache manager
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Constants.CacheManagerErrorManager">
+            <summary>
+            Name of error manager cache
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Constants.CacheManagerDownload">
+            <summary>
+            Name of download cache
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Constants.CacheManagerHelpdesk">
+            <summary>
+            Name of helpdesk cache
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Constants.CacheManagerImageManager">
+            <summary>
+            Name of image manager cache
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Constants.CacheManagerCreateAccount">
+            <summary>
+            Name of create account cache
+            </summary>
+        </member>
         <member name="F:SharedPluginFeatures.Constants.HeaderAuthorizationName">
             <summary>
             Authorization header name
@@ -2770,6 +2805,11 @@
         <member name="F:SharedPluginFeatures.Constants.HtmlResponseNotFound">
             <summary>
             Bad request response code
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Constants.HtmlResponseMethodFailure">
+            <summary>
+            Method failure response code
             </summary>
         </member>
         <member name="F:SharedPluginFeatures.Constants.ProductImageFolderName">
