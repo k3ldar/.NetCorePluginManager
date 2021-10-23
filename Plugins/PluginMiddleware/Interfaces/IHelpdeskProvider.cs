@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2019 - 2021 Simon Carter.  All Rights Reserved.
  *
  *  Product:  PluginMiddleware
  *  
@@ -142,7 +142,7 @@ namespace Middleware.Helpdesk
         /// <param name="knowledgebaseItem">out.  KnowledgeBaseItem being retrieved.</param>
         /// <param name="parentGroup">KnowledgeBaseGroup item which is the parent group of the item being retrieved.</param>
         /// <returns>bool.  True if KnowledgeBaseItem is being returned.</returns>
-        bool GetKnowledgebaseItem(in long userId, in int id, 
+        bool GetKnowledgebaseItem(in long userId, in int id,
             out KnowledgeBaseItem knowledgebaseItem, out KnowledgeBaseGroup parentGroup);
 
         /// <summary>

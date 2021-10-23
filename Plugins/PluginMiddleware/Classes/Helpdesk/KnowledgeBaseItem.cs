@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2019 - 2021 Simon Carter.  All Rights Reserved.
  *
  *  Product:  PluginMiddleware
  *  
@@ -41,7 +41,7 @@ namespace Middleware.Helpdesk
         /// <param name="description">Description of the knowledgebase item.</param>
         /// <param name="viewCount">Number of times the knowledgebase item has been viewed.</param>
         /// <param name="content">Content for the knowledgebase item.</param>
-        public KnowledgeBaseItem(in int id, in string description, 
+        public KnowledgeBaseItem(in int id, in string description,
             in int viewCount, in string content)
         {
             if (String.IsNullOrEmpty(description))

@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFrameworks>net5.0;netcoreapp3.1;netcoreapp2.1</TargetFrameworks>
     <LangVersion>latest</LangVersion>
-    <Version>4.2.0</Version>
+    <Version>4.3.0</Version>
     <RazorCompileOnBuild>false</RazorCompileOnBuild>
     <RazorCompileOnPublish>true</RazorCompileOnPublish>
     <MvcBuildViews>true</MvcBuildViews>
@@ -22,6 +22,10 @@
     <IsPackable>true</IsPackable>
     <PackageIconUrl></PackageIconUrl>
     <RepositoryUrl>https://github.com/k3ldar/.NetCorePluginManager</RepositoryUrl>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(TargetFramework)'=='net5.0'">
+	<DocumentationFile>..\..\Docs\XmlFiles\DynamicContent.Plugin.xml</DocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)'=='Debug|net5.0'">

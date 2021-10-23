@@ -13,7 +13,7 @@
     <PackageTags>net core plugin manager middleware api di dependency injection</PackageTags>
     <PackageProjectUrl>http://pluginmanager.website/</PackageProjectUrl>
     <PackageReleaseNotes>Supports net core 2.1, 3.1 and net 5.0</PackageReleaseNotes>
-    <Version>4.2.0</Version>
+    <Version>4.3.0</Version>
     <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
   </PropertyGroup>
 
@@ -59,7 +59,7 @@
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(TargetFramework)'=='netcoreapp3.1'">
+  <PropertyGroup Condition="'$(TargetFramework)'=='net5.0'">
     <DocumentationFile>..\Docs\XmlFiles\AspNetCore.PluginManager.xml</DocumentationFile>
   </PropertyGroup>
 

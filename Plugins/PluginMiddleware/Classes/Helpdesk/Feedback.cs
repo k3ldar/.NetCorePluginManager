@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2019 - 2021 Simon Carter.  All Rights Reserved.
  *
  *  Product:  PluginMiddleware
  *  
@@ -40,7 +40,7 @@ namespace Middleware.Helpdesk
         /// <param name="username">Username of user providing feedback.</param>
         /// <param name="message">Feedback message provided.</param>
         /// <param name="showOnWebsite">Indicates whether the feedback can be shown on a website</param>
-        public Feedback (in long id, in string username, in string message, in bool showOnWebsite)
+        public Feedback(in long id, in string username, in string message, in bool showOnWebsite)
         {
             Id = id;
             Username = username;

@@ -11,7 +11,7 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2019 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2019 - 2021 Simon Carter.  All Rights Reserved.
  *
  *  Product:  PluginMiddleware
  *  
@@ -50,8 +50,8 @@ namespace Middleware.Helpdesk
         /// <param name="createdByEmail">Email address of the person who created the support ticket.</param>
         /// <param name="lastReplier">Name of the person who last responded to the support ticket.</param>
         /// <param name="messages">List of all HelpdeskTicketMessage messages within the support ticket.</param>
-        public HelpdeskTicket(in long id, in LookupListItem priority, in LookupListItem department, 
-            in LookupListItem status, in string key, 
+        public HelpdeskTicket(in long id, in LookupListItem priority, in LookupListItem department,
+            in LookupListItem status, in string key,
             in string subject, in DateTime dateCreated, in DateTime dateLastUpdated,
             in string createdBy, in string createdByEmail, in string lastReplier,
             in List<HelpdeskTicketMessage> messages)

@@ -2,7 +2,7 @@
 
   <PropertyGroup>
 	<TargetFramework>net5.0</TargetFramework>
-	<Version>4.2.0</Version>
+	<Version>4.3.0</Version>
 	<IsPackable>false</IsPackable>
 	<RunAnalyzersDuringBuild>false</RunAnalyzersDuringBuild>
 	<RunAnalyzersDuringLiveAnalysis>false</RunAnalyzersDuringLiveAnalysis>

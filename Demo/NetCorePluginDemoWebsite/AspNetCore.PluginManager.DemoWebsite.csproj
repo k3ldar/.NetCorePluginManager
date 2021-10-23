@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
     <LangVersion>latest</LangVersion>
-    <Version>4.2.0</Version>
+    <Version>4.3.0</Version>
     <PackageReleaseNotes>Introduce new methods to query plugins for classes containing attributes and non instantiated class/interface types</PackageReleaseNotes>
     <Description></Description>
     <RazorCompileOnBuild>false</RazorCompileOnBuild>

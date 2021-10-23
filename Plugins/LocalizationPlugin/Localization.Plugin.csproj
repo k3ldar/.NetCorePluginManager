@@ -14,7 +14,7 @@
     <PackageTags>asp net core plugin manager geo ip</PackageTags>
     <PackageReleaseNotes>Supports net core 2.1, 3.1 and net 5.0</PackageReleaseNotes>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>4.2.0</Version>
+    <Version>4.3.0</Version>
     <PackageId>Localization.Plugin</PackageId>
     <PackageIconUrl></PackageIconUrl>
     <RepositoryUrl>https://github.com/k3ldar/.NetCorePluginManager</RepositoryUrl>
@@ -62,7 +62,7 @@
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(TargetFramework)'=='netcoreapp3.1'">
+  <PropertyGroup Condition="'$(TargetFramework)'=='net5.0'">
     <DocumentationFile>..\..\Docs\XmlFiles\Localization.Plugin.xml</DocumentationFile>
   </PropertyGroup>
 
