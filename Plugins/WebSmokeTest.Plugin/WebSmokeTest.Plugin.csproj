@@ -78,7 +78,7 @@
     <PackageReference Include="SharedPluginFeatures" Version="$(Version)" />
     <PackageReference Include="AspNetCore.PluginManager.Languages" Version="$(Version)" />
     <PackageReference Include="PluginManager" Version="$(Version)" />
-	<PackageReference Include="PluginMiddleware" Version="$(Version)" />
+	<PackageReference Include="Middleware" Version="$(Version)" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(Configuration)'=='Debug'">

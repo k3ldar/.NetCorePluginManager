@@ -80,7 +80,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.MemoryCacheTests
             Assert.AreEqual("", sut.Action());
             Assert.AreEqual("", sut.Area());
             Assert.AreEqual("", sut.Controller());
-            Assert.AreEqual("Name|Age|Item Count", sut.Data());
+            Assert.IsTrue(sut.Data().StartsWith("Name|Age|Item Count"));
             Assert.AreEqual("", sut.Image());
             Assert.AreEqual(SystemAdminMenuType.Grid, sut.MenuType());
             Assert.AreEqual("Memory Cache", sut.Name());
@@ -100,7 +100,9 @@ namespace AspNetCore.PluginManager.Tests.Plugins.MemoryCacheTests
 
             Assert.IsNotNull(sut);
 
-            Assert.AreEqual("Name|Age|Item Count\rTest Cache|02:00:00|1", sut.Data());
+            string data = sut.Data();
+            Assert.IsTrue(data.StartsWith("Name|Age|Item Count\r")); 
+            Assert.IsTrue(data.Contains("Test Cache|02:00:00|1"));
 
             testCache.Clear();
             CacheManager.RemoveCacheManager("Test Cache");
