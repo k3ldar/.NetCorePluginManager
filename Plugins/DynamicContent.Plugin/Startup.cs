@@ -34,6 +34,8 @@ using DynamicContent.Plugin.Classes;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 
+#pragma warning disable CS1591
+
 namespace DynamicContent.Plugin
 {
     public class Startup
@@ -83,3 +85,5 @@ namespace DynamicContent.Plugin
         }
     }
 }
+
+#pragma warning restore CS1591

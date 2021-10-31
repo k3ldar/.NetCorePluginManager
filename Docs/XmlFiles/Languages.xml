@@ -95,9 +95,19 @@
               Looks up a localized string similar to Active.
             </summary>
         </member>
+        <member name="P:Languages.LanguageStrings.ActiveFrom">
+            <summary>
+              Looks up a localized string similar to Date active from.
+            </summary>
+        </member>
         <member name="P:Languages.LanguageStrings.ActivePageViews">
             <summary>
               Looks up a localized string similar to Active Page Views.
+            </summary>
+        </member>
+        <member name="P:Languages.LanguageStrings.ActiveTo">
+            <summary>
+              Looks up a localized string similar to Date active to.
             </summary>
         </member>
         <member name="P:Languages.LanguageStrings.Add">
@@ -185,6 +195,11 @@
               Looks up a localized string similar to Advanced.
             </summary>
         </member>
+        <member name="P:Languages.LanguageStrings.AdvancedSearch">
+            <summary>
+              Looks up a localized string similar to Advanced Search.
+            </summary>
+        </member>
         <member name="P:Languages.LanguageStrings.Affiliate">
             <summary>
               Looks up a localized string similar to Affiliate.
@@ -270,6 +285,11 @@
               Looks up a localized string similar to Age.
             </summary>
         </member>
+        <member name="P:Languages.LanguageStrings.All">
+            <summary>
+              Looks up a localized string similar to All.
+            </summary>
+        </member>
         <member name="P:Languages.LanguageStrings.AllowedToConnect">
             <summary>
               Looks up a localized string similar to Allowed To Connect.
@@ -283,6 +303,11 @@
         <member name="P:Languages.LanguageStrings.AllServices">
             <summary>
               Looks up a localized string similar to All Services.
+            </summary>
+        </member>
+        <member name="P:Languages.LanguageStrings.AllTimings">
+            <summary>
+              Looks up a localized string similar to All Timings.
             </summary>
         </member>
         <member name="P:Languages.LanguageStrings.AntiAgeing">
@@ -10418,6 +10443,21 @@
               Looks up a localized string similar to Text Alignment.
             </summary>
         </member>
+        <member name="P:Languages.LanguageStrings.AppTextAlignmentLeft">
+            <summary>
+              Looks up a localized string similar to Align label to the left.
+            </summary>
+        </member>
+        <member name="P:Languages.LanguageStrings.AppTextAlignmentRight">
+            <summary>
+              Looks up a localized string similar to Align label to the right.
+            </summary>
+        </member>
+        <member name="P:Languages.LanguageStrings.AppTextAlignmentTop">
+            <summary>
+              Looks up a localized string similar to Align label on top.
+            </summary>
+        </member>
         <member name="P:Languages.LanguageStrings.AppTextMagic">
             <summary>
               Looks up a localized string similar to Text Magic Integration.
@@ -11622,6 +11662,16 @@
               Looks up a localized string similar to Auto Login.
             </summary>
         </member>
+        <member name="P:Languages.LanguageStrings.AutoLoginBasicAuth">
+            <summary>
+              Looks up a localized string similar to Basic Auth Login.
+            </summary>
+        </member>
+        <member name="P:Languages.LanguageStrings.AutoLoginCookies">
+            <summary>
+              Looks up a localized string similar to Cookie Login.
+            </summary>
+        </member>
         <member name="P:Languages.LanguageStrings.Availability">
             <summary>
               Looks up a localized string similar to Availability.
@@ -12187,6 +12237,11 @@
               Looks up a localized string similar to Confirm Delete.
             </summary>
         </member>
+        <member name="P:Languages.LanguageStrings.ConfirmDeleteCheckbox">
+            <summary>
+              Looks up a localized string similar to Please tick the box to confirm you want to delete the selected item..
+            </summary>
+        </member>
         <member name="P:Languages.LanguageStrings.ConfirmNewPassword">
             <summary>
               Looks up a localized string similar to Confirm New Password.
@@ -12275,6 +12330,11 @@
         <member name="P:Languages.LanguageStrings.ContinueToCheckout">
             <summary>
               Looks up a localized string similar to Continue to Checkout.
+            </summary>
+        </member>
+        <member name="P:Languages.LanguageStrings.Controls">
+            <summary>
+              Looks up a localized string similar to Controls.
             </summary>
         </member>
         <member name="P:Languages.LanguageStrings.ConversionRate">
@@ -12380,6 +12440,16 @@
         <member name="P:Languages.LanguageStrings.CreditDebitCard">
             <summary>
               Looks up a localized string similar to credit/debit card.
+            </summary>
+        </member>
+        <member name="P:Languages.LanguageStrings.CssClassName">
+            <summary>
+              Looks up a localized string similar to Class Name.
+            </summary>
+        </member>
+        <member name="P:Languages.LanguageStrings.CssStyle">
+            <summary>
+              Looks up a localized string similar to Style.
             </summary>
         </member>
         <member name="P:Languages.LanguageStrings.Currency">
@@ -12636,6 +12706,16 @@
               Looks up a localized string similar to Delete.
             </summary>
         </member>
+        <member name="P:Languages.LanguageStrings.DeleteImage">
+            <summary>
+              Looks up a localized string similar to Delete Image.
+            </summary>
+        </member>
+        <member name="P:Languages.LanguageStrings.DeleteImageConfirm">
+            <summary>
+              Looks up a localized string similar to Are you sure you want to delete this image?.
+            </summary>
+        </member>
         <member name="P:Languages.LanguageStrings.Delivery">
             <summary>
               Looks up a localized string similar to Delivery.
@@ -12779,6 +12859,11 @@
         <member name="P:Languages.LanguageStrings.DrySkin">
             <summary>
               Looks up a localized string similar to Dry Skin.
+            </summary>
+        </member>
+        <member name="P:Languages.LanguageStrings.DynamicContent">
+            <summary>
+              Looks up a localized string similar to Dynamic Content.
             </summary>
         </member>
         <member name="P:Languages.LanguageStrings.Eczema">
@@ -12946,6 +13031,11 @@
               Looks up a localized string similar to SQL Error Code.
             </summary>
         </member>
+        <member name="P:Languages.LanguageStrings.ErrorDeletingItem">
+            <summary>
+              Looks up a localized string similar to An error occurred deleting the item..
+            </summary>
+        </member>
         <member name="P:Languages.LanguageStrings.ErrorMessage">
             <summary>
               Looks up a localized string similar to Error Message.
@@ -13009,6 +13099,11 @@
         <member name="P:Languages.LanguageStrings.Fail">
             <summary>
               Looks up a localized string similar to Fail.
+            </summary>
+        </member>
+        <member name="P:Languages.LanguageStrings.FailedToSavePage">
+            <summary>
+              Looks up a localized string similar to Failed to save page.
             </summary>
         </member>
         <member name="P:Languages.LanguageStrings.FailedToUpdateAccount">
@@ -13231,6 +13326,11 @@
               Looks up a localized string similar to Add gift wrapping to your order for {0}, please place your message in the notes section during checkout..
             </summary>
         </member>
+        <member name="P:Languages.LanguageStrings.GroupName">
+            <summary>
+              Looks up a localized string similar to Group Name.
+            </summary>
+        </member>
         <member name="P:Languages.LanguageStrings.Hair">
             <summary>
               Looks up a localized string similar to Hair.
@@ -13316,6 +13416,31 @@
               Looks up a localized string similar to How to use.
             </summary>
         </member>
+        <member name="P:Languages.LanguageStrings.Image">
+            <summary>
+              Looks up a localized string similar to Image.
+            </summary>
+        </member>
+        <member name="P:Languages.LanguageStrings.ImageGroups">
+            <summary>
+              Looks up a localized string similar to Image Groups.
+            </summary>
+        </member>
+        <member name="P:Languages.LanguageStrings.ImageManager">
+            <summary>
+              Looks up a localized string similar to Image Manager.
+            </summary>
+        </member>
+        <member name="P:Languages.LanguageStrings.Images">
+            <summary>
+              Looks up a localized string similar to Images.
+            </summary>
+        </member>
+        <member name="P:Languages.LanguageStrings.ImageUploadFiles">
+            <summary>
+              Looks up a localized string similar to Upload Files.
+            </summary>
+        </member>
         <member name="P:Languages.LanguageStrings.Ingredients">
             <summary>
               Looks up a localized string similar to Ingredients.
@@ -13395,6 +13520,11 @@
               Looks up a localized string similar to Invalid Contact Name.
             </summary>
         </member>
+        <member name="P:Languages.LanguageStrings.InvalidData">
+            <summary>
+              Looks up a localized string similar to The data provided was invalid.
+            </summary>
+        </member>
         <member name="P:Languages.LanguageStrings.InvalidDateOfBirth">
             <summary>
               Looks up a localized string similar to Invalid Date of Birth, you must use the format dd/mm/yyyy.
@@ -13403,6 +13533,21 @@
         <member name="P:Languages.LanguageStrings.InvalidEmailAddress">
             <summary>
               Looks up a localized string similar to Invalid Email Address.
+            </summary>
+        </member>
+        <member name="P:Languages.LanguageStrings.InvalidFileType">
+            <summary>
+              Looks up a localized string similar to The selected file type is not supported.
+            </summary>
+        </member>
+        <member name="P:Languages.LanguageStrings.InvalidHeightBetween">
+            <summary>
+              Looks up a localized string similar to Height must be between {0} and {1}.
+            </summary>
+        </member>
+        <member name="P:Languages.LanguageStrings.InvalidHeightMinimum">
+            <summary>
+              Looks up a localized string similar to Height must be at least {0}.
             </summary>
         </member>
         <member name="P:Languages.LanguageStrings.InvalidPermission">
@@ -13433,6 +13578,16 @@
         <member name="P:Languages.LanguageStrings.InvalidUsernameOrPassword">
             <summary>
               Looks up a localized string similar to Invalid User Name/Password.  Please try again.
+            </summary>
+        </member>
+        <member name="P:Languages.LanguageStrings.InvalidWidthBetween">
+            <summary>
+              Looks up a localized string similar to Width must be between {0} and {1}.
+            </summary>
+        </member>
+        <member name="P:Languages.LanguageStrings.InvalidWidthMinimum">
+            <summary>
+              Looks up a localized string similar to Width must be at least {0}.
             </summary>
         </member>
         <member name="P:Languages.LanguageStrings.Invoice">
@@ -14342,6 +14497,11 @@
               Looks up a localized string similar to Name.
             </summary>
         </member>
+        <member name="P:Languages.LanguageStrings.NameAlreadyExists">
+            <summary>
+              Looks up a localized string similar to Name already exists.
+            </summary>
+        </member>
         <member name="P:Languages.LanguageStrings.NameOnCard">
             <summary>
               Looks up a localized string similar to Name on Card.
@@ -14445,6 +14605,11 @@
         <member name="P:Languages.LanguageStrings.NoBlogsFoundMatchingTags">
             <summary>
               Looks up a localized string similar to There were no blogs containing the keyword.
+            </summary>
+        </member>
+        <member name="P:Languages.LanguageStrings.NoCustomPages">
+            <summary>
+              Looks up a localized string similar to You do not have any custom pages, click New to create one.
             </summary>
         </member>
         <member name="P:Languages.LanguageStrings.NoNews">
@@ -14562,6 +14727,16 @@
               Looks up a localized string similar to Options.
             </summary>
         </member>
+        <member name="P:Languages.LanguageStrings.OptionsOnePerLine">
+            <summary>
+              Looks up a localized string similar to Enter options, 1 per line.
+            </summary>
+        </member>
+        <member name="P:Languages.LanguageStrings.OptionStyle">
+            <summary>
+              Looks up a localized string similar to Option Style.
+            </summary>
+        </member>
         <member name="P:Languages.LanguageStrings.Order">
             <summary>
               Looks up a localized string similar to Order.
@@ -14652,6 +14827,11 @@
               Looks up a localized string similar to organic skincare.
             </summary>
         </member>
+        <member name="P:Languages.LanguageStrings.Other">
+            <summary>
+              Looks up a localized string similar to Other.
+            </summary>
+        </member>
         <member name="P:Languages.LanguageStrings.OutOfStock">
             <summary>
               Looks up a localized string similar to Out Of Stock.
@@ -14677,6 +14857,11 @@
               Looks up a localized string similar to Remove Notification.
             </summary>
         </member>
+        <member name="P:Languages.LanguageStrings.Over">
+            <summary>
+              Looks up a localized string similar to Over.
+            </summary>
+        </member>
         <member name="P:Languages.LanguageStrings.PackagesAndCosts">
             <summary>
               Looks up a localized string similar to packages and costs.
@@ -14699,7 +14884,12 @@
         </member>
         <member name="P:Languages.LanguageStrings.Page">
             <summary>
-              Looks up a localized string similar to Peage.
+              Looks up a localized string similar to Page.
+            </summary>
+        </member>
+        <member name="P:Languages.LanguageStrings.PageName">
+            <summary>
+              Looks up a localized string similar to Name of page.
             </summary>
         </member>
         <member name="P:Languages.LanguageStrings.PageNotFound">
@@ -14972,6 +15162,11 @@
               Looks up a localized string similar to Picture.
             </summary>
         </member>
+        <member name="P:Languages.LanguageStrings.PleaseEnterBackgroundColor">
+            <summary>
+              Looks up a localized string similar to Please enter a background colour.
+            </summary>
+        </member>
         <member name="P:Languages.LanguageStrings.PleaseEnterBlogTags">
             <summary>
               Looks up a localized string similar to Please enter at least 1 tag for the blog..
@@ -14995,6 +15190,11 @@
         <member name="P:Languages.LanguageStrings.PleaseEnterFirstLastName">
             <summary>
               Looks up a localized string similar to Please enter your first and last name.
+            </summary>
+        </member>
+        <member name="P:Languages.LanguageStrings.PleaseEnterNameOfPage">
+            <summary>
+              Looks up a localized string similar to Please enter the name of the page.
             </summary>
         </member>
         <member name="P:Languages.LanguageStrings.PleaseEnterPassword">
@@ -15318,6 +15518,11 @@
               Looks up a localized string similar to Quantity.
             </summary>
         </member>
+        <member name="P:Languages.LanguageStrings.QuickSearch">
+            <summary>
+              Looks up a localized string similar to Quick Search.
+            </summary>
+        </member>
         <member name="P:Languages.LanguageStrings.QuoteOrderNumber">
             <summary>
               Looks up a localized string similar to Please ensure you quote your Order Number when calling us..
@@ -15456,6 +15661,16 @@
         <member name="P:Languages.LanguageStrings.RoleName">
             <summary>
               Looks up a localized string similar to Role Name.
+            </summary>
+        </member>
+        <member name="P:Languages.LanguageStrings.RouteName">
+            <summary>
+              Looks up a localized string similar to Name of route.
+            </summary>
+        </member>
+        <member name="P:Languages.LanguageStrings.RouteNameAlreadyExists">
+            <summary>
+              Looks up a localized string similar to Route name already exists.
             </summary>
         </member>
         <member name="P:Languages.LanguageStrings.RuleActive">
@@ -15623,9 +15838,24 @@
               Looks up a localized string similar to Please enter a blog tag to search for..
             </summary>
         </member>
+        <member name="P:Languages.LanguageStrings.SearchContainsVideo">
+            <summary>
+              Looks up a localized string similar to Products with video.
+            </summary>
+        </member>
         <member name="P:Languages.LanguageStrings.SearchDescription">
             <summary>
               Looks up a localized string similar to Enter your search words:.
+            </summary>
+        </member>
+        <member name="P:Languages.LanguageStrings.SearchInvalid">
+            <summary>
+              Looks up a localized string similar to Please enter valid search criteria.
+            </summary>
+        </member>
+        <member name="P:Languages.LanguageStrings.SearchTimeout">
+            <summary>
+              Looks up a localized string similar to Timed out waiting for search to complete.
             </summary>
         </member>
         <member name="P:Languages.LanguageStrings.SeeAlso">
@@ -16053,6 +16283,11 @@
               Looks up a localized string similar to Stock.
             </summary>
         </member>
+        <member name="P:Languages.LanguageStrings.SubgroupName">
+            <summary>
+              Looks up a localized string similar to Subgroup Name.
+            </summary>
+        </member>
         <member name="P:Languages.LanguageStrings.SubGroups">
             <summary>
               Looks up a localized string similar to Sub Groups.
@@ -16360,6 +16595,86 @@
         <member name="P:Languages.LanguageStrings.TelephoneRequired">
             <summary>
               Looks up a localized string similar to Telephone is required.
+            </summary>
+        </member>
+        <member name="P:Languages.LanguageStrings.TemplateEditor">
+            <summary>
+              Looks up a localized string similar to Template Editor.
+            </summary>
+        </member>
+        <member name="P:Languages.LanguageStrings.TemplateNameFormCheckBox">
+            <summary>
+              Looks up a localized string similar to Check Box.
+            </summary>
+        </member>
+        <member name="P:Languages.LanguageStrings.TemplateNameFormListBox">
+            <summary>
+              Looks up a localized string similar to List Box.
+            </summary>
+        </member>
+        <member name="P:Languages.LanguageStrings.TemplateNameFormRadioButton">
+            <summary>
+              Looks up a localized string similar to Radio Button.
+            </summary>
+        </member>
+        <member name="P:Languages.LanguageStrings.TemplateNameFormSubmitButton">
+            <summary>
+              Looks up a localized string similar to Submit Button.
+            </summary>
+        </member>
+        <member name="P:Languages.LanguageStrings.TemplateNameFormTextBox">
+            <summary>
+              Looks up a localized string similar to Text Box.
+            </summary>
+        </member>
+        <member name="P:Languages.LanguageStrings.TemplateNameHorizontalRule">
+            <summary>
+              Looks up a localized string similar to Horizontal Rule.
+            </summary>
+        </member>
+        <member name="P:Languages.LanguageStrings.TemplateNameHtml">
+            <summary>
+              Looks up a localized string similar to Html Content.
+            </summary>
+        </member>
+        <member name="P:Languages.LanguageStrings.TemplateNameImage">
+            <summary>
+              Looks up a localized string similar to Image.
+            </summary>
+        </member>
+        <member name="P:Languages.LanguageStrings.TemplateNameLargeHeader">
+            <summary>
+              Looks up a localized string similar to Large Header.
+            </summary>
+        </member>
+        <member name="P:Languages.LanguageStrings.TemplateNameMediumHeader">
+            <summary>
+              Looks up a localized string similar to Medium Header.
+            </summary>
+        </member>
+        <member name="P:Languages.LanguageStrings.TemplateNameParagraph">
+            <summary>
+              Looks up a localized string similar to Paragraph.
+            </summary>
+        </member>
+        <member name="P:Languages.LanguageStrings.TemplateNameSmallHeader">
+            <summary>
+              Looks up a localized string similar to Small Header.
+            </summary>
+        </member>
+        <member name="P:Languages.LanguageStrings.TemplateNameSpacer">
+            <summary>
+              Looks up a localized string similar to Spacer.
+            </summary>
+        </member>
+        <member name="P:Languages.LanguageStrings.TemplateNameSubmit">
+            <summary>
+              Looks up a localized string similar to Submit.
+            </summary>
+        </member>
+        <member name="P:Languages.LanguageStrings.TemplateNameYouTube">
+            <summary>
+              Looks up a localized string similar to YouTube Video.
             </summary>
         </member>
         <member name="P:Languages.LanguageStrings.Terms">
@@ -16709,6 +17024,11 @@
               Looks up a localized string similar to We are unable to process your request.
             </summary>
         </member>
+        <member name="P:Languages.LanguageStrings.Under">
+            <summary>
+              Looks up a localized string similar to Under.
+            </summary>
+        </member>
         <member name="P:Languages.LanguageStrings.UnexpectedError">
             <summary>
               Looks up a localized string similar to Unexpected Error.
@@ -16782,6 +17102,11 @@
         <member name="P:Languages.LanguageStrings.UpdateSalons">
             <summary>
               Looks up a localized string similar to Update Salons.
+            </summary>
+        </member>
+        <member name="P:Languages.LanguageStrings.Upload">
+            <summary>
+              Looks up a localized string similar to Upload.
             </summary>
         </member>
         <member name="P:Languages.LanguageStrings.User">
@@ -16899,6 +17224,16 @@
               Looks up a localized string similar to View Celebrity.
             </summary>
         </member>
+        <member name="P:Languages.LanguageStrings.ViewGroup">
+            <summary>
+              Looks up a localized string similar to View Group.
+            </summary>
+        </member>
+        <member name="P:Languages.LanguageStrings.ViewImage">
+            <summary>
+              Looks up a localized string similar to View Image.
+            </summary>
+        </member>
         <member name="P:Languages.LanguageStrings.ViewInvoice">
             <summary>
               Looks up a localized string similar to View Invoice.
@@ -16917,6 +17252,11 @@
         <member name="P:Languages.LanguageStrings.ViewShoppingBag">
             <summary>
               Looks up a localized string similar to View Shopping Cart.
+            </summary>
+        </member>
+        <member name="P:Languages.LanguageStrings.ViewSubgroup">
+            <summary>
+              Looks up a localized string similar to View Sub Group.
             </summary>
         </member>
         <member name="P:Languages.LanguageStrings.ViewTicket">
@@ -16947,6 +17287,11 @@
         <member name="P:Languages.LanguageStrings.Vouchers">
             <summary>
               Looks up a localized string similar to Vouchers.
+            </summary>
+        </member>
+        <member name="P:Languages.LanguageStrings.WaitLoading">
+            <summary>
+              Looks up a localized string similar to Loading....
             </summary>
         </member>
         <member name="P:Languages.LanguageStrings.Website">
@@ -16999,6 +17344,11 @@
               Looks up a localized string similar to You May Also Like.
             </summary>
         </member>
+        <member name="P:Languages.LanguageStrings.YouMustEnter">
+            <summary>
+              Looks up a localized string similar to You must enter {0}.
+            </summary>
+        </member>
         <member name="P:Languages.LanguageStrings.YourOrderTotal">
             <summary>
               Looks up a localized string similar to Your order total is.
@@ -17019,9 +17369,17 @@
             Static class which returns a list of all languages that are installed within the language pack.
             </summary>
         </member>
+        <member name="M:Languages.LanguageWrapper.GetInstalledLanguages(System.String,System.Globalization.CultureInfo)">
+            <summary>
+            Gets all installed language files, default culture is first in the list
+            </summary>
+            <param name="path">Path where search to begin</param>
+            <param name="defaultCulture">Default culture in use</param>
+            <returns>String array of installed languages</returns>
+        </member>
         <member name="M:Languages.LanguageWrapper.GetInstalledLanguages(System.String)">
             <summary>
-            Gets all installed language files
+            Gets all installed language files, default culture is en-GB
             </summary>
             <param name="path">Path where search to begin</param>
             <returns>String array of installed languages</returns>

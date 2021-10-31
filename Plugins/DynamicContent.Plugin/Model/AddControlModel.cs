@@ -24,6 +24,8 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+#pragma warning disable CS1591
+
 namespace DynamicContent.Plugin.Model
 {
     public sealed class AddControlModel
@@ -35,3 +37,5 @@ namespace DynamicContent.Plugin.Model
         public string NextControl { get; set; }
     }
 }
+
+#pragma warning restore CS1591

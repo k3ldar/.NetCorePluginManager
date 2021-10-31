@@ -33,6 +33,7 @@ using Languages;
 using SharedPluginFeatures;
 using SharedPluginFeatures.DynamicContent;
 
+#pragma warning disable CS1591
 
 namespace DynamicContent.Plugin.Templates
 {
@@ -167,7 +168,7 @@ namespace DynamicContent.Plugin.Templates
                 Result.Append("<br />");
             }
 
-            Result.AppendFormat("<select name=\"{0}\" id=\"{0}\" onclick=\"updateUC();\" onfocusout=\"updateUC();\"{1}{2}>", 
+            Result.AppendFormat("<select name=\"{0}\" id=\"{0}\" onclick=\"updateUC();\" onfocusout=\"updateUC();\"{1}{2}>",
                 HtmlHelper.RouteFriendlyName(formModel.ControlName), ctlStyle, disabled);
             bool first = true;
 
@@ -200,3 +201,4 @@ namespace DynamicContent.Plugin.Templates
     }
 }
 
+#pragma warning restore CS1591

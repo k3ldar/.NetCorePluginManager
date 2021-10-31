@@ -27,6 +27,8 @@ using System;
 
 using SharedPluginFeatures;
 
+#pragma warning disable CS1591
+
 namespace DynamicContent.Plugin.Model
 {
     public sealed class FormTemplateEditorModel
@@ -137,3 +139,5 @@ namespace DynamicContent.Plugin.Model
         #endregion Private Methods
     }
 }
+
+#pragma warning restore CS1591

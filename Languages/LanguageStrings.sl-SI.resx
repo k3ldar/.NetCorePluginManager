@@ -7760,10 +7760,6 @@ Please contact the office on +44(0) 1952 462505 or +44(0) 1952 463574 to complet
     <value>Prenesete lahko naslednje materiale:</value>
     <comment>The following files are available for you to download.</comment>
   </data>
-  <data name="ShoppingBag" xml:space="preserve">
-    <value>Košarica</value>
-    <comment>Shopping Bag</comment>
-  </data>
   <data name="Purchase" xml:space="preserve">
     <value>Nakup</value>
     <comment>Purchase</comment>

@@ -33,6 +33,7 @@ using Languages;
 using SharedPluginFeatures;
 using SharedPluginFeatures.DynamicContent;
 
+#pragma warning disable CS1591
 
 namespace DynamicContent.Plugin.Templates
 {
@@ -181,3 +182,5 @@ namespace DynamicContent.Plugin.Templates
         #endregion Private Methods
     }
 }
+
+#pragma warning restore CS1591

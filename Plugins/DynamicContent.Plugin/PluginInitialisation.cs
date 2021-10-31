@@ -41,6 +41,8 @@ using SharedPluginFeatures;
 
 using static SharedPluginFeatures.Constants;
 
+#pragma warning disable CS1591
+
 namespace DynamicContent.Plugin
 {
     /// <summary>
@@ -131,3 +133,5 @@ namespace DynamicContent.Plugin
         #endregion IPlugin Methods
     }
 }
+
+#pragma warning restore CS1591

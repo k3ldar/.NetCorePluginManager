@@ -40,6 +40,8 @@ using Shared.Classes;
 using SharedPluginFeatures;
 using SharedPluginFeatures.DynamicContent;
 
+#pragma warning disable CS1591
+
 namespace DynamicContent.Plugin.Internal
 {
     public class DefaultDynamicContentProvider : IDynamicContentProvider
@@ -409,3 +411,5 @@ namespace DynamicContent.Plugin.Internal
         #endregion Private Methods
     }
 }
+
+#pragma warning restore CS1591

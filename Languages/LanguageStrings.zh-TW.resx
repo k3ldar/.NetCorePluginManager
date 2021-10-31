@@ -2592,7 +2592,7 @@ Do you want to continue?</comment>
     <comment>{0} minute{1}</comment>
   </data>
   <data name="ServiceUptimeMultiple" xml:space="preserve">
-    
+    <value>s</value>
     <comment>s</comment>
   </data>
   <data name="ServiceUptimeSeconds" xml:space="preserve">

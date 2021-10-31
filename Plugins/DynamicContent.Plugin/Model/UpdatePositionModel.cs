@@ -26,6 +26,8 @@
 
 using System.Text.Json.Serialization;
 
+#pragma warning disable CS1591
+
 namespace DynamicContent.Plugin.Model
 {
     public class UpdatePositionModel
@@ -47,3 +49,5 @@ namespace DynamicContent.Plugin.Model
         public int Left { get; set; }
     }
 }
+
+#pragma warning restore CS1591

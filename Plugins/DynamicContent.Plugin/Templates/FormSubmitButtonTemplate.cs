@@ -31,6 +31,8 @@ using Languages;
 using SharedPluginFeatures;
 using SharedPluginFeatures.DynamicContent;
 
+#pragma warning disable CS1591
+
 namespace DynamicContent.Plugin.Templates
 {
     public class FormSubmitButtonTemplate : DynamicContentTemplate
@@ -157,3 +159,5 @@ namespace DynamicContent.Plugin.Templates
         #endregion Private Methods
     }
 }
+
+#pragma warning restore CS1591

@@ -7751,10 +7751,6 @@ Please save with a different name</comment>
     <value>The following files are available for you to download.</value>
     <comment>The following files are available for you to download.</comment>
   </data>
-  <data name="ShoppingBag" xml:space="preserve">
-    <value>Shopping Bag</value>
-    <comment>Shopping Bag</comment>
-  </data>
   <data name="Purchase" xml:space="preserve">
     <value>Purchase</value>
     <comment>Purchase</comment>

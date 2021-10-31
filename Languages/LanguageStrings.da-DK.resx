@@ -1078,10 +1078,6 @@
     <value>Hænder</value>
     <comment>Hands</comment>
   </data>
-  <data name="ShoppingBag" xml:space="preserve">
-    <value>Shopping Bag</value>
-    <comment>Shopping Bag</comment>
-  </data>
   <data name="Helpdesk" xml:space="preserve">
     <value>Helpdesk</value>
     <comment>Helpdesk</comment>

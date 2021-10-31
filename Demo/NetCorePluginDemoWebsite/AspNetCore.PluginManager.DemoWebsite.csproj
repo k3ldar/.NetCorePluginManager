@@ -12,6 +12,7 @@
     <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
     <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
     <Copyright>Copyright (c) 2018 - 2021.  Simon Carter.  All rights reserved.</Copyright>
+	<MvcRazorExcludeRefAssembliesFromPublish>False</MvcRazorExcludeRefAssembliesFromPublish>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)'=='Debug'">
@@ -128,7 +129,8 @@
     <PackageReference Include="ApplicationSettings" Version="2.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="5.0.2" />
     <PackageReference Include="FirebirdSql.Data.FirebirdClient" Version="7.10.1" />
-    <PackageReference Include="SC.Shared.Library.Core.Windows" Version="1.0.0" />    
+    <PackageReference Include="SC.Shared.Library.Core.Windows" Version="1.0.0" />
+    <PackageReference Include="System.Drawing.Common" Version="5.0.2" />
   </ItemGroup>
   
   <ItemGroup>

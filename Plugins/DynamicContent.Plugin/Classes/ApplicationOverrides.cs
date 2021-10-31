@@ -29,6 +29,8 @@ using AppSettings;
 
 using AspNetCore.PluginManager;
 
+#pragma warning disable CS1591
+
 namespace DynamicContent.Plugin.Classes
 {
     public class ApplicationOverrides : IApplicationOverride
@@ -48,3 +50,5 @@ namespace DynamicContent.Plugin.Classes
         }
     }
 }
+
+#pragma warning restore CS1591

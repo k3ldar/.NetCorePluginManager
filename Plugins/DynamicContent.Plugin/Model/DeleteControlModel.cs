@@ -25,6 +25,8 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
 
+#pragma warning disable CS1591
+
 namespace DynamicContent.Plugin.Model
 {
     public sealed class DeleteControlModel
@@ -51,3 +53,5 @@ namespace DynamicContent.Plugin.Model
         public string ControlId { get; set; }
     }
 }
+
+#pragma warning restore CS1591

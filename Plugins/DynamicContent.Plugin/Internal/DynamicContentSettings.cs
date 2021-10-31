@@ -43,7 +43,9 @@ namespace DynamicContent.Plugin
         [SettingDefault("%RootPath%")]
         public string DynamicContentLocation { get; set; }
 
-
+        /// <summary>
+        /// Method called after settings have been validated
+        /// </summary>
         public void ValidateSettings()
         {
             DynamicContentLocation += "\\wwwroot\\DynamicContent";

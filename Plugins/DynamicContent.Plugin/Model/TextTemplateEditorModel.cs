@@ -24,6 +24,8 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+#pragma warning disable CS1591
+
 namespace DynamicContent.Plugin.Model
 {
     public sealed class TextTemplateEditorModel
@@ -45,3 +47,5 @@ namespace DynamicContent.Plugin.Model
         public string Data { get; set; }
     }
 }
+
+#pragma warning restore CS1591

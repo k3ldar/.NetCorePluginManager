@@ -20,6 +20,11 @@
             </summary>
             <value>string</value>
         </member>
+        <member name="M:DynamicContent.Plugin.DynamicContentSettings.ValidateSettings">
+            <summary>
+            Method called after settings have been validated
+            </summary>
+        </member>
         <member name="P:DynamicContent.Plugin.Model.CustomPagesModel.CustomPages">
             <summary>
             List of custom pages

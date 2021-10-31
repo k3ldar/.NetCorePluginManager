@@ -1599,10 +1599,6 @@ Preusmjerili smo Vas na drugu interenetsku stranicu.</value>
     <value>Umorna, beživotna koža?</value>
     <comment>Shiny, lifeless skin?</comment>
   </data>
-  <data name="ShoppingBag" xml:space="preserve">
-    <value>Košarica</value>
-    <comment>Shopping Bag</comment>
-  </data>
   <data name="ShoppingBagDeliveryAddress" xml:space="preserve">
     <value>Adresa za isporuku košarice </value>
     <comment>shopping bag delivery address</comment>

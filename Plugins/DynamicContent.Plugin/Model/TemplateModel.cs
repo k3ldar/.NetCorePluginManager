@@ -25,6 +25,8 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
 
+#pragma warning disable CS1591
+
 namespace DynamicContent.Plugin.Model
 {
     public sealed class TemplateModel
@@ -60,3 +62,5 @@ namespace DynamicContent.Plugin.Model
         #endregion Properties
     }
 }
+
+#pragma warning restore CS1591

@@ -47,6 +47,8 @@ using SharedPluginFeatures.DynamicContent;
 
 using static SharedPluginFeatures.Constants;
 
+#pragma warning disable CS1591
+
 namespace DynamicContent.Plugin.Controllers
 {
     /// <summary>
@@ -698,3 +700,5 @@ namespace DynamicContent.Plugin.Controllers
         #endregion Private Methods
     }
 }
+
+#pragma warning restore CS1591

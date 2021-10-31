@@ -28,6 +28,8 @@ using System.Diagnostics.CodeAnalysis;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 
+#pragma warning disable CS1591
+
 namespace DynamicContent.Plugin
 {
 #if NET_5_X
@@ -47,3 +49,5 @@ namespace DynamicContent.Plugin
                 .UseStartup<Startup>();
     }
 }
+
+#pragma warning restore CS1591

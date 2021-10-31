@@ -37,6 +37,8 @@ using SharedPluginFeatures;
 
 using static SharedPluginFeatures.Constants;
 
+#pragma warning disable CS1591
+
 namespace DynamicContent.Plugin.Internal
 {
     public sealed class DynamicContentThreadManager : ThreadManager, INotificationListener
@@ -167,3 +169,5 @@ namespace DynamicContent.Plugin.Internal
         #endregion Private Methods
     }
 }
+
+#pragma warning restore CS1591

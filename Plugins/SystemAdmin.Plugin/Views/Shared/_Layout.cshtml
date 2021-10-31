@@ -32,14 +32,14 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    @{
-                        // dynamically add menu items from plugins
-                        ISystemAdminHelperService sysAdminHelper = Startup.GetServiceProvider.GetRequiredService<ISystemAdminHelperService>();
-                        foreach (SystemAdminMainMenu menuItem in sysAdminHelper.GetSystemAdminMainMenu())
-                        {
-                            <li><a asp-area="@menuItem.Area()" asp-controller="@menuItem.Controller()" asp-action="@menuItem.Action()" asp-route-id="@menuItem.UniqueId">@menuItem.Name</a></li>
-                        }
-                    }
+                    @*@{
+                            // dynamically add menu items from plugins
+                            ISystemAdminHelperService sysAdminHelper = Startup.GetServiceProvider.GetRequiredService<ISystemAdminHelperService>();
+                            foreach (SystemAdminMainMenu menuItem in sysAdminHelper.GetSystemAdminMainMenu())
+                            {
+                                <li><a asp-area="@menuItem.Area()" asp-controller="@menuItem.Controller()" asp-action="@menuItem.Action()" asp-route-id="@menuItem.UniqueId">@menuItem.Name</a></li>
+                            }
+                        }*@
                 </ul>
             </div>
         </div>

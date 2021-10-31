@@ -1717,10 +1717,6 @@
     <value>Enter Voucher Code</value>
     <comment>Enter Voucher Code</comment>
   </data>
-  <data name="ShoppingBag" xml:space="preserve">
-    <value>Shopping Bag</value>
-    <comment>Shopping Bag</comment>
-  </data>
   <data name="Cookies" xml:space="preserve">
     <value>Cookies</value>
     <comment>Cookies</comment>

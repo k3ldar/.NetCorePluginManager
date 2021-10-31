@@ -30,6 +30,8 @@ using System.ComponentModel.DataAnnotations;
 using SharedPluginFeatures;
 using SharedPluginFeatures.DynamicContent;
 
+#pragma warning disable CS1591
+
 namespace DynamicContent.Plugin.Model
 {
     public sealed class EditPageModel : BaseModel
@@ -99,3 +101,5 @@ namespace DynamicContent.Plugin.Model
         #endregion Properties
     }
 }
+
+#pragma warning restore CS1591

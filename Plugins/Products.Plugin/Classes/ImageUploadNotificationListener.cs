@@ -28,7 +28,6 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
-using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -39,6 +38,8 @@ using Middleware.Interfaces;
 using PluginManager.Abstractions;
 
 using SharedPluginFeatures;
+
+#pragma warning disable CS1591
 
 namespace ProductPlugin.Classes
 {
@@ -81,7 +82,7 @@ namespace ProductPlugin.Classes
                 Result = ProcessImageOptions(param1 as IImageProcessOptions);
                 result = Result ? param1 : null;
             }
-           
+
 
             return Result;
         }
@@ -150,13 +151,13 @@ namespace ProductPlugin.Classes
             {
                 return ColorTranslator.FromHtml(resizeBackfillColor);
             }
-            catch(Exception)
+            catch (Exception)
             {
                 return Color.White;
             }
         }
 
-        private bool CopyImagesToSubGroupAndVerify(List<string> files, List<Size> additionalSizes, 
+        private bool CopyImagesToSubGroupAndVerify(List<string> files, List<Size> additionalSizes,
             string subgroupName, List<string> errors, Color backfillColor)
         {
             List<ImageFile> existingFiles = _imageProvider.Images(Constants.ProductImageFolderName, subgroupName);
@@ -170,7 +171,7 @@ namespace ProductPlugin.Classes
                     using (Image img = Image.FromFile(file))
                     {
                         byte[] imgBytes = ImageToByteArray(img);
-                        _imageProvider.AddFile(Constants.ProductImageFolderName, subgroupName, 
+                        _imageProvider.AddFile(Constants.ProductImageFolderName, subgroupName,
                             $"{newFileName}_orig{Path.GetExtension(file)}", imgBytes);
 
                         foreach (Size newSize in additionalSizes)
@@ -179,7 +180,7 @@ namespace ProductPlugin.Classes
                             {
                                 Image ImageToResize = Image.FromStream(ms);
                                 byte[] resizedImageBytes = ImageToPngByteArray(ResizeImageToFixedSize(ImageToResize, newSize, backfillColor));
-                                _imageProvider.AddFile(Constants.ProductImageFolderName, subgroupName, 
+                                _imageProvider.AddFile(Constants.ProductImageFolderName, subgroupName,
                                     $"{newFileName}_{newSize.Width}.png", resizedImageBytes);
                             }
                         }
@@ -300,3 +301,5 @@ namespace ProductPlugin.Classes
         #endregion Private Methods
     }
 }
+
+#pragma warning restore CS1591

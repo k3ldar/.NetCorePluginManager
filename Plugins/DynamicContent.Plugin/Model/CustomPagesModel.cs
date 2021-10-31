@@ -30,6 +30,8 @@ using Middleware;
 
 using SharedPluginFeatures;
 
+#pragma warning disable CS1591
+
 namespace DynamicContent.Plugin.Model
 {
     public class CustomPagesModel : BaseModel
@@ -64,3 +66,5 @@ namespace DynamicContent.Plugin.Model
         #endregion Properties
     }
 }
+
+#pragma warning restore CS1591
