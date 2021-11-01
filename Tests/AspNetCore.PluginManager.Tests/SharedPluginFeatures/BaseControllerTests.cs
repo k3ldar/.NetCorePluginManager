@@ -304,6 +304,20 @@ namespace AspNetCore.PluginManager.Tests.SharedPluginFeatures
                 Assert.IsTrue(jsonResponse.Success);
             }
         }
+
+        [TestMethod]
+        public void GetModelData_UserHasConsentCookie_Success()
+        {
+            MockRequestCookieCollection requestCookieCollection = new MockRequestCookieCollection();
+            requestCookieCollection.AddCookie("UserCookieConsent", "yes");
+            MockHttpRequest mockHttpRequest = new MockHttpRequest(requestCookieCollection);
+
+            using (TestBaseControllerWrapper baseController = new TestBaseControllerWrapper(mockHttpRequest, new MockHttpResponse()))
+            {
+                BaseModelData modelData = baseController.TestGetModelData();
+                Assert.IsTrue(modelData.UserHasConsentCookie);
+            }
+        }
     }
 
     [ExcludeFromCodeCoverage]

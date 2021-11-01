@@ -1069,35 +1069,6 @@
             </summary>
             <value>ShoppingCartSummary</value>
         </member>
-        <member name="M:SharedPluginFeatures.BaseModel.RouteFriendlyName(System.String@)">
-            <summary>
-            Converts a string to a route friendly name, removing all but alpha numeric charactes.
-            </summary>
-            <param name="text">Route text to be converted.</param>
-            <returns>string</returns>
-        </member>
-        <member name="M:SharedPluginFeatures.BaseModel.RouteText(System.String@)">
-            <summary>
-            Converts a string to a route friendly name, removing all but alpha numeric charactes.
-            </summary>
-            <param name="text">Route text to be converted.</param>
-            <returns>string</returns>
-        </member>
-        <member name="M:SharedPluginFeatures.BaseModel.BreadcrumbData">
-            <summary>
-            Retrieve a list of BreadcrumbItem object items converted to a ul/li list for display within a page.
-            
-            The last item in the list will not have a link generated.
-            </summary>
-            <returns>string</returns>
-        </member>
-        <member name="M:SharedPluginFeatures.BaseModel.BreadcrumbData(System.Boolean@)">
-             <summary>
-            Retrieve a list of BreadcrumbItem object items converted to a ul/li list for display within a page.
-             </summary>
-             <param name="lastItemLinked">bool.  If true the last item will have an a href link, otherwise it wont.</param>
-             <returns>string</returns>
-        </member>
         <member name="P:SharedPluginFeatures.BaseModel.SeoAuthor">
             <summary>
             Contains Seo Author data to be displayed on a web page.
@@ -1126,6 +1097,40 @@
             <summary>
             Indicates the user can manage Seo data.
             </summary>
+        </member>
+        <member name="P:SharedPluginFeatures.BaseModel.UserHasCookieConsent">
+            <summary>
+            Determines whether the user has a consent cookie or not
+            </summary>
+        </member>
+        <member name="M:SharedPluginFeatures.BaseModel.RouteFriendlyName(System.String@)">
+            <summary>
+            Converts a string to a route friendly name, removing all but alpha numeric charactes.
+            </summary>
+            <param name="text">Route text to be converted.</param>
+            <returns>string</returns>
+        </member>
+        <member name="M:SharedPluginFeatures.BaseModel.RouteText(System.String@)">
+            <summary>
+            Converts a string to a route friendly name, removing all but alpha numeric charactes.
+            </summary>
+            <param name="text">Route text to be converted.</param>
+            <returns>string</returns>
+        </member>
+        <member name="M:SharedPluginFeatures.BaseModel.BreadcrumbData">
+            <summary>
+            Retrieve a list of BreadcrumbItem object items converted to a ul/li list for display within a page.
+            
+            The last item in the list will not have a link generated.
+            </summary>
+            <returns>string</returns>
+        </member>
+        <member name="M:SharedPluginFeatures.BaseModel.BreadcrumbData(System.Boolean@)">
+             <summary>
+            Retrieve a list of BreadcrumbItem object items converted to a ul/li list for display within a page.
+             </summary>
+             <param name="lastItemLinked">bool.  If true the last item will have an a href link, otherwise it wont.</param>
+             <returns>string</returns>
         </member>
         <member name="T:SharedPluginFeatures.BaseModelData">
             <summary>
@@ -1171,6 +1176,11 @@
         <member name="P:SharedPluginFeatures.BaseModelData.CanManageSeoData">
             <summary>
             Indicates whether the user can manage Seo data.
+            </summary>
+        </member>
+        <member name="P:SharedPluginFeatures.BaseModelData.UserHasConsentCookie">
+            <summary>
+            Indicates whether the user has a consent cookie or not
             </summary>
         </member>
         <member name="M:SharedPluginFeatures.BaseModelData.ReplaceBreadcrumbs(System.Collections.Generic.List{SharedPluginFeatures.BreadcrumbItem})">
@@ -2305,6 +2315,11 @@
         <member name="F:SharedPluginFeatures.Constants.DefaultSessionCookie">
             <summary>
             Default name of session cookie if no value is specified when the application is initialised.
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Constants.UserConsentCookie">
+            <summary>
+            Default name of user cookie consent
             </summary>
         </member>
         <member name="F:SharedPluginFeatures.Constants.UserSessionConfiguration">

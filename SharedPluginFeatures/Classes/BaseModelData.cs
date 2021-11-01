@@ -38,7 +38,8 @@ namespace SharedPluginFeatures
         internal BaseModelData(in List<BreadcrumbItem> breadcrumbs,
             in ShoppingCartSummary cartSummary, in string seoTitle,
             in string seoAuthor, in string seoDescription,
-            in string seoTags, in bool canManageSeoData)
+            in string seoTags, in bool canManageSeoData,
+            in bool userHasConsentCookie)
         {
             Breadcrumbs = breadcrumbs ?? new List<BreadcrumbItem>();
             CartSummary = cartSummary;
@@ -47,6 +48,7 @@ namespace SharedPluginFeatures
             SeoTitle = seoTitle ?? String.Empty;
             SeoTags = seoTags ?? String.Empty;
             CanManageSeoData = canManageSeoData;
+            UserHasConsentCookie = userHasConsentCookie;
         }
 
         #endregion Constructors
@@ -57,42 +59,47 @@ namespace SharedPluginFeatures
         /// Breadcrumb items
         /// </summary>
         /// <value>List&lt;BreadcrumbItems&gt;</value>
-        public List<BreadcrumbItem> Breadcrumbs { get; private set; }
+        public List<BreadcrumbItem> Breadcrumbs { get; set; }
 
         /// <summary>
         /// Shopping cart summary
         /// </summary>
         /// <value>ShoppingCartSummary</value>
-        public ShoppingCartSummary CartSummary { get; private set; }
+        public ShoppingCartSummary CartSummary { get; set; }
 
         /// <summary>
         /// Seo title for a web page.
         /// </summary>
         /// <value>string</value>
-        public string SeoTitle { get; private set; }
+        public string SeoTitle { get; }
 
         /// <summary>
         /// Seo description for a web page.
         /// </summary>
         /// <value>string</value>
-        public string SeoDescription { get; private set; }
+        public string SeoDescription { get; }
 
         /// <summary>
         /// Seo author for a web page.
         /// </summary>
         /// <value>string</value>
-        public string SeoAuthor { get; private set; }
+        public string SeoAuthor { get; }
 
         /// <summary>
         /// Seo Tags for a web page.
         /// </summary>
         /// <value>string</value>
-        public string SeoTags { get; private set; }
+        public string SeoTags { get; }
 
         /// <summary>
         /// Indicates whether the user can manage Seo data.
         /// </summary>
-        public bool CanManageSeoData { get; private set; }
+        public bool CanManageSeoData { get; }
+
+        /// <summary>
+        /// Indicates whether the user has a consent cookie or not
+        /// </summary>
+        public bool UserHasConsentCookie { get; }
 
         #endregion Properties
 

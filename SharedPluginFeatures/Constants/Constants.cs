@@ -138,6 +138,11 @@ namespace SharedPluginFeatures
         public const string DefaultSessionCookie = "user_session";
 
         /// <summary>
+        /// Default name of user cookie consent
+        /// </summary>
+        public const string UserConsentCookie = "UserCookieConsent";
+
+        /// <summary>
         /// Name of the user session configuration setting.
         /// </summary>
         public const string UserSessionConfiguration = "UserSessionConfiguration";

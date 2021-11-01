@@ -333,7 +333,7 @@ namespace AspNetCore.PluginManager.Tests.Controllers
         {
             BaseModelData Result = new BaseModelData(new List<BreadcrumbItem>(),
                 new ShoppingCartSummary(1, 0, 0, 0, 0, 20, Thread.CurrentThread.CurrentUICulture, "GBP"),
-                "The Title", "The Author", "The Description", "The Tags", false);
+                "The Title", "The Author", "The Description", "The Tags", false, true);
 
 
             return Result;

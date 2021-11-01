@@ -40,6 +40,11 @@ namespace AspNetCore.PluginManager.Tests.SharedPluginFeatures
             ControllerContext.HttpContext = new MockHttpContext();
         }
 
+        public TestBaseControllerWrapper(MockHttpRequest mockHttpRequest, MockHttpResponse mockHttpResponse)
+        {
+            ControllerContext.HttpContext = new MockHttpContext(mockHttpRequest, mockHttpResponse);
+        }
+
         internal string TestGetCoreSessionId()
         {
             return GetCoreSessionId();
@@ -75,6 +80,11 @@ namespace AspNetCore.PluginManager.Tests.SharedPluginFeatures
         internal JsonResult TestGenerateJsonSuccessResponse(object responseData)
         {
             return GenerateJsonSuccessResponse(responseData);
+        }
+
+        internal BaseModelData TestGetModelData()
+        {
+            return GetModelData();
         }
     }
 }

@@ -95,7 +95,10 @@
 
     <script src="~/js/SystemAdmin.js"></script>
 
-    <partial name="_CookieConsentPartial" />
+    @if (!Model.UserHasCookieConsent)
+    {
+        <partial name="_CookieConsentPartial" />
+    }
 
     @*@RenderSection("Scripts", required: false)*@
     <div class="container">

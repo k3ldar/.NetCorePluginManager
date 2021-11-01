@@ -511,7 +511,8 @@ namespace SharedPluginFeatures
                 GetSeoDescription(),
                 GetSeoKeyWords(),
                 HttpContext.User.HasClaim(Constants.ClaimNameManageSeo, "true") &&
-                IsUserLoggedIn());
+                IsUserLoggedIn(),
+                CookieExists(Constants.UserConsentCookie));
         }
 
         #endregion Base Model Data

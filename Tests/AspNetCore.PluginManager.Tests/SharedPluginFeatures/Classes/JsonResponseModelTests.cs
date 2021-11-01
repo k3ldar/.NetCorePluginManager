@@ -30,7 +30,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using SharedPluginFeatures;
 
-namespace AspNetCore.PluginManager.Tests.SharedPluginFeatures.Classes
+namespace AspNetCore.PluginManager.Tests.SharedPluginFeatures
 {
     [TestClass]
     [ExcludeFromCodeCoverage]

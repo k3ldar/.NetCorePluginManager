@@ -31,10 +31,9 @@ using System.Reflection;
 using AspNetCore.PluginManager.Tests.Shared;
 
 using Localization.Plugin;
-using Microsoft.AspNetCore.Mvc;
+
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc.Infrastructure;
+using Microsoft.AspNetCore.Mvc.DataAnnotations;
 using Microsoft.AspNetCore.Mvc.Localization;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -48,7 +47,6 @@ using PluginManager.Tests.Mocks;
 using Shared.Classes;
 
 using SharedPluginFeatures;
-using Microsoft.AspNetCore.Mvc.DataAnnotations;
 
 namespace AspNetCore.PluginManager.Tests.Plugins.LocalizationTests
 {
@@ -186,8 +184,8 @@ namespace AspNetCore.PluginManager.Tests.Plugins.LocalizationTests
             RequestLocalizationOptions localizationOptions = ((OptionsManager<RequestLocalizationOptions>)optionsSnapshot).Value;
 
             Assert.IsNotNull(localizationOptions);
-            Assert.AreEqual(15, localizationOptions.SupportedCultures.Count);
-            Assert.AreEqual(15, localizationOptions.SupportedUICultures.Count);
+            Assert.AreEqual(16, localizationOptions.SupportedCultures.Count);
+            Assert.AreEqual(16, localizationOptions.SupportedUICultures.Count);
             Assert.AreEqual("en-GB", localizationOptions.DefaultRequestCulture.Culture.Name);
         }
 
@@ -210,7 +208,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.LocalizationTests
             PluginInitialisation sut = new PluginInitialisation();
             MockServiceCollection serviceCollection = new MockServiceCollection();
             MockMvcBuilder mockMvcBuilder = new MockMvcBuilder(serviceCollection);
-            
+
             sut.ConfigureMvcBuilder(mockMvcBuilder);
 
             Assert.AreEqual(13, serviceCollection.ServicesRegistered);

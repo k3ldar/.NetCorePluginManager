@@ -1,28 +1,21 @@
 ﻿@using Microsoft.AspNetCore.Http.Features
+@model SharedPluginFeatures.BaseModel
 @inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
 
-@{
-    var consentFeature = Context.Features.Get<ITrackingConsentFeature>();
-    bool showBanner = !consentFeature?.CanTrack ?? false;
-}
-
-@if (showBanner)
-{
-    <div id="cookieConsent">
-        <div class="ccOuter">
-            <div class="ccInner">
-                <p>@Localizer[nameof(Languages.LanguageStrings.CookieMessage)]. <a href="/Company/Cookies/">@Localizer[nameof(Languages.LanguageStrings.CookieLearnMore)]</a><button class="btn btn-primary" style="margin:0 0 0 20px;">@Localizer[nameof(Languages.LanguageStrings.CookieAccept)]</button></p>
-            </div>
+<div id="cookieConsent">
+    <div class="ccOuter">
+        <div class="ccInner">
+            <p>@Localizer[nameof(Languages.LanguageStrings.CookieMessage)]. <a href="/Company/Cookies/">@Localizer[nameof(Languages.LanguageStrings.CookieLearnMore)]</a><button class="btn btn-primary" style="margin:0 0 0 20px;">@Localizer[nameof(Languages.LanguageStrings.CookieAccept)]</button></p>
         </div>
     </div>
-    <script>
+</div>
+<script>
         $(document).ready(function () {
             if (document.cookie != "") {
                 $("#cookieConsent").click(function () {
-                    document.cookie = '@consentFeature?.CreateConsentCookie()';
+                    document.cookie = '@SharedPluginFeatures.Constants.UserConsentCookie=yes; expires=@DateTime.UtcNow.AddYears(1).ToString("R"); path=/; samesite=strict;';
                     document.getElementById("cookieConsent").style.display = "none";
                 });
             }
         });
-    </script>
-}
+</script>
