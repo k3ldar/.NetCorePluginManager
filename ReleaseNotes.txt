@@ -1,3 +1,6 @@
+Version 5.0.0
+#139 Cookie consent cookie not being respected
+
 Version 4.3.0
 =============
 Multiple minor bug fixes and extend unit test coverage
