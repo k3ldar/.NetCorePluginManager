@@ -1,8 +1,0 @@
-﻿@model ShoppingCartPlugin.Models.UpdateQuantityModel
-@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
-@using (Html.BeginForm(nameof(ShoppingCartPlugin.Controllers.CartController.Update), "Cart", FormMethod.Post))
-{
-@Html.HiddenFor(m => m.ProductId)
-@Html.TextBoxFor(m => m.Quantity, new { type = "number", min = "1", max = "3" })
-<input class="btn btn-default" type="submit" value="@Localizer[nameof(Languages.LanguageStrings.Update)]" />
-}
