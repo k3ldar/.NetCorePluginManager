@@ -23,6 +23,7 @@
  *  28/10/2018  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+using System;
 using System.Collections.Generic;
 
 using Microsoft.AspNetCore.Builder;
@@ -35,6 +36,7 @@ using Shared.Classes;
 using SharedPluginFeatures;
 
 using SystemAdmin.Plugin.Classes;
+using SystemAdmin.Plugin.Classes.MenuItems;
 
 #pragma warning disable CS1591
 
@@ -63,8 +65,11 @@ namespace SystemAdmin.Plugin
 
         public void Initialise(ILogger logger)
         {
-
+            // ensure load time is set
+            SystemUptimeMenu uptimeMenu = new SystemUptimeMenu();
+            GC.KeepAlive(uptimeMenu.Data());
         }
+
         #region IInitialiseEvents Methods
 
         public void AfterConfigure(in IApplicationBuilder app)

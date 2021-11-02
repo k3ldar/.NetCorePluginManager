@@ -47,7 +47,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SystemAdminTests
 {
     [TestClass]
     [ExcludeFromCodeCoverage]
-    public class SystemMenuAllTimings
+    public class AllTimingsMenuTests
     {
         private const string TestCategoryName = "System Admin";
 

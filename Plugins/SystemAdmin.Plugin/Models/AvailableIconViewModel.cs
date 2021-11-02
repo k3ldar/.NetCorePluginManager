@@ -77,6 +77,9 @@ namespace SystemAdmin.Plugin.Models
 
                 case Constants.SystemImageChart:
                     return "/images/SystemAdmin/chart.png";
+
+                case Constants.SystemImageUptime:
+                    return "/images/SystemAdmin/uptime.png";
             }
 
             if (String.IsNullOrEmpty(imageName))

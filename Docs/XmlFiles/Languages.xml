@@ -17109,6 +17109,11 @@
               Looks up a localized string similar to Upload.
             </summary>
         </member>
+        <member name="P:Languages.LanguageStrings.Uptime">
+            <summary>
+              Looks up a localized string similar to Uptime.
+            </summary>
+        </member>
         <member name="P:Languages.LanguageStrings.User">
             <summary>
               Looks up a localized string similar to User.

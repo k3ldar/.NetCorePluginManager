@@ -14401,4 +14401,8 @@ You will shortly receive an email with the details of your order.</comment>
     <value>Submit</value>
     <comment>Submit</comment>
   </data>
+  <data name="Uptime" xml:space="preserve">
+    <value>Uptime</value>
+    <comment>Uptime</comment>
+  </data>
 </root>

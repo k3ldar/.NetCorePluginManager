@@ -30550,6 +30550,15 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Uptime.
+        /// </summary>
+        public static string Uptime {
+            get {
+                return ResourceManager.GetString("Uptime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to User.
         /// </summary>
         public static string User {

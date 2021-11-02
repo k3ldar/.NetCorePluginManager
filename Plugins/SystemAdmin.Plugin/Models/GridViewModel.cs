@@ -45,13 +45,15 @@ namespace SystemAdmin.Plugin.Models
 
             Title = subMenu.Name();
 
-            if (String.IsNullOrEmpty(subMenu.Data()))
+            string data = subMenu.Data();
+
+            if (String.IsNullOrEmpty(data))
                 throw new ArgumentException("No data has been returned");
 
             // data has to have the header on first row, each column seperated by a pipe |
             // the data is on all following lines and is also seperated by pipe |
             // each line is seperated with \r
-            string[] allLines = subMenu.Data().Trim().Split('\r');
+            string[] allLines = data.Trim().Split('\r');
 
             // must have a header at the very least!
             if (allLines.Length == 1 && String.IsNullOrEmpty(allLines[0].Trim()))

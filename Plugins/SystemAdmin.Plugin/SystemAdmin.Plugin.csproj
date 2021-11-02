@@ -123,6 +123,7 @@
     <EmbeddedResource Include="wwwroot\images\SystemAdmin\MapIcon\yellow.png" />
     <EmbeddedResource Include="wwwroot\images\SystemAdmin\Setting-icon.png" />
     <EmbeddedResource Include="wwwroot\images\SystemAdmin\stopwatch.png" />
+    <EmbeddedResource Include="wwwroot\images\SystemAdmin\uptime.png" />
     <EmbeddedResource Include="wwwroot\js\SystemAdmin.js" />
   </ItemGroup>
 

@@ -2724,12 +2724,17 @@
         </member>
         <member name="F:SharedPluginFeatures.Constants.SystemImageBadEgg">
             <summary>
-            Bad egg image to be system admin
+            Bad egg image for use in system admin
             </summary>
         </member>
         <member name="F:SharedPluginFeatures.Constants.SystemImageStopWatch">
             <summary>
-            Stopwatch image to be system admin
+            Stopwatch image for use in system admin
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Constants.SystemImageUptime">
+            <summary>
+            Uptime image within system admin
             </summary>
         </member>
         <member name="F:SharedPluginFeatures.Constants.SystemImageChart">

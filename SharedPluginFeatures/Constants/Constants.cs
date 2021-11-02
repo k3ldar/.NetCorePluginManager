@@ -541,14 +541,19 @@ namespace SharedPluginFeatures
         public const string BadEggSettingsName = "BadEgg.Plugin";
 
         /// <summary>
-        /// Bad egg image to be system admin
+        /// Bad egg image for use in system admin
         /// </summary>
         public const string SystemImageBadEgg = "badegg";
 
         /// <summary>
-        /// Stopwatch image to be system admin
+        /// Stopwatch image for use in system admin
         /// </summary>
         public const string SystemImageStopWatch = "stopwatch";
+
+        /// <summary>
+        /// Uptime image within system admin
+        /// </summary>
+        public const string SystemImageUptime = "uptime";
 
         /// <summary>
         /// Stopwatch image to be system admin
