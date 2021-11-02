@@ -1,0 +1,31 @@
+﻿@model LoginPlugin.Models.AccountLockedViewModel
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
+
+@{
+    ViewData["Title"] = "AccountLocked";
+}
+<div class="bc">@Html.Raw(Model.BreadcrumbData())</div>
+
+<h2>@Localizer[nameof(Languages.LanguageStrings.AccountLocked)]</h2>
+<link rel="stylesheet" href="/css/login.css" />
+
+<div>@Html.ValidationSummary(true)</div>
+
+@using (Html.BeginForm("AccountLocked", "Login", FormMethod.Post))
+{
+    @Html.HiddenFor(m => m.Username)
+    <div class="login-block">
+        <p>@Localizer[nameof(Languages.LanguageStrings.AccountLockedDescription)]</p>
+    </div>
+    <div class="login-block">
+        <div class="login-row">
+            @Html.LabelFor(m => m.UnlockCode)
+        </div>
+        <div class="login-row">
+            @Html.TextBoxFor(m => m.UnlockCode) @Html.ValidationMessageFor(m => m.UnlockCode)
+        </div>
+    </div>
+    <div class="login-block">
+        <input type="submit" value="@Localizer[nameof(Languages.LanguageStrings.Unlock)]" />
+    </div>
+}
