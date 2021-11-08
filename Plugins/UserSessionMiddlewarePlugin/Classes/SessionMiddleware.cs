@@ -130,7 +130,7 @@ namespace UserSessionMiddleware.Plugin
                 CookieOptions options = new CookieOptions()
                 {
                     HttpOnly = false,
-                    SameSite = SameSiteMode.Strict,
+                    SameSite = SameSiteMode.Lax,
                 };
 
                 if (context.Request.Cookies.ContainsKey(_cookieName))

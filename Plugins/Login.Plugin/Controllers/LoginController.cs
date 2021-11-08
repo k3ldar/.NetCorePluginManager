@@ -59,15 +59,26 @@ namespace LoginPlugin.Controllers
     [DenySpider("Bingbot")]
     [DenySpider("Twitterbot")]
     [Subdomain(LoginController.Name)]
-    public class LoginController : BaseController
+    public partial class LoginController : BaseController
     {
         #region Private Members
 
         private const string Name = "Login";
+        private const string ExternalLoginCacheItem = "Extern Login {0}";
+        private const string OAuthCode = "code";
+        private const string OAuthClientId = "client_id";
+        private const string OAuthClientSecret = "client_secret";
+        private const string OAuthRedirectUri = "redirect_uri";
+        private const string OAuthGrantType = "grant_type";
+        private const string OAuthAuthCode = "authorization_code";
+        private const string OAuthParamRedirectUri = "&redirect_uri=";
+        private const string OAuthParamClientId = "&client_id=";
+        private const string OAuthParamResponseTypeCode = "?response_type=code";
 
         private readonly ILoginProvider _loginProvider;
         private readonly LoginControllerSettings _settings;
         private readonly IClaimsProvider _claimsProvider;
+        private readonly IMemoryCache _memoryCache;
 
         private static readonly CacheManager _loginCache = new CacheManager("Login Cache", new TimeSpan(0, 30, 0));
 
@@ -76,7 +87,7 @@ namespace LoginPlugin.Controllers
         #region Constructors
 
         public LoginController(ILoginProvider loginProvider, ISettingsProvider settingsProvider,
-            IClaimsProvider claimsProvider)
+            IClaimsProvider claimsProvider, IMemoryCache memoryCache)
         {
             if (settingsProvider == null)
                 throw new ArgumentNullException(nameof(settingsProvider));
@@ -84,6 +95,7 @@ namespace LoginPlugin.Controllers
             _loginProvider = loginProvider ?? throw new ArgumentNullException(nameof(loginProvider));
             _claimsProvider = claimsProvider ?? throw new ArgumentNullException(nameof(claimsProvider));
             _settings = settingsProvider.GetSettings<LoginControllerSettings>(nameof(LoginPlugin));
+            _memoryCache = memoryCache ?? throw new ArgumentNullException(nameof(memoryCache));
         }
 
         #endregion Constructors
@@ -107,7 +119,8 @@ namespace LoginPlugin.Controllers
 
             LoginViewModel model = new LoginViewModel(GetModelData(),
                 String.IsNullOrEmpty(returnUrl) ? _settings.LoginSuccessUrl : returnUrl,
-                _settings.ShowRememberMe);
+                _settings.ShowRememberMe, _settings.IsGoogleLoginEnabled(),
+                _settings.IsFacebookLoginEnabled());
 
 
             LoginCacheItem loginCacheItem = GetCachedLoginAttempt(false);

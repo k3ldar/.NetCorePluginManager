@@ -77,6 +77,46 @@
             </summary>
             <value>string</value>
         </member>
+        <member name="P:LoginPlugin.LoginControllerSettings.GoogleClientId">
+            <summary>
+            Unique client id for google logins.
+            
+            By default this will be returned from an environment variable for the user who's account this website is running in, but can be set directly in appsettings.json
+            </summary>
+        </member>
+        <member name="P:LoginPlugin.LoginControllerSettings.GoogleSecret">
+            <summary>
+            Google secret for client.
+            
+            By default this will be returned from an environment variable for the user who's account this website is running in, but can be set directly in appsettings.json
+            </summary>
+        </member>
+        <member name="P:LoginPlugin.LoginControllerSettings.FacebookClientId">
+            <summary>
+            Unique client id for facebook logins.
+            
+            By default this will be returned from an environment variable for the user who's account this website is running in, but can be set directly in appsettings.json
+            </summary>
+        </member>
+        <member name="P:LoginPlugin.LoginControllerSettings.FacebookSecret">
+            <summary>
+            Google secret for client.
+            
+            By default this will be returned from an environment variable for the user who's account this website is running in, but can be set directly in appsettings.json
+            </summary>
+        </member>
+        <member name="M:LoginPlugin.LoginControllerSettings.IsGoogleLoginEnabled">
+            <summary>
+            Determines whether google login is allowed or not, based on current settings
+            </summary>
+            <returns>bool</returns>
+        </member>
+        <member name="M:LoginPlugin.LoginControllerSettings.IsFacebookLoginEnabled">
+            <summary>
+            Determines whether facebook login is allowed or not, based on current settings
+            </summary>
+            <returns>bool</returns>
+        </member>
         <member name="T:LoginPlugin.LoginMiddleware">
             <summary>
             Login middleware ensures that users don't visit routes that are marked as LoggedIn or LoggedOut depending on their login status.

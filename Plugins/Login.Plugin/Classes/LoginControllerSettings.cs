@@ -23,6 +23,8 @@
  *  28/11/2018  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+using System;
+
 using AppSettings;
 
 namespace LoginPlugin
@@ -114,5 +116,56 @@ namespace LoginPlugin
         [SettingDefault("DefaultAuthSchemeName")]
         [SettingString(false)]
         public string AuthenticationScheme { get; set; }
+
+        /// <summary>
+        /// Unique client id for google logins.
+        /// 
+        /// By default this will be returned from an environment variable for the user who's account this website is running in, but can be set directly in appsettings.json
+        /// </summary>
+        [SettingDefault("%GoogleClientId%")]
+        public string GoogleClientId { get; set; }
+
+        /// <summary>
+        /// Google secret for client.
+        /// 
+        /// By default this will be returned from an environment variable for the user who's account this website is running in, but can be set directly in appsettings.json
+        /// </summary>
+        [SettingDefault("%GoogleSecret%")]
+        public string GoogleSecret { get; set; }
+
+
+        /// <summary>
+        /// Unique client id for facebook logins.
+        /// 
+        /// By default this will be returned from an environment variable for the user who's account this website is running in, but can be set directly in appsettings.json
+        /// </summary>
+        [SettingDefault("%FacebookClientId%")]
+        public string FacebookClientId { get; set; }
+
+        /// <summary>
+        /// Google secret for client.
+        /// 
+        /// By default this will be returned from an environment variable for the user who's account this website is running in, but can be set directly in appsettings.json
+        /// </summary>
+        [SettingDefault("%FacebookSecret%")]
+        public string FacebookSecret { get; set; }
+
+        /// <summary>
+        /// Determines whether google login is allowed or not, based on current settings
+        /// </summary>
+        /// <returns>bool</returns>
+        public bool IsGoogleLoginEnabled()
+        {
+            return !String.IsNullOrWhiteSpace(GoogleSecret) && !String.IsNullOrWhiteSpace(GoogleClientId);
+        }
+
+        /// <summary>
+        /// Determines whether facebook login is allowed or not, based on current settings
+        /// </summary>
+        /// <returns>bool</returns>
+        public bool IsFacebookLoginEnabled()
+        {
+            return !String.IsNullOrWhiteSpace(FacebookSecret) && !String.IsNullOrWhiteSpace(FacebookClientId);
+        }
     }
 }

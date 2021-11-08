@@ -73,10 +73,10 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
             List<ClaimsIdentity> Result = new List<ClaimsIdentity>();
 
             List<Claim> userClaims = new List<Claim>();
-            userClaims.Add(new Claim("sub", "123"));
+            userClaims.Add(new Claim("sub", userId.ToString()));
             userClaims.Add(new Claim(Constants.ClaimNameUsername, "Administrator"));
             userClaims.Add(new Claim(Constants.ClaimNameUserEmail, "admin@nowhere.com"));
-            userClaims.Add(new Claim(Constants.ClaimNameUserId, "123"));
+            userClaims.Add(new Claim(Constants.ClaimNameUserId, userId.ToString()));
             Result.Add(new ClaimsIdentity(userClaims, Constants.ClaimIdentityUser));
 
             List<Claim> webClaims = new List<Claim>();
@@ -87,10 +87,11 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
             webClaims.Add(new Claim(Constants.ClaimNameViewImageManager, "true"));
             webClaims.Add(new Claim(Constants.ClaimNameManageContent, "true"));
 
-            // Only enable imagemanager if the file exists to prevent malicious use
+            // Only enable imagemanager and permissions if the file exists to prevent malicious use
             // when deployed live as a demo site
             if (File.Exists("t:\\testimages.tst"))
             {
+                webClaims.Add(new Claim(Constants.ClaimNameUserPermissions, "true"));
                 webClaims.Add(new Claim(Constants.ClaimNameManageImages, "true"));
             }
 

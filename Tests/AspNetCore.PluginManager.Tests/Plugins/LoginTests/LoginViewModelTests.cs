@@ -76,7 +76,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.LoginTests
         [ExpectedException(typeof(ArgumentNullException))]
         public void Construct_InvalidParam_ModelData_Null_Throws_ArgumentNullException()
         {
-            LoginViewModel sut = new LoginViewModel(null, "returnUrl", true);
+            LoginViewModel sut = new LoginViewModel(null, "returnUrl", true, true, true);
         }
 
         [TestMethod]
@@ -84,14 +84,14 @@ namespace AspNetCore.PluginManager.Tests.Plugins.LoginTests
         [ExpectedException(typeof(ArgumentNullException))]
         public void Construct_InvalidParam_ReturnUrl_Null_Throws_ArgumentNullException()
         {
-            LoginViewModel sut = new LoginViewModel(GenerateTestBaseModelData(), null, true);
+            LoginViewModel sut = new LoginViewModel(GenerateTestBaseModelData(), null, true, true, true);
         }
 
         [TestMethod]
         [TestCategory(TestCategoryName)]
         public void Construct_ValidParam_ReturnUrl_EmptyString_DoesNotThrow_ArgumentNullException()
         {
-            LoginViewModel sut = new LoginViewModel(GenerateTestBaseModelData(), "", true);
+            LoginViewModel sut = new LoginViewModel(GenerateTestBaseModelData(), "", true, true, true);
             Assert.IsNotNull(sut);
             Assert.AreEqual("", sut.ReturnUrl);
         }
@@ -100,7 +100,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.LoginTests
         [TestCategory(TestCategoryName)]
         public void Construct_ValidInstance_Success()
         {
-            LoginViewModel sut = new LoginViewModel(GenerateTestBaseModelData(), "returnUrl", true);
+            LoginViewModel sut = new LoginViewModel(GenerateTestBaseModelData(), "returnUrl", true, true, true);
             Assert.IsNotNull(sut);
 
             Assert.IsNotNull(sut);
@@ -117,7 +117,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.LoginTests
         [TestCategory(TestCategoryName)]
         public void AssignProperties_ValuesAreRemembered_Success()
         {
-            LoginViewModel sut = new LoginViewModel(GenerateTestBaseModelData(), "returnUrl", true)
+            LoginViewModel sut = new LoginViewModel(GenerateTestBaseModelData(), "returnUrl", true, true, true)
             {
                 Username = "joe bloggs",
                 Password = "not a real password",

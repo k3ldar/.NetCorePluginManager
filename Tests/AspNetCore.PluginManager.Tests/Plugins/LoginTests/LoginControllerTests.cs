@@ -93,7 +93,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.LoginTests
         [ExpectedException(typeof(ArgumentNullException))]
         public void Construct_InvalidParam_LoginProvider_Null_Throws_ArgumentNullException()
         {
-            LoginController sut = new LoginController(null, new MockSettingsProvider(SettingsEmpty), new MockClaimsProvider());
+            LoginController sut = new LoginController(null, new MockSettingsProvider(SettingsEmpty), new MockClaimsProvider(), new MockMemoryCache());
         }
 
         [TestMethod]
@@ -101,7 +101,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.LoginTests
         [ExpectedException(typeof(ArgumentNullException))]
         public void Construct_InvalidParam_SettingsProvider_Null_Throws_ArgumentNullException()
         {
-            LoginController sut = new LoginController(new MockLoginProvider(), null, new MockClaimsProvider());
+            LoginController sut = new LoginController(new MockLoginProvider(), null, new MockClaimsProvider(), new MockMemoryCache());
         }
 
         [TestMethod]
@@ -109,14 +109,14 @@ namespace AspNetCore.PluginManager.Tests.Plugins.LoginTests
         [ExpectedException(typeof(ArgumentNullException))]
         public void Construct_InvalidParam_ClaimsProvider_Null_Throws_ArgumentNullException()
         {
-            LoginController sut = new LoginController(new MockLoginProvider(), new MockSettingsProvider(SettingsEmpty), null);
+            LoginController sut = new LoginController(new MockLoginProvider(), new MockSettingsProvider(SettingsEmpty), null, new MockMemoryCache());
         }
 
         [TestMethod]
         [TestCategory(TestCategoryName)]
         public void Construct_ValidInstance_Success()
         {
-            LoginController sut = new LoginController(new MockLoginProvider(), new MockSettingsProvider(SettingsEmpty), new MockClaimsProvider());
+            LoginController sut = new LoginController(new MockLoginProvider(), new MockSettingsProvider(SettingsEmpty), new MockClaimsProvider(), new MockMemoryCache());
         }
 
         [TestMethod]
@@ -1404,7 +1404,8 @@ namespace AspNetCore.PluginManager.Tests.Plugins.LoginTests
             MockClaimsProvider testClaimsProvider = null,
             MockRequestCookieCollection cookieCollection = null,
             MockServiceProvider testServiceProvider = null,
-            MockHttpResponse testHttpResponse = null)
+            MockHttpResponse testHttpResponse = null,
+            MockMemoryCache mockMemoryCache = null)
         {
             IPluginClassesService pluginServices = _testDynamicContentPlugin as IPluginClassesService;
             IPluginHelperService pluginHelperService = _testDynamicContentPlugin as IPluginHelperService;
@@ -1413,7 +1414,8 @@ namespace AspNetCore.PluginManager.Tests.Plugins.LoginTests
             LoginController Result = new LoginController(
                 testLoginProvider ?? new MockLoginProvider(),
                 testSettingsProvider ?? new MockSettingsProvider(SettingsEmpty),
-                testClaimsProvider ?? new MockClaimsProvider());
+                testClaimsProvider ?? new MockClaimsProvider(),
+                mockMemoryCache ?? new MockMemoryCache());
 
             Result.ControllerContext = CreateTestControllerContext(breadcrumbs, cookieCollection, testServiceProvider, testHttpResponse);
 

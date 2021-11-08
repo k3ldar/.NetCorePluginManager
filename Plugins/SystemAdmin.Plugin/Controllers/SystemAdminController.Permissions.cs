@@ -42,6 +42,7 @@ namespace SystemAdmin.Plugin.Controllers
         #region Controller Action Methods
 
         [HttpGet]
+        [Authorize(Policy = Constants.PolicyNameManagePermissions)]
         public IActionResult Permissions()
         {
             return View(new PermissionsModel(GetModelData()));
