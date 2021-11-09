@@ -277,7 +277,7 @@ namespace SharedPluginFeatures
             CookieOptions options = new CookieOptions()
             {
                 HttpOnly = false,
-                SameSite = SameSiteMode.Strict,
+                SameSite = SameSiteMode.Lax,
             };
 
             if (days > 0)

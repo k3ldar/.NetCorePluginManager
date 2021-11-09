@@ -46,6 +46,20 @@ namespace Middleware
             in byte attempts, ref UserLoginDetails loginDetails);
 
         /// <summary>
+        /// Logs a user in using an external provider (google, facebook etc)
+        /// </summary>
+        /// <param name="tokenUserDetails">ITokenUserDetails containing user details</param>
+        /// <param name="loginDetails">out.  Login details for the user.</param>
+        /// <returns></returns>
+        LoginResult Login(in ITokenUserDetails tokenUserDetails, ref UserLoginDetails loginDetails);
+
+        /// <summary>
+        /// Removes an external user from the system
+        /// </summary>
+        /// <param name="tokenUserDetails">ITokenUserDetails containing details of user to be removed.</param>
+        void RemoveExternalUser(ITokenUserDetails tokenUserDetails);
+
+        /// <summary>
         /// Instruction to unlock the account for a user.
         /// </summary>
         /// <param name="username">Name or email address of user whos account needs unlocking.</param>

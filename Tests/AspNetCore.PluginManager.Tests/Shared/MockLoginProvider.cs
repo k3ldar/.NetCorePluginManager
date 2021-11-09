@@ -65,6 +65,16 @@ namespace AspNetCore.PluginManager.Tests.Shared
             return LoginResult.InvalidCredentials;
         }
 
+        public LoginResult Login(in ITokenUserDetails tokenUserDetails, ref UserLoginDetails loginDetails)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void RemoveExternalUser(ITokenUserDetails tokenUserDetails)
+        {
+            throw new NotImplementedException();
+        }
+
         public bool UnlockAccount(in string username, in string unlockCode)
         {
             if (username == "unlock me" && unlockCode == "123")

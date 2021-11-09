@@ -3426,6 +3426,20 @@
             <param name="loginDetails">out.  Login details for the user.</param>
             <returns>LoginResult</returns>
         </member>
+        <member name="M:Middleware.ILoginProvider.Login(Middleware.ITokenUserDetails@,Middleware.UserLoginDetails@)">
+            <summary>
+            Logs a user in using an external provider (google, facebook etc)
+            </summary>
+            <param name="tokenUserDetails">ITokenUserDetails containing user details</param>
+            <param name="loginDetails">out.  Login details for the user.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Middleware.ILoginProvider.RemoveExternalUser(Middleware.ITokenUserDetails)">
+            <summary>
+            Removes an external user from the system
+            </summary>
+            <param name="tokenUserDetails">ITokenUserDetails containing details of user to be removed.</param>
+        </member>
         <member name="M:Middleware.ILoginProvider.UnlockAccount(System.String@,System.String@)">
             <summary>
             Instruction to unlock the account for a user.
@@ -3700,6 +3714,46 @@
             Sets the current available stock level for a list of products within a shopping cart.
             </summary>
             <param name="shoppingCartItemList">ShoppingCartItem who's stock will be updated.</param>
+        </member>
+        <member name="T:Middleware.ITokenUserDetails">
+            <summary>
+            User details obtained via OAuth
+            </summary>
+        </member>
+        <member name="P:Middleware.ITokenUserDetails.Id">
+            <summary>
+            User Id
+            </summary>
+        </member>
+        <member name="P:Middleware.ITokenUserDetails.Name">
+            <summary>
+            User name
+            </summary>
+        </member>
+        <member name="P:Middleware.ITokenUserDetails.GivenName">
+            <summary>
+            Give name
+            </summary>
+        </member>
+        <member name="P:Middleware.ITokenUserDetails.Email">
+            <summary>
+            Email address
+            </summary>
+        </member>
+        <member name="P:Middleware.ITokenUserDetails.Picture">
+            <summary>
+            Picture
+            </summary>
+        </member>
+        <member name="P:Middleware.ITokenUserDetails.Provider">
+            <summary>
+            Provider of the current credentials
+            </summary>
+        </member>
+        <member name="P:Middleware.ITokenUserDetails.Verify">
+            <summary>
+            Indicates whether we are just verifying the details or performing a login
+            </summary>
         </member>
         <member name="T:Middleware.IUserSearch">
             <summary>

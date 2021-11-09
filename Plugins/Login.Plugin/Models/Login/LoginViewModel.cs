@@ -42,11 +42,13 @@ namespace LoginPlugin.Models
         }
 
         public LoginViewModel(in BaseModelData modelData,
-            string returnUrl, bool showRememberMe)
+            string returnUrl, bool showRememberMe, bool showGoogle, bool showFacebook)
             : base(modelData)
         {
             ReturnUrl = returnUrl ?? throw new ArgumentNullException(nameof(returnUrl));
             ShowRememberMe = showRememberMe;
+            ShowGoogle = showGoogle;
+            ShowFacebook = showFacebook;
         }
 
         #endregion Constructors
@@ -73,6 +75,10 @@ namespace LoginPlugin.Models
         public bool RememberMe { get; set; }
 
         public bool ShowRememberMe { get; set; }
+
+        public bool ShowGoogle { get; set; }
+
+        public bool ShowFacebook { get; set; }
 
         #endregion Properties
     }

@@ -74,6 +74,8 @@
     <Content Remove="Views\Login\ForgotPassword.cshtml" />
     <Content Remove="Views\Login\Index.cshtml" />
     <Content Remove="wwwroot\css\Login.css" />
+    <Content Remove="wwwroot\images\login\btn_google_signin_dark_normal_web.png" />
+    <Content Remove="wwwroot\images\login\loginwithfacebook.png" />
     <Content Remove="wwwroot\js\Login.js" />
   </ItemGroup>
 
@@ -82,11 +84,9 @@
     <EmbeddedResource Include="Views\Login\ForgotPassword.cshtml" />
     <EmbeddedResource Include="Views\Login\Index.cshtml" />
     <EmbeddedResource Include="wwwroot\css\Login.css" />
+    <EmbeddedResource Include="wwwroot\images\login\btn_google_signin_dark_normal_web.png" />
+    <EmbeddedResource Include="wwwroot\images\login\loginwithfacebook.png" />
     <EmbeddedResource Include="wwwroot\js\Login.js" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="wwwroot\images\" />
   </ItemGroup>
   
   <ItemGroup>
@@ -97,6 +97,7 @@
 
   <ItemGroup>
     <PackageReference Include="ApplicationSettings" Version="2.0.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
     <PackageReference Include="SC.Shared.Library.Core" Version="3.2.0" />
   </ItemGroup>
 

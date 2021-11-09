@@ -13,7 +13,7 @@
         $(document).ready(function () {
             if (document.cookie != "") {
                 $("#cookieConsent").click(function () {
-                    document.cookie = '@SharedPluginFeatures.Constants.UserConsentCookie=yes; expires=@DateTime.UtcNow.AddYears(1).ToString("R"); path=/; samesite=strict;';
+                    document.cookie = '@SharedPluginFeatures.Constants.UserConsentCookie=yes; expires=@DateTime.UtcNow.AddYears(1).ToString("R"); path=/; samesite=lax;';
                     document.getElementById("cookieConsent").style.display = "none";
                 });
             }
