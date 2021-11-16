@@ -32,6 +32,8 @@ using Shared.Classes;
 
 using SharedPluginFeatures;
 
+#pragma warning disable IDE0060, IDE0079
+
 namespace DemoApiPlugin.Controllers
 {
     [Route("api/DemoApi")]
@@ -127,3 +129,5 @@ namespace DemoApiPlugin.Controllers
         }
     }
 }
+
+#pragma warning restore IDE0060, IDE0079

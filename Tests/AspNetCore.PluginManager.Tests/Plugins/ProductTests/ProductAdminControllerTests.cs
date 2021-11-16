@@ -13,45 +13,48 @@
  *
  *  Copyright (c) 2018 - 2021 Simon Carter.  All Rights Reserved.
  *
- *  Product:  Products.Plugin
+ *  Product:  AspNetCore.PluginManager.Tests
  *  
- *  File: Program.cs
+ *  File: PluginInitialisationTests.cs
  *
- *  Purpose:  
+ *  Purpose:  Tests for Product Group Admin 
  *
  *  Date        Name                Reason
- *  31/01/2019  Simon Carter        Initially Created
+ *  14/11/2021  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+using System;
 using System.Diagnostics.CodeAnalysis;
 
-using AspNetCore.PluginManager;
+using AspNetCore.PluginManager.Tests.Controllers;
+using AspNetCore.PluginManager.Tests.Shared;
 
-using Microsoft.AspNetCore;
-using Microsoft.AspNetCore.Hosting;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-#pragma warning disable CS1591
+using ProductPlugin.Controllers;
 
-namespace ProductPlugin
+namespace AspNetCore.PluginManager.Tests.Plugins.ProductTests
 {
-#if NET_5_X
-    [ExcludeFromCodeCoverage(Justification = "Unable to unit test main")]
-#else
+    [TestClass]
     [ExcludeFromCodeCoverage]
-#endif
-    public static class Program
+    public class ProductAdminControllerTests : BaseControllerTests
     {
-        public static void Main(string[] args)
-        {
-            PluginManagerService.Initialise();
+        private const string TestCategoryName = "Product Admin";
 
-            CreateWebHostBuilder(args).Build().Run();
+        [TestMethod]
+        [TestCategory(TestCategoryName)]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void Construct_InvalidParam_ProductProviderNull_Throws_ArgumentNullException()
+        {
+            new ProductAdminController(null);
         }
 
-        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>();
+        [TestMethod]
+        [TestCategory(TestCategoryName)]
+        public void Construct_ValidInstance_Success()
+        {
+            ProductAdminController sut = new ProductAdminController(new MockProductProvider());
+            Assert.IsNotNull(sut);
+        }
     }
 }
-
-#pragma warning restore CS1591

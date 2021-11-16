@@ -118,80 +118,80 @@ namespace Middleware.Products
         /// Unique product id.
         /// </summary>
         /// <value>int</value>
-        public int Id { get; private set; }
+        public int Id { get; }
 
         /// <summary>
         /// Primary ProductGroup the product belongs to.
         /// </summary>
         /// <value>int</value>
-        public int ProductGroupId { get; private set; }
+        public int ProductGroupId { get; }
 
         /// <summary>
         /// Name of the product.
         /// </summary>
         /// <value>string</value>
-        public string Name { get; private set; }
+        public string Name { get; }
 
         /// <summary>
         /// Description of the product.
         /// </summary>
         /// <value>string</value>
-        public string Description { get; private set; }
+        public string Description { get; }
 
         /// <summary>
         /// Product feature list.  This will be converted to a bullet list when displayed on a website.
         /// </summary>
         /// <value>string</value>
-        public string Features { get; private set; }
+        public string Features { get; }
 
         /// <summary>
         /// The url for a video linkt to the product if one exists.
         /// </summary>
         /// <value>string</value>
-        public string VideoLink { get; private set; }
+        public string VideoLink { get; }
 
         /// <summary>
         /// List of images which represent the product.
         /// </summary>
         /// <value>string[]</value>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1819:Properties should not return arrays", Justification = "ok on this occasion")]
-        public string[] Images { get; private set; }
+        public string[] Images { get; }
 
         /// <summary>
         /// Indicates the product is a new product.
         /// </summary>
         /// <value>bool.  if true the product may have different display options on the website.</value>
-        public bool NewProduct { get; private set; }
+        public bool NewProduct { get; }
 
         /// <summary>
         /// Indicates the product is a best selling product.
         /// </summary>
         /// <value>bool.  If true the product may have different display options on the website.</value>
-        public bool BestSeller { get; private set; }
+        public bool BestSeller { get; }
 
         /// <summary>
         /// Retail price of product.
         /// </summary>
         /// <value>decimal</value>
-        public decimal RetailPrice { get; private set; }
+        public decimal RetailPrice { get; }
 
         /// <summary>
         /// Unique product SKU.
         /// </summary>
         /// <value>string</value>
-        public string Sku { get; private set; }
+        public string Sku { get; }
 
         /// <summary>
         /// Indicates the product is downloadable.
         /// </summary>
         /// <value>bool</value>
-        public bool IsDownload { get; private set; }
+        public bool IsDownload { get; }
 
         /// <summary>
         /// Indicates the product is allowed to be back ordered, if there is no stock available at the time of purchase.
         /// </summary>
         /// <value>bool.  If true the item can be back ordered.</value>
-        public bool AllowBackorder { get; private set; }
+        public bool AllowBackorder { get; }
 
         /// <summary>
         /// The quantity of stock available for the product.

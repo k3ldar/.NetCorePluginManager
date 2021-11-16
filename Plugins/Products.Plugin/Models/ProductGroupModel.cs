@@ -70,13 +70,13 @@ namespace ProductPlugin.Models
 
         #region Properties
 
-        public string Description { get; private set; }
+        public string Description { get; set; }
 
-        public string TagLine { get; private set; }
+        public string TagLine { get; set; }
 
         public string Pagination { get; internal set; }
 
-        public List<ProductCategoryProductModel> Products { get; private set; }
+        public List<ProductCategoryProductModel> Products { get; }
 
         #endregion Properties
     }

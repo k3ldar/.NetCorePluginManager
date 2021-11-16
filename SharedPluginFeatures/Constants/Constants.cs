@@ -442,6 +442,11 @@ namespace SharedPluginFeatures
         public const string PolicyNameContentEditor = "ContentEditor";
 
         /// <summary>
+        /// Name of policy for Api authorization
+        /// </summary>
+        public const string PolicyNameApiAuthorization = "ApiAuthorization";
+
+        /// <summary>
         /// Claim name for allowing user to manage content
         /// </summary>
         public const string ClaimNameManageContent = "ManageContent";

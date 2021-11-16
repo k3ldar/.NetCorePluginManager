@@ -13,45 +13,49 @@
  *
  *  Copyright (c) 2018 - 2021 Simon Carter.  All Rights Reserved.
  *
- *  Product:  Products.Plugin
+ *  Product:  AspNetCore.PluginManager.Tests
  *  
- *  File: Program.cs
+ *  File: MockSession.cs
  *
- *  Purpose:  
+ *  Purpose:  Mock IProductProvider class
  *
  *  Date        Name                Reason
- *  31/01/2019  Simon Carter        Initially Created
+ *  14/11/2021  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using System.Diagnostics.CodeAnalysis;
+using System;
+using System.Collections.Generic;
 
-using AspNetCore.PluginManager;
+using Middleware;
+using Middleware.Products;
 
-using Microsoft.AspNetCore;
-using Microsoft.AspNetCore.Hosting;
-
-#pragma warning disable CS1591
-
-namespace ProductPlugin
+namespace AspNetCore.PluginManager.Tests.Shared
 {
-#if NET_5_X
-    [ExcludeFromCodeCoverage(Justification = "Unable to unit test main")]
-#else
-    [ExcludeFromCodeCoverage]
-#endif
-    public static class Program
+    public sealed class MockProductProvider : IProductProvider
     {
-        public static void Main(string[] args)
+        public Product GetProduct(in int id)
         {
-            PluginManagerService.Initialise();
-
-            CreateWebHostBuilder(args).Build().Run();
+            throw new NotImplementedException();
         }
 
-        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>();
+        public List<Product> GetProducts(in int page, in int pageSize)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<Product> GetProducts(in ProductGroup productGroup, in int page, in int pageSize)
+        {
+            throw new NotImplementedException();
+        }
+
+        public ProductGroup ProductGroupGet(in int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<ProductGroup> ProductGroupsGet()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
-
-#pragma warning restore CS1591

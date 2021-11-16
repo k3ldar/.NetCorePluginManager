@@ -23,6 +23,7 @@
  *  31/01/2019  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+using System;
 
 namespace Middleware.Products
 {
@@ -46,13 +47,16 @@ namespace Middleware.Products
         public ProductGroup(in int id, in string description, in string seoDescription, in bool showOnWebsite,
             in int sortOrder, in string tagLine, in string url)
         {
+            if (string.IsNullOrEmpty(description))
+                throw new ArgumentNullException(nameof(description));
+
             Id = id;
             Description = description;
-            SeoDescripton = seoDescription;
+            SeoDescripton = seoDescription ?? String.Empty;
             ShowOnWebsite = showOnWebsite;
             SortOrder = sortOrder;
-            TagLine = tagLine;
-            Url = url;
+            TagLine = tagLine ?? String.Empty;
+            Url = url ?? String.Empty;
         }
 
         #endregion Constructors
@@ -63,43 +67,43 @@ namespace Middleware.Products
         /// Unique id of product group.
         /// </summary>
         /// <value>int</value>
-        public int Id { get; private set; }
+        public int Id { get; }
 
         /// <summary>
         /// Description for Product Group.
         /// </summary>
         /// <value>string</value>
-        public string Description { get; private set; }
+        public string Description { get; }
 
         /// <summary>
         /// Soe Description for Product Group.
         /// </summary>
         /// <value>string</value>
-        public string SeoDescripton { get; private set; }
+        public string SeoDescripton { get; }
 
         /// <summary>
         /// Determines whether the product group is visible on the website or not.
         /// </summary>
         /// <value>bool.  If true the value is shown.</value>
-        public bool ShowOnWebsite { get; private set; }
+        public bool ShowOnWebsite { get; }
 
         /// <summary>
         /// Sort order in comparison to other product groups.
         /// </summary>
         /// <value>int</value>
-        public int SortOrder { get; private set; }
+        public int SortOrder { get; }
 
         /// <summary>
         /// Tag line displayed at the top of the page when thr group is shown.
         /// </summary>
         /// <value>string</value>
-        public string TagLine { get; private set; }
+        public string TagLine { get; }
 
         /// <summary>
         /// Custom url to be redirected to if the group is selected.  Default route values apply if not set.
         /// </summary>
         /// <value>string</value>
-        public string Url { get; private set; }
+        public string Url { get; }
 
         #endregion Properties
     }

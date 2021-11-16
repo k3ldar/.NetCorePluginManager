@@ -71,6 +71,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
+      <_Parameter1>AspNetCore.PluginManager.Tests</_Parameter1>
+    </AssemblyAttribute>
+  </ItemGroup>
+	
+  <ItemGroup>
     <Compile Remove="Views\Login\**" />
     <Compile Remove="Views\SystemAdmin\**" />
     <Content Remove="Views\Login\**" />

@@ -102,7 +102,6 @@ namespace ProductPlugin.Controllers
         [HttpGet]
         [Route("/Products/{groupName}/{id?}/Page/{page}/")]
         [Route("/Products/{groupName}/{id?}/")]
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", Justification = "Forms part of route name")]
         public IActionResult Index(string groupName, int? id, int? page)
         {
             ProductGroup group = null;
@@ -125,7 +124,6 @@ namespace ProductPlugin.Controllers
 
         [HttpGet]
         [Route("/Product/{id}/{productName}/")]
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", Justification = "Forms part of route name")]
         public IActionResult Product(int id, string productName)
         {
             ProductModel model = GetProductModel(id);
@@ -165,14 +163,14 @@ namespace ProductPlugin.Controllers
             if (page < 1)
                 throw new ArgumentOutOfRangeException(nameof(page));
 
-            List<ProductCategoryModel> modelCategories = new List<ProductCategoryModel>();
+            List<ProductCategoryModel> modelCategories = new();
 
             foreach (ProductGroup item in _productProvider.ProductGroupsGet())
             {
                 modelCategories.Add(new ProductCategoryModel(item.Id, item.Description, item.Url));
             }
 
-            ProductGroupModel Result = new ProductGroupModel(GetModelData(),
+            ProductGroupModel Result = new(GetModelData(),
                 modelCategories, group.Description, group.TagLine);
 
             foreach (Product product in products)
@@ -196,7 +194,7 @@ namespace ProductPlugin.Controllers
         {
             ProductModel Result;
 
-            List<ProductCategoryModel> modelCategories = new List<ProductCategoryModel>();
+            List<ProductCategoryModel> modelCategories = new();
 
             foreach (ProductGroup item in _productProvider.ProductGroupsGet())
             {
@@ -246,7 +244,7 @@ namespace ProductPlugin.Controllers
                     .Where(i => i.Name.Contains("_orig"))
                     .ToList();
 
-            List<string> imageNames = new List<string>();
+            List<string> imageNames = new();
             images.ForEach(i => imageNames.Add(i.Name.Substring(0, i.Name.IndexOf("_orig"))));
 
             return imageNames.ToArray();

@@ -176,6 +176,16 @@
             <param name="mvcApplication">IApplicationBuilder instance</param>
             <returns>IApplicationBuilder</returns>
         </member>
+        <member name="T:AspNetCore.PluginManager.Handlers.ApiAuthorizationHandler">
+            <summary>
+            Api Authorization handler for managing access to Api's
+            </summary>
+        </member>
+        <member name="M:AspNetCore.PluginManager.Handlers.ApiAuthorizationHandler.#ctor">
+            <summary>
+            Constructor
+            </summary>
+        </member>
         <member name="T:AspNetCore.PluginManager.RouteLoadTimeMiddlewareExtender">
             <summary>
             Static class for easyily adding route load times to the pipeline
