@@ -176,12 +176,12 @@
             <param name="mvcApplication">IApplicationBuilder instance</param>
             <returns>IApplicationBuilder</returns>
         </member>
-        <member name="T:AspNetCore.PluginManager.Handlers.ApiAuthorizationHandler">
+        <member name="T:AspNetCore.PluginManager.Handlers.ApiAuthorizationHandler1">
             <summary>
             Api Authorization handler for managing access to Api's
             </summary>
         </member>
-        <member name="M:AspNetCore.PluginManager.Handlers.ApiAuthorizationHandler.#ctor">
+        <member name="M:AspNetCore.PluginManager.Handlers.ApiAuthorizationHandler1.#ctor">
             <summary>
             Constructor
             </summary>

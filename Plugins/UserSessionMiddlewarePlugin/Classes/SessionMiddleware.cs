@@ -277,7 +277,7 @@ namespace UserSessionMiddleware.Plugin
         {
             List<Type> loggedInAttributes = pluginTypesService.GetPluginTypesWithAttribute<LoggedInAttribute>();
 
-            // Cycle through all classes and methods which have the spider attribute
+            // Cycle through all classes and methods which have the logged in attribute
             foreach (Type type in loggedInAttributes)
             {
                 // is it a class attribute

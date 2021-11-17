@@ -151,6 +151,23 @@
             </summary>
             <value>string</value>
         </member>
+        <member name="T:ProductPlugin.Controllers.ProductAdminController">
+            <summary>
+            Product Administration Controller
+            </summary>
+        </member>
+        <member name="M:ProductPlugin.Controllers.ProductAdminController.#ctor(Middleware.IProductProvider)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="productProvider">IProductProvider instance</param>
+        </member>
+        <member name="M:ProductPlugin.Controllers.ProductAdminController.ProductGroupGet">
+            <summary>
+            Gets a ProductGroup item
+            </summary>
+            <returns></returns>
+        </member>
         <member name="T:ProductPlugin.Controllers.ProductController">
             <summary>
             Product controller displays standard product information on a website.

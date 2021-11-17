@@ -20,24 +20,19 @@ namespace AspNetCore.PluginManager.Handlers
 
         }
 
+        protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, ApiAuthorizationHandler requirement)
+        {
+            context.Succeed(requirement);
+
+            return Task.CompletedTask;
+        }
+
+
         #endregion Constructors
 
         #region Public Methods
 
-        public override Task HandleAsync(AuthorizationHandlerContext context)
-        {
-            return base.HandleAsync(context);
-        }
 
         #endregion Public Methods
-
-        #region Protected Methods
-
-        protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, ApiAuthorizationHandler requirement)
-        {
-            throw new NotImplementedException();
-        }
-
-        #endregion Protected Methods
     }
 }
