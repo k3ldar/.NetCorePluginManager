@@ -87,6 +87,7 @@
     <PackageReference Include="ImageManager.Plugin" Version="$(Version)" />
     <PackageReference Include="DynamicContent.Plugin" Version="$(Version)" />
 	<PackageReference Include="Middleware" Version="$(Version)" />
+    <PackageReference Include="ApiAuthorization.Plugin" Version="$(Version)" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(Configuration)'!='USE_NUGET'">
@@ -122,7 +123,8 @@
     <ProjectReference Include="..\..\Plugins\Subdomain.Plugin\Subdomain.Plugin.csproj" />
 	<ProjectReference Include="..\..\Plugins\ImageManager.Plugin\ImageManager.Plugin.csproj" />
     <ProjectReference Include="..\..\Plugins\DynamicContent.Plugin\DynamicContent.Plugin.csproj" />
- </ItemGroup>
+    <ProjectReference Include="..\..\Plugins\ApiAuthorization.Plugin\ApiAuthorization.Plugin.csproj" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="SC.Shared.Library.Core" Version="3.2.0" />

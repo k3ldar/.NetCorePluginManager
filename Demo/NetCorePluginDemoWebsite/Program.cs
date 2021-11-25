@@ -46,7 +46,8 @@ namespace AspNetCore.PluginManager.DemoWebsite
             ThreadManager.MaximumRunningThreads = 50;
             ThreadManager.ThreadCpuChangeNotification = 0;
 
-            // add plugins which need to be loaded first
+            // add plugins which need to be loaded first in a specific order
+            PluginManagerService.UsePlugin(typeof(ApiAuthorization.Plugin.PluginInitialisation));
             PluginManagerService.UsePlugin(typeof(ErrorManager.Plugin.PluginInitialisation));
             PluginManagerService.UsePlugin(typeof(SystemAdmin.Plugin.PluginInitialisation));
             PluginManagerService.UsePlugin(typeof(BadEgg.Plugin.PluginInitialisation));

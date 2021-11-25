@@ -1617,6 +1617,41 @@
             Default implementation of File storage for ISaveData
             </summary>
         </member>
+        <member name="T:SharedPluginFeatures.HmacGenerator">
+            <summary>
+            Helper class providing methods that can generate a hmac value to be used with <see cref="!:HmacApiAuthorizationService"/>
+            </summary>
+        </member>
+        <member name="M:SharedPluginFeatures.HmacGenerator.GenerateHmac(System.String,System.String,System.Int64,System.UInt64,System.String,System.String)">
+            <summary>
+            Generates a hmac value based on parameter values
+            </summary>
+            <param name="apiKey">Users api key</param>
+            <param name="apiSecret">Users api secret</param>
+            <param name="epochTicks">Number of ticks since 1/1/1970</param>
+            <param name="nonce">User generated nonce value</param>
+            <param name="token">Users token</param>
+            <param name="payload">Payload being validated using user details</param>
+            <returns>string</returns>
+            <exception cref="T:System.ArgumentNullException">Thrown if <paramref name="apiKey"/> is null or empty</exception>
+            <exception cref="T:System.ArgumentNullException">Thrown if <paramref name="apiSecret"/> is null or empty</exception>
+            <exception cref="T:System.ArgumentNullException">Thrown if <paramref name="token"/> is null or empty</exception>
+            <exception cref="T:System.ArgumentNullException">Thrown if <paramref name="payload"/> is null or empty</exception>
+            <exception cref="T:System.ArgumentOutOfRangeException">Thrown if <paramref name="epochTicks"/> is less than zero</exception>
+            <exception cref="T:System.ArgumentOutOfRangeException">Thrown if <paramref name="nonce"/>is less than 1</exception>
+        </member>
+        <member name="M:SharedPluginFeatures.HmacGenerator.EpochDateTime">
+            <summary>
+            Generates the current date time as epoch date time returning the number of ticks
+            </summary>
+            <returns>long</returns>
+        </member>
+        <member name="M:SharedPluginFeatures.HmacGenerator.GenerateNonce">
+            <summary>
+            Generates a random nonce value
+            </summary>
+            <returns>ulong</returns>
+        </member>
         <member name="T:SharedPluginFeatures.JsonResponseModel">
             <summary>
             Simple model that is used in combination with JsonResult to supply specific data
@@ -2387,6 +2422,11 @@
             Name of the Breadcrumb.Plugin module.
             </summary>
         </member>
+        <member name="F:SharedPluginFeatures.Constants.PluginSettingApiAuthorization">
+            <summary>
+            Api authorization settings name
+            </summary>
+        </member>
         <member name="F:SharedPluginFeatures.Constants.SpiderSettings">
             <summary>
             Spider settings name
@@ -2727,6 +2767,11 @@
             Name of bad egg settings as found within appsettings.json
             </summary>
         </member>
+        <member name="F:SharedPluginFeatures.Constants.ApiAuthorizationSettingsName">
+            <summary>
+            Name of bad egg settings as found within appsettings.json
+            </summary>
+        </member>
         <member name="F:SharedPluginFeatures.Constants.SystemImageBadEgg">
             <summary>
             Bad egg image for use in system admin
@@ -2827,9 +2872,19 @@
             Bad request response code
             </summary>
         </member>
+        <member name="F:SharedPluginFeatures.Constants.HtmlResponseUnauthorized">
+            <summary>
+            Unauthorized reesponse code
+            </summary>
+        </member>
         <member name="F:SharedPluginFeatures.Constants.HtmlResponseNotFound">
             <summary>
             Bad request response code
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Constants.HtmlResponseMethodNotAllowed">
+            <summary>
+            Method not allowed response code
             </summary>
         </member>
         <member name="F:SharedPluginFeatures.Constants.HtmlResponseMethodFailure">

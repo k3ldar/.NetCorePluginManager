@@ -131,7 +131,7 @@ namespace UserAccount.Plugin.Controllers
             CreateAccountCacheItem createAccountCacheItem = GetCachedCreateAccountAttempt(false);
 
             if (createAccountCacheItem == null)
-                return StatusCode(400);
+                return StatusCode(SharedPluginFeatures.Constants.HtmlResponseBadRequest);
 
             CaptchaImage ci = new CaptchaImage(createAccountCacheItem.CaptchaText, 240, 60, "Century Schoolbook");
             try

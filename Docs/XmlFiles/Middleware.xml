@@ -3755,6 +3755,20 @@
             Indicates whether we are just verifying the details or performing a login
             </summary>
         </member>
+        <member name="T:Middleware.IUserApiQueryProvider">
+            <summary>
+            Interface used to query a users api details in order to validate requests
+            </summary>
+        </member>
+        <member name="M:Middleware.IUserApiQueryProvider.ApiSecret(System.String,System.String,System.String@)">
+            <summary>
+            Retrieves the Api Secret associated with the merchant and api key
+            </summary>
+            <param name="merchantId">Unique Merchant Id</param>
+            <param name="apiKey">Unique Merchant Api Key</param>
+            <param name="secret">The secret associated with the merchanes Api Key</param>
+            <returns>bool</returns>
+        </member>
         <member name="T:Middleware.IUserSearch">
             <summary>
             Interface for searching system users, includes administrators, staff and web users.
