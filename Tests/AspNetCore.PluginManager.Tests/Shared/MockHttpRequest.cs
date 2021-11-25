@@ -27,6 +27,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -50,6 +51,7 @@ namespace AspNetCore.PluginManager.Tests
         private HostString _hostString = new HostString("http://localhost/");
         private PathString _pathBase;
         private IFormCollection _formCollection;
+        private readonly Stream _body;
 
         #endregion Private Members
 
@@ -57,9 +59,16 @@ namespace AspNetCore.PluginManager.Tests
 
         public MockHttpRequest()
         {
+            _body = new MemoryStream();
             Path = "/";
             _queryCollection = new List<KeyValuePair<string, StringValues>>();
             _queryString = new QueryString();
+        }
+
+        public MockHttpRequest(MockHeaderDictionary headers)
+            : this()
+        {
+            _headerDictionary = headers ?? throw new ArgumentNullException(nameof(headers));
         }
 
         public MockHttpRequest(IRequestCookieCollection cookies)
@@ -96,8 +105,8 @@ namespace AspNetCore.PluginManager.Tests
 
         #region HttpRequest Methods
 
-        public override Stream Body { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public override Int64? ContentLength { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public override Stream Body { get => _body; set => throw new NotImplementedException(); }
+        public override Int64? ContentLength { get => _body.Length; set => throw new NotImplementedException(); }
         public override String ContentType { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public override IRequestCookieCollection Cookies
         {
@@ -260,6 +269,16 @@ namespace AspNetCore.PluginManager.Tests
         }
 
         public bool IsHttpsScheme { get; set; }
+
+        public void SetBodyText(string text)
+        {
+            byte[] bodyBytes = new byte[text.Length];
+
+            bodyBytes = Encoding.ASCII.GetBytes(text);
+            _body.Position = 0;
+            _body.Write(bodyBytes, 0, bodyBytes.Length);
+            _body.Position = 0;
+        }
 
         #endregion Public Methods
     }

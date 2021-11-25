@@ -40,8 +40,6 @@ using Middleware.Helpdesk;
 
 using PluginManager.Abstractions;
 
-using Shared;
-
 using SharedPluginFeatures;
 
 namespace AspNetCore.PluginManager.DemoWebsite.Classes
@@ -71,8 +69,9 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
             services.AddSingleton<IClaimsProvider, MockClaimsProvider>();
             services.AddSingleton<IUserSearch, MockUserSearch>();
             services.AddSingleton<IApplicationOverride, ApplicationOverrides>();
+            services.AddSingleton<IUserApiQueryProvider, MockUserApiQueryProvider>();
 
-            if (!File.Exists("t:\\UseDefaultDynamicContentProvider.dat"))
+            if (File.Exists("t:\\UseDefaultDynamicContentProvider.dat"))
                 services.AddSingleton<IDynamicContentProvider, MockDynamicContentProvider>();
         }
 

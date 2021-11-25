@@ -1,0 +1,144 @@
+<p>
+There are many different ways in which you can secure an Api endpoint so that the resources are only used by those authorised to use them.
+</p>
+<p>
+When writing open and accesible Api's that can be used across a public domain it is important to follow some basic principles, these being:
+</p>
+<ul>
+<li><b>Prioritize Security.</b> Think about the type of security that you want to employ for endpoints at the start of a project, do not leave it as an afterthought, or believe that it's somebody elses issue.</li>
+<li><b>Use a strong authentication solution.</b> Authenticating a user, using industry standard techniques can help protect data and ensure that only those requiring access to data are able to get access.</li>
+<li><b>Use authorization.</b> Just because a user can authenticate, it does not mean the should have carte blanche once authentication is successfull.  Using a principal of least privilege can help ensure that a user is not authorized to perform any action unless that action has been specifically granted.</li>
+
+</ul>
+<h3>Implementing Api Authorization</h3>
+<p>
+Api authorization is accomplished by applying an attribute to the endpoint or controller for all endpoints and implementing two interfaces
+</p>
+<ul>
+<li><b>ApiAuthorizationAttribute.</b> An attribute that is put on each controller or individual action endpoint.</li>
+<li><b>IApiAuthorizationService.</b> The application must register an instance of IApiAuthorizationService within the service container.  This interface contains one method and is used by the attribute to validate the request.</li>
+<li><b>IUserApiQueryProvider.</b> The application must register an instance of IUserApiQueryProvider within the service container.</li>
+</ul>
+
+<h3>ApiAuthorizationAttribute</h3>
+<p>
+The ApiAuthorization attribute will obtain an instance of IApiAuthorizationService from the registered DI container and call the service to validate the credentials passed in the header for each request.  
+</p>
+<p>
+If no IApiAuthorizationService is registered then the call will fail with a not allowed http response (405)
+</p>
+<p>
+This attribute can optionally have a policy applied to further tighten security.  The following example shows a controller with two endpoints, of which one takes the name of a policy which can alse be verified when calling the IApiAuthorizationService implementation.
+</p>
+
+<p>
+<pre style="font-family:Consolas;font-size:13px;color:black;background:white;">[ApiController]
+<span style="color:blue;">public</span>&nbsp;<span style="color:blue;">class</span>&nbsp;<span style="color:#2b91af;">DemoApiController</span>&nbsp;:&nbsp;ControllerBase
+{
+&nbsp;&nbsp;&nbsp;&nbsp;[ApiAuthorization]
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">public</span>&nbsp;IActionResult&nbsp;<span style="color:#74531f;">RequiresAuthorization</span>()
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#8f08c4;">return</span>&nbsp;<span style="color:blue;">new</span>&nbsp;JsonResult(<span style="color:blue;">new</span>&nbsp;{&nbsp;response&nbsp;=&nbsp;<span style="color:#a31515;">&quot;If&nbsp;you&nbsp;can&nbsp;see&nbsp;this&nbsp;you&nbsp;passed&nbsp;the&nbsp;security&nbsp;without&nbsp;a&nbsp;policy&quot;</span>&nbsp;});
+&nbsp;&nbsp;&nbsp;&nbsp;}
+ 
+&nbsp;&nbsp;&nbsp;&nbsp;[ApiAuthorization(<span style="color:#a31515;">&quot;AdminPolicy&quot;</span>)]
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">public</span>&nbsp;IActionResult&nbsp;<span style="color:#74531f;">RequiresAuthorizationUsingPolicy</span>()
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#8f08c4;">return</span>&nbsp;<span style="color:blue;">new</span>&nbsp;JsonResult(<span style="color:blue;">new</span>&nbsp;{&nbsp;response&nbsp;=&nbsp;<span style="color:#a31515;">&quot;If&nbsp;you&nbsp;can&nbsp;see&nbsp;this&nbsp;you&nbsp;passed&nbsp;the&nbsp;security&nbsp;with&nbsp;a&nbsp;policy&quot;</span>&nbsp;});
+&nbsp;&nbsp;&nbsp;&nbsp;}
+}
+</pre>
+</p>
+
+<h3>IApiAuthorizationService</h3>
+<p>
+This interface can utilise any authorization security that the application wants, to apply a custom authorization service, create a new class that descends from IApiAuthorizationService and add the class to the DI container.  
+
+</p>
+<p>
+The following code is taken from the ApiAuthorization plugin and automatically adds a Hmac implementation that will use hmac validation to authorize endpoints.
+</p>
+<p>
+<pre style="font-family:Consolas;font-size:13px;color:black;background:white;"><span style="color:blue;">public</span>&nbsp;<span style="color:blue;">void</span>&nbsp;<span style="color:#74531f;">AfterConfigureServices</span>(<span style="color:blue;">in</span>&nbsp;IServiceCollection&nbsp;<span style="color:#1f377f;">services</span>)
+{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;if&nbsp;no&nbsp;api&nbsp;validation&nbsp;has&nbsp;been&nbsp;added,&nbsp;add&nbsp;the&nbsp;Hmac&nbsp;validation</span>
+&nbsp;&nbsp;&nbsp;&nbsp;services.TryAddSingleton&lt;IApiAuthorizationService,&nbsp;HmacApiAuthorizationService&gt;();
+}
+</pre></p>
+<p>
+It is important to note that Hmac is one implementation, an application owner is free to implement different types of authentication.
+</p>
+
+
+<h3>IUserApiQueryProvider</h3>
+<p>
+IUserApiQueryProvider is an application supplied concrete implementation that is used to retrieve a client secret given a merchant id and api key.  This is required to also be added to the DI service container if using the default Hmac implementation.
+</p>
+
+
+<h3>Integrating ApiAuthorization.Plugin</h3>
+<p>
+Integrating the ApiAuthorization plugin is relatively simple, the following code sample registers the plugin with the PluginManagerService:
+</p>
+<p>
+<pre style="font-family:Consolas;font-size:13px;color:black;background:white;"><span style="color:blue;">public</span>&nbsp;<span style="color:blue;">static</span>&nbsp;<span style="color:blue;">class</span>&nbsp;<span style="color:#2b91af;">Program</span>
+{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">public</span>&nbsp;<span style="color:blue;">static</span>&nbsp;<span style="color:blue;">void</span>&nbsp;<span style="color:#74531f;">Main</span>(<span style="color:blue;">string</span>[]&nbsp;<span style="color:#1f377f;">args</span>)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;add&nbsp;plugins&nbsp;which&nbsp;need&nbsp;to&nbsp;be&nbsp;loaded&nbsp;first&nbsp;in&nbsp;a&nbsp;specific&nbsp;order</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PluginManagerService.UsePlugin(<span style="color:blue;">typeof</span>(ApiAuthorization.Plugin.PluginInitialisation));
+ 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PluginManagerConfiguration&nbsp;<span style="color:#1f377f;">configuration</span>&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;PluginManagerConfiguration
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ServiceConfigurator&nbsp;=&nbsp;<span style="color:blue;">new</span>&nbsp;ServiceConfigurator()
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;};
+ 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green;">//&nbsp;Initialise&nbsp;the&nbsp;plugin&nbsp;manager&nbsp;service</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PluginManagerService.Initialise(configuration);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#8f08c4;">try</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CreateWebHostBuilder(args).Build().Run();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#8f08c4;">finally</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PluginManagerService.Finalise();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+ 
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;">public</span>&nbsp;<span style="color:blue;">static</span>&nbsp;IWebHostBuilder&nbsp;<span style="color:#74531f;">CreateWebHostBuilder</span>(<span style="color:blue;">string</span>[]&nbsp;<span style="color:#1f377f;">args</span>)&nbsp;=&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WebHost.CreateDefaultBuilder(args)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.UseStartup&lt;Startup&gt;()
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.UseContentRoot(System.IO.Directory.GetCurrentDirectory())
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.UseDefaultServiceProvider(<span style="color:#1f377f;">options</span>&nbsp;=&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;options.ValidateScopes&nbsp;=&nbsp;<span style="color:blue;">false</span>);
+}
+</pre>
+</p>
+<p>
+The next code example registers an IUserApiApiQueryProvider instance:
+</p>
+<p>
+<pre style="font-family:Consolas;font-size:13px;color:black;background:white;"><span style="color:blue;">public</span>&nbsp;<span style="color:blue;">void</span>&nbsp;<span style="color:#74531f;">ConfigureServices</span>(IServiceCollection&nbsp;<span style="color:#1f377f;">services</span>)
+{
+&nbsp;&nbsp;&nbsp;&nbsp;services.AddSingleton&lt;IUserApiQueryProvider,&nbsp;MockUserApiQueryProvider&gt;();
+}
+</pre>
+</p>
+<p>
+That is all that is required, each endpoint that has the ApiAuthorization attribute will now be protected using Hmac authentication.
+</p>
+
+
+
+
+
+
+<h3>HmacGenerator</h3>
+<p>
+There is helper class called <seealso cref="T:SharedPluginFeatures.HmacGenerator"/> that contains helper methods for creating a random nonce value, generating the current time as an epoch time and generating a Hmac given the users merchant id, api key and secret.
+</p>
+
+<h3>Security First</h3>
+<p>
+Hmac relies on 3 pieces of data, the merchant id to identify the user, the api key to recognise the application and the api secret which is unique to the api key for the merchant.  It is critical these values do not get stored in code but instead are read from a configuration file or other such application storage.
+</p>

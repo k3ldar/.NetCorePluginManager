@@ -139,7 +139,7 @@ namespace LoginPlugin
 
                 if (!authData.StartsWith("Basic ", StringComparison.InvariantCultureIgnoreCase))
                 {
-                    context.Response.StatusCode = 400;
+                    context.Response.StatusCode = SharedPluginFeatures.Constants.HtmlResponseBadRequest;
                     return false;
                 }
 
@@ -149,7 +149,7 @@ namespace LoginPlugin
                 }
                 catch (FormatException)
                 {
-                    context.Response.StatusCode = 400;
+                    context.Response.StatusCode = SharedPluginFeatures.Constants.HtmlResponseBadRequest;
                     return false;
                 }
 
@@ -157,7 +157,7 @@ namespace LoginPlugin
 
                 if (authParts.Length != 2)
                 {
-                    context.Response.StatusCode = 400;
+                    context.Response.StatusCode = SharedPluginFeatures.Constants.HtmlResponseBadRequest;
                     return false;
                 }
 

@@ -25,6 +25,8 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
 using System.Collections.Generic;
+using System.Net.Http;
+using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Mvc;
 
@@ -124,6 +126,46 @@ namespace DemoApiPlugin.Controllers
             List<string> list = null;
 
             list.Add("oops");
+        }
+
+        [HttpGet]
+        [Route("/api/invaliduserNoPolicy")]
+        [ApiAuthorization]
+        public IActionResult RequiresAuthorization(string s)
+        {
+            return new JsonResult(new { response = $"If you can see this you passed the security without a policy: {s}" });
+        }
+
+        [Route("/api/invaliduserPolicy")]
+        [ApiAuthorization("Policy")]
+        public IActionResult RequiresAuthorizationPolicy()
+        {
+            return new JsonResult(new { response = "If you can see this you passed the security with a policy" });
+        }
+
+        [HttpGet]
+        [Route("/api/testApi")]
+        public IActionResult TestApi(string merchantId, string apiKey, string secret)
+        {
+            ulong nonce = (ulong)DateTime.UtcNow.Ticks;
+            long timestamp = HmacGenerator.EpochDateTime();
+
+            using (HttpClient client = new HttpClient())
+            {
+                string auth = HmacGenerator.GenerateHmac(apiKey, secret, timestamp, nonce, merchantId, String.Empty);
+
+                client.DefaultRequestHeaders.Add("apikey", apiKey);
+                client.DefaultRequestHeaders.Add("merchantId", merchantId);
+                client.DefaultRequestHeaders.Add("nonce", nonce.ToString());
+                client.DefaultRequestHeaders.Add("timestamp", timestamp.ToString());
+                client.DefaultRequestHeaders.Add("authcode", auth);
+                client.DefaultRequestHeaders.UserAgent.ParseAdd("Mozilla/4.0 (Compatible; Windows NT 5.1; MSIE 6.0)");
+                Task<HttpResponseMessage> result = client.GetAsync("https://localhost:5001/api/invaliduserPolicy");
+                string response = result.Result.Content.ReadAsStringAsync().Result;
+
+                return Content(response);
+            }
+
         }
     }
 }

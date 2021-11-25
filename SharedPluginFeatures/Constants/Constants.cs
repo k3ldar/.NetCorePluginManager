@@ -208,6 +208,11 @@ namespace SharedPluginFeatures
         public const string PluginSettingBreadcrumb = "Breadcrumb.Plugin";
 
         /// <summary>
+        /// Api authorization settings name
+        /// </summary>
+        public const string PluginSettingApiAuthorization = "ApiAuthorization";
+
+        /// <summary>
         /// Spider settings name
         /// </summary>
         public const string SpiderSettings = "Spider.Plugin";
@@ -541,6 +546,11 @@ namespace SharedPluginFeatures
         public const string BadEggSettingsName = "BadEgg.Plugin";
 
         /// <summary>
+        /// Name of bad egg settings as found within appsettings.json
+        /// </summary>
+        public const string ApiAuthorizationSettingsName = "ApiAuthorization";
+
+        /// <summary>
         /// Bad egg image for use in system admin
         /// </summary>
         public const string SystemImageBadEgg = "badegg";
@@ -641,9 +651,19 @@ namespace SharedPluginFeatures
         public const int HtmlResponseBadRequest = 400;
 
         /// <summary>
+        /// Unauthorized reesponse code
+        /// </summary>
+        public const int HtmlResponseUnauthorized = 401;
+
+        /// <summary>
         /// Bad request response code
         /// </summary>
         public const int HtmlResponseNotFound = 404;
+
+        /// <summary>
+        /// Method not allowed response code
+        /// </summary>
+        public const int HtmlResponseMethodNotAllowed = 405;
 
         /// <summary>
         /// Method failure response code

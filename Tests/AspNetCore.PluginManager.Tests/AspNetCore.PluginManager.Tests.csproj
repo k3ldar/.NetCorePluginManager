@@ -69,6 +69,7 @@
 	<ProjectReference Include="..\..\Languages\Languages.csproj" />
 	<ProjectReference Include="..\..\NetCorePluginManager\AspNetCore.PluginManager.csproj" />
 	<ProjectReference Include="..\..\PluginManager\src\PluginManager.csproj" />
+	<ProjectReference Include="..\..\Plugins\ApiAuthorization.Plugin\ApiAuthorization.Plugin.csproj" />
 	<ProjectReference Include="..\..\Plugins\BadEgg.Plugin\BadEgg.Plugin.csproj" />
 	<ProjectReference Include="..\..\Plugins\Breadcrumb.Plugin\Breadcrumb.Plugin.csproj" />
 	<ProjectReference Include="..\..\Plugins\Download.Plugin\DownloadPlugin.csproj" />
@@ -98,10 +99,6 @@
 	<ProjectReference Include="..\..\Plugins\Documentation.Plugin\Documentation.Plugin.csproj" />
 	<ProjectReference Include="..\..\Plugins\MemoryCachePlugin\MemoryCachePlugin.csproj" />
 	<ProjectReference Include="..\..\Plugins\Blog.Plugin\Blog.Plugin.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-	<Folder Include="SharedPluginFeatures\Attributes\" />
   </ItemGroup>
 
   <ItemGroup>

@@ -171,7 +171,7 @@ namespace WebSmokeTest.Plugin
                             }
                             else
                             {
-                                context.Response.StatusCode = 400;
+                                context.Response.StatusCode = Constants.HtmlResponseBadRequest;
                             }
                         }
                         else if (route.Equals("/smoketest/end/"))

@@ -181,7 +181,7 @@ namespace SearchPlugin.Controllers
                 String.IsNullOrWhiteSpace(searchModel.keywords) ||
                 searchModel.keywords.Length < _settings.MinimumKeywordSearchLength)
             {
-                return new StatusCodeResult(400);
+                return new StatusCodeResult(Constants.HtmlResponseBadRequest);
             }
 
             KeywordSearchOptions searchOptions = new KeywordSearchOptions(IsUserLoggedIn(), searchModel.keywords, true);

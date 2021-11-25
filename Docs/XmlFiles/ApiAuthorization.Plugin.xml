@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>ApiAuthorization.Plugin</name>
+    </assembly>
+    <members>
+        <member name="T:ApiAuthorization.Plugin.ApiAuthorizationSettings">
+            <summary>
+            Settings which affect how ApiAuthorization is configured and used.
+            </summary>
+        </member>
+        <member name="T:ApiAuthorization.Plugin.Classes.SystemAdmin.ApiAuthorizationTimingsSubMenu">
+            <summary>
+            Returns a list of current Timings and can be viewed within SystemAdmin.Plugin.  
+            
+            This class descends from SystemAdminSubMenu.
+            </summary>
+        </member>
+        <member name="M:ApiAuthorization.Plugin.Classes.SystemAdmin.ApiAuthorizationTimingsSubMenu.Data">
+            <summary>
+            Returns Timings data in milliseconds for time spent processing by ApiAuthorization.Plugin.
+            </summary>
+            <returns>string</returns>
+        </member>
+        <member name="T:ApiAuthorization.Plugin.PluginInitialisation">
+            <summary>
+            Implements IPlugin which allows the ApiAuthorization.Plugin module to be
+            loaded as a plugin module
+            </summary>
+        </member>
+    </members>
+</doc>

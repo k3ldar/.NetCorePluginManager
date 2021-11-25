@@ -324,7 +324,7 @@ namespace LoginPlugin.Controllers
             LoginCacheItem loginCacheItem = GetCachedLoginAttempt(false);
 
             if (loginCacheItem == null)
-                return StatusCode(400);
+                return StatusCode(Constants.HtmlResponseBadRequest);
 
             CaptchaImage ci = new CaptchaImage(loginCacheItem.CaptchaText, 240, 60, "Century Schoolbook");
             try
