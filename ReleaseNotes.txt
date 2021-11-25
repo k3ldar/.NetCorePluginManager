@@ -1,7 +1,9 @@
 Version 4.4.0
+=============
 #139 Cookie consent cookie not being respected
 #138 Log System Uptime
 #137 Login with google and facebook oauth providers
+#140 Api Authorization Attribute/Plugin
 #133 Manage Products
 
 Version 4.3.0
