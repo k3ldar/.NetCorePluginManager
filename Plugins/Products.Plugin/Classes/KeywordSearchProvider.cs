@@ -153,7 +153,7 @@ namespace ProductPlugin.Classes
         {
             foreach (Product product in products)
             {
-                if (results.Count > searchOptions.MaximumSearchResults)
+                if (results.Count >= searchOptions.MaximumSearchResults)
                 {
                     return;
                 }
@@ -244,7 +244,7 @@ namespace ProductPlugin.Classes
 
             foreach (Product product in products)
             {
-                if (results.Count > searchOptions.MaximumSearchResults)
+                if (results.Count >= searchOptions.MaximumSearchResults)
                 {
                     return;
                 }

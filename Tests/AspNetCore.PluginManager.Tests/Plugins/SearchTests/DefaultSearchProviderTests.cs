@@ -25,7 +25,10 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
+
+using AspNetCore.PluginManager.Tests.Shared;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -40,8 +43,6 @@ using Shared.Classes;
 
 using SharedPluginFeatures;
 
-using pm = PluginManager.Internal;
-
 namespace AspNetCore.PluginManager.Tests.Plugins.SearchTests
 {
     [TestClass]
@@ -51,6 +52,13 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SearchTests
         [TestInitialize]
         public void InitializeSearchTests()
         {
+            for (int i = CacheManager.GetCount() -1; i >= 0 ; i--)
+            {
+                string cacheName = CacheManager.GetCacheName(i);
+                Debug.Print($"Removing Cache: {cacheName}");
+                CacheManager.RemoveCacheManager(cacheName);
+            }
+         
             //InitializeSearchPluginManager();
             ThreadManager.Initialise();
             InitializeDocumentationPluginManager();

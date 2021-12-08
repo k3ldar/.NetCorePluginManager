@@ -32,7 +32,7 @@ using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Http;
 
-namespace AspNetCore.PluginManager.Tests
+namespace AspNetCore.PluginManager.Tests.Shared
 {
     [ExcludeFromCodeCoverage]
     public class MockHttpResponse : Microsoft.AspNetCore.Http.HttpResponse

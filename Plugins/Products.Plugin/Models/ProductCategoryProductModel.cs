@@ -91,6 +91,9 @@ namespace ProductPlugin.Models
         {
             get
             {
+                if (String.IsNullOrEmpty(Name))
+                    return null;
+
                 return $"/Product/{Id}/{RouteFriendlyName(Name)}/";
             }
         }

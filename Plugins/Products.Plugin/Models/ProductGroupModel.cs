@@ -41,7 +41,7 @@ namespace ProductPlugin.Models
         }
 
         public ProductGroupModel(in BaseModelData modelData,
-            in IEnumerable<ProductCategoryModel> productGroups,
+            in List<ProductCategoryModel> productGroups,
             in string description, in string tagLine)
             : base(modelData, productGroups)
         {

@@ -97,7 +97,7 @@ namespace AspNetCore.PluginManager.Tests.Shared
             {
                 RemoveKeyword(route, kword);
             }
-            
+
             return true;
         }
 

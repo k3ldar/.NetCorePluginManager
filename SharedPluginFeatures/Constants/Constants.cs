@@ -452,6 +452,11 @@ namespace SharedPluginFeatures
         public const string PolicyNameApiAuthorization = "ApiAuthorization";
 
         /// <summary>
+        /// Name of policy for managing products
+        /// </summary>
+        public const string PolicyNameManageProducts = "ManageProducts";
+
+        /// <summary>
         /// Claim name for allowing user to manage content
         /// </summary>
         public const string ClaimNameManageContent = "ManageContent";

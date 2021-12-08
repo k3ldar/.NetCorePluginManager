@@ -27,23 +27,11 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 
-using AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests.Mocks;
 using AspNetCore.PluginManager.Tests.Shared;
 
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-using Middleware.Interfaces;
-
-using PluginManager.Abstractions;
-using PluginManager.Internal;
-using PluginManager.Tests.Mocks;
-
-using ProductPlugin;
-using ProductPlugin.Classes;
 using ProductPlugin.Models;
-
-using SharedPluginFeatures;
 
 namespace AspNetCore.PluginManager.Tests.Plugins.ProductTests
 {

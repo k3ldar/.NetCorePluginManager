@@ -29,7 +29,7 @@ using System.Diagnostics.CodeAnalysis;
 
 using SharedPluginFeatures;
 
-namespace AspNetCore.PluginManager.Tests
+namespace AspNetCore.PluginManager.Tests.Shared
 {
     [ExcludeFromCodeCoverage]
     public class MockIpValidation : IIpValidation

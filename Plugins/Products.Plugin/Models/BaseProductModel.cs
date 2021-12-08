@@ -48,17 +48,17 @@ namespace ProductPlugin.Models
         }
 
         public BaseProductModel(in BaseModelData modelData,
-            in IEnumerable<ProductCategoryModel> productGroups)
+            in List<ProductCategoryModel> productCategoryModels)
             : base(modelData)
         {
-            ProductGroups = productGroups ?? throw new ArgumentNullException(nameof(productGroups));
+            ProductCategories = productCategoryModels ?? throw new ArgumentNullException(nameof(productCategoryModels));
         }
 
         #endregion Constructors
 
         #region Properties
 
-        public IEnumerable<ProductCategoryModel> ProductGroups { get; private set; }
+        public List<ProductCategoryModel> ProductCategories { get; private set; }
 
         #endregion Properties
     }

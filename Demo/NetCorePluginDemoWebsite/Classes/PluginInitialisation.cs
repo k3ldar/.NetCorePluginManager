@@ -30,7 +30,6 @@ using AppSettings;
 using AspNetCore.PluginManager.DemoWebsite.Classes.Mocks;
 using AspNetCore.PluginManager.DemoWebsite.Helpers;
 
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -42,8 +41,6 @@ using Middleware.Helpdesk;
 using PluginManager.Abstractions;
 
 using SharedPluginFeatures;
-
-using Constants = SharedPluginFeatures.Constants;
 
 namespace AspNetCore.PluginManager.DemoWebsite.Classes
 {
@@ -119,12 +116,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
 
         public void AfterConfigureServices(in IServiceCollection services)
         {
-            services.AddSingleton<IAuthorizationHandler, Handlers.ApiAuthorizationHandler>();
-            services.AddAuthorization(options =>
-            {
-                options.AddPolicy(Constants.PolicyNameApiAuthorization,
-                    policy => policy.Requirements.Add(new Handlers.ApiAuthorizationHandler()));
-            });
+
         }
 
         #endregion IInitialiseEvents Methods

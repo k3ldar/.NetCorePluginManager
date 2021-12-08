@@ -2667,6 +2667,11 @@
             Name of policy for Api authorization
             </summary>
         </member>
+        <member name="F:SharedPluginFeatures.Constants.PolicyNameManageProducts">
+            <summary>
+            Name of policy for managing products
+            </summary>
+        </member>
         <member name="F:SharedPluginFeatures.Constants.ClaimNameManageContent">
             <summary>
             Claim name for allowing user to manage content

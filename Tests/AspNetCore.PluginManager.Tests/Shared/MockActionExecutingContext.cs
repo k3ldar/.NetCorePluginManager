@@ -24,6 +24,7 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Abstractions;
@@ -35,6 +36,7 @@ using SharedPluginFeatures;
 
 namespace AspNetCore.PluginManager.Tests.Shared
 {
+    [ExcludeFromCodeCoverage]
     public sealed class MockActionExecutingContext : ActionExecutingContext
     {
         public MockActionExecutingContext(MockHttpContext mockHttpContext)

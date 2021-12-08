@@ -15,35 +15,50 @@
  *
  *  Product:  AspNetCore.PluginManager.Tests
  *  
- *  File: ApiAuthorizationHandlerTests.cs
+ *  File: ProductSearchViewModel.cs
  *
- *  Purpose:  Tests for ApiAuthorizationHandler
+ *  Purpose:  Tests for product search view model
  *
  *  Date        Name                Reason
- *  15/11/2020  Simon Carter        Initially Created
+ *  30/11/2021  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System.Diagnostics.CodeAnalysis;
 
-using AspNetCore.PluginManager.Handlers;
+using AspNetCore.PluginManager.Tests.Shared;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
+using ProductPlugin.Models;
 
-namespace AspNetCore.PluginManager.Tests.PluginManager
+namespace AspNetCore.PluginManager.Tests.Plugins.ProductTests
 {
     [TestClass]
     [ExcludeFromCodeCoverage]
-    public class ApiAuthorizationHandlerTests
+    public class ProductSearchViewModelTests : GenericBaseClass
     {
-        private const string TestCategoryName = "AspNetCore Plugin Manager Tests";
+        private const string TestCategoryName = "Product Manager Tests";
 
         [TestMethod]
         [TestCategory(TestCategoryName)]
-        public void Construct_ValidInstance_Success()
+        public void Construct_DefaultConstructor_Success()
         {
-            ApiAuthorizationHandler sut = new ApiAuthorizationHandler();
-            Assert.IsNotNull(sut);
+            ProductSearchViewModel sut = new ProductSearchViewModel()
+            {
+                SearchText = "prod",
+                ContainsVideo = true,
+                SearchName = "name",
+                VideoProductCount = 21
+            };
+
+            Assert.IsNotNull(sut.ProductGroups);
+            Assert.AreEqual(0, sut.ProductGroups.Count);
+            Assert.IsNotNull(sut.Prices);
+            Assert.AreEqual(0, sut.Prices.Count);
+            Assert.AreEqual("prod", sut.SearchText);
+            Assert.AreEqual("name", sut.SearchName);
+            Assert.IsTrue(sut.ContainsVideo);
+            Assert.AreEqual(21, sut.VideoProductCount);
         }
     }
 }

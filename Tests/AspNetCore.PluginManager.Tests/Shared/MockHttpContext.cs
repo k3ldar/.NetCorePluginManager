@@ -37,7 +37,7 @@ using Shared.Classes;
 
 using SharedPluginFeatures;
 
-namespace AspNetCore.PluginManager.Tests
+namespace AspNetCore.PluginManager.Tests.Shared
 {
     [ExcludeFromCodeCoverage]
     public class MockHttpContext : HttpContext

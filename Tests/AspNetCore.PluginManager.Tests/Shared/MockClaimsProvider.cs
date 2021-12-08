@@ -30,6 +30,8 @@ using System.Security.Claims;
 
 using Microsoft.AspNetCore.Authentication;
 
+using PluginManager.Abstractions;
+
 using SharedPluginFeatures;
 
 namespace AspNetCore.PluginManager.Tests.Shared
@@ -38,6 +40,8 @@ namespace AspNetCore.PluginManager.Tests.Shared
     public class MockClaimsProvider : IClaimsProvider
     {
         private readonly Dictionary<long, List<string>> _userClaims;
+        private readonly IPluginClassesService _pluginClassesService;
+        private readonly List<string> _claimsForUser;
 
         public MockClaimsProvider()
         {

@@ -29,7 +29,6 @@ using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.IO;
 
-using AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests.Mocks;
 using AspNetCore.PluginManager.Tests.Shared;
 
 using ImageManager.Plugin.Classes;

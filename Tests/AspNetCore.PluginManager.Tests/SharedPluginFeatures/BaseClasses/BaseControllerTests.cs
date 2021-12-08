@@ -34,8 +34,6 @@ using AspNetCore.PluginManager.Tests.Shared;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
-using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using PluginManager.Abstractions;
@@ -43,7 +41,7 @@ using PluginManager.Tests.Mocks;
 
 using SharedPluginFeatures;
 
-using pm = PluginManager.Internal;
+using MockPluginManager = AspNetCore.PluginManager.Tests.Shared.MockPluginManager;
 
 namespace AspNetCore.PluginManager.Tests.Controllers
 {
@@ -66,7 +64,7 @@ namespace AspNetCore.PluginManager.Tests.Controllers
         protected static bool? _pluginLoadedImageManagerPlugin = null;
         protected static IPluginClassesService _pluginServicesImageManager;
 
-        protected ControllerContext CreateTestControllerContext(List<BreadcrumbItem> breadcrumbs = null, 
+        protected ControllerContext CreateTestControllerContext(List<BreadcrumbItem> breadcrumbs = null,
             MockRequestCookieCollection testCookieCollection = null,
             MockServiceProvider testServiceProvider = null,
             MockHttpResponse testHttpResponse = null)
@@ -298,7 +296,7 @@ namespace AspNetCore.PluginManager.Tests.Controllers
                 if (spiderAttribute.UserAgent.Equals(userAgent))
                     return true;
             }
-            
+
             return false;
         }
 

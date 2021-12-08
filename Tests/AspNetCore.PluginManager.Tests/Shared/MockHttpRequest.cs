@@ -36,7 +36,7 @@ using Microsoft.Extensions.Primitives;
 
 using sp = SharedPluginFeatures;
 
-namespace AspNetCore.PluginManager.Tests
+namespace AspNetCore.PluginManager.Tests.Shared
 {
     [ExcludeFromCodeCoverage]
     public class MockHttpRequest : HttpRequest
@@ -84,7 +84,7 @@ namespace AspNetCore.PluginManager.Tests
         }
 
         public MockHttpRequest(string ipAddress, string queryString, string path)
-            : this (new MockHttpContext(), new MockRequestCookieCollection())
+            : this(new MockHttpContext(), new MockRequestCookieCollection())
         {
             if (String.IsNullOrEmpty(ipAddress))
                 throw new ArgumentNullException(nameof(ipAddress));
@@ -123,7 +123,7 @@ namespace AspNetCore.PluginManager.Tests
                 _requestCookieCollection = value;
             }
         }
-        public override IFormCollection Form 
+        public override IFormCollection Form
         {
             get
             {

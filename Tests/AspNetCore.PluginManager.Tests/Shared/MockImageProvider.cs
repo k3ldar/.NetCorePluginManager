@@ -32,7 +32,7 @@ using System.Linq;
 using Middleware.Images;
 using Middleware.Interfaces;
 
-namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests.Mocks
+namespace AspNetCore.PluginManager.Tests.Shared
 {
     [ExcludeFromCodeCoverage]
     internal class MockImageProvider : IImageProvider
@@ -205,5 +205,22 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests.Mocks
             return new MockImageProvider(groups, images);
         }
 
+        public static MockImageProvider CreateDefaultMockImageProviderForProductC()
+        {
+            Dictionary<string, List<string>> groups = new Dictionary<string, List<string>>()
+            {
+                { "Products", new List<string>() }
+            };
+
+            groups["Products"].Add("ProdC");
+
+            List<ImageFile> images = new List<ImageFile>()
+            {
+                { new ImageFile(new Uri("/", UriKind.RelativeOrAbsolute), "myfile1.gif", ".gif", 23, DateTime.Now, DateTime.Now) },
+                { new ImageFile(new Uri("/", UriKind.RelativeOrAbsolute), "myfile2_orig.gif", ".gif", 23, DateTime.Now, DateTime.Now) }
+            };
+
+            return new MockImageProvider(groups, images);
+        }
     }
 }

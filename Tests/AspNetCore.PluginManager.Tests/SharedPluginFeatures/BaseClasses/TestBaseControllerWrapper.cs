@@ -26,6 +26,8 @@
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 
+using AspNetCore.PluginManager.Tests.Shared;
+
 using Microsoft.AspNetCore.Mvc;
 
 using SharedPluginFeatures;

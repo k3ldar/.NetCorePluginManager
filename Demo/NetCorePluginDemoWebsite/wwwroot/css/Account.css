@@ -1,228 +1,280 @@
 ﻿
 .account-block {
-padding: 6px 20px 8px 2px;
-margin: 0 0 10px 0;
-}
-.account-block input {
-padding: 5px 10px 5px 10px;
-margin: 0 10px 0 0;
-}
-.ac-row {
-padding: 15px 0 0 0;
-}
-.form-check {
-margin-left: 20px;
-}
-.account-row {
-padding: 0 0 4px 0;
-}
-.account-row p {
-font-size: 14px;
-font-weight: normal;
-}
-.account-row p span {
-padding: 0 8px 0 0;
-font-weight: bold;
-}
-.account-row textarea {
-width: 450px;
-height: 150px;
-}
-.accountContent {
-padding: 10px 10px 10px 10px;
-}
-.accountContent ul.accountOptions {
-line-height: 1.2;
-list-style: none;
-margin: 20px auto;
-padding: 0;
-}
-.accountContent ul.accountOptions li {
--moz-border-radius: 4px;
--webkit-border-radius: 4px;
-border-radius: 4px;
-float: left;
-margin: 0 10px 30px 10px;
-text-align: center;
-width: 140px !important;
-height: 134px !important;
-overflow: hidden;
-}
-.accountContent ul.accountOptions li:hover {
-background: #eee;
-}
-.accountContent ul.accountOptions li a {
-background-position: center 10px;
-background-repeat: no-repeat;
-display: block;
-padding: 92px 10px 10px 10px;
-text-decoration: none;
-}
-.email a {
-background-image: url('/images/UserAccount/memberdetailsIcon.png');
-}
-.billing a {
-background-image: url('/images/UserAccount/billingaddressIcon.png');
-}
-.password a {
-background-image: url('/images/UserAccount/passwordIcon.png');
-}
-.orders a {
-background-image: url('/images/UserAccount/ordersIcon.png');
-}
-.delivery a {
-background-image: url('/images/UserAccount/deliveryaddressIcon.png');
-}
-.offers a {
-background-image: url('/images/UserAccount/specialoffersIcon.png');
-}
-.appointments a {
-background-image: url('/images/UserAccount/appointmentsIcon.png');
-}
-.creditcards a {
-background-image: url('/images/UserAccount/CreditcardIcon.png');
-}
-.invoices a {
-background-image: url('/images/UserAccount/invoicesIcon.png');
-}
-.download a {
-background-image: url('/images/UserAccount/downloadsIcon.png');
-}
-.salons a {
-background-image: url('/images/UserAccount/salonsIcon.png');
-}
-.statistics a {
-background-image: url('/images/UserAccount/statisticsIcon.png');
-}
-.licence a {
-background-image: url('/images/UserAccount/adminicon.png');
-}
-.tickets a {
-background-image: url('/images/UserAccount/submitticketIcon.png');
-}
-.blog a {
-background-image: url('/images/UserAccount/blogIcon.png');
-}
-.fixed {
-display: block;
-}
-.fixed:after {
-clear: both;
-content: ".";
-display: block;
-height: 0;
-visibility: hidden;
-}
-.accountGrid table {
-font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
-border-collapse: collapse;
-width: 100%;
-width: 100%;
-padding: 10px 20px 10px 20px;
-}
-.accountGrid td, .accountGrid th {
-border: 1px solid #ddd;
-padding: 8px;
-}
-.accountGrid table thead tr td {
-padding-right: 20px;
-}
-.accountGrid tr:nth-child(even) {
-background-color: #f2f2f2;
-}
-.accountGrid tr:hover {
-background-color: #ddd;
-}
-.accountGrid th {
-padding-top: 12px;
-padding-bottom: 12px;
-text-align: left;
-background-color: #707B7C;
-color: white;
+    padding: 6px 20px 8px 2px;
+    margin: 0 0 10px 0;
 }
 
+    .account-block input {
+        padding: 5px 10px 5px 10px;
+        margin: 0 10px 0 0;
+    }
+
+.ac-row {
+    padding: 15px 0 0 0;
+}
+
+.form-check {
+    margin-left: 20px;
+}
+
+.account-row {
+    padding: 0 0 4px 0;
+}
+
+    .account-row p {
+        font-size: 14px;
+        font-weight: normal;
+    }
+
+        .account-row p span {
+            padding: 0 8px 0 0;
+            font-weight: bold;
+        }
+
+    .account-row textarea {
+        width: 450px;
+        height: 150px;
+    }
+
+    .accountContent {
+        padding: 10px 10px 10px 10px;
+    }
+
+    .accountContent ul.accountOptions {
+        line-height: 1.2;
+        list-style: none;
+        margin: 20px auto;
+        padding: 0;
+    }
+
+        .accountContent ul.accountOptions li {
+            -moz-border-radius: 4px;
+            -webkit-border-radius: 4px;
+            border-radius: 4px;
+            float: left;
+            margin: 0 10px 30px 10px;
+            text-align: center;
+            width: 140px !important;
+            height: 134px !important;
+            overflow: hidden;
+        }
+
+            .accountContent ul.accountOptions li:hover {
+                background: #eee;
+            }
+
+            .accountContent ul.accountOptions li a {
+                background-position: center 10px;
+                background-repeat: no-repeat;
+                display: block;
+                padding: 92px 10px 10px 10px;
+                text-decoration: none;
+            }
+
+.email a {
+    background-image: url('/images/UserAccount/memberdetailsIcon.png');
+}
+
+.billing a {
+    background-image: url('/images/UserAccount/billingaddressIcon.png');
+}
+
+.password a {
+    background-image: url('/images/UserAccount/passwordIcon.png');
+}
+
+.orders a {
+    background-image: url('/images/UserAccount/ordersIcon.png');
+}
+
+.delivery a {
+    background-image: url('/images/UserAccount/deliveryaddressIcon.png');
+}
+
+.offers a {
+    background-image: url('/images/UserAccount/specialoffersIcon.png');
+}
+
+.appointments a {
+    background-image: url('/images/UserAccount/appointmentsIcon.png');
+}
+
+
+.creditcards a {
+    background-image: url('/images/UserAccount/CreditcardIcon.png');
+}
+
+.invoices a {
+    background-image: url('/images/UserAccount/invoicesIcon.png');
+}
+
+.download a {
+    background-image: url('/images/UserAccount/downloadsIcon.png');
+}
+
+.salons a {
+    background-image: url('/images/UserAccount/salonsIcon.png');
+}
+
+.statistics a {
+    background-image: url('/images/UserAccount/statisticsIcon.png');
+}
+
+.licence a {
+    background-image: url('/images/UserAccount/adminicon.png');
+}
+
+.tickets a {
+    background-image: url('/images/UserAccount/submitticketIcon.png');
+}
+.blog a {
+    background-image: url('/images/UserAccount/blogIcon.png');
+}
+
+.fixed {
+    display: block;
+}
+
+
+    .fixed:after {
+        clear: both;
+        content: ".";
+        display: block;
+        height: 0;
+        visibility: hidden;
+    }
+
+.accountGrid table {
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+    width: 100%;
+    padding: 10px 20px 10px 20px;
+}
+
+.accountGrid td, .accountGrid th {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+.accountGrid table thead tr td {
+    padding-right: 20px;
+}
+
+
+.accountGrid tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+.accountGrid tr:hover {
+    background-color: #ddd;
+}
+
+.accountGrid th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #707B7C;
+    color: white;
+}
+
+/* Style the tab */
 .accountTab {
-overflow: hidden;
-border: 1px solid #ccc;
-background-color: #f1f1f1;
+    overflow: hidden;
+    border: 1px solid #ccc;
+    background-color: #f1f1f1;
 }
-.accountTab button {
-background-color: #ccc;
-float: left;
-border: none;
-outline: none;
-cursor: pointer;
-padding: 14px 16px;
-transition: 0.3s;
-font-size: 17px;
-font-weight: normal;
-margin-right: 2px;
-}
-.accountTab button:hover {
-background-color: #ddd;
-}
-.accountTab button.active {
-background-color: white;
-font-weight: 400;
-}
+
+    .accountTab button {
+        background-color: #ccc;
+        float: left;
+        border: none;
+        outline: none;
+        cursor: pointer;
+        padding: 14px 16px;
+        transition: 0.3s;
+        font-size: 17px;
+        font-weight: normal;
+        margin-right: 2px;
+    }
+
+        .accountTab button:hover {
+            background-color: #ddd;
+        }
+
+        .accountTab button.active {
+            background-color: white;
+            font-weight: 400;
+        }
+
 .accountTabContent {
-display: block;
-padding: 6px 12px;
-border: 1px solid #ccc;
-border-top: none;
+    display: block;
+    padding: 6px 12px;
+    border: 1px solid #ccc;
+    border-top: none;
 }
+
 .dload {
-width: 260px;
-height: 180px;
-background-color: white;
-display: block;
-overflow: hidden;
-border: 1px solid #ddd;
-padding: 8px;
-float: left;
-margin: 0 8px 8px 0;
-cursor: pointer;
-color: #000
+    width: 260px;
+    height: 180px;
+    background-color: white;
+    display: block;
+    overflow: hidden;
+    border: 1px solid #ddd;
+    padding: 8px;
+    float: left;
+    margin: 0 8px 8px 0;
+    cursor: pointer;
+    color: #000
 }
-.dload .icon {
-width: 75px;
-height: 75px;
-float: left;
-}
-.dload .icon img {
-width: 64px;
-height: 64px;
-padding: 4px;
-}
-.dload h3 {
-text-decoration: none;
-float: right;
-width: 167px;
-margin: 0 0 5px 0;
-}
-.dload p {
-font-size: 12px;
-float: right;
-width: 167px;
-height: auto;
-overflow: hidden;
-}
+
+    .dload .icon {
+        width: 75px;
+        height: 75px;
+        float: left;
+    }
+        .dload .icon img {
+            width: 64px;
+            height: 64px;
+            padding: 4px;
+        }
+
+    .dload h3 {
+        text-decoration: none;
+        float: right;
+        width: 167px;
+        margin: 0 0 5px 0;
+    }
+
+    .dload p {
+        font-size: 12px;
+        float: right;
+        width: 167px;
+        height: auto;
+        overflow: hidden;
+    }
+
 @media (max-width: 767px) {
-.accountGrid {
-width: 99%;
-font-size: 10px;
-overflow: auto;
+    .accountGrid {
+        width: 99%;
+        font-size: 10px;
+        overflow: auto;
+    }
+
 }
-}
+
 @media (min-width: 768px) {
-.accountGrid {
-width: 99%;
-overflow: auto;
+    .accountGrid {
+        width: 99%;
+        overflow: auto;
+    }
+
 }
-}
+
 @media (min-width: 992px) {
-.accountGrid {
-width: 99%;
-overflow: hidden;
-}
+    .accountGrid {
+        width: 99%;
+        overflow: hidden;
+    }
+
 }

@@ -29,7 +29,7 @@ using System.Diagnostics.CodeAnalysis;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 
-namespace AspNetCore.PluginManager.Tests
+namespace AspNetCore.PluginManager.Tests.Shared
 {
     [ExcludeFromCodeCoverage]
     public class MockTempDataProvider : ITempDataProvider

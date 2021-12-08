@@ -37,7 +37,7 @@ using static SharedPluginFeatures.Constants;
 
 using sl = Shared.Classes;
 
-namespace AspNetCore.PluginManager.Tests
+namespace AspNetCore.PluginManager.Tests.Shared
 {
     [ExcludeFromCodeCoverage]
     public class MockBasePlugin

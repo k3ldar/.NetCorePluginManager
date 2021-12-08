@@ -15,9 +15,9 @@
  *
  *  Product:  AspNetCore.PluginManager.Tests
  *  
- *  File: PluginInitialisationTests.cs
+ *  File: ProductAdminControllerTests.cs
  *
- *  Purpose:  Tests for Product Group Admin 
+ *  Purpose:  Tests for Product Admin Controller
  *
  *  Date        Name                Reason
  *  14/11/2021  Simon Carter        Initially Created

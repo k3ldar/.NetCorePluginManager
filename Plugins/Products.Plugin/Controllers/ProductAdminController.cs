@@ -25,7 +25,6 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
 
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 using Middleware;
@@ -77,7 +76,7 @@ namespace ProductPlugin.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        [Authorize(Roles = SharedConstants.PolicyNameApiAuthorization)]
+        [ApiAuthorization(SharedConstants.PolicyNameManageProducts)]
         public IActionResult ProductGroupGet()
         {
             throw new NotImplementedException();

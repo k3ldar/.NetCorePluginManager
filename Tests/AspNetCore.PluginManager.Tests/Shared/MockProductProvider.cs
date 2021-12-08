@@ -25,37 +25,85 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 
 using Middleware;
 using Middleware.Products;
 
 namespace AspNetCore.PluginManager.Tests.Shared
 {
+    [ExcludeFromCodeCoverage]
     public sealed class MockProductProvider : IProductProvider
     {
-        public Product GetProduct(in int id)
-        {
-            throw new NotImplementedException();
-        }
+        #region IProductProvider Members
 
-        public List<Product> GetProducts(in int page, in int pageSize)
-        {
-            throw new NotImplementedException();
-        }
-
-        public List<Product> GetProducts(in ProductGroup productGroup, in int page, in int pageSize)
-        {
-            throw new NotImplementedException();
-        }
+        #region Product Groups
 
         public ProductGroup ProductGroupGet(in int id)
         {
-            throw new NotImplementedException();
+            if (ReturnNullForProductGroupGet)
+                return null;
+
+            int groupId = id;
+            return ProductGroupsGet().Where(pg => pg.Id == groupId).FirstOrDefault();
         }
 
         public List<ProductGroup> ProductGroupsGet()
         {
-            throw new NotImplementedException();
+            if (ReturnNullForProductGroupGet)
+                return new List<ProductGroup>();
+
+            return new List<ProductGroup>()
+            {
+                new ProductGroup(1, "Main Products", "Main Products within our range", true, 1, "Checkout our main products", String.Empty),
+                new ProductGroup(2, "Other Products", "Our other products", true, 2, "Checkout our other products", String.Empty),
+                new ProductGroup(3, "Remote", "Remote Products", true, 3, "Remote Products", "http://hereorthere.com")
+            };
         }
+
+        #endregion Product Groups
+
+        #region Products
+
+        public List<Product> GetProducts(in int page, in int pageSize)
+        {
+            List<Product> Result = new List<Product>()
+            {
+                new Product(1, 1, "Product A & - &", "This is product a", "1 year guarantee", "", new string[] { "ProdA_1" }, 0, "ProdA", false, false),
+                new Product(2, 1, "Product B", "This is product b", "1 year guarantee", "", new string[] { "ProdB_1" }, 0, "ProdB", true, false),
+                new Product(3, 1, "Product C", "This is product c", "1 year guarantee", "E7Voso411Vs", new string[] { "ProdC_1" }, 1.99m, "ProdC", true, true, false, true),
+                new Product(4, 2, "Product D", "This is product d", "1 year guarantee", "", new string[] { "ProdD_1" }, 22.99m, "ProdD", false, true, true, true),
+                new Product(5, 2, "Product E", "This is product e", "1 year guarantee", "pCvZtjoRq1I", new string[] { "ProdE_1" }, 0, "SKUE", false, false),
+
+
+                new Product(6, 2, "Product F", "This is product f", "1 year guarantee", "pCvZtjoRq1I", new string[] { "ProdF_1" }, 0, "ProdF", false, false, true, true),
+                new Product(7, 2, "Product G", "This is product g", "1 year guarantee", "", new string[] { "ProdG_1" }, 15.95m, "SKUG", false, false, true, false),
+                new Product(8, 2, "Product H", "This is product description h", "1 year guarantee", "", new string[] { "ProdH_1" }, 1.99m, "SKUH", false, false, false, true),
+                new Product(9, 2, "Product I", "This is product description i", "1 year guarantee", "", new string[] { "ProdI_1" }, 0, "ProdI", false, false, false, true)
+            };
+
+            Result[0].SetCurrentStockLevel(5);
+
+            return Result;
+        }
+
+        public List<Product> GetProducts(in ProductGroup productGroup, in int page, in int pageSize)
+        {
+            ProductGroup prodGroup = productGroup;
+            return GetProducts(page, pageSize).Where(p => p.ProductGroupId == prodGroup.Id).ToList();
+        }
+
+        public Product GetProduct(in int id)
+        {
+            int prodId = id;
+            return GetProducts(1, 10000).Where(p => p.Id == prodId).FirstOrDefault();
+        }
+
+        #endregion Products
+
+        #endregion IProductProvider Members
+
+        public bool ReturnNullForProductGroupGet { get; set; }
     }
 }

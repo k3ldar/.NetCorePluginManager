@@ -24,17 +24,19 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
+using System.Diagnostics.CodeAnalysis;
 
 using Middleware;
 
 namespace AspNetCore.PluginManager.Tests.Shared
 {
+    [ExcludeFromCodeCoverage]
     public class MockUserApiQueryProvider : IUserApiQueryProvider
     {
         private readonly string _secret;
 
         public MockUserApiQueryProvider()
-            : this (null)
+            : this(null)
         {
 
         }
