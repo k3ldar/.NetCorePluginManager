@@ -80,7 +80,7 @@ namespace ProductPlugin.Controllers
             if (pluginHelper == null)
                 throw new ArgumentNullException(nameof(pluginHelper));
 
-            _settings = settingsProvider.GetSettings<ProductPluginSettings>("Products");
+            _settings = settingsProvider.GetSettings<ProductPluginSettings>(Name);
 
             _productProvider = productProvider ?? throw new ArgumentNullException(nameof(productProvider));
             _stockProvider = stockProvider ?? throw new ArgumentNullException(nameof(stockProvider));
