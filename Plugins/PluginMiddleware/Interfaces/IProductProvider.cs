@@ -79,6 +79,11 @@ namespace Middleware
         /// <returns>Product</returns>
         Product GetProduct(in int id);
 
+        /// <summary>
+        /// Retrieves the count of visible products
+        /// </summary>
+        int ProductCount { get; }
+
         #endregion Products
     }
 }

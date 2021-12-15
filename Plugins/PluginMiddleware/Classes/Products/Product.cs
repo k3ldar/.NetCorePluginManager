@@ -42,7 +42,7 @@ namespace Middleware.Products
         /// <param name="name">Name of the product.</param>
         /// <param name="description">Description of the product.</param>
         /// <param name="features">Product feature list.  This will be converted to a bullet list when displayed on a website.</param>
-        /// <param name="videoLink">The url for a video linkt to the product if one exists.</param>
+        /// <param name="videoLink">The url for a video link to the product if one exists.</param>
         /// <param name="images">List of images which represent the product.</param>
         /// <param name="retailPrice">Retail price of product.</param>
         /// <param name="sku">Unique product SKU.</param>
@@ -64,7 +64,7 @@ namespace Middleware.Products
         /// <param name="name">Name of the product.</param>
         /// <param name="description">Description of the product.</param>
         /// <param name="features">Product feature list.  This will be converted to a bullet list when displayed on a website.</param>
-        /// <param name="videoLink">The url for a video linkt to the product if one exists.</param>
+        /// <param name="videoLink">The url for a video link to the product if one exists.</param>
         /// <param name="images">List of images which represent the product.</param>
         /// <param name="retailPrice">Retail price of product.</param>
         /// <param name="sku">Unique product SKU.</param>

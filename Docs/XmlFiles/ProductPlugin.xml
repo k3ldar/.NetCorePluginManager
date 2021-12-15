@@ -156,16 +156,18 @@
             Product Administration Controller
             </summary>
         </member>
-        <member name="M:ProductPlugin.Controllers.ProductAdminController.#ctor(Middleware.IProductProvider)">
+        <member name="M:ProductPlugin.Controllers.ProductAdminController.#ctor(Middleware.IProductProvider,PluginManager.Abstractions.ISettingsProvider)">
             <summary>
             Constructor
             </summary>
             <param name="productProvider">IProductProvider instance</param>
+            <param name="settingsProvider">ISettingsProvider instance</param>
         </member>
-        <member name="M:ProductPlugin.Controllers.ProductAdminController.ProductGroupGet">
+        <member name="M:ProductPlugin.Controllers.ProductAdminController.Index(System.Nullable{System.Int32})">
             <summary>
-            Gets a ProductGroup item
+            Default controller entry point, provides a page of data for viewing
             </summary>
+            <param name="page"></param>
             <returns></returns>
         </member>
         <member name="T:ProductPlugin.Controllers.ProductController">
@@ -176,6 +178,51 @@
         <member name="P:ProductPlugin.Models.ProductCategoryProductModel.Sku">
             <summary>
             Unique product identifier
+            </summary>
+        </member>
+        <member name="T:ProductPlugin.Models.ProductListModel">
+            <summary>
+            Model for list of products
+            </summary>
+        </member>
+        <member name="M:ProductPlugin.Models.ProductListModel.#ctor(System.Int32,System.String,System.String)">
+            <summary>
+            Constructor
+            </summary>
+        </member>
+        <member name="P:ProductPlugin.Models.ProductListModel.Id">
+            <summary>
+            Product Id
+            </summary>
+        </member>
+        <member name="P:ProductPlugin.Models.ProductListModel.Sku">
+            <summary>
+            Product Sku
+            </summary>
+        </member>
+        <member name="P:ProductPlugin.Models.ProductListModel.Name">
+            <summary>
+            Product Name
+            </summary>
+        </member>
+        <member name="T:ProductPlugin.Models.ProductPageListModel">
+            <summary>
+            List of products for a page view
+            </summary>
+        </member>
+        <member name="M:ProductPlugin.Models.ProductPageListModel.#ctor(SharedPluginFeatures.BaseModelData@,System.Collections.Generic.List{Middleware.Products.Product},System.String)">
+            <summary>
+            Constructor
+            </summary>
+        </member>
+        <member name="P:ProductPlugin.Models.ProductPageListModel.Items">
+            <summary>
+            List of items
+            </summary>
+        </member>
+        <member name="P:ProductPlugin.Models.ProductPageListModel.Pagination">
+            <summary>
+            Pagination for page views
             </summary>
         </member>
         <member name="T:ProductPlugin.Models.ProductSearchViewModel">

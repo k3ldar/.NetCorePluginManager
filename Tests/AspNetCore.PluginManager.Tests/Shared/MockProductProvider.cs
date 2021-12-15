@@ -68,7 +68,13 @@ namespace AspNetCore.PluginManager.Tests.Shared
 
         public List<Product> GetProducts(in int page, in int pageSize)
         {
-            List<Product> Result = new List<Product>()
+            if (page < 1)
+                throw new ArgumentOutOfRangeException(nameof(page));
+
+            if (pageSize < 1)
+                throw new ArgumentOutOfRangeException(nameof(pageSize));
+
+            List<Product> products = new List<Product>()
             {
                 new Product(1, 1, "Product A & - &", "This is product a", "1 year guarantee", "", new string[] { "ProdA_1" }, 0, "ProdA", false, false),
                 new Product(2, 1, "Product B", "This is product b", "1 year guarantee", "", new string[] { "ProdB_1" }, 0, "ProdB", true, false),
@@ -83,7 +89,30 @@ namespace AspNetCore.PluginManager.Tests.Shared
                 new Product(9, 2, "Product I", "This is product description i", "1 year guarantee", "", new string[] { "ProdI_1" }, 0, "ProdI", false, false, false, true)
             };
 
-            Result[0].SetCurrentStockLevel(5);
+            products[0].SetCurrentStockLevel(5);
+
+            List<Product> Result = new List<Product>();
+
+            int start = (page * pageSize) - pageSize;
+            int end = (start + pageSize);
+
+            decimal pageCount = (decimal)products.Count / pageSize;
+
+            int pages = (int)Math.Truncate(pageCount);
+
+            if (pageCount - pages > 0)
+                pages++;
+
+            if (page > pages)
+                return Result;
+
+            if (end > products.Count)
+                end = products.Count;
+
+            for (int i = start; i < end; i++)
+            {
+                Result.Add(products[i]);
+            }
 
             return Result;
         }
@@ -99,6 +128,8 @@ namespace AspNetCore.PluginManager.Tests.Shared
             int prodId = id;
             return GetProducts(1, 10000).Where(p => p.Id == prodId).FirstOrDefault();
         }
+
+        public int ProductCount => 9;
 
         #endregion Products
 

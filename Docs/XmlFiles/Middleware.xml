@@ -1860,7 +1860,7 @@
             <param name="name">Name of the product.</param>
             <param name="description">Description of the product.</param>
             <param name="features">Product feature list.  This will be converted to a bullet list when displayed on a website.</param>
-            <param name="videoLink">The url for a video linkt to the product if one exists.</param>
+            <param name="videoLink">The url for a video link to the product if one exists.</param>
             <param name="images">List of images which represent the product.</param>
             <param name="retailPrice">Retail price of product.</param>
             <param name="sku">Unique product SKU.</param>
@@ -1876,7 +1876,7 @@
             <param name="name">Name of the product.</param>
             <param name="description">Description of the product.</param>
             <param name="features">Product feature list.  This will be converted to a bullet list when displayed on a website.</param>
-            <param name="videoLink">The url for a video linkt to the product if one exists.</param>
+            <param name="videoLink">The url for a video link to the product if one exists.</param>
             <param name="images">List of images which represent the product.</param>
             <param name="retailPrice">Retail price of product.</param>
             <param name="sku">Unique product SKU.</param>
@@ -3549,6 +3549,11 @@
             </summary>
             <param name="id">Id of product to retrieve.</param>
             <returns>Product</returns>
+        </member>
+        <member name="P:Middleware.IProductProvider.ProductCount">
+            <summary>
+            Retrieves the count of visible products
+            </summary>
         </member>
         <member name="T:Middleware.ISearchKeywordProvider">
             <summary>

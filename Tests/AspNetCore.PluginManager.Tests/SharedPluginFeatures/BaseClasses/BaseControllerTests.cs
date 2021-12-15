@@ -183,9 +183,15 @@ namespace AspNetCore.PluginManager.Tests.Controllers
             if (!isDefined)
                 return false;
 
-            RouteAttribute routeAttribute = methodInfo.GetCustomAttributes(true).OfType<RouteAttribute>().FirstOrDefault();
+            List<RouteAttribute> routeAttributes = methodInfo.GetCustomAttributes(true).OfType<RouteAttribute>().ToList();
 
-            return routeAttribute.Template.Equals(routeValue);
+            foreach (RouteAttribute attribute in routeAttributes)
+            {
+                if (attribute.Template.Equals(routeValue))
+                    return true;
+            }
+
+            return false;
         }
 
         public bool MethodHasAuthorizeAttribute(Type classType, string methodName, string policyName)

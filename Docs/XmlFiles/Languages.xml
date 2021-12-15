@@ -14155,6 +14155,11 @@
               Looks up a localized string similar to Unsubscribe from our mail list.
             </summary>
         </member>
+        <member name="P:Languages.LanguageStrings.ManageProducts">
+            <summary>
+              Looks up a localized string similar to Manage Products.
+            </summary>
+        </member>
         <member name="P:Languages.LanguageStrings.MapofVisitors">
             <summary>
               Looks up a localized string similar to Map of Visitors.
@@ -14620,6 +14625,11 @@
         <member name="P:Languages.LanguageStrings.NoOffers">
             <summary>
               Looks up a localized string similar to We have no special offers at this time, please check back soon..
+            </summary>
+        </member>
+        <member name="P:Languages.LanguageStrings.NoProductsFound">
+            <summary>
+              Looks up a localized string similar to No products found.
             </summary>
         </member>
         <member name="P:Languages.LanguageStrings.NoRecordExists">

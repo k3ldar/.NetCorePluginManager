@@ -14405,4 +14405,12 @@ You will shortly receive an email with the details of your order.</comment>
     <value>Uptime</value>
     <comment>Uptime</comment>
   </data>
+  <data name="ManageProducts" xml:space="preserve">
+    <value>Manage Products</value>
+    <comment>Manage Products</comment>
+  </data>
+  <data name="NoProductsFound" xml:space="preserve">
+    <value>No products found</value>
+    <comment>No products found</comment>
+  </data>
 </root>

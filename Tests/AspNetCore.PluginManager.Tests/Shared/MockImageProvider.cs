@@ -152,6 +152,11 @@ namespace AspNetCore.PluginManager.Tests.Shared
 
         public void AddFile(string groupName, string subgroupName, string fileName, byte[] fileContents)
         {
+            if (ThrowExceptionWhenAddingFile)
+            {
+                throw new InvalidOperationException("Forced to throw exception");
+            }
+
             if (String.IsNullOrEmpty(subgroupName))
                 _filesAdded.Add($"{groupName}.{fileName}", fileContents);
             else
@@ -166,6 +171,7 @@ namespace AspNetCore.PluginManager.Tests.Shared
 
         public bool CanDeleteImages { get; set; }
 
+        public bool ThrowExceptionWhenAddingFile { get; set; }
 
         public static MockImageProvider CreateDefaultMockImageProvider()
         {

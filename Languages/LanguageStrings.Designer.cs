@@ -25244,6 +25244,15 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Manage Products.
+        /// </summary>
+        public static string ManageProducts {
+            get {
+                return ResourceManager.GetString("ManageProducts", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Map of Visitors.
         /// </summary>
         public static string MapofVisitors {
@@ -26079,6 +26088,15 @@ namespace Languages {
         public static string NoOffers {
             get {
                 return ResourceManager.GetString("NoOffers", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No products found.
+        /// </summary>
+        public static string NoProductsFound {
+            get {
+                return ResourceManager.GetString("NoProductsFound", resourceCulture);
             }
         }
         

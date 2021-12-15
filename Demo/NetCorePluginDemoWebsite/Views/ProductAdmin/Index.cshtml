@@ -1,0 +1,64 @@
+﻿@model ProductPlugin.Models.ProductPageListModel
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
+<div class="row">
+<div class="col-sm-12 col-lg-10">
+<h3>@Localizer[Languages.LanguageStrings.ManageProducts]</h3>
+</div>
+</div>
+@if (Model.Items.Count == 0)
+{
+<div class="row">
+<div class="col-sm-12">
+@Localizer[Languages.LanguageStrings.NoProductsFound]
+</div>
+</div>
+}
+else
+{
+<div class="row" style="margin:0 0 8px 0;">
+<div class="col-sm-3">
+@Localizer[nameof(Languages.LanguageStrings.AppSKU)]
+</div>
+<div class="col-sm-7">
+@Localizer[nameof(Languages.LanguageStrings.Name)]
+</div>
+<div class="col-sm-2">
+&nbsp;
+</div>
+</div>
+foreach (ProductPlugin.Models.ProductListModel customPage in Model.Items)
+{
+using (Html.BeginForm(nameof(ProductPlugin.Controllers.ProductAdminController.EditProduct), ProductPlugin.Controllers.ProductAdminController.Name, FormMethod.Get))
+{
+<input type="hidden" name="id" value="@customPage.Id" />
+<div class="row" style="margin:0 0 8px 0;">
+<div class="col-sm-3">
+@customPage.Sku
+</div>
+<div class="col-sm-7">
+@customPage.Name
+</div>
+<div class="col-sm-2">
+<input class="btn btn-primary" type="submit" value="Edit" />
+</div>
+</div>
+}
+}
+}
+<div class="row">
+<div class="col-sm-12">
+@using (Html.BeginForm(nameof(ProductPlugin.Controllers.ProductAdminController.NewProduct), ProductPlugin.Controllers.ProductAdminController.Name, FormMethod.Post))
+{
+<div class="row" style="margin:15px 0 8px 0;">
+<div class="col-sm-12">
+<input class="btn btn-primary" style="float:right;" type="submit" value="@Localizer[Languages.LanguageStrings.New]" />
+</div>
+</div>
+}
+</div>
+</div>
+<div class="row justify-content-sm-center" style="margin-top:20px;">
+<div class="col-sm-auto">
+@Html.Raw(Model.Pagination)
+</div>
+</div>
