@@ -139,7 +139,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ProductTests
                     ResizeBackfillColor = "999z999#"
                 };
 
-                MockImageProvider mockImageProvider = new MockImageProvider();
+                MockImageProvider mockImageProvider = MockImageProvider.CreateDefaultMockImageProviderWithSubgroupAndImage();
                 mockImageProvider.ThrowExceptionWhenAddingFile = true;
                 MockSettingsProvider testSettingsProvider = new MockSettingsProvider("{\"Products\":" + JsonConvert.SerializeObject(settings) + "}");
 
@@ -158,10 +158,10 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ProductTests
                 Assert.IsInstanceOfType(response, typeof(List<string>));
 
                 // validate new files exist
-                Assert.IsTrue(ValidateImage(Path.Combine(imagePath, "Products", "C256", "C256_1_orig.jpg"), 480, 360));
-                Assert.IsTrue(ValidateImage(Path.Combine(imagePath, "Products", "C256", "C256_1_89.png"), 89, 64));
-                Assert.IsTrue(ValidateImage(Path.Combine(imagePath, "Products", "C256", "C256_2_orig.jpg"), 907, 960));
-                Assert.IsTrue(ValidateImage(Path.Combine(imagePath, "Products", "C256", "C256_2_89.png"), 89, 64));
+                Assert.IsFalse(ValidateImage(Path.Combine(imagePath, "Products", "C256", "C256_1_orig.jpg"), 480, 360));
+                Assert.IsFalse(ValidateImage(Path.Combine(imagePath, "Products", "C256", "C256_1_89.png"), 89, 64));
+                Assert.IsFalse(ValidateImage(Path.Combine(imagePath, "Products", "C256", "C256_2_orig.jpg"), 907, 960));
+                Assert.IsFalse(ValidateImage(Path.Combine(imagePath, "Products", "C256", "C256_2_89.png"), 89, 64));
             }
             finally
             {

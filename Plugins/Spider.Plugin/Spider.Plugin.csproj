@@ -2,7 +2,6 @@
 
   <PropertyGroup>
     <TargetFrameworks>net5.0;netcoreapp3.1</TargetFrameworks>
-    <LangVersion>latest</LangVersion>
     <Authors>Simon Carter</Authors>
     <Company>Simon Carter</Company>
     <Description>Plugin which generates a robots.txt file, based on DenySpider attributes on classes or methods within controllers.  If UserSessionMiddleware.Plugin is also installed, will check to see if a bot is trying to access a page it has been denied, and return a 403 forbidden result.</Description>

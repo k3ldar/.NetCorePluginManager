@@ -7518,6 +7518,15 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Please provide a valid product description..
+        /// </summary>
+        public static string AppErrorInvalidProductDescription {
+            get {
+                return ResourceManager.GetString("AppErrorInvalidProductDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Please specify a valid product item name..
         /// </summary>
         public static string AppErrorInvalidProductName {
@@ -7532,6 +7541,24 @@ namespace Languages {
         public static string AppErrorInvalidProductNameDuplicate {
             get {
                 return ResourceManager.GetString("AppErrorInvalidProductNameDuplicate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Product price must be at least zero..
+        /// </summary>
+        public static string AppErrorInvalidProductPrice {
+            get {
+                return ResourceManager.GetString("AppErrorInvalidProductPrice", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please provide a valid SKU for the product..
+        /// </summary>
+        public static string AppErrorInvalidProductSku {
+            get {
+                return ResourceManager.GetString("AppErrorInvalidProductSku", resourceCulture);
             }
         }
         

@@ -65,7 +65,14 @@ namespace AspNetCore.PluginManager.Tests.Shared
 
         public bool AddSubgroup(string groupName, string subGroupName)
         {
-            throw new NotImplementedException();
+            if (!_groups.ContainsKey(groupName))
+                throw new InvalidOperationException("groupName not found");
+
+            if (_groups[groupName].Contains(subGroupName))
+                throw new InvalidOperationException("Sub group already exists");
+
+            _groups[groupName].Add(subGroupName);
+            return true;
         }
 
         public bool CreateGroup(string groupName)

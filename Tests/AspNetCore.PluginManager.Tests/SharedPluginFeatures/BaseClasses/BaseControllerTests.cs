@@ -39,6 +39,8 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using PluginManager.Abstractions;
 using PluginManager.Tests.Mocks;
 
+using Shared.Classes;
+
 using SharedPluginFeatures;
 
 using MockPluginManager = AspNetCore.PluginManager.Tests.Shared.MockPluginManager;
@@ -63,6 +65,22 @@ namespace AspNetCore.PluginManager.Tests.Controllers
         protected static MockPluginManager _testImageManagerPlugin = new MockPluginManager();
         protected static bool? _pluginLoadedImageManagerPlugin = null;
         protected static IPluginClassesService _pluginServicesImageManager;
+
+        protected void WaitForThreadToFinish(string threadName, int millisecondsToWait = 5000)
+        {
+            DateTime startTime = DateTime.Now;
+
+            while (true)
+            {
+                if (!ThreadManager.Exists(threadName))
+                    break;
+
+                TimeSpan timeTaken = DateTime.Now - startTime;
+
+                if (timeTaken.TotalMilliseconds > millisecondsToWait)
+                    break;
+            } 
+        }
 
         protected ControllerContext CreateTestControllerContext(List<BreadcrumbItem> breadcrumbs = null,
             MockRequestCookieCollection testCookieCollection = null,

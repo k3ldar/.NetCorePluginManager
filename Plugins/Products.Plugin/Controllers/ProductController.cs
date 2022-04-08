@@ -236,7 +236,7 @@ namespace ProductPlugin.Controllers
 
         private string[] GetImageNameArray(Product product)
         {
-            List<Middleware.Images.ImageFile> images = _imageProvider.Images(SharedPluginFeatures.Constants.ProductImageFolderName, product.Sku)
+            List<Middleware.Images.ImageFile> images = _imageProvider.Images(ProductImageFolderName, product.Sku)
                     .Where(i => i.Name.Contains("_orig"))
                     .ToList();
 

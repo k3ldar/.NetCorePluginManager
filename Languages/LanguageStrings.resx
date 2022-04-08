@@ -14413,4 +14413,16 @@ You will shortly receive an email with the details of your order.</comment>
     <value>No products found</value>
     <comment>No products found</comment>
   </data>
+  <data name="AppErrorInvalidProductDescription" xml:space="preserve">
+    <value>Please provide a valid product description.</value>
+    <comment>Please provide a valid product description.</comment>
+  </data>
+  <data name="AppErrorInvalidProductPrice" xml:space="preserve">
+    <value>Product price must be at least zero.</value>
+    <comment>Product price must be at least zero.</comment>
+  </data>
+  <data name="AppErrorInvalidProductSku" xml:space="preserve">
+    <value>Please provide a valid SKU for the product.</value>
+    <comment>Please provide a valid SKU for the product.</comment>
+  </data>
 </root>

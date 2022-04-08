@@ -172,7 +172,7 @@ namespace ImageManager.Plugin.Classes
             string groupPath = Path.Combine(_rootPath, groupName, subgroupName);
 
             if (!Directory.Exists(groupPath))
-                throw new ArgumentException($"{groupName} does not exist");
+                return new List<ImageFile>();
 
             string cacheNameImageGroup = $"Default Image Provider Image Subgroup - {groupName} {subgroupName}";
             CacheItem imageCache = _imageProviderCache.Get(cacheNameImageGroup);

@@ -4221,6 +4221,11 @@
               Looks up a localized string similar to You do not have permission to view {0}.
             </summary>
         </member>
+        <member name="P:Languages.LanguageStrings.AppErrorInvalidProductDescription">
+            <summary>
+              Looks up a localized string similar to Please provide a valid product description..
+            </summary>
+        </member>
         <member name="P:Languages.LanguageStrings.AppErrorInvalidProductName">
             <summary>
               Looks up a localized string similar to Please specify a valid product item name..
@@ -4229,6 +4234,16 @@
         <member name="P:Languages.LanguageStrings.AppErrorInvalidProductNameDuplicate">
             <summary>
               Looks up a localized string similar to The new product item name you have chosen already exists.\r\n\r\nPlease choose another name..
+            </summary>
+        </member>
+        <member name="P:Languages.LanguageStrings.AppErrorInvalidProductPrice">
+            <summary>
+              Looks up a localized string similar to Product price must be at least zero..
+            </summary>
+        </member>
+        <member name="P:Languages.LanguageStrings.AppErrorInvalidProductSku">
+            <summary>
+              Looks up a localized string similar to Please provide a valid SKU for the product..
             </summary>
         </member>
         <member name="P:Languages.LanguageStrings.AppErrorInvalidSKU">

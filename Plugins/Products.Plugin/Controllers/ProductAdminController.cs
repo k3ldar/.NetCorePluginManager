@@ -54,6 +54,7 @@ namespace ProductPlugin.Controllers
 
         private readonly IProductProvider _productProvider;
         private readonly ProductPluginSettings _settings;
+        private readonly IMemoryCache _memoryCache;
 
         #endregion Private Members
 
@@ -64,7 +65,7 @@ namespace ProductPlugin.Controllers
         /// </summary>
         /// <param name="productProvider">IProductProvider instance</param>
         /// <param name="settingsProvider">ISettingsProvider instance</param>
-        public ProductAdminController(IProductProvider productProvider, ISettingsProvider settingsProvider)
+        public ProductAdminController(IProductProvider productProvider, ISettingsProvider settingsProvider, IMemoryCache memoryCache)
         {
             _productProvider = productProvider ?? throw new ArgumentNullException(nameof(productProvider));
 
@@ -72,7 +73,7 @@ namespace ProductPlugin.Controllers
                 throw new ArgumentNullException(nameof(settingsProvider));
 
             _settings = settingsProvider.GetSettings<ProductPluginSettings>(ProductController.Name);
-
+            _memoryCache = memoryCache ?? throw new ArgumentNullException(nameof(_memoryCache));
         }
 
         #endregion Constructors
@@ -93,20 +94,57 @@ namespace ProductPlugin.Controllers
         [HttpGet]
         public IActionResult EditProduct(int id)
         {
-            throw new NotImplementedException();
+            Product product = _productProvider.GetProduct(id);
+
+            if (product == null)
+                return RedirectToAction(nameof(Index));
+
+            return View(CreateEditProductModel(product));
         }
 
         [HttpGet]
         public IActionResult NewProduct()
         {
-            throw new NotImplementedException();
+            return View("/Views/ProductAdmin/EditProduct.aspx", new EditProductModel(GetModelData()));
         }
 
         [HttpPost]
-        public IActionResult SaveProduct()
+        public IActionResult SaveProduct(EditProductModel model)
         {
-            throw new NotImplementedException();
+            if (model == null)
+                return RedirectToAction(nameof(Index));
+
+            if (String.IsNullOrEmpty(model.Name))
+                ModelState.AddModelError(nameof(model.Name), LanguageStrings.AppErrorInvalidProductName);
+
+            if (String.IsNullOrEmpty(model.Description))
+                ModelState.AddModelError(nameof(model.Description), LanguageStrings.AppErrorInvalidProductDescription);
+
+            if (model.RetailPrice < 0)
+                ModelState.AddModelError(nameof(model.RetailPrice), LanguageStrings.AppErrorInvalidProductPrice);
+
+            if (String.IsNullOrEmpty(model.Sku))
+                ModelState.AddModelError(nameof(model.Sku), LanguageStrings.AppErrorInvalidProductSku);
+
+            if (_productProvider.ProductGroupGet(model.ProductGroupId) == null)
+                ModelState.AddModelError(nameof(model.ProductGroupId), LanguageStrings.AppProductSaveNoPrimaryGroup);
+
+            // product provider can have it's own rules and fail to save at this point
+            if (!_productProvider.ProductSave(model.Id, model.ProductGroupId, model.Name, model.Description, model.Features, model.VideoLink,
+                model.NewProduct, model.BestSeller, model.RetailPrice, model.Sku, model.IsDownload, model.AllowBackorder, out string errorMessage))
+            {
+                ModelState.AddModelError(String.Empty, errorMessage);
+            }
+
+            if (!ModelState.IsValid)
+                return View("/Views/ProductAdmin/EditProduct.aspx", model);
+
+            _memoryCache.GetShortCache().Clear();
+
+            return RedirectToAction(nameof(Index));
         }
+
+        delete a product
 
         private ProductPageListModel GetPageList(int page)
         {
@@ -119,6 +157,17 @@ namespace ProductPlugin.Controllers
                 LanguageStrings.Previous, LanguageStrings.Next);
 
             return new ProductPageListModel(GetModelData(), pageProducts, pagination);
+        }
+
+        private EditProductModel CreateEditProductModel(Product product)
+        {
+            List<LookupListItem> productGroups = new List<LookupListItem>();
+
+            _productProvider.ProductGroupsGet().ForEach(pg => productGroups.Add(new LookupListItem(pg.Id, pg.Description)));
+
+            return new EditProductModel(GetModelData(), productGroups, product.Id, product.ProductGroupId,
+                product.Name, product.Description, product.Features, product.VideoLink, product.NewProduct,
+                product.BestSeller, product.RetailPrice, product.Sku, product.IsDownload, product.AllowBackorder);
         }
 
         #region Product Group API

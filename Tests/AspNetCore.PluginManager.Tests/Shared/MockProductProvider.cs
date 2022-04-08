@@ -129,6 +129,19 @@ namespace AspNetCore.PluginManager.Tests.Shared
             return GetProducts(1, 10000).Where(p => p.Id == prodId).FirstOrDefault();
         }
 
+        public bool ProductGroupSave(in int id, in string description, in string seoDescription, in bool showOnWebsite, in int sortOrder, in string tagLine, in string url, out string errorMessage)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool ProductSave(in int id, in int productGroupId, in string name, in string description, in string features, in string videoLink, in bool newProduct, 
+            in bool bestSeller, in decimal retailPrice, in string sku, in bool isDownload, in bool allowBackOrder, out string errorMessage)
+        {
+            errorMessage = ProductSaveError;
+
+            return String.IsNullOrEmpty(ProductSaveError);
+        }
+
         public int ProductCount => 9;
 
         #endregion Products
@@ -136,5 +149,7 @@ namespace AspNetCore.PluginManager.Tests.Shared
         #endregion IProductProvider Members
 
         public bool ReturnNullForProductGroupGet { get; set; }
+
+        public string ProductSaveError { get; set; }
     }
 }

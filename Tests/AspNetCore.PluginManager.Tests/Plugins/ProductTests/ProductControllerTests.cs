@@ -833,6 +833,9 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ProductTests
                 string searchId = GetSearchId(model);
 
                 IActionResult response = sut.AdvancedSearch(model);
+
+                WaitForThreadToFinish("Update price group product counts en-GB");
+
                 RedirectResult result = response as RedirectResult;
 
                 Assert.IsNotNull(result);
