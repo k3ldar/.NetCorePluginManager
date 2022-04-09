@@ -27,8 +27,18 @@ using Microsoft.AspNetCore.Http;
 
 namespace SharedPluginFeatures
 {
+    /// <summary>
+    /// Api authorization service interface
+    /// </summary>
     public interface IApiAuthorizationService
     {
+        /// <summary>
+        /// Validates a request against the api service
+        /// </summary>
+        /// <param name="httpRequest">Request making the call</param>
+        /// <param name="policyName">Name of the policy</param>
+        /// <param name="responseCode">Response code</param>
+        /// <returns>bool</returns>
         bool ValidateApiRequest(HttpRequest httpRequest, string policyName, out int responseCode);
     }
 }

@@ -1,25 +1,36 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
-    <LangVersion>latest</LangVersion>
+    <TargetFramework>net6.0</TargetFramework>
     <RazorCompileOnBuild>false</RazorCompileOnBuild>
     <RazorCompileOnPublish>true</RazorCompileOnPublish>
-    <Version>4.3.0</Version>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)'=='Debug|net5.0'">
-    <DefineConstants>CODE_ANALYSIS;DEBUG;TRACE;NET_CORE;NET_5_0;NET_5_X</DefineConstants>
-    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
-    <DebugType>full</DebugType>
-    <DebugSymbols>true</DebugSymbols>
+  <PropertyGroup>
+    <DefineConstants>$(DefineConstants)</DefineConstants>
+    <CheckForOverflowUnderflow>$(CheckForOverflowUnderflow)</CheckForOverflowUnderflow>
+    <DebugType>$(DebugType)</DebugType>
+    <DebugSymbols>$(DebugSymbols)</DebugSymbols>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)'=='Release|net5.0'">
-    <DefineConstants>CODE_ANALYSIS;NET_CORE;NET_5_0;NET_5_X</DefineConstants>
-    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
-    <DebugType>portable</DebugType>
-    <DebugSymbols>true</DebugSymbols>
+  <PropertyGroup>
+    <Description>$(Description) Demo API Plugin</Description>
+    <Version>$(Version)</Version>
+    <LangVersion>$(LangVersion)</LangVersion>
+    <Authors>$(Authors)</Authors>
+    <Company>$(Company)</Company>
+    <Copyright>$(Copyright)</Copyright>
+    <RepositoryUrl>$(RepositoryUrl)</RepositoryUrl>
+    <RepositoryType>$(RepositoryType)</RepositoryType>
+    <PackageTags>$(PackageTags)</PackageTags>
+    <PackageProjectUrl>$(PackageProjectUrl)</PackageProjectUrl>
+    <PackageLicenseExpression>$(PackageLicenseExpression)</PackageLicenseExpression>
+    <PackageReleaseNotes>$(PackageReleaseNotes)</PackageReleaseNotes>
+    <PackageTags>$(PackageTags)</PackageTags>
+    <RunAnalyzersDuringBuild>$(RunAnalyzersDuringBuild)</RunAnalyzersDuringBuild>
+    <NoWarn>$(NoWarn)</NoWarn>
+    <SignAssembly>$(SignAssembly)</SignAssembly>
+    <AssemblyOriginatorKeyFile>$(AssemblyOriginatorKeyFile)</AssemblyOriginatorKeyFile>
   </PropertyGroup>
 
   <ItemGroup>

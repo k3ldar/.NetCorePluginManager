@@ -1,67 +1,41 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net5.0;netcoreapp3.1</TargetFrameworks>
-    <LangVersion>latest</LangVersion>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Description>Plugin Middleware - Business Object Layer</Description>
-    <Copyright>Copyright (c) 2018 - 2021.  Simon Carter.  All rights reserved.</Copyright>
-    <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
-    <PackageProjectUrl>http://pluginmanager.website/</PackageProjectUrl>
-    <PackageTags>asp net core plugin manager middleware business object layer</PackageTags>
-    <PackageReleaseNotes>Shared Modules</PackageReleaseNotes>
-    <Version>4.3.0</Version>
-    <Authors>Simon Carter</Authors>
-    <Company>Simon Carter</Company>
+    <TargetFrameworks>net6.0;net5.0;netcoreapp3.1</TargetFrameworks>
     <AssemblyName>Middleware</AssemblyName>
     <RootNamespace>Middleware</RootNamespace>
     <PackageIconUrl></PackageIconUrl>
-    <RepositoryUrl>https://github.com/k3ldar/.NetCorePluginManager</RepositoryUrl>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)'=='Debug|net5.0'">
-    <DefineConstants>CODE_ANALYSIS;DEBUG;TRACE;NET_CORE;NET_5_0;NET_5_X</DefineConstants>
-    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
-    <DebugType>full</DebugType>
-    <DebugSymbols>true</DebugSymbols>
+  <PropertyGroup>
+    <DefineConstants>$(DefineConstants)</DefineConstants>
+    <CheckForOverflowUnderflow>$(CheckForOverflowUnderflow)</CheckForOverflowUnderflow>
+    <DebugType>$(DebugType)</DebugType>
+    <DebugSymbols>$(DebugSymbols)</DebugSymbols>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)'=='Release|net5.0'">
-    <DefineConstants>CODE_ANALYSIS;NET_CORE;NET_5_0;NET_5_X</DefineConstants>
-    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
-    <DebugType>portable</DebugType>
-    <DebugSymbols>true</DebugSymbols>
+  <PropertyGroup>
+    <Description>$(Description) middleware business object layer</Description>
+    <Version>$(Version)</Version>
+    <LangVersion>$(LangVersion)</LangVersion>
+    <Authors>$(Authors)</Authors>
+    <Company>$(Company)</Company>
+    <Copyright>$(Copyright)</Copyright>
+    <RepositoryUrl>$(RepositoryUrl)</RepositoryUrl>
+    <RepositoryType>$(RepositoryType)</RepositoryType>
+    <PackageTags>$(PackageTags) middleware bussiness object layer bol</PackageTags>
+    <PackageProjectUrl>$(PackageProjectUrl)</PackageProjectUrl>
+    <PackageLicenseExpression>$(PackageLicenseExpression)</PackageLicenseExpression>
+    <PackageReleaseNotes>$(PackageReleaseNotes)</PackageReleaseNotes>
+    <PackageTags>$(PackageTags)</PackageTags>
+    <RunAnalyzersDuringBuild>$(RunAnalyzersDuringBuild)</RunAnalyzersDuringBuild>
+    <NoWarn>$(NoWarn)</NoWarn>
+    <SignAssembly>$(SignAssembly)</SignAssembly>
+    <AssemblyOriginatorKeyFile>$(AssemblyOriginatorKeyFile)</AssemblyOriginatorKeyFile>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)'=='Debug|netcoreapp2.1'">
-    <DefineConstants>CODE_ANALYSIS;DEBUG;TRACE;NET_CORE;NET_CORE_2_1</DefineConstants>
-    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
-    <DebugType>full</DebugType>
-    <DebugSymbols>true</DebugSymbols>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)'=='Release|netcoreapp2.1'">
-    <DefineConstants>CODE_ANALYSIS;NET_CORE;NET_CORE_2_1</DefineConstants>
-    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
-    <DebugType>portable</DebugType>
-    <DebugSymbols>true</DebugSymbols>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)'=='Debug|netcoreapp3.1'">
-    <DefineConstants>CODE_ANALYSIS;DEBUG;TRACE;NET_CORE;NET_CORE_3_1</DefineConstants>
-    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
-    <DebugType>full</DebugType>
-    <DebugSymbols>true</DebugSymbols>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)'=='Release|netcoreapp3.1'">
-    <DefineConstants>CODE_ANALYSIS;NET_CORE;NET_CORE_3_1</DefineConstants>
-    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
-    <DebugType>portable</DebugType>
-    <DebugSymbols>true</DebugSymbols>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(TargetFramework)'=='net5.0'">
+  <PropertyGroup Condition="'$(TargetFramework)'=='net6.0'">
     <DocumentationFile>..\..\Docs\XmlFiles\Middleware.xml</DocumentationFile>
   </PropertyGroup>
 

@@ -63,9 +63,7 @@ namespace ProductPlugin
             PluginManagerService.ConfigureServices(services);
 
             services.AddMvc(
-#if NET_CORE_3_X || NET_5_X
                 option => option.EnableEndpointRouting = false
-#endif
                 )                
                 .ConfigurePluginManager();
         }
@@ -81,7 +79,6 @@ namespace ProductPlugin
 
             PluginManagerService.Configure(app);
 
-#if !NET_CORE_3_X || NET_5_X
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
@@ -89,7 +86,6 @@ namespace ProductPlugin
                     template: "{controller=Product}/{action=Index}/{id?}");
             })
             .UsePluginManager();
-#endif
         }
     }
 }

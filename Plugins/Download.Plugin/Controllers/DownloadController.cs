@@ -55,7 +55,7 @@ namespace DownloadPlugin.Controllers
         public const string Name = "Download";
 
         private static readonly CacheManager _downloadCache = new CacheManager("Downloads", new TimeSpan(0, 60, 0));
-#if NET_CORE_3_X || NET_5_X
+#if NET_CORE_3_X || NET_5_X || NET_6_X
         private readonly IWebHostEnvironment _hostingEnvironment;
 #else
         private readonly IHostingEnvironment _hostingEnvironment;
@@ -69,7 +69,7 @@ namespace DownloadPlugin.Controllers
         #region Constructors
 
         public DownloadController(IDownloadProvider downloadProvider,
-#if NET_CORE_3_X || NET_5_X
+#if NET_CORE_3_X || NET_5_X || NET_6_X
             IWebHostEnvironment hostingEnvironment)
 #else
             IHostingEnvironment hostingEnvironment)

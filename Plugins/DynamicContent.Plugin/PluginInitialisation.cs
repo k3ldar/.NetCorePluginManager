@@ -72,7 +72,7 @@ namespace DynamicContent.Plugin
 
         public void AfterConfigureServices(in IServiceCollection services)
         {
-#if NET_CORE_3_X || NET_5_X
+#if NET_CORE_3_X || NET_5_X || NET_6_X
             services.AddAuthorization(options =>
             {
                 options.AddPolicy(

@@ -50,9 +50,9 @@ namespace Languages
             List<string> Result = new List<string>();
             Result.Add(defaultCulture.Name);
 
-            for (int i = 1; i < files.Length; i++)
+            for (int i = 0; i < files.Length; i++)
             {
-                string file = files[i - 1].Replace(path, String.Empty);
+                string file = files[i].Replace(path, String.Empty);
                 file = file.Substring(0, file.LastIndexOf('\\'));
                 string language = file.Substring(file.LastIndexOf('\\') + 1);
 

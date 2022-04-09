@@ -88,7 +88,7 @@ namespace AspNetCore.PluginManager.Classes.SystemAdmin
                 string file = String.Empty;
                 try
                 {
-#if NET_5_X
+#if NET_5_X || NET_6_X
                     string path = assembly.Location;
 #else
                     string path = String.IsNullOrEmpty(assembly.Location) ? assembly.CodeBase : assembly.Location;

@@ -1,39 +1,51 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-	<TargetFramework>net5.0</TargetFramework>
-	<Version>4.3.0</Version>
-	<IsPackable>false</IsPackable>
-	<RunAnalyzersDuringBuild>false</RunAnalyzersDuringBuild>
-	<RunAnalyzersDuringLiveAnalysis>false</RunAnalyzersDuringLiveAnalysis>
+		<TargetFramework>net6.0</TargetFramework>
+		<IsPackable>false</IsPackable>
+		<RunAnalyzersDuringBuild>false</RunAnalyzersDuringBuild>
+		<RunAnalyzersDuringLiveAnalysis>false</RunAnalyzersDuringLiveAnalysis>
   </PropertyGroup>
 
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)'=='Debug|net5.0'">
-		<DefineConstants>CODE_ANALYSIS;DEBUG;TRACE;NET_CORE;NET_5_0;NET_5_X</DefineConstants>
-		<CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
-		<DebugType>full</DebugType>
-		<DebugSymbols>true</DebugSymbols>
-	</PropertyGroup>
+  <PropertyGroup>
+    <DefineConstants>$(DefineConstants)</DefineConstants>
+    <CheckForOverflowUnderflow>$(CheckForOverflowUnderflow)</CheckForOverflowUnderflow>
+    <DebugType>$(DebugType)</DebugType>
+    <DebugSymbols>$(DebugSymbols)</DebugSymbols>
+  </PropertyGroup>
 
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)'=='Release|net5.0'">
-		<DefineConstants>CODE_ANALYSIS;NET_CORE;NET_5_0;NET_5_X</DefineConstants>
-		<CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
-		<DebugType>portable</DebugType>
-		<DebugSymbols>true</DebugSymbols>
-	</PropertyGroup>
+  <PropertyGroup>
+    <Description>$(Description) unit tests</Description>
+    <Version>$(Version)</Version>
+    <LangVersion>$(LangVersion)</LangVersion>
+    <Authors>$(Authors)</Authors>
+    <Company>$(Company)</Company>
+    <Copyright>$(Copyright)</Copyright>
+    <RepositoryUrl>$(RepositoryUrl)</RepositoryUrl>
+    <RepositoryType>$(RepositoryType)</RepositoryType>
+    <PackageTags>$(PackageTags)</PackageTags>
+    <PackageProjectUrl>$(PackageProjectUrl)</PackageProjectUrl>
+    <PackageLicenseExpression>$(PackageLicenseExpression)</PackageLicenseExpression>
+    <PackageReleaseNotes>$(PackageReleaseNotes)</PackageReleaseNotes>
+    <PackageTags>$(PackageTags) unit tests</PackageTags>
+    <RunAnalyzersDuringBuild>$(RunAnalyzersDuringBuild)</RunAnalyzersDuringBuild>
+    <NoWarn>$(NoWarn)</NoWarn>
+    <SignAssembly>$(SignAssembly)</SignAssembly>
+    <AssemblyOriginatorKeyFile>$(AssemblyOriginatorKeyFile)</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
 
 	<ItemGroup>
-	<None Remove="appsettings.json" />
-	<None Remove="Properties\Images\banksy-no-ball-games.-graffiti-street-fine-art-print-poster.-sizes-a4-a3-a2-a1-001187--4305-p.jpg" />
-	<None Remove="Properties\Images\banksy-pulp-fiction.-banana-graffiti-street-fine-art-print-poster.-sizes-a4-a3-a2-a1-00344--4244-p.jpg" />
-	<None Remove="Properties\Images\Banksy_077_preview.jpg" />
-	<None Remove="Properties\Images\Banksy_191_preview.jpg" />
-	<None Remove="Properties\Images\Banksy_215_preview.jpg" />
-	<None Remove="Properties\Images\fit together.jpg" />
-	<None Remove="Properties\Images\InvalidImage.txt" />
-	<None Remove="Properties\Images\life.jpg" />
-	<None Remove="Properties\Images\racism is stupid.jpg" />
-	<None Remove="Properties\Images\this_tall.jpg" />
+		<None Remove="appsettings.json" />
+		<None Remove="Properties\Images\banksy-no-ball-games.-graffiti-street-fine-art-print-poster.-sizes-a4-a3-a2-a1-001187--4305-p.jpg" />
+		<None Remove="Properties\Images\banksy-pulp-fiction.-banana-graffiti-street-fine-art-print-poster.-sizes-a4-a3-a2-a1-00344--4244-p.jpg" />
+		<None Remove="Properties\Images\Banksy_077_preview.jpg" />
+		<None Remove="Properties\Images\Banksy_191_preview.jpg" />
+		<None Remove="Properties\Images\Banksy_215_preview.jpg" />
+		<None Remove="Properties\Images\fit together.jpg" />
+		<None Remove="Properties\Images\InvalidImage.txt" />
+		<None Remove="Properties\Images\life.jpg" />
+		<None Remove="Properties\Images\racism is stupid.jpg" />
+		<None Remove="Properties\Images\this_tall.jpg" />
   </ItemGroup>
 
   <ItemGroup>

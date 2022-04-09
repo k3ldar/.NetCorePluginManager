@@ -31,7 +31,7 @@ using System.Text;
 namespace SharedPluginFeatures
 {
     /// <summary>
-    /// Helper class providing methods that can generate a hmac value to be used with <see cref="HmacApiAuthorizationService"/>
+    /// Helper class providing methods that can generate a hmac value to be used with HmacApiAuthorizationService
     /// </summary>
     public static class HmacGenerator
     {

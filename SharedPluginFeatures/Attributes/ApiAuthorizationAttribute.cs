@@ -28,21 +28,35 @@ using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace SharedPluginFeatures
 {
+    /// <summary>
+    /// Api authorization attribute used to verify the current user has the correct authorization for a route
+    /// </summary>
     public sealed class ApiAuthorizationAttribute : ActionFilterAttribute
     {
         private readonly string _policyName;
 
+        /// <summary>
+        /// Default constructor
+        /// </summary>
         public ApiAuthorizationAttribute()
             : this(string.Empty)
         {
 
         }
 
+        /// <summary>
+        /// Constructor validation of policy name to be used in the route for the current user
+        /// </summary>
+        /// <param name="policyName"></param>
         public ApiAuthorizationAttribute(string policyName)
         {
             _policyName = policyName;
         }
 
+        /// <summary>
+        /// Method used to execute authorization request
+        /// </summary>
+        /// <param name="context"></param>
         public override void OnActionExecuting(ActionExecutingContext context)
         {
             IApiAuthorizationService apiAuthorizationService = context.HttpContext.RequestServices.GetService(typeof(IApiAuthorizationService)) as IApiAuthorizationService;

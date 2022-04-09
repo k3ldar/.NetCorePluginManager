@@ -42,7 +42,7 @@ namespace SharedPluginFeatures
         /// Initialises a new subdomain and applies the configuration name for the controller
         /// </summary>
         /// <param name="configurationName">Name of the configuration for the subdomain.</param>
-        /// <exception cref="ArgumentNullException">Thrown if <see cref="configurationName"/> is null or empty</exception>
+        /// <exception cref="ArgumentNullException">Thrown if configurationName is null or empty</exception>
         public SubdomainAttribute(string configurationName)
         {
             if (String.IsNullOrEmpty(configurationName))

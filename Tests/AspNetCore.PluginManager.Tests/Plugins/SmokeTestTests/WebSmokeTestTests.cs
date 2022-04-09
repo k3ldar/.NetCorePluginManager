@@ -178,7 +178,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SmokeTestTests
                 httpResponse.Body.Read(data, 0, data.Length);
                 string id = Decrypt(Encoding.UTF8.GetString(data), EncryptionKey);
 
-                Assert.IsTrue(id.Contains("8D801A6912AF939"));
+                Assert.IsTrue(id.Contains("8D814F8E47A33B4"));
             }
         }
 
