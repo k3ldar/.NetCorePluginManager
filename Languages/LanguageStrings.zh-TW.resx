@@ -1721,10 +1721,6 @@
     <value>輸入優惠代碼</value>
     <comment>Enter Voucher Code</comment>
   </data>
-  <data name="ShoppingBag" xml:space="preserve">
-    <value>購物車</value>
-    <comment>Shopping Bag</comment>
-  </data>
   <data name="Cookies" xml:space="preserve">
     <value>Cookies</value>
     <comment>Cookies</comment>
