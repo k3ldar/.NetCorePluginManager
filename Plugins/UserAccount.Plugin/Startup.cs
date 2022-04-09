@@ -72,8 +72,7 @@ namespace UserAccount.Plugin
                 .ConfigurePluginManager();
         }
 
-        public void Configure(IApplicationBuilder app,
-            IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app)
         {
             // Allow plugin manager to configure options for all plugins
             PluginManagerService.Configure(app);

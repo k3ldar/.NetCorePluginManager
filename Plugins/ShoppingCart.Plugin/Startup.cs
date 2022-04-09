@@ -61,14 +61,12 @@ namespace ShoppingCartPlugin
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1801:ReviewUnusedParameters", MessageId = "Reviewed and ok in this context")]
         public void Configure(IApplicationBuilder app)
         {
-#if !NET_CORE_3_X && !NET_6_X
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
-#endif
         }
     }
 }
