@@ -1,0 +1,89 @@
+<Project>
+  <PropertyGroup>
+    <RunAnalyzersDuringBuild>false</RunAnalyzersDuringBuild>
+	<NoWarn>CS1591</NoWarn>
+    <SignAssembly>false</SignAssembly>
+    <AssemblyOriginatorKeyFile>Shared.Key.pfx</AssemblyOriginatorKeyFile>
+    <Description>Plugin Manager</Description>
+  </PropertyGroup>
+  
+  <PropertyGroup>
+    <RepositoryUrl>https://github.com/k3ldar/.NetCorePluginManager</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>Plugin Manager</PackageTags>
+    <PackageProjectUrl>http://pluginmanager.website/</PackageProjectUrl>
+    <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
+    <PackageReleaseNotes>Supports net core 3.1, net5.0 and net 6.0</PackageReleaseNotes>
+    <PackageTags>asp net core plugin manager system admin internal statistics</PackageTags>
+  </PropertyGroup>
+  
+  <PropertyGroup>
+    <Version>4.4.0</Version>
+    <LangVersion>latest</LangVersion>
+    <Authors>Simon Carter (s1cart3r@gmail.com)</Authors>
+    <Company>Simon Carter</Company>
+    <Copyright>Copyright (c) 2018 - 2022.  Simon Carter.  All rights reserved.</Copyright>
+    <Description>Plugin Manager</Description>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)'=='Debug|net6.0'">
+    <DefineConstants>CODE_ANALYSIS;DEBUG;TRACE;NET_CORE;NET_6_0;NET_6_X</DefineConstants>
+    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
+    <DebugType>full</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)'=='Release|net6.0'">
+    <DefineConstants>CODE_ANALYSIS;NET_CORE;NET_6_0;NET_6_X</DefineConstants>
+    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
+    <DebugType>portable</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)'=='Debug|net5.0'">
+    <DefineConstants>CODE_ANALYSIS;DEBUG;TRACE;NET_CORE;NET_5_0;NET_5_X</DefineConstants>
+    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
+    <DebugType>full</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)'=='Release|net5.0'">
+    <DefineConstants>CODE_ANALYSIS;NET_CORE;NET_5_0;NET_5_X</DefineConstants>
+    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
+    <DebugType>portable</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)'=='Debug|netcoreapp3.1'">
+    <DefineConstants>CODE_ANALYSIS;DEBUG;TRACE;NET_CORE;NET_CORE_3_1;NET_CORE_3_X</DefineConstants>
+    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
+    <DebugType>full</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)'=='Release|netcoreapp3.1'">
+    <DefineConstants>CODE_ANALYSIS;NET_CORE;NET_CORE_3_1;NET_CORE_3_X</DefineConstants>
+    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
+    <DebugType>portable</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+  
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)'=='Debug|netstandard2.0'">
+    <DefineConstants>CODE_ANALYSIS;DEBUG;TRACE;NET_STANDARD</DefineConstants>
+    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
+    <DebugType>full</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)'=='Release|netstandard2.0'">
+    <DefineConstants>CODE_ANALYSIS;NET_STANDARD</DefineConstants>
+    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
+    <DebugType>portable</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net5.0|AnyCPU'">
+    <NoWarn>1701;1702;</NoWarn>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+  </PropertyGroup>
+</Project>

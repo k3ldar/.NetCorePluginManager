@@ -232,7 +232,7 @@ namespace PluginManager.Tests.Mocks
 
         public void RemoveAt(int index)
         {
-            throw new NotImplementedException();
+            _serviceDescriptors.RemoveAt(index);
         }
 
         IEnumerator IEnumerable.GetEnumerator()

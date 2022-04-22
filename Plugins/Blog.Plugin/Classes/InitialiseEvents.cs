@@ -48,7 +48,6 @@ namespace Blog.Plugin.Classes
 
         public void AfterConfigureServices(in IServiceCollection services)
         {
-#if NET_CORE_3_X || NET_5_X
             // Add blog specific policies
             services.AddAuthorization(options =>
             {
@@ -61,7 +60,6 @@ namespace Blog.Plugin.Classes
                         .RequireClaim(Constants.ClaimNameUserId)
                         .RequireClaim(Constants.ClaimNameUserEmail));
             });
-#endif
         }
 
         public void BeforeConfigure(in IApplicationBuilder app)

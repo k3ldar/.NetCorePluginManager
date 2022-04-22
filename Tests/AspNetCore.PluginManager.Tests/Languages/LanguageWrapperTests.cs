@@ -90,7 +90,7 @@ namespace AspNetCore.PluginManager.Tests.Language
             string path = Path.GetRelativePath(Directory.GetCurrentDirectory(), "..\\..\\..\\..\\..\\Languages\\bin\\debug\\netstandard2.0\\");
             string[] languages = Languages.LanguageWrapper.GetInstalledLanguages(path, new CultureInfo("da-DK"));
 
-            Assert.AreEqual(15, languages.Length);
+            Assert.AreEqual(16, languages.Length);
             Assert.AreEqual("da-DK", languages[0]);
             Assert.IsTrue(languages.Where(l => l.Equals("da-DK")).Count() == 1);
             Assert.IsTrue(languages.Where(l => l.Equals("en-GB")).Count() == 1);
@@ -102,7 +102,7 @@ namespace AspNetCore.PluginManager.Tests.Language
             string path = Path.GetRelativePath(Directory.GetCurrentDirectory(), "..\\..\\..\\..\\..\\Languages\\bin\\debug\\netstandard2.0\\");
             string[] languages = Languages.LanguageWrapper.GetInstalledLanguages(path);
 
-            Assert.AreEqual(15, languages.Length);
+            Assert.AreEqual(16, languages.Length);
             Assert.AreEqual("en-GB", languages[0]);
             Assert.IsTrue(languages.Where(l => l.Equals("da-DK")).Count() == 1);
             Assert.IsTrue(languages.Where(l => l.Equals("en-GB")).Count() == 1);
