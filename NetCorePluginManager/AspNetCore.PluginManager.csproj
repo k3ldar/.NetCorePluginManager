@@ -40,12 +40,7 @@
     <PackageReference Include="ApplicationSettings" Version="2.1.0" />
   </ItemGroup>
 
-  <ItemGroup Condition="'$(Configuration)'=='Release'">
-    <PackageReference Include="SharedPluginFeatures" Version="$(Version)" />
-    <PackageReference Include="PluginManager" Version="$(Version)" />
-  </ItemGroup>
-
-  <ItemGroup Condition="'$(Configuration)'=='Debug'">
+  <ItemGroup>
     <ProjectReference Include="..\SharedPluginFeatures\SharedPluginFeatures.csproj" />
     <ProjectReference Include="..\PluginManager\src\PluginManager.csproj" />
   </ItemGroup>

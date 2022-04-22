@@ -66,43 +66,7 @@
     <EmbeddedResource Include="wwwroot\images\PluginTechnology.png" />
   </ItemGroup>
 
-  <ItemGroup Condition="'$(Configuration)'=='Release'">
-    <PackageReference Include="SharedPluginFeatures" Version="$(Version)" />
-    <PackageReference Include="PluginManager" Version="$(Version)" />
-    <PackageReference Include="AspNetCore.PluginManager" Version="$(Version)" />
-    <PackageReference Include="BadEgg.Plugin" Version="$(Version)" />
-    <PackageReference Include="Breadcrumb.Plugin" Version="$(Version)" />
-    <PackageReference Include="CacheControl.Plugin" Version="$(Version)" />
-    <PackageReference Include="ErrorManager.Plugin" Version="$(Version)" />
-    <PackageReference Include="GeoIp.Plugin" Version="$(Version)" />
-    <PackageReference Include="HelpdeskPlugin" Version="$(Version)" />
-    <PackageReference Include="Localization.Plugin" Version="$(Version)" />
-    <PackageReference Include="LoginPlugin" Version="$(Version)" />
-    <PackageReference Include="MemoryCache.Plugin" Version="$(Version)" />
-    <PackageReference Include="AspNetCore.PluginManager.Languages" Version="$(Version)" />
-    <PackageReference Include="RestrictIp.Plugin" Version="$(Version)" />
-    <PackageReference Include="ShoppingCartPlugin" Version="$(Version)" />
-    <PackageReference Include="SieraDeltaGeoIp.Plugin" Version="$(Version)" />
-    <PackageReference Include="Spider.Plugin" Version="$(Version)" />
-    <PackageReference Include="SystemAdmin.Plugin" Version="$(Version)" />
-    <PackageReference Include="UserAccount.Plugin" Version="$(Version)" />
-    <PackageReference Include="UserSessionMiddleware.Plugin" Version="$(Version)" />
-    <PackageReference Include="ProductPlugin" Version="$(Version)" />
-    <PackageReference Include="Blog.Plugin" Version="$(Version)" />
-    <PackageReference Include="Company.Plugin" Version="$(Version)" />
-    <PackageReference Include="DownloadPlugin" Version="$(Version)" />
-    <PackageReference Include="SeoPlugin" Version="$(Version)" />
-    <PackageReference Include="DocumentationPlugin" Version="$(Version)" />
-    <PackageReference Include="Sitemap.Plugin" Version="$(Version)" />
-    <PackageReference Include="SearchPlugin" Version="$(Version)" />
-    <PackageReference Include="WebSmokeTest.Plugin" Version="$(Version)" />
-    <PackageReference Include="ImageManager.Plugin" Version="$(Version)" />
-    <PackageReference Include="DynamicContent.Plugin" Version="$(Version)" />
-	  <PackageReference Include="Middleware" Version="$(Version)" />
-    <PackageReference Include="ApiAuthorization.Plugin" Version="$(Version)" />
-  </ItemGroup>
-
-  <ItemGroup Condition="'$(Configuration)'=='Debug'">
+  <ItemGroup>
     <ProjectReference Include="..\..\SharedPluginFeatures\SharedPluginFeatures.csproj" />
     <ProjectReference Include="..\..\NetCorePluginManager\AspNetCore.PluginManager.csproj" />
     <ProjectReference Include="..\..\Plugins\PluginMiddleware\PluginMiddleware.csproj" />

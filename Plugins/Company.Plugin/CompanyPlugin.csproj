@@ -68,17 +68,7 @@
     <EmbeddedResource Include="Views\Company\Terms.cshtml" />
   </ItemGroup>
 
-  <ItemGroup Condition="'$(Configuration)'=='Release'">
-    <PackageReference Include="RestrictIp.Plugin" Version="$(Version)" />
-    <PackageReference Include="MemoryCache.Plugin" Version="$(Version)" />
-    <PackageReference Include="AspNetCore.PluginManager" Version="$(Version)" />
-    <PackageReference Include="SharedPluginFeatures" Version="$(Version)" />
-    <PackageReference Include="Middleware" Version="$(Version)" />
-    <PackageReference Include="AspNetCore.PluginManager.Languages" Version="$(Version)" />
-    <PackageReference Include="PluginManager" Version="$(Version)" />
-  </ItemGroup>
-
-  <ItemGroup Condition="'$(Configuration)'=='Debug'">
+  <ItemGroup>
     <ProjectReference Include="..\..\NetCorePluginManager\AspNetCore.PluginManager.csproj" />
     <ProjectReference Include="..\..\SharedPluginFeatures\SharedPluginFeatures.csproj" />
     <ProjectReference Include="..\MemoryCachePlugin\MemoryCachePlugin.csproj" />

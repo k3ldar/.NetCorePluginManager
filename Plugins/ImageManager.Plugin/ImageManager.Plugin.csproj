@@ -62,22 +62,12 @@
 	<PackageReference Include="SC.Shared.Library.Core" Version="3.4.0" />
   </ItemGroup>
 
-  <ItemGroup Condition="'$(Configuration)'=='Release'">
-	<PackageReference Include="RestrictIp.Plugin" Version="$(Version)" />
-	<PackageReference Include="MemoryCache.Plugin" Version="$(Version)" />
-	<PackageReference Include="AspNetCore.PluginManager" Version="$(Version)" />
-	<PackageReference Include="SharedPluginFeatures" Version="$(Version)" />
-	<PackageReference Include="AspNetCore.PluginManager.Languages" Version="$(Version)" />
-	  <PackageReference Include="Middleware" Version="$(Version)" />
-	  <PackageReference Include="PluginManager" Version="$(Version)" />
-  </ItemGroup>
-
-  <ItemGroup Condition="'$(Configuration)'=='Debug'">
-	<ProjectReference Include="..\..\NetCorePluginManager\AspNetCore.PluginManager.csproj" />
-	<ProjectReference Include="..\..\SharedPluginFeatures\SharedPluginFeatures.csproj" />
-	<ProjectReference Include="..\MemoryCachePlugin\MemoryCachePlugin.csproj" />
-	<ProjectReference Include="..\RestrictIp.Plugin\RestrictIp.Plugin.csproj" />
-	<ProjectReference Include="..\..\Languages\Languages.csproj" />
+  <ItemGroup>
+		<ProjectReference Include="..\..\NetCorePluginManager\AspNetCore.PluginManager.csproj" />
+		<ProjectReference Include="..\..\SharedPluginFeatures\SharedPluginFeatures.csproj" />
+		<ProjectReference Include="..\MemoryCachePlugin\MemoryCachePlugin.csproj" />
+		<ProjectReference Include="..\RestrictIp.Plugin\RestrictIp.Plugin.csproj" />
+		<ProjectReference Include="..\..\Languages\Languages.csproj" />
 	  <ProjectReference Include="..\PluginMiddleware\PluginMiddleware.csproj" />
 	  <ProjectReference Include="..\..\PluginManager\src\PluginManager.csproj" />
   </ItemGroup>

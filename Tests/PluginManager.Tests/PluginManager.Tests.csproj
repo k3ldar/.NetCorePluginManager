@@ -39,11 +39,7 @@
     <PackageReference Include="MSTest.TestFramework" Version="2.2.9" />
   </ItemGroup>
 
-  <ItemGroup Condition="'$(Configuration)'=='Release'">
-    <PackageReference Include="PluginManager" Version="$(Version)" />
-  </ItemGroup>
-
-  <ItemGroup Condition="'$(Configuration)'=='Debug'">
+  <ItemGroup>
     <ProjectReference Include="..\..\PluginManager\src\PluginManager.csproj" />
   </ItemGroup>
 
