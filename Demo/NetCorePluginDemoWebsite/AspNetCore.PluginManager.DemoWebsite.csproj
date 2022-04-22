@@ -37,16 +37,6 @@
     <AssemblyOriginatorKeyFile>$(AssemblyOriginatorKeyFile)</AssemblyOriginatorKeyFile>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)'=='Debug'">
-    <DefineConstants>CODE_ANALYSIS;DEBUG;TRACE</DefineConstants>
-    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)'=='Release'">
-    <DefineConstants>USE_NUGET</DefineConstants>
-    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
-  </PropertyGroup>
-
   <ItemGroup>
     <Compile Remove="Models\**" />
     <Compile Remove="Plugin\**" />
@@ -76,7 +66,7 @@
     <EmbeddedResource Include="wwwroot\images\PluginTechnology.png" />
   </ItemGroup>
 
-  <ItemGroup Condition="'$(Configuration)'=='USE_NUGET'">
+  <ItemGroup Condition="'$(Configuration)'=='Release'">
     <PackageReference Include="SharedPluginFeatures" Version="$(Version)" />
     <PackageReference Include="PluginManager" Version="$(Version)" />
     <PackageReference Include="AspNetCore.PluginManager" Version="$(Version)" />
@@ -108,11 +98,11 @@
     <PackageReference Include="WebSmokeTest.Plugin" Version="$(Version)" />
     <PackageReference Include="ImageManager.Plugin" Version="$(Version)" />
     <PackageReference Include="DynamicContent.Plugin" Version="$(Version)" />
-	<PackageReference Include="Middleware" Version="$(Version)" />
+	  <PackageReference Include="Middleware" Version="$(Version)" />
     <PackageReference Include="ApiAuthorization.Plugin" Version="$(Version)" />
   </ItemGroup>
 
-  <ItemGroup Condition="'$(Configuration)'!='USE_NUGET'">
+  <ItemGroup Condition="'$(Configuration)'=='Debug'">
     <ProjectReference Include="..\..\SharedPluginFeatures\SharedPluginFeatures.csproj" />
     <ProjectReference Include="..\..\NetCorePluginManager\AspNetCore.PluginManager.csproj" />
     <ProjectReference Include="..\..\Plugins\PluginMiddleware\PluginMiddleware.csproj" />
@@ -143,20 +133,45 @@
     <ProjectReference Include="..\..\Plugins\WebSmokeTest.Plugin\WebSmokeTest.Plugin.csproj" />
     <ProjectReference Include="..\..\Plugins\GeoIpPlugin\GeoIpPlugin.csproj" />
     <ProjectReference Include="..\..\Plugins\Subdomain.Plugin\Subdomain.Plugin.csproj" />
-	<ProjectReference Include="..\..\Plugins\ImageManager.Plugin\ImageManager.Plugin.csproj" />
+	  <ProjectReference Include="..\..\Plugins\ImageManager.Plugin\ImageManager.Plugin.csproj" />
     <ProjectReference Include="..\..\Plugins\DynamicContent.Plugin\DynamicContent.Plugin.csproj" />
     <ProjectReference Include="..\..\Plugins\ApiAuthorization.Plugin\ApiAuthorization.Plugin.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="SC.Shared.Library.Core" Version="3.2.0" />
-    <PackageReference Include="ApplicationSettings" Version="2.0.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="5.0.2" />
-    <PackageReference Include="FirebirdSql.Data.FirebirdClient" Version="7.10.1" />
+    <PackageReference Include="SC.Shared.Library.Core" Version="3.4.0" />
+    <PackageReference Include="ApplicationSettings" Version="2.1.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="6.0.3" />
+    <PackageReference Include="FirebirdSql.Data.FirebirdClient" Version="8.5.4" />
     <PackageReference Include="SC.Shared.Library.Core.Windows" Version="1.0.0" />
-    <PackageReference Include="System.Drawing.Common" Version="5.0.2" />
+    <PackageReference Include="Subdomain.Plugin" Version="4.4.0" />
+    <PackageReference Include="System.Drawing.Common" Version="6.0.0" />
   </ItemGroup>
-  
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="6.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="6.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.CommandLine" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="6.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Localization" Version="6.0.3" />
+    <PackageReference Include="Microsoft.Extensions.Localization.Abstractions" Version="6.0.3" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="6.0.1" />
+    <PackageReference Include="Microsoft.Extensions.ObjectPool" Version="6.0.3" />
+    <PackageReference Include="Microsoft.Extensions.Options" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Primitives" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Extensions.WebEncoders" Version="6.0.3" />
+    <PackageReference Include="Microsoft.Net.Http.Headers" Version="2.2.8" />
+  </ItemGroup>
+
   <ItemGroup>
     <ProjectReference Include="..\DemoRazorWebsitePlugin\DemoWebsitePlugin.csproj" />
     <ProjectReference Include="..\DemoApiPlugin\DemoApiPlugin.csproj" />

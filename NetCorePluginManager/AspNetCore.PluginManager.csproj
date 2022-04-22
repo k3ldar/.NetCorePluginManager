@@ -37,8 +37,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="ApplicationSettings" Version="2.0.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Analyzers" Version="2.2.0" />
+    <PackageReference Include="ApplicationSettings" Version="2.1.0" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(Configuration)'=='Release'">
