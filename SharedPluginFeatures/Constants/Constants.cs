@@ -203,6 +203,16 @@ namespace SharedPluginFeatures
         public const char Underscore = '_';
 
         /// <summary>
+        /// Ampersand (&amp;) char constant
+        /// </summary>
+        public const char AmpersandChar = '&';
+
+        /// <summary>
+        /// Equals (=) char constant
+        /// </summary>
+        public const char EqualsChar = '=';
+
+        /// <summary>
         /// Name of the Breadcrumb.Plugin module.
         /// </summary>
         public const string PluginSettingBreadcrumb = "Breadcrumb.Plugin";
