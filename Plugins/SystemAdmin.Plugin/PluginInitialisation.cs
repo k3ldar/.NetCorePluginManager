@@ -85,7 +85,9 @@ namespace SystemAdmin.Plugin
 
         public void AfterConfigureServices(in IServiceCollection services)
         {
-#if NET_CORE_3_X || NET_5_X
+            if (services == null)
+                throw new ArgumentNullException(nameof(services));
+
             services.AddAuthorization(options =>
             {
                 options.AddPolicy(
@@ -110,7 +112,6 @@ namespace SystemAdmin.Plugin
                     policyBuilder => policyBuilder.RequireClaim(Constants.ClaimNameStaff)
                         .RequireClaim(Constants.ClaimNameUserId));
             });
-#endif
         }
 
         public void BeforeConfigure(in IApplicationBuilder app)

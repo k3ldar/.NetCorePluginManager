@@ -142,10 +142,12 @@ namespace GeoIp.Plugin
             bool Result = true;
             try
             {
+#pragma warning disable SYSLIB0014 // Type or member is obsolete
                 using (WebClient client = new WebClient())
                 {
                     client.DownloadFile(_webnet77CsvUrl, downloadFile);
                 }
+#pragma warning restore SYSLIB0014 // Type or member is obsolete
             }
             catch (WebException err)
             {

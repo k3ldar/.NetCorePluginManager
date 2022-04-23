@@ -1,68 +1,42 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFrameworks>net5.0;netcoreapp3.1</TargetFrameworks>
-    <LangVersion>latest</LangVersion>
-    <Version>4.3.0</Version>
+    <TargetFrameworks>net6.0;net5.0;netcoreapp3.1</TargetFrameworks>
     <RazorCompileOnBuild>false</RazorCompileOnBuild>
     <RazorCompileOnPublish>true</RazorCompileOnPublish>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Description>Error Manager plugin asp net core plugin manager.</Description>
-    <Authors>Simon Carter</Authors>
-    <Company>Simon Carter</Company>
-    <Copyright>Copyright (c) 2018 - 2021.  Simon Carter.  All rights reserved.</Copyright>
-    <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
-    <PackageProjectUrl>http://pluginmanager.website/</PackageProjectUrl>
-    <RepositoryType>git</RepositoryType>
-    <PackageTags>asp net core plugin manager error manager</PackageTags>
     <IsPackable>true</IsPackable>
     <PackageIconUrl></PackageIconUrl>
-    <RepositoryUrl>https://github.com/k3ldar/.NetCorePluginManager</RepositoryUrl>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)'=='Debug|net5.0'">
-    <DefineConstants>CODE_ANALYSIS;DEBUG;TRACE;NET_CORE;NET_5_0;NET_5_X</DefineConstants>
-    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
-    <DebugType>full</DebugType>
-    <DebugSymbols>true</DebugSymbols>
+  <PropertyGroup>
+    <DefineConstants>$(DefineConstants)</DefineConstants>
+    <CheckForOverflowUnderflow>$(CheckForOverflowUnderflow)</CheckForOverflowUnderflow>
+    <DebugType>$(DebugType)</DebugType>
+    <DebugSymbols>$(DebugSymbols)</DebugSymbols>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)'=='Release|net5.0'">
-    <DefineConstants>CODE_ANALYSIS;NET_CORE;NET_5_0;NET_5_X</DefineConstants>
-    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
-    <DebugType>portable</DebugType>
-    <DebugSymbols>true</DebugSymbols>
+  <PropertyGroup>
+    <Description>$(Description) easily manage errors within a website</Description>
+    <Version>$(Version)</Version>
+    <LangVersion>$(LangVersion)</LangVersion>
+    <Authors>$(Authors)</Authors>
+    <Company>$(Company)</Company>
+    <Copyright>$(Copyright)</Copyright>
+    <RepositoryUrl>$(RepositoryUrl)</RepositoryUrl>
+    <RepositoryType>$(RepositoryType)</RepositoryType>
+    <PackageTags>$(PackageTags)</PackageTags>
+    <PackageProjectUrl>$(PackageProjectUrl)</PackageProjectUrl>
+    <PackageLicenseExpression>$(PackageLicenseExpression)</PackageLicenseExpression>
+    <PackageReleaseNotes>$(PackageReleaseNotes)</PackageReleaseNotes>
+    <PackageTags>$(PackageTags) error management</PackageTags>
+    <RunAnalyzersDuringBuild>$(RunAnalyzersDuringBuild)</RunAnalyzersDuringBuild>
+    <NoWarn>$(NoWarn)</NoWarn>
+    <SignAssembly>$(SignAssembly)</SignAssembly>
+    <AssemblyOriginatorKeyFile>$(AssemblyOriginatorKeyFile)</AssemblyOriginatorKeyFile>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)'=='Debug|netcoreapp2.1'">
-    <DefineConstants>CODE_ANALYSIS;DEBUG;TRACE;NET_CORE;NET_CORE_2_1</DefineConstants>
-    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
-    <DebugType>full</DebugType>
-    <DebugSymbols>true</DebugSymbols>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)'=='Release|netcoreapp2.1'">
-    <DefineConstants>CODE_ANALYSIS;CODE_ANALYSIS;NET_CORE;NET_CORE_2_1</DefineConstants>
-    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
-    <DebugType>portable</DebugType>
-    <DebugSymbols>true</DebugSymbols>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)'=='Debug|netcoreapp3.1'">
-    <DefineConstants>CODE_ANALYSIS;DEBUG;TRACE;NET_CORE;NET_CORE_3_1;NET_CORE_3_X</DefineConstants>
-    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
-    <DebugType>full</DebugType>
-    <DebugSymbols>true</DebugSymbols>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)'=='Release|netcoreapp3.1'">
-    <DefineConstants>CODE_ANALYSIS;NET_CORE;NET_CORE_3_1;NET_CORE_3_X</DefineConstants>
-    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
-    <DebugType>portable</DebugType>
-    <DebugSymbols>true</DebugSymbols>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(TargetFramework)'=='net5.0'">
+  <PropertyGroup Condition="'$(TargetFramework)'=='net6.0'">
     <DocumentationFile>..\..\Docs\XmlFiles\ErrorManager.Plugin.xml</DocumentationFile>
   </PropertyGroup>
 
@@ -87,19 +61,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="ApplicationSettings" Version="2.0.0" />
+    <PackageReference Include="ApplicationSettings" Version="2.1.0" />
   </ItemGroup>
 
-  <ItemGroup Condition="'$(Configuration)'=='Release'">
-    <PackageReference Include="RestrictIp.Plugin" Version="$(Version)" />
-    <PackageReference Include="MemoryCache.Plugin" Version="$(Version)" />
-    <PackageReference Include="AspNetCore.PluginManager" Version="$(Version)" />
-    <PackageReference Include="SharedPluginFeatures" Version="$(Version)" />
-    <PackageReference Include="AspNetCore.PluginManager.Languages" Version="$(Version)" />
-    <PackageReference Include="PluginManager" Version="$(Version)" />
-  </ItemGroup>
-
-  <ItemGroup Condition="'$(Configuration)'=='Debug'">
+  <ItemGroup>
     <ProjectReference Include="..\..\NetCorePluginManager\AspNetCore.PluginManager.csproj" />
     <ProjectReference Include="..\..\SharedPluginFeatures\SharedPluginFeatures.csproj" />
     <ProjectReference Include="..\MemoryCachePlugin\MemoryCachePlugin.csproj" />

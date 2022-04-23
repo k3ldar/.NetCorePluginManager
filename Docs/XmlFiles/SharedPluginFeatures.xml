@@ -336,6 +336,28 @@
             Parent menu implementation.  This is assigned by the SystemAdmin.Plugin module.
             </summary>
         </member>
+        <member name="T:SharedPluginFeatures.ApiAuthorizationAttribute">
+            <summary>
+            Api authorization attribute used to verify the current user has the correct authorization for a route
+            </summary>
+        </member>
+        <member name="M:SharedPluginFeatures.ApiAuthorizationAttribute.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="M:SharedPluginFeatures.ApiAuthorizationAttribute.#ctor(System.String)">
+            <summary>
+            Constructor validation of policy name to be used in the route for the current user
+            </summary>
+            <param name="policyName"></param>
+        </member>
+        <member name="M:SharedPluginFeatures.ApiAuthorizationAttribute.OnActionExecuting(Microsoft.AspNetCore.Mvc.Filters.ActionExecutingContext)">
+            <summary>
+            Method used to execute authorization request
+            </summary>
+            <param name="context"></param>
+        </member>
         <member name="T:SharedPluginFeatures.BadEggAttribute">
             <summary>
             BadEgg attribute, see BadEgg.Plugin for further information on how this attribute is used.
@@ -654,7 +676,7 @@
             Initialises a new subdomain and applies the configuration name for the controller
             </summary>
             <param name="configurationName">Name of the configuration for the subdomain.</param>
-            <exception cref="T:System.ArgumentNullException">Thrown if <see cref="!:configurationName"/> is null or empty</exception>
+            <exception cref="T:System.ArgumentNullException">Thrown if configurationName is null or empty</exception>
         </member>
         <member name="P:SharedPluginFeatures.SubdomainAttribute.ConfigurationName">
             <summary>
@@ -1619,7 +1641,7 @@
         </member>
         <member name="T:SharedPluginFeatures.HmacGenerator">
             <summary>
-            Helper class providing methods that can generate a hmac value to be used with <see cref="!:HmacApiAuthorizationService"/>
+            Helper class providing methods that can generate a hmac value to be used with HmacApiAuthorizationService
             </summary>
         </member>
         <member name="M:SharedPluginFeatures.HmacGenerator.GenerateHmac(System.String,System.String,System.Int64,System.UInt64,System.String,System.String)">
@@ -2415,6 +2437,16 @@
         <member name="F:SharedPluginFeatures.Constants.Underscore">
             <summary>
             Underscore (_) char constant
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Constants.AmpersandChar">
+            <summary>
+            Ampersand (&amp;) char constant
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Constants.EqualsChar">
+            <summary>
+            Equals (=) char constant
             </summary>
         </member>
         <member name="F:SharedPluginFeatures.Constants.PluginSettingBreadcrumb">
@@ -3310,6 +3342,20 @@
             </summary>
             <param name="name"></param>
             <returns>string.  Route friendly name.</returns>
+        </member>
+        <member name="T:SharedPluginFeatures.IApiAuthorizationService">
+            <summary>
+            Api authorization service interface
+            </summary>
+        </member>
+        <member name="M:SharedPluginFeatures.IApiAuthorizationService.ValidateApiRequest(Microsoft.AspNetCore.Http.HttpRequest,System.String,System.Int32@)">
+            <summary>
+            Validates a request against the api service
+            </summary>
+            <param name="httpRequest">Request making the call</param>
+            <param name="policyName">Name of the policy</param>
+            <param name="responseCode">Response code</param>
+            <returns>bool</returns>
         </member>
         <member name="T:SharedPluginFeatures.IBotTrap">
             <summary>

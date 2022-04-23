@@ -53,15 +53,11 @@ namespace ImageManager.Plugin
             PluginManagerService.ConfigureServices(services);
 
             services.AddMvc(
-#if NET_CORE_3_X || NET_5_X
                 option => option.EnableEndpointRouting = false
-#endif
                 )
                 .ConfigurePluginManager();
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1801:ReviewUnusedParameters", MessageId = "Reviewed and ok in this context")]
         public void Configure(IApplicationBuilder app)
         {
             if (app == null)
@@ -69,14 +65,12 @@ namespace ImageManager.Plugin
 
             PluginManagerService.Configure(app);
 
-#if !NET_CORE_3_X || NET_5_X
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             }).UsePluginManager();
-#endif
         }
     }
 }

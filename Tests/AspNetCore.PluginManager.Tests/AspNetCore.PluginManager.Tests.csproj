@@ -1,39 +1,51 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-	<TargetFramework>net5.0</TargetFramework>
-	<Version>4.3.0</Version>
-	<IsPackable>false</IsPackable>
-	<RunAnalyzersDuringBuild>false</RunAnalyzersDuringBuild>
-	<RunAnalyzersDuringLiveAnalysis>false</RunAnalyzersDuringLiveAnalysis>
+		<TargetFramework>net6.0</TargetFramework>
+		<IsPackable>false</IsPackable>
+		<RunAnalyzersDuringBuild>false</RunAnalyzersDuringBuild>
+		<RunAnalyzersDuringLiveAnalysis>false</RunAnalyzersDuringLiveAnalysis>
   </PropertyGroup>
 
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)'=='Debug|net5.0'">
-		<DefineConstants>CODE_ANALYSIS;DEBUG;TRACE;NET_CORE;NET_5_0;NET_5_X</DefineConstants>
-		<CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
-		<DebugType>full</DebugType>
-		<DebugSymbols>true</DebugSymbols>
-	</PropertyGroup>
+  <PropertyGroup>
+    <DefineConstants>$(DefineConstants)</DefineConstants>
+    <CheckForOverflowUnderflow>$(CheckForOverflowUnderflow)</CheckForOverflowUnderflow>
+    <DebugType>$(DebugType)</DebugType>
+    <DebugSymbols>$(DebugSymbols)</DebugSymbols>
+  </PropertyGroup>
 
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)'=='Release|net5.0'">
-		<DefineConstants>CODE_ANALYSIS;NET_CORE;NET_5_0;NET_5_X</DefineConstants>
-		<CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
-		<DebugType>portable</DebugType>
-		<DebugSymbols>true</DebugSymbols>
-	</PropertyGroup>
+  <PropertyGroup>
+    <Description>$(Description) unit tests</Description>
+    <Version>$(Version)</Version>
+    <LangVersion>$(LangVersion)</LangVersion>
+    <Authors>$(Authors)</Authors>
+    <Company>$(Company)</Company>
+    <Copyright>$(Copyright)</Copyright>
+    <RepositoryUrl>$(RepositoryUrl)</RepositoryUrl>
+    <RepositoryType>$(RepositoryType)</RepositoryType>
+    <PackageTags>$(PackageTags)</PackageTags>
+    <PackageProjectUrl>$(PackageProjectUrl)</PackageProjectUrl>
+    <PackageLicenseExpression>$(PackageLicenseExpression)</PackageLicenseExpression>
+    <PackageReleaseNotes>$(PackageReleaseNotes)</PackageReleaseNotes>
+    <PackageTags>$(PackageTags) unit tests</PackageTags>
+    <RunAnalyzersDuringBuild>$(RunAnalyzersDuringBuild)</RunAnalyzersDuringBuild>
+    <NoWarn>$(NoWarn)</NoWarn>
+    <SignAssembly>$(SignAssembly)</SignAssembly>
+    <AssemblyOriginatorKeyFile>$(AssemblyOriginatorKeyFile)</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
 
 	<ItemGroup>
-	<None Remove="appsettings.json" />
-	<None Remove="Properties\Images\banksy-no-ball-games.-graffiti-street-fine-art-print-poster.-sizes-a4-a3-a2-a1-001187--4305-p.jpg" />
-	<None Remove="Properties\Images\banksy-pulp-fiction.-banana-graffiti-street-fine-art-print-poster.-sizes-a4-a3-a2-a1-00344--4244-p.jpg" />
-	<None Remove="Properties\Images\Banksy_077_preview.jpg" />
-	<None Remove="Properties\Images\Banksy_191_preview.jpg" />
-	<None Remove="Properties\Images\Banksy_215_preview.jpg" />
-	<None Remove="Properties\Images\fit together.jpg" />
-	<None Remove="Properties\Images\InvalidImage.txt" />
-	<None Remove="Properties\Images\life.jpg" />
-	<None Remove="Properties\Images\racism is stupid.jpg" />
-	<None Remove="Properties\Images\this_tall.jpg" />
+		<None Remove="appsettings.json" />
+		<None Remove="Properties\Images\banksy-no-ball-games.-graffiti-street-fine-art-print-poster.-sizes-a4-a3-a2-a1-001187--4305-p.jpg" />
+		<None Remove="Properties\Images\banksy-pulp-fiction.-banana-graffiti-street-fine-art-print-poster.-sizes-a4-a3-a2-a1-00344--4244-p.jpg" />
+		<None Remove="Properties\Images\Banksy_077_preview.jpg" />
+		<None Remove="Properties\Images\Banksy_191_preview.jpg" />
+		<None Remove="Properties\Images\Banksy_215_preview.jpg" />
+		<None Remove="Properties\Images\fit together.jpg" />
+		<None Remove="Properties\Images\InvalidImage.txt" />
+		<None Remove="Properties\Images\life.jpg" />
+		<None Remove="Properties\Images\racism is stupid.jpg" />
+		<None Remove="Properties\Images\this_tall.jpg" />
   </ItemGroup>
 
   <ItemGroup>
@@ -54,51 +66,76 @@
   </ItemGroup>
 
   <ItemGroup>
-	<PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
-	<PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.8.3" />
-	<PackageReference Include="MSTest.TestAdapter" Version="2.1.2" />
-	<PackageReference Include="MSTest.TestFramework" Version="2.1.2" />
-	<PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
-	<PackageReference Include="SC.Shared.Library.Core" Version="3.2.0" />
-	<PackageReference Include="ApplicationSettings" Version="2.0.0" />
-	<PackageReference Include="System.IO.Pipelines" Version="5.0.1" />
+	  <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
+	  <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.1.0" />
+	  <PackageReference Include="MSTest.TestAdapter" Version="2.2.9" />
+	  <PackageReference Include="MSTest.TestFramework" Version="2.2.9" />
+	  <PackageReference Include="SC.Shared.Library.Core" Version="3.4.0" />
+	  <PackageReference Include="ApplicationSettings" Version="2.1.0" />
+	  <PackageReference Include="System.IO.Pipelines" Version="6.0.2" />
   </ItemGroup>
 
   <ItemGroup>
-	<ProjectReference Include="..\..\Demo\NetCorePluginDemoWebsite\AspNetCore.PluginManager.DemoWebsite.csproj" />
-	<ProjectReference Include="..\..\Languages\Languages.csproj" />
-	<ProjectReference Include="..\..\NetCorePluginManager\AspNetCore.PluginManager.csproj" />
-	<ProjectReference Include="..\..\PluginManager\src\PluginManager.csproj" />
-	<ProjectReference Include="..\..\Plugins\ApiAuthorization.Plugin\ApiAuthorization.Plugin.csproj" />
-	<ProjectReference Include="..\..\Plugins\BadEgg.Plugin\BadEgg.Plugin.csproj" />
-	<ProjectReference Include="..\..\Plugins\Breadcrumb.Plugin\Breadcrumb.Plugin.csproj" />
-	<ProjectReference Include="..\..\Plugins\Download.Plugin\DownloadPlugin.csproj" />
-	<ProjectReference Include="..\..\Plugins\ErrorManager.Plugin\ErrorManager.Plugin.csproj" />
-	<ProjectReference Include="..\..\Plugins\GeoIpPlugin\GeoIpPlugin.csproj" />
-	<ProjectReference Include="..\..\Plugins\HelpDesk.Plugin\HelpdeskPlugin.csproj" />
-	<ProjectReference Include="..\..\Plugins\ImageManager.Plugin\ImageManager.Plugin.csproj" />
-	<ProjectReference Include="..\..\Plugins\DynamicContent.Plugin\DynamicContent.Plugin.csproj" />
-	<ProjectReference Include="..\..\Plugins\LocalizationPlugin\Localization.Plugin.csproj" />
-	<ProjectReference Include="..\..\Plugins\Login.Plugin\Login.Plugin.csproj" />
-	<ProjectReference Include="..\..\Plugins\PluginMiddleware\PluginMiddleware.csproj" />
-	<ProjectReference Include="..\..\Plugins\Products.Plugin\ProductsPlugin.csproj" />
-	<ProjectReference Include="..\..\Plugins\RestrictIp.Plugin\RestrictIp.Plugin.csproj" />
-	<ProjectReference Include="..\..\Plugins\SDGeoIpPlugin\SieraDeltaGeoIpPlugin.csproj" />
-	<ProjectReference Include="..\..\Plugins\Search.Plugin\Search.Plugin.csproj" />
-	<ProjectReference Include="..\..\Plugins\SeoPlugin\SeoPlugin.csproj" />
-	<ProjectReference Include="..\..\Plugins\ShoppingCart.Plugin\ShoppingCart.Plugin.csproj" />
-	<ProjectReference Include="..\..\Plugins\Sitemap.Plugin\Sitemap.Plugin.csproj" />
-	<ProjectReference Include="..\..\Plugins\Spider.Plugin\Spider.Plugin.csproj" />
-	<ProjectReference Include="..\..\Plugins\Subdomain.Plugin\Subdomain.Plugin.csproj" />
-	<ProjectReference Include="..\..\Plugins\SystemAdmin.Plugin\SystemAdmin.Plugin.csproj" />
-	<ProjectReference Include="..\..\Plugins\UserAccount.Plugin\UserAccount.Plugin.csproj" />
-	<ProjectReference Include="..\..\Plugins\UserSessionMiddlewarePlugin\UserSessionMiddleware.Plugin.csproj" />
-	<ProjectReference Include="..\..\Plugins\WebSmokeTest.Plugin\WebSmokeTest.Plugin.csproj" />
-	<ProjectReference Include="..\..\SharedPluginFeatures\SharedPluginFeatures.csproj" />
-	<ProjectReference Include="..\PluginManager.Tests\PluginManager.Tests.csproj" />
-	<ProjectReference Include="..\..\Plugins\Documentation.Plugin\Documentation.Plugin.csproj" />
-	<ProjectReference Include="..\..\Plugins\MemoryCachePlugin\MemoryCachePlugin.csproj" />
-	<ProjectReference Include="..\..\Plugins\Blog.Plugin\Blog.Plugin.csproj" />
+    <ProjectReference Include="..\..\Demo\NetCorePluginDemoWebsite\AspNetCore.PluginManager.DemoWebsite.csproj" />
+    <ProjectReference Include="..\..\Plugins\SDGeoIpPlugin\SieraDeltaGeoIpPlugin.csproj" />
+    <ProjectReference Include="..\..\SharedPluginFeatures\SharedPluginFeatures.csproj" />
+    <ProjectReference Include="..\..\NetCorePluginManager\AspNetCore.PluginManager.csproj" />
+    <ProjectReference Include="..\..\Plugins\PluginMiddleware\PluginMiddleware.csproj" />
+    <ProjectReference Include="..\..\Plugins\Products.Plugin\ProductsPlugin.csproj" />
+    <ProjectReference Include="..\..\Plugins\ShoppingCart.Plugin\ShoppingCart.Plugin.csproj" />
+    <ProjectReference Include="..\..\Plugins\Helpdesk.Plugin\HelpdeskPlugin.csproj" />
+    <ProjectReference Include="..\..\Languages\Languages.csproj" />
+    <ProjectReference Include="..\..\Plugins\UserAccount.Plugin\UserAccount.Plugin.csproj" />
+    <ProjectReference Include="..\..\Plugins\Login.Plugin\Login.Plugin.csproj" />
+    <ProjectReference Include="..\..\Plugins\SystemAdmin.Plugin\SystemAdmin.Plugin.csproj" />
+    <ProjectReference Include="..\..\Plugins\Documentation.Plugin\Documentation.Plugin.csproj" />
+    <ProjectReference Include="..\..\Plugins\Sitemap.Plugin\Sitemap.Plugin.csproj" />
+    <ProjectReference Include="..\..\Plugins\BadEgg.Plugin\BadEgg.Plugin.csproj" />
+    <ProjectReference Include="..\..\Plugins\Blog.Plugin\Blog.Plugin.csproj" />
+    <ProjectReference Include="..\..\Plugins\Breadcrumb.Plugin\Breadcrumb.Plugin.csproj" />
+    <ProjectReference Include="..\..\Plugins\CacheControl.Plugin\CacheControl.Plugin.csproj" />
+    <ProjectReference Include="..\..\Plugins\Company.Plugin\CompanyPlugin.csproj" />
+    <ProjectReference Include="..\..\Plugins\Download.Plugin\DownloadPlugin.csproj" />
+    <ProjectReference Include="..\..\Plugins\ErrorManager.Plugin\ErrorManager.Plugin.csproj" />
+    <ProjectReference Include="..\..\Plugins\LocalizationPlugin\Localization.Plugin.csproj" />
+    <ProjectReference Include="..\..\Plugins\MemoryCachePlugin\MemoryCachePlugin.csproj" />
+    <ProjectReference Include="..\..\Plugins\RestrictIp.Plugin\RestrictIp.Plugin.csproj" />
+    <ProjectReference Include="..\..\Plugins\SeoPlugin\SeoPlugin.csproj" />
+    <ProjectReference Include="..\..\Plugins\Spider.Plugin\Spider.Plugin.csproj" />
+    <ProjectReference Include="..\..\Plugins\UserSessionMiddlewarePlugin\UserSessionMiddleware.Plugin.csproj" />
+    <ProjectReference Include="..\..\PluginManager\src\PluginManager.csproj" />
+    <ProjectReference Include="..\..\Plugins\Search.Plugin\Search.Plugin.csproj" />
+    <ProjectReference Include="..\..\Plugins\WebSmokeTest.Plugin\WebSmokeTest.Plugin.csproj" />
+    <ProjectReference Include="..\..\Plugins\GeoIpPlugin\GeoIpPlugin.csproj" />
+    <ProjectReference Include="..\..\Plugins\Subdomain.Plugin\Subdomain.Plugin.csproj" />
+    <ProjectReference Include="..\..\Plugins\ImageManager.Plugin\ImageManager.Plugin.csproj" />
+    <ProjectReference Include="..\..\Plugins\DynamicContent.Plugin\DynamicContent.Plugin.csproj" />
+    <ProjectReference Include="..\..\Plugins\ApiAuthorization.Plugin\ApiAuthorization.Plugin.csproj" />
+		<ProjectReference Include="..\PluginManager.Tests\PluginManager.Tests.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="6.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="6.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.CommandLine" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="6.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Localization" Version="6.0.3" />
+    <PackageReference Include="Microsoft.Extensions.Localization.Abstractions" Version="6.0.3" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="6.0.1" />
+    <PackageReference Include="Microsoft.Extensions.ObjectPool" Version="6.0.3" />
+    <PackageReference Include="Microsoft.Extensions.Options" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Primitives" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Extensions.WebEncoders" Version="6.0.3" />
+    <PackageReference Include="Microsoft.Net.Http.Headers" Version="2.2.8" />
   </ItemGroup>
 
   <ItemGroup>

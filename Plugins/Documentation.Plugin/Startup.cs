@@ -47,7 +47,7 @@ namespace DocumentationPlugin
             services.AddMemoryCache();
 
             services.AddMvc(
-#if NET_CORE_3_X || NET_5_X
+#if NET_CORE_3_X || NET_5_X || NET_6_X
                 option => option.EnableEndpointRouting = false
 #endif
                 )
@@ -57,13 +57,13 @@ namespace DocumentationPlugin
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1801:ReviewUnusedParameters", MessageId = "Reviewed and ok in this context")]
         public void Configure(
-#if !NET_CORE_3_X && !NET_5_X
+#if !NET_CORE_3_X && !NET_5_X && !NET_6_X
             IApplicationBuilder app, IHostingEnvironment env
 #endif
             )
         {
 
-#if !NET_CORE_3_X && !NET_5_X
+#if !NET_CORE_3_X && !NET_5_X && !NET_6_X
             app.UseMvc(routes =>
             {
                 routes.MapRoute(

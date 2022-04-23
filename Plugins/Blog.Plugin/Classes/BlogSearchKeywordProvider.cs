@@ -69,9 +69,9 @@ namespace Blog.Plugin.Classes
             if (searchOptions == null)
                 throw new ArgumentNullException(nameof(searchOptions));
 
-            List<SearchResponseItem> Result = new List<SearchResponseItem>();
+            List<SearchResponseItem> Result = new();
 
-            List<BlogItem> foundBlogs = new List<BlogItem>();
+            List<BlogItem> foundBlogs = new();
 
             string[] words = searchOptions.SearchTerm.Split(" ", StringSplitOptions.RemoveEmptyEntries);
 
@@ -106,12 +106,12 @@ namespace Blog.Plugin.Classes
 
         #region Private Methods
 
-        private SearchResponseItem CreateSearchResponseItem(BlogItem blogItem)
+        private static SearchResponseItem CreateSearchResponseItem(BlogItem blogItem)
         {
             string url = $"/Blog/{HtmlHelper.RouteFriendlyName(blogItem.Username)}/{blogItem.Id}/" +
                 $"{blogItem.LastModified.ToString("dd-MM-yyyy")}/{HtmlHelper.RouteFriendlyName(blogItem.Title)}";
 
-            SearchResponseItem responseItem = new SearchResponseItem("Blog", blogItem.Title, -1,
+            SearchResponseItem responseItem = new("Blog", blogItem.Title, -1,
                 url, blogItem.Title, "~/Views/Blog/_BlogSearchResult.cshtml");
 
             responseItem.Properties.Add(nameof(Languages.LanguageStrings.Author), blogItem.Username);

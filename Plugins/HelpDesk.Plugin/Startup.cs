@@ -46,15 +46,19 @@ namespace HelpdeskPlugin
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc(
-#if NET_CORE_3_X || NET_5_X
+#if NET_CORE_3_X || NET_5_X || NET_6_X
                 option => option.EnableEndpointRouting = false
 #endif
-                ).SetCompatibilityVersion(CompatibilityVersion.Latest);
+                )
+#if NET_CORE_3_X
+                .SetCompatibilityVersion(CompatibilityVersion.Latest)
+#endif
+                ;
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app,
-#if NET_CORE_3_X || NET_5_X
+#if NET_CORE_3_X || NET_5_X || NET_6_X
             IWebHostEnvironment env)
 #else
             IHostingEnvironment env)

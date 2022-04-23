@@ -67,19 +67,12 @@ namespace UserAccount.Plugin
 
 
             services.AddMvc(
-#if NET_CORE_3_X || NET_5_X
                 option => option.EnableEndpointRouting = false
-#endif
                 )
                 .ConfigurePluginManager();
         }
 
-        public void Configure(IApplicationBuilder app,
-#if NET_CORE_3_X || NET_5_X
-            IWebHostEnvironment env)
-#else
-            IHostingEnvironment env)
-#endif
+        public void Configure(IApplicationBuilder app)
         {
             // Allow plugin manager to configure options for all plugins
             PluginManagerService.Configure(app);
@@ -90,14 +83,12 @@ namespace UserAccount.Plugin
             //app.UseCookiePolicy();
             //app.UseSession();
 
-#if !NET_CORE_3_X
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Account}/{action=Index}/{id?}");
             });
-#endif
         }
     }
 

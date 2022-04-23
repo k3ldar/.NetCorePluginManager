@@ -4,7 +4,8 @@ Version 4.4.0
 #138 Log System Uptime
 #137 Login with google and facebook oauth providers
 #140 Api Authorization Attribute/Plugin
-#133 Manage Products
+#143 Add support for Directory.Build.props
+#141 Add support for net 6
 
 Version 4.3.0
 =============
