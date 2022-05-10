@@ -126,7 +126,7 @@ namespace ProductPlugin.Controllers
         [HttpGet]
         public IActionResult NewProduct()
         {
-            return View("/Views/ProductAdmin/EditProduct.aspx", new EditProductModel(GetModelData()));
+            return View("/Views/ProductAdmin/EditProduct.cshtml", new EditProductModel(GetModelData()));
         }
 
         [HttpPost]
@@ -158,7 +158,13 @@ namespace ProductPlugin.Controllers
             }
 
             if (!ModelState.IsValid)
-                return View("/Views/ProductAdmin/EditProduct.aspx", model);
+            {
+                model = CreateEditProductModel(_productProvider.GetProduct(model.Id));
+
+                //model.Breadcrumbs.Add(new BreadcrumbItem(LanguageStrings.AppMenuEditProduct, $"/ProductAdmin/EditProduct/{id}/{pageNumber}", false));
+
+                return View("/Views/ProductAdmin/EditProduct.cshtml", model);
+            }
 
             _memoryCache.GetShortCache().Clear();
 

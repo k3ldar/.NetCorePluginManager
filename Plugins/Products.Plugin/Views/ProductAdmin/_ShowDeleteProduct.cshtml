@@ -13,19 +13,19 @@
         </div>
         @using (Html.BeginForm(nameof(ProductPlugin.Controllers.ProductAdminController.DeleteProduct), ProductPlugin.Controllers.ProductAdminController.Name, FormMethod.Post, new { id = "frmDeleteProduct" }))
         {
-            Html.HiddenFor(m => m.Id);
+            @Html.HiddenFor(m => m.Id);
             <div class="modal-body">
                 <div class="form-group">
                     <p>@Localizer[nameof(Languages.LanguageStrings.AppProductDeletePrompt)]</p>
                     <p>@Localizer[nameof(Languages.LanguageStrings.ConfirmDeleteWord)]</p>
 
                     @Html.TextBoxFor(m => m.Confirmation, new { @class = "form-control", autocomplete = "off" })<br />
-                    <p id="qDelValidation" style="color:red;">Please enter a search term</p>
+                    <p id="qDelValidation" style="color:red;"></p>
                 </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">@Localizer[nameof(Languages.LanguageStrings.Cancel)]</button>
-                <button type="button" class="btn btn-primary" id="btnDelProduct" onclick="javascript:deleteProduct();">@Localizer[nameof(Languages.LanguageStrings.Search)]</button>
+                <button type="button" class="btn btn-primary" id="btnDelProduct" onclick="javascript:deleteProduct();">@Localizer[nameof(Languages.LanguageStrings.Delete)]</button>
             </div>
         }
     </div>
@@ -33,15 +33,19 @@
 <script type="text/javascript">
     function deleteProduct() {
         let form = $('#frmDeleteProduct');
-            $.ajax({
-                type: 'POST',
-                url: form.attr('action'),
-                data: form.serialize(),
-                success: function (response) {
-                    debugger;
-                    $('#dlgDelProd').modal('hide');
-                },
-            });
+        $.ajax({
+            type: 'POST',
+            url: form.attr('action'),
+            data: form.serialize(),
+            success: function (response) {
+                $('#dlgDelProd').modal('hide');
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                if (!jqXHR.responseJSON.success) {
+                    document.getElementById("qDelValidation").innerHTML = jqXHR.responseJSON.responseData;
+                }
+            }
+        });
     }
 
 </script>
