@@ -70,6 +70,7 @@ namespace ProductPlugin.Controllers
         /// </summary>
         /// <param name="productProvider">IProductProvider instance</param>
         /// <param name="settingsProvider">ISettingsProvider instance</param>
+        /// <param name="memoryCache"></param>
         public ProductAdminController(IProductProvider productProvider, ISettingsProvider settingsProvider, IMemoryCache memoryCache)
         {
             _productProvider = productProvider ?? throw new ArgumentNullException(nameof(productProvider));
