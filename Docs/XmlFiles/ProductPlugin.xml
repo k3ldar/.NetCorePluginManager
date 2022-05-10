@@ -162,6 +162,7 @@
             </summary>
             <param name="productProvider">IProductProvider instance</param>
             <param name="settingsProvider">ISettingsProvider instance</param>
+            <param name="memoryCache"></param>
         </member>
         <member name="M:ProductPlugin.Controllers.ProductAdminController.Index(System.Nullable{System.Int32})">
             <summary>

@@ -1,0 +1,43 @@
+@model ProductPlugin.Models.ProductDeleteModel
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
+<link rel="stylesheet" href="/css/search.css" />
+<div class="modal-dialog deleteProductDialog" role="document">
+<div class="modal-content">
+<div class="modal-header">
+<h5 class="modal-title" id="deleteModalLabel">@Localizer[nameof(Languages.LanguageStrings.AppProductDelete)]</h5>
+<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+<span aria-hidden="true">&times;</span>
+</button>
+</div>
+@using (Html.BeginForm(nameof(ProductPlugin.Controllers.ProductAdminController.DeleteProduct), ProductPlugin.Controllers.ProductAdminController.Name, FormMethod.Post, new { id = "frmDeleteProduct" }))
+{
+Html.HiddenFor(m => m.Id);
+<div class="modal-body">
+<div class="form-group">
+<p>@Localizer[nameof(Languages.LanguageStrings.AppProductDeletePrompt)]</p>
+<p>@Localizer[nameof(Languages.LanguageStrings.ConfirmDeleteWord)]</p>
+@Html.TextBoxFor(m => m.Confirmation, new { @class = "form-control", autocomplete = "off" })<br />
+<p id="qDelValidation" style="color:red;">Please enter a search term</p>
+</div>
+</div>
+<div class="modal-footer">
+<button type="button" class="btn btn-secondary" data-dismiss="modal">@Localizer[nameof(Languages.LanguageStrings.Cancel)]</button>
+<button type="button" class="btn btn-primary" id="btnDelProduct" onclick="javascript:deleteProduct();">@Localizer[nameof(Languages.LanguageStrings.Search)]</button>
+</div>
+}
+</div>
+</div>
+<script type="text/javascript">
+function deleteProduct() {
+let form = $('#frmDeleteProduct');
+$.ajax({
+type: 'POST',
+url: form.attr('action'),
+data: form.serialize(),
+success: function (response) {
+debugger;
+$('#dlgDelProd').modal('hide');
+},
+});
+}
+</script>
