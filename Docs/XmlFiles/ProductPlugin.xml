@@ -322,7 +322,7 @@
             List of products for a page view
             </summary>
         </member>
-        <member name="M:ProductPlugin.Models.ProductPageListModel.#ctor(SharedPluginFeatures.BaseModelData@,System.Collections.Generic.List{Middleware.Products.Product},System.String)">
+        <member name="M:ProductPlugin.Models.ProductPageListModel.#ctor(SharedPluginFeatures.BaseModelData@,System.Collections.Generic.List{Middleware.Products.Product},System.String,System.Int32)">
             <summary>
             Constructor
             </summary>
@@ -335,6 +335,11 @@
         <member name="P:ProductPlugin.Models.ProductPageListModel.Pagination">
             <summary>
             Pagination for page views
+            </summary>
+        </member>
+        <member name="P:ProductPlugin.Models.ProductPageListModel.PageNumber">
+            <summary>
+            Current page number
             </summary>
         </member>
         <member name="T:ProductPlugin.Models.ProductSearchViewModel">

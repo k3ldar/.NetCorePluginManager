@@ -12247,6 +12247,11 @@
               Looks up a localized string similar to Company Registration Number.
             </summary>
         </member>
+        <member name="P:Languages.LanguageStrings.Confirm">
+            <summary>
+              Looks up a localized string similar to Confirm.
+            </summary>
+        </member>
         <member name="P:Languages.LanguageStrings.ConfirmDelete">
             <summary>
               Looks up a localized string similar to Confirm Delete.
@@ -12255,6 +12260,11 @@
         <member name="P:Languages.LanguageStrings.ConfirmDeleteCheckbox">
             <summary>
               Looks up a localized string similar to Please tick the box to confirm you want to delete the selected item..
+            </summary>
+        </member>
+        <member name="P:Languages.LanguageStrings.ConfirmDeleteWord">
+            <summary>
+              Looks up a localized string similar to Please write CONFIRM in the text box above and click delete.
             </summary>
         </member>
         <member name="P:Languages.LanguageStrings.ConfirmNewPassword">

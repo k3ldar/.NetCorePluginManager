@@ -64,6 +64,7 @@
   <ItemGroup>
     <Content Remove="Views\ProductAdmin\EditProduct.cshtml" />
     <Content Remove="Views\ProductAdmin\Index.cshtml" />
+    <Content Remove="Views\ProductAdmin\_ShowDeleteProduct.cshtml" />
     <Content Remove="Views\Product\Index.cshtml" />
     <Content Remove="Views\Product\Product.cshtml" />
     <Content Remove="Views\Product\_AddToCart.cshtml" />
@@ -86,6 +87,7 @@
   <ItemGroup>
     <EmbeddedResource Include="Views\ProductAdmin\EditProduct.cshtml" />
     <EmbeddedResource Include="Views\ProductAdmin\Index.cshtml" />
+    <EmbeddedResource Include="Views\ProductAdmin\_ShowDeleteProduct.cshtml" />
     <EmbeddedResource Include="Views\Product\Index.cshtml" />
     <EmbeddedResource Include="Views\Product\Product.cshtml" />
     <EmbeddedResource Include="Views\Product\_AddToCart.cshtml" />

@@ -43,7 +43,7 @@ namespace ProductPlugin.Models
         /// <summary>
         /// Constructor
         /// </summary>
-        public ProductPageListModel(in BaseModelData modelData, List<Product> products, string pagination)
+        public ProductPageListModel(in BaseModelData modelData, List<Product> products, string pagination, int pageNumber)
             : base (modelData)
         {
             if (products == null)
@@ -52,13 +52,16 @@ namespace ProductPlugin.Models
             if (String.IsNullOrEmpty(pagination))
                 throw new ArgumentNullException(nameof(pagination));
 
+            if (pageNumber < 1)
+                throw new ArgumentOutOfRangeException(nameof(pageNumber));
+
             List<ProductListModel> items = new List<ProductListModel>();
 
             products.ForEach(p => items.Add(new ProductListModel(p.Id, p.Sku, p.Name)));
 
             Items = items;
-
             Pagination = pagination;
+            PageNumber = pageNumber;
         }
 
         #endregion Constructors
@@ -74,6 +77,11 @@ namespace ProductPlugin.Models
         /// Pagination for page views
         /// </summary>
         public string Pagination { get; }
+
+        /// <summary>
+        /// Current page number
+        /// </summary>
+        public int PageNumber { get; }
 
         #endregion Properties
     }

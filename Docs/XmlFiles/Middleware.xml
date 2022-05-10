@@ -3588,6 +3588,13 @@
             <param name="errorMessage">Error message when saving the product, if the result is false</param>
             <returns></returns>
         </member>
+        <member name="M:Middleware.IProductProvider.ProductDelete(System.Int32@,System.String@)">
+            <summary>
+            
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
         <member name="T:Middleware.ISearchKeywordProvider">
             <summary>
             Keyword search provider interface is implemented by classes which provide keyword search 

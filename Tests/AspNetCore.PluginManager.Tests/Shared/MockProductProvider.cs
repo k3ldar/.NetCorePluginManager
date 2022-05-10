@@ -142,6 +142,13 @@ namespace AspNetCore.PluginManager.Tests.Shared
             return String.IsNullOrEmpty(ProductSaveError);
         }
 
+        public bool ProductDelete(in int id, out string errorMessage)
+        {
+            errorMessage = ProductDeleteError;
+
+            return String.IsNullOrEmpty(ProductDeleteError);
+        }
+
         public int ProductCount => 9;
 
         #endregion Products
@@ -151,5 +158,7 @@ namespace AspNetCore.PluginManager.Tests.Shared
         public bool ReturnNullForProductGroupGet { get; set; }
 
         public string ProductSaveError { get; set; }
+
+        public string ProductDeleteError { get; set; }
     }
 }

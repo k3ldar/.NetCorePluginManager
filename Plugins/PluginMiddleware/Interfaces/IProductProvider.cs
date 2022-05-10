@@ -120,6 +120,13 @@ namespace Middleware
             in string features, in string videoLink, in bool newProduct, in bool bestSeller, in decimal retailPrice, in string sku,
             in bool isDownload, in bool allowBackOrder, out string errorMessage);
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        bool ProductDelete(in int id, out string errorMessage);
+
         #endregion Products
     }
 }

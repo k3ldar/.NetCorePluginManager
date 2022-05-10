@@ -53,7 +53,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ProductTests
         [ExpectedException(typeof(ArgumentNullException))]
         public void Construct_InvalidParam_Products_Null_Throws_ArgumentNullException()
         {
-            new ProductPageListModel(GenerateTestBaseModelData(), null, "pag");
+            new ProductPageListModel(GenerateTestBaseModelData(), null, "pag", 1);
         }
 
         [TestMethod]
@@ -61,7 +61,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ProductTests
         [ExpectedException(typeof(ArgumentNullException))]
         public void Construct_InvalidParam_Pagination_Null_Throws_ArgumentNullException()
         {
-            new ProductPageListModel(GenerateTestBaseModelData(), new List<Product>(), null);
+            new ProductPageListModel(GenerateTestBaseModelData(), new List<Product>(), null, 1);
         }
 
         [TestMethod]
@@ -69,18 +69,28 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ProductTests
         [ExpectedException(typeof(ArgumentNullException))]
         public void Construct_InvalidParam_Pagination_EmptyString_Throws_ArgumentNullException()
         {
-            new ProductPageListModel(GenerateTestBaseModelData(), new List<Product>(), "");
+            new ProductPageListModel(GenerateTestBaseModelData(), new List<Product>(), "", 1);
         }
+
+        [TestMethod]
+        [TestCategory(TestCategoryName)]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void Construct_InvalidParam_PageNumber_Zero_Throws_ArgumentOutOfRangeException()
+        {
+            new ProductPageListModel(GenerateTestBaseModelData(), new List<Product>(), "pag", 0);
+        }
+
 
         [TestMethod]
         [TestCategory(TestCategoryName)]
         public void Construct_ValidInstance_Success()
         {
             MockProductProvider mockProductProvider = new MockProductProvider();
-            ProductPageListModel sut = new ProductPageListModel(GenerateTestBaseModelData(), mockProductProvider.GetProducts(1, 3), "pag");
+            ProductPageListModel sut = new ProductPageListModel(GenerateTestBaseModelData(), mockProductProvider.GetProducts(1, 3), "pag", 2);
             Assert.IsInstanceOfType(sut, typeof(BaseModel));
 
             Assert.IsNotNull(sut.Items);
+            Assert.AreEqual(2, sut.PageNumber);
             Assert.AreEqual(3, sut.Items.Count);
             Assert.AreEqual(1, sut.Items[0].Id);
             Assert.AreEqual(2, sut.Items[1].Id);
@@ -92,10 +102,11 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ProductTests
         public void Construct_ValidInstance_RetrieveSecondPageOfProducts_Success()
         {
             MockProductProvider mockProductProvider = new MockProductProvider();
-            ProductPageListModel sut = new ProductPageListModel(GenerateTestBaseModelData(), mockProductProvider.GetProducts(2, 3), "pag");
+            ProductPageListModel sut = new ProductPageListModel(GenerateTestBaseModelData(), mockProductProvider.GetProducts(2, 3), "pag", 3);
             Assert.IsInstanceOfType(sut, typeof(BaseModel));
 
             Assert.IsNotNull(sut.Items);
+            Assert.AreEqual(3, sut.PageNumber);
             Assert.AreEqual(3, sut.Items.Count);
             Assert.AreEqual(4, sut.Items[0].Id);
             Assert.AreEqual(5, sut.Items[1].Id);

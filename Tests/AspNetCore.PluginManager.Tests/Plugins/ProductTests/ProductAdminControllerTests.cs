@@ -170,7 +170,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ProductTests
             MockSettingsProvider mockSettingsProvider = new MockSettingsProvider("{\"Product\":{\"ProductsPerPage\":2}}");
             ProductAdminController sut = CreateProductAdminController(null, mockSettingsProvider);
 
-            IActionResult result = sut.EditProduct(10000);
+            IActionResult result = sut.EditProduct(10000, 20);
 
             RedirectToActionResult redirectResult = result as RedirectToActionResult;
             Assert.IsNotNull(redirectResult);
@@ -186,7 +186,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ProductTests
             MockSettingsProvider mockSettingsProvider = new MockSettingsProvider("{\"Product\":{\"ProductsPerPage\":2}}");
             ProductAdminController sut = CreateProductAdminController(null, mockSettingsProvider);
 
-            IActionResult result = sut.EditProduct(1);
+            IActionResult result = sut.EditProduct(1, 1);
 
             ViewResult viewResult = result as ViewResult;
             Assert.IsNotNull(viewResult);
@@ -481,7 +481,6 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ProductTests
             Assert.IsTrue(ViewResultContainsModelStateError(viewResult, "", "Failed to save"));
         }
 
-
         [TestMethod]
         [TestCategory(TestCategoryName)]
         public void SaveProduct_ProductSaved_RedirectsToIndex()
@@ -500,6 +499,153 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ProductTests
             };
 
             IActionResult result = sut.SaveProduct(editProductModel);
+
+            RedirectToActionResult redirectResult = result as RedirectToActionResult;
+            Assert.IsNotNull(redirectResult);
+            Assert.AreEqual("Index", redirectResult.ActionName);
+            Assert.IsFalse(redirectResult.Permanent);
+            Assert.IsNull(redirectResult.ControllerName);
+            Assert.AreEqual(0, mockMemoryCache.GetShortCache().Count);
+        }
+
+        [TestMethod]
+        [TestCategory(TestCategoryName)]
+        public void ViewDeleteProduct_ProductNotFound_RedirectsToIndex()
+        {
+            MockMemoryCache mockMemoryCache = new MockMemoryCache();
+            mockMemoryCache.GetShortCache().Add("test", new CacheItem("test", true));
+            MockProductProvider mockProductProvider = new MockProductProvider();
+            ProductAdminController sut = CreateProductAdminController(mockProductProvider, null, mockMemoryCache);
+
+            IActionResult result = sut.ViewDeleteProduct(-1);
+
+            RedirectToActionResult redirectResult = result as RedirectToActionResult;
+            Assert.IsNotNull(redirectResult);
+            Assert.AreEqual("Index", redirectResult.ActionName);
+            Assert.IsFalse(redirectResult.Permanent);
+            Assert.IsNull(redirectResult.ControllerName);
+            Assert.AreEqual(1, mockMemoryCache.GetShortCache().Count);
+        }
+
+        [TestMethod]
+        [TestCategory(TestCategoryName)]
+        public void ViewDeleteProduct_ProductFound_ReturnsPartialView()
+        {
+            MockMemoryCache mockMemoryCache = new MockMemoryCache();
+            mockMemoryCache.GetShortCache().Add("test", new CacheItem("test", true));
+            MockProductProvider mockProductProvider = new MockProductProvider();
+            ProductAdminController sut = CreateProductAdminController(mockProductProvider, null, mockMemoryCache);
+
+            IActionResult result = sut.ViewDeleteProduct(1);
+
+            PartialViewResult partialViewResult = result as PartialViewResult;
+            Assert.IsNotNull(partialViewResult);
+            Assert.IsNull(partialViewResult.ContentType);
+            Assert.IsInstanceOfType(partialViewResult.Model, typeof(ProductDeleteModel));
+            Assert.IsNull(partialViewResult.StatusCode);
+            Assert.IsNull(partialViewResult.TempData);
+            Assert.AreEqual("_ShowDeleteProduct", partialViewResult.ViewName);
+            Assert.AreEqual(1, mockMemoryCache.GetShortCache().Count);
+        }
+
+        [TestMethod]
+        [TestCategory(TestCategoryName)]
+        public void DeleteProduct_ModelIsNull_RedirectsToIndex()
+        {
+            MockMemoryCache mockMemoryCache = new MockMemoryCache();
+            mockMemoryCache.GetShortCache().Add("test", new CacheItem("test", true));
+            MockProductProvider mockProductProvider = new MockProductProvider();
+            ProductAdminController sut = CreateProductAdminController(mockProductProvider, null, mockMemoryCache);
+
+            IActionResult result = sut.DeleteProduct(null);
+
+            RedirectToActionResult redirectResult = result as RedirectToActionResult;
+            Assert.IsNotNull(redirectResult);
+            Assert.AreEqual("Index", redirectResult.ActionName);
+            Assert.IsFalse(redirectResult.Permanent);
+            Assert.IsNull(redirectResult.ControllerName);
+            Assert.AreEqual(1, mockMemoryCache.GetShortCache().Count);
+        }
+
+        [TestMethod]
+        [TestCategory(TestCategoryName)]
+        public void DeleteProduct_ProductNotFound_RedirectsToIndex()
+        {
+            MockMemoryCache mockMemoryCache = new MockMemoryCache();
+            mockMemoryCache.GetShortCache().Add("test", new CacheItem("test", true));
+            MockProductProvider mockProductProvider = new MockProductProvider();
+            ProductAdminController sut = CreateProductAdminController(mockProductProvider, null, mockMemoryCache);
+
+            IActionResult result = sut.DeleteProduct(new ProductDeleteModel(0));
+
+            RedirectToActionResult redirectResult = result as RedirectToActionResult;
+            Assert.IsNotNull(redirectResult);
+            Assert.AreEqual("Index", redirectResult.ActionName);
+            Assert.IsFalse(redirectResult.Permanent);
+            Assert.IsNull(redirectResult.ControllerName);
+            Assert.AreEqual(1, mockMemoryCache.GetShortCache().Count);
+        }
+
+        [TestMethod]
+        [TestCategory(TestCategoryName)]
+        public void DeleteProduct_DeletionNotConfirmed_ReturnsModelWithModelStateError()
+        {
+            MockMemoryCache mockMemoryCache = new MockMemoryCache();
+            mockMemoryCache.GetShortCache().Add("test", new CacheItem("test", true));
+            MockProductProvider mockProductProvider = new MockProductProvider();
+            ProductAdminController sut = CreateProductAdminController(mockProductProvider, null, mockMemoryCache);
+            ProductDeleteModel model = new ProductDeleteModel(1);
+
+            IActionResult result = sut.DeleteProduct(model);
+
+            ViewResult viewResult = result as ViewResult;
+            Assert.IsNotNull(viewResult);
+            Assert.AreSame(model, viewResult.Model);
+            Assert.IsNotNull(viewResult.ViewName);
+            Assert.AreEqual(1, ((ProductDeleteModel)viewResult.Model).Id);
+            Assert.AreEqual(1, viewResult.ViewData.ModelState.ErrorCount);
+            Assert.AreEqual("/Views/ProductAdmin/EditProduct.aspx", viewResult.ViewName);
+            Assert.IsTrue(ViewResultContainsModelStateError(viewResult, "Confirmation", "Please write CONFIRM in the text box above and click delete"));
+            Assert.AreEqual(1, mockMemoryCache.GetShortCache().Count);
+        }
+
+        [TestMethod]
+        [TestCategory(TestCategoryName)]
+        public void DeleteProduct_ProductProviderWillNotAllowDeletion_AddsModelError()
+        {
+            MockMemoryCache mockMemoryCache = new MockMemoryCache();
+            mockMemoryCache.GetShortCache().Add("test", new CacheItem("test", true));
+            MockProductProvider mockProductProvider = new MockProductProvider();
+            mockProductProvider.ProductDeleteError = "Failed to Delete";
+            ProductAdminController sut = CreateProductAdminController(mockProductProvider, null, mockMemoryCache);
+            ProductDeleteModel model = new ProductDeleteModel(1);
+            model.Confirmation = "CONFirm";
+
+            IActionResult result = sut.DeleteProduct(model);
+
+            ViewResult viewResult = result as ViewResult;
+            Assert.IsNotNull(viewResult);
+            Assert.AreSame(model, viewResult.Model);
+            Assert.IsNotNull(viewResult.ViewName);
+            Assert.AreEqual(1, ((ProductDeleteModel)viewResult.Model).Id);
+            Assert.AreEqual(1, viewResult.ViewData.ModelState.ErrorCount);
+            Assert.AreEqual("/Views/ProductAdmin/EditProduct.aspx", viewResult.ViewName);
+            Assert.IsTrue(ViewResultContainsModelStateError(viewResult, "", "Failed to Delete"));
+            Assert.AreEqual(1, mockMemoryCache.GetShortCache().Count);
+        }
+
+        [TestMethod]
+        [TestCategory(TestCategoryName)]
+        public void DeleteProduct_ProductDeleted_RedirectsToIndex()
+        {
+            MockMemoryCache mockMemoryCache = new MockMemoryCache();
+            mockMemoryCache.GetShortCache().Add("test", new CacheItem("test", true));
+            MockProductProvider mockProductProvider = new MockProductProvider();
+            ProductAdminController sut = CreateProductAdminController(mockProductProvider, null, mockMemoryCache);
+            ProductDeleteModel model = new ProductDeleteModel(1);
+            model.Confirmation = "CONFirm";
+
+            IActionResult result = sut.DeleteProduct(model);
 
             RedirectToActionResult redirectResult = result as RedirectToActionResult;
             Assert.IsNotNull(redirectResult);

@@ -15,12 +15,12 @@
  *
  *  Product:  Products.Plugin
  *  
- *  File: AddToCartModel.cs
+ *  File: EditProductModel.cs
  *
- *  Purpose:  Add to cart model
+ *  Purpose:  Edit product model
  *
  *  Date        Name                Reason
- *  02/02/2019  Simon Carter        Initially Created
+ *  09/05/2022  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;

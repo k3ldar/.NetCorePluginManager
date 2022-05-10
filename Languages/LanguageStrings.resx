@@ -14425,4 +14425,12 @@ You will shortly receive an email with the details of your order.</comment>
     <value>Please provide a valid SKU for the product.</value>
     <comment>Please provide a valid SKU for the product.</comment>
   </data>
+  <data name="Confirm" xml:space="preserve">
+    <value>Confirm</value>
+    <comment>Confirm</comment>
+  </data>
+  <data name="ConfirmDeleteWord" xml:space="preserve">
+    <value>Please write CONFIRM in the text box above and click delete</value>
+    <comment>Please write CONFIRM in the text box above and click delete</comment>
+  </data>
 </root>

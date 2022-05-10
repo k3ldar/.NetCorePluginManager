@@ -1,142 +1,127 @@
 ﻿@model ProductPlugin.Models.EditProductModel
 @inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
-
 <style>
-    .row {
-        padding: 0 0 10px 0;
-    }
-
-    .field-validation-error::after {
-        content: "\a";
-        white-space: pre;
-    }
+.row {
+padding: 0 0 10px 0;
+}
+.field-validation-error::after {
+content: "\a";
+white-space: pre;
+}
 </style>
 <div class="row">
-    <div class="col-sm-12 col-lg-10">
-        @if (Model.Id < 0)
-        {
-            <h3>@Localizer[Languages.LanguageStrings.AppCreateProduct]</h3>
-        }
-        else
-        {
-            <h3>@Localizer[Languages.LanguageStrings.AppMenuEditProduct]</h3>
-        }
-    </div>
+<div class="col-sm-12 col-lg-10">
+@if (Model.Id < 0)
+{
+<h3>@Localizer[Languages.LanguageStrings.AppCreateProduct]</h3>
+}
+else
+{
+<h3>@Localizer[Languages.LanguageStrings.AppMenuEditProduct]</h3>
+}
 </div>
-
+</div>
 @using (Html.BeginForm(nameof(ProductPlugin.Controllers.ProductAdminController.SaveProduct), ProductPlugin.Controllers.ProductAdminController.Name, FormMethod.Post, new { id = "frmEditProduct" }))
 {
-    @Html.HiddenFor(m => m.Id)
-    <div class="row">
-        <div class="col-sm-12 col-lg-5">
-            @Html.LabelFor(m => m.Name)
-        </div>
-        <div class="col-sm-12 col-lg-7">
-            @Html.ValidationMessageFor(m => m.Name)
-            @Html.EditorFor(m => m.Name, new { @class = "form-control" })
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-sm-12 col-lg-5">
-            @Html.LabelFor(m => m.Sku)
-        </div>
-        <div class="col-sm-12 col-lg-7">
-            @Html.ValidationMessageFor(m => m.Sku)
-            @Html.EditorFor(m => m.Sku, new { @class = "form-control" })
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-sm-12 col-lg-5">
-            @Html.LabelFor(m => m.ProductGroupId)
-        </div>
-        <div class="col-sm-12 col-lg-7">
-            @Html.ValidationMessageFor(m => m.ProductGroupId)
-            @Html.DropDownListFor(m => m.ProductGroupId, new SelectList(Model.ProductGroups, "Id", "Description"), new { @class = "form-control" })
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-sm-12 col-lg-5">
-            @Html.LabelFor(m => m.Description)
-        </div>
-        <div class="col-sm-12 col-lg-7">
-            @Html.ValidationMessageFor(m => m.Description)
-            @Html.TextAreaFor(m => m.Description, new { @class = "form-control", style = "width:100%;height:200px;" })
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-sm-12 col-lg-5">
-            @Html.LabelFor(m => m.Features)
-        </div>
-        <div class="col-sm-12 col-lg-7">
-            @Html.ValidationMessageFor(m => m.Features)
-            @Html.TextAreaFor(m => m.Features, new { @class = "form-control", style = "width:100%;height:100px;" })
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-sm-12 col-lg-5">
-            @Html.LabelFor(m => m.VideoLink)
-        </div>
-        <div class="col-sm-12 col-lg-7">
-            @Html.ValidationMessageFor(m => m.VideoLink)
-            @Html.EditorFor(m => m.VideoLink, new { @class = "form-control" })
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-sm-12 col-lg-5">
-            @Html.LabelFor(m => m.RetailPrice)
-        </div>
-        <div class="col-sm-12 col-lg-7">
-            @Html.ValidationMessageFor(m => m.RetailPrice)
-            @Html.EditorFor(m => m.RetailPrice, new { @class = "form-control" })
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-sm-12 col-lg-5">
-            @Html.LabelFor(m => m.NewProduct)
-        </div>
-        <div class="col-sm-12 col-lg-7">
-            @Html.CheckBoxFor(m => m.NewProduct)
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-sm-12 col-lg-5">
-            @Html.LabelFor(m => m.BestSeller)
-        </div>
-        <div class="col-sm-12 col-lg-7">
-            @Html.CheckBoxFor(m => m.BestSeller)
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-sm-12 col-lg-5">
-            @Html.LabelFor(m => m.IsDownload)
-        </div>
-        <div class="col-sm-12 col-lg-7">
-            @Html.CheckBoxFor(m => m.IsDownload)
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-sm-12 col-lg-5">
-            @Html.LabelFor(m => m.AllowBackorder)
-        </div>
-        <div class="col-sm-12 col-lg-7">
-            @Html.CheckBoxFor(m => m.AllowBackorder)
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-sm-12">
-            <input type="submit" value="@Localizer[nameof(Languages.LanguageStrings.Submit)]" class="btn btn-primary" style="float:right;" />
-        </div>
-    </div>
-
+@Html.HiddenFor(m => m.Id)
+<div class="row">
+<div class="col-sm-12 col-lg-5">
+@Html.LabelFor(m => m.Name)
+</div>
+<div class="col-sm-12 col-lg-7">
+@Html.Raw(Html.ValidationMessageFor(m => m.Name)))
+@Html.EditorFor(m => m.Name, new { @class = "form-control" })
+</div>
+</div>
+<div class="row">
+<div class="col-sm-12 col-lg-5">
+@Html.LabelFor(m => m.Sku)
+</div>
+<div class="col-sm-12 col-lg-7">
+@Html.ValidationMessageFor(m => m.Sku)
+@Html.EditorFor(m => m.Sku, new { @class = "form-control" })
+</div>
+</div>
+<div class="row">
+<div class="col-sm-12 col-lg-5">
+@Html.LabelFor(m => m.ProductGroupId)
+</div>
+<div class="col-sm-12 col-lg-7">
+@Html.ValidationMessageFor(m => m.ProductGroupId)
+@Html.DropDownListFor(m => m.ProductGroupId, new SelectList(Model.ProductGroups, "Id", "Description"), new { @class = "form-control" })
+</div>
+</div>
+<div class="row">
+<div class="col-sm-12 col-lg-5">
+@Html.LabelFor(m => m.Description)
+</div>
+<div class="col-sm-12 col-lg-7">
+@Html.ValidationMessageFor(m => m.Description)
+@Html.TextAreaFor(m => m.Description, new { @class = "form-control", style = "width:100%;height:200px;" })
+</div>
+</div>
+<div class="row">
+<div class="col-sm-12 col-lg-5">
+@Html.LabelFor(m => m.Features)
+</div>
+<div class="col-sm-12 col-lg-7">
+@Html.ValidationMessageFor(m => m.Features)
+@Html.TextAreaFor(m => m.Features, new { @class = "form-control", style = "width:100%;height:100px;" })
+</div>
+</div>
+<div class="row">
+<div class="col-sm-12 col-lg-5">
+@Html.LabelFor(m => m.VideoLink)
+</div>
+<div class="col-sm-12 col-lg-7">
+@Html.ValidationMessageFor(m => m.VideoLink)
+@Html.EditorFor(m => m.VideoLink, new { @class = "form-control" })
+</div>
+</div>
+<div class="row">
+<div class="col-sm-12 col-lg-5">
+@Html.LabelFor(m => m.RetailPrice)
+</div>
+<div class="col-sm-12 col-lg-7">
+@Html.ValidationMessageFor(m => m.RetailPrice)
+@Html.EditorFor(m => m.RetailPrice, new { @class = "form-control" })
+</div>
+</div>
+<div class="row">
+<div class="col-sm-12 col-lg-5">
+@Html.LabelFor(m => m.NewProduct)
+</div>
+<div class="col-sm-12 col-lg-7">
+@Html.CheckBoxFor(m => m.NewProduct)
+</div>
+</div>
+<div class="row">
+<div class="col-sm-12 col-lg-5">
+@Html.LabelFor(m => m.BestSeller)
+</div>
+<div class="col-sm-12 col-lg-7">
+@Html.CheckBoxFor(m => m.BestSeller)
+</div>
+</div>
+<div class="row">
+<div class="col-sm-12 col-lg-5">
+@Html.LabelFor(m => m.IsDownload)
+</div>
+<div class="col-sm-12 col-lg-7">
+@Html.CheckBoxFor(m => m.IsDownload)
+</div>
+</div>
+<div class="row">
+<div class="col-sm-12 col-lg-5">
+@Html.LabelFor(m => m.AllowBackorder)
+</div>
+<div class="col-sm-12 col-lg-7">
+@Html.CheckBoxFor(m => m.AllowBackorder)
+</div>
+</div>
+<div class="row">
+<div class="col-sm-12">
+<input type="submit" value="@Localizer[nameof(Languages.LanguageStrings.Submit)]" class="btn btn-primary" style="float:right;" />
+</div>
+</div>
 }

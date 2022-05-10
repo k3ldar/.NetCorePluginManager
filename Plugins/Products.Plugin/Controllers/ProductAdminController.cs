@@ -39,6 +39,8 @@ using ProductPlugin.Models;
 
 using SharedPluginFeatures;
 
+using static SharedPluginFeatures.Constants;
+
 #pragma warning disable CS1591
 
 namespace ProductPlugin.Controllers
@@ -51,6 +53,9 @@ namespace ProductPlugin.Controllers
         public const string Name = "ProductAdmin";
 
         #region Private Members
+
+        private const string InvalidProductModel = "model no good";
+        private const string ProductNotFound = "Invalid product";
 
         private readonly IProductProvider _productProvider;
         private readonly ProductPluginSettings _settings;
@@ -88,18 +93,33 @@ namespace ProductPlugin.Controllers
         [Route("/ProductAdmin/Index/")]
         public IActionResult Index(int? page)
         {
-            return View(GetPageList(page.GetValueOrDefault(1)));
+            ProductPageListModel model = GetPageList(page.GetValueOrDefault(1));
+            model.Breadcrumbs.Add(new BreadcrumbItem(LanguageStrings.AppProductsAdministration, "/ProductAdmin/Index", false));
+
+            if (page.HasValue)
+                model.Breadcrumbs.Add(new BreadcrumbItem($"{LanguageStrings.Page} {page.Value}", $"/ProductAdmin/Page/{page.Value}", false));
+
+            return View(model);
         }
 
         [HttpGet]
-        public IActionResult EditProduct(int id)
+        public IActionResult EditProduct(int id, int pageNumber)
         {
             Product product = _productProvider.GetProduct(id);
 
             if (product == null)
                 return RedirectToAction(nameof(Index));
 
-            return View(CreateEditProductModel(product));
+            EditProductModel model = CreateEditProductModel(product);
+
+            if (pageNumber > 1)
+                model.Breadcrumbs.Add(new BreadcrumbItem(LanguageStrings.AppProductsAdministration, $"/ProductAdmin/Page/{pageNumber}/", false));
+            else
+                model.Breadcrumbs.Add(new BreadcrumbItem(LanguageStrings.AppProductsAdministration, "/ProductAdmin/Index/", false));
+
+            model.Breadcrumbs.Add(new BreadcrumbItem(LanguageStrings.AppMenuEditProduct, $"/ProductAdmin/EditProduct/{id}/{pageNumber}", false));
+
+            return View(model);
         }
 
         [HttpGet]
@@ -144,7 +164,40 @@ namespace ProductPlugin.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        delete a product
+        [HttpGet]
+        [Route("/ProductAdmin/ViewDeleteProduct/{productId}/")]
+        public IActionResult ViewDeleteProduct(int productId)
+        {
+            if (_productProvider.GetProduct(productId) == null)
+                return RedirectToAction(nameof(Index));
+
+            return PartialView("_ShowDeleteProduct", new ProductDeleteModel(productId));
+        }
+
+        [HttpPost]
+        [AjaxOnly]
+        public JsonResult DeleteProduct(ProductDeleteModel model)
+        {
+            if (model == null)
+                return GenerateJsonErrorResponse(HtmlResponseBadRequest, InvalidProductModel);
+
+            if (_productProvider.GetProduct(model.Id) == null)
+                return GenerateJsonErrorResponse(HtmlResponseBadRequest, ProductNotFound);
+
+            if (String.IsNullOrEmpty(model.Confirmation) || !model.Confirmation.Equals("CONFIRM", StringComparison.InvariantCultureIgnoreCase))
+            {
+                return GenerateJsonErrorResponse(HtmlResponseBadRequest, LanguageStrings.ConfirmDeleteWord);
+            }
+            else if (!_productProvider.ProductDelete(model.Id, out string errorMessage))
+            {
+                // product provider can have it's own rules and fail to delete at this point
+                return GenerateJsonErrorResponse(HtmlResponseBadRequest, errorMessage);
+            }
+
+            _memoryCache.GetShortCache().Clear();
+
+            return GenerateJsonSuccessResponse();
+        }
 
         private ProductPageListModel GetPageList(int page)
         {
@@ -156,7 +209,7 @@ namespace ProductPlugin.Controllers
                 $"/ProductAdmin/", "",
                 LanguageStrings.Previous, LanguageStrings.Next);
 
-            return new ProductPageListModel(GetModelData(), pageProducts, pagination);
+            return new ProductPageListModel(GetModelData(), pageProducts, pagination, page);
         }
 
         private EditProductModel CreateEditProductModel(Product product)

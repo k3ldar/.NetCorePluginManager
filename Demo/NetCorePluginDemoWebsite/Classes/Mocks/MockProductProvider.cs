@@ -133,6 +133,12 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
             return false;
         }
 
+        public bool ProductDelete(in int productId, out string errorMessage)
+        {
+            errorMessage = "Unable to delete in demo project";
+            return false;
+        }
+
         public int ProductCount => 9;
 
         #endregion Products
