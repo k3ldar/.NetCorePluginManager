@@ -25,6 +25,8 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
 using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
+using System.Threading;
 
 using AspNetCore.PluginManager.Tests.Shared;
 
@@ -112,6 +114,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ProductTests
         [TestCategory(TestCategoryName)]
         public void Construct_ValidInstance_LowestPriceNotFree_Success()
         {
+            Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-GB");
             ProductCategoryProductModel sut = new ProductCategoryProductModel(123, "name of prod", "img", 5, true, true, 4.5m, "sku");
 
             Assert.AreEqual("name-of-prod", sut.GetRouteName());

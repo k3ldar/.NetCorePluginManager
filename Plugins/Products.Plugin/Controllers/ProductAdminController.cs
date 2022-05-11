@@ -111,14 +111,7 @@ namespace ProductPlugin.Controllers
             if (product == null)
                 return RedirectToAction(nameof(Index));
 
-            EditProductModel model = CreateEditProductModel(product);
-
-            if (pageNumber > 1)
-                model.Breadcrumbs.Add(new BreadcrumbItem(LanguageStrings.AppProductsAdministration, $"/ProductAdmin/Page/{pageNumber}/", false));
-            else
-                model.Breadcrumbs.Add(new BreadcrumbItem(LanguageStrings.AppProductsAdministration, "/ProductAdmin/Index/", false));
-
-            model.Breadcrumbs.Add(new BreadcrumbItem(LanguageStrings.AppMenuEditProduct, $"/ProductAdmin/EditProduct/{id}/{pageNumber}", false));
+            EditProductModel model = CreateEditProductModel(product, pageNumber);
 
             return View(model);
         }
@@ -159,16 +152,12 @@ namespace ProductPlugin.Controllers
 
             if (!ModelState.IsValid)
             {
-                model = CreateEditProductModel(_productProvider.GetProduct(model.Id));
-
-                //model.Breadcrumbs.Add(new BreadcrumbItem(LanguageStrings.AppMenuEditProduct, $"/ProductAdmin/EditProduct/{id}/{pageNumber}", false));
-
-                return View("/Views/ProductAdmin/EditProduct.cshtml", model);
+                return View("/Views/ProductAdmin/EditProduct.cshtml", CreateEditProductModel(model));
             }
 
             _memoryCache.GetShortCache().Clear();
 
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(Index), new { page = model.PageNumber });
         }
 
         [HttpGet]
@@ -219,105 +208,48 @@ namespace ProductPlugin.Controllers
             return new ProductPageListModel(GetModelData(), pageProducts, pagination, page);
         }
 
-        private EditProductModel CreateEditProductModel(Product product)
+        private EditProductModel CreateEditProductModel(Product product, int pageNumber)
         {
             List<LookupListItem> productGroups = new List<LookupListItem>();
 
             _productProvider.ProductGroupsGet().ForEach(pg => productGroups.Add(new LookupListItem(pg.Id, pg.Description)));
 
-            return new EditProductModel(GetModelData(), productGroups, product.Id, product.ProductGroupId,
+            EditProductModel result = new EditProductModel(GetModelData(), productGroups, product.Id, product.ProductGroupId,
                 product.Name, product.Description, product.Features, product.VideoLink, product.NewProduct,
-                product.BestSeller, product.RetailPrice, product.Sku, product.IsDownload, product.AllowBackorder);
+                product.BestSeller, product.RetailPrice, product.Sku, product.IsDownload, product.AllowBackorder,
+                pageNumber);
+
+            if (pageNumber > 1)
+                result.Breadcrumbs.Add(new BreadcrumbItem(LanguageStrings.AppProductsAdministration, $"/ProductAdmin/Page/{pageNumber}/", false));
+            else
+                result.Breadcrumbs.Add(new BreadcrumbItem(LanguageStrings.AppProductsAdministration, "/ProductAdmin/Index/", false));
+
+            result.Breadcrumbs.Add(new BreadcrumbItem(LanguageStrings.AppMenuEditProduct, $"/ProductAdmin/EditProduct/{product.Id}/{pageNumber}", false));
+
+
+            return result;
         }
 
-        #region Product Group API
+        private EditProductModel CreateEditProductModel(EditProductModel model)
+        {
+            List<LookupListItem> productGroups = new List<LookupListItem>();
 
-        ///// <summary>
-        ///// Creates a ProductGroup item
-        ///// </summary>
-        ///// <returns></returns>
-        //[HttpPost]
-        //public IActionResult ProductGroupCreate(ProductGroupModel model)
-        //{
-        //    throw new NotImplementedException();
-        //}
+            _productProvider.ProductGroupsGet().ForEach(pg => productGroups.Add(new LookupListItem(pg.Id, pg.Description)));
 
-        /// <summary>
-        /// Gets a ProductGroup item
-        /// </summary>
-        /// <returns></returns>
-        //[HttpGet]
-        //[ApiAuthorization(SharedConstants.PolicyNameManageProducts)]
-        //public IActionResult ProductGroupGet()
-        //{
-        //    throw new NotImplementedException();
-        //}
+            EditProductModel result = new EditProductModel(GetModelData(), productGroups, model.Id, model.ProductGroupId,
+                model.Name, model.Description, model.Features, model.VideoLink, model.NewProduct,
+                model.BestSeller, model.RetailPrice, model.Sku, model.IsDownload, model.AllowBackorder,
+                model.PageNumber);
 
-        ///// <summary>
-        ///// Updates a ProductGroup item
-        ///// </summary>
-        ///// <returns></returns>
-        //[HttpPut]
-        //public IActionResult ProductGroupUpdate()
-        //{
-        //    throw new NotImplementedException();
-        //}
+            if (model.PageNumber > 1)
+                result.Breadcrumbs.Add(new BreadcrumbItem(LanguageStrings.AppProductsAdministration, $"/ProductAdmin/Page/{model.PageNumber}/", false));
+            else
+                result.Breadcrumbs.Add(new BreadcrumbItem(LanguageStrings.AppProductsAdministration, "/ProductAdmin/Index/", false));
 
-        ///// <summary>
-        ///// Deletes a ProductGroup item
-        ///// </summary>
-        ///// <returns></returns>
-        //[HttpDelete]
-        //public IActionResult ProductGroupDelete()
-        //{
-        //    throw new NotImplementedException();
-        //}
+            result.Breadcrumbs.Add(new BreadcrumbItem(LanguageStrings.AppMenuEditProduct, $"/ProductAdmin/EditProduct/{model.ProductGroupId}/{model.PageNumber}", false));
 
-        //#endregion Product Group API
-
-        //#region Product Group API
-
-        ///// <summary>
-        ///// Creates a ProductGroup item
-        ///// </summary>
-        ///// <returns></returns>
-        //[HttpPost]
-        //public IActionResult ProductCreate()
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        ///// <summary>
-        ///// Gets a ProductGroup item
-        ///// </summary>
-        ///// <returns></returns>
-        //[HttpGet]
-        //public IActionResult ProductGet()
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        ///// <summary>
-        ///// Updates a ProductGroup item
-        ///// </summary>
-        ///// <returns></returns>
-        //[HttpPut]
-        //public IActionResult ProductUpdate()
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        ///// <summary>
-        ///// Deletes a ProductGroup item
-        ///// </summary>
-        ///// <returns></returns>
-        //[HttpDelete]
-        //public IActionResult ProductDelete()
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        #endregion Product Group API
+            return result;
+        }
     }
 }
 

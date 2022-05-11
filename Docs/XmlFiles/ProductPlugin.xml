@@ -192,7 +192,7 @@
             </summary>
             <param name="modelData"></param>
         </member>
-        <member name="M:ProductPlugin.Models.EditProductModel.#ctor(SharedPluginFeatures.BaseModelData@,System.Collections.Generic.List{Middleware.LookupListItem},System.Int32,System.Int32,System.String,System.String,System.String,System.String,System.Boolean,System.Boolean,System.Decimal,System.String,System.Boolean,System.Boolean)">
+        <member name="M:ProductPlugin.Models.EditProductModel.#ctor(SharedPluginFeatures.BaseModelData@,System.Collections.Generic.List{Middleware.LookupListItem},System.Int32,System.Int32,System.String,System.String,System.String,System.String,System.Boolean,System.Boolean,System.Decimal,System.String,System.Boolean,System.Boolean,System.Int32)">
             <summary>
             Constructor used for editing a product
             </summary>
@@ -210,6 +210,7 @@
             <param name="sku"></param>
             <param name="isDownload"></param>
             <param name="allowBackOrder"></param>
+            <param name="pageNumber"></param>
         </member>
         <member name="P:ProductPlugin.Models.EditProductModel.Id">
             <summary>
@@ -286,6 +287,11 @@
         <member name="P:ProductPlugin.Models.EditProductModel.ProductGroups">
             <summary>
             List of existing product Groups
+            </summary>
+        </member>
+        <member name="P:ProductPlugin.Models.EditProductModel.PageNumber">
+            <summary>
+            Page in product list where the product belongs
             </summary>
         </member>
         <member name="P:ProductPlugin.Models.ProductCategoryProductModel.Sku">

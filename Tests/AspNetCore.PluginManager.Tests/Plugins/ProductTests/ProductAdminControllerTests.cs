@@ -228,7 +228,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ProductTests
             ViewResult viewResult = result as ViewResult;
             Assert.IsNotNull(viewResult);
             Assert.IsNotNull(viewResult.ViewName);
-            Assert.AreEqual("/Views/ProductAdmin/EditProduct.aspx", viewResult.ViewName);
+            Assert.AreEqual("/Views/ProductAdmin/EditProduct.cshtml", viewResult.ViewName);
             Assert.IsNotNull(viewResult.Model);
 
             EditProductModel editProductModel = viewResult.Model as EditProductModel;
@@ -280,7 +280,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ProductTests
             ViewResult viewResult = result as ViewResult;
             Assert.IsNotNull(viewResult);
             Assert.IsNotNull(viewResult.ViewName);
-            Assert.AreEqual("/Views/ProductAdmin/EditProduct.aspx", viewResult.ViewName);
+            Assert.AreEqual("/Views/ProductAdmin/EditProduct.cshtml", viewResult.ViewName);
             Assert.IsNotNull(viewResult.Model);
 
             Assert.IsTrue(ViewResultContainsModelStateError(viewResult, "Name", "Please specify a valid product item name."));
@@ -301,9 +301,8 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ProductTests
             ViewResult viewResult = result as ViewResult;
             Assert.IsNotNull(viewResult);
             Assert.IsNotNull(viewResult.ViewName);
-            Assert.AreEqual("/Views/ProductAdmin/EditProduct.aspx", viewResult.ViewName);
+            Assert.AreEqual("/Views/ProductAdmin/EditProduct.cshtml", viewResult.ViewName);
             Assert.IsNotNull(viewResult.Model);
-            Assert.AreSame(editProductModel, viewResult.Model);
 
             Assert.IsTrue(ViewResultContainsModelStateError(viewResult, "Name", "Please specify a valid product item name."));
         }
@@ -324,9 +323,8 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ProductTests
             ViewResult viewResult = result as ViewResult;
             Assert.IsNotNull(viewResult);
             Assert.IsNotNull(viewResult.ViewName);
-            Assert.AreEqual("/Views/ProductAdmin/EditProduct.aspx", viewResult.ViewName);
+            Assert.AreEqual("/Views/ProductAdmin/EditProduct.cshtml", viewResult.ViewName);
             Assert.IsNotNull(viewResult.Model);
-            Assert.AreSame(editProductModel, viewResult.Model);
 
             Assert.IsTrue(ViewResultContainsModelStateError(viewResult, "Description", "Please provide a valid product description."));
         }
@@ -347,9 +345,9 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ProductTests
             ViewResult viewResult = result as ViewResult;
             Assert.IsNotNull(viewResult);
             Assert.IsNotNull(viewResult.ViewName);
-            Assert.AreEqual("/Views/ProductAdmin/EditProduct.aspx", viewResult.ViewName);
+            Assert.AreEqual("/Views/ProductAdmin/EditProduct.cshtml", viewResult.ViewName);
             Assert.IsNotNull(viewResult.Model);
-            Assert.AreSame(editProductModel, viewResult.Model);
+            Assert.AreNotSame(editProductModel, viewResult.Model);
 
             Assert.IsTrue(ViewResultContainsModelStateError(viewResult, "Description", "Please provide a valid product description."));
         }
@@ -371,9 +369,8 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ProductTests
             ViewResult viewResult = result as ViewResult;
             Assert.IsNotNull(viewResult);
             Assert.IsNotNull(viewResult.ViewName);
-            Assert.AreEqual("/Views/ProductAdmin/EditProduct.aspx", viewResult.ViewName);
+            Assert.AreEqual("/Views/ProductAdmin/EditProduct.cshtml", viewResult.ViewName);
             Assert.IsNotNull(viewResult.Model);
-            Assert.AreSame(editProductModel, viewResult.Model);
 
             Assert.IsTrue(ViewResultContainsModelStateError(viewResult, "RetailPrice", "Product price must be at least zero."));
         }
@@ -395,9 +392,8 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ProductTests
             ViewResult viewResult = result as ViewResult;
             Assert.IsNotNull(viewResult);
             Assert.IsNotNull(viewResult.ViewName);
-            Assert.AreEqual("/Views/ProductAdmin/EditProduct.aspx", viewResult.ViewName);
+            Assert.AreEqual("/Views/ProductAdmin/EditProduct.cshtml", viewResult.ViewName);
             Assert.IsNotNull(viewResult.Model);
-            Assert.AreSame(editProductModel, viewResult.Model);
 
             Assert.IsTrue(ViewResultContainsModelStateError(viewResult, "Sku", "Please provide a valid SKU for the product."));
         }
@@ -420,9 +416,8 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ProductTests
             ViewResult viewResult = result as ViewResult;
             Assert.IsNotNull(viewResult);
             Assert.IsNotNull(viewResult.ViewName);
-            Assert.AreEqual("/Views/ProductAdmin/EditProduct.aspx", viewResult.ViewName);
+            Assert.AreEqual("/Views/ProductAdmin/EditProduct.cshtml", viewResult.ViewName);
             Assert.IsNotNull(viewResult.Model);
-            Assert.AreSame(editProductModel, viewResult.Model);
 
             Assert.IsTrue(ViewResultContainsModelStateError(viewResult, "Sku", "Please provide a valid SKU for the product."));
         }
@@ -446,9 +441,8 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ProductTests
             ViewResult viewResult = result as ViewResult;
             Assert.IsNotNull(viewResult);
             Assert.IsNotNull(viewResult.ViewName);
-            Assert.AreEqual("/Views/ProductAdmin/EditProduct.aspx", viewResult.ViewName);
+            Assert.AreEqual("/Views/ProductAdmin/EditProduct.cshtml", viewResult.ViewName);
             Assert.IsNotNull(viewResult.Model);
-            Assert.AreSame(editProductModel, viewResult.Model);
 
             Assert.IsTrue(ViewResultContainsModelStateError(viewResult, "ProductGroupId", "The product must have a primary group!"));
         }
@@ -474,9 +468,8 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ProductTests
             ViewResult viewResult = result as ViewResult;
             Assert.IsNotNull(viewResult);
             Assert.IsNotNull(viewResult.ViewName);
-            Assert.AreEqual("/Views/ProductAdmin/EditProduct.aspx", viewResult.ViewName);
+            Assert.AreEqual("/Views/ProductAdmin/EditProduct.cshtml", viewResult.ViewName);
             Assert.IsNotNull(viewResult.Model);
-            Assert.AreSame(editProductModel, viewResult.Model);
 
             Assert.IsTrue(ViewResultContainsModelStateError(viewResult, "", "Failed to save"));
         }
@@ -559,11 +552,16 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ProductTests
 
             IActionResult result = sut.DeleteProduct(null);
 
-            RedirectToActionResult redirectResult = result as RedirectToActionResult;
-            Assert.IsNotNull(redirectResult);
-            Assert.AreEqual("Index", redirectResult.ActionName);
-            Assert.IsFalse(redirectResult.Permanent);
-            Assert.IsNull(redirectResult.ControllerName);
+            JsonResult jsonResult = result as JsonResult;
+            Assert.IsNotNull(jsonResult);
+            Assert.AreEqual("application/json", jsonResult.ContentType);
+            Assert.IsNull(jsonResult.SerializerSettings);
+            Assert.AreEqual(400, jsonResult.StatusCode);
+
+            JsonResponseModel jsonResponseModel = jsonResult.Value as JsonResponseModel;
+            Assert.IsNotNull(jsonResponseModel);
+            Assert.AreEqual("model no good", jsonResponseModel.ResponseData);
+            Assert.IsFalse(jsonResponseModel.Success);
             Assert.AreEqual(1, mockMemoryCache.GetShortCache().Count);
         }
 
@@ -578,11 +576,16 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ProductTests
 
             IActionResult result = sut.DeleteProduct(new ProductDeleteModel(0));
 
-            RedirectToActionResult redirectResult = result as RedirectToActionResult;
-            Assert.IsNotNull(redirectResult);
-            Assert.AreEqual("Index", redirectResult.ActionName);
-            Assert.IsFalse(redirectResult.Permanent);
-            Assert.IsNull(redirectResult.ControllerName);
+            JsonResult jsonResult = result as JsonResult;
+            Assert.IsNotNull(jsonResult);
+            Assert.AreEqual("application/json", jsonResult.ContentType);
+            Assert.IsNull(jsonResult.SerializerSettings);
+            Assert.AreEqual(400, jsonResult.StatusCode);
+
+            JsonResponseModel jsonResponseModel = jsonResult.Value as JsonResponseModel;
+            Assert.IsNotNull(jsonResponseModel);
+            Assert.AreEqual("Invalid product", jsonResponseModel.ResponseData);
+            Assert.IsFalse(jsonResponseModel.Success);
             Assert.AreEqual(1, mockMemoryCache.GetShortCache().Count);
         }
 
@@ -598,14 +601,16 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ProductTests
 
             IActionResult result = sut.DeleteProduct(model);
 
-            ViewResult viewResult = result as ViewResult;
-            Assert.IsNotNull(viewResult);
-            Assert.AreSame(model, viewResult.Model);
-            Assert.IsNotNull(viewResult.ViewName);
-            Assert.AreEqual(1, ((ProductDeleteModel)viewResult.Model).Id);
-            Assert.AreEqual(1, viewResult.ViewData.ModelState.ErrorCount);
-            Assert.AreEqual("/Views/ProductAdmin/EditProduct.aspx", viewResult.ViewName);
-            Assert.IsTrue(ViewResultContainsModelStateError(viewResult, "Confirmation", "Please write CONFIRM in the text box above and click delete"));
+            JsonResult jsonResult = result as JsonResult;
+            Assert.IsNotNull(jsonResult);
+            Assert.AreEqual("application/json", jsonResult.ContentType);
+            Assert.IsNull(jsonResult.SerializerSettings);
+            Assert.AreEqual(400, jsonResult.StatusCode);
+
+            JsonResponseModel jsonResponseModel = jsonResult.Value as JsonResponseModel;
+            Assert.IsNotNull(jsonResponseModel);
+            Assert.AreEqual("Please write CONFIRM in the text box above and click delete", jsonResponseModel.ResponseData);
+            Assert.IsFalse(jsonResponseModel.Success);
             Assert.AreEqual(1, mockMemoryCache.GetShortCache().Count);
         }
 
@@ -623,14 +628,16 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ProductTests
 
             IActionResult result = sut.DeleteProduct(model);
 
-            ViewResult viewResult = result as ViewResult;
-            Assert.IsNotNull(viewResult);
-            Assert.AreSame(model, viewResult.Model);
-            Assert.IsNotNull(viewResult.ViewName);
-            Assert.AreEqual(1, ((ProductDeleteModel)viewResult.Model).Id);
-            Assert.AreEqual(1, viewResult.ViewData.ModelState.ErrorCount);
-            Assert.AreEqual("/Views/ProductAdmin/EditProduct.aspx", viewResult.ViewName);
-            Assert.IsTrue(ViewResultContainsModelStateError(viewResult, "", "Failed to Delete"));
+            JsonResult jsonResult = result as JsonResult;
+            Assert.IsNotNull(jsonResult);
+            Assert.AreEqual("application/json", jsonResult.ContentType);
+            Assert.IsNull(jsonResult.SerializerSettings);
+            Assert.AreEqual(400, jsonResult.StatusCode);
+
+            JsonResponseModel jsonResponseModel = jsonResult.Value as JsonResponseModel;
+            Assert.IsNotNull(jsonResponseModel);
+            Assert.AreEqual("Failed to Delete", jsonResponseModel.ResponseData);
+            Assert.IsFalse(jsonResponseModel.Success);
             Assert.AreEqual(1, mockMemoryCache.GetShortCache().Count);
         }
 
@@ -647,11 +654,16 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ProductTests
 
             IActionResult result = sut.DeleteProduct(model);
 
-            RedirectToActionResult redirectResult = result as RedirectToActionResult;
-            Assert.IsNotNull(redirectResult);
-            Assert.AreEqual("Index", redirectResult.ActionName);
-            Assert.IsFalse(redirectResult.Permanent);
-            Assert.IsNull(redirectResult.ControllerName);
+            JsonResult jsonResult = result as JsonResult;
+            Assert.IsNotNull(jsonResult);
+            Assert.AreEqual("application/json", jsonResult.ContentType);
+            Assert.IsNull(jsonResult.SerializerSettings);
+            Assert.AreEqual(200, jsonResult.StatusCode);
+
+            JsonResponseModel jsonResponseModel = jsonResult.Value as JsonResponseModel;
+            Assert.IsNotNull(jsonResponseModel);
+            Assert.AreEqual("", jsonResponseModel.ResponseData);
+            Assert.IsTrue(jsonResponseModel.Success);
             Assert.AreEqual(0, mockMemoryCache.GetShortCache().Count);
         }
 

@@ -26,6 +26,8 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
+using System.Threading;
 
 using AspNetCore.PluginManager.Tests.Shared;
 
@@ -167,6 +169,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ProductTests
         [TestCategory(TestCategoryName)]
         public void Construct_ValidInstance_WithPriceCorrectlyFormatted_Success()
         {
+            Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-GB");
             ProductModel sut = new ProductModel(GenerateTestBaseModelData(), 23, "name", new string[] { }, 2, true, true, 3.56m, true, "sku");
 
             Assert.IsInstanceOfType(sut, typeof(BaseProductModel));
@@ -268,6 +271,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ProductTests
         [TestCategory(TestCategoryName)]
         public void Construct_PrimaryConstructor_ValidInstance_WithVideoLinkAndFeatures_Success()
         {
+            Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-GB");
             const string ExpectedVideoLink = "<object class=\"productVideo\" ><param name=\"allowfullscreen\" value=\"true\" /> <param name=\"allowscriptaccess\" value=\"always\"" + 
                 " /> <param name=\"movie\" value=\"https://www.facebook.com/v/abc123\" /> <embed src=\"https://www.facebook.com/v/abc123\" type=\"application/x-shockwave-flash\" " + 
                 "allowscriptaccess=\"always\" allowfullscreen=\"true\" width=\"640\" height=\"390\"></embed></object>";

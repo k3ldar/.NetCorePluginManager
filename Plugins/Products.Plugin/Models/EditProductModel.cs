@@ -75,9 +75,10 @@ namespace ProductPlugin.Models
         /// <param name="sku"></param>
         /// <param name="isDownload"></param>
         /// <param name="allowBackOrder"></param>
+        /// <param name="pageNumber"></param>
         public EditProductModel(in BaseModelData modelData, List<LookupListItem> productGroups, int id, int productGroupId, string name, string description,
             string features, string videoLink, bool newProduct, bool bestSeller, decimal retailPrice, string sku,
-            bool isDownload, bool allowBackOrder)
+            bool isDownload, bool allowBackOrder, int pageNumber)
             : base(modelData)
         {
             ProductGroups = productGroups ?? throw new ArgumentNullException(nameof(productGroups));
@@ -93,6 +94,7 @@ namespace ProductPlugin.Models
             Sku = sku;
             IsDownload = isDownload;
             AllowBackorder = allowBackOrder;
+            PageNumber = pageNumber;
         }
 
         #endregion Constructors
@@ -183,6 +185,11 @@ namespace ProductPlugin.Models
         /// List of existing product Groups
         /// </summary>
         public List<LookupListItem> ProductGroups {  get; }
+
+        /// <summary>
+        /// Page in product list where the product belongs
+        /// </summary>
+        public int PageNumber { get; set; }
 
         #endregion Properties
     }

@@ -26,9 +26,11 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
 using System.IO;
 using System.Security.Cryptography;
 using System.Text;
+using System.Threading;
 
 using AspNetCore.PluginManager.DemoWebsite.Classes.Mocks;
 using AspNetCore.PluginManager.Tests.Controllers;
@@ -314,6 +316,8 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ProductTests
         [TestCategory(TestCategoryName)]
         public void Product_ProductFound_WithShoppingCart_ReturnsProductView_Success()
         {
+            Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-GB");
+
             ProductController sut = CreateProductController();
 
             IActionResult response = sut.Product(3, "Product C");
@@ -352,6 +356,8 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ProductTests
         [TestCategory(TestCategoryName)]
         public void Product_ProductFound_WithoutShoppingCart_WithImages_ReturnsProductView_Success()
         {
+            Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-GB");
+
             IPluginHelperService pluginHelperService = new MockPluginHelperService(new List<string>());
             MockImageProvider mockImageProvider = MockImageProvider.CreateDefaultMockImageProviderForProductC();
             ProductController sut = CreateProductController(null, null, null, pluginHelperService, null, null, mockImageProvider);
@@ -823,6 +829,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ProductTests
             ThreadManager.Initialise();
             try
             {
+                Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-GB");
                 MockSettingsProvider mockSettingsProvider = new MockSettingsProvider("{\"Product\":{\"PriceGroups\":\"5.00;10.00;20.00;35.00;50.00\"}}");
                 MockMemoryCache mockMemoryCache = new MockMemoryCache();
                 ProductController sut = CreateProductController(null, null, mockSettingsProvider, null, null, mockMemoryCache);
