@@ -19,7 +19,7 @@ namespace Languages {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class LanguageStrings {
@@ -7518,6 +7518,24 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Please provide a valid product description..
+        /// </summary>
+        public static string AppErrorInvalidProductDescription {
+            get {
+                return ResourceManager.GetString("AppErrorInvalidProductDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please provide a valid product group description..
+        /// </summary>
+        public static string AppErrorInvalidProductGroupDescription {
+            get {
+                return ResourceManager.GetString("AppErrorInvalidProductGroupDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Please specify a valid product item name..
         /// </summary>
         public static string AppErrorInvalidProductName {
@@ -7532,6 +7550,24 @@ namespace Languages {
         public static string AppErrorInvalidProductNameDuplicate {
             get {
                 return ResourceManager.GetString("AppErrorInvalidProductNameDuplicate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Product price must be at least zero..
+        /// </summary>
+        public static string AppErrorInvalidProductPrice {
+            get {
+                return ResourceManager.GetString("AppErrorInvalidProductPrice", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please provide a valid SKU for the product..
+        /// </summary>
+        public static string AppErrorInvalidProductSku {
+            get {
+                return ResourceManager.GetString("AppErrorInvalidProductSku", resourceCulture);
             }
         }
         
@@ -11048,11 +11084,29 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Edit product group.
+        /// </summary>
+        public static string AppMenuEditProducGroup {
+            get {
+                return ResourceManager.GetString("AppMenuEditProducGroup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Edit Product.
         /// </summary>
         public static string AppMenuEditProduct {
             get {
                 return ResourceManager.GetString("AppMenuEditProduct", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Edit Product Group.
+        /// </summary>
+        public static string AppMenuEditProductGroup {
+            get {
+                return ResourceManager.GetString("AppMenuEditProductGroup", resourceCulture);
             }
         }
         
@@ -11296,6 +11350,24 @@ namespace Languages {
         public static string AppMenuNew {
             get {
                 return ResourceManager.GetString("AppMenuNew", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to New Product.
+        /// </summary>
+        public static string AppMenuNewProduct {
+            get {
+                return ResourceManager.GetString("AppMenuNewProduct", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to New Product Group.
+        /// </summary>
+        public static string AppMenuNewProductGroup {
+            get {
+                return ResourceManager.GetString("AppMenuNewProductGroup", resourceCulture);
             }
         }
         
@@ -21801,6 +21873,15 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Confirm.
+        /// </summary>
+        public static string Confirm {
+            get {
+                return ResourceManager.GetString("Confirm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Confirm Delete.
         /// </summary>
         public static string ConfirmDelete {
@@ -21815,6 +21896,15 @@ namespace Languages {
         public static string ConfirmDeleteCheckbox {
             get {
                 return ResourceManager.GetString("ConfirmDeleteCheckbox", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please write CONFIRM in the text box above and click delete.
+        /// </summary>
+        public static string ConfirmDeleteWord {
+            get {
+                return ResourceManager.GetString("ConfirmDeleteWord", resourceCulture);
             }
         }
         
@@ -22157,6 +22247,15 @@ namespace Languages {
         public static string CreateNewSalon {
             get {
                 return ResourceManager.GetString("CreateNewSalon", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Create product group.
+        /// </summary>
+        public static string CreateProductGroup {
+            get {
+                return ResourceManager.GetString("CreateProductGroup", resourceCulture);
             }
         }
         
@@ -25244,6 +25343,24 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Manage Product Groups.
+        /// </summary>
+        public static string ManageProductGroups {
+            get {
+                return ResourceManager.GetString("ManageProductGroups", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Manage Products.
+        /// </summary>
+        public static string ManageProducts {
+            get {
+                return ResourceManager.GetString("ManageProducts", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Map of Visitors.
         /// </summary>
         public static string MapofVisitors {
@@ -26079,6 +26196,24 @@ namespace Languages {
         public static string NoOffers {
             get {
                 return ResourceManager.GetString("NoOffers", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No products found.
+        /// </summary>
+        public static string NoProductsFound {
+            get {
+                return ResourceManager.GetString("NoProductsFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No product groups were found.
+        /// </summary>
+        public static string NoProductsGroupsFound {
+            get {
+                return ResourceManager.GetString("NoProductsGroupsFound", resourceCulture);
             }
         }
         

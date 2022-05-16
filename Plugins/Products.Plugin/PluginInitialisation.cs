@@ -87,6 +87,17 @@ namespace ProductPlugin
             if (services == null)
                 throw new ArgumentNullException(nameof(services));
 
+            services.AddAuthorization(options => 
+            {
+                options.AddPolicy(
+                    Constants.PolicyNameManageProducts,
+                    policyBuilder => policyBuilder.RequireClaim(Constants.ClaimNameAdministrator)
+                        .RequireClaim(Constants.ClaimNameManageProducts)
+                        .RequireClaim(Constants.ClaimNameUsername)
+                        .RequireClaim(Constants.ClaimNameUserId)
+                        .RequireClaim(Constants.ClaimNameUserEmail)
+                        .RequireClaim(Constants.ClaimNameStaff));
+            });
         }
 
         public void BeforeConfigure(in IApplicationBuilder app)

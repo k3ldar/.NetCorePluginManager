@@ -2694,6 +2694,16 @@
             User can edit dynamic content
             </summary>
         </member>
+        <member name="F:SharedPluginFeatures.Constants.PolicyNameApiAuthorization">
+            <summary>
+            Name of policy for Api authorization
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Constants.PolicyNameManageProducts">
+            <summary>
+            Name of policy for managing products
+            </summary>
+        </member>
         <member name="F:SharedPluginFeatures.Constants.ClaimNameManageContent">
             <summary>
             Claim name for allowing user to manage content
@@ -2747,6 +2757,11 @@
         <member name="F:SharedPluginFeatures.Constants.ClaimNameManageImages">
             <summary>
             Name of claim for managing images (add/delete etc) within image manager
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Constants.ClaimNameManageProducts">
+            <summary>
+            Name of claim for managing products
             </summary>
         </member>
         <member name="F:SharedPluginFeatures.Constants.ClaimIdentityUser">

@@ -457,6 +457,16 @@ namespace SharedPluginFeatures
         public const string PolicyNameContentEditor = "ContentEditor";
 
         /// <summary>
+        /// Name of policy for Api authorization
+        /// </summary>
+        public const string PolicyNameApiAuthorization = "ApiAuthorization";
+
+        /// <summary>
+        /// Name of policy for managing products
+        /// </summary>
+        public const string PolicyNameManageProducts = "ManageProducts";
+
+        /// <summary>
         /// Claim name for allowing user to manage content
         /// </summary>
         public const string ClaimNameManageContent = "ManageContent";
@@ -509,6 +519,11 @@ namespace SharedPluginFeatures
         /// Name of claim for managing images (add/delete etc) within image manager
         /// </summary>
         public const string ClaimNameManageImages = "ManageImages";
+
+        /// <summary>
+        /// Name of claim for managing products
+        /// </summary>
+        public const string ClaimNameManageProducts = "ManageProducts";
 
         /// <summary>
         /// Name of claim identity for user claims

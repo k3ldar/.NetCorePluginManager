@@ -151,14 +151,271 @@
             </summary>
             <value>string</value>
         </member>
+        <member name="T:ProductPlugin.Controllers.ProductAdminController">
+            <summary>
+            Product Administration Controller
+            </summary>
+        </member>
+        <member name="M:ProductPlugin.Controllers.ProductAdminController.#ctor(Middleware.IProductProvider,PluginManager.Abstractions.ISettingsProvider,SharedPluginFeatures.IMemoryCache)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="productProvider">IProductProvider instance</param>
+            <param name="settingsProvider">ISettingsProvider instance</param>
+            <param name="memoryCache"></param>
+        </member>
+        <member name="M:ProductPlugin.Controllers.ProductAdminController.Index(System.Nullable{System.Int32})">
+            <summary>
+            Default controller entry point, provides a page of data for viewing
+            </summary>
+            <param name="page"></param>
+            <returns></returns>
+        </member>
         <member name="T:ProductPlugin.Controllers.ProductController">
             <summary>
             Product controller displays standard product information on a website.
             </summary>
         </member>
+        <member name="T:ProductPlugin.Models.EditProductGroupModel">
+            <summary>
+            Model for editing/creating products
+            </summary>
+        </member>
+        <member name="M:ProductPlugin.Models.EditProductGroupModel.#ctor">
+            <summary>
+            Standard constructor
+            </summary>
+        </member>
+        <member name="M:ProductPlugin.Models.EditProductGroupModel.#ctor(SharedPluginFeatures.BaseModelData@)">
+            <summary>
+            Constructor used for creating a product
+            </summary>
+            <param name="modelData"></param>
+        </member>
+        <member name="M:ProductPlugin.Models.EditProductGroupModel.#ctor(SharedPluginFeatures.BaseModelData@,System.Int32,System.String,System.Boolean,System.Int32,System.String,System.String)">
+            <summary>
+            Constructor used for editing a product group
+            </summary>
+            <param name="modelData"></param>
+            <param name="id"></param>
+            <param name="description"></param>
+            <param name="showOnWebsite"></param>
+            <param name="sortOrder"></param>
+            <param name="tagLine"></param>
+            <param name="url"></param>
+        </member>
+        <member name="P:ProductPlugin.Models.EditProductGroupModel.Id">
+            <summary>
+            Unique product id.
+            </summary>
+            <value>int</value>
+        </member>
+        <member name="P:ProductPlugin.Models.EditProductGroupModel.Description">
+            <summary>
+            Description of the product group.
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:ProductPlugin.Models.EditProductGroupModel.ShowOnWebsite">
+            <summary>
+            Determines whether the product group is visible on the website or not.
+            </summary>
+            <value>bool</value>
+        </member>
+        <member name="P:ProductPlugin.Models.EditProductGroupModel.SortOrder">
+            <summary>
+            Sort order in comparison to other product groups.
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:ProductPlugin.Models.EditProductGroupModel.TagLine">
+            <summary>
+            Tag line displayed at the top of the page when thr group is shown.
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:ProductPlugin.Models.EditProductGroupModel.Url">
+            <summary>
+            Custom url to be redirected to if the group is selected.  Default route values apply if not set.
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="T:ProductPlugin.Models.EditProductModel">
+            <summary>
+            Model for editing/creating products
+            </summary>
+        </member>
+        <member name="M:ProductPlugin.Models.EditProductModel.#ctor">
+            <summary>
+            Standard constructor
+            </summary>
+        </member>
+        <member name="M:ProductPlugin.Models.EditProductModel.#ctor(SharedPluginFeatures.BaseModelData@)">
+            <summary>
+            Constructor used for creating a product
+            </summary>
+            <param name="modelData"></param>
+        </member>
+        <member name="M:ProductPlugin.Models.EditProductModel.#ctor(SharedPluginFeatures.BaseModelData@,System.Collections.Generic.List{Middleware.LookupListItem},System.Int32,System.Int32,System.String,System.String,System.String,System.String,System.Boolean,System.Boolean,System.Decimal,System.String,System.Boolean,System.Boolean,System.Int32)">
+            <summary>
+            Constructor used for editing a product
+            </summary>
+            <param name="modelData"></param>
+            <param name="productGroups"></param>
+            <param name="id"></param>
+            <param name="productGroupId"></param>
+            <param name="name"></param>
+            <param name="description"></param>
+            <param name="features"></param>
+            <param name="videoLink"></param>
+            <param name="newProduct"></param>
+            <param name="bestSeller"></param>
+            <param name="retailPrice"></param>
+            <param name="sku"></param>
+            <param name="isDownload"></param>
+            <param name="allowBackOrder"></param>
+            <param name="pageNumber"></param>
+        </member>
+        <member name="P:ProductPlugin.Models.EditProductModel.Id">
+            <summary>
+            Unique product id.
+            </summary>
+            <value>int</value>
+        </member>
+        <member name="P:ProductPlugin.Models.EditProductModel.ProductGroupId">
+            <summary>
+            Primary ProductGroup the product belongs to.
+            </summary>
+            <value>int</value>
+        </member>
+        <member name="P:ProductPlugin.Models.EditProductModel.Name">
+            <summary>
+            Name of the product.
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:ProductPlugin.Models.EditProductModel.Description">
+            <summary>
+            Description of the product.
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:ProductPlugin.Models.EditProductModel.Features">
+            <summary>
+            Product feature list.  This will be converted to a bullet list when displayed on a website.
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:ProductPlugin.Models.EditProductModel.VideoLink">
+            <summary>
+            The url for a video linkt to the product if one exists.
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:ProductPlugin.Models.EditProductModel.NewProduct">
+            <summary>
+            Indicates the product is a new product.
+            </summary>
+            <value>bool.  if true the product may have different display options on the website.</value>
+        </member>
+        <member name="P:ProductPlugin.Models.EditProductModel.BestSeller">
+            <summary>
+            Indicates the product is a best selling product.
+            </summary>
+            <value>bool.  If true the product may have different display options on the website.</value>
+        </member>
+        <member name="P:ProductPlugin.Models.EditProductModel.RetailPrice">
+            <summary>
+            Retail price of product.
+            </summary>
+            <value>decimal</value>
+        </member>
+        <member name="P:ProductPlugin.Models.EditProductModel.Sku">
+            <summary>
+            Unique product SKU.
+            </summary>
+            <value>string</value>
+        </member>
+        <member name="P:ProductPlugin.Models.EditProductModel.IsDownload">
+            <summary>
+            Indicates the product is downloadable.
+            </summary>
+            <value>bool</value>
+        </member>
+        <member name="P:ProductPlugin.Models.EditProductModel.AllowBackorder">
+            <summary>
+            Indicates the product is allowed to be back ordered, if there is no stock available at the time of purchase.
+            </summary>
+            <value>bool.  If true the item can be back ordered.</value>
+        </member>
+        <member name="P:ProductPlugin.Models.EditProductModel.ProductGroups">
+            <summary>
+            List of existing product Groups
+            </summary>
+        </member>
+        <member name="P:ProductPlugin.Models.EditProductModel.PageNumber">
+            <summary>
+            Page in product list where the product belongs
+            </summary>
+        </member>
         <member name="P:ProductPlugin.Models.ProductCategoryProductModel.Sku">
             <summary>
             Unique product identifier
+            </summary>
+        </member>
+        <member name="T:ProductPlugin.Models.ProductGroupListModel">
+            <summary>
+            View model for product group admin
+            </summary>
+        </member>
+        <member name="T:ProductPlugin.Models.ProductListModel">
+            <summary>
+            Model for list of products
+            </summary>
+        </member>
+        <member name="M:ProductPlugin.Models.ProductListModel.#ctor(System.Int32,System.String,System.String)">
+            <summary>
+            Constructor
+            </summary>
+        </member>
+        <member name="P:ProductPlugin.Models.ProductListModel.Id">
+            <summary>
+            Product Id
+            </summary>
+        </member>
+        <member name="P:ProductPlugin.Models.ProductListModel.Sku">
+            <summary>
+            Product Sku
+            </summary>
+        </member>
+        <member name="P:ProductPlugin.Models.ProductListModel.Name">
+            <summary>
+            Product Name
+            </summary>
+        </member>
+        <member name="T:ProductPlugin.Models.ProductPageListModel">
+            <summary>
+            List of products for a page view
+            </summary>
+        </member>
+        <member name="M:ProductPlugin.Models.ProductPageListModel.#ctor(SharedPluginFeatures.BaseModelData@,System.Collections.Generic.List{Middleware.Products.Product},System.String,System.Int32)">
+            <summary>
+            Constructor
+            </summary>
+        </member>
+        <member name="P:ProductPlugin.Models.ProductPageListModel.Items">
+            <summary>
+            List of items
+            </summary>
+        </member>
+        <member name="P:ProductPlugin.Models.ProductPageListModel.Pagination">
+            <summary>
+            Pagination for page views
+            </summary>
+        </member>
+        <member name="P:ProductPlugin.Models.ProductPageListModel.PageNumber">
+            <summary>
+            Current page number
             </summary>
         </member>
         <member name="T:ProductPlugin.Models.ProductSearchViewModel">

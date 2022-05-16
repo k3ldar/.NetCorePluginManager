@@ -48,7 +48,12 @@ namespace ProductPlugin.Classes
         public PriceGroupProductCounts(in IProductProvider productProvider, in List<ProductPriceInfo> productPriceInfo)
             : base(productPriceInfo, new TimeSpan())
         {
+            if (productPriceInfo == null)
+                throw new ArgumentNullException(nameof(productPriceInfo));
+
             _productProvider = productProvider ?? throw new ArgumentNullException(nameof(productProvider));
+
+            base.ContinueIfGlobalException = false;
         }
 
         #endregion Constructors
@@ -57,9 +62,6 @@ namespace ProductPlugin.Classes
 
         protected override Boolean Run(object parameters)
         {
-            if (parameters == null)
-                throw new ArgumentNullException(nameof(parameters));
-
             List<ProductPriceInfo> productPriceInfo = (List<ProductPriceInfo>)parameters;
 
             foreach (ProductPriceInfo priceInfo in productPriceInfo)

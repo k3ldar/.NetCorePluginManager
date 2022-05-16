@@ -23,16 +23,12 @@
  *  18/04/2021  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using System;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 
-using AspNetCore.PluginManager.Tests.Controllers;
-using AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests.Mocks;
 using AspNetCore.PluginManager.Tests.Shared;
 
 using ImageManager.Plugin.Classes;
-using ImageManager.Plugin.Controllers;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 

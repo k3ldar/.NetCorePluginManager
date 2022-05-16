@@ -31,7 +31,6 @@ using System.Linq;
 
 using AspNetCore.PluginManager.DemoWebsite.Classes.Mocks;
 using AspNetCore.PluginManager.Tests.Controllers;
-using AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests.Mocks;
 using AspNetCore.PluginManager.Tests.Shared;
 
 using DynamicContent.Plugin.Controllers;

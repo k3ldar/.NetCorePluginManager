@@ -65,7 +65,7 @@ namespace ProductPlugin.Models
 
         public decimal Discount { get; set; }
 
-        public uint StockAvailability { get; private set; }
+        public uint StockAvailability { get; }
 
         #endregion Properties
     }

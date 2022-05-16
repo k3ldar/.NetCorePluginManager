@@ -34,16 +34,16 @@ using AspNetCore.PluginManager.Tests.Shared;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
-using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using PluginManager.Abstractions;
 using PluginManager.Tests.Mocks;
 
+using Shared.Classes;
+
 using SharedPluginFeatures;
 
-using pm = PluginManager.Internal;
+using MockPluginManager = AspNetCore.PluginManager.Tests.Shared.MockPluginManager;
 
 namespace AspNetCore.PluginManager.Tests.Controllers
 {
@@ -66,7 +66,23 @@ namespace AspNetCore.PluginManager.Tests.Controllers
         protected static bool? _pluginLoadedImageManagerPlugin = null;
         protected static IPluginClassesService _pluginServicesImageManager;
 
-        protected ControllerContext CreateTestControllerContext(List<BreadcrumbItem> breadcrumbs = null, 
+        protected void WaitForThreadToFinish(string threadName, int millisecondsToWait = 5000)
+        {
+            DateTime startTime = DateTime.Now;
+
+            while (true)
+            {
+                if (!ThreadManager.Exists(threadName))
+                    break;
+
+                TimeSpan timeTaken = DateTime.Now - startTime;
+
+                if (timeTaken.TotalMilliseconds > millisecondsToWait)
+                    break;
+            } 
+        }
+
+        protected ControllerContext CreateTestControllerContext(List<BreadcrumbItem> breadcrumbs = null,
             MockRequestCookieCollection testCookieCollection = null,
             MockServiceProvider testServiceProvider = null,
             MockHttpResponse testHttpResponse = null)
@@ -185,9 +201,15 @@ namespace AspNetCore.PluginManager.Tests.Controllers
             if (!isDefined)
                 return false;
 
-            RouteAttribute routeAttribute = methodInfo.GetCustomAttributes(true).OfType<RouteAttribute>().FirstOrDefault();
+            List<RouteAttribute> routeAttributes = methodInfo.GetCustomAttributes(true).OfType<RouteAttribute>().ToList();
 
-            return routeAttribute.Template.Equals(routeValue);
+            foreach (RouteAttribute attribute in routeAttributes)
+            {
+                if (attribute.Template.Equals(routeValue))
+                    return true;
+            }
+
+            return false;
         }
 
         public bool MethodHasAuthorizeAttribute(Type classType, string methodName, string policyName)
@@ -298,7 +320,7 @@ namespace AspNetCore.PluginManager.Tests.Controllers
                 if (spiderAttribute.UserAgent.Equals(userAgent))
                     return true;
             }
-            
+
             return false;
         }
 

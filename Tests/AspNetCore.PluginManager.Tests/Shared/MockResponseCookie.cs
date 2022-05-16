@@ -28,7 +28,7 @@ using System.Diagnostics.CodeAnalysis;
 
 using Microsoft.AspNetCore.Http;
 
-namespace AspNetCore.PluginManager.Tests
+namespace AspNetCore.PluginManager.Tests.Shared
 {
     [ExcludeFromCodeCoverage]
     public class MockResponseCookie

@@ -28,7 +28,7 @@ using System.Diagnostics.CodeAnalysis;
 
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 
-namespace AspNetCore.PluginManager.Tests
+namespace AspNetCore.PluginManager.Tests.Shared
 {
     [ExcludeFromCodeCoverage]
     public class MockActionDescriptorCollectionProvider : IActionDescriptorCollectionProvider

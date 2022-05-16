@@ -1,0 +1,86 @@
+﻿@model ProductPlugin.Models.ProductPageListModel
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
+
+<div class="row">
+    <div class="col-sm-12 col-lg-10">
+        <h3>@Localizer[Languages.LanguageStrings.ManageProducts]</h3>
+    </div>
+</div>
+
+@if (Model.Items.Count == 0)
+{
+    <div class="row">
+        <div class="col-sm-12">
+            @Localizer[Languages.LanguageStrings.NoProductsFound]
+        </div>
+    </div>
+}
+else
+{
+    <div class="row" style="margin:0 0 8px 0;">
+        <div class="col-sm-2">
+            @Localizer[nameof(Languages.LanguageStrings.AppSKU)]
+        </div>
+        <div class="col-sm-6">
+            @Localizer[nameof(Languages.LanguageStrings.Name)]
+        </div>
+        <div class="col-sm-2">
+            &nbsp;
+        </div>
+        <div class="col-sm-2">
+            &nbsp;
+        </div>
+    </div>
+    foreach (ProductPlugin.Models.ProductListModel customPage in Model.Items)
+    {
+        @using (Html.BeginForm(nameof(ProductPlugin.Controllers.ProductAdminController.EditProduct), ProductPlugin.Controllers.ProductAdminController.Name, FormMethod.Get))
+        {
+            <div class="row" style="margin:0 0 8px 0;border: 1px black">
+                <input type="hidden" name="id" value="@customPage.Id" />
+                <input type="hidden" name="pageNumber" value="@Model.PageNumber" />
+                <div class="col-sm-2">
+                    @customPage.Sku
+                </div>
+                <div class="col-sm-8">
+                    @customPage.Name
+                </div>
+                <div class="col-sm-1">
+                    <input class="btn btn-primary" type="submit" value="Edit" />
+                </div>
+                <div class="col-sm-1">
+                    <input class="btn btn-primary" type="button" value="Delete" onclick="javascript:showDeleteProduct(@customPage.Id);" />
+                </div>
+            </div>
+        }
+    }
+}
+<div class="row">
+    <div class="col-sm-12">
+        @using (Html.BeginForm(nameof(ProductPlugin.Controllers.ProductAdminController.NewProduct), ProductPlugin.Controllers.ProductAdminController.Name, FormMethod.Get))
+        {
+            <div class="row" style="margin:15px 0 8px 0;">
+                <div class="col-sm-12">
+                    <input class="btn btn-primary" style="float:right;" type="submit" value="@Localizer[Languages.LanguageStrings.New]" />
+                </div>
+            </div>
+        }
+    </div>
+</div>
+<div class="modal fade" id="dlgDelProd" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+</div>
+
+<div class="row justify-content-sm-center" style="margin-top:20px;">
+    <div class="col-sm-auto">
+        @Html.Raw(Model.Pagination)
+    </div>
+</div>
+<script type="text/javascript">
+    function showDeleteProduct(id) {
+        $('#dlgDelProd').load('/ProductAdmin/ViewDeleteProduct/' + id + '/', function () {
+            $('#dlgDelProd').modal('show');
+            let header = $('#dlgPermissionHeader').val();
+            header += " - " + name;
+            $('#dlgPermissionHeader').val(header);
+        });
+    }
+</script>

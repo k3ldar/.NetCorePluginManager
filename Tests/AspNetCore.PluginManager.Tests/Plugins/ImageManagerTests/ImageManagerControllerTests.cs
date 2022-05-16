@@ -31,7 +31,6 @@ using System.Security.Claims;
 using System.Text;
 
 using AspNetCore.PluginManager.Tests.Controllers;
-using AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests.Mocks;
 using AspNetCore.PluginManager.Tests.Shared;
 
 using ImageManager.Plugin.Controllers;

@@ -23,12 +23,8 @@
  *  13/10/2021  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AspNetCore.PluginManager.Tests.Shared
 {
@@ -38,9 +34,9 @@ namespace AspNetCore.PluginManager.Tests.Shared
         public string Title { get; set; }
 
         public string MetaDescription { get; set; }
-        
+
         public string Author { get; set; }
-        
+
         public List<string> Keywords { get; set; }
     }
 }

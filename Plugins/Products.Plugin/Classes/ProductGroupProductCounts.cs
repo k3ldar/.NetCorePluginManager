@@ -48,6 +48,9 @@ namespace ProductPlugin.Classes
         public ProductGroupProductCounts(in IProductProvider productProvider, in List<string> productGroups)
             : base(productGroups, new TimeSpan())
         {
+            if (productGroups == null)
+                throw new ArgumentNullException(nameof(productGroups));
+
             _productProvider = productProvider ?? throw new ArgumentNullException(nameof(productProvider));
         }
 
@@ -57,9 +60,6 @@ namespace ProductPlugin.Classes
 
         protected override Boolean Run(object parameters)
         {
-            if (parameters == null)
-                throw new ArgumentNullException(nameof(parameters));
-
             List<string> productGroups = (List<string>)parameters;
 
             for (int i = 0; i < productGroups.Count; i++)
