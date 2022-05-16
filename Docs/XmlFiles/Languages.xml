@@ -4226,6 +4226,11 @@
               Looks up a localized string similar to Please provide a valid product description..
             </summary>
         </member>
+        <member name="P:Languages.LanguageStrings.AppErrorInvalidProductGroupDescription">
+            <summary>
+              Looks up a localized string similar to Please provide a valid product group description..
+            </summary>
+        </member>
         <member name="P:Languages.LanguageStrings.AppErrorInvalidProductName">
             <summary>
               Looks up a localized string similar to Please specify a valid product item name..
@@ -6206,9 +6211,19 @@
               Looks up a localized string similar to Edit.
             </summary>
         </member>
+        <member name="P:Languages.LanguageStrings.AppMenuEditProducGroup">
+            <summary>
+              Looks up a localized string similar to Edit product group.
+            </summary>
+        </member>
         <member name="P:Languages.LanguageStrings.AppMenuEditProduct">
             <summary>
               Looks up a localized string similar to Edit Product.
+            </summary>
+        </member>
+        <member name="P:Languages.LanguageStrings.AppMenuEditProductGroup">
+            <summary>
+              Looks up a localized string similar to Edit Product Group.
             </summary>
         </member>
         <member name="P:Languages.LanguageStrings.AppMenuExitApplication">
@@ -6344,6 +6359,16 @@
         <member name="P:Languages.LanguageStrings.AppMenuNew">
             <summary>
               Looks up a localized string similar to New.
+            </summary>
+        </member>
+        <member name="P:Languages.LanguageStrings.AppMenuNewProduct">
+            <summary>
+              Looks up a localized string similar to New Product.
+            </summary>
+        </member>
+        <member name="P:Languages.LanguageStrings.AppMenuNewProductGroup">
+            <summary>
+              Looks up a localized string similar to New Product Group.
             </summary>
         </member>
         <member name="P:Languages.LanguageStrings.AppMenuOpenDiary">
@@ -12457,6 +12482,11 @@
               Looks up a localized string similar to Create New Salon.
             </summary>
         </member>
+        <member name="P:Languages.LanguageStrings.CreateProductGroup">
+            <summary>
+              Looks up a localized string similar to Create product group.
+            </summary>
+        </member>
         <member name="P:Languages.LanguageStrings.CreditCardNotHeld">
             <summary>
               Looks up a localized string similar to No Credit/Debit card details held on file..
@@ -14180,6 +14210,11 @@
               Looks up a localized string similar to Unsubscribe from our mail list.
             </summary>
         </member>
+        <member name="P:Languages.LanguageStrings.ManageProductGroups">
+            <summary>
+              Looks up a localized string similar to Manage Product Groups.
+            </summary>
+        </member>
         <member name="P:Languages.LanguageStrings.ManageProducts">
             <summary>
               Looks up a localized string similar to Manage Products.
@@ -14655,6 +14690,11 @@
         <member name="P:Languages.LanguageStrings.NoProductsFound">
             <summary>
               Looks up a localized string similar to No products found.
+            </summary>
+        </member>
+        <member name="P:Languages.LanguageStrings.NoProductsGroupsFound">
+            <summary>
+              Looks up a localized string similar to No product groups were found.
             </summary>
         </member>
         <member name="P:Languages.LanguageStrings.NoRecordExists">

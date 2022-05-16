@@ -30,6 +30,7 @@ using System.Diagnostics.CodeAnalysis;
 using AspNetCore.PluginManager.Tests.Controllers;
 using AspNetCore.PluginManager.Tests.Shared;
 
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -44,6 +45,8 @@ using Shared.Classes;
 
 using SharedPluginFeatures;
 
+using static System.Net.Mime.MediaTypeNames;
+
 namespace AspNetCore.PluginManager.Tests.Plugins.ProductTests
 {
     [TestClass]
@@ -51,6 +54,17 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ProductTests
     public class ProductAdminControllerTests : BaseControllerTests
     {
         private const string TestCategoryName = "Product Admin";
+
+        [TestMethod]
+        [TestCategory(TestCategoryName)]
+        public void Controller_ValidateAttributes_Success()
+        {
+            Assert.IsTrue(ClassHasAttribute<DenySpiderAttribute>(typeof(ProductAdminController)));
+            Assert.IsTrue(ClassHasAttribute<LoggedInAttribute>(typeof(ProductAdminController)));
+            Assert.IsTrue(ClassHasAttribute<AuthorizeAttribute>(typeof(ProductAdminController)));
+
+            Assert.IsTrue(ClassAuthorizeAttributeHasCorrectPolicy(typeof(ProductAdminController), "ManageProducts"));
+        }
 
         [TestMethod]
         [TestCategory(TestCategoryName)]
@@ -83,7 +97,6 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ProductTests
             ProductAdminController sut = new ProductAdminController(new MockProductProvider(), new MockSettingsProvider(), new MockMemoryCache());
             Assert.IsNotNull(sut);
         }
-
 
         [TestMethod]
         [TestCategory(TestCategoryName)]
@@ -503,6 +516,21 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ProductTests
 
         [TestMethod]
         [TestCategory(TestCategoryName)]
+        public void ViewDeleteProduct_Validate_Attributes()
+        {
+            string MethodName = "ViewDeleteProduct";
+            Assert.IsTrue(MethodHasAttribute<HttpGetAttribute>(typeof(ProductAdminController), MethodName));
+            Assert.IsTrue(MethodHasAttribute<RouteAttribute>(typeof(ProductAdminController), MethodName));
+            Assert.IsTrue(MethodHasAttribute<AjaxOnlyAttribute>(typeof(ProductAdminController), MethodName));
+
+            Assert.IsFalse(MethodHasAttribute<LoggedInAttribute>(typeof(ProductAdminController), MethodName));
+            Assert.IsFalse(MethodHasAttribute<HttpPostAttribute>(typeof(ProductAdminController), MethodName));
+            Assert.IsFalse(MethodHasAttribute<HttpDeleteAttribute>(typeof(ProductAdminController), MethodName));
+            Assert.IsFalse(MethodHasAttribute<HttpPutAttribute>(typeof(ProductAdminController), MethodName));
+        }
+
+        [TestMethod]
+        [TestCategory(TestCategoryName)]
         public void ViewDeleteProduct_ProductNotFound_RedirectsToIndex()
         {
             MockMemoryCache mockMemoryCache = new MockMemoryCache();
@@ -512,11 +540,17 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ProductTests
 
             IActionResult result = sut.ViewDeleteProduct(-1);
 
-            RedirectToActionResult redirectResult = result as RedirectToActionResult;
-            Assert.IsNotNull(redirectResult);
-            Assert.AreEqual("Index", redirectResult.ActionName);
-            Assert.IsFalse(redirectResult.Permanent);
-            Assert.IsNull(redirectResult.ControllerName);
+            JsonResult jsonResult = result as JsonResult;
+            Assert.IsNotNull(jsonResult);
+            Assert.AreEqual("application/json", jsonResult.ContentType);
+            Assert.AreEqual(400, jsonResult.StatusCode);
+            Assert.IsNull(jsonResult.SerializerSettings);
+
+            JsonResponseModel value = jsonResult.Value as JsonResponseModel;
+            Assert.IsNotNull(value);
+            Assert.IsFalse(value.Success);
+            Assert.AreEqual("Invalid product", value.ResponseData);
+
             Assert.AreEqual(1, mockMemoryCache.GetShortCache().Count);
         }
 
@@ -543,6 +577,21 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ProductTests
 
         [TestMethod]
         [TestCategory(TestCategoryName)]
+        public void DeleteProduct_Validate_Attributes()
+        {
+            string MethodName = "DeleteProduct";
+            Assert.IsTrue(MethodHasAttribute<HttpPostAttribute>(typeof(ProductAdminController), MethodName));
+            Assert.IsTrue(MethodHasAttribute<AjaxOnlyAttribute>(typeof(ProductAdminController), MethodName));
+
+            Assert.IsFalse(MethodHasAttribute<HttpGetAttribute>(typeof(ProductAdminController), MethodName));
+            Assert.IsFalse(MethodHasAttribute<LoggedInAttribute>(typeof(ProductAdminController), MethodName));
+            Assert.IsFalse(MethodHasAttribute<HttpDeleteAttribute>(typeof(ProductAdminController), MethodName));
+            Assert.IsFalse(MethodHasAttribute<HttpPutAttribute>(typeof(ProductAdminController), MethodName));
+            Assert.IsFalse(MethodHasAttribute<RouteAttribute>(typeof(ProductAdminController), MethodName));
+        }
+
+        [TestMethod]
+        [TestCategory(TestCategoryName)]
         public void DeleteProduct_ModelIsNull_RedirectsToIndex()
         {
             MockMemoryCache mockMemoryCache = new MockMemoryCache();
@@ -560,14 +609,14 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ProductTests
 
             JsonResponseModel jsonResponseModel = jsonResult.Value as JsonResponseModel;
             Assert.IsNotNull(jsonResponseModel);
-            Assert.AreEqual("model no good", jsonResponseModel.ResponseData);
+            Assert.AreEqual("Invalid model", jsonResponseModel.ResponseData);
             Assert.IsFalse(jsonResponseModel.Success);
             Assert.AreEqual(1, mockMemoryCache.GetShortCache().Count);
         }
 
         [TestMethod]
         [TestCategory(TestCategoryName)]
-        public void DeleteProduct_ProductNotFound_RedirectsToIndex()
+        public void DeleteProduct_ProductNotFound_ReturnsBadResponse()
         {
             MockMemoryCache mockMemoryCache = new MockMemoryCache();
             mockMemoryCache.GetShortCache().Add("test", new CacheItem("test", true));
@@ -643,7 +692,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ProductTests
 
         [TestMethod]
         [TestCategory(TestCategoryName)]
-        public void DeleteProduct_ProductDeleted_RedirectsToIndex()
+        public void DeleteProduct_ProductDeleted_ReturnsResponse200()
         {
             MockMemoryCache mockMemoryCache = new MockMemoryCache();
             mockMemoryCache.GetShortCache().Add("test", new CacheItem("test", true));
@@ -667,27 +716,389 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ProductTests
             Assert.AreEqual(0, mockMemoryCache.GetShortCache().Count);
         }
 
+        [TestMethod]
+        [TestCategory(TestCategoryName)]
+        public void GroupIndex_Validate_Attributes()
+        {
+            string MethodName = "GroupIndex";
+            Assert.IsTrue(MethodHasAttribute<HttpGetAttribute>(typeof(ProductAdminController), MethodName));
+
+            Assert.IsFalse(MethodHasAttribute<RouteAttribute>(typeof(ProductAdminController), MethodName));
+            Assert.IsFalse(MethodHasAttribute<LoggedInAttribute>(typeof(ProductAdminController), MethodName));
+            Assert.IsFalse(MethodHasAttribute<HttpPostAttribute>(typeof(ProductAdminController), MethodName));
+            Assert.IsFalse(MethodHasAttribute<AjaxOnlyAttribute>(typeof(ProductAdminController), MethodName));
+            Assert.IsFalse(MethodHasAttribute<HttpDeleteAttribute>(typeof(ProductAdminController), MethodName));
+            Assert.IsFalse(MethodHasAttribute<HttpPutAttribute>(typeof(ProductAdminController), MethodName));
+        }
+
+        [TestMethod]
+        [TestCategory(TestCategoryName)]
+        public void GroupIndex_ReturnsCorrectModelAndView_Success()
+        {
+            MockProductProvider mockProductProvider = new MockProductProvider();
+            ProductAdminController sut = CreateProductAdminController(mockProductProvider);
+
+            IActionResult result = sut.GroupIndex();
+
+            ViewResult viewResult = result as ViewResult;
+            Assert.IsNotNull(viewResult);
+
+            Assert.IsNull(viewResult.ViewName);
+
+            ProductGroupListModel model = viewResult.Model as ProductGroupListModel;
+            Assert.IsNotNull(model);
+            Assert.AreEqual(3, model.Groups.Count);
+            Assert.AreEqual(3, model.Breadcrumbs.Count);
+            Assert.AreEqual("/SystemAdmin/Index", model.Breadcrumbs[1].Route);
+            Assert.AreEqual("System Admin", model.Breadcrumbs[1].Name);
+            Assert.AreEqual("/ProductAdmin/GroupIndex", model.Breadcrumbs[2].Route);
+            Assert.AreEqual("Product Groups", model.Breadcrumbs[2].Name);
+        }
+
+        [TestMethod]
+        [TestCategory(TestCategoryName)]
+        public void ViewDeleteProductGroup_ProductGroupNotFound_Returns400()
+        {
+            MockMemoryCache mockMemoryCache = new MockMemoryCache();
+            mockMemoryCache.GetShortCache().Add("test", new CacheItem("test", true));
+            MockProductProvider mockProductProvider = new MockProductProvider();
+            ProductAdminController sut = CreateProductAdminController(mockProductProvider, null, mockMemoryCache);
+
+            IActionResult result = sut.ViewDeleteProduct(1);
+
+            PartialViewResult partialViewResult = result as PartialViewResult;
+            Assert.IsNotNull(partialViewResult);
+            Assert.IsNull(partialViewResult.ContentType);
+            Assert.IsInstanceOfType(partialViewResult.Model, typeof(ProductDeleteModel));
+            Assert.IsNull(partialViewResult.StatusCode);
+            Assert.IsNull(partialViewResult.TempData);
+            Assert.AreEqual("_ShowDeleteProduct", partialViewResult.ViewName);
+            Assert.AreEqual(1, mockMemoryCache.GetShortCache().Count);
+        }
+
+        [TestMethod]
+        [TestCategory(TestCategoryName)]
+        public void DeleteProductGroup_Validate_Attributes()
+        {
+            string MethodName = "DeleteProductGroup";
+            Assert.IsTrue(MethodHasAttribute<HttpPostAttribute>(typeof(ProductAdminController), MethodName));
+            Assert.IsTrue(MethodHasAttribute<AjaxOnlyAttribute>(typeof(ProductAdminController), MethodName));
+
+            Assert.IsFalse(MethodHasAttribute<HttpGetAttribute>(typeof(ProductAdminController), MethodName));
+            Assert.IsFalse(MethodHasAttribute<LoggedInAttribute>(typeof(ProductAdminController), MethodName));
+            Assert.IsFalse(MethodHasAttribute<HttpDeleteAttribute>(typeof(ProductAdminController), MethodName));
+            Assert.IsFalse(MethodHasAttribute<HttpPutAttribute>(typeof(ProductAdminController), MethodName));
+            Assert.IsFalse(MethodHasAttribute<RouteAttribute>(typeof(ProductAdminController), MethodName));
+        }
+
+        [TestMethod]
+        [TestCategory(TestCategoryName)]
+        public void DeleteProductGroup_InvalidModel_Returns400()
+        {
+            MockMemoryCache mockMemoryCache = new MockMemoryCache();
+            mockMemoryCache.GetShortCache().Add("test", new CacheItem("test", true));
+            MockProductProvider mockProductProvider = new MockProductProvider();
+            ProductAdminController sut = CreateProductAdminController(mockProductProvider, null, mockMemoryCache);
+
+            IActionResult result = sut.DeleteProductGroup(null);
+
+            JsonResult jsonResult = result as JsonResult;
+            Assert.IsNotNull(jsonResult);
+            Assert.AreEqual("application/json", jsonResult.ContentType);
+            Assert.IsNull(jsonResult.SerializerSettings);
+            Assert.AreEqual(400, jsonResult.StatusCode);
+
+            JsonResponseModel jsonResponseModel = jsonResult.Value as JsonResponseModel;
+            Assert.IsNotNull(jsonResponseModel);
+            Assert.AreEqual("Invalid model", jsonResponseModel.ResponseData);
+            Assert.IsFalse(jsonResponseModel.Success);
+            Assert.AreEqual(1, mockMemoryCache.GetShortCache().Count);
+        }
+
+        [TestMethod]
+        [TestCategory(TestCategoryName)]
+        public void DeleteProductGroup_ProductGroupNotFound_ReturnsBadRequest()
+        {
+            MockMemoryCache mockMemoryCache = new MockMemoryCache();
+            mockMemoryCache.GetShortCache().Add("test", new CacheItem("test", true));
+            MockProductProvider mockProductProvider = new MockProductProvider();
+            ProductAdminController sut = CreateProductAdminController(mockProductProvider, null, mockMemoryCache);
+
+            IActionResult result = sut.DeleteProductGroup(new ProductGroupDeleteModel(3000));
+
+            JsonResult jsonResult = result as JsonResult;
+            Assert.IsNotNull(jsonResult);
+            Assert.AreEqual("application/json", jsonResult.ContentType);
+            Assert.IsNull(jsonResult.SerializerSettings);
+            Assert.AreEqual(400, jsonResult.StatusCode);
+
+            JsonResponseModel jsonResponseModel = jsonResult.Value as JsonResponseModel;
+            Assert.IsNotNull(jsonResponseModel);
+            Assert.AreEqual("Invalid product group", jsonResponseModel.ResponseData);
+            Assert.IsFalse(jsonResponseModel.Success);
+            Assert.AreEqual(1, mockMemoryCache.GetShortCache().Count);
+        }
+
+        [TestMethod]
+        [TestCategory(TestCategoryName)]
+        public void DeleteProductGroup_DeletionNotConfirmed_ReturnsModelWithModelStateError()
+        {
+            MockMemoryCache mockMemoryCache = new MockMemoryCache();
+            mockMemoryCache.GetShortCache().Add("test", new CacheItem("test", true));
+            MockProductProvider mockProductProvider = new MockProductProvider();
+            ProductAdminController sut = CreateProductAdminController(mockProductProvider, null, mockMemoryCache);
+            ProductGroupDeleteModel model = new ProductGroupDeleteModel(1);
+
+            IActionResult result = sut.DeleteProductGroup(model);
+
+            JsonResult jsonResult = result as JsonResult;
+            Assert.IsNotNull(jsonResult);
+            Assert.AreEqual("application/json", jsonResult.ContentType);
+            Assert.IsNull(jsonResult.SerializerSettings);
+            Assert.AreEqual(400, jsonResult.StatusCode);
+
+            JsonResponseModel jsonResponseModel = jsonResult.Value as JsonResponseModel;
+            Assert.IsNotNull(jsonResponseModel);
+            Assert.AreEqual("Please write CONFIRM in the text box above and click delete", jsonResponseModel.ResponseData);
+            Assert.IsFalse(jsonResponseModel.Success);
+            Assert.AreEqual(1, mockMemoryCache.GetShortCache().Count);
+        }
+
+        [TestMethod]
+        [TestCategory(TestCategoryName)]
+        public void DeleteProductGroup_ProductProviderWillNotAllowDeletion_AddsModelError()
+        {
+            MockMemoryCache mockMemoryCache = new MockMemoryCache();
+            mockMemoryCache.GetShortCache().Add("test", new CacheItem("test", true));
+            MockProductProvider mockProductProvider = new MockProductProvider();
+            mockProductProvider.ProductDeleteError = "Failed to Delete";
+            ProductAdminController sut = CreateProductAdminController(mockProductProvider, null, mockMemoryCache);
+            ProductGroupDeleteModel model = new ProductGroupDeleteModel(1);
+            model.Confirmation = "CONFirm";
+
+            IActionResult result = sut.DeleteProductGroup(model);
+
+            JsonResult jsonResult = result as JsonResult;
+            Assert.IsNotNull(jsonResult);
+            Assert.AreEqual("application/json", jsonResult.ContentType);
+            Assert.IsNull(jsonResult.SerializerSettings);
+            Assert.AreEqual(400, jsonResult.StatusCode);
+
+            JsonResponseModel jsonResponseModel = jsonResult.Value as JsonResponseModel;
+            Assert.IsNotNull(jsonResponseModel);
+            Assert.AreEqual("Failed to Delete", jsonResponseModel.ResponseData);
+            Assert.IsFalse(jsonResponseModel.Success);
+            Assert.AreEqual(1, mockMemoryCache.GetShortCache().Count);
+        }
+
+        [TestMethod]
+        [TestCategory(TestCategoryName)]
+        public void DeleteProductGroup_ProductDeleted_ReturnsResponse200()
+        {
+            MockMemoryCache mockMemoryCache = new MockMemoryCache();
+            mockMemoryCache.GetShortCache().Add("test", new CacheItem("test", true));
+            MockProductProvider mockProductProvider = new MockProductProvider();
+            ProductAdminController sut = CreateProductAdminController(mockProductProvider, null, mockMemoryCache);
+            ProductGroupDeleteModel model = new ProductGroupDeleteModel(1);
+            model.Confirmation = "CONFirm";
+
+            IActionResult result = sut.DeleteProductGroup(model);
+
+            JsonResult jsonResult = result as JsonResult;
+            Assert.IsNotNull(jsonResult);
+            Assert.AreEqual("application/json", jsonResult.ContentType);
+            Assert.IsNull(jsonResult.SerializerSettings);
+            Assert.AreEqual(200, jsonResult.StatusCode);
+
+            JsonResponseModel jsonResponseModel = jsonResult.Value as JsonResponseModel;
+            Assert.IsNotNull(jsonResponseModel);
+            Assert.AreEqual("", jsonResponseModel.ResponseData);
+            Assert.IsTrue(jsonResponseModel.Success);
+            Assert.AreEqual(0, mockMemoryCache.GetShortCache().Count);
+        }
+
+        [TestMethod]
+        [TestCategory(TestCategoryName)]
+        public void EditProductGroup_Validate_Attributes()
+        {
+            string MethodName = "EditProductGroup";
+            Assert.IsTrue(MethodHasAttribute<HttpGetAttribute>(typeof(ProductAdminController), MethodName));
+
+            Assert.IsFalse(MethodHasAttribute<HttpPostAttribute>(typeof(ProductAdminController), MethodName));
+            Assert.IsFalse(MethodHasAttribute<AjaxOnlyAttribute>(typeof(ProductAdminController), MethodName));
+            Assert.IsFalse(MethodHasAttribute<LoggedInAttribute>(typeof(ProductAdminController), MethodName));
+            Assert.IsFalse(MethodHasAttribute<HttpDeleteAttribute>(typeof(ProductAdminController), MethodName));
+            Assert.IsFalse(MethodHasAttribute<HttpPutAttribute>(typeof(ProductAdminController), MethodName));
+            Assert.IsFalse(MethodHasAttribute<RouteAttribute>(typeof(ProductAdminController), MethodName));
+        }
+
+        [TestMethod]
+        [TestCategory(TestCategoryName)]
+        public void EditProductGroup_InvalidProductGroupId_RedirectsToGroupIndex()
+        {
+            MockMemoryCache mockMemoryCache = new MockMemoryCache();
+            mockMemoryCache.GetShortCache().Add("test", new CacheItem("test", true));
+            MockProductProvider mockProductProvider = new MockProductProvider();
+            ProductAdminController sut = CreateProductAdminController(mockProductProvider, null, mockMemoryCache);
+
+            IActionResult result = sut.EditProductGroup(999);
+
+            RedirectToActionResult redirectResult = result as RedirectToActionResult;
+            Assert.IsNotNull(redirectResult);
+            Assert.AreEqual("GroupIndex", redirectResult.ActionName);
+            Assert.IsFalse(redirectResult.Permanent);
+            Assert.IsNull(redirectResult.ControllerName);
+        }
+
+        [TestMethod]
+        [TestCategory(TestCategoryName)]
+        public void EditProductGroup_ValidProductGroupId_ReturnsModelAndView()
+        {
+            MockMemoryCache mockMemoryCache = new MockMemoryCache();
+            mockMemoryCache.GetShortCache().Add("test", new CacheItem("test", true));
+            MockProductProvider mockProductProvider = new MockProductProvider();
+            ProductAdminController sut = CreateProductAdminController(mockProductProvider, null, mockMemoryCache);
+
+            IActionResult result = sut.EditProductGroup(1);
+
+            ViewResult viewResult = result as ViewResult;
+            Assert.IsNotNull(viewResult);
+            Assert.IsNull(viewResult.ViewName);
+            Assert.IsNotNull(viewResult.Model);
+
+            EditProductGroupModel model = viewResult.Model as EditProductGroupModel;
+            Assert.IsNotNull(model);
+            Assert.AreEqual(3, model.Breadcrumbs.Count);
+            Assert.AreEqual(1, model.Id);
+            Assert.AreEqual("Main Products", model.Description);
+            Assert.AreEqual("Checkout our main products", model.TagLine);
+            Assert.IsTrue(model.ShowOnWebsite);
+            Assert.AreEqual(1, model.SortOrder);
+            Assert.AreEqual("", model.Url);
+        }
+
+        [TestMethod]
+        [TestCategory(TestCategoryName)]
+        public void SaveProductGroup_Validate_Attributes()
+        {
+            string MethodName = "SaveProductGroup";
+            Assert.IsTrue(MethodHasAttribute<HttpPostAttribute>(typeof(ProductAdminController), MethodName));
+
+            Assert.IsFalse(MethodHasAttribute<HttpGetAttribute>(typeof(ProductAdminController), MethodName));
+            Assert.IsFalse(MethodHasAttribute<AjaxOnlyAttribute>(typeof(ProductAdminController), MethodName));
+            Assert.IsFalse(MethodHasAttribute<LoggedInAttribute>(typeof(ProductAdminController), MethodName));
+            Assert.IsFalse(MethodHasAttribute<HttpDeleteAttribute>(typeof(ProductAdminController), MethodName));
+            Assert.IsFalse(MethodHasAttribute<HttpPutAttribute>(typeof(ProductAdminController), MethodName));
+            Assert.IsFalse(MethodHasAttribute<RouteAttribute>(typeof(ProductAdminController), MethodName));
+        }
+
+        [TestMethod]
+        [TestCategory(TestCategoryName)]
+        public void SaveProductGroup_InvalidModel_Null_ReturnsViewWithModelStateError()
+        {
+            ProductAdminController sut = CreateProductAdminController();
+
+            IActionResult result = sut.SaveProductGroup(null);
+
+            RedirectToActionResult redirectResult = result as RedirectToActionResult;
+            Assert.IsNotNull(redirectResult);
+            Assert.IsNull(redirectResult.ControllerName);
+            Assert.AreEqual("GroupIndex", redirectResult.ActionName);
+            Assert.IsFalse(redirectResult.Permanent);
+        }
+
+        [TestMethod]
+        [TestCategory(TestCategoryName)]
+        public void SaveProductGroup_InvalidProductDescription_EmptyString_ReturnsViewWithModelStateError()
+        {
+            ProductAdminController sut = CreateProductAdminController();
+            EditProductGroupModel editProductGroupModel = new EditProductGroupModel()
+            {
+                Description = ""
+            };
+
+            IActionResult result = sut.SaveProductGroup(editProductGroupModel);
+
+
+            ViewResult viewResult = result as ViewResult;
+            Assert.IsNotNull(viewResult);
+            Assert.IsNotNull(viewResult.ViewName);
+            Assert.AreEqual("/Views/ProductAdmin/EditProductGroup.cshtml", viewResult.ViewName);
+            Assert.IsNotNull(viewResult.Model);
+            Assert.AreNotSame(editProductGroupModel, viewResult.Model);
+
+            Assert.IsTrue(ViewResultContainsModelStateError(viewResult, "Description", "Please provide a valid product group description."));
+        }
+
+        [TestMethod]
+        [TestCategory(TestCategoryName)]
+        public void SaveProductGroup_ProductProviderFailsToSave_ReturnsViewWithModelStateError()
+        {
+            MockProductProvider productProvider = new MockProductProvider();
+            productProvider.ProductGroupSaveError = "Can not save";
+            ProductAdminController sut = CreateProductAdminController(productProvider);
+
+            EditProductGroupModel editProductGroupModel = new EditProductGroupModel()
+            {
+                Description = "asdfasdf"
+            };
+
+            IActionResult result = sut.SaveProductGroup(editProductGroupModel);
+
+
+            ViewResult viewResult = result as ViewResult;
+            Assert.IsNotNull(viewResult);
+            Assert.IsNotNull(viewResult.ViewName);
+            Assert.AreEqual("/Views/ProductAdmin/EditProductGroup.cshtml", viewResult.ViewName);
+            Assert.IsNotNull(viewResult.Model);
+            Assert.AreNotSame(editProductGroupModel, viewResult.Model);
+
+            Assert.IsTrue(ViewResultContainsModelStateError(viewResult, "", "Can not save"));
+        }
+
+        [TestMethod]
+        [TestCategory(TestCategoryName)]
+        public void SaveProductGroup_ProductGroupSaved_RedirectsToIndex()
+        {
+            MockMemoryCache mockMemoryCache = new MockMemoryCache();
+            mockMemoryCache.GetShortCache().Add("test", new CacheItem("test", true));
+            ProductAdminController sut = CreateProductAdminController();
+
+            EditProductGroupModel editProductGroupModel = new EditProductGroupModel()
+            {
+                Description = "asdfasdf"
+            };
+
+            IActionResult result = sut.SaveProductGroup(editProductGroupModel);
+
+            RedirectToActionResult redirectResult = result as RedirectToActionResult;
+            Assert.IsNotNull(redirectResult);
+            Assert.AreEqual("GroupIndex", redirectResult.ActionName);
+            Assert.IsFalse(redirectResult.Permanent);
+            Assert.IsNull(redirectResult.ControllerName);
+            Assert.AreEqual(0, mockMemoryCache.GetShortCache().Count);
+        }
+
         private ProductAdminController CreateProductAdminController(
-            IProductProvider productProvider = null,
-            ISettingsProvider settingsProvider = null,
-            IMemoryCache memoryCache = null,
-            List<BreadcrumbItem> breadcrumbs = null)
+                IProductProvider productProvider = null,
+                ISettingsProvider settingsProvider = null,
+                IMemoryCache memoryCache = null,
+                List<BreadcrumbItem> breadcrumbs = null)
         {
             ProductAdminController Result = new ProductAdminController(
                 productProvider ?? new MockProductProvider(),
                 settingsProvider ?? new MockSettingsProvider(),
                 memoryCache ?? new MockMemoryCache());
 
-            Result.ControllerContext = CreateTestControllerContext(breadcrumbs ?? GetDynamicBreadcrumbs());
+            Result.ControllerContext = CreateTestControllerContext(breadcrumbs ?? GetBreadcrumbs());
 
             return Result;
         }
 
-        private List<BreadcrumbItem> GetDynamicBreadcrumbs()
+        new private List<BreadcrumbItem> GetBreadcrumbs()
         {
             List<BreadcrumbItem> breadcrumbs = new List<BreadcrumbItem>();
             breadcrumbs.Add(new BreadcrumbItem("Home", "/", false));
-            breadcrumbs.Add(new BreadcrumbItem("Custom Pages", "/DynamicContent/GetCustomPages", false));
             return breadcrumbs;
         }
     }

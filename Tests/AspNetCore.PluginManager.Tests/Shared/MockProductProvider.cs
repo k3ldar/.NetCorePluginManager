@@ -56,10 +56,17 @@ namespace AspNetCore.PluginManager.Tests.Shared
 
             return new List<ProductGroup>()
             {
-                new ProductGroup(1, "Main Products", "Main Products within our range", true, 1, "Checkout our main products", String.Empty),
-                new ProductGroup(2, "Other Products", "Our other products", true, 2, "Checkout our other products", String.Empty),
-                new ProductGroup(3, "Remote", "Remote Products", true, 3, "Remote Products", "http://hereorthere.com")
+                new ProductGroup(1, "Main Products", true, 1, "Checkout our main products", String.Empty),
+                new ProductGroup(2, "Other Products", true, 2, "Checkout our other products", String.Empty),
+                new ProductGroup(3, "Remote", true, 3, "Remote Products", "http://hereorthere.com")
             };
+        }
+
+        public bool ProductGroupDelete(in int id, out string errorMessage)
+        {
+            errorMessage = ProductDeleteError;
+
+            return String.IsNullOrEmpty(ProductDeleteError);
         }
 
         #endregion Product Groups
@@ -129,9 +136,11 @@ namespace AspNetCore.PluginManager.Tests.Shared
             return GetProducts(1, 10000).Where(p => p.Id == prodId).FirstOrDefault();
         }
 
-        public bool ProductGroupSave(in int id, in string description, in string seoDescription, in bool showOnWebsite, in int sortOrder, in string tagLine, in string url, out string errorMessage)
+        public bool ProductGroupSave(in int id, in string description, in bool showOnWebsite, in int sortOrder, in string tagLine, in string url, out string errorMessage)
         {
-            throw new NotImplementedException();
+            errorMessage = ProductGroupSaveError;
+
+            return String.IsNullOrEmpty(ProductGroupSaveError);
         }
 
         public bool ProductSave(in int id, in int productGroupId, in string name, in string description, in string features, in string videoLink, in bool newProduct, 
@@ -160,5 +169,7 @@ namespace AspNetCore.PluginManager.Tests.Shared
         public string ProductSaveError { get; set; }
 
         public string ProductDeleteError { get; set; }
+
+        public string ProductGroupSaveError { get; set; }
     }
 }

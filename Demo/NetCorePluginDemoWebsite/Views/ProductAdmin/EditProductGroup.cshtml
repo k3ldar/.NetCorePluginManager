@@ -1,0 +1,81 @@
+﻿@model ProductPlugin.Models.EditProductGroupModel
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
+<style>
+.row {
+padding: 0 0 10px 0;
+}
+.field-validation-error::after {
+content: "\a";
+white-space: pre;
+}
+</style>
+<div class="row">
+<div class="col-sm-12 col-lg-10">
+@if (Model.Id < 0)
+{
+<h3>@Localizer[Languages.LanguageStrings.CreateProductGroup]</h3>
+}
+else
+{
+<h3>@Localizer[Languages.LanguageStrings.AppMenuEditProducGroup]</h3>
+}
+</div>
+</div>
+<div class="row">
+<div class="col-sm-12 col-lg-10">
+@Html.ValidationSummary()
+</div>
+</div>
+@using (Html.BeginForm(nameof(ProductPlugin.Controllers.ProductAdminController.SaveProductGroup), ProductPlugin.Controllers.ProductAdminController.Name, FormMethod.Post, new { id = "frmEditProductGroup" }))
+{
+@Html.HiddenFor(m => m.Id)
+<div class="row">
+<div class="col-sm-12 col-lg-5">
+@Html.LabelFor(m => m.Description)
+</div>
+<div class="col-sm-12 col-lg-7">
+@Html.EditorFor(m => m.Description, new { @class = "form-control" })
+@Html.ValidationMessageFor(m => m.Description)
+</div>
+</div>
+<div class="row">
+<div class="col-sm-12 col-lg-5">
+@Html.LabelFor(m => m.TagLine)
+</div>
+<div class="col-sm-12 col-lg-7">
+@Html.EditorFor(m => m.TagLine, new { @class = "form-control" })
+@Html.ValidationMessageFor(m => m.TagLine)
+</div>
+</div>
+<div class="row">
+<div class="col-sm-12 col-lg-5">
+@Html.LabelFor(m => m.SortOrder)
+</div>
+<div class="col-sm-12 col-lg-7">
+@Html.EditorFor(m => m.SortOrder, new { @class = "form-control", style = "width:100%;height:100px;" })
+@Html.ValidationMessageFor(m => m.SortOrder)
+</div>
+</div>
+<div class="row">
+<div class="col-sm-12 col-lg-5">
+@Html.LabelFor(m => m.ShowOnWebsite)
+</div>
+<div class="col-sm-12 col-lg-7">
+@Html.CheckBoxFor(m => m.ShowOnWebsite)
+</div>
+</div>
+<div class="row">
+<div class="col-sm-12 col-lg-5">
+@Html.LabelFor(m => m.Url)
+</div>
+<div class="col-sm-12 col-lg-7">
+@Html.EditorFor(m => m.Url, new { @class = "form-control" })
+@Html.ValidationMessageFor(m => m.Url)
+</div>
+</div>
+<div class="row">
+<div class="col-sm-12">
+<input type="submit" value="@Localizer[nameof(Languages.LanguageStrings.Submit)]" class="btn btn-primary" style="float:right;" />
+</div>
+</div>
+}

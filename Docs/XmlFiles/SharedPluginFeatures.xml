@@ -2759,6 +2759,11 @@
             Name of claim for managing images (add/delete etc) within image manager
             </summary>
         </member>
+        <member name="F:SharedPluginFeatures.Constants.ClaimNameManageProducts">
+            <summary>
+            Name of claim for managing products
+            </summary>
+        </member>
         <member name="F:SharedPluginFeatures.Constants.ClaimIdentityUser">
             <summary>
             Name of claim identity for user claims

@@ -521,6 +521,11 @@ namespace SharedPluginFeatures
         public const string ClaimNameManageImages = "ManageImages";
 
         /// <summary>
+        /// Name of claim for managing products
+        /// </summary>
+        public const string ClaimNameManageProducts = "ManageProducts";
+
+        /// <summary>
         /// Name of claim identity for user claims
         /// </summary>
         public const string ClaimIdentityUser = "User";

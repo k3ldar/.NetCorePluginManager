@@ -14433,4 +14433,36 @@ You will shortly receive an email with the details of your order.</comment>
     <value>Please write CONFIRM in the text box above and click delete</value>
     <comment>Please write CONFIRM in the text box above and click delete</comment>
   </data>
+  <data name="ManageProductGroups" xml:space="preserve">
+    <value>Manage Product Groups</value>
+    <comment>Manage Product Groups</comment>
+  </data>
+  <data name="NoProductsGroupsFound" xml:space="preserve">
+    <value>No product groups were found</value>
+    <comment>No product groups were found</comment>
+  </data>
+  <data name="AppErrorInvalidProductGroupDescription" xml:space="preserve">
+    <value>Please provide a valid product group description.</value>
+    <comment>Please provide a valid product group description.</comment>
+  </data>
+  <data name="AppMenuEditProducGroup" xml:space="preserve">
+    <value>Edit product group</value>
+    <comment>Edit product group</comment>
+  </data>
+  <data name="CreateProductGroup" xml:space="preserve">
+    <value>Create product group</value>
+    <comment>Create product group</comment>
+  </data>
+  <data name="AppMenuEditProductGroup" xml:space="preserve">
+    <value>Edit Product Group</value>
+    <comment>Edit Product Group</comment>
+  </data>
+  <data name="AppMenuNewProduct" xml:space="preserve">
+    <value>New Product</value>
+    <comment>New Product</comment>
+  </data>
+  <data name="AppMenuNewProductGroup" xml:space="preserve">
+    <value>New Product Group</value>
+    <comment>New Product Group</comment>
+  </data>
 </root>

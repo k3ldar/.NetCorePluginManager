@@ -43,22 +43,14 @@ namespace AspNetCore.PluginManager.Tests.Middleware
         [ExpectedException(typeof(ArgumentNullException))]
         public void Construct_InvalidParam_Description_Null_Throws_ArgumentNullException()
         {
-            ProductGroup sut = new ProductGroup(-1, null, null, true, 1, null, null);
-        }
-
-        [TestMethod]
-        [TestCategory(TestCategoryName)]
-        public void Construct_InvalidParam_SeoDesciption_Null_ConvertsToEmptyString()
-        {
-            ProductGroup sut = new ProductGroup(-1, "description", null, true, 1, null, null);
-            Assert.AreEqual("", sut.SeoDescripton);
+            ProductGroup sut = new ProductGroup(-1, null, true, 1, null, null);
         }
 
         [TestMethod]
         [TestCategory(TestCategoryName)]
         public void Construct_InvalidParam_Tagline_Null_ConvertsToEmptyString()
         {
-            ProductGroup sut = new ProductGroup(-1, "description", null, true, 1, null, null);
+            ProductGroup sut = new ProductGroup(-1, "description", true, 1, null, null);
             Assert.AreEqual("", sut.TagLine);
         }
 
@@ -66,7 +58,7 @@ namespace AspNetCore.PluginManager.Tests.Middleware
         [TestCategory(TestCategoryName)]
         public void Construct_InvalidParam_Url_Null_ConvertsToEmptyString()
         {
-            ProductGroup sut = new ProductGroup(-1, "description", null, true, 1, null, null);
+            ProductGroup sut = new ProductGroup(-1, "description", true, 1, null, null);
             Assert.AreEqual("", sut.TagLine);
         }
 
@@ -74,10 +66,9 @@ namespace AspNetCore.PluginManager.Tests.Middleware
         [TestCategory(TestCategoryName)]
         public void Construct_ValidInstance_Success()
         {
-            ProductGroup sut = new ProductGroup(-1, "description", "seo desc", true, 1, "tagline", "/url");
+            ProductGroup sut = new ProductGroup(-1, "description", true, 1, "tagline", "/url");
             Assert.AreEqual(-1, sut.Id);
             Assert.AreEqual("description", sut.Description);
-            Assert.AreEqual("seo desc", sut.SeoDescripton);
             Assert.IsTrue(sut.ShowOnWebsite);
             Assert.AreEqual(1, sut.SortOrder);
             Assert.AreEqual("tagline", sut.TagLine);

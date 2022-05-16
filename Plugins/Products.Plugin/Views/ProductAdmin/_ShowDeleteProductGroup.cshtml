@@ -1,20 +1,20 @@
-@model ProductPlugin.Models.ProductDeleteModel
+﻿@model ProductPlugin.Models.ProductGroupDeleteModel
 @inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
 
-<div class="modal-dialog deleteProductDialog" role="document">
+<div class="modal-dialog deleteProductGroupDialog" role="document">
     <div class="modal-content">
         <div class="modal-header">
-            <h5 class="modal-title" id="deleteModalLabel">@Localizer[nameof(Languages.LanguageStrings.AppProductDelete)]</h5>
+            <h5 class="modal-title" id="deleteModalLabel">@Localizer[nameof(Languages.LanguageStrings.AppProductGroupDelete)]</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
         </div>
-        @using (Html.BeginForm(nameof(ProductPlugin.Controllers.ProductAdminController.DeleteProduct), ProductPlugin.Controllers.ProductAdminController.Name, FormMethod.Post, new { id = "frmDeleteProduct" }))
+        @using (Html.BeginForm(nameof(ProductPlugin.Controllers.ProductAdminController.DeleteProductGroup), ProductPlugin.Controllers.ProductAdminController.Name, FormMethod.Post, new { id = "frmDeleteProductGroup" }))
         {
             @Html.HiddenFor(m => m.Id);
             <div class="modal-body">
                 <div class="form-group">
-                    <p>@Localizer[nameof(Languages.LanguageStrings.AppProductDeletePrompt)]</p>
+                    <p>@Localizer[nameof(Languages.LanguageStrings.AppProductGroupDeletePrompt)]</p>
                     <p>@Localizer[nameof(Languages.LanguageStrings.ConfirmDeleteWord)]</p>
 
                     @Html.TextBoxFor(m => m.Confirmation, new { @class = "form-control", autocomplete = "off" })<br />
@@ -23,14 +23,14 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">@Localizer[nameof(Languages.LanguageStrings.Cancel)]</button>
-                <button type="button" class="btn btn-primary" id="btnDelProduct" onclick="javascript:deleteProduct();">@Localizer[nameof(Languages.LanguageStrings.Delete)]</button>
+                <button type="button" class="btn btn-primary" id="btnDelProductGroup" onclick="javascript:deleteProductGroup();">@Localizer[nameof(Languages.LanguageStrings.Delete)]</button>
             </div>
         }
     </div>
 </div>
 <script type="text/javascript">
-    function deleteProduct() {
-        let form = $('#frmDeleteProduct');
+    function deleteProductGroup() {
+        let form = $('#frmDeleteProductGroup');
         $.ajax({
             type: 'POST',
             url: form.attr('action'),

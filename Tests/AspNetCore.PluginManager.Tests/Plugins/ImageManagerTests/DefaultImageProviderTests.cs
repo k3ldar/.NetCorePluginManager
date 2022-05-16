@@ -381,7 +381,6 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ImageManagerTests
 
         [TestMethod]
         [TestCategory(ImageManagerTestsCategory)]
-        [ExpectedException(typeof(ArgumentException))]
         public void SubgroupImages_InvalidSubgroupName_NotFound_ReturnsEmptyList()
         {
             DefaultImageProvider sut = CreateDefaultImageProvider();

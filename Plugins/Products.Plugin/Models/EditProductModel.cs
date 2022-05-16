@@ -56,6 +56,7 @@ namespace ProductPlugin.Models
             : base(modelData)
         {
             Id = -1;
+            ProductGroups = new List<LookupListItem>();
         }
 
         /// <summary>

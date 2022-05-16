@@ -1,0 +1,71 @@
+﻿@model ProductPlugin.Models.ProductGroupListModel
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
+<div class="row">
+<div class="col-sm-12 col-lg-10">
+<h3>@Localizer[Languages.LanguageStrings.ManageProductGroups]</h3>
+</div>
+</div>
+@if (Model.Groups.Count == 0)
+{
+<div class="row">
+<div class="col-sm-12">
+@Localizer[Languages.LanguageStrings.NoProductsGroupsFound]
+</div>
+</div>
+}
+else
+{
+<div class="row" style="margin:0 0 8px 0;">
+<div class="col-sm-8">
+@Localizer[nameof(Languages.LanguageStrings.Name)]
+</div>
+<div class="col-sm-2">
+&nbsp;
+</div>
+<div class="col-sm-2">
+&nbsp;
+</div>
+</div>
+foreach (Middleware.LookupListItem group in Model.Groups)
+{
+@using (Html.BeginForm(nameof(ProductPlugin.Controllers.ProductAdminController.EditProductGroup), ProductPlugin.Controllers.ProductAdminController.Name, FormMethod.Get))
+{
+<div class="row" style="margin:0 0 8px 0;border: 1px black">
+<input type="hidden" name="id" value="@group.Id" />
+<div class="col-sm-8">
+@group.Description
+</div>
+<div class="col-sm-1">
+<input class="btn btn-primary" type="submit" value="Edit" />
+</div>
+<div class="col-sm-1">
+<input class="btn btn-primary" type="button" value="Delete" onclick="javascript:showDeleteGroup(@group.Id);" />
+</div>
+</div>
+}
+}
+}
+<div class="row">
+<div class="col-sm-12">
+@using (Html.BeginForm(nameof(ProductPlugin.Controllers.ProductAdminController.NewProductGroup), ProductPlugin.Controllers.ProductAdminController.Name, FormMethod.Get))
+{
+<div class="row" style="margin:15px 0 8px 0;">
+<div class="col-sm-12">
+<input class="btn btn-primary" style="float:right;" type="submit" value="@Localizer[Languages.LanguageStrings.New]" />
+</div>
+</div>
+}
+</div>
+</div>
+<div class="modal fade" id="dlgDelProd" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+</div>
+<script type="text/javascript">
+function showDeleteGroup(id) {
+$('#dlgDelProd').load('/ProductAdmin/ViewDeleteProductGroup/' + id + '/', function () {
+$('#dlgDelProd').modal('show');
+let header = $('#dlgPermissionHeader').val();
+header += " - " + name;
+$('#dlgPermissionHeader').val(header);
+});
+}
+</script>

@@ -7527,6 +7527,15 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Please provide a valid product group description..
+        /// </summary>
+        public static string AppErrorInvalidProductGroupDescription {
+            get {
+                return ResourceManager.GetString("AppErrorInvalidProductGroupDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Please specify a valid product item name..
         /// </summary>
         public static string AppErrorInvalidProductName {
@@ -11075,11 +11084,29 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Edit product group.
+        /// </summary>
+        public static string AppMenuEditProducGroup {
+            get {
+                return ResourceManager.GetString("AppMenuEditProducGroup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Edit Product.
         /// </summary>
         public static string AppMenuEditProduct {
             get {
                 return ResourceManager.GetString("AppMenuEditProduct", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Edit Product Group.
+        /// </summary>
+        public static string AppMenuEditProductGroup {
+            get {
+                return ResourceManager.GetString("AppMenuEditProductGroup", resourceCulture);
             }
         }
         
@@ -11323,6 +11350,24 @@ namespace Languages {
         public static string AppMenuNew {
             get {
                 return ResourceManager.GetString("AppMenuNew", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to New Product.
+        /// </summary>
+        public static string AppMenuNewProduct {
+            get {
+                return ResourceManager.GetString("AppMenuNewProduct", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to New Product Group.
+        /// </summary>
+        public static string AppMenuNewProductGroup {
+            get {
+                return ResourceManager.GetString("AppMenuNewProductGroup", resourceCulture);
             }
         }
         
@@ -22206,6 +22251,15 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Create product group.
+        /// </summary>
+        public static string CreateProductGroup {
+            get {
+                return ResourceManager.GetString("CreateProductGroup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to No Credit/Debit card details held on file..
         /// </summary>
         public static string CreditCardNotHeld {
@@ -25289,6 +25343,15 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Manage Product Groups.
+        /// </summary>
+        public static string ManageProductGroups {
+            get {
+                return ResourceManager.GetString("ManageProductGroups", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Manage Products.
         /// </summary>
         public static string ManageProducts {
@@ -26142,6 +26205,15 @@ namespace Languages {
         public static string NoProductsFound {
             get {
                 return ResourceManager.GetString("NoProductsFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No product groups were found.
+        /// </summary>
+        public static string NoProductsGroupsFound {
+            get {
+                return ResourceManager.GetString("NoProductsGroupsFound", resourceCulture);
             }
         }
         

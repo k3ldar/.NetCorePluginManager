@@ -25,9 +25,11 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 
 using Languages;
 
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 using Middleware;
@@ -48,14 +50,18 @@ namespace ProductPlugin.Controllers
     /// <summary>
     /// Product Administration Controller
     /// </summary>
+    [DenySpider]
+    [LoggedIn]
+    [Authorize(Policy = PolicyNameManageProducts)]
     public class ProductAdminController : BaseController
     {
         public const string Name = "ProductAdmin";
 
         #region Private Members
 
-        private const string InvalidProductModel = "model no good";
+        private const string InvalidModel = "Invalid model";
         private const string ProductNotFound = "Invalid product";
+        private const string ProductGroupNotFound = "Invalid product group";
 
         private readonly IProductProvider _productProvider;
         private readonly ProductPluginSettings _settings;
@@ -79,7 +85,7 @@ namespace ProductPlugin.Controllers
                 throw new ArgumentNullException(nameof(settingsProvider));
 
             _settings = settingsProvider.GetSettings<ProductPluginSettings>(ProductController.Name);
-            _memoryCache = memoryCache ?? throw new ArgumentNullException(nameof(_memoryCache));
+            _memoryCache = memoryCache ?? throw new ArgumentNullException(nameof(memoryCache));
         }
 
         #endregion Constructors
@@ -95,6 +101,7 @@ namespace ProductPlugin.Controllers
         public IActionResult Index(int? page)
         {
             ProductPageListModel model = GetPageList(page.GetValueOrDefault(1));
+            model.Breadcrumbs.Add(new BreadcrumbItem(LanguageStrings.SystemAdmin, "/SystemAdmin/Index", false));
             model.Breadcrumbs.Add(new BreadcrumbItem(LanguageStrings.AppProductsAdministration, "/ProductAdmin/Index", false));
 
             if (page.HasValue)
@@ -119,7 +126,7 @@ namespace ProductPlugin.Controllers
         [HttpGet]
         public IActionResult NewProduct()
         {
-            return View("/Views/ProductAdmin/EditProduct.cshtml", new EditProductModel(GetModelData()));
+            return View("/Views/ProductAdmin/EditProduct.cshtml", CreateNewProductModel());
         }
 
         [HttpPost]
@@ -162,10 +169,11 @@ namespace ProductPlugin.Controllers
 
         [HttpGet]
         [Route("/ProductAdmin/ViewDeleteProduct/{productId}/")]
+        [AjaxOnly]
         public IActionResult ViewDeleteProduct(int productId)
         {
             if (_productProvider.GetProduct(productId) == null)
-                return RedirectToAction(nameof(Index));
+                return GenerateJsonErrorResponse(HtmlResponseBadRequest, ProductNotFound);
 
             return PartialView("_ShowDeleteProduct", new ProductDeleteModel(productId));
         }
@@ -175,7 +183,7 @@ namespace ProductPlugin.Controllers
         public JsonResult DeleteProduct(ProductDeleteModel model)
         {
             if (model == null)
-                return GenerateJsonErrorResponse(HtmlResponseBadRequest, InvalidProductModel);
+                return GenerateJsonErrorResponse(HtmlResponseBadRequest, InvalidModel);
 
             if (_productProvider.GetProduct(model.Id) == null)
                 return GenerateJsonErrorResponse(HtmlResponseBadRequest, ProductNotFound);
@@ -195,6 +203,151 @@ namespace ProductPlugin.Controllers
             return GenerateJsonSuccessResponse();
         }
 
+        #region Product Groups
+
+        [HttpGet]
+        public IActionResult GroupIndex()
+        {
+            return View(CreateProductGroupListModel());
+        }
+
+        [HttpGet]
+        [Route("/ProductAdmin/ViewDeleteProductGroup/{productGroupId}/")]
+        [AjaxOnly]
+        public IActionResult ViewDeleteProductGroup(int productGroupId)
+        {
+            if (_productProvider.ProductGroupGet(productGroupId) == null)
+                return GenerateJsonErrorResponse(HtmlResponseBadRequest, ProductGroupNotFound);
+
+            return PartialView("_ShowDeleteProductGroup", new ProductGroupDeleteModel(productGroupId));
+        }
+
+        [HttpPost]
+        [AjaxOnly]
+        public JsonResult DeleteProductGroup(ProductGroupDeleteModel model)
+        {
+            if (model == null)
+                return GenerateJsonErrorResponse(HtmlResponseBadRequest, InvalidModel);
+
+            ProductGroup productGroup = _productProvider.ProductGroupGet(model.Id);
+
+            if (productGroup == null)
+                return GenerateJsonErrorResponse(HtmlResponseBadRequest, ProductGroupNotFound);
+
+
+            if (String.IsNullOrEmpty(model.Confirmation) || !model.Confirmation.Equals("CONFIRM", StringComparison.InvariantCultureIgnoreCase))
+            {
+                return GenerateJsonErrorResponse(HtmlResponseBadRequest, LanguageStrings.ConfirmDeleteWord);
+            }
+            else if (!_productProvider.ProductGroupDelete(model.Id, out string errorMessage))
+            {
+                // product provider can have it's own rules and fail to delete at this point
+                return GenerateJsonErrorResponse(HtmlResponseBadRequest, errorMessage);
+            }
+
+            _memoryCache.GetShortCache().Clear();
+
+            return GenerateJsonSuccessResponse();
+        }
+
+        [HttpGet]
+        public IActionResult EditProductGroup(int id)
+        {
+            ProductGroup productGroup = _productProvider.ProductGroupGet(id);
+
+            if (productGroup == null)
+                return RedirectToAction(nameof(GroupIndex));
+
+            EditProductGroupModel model = CreateEditProductGroupModel(productGroup);
+
+            return View(model);
+        }
+
+        [HttpGet]
+        public IActionResult NewProductGroup()
+        {
+            return View("/Views/ProductAdmin/EditProductGroup.cshtml", CreateNewProductGroupModel());
+        }
+
+        [HttpPost]
+        public IActionResult SaveProductGroup(EditProductGroupModel model)
+        {
+            if (model == null)
+                return RedirectToAction(nameof(GroupIndex));
+
+            if (String.IsNullOrEmpty(model.Description))
+                ModelState.AddModelError(nameof(model.Description), LanguageStrings.AppErrorInvalidProductGroupDescription);
+
+            // product provider can have it's own rules and fail to save at this point
+            if (!_productProvider.ProductGroupSave(model.Id, model.Description, model.ShowOnWebsite,
+                model.SortOrder, model.TagLine, model.Url, out string errorMessage))
+            {
+                ModelState.AddModelError(String.Empty, errorMessage);
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return View("/Views/ProductAdmin/EditProductGroup.cshtml", CreateEditProductGroupModel(model));
+            }
+
+            _memoryCache.GetShortCache().Clear();
+
+            return RedirectToAction(nameof(GroupIndex));
+        }
+
+        #endregion Product Groups
+
+        #region Private Methods
+
+        private EditProductGroupModel CreateNewProductGroupModel()
+        {
+            EditProductGroupModel result = new EditProductGroupModel(GetModelData());
+
+            result.Breadcrumbs.Add(new BreadcrumbItem(LanguageStrings.SystemAdmin, "/SystemAdmin/Index", false));
+            result.Breadcrumbs.Add(new BreadcrumbItem(LanguageStrings.AppProductGroups, "/ProductAdmin/GroupIndex/", false));
+            result.Breadcrumbs.Add(new BreadcrumbItem(LanguageStrings.AppMenuNewProductGroup, $"/ProductAdmin/EditProductGroup/-1", false));
+
+            return result;
+        }
+
+        private EditProductGroupModel CreateEditProductGroupModel(EditProductGroupModel productGroupModel)
+        {
+            EditProductGroupModel result = new EditProductGroupModel(GetModelData(), productGroupModel.Id, productGroupModel.Description,
+                productGroupModel.ShowOnWebsite, productGroupModel.SortOrder, productGroupModel.TagLine, productGroupModel.Url);
+            
+            result.Breadcrumbs.Add(new BreadcrumbItem(LanguageStrings.SystemAdmin, "/SystemAdmin/Index", false));
+            result.Breadcrumbs.Add(new BreadcrumbItem(LanguageStrings.AppProductGroups, "/ProductAdmin/GroupIndex/", false));
+            result.Breadcrumbs.Add(new BreadcrumbItem(LanguageStrings.AppMenuEditProductGroup, $"/ProductAdmin/EditProductGroup/{productGroupModel.Id}", false));
+
+            return result;
+        }
+
+        private EditProductGroupModel CreateEditProductGroupModel(ProductGroup productGroup)
+        {
+            EditProductGroupModel result = new EditProductGroupModel(GetModelData(), productGroup.Id, productGroup.Description,
+                productGroup.ShowOnWebsite, productGroup.SortOrder, productGroup.TagLine, productGroup.Url);
+
+            result.Breadcrumbs.Add(new BreadcrumbItem(LanguageStrings.SystemAdmin, "/SystemAdmin/Index", false));
+            result.Breadcrumbs.Add(new BreadcrumbItem(LanguageStrings.AppProductGroups, "/ProductAdmin/GroupIndex/", false));
+            result.Breadcrumbs.Add(new BreadcrumbItem(LanguageStrings.AppMenuEditProductGroup, $"/ProductAdmin/EditProductGroup/{productGroup.Id}", false));
+
+            return result;
+        }
+
+        private ProductGroupListModel CreateProductGroupListModel()
+        {
+            ProductGroupListModel result = new ProductGroupListModel(GetModelData());
+
+            List<ProductGroup> groups = _productProvider.ProductGroupsGet();
+
+            groups.ForEach(g => result.Groups.Add(new LookupListItem(g.Id, g.Description)));
+
+            result.Breadcrumbs.Add(new BreadcrumbItem(LanguageStrings.SystemAdmin, "/SystemAdmin/Index", false));
+            result.Breadcrumbs.Add(new BreadcrumbItem(LanguageStrings.AppProductGroups, $"/ProductAdmin/{nameof(GroupIndex)}", false));
+
+            return result;
+        }
+
         private ProductPageListModel GetPageList(int page)
         {
             int pageSize = (int)_settings.ProductsPerPage;
@@ -208,6 +361,25 @@ namespace ProductPlugin.Controllers
             return new ProductPageListModel(GetModelData(), pageProducts, pagination, page);
         }
 
+        private EditProductModel CreateNewProductModel()
+        {
+            List<ProductGroup> allProductGroups = _productProvider.ProductGroupsGet();
+
+            EditProductModel result = new EditProductModel(GetModelData())
+            {
+                ProductGroupId = allProductGroups[0].Id
+            };
+
+            allProductGroups.ForEach(pg => result.ProductGroups.Add(new LookupListItem(pg.Id, pg.Description)));
+
+            result.Breadcrumbs.Add(new BreadcrumbItem(LanguageStrings.SystemAdmin, "/SystemAdmin/Index", false));
+            result.Breadcrumbs.Add(new BreadcrumbItem(LanguageStrings.AppProductsAdministration, "/ProductAdmin/Index/", false));
+            result.Breadcrumbs.Add(new BreadcrumbItem(LanguageStrings.AppMenuNewProduct, $"/ProductAdmin/EditProduct/-1", false));
+
+
+            return result;
+        }
+
         private EditProductModel CreateEditProductModel(Product product, int pageNumber)
         {
             List<LookupListItem> productGroups = new List<LookupListItem>();
@@ -218,6 +390,8 @@ namespace ProductPlugin.Controllers
                 product.Name, product.Description, product.Features, product.VideoLink, product.NewProduct,
                 product.BestSeller, product.RetailPrice, product.Sku, product.IsDownload, product.AllowBackorder,
                 pageNumber);
+
+            result.Breadcrumbs.Add(new BreadcrumbItem(LanguageStrings.SystemAdmin, "/SystemAdmin/Index", false));
 
             if (pageNumber > 1)
                 result.Breadcrumbs.Add(new BreadcrumbItem(LanguageStrings.AppProductsAdministration, $"/ProductAdmin/Page/{pageNumber}/", false));
@@ -241,6 +415,8 @@ namespace ProductPlugin.Controllers
                 model.BestSeller, model.RetailPrice, model.Sku, model.IsDownload, model.AllowBackorder,
                 model.PageNumber);
 
+            result.Breadcrumbs.Add(new BreadcrumbItem(LanguageStrings.SystemAdmin, "/SystemAdmin/Index", false));
+
             if (model.PageNumber > 1)
                 result.Breadcrumbs.Add(new BreadcrumbItem(LanguageStrings.AppProductsAdministration, $"/ProductAdmin/Page/{model.PageNumber}/", false));
             else
@@ -250,6 +426,8 @@ namespace ProductPlugin.Controllers
 
             return result;
         }
+
+        #endregion Private Methods
     }
 }
 

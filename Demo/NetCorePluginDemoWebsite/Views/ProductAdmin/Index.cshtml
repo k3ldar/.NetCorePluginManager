@@ -54,7 +54,7 @@ foreach (ProductPlugin.Models.ProductListModel customPage in Model.Items)
 }
 <div class="row">
 <div class="col-sm-12">
-@using (Html.BeginForm(nameof(ProductPlugin.Controllers.ProductAdminController.NewProduct), ProductPlugin.Controllers.ProductAdminController.Name, FormMethod.Post))
+@using (Html.BeginForm(nameof(ProductPlugin.Controllers.ProductAdminController.NewProduct), ProductPlugin.Controllers.ProductAdminController.Name, FormMethod.Get))
 {
 <div class="row" style="margin:15px 0 8px 0;">
 <div class="col-sm-12">

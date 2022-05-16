@@ -56,15 +56,22 @@ namespace Middleware
         /// </summary>
         /// <param name="id">id of product group being saved if an existing product group, otherwise -1 for a new group</param>
         /// <param name="description">Description of product group</param>
-        /// <param name="seoDescription">Seo Description for group</param>
         /// <param name="showOnWebsite">Indicates whether the group is shown on a website or not</param>
         /// <param name="sortOrder">Sort order for product group relative to other groups</param>
         /// <param name="tagLine">Tagline for product group, usually displayed at the top of the page, if set</param>
         /// <param name="url">Specific url for product group, if available</param>
         /// <param name="errorMessage">Error message when saving the group, if the result is false</param>
         /// <returns>bool</returns>
-        bool ProductGroupSave(in int id, in string description, in string seoDescription, in bool showOnWebsite,
+        bool ProductGroupSave(in int id, in string description, in bool showOnWebsite,
             in int sortOrder, in string tagLine, in string url, out string errorMessage);
+
+        /// <summary>
+        /// Deletes a product group
+        /// </summary>
+        /// <param name="id">Id of product group to be deleted</param>
+        /// <param name="errorMessage">error message if delete fails</param>
+        /// <returns>bool</returns>
+        bool ProductGroupDelete(in int id, out string errorMessage);
 
         #endregion Product Groups
 
@@ -124,6 +131,7 @@ namespace Middleware
         /// 
         /// </summary>
         /// <param name="id"></param>
+        /// <param name="errorMessage"></param>
         /// <returns></returns>
         bool ProductDelete(in int id, out string errorMessage);
 

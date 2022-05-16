@@ -1980,13 +1980,12 @@
             Displays information for a product group within a website.
             </summary>
         </member>
-        <member name="M:Middleware.Products.ProductGroup.#ctor(System.Int32@,System.String@,System.String@,System.Boolean@,System.Int32@,System.String@,System.String@)">
+        <member name="M:Middleware.Products.ProductGroup.#ctor(System.Int32@,System.String@,System.Boolean@,System.Int32@,System.String@,System.String@)">
             <summary>
             Constructor
             </summary>
             <param name="id">Unique id of product group.</param>
             <param name="description">Description for Product Group.</param>
-            <param name="seoDescription">Soe Description for Product Group.</param>
             <param name="showOnWebsite">Determines whether the product group is visible on the website or not.</param>
             <param name="sortOrder">Sort order in comparison to other product groups.</param>
             <param name="tagLine">Tag line displayed at the top of the page when thr group is shown.</param>
@@ -2001,12 +2000,6 @@
         <member name="P:Middleware.Products.ProductGroup.Description">
             <summary>
             Description for Product Group.
-            </summary>
-            <value>string</value>
-        </member>
-        <member name="P:Middleware.Products.ProductGroup.SeoDescripton">
-            <summary>
-            Soe Description for Product Group.
             </summary>
             <value>string</value>
         </member>
@@ -3526,18 +3519,25 @@
             <param name="id">Id of product group to retrieve.</param>
             <returns>ProductGroup</returns>
         </member>
-        <member name="M:Middleware.IProductProvider.ProductGroupSave(System.Int32@,System.String@,System.String@,System.Boolean@,System.Int32@,System.String@,System.String@,System.String@)">
+        <member name="M:Middleware.IProductProvider.ProductGroupSave(System.Int32@,System.String@,System.Boolean@,System.Int32@,System.String@,System.String@,System.String@)">
             <summary>
             Saves changes to a an existing product group or creates a new product group
             </summary>
             <param name="id">id of product group being saved if an existing product group, otherwise -1 for a new group</param>
             <param name="description">Description of product group</param>
-            <param name="seoDescription">Seo Description for group</param>
             <param name="showOnWebsite">Indicates whether the group is shown on a website or not</param>
             <param name="sortOrder">Sort order for product group relative to other groups</param>
             <param name="tagLine">Tagline for product group, usually displayed at the top of the page, if set</param>
             <param name="url">Specific url for product group, if available</param>
             <param name="errorMessage">Error message when saving the group, if the result is false</param>
+            <returns>bool</returns>
+        </member>
+        <member name="M:Middleware.IProductProvider.ProductGroupDelete(System.Int32@,System.String@)">
+            <summary>
+            Deletes a product group
+            </summary>
+            <param name="id">Id of product group to be deleted</param>
+            <param name="errorMessage">error message if delete fails</param>
             <returns>bool</returns>
         </member>
         <member name="M:Middleware.IProductProvider.GetProducts(System.Int32@,System.Int32@)">
@@ -3593,6 +3593,7 @@
             
             </summary>
             <param name="id"></param>
+            <param name="errorMessage"></param>
             <returns></returns>
         </member>
         <member name="T:Middleware.ISearchKeywordProvider">
