@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>ResourcesPlugin</name>
+    </assembly>
+    <members>
+        <member name="T:ResourcesPlugin.ResourcesControllerSettings">
+            <summary>
+            Settings that determine how the ResourcesPlugin module is configured and used.
+            </summary>
+        </member>
+        <member name="P:ResourcesPlugin.ResourcesControllerSettings.ItemsPerPage">
+            <summary>
+            Total number of results per page
+            </summary>
+        </member>
+        <member name="T:ResourcesPlugin.Controllers.ResourcesController">
+            <summary>
+            Resources plugin controller, allows users to view resources.
+            </summary>
+        </member>
+        <member name="T:ResourcesPlugin.PluginInitialisation">
+            <summary>
+            Implements IPlugin and IPluginVersion which allows the Search.Plugin module to be
+            loaded as a plugin module
+            </summary>
+        </member>
+    </members>
+</doc>

@@ -1,0 +1,105 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFrameworks>net6.0;net5.0;netcoreapp3.1</TargetFrameworks>
+    <RazorCompileOnBuild>false</RazorCompileOnBuild>
+    <RazorCompileOnPublish>true</RazorCompileOnPublish>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <AssemblyName>ResourcesPlugin</AssemblyName>
+    <RootNamespace>ResourcesPlugin</RootNamespace>
+    <TypeScriptToolsVersion>3.0</TypeScriptToolsVersion>
+    <IsPackable>true</IsPackable>
+    <PackageIconUrl></PackageIconUrl>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <DefineConstants>$(DefineConstants)</DefineConstants>
+    <CheckForOverflowUnderflow>$(CheckForOverflowUnderflow)</CheckForOverflowUnderflow>
+    <DebugType>$(DebugType)</DebugType>
+    <DebugSymbols>$(DebugSymbols)</DebugSymbols>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <Description>$(Description) Provide resources for users to view.</Description>
+    <Version>$(Version)</Version>
+    <LangVersion>$(LangVersion)</LangVersion>
+    <Authors>$(Authors)</Authors>
+    <Company>$(Company)</Company>
+    <Copyright>$(Copyright)</Copyright>
+    <RepositoryUrl>$(RepositoryUrl)</RepositoryUrl>
+    <RepositoryType>$(RepositoryType)</RepositoryType>
+    <PackageTags>$(PackageTags) error manager</PackageTags>
+    <PackageProjectUrl>$(PackageProjectUrl)</PackageProjectUrl>
+    <PackageLicenseExpression>$(PackageLicenseExpression)</PackageLicenseExpression>
+    <PackageReleaseNotes>$(PackageReleaseNotes)</PackageReleaseNotes>
+    <PackageTags>$(PackageTags)</PackageTags>
+    <RunAnalyzersDuringBuild>$(RunAnalyzersDuringBuild)</RunAnalyzersDuringBuild>
+    <NoWarn>$(NoWarn)</NoWarn>
+    <SignAssembly>$(SignAssembly)</SignAssembly>
+    <AssemblyOriginatorKeyFile>$(AssemblyOriginatorKeyFile)</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(TargetFramework)'=='net6.0'">
+    <DocumentationFile>..\..\Docs\XmlFiles\ResourcesPlugin.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Remove="wwwroot\css\Resources.css" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="wwwroot\css\Resources.css" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Classes\SystemAdmin\" />
+    <Folder Include="Models\" />
+    <Folder Include="Views\" />
+    <Folder Include="wwwroot\images\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="ApplicationSettings" Version="2.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
+      <_Parameter1>AspNetCore.PluginManager.Tests</_Parameter1>
+    </AssemblyAttribute>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\NetCorePluginManager\AspNetCore.PluginManager.csproj" />
+    <ProjectReference Include="..\..\SharedPluginFeatures\SharedPluginFeatures.csproj" />
+    <ProjectReference Include="..\MemoryCachePlugin\MemoryCachePlugin.csproj" />
+    <ProjectReference Include="..\RestrictIp.Plugin\RestrictIp.Plugin.csproj" />
+    <ProjectReference Include="..\PluginMiddleware\PluginMiddleware.csproj" />
+    <ProjectReference Include="..\..\Languages\Languages.csproj" />
+    <ProjectReference Include="..\..\PluginManager\src\PluginManager.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="6.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="6.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.CommandLine" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="6.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Localization" Version="6.0.3" />
+    <PackageReference Include="Microsoft.Extensions.Localization.Abstractions" Version="6.0.3" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="6.0.1" />
+    <PackageReference Include="Microsoft.Extensions.ObjectPool" Version="6.0.3" />
+    <PackageReference Include="Microsoft.Extensions.Options" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Primitives" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Extensions.WebEncoders" Version="6.0.3" />
+    <PackageReference Include="Microsoft.Net.Http.Headers" Version="2.2.8" />
+  </ItemGroup>
+
+</Project>

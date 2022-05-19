@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.28729.10
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32414.318
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AspNetCore.PluginManager", "NetCorePluginManager\AspNetCore.PluginManager.csproj", "{59FE93CB-B341-48E0-B161-6DDC79967ABD}"
 EndProject
@@ -85,6 +85,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DynamicContent.Plugin", "Plugins\DynamicContent.Plugin\DynamicContent.Plugin.csproj", "{8D931063-F3A2-45B1-85D4-5E1424D1A3A6}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApiAuthorization.Plugin", "Plugins\ApiAuthorization.Plugin\ApiAuthorization.Plugin.csproj", "{4C85A576-FC13-4CA0-B7DA-EF23A4EC5F90}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ResourcesPlugin", "Plugins\ResourcesPlugin\ResourcesPlugin.csproj", "{82179C93-9A5F-45C0-9F12-32485868360A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -248,6 +250,10 @@ Global
 		{4C85A576-FC13-4CA0-B7DA-EF23A4EC5F90}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4C85A576-FC13-4CA0-B7DA-EF23A4EC5F90}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4C85A576-FC13-4CA0-B7DA-EF23A4EC5F90}.Release|Any CPU.Build.0 = Release|Any CPU
+		{82179C93-9A5F-45C0-9F12-32485868360A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{82179C93-9A5F-45C0-9F12-32485868360A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{82179C93-9A5F-45C0-9F12-32485868360A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{82179C93-9A5F-45C0-9F12-32485868360A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
