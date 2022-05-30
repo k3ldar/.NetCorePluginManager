@@ -15,12 +15,12 @@
  *
  *  Product:  PluginManager.DAL.TextFiles
  *  
- *  File: TableAttribute.cs
+ *  File: BaseRow.cs
  *
- *  Purpose:  TableAttribute for text based storage
+ *  Purpose:  Base table
  *
  *  Date        Name                Reason
- *  23/05/2022  Simon Carter        Initially Created
+ *  25/05/2022  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
@@ -31,26 +31,33 @@ using System.Threading.Tasks;
 
 namespace PluginManager.DAL.TextFiles
 {
-    [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = false)]
-    public class TableAttribute : Attribute
+    /// <summary>
+    /// Base class for all table types
+    /// </summary>
+    public abstract class BaseRow
     {
-        public TableAttribute(string tableName, CompressionType compression = CompressionType.None)
-        {
-            if (String.IsNullOrEmpty(tableName))
-                throw new ArgumentNullException(nameof(tableName));
+        private long _id;
 
-            foreach (char c in System.IO.Path.GetInvalidFileNameChars())
+        /// <summary>
+        /// Unique id of the record
+        /// </summary>
+        /// <value>long</value>
+        public long Id
+        { 
+            get => _id;
+
+            set
             {
-                if (tableName.Contains(c))
-                    throw new ArgumentException($"Tablename contains invalid character: {c}", nameof(tableName));
-            }
+                if (ImmutableId)
+                    throw new InvalidOperationException();
 
-            TableName = tableName;
-            Compression = compression;
+                _id = value;
+            }
         }
 
-        public string TableName { get; }
-
-        public CompressionType Compression { get; }
+        /// <summary>
+        /// Indicates whether the row has been marked for delete or not
+        /// </summary>
+        internal bool ImmutableId { get; set; } = false;
     }
 }

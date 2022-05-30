@@ -55,7 +55,7 @@ namespace PluginManager.DAL.TextFiles.Internal
     /// </summary>
     /// <typeparam name="T"></typeparam>
     internal sealed class TextReaderWriter<T> : ITextReaderWriter<T>
-        where T : BaseTable
+        where T : BaseRow
     {
         #region Constants
 
@@ -66,10 +66,11 @@ namespace PluginManager.DAL.TextFiles.Internal
         private const byte CompressionBrotli = 1;
         private const int RowCount = 0;
         private const int DefaultLength = 0;
-        private const int TotalHeaderLength = HeaderLength + sizeof(ushort) + sizeof(int) + sizeof(int) + sizeof(long) + (sizeof(int) * 4) + sizeof(byte);
+        private const int TotalHeaderLength = sizeof(ushort) + HeaderLength + sizeof(long) + (sizeof(int) * 4) + sizeof(byte) + sizeof(int) + sizeof(int) + sizeof(int);
         private const int SequenceStart = HeaderLength + sizeof(ushort);
-        private const int StartOfRecordCount = TotalHeaderLength - (sizeof(int) * 3);
+        private const int StartOfRecordCount = TotalHeaderLength - ((sizeof(int) * 3) + sizeof(byte));
         private const int HeaderLength = 13;
+        private const int DefaultSequenceIncrement = 1;
 
         #endregion Constants
 
@@ -79,14 +80,11 @@ namespace PluginManager.DAL.TextFiles.Internal
         private bool _disposed;
         private int _recordCount = 0;
         private int _dataLength = 0;
+        private byte _fragmentedPercent = 0;
         private CompressionType _compressionAlgorithm = CompressionNone;
         private long _sequence = -1;
         private readonly object _lockObject = new object();
         private readonly TableAttribute _tableAttributes;
-
-        public int DataLength => _dataLength;
-
-        public int RecordCount => _recordCount;
 
         #region Constructors / Destructors
 
@@ -112,6 +110,8 @@ namespace PluginManager.DAL.TextFiles.Internal
             {
                 _fileStream.Dispose();
                 _fileStream = null;
+
+                throw;
             }
         }
 
@@ -124,20 +124,36 @@ namespace PluginManager.DAL.TextFiles.Internal
 
         #region ITextReaderWriter<T>
 
-        public List<T> Read()
+        #region Properties
+
+        public int DataLength => _dataLength;
+
+        public int RecordCount => _recordCount;
+
+        public long Sequence => _sequence;
+
+        #endregion Properties
+
+        public IReadOnlyList<T> Select()
         {
             if (_disposed)
                 throw new ObjectDisposedException(nameof(TextReaderWriter<T>));
 
             using (TimedLock timedLock = TimedLock.Lock(_lockObject))
             {
-                return InternalReadAllRecords();
+                return InternalReadAllRecords().AsReadOnly();
             }
         }
 
-        #region Saving
+        public T Select(long id)
+        {
+            if (_disposed)
+                throw new ObjectDisposedException(nameof(TextReaderWriter<T>));
 
-        public void Save(List<T> records)
+            return InternalReadAllRecords().Where(r => r.Id.Equals(id)).FirstOrDefault();
+        }
+
+        public void Insert(List<T> records)
         {
             if (_disposed)
                 throw new ObjectDisposedException(nameof(TextReaderWriter<T>));
@@ -145,28 +161,32 @@ namespace PluginManager.DAL.TextFiles.Internal
             if (records == null)
                 throw new ArgumentNullException(nameof(records));
 
-            using (TimedLock timedLock = TimedLock.Lock(_lockObject))
-            {
-                InternalSaveAllRecords(records);
-            }
+            if (records.Count == 0)
+                throw new ArgumentException("Does not contain any records", nameof(records));
+
+            InternalInsertRecords(records);
         }
 
-        #endregion Saving 
-
-        #region CRUD
-
-        public void Create(T record)
+        public void Insert(T record)
         {
             if (_disposed)
                 throw new ObjectDisposedException(nameof(TextReaderWriter<T>));
 
-            using (TimedLock timedLock = TimedLock.Lock(_lockObject))
-            {
-                using BinaryWriter writer = new BinaryWriter(_fileStream, Encoding.UTF8, true);
-                writer.Seek(SequenceStart, SeekOrigin.Begin);
-                _fileStream.Flush();
-            }
-            throw new NotImplementedException();
+            if (record == null)
+                throw new ArgumentNullException(nameof(record));
+
+            InternalInsertRecords(new List<T> { record });
+        }
+
+        public void Delete(List<T> records)
+        {
+            if (_disposed)
+                throw new ObjectDisposedException(nameof(TextReaderWriter<T>));
+
+            if (records == null)
+                throw new ArgumentNullException(nameof(records));
+
+            InternalDeleteRecords(records);
         }
 
         public void Delete(T record)
@@ -174,16 +194,33 @@ namespace PluginManager.DAL.TextFiles.Internal
             if (_disposed)
                 throw new ObjectDisposedException(nameof(TextReaderWriter<T>));
 
-            using (TimedLock timedLock = TimedLock.Lock(_lockObject))
-            {
-                using BinaryWriter writer = new BinaryWriter(_fileStream, Encoding.UTF8, true);
-                writer.Seek(SequenceStart, SeekOrigin.Begin);
-                _fileStream.Flush();
-            }
-            throw new NotImplementedException();
+            if (record == null)
+                throw new ArgumentNullException(nameof(record));
+
+            InternalDeleteRecords(new List<T>() { record });
         }
 
-        #endregion CRUD
+        public void Update(List<T> records)
+        {
+            if (_disposed)
+                throw new ObjectDisposedException(nameof(TextReaderWriter<T>));
+
+            if (records == null)
+                throw new ArgumentNullException(nameof(records));
+
+            InternalUpdateRecords(records);
+        }
+
+        public void Update(T record)
+        {
+            if (_disposed)
+                throw new ObjectDisposedException(nameof(TextReaderWriter<T>));
+
+            if (record == null)
+                throw new ArgumentNullException(nameof(record));
+
+            InternalUpdateRecords(new List<T>() { record });
+        }
 
         #region Sequences
 
@@ -192,14 +229,15 @@ namespace PluginManager.DAL.TextFiles.Internal
             if (_disposed)
                 throw new ObjectDisposedException(nameof(TextReaderWriter<T>));
 
-            using (TimedLock timedLock = TimedLock.Lock(_lockObject))
-            {
-                using BinaryWriter writer = new BinaryWriter(_fileStream, Encoding.UTF8, true);
-                writer.Seek(SequenceStart, SeekOrigin.Begin);
-                writer.Write(++_sequence);
-                _fileStream.Flush();
-                return _sequence;
-            }
+            return NextSequence(DefaultSequenceIncrement);
+        }
+
+        public long NextSequence(long increment)
+        {
+            if (_disposed)
+                throw new ObjectDisposedException(nameof(TextReaderWriter<T>));
+
+            return InternalNextSequence(increment);
         }
 
         public void ResetSequence(long sequence)
@@ -212,7 +250,7 @@ namespace PluginManager.DAL.TextFiles.Internal
                 using BinaryWriter writer = new BinaryWriter(_fileStream, Encoding.UTF8, true);
                 writer.Seek(SequenceStart, SeekOrigin.Begin);
                 writer.Write(sequence);
-                _fileStream.Flush();
+                _fileStream.Flush(true);
             }
         }
 
@@ -231,17 +269,37 @@ namespace PluginManager.DAL.TextFiles.Internal
 
         #region Private Methods
 
+        private long InternalNextSequence(long increment)
+        {
+
+            using (TimedLock timedLock = TimedLock.Lock(_lockObject))
+            {
+                using BinaryWriter writer = new BinaryWriter(_fileStream, Encoding.UTF8, true);
+                writer.Seek(SequenceStart, SeekOrigin.Begin);
+                _sequence += increment;
+                writer.Write(_sequence);
+                _fileStream.Flush(true);
+                return _sequence;
+            }
+        }
+
         private List<T> InternalReadAllRecords()
         {
             using BinaryReader reader = new BinaryReader(_fileStream, Encoding.UTF8, true);
-            _fileStream.Position = StartOfRecordCount;
+            _fileStream.Seek(StartOfRecordCount, SeekOrigin.Begin);
+            CompressionType compressionType = (CompressionType)reader.ReadByte();
             int recordsCount = reader.ReadInt32();
             int uncompressedSize = reader.ReadInt32();
             int dataLength = reader.ReadInt32();
             byte[] data = new byte[dataLength];
             data = reader.ReadBytes(dataLength);
 
-            if (_tableAttributes.Compression == CompressionType.Brotli)
+            if (dataLength == 0)
+                return new List<T>();
+
+            List<T> Result = null;
+
+            if (compressionType == CompressionType.Brotli)
             {
                 byte[] uncompressed = new byte[uncompressedSize];
                 System.IO.Compression.BrotliDecoder.TryDecompress(data, uncompressed, out int byteLength);
@@ -249,40 +307,118 @@ namespace PluginManager.DAL.TextFiles.Internal
                 if (byteLength != uncompressedSize)
                     throw new InvalidDataException();
 
-                return JsonSerializer.Deserialize<List<T>>(uncompressed, _jsonSerializerOptions);
+                Result = JsonSerializer.Deserialize<List<T>>(uncompressed, _jsonSerializerOptions);
+            }
+            else
+            {
+                Result = JsonSerializer.Deserialize<List<T>>(data, _jsonSerializerOptions);
             }
 
-            return JsonSerializer.Deserialize<List<T>>(data, _jsonSerializerOptions);
+            Result.ForEach(r => r.ImmutableId = true);
+
+            return Result;
         }
 
-        private void InternalSaveAllRecords(List<T> records)
+        private void InternalUpdateRecords(List<T> records)
         {
-            byte[] data = JsonSerializer.SerializeToUtf8Bytes(records, records.GetType(), _jsonSerializerOptions);
+            using (TimedLock timedLock = TimedLock.Lock(_lockObject))
+            {
+                List<T> existingRecords = InternalReadAllRecords();
+
+                foreach (T record in records)
+                {
+                    for (int i = existingRecords.Count - 1; i >= 0; i--)
+                    {
+                        if (existingRecords[i].Id.Equals(record.Id))
+                        {
+                            existingRecords[i] = record;
+                            break;
+                        }
+
+                    }
+                }
+
+                InternalSaveRecordsToDisk(existingRecords);
+            }
+        }
+
+        private void InternalSaveRecordsToDisk(List<T> recordsToSave)
+        {
+            byte[] data = JsonSerializer.SerializeToUtf8Bytes(recordsToSave, recordsToSave.GetType(), _jsonSerializerOptions);
             byte[] compressedData = new byte[data.Length];
             int dataLength = data.Length;
             bool isCompressed = false;
+            CompressionType compressionType = CompressionType.None;
 
             if (_tableAttributes.Compression == CompressionType.Brotli)
             {
                 isCompressed = System.IO.Compression.BrotliEncoder.TryCompress(data, compressedData, out dataLength);
+
+                if (isCompressed)
+                    compressionType = CompressionType.Brotli;
             }
 
             using BinaryWriter writer = new BinaryWriter(_fileStream, Encoding.UTF8, true);
             writer.Seek(StartOfRecordCount, SeekOrigin.Begin);
-            writer.Write(records.Count);
+            writer.Write((byte)compressionType);
+            writer.Write(recordsToSave.Count);
             writer.Write(data.Length);
-            writer.Write(dataLength);
 
             if (isCompressed)
             {
+                writer.Write(dataLength);
                 writer.Write(compressedData, 0, dataLength);
             }
             else
             {
+                writer.Write(data.Length);
                 writer.Write(data);
             }
 
-            _fileStream.Flush();
+
+            _fragmentedPercent = (byte)(100 - Shared.Utilities.Percentage(_fileStream.Length, _fileStream.Position));
+
+            _fileStream.Flush(true);
+        }
+
+        private void InternalDeleteRecords(List<T> records)
+        {
+            using (TimedLock timedLock = TimedLock.Lock(_lockObject))
+            {
+
+                List<T> existingRecords = InternalReadAllRecords();
+
+                foreach (T record in records)
+                {
+                    for (int i = existingRecords.Count -1; i >= 0; i--)
+                    {
+                        if (existingRecords[i].Id.Equals(record.Id))
+                        { 
+                            existingRecords.RemoveAt(i);
+                            break;
+                        }
+                            
+                    }
+                }
+
+                InternalSaveRecordsToDisk(existingRecords);
+            }
+        }
+
+        private void InternalInsertRecords(List<T> records)
+        {
+            using (TimedLock timedLock = TimedLock.Lock(_lockObject))
+            {
+                long nextSequence = Sequence + 1;
+                _ = NextSequence(records.Count);
+
+                records.ForEach(r => r.Id = nextSequence++);
+
+                List<T> existingRecords = InternalReadAllRecords();
+                existingRecords.AddRange(records);
+
+                InternalSaveRecordsToDisk(existingRecords);
+            }
         }
 
         private TableAttribute GetTableAttributes()
@@ -302,7 +438,7 @@ namespace PluginManager.DAL.TextFiles.Internal
 
             if (_fileStream != null)
             {
-                _fileStream.Flush();
+                _fileStream.Flush(true);
                 _fileStream.Close();
                 _fileStream.Dispose();
             }
@@ -337,8 +473,8 @@ namespace PluginManager.DAL.TextFiles.Internal
             _ = reader.ReadInt32();
             _dataLength = reader.ReadInt32();
 
-            if (_fileStream.Length - TotalHeaderLength != _dataLength)
-                throw new InvalidDataException();
+            _fragmentedPercent = (byte)(100 - Shared.Utilities.Percentage(_fileStream.Length, _fileStream.Position));
+
         }
 
         private string ValidateTableName(string path, string name)

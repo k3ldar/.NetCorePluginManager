@@ -13,33 +13,38 @@
  *
  *  Copyright (c) 2018 - 2022 Simon Carter.  All Rights Reserved.
  *
- *  Product:  PluginManager.DAL.TextFiles
+ *  Product:  PluginManager.DAL.TextFiles.Tests
  *  
- *  File: BaseTable.cs
+ *  File: MockRowCompressed.cs
  *
- *  Purpose:  Base table
+ *  Purpose:  MockRowCompressed for text based storage
  *
  *  Date        Name                Reason
- *  25/05/2022  Simon Carter        Initially Created
+ *  23/05/2022  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PluginManager.DAL.TextFiles
+namespace PluginManager.DAL.TextFiles.Tests
 {
-    /// <summary>
-    /// Base class for all table types
-    /// </summary>
-    public abstract class BaseTable
+    [ExcludeFromCodeCoverage]
+    [Table("MockTable", CompressionType.Brotli)]
+    public class MockRowCompressed : BaseRow
     {
-        /// <summary>
-        /// Unique id of the record
-        /// </summary>
-        /// <value>long</value>
-        public long Id { get; internal set; }
+        public MockRowCompressed()
+        {
+
+        }
+
+        public MockRowCompressed(int id)
+            : this()
+        {
+            Id = id;
+        }
     }
 }

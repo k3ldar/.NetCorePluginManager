@@ -13,11 +13,11 @@
  *
  *  Copyright (c) 2018 - 2022 Simon Carter.  All Rights Reserved.
  *
- *  Product:  PluginManager.DAL.TextFiles
+ *  Product:  PluginManager.DAL.TextFiles.Tests
  *  
- *  File: TableAttribute.cs
+ *  File: MockRow.cs
  *
- *  Purpose:  TableAttribute for text based storage
+ *  Purpose:  MockRow for text based storage
  *
  *  Date        Name                Reason
  *  23/05/2022  Simon Carter        Initially Created
@@ -25,32 +25,26 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PluginManager.DAL.TextFiles
+namespace PluginManager.DAL.TextFiles.Tests
 {
-    [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = false)]
-    public class TableAttribute : Attribute
+    [ExcludeFromCodeCoverage]
+    [Table("MockTable")]
+    internal class MockRow : BaseRow
     {
-        public TableAttribute(string tableName, CompressionType compression = CompressionType.None)
+        public MockRow()
         {
-            if (String.IsNullOrEmpty(tableName))
-                throw new ArgumentNullException(nameof(tableName));
 
-            foreach (char c in System.IO.Path.GetInvalidFileNameChars())
-            {
-                if (tableName.Contains(c))
-                    throw new ArgumentException($"Tablename contains invalid character: {c}", nameof(tableName));
-            }
-
-            TableName = tableName;
-            Compression = compression;
         }
 
-        public string TableName { get; }
-
-        public CompressionType Compression { get; }
+        public MockRow(int id)
+            : this()
+        {
+            Id = id;
+        }
     }
 }

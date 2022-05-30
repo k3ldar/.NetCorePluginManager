@@ -1,4 +1,29 @@
-﻿using System;
+﻿/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ *  .Net Core Plugin Manager is distributed under the GNU General Public License version 3 and  
+ *  is also available under alternative licenses negotiated directly with Simon Carter.  
+ *  If you obtained Service Manager under the GPL, then the GPL applies to all loadable 
+ *  Service Manager modules used on your system as well. The GPL (version 3) is 
+ *  available at https://opensource.org/licenses/GPL-3.0
+ *
+ *  This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ *  without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ *  See the GNU General Public License for more details.
+ *
+ *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
+ *
+ *  Copyright (c) 2018 - 2022 Simon Carter.  All Rights Reserved.
+ *
+ *  Product:  PluginManager.DAL.TextFiles
+ *  
+ *  File: ITextReaderWriter.cs
+ *
+ *  Purpose:  ITextReaderWriter<T> for text based storage
+ *
+ *  Date        Name                Reason
+ *  23/05/2022  Simon Carter        Initially Created
+ *
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,21 +32,34 @@ using System.Threading.Tasks;
 namespace PluginManager.DAL.TextFiles.Interfaces
 {
     public interface ITextReaderWriter<T> : IDisposable
-        where T : BaseTable
+        where T : BaseRow
     {
-        List<T> Read();
+        IReadOnlyList<T> Select();
 
         /// <summary>
-        /// Saves all records, this overwrites existing data
+        /// Selects a single item based on unique id
         /// </summary>
-        /// <param name="records">List of records to save</param>
-        void Save(List<T> records);
+        /// <param name="id"></param>
+        /// <returns></returns>
+        T Select(long id);
 
         /// <summary>
-        /// Saves a specific record to disk, this is added to the list of records already saved
+        /// Batch inserts multiple new records
         /// </summary>
-        /// <param name="record"></param>
-        void Create(T record);
+        /// <param name="records">List of records to batch insert</param>
+        void Insert(List<T> records);
+
+        /// <summary>
+        /// Inserts a single new record
+        /// </summary>
+        /// <param name="record">Record to insert</param>
+        void Insert(T record);
+
+        /// <summary>
+        /// Removes a batch of records
+        /// </summary>
+        /// <param name="records"></param>
+        void Delete(List<T> records);
 
         /// <summary>
         /// Removes a specific record
@@ -30,20 +68,47 @@ namespace PluginManager.DAL.TextFiles.Interfaces
         void Delete(T record);
 
         /// <summary>
+        /// Updates a batch of records
+        /// </summary>
+        /// <param name="records"></param>
+        void Update(List<T> records);
+
+        /// <summary>
+        /// Updates a specific record
+        /// </summary>
+        /// <param name="record"></param>
+        void Update(T record);
+
+        /// <summary>
         /// Length of the data stored on disk
         /// </summary>
+        /// <value>int</value>
         public int DataLength { get; }
 
         /// <summary>
         /// Number of records stored on disk
         /// </summary>
+        /// <value>int</value>
         public int RecordCount { get; }
+
+        /// <summary>
+        /// Retrieves the current sequence
+        /// </summary>
+        /// <value>long</value>
+        public long Sequence { get; }
 
         /// <summary>
         /// Retrieves the next unique number in sequence
         /// </summary>
         /// <returns>long</returns>
         public long NextSequence();
+
+        /// <summary>
+        /// Retrieves the next sequence, incremented by increment
+        /// </summary>
+        /// <param name="increment">, number to increment by</param>
+        /// <returns>long</returns>
+        public long NextSequence(long increment);
 
         /// <summary>
         /// Resets the sequence to a specific number
