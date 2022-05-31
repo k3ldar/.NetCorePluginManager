@@ -101,6 +101,17 @@ namespace PluginManager.DAL.TextFiles.Tests
             TableAttribute sut = new TableAttribute("table", CompressionType.Brotli);
             Assert.IsNotNull(sut);
             Assert.AreEqual(CompressionType.Brotli, sut.Compression);
+            Assert.AreEqual(CachingStrategy.None, sut.CachingStrategy);
+            Assert.AreEqual("table", sut.TableName);
+        }
+
+        [TestMethod]
+        public void Construct_ValidInstance_WithMemoryCachingStrategy_success()
+        {
+            TableAttribute sut = new TableAttribute("table", CompressionType.Brotli, CachingStrategy.Memory);
+            Assert.IsNotNull(sut);
+            Assert.AreEqual(CompressionType.Brotli, sut.Compression);
+            Assert.AreEqual(CachingStrategy.Memory, sut.CachingStrategy);
             Assert.AreEqual("table", sut.TableName);
         }
     }

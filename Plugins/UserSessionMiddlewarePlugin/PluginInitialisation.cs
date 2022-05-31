@@ -97,6 +97,7 @@ namespace UserSessionMiddleware.Plugin
         }
 
         #endregion IPlugin Methods
+
         #region IInitialiseEvents Methods
 
         public void AfterConfigure(in IApplicationBuilder app)

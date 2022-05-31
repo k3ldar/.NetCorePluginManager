@@ -13,14 +13,14 @@
  *
  *  Copyright (c) 2018 - 2022 Simon Carter.  All Rights Reserved.
  *
- *  Product:  PluginManager.DAL.TextFiles
+ *  Product:  PluginManager.DAL.TextFiles.Tests
  *  
- *  File: Enums.cs
+ *  File: ITextTable.cs
  *
- *  Purpose:  Enums for text based storage
+ *  Purpose:  ITextTable interface for text based storage
  *
  *  Date        Name                Reason
- *  23/05/2022  Simon Carter        Initially Created
+ *  31/05/2022  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
@@ -31,35 +31,8 @@ using System.Threading.Tasks;
 
 namespace PluginManager.DAL.TextFiles
 {
-    /// <summary>
-    /// Type of compression to use when reading/writing data from disk
-    /// </summary>
-    public enum CompressionType : byte
+    public interface ITextTable
     {
-        /// <summary>
-        /// Data is not compressed
-        /// </summary>
-        None = 0,
-
-        /// <summary>
-        /// Data is compressed using Brotli
-        /// </summary>
-        Brotli = 1
-    }
-
-    /// <summary>
-    /// Cache strategy to use 
-    /// </summary>
-    public enum CachingStrategy : byte
-    {
-        /// <summary>
-        /// Records are read from storage on demand
-        /// </summary>
-        None = 0,
-
-        /// <summary>
-        /// Records are held in memory to speed up retrieval
-        /// </summary>
-        Memory = 1,
+        string TableName { get; }
     }
 }

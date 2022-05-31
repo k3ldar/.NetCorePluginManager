@@ -34,7 +34,7 @@ namespace PluginManager.DAL.TextFiles
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = false)]
     public class TableAttribute : Attribute
     {
-        public TableAttribute(string tableName, CompressionType compression = CompressionType.None)
+        public TableAttribute(string tableName, CompressionType compression = CompressionType.None, CachingStrategy cachingStrategy = CachingStrategy.None)
         {
             if (String.IsNullOrEmpty(tableName))
                 throw new ArgumentNullException(nameof(tableName));
@@ -47,10 +47,13 @@ namespace PluginManager.DAL.TextFiles
 
             TableName = tableName;
             Compression = compression;
+            CachingStrategy = cachingStrategy;
         }
 
         public string TableName { get; }
 
         public CompressionType Compression { get; }
+
+        public CachingStrategy CachingStrategy { get; }
     }
 }

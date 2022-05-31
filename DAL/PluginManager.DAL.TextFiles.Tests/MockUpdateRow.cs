@@ -33,7 +33,7 @@ using System.Threading.Tasks;
 namespace PluginManager.DAL.TextFiles.Tests
 {
     [ExcludeFromCodeCoverage]
-    [Table("MockUpdateTable")]
+    [Table("MockUpdateTable", cachingStrategy: CachingStrategy.Memory)]
     internal class MockUpdateRow : BaseRow
     {
         public MockUpdateRow()

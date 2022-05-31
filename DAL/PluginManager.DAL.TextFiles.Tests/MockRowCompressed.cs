@@ -33,7 +33,7 @@ using System.Threading.Tasks;
 namespace PluginManager.DAL.TextFiles.Tests
 {
     [ExcludeFromCodeCoverage]
-    [Table("MockTable", CompressionType.Brotli)]
+    [Table("MockTable", CompressionType.Brotli, cachingStrategy: CachingStrategy.Memory)]
     public class MockRowCompressed : BaseRow
     {
         public MockRowCompressed()

@@ -23,35 +23,31 @@
  *  25/05/2022  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using System;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using System.Globalization;
-
 using Middleware;
 using Middleware.Accounts;
 using Middleware.Accounts.Invoices;
 using Middleware.Accounts.Orders;
 
+using PluginManager.DAL.TextFiles.Tables;
+
 namespace PluginManager.DAL.TextFiles.Providers
 {
     internal class AccountProvider : IAccountProvider
     {
-        #region Private Static Members
+        #region Private Members
 
-        private static List<DeliveryAddress> _deliveryAddresses;
+        private readonly ITextReaderWriter<TableUserRow> _users;
 
-        private static Marketing _marketing;
+        #endregion Private Members
 
-        private static List<Order> _orders;
+        #region Constructors
 
-        private static List<Invoice> _invoices;
+        public AccountProvider(ITextReaderWriter<TableUserRow> users)
+        {
+            _users = users ?? throw new ArgumentNullException(nameof(users));
+        }
 
-        private static int InvoiceItemId = 50;
-
-        private static int InvoiceId = 50;
-
-        #endregion Private Static Members
+        #endregion Constructors
 
         #region Change Password
 
@@ -60,7 +56,14 @@ namespace PluginManager.DAL.TextFiles.Providers
             if (String.IsNullOrEmpty(newPassword))
                 throw new ArgumentNullException(nameof(newPassword));
 
-            return newPassword.Equals("Pa$$w0rd");
+            TableUserRow user = _users.Select(userId);
+
+            if (user == null)
+                throw new ArgumentException("user not found", nameof(userId));
+
+            user.Password = newPassword;
+            _users.Update(user);
+            return true;
         }
 
         #endregion Change Password
@@ -83,19 +86,36 @@ namespace PluginManager.DAL.TextFiles.Providers
         public bool GetUserAccountDetails(in Int64 userId, out string firstName, out string lastName, out string email, out bool emailConfirmed,
             out string telephone, out bool telephoneConfirmed)
         {
-            firstName = "Fred";
-            lastName = "Bloggs";
-            email = "fred@bloggs.com";
-            emailConfirmed = true;
-            telephone = "0044 121 345 6789";
-            telephoneConfirmed = false;
+            TableUserRow user = _users.Select(userId);
 
-            return true;
+            firstName = user?.FirstName;
+            lastName = user?.Surname;
+            email = user?.Email;
+            emailConfirmed = user == null ? false : user.EmailConfirmed;
+            telephone = user?.Telephone;
+            telephoneConfirmed = user == null ? false : user.TelephoneConfirmed;
+
+            return user != null;
         }
 
         public bool SetUserAccountDetails(in Int64 userId, in string firstName, in string lastName, in string email, in string telephone)
         {
-            return firstName == "Fred" && lastName == "Bloggs";
+            TableUserRow user = _users.Select(userId);
+
+            if (user == null)
+                return false;
+
+            user.FirstName = firstName;
+            user.Surname = lastName;
+            user.Email = email;
+            user.EmailConfirmed = false;
+            user.EmailConfirmCode = GenerateRandomNumber().ToString();
+            user.Telephone = telephone;
+            user.TelephoneConfirmCode = GenerateRandomNumber().ToString();
+            user.TelephoneConfirmed = false;
+
+            _users.Update(user);
+            return true;
         }
 
         public bool ConfirmEmailAddress(in Int64 userId, in string confirmationCode)
@@ -103,7 +123,20 @@ namespace PluginManager.DAL.TextFiles.Providers
             if (String.IsNullOrEmpty(confirmationCode))
                 throw new ArgumentNullException(nameof(confirmationCode));
 
-            return confirmationCode.Equals("NewEmail");
+            TableUserRow user = _users.Select(userId);
+
+            if (user == null)
+                return false;
+
+            user.EmailConfirmed = user.EmailConfirmCode.Equals(confirmationCode);
+
+            if (user.EmailConfirmed)
+            {
+                user.EmailConfirmCode = String.Empty;
+                _users.Update(user);
+            }
+
+            return user.EmailConfirmed;
         }
 
         public bool ConfirmTelephoneNumber(in Int64 userId, in string confirmationCode)
@@ -111,7 +144,20 @@ namespace PluginManager.DAL.TextFiles.Providers
             if (String.IsNullOrEmpty(confirmationCode))
                 throw new ArgumentNullException(nameof(confirmationCode));
 
-            return confirmationCode.Equals("NewTelephone");
+            TableUserRow user = _users.Select(userId);
+
+            if (user == null)
+                return false;
+
+            user.TelephoneConfirmed = user.TelephoneConfirmCode.Equals(confirmationCode);
+
+            if (user.TelephoneConfirmed)
+            {
+                user.TelephoneConfirmCode = String.Empty;
+                _users.Update(user);
+            }
+
+            return user.TelephoneConfirmed;
         }
 
         #endregion User Contact Details
@@ -123,9 +169,26 @@ namespace PluginManager.DAL.TextFiles.Providers
             in string addressLine3, in string city, in string county, in string postcode, in string countryCode,
             out long userId)
         {
-            userId = 2;
+            TableUserRow newUser = new TableUserRow();
+            newUser.Email = email;
+            newUser.FirstName = firstName;
+            newUser.Surname = surname;
+            newUser.Password = password;
+            newUser.Telephone = telephone;
+            newUser.BusinessName = businessName;
+            newUser.AddressLine1 = addressLine1;
+            newUser.AddressLine2 = addressLine2;
+            newUser.AddressLine3 = addressLine3;
+            newUser.City = city;
+            newUser.County = county;
+            newUser.Postcode = postcode;
+            newUser.CountryCode = countryCode;
+            newUser.EmailConfirmCode = GenerateRandomNumber().ToString();
+            newUser.TelephoneConfirmCode = GenerateRandomNumber().ToString();
 
+            _users.Insert(newUser);
 
+            userId = newUser.Id;
             return true;
         }
 
@@ -136,6 +199,12 @@ namespace PluginManager.DAL.TextFiles.Providers
         /// <returns>bool.  True if the account was deleted, otherwise false.</returns>
         public bool DeleteAccount(in Int64 userId)
         {
+            TableUserRow user = _users.Select(userId);
+
+            if (user == null)
+                return false;
+
+            _users.Delete(user);
             return true;
         }
 
@@ -150,6 +219,17 @@ namespace PluginManager.DAL.TextFiles.Providers
         /// <returns>bool.  True if the account was locked, otherwise false.</returns>
         public bool AccountLock(in Int64 userId)
         {
+            TableUserRow user = _users.Select(userId);
+
+            if (user == null)
+                return false;
+
+            if (user.Locked)
+                return false;
+
+            user.Locked = true;
+            _users.Update(user);
+
             return true;
         }
 
@@ -160,6 +240,17 @@ namespace PluginManager.DAL.TextFiles.Providers
         /// <returns>bool.  True if the account was unlocked, otherwise false.</returns>
         public bool AccountUnlock(in Int64 userId)
         {
+            TableUserRow user = _users.Select(userId);
+
+            if (user == null)
+                return false;
+
+            if (!user.Locked)
+                return false;
+
+            user.Locked = false;
+            _users.Update(user);
+
             return true;
         }
 
@@ -172,12 +263,21 @@ namespace PluginManager.DAL.TextFiles.Providers
             if (billingAddress == null)
                 throw new ArgumentNullException(nameof(billingAddress));
 
-            return billingAddress.AddressLine1 == "Mike St";
+            TableUserRow user = _users.Select(userId);
+
+            if (user == null)
+                return false;
+            throw new NotImplementedException();
         }
 
         public Address GetBillingAddress(in long userId)
         {
-            return new Address(1, 0, String.Empty, "Mike St", String.Empty, String.Empty, "London", String.Empty, "L1 1AA", "GB");
+            TableUserRow user = _users.Select(userId);
+
+            //if (user == null)
+            //    return GetDeliveryAddress();
+
+            throw new NotImplementedException();
         }
 
         #endregion Billing Address
@@ -186,36 +286,42 @@ namespace PluginManager.DAL.TextFiles.Providers
 
         public bool SetDeliveryAddress(in long userId, in DeliveryAddress deliveryAddress)
         {
-            return true;
+            TableUserRow user = _users.Select(userId);
+
+            if (user == null)
+                return false;
+
+            throw new NotImplementedException();
         }
 
         public List<DeliveryAddress> GetDeliveryAddresses(in long userId)
         {
-            if (_deliveryAddresses == null)
-                _deliveryAddresses = new List<DeliveryAddress>()
-                    {
-                        new DeliveryAddress(1, String.Empty, "1 Mike St", String.Empty, String.Empty, "London", String.Empty, "L1 1AA", "GB", 5.99m),
-                        new DeliveryAddress(2, String.Empty, "29 5th Avenue", String.Empty, String.Empty, "New York", String.Empty, "49210", "US", 5.99m),
-                    };
+            TableUserRow user = _users.Select(userId);
 
-            return _deliveryAddresses;
+            if (user == null)
+                return new List<DeliveryAddress>();
+
+            throw new NotImplementedException();
         }
 
         public bool AddDeliveryAddress(in Int64 userId, in DeliveryAddress deliveryAddress)
         {
-            _deliveryAddresses.Add(deliveryAddress);
-            return true;
+            TableUserRow user = _users.Select(userId);
+
+            if (user == null)
+                return false;
+
+            throw new NotImplementedException();
         }
 
         public DeliveryAddress GetDeliveryAddress(in Int64 userId, in int deliveryAddressId)
         {
-            foreach (DeliveryAddress address in GetDeliveryAddresses(userId))
-            {
-                if (address.AddressId == deliveryAddressId)
-                    return address;
-            }
+            TableUserRow user = _users.Select(userId);
 
-            return null;
+            if (user == null)
+                return null;
+
+            throw new NotImplementedException();
         }
 
         public bool DeleteDeliveryAddress(in long userId, in DeliveryAddress deliveryAddress)
@@ -223,9 +329,12 @@ namespace PluginManager.DAL.TextFiles.Providers
             if (deliveryAddress == null || deliveryAddress.AddressId == 1)
                 return false;
 
-            _deliveryAddresses.Remove(deliveryAddress);
+            TableUserRow user = _users.Select(userId);
 
-            return true;
+            if (user == null)
+                return false;
+
+            throw new NotImplementedException();
         }
 
         #endregion Delivery Address
@@ -242,15 +351,27 @@ namespace PluginManager.DAL.TextFiles.Providers
 
         public Marketing GetMarketingPreferences(in Int64 userId)
         {
-            if (_marketing == null)
-                _marketing = new Marketing(true, true, false, false);
+            TableUserRow user = _users.Select(userId);
 
-            return _marketing;
+            if (user == null)
+                return null;
+
+            return new Marketing(user.MarketingEmail, user.MarketingTelephone, user.MarketingSms, user.MarketingPostal);
         }
 
         public bool SetMarketingPreferences(in Int64 userId, in Marketing marketing)
         {
-            _marketing = marketing;
+            TableUserRow user = _users.Select(userId);
+
+            if (user == null)
+                return false;
+
+            user.MarketingEmail = marketing.EmailOffers;
+            user.MarketingPostal = marketing.PostalOffers;
+            user.MarketingSms = marketing.SMSOffers;
+            user.MarketingTelephone = marketing.TelephoneOffers;
+
+            _users.Update(user);
             return true;
         }
 
@@ -260,30 +381,12 @@ namespace PluginManager.DAL.TextFiles.Providers
 
         public List<Order> OrdersGet(in Int64 userId)
         {
-            if (_orders == null)
-            {
-                _orders = new List<Order>()
-                {
-                    new Order(1, DateTime.Now.AddDays(-10), 4.99m, new CultureInfo("en-US"), ProcessStatus.Dispatched,
-                        GetDeliveryAddresses(userId)[0], new List<OrderItem>()
-                        {
-                            new OrderItem(1, "The shining ones by David Eddings", 14.99m, 20, 1m, ItemStatus.Dispatched, DiscountType.Value, 0),
-                            new OrderItem(2, "Domes of Fire by David Eddings", 12.99m, 20, 2m, ItemStatus.BackOrder, DiscountType.PercentageSubTotal, 10),
-                            new OrderItem(3, "The hidden city by David Eddings", 12.99m, 20, 1m, ItemStatus.OnHold, DiscountType.PercentageTotal, 10),
-                            new OrderItem(4, "Bookmark", 0.99m, 20, 1m, ItemStatus.Dispatched, DiscountType.None, 0)
-                        }),
+            TableUserRow user = _users.Select(userId);
 
-                    new Order(2, DateTime.Now.AddDays(-8), 6.99m, new CultureInfo("en-GB"), ProcessStatus.Dispatched,
-                        GetDeliveryAddresses(userId)[0], new List<OrderItem>()
-                        {
-                            new OrderItem(5, "Mug, shiny white", 6.99m, 20, 6m, ItemStatus.Dispatched, DiscountType.Value, 15),
-                            new OrderItem(6, "Dinner Plate", 7.99m, 20, 6m, ItemStatus.Dispatched, DiscountType.PercentageSubTotal, 10),
-                            new OrderItem(7, "Cereal bowl", 5.99m, 20, 6m, ItemStatus.Dispatched, DiscountType.PercentageTotal, 10)
-                        })
-                };
-            }
+            if (user == null)
+                return new List<Order>();
 
-            return _orders;
+            throw new NotImplementedException();
         }
 
         public void OrderPaid(in Order order, in PaymentStatus paymentStatus, in string message)
@@ -294,16 +397,11 @@ namespace PluginManager.DAL.TextFiles.Providers
             if (String.IsNullOrEmpty(message))
                 throw new ArgumentNullException(nameof(message));
 
-            List<InvoiceItem> items = new List<InvoiceItem>();
+            //TableUserRow user = _users.Select(userId);
 
-            foreach (OrderItem item in order.OrderItems)
-            {
-                items.Add(new InvoiceItem(++InvoiceItemId, item.Description, item.Cost, item.TaxRate,
-                    item.Quantity, ItemStatus.Received, item.DiscountType, item.Discount));
-            }
-
-            Invoice invoice = new Invoice(++InvoiceId, DateTime.Now, order.Postage, order.Culture,
-                ProcessStatus.PaymentCheck, paymentStatus, order.DeliveryAddress, items);
+            //if (user == null)
+            //    return;
+            throw new NotImplementedException();
         }
 
         #endregion Orders
@@ -312,30 +410,24 @@ namespace PluginManager.DAL.TextFiles.Providers
 
         public List<Invoice> InvoicesGet(in Int64 userId)
         {
-            if (_invoices == null)
-            {
-                _invoices = new List<Invoice>()
-                {
-                    new Invoice(123, DateTime.Now.AddDays(-10), 4.99m, new CultureInfo("en-US"), ProcessStatus.Dispatched,
-                        PaymentStatus.PaidMixed, GetDeliveryAddresses(userId)[0], new List<InvoiceItem>()
-                        {
-                            new InvoiceItem(1, "The shining ones by David Eddings", 14.99m, 20, 1m, ItemStatus.Dispatched, DiscountType.Value, 0),
-                            new InvoiceItem(4, "Bookmark", 0.99m, 20, 1m, ItemStatus.Dispatched, DiscountType.None, 0)
-                        }),
+            TableUserRow user = _users.Select(userId);
 
-                    new Invoice(234, DateTime.Now.AddDays(-8), 6.99m, new CultureInfo("en-GB"), ProcessStatus.Dispatched,
-                        PaymentStatus.PaidCash, GetDeliveryAddresses(userId)[0], new List<InvoiceItem>()
-                        {
-                            new InvoiceItem(5, "Mug, shiny white", 6.99m, 20, 6m, ItemStatus.Dispatched, DiscountType.Value, 15),
-                            new InvoiceItem(6, "Dinner Plate", 7.99m, 20, 6m, ItemStatus.Dispatched, DiscountType.PercentageSubTotal, 10),
-                            new InvoiceItem(7, "Cereal bowl", 5.99m, 20, 6m, ItemStatus.Dispatched, DiscountType.PercentageTotal, 10)
-                        })
-                };
-            }
+            if (user == null)
+                return new List<Invoice>();
 
-            return _invoices;
+            throw new NotImplementedException();
         }
 
         #endregion Invoices
+
+        #region Private Methods
+
+        private int GenerateRandomNumber()
+        {
+            Random random = new Random();
+            return random.Next(100000, 999999);
+        }
+
+        #endregion Private Methods
     }
 }

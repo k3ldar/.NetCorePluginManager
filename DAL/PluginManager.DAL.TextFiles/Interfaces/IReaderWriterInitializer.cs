@@ -29,10 +29,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PluginManager.DAL.TextFiles.Interfaces
+using PluginManager.DAL.TextFiles.Internal;
+
+namespace PluginManager.DAL.TextFiles
 {
     public interface IReaderWriterInitializer
     {
-        public string Path { get; }
+        string Path { get; }
+
+        void RegisterTable(ITextTable textTable);
+
+        void UnregisterTable(ITextTable textTable);
+
+        IReadOnlyDictionary<string, ITextTable> Tables { get; }
     }
 }

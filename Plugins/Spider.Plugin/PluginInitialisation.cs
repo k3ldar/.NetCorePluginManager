@@ -81,17 +81,11 @@ namespace Spider.Plugin
 
         #endregion IInitialiseEvents Methods
 
-        #region Internal Static Properties
-
-        internal static ILogger GetLogger { get; private set; }
-
-        #endregion Internal Static Properties
-
         #region IPlugin Methods
 
         public void Initialise(ILogger logger)
         {
-            GetLogger = logger ?? throw new ArgumentNullException(nameof(logger));
+
         }
 
         public void Finalise()

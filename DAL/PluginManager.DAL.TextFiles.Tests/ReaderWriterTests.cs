@@ -29,7 +29,6 @@ using System.Diagnostics.CodeAnalysis;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-using PluginManager.DAL.TextFiles.Interfaces;
 using PluginManager.DAL.TextFiles.Internal;
 
 using io = System.IO;
@@ -399,22 +398,52 @@ namespace PluginManager.DAL.TextFiles.Tests
             }
         }
 
+        [TestMethod]
+        public void CompactPercent_AfterMultipleRowsRemoved_IsAccurate_Success()
+        {
+            string directory = io.Path.Combine(io.Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            try
+            {
+                io.Directory.CreateDirectory(directory);
+                IReaderWriterInitializer initializer = new ReaderWriterInitializer(directory);
 
+                using (TextReaderWriter<MockRow> sut = new TextReaderWriter<MockRow>(initializer))
+                {
+                    List<MockRow> testData = new List<MockRow>();
 
+                    for (int i = 0; i < 15168; i++)
+                        testData.Add(new MockRow(i));
 
+                    sut.Insert(testData);
+                }
 
+                using (TextReaderWriter<MockRow> deleteSut = new TextReaderWriter<MockRow>(initializer))
+                {
+                    Assert.AreEqual(15168, deleteSut.RecordCount);
+                    Assert.AreEqual(186075, deleteSut.DataLength);
 
+                    List<MockRow> deleteList = new List<MockRow>();
+                    IReadOnlyList<MockRow> current = deleteSut.Select();
 
+                    for (int i = 10; i < 5000; i++)
+                        deleteList.Add(current[i]);
 
+                    deleteSut.Delete(deleteList);
+                    Assert.AreEqual(68, deleteSut.CompactPercent);
+                }
 
-
-
-
-
-
-
-
-
+                using (TextReaderWriter<MockRow> readSut = new TextReaderWriter<MockRow>(initializer))
+                {
+                    Assert.AreEqual(10178, readSut.RecordCount);
+                    Assert.AreEqual(127275, readSut.DataLength);
+                    Assert.AreEqual(68, readSut.CompactPercent);
+                }
+            }
+            finally
+            {
+                io.Directory.Delete(directory, true);
+            }
+        }
 
         [TestMethod]
         [ExpectedException(typeof(ObjectDisposedException))]
@@ -598,19 +627,9 @@ namespace PluginManager.DAL.TextFiles.Tests
             }
         }
 
-
-
-
-
-
-
-
-
-
-
         [TestMethod]
         [ExpectedException(typeof(ObjectDisposedException))]
-        public void Insert_Multiple_ObjectAlreadyDisposed_Throws_ArgumentNullException()
+        public void Insert_Multiple_ObjectAlreadyDisposed_Throws_ObjectDisposedException()
         {
             string directory = io.Path.Combine(io.Path.GetTempPath(), DateTime.Now.Ticks.ToString());
             try
@@ -812,7 +831,7 @@ namespace PluginManager.DAL.TextFiles.Tests
 
         [TestMethod]
         [ExpectedException(typeof(ObjectDisposedException))]
-        public void NextSequence_ObjectAlreadyDisposed_Throws_ArgumentNullException()
+        public void NextSequence_ObjectAlreadyDisposed_Throws_ObjectDisposedException()
         {
             string directory = io.Path.Combine(io.Path.GetTempPath(), DateTime.Now.Ticks.ToString());
             try
@@ -858,7 +877,7 @@ namespace PluginManager.DAL.TextFiles.Tests
 
         [TestMethod]
         [ExpectedException(typeof(ObjectDisposedException))]
-        public void ResetSequence_ObjectAlreadyDisposed_Throws_ArgumentNullException()
+        public void ResetSequence_ObjectAlreadyDisposed_Throws_ObjectDisposedException()
         {
             string directory = io.Path.Combine(io.Path.GetTempPath(), DateTime.Now.Ticks.ToString());
             try

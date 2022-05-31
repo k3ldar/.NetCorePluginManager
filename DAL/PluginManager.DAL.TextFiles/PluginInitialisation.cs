@@ -11,38 +11,31 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2021 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2018 - 2022 Simon Carter.  All Rights Reserved.
  *
- *  Product:  AspNetCore.PluginManager.DemoWebsite
+ *  Product:  PluginManager.DAL.TextFiles
  *  
  *  File: PluginInitialisation.cs
  *
  *  Purpose:  
  *
  *  Date        Name                Reason
- *  22/09/2018  Simon Carter        Initially Created
+ *  31/05/2022  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using System.IO;
-
-using AppSettings;
-
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 
-using Middleware;
 using Middleware.Accounts;
-using Middleware.DynamicContent;
-using Middleware.Helpdesk;
-using Middleware.Downloads;
 
 using PluginManager.Abstractions;
+using PluginManager.DAL.TextFiles.Internal;
+using PluginManager.DAL.TextFiles.Providers;
+using PluginManager.DAL.TextFiles.Tables;
 
 using SharedPluginFeatures;
 
-using PluginManager.DAL.TextFiles.Providers;
-
-namespace PluginManager.DAL.TextFiles.Providers
+namespace PluginManager.DAL.TextFiles
 {
     public class PluginInitialisation : IPlugin, IPluginVersion, IInitialiseEvents
     {
@@ -84,28 +77,32 @@ namespace PluginManager.DAL.TextFiles.Providers
 
         public void Configure(in IApplicationBuilder app)
         {
-            app.UseAuthentication();
+
         }
 
         public void BeforeConfigureServices(in IServiceCollection services)
         {
-            services.AddSingleton<IAccountProvider, AccountProvider>();
-            services.AddSingleton<IBlogProvider, BlogProvider>();
-            services.AddSingleton<IClaimsProvider, ClaimsProvider>();
-            services.AddSingleton<ICountryProvider, CountryLists>();
-            services.AddSingleton<IDownloadProvider, DownloadProvider>();
-            services.AddSingleton<IDynamicContentProvider, DynamicContentProvider>();
-            services.AddSingleton<IGeoIpProvider, GeoIpProvider>();
-            services.AddSingleton<IHelpdeskProvider, HelpdeskProvider>();
-            services.AddSingleton<ILicenceProvider, LicenceProvider>();
-            services.AddSingleton<ILoginProvider, LoginProvider>();
-            services.AddSingleton<IProductProvider, ProductProvider>();
-            services.AddSingleton<ISeoProvider, SeoProvider>();
-            services.AddSingleton<IShoppingCartProvider, ShoppingCartProvider>();
-            services.AddSingleton<IShoppingCartService, ShoppingCartProvider>();
-            services.AddSingleton<IStockProvider, StockProvider>();
-            services.AddSingleton<IUserApiQueryProvider, UserApiQueryProvider>();
-            services.AddSingleton<IUserSearch, UserSearch>();
+            services.AddSingleton<IReaderWriterInitializer, ReaderWriterInitializer>();
+            services.AddSingleton(typeof(BaseRow), typeof(TableUserRow));
+            services.AddSingleton(typeof(ITextReaderWriter<>), typeof(TextReaderWriter<>));
+
+            services.AddTransient<IAccountProvider, AccountProvider>();
+            //services.AddSingleton<IBlogProvider, BlogProvider>();
+            //services.AddSingleton<IClaimsProvider, ClaimsProvider>();
+            //services.AddSingleton<ICountryProvider, CountryLists>();
+            //services.AddSingleton<IDownloadProvider, DownloadProvider>();
+            //services.AddSingleton<IDynamicContentProvider, DynamicContentProvider>();
+            //services.AddSingleton<IGeoIpProvider, GeoIpProvider>();
+            //services.AddSingleton<IHelpdeskProvider, HelpdeskProvider>();
+            //services.AddSingleton<ILicenceProvider, LicenceProvider>();
+            //services.AddSingleton<ILoginProvider, LoginProvider>();
+            //services.AddSingleton<IProductProvider, ProductProvider>();
+            //services.AddSingleton<ISeoProvider, SeoProvider>();
+            //services.AddSingleton<IShoppingCartProvider, ShoppingCartProvider>();
+            //services.AddSingleton<IShoppingCartService, ShoppingCartProvider>();
+            //services.AddSingleton<IStockProvider, StockProvider>();
+            //services.AddSingleton<IUserApiQueryProvider, UserApiQueryProvider>();
+            //services.AddSingleton<IUserSearch, UserSearch>();
         }
 
         public void AfterConfigureServices(in IServiceCollection services)

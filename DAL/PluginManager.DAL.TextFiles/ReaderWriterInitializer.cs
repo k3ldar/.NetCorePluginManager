@@ -23,13 +23,10 @@
  *  23/05/2022  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using PluginManager.Abstractions;
+using PluginManager.DAL.TextFiles.Internal;
 
-using PluginManager.DAL.TextFiles.Interfaces;
+using Shared.Classes;
 
 namespace PluginManager.DAL.TextFiles
 {
@@ -38,6 +35,27 @@ namespace PluginManager.DAL.TextFiles
         public const uint DefaultMinimumVersion = 1;
 
         private uint _minimumVersion = DefaultMinimumVersion;
+        private readonly Dictionary<string, ITextTable> _tables = new Dictionary<string, ITextTable>();
+        private readonly object _lock = new object();
+
+        public ReaderWriterInitializer(ISettingsProvider settingsProvider)
+        {
+            if (settingsProvider == null)
+                throw new ArgumentNullException(nameof(settingsProvider));
+
+            TextFileSettings settings = settingsProvider.GetSettings<TextFileSettings>(nameof(TextFileSettings));
+
+            if (settings == null)
+                throw new InvalidOperationException();
+
+            if (String.IsNullOrEmpty(settings.Path))
+                throw new ArgumentNullException(nameof(settings.Path));
+
+            if (!Directory.Exists(settings.Path))
+                throw new ArgumentException($"Path does not exist: {settings.Path}", nameof(settings.Path));
+
+            Path = settings.Path;
+        }
 
         public ReaderWriterInitializer(string path)
         {
@@ -53,8 +71,8 @@ namespace PluginManager.DAL.TextFiles
 
         public string Path { get; private set; }
 
-        public uint MinimumVersion 
-        { 
+        public uint MinimumVersion
+        {
             get
             {
                 return _minimumVersion;
@@ -66,6 +84,42 @@ namespace PluginManager.DAL.TextFiles
                     value = DefaultMinimumVersion;
 
                 _minimumVersion = value;
+            }
+        }
+
+        public void RegisterTable(ITextTable textTable)
+        {
+            if (textTable == null)
+                throw new ArgumentNullException(nameof(textTable));
+
+            using (TimedLock timedLock = TimedLock.Lock(_lock))
+            {
+                if (_tables.ContainsKey(textTable.TableName))
+                    throw new ArgumentException($"Table {textTable.TableName} already exists");
+
+                _tables.Add(textTable.TableName, textTable);
+            }
+        }
+
+        public void UnregisterTable(ITextTable textTable)
+        {
+            if (textTable == null)
+                throw new ArgumentNullException(nameof(textTable));
+
+            using (TimedLock timedLock = TimedLock.Lock(_lock))
+            {
+                if (!_tables.ContainsKey(textTable.TableName))
+                    throw new ArgumentException($"Table {textTable.TableName} already exists");
+
+                _tables.Remove(textTable.TableName);
+            }
+        }
+
+        public IReadOnlyDictionary<string, ITextTable> Tables
+        {
+            get
+            {
+                return new Dictionary<string, ITextTable>(_tables);
             }
         }
     }

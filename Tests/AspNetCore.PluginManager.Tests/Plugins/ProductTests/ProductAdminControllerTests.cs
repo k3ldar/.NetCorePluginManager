@@ -968,7 +968,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.ProductTests
 
             EditProductGroupModel model = viewResult.Model as EditProductGroupModel;
             Assert.IsNotNull(model);
-            Assert.AreEqual(3, model.Breadcrumbs.Count);
+            Assert.AreEqual(4, model.Breadcrumbs.Count);
             Assert.AreEqual(1, model.Id);
             Assert.AreEqual("Main Products", model.Description);
             Assert.AreEqual("Checkout our main products", model.TagLine);

@@ -31,7 +31,6 @@ using System.Threading.Tasks;
 
 using System.IO;
 
-using PluginManager.DAL.TextFiles.Interfaces;
 using System.Text.Json;
 using SharedPluginFeatures;
 using Shared.Classes;
@@ -54,7 +53,7 @@ namespace PluginManager.DAL.TextFiles.Internal
     /// int         Length of data stored on disk
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    internal sealed class TextReaderWriter<T> : ITextReaderWriter<T>
+    internal sealed class TextReaderWriter<T> : ITextReaderWriter<T>, ITextTable
         where T : BaseRow
     {
         #region Constants
@@ -80,18 +79,19 @@ namespace PluginManager.DAL.TextFiles.Internal
         private bool _disposed;
         private int _recordCount = 0;
         private int _dataLength = 0;
-        private byte _fragmentedPercent = 0;
+        private byte _compactPercent = 0;
         private CompressionType _compressionAlgorithm = CompressionNone;
         private long _sequence = -1;
         private readonly object _lockObject = new object();
         private readonly TableAttribute _tableAttributes;
+        private readonly IReaderWriterInitializer _initializer;
+        private List<T> _allRecords = null;
 
         #region Constructors / Destructors
 
         public TextReaderWriter(IReaderWriterInitializer readerWriterInitializer)
         {
-            if (readerWriterInitializer == null)
-                throw new ArgumentNullException(nameof(readerWriterInitializer));
+            _initializer = readerWriterInitializer ?? throw new ArgumentNullException(nameof(readerWriterInitializer));
 
             _tableAttributes = GetTableAttributes();
 
@@ -99,7 +99,7 @@ namespace PluginManager.DAL.TextFiles.Internal
                 throw new InvalidOperationException();
 
             _jsonSerializerOptions = new JsonSerializerOptions();
-            _tableName = ValidateTableName(readerWriterInitializer.Path, _tableAttributes.TableName);
+            _tableName = ValidateTableName(_initializer.Path, _tableAttributes.TableName);
             _fileStream = File.Open(_tableName, FileMode.Open, FileAccess.ReadWrite, FileShare.Read);
 
             try
@@ -113,6 +113,8 @@ namespace PluginManager.DAL.TextFiles.Internal
 
                 throw;
             }
+
+            _initializer.RegisterTable(this);
         }
 
         ~TextReaderWriter()
@@ -121,6 +123,12 @@ namespace PluginManager.DAL.TextFiles.Internal
         }
 
         #endregion Constructors / Destructors
+
+        #region ITextTable
+
+        public string TableName => _tableAttributes.TableName;
+
+        #endregion ITextTable
 
         #region ITextReaderWriter<T>
 
@@ -131,6 +139,8 @@ namespace PluginManager.DAL.TextFiles.Internal
         public int RecordCount => _recordCount;
 
         public long Sequence => _sequence;
+
+        public byte CompactPercent => _compactPercent;
 
         #endregion Properties
 
@@ -285,6 +295,9 @@ namespace PluginManager.DAL.TextFiles.Internal
 
         private List<T> InternalReadAllRecords()
         {
+            if (_allRecords != null)
+                return _allRecords;
+
             using BinaryReader reader = new BinaryReader(_fileStream, Encoding.UTF8, true);
             _fileStream.Seek(StartOfRecordCount, SeekOrigin.Begin);
             CompressionType compressionType = (CompressionType)reader.ReadByte();
@@ -314,7 +327,12 @@ namespace PluginManager.DAL.TextFiles.Internal
                 Result = JsonSerializer.Deserialize<List<T>>(data, _jsonSerializerOptions);
             }
 
+            _compactPercent = Convert.ToByte(Shared.Utilities.Percentage(_fileStream.Length, _fileStream.Position));
+
             Result.ForEach(r => r.ImmutableId = true);
+
+            if (_tableAttributes.CachingStrategy == CachingStrategy.Memory)
+                _allRecords = Result;
 
             return Result;
         }
@@ -375,8 +393,13 @@ namespace PluginManager.DAL.TextFiles.Internal
                 writer.Write(data);
             }
 
+            if (_tableAttributes.CachingStrategy == CachingStrategy.Memory)
+            {
+                _allRecords = recordsToSave;
+                _allRecords.ForEach(ar => ar.ImmutableId = true);
+            }
 
-            _fragmentedPercent = (byte)(100 - Shared.Utilities.Percentage(_fileStream.Length, _fileStream.Position));
+            _compactPercent = Convert.ToByte(Shared.Utilities.Percentage(_fileStream.Length, _fileStream.Position));
 
             _fileStream.Flush(true);
         }
@@ -385,7 +408,6 @@ namespace PluginManager.DAL.TextFiles.Internal
         {
             using (TimedLock timedLock = TimedLock.Lock(_lockObject))
             {
-
                 List<T> existingRecords = InternalReadAllRecords();
 
                 foreach (T record in records)
@@ -433,6 +455,8 @@ namespace PluginManager.DAL.TextFiles.Internal
             if (_disposed)
                 return;
 
+            _initializer?.UnregisterTable(this);
+
             if (disposing)
                 GC.SuppressFinalize(this);
 
@@ -473,8 +497,7 @@ namespace PluginManager.DAL.TextFiles.Internal
             _ = reader.ReadInt32();
             _dataLength = reader.ReadInt32();
 
-            _fragmentedPercent = (byte)(100 - Shared.Utilities.Percentage(_fileStream.Length, _fileStream.Position));
-
+            _compactPercent = Convert.ToByte(Shared.Utilities.Percentage(_fileStream.Length, _fileStream.Position + _dataLength));
         }
 
         private string ValidateTableName(string path, string name)

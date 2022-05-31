@@ -26,11 +26,14 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+using PluginManager.DAL.TextFiles.Internal;
 
 namespace PluginManager.DAL.TextFiles.Tests
 {
@@ -44,7 +47,7 @@ namespace PluginManager.DAL.TextFiles.Tests
         {
             try
             {
-                new ReaderWriterInitializer(null);
+                new ReaderWriterInitializer(path: null);
             }
             catch (ArgumentNullException e)
             {
@@ -72,7 +75,7 @@ namespace PluginManager.DAL.TextFiles.Tests
         [ExpectedException(typeof(ArgumentException))]
         public void Construct_DirectoryDoesNotExists_Throws_ArgumentException()
         {
-            string directory = System.IO.Path.Combine(System.IO.Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
             try
             {
                 new ReaderWriterInitializer(directory);
@@ -88,17 +91,82 @@ namespace PluginManager.DAL.TextFiles.Tests
         [TestMethod]
         public void Construct_ValidInstance_Success()
         {
-            string directory = System.IO.Path.Combine(System.IO.Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
             try
             {
-                System.IO.Directory.CreateDirectory(directory);
+                Directory.CreateDirectory(directory);
                 ReaderWriterInitializer sut = new ReaderWriterInitializer(directory);
                 Assert.AreEqual(1u, sut.MinimumVersion);
                 Assert.AreEqual(directory, sut.Path);
             }
             finally
             {
-                System.IO.Directory.Delete(directory);
+                Directory.Delete(directory);
+            }
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void RegisterTable_InvalidParam_Null_Throws_ArgumentNullException()
+        {
+            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            try
+            {
+                Directory.CreateDirectory(directory);
+                ReaderWriterInitializer sut = new ReaderWriterInitializer(directory);
+                Assert.AreEqual(1u, sut.MinimumVersion);
+                Assert.AreEqual(directory, sut.Path);
+
+                sut.RegisterTable(null);
+            }
+            finally
+            {
+                Directory.Delete(directory);
+            }
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void RegisterTable_TableAlreadyRegistered_Throws_IOException()
+        {
+            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            try
+            {
+                Directory.CreateDirectory(directory);
+                ReaderWriterInitializer sut = new ReaderWriterInitializer(directory);
+                Assert.AreEqual(1u, sut.MinimumVersion);
+                Assert.AreEqual(directory, sut.Path);
+
+                using (TextReaderWriter<MockRow>? mockTable = new TextReaderWriter<MockRow>(sut))
+                    sut.RegisterTable(mockTable);
+            }
+            finally
+            {
+                Directory.Delete(directory, true);
+            }
+        }
+
+        [TestMethod]
+        public void RegisterTable_TableRegistered_Success()
+        {
+            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            try
+            {
+                Directory.CreateDirectory(directory);
+                ReaderWriterInitializer sut = new ReaderWriterInitializer(directory);
+                Assert.AreEqual(1u, sut.MinimumVersion);
+                Assert.AreEqual(directory, sut.Path);
+
+                using (TextReaderWriter<MockRow> mockTable = new TextReaderWriter<MockRow>(sut))
+                {
+                    IReadOnlyDictionary<string, ITextTable> tables = sut.Tables;
+                    Assert.AreEqual(1, tables.Count);
+                    Assert.IsTrue(tables.ContainsKey("MockTable"));
+                }
+            }
+            finally
+            {
+                Directory.Delete(directory, true);
             }
         }
     }

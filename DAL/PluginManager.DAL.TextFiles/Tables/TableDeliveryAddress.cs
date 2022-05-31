@@ -15,12 +15,12 @@
  *
  *  Product:  PluginManager.DAL.TextFiles
  *  
- *  File: Enums.cs
+ *  File: TableDeliveryAddress.cs
  *
- *  Purpose:  Enums for text based storage
+ *  Purpose:  Table for delivery addresses
  *
  *  Date        Name                Reason
- *  23/05/2022  Simon Carter        Initially Created
+ *  31/05/2022  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
@@ -29,37 +29,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PluginManager.DAL.TextFiles
+namespace PluginManager.DAL.TextFiles.Tables
 {
     /// <summary>
-    /// Type of compression to use when reading/writing data from disk
+    /// Delivery address table 
     /// </summary>
-    public enum CompressionType : byte
+    [Table("DeliveryAddress", CompressionType.Brotli)]
+    internal class TableDeliveryAddress
     {
-        /// <summary>
-        /// Data is not compressed
-        /// </summary>
-        None = 0,
-
-        /// <summary>
-        /// Data is compressed using Brotli
-        /// </summary>
-        Brotli = 1
-    }
-
-    /// <summary>
-    /// Cache strategy to use 
-    /// </summary>
-    public enum CachingStrategy : byte
-    {
-        /// <summary>
-        /// Records are read from storage on demand
-        /// </summary>
-        None = 0,
-
-        /// <summary>
-        /// Records are held in memory to speed up retrieval
-        /// </summary>
-        Memory = 1,
     }
 }

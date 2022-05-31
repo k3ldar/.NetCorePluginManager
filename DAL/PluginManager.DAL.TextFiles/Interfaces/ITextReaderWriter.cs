@@ -23,13 +23,8 @@
  *  23/05/2022  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace PluginManager.DAL.TextFiles.Interfaces
+namespace PluginManager.DAL.TextFiles
 {
     public interface ITextReaderWriter<T> : IDisposable
         where T : BaseRow
@@ -95,25 +90,27 @@ namespace PluginManager.DAL.TextFiles.Interfaces
         /// Retrieves the current sequence
         /// </summary>
         /// <value>long</value>
-        public long Sequence { get; }
+        long Sequence { get; }
+
+        byte CompactPercent { get; }
 
         /// <summary>
         /// Retrieves the next unique number in sequence
         /// </summary>
         /// <returns>long</returns>
-        public long NextSequence();
+        long NextSequence();
 
         /// <summary>
         /// Retrieves the next sequence, incremented by increment
         /// </summary>
         /// <param name="increment">, number to increment by</param>
         /// <returns>long</returns>
-        public long NextSequence(long increment);
+        long NextSequence(long increment);
 
         /// <summary>
         /// Resets the sequence to a specific number
         /// </summary>
         /// <param name="sequence"></param>
-        public void ResetSequence(long sequence);
+        void ResetSequence(long sequence);
     }
 }
