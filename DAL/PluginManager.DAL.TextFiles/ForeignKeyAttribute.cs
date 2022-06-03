@@ -15,27 +15,28 @@
  *
  *  Product:  PluginManager.DAL.TextFiles
  *  
- *  File: IReaderWriterInitializer.cs
+ *  File: ForeignKeyAttribute.cs
  *
- *  Purpose:  IReaderWriterInitializer for text based storage
+ *  Purpose:  ForeignKeyAttribute for text based storage
  *
  *  Date        Name                Reason
- *  23/05/2022  Simon Carter        Initially Created
+ *  02/06/2022  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 namespace PluginManager.DAL.TextFiles
 {
-    public interface IReaderWriterInitializer
+    [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = false)]
+    public class ForeignKeyAttribute : Attribute
     {
-        string Path { get; }
+        public ForeignKeyAttribute(string tableName)
+        {
+            if (String.IsNullOrEmpty(tableName))
+                throw new ArgumentNullException(nameof(tableName));
 
-        void RegisterTable(ITextTable textTable);
+            TableName = tableName;
+        }
 
-        void UnregisterTable(ITextTable textTable);
-
-        IReadOnlyDictionary<string, ITextTable> Tables { get; }
-
-        IForeignKeyManager ForeignKeyManager { get; }
+        public string TableName { get; }
     }
 }

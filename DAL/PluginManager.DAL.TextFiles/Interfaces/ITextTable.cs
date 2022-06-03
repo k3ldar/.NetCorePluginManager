@@ -31,8 +31,15 @@ using System.Threading.Tasks;
 
 namespace PluginManager.DAL.TextFiles
 {
+
+
+    /// <summary>
+    /// add before/after insert/delete/update and add foreign key attributes and unique index attributes which can be validated
+    /// </summary>
     public interface ITextTable
     {
         string TableName { get; }
+
+        bool IdExists(long id);
     }
 }

@@ -144,7 +144,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
 
             sut.BeforeConfigureServices(mockServiceCollection);
 
-            Assert.AreEqual(4, mockServiceCollection.Count);
+            Assert.AreEqual(5, mockServiceCollection.Count);
         }
 
         [TestMethod]

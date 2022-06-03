@@ -13,29 +13,35 @@
  *
  *  Copyright (c) 2018 - 2022 Simon Carter.  All Rights Reserved.
  *
- *  Product:  PluginManager.DAL.TextFiles
+ *  Product:  PluginManager.DAL.TextFiles.Tests
  *  
- *  File: IReaderWriterInitializer.cs
+ *  File: RowActivityArgs.cs
  *
- *  Purpose:  IReaderWriterInitializer for text based storage
+ *  Purpose:  RowActivityArgs class
  *
  *  Date        Name                Reason
- *  23/05/2022  Simon Carter        Initially Created
+ *  01/06/2022  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 namespace PluginManager.DAL.TextFiles
 {
-    public interface IReaderWriterInitializer
+    public sealed class RowActivityArgs<T> 
+        where T : BaseRow
     {
-        string Path { get; }
+        public RowActivityArgs(string tableName, T row)
+        {
+            if (String.IsNullOrEmpty(tableName))
+                throw new ArgumentNullException(nameof(tableName));
 
-        void RegisterTable(ITextTable textTable);
+            TableName = tableName;
+            Row = row ?? throw new ArgumentNullException(nameof(row));
+        }
 
-        void UnregisterTable(ITextTable textTable);
+        public string TableName { get; }
 
-        IReadOnlyDictionary<string, ITextTable> Tables { get; }
+        public T Row { get; }
 
-        IForeignKeyManager ForeignKeyManager { get; }
+        public bool Allowed { get; set; }
     }
 }

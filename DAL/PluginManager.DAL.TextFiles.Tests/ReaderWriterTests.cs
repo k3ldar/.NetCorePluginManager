@@ -46,7 +46,7 @@ namespace PluginManager.DAL.TextFiles.Tests
             try
             {
                 io.Directory.CreateDirectory(directory);
-                ReaderWriterInitializer initializer = new ReaderWriterInitializer(directory);
+                ReaderWriterInitializer initializer = CreateTestInitializer(directory);
 
                 using TextReaderWriter<MockRow> sut = new TextReaderWriter<MockRow>(initializer);
             }
@@ -70,7 +70,7 @@ namespace PluginManager.DAL.TextFiles.Tests
             try
             {
                 io.Directory.CreateDirectory(directory);
-                ReaderWriterInitializer initializer = new ReaderWriterInitializer(directory);
+                ReaderWriterInitializer initializer = CreateTestInitializer(directory);
 
                 using (TextReaderWriter<MockRow> sut = new TextReaderWriter<MockRow>(initializer))
                 {
@@ -99,7 +99,7 @@ namespace PluginManager.DAL.TextFiles.Tests
             try
             {
                 io.Directory.CreateDirectory(directory);
-                ReaderWriterInitializer initializer = new ReaderWriterInitializer(directory);
+                ReaderWriterInitializer initializer = CreateTestInitializer(directory);
 
                 using TextReaderWriter<MockRow> sut = new TextReaderWriter<MockRow>(initializer);
 
@@ -119,7 +119,7 @@ namespace PluginManager.DAL.TextFiles.Tests
             try
             {
                 io.Directory.CreateDirectory(directory);
-                ReaderWriterInitializer initializer = new ReaderWriterInitializer(directory);
+                ReaderWriterInitializer initializer = CreateTestInitializer(directory);
 
                 using TextReaderWriter<MockRow> sut = new TextReaderWriter<MockRow>(initializer);
 
@@ -139,7 +139,7 @@ namespace PluginManager.DAL.TextFiles.Tests
             try
             {
                 io.Directory.CreateDirectory(directory);
-                ReaderWriterInitializer initializer = new ReaderWriterInitializer(directory);
+                ReaderWriterInitializer initializer = CreateTestInitializer(directory);
 
                 using TextReaderWriter<MockRow> sut = new TextReaderWriter<MockRow>(initializer);
 
@@ -159,7 +159,7 @@ namespace PluginManager.DAL.TextFiles.Tests
             try
             {
                 io.Directory.CreateDirectory(directory);
-                ReaderWriterInitializer initializer = new ReaderWriterInitializer(directory);
+                ReaderWriterInitializer initializer = CreateTestInitializer(directory);
 
                 using TextReaderWriter<MockRow> sut = new TextReaderWriter<MockRow>(initializer);
                 sut.Dispose();
@@ -178,7 +178,7 @@ namespace PluginManager.DAL.TextFiles.Tests
             try
             {
                 io.Directory.CreateDirectory(directory);
-                ReaderWriterInitializer initializer = new ReaderWriterInitializer(directory);
+                ReaderWriterInitializer initializer = CreateTestInitializer(directory);
 
                 using (TextReaderWriter<MockRow> sut = new TextReaderWriter<MockRow>(initializer))
                 {
@@ -205,7 +205,7 @@ namespace PluginManager.DAL.TextFiles.Tests
             try
             {
                 io.Directory.CreateDirectory(directory);
-                ReaderWriterInitializer initializer = new ReaderWriterInitializer(directory);
+                ReaderWriterInitializer initializer = CreateTestInitializer(directory);
 
                 using (TextReaderWriter<MockRow> sut = new TextReaderWriter<MockRow>(initializer))
                 {
@@ -235,7 +235,7 @@ namespace PluginManager.DAL.TextFiles.Tests
             try
             {
                 io.Directory.CreateDirectory(directory);
-                ReaderWriterInitializer initializer = new ReaderWriterInitializer(directory);
+                ReaderWriterInitializer initializer = CreateTestInitializer(directory);
 
                 using TextReaderWriter<MockRow> sut = new TextReaderWriter<MockRow>(initializer);
                 sut.Dispose();
@@ -256,7 +256,7 @@ namespace PluginManager.DAL.TextFiles.Tests
             try
             {
                 io.Directory.CreateDirectory(directory);
-                ReaderWriterInitializer initializer = new ReaderWriterInitializer(directory);
+                ReaderWriterInitializer initializer = CreateTestInitializer(directory);
 
                 using TextReaderWriter<MockRow> sut = new TextReaderWriter<MockRow>(initializer);
                 sut.Delete(record: null!);
@@ -275,7 +275,7 @@ namespace PluginManager.DAL.TextFiles.Tests
             try
             {
                 io.Directory.CreateDirectory(directory);
-                IReaderWriterInitializer initializer = new ReaderWriterInitializer(directory);
+                IReaderWriterInitializer initializer = CreateTestInitializer(directory);
 
                 using (TextReaderWriter<MockRow> sut = new TextReaderWriter<MockRow>(initializer))
                 {
@@ -317,7 +317,7 @@ namespace PluginManager.DAL.TextFiles.Tests
             try
             {
                 io.Directory.CreateDirectory(directory);
-                ReaderWriterInitializer initializer = new ReaderWriterInitializer(directory);
+                ReaderWriterInitializer initializer = CreateTestInitializer(directory);
 
                 using TextReaderWriter<MockRow> sut = new TextReaderWriter<MockRow>(initializer);
                 sut.Dispose();
@@ -338,7 +338,7 @@ namespace PluginManager.DAL.TextFiles.Tests
             try
             {
                 io.Directory.CreateDirectory(directory);
-                ReaderWriterInitializer initializer = new ReaderWriterInitializer(directory);
+                ReaderWriterInitializer initializer = CreateTestInitializer(directory);
 
                 using TextReaderWriter<MockRow> sut = new TextReaderWriter<MockRow>(initializer);
                 sut.Delete(records: null!);
@@ -357,7 +357,7 @@ namespace PluginManager.DAL.TextFiles.Tests
             try
             {
                 io.Directory.CreateDirectory(directory);
-                IReaderWriterInitializer initializer = new ReaderWriterInitializer(directory);
+                IReaderWriterInitializer initializer = CreateTestInitializer(directory);
 
                 using (TextReaderWriter<MockRow> sut = new TextReaderWriter<MockRow>(initializer))
                 {
@@ -405,7 +405,7 @@ namespace PluginManager.DAL.TextFiles.Tests
             try
             {
                 io.Directory.CreateDirectory(directory);
-                IReaderWriterInitializer initializer = new ReaderWriterInitializer(directory);
+                IReaderWriterInitializer initializer = CreateTestInitializer(directory);
 
                 using (TextReaderWriter<MockRow> sut = new TextReaderWriter<MockRow>(initializer))
                 {
@@ -453,7 +453,7 @@ namespace PluginManager.DAL.TextFiles.Tests
             try
             {
                 io.Directory.CreateDirectory(directory);
-                ReaderWriterInitializer initializer = new ReaderWriterInitializer(directory);
+                ReaderWriterInitializer initializer = CreateTestInitializer(directory);
 
                 using TextReaderWriter<MockUpdateRow> sut = new TextReaderWriter<MockUpdateRow>(initializer);
                 sut.Dispose();
@@ -474,7 +474,7 @@ namespace PluginManager.DAL.TextFiles.Tests
             try
             {
                 io.Directory.CreateDirectory(directory);
-                ReaderWriterInitializer initializer = new ReaderWriterInitializer(directory);
+                ReaderWriterInitializer initializer = CreateTestInitializer(directory);
 
                 using TextReaderWriter<MockUpdateRow> sut = new TextReaderWriter<MockUpdateRow>(initializer);
                 sut.Update(record: null!);
@@ -493,7 +493,7 @@ namespace PluginManager.DAL.TextFiles.Tests
             try
             {
                 io.Directory.CreateDirectory(directory);
-                IReaderWriterInitializer initializer = new ReaderWriterInitializer(directory);
+                IReaderWriterInitializer initializer = CreateTestInitializer(directory);
 
                 using (TextReaderWriter<MockUpdateRow> sut = new TextReaderWriter<MockUpdateRow>(initializer))
                 {
@@ -538,7 +538,7 @@ namespace PluginManager.DAL.TextFiles.Tests
             try
             {
                 io.Directory.CreateDirectory(directory);
-                ReaderWriterInitializer initializer = new ReaderWriterInitializer(directory);
+                ReaderWriterInitializer initializer = CreateTestInitializer(directory);
 
                 using TextReaderWriter<MockUpdateRow> sut = new TextReaderWriter<MockUpdateRow>(initializer);
                 sut.Dispose();
@@ -559,7 +559,7 @@ namespace PluginManager.DAL.TextFiles.Tests
             try
             {
                 io.Directory.CreateDirectory(directory);
-                ReaderWriterInitializer initializer = new ReaderWriterInitializer(directory);
+                ReaderWriterInitializer initializer = CreateTestInitializer(directory);
 
                 using TextReaderWriter<MockUpdateRow> sut = new TextReaderWriter<MockUpdateRow>(initializer);
                 sut.Update(records: null!);
@@ -578,7 +578,7 @@ namespace PluginManager.DAL.TextFiles.Tests
             try
             {
                 io.Directory.CreateDirectory(directory);
-                IReaderWriterInitializer initializer = new ReaderWriterInitializer(directory);
+                IReaderWriterInitializer initializer = CreateTestInitializer(directory);
 
                 using (TextReaderWriter<MockUpdateRow> sut = new TextReaderWriter<MockUpdateRow>(initializer))
                 {
@@ -635,7 +635,7 @@ namespace PluginManager.DAL.TextFiles.Tests
             try
             {
                 io.Directory.CreateDirectory(directory);
-                ReaderWriterInitializer initializer = new ReaderWriterInitializer(directory);
+                ReaderWriterInitializer initializer = CreateTestInitializer(directory);
 
                 using TextReaderWriter<MockRow> sut = new TextReaderWriter<MockRow>(initializer);
                 sut.Dispose();
@@ -655,7 +655,7 @@ namespace PluginManager.DAL.TextFiles.Tests
             try
             {
                 io.Directory.CreateDirectory(directory);
-                IReaderWriterInitializer initializer = new ReaderWriterInitializer(directory);
+                IReaderWriterInitializer initializer = CreateTestInitializer(directory);
 
                 using (TextReaderWriter<MockRow> sut = new TextReaderWriter<MockRow>(initializer))
                 {
@@ -686,7 +686,7 @@ namespace PluginManager.DAL.TextFiles.Tests
             try
             {
                 io.Directory.CreateDirectory(directory);
-                IReaderWriterInitializer initializer = new ReaderWriterInitializer(directory);
+                IReaderWriterInitializer initializer = CreateTestInitializer(directory);
 
                 using (TextReaderWriter<MockRow> sut = new TextReaderWriter<MockRow>(initializer))
                 {
@@ -723,7 +723,7 @@ namespace PluginManager.DAL.TextFiles.Tests
             try
             {
                 io.Directory.CreateDirectory(directory);
-                IReaderWriterInitializer initializer = new ReaderWriterInitializer(directory);
+                IReaderWriterInitializer initializer = CreateTestInitializer(directory);
 
                 using (TextReaderWriter<MockRowCompressed> sut = new TextReaderWriter<MockRowCompressed>(initializer))
                 {
@@ -756,7 +756,7 @@ namespace PluginManager.DAL.TextFiles.Tests
             try
             {
                 io.Directory.CreateDirectory(directory);
-                ReaderWriterInitializer initializer = new ReaderWriterInitializer(directory);
+                ReaderWriterInitializer initializer = CreateTestInitializer(directory);
 
                 using TextReaderWriter<MockRow> sut = new TextReaderWriter<MockRow>(initializer);
                 sut.Dispose();
@@ -775,7 +775,7 @@ namespace PluginManager.DAL.TextFiles.Tests
             try
             {
                 io.Directory.CreateDirectory(directory);
-                ReaderWriterInitializer initializer = new ReaderWriterInitializer(directory);
+                ReaderWriterInitializer initializer = CreateTestInitializer(directory);
 
                 using TextReaderWriter<MockRow> sut = new TextReaderWriter<MockRow>(initializer);
                 MockRow row = sut.Select(1);
@@ -795,7 +795,7 @@ namespace PluginManager.DAL.TextFiles.Tests
             try
             {
                 io.Directory.CreateDirectory(directory);
-                IReaderWriterInitializer initializer = new ReaderWriterInitializer(directory);
+                IReaderWriterInitializer initializer = CreateTestInitializer(directory);
 
                 using (TextReaderWriter<MockRowCompressed> sut = new TextReaderWriter<MockRowCompressed>(initializer))
                 {
@@ -837,7 +837,7 @@ namespace PluginManager.DAL.TextFiles.Tests
             try
             {
                 io.Directory.CreateDirectory(directory);
-                ReaderWriterInitializer initializer = new ReaderWriterInitializer(directory);
+                ReaderWriterInitializer initializer = CreateTestInitializer(directory);
 
                 using TextReaderWriter<MockRow> sut = new TextReaderWriter<MockRow>(initializer);
                 sut.Dispose();
@@ -857,7 +857,7 @@ namespace PluginManager.DAL.TextFiles.Tests
             try
             {
                 io.Directory.CreateDirectory(directory);
-                IReaderWriterInitializer initializer = new ReaderWriterInitializer(directory);
+                IReaderWriterInitializer initializer = CreateTestInitializer(directory);
 
                 for (int i = 0; i < 100; i++)
                 {
@@ -883,7 +883,7 @@ namespace PluginManager.DAL.TextFiles.Tests
             try
             {
                 io.Directory.CreateDirectory(directory);
-                ReaderWriterInitializer initializer = new ReaderWriterInitializer(directory);
+                ReaderWriterInitializer initializer = CreateTestInitializer(directory);
 
                 using TextReaderWriter<MockRow> sut = new TextReaderWriter<MockRow>(initializer);
                 sut.Dispose();
@@ -903,7 +903,7 @@ namespace PluginManager.DAL.TextFiles.Tests
             try
             {
                 io.Directory.CreateDirectory(directory);
-                IReaderWriterInitializer initializer = new ReaderWriterInitializer(directory);
+                IReaderWriterInitializer initializer = CreateTestInitializer(directory);
 
                 using (TextReaderWriter<MockRowCompressed> sut = new TextReaderWriter<MockRowCompressed>(initializer))
                 {
@@ -931,7 +931,7 @@ namespace PluginManager.DAL.TextFiles.Tests
             try
             {
                 io.Directory.CreateDirectory(directory);
-                IReaderWriterInitializer initializer = new ReaderWriterInitializer(directory);
+                IReaderWriterInitializer initializer = CreateTestInitializer(directory);
 
                 using (TextReaderWriter<MockRowCompressed> sut = new TextReaderWriter<MockRowCompressed>(initializer))
                 {
@@ -983,6 +983,11 @@ namespace PluginManager.DAL.TextFiles.Tests
             {
                 io.Directory.Delete(directory, true);
             }
+        }
+
+        private ReaderWriterInitializer CreateTestInitializer(string path)
+        {
+            return new ReaderWriterInitializer(path, new ForeignKeyManager());
         }
     }
 }

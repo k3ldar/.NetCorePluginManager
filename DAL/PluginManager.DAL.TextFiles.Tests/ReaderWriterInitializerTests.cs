@@ -47,7 +47,7 @@ namespace PluginManager.DAL.TextFiles.Tests
         {
             try
             {
-                new ReaderWriterInitializer(path: null);
+                new ReaderWriterInitializer(path: null, new ForeignKeyManager());
             }
             catch (ArgumentNullException e)
             {
@@ -58,11 +58,37 @@ namespace PluginManager.DAL.TextFiles.Tests
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
+        public void Construct_NullForeignKeyManager_Throws_ArgumentNullException()
+        {
+            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            try
+            {
+                try
+                {
+                    new ReaderWriterInitializer(directory, null);
+                }
+                catch (ArgumentNullException e)
+                {
+                    Assert.AreEqual("foreignKeyManager", e.ParamName);
+                    throw;
+                }
+            }
+            catch (ArgumentException e)
+            {
+                Assert.AreEqual("foreignKeyManager", e.ParamName);
+                Assert.AreEqual("Value cannot be null. (Parameter 'foreignKeyManager')", e.Message);
+                throw;
+            }
+
+        }
+         
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
         public void Construct_EmptyStringPath_Throws_ArgumentNullException()
         {
             try
             {
-                new ReaderWriterInitializer("");
+                new ReaderWriterInitializer("", new ForeignKeyManager());
             }
             catch (ArgumentNullException e)
             {
@@ -78,7 +104,7 @@ namespace PluginManager.DAL.TextFiles.Tests
             string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
             try
             {
-                new ReaderWriterInitializer(directory);
+                new ReaderWriterInitializer(directory, new ForeignKeyManager());
             }
             catch (ArgumentException e)
             {
@@ -95,7 +121,7 @@ namespace PluginManager.DAL.TextFiles.Tests
             try
             {
                 Directory.CreateDirectory(directory);
-                ReaderWriterInitializer sut = new ReaderWriterInitializer(directory);
+                ReaderWriterInitializer sut = new ReaderWriterInitializer(directory, new ForeignKeyManager());
                 Assert.AreEqual(1u, sut.MinimumVersion);
                 Assert.AreEqual(directory, sut.Path);
             }
@@ -113,7 +139,7 @@ namespace PluginManager.DAL.TextFiles.Tests
             try
             {
                 Directory.CreateDirectory(directory);
-                ReaderWriterInitializer sut = new ReaderWriterInitializer(directory);
+                ReaderWriterInitializer sut = new ReaderWriterInitializer(directory, new ForeignKeyManager());
                 Assert.AreEqual(1u, sut.MinimumVersion);
                 Assert.AreEqual(directory, sut.Path);
 
@@ -133,7 +159,7 @@ namespace PluginManager.DAL.TextFiles.Tests
             try
             {
                 Directory.CreateDirectory(directory);
-                ReaderWriterInitializer sut = new ReaderWriterInitializer(directory);
+                ReaderWriterInitializer sut = new ReaderWriterInitializer(directory, new ForeignKeyManager());
                 Assert.AreEqual(1u, sut.MinimumVersion);
                 Assert.AreEqual(directory, sut.Path);
 
@@ -153,7 +179,7 @@ namespace PluginManager.DAL.TextFiles.Tests
             try
             {
                 Directory.CreateDirectory(directory);
-                ReaderWriterInitializer sut = new ReaderWriterInitializer(directory);
+                ReaderWriterInitializer sut = new ReaderWriterInitializer(directory, new ForeignKeyManager());
                 Assert.AreEqual(1u, sut.MinimumVersion);
                 Assert.AreEqual(directory, sut.Path);
 

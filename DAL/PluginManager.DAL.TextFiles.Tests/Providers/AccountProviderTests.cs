@@ -17,7 +17,7 @@
  *  
  *  File: AccountProviderTests.cs
  *
- *  Purpose:  AccountProvider Tests Tests for text based storage
+ *  Purpose:  AccountProviderTests Tests for text based storage
  *
  *  Date        Name                Reason
  *  31/05/2022  Simon Carter        Initially Created
@@ -39,6 +39,8 @@ using PluginManager.Abstractions;
 using AspNetCore.PluginManager.Tests.Shared;
 using System.IO;
 using PluginManager.DAL.TextFiles.Tables;
+using PluginManager.DAL.TextFiles.Internal;
+using Middleware;
 
 namespace PluginManager.DAL.TextFiles.Tests.Providers
 {
@@ -52,7 +54,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
         [ExpectedException(typeof(ArgumentNullException))]
         public void Construct_InvalidParam_UsersNull_Throws_ArgumentNullException()
         {
-            new AccountProvider(null);
+            new AccountProvider(null, null);
         }
 
         [TestMethod]
@@ -64,7 +66,8 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
                 ServiceCollection services = new ServiceCollection();
-                    
+
+                services.AddSingleton<IForeignKeyManager, ForeignKeyManager>();
                 services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
 
                 initialisation.BeforeConfigureServices(services);
@@ -93,6 +96,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                 PluginInitialisation initialisation = new PluginInitialisation();
                 ServiceCollection services = new ServiceCollection();
 
+                services.AddSingleton<IForeignKeyManager, ForeignKeyManager>();
                 services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
 
                 initialisation.BeforeConfigureServices(services);
@@ -146,6 +150,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                 PluginInitialisation initialisation = new PluginInitialisation();
                 ServiceCollection services = new ServiceCollection();
 
+                services.AddSingleton<IForeignKeyManager, ForeignKeyManager>();
                 services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
 
                 initialisation.BeforeConfigureServices(services);
@@ -190,6 +195,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                 PluginInitialisation initialisation = new PluginInitialisation();
                 ServiceCollection services = new ServiceCollection();
 
+                services.AddSingleton<IForeignKeyManager, ForeignKeyManager>();
                 services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
 
                 initialisation.BeforeConfigureServices(services);
@@ -243,6 +249,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                 PluginInitialisation initialisation = new PluginInitialisation();
                 ServiceCollection services = new ServiceCollection();
 
+                services.AddSingleton<IForeignKeyManager, ForeignKeyManager>();
                 services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
 
                 initialisation.BeforeConfigureServices(services);
@@ -285,6 +292,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                 PluginInitialisation initialisation = new PluginInitialisation();
                 ServiceCollection services = new ServiceCollection();
 
+                services.AddSingleton<IForeignKeyManager, ForeignKeyManager>();
                 services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
 
                 initialisation.BeforeConfigureServices(services);
@@ -340,6 +348,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                 PluginInitialisation initialisation = new PluginInitialisation();
                 ServiceCollection services = new ServiceCollection();
 
+                services.AddSingleton<IForeignKeyManager, ForeignKeyManager>();
                 services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
 
                 initialisation.BeforeConfigureServices(services);
@@ -374,6 +383,96 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     Assert.IsTrue(userRow.MarketingPostal);
                     Assert.IsTrue(userRow.MarketingSms);
                     Assert.IsTrue(userRow.MarketingTelephone);
+                }
+            }
+            finally
+            {
+                Directory.Delete(directory, true);
+            }
+        }
+
+        [TestMethod]
+        public void SetBillingAddress_Remembered_Success()
+        {
+            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            try
+            {
+                Directory.CreateDirectory(directory);
+                PluginInitialisation initialisation = new PluginInitialisation();
+                ServiceCollection services = new ServiceCollection();
+
+                services.AddSingleton<IForeignKeyManager, ForeignKeyManager>();
+                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
+
+                initialisation.BeforeConfigureServices(services);
+
+                using (ServiceProvider provider = services.BuildServiceProvider())
+                {
+                    ITextReaderWriter<TableAddressRow> addressTable = (ITextReaderWriter<TableAddressRow>)provider.GetService(typeof(ITextReaderWriter<TableAddressRow>));
+                    Assert.IsNotNull(addressTable);
+
+                    IAccountProvider sut = provider.GetService(typeof(IAccountProvider)) as IAccountProvider;
+
+                    Assert.IsNotNull(sut);
+
+                    bool created = sut.CreateAccount("me@here.com", "Joe", "Bloggs", "password", "", "", "", "", "", "", "", "", "US", out long userId);
+
+                    Assert.IsTrue(created);
+
+                    Address address = new Address(-1, 1.99m, "business", "add 1", "add 2", "add 3", "city", "county", "postcode", "NL");
+                    bool setBillingAddress = sut.SetBillingAddress(userId, address);
+
+                    TableAddressRow addressRow = addressTable.Select(0);
+                    Assert.IsNotNull(addressRow);
+
+                    Assert.AreEqual(0, addressRow.Id);
+                    Assert.AreEqual(userId, addressRow.UserId);
+                    Assert.AreEqual(1.99m, addressRow.PostageCost);
+                    Assert.AreEqual(1.99m, addressRow.Shipping);
+                    Assert.AreEqual("business", addressRow.BusinessName);
+                    Assert.AreEqual("add 1", addressRow.AddressLine1); 
+                    Assert.AreEqual("add 2", addressRow.AddressLine2); 
+                    Assert.AreEqual("add 3", addressRow.AddressLine3);
+                    Assert.AreEqual("city", addressRow.City); 
+                    Assert.AreEqual("county", addressRow.County);
+                    Assert.AreEqual("postcode", addressRow.Postcode); 
+                    Assert.AreEqual("NL", addressRow.Country);
+                    Assert.IsFalse(addressRow.IsDelivery);
+
+
+                    address = new Address(Convert.ToInt32(addressRow.Id), 1.99m, "", "add 1a", "add 2a", "add 3a", "citya", "countya", "postcodea", "FR");
+                    setBillingAddress = sut.SetBillingAddress(userId, address);
+
+                    addressRow = addressTable.Select(0);
+                    Assert.IsNotNull(addressRow);
+
+                    Assert.AreEqual(0, addressRow.Id);
+                    Assert.AreEqual(userId, addressRow.UserId);
+                    Assert.AreEqual(1.99m, addressRow.PostageCost);
+                    Assert.AreEqual(1.99m, addressRow.Shipping);
+                    Assert.AreEqual("", addressRow.BusinessName);
+                    Assert.AreEqual("add 1a", addressRow.AddressLine1);
+                    Assert.AreEqual("add 2a", addressRow.AddressLine2);
+                    Assert.AreEqual("add 3a", addressRow.AddressLine3);
+                    Assert.AreEqual("citya", addressRow.City);
+                    Assert.AreEqual("countya", addressRow.County);
+                    Assert.AreEqual("postcodea", addressRow.Postcode);
+                    Assert.AreEqual("FR", addressRow.Country);
+                    Assert.IsFalse(addressRow.IsDelivery);
+
+                    address = sut.GetBillingAddress(userId);
+                    Assert.IsNotNull(address);
+
+                    Assert.AreEqual(0, address.Id);
+                    Assert.AreEqual(1.99m, address.Shipping);
+                    Assert.AreEqual("", address.BusinessName);
+                    Assert.AreEqual("add 1a", address.AddressLine1);
+                    Assert.AreEqual("add 2a", address.AddressLine2);
+                    Assert.AreEqual("add 3a", address.AddressLine3);
+                    Assert.AreEqual("citya", address.City);
+                    Assert.AreEqual("countya", address.County);
+                    Assert.AreEqual("postcodea", address.Postcode);
+                    Assert.AreEqual("FR", address.Country);
                 }
             }
             finally

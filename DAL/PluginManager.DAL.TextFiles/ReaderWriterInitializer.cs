@@ -38,7 +38,13 @@ namespace PluginManager.DAL.TextFiles
         private readonly Dictionary<string, ITextTable> _tables = new Dictionary<string, ITextTable>();
         private readonly object _lock = new object();
 
-        public ReaderWriterInitializer(ISettingsProvider settingsProvider)
+        private ReaderWriterInitializer(IForeignKeyManager foreignKeyManager)
+        {
+            ForeignKeyManager = foreignKeyManager ?? throw new ArgumentNullException(nameof(foreignKeyManager));
+        }
+
+        public ReaderWriterInitializer(ISettingsProvider settingsProvider, IForeignKeyManager foreignKeyManager)
+            : this (foreignKeyManager)
         {
             if (settingsProvider == null)
                 throw new ArgumentNullException(nameof(settingsProvider));
@@ -57,7 +63,8 @@ namespace PluginManager.DAL.TextFiles
             Path = settings.Path;
         }
 
-        public ReaderWriterInitializer(string path)
+        public ReaderWriterInitializer(string path, IForeignKeyManager foreignKeyManager)
+            : this(foreignKeyManager)
         {
             if (String.IsNullOrEmpty(path))
                 throw new ArgumentNullException(nameof(path));
@@ -86,6 +93,8 @@ namespace PluginManager.DAL.TextFiles
                 _minimumVersion = value;
             }
         }
+
+        public IForeignKeyManager ForeignKeyManager { get; }
 
         public void RegisterTable(ITextTable textTable)
         {

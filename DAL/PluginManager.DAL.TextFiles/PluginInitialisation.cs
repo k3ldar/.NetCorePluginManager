@@ -82,6 +82,7 @@ namespace PluginManager.DAL.TextFiles
 
         public void BeforeConfigureServices(in IServiceCollection services)
         {
+            services.AddSingleton<IForeignKeyManager, ForeignKeyManager>();
             services.AddSingleton<IReaderWriterInitializer, ReaderWriterInitializer>();
             services.AddSingleton(typeof(BaseRow), typeof(TableUserRow));
             services.AddSingleton(typeof(ITextReaderWriter<>), typeof(TextReaderWriter<>));

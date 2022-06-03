@@ -41,7 +41,7 @@ namespace PluginManager.DAL.TextFiles.Internal
     /// Internal structure for file is:
     /// 
     /// ushort      Internal version number
-    /// byte[13]    Header
+    /// byte[2]     Header
     /// long        Sequence
     /// int         Reserved
     /// int         Reserved
@@ -58,7 +58,7 @@ namespace PluginManager.DAL.TextFiles.Internal
     {
         #region Constants
 
-        private static readonly byte[] Header = new byte[] { 80, 108, 117, 103, 105, 110, 77, 97, 110, 97, 103, 101, 114 };
+        private static readonly byte[] Header = new byte[] { 80, 77 };
         private const string DefaultExtension = ".dat";
         private const ushort FileVersion = 1;
         private const byte CompressionNone = 0;
@@ -68,7 +68,7 @@ namespace PluginManager.DAL.TextFiles.Internal
         private const int TotalHeaderLength = sizeof(ushort) + HeaderLength + sizeof(long) + (sizeof(int) * 4) + sizeof(byte) + sizeof(int) + sizeof(int) + sizeof(int);
         private const int SequenceStart = HeaderLength + sizeof(ushort);
         private const int StartOfRecordCount = TotalHeaderLength - ((sizeof(int) * 3) + sizeof(byte));
-        private const int HeaderLength = 13;
+        private const int HeaderLength = 2;
         private const int DefaultSequenceIncrement = 1;
 
         #endregion Constants
@@ -84,6 +84,7 @@ namespace PluginManager.DAL.TextFiles.Internal
         private long _sequence = -1;
         private readonly object _lockObject = new object();
         private readonly TableAttribute _tableAttributes;
+        private readonly Dictionary<string, ForeignKeyAttribute> _foreignKeys;
         private readonly IReaderWriterInitializer _initializer;
         private List<T> _allRecords = null;
 
@@ -92,8 +93,8 @@ namespace PluginManager.DAL.TextFiles.Internal
         public TextReaderWriter(IReaderWriterInitializer readerWriterInitializer)
         {
             _initializer = readerWriterInitializer ?? throw new ArgumentNullException(nameof(readerWriterInitializer));
-
             _tableAttributes = GetTableAttributes();
+            _foreignKeys = GetForeignKeys();
 
             if (_tableAttributes == null)
                 throw new InvalidOperationException();
@@ -115,6 +116,7 @@ namespace PluginManager.DAL.TextFiles.Internal
             }
 
             _initializer.RegisterTable(this);
+            _initializer.ForeignKeyManager.RegisterTable(this, TableName);
         }
 
         ~TextReaderWriter()
@@ -126,7 +128,20 @@ namespace PluginManager.DAL.TextFiles.Internal
 
         #region ITextTable
 
+        #region Properties
+
         public string TableName => _tableAttributes.TableName;
+
+        #endregion Properties
+
+        #region Methods
+
+        public bool IdExists(long id)
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion Methods
 
         #endregion ITextTable
 
@@ -450,12 +465,21 @@ namespace PluginManager.DAL.TextFiles.Internal
                 .FirstOrDefault();
         }
 
+        private Dictionary<string, ForeignKeyAttribute> GetForeignKeys()
+        {
+            Dictionary<string, ForeignKeyAttribute> Result = new Dictionary<string, ForeignKeyAttribute>();
+
+
+            return Result;
+        }
+
         private void Dispose(bool disposing)
         { 
             if (_disposed)
                 return;
 
             _initializer?.UnregisterTable(this);
+            _initializer?.ForeignKeyManager.UnregisterTable(this, TableName);
 
             if (disposing)
                 GC.SuppressFinalize(this);

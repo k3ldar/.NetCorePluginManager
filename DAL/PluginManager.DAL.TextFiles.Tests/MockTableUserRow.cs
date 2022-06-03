@@ -13,29 +13,23 @@
  *
  *  Copyright (c) 2018 - 2022 Simon Carter.  All Rights Reserved.
  *
- *  Product:  PluginManager.DAL.TextFiles
+ *  Product:  PluginManager.DAL.TextFiles.Tests
  *  
- *  File: IReaderWriterInitializer.cs
+ *  File: MockTableUserRow.cs
  *
- *  Purpose:  IReaderWriterInitializer for text based storage
+ *  Purpose:  MockTableUserRow for text based storage
  *
  *  Date        Name                Reason
- *  23/05/2022  Simon Carter        Initially Created
+ *  02/06/2022  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+using System.Diagnostics.CodeAnalysis;
 
-namespace PluginManager.DAL.TextFiles
+namespace PluginManager.DAL.TextFiles.Tests
 {
-    public interface IReaderWriterInitializer
+    [ExcludeFromCodeCoverage]
+    [Table("MockTableUser", cachingStrategy: CachingStrategy.Memory)]
+    public class MockTableUserRow : BaseRow
     {
-        string Path { get; }
-
-        void RegisterTable(ITextTable textTable);
-
-        void UnregisterTable(ITextTable textTable);
-
-        IReadOnlyDictionary<string, ITextTable> Tables { get; }
-
-        IForeignKeyManager ForeignKeyManager { get; }
     }
 }

@@ -23,6 +23,8 @@
  *  25/05/2022  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+using System.Linq;
+
 using Middleware;
 using Middleware.Accounts;
 using Middleware.Accounts.Invoices;
@@ -37,14 +39,16 @@ namespace PluginManager.DAL.TextFiles.Providers
         #region Private Members
 
         private readonly ITextReaderWriter<TableUserRow> _users;
+        private readonly ITextReaderWriter<TableAddressRow> _addresses;
 
         #endregion Private Members
 
         #region Constructors
 
-        public AccountProvider(ITextReaderWriter<TableUserRow> users)
+        public AccountProvider(ITextReaderWriter<TableUserRow> users, ITextReaderWriter<TableAddressRow> addresses)
         {
             _users = users ?? throw new ArgumentNullException(nameof(users));
+            _addresses = addresses ?? throw new ArgumentNullException(nameof(addresses));
         }
 
         #endregion Constructors
@@ -267,17 +271,63 @@ namespace PluginManager.DAL.TextFiles.Providers
 
             if (user == null)
                 return false;
-            throw new NotImplementedException();
+
+            int billingAddressId = billingAddress.Id;
+
+            TableAddressRow userAddresses = _addresses.Select().Where(a => a.UserId == user.Id && a.Id.Equals(billingAddressId)).FirstOrDefault();
+
+            if (userAddresses == null)
+            {
+                userAddresses = new TableAddressRow()
+                {
+                    AddressLine1 = billingAddress.AddressLine1,
+                    AddressLine2 = billingAddress.AddressLine2,
+                    AddressLine3 = billingAddress.AddressLine3,
+                    BusinessName = billingAddress.BusinessName,
+                    City = billingAddress.City,
+                    Country = billingAddress.Country,
+                    County = billingAddress.County,
+                    Postcode = billingAddress.Postcode,
+                    IsDelivery = false,
+                    Shipping = billingAddress.Shipping,
+                    PostageCost = billingAddress.Shipping,
+                    UserId = userId,
+                };
+
+                _addresses.Insert(userAddresses);
+            }
+            else
+            {
+                userAddresses.AddressLine1 = billingAddress.AddressLine1;
+                userAddresses.AddressLine2 = billingAddress.AddressLine2;
+                userAddresses.AddressLine3 = billingAddress.AddressLine3;
+                userAddresses.BusinessName = billingAddress.BusinessName;
+                userAddresses.City = billingAddress.City;
+                userAddresses.Country = billingAddress.Country;
+                userAddresses.County = billingAddress.County;
+                userAddresses.Postcode = billingAddress.Postcode;
+                userAddresses.IsDelivery = false;
+                userAddresses.Shipping = billingAddress.Shipping;
+                userAddresses.PostageCost = billingAddress.Shipping;
+                userAddresses.UserId = userId;
+                _addresses.Update(userAddresses);
+            }
+
+            return true;
         }
 
         public Address GetBillingAddress(in long userId)
         {
             TableUserRow user = _users.Select(userId);
 
-            //if (user == null)
-            //    return GetDeliveryAddress();
+            if (user == null)
+                return null;
 
-            throw new NotImplementedException();
+            TableAddressRow userAddresses = _addresses.Select().Where(a => a.UserId == user.Id && !a.IsDelivery).FirstOrDefault();
+
+            return new Address(Convert.ToInt32(userAddresses.Id), userAddresses.Shipping, userAddresses.BusinessName,
+                userAddresses.AddressLine1, userAddresses.AddressLine2, userAddresses.AddressLine3,
+                userAddresses.City, userAddresses.County, userAddresses.Postcode, userAddresses.Country);
         }
 
         #endregion Billing Address

@@ -15,27 +15,29 @@
  *
  *  Product:  PluginManager.DAL.TextFiles
  *  
- *  File: TableDeliveryAddress.cs
+ *  File: ForeignKeyException.cs
  *
- *  Purpose:  Table for delivery addresses
+ *  Purpose:  ForeignKeyException for text based storage
  *
  *  Date        Name                Reason
- *  31/05/2022  Simon Carter        Initially Created
+ *  02/06/2022  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace PluginManager.DAL.TextFiles.Tables
+namespace PluginManager.DAL.TextFiles
 {
-    /// <summary>
-    /// Delivery address table 
-    /// </summary>
-    [Table("DeliveryAddress", CompressionType.Brotli)]
-    internal class TableDeliveryAddress
+    public class ForeignKeyException : Exception
     {
+        public ForeignKeyException()
+            : base()
+        {
+
+        }
+
+        public ForeignKeyException(string message)
+            : base(message)
+        {
+
+        }
     }
 }

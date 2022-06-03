@@ -15,27 +15,28 @@
  *
  *  Product:  PluginManager.DAL.TextFiles
  *  
- *  File: IReaderWriterInitializer.cs
+ *  File: ForeignKeyManager.cs
  *
- *  Purpose:  IReaderWriterInitializer for text based storage
+ *  Purpose:  Manages foreign keys
  *
  *  Date        Name                Reason
- *  23/05/2022  Simon Carter        Initially Created
+ *  02/06/2022  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace PluginManager.DAL.TextFiles
 {
-    public interface IReaderWriterInitializer
+    public interface IForeignKeyManager
     {
-        string Path { get; }
+        void AddRelationShip(string sourceTable, string targetTable);
 
-        void RegisterTable(ITextTable textTable);
+        void RegisterTable(ITextTable table, string tableName);
 
-        void UnregisterTable(ITextTable textTable);
-
-        IReadOnlyDictionary<string, ITextTable> Tables { get; }
-
-        IForeignKeyManager ForeignKeyManager { get; }
+        void UnregisterTable(ITextTable table, string tableName);
     }
 }
