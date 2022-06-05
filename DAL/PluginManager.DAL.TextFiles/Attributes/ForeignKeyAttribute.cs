@@ -15,49 +15,31 @@
  *
  *  Product:  PluginManager.DAL.TextFiles
  *  
- *  File: BaseRow.cs
+ *  File: ForeignKeyAttribute.cs
  *
- *  Purpose:  Base table
+ *  Purpose:  ForeignKeyAttribute for text based storage
  *
  *  Date        Name                Reason
- *  25/05/2022  Simon Carter        Initially Created
+ *  02/06/2022  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PluginManager.DAL.TextFiles
 {
-    /// <summary>
-    /// Base class for all table types
-    /// </summary>
-    public abstract class BaseRow
+    [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = false)]
+    public class ForeignKeyAttribute : Attribute
     {
-        private long _id;
+        public ForeignKeyAttribute(string tableName)
+        {
+            if (String.IsNullOrEmpty(tableName))
+                throw new ArgumentNullException(nameof(tableName));
 
-        /// <summary>
-        /// Unique id of the record
-        /// </summary>
-        /// <value>long</value>
-        public long Id
-        { 
-            get => _id;
-
-            set
-            {
-                if (ImmutableId)
-                    throw new InvalidOperationException();
-
-                _id = value;
-            }
+            TableName = tableName;
+            PropertyName = "Id";
         }
 
-        /// <summary>
-        /// Indicates whether the row has been marked for delete or not
-        /// </summary>
-        internal bool ImmutableId { get; set; } = false;
+        public string TableName { get; }
+
+        public string PropertyName { get; }
     }
 }

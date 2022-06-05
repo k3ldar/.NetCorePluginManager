@@ -15,28 +15,39 @@
  *
  *  Product:  PluginManager.DAL.TextFiles.Tests
  *  
- *  File: ITextTable.cs
+ *  File: MockTextTable.cs
  *
- *  Purpose:  ITextTable interface for text based storage
+ *  Purpose:  MockTextTable for text based storage
  *
  *  Date        Name                Reason
- *  31/05/2022  Simon Carter        Initially Created
+ *  02/06/2022  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+using System;
 
-namespace PluginManager.DAL.TextFiles
+namespace PluginManager.DAL.TextFiles.Tests
 {
-
-
-    /// <summary>
-    /// add before/after insert/delete/update and add foreign key attributes and unique index attributes which can be validated
-    /// </summary>
-    public interface ITextTable
+    internal class MockTextTable : ITextTable
     {
-        string TableName { get; }
+        private readonly string _tableName;
+        private readonly bool _idExists;
 
-        bool IdExists(long id);
+        public MockTextTable(string tableName, bool idExists)
+        {
+            _tableName = tableName;
+            _idExists = idExists;
+        }
 
-        bool IdIsInUse(string propertyName, long value);
+        public string TableName => _tableName;
+
+        public bool IdExists(long id)
+        {
+            return _idExists;
+        }
+
+        public bool IdIsInUse(string propertyName, long value)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -15,19 +15,14 @@
  *
  *  Product:  PluginManager.DAL.TextFiles
  *  
- *  File: TableDeliveryAddress.cs
+ *  File: TableAddressRowDefinition.cs
  *
- *  Purpose:  Table for delivery addresses
+ *  Purpose:  Row definition for Table for delivery addresses
  *
  *  Date        Name                Reason
  *  31/05/2022  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PluginManager.DAL.TextFiles.Tables
 {
@@ -35,7 +30,7 @@ namespace PluginManager.DAL.TextFiles.Tables
     /// Delivery address table 
     /// </summary>
     [Table("Address", CompressionType.Brotli)]
-    internal class TableAddressRow : BaseRow
+    internal class TableAddressRowDefinition : TableRowDefinition
     {
         /// <summary>
         /// Id of user owning the address

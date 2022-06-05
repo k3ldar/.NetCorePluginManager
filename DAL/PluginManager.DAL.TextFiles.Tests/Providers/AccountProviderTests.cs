@@ -112,9 +112,9 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
                     Assert.IsTrue(created);
 
-                    ITextReaderWriter<TableUserRow> userTable = (ITextReaderWriter<TableUserRow>)provider.GetService(typeof(ITextReaderWriter<TableUserRow>));
+                    ITextTableOperations<TableUserRowDefinition> userTable = (ITextTableOperations<TableUserRowDefinition>)provider.GetService(typeof(ITextTableOperations<TableUserRowDefinition>));
                     Assert.IsNotNull(userTable);
-                    TableUserRow userRow = userTable.Select(userId);
+                    TableUserRowDefinition userRow = userTable.Select(userId);
                     sut.ConfirmEmailAddress(userId, userRow.EmailConfirmCode.ToString());
                     sut.ConfirmTelephoneNumber(userId, userRow.TelephoneConfirmCode.ToString());
 
@@ -170,9 +170,9 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
                     Assert.IsTrue(changePassword);
 
-                    ITextReaderWriter<TableUserRow> userTable = (ITextReaderWriter<TableUserRow>)provider.GetService(typeof(ITextReaderWriter<TableUserRow>));
+                    ITextTableOperations<TableUserRowDefinition> userTable = (ITextTableOperations<TableUserRowDefinition>)provider.GetService(typeof(ITextTableOperations<TableUserRowDefinition>));
                     Assert.IsNotNull(userTable);
-                    TableUserRow userRow = userTable.Select(userId);
+                    TableUserRowDefinition userRow = userTable.Select(userId);
 
                     Assert.IsNotNull(userRow);
 
@@ -215,9 +215,9 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
                     Assert.IsTrue(setDetails);
 
-                    ITextReaderWriter<TableUserRow> userTable = (ITextReaderWriter<TableUserRow>)provider.GetService(typeof(ITextReaderWriter<TableUserRow>));
+                    ITextTableOperations<TableUserRowDefinition> userTable = (ITextTableOperations<TableUserRowDefinition>)provider.GetService(typeof(ITextTableOperations<TableUserRowDefinition>));
                     Assert.IsNotNull(userTable);
-                    TableUserRow userRow = userTable.Select(userId);
+                    TableUserRowDefinition userRow = userTable.Select(userId);
 
                     Assert.IsNotNull(userRow);
 
@@ -269,9 +269,9 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
                     Assert.IsTrue(deleteAccount);
 
-                    ITextReaderWriter<TableUserRow> userTable = (ITextReaderWriter<TableUserRow>)provider.GetService(typeof(ITextReaderWriter<TableUserRow>));
+                    ITextTableOperations<TableUserRowDefinition> userTable = (ITextTableOperations<TableUserRowDefinition>)provider.GetService(typeof(ITextTableOperations<TableUserRowDefinition>));
                     Assert.IsNotNull(userTable);
-                    TableUserRow userRow = userTable.Select(userId);
+                    TableUserRowDefinition userRow = userTable.Select(userId);
 
                     Assert.IsNull(userRow);
                 }
@@ -299,7 +299,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
-                    ITextReaderWriter<TableUserRow> userTable = (ITextReaderWriter<TableUserRow>)provider.GetService(typeof(ITextReaderWriter<TableUserRow>));
+                    ITextTableOperations<TableUserRowDefinition> userTable = (ITextTableOperations<TableUserRowDefinition>)provider.GetService(typeof(ITextTableOperations<TableUserRowDefinition>));
                     Assert.IsNotNull(userTable);
 
                     IAccountProvider sut = provider.GetService(typeof(IAccountProvider)) as IAccountProvider;
@@ -310,7 +310,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
                     Assert.IsTrue(created);
 
-                    TableUserRow userRow = userTable.Select(userId);
+                    TableUserRowDefinition userRow = userTable.Select(userId);
 
                     Assert.IsFalse(userRow.Locked);
 
@@ -355,7 +355,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
-                    ITextReaderWriter<TableUserRow> userTable = (ITextReaderWriter<TableUserRow>)provider.GetService(typeof(ITextReaderWriter<TableUserRow>));
+                    ITextTableOperations<TableUserRowDefinition> userTable = (ITextTableOperations<TableUserRowDefinition>)provider.GetService(typeof(ITextTableOperations<TableUserRowDefinition>));
                     Assert.IsNotNull(userTable);
 
                     IAccountProvider sut = provider.GetService(typeof(IAccountProvider)) as IAccountProvider;
@@ -366,7 +366,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
                     Assert.IsTrue(created);
 
-                    TableUserRow userRow = userTable.Select(userId);
+                    TableUserRowDefinition userRow = userTable.Select(userId);
 
                     Assert.IsFalse(userRow.MarketingEmail);
                     Assert.IsFalse(userRow.MarketingPostal);
@@ -408,7 +408,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
-                    ITextReaderWriter<TableAddressRow> addressTable = (ITextReaderWriter<TableAddressRow>)provider.GetService(typeof(ITextReaderWriter<TableAddressRow>));
+                    ITextTableOperations<TableAddressRowDefinition> addressTable = (ITextTableOperations<TableAddressRowDefinition>)provider.GetService(typeof(ITextTableOperations<TableAddressRowDefinition>));
                     Assert.IsNotNull(addressTable);
 
                     IAccountProvider sut = provider.GetService(typeof(IAccountProvider)) as IAccountProvider;
@@ -422,7 +422,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     Address address = new Address(-1, 1.99m, "business", "add 1", "add 2", "add 3", "city", "county", "postcode", "NL");
                     bool setBillingAddress = sut.SetBillingAddress(userId, address);
 
-                    TableAddressRow addressRow = addressTable.Select(0);
+                    TableAddressRowDefinition addressRow = addressTable.Select(0);
                     Assert.IsNotNull(addressRow);
 
                     Assert.AreEqual(0, addressRow.Id);

@@ -26,8 +26,8 @@
 
 namespace PluginManager.DAL.TextFiles
 {
-    public interface ITextReaderWriter<T> : IDisposable
-        where T : BaseRow
+    public interface ITextTableOperations<T> : IDisposable
+        where T : TableRowDefinition
     {
         IReadOnlyList<T> Select();
 
@@ -61,6 +61,11 @@ namespace PluginManager.DAL.TextFiles
         /// </summary>
         /// <param name="record"></param>
         void Delete(T record);
+
+        /// <summary>
+        /// Removes all records after validating foreign keys don't exist etc
+        /// </summary>
+        void Truncate();
 
         /// <summary>
         /// Updates a batch of records

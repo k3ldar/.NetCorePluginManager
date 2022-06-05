@@ -15,28 +15,36 @@
  *
  *  Product:  PluginManager.DAL.TextFiles.Tests
  *  
- *  File: ITextTable.cs
+ *  File: MockRow.cs
  *
- *  Purpose:  ITextTable interface for text based storage
+ *  Purpose:  MockRow for text based storage
  *
  *  Date        Name                Reason
- *  31/05/2022  Simon Carter        Initially Created
+ *  23/05/2022  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+using System;
+using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace PluginManager.DAL.TextFiles
+namespace PluginManager.DAL.TextFiles.Tests
 {
-
-
-    /// <summary>
-    /// add before/after insert/delete/update and add foreign key attributes and unique index attributes which can be validated
-    /// </summary>
-    public interface ITextTable
+    [ExcludeFromCodeCoverage]
+    [Table("MockTable", cachingStrategy: CachingStrategy.Memory)]
+    internal class MockRow : TableRowDefinition
     {
-        string TableName { get; }
+        public MockRow()
+        {
 
-        bool IdExists(long id);
+        }
 
-        bool IdIsInUse(string propertyName, long value);
+        public MockRow(int id)
+            : this()
+        {
+            Id = id;
+        }
     }
 }

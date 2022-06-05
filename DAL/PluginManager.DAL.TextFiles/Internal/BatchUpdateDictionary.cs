@@ -13,38 +13,45 @@
  *
  *  Copyright (c) 2018 - 2022 Simon Carter.  All Rights Reserved.
  *
- *  Product:  PluginManager.DAL.TextFiles.Tests
+ *  Product:  PluginManager.DAL.TextFiles
  *  
- *  File: MockRow.cs
+ *  File: BatchUpdateDictionary.cs
  *
- *  Purpose:  MockRow for text based storage
+ *  Purpose:  Dictionary with batch update facility
  *
  *  Date        Name                Reason
- *  23/05/2022  Simon Carter        Initially Created
+ *  05/06/2022  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using System;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using SharedPluginFeatures.Interfaces;
 
-namespace PluginManager.DAL.TextFiles.Tests
+namespace PluginManager.DAL.TextFiles.Internal
 {
-    [ExcludeFromCodeCoverage]
-    [Table("MockTable", cachingStrategy: CachingStrategy.Memory)]
-    internal class MockRow : BaseRow
+    internal sealed class BatchUpdateDictionary<TKey, TValue> : Dictionary<TKey, TValue>, IBatchUpdate
+        where TValue : class, IBatchUpdate
     {
-        public MockRow()
-        {
+        public bool IsUpdating { get; private set; }
 
+        public void BeginUpdate()
+        {
+            if (IsUpdating)
+                throw new InvalidOperationException();
+
+            foreach (KeyValuePair<TKey, TValue> kv in this)
+                kv.Value.BeginUpdate();
+
+            IsUpdating = true;
         }
 
-        public MockRow(int id)
-            : this()
+        public void EndUpdate()
         {
-            Id = id;
+            if (!IsUpdating)
+                throw new InvalidOperationException();
+
+            foreach (KeyValuePair<TKey, TValue> kv in this)
+                kv.Value.EndUpdate();
+
+            IsUpdating = false;
         }
     }
 }

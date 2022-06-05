@@ -15,24 +15,18 @@
  *
  *  Product:  PluginManager.DAL.TextFiles
  *  
- *  File: TextReaderWriter.cs
+ *  File: TextTableOperations.cs
  *
- *  Purpose:  IAccountProvider for text based storage
+ *  Purpose:  TextTableOperations for text based storage
  *
  *  Date        Name                Reason
  *  23/05/2022  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using System;
-using System.Collections.Generic;
-using System.Linq;
+using System.Reflection;
 using System.Text;
-using System.Threading.Tasks;
-
-using System.IO;
-
 using System.Text.Json;
-using SharedPluginFeatures;
+
 using Shared.Classes;
 
 namespace PluginManager.DAL.TextFiles.Internal
@@ -53,8 +47,8 @@ namespace PluginManager.DAL.TextFiles.Internal
     /// int         Length of data stored on disk
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    internal sealed class TextReaderWriter<T> : ITextReaderWriter<T>, ITextTable
-        where T : BaseRow
+    internal sealed class TextTableOperations<T> : ITextTableOperations<T>, ITextTable
+        where T : TableRowDefinition
     {
         #region Constants
 
@@ -84,21 +78,25 @@ namespace PluginManager.DAL.TextFiles.Internal
         private long _sequence = -1;
         private readonly object _lockObject = new object();
         private readonly TableAttribute _tableAttributes;
-        private readonly Dictionary<string, ForeignKeyAttribute> _foreignKeys;
-        private readonly IReaderWriterInitializer _initializer;
+        private readonly Dictionary<string, string> _foreignKeys;
+        private readonly ITextTableInitializer _initializer;
+        private readonly IForeignKeyManager _foreignKeyManager;
+        private readonly BatchUpdateDictionary<string, IndexManager> _indexes;
         private List<T> _allRecords = null;
 
         #region Constructors / Destructors
 
-        public TextReaderWriter(IReaderWriterInitializer readerWriterInitializer)
+        public TextTableOperations(ITextTableInitializer readerWriterInitializer, IForeignKeyManager foreignKeyManager)
         {
             _initializer = readerWriterInitializer ?? throw new ArgumentNullException(nameof(readerWriterInitializer));
+            _foreignKeyManager = foreignKeyManager ?? throw new ArgumentNullException(nameof(foreignKeyManager));
             _tableAttributes = GetTableAttributes();
-            _foreignKeys = GetForeignKeys();
 
             if (_tableAttributes == null)
                 throw new InvalidOperationException();
 
+            _foreignKeys = GetForeignKeys();
+            _indexes = GetIndexes();
             _jsonSerializerOptions = new JsonSerializerOptions();
             _tableName = ValidateTableName(_initializer.Path, _tableAttributes.TableName);
             _fileStream = File.Open(_tableName, FileMode.Open, FileAccess.ReadWrite, FileShare.Read);
@@ -111,15 +109,18 @@ namespace PluginManager.DAL.TextFiles.Internal
             {
                 _fileStream.Dispose();
                 _fileStream = null;
+                GC.SuppressFinalize(this);
 
                 throw;
             }
 
             _initializer.RegisterTable(this);
-            _initializer.ForeignKeyManager.RegisterTable(this, TableName);
+            _foreignKeyManager.RegisterTable(this);
+
+            RebuildAllIndexes();
         }
 
-        ~TextReaderWriter()
+        ~TextTableOperations()
         {
             Dispose(false);
         }
@@ -130,7 +131,16 @@ namespace PluginManager.DAL.TextFiles.Internal
 
         #region Properties
 
-        public string TableName => _tableAttributes.TableName;
+        public string TableName
+        {
+            get
+            {
+                if (_tableAttributes != null)
+                    return _tableAttributes.TableName;
+
+                return null;
+            }
+        }
 
         #endregion Properties
 
@@ -138,7 +148,20 @@ namespace PluginManager.DAL.TextFiles.Internal
 
         public bool IdExists(long id)
         {
-            throw new NotImplementedException();
+            return _indexes[nameof(TableRowDefinition.Id)].Contains(id);
+        }
+
+        public bool IdIsInUse(string propertyName, long value)
+        {
+            foreach (T record in Select())
+            {
+                long keyValue = Convert.ToInt64(record.GetType().GetProperty(propertyName).GetValue(record, null));
+
+                if (value.Equals(keyValue))
+                    return true;
+            }
+
+            return false;
         }
 
         #endregion Methods
@@ -162,7 +185,7 @@ namespace PluginManager.DAL.TextFiles.Internal
         public IReadOnlyList<T> Select()
         {
             if (_disposed)
-                throw new ObjectDisposedException(nameof(TextReaderWriter<T>));
+                throw new ObjectDisposedException(nameof(TextTableOperations<T>));
 
             using (TimedLock timedLock = TimedLock.Lock(_lockObject))
             {
@@ -173,7 +196,7 @@ namespace PluginManager.DAL.TextFiles.Internal
         public T Select(long id)
         {
             if (_disposed)
-                throw new ObjectDisposedException(nameof(TextReaderWriter<T>));
+                throw new ObjectDisposedException(nameof(TextTableOperations<T>));
 
             return InternalReadAllRecords().Where(r => r.Id.Equals(id)).FirstOrDefault();
         }
@@ -181,7 +204,7 @@ namespace PluginManager.DAL.TextFiles.Internal
         public void Insert(List<T> records)
         {
             if (_disposed)
-                throw new ObjectDisposedException(nameof(TextReaderWriter<T>));
+                throw new ObjectDisposedException(nameof(TextTableOperations<T>));
 
             if (records == null)
                 throw new ArgumentNullException(nameof(records));
@@ -195,7 +218,7 @@ namespace PluginManager.DAL.TextFiles.Internal
         public void Insert(T record)
         {
             if (_disposed)
-                throw new ObjectDisposedException(nameof(TextReaderWriter<T>));
+                throw new ObjectDisposedException(nameof(TextTableOperations<T>));
 
             if (record == null)
                 throw new ArgumentNullException(nameof(record));
@@ -206,7 +229,7 @@ namespace PluginManager.DAL.TextFiles.Internal
         public void Delete(List<T> records)
         {
             if (_disposed)
-                throw new ObjectDisposedException(nameof(TextReaderWriter<T>));
+                throw new ObjectDisposedException(nameof(TextTableOperations<T>));
 
             if (records == null)
                 throw new ArgumentNullException(nameof(records));
@@ -214,10 +237,15 @@ namespace PluginManager.DAL.TextFiles.Internal
             InternalDeleteRecords(records);
         }
 
+        public void Truncate()
+        {
+            InternalDeleteRecords(InternalReadAllRecords());
+        }
+
         public void Delete(T record)
         {
             if (_disposed)
-                throw new ObjectDisposedException(nameof(TextReaderWriter<T>));
+                throw new ObjectDisposedException(nameof(TextTableOperations<T>));
 
             if (record == null)
                 throw new ArgumentNullException(nameof(record));
@@ -228,7 +256,7 @@ namespace PluginManager.DAL.TextFiles.Internal
         public void Update(List<T> records)
         {
             if (_disposed)
-                throw new ObjectDisposedException(nameof(TextReaderWriter<T>));
+                throw new ObjectDisposedException(nameof(TextTableOperations<T>));
 
             if (records == null)
                 throw new ArgumentNullException(nameof(records));
@@ -239,7 +267,7 @@ namespace PluginManager.DAL.TextFiles.Internal
         public void Update(T record)
         {
             if (_disposed)
-                throw new ObjectDisposedException(nameof(TextReaderWriter<T>));
+                throw new ObjectDisposedException(nameof(TextTableOperations<T>));
 
             if (record == null)
                 throw new ArgumentNullException(nameof(record));
@@ -252,7 +280,7 @@ namespace PluginManager.DAL.TextFiles.Internal
         public long NextSequence()
         {
             if (_disposed)
-                throw new ObjectDisposedException(nameof(TextReaderWriter<T>));
+                throw new ObjectDisposedException(nameof(TextTableOperations<T>));
 
             return NextSequence(DefaultSequenceIncrement);
         }
@@ -260,7 +288,7 @@ namespace PluginManager.DAL.TextFiles.Internal
         public long NextSequence(long increment)
         {
             if (_disposed)
-                throw new ObjectDisposedException(nameof(TextReaderWriter<T>));
+                throw new ObjectDisposedException(nameof(TextTableOperations<T>));
 
             return InternalNextSequence(increment);
         }
@@ -268,7 +296,7 @@ namespace PluginManager.DAL.TextFiles.Internal
         public void ResetSequence(long sequence)
         {
             if (_disposed)
-                throw new ObjectDisposedException(nameof(TextReaderWriter<T>));
+                throw new ObjectDisposedException(nameof(TextTableOperations<T>));
 
             using (TimedLock timedLock = TimedLock.Lock(_lockObject))
             {
@@ -356,22 +384,33 @@ namespace PluginManager.DAL.TextFiles.Internal
         {
             using (TimedLock timedLock = TimedLock.Lock(_lockObject))
             {
-                List<T> existingRecords = InternalReadAllRecords();
+                if (_foreignKeys.Count > 0)
+                    ValidateForeignKeys(records);
 
-                foreach (T record in records)
+                _indexes.BeginUpdate();
+                try
                 {
-                    for (int i = existingRecords.Count - 1; i >= 0; i--)
+                    List<T> existingRecords = InternalReadAllRecords();
+
+                    foreach (T record in records)
                     {
-                        if (existingRecords[i].Id.Equals(record.Id))
+                        for (int i = existingRecords.Count - 1; i >= 0; i--)
                         {
-                            existingRecords[i] = record;
-                            break;
+                            if (existingRecords[i].Id.Equals(record.Id))
+                            {
+                                existingRecords[i] = record;
+                                break;
+                            }
+
                         }
-
                     }
-                }
 
-                InternalSaveRecordsToDisk(existingRecords);
+                    InternalSaveRecordsToDisk(existingRecords);
+                }
+                finally
+                {
+                    _indexes.EndUpdate();
+                }
             }
         }
 
@@ -421,24 +460,40 @@ namespace PluginManager.DAL.TextFiles.Internal
 
         private void InternalDeleteRecords(List<T> records)
         {
+            VerifyIndexNotInUseAsForeignKey(records);
+
             using (TimedLock timedLock = TimedLock.Lock(_lockObject))
             {
-                List<T> existingRecords = InternalReadAllRecords();
-
-                foreach (T record in records)
+                _indexes.BeginUpdate();
+                try
                 {
-                    for (int i = existingRecords.Count -1; i >= 0; i--)
-                    {
-                        if (existingRecords[i].Id.Equals(record.Id))
-                        { 
-                            existingRecords.RemoveAt(i);
-                            break;
-                        }
-                            
-                    }
-                }
+                    List<T> existingRecords = InternalReadAllRecords();
 
-                InternalSaveRecordsToDisk(existingRecords);
+                    for (int i = records.Count - 1; i >= 0; i--)
+                    {
+                        T record = records[i];
+
+                        for (int j = existingRecords.Count - 1; j >= 0; j--)
+                        {
+                            T existingRecord = existingRecords[j];
+
+                            if (existingRecord.Id.Equals(record.Id))
+                            {
+                                existingRecords.RemoveAt(j);
+                                InternalRemoveIndex(existingRecord);
+
+                                break;
+                            }
+
+                        }
+                    }
+
+                    InternalSaveRecordsToDisk(existingRecords);
+                }
+                finally
+                {
+                    _indexes.EndUpdate();
+                }
             }
         }
 
@@ -446,16 +501,121 @@ namespace PluginManager.DAL.TextFiles.Internal
         {
             using (TimedLock timedLock = TimedLock.Lock(_lockObject))
             {
+                if (_foreignKeys.Count > 0)
+                    ValidateForeignKeys(records);
+
                 long nextSequence = Sequence + 1;
                 _ = NextSequence(records.Count);
 
-                records.ForEach(r => r.Id = nextSequence++);
+                _indexes.BeginUpdate();
+                try
+                {
+                    records.ForEach(r =>
+                    {
+                        r.Id = nextSequence++;
+                        InternalAddIndex(r);
+                    });
 
-                List<T> existingRecords = InternalReadAllRecords();
-                existingRecords.AddRange(records);
-
-                InternalSaveRecordsToDisk(existingRecords);
+                    List<T> existingRecords = InternalReadAllRecords();
+                    existingRecords.AddRange(records);
+                    InternalSaveRecordsToDisk(existingRecords);
+                }
+                finally
+                {
+                    _indexes.EndUpdate();
+                }
             }
+        }
+
+        private void InternalAddIndex(T record)
+        {
+            foreach (KeyValuePair<string, IndexManager> item in _indexes)
+            {
+                long value = Convert.ToInt64(record.GetType().GetProperty(item.Key).GetValue(record, null));
+
+                _indexes[item.Key].Add(value);
+            }
+        }
+
+        private void InternalRemoveIndex(T record)
+        {
+            foreach (KeyValuePair<string, IndexManager> item in _indexes)
+            {
+                long value = Convert.ToInt64(record.GetType().GetProperty(item.Key).GetValue(record, null));
+
+                _indexes[item.Key].Remove(value);
+            }
+        }
+
+        private void RebuildAllIndexes()
+        {
+            IReadOnlyList<T> allRecords = Select();
+
+            foreach (KeyValuePair<string, IndexManager> item in _indexes)
+            {
+                item.Value.BeginUpdate();
+                try
+                {
+                    foreach (T record in allRecords)
+                    {
+                        long value = Convert.ToInt64(record.GetType().GetProperty(item.Key).GetValue(record, null));
+
+                        _indexes[item.Key].Remove(value);
+                    }
+                }
+                finally
+                {
+                    item.Value.EndUpdate();
+                }
+            }
+        }
+
+        private void VerifyIndexNotInUseAsForeignKey(List<T> records)
+        {
+            foreach (KeyValuePair<string, IndexManager> index in _indexes)
+            {
+                foreach (T record in records)
+                {
+                    long keyValue = Convert.ToInt64(record.GetType().GetProperty(index.Key).GetValue(record, null));
+
+                    if (_foreignKeyManager.ValueInUse(TableName, index.Key, keyValue, out string table, out string propertyName))
+                        throw new ForeignKeyException($"Foreign key value {keyValue} from table {TableName} is being used in Table: {table}; Property: {propertyName}");
+                }
+            }
+        }
+
+        private void ValidateForeignKeys(List<T> records)
+        {
+            foreach (KeyValuePair<string, string> foreignKey in _foreignKeys)
+            {
+                foreach (T record in records)
+                {
+                    long keyValue = Convert.ToInt64(record.GetType().GetProperty(foreignKey.Key).GetValue(record, null));
+
+                    if (!_foreignKeyManager.ValueExists(foreignKey.Value, keyValue))
+                        throw new ForeignKeyException($"Foreign key value {keyValue} does not exist in table {foreignKey.Value}; Table: {TableName}; Property: {foreignKey.Key}");
+                }
+            }
+        }
+
+        private Dictionary<string, string> GetForeignKeys()
+        {
+            Dictionary<string, string> Result = new Dictionary<string, string>();
+
+            foreach (PropertyInfo property in typeof(T).GetProperties())
+            {
+                ForeignKeyAttribute foreignKey = (ForeignKeyAttribute)property.GetCustomAttributes(true)
+                    .Where(ca => ca.GetType().Equals(typeof(ForeignKeyAttribute)))
+                    .FirstOrDefault();
+
+                if (foreignKey != null)
+                {
+                    _foreignKeyManager.AddRelationShip(TableName, foreignKey.TableName, property.Name, foreignKey.PropertyName);
+                    Result.Add(property.Name, foreignKey.TableName);
+                }
+            }
+
+            return Result;
         }
 
         private TableAttribute GetTableAttributes()
@@ -465,21 +625,34 @@ namespace PluginManager.DAL.TextFiles.Internal
                 .FirstOrDefault();
         }
 
-        private Dictionary<string, ForeignKeyAttribute> GetForeignKeys()
+        private BatchUpdateDictionary<string, IndexManager> GetIndexes()
         {
-            Dictionary<string, ForeignKeyAttribute> Result = new Dictionary<string, ForeignKeyAttribute>();
+            BatchUpdateDictionary<string, IndexManager> Result = new BatchUpdateDictionary<string, IndexManager>();
 
+            foreach (PropertyInfo property in typeof(T).GetProperties())
+            {
+                UniqueIndexAttribute uniqueIndex = (UniqueIndexAttribute)property.GetCustomAttributes(true)
+                    .Where(ca => ca.GetType().Equals(typeof(UniqueIndexAttribute)))
+                    .FirstOrDefault();
+
+                if (uniqueIndex != null)
+                {
+                    Result.Add(property.Name, new IndexManager(uniqueIndex.IndexType));
+                }
+            }
 
             return Result;
         }
 
         private void Dispose(bool disposing)
-        { 
+        {
             if (_disposed)
                 return;
 
             _initializer?.UnregisterTable(this);
-            _initializer?.ForeignKeyManager.UnregisterTable(this, TableName);
+
+            if (_foreignKeyManager != null)
+                _foreignKeyManager?.UnregisterTable(this);
 
             if (disposing)
                 GC.SuppressFinalize(this);

@@ -26,7 +26,7 @@
 
 namespace PluginManager.DAL.TextFiles
 {
-    public class ForeignKeyException : Exception
+    public sealed class ForeignKeyException : Exception
     {
         public ForeignKeyException()
             : base()

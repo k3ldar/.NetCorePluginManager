@@ -15,9 +15,9 @@
  *
  *  Product:  PluginManager.DAL.TextFiles
  *  
- *  File: ReaderWriterInitializer.cs
+ *  File: TextTableInitializer.cs
  *
- *  Purpose:  ReaderWriterInitializer for text based storage
+ *  Purpose:  TextTableInitializer for text based storage
  *
  *  Date        Name                Reason
  *  23/05/2022  Simon Carter        Initially Created
@@ -30,7 +30,7 @@ using Shared.Classes;
 
 namespace PluginManager.DAL.TextFiles
 {
-    public sealed class ReaderWriterInitializer : IReaderWriterInitializer
+    public sealed class TextTableInitializer : ITextTableInitializer
     {
         public const uint DefaultMinimumVersion = 1;
 
@@ -38,13 +38,7 @@ namespace PluginManager.DAL.TextFiles
         private readonly Dictionary<string, ITextTable> _tables = new Dictionary<string, ITextTable>();
         private readonly object _lock = new object();
 
-        private ReaderWriterInitializer(IForeignKeyManager foreignKeyManager)
-        {
-            ForeignKeyManager = foreignKeyManager ?? throw new ArgumentNullException(nameof(foreignKeyManager));
-        }
-
-        public ReaderWriterInitializer(ISettingsProvider settingsProvider, IForeignKeyManager foreignKeyManager)
-            : this (foreignKeyManager)
+        public TextTableInitializer(ISettingsProvider settingsProvider)
         {
             if (settingsProvider == null)
                 throw new ArgumentNullException(nameof(settingsProvider));
@@ -63,8 +57,7 @@ namespace PluginManager.DAL.TextFiles
             Path = settings.Path;
         }
 
-        public ReaderWriterInitializer(string path, IForeignKeyManager foreignKeyManager)
-            : this(foreignKeyManager)
+        public TextTableInitializer(string path)
         {
             if (String.IsNullOrEmpty(path))
                 throw new ArgumentNullException(nameof(path));
@@ -94,8 +87,6 @@ namespace PluginManager.DAL.TextFiles
             }
         }
 
-        public IForeignKeyManager ForeignKeyManager { get; }
-
         public void RegisterTable(ITextTable textTable)
         {
             if (textTable == null)
@@ -103,6 +94,9 @@ namespace PluginManager.DAL.TextFiles
 
             using (TimedLock timedLock = TimedLock.Lock(_lock))
             {
+                if (String.IsNullOrEmpty(textTable.TableName))
+                    throw new ArgumentException("Null table name", nameof(textTable.TableName));
+
                 if (_tables.ContainsKey(textTable.TableName))
                     throw new ArgumentException($"Table {textTable.TableName} already exists");
 
@@ -117,6 +111,9 @@ namespace PluginManager.DAL.TextFiles
 
             using (TimedLock timedLock = TimedLock.Lock(_lock))
             {
+                if (string.IsNullOrEmpty(textTable.TableName))
+                    return;
+
                 if (!_tables.ContainsKey(textTable.TableName))
                     throw new ArgumentException($"Table {textTable.TableName} already exists");
 

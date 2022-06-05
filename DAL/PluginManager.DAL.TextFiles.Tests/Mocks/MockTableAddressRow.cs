@@ -15,12 +15,12 @@
  *
  *  Product:  PluginManager.DAL.TextFiles.Tests
  *  
- *  File: MockRowCompressed.cs
+ *  File: MockTableAddressRow.cs
  *
- *  Purpose:  MockRowCompressed for text based storage
+ *  Purpose:  MockTableAddressRow for text based storage
  *
  *  Date        Name                Reason
- *  23/05/2022  Simon Carter        Initially Created
+ *  02/06/2022  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
@@ -33,18 +33,23 @@ using System.Threading.Tasks;
 namespace PluginManager.DAL.TextFiles.Tests
 {
     [ExcludeFromCodeCoverage]
-    [Table("MockTable", CompressionType.Brotli, cachingStrategy: CachingStrategy.Memory)]
-    public class MockRowCompressed : BaseRow
+    [Table("MockTableAddress", cachingStrategy: CachingStrategy.Memory)]
+    public class MockTableAddressRow : TableRowDefinition
     {
-        public MockRowCompressed()
+        public MockTableAddressRow()
         {
 
         }
 
-        public MockRowCompressed(int id)
-            : this()
+        public MockTableAddressRow(long userId)
         {
-            Id = id;
+            UserId = userId;
+            Description = $"Address {userId}";
         }
+
+        [ForeignKey("MockTableUser")]
+        public long UserId { get; set; }
+
+        public string Description { get; set; }
     }
 }

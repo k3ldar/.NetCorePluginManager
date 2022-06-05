@@ -13,23 +13,27 @@
  *
  *  Copyright (c) 2018 - 2022 Simon Carter.  All Rights Reserved.
  *
- *  Product:  PluginManager.DAL.TextFiles.Tests
+ *  Product:  PluginManager.DAL.TextFiles
  *  
- *  File: MockTableUserRow.cs
+ *  File: UniqueIndexAttribute.cs
  *
- *  Purpose:  MockTableUserRow for text based storage
+ *  Purpose:  UniqueIndexAttribute for text based storage
  *
  *  Date        Name                Reason
- *  02/06/2022  Simon Carter        Initially Created
+ *  04/06/2022  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using System.Diagnostics.CodeAnalysis;
 
-namespace PluginManager.DAL.TextFiles.Tests
+namespace PluginManager.DAL.TextFiles
 {
-    [ExcludeFromCodeCoverage]
-    [Table("MockTableUser", cachingStrategy: CachingStrategy.Memory)]
-    public class MockTableUserRow : BaseRow
+    [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = false)]
+    public class UniqueIndexAttribute : Attribute
     {
+        public UniqueIndexAttribute(IndexType indexType = IndexType.Ascending)
+        {
+            IndexType = indexType;
+        }
+
+        public IndexType IndexType { get; }
     }
 }

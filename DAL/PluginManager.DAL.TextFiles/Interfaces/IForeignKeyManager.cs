@@ -23,20 +23,19 @@
  *  02/06/2022  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PluginManager.DAL.TextFiles
 {
     public interface IForeignKeyManager
     {
-        void AddRelationShip(string sourceTable, string targetTable);
+        void AddRelationShip(string sourceTable, string targetTable, string propertyName, string targetPropertyName);
 
-        void RegisterTable(ITextTable table, string tableName);
+        void RegisterTable(ITextTable table);
 
-        void UnregisterTable(ITextTable table, string tableName);
+        void UnregisterTable(ITextTable table);
+
+        bool ValueExists(string tableName, long id);
+
+        bool ValueInUse(string tableName, string propertyName, long value, out string table, out string property);
     }
 }

@@ -3362,6 +3362,26 @@
             <param name="responseCode">Response code</param>
             <returns>bool</returns>
         </member>
+        <member name="T:SharedPluginFeatures.Interfaces.IBatchUpdate">
+            <summary>
+            Interface for batch updates
+            </summary>
+        </member>
+        <member name="M:SharedPluginFeatures.Interfaces.IBatchUpdate.BeginUpdate">
+            <summary>
+            Batch update is starting
+            </summary>
+        </member>
+        <member name="M:SharedPluginFeatures.Interfaces.IBatchUpdate.EndUpdate">
+            <summary>
+            Batch update is ended
+            </summary>
+        </member>
+        <member name="P:SharedPluginFeatures.Interfaces.IBatchUpdate.IsUpdating">
+            <summary>
+            Indicates whether it is in batch update
+            </summary>
+        </member>
         <member name="T:SharedPluginFeatures.IBotTrap">
             <summary>
             IBotTrap interface is called when a bot enters a trap within Spider Middleware

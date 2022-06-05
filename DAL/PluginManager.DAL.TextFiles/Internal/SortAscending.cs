@@ -13,30 +13,30 @@
  *
  *  Copyright (c) 2018 - 2022 Simon Carter.  All Rights Reserved.
  *
- *  Product:  PluginManager.DAL.TextFiles.Tests
+ *  Product:  PluginManager.DAL.TextFiles
  *  
- *  File: ITextTable.cs
+ *  File: SortAscending.cs
  *
- *  Purpose:  ITextTable interface for text based storage
+ *  Purpose:  SortAscending for text based storage
  *
  *  Date        Name                Reason
- *  31/05/2022  Simon Carter        Initially Created
+ *  05/06/2022  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-namespace PluginManager.DAL.TextFiles
+namespace PluginManager.DAL.TextFiles.Internal
 {
-
-
-    /// <summary>
-    /// add before/after insert/delete/update and add foreign key attributes and unique index attributes which can be validated
-    /// </summary>
-    public interface ITextTable
+    internal class SortAscending : IComparer<long>
     {
-        string TableName { get; }
+        public int Compare(long x, long y)
+        {
+            if (x == y)
+                return 0;
 
-        bool IdExists(long id);
+            if (x < y)
+                return -1;
 
-        bool IdIsInUse(string propertyName, long value);
+            return 1;
+        }
     }
 }

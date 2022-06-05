@@ -13,30 +13,52 @@
  *
  *  Copyright (c) 2018 - 2022 Simon Carter.  All Rights Reserved.
  *
- *  Product:  PluginManager.DAL.TextFiles.Tests
+ *  Product:  PluginManager.DAL.TextFiles
  *  
- *  File: ITextTable.cs
+ *  File: TableRowDefinition.cs
  *
- *  Purpose:  ITextTable interface for text based storage
+ *  Purpose:  Table Row Definition for a table table
  *
  *  Date        Name                Reason
- *  31/05/2022  Simon Carter        Initially Created
+ *  25/05/2022  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace PluginManager.DAL.TextFiles
 {
-
-
     /// <summary>
-    /// add before/after insert/delete/update and add foreign key attributes and unique index attributes which can be validated
+    /// Base class for all table row types
     /// </summary>
-    public interface ITextTable
+    public abstract class TableRowDefinition
     {
-        string TableName { get; }
+        private long _id;
 
-        bool IdExists(long id);
+        /// <summary>
+        /// Unique id of the record
+        /// </summary>
+        /// <value>long</value>
+        [UniqueIndex(IndexType.Ascending)]
+        public long Id
+        { 
+            get => _id;
 
-        bool IdIsInUse(string propertyName, long value);
+            set
+            {
+                if (ImmutableId)
+                    throw new InvalidOperationException();
+
+                _id = value;
+            }
+        }
+
+        /// <summary>
+        /// Indicates whether the row has been marked for delete or not
+        /// </summary>
+        protected internal bool ImmutableId { get; set; } = false;
     }
 }

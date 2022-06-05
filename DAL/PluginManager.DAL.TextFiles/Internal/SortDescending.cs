@@ -15,27 +15,28 @@
  *
  *  Product:  PluginManager.DAL.TextFiles
  *  
- *  File: IReaderWriterInitializer.cs
+ *  File: SortDescending.cs
  *
- *  Purpose:  IReaderWriterInitializer for text based storage
+ *  Purpose:  SortDescending for text based storage
  *
  *  Date        Name                Reason
- *  23/05/2022  Simon Carter        Initially Created
+ *  05/06/2022  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-namespace PluginManager.DAL.TextFiles
+namespace PluginManager.DAL.TextFiles.Internal
 {
-    public interface IReaderWriterInitializer
+    internal class SortDescending : IComparer<long>
     {
-        string Path { get; }
+        public int Compare(long x, long y)
+        {
+            if (x == y)
+                return 0;
 
-        void RegisterTable(ITextTable textTable);
+            if (x < y)
+                return 1;
 
-        void UnregisterTable(ITextTable textTable);
-
-        IReadOnlyDictionary<string, ITextTable> Tables { get; }
-
-        IForeignKeyManager ForeignKeyManager { get; }
+            return -1;
+        }
     }
 }

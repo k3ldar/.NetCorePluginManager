@@ -30,7 +30,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using io = System.IO;
+
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+using PluginManager.DAL.TextFiles.Internal;
 
 namespace PluginManager.DAL.TextFiles.Tests
 {
@@ -39,68 +43,236 @@ namespace PluginManager.DAL.TextFiles.Tests
     public class ForeignKeyManagerTests
     {
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
-        public void RegisterTable_TIsNotOfTypeTextReaderWriter_Throws_ArgumentException()
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void RegisterTable_InvalidParamTable_Null_Throws_ArgumentNullException()
         {
-            Assert.IsTrue(false);
+            ForeignKeyManager sut = new ForeignKeyManager();
+            sut.RegisterTable(null);
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
-        public void UnRegisterTable_TIsNotOfTypeTextReaderWriter_Throws_ArgumentException()
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void UnregisterTable_InvalidParamTable_Null_Throws_ArgumentNullException()
         {
-            Assert.IsTrue(false);
+            ForeignKeyManager sut = new ForeignKeyManager();
+            sut.UnregisterTable(null);
         }
 
         [TestMethod]
-        public void RegisterTable_TIsTypeTextReaderWriter_Success()
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void AddRelationShip_InvalidParamSourceTable_Null_Throws_ArgumentNullException()
         {
-            Assert.IsTrue(false);
+            ForeignKeyManager sut = new ForeignKeyManager();
+            sut.AddRelationShip(null, "targetTable", "Id", "Id");
         }
 
         [TestMethod]
-        public void UnRegisterTable_TIsTypeTextReaderWriter_Success()
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void AddRelationShip_InvalidParamTargetTable_Null_Throws_ArgumentNullException()
         {
-            Assert.IsTrue(false);
+            ForeignKeyManager sut = new ForeignKeyManager();
+            sut.AddRelationShip("sourceTable", null, "Id", "Id");
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void AddRelationShip_InvalidParamPropertyName_Null_Throws_ArgumentNullException()
+        {
+            ForeignKeyManager sut = new ForeignKeyManager();
+            sut.AddRelationShip("sourceTable", "targetTable", null, "Id");
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void AddRelationShip_InvalidParamTargetPropertyName_Null_Throws_ArgumentNullException()
+        {
+            ForeignKeyManager sut = new ForeignKeyManager();
+            sut.AddRelationShip("sourceTable", "targetTable", "Id", "");
         }
 
         [TestMethod]
         [ExpectedException(typeof(ForeignKeyException))]
         public void ForeignKey_InsertRecordWhenKeyDoesNotExists_Throws_ForeignKeyException()
         {
-            Assert.IsTrue(false);
+            ForeignKeyManager sut = new ForeignKeyManager();
+            string directory = io.Path.Combine(io.Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            try
+            {
+                io.Directory.CreateDirectory(directory);
+                ITextTableInitializer initializer = new TextTableInitializer(directory);
+
+                using TextTableOperations<MockTableUserRow> mockUsers = new TextTableOperations<MockTableUserRow>(initializer, sut);
+                List<MockTableUserRow> testData = new List<MockTableUserRow>();
+
+                for (int i = 0; i < 5; i++)
+                    testData.Add(new MockTableUserRow(i));
+
+                mockUsers.Insert(testData);
+
+                using TextTableOperations<MockTableAddressRow> mockAddresses = new TextTableOperations<MockTableAddressRow>(initializer, sut);
+                mockAddresses.Insert(new MockTableAddressRow(10));
+            }
+            finally
+            {
+                io.Directory.Delete(directory, true);
+            }
         }
 
         [TestMethod]
         [ExpectedException(typeof(ForeignKeyException))]
         public void ForeignKey_UpdateRecordWhenKeyDoesNotExists_Throws_ForeignKeyException()
         {
-            Assert.IsTrue(false);
+            ForeignKeyManager sut = new ForeignKeyManager();
+            string directory = io.Path.Combine(io.Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            try
+            {
+                io.Directory.CreateDirectory(directory);
+                ITextTableInitializer initializer = new TextTableInitializer(directory);
+
+                using TextTableOperations<MockTableUserRow> mockUsers = new TextTableOperations<MockTableUserRow>(initializer, sut);
+                List<MockTableUserRow> testData = new List<MockTableUserRow>();
+
+                for (int i = 0; i < 5; i++)
+                    testData.Add(new MockTableUserRow(i));
+
+                mockUsers.Insert(testData);
+
+                using TextTableOperations<MockTableAddressRow> mockAddresses = new TextTableOperations<MockTableAddressRow>(initializer, sut);
+                mockAddresses.Insert(new MockTableAddressRow(3));
+
+                MockTableAddressRow addressRow = mockAddresses.Select(0);
+                Assert.IsNotNull(addressRow);
+
+                addressRow.UserId = 10;
+                mockAddresses.Update(addressRow);
+            }
+            finally
+            {
+                io.Directory.Delete(directory, true);
+            }
         }
 
         [TestMethod]
         [ExpectedException(typeof(ForeignKeyException))]
-        public void ForeignKey_DeleteWhenForeignKeyExists_Throws_ForeignKeyException()
+        public void ForeignKey_DeleteForeignKeyWhenForeignKeyIsInUse_Throws_ForeignKeyException()
         {
-            Assert.IsTrue(false);
+            ForeignKeyManager sut = new ForeignKeyManager();
+            string directory = io.Path.Combine(io.Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            try
+            {
+                io.Directory.CreateDirectory(directory);
+                ITextTableInitializer initializer = new TextTableInitializer(directory);
+
+                using TextTableOperations<MockTableUserRow> mockUsers = new TextTableOperations<MockTableUserRow>(initializer, sut);
+                List<MockTableUserRow> testData = new List<MockTableUserRow>();
+
+                for (int i = 0; i < 5; i++)
+                    testData.Add(new MockTableUserRow(i));
+
+                mockUsers.Insert(testData);
+
+                using TextTableOperations<MockTableAddressRow> mockAddresses = new TextTableOperations<MockTableAddressRow>(initializer, sut);
+                mockAddresses.Insert(new MockTableAddressRow(3));
+
+                MockTableAddressRow addressRow = mockAddresses.Select(0);
+                Assert.IsNotNull(addressRow);
+
+                mockUsers.Truncate();
+            }
+            finally
+            {
+                io.Directory.Delete(directory, true);
+            }
         }
 
         [TestMethod]
         public void ForeignKey_InsertRecordWhenKeyExists_Success()
         {
-            Assert.IsTrue(false);
+            ForeignKeyManager sut = new ForeignKeyManager();
+            string directory = io.Path.Combine(io.Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            try
+            {
+                io.Directory.CreateDirectory(directory);
+                ITextTableInitializer initializer = new TextTableInitializer(directory);
+
+                using TextTableOperations<MockTableUserRow> mockUsers = new TextTableOperations<MockTableUserRow>(initializer, sut);
+                List<MockTableUserRow> testData = new List<MockTableUserRow>();
+
+                for (int i = 0; i < 5; i++)
+                    testData.Add(new MockTableUserRow(i));
+
+                mockUsers.Insert(testData);
+
+                using TextTableOperations<MockTableAddressRow> mockAddresses = new TextTableOperations<MockTableAddressRow>(initializer, sut);
+                mockAddresses.Insert(new MockTableAddressRow(3));
+            }
+            finally
+            {
+                io.Directory.Delete(directory, true);
+            }
         }
 
         [TestMethod]
         public void ForeignKey_UpdateRecordWhenKeyExists_Success()
         {
-            Assert.IsTrue(false);
+            ForeignKeyManager sut = new ForeignKeyManager();
+            string directory = io.Path.Combine(io.Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            try
+            {
+                io.Directory.CreateDirectory(directory);
+                ITextTableInitializer initializer = new TextTableInitializer(directory);
+
+                using TextTableOperations<MockTableUserRow> mockUsers = new TextTableOperations<MockTableUserRow>(initializer, sut);
+                List<MockTableUserRow> testData = new List<MockTableUserRow>();
+
+                for (int i = 0; i < 5; i++)
+                    testData.Add(new MockTableUserRow(i));
+
+                mockUsers.Insert(testData);
+
+                using TextTableOperations<MockTableAddressRow> mockAddresses = new TextTableOperations<MockTableAddressRow>(initializer, sut);
+                mockAddresses.Insert(new MockTableAddressRow(3));
+
+                MockTableAddressRow addressRow = mockAddresses.Select(0);
+                Assert.IsNotNull(addressRow);
+
+                addressRow.UserId = 2;
+                mockAddresses.Update(addressRow);
+            }
+            finally
+            {
+                io.Directory.Delete(directory, true);
+            }
         }
 
         [TestMethod]
         public void ForeignKey_DeleteRecordWhenKeyExists_Success()
         {
-            Assert.IsTrue(false);
+            ForeignKeyManager sut = new ForeignKeyManager();
+            string directory = io.Path.Combine(io.Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            try
+            {
+                io.Directory.CreateDirectory(directory);
+                ITextTableInitializer initializer = new TextTableInitializer(directory);
+
+                using TextTableOperations<MockTableUserRow> mockUsers = new TextTableOperations<MockTableUserRow>(initializer, sut);
+                List<MockTableUserRow> testData = new List<MockTableUserRow>();
+
+                for (int i = 0; i < 5; i++)
+                    testData.Add(new MockTableUserRow(i));
+
+                mockUsers.Insert(testData);
+
+                using TextTableOperations<MockTableAddressRow> mockAddresses = new TextTableOperations<MockTableAddressRow>(initializer, sut);
+                mockAddresses.Insert(new MockTableAddressRow(4));
+                mockAddresses.Truncate();
+
+                Assert.AreEqual(0, mockAddresses.RecordCount);
+            }
+            finally
+            {
+                io.Directory.Delete(directory, true);
+            }
         }
     }
 }

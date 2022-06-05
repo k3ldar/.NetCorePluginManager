@@ -15,30 +15,25 @@
  *
  *  Product:  PluginManager.DAL.TextFiles.Tests
  *  
- *  File: MockTableAddressRow.cs
+ *  File: MockTableUserRow.cs
  *
- *  Purpose:  MockTableAddressRow for text based storage
+ *  Purpose:  MockTableUserRow for text based storage
  *
  *  Date        Name                Reason
  *  02/06/2022  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using System;
-using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PluginManager.DAL.TextFiles.Tests
 {
     [ExcludeFromCodeCoverage]
-    [Table("MockTableAddress", cachingStrategy: CachingStrategy.Memory)]
-    public class MockTableAddressRow : BaseRow
+    [Table("MockTableUser", cachingStrategy: CachingStrategy.Memory)]
+    public class MockTableUserRow : TableRowDefinition
     {
-        [ForeignKey("MockTableUser")]
-        public long UserId { get; set; }
-
-        public string Description { get; set; }
+        public MockTableUserRow(long id)
+        {
+            Id = id;
+        }
     }
 }

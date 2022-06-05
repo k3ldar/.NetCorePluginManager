@@ -11,32 +11,39 @@
  *
  *  The Original Code was created by Simon Carter (s1cart3r@gmail.com)
  *
- *  Copyright (c) 2018 - 2022 Simon Carter.  All Rights Reserved.
+ *  Copyright (c) 2012 - 2021 Simon Carter.  All Rights Reserved.
  *
- *  Product:  PluginManager.DAL.TextFiles.Tests
+ *  Product:  SharedPluginFeatues
  *  
- *  File: ITextTable.cs
+ *  File: IBatchUpdate.cs
  *
- *  Purpose:  ITextTable interface for text based storage
+ *  Purpose: Provides batch update functionality to a class
  *
  *  Date        Name                Reason
- *  31/05/2022  Simon Carter        Initially Created
+ *  06/06/2022  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-namespace PluginManager.DAL.TextFiles
+namespace SharedPluginFeatures.Interfaces
 {
-
-
     /// <summary>
-    /// add before/after insert/delete/update and add foreign key attributes and unique index attributes which can be validated
+    /// Interface for batch updates
     /// </summary>
-    public interface ITextTable
+    public interface IBatchUpdate
     {
-        string TableName { get; }
+        /// <summary>
+        /// Batch update is starting
+        /// </summary>
+        void BeginUpdate();
 
-        bool IdExists(long id);
+        /// <summary>
+        /// Batch update is ended
+        /// </summary>
+        void EndUpdate();
 
-        bool IdIsInUse(string propertyName, long value);
+        /// <summary>
+        /// Indicates whether it is in batch update
+        /// </summary>
+        bool IsUpdating { get; }
     }
 }

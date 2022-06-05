@@ -15,9 +15,9 @@
  *
  *  Product:  PluginManager.DAL.TextFiles.Tests
  *  
- *  File: ReaderWriterTests.cs
+ *  File: TextTableOperationsTests.cs
  *
- *  Purpose:  ReaderWriterTests tests for text based storage
+ *  Purpose:  TextTableOperationsTests tests for text based storage
  *
  *  Date        Name                Reason
  *  30/05/2022  Simon Carter        Initially Created
@@ -37,7 +37,7 @@ namespace PluginManager.DAL.TextFiles.Tests
 {
     [TestClass]
     [ExcludeFromCodeCoverage]
-    public class ReaderWriterTests
+    public class TextTableOperationsTests
     {
         [TestMethod]
         public void Construct_ValidInstance_Success()
@@ -46,9 +46,9 @@ namespace PluginManager.DAL.TextFiles.Tests
             try
             {
                 io.Directory.CreateDirectory(directory);
-                ReaderWriterInitializer initializer = CreateTestInitializer(directory);
+                TextTableInitializer initializer = CreateTestInitializer(directory);
 
-                using TextReaderWriter<MockRow> sut = new TextReaderWriter<MockRow>(initializer);
+                using TextTableOperations<MockRow> sut = new TextTableOperations<MockRow>(initializer, new ForeignKeyManager());
             }
             finally
             {
@@ -58,9 +58,26 @@ namespace PluginManager.DAL.TextFiles.Tests
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
-        public void Initialize_InvalidParam_Null_Throws_ArgumentNullException()
+        public void Initialize_InvalidParam_InitializerNull_Throws_ArgumentNullException()
         {
-            using TextReaderWriter<MockRow> sut = new TextReaderWriter<MockRow>(null);
+            using TextTableOperations<MockRow> sut = new TextTableOperations<MockRow>(null, new ForeignKeyManager());
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void Initialize_InvalidParam_ForeignKeyManagerNull_Throws_ArgumentNullException()
+        {
+            string directory = io.Path.Combine(io.Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            try
+            {
+                io.Directory.CreateDirectory(directory);
+                TextTableInitializer initializer = CreateTestInitializer(directory);
+                new TextTableOperations<MockRow>(initializer, null);
+            }
+            finally
+            {
+                io.Directory.Delete(directory, true);
+            }
         }
 
         [TestMethod]
@@ -70,9 +87,9 @@ namespace PluginManager.DAL.TextFiles.Tests
             try
             {
                 io.Directory.CreateDirectory(directory);
-                ReaderWriterInitializer initializer = CreateTestInitializer(directory);
+                TextTableInitializer initializer = CreateTestInitializer(directory);
 
-                using (TextReaderWriter<MockRow> sut = new TextReaderWriter<MockRow>(initializer))
+                using (TextTableOperations<MockRow> sut = new TextTableOperations<MockRow>(initializer, new ForeignKeyManager()))
                 {
                     Assert.IsTrue(io.File.Exists(io.Path.Combine(directory, "MockTable.dat")));
 
@@ -99,9 +116,9 @@ namespace PluginManager.DAL.TextFiles.Tests
             try
             {
                 io.Directory.CreateDirectory(directory);
-                ReaderWriterInitializer initializer = CreateTestInitializer(directory);
+                TextTableInitializer initializer = CreateTestInitializer(directory);
 
-                using TextReaderWriter<MockRow> sut = new TextReaderWriter<MockRow>(initializer);
+                using TextTableOperations<MockRow> sut = new TextTableOperations<MockRow>(initializer, new ForeignKeyManager());
 
                 Assert.IsTrue(io.File.Exists(io.Path.Combine(directory, "MockTable.dat")));
             }
@@ -119,9 +136,9 @@ namespace PluginManager.DAL.TextFiles.Tests
             try
             {
                 io.Directory.CreateDirectory(directory);
-                ReaderWriterInitializer initializer = CreateTestInitializer(directory);
+                TextTableInitializer initializer = CreateTestInitializer(directory);
 
-                using TextReaderWriter<MockRow> sut = new TextReaderWriter<MockRow>(initializer);
+                using TextTableOperations<MockRow> sut = new TextTableOperations<MockRow>(initializer, new ForeignKeyManager());
 
                 sut.Insert(records: null);
             }
@@ -139,9 +156,9 @@ namespace PluginManager.DAL.TextFiles.Tests
             try
             {
                 io.Directory.CreateDirectory(directory);
-                ReaderWriterInitializer initializer = CreateTestInitializer(directory);
+                TextTableInitializer initializer = CreateTestInitializer(directory);
 
-                using TextReaderWriter<MockRow> sut = new TextReaderWriter<MockRow>(initializer);
+                using TextTableOperations<MockRow> sut = new TextTableOperations<MockRow>(initializer, new ForeignKeyManager());
 
                 sut.Insert(record: null!);
             }
@@ -159,9 +176,9 @@ namespace PluginManager.DAL.TextFiles.Tests
             try
             {
                 io.Directory.CreateDirectory(directory);
-                ReaderWriterInitializer initializer = CreateTestInitializer(directory);
+                TextTableInitializer initializer = CreateTestInitializer(directory);
 
-                using TextReaderWriter<MockRow> sut = new TextReaderWriter<MockRow>(initializer);
+                using TextTableOperations<MockRow> sut = new TextTableOperations<MockRow>(initializer, new ForeignKeyManager());
                 sut.Dispose();
                 sut.Insert(new MockRow());
             }
@@ -178,14 +195,15 @@ namespace PluginManager.DAL.TextFiles.Tests
             try
             {
                 io.Directory.CreateDirectory(directory);
-                ReaderWriterInitializer initializer = CreateTestInitializer(directory);
+                TextTableInitializer initializer = CreateTestInitializer(directory);
+                IForeignKeyManager keyManager = new ForeignKeyManager();
 
-                using (TextReaderWriter<MockRow> sut = new TextReaderWriter<MockRow>(initializer))
+                using (TextTableOperations<MockRow> sut = new TextTableOperations<MockRow>(initializer, keyManager))
                 {
                     sut.Insert(new MockRow());
                 }
 
-                using TextReaderWriter<MockRow> sutRead = new TextReaderWriter<MockRow>(initializer);
+                using TextTableOperations<MockRow> sutRead = new TextTableOperations<MockRow>(initializer, keyManager);
                 IReadOnlyList<MockRow>? records = sutRead.Select();
 
                 Assert.AreEqual(1, records.Count);
@@ -205,15 +223,16 @@ namespace PluginManager.DAL.TextFiles.Tests
             try
             {
                 io.Directory.CreateDirectory(directory);
-                ReaderWriterInitializer initializer = CreateTestInitializer(directory);
+                TextTableInitializer initializer = CreateTestInitializer(directory);
+                IForeignKeyManager keyManager = new ForeignKeyManager();
 
-                using (TextReaderWriter<MockRow> sut = new TextReaderWriter<MockRow>(initializer))
+                using (TextTableOperations<MockRow> sut = new TextTableOperations<MockRow>(initializer, keyManager))
                 {
                     sut.Insert(new MockRow());
                     sut.Insert(new MockRow());
                 }
 
-                using TextReaderWriter<MockRow> sutRead = new TextReaderWriter<MockRow>(initializer);
+                using TextTableOperations<MockRow> sutRead = new TextTableOperations<MockRow>(initializer, keyManager);
                 IReadOnlyList<MockRow>? records = sutRead.Select();
 
                 Assert.AreEqual(2, records.Count);
@@ -235,9 +254,9 @@ namespace PluginManager.DAL.TextFiles.Tests
             try
             {
                 io.Directory.CreateDirectory(directory);
-                ReaderWriterInitializer initializer = CreateTestInitializer(directory);
+                TextTableInitializer initializer = CreateTestInitializer(directory);
 
-                using TextReaderWriter<MockRow> sut = new TextReaderWriter<MockRow>(initializer);
+                using TextTableOperations<MockRow> sut = new TextTableOperations<MockRow>(initializer, new ForeignKeyManager());
                 sut.Dispose();
                 sut.Delete(new MockRow());
 
@@ -256,9 +275,9 @@ namespace PluginManager.DAL.TextFiles.Tests
             try
             {
                 io.Directory.CreateDirectory(directory);
-                ReaderWriterInitializer initializer = CreateTestInitializer(directory);
+                TextTableInitializer initializer = CreateTestInitializer(directory);
 
-                using TextReaderWriter<MockRow> sut = new TextReaderWriter<MockRow>(initializer);
+                using TextTableOperations<MockRow> sut = new TextTableOperations<MockRow>(initializer, new ForeignKeyManager());
                 sut.Delete(record: null!);
 
             }
@@ -275,9 +294,10 @@ namespace PluginManager.DAL.TextFiles.Tests
             try
             {
                 io.Directory.CreateDirectory(directory);
-                IReaderWriterInitializer initializer = CreateTestInitializer(directory);
+                ITextTableInitializer initializer = CreateTestInitializer(directory);
+                IForeignKeyManager keyManager = new ForeignKeyManager();
 
-                using (TextReaderWriter<MockRow> sut = new TextReaderWriter<MockRow>(initializer))
+                using (TextTableOperations<MockRow> sut = new TextTableOperations<MockRow>(initializer, keyManager))
                 {
                     List<MockRow> testData = new List<MockRow>();
 
@@ -287,7 +307,7 @@ namespace PluginManager.DAL.TextFiles.Tests
                     sut.Insert(testData);
                 }
 
-                using (TextReaderWriter<MockRow> deleteSut = new TextReaderWriter<MockRow>(initializer))
+                using (TextTableOperations<MockRow> deleteSut = new TextTableOperations<MockRow>(initializer, keyManager))
                 {
                     Assert.AreEqual(15168, deleteSut.RecordCount);
                     Assert.AreEqual(186075, deleteSut.DataLength);
@@ -295,7 +315,7 @@ namespace PluginManager.DAL.TextFiles.Tests
                     deleteSut.Delete(deleteSut.Select(1519));
                 }
 
-                using (TextReaderWriter<MockRow> readSut = new TextReaderWriter<MockRow>(initializer))
+                using (TextTableOperations<MockRow> readSut = new TextTableOperations<MockRow>(initializer, keyManager))
                 {
                     Assert.AreEqual(15167, readSut.RecordCount);
                     Assert.AreEqual(186063, readSut.DataLength);
@@ -317,9 +337,9 @@ namespace PluginManager.DAL.TextFiles.Tests
             try
             {
                 io.Directory.CreateDirectory(directory);
-                ReaderWriterInitializer initializer = CreateTestInitializer(directory);
+                TextTableInitializer initializer = CreateTestInitializer(directory);
 
-                using TextReaderWriter<MockRow> sut = new TextReaderWriter<MockRow>(initializer);
+                using TextTableOperations<MockRow> sut = new TextTableOperations<MockRow>(initializer, new ForeignKeyManager());
                 sut.Dispose();
                 sut.Delete(new List<MockRow>() { new MockRow() });
 
@@ -338,9 +358,9 @@ namespace PluginManager.DAL.TextFiles.Tests
             try
             {
                 io.Directory.CreateDirectory(directory);
-                ReaderWriterInitializer initializer = CreateTestInitializer(directory);
+                TextTableInitializer initializer = CreateTestInitializer(directory);
 
-                using TextReaderWriter<MockRow> sut = new TextReaderWriter<MockRow>(initializer);
+                using TextTableOperations<MockRow> sut = new TextTableOperations<MockRow>(initializer, new ForeignKeyManager());
                 sut.Delete(records: null!);
 
             }
@@ -357,9 +377,10 @@ namespace PluginManager.DAL.TextFiles.Tests
             try
             {
                 io.Directory.CreateDirectory(directory);
-                IReaderWriterInitializer initializer = CreateTestInitializer(directory);
+                ITextTableInitializer initializer = CreateTestInitializer(directory);
+                IForeignKeyManager keyManager = new ForeignKeyManager();
 
-                using (TextReaderWriter<MockRow> sut = new TextReaderWriter<MockRow>(initializer))
+                using (TextTableOperations<MockRow> sut = new TextTableOperations<MockRow>(initializer, keyManager))
                 {
                     List<MockRow> testData = new List<MockRow>();
 
@@ -369,7 +390,7 @@ namespace PluginManager.DAL.TextFiles.Tests
                     sut.Insert(testData);
                 }
 
-                using (TextReaderWriter<MockRow> deleteSut = new TextReaderWriter<MockRow>(initializer))
+                using (TextTableOperations<MockRow> deleteSut = new TextTableOperations<MockRow>(initializer, keyManager))
                 {
                     Assert.AreEqual(15168, deleteSut.RecordCount);
                     Assert.AreEqual(186075, deleteSut.DataLength);
@@ -382,7 +403,7 @@ namespace PluginManager.DAL.TextFiles.Tests
                     });
                 }
 
-                using (TextReaderWriter<MockRow> readSut = new TextReaderWriter<MockRow>(initializer))
+                using (TextTableOperations<MockRow> readSut = new TextTableOperations<MockRow>(initializer, keyManager))
                 {
                     Assert.AreEqual(15165, readSut.RecordCount);
                     Assert.AreEqual(186038, readSut.DataLength);
@@ -405,9 +426,10 @@ namespace PluginManager.DAL.TextFiles.Tests
             try
             {
                 io.Directory.CreateDirectory(directory);
-                IReaderWriterInitializer initializer = CreateTestInitializer(directory);
+                ITextTableInitializer initializer = CreateTestInitializer(directory);
+                IForeignKeyManager keyManager = new ForeignKeyManager();
 
-                using (TextReaderWriter<MockRow> sut = new TextReaderWriter<MockRow>(initializer))
+                using (TextTableOperations<MockRow> sut = new TextTableOperations<MockRow>(initializer, keyManager))
                 {
                     List<MockRow> testData = new List<MockRow>();
 
@@ -417,7 +439,7 @@ namespace PluginManager.DAL.TextFiles.Tests
                     sut.Insert(testData);
                 }
 
-                using (TextReaderWriter<MockRow> deleteSut = new TextReaderWriter<MockRow>(initializer))
+                using (TextTableOperations<MockRow> deleteSut = new TextTableOperations<MockRow>(initializer, keyManager))
                 {
                     Assert.AreEqual(15168, deleteSut.RecordCount);
                     Assert.AreEqual(186075, deleteSut.DataLength);
@@ -432,7 +454,7 @@ namespace PluginManager.DAL.TextFiles.Tests
                     Assert.AreEqual(68, deleteSut.CompactPercent);
                 }
 
-                using (TextReaderWriter<MockRow> readSut = new TextReaderWriter<MockRow>(initializer))
+                using (TextTableOperations<MockRow> readSut = new TextTableOperations<MockRow>(initializer, keyManager))
                 {
                     Assert.AreEqual(10178, readSut.RecordCount);
                     Assert.AreEqual(127275, readSut.DataLength);
@@ -453,9 +475,9 @@ namespace PluginManager.DAL.TextFiles.Tests
             try
             {
                 io.Directory.CreateDirectory(directory);
-                ReaderWriterInitializer initializer = CreateTestInitializer(directory);
+                TextTableInitializer initializer = CreateTestInitializer(directory);
 
-                using TextReaderWriter<MockUpdateRow> sut = new TextReaderWriter<MockUpdateRow>(initializer);
+                using TextTableOperations<MockUpdateRow> sut = new TextTableOperations<MockUpdateRow>(initializer, new ForeignKeyManager());
                 sut.Dispose();
                 sut.Update(new MockUpdateRow());
 
@@ -474,9 +496,9 @@ namespace PluginManager.DAL.TextFiles.Tests
             try
             {
                 io.Directory.CreateDirectory(directory);
-                ReaderWriterInitializer initializer = CreateTestInitializer(directory);
+                TextTableInitializer initializer = CreateTestInitializer(directory);
 
-                using TextReaderWriter<MockUpdateRow> sut = new TextReaderWriter<MockUpdateRow>(initializer);
+                using TextTableOperations<MockUpdateRow> sut = new TextTableOperations<MockUpdateRow>(initializer, new ForeignKeyManager());
                 sut.Update(record: null!);
 
             }
@@ -493,9 +515,10 @@ namespace PluginManager.DAL.TextFiles.Tests
             try
             {
                 io.Directory.CreateDirectory(directory);
-                IReaderWriterInitializer initializer = CreateTestInitializer(directory);
+                ITextTableInitializer initializer = CreateTestInitializer(directory);
+                IForeignKeyManager keyManager = new ForeignKeyManager();
 
-                using (TextReaderWriter<MockUpdateRow> sut = new TextReaderWriter<MockUpdateRow>(initializer))
+                using (TextTableOperations<MockUpdateRow> sut = new TextTableOperations<MockUpdateRow>(initializer, keyManager))
                 {
                     List<MockUpdateRow> testData = new List<MockUpdateRow>();
 
@@ -505,7 +528,7 @@ namespace PluginManager.DAL.TextFiles.Tests
                     sut.Insert(testData);
                 }
 
-                using (TextReaderWriter<MockUpdateRow> updateSut = new TextReaderWriter<MockUpdateRow>(initializer))
+                using (TextTableOperations<MockUpdateRow> updateSut = new TextTableOperations<MockUpdateRow>(initializer, keyManager))
                 {
                     Assert.AreEqual(15168, updateSut.RecordCount);
                     Assert.AreEqual(368091, updateSut.DataLength);
@@ -515,7 +538,7 @@ namespace PluginManager.DAL.TextFiles.Tests
                     updateSut.Update(row1);
                 }
 
-                using (TextReaderWriter<MockUpdateRow> readSut = new TextReaderWriter<MockUpdateRow>(initializer))
+                using (TextTableOperations<MockUpdateRow> readSut = new TextTableOperations<MockUpdateRow>(initializer, keyManager))
                 {
                     Assert.AreEqual(15168, readSut.RecordCount);
                     Assert.AreEqual(368102, readSut.DataLength);
@@ -538,9 +561,9 @@ namespace PluginManager.DAL.TextFiles.Tests
             try
             {
                 io.Directory.CreateDirectory(directory);
-                ReaderWriterInitializer initializer = CreateTestInitializer(directory);
+                TextTableInitializer initializer = CreateTestInitializer(directory);
 
-                using TextReaderWriter<MockUpdateRow> sut = new TextReaderWriter<MockUpdateRow>(initializer);
+                using TextTableOperations<MockUpdateRow> sut = new TextTableOperations<MockUpdateRow>(initializer, new ForeignKeyManager());
                 sut.Dispose();
                 sut.Update(new List<MockUpdateRow>() { new MockUpdateRow() });
 
@@ -559,9 +582,9 @@ namespace PluginManager.DAL.TextFiles.Tests
             try
             {
                 io.Directory.CreateDirectory(directory);
-                ReaderWriterInitializer initializer = CreateTestInitializer(directory);
+                TextTableInitializer initializer = CreateTestInitializer(directory);
 
-                using TextReaderWriter<MockUpdateRow> sut = new TextReaderWriter<MockUpdateRow>(initializer);
+                using TextTableOperations<MockUpdateRow> sut = new TextTableOperations<MockUpdateRow>(initializer, new ForeignKeyManager());
                 sut.Update(records: null!);
 
             }
@@ -578,9 +601,10 @@ namespace PluginManager.DAL.TextFiles.Tests
             try
             {
                 io.Directory.CreateDirectory(directory);
-                IReaderWriterInitializer initializer = CreateTestInitializer(directory);
+                ITextTableInitializer initializer = CreateTestInitializer(directory);
+                IForeignKeyManager keyManager = new ForeignKeyManager();
 
-                using (TextReaderWriter<MockUpdateRow> sut = new TextReaderWriter<MockUpdateRow>(initializer))
+                using (TextTableOperations<MockUpdateRow> sut = new TextTableOperations<MockUpdateRow>(initializer, keyManager))
                 {
                     List<MockUpdateRow> testData = new List<MockUpdateRow>();
 
@@ -590,7 +614,7 @@ namespace PluginManager.DAL.TextFiles.Tests
                     sut.Insert(testData);
                 }
 
-                using (TextReaderWriter<MockUpdateRow> updateSut = new TextReaderWriter<MockUpdateRow>(initializer))
+                using (TextTableOperations<MockUpdateRow> updateSut = new TextTableOperations<MockUpdateRow>(initializer, keyManager))
                 {
                     Assert.AreEqual(15168, updateSut.RecordCount);
                     Assert.AreEqual(368091, updateSut.DataLength);
@@ -608,7 +632,7 @@ namespace PluginManager.DAL.TextFiles.Tests
                     updateSut.Update(updateList);
                 }
 
-                using (TextReaderWriter<MockUpdateRow> readSut = new TextReaderWriter<MockUpdateRow>(initializer))
+                using (TextTableOperations<MockUpdateRow> readSut = new TextTableOperations<MockUpdateRow>(initializer, keyManager))
                 {
                     Assert.AreEqual(15168, readSut.RecordCount);
                     Assert.AreEqual(368124, readSut.DataLength);
@@ -635,9 +659,9 @@ namespace PluginManager.DAL.TextFiles.Tests
             try
             {
                 io.Directory.CreateDirectory(directory);
-                ReaderWriterInitializer initializer = CreateTestInitializer(directory);
+                TextTableInitializer initializer = CreateTestInitializer(directory);
 
-                using TextReaderWriter<MockRow> sut = new TextReaderWriter<MockRow>(initializer);
+                using TextTableOperations<MockRow> sut = new TextTableOperations<MockRow>(initializer, new ForeignKeyManager());
                 sut.Dispose();
                 sut.Insert(new List<MockRow>());
 
@@ -655,9 +679,10 @@ namespace PluginManager.DAL.TextFiles.Tests
             try
             {
                 io.Directory.CreateDirectory(directory);
-                IReaderWriterInitializer initializer = CreateTestInitializer(directory);
+                ITextTableInitializer initializer = CreateTestInitializer(directory);
+                IForeignKeyManager keyManager = new ForeignKeyManager();
 
-                using (TextReaderWriter<MockRow> sut = new TextReaderWriter<MockRow>(initializer))
+                using (TextTableOperations<MockRow> sut = new TextTableOperations<MockRow>(initializer, keyManager))
                 {
                     List<MockRow> testData = new List<MockRow>();
 
@@ -667,7 +692,7 @@ namespace PluginManager.DAL.TextFiles.Tests
                     sut.Insert(testData);
                 }
 
-                using (TextReaderWriter<MockRow> readSut = new TextReaderWriter<MockRow>(initializer))
+                using (TextTableOperations<MockRow> readSut = new TextTableOperations<MockRow>(initializer, keyManager))
                 {
                     Assert.AreEqual(15168, readSut.RecordCount);
                     Assert.AreEqual(186075, readSut.DataLength);
@@ -686,9 +711,10 @@ namespace PluginManager.DAL.TextFiles.Tests
             try
             {
                 io.Directory.CreateDirectory(directory);
-                IReaderWriterInitializer initializer = CreateTestInitializer(directory);
+                ITextTableInitializer initializer = CreateTestInitializer(directory);
+                IForeignKeyManager keyManager = new ForeignKeyManager();
 
-                using (TextReaderWriter<MockRow> sut = new TextReaderWriter<MockRow>(initializer))
+                using (TextTableOperations<MockRow> sut = new TextTableOperations<MockRow>(initializer, keyManager))
                 {
                     List<MockRow> testData = new List<MockRow>();
 
@@ -698,7 +724,7 @@ namespace PluginManager.DAL.TextFiles.Tests
                     sut.Insert(testData);
                 }
 
-                using (TextReaderWriter<MockRow> readSut = new TextReaderWriter<MockRow>(initializer))
+                using (TextTableOperations<MockRow> readSut = new TextTableOperations<MockRow>(initializer, keyManager))
                 {
                     Assert.AreEqual(5, readSut.RecordCount);
                     Assert.AreEqual(46, readSut.DataLength);
@@ -723,9 +749,10 @@ namespace PluginManager.DAL.TextFiles.Tests
             try
             {
                 io.Directory.CreateDirectory(directory);
-                IReaderWriterInitializer initializer = CreateTestInitializer(directory);
+                ITextTableInitializer initializer = CreateTestInitializer(directory);
+                IForeignKeyManager keyManager = new ForeignKeyManager();
 
-                using (TextReaderWriter<MockRowCompressed> sut = new TextReaderWriter<MockRowCompressed>(initializer))
+                using (TextTableOperations<MockRowCompressed> sut = new TextTableOperations<MockRowCompressed>(initializer, keyManager))
                 {
                     List<MockRowCompressed> testData = new List<MockRowCompressed>();
 
@@ -735,7 +762,7 @@ namespace PluginManager.DAL.TextFiles.Tests
                     sut.Insert(testData);
                 }
 
-                using (TextReaderWriter<MockRowCompressed> readSut = new TextReaderWriter<MockRowCompressed>(initializer))
+                using (TextTableOperations<MockRowCompressed> readSut = new TextTableOperations<MockRowCompressed>(initializer, keyManager))
                 {
                     Assert.AreEqual(15168, readSut.RecordCount);
                     Assert.AreEqual(11623, readSut.DataLength);
@@ -756,9 +783,9 @@ namespace PluginManager.DAL.TextFiles.Tests
             try
             {
                 io.Directory.CreateDirectory(directory);
-                ReaderWriterInitializer initializer = CreateTestInitializer(directory);
+                TextTableInitializer initializer = CreateTestInitializer(directory);
 
-                using TextReaderWriter<MockRow> sut = new TextReaderWriter<MockRow>(initializer);
+                using TextTableOperations<MockRow> sut = new TextTableOperations<MockRow>(initializer, new ForeignKeyManager());
                 sut.Dispose();
                 _ = sut.Select(1);
             }
@@ -775,9 +802,9 @@ namespace PluginManager.DAL.TextFiles.Tests
             try
             {
                 io.Directory.CreateDirectory(directory);
-                ReaderWriterInitializer initializer = CreateTestInitializer(directory);
+                TextTableInitializer initializer = CreateTestInitializer(directory);
 
-                using TextReaderWriter<MockRow> sut = new TextReaderWriter<MockRow>(initializer);
+                using TextTableOperations<MockRow> sut = new TextTableOperations<MockRow>(initializer, new ForeignKeyManager());
                 MockRow row = sut.Select(1);
 
                 Assert.IsNull(row);
@@ -795,9 +822,10 @@ namespace PluginManager.DAL.TextFiles.Tests
             try
             {
                 io.Directory.CreateDirectory(directory);
-                IReaderWriterInitializer initializer = CreateTestInitializer(directory);
+                ITextTableInitializer initializer = CreateTestInitializer(directory);
+                IForeignKeyManager keyManager = new ForeignKeyManager();
 
-                using (TextReaderWriter<MockRowCompressed> sut = new TextReaderWriter<MockRowCompressed>(initializer))
+                using (TextTableOperations<MockRowCompressed> sut = new TextTableOperations<MockRowCompressed>(initializer, keyManager))
                 {
                     List<MockRowCompressed> testData = new List<MockRowCompressed>();
 
@@ -812,7 +840,7 @@ namespace PluginManager.DAL.TextFiles.Tests
                 }
 
 
-                using (TextReaderWriter<MockRowCompressed> readSut = new TextReaderWriter<MockRowCompressed>(initializer))
+                using (TextTableOperations<MockRowCompressed> readSut = new TextTableOperations<MockRowCompressed>(initializer, keyManager))
                 {
                     Assert.AreEqual(200, readSut.RecordCount);
                     Assert.AreEqual(210, readSut.DataLength);
@@ -837,9 +865,9 @@ namespace PluginManager.DAL.TextFiles.Tests
             try
             {
                 io.Directory.CreateDirectory(directory);
-                ReaderWriterInitializer initializer = CreateTestInitializer(directory);
+                TextTableInitializer initializer = CreateTestInitializer(directory);
 
-                using TextReaderWriter<MockRow> sut = new TextReaderWriter<MockRow>(initializer);
+                using TextTableOperations<MockRow> sut = new TextTableOperations<MockRow>(initializer, new ForeignKeyManager());
                 sut.Dispose();
                 _ = sut.NextSequence();
 
@@ -857,11 +885,11 @@ namespace PluginManager.DAL.TextFiles.Tests
             try
             {
                 io.Directory.CreateDirectory(directory);
-                IReaderWriterInitializer initializer = CreateTestInitializer(directory);
+                ITextTableInitializer initializer = CreateTestInitializer(directory);
 
                 for (int i = 0; i < 100; i++)
                 {
-                    using (TextReaderWriter<MockRowCompressed> sut = new TextReaderWriter<MockRowCompressed>(initializer))
+                    using (TextTableOperations<MockRowCompressed> sut = new TextTableOperations<MockRowCompressed>(initializer, new ForeignKeyManager()))
                     {
                         long nextSequence = sut.NextSequence();
                         Assert.AreEqual(i, (long)nextSequence);
@@ -883,9 +911,9 @@ namespace PluginManager.DAL.TextFiles.Tests
             try
             {
                 io.Directory.CreateDirectory(directory);
-                ReaderWriterInitializer initializer = CreateTestInitializer(directory);
+                TextTableInitializer initializer = CreateTestInitializer(directory);
 
-                using TextReaderWriter<MockRow> sut = new TextReaderWriter<MockRow>(initializer);
+                using TextTableOperations<MockRow> sut = new TextTableOperations<MockRow>(initializer, new ForeignKeyManager());
                 sut.Dispose();
                 sut.ResetSequence(123);
 
@@ -903,14 +931,15 @@ namespace PluginManager.DAL.TextFiles.Tests
             try
             {
                 io.Directory.CreateDirectory(directory);
-                IReaderWriterInitializer initializer = CreateTestInitializer(directory);
+                ITextTableInitializer initializer = CreateTestInitializer(directory);
+                IForeignKeyManager keyManager = new ForeignKeyManager();
 
-                using (TextReaderWriter<MockRowCompressed> sut = new TextReaderWriter<MockRowCompressed>(initializer))
+                using (TextTableOperations<MockRowCompressed> sut = new TextTableOperations<MockRowCompressed>(initializer, keyManager))
                 {
                     sut.ResetSequence(368745);
                 }
 
-                using (TextReaderWriter<MockRowCompressed> sut = new TextReaderWriter<MockRowCompressed>(initializer))
+                using (TextTableOperations<MockRowCompressed> sut = new TextTableOperations<MockRowCompressed>(initializer, keyManager))
                 {
                     long nextSequence = sut.NextSequence();
                     Assert.AreEqual(368746, (long)nextSequence);
@@ -931,9 +960,10 @@ namespace PluginManager.DAL.TextFiles.Tests
             try
             {
                 io.Directory.CreateDirectory(directory);
-                IReaderWriterInitializer initializer = CreateTestInitializer(directory);
+                ITextTableInitializer initializer = CreateTestInitializer(directory);
+                IForeignKeyManager keyManager = new ForeignKeyManager();
 
-                using (TextReaderWriter<MockRowCompressed> sut = new TextReaderWriter<MockRowCompressed>(initializer))
+                using (TextTableOperations<MockRowCompressed> sut = new TextTableOperations<MockRowCompressed>(initializer, keyManager))
                 {
                     List<MockRowCompressed> testData = new List<MockRowCompressed>();
 
@@ -964,7 +994,7 @@ namespace PluginManager.DAL.TextFiles.Tests
                 }
 
 
-                using (TextReaderWriter<MockRowCompressed> readSut = new TextReaderWriter<MockRowCompressed>(initializer))
+                using (TextTableOperations<MockRowCompressed> readSut = new TextTableOperations<MockRowCompressed>(initializer, keyManager))
                 {
                     Assert.AreEqual(1, readSut.RecordCount);
                     Assert.AreEqual(10, readSut.DataLength);
@@ -985,9 +1015,9 @@ namespace PluginManager.DAL.TextFiles.Tests
             }
         }
 
-        private ReaderWriterInitializer CreateTestInitializer(string path)
+        private TextTableInitializer CreateTestInitializer(string path)
         {
-            return new ReaderWriterInitializer(path, new ForeignKeyManager());
+            return new TextTableInitializer(path);
         }
     }
 }

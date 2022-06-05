@@ -15,9 +15,9 @@
  *
  *  Product:  PluginManager.DAL.TextFiles.Tests
  *  
- *  File: ReaderWriterInitializerTests.cs
+ *  File: TextTableInitializerTests.cs
  *
- *  Purpose:  ReaderWriterInitializerTests tests for text based storage
+ *  Purpose:  TextTableInitializerTests tests for text based storage
  *
  *  Date        Name                Reason
  *  30/05/2022  Simon Carter        Initially Created
@@ -39,7 +39,7 @@ namespace PluginManager.DAL.TextFiles.Tests
 {
     [TestClass]
     [ExcludeFromCodeCoverage]
-    public class ReaderWriterInitializerTests
+    public class TextTableInitializerTests
     {
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
@@ -47,39 +47,13 @@ namespace PluginManager.DAL.TextFiles.Tests
         {
             try
             {
-                new ReaderWriterInitializer(path: null, new ForeignKeyManager());
+                new TextTableInitializer(path: null);
             }
             catch (ArgumentNullException e)
             {
                 Assert.AreEqual("path", e.ParamName);
                 throw;
             }
-        }
-
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
-        public void Construct_NullForeignKeyManager_Throws_ArgumentNullException()
-        {
-            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
-            try
-            {
-                try
-                {
-                    new ReaderWriterInitializer(directory, null);
-                }
-                catch (ArgumentNullException e)
-                {
-                    Assert.AreEqual("foreignKeyManager", e.ParamName);
-                    throw;
-                }
-            }
-            catch (ArgumentException e)
-            {
-                Assert.AreEqual("foreignKeyManager", e.ParamName);
-                Assert.AreEqual("Value cannot be null. (Parameter 'foreignKeyManager')", e.Message);
-                throw;
-            }
-
         }
          
         [TestMethod]
@@ -88,7 +62,7 @@ namespace PluginManager.DAL.TextFiles.Tests
         {
             try
             {
-                new ReaderWriterInitializer("", new ForeignKeyManager());
+                new TextTableInitializer("");
             }
             catch (ArgumentNullException e)
             {
@@ -104,7 +78,7 @@ namespace PluginManager.DAL.TextFiles.Tests
             string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
             try
             {
-                new ReaderWriterInitializer(directory, new ForeignKeyManager());
+                new TextTableInitializer(directory);
             }
             catch (ArgumentException e)
             {
@@ -121,7 +95,7 @@ namespace PluginManager.DAL.TextFiles.Tests
             try
             {
                 Directory.CreateDirectory(directory);
-                ReaderWriterInitializer sut = new ReaderWriterInitializer(directory, new ForeignKeyManager());
+                TextTableInitializer sut = new TextTableInitializer(directory);
                 Assert.AreEqual(1u, sut.MinimumVersion);
                 Assert.AreEqual(directory, sut.Path);
             }
@@ -139,7 +113,7 @@ namespace PluginManager.DAL.TextFiles.Tests
             try
             {
                 Directory.CreateDirectory(directory);
-                ReaderWriterInitializer sut = new ReaderWriterInitializer(directory, new ForeignKeyManager());
+                TextTableInitializer sut = new TextTableInitializer(directory);
                 Assert.AreEqual(1u, sut.MinimumVersion);
                 Assert.AreEqual(directory, sut.Path);
 
@@ -159,11 +133,11 @@ namespace PluginManager.DAL.TextFiles.Tests
             try
             {
                 Directory.CreateDirectory(directory);
-                ReaderWriterInitializer sut = new ReaderWriterInitializer(directory, new ForeignKeyManager());
+                TextTableInitializer sut = new TextTableInitializer(directory);
                 Assert.AreEqual(1u, sut.MinimumVersion);
                 Assert.AreEqual(directory, sut.Path);
 
-                using (TextReaderWriter<MockRow>? mockTable = new TextReaderWriter<MockRow>(sut))
+                using (TextTableOperations<MockRow>? mockTable = new TextTableOperations<MockRow>(sut, new ForeignKeyManager()))
                     sut.RegisterTable(mockTable);
             }
             finally
@@ -179,16 +153,47 @@ namespace PluginManager.DAL.TextFiles.Tests
             try
             {
                 Directory.CreateDirectory(directory);
-                ReaderWriterInitializer sut = new ReaderWriterInitializer(directory, new ForeignKeyManager());
+                TextTableInitializer sut = new TextTableInitializer(directory);
                 Assert.AreEqual(1u, sut.MinimumVersion);
                 Assert.AreEqual(directory, sut.Path);
 
-                using (TextReaderWriter<MockRow> mockTable = new TextReaderWriter<MockRow>(sut))
+                using (TextTableOperations<MockRow> mockTable = new TextTableOperations<MockRow>(sut, new ForeignKeyManager()))
                 {
                     IReadOnlyDictionary<string, ITextTable> tables = sut.Tables;
                     Assert.AreEqual(1, tables.Count);
                     Assert.IsTrue(tables.ContainsKey("MockTable"));
                 }
+            }
+            finally
+            {
+                Directory.Delete(directory, true);
+            }
+        }
+
+        [TestMethod]
+        public void RegisterAndUnregisterTable_WithForeignKeyManager_Success()
+        {
+            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            try
+            {
+                Directory.CreateDirectory(directory);
+                TextTableInitializer sut = new TextTableInitializer(directory);
+                Assert.AreEqual(1u, sut.MinimumVersion);
+                Assert.AreEqual(directory, sut.Path);
+                MockForeignKeyManager foreignKeyManager = new MockForeignKeyManager();
+                Assert.AreEqual(0, foreignKeyManager.RegisteredTables.Count);
+
+                using (TextTableOperations<MockRow> mockTable = new TextTableOperations<MockRow>(sut, foreignKeyManager))
+                {
+                    Assert.AreEqual(1, foreignKeyManager.RegisteredTables.Count);
+                    Assert.IsTrue(foreignKeyManager.RegisteredTables.Contains("MockTable"));
+
+                    IReadOnlyDictionary<string, ITextTable> tables = sut.Tables;
+                    Assert.AreEqual(1, tables.Count);
+                    Assert.IsTrue(tables.ContainsKey("MockTable"));
+                }
+
+                Assert.AreEqual(0, foreignKeyManager.RegisteredTables.Count);
             }
             finally
             {

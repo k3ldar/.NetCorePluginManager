@@ -13,30 +13,27 @@
  *
  *  Copyright (c) 2018 - 2022 Simon Carter.  All Rights Reserved.
  *
- *  Product:  PluginManager.DAL.TextFiles.Tests
+ *  Product:  PluginManager.DAL.TextFiles
  *  
- *  File: ITextTable.cs
+ *  File: IReaderWriterInitializer.cs
  *
- *  Purpose:  ITextTable interface for text based storage
+ *  Purpose:  IReaderWriterInitializer for text based storage
  *
  *  Date        Name                Reason
- *  31/05/2022  Simon Carter        Initially Created
+ *  23/05/2022  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 namespace PluginManager.DAL.TextFiles
 {
-
-
-    /// <summary>
-    /// add before/after insert/delete/update and add foreign key attributes and unique index attributes which can be validated
-    /// </summary>
-    public interface ITextTable
+    public interface ITextTableInitializer
     {
-        string TableName { get; }
+        string Path { get; }
 
-        bool IdExists(long id);
+        void RegisterTable(ITextTable textTable);
 
-        bool IdIsInUse(string propertyName, long value);
+        void UnregisterTable(ITextTable textTable);
+
+        IReadOnlyDictionary<string, ITextTable> Tables { get; }
     }
 }

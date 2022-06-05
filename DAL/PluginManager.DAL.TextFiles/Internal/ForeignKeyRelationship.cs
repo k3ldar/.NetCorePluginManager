@@ -15,28 +15,33 @@
  *
  *  Product:  PluginManager.DAL.TextFiles
  *  
- *  File: ForeignKeyAttribute.cs
+ *  File: ForeignKeyRelationship.cs
  *
- *  Purpose:  ForeignKeyAttribute for text based storage
+ *  Purpose:  Foreign key relationship
  *
  *  Date        Name                Reason
- *  02/06/2022  Simon Carter        Initially Created
+ *  05/06/2022  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-namespace PluginManager.DAL.TextFiles
+namespace PluginManager.DAL.TextFiles.Internal
 {
-    [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = false)]
-    public class ForeignKeyAttribute : Attribute
+    internal sealed class ForeignKeyRelationship
     {
-        public ForeignKeyAttribute(string tableName)
+        public ForeignKeyRelationship(string table, string targetTable, string propertyName, string targetPropertyName)
         {
-            if (String.IsNullOrEmpty(tableName))
-                throw new ArgumentNullException(nameof(tableName));
-
-            TableName = tableName;
+            Table = table;
+            TargetTable = targetTable;
+            PropertyName = propertyName;
+            TargetPropertyName = targetPropertyName;
         }
 
-        public string TableName { get; }
+        public string Table { get; }
+
+        public string TargetTable { get; }
+
+        public string PropertyName { get; }
+
+        public string TargetPropertyName { get; }
     }
 }

@@ -23,11 +23,6 @@
  *  23/05/2022  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PluginManager.DAL.TextFiles
 {
@@ -61,5 +56,21 @@ namespace PluginManager.DAL.TextFiles
         /// Records are held in memory to speed up retrieval
         /// </summary>
         Memory = 1,
+    }
+
+    /// <summary>
+    /// Type of index
+    /// </summary>
+    public enum IndexType : byte
+    {
+        /// <summary>
+        /// Index is ascending
+        /// </summary>
+        Ascending = 0,
+
+        /// <summary>
+        /// Index is descending
+        /// </summary>
+        Descending = 1,
     }
 }

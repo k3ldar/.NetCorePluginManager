@@ -23,12 +23,6 @@
  *  02/06/2022  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 using Shared.Classes;
 
 namespace PluginManager.DAL.TextFiles.Internal
@@ -38,38 +32,83 @@ namespace PluginManager.DAL.TextFiles.Internal
         private readonly object _lock = new object();
         private readonly Dictionary<string, string> _foreignKeys = new Dictionary<string, string>();
         private readonly Dictionary<string, ITextTable> _writer = new Dictionary<string, ITextTable>();
+        private readonly List<ForeignKeyRelationship> _foreignKeyRelationships = new List<ForeignKeyRelationship>();
 
-        public void AddRelationShip(string sourceTable, string targetTable)
+        public void AddRelationShip(string table, string targetTable, string propertyName, string targetPropertyName)
         {
-            throw new NotImplementedException();
+            if (String.IsNullOrEmpty(table))
+                throw new ArgumentNullException(nameof(table));
+
+            if (String.IsNullOrEmpty(targetTable))
+                throw new ArgumentNullException(nameof(targetTable));
+
+            if (String.IsNullOrEmpty(propertyName))
+                throw new ArgumentNullException(nameof(propertyName));
+
+            if (String.IsNullOrEmpty(targetPropertyName))
+                throw new ArgumentNullException(nameof(targetPropertyName));
+
+            _foreignKeyRelationships.Add(new ForeignKeyRelationship(table, targetTable, propertyName, targetPropertyName));
         }
 
-        public void RegisterTable(ITextTable table, string tableName)
+        public void RegisterTable(ITextTable table)
         {
             if (table == null)
                 throw new ArgumentNullException(nameof(table));
 
             using (TimedLock tl = TimedLock.Lock(_lock))
             {
-                if (_writer.ContainsKey(tableName))
-                    throw new ArgumentException("$Table is already registered", nameof(tableName));
+                if (_writer.ContainsKey(table.TableName))
+                    throw new ArgumentException("$Table is already registered", nameof(table.TableName));
 
-                _writer[tableName] = table;
+                _writer[table.TableName] = table;
             }
         }
 
-        public void UnregisterTable(ITextTable table, string tableName)
+        public void UnregisterTable(ITextTable table)
         {
             if (table == null)
                 throw new ArgumentNullException(nameof(table));
 
             using (TimedLock tl = TimedLock.Lock(_lock))
             {
-                if (!_writer.ContainsKey(tableName))
-                    throw new ArgumentException("$Table is not registered", nameof(tableName));
+                if (!_writer.ContainsKey(table.TableName))
+                    throw new ArgumentException("$Table is not registered", nameof(table.TableName));
 
-                _writer.Remove(tableName);
+                _writer.Remove(table.TableName);
             }
+        }
+
+        public bool ValueExists(string tableName, long id)
+        {
+            if (String.IsNullOrEmpty(tableName))
+                throw new ArgumentNullException(nameof(tableName));
+
+            if (!_writer.ContainsKey(tableName))
+                throw new ForeignKeyException($"Foreign key table {tableName} does not exist");
+
+            return _writer[tableName].IdExists(id);
+        }
+
+        public bool ValueInUse(string tableName, string propertyName, long value, out string table, out string property)
+        {
+            foreach (ForeignKeyRelationship relationship in _foreignKeyRelationships)
+            {
+                if (relationship.TargetTable.Equals(tableName) && _writer.ContainsKey(relationship.Table))
+                {
+                    if (_writer[relationship.Table].IdIsInUse(relationship.PropertyName, value))
+                    {
+                        table = relationship.Table;
+                        property = relationship.PropertyName;
+                        return true;
+                    }
+                }
+            }
+
+            table = null;
+            property = null;
+
+            return false;
         }
     }
 }

@@ -15,19 +15,14 @@
  *
  *  Product:  PluginManager.DAL.TextFiles
  *  
- *  File: TableUserRow.cs
+ *  File: TableUserRowDefinition.cs
  *
- *  Purpose:  Table for user details
+ *  Purpose:  Table definition for user details
  *
  *  Date        Name                Reason
  *  31/05/2022  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PluginManager.DAL.TextFiles.Tables
 {
@@ -35,7 +30,7 @@ namespace PluginManager.DAL.TextFiles.Tables
     /// User table 
     /// </summary>
     [Table("Users", CompressionType.Brotli)]
-    internal sealed class TableUserRow : BaseRow
+    internal sealed class TableUserRowDefinition : TableRowDefinition
     {
         public string Email { get; set; }
 

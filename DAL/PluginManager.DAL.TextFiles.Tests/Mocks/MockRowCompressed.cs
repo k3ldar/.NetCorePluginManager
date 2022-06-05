@@ -15,12 +15,12 @@
  *
  *  Product:  PluginManager.DAL.TextFiles.Tests
  *  
- *  File: MockUpdateRow.cs
+ *  File: MockRowCompressed.cs
  *
- *  Purpose:  MockUpdateRow for text based storage
+ *  Purpose:  MockRowCompressed for text based storage
  *
  *  Date        Name                Reason
- *  30/05/2022  Simon Carter        Initially Created
+ *  23/05/2022  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
@@ -33,20 +33,18 @@ using System.Threading.Tasks;
 namespace PluginManager.DAL.TextFiles.Tests
 {
     [ExcludeFromCodeCoverage]
-    [Table("MockUpdateTable", cachingStrategy: CachingStrategy.Memory)]
-    internal class MockUpdateRow : BaseRow
+    [Table("MockTable", CompressionType.Brotli, cachingStrategy: CachingStrategy.Memory)]
+    public class MockRowCompressed : TableRowDefinition
     {
-        public MockUpdateRow()
+        public MockRowCompressed()
         {
 
         }
 
-        public MockUpdateRow(int id)
+        public MockRowCompressed(int id)
             : this()
         {
             Id = id;
         }
-
-        public string Data { get; set; } = null!;
     }
 }
