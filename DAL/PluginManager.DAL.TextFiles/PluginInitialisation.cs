@@ -26,6 +26,7 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 
+using Middleware;
 using Middleware.Accounts;
 
 using PluginManager.Abstractions;
@@ -84,12 +85,18 @@ namespace PluginManager.DAL.TextFiles
         {
             services.AddSingleton<IForeignKeyManager, ForeignKeyManager>();
             services.AddSingleton<ITextTableInitializer, TextTableInitializer>();
-            services.AddSingleton(typeof(TableRowDefinition), typeof(TableUserRowDefinition));
+            
+            // register tables
+            services.AddSingleton(typeof(TableRowDefinition), typeof(TableUser));
+            services.AddSingleton(typeof(TableRowDefinition), typeof(TableOrders));
+            services.AddSingleton(typeof(TableRowDefinition), typeof(TableAddress));
+            services.AddSingleton(typeof(TableRowDefinition), typeof(TableUserClaims));
             services.AddSingleton(typeof(ITextTableOperations<>), typeof(TextTableOperations<>));
 
+            // register providers
             services.AddTransient<IAccountProvider, AccountProvider>();
             //services.AddSingleton<IBlogProvider, BlogProvider>();
-            //services.AddSingleton<IClaimsProvider, ClaimsProvider>();
+            services.AddSingleton<IClaimsProvider, ClaimsProvider>();
             //services.AddSingleton<ICountryProvider, CountryLists>();
             //services.AddSingleton<IDownloadProvider, DownloadProvider>();
             //services.AddSingleton<IDynamicContentProvider, DynamicContentProvider>();
@@ -103,7 +110,7 @@ namespace PluginManager.DAL.TextFiles
             //services.AddSingleton<IShoppingCartService, ShoppingCartProvider>();
             //services.AddSingleton<IStockProvider, StockProvider>();
             //services.AddSingleton<IUserApiQueryProvider, UserApiQueryProvider>();
-            //services.AddSingleton<IUserSearch, UserSearch>();
+            services.AddTransient<IUserSearch, UserSearch>();
         }
 
         public void AfterConfigureServices(in IServiceCollection services)

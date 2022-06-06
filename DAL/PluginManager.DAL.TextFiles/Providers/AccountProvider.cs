@@ -38,14 +38,14 @@ namespace PluginManager.DAL.TextFiles.Providers
     {
         #region Private Members
 
-        private readonly ITextTableOperations<TableUserRowDefinition> _users;
-        private readonly ITextTableOperations<TableAddressRowDefinition> _addresses;
+        private readonly ITextTableOperations<TableUser> _users;
+        private readonly ITextTableOperations<TableAddress> _addresses;
 
         #endregion Private Members
 
         #region Constructors
 
-        public AccountProvider(ITextTableOperations<TableUserRowDefinition> users, ITextTableOperations<TableAddressRowDefinition> addresses)
+        public AccountProvider(ITextTableOperations<TableUser> users, ITextTableOperations<TableAddress> addresses)
         {
             _users = users ?? throw new ArgumentNullException(nameof(users));
             _addresses = addresses ?? throw new ArgumentNullException(nameof(addresses));
@@ -60,7 +60,7 @@ namespace PluginManager.DAL.TextFiles.Providers
             if (String.IsNullOrEmpty(newPassword))
                 throw new ArgumentNullException(nameof(newPassword));
 
-            TableUserRowDefinition user = _users.Select(userId);
+            TableUser user = _users.Select(userId);
 
             if (user == null)
                 throw new ArgumentException("user not found", nameof(userId));
@@ -90,7 +90,7 @@ namespace PluginManager.DAL.TextFiles.Providers
         public bool GetUserAccountDetails(in Int64 userId, out string firstName, out string lastName, out string email, out bool emailConfirmed,
             out string telephone, out bool telephoneConfirmed)
         {
-            TableUserRowDefinition user = _users.Select(userId);
+            TableUser user = _users.Select(userId);
 
             firstName = user?.FirstName;
             lastName = user?.Surname;
@@ -104,7 +104,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 
         public bool SetUserAccountDetails(in Int64 userId, in string firstName, in string lastName, in string email, in string telephone)
         {
-            TableUserRowDefinition user = _users.Select(userId);
+            TableUser user = _users.Select(userId);
 
             if (user == null)
                 return false;
@@ -127,7 +127,7 @@ namespace PluginManager.DAL.TextFiles.Providers
             if (String.IsNullOrEmpty(confirmationCode))
                 throw new ArgumentNullException(nameof(confirmationCode));
 
-            TableUserRowDefinition user = _users.Select(userId);
+            TableUser user = _users.Select(userId);
 
             if (user == null)
                 return false;
@@ -148,7 +148,7 @@ namespace PluginManager.DAL.TextFiles.Providers
             if (String.IsNullOrEmpty(confirmationCode))
                 throw new ArgumentNullException(nameof(confirmationCode));
 
-            TableUserRowDefinition user = _users.Select(userId);
+            TableUser user = _users.Select(userId);
 
             if (user == null)
                 return false;
@@ -173,7 +173,7 @@ namespace PluginManager.DAL.TextFiles.Providers
             in string addressLine3, in string city, in string county, in string postcode, in string countryCode,
             out long userId)
         {
-            TableUserRowDefinition newUser = new TableUserRowDefinition
+            TableUser newUser = new TableUser
             {
                 Email = email,
                 FirstName = firstName,
@@ -205,7 +205,7 @@ namespace PluginManager.DAL.TextFiles.Providers
         /// <returns>bool.  True if the account was deleted, otherwise false.</returns>
         public bool DeleteAccount(in Int64 userId)
         {
-            TableUserRowDefinition user = _users.Select(userId);
+            TableUser user = _users.Select(userId);
 
             if (user == null)
                 return false;
@@ -225,7 +225,7 @@ namespace PluginManager.DAL.TextFiles.Providers
         /// <returns>bool.  True if the account was locked, otherwise false.</returns>
         public bool AccountLock(in Int64 userId)
         {
-            TableUserRowDefinition user = _users.Select(userId);
+            TableUser user = _users.Select(userId);
 
             if (user == null)
                 return false;
@@ -246,7 +246,7 @@ namespace PluginManager.DAL.TextFiles.Providers
         /// <returns>bool.  True if the account was unlocked, otherwise false.</returns>
         public bool AccountUnlock(in Int64 userId)
         {
-            TableUserRowDefinition user = _users.Select(userId);
+            TableUser user = _users.Select(userId);
 
             if (user == null)
                 return false;
@@ -269,18 +269,18 @@ namespace PluginManager.DAL.TextFiles.Providers
             if (billingAddress == null)
                 throw new ArgumentNullException(nameof(billingAddress));
 
-            TableUserRowDefinition user = _users.Select(userId);
+            TableUser user = _users.Select(userId);
 
             if (user == null)
                 return false;
 
             int billingAddressId = billingAddress.Id;
 
-            TableAddressRowDefinition userAddresses = _addresses.Select().Where(a => a.UserId == user.Id && a.Id.Equals(billingAddressId)).FirstOrDefault();
+            TableAddress userAddresses = _addresses.Select().Where(a => a.UserId == user.Id && a.Id.Equals(billingAddressId)).FirstOrDefault();
 
             if (userAddresses == null)
             {
-                userAddresses = new TableAddressRowDefinition()
+                userAddresses = new TableAddress()
                 {
                     AddressLine1 = billingAddress.AddressLine1,
                     AddressLine2 = billingAddress.AddressLine2,
@@ -320,12 +320,12 @@ namespace PluginManager.DAL.TextFiles.Providers
 
         public Address GetBillingAddress(in long userId)
         {
-            TableUserRowDefinition user = _users.Select(userId);
+            TableUser user = _users.Select(userId);
 
             if (user == null)
                 return null;
 
-            TableAddressRowDefinition userAddresses = _addresses.Select().Where(a => a.UserId == user.Id && !a.IsDelivery).FirstOrDefault();
+            TableAddress userAddresses = _addresses.Select().Where(a => a.UserId == user.Id && !a.IsDelivery).FirstOrDefault();
 
             return new Address(Convert.ToInt32(userAddresses.Id), userAddresses.Shipping, userAddresses.BusinessName,
                 userAddresses.AddressLine1, userAddresses.AddressLine2, userAddresses.AddressLine3,
@@ -338,7 +338,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 
         public bool SetDeliveryAddress(in long userId, in DeliveryAddress deliveryAddress)
         {
-            TableUserRowDefinition user = _users.Select(userId);
+            TableUser user = _users.Select(userId);
 
             if (user == null)
                 return false;
@@ -348,7 +348,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 
         public List<DeliveryAddress> GetDeliveryAddresses(in long userId)
         {
-            TableUserRowDefinition user = _users.Select(userId);
+            TableUser user = _users.Select(userId);
 
             if (user == null)
                 return new List<DeliveryAddress>();
@@ -358,7 +358,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 
         public bool AddDeliveryAddress(in Int64 userId, in DeliveryAddress deliveryAddress)
         {
-            TableUserRowDefinition user = _users.Select(userId);
+            TableUser user = _users.Select(userId);
 
             if (user == null)
                 return false;
@@ -368,7 +368,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 
         public DeliveryAddress GetDeliveryAddress(in Int64 userId, in int deliveryAddressId)
         {
-            TableUserRowDefinition user = _users.Select(userId);
+            TableUser user = _users.Select(userId);
 
             if (user == null)
                 return null;
@@ -381,7 +381,7 @@ namespace PluginManager.DAL.TextFiles.Providers
             if (deliveryAddress == null || deliveryAddress.AddressId == 1)
                 return false;
 
-            TableUserRowDefinition user = _users.Select(userId);
+            TableUser user = _users.Select(userId);
 
             if (user == null)
                 return false;
@@ -403,7 +403,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 
         public Marketing GetMarketingPreferences(in Int64 userId)
         {
-            TableUserRowDefinition user = _users.Select(userId);
+            TableUser user = _users.Select(userId);
 
             if (user == null)
                 return null;
@@ -413,7 +413,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 
         public bool SetMarketingPreferences(in Int64 userId, in Marketing marketing)
         {
-            TableUserRowDefinition user = _users.Select(userId);
+            TableUser user = _users.Select(userId);
 
             if (user == null)
                 return false;
@@ -433,7 +433,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 
         public List<Order> OrdersGet(in Int64 userId)
         {
-            TableUserRowDefinition user = _users.Select(userId);
+            TableUser user = _users.Select(userId);
 
             if (user == null)
                 return new List<Order>();
@@ -462,7 +462,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 
         public List<Invoice> InvoicesGet(in Int64 userId)
         {
-            TableUserRowDefinition user = _users.Select(userId);
+            TableUser user = _users.Select(userId);
 
             if (user == null)
                 return new List<Invoice>();

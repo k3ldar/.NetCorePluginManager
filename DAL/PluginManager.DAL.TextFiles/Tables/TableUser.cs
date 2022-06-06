@@ -24,13 +24,15 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+using PluginManager.DAL.TextFiles.Internal;
+
 namespace PluginManager.DAL.TextFiles.Tables
 {
     /// <summary>
     /// User table 
     /// </summary>
-    [Table("Users", CompressionType.Brotli)]
-    internal sealed class TableUserRowDefinition : TableRowDefinition
+    [Table(Constants.TableNameUsers, CompressionType.Brotli, CachingStrategy.Memory)]
+    internal sealed class TableUser : TableRowDefinition
     {
         public string Email { get; set; }
 
@@ -75,5 +77,7 @@ namespace PluginManager.DAL.TextFiles.Tables
         public bool MarketingSms { get; set; }
 
         public bool MarketingTelephone { get; set; }
+
+        public string FullName => $"{FirstName} {Surname}";
     }
 }

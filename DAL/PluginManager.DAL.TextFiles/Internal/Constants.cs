@@ -15,43 +15,22 @@
  *
  *  Product:  PluginManager.DAL.TextFiles
  *  
- *  File: UserSearch.cs
+ *  File: Constants.cs
  *
- *  Purpose:  IUserSearch for text based storage
+ *  Purpose:  Internal constants
  *
  *  Date        Name                Reason
- *  25/05/2022  Simon Carter        Initially Created
+ *  05/06/2022  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 
-using Middleware;
-
-using Middleware.Users;
-
-using PluginManager.DAL.TextFiles.Tables;
-
-namespace PluginManager.DAL.TextFiles.Providers
+namespace PluginManager.DAL.TextFiles.Internal
 {
-    internal class UserSearch : IUserSearch
+    internal class Constants
     {
-        private readonly ITextTableOperations<TableUser> _users;
-
-        public UserSearch(ITextTableOperations<TableUser> users)
-        {
-            _users = users ?? throw new ArgumentNullException(nameof(users));
-        }
-
-        public List<SearchUser> GetUsers(in int pageNumber, in int pageSize, string searchField, string searchOrder)
-        {
-            List<SearchUser> Result = new List<SearchUser>();
-
-            List<TableUser> users = _users.Select().Skip((pageNumber -1) * pageSize).Take(pageSize).ToList();
-
-            users.ForEach(u => Result.Add(new SearchUser(u.Id, u.FullName, u.Email)));
-
-            return Result;
-        }
+        public const string TableNameUsers = "Users";
+        public const string TableNameUserClaims = "UserClaims";
+        public const string TableNameAddresses = "Addresses";
+        public const string TableNameOrders = "Orders";
     }
 }

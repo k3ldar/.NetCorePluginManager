@@ -24,18 +24,20 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+using PluginManager.DAL.TextFiles.Internal;
+
 namespace PluginManager.DAL.TextFiles.Tables
 {
     /// <summary>
     /// Delivery address table 
     /// </summary>
-    [Table("Address", CompressionType.Brotli)]
-    internal class TableAddressRowDefinition : TableRowDefinition
+    [Table(Constants.TableNameAddresses, CompressionType.Brotli)]
+    internal sealed class TableAddress : TableRowDefinition
     {
         /// <summary>
         /// Id of user owning the address
         /// </summary>
-        [ForeignKey("Users")]
+        [ForeignKey(Constants.TableNameUsers)]
         public long UserId { get; set; }
 
         /// <summary>

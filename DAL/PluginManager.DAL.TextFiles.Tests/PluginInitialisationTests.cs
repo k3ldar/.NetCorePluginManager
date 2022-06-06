@@ -38,7 +38,7 @@ using PluginManager.Abstractions;
 using SharedPluginFeatures;
 using PluginManager.Tests.Mocks;
 
-namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
+namespace PluginManager.DAL.TextFiles.Tests
 {
     [TestClass]
     [ExcludeFromCodeCoverage]
@@ -142,7 +142,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
 
             sut.BeforeConfigureServices(mockServiceCollection);
 
-            Assert.AreEqual(5, mockServiceCollection.Count);
+            Assert.AreEqual(10, mockServiceCollection.Count);
         }
 
         [TestMethod]

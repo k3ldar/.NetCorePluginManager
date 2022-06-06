@@ -453,10 +453,11 @@ namespace PluginManager.DAL.TextFiles.Internal
                 _allRecords = recordsToSave;
                 _allRecords.ForEach(ar => ar.ImmutableId = true);
             }
-
+            
             _compactPercent = Convert.ToByte(Shared.Utilities.Percentage(_fileStream.Length, _fileStream.Position));
 
             _fileStream.Flush(true);
+            _recordCount = recordsToSave.Count;
         }
 
         private void InternalDeleteRecords(List<T> records)

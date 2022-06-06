@@ -23,15 +23,12 @@
  *  25/05/2022  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using System;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using System.IO;
 using System.Security.Claims;
 
 using Microsoft.AspNetCore.Authentication;
 
 using PluginManager.Abstractions;
+using PluginManager.DAL.TextFiles.Tables;
 
 using SharedPluginFeatures;
 
@@ -42,16 +39,20 @@ namespace PluginManager.DAL.TextFiles.Providers
         #region Private Members
 
         private readonly IPluginClassesService _pluginClassesService;
-        private readonly List<string> _claimsForUser;
+        private readonly ITextTableOperations<TableUser> _users;
+        private readonly ITextTableOperations<TableUserClaims> _userClaims;
 
         #endregion Private Members
 
         #region Constructors
 
-        public ClaimsProvider(IPluginClassesService pluginClassesService)
+        public ClaimsProvider(IPluginClassesService pluginClassesService,
+            ITextTableOperations<TableUser> users,
+            ITextTableOperations<TableUserClaims> userClaims)
         {
             _pluginClassesService = pluginClassesService ?? throw new ArgumentNullException(nameof(pluginClassesService));
-            _claimsForUser = new List<string>();
+            _users = users ?? throw new ArgumentNullException(nameof(users));
+            _userClaims = userClaims ?? throw new ArgumentNullException(nameof(userClaims));
         }
 
         #endregion Constructors
@@ -71,29 +72,25 @@ namespace PluginManager.DAL.TextFiles.Providers
         {
             List<ClaimsIdentity> Result = new List<ClaimsIdentity>();
 
+            TableUser user = _users.Select(userId);
+
+            if (user == null)
+                return Result;
+
             List<Claim> userClaims = new List<Claim>();
-            userClaims.Add(new Claim("sub", userId.ToString()));
-            userClaims.Add(new Claim(Constants.ClaimNameUsername, "Administrator"));
-            userClaims.Add(new Claim(Constants.ClaimNameUserEmail, "admin@nowhere.com"));
+            userClaims.Add(new Claim(Constants.ClaimNameUsername, user.FullName));
+            userClaims.Add(new Claim(Constants.ClaimNameUserEmail, user.Email));
             userClaims.Add(new Claim(Constants.ClaimNameUserId, userId.ToString()));
             Result.Add(new ClaimsIdentity(userClaims, Constants.ClaimIdentityUser));
 
             List<Claim> webClaims = new List<Claim>();
-            webClaims.Add(new Claim(Constants.ClaimNameCreateBlog, "true"));
-            webClaims.Add(new Claim(Constants.ClaimNameAdministrator, "true"));
-            webClaims.Add(new Claim(Constants.ClaimNameStaff, "true"));
-            webClaims.Add(new Claim(Constants.ClaimNameManageSeo, "true"));
-            webClaims.Add(new Claim(Constants.ClaimNameViewImageManager, "true"));
-            webClaims.Add(new Claim(Constants.ClaimNameManageContent, "true"));
 
-            // Only enable the following if the file exists to prevent malicious use
-            // when deployed live as a demo site
-            if (File.Exists("t:\\testimages.tst"))
-            {
-                webClaims.Add(new Claim(Constants.ClaimNameUserPermissions, "true"));
-                webClaims.Add(new Claim(Constants.ClaimNameManageImages, "true"));
-                webClaims.Add(new Claim(Constants.ClaimNameManageProducts, "true"));
-            }
+            TableUserClaims claims = _userClaims.Select().Where(uc => uc.UserId.Equals(user.Id)).FirstOrDefault();
+
+            if (claims == null)
+                return Result;
+
+            claims.Claims.ForEach(c => webClaims.Add(new Claim(c, true.ToString())));
 
             Result.Add(new ClaimsIdentity(webClaims, Constants.ClaimIdentityWebsite));
 
@@ -102,8 +99,28 @@ namespace PluginManager.DAL.TextFiles.Providers
 
         public bool SetClaimsForUser(in long id, in List<string> claims)
         {
-            _claimsForUser.Clear();
-            _claimsForUser.AddRange(claims);
+            TableUser user = _users.Select(id);
+
+            if (user == null)
+            {
+                return false;
+            }
+
+            TableUserClaims userClaims = _userClaims.Select().Where(uc => uc.UserId.Equals(user.Id)).FirstOrDefault();
+
+            if (userClaims == null)
+            {
+                userClaims = new TableUserClaims();
+                userClaims.Claims.AddRange(claims);
+                _userClaims.Insert(userClaims);
+            }
+            else
+            {
+                userClaims.Claims.Clear();
+                userClaims.Claims.AddRange(claims);
+                _userClaims.Update(userClaims);
+            }
+
             return true;
         }
 
@@ -125,7 +142,22 @@ namespace PluginManager.DAL.TextFiles.Providers
 
         public List<string> GetClaimsForUser(in long id)
         {
-            return _claimsForUser;
+            List<string> Result = new List<string>();
+
+            TableUser user = _users.Select(id);
+
+            if (user == null)
+                return Result;
+
+
+            TableUserClaims claims = _userClaims.Select().Where(uc => uc.UserId.Equals(user.Id)).FirstOrDefault();
+
+            if (claims == null)
+                return Result;
+
+            claims.Claims.ForEach(c => Result.Add(c));
+
+            return Result;
         }
 
         #endregion IClaimsProvider Methods

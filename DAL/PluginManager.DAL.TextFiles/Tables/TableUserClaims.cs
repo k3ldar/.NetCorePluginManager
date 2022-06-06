@@ -15,43 +15,29 @@
  *
  *  Product:  PluginManager.DAL.TextFiles
  *  
- *  File: UserSearch.cs
+ *  File: TableUserClaims.cs
  *
- *  Purpose:  IUserSearch for text based storage
+ *  Purpose:  Table definition for user claims
  *
  *  Date        Name                Reason
- *  25/05/2022  Simon Carter        Initially Created
+ *  06/06/2022  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
+using PluginManager.DAL.TextFiles.Internal;
 
-using Middleware;
-
-using Middleware.Users;
-
-using PluginManager.DAL.TextFiles.Tables;
-
-namespace PluginManager.DAL.TextFiles.Providers
+namespace PluginManager.DAL.TextFiles.Tables
 {
-    internal class UserSearch : IUserSearch
+    [Table(Constants.TableNameUserClaims, CompressionType.None, CachingStrategy.None)]
+    public sealed class TableUserClaims : TableRowDefinition
     {
-        private readonly ITextTableOperations<TableUser> _users;
-
-        public UserSearch(ITextTableOperations<TableUser> users)
+        public TableUserClaims()
         {
-            _users = users ?? throw new ArgumentNullException(nameof(users));
+            Claims = new List<string>();
         }
 
-        public List<SearchUser> GetUsers(in int pageNumber, in int pageSize, string searchField, string searchOrder)
-        {
-            List<SearchUser> Result = new List<SearchUser>();
+        [ForeignKey(Constants.TableNameUsers)]
+        public long UserId { get; set; }
 
-            List<TableUser> users = _users.Select().Skip((pageNumber -1) * pageSize).Take(pageSize).ToList();
-
-            users.ForEach(u => Result.Add(new SearchUser(u.Id, u.FullName, u.Email)));
-
-            return Result;
-        }
+        public List<string> Claims { get; set; }
     }
 }

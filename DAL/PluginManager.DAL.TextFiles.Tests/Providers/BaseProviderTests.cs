@@ -13,45 +13,28 @@
  *
  *  Copyright (c) 2018 - 2022 Simon Carter.  All Rights Reserved.
  *
- *  Product:  PluginManager.DAL.TextFiles
+ *  Product:  PluginManager.DAL.TextFiles.Tests
  *  
- *  File: UserSearch.cs
+ *  File: BaseProviderTests.cs
  *
- *  Purpose:  IUserSearch for text based storage
+ *  Purpose:  BaseProviderTests class for text based storage
  *
  *  Date        Name                Reason
- *  25/05/2022  Simon Carter        Initially Created
+ *  06/06/2022  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-using Middleware;
-
-using Middleware.Users;
-
-using PluginManager.DAL.TextFiles.Tables;
-
-namespace PluginManager.DAL.TextFiles.Providers
+namespace PluginManager.DAL.TextFiles.Tests.Providers
 {
-    internal class UserSearch : IUserSearch
+    [ExcludeFromCodeCoverage]
+    public class BaseProviderTests
     {
-        private readonly ITextTableOperations<TableUser> _users;
-
-        public UserSearch(ITextTableOperations<TableUser> users)
-        {
-            _users = users ?? throw new ArgumentNullException(nameof(users));
-        }
-
-        public List<SearchUser> GetUsers(in int pageNumber, in int pageSize, string searchField, string searchOrder)
-        {
-            List<SearchUser> Result = new List<SearchUser>();
-
-            List<TableUser> users = _users.Select().Skip((pageNumber -1) * pageSize).Take(pageSize).ToList();
-
-            users.ForEach(u => Result.Add(new SearchUser(u.Id, u.FullName, u.Email)));
-
-            return Result;
-        }
+        protected const string TestPathSettings = "{\"TextFileSettings\":{\"Path\":\"$$\"}}";
     }
 }
