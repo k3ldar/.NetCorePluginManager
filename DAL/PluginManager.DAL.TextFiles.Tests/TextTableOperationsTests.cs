@@ -33,6 +33,8 @@ using PluginManager.DAL.TextFiles.Internal;
 
 using io = System.IO;
 
+#pragma warning disable CA1806
+
 namespace PluginManager.DAL.TextFiles.Tests
 {
     [TestClass]
@@ -204,7 +206,7 @@ namespace PluginManager.DAL.TextFiles.Tests
                 }
 
                 using TextTableOperations<MockRow> sutRead = new TextTableOperations<MockRow>(initializer, keyManager);
-                IReadOnlyList<MockRow>? records = sutRead.Select();
+                IReadOnlyList<MockRow> records = sutRead.Select();
 
                 Assert.AreEqual(1, records.Count);
                 Assert.AreEqual(0, records[0].Id);
@@ -233,7 +235,7 @@ namespace PluginManager.DAL.TextFiles.Tests
                 }
 
                 using TextTableOperations<MockRow> sutRead = new TextTableOperations<MockRow>(initializer, keyManager);
-                IReadOnlyList<MockRow>? records = sutRead.Select();
+                IReadOnlyList<MockRow> records = sutRead.Select();
 
                 Assert.AreEqual(2, records.Count);
                 Assert.AreEqual(0, records[0].Id);
@@ -728,9 +730,9 @@ namespace PluginManager.DAL.TextFiles.Tests
                 {
                     Assert.AreEqual(5, readSut.RecordCount);
                     Assert.AreEqual(46, readSut.DataLength);
-                    Assert.AreEqual(4l, readSut.Sequence);
+                    Assert.AreEqual(4L, readSut.Sequence);
 
-                    IReadOnlyList<MockRow>? records = readSut.Select();
+                    IReadOnlyList<MockRow> records = readSut.Select();
 
                     for (int i = 0; i < readSut.RecordCount; i++)
                         Assert.AreEqual(i, records[i].Id);
@@ -1015,9 +1017,11 @@ namespace PluginManager.DAL.TextFiles.Tests
             }
         }
 
-        private TextTableInitializer CreateTestInitializer(string path)
+        private static TextTableInitializer CreateTestInitializer(string path)
         {
             return new TextTableInitializer(path);
         }
     }
 }
+
+#pragma warning restore CA1806

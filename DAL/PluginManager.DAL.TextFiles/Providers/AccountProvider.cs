@@ -95,9 +95,9 @@ namespace PluginManager.DAL.TextFiles.Providers
             firstName = user?.FirstName;
             lastName = user?.Surname;
             email = user?.Email;
-            emailConfirmed = user == null ? false : user.EmailConfirmed;
+            emailConfirmed = user != null && user.EmailConfirmed;
             telephone = user?.Telephone;
-            telephoneConfirmed = user == null ? false : user.TelephoneConfirmed;
+            telephoneConfirmed = user != null && user.TelephoneConfirmed;
 
             return user != null;
         }
@@ -173,22 +173,24 @@ namespace PluginManager.DAL.TextFiles.Providers
             in string addressLine3, in string city, in string county, in string postcode, in string countryCode,
             out long userId)
         {
-            TableUserRowDefinition newUser = new TableUserRowDefinition();
-            newUser.Email = email;
-            newUser.FirstName = firstName;
-            newUser.Surname = surname;
-            newUser.Password = password;
-            newUser.Telephone = telephone;
-            newUser.BusinessName = businessName;
-            newUser.AddressLine1 = addressLine1;
-            newUser.AddressLine2 = addressLine2;
-            newUser.AddressLine3 = addressLine3;
-            newUser.City = city;
-            newUser.County = county;
-            newUser.Postcode = postcode;
-            newUser.CountryCode = countryCode;
-            newUser.EmailConfirmCode = GenerateRandomNumber().ToString();
-            newUser.TelephoneConfirmCode = GenerateRandomNumber().ToString();
+            TableUserRowDefinition newUser = new TableUserRowDefinition
+            {
+                Email = email,
+                FirstName = firstName,
+                Surname = surname,
+                Password = password,
+                Telephone = telephone,
+                BusinessName = businessName,
+                AddressLine1 = addressLine1,
+                AddressLine2 = addressLine2,
+                AddressLine3 = addressLine3,
+                City = city,
+                County = county,
+                Postcode = postcode,
+                CountryCode = countryCode,
+                EmailConfirmCode = GenerateRandomNumber().ToString(),
+                TelephoneConfirmCode = GenerateRandomNumber().ToString()
+            };
 
             _users.Insert(newUser);
 
@@ -472,7 +474,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 
         #region Private Methods
 
-        private int GenerateRandomNumber()
+        private static int GenerateRandomNumber()
         {
             Random random = new Random();
             return random.Next(100000, 999999);

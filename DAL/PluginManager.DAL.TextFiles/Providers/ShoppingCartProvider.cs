@@ -150,7 +150,7 @@ namespace PluginManager.DAL.TextFiles.Providers
                 bool requiresShipping = !product.IsDownload;
 
                 items.Add(new ShoppingCartItem(product.Id, 1, product.RetailPrice, product.Name,
-                    product.Description.Substring(0, Shared.Utilities.CheckMinMax(product.Description.Length, 0, 49)),
+                    product.Description[..Shared.Utilities.CheckMinMax(product.Description.Length, 0, 49)],
                     product.Sku, product.Images, product.IsDownload, product.AllowBackorder, String.Empty));
                 ShoppingCartDetail cartDetail = new ShoppingCartDetail(shoppingCartId, 1,
                     product.RetailPrice, 20, 0, 10, System.Threading.Thread.CurrentThread.CurrentUICulture,
@@ -229,7 +229,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 
         private void cartCacheManager_ItemNotFound(object sender, Shared.CacheItemNotFoundArgs e)
         {
-            if (!Int64.TryParse(e.Name.Substring(5), out long cartId))
+            if (!Int64.TryParse(e.Name.AsSpan(5), out long cartId))
                 cartId = ++_basketId;
 
             ShoppingCartDetail cartDetail = new ShoppingCartDetail(cartId,

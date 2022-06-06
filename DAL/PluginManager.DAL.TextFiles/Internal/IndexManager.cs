@@ -91,12 +91,12 @@ namespace PluginManager.DAL.TextFiles.Internal
                     switch (IndexType)
                     {
                         case IndexType.Ascending:
-                            _sortRequired = _keys.Count > 0 && item < _keys[_keys.Count - 1];
+                            _sortRequired = _keys.Count > 0 && item < _keys[^1];
                             _keys.Add(item);
                             break;
 
                         case IndexType.Descending:
-                            _sortRequired = _keys.Count > 0 && item > _keys[_keys.Count - 1];
+                            _sortRequired = _keys.Count > 0 && item > _keys[^1];
                             _keys.Insert(0, item);
                             break;
                     }

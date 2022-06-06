@@ -25,13 +25,14 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using Shared.Classes;
 
+#pragma warning disable CA2208
+
 namespace PluginManager.DAL.TextFiles.Internal
 {
     internal class ForeignKeyManager : IForeignKeyManager
     {
         private readonly object _lock = new object();
-        private readonly Dictionary<string, string> _foreignKeys = new Dictionary<string, string>();
-        private readonly Dictionary<string, ITextTable> _writer = new Dictionary<string, ITextTable>();
+        private readonly Dictionary<string, ITextTable> _foreignKeys = new Dictionary<string, ITextTable>();
         private readonly List<ForeignKeyRelationship> _foreignKeyRelationships = new List<ForeignKeyRelationship>();
 
         public void AddRelationShip(string table, string targetTable, string propertyName, string targetPropertyName)
@@ -58,10 +59,10 @@ namespace PluginManager.DAL.TextFiles.Internal
 
             using (TimedLock tl = TimedLock.Lock(_lock))
             {
-                if (_writer.ContainsKey(table.TableName))
+                if (_foreignKeys.ContainsKey(table.TableName))
                     throw new ArgumentException("$Table is already registered", nameof(table.TableName));
 
-                _writer[table.TableName] = table;
+                _foreignKeys[table.TableName] = table;
             }
         }
 
@@ -72,10 +73,10 @@ namespace PluginManager.DAL.TextFiles.Internal
 
             using (TimedLock tl = TimedLock.Lock(_lock))
             {
-                if (!_writer.ContainsKey(table.TableName))
+                if (!_foreignKeys.ContainsKey(table.TableName))
                     throw new ArgumentException("$Table is not registered", nameof(table.TableName));
 
-                _writer.Remove(table.TableName);
+                _foreignKeys.Remove(table.TableName);
             }
         }
 
@@ -84,19 +85,19 @@ namespace PluginManager.DAL.TextFiles.Internal
             if (String.IsNullOrEmpty(tableName))
                 throw new ArgumentNullException(nameof(tableName));
 
-            if (!_writer.ContainsKey(tableName))
+            if (!_foreignKeys.ContainsKey(tableName))
                 throw new ForeignKeyException($"Foreign key table {tableName} does not exist");
 
-            return _writer[tableName].IdExists(id);
+            return _foreignKeys[tableName].IdExists(id);
         }
 
         public bool ValueInUse(string tableName, string propertyName, long value, out string table, out string property)
         {
             foreach (ForeignKeyRelationship relationship in _foreignKeyRelationships)
             {
-                if (relationship.TargetTable.Equals(tableName) && _writer.ContainsKey(relationship.Table))
+                if (relationship.TargetTable.Equals(tableName) && _foreignKeys.ContainsKey(relationship.Table))
                 {
-                    if (_writer[relationship.Table].IdIsInUse(relationship.PropertyName, value))
+                    if (_foreignKeys[relationship.Table].IdIsInUse(relationship.PropertyName, value))
                     {
                         table = relationship.Table;
                         property = relationship.PropertyName;
@@ -112,3 +113,5 @@ namespace PluginManager.DAL.TextFiles.Internal
         }
     }
 }
+
+#pragma warning restore CA2208

@@ -35,6 +35,8 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using PluginManager.DAL.TextFiles.Internal;
 
+#pragma warning disable CA1806
+
 namespace PluginManager.DAL.TextFiles.Tests
 {
     [TestClass]
@@ -137,7 +139,7 @@ namespace PluginManager.DAL.TextFiles.Tests
                 Assert.AreEqual(1u, sut.MinimumVersion);
                 Assert.AreEqual(directory, sut.Path);
 
-                using (TextTableOperations<MockRow>? mockTable = new TextTableOperations<MockRow>(sut, new ForeignKeyManager()))
+                using (TextTableOperations<MockRow> mockTable = new TextTableOperations<MockRow>(sut, new ForeignKeyManager()))
                     sut.RegisterTable(mockTable);
             }
             finally
@@ -202,3 +204,5 @@ namespace PluginManager.DAL.TextFiles.Tests
         }
     }
 }
+
+#pragma warning restore CA1806

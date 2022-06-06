@@ -32,6 +32,8 @@ using System.Threading.Tasks;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
+#pragma warning disable CA1806
+
 namespace PluginManager.DAL.TextFiles.Tests
 {
     [TestClass]
@@ -116,3 +118,5 @@ namespace PluginManager.DAL.TextFiles.Tests
         }
     }
 }
+
+#pragma warning restore CA1806

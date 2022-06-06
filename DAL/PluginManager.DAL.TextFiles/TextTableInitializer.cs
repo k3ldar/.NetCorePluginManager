@@ -28,6 +28,8 @@ using PluginManager.DAL.TextFiles.Internal;
 
 using Shared.Classes;
 
+#pragma warning disable CA2208
+
 namespace PluginManager.DAL.TextFiles
 {
     public sealed class TextTableInitializer : ITextTableInitializer
@@ -130,3 +132,5 @@ namespace PluginManager.DAL.TextFiles
         }
     }
 }
+
+#pragma warning restore CA2208

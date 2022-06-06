@@ -316,6 +316,7 @@ namespace PluginManager.DAL.TextFiles.Internal
         public void Dispose()
         {
             Dispose(true);
+            GC.SuppressFinalize(this);
         }
 
         #endregion Disposable
@@ -618,14 +619,14 @@ namespace PluginManager.DAL.TextFiles.Internal
             return Result;
         }
 
-        private TableAttribute GetTableAttributes()
+        private static TableAttribute GetTableAttributes()
         {
             return (TableAttribute)typeof(T).GetCustomAttributes(true)
                 .Where(a => a.GetType() == typeof(TableAttribute))
                 .FirstOrDefault();
         }
 
-        private BatchUpdateDictionary<string, IndexManager> GetIndexes()
+        private static BatchUpdateDictionary<string, IndexManager> GetIndexes()
         {
             BatchUpdateDictionary<string, IndexManager> Result = new BatchUpdateDictionary<string, IndexManager>();
 
@@ -649,13 +650,13 @@ namespace PluginManager.DAL.TextFiles.Internal
             if (_disposed)
                 return;
 
-            _initializer?.UnregisterTable(this);
-
-            if (_foreignKeyManager != null)
-                _foreignKeyManager?.UnregisterTable(this);
-
             if (disposing)
-                GC.SuppressFinalize(this);
+            {
+                _initializer?.UnregisterTable(this);
+
+                if (_foreignKeyManager != null)
+                    _foreignKeyManager?.UnregisterTable(this);
+            }
 
             if (_fileStream != null)
             {
@@ -702,7 +703,7 @@ namespace PluginManager.DAL.TextFiles.Internal
             string extension = Path.GetExtension(name);
 
             if (String.IsNullOrEmpty(extension))
-                name = name + DefaultExtension;
+                name += DefaultExtension;
 
             string Result = Path.Combine(path, name);
 
