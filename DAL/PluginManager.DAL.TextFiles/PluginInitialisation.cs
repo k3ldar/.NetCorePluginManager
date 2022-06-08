@@ -95,7 +95,7 @@ namespace PluginManager.DAL.TextFiles
 
             // register providers
             services.AddTransient<IAccountProvider, AccountProvider>();
-            //services.AddSingleton<IBlogProvider, BlogProvider>();
+            services.AddSingleton<IBlogProvider, BlogProvider>();
             services.AddSingleton<IClaimsProvider, ClaimsProvider>();
             //services.AddSingleton<ICountryProvider, CountryLists>();
             //services.AddSingleton<IDownloadProvider, DownloadProvider>();

@@ -38,6 +38,11 @@ namespace PluginManager.DAL.TextFiles
     {
         private long _id;
 
+        public TableRowDefinition()
+        {
+            _id = Int64.MinValue;
+        }
+
         /// <summary>
         /// Unique id of the record
         /// </summary>

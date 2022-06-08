@@ -29,8 +29,11 @@ namespace PluginManager.DAL.TextFiles.Internal
     internal class Constants
     {
         public const string TableNameUsers = "Users";
+        public const string TableNameBlogs = "Blogs";
+        public const string TableNameBlogComments = "BlogComments";
         public const string TableNameUserClaims = "UserClaims";
         public const string TableNameAddresses = "Addresses";
         public const string TableNameOrders = "Orders";
+
     }
 }

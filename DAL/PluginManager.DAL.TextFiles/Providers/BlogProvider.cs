@@ -31,43 +31,30 @@ using System.Linq;
 using Middleware;
 using Middleware.Blog;
 
+using PluginManager.DAL.TextFiles.Tables;
+
+using SharedPluginFeatures;
+
 namespace PluginManager.DAL.TextFiles.Providers
 {
     internal sealed class BlogProvider : IBlogProvider
     {
         #region Private Members
 
-        private readonly List<BlogItem> _blogEntries;
-        private int _blogCommentId = 3;
+        private readonly ITextTableOperations<TableUser> _users;
+        private readonly ITextTableOperations<TableBlog> _blogs;
+        private readonly IMemoryCache _memoryCache;
 
         #endregion Private Members
 
         #region Constructors
 
-        public BlogProvider()
+        public BlogProvider(IMemoryCache memoryCache, ITextTableOperations<TableUser> users,
+            ITextTableOperations<TableBlog> blogs)
         {
-            _blogEntries = new List<BlogItem>()
-            {
-                new BlogItem(1, 123, "My First Blog Entry", "This is about my first blog entry", "Making blogs is easy", "Test User", true,
-                    DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-9),
-                    new List<string>() { "Blogs", "First", "Test" },
-                    new List<BlogComment>()
-                    {
-                        new BlogComment(1, null, DateTime.Now.AddDays(-8), 2, "A User", true, "This is the first comment"),
-                        new BlogComment(2, null, DateTime.Now.AddDays(-7), 2, "Another User", true, "This is the second comment")
-                    }),
-                new BlogItem(2, 123, "Test", "Lorem Ipsum", "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor " +
-                    "incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut " +
-                    "aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat " +
-                    "nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-                    "Test User", true,
-                    DateTime.Now.AddDays(-7), DateTime.Now.AddDays(-7), DateTime.Now.AddDays(-7),
-                    new List<string>() { "Lorem", "Ipsum" },
-                    new List<BlogComment>()
-                    {
-                        new BlogComment(3, null, DateTime.Now.AddDays(-7), 2, "A User", true, "honi soit qui mal y pense")
-                    })
-        };
+            _memoryCache = memoryCache ?? throw new ArgumentNullException(nameof(memoryCache));
+            _users = users ?? throw new ArgumentNullException(nameof(users));
+            _blogs = blogs ?? throw new ArgumentNullException(nameof(blogs));
         }
 
         #endregion Constructors
@@ -76,12 +63,16 @@ namespace PluginManager.DAL.TextFiles.Providers
 
         public List<BlogItem> GetRecentPosts(in int recentCount, in bool publishedOnly)
         {
-            int count = recentCount;
-
+            List<TableBlog> blogs;
+            
             if (publishedOnly)
-                return _blogEntries.Where(o => o.IsAvailable).OrderBy(o => o.PublishDateTime).Take(count).ToList();
+                blogs = _blogs.Select().Where(b => b.Published).OrderByDescending(b => b.PublishDateTime).Take(recentCount).ToList();
             else
-                return _blogEntries.OrderBy(o => o.PublishDateTime).Take(count).ToList();
+                blogs = _blogs.Select().OrderByDescending(b => b.PublishDateTime).Take(recentCount).ToList();
+
+            
+
+            return ConvertTableBlogToBlogItem(blogs);
         }
 
         public List<BlogItem> Search(in string tagName)
@@ -94,20 +85,20 @@ namespace PluginManager.DAL.TextFiles.Providers
             if (tags.Length == 0)
                 throw new ArgumentNullException(nameof(tagName));
 
-            return _blogEntries.Where(b => b.IsAvailable && b.Tags.Contains(tags[0], StringComparer.CurrentCultureIgnoreCase)).ToList();
+            return ConvertTableBlogToBlogItem(_blogs.Select().Where(b => BlogHasTag(b, tags)).ToList());
         }
 
         public BlogItem GetBlog(in int id)
         {
             int blogId = id;
 
-            return _blogEntries.Where(b => b.Id == blogId).FirstOrDefault();
+            return ConvertTableBlogToBlogItem(_blogs.Select(blogId));
         }
 
         public List<BlogItem> GetMyBlogs(in long userId)
         {
             long user = userId;
-            return _blogEntries.Where(b => b.UserId == user).OrderBy(o => o.Created).ToList();
+            return ConvertTableBlogToBlogItem(_blogs.Select().Where(b => b.UserId == user).OrderBy(o => o.Created).ToList());
         }
 
         public BlogItem SaveBlog(in BlogItem blogItem)
@@ -115,24 +106,12 @@ namespace PluginManager.DAL.TextFiles.Providers
             if (blogItem == null)
                 throw new ArgumentNullException(nameof(blogItem));
 
-            int newId;
+            TableBlog tableBlog = ConvertBlogItemToTableBlog(blogItem);
 
-            if (blogItem.Id == 0)
-            {
-                newId = _blogEntries.Count + 1;
-                BlogItem newblog = new BlogItem(newId, blogItem.UserId, blogItem.Title, blogItem.Excerpt,
-                    blogItem.BlogText, blogItem.Username, blogItem.Published, DateTime.Now,
-                    DateTime.Now, DateTime.Now, blogItem.Tags, blogItem.Comments);
-                _blogEntries.Add(newblog);
-                return newblog;
-            }
-            else
-            {
-                newId = blogItem.Id;
-                _blogEntries.Remove(_blogEntries.Where(be => be.Id == newId).FirstOrDefault());
-                _blogEntries.Add(blogItem);
-                return blogItem;
-            }
+            tableBlog.LastModified = DateTime.Now;
+            _blogs.InsertOrUpdate(tableBlog);
+
+            return ConvertTableBlogToBlogItem(_blogs.Select(tableBlog.Id));
         }
 
         public void AddComment(in BlogItem blogItem, in BlogComment parentComment, in long userId,
@@ -144,11 +123,78 @@ namespace PluginManager.DAL.TextFiles.Providers
             if (String.IsNullOrEmpty(comment))
                 throw new ArgumentNullException(nameof(comment));
 
-            BlogComment blogComment = new BlogComment(++_blogCommentId, null,
-                DateTime.Now, userId, userName, true, comment);
-            blogItem.Comments.Add(blogComment);
+            TimeSpan span = DateTime.Now - new DateTime(2022, 1, 1);
+            BlogComment blogComment = new BlogComment(Convert.ToInt32(span.TotalSeconds), parentComment?.Id, DateTime.Now, userId, userName, true, comment);
+
+            if (parentComment == null)
+                blogItem.Comments.Add(blogComment);
+            else
+                parentComment.Comments.Add(blogComment);
+
+            TableBlog tableBlog = ConvertBlogItemToTableBlog(blogItem);
+            tableBlog.LastModified = DateTime.Now;
+            _blogs.Update(tableBlog);
         }
 
         #endregion IBlogProvider Methods
+
+        #region Private Methods
+
+        private bool BlogHasTag(TableBlog tableBlog, string[] tags)
+        {
+            foreach (string searchTag in tags)
+            {
+                foreach (string tag in tableBlog.Tags)
+                {
+                    if (tag.Equals(searchTag, StringComparison.InvariantCultureIgnoreCase))
+                        return true;
+                }
+            }
+
+            return false;
+        }
+
+        private List<BlogItem> ConvertTableBlogToBlogItem(List<TableBlog> tableBlogs)
+        {
+            List<BlogItem> Result = new List<BlogItem>();
+
+            tableBlogs.ForEach(blog => Result.Add(new BlogItem(Convert.ToInt32(blog.Id), blog.UserId, blog.Title, blog.Excerpt, blog.BlogText, blog.Username, blog.Published,
+                    blog.PublishDateTime, blog.Created, blog.LastModified, blog.Tags, blog.Comments)));
+
+            return Result;
+        }
+
+        private BlogItem ConvertTableBlogToBlogItem(TableBlog blog)
+        {
+            if (blog == null)
+                return null;
+
+            return new BlogItem(Convert.ToInt32(blog.Id), blog.UserId, blog.Title, blog.Excerpt, blog.BlogText, blog.Username, blog.Published,
+                    blog.PublishDateTime, blog.Created, blog.LastModified, blog.Tags, blog.Comments);
+        }
+
+        private TableBlog ConvertBlogItemToTableBlog(BlogItem blog)
+        {
+            if (blog == null)
+                return null;
+
+            return new TableBlog()
+            {
+                Id = Convert.ToInt32(blog.Id), 
+                UserId = blog.UserId, 
+                Title = blog.Title, 
+                Excerpt = blog.Excerpt, 
+                BlogText = blog.BlogText, 
+                Username = blog.Username, 
+                Published = blog.Published,
+                PublishDateTime = blog.PublishDateTime, 
+                Created = blog.Created,
+                LastModified = blog.LastModified, 
+                Tags = blog.Tags, 
+                Comments = blog.Comments
+            };
+        }
+
+        #endregion Private Methods
     }
 }

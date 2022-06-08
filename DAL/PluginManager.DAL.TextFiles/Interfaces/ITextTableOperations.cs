@@ -29,6 +29,10 @@ namespace PluginManager.DAL.TextFiles
     public interface ITextTableOperations<T> : IDisposable
         where T : TableRowDefinition
     {
+        /// <summary>
+        /// Selects all rows
+        /// </summary>
+        /// <returns></returns>
         IReadOnlyList<T> Select();
 
         /// <summary>
@@ -78,6 +82,12 @@ namespace PluginManager.DAL.TextFiles
         /// </summary>
         /// <param name="record"></param>
         void Update(T record);
+
+        /// <summary>
+        /// Inserts a record if it does not exist already (based on id) or updates an existing record
+        /// </summary>
+        /// <param name="record"></param>
+        void InsertOrUpdate(T record);
 
         /// <summary>
         /// Length of the data stored on disk

@@ -77,9 +77,6 @@ namespace Middleware.Blog
             if (String.IsNullOrEmpty(username))
                 throw new ArgumentNullException(nameof(username));
 
-            if (comments == null)
-                throw new ArgumentNullException(nameof(comments));
-
             Id = id;
             UserId = userId;
             Title = title;

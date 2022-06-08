@@ -1017,6 +1017,106 @@ namespace PluginManager.DAL.TextFiles.Tests
             }
         }
 
+        [TestMethod]
+        public void InsertOrUpdate_InsertMultipleNewRows_Success()
+        {
+            string directory = io.Path.Combine(io.Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            try
+            {
+                io.Directory.CreateDirectory(directory);
+                ITextTableInitializer initializer = CreateTestInitializer(directory);
+                IForeignKeyManager keyManager = new ForeignKeyManager();
+
+                using (TextTableOperations<MockRow> sut = new TextTableOperations<MockRow>(initializer, keyManager))
+                {
+                    for (int i = 0; i < 5; i++)
+                        sut.InsertOrUpdate(new MockRow() { Id = -1});
+                }
+
+                using (TextTableOperations<MockRow> readSut = new TextTableOperations<MockRow>(initializer, keyManager))
+                {
+                    Assert.AreEqual(5, readSut.RecordCount);
+                    Assert.AreEqual(46, readSut.DataLength);
+                    Assert.AreEqual(4L, readSut.Sequence);
+
+                    IReadOnlyList<MockRow> records = readSut.Select();
+
+                    for (int i = 0; i < readSut.RecordCount; i++)
+                        Assert.AreEqual(i, records[i].Id);
+                }
+            }
+            finally
+            {
+                io.Directory.Delete(directory, true);
+            }
+        }
+
+        [TestMethod]
+        public void InsertOrUpdate_UpdateMultipleNewRows_Success()
+        {
+            string directory = io.Path.Combine(io.Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            try
+            {
+                io.Directory.CreateDirectory(directory);
+                ITextTableInitializer initializer = CreateTestInitializer(directory);
+                IForeignKeyManager keyManager = new ForeignKeyManager();
+
+                using (TextTableOperations<MockTableUserRow> mockUsers = new TextTableOperations<MockTableUserRow>(initializer, keyManager))
+                {
+                    List<MockTableUserRow> testData = new List<MockTableUserRow>();
+
+                    for (int i = 0; i < 5; i++)
+                        testData.Add(new MockTableUserRow(i));
+
+                    mockUsers.Insert(testData);
+
+                    using (TextTableOperations<MockTableAddressRow> sut = new TextTableOperations<MockTableAddressRow>(initializer, keyManager))
+                    {
+                        List<MockTableAddressRow> itemsToInsert = new List<MockTableAddressRow>();
+
+                        for (int i = 0; i < 5; i++)
+                            itemsToInsert.Add(new MockTableAddressRow() { Id = -1, Description = "test", UserId = 1 });
+
+                        sut.Insert(itemsToInsert);
+                    }
+
+                    using (TextTableOperations<MockTableAddressRow> readSut = new TextTableOperations<MockTableAddressRow>(initializer, keyManager))
+                    {
+                        Assert.AreEqual(5, readSut.RecordCount);
+                        Assert.AreEqual(206, readSut.DataLength);
+                        Assert.AreEqual(4L, readSut.Sequence);
+
+                        IReadOnlyList<MockTableAddressRow> records = readSut.Select();
+
+                        for (int i = 0; i < readSut.RecordCount; i++)
+                        {
+                            Assert.AreEqual(i, records[i].Id);
+                            Assert.AreEqual("test", records[i].Description);
+                        }
+
+                        records[2].Description = "updated";
+                        readSut.InsertOrUpdate(records[2]);
+                        readSut.Delete(records[4]);
+                    }
+
+                    using (TextTableOperations<MockTableAddressRow> readSut = new TextTableOperations<MockTableAddressRow>(initializer, keyManager))
+                    {
+                        Assert.AreEqual(4, readSut.RecordCount);
+                        Assert.AreEqual(168, readSut.DataLength);
+                        Assert.AreEqual(4L, readSut.Sequence);
+
+                        IReadOnlyList<MockTableAddressRow> records = readSut.Select();
+
+                        Assert.AreEqual("updated", records[2].Description);
+                    }
+                }
+            }
+            finally
+            {
+                io.Directory.Delete(directory, true);
+            }
+        }
+
         private static TextTableInitializer CreateTestInitializer(string path)
         {
             return new TextTableInitializer(path);

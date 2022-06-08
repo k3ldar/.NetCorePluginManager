@@ -927,6 +927,11 @@
             </summary>
             <value>string</value>
         </member>
+        <member name="P:Middleware.Blog.BlogComment.Comments">
+            <summary>
+            List of sub comments for the comment
+            </summary>
+        </member>
         <member name="T:Middleware.Blog.BlogItem">
             <summary>
             Blog item represents a blog post within a website.

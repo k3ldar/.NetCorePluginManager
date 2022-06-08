@@ -34,7 +34,7 @@ namespace PluginManager.DAL.TextFiles.Tests
 {
     [ExcludeFromCodeCoverage]
     [Table("MockTable", cachingStrategy: CachingStrategy.Memory)]
-    internal class MockRow : TableRowDefinition
+    internal sealed class MockRow : TableRowDefinition
     {
         public MockRow()
         {

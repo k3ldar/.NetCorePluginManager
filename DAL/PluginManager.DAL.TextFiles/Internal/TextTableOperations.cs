@@ -95,8 +95,8 @@ namespace PluginManager.DAL.TextFiles.Internal
             if (_tableAttributes == null)
                 throw new InvalidOperationException();
 
-            _foreignKeys = GetForeignKeys();
-            _indexes = GetIndexes();
+            _foreignKeys = GetForeignKeysForTable();
+            _indexes = BuildIndexListForTable();
             _jsonSerializerOptions = new JsonSerializerOptions();
             _tableName = ValidateTableName(_initializer.Path, _tableAttributes.TableName);
             _fileStream = File.Open(_tableName, FileMode.Open, FileAccess.ReadWrite, FileShare.Read);
@@ -273,6 +273,20 @@ namespace PluginManager.DAL.TextFiles.Internal
                 throw new ArgumentNullException(nameof(record));
 
             InternalUpdateRecords(new List<T>() { record });
+        }
+
+        public void InsertOrUpdate(T record)
+        {
+            if (_disposed)
+                throw new ObjectDisposedException(nameof(TextTableOperations<T>));
+
+            if (record == null)
+                throw new ArgumentNullException(nameof(record));
+
+            if (IdExists(record.Id))
+                InternalUpdateRecords(new List<T> { record }); 
+            else
+                InternalInsertRecords(new List<T>() { record });
         }
 
         #region Sequences
@@ -453,6 +467,10 @@ namespace PluginManager.DAL.TextFiles.Internal
                 _allRecords = recordsToSave;
                 _allRecords.ForEach(ar => ar.ImmutableId = true);
             }
+            else
+            {
+                _allRecords = null;
+            }
             
             _compactPercent = Convert.ToByte(Shared.Utilities.Percentage(_fileStream.Length, _fileStream.Position));
 
@@ -562,7 +580,7 @@ namespace PluginManager.DAL.TextFiles.Internal
                     {
                         long value = Convert.ToInt64(record.GetType().GetProperty(item.Key).GetValue(record, null));
 
-                        _indexes[item.Key].Remove(value);
+                        _indexes[item.Key].Add(value);
                     }
                 }
                 finally
@@ -600,7 +618,7 @@ namespace PluginManager.DAL.TextFiles.Internal
             }
         }
 
-        private Dictionary<string, string> GetForeignKeys()
+        private Dictionary<string, string> GetForeignKeysForTable()
         {
             Dictionary<string, string> Result = new Dictionary<string, string>();
 
@@ -627,7 +645,7 @@ namespace PluginManager.DAL.TextFiles.Internal
                 .FirstOrDefault();
         }
 
-        private static BatchUpdateDictionary<string, IndexManager> GetIndexes()
+        private static BatchUpdateDictionary<string, IndexManager> BuildIndexListForTable()
         {
             BatchUpdateDictionary<string, IndexManager> Result = new BatchUpdateDictionary<string, IndexManager>();
 
