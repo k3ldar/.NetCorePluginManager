@@ -57,6 +57,7 @@ namespace PluginManager.DAL.TextFiles
                 throw new ArgumentException($"Path does not exist: {settings.Path}", nameof(settings.Path));
 
             Path = settings.Path;
+            EncryptionKey = settings.EnycryptionKey;
         }
 
         public TextTableInitializer(string path)
@@ -69,6 +70,8 @@ namespace PluginManager.DAL.TextFiles
 
             Path = path;
         }
+
+        public string EncryptionKey { get; private set; }
 
 
         public string Path { get; private set; }

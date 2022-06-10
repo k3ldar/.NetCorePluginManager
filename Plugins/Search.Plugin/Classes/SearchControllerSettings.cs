@@ -83,7 +83,7 @@ namespace SearchPlugin
         /// Must be between 20 and 60 characters long.
         /// </summary>
         /// <value>string</value>
-        [SettingString(20, 60)]
+        [SettingString(false, SharedPluginFeatures.Constants.MinimumKeyLength, SharedPluginFeatures.Constants.MaximumKeyLength)]
         [SettingDefault("A^SSDFasdkl;fjanewrun[ca'ekd jf;z4sieurn;fdmmjf")]
         public string EncryptionKey { get; set; }
 

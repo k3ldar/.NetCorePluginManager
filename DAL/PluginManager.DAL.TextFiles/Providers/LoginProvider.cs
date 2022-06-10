@@ -38,6 +38,7 @@ namespace PluginManager.DAL.TextFiles.Providers
         public LoginResult Login(in string username, in string password, in string ipAddress,
             in byte attempts, ref UserLoginDetails loginDetails)
         {
+            throw new NotImplementedException();
             if (loginDetails == null)
                 throw new ArgumentNullException(nameof(loginDetails));
 
@@ -80,11 +81,14 @@ namespace PluginManager.DAL.TextFiles.Providers
 
         public bool UnlockAccount(in string username, in string unlockCode)
         {
+            throw new NotImplementedException();
             return unlockCode == "123456";
+
         }
 
         public bool ForgottenPassword(in string username)
         {
+            throw new NotImplementedException();
             return username == "admin";
         }
 
@@ -122,6 +126,8 @@ namespace PluginManager.DAL.TextFiles.Providers
 
                 return LoginResult.Success;
             }
+
+            throw new NotImplementedException();
         }
 
         public void RemoveExternalUser(ITokenUserDetails tokenUserDetails)

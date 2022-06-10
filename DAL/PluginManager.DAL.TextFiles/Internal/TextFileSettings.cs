@@ -24,10 +24,17 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+using AppSettings;
+
 namespace PluginManager.DAL.TextFiles.Internal
 {
     internal class TextFileSettings
     {
+        
         public string Path { get; set; }
+
+        [SettingString(false, SharedPluginFeatures.Constants.MinimumKeyLength, SharedPluginFeatures.Constants.MaximumKeyLength)]
+        [SettingDefault("DSFOIRTEWRasd/flkqw409r sdaedf2134A")]
+        public string EnycryptionKey { get; set; }
     }
 }
