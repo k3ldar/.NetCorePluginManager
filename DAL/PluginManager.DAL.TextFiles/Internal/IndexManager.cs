@@ -24,6 +24,8 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+using System.Linq;
+
 using Shared.Classes;
 
 using SharedPluginFeatures.Interfaces;
@@ -37,15 +39,15 @@ namespace PluginManager.DAL.TextFiles.Internal
     /// 
     /// Another potential saving if more than 20 records would be to change to a binary search
     /// </summary>
-    internal sealed class IndexManager : IBatchUpdate
+    internal sealed class IndexManager<T> : IIndexManager, IBatchUpdate
     {
-        private readonly List<long> _keys;
+        private readonly List<T> _keys;
         private readonly object _lock = new object();
         private bool _sortRequired = false;
 
         public IndexManager(IndexType indexType)
         {
-            _keys = new List<long>();
+            _keys = new List<T>();
             IndexType = indexType;
         }
 
@@ -53,26 +55,25 @@ namespace PluginManager.DAL.TextFiles.Internal
 
         public bool IsUpdating { get; private set; } = false;
 
-        public bool Contains(long id)
+        public bool Contains(object id)
         {
             using (TimedLock timedLock = TimedLock.Lock(_lock))
             {
-                return _keys.Contains(id);
+                return _keys.Contains((T)id);
             }
         }
 
-        public void Add(List<long> items)
+        public void Add(List<object> items)
         {
             if (items == null)
                 return;
 
             using (TimedLock timedLock = TimedLock.Lock(_lock))
             {
-                foreach (long item in items)
+                foreach (T item in items)
                 {
                     if (!Contains(item))
                     {
-                        
                         _keys.Add(item);
                     }
                 }
@@ -82,38 +83,49 @@ namespace PluginManager.DAL.TextFiles.Internal
                 Sort();
         }
 
-        public void Add(long item)
+        public void Add(object item)
         {
-            if (!Contains(item))
+            using (TimedLock timedLock = TimedLock.Lock(_lock))
             {
-                using (TimedLock timedLock = TimedLock.Lock(_lock))
+                switch (IndexType)
                 {
-                    switch (IndexType)
-                    {
-                        case IndexType.Ascending:
-                            _sortRequired = _keys.Count > 0 && item < _keys[^1];
-                            _keys.Add(item);
-                            break;
+                    case IndexType.Ascending:
+                        if (typeof(T).Equals(typeof(long)))
+                            _sortRequired = _keys.Count > 0 && Convert.ToInt64(item) < Convert.ToInt64(_keys[^1]);
+                        else if (typeof(T).Equals(typeof(int)))
+                            _sortRequired = _keys.Count > 0 && Convert.ToInt32(item) < Convert.ToInt32(_keys[^1]);
+                        else
+                            _sortRequired = true;
 
-                        case IndexType.Descending:
-                            _sortRequired = _keys.Count > 0 && item > _keys[^1];
-                            _keys.Insert(0, item);
-                            break;
-                    }
+                        _keys.Add((T)item);
+
+                        break;
+
+                    case IndexType.Descending:
+                        if (typeof(T).Equals(typeof(long)))
+                            _sortRequired = _keys.Count > 0 && Convert.ToInt64(item) > Convert.ToInt64(_keys[^1]);
+                        else if (typeof(T).Equals(typeof(int)))
+                            _sortRequired = _keys.Count > 0 && Convert.ToInt32(item) > Convert.ToInt32(_keys[^1]);
+                        else
+                            _sortRequired = true;
+
+                        _keys.Insert(0, (T)item);
+
+                        break;
                 }
-
-                if (!IsUpdating)
-                    Sort();
             }
+
+            if (!IsUpdating)
+                Sort();
         }
 
-        public void Remove(long item)
+        public void Remove(object item)
         {
             if (Contains(item))
             {
                 using (TimedLock timedLock = TimedLock.Lock(_lock))
                 {
-                    _keys.Remove(item);
+                    _keys.Remove((T)item);
                 }
 
                 if (!IsUpdating)
@@ -128,14 +140,12 @@ namespace PluginManager.DAL.TextFiles.Internal
 
             using (TimedLock timedLock = TimedLock.Lock(_lock))
             {
+                _keys.Sort();
+
                 switch (IndexType)
                 {
                     case IndexType.Descending:
-                        _keys.Sort(new SortDescending());
-                        break;
-
-                    default:
-                        _keys.Sort(new SortAscending());
+                        _keys.Reverse();
                         break;
                 }
             }

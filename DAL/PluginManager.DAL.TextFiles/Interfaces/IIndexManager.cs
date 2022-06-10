@@ -15,43 +15,32 @@
  *
  *  Product:  PluginManager.DAL.TextFiles
  *  
- *  File: BatchUpdateDictionary.cs
+ *  File: IIndexManager.cs
  *
- *  Purpose:  Dictionary with batch update facility
+ *  Purpose:  Interface for index managers
  *
  *  Date        Name                Reason
- *  05/06/2022  Simon Carter        Initially Created
+ *  09/06/2022  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
 using SharedPluginFeatures.Interfaces;
 
-namespace PluginManager.DAL.TextFiles.Internal
+namespace PluginManager.DAL.TextFiles
 {
-    internal sealed class BatchUpdateDictionary<TKey, TValue> : Dictionary<TKey, TValue>, IBatchUpdate
-        where TValue : IIndexManager, IBatchUpdate
+    public interface IIndexManager : IBatchUpdate
     {
-        public bool IsUpdating { get; private set; }
+        bool Contains(object value);
 
-        public void BeginUpdate()
-        {
-            if (IsUpdating)
-                throw new InvalidOperationException();
+        void Add(object value);
 
-            foreach (KeyValuePair<TKey, TValue> kv in this)
-                kv.Value.BeginUpdate();
+        void Add(List<object> items);
 
-            IsUpdating = true;
-        }
-
-        public void EndUpdate()
-        {
-            if (!IsUpdating)
-                throw new InvalidOperationException();
-
-            foreach (KeyValuePair<TKey, TValue> kv in this)
-                kv.Value.EndUpdate();
-
-            IsUpdating = false;
-        }
+        void Remove(object value);
     }
 }

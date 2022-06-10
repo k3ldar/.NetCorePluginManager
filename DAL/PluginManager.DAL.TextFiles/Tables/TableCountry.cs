@@ -15,43 +15,44 @@
  *
  *  Product:  PluginManager.DAL.TextFiles
  *  
- *  File: BatchUpdateDictionary.cs
+ *  File: TableCountries.cs
  *
- *  Purpose:  Dictionary with batch update facility
+ *  Purpose:  Row definition for Table for countries
  *
  *  Date        Name                Reason
- *  05/06/2022  Simon Carter        Initially Created
+ *  31/05/2022  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using SharedPluginFeatures.Interfaces;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace PluginManager.DAL.TextFiles.Internal
+using PluginManager.DAL.TextFiles.Internal;
+
+namespace PluginManager.DAL.TextFiles.Tables
 {
-    internal sealed class BatchUpdateDictionary<TKey, TValue> : Dictionary<TKey, TValue>, IBatchUpdate
-        where TValue : IIndexManager, IBatchUpdate
+    [Table(Constants.TableNameCountries, CompressionType.None, CachingStrategy.Memory)]
+    internal sealed class TableCountry : TableRowDefinition
     {
-        public bool IsUpdating { get; private set; }
+        /// <summary>
+        /// Name of country.
+        /// </summary>
+        /// <value>string</value>
+        public string Name { get; set; }
 
-        public void BeginUpdate()
-        {
-            if (IsUpdating)
-                throw new InvalidOperationException();
+        /// <summary>
+        /// Country code.
+        /// </summary>
+        /// <value>string</value>
+        [UniqueIndex(IndexType.Ascending)]
+        public string Code { get; set; }
 
-            foreach (KeyValuePair<TKey, TValue> kv in this)
-                kv.Value.BeginUpdate();
-
-            IsUpdating = true;
-        }
-
-        public void EndUpdate()
-        {
-            if (!IsUpdating)
-                throw new InvalidOperationException();
-
-            foreach (KeyValuePair<TKey, TValue> kv in this)
-                kv.Value.EndUpdate();
-
-            IsUpdating = false;
-        }
+        /// <summary>
+        /// Indicates whether the country is visible or not.
+        /// </summary>
+        /// <value>bool</value>
+        public bool Visible { get; set; }
     }
 }

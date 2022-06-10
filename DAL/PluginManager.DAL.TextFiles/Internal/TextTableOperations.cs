@@ -81,7 +81,7 @@ namespace PluginManager.DAL.TextFiles.Internal
         private readonly Dictionary<string, string> _foreignKeys;
         private readonly ITextTableInitializer _initializer;
         private readonly IForeignKeyManager _foreignKeyManager;
-        private readonly BatchUpdateDictionary<string, IndexManager> _indexes;
+        private readonly BatchUpdateDictionary<string, IIndexManager> _indexes;
         private List<T> _allRecords = null;
 
         #region Constructors / Destructors
@@ -413,10 +413,11 @@ namespace PluginManager.DAL.TextFiles.Internal
                         {
                             if (existingRecords[i].Id.Equals(record.Id))
                             {
+                                InternalRemoveIndex(record);
+                                InternalAddIndex(existingRecords[i]);
                                 existingRecords[i] = record;
                                 break;
                             }
-
                         }
                     }
 
@@ -524,6 +525,8 @@ namespace PluginManager.DAL.TextFiles.Internal
                 if (_foreignKeys.Count > 0)
                     ValidateForeignKeys(records);
 
+                ValidateInternalIndexes(records);
+
                 long nextSequence = Sequence + 1;
                 _ = NextSequence(records.Count);
 
@@ -547,11 +550,28 @@ namespace PluginManager.DAL.TextFiles.Internal
             }
         }
 
+        private void ValidateInternalIndexes(List<T> records)
+        {
+            foreach (KeyValuePair<string, IIndexManager> item in _indexes)
+            {
+                foreach (T record in records)
+                {
+                    object value = record.GetType().GetProperty(item.Key).GetValue(record, null);
+
+                    if (_indexes[item.Key].Contains(value))
+                    {
+                        if (_indexes[item.Key].Contains(value))
+                            throw new UniqueIndexException($"Index already exists; Table: {TableName}; Property: {item.Key}; Value: {value}");
+                    }
+                }
+            }
+        }
+
         private void InternalAddIndex(T record)
         {
-            foreach (KeyValuePair<string, IndexManager> item in _indexes)
+            foreach (KeyValuePair<string, IIndexManager> item in _indexes)
             {
-                long value = Convert.ToInt64(record.GetType().GetProperty(item.Key).GetValue(record, null));
+                object value = record.GetType().GetProperty(item.Key).GetValue(record, null);
 
                 _indexes[item.Key].Add(value);
             }
@@ -559,9 +579,9 @@ namespace PluginManager.DAL.TextFiles.Internal
 
         private void InternalRemoveIndex(T record)
         {
-            foreach (KeyValuePair<string, IndexManager> item in _indexes)
+            foreach (KeyValuePair<string, IIndexManager> item in _indexes)
             {
-                long value = Convert.ToInt64(record.GetType().GetProperty(item.Key).GetValue(record, null));
+                object value = record.GetType().GetProperty(item.Key).GetValue(record, null);
 
                 _indexes[item.Key].Remove(value);
             }
@@ -571,7 +591,7 @@ namespace PluginManager.DAL.TextFiles.Internal
         {
             IReadOnlyList<T> allRecords = Select();
 
-            foreach (KeyValuePair<string, IndexManager> item in _indexes)
+            foreach (KeyValuePair<string, IIndexManager> item in _indexes)
             {
                 item.Value.BeginUpdate();
                 try
@@ -592,14 +612,17 @@ namespace PluginManager.DAL.TextFiles.Internal
 
         private void VerifyIndexNotInUseAsForeignKey(List<T> records)
         {
-            foreach (KeyValuePair<string, IndexManager> index in _indexes)
+            foreach (KeyValuePair<string, IIndexManager> index in _indexes)
             {
                 foreach (T record in records)
                 {
-                    long keyValue = Convert.ToInt64(record.GetType().GetProperty(index.Key).GetValue(record, null));
+                    object keyValue = record.GetType().GetProperty(index.Key).GetValue(record, null);
 
-                    if (_foreignKeyManager.ValueInUse(TableName, index.Key, keyValue, out string table, out string propertyName))
-                        throw new ForeignKeyException($"Foreign key value {keyValue} from table {TableName} is being used in Table: {table}; Property: {propertyName}");
+                    if (Int64.TryParse(keyValue.ToString(), out long value))
+                    {
+                        if (_foreignKeyManager.ValueInUse(TableName, index.Key, value, out string table, out string propertyName))
+                            throw new ForeignKeyException($"Foreign key value {keyValue} from table {TableName} is being used in Table: {table}; Property: {propertyName}");
+                    }
                 }
             }
         }
@@ -628,7 +651,7 @@ namespace PluginManager.DAL.TextFiles.Internal
                     .Where(ca => ca.GetType().Equals(typeof(ForeignKeyAttribute)))
                     .FirstOrDefault();
 
-                if (foreignKey != null)
+                if (foreignKey != null && property.PropertyType.Equals(typeof(long)))
                 {
                     _foreignKeyManager.AddRelationShip(TableName, foreignKey.TableName, property.Name, foreignKey.PropertyName);
                     Result.Add(property.Name, foreignKey.TableName);
@@ -645,9 +668,9 @@ namespace PluginManager.DAL.TextFiles.Internal
                 .FirstOrDefault();
         }
 
-        private static BatchUpdateDictionary<string, IndexManager> BuildIndexListForTable()
+        private static BatchUpdateDictionary<string, IIndexManager> BuildIndexListForTable()
         {
-            BatchUpdateDictionary<string, IndexManager> Result = new BatchUpdateDictionary<string, IndexManager>();
+            BatchUpdateDictionary<string, IIndexManager> Result = new BatchUpdateDictionary<string, IIndexManager>();
 
             foreach (PropertyInfo property in typeof(T).GetProperties())
             {
@@ -657,7 +680,28 @@ namespace PluginManager.DAL.TextFiles.Internal
 
                 if (uniqueIndex != null)
                 {
-                    Result.Add(property.Name, new IndexManager(uniqueIndex.IndexType));
+                    if (property.PropertyType == typeof(long))
+                        Result.Add(property.Name, new IndexManager<long>(uniqueIndex.IndexType));
+                    else if (property.PropertyType == typeof(string))
+                        Result.Add(property.Name, new IndexManager<string>(uniqueIndex.IndexType));
+                    else if (property.PropertyType == typeof(int))
+                        Result.Add(property.Name, new IndexManager<int>(uniqueIndex.IndexType));
+                    else if (property.PropertyType == typeof(float))
+                        Result.Add(property.Name, new IndexManager<float>(uniqueIndex.IndexType));
+                    else if (property.PropertyType == typeof(double))
+                        Result.Add(property.Name, new IndexManager<double>(uniqueIndex.IndexType));
+                    else if (property.PropertyType == typeof(decimal))
+                        Result.Add(property.Name, new IndexManager<decimal>(uniqueIndex.IndexType));
+                    else if (property.PropertyType == typeof(uint))
+                        Result.Add(property.Name, new IndexManager<uint>(uniqueIndex.IndexType));
+                    else if (property.PropertyType == typeof(ulong))
+                        Result.Add(property.Name, new IndexManager<ulong>(uniqueIndex.IndexType));
+                    else if (property.PropertyType == typeof(short))
+                        Result.Add(property.Name, new IndexManager<short>(uniqueIndex.IndexType));
+                    else if (property.PropertyType == typeof(ushort))
+                        Result.Add(property.Name, new IndexManager<ushort>(uniqueIndex.IndexType));
+                    else
+                        throw new InvalidOperationException($"Type {property.PropertyType.Name} not supported");
                 }
             }
 

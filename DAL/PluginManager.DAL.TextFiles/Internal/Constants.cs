@@ -31,6 +31,7 @@ namespace PluginManager.DAL.TextFiles.Internal
         public const string TableNameUsers = "Users";
         public const string TableNameBlogs = "Blogs";
         public const string TableNameBlogComments = "BlogComments";
+        public const string TableNameCountries = "Countries";
         public const string TableNameUserClaims = "UserClaims";
         public const string TableNameAddresses = "Addresses";
         public const string TableNameOrders = "Orders";

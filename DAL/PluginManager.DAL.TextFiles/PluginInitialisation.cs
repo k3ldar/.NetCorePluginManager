@@ -90,6 +90,7 @@ namespace PluginManager.DAL.TextFiles
             services.AddSingleton(typeof(TableRowDefinition), typeof(TableUser));
             services.AddSingleton(typeof(TableRowDefinition), typeof(TableOrders));
             services.AddSingleton(typeof(TableRowDefinition), typeof(TableAddress));
+            services.AddSingleton(typeof(TableRowDefinition), typeof(TableCountry));
             services.AddSingleton(typeof(TableRowDefinition), typeof(TableUserClaims));
             services.AddSingleton(typeof(ITextTableOperations<>), typeof(TextTableOperations<>));
 
@@ -97,7 +98,7 @@ namespace PluginManager.DAL.TextFiles
             services.AddTransient<IAccountProvider, AccountProvider>();
             services.AddSingleton<IBlogProvider, BlogProvider>();
             services.AddSingleton<IClaimsProvider, ClaimsProvider>();
-            //services.AddSingleton<ICountryProvider, CountryLists>();
+            services.AddSingleton<ICountryProvider, CountryProvider>();
             //services.AddSingleton<IDownloadProvider, DownloadProvider>();
             //services.AddSingleton<IDynamicContentProvider, DynamicContentProvider>();
             //services.AddSingleton<IGeoIpProvider, GeoIpProvider>();

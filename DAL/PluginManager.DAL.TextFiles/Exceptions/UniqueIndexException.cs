@@ -15,55 +15,39 @@
  *
  *  Product:  PluginManager.DAL.TextFiles
  *  
- *  File: CountryProvider.cs
+ *  File: UniqueIndexException.cs
  *
- *  Purpose:  ICountryProvider for text based storage
+ *  Purpose:  Unique index exception for text based storage
  *
  *  Date        Name                Reason
- *  25/05/2022  Simon Carter        Initially Created
+ *  09/06/2022  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 
-using Middleware;
+using System.Runtime.Serialization;
 
-namespace PluginManager.DAL.TextFiles.Providers
+namespace PluginManager.DAL.TextFiles
 {
-    internal class CountryLists : ICountryProvider
+    [Serializable]
+    public class UniqueIndexException : Exception
     {
-        public Country CountryCreate(in string name, in string code, in bool visible)
+        public UniqueIndexException()
         {
-            return new Country(name, code, visible);
         }
 
-        public bool CountryDelete(in Country country)
+        public UniqueIndexException(string message) 
+            : base(message)
         {
-            return false;
         }
 
-        public bool CountryUpdate(in Country country)
+        public UniqueIndexException(string message, Exception innerException) 
+            : base(message, innerException)
         {
-            return true;
         }
 
-        public List<Country> GetAllCountries()
+        protected UniqueIndexException(SerializationInfo info, StreamingContext context) 
+            : base(info, context)
         {
-            return new List<Country>()
-            {
-                new Country("USA", "US", true),
-                new Country("England", "GB", true),
-                new Country("Unknown", "UK", false),
-            };
-        }
-
-        public List<Country> GetVisibleCountries()
-        {
-            return new List<Country>()
-            {
-                new Country("USA", "US", true),
-                new Country("England", "GB", true),
-            };
         }
     }
 }
