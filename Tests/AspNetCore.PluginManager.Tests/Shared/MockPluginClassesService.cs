@@ -50,10 +50,13 @@ namespace AspNetCore.PluginManager.Tests.Shared
         {
             List<T> Result = new List<T>();
 
-            foreach (object item in _items)
+            if (_items != null)
             {
-                if (item.GetType().IsAssignableTo(typeof(T)))
-                    Result.Add((T)item);
+                foreach (object item in _items)
+                {
+                    if (item.GetType().IsAssignableTo(typeof(T)))
+                        Result.Add((T)item);
+                }
             }
 
             return Result;

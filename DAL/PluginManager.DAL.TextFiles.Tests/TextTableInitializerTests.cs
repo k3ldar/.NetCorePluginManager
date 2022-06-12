@@ -31,6 +31,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using AspNetCore.PluginManager.Tests.Shared;
+
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using PluginManager.DAL.TextFiles.Internal;
@@ -139,7 +141,7 @@ namespace PluginManager.DAL.TextFiles.Tests
                 Assert.AreEqual(1u, sut.MinimumVersion);
                 Assert.AreEqual(directory, sut.Path);
 
-                using (TextTableOperations<MockRow> mockTable = new TextTableOperations<MockRow>(sut, new ForeignKeyManager()))
+                using (TextTableOperations<MockRow> mockTable = new TextTableOperations<MockRow>(sut, new ForeignKeyManager(), new MockPluginClassesService()))
                     sut.RegisterTable(mockTable);
             }
             finally
@@ -159,7 +161,7 @@ namespace PluginManager.DAL.TextFiles.Tests
                 Assert.AreEqual(1u, sut.MinimumVersion);
                 Assert.AreEqual(directory, sut.Path);
 
-                using (TextTableOperations<MockRow> mockTable = new TextTableOperations<MockRow>(sut, new ForeignKeyManager()))
+                using (TextTableOperations<MockRow> mockTable = new TextTableOperations<MockRow>(sut, new ForeignKeyManager(), new MockPluginClassesService()))
                 {
                     IReadOnlyDictionary<string, ITextTable> tables = sut.Tables;
                     Assert.AreEqual(1, tables.Count);
@@ -185,7 +187,7 @@ namespace PluginManager.DAL.TextFiles.Tests
                 MockForeignKeyManager foreignKeyManager = new MockForeignKeyManager();
                 Assert.AreEqual(0, foreignKeyManager.RegisteredTables.Count);
 
-                using (TextTableOperations<MockRow> mockTable = new TextTableOperations<MockRow>(sut, foreignKeyManager))
+                using (TextTableOperations<MockRow> mockTable = new TextTableOperations<MockRow>(sut, foreignKeyManager, new MockPluginClassesService()))
                 {
                     Assert.AreEqual(1, foreignKeyManager.RegisteredTables.Count);
                     Assert.IsTrue(foreignKeyManager.RegisteredTables.Contains("MockTable"));

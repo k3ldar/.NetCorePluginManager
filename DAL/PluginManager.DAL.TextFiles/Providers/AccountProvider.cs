@@ -30,6 +30,8 @@ using Middleware.Accounts;
 using Middleware.Accounts.Invoices;
 using Middleware.Accounts.Orders;
 
+using PluginManager.Abstractions;
+using PluginManager.DAL.TextFiles.Internal;
 using PluginManager.DAL.TextFiles.Tables;
 
 namespace PluginManager.DAL.TextFiles.Providers
@@ -40,13 +42,23 @@ namespace PluginManager.DAL.TextFiles.Providers
 
         private readonly ITextTableOperations<TableUser> _users;
         private readonly ITextTableOperations<TableAddress> _addresses;
+        private readonly string _encryptionKey;
+
 
         #endregion Private Members
-
         #region Constructors
 
-        public AccountProvider(ITextTableOperations<TableUser> users, ITextTableOperations<TableAddress> addresses)
+        public AccountProvider(ITextTableOperations<TableUser> users, ITextTableOperations<TableAddress> addresses, ISettingsProvider settingsProvider)
         {
+            if (settingsProvider == null)
+                throw new ArgumentNullException(nameof(settingsProvider));
+
+            TextFileSettings settings = settingsProvider.GetSettings<TextFileSettings>(nameof(TextFileSettings));
+
+            if (settings == null)
+                throw new InvalidOperationException();
+
+            _encryptionKey = settings.EnycryptionKey;
             _users = users ?? throw new ArgumentNullException(nameof(users));
             _addresses = addresses ?? throw new ArgumentNullException(nameof(addresses));
         }
@@ -65,7 +77,7 @@ namespace PluginManager.DAL.TextFiles.Providers
             if (user == null)
                 throw new ArgumentException("user not found", nameof(userId));
 
-            user.Password = newPassword;
+            user.Password = Shared.Utilities.Encrypt(newPassword, _encryptionKey);
             _users.Update(user);
             return true;
         }
@@ -178,7 +190,7 @@ namespace PluginManager.DAL.TextFiles.Providers
                 Email = email,
                 FirstName = firstName,
                 Surname = surname,
-                Password = password,
+                Password = Shared.Utilities.Encrypt(password, _encryptionKey),
                 Telephone = telephone,
                 BusinessName = businessName,
                 AddressLine1 = addressLine1,

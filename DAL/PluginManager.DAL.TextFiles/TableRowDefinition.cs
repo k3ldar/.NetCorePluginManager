@@ -49,7 +49,7 @@ namespace PluginManager.DAL.TextFiles
         /// <value>long</value>
         [UniqueIndex(IndexType.Ascending)]
         public long Id
-        { 
+        {
             get => _id;
 
             set

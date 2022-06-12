@@ -35,6 +35,7 @@ using io = System.IO;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using PluginManager.DAL.TextFiles.Internal;
+using AspNetCore.PluginManager.Tests.Shared;
 
 namespace PluginManager.DAL.TextFiles.Tests
 {
@@ -101,7 +102,7 @@ namespace PluginManager.DAL.TextFiles.Tests
                 io.Directory.CreateDirectory(directory);
                 ITextTableInitializer initializer = new TextTableInitializer(directory);
 
-                using TextTableOperations<MockTableUserRow> mockUsers = new TextTableOperations<MockTableUserRow>(initializer, sut);
+                using TextTableOperations<MockTableUserRow> mockUsers = new TextTableOperations<MockTableUserRow>(initializer, sut, new MockPluginClassesService());
                 List<MockTableUserRow> testData = new List<MockTableUserRow>();
 
                 for (int i = 0; i < 5; i++)
@@ -109,7 +110,7 @@ namespace PluginManager.DAL.TextFiles.Tests
 
                 mockUsers.Insert(testData);
 
-                using TextTableOperations<MockTableAddressRow> mockAddresses = new TextTableOperations<MockTableAddressRow>(initializer, sut);
+                using TextTableOperations<MockTableAddressRow> mockAddresses = new TextTableOperations<MockTableAddressRow>(initializer, sut, new MockPluginClassesService());
                 mockAddresses.Insert(new MockTableAddressRow(10));
             }
             finally
@@ -129,7 +130,7 @@ namespace PluginManager.DAL.TextFiles.Tests
                 io.Directory.CreateDirectory(directory);
                 ITextTableInitializer initializer = new TextTableInitializer(directory);
 
-                using TextTableOperations<MockTableUserRow> mockUsers = new TextTableOperations<MockTableUserRow>(initializer, sut);
+                using TextTableOperations<MockTableUserRow> mockUsers = new TextTableOperations<MockTableUserRow>(initializer, sut, new MockPluginClassesService());
                 List<MockTableUserRow> testData = new List<MockTableUserRow>();
 
                 for (int i = 0; i < 5; i++)
@@ -137,7 +138,7 @@ namespace PluginManager.DAL.TextFiles.Tests
 
                 mockUsers.Insert(testData);
 
-                using TextTableOperations<MockTableAddressRow> mockAddresses = new TextTableOperations<MockTableAddressRow>(initializer, sut);
+                using TextTableOperations<MockTableAddressRow> mockAddresses = new TextTableOperations<MockTableAddressRow>(initializer, sut, new MockPluginClassesService());
                 mockAddresses.Insert(new MockTableAddressRow(3));
 
                 MockTableAddressRow addressRow = mockAddresses.Select(0);
@@ -163,7 +164,7 @@ namespace PluginManager.DAL.TextFiles.Tests
                 io.Directory.CreateDirectory(directory);
                 ITextTableInitializer initializer = new TextTableInitializer(directory);
 
-                using TextTableOperations<MockTableUserRow> mockUsers = new TextTableOperations<MockTableUserRow>(initializer, sut);
+                using TextTableOperations<MockTableUserRow> mockUsers = new TextTableOperations<MockTableUserRow>(initializer, sut, new MockPluginClassesService());
                 List<MockTableUserRow> testData = new List<MockTableUserRow>();
 
                 for (int i = 0; i < 5; i++)
@@ -171,7 +172,7 @@ namespace PluginManager.DAL.TextFiles.Tests
 
                 mockUsers.Insert(testData);
 
-                using TextTableOperations<MockTableAddressRow> mockAddresses = new TextTableOperations<MockTableAddressRow>(initializer, sut);
+                using TextTableOperations<MockTableAddressRow> mockAddresses = new TextTableOperations<MockTableAddressRow>(initializer, sut, new MockPluginClassesService());
                 mockAddresses.Insert(new MockTableAddressRow(3));
 
                 MockTableAddressRow addressRow = mockAddresses.Select(0);
@@ -195,7 +196,7 @@ namespace PluginManager.DAL.TextFiles.Tests
                 io.Directory.CreateDirectory(directory);
                 ITextTableInitializer initializer = new TextTableInitializer(directory);
 
-                using TextTableOperations<MockTableUserRow> mockUsers = new TextTableOperations<MockTableUserRow>(initializer, sut);
+                using TextTableOperations<MockTableUserRow> mockUsers = new TextTableOperations<MockTableUserRow>(initializer, sut, new MockPluginClassesService());
                 List<MockTableUserRow> testData = new List<MockTableUserRow>();
 
                 for (int i = 0; i < 5; i++)
@@ -203,7 +204,7 @@ namespace PluginManager.DAL.TextFiles.Tests
 
                 mockUsers.Insert(testData);
 
-                using TextTableOperations<MockTableAddressRow> mockAddresses = new TextTableOperations<MockTableAddressRow>(initializer, sut);
+                using TextTableOperations<MockTableAddressRow> mockAddresses = new TextTableOperations<MockTableAddressRow>(initializer, sut, new MockPluginClassesService());
                 mockAddresses.Insert(new MockTableAddressRow(3));
             }
             finally
@@ -222,7 +223,7 @@ namespace PluginManager.DAL.TextFiles.Tests
                 io.Directory.CreateDirectory(directory);
                 ITextTableInitializer initializer = new TextTableInitializer(directory);
 
-                using TextTableOperations<MockTableUserRow> mockUsers = new TextTableOperations<MockTableUserRow>(initializer, sut);
+                using TextTableOperations<MockTableUserRow> mockUsers = new TextTableOperations<MockTableUserRow>(initializer, sut, new MockPluginClassesService());
                 List<MockTableUserRow> testData = new List<MockTableUserRow>();
 
                 for (int i = 0; i < 5; i++)
@@ -230,7 +231,7 @@ namespace PluginManager.DAL.TextFiles.Tests
 
                 mockUsers.Insert(testData);
 
-                using TextTableOperations<MockTableAddressRow> mockAddresses = new TextTableOperations<MockTableAddressRow>(initializer, sut);
+                using TextTableOperations<MockTableAddressRow> mockAddresses = new TextTableOperations<MockTableAddressRow>(initializer, sut, new MockPluginClassesService());
                 mockAddresses.Insert(new MockTableAddressRow(3));
 
                 MockTableAddressRow addressRow = mockAddresses.Select(0);
@@ -255,7 +256,7 @@ namespace PluginManager.DAL.TextFiles.Tests
                 io.Directory.CreateDirectory(directory);
                 ITextTableInitializer initializer = new TextTableInitializer(directory);
 
-                using TextTableOperations<MockTableUserRow> mockUsers = new TextTableOperations<MockTableUserRow>(initializer, sut);
+                using TextTableOperations<MockTableUserRow> mockUsers = new TextTableOperations<MockTableUserRow>(initializer, sut, new MockPluginClassesService());
                 List<MockTableUserRow> testData = new List<MockTableUserRow>();
 
                 for (int i = 0; i < 5; i++)
@@ -263,7 +264,7 @@ namespace PluginManager.DAL.TextFiles.Tests
 
                 mockUsers.Insert(testData);
 
-                using TextTableOperations<MockTableAddressRow> mockAddresses = new TextTableOperations<MockTableAddressRow>(initializer, sut);
+                using TextTableOperations<MockTableAddressRow> mockAddresses = new TextTableOperations<MockTableAddressRow>(initializer, sut, new MockPluginClassesService());
                 mockAddresses.Insert(new MockTableAddressRow(4));
                 mockAddresses.Truncate();
 

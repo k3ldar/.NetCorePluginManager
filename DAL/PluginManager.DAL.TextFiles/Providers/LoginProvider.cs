@@ -29,103 +29,113 @@ using System.Diagnostics.CodeAnalysis;
 
 using Middleware;
 
+using PluginManager.DAL.TextFiles.Internal;
+using PluginManager.DAL.TextFiles.Tables;
+
 namespace PluginManager.DAL.TextFiles.Providers
 {
     internal class LoginProvider : ILoginProvider
     {
-        private readonly Dictionary<long, string> _externalUsers = new Dictionary<long, string>();
+        private readonly ITextTableOperations<TableUser> _users;
+        private readonly ITextTableOperations<TableExternalUsers> _externalUsers;
+
+        public LoginProvider(ITextTableOperations<TableUser> users, ITextTableOperations<TableExternalUsers> externalUsers)
+        {
+            _users = users ?? throw new ArgumentNullException(nameof(users));
+            _externalUsers = externalUsers ?? throw new ArgumentNullException(nameof(externalUsers));
+        }
 
         public LoginResult Login(in string username, in string password, in string ipAddress,
             in byte attempts, ref UserLoginDetails loginDetails)
         {
             throw new NotImplementedException();
-            if (loginDetails == null)
-                throw new ArgumentNullException(nameof(loginDetails));
+            //if (loginDetails == null)
+            //    throw new ArgumentNullException(nameof(loginDetails));
 
-            if (_externalUsers.ContainsKey(loginDetails.UserId))
-            {
-                loginDetails.Username = _externalUsers[loginDetails.UserId];
-                loginDetails.Email = _externalUsers[loginDetails.UserId];
-                return LoginResult.Remembered;
-            }
+            //if (_externalUsers.ContainsKey(loginDetails.UserId))
+            //{
+            //    loginDetails.Username = _externalUsers[loginDetails.UserId];
+            //    loginDetails.Email = _externalUsers[loginDetails.UserId];
+            //    return LoginResult.Remembered;
+            //}
 
-            if (loginDetails.RememberMe && loginDetails.UserId == 123)
-            {
-                loginDetails.Username = "Administrator";
-                loginDetails.Email = "admin@nowhere.com";
-                loginDetails.UserId = 123;
-                return LoginResult.Remembered;
-            }
+            //if (loginDetails.RememberMe && loginDetails.UserId == 123)
+            //{
+            //    loginDetails.Username = "Administrator";
+            //    loginDetails.Email = "admin@nowhere.com";
+            //    loginDetails.UserId = 123;
+            //    return LoginResult.Remembered;
+            //}
 
-            if (username == "admin" && password == "password")
-            {
-                loginDetails.Username = "Administrator";
-                loginDetails.Email = "admin@nowhere.com";
-                loginDetails.UserId = 123;
-                return LoginResult.Success;
-            }
+            //if (username == "admin" && password == "password")
+            //{
+            //    loginDetails.Username = "Administrator";
+            //    loginDetails.Email = "admin@nowhere.com";
+            //    loginDetails.UserId = 123;
+            //    return LoginResult.Success;
+            //}
 
-            if (username == "admin" && password == "changepassword")
-            {
-                loginDetails.Username = "Administrator";
-                loginDetails.Email = "admin@nowhere.com";
-                loginDetails.UserId = 124;
-                return LoginResult.PasswordChangeRequired;
-            }
+            //if (username == "admin" && password == "changepassword")
+            //{
+            //    loginDetails.Username = "Administrator";
+            //    loginDetails.Email = "admin@nowhere.com";
+            //    loginDetails.UserId = 124;
+            //    return LoginResult.PasswordChangeRequired;
+            //}
 
-            if (attempts > 4)
-                return LoginResult.AccountLocked;
+            //if (attempts > 4)
+            //    return LoginResult.AccountLocked;
 
-            return LoginResult.InvalidCredentials;
+            //return LoginResult.InvalidCredentials;
         }
 
         public bool UnlockAccount(in string username, in string unlockCode)
         {
             throw new NotImplementedException();
-            return unlockCode == "123456";
+            //return unlockCode == "123456";
 
         }
 
         public bool ForgottenPassword(in string username)
         {
             throw new NotImplementedException();
-            return username == "admin";
+            //return username == "admin";
         }
 
         public LoginResult Login(in ITokenUserDetails tokenUserDetails, ref UserLoginDetails loginDetails)
         {
-            if (tokenUserDetails == null)
-                throw new ArgumentNullException(nameof(tokenUserDetails));
+            //if (tokenUserDetails == null)
+            //    throw new ArgumentNullException(nameof(tokenUserDetails));
 
-            if (String.IsNullOrEmpty(tokenUserDetails.Email))
-                throw new ArgumentException(nameof(tokenUserDetails));
+            //if (String.IsNullOrEmpty(tokenUserDetails.Email))
+            //    throw new ArgumentException(nameof(tokenUserDetails));
 
-            if (String.IsNullOrEmpty(tokenUserDetails.Provider))
-                throw new ArgumentNullException(nameof(tokenUserDetails));
+            //if (String.IsNullOrEmpty(tokenUserDetails.Provider))
+            //    throw new ArgumentNullException(nameof(tokenUserDetails));
 
-            // in the real world use a proper method for getting id, this is ok as only a mock
-            string stringId = tokenUserDetails.Provider + tokenUserDetails.Id;
+            //// in the real world use a proper method for getting id, this is ok as only a mock
+            //string stringId = tokenUserDetails.Provider + tokenUserDetails.Id;
 
-            long id = stringId.GetHashCode();
+            //long id = stringId.GetHashCode();
 
-            if (tokenUserDetails.Verify)
-            {
-                if (_externalUsers.ContainsKey(id))
-                    return LoginResult.Success;
-                else
-                    return LoginResult.InvalidCredentials;
-            }
-            else
-            {
-                loginDetails = new UserLoginDetails();
-                loginDetails.UserId = id;
-                loginDetails.Username = tokenUserDetails.Name ?? tokenUserDetails.Email;
-                loginDetails.Email = tokenUserDetails.Email;
+            //if (tokenUserDetails.Verify)
+            //{
+            //    if (_externalUsers.ContainsKey(id))
+            //        return LoginResult.Success;
+            //    else
+            //        return LoginResult.InvalidCredentials;
+            //}
+            //else
+            //{
+            //    loginDetails = new UserLoginDetails();
+            //    loginDetails.UserId = id;
+            //    loginDetails.Username = tokenUserDetails.Name ?? tokenUserDetails.Email;
+            //    loginDetails.Email = tokenUserDetails.Email;
 
-                _externalUsers[id] = tokenUserDetails.Email;
+            //    //_externalUsers[id] = tokenUserDetails.Email;
 
-                return LoginResult.Success;
-            }
+            //    return LoginResult.Success;
+            //}
 
             throw new NotImplementedException();
         }

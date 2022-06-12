@@ -27,6 +27,9 @@ using System.Reflection;
 using System.Text;
 using System.Text.Json;
 
+using PluginManager.Abstractions;
+using PluginManager.DAL.TextFiles.Interfaces;
+
 using Shared.Classes;
 
 namespace PluginManager.DAL.TextFiles.Internal
@@ -82,18 +85,32 @@ namespace PluginManager.DAL.TextFiles.Internal
         private readonly ITextTableInitializer _initializer;
         private readonly IForeignKeyManager _foreignKeyManager;
         private readonly BatchUpdateDictionary<string, IIndexManager> _indexes;
+        private readonly List<ITableTriggers<T>> _triggers;
         private List<T> _allRecords = null;
 
         #region Constructors / Destructors
 
-        public TextTableOperations(ITextTableInitializer readerWriterInitializer, IForeignKeyManager foreignKeyManager)
+        public TextTableOperations(ITextTableInitializer readerWriterInitializer, 
+            IForeignKeyManager foreignKeyManager, IPluginClassesService pluginClassesService)
         {
             _initializer = readerWriterInitializer ?? throw new ArgumentNullException(nameof(readerWriterInitializer));
             _foreignKeyManager = foreignKeyManager ?? throw new ArgumentNullException(nameof(foreignKeyManager));
+            if (pluginClassesService == null)
+                throw new ArgumentNullException(nameof(pluginClassesService));
+
             _tableAttributes = GetTableAttributes();
 
             if (_tableAttributes == null)
                 throw new InvalidOperationException();
+
+            ITableDefaults tableDefaults = pluginClassesService.GetPluginClasses<ITableDefaults>()
+                .Where(td => td.TableName.Equals(TableName))
+                .FirstOrDefault();
+
+            if (tableDefaults != null)
+                _sequence = tableDefaults.InitialSequence;
+
+            _triggers = pluginClassesService.GetPluginClasses<ITableTriggers<T>>();
 
             _foreignKeys = GetForeignKeysForTable();
             _indexes = BuildIndexListForTable();

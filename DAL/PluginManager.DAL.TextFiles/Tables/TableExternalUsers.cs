@@ -15,27 +15,27 @@
  *
  *  Product:  PluginManager.DAL.TextFiles
  *  
- *  File: Constants.cs
+ *  File: TableExternalUsers.cs
  *
- *  Purpose:  Internal constants
+ *  Purpose:  Table definition for external users
  *
  *  Date        Name                Reason
- *  05/06/2022  Simon Carter        Initially Created
+ *  11/06/2022  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace PluginManager.DAL.TextFiles.Internal
+using PluginManager.DAL.TextFiles.Internal;
+
+
+namespace PluginManager.DAL.TextFiles.Tables
 {
-    internal class Constants
+    [Table(Constants.TableNameExternalUsers, CompressionType.Brotli)]
+    internal sealed class TableExternalUsers : TableRowDefinition
     {
-        public const string TableNameUsers = "Users";
-        public const string TableNameBlogs = "Blogs";
-        public const string TableNameBlogComments = "BlogComments";
-        public const string TableNameCountries = "Countries";
-        public const string TableNameExternalUsers = "ExternalUsers";
-        public const string TableNameUserClaims = "UserClaims";
-        public const string TableNameAddresses = "Addresses";
-        public const string TableNameOrders = "Orders";
-
     }
 }

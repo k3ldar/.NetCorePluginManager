@@ -31,6 +31,8 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using PluginManager.DAL.TextFiles.Internal;
 
+using AspNetCore.PluginManager.Tests.Shared;
+
 using io = System.IO;
 
 #pragma warning disable CA1806
@@ -50,7 +52,8 @@ namespace PluginManager.DAL.TextFiles.Tests
                 io.Directory.CreateDirectory(directory);
                 TextTableInitializer initializer = CreateTestInitializer(directory);
 
-                using TextTableOperations<MockRow> sut = new TextTableOperations<MockRow>(initializer, new ForeignKeyManager());
+                using TextTableOperations<MockRow> sut = new TextTableOperations<MockRow>(initializer, 
+                    new ForeignKeyManager(), new MockPluginClassesService());
             }
             finally
             {
@@ -62,7 +65,7 @@ namespace PluginManager.DAL.TextFiles.Tests
         [ExpectedException(typeof(ArgumentNullException))]
         public void Initialize_InvalidParam_InitializerNull_Throws_ArgumentNullException()
         {
-            using TextTableOperations<MockRow> sut = new TextTableOperations<MockRow>(null, new ForeignKeyManager());
+            using TextTableOperations<MockRow> sut = new TextTableOperations<MockRow>(null, new ForeignKeyManager(), new MockPluginClassesService());
         }
 
         [TestMethod]
@@ -74,7 +77,7 @@ namespace PluginManager.DAL.TextFiles.Tests
             {
                 io.Directory.CreateDirectory(directory);
                 TextTableInitializer initializer = CreateTestInitializer(directory);
-                new TextTableOperations<MockRow>(initializer, null);
+                new TextTableOperations<MockRow>(initializer, null, new MockPluginClassesService());
             }
             finally
             {
@@ -91,7 +94,7 @@ namespace PluginManager.DAL.TextFiles.Tests
                 io.Directory.CreateDirectory(directory);
                 TextTableInitializer initializer = CreateTestInitializer(directory);
 
-                using (TextTableOperations<MockRow> sut = new TextTableOperations<MockRow>(initializer, new ForeignKeyManager()))
+                using (TextTableOperations<MockRow> sut = new TextTableOperations<MockRow>(initializer, new ForeignKeyManager(), new MockPluginClassesService()))
                 {
                     Assert.IsTrue(io.File.Exists(io.Path.Combine(directory, "MockTable.dat")));
 
@@ -120,7 +123,7 @@ namespace PluginManager.DAL.TextFiles.Tests
                 io.Directory.CreateDirectory(directory);
                 TextTableInitializer initializer = CreateTestInitializer(directory);
 
-                using TextTableOperations<MockRow> sut = new TextTableOperations<MockRow>(initializer, new ForeignKeyManager());
+                using TextTableOperations<MockRow> sut = new TextTableOperations<MockRow>(initializer, new ForeignKeyManager(), new MockPluginClassesService());
 
                 Assert.IsTrue(io.File.Exists(io.Path.Combine(directory, "MockTable.dat")));
             }
@@ -140,7 +143,7 @@ namespace PluginManager.DAL.TextFiles.Tests
                 io.Directory.CreateDirectory(directory);
                 TextTableInitializer initializer = CreateTestInitializer(directory);
 
-                using TextTableOperations<MockRow> sut = new TextTableOperations<MockRow>(initializer, new ForeignKeyManager());
+                using TextTableOperations<MockRow> sut = new TextTableOperations<MockRow>(initializer, new ForeignKeyManager(), new MockPluginClassesService());
 
                 sut.Insert(records: null);
             }
@@ -160,7 +163,7 @@ namespace PluginManager.DAL.TextFiles.Tests
                 io.Directory.CreateDirectory(directory);
                 TextTableInitializer initializer = CreateTestInitializer(directory);
 
-                using TextTableOperations<MockRow> sut = new TextTableOperations<MockRow>(initializer, new ForeignKeyManager());
+                using TextTableOperations<MockRow> sut = new TextTableOperations<MockRow>(initializer, new ForeignKeyManager(), new MockPluginClassesService());
 
                 sut.Insert(record: null!);
             }
@@ -180,7 +183,7 @@ namespace PluginManager.DAL.TextFiles.Tests
                 io.Directory.CreateDirectory(directory);
                 TextTableInitializer initializer = CreateTestInitializer(directory);
 
-                using TextTableOperations<MockRow> sut = new TextTableOperations<MockRow>(initializer, new ForeignKeyManager());
+                using TextTableOperations<MockRow> sut = new TextTableOperations<MockRow>(initializer, new ForeignKeyManager(), new MockPluginClassesService());
                 sut.Dispose();
                 sut.Insert(new MockRow());
             }
@@ -200,12 +203,12 @@ namespace PluginManager.DAL.TextFiles.Tests
                 TextTableInitializer initializer = CreateTestInitializer(directory);
                 IForeignKeyManager keyManager = new ForeignKeyManager();
 
-                using (TextTableOperations<MockRow> sut = new TextTableOperations<MockRow>(initializer, keyManager))
+                using (TextTableOperations<MockRow> sut = new TextTableOperations<MockRow>(initializer, keyManager, new MockPluginClassesService()))
                 {
                     sut.Insert(new MockRow());
                 }
 
-                using TextTableOperations<MockRow> sutRead = new TextTableOperations<MockRow>(initializer, keyManager);
+                using TextTableOperations<MockRow> sutRead = new TextTableOperations<MockRow>(initializer, keyManager, new MockPluginClassesService());
                 IReadOnlyList<MockRow> records = sutRead.Select();
 
                 Assert.AreEqual(1, records.Count);
@@ -228,13 +231,13 @@ namespace PluginManager.DAL.TextFiles.Tests
                 TextTableInitializer initializer = CreateTestInitializer(directory);
                 IForeignKeyManager keyManager = new ForeignKeyManager();
 
-                using (TextTableOperations<MockRow> sut = new TextTableOperations<MockRow>(initializer, keyManager))
+                using (TextTableOperations<MockRow> sut = new TextTableOperations<MockRow>(initializer, keyManager, new MockPluginClassesService()))
                 {
                     sut.Insert(new MockRow());
                     sut.Insert(new MockRow());
                 }
 
-                using TextTableOperations<MockRow> sutRead = new TextTableOperations<MockRow>(initializer, keyManager);
+                using TextTableOperations<MockRow> sutRead = new TextTableOperations<MockRow>(initializer, keyManager, new MockPluginClassesService());
                 IReadOnlyList<MockRow> records = sutRead.Select();
 
                 Assert.AreEqual(2, records.Count);
@@ -258,7 +261,7 @@ namespace PluginManager.DAL.TextFiles.Tests
                 io.Directory.CreateDirectory(directory);
                 TextTableInitializer initializer = CreateTestInitializer(directory);
 
-                using TextTableOperations<MockRow> sut = new TextTableOperations<MockRow>(initializer, new ForeignKeyManager());
+                using TextTableOperations<MockRow> sut = new TextTableOperations<MockRow>(initializer, new ForeignKeyManager(), new MockPluginClassesService());
                 sut.Dispose();
                 sut.Delete(new MockRow());
 
@@ -279,7 +282,7 @@ namespace PluginManager.DAL.TextFiles.Tests
                 io.Directory.CreateDirectory(directory);
                 TextTableInitializer initializer = CreateTestInitializer(directory);
 
-                using TextTableOperations<MockRow> sut = new TextTableOperations<MockRow>(initializer, new ForeignKeyManager());
+                using TextTableOperations<MockRow> sut = new TextTableOperations<MockRow>(initializer, new ForeignKeyManager(), new MockPluginClassesService());
                 sut.Delete(record: null!);
 
             }
@@ -299,7 +302,7 @@ namespace PluginManager.DAL.TextFiles.Tests
                 ITextTableInitializer initializer = CreateTestInitializer(directory);
                 IForeignKeyManager keyManager = new ForeignKeyManager();
 
-                using (TextTableOperations<MockRow> sut = new TextTableOperations<MockRow>(initializer, keyManager))
+                using (TextTableOperations<MockRow> sut = new TextTableOperations<MockRow>(initializer, keyManager, new MockPluginClassesService()))
                 {
                     List<MockRow> testData = new List<MockRow>();
 
@@ -309,7 +312,7 @@ namespace PluginManager.DAL.TextFiles.Tests
                     sut.Insert(testData);
                 }
 
-                using (TextTableOperations<MockRow> deleteSut = new TextTableOperations<MockRow>(initializer, keyManager))
+                using (TextTableOperations<MockRow> deleteSut = new TextTableOperations<MockRow>(initializer, keyManager, new MockPluginClassesService()))
                 {
                     Assert.AreEqual(15168, deleteSut.RecordCount);
                     Assert.AreEqual(186075, deleteSut.DataLength);
@@ -317,7 +320,7 @@ namespace PluginManager.DAL.TextFiles.Tests
                     deleteSut.Delete(deleteSut.Select(1519));
                 }
 
-                using (TextTableOperations<MockRow> readSut = new TextTableOperations<MockRow>(initializer, keyManager))
+                using (TextTableOperations<MockRow> readSut = new TextTableOperations<MockRow>(initializer, keyManager, new MockPluginClassesService()))
                 {
                     Assert.AreEqual(15167, readSut.RecordCount);
                     Assert.AreEqual(186063, readSut.DataLength);
@@ -341,7 +344,7 @@ namespace PluginManager.DAL.TextFiles.Tests
                 io.Directory.CreateDirectory(directory);
                 TextTableInitializer initializer = CreateTestInitializer(directory);
 
-                using TextTableOperations<MockRow> sut = new TextTableOperations<MockRow>(initializer, new ForeignKeyManager());
+                using TextTableOperations<MockRow> sut = new TextTableOperations<MockRow>(initializer, new ForeignKeyManager(), new MockPluginClassesService());
                 sut.Dispose();
                 sut.Delete(new List<MockRow>() { new MockRow() });
 
@@ -362,7 +365,7 @@ namespace PluginManager.DAL.TextFiles.Tests
                 io.Directory.CreateDirectory(directory);
                 TextTableInitializer initializer = CreateTestInitializer(directory);
 
-                using TextTableOperations<MockRow> sut = new TextTableOperations<MockRow>(initializer, new ForeignKeyManager());
+                using TextTableOperations<MockRow> sut = new TextTableOperations<MockRow>(initializer, new ForeignKeyManager(), new MockPluginClassesService());
                 sut.Delete(records: null!);
 
             }
@@ -382,7 +385,7 @@ namespace PluginManager.DAL.TextFiles.Tests
                 ITextTableInitializer initializer = CreateTestInitializer(directory);
                 IForeignKeyManager keyManager = new ForeignKeyManager();
 
-                using (TextTableOperations<MockRow> sut = new TextTableOperations<MockRow>(initializer, keyManager))
+                using (TextTableOperations<MockRow> sut = new TextTableOperations<MockRow>(initializer, keyManager, new MockPluginClassesService()))
                 {
                     List<MockRow> testData = new List<MockRow>();
 
@@ -392,7 +395,7 @@ namespace PluginManager.DAL.TextFiles.Tests
                     sut.Insert(testData);
                 }
 
-                using (TextTableOperations<MockRow> deleteSut = new TextTableOperations<MockRow>(initializer, keyManager))
+                using (TextTableOperations<MockRow> deleteSut = new TextTableOperations<MockRow>(initializer, keyManager, new MockPluginClassesService()))
                 {
                     Assert.AreEqual(15168, deleteSut.RecordCount);
                     Assert.AreEqual(186075, deleteSut.DataLength);
@@ -405,7 +408,7 @@ namespace PluginManager.DAL.TextFiles.Tests
                     });
                 }
 
-                using (TextTableOperations<MockRow> readSut = new TextTableOperations<MockRow>(initializer, keyManager))
+                using (TextTableOperations<MockRow> readSut = new TextTableOperations<MockRow>(initializer, keyManager, new MockPluginClassesService()))
                 {
                     Assert.AreEqual(15165, readSut.RecordCount);
                     Assert.AreEqual(186038, readSut.DataLength);
@@ -431,7 +434,7 @@ namespace PluginManager.DAL.TextFiles.Tests
                 ITextTableInitializer initializer = CreateTestInitializer(directory);
                 IForeignKeyManager keyManager = new ForeignKeyManager();
 
-                using (TextTableOperations<MockRow> sut = new TextTableOperations<MockRow>(initializer, keyManager))
+                using (TextTableOperations<MockRow> sut = new TextTableOperations<MockRow>(initializer, keyManager, new MockPluginClassesService()))
                 {
                     List<MockRow> testData = new List<MockRow>();
 
@@ -441,7 +444,7 @@ namespace PluginManager.DAL.TextFiles.Tests
                     sut.Insert(testData);
                 }
 
-                using (TextTableOperations<MockRow> deleteSut = new TextTableOperations<MockRow>(initializer, keyManager))
+                using (TextTableOperations<MockRow> deleteSut = new TextTableOperations<MockRow>(initializer, keyManager, new MockPluginClassesService()))
                 {
                     Assert.AreEqual(15168, deleteSut.RecordCount);
                     Assert.AreEqual(186075, deleteSut.DataLength);
@@ -456,7 +459,7 @@ namespace PluginManager.DAL.TextFiles.Tests
                     Assert.AreEqual(68, deleteSut.CompactPercent);
                 }
 
-                using (TextTableOperations<MockRow> readSut = new TextTableOperations<MockRow>(initializer, keyManager))
+                using (TextTableOperations<MockRow> readSut = new TextTableOperations<MockRow>(initializer, keyManager, new MockPluginClassesService()))
                 {
                     Assert.AreEqual(10178, readSut.RecordCount);
                     Assert.AreEqual(127275, readSut.DataLength);
@@ -479,7 +482,7 @@ namespace PluginManager.DAL.TextFiles.Tests
                 io.Directory.CreateDirectory(directory);
                 TextTableInitializer initializer = CreateTestInitializer(directory);
 
-                using TextTableOperations<MockUpdateRow> sut = new TextTableOperations<MockUpdateRow>(initializer, new ForeignKeyManager());
+                using TextTableOperations<MockUpdateRow> sut = new TextTableOperations<MockUpdateRow>(initializer, new ForeignKeyManager(), new MockPluginClassesService());
                 sut.Dispose();
                 sut.Update(new MockUpdateRow());
 
@@ -500,7 +503,7 @@ namespace PluginManager.DAL.TextFiles.Tests
                 io.Directory.CreateDirectory(directory);
                 TextTableInitializer initializer = CreateTestInitializer(directory);
 
-                using TextTableOperations<MockUpdateRow> sut = new TextTableOperations<MockUpdateRow>(initializer, new ForeignKeyManager());
+                using TextTableOperations<MockUpdateRow> sut = new TextTableOperations<MockUpdateRow>(initializer, new ForeignKeyManager(), new MockPluginClassesService());
                 sut.Update(record: null!);
 
             }
@@ -520,7 +523,7 @@ namespace PluginManager.DAL.TextFiles.Tests
                 ITextTableInitializer initializer = CreateTestInitializer(directory);
                 IForeignKeyManager keyManager = new ForeignKeyManager();
 
-                using (TextTableOperations<MockUpdateRow> sut = new TextTableOperations<MockUpdateRow>(initializer, keyManager))
+                using (TextTableOperations<MockUpdateRow> sut = new TextTableOperations<MockUpdateRow>(initializer, keyManager, new MockPluginClassesService()))
                 {
                     List<MockUpdateRow> testData = new List<MockUpdateRow>();
 
@@ -530,7 +533,7 @@ namespace PluginManager.DAL.TextFiles.Tests
                     sut.Insert(testData);
                 }
 
-                using (TextTableOperations<MockUpdateRow> updateSut = new TextTableOperations<MockUpdateRow>(initializer, keyManager))
+                using (TextTableOperations<MockUpdateRow> updateSut = new TextTableOperations<MockUpdateRow>(initializer, keyManager, new MockPluginClassesService()))
                 {
                     Assert.AreEqual(15168, updateSut.RecordCount);
                     Assert.AreEqual(368091, updateSut.DataLength);
@@ -540,7 +543,7 @@ namespace PluginManager.DAL.TextFiles.Tests
                     updateSut.Update(row1);
                 }
 
-                using (TextTableOperations<MockUpdateRow> readSut = new TextTableOperations<MockUpdateRow>(initializer, keyManager))
+                using (TextTableOperations<MockUpdateRow> readSut = new TextTableOperations<MockUpdateRow>(initializer, keyManager, new MockPluginClassesService()))
                 {
                     Assert.AreEqual(15168, readSut.RecordCount);
                     Assert.AreEqual(368102, readSut.DataLength);
@@ -565,7 +568,7 @@ namespace PluginManager.DAL.TextFiles.Tests
                 io.Directory.CreateDirectory(directory);
                 TextTableInitializer initializer = CreateTestInitializer(directory);
 
-                using TextTableOperations<MockUpdateRow> sut = new TextTableOperations<MockUpdateRow>(initializer, new ForeignKeyManager());
+                using TextTableOperations<MockUpdateRow> sut = new TextTableOperations<MockUpdateRow>(initializer, new ForeignKeyManager(), new MockPluginClassesService());
                 sut.Dispose();
                 sut.Update(new List<MockUpdateRow>() { new MockUpdateRow() });
 
@@ -586,7 +589,7 @@ namespace PluginManager.DAL.TextFiles.Tests
                 io.Directory.CreateDirectory(directory);
                 TextTableInitializer initializer = CreateTestInitializer(directory);
 
-                using TextTableOperations<MockUpdateRow> sut = new TextTableOperations<MockUpdateRow>(initializer, new ForeignKeyManager());
+                using TextTableOperations<MockUpdateRow> sut = new TextTableOperations<MockUpdateRow>(initializer, new ForeignKeyManager(), new MockPluginClassesService());
                 sut.Update(records: null!);
 
             }
@@ -606,7 +609,7 @@ namespace PluginManager.DAL.TextFiles.Tests
                 ITextTableInitializer initializer = CreateTestInitializer(directory);
                 IForeignKeyManager keyManager = new ForeignKeyManager();
 
-                using (TextTableOperations<MockUpdateRow> sut = new TextTableOperations<MockUpdateRow>(initializer, keyManager))
+                using (TextTableOperations<MockUpdateRow> sut = new TextTableOperations<MockUpdateRow>(initializer, keyManager, new MockPluginClassesService()))
                 {
                     List<MockUpdateRow> testData = new List<MockUpdateRow>();
 
@@ -616,7 +619,7 @@ namespace PluginManager.DAL.TextFiles.Tests
                     sut.Insert(testData);
                 }
 
-                using (TextTableOperations<MockUpdateRow> updateSut = new TextTableOperations<MockUpdateRow>(initializer, keyManager))
+                using (TextTableOperations<MockUpdateRow> updateSut = new TextTableOperations<MockUpdateRow>(initializer, keyManager, new MockPluginClassesService()))
                 {
                     Assert.AreEqual(15168, updateSut.RecordCount);
                     Assert.AreEqual(368091, updateSut.DataLength);
@@ -634,7 +637,7 @@ namespace PluginManager.DAL.TextFiles.Tests
                     updateSut.Update(updateList);
                 }
 
-                using (TextTableOperations<MockUpdateRow> readSut = new TextTableOperations<MockUpdateRow>(initializer, keyManager))
+                using (TextTableOperations<MockUpdateRow> readSut = new TextTableOperations<MockUpdateRow>(initializer, keyManager, new MockPluginClassesService()))
                 {
                     Assert.AreEqual(15168, readSut.RecordCount);
                     Assert.AreEqual(368124, readSut.DataLength);
@@ -663,7 +666,7 @@ namespace PluginManager.DAL.TextFiles.Tests
                 io.Directory.CreateDirectory(directory);
                 TextTableInitializer initializer = CreateTestInitializer(directory);
 
-                using TextTableOperations<MockRow> sut = new TextTableOperations<MockRow>(initializer, new ForeignKeyManager());
+                using TextTableOperations<MockRow> sut = new TextTableOperations<MockRow>(initializer, new ForeignKeyManager(), new MockPluginClassesService());
                 sut.Dispose();
                 sut.Insert(new List<MockRow>());
 
@@ -684,7 +687,7 @@ namespace PluginManager.DAL.TextFiles.Tests
                 ITextTableInitializer initializer = CreateTestInitializer(directory);
                 IForeignKeyManager keyManager = new ForeignKeyManager();
 
-                using (TextTableOperations<MockRow> sut = new TextTableOperations<MockRow>(initializer, keyManager))
+                using (TextTableOperations<MockRow> sut = new TextTableOperations<MockRow>(initializer, keyManager, new MockPluginClassesService()))
                 {
                     List<MockRow> testData = new List<MockRow>();
 
@@ -694,7 +697,7 @@ namespace PluginManager.DAL.TextFiles.Tests
                     sut.Insert(testData);
                 }
 
-                using (TextTableOperations<MockRow> readSut = new TextTableOperations<MockRow>(initializer, keyManager))
+                using (TextTableOperations<MockRow> readSut = new TextTableOperations<MockRow>(initializer, keyManager, new MockPluginClassesService()))
                 {
                     Assert.AreEqual(15168, readSut.RecordCount);
                     Assert.AreEqual(186075, readSut.DataLength);
@@ -716,7 +719,7 @@ namespace PluginManager.DAL.TextFiles.Tests
                 ITextTableInitializer initializer = CreateTestInitializer(directory);
                 IForeignKeyManager keyManager = new ForeignKeyManager();
 
-                using (TextTableOperations<MockRow> sut = new TextTableOperations<MockRow>(initializer, keyManager))
+                using (TextTableOperations<MockRow> sut = new TextTableOperations<MockRow>(initializer, keyManager, new MockPluginClassesService()))
                 {
                     List<MockRow> testData = new List<MockRow>();
 
@@ -726,7 +729,7 @@ namespace PluginManager.DAL.TextFiles.Tests
                     sut.Insert(testData);
                 }
 
-                using (TextTableOperations<MockRow> readSut = new TextTableOperations<MockRow>(initializer, keyManager))
+                using (TextTableOperations<MockRow> readSut = new TextTableOperations<MockRow>(initializer, keyManager, new MockPluginClassesService()))
                 {
                     Assert.AreEqual(5, readSut.RecordCount);
                     Assert.AreEqual(46, readSut.DataLength);
@@ -754,7 +757,7 @@ namespace PluginManager.DAL.TextFiles.Tests
                 ITextTableInitializer initializer = CreateTestInitializer(directory);
                 IForeignKeyManager keyManager = new ForeignKeyManager();
 
-                using (TextTableOperations<MockRowCompressed> sut = new TextTableOperations<MockRowCompressed>(initializer, keyManager))
+                using (TextTableOperations<MockRowCompressed> sut = new TextTableOperations<MockRowCompressed>(initializer, keyManager, new MockPluginClassesService()))
                 {
                     List<MockRowCompressed> testData = new List<MockRowCompressed>();
 
@@ -764,7 +767,7 @@ namespace PluginManager.DAL.TextFiles.Tests
                     sut.Insert(testData);
                 }
 
-                using (TextTableOperations<MockRowCompressed> readSut = new TextTableOperations<MockRowCompressed>(initializer, keyManager))
+                using (TextTableOperations<MockRowCompressed> readSut = new TextTableOperations<MockRowCompressed>(initializer, keyManager, new MockPluginClassesService()))
                 {
                     Assert.AreEqual(15168, readSut.RecordCount);
                     Assert.AreEqual(11623, readSut.DataLength);
@@ -787,7 +790,7 @@ namespace PluginManager.DAL.TextFiles.Tests
                 io.Directory.CreateDirectory(directory);
                 TextTableInitializer initializer = CreateTestInitializer(directory);
 
-                using TextTableOperations<MockRow> sut = new TextTableOperations<MockRow>(initializer, new ForeignKeyManager());
+                using TextTableOperations<MockRow> sut = new TextTableOperations<MockRow>(initializer, new ForeignKeyManager(), new MockPluginClassesService());
                 sut.Dispose();
                 _ = sut.Select(1);
             }
@@ -806,7 +809,7 @@ namespace PluginManager.DAL.TextFiles.Tests
                 io.Directory.CreateDirectory(directory);
                 TextTableInitializer initializer = CreateTestInitializer(directory);
 
-                using TextTableOperations<MockRow> sut = new TextTableOperations<MockRow>(initializer, new ForeignKeyManager());
+                using TextTableOperations<MockRow> sut = new TextTableOperations<MockRow>(initializer, new ForeignKeyManager(), new MockPluginClassesService());
                 MockRow row = sut.Select(1);
 
                 Assert.IsNull(row);
@@ -827,7 +830,7 @@ namespace PluginManager.DAL.TextFiles.Tests
                 ITextTableInitializer initializer = CreateTestInitializer(directory);
                 IForeignKeyManager keyManager = new ForeignKeyManager();
 
-                using (TextTableOperations<MockRowCompressed> sut = new TextTableOperations<MockRowCompressed>(initializer, keyManager))
+                using (TextTableOperations<MockRowCompressed> sut = new TextTableOperations<MockRowCompressed>(initializer, keyManager, new MockPluginClassesService()))
                 {
                     List<MockRowCompressed> testData = new List<MockRowCompressed>();
 
@@ -842,7 +845,7 @@ namespace PluginManager.DAL.TextFiles.Tests
                 }
 
 
-                using (TextTableOperations<MockRowCompressed> readSut = new TextTableOperations<MockRowCompressed>(initializer, keyManager))
+                using (TextTableOperations<MockRowCompressed> readSut = new TextTableOperations<MockRowCompressed>(initializer, keyManager, new MockPluginClassesService()))
                 {
                     Assert.AreEqual(200, readSut.RecordCount);
                     Assert.AreEqual(210, readSut.DataLength);
@@ -869,7 +872,7 @@ namespace PluginManager.DAL.TextFiles.Tests
                 io.Directory.CreateDirectory(directory);
                 TextTableInitializer initializer = CreateTestInitializer(directory);
 
-                using TextTableOperations<MockRow> sut = new TextTableOperations<MockRow>(initializer, new ForeignKeyManager());
+                using TextTableOperations<MockRow> sut = new TextTableOperations<MockRow>(initializer, new ForeignKeyManager(), new MockPluginClassesService());
                 sut.Dispose();
                 _ = sut.NextSequence();
 
@@ -891,7 +894,7 @@ namespace PluginManager.DAL.TextFiles.Tests
 
                 for (int i = 0; i < 100; i++)
                 {
-                    using (TextTableOperations<MockRowCompressed> sut = new TextTableOperations<MockRowCompressed>(initializer, new ForeignKeyManager()))
+                    using (TextTableOperations<MockRowCompressed> sut = new TextTableOperations<MockRowCompressed>(initializer, new ForeignKeyManager(), new MockPluginClassesService()))
                     {
                         long nextSequence = sut.NextSequence();
                         Assert.AreEqual(i, (long)nextSequence);
@@ -915,7 +918,7 @@ namespace PluginManager.DAL.TextFiles.Tests
                 io.Directory.CreateDirectory(directory);
                 TextTableInitializer initializer = CreateTestInitializer(directory);
 
-                using TextTableOperations<MockRow> sut = new TextTableOperations<MockRow>(initializer, new ForeignKeyManager());
+                using TextTableOperations<MockRow> sut = new TextTableOperations<MockRow>(initializer, new ForeignKeyManager(), new MockPluginClassesService());
                 sut.Dispose();
                 sut.ResetSequence(123);
 
@@ -936,12 +939,12 @@ namespace PluginManager.DAL.TextFiles.Tests
                 ITextTableInitializer initializer = CreateTestInitializer(directory);
                 IForeignKeyManager keyManager = new ForeignKeyManager();
 
-                using (TextTableOperations<MockRowCompressed> sut = new TextTableOperations<MockRowCompressed>(initializer, keyManager))
+                using (TextTableOperations<MockRowCompressed> sut = new TextTableOperations<MockRowCompressed>(initializer, keyManager, new MockPluginClassesService()))
                 {
                     sut.ResetSequence(368745);
                 }
 
-                using (TextTableOperations<MockRowCompressed> sut = new TextTableOperations<MockRowCompressed>(initializer, keyManager))
+                using (TextTableOperations<MockRowCompressed> sut = new TextTableOperations<MockRowCompressed>(initializer, keyManager, new MockPluginClassesService()))
                 {
                     long nextSequence = sut.NextSequence();
                     Assert.AreEqual(368746, (long)nextSequence);
@@ -965,7 +968,7 @@ namespace PluginManager.DAL.TextFiles.Tests
                 ITextTableInitializer initializer = CreateTestInitializer(directory);
                 IForeignKeyManager keyManager = new ForeignKeyManager();
 
-                using (TextTableOperations<MockRowCompressed> sut = new TextTableOperations<MockRowCompressed>(initializer, keyManager))
+                using (TextTableOperations<MockRowCompressed> sut = new TextTableOperations<MockRowCompressed>(initializer, keyManager, new MockPluginClassesService()))
                 {
                     List<MockRowCompressed> testData = new List<MockRowCompressed>();
 
@@ -996,7 +999,7 @@ namespace PluginManager.DAL.TextFiles.Tests
                 }
 
 
-                using (TextTableOperations<MockRowCompressed> readSut = new TextTableOperations<MockRowCompressed>(initializer, keyManager))
+                using (TextTableOperations<MockRowCompressed> readSut = new TextTableOperations<MockRowCompressed>(initializer, keyManager, new MockPluginClassesService()))
                 {
                     Assert.AreEqual(1, readSut.RecordCount);
                     Assert.AreEqual(10, readSut.DataLength);
@@ -1027,13 +1030,13 @@ namespace PluginManager.DAL.TextFiles.Tests
                 ITextTableInitializer initializer = CreateTestInitializer(directory);
                 IForeignKeyManager keyManager = new ForeignKeyManager();
 
-                using (TextTableOperations<MockRow> sut = new TextTableOperations<MockRow>(initializer, keyManager))
+                using (TextTableOperations<MockRow> sut = new TextTableOperations<MockRow>(initializer, keyManager, new MockPluginClassesService()))
                 {
                     for (int i = 0; i < 5; i++)
                         sut.InsertOrUpdate(new MockRow() { Id = -1});
                 }
 
-                using (TextTableOperations<MockRow> readSut = new TextTableOperations<MockRow>(initializer, keyManager))
+                using (TextTableOperations<MockRow> readSut = new TextTableOperations<MockRow>(initializer, keyManager, new MockPluginClassesService()))
                 {
                     Assert.AreEqual(5, readSut.RecordCount);
                     Assert.AreEqual(46, readSut.DataLength);
@@ -1061,7 +1064,7 @@ namespace PluginManager.DAL.TextFiles.Tests
                 ITextTableInitializer initializer = CreateTestInitializer(directory);
                 IForeignKeyManager keyManager = new ForeignKeyManager();
 
-                using (TextTableOperations<MockTableUserRow> mockUsers = new TextTableOperations<MockTableUserRow>(initializer, keyManager))
+                using (TextTableOperations<MockTableUserRow> mockUsers = new TextTableOperations<MockTableUserRow>(initializer, keyManager, new MockPluginClassesService()))
                 {
                     List<MockTableUserRow> testData = new List<MockTableUserRow>();
 
@@ -1070,7 +1073,7 @@ namespace PluginManager.DAL.TextFiles.Tests
 
                     mockUsers.Insert(testData);
 
-                    using (TextTableOperations<MockTableAddressRow> sut = new TextTableOperations<MockTableAddressRow>(initializer, keyManager))
+                    using (TextTableOperations<MockTableAddressRow> sut = new TextTableOperations<MockTableAddressRow>(initializer, keyManager, new MockPluginClassesService()))
                     {
                         List<MockTableAddressRow> itemsToInsert = new List<MockTableAddressRow>();
 
@@ -1080,7 +1083,7 @@ namespace PluginManager.DAL.TextFiles.Tests
                         sut.Insert(itemsToInsert);
                     }
 
-                    using (TextTableOperations<MockTableAddressRow> readSut = new TextTableOperations<MockTableAddressRow>(initializer, keyManager))
+                    using (TextTableOperations<MockTableAddressRow> readSut = new TextTableOperations<MockTableAddressRow>(initializer, keyManager, new MockPluginClassesService()))
                     {
                         Assert.AreEqual(5, readSut.RecordCount);
                         Assert.AreEqual(206, readSut.DataLength);
@@ -1099,7 +1102,7 @@ namespace PluginManager.DAL.TextFiles.Tests
                         readSut.Delete(records[4]);
                     }
 
-                    using (TextTableOperations<MockTableAddressRow> readSut = new TextTableOperations<MockTableAddressRow>(initializer, keyManager))
+                    using (TextTableOperations<MockTableAddressRow> readSut = new TextTableOperations<MockTableAddressRow>(initializer, keyManager, new MockPluginClassesService()))
                     {
                         Assert.AreEqual(4, readSut.RecordCount);
                         Assert.AreEqual(168, readSut.DataLength);
