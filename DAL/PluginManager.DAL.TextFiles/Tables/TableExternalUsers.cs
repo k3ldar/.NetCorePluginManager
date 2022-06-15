@@ -37,5 +37,14 @@ namespace PluginManager.DAL.TextFiles.Tables
     [Table(Constants.TableNameExternalUsers, CompressionType.Brotli)]
     internal sealed class TableExternalUsers : TableRowDefinition
     {
+        public string UserId { get; set; }
+
+        public string Email { get; set; }
+
+        public string UserName { get; set; }
+
+        public string Provider { get; set; }
+
+        public string Picture { get; set; }
     }
 }

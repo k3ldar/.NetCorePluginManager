@@ -29,6 +29,7 @@ using System.Diagnostics.CodeAnalysis;
 
 using Middleware;
 
+using PluginManager.Abstractions;
 using PluginManager.DAL.TextFiles.Internal;
 using PluginManager.DAL.TextFiles.Tables;
 
@@ -38,9 +39,19 @@ namespace PluginManager.DAL.TextFiles.Providers
     {
         private readonly ITextTableOperations<TableUser> _users;
         private readonly ITextTableOperations<TableExternalUsers> _externalUsers;
+        private readonly string _encryptionKey;
 
-        public LoginProvider(ITextTableOperations<TableUser> users, ITextTableOperations<TableExternalUsers> externalUsers)
+        public LoginProvider(ITextTableOperations<TableUser> users, ITextTableOperations<TableExternalUsers> externalUsers, ISettingsProvider settingsProvider)
         {
+            if (settingsProvider == null)
+                throw new ArgumentNullException(nameof(settingsProvider));
+
+            TextFileSettings settings = settingsProvider.GetSettings<TextFileSettings>(nameof(TextFileSettings));
+
+            if (settings == null)
+                throw new InvalidOperationException();
+
+            _encryptionKey = settings.EnycryptionKey ?? throw new InvalidOperationException("Encryption key missing from settings!");
             _users = users ?? throw new ArgumentNullException(nameof(users));
             _externalUsers = externalUsers ?? throw new ArgumentNullException(nameof(externalUsers));
         }
@@ -48,45 +59,60 @@ namespace PluginManager.DAL.TextFiles.Providers
         public LoginResult Login(in string username, in string password, in string ipAddress,
             in byte attempts, ref UserLoginDetails loginDetails)
         {
-            throw new NotImplementedException();
-            //if (loginDetails == null)
-            //    throw new ArgumentNullException(nameof(loginDetails));
+            TableExternalUsers externalUser = _externalUsers.Select(loginDetails.UserId);
 
-            //if (_externalUsers.ContainsKey(loginDetails.UserId))
-            //{
-            //    loginDetails.Username = _externalUsers[loginDetails.UserId];
-            //    loginDetails.Email = _externalUsers[loginDetails.UserId];
-            //    return LoginResult.Remembered;
-            //}
+            if (externalUser != null)
+            {
+                loginDetails.Username = externalUser.UserName;
+                loginDetails.Email = externalUser.Email;
+                return LoginResult.Remembered;
+            }
 
-            //if (loginDetails.RememberMe && loginDetails.UserId == 123)
-            //{
-            //    loginDetails.Username = "Administrator";
-            //    loginDetails.Email = "admin@nowhere.com";
-            //    loginDetails.UserId = 123;
-            //    return LoginResult.Remembered;
-            //}
+            TableUser tableUser = _users.Select(loginDetails.UserId);
 
-            //if (username == "admin" && password == "password")
-            //{
-            //    loginDetails.Username = "Administrator";
-            //    loginDetails.Email = "admin@nowhere.com";
-            //    loginDetails.UserId = 123;
-            //    return LoginResult.Success;
-            //}
+            if (loginDetails.RememberMe && tableUser != null)
+            {
 
-            //if (username == "admin" && password == "changepassword")
-            //{
-            //    loginDetails.Username = "Administrator";
-            //    loginDetails.Email = "admin@nowhere.com";
-            //    loginDetails.UserId = 124;
-            //    return LoginResult.PasswordChangeRequired;
-            //}
+                loginDetails.Username = tableUser.FullName;
+                loginDetails.Email = tableUser.Email;
+                loginDetails.UserId = tableUser.Id;
+                return LoginResult.Remembered;
+            }
 
-            //if (attempts > 4)
-            //    return LoginResult.AccountLocked;
+            string loginName = username;
+            string encryptedPassword = Shared.Utilities.Encrypt(password, _encryptionKey);
 
-            //return LoginResult.InvalidCredentials;
+            tableUser = _users.Select()
+                .Where(u => u.Email.Equals(loginName, StringComparison.OrdinalIgnoreCase))
+                .FirstOrDefault();
+
+            if (tableUser != null && tableUser.Password.Equals(encryptedPassword))
+            {
+                if (tableUser.Locked)
+                {
+                    return LoginResult.AccountLocked;
+                }
+
+                loginDetails.Username = tableUser.FullName;
+                loginDetails.Email = tableUser.Email;
+                loginDetails.UserId = tableUser.Id;
+
+                if (tableUser.PasswordExpire < DateTime.Now)
+                    return LoginResult.PasswordChangeRequired;
+
+                return LoginResult.Success;
+            }
+
+
+            if (tableUser != null && attempts > 4)
+            {
+                tableUser.Locked = true;
+                _users.Update(tableUser);
+
+                return LoginResult.AccountLocked;
+            }
+
+            return LoginResult.InvalidCredentials;
         }
 
         public bool UnlockAccount(in string username, in string unlockCode)

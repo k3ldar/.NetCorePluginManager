@@ -62,8 +62,13 @@ namespace PluginManager.DAL.TextFiles
         }
 
         /// <summary>
+        /// Indicates the row is readonly and any updates will be ignored
+        /// </summary>
+        public bool ReadOnly { get; internal set; }
+
+        /// <summary>
         /// Indicates whether the row has been marked for delete or not
         /// </summary>
-        protected internal bool ImmutableId { get; set; } = false;
+        protected internal bool ImmutableId { get; internal set; } = false;
     }
 }

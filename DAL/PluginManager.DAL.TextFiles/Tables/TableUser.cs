@@ -42,6 +42,8 @@ namespace PluginManager.DAL.TextFiles.Tables
 
         public string Password { get; set; }
 
+        public DateTime PasswordExpire { get; set; }
+
         public string Telephone { get; set; }
 
         public string BusinessName { get; set; }

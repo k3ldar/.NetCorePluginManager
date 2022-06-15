@@ -27,10 +27,8 @@ using PluginManager.DAL.TextFiles.Interfaces;
 
 namespace PluginManager.DAL.TextFiles.Tables
 {
-    public class TableExternalUsersDefaults : ITableDefaults
+    public class TableExternalUsersDefaults : ITableDefaults<TableExternalUsers>
     {
         public long InitialSequence => Int64.MinValue;
-
-        public string TableName => Internal.Constants.TableNameExternalUsers;
     }
 }

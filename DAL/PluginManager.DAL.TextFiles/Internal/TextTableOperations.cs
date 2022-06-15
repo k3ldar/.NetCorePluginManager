@@ -103,8 +103,7 @@ namespace PluginManager.DAL.TextFiles.Internal
             if (_tableAttributes == null)
                 throw new InvalidOperationException();
 
-            ITableDefaults tableDefaults = pluginClassesService.GetPluginClasses<ITableDefaults>()
-                .Where(td => td.TableName.Equals(TableName))
+            ITableDefaults<T> tableDefaults = pluginClassesService.GetPluginClasses<ITableDefaults<T>>()
                 .FirstOrDefault();
 
             if (tableDefaults != null)
@@ -550,6 +549,7 @@ namespace PluginManager.DAL.TextFiles.Internal
                 _indexes.BeginUpdate();
                 try
                 {
+                    _triggers.ForEach(t => t.BeforeInsert(records));
                     records.ForEach(r =>
                     {
                         r.Id = nextSequence++;
@@ -559,6 +559,8 @@ namespace PluginManager.DAL.TextFiles.Internal
                     List<T> existingRecords = InternalReadAllRecords();
                     existingRecords.AddRange(records);
                     InternalSaveRecordsToDisk(existingRecords);
+
+                    _triggers.ForEach(t => t.AfterInsert(records));
                 }
                 finally
                 {

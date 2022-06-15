@@ -6,13 +6,12 @@ using System.Threading.Tasks;
 
 namespace PluginManager.DAL.TextFiles.Interfaces
 {
-    public interface ITableDefaults
+    public interface ITableDefaults<T>
+        where T : TableRowDefinition
     {
         /// <summary>
         /// Initial sequence provided for the table
         /// </summary>
         long InitialSequence { get; }
-
-        string TableName { get; }
     }
 }

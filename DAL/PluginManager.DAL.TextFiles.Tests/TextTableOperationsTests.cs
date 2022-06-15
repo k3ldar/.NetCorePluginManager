@@ -315,7 +315,7 @@ namespace PluginManager.DAL.TextFiles.Tests
                 using (TextTableOperations<MockRow> deleteSut = new TextTableOperations<MockRow>(initializer, keyManager, new MockPluginClassesService()))
                 {
                     Assert.AreEqual(15168, deleteSut.RecordCount);
-                    Assert.AreEqual(186075, deleteSut.DataLength);
+                    Assert.AreEqual(443931, deleteSut.DataLength);
 
                     deleteSut.Delete(deleteSut.Select(1519));
                 }
@@ -323,7 +323,7 @@ namespace PluginManager.DAL.TextFiles.Tests
                 using (TextTableOperations<MockRow> readSut = new TextTableOperations<MockRow>(initializer, keyManager, new MockPluginClassesService()))
                 {
                     Assert.AreEqual(15167, readSut.RecordCount);
-                    Assert.AreEqual(186063, readSut.DataLength);
+                    Assert.AreEqual(443902, readSut.DataLength);
 
                     Assert.IsNull(readSut.Select(1519));
                 }
@@ -398,7 +398,7 @@ namespace PluginManager.DAL.TextFiles.Tests
                 using (TextTableOperations<MockRow> deleteSut = new TextTableOperations<MockRow>(initializer, keyManager, new MockPluginClassesService()))
                 {
                     Assert.AreEqual(15168, deleteSut.RecordCount);
-                    Assert.AreEqual(186075, deleteSut.DataLength);
+                    Assert.AreEqual(443931, deleteSut.DataLength);
 
                     deleteSut.Delete(new List<MockRow>()
                     {
@@ -411,7 +411,7 @@ namespace PluginManager.DAL.TextFiles.Tests
                 using (TextTableOperations<MockRow> readSut = new TextTableOperations<MockRow>(initializer, keyManager, new MockPluginClassesService()))
                 {
                     Assert.AreEqual(15165, readSut.RecordCount);
-                    Assert.AreEqual(186038, readSut.DataLength);
+                    Assert.AreEqual(443843, readSut.DataLength);
 
                     Assert.IsNull(readSut.Select(1519));
                     Assert.IsNull(readSut.Select(2168));
@@ -447,7 +447,7 @@ namespace PluginManager.DAL.TextFiles.Tests
                 using (TextTableOperations<MockRow> deleteSut = new TextTableOperations<MockRow>(initializer, keyManager, new MockPluginClassesService()))
                 {
                     Assert.AreEqual(15168, deleteSut.RecordCount);
-                    Assert.AreEqual(186075, deleteSut.DataLength);
+                    Assert.AreEqual(443931, deleteSut.DataLength);
 
                     List<MockRow> deleteList = new List<MockRow>();
                     IReadOnlyList<MockRow> current = deleteSut.Select();
@@ -462,7 +462,7 @@ namespace PluginManager.DAL.TextFiles.Tests
                 using (TextTableOperations<MockRow> readSut = new TextTableOperations<MockRow>(initializer, keyManager, new MockPluginClassesService()))
                 {
                     Assert.AreEqual(10178, readSut.RecordCount);
-                    Assert.AreEqual(127275, readSut.DataLength);
+                    Assert.AreEqual(300301, readSut.DataLength);
                     Assert.AreEqual(68, readSut.CompactPercent);
                 }
             }
@@ -536,7 +536,7 @@ namespace PluginManager.DAL.TextFiles.Tests
                 using (TextTableOperations<MockUpdateRow> updateSut = new TextTableOperations<MockUpdateRow>(initializer, keyManager, new MockPluginClassesService()))
                 {
                     Assert.AreEqual(15168, updateSut.RecordCount);
-                    Assert.AreEqual(368091, updateSut.DataLength);
+                    Assert.AreEqual(625947, updateSut.DataLength);
 
                     MockUpdateRow row1 = updateSut.Select(8192);
                     row1.Data = "not null data";
@@ -546,7 +546,7 @@ namespace PluginManager.DAL.TextFiles.Tests
                 using (TextTableOperations<MockUpdateRow> readSut = new TextTableOperations<MockUpdateRow>(initializer, keyManager, new MockPluginClassesService()))
                 {
                     Assert.AreEqual(15168, readSut.RecordCount);
-                    Assert.AreEqual(368102, readSut.DataLength);
+                    Assert.AreEqual(625958, readSut.DataLength);
 
                     Assert.IsNotNull(readSut.Select(8192));
                     Assert.AreEqual("not null data", readSut.Select(8192).Data);
@@ -622,7 +622,7 @@ namespace PluginManager.DAL.TextFiles.Tests
                 using (TextTableOperations<MockUpdateRow> updateSut = new TextTableOperations<MockUpdateRow>(initializer, keyManager, new MockPluginClassesService()))
                 {
                     Assert.AreEqual(15168, updateSut.RecordCount);
-                    Assert.AreEqual(368091, updateSut.DataLength);
+                    Assert.AreEqual(625947, updateSut.DataLength);
 
                     List<MockUpdateRow> updateList = new List<MockUpdateRow>()
                     {
@@ -640,7 +640,7 @@ namespace PluginManager.DAL.TextFiles.Tests
                 using (TextTableOperations<MockUpdateRow> readSut = new TextTableOperations<MockUpdateRow>(initializer, keyManager, new MockPluginClassesService()))
                 {
                     Assert.AreEqual(15168, readSut.RecordCount);
-                    Assert.AreEqual(368124, readSut.DataLength);
+                    Assert.AreEqual(625980, readSut.DataLength);
 
                     Assert.IsNotNull(readSut.Select(1519));
                     Assert.AreEqual("Row 1 updated", readSut.Select(1519).Data);
@@ -700,7 +700,7 @@ namespace PluginManager.DAL.TextFiles.Tests
                 using (TextTableOperations<MockRow> readSut = new TextTableOperations<MockRow>(initializer, keyManager, new MockPluginClassesService()))
                 {
                     Assert.AreEqual(15168, readSut.RecordCount);
-                    Assert.AreEqual(186075, readSut.DataLength);
+                    Assert.AreEqual(443931, readSut.DataLength);
                 }
             }
             finally
@@ -732,7 +732,7 @@ namespace PluginManager.DAL.TextFiles.Tests
                 using (TextTableOperations<MockRow> readSut = new TextTableOperations<MockRow>(initializer, keyManager, new MockPluginClassesService()))
                 {
                     Assert.AreEqual(5, readSut.RecordCount);
-                    Assert.AreEqual(46, readSut.DataLength);
+                    Assert.AreEqual(131, readSut.DataLength);
                     Assert.AreEqual(4L, readSut.Sequence);
 
                     IReadOnlyList<MockRow> records = readSut.Select();
@@ -770,7 +770,7 @@ namespace PluginManager.DAL.TextFiles.Tests
                 using (TextTableOperations<MockRowCompressed> readSut = new TextTableOperations<MockRowCompressed>(initializer, keyManager, new MockPluginClassesService()))
                 {
                     Assert.AreEqual(15168, readSut.RecordCount);
-                    Assert.AreEqual(11623, readSut.DataLength);
+                    Assert.AreEqual(15040, readSut.DataLength);
                     IReadOnlyList<MockRowCompressed> testData = readSut.Select();
                 }
             }
@@ -848,7 +848,7 @@ namespace PluginManager.DAL.TextFiles.Tests
                 using (TextTableOperations<MockRowCompressed> readSut = new TextTableOperations<MockRowCompressed>(initializer, keyManager, new MockPluginClassesService()))
                 {
                     Assert.AreEqual(200, readSut.RecordCount);
-                    Assert.AreEqual(210, readSut.DataLength);
+                    Assert.AreEqual(272, readSut.DataLength);
                     IReadOnlyList<MockRowCompressed> testData = readSut.Select();
 
                     MockRowCompressed row = readSut.Select(101);
@@ -1002,7 +1002,7 @@ namespace PluginManager.DAL.TextFiles.Tests
                 using (TextTableOperations<MockRowCompressed> readSut = new TextTableOperations<MockRowCompressed>(initializer, keyManager, new MockPluginClassesService()))
                 {
                     Assert.AreEqual(1, readSut.RecordCount);
-                    Assert.AreEqual(10, readSut.DataLength);
+                    Assert.AreEqual(27, readSut.DataLength);
                     IReadOnlyList<MockRowCompressed> testData = readSut.Select();
                     Assert.AreEqual(1, testData.Count);
                     Assert.AreEqual(0, testData[0].Id);
@@ -1039,7 +1039,7 @@ namespace PluginManager.DAL.TextFiles.Tests
                 using (TextTableOperations<MockRow> readSut = new TextTableOperations<MockRow>(initializer, keyManager, new MockPluginClassesService()))
                 {
                     Assert.AreEqual(5, readSut.RecordCount);
-                    Assert.AreEqual(46, readSut.DataLength);
+                    Assert.AreEqual(131, readSut.DataLength);
                     Assert.AreEqual(4L, readSut.Sequence);
 
                     IReadOnlyList<MockRow> records = readSut.Select();
@@ -1086,7 +1086,7 @@ namespace PluginManager.DAL.TextFiles.Tests
                     using (TextTableOperations<MockTableAddressRow> readSut = new TextTableOperations<MockTableAddressRow>(initializer, keyManager, new MockPluginClassesService()))
                     {
                         Assert.AreEqual(5, readSut.RecordCount);
-                        Assert.AreEqual(206, readSut.DataLength);
+                        Assert.AreEqual(291, readSut.DataLength);
                         Assert.AreEqual(4L, readSut.Sequence);
 
                         IReadOnlyList<MockTableAddressRow> records = readSut.Select();
@@ -1105,7 +1105,7 @@ namespace PluginManager.DAL.TextFiles.Tests
                     using (TextTableOperations<MockTableAddressRow> readSut = new TextTableOperations<MockTableAddressRow>(initializer, keyManager, new MockPluginClassesService()))
                     {
                         Assert.AreEqual(4, readSut.RecordCount);
-                        Assert.AreEqual(168, readSut.DataLength);
+                        Assert.AreEqual(236, readSut.DataLength);
                         Assert.AreEqual(4L, readSut.Sequence);
 
                         IReadOnlyList<MockTableAddressRow> records = readSut.Select();
