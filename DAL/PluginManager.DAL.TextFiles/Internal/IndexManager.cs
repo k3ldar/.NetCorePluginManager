@@ -87,6 +87,9 @@ namespace PluginManager.DAL.TextFiles.Internal
         {
             using (TimedLock timedLock = TimedLock.Lock(_lock))
             {
+                if (_keys.Contains((T)item))
+                    return;
+
                 switch (IndexType)
                 {
                     case IndexType.Ascending:
