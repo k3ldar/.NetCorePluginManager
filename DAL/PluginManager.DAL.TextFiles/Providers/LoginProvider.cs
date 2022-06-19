@@ -106,7 +106,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 
             if (tableUser != null && attempts > 4)
             {
-                tableUser.Locked = true;
+                tableUser.UnlockCode = Shared.Utilities.GetRandomPassword(8);
                 _users.Update(tableUser);
 
                 return LoginResult.AccountLocked;
@@ -117,58 +117,113 @@ namespace PluginManager.DAL.TextFiles.Providers
 
         public bool UnlockAccount(in string username, in string unlockCode)
         {
-            throw new NotImplementedException();
-            //return unlockCode == "123456";
+            if (String.IsNullOrEmpty(username))
+                throw new ArgumentNullException(nameof(username));
 
+            if (String.IsNullOrEmpty(unlockCode))
+                throw new ArgumentNullException(nameof(unlockCode));
+
+            string loginName = username;
+
+            TableUser tableUser = _users.Select()
+                .Where(u => u.Email.Equals(loginName, StringComparison.OrdinalIgnoreCase))
+                .FirstOrDefault();
+
+            if (tableUser == null)
+                return false;
+
+            if (!tableUser.Locked)
+                return false;
+
+            if (tableUser.UnlockCode.Equals(unlockCode))
+            {
+                tableUser.UnlockCode = String.Empty;
+                _users.Update(tableUser);
+
+                return true;
+            }
+
+            return false;
         }
 
         public bool ForgottenPassword(in string username)
         {
             throw new NotImplementedException();
-            //return username == "admin";
         }
 
         public LoginResult Login(in ITokenUserDetails tokenUserDetails, ref UserLoginDetails loginDetails)
         {
-            //if (tokenUserDetails == null)
-            //    throw new ArgumentNullException(nameof(tokenUserDetails));
+            if (tokenUserDetails == null)
+                throw new ArgumentNullException(nameof(tokenUserDetails));
 
-            //if (String.IsNullOrEmpty(tokenUserDetails.Email))
-            //    throw new ArgumentException(nameof(tokenUserDetails));
+            if (String.IsNullOrEmpty(tokenUserDetails.Email))
+                throw new ArgumentException(nameof(tokenUserDetails));
 
-            //if (String.IsNullOrEmpty(tokenUserDetails.Provider))
-            //    throw new ArgumentNullException(nameof(tokenUserDetails));
+            if (String.IsNullOrEmpty(tokenUserDetails.Provider))
+                throw new ArgumentException(nameof(tokenUserDetails));
 
-            //// in the real world use a proper method for getting id, this is ok as only a mock
-            //string stringId = tokenUserDetails.Provider + tokenUserDetails.Id;
-
-            //long id = stringId.GetHashCode();
-
-            //if (tokenUserDetails.Verify)
-            //{
-            //    if (_externalUsers.ContainsKey(id))
-            //        return LoginResult.Success;
-            //    else
-            //        return LoginResult.InvalidCredentials;
-            //}
-            //else
-            //{
-            //    loginDetails = new UserLoginDetails();
-            //    loginDetails.UserId = id;
-            //    loginDetails.Username = tokenUserDetails.Name ?? tokenUserDetails.Email;
-            //    loginDetails.Email = tokenUserDetails.Email;
-
-            //    //_externalUsers[id] = tokenUserDetails.Email;
-
-            //    return LoginResult.Success;
-            //}
-
-            throw new NotImplementedException();
+            if (tokenUserDetails.Verify)
+            {
+                return VerifyExternalUser(tokenUserDetails);
+            }
+            else
+            {
+                return LoginExternalUser(tokenUserDetails, ref loginDetails);
+            }
         }
 
         public void RemoveExternalUser(ITokenUserDetails tokenUserDetails)
         {
-            throw new NotImplementedException();
+            if (tokenUserDetails == null)
+                throw new ArgumentNullException(nameof(tokenUserDetails));
+
+            TableExternalUsers externalUser = _externalUsers.Select()
+                .Where(eu => eu.Provider.Equals(tokenUserDetails.Provider, StringComparison.OrdinalIgnoreCase) &&
+                    eu.Token.Equals(tokenUserDetails.Id))
+                .FirstOrDefault();
+
+            if (externalUser != null)
+                _externalUsers.Delete(externalUser);
         }
+
+        #region Private Methods
+
+        private LoginResult LoginExternalUser(ITokenUserDetails tokenUserDetails, ref UserLoginDetails loginDetails)
+        {
+            TableExternalUsers externalUser = new TableExternalUsers()
+            {
+                Email = tokenUserDetails.Email,
+                UserName = tokenUserDetails.Name ?? tokenUserDetails.Email,
+                Provider = tokenUserDetails.Provider,
+                Token = tokenUserDetails.Id
+            };
+
+            _externalUsers.Insert(externalUser);
+
+            loginDetails = new UserLoginDetails()
+            {
+                UserId = externalUser.Id,
+                Email = externalUser.Email,
+                Username = externalUser.UserName,
+                RememberMe = true
+            };
+
+            return LoginResult.Success;
+        }
+
+        private LoginResult VerifyExternalUser(ITokenUserDetails tokenUserDetails)
+        {
+            TableExternalUsers externalUser = _externalUsers.Select()
+                .Where(eu => eu.Provider.Equals(tokenUserDetails.Provider, StringComparison.OrdinalIgnoreCase) &&
+                    eu.Token.Equals(tokenUserDetails.Id))
+                .FirstOrDefault();
+
+            if (externalUser == null)
+                return LoginResult.InvalidCredentials;
+            else
+                return LoginResult.Success;
+        }
+
+        #endregion Private Methods
     }
 }

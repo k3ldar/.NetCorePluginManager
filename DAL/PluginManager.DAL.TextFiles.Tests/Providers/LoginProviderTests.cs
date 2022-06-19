@@ -46,6 +46,8 @@ using PluginManager.DAL.TextFiles.Tests.Mocks;
 
 using SharedPluginFeatures;
 
+using static System.Net.Mime.MediaTypeNames;
+
 namespace PluginManager.DAL.TextFiles.Tests.Providers
 {
     [TestClass]
@@ -371,6 +373,782 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     Assert.IsTrue(user.Locked);
 
                     result = sut.Login("TeSt@123.NEt", "password", "10.10.10.1", 0, ref loginDetails);
+                }
+            }
+            finally
+            {
+                Directory.Delete(directory, true);
+            }
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void UnlockAccount_InvalidUserName_Null_Throws_ArgumentNullException()
+        {
+            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            try
+            {
+                Directory.CreateDirectory(directory);
+                PluginInitialisation initialisation = new PluginInitialisation();
+                ServiceCollection services = new ServiceCollection();
+
+                services.AddSingleton<IPluginClassesService>(new MockPluginClassesService(new List<object>() { new TableExternalUsersDefaults() }));
+                services.AddSingleton<IForeignKeyManager, ForeignKeyManager>();
+                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
+                services.AddSingleton<ITextTableInitializer>(new TextTableInitializer(directory));
+
+                initialisation.BeforeConfigureServices(services);
+
+                using (ServiceProvider provider = services.BuildServiceProvider())
+                {
+                    long userId = -1;
+
+
+                    ITextTableOperations<TableUser> userTable = provider.GetRequiredService(typeof(ITextTableOperations<TableUser>)) as ITextTableOperations<TableUser>;
+
+                    Assert.IsNotNull(userTable);
+
+                    TableUser user = new TableUser();
+                    user.Email = "test@123.net";
+                    user.FirstName = "test";
+                    user.Surname = "User";
+                    user.UnlockCode = "UnlockMe";
+                    user.Password = Shared.Utilities.Encrypt("password", "DSFOIRTEWRasd/flkqw409r sdaedf2134A");
+
+                    userTable.Insert(user);
+                    userId = user.Id;
+
+
+                    ILoginProvider sut = provider.GetRequiredService<ILoginProvider>();
+                    Assert.IsNotNull(sut);
+
+                    UserLoginDetails loginDetails = new UserLoginDetails();
+                    bool result = sut.UnlockAccount(null, "unlock code");
+                    Assert.IsFalse(result);
+
+                    user = userTable.Select(0);
+                    Assert.IsNotNull(user);
+                    Assert.IsTrue(user.Locked);
+                }
+            }
+            finally
+            {
+                Directory.Delete(directory, true);
+            }
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void UnlockAccount_InvalidUserUnlockCode_Null_Throws_ArgumentNullException()
+        {
+            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            try
+            {
+                Directory.CreateDirectory(directory);
+                PluginInitialisation initialisation = new PluginInitialisation();
+                ServiceCollection services = new ServiceCollection();
+
+                services.AddSingleton<IPluginClassesService>(new MockPluginClassesService(new List<object>() { new TableExternalUsersDefaults() }));
+                services.AddSingleton<IForeignKeyManager, ForeignKeyManager>();
+                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
+                services.AddSingleton<ITextTableInitializer>(new TextTableInitializer(directory));
+
+                initialisation.BeforeConfigureServices(services);
+
+                using (ServiceProvider provider = services.BuildServiceProvider())
+                {
+                    long userId = -1;
+
+
+                    ITextTableOperations<TableUser> userTable = provider.GetRequiredService(typeof(ITextTableOperations<TableUser>)) as ITextTableOperations<TableUser>;
+
+                    Assert.IsNotNull(userTable);
+
+                    TableUser user = new TableUser();
+                    user.Email = "test@123.net";
+                    user.FirstName = "test";
+                    user.Surname = "User";
+                    user.UnlockCode = "UnlockMe";
+                    user.Password = Shared.Utilities.Encrypt("password", "DSFOIRTEWRasd/flkqw409r sdaedf2134A");
+
+                    userTable.Insert(user);
+                    userId = user.Id;
+
+
+                    ILoginProvider sut = provider.GetRequiredService<ILoginProvider>();
+                    Assert.IsNotNull(sut);
+
+                    UserLoginDetails loginDetails = new UserLoginDetails();
+                    bool result = sut.UnlockAccount("test@123.net", null);
+                    Assert.IsFalse(result);
+
+                    user = userTable.Select(0);
+                    Assert.IsNotNull(user);
+                    Assert.IsTrue(user.Locked);
+                }
+            }
+            finally
+            {
+                Directory.Delete(directory, true);
+            }
+        }
+
+        [TestMethod]
+        public void UnlockAccount_IncorrectUnlockCode_Returns_False()
+        {
+            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            try
+            {
+                Directory.CreateDirectory(directory);
+                PluginInitialisation initialisation = new PluginInitialisation();
+                ServiceCollection services = new ServiceCollection();
+
+                services.AddSingleton<IPluginClassesService>(new MockPluginClassesService(new List<object>() { new TableExternalUsersDefaults() }));
+                services.AddSingleton<IForeignKeyManager, ForeignKeyManager>();
+                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
+                services.AddSingleton<ITextTableInitializer>(new TextTableInitializer(directory));
+
+                initialisation.BeforeConfigureServices(services);
+
+                using (ServiceProvider provider = services.BuildServiceProvider())
+                {
+                    long userId = -1;
+
+
+                    ITextTableOperations<TableUser> userTable = provider.GetRequiredService(typeof(ITextTableOperations<TableUser>)) as ITextTableOperations<TableUser>;
+
+                    Assert.IsNotNull(userTable);
+
+                    TableUser user = new TableUser();
+                    user.Email = "test@123.net";
+                    user.FirstName = "test";
+                    user.Surname = "User";
+                    user.UnlockCode = "UnlockMe";
+                    user.Password = Shared.Utilities.Encrypt("password", "DSFOIRTEWRasd/flkqw409r sdaedf2134A");
+
+                    userTable.Insert(user);
+                    userId = user.Id;
+
+
+                    ILoginProvider sut = provider.GetRequiredService<ILoginProvider>();
+                    Assert.IsNotNull(sut);
+
+                    UserLoginDetails loginDetails = new UserLoginDetails();
+                    bool result = sut.UnlockAccount("TeSt@123.NEt", "unlock code");
+                    Assert.IsFalse(result);
+
+                    user = userTable.Select(0);
+                    Assert.IsNotNull(user);
+                    Assert.IsTrue(user.Locked);
+                }
+            }
+            finally
+            {
+                Directory.Delete(directory, true);
+            }
+        }
+
+        [TestMethod]
+        public void UnlockAccount_UserIsNotLocked_Returns_False()
+        {
+            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            try
+            {
+                Directory.CreateDirectory(directory);
+                PluginInitialisation initialisation = new PluginInitialisation();
+                ServiceCollection services = new ServiceCollection();
+
+                services.AddSingleton<IPluginClassesService>(new MockPluginClassesService(new List<object>() { new TableExternalUsersDefaults() }));
+                services.AddSingleton<IForeignKeyManager, ForeignKeyManager>();
+                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
+                services.AddSingleton<ITextTableInitializer>(new TextTableInitializer(directory));
+
+                initialisation.BeforeConfigureServices(services);
+
+                using (ServiceProvider provider = services.BuildServiceProvider())
+                {
+                    long userId = -1;
+
+
+                    ITextTableOperations<TableUser> userTable = provider.GetRequiredService(typeof(ITextTableOperations<TableUser>)) as ITextTableOperations<TableUser>;
+
+                    Assert.IsNotNull(userTable);
+
+                    TableUser user = new TableUser();
+                    user.Email = "test@123.net";
+                    user.FirstName = "test";
+                    user.Surname = "User";
+                    user.Password = Shared.Utilities.Encrypt("password", "DSFOIRTEWRasd/flkqw409r sdaedf2134A");
+
+                    userTable.Insert(user);
+                    userId = user.Id;
+
+
+                    ILoginProvider sut = provider.GetRequiredService<ILoginProvider>();
+                    Assert.IsNotNull(sut);
+
+                    UserLoginDetails loginDetails = new UserLoginDetails();
+                    bool result = sut.UnlockAccount("TeSt@123.NEt", "unlock code");
+                    Assert.IsFalse(result);
+
+                    user = userTable.Select(0);
+                    Assert.IsNotNull(user);
+                    Assert.IsFalse(user.Locked);
+                }
+            }
+            finally
+            {
+                Directory.Delete(directory, true);
+            }
+        }
+
+        [TestMethod]
+        public void UnlockAccount_AccountUnlockedWithCorrectCode_Returns_True()
+        {
+            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            try
+            {
+                Directory.CreateDirectory(directory);
+                PluginInitialisation initialisation = new PluginInitialisation();
+                ServiceCollection services = new ServiceCollection();
+
+                services.AddSingleton<IPluginClassesService>(new MockPluginClassesService(new List<object>() { new TableExternalUsersDefaults() }));
+                services.AddSingleton<IForeignKeyManager, ForeignKeyManager>();
+                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
+                services.AddSingleton<ITextTableInitializer>(new TextTableInitializer(directory));
+
+                initialisation.BeforeConfigureServices(services);
+
+                using (ServiceProvider provider = services.BuildServiceProvider())
+                {
+                    long userId = -1;
+
+
+                    ITextTableOperations<TableUser> userTable = provider.GetRequiredService(typeof(ITextTableOperations<TableUser>)) as ITextTableOperations<TableUser>;
+
+                    Assert.IsNotNull(userTable);
+
+                    TableUser user = new TableUser();
+                    user.Email = "test@123.net";
+                    user.FirstName = "test";
+                    user.Surname = "User";
+                    user.UnlockCode = "unlock code";
+                    user.Password = Shared.Utilities.Encrypt("password", "DSFOIRTEWRasd/flkqw409r sdaedf2134A");
+
+                    userTable.Insert(user);
+                    userId = user.Id;
+
+
+                    ILoginProvider sut = provider.GetRequiredService<ILoginProvider>();
+                    Assert.IsNotNull(sut);
+
+                    UserLoginDetails loginDetails = new UserLoginDetails();
+                    bool result = sut.UnlockAccount("TeSt@123.NEt", "unlock code");
+                    Assert.IsTrue(result);
+
+                    user = userTable.Select(0);
+                    Assert.IsNotNull(user);
+                    Assert.IsFalse(user.Locked);
+                }
+            }
+            finally
+            {
+                Directory.Delete(directory, true);
+            }
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void Login_ExternalUser_InvalidUserName_Null_Throws_ArgumentNullException()
+        {
+            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            try
+            {
+                Directory.CreateDirectory(directory);
+                PluginInitialisation initialisation = new PluginInitialisation();
+                ServiceCollection services = new ServiceCollection();
+
+                services.AddSingleton<IPluginClassesService>(new MockPluginClassesService(new List<object>() { new TableExternalUsersDefaults() }));
+                services.AddSingleton<IForeignKeyManager, ForeignKeyManager>();
+                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
+                services.AddSingleton<ITextTableInitializer>(new TextTableInitializer(directory));
+
+                initialisation.BeforeConfigureServices(services);
+
+                using (ServiceProvider provider = services.BuildServiceProvider())
+                {
+                    long userId = -1;
+
+
+                    ITextTableOperations<TableUser> userTable = provider.GetRequiredService(typeof(ITextTableOperations<TableUser>)) as ITextTableOperations<TableUser>;
+
+                    Assert.IsNotNull(userTable);
+
+                    TableUser user = new TableUser();
+                    user.Email = "test@123.net";
+                    user.FirstName = "test";
+                    user.Surname = "User";
+                    user.UnlockCode = "UnlockMe";
+                    user.Password = Shared.Utilities.Encrypt("password", "DSFOIRTEWRasd/flkqw409r sdaedf2134A");
+
+                    userTable.Insert(user);
+                    userId = user.Id;
+
+
+                    ILoginProvider sut = provider.GetRequiredService<ILoginProvider>();
+                    Assert.IsNotNull(sut);
+
+                    UserLoginDetails loginDetails = new UserLoginDetails();
+                    bool result = sut.UnlockAccount(null, "unlock code");
+                    Assert.IsFalse(result);
+
+                    user = userTable.Select(0);
+                    Assert.IsNotNull(user);
+                    Assert.IsTrue(user.Locked);
+                }
+            }
+            finally
+            {
+                Directory.Delete(directory, true);
+            }
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void Login_ExternalUser_InvalidTokenDetails_Null_Throws_ArgumentNullException()
+        {
+            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            try
+            {
+                Directory.CreateDirectory(directory);
+                PluginInitialisation initialisation = new PluginInitialisation();
+                ServiceCollection services = new ServiceCollection();
+
+                services.AddSingleton<IPluginClassesService>(new MockPluginClassesService(new List<object>() { new TableExternalUsersDefaults() }));
+                services.AddSingleton<IForeignKeyManager, ForeignKeyManager>();
+                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
+                services.AddSingleton<ITextTableInitializer>(new TextTableInitializer(directory));
+
+                initialisation.BeforeConfigureServices(services);
+
+                using (ServiceProvider provider = services.BuildServiceProvider())
+                {
+                    long userId = -1;
+
+
+                    ITextTableOperations<TableUser> userTable = provider.GetRequiredService(typeof(ITextTableOperations<TableUser>)) as ITextTableOperations<TableUser>;
+
+                    Assert.IsNotNull(userTable);
+
+                    TableUser user = new TableUser();
+                    user.Email = "test@123.net";
+                    user.FirstName = "test";
+                    user.Surname = "User";
+                    user.UnlockCode = "UnlockMe";
+                    user.Password = Shared.Utilities.Encrypt("password", "DSFOIRTEWRasd/flkqw409r sdaedf2134A");
+
+                    userTable.Insert(user);
+                    userId = user.Id;
+
+
+                    ILoginProvider sut = provider.GetRequiredService<ILoginProvider>();
+                    Assert.IsNotNull(sut);
+
+                    UserLoginDetails loginDetails = new UserLoginDetails();
+                    sut.Login(null, ref loginDetails);
+                }
+            }
+            finally
+            {
+                Directory.Delete(directory, true);
+            }
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void Login_ExternalUser_InvalidTokenDetails_EmailNull_Throws_ArgumentNullException()
+        {
+            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            try
+            {
+                Directory.CreateDirectory(directory);
+                PluginInitialisation initialisation = new PluginInitialisation();
+                ServiceCollection services = new ServiceCollection();
+
+                services.AddSingleton<IPluginClassesService>(new MockPluginClassesService(new List<object>() { new TableExternalUsersDefaults() }));
+                services.AddSingleton<IForeignKeyManager, ForeignKeyManager>();
+                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
+                services.AddSingleton<ITextTableInitializer>(new TextTableInitializer(directory));
+
+                initialisation.BeforeConfigureServices(services);
+
+                using (ServiceProvider provider = services.BuildServiceProvider())
+                {
+                    long userId = -1;
+
+
+                    ITextTableOperations<TableUser> userTable = provider.GetRequiredService(typeof(ITextTableOperations<TableUser>)) as ITextTableOperations<TableUser>;
+
+                    Assert.IsNotNull(userTable);
+
+                    TableUser user = new TableUser();
+                    user.Email = "test@123.net";
+                    user.FirstName = "test";
+                    user.Surname = "User";
+                    user.UnlockCode = "UnlockMe";
+                    user.Password = Shared.Utilities.Encrypt("password", "DSFOIRTEWRasd/flkqw409r sdaedf2134A");
+
+                    userTable.Insert(user);
+                    userId = user.Id;
+
+
+                    ILoginProvider sut = provider.GetRequiredService<ILoginProvider>();
+                    Assert.IsNotNull(sut);
+
+                    UserLoginDetails loginDetails = new UserLoginDetails();
+
+                    sut.Login(new MockTokenUserDetails(null, "provider"), ref loginDetails);
+                }
+            }
+            finally
+            {
+                Directory.Delete(directory, true);
+            }
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void Login_ExternalUser_InvalidTokenDetails_ProviderNull_Throws_ArgumentNullException()
+        {
+            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            try
+            {
+                Directory.CreateDirectory(directory);
+                PluginInitialisation initialisation = new PluginInitialisation();
+                ServiceCollection services = new ServiceCollection();
+
+                services.AddSingleton<IPluginClassesService>(new MockPluginClassesService(new List<object>() { new TableExternalUsersDefaults() }));
+                services.AddSingleton<IForeignKeyManager, ForeignKeyManager>();
+                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
+                services.AddSingleton<ITextTableInitializer>(new TextTableInitializer(directory));
+
+                initialisation.BeforeConfigureServices(services);
+
+                using (ServiceProvider provider = services.BuildServiceProvider())
+                {
+                    long userId = -1;
+
+
+                    ITextTableOperations<TableUser> userTable = provider.GetRequiredService(typeof(ITextTableOperations<TableUser>)) as ITextTableOperations<TableUser>;
+
+                    Assert.IsNotNull(userTable);
+
+                    TableUser user = new TableUser();
+                    user.Email = "test@123.net";
+                    user.FirstName = "test";
+                    user.Surname = "User";
+                    user.UnlockCode = "UnlockMe";
+                    user.Password = Shared.Utilities.Encrypt("password", "DSFOIRTEWRasd/flkqw409r sdaedf2134A");
+
+                    userTable.Insert(user);
+                    userId = user.Id;
+
+
+                    ILoginProvider sut = provider.GetRequiredService<ILoginProvider>();
+                    Assert.IsNotNull(sut);
+
+                    UserLoginDetails loginDetails = new UserLoginDetails();
+                    loginDetails.Email = "test@123.net";
+
+                    sut.Login(new MockTokenUserDetails("test@123.net", null), ref loginDetails);
+                }
+            }
+            finally
+            {
+                Directory.Delete(directory, true);
+            }
+        }
+
+        [TestMethod]
+        public void Login_ExternalUser_CreateLogin_Returns_Success()
+        {
+            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            try
+            {
+                Directory.CreateDirectory(directory);
+                PluginInitialisation initialisation = new PluginInitialisation();
+                ServiceCollection services = new ServiceCollection();
+
+                services.AddSingleton<IPluginClassesService>(new MockPluginClassesService(new List<object>() { new TableExternalUsersDefaults() }));
+                services.AddSingleton<IForeignKeyManager, ForeignKeyManager>();
+                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
+                services.AddSingleton<ITextTableInitializer>(new TextTableInitializer(directory));
+
+                initialisation.BeforeConfigureServices(services);
+
+                using (ServiceProvider provider = services.BuildServiceProvider())
+                {
+                    ITextTableOperations<TableExternalUsers> externalUserTable = provider.GetRequiredService(typeof(ITextTableOperations<TableExternalUsers>)) as ITextTableOperations<TableExternalUsers>;
+
+                    Assert.IsNotNull(externalUserTable);
+
+                    Assert.IsFalse(externalUserTable.Select().Any());
+
+                    ILoginProvider sut = provider.GetRequiredService<ILoginProvider>();
+                    Assert.IsNotNull(sut);
+
+                    ITokenUserDetails tokenUserDetails = new MockTokenUserDetails("test@123.net", "TestProvider");
+                    tokenUserDetails.Id = "Obviously this is an invalid token, but will work at the moment";
+
+                    UserLoginDetails loginDetails = null;
+
+
+                    LoginResult result = sut.Login(tokenUserDetails, ref loginDetails);
+                    Assert.AreEqual(LoginResult.Success, result);
+                    Assert.AreEqual("test@123.net", loginDetails.Username);
+                    Assert.AreEqual("test@123.net", loginDetails.Email);
+                    Assert.AreEqual(-9223372036854775807, loginDetails.UserId);
+                    Assert.IsTrue(loginDetails.RememberMe);
+
+                    TableExternalUsers user = externalUserTable.Select()
+                        .Where(eu => eu.Email.Equals("test@123.net"))
+                        .FirstOrDefault();
+
+                    Assert.IsNotNull(user);
+                    Assert.AreEqual(-9223372036854775807, user.Id);
+                }
+            }
+            finally
+            {
+                Directory.Delete(directory, true);
+            }
+        }
+
+        [TestMethod]
+        public void Login_ExternalUser_VerifyUserNotFound_Returns_InvalidCredentials()
+        {
+            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            try
+            {
+                Directory.CreateDirectory(directory);
+                PluginInitialisation initialisation = new PluginInitialisation();
+                ServiceCollection services = new ServiceCollection();
+
+                services.AddSingleton<IPluginClassesService>(new MockPluginClassesService(new List<object>() { new TableExternalUsersDefaults() }));
+                services.AddSingleton<IForeignKeyManager, ForeignKeyManager>();
+                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
+                services.AddSingleton<ITextTableInitializer>(new TextTableInitializer(directory));
+
+                initialisation.BeforeConfigureServices(services);
+
+                using (ServiceProvider provider = services.BuildServiceProvider())
+                {
+                    ITextTableOperations<TableExternalUsers> externalUserTable = provider.GetRequiredService(typeof(ITextTableOperations<TableExternalUsers>)) as ITextTableOperations<TableExternalUsers>;
+
+                    Assert.IsNotNull(externalUserTable);
+
+                    Assert.IsFalse(externalUserTable.Select().Any());
+
+                    ILoginProvider sut = provider.GetRequiredService<ILoginProvider>();
+                    Assert.IsNotNull(sut);
+
+                    ITokenUserDetails tokenUserDetails = new MockTokenUserDetails("test@123.net", "TestProvider");
+                    tokenUserDetails.Id = "Obviously this is an invalid token, but will work at the moment";
+                    tokenUserDetails.Verify = true;
+
+                    UserLoginDetails loginDetails = null;
+
+                    LoginResult result = sut.Login(tokenUserDetails, ref loginDetails);
+                    Assert.AreEqual(LoginResult.InvalidCredentials, result);
+                }
+            }
+            finally
+            {
+                Directory.Delete(directory, true);
+            }
+        }
+
+        [TestMethod]
+        public void Login_ExternalUser_VerifyAndUserFound_Returns_Success()
+        {
+            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            try
+            {
+                Directory.CreateDirectory(directory);
+                PluginInitialisation initialisation = new PluginInitialisation();
+                ServiceCollection services = new ServiceCollection();
+
+                services.AddSingleton<IPluginClassesService>(new MockPluginClassesService(new List<object>() { new TableExternalUsersDefaults() }));
+                services.AddSingleton<IForeignKeyManager, ForeignKeyManager>();
+                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
+                services.AddSingleton<ITextTableInitializer>(new TextTableInitializer(directory));
+
+                initialisation.BeforeConfigureServices(services);
+
+                using (ServiceProvider provider = services.BuildServiceProvider())
+                {
+                    ITextTableOperations<TableExternalUsers> externalUserTable = provider.GetRequiredService(typeof(ITextTableOperations<TableExternalUsers>)) as ITextTableOperations<TableExternalUsers>;
+
+                    Assert.IsNotNull(externalUserTable);
+
+                    Assert.IsFalse(externalUserTable.Select().Any());
+
+                    TableExternalUsers user = new TableExternalUsers()
+                    {
+                        Email = "test@321.net",
+                        Provider = "Provider",
+                        Token = "My token"
+                    };
+
+                    externalUserTable.Insert(user);
+
+                    ILoginProvider sut = provider.GetRequiredService<ILoginProvider>();
+                    Assert.IsNotNull(sut);
+
+                    ITokenUserDetails tokenUserDetails = new MockTokenUserDetails("test@321.net", "Provider");
+                    tokenUserDetails.Id = "My token";
+                    tokenUserDetails.Verify = true;
+
+                    UserLoginDetails loginDetails = null;
+
+
+                    LoginResult result = sut.Login(tokenUserDetails, ref loginDetails);
+                    Assert.AreEqual(LoginResult.Success, result);
+                    Assert.IsNull(loginDetails);
+                }
+            }
+            finally
+            {
+                Directory.Delete(directory, true);
+            }
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void RemoveExternalUser_InvalidParamNull_Throws_ArgumentNullException()
+        {
+            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            try
+            {
+                Directory.CreateDirectory(directory);
+                PluginInitialisation initialisation = new PluginInitialisation();
+                ServiceCollection services = new ServiceCollection();
+
+                services.AddSingleton<IPluginClassesService>(new MockPluginClassesService(new List<object>() { new TableExternalUsersDefaults() }));
+                services.AddSingleton<IForeignKeyManager, ForeignKeyManager>();
+                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
+                services.AddSingleton<ITextTableInitializer>(new TextTableInitializer(directory));
+
+                initialisation.BeforeConfigureServices(services);
+
+                using (ServiceProvider provider = services.BuildServiceProvider())
+                {
+                    ILoginProvider sut = provider.GetRequiredService<ILoginProvider>();
+                    Assert.IsNotNull(sut);
+
+                    sut.RemoveExternalUser(null);
+                }
+            }
+            finally
+            {
+                Directory.Delete(directory, true);
+            }
+        }
+
+        [TestMethod]
+        public void RemoveExternalUser_UserNotFound_Success()
+        {
+            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            try
+            {
+                Directory.CreateDirectory(directory);
+                PluginInitialisation initialisation = new PluginInitialisation();
+                ServiceCollection services = new ServiceCollection();
+
+                services.AddSingleton<IPluginClassesService>(new MockPluginClassesService(new List<object>() { new TableExternalUsersDefaults() }));
+                services.AddSingleton<IForeignKeyManager, ForeignKeyManager>();
+                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
+                services.AddSingleton<ITextTableInitializer>(new TextTableInitializer(directory));
+
+                initialisation.BeforeConfigureServices(services);
+
+                using (ServiceProvider provider = services.BuildServiceProvider())
+                {
+                    ITextTableOperations<TableExternalUsers> externalUserTable = provider.GetRequiredService(typeof(ITextTableOperations<TableExternalUsers>)) as ITextTableOperations<TableExternalUsers>;
+
+                    Assert.IsNotNull(externalUserTable);
+
+                    Assert.IsFalse(externalUserTable.Select().Any());
+
+                    TableExternalUsers user = new TableExternalUsers()
+                    {
+                        Email = "test@321.net",
+                        Provider = "Provider",
+                        Token = "My token"
+                    };
+
+                    externalUserTable.Insert(user);
+
+                    ILoginProvider sut = provider.GetRequiredService<ILoginProvider>();
+                    Assert.IsNotNull(sut);
+
+                    ITokenUserDetails tokenUserDetails = new MockTokenUserDetails("test@321a.net", "Provider");
+                    tokenUserDetails.Id = "My token 1";
+
+                    sut.RemoveExternalUser(tokenUserDetails);
+
+                    Assert.IsTrue(externalUserTable.Select().Any());
+                }
+            }
+            finally
+            {
+                Directory.Delete(directory, true);
+            }
+        }
+
+        [TestMethod]
+        public void RemoveExternalUser_UserFoundAndRemoved_Success()
+        {
+            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            try
+            {
+                Directory.CreateDirectory(directory);
+                PluginInitialisation initialisation = new PluginInitialisation();
+                ServiceCollection services = new ServiceCollection();
+
+                services.AddSingleton<IPluginClassesService>(new MockPluginClassesService(new List<object>() { new TableExternalUsersDefaults() }));
+                services.AddSingleton<IForeignKeyManager, ForeignKeyManager>();
+                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
+                services.AddSingleton<ITextTableInitializer>(new TextTableInitializer(directory));
+
+                initialisation.BeforeConfigureServices(services);
+
+                using (ServiceProvider provider = services.BuildServiceProvider())
+                {
+                    ITextTableOperations<TableExternalUsers> externalUserTable = provider.GetRequiredService(typeof(ITextTableOperations<TableExternalUsers>)) as ITextTableOperations<TableExternalUsers>;
+
+                    Assert.IsNotNull(externalUserTable);
+
+                    Assert.IsFalse(externalUserTable.Select().Any());
+
+                    TableExternalUsers user = new TableExternalUsers()
+                    {
+                        Email = "test@321.net",
+                        Provider = "Provider",
+                        Token = "My token"
+                    };
+
+                    externalUserTable.Insert(user);
+
+                    ILoginProvider sut = provider.GetRequiredService<ILoginProvider>();
+                    Assert.IsNotNull(sut);
+
+                    ITokenUserDetails tokenUserDetails = new MockTokenUserDetails("test@321a.net", "Provider");
+                    tokenUserDetails.Id = "My token";
+
+                    sut.RemoveExternalUser(tokenUserDetails);
+
+                    Assert.IsFalse(externalUserTable.Select().Any());
                 }
             }
             finally
