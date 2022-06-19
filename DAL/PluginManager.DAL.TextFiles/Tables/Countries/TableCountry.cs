@@ -34,7 +34,7 @@ using PluginManager.DAL.TextFiles.Internal;
 namespace PluginManager.DAL.TextFiles.Tables
 {
     [Table(Constants.TableNameCountries, CompressionType.None, CachingStrategy.Memory)]
-    internal sealed class TableCountry : TableRowDefinition
+    public sealed class TableCountry : TableRowDefinition
     {
         /// <summary>
         /// Name of country.
@@ -53,6 +53,31 @@ namespace PluginManager.DAL.TextFiles.Tables
         /// Indicates whether the country is visible or not.
         /// </summary>
         /// <value>bool</value>
-        public bool Visible { get; set; }
+        public bool Visible { get; set; } = true;
+
+        /// <summary>
+        /// Sort order
+        /// </summary>
+        public int SortOrder { get; set; } = 0;
+
+        /// <summary>
+        /// Indicates whether prices are shown for a country or not
+        /// </summary>
+        public bool ShowPriceData { get; set; } = true;
+
+        /// <summary>
+        /// Indicates that vat/tax should be removed for this country
+        /// </summary>
+        public bool AllowVatRemoval { get; set; } = false;
+
+        /// <summary>
+        /// Tax rate applied to the country
+        /// </summary>
+        public decimal TaxRate { get; set; } = decimal.Zero;
+
+        /// <summary>
+        /// Cost multiplier to enable charging different costs for different countries
+        /// </summary>
+        public decimal CostMultiplier { get; set; } = 1.0m;
     }
 }

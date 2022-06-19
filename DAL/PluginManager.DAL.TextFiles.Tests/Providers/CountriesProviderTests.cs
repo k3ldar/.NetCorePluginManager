@@ -379,5 +379,41 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                 Directory.Delete(directory, true);
             }
         }
+
+        [TestMethod]
+        public void CountryCreate_WithDefaultData_Success()
+        {
+            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            try
+            {
+                Directory.CreateDirectory(directory);
+                PluginInitialisation initialisation = new PluginInitialisation();
+                ServiceCollection services = new ServiceCollection();
+                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
+                services.AddSingleton<IPluginClassesService>(new MockPluginClassesService(new List<object>() { new TableCountryDefaults() }));
+
+                services.AddSingleton<IForeignKeyManager, ForeignKeyManager>();
+                initialisation.BeforeConfigureServices(services);
+
+                using (ServiceProvider provider = services.BuildServiceProvider())
+                {
+                    ITextTableOperations<TableCountry> countryTable = provider.GetRequiredService<ITextTableOperations<TableCountry>>();
+                    Assert.IsNotNull(countryTable);
+
+                    Assert.AreEqual(251, countryTable.RecordCount);
+
+                    TableCountry unknown = countryTable.Select().Where(c => c.Code.Equals("ZZ")).FirstOrDefault();
+                    Assert.IsNotNull(unknown);
+                    Assert.IsFalse(unknown.Visible);
+                    Assert.AreEqual(1, unknown.Id);
+
+                    Assert.AreEqual(250, countryTable.Select().Where(c => c.Visible).Count());
+                }
+            }
+            finally
+            {
+                Directory.Delete(directory, true);
+            }
+        }
     }
 }
