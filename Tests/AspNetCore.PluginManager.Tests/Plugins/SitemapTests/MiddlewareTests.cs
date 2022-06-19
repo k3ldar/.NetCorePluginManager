@@ -158,7 +158,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SitemapTests
 
         [TestMethod]
         [TestCategory(TestCategoryName)]
-        public async Task Invoke_RouteIsSitemapRoute_NoSitemapDataRegistered_Throws_NullReferenceException()
+        public async Task Invoke_RouteIsSitemapRoute_NoSitemapDataRegistered_DoesNotReturnContent()
         {
             RequestDelegate nextDelegate = async (context) => { await Task.Delay(0); };
             MockHttpRequest httpRequest = new MockHttpRequest()
@@ -172,23 +172,10 @@ namespace AspNetCore.PluginManager.Tests.Plugins.SitemapTests
             httpRequest.SetContext(httpContext);
 
             SitemapMiddleware sut = new SitemapMiddleware(nextDelegate, new MockPluginClassesService(), new MockMemoryCache(), new MockNotificationService(), testLogger);
+                
+            await sut.Invoke(httpContext);
 
-            try
-            {
-                await sut.Invoke(httpContext);
-            }
-            catch (NullReferenceException)
-            {
-
-            }
-            catch (Exception)
-            {
-                throw new InvalidOperationException("NullReferenceException should have been thrown!");
-            }
-
-            Assert.AreEqual(1, testLogger.Errors.Count);
-            Assert.AreEqual("MoveNext", testLogger.Errors[0].Data);
-            Assert.AreEqual("SitemapMiddleware", testLogger.Errors[0].Module);
+            Assert.AreEqual(0, httpResponse.ContentLength);
         }
 
         [TestMethod]
