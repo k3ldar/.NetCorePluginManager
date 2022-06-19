@@ -245,7 +245,7 @@ namespace PluginManager.DAL.TextFiles.Providers
             if (user.Locked)
                 return false;
 
-            user.Locked = true;
+            user.UnlockCode = Shared.Utilities.GetRandomPassword(8);
             _users.Update(user);
 
             return true;
@@ -266,7 +266,7 @@ namespace PluginManager.DAL.TextFiles.Providers
             if (!user.Locked)
                 return false;
 
-            user.Locked = false;
+            user.UnlockCode = String.Empty;
             _users.Update(user);
 
             return true;
