@@ -1338,6 +1338,36 @@
             <param name="data">Form data to be saved</param>
             <returns>bool</returns>
         </member>
+        <member name="T:Middleware.Classes.DefaultEmailSenderSettings">
+            <summary>
+            Default email sender details
+            </summary>
+        </member>
+        <member name="P:Middleware.Classes.DefaultEmailSenderSettings.Host">
+            <summary>
+            Email host server
+            </summary>
+        </member>
+        <member name="P:Middleware.Classes.DefaultEmailSenderSettings.Password">
+            <summary>
+            Email server password
+            </summary>
+        </member>
+        <member name="P:Middleware.Classes.DefaultEmailSenderSettings.Port">
+            <summary>
+            Email server port
+            </summary>
+        </member>
+        <member name="P:Middleware.Classes.DefaultEmailSenderSettings.SSL">
+            <summary>
+            Email uses ssl for sending emails
+            </summary>
+        </member>
+        <member name="P:Middleware.Classes.DefaultEmailSenderSettings.UserName">
+            <summary>
+            Email account username
+            </summary>
+        </member>
         <member name="T:Middleware.Helpdesk.Feedback">
             <summary>
             Feedback item used in HelpdeskPlugin module and IHelpdeskProvider interface.
@@ -1805,9 +1835,8 @@
         </member>
         <member name="P:Middleware.UserLoginDetails.UserId">
             <summary>
-            Unique user id.
+            Unique id of user
             </summary>
-            <value>long</value>
         </member>
         <member name="P:Middleware.UserLoginDetails.Username">
             <summary>
@@ -3211,6 +3240,11 @@
             Dynamic content that will be displayed within the page
             </summary>
             <value>List&lt;DynamicContentTemplate&gt;</value>
+        </member>
+        <member name="T:Middleware.IEmailSender">
+            <summary>
+            Interface for sending emails
+            </summary>
         </member>
         <member name="T:Middleware.Interfaces.IImageProvider">
             <summary>
