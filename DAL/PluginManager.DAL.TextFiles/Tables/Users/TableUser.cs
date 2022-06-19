@@ -62,7 +62,7 @@ namespace PluginManager.DAL.TextFiles.Tables
 
         public string CountryCode { get; set; }
 
-        public bool Locked { get; set; }
+        public string UnlockCode { get; set; }
 
         public bool EmailConfirmed { get; set; }
 
@@ -81,5 +81,7 @@ namespace PluginManager.DAL.TextFiles.Tables
         public bool MarketingTelephone { get; set; }
 
         public string FullName => $"{FirstName} {Surname}";
+
+        public bool Locked => !String.IsNullOrEmpty(UnlockCode);
     }
 }
