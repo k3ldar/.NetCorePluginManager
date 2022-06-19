@@ -29,7 +29,9 @@ namespace PluginManager.DAL.TextFiles.Tables
 {
     public class TableExternalUsersDefaults : ITableDefaults<TableExternalUsers>
     {
-        public long InitialSequence => Int64.MinValue;
+        public long PrimarySequence => Int64.MinValue;
+
+        public long SecondarySequence => 0;
 
         public List<TableExternalUsers> InitialData => null;
     }

@@ -213,7 +213,7 @@ namespace PluginManager.DAL.TextFiles.Tests
 
                 Assert.AreEqual(1, records.Count);
                 Assert.AreEqual(0, records[0].Id);
-                Assert.AreEqual(0, sutRead.Sequence);
+                Assert.AreEqual(0, sutRead.PrimarySequence);
             }
             finally
             {
@@ -243,7 +243,7 @@ namespace PluginManager.DAL.TextFiles.Tests
                 Assert.AreEqual(2, records.Count);
                 Assert.AreEqual(0, records[0].Id);
                 Assert.AreEqual(1, records[1].Id);
-                Assert.AreEqual(1, sutRead.Sequence);
+                Assert.AreEqual(1, sutRead.PrimarySequence);
             }
             finally
             {
@@ -733,7 +733,7 @@ namespace PluginManager.DAL.TextFiles.Tests
                 {
                     Assert.AreEqual(5, readSut.RecordCount);
                     Assert.AreEqual(131, readSut.DataLength);
-                    Assert.AreEqual(4L, readSut.Sequence);
+                    Assert.AreEqual(4L, readSut.PrimarySequence);
 
                     IReadOnlyList<MockRow> records = readSut.Select();
 
@@ -898,7 +898,7 @@ namespace PluginManager.DAL.TextFiles.Tests
                     {
                         long nextSequence = sut.NextSequence();
                         Assert.AreEqual(i, (long)nextSequence);
-                        Assert.AreEqual(i, sut.Sequence);
+                        Assert.AreEqual(i, sut.PrimarySequence);
                     }
                 }
             }
@@ -920,7 +920,7 @@ namespace PluginManager.DAL.TextFiles.Tests
 
                 using TextTableOperations<MockRow> sut = new TextTableOperations<MockRow>(initializer, new ForeignKeyManager(), new MockPluginClassesService());
                 sut.Dispose();
-                sut.ResetSequence(123);
+                sut.ResetSequence(123, 1);
 
             }
             finally
@@ -941,14 +941,18 @@ namespace PluginManager.DAL.TextFiles.Tests
 
                 using (TextTableOperations<MockRowCompressed> sut = new TextTableOperations<MockRowCompressed>(initializer, keyManager, new MockPluginClassesService()))
                 {
-                    sut.ResetSequence(368745);
+                    sut.ResetSequence(368745, -3287);
                 }
 
                 using (TextTableOperations<MockRowCompressed> sut = new TextTableOperations<MockRowCompressed>(initializer, keyManager, new MockPluginClassesService()))
                 {
-                    long nextSequence = sut.NextSequence();
-                    Assert.AreEqual(368746, (long)nextSequence);
-                    Assert.AreEqual(368746, sut.Sequence);
+                    long nextPrimarySequence = sut.NextSequence();
+                    Assert.AreEqual(368746L, nextPrimarySequence);
+                    Assert.AreEqual(368746L, sut.PrimarySequence);
+
+                    long nextSecondarySequence = sut.NextSecondarySequence(1);
+                    Assert.AreEqual(-3286L, sut.SecondarySequence);
+                    Assert.AreEqual(-3286L, sut.SecondarySequence);
                 }
             }
             finally
@@ -1040,7 +1044,7 @@ namespace PluginManager.DAL.TextFiles.Tests
                 {
                     Assert.AreEqual(5, readSut.RecordCount);
                     Assert.AreEqual(131, readSut.DataLength);
-                    Assert.AreEqual(4L, readSut.Sequence);
+                    Assert.AreEqual(4L, readSut.PrimarySequence);
 
                     IReadOnlyList<MockRow> records = readSut.Select();
 
@@ -1087,7 +1091,7 @@ namespace PluginManager.DAL.TextFiles.Tests
                     {
                         Assert.AreEqual(5, readSut.RecordCount);
                         Assert.AreEqual(291, readSut.DataLength);
-                        Assert.AreEqual(4L, readSut.Sequence);
+                        Assert.AreEqual(4L, readSut.PrimarySequence);
 
                         IReadOnlyList<MockTableAddressRow> records = readSut.Select();
 
@@ -1106,7 +1110,7 @@ namespace PluginManager.DAL.TextFiles.Tests
                     {
                         Assert.AreEqual(4, readSut.RecordCount);
                         Assert.AreEqual(236, readSut.DataLength);
-                        Assert.AreEqual(4L, readSut.Sequence);
+                        Assert.AreEqual(4L, readSut.PrimarySequence);
 
                         IReadOnlyList<MockTableAddressRow> records = readSut.Select();
 

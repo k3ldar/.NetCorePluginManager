@@ -39,9 +39,8 @@ namespace PluginManager.DAL.TextFiles.Internal
     /// 
     /// ushort      Internal version number
     /// byte[2]     Header
-    /// long        Sequence
-    /// int         Reserved
-    /// int         Reserved
+    /// long        Primary Sequence
+    /// long         Secondary Sequence
     /// int         Reserved
     /// int         Reserved
     /// byte        Compression
@@ -62,8 +61,10 @@ namespace PluginManager.DAL.TextFiles.Internal
         private const byte CompressionBrotli = 1;
         private const int RowCount = 0;
         private const int DefaultLength = 0;
-        private const int TotalHeaderLength = sizeof(ushort) + HeaderLength + sizeof(long) + (sizeof(int) * 4) + sizeof(byte) + sizeof(int) + sizeof(int) + sizeof(int);
-        private const int SequenceStart = HeaderLength + sizeof(ushort);
+        private const int TotalHeaderLength = sizeof(ushort) + HeaderLength + sizeof(long) + sizeof(long) + (sizeof(int) * 2) + sizeof(byte) + sizeof(int) + sizeof(int) + sizeof(int);
+        private const int PrimarySequenceStart = HeaderLength + sizeof(ushort);
+        private const int SecondarySequenceStart = PrimarySequenceStart + sizeof(long);
+
         private const int StartOfRecordCount = TotalHeaderLength - ((sizeof(int) * 3) + sizeof(byte));
         private const int HeaderLength = 2;
         private const int DefaultSequenceIncrement = 1;
@@ -78,7 +79,8 @@ namespace PluginManager.DAL.TextFiles.Internal
         private int _dataLength = 0;
         private byte _compactPercent = 0;
         private CompressionType _compressionAlgorithm = CompressionNone;
-        private long _sequence = -1;
+        private long _primarySequence = -1;
+        private long _SecondarySequence = -1;
         private readonly object _lockObject = new object();
         private readonly TableAttribute _tableAttributes;
         private readonly Dictionary<string, string> _foreignKeys;
@@ -108,7 +110,10 @@ namespace PluginManager.DAL.TextFiles.Internal
                 .FirstOrDefault();
 
             if (tableDefaults != null)
-                _sequence = tableDefaults.InitialSequence;
+            {
+                _primarySequence = tableDefaults.PrimarySequence;
+                _SecondarySequence = tableDefaults.SecondarySequence;
+            }
 
             _triggers = pluginClassesService.GetPluginClasses<ITableTriggers<T>>();
 
@@ -200,7 +205,9 @@ namespace PluginManager.DAL.TextFiles.Internal
 
         public int RecordCount => _recordCount;
 
-        public long Sequence => _sequence;
+        public long PrimarySequence => _primarySequence;
+
+        public long SecondarySequence => _SecondarySequence;
 
         public byte CompactPercent => _compactPercent;
 
@@ -331,7 +338,15 @@ namespace PluginManager.DAL.TextFiles.Internal
             return InternalNextSequence(increment);
         }
 
-        public void ResetSequence(long sequence)
+        public long NextSecondarySequence(long increment)
+        {
+            if (_disposed)
+                throw new ObjectDisposedException(nameof(TextTableOperations<T>));
+
+            return InternalNextSecondarySequence(increment);
+        }
+
+        public void ResetSequence(long primarySequence, long secondarySequence)
         {
             if (_disposed)
                 throw new ObjectDisposedException(nameof(TextTableOperations<T>));
@@ -339,8 +354,9 @@ namespace PluginManager.DAL.TextFiles.Internal
             using (TimedLock timedLock = TimedLock.Lock(_lockObject))
             {
                 using BinaryWriter writer = new BinaryWriter(_fileStream, Encoding.UTF8, true);
-                writer.Seek(SequenceStart, SeekOrigin.Begin);
-                writer.Write(sequence);
+                writer.Seek(PrimarySequenceStart, SeekOrigin.Begin);
+                writer.Write(primarySequence);
+                writer.Write(secondarySequence);
                 _fileStream.Flush(true);
             }
         }
@@ -367,11 +383,27 @@ namespace PluginManager.DAL.TextFiles.Internal
             using (TimedLock timedLock = TimedLock.Lock(_lockObject))
             {
                 using BinaryWriter writer = new BinaryWriter(_fileStream, Encoding.UTF8, true);
-                writer.Seek(SequenceStart, SeekOrigin.Begin);
-                _sequence += increment;
-                writer.Write(_sequence);
+                writer.Seek(PrimarySequenceStart, SeekOrigin.Begin);
+                _primarySequence += increment;
+                writer.Write(_primarySequence);
                 _fileStream.Flush(true);
-                return _sequence;
+
+                return _primarySequence;
+            }
+        }
+
+        private long InternalNextSecondarySequence(long increment)
+        {
+
+            using (TimedLock timedLock = TimedLock.Lock(_lockObject))
+            {
+                using BinaryWriter writer = new BinaryWriter(_fileStream, Encoding.UTF8, true);
+                writer.Seek(SecondarySequenceStart, SeekOrigin.Begin);
+                _SecondarySequence += increment;
+                writer.Write(_SecondarySequence);
+                _fileStream.Flush(true);
+
+                return _SecondarySequence;
             }
         }
 
@@ -551,7 +583,7 @@ namespace PluginManager.DAL.TextFiles.Internal
 
                 ValidateInternalIndexes(records);
 
-                long nextSequence = Sequence + 1;
+                long nextSequence = PrimarySequence + 1;
                 _ = NextSequence(records.Count);
 
                 _indexes.BeginUpdate();
@@ -776,9 +808,8 @@ namespace PluginManager.DAL.TextFiles.Internal
                     throw new InvalidDataException();
             }
 
-            _sequence = reader.ReadInt64();
-            _ = reader.ReadInt32();
-            _ = reader.ReadInt32();
+            _primarySequence = reader.ReadInt64();
+            _SecondarySequence = reader.ReadInt64();
             _ = reader.ReadInt32();
             _ = reader.ReadInt32();
             _compressionAlgorithm = (CompressionType)reader.ReadByte();
@@ -815,9 +846,8 @@ namespace PluginManager.DAL.TextFiles.Internal
 
             writer.Write(FileVersion);
             writer.Write(Header);
-            writer.Write(_sequence);
-            writer.Write((int)0);
-            writer.Write((int)0);
+            writer.Write(_primarySequence);
+            writer.Write(_SecondarySequence);
             writer.Write((int)0);
             writer.Write((int)0);
             writer.Write((byte)_tableAttributes.Compression);

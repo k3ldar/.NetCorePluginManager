@@ -10,9 +10,14 @@ namespace PluginManager.DAL.TextFiles.Interfaces
         where T : TableRowDefinition
     {
         /// <summary>
-        /// Initial sequence provided for the table
+        /// Initial primary sequence provided for the table
         /// </summary>
-        long InitialSequence { get; }
+        long PrimarySequence { get; }
+
+        /// <summary>
+        /// Secondary sequence
+        /// </summary>
+        long SecondarySequence { get; }
 
         /// <summary>
         /// Initial data that will be added when the table is first created

@@ -30,7 +30,9 @@ namespace PluginManager.DAL.TextFiles.Tables
 {
     public class TableCountryDefaults : ITableDefaults<TableCountry>
     {
-        public long InitialSequence => 0;
+        public long PrimarySequence => 0;
+
+        public long SecondarySequence => 0;
 
         public List<TableCountry> InitialData
         {

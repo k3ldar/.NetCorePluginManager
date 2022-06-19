@@ -101,7 +101,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     {
                         Assert.IsNotNull(sut);
 
-                        Assert.AreEqual(Int64.MinValue, sut.Sequence);
+                        Assert.AreEqual(Int64.MinValue, sut.PrimarySequence);
                     }
                 }
             }

@@ -102,10 +102,16 @@ namespace PluginManager.DAL.TextFiles
         public int RecordCount { get; }
 
         /// <summary>
-        /// Retrieves the current sequence
+        /// Retrieves the current primary sequence
         /// </summary>
         /// <value>long</value>
-        long Sequence { get; }
+        long PrimarySequence { get; }
+
+        /// <summary>
+        /// Retrieves the current secondary sequence
+        /// </summary>
+        /// <value>long</value>
+        long SecondarySequence { get; }
 
         byte CompactPercent { get; }
 
@@ -123,10 +129,18 @@ namespace PluginManager.DAL.TextFiles
         long NextSequence(long increment);
 
         /// <summary>
+        /// Retrieves the next secondary sequence, incremented by increment
+        /// </summary>
+        /// <param name="increment">, number to increment by</param>
+        /// <returns>long</returns>
+        long NextSecondarySequence(long increment);
+
+        /// <summary>
         /// Resets the sequence to a specific number
         /// </summary>
-        /// <param name="sequence"></param>
-        void ResetSequence(long sequence);
+        /// <param name="primarySequence"></param>
+        /// <param name="secondarySequence"></param>
+        void ResetSequence(long primarySequence, long secondarySequence);
 
         /// <summary>
         /// Indicates whether a record exists with a specific id

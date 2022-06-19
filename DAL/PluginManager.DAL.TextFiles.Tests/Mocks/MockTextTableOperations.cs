@@ -38,7 +38,9 @@ namespace PluginManager.DAL.TextFiles.Tests.Mocks
 
         public int RecordCount => throw new NotImplementedException();
 
-        public long Sequence => throw new NotImplementedException();
+        public long PrimarySequence => throw new NotImplementedException();
+
+        public long SecondarySequence => throw new NotImplementedException();
 
         public byte CompactPercent => throw new NotImplementedException();
 
@@ -94,7 +96,12 @@ namespace PluginManager.DAL.TextFiles.Tests.Mocks
             throw new NotImplementedException();
         }
 
-        public void ResetSequence(long sequence)
+        public long NextSecondarySequence(long increment)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void ResetSequence(long primarySequence, long secondarySequence)
         {
             throw new NotImplementedException();
         }
