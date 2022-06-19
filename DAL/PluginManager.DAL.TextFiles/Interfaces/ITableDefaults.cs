@@ -13,5 +13,10 @@ namespace PluginManager.DAL.TextFiles.Interfaces
         /// Initial sequence provided for the table
         /// </summary>
         long InitialSequence { get; }
+
+        /// <summary>
+        /// Initial data that will be added when the table is first created
+        /// </summary>
+        List<T> InitialData { get; }
     }
 }

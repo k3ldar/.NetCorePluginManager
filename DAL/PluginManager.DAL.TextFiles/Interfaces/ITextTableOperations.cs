@@ -127,5 +127,12 @@ namespace PluginManager.DAL.TextFiles
         /// </summary>
         /// <param name="sequence"></param>
         void ResetSequence(long sequence);
+
+        /// <summary>
+        /// Indicates whether a record exists with a specific id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        bool IdExists(long id);
     }
 }

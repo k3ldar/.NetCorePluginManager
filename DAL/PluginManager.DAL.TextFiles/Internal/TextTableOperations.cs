@@ -95,6 +95,7 @@ namespace PluginManager.DAL.TextFiles.Internal
         {
             _initializer = readerWriterInitializer ?? throw new ArgumentNullException(nameof(readerWriterInitializer));
             _foreignKeyManager = foreignKeyManager ?? throw new ArgumentNullException(nameof(foreignKeyManager));
+
             if (pluginClassesService == null)
                 throw new ArgumentNullException(nameof(pluginClassesService));
 
@@ -114,7 +115,9 @@ namespace PluginManager.DAL.TextFiles.Internal
             _foreignKeys = GetForeignKeysForTable();
             _indexes = BuildIndexListForTable();
             _jsonSerializerOptions = new JsonSerializerOptions();
-            _tableName = ValidateTableName(_initializer.Path, _tableAttributes.TableName);
+
+            bool tableCreated;
+            (tableCreated, _tableName) = ValidateTableName(_initializer.Path, _tableAttributes.TableName);
             _fileStream = File.Open(_tableName, FileMode.Open, FileAccess.ReadWrite, FileShare.Read);
 
             try
@@ -133,7 +136,12 @@ namespace PluginManager.DAL.TextFiles.Internal
             _initializer.RegisterTable(this);
             _foreignKeyManager.RegisterTable(this);
 
-            RebuildAllIndexes();
+            if (tableCreated && tableDefaults != null && tableDefaults.InitialData != null)
+            {
+                Insert(tableDefaults.InitialData);
+            }
+
+            RebuildAllMissingIndexes();
         }
 
         ~TextTableOperations()
@@ -606,7 +614,7 @@ namespace PluginManager.DAL.TextFiles.Internal
             }
         }
 
-        private void RebuildAllIndexes()
+        private void RebuildAllMissingIndexes()
         {
             IReadOnlyList<T> allRecords = Select();
 
@@ -617,9 +625,10 @@ namespace PluginManager.DAL.TextFiles.Internal
                 {
                     foreach (T record in allRecords)
                     {
-                        long value = Convert.ToInt64(record.GetType().GetProperty(item.Key).GetValue(record, null));
+                        object value = record.GetType().GetProperty(item.Key).GetValue(record, null);
 
-                        _indexes[item.Key].Add(value);
+                        if (!_indexes[item.Key].Contains(value))
+                            _indexes[item.Key].Add(value);
                     }
                 }
                 finally
@@ -780,21 +789,23 @@ namespace PluginManager.DAL.TextFiles.Internal
             _compactPercent = Convert.ToByte(Shared.Utilities.Percentage(_fileStream.Length, _fileStream.Position + _dataLength));
         }
 
-        private string ValidateTableName(string path, string name)
+        private (bool, string) ValidateTableName(string path, string name)
         {
             string extension = Path.GetExtension(name);
 
             if (String.IsNullOrEmpty(extension))
                 name += DefaultExtension;
 
-            string Result = Path.Combine(path, name);
+            string tableName = Path.Combine(path, name);
+            bool tableCreated = false;
 
-            if (!File.Exists(Result))
+            if (!File.Exists(_tableName))
             {
-                CreateTableHeaderRecords(Path.Combine(path, Result));
+                CreateTableHeaderRecords(tableName);
+                tableCreated = true;
             }
 
-            return Result;
+            return (tableCreated, tableName);
         }
 
         private void CreateTableHeaderRecords(string fileName)
