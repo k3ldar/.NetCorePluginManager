@@ -799,7 +799,7 @@ namespace PluginManager.DAL.TextFiles.Internal
             string tableName = Path.Combine(path, name);
             bool tableCreated = false;
 
-            if (!File.Exists(_tableName))
+            if (!File.Exists(tableName))
             {
                 CreateTableHeaderRecords(tableName);
                 tableCreated = true;
