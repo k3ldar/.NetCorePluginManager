@@ -40,9 +40,10 @@ namespace PluginManager.DAL.TextFiles.Internal
     /// ushort      Internal version number
     /// byte[2]     Header
     /// long        Primary Sequence
-    /// long         Secondary Sequence
-    /// int         Reserved
-    /// int         Reserved
+    /// long        Secondary Sequence
+    /// int         Reserved for future use
+    /// int         Reserved for future use
+    /// int         Reserved for future use
     /// byte        Compression
     /// int         RowCount
     /// int         Length of data before compression
@@ -61,7 +62,7 @@ namespace PluginManager.DAL.TextFiles.Internal
         private const byte CompressionBrotli = 1;
         private const int RowCount = 0;
         private const int DefaultLength = 0;
-        private const int TotalHeaderLength = sizeof(ushort) + HeaderLength + sizeof(long) + sizeof(long) + (sizeof(int) * 2) + sizeof(byte) + sizeof(int) + sizeof(int) + sizeof(int);
+        private const int TotalHeaderLength = sizeof(ushort) + HeaderLength + sizeof(long) + sizeof(long) + (sizeof(int) * 3) + sizeof(byte) + sizeof(int) + sizeof(int) + sizeof(int);
         private const int PrimarySequenceStart = HeaderLength + sizeof(ushort);
         private const int SecondarySequenceStart = PrimarySequenceStart + sizeof(long);
 
@@ -812,6 +813,7 @@ namespace PluginManager.DAL.TextFiles.Internal
             _SecondarySequence = reader.ReadInt64();
             _ = reader.ReadInt32();
             _ = reader.ReadInt32();
+            _ = reader.ReadInt32();
             _compressionAlgorithm = (CompressionType)reader.ReadByte();
             _recordCount = reader.ReadInt32();
             _ = reader.ReadInt32();
@@ -848,6 +850,7 @@ namespace PluginManager.DAL.TextFiles.Internal
             writer.Write(Header);
             writer.Write(_primarySequence);
             writer.Write(_SecondarySequence);
+            writer.Write((int)0);
             writer.Write((int)0);
             writer.Write((int)0);
             writer.Write((byte)_tableAttributes.Compression);
