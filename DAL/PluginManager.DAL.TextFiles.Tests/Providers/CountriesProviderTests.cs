@@ -28,8 +28,6 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 using AspNetCore.PluginManager.Tests.Shared;
 
@@ -210,7 +208,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     sut.CountryCreate("Great Britain", "GB", true);
 
                     bool updated = sut.CountryUpdate(new Country("we do not know", "ZZ", true));
-                    Assert.IsFalse(updated); 
+                    Assert.IsFalse(updated);
                 }
             }
             finally

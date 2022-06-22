@@ -1835,8 +1835,9 @@
         </member>
         <member name="P:Middleware.UserLoginDetails.UserId">
             <summary>
-            Unique id of user
+            Unique user id.
             </summary>
+            <value>long</value>
         </member>
         <member name="P:Middleware.UserLoginDetails.Username">
             <summary>

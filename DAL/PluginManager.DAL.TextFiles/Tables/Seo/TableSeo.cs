@@ -15,28 +15,40 @@
  *
  *  Product:  PluginManager.DAL.TextFiles
  *  
- *  File: Constants.cs
+ *  File: TableSeo.cs
  *
- *  Purpose:  Internal constants
+ *  Purpose:  Table definition for seo data
  *
  *  Date        Name                Reason
- *  05/06/2022  Simon Carter        Initially Created
+ *  19/06/2022  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace PluginManager.DAL.TextFiles.Internal
+using PluginManager.DAL.TextFiles.Internal;
+
+namespace PluginManager.DAL.TextFiles.Tables
 {
-    internal class Constants
+    [Table(Constants.TableNameSeo, CompressionType.None, CachingStrategy.None)]
+    internal class TableSeo : TableRowDefinition
     {
-        public const string TableNameUsers = "Users";
-        public const string TableNameBlogs = "Blogs";
-        public const string TableNameBlogComments = "BlogComments";
-        public const string TableNameCountries = "Countries";
-        public const string TableNameExternalUsers = "ExternalUsers";
-        public const string TableNameUserClaims = "UserClaims";
-        public const string TableNameAddresses = "Addresses";
-        public const string TableNameOrders = "Orders";
-        public const string TableNameSeo = "Seo";
+        public TableSeo()
+        {
+            Keywords = new List<string>();
+        }
 
+        public string Route { get; set; }
+
+        public List<string> Keywords { get; set; }
+
+        public string Title { get; set; }
+
+        public string Description { get; set; }
+
+        public string Author { get; set; }
     }
 }

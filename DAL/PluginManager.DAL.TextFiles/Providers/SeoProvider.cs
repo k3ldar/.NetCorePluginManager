@@ -28,35 +28,24 @@ using System.Diagnostics.CodeAnalysis;
 
 using SharedPluginFeatures;
 
+using PluginManager.DAL.TextFiles.Tables;
+using static Microsoft.Extensions.Logging.EventSource.LoggingEventSource;
+
 namespace PluginManager.DAL.TextFiles.Providers
 {
     internal sealed class SeoProvider : ISeoProvider
     {
         #region Private Members
 
-        private readonly Dictionary<string, string> _descriptions;
-        private readonly Dictionary<string, string> _authors;
-        private readonly Dictionary<string, string> _titles;
-        private readonly Dictionary<string, List<string>> _keywords;
+        private readonly ITextTableOperations<TableSeo> _seoData;
 
         #endregion Private Members
 
         #region Constructors
 
-        public SeoProvider()
+        public SeoProvider(ITextTableOperations<TableSeo> seoData)
         {
-            _descriptions = new Dictionary<string, string>();
-            _authors = new Dictionary<string, string>();
-            _titles = new Dictionary<string, string>();
-            _keywords = new Dictionary<string, List<string>>();
-
-            _titles.Add("/", "Plugin Manager Demo Home page");
-            _titles.Add("/Home", "Plugin Manager Demo Home page");
-            _titles.Add("/Services/Middleware", "Middleware Plugin Description");
-            _titles.Add("/Services/Api", "Api Plugin Description");
-            _titles.Add("/Services/DependencyInjection", "Dependency Injection Plugin Description");
-            _titles.Add("/Services/Website", "Website Plugin Description");
-            _titles.Add("/Services/Custom", "Custom Plugin Description");
+            _seoData = seoData ?? throw new ArgumentNullException(nameof(seoData));
         }
 
         #endregion Constructors
@@ -65,87 +54,207 @@ namespace PluginManager.DAL.TextFiles.Providers
 
         public bool AddKeyword(in string route, in string keyword)
         {
-            if (!_keywords.ContainsKey(route))
+            if (String.IsNullOrEmpty(route))
+                throw new ArgumentNullException(nameof(route));
+
+            if (String.IsNullOrEmpty(keyword))
+                throw new ArgumentNullException(nameof(keyword));
+
+            string routeName = route;
+
+            TableSeo seoData = _seoData.Select().Where(r => r.Route.Equals(routeName, StringComparison.InvariantCultureIgnoreCase)).FirstOrDefault();
+
+            if (seoData == null)
             {
-                _keywords.Add(route, new List<string>() { keyword });
+                seoData = new TableSeo()
+                {
+                    Route = routeName,
+                };
             }
-            else
+
+            if (!seoData.Keywords.Contains(keyword))
             {
-                List<string> keywordList = _keywords[route];
-
-                if (keywordList.Contains(keyword))
-                    return false;
-
-                keywordList.Add(keyword);
+                seoData.Keywords.Add(keyword);
+                _seoData.InsertOrUpdate(seoData);
+                return true;
             }
 
-            return true;
+            return false;
         }
 
         public bool AddKeywords(in string route, in List<string> keywords)
         {
+            if (String.IsNullOrEmpty(route))
+                throw new ArgumentNullException(nameof(route));
+
             if (keywords == null)
                 return false;
 
-            if (!_keywords.ContainsKey(route))
+            string routeName = route;
+
+            TableSeo seoData = _seoData.Select().Where(r => r.Route.Equals(routeName, StringComparison.InvariantCultureIgnoreCase)).FirstOrDefault();
+
+            if (seoData == null)
             {
-                _keywords.Add(route, new List<string>());
+                seoData = new TableSeo()
+                {
+                    Route = routeName,
+                };
             }
 
-            List<string> keywordList = _keywords[route];
+            keywords.ForEach(kw => 
+            {
+                if (!seoData.Keywords.Contains(kw))
+                    seoData.Keywords.Add(kw);
+            });
 
-            foreach (string s in keywords)
-                if (!keywordList.Contains(s))
-                    keywordList.Add(s);
-
+            _seoData.InsertOrUpdate(seoData);
             return true;
         }
 
         public bool GetSeoDataForRoute(in string route, out string title,
             out string description, out string author, out List<string> keywords)
         {
-            if (!_authors.ContainsKey(route))
-                _authors.Add(route, "Simon Carter");
+            if (String.IsNullOrEmpty(route))
+                throw new ArgumentNullException(nameof(route));
 
-            if (!_titles.ContainsKey(route))
-                _titles.Add(route, "ASP Net Core Demonstration Website");
+            string routeName = route;
 
-            if (!_keywords.ContainsKey(route))
-                _keywords.Add(route, new List<string>() { "ASP", "Net", "Core", "Plugin", "Manager" });
+            TableSeo seoData = _seoData.Select().Where(r => r.Route.Equals(routeName, StringComparison.InvariantCultureIgnoreCase)).FirstOrDefault();
 
-            if (!_descriptions.ContainsKey(route))
-                _descriptions.Add(route, "ASP Net Core Plugin Manager - demo website");
+            if (seoData == null)
+            {
+                title = null;
+                description = null;
+                author = null;
+                keywords = null;
+                return false;
+            }
 
-            author = _authors[route];
-            description = _descriptions[route];
-            title = _titles[route];
-            keywords = _keywords[route];
-
+            title = seoData.Title;
+            description = seoData.Description;
+            author = seoData.Author;
+            keywords = seoData.Keywords;
             return true;
         }
 
         public bool RemoveKeyword(in string route, in string keyword)
         {
+            if (route == null)
+                throw new ArgumentNullException(nameof(route));
+
+            if (String.IsNullOrEmpty(keyword))
+                return false;
+
+            string routeName = route;
+
+            TableSeo seoData = _seoData.Select().Where(r => r.Route.Equals(routeName, StringComparison.InvariantCultureIgnoreCase)).FirstOrDefault();
+
+            if (seoData == null)
+                return false;
+
+            if (!seoData.Keywords.Contains(keyword))
+                return false;
+
+            seoData.Keywords.Remove(keyword);
+            _seoData.Update(seoData);
+
             return true;
         }
 
         public bool RemoveKeywords(in string route, in List<string> keywords)
         {
+            if (route == null)
+                throw new ArgumentNullException(nameof(route));
+
+            if (keywords == null)
+                throw new ArgumentNullException(nameof(keywords));
+
+            string routeName = route;
+
+            TableSeo seoData = _seoData.Select().Where(r => r.Route.Equals(routeName, StringComparison.InvariantCultureIgnoreCase)).FirstOrDefault();
+
+            if (seoData == null)
+                return false;
+
+            keywords.ForEach(kw => seoData.Keywords.Remove(kw));
+            _seoData.Update(seoData);
+
             return true;
         }
 
         public bool UpdateDescription(in string route, in string description)
         {
+            if (String.IsNullOrEmpty(route))
+                throw new ArgumentNullException(nameof(route));
+
+            if (String.IsNullOrEmpty(description))
+                return false;
+
+            string routeName = route;
+
+            TableSeo seoData = _seoData.Select().Where(r => r.Route.Equals(routeName, StringComparison.InvariantCultureIgnoreCase)).FirstOrDefault();
+
+            if (seoData == null)
+            {
+                seoData = new TableSeo()
+                {
+                    Route = routeName,
+                };
+            }
+
+            seoData.Description = description;
+            _seoData.InsertOrUpdate(seoData);
             return true;
         }
 
         public bool UpdateTitle(in string route, in string title)
         {
+            if (String.IsNullOrEmpty(route))
+                throw new ArgumentNullException(nameof(route));
+
+            if (String.IsNullOrEmpty(title))
+                return false;
+
+            string routeName = route;
+
+            TableSeo seoData = _seoData.Select().Where(r => r.Route.Equals(routeName, StringComparison.InvariantCultureIgnoreCase)).FirstOrDefault();
+
+            if (seoData == null)
+            {
+                seoData = new TableSeo()
+                {
+                    Route = routeName,
+                };
+            }
+
+            seoData.Title = title;
+            _seoData.InsertOrUpdate(seoData);
             return true;
         }
 
         public bool UpdateAuthor(in string route, in string author)
         {
+            if (String.IsNullOrEmpty(route))
+                throw new ArgumentNullException(nameof(route));
+
+            if (String.IsNullOrEmpty(author))
+                return false;
+
+            string routeName = route;
+
+            TableSeo seoData = _seoData.Select().Where(r => r.Route.Equals(routeName, StringComparison.InvariantCultureIgnoreCase)).FirstOrDefault();
+
+            if (seoData == null)
+            {
+                seoData = new TableSeo()
+                {
+                    Route = routeName,
+                };
+            }
+
+            seoData.Author = author;
+            _seoData.InsertOrUpdate(seoData);
             return true;
         }
 
