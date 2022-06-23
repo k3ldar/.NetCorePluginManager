@@ -15,24 +15,32 @@
  *
  *  Product:  PluginManager.DAL.TextFiles
  *  
- *  File: TableExternalUsersDefaults.cs
+ *  File: ExternalUsersDataRow.cs
  *
- *  Purpose:  TableExternalUsersDefaults for text based storage
+ *  Purpose:  Table definition for external users
  *
  *  Date        Name                Reason
- *  25/05/2022  Simon Carter        Initially Created
+ *  11/06/2022  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using PluginManager.DAL.TextFiles.Interfaces;
+using PluginManager.DAL.TextFiles.Internal;
+
 
 namespace PluginManager.DAL.TextFiles.Tables
 {
-    public class TableExternalUsersDefaults : ITableDefaults<TableExternalUsers>
+    [Table(Constants.TableNameExternalUsers, CompressionType.Brotli)]
+    public sealed class ExternalUsersDataRow : TableRowDefinition
     {
-        public long PrimarySequence => Int64.MinValue;
+        public string UserId { get; set; }
 
-        public long SecondarySequence => 0;
+        public string Email { get; set; }
 
-        public List<TableExternalUsers> InitialData => null;
+        public string UserName { get; set; }
+
+        public string Provider { get; set; }
+
+        public string Picture { get; set; }
+
+        public string Token { get; set; }
     }
 }

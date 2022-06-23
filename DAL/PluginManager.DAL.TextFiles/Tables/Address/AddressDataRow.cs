@@ -15,93 +15,94 @@
  *
  *  Product:  PluginManager.DAL.TextFiles
  *  
- *  File: TableBlogs.cs
+ *  File: AddressDataRow.cs
  *
- *  Purpose:  Table definition for blogs
+ *  Purpose:  Row definition for Table for delivery addresses
  *
  *  Date        Name                Reason
- *  06/06/2022  Simon Carter        Initially Created
+ *  31/05/2022  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using Middleware.Blog;
 
 using PluginManager.DAL.TextFiles.Internal;
 
 namespace PluginManager.DAL.TextFiles.Tables
 {
-    [Table(Constants.TableNameBlogs, CompressionType.Brotli)]
-    internal sealed class TableBlog : TableRowDefinition
+    /// <summary>
+    /// Delivery address table 
+    /// </summary>
+    [Table(Constants.TableNameAddresses, CompressionType.Brotli)]
+    internal sealed class AddressDataRow : TableRowDefinition
     {
-        public TableBlog()
-        {
-            Comments = new List<BlogComment>();
-        }
-
         /// <summary>
-        /// Unique id of user creating the blog entry.
+        /// Id of user owning the address
         /// </summary>
         [ForeignKey(Constants.TableNameUsers)]
         public long UserId { get; set; }
 
         /// <summary>
-        /// Title of blog entry.
+        /// Shipping costs for the address.
+        /// </summary>
+        /// <value>decimal</value>
+        public decimal Shipping { get; set; }
+
+        /// <summary>
+        /// Business name if applicable.
         /// </summary>
         /// <value>string</value>
-        public string Title { get; set; }
+        public string BusinessName { get; set; }
 
         /// <summary>
-        /// Brief description describing the blog entry.
+        /// Address line 1.
         /// </summary>
         /// <value>string</value>
-        public string Excerpt { get; set; }
+        public string AddressLine1 { get; set; }
 
         /// <summary>
-        /// The main blog text.
+        /// Address line 2.
         /// </summary>
         /// <value>string</value>
-        public string BlogText { get; set; }
+        public string AddressLine2 { get; set; }
 
         /// <summary>
-        /// Name of user creating the blog entry.
+        /// Address line 3.
         /// </summary>
-        /// <string>string</string>
         /// <value>string</value>
-        public string Username { get; set; }
+        public string AddressLine3 { get; set; }
 
         /// <summary>
-        /// Indicates whether the blog entry has been published or not.
+        /// City name.
         /// </summary>
-        /// <value>bool</value>
-        public bool Published { get; set; }
+        /// <value>string</value>
+        public string City { get; set; }
 
         /// <summary>
-        /// The date/time the blog entry will appear live on the website.
+        /// County/state name.
         /// </summary>
-        /// <value>DateTime</value>
-        public DateTime PublishDateTime { get; set; }
+        /// <value>string</value>
+        public string County { get; set; }
 
         /// <summary>
-        /// Date and time the blog was created.
+        /// Postal or zip code.
         /// </summary>
-        /// <value>DateTime</value>
-        public DateTime Created { get; set; }
+        /// <value>string</value>
+        public string Postcode { get; set; }
 
         /// <summary>
-        /// Date and time the blog entry was last modified.
+        /// Country name.
         /// </summary>
-        /// <value>DateTime</value>
-        public DateTime LastModified { get; set; }
+        /// <value>string</value>
+        public string Country { get; set; }
 
         /// <summary>
-        /// Descriptive tags for the blog.
+        /// Postage cost for the address.
         /// </summary>
-        /// <value>List&lt;string&gt;</value>
-        public List<string> Tags { get; set; }
+        /// <value>decimal</value>
+        public decimal PostageCost { get; set; }
 
         /// <summary>
-        /// List of comments for the blog entry.
+        /// Indicicates whether it's a delivery address or billing address
         /// </summary>
-        /// <value>List&lt;BlogComment&gt;</value>
-        public List<BlogComment> Comments { get; set; }
+        public bool IsDelivery { get; set; }
     }
 }

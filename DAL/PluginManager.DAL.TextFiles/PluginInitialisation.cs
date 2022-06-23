@@ -87,13 +87,13 @@ namespace PluginManager.DAL.TextFiles
             services.AddSingleton<ITextTableInitializer, TextTableInitializer>();
             
             // register tables
-            services.AddSingleton(typeof(TableRowDefinition), typeof(TableUser));
-            services.AddSingleton(typeof(TableRowDefinition), typeof(TableOrders));
-            services.AddSingleton(typeof(TableRowDefinition), typeof(TableAddress));
-            services.AddSingleton(typeof(TableRowDefinition), typeof(TableCountry));
-            services.AddSingleton(typeof(TableRowDefinition), typeof(TableUserClaims));
-            services.AddSingleton(typeof(TableRowDefinition), typeof(TableExternalUsers));
-            services.AddSingleton(typeof(TableRowDefinition), typeof(TableSeo));
+            services.AddSingleton(typeof(TableRowDefinition), typeof(UserDataRow));
+            services.AddSingleton(typeof(TableRowDefinition), typeof(OrdersDataRow));
+            services.AddSingleton(typeof(TableRowDefinition), typeof(AddressDataRow));
+            services.AddSingleton(typeof(TableRowDefinition), typeof(CountryDataRow));
+            services.AddSingleton(typeof(TableRowDefinition), typeof(UserClaimsDataRow));
+            services.AddSingleton(typeof(TableRowDefinition), typeof(ExternalUsersDataRow));
+            services.AddSingleton(typeof(TableRowDefinition), typeof(SeoDataRow));
             services.AddSingleton(typeof(ITextTableOperations<>), typeof(TextTableOperations<>));
 
             // register providers

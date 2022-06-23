@@ -36,9 +36,9 @@ namespace PluginManager.DAL.TextFiles.Providers
 {
     internal class UserSearch : IUserSearch
     {
-        private readonly ITextTableOperations<TableUser> _users;
+        private readonly ITextTableOperations<UserDataRow> _users;
 
-        public UserSearch(ITextTableOperations<TableUser> users)
+        public UserSearch(ITextTableOperations<UserDataRow> users)
         {
             _users = users ?? throw new ArgumentNullException(nameof(users));
         }
@@ -47,7 +47,7 @@ namespace PluginManager.DAL.TextFiles.Providers
         {
             List<SearchUser> Result = new List<SearchUser>();
 
-            List<TableUser> users = _users.Select().Skip((pageNumber -1) * pageSize).Take(pageSize).ToList();
+            List<UserDataRow> users = _users.Select().Skip((pageNumber -1) * pageSize).Take(pageSize).ToList();
 
             users.ForEach(u => Result.Add(new SearchUser(u.Id, u.FullName, u.Email)));
 

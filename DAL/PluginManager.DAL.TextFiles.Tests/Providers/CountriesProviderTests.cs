@@ -60,7 +60,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
         [TestMethod]
         public void Construct_ValidInstance_Success()
         {
-            CountryProvider sut = new CountryProvider(new MockTextTableOperations<TableCountry>());
+            CountryProvider sut = new CountryProvider(new MockTextTableOperations<CountryDataRow>());
 
             Assert.IsNotNull(sut);
         }
@@ -69,7 +69,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
         [ExpectedException(typeof(ArgumentNullException))]
         public void CountryCreate_InvalidParamName_Null_Throws_ArgumentNullException()
         {
-            CountryProvider sut = new CountryProvider(new MockTextTableOperations<TableCountry>());
+            CountryProvider sut = new CountryProvider(new MockTextTableOperations<CountryDataRow>());
 
             Assert.IsNotNull(sut);
 
@@ -80,7 +80,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
         [ExpectedException(typeof(ArgumentNullException))]
         public void CountryCreate_InvalidParamCode_Null_Throws_ArgumentNullException()
         {
-            CountryProvider sut = new CountryProvider(new MockTextTableOperations<TableCountry>());
+            CountryProvider sut = new CountryProvider(new MockTextTableOperations<CountryDataRow>());
 
             Assert.IsNotNull(sut);
 
@@ -91,7 +91,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
         [ExpectedException(typeof(ArgumentException))]
         public void CountryCreate_InvalidParamCode_LengthGreaterThan3_Throws_ArgumentException()
         {
-            CountryProvider sut = new CountryProvider(new MockTextTableOperations<TableCountry>());
+            CountryProvider sut = new CountryProvider(new MockTextTableOperations<CountryDataRow>());
 
             Assert.IsNotNull(sut);
 
@@ -108,15 +108,15 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                 PluginInitialisation initialisation = new PluginInitialisation();
                 ServiceCollection services = new ServiceCollection();
                 services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-                services.AddSingleton<IPluginClassesService>(new MockPluginClassesService(new List<object>() { new TableUserTriggers() }));
-                services.AddSingleton<IPluginClassesService>(new MockPluginClassesService(new List<object>() { new TableUserTriggers() }));
+                services.AddSingleton<IPluginClassesService>(new MockPluginClassesService(new List<object>() { new UserDataRowTriggers() }));
+                services.AddSingleton<IPluginClassesService>(new MockPluginClassesService(new List<object>() { new UserDataRowTriggers() }));
 
                 services.AddSingleton<IForeignKeyManager, ForeignKeyManager>();
                 initialisation.BeforeConfigureServices(services);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
-                    ITextTableOperations<TableCountry> countryTable = provider.GetRequiredService<ITextTableOperations<TableCountry>>();
+                    ITextTableOperations<CountryDataRow> countryTable = provider.GetRequiredService<ITextTableOperations<CountryDataRow>>();
                     Assert.IsNotNull(countryTable);
 
                     ICountryProvider sut = provider.GetRequiredService<ICountryProvider>();
@@ -124,7 +124,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     Assert.IsNotNull(sut);
                     sut.CountryCreate("Unknown", "UK", false);
 
-                    IReadOnlyList<TableCountry> countries = countryTable.Select();
+                    IReadOnlyList<CountryDataRow> countries = countryTable.Select();
                     Assert.IsNotNull(countries);
                     Assert.AreEqual(1, countries.Count);
                     Assert.AreEqual("Unknown", countries[0].Name);
@@ -149,14 +149,14 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                 PluginInitialisation initialisation = new PluginInitialisation();
                 ServiceCollection services = new ServiceCollection();
                 services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-                services.AddSingleton<IPluginClassesService>(new MockPluginClassesService(new List<object>() { new TableUserTriggers() }));
+                services.AddSingleton<IPluginClassesService>(new MockPluginClassesService(new List<object>() { new UserDataRowTriggers() }));
 
                 services.AddSingleton<IForeignKeyManager, ForeignKeyManager>();
                 initialisation.BeforeConfigureServices(services);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
-                    ITextTableOperations<TableCountry> countryTable = provider.GetRequiredService<ITextTableOperations<TableCountry>>();
+                    ITextTableOperations<CountryDataRow> countryTable = provider.GetRequiredService<ITextTableOperations<CountryDataRow>>();
                     Assert.IsNotNull(countryTable);
 
                     ICountryProvider sut = provider.GetRequiredService<ICountryProvider>();
@@ -164,7 +164,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     Assert.IsNotNull(sut);
                     sut.CountryCreate("Unknown", "UK", false);
 
-                    IReadOnlyList<TableCountry> countries = countryTable.Select();
+                    IReadOnlyList<CountryDataRow> countries = countryTable.Select();
                     Assert.IsNotNull(countries);
                     Assert.AreEqual(1, countries.Count);
                     Assert.AreEqual("Unknown", countries[0].Name);
@@ -190,14 +190,14 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                 PluginInitialisation initialisation = new PluginInitialisation();
                 ServiceCollection services = new ServiceCollection();
                 services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-                services.AddSingleton<IPluginClassesService>(new MockPluginClassesService(new List<object>() { new TableUserTriggers() }));
+                services.AddSingleton<IPluginClassesService>(new MockPluginClassesService(new List<object>() { new UserDataRowTriggers() }));
 
                 services.AddSingleton<IForeignKeyManager, ForeignKeyManager>();
                 initialisation.BeforeConfigureServices(services);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
-                    ITextTableOperations<TableCountry> countryTable = provider.GetRequiredService<ITextTableOperations<TableCountry>>();
+                    ITextTableOperations<CountryDataRow> countryTable = provider.GetRequiredService<ITextTableOperations<CountryDataRow>>();
                     Assert.IsNotNull(countryTable);
 
                     ICountryProvider sut = provider.GetRequiredService<ICountryProvider>();
@@ -227,14 +227,14 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                 PluginInitialisation initialisation = new PluginInitialisation();
                 ServiceCollection services = new ServiceCollection();
                 services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-                services.AddSingleton<IPluginClassesService>(new MockPluginClassesService(new List<object>() { new TableUserTriggers() }));
+                services.AddSingleton<IPluginClassesService>(new MockPluginClassesService(new List<object>() { new UserDataRowTriggers() }));
 
                 services.AddSingleton<IForeignKeyManager, ForeignKeyManager>();
                 initialisation.BeforeConfigureServices(services);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
-                    ITextTableOperations<TableCountry> countryTable = provider.GetRequiredService<ITextTableOperations<TableCountry>>();
+                    ITextTableOperations<CountryDataRow> countryTable = provider.GetRequiredService<ITextTableOperations<CountryDataRow>>();
                     Assert.IsNotNull(countryTable);
 
                     ICountryProvider sut = provider.GetRequiredService<ICountryProvider>();
@@ -272,14 +272,14 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                 PluginInitialisation initialisation = new PluginInitialisation();
                 ServiceCollection services = new ServiceCollection();
                 services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-                services.AddSingleton<IPluginClassesService>(new MockPluginClassesService(new List<object>() { new TableUserTriggers() }));
+                services.AddSingleton<IPluginClassesService>(new MockPluginClassesService(new List<object>() { new UserDataRowTriggers() }));
 
                 services.AddSingleton<IForeignKeyManager, ForeignKeyManager>();
                 initialisation.BeforeConfigureServices(services);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
-                    ITextTableOperations<TableCountry> countryTable = provider.GetRequiredService<ITextTableOperations<TableCountry>>();
+                    ITextTableOperations<CountryDataRow> countryTable = provider.GetRequiredService<ITextTableOperations<CountryDataRow>>();
                     Assert.IsNotNull(countryTable);
 
                     ICountryProvider sut = provider.GetRequiredService<ICountryProvider>();
@@ -310,14 +310,14 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                 PluginInitialisation initialisation = new PluginInitialisation();
                 ServiceCollection services = new ServiceCollection();
                 services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-                services.AddSingleton<IPluginClassesService>(new MockPluginClassesService(new List<object>() { new TableUserTriggers() }));
+                services.AddSingleton<IPluginClassesService>(new MockPluginClassesService(new List<object>() { new UserDataRowTriggers() }));
 
                 services.AddSingleton<IForeignKeyManager, ForeignKeyManager>();
                 initialisation.BeforeConfigureServices(services);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
-                    ITextTableOperations<TableCountry> countryTable = provider.GetRequiredService<ITextTableOperations<TableCountry>>();
+                    ITextTableOperations<CountryDataRow> countryTable = provider.GetRequiredService<ITextTableOperations<CountryDataRow>>();
                     Assert.IsNotNull(countryTable);
 
                     ICountryProvider sut = provider.GetRequiredService<ICountryProvider>();
@@ -347,14 +347,14 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                 PluginInitialisation initialisation = new PluginInitialisation();
                 ServiceCollection services = new ServiceCollection();
                 services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-                services.AddSingleton<IPluginClassesService>(new MockPluginClassesService(new List<object>() { new TableUserTriggers() }));
+                services.AddSingleton<IPluginClassesService>(new MockPluginClassesService(new List<object>() { new UserDataRowTriggers() }));
 
                 services.AddSingleton<IForeignKeyManager, ForeignKeyManager>();
                 initialisation.BeforeConfigureServices(services);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
-                    ITextTableOperations<TableCountry> countryTable = provider.GetRequiredService<ITextTableOperations<TableCountry>>();
+                    ITextTableOperations<CountryDataRow> countryTable = provider.GetRequiredService<ITextTableOperations<CountryDataRow>>();
                     Assert.IsNotNull(countryTable);
 
                     ICountryProvider sut = provider.GetRequiredService<ICountryProvider>();
@@ -388,19 +388,19 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                 PluginInitialisation initialisation = new PluginInitialisation();
                 ServiceCollection services = new ServiceCollection();
                 services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-                services.AddSingleton<IPluginClassesService>(new MockPluginClassesService(new List<object>() { new TableCountryDefaults() }));
+                services.AddSingleton<IPluginClassesService>(new MockPluginClassesService(new List<object>() { new CountryDataRowDefaults() }));
 
                 services.AddSingleton<IForeignKeyManager, ForeignKeyManager>();
                 initialisation.BeforeConfigureServices(services);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
-                    ITextTableOperations<TableCountry> countryTable = provider.GetRequiredService<ITextTableOperations<TableCountry>>();
+                    ITextTableOperations<CountryDataRow> countryTable = provider.GetRequiredService<ITextTableOperations<CountryDataRow>>();
                     Assert.IsNotNull(countryTable);
 
                     Assert.AreEqual(251, countryTable.RecordCount);
 
-                    TableCountry unknown = countryTable.Select().Where(c => c.Code.Equals("ZZ")).FirstOrDefault();
+                    CountryDataRow unknown = countryTable.Select().Where(c => c.Code.Equals("ZZ")).FirstOrDefault();
                     Assert.IsNotNull(unknown);
                     Assert.IsFalse(unknown.Visible);
                     Assert.AreEqual(1, unknown.Id);

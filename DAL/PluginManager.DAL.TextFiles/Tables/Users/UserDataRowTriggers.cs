@@ -15,27 +15,53 @@
  *
  *  Product:  PluginManager.DAL.TextFiles
  *  
- *  File: TableOrders.cs
+ *  File: UserDataRowTriggers.cs
  *
- *  Purpose:  Table definition for user orders
+ *  Purpose:  Triggers for user table
  *
  *  Date        Name                Reason
- *  18/06/2022  Simon Carter        Initially Created
+ *  17/06/2022  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+using PluginManager.DAL.TextFiles.Interfaces;
 using PluginManager.DAL.TextFiles.Internal;
-
 
 namespace PluginManager.DAL.TextFiles.Tables
 {
-    [Table(Constants.TableNameOrders)]
-    internal sealed class TableOrders
+    internal class UserDataRowTriggers : ITableTriggers<UserDataRow>
     {
+        public string TableName => Constants.TableNameUsers;
+
+        public int Position => 0;
+
+        public void AfterDelete(List<UserDataRow> records)
+        {
+
+        }
+
+        public void AfterInsert(List<UserDataRow> records)
+        {
+
+        }
+
+        public void AfterUpdate(List<UserDataRow> records)
+        {
+
+        }
+
+        public void BeforeDelete(List<UserDataRow> records)
+        {
+
+        }
+
+        public void BeforeInsert(List<UserDataRow> records)
+        {
+            records.ForEach(r => r.PasswordExpire = DateTime.Now.AddYears(1));
+        }
+
+        public void BeforeUpdate(List<UserDataRow> records)
+        {
+
+        }
     }
 }

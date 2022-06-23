@@ -15,40 +15,29 @@
  *
  *  Product:  PluginManager.DAL.TextFiles
  *  
- *  File: TableSeo.cs
+ *  File: UserClaimsDataRow.cs
  *
- *  Purpose:  Table definition for seo data
+ *  Purpose:  Table definition for user claims
  *
  *  Date        Name                Reason
- *  19/06/2022  Simon Carter        Initially Created
+ *  06/06/2022  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 using PluginManager.DAL.TextFiles.Internal;
 
 namespace PluginManager.DAL.TextFiles.Tables
 {
-    [Table(Constants.TableNameSeo, CompressionType.None, CachingStrategy.None)]
-    internal class TableSeo : TableRowDefinition
+    [Table(Constants.TableNameUserClaims, CompressionType.None, CachingStrategy.None)]
+    public sealed class UserClaimsDataRow : TableRowDefinition
     {
-        public TableSeo()
+        public UserClaimsDataRow()
         {
-            Keywords = new List<string>();
+            Claims = new List<string>();
         }
 
-        public string Route { get; set; }
+        [ForeignKey(Constants.TableNameUsers)]
+        public long UserId { get; set; }
 
-        public List<string> Keywords { get; set; }
-
-        public string Title { get; set; }
-
-        public string Description { get; set; }
-
-        public string Author { get; set; }
+        public List<string> Claims { get; set; }
     }
 }

@@ -37,13 +37,13 @@ namespace PluginManager.DAL.TextFiles.Providers
     {
         #region Private Members
 
-        private readonly ITextTableOperations<TableSeo> _seoData;
+        private readonly ITextTableOperations<SeoDataRow> _seoData;
 
         #endregion Private Members
 
         #region Constructors
 
-        public SeoProvider(ITextTableOperations<TableSeo> seoData)
+        public SeoProvider(ITextTableOperations<SeoDataRow> seoData)
         {
             _seoData = seoData ?? throw new ArgumentNullException(nameof(seoData));
         }
@@ -62,11 +62,11 @@ namespace PluginManager.DAL.TextFiles.Providers
 
             string routeName = route;
 
-            TableSeo seoData = _seoData.Select().Where(r => r.Route.Equals(routeName, StringComparison.InvariantCultureIgnoreCase)).FirstOrDefault();
+            SeoDataRow seoData = _seoData.Select().Where(r => r.Route.Equals(routeName, StringComparison.InvariantCultureIgnoreCase)).FirstOrDefault();
 
             if (seoData == null)
             {
-                seoData = new TableSeo()
+                seoData = new SeoDataRow()
                 {
                     Route = routeName,
                 };
@@ -92,11 +92,11 @@ namespace PluginManager.DAL.TextFiles.Providers
 
             string routeName = route;
 
-            TableSeo seoData = _seoData.Select().Where(r => r.Route.Equals(routeName, StringComparison.InvariantCultureIgnoreCase)).FirstOrDefault();
+            SeoDataRow seoData = _seoData.Select().Where(r => r.Route.Equals(routeName, StringComparison.InvariantCultureIgnoreCase)).FirstOrDefault();
 
             if (seoData == null)
             {
-                seoData = new TableSeo()
+                seoData = new SeoDataRow()
                 {
                     Route = routeName,
                 };
@@ -120,7 +120,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 
             string routeName = route;
 
-            TableSeo seoData = _seoData.Select().Where(r => r.Route.Equals(routeName, StringComparison.InvariantCultureIgnoreCase)).FirstOrDefault();
+            SeoDataRow seoData = _seoData.Select().Where(r => r.Route.Equals(routeName, StringComparison.InvariantCultureIgnoreCase)).FirstOrDefault();
 
             if (seoData == null)
             {
@@ -148,7 +148,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 
             string routeName = route;
 
-            TableSeo seoData = _seoData.Select().Where(r => r.Route.Equals(routeName, StringComparison.InvariantCultureIgnoreCase)).FirstOrDefault();
+            SeoDataRow seoData = _seoData.Select().Where(r => r.Route.Equals(routeName, StringComparison.InvariantCultureIgnoreCase)).FirstOrDefault();
 
             if (seoData == null)
                 return false;
@@ -172,7 +172,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 
             string routeName = route;
 
-            TableSeo seoData = _seoData.Select().Where(r => r.Route.Equals(routeName, StringComparison.InvariantCultureIgnoreCase)).FirstOrDefault();
+            SeoDataRow seoData = _seoData.Select().Where(r => r.Route.Equals(routeName, StringComparison.InvariantCultureIgnoreCase)).FirstOrDefault();
 
             if (seoData == null)
                 return false;
@@ -193,11 +193,11 @@ namespace PluginManager.DAL.TextFiles.Providers
 
             string routeName = route;
 
-            TableSeo seoData = _seoData.Select().Where(r => r.Route.Equals(routeName, StringComparison.InvariantCultureIgnoreCase)).FirstOrDefault();
+            SeoDataRow seoData = _seoData.Select().Where(r => r.Route.Equals(routeName, StringComparison.InvariantCultureIgnoreCase)).FirstOrDefault();
 
             if (seoData == null)
             {
-                seoData = new TableSeo()
+                seoData = new SeoDataRow()
                 {
                     Route = routeName,
                 };
@@ -218,11 +218,11 @@ namespace PluginManager.DAL.TextFiles.Providers
 
             string routeName = route;
 
-            TableSeo seoData = _seoData.Select().Where(r => r.Route.Equals(routeName, StringComparison.InvariantCultureIgnoreCase)).FirstOrDefault();
+            SeoDataRow seoData = _seoData.Select().Where(r => r.Route.Equals(routeName, StringComparison.InvariantCultureIgnoreCase)).FirstOrDefault();
 
             if (seoData == null)
             {
-                seoData = new TableSeo()
+                seoData = new SeoDataRow()
                 {
                     Route = routeName,
                 };
@@ -243,11 +243,11 @@ namespace PluginManager.DAL.TextFiles.Providers
 
             string routeName = route;
 
-            TableSeo seoData = _seoData.Select().Where(r => r.Route.Equals(routeName, StringComparison.InvariantCultureIgnoreCase)).FirstOrDefault();
+            SeoDataRow seoData = _seoData.Select().Where(r => r.Route.Equals(routeName, StringComparison.InvariantCultureIgnoreCase)).FirstOrDefault();
 
             if (seoData == null)
             {
-                seoData = new TableSeo()
+                seoData = new SeoDataRow()
                 {
                     Route = routeName,
                 };

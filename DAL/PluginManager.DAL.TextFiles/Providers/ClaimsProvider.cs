@@ -39,16 +39,16 @@ namespace PluginManager.DAL.TextFiles.Providers
         #region Private Members
 
         private readonly IPluginClassesService _pluginClassesService;
-        private readonly ITextTableOperations<TableUser> _users;
-        private readonly ITextTableOperations<TableUserClaims> _userClaims;
+        private readonly ITextTableOperations<UserDataRow> _users;
+        private readonly ITextTableOperations<UserClaimsDataRow> _userClaims;
 
         #endregion Private Members
 
         #region Constructors
 
         public ClaimsProvider(IPluginClassesService pluginClassesService,
-            ITextTableOperations<TableUser> users,
-            ITextTableOperations<TableUserClaims> userClaims)
+            ITextTableOperations<UserDataRow> users,
+            ITextTableOperations<UserClaimsDataRow> userClaims)
         {
             _pluginClassesService = pluginClassesService ?? throw new ArgumentNullException(nameof(pluginClassesService));
             _users = users ?? throw new ArgumentNullException(nameof(users));
@@ -72,7 +72,7 @@ namespace PluginManager.DAL.TextFiles.Providers
         {
             List<ClaimsIdentity> Result = new List<ClaimsIdentity>();
 
-            TableUser user = _users.Select(userId);
+            UserDataRow user = _users.Select(userId);
 
             if (user == null)
                 return Result;
@@ -85,7 +85,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 
             List<Claim> webClaims = new List<Claim>();
 
-            TableUserClaims claims = _userClaims.Select().Where(uc => uc.UserId.Equals(user.Id)).FirstOrDefault();
+            UserClaimsDataRow claims = _userClaims.Select().Where(uc => uc.UserId.Equals(user.Id)).FirstOrDefault();
 
             if (claims == null)
                 return Result;
@@ -99,18 +99,18 @@ namespace PluginManager.DAL.TextFiles.Providers
 
         public bool SetClaimsForUser(in long id, in List<string> claims)
         {
-            TableUser user = _users.Select(id);
+            UserDataRow user = _users.Select(id);
 
             if (user == null)
             {
                 return false;
             }
 
-            TableUserClaims userClaims = _userClaims.Select().Where(uc => uc.UserId.Equals(user.Id)).FirstOrDefault();
+            UserClaimsDataRow userClaims = _userClaims.Select().Where(uc => uc.UserId.Equals(user.Id)).FirstOrDefault();
 
             if (userClaims == null)
             {
-                userClaims = new TableUserClaims();
+                userClaims = new UserClaimsDataRow();
                 userClaims.Claims.AddRange(claims);
                 _userClaims.Insert(userClaims);
             }
@@ -144,13 +144,13 @@ namespace PluginManager.DAL.TextFiles.Providers
         {
             List<string> Result = new List<string>();
 
-            TableUser user = _users.Select(id);
+            UserDataRow user = _users.Select(id);
 
             if (user == null)
                 return Result;
 
 
-            TableUserClaims claims = _userClaims.Select().Where(uc => uc.UserId.Equals(user.Id)).FirstOrDefault();
+            UserClaimsDataRow claims = _userClaims.Select().Where(uc => uc.UserId.Equals(user.Id)).FirstOrDefault();
 
             if (claims == null)
                 return Result;

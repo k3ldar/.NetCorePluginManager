@@ -58,20 +58,20 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
         [ExpectedException(typeof(ArgumentNullException))]
         public void Construct_InvalidInstance_TableUserNull_Throws_ArgumentNullException()
         {
-            new LoginProvider(null, new MockTextTableOperations<TableExternalUsers>(), new MockSettingsProvider("{ \"TextFileSettings\":{ \"Path\": \"c:\\temp\"} }"));
+            new LoginProvider(null, new MockTextTableOperations<ExternalUsersDataRow>(), new MockSettingsProvider("{ \"TextFileSettings\":{ \"Path\": \"c:\\temp\"} }"));
         }
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
         public void Construct_InvalidInstance_TableExternalUsersNull_Throws_ArgumentNullException()
         {
-            new LoginProvider(new MockTextTableOperations<TableUser>(), null, new MockSettingsProvider("{ \"TextFileSettings\":{ \"Path\": \"c:\\temp\"} }"));
+            new LoginProvider(new MockTextTableOperations<UserDataRow>(), null, new MockSettingsProvider("{ \"TextFileSettings\":{ \"Path\": \"c:\\temp\"} }"));
         }
 
         [TestMethod]
         public void Construct_ValidInstance_Success()
         {
-            LoginProvider sut = new LoginProvider(new MockTextTableOperations<TableUser>(), new MockTextTableOperations<TableExternalUsers>(), new MockSettingsProvider("{ \"TextFileSettings\":{ \"Path\": \"c:\\temp\"} }"));
+            LoginProvider sut = new LoginProvider(new MockTextTableOperations<UserDataRow>(), new MockTextTableOperations<ExternalUsersDataRow>(), new MockSettingsProvider("{ \"TextFileSettings\":{ \"Path\": \"c:\\temp\"} }"));
             Assert.IsNotNull(sut);
         }
 
@@ -93,11 +93,11 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
-                    IPluginClassesService pluginClassesService = new MockPluginClassesService(new List<object>() { new TableExternalUsersDefaults() });
+                    IPluginClassesService pluginClassesService = new MockPluginClassesService(new List<object>() { new ExternalUsersDataRowDefaults() });
                     
                     ITextTableInitializer initializer = new TextTableInitializer(directory);
                     IForeignKeyManager keyManager = new ForeignKeyManager();
-                    using (TextTableOperations<TableExternalUsers> sut = new TextTableOperations<TableExternalUsers>(initializer, keyManager, pluginClassesService))
+                    using (TextTableOperations<ExternalUsersDataRow> sut = new TextTableOperations<ExternalUsersDataRow>(initializer, keyManager, pluginClassesService))
                     {
                         Assert.IsNotNull(sut);
 
@@ -129,15 +129,15 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
-                    IPluginClassesService pluginClassesService = new MockPluginClassesService(new List<object>() { new TableExternalUsersDefaults() });
+                    IPluginClassesService pluginClassesService = new MockPluginClassesService(new List<object>() { new ExternalUsersDataRowDefaults() });
 
                     ITextTableInitializer initializer = new TextTableInitializer(directory);
                     IForeignKeyManager keyManager = new ForeignKeyManager();
-                    using (TextTableOperations<TableExternalUsers> externalUserTable = new TextTableOperations<TableExternalUsers>(initializer, keyManager, pluginClassesService))
+                    using (TextTableOperations<ExternalUsersDataRow> externalUserTable = new TextTableOperations<ExternalUsersDataRow>(initializer, keyManager, pluginClassesService))
                     {
                         Assert.IsNotNull(externalUserTable);
 
-                        TableExternalUsers externalUser = new TableExternalUsers();
+                        ExternalUsersDataRow externalUser = new ExternalUsersDataRow();
                         externalUser.Email = "test@123.net";
                         externalUser.UserName = "test user";
                         externalUser.Provider = "test provider";
@@ -181,16 +181,16 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
-                    IPluginClassesService pluginClassesService = new MockPluginClassesService(new List<object>() { new TableExternalUsersDefaults() });
+                    IPluginClassesService pluginClassesService = new MockPluginClassesService(new List<object>() { new ExternalUsersDataRowDefaults() });
 
                     ITextTableInitializer initializer = new TextTableInitializer(directory);
                     IForeignKeyManager keyManager = new ForeignKeyManager();
                     long userId = -1;
-                    using (TextTableOperations<TableUser> userTable = new TextTableOperations<TableUser>(initializer, keyManager, pluginClassesService))
+                    using (TextTableOperations<UserDataRow> userTable = new TextTableOperations<UserDataRow>(initializer, keyManager, pluginClassesService))
                     {
                         Assert.IsNotNull(userTable);
 
-                        TableUser user = new TableUser();
+                        UserDataRow user = new UserDataRow();
                         user.Email = "test@123.net";
                         user.FirstName = "test";
                         user.Surname = "User";
@@ -235,16 +235,16 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
-                    IPluginClassesService pluginClassesService = new MockPluginClassesService(new List<object>() { new TableUserTriggers() });
+                    IPluginClassesService pluginClassesService = new MockPluginClassesService(new List<object>() { new UserDataRowTriggers() });
 
                     ITextTableInitializer initializer = new TextTableInitializer(directory);
                     IForeignKeyManager keyManager = new ForeignKeyManager();
                     long userId = -1;
-                    using (TextTableOperations<TableUser> userTable = new TextTableOperations<TableUser>(initializer, keyManager, pluginClassesService))
+                    using (TextTableOperations<UserDataRow> userTable = new TextTableOperations<UserDataRow>(initializer, keyManager, pluginClassesService))
                     {
                         Assert.IsNotNull(userTable);
 
-                        TableUser user = new TableUser();
+                        UserDataRow user = new UserDataRow();
                         user.Email = "test@123.net";
                         user.FirstName = "test";
                         user.Surname = "User";
@@ -289,16 +289,16 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
-                    IPluginClassesService pluginClassesService = new MockPluginClassesService(new List<object>() { new TableExternalUsersDefaults() });
+                    IPluginClassesService pluginClassesService = new MockPluginClassesService(new List<object>() { new ExternalUsersDataRowDefaults() });
 
                     ITextTableInitializer initializer = new TextTableInitializer(directory);
                     IForeignKeyManager keyManager = new ForeignKeyManager();
                     long userId = -1;
-                    using (TextTableOperations<TableUser> userTable = new TextTableOperations<TableUser>(initializer, keyManager, pluginClassesService))
+                    using (TextTableOperations<UserDataRow> userTable = new TextTableOperations<UserDataRow>(initializer, keyManager, pluginClassesService))
                     {
                         Assert.IsNotNull(userTable);
 
-                        TableUser user = new TableUser();
+                        UserDataRow user = new UserDataRow();
                         user.Email = "test@123.net";
                         user.FirstName = "test";
                         user.Surname = "User";
@@ -335,7 +335,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                 PluginInitialisation initialisation = new PluginInitialisation();
                 ServiceCollection services = new ServiceCollection();
 
-                services.AddSingleton<IPluginClassesService>(new MockPluginClassesService(new List<object>() { new TableExternalUsersDefaults() }));
+                services.AddSingleton<IPluginClassesService>(new MockPluginClassesService(new List<object>() { new ExternalUsersDataRowDefaults() }));
                 services.AddSingleton<IForeignKeyManager, ForeignKeyManager>();
                 services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
                 services.AddSingleton<ITextTableInitializer>(new TextTableInitializer(directory));
@@ -347,11 +347,11 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     long userId = -1;
 
 
-                    ITextTableOperations<TableUser> userTable = provider.GetRequiredService(typeof(ITextTableOperations<TableUser>)) as ITextTableOperations<TableUser>;
+                    ITextTableOperations<UserDataRow> userTable = provider.GetRequiredService(typeof(ITextTableOperations<UserDataRow>)) as ITextTableOperations<UserDataRow>;
 
                     Assert.IsNotNull(userTable);
 
-                    TableUser user = new TableUser();
+                    UserDataRow user = new UserDataRow();
                     user.Email = "test@123.net";
                     user.FirstName = "test";
                     user.Surname = "User";
@@ -392,7 +392,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                 PluginInitialisation initialisation = new PluginInitialisation();
                 ServiceCollection services = new ServiceCollection();
 
-                services.AddSingleton<IPluginClassesService>(new MockPluginClassesService(new List<object>() { new TableExternalUsersDefaults() }));
+                services.AddSingleton<IPluginClassesService>(new MockPluginClassesService(new List<object>() { new ExternalUsersDataRowDefaults() }));
                 services.AddSingleton<IForeignKeyManager, ForeignKeyManager>();
                 services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
                 services.AddSingleton<ITextTableInitializer>(new TextTableInitializer(directory));
@@ -404,11 +404,11 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     long userId = -1;
 
 
-                    ITextTableOperations<TableUser> userTable = provider.GetRequiredService(typeof(ITextTableOperations<TableUser>)) as ITextTableOperations<TableUser>;
+                    ITextTableOperations<UserDataRow> userTable = provider.GetRequiredService(typeof(ITextTableOperations<UserDataRow>)) as ITextTableOperations<UserDataRow>;
 
                     Assert.IsNotNull(userTable);
 
-                    TableUser user = new TableUser();
+                    UserDataRow user = new UserDataRow();
                     user.Email = "test@123.net";
                     user.FirstName = "test";
                     user.Surname = "User";
@@ -448,7 +448,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                 PluginInitialisation initialisation = new PluginInitialisation();
                 ServiceCollection services = new ServiceCollection();
 
-                services.AddSingleton<IPluginClassesService>(new MockPluginClassesService(new List<object>() { new TableExternalUsersDefaults() }));
+                services.AddSingleton<IPluginClassesService>(new MockPluginClassesService(new List<object>() { new ExternalUsersDataRowDefaults() }));
                 services.AddSingleton<IForeignKeyManager, ForeignKeyManager>();
                 services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
                 services.AddSingleton<ITextTableInitializer>(new TextTableInitializer(directory));
@@ -460,11 +460,11 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     long userId = -1;
 
 
-                    ITextTableOperations<TableUser> userTable = provider.GetRequiredService(typeof(ITextTableOperations<TableUser>)) as ITextTableOperations<TableUser>;
+                    ITextTableOperations<UserDataRow> userTable = provider.GetRequiredService(typeof(ITextTableOperations<UserDataRow>)) as ITextTableOperations<UserDataRow>;
 
                     Assert.IsNotNull(userTable);
 
-                    TableUser user = new TableUser();
+                    UserDataRow user = new UserDataRow();
                     user.Email = "test@123.net";
                     user.FirstName = "test";
                     user.Surname = "User";
@@ -503,7 +503,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                 PluginInitialisation initialisation = new PluginInitialisation();
                 ServiceCollection services = new ServiceCollection();
 
-                services.AddSingleton<IPluginClassesService>(new MockPluginClassesService(new List<object>() { new TableExternalUsersDefaults() }));
+                services.AddSingleton<IPluginClassesService>(new MockPluginClassesService(new List<object>() { new ExternalUsersDataRowDefaults() }));
                 services.AddSingleton<IForeignKeyManager, ForeignKeyManager>();
                 services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
                 services.AddSingleton<ITextTableInitializer>(new TextTableInitializer(directory));
@@ -515,11 +515,11 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     long userId = -1;
 
 
-                    ITextTableOperations<TableUser> userTable = provider.GetRequiredService(typeof(ITextTableOperations<TableUser>)) as ITextTableOperations<TableUser>;
+                    ITextTableOperations<UserDataRow> userTable = provider.GetRequiredService(typeof(ITextTableOperations<UserDataRow>)) as ITextTableOperations<UserDataRow>;
 
                     Assert.IsNotNull(userTable);
 
-                    TableUser user = new TableUser();
+                    UserDataRow user = new UserDataRow();
                     user.Email = "test@123.net";
                     user.FirstName = "test";
                     user.Surname = "User";
@@ -558,7 +558,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                 PluginInitialisation initialisation = new PluginInitialisation();
                 ServiceCollection services = new ServiceCollection();
 
-                services.AddSingleton<IPluginClassesService>(new MockPluginClassesService(new List<object>() { new TableExternalUsersDefaults() }));
+                services.AddSingleton<IPluginClassesService>(new MockPluginClassesService(new List<object>() { new ExternalUsersDataRowDefaults() }));
                 services.AddSingleton<IForeignKeyManager, ForeignKeyManager>();
                 services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
                 services.AddSingleton<ITextTableInitializer>(new TextTableInitializer(directory));
@@ -570,11 +570,11 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     long userId = -1;
 
 
-                    ITextTableOperations<TableUser> userTable = provider.GetRequiredService(typeof(ITextTableOperations<TableUser>)) as ITextTableOperations<TableUser>;
+                    ITextTableOperations<UserDataRow> userTable = provider.GetRequiredService(typeof(ITextTableOperations<UserDataRow>)) as ITextTableOperations<UserDataRow>;
 
                     Assert.IsNotNull(userTable);
 
-                    TableUser user = new TableUser();
+                    UserDataRow user = new UserDataRow();
                     user.Email = "test@123.net";
                     user.FirstName = "test";
                     user.Surname = "User";
@@ -612,7 +612,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                 PluginInitialisation initialisation = new PluginInitialisation();
                 ServiceCollection services = new ServiceCollection();
 
-                services.AddSingleton<IPluginClassesService>(new MockPluginClassesService(new List<object>() { new TableExternalUsersDefaults() }));
+                services.AddSingleton<IPluginClassesService>(new MockPluginClassesService(new List<object>() { new ExternalUsersDataRowDefaults() }));
                 services.AddSingleton<IForeignKeyManager, ForeignKeyManager>();
                 services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
                 services.AddSingleton<ITextTableInitializer>(new TextTableInitializer(directory));
@@ -624,11 +624,11 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     long userId = -1;
 
 
-                    ITextTableOperations<TableUser> userTable = provider.GetRequiredService(typeof(ITextTableOperations<TableUser>)) as ITextTableOperations<TableUser>;
+                    ITextTableOperations<UserDataRow> userTable = provider.GetRequiredService(typeof(ITextTableOperations<UserDataRow>)) as ITextTableOperations<UserDataRow>;
 
                     Assert.IsNotNull(userTable);
 
-                    TableUser user = new TableUser();
+                    UserDataRow user = new UserDataRow();
                     user.Email = "test@123.net";
                     user.FirstName = "test";
                     user.Surname = "User";
@@ -668,7 +668,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                 PluginInitialisation initialisation = new PluginInitialisation();
                 ServiceCollection services = new ServiceCollection();
 
-                services.AddSingleton<IPluginClassesService>(new MockPluginClassesService(new List<object>() { new TableExternalUsersDefaults() }));
+                services.AddSingleton<IPluginClassesService>(new MockPluginClassesService(new List<object>() { new ExternalUsersDataRowDefaults() }));
                 services.AddSingleton<IForeignKeyManager, ForeignKeyManager>();
                 services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
                 services.AddSingleton<ITextTableInitializer>(new TextTableInitializer(directory));
@@ -680,11 +680,11 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     long userId = -1;
 
 
-                    ITextTableOperations<TableUser> userTable = provider.GetRequiredService(typeof(ITextTableOperations<TableUser>)) as ITextTableOperations<TableUser>;
+                    ITextTableOperations<UserDataRow> userTable = provider.GetRequiredService(typeof(ITextTableOperations<UserDataRow>)) as ITextTableOperations<UserDataRow>;
 
                     Assert.IsNotNull(userTable);
 
-                    TableUser user = new TableUser();
+                    UserDataRow user = new UserDataRow();
                     user.Email = "test@123.net";
                     user.FirstName = "test";
                     user.Surname = "User";
@@ -724,7 +724,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                 PluginInitialisation initialisation = new PluginInitialisation();
                 ServiceCollection services = new ServiceCollection();
 
-                services.AddSingleton<IPluginClassesService>(new MockPluginClassesService(new List<object>() { new TableExternalUsersDefaults() }));
+                services.AddSingleton<IPluginClassesService>(new MockPluginClassesService(new List<object>() { new ExternalUsersDataRowDefaults() }));
                 services.AddSingleton<IForeignKeyManager, ForeignKeyManager>();
                 services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
                 services.AddSingleton<ITextTableInitializer>(new TextTableInitializer(directory));
@@ -736,11 +736,11 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     long userId = -1;
 
 
-                    ITextTableOperations<TableUser> userTable = provider.GetRequiredService(typeof(ITextTableOperations<TableUser>)) as ITextTableOperations<TableUser>;
+                    ITextTableOperations<UserDataRow> userTable = provider.GetRequiredService(typeof(ITextTableOperations<UserDataRow>)) as ITextTableOperations<UserDataRow>;
 
                     Assert.IsNotNull(userTable);
 
-                    TableUser user = new TableUser();
+                    UserDataRow user = new UserDataRow();
                     user.Email = "test@123.net";
                     user.FirstName = "test";
                     user.Surname = "User";
@@ -775,7 +775,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                 PluginInitialisation initialisation = new PluginInitialisation();
                 ServiceCollection services = new ServiceCollection();
 
-                services.AddSingleton<IPluginClassesService>(new MockPluginClassesService(new List<object>() { new TableExternalUsersDefaults() }));
+                services.AddSingleton<IPluginClassesService>(new MockPluginClassesService(new List<object>() { new ExternalUsersDataRowDefaults() }));
                 services.AddSingleton<IForeignKeyManager, ForeignKeyManager>();
                 services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
                 services.AddSingleton<ITextTableInitializer>(new TextTableInitializer(directory));
@@ -787,11 +787,11 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     long userId = -1;
 
 
-                    ITextTableOperations<TableUser> userTable = provider.GetRequiredService(typeof(ITextTableOperations<TableUser>)) as ITextTableOperations<TableUser>;
+                    ITextTableOperations<UserDataRow> userTable = provider.GetRequiredService(typeof(ITextTableOperations<UserDataRow>)) as ITextTableOperations<UserDataRow>;
 
                     Assert.IsNotNull(userTable);
 
-                    TableUser user = new TableUser();
+                    UserDataRow user = new UserDataRow();
                     user.Email = "test@123.net";
                     user.FirstName = "test";
                     user.Surname = "User";
@@ -827,7 +827,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                 PluginInitialisation initialisation = new PluginInitialisation();
                 ServiceCollection services = new ServiceCollection();
 
-                services.AddSingleton<IPluginClassesService>(new MockPluginClassesService(new List<object>() { new TableExternalUsersDefaults() }));
+                services.AddSingleton<IPluginClassesService>(new MockPluginClassesService(new List<object>() { new ExternalUsersDataRowDefaults() }));
                 services.AddSingleton<IForeignKeyManager, ForeignKeyManager>();
                 services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
                 services.AddSingleton<ITextTableInitializer>(new TextTableInitializer(directory));
@@ -839,11 +839,11 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     long userId = -1;
 
 
-                    ITextTableOperations<TableUser> userTable = provider.GetRequiredService(typeof(ITextTableOperations<TableUser>)) as ITextTableOperations<TableUser>;
+                    ITextTableOperations<UserDataRow> userTable = provider.GetRequiredService(typeof(ITextTableOperations<UserDataRow>)) as ITextTableOperations<UserDataRow>;
 
                     Assert.IsNotNull(userTable);
 
-                    TableUser user = new TableUser();
+                    UserDataRow user = new UserDataRow();
                     user.Email = "test@123.net";
                     user.FirstName = "test";
                     user.Surname = "User";
@@ -879,7 +879,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                 PluginInitialisation initialisation = new PluginInitialisation();
                 ServiceCollection services = new ServiceCollection();
 
-                services.AddSingleton<IPluginClassesService>(new MockPluginClassesService(new List<object>() { new TableExternalUsersDefaults() }));
+                services.AddSingleton<IPluginClassesService>(new MockPluginClassesService(new List<object>() { new ExternalUsersDataRowDefaults() }));
                 services.AddSingleton<IForeignKeyManager, ForeignKeyManager>();
                 services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
                 services.AddSingleton<ITextTableInitializer>(new TextTableInitializer(directory));
@@ -888,7 +888,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
-                    ITextTableOperations<TableExternalUsers> externalUserTable = provider.GetRequiredService(typeof(ITextTableOperations<TableExternalUsers>)) as ITextTableOperations<TableExternalUsers>;
+                    ITextTableOperations<ExternalUsersDataRow> externalUserTable = provider.GetRequiredService(typeof(ITextTableOperations<ExternalUsersDataRow>)) as ITextTableOperations<ExternalUsersDataRow>;
 
                     Assert.IsNotNull(externalUserTable);
 
@@ -910,7 +910,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     Assert.AreEqual(-9223372036854775807, loginDetails.UserId);
                     Assert.IsTrue(loginDetails.RememberMe);
 
-                    TableExternalUsers user = externalUserTable.Select()
+                    ExternalUsersDataRow user = externalUserTable.Select()
                         .Where(eu => eu.Email.Equals("test@123.net"))
                         .FirstOrDefault();
 
@@ -934,7 +934,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                 PluginInitialisation initialisation = new PluginInitialisation();
                 ServiceCollection services = new ServiceCollection();
 
-                services.AddSingleton<IPluginClassesService>(new MockPluginClassesService(new List<object>() { new TableExternalUsersDefaults() }));
+                services.AddSingleton<IPluginClassesService>(new MockPluginClassesService(new List<object>() { new ExternalUsersDataRowDefaults() }));
                 services.AddSingleton<IForeignKeyManager, ForeignKeyManager>();
                 services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
                 services.AddSingleton<ITextTableInitializer>(new TextTableInitializer(directory));
@@ -943,7 +943,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
-                    ITextTableOperations<TableExternalUsers> externalUserTable = provider.GetRequiredService(typeof(ITextTableOperations<TableExternalUsers>)) as ITextTableOperations<TableExternalUsers>;
+                    ITextTableOperations<ExternalUsersDataRow> externalUserTable = provider.GetRequiredService(typeof(ITextTableOperations<ExternalUsersDataRow>)) as ITextTableOperations<ExternalUsersDataRow>;
 
                     Assert.IsNotNull(externalUserTable);
 
@@ -978,7 +978,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                 PluginInitialisation initialisation = new PluginInitialisation();
                 ServiceCollection services = new ServiceCollection();
 
-                services.AddSingleton<IPluginClassesService>(new MockPluginClassesService(new List<object>() { new TableExternalUsersDefaults() }));
+                services.AddSingleton<IPluginClassesService>(new MockPluginClassesService(new List<object>() { new ExternalUsersDataRowDefaults() }));
                 services.AddSingleton<IForeignKeyManager, ForeignKeyManager>();
                 services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
                 services.AddSingleton<ITextTableInitializer>(new TextTableInitializer(directory));
@@ -987,13 +987,13 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
-                    ITextTableOperations<TableExternalUsers> externalUserTable = provider.GetRequiredService(typeof(ITextTableOperations<TableExternalUsers>)) as ITextTableOperations<TableExternalUsers>;
+                    ITextTableOperations<ExternalUsersDataRow> externalUserTable = provider.GetRequiredService(typeof(ITextTableOperations<ExternalUsersDataRow>)) as ITextTableOperations<ExternalUsersDataRow>;
 
                     Assert.IsNotNull(externalUserTable);
 
                     Assert.IsFalse(externalUserTable.Select().Any());
 
-                    TableExternalUsers user = new TableExternalUsers()
+                    ExternalUsersDataRow user = new ExternalUsersDataRow()
                     {
                         Email = "test@321.net",
                         Provider = "Provider",
@@ -1034,7 +1034,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                 PluginInitialisation initialisation = new PluginInitialisation();
                 ServiceCollection services = new ServiceCollection();
 
-                services.AddSingleton<IPluginClassesService>(new MockPluginClassesService(new List<object>() { new TableExternalUsersDefaults() }));
+                services.AddSingleton<IPluginClassesService>(new MockPluginClassesService(new List<object>() { new ExternalUsersDataRowDefaults() }));
                 services.AddSingleton<IForeignKeyManager, ForeignKeyManager>();
                 services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
                 services.AddSingleton<ITextTableInitializer>(new TextTableInitializer(directory));
@@ -1065,7 +1065,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                 PluginInitialisation initialisation = new PluginInitialisation();
                 ServiceCollection services = new ServiceCollection();
 
-                services.AddSingleton<IPluginClassesService>(new MockPluginClassesService(new List<object>() { new TableExternalUsersDefaults() }));
+                services.AddSingleton<IPluginClassesService>(new MockPluginClassesService(new List<object>() { new ExternalUsersDataRowDefaults() }));
                 services.AddSingleton<IForeignKeyManager, ForeignKeyManager>();
                 services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
                 services.AddSingleton<ITextTableInitializer>(new TextTableInitializer(directory));
@@ -1074,13 +1074,13 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
-                    ITextTableOperations<TableExternalUsers> externalUserTable = provider.GetRequiredService(typeof(ITextTableOperations<TableExternalUsers>)) as ITextTableOperations<TableExternalUsers>;
+                    ITextTableOperations<ExternalUsersDataRow> externalUserTable = provider.GetRequiredService(typeof(ITextTableOperations<ExternalUsersDataRow>)) as ITextTableOperations<ExternalUsersDataRow>;
 
                     Assert.IsNotNull(externalUserTable);
 
                     Assert.IsFalse(externalUserTable.Select().Any());
 
-                    TableExternalUsers user = new TableExternalUsers()
+                    ExternalUsersDataRow user = new ExternalUsersDataRow()
                     {
                         Email = "test@321.net",
                         Provider = "Provider",
@@ -1116,7 +1116,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                 PluginInitialisation initialisation = new PluginInitialisation();
                 ServiceCollection services = new ServiceCollection();
 
-                services.AddSingleton<IPluginClassesService>(new MockPluginClassesService(new List<object>() { new TableExternalUsersDefaults() }));
+                services.AddSingleton<IPluginClassesService>(new MockPluginClassesService(new List<object>() { new ExternalUsersDataRowDefaults() }));
                 services.AddSingleton<IForeignKeyManager, ForeignKeyManager>();
                 services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
                 services.AddSingleton<ITextTableInitializer>(new TextTableInitializer(directory));
@@ -1125,13 +1125,13 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
-                    ITextTableOperations<TableExternalUsers> externalUserTable = provider.GetRequiredService(typeof(ITextTableOperations<TableExternalUsers>)) as ITextTableOperations<TableExternalUsers>;
+                    ITextTableOperations<ExternalUsersDataRow> externalUserTable = provider.GetRequiredService(typeof(ITextTableOperations<ExternalUsersDataRow>)) as ITextTableOperations<ExternalUsersDataRow>;
 
                     Assert.IsNotNull(externalUserTable);
 
                     Assert.IsFalse(externalUserTable.Select().Any());
 
-                    TableExternalUsers user = new TableExternalUsers()
+                    ExternalUsersDataRow user = new ExternalUsersDataRow()
                     {
                         Email = "test@321.net",
                         Provider = "Provider",

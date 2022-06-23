@@ -15,7 +15,7 @@
  *
  *  Product:  PluginManager.DAL.TextFiles
  *  
- *  File: TableCountries.cs
+ *  File: CountriesDataRow.cs
  *
  *  Purpose:  Row definition for Table for countries
  *
@@ -23,18 +23,12 @@
  *  31/05/2022  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 using PluginManager.DAL.TextFiles.Internal;
 
 namespace PluginManager.DAL.TextFiles.Tables
 {
     [Table(Constants.TableNameCountries, CompressionType.None, CachingStrategy.Memory)]
-    public sealed class TableCountry : TableRowDefinition
+    public sealed class CountryDataRow : TableRowDefinition
     {
         /// <summary>
         /// Name of country.

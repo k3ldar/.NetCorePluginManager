@@ -58,27 +58,27 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
         [ExpectedException(typeof(ArgumentNullException))]
         public void Construct_InvalidInstance_ParamMemoryCacheNull_Throws_ArgumentNullException()
         {
-            new BlogProvider(null, new MockTextTableOperations<TableUser>(), new MockTextTableOperations<TableBlog>());
+            new BlogProvider(null, new MockTextTableOperations<UserDataRow>(), new MockTextTableOperations<BlogDataRow>());
         }
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
         public void Construct_InvalidInstance_ParamTableUserNull_Throws_ArgumentNullException()
         {
-            new BlogProvider(new MockMemoryCache(), null, new MockTextTableOperations<TableBlog>());
+            new BlogProvider(new MockMemoryCache(), null, new MockTextTableOperations<BlogDataRow>());
         }
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
         public void Construct_InvalidInstance_ParamTableBlogNull_Throws_ArgumentNullException()
         {
-            new BlogProvider(new MockMemoryCache(), new MockTextTableOperations<TableUser>(), null);
+            new BlogProvider(new MockMemoryCache(), new MockTextTableOperations<UserDataRow>(), null);
         }
 
         [TestMethod]
         public void Construct_ValidInstance_Success()
         {
-            BlogProvider sut = new BlogProvider(new MockMemoryCache(), new MockTextTableOperations<TableUser>(), new MockTextTableOperations<TableBlog>());
+            BlogProvider sut = new BlogProvider(new MockMemoryCache(), new MockTextTableOperations<UserDataRow>(), new MockTextTableOperations<BlogDataRow>());
 
             Assert.IsNotNull(sut);
         }
@@ -102,19 +102,19 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
-                    ITextTableOperations<TableUser> userTable = provider.GetRequiredService<ITextTableOperations<TableUser>>();
+                    ITextTableOperations<UserDataRow> userTable = provider.GetRequiredService<ITextTableOperations<UserDataRow>>();
                     Assert.IsNotNull(userTable);
 
-                    userTable.Insert(new TableUser() { FirstName = "test", Surname = "user"});
+                    userTable.Insert(new UserDataRow() { FirstName = "test", Surname = "user"});
 
-                    ITextTableOperations<TableBlog> blogTable = provider.GetRequiredService<ITextTableOperations<TableBlog>>();
+                    ITextTableOperations<BlogDataRow> blogTable = provider.GetRequiredService<ITextTableOperations<BlogDataRow>>();
                     Assert.IsNotNull(blogTable);
 
                     DateTime firstDate = new DateTime(2022, 06, 07, 18, 11, 12);
 
                     for (int i = 0; i < 10; i++)
                     {
-                        blogTable.Insert(new TableBlog()
+                        blogTable.Insert(new BlogDataRow()
                         {
                             Title = $"Blog title {i}",
                             BlogText = $"Blog {i}",
@@ -173,19 +173,19 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
-                    ITextTableOperations<TableUser> userTable = provider.GetRequiredService<ITextTableOperations<TableUser>>();
+                    ITextTableOperations<UserDataRow> userTable = provider.GetRequiredService<ITextTableOperations<UserDataRow>>();
                     Assert.IsNotNull(userTable);
 
-                    userTable.Insert(new TableUser() { FirstName = "test", Surname = "user" });
+                    userTable.Insert(new UserDataRow() { FirstName = "test", Surname = "user" });
 
-                    ITextTableOperations<TableBlog> blogTable = provider.GetRequiredService<ITextTableOperations<TableBlog>>();
+                    ITextTableOperations<BlogDataRow> blogTable = provider.GetRequiredService<ITextTableOperations<BlogDataRow>>();
                     Assert.IsNotNull(blogTable);
 
                     DateTime firstDate = new DateTime(2022, 06, 07, 18, 11, 12);
 
                     for (int i = 0; i < 10; i++)
                     {
-                        blogTable.Insert(new TableBlog()
+                        blogTable.Insert(new BlogDataRow()
                         {
                             Title = $"Blog title {i}",
                             BlogText = $"Blog {i}",
@@ -247,19 +247,19 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
-                    ITextTableOperations<TableUser> userTable = provider.GetRequiredService<ITextTableOperations<TableUser>>();
+                    ITextTableOperations<UserDataRow> userTable = provider.GetRequiredService<ITextTableOperations<UserDataRow>>();
                     Assert.IsNotNull(userTable);
 
-                    userTable.Insert(new TableUser() { FirstName = "test", Surname = "user" });
+                    userTable.Insert(new UserDataRow() { FirstName = "test", Surname = "user" });
 
-                    ITextTableOperations<TableBlog> blogTable = provider.GetRequiredService<ITextTableOperations<TableBlog>>();
+                    ITextTableOperations<BlogDataRow> blogTable = provider.GetRequiredService<ITextTableOperations<BlogDataRow>>();
                     Assert.IsNotNull(blogTable);
 
                     DateTime firstDate = new DateTime(2022, 06, 07, 18, 11, 12);
 
                     for (int i = 0; i < 10; i++)
                     {
-                        blogTable.Insert(new TableBlog()
+                        blogTable.Insert(new BlogDataRow()
                         {
                             Title = $"Blog title {i}",
                             BlogText = $"Blog {i}",
@@ -313,19 +313,19 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
-                    ITextTableOperations<TableUser> userTable = provider.GetRequiredService<ITextTableOperations<TableUser>>();
+                    ITextTableOperations<UserDataRow> userTable = provider.GetRequiredService<ITextTableOperations<UserDataRow>>();
                     Assert.IsNotNull(userTable);
 
-                    userTable.Insert(new TableUser() { FirstName = "test", Surname = "user" });
+                    userTable.Insert(new UserDataRow() { FirstName = "test", Surname = "user" });
 
-                    ITextTableOperations<TableBlog> blogTable = provider.GetRequiredService<ITextTableOperations<TableBlog>>();
+                    ITextTableOperations<BlogDataRow> blogTable = provider.GetRequiredService<ITextTableOperations<BlogDataRow>>();
                     Assert.IsNotNull(blogTable);
 
                     DateTime firstDate = new DateTime(2022, 06, 07, 18, 11, 12);
 
                     for (int i = 0; i < 10; i++)
                     {
-                        blogTable.Insert(new TableBlog()
+                        blogTable.Insert(new BlogDataRow()
                         {
                             Title = $"Blog title {i}",
                             BlogText = $"Blog {i}",
@@ -379,19 +379,19 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
-                    ITextTableOperations<TableUser> userTable = provider.GetRequiredService<ITextTableOperations<TableUser>>();
+                    ITextTableOperations<UserDataRow> userTable = provider.GetRequiredService<ITextTableOperations<UserDataRow>>();
                     Assert.IsNotNull(userTable);
 
-                    userTable.Insert(new TableUser() { FirstName = "test", Surname = "user" });
+                    userTable.Insert(new UserDataRow() { FirstName = "test", Surname = "user" });
 
-                    ITextTableOperations<TableBlog> blogTable = provider.GetRequiredService<ITextTableOperations<TableBlog>>();
+                    ITextTableOperations<BlogDataRow> blogTable = provider.GetRequiredService<ITextTableOperations<BlogDataRow>>();
                     Assert.IsNotNull(blogTable);
 
                     DateTime firstDate = new DateTime(2022, 06, 07, 18, 11, 12);
 
                     for (int i = 0; i < 10; i++)
                     {
-                        blogTable.Insert(new TableBlog()
+                        blogTable.Insert(new BlogDataRow()
                         {
                             Title = $"Blog title {i}",
                             BlogText = $"Blog {i}",
@@ -445,19 +445,19 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
-                    ITextTableOperations<TableUser> userTable = provider.GetRequiredService<ITextTableOperations<TableUser>>();
+                    ITextTableOperations<UserDataRow> userTable = provider.GetRequiredService<ITextTableOperations<UserDataRow>>();
                     Assert.IsNotNull(userTable);
 
-                    userTable.Insert(new TableUser() { FirstName = "test", Surname = "user" });
+                    userTable.Insert(new UserDataRow() { FirstName = "test", Surname = "user" });
 
-                    ITextTableOperations<TableBlog> blogTable = provider.GetRequiredService<ITextTableOperations<TableBlog>>();
+                    ITextTableOperations<BlogDataRow> blogTable = provider.GetRequiredService<ITextTableOperations<BlogDataRow>>();
                     Assert.IsNotNull(blogTable);
 
                     DateTime firstDate = new DateTime(2022, 06, 07, 18, 11, 12);
 
                     for (int i = 0; i < 10; i++)
                     {
-                        blogTable.Insert(new TableBlog()
+                        blogTable.Insert(new BlogDataRow()
                         {
                             Title = $"Blog title {i}",
                             BlogText = $"Blog {i}",
@@ -511,19 +511,19 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
-                    ITextTableOperations<TableUser> userTable = provider.GetRequiredService<ITextTableOperations<TableUser>>();
+                    ITextTableOperations<UserDataRow> userTable = provider.GetRequiredService<ITextTableOperations<UserDataRow>>();
                     Assert.IsNotNull(userTable);
 
-                    userTable.Insert(new TableUser() { FirstName = "test", Surname = "user" });
+                    userTable.Insert(new UserDataRow() { FirstName = "test", Surname = "user" });
 
-                    ITextTableOperations<TableBlog> blogTable = provider.GetRequiredService<ITextTableOperations<TableBlog>>();
+                    ITextTableOperations<BlogDataRow> blogTable = provider.GetRequiredService<ITextTableOperations<BlogDataRow>>();
                     Assert.IsNotNull(blogTable);
 
                     DateTime firstDate = new DateTime(2022, 06, 07, 18, 11, 12);
 
                     for (int i = 0; i < 10; i++)
                     {
-                        blogTable.Insert(new TableBlog()
+                        blogTable.Insert(new BlogDataRow()
                         {
                             Title = $"Blog title {i}",
                             BlogText = $"Blog {i}",
@@ -579,20 +579,20 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
-                    ITextTableOperations<TableUser> userTable = provider.GetRequiredService<ITextTableOperations<TableUser>>();
+                    ITextTableOperations<UserDataRow> userTable = provider.GetRequiredService<ITextTableOperations<UserDataRow>>();
                     Assert.IsNotNull(userTable);
 
-                    userTable.Insert(new TableUser() { FirstName = "test", Surname = "user" });
-                    userTable.Insert(new TableUser() { FirstName = "test", Surname = "user" });
+                    userTable.Insert(new UserDataRow() { FirstName = "test", Surname = "user" });
+                    userTable.Insert(new UserDataRow() { FirstName = "test", Surname = "user" });
 
-                    ITextTableOperations<TableBlog> blogTable = provider.GetRequiredService<ITextTableOperations<TableBlog>>();
+                    ITextTableOperations<BlogDataRow> blogTable = provider.GetRequiredService<ITextTableOperations<BlogDataRow>>();
                     Assert.IsNotNull(blogTable);
 
                     DateTime firstDate = new DateTime(2022, 06, 07, 18, 11, 12);
 
                     for (int i = 0; i < 10; i++)
                     {
-                        blogTable.Insert(new TableBlog()
+                        blogTable.Insert(new BlogDataRow()
                         {
                             Title = $"Blog title {i}",
                             BlogText = $"Blog {i}",
@@ -650,13 +650,13 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
-                    ITextTableOperations<TableUser> userTable = provider.GetRequiredService<ITextTableOperations<TableUser>>();
+                    ITextTableOperations<UserDataRow> userTable = provider.GetRequiredService<ITextTableOperations<UserDataRow>>();
                     Assert.IsNotNull(userTable);
 
-                    userTable.Insert(new TableUser() { FirstName = "test", Surname = "user" });
-                    userTable.Insert(new TableUser() { FirstName = "test", Surname = "user" });
+                    userTable.Insert(new UserDataRow() { FirstName = "test", Surname = "user" });
+                    userTable.Insert(new UserDataRow() { FirstName = "test", Surname = "user" });
 
-                    ITextTableOperations<TableBlog> blogTable = provider.GetRequiredService<ITextTableOperations<TableBlog>>();
+                    ITextTableOperations<BlogDataRow> blogTable = provider.GetRequiredService<ITextTableOperations<BlogDataRow>>();
                     Assert.IsNotNull(blogTable);
 
                     List<string> tags = new List<string>()
@@ -709,18 +709,18 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
-                    ITextTableOperations<TableUser> userTable = provider.GetRequiredService<ITextTableOperations<TableUser>>();
+                    ITextTableOperations<UserDataRow> userTable = provider.GetRequiredService<ITextTableOperations<UserDataRow>>();
                     Assert.IsNotNull(userTable);
 
-                    userTable.Insert(new TableUser() { FirstName = "test", Surname = "user" });
-                    userTable.Insert(new TableUser() { FirstName = "test", Surname = "user" });
+                    userTable.Insert(new UserDataRow() { FirstName = "test", Surname = "user" });
+                    userTable.Insert(new UserDataRow() { FirstName = "test", Surname = "user" });
 
-                    ITextTableOperations<TableBlog> blogTable = provider.GetRequiredService<ITextTableOperations<TableBlog>>();
+                    ITextTableOperations<BlogDataRow> blogTable = provider.GetRequiredService<ITextTableOperations<BlogDataRow>>();
                     Assert.IsNotNull(blogTable);
 
                     for (int i = 0; i < 10; i++)
                     {
-                        blogTable.Insert(new TableBlog()
+                        blogTable.Insert(new BlogDataRow()
                         {
                             Title = $"Blog title {i}",
                             BlogText = $"Blog {i}",
@@ -791,13 +791,13 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
-                    ITextTableOperations<TableUser> userTable = provider.GetRequiredService<ITextTableOperations<TableUser>>();
+                    ITextTableOperations<UserDataRow> userTable = provider.GetRequiredService<ITextTableOperations<UserDataRow>>();
                     Assert.IsNotNull(userTable);
 
-                    userTable.Insert(new TableUser() { FirstName = "test", Surname = "user" });
-                    userTable.Insert(new TableUser() { FirstName = "test", Surname = "user" });
+                    userTable.Insert(new UserDataRow() { FirstName = "test", Surname = "user" });
+                    userTable.Insert(new UserDataRow() { FirstName = "test", Surname = "user" });
 
-                    ITextTableOperations<TableBlog> blogTable = provider.GetRequiredService<ITextTableOperations<TableBlog>>();
+                    ITextTableOperations<BlogDataRow> blogTable = provider.GetRequiredService<ITextTableOperations<BlogDataRow>>();
                     Assert.IsNotNull(blogTable);
 
                     List<string> tags = new List<string>()
@@ -857,13 +857,13 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
-                    ITextTableOperations<TableUser> userTable = provider.GetRequiredService<ITextTableOperations<TableUser>>();
+                    ITextTableOperations<UserDataRow> userTable = provider.GetRequiredService<ITextTableOperations<UserDataRow>>();
                     Assert.IsNotNull(userTable);
 
-                    userTable.Insert(new TableUser() { FirstName = "test", Surname = "user" });
-                    userTable.Insert(new TableUser() { FirstName = "test", Surname = "user" });
+                    userTable.Insert(new UserDataRow() { FirstName = "test", Surname = "user" });
+                    userTable.Insert(new UserDataRow() { FirstName = "test", Surname = "user" });
 
-                    ITextTableOperations<TableBlog> blogTable = provider.GetRequiredService<ITextTableOperations<TableBlog>>();
+                    ITextTableOperations<BlogDataRow> blogTable = provider.GetRequiredService<ITextTableOperations<BlogDataRow>>();
                     Assert.IsNotNull(blogTable);
 
                     List<string> tags = new List<string>()

@@ -67,7 +67,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
                 services.AddSingleton<IForeignKeyManager, ForeignKeyManager>();
                 services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-                services.AddSingleton<IPluginClassesService>(new MockPluginClassesService(new List<object>() { new TableUserTriggers() }));
+                services.AddSingleton<IPluginClassesService>(new MockPluginClassesService(new List<object>() { new UserDataRowTriggers() }));
                 initialisation.BeforeConfigureServices(services);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
@@ -84,7 +84,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                         Assert.IsTrue(created);
                     }
 
-                    ITextTableOperations<TableUser> userTable = (ITextTableOperations<TableUser>)provider.GetService(typeof(ITextTableOperations<TableUser>));
+                    ITextTableOperations<UserDataRow> userTable = (ITextTableOperations<UserDataRow>)provider.GetService(typeof(ITextTableOperations<UserDataRow>));
                     Assert.IsNotNull(userTable);
                     Assert.AreEqual(10, userTable.RecordCount);
 
@@ -121,7 +121,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
                 services.AddSingleton<IForeignKeyManager, ForeignKeyManager>();
                 services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-                services.AddSingleton<IPluginClassesService>(new MockPluginClassesService(new List<object>() { new TableUserTriggers() }));
+                services.AddSingleton<IPluginClassesService>(new MockPluginClassesService(new List<object>() { new UserDataRowTriggers() }));
                 initialisation.BeforeConfigureServices(services);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
@@ -138,7 +138,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                         Assert.IsTrue(created);
                     }
 
-                    ITextTableOperations<TableUser> userTable = (ITextTableOperations<TableUser>)provider.GetService(typeof(ITextTableOperations<TableUser>));
+                    ITextTableOperations<UserDataRow> userTable = (ITextTableOperations<UserDataRow>)provider.GetService(typeof(ITextTableOperations<UserDataRow>));
                     Assert.IsNotNull(userTable);
                     Assert.AreEqual(10, userTable.RecordCount);
 

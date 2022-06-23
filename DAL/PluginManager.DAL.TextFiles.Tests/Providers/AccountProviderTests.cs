@@ -112,9 +112,9 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
                     Assert.IsTrue(created);
 
-                    ITextTableOperations<TableUser> userTable = (ITextTableOperations<TableUser>)provider.GetService(typeof(ITextTableOperations<TableUser>));
+                    ITextTableOperations<UserDataRow> userTable = (ITextTableOperations<UserDataRow>)provider.GetService(typeof(ITextTableOperations<UserDataRow>));
                     Assert.IsNotNull(userTable);
-                    TableUser userRow = userTable.Select(userId);
+                    UserDataRow userRow = userTable.Select(userId);
                     sut.ConfirmEmailAddress(userId, userRow.EmailConfirmCode.ToString());
                     sut.ConfirmTelephoneNumber(userId, userRow.TelephoneConfirmCode.ToString());
 
@@ -171,9 +171,9 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
                     Assert.IsTrue(changePassword);
 
-                    ITextTableOperations<TableUser> userTable = (ITextTableOperations<TableUser>)provider.GetService(typeof(ITextTableOperations<TableUser>));
+                    ITextTableOperations<UserDataRow> userTable = (ITextTableOperations<UserDataRow>)provider.GetService(typeof(ITextTableOperations<UserDataRow>));
                     Assert.IsNotNull(userTable);
-                    TableUser userRow = userTable.Select(userId);
+                    UserDataRow userRow = userTable.Select(userId);
 
                     Assert.IsNotNull(userRow);
 
@@ -217,9 +217,9 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
                     Assert.IsTrue(setDetails);
 
-                    ITextTableOperations<TableUser> userTable = (ITextTableOperations<TableUser>)provider.GetService(typeof(ITextTableOperations<TableUser>));
+                    ITextTableOperations<UserDataRow> userTable = (ITextTableOperations<UserDataRow>)provider.GetService(typeof(ITextTableOperations<UserDataRow>));
                     Assert.IsNotNull(userTable);
-                    TableUser userRow = userTable.Select(userId);
+                    UserDataRow userRow = userTable.Select(userId);
 
                     Assert.IsNotNull(userRow);
 
@@ -272,9 +272,9 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
                     Assert.IsTrue(deleteAccount);
 
-                    ITextTableOperations<TableUser> userTable = (ITextTableOperations<TableUser>)provider.GetService(typeof(ITextTableOperations<TableUser>));
+                    ITextTableOperations<UserDataRow> userTable = (ITextTableOperations<UserDataRow>)provider.GetService(typeof(ITextTableOperations<UserDataRow>));
                     Assert.IsNotNull(userTable);
-                    TableUser userRow = userTable.Select(userId);
+                    UserDataRow userRow = userTable.Select(userId);
 
                     Assert.IsNull(userRow);
                 }
@@ -303,7 +303,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
-                    ITextTableOperations<TableUser> userTable = (ITextTableOperations<TableUser>)provider.GetService(typeof(ITextTableOperations<TableUser>));
+                    ITextTableOperations<UserDataRow> userTable = (ITextTableOperations<UserDataRow>)provider.GetService(typeof(ITextTableOperations<UserDataRow>));
                     Assert.IsNotNull(userTable);
 
                     IAccountProvider sut = provider.GetService(typeof(IAccountProvider)) as IAccountProvider;
@@ -314,7 +314,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
                     Assert.IsTrue(created);
 
-                    TableUser userRow = userTable.Select(userId);
+                    UserDataRow userRow = userTable.Select(userId);
 
                     Assert.IsFalse(userRow.Locked);
 
@@ -360,7 +360,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
-                    ITextTableOperations<TableUser> userTable = (ITextTableOperations<TableUser>)provider.GetService(typeof(ITextTableOperations<TableUser>));
+                    ITextTableOperations<UserDataRow> userTable = (ITextTableOperations<UserDataRow>)provider.GetService(typeof(ITextTableOperations<UserDataRow>));
                     Assert.IsNotNull(userTable);
 
                     IAccountProvider sut = provider.GetService(typeof(IAccountProvider)) as IAccountProvider;
@@ -371,7 +371,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
                     Assert.IsTrue(created);
 
-                    TableUser userRow = userTable.Select(userId);
+                    UserDataRow userRow = userTable.Select(userId);
 
                     Assert.IsFalse(userRow.MarketingEmail);
                     Assert.IsFalse(userRow.MarketingPostal);
@@ -408,13 +408,13 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
                 services.AddSingleton<IForeignKeyManager, ForeignKeyManager>();
                 services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-                services.AddSingleton<IPluginClassesService>(new MockPluginClassesService(new List<object>() { new TableUserTriggers() }));
+                services.AddSingleton<IPluginClassesService>(new MockPluginClassesService(new List<object>() { new UserDataRowTriggers() }));
 
                 initialisation.BeforeConfigureServices(services);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
-                    ITextTableOperations<TableAddress> addressTable = (ITextTableOperations<TableAddress>)provider.GetService(typeof(ITextTableOperations<TableAddress>));
+                    ITextTableOperations<AddressDataRow> addressTable = (ITextTableOperations<AddressDataRow>)provider.GetService(typeof(ITextTableOperations<AddressDataRow>));
                     Assert.IsNotNull(addressTable);
 
                     IAccountProvider sut = provider.GetService(typeof(IAccountProvider)) as IAccountProvider;
@@ -428,7 +428,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     Address address = new Address(-1, 1.99m, "business", "add 1", "add 2", "add 3", "city", "county", "postcode", "NL");
                     bool setBillingAddress = sut.SetBillingAddress(userId, address);
 
-                    TableAddress addressRow = addressTable.Select(0);
+                    AddressDataRow addressRow = addressTable.Select(0);
                     Assert.IsNotNull(addressRow);
 
                     Assert.AreEqual(0, addressRow.Id);
@@ -505,7 +505,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
-                    ITextTableOperations<TableUser> userTable = (ITextTableOperations<TableUser>)provider.GetService(typeof(ITextTableOperations<TableUser>));
+                    ITextTableOperations<UserDataRow> userTable = (ITextTableOperations<UserDataRow>)provider.GetService(typeof(ITextTableOperations<UserDataRow>));
                     Assert.IsNotNull(userTable);
 
                     IAccountProvider sut = provider.GetService(typeof(IAccountProvider)) as IAccountProvider;
@@ -537,13 +537,13 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
                 services.AddSingleton<IForeignKeyManager, ForeignKeyManager>();
                 services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-                services.AddSingleton<IPluginClassesService>(new MockPluginClassesService(new List<object>() { new TableUserTriggers() }));
+                services.AddSingleton<IPluginClassesService>(new MockPluginClassesService(new List<object>() { new UserDataRowTriggers() }));
 
                 initialisation.BeforeConfigureServices(services);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
-                    ITextTableOperations<TableUser> userTable = (ITextTableOperations<TableUser>)provider.GetService(typeof(ITextTableOperations<TableUser>));
+                    ITextTableOperations<UserDataRow> userTable = (ITextTableOperations<UserDataRow>)provider.GetService(typeof(ITextTableOperations<UserDataRow>));
                     Assert.IsNotNull(userTable);
 
                     IAccountProvider sut = provider.GetService(typeof(IAccountProvider)) as IAccountProvider;

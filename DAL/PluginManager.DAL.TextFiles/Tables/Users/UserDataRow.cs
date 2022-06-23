@@ -15,7 +15,7 @@
  *
  *  Product:  PluginManager.DAL.TextFiles
  *  
- *  File: TableUserRowDefinition.cs
+ *  File: UserRowDataRow.cs
  *
  *  Purpose:  Table definition for user details
  *
@@ -32,7 +32,7 @@ namespace PluginManager.DAL.TextFiles.Tables
     /// User table 
     /// </summary>
     [Table(Constants.TableNameUsers, CompressionType.Brotli, CachingStrategy.Memory)]
-    internal sealed class TableUser : TableRowDefinition
+    internal sealed class UserDataRow : TableRowDefinition
     {
         public string Email { get; set; }
 

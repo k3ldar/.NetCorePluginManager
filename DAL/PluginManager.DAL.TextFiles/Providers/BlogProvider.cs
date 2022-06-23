@@ -41,16 +41,16 @@ namespace PluginManager.DAL.TextFiles.Providers
     {
         #region Private Members
 
-        private readonly ITextTableOperations<TableUser> _users;
-        private readonly ITextTableOperations<TableBlog> _blogs;
+        private readonly ITextTableOperations<UserDataRow> _users;
+        private readonly ITextTableOperations<BlogDataRow> _blogs;
         private readonly IMemoryCache _memoryCache;
 
         #endregion Private Members
 
         #region Constructors
 
-        public BlogProvider(IMemoryCache memoryCache, ITextTableOperations<TableUser> users,
-            ITextTableOperations<TableBlog> blogs)
+        public BlogProvider(IMemoryCache memoryCache, ITextTableOperations<UserDataRow> users,
+            ITextTableOperations<BlogDataRow> blogs)
         {
             _memoryCache = memoryCache ?? throw new ArgumentNullException(nameof(memoryCache));
             _users = users ?? throw new ArgumentNullException(nameof(users));
@@ -63,7 +63,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 
         public List<BlogItem> GetRecentPosts(in int recentCount, in bool publishedOnly)
         {
-            List<TableBlog> blogs;
+            List<BlogDataRow> blogs;
             
             if (publishedOnly)
                 blogs = _blogs.Select().Where(b => b.Published).OrderByDescending(b => b.PublishDateTime).Take(recentCount).ToList();
@@ -106,7 +106,7 @@ namespace PluginManager.DAL.TextFiles.Providers
             if (blogItem == null)
                 throw new ArgumentNullException(nameof(blogItem));
 
-            TableBlog tableBlog = ConvertBlogItemToTableBlog(blogItem);
+            BlogDataRow tableBlog = ConvertBlogItemToTableBlog(blogItem);
 
             tableBlog.LastModified = DateTime.Now;
             _blogs.InsertOrUpdate(tableBlog);
@@ -131,7 +131,7 @@ namespace PluginManager.DAL.TextFiles.Providers
             else
                 parentComment.Comments.Add(blogComment);
 
-            TableBlog tableBlog = ConvertBlogItemToTableBlog(blogItem);
+            BlogDataRow tableBlog = ConvertBlogItemToTableBlog(blogItem);
             tableBlog.LastModified = DateTime.Now;
             _blogs.Update(tableBlog);
         }
@@ -140,7 +140,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 
         #region Private Methods
 
-        private bool BlogHasTag(TableBlog tableBlog, string[] tags)
+        private bool BlogHasTag(BlogDataRow tableBlog, string[] tags)
         {
             foreach (string searchTag in tags)
             {
@@ -154,7 +154,7 @@ namespace PluginManager.DAL.TextFiles.Providers
             return false;
         }
 
-        private List<BlogItem> ConvertTableBlogToBlogItem(List<TableBlog> tableBlogs)
+        private List<BlogItem> ConvertTableBlogToBlogItem(List<BlogDataRow> tableBlogs)
         {
             List<BlogItem> Result = new List<BlogItem>();
 
@@ -164,7 +164,7 @@ namespace PluginManager.DAL.TextFiles.Providers
             return Result;
         }
 
-        private BlogItem ConvertTableBlogToBlogItem(TableBlog blog)
+        private BlogItem ConvertTableBlogToBlogItem(BlogDataRow blog)
         {
             if (blog == null)
                 return null;
@@ -173,12 +173,12 @@ namespace PluginManager.DAL.TextFiles.Providers
                     blog.PublishDateTime, blog.Created, blog.LastModified, blog.Tags, blog.Comments);
         }
 
-        private TableBlog ConvertBlogItemToTableBlog(BlogItem blog)
+        private BlogDataRow ConvertBlogItemToTableBlog(BlogItem blog)
         {
             if (blog == null)
                 return null;
 
-            return new TableBlog()
+            return new BlogDataRow()
             {
                 Id = Convert.ToInt32(blog.Id), 
                 UserId = blog.UserId, 

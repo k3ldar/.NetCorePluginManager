@@ -63,7 +63,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
         [TestMethod]
         public void Construct_ValidInstance_Success()
         {
-            SeoProvider sut = new SeoProvider(new MockTextTableOperations<TableSeo>());
+            SeoProvider sut = new SeoProvider(new MockTextTableOperations<SeoDataRow>());
 
             Assert.IsNotNull(sut);
         }
@@ -148,7 +148,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
-                    ITextTableOperations<TableSeo> seoTable = provider.GetRequiredService<ITextTableOperations<TableSeo>>();
+                    ITextTableOperations<SeoDataRow> seoTable = provider.GetRequiredService<ITextTableOperations<SeoDataRow>>();
                     Assert.IsNotNull(seoTable);
 
                     ISeoProvider sut = provider.GetRequiredService<ISeoProvider>();
@@ -158,7 +158,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
                     Assert.IsTrue(result);
 
-                    IReadOnlyList<TableSeo> seoData = seoTable.Select();
+                    IReadOnlyList<SeoDataRow> seoData = seoTable.Select();
                     Assert.IsNotNull(seoData);
                     Assert.AreEqual(1, seoData.Count);
                     Assert.AreEqual("/route", seoData[0].Route);
@@ -190,7 +190,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
-                    ITextTableOperations<TableSeo> seoTable = provider.GetRequiredService<ITextTableOperations<TableSeo>>();
+                    ITextTableOperations<SeoDataRow> seoTable = provider.GetRequiredService<ITextTableOperations<SeoDataRow>>();
                     Assert.IsNotNull(seoTable);
 
                     ISeoProvider sut = provider.GetRequiredService<ISeoProvider>();
@@ -203,7 +203,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     result = sut.AddKeyword("/route", "key");
                     Assert.IsFalse(result);
 
-                    IReadOnlyList<TableSeo> seoData = seoTable.Select();
+                    IReadOnlyList<SeoDataRow> seoData = seoTable.Select();
                     Assert.IsNotNull(seoData);
                     Assert.AreEqual(1, seoData.Count);
                     Assert.AreEqual("/route", seoData[0].Route);
@@ -297,10 +297,10 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
-                    ITextTableOperations<TableSeo> seoTable = provider.GetRequiredService<ITextTableOperations<TableSeo>>();
+                    ITextTableOperations<SeoDataRow> seoTable = provider.GetRequiredService<ITextTableOperations<SeoDataRow>>();
                     Assert.IsNotNull(seoTable);
 
-                    TableSeo newRecord = new TableSeo()
+                    SeoDataRow newRecord = new SeoDataRow()
                     {
                         Route = "/route",
                     };
@@ -325,7 +325,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     bool result = sut.AddKeywords("/route", keywords);
                     Assert.IsTrue(result);
 
-                    IReadOnlyList<TableSeo> seoData = seoTable.Select();
+                    IReadOnlyList<SeoDataRow> seoData = seoTable.Select();
                     Assert.IsNotNull(seoData);
                     Assert.AreEqual(1, seoData.Count);
                     Assert.AreEqual("/route", seoData[0].Route);
@@ -398,10 +398,10 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
-                    ITextTableOperations<TableSeo> seoTable = provider.GetRequiredService<ITextTableOperations<TableSeo>>();
+                    ITextTableOperations<SeoDataRow> seoTable = provider.GetRequiredService<ITextTableOperations<SeoDataRow>>();
                     Assert.IsNotNull(seoTable);
 
-                    TableSeo newRecord = new TableSeo()
+                    SeoDataRow newRecord = new SeoDataRow()
                     {
                         Route = "/route",
                         Title = "the title",
@@ -551,10 +551,10 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
-                    ITextTableOperations<TableSeo> seoTable = provider.GetRequiredService<ITextTableOperations<TableSeo>>();
+                    ITextTableOperations<SeoDataRow> seoTable = provider.GetRequiredService<ITextTableOperations<SeoDataRow>>();
                     Assert.IsNotNull(seoTable);
 
-                    TableSeo newRecord = new TableSeo()
+                    SeoDataRow newRecord = new SeoDataRow()
                     {
                         Route = "/route",
                         Title = "the title",
@@ -598,10 +598,10 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
-                    ITextTableOperations<TableSeo> seoTable = provider.GetRequiredService<ITextTableOperations<TableSeo>>();
+                    ITextTableOperations<SeoDataRow> seoTable = provider.GetRequiredService<ITextTableOperations<SeoDataRow>>();
                     Assert.IsNotNull(seoTable);
 
-                    TableSeo newRecord = new TableSeo()
+                    SeoDataRow newRecord = new SeoDataRow()
                     {
                         Route = "/route",
                         Title = "the title",
@@ -620,7 +620,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     bool result = sut.RemoveKeyword("/route", "one");
                     Assert.IsTrue(result);
 
-                    TableSeo record = seoTable.Select(0);
+                    SeoDataRow record = seoTable.Select(0);
                     Assert.IsNotNull(record);
 
                     Assert.IsNotNull(record.Keywords);
@@ -742,10 +742,10 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
-                    ITextTableOperations<TableSeo> seoTable = provider.GetRequiredService<ITextTableOperations<TableSeo>>();
+                    ITextTableOperations<SeoDataRow> seoTable = provider.GetRequiredService<ITextTableOperations<SeoDataRow>>();
                     Assert.IsNotNull(seoTable);
 
-                    TableSeo newRecord = new TableSeo()
+                    SeoDataRow newRecord = new SeoDataRow()
                     {
                         Route = "/route",
                         Title = "the title",
@@ -767,7 +767,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     bool result = sut.RemoveKeywords("/route", new List<string>() { "one", "four" });
                     Assert.IsTrue(result);
 
-                    TableSeo record = seoTable.Select(0);
+                    SeoDataRow record = seoTable.Select(0);
                     Assert.IsNotNull(record);
 
                     Assert.IsNotNull(record.Keywords);
@@ -867,10 +867,10 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     bool result = sut.UpdateDescription("/route", "description");
                     Assert.IsTrue(result);
 
-                    ITextTableOperations<TableSeo> seoTable = provider.GetRequiredService<ITextTableOperations<TableSeo>>();
+                    ITextTableOperations<SeoDataRow> seoTable = provider.GetRequiredService<ITextTableOperations<SeoDataRow>>();
                     Assert.IsNotNull(seoTable);
 
-                    TableSeo newRecord = seoTable.Select(0);
+                    SeoDataRow newRecord = seoTable.Select(0);
                     Assert.IsNotNull(newRecord);
                     Assert.AreEqual("description", newRecord.Description);
                 }
@@ -899,10 +899,10 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
-                    ITextTableOperations<TableSeo> seoTable = provider.GetRequiredService<ITextTableOperations<TableSeo>>();
+                    ITextTableOperations<SeoDataRow> seoTable = provider.GetRequiredService<ITextTableOperations<SeoDataRow>>();
                     Assert.IsNotNull(seoTable);
 
-                    TableSeo newRecord = new TableSeo()
+                    SeoDataRow newRecord = new SeoDataRow()
                     {
                         Route = "/route",
                         Title = "the title",
@@ -922,7 +922,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     Assert.IsTrue(result);
 
 
-                    TableSeo updatedRecord = seoTable.Select(0);
+                    SeoDataRow updatedRecord = seoTable.Select(0);
                     Assert.AreEqual("the title", updatedRecord.Title);
                     Assert.AreEqual("new description", updatedRecord.Description);
                     Assert.AreEqual("the author", updatedRecord.Author);
@@ -1018,10 +1018,10 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     bool result = sut.UpdateTitle("/route", "title");
                     Assert.IsTrue(result);
 
-                    ITextTableOperations<TableSeo> seoTable = provider.GetRequiredService<ITextTableOperations<TableSeo>>();
+                    ITextTableOperations<SeoDataRow> seoTable = provider.GetRequiredService<ITextTableOperations<SeoDataRow>>();
                     Assert.IsNotNull(seoTable);
 
-                    TableSeo newRecord = seoTable.Select(0);
+                    SeoDataRow newRecord = seoTable.Select(0);
                     Assert.IsNotNull(newRecord);
                     Assert.AreEqual("title", newRecord.Title);
                 }
@@ -1050,10 +1050,10 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
-                    ITextTableOperations<TableSeo> seoTable = provider.GetRequiredService<ITextTableOperations<TableSeo>>();
+                    ITextTableOperations<SeoDataRow> seoTable = provider.GetRequiredService<ITextTableOperations<SeoDataRow>>();
                     Assert.IsNotNull(seoTable);
 
-                    TableSeo newRecord = new TableSeo()
+                    SeoDataRow newRecord = new SeoDataRow()
                     {
                         Route = "/route",
                         Title = "the title",
@@ -1073,7 +1073,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     Assert.IsTrue(result);
 
 
-                    TableSeo updatedRecord = seoTable.Select(0);
+                    SeoDataRow updatedRecord = seoTable.Select(0);
                     Assert.AreEqual("new title", updatedRecord.Title);
                     Assert.AreEqual("the description", updatedRecord.Description);
                     Assert.AreEqual("the author", updatedRecord.Author);
@@ -1169,10 +1169,10 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     bool result = sut.UpdateAuthor("/route", "author");
                     Assert.IsTrue(result);
 
-                    ITextTableOperations<TableSeo> seoTable = provider.GetRequiredService<ITextTableOperations<TableSeo>>();
+                    ITextTableOperations<SeoDataRow> seoTable = provider.GetRequiredService<ITextTableOperations<SeoDataRow>>();
                     Assert.IsNotNull(seoTable);
 
-                    TableSeo newRecord = seoTable.Select(0);
+                    SeoDataRow newRecord = seoTable.Select(0);
                     Assert.IsNotNull(newRecord);
                     Assert.AreEqual("author", newRecord.Author);
                 }
@@ -1201,10 +1201,10 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
-                    ITextTableOperations<TableSeo> seoTable = provider.GetRequiredService<ITextTableOperations<TableSeo>>();
+                    ITextTableOperations<SeoDataRow> seoTable = provider.GetRequiredService<ITextTableOperations<SeoDataRow>>();
                     Assert.IsNotNull(seoTable);
 
-                    TableSeo newRecord = new TableSeo()
+                    SeoDataRow newRecord = new SeoDataRow()
                     {
                         Route = "/route",
                         Title = "the title",
@@ -1224,7 +1224,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     Assert.IsTrue(result);
 
 
-                    TableSeo updatedRecord = seoTable.Select(0);
+                    SeoDataRow updatedRecord = seoTable.Select(0);
                     Assert.AreEqual("the title", updatedRecord.Title);
                     Assert.AreEqual("the description", updatedRecord.Description);
                     Assert.AreEqual("new author", updatedRecord.Author);

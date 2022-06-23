@@ -37,11 +37,11 @@ namespace PluginManager.DAL.TextFiles.Providers
 {
     internal class LoginProvider : ILoginProvider
     {
-        private readonly ITextTableOperations<TableUser> _users;
-        private readonly ITextTableOperations<TableExternalUsers> _externalUsers;
+        private readonly ITextTableOperations<UserDataRow> _users;
+        private readonly ITextTableOperations<ExternalUsersDataRow> _externalUsers;
         private readonly string _encryptionKey;
 
-        public LoginProvider(ITextTableOperations<TableUser> users, ITextTableOperations<TableExternalUsers> externalUsers, ISettingsProvider settingsProvider)
+        public LoginProvider(ITextTableOperations<UserDataRow> users, ITextTableOperations<ExternalUsersDataRow> externalUsers, ISettingsProvider settingsProvider)
         {
             if (settingsProvider == null)
                 throw new ArgumentNullException(nameof(settingsProvider));
@@ -59,7 +59,7 @@ namespace PluginManager.DAL.TextFiles.Providers
         public LoginResult Login(in string username, in string password, in string ipAddress,
             in byte attempts, ref UserLoginDetails loginDetails)
         {
-            TableExternalUsers externalUser = _externalUsers.Select(loginDetails.UserId);
+            ExternalUsersDataRow externalUser = _externalUsers.Select(loginDetails.UserId);
 
             if (externalUser != null)
             {
@@ -68,7 +68,7 @@ namespace PluginManager.DAL.TextFiles.Providers
                 return LoginResult.Remembered;
             }
 
-            TableUser tableUser = _users.Select(loginDetails.UserId);
+            UserDataRow tableUser = _users.Select(loginDetails.UserId);
 
             if (loginDetails.RememberMe && tableUser != null)
             {
@@ -125,7 +125,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 
             string loginName = username;
 
-            TableUser tableUser = _users.Select()
+            UserDataRow tableUser = _users.Select()
                 .Where(u => u.Email.Equals(loginName, StringComparison.OrdinalIgnoreCase))
                 .FirstOrDefault();
 
@@ -177,7 +177,7 @@ namespace PluginManager.DAL.TextFiles.Providers
             if (tokenUserDetails == null)
                 throw new ArgumentNullException(nameof(tokenUserDetails));
 
-            TableExternalUsers externalUser = _externalUsers.Select()
+            ExternalUsersDataRow externalUser = _externalUsers.Select()
                 .Where(eu => eu.Provider.Equals(tokenUserDetails.Provider, StringComparison.OrdinalIgnoreCase) &&
                     eu.Token.Equals(tokenUserDetails.Id))
                 .FirstOrDefault();
@@ -190,7 +190,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 
         private LoginResult LoginExternalUser(ITokenUserDetails tokenUserDetails, ref UserLoginDetails loginDetails)
         {
-            TableExternalUsers externalUser = new TableExternalUsers()
+            ExternalUsersDataRow externalUser = new ExternalUsersDataRow()
             {
                 Email = tokenUserDetails.Email,
                 UserName = tokenUserDetails.Name ?? tokenUserDetails.Email,
@@ -213,7 +213,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 
         private LoginResult VerifyExternalUser(ITokenUserDetails tokenUserDetails)
         {
-            TableExternalUsers externalUser = _externalUsers.Select()
+            ExternalUsersDataRow externalUser = _externalUsers.Select()
                 .Where(eu => eu.Provider.Equals(tokenUserDetails.Provider, StringComparison.OrdinalIgnoreCase) &&
                     eu.Token.Equals(tokenUserDetails.Id))
                 .FirstOrDefault();

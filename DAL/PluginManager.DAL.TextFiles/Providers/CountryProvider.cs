@@ -31,9 +31,9 @@ namespace PluginManager.DAL.TextFiles.Providers
 {
     internal class CountryProvider : ICountryProvider
     {
-        private readonly ITextTableOperations<TableCountry> _countries;
+        private readonly ITextTableOperations<CountryDataRow> _countries;
 
-        public CountryProvider(ITextTableOperations<TableCountry> countries)
+        public CountryProvider(ITextTableOperations<CountryDataRow> countries)
         {
             _countries = countries ?? throw new ArgumentNullException(nameof(countries));
         }
@@ -49,7 +49,7 @@ namespace PluginManager.DAL.TextFiles.Providers
             if (code.Length > 3)
                 throw new ArgumentException(nameof(code));
 
-            TableCountry tableCountries = new TableCountry()
+            CountryDataRow tableCountries = new CountryDataRow()
             {
                 Name = name,
                 Code = code,
@@ -63,7 +63,7 @@ namespace PluginManager.DAL.TextFiles.Providers
         public bool CountryDelete(in Country country)
         {
             string code = country.Code;
-            TableCountry tableCountry = _countries.Select().Where(c => c.Code.Equals(code)).FirstOrDefault();
+            CountryDataRow tableCountry = _countries.Select().Where(c => c.Code.Equals(code)).FirstOrDefault();
 
             if (tableCountry == null)
                 return false;
@@ -79,7 +79,7 @@ namespace PluginManager.DAL.TextFiles.Providers
         public bool CountryUpdate(in Country country)
         {
             string code = country.Code;
-            TableCountry tableCountry = _countries.Select().Where(c => c.Code.Equals(code)).FirstOrDefault();
+            CountryDataRow tableCountry = _countries.Select().Where(c => c.Code.Equals(code)).FirstOrDefault();
 
             if (tableCountry == null)
                 return false;
@@ -102,11 +102,11 @@ namespace PluginManager.DAL.TextFiles.Providers
             return ConvertTableCountriesToCountries(_countries.Select().Where(c => c.Visible).ToList());
         }
 
-        private List<Country> ConvertTableCountriesToCountries(IReadOnlyList<TableCountry> tableCountries)
+        private List<Country> ConvertTableCountriesToCountries(IReadOnlyList<CountryDataRow> tableCountries)
         {
             List<Country> Result = new List<Country>();
 
-            foreach (TableCountry tableCountry in tableCountries)
+            foreach (CountryDataRow tableCountry in tableCountries)
             {
                 Result.Add(new Country(tableCountry.Name, tableCountry.Code, tableCountry.Visible));
             }
