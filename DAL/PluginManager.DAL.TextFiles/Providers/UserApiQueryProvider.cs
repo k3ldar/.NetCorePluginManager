@@ -20,31 +20,70 @@
  *  Purpose:  IUserApiQueryProvider for text based storage
  *
  *  Date        Name                Reason
- *  25/05/2022  Simon Carter        Initially Created
+ *  23/06/2022  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
 
 using Middleware;
 
+using PluginManager.DAL.TextFiles.Tables;
+
+using Shared.Classes;
+
+using SharedPluginFeatures;
+
 namespace PluginManager.DAL.TextFiles.Providers
 {
     internal class UserApiQueryProvider : IUserApiQueryProvider
     {
-        private const string MockMerchantId = "mer-9djn5r49fdljnfkjed89dfljhsaf9";
-        private const string MockApiKey = "GH9asdflnler08dsfowlaenfrlasdkfnpo8u";
-        private const string MockSecret = "iOfdafasdfcDSAF48scdjkfnasdfSAAf";
+        private readonly ITextTableOperations<UserApiDataRow> _userApiDataRow;
+        private readonly CacheManager _memoryCacheManager;
+
+        public UserApiQueryProvider(ITextTableOperations<UserApiDataRow> userApiDataRow, IMemoryCache memoryCache)
+        {
+            _userApiDataRow = userApiDataRow ?? throw new ArgumentNullException(nameof(userApiDataRow));
+
+            if (memoryCache == null)
+                throw new ArgumentNullException(nameof(memoryCache));
+
+            _memoryCacheManager = memoryCache.GetShortCache();
+        }
 
         public bool ApiSecret(string merchantId, string apiKey, out string secret)
         {
-            if (merchantId.Equals(MockMerchantId) && apiKey.Equals(MockApiKey))
+            secret = String.Empty;
+
+            if (String.IsNullOrEmpty(merchantId))
+                return false;
+
+            if (String.IsNullOrEmpty(apiKey))
+                return false;
+
+            string cacheName = $"api {merchantId} {apiKey}";
+
+            CacheItem cacheItem = _memoryCacheManager.Get(cacheName);
+
+            if (cacheItem == null)
             {
-                secret = MockSecret;
-                return true;
+                UserApiDataRow row = _userApiDataRow.Select()
+                    .Where(api => api.MerchantId.Equals(merchantId, StringComparison.InvariantCultureIgnoreCase) && 
+                        api.ApiKey.Equals(apiKey, StringComparison.InvariantCulture))
+                    .FirstOrDefault();
+
+                if (row == null)
+                    return false;
+
+                cacheItem = new CacheItem(cacheName, row.Secret);
+                _memoryCacheManager.Add(cacheName, cacheItem);
             }
 
-            secret = String.Empty;
-            return false;
+            if (cacheItem == null)
+                return false;
+
+            secret = (string)cacheItem.Value;
+
+            return true;
         }
     }
 }

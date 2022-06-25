@@ -28,7 +28,7 @@ using PluginManager.DAL.TextFiles.Internal;
 namespace PluginManager.DAL.TextFiles.Tables
 {
     [Table(Constants.TableNameUserClaims, CompressionType.None, CachingStrategy.None)]
-    public sealed class UserClaimsDataRow : TableRowDefinition
+    internal sealed class UserClaimsDataRow : TableRowDefinition
     {
         public UserClaimsDataRow()
         {

@@ -142,7 +142,7 @@ namespace PluginManager.DAL.TextFiles.Tests
 
             sut.BeforeConfigureServices(mockServiceCollection);
 
-            Assert.AreEqual(17, mockServiceCollection.Count);
+            Assert.AreEqual(19, mockServiceCollection.Count);
         }
 
         [TestMethod]

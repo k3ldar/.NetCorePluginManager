@@ -15,32 +15,34 @@
  *
  *  Product:  PluginManager.DAL.TextFiles
  *  
- *  File: ExternalUsersDataRow.cs
+ *  File: UserClaimsDataRow.cs
  *
- *  Purpose:  Table definition for external users
+ *  Purpose:  Table definition for user claims
  *
  *  Date        Name                Reason
- *  11/06/2022  Simon Carter        Initially Created
+ *  06/06/2022  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using PluginManager.DAL.TextFiles.Internal;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
+using PluginManager.DAL.TextFiles.Internal;
 
 namespace PluginManager.DAL.TextFiles.Tables
 {
-    [Table(Constants.TableNameExternalUsers, CompressionType.Brotli)]
-    internal sealed class ExternalUsersDataRow : TableRowDefinition
+    [Table(Constants.TableNameUserClaims, CompressionType.None, CachingStrategy.None)]
+    internal class UserApiDataRow : TableRowDefinition
     {
-        public string UserId { get; set; }
+        [ForeignKey(Constants.TableNameUsers)]
+        public long UserId { get; set; }
 
-        public string Email { get; set; }
+        public string MerchantId { get; set; }
 
-        public string UserName { get; set; }
+        public string ApiKey { get; set; }
 
-        public string Provider { get; set; }
-
-        public string Picture { get; set; }
-
-        public string Token { get; set; }
+        public string Secret { get; set; }
     }
 }

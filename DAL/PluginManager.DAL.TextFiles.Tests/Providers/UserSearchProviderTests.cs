@@ -46,7 +46,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 {
     [TestClass]
     [ExcludeFromCodeCoverage]
-    public class UserSearchTests : BaseProviderTests
+    public class UserSearchProviderTests : BaseProviderTests
     {
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]

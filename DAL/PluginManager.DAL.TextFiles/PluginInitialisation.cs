@@ -94,6 +94,7 @@ namespace PluginManager.DAL.TextFiles
             services.AddSingleton(typeof(TableRowDefinition), typeof(UserClaimsDataRow));
             services.AddSingleton(typeof(TableRowDefinition), typeof(ExternalUsersDataRow));
             services.AddSingleton(typeof(TableRowDefinition), typeof(SeoDataRow));
+            services.AddSingleton(typeof(TableRowDefinition), typeof(UserApiDataRow));
             services.AddSingleton(typeof(ITextTableOperations<>), typeof(TextTableOperations<>));
 
             // register providers
@@ -112,7 +113,7 @@ namespace PluginManager.DAL.TextFiles
             //services.AddSingleton<IShoppingCartProvider, ShoppingCartProvider>();
             //services.AddSingleton<IShoppingCartService, ShoppingCartProvider>();
             //services.AddSingleton<IStockProvider, StockProvider>();
-            //services.AddSingleton<IUserApiQueryProvider, UserApiQueryProvider>();
+            services.AddSingleton<IUserApiQueryProvider, UserApiQueryProvider>();
             services.AddTransient<IUserSearch, UserSearch>();
         }
 

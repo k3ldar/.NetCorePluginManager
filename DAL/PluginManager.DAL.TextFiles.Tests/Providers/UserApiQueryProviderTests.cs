@@ -15,20 +15,17 @@
  *
  *  Product:  PluginManager.DAL.TextFiles.Tests
  *  
- *  File: UserClaimsTests.cs
+ *  File: UserApiQueryProviderTests.cs
  *
- *  Purpose:  User claims tests for text based storage
+ *  Purpose:  User api query provider tests for text based storage
  *
  *  Date        Name                Reason
- *  06/06/2022  Simon Carter        Initially Created
+ *  23/06/2022  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.IO;
-using System.Security.Claims;
-using System.Linq;
 
 using AspNetCore.PluginManager.Tests.Shared;
 
@@ -37,23 +34,38 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using Middleware;
 using Middleware.Accounts;
-using Middleware.Accounts.Orders;
 
 using PluginManager.Abstractions;
 using PluginManager.DAL.TextFiles.Internal;
 using PluginManager.DAL.TextFiles.Providers;
 using PluginManager.DAL.TextFiles.Tables;
+using PluginManager.DAL.TextFiles.Tests.Mocks;
+
+using Shared.Classes;
 
 using SharedPluginFeatures;
 
 namespace PluginManager.DAL.TextFiles.Tests.Providers
 {
     [TestClass]
-    [ExcludeFromCodeCoverage]
-    public class UserClaimsTests : BaseProviderTests
+    public class UserApiQueryProviderTests : BaseProviderTests
     {
         [TestMethod]
-        public void SetClaimsForUser_UserDoesNotExists_ReturnsEmptyList()
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void Construct_InvalidInstance_TableUserNull_Throws_ArgumentNullException()
+        {
+            new UserApiQueryProvider(null, new MockMemoryCache());
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void Construct_InvalidInstance_MemoryCacheNull_Throws_ArgumentNullException()
+        {
+            new UserApiQueryProvider(new MockTextTableOperations<UserApiDataRow>(), null);
+        }
+
+        [TestMethod]
+        public void ApiSecret_InvalidParam_MerchantIDNull_Returns_False()
         {
             string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
             try
@@ -64,19 +76,24 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
                 services.AddSingleton<IPluginClassesService, MockPluginClassesService>();
                 services.AddSingleton<IForeignKeyManager, ForeignKeyManager>();
+                services.AddSingleton<IMemoryCache, MockMemoryCache>();
                 services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
 
                 initialisation.BeforeConfigureServices(services);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
-                    IClaimsProvider sut = provider.GetRequiredService<IClaimsProvider>();
+                    IPluginClassesService pluginClassesService = new MockPluginClassesService(new List<object>() { new ExternalUsersDataRowDefaults() });
 
+                    ITextTableInitializer initializer = new TextTableInitializer(directory);
+                    IForeignKeyManager keyManager = new ForeignKeyManager();
+
+                    IUserApiQueryProvider sut = provider.GetService<IUserApiQueryProvider>();
                     Assert.IsNotNull(sut);
 
-                    List<ClaimsIdentity> userClaims = sut.GetUserClaims(3);
-                    Assert.IsNotNull(userClaims);
-                    Assert.AreEqual(0, userClaims.Count);
+                    bool result = sut.ApiSecret(null, "apikey", out string secret);
+                    Assert.IsFalse(result);
+                    Assert.AreEqual("", secret);
                 }
             }
             finally
@@ -86,7 +103,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
         }
 
         [TestMethod]
-        public void SetClaimsForUser_UserDoesNotExist_ReturnsFalse()
+        public void ApiSecret_InvalidParam_ApiKeyNull_Returns_False()
         {
             string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
             try
@@ -97,202 +114,170 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
                 services.AddSingleton<IPluginClassesService, MockPluginClassesService>();
                 services.AddSingleton<IForeignKeyManager, ForeignKeyManager>();
+                services.AddSingleton<IMemoryCache, MockMemoryCache>();
                 services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
 
                 initialisation.BeforeConfigureServices(services);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
+                    IPluginClassesService pluginClassesService = new MockPluginClassesService(new List<object>() { new ExternalUsersDataRowDefaults() });
+
+                    ITextTableInitializer initializer = new TextTableInitializer(directory);
+                    IForeignKeyManager keyManager = new ForeignKeyManager();
+
+                    IUserApiQueryProvider sut = provider.GetService<IUserApiQueryProvider>();
+                    Assert.IsNotNull(sut);
+
+                    bool result = sut.ApiSecret("merchant", null, out string secret);
+                    Assert.IsFalse(result);
+                    Assert.AreEqual("", secret);
+                }
+            }
+            finally
+            {
+                Directory.Delete(directory, true);
+            }
+        }
+
+        [TestMethod]
+        public void ApiSecret_RetrievedFromMemoryCache_Returns_True()
+        {
+            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            try
+            {
+                Directory.CreateDirectory(directory);
+                PluginInitialisation initialisation = new PluginInitialisation();
+                ServiceCollection services = new ServiceCollection();
+
+                services.AddSingleton<IPluginClassesService, MockPluginClassesService>();
+                services.AddSingleton<IForeignKeyManager, ForeignKeyManager>();
+                services.AddSingleton<IMemoryCache, MockMemoryCache>();
+                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
+
+                initialisation.BeforeConfigureServices(services);
+
+                using (ServiceProvider provider = services.BuildServiceProvider())
+                {
+                    IPluginClassesService pluginClassesService = new MockPluginClassesService(new List<object>() { new ExternalUsersDataRowDefaults() });
+
+                    ITextTableInitializer initializer = new TextTableInitializer(directory);
+                    IForeignKeyManager keyManager = new ForeignKeyManager();
+
+                    IMemoryCache memoryCache = provider.GetService<IMemoryCache>();
+                    Assert.IsNotNull(memoryCache);
+
+                    memoryCache.GetShortCache().Add("api testMerch testKey", new Shared.Classes.CacheItem("api testMerch testKey", "the secret"));
+
+                    IUserApiQueryProvider sut = provider.GetService<IUserApiQueryProvider>();
+                    Assert.IsNotNull(sut);
+
+                    bool result = sut.ApiSecret("testMerch", "testKey", out string secret);
+                    Assert.IsTrue(result);
+                    Assert.AreEqual("the secret", secret);
+                }
+            }
+            finally
+            {
+                Directory.Delete(directory, true);
+            }
+        }
+
+        [TestMethod]
+        public void ApiSecret_NotFound_Returns_False()
+        {
+            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            try
+            {
+                Directory.CreateDirectory(directory);
+                PluginInitialisation initialisation = new PluginInitialisation();
+                ServiceCollection services = new ServiceCollection();
+
+                services.AddSingleton<IPluginClassesService, MockPluginClassesService>();
+                services.AddSingleton<IForeignKeyManager, ForeignKeyManager>();
+                services.AddSingleton<IMemoryCache, MockMemoryCache>();
+                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
+
+                initialisation.BeforeConfigureServices(services);
+
+                using (ServiceProvider provider = services.BuildServiceProvider())
+                {
+                    IPluginClassesService pluginClassesService = new MockPluginClassesService(new List<object>() { new ExternalUsersDataRowDefaults() });
+
+                    ITextTableInitializer initializer = new TextTableInitializer(directory);
+                    IForeignKeyManager keyManager = new ForeignKeyManager();
+
+                    IUserApiQueryProvider sut = provider.GetService<IUserApiQueryProvider>();
+                    Assert.IsNotNull(sut);
+
+                    bool result = sut.ApiSecret("testMerch", "testKey", out string secret);
+                    Assert.IsFalse(result);
+                    Assert.AreEqual("", secret);
+                }
+            }
+            finally
+            {
+                Directory.Delete(directory, true);
+            }
+        }
+
+        [TestMethod]
+        public void ApiSecret_SecretFound_AddedToCache_Returns_True()
+        {
+            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            try
+            {
+                Directory.CreateDirectory(directory);
+                PluginInitialisation initialisation = new PluginInitialisation();
+                ServiceCollection services = new ServiceCollection();
+
+                services.AddSingleton<IPluginClassesService, MockPluginClassesService>();
+                services.AddSingleton<IForeignKeyManager, ForeignKeyManager>();
+                services.AddSingleton<IMemoryCache, MockMemoryCache>();
+                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
+
+                initialisation.BeforeConfigureServices(services);
+
+                using (ServiceProvider provider = services.BuildServiceProvider())
+                {
+                    IPluginClassesService pluginClassesService = new MockPluginClassesService(new List<object>() { new ExternalUsersDataRowDefaults() });
+
+                    ITextTableInitializer initializer = new TextTableInitializer(directory);
+
                     IAccountProvider accountProvider = provider.GetService(typeof(IAccountProvider)) as IAccountProvider;
 
                     Assert.IsNotNull(accountProvider);
 
-                    IClaimsProvider sut = provider.GetRequiredService<IClaimsProvider>();
-                    Assert.IsNotNull(sut);
+                    bool created = accountProvider.CreateAccount("me@here.com", "Joe", "Bloggs", "password", "", "", "", "", "", "", "", "", "US", out long userId);
 
-                    List<string> newClaims = new List<string>()
+                    using (TextTableOperations<UserApiDataRow> apiTable = new TextTableOperations<UserApiDataRow>(initializer, provider.GetService<IForeignKeyManager>(), pluginClassesService))
                     {
-                        "Administrator",
-                        "Staff",
-                        "ManageSeo",
-                        "ViewImageManager"
-                    };
+                        Assert.IsNotNull(apiTable);
 
-                    bool setClaimsResult = sut.SetClaimsForUser(100, newClaims);
+                        UserApiDataRow userApiDataRow = new UserApiDataRow()
+                        {
+                            MerchantId = "TestMerch",
+                            ApiKey = "testKey",
+                            Secret = "my secret",
+                            UserId = userId,
+                        };
 
-                    Assert.IsFalse(setClaimsResult);
-                }
-            }
-            finally
-            {
-                Directory.Delete(directory, true);
-            }
-        }
+                        apiTable.Insert(userApiDataRow);
+                    }
 
-        [TestMethod]
-        public void GetUserClaims_NoAdditionalClaimsFound_ReturnsDefaultUserClaims()
-        {
-            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
-            try
-            {
-                Directory.CreateDirectory(directory);
-                PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-
-                services.AddSingleton<IPluginClassesService, MockPluginClassesService>();
-                services.AddSingleton<IForeignKeyManager, ForeignKeyManager>();
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-
-                initialisation.BeforeConfigureServices(services);
-
-                using (ServiceProvider provider = services.BuildServiceProvider())
-                {
-                    IAccountProvider accountProvider = provider.GetService(typeof(IAccountProvider)) as IAccountProvider;
-
-                    Assert.IsNotNull(accountProvider);
-
-                    bool created = accountProvider.CreateAccount("me@here.com", "Joe", "Bloggs", "password", "", "", "", "", "", "", "", "", "US", out long userId);
-
-                    Assert.IsTrue(created);
-
-                    IClaimsProvider sut = provider.GetRequiredService<IClaimsProvider>();
+                    IUserApiQueryProvider sut = provider.GetService<IUserApiQueryProvider>();
                     Assert.IsNotNull(sut);
 
+                    bool result = sut.ApiSecret("testMerch", "testKey", out string secret);
+                    Assert.IsTrue(result);
+                    Assert.AreEqual("my secret", secret);
 
-                    List<ClaimsIdentity> userClaims = sut.GetUserClaims(userId);
-                    Assert.IsNotNull(userClaims);
-                    Assert.AreEqual(1, userClaims.Count);
-                    Assert.AreEqual("Name", userClaims[0].Claims.ToList()[0].Type);
-                    Assert.AreEqual("Joe Bloggs", userClaims[0].Claims.ToList()[0].Value);
-                    Assert.AreEqual("Email", userClaims[0].Claims.ToList()[1].Type);
-                    Assert.AreEqual("me@here.com", userClaims[0].Claims.ToList()[1].Value);
-                    Assert.AreEqual("UserId", userClaims[0].Claims.ToList()[2].Type);
-                    Assert.AreEqual("0", userClaims[0].Claims.ToList()[2].Value);
-                }
-            }
-            finally
-            {
-                Directory.Delete(directory, true);
-            }
-        }
+                    IMemoryCache memoryCache = provider.GetService<IMemoryCache>();
+                    Assert.IsNotNull(memoryCache);
 
-        [TestMethod]
-        public void SetClaimsForUser_AddsCorrectClaimsForUser_Success()
-        {
-            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
-            try
-            {
-                Directory.CreateDirectory(directory);
-                PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-
-                services.AddSingleton<IPluginClassesService, MockPluginClassesService>();
-                services.AddSingleton<IForeignKeyManager, ForeignKeyManager>();
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-
-                initialisation.BeforeConfigureServices(services);
-
-                using (ServiceProvider provider = services.BuildServiceProvider())
-                {
-                    IAccountProvider accountProvider = provider.GetService(typeof(IAccountProvider)) as IAccountProvider;
-
-                    Assert.IsNotNull(accountProvider);
-
-                    bool created = accountProvider.CreateAccount("me@here.com", "Joe", "Bloggs", "password", "", "", "", "", "", "", "", "", "US", out long userId);
-
-                    Assert.IsTrue(created);
-
-                    IClaimsProvider sut = provider.GetRequiredService<IClaimsProvider>();
-                    Assert.IsNotNull(sut);
-
-                    List<string> newClaims = new List<string>()
-                    { 
-                        "Administrator",
-                        "Staff",
-                        "ManageSeo",
-                        "ViewImageManager"
-                    };
-
-                    bool setClaimsResult = sut.SetClaimsForUser(userId, newClaims);
-
-                    Assert.IsTrue(setClaimsResult);
-
-
-                    List<ClaimsIdentity> userClaims = sut.GetUserClaims(userId);
-                    Assert.IsNotNull(userClaims);
-                    Assert.AreEqual(2, userClaims.Count);
-                    Assert.AreEqual("Name", userClaims[0].Claims.ToList()[0].Type);
-                    Assert.AreEqual("Joe Bloggs", userClaims[0].Claims.ToList()[0].Value);
-                    Assert.AreEqual("Email", userClaims[0].Claims.ToList()[1].Type);
-                    Assert.AreEqual("me@here.com", userClaims[0].Claims.ToList()[1].Value);
-                    Assert.AreEqual("UserId", userClaims[0].Claims.ToList()[2].Type);
-                    Assert.AreEqual("0", userClaims[0].Claims.ToList()[2].Value);
-
-                    Assert.AreEqual("Administrator", userClaims[1].Claims.ToList()[0].Type);
-                    Assert.AreEqual("True", userClaims[1].Claims.ToList()[0].Value);
-                    Assert.AreEqual("Staff", userClaims[1].Claims.ToList()[1].Type);
-                    Assert.AreEqual("True", userClaims[1].Claims.ToList()[1].Value);
-                    Assert.AreEqual("ManageSeo", userClaims[1].Claims.ToList()[2].Type);
-                    Assert.AreEqual("True", userClaims[1].Claims.ToList()[2].Value);
-                    Assert.AreEqual("ViewImageManager", userClaims[1].Claims.ToList()[3].Type);
-                    Assert.AreEqual("True", userClaims[1].Claims.ToList()[3].Value);
-                }
-            }
-            finally
-            {
-                Directory.Delete(directory, true);
-            }
-        }
-
-        [TestMethod]
-        public void GetClaimsForUser_UserHadAdditionalClaims_ReturnsCorrectList()
-        {
-            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
-            try
-            {
-                Directory.CreateDirectory(directory);
-                PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-
-                services.AddSingleton<IPluginClassesService, MockPluginClassesService>();
-                services.AddSingleton<IForeignKeyManager, ForeignKeyManager>();
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-
-                initialisation.BeforeConfigureServices(services);
-
-                using (ServiceProvider provider = services.BuildServiceProvider())
-                {
-                    IAccountProvider accountProvider = provider.GetService(typeof(IAccountProvider)) as IAccountProvider;
-
-                    Assert.IsNotNull(accountProvider);
-
-                    bool created = accountProvider.CreateAccount("me@here.com", "Joe", "Bloggs", "password", "", "", "", "", "", "", "", "", "US", out long userId);
-
-                    Assert.IsTrue(created);
-
-                    IClaimsProvider sut = provider.GetRequiredService<IClaimsProvider>();
-                    Assert.IsNotNull(sut);
-
-                    List<string> newClaims = new List<string>()
-                    {
-                        "Administrator",
-                        "Staff",
-                        "ManageSeo",
-                        "ViewImageManager"
-                    };
-
-                    bool setClaimsResult = sut.SetClaimsForUser(userId, newClaims);
-
-                    Assert.IsTrue(setClaimsResult);
-
-                    List<string> userClaims = sut.GetClaimsForUser(userId);
-                    Assert.IsNotNull(userClaims);
-
-                    Assert.AreEqual(4, userClaims.Count);
-                    Assert.AreEqual("Administrator", userClaims[0]);
-                    Assert.AreEqual("Staff", userClaims[1]);
-                    Assert.AreEqual("ManageSeo", userClaims[2]);
-                    Assert.AreEqual("ViewImageManager", userClaims[3]);
+                    CacheItem cacheItem = memoryCache.GetShortCache().Get("api testMerch testKey");
+                    Assert.IsNotNull(cacheItem);
+                    Assert.AreEqual("my secret", (string)cacheItem.Value);
                 }
             }
             finally

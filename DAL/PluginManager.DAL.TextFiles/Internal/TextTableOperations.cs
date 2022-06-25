@@ -447,7 +447,10 @@ namespace PluginManager.DAL.TextFiles.Internal
             Result.ForEach(r => r.ImmutableId = true);
 
             if (_tableAttributes.CachingStrategy == CachingStrategy.Memory)
+            {
                 _allRecords = Result;
+                _allRecords.ForEach(r => r.Loaded = true);
+            }
 
             return Result;
         }
@@ -523,7 +526,7 @@ namespace PluginManager.DAL.TextFiles.Internal
             if (_tableAttributes.CachingStrategy == CachingStrategy.Memory)
             {
                 _allRecords = recordsToSave;
-                _allRecords.ForEach(ar => ar.ImmutableId = true);
+                _allRecords.ForEach(ar => { ar.ImmutableId = true; ar.Loaded = true; });
             }
             else
             {

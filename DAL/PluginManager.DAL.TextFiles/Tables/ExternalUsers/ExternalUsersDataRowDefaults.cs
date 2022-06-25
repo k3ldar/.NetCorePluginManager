@@ -27,7 +27,7 @@ using PluginManager.DAL.TextFiles.Interfaces;
 
 namespace PluginManager.DAL.TextFiles.Tables
 {
-    public class ExternalUsersDataRowDefaults : ITableDefaults<ExternalUsersDataRow>
+    internal class ExternalUsersDataRowDefaults : ITableDefaults<ExternalUsersDataRow>
     {
         public long PrimarySequence => Int64.MinValue;
 

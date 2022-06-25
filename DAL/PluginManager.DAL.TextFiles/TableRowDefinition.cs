@@ -27,6 +27,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace PluginManager.DAL.TextFiles
@@ -70,5 +71,28 @@ namespace PluginManager.DAL.TextFiles
         /// Indicates whether the row has been marked for delete or not
         /// </summary>
         protected internal bool ImmutableId { get; internal set; } = false;
+
+        /// <summary>
+        /// Indicates the record has been loaded from storage
+        /// </summary>
+        [JsonIgnore] 
+        internal bool Loaded { get; set; }
+
+        /// <summary>
+        /// Indicates the record has been updated 
+        /// </summary>
+        [JsonIgnore] 
+        protected internal bool HasChanged { get; private set; }
+
+        protected void Updated()
+        {
+            if (!Loaded || HasChanged)
+                return;
+
+            if (ReadOnly)
+                throw new InvalidOperationException("Record is readonly");
+
+            HasChanged = true;
+        }
     }
 }

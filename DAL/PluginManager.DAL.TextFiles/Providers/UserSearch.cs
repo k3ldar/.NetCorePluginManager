@@ -23,9 +23,6 @@
  *  25/05/2022  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-
 using Middleware;
 
 using Middleware.Users;
@@ -47,7 +44,7 @@ namespace PluginManager.DAL.TextFiles.Providers
         {
             List<SearchUser> Result = new List<SearchUser>();
 
-            List<UserDataRow> users = _users.Select().Skip((pageNumber -1) * pageSize).Take(pageSize).ToList();
+            List<UserDataRow> users = _users.Select().Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
 
             users.ForEach(u => Result.Add(new SearchUser(u.Id, u.FullName, u.Email)));
 

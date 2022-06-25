@@ -28,7 +28,7 @@ using PluginManager.DAL.TextFiles.Internal;
 namespace PluginManager.DAL.TextFiles.Tables
 {
     [Table(Constants.TableNameCountries, CompressionType.None, CachingStrategy.Memory)]
-    public sealed class CountryDataRow : TableRowDefinition
+    internal sealed class CountryDataRow : TableRowDefinition
     {
         /// <summary>
         /// Name of country.

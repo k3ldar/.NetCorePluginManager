@@ -28,7 +28,7 @@ using PluginManager.DAL.TextFiles.Interfaces;
 
 namespace PluginManager.DAL.TextFiles.Tables
 {
-    public class CountryDataRowDefaults : ITableDefaults<CountryDataRow>
+    internal class CountryDataRowDefaults : ITableDefaults<CountryDataRow>
     {
         public long PrimarySequence => 0;
 
