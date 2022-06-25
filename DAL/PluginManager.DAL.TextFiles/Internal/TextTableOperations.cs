@@ -57,7 +57,6 @@ namespace PluginManager.DAL.TextFiles.Internal
 
         private static readonly byte[] Header = new byte[] { 80, 77 };
         private const string DefaultExtension = ".dat";
-        private const ushort FileVersion = 1;
         private const byte CompressionNone = 0;
         private const byte CompressionBrotli = 1;
         private const int RowCount = 0;
@@ -69,12 +68,14 @@ namespace PluginManager.DAL.TextFiles.Internal
         private const int StartOfRecordCount = TotalHeaderLength - ((sizeof(int) * 3) + sizeof(byte));
         private const int HeaderLength = 2;
         private const int DefaultSequenceIncrement = 1;
+        private const int VersionStart = 0;
 
         #endregion Constants
 
         private readonly JsonSerializerOptions _jsonSerializerOptions;
         private readonly string _tableName;
         private readonly FileStream _fileStream;
+        private readonly ushort _version;
         private bool _disposed;
         private int _recordCount = 0;
         private int _dataLength = 0;
@@ -144,7 +145,17 @@ namespace PluginManager.DAL.TextFiles.Internal
 
             if (tableCreated && tableDefaults != null && tableDefaults.InitialData != null)
             {
-                Insert(tableDefaults.InitialData);
+                for (ushort i = ++_version; i < ushort.MaxValue; i++)
+                {
+                    List<T> initialData = tableDefaults.InitialData(i);
+
+                    if (initialData == null)
+                        break;
+
+                    Insert(initialData);
+
+                    _version = InternalUpdateVersion(i);
+                }
             }
 
             RebuildAllMissingIndexes();
@@ -201,6 +212,8 @@ namespace PluginManager.DAL.TextFiles.Internal
         #region ITextReaderWriter<T>
 
         #region Properties
+
+        public ushort FileVersion => _version;
 
         public int DataLength => _dataLength;
 
@@ -798,10 +811,10 @@ namespace PluginManager.DAL.TextFiles.Internal
         private void ValidateTableContents()
         {
             using BinaryReader reader = new BinaryReader(_fileStream, Encoding.UTF8, true);
-            ushort version = reader.ReadUInt16();
+            ushort _version = reader.ReadUInt16();
 
-            if (version != FileVersion)
-                throw new InvalidDataException();
+            //if (version != FileVersion)
+            //    throw new InvalidDataException();
 
             byte[] header = new byte[HeaderLength];
             header = reader.ReadBytes(HeaderLength);
@@ -842,6 +855,19 @@ namespace PluginManager.DAL.TextFiles.Internal
             }
 
             return (tableCreated, tableName);
+        }
+
+        private ushort InternalUpdateVersion(ushort version)
+        {
+            using (TimedLock timedLock = TimedLock.Lock(_lockObject))
+            {
+                using BinaryWriter writer = new BinaryWriter(_fileStream, Encoding.UTF8, true);
+                writer.Seek(VersionStart, SeekOrigin.Begin);
+                writer.Write(version);
+                _fileStream.Flush(true);
+            }
+
+            return version;
         }
 
         private void CreateTableHeaderRecords(string fileName)

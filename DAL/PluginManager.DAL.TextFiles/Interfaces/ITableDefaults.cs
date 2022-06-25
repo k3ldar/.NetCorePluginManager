@@ -20,8 +20,13 @@ namespace PluginManager.DAL.TextFiles.Interfaces
         long SecondarySequence { get; }
 
         /// <summary>
-        /// Initial data that will be added when the table is first created
+        /// Latest version of data row
         /// </summary>
-        List<T> InitialData { get; }
+        ushort Version { get; }
+
+        /// <summary>
+        /// Initial data that will be added when the table is first created and for each upgrade
+        /// </summary>
+        List<T> InitialData(ushort version);
     }
 }

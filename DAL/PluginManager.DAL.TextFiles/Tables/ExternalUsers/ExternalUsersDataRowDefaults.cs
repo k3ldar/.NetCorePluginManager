@@ -33,6 +33,11 @@ namespace PluginManager.DAL.TextFiles.Tables
 
         public long SecondarySequence => 0;
 
-        public List<ExternalUsersDataRow> InitialData => null;
+        public ushort Version => 0;
+
+        List<ExternalUsersDataRow> ITableDefaults<ExternalUsersDataRow>.InitialData(ushort version)
+        {
+            return null;
+        }
     }
 }
