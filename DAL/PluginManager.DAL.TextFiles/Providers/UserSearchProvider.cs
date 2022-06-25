@@ -15,7 +15,7 @@
  *
  *  Product:  PluginManager.DAL.TextFiles
  *  
- *  File: UserSearch.cs
+ *  File: UserSearchProvider.cs
  *
  *  Purpose:  IUserSearch for text based storage
  *
