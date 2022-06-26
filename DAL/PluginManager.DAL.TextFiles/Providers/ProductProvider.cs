@@ -31,10 +31,29 @@ using System.Linq;
 using Middleware;
 using Middleware.Products;
 
+using PluginManager.DAL.TextFiles.Tables;
+
+using SharedPluginFeatures;
+
 namespace PluginManager.DAL.TextFiles.Providers
 {
     internal class ProductProvider : IProductProvider
     {
+        #region Private Members
+
+        private readonly ITextTableOperations<ProductGroupDataRow> _productGroups;
+
+        #endregion Private Members
+
+        #region Constructors
+
+        public ProductProvider(ITextTableOperations<ProductGroupDataRow> productGroupData, IMemoryCache memoryCache)
+        {
+
+        }
+
+        #endregion Constructors
+
         #region IProductProvider Members
 
         #region Product Groups
@@ -57,6 +76,12 @@ namespace PluginManager.DAL.TextFiles.Providers
         public bool ProductGroupDelete(in int id, out string errorMessage)
         {
             errorMessage = "Unable to delete in demo project";
+            return false;
+        }
+
+        public bool ProductGroupSave(in int id, in string description, in bool showOnWebsite, in int sortOrder, in string tagLine, in string url, out string errorMessage)
+        {
+            errorMessage = "Unable to save in demo project";
             return false;
         }
 
@@ -125,12 +150,6 @@ namespace PluginManager.DAL.TextFiles.Providers
         {
             int prodId = id;
             return GetProducts(1, 10000).Where(p => p.Id == prodId).FirstOrDefault();
-        }
-
-        public bool ProductGroupSave(in int id, in string description, in bool showOnWebsite, in int sortOrder, in string tagLine, in string url, out string errorMessage)
-        {
-            errorMessage = "Unable to save in demo project";
-            return false;
         }
 
         public bool ProductSave(in int id, in int productGroupId, in string name, in string description, in string features, in string videoLink, in bool newProduct, in bool bestSeller, in decimal retailPrice, in string sku, in bool isDownload, in bool allowBackOrder, out string errorMessage)
