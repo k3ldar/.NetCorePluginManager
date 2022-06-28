@@ -106,7 +106,7 @@ namespace PluginManager.DAL.TextFiles.Internal
             _tableAttributes = GetTableAttributes();
 
             if (_tableAttributes == null)
-                throw new InvalidOperationException();
+                throw new InvalidOperationException($"TableAttribute is missing from class {typeof(T).FullName}");
 
             ITableDefaults<T> tableDefaults = pluginClassesService.GetPluginClasses<ITableDefaults<T>>()
                 .FirstOrDefault();
@@ -457,12 +457,11 @@ namespace PluginManager.DAL.TextFiles.Internal
 
             _compactPercent = Convert.ToByte(Shared.Utilities.Percentage(_fileStream.Length, _fileStream.Position));
 
-            Result.ForEach(r => r.ImmutableId = true);
+            Result.ForEach(r => { r.Immutable = true; r.Loaded = true; });
 
             if (_tableAttributes.CachingStrategy == CachingStrategy.Memory)
             {
                 _allRecords = Result;
-                _allRecords.ForEach(r => r.Loaded = true);
             }
 
             return Result;
@@ -472,6 +471,8 @@ namespace PluginManager.DAL.TextFiles.Internal
         {
             using (TimedLock timedLock = TimedLock.Lock(_lockObject))
             {
+                records = records.Where(r => r.HasChanged).ToList();
+
                 if (_foreignKeys.Count > 0)
                     ValidateForeignKeys(records);
 
@@ -539,7 +540,7 @@ namespace PluginManager.DAL.TextFiles.Internal
             if (_tableAttributes.CachingStrategy == CachingStrategy.Memory)
             {
                 _allRecords = recordsToSave;
-                _allRecords.ForEach(ar => { ar.ImmutableId = true; ar.Loaded = true; });
+                _allRecords.ForEach(ar => { ar.Immutable = true; ar.Loaded = true; });
             }
             else
             {

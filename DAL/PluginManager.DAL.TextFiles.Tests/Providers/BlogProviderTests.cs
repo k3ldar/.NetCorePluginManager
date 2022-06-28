@@ -58,27 +58,35 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
         [ExpectedException(typeof(ArgumentNullException))]
         public void Construct_InvalidInstance_ParamMemoryCacheNull_Throws_ArgumentNullException()
         {
-            new BlogProvider(null, new MockTextTableOperations<UserDataRow>(), new MockTextTableOperations<BlogDataRow>());
+            new BlogProvider(null, new MockTextTableOperations<UserDataRow>(), new MockTextTableOperations<BlogDataRow>(), new MockTextTableOperations<BlogCommentDataRow>());
         }
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
         public void Construct_InvalidInstance_ParamTableUserNull_Throws_ArgumentNullException()
         {
-            new BlogProvider(new MockMemoryCache(), null, new MockTextTableOperations<BlogDataRow>());
+            new BlogProvider(new MockMemoryCache(), null, new MockTextTableOperations<BlogDataRow>(), new MockTextTableOperations<BlogCommentDataRow>());
         }
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
         public void Construct_InvalidInstance_ParamTableBlogNull_Throws_ArgumentNullException()
         {
-            new BlogProvider(new MockMemoryCache(), new MockTextTableOperations<UserDataRow>(), null);
+            new BlogProvider(new MockMemoryCache(), new MockTextTableOperations<UserDataRow>(), null, new MockTextTableOperations<BlogCommentDataRow>());
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void Construct_InvalidInstance_ParamTableBlogCommentNull_Throws_ArgumentNullException()
+        {
+            new BlogProvider(new MockMemoryCache(), new MockTextTableOperations<UserDataRow>(), new MockTextTableOperations<BlogDataRow>(), null);
         }
 
         [TestMethod]
         public void Construct_ValidInstance_Success()
         {
-            BlogProvider sut = new BlogProvider(new MockMemoryCache(), new MockTextTableOperations<UserDataRow>(), new MockTextTableOperations<BlogDataRow>());
+            BlogProvider sut = new BlogProvider(new MockMemoryCache(), new MockTextTableOperations<UserDataRow>(), 
+                new MockTextTableOperations<BlogDataRow>(), new MockTextTableOperations<BlogCommentDataRow>());
 
             Assert.IsNotNull(sut);
         }
@@ -118,14 +126,10 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                         {
                             Title = $"Blog title {i}",
                             BlogText = $"Blog {i}",
-                            Created = firstDate,
-                            LastModified = firstDate,
                             Published = i % 2 == 0,
                             Excerpt = $"Test blog {i}",
                             Username = "Test User",
                             UserId = 0,
-                            Comments = new List<BlogComment>(),
-                            Tags = new List<string>()
                         });
 
                         firstDate.AddDays(1);
@@ -189,14 +193,10 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                         {
                             Title = $"Blog title {i}",
                             BlogText = $"Blog {i}",
-                            Created = firstDate,
-                            LastModified = firstDate,
                             Published = i % 2 == 0,
                             Excerpt = $"Test blog {i}",
                             Username = "Test User",
                             UserId = 0,
-                            Comments = new List<BlogComment>(),
-                            Tags = new List<string>()
                         });
 
                         firstDate.AddDays(1);
@@ -263,14 +263,11 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                         {
                             Title = $"Blog title {i}",
                             BlogText = $"Blog {i}",
-                            Created = firstDate,
-                            LastModified = firstDate,
                             Published = i % 2 == 0,
                             Excerpt = $"Test blog {i}",
                             Username = "Test User",
                             UserId = 0,
-                            Comments = new List<BlogComment>(),
-                            Tags = new List<string>()
+                            Tags = new TextFilesList<string>()
                             {
                                 "test",
                                 $"{i % 2 == 0}"
@@ -329,14 +326,11 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                         {
                             Title = $"Blog title {i}",
                             BlogText = $"Blog {i}",
-                            Created = firstDate,
-                            LastModified = firstDate,
                             Published = i % 2 == 0,
                             Excerpt = $"Test blog {i}",
                             Username = "Test User",
                             UserId = 0,
-                            Comments = new List<BlogComment>(),
-                            Tags = new List<string>()
+                            Tags = new TextFilesList<string>()
                             {
                                 "test",
                                 $"{i % 2 == 0}"
@@ -395,14 +389,11 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                         {
                             Title = $"Blog title {i}",
                             BlogText = $"Blog {i}",
-                            Created = firstDate,
-                            LastModified = firstDate,
                             Published = i % 2 == 0,
                             Excerpt = $"Test blog {i}",
                             Username = "Test User",
                             UserId = 0,
-                            Comments = new List<BlogComment>(),
-                            Tags = new List<string>()
+                            Tags = new TextFilesList<string>()
                             {
                                 "test",
                                 $"{i % 2 == 0}"
@@ -461,14 +452,11 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                         {
                             Title = $"Blog title {i}",
                             BlogText = $"Blog {i}",
-                            Created = firstDate,
-                            LastModified = firstDate,
                             Published = i % 2 == 0,
                             Excerpt = $"Test blog {i}",
                             Username = "Test User",
                             UserId = 0,
-                            Comments = new List<BlogComment>(),
-                            Tags = new List<string>()
+                            Tags = new TextFilesList<string>()
                             {
                                 "test",
                                 $"{i % 2 == 0}"
@@ -527,14 +515,11 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                         {
                             Title = $"Blog title {i}",
                             BlogText = $"Blog {i}",
-                            Created = firstDate,
-                            LastModified = firstDate,
                             Published = i % 2 == 0,
                             Excerpt = $"Test blog {i}",
                             Username = "Test User",
                             UserId = 0,
-                            Comments = new List<BlogComment>(),
-                            Tags = new List<string>()
+                            Tags = new TextFilesList<string>()
                             {
                                 "test",
                                 $"{i % 2 == 0}"
@@ -596,14 +581,11 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                         {
                             Title = $"Blog title {i}",
                             BlogText = $"Blog {i}",
-                            Created = firstDate.AddDays(i),
-                            LastModified = firstDate.AddDays(i),
                             Published = i % 2 == 0,
                             Excerpt = $"Test blog {i}",
                             Username = "Test User",
                             UserId = i % 2 == 0 ? 1 : 0,
-                            Comments = new List<BlogComment>(),
-                            Tags = new List<string>()
+                            Tags = new TextFilesList<string>()
                             {
                                 "test",
                                 $"{i % 2 == 0}"
@@ -680,8 +662,8 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     Assert.AreEqual("Just a blog", savedBlog.BlogText);
                     Assert.AreEqual("Blog writer", savedBlog.Username);
                     Assert.IsFalse(savedBlog.Published);
-                    Assert.IsTrue(savedBlog.LastModified.Ticks > DateTime.Now.AddSeconds(-1).Ticks);
-                    Assert.IsTrue(savedBlog.Created.Ticks > DateTime.Now.AddSeconds(-1).Ticks);
+                    Assert.IsTrue(savedBlog.LastModified.Ticks > DateTime.UtcNow.AddSeconds(-1).Ticks);
+                    Assert.IsTrue(savedBlog.Created.Ticks > DateTime.UtcNow.AddSeconds(-1).Ticks);
                 }
             }
             finally
@@ -724,14 +706,11 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                         {
                             Title = $"Blog title {i}",
                             BlogText = $"Blog {i}",
-                            Created = DateTime.Now.AddDays(-1),
-                            LastModified = DateTime.Now.AddDays(-1),
                             Published = i % 2 == 0,
                             Excerpt = $"Test blog {i}",
                             Username = "Test User",
                             UserId = 0,
-                            Comments = new List<BlogComment>(),
-                            Tags = new List<string>()
+                            Tags = new TextFilesList<string>()
                             {
                                 "test",
                                 $"{i % 2 == 0}"
@@ -821,8 +800,6 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     Assert.AreEqual("Just a blog", savedBlog.BlogText);
                     Assert.AreEqual("Blog writer", savedBlog.Username);
                     Assert.IsFalse(savedBlog.Published);
-                    Assert.IsTrue(savedBlog.LastModified.Ticks > DateTime.Now.AddSeconds(-1).Ticks);
-                    Assert.IsTrue(savedBlog.Created.Ticks > DateTime.Now.AddSeconds(-1).Ticks);
 
                     sut.AddComment(savedBlog, null, 0, "first user", "just a comment");
 
@@ -887,8 +864,6 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     Assert.AreEqual("Just a blog", savedBlog.BlogText);
                     Assert.AreEqual("Blog writer", savedBlog.Username);
                     Assert.IsFalse(savedBlog.Published);
-                    Assert.IsTrue(savedBlog.LastModified.Ticks > DateTime.Now.AddSeconds(-1).Ticks);
-                    Assert.IsTrue(savedBlog.Created.Ticks > DateTime.Now.AddSeconds(-1).Ticks);
 
                     sut.AddComment(savedBlog, null, 0, "first user", "just a comment");
 

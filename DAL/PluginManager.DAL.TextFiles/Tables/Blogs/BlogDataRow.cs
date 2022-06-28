@@ -32,76 +32,184 @@ namespace PluginManager.DAL.TextFiles.Tables
     [Table(Constants.TableNameBlogs, CompressionType.Brotli)]
     internal sealed class BlogDataRow : TableRowDefinition
     {
+        #region Private Members
+
+        private TextFilesList<string> _tags;
+        private TextFilesList<BlogCommentDataRow> _comments;
+        private DateTime _publishDateTime;
+        private bool _published;
+        private string _username;
+        private string _blogText;
+        private string _excerpt;
+        private string _title;
+        private long _userId;
+
+        #endregion Private Members
+
         public BlogDataRow()
         {
-            Comments = new List<BlogComment>();
+            _comments = new TextFilesList<BlogCommentDataRow>();
+            _comments.Changed += DataChanged;
+            _tags = new TextFilesList<string>();
+            _tags.Changed += DataChanged;
+        }
+
+        private void DataChanged(object sender, EventArgs e)
+        {
+            Update();
         }
 
         /// <summary>
         /// Unique id of user creating the blog entry.
         /// </summary>
         [ForeignKey(Constants.TableNameUsers)]
-        public long UserId { get; set; }
+        public long UserId
+        {
+            get => _userId;
+
+            set
+            {
+                _userId = value;
+                Update();
+            }
+        }
 
         /// <summary>
         /// Title of blog entry.
         /// </summary>
         /// <value>string</value>
-        public string Title { get; set; }
+        public string Title
+        {
+            get => _title;
+
+            set
+            {
+                _title = value;
+                Update();
+            }
+        }
 
         /// <summary>
         /// Brief description describing the blog entry.
         /// </summary>
         /// <value>string</value>
-        public string Excerpt { get; set; }
+        public string Excerpt
+        {
+            get => _excerpt;
+
+            set
+            {
+                _excerpt = value;
+                Update();
+            }
+        }
 
         /// <summary>
         /// The main blog text.
         /// </summary>
         /// <value>string</value>
-        public string BlogText { get; set; }
+        public string BlogText
+        {
+            get => _blogText;
+
+            set
+            { 
+                _blogText = value;
+                Update();
+            }
+        }
 
         /// <summary>
         /// Name of user creating the blog entry.
         /// </summary>
         /// <string>string</string>
         /// <value>string</value>
-        public string Username { get; set; }
+        public string Username
+        {
+            get => _username;
+
+            set
+            { 
+                _username = value;
+                Update();
+            }
+        }
 
         /// <summary>
         /// Indicates whether the blog entry has been published or not.
         /// </summary>
         /// <value>bool</value>
-        public bool Published { get; set; }
+        public bool Published
+        {
+            get => _published;
+
+            set
+            { 
+                _published = value;
+                Update();
+            }
+        }
 
         /// <summary>
         /// The date/time the blog entry will appear live on the website.
         /// </summary>
         /// <value>DateTime</value>
-        public DateTime PublishDateTime { get; set; }
+        public DateTime PublishDateTime
+        {
+            get => _publishDateTime;
 
-        /// <summary>
-        /// Date and time the blog was created.
-        /// </summary>
-        /// <value>DateTime</value>
-        public DateTime Created { get; set; }
+            set
+            {
+                _publishDateTime = value;
+                Update();
+            }
+        }
 
-        /// <summary>
-        /// Date and time the blog entry was last modified.
-        /// </summary>
-        /// <value>DateTime</value>
-        public DateTime LastModified { get; set; }
 
         /// <summary>
         /// Descriptive tags for the blog.
         /// </summary>
         /// <value>List&lt;string&gt;</value>
-        public List<string> Tags { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0016:Use 'throw' expression", Justification = "Validation required before removing changed event")]
+        public TextFilesList<string> Tags
+        {
+            get => _tags;
+
+            set
+            {
+                if (value == null)
+                    throw new InvalidOperationException();
+
+                if (_tags != null)
+                    _tags.Changed -= DataChanged;
+
+                _tags = value;
+                _tags.Changed += DataChanged;
+                Update();
+            }
+        }
 
         /// <summary>
         /// List of comments for the blog entry.
         /// </summary>
         /// <value>List&lt;BlogComment&gt;</value>
-        public List<BlogComment> Comments { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0016:Use 'throw' expression", Justification = "Validation required before removing changed event")]
+        public TextFilesList<BlogCommentDataRow> Comments
+        {
+            get => _comments;
+
+            set
+            {
+                if (value == null)
+                    throw new InvalidOperationException();
+
+                if (_comments != null)
+                    _comments.Changed -= DataChanged;
+
+                _comments = value;
+                _comments.Changed += DataChanged;
+                Update();
+            }
+        }
     }
 }
