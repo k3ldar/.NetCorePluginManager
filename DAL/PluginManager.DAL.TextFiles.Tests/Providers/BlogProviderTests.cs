@@ -267,7 +267,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                             Excerpt = $"Test blog {i}",
                             Username = "Test User",
                             UserId = 0,
-                            Tags = new TextFilesList<string>()
+                            Tags = new ObservableList<string>()
                             {
                                 "test",
                                 $"{i % 2 == 0}"
@@ -330,7 +330,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                             Excerpt = $"Test blog {i}",
                             Username = "Test User",
                             UserId = 0,
-                            Tags = new TextFilesList<string>()
+                            Tags = new ObservableList<string>()
                             {
                                 "test",
                                 $"{i % 2 == 0}"
@@ -393,7 +393,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                             Excerpt = $"Test blog {i}",
                             Username = "Test User",
                             UserId = 0,
-                            Tags = new TextFilesList<string>()
+                            Tags = new ObservableList<string>()
                             {
                                 "test",
                                 $"{i % 2 == 0}"
@@ -456,7 +456,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                             Excerpt = $"Test blog {i}",
                             Username = "Test User",
                             UserId = 0,
-                            Tags = new TextFilesList<string>()
+                            Tags = new ObservableList<string>()
                             {
                                 "test",
                                 $"{i % 2 == 0}"
@@ -519,7 +519,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                             Excerpt = $"Test blog {i}",
                             Username = "Test User",
                             UserId = 0,
-                            Tags = new TextFilesList<string>()
+                            Tags = new ObservableList<string>()
                             {
                                 "test",
                                 $"{i % 2 == 0}"
@@ -585,7 +585,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                             Excerpt = $"Test blog {i}",
                             Username = "Test User",
                             UserId = i % 2 == 0 ? 1 : 0,
-                            Tags = new TextFilesList<string>()
+                            Tags = new ObservableList<string>()
                             {
                                 "test",
                                 $"{i % 2 == 0}"
@@ -710,7 +710,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                             Excerpt = $"Test blog {i}",
                             Username = "Test User",
                             UserId = 0,
-                            Tags = new TextFilesList<string>()
+                            Tags = new ObservableList<string>()
                             {
                                 "test",
                                 $"{i % 2 == 0}"

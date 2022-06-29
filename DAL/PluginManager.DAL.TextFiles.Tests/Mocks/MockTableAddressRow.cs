@@ -36,6 +36,8 @@ namespace PluginManager.DAL.TextFiles.Tests
     [Table("MockTableAddress", cachingStrategy: CachingStrategy.Memory)]
     public class MockTableAddressRow : TableRowDefinition
     {
+        private long _userId;
+
         public MockTableAddressRow()
         {
 
@@ -48,7 +50,16 @@ namespace PluginManager.DAL.TextFiles.Tests
         }
 
         [ForeignKey("MockTableUser")]
-        public long UserId { get; set; }
+        public long UserId
+        {
+            get => _userId;
+            
+            set
+            {
+                _userId = value;
+                Update();
+            }
+        }
 
         public string Description { get; set; }
     }

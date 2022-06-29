@@ -34,51 +34,355 @@ namespace PluginManager.DAL.TextFiles.Tables
     [Table(Constants.TableNameUsers, CompressionType.Brotli, CachingStrategy.Memory)]
     internal sealed class UserDataRow : TableRowDefinition
     {
-        public string Email { get; set; }
+        #region Private Members
 
-        public string FirstName { get; set; }
+        string _email;
+        string _firstName;
+        string _surname;
+        string _password;
+        DateTime _passwordExpire;
+        string _telephone;
+        string _businessName;
+        string _addressLine1;
+        string _addressLine2;
+        string _addressLine3;
+        string _city;
+        string _county;
+        string _postcode;
+        string _countryCode;
+        string _unlockCode;
+        bool _emailConfirmed;
+        string _emailConfirmCode;
+        bool _telephoneConfirmed;
+        string _telephoneConfirmCode;
+        bool _marketingEmail;
+        bool _marketingPostal;
+        bool _marketingSms;
+        bool _marketingTelephone;
 
-        public string Surname { get; set; }
+        #endregion Private Members
 
-        public string Password { get; set; }
+        public string Email
+        {
+            get
+            {
+                return _email;
+            }
+        
+            set
+            {
+                _email = value;
+                Update();
+            }
+        }
 
-        public DateTime PasswordExpire { get; set; }
+        public string FirstName
+        {
+            get
+            {
+                return _firstName;
+            }
+        
+            set
+            {
+                _firstName = value;
+                Update();
+            }
+        }
 
-        public string Telephone { get; set; }
+        public string Surname
+        {
+            get
+            {
+                return _surname;
+            }
+        
+            set
+            {
+                _surname = value;
+                Update();
+            }
+        }
 
-        public string BusinessName { get; set; }
+        public string Password
+        {
+            get
+            {
+                return _password;
+            }
+        
+            set
+            {
+                _password = value;
+                Update();
+            }
+        }
 
-        public string AddressLine1 { get; set; }
+        public DateTime PasswordExpire
+        {
+            get
+            {
+                return _passwordExpire;
+            }
+        
+            set
+            {
+                _passwordExpire = value;
+                Update();
+            }
+        }
 
-        public string AddressLine2 { get; set; }
+        public string Telephone
+        {
+            get
+            {
+                return _telephone;
+            }
+        
+            set
+            {
+                _telephone = value;
+                Update();
+            }
+        }
 
-        public string AddressLine3 { get; set; }
+        public string BusinessName
+        {
+            get
+            {
+                return _businessName;
+            }
+        
+            set
+            {
+                _businessName = value;
+                Update();
+            }
+        }
 
-        public string City { get; set; }
+        public string AddressLine1
+        {
+            get
+            {
+                return _addressLine1;
+            }
+        
+            set
+            {
+                _addressLine1 = value;
+                Update();
+            }
+        }
 
-        public string County { get; set; }
+        public string AddressLine2
+        {
+            get
+            {
+                return _addressLine2;
+            }
+        
+            set
+            {
+                _addressLine2 = value;
+                Update();
+            }
+        }
 
-        public string Postcode { get; set; }
+        public string AddressLine3
+        {
+            get
+            {
+                return _addressLine3;
+            }
+        
+            set
+            {
+                _addressLine3 = value;
+                Update();
+            }
+        }
 
-        public string CountryCode { get; set; }
+        public string City
+        {
+            get
+            {
+                return _city;
+            }
+        
+            set
+            {
+                _city = value;
+                Update();
+            }
+        }
 
-        public string UnlockCode { get; set; }
+        public string County
+        {
+            get
+            {
+                return _county;
+            }
+        
+            set
+            {
+                _county = value;
+                Update();
+            }
+        }
 
-        public bool EmailConfirmed { get; set; }
+        public string Postcode
+        {
+            get
+            {
+                return _postcode;
+            }
+        
+            set
+            {
+                _postcode = value;
+                Update();
+            }
+        }
 
-        public string EmailConfirmCode { get; set; }
+        public string CountryCode
+        {
+            get
+            {
+                return _countryCode;
+            }
+        
+            set
+            {
+                _countryCode = value;
+                Update();
+            }
+        }
 
-        public bool TelephoneConfirmed { get; set; }
+        public string UnlockCode
+        {
+            get
+            {
+                return _unlockCode;
+            }
+        
+            set
+            {
+                _unlockCode = value;
+                Update();
+            }
+        }
 
-        public string TelephoneConfirmCode { get; set; }
+        public bool EmailConfirmed
+        {
+            get
+            {
+                return _emailConfirmed;
+            }
+        
+            set
+            {
+                _emailConfirmed = value;
+                Update();
+            }
+        }
 
-        public bool MarketingEmail { get; set; }
+        public string EmailConfirmCode
+        {
+            get
+            {
+                return _emailConfirmCode;
+            }
+        
+            set
+            {
+                _emailConfirmCode = value;
+                Update();
+            }
+        }
 
-        public bool MarketingPostal { get; set; }
+        public bool TelephoneConfirmed
+        {
+            get
+            {
+                return _telephoneConfirmed;
+            }
+        
+            set
+            {
+                _telephoneConfirmed = value;
+                Update();
+            }
+        }
 
-        public bool MarketingSms { get; set; }
+        public string TelephoneConfirmCode
+        {
+            get
+            {
+                return _telephoneConfirmCode;
+            }
+        
+            set
+            {
+                _telephoneConfirmCode = value;
+                Update();
+            }
+        }
+        
+        public bool MarketingEmail
+        {
+            get
+            {
+                return _marketingEmail;
+            }
+        
+            set
+            {
+                _marketingEmail = value;
+                Update();
+            }
+        }
 
-        public bool MarketingTelephone { get; set; }
+        public bool MarketingPostal
+        {
+            get
+            {
+                return _marketingPostal;
+            }
+        
+            set
+            {
+                _marketingPostal = value;
+                Update();
+            }
+        }
+
+        public bool MarketingSms
+        {
+            get
+            {
+                return _marketingSms;
+            }
+        
+            set
+            {
+                _marketingSms = value;
+                Update();
+            }
+        }
+        
+        public bool MarketingTelephone
+        {
+            get
+            {
+                return _marketingTelephone;
+            }
+        
+            set
+            {
+                _marketingTelephone = value;
+                Update();
+            }
+        }
 
         public string FullName => $"{FirstName} {Surname}";
 

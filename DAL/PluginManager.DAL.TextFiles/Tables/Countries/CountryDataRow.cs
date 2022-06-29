@@ -30,48 +30,129 @@ namespace PluginManager.DAL.TextFiles.Tables
     [Table(Constants.TableNameCountries, CompressionType.None, CachingStrategy.Memory)]
     internal sealed class CountryDataRow : TableRowDefinition
     {
+        private decimal _costMultiplier = 1.0m;
+        private decimal _taxRate = decimal.Zero;
+        private bool _allowVatRemoval = false;
+        private bool _showPriceData = true;
+        private int _sortOrder = 0;
+        private bool _visible = true;
+        private string _code;
+        private string _name;
+
         /// <summary>
         /// Name of country.
         /// </summary>
         /// <value>string</value>
-        public string Name { get; set; }
+        public string Name 
+        { 
+            get => _name; 
+            
+            set
+            {
+                _name = value;
+                Update();
+            }
+        }
 
         /// <summary>
         /// Country code.
         /// </summary>
         /// <value>string</value>
         [UniqueIndex(IndexType.Ascending)]
-        public string Code { get; set; }
+        public string Code 
+        { 
+            get => _code; 
+            
+            set
+            {
+                _code = value;
+                Update();
+            }
+        }
 
         /// <summary>
         /// Indicates whether the country is visible or not.
         /// </summary>
         /// <value>bool</value>
-        public bool Visible { get; set; } = true;
+        public bool Visible 
+        { 
+            get => _visible; 
+            
+            set
+            {
+                _visible = value;
+                Update();
+            }
+        }
 
         /// <summary>
         /// Sort order
         /// </summary>
-        public int SortOrder { get; set; } = 0;
+        public int SortOrder 
+        { 
+            get => _sortOrder; 
+            
+            set
+            {
+                _sortOrder = value;
+                Update();
+            }
+        }
 
         /// <summary>
         /// Indicates whether prices are shown for a country or not
         /// </summary>
-        public bool ShowPriceData { get; set; } = true;
+        public bool ShowPriceData 
+        { 
+            get => _showPriceData; 
+            
+            set
+            {
+                _showPriceData = value;
+                Update();
+            }
+        }
 
         /// <summary>
         /// Indicates that vat/tax should be removed for this country
         /// </summary>
-        public bool AllowVatRemoval { get; set; } = false;
+        public bool AllowVatRemoval 
+        { 
+            get => _allowVatRemoval; 
+            
+            set
+            {
+                _allowVatRemoval = value;
+                Update();
+            }
+        }
 
         /// <summary>
         /// Tax rate applied to the country
         /// </summary>
-        public decimal TaxRate { get; set; } = decimal.Zero;
+        public decimal TaxRate 
+        { 
+            get => _taxRate; 
+            
+            set
+            {
+                _taxRate = value;
+                Update();
+            }
+        }
 
         /// <summary>
         /// Cost multiplier to enable charging different costs for different countries
         /// </summary>
-        public decimal CostMultiplier { get; set; } = 1.0m;
+        public decimal CostMultiplier 
+        { 
+            get => _costMultiplier;
+
+            set
+            {
+                _costMultiplier = value;
+                Update();
+            }
+        }
     }
 }

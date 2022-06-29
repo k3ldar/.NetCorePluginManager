@@ -23,10 +23,7 @@
  *  25/05/2022  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using System;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using System.Linq;
+using System.Runtime.CompilerServices;
 
 using Middleware;
 using Middleware.Products;
@@ -41,15 +38,21 @@ namespace PluginManager.DAL.TextFiles.Providers
     {
         #region Private Members
 
-        private readonly ITextTableOperations<ProductGroupDataRow> _productGroups;
+        private readonly ITextTableOperations<ProductGroupDataRow> _productGroupsData;
+        private readonly ITextTableOperations<ProductDataRow> _productData;
+        private readonly IMemoryCache _memoryCache;
 
         #endregion Private Members
 
         #region Constructors
 
-        public ProductProvider(ITextTableOperations<ProductGroupDataRow> productGroupData, IMemoryCache memoryCache)
+        public ProductProvider(IMemoryCache memoryCache,
+            ITextTableOperations<ProductDataRow> productData,
+            ITextTableOperations<ProductGroupDataRow> productGroupData)
         {
-
+            _memoryCache = memoryCache ?? throw new ArgumentNullException(nameof(memoryCache));
+            _productData = productData ?? throw new ArgumentNullException(nameof(productData));
+            _productGroupsData = productGroupData ?? throw new ArgumentNullException(nameof(productGroupData));
         }
 
         #endregion Constructors
@@ -61,28 +64,76 @@ namespace PluginManager.DAL.TextFiles.Providers
         public ProductGroup ProductGroupGet(in int id)
         {
             int groupId = id;
-            return ProductGroupsGet().Where(pg => pg.Id == groupId).FirstOrDefault();
+
+            return ConvertProductGroupDataRowToProductGroup(_productGroupsData.Select(groupId));
         }
 
         public List<ProductGroup> ProductGroupsGet()
         {
-            return new List<ProductGroup>()
+            IReadOnlyList<ProductGroupDataRow> allGroups = _productGroupsData.Select();
+
+            List<ProductGroup> Result = new List<ProductGroup>();
+
+            foreach (ProductGroupDataRow group in allGroups)
             {
-                new ProductGroup(1, "Main Products", true, 1, "Checkout our main products", String.Empty),
-                new ProductGroup(2, "Other Products", true, 2, "Checkout our other products", String.Empty)
-            };
+                Result.Add(ConvertProductGroupDataRowToProductGroup(group));
+            }
+
+            return Result.OrderBy(pg => pg.SortOrder).ToList();
         }
 
         public bool ProductGroupDelete(in int id, out string errorMessage)
         {
-            errorMessage = "Unable to delete in demo project";
-            return false;
+            if (_productGroupsData.RecordCount == 1)
+            {
+                errorMessage = Languages.LanguageStrings.ProductGroupMustHaveOneGroup;
+                return false;
+            }
+
+            int productGroupId = id;
+
+            if (_productData.Select().Where(p => p.ProductGroupId.Equals(productGroupId)).Any())
+            {
+                errorMessage = Languages.LanguageStrings.ProductGroupContainsProducts;
+                return false;
+            }
+
+            ProductGroupDataRow group = _productGroupsData.Select(id);
+
+            if (group == null)
+            {
+                errorMessage = Languages.LanguageStrings.ProductGroupNotFound;
+                return false;
+            }
+
+            _productGroupsData.Delete(group);
+            errorMessage = String.Empty;
+            return true;
         }
 
         public bool ProductGroupSave(in int id, in string description, in bool showOnWebsite, in int sortOrder, in string tagLine, in string url, out string errorMessage)
         {
-            errorMessage = "Unable to save in demo project";
-            return false;
+            try
+            {
+                _productGroupsData.InsertOrUpdate(new ProductGroupDataRow()
+                {
+                    Id = id,
+                    Description = description,
+                    ShowOnWebsite = showOnWebsite,
+                    SortOrder = sortOrder,
+                    TagLine = tagLine,
+                    Url = url
+                });
+
+                errorMessage = String.Empty;
+
+                return true;
+            }
+            catch (InvalidDataRowException err)
+            {
+                errorMessage = err.Message;
+                return false;
+            }
         }
 
         #endregion Product Groups
@@ -97,44 +148,18 @@ namespace PluginManager.DAL.TextFiles.Providers
             if (pageSize < 1)
                 throw new ArgumentOutOfRangeException(nameof(pageSize));
 
-            List<Product> products = new List<Product>()
-            {
-                new Product(1, 1, "Product A & - &", "This is product a", "1 year guarantee", "", new string[] { "ProdA_1" }, 0, "ProdA", false, false),
-                new Product(2, 1, "Product B", "This is product b", "1 year guarantee", "", new string[] { "ProdB_1" }, 0, "ProdB", true, false),
-                new Product(3, 1, "Product C", "This is product c", "1 year guarantee", "E7Voso411Vs", new string[] { "ProdC_1" }, 1.99m, "ProdC", true, true, false, true),
-                new Product(4, 2, "Product D", "This is product d", "1 year guarantee", "", new string[] { "ProdD_1" }, 22.99m, "ProdD", false, true, true, true),
-                new Product(5, 2, "Product E", "This is product e", "1 year guarantee", "pCvZtjoRq1I", new string[] { "ProdE_1" }, 0, "ProdE", false, false),
-
-
-                new Product(6, 2, "Product F", "This is product f", "1 year guarantee", "pCvZtjoRq1I", new string[] { "ProdF_1" }, 0, "ProdF", false, false, true, true),
-                new Product(7, 2, "Product G", "This is product g", "1 year guarantee", "", new string[] { "ProdG_1" }, 15.95m, "ProdG", false, false, true, false),
-                new Product(8, 2, "Product H", "This is product h", "1 year guarantee", "", new string[] { "ProdH_1" }, 1.99m, "ProdH", false, false, false, true),
-                new Product(9, 2, "Product I", "This is product i", "1 year guarantee", "", new string[] { "ProdI_1" }, 0, "ProdI", false, false, false, true)
-            };
-
-            products[0].SetCurrentStockLevel(5);
+            List<ProductDataRow> allProducts = _productData.Select().OrderBy(p => p.Name).ToList();
 
             List<Product> Result = new List<Product>();
 
-            int start = (page * pageSize) - pageSize;
-            int end = (start + pageSize);
+            (int start, int end, bool isEmpty) = GetPageStartAndEnd(page, pageSize, allProducts.Count);
 
-            decimal pageCount = (decimal)products.Count / pageSize;
-
-            int pages = (int)Math.Truncate(pageCount);
-
-            if (pageCount - pages > 0)
-                pages++;
-
-            if (page > pages)
+            if (isEmpty)
                 return Result;
-
-            if (end > products.Count)
-                end = products.Count;
 
             for (int i = start; i < end; i++)
             {
-                Result.Add(products[i]);
+                Result.Add(ConvertProductDataRowToProduct(allProducts[i]));
             }
 
             return Result;
@@ -142,20 +167,65 @@ namespace PluginManager.DAL.TextFiles.Providers
 
         public List<Product> GetProducts(in ProductGroup productGroup, in int page, in int pageSize)
         {
-            ProductGroup prodGroup = productGroup;
-            return GetProducts(page, pageSize).Where(p => p.ProductGroupId == prodGroup.Id).ToList();
+            if (page < 1)
+                throw new ArgumentOutOfRangeException(nameof(page));
+
+            if (pageSize < 1)
+                throw new ArgumentOutOfRangeException(nameof(pageSize));
+
+            int prodGroup = productGroup.Id;
+            List<ProductDataRow> allProducts = _productData.Select().Where(p => p.ProductGroupId.Equals(prodGroup)).OrderBy(p => p.Name).ToList();
+
+            List<Product> Result = new List<Product>();
+
+            (int start, int end, bool isEmpty) = GetPageStartAndEnd(page, pageSize, allProducts.Count);
+
+            if (isEmpty)
+                return Result;
+
+            for (int i = start; i < end; i++)
+            {
+                Result.Add(ConvertProductDataRowToProduct(allProducts[i]));
+            }
+
+            return Result;
         }
 
         public Product GetProduct(in int id)
         {
-            int prodId = id;
-            return GetProducts(1, 10000).Where(p => p.Id == prodId).FirstOrDefault();
+            return ConvertProductDataRowToProduct(_productData.Select(id));
         }
 
-        public bool ProductSave(in int id, in int productGroupId, in string name, in string description, in string features, in string videoLink, in bool newProduct, in bool bestSeller, in decimal retailPrice, in string sku, in bool isDownload, in bool allowBackOrder, out string errorMessage)
+        public bool ProductSave(in int id, in int productGroupId, in string name, in string description, in string features,
+            in string videoLink, in bool newProduct, in bool bestSeller, in decimal retailPrice, in string sku, 
+            in bool isDownload, in bool allowBackOrder, out string errorMessage)
         {
-            errorMessage = "Unable to save in demo project";
-            return false;
+            try
+            {
+                _productData.InsertOrUpdate(new ProductDataRow()
+                {
+                    Id = id,
+                    ProductGroupId = productGroupId,
+                    Name = name,
+                    Description = description,
+                    Features = features,
+                    VideoLink = videoLink,
+                    NewProduct = newProduct,
+                    BestSeller = bestSeller,
+                    Sku = sku,
+                    IsDownload = isDownload,
+                    AllowBackorder = allowBackOrder,
+                    RetailPrice = retailPrice,
+                });
+
+                errorMessage = String.Empty;
+                return true;
+            }
+            catch (InvalidDataRowException err)
+            {
+                errorMessage = err.Message;
+                return false;
+            }
         }
 
         public bool ProductDelete(in int productId, out string errorMessage)
@@ -169,5 +239,50 @@ namespace PluginManager.DAL.TextFiles.Providers
         #endregion Products
 
         #endregion IProductProvider Members
+
+        #region Private Members
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private (int, int, bool) GetPageStartAndEnd(int page, int pageSize, int productCount)
+        {
+            int start = (page * pageSize) - pageSize;
+            int end = (start + pageSize);
+
+            decimal pageCount = (decimal)productCount / pageSize;
+
+            int pages = (int)Math.Truncate(pageCount);
+
+            if (pageCount - pages > 0)
+                pages++;
+
+            if (page > pages)
+                return (0, 0, true);
+
+            if (end > productCount)
+                end = productCount;
+
+            return (start, end, false);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private ProductGroup ConvertProductGroupDataRowToProductGroup(ProductGroupDataRow group)
+        {
+            if (group == null)
+                return null;
+
+            return new ProductGroup((int)group.Id, group.Description, group.ShowOnWebsite, group.SortOrder, group.TagLine, group.Url);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private Product ConvertProductDataRowToProduct(ProductDataRow product)
+        {
+            if (product == null)
+                return null;
+
+            return new Product((int)product.Id, product.ProductGroupId, product.Name, product.Description, product.Features, product.VideoLink,
+                new string[] { }, product.RetailPrice, product.Sku, product.IsDownload, product.AllowBackorder);
+        }
+
+        #endregion Private Members
     }
 }

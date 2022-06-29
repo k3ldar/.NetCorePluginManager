@@ -24,8 +24,6 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-using PluginManager.DAL.TextFiles.Interfaces;
-
 namespace PluginManager.DAL.TextFiles.Tables
 {
     internal class CountryDataRowDefaults : ITableDefaults<CountryDataRow>

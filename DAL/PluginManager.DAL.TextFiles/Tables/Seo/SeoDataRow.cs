@@ -30,19 +30,98 @@ namespace PluginManager.DAL.TextFiles.Tables
     [Table(Constants.TableNameSeo, CompressionType.None, CachingStrategy.None)]
     internal class SeoDataRow : TableRowDefinition
     {
+        string _route;
+        string _title;
+        string _author;
+        string _description;
+        private ObservableList<string> _keywords;
+
         public SeoDataRow()
         {
-            Keywords = new List<string>();
+            Keywords = new ObservableList<string>();
+            Keywords.Changed += ListUpdated;
         }
 
-        public string Route { get; set; }
+        private void ListUpdated(object sender, EventArgs e)
+        {
+            Update();
+        }
 
-        public List<string> Keywords { get; set; }
+        public string Route
+        {
+            get
+            {
+                return _route;
+            }
+        
+            set
+            {
+                _route = value;
+                Update();
+            }
+        }
 
-        public string Title { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0016:Use 'throw' expression", Justification = "Validation is required before removing the Changed event")]
+        public ObservableList<string> Keywords 
+        { 
+            get
+            {
+                return _keywords;
+            }
 
-        public string Description { get; set; }
+            set
+            {
+                if (value == null)
+                    throw new InvalidOperationException();
 
-        public string Author { get; set; }
+                if (_keywords != null)
+                    _keywords.Changed -= ListUpdated;
+
+                _keywords = value;
+                _keywords.Changed += ListUpdated;
+            }
+        }
+
+        public string Title
+        {
+            get
+            {
+                return _title;
+            }
+        
+            set
+            {
+                _title = value;
+                Update();
+            }
+        }
+
+        public string Description
+        {
+            get
+            {
+                return _description;
+            }
+        
+            set
+            {
+                _description = value;
+                Update();
+            }
+        }
+
+        public string Author
+        {
+            get
+            {
+                return _author;
+            }
+        
+            set
+            {
+                _author = value;
+                Update();
+            }
+        }
     }
 }

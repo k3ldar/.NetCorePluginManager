@@ -14465,4 +14465,16 @@ You will shortly receive an email with the details of your order.</comment>
     <value>New Product Group</value>
     <comment>New Product Group</comment>
   </data>
+  <data name="ProductGroupContainsProducts" xml:space="preserve">
+    <value>The product group contains products</value>
+    <comment>The product group contains products</comment>
+  </data>
+  <data name="ProductGroupMustHaveOneGroup" xml:space="preserve">
+    <value>There must be at least 1 product group</value>
+    <comment>There must be at least 1 product group</comment>
+  </data>
+  <data name="ProductGroupNotFound" xml:space="preserve">
+    <value>The product group could not be found</value>
+    <comment>The product group could not be found</comment>
+  </data>
 </root>

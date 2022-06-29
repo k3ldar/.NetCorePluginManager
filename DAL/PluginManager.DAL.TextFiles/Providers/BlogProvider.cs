@@ -41,8 +41,11 @@ namespace PluginManager.DAL.TextFiles.Providers
     {
         #region Private Members
 
+        private const int MaxRecursionDepth = 20;
+
         private readonly ITextTableOperations<UserDataRow> _users;
         private readonly ITextTableOperations<BlogDataRow> _blogs;
+        private readonly ITextTableOperations<BlogCommentDataRow> _blogComments;
         private readonly IMemoryCache _memoryCache;
 
         #endregion Private Members
@@ -50,11 +53,12 @@ namespace PluginManager.DAL.TextFiles.Providers
         #region Constructors
 
         public BlogProvider(IMemoryCache memoryCache, ITextTableOperations<UserDataRow> users,
-            ITextTableOperations<BlogDataRow> blogs)
+            ITextTableOperations<BlogDataRow> blogs, ITextTableOperations<BlogCommentDataRow> blogComments)
         {
             _memoryCache = memoryCache ?? throw new ArgumentNullException(nameof(memoryCache));
             _users = users ?? throw new ArgumentNullException(nameof(users));
             _blogs = blogs ?? throw new ArgumentNullException(nameof(blogs));
+            _blogComments = blogComments ?? throw new ArgumentNullException(nameof(blogComments));
         }
 
         #endregion Constructors
@@ -69,8 +73,6 @@ namespace PluginManager.DAL.TextFiles.Providers
                 blogs = _blogs.Select().Where(b => b.Published).OrderByDescending(b => b.PublishDateTime).Take(recentCount).ToList();
             else
                 blogs = _blogs.Select().OrderByDescending(b => b.PublishDateTime).Take(recentCount).ToList();
-
-            
 
             return ConvertTableBlogToBlogItem(blogs);
         }
@@ -106,9 +108,19 @@ namespace PluginManager.DAL.TextFiles.Providers
             if (blogItem == null)
                 throw new ArgumentNullException(nameof(blogItem));
 
-            BlogDataRow tableBlog = ConvertBlogItemToTableBlog(blogItem);
+            BlogDataRow tableBlog = _blogs.Select(blogItem.Id);
 
-            tableBlog.LastModified = DateTime.Now;
+            if (tableBlog == null)
+                tableBlog = new BlogDataRow();
+            
+            tableBlog.UserId = blogItem.UserId;
+            tableBlog.Title = blogItem.Title;
+            tableBlog.Excerpt = blogItem.Excerpt;
+            tableBlog.BlogText = blogItem.BlogText;
+            tableBlog.Username = blogItem.Username;
+            tableBlog.Published = blogItem.Published;
+            tableBlog.PublishDateTime = blogItem.PublishDateTime;
+
             _blogs.InsertOrUpdate(tableBlog);
 
             return ConvertTableBlogToBlogItem(_blogs.Select(tableBlog.Id));
@@ -131,9 +143,22 @@ namespace PluginManager.DAL.TextFiles.Providers
             else
                 parentComment.Comments.Add(blogComment);
 
-            BlogDataRow tableBlog = ConvertBlogItemToTableBlog(blogItem);
-            tableBlog.LastModified = DateTime.Now;
-            _blogs.Update(tableBlog);
+            BlogDataRow tableBlog = _blogs.Select(blogItem.Id);
+
+            if (tableBlog == null)
+                throw new InvalidOperationException("Blog not found");
+
+            BlogCommentDataRow blogCommentDataRow = new BlogCommentDataRow()
+            {
+                BlogId = blogItem.Id,
+                ParentComment = parentComment?.Id,
+                Username = userName,
+                UserId = userId,
+                Approved = blogComment.Approved,
+                Comment = blogComment.Comment,
+            };
+
+            _blogComments.Insert(blogCommentDataRow);
         }
 
         #endregion IBlogProvider Methods
@@ -158,8 +183,7 @@ namespace PluginManager.DAL.TextFiles.Providers
         {
             List<BlogItem> Result = new List<BlogItem>();
 
-            tableBlogs.ForEach(blog => Result.Add(new BlogItem(Convert.ToInt32(blog.Id), blog.UserId, blog.Title, blog.Excerpt, blog.BlogText, blog.Username, blog.Published,
-                    blog.PublishDateTime, blog.Created, blog.LastModified, blog.Tags, blog.Comments)));
+            tableBlogs.ForEach(blog => Result.Add(ConvertTableBlogToBlogItem(blog)));
 
             return Result;
         }
@@ -169,30 +193,41 @@ namespace PluginManager.DAL.TextFiles.Providers
             if (blog == null)
                 return null;
 
-            return new BlogItem(Convert.ToInt32(blog.Id), blog.UserId, blog.Title, blog.Excerpt, blog.BlogText, blog.Username, blog.Published,
-                    blog.PublishDateTime, blog.Created, blog.LastModified, blog.Tags, blog.Comments);
+            BlogItem Result = new BlogItem(Convert.ToInt32(blog.Id), blog.UserId, blog.Title, blog.Excerpt, blog.BlogText, blog.Username, blog.Published,
+                    blog.PublishDateTime, blog.Created, blog.Updated, blog.Tags, new List<BlogComment>());
+
+            List<BlogCommentDataRow> comments = _blogComments.Select().Where(bc => bc.BlogId.Equals(blog.Id)).ToList();
+
+            if (comments.Count > 0)
+            {
+                List<BlogCommentDataRow> rootComments = comments.Where(rc => !rc.ParentComment.HasValue).ToList();
+                rootComments.ForEach(rc => Result.Comments.Add(CreateBlogComment(rc, null)));
+
+                Result.Comments.ForEach(c => RecursivlyAddCommentsToBlog(0, comments, Result, c));
+            }
+
+            return Result;
         }
 
-        private BlogDataRow ConvertBlogItemToTableBlog(BlogItem blog)
+        private void RecursivlyAddCommentsToBlog(int depth, List<BlogCommentDataRow> comments, BlogItem blogItem, BlogComment parentComment)
         {
-            if (blog == null)
-                return null;
+            if (depth > MaxRecursionDepth)
+                return;
 
-            return new BlogDataRow()
+            List<BlogCommentDataRow> blogComments = comments.Where(c => c.ParentComment.HasValue && c.ParentComment.Value.Equals(parentComment.Id)).ToList();
+
+            foreach (BlogCommentDataRow comment in blogComments)
             {
-                Id = Convert.ToInt32(blog.Id), 
-                UserId = blog.UserId, 
-                Title = blog.Title, 
-                Excerpt = blog.Excerpt, 
-                BlogText = blog.BlogText, 
-                Username = blog.Username, 
-                Published = blog.Published,
-                PublishDateTime = blog.PublishDateTime, 
-                Created = blog.Created,
-                LastModified = blog.LastModified, 
-                Tags = blog.Tags, 
-                Comments = blog.Comments
-            };
+                BlogComment blogComment = CreateBlogComment(comment, parentComment.Id);
+                parentComment.Comments.Add(blogComment);
+                RecursivlyAddCommentsToBlog(++depth, comments, blogItem, blogComment);
+            }
+        }
+
+        private BlogComment CreateBlogComment(BlogCommentDataRow comment, int? parentId)
+        {
+            return new BlogComment((int)comment.Id, parentId, comment.Created,
+                    comment.UserId, comment.Username, comment.Approved, comment.Comment);
         }
 
         #endregion Private Methods

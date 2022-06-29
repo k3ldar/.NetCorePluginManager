@@ -31,16 +31,95 @@ namespace PluginManager.DAL.TextFiles.Tables
     [Table(Constants.TableNameExternalUsers, CompressionType.Brotli)]
     internal sealed class ExternalUsersDataRow : TableRowDefinition
     {
-        public string UserId { get; set; }
+        private string _userId;
+        private string _email;
+        private string _userName;
+        private string _provider;
+        private string _picture;
+        private string _token;
 
-        public string Email { get; set; }
+        public string UserId
+        {
+            get
+            {
+                return _userId;
+            }
+        
+            set
+            {
+                _userId = value;
+                Update();
+            }
+        }
 
-        public string UserName { get; set; }
+        public string Email
+        {
+            get
+            {
+                return _email;
+            }
+        
+            set
+            {
+                _email = value;
+                Update();
+            }
+        }
 
-        public string Provider { get; set; }
+        public string UserName
+        {
+            get
+            {
+                return _userName;
+            }
+        
+            set
+            {
+                _userName = value;
+                Update();
+            }
+        }
 
-        public string Picture { get; set; }
+        public string Provider
+        {
+            get
+            {
+                return _provider;
+            }
+        
+            set
+            {
+                _provider = value;
+                Update();
+            }
+        }
 
-        public string Token { get; set; }
+        public string Picture
+        {
+            get
+            {
+                return _picture;
+            }
+        
+            set
+            {
+                _picture = value;
+                Update();
+            }
+        }
+
+        public string Token
+        {
+            get
+            {
+                return _token;
+            }
+        
+            set
+            {
+                _token = value;
+                Update();
+            }
+        }
     }
 }

@@ -137,12 +137,14 @@ namespace PluginManager.DAL.TextFiles.Tests
         [TestCategory(GeneralTestsCategory)]
         public void BeforeConfigureServices_DoesNotThrowException()
         {
+            const int RegisteredService = 24;
+
             PluginInitialisation sut = new PluginInitialisation();
             MockServiceCollection mockServiceCollection = new MockServiceCollection();
 
             sut.BeforeConfigureServices(mockServiceCollection);
 
-            Assert.AreEqual(23, mockServiceCollection.Count);
+            Assert.AreEqual(RegisteredService, mockServiceCollection.Count);
         }
 
         [TestMethod]

@@ -15533,6 +15533,21 @@
               Looks up a localized string similar to Product.
             </summary>
         </member>
+        <member name="P:Languages.LanguageStrings.ProductGroupContainsProducts">
+            <summary>
+              Looks up a localized string similar to The product group contains products.
+            </summary>
+        </member>
+        <member name="P:Languages.LanguageStrings.ProductGroupMustHaveOneGroup">
+            <summary>
+              Looks up a localized string similar to There must be at least 1 product group.
+            </summary>
+        </member>
+        <member name="P:Languages.LanguageStrings.ProductGroupNotFound">
+            <summary>
+              Looks up a localized string similar to The product group could not be found.
+            </summary>
+        </member>
         <member name="P:Languages.LanguageStrings.ProductRelatedQuestions">
             <summary>
               Looks up a localized string similar to Product Related Questions.

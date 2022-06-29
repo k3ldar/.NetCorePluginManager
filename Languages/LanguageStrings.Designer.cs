@@ -27722,6 +27722,33 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The product group contains products.
+        /// </summary>
+        public static string ProductGroupContainsProducts {
+            get {
+                return ResourceManager.GetString("ProductGroupContainsProducts", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to There must be at least 1 product group.
+        /// </summary>
+        public static string ProductGroupMustHaveOneGroup {
+            get {
+                return ResourceManager.GetString("ProductGroupMustHaveOneGroup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The product group could not be found.
+        /// </summary>
+        public static string ProductGroupNotFound {
+            get {
+                return ResourceManager.GetString("ProductGroupNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Product Related Questions.
         /// </summary>
         public static string ProductRelatedQuestions {

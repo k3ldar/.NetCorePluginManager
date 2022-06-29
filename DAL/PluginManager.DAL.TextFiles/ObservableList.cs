@@ -26,7 +26,7 @@
 
 namespace PluginManager.DAL.TextFiles
 {
-    public sealed class TextFilesList<T> : List<T>
+    public sealed class ObservableList<T> : List<T>
     {
         new public void Add(T item)
         {

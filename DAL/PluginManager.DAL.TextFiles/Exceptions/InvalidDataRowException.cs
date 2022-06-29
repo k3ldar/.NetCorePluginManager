@@ -15,53 +15,40 @@
  *
  *  Product:  PluginManager.DAL.TextFiles
  *  
- *  File: UserDataRowTriggers.cs
+ *  File: InvalidDataRowException.cs
  *
- *  Purpose:  Triggers for user table
+ *  Purpose:  InvalidDataRowException for validation issues when inserting/updating data rows
  *
  *  Date        Name                Reason
- *  17/06/2022  Simon Carter        Initially Created
+ *  28/06/2022  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-using PluginManager.DAL.TextFiles.Internal;
-
-namespace PluginManager.DAL.TextFiles.Tables
+namespace PluginManager.DAL.TextFiles
 {
-    internal class UserDataRowTriggers : ITableTriggers<UserDataRow>
+    public sealed class InvalidDataRowException : Exception
     {
-        public string TableName => Constants.TableNameUsers;
-
-        public int Position => 0;
-
-        public void AfterDelete(List<UserDataRow> records)
+        public InvalidDataRowException(string dataRow, string property, string message)
+            : base($"{message}; Table: {dataRow}; Property {property}")
         {
+            if (String.IsNullOrEmpty(dataRow))
+                throw new ArgumentNullException(nameof(dataRow));
 
+            if (String.IsNullOrEmpty(property))
+                throw new ArgumentNullException(nameof(property));
+
+            if (String.IsNullOrEmpty(message))
+                throw new ArgumentNullException(nameof(message));
+
+            DataRow = dataRow;
+            Property = property;
+            OriginalMessage = message;
         }
 
-        public void AfterInsert(List<UserDataRow> records)
-        {
+        public string DataRow { get; }
 
-        }
+        public string Property { get; }
 
-        public void AfterUpdate(List<UserDataRow> records)
-        {
-
-        }
-
-        public void BeforeDelete(List<UserDataRow> records)
-        {
-
-        }
-
-        public void BeforeInsert(List<UserDataRow> records)
-        {
-            records.ForEach(r => r.PasswordExpire = DateTime.Now.AddYears(1));
-        }
-
-        public void BeforeUpdate(List<UserDataRow> records)
-        {
-
-        }
+        public string OriginalMessage { get; }
     }
 }

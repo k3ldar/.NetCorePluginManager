@@ -31,15 +31,66 @@ namespace PluginManager.DAL.TextFiles.Tables
     [Table(Constants.TableNameProductGroups, CompressionType.None, CachingStrategy.Memory)]
     internal sealed class ProductGroupDataRow : TableRowDefinition
     {
+        private string _description;
+        private bool _showOnWebsite;
+        private int _sortOrder;
+        private string _tagLine;
+        private string _url;
+
         [UniqueIndex]
-        public string Description { get; set; }
+        public string Description 
+        { 
+            get => _description;
 
-        public bool ShowOnWebsite { get; set; }
+            set
+            {
+                _description = value;
+                Update();
+            }
+        }
 
-        public int SortOrder { get; set; }
+        public bool ShowOnWebsite 
+        { 
+            get => _showOnWebsite;
 
-        public string TagLine { get; set; }
+            set
+            {
+                _showOnWebsite = value;
+                Update();
+            }
+        }
 
-        public string Url { get; set; }
+        public int SortOrder 
+        { 
+            get => _sortOrder;
+
+            set
+            {
+                _sortOrder = value;
+                Update();
+            }
+        }
+
+        public string TagLine 
+        {
+            get => _tagLine;
+
+            set
+            {
+                _tagLine = value;
+                Update();
+            }
+        }
+
+        public string Url 
+        { 
+            get => _url;
+
+            set
+            {
+                _url = value;
+                Update();
+            }
+        }
     }
 }

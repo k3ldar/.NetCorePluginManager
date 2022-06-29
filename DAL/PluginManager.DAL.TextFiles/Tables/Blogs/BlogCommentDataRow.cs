@@ -36,7 +36,7 @@ namespace PluginManager.DAL.TextFiles.Tables
         private long _userId;
         private bool _approved;
         private string _comment;
-        private TextFilesList<BlogCommentDataRow> _comments;
+        private ObservableList<BlogCommentDataRow> _comments;
 
         #region Properties
 
@@ -121,7 +121,7 @@ namespace PluginManager.DAL.TextFiles.Tables
             }
         }
 
-        public TextFilesList<BlogCommentDataRow> Comments
+        public ObservableList<BlogCommentDataRow> Comments
         {
             get
             {

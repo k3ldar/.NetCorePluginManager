@@ -38,10 +38,14 @@ namespace PluginManager.DAL.TextFiles
     public abstract class TableRowDefinition
     {
         private long _id;
+        private long _created;
+        private long _updated;
 
         public TableRowDefinition()
         {
             _id = Int64.MinValue;
+            _created = DateTime.UtcNow.Ticks;
+            _updated = DateTime.UtcNow.Ticks;
         }
 
         /// <summary>
@@ -55,10 +59,48 @@ namespace PluginManager.DAL.TextFiles
 
             set
             {
-                if (ImmutableId)
+                if (Immutable)
                     throw new InvalidOperationException();
 
                 _id = value;
+            }
+        }
+
+        [JsonIgnore]
+        public DateTime Created => new DateTime(_created, DateTimeKind.Utc);
+
+        public long CreatedTicks
+        {
+            get
+            {
+                return _created;
+            }
+
+            set
+            {
+                if (Immutable)
+                    throw new InvalidOperationException();
+
+                _created = value;
+            }
+        }
+
+        [JsonIgnore]
+        public DateTime Updated => new DateTime(_updated, DateTimeKind.Utc);
+
+        public long UpdatedTicks
+        {
+            get
+            {
+                return _updated;
+            }
+
+            set
+            {
+                if (Immutable)
+                    throw new InvalidOperationException();
+
+                _updated = value;
             }
         }
 
@@ -70,7 +112,7 @@ namespace PluginManager.DAL.TextFiles
         /// <summary>
         /// Indicates whether the row has been marked for delete or not
         /// </summary>
-        protected internal bool ImmutableId { get; internal set; } = false;
+        protected internal bool Immutable { get; internal set; } = false;
 
         /// <summary>
         /// Indicates the record has been loaded from storage
@@ -84,7 +126,7 @@ namespace PluginManager.DAL.TextFiles
         [JsonIgnore] 
         protected internal bool HasChanged { get; private set; }
 
-        protected void Updated()
+        protected void Update()
         {
             if (!Loaded || HasChanged)
                 return;
@@ -92,6 +134,7 @@ namespace PluginManager.DAL.TextFiles
             if (ReadOnly)
                 throw new InvalidOperationException("Record is readonly");
 
+            _updated = DateTime.UtcNow.Ticks;
             HasChanged = true;
         }
     }

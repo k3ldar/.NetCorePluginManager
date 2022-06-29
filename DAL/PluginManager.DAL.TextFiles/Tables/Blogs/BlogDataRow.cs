@@ -34,8 +34,8 @@ namespace PluginManager.DAL.TextFiles.Tables
     {
         #region Private Members
 
-        private TextFilesList<string> _tags;
-        private TextFilesList<BlogCommentDataRow> _comments;
+        private ObservableList<string> _tags;
+        private ObservableList<BlogCommentDataRow> _comments;
         private DateTime _publishDateTime;
         private bool _published;
         private string _username;
@@ -48,9 +48,9 @@ namespace PluginManager.DAL.TextFiles.Tables
 
         public BlogDataRow()
         {
-            _comments = new TextFilesList<BlogCommentDataRow>();
+            _comments = new ObservableList<BlogCommentDataRow>();
             _comments.Changed += DataChanged;
-            _tags = new TextFilesList<string>();
+            _tags = new ObservableList<string>();
             _tags.Changed += DataChanged;
         }
 
@@ -171,7 +171,7 @@ namespace PluginManager.DAL.TextFiles.Tables
         /// </summary>
         /// <value>List&lt;string&gt;</value>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0016:Use 'throw' expression", Justification = "Validation required before removing changed event")]
-        public TextFilesList<string> Tags
+        public ObservableList<string> Tags
         {
             get => _tags;
 
@@ -194,7 +194,7 @@ namespace PluginManager.DAL.TextFiles.Tables
         /// </summary>
         /// <value>List&lt;BlogComment&gt;</value>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0016:Use 'throw' expression", Justification = "Validation required before removing changed event")]
-        public TextFilesList<BlogCommentDataRow> Comments
+        public ObservableList<BlogCommentDataRow> Comments
         {
             get => _comments;
 

@@ -96,8 +96,10 @@ namespace PluginManager.DAL.TextFiles
             services.AddSingleton(typeof(TableRowDefinition), typeof(SeoDataRow));
             services.AddSingleton(typeof(TableRowDefinition), typeof(UserApiDataRow));
             services.AddSingleton(typeof(TableRowDefinition), typeof(ProductGroupDataRow));
+            services.AddSingleton(typeof(TableRowDefinition), typeof(ProductDataRow));
             services.AddSingleton(typeof(TableRowDefinition), typeof(BlogDataRow));
             services.AddSingleton(typeof(TableRowDefinition), typeof(BlogCommentDataRow));
+
             services.AddSingleton(typeof(ITextTableOperations<>), typeof(TextTableOperations<>));
 
             // register providers

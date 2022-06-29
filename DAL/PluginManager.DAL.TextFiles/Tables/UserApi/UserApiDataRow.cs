@@ -36,13 +36,70 @@ namespace PluginManager.DAL.TextFiles.Tables
     [Table(Constants.TableNameUserClaims, CompressionType.None, CachingStrategy.None)]
     internal class UserApiDataRow : TableRowDefinition
     {
+        #region Private Members
+
+        long _userId;
+        string _merchantId;
+        string _apiKey;
+        string _secret;
+
+        #endregion Private Members
+
         [ForeignKey(Constants.TableNameUsers)]
-        public long UserId { get; set; }
+        public long UserId
+        {
+            get
+            {
+                return _userId;
+            }
+        
+            set
+            {
+                _userId = value;
+                Update();
+            }
+        }
 
-        public string MerchantId { get; set; }
+        public string MerchantId
+        {
+            get
+            {
+                return _merchantId;
+            }
+        
+            set
+            {
+                _merchantId = value;
+                Update();
+            }
+        }
 
-        public string ApiKey { get; set; }
+        public string ApiKey
+        {
+            get
+            {
+                return _apiKey;
+            }
+        
+            set
+            {
+                _apiKey = value;
+                Update();
+            }
+        }
 
-        public string Secret { get; set; }
+        public string Secret
+        {
+            get
+            {
+                return _secret;
+            }
+        
+            set
+            {
+                _secret = value;
+                Update();
+            }
+        }
     }
 }

@@ -25,41 +25,192 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using PluginManager.DAL.TextFiles.Internal;
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace PluginManager.DAL.TextFiles.Tables.Products
+namespace PluginManager.DAL.TextFiles.Tables
 {
     [Table(Constants.TableNameProducts, CompressionType.None, CachingStrategy.None)]
     internal class ProductDataRow : TableRowDefinition
     {
+        private int _productGroupId;
+        private string _name;
+        private string _description;
+        private string _features;
+        private string _videoLink;
+        private bool _newProduct;
+        private bool _bestSeller;
+        private decimal _retailPrice;
+        private string _sku;
+        private bool _isDownload;
+        private bool _allowBackorder;
+        private uint _stockAvailability;
+
         [ForeignKey(Constants.TableNameProductGroups)]
-        public int ProductGroupId { get; }
+        public int ProductGroupId
+        {
+            get
+            {
+                return _productGroupId;
+            }
 
-        public string Name { get; }
+            set
+            {
+                _productGroupId = value;
+                Update();
+            }
+        }
 
-        public string Description { get; }
+        public string Name
+        {
+            get
+            {
+                return _name;
+            }
 
-        public string Features { get; }
+            set
+            {
+                _name = value;
+                Update();
+            }
+        }
 
-        public string VideoLink { get; }
+        public string Description
+        {
+            get
+            {
+                return _description;
+            }
 
-        public bool NewProduct { get; }
+            set
+            {
+                _description = value;
+                Update();
+            }
+        }
 
-        public bool BestSeller { get; }
+        public string Features
+        {
+            get
+            {
+                return _features;
+            }
 
-        public decimal RetailPrice { get; }
+            set
+            {
+                _features = value;
+                Update();
+            }
+        }
+
+        public string VideoLink
+        {
+            get
+            {
+                return _videoLink;
+            }
+
+            set
+            {
+                _videoLink = value;
+                Update();
+            }
+        }
+
+        public bool NewProduct
+        {
+            get
+            {
+                return _newProduct;
+            }
+
+            set
+            {
+                _newProduct = value;
+                Update();
+            }
+        }
+
+        public bool BestSeller
+        {
+            get
+            {
+                return _bestSeller;
+            }
+
+            set
+            {
+                _bestSeller = value;
+                Update();
+            }
+        }
+
+        public decimal RetailPrice
+        {
+            get
+            {
+                return _retailPrice;
+            }
+
+            set
+            {
+                _retailPrice = value;
+                Update();
+            }
+        }
 
         [UniqueIndex]
-        public string Sku { get; }
+        public string Sku
+        {
+            get
+            {
+                return _sku;
+            }
 
-        public bool IsDownload { get; }
+            set
+            {
+                _sku = value;
+                Update();
+            }
+        }
 
-        public bool AllowBackorder { get; }
+        public bool IsDownload
+        {
+            get
+            {
+                return _isDownload;
+            }
 
-        public uint StockAvailability { get; private set; }
+            set
+            {
+                _isDownload = value;
+                Update();
+            }
+        }
+
+        public bool AllowBackorder
+        {
+            get
+            {
+                return _allowBackorder;
+            }
+
+            set
+            {
+                _allowBackorder = value;
+                Update();
+            }
+        }
+
+        public uint StockAvailability
+        {
+            get
+            {
+                return _stockAvailability;
+            }
+
+            set
+            {
+                _stockAvailability = value;
+                Update();
+            }
+        }
     }
 }

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PluginManager.DAL.TextFiles.Interfaces
+namespace PluginManager.DAL.TextFiles
 {
     public interface ITableTriggers<T>
         where T : TableRowDefinition
