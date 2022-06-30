@@ -479,6 +479,8 @@ namespace PluginManager.DAL.TextFiles.Internal
                 _indexes.BeginUpdate();
                 try
                 {
+                    _triggers.ForEach(t => t.BeforeUpdate(records));
+
                     List<T> existingRecords = InternalReadAllRecords();
 
                     foreach (T record in records)
@@ -496,6 +498,8 @@ namespace PluginManager.DAL.TextFiles.Internal
                     }
 
                     InternalSaveRecordsToDisk(existingRecords);
+
+                    _triggers.ForEach(t => t.AfterUpdate(records));
                 }
                 finally
                 {
@@ -562,6 +566,8 @@ namespace PluginManager.DAL.TextFiles.Internal
                 _indexes.BeginUpdate();
                 try
                 {
+                    _triggers.ForEach(t => t.BeforeDelete(records));
+
                     List<T> existingRecords = InternalReadAllRecords();
 
                     for (int i = records.Count - 1; i >= 0; i--)
@@ -584,6 +590,8 @@ namespace PluginManager.DAL.TextFiles.Internal
                     }
 
                     InternalSaveRecordsToDisk(existingRecords);
+
+                    _triggers.ForEach(t => t.AfterDelete(records));
                 }
                 finally
                 {
