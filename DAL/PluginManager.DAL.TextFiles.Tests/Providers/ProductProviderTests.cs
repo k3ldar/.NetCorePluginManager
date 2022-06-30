@@ -458,7 +458,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
         }
 
         [TestMethod]
-        public void ProductGroupSave_DescriptionTooShort_ReturnsFalse()
+        public void ProductGroupSave_ExistingRecord_DescriptionTooShort_ReturnsFalse()
         {
             string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
             try
@@ -497,7 +497,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
         }
 
         [TestMethod]
-        public void ProductGroupSave_DescriptionNull_ReturnsFalse()
+        public void ProductGroupSave_NewRecord_DescriptionTooShort_ReturnsFalse()
         {
             string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
             try
@@ -524,7 +524,46 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     IProductProvider sut = provider.GetRequiredService<IProductProvider>();
                     Assert.IsNotNull(sut);
 
-                    bool result = sut.ProductGroupSave(1, null, true, 5, null, null, out string errorMessage);
+                    bool result = sut.ProductGroupSave(-1, "tst", true, 5, null, null, out string errorMessage);
+                    Assert.IsFalse(result);
+                    Assert.AreEqual("Minimum length for description is 5 characters; Table: ProductGroupDataRow; Property Description", errorMessage);
+                }
+            }
+            finally
+            {
+                Directory.Delete(directory, true);
+            }
+        }
+
+        [TestMethod]
+        public void ProductGroupSave_NewRecord_DescriptionNull_ReturnsFalse()
+        {
+            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            try
+            {
+                Directory.CreateDirectory(directory);
+                PluginInitialisation initialisation = new PluginInitialisation();
+                ServiceCollection services = new ServiceCollection();
+                List<object> servicesList = new List<object>()
+                {
+                    new ProductGroupDataRowDefaults(),
+                    new ProductGroupDataTriggers()
+                };
+                MockPluginClassesService mockPluginClassesService = new MockPluginClassesService(servicesList);
+
+                services.AddSingleton<IPluginClassesService>(mockPluginClassesService);
+                services.AddSingleton<IMemoryCache, MockMemoryCache>();
+                services.AddSingleton<IForeignKeyManager, ForeignKeyManager>();
+                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
+
+                initialisation.BeforeConfigureServices(services);
+
+                using (ServiceProvider provider = services.BuildServiceProvider())
+                {
+                    IProductProvider sut = provider.GetRequiredService<IProductProvider>();
+                    Assert.IsNotNull(sut);
+
+                    bool result = sut.ProductGroupSave(-3, null, true, 5, null, null, out string errorMessage);
                     Assert.IsFalse(result);
                     Assert.AreEqual("Can not be null or empty; Table: ProductGroupDataRow; Property Description", errorMessage);
                 }
@@ -536,7 +575,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
         }
 
         [TestMethod]
-        public void ProductGroupSave_DescriptionTooLong_ReturnsFalse()
+        public void ProductGroupSave_NewRecord_DescriptionTooLong_ReturnsFalse()
         {
             string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
             try
@@ -563,7 +602,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     IProductProvider sut = provider.GetRequiredService<IProductProvider>();
                     Assert.IsNotNull(sut);
 
-                    bool result = sut.ProductGroupSave(1, "This is my exceedingly long description for a product group and it is clearly too long to be of any use", true, 5, null, null, out string errorMessage);
+                    bool result = sut.ProductGroupSave(-1, "This is my exceedingly long description for a product group and it is clearly too long to be of any use", true, 5, null, null, out string errorMessage);
                     Assert.IsFalse(result);
                     Assert.AreEqual("Maximum length for description is 50 characters; Table: ProductGroupDataRow; Property Description", errorMessage);
                 }
@@ -575,7 +614,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
         }
 
         [TestMethod]
-        public void ProductGroupSave_CreatesProductGroup_ReturnsTrue()
+        public void ProductGroupSave_NewRecord_CreatesProductGroup_ReturnsTrue()
         {
             string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
             try
@@ -602,7 +641,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     IProductProvider sut = provider.GetRequiredService<IProductProvider>();
                     Assert.IsNotNull(sut);
 
-                    bool result = sut.ProductGroupSave(1, "Fancy Products", true, 5, null, null, out string errorMessage);
+                    bool result = sut.ProductGroupSave(-1, "Fancy Products", true, 5, null, null, out string errorMessage);
                     Assert.IsTrue(result);
                     Assert.AreEqual("", errorMessage);
 
@@ -783,7 +822,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
         }
 
         [TestMethod]
-        public void ProductSave_InvalidName_TooShort_ReturnsFalse()
+        public void ProductSave_NewRecord_InvalidName_TooShort_ReturnsFalse()
         {
             string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
             try
@@ -815,6 +854,215 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                         true, true, 1.99m, "sku", false, true, out string errorMessage);
                     Assert.IsFalse(result);
                     Assert.AreEqual("Minimum length for Name is 5 characters; Table: ProductDataRow; Property Name", errorMessage);
+                }
+            }
+            finally
+            {
+                Directory.Delete(directory, true);
+            }
+        }
+
+        [TestMethod]
+        public void ProductSave_ExistingRecord_InvalidName_TooShort_ReturnsFalse()
+        {
+            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            try
+            {
+                Directory.CreateDirectory(directory);
+                PluginInitialisation initialisation = new PluginInitialisation();
+                ServiceCollection services = new ServiceCollection();
+                List<object> servicesList = new List<object>()
+                {
+                    new ProductGroupDataRowDefaults(),
+                    new ProductGroupDataTriggers(),
+                    new ProductDataTriggers(),
+                };
+                MockPluginClassesService mockPluginClassesService = new MockPluginClassesService(servicesList);
+
+                services.AddSingleton<IPluginClassesService>(mockPluginClassesService);
+                services.AddSingleton<IMemoryCache, MockMemoryCache>();
+                services.AddSingleton<IForeignKeyManager, ForeignKeyManager>();
+                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
+
+                initialisation.BeforeConfigureServices(services);
+
+                using (ServiceProvider provider = services.BuildServiceProvider())
+                {
+                    IProductProvider sut = provider.GetRequiredService<IProductProvider>();
+                    Assert.IsNotNull(sut);
+
+                    bool result = sut.ProductSave(-1, 0, "Test Product", "my product description", "", "",
+                        true, true, 1.99m, "sku", false, true, out string errorMessage);
+                    Assert.IsTrue(result);
+
+                    result =sut.ProductSave(0, 0, "tst", "My product description", "", "",
+                        true, true, 1.99m, "sku", false, true, out errorMessage);
+                    Assert.IsFalse(result);
+                    Assert.AreEqual("Minimum length for Name is 5 characters; Table: ProductDataRow; Property Name", errorMessage);
+                }
+            }
+            finally
+            {
+                Directory.Delete(directory, true);
+            }
+        }
+
+        [TestMethod]
+        public void ProductSave_NewRecord_InvalidName_TooLong_ReturnsFalse()
+        {
+            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            try
+            {
+                Directory.CreateDirectory(directory);
+                PluginInitialisation initialisation = new PluginInitialisation();
+                ServiceCollection services = new ServiceCollection();
+                List<object> servicesList = new List<object>()
+                {
+                    new ProductGroupDataRowDefaults(),
+                    new ProductGroupDataTriggers(),
+                    new ProductDataTriggers(),
+                };
+                MockPluginClassesService mockPluginClassesService = new MockPluginClassesService(servicesList);
+
+                services.AddSingleton<IPluginClassesService>(mockPluginClassesService);
+                services.AddSingleton<IMemoryCache, MockMemoryCache>();
+                services.AddSingleton<IForeignKeyManager, ForeignKeyManager>();
+                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
+
+                initialisation.BeforeConfigureServices(services);
+
+                using (ServiceProvider provider = services.BuildServiceProvider())
+                {
+                    IProductProvider sut = provider.GetRequiredService<IProductProvider>();
+                    Assert.IsNotNull(sut);
+
+                    bool result = sut.ProductSave(-1, 0, "The maximum length of a product name is capped at one hundred charactgers which this piece of text will exceed", "my product description", "", "",
+                        true, true, 1.99m, "sku", false, true, out string errorMessage);
+                    Assert.IsFalse(result);
+                    Assert.AreEqual("Maximum length for Name is 100 characters; Table: ProductDataRow; Property Name", errorMessage);
+                }
+            }
+            finally
+            {
+                Directory.Delete(directory, true);
+            }
+        }
+
+        [TestMethod]
+        public void ProductSave_NewRecord_InvalidName_Null_ReturnsFalse()
+        {
+            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            try
+            {
+                Directory.CreateDirectory(directory);
+                PluginInitialisation initialisation = new PluginInitialisation();
+                ServiceCollection services = new ServiceCollection();
+                List<object> servicesList = new List<object>()
+                {
+                    new ProductGroupDataRowDefaults(),
+                    new ProductGroupDataTriggers(),
+                    new ProductDataTriggers(),
+                };
+                MockPluginClassesService mockPluginClassesService = new MockPluginClassesService(servicesList);
+
+                services.AddSingleton<IPluginClassesService>(mockPluginClassesService);
+                services.AddSingleton<IMemoryCache, MockMemoryCache>();
+                services.AddSingleton<IForeignKeyManager, ForeignKeyManager>();
+                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
+
+                initialisation.BeforeConfigureServices(services);
+
+                using (ServiceProvider provider = services.BuildServiceProvider())
+                {
+                    IProductProvider sut = provider.GetRequiredService<IProductProvider>();
+                    Assert.IsNotNull(sut);
+
+                    bool result = sut.ProductSave(-1, 0, null, "my product description", "", "",
+                        true, true, 1.99m, "sku", false, true, out string errorMessage);
+                    Assert.IsFalse(result);
+                    Assert.AreEqual("Can not be null or empty; Table: ProductDataRow; Property Name", errorMessage);
+                }
+            }
+            finally
+            {
+                Directory.Delete(directory, true);
+            }
+        }
+
+        [TestMethod]
+        public void ProductSave_NewRecord_InvalidDescription_TooShort_ReturnsFalse()
+        {
+            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            try
+            {
+                Directory.CreateDirectory(directory);
+                PluginInitialisation initialisation = new PluginInitialisation();
+                ServiceCollection services = new ServiceCollection();
+                List<object> servicesList = new List<object>()
+                {
+                    new ProductGroupDataRowDefaults(),
+                    new ProductGroupDataTriggers(),
+                    new ProductDataTriggers(),
+                };
+                MockPluginClassesService mockPluginClassesService = new MockPluginClassesService(servicesList);
+
+                services.AddSingleton<IPluginClassesService>(mockPluginClassesService);
+                services.AddSingleton<IMemoryCache, MockMemoryCache>();
+                services.AddSingleton<IForeignKeyManager, ForeignKeyManager>();
+                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
+
+                initialisation.BeforeConfigureServices(services);
+
+                using (ServiceProvider provider = services.BuildServiceProvider())
+                {
+                    IProductProvider sut = provider.GetRequiredService<IProductProvider>();
+                    Assert.IsNotNull(sut);
+
+                    bool result = sut.ProductSave(-1, 0, "My product", "desc", "", "",
+                        true, true, 1.99m, "sku", false, true, out string errorMessage);
+                    Assert.IsFalse(result);
+                    Assert.AreEqual("Minimum length for Description is 20 characters; Table: ProductDataRow; Property Description", errorMessage);
+                }
+            }
+            finally
+            {
+                Directory.Delete(directory, true);
+            }
+        }
+
+        [TestMethod]
+        public void ProductSave_NewRecord_InvalidDescription_Null_ReturnsFalse()
+        {
+            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            try
+            {
+                Directory.CreateDirectory(directory);
+                PluginInitialisation initialisation = new PluginInitialisation();
+                ServiceCollection services = new ServiceCollection();
+                List<object> servicesList = new List<object>()
+                {
+                    new ProductGroupDataRowDefaults(),
+                    new ProductGroupDataTriggers(),
+                    new ProductDataTriggers(),
+                };
+                MockPluginClassesService mockPluginClassesService = new MockPluginClassesService(servicesList);
+
+                services.AddSingleton<IPluginClassesService>(mockPluginClassesService);
+                services.AddSingleton<IMemoryCache, MockMemoryCache>();
+                services.AddSingleton<IForeignKeyManager, ForeignKeyManager>();
+                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
+
+                initialisation.BeforeConfigureServices(services);
+
+                using (ServiceProvider provider = services.BuildServiceProvider())
+                {
+                    IProductProvider sut = provider.GetRequiredService<IProductProvider>();
+                    Assert.IsNotNull(sut);
+
+                    bool result = sut.ProductSave(-1, 0, "My Product", null, "", "",
+                        true, true, 1.99m, "sku", false, true, out string errorMessage);
+                    Assert.IsFalse(result);
+                    Assert.AreEqual("Can not be null or empty; Table: ProductDataRow; Property Description", errorMessage);
                 }
             }
             finally

@@ -24,6 +24,8 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System.Runtime.CompilerServices;
+using System.Security.Policy;
+using System.Xml.Linq;
 
 using Middleware;
 using Middleware.Products;
@@ -115,21 +117,29 @@ namespace PluginManager.DAL.TextFiles.Providers
         {
             try
             {
-                _productGroupsData.InsertOrUpdate(new ProductGroupDataRow()
-                {
-                    Id = id,
-                    Description = description,
-                    ShowOnWebsite = showOnWebsite,
-                    SortOrder = sortOrder,
-                    TagLine = tagLine,
-                    Url = url
-                });
+                ProductGroupDataRow productGroupDataRow = _productGroupsData.Select(id);
+
+                if (productGroupDataRow == null)
+                    productGroupDataRow = new ProductGroupDataRow();
+
+                productGroupDataRow.Description = description;
+                productGroupDataRow.ShowOnWebsite = showOnWebsite;
+                productGroupDataRow.SortOrder = sortOrder;
+                productGroupDataRow.TagLine = tagLine;
+                productGroupDataRow.Url = url;
+
+                _productGroupsData.InsertOrUpdate(productGroupDataRow);
 
                 errorMessage = String.Empty;
 
                 return true;
             }
             catch (InvalidDataRowException err)
+            {
+                errorMessage = err.Message;
+                return false;
+            }
+            catch (UniqueIndexException err)
             {
                 errorMessage = err.Message;
                 return false;
@@ -202,26 +212,34 @@ namespace PluginManager.DAL.TextFiles.Providers
         {
             try
             {
-                _productData.InsertOrUpdate(new ProductDataRow()
-                {
-                    Id = id,
-                    ProductGroupId = productGroupId,
-                    Name = name,
-                    Description = description,
-                    Features = features,
-                    VideoLink = videoLink,
-                    NewProduct = newProduct,
-                    BestSeller = bestSeller,
-                    Sku = sku,
-                    IsDownload = isDownload,
-                    AllowBackorder = allowBackOrder,
-                    RetailPrice = retailPrice,
-                });
+                ProductDataRow productDataRow = _productData.Select(id);
+
+                if (productDataRow == null)
+                    productDataRow = new ProductDataRow();
+
+                productDataRow.ProductGroupId = productGroupId;
+                productDataRow.Name = name;
+                productDataRow.Description = description;
+                productDataRow.Features = features;
+                productDataRow.VideoLink = videoLink;
+                productDataRow.NewProduct = newProduct;
+                productDataRow.BestSeller = bestSeller;
+                productDataRow.Sku = sku;
+                productDataRow.IsDownload = isDownload;
+                productDataRow.AllowBackorder = allowBackOrder;
+                productDataRow.RetailPrice = retailPrice;
+
+                _productData.InsertOrUpdate(productDataRow);
 
                 errorMessage = String.Empty;
                 return true;
             }
             catch (InvalidDataRowException err)
+            {
+                errorMessage = err.Message;
+                return false;
+            }
+            catch (UniqueIndexException err)
             {
                 errorMessage = err.Message;
                 return false;
