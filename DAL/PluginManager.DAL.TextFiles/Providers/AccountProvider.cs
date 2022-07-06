@@ -46,6 +46,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 
 
         #endregion Private Members
+
         #region Constructors
 
         public AccountProvider(ITextTableOperations<UserDataRow> users, ITextTableOperations<AddressDataRow> addresses, ISettingsProvider settingsProvider)

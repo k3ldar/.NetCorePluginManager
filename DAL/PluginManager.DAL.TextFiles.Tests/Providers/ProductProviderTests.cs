@@ -28,8 +28,6 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 using AspNetCore.PluginManager.Tests.Shared;
 
@@ -850,7 +848,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     IProductProvider sut = provider.GetRequiredService<IProductProvider>();
                     Assert.IsNotNull(sut);
 
-                    bool result = sut.ProductSave(-1, 0, "adf", "my product description", "", "", 
+                    bool result = sut.ProductSave(-1, 0, "adf", "my product description", "", "",
                         true, true, 1.99m, "sku", false, true, out string errorMessage);
                     Assert.IsFalse(result);
                     Assert.AreEqual("Minimum length for Name is 5 characters; Table: ProductDataRow; Property Name", errorMessage);
@@ -895,7 +893,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                         true, true, 1.99m, "sku", false, true, out string errorMessage);
                     Assert.IsTrue(result);
 
-                    result =sut.ProductSave(0, 0, "tst", "My product description", "", "",
+                    result = sut.ProductSave(0, 0, "tst", "My product description", "", "",
                         true, true, 1.99m, "sku", false, true, out errorMessage);
                     Assert.IsFalse(result);
                     Assert.AreEqual("Minimum length for Name is 5 characters; Table: ProductDataRow; Property Name", errorMessage);

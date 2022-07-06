@@ -248,6 +248,11 @@ namespace PluginManager.DAL.TextFiles.Internal
 
         public void Insert(List<T> records)
         {
+            Insert(records, new TextTableInsertOptions());
+        }
+
+        public void Insert(List<T> records, TextTableInsertOptions insertOptions)
+        {
             if (_disposed)
                 throw new ObjectDisposedException(nameof(TextTableOperations<T>));
 
@@ -257,10 +262,15 @@ namespace PluginManager.DAL.TextFiles.Internal
             if (records.Count == 0)
                 throw new ArgumentException("Does not contain any records", nameof(records));
 
-            InternalInsertRecords(records);
+            InternalInsertRecords(records, insertOptions ?? new TextTableInsertOptions());
         }
 
         public void Insert(T record)
+        {
+            Insert(record, new TextTableInsertOptions());
+        }
+
+        public void Insert(T record, TextTableInsertOptions insertOptions)
         {
             if (_disposed)
                 throw new ObjectDisposedException(nameof(TextTableOperations<T>));
@@ -268,7 +278,7 @@ namespace PluginManager.DAL.TextFiles.Internal
             if (record == null)
                 throw new ArgumentNullException(nameof(record));
 
-            InternalInsertRecords(new List<T> { record });
+            InternalInsertRecords(new List<T> { record }, insertOptions ?? new TextTableInsertOptions());
         }
 
         public void Delete(List<T> records)
@@ -331,7 +341,7 @@ namespace PluginManager.DAL.TextFiles.Internal
             if (IdExists(record.Id))
                 InternalUpdateRecords(new List<T> { record }); 
             else
-                InternalInsertRecords(new List<T>() { record });
+                InternalInsertRecords(new List<T>() { record }, new TextTableInsertOptions());
         }
 
         #region Sequences
@@ -600,7 +610,7 @@ namespace PluginManager.DAL.TextFiles.Internal
             }
         }
 
-        private void InternalInsertRecords(List<T> records)
+        private void InternalInsertRecords(List<T> records, TextTableInsertOptions textTableInsertOptions)
         {
             using (TimedLock timedLock = TimedLock.Lock(_lockObject))
             {
@@ -609,8 +619,17 @@ namespace PluginManager.DAL.TextFiles.Internal
 
                 ValidateInternalIndexes(records);
 
-                long nextSequence = PrimarySequence + 1;
-                _ = NextSequence(records.Count);
+                long nextSequence;
+
+                if (textTableInsertOptions.AssignPrimaryKey)
+                {
+                    nextSequence = PrimarySequence + 1;
+                    _ = NextSequence(records.Count);
+                }
+                else
+                {
+                    nextSequence = 0;
+                }
 
                 _indexes.BeginUpdate();
                 try
@@ -618,7 +637,11 @@ namespace PluginManager.DAL.TextFiles.Internal
                     _triggers.ForEach(t => t.BeforeInsert(records));
                     records.ForEach(r =>
                     {
-                        r.Id = nextSequence++;
+                        if (textTableInsertOptions.AssignPrimaryKey)
+                        {
+                            r.Id = nextSequence++;
+                        }
+
                         InternalAddIndex(r);
                     });
 

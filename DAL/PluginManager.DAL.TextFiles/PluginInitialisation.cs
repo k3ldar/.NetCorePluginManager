@@ -85,8 +85,9 @@ namespace PluginManager.DAL.TextFiles
         {
             services.AddSingleton<IForeignKeyManager, ForeignKeyManager>();
             services.AddSingleton<ITextTableInitializer, TextTableInitializer>();
-            
+
             // register tables
+            services.AddSingleton(typeof(TableRowDefinition), typeof(SettingsDataRow));
             services.AddSingleton(typeof(TableRowDefinition), typeof(UserDataRow));
             services.AddSingleton(typeof(TableRowDefinition), typeof(OrdersDataRow));
             services.AddSingleton(typeof(TableRowDefinition), typeof(AddressDataRow));
@@ -99,6 +100,8 @@ namespace PluginManager.DAL.TextFiles
             services.AddSingleton(typeof(TableRowDefinition), typeof(ProductDataRow));
             services.AddSingleton(typeof(TableRowDefinition), typeof(BlogDataRow));
             services.AddSingleton(typeof(TableRowDefinition), typeof(BlogCommentDataRow));
+            services.AddSingleton(typeof(TableRowDefinition), typeof(ShoppingCartDataRow));
+            services.AddSingleton(typeof(TableRowDefinition), typeof(ShoppingCartItemDataRow));
 
             services.AddSingleton(typeof(ITextTableOperations<>), typeof(TextTableOperations<>));
 
@@ -114,11 +117,12 @@ namespace PluginManager.DAL.TextFiles
             services.AddSingleton<ILoginProvider, LoginProvider>();
             services.AddSingleton<IProductProvider, ProductProvider>();
             services.AddSingleton<ISeoProvider, SeoProvider>();
-            //services.AddSingleton<IShoppingCartProvider, ShoppingCartProvider>();
-            //services.AddSingleton<IShoppingCartService, ShoppingCartProvider>();
+            services.AddSingleton<IShoppingCartProvider, ShoppingCartProvider>();
+            services.AddSingleton<IShoppingCartService, ShoppingCartProvider>();
             //services.AddSingleton<IStockProvider, StockProvider>();
             services.AddSingleton<IUserApiQueryProvider, UserApiQueryProvider>();
             services.AddTransient<IUserSearch, UserSearch>();
+            services.AddTransient<SharedPluginFeatures.IApplicationSettingsProvider, SettingsProvider> ();
         }
 
         public void AfterConfigureServices(in IServiceCollection services)

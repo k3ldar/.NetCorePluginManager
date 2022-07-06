@@ -34,9 +34,13 @@ using Middleware.Accounts.Orders;
 using Middleware.Products;
 using Middleware.ShoppingCart;
 
+using PluginManager.DAL.TextFiles.Tables;
+
 using Shared.Classes;
 
 using SharedPluginFeatures;
+using PluginManager.DAL.TextFiles.Internal;
+using System.Globalization;
 
 #pragma warning disable IDE1006
 
@@ -48,21 +52,36 @@ namespace PluginManager.DAL.TextFiles.Providers
 
         private static readonly CacheManager _cartCacheManager = new CacheManager("Shopping Carts", new TimeSpan(0, 20, 0), true);
         private static bool _cartHookedUp;
-        private static long _basketId = 0;
         private readonly IProductProvider _productProvider;
         private readonly IAccountProvider _accountProvider;
-        private const string _encryptionKey = "FPAsdjn;casiicdkumjf4d4fjp0w45eir kc";
+        private readonly string _encryptionKey;
+        private readonly decimal _defaultTaxRate;
+        private readonly string _defaultCurrency;
+        private readonly ITextTableOperations<ShoppingCartDataRow> _shoppingCartData;
+        private readonly ITextTableOperations<ShoppingCartItemDataRow> _shoppingCartItemData;
 
         #endregion Private Members
 
         #region Constructors
 
-        public ShoppingCartProvider(IProductProvider productProvider, IAccountProvider accountProvider)
+        public ShoppingCartProvider(ITextTableOperations<ShoppingCartDataRow> shoppingCartData,
+            ITextTableOperations<ShoppingCartItemDataRow> shoppingCartItemData, 
+            IProductProvider productProvider, IAccountProvider accountProvider, IApplicationSettingsProvider settingsProvider)
         {
+            _shoppingCartData = shoppingCartData ?? throw new ArgumentNullException(nameof(shoppingCartData));
+            _shoppingCartItemData = shoppingCartItemData ?? throw new ArgumentNullException(nameof(shoppingCartItemData));
             _productProvider = productProvider ?? throw new ArgumentNullException(nameof(productProvider));
             _accountProvider = accountProvider ?? throw new ArgumentNullException(nameof(accountProvider));
 
-            _basketId = DateTime.Now.ToFileTimeUtc();
+            if (settingsProvider == null)
+                throw new ArgumentNullException(nameof(settingsProvider));
+
+            _encryptionKey = settingsProvider.RetrieveSetting("ShoppingCartEncryption");
+            _defaultTaxRate = settingsProvider.RetrieveSetting<decimal>("DefaultTaxRate");
+            _defaultCurrency = settingsProvider.RetrieveSetting("DefaultCurrency");
+
+            if (String.IsNullOrEmpty(_encryptionKey))
+                throw new InvalidOperationException("Encryption key for shopping cart can not be null or empty");
 
             lock (this)
             {
@@ -78,7 +97,6 @@ namespace PluginManager.DAL.TextFiles.Providers
 
         #region IShoppingCartProvider Methds
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1303:Do not pass literals as localized parameters", Justification = "Intended for developers not end users")]
         public long AddToCart(in UserSession userSession, in ShoppingCartSummary shoppingCart,
             in Product product, in int count)
         {
@@ -101,34 +119,64 @@ namespace PluginManager.DAL.TextFiles.Providers
 
             ShoppingCartDetail cartDetail = null;
 
-            if (shoppingCart.Id == 0)
-            {
-                // create a new cart
-                shoppingCart.ResetShoppingCartId(++_basketId);
-                cartDetail = new ShoppingCartDetail(shoppingCart.Id,
-                    0, 0, 20, 0, 0, shoppingCart.Culture, String.Empty,
-                    new List<ShoppingCartItem>(), false, "GBP");
-            }
-
-            if (userSession.UserBasketId != shoppingCart.Id)
-                userSession.UserBasketId = shoppingCart.Id;
-
             string cacheName = $"Cart {shoppingCart.Id}";
 
             CacheItem basket = _cartCacheManager.Get(cacheName);
 
             if (basket == null)
             {
+                if (shoppingCart.Id == 0)
+                {
+                    ShoppingCartDataRow cartDataRow = CreateNewShoppingCart(-1);
+
+                    // create a new cart
+                    shoppingCart.ResetShoppingCartId(cartDataRow.Id);
+
+                    cartDetail = new ShoppingCartDetail(shoppingCart.Id,
+                        0, 0, _defaultTaxRate, 0, 0, shoppingCart.Culture, String.Empty,
+                        new List<ShoppingCartItem>(), false, _defaultCurrency);
+                }
+
                 basket = new CacheItem(cacheName, cartDetail);
                 _cartCacheManager.Add(cacheName, basket, true);
             }
 
-            if (shoppingCart.Id == 0 && userSession.UserBasketId != shoppingCart.Id)
+            if (userSession.UserBasketId != shoppingCart.Id)
+                userSession.UserBasketId = shoppingCart.Id;
+
+            if (shoppingCart.Id == 0 || userSession.UserBasketId != shoppingCart.Id)
                 shoppingCart.ResetShoppingCartId(userSession.UserBasketId);
 
             ShoppingCartDetail cart = basket.Value as ShoppingCartDetail;
 
+            _shoppingCartItemData.Insert(new ShoppingCartItemDataRow()
+            {
+                ShoppingCartId = shoppingCart.Id,
+                ItemCost = product.RetailPrice,
+                Description = product.Description,
+                CanBackOrder = product.AllowBackorder,
+                IsDownload = product.IsDownload,
+                ItemCount = count,
+                SKU = product.Sku,
+                Name = product.Name,
+            });
+
             cart.Add(product, count);
+
+            ShoppingCartDataRow shoppingCartData = _shoppingCartData.Select(userSession.UserBasketId);
+            shoppingCartData.CouponCode = cart.CouponCode;
+            shoppingCartData.Culture = cart.Culture.Name;
+            shoppingCartData.Discount = cart.Discount;
+            shoppingCartData.DiscountRate = cart.DiscountRate;
+            shoppingCartData.TaxRate = cart.TaxRate;
+            shoppingCartData.Tax = cart.Tax;
+            shoppingCartData.RequiresShipping = cart.RequiresShipping;
+            shoppingCartData.Shipping = cart.Shipping;
+            shoppingCartData.SubTotal = cart.SubTotal;
+            shoppingCartData.Total = cart.Total;
+            shoppingCartData.TotalItems = cart.TotalItems;
+
+            _shoppingCartData.Update(shoppingCartData);
 
             return userSession.UserBasketId;
         }
@@ -144,17 +192,10 @@ namespace PluginManager.DAL.TextFiles.Providers
 
             if (cacheItem == null)
             {
-                List<ShoppingCartItem> items = new List<ShoppingCartItem>();
-
-                Product product = _productProvider.GetProducts(1, 10000).Where(p => p.RetailPrice > 0).FirstOrDefault();
-                bool requiresShipping = !product.IsDownload;
-
-                items.Add(new ShoppingCartItem(product.Id, 1, product.RetailPrice, product.Name,
-                    product.Description[..Shared.Utilities.CheckMinMax(product.Description.Length, 0, 49)],
-                    product.Sku, product.Images, product.IsDownload, product.AllowBackorder, String.Empty));
-                ShoppingCartDetail cartDetail = new ShoppingCartDetail(shoppingCartId, 1,
-                    product.RetailPrice, 20, 0, 10, System.Threading.Thread.CurrentThread.CurrentUICulture,
-                    "Test Coupon", items, requiresShipping, "GBP");
+                ShoppingCartDataRow newShoppingCart = CreateNewShoppingCart(shoppingCartId);
+                ShoppingCartDetail cartDetail = new ShoppingCartDetail(shoppingCartId, 0,
+                    0, _defaultTaxRate, 0, 0, Thread.CurrentThread.CurrentUICulture,
+                    "", new List<ShoppingCartItem>(), false, _defaultCurrency);
                 cacheItem = new CacheItem(basketCache, cartDetail);
                 _cartCacheManager.Add(basketCache, cacheItem, true);
             }
@@ -169,6 +210,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 
         public bool ConvertToOrder(in ShoppingCartSummary cartSummary, in long userId, out Order order)
         {
+            this next
             if (cartSummary == null)
                 throw new ArgumentNullException(nameof(cartSummary));
 
@@ -225,23 +267,77 @@ namespace PluginManager.DAL.TextFiles.Providers
 
         #endregion IShoppingCartService Methods
 
+        #region Internal Methods
+
+        internal void ClearCache()
+        {
+            _cartCacheManager.Clear();
+        }
+
+        #endregion Internal Methods
+
         #region Private Methods
+
+        private ShoppingCartDataRow CreateNewShoppingCart(long id)
+        {
+            ShoppingCartDataRow cartDataRow = new ShoppingCartDataRow()
+            {
+                Id = id,
+                Culture = Thread.CurrentThread.CurrentUICulture.Name,
+                CouponCode = "",
+                CurrencyCode = _defaultCurrency,
+                RequiresShipping = false,
+                Shipping = 0,
+                SubTotal = 0,
+                Tax = 0,
+                TaxRate = _defaultTaxRate,
+                Total = 0,
+                TotalItems = 0,
+            };
+
+            _shoppingCartData.Insert(cartDataRow, new TextTableInsertOptions(id < 0));
+            return cartDataRow;
+        }
 
         private void cartCacheManager_ItemNotFound(object sender, Shared.CacheItemNotFoundArgs e)
         {
             if (!Int64.TryParse(e.Name.AsSpan(5), out long cartId))
-                cartId = ++_basketId;
+                return;
 
-            ShoppingCartDetail cartDetail = new ShoppingCartDetail(cartId,
-                0, 0, 20, 0, 0, System.Threading.Thread.CurrentThread.CurrentCulture,
-                String.Empty, new List<ShoppingCartItem>(), false, "GBP");
+            ShoppingCartDataRow cart = _shoppingCartData.Select(cartId);
 
-            Product product = _productProvider.GetProducts(1, 10000).Where(p => p.RetailPrice > 0 && !p.IsDownload).FirstOrDefault();
+            if (cart == null)
+                return;
 
-            if (product != null)
-                cartDetail.Add(product, 1);
+            ShoppingCartDetail cartDetail = ConvertShoppingCartDataRowToShoppingCartDetail(cart);
 
             e.CachedItem = new CacheItem(e.Name, cartDetail);
+        }
+
+        private ShoppingCartDetail ConvertShoppingCartDataRowToShoppingCartDetail(ShoppingCartDataRow shoppingCartData)
+        {
+            if (shoppingCartData == null)
+                return null;
+
+            List<ShoppingCartItem> shoppingCartItems = ConvertShoppingCartItemsDataRowToShoppingCartItems(
+                _shoppingCartItemData.Select().Where(item => item.ShoppingCartId.Equals(shoppingCartData.Id)).ToList());
+
+            return new ShoppingCartDetail(shoppingCartData.Id, shoppingCartData.TotalItems, shoppingCartData.Total,
+                shoppingCartData.TaxRate, shoppingCartData.Shipping, shoppingCartData.Discount, new CultureInfo(shoppingCartData.Culture),
+                shoppingCartData.CouponCode, shoppingCartItems, shoppingCartData.RequiresShipping, shoppingCartData.CurrencyCode);
+        }
+
+        private List<ShoppingCartItem> ConvertShoppingCartItemsDataRowToShoppingCartItems(List<ShoppingCartItemDataRow> shoppingCartItems)
+        {
+            List<ShoppingCartItem> Result = new List<ShoppingCartItem>();
+
+            if (shoppingCartItems == null)
+                return Result;
+
+            shoppingCartItems.ForEach(item => Result.Add(new ShoppingCartItem((int)item.Id, item.ItemCount, item.ItemCost, item.Name, 
+                item.Description, item.SKU, new string[] { "NoImage" }, item.IsDownload, item.CanBackOrder, item.Size)));
+
+            return Result;
         }
 
         #endregion Private Methods

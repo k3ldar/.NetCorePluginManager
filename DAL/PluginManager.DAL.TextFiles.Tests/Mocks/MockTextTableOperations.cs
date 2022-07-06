@@ -130,5 +130,15 @@ namespace PluginManager.DAL.TextFiles.Tests.Mocks
         {
             throw new NotImplementedException();
         }
+
+        public void Insert(List<T> records, TextTableInsertOptions insertOptions)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Insert(T records, TextTableInsertOptions insertOptions)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

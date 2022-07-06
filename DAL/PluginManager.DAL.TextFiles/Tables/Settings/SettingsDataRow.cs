@@ -15,32 +15,23 @@
  *
  *  Product:  PluginManager.DAL.TextFiles
  *  
- *  File: Constants.cs
+ *  File: SettingsDataRow.cs
  *
- *  Purpose:  Internal constants
+ *  Purpose:  Table definition for settings
  *
  *  Date        Name                Reason
- *  05/06/2022  Simon Carter        Initially Created
+ *  02/07/2022  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+using PluginManager.DAL.TextFiles.Internal;
 
-namespace PluginManager.DAL.TextFiles.Internal
+namespace PluginManager.DAL.TextFiles.Tables
 {
-    internal class Constants
+    [Table(Constants.TableNameSettings, CompressionType.Brotli, CachingStrategy.None)]
+    internal class SettingsDataRow : TableRowDefinition
     {
-        public const string TableNameSettings = "Settings";
-        public const string TableNameUsers = "Users";
-        public const string TableNameBlogs = "Blogs";
-        public const string TableNameBlogComments = "BlogComments";
-        public const string TableNameCountries = "Countries";
-        public const string TableNameExternalUsers = "ExternalUsers";
-        public const string TableNameUserClaims = "UserClaims";
-        public const string TableNameAddresses = "Addresses";
-        public const string TableNameOrders = "Orders";
-        public const string TableNameSeo = "Seo";
-        public const string TableNameProducts = "Products";
-        public const string TableNameProductGroups = "ProductGroups";
-        public const string TableNameShoppingCart = "ShoppingCart";
-        public const string TableNameShoppingCartItems = "ShoppingCartItems";
+        public string Name { get; set; }
+
+        public string Value { get; set; }
     }
 }

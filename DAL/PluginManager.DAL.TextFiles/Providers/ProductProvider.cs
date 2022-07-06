@@ -298,7 +298,7 @@ namespace PluginManager.DAL.TextFiles.Providers
                 return null;
 
             return new Product((int)product.Id, product.ProductGroupId, product.Name, product.Description, product.Features, product.VideoLink,
-                new string[] { }, product.RetailPrice, product.Sku, product.IsDownload, product.AllowBackorder);
+                new string[] { "NoImage" }, product.RetailPrice, product.Sku, product.IsDownload, product.AllowBackorder);
         }
 
         #endregion Private Members

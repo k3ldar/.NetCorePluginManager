@@ -15,32 +15,28 @@
  *
  *  Product:  PluginManager.DAL.TextFiles
  *  
- *  File: Constants.cs
+ *  File: ShoppingCartDataRowDefaults.cs
  *
- *  Purpose:  Internal constants
+ *  Purpose:  Initialization data for shopping cart data
  *
  *  Date        Name                Reason
- *  05/06/2022  Simon Carter        Initially Created
+ *  03/07/2022  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-namespace PluginManager.DAL.TextFiles.Internal
+namespace PluginManager.DAL.TextFiles.Tables
 {
-    internal class Constants
+    internal class ShoppingCartDataRowDefaults : ITableDefaults<ShoppingCartDataRow>
     {
-        public const string TableNameSettings = "Settings";
-        public const string TableNameUsers = "Users";
-        public const string TableNameBlogs = "Blogs";
-        public const string TableNameBlogComments = "BlogComments";
-        public const string TableNameCountries = "Countries";
-        public const string TableNameExternalUsers = "ExternalUsers";
-        public const string TableNameUserClaims = "UserClaims";
-        public const string TableNameAddresses = "Addresses";
-        public const string TableNameOrders = "Orders";
-        public const string TableNameSeo = "Seo";
-        public const string TableNameProducts = "Products";
-        public const string TableNameProductGroups = "ProductGroups";
-        public const string TableNameShoppingCart = "ShoppingCart";
-        public const string TableNameShoppingCartItems = "ShoppingCartItems";
+        public long PrimarySequence => 0;
+
+        public long SecondarySequence => 0;
+
+        public ushort Version => 0;
+
+        public List<ShoppingCartDataRow> InitialData(ushort version)
+        {
+            return null;
+        }
     }
 }

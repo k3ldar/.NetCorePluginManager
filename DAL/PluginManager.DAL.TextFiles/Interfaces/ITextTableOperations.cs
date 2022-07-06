@@ -43,16 +43,30 @@ namespace PluginManager.DAL.TextFiles
         T Select(long id);
 
         /// <summary>
-        /// Batch inserts multiple new records
+        /// Batch inserts multiple new records, new primary key will be assigned
         /// </summary>
         /// <param name="records">List of records to batch insert</param>
         void Insert(List<T> records);
 
         /// <summary>
-        /// Inserts a single new record
+        /// Batch inserts multiple new records with insert options
+        /// </summary>
+        /// <param name="records"></param>
+        /// <param name="insertOptions"></param>
+        void Insert(List<T> records, TextTableInsertOptions insertOptions);
+
+        /// <summary>
+        /// Inserts a single new record, new primary key will be assigned to each record
         /// </summary>
         /// <param name="record">Record to insert</param>
         void Insert(T record);
+
+        /// <summary>
+        /// Inserts a single new record with insert options
+        /// </summary>
+        /// <param name="records"></param>
+        /// <param name="insertOptions"></param>
+        void Insert(T records, TextTableInsertOptions insertOptions);
 
         /// <summary>
         /// Removes a batch of records
