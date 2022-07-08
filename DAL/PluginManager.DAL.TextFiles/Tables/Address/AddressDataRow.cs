@@ -35,7 +35,6 @@ namespace PluginManager.DAL.TextFiles.Tables
     internal sealed class AddressDataRow : TableRowDefinition
     {
         private long _userId;
-        private decimal _shipping;
         private string _businessName;
         private string _addressLine1;
         private string _addressLine2;
@@ -58,21 +57,6 @@ namespace PluginManager.DAL.TextFiles.Tables
             set
             {
                 _userId = value;
-                Update();
-            }
-        }
-
-        /// <summary>
-        /// Shipping costs for the address.
-        /// </summary>
-        /// <value>decimal</value>
-        public decimal Shipping 
-        { 
-            get => _shipping;
-
-            set
-            {
-                _shipping = value;
                 Update();
             }
         }

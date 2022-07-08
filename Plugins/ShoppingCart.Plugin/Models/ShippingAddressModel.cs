@@ -37,7 +37,7 @@ namespace ShoppingCartPlugin.Models
         #region Constructors
 
         public ShippingAddressModel(in BaseModelData modelData,
-            in int id, in string businessName, in string addressLine1,
+            in long id, in string businessName, in string addressLine1,
             in string addressLine2, in string addressLine3, in string city, in string county,
             in string postcode, in string country, in decimal shippingCost)
             : base(modelData)
@@ -58,7 +58,7 @@ namespace ShoppingCartPlugin.Models
 
         #region Properties
 
-        public int Id { get; private set; }
+        public long Id { get; private set; }
 
         public string Name { get; private set; }
 

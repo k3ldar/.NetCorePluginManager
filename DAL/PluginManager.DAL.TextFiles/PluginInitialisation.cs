@@ -89,7 +89,7 @@ namespace PluginManager.DAL.TextFiles
             // register tables
             services.AddSingleton(typeof(TableRowDefinition), typeof(SettingsDataRow));
             services.AddSingleton(typeof(TableRowDefinition), typeof(UserDataRow));
-            services.AddSingleton(typeof(TableRowDefinition), typeof(OrdersDataRow));
+            services.AddSingleton(typeof(TableRowDefinition), typeof(OrderDataRow));
             services.AddSingleton(typeof(TableRowDefinition), typeof(AddressDataRow));
             services.AddSingleton(typeof(TableRowDefinition), typeof(CountryDataRow));
             services.AddSingleton(typeof(TableRowDefinition), typeof(UserClaimsDataRow));

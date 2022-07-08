@@ -37,6 +37,7 @@ namespace PluginManager.DAL.TextFiles.Internal
         public const string TableNameUserClaims = "UserClaims";
         public const string TableNameAddresses = "Addresses";
         public const string TableNameOrders = "Orders";
+        public const string TableNameOrderItems = "OrderItems";
         public const string TableNameSeo = "Seo";
         public const string TableNameProducts = "Products";
         public const string TableNameProductGroups = "ProductGroups";

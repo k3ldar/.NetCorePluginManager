@@ -208,7 +208,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
             return true;
         }
 
-        public DeliveryAddress GetDeliveryAddress(in Int64 userId, in int deliveryAddressId)
+        public DeliveryAddress GetDeliveryAddress(in Int64 userId, in long deliveryAddressId)
         {
             foreach (DeliveryAddress address in GetDeliveryAddresses(userId))
             {

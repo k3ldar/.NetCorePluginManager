@@ -434,7 +434,6 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     Assert.AreEqual(0, addressRow.Id);
                     Assert.AreEqual(userId, addressRow.UserId);
                     Assert.AreEqual(1.99m, addressRow.PostageCost);
-                    Assert.AreEqual(1.99m, addressRow.Shipping);
                     Assert.AreEqual("business", addressRow.BusinessName);
                     Assert.AreEqual("add 1", addressRow.AddressLine1);
                     Assert.AreEqual("add 2", addressRow.AddressLine2);
@@ -455,7 +454,6 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     Assert.AreEqual(0, addressRow.Id);
                     Assert.AreEqual(userId, addressRow.UserId);
                     Assert.AreEqual(1.99m, addressRow.PostageCost);
-                    Assert.AreEqual(1.99m, addressRow.Shipping);
                     Assert.AreEqual("", addressRow.BusinessName);
                     Assert.AreEqual("add 1a", addressRow.AddressLine1);
                     Assert.AreEqual("add 2a", addressRow.AddressLine2);
@@ -470,7 +468,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     Assert.IsNotNull(address);
 
                     Assert.AreEqual(0, address.Id);
-                    Assert.AreEqual(1.99m, address.Shipping);
+                    Assert.AreEqual(1.99m, address.ShippingCost);
                     Assert.AreEqual("", address.BusinessName);
                     Assert.AreEqual("add 1a", address.AddressLine1);
                     Assert.AreEqual("add 2a", address.AddressLine2);
@@ -597,6 +595,108 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
         public void InvoicesGet_RetrievesOrders_Success()
         {
             Assert.IsTrue(false);
+        }
+
+        [TestMethod]
+        public void SetDeliveryAddress_CorrectlySet_ReturnsTrue()
+        {
+            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            try
+            {
+                Directory.CreateDirectory(directory);
+                PluginInitialisation initialisation = new PluginInitialisation();
+                ServiceCollection services = new ServiceCollection();
+
+                services.AddSingleton<IForeignKeyManager, ForeignKeyManager>();
+                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
+                services.AddSingleton<IPluginClassesService>(new MockPluginClassesService(new List<object>() { new UserDataRowTriggers() }));
+
+                initialisation.BeforeConfigureServices(services);
+
+                using (ServiceProvider provider = services.BuildServiceProvider())
+                {
+                    ITextTableOperations<AddressDataRow> addressTable = (ITextTableOperations<AddressDataRow>)provider.GetService(typeof(ITextTableOperations<AddressDataRow>));
+                    Assert.IsNotNull(addressTable);
+
+                    IAccountProvider sut = provider.GetService(typeof(IAccountProvider)) as IAccountProvider;
+
+                    Assert.IsNotNull(sut);
+
+                    bool created = sut.CreateAccount("me@here.com", "Joe", "Bloggs", "password", "", "", "", "", "", "", "", "", "US", out long userId);
+
+                    Assert.IsTrue(created);
+
+                    DeliveryAddress address = new DeliveryAddress(-1, "business", "add 1", "add 2", "add 3", "city", "county", "postcode", "NL", 2.99m);
+                    bool addBillingAddress = sut.AddDeliveryAddress(userId, address);
+                    Assert.IsTrue(addBillingAddress);
+
+                    AddressDataRow addressRow = addressTable.Select(0);
+                    Assert.IsNotNull(addressRow);
+
+                    Assert.AreEqual(0, addressRow.Id);
+                    Assert.AreEqual(userId, addressRow.UserId);
+                    Assert.AreEqual(2.99m, addressRow.PostageCost);
+                    Assert.AreEqual("business", addressRow.BusinessName);
+                    Assert.AreEqual("add 1", addressRow.AddressLine1);
+                    Assert.AreEqual("add 2", addressRow.AddressLine2);
+                    Assert.AreEqual("add 3", addressRow.AddressLine3);
+                    Assert.AreEqual("city", addressRow.City);
+                    Assert.AreEqual("county", addressRow.County);
+                    Assert.AreEqual("postcode", addressRow.Postcode);
+                    Assert.AreEqual("NL", addressRow.Country);
+                    Assert.IsTrue(addressRow.IsDelivery);
+
+
+                    address = new DeliveryAddress(Convert.ToInt32(addressRow.Id), "", "add 1a", "add 2a", "add 3a", "citya", "countya", "postcodea", "FR", 1.99m);
+                    addBillingAddress = sut.AddDeliveryAddress(userId, address);
+                    Assert.IsTrue(addBillingAddress);
+
+                    addressRow = addressTable.Select(0);
+                    Assert.IsNotNull(addressRow);
+
+                    Assert.AreEqual(0, addressRow.Id);
+                    Assert.AreEqual(userId, addressRow.UserId);
+                    Assert.AreEqual(1.99m, addressRow.PostageCost);
+                    Assert.AreEqual("", addressRow.BusinessName);
+                    Assert.AreEqual("add 1a", addressRow.AddressLine1);
+                    Assert.AreEqual("add 2a", addressRow.AddressLine2);
+                    Assert.AreEqual("add 3a", addressRow.AddressLine3);
+                    Assert.AreEqual("citya", addressRow.City);
+                    Assert.AreEqual("countya", addressRow.County);
+                    Assert.AreEqual("postcodea", addressRow.Postcode);
+                    Assert.AreEqual("FR", addressRow.Country);
+                    Assert.IsTrue(addressRow.IsDelivery);
+
+                    address.ShippingCost = 3.99m;
+                    sut.SetDeliveryAddress(userId, address);
+
+                    List<DeliveryAddress> deliveryAddresses = sut.GetDeliveryAddresses(userId);
+                    Assert.IsNotNull(deliveryAddresses);
+                    Assert.AreEqual(2, deliveryAddresses.Count);
+
+                    address = deliveryAddresses[1];
+                    Assert.AreEqual(0, address.Id);
+                    Assert.AreEqual(3.99m, address.ShippingCost);
+                    Assert.AreEqual("", address.BusinessName);
+                    Assert.AreEqual("add 1a", address.AddressLine1);
+                    Assert.AreEqual("add 2a", address.AddressLine2);
+                    Assert.AreEqual("add 3a", address.AddressLine3);
+                    Assert.AreEqual("citya", address.City);
+                    Assert.AreEqual("countya", address.County);
+                    Assert.AreEqual("postcodea", address.Postcode);
+                    Assert.AreEqual("FR", address.Country);
+
+                    sut.DeleteDeliveryAddress(userId, deliveryAddresses[0]);
+
+                    deliveryAddresses = sut.GetDeliveryAddresses(userId);
+                    Assert.IsNotNull(deliveryAddresses);
+                    Assert.AreEqual(1, deliveryAddresses.Count);
+                }
+            }
+            finally
+            {
+                Directory.Delete(directory, true);
+            }
         }
     }
 }

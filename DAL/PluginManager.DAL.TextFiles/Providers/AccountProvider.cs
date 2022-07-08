@@ -287,7 +287,7 @@ namespace PluginManager.DAL.TextFiles.Providers
             if (user == null)
                 return false;
 
-            int billingAddressId = billingAddress.Id;
+            long billingAddressId = billingAddress.Id;
 
             AddressDataRow userAddresses = _addresses.Select().Where(a => a.UserId == user.Id && a.Id.Equals(billingAddressId)).FirstOrDefault();
 
@@ -304,8 +304,7 @@ namespace PluginManager.DAL.TextFiles.Providers
                     County = billingAddress.County,
                     Postcode = billingAddress.Postcode,
                     IsDelivery = false,
-                    Shipping = billingAddress.Shipping,
-                    PostageCost = billingAddress.Shipping,
+                    PostageCost = billingAddress.ShippingCost,
                     UserId = userId,
                 };
 
@@ -322,8 +321,7 @@ namespace PluginManager.DAL.TextFiles.Providers
                 userAddresses.County = billingAddress.County;
                 userAddresses.Postcode = billingAddress.Postcode;
                 userAddresses.IsDelivery = false;
-                userAddresses.Shipping = billingAddress.Shipping;
-                userAddresses.PostageCost = billingAddress.Shipping;
+                userAddresses.PostageCost = billingAddress.ShippingCost;
                 userAddresses.UserId = userId;
                 _addresses.Update(userAddresses);
             }
@@ -340,7 +338,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 
             AddressDataRow userAddresses = _addresses.Select().Where(a => a.UserId == user.Id && !a.IsDelivery).FirstOrDefault();
 
-            return new Address(Convert.ToInt32(userAddresses.Id), userAddresses.Shipping, userAddresses.BusinessName,
+            return new Address(Convert.ToInt32(userAddresses.Id), userAddresses.PostageCost, userAddresses.BusinessName,
                 userAddresses.AddressLine1, userAddresses.AddressLine2, userAddresses.AddressLine3,
                 userAddresses.City, userAddresses.County, userAddresses.Postcode, userAddresses.Country);
         }
@@ -376,17 +374,32 @@ namespace PluginManager.DAL.TextFiles.Providers
             if (user == null)
                 return false;
 
-            throw new NotImplementedException();
+            _addresses.Insert(new AddressDataRow()
+            {
+                AddressLine1 = deliveryAddress.AddressLine1,
+                AddressLine2 = deliveryAddress.AddressLine2,
+                AddressLine3 = deliveryAddress.AddressLine3,
+                BusinessName = deliveryAddress.BusinessName,
+                City = deliveryAddress.City,
+                Country = deliveryAddress.Country,
+                County = deliveryAddress.County,
+                IsDelivery = true,
+                PostageCost = deliveryAddress.PostageCost,
+                Postcode = deliveryAddress.Postcode,
+                UserId = userId,
+            });
+
+            return true;
         }
 
-        public DeliveryAddress GetDeliveryAddress(in Int64 userId, in int deliveryAddressId)
+        public DeliveryAddress GetDeliveryAddress(in Int64 userId, in long deliveryAddressId)
         {
             UserDataRow user = _users.Select(userId);
 
             if (user == null)
                 return null;
 
-            throw new NotImplementedException();
+            return ConvertToDeliveryAddress(_addresses.Select(deliveryAddressId));
         }
 
         public bool DeleteDeliveryAddress(in long userId, in DeliveryAddress deliveryAddress)
@@ -487,6 +500,14 @@ namespace PluginManager.DAL.TextFiles.Providers
 
         #region Private Methods
 
+        private DeliveryAddress ConvertToDeliveryAddress(AddressDataRow address)
+        {
+            if (address == null)
+                return null;
+
+            return new DeliveryAddress(address.Id, address.BusinessName, address.AddressLine1, address.AddressLine2, 
+                address.AddressLine3, address.City, address.County, address.Country, address.Postcode, address.PostageCost);
+        }
         private static int GenerateRandomNumber()
         {
             Random random = new Random();

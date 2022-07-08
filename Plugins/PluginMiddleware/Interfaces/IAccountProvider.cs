@@ -211,7 +211,7 @@ namespace Middleware.Accounts
         /// <param name="userId">Unique user id.</param>
         /// <param name="deliveryAddressId">Unique id of the delivery address associated with the user.</param>
         /// <returns>DeliveryAddress</returns>
-        DeliveryAddress GetDeliveryAddress(in Int64 userId, in int deliveryAddressId);
+        DeliveryAddress GetDeliveryAddress(in Int64 userId, in long deliveryAddressId);
 
         /// <summary>
         /// Deletes a delivery address for a user.

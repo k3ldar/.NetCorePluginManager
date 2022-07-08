@@ -14,7 +14,7 @@
             Default constructor
             </summary>
         </member>
-        <member name="M:Middleware.Address.#ctor(System.Int32@,System.Decimal@,System.String@,System.String@,System.String@,System.String@,System.String@,System.String@,System.String@,System.String@)">
+        <member name="M:Middleware.Address.#ctor(System.Int64@,System.Decimal@,System.String@,System.String@,System.String@,System.String@,System.String@,System.String@,System.String@,System.String@)">
             <summary>
             Constructor
             </summary>
@@ -35,7 +35,7 @@
             </summary>
             <value>int</value>
         </member>
-        <member name="P:Middleware.Address.Shipping">
+        <member name="P:Middleware.Address.ShippingCost">
             <summary>
             Shipping costs for the address.
             </summary>
@@ -99,7 +99,7 @@
             Constructor
             </summary>
         </member>
-        <member name="M:Middleware.Accounts.DeliveryAddress.#ctor(System.Int32@,System.String@,System.String@,System.String@,System.String@,System.String@,System.String@,System.String@,System.String@,System.Decimal@)">
+        <member name="M:Middleware.Accounts.DeliveryAddress.#ctor(System.Int64@,System.String@,System.String@,System.String@,System.String@,System.String@,System.String@,System.String@,System.String@,System.Decimal@)">
             <summary>
             Constructor
             </summary>
@@ -270,7 +270,7 @@
             Represents an individual invoice item within an Invoice used by IAccountProvider and UserAccount.Plugin module.
             </summary>
         </member>
-        <member name="M:Middleware.Accounts.Invoices.InvoiceItem.#ctor(System.Int64@,System.String@,System.Decimal@,System.Int32@,System.Decimal@,Middleware.ItemStatus@,Middleware.DiscountType@,System.Decimal@)">
+        <member name="M:Middleware.Accounts.Invoices.InvoiceItem.#ctor(System.Int64@,System.String@,System.Decimal@,System.Decimal@,System.Decimal@,Middleware.ItemStatus@,Middleware.DiscountType@,System.Decimal@)">
             <summary>
             Constructor
             </summary>
@@ -477,7 +477,7 @@
             Represents a users order, primarily used by IAccountProvider within the UserAccount.Plugin module.
             </summary>
         </member>
-        <member name="M:Middleware.Accounts.Orders.Order.#ctor(System.Int32@,System.DateTime@,System.Decimal@,System.Globalization.CultureInfo@,Middleware.ProcessStatus@,Middleware.Accounts.DeliveryAddress,System.Collections.Generic.List{Middleware.Accounts.Orders.OrderItem})">
+        <member name="M:Middleware.Accounts.Orders.Order.#ctor(System.Int64@,System.DateTime@,System.Decimal@,System.Globalization.CultureInfo@,Middleware.ProcessStatus@,Middleware.Accounts.DeliveryAddress,System.Collections.Generic.List{Middleware.Accounts.Orders.OrderItem})">
             <summary>
             Constructor
             </summary>
@@ -566,7 +566,7 @@
             Represents an item within an Order created by a user.  This is primarily used by IAccountProvider and the UserAccount.Plugin module.
             </summary>
         </member>
-        <member name="M:Middleware.Accounts.Orders.OrderItem.#ctor(System.Int64@,System.String@,System.Decimal@,System.Int32@,System.Decimal@,Middleware.ItemStatus@,Middleware.DiscountType@,System.Decimal@)">
+        <member name="M:Middleware.Accounts.Orders.OrderItem.#ctor(System.Int64@,System.String@,System.Decimal@,System.Decimal@,System.Decimal@,Middleware.ItemStatus@,Middleware.DiscountType@,System.Decimal@)">
             <summary>
             Constructor
             </summary>
@@ -800,7 +800,7 @@
             <param name="userId">Unique user id.</param>
             <returns>List&lt;<see cref="T:Middleware.Accounts.DeliveryAddress"/>&gt;</returns>
         </member>
-        <member name="M:Middleware.Accounts.IAccountProvider.GetDeliveryAddress(System.Int64@,System.Int32@)">
+        <member name="M:Middleware.Accounts.IAccountProvider.GetDeliveryAddress(System.Int64@,System.Int64@)">
             <summary>
             Retrieves a specific delivery address for a user.
             </summary>

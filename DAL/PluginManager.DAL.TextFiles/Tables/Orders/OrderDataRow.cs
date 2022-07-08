@@ -25,11 +25,71 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using PluginManager.DAL.TextFiles.Internal;
 
-
 namespace PluginManager.DAL.TextFiles.Tables
 {
     [Table(Constants.TableNameOrders)]
-    internal sealed class OrdersDataRow
+    internal sealed class OrderDataRow : TableRowDefinition
     {
+        private long _deliveryAddress;
+        private decimal _postage;
+        private string _culture;
+        private int _status;
+
+        [ForeignKey(Constants.TableNameAddresses)]
+        public long DeliveryAddress
+        {
+            get
+            {
+                return _deliveryAddress;
+            }
+
+            set
+            {
+                _deliveryAddress = value;
+                Update();
+            }
+        }
+
+        public decimal Postage
+        {
+            get
+            {
+                return _postage;
+            }
+
+            set
+            {
+                _postage = value;
+                Update();
+            }
+        }
+
+        public string Culture
+        {
+            get
+            {
+                return _culture;
+            }
+
+            set
+            {
+                _culture = value;
+                Update();
+            }
+        }
+
+        public int Status
+        {
+            get
+            {
+                return _status;
+            }
+
+            set
+            {
+                _status = value;
+                Update();
+            }
+        }
     }
 }

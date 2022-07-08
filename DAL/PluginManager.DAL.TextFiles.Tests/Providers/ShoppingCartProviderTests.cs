@@ -37,6 +37,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using Middleware;
+using Middleware.Accounts;
+using Middleware.Accounts.Orders;
 using Middleware.Products;
 using Middleware.ShoppingCart;
 
@@ -376,6 +378,117 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             }
         }
 
+        [TestMethod]
+        public void ConvertToOrder_OrderCreatedSuccessfully_ReturnsTrue()
+        {
+            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            try
+            {
+                Directory.CreateDirectory(directory);
+                PluginInitialisation initialisation = new PluginInitialisation();
+                ServiceCollection services = new ServiceCollection();
+                List<object> servicesList = new List<object>()
+                {
+                    new SettingsDataRowDefaults(),
+                    new ProductGroupDataRowDefaults(),
+                    new ProductGroupDataTriggers(),
+                    new ProductDataTriggers(),
+                    new ShoppingCartDataRowDefaults(),
+
+                };
+                MockPluginClassesService mockPluginClassesService = new MockPluginClassesService(servicesList);
+
+                services.AddSingleton<IPluginClassesService>(mockPluginClassesService);
+                services.AddSingleton<IMemoryCache, MockMemoryCache>();
+                services.AddSingleton<IForeignKeyManager, ForeignKeyManager>();
+                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
+
+                initialisation.BeforeConfigureServices(services);
+
+                UserSession userSession = new UserSession();
+                ShoppingCartSummary shoppingCart = new ShoppingCartSummary(0, 0, 0, 0, 0, 20,
+                    System.Threading.Thread.CurrentThread.CurrentUICulture,
+                    "GBP");
+
+
+                using (ServiceProvider provider = services.BuildServiceProvider())
+                {
+                    IProductProvider productProvider = GetTestProductProvider(provider);
+
+                    IAccountProvider accountProvider = provider.GetService<IAccountProvider>();
+                    Assert.IsNotNull(accountProvider);
+
+                    bool accountCreated = accountProvider.CreateAccount("me@here.com", "test", "user", "pass", "", "",
+                        "addr1", "", "", "city", "county", "zip", "DK", out long userId);
+                    Assert.IsTrue(accountCreated);
+
+                    ShoppingCartProvider sut = (ShoppingCartProvider)provider.GetService<IShoppingCartProvider>();
+                    Assert.IsNotNull(sut);
+
+                    long basketId = sut.AddToCart(userSession, shoppingCart, productProvider.GetProduct(0), 1);
+                    Assert.AreEqual(1, basketId);
+
+                    basketId = sut.AddToCart(userSession, shoppingCart, productProvider.GetProduct(1), 2);
+                    Assert.AreEqual(1, basketId);
+
+                    basketId = sut.AddToCart(userSession, shoppingCart, productProvider.GetProduct(2), 2);
+                    Assert.AreEqual(1, basketId);
+
+                    sut.ClearCache();
+
+                    ITextTableOperations<ShoppingCartItemDataRow> shoppingCartItemData = provider.GetRequiredService<ITextTableOperations<ShoppingCartItemDataRow>>();
+                    //shoppingCartItemData.Truncate();
+
+
+                    ITextTableOperations<ShoppingCartDataRow> shoppingCartData = provider.GetRequiredService<ITextTableOperations<ShoppingCartDataRow>>();
+                    //shoppingCartData.Truncate();
+
+
+                    ShoppingCartSummary basketSummary = sut.GetSummary(basketId);
+                    Assert.IsNotNull(basketSummary);
+                    Assert.AreEqual("GBP", basketSummary.CurrencyCode);
+                    Assert.AreEqual(0, basketSummary.Discount);
+                    Assert.AreEqual(0, basketSummary.Shipping);
+                    Assert.AreEqual(15.95m, basketSummary.SubTotal);
+                    Assert.AreEqual(2.66m, basketSummary.Tax);
+                    Assert.AreEqual(20, basketSummary.TaxRate);
+                    Assert.AreEqual(15.95m, basketSummary.Total);
+                    Assert.AreEqual(5, basketSummary.TotalItems);
+
+                    Assert.AreEqual(3, shoppingCartItemData.RecordCount);
+                    Assert.AreEqual(1, shoppingCartData.RecordCount);
+
+                    ShoppingCartDataRow savedBasket = shoppingCartData.Select().FirstOrDefault();
+                    Assert.AreEqual(1, savedBasket.Id);
+
+                    bool orderCreated = sut.ConvertToOrder(basketSummary, userId, out Order order);
+                    Assert.IsTrue(orderCreated);
+                    Assert.IsNotNull(order);
+
+
+                    // ensure basket is cleared
+                    basketSummary = sut.GetSummary(basketId);
+                    Assert.IsNotNull(basketSummary);
+                    Assert.AreEqual("GBP", basketSummary.CurrencyCode);
+                    Assert.AreEqual(0, basketSummary.Discount);
+                    Assert.AreEqual(0, basketSummary.Shipping);
+                    Assert.AreEqual(0, basketSummary.SubTotal);
+                    Assert.AreEqual(0, basketSummary.Tax);
+                    Assert.AreEqual(20, basketSummary.TaxRate);
+                    Assert.AreEqual(0, basketSummary.Total);
+                    Assert.AreEqual(0, basketSummary.TotalItems);
+
+                    Assert.AreEqual(0, shoppingCartItemData.RecordCount);
+                    Assert.AreEqual(1, shoppingCartData.RecordCount);
+
+                }
+            }
+            finally
+            {
+                Directory.Delete(directory, true);
+            }
+        }
+
 
         private IProductProvider GetTestProductProvider(ServiceProvider provider, bool addProducts = true)
         {
@@ -387,10 +500,10 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                 if (!Result.ProductSave(-1, 1, "test product", "This is a description of my test product", "", "", true, false, 1.99m, "sku1", false, true, out string errorMessage))
                     throw new InvalidOperationException("product should have saved; Error: " + errorMessage);
 
-                if (!Result.ProductSave(-1, 1, "test product", "This is a description of my test product", "", "", true, false, 1.99m, "sku2", false, true, out errorMessage))
+                if (!Result.ProductSave(-1, 1, "test product", "This is a description of my test product", "", "", true, false, 2.99m, "sku2", false, true, out errorMessage))
                     throw new InvalidOperationException("product should have saved; Error: " + errorMessage);
 
-                if (!Result.ProductSave(-1, 1, "test product", "This is a description of my test product", "", "", true, false, 1.99m, "sku3", false, true, out errorMessage))
+                if (!Result.ProductSave(-1, 1, "test product", "This is a description of my test product", "", "", true, false, 3.99m, "sku3", false, true, out errorMessage))
                     throw new InvalidOperationException("product should have saved; Error: " + errorMessage);
             }
 

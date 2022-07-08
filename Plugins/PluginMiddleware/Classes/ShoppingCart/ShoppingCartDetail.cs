@@ -93,7 +93,7 @@ namespace Middleware.ShoppingCart
         /// Unique delivery address for the users, where the products will be shipped to.
         /// </summary>
         /// <value>int</value>
-        public int DeliveryAddressId { get; private set; }
+        public long DeliveryAddressId { get; private set; }
 
         #endregion Properties
 
@@ -188,7 +188,7 @@ namespace Middleware.ShoppingCart
                 throw new ArgumentNullException(nameof(address));
 
             DeliveryAddressId = address.Id;
-            ResetShipping(address.Shipping);
+            ResetShipping(address.ShippingCost);
         }
 
         #endregion Public Methods

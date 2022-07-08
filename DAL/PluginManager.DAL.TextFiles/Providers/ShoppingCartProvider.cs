@@ -59,6 +59,8 @@ namespace PluginManager.DAL.TextFiles.Providers
         private readonly string _defaultCurrency;
         private readonly ITextTableOperations<ShoppingCartDataRow> _shoppingCartData;
         private readonly ITextTableOperations<ShoppingCartItemDataRow> _shoppingCartItemData;
+        private readonly ITextTableOperations<OrderDataRow> _orderData;
+        private readonly ITextTableOperations<OrderItemsDataRow> _orderItemsData;
 
         #endregion Private Members
 
@@ -66,12 +68,15 @@ namespace PluginManager.DAL.TextFiles.Providers
 
         public ShoppingCartProvider(ITextTableOperations<ShoppingCartDataRow> shoppingCartData,
             ITextTableOperations<ShoppingCartItemDataRow> shoppingCartItemData, 
+            ITextTableOperations<OrderDataRow> orderData, ITextTableOperations<OrderItemsDataRow> orderItemsData,
             IProductProvider productProvider, IAccountProvider accountProvider, IApplicationSettingsProvider settingsProvider)
         {
             _shoppingCartData = shoppingCartData ?? throw new ArgumentNullException(nameof(shoppingCartData));
             _shoppingCartItemData = shoppingCartItemData ?? throw new ArgumentNullException(nameof(shoppingCartItemData));
             _productProvider = productProvider ?? throw new ArgumentNullException(nameof(productProvider));
             _accountProvider = accountProvider ?? throw new ArgumentNullException(nameof(accountProvider));
+            _orderData = orderData ?? throw new ArgumentNullException(nameof(orderData));
+            _orderItemsData = orderItemsData ?? throw new ArgumentNullException(nameof(orderItemsData));
 
             if (settingsProvider == null)
                 throw new ArgumentNullException(nameof(settingsProvider));
@@ -210,27 +215,46 @@ namespace PluginManager.DAL.TextFiles.Providers
 
         public bool ConvertToOrder(in ShoppingCartSummary cartSummary, in long userId, out Order order)
         {
-            this next
             if (cartSummary == null)
                 throw new ArgumentNullException(nameof(cartSummary));
 
-            if (userId == 0)
+            if (userId < 0)
                 throw new ArgumentOutOfRangeException(nameof(userId));
 
             ShoppingCartDetail cartDetail = GetDetail(cartSummary.Id);
 
-            Order latest = _accountProvider.OrdersGet(userId).OrderByDescending(o => o.Id).FirstOrDefault();
             DeliveryAddress shippingAddress = _accountProvider.GetDeliveryAddress(userId, cartDetail.DeliveryAddressId);
             List<OrderItem> items = new List<OrderItem>();
 
+            OrderDataRow orderData = new OrderDataRow()
+            {
+                Culture = cartSummary.Culture.Name,
+                Postage = cartSummary.Shipping,
+                Status = (int)ProcessStatus.PaymentPending,
+                DeliveryAddress = shippingAddress.Id
+            };
+            _orderData.Insert(orderData);
+
             foreach (ShoppingCartItem item in cartDetail.Items)
             {
-                items.Add(new OrderItem(item.Id, item.Name, item.ItemCost, 20, item.ItemCount,
-                    ItemStatus.Received, DiscountType.None, 0));
+                _orderItemsData.Insert(new OrderItemsDataRow() 
+                { 
+                    OrderId = orderData.Id,
+                    Description = item.Description,
+                    TaxRate = item.TaxRate,
+                    Price = item.ItemCost,
+                    Quantity = item.ItemCount,
+                    Discount = 0,
+                    DiscountType = (int)DiscountType.None,
+                    Status = (int)ItemStatus.Received
+                });
+                
+                items.Add(new OrderItem(item.Id, item.Name, item.ItemCost, cartSummary.TaxRate, item.ItemCount,
+                    ItemStatus.Received, DiscountType.None, cartSummary.Discount));
             }
 
-            order = new Order(latest.Id + 1, DateTime.Now, cartDetail.Shipping, cartDetail.Culture,
-                ProcessStatus.PaymentPending, shippingAddress, items);
+            order = new Order(orderData.Id, orderData.Created, orderData.Postage, new CultureInfo(orderData.Culture),
+                (ProcessStatus)orderData.Status, shippingAddress, items);
 
             return true;
         }
