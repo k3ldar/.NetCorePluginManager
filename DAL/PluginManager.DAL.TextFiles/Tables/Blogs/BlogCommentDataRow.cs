@@ -154,7 +154,11 @@ namespace PluginManager.DAL.TextFiles.Tables
 
             set
             {
+                if (value != null)
+                    value.Changed -= ObservableDataChanged;
+
                 _comments = value;
+                _comments.Changed += ObservableDataChanged;
                 Update();
             }
         }

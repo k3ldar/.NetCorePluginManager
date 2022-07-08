@@ -36,6 +36,7 @@ namespace PluginManager.DAL.TextFiles.Tables
         public UserClaimsDataRow()
         {
             _claims = new ObservableList<string>();
+            _claims.Changed += ObservableDataChanged;
         }
 
         [ForeignKey(Constants.TableNameUsers)]
@@ -69,7 +70,11 @@ namespace PluginManager.DAL.TextFiles.Tables
                 if (_claims == value)
                     return;
 
+                if (_claims != null)
+                    _claims.Changed -= ObservableDataChanged;
+
                 _claims = value;
+                _claims.Changed += ObservableDataChanged;
             }
         }
     }

@@ -137,5 +137,11 @@ namespace PluginManager.DAL.TextFiles
             _updated = DateTime.UtcNow.Ticks;
             HasChanged = true;
         }
+
+        protected void ObservableDataChanged(object sender, EventArgs e)
+        {
+            Update();
+        }
+
     }
 }

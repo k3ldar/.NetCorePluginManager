@@ -39,12 +39,7 @@ namespace PluginManager.DAL.TextFiles.Tables
         public SeoDataRow()
         {
             Keywords = new ObservableList<string>();
-            Keywords.Changed += ListUpdated;
-        }
-
-        private void ListUpdated(object sender, EventArgs e)
-        {
-            Update();
+            Keywords.Changed += ObservableDataChanged;
         }
 
         public string Route
@@ -78,10 +73,10 @@ namespace PluginManager.DAL.TextFiles.Tables
                     throw new InvalidOperationException();
 
                 if (_keywords != null)
-                    _keywords.Changed -= ListUpdated;
+                    _keywords.Changed -= ObservableDataChanged;
 
                 _keywords = value;
-                _keywords.Changed += ListUpdated;
+                _keywords.Changed += ObservableDataChanged;
             }
         }
 

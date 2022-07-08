@@ -47,14 +47,9 @@ namespace PluginManager.DAL.TextFiles.Tables
         public BlogDataRow()
         {
             _comments = new ObservableList<BlogCommentDataRow>();
-            _comments.Changed += DataChanged;
+            _comments.Changed += ObservableDataChanged;
             _tags = new ObservableList<string>();
-            _tags.Changed += DataChanged;
-        }
-
-        private void DataChanged(object sender, EventArgs e)
-        {
-            Update();
+            _tags.Changed += ObservableDataChanged;
         }
 
         /// <summary>
@@ -200,10 +195,10 @@ namespace PluginManager.DAL.TextFiles.Tables
                     throw new InvalidOperationException();
 
                 if (_tags != null)
-                    _tags.Changed -= DataChanged;
+                    _tags.Changed -= ObservableDataChanged;
 
                 _tags = value;
-                _tags.Changed += DataChanged;
+                _tags.Changed += ObservableDataChanged;
                 Update();
             }
         }
@@ -223,10 +218,10 @@ namespace PluginManager.DAL.TextFiles.Tables
                     throw new InvalidOperationException();
 
                 if (_comments != null)
-                    _comments.Changed -= DataChanged;
+                    _comments.Changed -= ObservableDataChanged;
 
                 _comments = value;
-                _comments.Changed += DataChanged;
+                _comments.Changed += ObservableDataChanged;
                 Update();
             }
         }
