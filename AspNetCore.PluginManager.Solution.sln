@@ -90,7 +90,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DAL", "DAL", "{CB762EBF-E92
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PluginManager.DAL.TextFiles", "DAL\PluginManager.DAL.TextFiles\PluginManager.DAL.TextFiles.csproj", "{17422B82-BF9A-42FE-ABB8-4497BDFE99B7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PluginManager.DAL.TextFiles.Tests", "DAL\PluginManager.DAL.TextFiles.Tests\PluginManager.DAL.TextFiles.Tests.csproj", "{7461D4F0-CD5F-49C0-B4B6-7DED3D61CFB1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PluginManager.DAL.TextFiles.Tests", "DAL\PluginManager.DAL.TextFiles.Tests\PluginManager.DAL.TextFiles.Tests.csproj", "{7461D4F0-CD5F-49C0-B4B6-7DED3D61CFB1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -267,7 +267,6 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{CB762EBF-E92F-4B74-9877-9DD34FADBC78} = {9D6C1367-C141-4577-8E9C-5710C9D5E516}
 		{17422B82-BF9A-42FE-ABB8-4497BDFE99B7} = {CB762EBF-E92F-4B74-9877-9DD34FADBC78}
 		{7461D4F0-CD5F-49C0-B4B6-7DED3D61CFB1} = {CB762EBF-E92F-4B74-9877-9DD34FADBC78}
 	EndGlobalSection
