@@ -36,7 +36,7 @@ namespace PluginManager.DAL.TextFiles.Tables
         decimal _taxRate;
         string _name;
         string _description;
-        string _sKU;
+        string _sku;
         bool _isDownload;
         int _weight;
         string _customerReference;
@@ -51,10 +51,14 @@ namespace PluginManager.DAL.TextFiles.Tables
             {
                 return _shoppingCartId;
             }
-        
+
             set
             {
+                if (_shoppingCartId == value)
+                    return;
+
                 _shoppingCartId = value;
+                Update();
             }
         }
 
@@ -64,10 +68,14 @@ namespace PluginManager.DAL.TextFiles.Tables
             {
                 return _itemCount;
             }
-        
+
             set
             {
+                if (_itemCount == value)
+                    return;
+
                 _itemCount = value;
+                Update();
             }
         }
 
@@ -77,10 +85,14 @@ namespace PluginManager.DAL.TextFiles.Tables
             {
                 return _itemCost;
             }
-        
+
             set
             {
+                if (_itemCost == value)
+                    return;
+
                 _itemCost = value;
+                Update();
             }
         }
 
@@ -90,10 +102,14 @@ namespace PluginManager.DAL.TextFiles.Tables
             {
                 return _taxRate;
             }
-        
+
             set
             {
+                if (_taxRate == value)
+                    return;
+
                 _taxRate = value;
+                Update();
             }
         }
 
@@ -103,10 +119,14 @@ namespace PluginManager.DAL.TextFiles.Tables
             {
                 return _name;
             }
-        
+
             set
             {
+                if (_name == value)
+                    return;
+
                 _name = value;
+                Update();
             }
         }
 
@@ -116,10 +136,14 @@ namespace PluginManager.DAL.TextFiles.Tables
             {
                 return _description;
             }
-        
+
             set
             {
+                if (_description == value)
+                    return;
+
                 _description = value;
+                Update();
             }
         }
 
@@ -127,12 +151,16 @@ namespace PluginManager.DAL.TextFiles.Tables
         {
             get
             {
-                return _sKU;
+                return _sku;
             }
-        
+
             set
             {
-                _sKU = value;
+                if (_sku == value)
+                    return;
+
+                _sku = value;
+                Update();
             }
         }
 
@@ -142,10 +170,14 @@ namespace PluginManager.DAL.TextFiles.Tables
             {
                 return _isDownload;
             }
-        
+
             set
             {
+                if (_isDownload == value)
+                    return;
+
                 _isDownload = value;
+                Update();
             }
         }
 
@@ -155,10 +187,14 @@ namespace PluginManager.DAL.TextFiles.Tables
             {
                 return _weight;
             }
-        
+
             set
             {
+                if (_weight == value)
+                    return;
+
                 _weight = value;
+                Update();
             }
         }
 
@@ -168,10 +204,14 @@ namespace PluginManager.DAL.TextFiles.Tables
             {
                 return _customerReference;
             }
-        
+
             set
             {
+                if (_customerReference == value)
+                    return;
+
                 _customerReference = value;
+                Update();
             }
         }
 
@@ -181,10 +221,14 @@ namespace PluginManager.DAL.TextFiles.Tables
             {
                 return _canBackOrder;
             }
-        
+
             set
             {
+                if (_canBackOrder == value)
+                    return;
+
                 _canBackOrder = value;
+                Update();
             }
         }
 
@@ -194,10 +238,14 @@ namespace PluginManager.DAL.TextFiles.Tables
             {
                 return _size;
             }
-        
+
             set
             {
+                if (_size == value)
+                    return;
+
                 _size = value;
+                Update();
             }
         }
 
@@ -207,10 +255,14 @@ namespace PluginManager.DAL.TextFiles.Tables
             {
                 return _stockAvailability;
             }
-        
+
             set
             {
+                if (_stockAvailability == value)
+                    return;
+
                 _stockAvailability = value;
+                Update();
             }
         }
     }

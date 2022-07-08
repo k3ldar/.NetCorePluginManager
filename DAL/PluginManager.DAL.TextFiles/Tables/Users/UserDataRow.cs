@@ -68,9 +68,12 @@ namespace PluginManager.DAL.TextFiles.Tables
             {
                 return _email;
             }
-        
+
             set
             {
+                if (_email == value)
+                    return;
+
                 _email = value;
                 Update();
             }
@@ -82,9 +85,12 @@ namespace PluginManager.DAL.TextFiles.Tables
             {
                 return _firstName;
             }
-        
+
             set
             {
+                if (_firstName == value)
+                    return;
+
                 _firstName = value;
                 Update();
             }
@@ -96,9 +102,12 @@ namespace PluginManager.DAL.TextFiles.Tables
             {
                 return _surname;
             }
-        
+
             set
             {
+                if (_surname == value)
+                    return;
+
                 _surname = value;
                 Update();
             }
@@ -110,9 +119,12 @@ namespace PluginManager.DAL.TextFiles.Tables
             {
                 return _password;
             }
-        
+
             set
             {
+                if (_password == value)
+                    return;
+
                 _password = value;
                 Update();
             }
@@ -124,9 +136,12 @@ namespace PluginManager.DAL.TextFiles.Tables
             {
                 return _passwordExpire;
             }
-        
+
             set
             {
+                if (_passwordExpire == value)
+                    return;
+
                 _passwordExpire = value;
                 Update();
             }
@@ -138,9 +153,12 @@ namespace PluginManager.DAL.TextFiles.Tables
             {
                 return _telephone;
             }
-        
+
             set
             {
+                if (_telephone == value)
+                    return;
+
                 _telephone = value;
                 Update();
             }
@@ -152,9 +170,12 @@ namespace PluginManager.DAL.TextFiles.Tables
             {
                 return _businessName;
             }
-        
+
             set
             {
+                if (_businessName == value)
+                    return;
+
                 _businessName = value;
                 Update();
             }
@@ -166,9 +187,12 @@ namespace PluginManager.DAL.TextFiles.Tables
             {
                 return _addressLine1;
             }
-        
+
             set
             {
+                if (_addressLine1 == value)
+                    return;
+
                 _addressLine1 = value;
                 Update();
             }
@@ -180,9 +204,12 @@ namespace PluginManager.DAL.TextFiles.Tables
             {
                 return _addressLine2;
             }
-        
+
             set
             {
+                if (_addressLine2 == value)
+                    return;
+
                 _addressLine2 = value;
                 Update();
             }
@@ -194,9 +221,12 @@ namespace PluginManager.DAL.TextFiles.Tables
             {
                 return _addressLine3;
             }
-        
+
             set
             {
+                if (_addressLine3 == value)
+                    return;
+
                 _addressLine3 = value;
                 Update();
             }
@@ -208,9 +238,12 @@ namespace PluginManager.DAL.TextFiles.Tables
             {
                 return _city;
             }
-        
+
             set
             {
+                if (_city == value)
+                    return;
+
                 _city = value;
                 Update();
             }
@@ -222,9 +255,12 @@ namespace PluginManager.DAL.TextFiles.Tables
             {
                 return _county;
             }
-        
+
             set
             {
+                if (_county == value)
+                    return;
+
                 _county = value;
                 Update();
             }
@@ -236,9 +272,12 @@ namespace PluginManager.DAL.TextFiles.Tables
             {
                 return _postcode;
             }
-        
+
             set
             {
+                if (_postcode == value)
+                    return;
+
                 _postcode = value;
                 Update();
             }
@@ -250,9 +289,12 @@ namespace PluginManager.DAL.TextFiles.Tables
             {
                 return _countryCode;
             }
-        
+
             set
             {
+                if (_countryCode == value)
+                    return;
+
                 _countryCode = value;
                 Update();
             }
@@ -264,9 +306,12 @@ namespace PluginManager.DAL.TextFiles.Tables
             {
                 return _unlockCode;
             }
-        
+
             set
             {
+                if (_unlockCode == value)
+                    return;
+
                 _unlockCode = value;
                 Update();
             }
@@ -278,9 +323,12 @@ namespace PluginManager.DAL.TextFiles.Tables
             {
                 return _emailConfirmed;
             }
-        
+
             set
             {
+                if (_emailConfirmed == value)
+                    return;
+
                 _emailConfirmed = value;
                 Update();
             }
@@ -292,9 +340,12 @@ namespace PluginManager.DAL.TextFiles.Tables
             {
                 return _emailConfirmCode;
             }
-        
+
             set
             {
+                if (_emailConfirmCode == value)
+                    return;
+
                 _emailConfirmCode = value;
                 Update();
             }
@@ -306,9 +357,12 @@ namespace PluginManager.DAL.TextFiles.Tables
             {
                 return _telephoneConfirmed;
             }
-        
+
             set
             {
+                if (_telephoneConfirmed == value)
+                    return;
+
                 _telephoneConfirmed = value;
                 Update();
             }
@@ -320,23 +374,29 @@ namespace PluginManager.DAL.TextFiles.Tables
             {
                 return _telephoneConfirmCode;
             }
-        
+
             set
             {
+                if (_telephoneConfirmCode == value)
+                    return;
+
                 _telephoneConfirmCode = value;
                 Update();
             }
         }
-        
+
         public bool MarketingEmail
         {
             get
             {
                 return _marketingEmail;
             }
-        
+
             set
             {
+                if (_marketingEmail == value)
+                    return;
+
                 _marketingEmail = value;
                 Update();
             }
@@ -348,9 +408,12 @@ namespace PluginManager.DAL.TextFiles.Tables
             {
                 return _marketingPostal;
             }
-        
+
             set
             {
+                if (_marketingPostal == value)
+                    return;
+
                 _marketingPostal = value;
                 Update();
             }
@@ -362,23 +425,29 @@ namespace PluginManager.DAL.TextFiles.Tables
             {
                 return _marketingSms;
             }
-        
+
             set
             {
+                if (_marketingSms == value)
+                    return;
+
                 _marketingSms = value;
                 Update();
             }
         }
-        
+
         public bool MarketingTelephone
         {
             get
             {
                 return _marketingTelephone;
             }
-        
+
             set
             {
+                if (_marketingTelephone == value)
+                    return;
+
                 _marketingTelephone = value;
                 Update();
             }

@@ -44,9 +44,12 @@ namespace PluginManager.DAL.TextFiles.Tables
             {
                 return _userId;
             }
-        
+
             set
             {
+                if (_userId == value)
+                    return;
+
                 _userId = value;
                 Update();
             }
@@ -58,9 +61,12 @@ namespace PluginManager.DAL.TextFiles.Tables
             {
                 return _email;
             }
-        
+
             set
             {
+                if (_email == value)
+                    return;
+
                 _email = value;
                 Update();
             }
@@ -72,9 +78,12 @@ namespace PluginManager.DAL.TextFiles.Tables
             {
                 return _userName;
             }
-        
+
             set
             {
+                if (_userName == value)
+                    return;
+
                 _userName = value;
                 Update();
             }
@@ -86,9 +95,12 @@ namespace PluginManager.DAL.TextFiles.Tables
             {
                 return _provider;
             }
-        
+
             set
             {
+                if (_provider == value)
+                    return;
+
                 _provider = value;
                 Update();
             }
@@ -100,9 +112,12 @@ namespace PluginManager.DAL.TextFiles.Tables
             {
                 return _picture;
             }
-        
+
             set
             {
+                if (_picture == value)
+                    return;
+
                 _picture = value;
                 Update();
             }
@@ -114,9 +129,12 @@ namespace PluginManager.DAL.TextFiles.Tables
             {
                 return _token;
             }
-        
+
             set
             {
+                if (_token == value)
+                    return;
+
                 _token = value;
                 Update();
             }

@@ -23,8 +23,6 @@
  *  06/06/2022  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using Middleware.Blog;
-
 using PluginManager.DAL.TextFiles.Internal;
 
 namespace PluginManager.DAL.TextFiles.Tables
@@ -69,6 +67,9 @@ namespace PluginManager.DAL.TextFiles.Tables
 
             set
             {
+                if (_userId == value)
+                    return;
+
                 _userId = value;
                 Update();
             }
@@ -84,6 +85,9 @@ namespace PluginManager.DAL.TextFiles.Tables
 
             set
             {
+                if (_title == value)
+                    return;
+
                 _title = value;
                 Update();
             }
@@ -99,6 +103,9 @@ namespace PluginManager.DAL.TextFiles.Tables
 
             set
             {
+                if (_excerpt == value)
+                    return;
+
                 _excerpt = value;
                 Update();
             }
@@ -113,7 +120,10 @@ namespace PluginManager.DAL.TextFiles.Tables
             get => _blogText;
 
             set
-            { 
+            {
+                if (_blogText == value)
+                    return;
+
                 _blogText = value;
                 Update();
             }
@@ -129,7 +139,10 @@ namespace PluginManager.DAL.TextFiles.Tables
             get => _username;
 
             set
-            { 
+            {
+                if (_username == value)
+                    return;
+
                 _username = value;
                 Update();
             }
@@ -144,7 +157,10 @@ namespace PluginManager.DAL.TextFiles.Tables
             get => _published;
 
             set
-            { 
+            {
+                if (_published == value)
+                    return;
+
                 _published = value;
                 Update();
             }
@@ -160,6 +176,9 @@ namespace PluginManager.DAL.TextFiles.Tables
 
             set
             {
+                if (_publishDateTime == value)
+                    return;
+
                 _publishDateTime = value;
                 Update();
             }

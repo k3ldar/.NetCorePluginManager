@@ -23,9 +23,6 @@
  *  02/07/2022  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using System.Globalization;
-using System.Text.Json.Serialization;
-
 using PluginManager.DAL.TextFiles.Internal;
 
 namespace PluginManager.DAL.TextFiles.Tables
@@ -53,9 +50,12 @@ namespace PluginManager.DAL.TextFiles.Tables
             {
                 return _totalItems;
             }
-        
+
             set
             {
+                if (_totalItems == value)
+                    return;
+
                 _totalItems = value;
                 Update();
             }
@@ -67,9 +67,12 @@ namespace PluginManager.DAL.TextFiles.Tables
             {
                 return _subTotal;
             }
-        
+
             set
             {
+                if (_subTotal == value)
+                    return;
+
                 _subTotal = value;
                 Update();
             }
@@ -81,9 +84,12 @@ namespace PluginManager.DAL.TextFiles.Tables
             {
                 return _discountRate;
             }
-        
+
             set
             {
+                if (_discountRate == value)
+                    return;
+
                 _discountRate = value;
                 Update();
             }
@@ -95,9 +101,12 @@ namespace PluginManager.DAL.TextFiles.Tables
             {
                 return _discount;
             }
-        
+
             set
             {
+                if (_discount == value)
+                    return;
+
                 _discount = value;
                 Update();
             }
@@ -109,9 +118,12 @@ namespace PluginManager.DAL.TextFiles.Tables
             {
                 return _taxRate;
             }
-        
+
             set
             {
+                if (_taxRate == value)
+                    return;
+
                 _taxRate = value;
                 Update();
             }
@@ -123,9 +135,12 @@ namespace PluginManager.DAL.TextFiles.Tables
             {
                 return _tax;
             }
-        
+
             set
             {
+                if (_tax == value)
+                    return;
+
                 _tax = value;
                 Update();
             }
@@ -137,9 +152,12 @@ namespace PluginManager.DAL.TextFiles.Tables
             {
                 return _shipping;
             }
-        
+
             set
             {
+                if (_shipping == value)
+                    return;
+
                 _shipping = value;
                 Update();
             }
@@ -151,9 +169,12 @@ namespace PluginManager.DAL.TextFiles.Tables
             {
                 return _total;
             }
-        
+
             set
             {
+                if (_total == value)
+                    return;
+
                 _total = value;
                 Update();
             }
@@ -165,9 +186,12 @@ namespace PluginManager.DAL.TextFiles.Tables
             {
                 return _culture;
             }
-        
+
             set
             {
+                if (_culture == value)
+                    return;
+
                 _culture = value;
                 Update();
             }
@@ -179,9 +203,12 @@ namespace PluginManager.DAL.TextFiles.Tables
             {
                 return _currencyCode;
             }
-        
+
             set
             {
+                if (_currencyCode == value)
+                    return;
+
                 _currencyCode = value;
                 Update();
             }
@@ -193,9 +220,12 @@ namespace PluginManager.DAL.TextFiles.Tables
             {
                 return _couponCode;
             }
-        
+
             set
             {
+                if (_couponCode == value)
+                    return;
+
                 _couponCode = value;
                 Update();
             }
@@ -207,9 +237,12 @@ namespace PluginManager.DAL.TextFiles.Tables
             {
                 return _requiresShipping;
             }
-        
+
             set
             {
+                if (_requiresShipping == value)
+                    return;
+
                 _requiresShipping = value;
                 Update();
             }
@@ -221,9 +254,12 @@ namespace PluginManager.DAL.TextFiles.Tables
             {
                 return _deliveryAddressId;
             }
-        
+
             set
             {
+                if (_deliveryAddressId == value)
+                    return;
+
                 _deliveryAddressId = value;
                 Update();
             }

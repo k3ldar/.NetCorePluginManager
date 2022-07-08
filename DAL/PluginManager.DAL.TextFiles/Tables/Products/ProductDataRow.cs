@@ -53,6 +53,9 @@ namespace PluginManager.DAL.TextFiles.Tables
 
             set
             {
+                if (_productGroupId == value)
+                    return;
+
                 _productGroupId = value;
                 Update();
             }
@@ -67,6 +70,9 @@ namespace PluginManager.DAL.TextFiles.Tables
 
             set
             {
+                if (_name == value)
+                    return;
+
                 _name = value;
                 Update();
             }
@@ -81,6 +87,9 @@ namespace PluginManager.DAL.TextFiles.Tables
 
             set
             {
+                if (_description == value)
+                    return;
+
                 _description = value;
                 Update();
             }
@@ -95,6 +104,9 @@ namespace PluginManager.DAL.TextFiles.Tables
 
             set
             {
+                if (_features == value)
+                    return;
+
                 _features = value;
                 Update();
             }
@@ -109,6 +121,9 @@ namespace PluginManager.DAL.TextFiles.Tables
 
             set
             {
+                if (_videoLink == value)
+                    return;
+
                 _videoLink = value;
                 Update();
             }
@@ -123,6 +138,9 @@ namespace PluginManager.DAL.TextFiles.Tables
 
             set
             {
+                if (_newProduct == value)
+                    return;
+
                 _newProduct = value;
                 Update();
             }
@@ -137,6 +155,9 @@ namespace PluginManager.DAL.TextFiles.Tables
 
             set
             {
+                if (_bestSeller == value)
+                    return;
+
                 _bestSeller = value;
                 Update();
             }
@@ -151,6 +172,9 @@ namespace PluginManager.DAL.TextFiles.Tables
 
             set
             {
+                if (_retailPrice == value)
+                    return;
+
                 _retailPrice = value;
                 Update();
             }
@@ -166,6 +190,9 @@ namespace PluginManager.DAL.TextFiles.Tables
 
             set
             {
+                if (_sku == value)
+                    return;
+
                 _sku = value;
                 Update();
             }
@@ -180,6 +207,9 @@ namespace PluginManager.DAL.TextFiles.Tables
 
             set
             {
+                if (_isDownload == value)
+                    return;
+
                 _isDownload = value;
                 Update();
             }
@@ -194,6 +224,9 @@ namespace PluginManager.DAL.TextFiles.Tables
 
             set
             {
+                if (_allowBackorder == value)
+                    return;
+
                 _allowBackorder = value;
                 Update();
             }
@@ -208,6 +241,9 @@ namespace PluginManager.DAL.TextFiles.Tables
 
             set
             {
+                if (_stockAvailability == value)
+                    return;
+
                 _stockAvailability = value;
                 Update();
             }

@@ -50,12 +50,15 @@ namespace PluginManager.DAL.TextFiles.Tables
         /// Id of user owning the address
         /// </summary>
         [ForeignKey(Constants.TableNameUsers)]
-        public long UserId 
-        { 
+        public long UserId
+        {
             get => _userId;
 
             set
             {
+                if (_userId == value)
+                    return;
+
                 _userId = value;
                 Update();
             }
@@ -65,12 +68,15 @@ namespace PluginManager.DAL.TextFiles.Tables
         /// Business name if applicable.
         /// </summary>
         /// <value>string</value>
-        public string BusinessName 
-        { 
+        public string BusinessName
+        {
             get => _businessName;
 
             set
             {
+                if (_businessName == value)
+                    return;
+
                 _businessName = value;
                 Update();
             }
@@ -80,12 +86,15 @@ namespace PluginManager.DAL.TextFiles.Tables
         /// Address line 1.
         /// </summary>
         /// <value>string</value>
-        public string AddressLine1 
-        { 
+        public string AddressLine1
+        {
             get => _addressLine1;
 
             set
             {
+                if (_addressLine1 == value)
+                    return;
+
                 _addressLine1 = value;
                 Update();
             }
@@ -95,12 +104,15 @@ namespace PluginManager.DAL.TextFiles.Tables
         /// Address line 2.
         /// </summary>
         /// <value>string</value>
-        public string AddressLine2 
-        { 
+        public string AddressLine2
+        {
             get => _addressLine2;
 
             set
             {
+                if (_addressLine2 == value)
+                    return;
+
                 _addressLine2 = value;
                 Update();
             }
@@ -110,12 +122,15 @@ namespace PluginManager.DAL.TextFiles.Tables
         /// Address line 3.
         /// </summary>
         /// <value>string</value>
-        public string AddressLine3 
-        { 
+        public string AddressLine3
+        {
             get => _addressLine3;
 
-            set 
-            {  
+            set
+            {
+                if (_addressLine3 == value)
+                    return;
+
                 _addressLine3 = value;
                 Update();
             }
@@ -125,27 +140,33 @@ namespace PluginManager.DAL.TextFiles.Tables
         /// City name.
         /// </summary>
         /// <value>string</value>
-        public string City 
-        { 
+        public string City
+        {
             get => _city;
 
             set
             {
+                if (_city == value)
+                    return;
+
                 _city = value;
                 Update();
             }
-}
+        }
 
         /// <summary>
         /// County/state name.
         /// </summary>
         /// <value>string</value>
-        public string County 
-        { 
+        public string County
+        {
             get => _county;
 
             set
             {
+                if (_county == value)
+                    return;
+
                 _county = value;
                 Update();
             }
@@ -155,12 +176,15 @@ namespace PluginManager.DAL.TextFiles.Tables
         /// Postal or zip code.
         /// </summary>
         /// <value>string</value>
-        public string Postcode 
-        { 
+        public string Postcode
+        {
             get => _postcode;
 
             set
             {
+                if (_postcode == value)
+                    return;
+
                 _postcode = value;
                 Update();
             }
@@ -170,12 +194,15 @@ namespace PluginManager.DAL.TextFiles.Tables
         /// Country name.
         /// </summary>
         /// <value>string</value>
-        public string Country 
-        { 
+        public string Country
+        {
             get => _country;
 
             set
             {
+                if (_country == value)
+                    return;
+
                 _country = value;
                 Update();
             }
@@ -185,12 +212,15 @@ namespace PluginManager.DAL.TextFiles.Tables
         /// Postage cost for the address.
         /// </summary>
         /// <value>decimal</value>
-        public decimal PostageCost 
-        { 
+        public decimal PostageCost
+        {
             get => _postageCost;
 
             set
             {
+                if (_postageCost == value)
+                    return;
+
                 _postageCost = value;
                 Update();
             }
@@ -199,12 +229,15 @@ namespace PluginManager.DAL.TextFiles.Tables
         /// <summary>
         /// Indicicates whether it's a delivery address or billing address
         /// </summary>
-        public bool IsDelivery 
-        { 
+        public bool IsDelivery
+        {
             get => _isDelivery;
 
             set
             {
+                if (IsDelivery == value)
+                    return;
+
                 _isDelivery = value;
                 Update();
             }

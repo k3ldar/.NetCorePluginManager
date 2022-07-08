@@ -49,6 +49,9 @@ namespace PluginManager.DAL.TextFiles.Tables
 
             set
             {
+                if (_orderId == value)
+                    return;
+
                 _orderId = value;
                 Update();
             }
@@ -63,6 +66,9 @@ namespace PluginManager.DAL.TextFiles.Tables
 
             set
             {
+                if (_description == value)
+                    return;
+
                 _description = value;
                 Update();
             }
@@ -77,6 +83,9 @@ namespace PluginManager.DAL.TextFiles.Tables
 
             set
             {
+                if (_taxRate == value)
+                    return;
+
                 _taxRate = value;
                 Update();
             }
@@ -91,6 +100,9 @@ namespace PluginManager.DAL.TextFiles.Tables
 
             set
             {
+                if (_price == value)
+                    return;
+
                 _price = value;
                 Update();
             }
@@ -105,6 +117,9 @@ namespace PluginManager.DAL.TextFiles.Tables
 
             set
             {
+                if (_quantity == value)
+                    return;
+
                 _quantity = value;
                 Update();
             }
@@ -119,6 +134,9 @@ namespace PluginManager.DAL.TextFiles.Tables
 
             set
             {
+                if (_discount == value)
+                    return;
+
                 _discount = value;
                 Update();
             }
@@ -133,6 +151,9 @@ namespace PluginManager.DAL.TextFiles.Tables
 
             set
             {
+                if (_discountType == value)
+                    return;
+
                 _discountType = value;
                 Update();
             }
@@ -147,6 +168,9 @@ namespace PluginManager.DAL.TextFiles.Tables
 
             set
             {
+                if (_status == value)
+                    return;
+
                 _status = value;
                 Update();
             }

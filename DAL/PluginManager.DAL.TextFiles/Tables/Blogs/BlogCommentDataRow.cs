@@ -50,7 +50,11 @@ namespace PluginManager.DAL.TextFiles.Tables
 
             set
             {
+                if (_blogId == value)
+                    return;
+
                 _blogId = value;
+                Update();
             }
         }
 
@@ -64,7 +68,11 @@ namespace PluginManager.DAL.TextFiles.Tables
 
             set
             {
+                if (_parentComment == value)
+                    return;
+
                 _parentComment = value;
+                Update();
             }
         }
 
@@ -77,7 +85,11 @@ namespace PluginManager.DAL.TextFiles.Tables
 
             set
             {
+                if (_username == value)
+                    return;
+
                 _username = value;
+                Update();
             }
         }
 
@@ -91,7 +103,11 @@ namespace PluginManager.DAL.TextFiles.Tables
 
             set
             {
+                if (_userId == value)
+                    return;
+
                 _userId = value;
+                Update();
             }
         }
 
@@ -104,7 +120,11 @@ namespace PluginManager.DAL.TextFiles.Tables
 
             set
             {
+                if (_approved == value)
+                    return;
+
                 _approved = value;
+                Update();
             }
         }
 
@@ -117,7 +137,11 @@ namespace PluginManager.DAL.TextFiles.Tables
 
             set
             {
+                if (_comment == value)
+                    return;
+
                 _comment = value;
+                Update();
             }
         }
 
@@ -131,6 +155,7 @@ namespace PluginManager.DAL.TextFiles.Tables
             set
             {
                 _comments = value;
+                Update();
             }
         }
 

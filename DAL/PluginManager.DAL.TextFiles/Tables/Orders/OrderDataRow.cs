@@ -45,6 +45,9 @@ namespace PluginManager.DAL.TextFiles.Tables
 
             set
             {
+                if (_deliveryAddress == value)
+                    return;
+
                 _deliveryAddress = value;
                 Update();
             }
@@ -59,6 +62,9 @@ namespace PluginManager.DAL.TextFiles.Tables
 
             set
             {
+                if (_postage == value)
+                    return;
+
                 _postage = value;
                 Update();
             }
@@ -73,6 +79,9 @@ namespace PluginManager.DAL.TextFiles.Tables
 
             set
             {
+                if (_culture == value)
+                    return;
+
                 _culture = value;
                 Update();
             }
@@ -87,6 +96,9 @@ namespace PluginManager.DAL.TextFiles.Tables
 
             set
             {
+                if (_status == value)
+                    return;
+
                 _status = value;
                 Update();
             }

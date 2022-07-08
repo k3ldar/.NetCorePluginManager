@@ -38,56 +38,71 @@ namespace PluginManager.DAL.TextFiles.Tables
         private string _url;
 
         [UniqueIndex]
-        public string Description 
-        { 
+        public string Description
+        {
             get => _description;
 
             set
             {
+                if (_description == value)
+                    return;
+
                 _description = value;
                 Update();
             }
         }
 
-        public bool ShowOnWebsite 
-        { 
+        public bool ShowOnWebsite
+        {
             get => _showOnWebsite;
 
             set
             {
+                if (_showOnWebsite == value)
+                    return;
+
                 _showOnWebsite = value;
                 Update();
             }
         }
 
-        public int SortOrder 
-        { 
+        public int SortOrder
+        {
             get => _sortOrder;
 
             set
             {
+                if (_sortOrder == value)
+                    return;
+
                 _sortOrder = value;
                 Update();
             }
         }
 
-        public string TagLine 
+        public string TagLine
         {
             get => _tagLine;
 
             set
             {
+                if (_tagLine == value)
+                    return;
+
                 _tagLine = value;
                 Update();
             }
         }
 
-        public string Url 
-        { 
+        public string Url
+        {
             get => _url;
 
             set
             {
+                if (_url == value)
+                    return;
+
                 _url = value;
                 Update();
             }

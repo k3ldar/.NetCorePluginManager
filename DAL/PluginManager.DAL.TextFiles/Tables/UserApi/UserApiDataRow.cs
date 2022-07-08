@@ -23,12 +23,6 @@
  *  06/06/2022  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 using PluginManager.DAL.TextFiles.Internal;
 
 namespace PluginManager.DAL.TextFiles.Tables
@@ -52,9 +46,12 @@ namespace PluginManager.DAL.TextFiles.Tables
             {
                 return _userId;
             }
-        
+
             set
             {
+                if (_userId == value)
+                    return;
+
                 _userId = value;
                 Update();
             }
@@ -66,9 +63,12 @@ namespace PluginManager.DAL.TextFiles.Tables
             {
                 return _merchantId;
             }
-        
+
             set
             {
+                if (_merchantId == value)
+                    return;
+
                 _merchantId = value;
                 Update();
             }
@@ -80,9 +80,12 @@ namespace PluginManager.DAL.TextFiles.Tables
             {
                 return _apiKey;
             }
-        
+
             set
             {
+                if (_apiKey == value)
+                    return;
+
                 _apiKey = value;
                 Update();
             }
@@ -94,9 +97,12 @@ namespace PluginManager.DAL.TextFiles.Tables
             {
                 return _secret;
             }
-        
+
             set
             {
+                if (_secret == value)
+                    return;
+
                 _secret = value;
                 Update();
             }

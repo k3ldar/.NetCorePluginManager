@@ -43,10 +43,10 @@ namespace PluginManager.DAL.TextFiles.Tables
         /// Name of country.
         /// </summary>
         /// <value>string</value>
-        public string Name 
-        { 
-            get => _name; 
-            
+        public string Name
+        {
+            get => _name;
+
             set
             {
                 _name = value;
@@ -59,12 +59,15 @@ namespace PluginManager.DAL.TextFiles.Tables
         /// </summary>
         /// <value>string</value>
         [UniqueIndex(IndexType.Ascending)]
-        public string Code 
-        { 
-            get => _code; 
-            
+        public string Code
+        {
+            get => _code;
+
             set
             {
+                if (_code == value)
+                    return;
+
                 _code = value;
                 Update();
             }
@@ -74,12 +77,15 @@ namespace PluginManager.DAL.TextFiles.Tables
         /// Indicates whether the country is visible or not.
         /// </summary>
         /// <value>bool</value>
-        public bool Visible 
-        { 
-            get => _visible; 
-            
+        public bool Visible
+        {
+            get => _visible;
+
             set
             {
+                if (_visible == value)
+                    return;
+
                 _visible = value;
                 Update();
             }
@@ -88,12 +94,15 @@ namespace PluginManager.DAL.TextFiles.Tables
         /// <summary>
         /// Sort order
         /// </summary>
-        public int SortOrder 
-        { 
-            get => _sortOrder; 
-            
+        public int SortOrder
+        {
+            get => _sortOrder;
+
             set
             {
+                if (_sortOrder == value)
+                    return;
+
                 _sortOrder = value;
                 Update();
             }
@@ -102,12 +111,15 @@ namespace PluginManager.DAL.TextFiles.Tables
         /// <summary>
         /// Indicates whether prices are shown for a country or not
         /// </summary>
-        public bool ShowPriceData 
-        { 
-            get => _showPriceData; 
-            
+        public bool ShowPriceData
+        {
+            get => _showPriceData;
+
             set
             {
+                if (_showPriceData == value)
+                    return;
+
                 _showPriceData = value;
                 Update();
             }
@@ -116,12 +128,15 @@ namespace PluginManager.DAL.TextFiles.Tables
         /// <summary>
         /// Indicates that vat/tax should be removed for this country
         /// </summary>
-        public bool AllowVatRemoval 
-        { 
-            get => _allowVatRemoval; 
-            
+        public bool AllowVatRemoval
+        {
+            get => _allowVatRemoval;
+
             set
             {
+                if (_allowVatRemoval == value)
+                    return;
+
                 _allowVatRemoval = value;
                 Update();
             }
@@ -130,12 +145,15 @@ namespace PluginManager.DAL.TextFiles.Tables
         /// <summary>
         /// Tax rate applied to the country
         /// </summary>
-        public decimal TaxRate 
-        { 
-            get => _taxRate; 
-            
+        public decimal TaxRate
+        {
+            get => _taxRate;
+
             set
             {
+                if (_taxRate == value)
+                    return;
+
                 _taxRate = value;
                 Update();
             }
@@ -144,12 +162,15 @@ namespace PluginManager.DAL.TextFiles.Tables
         /// <summary>
         /// Cost multiplier to enable charging different costs for different countries
         /// </summary>
-        public decimal CostMultiplier 
-        { 
+        public decimal CostMultiplier
+        {
             get => _costMultiplier;
 
             set
             {
+                if (_costMultiplier == value)
+                    return;
+
                 _costMultiplier = value;
                 Update();
             }

@@ -30,11 +30,12 @@ namespace PluginManager.DAL.TextFiles.Tables
     [Table(Constants.TableNameUserClaims, CompressionType.None, CachingStrategy.None)]
     internal sealed class UserClaimsDataRow : TableRowDefinition
     {
-        long _userId;
+        private long _userId;
+        private ObservableList<string> _claims;
 
         public UserClaimsDataRow()
         {
-            Claims = new ObservableList<string>();
+            _claims = new ObservableList<string>();
         }
 
         [ForeignKey(Constants.TableNameUsers)]
@@ -48,11 +49,28 @@ namespace PluginManager.DAL.TextFiles.Tables
         
             set
             {
+                if (_userId == value)
+                    return;
+
                 _userId = value;
                 Update();
             }
         }
 
-        public ObservableList<string> Claims { get; set; }
+        public ObservableList<string> Claims
+        {
+            get
+            {
+                return _claims;
+            }
+        
+            set
+            {
+                if (_claims == value)
+                    return;
+
+                _claims = value;
+            }
+        }
     }
 }

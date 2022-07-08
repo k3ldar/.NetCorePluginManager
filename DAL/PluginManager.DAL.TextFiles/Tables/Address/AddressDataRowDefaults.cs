@@ -15,56 +15,27 @@
  *
  *  Product:  PluginManager.DAL.TextFiles
  *  
- *  File: SettingsDataRow.cs
+ *  File: AddressDataRowDefaults.cs
  *
- *  Purpose:  Table definition for settings
+ *  Purpose:  Default for delivery address table
  *
  *  Date        Name                Reason
- *  02/07/2022  Simon Carter        Initially Created
+ *  08/07/2022  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using PluginManager.DAL.TextFiles.Internal;
-
 namespace PluginManager.DAL.TextFiles.Tables
 {
-    [Table(Constants.TableNameSettings, CompressionType.Brotli, CachingStrategy.None)]
-    internal class SettingsDataRow : TableRowDefinition
+    internal class AddressDataRowDefaults : ITableDefaults<AddressDataRow>
     {
-        string _name;
-        string _value;
+        public long PrimarySequence => 0;
 
-        public string Name
+        public long SecondarySequence => 0;
+
+        public ushort Version => 1;
+
+        public List<AddressDataRow> InitialData(ushort version)
         {
-            get
-            {
-                return _name;
-            }
-
-            set
-            {
-                if (_name == value)
-                    return;
-
-                _name = value;
-                Update();
-            }
-        }
-
-        public string Value
-        {
-            get
-            {
-                return _value;
-            }
-
-            set
-            {
-                if (_value == value)
-                    return;
-
-                _value = value;
-                Update();
-            }
+            return null;
         }
     }
 }

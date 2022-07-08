@@ -53,17 +53,20 @@ namespace PluginManager.DAL.TextFiles.Tables
             {
                 return _route;
             }
-        
+
             set
             {
+                if (_route == value)
+                    return;
+
                 _route = value;
                 Update();
             }
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0016:Use 'throw' expression", Justification = "Validation is required before removing the Changed event")]
-        public ObservableList<string> Keywords 
-        { 
+        public ObservableList<string> Keywords
+        {
             get
             {
                 return _keywords;
@@ -88,9 +91,12 @@ namespace PluginManager.DAL.TextFiles.Tables
             {
                 return _title;
             }
-        
+
             set
             {
+                if (_title == value)
+                    return;
+
                 _title = value;
                 Update();
             }
@@ -102,9 +108,12 @@ namespace PluginManager.DAL.TextFiles.Tables
             {
                 return _description;
             }
-        
+
             set
             {
+                if (_description == value)
+                    return;
+
                 _description = value;
                 Update();
             }
@@ -116,9 +125,12 @@ namespace PluginManager.DAL.TextFiles.Tables
             {
                 return _author;
             }
-        
+
             set
             {
+                if (_author == value)
+                    return;
+
                 _author = value;
                 Update();
             }
