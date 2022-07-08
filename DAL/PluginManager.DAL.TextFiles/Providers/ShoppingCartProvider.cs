@@ -221,9 +221,17 @@ namespace PluginManager.DAL.TextFiles.Providers
             if (userId < 0)
                 throw new ArgumentOutOfRangeException(nameof(userId));
 
+            order = null;
+
             ShoppingCartDetail cartDetail = GetDetail(cartSummary.Id);
 
             DeliveryAddress shippingAddress = _accountProvider.GetDeliveryAddress(userId, cartDetail.DeliveryAddressId);
+
+            if (shippingAddress == null)
+                return false;
+
+            cartDetail.SetDeliveryAddress(shippingAddress);
+
             List<OrderItem> items = new List<OrderItem>();
 
             OrderDataRow orderData = new OrderDataRow()
@@ -246,7 +254,7 @@ namespace PluginManager.DAL.TextFiles.Providers
                     Quantity = item.ItemCount,
                     Discount = 0,
                     DiscountType = (int)DiscountType.None,
-                    Status = (int)ItemStatus.Received
+                    Status = (int)ItemStatus.Received,
                 });
                 
                 items.Add(new OrderItem(item.Id, item.Name, item.ItemCost, cartSummary.TaxRate, item.ItemCount,
@@ -255,6 +263,9 @@ namespace PluginManager.DAL.TextFiles.Providers
 
             order = new Order(orderData.Id, orderData.Created, orderData.Postage, new CultureInfo(orderData.Culture),
                 (ProcessStatus)orderData.Status, shippingAddress, items);
+
+            _shoppingCartItemData.Delete(_shoppingCartItemData.Select().Where(sci => sci.ShoppingCartId.Equals(cartDetail.Id)).ToList());
+            cartDetail.Clear();
 
             return true;
         }

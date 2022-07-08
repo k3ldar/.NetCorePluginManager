@@ -394,6 +394,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     new ProductGroupDataTriggers(),
                     new ProductDataTriggers(),
                     new ShoppingCartDataRowDefaults(),
+                    new AddressDataRowDefaults(),
 
                 };
                 MockPluginClassesService mockPluginClassesService = new MockPluginClassesService(servicesList);
@@ -422,6 +423,9 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                         "addr1", "", "", "city", "county", "zip", "DK", out long userId);
                     Assert.IsTrue(accountCreated);
 
+                    bool shippingAddressCreated = accountProvider.AddDeliveryAddress(userId, new DeliveryAddress(-1, "", "Address Line 1", "", "", "My City", "", "Zip", "FR", 2.98m));
+                    Assert.IsTrue(shippingAddressCreated);
+
                     ShoppingCartProvider sut = (ShoppingCartProvider)provider.GetService<IShoppingCartProvider>();
                     Assert.IsNotNull(sut);
 
@@ -437,22 +441,25 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     sut.ClearCache();
 
                     ITextTableOperations<ShoppingCartItemDataRow> shoppingCartItemData = provider.GetRequiredService<ITextTableOperations<ShoppingCartItemDataRow>>();
-                    //shoppingCartItemData.Truncate();
-
-
                     ITextTableOperations<ShoppingCartDataRow> shoppingCartData = provider.GetRequiredService<ITextTableOperations<ShoppingCartDataRow>>();
-                    //shoppingCartData.Truncate();
+                    ITextTableOperations<OrderItemsDataRow> orderItemData = provider.GetRequiredService<ITextTableOperations<OrderItemsDataRow>>();
+                    ITextTableOperations<OrderDataRow> orderData = provider.GetRequiredService<ITextTableOperations<OrderDataRow>>();
 
+                    Assert.AreEqual(0, orderItemData.RecordCount);
+                    Assert.AreEqual(0, orderData.RecordCount);
+
+                    ShoppingCartDetail cartDetail = sut.GetDetail(basketId);
+                    cartDetail.SetDeliveryAddress(accountProvider.GetDeliveryAddress(userId, 1));
 
                     ShoppingCartSummary basketSummary = sut.GetSummary(basketId);
                     Assert.IsNotNull(basketSummary);
                     Assert.AreEqual("GBP", basketSummary.CurrencyCode);
                     Assert.AreEqual(0, basketSummary.Discount);
-                    Assert.AreEqual(0, basketSummary.Shipping);
+                    Assert.AreEqual(2.98m, basketSummary.Shipping);
                     Assert.AreEqual(15.95m, basketSummary.SubTotal);
-                    Assert.AreEqual(2.66m, basketSummary.Tax);
+                    Assert.AreEqual(3.16m, basketSummary.Tax);
                     Assert.AreEqual(20, basketSummary.TaxRate);
-                    Assert.AreEqual(15.95m, basketSummary.Total);
+                    Assert.AreEqual(18.93m, basketSummary.Total);
                     Assert.AreEqual(5, basketSummary.TotalItems);
 
                     Assert.AreEqual(3, shoppingCartItemData.RecordCount);
@@ -481,6 +488,29 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     Assert.AreEqual(0, shoppingCartItemData.RecordCount);
                     Assert.AreEqual(1, shoppingCartData.RecordCount);
 
+                    // validate saved order details
+                    Assert.AreEqual(3, orderItemData.RecordCount);
+                    List<OrderItemsDataRow> orderItems = orderItemData.Select().Where(oi => oi.OrderId.Equals(order.Id)).ToList();
+
+                    Assert.AreEqual(1.99m, orderItems[0].Price);
+                    Assert.AreEqual(1, orderItems[0].Quantity);
+                    Assert.AreEqual("This is a description of my test product 1", orderItems[0].Description);
+
+                    Assert.AreEqual(2.99m, orderItems[1].Price);
+                    Assert.AreEqual(2, orderItems[1].Quantity);
+                    Assert.AreEqual("This is a description of my test product 2", orderItems[1].Description);
+
+                    Assert.AreEqual(3.99m, orderItems[2].Price);
+                    Assert.AreEqual(2, orderItems[2].Quantity);
+                    Assert.AreEqual("This is a description of my test product 3", orderItems[2].Description);
+
+                    Assert.AreEqual(1, orderData.RecordCount);
+
+                    OrderDataRow orderDataRow = orderData.Select().First();
+                    Assert.AreEqual(2.98m, orderDataRow.Postage);
+                    Assert.AreEqual("en-US", orderDataRow.Culture);
+                    Assert.AreEqual(ProcessStatus.PaymentPending, (ProcessStatus)orderDataRow.Status);
+                    Assert.AreEqual(1, orderDataRow.DeliveryAddress);
                 }
             }
             finally
@@ -497,13 +527,13 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
             if (addProducts)
             {
-                if (!Result.ProductSave(-1, 1, "test product", "This is a description of my test product", "", "", true, false, 1.99m, "sku1", false, true, out string errorMessage))
+                if (!Result.ProductSave(-1, 1, "test product", "This is a description of my test product 1", "", "", true, false, 1.99m, "sku1", false, true, out string errorMessage))
                     throw new InvalidOperationException("product should have saved; Error: " + errorMessage);
 
-                if (!Result.ProductSave(-1, 1, "test product", "This is a description of my test product", "", "", true, false, 2.99m, "sku2", false, true, out errorMessage))
+                if (!Result.ProductSave(-1, 1, "test product", "This is a description of my test product 2", "", "", true, false, 2.99m, "sku2", false, true, out errorMessage))
                     throw new InvalidOperationException("product should have saved; Error: " + errorMessage);
 
-                if (!Result.ProductSave(-1, 1, "test product", "This is a description of my test product", "", "", true, false, 3.99m, "sku3", false, true, out errorMessage))
+                if (!Result.ProductSave(-1, 1, "test product", "This is a description of my test product 3", "", "", true, false, 3.99m, "sku3", false, true, out errorMessage))
                     throw new InvalidOperationException("product should have saved; Error: " + errorMessage);
             }
 

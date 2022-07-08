@@ -304,7 +304,6 @@ namespace PluginManager.DAL.TextFiles.Providers
                     County = billingAddress.County,
                     Postcode = billingAddress.Postcode,
                     IsDelivery = false,
-                    PostageCost = billingAddress.ShippingCost,
                     UserId = userId,
                 };
 
@@ -321,7 +320,6 @@ namespace PluginManager.DAL.TextFiles.Providers
                 userAddresses.County = billingAddress.County;
                 userAddresses.Postcode = billingAddress.Postcode;
                 userAddresses.IsDelivery = false;
-                userAddresses.PostageCost = billingAddress.ShippingCost;
                 userAddresses.UserId = userId;
                 _addresses.Update(userAddresses);
             }
@@ -338,7 +336,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 
             AddressDataRow userAddresses = _addresses.Select().Where(a => a.UserId == user.Id && !a.IsDelivery).FirstOrDefault();
 
-            return new Address(Convert.ToInt32(userAddresses.Id), userAddresses.PostageCost, userAddresses.BusinessName,
+            return new Address(Convert.ToInt32(userAddresses.Id), userAddresses.BusinessName,
                 userAddresses.AddressLine1, userAddresses.AddressLine2, userAddresses.AddressLine3,
                 userAddresses.City, userAddresses.County, userAddresses.Postcode, userAddresses.Country);
         }
@@ -354,17 +352,43 @@ namespace PluginManager.DAL.TextFiles.Providers
             if (user == null)
                 return false;
 
-            throw new NotImplementedException();
+            AddressDataRow addressDataRow = _addresses.Select(deliveryAddress.Id);
+
+            if (addressDataRow == null)
+                return false;
+
+            addressDataRow.BusinessName = deliveryAddress.BusinessName;
+            addressDataRow.AddressLine1 = deliveryAddress.AddressLine1;
+            addressDataRow.AddressLine2 = deliveryAddress.AddressLine2;
+            addressDataRow.AddressLine3 = deliveryAddress.AddressLine3;
+            addressDataRow.City = deliveryAddress.City;
+            addressDataRow.County = deliveryAddress.County;
+            addressDataRow.Postcode = deliveryAddress.Postcode;
+            addressDataRow.Country = deliveryAddress.Country;
+            addressDataRow.PostageCost = deliveryAddress.PostageCost;
+            addressDataRow.IsDelivery = true;
+
+            if (!addressDataRow.HasChanged)
+                return false;
+
+            _addresses.Update(addressDataRow);
+            return true;
         }
 
         public List<DeliveryAddress> GetDeliveryAddresses(in long userId)
         {
+            List<DeliveryAddress> Result = new List<DeliveryAddress>();
             UserDataRow user = _users.Select(userId);
 
             if (user == null)
-                return new List<DeliveryAddress>();
+                return Result;
 
-            throw new NotImplementedException();
+            long userAddressId = userId;
+            List<AddressDataRow> userAddresses = _addresses.Select().Where(a => a.UserId.Equals(userAddressId)).ToList();
+
+            userAddresses.ForEach(ua => Result.Add(ConvertToDeliveryAddress(ua)));
+
+            return Result;
         }
 
         public bool AddDeliveryAddress(in Int64 userId, in DeliveryAddress deliveryAddress)
@@ -404,7 +428,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 
         public bool DeleteDeliveryAddress(in long userId, in DeliveryAddress deliveryAddress)
         {
-            if (deliveryAddress == null || deliveryAddress.AddressId == 1)
+            if (deliveryAddress == null)
                 return false;
 
             UserDataRow user = _users.Select(userId);
@@ -412,7 +436,14 @@ namespace PluginManager.DAL.TextFiles.Providers
             if (user == null)
                 return false;
 
-            throw new NotImplementedException();
+            AddressDataRow addressDataRow = _addresses.Select(deliveryAddress.Id);
+
+            if (addressDataRow == null)
+                return false;
+
+            _addresses.Delete(addressDataRow);
+
+            return !_addresses.IdExists(deliveryAddress.Id);
         }
 
         #endregion Delivery Address

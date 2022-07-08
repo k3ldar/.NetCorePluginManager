@@ -14,7 +14,7 @@
             Default constructor
             </summary>
         </member>
-        <member name="M:Middleware.Address.#ctor(System.Int64@,System.Decimal@,System.String@,System.String@,System.String@,System.String@,System.String@,System.String@,System.String@,System.String@)">
+        <member name="M:Middleware.Address.#ctor(System.Int64@,System.String@,System.String@,System.String@,System.String@,System.String@,System.String@,System.String@,System.String@)">
             <summary>
             Constructor
             </summary>
@@ -34,12 +34,6 @@
             Unique id for the address.
             </summary>
             <value>int</value>
-        </member>
-        <member name="P:Middleware.Address.ShippingCost">
-            <summary>
-            Shipping costs for the address.
-            </summary>
-            <value>decimal</value>
         </member>
         <member name="P:Middleware.Address.BusinessName">
             <summary>
@@ -113,12 +107,6 @@
             <param name="postcode">Postal or zip code.</param>
             <param name="country">Country name.</param>
             <param name="postageCost">Postage costs.</param>
-        </member>
-        <member name="P:Middleware.Accounts.DeliveryAddress.AddressId">
-            <summary>
-            Address id
-            </summary>
-            <value>int</value>
         </member>
         <member name="P:Middleware.Accounts.DeliveryAddress.PostageCost">
             <summary>
@@ -2453,7 +2441,7 @@
             Resets the total cost and item count of all items within the cart.
             </summary>
         </member>
-        <member name="M:Middleware.ShoppingCart.ShoppingCartDetail.SetDeliveryAddress(Middleware.Address@)">
+        <member name="M:Middleware.ShoppingCart.ShoppingCartDetail.SetDeliveryAddress(Middleware.Accounts.DeliveryAddress@)">
             <summary>
             Sets the delivery address for the shopping cart, this is typically completed during the checkout phase.
             </summary>

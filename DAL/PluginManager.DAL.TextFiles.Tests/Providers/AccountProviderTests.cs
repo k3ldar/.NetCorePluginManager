@@ -425,7 +425,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
                     Assert.IsTrue(created);
 
-                    Address address = new Address(-1, 1.99m, "business", "add 1", "add 2", "add 3", "city", "county", "postcode", "NL");
+                    Address address = new Address(-1, "business", "add 1", "add 2", "add 3", "city", "county", "postcode", "NL");
                     bool setBillingAddress = sut.SetBillingAddress(userId, address);
 
                     AddressDataRow addressRow = addressTable.Select(0);
@@ -433,7 +433,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
                     Assert.AreEqual(0, addressRow.Id);
                     Assert.AreEqual(userId, addressRow.UserId);
-                    Assert.AreEqual(1.99m, addressRow.PostageCost);
+                    Assert.AreEqual(0, addressRow.PostageCost);
                     Assert.AreEqual("business", addressRow.BusinessName);
                     Assert.AreEqual("add 1", addressRow.AddressLine1);
                     Assert.AreEqual("add 2", addressRow.AddressLine2);
@@ -445,7 +445,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     Assert.IsFalse(addressRow.IsDelivery);
 
 
-                    address = new Address(Convert.ToInt32(addressRow.Id), 1.99m, "", "add 1a", "add 2a", "add 3a", "citya", "countya", "postcodea", "FR");
+                    address = new Address(Convert.ToInt32(addressRow.Id), "", "add 1a", "add 2a", "add 3a", "citya", "countya", "postcodea", "FR");
                     setBillingAddress = sut.SetBillingAddress(userId, address);
 
                     addressRow = addressTable.Select(0);
@@ -453,7 +453,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
                     Assert.AreEqual(0, addressRow.Id);
                     Assert.AreEqual(userId, addressRow.UserId);
-                    Assert.AreEqual(1.99m, addressRow.PostageCost);
+                    Assert.AreEqual(0, addressRow.PostageCost);
                     Assert.AreEqual("", addressRow.BusinessName);
                     Assert.AreEqual("add 1a", addressRow.AddressLine1);
                     Assert.AreEqual("add 2a", addressRow.AddressLine2);
@@ -468,7 +468,6 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     Assert.IsNotNull(address);
 
                     Assert.AreEqual(0, address.Id);
-                    Assert.AreEqual(1.99m, address.ShippingCost);
                     Assert.AreEqual("", address.BusinessName);
                     Assert.AreEqual("add 1a", address.AddressLine1);
                     Assert.AreEqual("add 2a", address.AddressLine2);
@@ -651,10 +650,10 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     addBillingAddress = sut.AddDeliveryAddress(userId, address);
                     Assert.IsTrue(addBillingAddress);
 
-                    addressRow = addressTable.Select(0);
+                    addressRow = addressTable.Select(1);
                     Assert.IsNotNull(addressRow);
 
-                    Assert.AreEqual(0, addressRow.Id);
+                    Assert.AreEqual(1, addressRow.Id);
                     Assert.AreEqual(userId, addressRow.UserId);
                     Assert.AreEqual(1.99m, addressRow.PostageCost);
                     Assert.AreEqual("", addressRow.BusinessName);
@@ -667,7 +666,8 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     Assert.AreEqual("FR", addressRow.Country);
                     Assert.IsTrue(addressRow.IsDelivery);
 
-                    address.ShippingCost = 3.99m;
+                    address = sut.GetDeliveryAddress(userId, 1);
+                    address.PostageCost = 3.99m;
                     sut.SetDeliveryAddress(userId, address);
 
                     List<DeliveryAddress> deliveryAddresses = sut.GetDeliveryAddresses(userId);
@@ -675,8 +675,8 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     Assert.AreEqual(2, deliveryAddresses.Count);
 
                     address = deliveryAddresses[1];
-                    Assert.AreEqual(0, address.Id);
-                    Assert.AreEqual(3.99m, address.ShippingCost);
+                    Assert.AreEqual(1, address.Id);
+                    Assert.AreEqual(3.99m, address.PostageCost);
                     Assert.AreEqual("", address.BusinessName);
                     Assert.AreEqual("add 1a", address.AddressLine1);
                     Assert.AreEqual("add 2a", address.AddressLine2);
@@ -686,7 +686,8 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     Assert.AreEqual("postcodea", address.Postcode);
                     Assert.AreEqual("FR", address.Country);
 
-                    sut.DeleteDeliveryAddress(userId, deliveryAddresses[0]);
+                    bool addressDeleted = sut.DeleteDeliveryAddress(userId, deliveryAddresses[0]);
+                    Assert.IsTrue(addressDeleted);
 
                     deliveryAddresses = sut.GetDeliveryAddresses(userId);
                     Assert.IsNotNull(deliveryAddresses);

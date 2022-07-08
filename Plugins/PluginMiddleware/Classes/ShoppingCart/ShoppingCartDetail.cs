@@ -28,6 +28,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 
+using Middleware.Accounts;
 using Middleware.Products;
 
 using SharedPluginFeatures;
@@ -182,13 +183,20 @@ namespace Middleware.ShoppingCart
         /// Sets the delivery address for the shopping cart, this is typically completed during the checkout phase.
         /// </summary>
         /// <param name="address">Address the user wants the cart shipping to.</param>
-        public void SetDeliveryAddress(in Address address)
+        public void SetDeliveryAddress(in DeliveryAddress address)
         {
             if (address == null)
                 throw new ArgumentNullException(nameof(address));
 
             DeliveryAddressId = address.Id;
-            ResetShipping(address.ShippingCost);
+            ResetShipping(address.PostageCost);
+        }
+
+        public void Clear()
+        {
+            Items.Clear();
+            ResetShipping(0);
+            Reset();
         }
 
         #endregion Public Methods
