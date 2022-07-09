@@ -36,6 +36,8 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using PluginManager.DAL.TextFiles.Internal;
 using AspNetCore.PluginManager.Tests.Shared;
+using PluginManager.DAL.TextFiles.Tests.Mocks;
+using PluginManager.DAL.TextFiles.Tables;
 
 namespace PluginManager.DAL.TextFiles.Tests
 {
@@ -112,6 +114,34 @@ namespace PluginManager.DAL.TextFiles.Tests
 
                 using TextTableOperations<MockTableAddressRow> mockAddresses = new TextTableOperations<MockTableAddressRow>(initializer, sut, new MockPluginClassesService());
                 mockAddresses.Insert(new MockTableAddressRow(10));
+            }
+            finally
+            {
+                io.Directory.Delete(directory, true);
+            }
+        }
+
+        [TestMethod]
+        public void ForeignKey_InsertRecordWhenForeignKeyDoesNotExists_DefaultValueAllowed_DoesNotThrowException()
+        {
+            ForeignKeyManager sut = new ForeignKeyManager();
+            string directory = io.Path.Combine(io.Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            try
+            {
+                io.Directory.CreateDirectory(directory);
+                ITextTableInitializer initializer = new TextTableInitializer(directory);
+
+                using TextTableOperations<MockTableUserRow> mockUsers = new TextTableOperations<MockTableUserRow>(initializer, sut, new MockPluginClassesService());
+                mockUsers.ResetSequence(10, 10);
+                List<MockTableUserRow> testData = new List<MockTableUserRow>();
+
+                for (int i = 1; i < 6; i++)
+                    testData.Add(new MockTableUserRow(i));
+
+                mockUsers.Insert(testData);
+
+                using TextTableOperations<MockTableForeignKeyDefaultAllowed> mockAddresses = new TextTableOperations<MockTableForeignKeyDefaultAllowed>(initializer, sut, new MockPluginClassesService());
+                mockAddresses.Insert(new MockTableForeignKeyDefaultAllowed(0));
             }
             finally
             {

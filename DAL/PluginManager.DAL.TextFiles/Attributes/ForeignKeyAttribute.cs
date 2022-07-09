@@ -26,20 +26,57 @@
 
 namespace PluginManager.DAL.TextFiles
 {
+    /// <summary>
+    /// Provides foreign key functionality for text based storage
+    /// </summary>
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = false)]
     public class ForeignKeyAttribute : Attribute
     {
-        public ForeignKeyAttribute(string tableName)
+        private ForeignKeyAttribute(string tableName, string propertyName, bool allowDefault)
         {
             if (String.IsNullOrEmpty(tableName))
                 throw new ArgumentNullException(nameof(tableName));
 
+            if (String.IsNullOrEmpty(propertyName))
+                throw new ArgumentNullException(nameof(propertyName));
+
             TableName = tableName;
-            PropertyName = "Id";
+            PropertyName = propertyName;
+            AllowDefaultValue = allowDefault;
+        }
+        /// <summary>
+        /// Default constructor
+        /// </summary>
+        /// <param name="tableName">Name of table the foreign key is linked to</param>
+        /// <exception cref="ArgumentNullException">Thrown if tableName is null or empty</exception>
+        public ForeignKeyAttribute(string tableName)
+            : this(tableName, "Id", false)
+        {
         }
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="tableName">Name of table the foreign key is linked to</param>
+        /// <param name="allowDefault">Allows default value of type if foreign key does not exist</param>
+        public ForeignKeyAttribute(string tableName, bool allowDefault)
+            : this(tableName, "Id", allowDefault)
+        {
+        }
+
+        /// <summary>
+        /// Name of table the foreign key is linked to
+        /// </summary>
         public string TableName { get; }
 
+        /// <summary>
+        /// Name of property on foreign key table
+        /// </summary>
         public string PropertyName { get; }
+
+        /// <summary>
+        /// Allows the foreign key value to be the default for the type of property the value is linked to
+        /// </summary>
+        public bool AllowDefaultValue { get; }
     }
 }
