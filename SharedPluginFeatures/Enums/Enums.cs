@@ -432,4 +432,30 @@ namespace SharedPluginFeatures
         /// </summary>
         Automatic
     }
+
+    /// <summary>
+    /// Type of discount that has been applied to an Invoice/Order
+    /// </summary>
+    public enum DiscountType
+    {
+        /// <summary>
+        /// Invoice/Order has no discount.
+        /// </summary>
+        None = 0,
+
+        /// <summary>
+        /// Invoice/Order has a percentage discount on the total.
+        /// </summary>
+        PercentageTotal = 1,
+
+        /// <summary>
+        /// Invoice/Order has a percentage discount on the sub total.
+        /// </summary>
+        PercentageSubTotal = 2,
+
+        /// <summary>
+        /// Invoice/Order has a monetary value discount (i.e. GBP10)
+        /// </summary>
+        Value = 3
+    }
 }

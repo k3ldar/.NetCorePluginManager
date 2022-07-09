@@ -140,12 +140,12 @@ namespace Localization.Plugin
 
         public IEnumerable<LocalizedString> GetAllStrings(bool includeParentCultures)
         {
-            throw new NotImplementedException();
+            throw new InvalidOperationException();
         }
 
         public IStringLocalizer WithCulture(CultureInfo culture)
         {
-            throw new NotImplementedException();
+            throw new InvalidOperationException();
         }
 
         #endregion IStringLocalizer Methods

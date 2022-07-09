@@ -258,7 +258,7 @@
             Represents an individual invoice item within an Invoice used by IAccountProvider and UserAccount.Plugin module.
             </summary>
         </member>
-        <member name="M:Middleware.Accounts.Invoices.InvoiceItem.#ctor(System.Int64@,System.String@,System.Decimal@,System.Decimal@,System.Decimal@,Middleware.ItemStatus@,Middleware.DiscountType@,System.Decimal@)">
+        <member name="M:Middleware.Accounts.Invoices.InvoiceItem.#ctor(System.Int64@,System.String@,System.Decimal@,System.Decimal@,System.Decimal@,Middleware.ItemStatus@,SharedPluginFeatures.DiscountType@,System.Decimal@)">
             <summary>
             Constructor
             </summary>
@@ -554,7 +554,7 @@
             Represents an item within an Order created by a user.  This is primarily used by IAccountProvider and the UserAccount.Plugin module.
             </summary>
         </member>
-        <member name="M:Middleware.Accounts.Orders.OrderItem.#ctor(System.Int64@,System.String@,System.Decimal@,System.Decimal@,System.Decimal@,Middleware.ItemStatus@,Middleware.DiscountType@,System.Decimal@)">
+        <member name="M:Middleware.Accounts.Orders.OrderItem.#ctor(System.Int64@,System.String@,System.Decimal@,System.Decimal@,System.Decimal@,Middleware.ItemStatus@,SharedPluginFeatures.DiscountType@,System.Decimal@)">
             <summary>
             Constructor
             </summary>
@@ -2457,7 +2457,7 @@
             Default constructor
             </summary>
         </member>
-        <member name="M:Middleware.ShoppingCart.ShoppingCartItem.#ctor(System.Int32@,System.Decimal@,System.Decimal@,System.String@,System.String@,System.String@,System.String[]@,System.Boolean@,System.Boolean@,System.String@)">
+        <member name="M:Middleware.ShoppingCart.ShoppingCartItem.#ctor(System.Int32@,System.Decimal@,System.Decimal@,System.String@,System.String@,System.String@,System.String[]@,System.Boolean@,System.Boolean@,System.String@,SharedPluginFeatures.DiscountType@,System.Decimal@)">
             <summary>
             Constructor containing detailed items information.
             </summary>
@@ -2471,6 +2471,8 @@
             <param name="isDownload">Indicates that the item is downloadable or not.</param>
             <param name="canBackOrder">Indicates that the item is on back order.</param>
             <param name="size">Size of item.</param>
+            <param name="discountType">Type of discount applied to the item</param>
+            <param name="discount">Discount amount</param>
         </member>
         <member name="M:Middleware.ShoppingCart.ShoppingCartItem.#ctor(System.Int32@,System.Decimal@,System.Decimal@,System.Decimal@,System.String@,System.String@,System.String@,System.String[]@,System.Boolean@,System.Int32@,System.String@,System.Boolean@,System.String@)">
             <summary>
@@ -2589,6 +2591,16 @@
         <member name="P:Middleware.ShoppingCart.ShoppingCartItem.StockAvailability">
             <summary>
             Availability of stock for the item in the shopping cart.
+            </summary>
+        </member>
+        <member name="P:Middleware.ShoppingCart.ShoppingCartItem.Discount">
+            <summary>
+            Discount amount for specific product item
+            </summary>
+        </member>
+        <member name="P:Middleware.ShoppingCart.ShoppingCartItem.DiscountType">
+            <summary>
+            Type of discount
             </summary>
         </member>
         <member name="T:Middleware.Users.SearchUser">
@@ -2973,31 +2985,6 @@
         <member name="F:Middleware.ItemStatus.Cancelled">
             <summary>
             Invoice/order item has been cancelled.
-            </summary>
-        </member>
-        <member name="T:Middleware.DiscountType">
-            <summary>
-            Type of discount that has been applied to an Invoice/Order
-            </summary>
-        </member>
-        <member name="F:Middleware.DiscountType.None">
-            <summary>
-            Invoice/Order has no discount.
-            </summary>
-        </member>
-        <member name="F:Middleware.DiscountType.PercentageTotal">
-            <summary>
-            Invoice/Order has a percentage discount on the total.
-            </summary>
-        </member>
-        <member name="F:Middleware.DiscountType.PercentageSubTotal">
-            <summary>
-            Invoice/Order has a percentage discount on the sub total.
-            </summary>
-        </member>
-        <member name="F:Middleware.DiscountType.Value">
-            <summary>
-            Invoice/Order has a monetary value discount (i.e. GBP10)
             </summary>
         </member>
         <member name="T:Middleware.LicenceCreate">

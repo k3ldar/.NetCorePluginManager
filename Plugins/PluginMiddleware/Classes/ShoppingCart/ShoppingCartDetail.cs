@@ -123,7 +123,7 @@ namespace Middleware.ShoppingCart
             {
                 Items.Add(new ShoppingCartItem(product.Id, count, product.RetailPrice, product.Name,
                     product.Description.Substring(0, Shared.Utilities.CheckMinMax(product.Description.Length, 0, 49)),
-                    product.Sku, product.Images, product.IsDownload, product.AllowBackorder, String.Empty));
+                    product.Sku, product.Images, product.IsDownload, product.AllowBackorder, String.Empty, DiscountType.None, 0));
             }
             else
             {

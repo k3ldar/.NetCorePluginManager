@@ -175,6 +175,11 @@ namespace SharedPluginFeatures
         public decimal DiscountRate { get; private set; }
 
         /// <summary>
+        /// Type of discount applied to the shopping cart
+        /// </summary>
+        public DiscountType DiscountType { get; private set; }
+
+        /// <summary>
         /// Total discount value applied to the shopping cart.
         /// </summary>
         public decimal Discount { get; private set; }

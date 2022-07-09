@@ -15,85 +15,116 @@
  *
  *  Product:  PluginManager.DAL.TextFiles
  *  
- *  File: BlogCommentData.cs
+ *  File: VoucherDataRow.cs
  *
- *  Purpose:  Definition for blog comments
+ *  Purpose:  Table definition for shopping cart vouchers
  *
  *  Date        Name                Reason
- *  27/06/2022  Simon Carter        Initially Created
+ *  09/07/2022  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using PluginManager.DAL.TextFiles.Internal;
 
 namespace PluginManager.DAL.TextFiles.Tables
 {
-    [Table(Constants.TableNameBlogComments)]
-    internal sealed class BlogCommentDataRow : TableRowDefinition
+    [Table(Constants.TableNameShoppingCartVoucher)]
+    internal sealed class VoucherDataRow : TableRowDefinition
     {
-        private long _blogId;
-        private long? _parentComment;
-        private string _username;
+        private string _name;
+        private long _validFromTicks;
+        private long _validToTicks;
+        private decimal _discountRate;
+        private int _discountType;
         private long _userId;
-        private bool _approved;
-        private string _comment;
-        private ObservableList<BlogCommentDataRow> _comments;
+        private long _productId;
 
-        #region Properties
-
-        [ForeignKey(Constants.TableNameBlogs)]
-        public long BlogId
+        [UniqueIndex]
+        public string Name
         {
             get
             {
-                return _blogId;
+                return _name;
             }
 
             set
             {
-                if (_blogId == value)
+                if (value.Equals(_name))
                     return;
 
-                _blogId = value;
+                _name = value;
                 Update();
             }
         }
 
-        [ForeignKey(Constants.TableNameBlogComments)]
-        public long? ParentComment
+        public long ValidFromTicks
         {
             get
             {
-                return _parentComment;
+                return _validFromTicks;
             }
 
             set
             {
-                if (_parentComment == value)
+                if (value == _validFromTicks)
                     return;
 
-                _parentComment = value;
+                _validFromTicks = value;
                 Update();
             }
         }
 
-        public string Username
+        public long ValidToTicks
         {
             get
             {
-                return _username;
+                return _validToTicks;
             }
 
             set
             {
-                if (_username == value)
+                if (value == _validToTicks)
                     return;
 
-                _username = value;
+                _validToTicks = value;
                 Update();
             }
         }
 
-        [ForeignKey(Constants.TableNameUsers)]
+        public int DiscountType
+        {
+            get
+            {
+                return _discountType;
+            }
+
+            set
+            {
+                if (value == _discountType)
+                    return;
+
+                _discountType = value;
+                Update();
+            }
+        }
+
+        public decimal DiscountRate
+        {
+            get
+            {
+                return _discountRate;
+            }
+
+            set
+            {
+                if (value == _discountRate)
+                    return;
+
+                _discountRate = value;
+                Update();
+            }
+        }
+
+        [ForeignKey(Constants.TableNameUsers, true)]
         public long UserId
         {
             get
@@ -103,7 +134,7 @@ namespace PluginManager.DAL.TextFiles.Tables
 
             set
             {
-                if (_userId == value)
+                if (value == _userId)
                     return;
 
                 _userId = value;
@@ -111,61 +142,26 @@ namespace PluginManager.DAL.TextFiles.Tables
             }
         }
 
-        public bool Approved
+        [ForeignKey(Constants.TableNameProducts, true)]
+        public long ProductId
         {
             get
             {
-                return _approved;
+                return _productId;
             }
 
             set
             {
-                if (_approved == value)
+                if (value == _productId)
                     return;
 
-                _approved = value;
+                _productId = value;
                 Update();
             }
         }
 
-        public string Comment
-        {
-            get
-            {
-                return _comment;
-            }
+        public DateTime ValidFrom => new DateTime(ValidFromTicks, DateTimeKind.Utc);
 
-            set
-            {
-                if (_comment == value)
-                    return;
-
-                _comment = value;
-                Update();
-            }
-        }
-
-        public ObservableList<BlogCommentDataRow> Comments
-        {
-            get
-            {
-                return _comments;
-            }
-
-            set
-            {
-                if (value != null)
-                    value.Changed -= ObservableDataChanged;
-
-                _comments = value;
-
-                if (_comments != null)
-                    _comments.Changed += ObservableDataChanged;
-
-                Update();
-            }
-        }
-
-        #endregion Properties
+        public DateTime ValidTo => new DateTime(ValidToTicks, DateTimeKind.Utc);
     }
 }

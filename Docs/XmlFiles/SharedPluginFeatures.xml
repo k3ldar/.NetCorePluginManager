@@ -1810,6 +1810,11 @@
             Rate at which discount has been applied to the shopping cart.
             </summary>
         </member>
+        <member name="P:SharedPluginFeatures.ShoppingCartSummary.DiscountType">
+            <summary>
+            Type of discount applied to the shopping cart
+            </summary>
+        </member>
         <member name="P:SharedPluginFeatures.ShoppingCartSummary.Discount">
             <summary>
             Total discount value applied to the shopping cart.
@@ -3324,6 +3329,31 @@
         <member name="F:SharedPluginFeatures.DynamicContentHeightType.Automatic">
             <summary>
             The control fits the size of the internal data
+            </summary>
+        </member>
+        <member name="T:SharedPluginFeatures.DiscountType">
+            <summary>
+            Type of discount that has been applied to an Invoice/Order
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.DiscountType.None">
+            <summary>
+            Invoice/Order has no discount.
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.DiscountType.PercentageTotal">
+            <summary>
+            Invoice/Order has a percentage discount on the total.
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.DiscountType.PercentageSubTotal">
+            <summary>
+            Invoice/Order has a percentage discount on the sub total.
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.DiscountType.Value">
+            <summary>
+            Invoice/Order has a monetary value discount (i.e. GBP10)
             </summary>
         </member>
         <member name="T:SharedPluginFeatures.HtmlHelper">

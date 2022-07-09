@@ -53,6 +53,26 @@ namespace PluginManager.DAL.TextFiles.Internal
     internal sealed class TextTableOperations<T> : ITextTableOperations<T>, ITextTable
         where T : TableRowDefinition
     {
+        #region Private Classes
+
+        private sealed class ForeignKeyRelation
+        {
+            public ForeignKeyRelation(string name, bool allowDefaultValue)
+            {
+                if (String.IsNullOrEmpty(name))
+                    throw new ArgumentNullException(nameof(name));
+
+                Name = name;
+                AllowDefaultValue = allowDefaultValue;
+            }
+
+            public string Name { get; }
+
+            public bool AllowDefaultValue { get; }
+        }
+
+        #endregion Private Classes
+
         #region Constants
 
         private static readonly byte[] Header = new byte[] { 80, 77 };
@@ -85,7 +105,7 @@ namespace PluginManager.DAL.TextFiles.Internal
         private long _SecondarySequence = -1;
         private readonly object _lockObject = new object();
         private readonly TableAttribute _tableAttributes;
-        private readonly Dictionary<string, string> _foreignKeys;
+        private readonly Dictionary<string, ForeignKeyRelation> _foreignKeys;
         private readonly ITextTableInitializer _initializer;
         private readonly IForeignKeyManager _foreignKeyManager;
         private readonly BatchUpdateDictionary<string, IIndexManager> _indexes;
@@ -382,6 +402,9 @@ namespace PluginManager.DAL.TextFiles.Internal
                 writer.Write(primarySequence);
                 writer.Write(secondarySequence);
                 _fileStream.Flush(true);
+
+                _primarySequence = primarySequence;
+                _SecondarySequence = secondarySequence;
             }
         }
 
@@ -738,21 +761,25 @@ namespace PluginManager.DAL.TextFiles.Internal
 
         private void ValidateForeignKeys(List<T> records)
         {
-            foreach (KeyValuePair<string, string> foreignKey in _foreignKeys)
+            foreach (KeyValuePair<string, ForeignKeyRelation> foreignKey in _foreignKeys)
             {
                 foreach (T record in records)
                 {
                     long keyValue = Convert.ToInt64(record.GetType().GetProperty(foreignKey.Key).GetValue(record, null));
+                    ForeignKeyRelation foreignKeyRelation = foreignKey.Value;
 
-                    if (!_foreignKeyManager.ValueExists(foreignKey.Value, keyValue))
-                        throw new ForeignKeyException($"Foreign key value {keyValue} does not exist in table {foreignKey.Value}; Table: {TableName}; Property: {foreignKey.Key}");
+                    if (!_foreignKeyManager.ValueExists(foreignKeyRelation.Name, keyValue))
+                    {
+                        if (!(foreignKeyRelation.AllowDefaultValue && keyValue.Equals(0)))
+                            throw new ForeignKeyException($"Foreign key value {keyValue} does not exist in table {foreignKey.Value}; Table: {TableName}; Property: {foreignKey.Key}");
+                    }
                 }
             }
         }
 
-        private Dictionary<string, string> GetForeignKeysForTable()
+        private Dictionary<string, ForeignKeyRelation> GetForeignKeysForTable()
         {
-            Dictionary<string, string> Result = new Dictionary<string, string>();
+            Dictionary<string, ForeignKeyRelation> Result = new Dictionary<string, ForeignKeyRelation>();
 
             foreach (PropertyInfo property in typeof(T).GetProperties())
             {
@@ -763,7 +790,7 @@ namespace PluginManager.DAL.TextFiles.Internal
                 if (foreignKey != null && property.PropertyType.Equals(typeof(long)))
                 {
                     _foreignKeyManager.AddRelationShip(TableName, foreignKey.TableName, property.Name, foreignKey.PropertyName);
-                    Result.Add(property.Name, foreignKey.TableName);
+                    Result.Add(property.Name, new ForeignKeyRelation(foreignKey.TableName, foreignKey.AllowDefaultValue));
                 }
             }
 

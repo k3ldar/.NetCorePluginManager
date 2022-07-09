@@ -519,6 +519,146 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             }
         }
 
+        [TestMethod]
+        public void AddVoucher_VoucherDoesNotExist_ReturnsFalse()
+        {
+            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            try
+            {
+                Directory.CreateDirectory(directory);
+                PluginInitialisation initialisation = new PluginInitialisation();
+                ServiceCollection services = new ServiceCollection();
+                List<object> servicesList = new List<object>()
+                {
+                    new SettingsDataRowDefaults(),
+                    new ProductGroupDataRowDefaults(),
+                    new ProductGroupDataTriggers(),
+                    new ProductDataTriggers(),
+                    new ShoppingCartDataRowDefaults(),
+                    new AddressDataRowDefaults(),
+                };
+                MockPluginClassesService mockPluginClassesService = new MockPluginClassesService(servicesList);
+
+                services.AddSingleton<IPluginClassesService>(mockPluginClassesService);
+                services.AddSingleton<IMemoryCache, MockMemoryCache>();
+                services.AddSingleton<IForeignKeyManager, ForeignKeyManager>();
+                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
+
+                initialisation.BeforeConfigureServices(services);
+
+                UserSession userSession = new UserSession();
+                ShoppingCartSummary shoppingCart = new ShoppingCartSummary(0, 0, 0, 0, 0, 20,
+                    System.Threading.Thread.CurrentThread.CurrentUICulture, "GBP");
+
+
+                using (ServiceProvider provider = services.BuildServiceProvider())
+                {
+                    IProductProvider productProvider = GetTestProductProvider(provider);
+
+                    ShoppingCartProvider sut = (ShoppingCartProvider)provider.GetService<IShoppingCartProvider>();
+                    Assert.IsNotNull(sut);
+
+                    long basketId = sut.AddToCart(userSession, shoppingCart, productProvider.GetProduct(0), 1);
+                    Assert.AreEqual(1, basketId);
+
+                    ShoppingCartSummary basketSummary = sut.GetSummary(basketId);
+                    Assert.IsNotNull(basketSummary);
+
+                    bool voucherFound = sut.ValidateVoucher(basketSummary, "not found", 23);
+                    Assert.IsFalse(voucherFound);
+
+                    Assert.AreEqual("GBP", basketSummary.CurrencyCode);
+                    Assert.AreEqual(0, basketSummary.Discount);
+                    Assert.AreEqual(0, basketSummary.Shipping);
+                    Assert.AreEqual(1.99m, basketSummary.SubTotal);
+                    Assert.AreEqual(0.34m, basketSummary.Tax);
+                    Assert.AreEqual(20, basketSummary.TaxRate);
+                    Assert.AreEqual(1.99m, basketSummary.Total);
+                    Assert.AreEqual(1, basketSummary.TotalItems);
+                }
+            }
+            finally
+            {
+                Directory.Delete(directory, true);
+            }
+        }
+
+        [TestMethod]
+        public void AddVoucher_VoucherExistsForAnyUser_ReturnsTrue()
+        {
+            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            try
+            {
+                Directory.CreateDirectory(directory);
+                PluginInitialisation initialisation = new PluginInitialisation();
+                ServiceCollection services = new ServiceCollection();
+                List<object> servicesList = new List<object>()
+                {
+                    new SettingsDataRowDefaults(),
+                    new ProductGroupDataRowDefaults(),
+                    new ProductGroupDataTriggers(),
+                    new ProductDataTriggers(),
+                    new ShoppingCartDataRowDefaults(),
+                    new AddressDataRowDefaults(),
+                    new VoucherDataRowTriggers(),
+                };
+                MockPluginClassesService mockPluginClassesService = new MockPluginClassesService(servicesList);
+
+                services.AddSingleton<IPluginClassesService>(mockPluginClassesService);
+                services.AddSingleton<IMemoryCache, MockMemoryCache>();
+                services.AddSingleton<IForeignKeyManager, ForeignKeyManager>();
+                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
+
+                initialisation.BeforeConfigureServices(services);
+
+                UserSession userSession = new UserSession();
+                ShoppingCartSummary shoppingCart = new ShoppingCartSummary(0, 0, 0, 0, 0, 20,
+                    System.Threading.Thread.CurrentThread.CurrentUICulture, "GBP");
+
+
+                using (ServiceProvider provider = services.BuildServiceProvider())
+                {
+                    IProductProvider productProvider = GetTestProductProvider(provider);
+                    ShoppingCartProvider sut = (ShoppingCartProvider)provider.GetService<IShoppingCartProvider>();
+                    Assert.IsNotNull(sut);
+
+                    ITextTableOperations<VoucherDataRow> voucherTable = provider.GetService<ITextTableOperations<VoucherDataRow>>();
+                    Assert.IsNotNull(voucherTable);
+
+                    voucherTable.Insert(new VoucherDataRow()
+                    {
+                        DiscountRate = 5,
+                        DiscountType = (int)DiscountType.Value,
+                        ValidFromTicks = 0,
+                        ValidToTicks = Int64.MaxValue,
+                        Name = "Test Voucher"
+                    });
+
+                    long basketId = sut.AddToCart(userSession, shoppingCart, productProvider.GetProduct(0), 1);
+                    Assert.AreEqual(1, basketId);
+
+                    ShoppingCartSummary basketSummary = sut.GetSummary(basketId);
+                    Assert.IsNotNull(basketSummary);
+
+                    bool voucherFound = sut.ValidateVoucher(basketSummary, "Test Voucher", 23);
+                    Assert.IsTrue(voucherFound);
+
+                    Assert.AreEqual("GBP", basketSummary.CurrencyCode);
+                    Assert.AreEqual(0, basketSummary.Discount);
+                    Assert.AreEqual(0, basketSummary.Shipping);
+                    Assert.AreEqual(1.99m, basketSummary.SubTotal);
+                    Assert.AreEqual(0.34m, basketSummary.Tax);
+                    Assert.AreEqual(20, basketSummary.TaxRate);
+                    Assert.AreEqual(1.99m, basketSummary.Total);
+                    Assert.AreEqual(1, basketSummary.TotalItems);
+                }
+            }
+            finally
+            {
+                Directory.Delete(directory, true);
+            }
+        }
+
 
         private IProductProvider GetTestProductProvider(ServiceProvider provider, bool addProducts = true)
         {

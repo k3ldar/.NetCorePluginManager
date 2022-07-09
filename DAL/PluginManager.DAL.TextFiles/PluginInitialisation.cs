@@ -102,6 +102,7 @@ namespace PluginManager.DAL.TextFiles
             services.AddSingleton(typeof(TableRowDefinition), typeof(BlogCommentDataRow));
             services.AddSingleton(typeof(TableRowDefinition), typeof(ShoppingCartDataRow));
             services.AddSingleton(typeof(TableRowDefinition), typeof(ShoppingCartItemDataRow));
+            services.AddSingleton(typeof(TableRowDefinition), typeof(VoucherDataRow));
 
             services.AddSingleton(typeof(ITextTableOperations<>), typeof(TextTableOperations<>));
 

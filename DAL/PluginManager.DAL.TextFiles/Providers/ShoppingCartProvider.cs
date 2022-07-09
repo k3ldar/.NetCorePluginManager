@@ -61,6 +61,8 @@ namespace PluginManager.DAL.TextFiles.Providers
         private readonly ITextTableOperations<ShoppingCartItemDataRow> _shoppingCartItemData;
         private readonly ITextTableOperations<OrderDataRow> _orderData;
         private readonly ITextTableOperations<OrderItemsDataRow> _orderItemsData;
+        private readonly ITextTableOperations<VoucherDataRow> _voucherData;
+        private readonly ITextTableOperations<UserDataRow> _userDataRow;
 
         #endregion Private Members
 
@@ -69,6 +71,7 @@ namespace PluginManager.DAL.TextFiles.Providers
         public ShoppingCartProvider(ITextTableOperations<ShoppingCartDataRow> shoppingCartData,
             ITextTableOperations<ShoppingCartItemDataRow> shoppingCartItemData, 
             ITextTableOperations<OrderDataRow> orderData, ITextTableOperations<OrderItemsDataRow> orderItemsData,
+            ITextTableOperations<VoucherDataRow> voucherData, ITextTableOperations<UserDataRow> userDataRow,
             IProductProvider productProvider, IAccountProvider accountProvider, IApplicationSettingsProvider settingsProvider)
         {
             _shoppingCartData = shoppingCartData ?? throw new ArgumentNullException(nameof(shoppingCartData));
@@ -77,6 +80,8 @@ namespace PluginManager.DAL.TextFiles.Providers
             _accountProvider = accountProvider ?? throw new ArgumentNullException(nameof(accountProvider));
             _orderData = orderData ?? throw new ArgumentNullException(nameof(orderData));
             _orderItemsData = orderItemsData ?? throw new ArgumentNullException(nameof(orderItemsData));
+            _voucherData = voucherData ?? throw new ArgumentNullException(nameof(voucherData));
+            _userDataRow = userDataRow ?? throw new ArgumentNullException(nameof(userDataRow));
 
             if (settingsProvider == null)
                 throw new ArgumentNullException(nameof(settingsProvider));
@@ -210,7 +215,19 @@ namespace PluginManager.DAL.TextFiles.Providers
 
         public bool ValidateVoucher(in ShoppingCartSummary cartSummary, in string voucher, in long userId)
         {
-            return false;
+            string voucherName = voucher;
+            long user = userId;
+            VoucherDataRow voucherDataRow = _voucherData.Select()
+                .Where(v => v.Name.Equals(voucherName, StringComparison.InvariantCultureIgnoreCase) && 
+                    (v.UserId.Equals(0) || v.UserId.Equals(user)))
+                .FirstOrDefault();
+
+            if (voucherDataRow == null)
+                return false;
+
+            //cartSummary.
+            throw new NotImplementedException();
+            //return false;
         }
 
         public bool ConvertToOrder(in ShoppingCartSummary cartSummary, in long userId, out Order order)
@@ -252,13 +269,13 @@ namespace PluginManager.DAL.TextFiles.Providers
                     TaxRate = item.TaxRate,
                     Price = item.ItemCost,
                     Quantity = item.ItemCount,
-                    Discount = 0,
-                    DiscountType = (int)DiscountType.None,
+                    Discount = item.Discount,
+                    DiscountType = (int)item.DiscountType,
                     Status = (int)ItemStatus.Received,
                 });
                 
                 items.Add(new OrderItem(item.Id, item.Name, item.ItemCost, cartSummary.TaxRate, item.ItemCount,
-                    ItemStatus.Received, DiscountType.None, cartSummary.Discount));
+                    ItemStatus.Received, item.DiscountType, item.Discount));
             }
 
             order = new Order(orderData.Id, orderData.Created, orderData.Postage, new CultureInfo(orderData.Culture),

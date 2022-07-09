@@ -33,6 +33,8 @@ using Middleware.Accounts;
 using Middleware.Accounts.Invoices;
 using Middleware.Accounts.Orders;
 
+using SharedPluginFeatures;
+
 namespace AspNetCore.PluginManager.DemoWebsite.Classes
 {
     [ExcludeFromCodeCoverage(Justification = "Code coverage not required for mock classes")]
