@@ -30,19 +30,20 @@ namespace PluginManager.DAL.TextFiles.Tables
     [Table(Constants.TableNameShoppingCart)]
     internal class ShoppingCartDataRow : TableRowDefinition
     {
-        int _totalItems;
-        decimal _subTotal;
-        decimal _discountRate;
-        decimal _discount;
-        decimal _taxRate;
-        decimal _tax;
-        decimal _shipping;
-        decimal _total;
-        string _culture;
-        string _currencyCode;
-        string _couponCode;
-        bool _requiresShipping;
-        int _deliveryAddressId;
+        private int _totalItems;
+        private decimal _subTotal;
+        private int _discountType;
+        private decimal _discountRate;
+        private decimal _discount;
+        private decimal _taxRate;
+        private decimal _tax;
+        private decimal _shipping;
+        private decimal _total;
+        private string _culture;
+        private string _currencyCode;
+        private string _couponCode;
+        private bool _requiresShipping;
+        private int _deliveryAddressId;
 
         public int TotalItems
         {
@@ -74,6 +75,23 @@ namespace PluginManager.DAL.TextFiles.Tables
                     return;
 
                 _subTotal = value;
+                Update();
+            }
+        }
+
+        public int DiscountType
+        {
+            get
+            {
+                return _discountType;
+            }
+
+            set
+            {
+                if (value == _discountType)
+                    return;
+
+                _discountType = value;
                 Update();
             }
         }

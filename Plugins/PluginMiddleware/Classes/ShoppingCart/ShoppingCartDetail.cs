@@ -176,7 +176,14 @@ namespace Middleware.ShoppingCart
         public void Reset()
         {
             ResetTotalItems((int)Items.Sum(s => s.ItemCount));
-            ResetTotalCost(Items.Sum(s => s.ItemCost * s.ItemCount));
+            ResetTotalCost(Items.Sum(s => s.CostWithDiscountApplied() * s.ItemCount));
+        }
+
+        public void ClearVoucherData()
+        {
+            DiscountRate = 0;
+            DiscountType = DiscountType.None;
+            Reset();
         }
 
         /// <summary>
@@ -196,6 +203,20 @@ namespace Middleware.ShoppingCart
         {
             Items.Clear();
             ResetShipping(0);
+            Reset();
+        }
+
+        public void UpdateDiscount(string couponCode, DiscountType discountType, decimal discount)
+        {
+            if (String.IsNullOrEmpty(couponCode))
+                throw new ArgumentNullException(nameof(couponCode));
+
+            if (discount <= 0)
+                throw new ArgumentOutOfRangeException(nameof(discount));
+
+            CouponCode = couponCode;
+            DiscountRate = discount;
+            DiscountType = discountType;
             Reset();
         }
 

@@ -215,6 +215,9 @@ namespace PluginManager.DAL.TextFiles.Providers
 
         public bool ValidateVoucher(in ShoppingCartSummary cartSummary, in string voucher, in long userId)
         {
+            if (cartSummary == null)
+                throw new ArgumentNullException(nameof(cartSummary));
+
             string voucherName = voucher;
             long user = userId;
             VoucherDataRow voucherDataRow = _voucherData.Select()
@@ -225,9 +228,44 @@ namespace PluginManager.DAL.TextFiles.Providers
             if (voucherDataRow == null)
                 return false;
 
-            //cartSummary.
-            throw new NotImplementedException();
-            //return false;
+            if (!voucherDataRow.IsValid(userId))
+                return false;
+
+            ShoppingCartDetail cartDetail = GetDetail(cartSummary.Id);
+            cartDetail.ClearVoucherData();
+
+            if (voucherDataRow.ProductId == 0)
+            {
+                // voucher applied to entire shopping cart
+                cartDetail.UpdateDiscount(voucherDataRow.Name, (DiscountType)voucherDataRow.DiscountType, voucherDataRow.DiscountRate);
+
+                ShoppingCartDataRow cartData = _shoppingCartData.Select(cartDetail.Id);
+                cartData.DiscountRate = voucherDataRow.DiscountRate;
+                cartData.DiscountType = voucherDataRow.DiscountType;
+                cartData.Discount = cartDetail.Discount;
+                _shoppingCartData.Update(cartData);
+            }
+            else
+            {
+                // voucher applied to individual products
+                List<ShoppingCartItem> cartItems = cartDetail.Items.Where(i => i.Id.Equals(voucherDataRow.ProductId)).ToList();
+
+                if (cartItems.Count == 0)
+                    return false;
+
+                foreach (ShoppingCartItem item in cartItems)
+                {
+                    item.UpdateDiscountCode(voucherDataRow.Name, (DiscountType)voucherDataRow.DiscountType,
+                        voucherDataRow.DiscountRate, voucherDataRow.MaxProductsToDiscount);
+
+                    ShoppingCartItemDataRow cartItem = _shoppingCartItemData.Select(item.Id);
+                    cartItem.DiscountRate = voucherDataRow.DiscountRate;
+                    cartItem.DiscountType = (int)item.DiscountType;
+                    _shoppingCartItemData.Update(cartItem);
+                }
+            }
+
+            return true;
         }
 
         public bool ConvertToOrder(in ShoppingCartSummary cartSummary, in long userId, out Order order)
@@ -269,13 +307,13 @@ namespace PluginManager.DAL.TextFiles.Providers
                     TaxRate = item.TaxRate,
                     Price = item.ItemCost,
                     Quantity = item.ItemCount,
-                    Discount = item.Discount,
+                    Discount = item.DiscountRate,
                     DiscountType = (int)item.DiscountType,
                     Status = (int)ItemStatus.Received,
                 });
                 
                 items.Add(new OrderItem(item.Id, item.Name, item.ItemCost, cartSummary.TaxRate, item.ItemCount,
-                    ItemStatus.Received, item.DiscountType, item.Discount));
+                    ItemStatus.Received, item.DiscountType, item.DiscountRate));
             }
 
             order = new Order(orderData.Id, orderData.Created, orderData.Postage, new CultureInfo(orderData.Culture),
@@ -387,7 +425,8 @@ namespace PluginManager.DAL.TextFiles.Providers
                 return Result;
 
             shoppingCartItems.ForEach(item => Result.Add(new ShoppingCartItem((int)item.Id, item.ItemCount, item.ItemCost, item.Name, 
-                item.Description, item.SKU, new string[] { "NoImage" }, item.IsDownload, item.CanBackOrder, item.Size)));
+                item.Description, item.SKU, new string[] { "NoImage" }, item.IsDownload, item.CanBackOrder, item.Size, 
+                (DiscountType)item.DiscountType, item.DiscountRate)));
 
             return Result;
         }

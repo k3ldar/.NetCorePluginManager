@@ -144,7 +144,17 @@ namespace SharedPluginFeatures
             decimal total = SubTotal + Shipping;
 
             if (DiscountRate > 0 && total > 0)
-                Discount = Shared.Utilities.BankersRounding(total / 100 * DiscountRate, 2);
+            {
+                switch (DiscountType)
+                {
+                    case DiscountType.None:
+                        Discount = 0;
+                        break;
+                    case DiscountType.PercentageTotal:
+                        Discount = Shared.Utilities.BankersRounding(total / 100 * DiscountRate, 2);
+                        break;
+                }
+            }
 
             Total = total - Discount;
             Tax = Shared.Utilities.BankersRounding(Shared.Utilities.VATCalculatePaid(Total, TaxRate), 2);
@@ -172,12 +182,12 @@ namespace SharedPluginFeatures
         /// <summary>
         /// Rate at which discount has been applied to the shopping cart.
         /// </summary>
-        public decimal DiscountRate { get; private set; }
+        public decimal DiscountRate { get; protected set; }
 
         /// <summary>
         /// Type of discount applied to the shopping cart
         /// </summary>
-        public DiscountType DiscountType { get; private set; }
+        public DiscountType DiscountType { get; protected set; }
 
         /// <summary>
         /// Total discount value applied to the shopping cart.

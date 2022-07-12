@@ -30,6 +30,8 @@ namespace PluginManager.DAL.TextFiles.Tables
     [Table(Constants.TableNameShoppingCartVoucher)]
     internal sealed class VoucherDataRow : TableRowDefinition
     {
+        #region Private Members
+
         private string _name;
         private long _validFromTicks;
         private long _validToTicks;
@@ -37,6 +39,11 @@ namespace PluginManager.DAL.TextFiles.Tables
         private int _discountType;
         private long _userId;
         private long _productId;
+        private ushort _maxProductsToDiscount;
+
+        #endregion Private Members
+
+        #region Properties
 
         [UniqueIndex]
         public string Name
@@ -160,8 +167,38 @@ namespace PluginManager.DAL.TextFiles.Tables
             }
         }
 
+        public ushort MaxProductsToDiscount
+        {
+            get
+            {
+                return _maxProductsToDiscount;
+            }
+
+            set
+            {
+                if (value == _maxProductsToDiscount)
+                    return;
+
+                _maxProductsToDiscount = value;
+                Update();
+            }
+        }
+
         public DateTime ValidFrom => new DateTime(ValidFromTicks, DateTimeKind.Utc);
 
         public DateTime ValidTo => new DateTime(ValidToTicks, DateTimeKind.Utc);
+
+        #endregion Properties
+
+        #region Public Methods
+
+        public bool IsValid(long userId)
+        {
+            return ValidFrom <= DateTime.UtcNow && 
+                ValidTo >= DateTime.UtcNow &&
+                (_userId == 0 || _userId.Equals(userId));
+        }
+
+        #endregion Public Methods
     }
 }

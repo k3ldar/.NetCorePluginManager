@@ -43,6 +43,8 @@ namespace PluginManager.DAL.TextFiles.Tables
         bool _canBackOrder;
         string _size;
         uint _stockAvailability;
+        private decimal _discount;
+        private int _discountType;
 
         [ForeignKey(Constants.TableNameShoppingCart)]
         public long ShoppingCartId
@@ -262,6 +264,37 @@ namespace PluginManager.DAL.TextFiles.Tables
                     return;
 
                 _stockAvailability = value;
+                Update();
+            }
+        }
+
+        public decimal DiscountRate
+        {
+            get
+            {
+                return _discount;
+            }
+
+            set
+            {
+                if (value == _discount)
+                    return;
+
+                _discount = value;
+                Update();
+            }
+        }
+
+        public int DiscountType
+        {
+            get => _discountType;
+
+            set
+            {
+                if (value == _discountType)
+                    return;
+
+                _discountType = value;
                 Update();
             }
         }

@@ -52,16 +52,16 @@ namespace PluginManager.DAL.TextFiles.Tables
 
         public void BeforeInsert(List<VoucherDataRow> records)
         {
-            ValidateValidFromTo(records);
+            ValidateVoucherData(records);
         }
 
         public void BeforeUpdate(List<VoucherDataRow> records)
         {
-            ValidateValidFromTo(records);
+            ValidateVoucherData(records);
         }
 
 
-        private void ValidateValidFromTo(List<VoucherDataRow> records)
+        private void ValidateVoucherData(List<VoucherDataRow> records)
         {
             foreach (VoucherDataRow record in records)
             {
@@ -70,6 +70,9 @@ namespace PluginManager.DAL.TextFiles.Tables
 
                 if (record.ValidToTicks > DateTime.MaxValue.Ticks)
                     record.ValidToTicks = DateTime.MaxValue.Ticks;
+
+                //individual product discount not yet supported
+                record.ProductId = 0;
             }
         }
 

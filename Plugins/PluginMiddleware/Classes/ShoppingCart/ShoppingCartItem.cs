@@ -45,7 +45,7 @@ namespace Middleware.ShoppingCart
             TaxRate = 0;
             CustomerReference = String.Empty;
             Size = String.Empty;
-            Discount = 0;
+            DiscountRate = 0;
             DiscountType = DiscountType.None;
         }
 
@@ -98,7 +98,7 @@ namespace Middleware.ShoppingCart
             IsDownload = isDownload;
             CanBackOrder = canBackOrder;
             Size = size ?? String.Empty;
-            Discount = discount;
+            DiscountRate = discount;
             DiscountType = discountType;
         }
 
@@ -169,6 +169,20 @@ namespace Middleware.ShoppingCart
         public void SetCurrentStockLevel(in uint stockavailability)
         {
             StockAvailability = stockavailability;
+        }
+
+        public decimal CostWithDiscountApplied()
+        {
+            if (DiscountType == DiscountType.None || DiscountRate.Equals(0))
+                return ItemCost;
+
+            switch (DiscountType)
+            {
+                case DiscountType.Value:
+                    return ItemCost - DiscountRate;
+                default:
+                    throw new InvalidOperationException("Invalid discount type");
+            }
         }
 
         #endregion Public Methods
@@ -262,12 +276,17 @@ namespace Middleware.ShoppingCart
         /// <summary>
         /// Discount amount for specific product item
         /// </summary>
-        public decimal Discount { get; private set; }
+        public decimal DiscountRate { get; private set; }
 
         /// <summary>
         /// Type of discount
         /// </summary>
         public DiscountType DiscountType { get; private set; }
+
+        public void UpdateDiscountCode(string voucherCode, DiscountType discountType, decimal discountRate, int discountProductCount)
+        {
+            throw new NotImplementedException();
+        }
 
         #endregion Properties
     }
