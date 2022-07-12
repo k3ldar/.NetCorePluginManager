@@ -135,7 +135,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     ShoppingCartProvider sut = (ShoppingCartProvider)provider.GetService<IShoppingCartProvider>();
                     Assert.IsNotNull(sut);
 
-                    long basketId = sut.AddToCart(userSession, shoppingCart, productProvider.GetProduct(0), 1);
+                    long basketId = sut.AddToCart(userSession, shoppingCart, productProvider.GetProduct(1), 1);
                     Assert.AreEqual(1, basketId);
 
                     sut.ClearCache();
@@ -146,11 +146,18 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     Assert.AreEqual(0, basket.Discount);
                     Assert.AreEqual(1, basket.Items.Count);
                     Assert.AreEqual(0, basket.Shipping);
-                    Assert.AreEqual(1.99m, basket.SubTotal);
-                    Assert.AreEqual(0.34m, basket.Tax);
+                    Assert.AreEqual(2.99m, basket.SubTotal);
+                    Assert.AreEqual(0.5m, basket.Tax);
                     Assert.AreEqual(20, basket.TaxRate);
-                    Assert.AreEqual(1.99m, basket.Total);
+                    Assert.AreEqual(2.99m, basket.Total);
                     Assert.AreEqual(1, basket.TotalItems);
+
+                    ITextTableOperations<ShoppingCartItemDataRow> shoppingCartItemData = provider.GetRequiredService<ITextTableOperations<ShoppingCartItemDataRow>>();
+                    Assert.IsNotNull(shoppingCartItemData);
+                    Assert.AreEqual(1, shoppingCartItemData.RecordCount);
+                    ShoppingCartItemDataRow shoppingCartItemDataRow = shoppingCartItemData.Select(0);
+                    Assert.IsNotNull(shoppingCartItemDataRow);
+                    Assert.AreEqual(1, shoppingCartItemDataRow.ProductId);
                 }
             }
             finally
@@ -276,6 +283,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
                     ShoppingCartProvider sut = (ShoppingCartProvider)provider.GetService<IShoppingCartProvider>();
                     Assert.IsNotNull(sut);
+                    sut.ClearCache();
 
                     long basketId = sut.AddToCart(userSession, shoppingCart, productProvider.GetProduct(0), 1);
                     Assert.AreEqual(1, basketId);
@@ -340,6 +348,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
                     ShoppingCartProvider sut = (ShoppingCartProvider)provider.GetService<IShoppingCartProvider>();
                     Assert.IsNotNull(sut);
+                    sut.ClearCache();
 
                     long basketId = sut.AddToCart(userSession, shoppingCart, productProvider.GetProduct(0), 1);
                     Assert.AreEqual(1, basketId);
@@ -428,6 +437,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
                     ShoppingCartProvider sut = (ShoppingCartProvider)provider.GetService<IShoppingCartProvider>();
                     Assert.IsNotNull(sut);
+                    sut.ClearCache();
 
                     long basketId = sut.AddToCart(userSession, shoppingCart, productProvider.GetProduct(0), 1);
                     Assert.AreEqual(1, basketId);
@@ -557,6 +567,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
                     ShoppingCartProvider sut = (ShoppingCartProvider)provider.GetService<IShoppingCartProvider>();
                     Assert.IsNotNull(sut);
+                    sut.ClearCache();
 
                     long basketId = sut.AddToCart(userSession, shoppingCart, productProvider.GetProduct(0), 1);
                     Assert.AreEqual(1, basketId);
@@ -621,6 +632,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     IProductProvider productProvider = GetTestProductProvider(provider);
                     ShoppingCartProvider sut = (ShoppingCartProvider)provider.GetService<IShoppingCartProvider>();
                     Assert.IsNotNull(sut);
+                    sut.ClearCache();
 
                     ITextTableOperations<VoucherDataRow> voucherTable = provider.GetService<ITextTableOperations<VoucherDataRow>>();
                     Assert.IsNotNull(voucherTable);
@@ -628,7 +640,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     voucherTable.Insert(new VoucherDataRow()
                     {
                         DiscountRate = 5,
-                        DiscountType = (int)DiscountType.Value,
+                        DiscountType = (int)DiscountType.PercentageTotal,
                         ValidFromTicks = 0,
                         ValidToTicks = Int64.MaxValue,
                         Name = "Test Voucher"
@@ -644,13 +656,14 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     Assert.IsTrue(voucherFound);
 
                     Assert.AreEqual("GBP", basketSummary.CurrencyCode);
-                    Assert.AreEqual(0, basketSummary.Discount);
+                    Assert.AreEqual(0.1m, basketSummary.Discount);
                     Assert.AreEqual(0, basketSummary.Shipping);
                     Assert.AreEqual(1.99m, basketSummary.SubTotal);
-                    Assert.AreEqual(0.34m, basketSummary.Tax);
+                    Assert.AreEqual(0.32m, basketSummary.Tax);
                     Assert.AreEqual(20, basketSummary.TaxRate);
-                    Assert.AreEqual(1.99m, basketSummary.Total);
+                    Assert.AreEqual(1.89m, basketSummary.Total);
                     Assert.AreEqual(1, basketSummary.TotalItems);
+
                 }
             }
             finally

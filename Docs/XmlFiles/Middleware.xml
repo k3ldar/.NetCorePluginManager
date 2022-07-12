@@ -2593,7 +2593,7 @@
             Availability of stock for the item in the shopping cart.
             </summary>
         </member>
-        <member name="P:Middleware.ShoppingCart.ShoppingCartItem.Discount">
+        <member name="P:Middleware.ShoppingCart.ShoppingCartItem.DiscountRate">
             <summary>
             Discount amount for specific product item
             </summary>

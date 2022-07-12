@@ -161,6 +161,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 
             _shoppingCartItemData.Insert(new ShoppingCartItemDataRow()
             {
+                ProductId = product.Id,
                 ShoppingCartId = shoppingCart.Id,
                 ItemCost = product.RetailPrice,
                 Description = product.Description,
