@@ -2457,12 +2457,13 @@
             Default constructor
             </summary>
         </member>
-        <member name="M:Middleware.ShoppingCart.ShoppingCartItem.#ctor(System.Int32@,System.Decimal@,System.Decimal@,System.String@,System.String@,System.String@,System.String[]@,System.Boolean@,System.Boolean@,System.String@,SharedPluginFeatures.DiscountType@,System.Decimal@)">
+        <member name="M:Middleware.ShoppingCart.ShoppingCartItem.#ctor(System.Int32@,System.Decimal@,System.Int64@,System.Decimal@,System.String@,System.String@,System.String@,System.String[]@,System.Boolean@,System.Boolean@,System.String@,SharedPluginFeatures.DiscountType@,System.Decimal@)">
             <summary>
             Constructor containing detailed items information.
             </summary>
             <param name="id">Unique id of shopping cart.</param>
             <param name="itemCount">Number of items in the cart.</param>
+            <param name="itemId"></param>
             <param name="itemCost">Cost of the items within shopping cart.</param>
             <param name="name">Name of the item within the shopping cart.</param>
             <param name="description">Description of item within the cart</param>
@@ -2474,11 +2475,12 @@
             <param name="discountType">Type of discount applied to the item</param>
             <param name="discount">Discount amount</param>
         </member>
-        <member name="M:Middleware.ShoppingCart.ShoppingCartItem.#ctor(System.Int32@,System.Decimal@,System.Decimal@,System.Decimal@,System.String@,System.String@,System.String@,System.String[]@,System.Boolean@,System.Int32@,System.String@,System.Boolean@,System.String@)">
+        <member name="M:Middleware.ShoppingCart.ShoppingCartItem.#ctor(System.Int32@,System.Int64@,System.Decimal@,System.Decimal@,System.Decimal@,System.String@,System.String@,System.String@,System.String[]@,System.Boolean@,System.Int32@,System.String@,System.Boolean@,System.String@)">
             <summary>
             Constructor containing all detailed item information.
             </summary>
             <param name="id">Unique id of shopping cart.</param>
+            <param name="itemId">Id of the product item</param>
             <param name="itemCount">Number of items in the cart.</param>
             <param name="itemCost">Cost of the items within shopping cart.</param>
             <param name="taxRate">Tax rate applied to the item.</param>
@@ -2515,6 +2517,12 @@
             Unique id of the shopping cart item.
             </summary>
             <value>int</value>
+        </member>
+        <member name="P:Middleware.ShoppingCart.ShoppingCartItem.ItemId">
+            <summary>
+            Id of the product item
+            </summary>
+            <value>long</value>
         </member>
         <member name="P:Middleware.ShoppingCart.ShoppingCartItem.ItemCount">
             <summary>

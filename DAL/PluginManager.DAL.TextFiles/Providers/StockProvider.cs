@@ -23,13 +23,11 @@
  *  25/05/2022  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using System;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-
 using Middleware;
 using Middleware.Products;
 using Middleware.ShoppingCart;
+
+using PluginManager.DAL.TextFiles.Tables;
 
 namespace PluginManager.DAL.TextFiles.Providers
 {
@@ -37,15 +35,15 @@ namespace PluginManager.DAL.TextFiles.Providers
     {
         #region Private Members
 
-        private readonly Random _random;
+        private readonly ITextTableOperations<StockDataRow> _stock;
 
         #endregion Private Members
 
         #region Constructors
 
-        public StockProvider()
+        public StockProvider(ITextTableOperations<StockDataRow> stock)
         {
-            _random = new Random(DateTime.Now.Millisecond);
+            _stock = stock ?? throw new ArgumentNullException(nameof(stock));
         }
 
         #endregion Constructors
@@ -57,7 +55,7 @@ namespace PluginManager.DAL.TextFiles.Providers
             if (product == null)
                 throw new ArgumentNullException(nameof(product));
 
-            product.SetCurrentStockLevel(Convert.ToUInt32(_random.Next(1000)));
+            GetStockAvailability(new List<Product>() { product });
         }
 
         public void GetStockAvailability(in List<Product> productList)
@@ -65,7 +63,17 @@ namespace PluginManager.DAL.TextFiles.Providers
             if (productList == null)
                 throw new ArgumentNullException(nameof(productList));
 
-            productList.ForEach(p => p.SetCurrentStockLevel(Convert.ToUInt32(_random.Next(1000))));
+            IReadOnlyList<StockDataRow> productStock = _stock.Select();
+
+            productList.ForEach(p =>
+            {
+                StockDataRow stockDataRow = productStock.Where(ps => ps.ProductId.Equals(p.Id)).FirstOrDefault();
+
+                if (stockDataRow == null)
+                    p.SetCurrentStockLevel(0);
+                else
+                    p.SetCurrentStockLevel(stockDataRow.StockAvailability);
+            });
         }
 
         public void GetStockAvailability(in ShoppingCartItem shoppingCartItem)
@@ -73,7 +81,7 @@ namespace PluginManager.DAL.TextFiles.Providers
             if (shoppingCartItem == null)
                 throw new ArgumentNullException(nameof(shoppingCartItem));
 
-            shoppingCartItem.SetCurrentStockLevel(Convert.ToUInt32(_random.Next(1000)));
+            GetStockAvailability(new List<ShoppingCartItem>() { shoppingCartItem });
         }
 
         public void GetStockAvailability(in List<ShoppingCartItem> shoppingCartItemList)
@@ -81,7 +89,17 @@ namespace PluginManager.DAL.TextFiles.Providers
             if (shoppingCartItemList == null)
                 throw new ArgumentNullException(nameof(shoppingCartItemList));
 
-            shoppingCartItemList.ForEach(p => p.SetCurrentStockLevel(Convert.ToUInt32(_random.Next(1000))));
+            IReadOnlyList<StockDataRow> productStock = _stock.Select();
+
+            shoppingCartItemList.ForEach(sci =>
+            {
+                StockDataRow stockDataRow = productStock.Where(ps => ps.ProductId.Equals(sci.ItemId)).FirstOrDefault();
+
+                if (stockDataRow == null)
+                    sci.SetCurrentStockLevel(0);
+                else
+                    sci.SetCurrentStockLevel(stockDataRow.StockAvailability);
+            });
         }
 
         #endregion IStockProvider Methods

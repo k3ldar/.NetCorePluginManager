@@ -45,7 +45,7 @@ namespace PluginManager.DAL.TextFiles.Tables
         uint _stockAvailability;
         private decimal _discount;
         private int _discountType;
-        private long _itemId;
+        private long _productId;
 
         [ForeignKey(Constants.TableNameShoppingCart)]
         public long ShoppingCartId
@@ -70,15 +70,15 @@ namespace PluginManager.DAL.TextFiles.Tables
         {
             get
             {
-                return _itemId;
+                return _productId;
             }
 
             set
             {
-                if (_itemId == value)
+                if (_productId == value)
                     return;
 
-                _itemId = value;
+                _productId = value;
                 Update();
             }
         }

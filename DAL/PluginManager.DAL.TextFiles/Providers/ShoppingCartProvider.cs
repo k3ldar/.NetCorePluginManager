@@ -425,7 +425,7 @@ namespace PluginManager.DAL.TextFiles.Providers
             if (shoppingCartItems == null)
                 return Result;
 
-            shoppingCartItems.ForEach(item => Result.Add(new ShoppingCartItem((int)item.Id, item.ItemCount, item.ItemCost, item.Name, 
+            shoppingCartItems.ForEach(item => Result.Add(new ShoppingCartItem((int)item.Id, item.ItemCount, item.ProductId, item.ItemCost, item.Name, 
                 item.Description, item.SKU, new string[] { "NoImage" }, item.IsDownload, item.CanBackOrder, item.Size, 
                 (DiscountType)item.DiscountType, item.DiscountRate)));
 

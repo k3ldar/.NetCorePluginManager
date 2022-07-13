@@ -44,5 +44,6 @@ namespace PluginManager.DAL.TextFiles.Internal
         public const string TableNameShoppingCart = "ShoppingCart";
         public const string TableNameShoppingCartItems = "ShoppingCartItems";
         public const string TableNameShoppingCartVoucher = "ShoppingCartVoucher";
+        public const string TableNameStock = "Stock";
     }
 }

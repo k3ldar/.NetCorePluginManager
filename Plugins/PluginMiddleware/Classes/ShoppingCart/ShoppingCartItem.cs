@@ -54,6 +54,7 @@ namespace Middleware.ShoppingCart
         /// </summary>
         /// <param name="id">Unique id of shopping cart.</param>
         /// <param name="itemCount">Number of items in the cart.</param>
+        /// <param name="itemId"></param>
         /// <param name="itemCost">Cost of the items within shopping cart.</param>
         /// <param name="name">Name of the item within the shopping cart.</param>
         /// <param name="description">Description of item within the cart</param>
@@ -65,7 +66,7 @@ namespace Middleware.ShoppingCart
         /// <param name="discountType">Type of discount applied to the item</param>
         /// <param name="discount">Discount amount</param>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1303:Do not pass literals as localized parameters", Justification = "Intended for developers not end users")]
-        public ShoppingCartItem(in int id, in decimal itemCount, in decimal itemCost, in string name,
+        public ShoppingCartItem(in int id, in decimal itemCount, in long itemId, in decimal itemCost, in string name,
             in string description, in string sku, in string[] images, in bool isDownload,
             in bool canBackOrder, in string size, in DiscountType discountType, in decimal discount)
             : this()
@@ -89,6 +90,7 @@ namespace Middleware.ShoppingCart
                 throw new ArgumentOutOfRangeException(nameof(itemCost));
 
             Id = id;
+            ItemId = itemId;
             ItemCount = itemCount;
             ItemCost = itemCost;
             Name = name;
@@ -106,6 +108,7 @@ namespace Middleware.ShoppingCart
         /// Constructor containing all detailed item information.
         /// </summary>
         /// <param name="id">Unique id of shopping cart.</param>
+        /// <param name="itemId">Id of the product item</param>
         /// <param name="itemCount">Number of items in the cart.</param>
         /// <param name="itemCost">Cost of the items within shopping cart.</param>
         /// <param name="taxRate">Tax rate applied to the item.</param>
@@ -118,10 +121,10 @@ namespace Middleware.ShoppingCart
         /// <param name="customerReference"></param>
         /// <param name="canBackOrder">Indicates that the item is on back order.</param>
         /// <param name="size">Size of item.</param>
-        public ShoppingCartItem(in int id, in decimal itemCount, in decimal itemCost, in decimal taxRate,
+        public ShoppingCartItem(in int id, in long itemId, in decimal itemCount, in decimal itemCost, in decimal taxRate,
             in string name, in string description, in string sku, in string[] images, in bool isDownload,
             in int weight, in string customerReference, in bool canBackOrder, in string size)
-            : this(id, itemCount, itemCost, name, description, sku, images, isDownload, canBackOrder, size, DiscountType.None, 0)
+            : this(id, itemCount, itemId, itemCost, name, description, sku, images, isDownload, canBackOrder, size, DiscountType.None, 0)
         {
             if (taxRate < 0)
                 throw new ArgumentOutOfRangeException(nameof(taxRate));
@@ -194,6 +197,12 @@ namespace Middleware.ShoppingCart
         /// </summary>
         /// <value>int</value>
         public int Id { get; private set; }
+
+        /// <summary>
+        /// Id of the product item
+        /// </summary>
+        /// <value>long</value>
+        public long ItemId { get; private set; }
 
         /// <summary>
         /// Number of items.

@@ -103,6 +103,8 @@ namespace PluginManager.DAL.TextFiles
             services.AddSingleton(typeof(TableRowDefinition), typeof(ShoppingCartDataRow));
             services.AddSingleton(typeof(TableRowDefinition), typeof(ShoppingCartItemDataRow));
             services.AddSingleton(typeof(TableRowDefinition), typeof(VoucherDataRow));
+            services.AddSingleton(typeof(TableRowDefinition), typeof(StockDataRow));
+
 
             services.AddSingleton(typeof(ITextTableOperations<>), typeof(TextTableOperations<>));
 
@@ -120,7 +122,7 @@ namespace PluginManager.DAL.TextFiles
             services.AddSingleton<ISeoProvider, SeoProvider>();
             services.AddSingleton<IShoppingCartProvider, ShoppingCartProvider>();
             services.AddSingleton<IShoppingCartService, ShoppingCartProvider>();
-            //services.AddSingleton<IStockProvider, StockProvider>();
+            services.AddSingleton<IStockProvider, StockProvider>();
             services.AddSingleton<IUserApiQueryProvider, UserApiQueryProvider>();
             services.AddTransient<IUserSearch, UserSearch>();
             services.AddTransient<SharedPluginFeatures.IApplicationSettingsProvider, SettingsProvider> ();
