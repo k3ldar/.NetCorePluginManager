@@ -84,6 +84,9 @@ namespace PluginManager.DAL.TextFiles.Internal
         private const int TotalHeaderLength = sizeof(ushort) + HeaderLength + sizeof(long) + sizeof(long) + (sizeof(int) * 3) + sizeof(byte) + sizeof(int) + sizeof(int) + sizeof(int);
         private const int PrimarySequenceStart = HeaderLength + sizeof(ushort);
         private const int SecondarySequenceStart = PrimarySequenceStart + sizeof(long);
+        private const int DefaultStackSize = 1000000;
+        private const int MaxStackAllocSize = DefaultStackSize / 4;
+
 
         private const int StartOfRecordCount = TotalHeaderLength - ((sizeof(int) * 3) + sizeof(byte));
         private const int HeaderLength = 2;
@@ -465,7 +468,8 @@ namespace PluginManager.DAL.TextFiles.Internal
             int recordsCount = reader.ReadInt32();
             int uncompressedSize = reader.ReadInt32();
             int dataLength = reader.ReadInt32();
-            byte[] data = new byte[dataLength];
+            Span<byte> data = dataLength < MaxStackAllocSize ? stackalloc byte[dataLength] : new Byte[dataLength];
+
             data = reader.ReadBytes(dataLength);
 
             if (dataLength == 0)
@@ -475,7 +479,8 @@ namespace PluginManager.DAL.TextFiles.Internal
 
             if (compressionType == CompressionType.Brotli)
             {
-                byte[] uncompressed = new byte[uncompressedSize];
+                Span<byte> uncompressed = uncompressedSize < MaxStackAllocSize ? uncompressed = stackalloc byte[uncompressedSize] : uncompressed = new byte[uncompressedSize];
+
                 System.IO.Compression.BrotliDecoder.TryDecompress(data, uncompressed, out int byteLength);
 
                 if (byteLength != uncompressedSize)
@@ -544,7 +549,8 @@ namespace PluginManager.DAL.TextFiles.Internal
         private void InternalSaveRecordsToDisk(List<T> recordsToSave)
         {
             byte[] data = JsonSerializer.SerializeToUtf8Bytes(recordsToSave, recordsToSave.GetType(), _jsonSerializerOptions);
-            byte[] compressedData = new byte[data.Length];
+            Span<byte> compressedData = data.Length < MaxStackAllocSize ? compressedData = stackalloc byte[data.Length] : compressedData = new byte[data.Length];
+
             int dataLength = data.Length;
             bool isCompressed = false;
             CompressionType compressionType = CompressionType.None;
@@ -566,7 +572,7 @@ namespace PluginManager.DAL.TextFiles.Internal
             if (isCompressed)
             {
                 writer.Write(dataLength);
-                writer.Write(compressedData, 0, dataLength);
+                writer.Write(compressedData.ToArray(), 0, dataLength);
             }
             else
             {
@@ -875,7 +881,7 @@ namespace PluginManager.DAL.TextFiles.Internal
             //if (version != FileVersion)
             //    throw new InvalidDataException();
 
-            byte[] header = new byte[HeaderLength];
+            Span<byte> header = stackalloc byte[HeaderLength];
             header = reader.ReadBytes(HeaderLength);
 
             for (int i = 0; i < header.Length; i++)
