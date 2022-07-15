@@ -292,6 +292,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 
             OrderDataRow orderData = new OrderDataRow()
             {
+                UserId = userId,
                 Culture = cartSummary.Culture.Name,
                 Postage = cartSummary.Shipping,
                 Status = (int)ProcessStatus.PaymentPending,

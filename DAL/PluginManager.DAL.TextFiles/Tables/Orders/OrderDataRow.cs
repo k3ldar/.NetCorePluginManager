@@ -31,9 +31,28 @@ namespace PluginManager.DAL.TextFiles.Tables
     internal sealed class OrderDataRow : TableRowDefinition
     {
         private long _deliveryAddress;
+        private long _userId;
         private decimal _postage;
         private string _culture;
         private int _status;
+
+        [ForeignKey(Constants.TableNameUsers)]
+        public long UserId
+        {
+            get
+            {
+                return _userId;
+            }
+
+            set
+            {
+                if (_userId == value)
+                    return;
+
+                _userId = value;
+                Update();
+            }
+        }
 
         [ForeignKey(Constants.TableNameAddresses)]
         public long DeliveryAddress

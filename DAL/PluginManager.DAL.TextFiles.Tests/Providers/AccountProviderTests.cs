@@ -42,6 +42,8 @@ using PluginManager.DAL.TextFiles.Internal;
 using PluginManager.DAL.TextFiles.Providers;
 using PluginManager.DAL.TextFiles.Tables;
 
+using SharedPluginFeatures;
+
 namespace PluginManager.DAL.TextFiles.Tests.Providers
 {
     [TestClass]
@@ -52,7 +54,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
         [ExpectedException(typeof(ArgumentNullException))]
         public void Construct_InvalidParam_UsersNull_Throws_ArgumentNullException()
         {
-            new AccountProvider(null, null, null);
+            new AccountProvider(null, null, null, null, null);
         }
 
         [TestMethod]
@@ -94,23 +96,25 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
                 ServiceCollection services = new ServiceCollection();
+                MockPluginClassesService mockPluginClassesService = new MockPluginClassesService();
 
                 services.AddSingleton<IForeignKeyManager, ForeignKeyManager>();
                 services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-                services.AddSingleton<IPluginClassesService, MockPluginClassesService>();
+                services.AddSingleton<IPluginClassesService>(mockPluginClassesService);
 
                 initialisation.BeforeConfigureServices(services);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
+                    mockPluginClassesService.Items.Add(new UserDataRowDefaults(provider.GetService<ISettingsProvider>()));
 
                     IAccountProvider sut = provider.GetService(typeof(IAccountProvider)) as IAccountProvider;
-
                     Assert.IsNotNull(sut);
 
                     bool created = sut.CreateAccount("me@here.com", "Joe", "Bloggs", "password", "", "", "", "", "", "", "", "", "US", out long userId);
 
                     Assert.IsTrue(created);
+                    Assert.AreEqual(2u, userId);
 
                     ITextTableOperations<UserDataRow> userTable = (ITextTableOperations<UserDataRow>)provider.GetService(typeof(ITextTableOperations<UserDataRow>));
                     Assert.IsNotNull(userTable);
@@ -540,19 +544,92 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
-                    ITextTableOperations<UserDataRow> userTable = (ITextTableOperations<UserDataRow>)provider.GetService(typeof(ITextTableOperations<UserDataRow>));
+                    ITextTableOperations<UserDataRow> userTable = provider.GetService<ITextTableOperations<UserDataRow>>();
                     Assert.IsNotNull(userTable);
+
+                    ITextTableOperations<OrderDataRow> orderData = provider.GetService<ITextTableOperations<OrderDataRow>>();
+                    Assert.IsNotNull(orderData);
+
+                    ITextTableOperations<OrderItemsDataRow> orderItemsData = provider.GetService<ITextTableOperations<OrderItemsDataRow>>();
+                    Assert.IsNotNull(orderItemsData);
+
+
 
                     IAccountProvider sut = provider.GetService(typeof(IAccountProvider)) as IAccountProvider;
 
                     Assert.IsNotNull(sut);
 
                     bool created = sut.CreateAccount("me@here.com", "Joe", "Bloggs", "password", "", "", "", "", "", "", "", "", "US", out long userId);
+                    Assert.IsTrue(created);
+
+                    DeliveryAddress deliveryAddress = new DeliveryAddress(-1, "", "Street 1", "", "", "city", "county", "postcode", "GB", 5.99m);
+                    sut.AddDeliveryAddress(userId, deliveryAddress);
+
+                    orderData.Insert(new List<OrderDataRow>()
+                    {
+                        new OrderDataRow() { Culture = "en-GB", DeliveryAddress = deliveryAddress.Id, Postage = 4.99m, Status = (int)ProcessStatus.PaymentPending, UserId = userId },
+                        new OrderDataRow() { Culture = "en-US", DeliveryAddress = deliveryAddress.Id, Postage = 3.99m, Status = (int)ProcessStatus.PaymentPending, UserId = userId }
+                    });
+
+                    orderItemsData.Insert(new List<OrderItemsDataRow>()
+                    {
+                        new OrderItemsDataRow() { Description = "Order 1", Discount = 0, OrderId = 0, Price = 8.56m, Quantity = 1, Status = 0, DiscountType = 0, TaxRate = 20m },
+                        new OrderItemsDataRow() { Description = "Order 2a", Discount = 0, OrderId = 1, Price = 8.99m, Quantity = 1, Status = 0, DiscountType = 0, TaxRate = 15m },
+                        new OrderItemsDataRow() { Description = "Order 2b", Discount = 0, OrderId = 1, Price = 4.26m, Quantity = 2, Status = 0, DiscountType = 0, TaxRate = 15m },
+                    });
+                    
 
                     List<Order> orders = sut.OrdersGet(0);
 
                     Assert.IsNotNull(orders);
                     Assert.AreEqual(2, orders.Count);
+
+                    Assert.AreEqual(0, orders[0].Id);
+                    Assert.AreEqual("en-GB", orders[0].Culture.Name);
+                    Assert.AreEqual(0, orders[0].Discount);
+                    Assert.AreEqual(0, orders[0].Id);
+                    Assert.AreEqual(1, orders[0].ItemCount);
+                    Assert.AreEqual(4.99m, orders[0].Postage);
+                    Assert.AreEqual(10.28m, orders[0].SubTotal);
+                    Assert.AreEqual(1.72m, orders[0].Tax);
+                    Assert.AreEqual(15.27m, orders[0].Total);
+
+                    Assert.AreEqual("Order 1", orders[0].OrderItems[0].Description);
+                    Assert.AreEqual(0, orders[0].OrderItems[0].Discount);
+                    Assert.AreEqual(0, orders[0].OrderItems[0].Order.Id);
+                    Assert.AreEqual(8.56m, orders[0].OrderItems[0].Price);
+                    Assert.AreEqual(1, orders[0].OrderItems[0].Quantity);
+                    Assert.AreEqual(ItemStatus.Received, orders[0].OrderItems[0].Status);
+                    Assert.AreEqual(DiscountType.None, orders[0].OrderItems[0].DiscountType);
+                    Assert.AreEqual(20m, orders[0].OrderItems[0].TaxRate);
+
+                    Assert.AreEqual(1, orders[1].Id);
+                    Assert.AreEqual("en-US", orders[1].Culture.Name);
+                    Assert.AreEqual(0, orders[1].Discount);
+                    Assert.AreEqual(1, orders[1].Id);
+                    Assert.AreEqual(3, orders[1].ItemCount);
+                    Assert.AreEqual(3.99m, orders[1].Postage);
+                    Assert.AreEqual(20.137m, orders[1].SubTotal);
+                    Assert.AreEqual(2.627m, orders[1].Tax);
+                    Assert.AreEqual(24.127m, orders[1].Total);
+
+                    Assert.AreEqual("Order 2a", orders[1].OrderItems[0].Description);
+                    Assert.AreEqual(0, orders[1].OrderItems[0].Discount);
+                    Assert.AreEqual(1, orders[1].OrderItems[0].Order.Id);
+                    Assert.AreEqual(8.99m, orders[1].OrderItems[0].Price);
+                    Assert.AreEqual(1, orders[1].OrderItems[0].Quantity);
+                    Assert.AreEqual(ItemStatus.Received, orders[1].OrderItems[0].Status);
+                    Assert.AreEqual(DiscountType.None, orders[1].OrderItems[0].DiscountType);
+                    Assert.AreEqual(15m, orders[1].OrderItems[0].TaxRate);
+
+                    Assert.AreEqual("Order 2b", orders[1].OrderItems[1].Description);
+                    Assert.AreEqual(0, orders[1].OrderItems[1].Discount);
+                    Assert.AreEqual(1, orders[1].OrderItems[1].Order.Id);
+                    Assert.AreEqual(4.26m, orders[1].OrderItems[1].Price);
+                    Assert.AreEqual(2, orders[1].OrderItems[1].Quantity);
+                    Assert.AreEqual(ItemStatus.Received, orders[1].OrderItems[1].Status);
+                    Assert.AreEqual(DiscountType.None, orders[1].OrderItems[1].DiscountType);
+                    Assert.AreEqual(15m, orders[1].OrderItems[1].TaxRate);
                 }
             }
             finally
@@ -562,28 +639,185 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
         }
 
         [TestMethod]
-        public void OrderPaid_UserDoesNotExist_ReturnsEmptyList_Success()
-        {
-            Assert.IsTrue(false);
-        }
-
-        [TestMethod]
-        public void OrderPaid_OrderDoesNotExist_ReturnsEmptyList_Success()
-        {
-            Assert.IsTrue(false);
-        }
-
-        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
         public void OrderPaid_MessageIsNullOrEmpty_Throws_ArgumentNullException()
         {
-            Assert.IsTrue(false);
+            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            try
+            {
+                Directory.CreateDirectory(directory);
+                PluginInitialisation initialisation = new PluginInitialisation();
+                ServiceCollection services = new ServiceCollection();
+                services.AddSingleton<IPluginClassesService, MockPluginClassesService>();
+
+                services.AddSingleton<IForeignKeyManager, ForeignKeyManager>();
+                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
+                services.AddSingleton<IPluginClassesService>(new MockPluginClassesService(new List<object>() { new UserDataRowTriggers() }));
+
+                initialisation.BeforeConfigureServices(services);
+
+                using (ServiceProvider provider = services.BuildServiceProvider())
+                {
+                    ITextTableOperations<UserDataRow> userTable = provider.GetService<ITextTableOperations<UserDataRow>>();
+                    Assert.IsNotNull(userTable);
+
+                    ITextTableOperations<OrderDataRow> orderData = provider.GetService<ITextTableOperations<OrderDataRow>>();
+                    Assert.IsNotNull(orderData);
+
+                    ITextTableOperations<OrderItemsDataRow> orderItemsData = provider.GetService<ITextTableOperations<OrderItemsDataRow>>();
+                    Assert.IsNotNull(orderItemsData);
+
+
+
+                    IAccountProvider sut = provider.GetService(typeof(IAccountProvider)) as IAccountProvider;
+
+                    Assert.IsNotNull(sut);
+
+                    bool created = sut.CreateAccount("me@here.com", "Joe", "Bloggs", "password", "", "", "", "", "", "", "", "", "US", out long userId);
+                    Assert.IsTrue(created);
+
+                    DeliveryAddress deliveryAddress = new DeliveryAddress(-1, "", "Street 1", "", "", "city", "county", "postcode", "GB", 5.99m);
+                    sut.AddDeliveryAddress(userId, deliveryAddress);
+
+                    orderData.Insert(new List<OrderDataRow>()
+                    {
+                        new OrderDataRow() { Culture = "en-GB", DeliveryAddress = deliveryAddress.Id, Postage = 4.99m, Status = (int)ProcessStatus.PaymentPending, UserId = userId },
+                        new OrderDataRow() { Culture = "en-US", DeliveryAddress = deliveryAddress.Id, Postage = 3.99m, Status = (int)ProcessStatus.PaymentPending, UserId = userId }
+                    });
+
+                    orderItemsData.Insert(new List<OrderItemsDataRow>()
+                    {
+                        new OrderItemsDataRow() { Description = "Order 1", Discount = 0, OrderId = 0, Price = 8.56m, Quantity = 1, Status = 0, DiscountType = 0, TaxRate = 20m },
+                        new OrderItemsDataRow() { Description = "Order 2a", Discount = 0, OrderId = 1, Price = 8.99m, Quantity = 1, Status = 0, DiscountType = 0, TaxRate = 15m },
+                        new OrderItemsDataRow() { Description = "Order 2b", Discount = 0, OrderId = 1, Price = 4.26m, Quantity = 2, Status = 0, DiscountType = 0, TaxRate = 15m },
+                    });
+
+
+                    List<Order> orders = sut.OrdersGet(userId);
+
+                    Assert.IsNotNull(orders);
+                    Assert.AreEqual(2, orders.Count);
+
+                    sut.OrderPaid(orders[0], PaymentStatus.PaidCard, "");
+                }
+            }
+            finally
+            {
+                Directory.Delete(directory, true);
+            }
         }
 
         [TestMethod]
-        public void OrderPaid_RetrievesOrders_Success()
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void OrderPaid_OrderIsNull_Throws_ArgumentNullException()
         {
-            Assert.IsTrue(false);
+            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            try
+            {
+                Directory.CreateDirectory(directory);
+                PluginInitialisation initialisation = new PluginInitialisation();
+                ServiceCollection services = new ServiceCollection();
+                services.AddSingleton<IPluginClassesService, MockPluginClassesService>();
+
+                services.AddSingleton<IForeignKeyManager, ForeignKeyManager>();
+                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
+                services.AddSingleton<IPluginClassesService>(new MockPluginClassesService(new List<object>() { new UserDataRowTriggers() }));
+
+                initialisation.BeforeConfigureServices(services);
+
+                using (ServiceProvider provider = services.BuildServiceProvider())
+                {
+                    ITextTableOperations<UserDataRow> userTable = provider.GetService<ITextTableOperations<UserDataRow>>();
+                    Assert.IsNotNull(userTable);
+
+                    ITextTableOperations<OrderDataRow> orderData = provider.GetService<ITextTableOperations<OrderDataRow>>();
+                    Assert.IsNotNull(orderData);
+
+                    ITextTableOperations<OrderItemsDataRow> orderItemsData = provider.GetService<ITextTableOperations<OrderItemsDataRow>>();
+                    Assert.IsNotNull(orderItemsData);
+
+
+
+                    IAccountProvider sut = provider.GetService(typeof(IAccountProvider)) as IAccountProvider;
+
+                    Assert.IsNotNull(sut);
+
+                    sut.OrderPaid(null, PaymentStatus.PaidCard, "");
+                }
+            }
+            finally
+            {
+                Directory.Delete(directory, true);
+            }
         }
+
+        [TestMethod]
+        public void OrderPaid_RetrievesOrdersAndMarksAsPaid_InvoiceCreated_Success()
+        {
+            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            try
+            {
+                Directory.CreateDirectory(directory);
+                PluginInitialisation initialisation = new PluginInitialisation();
+                ServiceCollection services = new ServiceCollection();
+                services.AddSingleton<IPluginClassesService, MockPluginClassesService>();
+
+                services.AddSingleton<IForeignKeyManager, ForeignKeyManager>();
+                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
+                services.AddSingleton<IPluginClassesService>(new MockPluginClassesService(new List<object>() { new UserDataRowTriggers() }));
+
+                initialisation.BeforeConfigureServices(services);
+
+                using (ServiceProvider provider = services.BuildServiceProvider())
+                {
+                    ITextTableOperations<UserDataRow> userTable = provider.GetService<ITextTableOperations<UserDataRow>>();
+                    Assert.IsNotNull(userTable);
+
+                    ITextTableOperations<OrderDataRow> orderData = provider.GetService<ITextTableOperations<OrderDataRow>>();
+                    Assert.IsNotNull(orderData);
+
+                    ITextTableOperations<OrderItemsDataRow> orderItemsData = provider.GetService<ITextTableOperations<OrderItemsDataRow>>();
+                    Assert.IsNotNull(orderItemsData);
+
+
+
+                    IAccountProvider sut = provider.GetService(typeof(IAccountProvider)) as IAccountProvider;
+
+                    Assert.IsNotNull(sut);
+
+                    bool created = sut.CreateAccount("me@here.com", "Joe", "Bloggs", "password", "", "", "", "", "", "", "", "", "US", out long userId);
+                    Assert.IsTrue(created);
+
+                    DeliveryAddress deliveryAddress = new DeliveryAddress(-1, "", "Street 1", "", "", "city", "county", "postcode", "GB", 5.99m);
+                    sut.AddDeliveryAddress(userId, deliveryAddress);
+
+                    orderData.Insert(new List<OrderDataRow>()
+                    {
+                        new OrderDataRow() { Culture = "en-GB", DeliveryAddress = deliveryAddress.Id, Postage = 4.99m, Status = (int)ProcessStatus.PaymentPending, UserId = userId },
+                    });
+
+                    orderItemsData.Insert(new List<OrderItemsDataRow>()
+                    {
+                        new OrderItemsDataRow() { Description = "Order 1", Discount = 0, OrderId = 0, Price = 8.56m, Quantity = 1, Status = 0, DiscountType = 0, TaxRate = 20m },
+                    });
+
+
+                    List<Order> orders = sut.OrdersGet(userId);
+
+                    Assert.IsNotNull(orders);
+                    Assert.AreEqual(2, orders.Count);
+
+                    sut.OrderPaid(orders[0], PaymentStatus.PaidCard, "Paid by card");
+
+                    Assert.AreEqual(PaymentStatus.PaidCard, orders[0].Status);
+                }
+            }
+            finally
+            {
+                Directory.Delete(directory, true);
+            }
+        }
+
         [TestMethod]
         public void InvoicesGet_UserDoesNotExist_ReturnsEmptyList_Success()
         {

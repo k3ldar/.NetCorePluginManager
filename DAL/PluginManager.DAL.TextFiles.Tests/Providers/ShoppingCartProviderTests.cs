@@ -423,6 +423,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
+                    mockPluginClassesService.Items.Add(new UserDataRowDefaults(provider.GetService<ISettingsProvider>()));
                     IProductProvider productProvider = GetTestProductProvider(provider);
 
                     IAccountProvider accountProvider = provider.GetService<IAccountProvider>();

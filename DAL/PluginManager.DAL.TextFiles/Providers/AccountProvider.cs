@@ -23,6 +23,7 @@
  *  25/05/2022  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+using System.Globalization;
 using System.Linq;
 
 using Middleware;
@@ -34,6 +35,8 @@ using PluginManager.Abstractions;
 using PluginManager.DAL.TextFiles.Internal;
 using PluginManager.DAL.TextFiles.Tables;
 
+using SharedPluginFeatures;
+
 namespace PluginManager.DAL.TextFiles.Providers
 {
     internal class AccountProvider : IAccountProvider
@@ -42,6 +45,8 @@ namespace PluginManager.DAL.TextFiles.Providers
 
         private readonly ITextTableOperations<UserDataRow> _users;
         private readonly ITextTableOperations<AddressDataRow> _addresses;
+        private readonly ITextTableOperations<OrderDataRow> _orders;
+        private readonly ITextTableOperations<OrderItemsDataRow> _ordersItems;
         private readonly string _encryptionKey;
 
 
@@ -49,7 +54,11 @@ namespace PluginManager.DAL.TextFiles.Providers
 
         #region Constructors
 
-        public AccountProvider(ITextTableOperations<UserDataRow> users, ITextTableOperations<AddressDataRow> addresses, ISettingsProvider settingsProvider)
+        public AccountProvider(ITextTableOperations<UserDataRow> users, 
+            ITextTableOperations<AddressDataRow> addresses, 
+            ITextTableOperations<OrderDataRow> orders,
+            ITextTableOperations<OrderItemsDataRow> orderItems,
+            ISettingsProvider settingsProvider)
         {
             if (settingsProvider == null)
                 throw new ArgumentNullException(nameof(settingsProvider));
@@ -62,6 +71,8 @@ namespace PluginManager.DAL.TextFiles.Providers
             _encryptionKey = settings.EnycryptionKey;
             _users = users ?? throw new ArgumentNullException(nameof(users));
             _addresses = addresses ?? throw new ArgumentNullException(nameof(addresses));
+            _orders = orders ?? throw new ArgumentNullException(nameof(orders));
+            _ordersItems = orderItems ?? throw new ArgumentNullException(nameof(orderItems));
         }
 
         #endregion Constructors
@@ -398,7 +409,7 @@ namespace PluginManager.DAL.TextFiles.Providers
             if (user == null)
                 return false;
 
-            _addresses.Insert(new AddressDataRow()
+            AddressDataRow newAddress = new AddressDataRow()
             {
                 AddressLine1 = deliveryAddress.AddressLine1,
                 AddressLine2 = deliveryAddress.AddressLine2,
@@ -411,8 +422,11 @@ namespace PluginManager.DAL.TextFiles.Providers
                 PostageCost = deliveryAddress.PostageCost,
                 Postcode = deliveryAddress.Postcode,
                 UserId = userId,
-            });
+            };
 
+            _addresses.Insert(newAddress);
+
+            deliveryAddress.Id = newAddress.Id;
             return true;
         }
 
@@ -490,12 +504,27 @@ namespace PluginManager.DAL.TextFiles.Providers
 
         public List<Order> OrdersGet(in Int64 userId)
         {
+            List<Order> Result = new List<Order>();
+
             UserDataRow user = _users.Select(userId);
 
             if (user == null)
-                return new List<Order>();
+                return Result;
 
-            throw new NotImplementedException();
+            List<OrderDataRow> userOrders = _orders.Select().Where(o => o.UserId == user.Id).ToList();
+
+            userOrders.ForEach(o =>
+            {
+                List<OrderItem> orderItems = new List<OrderItem>();
+
+                List<OrderItemsDataRow> userOrderItems = _ordersItems.Select().Where(oi => oi.OrderId.Equals(o.Id)).ToList();
+
+                userOrderItems.ForEach(oi => orderItems.Add(new OrderItem(oi.Id, oi.Description, oi.Price, oi.TaxRate, oi.Quantity, (ItemStatus)oi.Status, (DiscountType)oi.DiscountType, oi.Discount)));
+
+                Result.Add(new Order(o.Id, o.Created, o.Postage, new CultureInfo(o.Culture), (ProcessStatus)o.Status, GetDeliveryAddress(user.Id, o.DeliveryAddress), orderItems));
+            });
+
+            return Result;
         }
 
         public void OrderPaid(in Order order, in PaymentStatus paymentStatus, in string message)
