@@ -38,7 +38,7 @@ namespace AspNetCore.PluginManager.Tests.Shared
 
         public MockPluginClassesService()
         {
-
+            _items = new List<object>();
         }
 
         public MockPluginClassesService(List<object> items)
@@ -66,5 +66,7 @@ namespace AspNetCore.PluginManager.Tests.Shared
         {
             throw new NotImplementedException();
         }
+
+        public List<object> Items => _items;
     }
 }
