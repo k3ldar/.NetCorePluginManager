@@ -28,11 +28,11 @@ using PluginManager.DAL.TextFiles.Internal;
 namespace PluginManager.DAL.TextFiles.Tables
 {
     [Table(Constants.TableNameOrderItems)]
-    internal class OrderItemsDataRow : TableRowDefinition
+    internal class OrderItemDataRow : TableRowDefinition
     {
         private long _orderId;
         private int _discountType;
-        private int _status;
+        private int _itemStatus;
         private string _description;
         private decimal _taxRate;
         private decimal _price;
@@ -159,19 +159,19 @@ namespace PluginManager.DAL.TextFiles.Tables
             }
         }
 
-        public int Status
+        public int ItemStatus
         {
             get
             {
-                return _status;
+                return _itemStatus;
             }
 
             set
             {
-                if (_status == value)
+                if (_itemStatus == value)
                     return;
 
-                _status = value;
+                _itemStatus = value;
                 Update();
             }
         }
