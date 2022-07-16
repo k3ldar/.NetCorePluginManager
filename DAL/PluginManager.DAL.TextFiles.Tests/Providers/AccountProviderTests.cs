@@ -17,7 +17,7 @@
  *  
  *  File: AccountProviderTests.cs
  *
- *  Purpose:  AccountProviderTests Tests for text based storage
+ *  Purpose:  AccountProvider tests Tests for text based storage
  *
  *  Date        Name                Reason
  *  31/05/2022  Simon Carter        Initially Created
@@ -68,7 +68,6 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                 PluginInitialisation initialisation = new PluginInitialisation();
                 ServiceCollection services = new ServiceCollection();
 
-                services.AddSingleton<IForeignKeyManager, ForeignKeyManager>();
                 services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
                 services.AddSingleton<IPluginClassesService, MockPluginClassesService>();
 
@@ -99,7 +98,6 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                 ServiceCollection services = new ServiceCollection();
                 MockPluginClassesService mockPluginClassesService = new MockPluginClassesService();
 
-                services.AddSingleton<IForeignKeyManager, ForeignKeyManager>();
                 services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
                 services.AddSingleton<IPluginClassesService>(mockPluginClassesService);
 
@@ -155,7 +153,6 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                 PluginInitialisation initialisation = new PluginInitialisation();
                 ServiceCollection services = new ServiceCollection();
 
-                services.AddSingleton<IForeignKeyManager, ForeignKeyManager>();
                 services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
                 services.AddSingleton<IPluginClassesService, MockPluginClassesService>();
 
@@ -201,7 +198,6 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                 PluginInitialisation initialisation = new PluginInitialisation();
                 ServiceCollection services = new ServiceCollection();
 
-                services.AddSingleton<IForeignKeyManager, ForeignKeyManager>();
                 services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
                 services.AddSingleton<IPluginClassesService, MockPluginClassesService>();
 
@@ -256,7 +252,6 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                 PluginInitialisation initialisation = new PluginInitialisation();
                 ServiceCollection services = new ServiceCollection();
 
-                services.AddSingleton<IForeignKeyManager, ForeignKeyManager>();
                 services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
                 services.AddSingleton<IPluginClassesService, MockPluginClassesService>();
 
@@ -300,7 +295,6 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                 PluginInitialisation initialisation = new PluginInitialisation();
                 ServiceCollection services = new ServiceCollection();
 
-                services.AddSingleton<IForeignKeyManager, ForeignKeyManager>();
                 services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
                 services.AddSingleton<IPluginClassesService, MockPluginClassesService>();
 
@@ -357,7 +351,6 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                 PluginInitialisation initialisation = new PluginInitialisation();
                 ServiceCollection services = new ServiceCollection();
 
-                services.AddSingleton<IForeignKeyManager, ForeignKeyManager>();
                 services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
                 services.AddSingleton<IPluginClassesService, MockPluginClassesService>();
 
@@ -411,7 +404,6 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                 PluginInitialisation initialisation = new PluginInitialisation();
                 ServiceCollection services = new ServiceCollection();
 
-                services.AddSingleton<IForeignKeyManager, ForeignKeyManager>();
                 services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
                 services.AddSingleton<IPluginClassesService>(new MockPluginClassesService(new List<object>() { new UserDataRowTriggers() }));
 
@@ -499,7 +491,6 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                 PluginInitialisation initialisation = new PluginInitialisation();
                 ServiceCollection services = new ServiceCollection();
 
-                services.AddSingleton<IForeignKeyManager, ForeignKeyManager>();
                 services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
                 services.AddSingleton<IPluginClassesService, MockPluginClassesService>();
 
@@ -537,7 +528,6 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                 ServiceCollection services = new ServiceCollection();
                 services.AddSingleton<IPluginClassesService, MockPluginClassesService>();
 
-                services.AddSingleton<IForeignKeyManager, ForeignKeyManager>();
                 services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
                 services.AddSingleton<IPluginClassesService>(new MockPluginClassesService(new List<object>() { new UserDataRowTriggers() }));
 
@@ -651,7 +641,6 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                 ServiceCollection services = new ServiceCollection();
                 services.AddSingleton<IPluginClassesService, MockPluginClassesService>();
 
-                services.AddSingleton<IForeignKeyManager, ForeignKeyManager>();
                 services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
                 services.AddSingleton<IPluginClassesService>(new MockPluginClassesService(new List<object>() { new UserDataRowTriggers() }));
 
@@ -720,7 +709,6 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                 ServiceCollection services = new ServiceCollection();
                 services.AddSingleton<IPluginClassesService, MockPluginClassesService>();
 
-                services.AddSingleton<IForeignKeyManager, ForeignKeyManager>();
                 services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
                 services.AddSingleton<IPluginClassesService>(new MockPluginClassesService(new List<object>() { new UserDataRowTriggers() }));
 
@@ -753,7 +741,6 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                 ServiceCollection services = new ServiceCollection();
                 services.AddSingleton<IPluginClassesService, MockPluginClassesService>();
 
-                services.AddSingleton<IForeignKeyManager, ForeignKeyManager>();
                 services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
                 services.AddSingleton<IPluginClassesService>(new MockPluginClassesService(new List<object>() { new UserDataRowTriggers() }));
 
@@ -788,7 +775,6 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                 ServiceCollection services = new ServiceCollection();
                 services.AddSingleton<IPluginClassesService, MockPluginClassesService>();
 
-                services.AddSingleton<IForeignKeyManager, ForeignKeyManager>();
                 services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
                 services.AddSingleton<IPluginClassesService>(new MockPluginClassesService(new List<object>() { new UserDataRowTriggers() }));
 
@@ -847,7 +833,6 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                 ServiceCollection services = new ServiceCollection();
                 services.AddSingleton<IPluginClassesService, MockPluginClassesService>();
 
-                services.AddSingleton<IForeignKeyManager, ForeignKeyManager>();
                 services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
                 services.AddSingleton<IPluginClassesService>(new MockPluginClassesService(new List<object>() { new UserDataRowTriggers() }));
 
@@ -974,7 +959,6 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                 ServiceCollection services = new ServiceCollection();
                 services.AddSingleton<IPluginClassesService, MockPluginClassesService>();
 
-                services.AddSingleton<IForeignKeyManager, ForeignKeyManager>();
                 services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
                 services.AddSingleton<IPluginClassesService>(new MockPluginClassesService(new List<object>() { new UserDataRowTriggers() }));
 
@@ -1008,7 +992,6 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                 PluginInitialisation initialisation = new PluginInitialisation();
                 ServiceCollection services = new ServiceCollection();
 
-                services.AddSingleton<IForeignKeyManager, ForeignKeyManager>();
                 services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
                 services.AddSingleton<IPluginClassesService>(new MockPluginClassesService(new List<object>() { new UserDataRowTriggers() }));
 

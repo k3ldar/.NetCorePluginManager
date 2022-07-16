@@ -111,7 +111,6 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                 services.AddSingleton<IPluginClassesService>(new MockPluginClassesService(new List<object>() { new UserDataRowTriggers() }));
                 services.AddSingleton<IPluginClassesService>(new MockPluginClassesService(new List<object>() { new UserDataRowTriggers() }));
 
-                services.AddSingleton<IForeignKeyManager, ForeignKeyManager>();
                 initialisation.BeforeConfigureServices(services);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
@@ -151,7 +150,6 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                 services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
                 services.AddSingleton<IPluginClassesService>(new MockPluginClassesService(new List<object>() { new UserDataRowTriggers() }));
 
-                services.AddSingleton<IForeignKeyManager, ForeignKeyManager>();
                 initialisation.BeforeConfigureServices(services);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
@@ -192,7 +190,6 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                 services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
                 services.AddSingleton<IPluginClassesService>(new MockPluginClassesService(new List<object>() { new UserDataRowTriggers() }));
 
-                services.AddSingleton<IForeignKeyManager, ForeignKeyManager>();
                 initialisation.BeforeConfigureServices(services);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
@@ -229,7 +226,6 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                 services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
                 services.AddSingleton<IPluginClassesService>(new MockPluginClassesService(new List<object>() { new UserDataRowTriggers() }));
 
-                services.AddSingleton<IForeignKeyManager, ForeignKeyManager>();
                 initialisation.BeforeConfigureServices(services);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
@@ -274,7 +270,6 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                 services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
                 services.AddSingleton<IPluginClassesService>(new MockPluginClassesService(new List<object>() { new UserDataRowTriggers() }));
 
-                services.AddSingleton<IForeignKeyManager, ForeignKeyManager>();
                 initialisation.BeforeConfigureServices(services);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
@@ -312,7 +307,6 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                 services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
                 services.AddSingleton<IPluginClassesService>(new MockPluginClassesService(new List<object>() { new UserDataRowTriggers() }));
 
-                services.AddSingleton<IForeignKeyManager, ForeignKeyManager>();
                 initialisation.BeforeConfigureServices(services);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
@@ -349,7 +343,6 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                 services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
                 services.AddSingleton<IPluginClassesService>(new MockPluginClassesService(new List<object>() { new UserDataRowTriggers() }));
 
-                services.AddSingleton<IForeignKeyManager, ForeignKeyManager>();
                 initialisation.BeforeConfigureServices(services);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
@@ -390,7 +383,6 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                 services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
                 services.AddSingleton<IPluginClassesService>(new MockPluginClassesService(new List<object>() { new CountryDataRowDefaults() }));
 
-                services.AddSingleton<IForeignKeyManager, ForeignKeyManager>();
                 initialisation.BeforeConfigureServices(services);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())

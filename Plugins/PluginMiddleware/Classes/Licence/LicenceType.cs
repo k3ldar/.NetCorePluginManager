@@ -39,7 +39,7 @@ namespace Middleware.Accounts.Licences
         /// </summary>
         /// <param name="id">Id of licence type.</param>
         /// <param name="description">Description of licence type.</param>
-        public LicenceType(in int id, in string description)
+        public LicenceType(in long id, in string description)
         {
             if (String.IsNullOrEmpty(description))
                 throw new ArgumentNullException(nameof(description));
@@ -56,7 +56,7 @@ namespace Middleware.Accounts.Licences
         /// Id of licence type.
         /// </summary>
         /// <value>int</value>
-        public int Id { get; private set; }
+        public long Id { get; private set; }
 
         /// <summary>
         /// Description of licence type.

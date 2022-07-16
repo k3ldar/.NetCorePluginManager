@@ -75,7 +75,6 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                 ServiceCollection services = new ServiceCollection();
 
                 services.AddSingleton<IPluginClassesService, MockPluginClassesService>();
-                services.AddSingleton<IForeignKeyManager, ForeignKeyManager>();
                 services.AddSingleton<IMemoryCache, MockMemoryCache>();
                 services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
 
@@ -113,7 +112,6 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                 ServiceCollection services = new ServiceCollection();
 
                 services.AddSingleton<IPluginClassesService, MockPluginClassesService>();
-                services.AddSingleton<IForeignKeyManager, ForeignKeyManager>();
                 services.AddSingleton<IMemoryCache, MockMemoryCache>();
                 services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
 
@@ -151,7 +149,6 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                 ServiceCollection services = new ServiceCollection();
 
                 services.AddSingleton<IPluginClassesService, MockPluginClassesService>();
-                services.AddSingleton<IForeignKeyManager, ForeignKeyManager>();
                 services.AddSingleton<IMemoryCache, MockMemoryCache>();
                 services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
 
@@ -194,7 +191,6 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                 ServiceCollection services = new ServiceCollection();
 
                 services.AddSingleton<IPluginClassesService, MockPluginClassesService>();
-                services.AddSingleton<IForeignKeyManager, ForeignKeyManager>();
                 services.AddSingleton<IMemoryCache, MockMemoryCache>();
                 services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
 
@@ -232,7 +228,6 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                 ServiceCollection services = new ServiceCollection();
 
                 services.AddSingleton<IPluginClassesService, MockPluginClassesService>();
-                services.AddSingleton<IForeignKeyManager, ForeignKeyManager>();
                 services.AddSingleton<IMemoryCache, MockMemoryCache>();
                 services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
 

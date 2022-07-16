@@ -81,7 +81,6 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
                 services.AddSingleton<IPluginClassesService>(mockPluginClassesService);
                 services.AddSingleton<IMemoryCache, MockMemoryCache>();
-                services.AddSingleton<IForeignKeyManager, ForeignKeyManager>();
                 services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
 
                 initialisation.BeforeConfigureServices(services);
@@ -150,7 +149,6 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
                 services.AddSingleton<IPluginClassesService>(mockPluginClassesService);
                 services.AddSingleton<IMemoryCache, MockMemoryCache>();
-                services.AddSingleton<IForeignKeyManager, ForeignKeyManager>();
                 services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
 
                 initialisation.BeforeConfigureServices(services);
@@ -227,7 +225,6 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
                 services.AddSingleton<IPluginClassesService>(mockPluginClassesService);
                 services.AddSingleton<IMemoryCache, MockMemoryCache>();
-                services.AddSingleton<IForeignKeyManager, ForeignKeyManager>();
                 services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
 
                 initialisation.BeforeConfigureServices(services);
@@ -285,7 +282,6 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
                 services.AddSingleton<IPluginClassesService>(mockPluginClassesService);
                 services.AddSingleton<IMemoryCache, MockMemoryCache>();
-                services.AddSingleton<IForeignKeyManager, ForeignKeyManager>();
                 services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
 
                 initialisation.BeforeConfigureServices(services);
