@@ -162,7 +162,7 @@
             Represents an invoice that is used for display within the website.  This is used by IAccountProvider and the UserAccount.Plugin module.
             </summary>
         </member>
-        <member name="M:Middleware.Accounts.Invoices.Invoice.#ctor(System.Int32@,System.DateTime@,System.Decimal@,System.Globalization.CultureInfo@,Middleware.ProcessStatus@,Middleware.PaymentStatus@,Middleware.Accounts.DeliveryAddress,System.Collections.Generic.List{Middleware.Accounts.Invoices.InvoiceItem})">
+        <member name="M:Middleware.Accounts.Invoices.Invoice.#ctor(System.Int64@,System.DateTime@,System.Decimal@,System.Globalization.CultureInfo@,Middleware.ProcessStatus@,Middleware.PaymentStatus@,Middleware.Accounts.DeliveryAddress,System.Collections.Generic.List{Middleware.Accounts.Invoices.InvoiceItem})">
             <summary>
             Constructor
             </summary>
