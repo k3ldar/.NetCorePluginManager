@@ -46,7 +46,9 @@ namespace PluginManager.DAL.TextFiles.Providers
         private readonly ITextTableOperations<UserDataRow> _users;
         private readonly ITextTableOperations<AddressDataRow> _addresses;
         private readonly ITextTableOperations<OrderDataRow> _orders;
-        private readonly ITextTableOperations<OrderItemsDataRow> _ordersItems;
+        private readonly ITextTableOperations<OrderItemDataRow> _ordersItems;
+        private readonly ITextTableOperations<InvoiceDataRow> _invoices;
+        private readonly ITextTableOperations<InvoiceItemDataRow> _invoiceItems;
         private readonly string _encryptionKey;
 
 
@@ -57,7 +59,9 @@ namespace PluginManager.DAL.TextFiles.Providers
         public AccountProvider(ITextTableOperations<UserDataRow> users, 
             ITextTableOperations<AddressDataRow> addresses, 
             ITextTableOperations<OrderDataRow> orders,
-            ITextTableOperations<OrderItemsDataRow> orderItems,
+            ITextTableOperations<OrderItemDataRow> orderItems,
+            ITextTableOperations<InvoiceDataRow> invoices,
+            ITextTableOperations<InvoiceItemDataRow> invoiceItems,
             ISettingsProvider settingsProvider)
         {
             if (settingsProvider == null)
@@ -73,6 +77,8 @@ namespace PluginManager.DAL.TextFiles.Providers
             _addresses = addresses ?? throw new ArgumentNullException(nameof(addresses));
             _orders = orders ?? throw new ArgumentNullException(nameof(orders));
             _ordersItems = orderItems ?? throw new ArgumentNullException(nameof(orderItems));
+            _invoices = invoices ?? throw new ArgumentNullException(nameof(invoices));
+            _invoiceItems = invoiceItems ?? throw new ArgumentNullException(nameof(invoiceItems));
         }
 
         #endregion Constructors
@@ -517,11 +523,11 @@ namespace PluginManager.DAL.TextFiles.Providers
             {
                 List<OrderItem> orderItems = new List<OrderItem>();
 
-                List<OrderItemsDataRow> userOrderItems = _ordersItems.Select().Where(oi => oi.OrderId.Equals(o.Id)).ToList();
+                List<OrderItemDataRow> userOrderItems = _ordersItems.Select().Where(oi => oi.OrderId.Equals(o.Id)).ToList();
 
-                userOrderItems.ForEach(oi => orderItems.Add(new OrderItem(oi.Id, oi.Description, oi.Price, oi.TaxRate, oi.Quantity, (ItemStatus)oi.Status, (DiscountType)oi.DiscountType, oi.Discount)));
+                userOrderItems.ForEach(oi => orderItems.Add(new OrderItem(oi.Id, oi.Description, oi.Price, oi.TaxRate, oi.Quantity, (ItemStatus)oi.ItemStatus, (DiscountType)oi.DiscountType, oi.Discount)));
 
-                Result.Add(new Order(o.Id, o.Created, o.Postage, new CultureInfo(o.Culture), (ProcessStatus)o.Status, GetDeliveryAddress(user.Id, o.DeliveryAddress), orderItems));
+                Result.Add(new Order(o.Id, o.Created, o.Postage, new CultureInfo(o.Culture), (ProcessStatus)o.ProcessStatus, GetDeliveryAddress(user.Id, o.DeliveryAddress), orderItems));
             });
 
             return Result;
@@ -535,11 +541,49 @@ namespace PluginManager.DAL.TextFiles.Providers
             if (String.IsNullOrEmpty(message))
                 throw new ArgumentNullException(nameof(message));
 
-            //TableUserRow user = _users.Select(userId);
+            if (paymentStatus == PaymentStatus.Unpaid)
+                throw new ArgumentOutOfRangeException(nameof(paymentStatus));
 
-            //if (user == null)
-            //    return;
-            throw new NotImplementedException();
+            OrderDataRow orderDataRow = _orders.Select(order.Id);
+
+            if (orderDataRow == null)
+                throw new InvalidOperationException("Order could not be found!");
+
+            long userId = orderDataRow.UserId;
+
+            InvoiceDataRow newInvoice = new InvoiceDataRow()
+            {
+                UserId = userId,
+                DeliveryAddress = orderDataRow.DeliveryAddress,
+                OrderId = orderDataRow.Id,
+                Postage = orderDataRow.Postage,
+                Culture = orderDataRow.Culture,
+                PaymentStatus = (int)paymentStatus,
+                ProcessStatus = orderDataRow.ProcessStatus,
+            };
+
+            _invoices.Insert(newInvoice);
+
+            List<InvoiceItemDataRow> invoiceItems = new List<InvoiceItemDataRow>();
+            List<OrderItemDataRow> orderItems = _ordersItems.Select().Where(oi => oi.OrderId.Equals(orderDataRow.Id)).ToList();
+
+            orderItems.ForEach(oi =>
+            {
+                invoiceItems.Add(new InvoiceItemDataRow()
+                {
+                    InvoiceId = newInvoice.Id,
+                    OrderItemId = oi.Id,
+                    Description = oi.Description,
+                    TaxRate = oi.TaxRate,
+                    Price = oi.Price,
+                    Quantity = oi.Quantity,
+                    Discount = oi.Discount,
+                    DiscountType = oi.DiscountType,
+                    ItemStatus = oi.ItemStatus,
+                });
+            });
+
+            _invoiceItems.Insert(invoiceItems);
         }
 
         #endregion Orders
@@ -548,12 +592,26 @@ namespace PluginManager.DAL.TextFiles.Providers
 
         public List<Invoice> InvoicesGet(in Int64 userId)
         {
+            List<Invoice> Result = new List<Invoice>();
             UserDataRow user = _users.Select(userId);
 
             if (user == null)
-                return new List<Invoice>();
+                return Result;
 
-            throw new NotImplementedException();
+            List<InvoiceDataRow> userInvoices = _invoices.Select().Where(o => o.UserId == user.Id).ToList();
+
+            userInvoices.ForEach(i =>
+            {
+                List<InvoiceItem> invoiceItems = new List<InvoiceItem>();
+
+                List<InvoiceItemDataRow> userOrderItems = _invoiceItems.Select().Where(ii => ii.InvoiceId.Equals(i.Id)).ToList();
+
+                userOrderItems.ForEach(ii => invoiceItems.Add(new InvoiceItem(ii.Id, ii.Description, ii.Price, ii.TaxRate, ii.Quantity, (ItemStatus)ii.ItemStatus, (DiscountType)ii.DiscountType, ii.Discount)));
+
+                Result.Add(new Invoice(i.Id, i.Created, i.Postage, new CultureInfo(i.Culture), (ProcessStatus)i.ProcessStatus, (PaymentStatus)i.PaymentStatus, GetDeliveryAddress(user.Id, i.DeliveryAddress), invoiceItems));
+            });
+
+            return Result;
         }
 
         #endregion Invoices

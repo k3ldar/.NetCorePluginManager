@@ -60,7 +60,7 @@ namespace PluginManager.DAL.TextFiles.Providers
         private readonly ITextTableOperations<ShoppingCartDataRow> _shoppingCartData;
         private readonly ITextTableOperations<ShoppingCartItemDataRow> _shoppingCartItemData;
         private readonly ITextTableOperations<OrderDataRow> _orderData;
-        private readonly ITextTableOperations<OrderItemsDataRow> _orderItemsData;
+        private readonly ITextTableOperations<OrderItemDataRow> _orderItemsData;
         private readonly ITextTableOperations<VoucherDataRow> _voucherData;
         private readonly ITextTableOperations<UserDataRow> _userDataRow;
 
@@ -70,7 +70,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 
         public ShoppingCartProvider(ITextTableOperations<ShoppingCartDataRow> shoppingCartData,
             ITextTableOperations<ShoppingCartItemDataRow> shoppingCartItemData, 
-            ITextTableOperations<OrderDataRow> orderData, ITextTableOperations<OrderItemsDataRow> orderItemsData,
+            ITextTableOperations<OrderDataRow> orderData, ITextTableOperations<OrderItemDataRow> orderItemsData,
             ITextTableOperations<VoucherDataRow> voucherData, ITextTableOperations<UserDataRow> userDataRow,
             IProductProvider productProvider, IAccountProvider accountProvider, IApplicationSettingsProvider settingsProvider)
         {
@@ -295,14 +295,14 @@ namespace PluginManager.DAL.TextFiles.Providers
                 UserId = userId,
                 Culture = cartSummary.Culture.Name,
                 Postage = cartSummary.Shipping,
-                Status = (int)ProcessStatus.PaymentPending,
+                ProcessStatus = (int)ProcessStatus.PaymentPending,
                 DeliveryAddress = shippingAddress.Id
             };
             _orderData.Insert(orderData);
 
             foreach (ShoppingCartItem item in cartDetail.Items)
             {
-                _orderItemsData.Insert(new OrderItemsDataRow() 
+                _orderItemsData.Insert(new OrderItemDataRow() 
                 { 
                     OrderId = orderData.Id,
                     Description = item.Description,
@@ -311,7 +311,7 @@ namespace PluginManager.DAL.TextFiles.Providers
                     Quantity = item.ItemCount,
                     Discount = item.DiscountRate,
                     DiscountType = (int)item.DiscountType,
-                    Status = (int)ItemStatus.Received,
+                    ItemStatus = (int)ItemStatus.Received,
                 });
                 
                 items.Add(new OrderItem(item.Id, item.Name, item.ItemCost, cartSummary.TaxRate, item.ItemCount,
@@ -319,7 +319,7 @@ namespace PluginManager.DAL.TextFiles.Providers
             }
 
             order = new Order(orderData.Id, orderData.Created, orderData.Postage, new CultureInfo(orderData.Culture),
-                (ProcessStatus)orderData.Status, shippingAddress, items);
+                (ProcessStatus)orderData.ProcessStatus, shippingAddress, items);
 
             _shoppingCartItemData.Delete(_shoppingCartItemData.Select().Where(sci => sci.ShoppingCartId.Equals(cartDetail.Id)).ToList());
             cartDetail.Clear();

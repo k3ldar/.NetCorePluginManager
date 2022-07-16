@@ -87,23 +87,38 @@ namespace PluginManager.DAL.TextFiles
             services.AddSingleton<ITextTableInitializer, TextTableInitializer>();
 
             // register tables
-            services.AddSingleton(typeof(TableRowDefinition), typeof(SettingsDataRow));
-            services.AddSingleton(typeof(TableRowDefinition), typeof(UserDataRow));
-            services.AddSingleton(typeof(TableRowDefinition), typeof(OrderDataRow));
             services.AddSingleton(typeof(TableRowDefinition), typeof(AddressDataRow));
-            services.AddSingleton(typeof(TableRowDefinition), typeof(CountryDataRow));
-            services.AddSingleton(typeof(TableRowDefinition), typeof(UserClaimsDataRow));
-            services.AddSingleton(typeof(TableRowDefinition), typeof(ExternalUsersDataRow));
-            services.AddSingleton(typeof(TableRowDefinition), typeof(SeoDataRow));
-            services.AddSingleton(typeof(TableRowDefinition), typeof(UserApiDataRow));
-            services.AddSingleton(typeof(TableRowDefinition), typeof(ProductGroupDataRow));
-            services.AddSingleton(typeof(TableRowDefinition), typeof(ProductDataRow));
+
             services.AddSingleton(typeof(TableRowDefinition), typeof(BlogDataRow));
             services.AddSingleton(typeof(TableRowDefinition), typeof(BlogCommentDataRow));
+
+            services.AddSingleton(typeof(TableRowDefinition), typeof(CountryDataRow));
+
+            services.AddSingleton(typeof(TableRowDefinition), typeof(ExternalUsersDataRow));
+
+            services.AddSingleton(typeof(TableRowDefinition), typeof(InvoiceDataRow));
+            services.AddSingleton(typeof(TableRowDefinition), typeof(InvoiceItemDataRow));
+
+            services.AddSingleton(typeof(TableRowDefinition), typeof(OrderDataRow));
+            services.AddSingleton(typeof(TableRowDefinition), typeof(OrderItemDataRow));
+
+            services.AddSingleton(typeof(TableRowDefinition), typeof(ProductDataRow));
+            services.AddSingleton(typeof(TableRowDefinition), typeof(ProductGroupDataRow));
+
+            services.AddSingleton(typeof(TableRowDefinition), typeof(SeoDataRow));
+
+            services.AddSingleton(typeof(TableRowDefinition), typeof(SettingsDataRow));
+
             services.AddSingleton(typeof(TableRowDefinition), typeof(ShoppingCartDataRow));
             services.AddSingleton(typeof(TableRowDefinition), typeof(ShoppingCartItemDataRow));
             services.AddSingleton(typeof(TableRowDefinition), typeof(VoucherDataRow));
+
             services.AddSingleton(typeof(TableRowDefinition), typeof(StockDataRow));
+
+            services.AddSingleton(typeof(TableRowDefinition), typeof(UserApiDataRow));
+
+            services.AddSingleton(typeof(TableRowDefinition), typeof(UserClaimsDataRow));
+            services.AddSingleton(typeof(TableRowDefinition), typeof(UserDataRow));
 
 
             services.AddSingleton(typeof(ITextTableOperations<>), typeof(TextTableOperations<>));

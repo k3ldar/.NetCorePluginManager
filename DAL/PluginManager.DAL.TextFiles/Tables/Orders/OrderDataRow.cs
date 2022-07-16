@@ -34,7 +34,7 @@ namespace PluginManager.DAL.TextFiles.Tables
         private long _userId;
         private decimal _postage;
         private string _culture;
-        private int _status;
+        private int _processStatus;
 
         [ForeignKey(Constants.TableNameUsers)]
         public long UserId
@@ -106,19 +106,19 @@ namespace PluginManager.DAL.TextFiles.Tables
             }
         }
 
-        public int Status
+        public int ProcessStatus
         {
             get
             {
-                return _status;
+                return _processStatus;
             }
 
             set
             {
-                if (_status == value)
+                if (_processStatus == value)
                     return;
 
-                _status = value;
+                _processStatus = value;
                 Update();
             }
         }

@@ -453,7 +453,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
                     ITextTableOperations<ShoppingCartItemDataRow> shoppingCartItemData = provider.GetRequiredService<ITextTableOperations<ShoppingCartItemDataRow>>();
                     ITextTableOperations<ShoppingCartDataRow> shoppingCartData = provider.GetRequiredService<ITextTableOperations<ShoppingCartDataRow>>();
-                    ITextTableOperations<OrderItemsDataRow> orderItemData = provider.GetRequiredService<ITextTableOperations<OrderItemsDataRow>>();
+                    ITextTableOperations<OrderItemDataRow> orderItemData = provider.GetRequiredService<ITextTableOperations<OrderItemDataRow>>();
                     ITextTableOperations<OrderDataRow> orderData = provider.GetRequiredService<ITextTableOperations<OrderDataRow>>();
 
                     Assert.AreEqual(0, orderItemData.RecordCount);
@@ -501,7 +501,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
                     // validate saved order details
                     Assert.AreEqual(3, orderItemData.RecordCount);
-                    List<OrderItemsDataRow> orderItems = orderItemData.Select().Where(oi => oi.OrderId.Equals(order.Id)).ToList();
+                    List<OrderItemDataRow> orderItems = orderItemData.Select().Where(oi => oi.OrderId.Equals(order.Id)).ToList();
 
                     Assert.AreEqual(1.99m, orderItems[0].Price);
                     Assert.AreEqual(1, orderItems[0].Quantity);
@@ -520,7 +520,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     OrderDataRow orderDataRow = orderData.Select().First();
                     Assert.AreEqual(2.98m, orderDataRow.Postage);
                     Assert.AreEqual("en-US", orderDataRow.Culture);
-                    Assert.AreEqual(ProcessStatus.PaymentPending, (ProcessStatus)orderDataRow.Status);
+                    Assert.AreEqual(ProcessStatus.PaymentPending, (ProcessStatus)orderDataRow.ProcessStatus);
                     Assert.AreEqual(1, orderDataRow.DeliveryAddress);
                 }
             }
