@@ -99,6 +99,9 @@ namespace PluginManager.DAL.TextFiles
             services.AddSingleton(typeof(TableRowDefinition), typeof(InvoiceDataRow));
             services.AddSingleton(typeof(TableRowDefinition), typeof(InvoiceItemDataRow));
 
+            services.AddSingleton(typeof(TableRowDefinition), typeof(LicenseTypeDataRow));
+            services.AddSingleton(typeof(TableRowDefinition), typeof(LicenseDataRow));
+
             services.AddSingleton(typeof(TableRowDefinition), typeof(OrderDataRow));
             services.AddSingleton(typeof(TableRowDefinition), typeof(OrderItemDataRow));
 
@@ -131,7 +134,7 @@ namespace PluginManager.DAL.TextFiles
             //services.AddSingleton<IDownloadProvider, DownloadProvider>();
             //services.AddSingleton<IDynamicContentProvider, DynamicContentProvider>();
             //services.AddSingleton<IHelpdeskProvider, HelpdeskProvider>();
-            //services.AddSingleton<ILicenceProvider, LicenceProvider>();
+            services.AddSingleton<ILicenceProvider, LicenceProvider>();
             services.AddSingleton<ILoginProvider, LoginProvider>();
             services.AddSingleton<IProductProvider, ProductProvider>();
             services.AddSingleton<ISeoProvider, SeoProvider>();
@@ -140,7 +143,7 @@ namespace PluginManager.DAL.TextFiles
             services.AddSingleton<IStockProvider, StockProvider>();
             services.AddSingleton<IUserApiQueryProvider, UserApiQueryProvider>();
             services.AddTransient<IUserSearch, UserSearch>();
-            services.AddTransient<SharedPluginFeatures.IApplicationSettingsProvider, SettingsProvider> ();
+            services.AddTransient<IApplicationSettingsProvider, SettingsProvider> ();
         }
 
         public void AfterConfigureServices(in IServiceCollection services)

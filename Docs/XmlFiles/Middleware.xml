@@ -441,7 +441,7 @@
             List item for type of licences available.
             </summary>
         </member>
-        <member name="M:Middleware.Accounts.Licences.LicenceType.#ctor(System.Int32@,System.String@)">
+        <member name="M:Middleware.Accounts.Licences.LicenceType.#ctor(System.Int64@,System.String@)">
             <summary>
             Constructor
             </summary>
