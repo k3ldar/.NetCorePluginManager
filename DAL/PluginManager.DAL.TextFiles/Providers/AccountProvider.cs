@@ -626,6 +626,7 @@ namespace PluginManager.DAL.TextFiles.Providers
             return new DeliveryAddress(address.Id, address.BusinessName, address.AddressLine1, address.AddressLine2, 
                 address.AddressLine3, address.City, address.County, address.Country, address.Postcode, address.PostageCost);
         }
+
         private static int GenerateRandomNumber()
         {
             Random random = new Random();

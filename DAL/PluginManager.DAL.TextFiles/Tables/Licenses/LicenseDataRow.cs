@@ -27,11 +27,11 @@ using PluginManager.DAL.TextFiles.Internal;
 
 namespace PluginManager.DAL.TextFiles.Tables
 {
-    [Table(Constants.TableNameLicenseTypes)]
+    [Table(Constants.TableNameLicenses)]
     internal class LicenseDataRow : TableRowDefinition
     {
         private long _userId;
-        private int _licenseType;
+        private long _licenseType;
         private long _startDateTicks;
         private long _expireDateTicks;
         private bool _isValid;
@@ -57,7 +57,7 @@ namespace PluginManager.DAL.TextFiles.Tables
         }
 
         [ForeignKey(Constants.TableNameLicenseTypes)]
-        public int LicenseType
+        public long LicenseType
         {
             get => _licenseType;
 
@@ -141,7 +141,7 @@ namespace PluginManager.DAL.TextFiles.Tables
             }
         }
 
-        [ForeignKey(Constants.TableNameInvoices)]
+        [ForeignKey(Constants.TableNameInvoices, true)]
         public long InvoiceId
         {
             get => _invoiceId;

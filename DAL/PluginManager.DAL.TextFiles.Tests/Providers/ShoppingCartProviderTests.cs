@@ -524,6 +524,153 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             }
         }
 
+        [Ignore]
+        [TestMethod]
+        public void ConvertToOrder_OrderLicensesCreatedSuccessfully_ReturnsTrue()
+        {
+            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            try
+            {
+                Directory.CreateDirectory(directory);
+                PluginInitialisation initialisation = new PluginInitialisation();
+                ServiceCollection services = new ServiceCollection();
+                List<object> servicesList = new List<object>()
+                {
+                    new SettingsDataRowDefaults(),
+                    new ProductGroupDataRowDefaults(),
+                    new ProductGroupDataTriggers(),
+                    new ProductDataTriggers(),
+                    new ShoppingCartDataRowDefaults(),
+                    new AddressDataRowDefaults(),
+
+                };
+                MockPluginClassesService mockPluginClassesService = new MockPluginClassesService(servicesList);
+
+                services.AddSingleton<IPluginClassesService>(mockPluginClassesService);
+                services.AddSingleton<IMemoryCache, MockMemoryCache>();
+                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
+
+                initialisation.BeforeConfigureServices(services);
+
+                UserSession userSession = new UserSession();
+                ShoppingCartSummary shoppingCart = new ShoppingCartSummary(0, 0, 0, 0, 0, 20,
+                    System.Threading.Thread.CurrentThread.CurrentUICulture,
+                    "GBP");
+
+
+                using (ServiceProvider provider = services.BuildServiceProvider())
+                {
+                    mockPluginClassesService.Items.Add(new UserDataRowDefaults(provider.GetService<ISettingsProvider>()));
+                    IProductProvider productProvider = GetTestProductProvider(provider);
+
+                    IAccountProvider accountProvider = provider.GetService<IAccountProvider>();
+                    Assert.IsNotNull(accountProvider);
+
+                    bool accountCreated = accountProvider.CreateAccount("me@here.com", "test", "user", "pass", "", "",
+                        "addr1", "", "", "city", "county", "zip", "DK", out long userId);
+                    Assert.IsTrue(accountCreated);
+
+                    bool shippingAddressCreated = accountProvider.AddDeliveryAddress(userId, new DeliveryAddress(-1, "", "Address Line 1", "", "", "My City", "", "Zip", "FR", 2.98m));
+                    Assert.IsTrue(shippingAddressCreated);
+
+                    ShoppingCartProvider sut = (ShoppingCartProvider)provider.GetService<IShoppingCartProvider>();
+                    Assert.IsNotNull(sut);
+                    sut.ClearCache();
+
+                    long basketId = sut.AddToCart(userSession, shoppingCart, productProvider.GetProduct(0), 1);
+                    Assert.AreEqual(1, basketId);
+
+                    basketId = sut.AddToCart(userSession, shoppingCart, productProvider.GetProduct(1), 2);
+                    Assert.AreEqual(1, basketId);
+
+                    basketId = sut.AddToCart(userSession, shoppingCart, productProvider.GetProduct(2), 2);
+                    Assert.AreEqual(1, basketId);
+
+                    sut.ClearCache();
+
+                    ITextTableOperations<ShoppingCartItemDataRow> shoppingCartItemData = provider.GetRequiredService<ITextTableOperations<ShoppingCartItemDataRow>>();
+                    ITextTableOperations<ShoppingCartDataRow> shoppingCartData = provider.GetRequiredService<ITextTableOperations<ShoppingCartDataRow>>();
+                    ITextTableOperations<OrderItemDataRow> orderItemData = provider.GetRequiredService<ITextTableOperations<OrderItemDataRow>>();
+                    ITextTableOperations<OrderDataRow> orderData = provider.GetRequiredService<ITextTableOperations<OrderDataRow>>();
+                    ITextTableOperations<LicenseDataRow> licenseData = provider.GetRequiredService<ITextTableOperations<LicenseDataRow>>();
+                    ITextTableOperations<LicenseTypeDataRow> licenseTypeData = provider.GetRequiredService<ITextTableOperations<LicenseTypeDataRow>>();
+
+                    Assert.AreEqual(0, orderItemData.RecordCount);
+                    Assert.AreEqual(0, orderData.RecordCount);
+
+                    ShoppingCartDetail cartDetail = sut.GetDetail(basketId);
+                    cartDetail.SetDeliveryAddress(accountProvider.GetDeliveryAddress(userId, 1));
+
+                    ShoppingCartSummary basketSummary = sut.GetSummary(basketId);
+                    Assert.IsNotNull(basketSummary);
+                    Assert.AreEqual("GBP", basketSummary.CurrencyCode);
+                    Assert.AreEqual(0, basketSummary.Discount);
+                    Assert.AreEqual(2.98m, basketSummary.Shipping);
+                    Assert.AreEqual(15.95m, basketSummary.SubTotal);
+                    Assert.AreEqual(3.16m, basketSummary.Tax);
+                    Assert.AreEqual(20, basketSummary.TaxRate);
+                    Assert.AreEqual(18.93m, basketSummary.Total);
+                    Assert.AreEqual(5, basketSummary.TotalItems);
+
+                    Assert.AreEqual(3, shoppingCartItemData.RecordCount);
+                    Assert.AreEqual(1, shoppingCartData.RecordCount);
+
+                    ShoppingCartDataRow savedBasket = shoppingCartData.Select().FirstOrDefault();
+                    Assert.AreEqual(1, savedBasket.Id);
+
+                    bool orderCreated = sut.ConvertToOrder(basketSummary, userId, out Order order);
+                    Assert.IsTrue(orderCreated);
+                    Assert.IsNotNull(order);
+
+
+                    // ensure basket is cleared
+                    basketSummary = sut.GetSummary(basketId);
+                    Assert.IsNotNull(basketSummary);
+                    Assert.AreEqual("GBP", basketSummary.CurrencyCode);
+                    Assert.AreEqual(0, basketSummary.Discount);
+                    Assert.AreEqual(0, basketSummary.Shipping);
+                    Assert.AreEqual(0, basketSummary.SubTotal);
+                    Assert.AreEqual(0, basketSummary.Tax);
+                    Assert.AreEqual(20, basketSummary.TaxRate);
+                    Assert.AreEqual(0, basketSummary.Total);
+                    Assert.AreEqual(0, basketSummary.TotalItems);
+
+                    Assert.AreEqual(0, shoppingCartItemData.RecordCount);
+                    Assert.AreEqual(1, shoppingCartData.RecordCount);
+
+                    // validate saved order details
+                    Assert.AreEqual(3, orderItemData.RecordCount);
+                    List<OrderItemDataRow> orderItems = orderItemData.Select().Where(oi => oi.OrderId.Equals(order.Id)).ToList();
+
+                    Assert.AreEqual(1.99m, orderItems[0].Price);
+                    Assert.AreEqual(1, orderItems[0].Quantity);
+                    Assert.AreEqual("This is a description of my test product 1", orderItems[0].Description);
+
+                    Assert.AreEqual(2.99m, orderItems[1].Price);
+                    Assert.AreEqual(2, orderItems[1].Quantity);
+                    Assert.AreEqual("This is a description of my test product 2", orderItems[1].Description);
+
+                    Assert.AreEqual(3.99m, orderItems[2].Price);
+                    Assert.AreEqual(2, orderItems[2].Quantity);
+                    Assert.AreEqual("This is a description of my test product 3", orderItems[2].Description);
+
+                    Assert.AreEqual(1, orderData.RecordCount);
+
+                    OrderDataRow orderDataRow = orderData.Select().First();
+                    Assert.AreEqual(2.98m, orderDataRow.Postage);
+                    Assert.AreEqual("en-US", orderDataRow.Culture);
+                    Assert.AreEqual(ProcessStatus.PaymentPending, (ProcessStatus)orderDataRow.ProcessStatus);
+                    Assert.AreEqual(1, orderDataRow.DeliveryAddress);
+
+                    Assert.AreEqual(2, licenseData.RecordCount);
+                }
+            }
+            finally
+            {
+                Directory.Delete(directory, true);
+            }
+        }
+
         [TestMethod]
         public void AddVoucher_VoucherDoesNotExist_ReturnsFalse()
         {

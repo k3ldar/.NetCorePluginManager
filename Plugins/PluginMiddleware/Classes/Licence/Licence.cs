@@ -48,9 +48,9 @@ namespace Middleware.Accounts.Licences
         /// <param name="invoiceId">Unique invoice id associated with the licence.</param>
         /// <param name="domainName">Domain or Ip address where the licence is linked to.</param>
         /// <param name="encryptedLicence">Encrypted licence details.</param>
-        public Licence(in int id, in long userId, in LicenceType licenceType, in DateTime startDate,
+        public Licence(in long id, in long userId, in LicenceType licenceType, in DateTime startDate,
             in DateTime expireDate, in bool isValid, in bool isTrial, in byte updateCount,
-            in int invoiceId, in string domainName, in string encryptedLicence)
+            in long invoiceId, in string domainName, in string encryptedLicence)
         {
             Id = id;
             UserId = userId;
@@ -73,7 +73,7 @@ namespace Middleware.Accounts.Licences
         /// Unique user id.
         /// </summary>
         /// <value>int</value>
-        public int Id { get; private set; }
+        public long Id { get; private set; }
 
         /// <summary>
         /// Unique user id.
@@ -121,7 +121,7 @@ namespace Middleware.Accounts.Licences
         /// Unique invoice id associated with the licence.
         /// </summary>
         /// <value>int</value>
-        public int InvoiceId { get; private set; }
+        public long InvoiceId { get; private set; }
 
         /// <summary>
         /// Domain or Ip address where the licence is linked to.

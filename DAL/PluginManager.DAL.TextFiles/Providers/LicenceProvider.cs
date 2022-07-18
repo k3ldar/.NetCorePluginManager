@@ -35,7 +35,6 @@ namespace PluginManager.DAL.TextFiles.Providers
         #region Private Members
 
         private readonly ITextTableOperations<UserDataRow> _users;
-        private readonly ITextTableOperations<InvoiceDataRow> _invoices;
         private readonly ITextTableOperations<LicenseDataRow> _licenses;
         private readonly ITextTableOperations<LicenseTypeDataRow> _licenseTypes;
 
@@ -49,7 +48,6 @@ namespace PluginManager.DAL.TextFiles.Providers
             ITextTableOperations<LicenseTypeDataRow> orders)
         {
             _users = users ?? throw new ArgumentNullException(nameof(users));
-            _invoices = invoices ?? throw new ArgumentNullException(nameof(invoices));
             _licenses = addresses ?? throw new ArgumentNullException(nameof(addresses));
             _licenseTypes = orders ?? throw new ArgumentNullException(nameof(orders));
 
@@ -74,32 +72,50 @@ namespace PluginManager.DAL.TextFiles.Providers
 
         public List<Licence> LicencesGet(in Int64 userId)
         {
-            //if (_licences == null)
-            //{
-            //    _licences = new List<Licence>()
-            //    {
-            //        new Licence(1, 1, LicenceTypesGet()[0], DateTime.Now.AddMonths(-9), DateTime.Now.AddMonths(3),
-            //            true, false, 0, 1, "65.45.76.124", String.Empty),
-            //        new Licence(2, 1, LicenceTypesGet()[1], DateTime.Now.AddMonths(-9), DateTime.Now.AddMonths(3),
-            //            true, false, 0, 1, "124.76.45.65", "Encrypted String value")
-            //    };
-            //}
+            List<Licence> Result = new List<Licence>();
 
-            //return _licences;
+            UserDataRow user =  _users.Select(userId);
 
-            throw new NotImplementedException();
+            if (user == null)
+                return Result;
+
+            List<LicenseTypeDataRow> licenseTypes = _licenseTypes.Select().ToList();
+            List<LicenseDataRow> userLicenses = _licenses.Select().Where(l => l.UserId.Equals(user.Id)).ToList();
+
+            userLicenses.ForEach(ul =>
+            {
+                LicenseTypeDataRow licenseTypeDataRow = licenseTypes.Where(lt => lt.Id.Equals(ul.LicenseType)).First();
+                Result.Add(new Licence(ul.Id, ul.UserId, new LicenceType(licenseTypeDataRow.Id, licenseTypeDataRow.Description), ul.StartDate, 
+                    ul.ExpireDate, ul.IsValid, ul.IsTrial, ul.UpdateCount, ul.InvoiceId, ul.DomainName, ul.EncryptedLicense));
+            });
+
+            return Result;
         }
 
         public bool LicenceUpdateDomain(in long userId, in Licence licence, in string domain)
         {
-            //if (licence == null || String.IsNullOrEmpty(domain))
-            //    return false;
+            if (licence == null || String.IsNullOrEmpty(domain))
+                return false;
 
-            //_licences[licence.Id - 1].DomainName = domain;
+            UserDataRow user = _users.Select(userId);
 
-            //return true;
+            if (user == null)
+                return false;
 
-            throw new NotImplementedException();
+            LicenseDataRow licenseDataRow = _licenses.Select(licence.Id);
+
+            if (licenseDataRow == null)
+                return false;
+
+            licenseDataRow.DomainName = domain;
+            licenseDataRow.UpdateCount++;
+
+
+            bool Result = licenseDataRow.HasChanged;
+
+            _licenses.Update(licenseDataRow);
+
+            return Result;
         }
 
         public bool LicenceSendEmail(in long userId, in int licenceId)
@@ -113,17 +129,30 @@ namespace PluginManager.DAL.TextFiles.Providers
             if (licenceType == null)
                 throw new ArgumentNullException(nameof(licenceType));
 
-            //if (licenceType.Id == 1)
-            //{
-            //    _licences.Add(new Licence(_licences.Count + 1, userId, licenceType, DateTime.Now,
-            //        DateTime.Now.AddMonths(1), true, true, 0, 1, String.Empty, String.Empty));
+            UserDataRow user = _users.Select(userId);
 
-            //    return LicenceCreate.Success;
-            //}
+            if (user == null)
+               return LicenceCreate.Failed;
 
-            //return LicenceCreate.Failed;
+            long licenseTypeId = licenceType.Id;
 
-            throw new NotImplementedException();
+            if (_licenses.Select().Where(l => l.UserId.Equals(user.Id) && l.LicenseType.Equals(licenseTypeId) && l.IsTrial).Any())
+                return LicenceCreate.Existing;
+
+            LicenseDataRow licenseDataRow = new LicenseDataRow()
+            {
+                InvoiceId = 0,
+                UserId = userId,
+                LicenseType = licenceType.Id,
+                IsTrial = true,
+                IsValid = true,
+                StartDateTicks = DateTime.UtcNow.Ticks,
+                ExpireDateTicks = DateTime.UtcNow.AddDays(30).Ticks,                
+            };
+
+            _licenses.Insert(licenseDataRow);
+
+            return LicenceCreate.Success;
         }
 
         #endregion Public Interface Methods

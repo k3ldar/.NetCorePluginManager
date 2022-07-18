@@ -52,7 +52,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
                 };
         }
 
-        public List<Licence> LicencesGet(in Int64 userId)
+        public List<Licence> LicencesGet(in long userId)
         {
             if (_licences == null)
             {
@@ -73,7 +73,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
             if (licence == null || String.IsNullOrEmpty(domain))
                 return false;
 
-            _licences[licence.Id - 1].DomainName = domain;
+            _licences[(int)licence.Id - 1].DomainName = domain;
 
             return true;
         }

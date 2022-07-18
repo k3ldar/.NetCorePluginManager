@@ -17,7 +17,7 @@
  *  
  *  File: AccountProviderTests.cs
  *
- *  Purpose:  AccountProvider tests Tests for text based storage
+ *  Purpose:  Account provider tests Tests for text based storage
  *
  *  Date        Name                Reason
  *  31/05/2022  Simon Carter        Initially Created
@@ -851,11 +851,11 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     Assert.IsNotNull(orderItemsData);
                     Assert.AreEqual(0, orderItemsData.RecordCount);
 
-                    ITextTableOperations<OrderDataRow> invoiceData = provider.GetService<ITextTableOperations<OrderDataRow>>();
+                    ITextTableOperations<InvoiceDataRow> invoiceData = provider.GetService<ITextTableOperations<InvoiceDataRow>>();
                     Assert.IsNotNull(invoiceData);
                     Assert.AreEqual(0, invoiceData.RecordCount);
 
-                    ITextTableOperations<OrderItemDataRow> invoiceItemData = provider.GetService<ITextTableOperations<OrderItemDataRow>>();
+                    ITextTableOperations<InvoiceItemDataRow> invoiceItemData = provider.GetService<ITextTableOperations<InvoiceItemDataRow>>();
                     Assert.IsNotNull(invoiceItemData);
                     Assert.AreEqual(0, invoiceItemData.RecordCount);
 

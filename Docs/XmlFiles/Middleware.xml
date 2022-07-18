@@ -354,7 +354,7 @@
             User licence.  Provides details on an individual user licence.
             </summary>
         </member>
-        <member name="M:Middleware.Accounts.Licences.Licence.#ctor(System.Int32@,System.Int64@,Middleware.Accounts.Licences.LicenceType@,System.DateTime@,System.DateTime@,System.Boolean@,System.Boolean@,System.Byte@,System.Int32@,System.String@,System.String@)">
+        <member name="M:Middleware.Accounts.Licences.Licence.#ctor(System.Int64@,System.Int64@,Middleware.Accounts.Licences.LicenceType@,System.DateTime@,System.DateTime@,System.Boolean@,System.Boolean@,System.Byte@,System.Int64@,System.String@,System.String@)">
             <summary>
             Constructor
             </summary>

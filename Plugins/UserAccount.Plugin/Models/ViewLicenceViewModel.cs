@@ -41,7 +41,7 @@ namespace UserAccount.Plugin.Models
         }
 
         public ViewLicenceViewModel(in BaseModelData baseModelData,
-            in int id, in string domain, in string licenceType, in bool active,
+            in long id, in string domain, in string licenceType, in bool active,
             in bool trial, in DateTime expires, in byte updates, in string licence)
             : base(baseModelData)
         {
@@ -61,7 +61,7 @@ namespace UserAccount.Plugin.Models
 
         #region Properties
 
-        public int Id { get; set; }
+        public long Id { get; set; }
 
         public string Domain { get; set; }
 

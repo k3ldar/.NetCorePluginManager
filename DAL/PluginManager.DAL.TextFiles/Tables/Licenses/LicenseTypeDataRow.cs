@@ -27,7 +27,7 @@ using PluginManager.DAL.TextFiles.Internal;
 
 namespace PluginManager.DAL.TextFiles.Tables
 {
-    [Table(Constants.TableNameLicenses)]
+    [Table(Constants.TableNameLicenseTypes)]
     internal class LicenseTypeDataRow : TableRowDefinition
     {
         private string _description;
