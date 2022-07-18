@@ -28,6 +28,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 using Middleware;
 using Middleware.Accounts;
+using Middleware.Helpdesk;
 
 using PluginManager.Abstractions;
 using PluginManager.DAL.TextFiles.Internal;
@@ -96,6 +97,13 @@ namespace PluginManager.DAL.TextFiles
 
             services.AddSingleton(typeof(TableRowDefinition), typeof(ExternalUsersDataRow));
 
+            services.AddSingleton(typeof(TableRowDefinition), typeof(FeedbackDataRow));
+            services.AddSingleton(typeof(TableRowDefinition), typeof(TicketDataRow));
+            services.AddSingleton(typeof(TableRowDefinition), typeof(TicketDepartmentsDataRow));
+            services.AddSingleton(typeof(TableRowDefinition), typeof(TicketMessageDataRow));
+            services.AddSingleton(typeof(TableRowDefinition), typeof(TicketPrioritiesDataRow));
+            services.AddSingleton(typeof(TableRowDefinition), typeof(TicketStatusDataRow));
+
             services.AddSingleton(typeof(TableRowDefinition), typeof(InvoiceDataRow));
             services.AddSingleton(typeof(TableRowDefinition), typeof(InvoiceItemDataRow));
 
@@ -133,7 +141,7 @@ namespace PluginManager.DAL.TextFiles
             services.AddSingleton<ICountryProvider, CountryProvider>();
             //services.AddSingleton<IDownloadProvider, DownloadProvider>();
             //services.AddSingleton<IDynamicContentProvider, DynamicContentProvider>();
-            //services.AddSingleton<IHelpdeskProvider, HelpdeskProvider>();
+            services.AddSingleton<IHelpdeskProvider, HelpdeskProvider>();
             services.AddSingleton<ILicenceProvider, LicenceProvider>();
             services.AddSingleton<ILoginProvider, LoginProvider>();
             services.AddSingleton<IProductProvider, ProductProvider>();

@@ -31,82 +31,83 @@ using System.Linq;
 using Middleware;
 using Middleware.Helpdesk;
 
+using PluginManager.DAL.TextFiles.Tables;
+
 namespace PluginManager.DAL.TextFiles.Providers
 {
     internal class HelpdeskProvider : IHelpdeskProvider
     {
         #region Private Members
 
-        private static List<Feedback> _feedback;
-        private static List<HelpdeskTicket> _tickets;
-        private static List<KnowledgeBaseGroup> _faq;
+        private readonly ITextTableOperations<FeedbackDataRow> _feedbackDataRow;
 
         #endregion Private Members
 
         #region Constructors
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1303:Do not pass literals as localized parameters", Justification = "Intended for developers not end users")]
-        public HelpdeskProvider()
+        public HelpdeskProvider(ITextTableOperations<FeedbackDataRow> feedbackDataRow)
         {
-            _tickets = new List<HelpdeskTicket>()
-            {
-                new HelpdeskTicket(1,
-                    GetTicketPriorities().Where(p => p.Id == 1).FirstOrDefault(),
-                    GetTicketDepartments().Where(d => d.Id == 2).FirstOrDefault(),
-                    GetTicketStatus().Where(s => s.Id == 3).FirstOrDefault(),
-                    "ABC-123456", "Test 1", DateTime.Now, DateTime.Now, "Joe Bloggs",
-                    "joe@bloggs.com", "Joe Bloggs", new List<HelpdeskTicketMessage>()
-                    {
-                        new HelpdeskTicketMessage(DateTime.Now, "Joe Bloggs", "Hello\r\nLine 2"),
-                    }),
-                new HelpdeskTicket(2,
-                    GetTicketPriorities().Where(p => p.Id == 1).FirstOrDefault(),
-                    GetTicketDepartments().Where(d => d.Id == 2).FirstOrDefault(),
-                    GetTicketStatus().Where(s => s.Id == 3).FirstOrDefault(),
-                    "DEF-987654", "Test 2", DateTime.Now, DateTime.Now, "Jane Doe",
-                    "jane@doe.com", "Service Representative 1", new List<HelpdeskTicketMessage>()
-                    {
-                        new HelpdeskTicketMessage(DateTime.Now, "Jane Doe", "Hello\r\nLine 2"),
-                        new HelpdeskTicketMessage(DateTime.Now, "Service Rep 1", "Hello\r\n\r\nTo you too!")
-                    }),
-            };
+            _feedbackDataRow = feedbackDataRow ?? throw new ArgumentNullException(nameof(feedbackDataRow));
 
-            _faq = new List<KnowledgeBaseGroup>()
-            {
-                new KnowledgeBaseGroup(0, "Plugin Interfaces", "Frequently asked questions about plugin interfaces", 0, 0, null,
-                    new List<KnowledgeBaseItem>()
-                    {
-                        new KnowledgeBaseItem(0, "IPlugin", 0, "Primary interface used to register an assembly with plugin manager"),
-                        new KnowledgeBaseItem(1, "IPluginTypesService", 0, "Retrieves all classes with the specified attribute"),
-                        new KnowledgeBaseItem(2, "IPluginHelperService", 0, "Plugin services and stuff"),
-                        new KnowledgeBaseItem(3, "IPluginVersion", 0, "Retrieves version from assembly"),
-                    }),
-                new KnowledgeBaseGroup(1, "Shared Interfaces", "Frequently asked questions about shared interfaces", 0, 0, null,
-                   new List<KnowledgeBaseItem>()
-                   {
-                            new KnowledgeBaseItem(4, "IMemoryCache", 0, "Provides two caches with variable expire times."),
-                            new KnowledgeBaseItem(5, "ISettingsProvider", 0, "Allows plugins to easily load setting data."),
-                   }),
-            };
+            //_tickets = new List<HelpdeskTicket>()
+            //{
+            //    new HelpdeskTicket(1,
+            //        GetTicketPriorities().Where(p => p.Id == 1).FirstOrDefault(),
+            //        GetTicketDepartments().Where(d => d.Id == 2).FirstOrDefault(),
+            //        GetTicketStatus().Where(s => s.Id == 3).FirstOrDefault(),
+            //        "ABC-123456", "Test 1", DateTime.Now, DateTime.Now, "Joe Bloggs",
+            //        "joe@bloggs.com", "Joe Bloggs", new List<HelpdeskTicketMessage>()
+            //        {
+            //            new HelpdeskTicketMessage(DateTime.Now, "Joe Bloggs", "Hello\r\nLine 2"),
+            //        }),
+            //    new HelpdeskTicket(2,
+            //        GetTicketPriorities().Where(p => p.Id == 1).FirstOrDefault(),
+            //        GetTicketDepartments().Where(d => d.Id == 2).FirstOrDefault(),
+            //        GetTicketStatus().Where(s => s.Id == 3).FirstOrDefault(),
+            //        "DEF-987654", "Test 2", DateTime.Now, DateTime.Now, "Jane Doe",
+            //        "jane@doe.com", "Service Representative 1", new List<HelpdeskTicketMessage>()
+            //        {
+            //            new HelpdeskTicketMessage(DateTime.Now, "Jane Doe", "Hello\r\nLine 2"),
+            //            new HelpdeskTicketMessage(DateTime.Now, "Service Rep 1", "Hello\r\n\r\nTo you too!")
+            //        }),
+            //};
 
-            _faq.Add(new KnowledgeBaseGroup(3, "Geo Ip Interfaces", "Interaces for geoip usage", 0, 0, _faq[0],
-                new List<KnowledgeBaseItem>()
-                {
-                }));
+            //_faq = new List<KnowledgeBaseGroup>()
+            //{
+            //    new KnowledgeBaseGroup(0, "Plugin Interfaces", "Frequently asked questions about plugin interfaces", 0, 0, null,
+            //        new List<KnowledgeBaseItem>()
+            //        {
+            //            new KnowledgeBaseItem(0, "IPlugin", 0, "Primary interface used to register an assembly with plugin manager"),
+            //            new KnowledgeBaseItem(1, "IPluginTypesService", 0, "Retrieves all classes with the specified attribute"),
+            //            new KnowledgeBaseItem(2, "IPluginHelperService", 0, "Plugin services and stuff"),
+            //            new KnowledgeBaseItem(3, "IPluginVersion", 0, "Retrieves version from assembly"),
+            //        }),
+            //    new KnowledgeBaseGroup(1, "Shared Interfaces", "Frequently asked questions about shared interfaces", 0, 0, null,
+            //       new List<KnowledgeBaseItem>()
+            //       {
+            //                new KnowledgeBaseItem(4, "IMemoryCache", 0, "Provides two caches with variable expire times."),
+            //                new KnowledgeBaseItem(5, "ISettingsProvider", 0, "Allows plugins to easily load setting data."),
+            //       }),
+            //};
 
-            _faq.Add(new KnowledgeBaseGroup(4, "Supported Geo Ip Services", "details on supported Geo Ip Services", 0, 0, _faq[2],
-                new List<KnowledgeBaseItem>()
-                {
-                    new KnowledgeBaseItem(6, "SieraDelta Geo Ip", 0, "Details about Geo Ip Service"),
-                    new KnowledgeBaseItem(7, "Net77", 0, "Net 77 Geo Ip"),
-                    new KnowledgeBaseItem(8, "IpStack", 0, "Ip Stack Geo Ip Servies"),
-                }));
+            //_faq.Add(new KnowledgeBaseGroup(3, "Geo Ip Interfaces", "Interaces for geoip usage", 0, 0, _faq[0],
+            //    new List<KnowledgeBaseItem>()
+            //    {
+            //    }));
 
-            _faq.Add(new KnowledgeBaseGroup(5, "Geo Ip Sub Sub Group", "Another Sub Group", 0, 0, _faq[2],
-                new List<KnowledgeBaseItem>()
-                {
-                    new KnowledgeBaseItem(6, "SieraDelta Geo Ip", 0, "Details about Geo Ip Service")
-                }));
+            //_faq.Add(new KnowledgeBaseGroup(4, "Supported Geo Ip Services", "details on supported Geo Ip Services", 0, 0, _faq[2],
+            //    new List<KnowledgeBaseItem>()
+            //    {
+            //        new KnowledgeBaseItem(6, "SieraDelta Geo Ip", 0, "Details about Geo Ip Service"),
+            //        new KnowledgeBaseItem(7, "Net77", 0, "Net 77 Geo Ip"),
+            //        new KnowledgeBaseItem(8, "IpStack", 0, "Ip Stack Geo Ip Servies"),
+            //    }));
+
+            //_faq.Add(new KnowledgeBaseGroup(5, "Geo Ip Sub Sub Group", "Another Sub Group", 0, 0, _faq[2],
+            //    new List<KnowledgeBaseItem>()
+            //    {
+            //        new KnowledgeBaseItem(6, "SieraDelta Geo Ip", 0, "Details about Geo Ip Service")
+            //    }));
         }
 
         #endregion Constructors
@@ -116,25 +117,27 @@ namespace PluginManager.DAL.TextFiles.Providers
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1303:Do not pass literals as localized parameters", Justification = "Intended for developers not end users")]
         public List<Feedback> GetFeedback(in bool publiclyVisible)
         {
-            if (_feedback == null)
-            {
-                _feedback = new List<Feedback>()
-                {
-                    new Feedback(1, "Joe Bloggs", "Asp Net core is awesome", true),
-                    new Feedback(2, "Jane Doe", "AspNetCore.PluginManager is extremely flexible", true),
-                };
-            }
+            //if (_feedback == null)
+            //{
+            //    _feedback = new List<Feedback>()
+            //    {
+            //        new Feedback(1, "Joe Bloggs", "Asp Net core is awesome", true),
+            //        new Feedback(2, "Jane Doe", "AspNetCore.PluginManager is extremely flexible", true),
+            //    };
+            //}
 
-            return _feedback;
+            //return _feedback;
+            throw new NotImplementedException();
         }
 
         public bool SubmitFeedback(in long userId, in string name, in string feedback)
         {
-            List<Feedback> fb = GetFeedback(true);
+            //List<Feedback> fb = GetFeedback(true);
 
-            fb.Add(new Feedback(fb.Count + 1, name, feedback, true));
+            //fb.Add(new Feedback(fb.Count + 1, name, feedback, true));
 
-            return true;
+            //return true;
+            throw new NotImplementedException();
         }
 
         #endregion Public Feedback Methods
@@ -143,99 +146,108 @@ namespace PluginManager.DAL.TextFiles.Providers
 
         public List<LookupListItem> GetTicketDepartments()
         {
-            return new List<LookupListItem>()
-            {
-                new LookupListItem(1, "Sales"),
-                new LookupListItem(2, "Support"),
-                new LookupListItem(3, "Returns"),
-            };
+            //return new List<LookupListItem>()
+            //{
+            //    new LookupListItem(1, "Sales"),
+            //    new LookupListItem(2, "Support"),
+            //    new LookupListItem(3, "Returns"),
+            //};
+            throw new NotImplementedException();
         }
 
         public List<LookupListItem> GetTicketPriorities()
         {
-            return new List<LookupListItem>()
-            {
-                new LookupListItem(1, "Low"),
-                new LookupListItem(2, "Medium"),
-                new LookupListItem(3, "High"),
-            };
+            //return new List<LookupListItem>()
+            //{
+            //    new LookupListItem(1, "Low"),
+            //    new LookupListItem(2, "Medium"),
+            //    new LookupListItem(3, "High"),
+            //};
+
+            throw new NotImplementedException();
         }
 
         public List<LookupListItem> GetTicketStatus()
         {
-            return new List<LookupListItem>()
-            {
-                new LookupListItem(1, "Closed"),
-                new LookupListItem(2, "Open"),
-                new LookupListItem(3, "On Hold"),
-            };
+            //return new List<LookupListItem>()
+            //{
+            //    new LookupListItem(1, "Closed"),
+            //    new LookupListItem(2, "Open"),
+            //    new LookupListItem(3, "On Hold"),
+            //};
+
+            throw new NotImplementedException();
         }
 
         public bool SubmitTicket(in long userId, in int department, in int priority,
             in string userName, in string email, in string subject, in string message,
             out HelpdeskTicket ticket)
         {
-            int idPriority = priority;
-            int idStatus = 2;
-            int idDepartment = department;
+            //int idPriority = priority;
+            //int idStatus = 2;
+            //int idDepartment = department;
 
-            ticket = new HelpdeskTicket(_tickets.Count + 1,
-                GetTicketPriorities().Where(p => p.Id == idPriority).FirstOrDefault(),
-                GetTicketDepartments().Where(d => d.Id == idDepartment).FirstOrDefault(),
-                GetTicketStatus().Where(s => s.Id == idStatus).FirstOrDefault(),
-                Shared.Utilities.GetRandomKey(),
-                subject,
-                DateTime.Now,
-                DateTime.Now,
-                userName,
-                email, userName,
-                new List<HelpdeskTicketMessage>()
-                {
-                    new HelpdeskTicketMessage(DateTime.Now, userName, message)
-                });
+            //ticket = new HelpdeskTicket(_tickets.Count + 1,
+            //    GetTicketPriorities().Where(p => p.Id == idPriority).FirstOrDefault(),
+            //    GetTicketDepartments().Where(d => d.Id == idDepartment).FirstOrDefault(),
+            //    GetTicketStatus().Where(s => s.Id == idStatus).FirstOrDefault(),
+            //    Shared.Utilities.GetRandomKey(),
+            //    subject,
+            //    DateTime.Now,
+            //    DateTime.Now,
+            //    userName,
+            //    email, userName,
+            //    new List<HelpdeskTicketMessage>()
+            //    {
+            //        new HelpdeskTicketMessage(DateTime.Now, userName, message)
+            //    });
 
-            _tickets.Add(ticket);
+            //_tickets.Add(ticket);
 
-            return true;
+            //return true;
+            throw new NotImplementedException();
         }
 
         public HelpdeskTicket GetTicket(in long id)
         {
-            foreach (HelpdeskTicket ticket in _tickets)
-            {
-                if (ticket.Id == id)
-                    return ticket;
-            }
+            //foreach (HelpdeskTicket ticket in _tickets)
+            //{
+            //    if (ticket.Id == id)
+            //        return ticket;
+            //}
 
-            return null;
+            //return null;
+            throw new NotImplementedException();
         }
 
         public HelpdeskTicket GetTicket(in string email, in string ticketKey)
         {
-            foreach (HelpdeskTicket ticket in _tickets)
-            {
-                if (ticket.Key == ticketKey && ticket.CreatedByEmail.Equals(email, StringComparison.CurrentCultureIgnoreCase))
-                    return ticket;
-            }
+            //foreach (HelpdeskTicket ticket in _tickets)
+            //{
+            //    if (ticket.Key == ticketKey && ticket.CreatedByEmail.Equals(email, StringComparison.CurrentCultureIgnoreCase))
+            //        return ticket;
+            //}
 
-            return null;
+            //return null;
+            throw new NotImplementedException();
         }
 
         public bool TicketRespond(in HelpdeskTicket ticket, in string name, in string message)
         {
-            if (ticket == null)
-                throw new ArgumentNullException(nameof(ticket));
+            //if (ticket == null)
+            //    throw new ArgumentNullException(nameof(ticket));
 
-            if (String.IsNullOrEmpty(name))
-                throw new ArgumentNullException(nameof(name));
+            //if (String.IsNullOrEmpty(name))
+            //    throw new ArgumentNullException(nameof(name));
 
-            if (String.IsNullOrEmpty(message))
-                throw new ArgumentNullException(nameof(message));
+            //if (String.IsNullOrEmpty(message))
+            //    throw new ArgumentNullException(nameof(message));
 
-            ticket.Messages.Add(new HelpdeskTicketMessage(DateTime.Now, name, message));
-            ticket.Status = GetTicketStatus().Where(s => s.Id == 2).FirstOrDefault();
+            //ticket.Messages.Add(new HelpdeskTicketMessage(DateTime.Now, name, message));
+            //ticket.Status = GetTicketStatus().Where(s => s.Id == 2).FirstOrDefault();
 
-            return true;
+            //return true;
+            throw new NotImplementedException();
         }
 
         #endregion Public Ticket Methods
@@ -244,55 +256,59 @@ namespace PluginManager.DAL.TextFiles.Providers
 
         public List<KnowledgeBaseGroup> GetKnowledgebaseGroups(in long userId, in KnowledgeBaseGroup parent)
         {
-            if (parent == null)
-                return _faq.Where(f => f.Parent == null).ToList();
+            //if (parent == null)
+            //    return _faq.Where(f => f.Parent == null).ToList();
 
-            int parentId = parent.Id;
+            //int parentId = parent.Id;
 
-            return _faq.Where(f => f.Parent != null && f.Parent.Id == parentId).ToList();
+            //return _faq.Where(f => f.Parent != null && f.Parent.Id == parentId).ToList();
+            throw new NotImplementedException();
         }
 
         public KnowledgeBaseGroup GetKnowledgebaseGroup(in long userId, in int id)
         {
-            int searchId = id;
+            //int searchId = id;
 
-            foreach (KnowledgeBaseGroup group in _faq)
-            {
-                if (group.Id == searchId)
-                    return group;
-            }
+            //foreach (KnowledgeBaseGroup group in _faq)
+            //{
+            //    if (group.Id == searchId)
+            //        return group;
+            //}
 
-            return null;
+            //return null;
+            throw new NotImplementedException();
         }
 
         public bool GetKnowledgebaseItem(in long userId, in int id,
             out KnowledgeBaseItem knowledgebaseItem, out KnowledgeBaseGroup parentGroup)
         {
-            foreach (KnowledgeBaseGroup group in _faq)
-            {
-                foreach (KnowledgeBaseItem item in group.Items)
-                {
-                    if (item.Id == id)
-                    {
-                        knowledgebaseItem = item;
-                        parentGroup = group;
-                        return true;
-                    }
-                }
-            }
+            //foreach (KnowledgeBaseGroup group in _faq)
+            //{
+            //    foreach (KnowledgeBaseItem item in group.Items)
+            //    {
+            //        if (item.Id == id)
+            //        {
+            //            knowledgebaseItem = item;
+            //            parentGroup = group;
+            //            return true;
+            //        }
+            //    }
+            //}
 
-            knowledgebaseItem = null;
-            parentGroup = null;
+            //knowledgebaseItem = null;
+            //parentGroup = null;
 
-            return false;
+            //return false;
+            throw new NotImplementedException();
         }
 
         public void KnowledbaseView(in KnowledgeBaseItem item)
         {
-            if (item == null)
-                throw new ArgumentNullException(nameof(item));
+            throw new NotImplementedException();
+            //if (item == null)
+            //    throw new ArgumentNullException(nameof(item));
 
-            item.IncreastViewCount();
+            //item.IncreastViewCount();
         }
 
         #endregion Public FaQ Methods

@@ -49,5 +49,13 @@ namespace PluginManager.DAL.TextFiles.Internal
         public const string TableNameStock = "Stock";
         public const string TableNameLicenseTypes = "LicenseTypes";
         public const string TableNameLicenses = "Licenses";
+        public const string TableNameFeedback = "Feedback";
+
+        public const string DomainHelpdesk = "Helpdesk";
+        public const string TableNameTicket = "HelpdeskTicket";
+        public const string TableNameTicketMessages = "HelpdeskTicketMessage";
+        public const string TableNameTicketDepartments = "HelpdeskTicketDepartments";
+        public const string TableNameTicketPriorities = "HelpdeskTicketPriorities";
+        public const string TableNameTicketStatus = "HelpdeskTicketStatus";
     }
 }
