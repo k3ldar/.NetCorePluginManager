@@ -147,7 +147,7 @@ namespace PluginManager.DAL.TextFiles.Internal
             _jsonSerializerOptions = new JsonSerializerOptions();
 
             bool tableCreated;
-            (tableCreated, _tableName) = ValidateTableName(_initializer.Path, _tableAttributes.TableName);
+            (tableCreated, _tableName) = ValidateTableName(_initializer.Path, _tableAttributes.Domain, _tableAttributes.TableName);
             _fileStream = File.Open(_tableName, FileMode.Open, FileAccess.ReadWrite, FileShare.Read);
 
             try
@@ -538,6 +538,8 @@ namespace PluginManager.DAL.TextFiles.Internal
                     InternalSaveRecordsToDisk(existingRecords);
 
                     _triggers.ForEach(t => t.AfterUpdate(records));
+
+                    records.ForEach(r => r.HasChanged = false);
                 }
                 finally
                 {
@@ -903,14 +905,23 @@ namespace PluginManager.DAL.TextFiles.Internal
             _compactPercent = Convert.ToByte(Shared.Utilities.Percentage(_fileStream.Length, _fileStream.Position + _dataLength));
         }
 
-        private (bool, string) ValidateTableName(string path, string name)
+        private (bool, string) ValidateTableName(string path, string domain, string name)
         {
             string extension = Path.GetExtension(name);
 
             if (String.IsNullOrEmpty(extension))
                 name += DefaultExtension;
 
-            string tableName = Path.Combine(path, name);
+            string tableName = path;
+
+            if (!String.IsNullOrEmpty(domain))
+                tableName = Path.Combine(tableName, domain);
+
+            if (!Directory.Exists(tableName))
+                Directory.CreateDirectory(tableName);
+
+            tableName = Path.Combine(tableName, name);
+
             bool tableCreated = false;
 
             if (!File.Exists(tableName))

@@ -124,7 +124,7 @@ namespace PluginManager.DAL.TextFiles
         /// Indicates the record has been updated 
         /// </summary>
         [JsonIgnore] 
-        protected internal bool HasChanged { get; private set; }
+        protected internal bool HasChanged { get; internal set; }
 
         protected void Update()
         {

@@ -30,20 +30,38 @@ namespace PluginManager.DAL.TextFiles
     public class TableAttribute : Attribute
     {
         public TableAttribute(string tableName, CompressionType compression = CompressionType.None, CachingStrategy cachingStrategy = CachingStrategy.None)
+            : this (String.Empty, tableName, compression, cachingStrategy)
         {
+
+        }
+
+        public TableAttribute(string domain, string tableName, CompressionType compression = CompressionType.None, CachingStrategy cachingStrategy = CachingStrategy.None)
+        {
+            if (domain == null)
+                throw new ArgumentNullException(nameof(domain));
+
             if (String.IsNullOrEmpty(tableName))
                 throw new ArgumentNullException(nameof(tableName));
 
-            foreach (char c in System.IO.Path.GetInvalidFileNameChars())
+            foreach (char c in Path.GetInvalidFileNameChars())
+            {
+                if (domain.Contains(c))
+                    throw new ArgumentException($"Tablename contains invalid character: {c}", nameof(tableName));
+            }
+
+            foreach (char c in Path.GetInvalidFileNameChars())
             {
                 if (tableName.Contains(c))
                     throw new ArgumentException($"Tablename contains invalid character: {c}", nameof(tableName));
             }
 
+            Domain = domain;
             TableName = tableName;
             Compression = compression;
             CachingStrategy = cachingStrategy;
         }
+
+        public string Domain { get; }
 
         public string TableName { get; }
 
