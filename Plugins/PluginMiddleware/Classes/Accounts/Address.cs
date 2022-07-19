@@ -45,7 +45,6 @@ namespace Middleware
         /// Constructor
         /// </summary>
         /// <param name="id">Shipping costs for the address.</param>
-        /// <param name="shipping">Shipping costs for the address.</param>
         /// <param name="businessName">Business name if applicable.</param>
         /// <param name="addressLine1">Address line 1.</param>
         /// <param name="addressLine2">Address line 2.</param>

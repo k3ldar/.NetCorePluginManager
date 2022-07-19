@@ -104,7 +104,7 @@ namespace ShoppingCartPlugin.Models
         #region Private Methods
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private string AddLine(string s)
+        private static string AddLine(string s)
         {
             if (String.IsNullOrEmpty(s))
                 return String.Empty;

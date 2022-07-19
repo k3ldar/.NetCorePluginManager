@@ -1006,7 +1006,7 @@ namespace PluginManager
         /// <returns>Assembly instance</returns>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA2208:Instantiate argument exceptions correctly", Justification = "Move along, nothing to see here")]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1303:Do not pass literals as localized parameters", Justification = "I wanted to...")]
-        private Assembly LoadAssembly(in string assemblyName)
+        private static Assembly LoadAssembly(in string assemblyName)
         {
             string assembly = assemblyName;
 

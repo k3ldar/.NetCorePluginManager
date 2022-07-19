@@ -23,6 +23,8 @@
  *  18/07/2022  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+using System.Xml.Linq;
+
 using PluginManager.DAL.TextFiles.Internal;
 
 namespace PluginManager.DAL.TextFiles.Tables
@@ -39,5 +41,146 @@ namespace PluginManager.DAL.TextFiles.Tables
         private string _createdByEmail;
         private string _lastReplier;
         private ObservableList<TicketMessageDataRow> _messages;
+
+        public TicketDataRow()
+        {
+            _messages = new ObservableList<TicketMessageDataRow>();
+            _messages.Changed += ObservableDataChanged;
+        }
+
+        [ForeignKey(Constants.TableNameTicketPriorities)]
+        public long Priority
+        {
+            get => _priority;
+
+            set
+            {
+                if (_priority == value)
+                    return;
+
+                _priority = value;
+                Update();
+            }
+        }
+
+        [ForeignKey(Constants.TableNameTicketDepartments)]
+        public long Department
+        {
+            get => _department;
+
+            set
+            {
+                if (_department == value)
+                    return;
+
+                _department = value;
+                Update();
+            }
+        }
+
+        [ForeignKey(Constants.TableNameTicketStatus)]
+        public long Status
+        {
+            get => _status;
+
+            set
+            {
+                if (_status == value)
+                    return;
+
+                _status = value;
+                Update();
+            }
+        }
+
+        [UniqueIndex]
+        public string Key
+        {
+            get => _key;
+
+            set
+            {
+                if (_key == value)
+                    return;
+
+                _key = value;
+                Update();
+            }
+        }
+
+        public string Subject
+        {
+            get => _subject;
+
+            set
+            {
+                if (_subject == value)
+                    return;
+
+                _subject = value;
+                Update();
+            }
+        }
+
+        public string CreatedBy
+        {
+            get => _createdBy;
+
+            set
+            {
+                if (_createdBy == value)
+                    return;
+
+                _createdBy = value;
+                Update();
+            }
+        }
+
+        public string CreatedByEmail
+        {
+            get => _createdByEmail;
+
+            set
+            {
+                if (_createdByEmail == value)
+                    return;
+
+                _createdByEmail = value;
+                Update();
+            }
+        }
+
+        public string LastReplier
+        {
+            get => _lastReplier;
+
+            set
+            {
+                if (_lastReplier == value)
+                    return;
+
+                _lastReplier = value;
+                Update();
+            }
+        }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0016:Use 'throw' expression", Justification = "Validation required before removing changed event")]
+        public ObservableList<TicketMessageDataRow> Messages
+{
+            get => _messages;
+
+            set
+            {
+                if (value == null)
+                    throw new InvalidOperationException();
+
+                if (_messages != null)
+                    _messages.Changed -= ObservableDataChanged;
+
+                _messages = value;
+                _messages.Changed += ObservableDataChanged;
+                Update();
+            }
+        }
     }
 }

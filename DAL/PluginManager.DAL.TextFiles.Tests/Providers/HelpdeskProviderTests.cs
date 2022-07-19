@@ -43,6 +43,7 @@ using PluginManager.Abstractions;
 using PluginManager.DAL.TextFiles.Internal;
 using PluginManager.DAL.TextFiles.Providers;
 using PluginManager.DAL.TextFiles.Tables;
+using PluginManager.Tests.Mocks;
 
 using SharedPluginFeatures;
 
@@ -55,11 +56,11 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
         [ExpectedException(typeof(ArgumentNullException))]
         public void Construct_InvalidParam_UsersNull_Throws_ArgumentNullException()
         {
-            new HelpdeskProvider(null);
+            new HelpdeskProvider(null, null, null, null, null, null, null);
         }
 
         [TestMethod]
-        public void blah()
+        public void GetTicketDepartments_ReturnsListOfDefaultDepartments()
         {
             string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
             try
@@ -67,7 +68,66 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
                 ServiceCollection services = new ServiceCollection();
-                MockPluginClassesService mockPluginClassesService = new MockPluginClassesService();
+                List<object> classServices = new List<object>()
+                {
+                    new TicketDepartmentsDataRowDefaults(),
+                    new TicketStatusDataRowDefaults(),
+                    new TicketPrioritiesDataRowDefaults(),
+                };
+
+                MockPluginClassesService mockPluginClassesService = new MockPluginClassesService(classServices);
+
+                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
+                services.AddSingleton<IPluginClassesService>(mockPluginClassesService);
+                
+                initialisation.BeforeConfigureServices(services);
+
+                using (ServiceProvider provider = services.BuildServiceProvider())
+                {
+                    mockPluginClassesService.Items.Add(new UserDataRowDefaults(provider.GetService<ISettingsProvider>()));
+
+                    IHelpdeskProvider sut = provider.GetService<IHelpdeskProvider>();
+                    Assert.IsNotNull(sut);
+                    HelpdeskProvider.ClearCache();
+
+                    List<LookupListItem> result = sut.GetTicketDepartments();
+
+                    Assert.IsNotNull(result);
+                    Assert.AreEqual(3, result.Count);
+
+                    Assert.AreEqual(1, result[0].Id);
+                    Assert.AreEqual("Sales", result[0].Description);
+
+                    Assert.AreEqual(2, result[1].Id);
+                    Assert.AreEqual("Support", result[1].Description);
+
+                    Assert.AreEqual(3, result[2].Id);
+                    Assert.AreEqual("Returns", result[2].Description);
+                }
+            }
+            finally
+            {
+                Directory.Delete(directory, true);
+            }
+        }
+
+        [TestMethod]
+        public void GetTicketPriorities_ReturnsListOfDefaultPriorities()
+        {
+            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            try
+            {
+                Directory.CreateDirectory(directory);
+                PluginInitialisation initialisation = new PluginInitialisation();
+                ServiceCollection services = new ServiceCollection();
+                List<object> classServices = new List<object>()
+                {
+                    new TicketDepartmentsDataRowDefaults(),
+                    new TicketStatusDataRowDefaults(),
+                    new TicketPrioritiesDataRowDefaults(),
+                };
+
+                MockPluginClassesService mockPluginClassesService = new MockPluginClassesService(classServices);
 
                 services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
                 services.AddSingleton<IPluginClassesService>(mockPluginClassesService);
@@ -80,8 +140,344 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
                     IHelpdeskProvider sut = provider.GetService<IHelpdeskProvider>();
                     Assert.IsNotNull(sut);
+                    HelpdeskProvider.ClearCache();
 
-                    Assert.IsTrue(false);
+                    List<LookupListItem> result = sut.GetTicketPriorities();
+
+                    Assert.IsNotNull(result);
+                    Assert.AreEqual(3, result.Count);
+
+                    Assert.AreEqual(1, result[0].Id);
+                    Assert.AreEqual("Low", result[0].Description);
+
+                    Assert.AreEqual(2, result[1].Id);
+                    Assert.AreEqual("Medium", result[1].Description);
+
+                    Assert.AreEqual(3, result[2].Id);
+                    Assert.AreEqual("High", result[2].Description);
+                }
+            }
+            finally
+            {
+                Directory.Delete(directory, true);
+            }
+        }
+
+        [TestMethod]
+        public void GetTicketStatus_ReturnsListOfDefaultStatuses()
+        {
+            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            try
+            {
+                Directory.CreateDirectory(directory);
+                PluginInitialisation initialisation = new PluginInitialisation();
+                ServiceCollection services = new ServiceCollection();
+                List<object> classServices = new List<object>()
+                {
+                    new TicketDepartmentsDataRowDefaults(),
+                    new TicketStatusDataRowDefaults(),
+                    new TicketPrioritiesDataRowDefaults(),
+                };
+
+                MockPluginClassesService mockPluginClassesService = new MockPluginClassesService(classServices);
+
+                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
+                services.AddSingleton<IPluginClassesService>(mockPluginClassesService);
+
+                initialisation.BeforeConfigureServices(services);
+
+                using (ServiceProvider provider = services.BuildServiceProvider())
+                {
+                    mockPluginClassesService.Items.Add(new UserDataRowDefaults(provider.GetService<ISettingsProvider>()));
+
+                    IHelpdeskProvider sut = provider.GetService<IHelpdeskProvider>();
+                    Assert.IsNotNull(sut);
+                    HelpdeskProvider.ClearCache();
+
+                    List<LookupListItem> result = sut.GetTicketStatus();
+
+                    Assert.IsNotNull(result);
+                    Assert.AreEqual(3, result.Count);
+
+                    Assert.AreEqual(1, result[0].Id);
+                    Assert.AreEqual("Closed", result[0].Description);
+
+                    Assert.AreEqual(2, result[1].Id);
+                    Assert.AreEqual("Open", result[1].Description);
+
+                    Assert.AreEqual(3, result[2].Id);
+                    Assert.AreEqual("On Hold", result[2].Description);
+                }
+            }
+            finally
+            {
+                Directory.Delete(directory, true);
+            }
+        }
+
+        [TestMethod]
+        public void GetFeedback_AllFeedBack_ReturnsEmptyList()
+        {
+            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            try
+            {
+                Directory.CreateDirectory(directory);
+                PluginInitialisation initialisation = new PluginInitialisation();
+                ServiceCollection services = new ServiceCollection();
+                List<object> classServices = new List<object>()
+                {
+                    new TicketDepartmentsDataRowDefaults(),
+                    new TicketStatusDataRowDefaults(),
+                    new TicketPrioritiesDataRowDefaults(),
+                };
+
+                MockPluginClassesService mockPluginClassesService = new MockPluginClassesService(classServices);
+
+                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
+                services.AddSingleton<IPluginClassesService>(mockPluginClassesService);
+
+                initialisation.BeforeConfigureServices(services);
+
+                using (ServiceProvider provider = services.BuildServiceProvider())
+                {
+                    mockPluginClassesService.Items.Add(new UserDataRowDefaults(provider.GetService<ISettingsProvider>()));
+
+                    IHelpdeskProvider sut = provider.GetService<IHelpdeskProvider>();
+                    Assert.IsNotNull(sut);
+                    HelpdeskProvider.ClearCache();
+
+                    List<Feedback> result = sut.GetFeedback(false);
+
+                    Assert.IsNotNull(result);
+                    Assert.AreEqual(0, result.Count);
+                }
+            }
+            finally
+            {
+                Directory.Delete(directory, true);
+            }
+        }
+
+        [TestMethod]
+        public void GetFeedback_NoFeedbackAllowedOnWebsite_ReturnsEmptyList()
+        {
+            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            try
+            {
+                Directory.CreateDirectory(directory);
+                PluginInitialisation initialisation = new PluginInitialisation();
+                ServiceCollection services = new ServiceCollection();
+                List<object> classServices = new List<object>()
+                {
+                    new TicketDepartmentsDataRowDefaults(),
+                    new TicketStatusDataRowDefaults(),
+                    new TicketPrioritiesDataRowDefaults(),
+                };
+
+                MockPluginClassesService mockPluginClassesService = new MockPluginClassesService(classServices);
+
+                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
+                services.AddSingleton<IPluginClassesService>(mockPluginClassesService);
+
+                initialisation.BeforeConfigureServices(services);
+
+                using (ServiceProvider provider = services.BuildServiceProvider())
+                {
+                    MockApplicationBuilder mockApplicationBuilder = new MockApplicationBuilder(provider);
+                    initialisation.AfterConfigure(mockApplicationBuilder);
+
+                    mockPluginClassesService.Items.Add(new UserDataRowDefaults(provider.GetService<ISettingsProvider>()));
+
+                    ITextTableOperations<FeedbackDataRow> feedbackData = provider.GetRequiredService<ITextTableOperations<FeedbackDataRow>>();
+                    Assert.IsNotNull(feedbackData);
+
+                    feedbackData.Insert(new List<FeedbackDataRow> 
+                    { 
+                        new FeedbackDataRow() { UserName = "a user", ShowOnWebsite = false, Message = "a message" },
+                        new FeedbackDataRow() { UserName = "other user", ShowOnWebsite = false, Message = "another message" }
+                    });
+
+                    IHelpdeskProvider sut = provider.GetService<IHelpdeskProvider>();
+                    Assert.IsNotNull(sut);
+                    HelpdeskProvider.ClearCache();
+
+                    List<Feedback> result = sut.GetFeedback(true);
+
+                    Assert.IsNotNull(result);
+                    Assert.AreEqual(0, result.Count);
+                }
+            }
+            finally
+            {
+                Directory.Delete(directory, true);
+            }
+        }
+
+        [TestMethod]
+        public void GetFeedback_OnlyFeedbackAllowedOnWebsite_ReturnsTwoItems()
+        {
+            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            try
+            {
+                Directory.CreateDirectory(directory);
+                PluginInitialisation initialisation = new PluginInitialisation();
+                ServiceCollection services = new ServiceCollection();
+                List<object> classServices = new List<object>()
+                {
+                    new TicketDepartmentsDataRowDefaults(),
+                    new TicketStatusDataRowDefaults(),
+                    new TicketPrioritiesDataRowDefaults(),
+                };
+
+                MockPluginClassesService mockPluginClassesService = new MockPluginClassesService(classServices);
+
+                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
+                services.AddSingleton<IPluginClassesService>(mockPluginClassesService);
+
+                initialisation.BeforeConfigureServices(services);
+
+                using (ServiceProvider provider = services.BuildServiceProvider())
+                {
+                    MockApplicationBuilder mockApplicationBuilder = new MockApplicationBuilder(provider);
+                    initialisation.AfterConfigure(mockApplicationBuilder);
+
+                    mockPluginClassesService.Items.Add(new UserDataRowDefaults(provider.GetService<ISettingsProvider>()));
+
+                    ITextTableOperations<FeedbackDataRow> feedbackData = provider.GetRequiredService<ITextTableOperations<FeedbackDataRow>>();
+                    Assert.IsNotNull(feedbackData);
+
+                    feedbackData.Insert(new List<FeedbackDataRow>
+                    {
+                        new FeedbackDataRow() { UserName = "a user", ShowOnWebsite = true, Message = "a message" },
+                        new FeedbackDataRow() { UserName = "other user", ShowOnWebsite = false, Message = "another message" },
+                        new FeedbackDataRow() { UserName = "user b", ShowOnWebsite = true, Message = "a message from user b" },
+                    });
+
+                    Assert.AreEqual(3, feedbackData.RecordCount);
+                    IHelpdeskProvider sut = provider.GetService<IHelpdeskProvider>();
+                    Assert.IsNotNull(sut);
+                    HelpdeskProvider.ClearCache();
+
+                    List<Feedback> result = sut.GetFeedback(true);
+
+                    Assert.IsNotNull(result);
+                    Assert.AreEqual(2, result.Count);
+                }
+            }
+            finally
+            {
+                Directory.Delete(directory, true);
+            }
+        }
+
+        [TestMethod]
+        public void GetFeedback_GetAllFeedback_ReturnsThreeItems()
+        {
+            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            try
+            {
+                Directory.CreateDirectory(directory);
+                PluginInitialisation initialisation = new PluginInitialisation();
+                ServiceCollection services = new ServiceCollection();
+                List<object> classServices = new List<object>()
+                {
+                    new TicketDepartmentsDataRowDefaults(),
+                    new TicketStatusDataRowDefaults(),
+                    new TicketPrioritiesDataRowDefaults(),
+                };
+
+                MockPluginClassesService mockPluginClassesService = new MockPluginClassesService(classServices);
+
+                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
+                services.AddSingleton<IPluginClassesService>(mockPluginClassesService);
+
+                initialisation.BeforeConfigureServices(services);
+
+                using (ServiceProvider provider = services.BuildServiceProvider())
+                {
+                    MockApplicationBuilder mockApplicationBuilder = new MockApplicationBuilder(provider);
+                    initialisation.AfterConfigure(mockApplicationBuilder);
+
+                    mockPluginClassesService.Items.Add(new UserDataRowDefaults(provider.GetService<ISettingsProvider>()));
+
+                    ITextTableOperations<FeedbackDataRow> feedbackData = provider.GetRequiredService<ITextTableOperations<FeedbackDataRow>>();
+                    Assert.IsNotNull(feedbackData);
+
+                    feedbackData.Insert(new List<FeedbackDataRow>
+                    {
+                        new FeedbackDataRow() { UserName = "a user", ShowOnWebsite = true, Message = "a message" },
+                        new FeedbackDataRow() { UserName = "other user", ShowOnWebsite = false, Message = "another message" },
+                        new FeedbackDataRow() { UserName = "user b", ShowOnWebsite = true, Message = "a message from user b" },
+                    });
+
+                    Assert.AreEqual(3, feedbackData.RecordCount);
+                    IHelpdeskProvider sut = provider.GetService<IHelpdeskProvider>();
+                    Assert.IsNotNull(sut);
+                    HelpdeskProvider.ClearCache();
+
+                    List<Feedback> result = sut.GetFeedback(false);
+
+                    Assert.IsNotNull(result);
+                    Assert.AreEqual(3, result.Count);
+                }
+            }
+            finally
+            {
+                Directory.Delete(directory, true);
+            }
+        }
+
+        [TestMethod]
+        public void SubmitFeedback_FeedbackShowOnWebsiteIsFalse_Success()
+        {
+            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            try
+            {
+                Directory.CreateDirectory(directory);
+                PluginInitialisation initialisation = new PluginInitialisation();
+                ServiceCollection services = new ServiceCollection();
+                List<object> classServices = new List<object>()
+                {
+                    new TicketDepartmentsDataRowDefaults(),
+                    new TicketStatusDataRowDefaults(),
+                    new TicketPrioritiesDataRowDefaults(),
+                };
+
+                MockPluginClassesService mockPluginClassesService = new MockPluginClassesService(classServices);
+
+                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
+                services.AddSingleton<IPluginClassesService>(mockPluginClassesService);
+
+                initialisation.BeforeConfigureServices(services);
+
+                using (ServiceProvider provider = services.BuildServiceProvider())
+                {
+                    MockApplicationBuilder mockApplicationBuilder = new MockApplicationBuilder(provider);
+                    initialisation.AfterConfigure(mockApplicationBuilder);
+
+                    mockPluginClassesService.Items.Add(new UserDataRowDefaults(provider.GetService<ISettingsProvider>()));
+
+                    ITextTableOperations<FeedbackDataRow> feedbackData = provider.GetRequiredService<ITextTableOperations<FeedbackDataRow>>();
+                    Assert.IsNotNull(feedbackData);
+                    Assert.AreEqual(0, feedbackData.RecordCount);
+
+                    IHelpdeskProvider sut = provider.GetService<IHelpdeskProvider>();
+                    Assert.IsNotNull(sut);
+                    HelpdeskProvider.ClearCache();
+
+                    bool submitted = sut.SubmitFeedback(0, "Just me", "Hello from here");
+                    Assert.IsTrue(submitted);
+
+                    List<Feedback> result = sut.GetFeedback(false);
+
+                    Assert.IsNotNull(result);
+                    Assert.AreEqual(1, result.Count);
+                    Assert.AreEqual(1, feedbackData.RecordCount);
+
+                    result = sut.GetFeedback(true);
+                    Assert.IsNotNull(result);
+                    Assert.AreEqual(0, result.Count);
+                    Assert.AreEqual(1, feedbackData.RecordCount);
                 }
             }
             finally

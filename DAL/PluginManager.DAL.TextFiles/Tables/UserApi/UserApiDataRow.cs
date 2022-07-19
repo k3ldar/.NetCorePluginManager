@@ -27,7 +27,7 @@ using PluginManager.DAL.TextFiles.Internal;
 
 namespace PluginManager.DAL.TextFiles.Tables
 {
-    [Table(Constants.TableNameUserClaims, CompressionType.None, CachingStrategy.None)]
+    [Table(Constants.TableNameUserApi, CompressionType.None, CachingStrategy.None)]
     internal class UserApiDataRow : TableRowDefinition
     {
         #region Private Members

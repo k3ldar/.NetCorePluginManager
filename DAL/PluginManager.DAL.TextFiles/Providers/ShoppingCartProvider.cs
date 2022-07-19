@@ -203,7 +203,6 @@ namespace PluginManager.DAL.TextFiles.Providers
 
             if (cacheItem == null)
             {
-                ShoppingCartDataRow newShoppingCart = CreateNewShoppingCart(shoppingCartId);
                 ShoppingCartDetail cartDetail = new ShoppingCartDetail(shoppingCartId, 0,
                     0, _defaultTaxRate, 0, 0, Thread.CurrentThread.CurrentUICulture,
                     "", new List<ShoppingCartItem>(), false, _defaultCurrency);
@@ -361,7 +360,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 
         #region Internal Methods
 
-        internal void ClearCache()
+        internal static void ClearCache()
         {
             _cartCacheManager.Clear();
         }

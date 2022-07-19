@@ -23,12 +23,7 @@
  *  25/05/2022  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.Json.Serialization;
-using System.Threading.Tasks;
 
 namespace PluginManager.DAL.TextFiles
 {
@@ -117,13 +112,13 @@ namespace PluginManager.DAL.TextFiles
         /// <summary>
         /// Indicates the record has been loaded from storage
         /// </summary>
-        [JsonIgnore] 
+        [JsonIgnore]
         internal bool Loaded { get; set; }
 
         /// <summary>
         /// Indicates the record has been updated 
         /// </summary>
-        [JsonIgnore] 
+        [JsonIgnore]
         protected internal bool HasChanged { get; internal set; }
 
         protected void Update()

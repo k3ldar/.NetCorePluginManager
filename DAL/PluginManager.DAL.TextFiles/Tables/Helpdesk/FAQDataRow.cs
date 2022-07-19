@@ -15,9 +15,9 @@
  *
  *  Product:  PluginManager.DAL.TextFiles
  *  
- *  File: FeedbackDataRow.cs
+ *  File: FAQDataRow.cs
  *
- *  Purpose:  Table definition for ticket departments
+ *  Purpose:  Table definition for faq's
  *
  *  Date        Name                Reason
  *  18/07/2022  Simon Carter        Initially Created
@@ -27,54 +27,8 @@ using PluginManager.DAL.TextFiles.Internal;
 
 namespace PluginManager.DAL.TextFiles.Tables
 {
-    [Table(Constants.DomainHelpdesk, Constants.TableNameTicketMessages, CompressionType.Brotli)]
-    internal class TicketMessageDataRow : TableRowDefinition
+    [Table(Constants.DomainHelpdesk, Constants.TableNameFAQ)]
+    internal class FAQDataRow : TableRowDefinition
     {
-        private long _ticketId;
-        private string _userName;
-        private string _message;
-
-        [ForeignKey(Constants.TableNameTicket)]
-        public long TicketId
-        {
-            get => _ticketId;
-
-            set
-            {
-                if (_ticketId == value)
-                    return;
-
-                _ticketId = value;
-                Update();
-            }
-        }
-
-        public string UserName
-        {
-            get => _userName;
-
-            set
-            {
-                if (_userName == value)
-                    return;
-
-                _userName = value;
-                Update();
-            }
-        }
-
-        public string Message
-        {
-            get => _message;
-
-            set
-            {
-                if (_message == value)
-                    return;
-
-                _message = value;
-                Update();
-            }
-        }
     }
 }

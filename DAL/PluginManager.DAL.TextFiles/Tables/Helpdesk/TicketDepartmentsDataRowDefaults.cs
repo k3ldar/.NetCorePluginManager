@@ -15,66 +15,38 @@
  *
  *  Product:  PluginManager.DAL.TextFiles
  *  
- *  File: FeedbackDataRow.cs
+ *  File: TicketDepartmentsDataRowDefaults.cs
  *
- *  Purpose:  Table definition for ticket departments
+ *  Purpose:  Default values for ticket departments
  *
  *  Date        Name                Reason
- *  18/07/2022  Simon Carter        Initially Created
+ *  19/07/2022  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using PluginManager.DAL.TextFiles.Internal;
 
 namespace PluginManager.DAL.TextFiles.Tables
 {
-    [Table(Constants.DomainHelpdesk, Constants.TableNameTicketMessages, CompressionType.Brotli)]
-    internal class TicketMessageDataRow : TableRowDefinition
+    internal class TicketDepartmentsDataRowDefaults : ITableDefaults<TicketDepartmentsDataRow>
     {
-        private long _ticketId;
-        private string _userName;
-        private string _message;
+        public long PrimarySequence => 0;
 
-        [ForeignKey(Constants.TableNameTicket)]
-        public long TicketId
+        public long SecondarySequence => 0;
+
+        public ushort Version => 1;
+
+        public List<TicketDepartmentsDataRow> InitialData(ushort version)
         {
-            get => _ticketId;
-
-            set
+            if (version == 1)
             {
-                if (_ticketId == value)
-                    return;
-
-                _ticketId = value;
-                Update();
+                return new List<TicketDepartmentsDataRow>()
+                {
+                    new TicketDepartmentsDataRow() { Description = "Sales" },
+                    new TicketDepartmentsDataRow() { Description = "Support" },
+                    new TicketDepartmentsDataRow() { Description = "Returns" }
+                };
             }
-        }
 
-        public string UserName
-        {
-            get => _userName;
-
-            set
-            {
-                if (_userName == value)
-                    return;
-
-                _userName = value;
-                Update();
-            }
-        }
-
-        public string Message
-        {
-            get => _message;
-
-            set
-            {
-                if (_message == value)
-                    return;
-
-                _message = value;
-                Update();
-            }
+            return null;
         }
     }
 }

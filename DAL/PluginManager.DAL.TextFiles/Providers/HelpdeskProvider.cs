@@ -33,21 +33,43 @@ using Middleware.Helpdesk;
 
 using PluginManager.DAL.TextFiles.Tables;
 
+using Shared.Classes;
+
 namespace PluginManager.DAL.TextFiles.Providers
 {
     internal class HelpdeskProvider : IHelpdeskProvider
     {
         #region Private Members
 
+        private static readonly CacheManager _memoryCache = new CacheManager("Helpdesk", new TimeSpan(0, 30, 0), true, true);
+
         private readonly ITextTableOperations<FeedbackDataRow> _feedbackDataRow;
+        private readonly ITextTableOperations<FAQDataRow> _faqDataRow;
+        private readonly ITextTableOperations<TicketDataRow> _tickets;
+        private readonly ITextTableOperations<FeedbackDataRow> _ticketMessages;
+        private readonly ITextTableOperations<TicketStatusDataRow> _ticketStatus;
+        private readonly ITextTableOperations<TicketPrioritiesDataRow> _ticketPriority;
+        private readonly ITextTableOperations<TicketDepartmentsDataRow> _ticketDepartments;
 
         #endregion Private Members
 
         #region Constructors
 
-        public HelpdeskProvider(ITextTableOperations<FeedbackDataRow> feedbackDataRow)
+        public HelpdeskProvider(ITextTableOperations<FeedbackDataRow> feedbackDataRow, 
+            ITextTableOperations<FAQDataRow> faqDataRow,
+            ITextTableOperations<TicketDataRow> tickets,
+            ITextTableOperations<FeedbackDataRow> ticketMessages,
+            ITextTableOperations<TicketStatusDataRow> ticketStatus,
+            ITextTableOperations<TicketPrioritiesDataRow> ticketPriority,
+            ITextTableOperations<TicketDepartmentsDataRow> ticketDepartments)
         {
             _feedbackDataRow = feedbackDataRow ?? throw new ArgumentNullException(nameof(feedbackDataRow));
+            _faqDataRow = faqDataRow ?? throw new ArgumentNullException(nameof(faqDataRow));
+            _tickets = tickets ?? throw new ArgumentNullException(nameof(tickets));
+            _ticketMessages = ticketMessages ?? throw new ArgumentNullException(nameof(ticketMessages));
+            _ticketStatus = ticketStatus ?? throw new ArgumentNullException(nameof(ticketStatus));
+            _ticketPriority = ticketPriority ?? throw new ArgumentNullException(nameof(ticketPriority));
+            _ticketDepartments = ticketDepartments ?? throw new ArgumentNullException(nameof(ticketDepartments));
 
             //_tickets = new List<HelpdeskTicket>()
             //{
@@ -112,32 +134,53 @@ namespace PluginManager.DAL.TextFiles.Providers
 
         #endregion Constructors
 
+        #region Internal Methods
+
+        internal static void ClearCache()
+        {
+            _memoryCache.Clear();
+        }
+
+        #endregion Internal Methods
+
         #region Public Feedback Methods
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1303:Do not pass literals as localized parameters", Justification = "Intended for developers not end users")]
         public List<Feedback> GetFeedback(in bool publiclyVisible)
         {
-            //if (_feedback == null)
-            //{
-            //    _feedback = new List<Feedback>()
-            //    {
-            //        new Feedback(1, "Joe Bloggs", "Asp Net core is awesome", true),
-            //        new Feedback(2, "Jane Doe", "AspNetCore.PluginManager is extremely flexible", true),
-            //    };
-            //}
+            CacheItem feedbackCache = _memoryCache.Get(nameof(GetFeedback));
 
-            //return _feedback;
-            throw new NotImplementedException();
+            if (feedbackCache == null)
+            {
+                List<FeedbackDataRow> allFeedback = null;
+
+                if (publiclyVisible)
+                    allFeedback = _feedbackDataRow.Select().Where(pv => pv.ShowOnWebsite).ToList();
+                else
+                    allFeedback = _feedbackDataRow.Select().ToList();
+
+                List<Feedback> Result = new List<Feedback>();
+
+                allFeedback.ForEach(f => Result.Add(new Feedback(f.Id, f.UserName, f.Message, f.ShowOnWebsite)));
+
+                feedbackCache = new CacheItem(nameof(GetFeedback), Result);
+
+            }
+
+            return (List<Feedback>)feedbackCache.Value;
         }
 
         public bool SubmitFeedback(in long userId, in string name, in string feedback)
         {
-            //List<Feedback> fb = GetFeedback(true);
+            if (String.IsNullOrEmpty(name))
+                throw new ArgumentNullException(nameof(name));
 
-            //fb.Add(new Feedback(fb.Count + 1, name, feedback, true));
+            if (String.IsNullOrEmpty(feedback))
+                throw new ArgumentNullException(nameof(feedback));
 
-            //return true;
-            throw new NotImplementedException();
+            _feedbackDataRow.Insert(new FeedbackDataRow() { UserId = userId, UserName = name, Message = feedback, ShowOnWebsite = false });
+
+            return true;
         }
 
         #endregion Public Feedback Methods
@@ -146,37 +189,56 @@ namespace PluginManager.DAL.TextFiles.Providers
 
         public List<LookupListItem> GetTicketDepartments()
         {
-            //return new List<LookupListItem>()
-            //{
-            //    new LookupListItem(1, "Sales"),
-            //    new LookupListItem(2, "Support"),
-            //    new LookupListItem(3, "Returns"),
-            //};
-            throw new NotImplementedException();
+            CacheItem cacheItem = _memoryCache.Get(nameof(GetTicketDepartments));
+
+            if (cacheItem == null)
+            {
+                List<LookupListItem> Result = new List<LookupListItem>();
+
+                List<TicketDepartmentsDataRow> departments = _ticketDepartments.Select().ToList();
+
+                departments.ForEach(d => Result.Add(new LookupListItem((int)d.Id, d.Description)));
+
+                cacheItem = new CacheItem(nameof(GetTicketDepartments), Result);
+            }
+
+            return (List<LookupListItem>)cacheItem.Value;
         }
 
         public List<LookupListItem> GetTicketPriorities()
         {
-            //return new List<LookupListItem>()
-            //{
-            //    new LookupListItem(1, "Low"),
-            //    new LookupListItem(2, "Medium"),
-            //    new LookupListItem(3, "High"),
-            //};
+            CacheItem cacheItem = _memoryCache.Get(nameof(GetTicketPriorities));
 
-            throw new NotImplementedException();
+            if (cacheItem == null)
+            {
+                List<LookupListItem> Result = new List<LookupListItem>();
+
+                List<TicketPrioritiesDataRow> departments = _ticketPriority.Select().ToList();
+
+                departments.ForEach(d => Result.Add(new LookupListItem((int)d.Id, d.Description)));
+
+                cacheItem = new CacheItem(nameof(GetTicketPriorities), Result);
+            }
+
+            return (List<LookupListItem>)cacheItem.Value;
         }
 
         public List<LookupListItem> GetTicketStatus()
         {
-            //return new List<LookupListItem>()
-            //{
-            //    new LookupListItem(1, "Closed"),
-            //    new LookupListItem(2, "Open"),
-            //    new LookupListItem(3, "On Hold"),
-            //};
+            CacheItem cacheItem = _memoryCache.Get(nameof(GetTicketStatus));
 
-            throw new NotImplementedException();
+            if (cacheItem == null)
+            {
+                List<LookupListItem> Result = new List<LookupListItem>();
+
+                List<TicketStatusDataRow> departments = _ticketStatus.Select().ToList();
+
+                departments.ForEach(d => Result.Add(new LookupListItem((int)d.Id, d.Description)));
+
+                cacheItem = new CacheItem(nameof(GetTicketStatus), Result);
+            }
+
+            return (List<LookupListItem>)cacheItem.Value;
         }
 
         public bool SubmitTicket(in long userId, in int department, in int priority,

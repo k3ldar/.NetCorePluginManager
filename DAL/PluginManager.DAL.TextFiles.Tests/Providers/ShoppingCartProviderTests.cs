@@ -136,7 +136,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     long basketId = sut.AddToCart(userSession, shoppingCart, productProvider.GetProduct(1), 1);
                     Assert.AreEqual(1, basketId);
 
-                    sut.ClearCache();
+                    ShoppingCartProvider.ClearCache();
                     ShoppingCartDetail basket = sut.GetDetail(basketId);
                     Assert.IsNotNull(basket);
                     Assert.AreEqual("", basket.CouponCode);
@@ -206,7 +206,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     long basketId = sut.AddToCart(userSession, shoppingCart, productProvider.GetProduct(0), 1);
                     Assert.AreEqual(1, basketId);
 
-                    sut.ClearCache();
+                    ShoppingCartProvider.ClearCache();
 
                     ITextTableOperations<ShoppingCartItemDataRow> shoppingCartItemData = provider.GetRequiredService<ITextTableOperations<ShoppingCartItemDataRow>>();
                     shoppingCartItemData.Truncate();
@@ -232,7 +232,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     Assert.AreEqual(0, shoppingCartItemData.RecordCount);
                     Assert.AreEqual(1, shoppingCartData.RecordCount);
 
-                    ShoppingCartDataRow savedBasket = shoppingCartData.Select().FirstOrDefault();
+                    ShoppingCartDataRow savedBasket = shoppingCartData.Select().ToList().FirstOrDefault();
                     Assert.AreEqual(1, savedBasket.Id);
                 }
             }
@@ -279,12 +279,12 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
                     ShoppingCartProvider sut = (ShoppingCartProvider)provider.GetService<IShoppingCartProvider>();
                     Assert.IsNotNull(sut);
-                    sut.ClearCache();
+                    ShoppingCartProvider.ClearCache();
 
                     long basketId = sut.AddToCart(userSession, shoppingCart, productProvider.GetProduct(0), 1);
                     Assert.AreEqual(1, basketId);
 
-                    sut.ClearCache();
+                    ShoppingCartProvider.ClearCache();
 
                     ShoppingCartSummary basketSummary = sut.GetSummary(basketId);
                     Assert.IsNotNull(basketSummary);
@@ -343,12 +343,12 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
                     ShoppingCartProvider sut = (ShoppingCartProvider)provider.GetService<IShoppingCartProvider>();
                     Assert.IsNotNull(sut);
-                    sut.ClearCache();
+                    ShoppingCartProvider.ClearCache();
 
                     long basketId = sut.AddToCart(userSession, shoppingCart, productProvider.GetProduct(0), 1);
                     Assert.AreEqual(1, basketId);
 
-                    sut.ClearCache();
+                    ShoppingCartProvider.ClearCache();
 
                     ITextTableOperations<ShoppingCartItemDataRow> shoppingCartItemData = provider.GetRequiredService<ITextTableOperations<ShoppingCartItemDataRow>>();
                     shoppingCartItemData.Truncate();
@@ -372,7 +372,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     Assert.AreEqual(0, shoppingCartItemData.RecordCount);
                     Assert.AreEqual(1, shoppingCartData.RecordCount);
 
-                    ShoppingCartDataRow savedBasket = shoppingCartData.Select().FirstOrDefault();
+                    ShoppingCartDataRow savedBasket = shoppingCartData.Select().ToList().FirstOrDefault();
                     Assert.AreEqual(1, savedBasket.Id);
                 }
             }
@@ -432,7 +432,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
                     ShoppingCartProvider sut = (ShoppingCartProvider)provider.GetService<IShoppingCartProvider>();
                     Assert.IsNotNull(sut);
-                    sut.ClearCache();
+                    ShoppingCartProvider.ClearCache();
 
                     long basketId = sut.AddToCart(userSession, shoppingCart, productProvider.GetProduct(0), 1);
                     Assert.AreEqual(1, basketId);
@@ -443,7 +443,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     basketId = sut.AddToCart(userSession, shoppingCart, productProvider.GetProduct(2), 2);
                     Assert.AreEqual(1, basketId);
 
-                    sut.ClearCache();
+                    ShoppingCartProvider.ClearCache();
 
                     ITextTableOperations<ShoppingCartItemDataRow> shoppingCartItemData = provider.GetRequiredService<ITextTableOperations<ShoppingCartItemDataRow>>();
                     ITextTableOperations<ShoppingCartDataRow> shoppingCartData = provider.GetRequiredService<ITextTableOperations<ShoppingCartDataRow>>();
@@ -470,7 +470,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     Assert.AreEqual(3, shoppingCartItemData.RecordCount);
                     Assert.AreEqual(1, shoppingCartData.RecordCount);
 
-                    ShoppingCartDataRow savedBasket = shoppingCartData.Select().FirstOrDefault();
+                    ShoppingCartDataRow savedBasket = shoppingCartData.Select().ToList().FirstOrDefault();
                     Assert.AreEqual(1, savedBasket.Id);
 
                     bool orderCreated = sut.ConvertToOrder(basketSummary, userId, out Order order);
@@ -511,7 +511,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
                     Assert.AreEqual(1, orderData.RecordCount);
 
-                    OrderDataRow orderDataRow = orderData.Select().First();
+                    OrderDataRow orderDataRow = orderData.Select().ToList().First();
                     Assert.AreEqual(2.98m, orderDataRow.Postage);
                     Assert.AreEqual("en-US", orderDataRow.Culture);
                     Assert.AreEqual(ProcessStatus.PaymentPending, (ProcessStatus)orderDataRow.ProcessStatus);
@@ -575,7 +575,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
                     ShoppingCartProvider sut = (ShoppingCartProvider)provider.GetService<IShoppingCartProvider>();
                     Assert.IsNotNull(sut);
-                    sut.ClearCache();
+                    ShoppingCartProvider.ClearCache();
 
                     long basketId = sut.AddToCart(userSession, shoppingCart, productProvider.GetProduct(0), 1);
                     Assert.AreEqual(1, basketId);
@@ -586,7 +586,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     basketId = sut.AddToCart(userSession, shoppingCart, productProvider.GetProduct(2), 2);
                     Assert.AreEqual(1, basketId);
 
-                    sut.ClearCache();
+                    ShoppingCartProvider.ClearCache();
 
                     ITextTableOperations<ShoppingCartItemDataRow> shoppingCartItemData = provider.GetRequiredService<ITextTableOperations<ShoppingCartItemDataRow>>();
                     ITextTableOperations<ShoppingCartDataRow> shoppingCartData = provider.GetRequiredService<ITextTableOperations<ShoppingCartDataRow>>();
@@ -615,7 +615,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     Assert.AreEqual(3, shoppingCartItemData.RecordCount);
                     Assert.AreEqual(1, shoppingCartData.RecordCount);
 
-                    ShoppingCartDataRow savedBasket = shoppingCartData.Select().FirstOrDefault();
+                    ShoppingCartDataRow savedBasket = shoppingCartData.Select().ToList().FirstOrDefault();
                     Assert.AreEqual(1, savedBasket.Id);
 
                     bool orderCreated = sut.ConvertToOrder(basketSummary, userId, out Order order);
@@ -656,7 +656,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
                     Assert.AreEqual(1, orderData.RecordCount);
 
-                    OrderDataRow orderDataRow = orderData.Select().First();
+                    OrderDataRow orderDataRow = orderData.Select().ToList().First();
                     Assert.AreEqual(2.98m, orderDataRow.Postage);
                     Assert.AreEqual("en-US", orderDataRow.Culture);
                     Assert.AreEqual(ProcessStatus.PaymentPending, (ProcessStatus)orderDataRow.ProcessStatus);
@@ -708,7 +708,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
                     ShoppingCartProvider sut = (ShoppingCartProvider)provider.GetService<IShoppingCartProvider>();
                     Assert.IsNotNull(sut);
-                    sut.ClearCache();
+                    ShoppingCartProvider.ClearCache();
 
                     long basketId = sut.AddToCart(userSession, shoppingCart, productProvider.GetProduct(0), 1);
                     Assert.AreEqual(1, basketId);
@@ -772,7 +772,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     IProductProvider productProvider = GetTestProductProvider(provider);
                     ShoppingCartProvider sut = (ShoppingCartProvider)provider.GetService<IShoppingCartProvider>();
                     Assert.IsNotNull(sut);
-                    sut.ClearCache();
+                    ShoppingCartProvider.ClearCache();
 
                     ITextTableOperations<VoucherDataRow> voucherTable = provider.GetService<ITextTableOperations<VoucherDataRow>>();
                     Assert.IsNotNull(voucherTable);

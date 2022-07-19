@@ -35,6 +35,7 @@ namespace PluginManager.DAL.TextFiles.Internal
         public const string TableNameCountries = "Countries";
         public const string TableNameExternalUsers = "ExternalUsers";
         public const string TableNameUserClaims = "UserClaims";
+        public const string TableNameUserApi = "UserApi";
         public const string TableNameAddresses = "Addresses";
         public const string TableNameOrders = "Orders";
         public const string TableNameOrderItems = "OrderItems";
@@ -57,5 +58,6 @@ namespace PluginManager.DAL.TextFiles.Internal
         public const string TableNameTicketDepartments = "HelpdeskTicketDepartments";
         public const string TableNameTicketPriorities = "HelpdeskTicketPriorities";
         public const string TableNameTicketStatus = "HelpdeskTicketStatus";
+        public const string TableNameFAQ = "HelpdeskFAQ";
     }
 }

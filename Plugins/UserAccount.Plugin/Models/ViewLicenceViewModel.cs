@@ -29,7 +29,7 @@ using SharedPluginFeatures;
 
 namespace UserAccount.Plugin.Models
 {
-#pragma warning disable CS1591
+#pragma warning disable CS1591, IDE0060
 
     public class ViewLicenceViewModel : BaseModel
     {
@@ -88,5 +88,5 @@ namespace UserAccount.Plugin.Models
         #endregion Properties
     }
 
-#pragma warning restore CS1591
+#pragma warning restore CS1591, IDE0060
 }

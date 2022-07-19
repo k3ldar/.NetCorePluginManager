@@ -74,6 +74,50 @@ namespace PluginManager.DAL.TextFiles
 
         public void AfterConfigure(in IApplicationBuilder app)
         {
+            // initialize all tables
+            _ = app.ApplicationServices.GetService<ITextTableOperations<AddressDataRow>>();
+
+            _ = app.ApplicationServices.GetService<ITextTableOperations<BlogDataRow>>();
+            _ = app.ApplicationServices.GetService<ITextTableOperations<BlogCommentDataRow>>();
+
+            _ = app.ApplicationServices.GetService<ITextTableOperations<CountryDataRow>>();
+
+            _ = app.ApplicationServices.GetService<ITextTableOperations<ExternalUsersDataRow>>();
+
+            _ = app.ApplicationServices.GetService<ITextTableOperations<FeedbackDataRow>>();
+            _ = app.ApplicationServices.GetService<ITextTableOperations<TicketDataRow>>();
+            _ = app.ApplicationServices.GetService<ITextTableOperations<TicketDepartmentsDataRow>>();
+            _ = app.ApplicationServices.GetService<ITextTableOperations<TicketMessageDataRow>>();
+            _ = app.ApplicationServices.GetService<ITextTableOperations<TicketPrioritiesDataRow>>();
+            _ = app.ApplicationServices.GetService<ITextTableOperations<TicketStatusDataRow>>();
+            _ = app.ApplicationServices.GetService<ITextTableOperations<FAQDataRow>>();
+
+            _ = app.ApplicationServices.GetService<ITextTableOperations<InvoiceDataRow>>();
+            _ = app.ApplicationServices.GetService<ITextTableOperations<InvoiceItemDataRow>>();
+
+            _ = app.ApplicationServices.GetService<ITextTableOperations<LicenseTypeDataRow>>();
+            _ = app.ApplicationServices.GetService<ITextTableOperations<LicenseDataRow>>();
+
+            _ = app.ApplicationServices.GetService<ITextTableOperations<OrderDataRow>>();
+            _ = app.ApplicationServices.GetService<ITextTableOperations<OrderItemDataRow>>();
+
+            _ = app.ApplicationServices.GetService<ITextTableOperations<ProductDataRow>>();
+            _ = app.ApplicationServices.GetService<ITextTableOperations<ProductGroupDataRow>>();
+
+            _ = app.ApplicationServices.GetService<ITextTableOperations<SeoDataRow>>();
+
+            _ = app.ApplicationServices.GetService<ITextTableOperations<SettingsDataRow>>();
+
+            _ = app.ApplicationServices.GetService<ITextTableOperations<ShoppingCartDataRow>>();
+            _ = app.ApplicationServices.GetService<ITextTableOperations<ShoppingCartItemDataRow>>();
+            _ = app.ApplicationServices.GetService<ITextTableOperations<VoucherDataRow>>();
+
+            _ = app.ApplicationServices.GetService<ITextTableOperations<StockDataRow>>();
+
+            _ = app.ApplicationServices.GetService<ITextTableOperations<UserApiDataRow>>();
+
+            _ = app.ApplicationServices.GetService<ITextTableOperations<UserDataRow>>();
+            _ = app.ApplicationServices.GetService<ITextTableOperations<UserClaimsDataRow>>();
 
         }
 
@@ -103,6 +147,7 @@ namespace PluginManager.DAL.TextFiles
             services.AddSingleton(typeof(TableRowDefinition), typeof(TicketMessageDataRow));
             services.AddSingleton(typeof(TableRowDefinition), typeof(TicketPrioritiesDataRow));
             services.AddSingleton(typeof(TableRowDefinition), typeof(TicketStatusDataRow));
+            services.AddSingleton(typeof(TableRowDefinition), typeof(FAQDataRow));
 
             services.AddSingleton(typeof(TableRowDefinition), typeof(InvoiceDataRow));
             services.AddSingleton(typeof(TableRowDefinition), typeof(InvoiceItemDataRow));

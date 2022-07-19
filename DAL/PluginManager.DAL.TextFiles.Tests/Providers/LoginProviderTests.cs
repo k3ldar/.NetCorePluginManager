@@ -48,6 +48,8 @@ using SharedPluginFeatures;
 
 using static System.Net.Mime.MediaTypeNames;
 
+#pragma warning disable IDE0017
+
 namespace PluginManager.DAL.TextFiles.Tests.Providers
 {
     [TestClass]
@@ -1137,3 +1139,5 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
         }
     }
 }
+
+#pragma warning restore IDE0017

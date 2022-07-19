@@ -95,7 +95,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
                 throw new ArgumentNullException(nameof(tokenUserDetails));
 
             if (String.IsNullOrEmpty(tokenUserDetails.Email))
-                throw new ArgumentException(nameof(tokenUserDetails));
+                throw new ArgumentNullException(nameof(tokenUserDetails));
 
             if (String.IsNullOrEmpty(tokenUserDetails.Provider))
                 throw new ArgumentNullException(nameof(tokenUserDetails));

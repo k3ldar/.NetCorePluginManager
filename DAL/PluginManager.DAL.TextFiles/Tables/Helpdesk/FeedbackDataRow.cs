@@ -31,6 +31,7 @@ namespace PluginManager.DAL.TextFiles.Tables
     internal class FeedbackDataRow : TableRowDefinition
     {
         private long _userId;
+        private string _userName;
         private string _message;
         private bool _showOnWebsite;
 
@@ -45,6 +46,20 @@ namespace PluginManager.DAL.TextFiles.Tables
                     return;
 
                 _userId = value;
+                Update();
+            }
+        }
+
+        public string UserName
+        {
+            get => _userName;
+
+            set
+            {
+                if (_userName == value)
+                    return;
+
+                _userName = value;
                 Update();
             }
         }

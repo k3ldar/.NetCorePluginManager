@@ -305,7 +305,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
                     item.Quantity, ItemStatus.Received, item.DiscountType, item.Discount));
             }
 
-            Invoice invoice = new Invoice(++InvoiceId, DateTime.Now, order.Postage, order.Culture,
+            _ = new Invoice(++InvoiceId, DateTime.Now, order.Postage, order.Culture,
                 ProcessStatus.PaymentCheck, paymentStatus, order.DeliveryAddress, items);
         }
 

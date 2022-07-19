@@ -618,7 +618,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 
         #region Private Methods
 
-        private DeliveryAddress ConvertToDeliveryAddress(AddressDataRow address)
+        private static DeliveryAddress ConvertToDeliveryAddress(AddressDataRow address)
         {
             if (address == null)
                 return null;

@@ -43,7 +43,7 @@ namespace PluginManager.DAL.TextFiles.Providers
         #region Constructors
 
         public LicenceProvider(ITextTableOperations<UserDataRow> users,
-            ITextTableOperations<InvoiceDataRow> invoices,
+           // ITextTableOperations<InvoiceDataRow> invoices,
             ITextTableOperations<LicenseDataRow> addresses,
             ITextTableOperations<LicenseTypeDataRow> orders)
         {
