@@ -162,5 +162,13 @@ namespace PluginManager.DAL.TextFiles
         /// <param name="id"></param>
         /// <returns></returns>
         bool IdExists(long id);
+
+        /// <summary>
+        /// Indicates whether an index exists with a specific value
+        /// </summary>
+        /// <param name="name">Name of index</param>
+        /// <param name="value">Index value</param>
+        /// <returns></returns>
+        bool IndexExists(string name, object value);
     }
 }

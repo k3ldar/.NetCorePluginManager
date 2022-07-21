@@ -25,13 +25,10 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PluginManager.DAL.TextFiles.Tests.Mocks
 {
-    internal class MockTextTableOperations<T> : ITextTableOperations<T>, ITextTable 
+    internal class MockTextTableOperations<T> : ITextTableOperations<T>, ITextTable
         where T : TableRowDefinition
     {
         public int DataLength => throw new NotImplementedException();
@@ -137,6 +134,11 @@ namespace PluginManager.DAL.TextFiles.Tests.Mocks
         }
 
         public void Insert(T records, TextTableInsertOptions insertOptions)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool IndexExists(string name, object value)
         {
             throw new NotImplementedException();
         }

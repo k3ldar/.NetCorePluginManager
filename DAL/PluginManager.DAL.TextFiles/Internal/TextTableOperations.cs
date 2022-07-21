@@ -216,6 +216,17 @@ namespace PluginManager.DAL.TextFiles.Internal
             return _indexes[nameof(TableRowDefinition.Id)].Contains(id);
         }
 
+        public bool IndexExists(string name, object value)
+        {
+            if (String.IsNullOrEmpty(name))
+                throw new ArgumentNullException(nameof(name));
+
+            if (!_indexes.ContainsKey(name))
+                throw new ArgumentOutOfRangeException($"Index {name} does not exist");
+
+            return _indexes[name].Contains(value);
+        }
+
         public bool IdIsInUse(string propertyName, long value)
         {
             foreach (T record in Select())
