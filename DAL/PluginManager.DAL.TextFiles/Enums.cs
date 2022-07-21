@@ -78,7 +78,7 @@ namespace PluginManager.DAL.TextFiles
     /// Supported trigger types
     /// </summary>
     [Flags]
-    public enum TriggerTypes : byte
+    public enum TriggerType : byte
     {
         BeforeInsert,
 
@@ -89,6 +89,8 @@ namespace PluginManager.DAL.TextFiles
         AfterDelete,
 
         BeforeUpdate,
+
+        BeforeUpdateCompare,
 
         AfterUpdate,
     }

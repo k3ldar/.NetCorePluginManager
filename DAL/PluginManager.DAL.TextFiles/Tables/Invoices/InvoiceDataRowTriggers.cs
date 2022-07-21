@@ -29,6 +29,8 @@ namespace PluginManager.DAL.TextFiles.Tables
     {
         public int Position => int.MinValue;
 
+        public TriggerType TriggerTypes => TriggerType.BeforeDelete;
+
         public void AfterDelete(List<InvoiceDataRow> records)
         {
 
@@ -57,6 +59,11 @@ namespace PluginManager.DAL.TextFiles.Tables
         public void BeforeUpdate(List<InvoiceDataRow> records)
         {
 
+        }
+
+        public void BeforeUpdate(InvoiceDataRow newRecord, InvoiceDataRow oldRecord)
+        {
+            
         }
     }
 }

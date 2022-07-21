@@ -34,6 +34,8 @@ namespace PluginManager.DAL.TextFiles.Tables
 
         public int Position => 0;
 
+        public TriggerType TriggerTypes => TriggerType.BeforeInsert;
+
         public void AfterDelete(List<UserDataRow> records)
         {
 
@@ -62,6 +64,11 @@ namespace PluginManager.DAL.TextFiles.Tables
         public void BeforeUpdate(List<UserDataRow> records)
         {
 
+        }
+
+        public void BeforeUpdate(UserDataRow newRecord, UserDataRow oldRecord)
+        {
+            
         }
     }
 }

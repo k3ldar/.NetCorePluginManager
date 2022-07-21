@@ -30,6 +30,8 @@ namespace PluginManager.DAL.TextFiles.Tables
     {
         public int Position => throw new NotImplementedException();
 
+        public TriggerType TriggerTypes => TriggerType.BeforeUpdate | TriggerType.BeforeInsert;
+
         public void AfterDelete(List<VoucherDataRow> records)
         {
 
@@ -60,6 +62,10 @@ namespace PluginManager.DAL.TextFiles.Tables
             ValidateVoucherData(records);
         }
 
+        public void BeforeUpdate(VoucherDataRow newRecord, VoucherDataRow oldRecord)
+        {
+            
+        }
 
         private void ValidateVoucherData(List<VoucherDataRow> records)
         {

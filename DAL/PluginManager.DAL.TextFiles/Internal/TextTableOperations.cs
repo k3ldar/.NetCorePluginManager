@@ -113,7 +113,7 @@ namespace PluginManager.DAL.TextFiles.Internal
         private readonly ITextTableInitializer _initializer;
         private readonly IForeignKeyManager _foreignKeyManager;
         private readonly BatchUpdateDictionary<string, IIndexManager> _indexes;
-        private readonly List<ITableTriggers<T>> _triggers;
+        private readonly Dictionary<TriggerType, List<ITableTriggers<T>>> _triggersMap;
         private List<T> _allRecords = null;
 
         #region Constructors / Destructors
@@ -141,7 +141,11 @@ namespace PluginManager.DAL.TextFiles.Internal
                 _SecondarySequence = tableDefaults.SecondarySequence;
             }
 
-            _triggers = pluginClassesService.GetPluginClasses<ITableTriggers<T>>();
+            _triggersMap = new Dictionary<TriggerType, List<ITableTriggers<T>>>();
+            List<ITableTriggers<T>> triggers = pluginClassesService.GetPluginClasses<ITableTriggers<T>>();
+
+            foreach (TriggerType triggerType in Enum.GetValues(typeof(TriggerType)))
+                _triggersMap.Add(triggerType, triggers.Where(t => t.TriggerTypes.HasFlag(triggerType)).ToList());
 
             _foreignKeys = GetForeignKeysForTable();
             _indexes = BuildIndexListForTable();
@@ -529,18 +533,20 @@ namespace PluginManager.DAL.TextFiles.Internal
                 _indexes.BeginUpdate();
                 try
                 {
-                    _triggers.ForEach(t => t.BeforeUpdate(records));
-
                     List<T> existingRecords = InternalReadAllRecords();
+
+                    _triggersMap[TriggerType.BeforeUpdate].ForEach(t => t.BeforeUpdate(records));
 
                     foreach (T record in records)
                     {
                         for (int i = existingRecords.Count - 1; i >= 0; i--)
                         {
-                            if (existingRecords[i].Id.Equals(record.Id))
+                            T existingRecord = existingRecords[i];
+                            if (existingRecord.Id.Equals(record.Id))
                             {
-                                InternalRemoveIndex(record);
-                                InternalAddIndex(existingRecords[i]);
+                                _triggersMap[TriggerType.BeforeUpdateCompare].ForEach(t => t.BeforeUpdate(record, existingRecord));
+                                InternalRemoveIndex(existingRecords[i]);
+                                InternalAddIndex(record);
                                 existingRecords[i] = record;
                                 break;
                             }
@@ -549,7 +555,7 @@ namespace PluginManager.DAL.TextFiles.Internal
 
                     InternalSaveRecordsToDisk(existingRecords);
 
-                    _triggers.ForEach(t => t.AfterUpdate(records));
+                    _triggersMap[TriggerType.AfterUpdate].ForEach(t => t.AfterUpdate(records));
 
                     records.ForEach(r => r.HasChanged = false);
                 }
@@ -619,7 +625,7 @@ namespace PluginManager.DAL.TextFiles.Internal
                 _indexes.BeginUpdate();
                 try
                 {
-                    _triggers.ForEach(t => t.BeforeDelete(records));
+                    _triggersMap[TriggerType.BeforeDelete].ForEach(t => t.BeforeDelete(records));
 
                     List<T> existingRecords = InternalReadAllRecords();
 
@@ -644,7 +650,7 @@ namespace PluginManager.DAL.TextFiles.Internal
 
                     InternalSaveRecordsToDisk(existingRecords);
 
-                    _triggers.ForEach(t => t.AfterDelete(records));
+                    _triggersMap[TriggerType.AfterDelete].ForEach(t => t.AfterDelete(records));
                 }
                 finally
                 {
@@ -677,7 +683,7 @@ namespace PluginManager.DAL.TextFiles.Internal
                 _indexes.BeginUpdate();
                 try
                 {
-                    _triggers.ForEach(t => t.BeforeInsert(records));
+                    _triggersMap[TriggerType.BeforeInsert].ForEach(t => t.BeforeInsert(records));
                     records.ForEach(r =>
                     {
                         if (textTableInsertOptions.AssignPrimaryKey)
@@ -692,7 +698,7 @@ namespace PluginManager.DAL.TextFiles.Internal
                     existingRecords.AddRange(records);
                     InternalSaveRecordsToDisk(existingRecords);
 
-                    _triggers.ForEach(t => t.AfterInsert(records));
+                    _triggersMap[TriggerType.AfterInsert].ForEach(t => t.AfterInsert(records));
                 }
                 finally
                 {

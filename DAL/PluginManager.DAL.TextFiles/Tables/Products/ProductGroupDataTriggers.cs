@@ -33,6 +33,8 @@ namespace PluginManager.DAL.TextFiles.Tables
 
         public int Position => 0;
 
+        public TriggerType TriggerTypes => TriggerType.BeforeInsert | TriggerType.BeforeUpdate;
+
         public void AfterDelete(List<ProductGroupDataRow> records)
         {
 
@@ -61,6 +63,11 @@ namespace PluginManager.DAL.TextFiles.Tables
         public void BeforeUpdate(List<ProductGroupDataRow> records)
         {
             records.ForEach(r => ValidateData(r));
+        }
+
+        public void BeforeUpdate(ProductGroupDataRow newRecord, ProductGroupDataRow oldRecord)
+        {
+            
         }
 
         private void ValidateData(ProductGroupDataRow row)
