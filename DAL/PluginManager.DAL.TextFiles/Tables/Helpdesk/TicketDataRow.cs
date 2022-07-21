@@ -32,6 +32,8 @@ namespace PluginManager.DAL.TextFiles.Tables
     [Table(Constants.DomainHelpdesk, Constants.TableNameTicket, CompressionType.Brotli)]
     internal class TicketDataRow : TableRowDefinition
     {
+        public const string IndexUserKey = "UserKey";
+
         private long _priority;
         private long _department;
         private long _status;
@@ -93,7 +95,7 @@ namespace PluginManager.DAL.TextFiles.Tables
             }
         }
 
-        [UniqueIndex("UserKey")]
+        [UniqueIndex(IndexUserKey)]
         public string Key
         {
             get => _key;
@@ -136,7 +138,7 @@ namespace PluginManager.DAL.TextFiles.Tables
             }
         }
 
-        [UniqueIndex("UserKey")]
+        [UniqueIndex(IndexUserKey)]
         public string CreatedByEmail
         {
             get => _createdByEmail;

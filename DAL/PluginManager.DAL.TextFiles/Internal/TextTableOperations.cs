@@ -732,7 +732,7 @@ namespace PluginManager.DAL.TextFiles.Internal
         {
             foreach (KeyValuePair<string, IIndexManager> item in _indexes)
             {
-                object value = record.GetType().GetProperty(item.Key).GetValue(record, null);
+                object value = GetIndexValue(record, item.Value);
 
                 _indexes[item.Key].Remove(value);
             }

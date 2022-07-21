@@ -42,7 +42,8 @@ namespace PluginManager.DAL.TextFiles.Providers
         #region Private Members
 
         private const int LowPriority = 1;
-        private const int StatusOpen = 2;
+        private const int StatusOpen = 1;
+        private const int StatusOnHold = 2;
         private const int SupportDepartment = 2;
 
         private static readonly CacheManager _memoryCache = new CacheManager("Helpdesk", new TimeSpan(0, 30, 0), true, true);
@@ -270,15 +271,28 @@ namespace PluginManager.DAL.TextFiles.Providers
             int idStatus = StatusOpen;
             int idDepartment = _ticketDepartments.IdExists(department) ? department : SupportDepartment;
 
+            string newKey = Shared.Utilities.GetRandomKey();
+            int loopCount = 0;
+
+            while (_tickets.IndexExists(TicketDataRow.IndexUserKey, $"{newKey}{email}"))
+            {
+                newKey = Shared.Utilities.GetRandomKey();
+                loopCount++;
+
+                if (loopCount > 100)
+                    return false;
+            }
+
             TicketDataRow ticketDataRow = new TicketDataRow()
             {
                 Priority = idPriority,
                 Department = idDepartment,
                 Status = idStatus,
-                Key = Shared.Utilities.GetRandomKey(),
+                Key = newKey,
                 Subject = subject,
                 CreatedBy = userName,
                 CreatedByEmail = email,
+                LastReplier = userName,
             };
 
             _tickets.Insert(ticketDataRow);
@@ -289,8 +303,6 @@ namespace PluginManager.DAL.TextFiles.Providers
                 UserName = userName,
                 Message = message,
             });
-
-
 
             ticket = new HelpdeskTicket(ticketDataRow.Id,
                 GetTicketPriorities().Where(p => p.Id == idPriority).FirstOrDefault(),
@@ -313,44 +325,59 @@ namespace PluginManager.DAL.TextFiles.Providers
 
         public HelpdeskTicket GetTicket(in long id)
         {
-            //foreach (HelpdeskTicket ticket in _tickets)
-            //{
-            //    if (ticket.Id == id)
-            //        return ticket;
-            //}
+            TicketDataRow ticket = _tickets.Select(id);
 
-            //return null;
-            throw new NotImplementedException();
+            if (ticket == null)
+                return null;
+
+           return ConvertTicketDataRow(ticket, _ticketMessages.Select().Where(tm => tm.TicketId.Equals(ticket.Id)).ToList());
         }
 
         public HelpdeskTicket GetTicket(in string email, in string ticketKey)
         {
-            //foreach (HelpdeskTicket ticket in _tickets)
-            //{
-            //    if (ticket.Key == ticketKey && ticket.CreatedByEmail.Equals(email, StringComparison.CurrentCultureIgnoreCase))
-            //        return ticket;
-            //}
+            if (String.IsNullOrEmpty(email))
+                return null;
 
-            //return null;
-            throw new NotImplementedException();
+            if (String.IsNullOrEmpty(ticketKey))
+                return null;
+
+            string emailAddress = email;
+            string key = ticketKey;
+
+            TicketDataRow ticket = _tickets.Select()
+                .Where(t => t.CreatedByEmail.Equals(emailAddress, StringComparison.InvariantCultureIgnoreCase) && 
+                    t.Key.Equals(key, StringComparison.InvariantCultureIgnoreCase)).FirstOrDefault();
+
+            if (ticket == null)
+                return null;
+
+            return ConvertTicketDataRow(ticket, _ticketMessages.Select().Where(tm => tm.TicketId.Equals(ticket.Id)).ToList());
         }
 
         public bool TicketRespond(in HelpdeskTicket ticket, in string name, in string message)
         {
-            //if (ticket == null)
-            //    throw new ArgumentNullException(nameof(ticket));
+            if (ticket == null)
+                throw new ArgumentNullException(nameof(ticket));
 
-            //if (String.IsNullOrEmpty(name))
-            //    throw new ArgumentNullException(nameof(name));
+            if (String.IsNullOrEmpty(name))
+                throw new ArgumentNullException(nameof(name));
 
-            //if (String.IsNullOrEmpty(message))
-            //    throw new ArgumentNullException(nameof(message));
+            if (String.IsNullOrEmpty(message))
+                throw new ArgumentNullException(nameof(message));
 
-            //ticket.Messages.Add(new HelpdeskTicketMessage(DateTime.Now, name, message));
-            //ticket.Status = GetTicketStatus().Where(s => s.Id == 2).FirstOrDefault();
+            _ticketMessages.Insert(new TicketMessageDataRow() { TicketId = ticket.Id, UserName = name, Message = message });
+            ticket.Messages.Add(new HelpdeskTicketMessage(DateTime.Now, name, message));
 
-            //return true;
-            throw new NotImplementedException();
+            int statusId = name.Equals(ticket.CreatedBy, StringComparison.InvariantCultureIgnoreCase) ? StatusOpen : StatusOnHold;
+            ticket.Status = GetTicketStatus().Where(s => s.Id == statusId).FirstOrDefault();
+            ticket.LastReplier = name;
+
+            TicketDataRow ticketDataRow = _tickets.Select(ticket.Id);
+            ticketDataRow.LastReplier = name;
+            ticketDataRow.Status = statusId;
+            _tickets.Update(ticketDataRow);
+
+            return true;
         }
 
         #endregion Public Ticket Methods
@@ -418,6 +445,24 @@ namespace PluginManager.DAL.TextFiles.Providers
 
         #region Private Methods
 
+        private HelpdeskTicket ConvertTicketDataRow(TicketDataRow ticketDataRow, List<TicketMessageDataRow> messages)
+        {
+            if (ticketDataRow == null)
+                return null;
+
+            List<HelpdeskTicketMessage> messageList = new List<HelpdeskTicketMessage>();
+
+            foreach (TicketMessageDataRow messageDataRow in messages)
+                messageList.Add(new HelpdeskTicketMessage(messageDataRow.Created, messageDataRow.UserName, messageDataRow.Message));
+
+            return new HelpdeskTicket(ticketDataRow.Id, 
+                GetTicketPriorities().Where(tp => tp.Id.Equals((int)ticketDataRow.Priority)).First(),
+                GetTicketDepartments().Where(td => td.Id.Equals((int)ticketDataRow.Department)).First(),
+                GetTicketStatus().Where(ts => ts.Id.Equals((int)ticketDataRow.Status)).First(), 
+                ticketDataRow.Key, 
+                ticketDataRow.Subject, ticketDataRow.Created, ticketDataRow.Updated, ticketDataRow.CreatedBy, 
+                ticketDataRow.CreatedByEmail, ticketDataRow.LastReplier, messageList);
+        }
 
         #endregion Private Methods
     }

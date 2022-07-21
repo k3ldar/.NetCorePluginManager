@@ -261,7 +261,7 @@ namespace PluginManager.DAL.TextFiles.Providers
         #region Private Members
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private (int, int, bool) GetPageStartAndEnd(int page, int pageSize, int productCount)
+        private static (int, int, bool) GetPageStartAndEnd(int page, int pageSize, int productCount)
         {
             int start = (page * pageSize) - pageSize;
             int end = (start + pageSize);
@@ -283,7 +283,7 @@ namespace PluginManager.DAL.TextFiles.Providers
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private ProductGroup ConvertProductGroupDataRowToProductGroup(ProductGroupDataRow group)
+        private static ProductGroup ConvertProductGroupDataRowToProductGroup(ProductGroupDataRow group)
         {
             if (group == null)
                 return null;
@@ -292,7 +292,7 @@ namespace PluginManager.DAL.TextFiles.Providers
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private Product ConvertProductDataRowToProduct(ProductDataRow product)
+        private static Product ConvertProductDataRowToProduct(ProductDataRow product)
         {
             if (product == null)
                 return null;
