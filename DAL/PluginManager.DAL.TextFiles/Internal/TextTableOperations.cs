@@ -24,6 +24,7 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Text.Json;
 
@@ -695,12 +696,12 @@ namespace PluginManager.DAL.TextFiles.Internal
             {
                 foreach (T record in records)
                 {
-                    object value = record.GetType().GetProperty(item.Key).GetValue(record, null);
+                    object keyValue = GetIndexValue(record, item.Value);
 
-                    if (_indexes[item.Key].Contains(value))
+                    if (_indexes[item.Key].Contains(keyValue))
                     {
-                        if (_indexes[item.Key].Contains(value))
-                            throw new UniqueIndexException($"Index already exists; Table: {TableName}; Property: {item.Key}; Value: {value}");
+                        if (_indexes[item.Key].Contains(keyValue))
+                            throw new UniqueIndexException($"Index already exists; Table: {TableName}; Index Name: {item.Key}; Property: {String.Join(',', item.Value.PropertyNames)}; Value: {keyValue}");
                     }
                 }
             }
@@ -710,9 +711,9 @@ namespace PluginManager.DAL.TextFiles.Internal
         {
             foreach (KeyValuePair<string, IIndexManager> item in _indexes)
             {
-                object value = record.GetType().GetProperty(item.Key).GetValue(record, null);
+                object keyValue = GetIndexValue(record, item.Value);
 
-                _indexes[item.Key].Add(value);
+                _indexes[item.Key].Add(keyValue);
             }
         }
 
@@ -737,10 +738,10 @@ namespace PluginManager.DAL.TextFiles.Internal
                 {
                     foreach (T record in allRecords)
                     {
-                        object value = record.GetType().GetProperty(item.Key).GetValue(record, null);
+                        object keyValue = GetIndexValue(record, item.Value);
 
-                        if (!_indexes[item.Key].Contains(value))
-                            _indexes[item.Key].Add(value);
+                        if (!_indexes[item.Key].Contains(keyValue))
+                            _indexes[item.Key].Add(keyValue);
                     }
                 }
                 finally
@@ -815,7 +816,6 @@ namespace PluginManager.DAL.TextFiles.Internal
         private static BatchUpdateDictionary<string, IIndexManager> BuildIndexListForTable()
         {
             BatchUpdateDictionary<string, IIndexManager> Result = new BatchUpdateDictionary<string, IIndexManager>();
-
             foreach (PropertyInfo property in typeof(T).GetProperties())
             {
                 UniqueIndexAttribute uniqueIndex = (UniqueIndexAttribute)property.GetCustomAttributes(true)
@@ -824,32 +824,64 @@ namespace PluginManager.DAL.TextFiles.Internal
 
                 if (uniqueIndex != null)
                 {
-                    if (property.PropertyType == typeof(long))
-                        Result.Add(property.Name, new IndexManager<long>(uniqueIndex.IndexType));
-                    else if (property.PropertyType == typeof(string))
-                        Result.Add(property.Name, new IndexManager<string>(uniqueIndex.IndexType));
-                    else if (property.PropertyType == typeof(int))
-                        Result.Add(property.Name, new IndexManager<int>(uniqueIndex.IndexType));
-                    else if (property.PropertyType == typeof(float))
-                        Result.Add(property.Name, new IndexManager<float>(uniqueIndex.IndexType));
-                    else if (property.PropertyType == typeof(double))
-                        Result.Add(property.Name, new IndexManager<double>(uniqueIndex.IndexType));
-                    else if (property.PropertyType == typeof(decimal))
-                        Result.Add(property.Name, new IndexManager<decimal>(uniqueIndex.IndexType));
-                    else if (property.PropertyType == typeof(uint))
-                        Result.Add(property.Name, new IndexManager<uint>(uniqueIndex.IndexType));
-                    else if (property.PropertyType == typeof(ulong))
-                        Result.Add(property.Name, new IndexManager<ulong>(uniqueIndex.IndexType));
-                    else if (property.PropertyType == typeof(short))
-                        Result.Add(property.Name, new IndexManager<short>(uniqueIndex.IndexType));
-                    else if (property.PropertyType == typeof(ushort))
-                        Result.Add(property.Name, new IndexManager<ushort>(uniqueIndex.IndexType));
+                    string indexName = String.IsNullOrEmpty(uniqueIndex.Name) ? property.Name : uniqueIndex.Name;
+
+                    if (Result.ContainsKey(indexName))
+                    {
+                        List<string> propertyNames = Result[indexName].PropertyNames;
+                        propertyNames.Add(property.Name);
+                        Result.Remove(indexName);
+                        Result.Add(indexName, new IndexManager<string>(uniqueIndex.IndexType, propertyNames.ToArray()));
+                    }
                     else
-                        throw new InvalidOperationException($"Type {property.PropertyType.Name} not supported");
+                    {
+                        if (property.PropertyType == typeof(long))
+                            Result.Add(indexName, new IndexManager<long>(uniqueIndex.IndexType, property.Name));
+                        else if (property.PropertyType == typeof(string))
+                            Result.Add(indexName, new IndexManager<string>(uniqueIndex.IndexType, property.Name));
+                        else if (property.PropertyType == typeof(int))
+                            Result.Add(indexName, new IndexManager<int>(uniqueIndex.IndexType, property.Name));
+                        else if (property.PropertyType == typeof(float))
+                            Result.Add(indexName, new IndexManager<float>(uniqueIndex.IndexType, property.Name));
+                        else if (property.PropertyType == typeof(double))
+                            Result.Add(indexName, new IndexManager<double>(uniqueIndex.IndexType, property.Name));
+                        else if (property.PropertyType == typeof(decimal))
+                            Result.Add(indexName, new IndexManager<decimal>(uniqueIndex.IndexType, property.Name));
+                        else if (property.PropertyType == typeof(uint))
+                            Result.Add(indexName, new IndexManager<uint>(uniqueIndex.IndexType, property.Name));
+                        else if (property.PropertyType == typeof(ulong))
+                            Result.Add(indexName, new IndexManager<ulong>(uniqueIndex.IndexType, property.Name));
+                        else if (property.PropertyType == typeof(short))
+                            Result.Add(indexName, new IndexManager<short>(uniqueIndex.IndexType, property.Name));
+                        else if (property.PropertyType == typeof(ushort))
+                            Result.Add(indexName, new IndexManager<ushort>(uniqueIndex.IndexType, property.Name));
+                        else
+                            throw new InvalidOperationException($"Type {property.PropertyType.Name} not supported");
+                    }
                 }
             }
 
             return Result;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static object GetIndexValue(T record, IIndexManager indexManager)
+        {
+            if (indexManager.PropertyNames.Count == 1)
+            {
+                return record.GetType().GetProperty(indexManager.PropertyNames[0]).GetValue(record, null);
+            }
+            else
+            {
+                StringBuilder sb = new StringBuilder();
+
+                foreach (string propertyName in indexManager.PropertyNames)
+                {
+                    sb.Append(record.GetType().GetProperty(propertyName).GetValue(record, null) ?? String.Empty);
+                }
+
+                return sb.ToString();
+            }
         }
 
         private void Dispose(bool disposing)

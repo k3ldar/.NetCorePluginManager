@@ -13,38 +13,49 @@
  *
  *  Copyright (c) 2018 - 2022 Simon Carter.  All Rights Reserved.
  *
- *  Product:  PluginManager.DAL.TextFiles
+ *  Product:  PluginManager.DAL.TextFiles.Tests
  *  
- *  File: IIndexManager.cs
+ *  File: MockRowMultipleIndex.cs
  *
- *  Purpose:  Interface for index managers
+ *  Purpose:  MockRow for text based storage with named index
  *
  *  Date        Name                Reason
- *  09/06/2022  Simon Carter        Initially Created
+ *  20/07/2022  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Diagnostics.CodeAnalysis;
 
-using SharedPluginFeatures.Interfaces;
-
-namespace PluginManager.DAL.TextFiles
+namespace PluginManager.DAL.TextFiles.Tests.Mocks
 {
-    public interface IIndexManager : IBatchUpdate
+    [ExcludeFromCodeCoverage]
+    [Table("MockTableIndex", cachingStrategy: CachingStrategy.Memory)]
+    internal class MockRowMultipleIndex : TableRowDefinition
     {
-        List<string> PropertyNames { get; }
+        private string _name;
+        private int _index;
 
-        IndexType IndexType { get; }
+        [UniqueIndex("TestIndex")]
+        public string Name
+        {
+            get => _name;
 
-        bool Contains(object value);
+            set
+            {
+                _name = value;
+                Update();
+            }
+        }
 
-        void Add(object value);
+        [UniqueIndex("TestIndex")]
+        public int Index
+        {
+            get => _index;
 
-        void Add(List<object> items);
-
-        void Remove(object value);
+            set
+            {
+                _index = value;
+                Update();
+            }
+        }
     }
 }

@@ -44,14 +44,21 @@ namespace PluginManager.DAL.TextFiles.Internal
         private readonly List<T> _keys;
         private readonly object _lock = new object();
         private bool _sortRequired = false;
+        private readonly List<string> _propertyNames;
 
-        public IndexManager(IndexType indexType)
+        public IndexManager(IndexType indexType, params string[] propertyNames)
         {
+            if (propertyNames.Length == 0)
+                throw new ArgumentOutOfRangeException(nameof(propertyNames));
+
             _keys = new List<T>();
+            _propertyNames = propertyNames.ToList();
             IndexType = indexType;
         }
 
         public IndexType IndexType { get; }
+
+        public List<string> PropertyNames => _propertyNames;
 
         public bool IsUpdating { get; private set; } = false;
 

@@ -29,11 +29,22 @@ namespace PluginManager.DAL.TextFiles
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = false)]
     public class UniqueIndexAttribute : Attribute
     {
+        public UniqueIndexAttribute(string name, IndexType indexType = IndexType.Ascending)
+            : this (indexType)
+        {
+            if (String.IsNullOrEmpty(name))
+                throw new ArgumentNullException(nameof(name));
+
+            Name = name;
+        }
+
         public UniqueIndexAttribute(IndexType indexType = IndexType.Ascending)
         {
             IndexType = indexType;
         }
 
         public IndexType IndexType { get; }
+
+        public string Name { get; }
     }
 }

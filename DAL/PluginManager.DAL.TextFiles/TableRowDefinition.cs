@@ -47,7 +47,7 @@ namespace PluginManager.DAL.TextFiles
         /// Unique id of the record
         /// </summary>
         /// <value>long</value>
-        [UniqueIndex(IndexType.Ascending)]
+        [UniqueIndex(nameof(Id), IndexType.Ascending)]
         public long Id
         {
             get => _id;

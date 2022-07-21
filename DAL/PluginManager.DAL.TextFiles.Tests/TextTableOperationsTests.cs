@@ -34,6 +34,7 @@ using PluginManager.DAL.TextFiles.Internal;
 using AspNetCore.PluginManager.Tests.Shared;
 
 using io = System.IO;
+using PluginManager.DAL.TextFiles.Tests.Mocks;
 
 #pragma warning disable CA1806
 
@@ -1124,6 +1125,65 @@ namespace PluginManager.DAL.TextFiles.Tests
         private static TextTableInitializer CreateTestInitializer(string path)
         {
             return new TextTableInitializer(path);
+        }
+
+        [TestMethod]
+        public void Insert_IndexSpansMultipleProperties_Success()
+        {
+            string directory = io.Path.Combine(io.Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            try
+            {
+                io.Directory.CreateDirectory(directory);
+                ITextTableInitializer initializer = CreateTestInitializer(directory);
+                IForeignKeyManager keyManager = new ForeignKeyManager();
+
+                using (TextTableOperations<MockRowMultipleIndex> sut = new TextTableOperations<MockRowMultipleIndex>(initializer, keyManager, new MockPluginClassesService()))
+                {
+                    for (int i = 0; i < 5; i++)
+                        sut.InsertOrUpdate(new MockRowMultipleIndex() { Name = $"Name {i}", Index = i });
+                }
+
+                using (TextTableOperations<MockRowMultipleIndex> readSut = new TextTableOperations<MockRowMultipleIndex>(initializer, keyManager, new MockPluginClassesService()))
+                {
+                    Assert.AreEqual(5, readSut.RecordCount);
+                    Assert.AreEqual(601, readSut.DataLength);
+                    Assert.AreEqual(4L, readSut.PrimarySequence);
+
+                    IReadOnlyList<MockRowMultipleIndex> records = readSut.Select();
+
+                    for (int i = 0; i < readSut.RecordCount; i++)
+                        Assert.AreEqual(i, records[i].Id);
+                }
+            }
+            finally
+            {
+                io.Directory.Delete(directory, true);
+            }
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(UniqueIndexException))]
+        public void Insert_IndexSpansMultipleProperties_ValueAlreadyIndexed_ThrowsUniqueIndexException()
+        {
+            string directory = io.Path.Combine(io.Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            try
+            {
+                io.Directory.CreateDirectory(directory);
+                ITextTableInitializer initializer = CreateTestInitializer(directory);
+                IForeignKeyManager keyManager = new ForeignKeyManager();
+
+                using (TextTableOperations<MockRowMultipleIndex> sut = new TextTableOperations<MockRowMultipleIndex>(initializer, keyManager, new MockPluginClassesService()))
+                {
+                    for (int i = 0; i < 5; i++)
+                        sut.InsertOrUpdate(new MockRowMultipleIndex() { Name = $"Name {i}", Index = i });
+
+                    sut.Insert(new MockRowMultipleIndex() { Name = "Name 4", Index = 4 });
+                }
+            }
+            finally
+            {
+                io.Directory.Delete(directory, true);
+            }
         }
     }
 }
