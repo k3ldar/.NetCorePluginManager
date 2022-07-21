@@ -41,12 +41,17 @@ namespace PluginManager.DAL.TextFiles.Providers
     {
         #region Private Members
 
+        private const int LowPriority = 1;
+        private const int StatusOpen = 2;
+        private const int SupportDepartment = 2;
+
         private static readonly CacheManager _memoryCache = new CacheManager("Helpdesk", new TimeSpan(0, 30, 0), true, true);
 
+        private readonly ITextTableOperations<UserDataRow> _userDataRow;
         private readonly ITextTableOperations<FeedbackDataRow> _feedbackDataRow;
         private readonly ITextTableOperations<FAQDataRow> _faqDataRow;
         private readonly ITextTableOperations<TicketDataRow> _tickets;
-        private readonly ITextTableOperations<FeedbackDataRow> _ticketMessages;
+        private readonly ITextTableOperations<TicketMessageDataRow> _ticketMessages;
         private readonly ITextTableOperations<TicketStatusDataRow> _ticketStatus;
         private readonly ITextTableOperations<TicketPrioritiesDataRow> _ticketPriority;
         private readonly ITextTableOperations<TicketDepartmentsDataRow> _ticketDepartments;
@@ -55,14 +60,16 @@ namespace PluginManager.DAL.TextFiles.Providers
 
         #region Constructors
 
-        public HelpdeskProvider(ITextTableOperations<FeedbackDataRow> feedbackDataRow, 
+        public HelpdeskProvider(ITextTableOperations<UserDataRow> userDataRow,
+            ITextTableOperations<FeedbackDataRow> feedbackDataRow, 
             ITextTableOperations<FAQDataRow> faqDataRow,
             ITextTableOperations<TicketDataRow> tickets,
-            ITextTableOperations<FeedbackDataRow> ticketMessages,
+            ITextTableOperations<TicketMessageDataRow> ticketMessages,
             ITextTableOperations<TicketStatusDataRow> ticketStatus,
             ITextTableOperations<TicketPrioritiesDataRow> ticketPriority,
             ITextTableOperations<TicketDepartmentsDataRow> ticketDepartments)
         {
+            _userDataRow = userDataRow ?? throw new ArgumentNullException(nameof(userDataRow));
             _feedbackDataRow = feedbackDataRow ?? throw new ArgumentNullException(nameof(feedbackDataRow));
             _faqDataRow = faqDataRow ?? throw new ArgumentNullException(nameof(faqDataRow));
             _tickets = tickets ?? throw new ArgumentNullException(nameof(tickets));
@@ -245,29 +252,63 @@ namespace PluginManager.DAL.TextFiles.Providers
             in string userName, in string email, in string subject, in string message,
             out HelpdeskTicket ticket)
         {
-            //int idPriority = priority;
-            //int idStatus = 2;
-            //int idDepartment = department;
+            ticket = null;
 
-            //ticket = new HelpdeskTicket(_tickets.Count + 1,
-            //    GetTicketPriorities().Where(p => p.Id == idPriority).FirstOrDefault(),
-            //    GetTicketDepartments().Where(d => d.Id == idDepartment).FirstOrDefault(),
-            //    GetTicketStatus().Where(s => s.Id == idStatus).FirstOrDefault(),
-            //    Shared.Utilities.GetRandomKey(),
-            //    subject,
-            //    DateTime.Now,
-            //    DateTime.Now,
-            //    userName,
-            //    email, userName,
-            //    new List<HelpdeskTicketMessage>()
-            //    {
-            //        new HelpdeskTicketMessage(DateTime.Now, userName, message)
-            //    });
+            if (String.IsNullOrEmpty(userName))
+                return false;
 
-            //_tickets.Add(ticket);
+            if (String.IsNullOrEmpty(email))
+                return false;
 
-            //return true;
-            throw new NotImplementedException();
+            if (String.IsNullOrEmpty(subject))
+                return false;
+
+            if (String.IsNullOrEmpty(message))
+                return false;
+
+            int idPriority = _ticketPriority.IdExists(priority) ? priority : LowPriority;
+            int idStatus = StatusOpen;
+            int idDepartment = _ticketDepartments.IdExists(department) ? department : SupportDepartment;
+
+            TicketDataRow ticketDataRow = new TicketDataRow()
+            {
+                Priority = idPriority,
+                Department = idDepartment,
+                Status = idStatus,
+                Key = Shared.Utilities.GetRandomKey(),
+                Subject = subject,
+                CreatedBy = userName,
+                CreatedByEmail = email,
+            };
+
+            _tickets.Insert(ticketDataRow);
+
+            _ticketMessages.Insert(new TicketMessageDataRow()
+            {
+                TicketId = ticketDataRow.Id,
+                UserName = userName,
+                Message = message,
+            });
+
+
+
+            ticket = new HelpdeskTicket(ticketDataRow.Id,
+                GetTicketPriorities().Where(p => p.Id == idPriority).FirstOrDefault(),
+                GetTicketDepartments().Where(d => d.Id == idDepartment).FirstOrDefault(),
+                GetTicketStatus().Where(s => s.Id == idStatus).FirstOrDefault(),
+                ticketDataRow.Key,
+                subject,
+                DateTime.Now,
+                DateTime.Now,
+                userName,
+                email, 
+                userName,
+                new List<HelpdeskTicketMessage>()
+                {
+                    new HelpdeskTicketMessage(DateTime.Now, userName, message)
+                });
+
+            return true;
         }
 
         public HelpdeskTicket GetTicket(in long id)

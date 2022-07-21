@@ -754,7 +754,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(ArgumentNullException))]
         public void Login_ExternalUser_InvalidTokenDetails_EmailNull_Throws_ArgumentNullException()
         {
             string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
@@ -805,7 +805,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(ArgumentNullException))]
         public void Login_ExternalUser_InvalidTokenDetails_ProviderNull_Throws_ArgumentNullException()
         {
             string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());

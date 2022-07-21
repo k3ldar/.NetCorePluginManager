@@ -93,7 +93,7 @@ namespace PluginManager.DAL.TextFiles.Tables
             }
         }
 
-        [UniqueIndex]
+        [UniqueIndex("UserKey")]
         public string Key
         {
             get => _key;
@@ -136,6 +136,7 @@ namespace PluginManager.DAL.TextFiles.Tables
             }
         }
 
+        [UniqueIndex("UserKey")]
         public string CreatedByEmail
         {
             get => _createdByEmail;

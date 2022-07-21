@@ -203,6 +203,8 @@ namespace PluginManager.DAL.TextFiles.Providers
 
             if (cacheItem == null)
             {
+                _ = CreateNewShoppingCart(shoppingCartId);
+
                 ShoppingCartDetail cartDetail = new ShoppingCartDetail(shoppingCartId, 0,
                     0, _defaultTaxRate, 0, 0, Thread.CurrentThread.CurrentUICulture,
                     "", new List<ShoppingCartItem>(), false, _defaultCurrency);

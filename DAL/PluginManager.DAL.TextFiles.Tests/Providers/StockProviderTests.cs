@@ -103,7 +103,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
                     ShoppingCartProvider shoppingCartProvider = (ShoppingCartProvider)provider.GetService<IShoppingCartProvider>();
                     Assert.IsNotNull(shoppingCartProvider);
-                    shoppingCartProvider.ClearCache();
+                    ShoppingCartProvider.ClearCache();
 
                     long basketId = shoppingCartProvider.AddToCart(userSession, shoppingCart, productProvider.GetProduct(1), 1);
                     Assert.AreEqual(1, basketId);
@@ -173,7 +173,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
                     ShoppingCartProvider shoppingCartProvider = (ShoppingCartProvider)provider.GetService<IShoppingCartProvider>();
                     Assert.IsNotNull(shoppingCartProvider);
-                    shoppingCartProvider.ClearCache();
+                    ShoppingCartProvider.ClearCache();
 
                     long basketId = shoppingCartProvider.AddToCart(userSession, shoppingCart, productProvider.GetProduct(0), 1);
                     Assert.AreEqual(1, basketId);
