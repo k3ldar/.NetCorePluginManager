@@ -673,9 +673,6 @@ namespace PluginManager.DAL.TextFiles.Internal
         {
             using (TimedLock timedLock = TimedLock.Lock(_lockObject))
             {
-                if (_foreignKeys.Count > 0)
-                    ValidateForeignKeys(records);
-
                 ValidateInternalIndexes(records);
 
                 long nextSequence;
@@ -694,8 +691,10 @@ namespace PluginManager.DAL.TextFiles.Internal
                 try
                 {
                     _triggersMap[TriggerType.BeforeInsert].ForEach(t => t.BeforeInsert(records));
+
                     records.ForEach(r =>
                     {
+                        ValidateForeignKeys(r);
                         if (textTableInsertOptions.AssignPrimaryKey)
                         {
                             r.Id = nextSequence++;
@@ -809,6 +808,21 @@ namespace PluginManager.DAL.TextFiles.Internal
                         if (!(foreignKeyRelation.AllowDefaultValue && keyValue.Equals(0)))
                             throw new ForeignKeyException($"Foreign key value {keyValue} does not exist in table {foreignKey.Value}; Table: {TableName}; Property: {foreignKey.Key}");
                     }
+                }
+            }
+        }
+
+        private void ValidateForeignKeys(T record)
+        {
+            foreach (KeyValuePair<string, ForeignKeyRelation> foreignKey in _foreignKeys)
+            {
+                long keyValue = Convert.ToInt64(record.GetType().GetProperty(foreignKey.Key).GetValue(record, null));
+                ForeignKeyRelation foreignKeyRelation = foreignKey.Value;
+
+                if (!_foreignKeyManager.ValueExists(foreignKeyRelation.Name, keyValue))
+                {
+                    if (!(foreignKeyRelation.AllowDefaultValue && keyValue.Equals(0)))
+                        throw new ForeignKeyException($"Foreign key value {keyValue} does not exist in table {foreignKey.Value}; Table: {TableName}; Property: {foreignKey.Key}");
                 }
             }
         }
