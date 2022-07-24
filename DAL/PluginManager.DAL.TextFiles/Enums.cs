@@ -43,6 +43,24 @@ namespace PluginManager.DAL.TextFiles
     }
 
     /// <summary>
+    /// Write strategy to use
+    /// </summary>
+    public enum WriteStrategy : byte
+    {
+        /// <summary>
+        /// Data is written immediately to disk
+        /// </summary>
+        Forced = 0,
+
+        /// <summary>
+        /// Data is written to disk at intervals or when TextTableOperation is disposed
+        /// 
+        /// In cases of a application/system crash, this could result in lost data
+        /// </summary>
+        Lazy = 1,
+    }
+
+    /// <summary>
     /// Cache strategy to use 
     /// </summary>
     public enum CachingStrategy : byte

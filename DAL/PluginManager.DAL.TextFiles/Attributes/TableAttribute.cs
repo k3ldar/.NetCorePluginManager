@@ -29,13 +29,37 @@ namespace PluginManager.DAL.TextFiles
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = false)]
     public class TableAttribute : Attribute
     {
-        public TableAttribute(string tableName, CompressionType compression = CompressionType.None, CachingStrategy cachingStrategy = CachingStrategy.None)
-            : this (String.Empty, tableName, compression, cachingStrategy)
+        public TableAttribute(string tableName, 
+            CompressionType compression = CompressionType.None,
+            CachingStrategy cachingStrategy = CachingStrategy.None, 
+            WriteStrategy writeStrategy = WriteStrategy.Forced)
+            : this (String.Empty, tableName, compression, cachingStrategy, writeStrategy)
         {
 
         }
 
-        public TableAttribute(string domain, string tableName, CompressionType compression = CompressionType.None, CachingStrategy cachingStrategy = CachingStrategy.None)
+        public TableAttribute(string tableName,
+            WriteStrategy writeStrategy)
+            : this(String.Empty, tableName, CompressionType.None,
+                  writeStrategy == WriteStrategy.Lazy ? CachingStrategy.Memory : CachingStrategy.None, writeStrategy)
+        {
+
+        }
+
+        public TableAttribute(string domain,
+            string tableName,
+            WriteStrategy writeStrategy)
+            : this(domain, tableName, CompressionType.None, 
+                  writeStrategy == WriteStrategy.Lazy ? CachingStrategy.Memory : CachingStrategy.None, writeStrategy)
+        {
+
+        }
+
+        public TableAttribute(string domain, 
+            string tableName, 
+            CompressionType compression = CompressionType.None, 
+            CachingStrategy cachingStrategy = CachingStrategy.None, 
+            WriteStrategy writeStrategy = WriteStrategy.Forced)
         {
             if (domain == null)
                 throw new ArgumentNullException(nameof(domain));
@@ -58,7 +82,8 @@ namespace PluginManager.DAL.TextFiles
             Domain = domain;
             TableName = tableName;
             Compression = compression;
-            CachingStrategy = cachingStrategy;
+            CachingStrategy = writeStrategy == WriteStrategy.Lazy ? CachingStrategy.Memory : cachingStrategy;
+            WriteStrategy = writeStrategy;
         }
 
         public string Domain { get; }
@@ -68,5 +93,7 @@ namespace PluginManager.DAL.TextFiles
         public CompressionType Compression { get; }
 
         public CachingStrategy CachingStrategy { get; }
+
+        public WriteStrategy WriteStrategy { get; }
     }
 }

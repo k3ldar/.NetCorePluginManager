@@ -35,6 +35,7 @@ using AspNetCore.PluginManager.Tests.Shared;
 
 using io = System.IO;
 using PluginManager.DAL.TextFiles.Tests.Mocks;
+using System.IO;
 
 #pragma warning disable CA1806
 
@@ -195,7 +196,7 @@ namespace PluginManager.DAL.TextFiles.Tests
         }
 
         [TestMethod]
-        public void Insert_SingleRecord_Success()
+        public void Insert_SingleRecord_ForcedWrite_Success()
         {
             string directory = io.Path.Combine(io.Path.GetTempPath(), DateTime.Now.Ticks.ToString());
             try
@@ -203,11 +204,18 @@ namespace PluginManager.DAL.TextFiles.Tests
                 io.Directory.CreateDirectory(directory);
                 TextTableInitializer initializer = CreateTestInitializer(directory);
                 IForeignKeyManager keyManager = new ForeignKeyManager();
+                FileInfo fileInfo = null;
 
                 using (TextTableOperations<MockRow> sut = new TextTableOperations<MockRow>(initializer, keyManager, new MockPluginClassesService()))
                 {
                     sut.Insert(new MockRow());
+                    fileInfo = new FileInfo(Path.Combine(directory, "MockTable.dat"));
+                    Assert.AreEqual(140, fileInfo.Length);
+                    Assert.AreEqual(1, sut.RecordCount);
                 }
+
+                fileInfo = new FileInfo(Path.Combine(directory, "MockTable.dat"));
+                Assert.AreEqual(140, fileInfo.Length);
 
                 using TextTableOperations<MockRow> sutRead = new TextTableOperations<MockRow>(initializer, keyManager, new MockPluginClassesService());
                 IReadOnlyList<MockRow> records = sutRead.Select();
@@ -215,6 +223,42 @@ namespace PluginManager.DAL.TextFiles.Tests
                 Assert.AreEqual(1, records.Count);
                 Assert.AreEqual(0, records[0].Id);
                 Assert.AreEqual(0, sutRead.PrimarySequence);
+            }
+            finally
+            {
+                io.Directory.Delete(directory, true);
+            }
+        }
+
+        [TestMethod]
+        public void Insert_SingleRecord_LazyWrite_Success()
+        {
+            string directory = io.Path.Combine(io.Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            try
+            {
+                io.Directory.CreateDirectory(directory);
+                TextTableInitializer initializer = CreateTestInitializer(directory);
+                IForeignKeyManager keyManager = new ForeignKeyManager();
+                FileInfo fileInfo = null;
+
+                using (TextTableOperations<MockLazyWriteRow> sut = new TextTableOperations<MockLazyWriteRow>(initializer, keyManager, new MockPluginClassesService()))
+                {
+                    sut.Insert(new MockLazyWriteRow("some data"));
+                    fileInfo = new FileInfo(Path.Combine(directory, "MockLazyWriteTable.dat"));
+                    Assert.AreEqual(45, fileInfo.Length);
+                    Assert.AreEqual(1, sut.RecordCount);
+                }
+
+                fileInfo = new FileInfo(Path.Combine(directory, "MockLazyWriteTable.dat"));
+                Assert.AreEqual(159, fileInfo.Length);
+
+                using TextTableOperations<MockLazyWriteRow> sutRead = new TextTableOperations<MockLazyWriteRow>(initializer, keyManager, new MockPluginClassesService());
+                IReadOnlyList<MockLazyWriteRow> records = sutRead.Select();
+
+                Assert.AreEqual(1, records.Count);
+                Assert.AreEqual(0, records[0].Id);
+                Assert.AreEqual(0, sutRead.PrimarySequence);
+                Assert.AreEqual("some data", records[0].Data);
             }
             finally
             {

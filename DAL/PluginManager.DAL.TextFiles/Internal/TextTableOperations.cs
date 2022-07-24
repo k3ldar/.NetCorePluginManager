@@ -383,6 +383,12 @@ namespace PluginManager.DAL.TextFiles.Internal
                 InternalInsertRecords(new List<T>() { record }, new TextTableInsertOptions());
         }
 
+        public void ForceWrite()
+        {
+            if (_tableAttributes.WriteStrategy != WriteStrategy.Forced)
+                InternalSaveRecordsToDisk(InternalReadAllRecords(), true);
+        }
+
         #region Sequences
 
         public long NextSequence()
@@ -553,7 +559,7 @@ namespace PluginManager.DAL.TextFiles.Internal
                         }
                     }
 
-                    InternalSaveRecordsToDisk(existingRecords);
+                    InternalSaveRecordsToDisk(existingRecords, false);
 
                     _triggersMap[TriggerType.AfterUpdate].ForEach(t => t.AfterUpdate(records));
 
@@ -566,41 +572,50 @@ namespace PluginManager.DAL.TextFiles.Internal
             }
         }
 
-        private void InternalSaveRecordsToDisk(List<T> recordsToSave)
+        private void InternalSaveRecordsToDisk(List<T> recordsToSave, bool forceWrite)
         {
-            byte[] data = JsonSerializer.SerializeToUtf8Bytes(recordsToSave, recordsToSave.GetType(), _jsonSerializerOptions);
-            Span<byte> compressedData = data.Length < MaxStackAllocSize ? compressedData = stackalloc byte[data.Length] : compressedData = new byte[data.Length];
-
-            int dataLength = data.Length;
-            bool isCompressed = false;
-            CompressionType compressionType = CompressionType.None;
-
-            if (_tableAttributes.Compression == CompressionType.Brotli)
+            if (forceWrite || _tableAttributes.WriteStrategy == WriteStrategy.Forced)
             {
-                isCompressed = System.IO.Compression.BrotliEncoder.TryCompress(data, compressedData, out dataLength);
+                byte[] data = JsonSerializer.SerializeToUtf8Bytes(recordsToSave, recordsToSave.GetType(), _jsonSerializerOptions);
+                Span<byte> compressedData = data.Length < MaxStackAllocSize ? compressedData = stackalloc byte[data.Length] : compressedData = new byte[data.Length];
+
+                int dataLength = data.Length;
+                bool isCompressed = false;
+                CompressionType compressionType = CompressionType.None;
+
+                if (_tableAttributes.Compression == CompressionType.Brotli)
+                {
+                    isCompressed = System.IO.Compression.BrotliEncoder.TryCompress(data, compressedData, out dataLength);
+
+                    if (isCompressed)
+                        compressionType = CompressionType.Brotli;
+                }
+
+                using BinaryWriter writer = new BinaryWriter(_fileStream, Encoding.UTF8, true);
+                writer.Seek(StartOfRecordCount, SeekOrigin.Begin);
+                writer.Write((byte)compressionType);
+                writer.Write(recordsToSave.Count);
+                writer.Write(data.Length);
 
                 if (isCompressed)
-                    compressionType = CompressionType.Brotli;
+                {
+                    writer.Write(dataLength);
+                    writer.Write(compressedData.ToArray(), 0, dataLength);
+                }
+                else
+                {
+                    writer.Write(data.Length);
+                    writer.Write(data);
+                }
+
+                _compactPercent = Convert.ToByte(Shared.Utilities.Percentage(_fileStream.Length, _fileStream.Position));
+
+                _fileStream.Flush(true);
             }
 
-            using BinaryWriter writer = new BinaryWriter(_fileStream, Encoding.UTF8, true);
-            writer.Seek(StartOfRecordCount, SeekOrigin.Begin);
-            writer.Write((byte)compressionType);
-            writer.Write(recordsToSave.Count);
-            writer.Write(data.Length);
+            _recordCount = recordsToSave.Count;
 
-            if (isCompressed)
-            {
-                writer.Write(dataLength);
-                writer.Write(compressedData.ToArray(), 0, dataLength);
-            }
-            else
-            {
-                writer.Write(data.Length);
-                writer.Write(data);
-            }
-
-            if (_tableAttributes.CachingStrategy == CachingStrategy.Memory)
+            if (_tableAttributes.CachingStrategy == CachingStrategy.Memory || _tableAttributes.WriteStrategy == WriteStrategy.Lazy)
             {
                 _allRecords = recordsToSave;
                 _allRecords.ForEach(ar => { ar.Immutable = true; ar.Loaded = true; });
@@ -609,11 +624,6 @@ namespace PluginManager.DAL.TextFiles.Internal
             {
                 _allRecords = null;
             }
-            
-            _compactPercent = Convert.ToByte(Shared.Utilities.Percentage(_fileStream.Length, _fileStream.Position));
-
-            _fileStream.Flush(true);
-            _recordCount = recordsToSave.Count;
         }
 
         private void InternalDeleteRecords(List<T> records)
@@ -648,7 +658,7 @@ namespace PluginManager.DAL.TextFiles.Internal
                         }
                     }
 
-                    InternalSaveRecordsToDisk(existingRecords);
+                    InternalSaveRecordsToDisk(existingRecords, false);
 
                     _triggersMap[TriggerType.AfterDelete].ForEach(t => t.AfterDelete(records));
                 }
@@ -696,7 +706,7 @@ namespace PluginManager.DAL.TextFiles.Internal
 
                     List<T> existingRecords = InternalReadAllRecords();
                     existingRecords.AddRange(records);
-                    InternalSaveRecordsToDisk(existingRecords);
+                    InternalSaveRecordsToDisk(existingRecords, false);
 
                     _triggersMap[TriggerType.AfterInsert].ForEach(t => t.AfterInsert(records));
                 }
@@ -913,6 +923,8 @@ namespace PluginManager.DAL.TextFiles.Internal
                 if (_foreignKeyManager != null)
                     _foreignKeyManager?.UnregisterTable(this);
             }
+
+            ForceWrite();
 
             if (_fileStream != null)
             {

@@ -142,5 +142,10 @@ namespace PluginManager.DAL.TextFiles.Tests.Mocks
         {
             throw new NotImplementedException();
         }
+
+        public void ForceWrite()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

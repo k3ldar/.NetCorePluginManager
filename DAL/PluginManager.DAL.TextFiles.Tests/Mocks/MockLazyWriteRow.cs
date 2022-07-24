@@ -15,12 +15,12 @@
  *
  *  Product:  PluginManager.DAL.TextFiles.Tests
  *  
- *  File: MockRow.cs
+ *  File: MockLazyWriteRow.cs
  *
- *  Purpose:  MockRow for text based storage
+ *  Purpose:  MockRow for lazy write text based storage
  *
  *  Date        Name                Reason
- *  23/05/2022  Simon Carter        Initially Created
+ *  24/07/2022  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System.Diagnostics.CodeAnalysis;
@@ -28,18 +28,28 @@ using System.Diagnostics.CodeAnalysis;
 namespace PluginManager.DAL.TextFiles.Tests
 {
     [ExcludeFromCodeCoverage]
-    [Table("MockTable", cachingStrategy: CachingStrategy.Memory)]
-    internal sealed class MockRow : TableRowDefinition
+    [Table("MockLazyWriteTable", WriteStrategy.Lazy)]
+    internal class MockLazyWriteRow : TableRowDefinition
     {
-        public MockRow()
-        {
+        private string _data;
 
+        public MockLazyWriteRow(string data)
+        {
+            Data = data;
         }
 
-        public MockRow(int id)
-            : this()
+        public string Data
         {
-            Id = id;
+            get => _data;
+
+            set
+            {
+                if (_data == value)
+                    return;
+
+                _data = value;
+                Update();
+            }
         }
     }
 }

@@ -104,6 +104,11 @@ namespace PluginManager.DAL.TextFiles
         void InsertOrUpdate(T record);
 
         /// <summary>
+        /// Force writes data to disk, only has an effect if WriteStrategy is not Forced
+        /// </summary>
+        void ForceWrite();
+
+        /// <summary>
         /// Length of the data stored on disk
         /// </summary>
         /// <value>int</value>
