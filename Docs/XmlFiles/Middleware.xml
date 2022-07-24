@@ -1615,7 +1615,7 @@
             </summary>
             <value>string</value>
         </member>
-        <member name="M:Middleware.Helpdesk.KnowledgeBaseItem.IncreastViewCount">
+        <member name="M:Middleware.Helpdesk.KnowledgeBaseItem.IncreaseViewCount">
             <summary>
             Increases the view count the item by one.
             </summary>
@@ -1707,7 +1707,7 @@
             <param name="parent">Group parent if there is one, otherwise null for groups at the top of the heirerarchy.</param>
             <returns>List&lt;KnowledgeBaseGroup&gt;</returns>
         </member>
-        <member name="M:Middleware.Helpdesk.IHelpdeskProvider.GetKnowledgebaseGroup(System.Int64@,System.Int32@)">
+        <member name="M:Middleware.Helpdesk.IHelpdeskProvider.GetKnowledgebaseGroup(System.Int64@,System.Int64@)">
             <summary>
             Retrieves an individual KnowledgeBaseGroup item.
             </summary>
@@ -1715,7 +1715,7 @@
             <param name="id">Id of the KnowledgeBaseGroup being retrieved.</param>
             <returns>KnowledgeBaseGroup</returns>
         </member>
-        <member name="M:Middleware.Helpdesk.IHelpdeskProvider.GetKnowledgebaseItem(System.Int64@,System.Int32@,Middleware.Helpdesk.KnowledgeBaseItem@,Middleware.Helpdesk.KnowledgeBaseGroup@)">
+        <member name="M:Middleware.Helpdesk.IHelpdeskProvider.GetKnowledgebaseItem(System.Int64@,System.Int64@,Middleware.Helpdesk.KnowledgeBaseItem@,Middleware.Helpdesk.KnowledgeBaseGroup@)">
             <summary>
             Retrieves an individual KnowledgeBaseItem.
             </summary>

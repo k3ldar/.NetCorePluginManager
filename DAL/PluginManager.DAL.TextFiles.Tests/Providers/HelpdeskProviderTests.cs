@@ -1049,5 +1049,447 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                 Directory.Delete(directory, true);
             }
         }
+
+        [TestMethod]
+        public void GetKnowledgebaseGroups_GroupsAvailable_ReturnsAllGroupsWithAndWithoutParent()
+        {
+            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            try
+            {
+                Directory.CreateDirectory(directory);
+                PluginInitialisation initialisation = new PluginInitialisation();
+                ServiceCollection services = new ServiceCollection();
+                List<object> classServices = new List<object>()
+                {
+                    new TicketDepartmentsDataRowDefaults(),
+                    new TicketStatusDataRowDefaults(),
+                    new TicketPrioritiesDataRowDefaults(),
+                };
+
+                MockPluginClassesService mockPluginClassesService = new MockPluginClassesService(classServices);
+
+                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
+                services.AddSingleton<IPluginClassesService>(mockPluginClassesService);
+
+                initialisation.BeforeConfigureServices(services);
+
+                using (ServiceProvider provider = services.BuildServiceProvider())
+                {
+                    MockApplicationBuilder mockApplicationBuilder = new MockApplicationBuilder(provider);
+                    initialisation.AfterConfigure(mockApplicationBuilder);
+
+                    ITextTableOperations<FAQDataRow> faqData = provider.GetRequiredService<ITextTableOperations<FAQDataRow>>();
+                    Assert.AreEqual(0, faqData.RecordCount);
+
+                    ITextTableOperations<FAQItemDataRow> faqItemData = provider.GetRequiredService<ITextTableOperations<FAQItemDataRow>>();
+                    Assert.AreEqual(0, faqItemData.RecordCount);
+
+                    faqData.Insert(new List<FAQDataRow>()
+                    {
+                        new FAQDataRow() { Name = "group 1", Description = "Group 1 description" },
+                        new FAQDataRow() { Name = "group 2", Description = "Group 2 description" },
+                        new FAQDataRow() { Name = "group 2a", Description = "Group 2a description", Parent = 1 }
+                    });
+
+                    int itemNumber = 0;
+                    faqItemData.Insert(new List<FAQItemDataRow>()
+                    {
+                        new FAQItemDataRow() { ParentId = 0, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
+                        new FAQItemDataRow() { ParentId = 0, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
+                        new FAQItemDataRow() { ParentId = 0, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
+                        new FAQItemDataRow() { ParentId = 1, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
+                        new FAQItemDataRow() { ParentId = 1, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
+                        new FAQItemDataRow() { ParentId = 1, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
+                        new FAQItemDataRow() { ParentId = 1, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
+                        new FAQItemDataRow() { ParentId = 1, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
+                        new FAQItemDataRow() { ParentId = 2, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
+                        new FAQItemDataRow() { ParentId = 2, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
+                    });
+
+                    mockPluginClassesService.Items.Add(new UserDataRowDefaults(provider.GetService<ISettingsProvider>()));
+
+                    IHelpdeskProvider sut = provider.GetService<IHelpdeskProvider>();
+                    Assert.IsNotNull(sut);
+                    HelpdeskProvider.ClearCache();
+
+                    Assert.AreEqual(3, faqData.RecordCount);
+
+                    List<KnowledgeBaseGroup> groups = sut.GetKnowledgebaseGroups(0, null);
+
+                    Assert.IsNotNull(groups);
+                    Assert.AreEqual(2, groups.Count);
+                    Assert.AreEqual(3, groups[0].Items.Count);
+                    Assert.AreEqual(5, groups[1].Items.Count);
+
+                    List<KnowledgeBaseGroup> subGroups = sut.GetKnowledgebaseGroups(0, groups[1]);
+
+                    Assert.IsNotNull(subGroups);
+                    Assert.AreEqual(1, subGroups.Count);
+                    Assert.AreEqual(2, subGroups[0].Items.Count);
+                }
+            }
+            finally
+            {
+                Directory.Delete(directory, true);
+            }
+        }
+
+        [TestMethod]
+        public void GetKnowledgebaseGroup_GroupsAvailable_ReturnsCorrectGroupWithNullParent()
+        {
+            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            try
+            {
+                Directory.CreateDirectory(directory);
+                PluginInitialisation initialisation = new PluginInitialisation();
+                ServiceCollection services = new ServiceCollection();
+                List<object> classServices = new List<object>()
+                {
+                    new TicketDepartmentsDataRowDefaults(),
+                    new TicketStatusDataRowDefaults(),
+                    new TicketPrioritiesDataRowDefaults(),
+                    new FAQDataRowDefaults(),
+                };
+
+                MockPluginClassesService mockPluginClassesService = new MockPluginClassesService(classServices);
+
+                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
+                services.AddSingleton<IPluginClassesService>(mockPluginClassesService);
+
+                initialisation.BeforeConfigureServices(services);
+
+                using (ServiceProvider provider = services.BuildServiceProvider())
+                {
+                    MockApplicationBuilder mockApplicationBuilder = new MockApplicationBuilder(provider);
+                    initialisation.AfterConfigure(mockApplicationBuilder);
+
+                    ITextTableOperations<FAQDataRow> faqData = provider.GetRequiredService<ITextTableOperations<FAQDataRow>>();
+                    Assert.AreEqual(0, faqData.RecordCount);
+
+                    ITextTableOperations<FAQItemDataRow> faqItemData = provider.GetRequiredService<ITextTableOperations<FAQItemDataRow>>();
+                    Assert.AreEqual(0, faqItemData.RecordCount);
+
+                    faqData.Insert(new List<FAQDataRow>()
+                    {
+                        new FAQDataRow() { Name = "group 1", Description = "Group 1 description" },
+                        new FAQDataRow() { Name = "group 2", Description = "Group 2 description" },
+                        new FAQDataRow() { Name = "group 2a", Description = "Group 2a description", Parent = 2 }
+                    });
+
+                    int itemNumber = 0;
+                    faqItemData.Insert(new List<FAQItemDataRow>()
+                    {
+                        new FAQItemDataRow() { ParentId = 1, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
+                        new FAQItemDataRow() { ParentId = 1, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
+                        new FAQItemDataRow() { ParentId = 1, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
+                        new FAQItemDataRow() { ParentId = 2, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
+                        new FAQItemDataRow() { ParentId = 2, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
+                        new FAQItemDataRow() { ParentId = 2, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
+                        new FAQItemDataRow() { ParentId = 2, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
+                        new FAQItemDataRow() { ParentId = 2, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
+                        new FAQItemDataRow() { ParentId = 3, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
+                        new FAQItemDataRow() { ParentId = 3, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
+                    });
+
+                    mockPluginClassesService.Items.Add(new UserDataRowDefaults(provider.GetService<ISettingsProvider>()));
+
+                    IHelpdeskProvider sut = provider.GetService<IHelpdeskProvider>();
+                    Assert.IsNotNull(sut);
+                    HelpdeskProvider.ClearCache();
+
+                    Assert.AreEqual(3, faqData.RecordCount);
+
+                    KnowledgeBaseGroup group = sut.GetKnowledgebaseGroup(0, 2);
+
+                    Assert.IsNotNull(group);
+                    Assert.AreEqual(5, group.Items.Count);
+                    Assert.IsNull(group.Parent);
+                }
+            }
+            finally
+            {
+                Directory.Delete(directory, true);
+            }
+        }
+
+        [TestMethod]
+        public void GetKnowledgebaseGroup_GroupsAvailable_ReturnsCorrectGroupWithParent()
+        {
+            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            try
+            {
+                Directory.CreateDirectory(directory);
+                PluginInitialisation initialisation = new PluginInitialisation();
+                ServiceCollection services = new ServiceCollection();
+                List<object> classServices = new List<object>()
+                {
+                    new TicketDepartmentsDataRowDefaults(),
+                    new TicketStatusDataRowDefaults(),
+                    new TicketPrioritiesDataRowDefaults(),
+                    new FAQDataRowDefaults(),
+                };
+
+                MockPluginClassesService mockPluginClassesService = new MockPluginClassesService(classServices);
+
+                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
+                services.AddSingleton<IPluginClassesService>(mockPluginClassesService);
+
+                initialisation.BeforeConfigureServices(services);
+
+                using (ServiceProvider provider = services.BuildServiceProvider())
+                {
+                    MockApplicationBuilder mockApplicationBuilder = new MockApplicationBuilder(provider);
+                    initialisation.AfterConfigure(mockApplicationBuilder);
+
+                    ITextTableOperations<FAQDataRow> faqData = provider.GetRequiredService<ITextTableOperations<FAQDataRow>>();
+                    Assert.AreEqual(0, faqData.RecordCount);
+
+                    ITextTableOperations<FAQItemDataRow> faqItemData = provider.GetRequiredService<ITextTableOperations<FAQItemDataRow>>();
+                    Assert.AreEqual(0, faqItemData.RecordCount);
+
+                    faqData.Insert(new List<FAQDataRow>()
+                    {
+                        new FAQDataRow() { Name = "group 1", Description = "Group 1 description" },
+                        new FAQDataRow() { Name = "group 2", Description = "Group 2 description" },
+                        new FAQDataRow() { Name = "group 2a", Description = "Group 2a description", Parent = 2 }
+                    });
+
+                    int itemNumber = 0;
+                    faqItemData.Insert(new List<FAQItemDataRow>()
+                    {
+                        new FAQItemDataRow() { ParentId = 1, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
+                        new FAQItemDataRow() { ParentId = 1, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
+                        new FAQItemDataRow() { ParentId = 1, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
+                        new FAQItemDataRow() { ParentId = 2, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
+                        new FAQItemDataRow() { ParentId = 2, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
+                        new FAQItemDataRow() { ParentId = 2, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
+                        new FAQItemDataRow() { ParentId = 2, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
+                        new FAQItemDataRow() { ParentId = 2, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
+                        new FAQItemDataRow() { ParentId = 3, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
+                        new FAQItemDataRow() { ParentId = 3, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
+                    });
+
+                    mockPluginClassesService.Items.Add(new UserDataRowDefaults(provider.GetService<ISettingsProvider>()));
+
+                    IHelpdeskProvider sut = provider.GetService<IHelpdeskProvider>();
+                    Assert.IsNotNull(sut);
+                    HelpdeskProvider.ClearCache();
+
+                    Assert.AreEqual(3, faqData.RecordCount);
+
+                    KnowledgeBaseGroup group = sut.GetKnowledgebaseGroup(0, 3);
+
+                    Assert.IsNotNull(group);
+                    Assert.AreEqual(2, group.Items.Count);
+                    Assert.IsNotNull(group.Parent);
+                    Assert.IsNull(group.Parent.Parent);
+                }
+            }
+            finally
+            {
+                Directory.Delete(directory, true);
+            }
+        }
+
+        [TestMethod]
+        public void KnowledgebaseView_ViewCountIncremented()
+        {
+            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            try
+            {
+                Directory.CreateDirectory(directory);
+                PluginInitialisation initialisation = new PluginInitialisation();
+                ServiceCollection services = new ServiceCollection();
+                List<object> classServices = new List<object>()
+                {
+                    new TicketDepartmentsDataRowDefaults(),
+                    new TicketStatusDataRowDefaults(),
+                    new TicketPrioritiesDataRowDefaults(),
+                    new FAQDataRowDefaults(),
+                };
+
+                MockPluginClassesService mockPluginClassesService = new MockPluginClassesService(classServices);
+
+                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
+                services.AddSingleton<IPluginClassesService>(mockPluginClassesService);
+
+                initialisation.BeforeConfigureServices(services);
+
+                using (ServiceProvider provider = services.BuildServiceProvider())
+                {
+                    MockApplicationBuilder mockApplicationBuilder = new MockApplicationBuilder(provider);
+                    initialisation.AfterConfigure(mockApplicationBuilder);
+
+                    ITextTableOperations<FAQDataRow> faqData = provider.GetRequiredService<ITextTableOperations<FAQDataRow>>();
+                    Assert.AreEqual(0, faqData.RecordCount);
+
+                    ITextTableOperations<FAQItemDataRow> faqItemData = provider.GetRequiredService<ITextTableOperations<FAQItemDataRow>>();
+                    Assert.AreEqual(0, faqItemData.RecordCount);
+
+                    faqData.Insert(new List<FAQDataRow>()
+                    {
+                        new FAQDataRow() { Name = "group 1", Description = "Group 1 description" },
+                    });
+
+                    int itemNumber = 0;
+                    faqItemData.Insert(new List<FAQItemDataRow>()
+                    {
+                        new FAQItemDataRow() { ParentId = 1, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
+                        new FAQItemDataRow() { ParentId = 1, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
+                        new FAQItemDataRow() { ParentId = 1, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
+                    });
+
+                    mockPluginClassesService.Items.Add(new UserDataRowDefaults(provider.GetService<ISettingsProvider>()));
+
+                    IHelpdeskProvider sut = provider.GetService<IHelpdeskProvider>();
+                    Assert.IsNotNull(sut);
+                    HelpdeskProvider.ClearCache();
+
+                    Assert.AreEqual(1, faqData.RecordCount);
+
+                    KnowledgeBaseGroup group = sut.GetKnowledgebaseGroup(0, 1);
+
+                    Assert.IsNotNull(group);
+                    Assert.AreEqual(3, group.Items.Count);
+                    Assert.IsNull(group.Parent);
+
+                    for (int i = 0; i < 100; i++)
+                    {
+                        sut.KnowledgebaseView(group.Items[0]);
+                        Assert.AreEqual(i + 1, group.Items[0].ViewCount);
+
+                        FAQItemDataRow faqItemDataRow = faqItemData.Select(group.Items[0].Id);
+                        Assert.AreEqual(i + 1, faqItemDataRow.ViewCount);
+                    }
+                }
+            }
+            finally
+            {
+                Directory.Delete(directory, true);
+            }
+        }
+
+        [TestMethod]
+        public void GetKnowledgebaseItem_ItemNotFound_ReturnsFalse()
+        {
+            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            try
+            {
+                Directory.CreateDirectory(directory);
+                PluginInitialisation initialisation = new PluginInitialisation();
+                ServiceCollection services = new ServiceCollection();
+                List<object> classServices = new List<object>()
+                {
+                    new TicketDepartmentsDataRowDefaults(),
+                    new TicketStatusDataRowDefaults(),
+                    new TicketPrioritiesDataRowDefaults(),
+                    new FAQDataRowDefaults(),
+                };
+
+                MockPluginClassesService mockPluginClassesService = new MockPluginClassesService(classServices);
+
+                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
+                services.AddSingleton<IPluginClassesService>(mockPluginClassesService);
+
+                initialisation.BeforeConfigureServices(services);
+
+                using (ServiceProvider provider = services.BuildServiceProvider())
+                {
+                    MockApplicationBuilder mockApplicationBuilder = new MockApplicationBuilder(provider);
+                    initialisation.AfterConfigure(mockApplicationBuilder);
+
+                    ITextTableOperations<FAQDataRow> faqData = provider.GetRequiredService<ITextTableOperations<FAQDataRow>>();
+                    Assert.AreEqual(0, faqData.RecordCount);
+
+                    ITextTableOperations<FAQItemDataRow> faqItemData = provider.GetRequiredService<ITextTableOperations<FAQItemDataRow>>();
+                    Assert.AreEqual(0, faqItemData.RecordCount);
+
+                    mockPluginClassesService.Items.Add(new UserDataRowDefaults(provider.GetService<ISettingsProvider>()));
+
+                    IHelpdeskProvider sut = provider.GetService<IHelpdeskProvider>();
+                    Assert.IsNotNull(sut);
+                    HelpdeskProvider.ClearCache();
+
+                    bool result = sut.GetKnowledgebaseItem(0, 1, out KnowledgeBaseItem item, out KnowledgeBaseGroup group);
+
+                    Assert.IsFalse(result);
+                    Assert.IsNull(group);
+                    Assert.IsNull(item);
+                }
+            }
+            finally
+            {
+                Directory.Delete(directory, true);
+            }
+        }
+
+        [TestMethod]
+        public void GetKnowledgebaseItem_ItemFound_ReturnsTrue()
+        {
+            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            try
+            {
+                Directory.CreateDirectory(directory);
+                PluginInitialisation initialisation = new PluginInitialisation();
+                ServiceCollection services = new ServiceCollection();
+                List<object> classServices = new List<object>()
+                {
+                    new TicketDepartmentsDataRowDefaults(),
+                    new TicketStatusDataRowDefaults(),
+                    new TicketPrioritiesDataRowDefaults(),
+                    new FAQDataRowDefaults(),
+                };
+
+                MockPluginClassesService mockPluginClassesService = new MockPluginClassesService(classServices);
+
+                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
+                services.AddSingleton<IPluginClassesService>(mockPluginClassesService);
+
+                initialisation.BeforeConfigureServices(services);
+
+                using (ServiceProvider provider = services.BuildServiceProvider())
+                {
+                    MockApplicationBuilder mockApplicationBuilder = new MockApplicationBuilder(provider);
+                    initialisation.AfterConfigure(mockApplicationBuilder);
+
+                    ITextTableOperations<FAQDataRow> faqData = provider.GetRequiredService<ITextTableOperations<FAQDataRow>>();
+                    Assert.AreEqual(0, faqData.RecordCount);
+
+                    ITextTableOperations<FAQItemDataRow> faqItemData = provider.GetRequiredService<ITextTableOperations<FAQItemDataRow>>();
+                    Assert.AreEqual(0, faqItemData.RecordCount);
+
+                    faqData.Insert(new List<FAQDataRow>()
+                    {
+                        new FAQDataRow() { Name = "group 1", Description = "Group 1 description" },
+                    });
+
+                    int itemNumber = 0;
+                    faqItemData.Insert(new List<FAQItemDataRow>()
+                    {
+                        new FAQItemDataRow() { ParentId = 1, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
+                        new FAQItemDataRow() { ParentId = 1, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
+                        new FAQItemDataRow() { ParentId = 1, Description = $"Item {++itemNumber}", Content = $"Content {itemNumber}" },
+                    });
+
+                    mockPluginClassesService.Items.Add(new UserDataRowDefaults(provider.GetService<ISettingsProvider>()));
+
+                    IHelpdeskProvider sut = provider.GetService<IHelpdeskProvider>();
+                    Assert.IsNotNull(sut);
+                    HelpdeskProvider.ClearCache();
+
+                    Assert.AreEqual(1, faqData.RecordCount);
+
+                    bool result = sut.GetKnowledgebaseItem(0, 1, out KnowledgeBaseItem item, out KnowledgeBaseGroup group);
+
+                    Assert.IsTrue(result);
+                    Assert.IsNotNull(group);
+                    Assert.IsNotNull(item);
+                }
+            }
+            finally
+            {
+                Directory.Delete(directory, true);
+            }
+        }
     }
 }

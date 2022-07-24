@@ -132,7 +132,7 @@ namespace Middleware.Helpdesk
         /// <param name="userId">Unique id of the user viewing the group, if they are logged in.</param>
         /// <param name="id">Id of the KnowledgeBaseGroup being retrieved.</param>
         /// <returns>KnowledgeBaseGroup</returns>
-        KnowledgeBaseGroup GetKnowledgebaseGroup(in long userId, in int id);
+        KnowledgeBaseGroup GetKnowledgebaseGroup(in long userId, in long id);
 
         /// <summary>
         /// Retrieves an individual KnowledgeBaseItem.
@@ -142,7 +142,7 @@ namespace Middleware.Helpdesk
         /// <param name="knowledgebaseItem">out.  KnowledgeBaseItem being retrieved.</param>
         /// <param name="parentGroup">KnowledgeBaseGroup item which is the parent group of the item being retrieved.</param>
         /// <returns>bool.  True if KnowledgeBaseItem is being returned.</returns>
-        bool GetKnowledgebaseItem(in long userId, in int id,
+        bool GetKnowledgebaseItem(in long userId, in long id,
             out KnowledgeBaseItem knowledgebaseItem, out KnowledgeBaseGroup parentGroup);
 
         /// <summary>

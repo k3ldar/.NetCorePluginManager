@@ -94,7 +94,7 @@ namespace Middleware.Helpdesk
         /// <summary>
         /// Increases the view count the item by one.
         /// </summary>
-        public void IncreastViewCount()
+        public void IncreaseViewCount()
         {
             ViewCount++;
         }

@@ -31,7 +31,7 @@ namespace PluginManager.DAL.TextFiles.Tables
     internal class FAQDataRow : TableRowDefinition
     {
         private string _name;
-        private FAQDataRow _parent;
+        private long _parent;
         private string _description;
         private int _order;
         private int _viewCount;
@@ -54,7 +54,7 @@ namespace PluginManager.DAL.TextFiles.Tables
         }
 
         [ForeignKey(Constants.TableNameFAQ, true)]
-        public FAQDataRow Parent
+        public long Parent
         {
             get
             {

@@ -27,6 +27,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
+using System.Runtime.CompilerServices;
 
 using Middleware;
 using Middleware.Helpdesk;
@@ -41,6 +42,7 @@ namespace PluginManager.DAL.TextFiles.Providers
     {
         #region Private Members
 
+        private const int MaxRecursionDepth = 10;
         private const int LowPriority = 1;
         private const int StatusOpen = 1;
         private const int StatusOnHold = 2;
@@ -366,22 +368,15 @@ namespace PluginManager.DAL.TextFiles.Providers
 
         public List<KnowledgeBaseGroup> GetKnowledgebaseGroups(in long userId, in KnowledgeBaseGroup parent)
         {
-            string cacheName = $"{nameof(GetKnowledgebaseGroups)} {(parent == null ? String.Empty : parent.Id)}";
+            string cacheName = $"{nameof(GetKnowledgebaseGroups)} {(parent == null ? 0 : parent.Id)}";
             CacheItem cacheItem = _memoryCache.Get(cacheName);
 
             if (cacheItem == null)
             {
                 List<KnowledgeBaseGroup> items = null;
 
-                if (parent == null)
-                {
-                    items = ConvertFaqDataToKbGroupList(_faqDataRow.Select().Where(f => f.Parent == null), parent);
-                }
-                else
-                {
-                    long parentId = parent.Id;
-                    items = ConvertFaqDataToKbGroupList(_faqDataRow.Select().Where(f => f.Parent.Equals(parentId)), parent);
-                }
+                long parentId = parent == null ? 0 : parent.Id;
+                items = ConvertFaqDataListToKbGroupList(_faqDataRow.Select().Where(f => f.Parent.Equals(parentId)), parent);
 
                 cacheItem = new CacheItem(cacheName, items);
 
@@ -391,67 +386,95 @@ namespace PluginManager.DAL.TextFiles.Providers
             return (List<KnowledgeBaseGroup>)cacheItem.Value;
         }
 
-        public KnowledgeBaseGroup GetKnowledgebaseGroup(in long userId, in int id)
+        public KnowledgeBaseGroup GetKnowledgebaseGroup(in long userId, in long id)
         {
-            //int searchId = id;
-
-            //foreach (KnowledgeBaseGroup group in _faq)
-            //{
-            //    if (group.Id == searchId)
-            //        return group;
-            //}
-
-            //return null;
-            throw new NotImplementedException();
+            return InternalGetKnowledgebaseGroup(id, 0);
         }
 
-        public bool GetKnowledgebaseItem(in long userId, in int id,
+        private KnowledgeBaseGroup InternalGetKnowledgebaseGroup(long id, int recursionDepth)
+        {
+            if (recursionDepth > MaxRecursionDepth)
+                return null;
+
+            string cacheName = $"{nameof(GetKnowledgebaseGroup)} {id}";
+            CacheItem cacheItem = _memoryCache.Get(cacheName);
+
+            if (cacheItem == null)
+            {
+                FAQDataRow faqDataRow = _faqDataRow.Select(id);
+
+                if (faqDataRow == null)
+                    return null;
+
+                FAQDataRow parentDataRow = _faqDataRow.Select(faqDataRow.Parent);
+
+                KnowledgeBaseGroup item = ConvertFaqDataRowToKbGroup(faqDataRow, InternalGetKnowledgebaseGroup(faqDataRow.Parent, ++recursionDepth));
+
+                cacheItem = new CacheItem(cacheName, item);
+
+                _memoryCache.Add(cacheName, cacheItem);
+            }
+
+            return (KnowledgeBaseGroup)cacheItem.Value;
+        }
+
+        public bool GetKnowledgebaseItem(in long userId, in long id,
             out KnowledgeBaseItem knowledgebaseItem, out KnowledgeBaseGroup parentGroup)
         {
-            //foreach (KnowledgeBaseGroup group in _faq)
-            //{
-            //    foreach (KnowledgeBaseItem item in group.Items)
-            //    {
-            //        if (item.Id == id)
-            //        {
-            //            knowledgebaseItem = item;
-            //            parentGroup = group;
-            //            return true;
-            //        }
-            //    }
-            //}
+            FAQItemDataRow item = _faqItemDataRow.Select(id);
 
-            //knowledgebaseItem = null;
-            //parentGroup = null;
+            if (item != null)
+            {
+                parentGroup = InternalGetKnowledgebaseGroup(item.ParentId, 0);
+                knowledgebaseItem = new KnowledgeBaseItem(item.Id, item.Description, item.ViewCount, item.Content);
+                return true;
+            }
 
-            //return false;
-            throw new NotImplementedException();
+            knowledgebaseItem = null;
+            parentGroup = null;
+
+            return false;
         }
 
         public void KnowledgebaseView(in KnowledgeBaseItem item)
         {
-            throw new NotImplementedException();
-            //if (item == null)
-            //    throw new ArgumentNullException(nameof(item));
+            if (item == null)
+                throw new ArgumentNullException(nameof(item));
 
-            //item.IncreastViewCount();
+            FAQItemDataRow faqItemDataRow = _faqItemDataRow.Select(item.Id);
+
+            if (faqItemDataRow == null)
+                return;
+
+            faqItemDataRow.ViewCount++;
+            _faqItemDataRow.Update(faqItemDataRow);
+            item.IncreaseViewCount();
         }
 
         #endregion Public FaQ Methods
 
         #region Private Methods
 
-        private List<KnowledgeBaseGroup> ConvertFaqDataToKbGroupList(IEnumerable<FAQDataRow> faqDataRow, KnowledgeBaseGroup parent)
+        private List<KnowledgeBaseGroup> ConvertFaqDataListToKbGroupList(IEnumerable<FAQDataRow> faqDataRow, KnowledgeBaseGroup parent)
         {
             List<KnowledgeBaseGroup> Result = new List<KnowledgeBaseGroup>();
 
             foreach (FAQDataRow item in faqDataRow)
             {
-                List<KnowledgeBaseItem> childItems = ConvertFaqItemDataToFaqItemList(item);
-                Result.Add(new KnowledgeBaseGroup(item.Id, item.Name, item.Description, item.Order, item.ViewCount, parent, childItems));
+                Result.Add(ConvertFaqDataRowToKbGroup(item, parent));
             }
 
             return Result;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private KnowledgeBaseGroup ConvertFaqDataRowToKbGroup(FAQDataRow faqDataRow, KnowledgeBaseGroup parent)
+        {
+            if (faqDataRow == null)
+                return null;
+
+            List<KnowledgeBaseItem> childItems = ConvertFaqItemDataToFaqItemList(faqDataRow);
+            return new KnowledgeBaseGroup(faqDataRow.Id, faqDataRow.Name, faqDataRow.Description, faqDataRow.Order, faqDataRow.ViewCount, parent, childItems);
         }
 
         private List<KnowledgeBaseItem> ConvertFaqItemDataToFaqItemList(FAQDataRow faqDataItem)

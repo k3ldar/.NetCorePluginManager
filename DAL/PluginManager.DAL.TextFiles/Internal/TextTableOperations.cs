@@ -385,7 +385,7 @@ namespace PluginManager.DAL.TextFiles.Internal
 
         public void ForceWrite()
         {
-            if (_tableAttributes.WriteStrategy != WriteStrategy.Forced)
+            if (_tableAttributes != null && _tableAttributes.WriteStrategy != WriteStrategy.Forced)
                 InternalSaveRecordsToDisk(InternalReadAllRecords(), true);
         }
 
@@ -458,7 +458,9 @@ namespace PluginManager.DAL.TextFiles.Internal
                 writer.Seek(PrimarySequenceStart, SeekOrigin.Begin);
                 _primarySequence += increment;
                 writer.Write(_primarySequence);
-                _fileStream.Flush(true);
+
+                if (_tableAttributes.WriteStrategy == WriteStrategy.Forced)
+                    _fileStream.Flush(true);
 
                 return _primarySequence;
             }
@@ -473,7 +475,9 @@ namespace PluginManager.DAL.TextFiles.Internal
                 writer.Seek(SecondarySequenceStart, SeekOrigin.Begin);
                 _SecondarySequence += increment;
                 writer.Write(_SecondarySequence);
-                _fileStream.Flush(true);
+
+                if (_tableAttributes.WriteStrategy == WriteStrategy.Forced)
+                    _fileStream.Flush(true);
 
                 return _SecondarySequence;
             }
@@ -794,6 +798,7 @@ namespace PluginManager.DAL.TextFiles.Internal
             }
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private void ValidateForeignKeys(List<T> records)
         {
             foreach (KeyValuePair<string, ForeignKeyRelation> foreignKey in _foreignKeys)
@@ -812,6 +817,7 @@ namespace PluginManager.DAL.TextFiles.Internal
             }
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private void ValidateForeignKeys(T record)
         {
             foreach (KeyValuePair<string, ForeignKeyRelation> foreignKey in _foreignKeys)
