@@ -90,7 +90,7 @@ namespace HelpdeskPlugin.Controllers
 
         private FaqItemViewModel CreateFaQViewItemModel(KnowledgeBaseGroup parentGroup, KnowledgeBaseItem item)
         {
-            _helpdeskProvider.KnowledbaseView(item);
+            _helpdeskProvider.KnowledgebaseView(item);
 
             List<BreadcrumbItem> crumbs = GetBreadcrumbs().Take(2).ToList();
 

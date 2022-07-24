@@ -114,10 +114,12 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
             }
             else
             {
-                loginDetails = new UserLoginDetails();
-                loginDetails.UserId = id;
-                loginDetails.Username = tokenUserDetails.Name ?? tokenUserDetails.Email;
-                loginDetails.Email = tokenUserDetails.Email;
+                loginDetails = new UserLoginDetails
+                {
+                    UserId = id,
+                    Username = tokenUserDetails.Name ?? tokenUserDetails.Email,
+                    Email = tokenUserDetails.Email
+                };
 
                 _externalUsers[id] = tokenUserDetails.Email;
 

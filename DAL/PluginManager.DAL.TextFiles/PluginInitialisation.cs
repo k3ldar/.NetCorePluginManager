@@ -91,6 +91,7 @@ namespace PluginManager.DAL.TextFiles
             _ = app.ApplicationServices.GetService<ITextTableOperations<TicketPrioritiesDataRow>>();
             _ = app.ApplicationServices.GetService<ITextTableOperations<TicketStatusDataRow>>();
             _ = app.ApplicationServices.GetService<ITextTableOperations<FAQDataRow>>();
+            _ = app.ApplicationServices.GetService<ITextTableOperations<FAQItemDataRow>>();
 
             _ = app.ApplicationServices.GetService<ITextTableOperations<InvoiceDataRow>>();
             _ = app.ApplicationServices.GetService<ITextTableOperations<InvoiceItemDataRow>>();
@@ -148,6 +149,7 @@ namespace PluginManager.DAL.TextFiles
             services.AddSingleton(typeof(TableRowDefinition), typeof(TicketPrioritiesDataRow));
             services.AddSingleton(typeof(TableRowDefinition), typeof(TicketStatusDataRow));
             services.AddSingleton(typeof(TableRowDefinition), typeof(FAQDataRow));
+            services.AddSingleton(typeof(TableRowDefinition), typeof(FAQItemDataRow));
 
             services.AddSingleton(typeof(TableRowDefinition), typeof(InvoiceDataRow));
             services.AddSingleton(typeof(TableRowDefinition), typeof(InvoiceItemDataRow));

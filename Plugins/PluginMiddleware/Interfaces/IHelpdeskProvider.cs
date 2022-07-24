@@ -149,7 +149,7 @@ namespace Middleware.Helpdesk
         /// Indicates that a KnowledgeBaseItem has been viewed.
         /// </summary>
         /// <param name="item">KnowledgeBaseItem being viewed.</param>
-        void KnowledbaseView(in KnowledgeBaseItem item);
+        void KnowledgebaseView(in KnowledgeBaseItem item);
 
         #endregion Tickets FaQ
     }

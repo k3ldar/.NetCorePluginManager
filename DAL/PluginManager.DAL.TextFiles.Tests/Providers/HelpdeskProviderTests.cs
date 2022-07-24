@@ -56,7 +56,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
         [ExpectedException(typeof(ArgumentNullException))]
         public void Construct_InvalidParam_UsersNull_Throws_ArgumentNullException()
         {
-            new HelpdeskProvider(null, null, null, null, null, null, null, null);
+            new HelpdeskProvider(null, null, null, null, null, null, null, null, null);
         }
 
         [TestMethod]
@@ -953,9 +953,9 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
-                    ITextTableOperations<TicketDataRow> tickeData = provider.GetRequiredService<ITextTableOperations<TicketDataRow>>();
+                    ITextTableOperations<TicketDataRow> ticketData = provider.GetRequiredService<ITextTableOperations<TicketDataRow>>();
                     ITextTableOperations<TicketMessageDataRow> ticketMessageData = provider.GetRequiredService<ITextTableOperations<TicketMessageDataRow>>();
-                    Assert.AreEqual(0, tickeData.RecordCount);
+                    Assert.AreEqual(0, ticketData.RecordCount);
                     Assert.AreEqual(0, ticketMessageData.RecordCount);
 
                     MockApplicationBuilder mockApplicationBuilder = new MockApplicationBuilder(provider);
@@ -967,13 +967,13 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     Assert.IsNotNull(sut);
                     HelpdeskProvider.ClearCache();
 
-                    Assert.AreEqual(0, tickeData.RecordCount);
+                    Assert.AreEqual(0, ticketData.RecordCount);
                     Assert.AreEqual(0, ticketMessageData.RecordCount);
 
                     bool submitted = sut.SubmitTicket(0, 1, 1, "Jane Doe", "me@here.com", "a query", "a message", out HelpdeskTicket ticket);
 
                     Assert.IsTrue(submitted);
-                    Assert.AreEqual(1, tickeData.RecordCount);
+                    Assert.AreEqual(1, ticketData.RecordCount);
                     Assert.AreEqual(1, ticketMessageData.RecordCount);
                     Assert.IsNotNull(ticket);
                     Assert.AreEqual("Jane Doe", ticket.LastReplier);
@@ -984,13 +984,64 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     Assert.AreEqual("John Doe", ticket.LastReplier);
                     Assert.AreEqual("John Doe", ticket.Messages[1].UserName);
                     Assert.AreEqual("a response", ticket.Messages[1].Message);
-                    Assert.AreEqual(1, tickeData.RecordCount);
+                    Assert.AreEqual(1, ticketData.RecordCount);
                     Assert.AreEqual(2, ticketMessageData.RecordCount);
 
-                    TicketDataRow ticketDataRow = tickeData.Select(ticket.Id);
+                    TicketDataRow ticketDataRow = ticketData.Select(ticket.Id);
                     Assert.IsNotNull(ticketDataRow);
                     Assert.AreEqual(2, ticketDataRow.Status);
                     Assert.AreEqual("John Doe", ticketDataRow.LastReplier);
+                }
+            }
+            finally
+            {
+                Directory.Delete(directory, true);
+            }
+        }
+
+        [TestMethod]
+        public void GetKnowledgebaseGroups_NoGroupsAvailable_ReturnsEmptyList()
+        {
+            string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
+            try
+            {
+                Directory.CreateDirectory(directory);
+                PluginInitialisation initialisation = new PluginInitialisation();
+                ServiceCollection services = new ServiceCollection();
+                List<object> classServices = new List<object>()
+                {
+                    new TicketDepartmentsDataRowDefaults(),
+                    new TicketStatusDataRowDefaults(),
+                    new TicketPrioritiesDataRowDefaults(),
+                };
+
+                MockPluginClassesService mockPluginClassesService = new MockPluginClassesService(classServices);
+
+                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
+                services.AddSingleton<IPluginClassesService>(mockPluginClassesService);
+
+                initialisation.BeforeConfigureServices(services);
+
+                using (ServiceProvider provider = services.BuildServiceProvider())
+                {
+                    ITextTableOperations<FAQDataRow> faqData = provider.GetRequiredService<ITextTableOperations<FAQDataRow>>();
+                    Assert.AreEqual(0, faqData.RecordCount);
+
+                    MockApplicationBuilder mockApplicationBuilder = new MockApplicationBuilder(provider);
+                    initialisation.AfterConfigure(mockApplicationBuilder);
+
+                    mockPluginClassesService.Items.Add(new UserDataRowDefaults(provider.GetService<ISettingsProvider>()));
+
+                    IHelpdeskProvider sut = provider.GetService<IHelpdeskProvider>();
+                    Assert.IsNotNull(sut);
+                    HelpdeskProvider.ClearCache();
+
+                    Assert.AreEqual(0, faqData.RecordCount);
+
+                    List<KnowledgeBaseGroup> groups = sut.GetKnowledgebaseGroups(0, null);
+
+                    Assert.IsNotNull(groups);
+                    Assert.AreEqual(0, groups.Count);
                 }
             }
             finally

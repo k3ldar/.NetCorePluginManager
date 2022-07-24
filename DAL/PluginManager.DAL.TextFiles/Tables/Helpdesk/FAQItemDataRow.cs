@@ -15,58 +15,40 @@
  *
  *  Product:  PluginManager.DAL.TextFiles
  *  
- *  File: FAQDataRow.cs
+ *  File: FAQItemDataRow.cs
  *
- *  Purpose:  Table definition for faq's
+ *  Purpose:  Table definition for faq items
  *
  *  Date        Name                Reason
- *  18/07/2022  Simon Carter        Initially Created
+ *  24/07/2022  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using PluginManager.DAL.TextFiles.Internal;
 
 namespace PluginManager.DAL.TextFiles.Tables
 {
-    [Table(Constants.DomainHelpdesk, Constants.TableNameFAQ, WriteStrategy.Lazy)]
-    internal class FAQDataRow : TableRowDefinition
+    [Table(Constants.DomainHelpdesk, Constants.TableNameFAQItem, WriteStrategy.Lazy)]
+    internal class FAQItemDataRow : TableRowDefinition
     {
-        private string _name;
-        private FAQDataRow _parent;
+        private long _parentId;
         private string _description;
-        private int _order;
         private int _viewCount;
+        private string _content;
 
-        public string Name
+        [ForeignKey(Constants.TableNameFAQ)]
+        public long ParentId
         {
             get
             {
-                return _name;
+                return _parentId;
             }
 
             set
             {
-                if (_name == value)
+                if (_parentId == value)
                     return;
 
-                _name = value;
-                Update();
-            }
-        }
-
-        [ForeignKey(Constants.TableNameFAQ, true)]
-        public FAQDataRow Parent
-        {
-            get
-            {
-                return _parent;
-            }
-
-            set
-            {
-                if (_parent == value)
-                    return;
-
-                _parent = value;
+                _parentId = value;
                 Update();
             }
         }
@@ -88,23 +70,6 @@ namespace PluginManager.DAL.TextFiles.Tables
             }
         }
 
-        public int Order
-        {
-            get
-            {
-                return _order;
-            }
-
-            set
-            {
-                if (_order == value)
-                    return;
-
-                _order = value;
-                Update();
-            }
-        }
-
         public int ViewCount
         {
             get
@@ -118,6 +83,23 @@ namespace PluginManager.DAL.TextFiles.Tables
                     return;
 
                 _viewCount = value;
+                Update();
+            }
+        }
+
+        public string Content
+        {
+            get
+            {
+                return _content;
+            }
+
+            set
+            {
+                if (_content == value)
+                    return;
+
+                _content = value;
                 Update();
             }
         }

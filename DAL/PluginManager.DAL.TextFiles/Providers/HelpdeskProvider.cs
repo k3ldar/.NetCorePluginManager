@@ -51,6 +51,7 @@ namespace PluginManager.DAL.TextFiles.Providers
         private readonly ITextTableOperations<UserDataRow> _userDataRow;
         private readonly ITextTableOperations<FeedbackDataRow> _feedbackDataRow;
         private readonly ITextTableOperations<FAQDataRow> _faqDataRow;
+        private readonly ITextTableOperations<FAQItemDataRow> _faqItemDataRow;
         private readonly ITextTableOperations<TicketDataRow> _tickets;
         private readonly ITextTableOperations<TicketMessageDataRow> _ticketMessages;
         private readonly ITextTableOperations<TicketStatusDataRow> _ticketStatus;
@@ -64,6 +65,7 @@ namespace PluginManager.DAL.TextFiles.Providers
         public HelpdeskProvider(ITextTableOperations<UserDataRow> userDataRow,
             ITextTableOperations<FeedbackDataRow> feedbackDataRow, 
             ITextTableOperations<FAQDataRow> faqDataRow,
+            ITextTableOperations<FAQItemDataRow> faqItemDataRow,
             ITextTableOperations<TicketDataRow> tickets,
             ITextTableOperations<TicketMessageDataRow> ticketMessages,
             ITextTableOperations<TicketStatusDataRow> ticketStatus,
@@ -73,34 +75,12 @@ namespace PluginManager.DAL.TextFiles.Providers
             _userDataRow = userDataRow ?? throw new ArgumentNullException(nameof(userDataRow));
             _feedbackDataRow = feedbackDataRow ?? throw new ArgumentNullException(nameof(feedbackDataRow));
             _faqDataRow = faqDataRow ?? throw new ArgumentNullException(nameof(faqDataRow));
+            _faqItemDataRow = faqItemDataRow ?? throw new ArgumentNullException(nameof(faqItemDataRow));
             _tickets = tickets ?? throw new ArgumentNullException(nameof(tickets));
             _ticketMessages = ticketMessages ?? throw new ArgumentNullException(nameof(ticketMessages));
             _ticketStatus = ticketStatus ?? throw new ArgumentNullException(nameof(ticketStatus));
             _ticketPriority = ticketPriority ?? throw new ArgumentNullException(nameof(ticketPriority));
             _ticketDepartments = ticketDepartments ?? throw new ArgumentNullException(nameof(ticketDepartments));
-
-            //_tickets = new List<HelpdeskTicket>()
-            //{
-            //    new HelpdeskTicket(1,
-            //        GetTicketPriorities().Where(p => p.Id == 1).FirstOrDefault(),
-            //        GetTicketDepartments().Where(d => d.Id == 2).FirstOrDefault(),
-            //        GetTicketStatus().Where(s => s.Id == 3).FirstOrDefault(),
-            //        "ABC-123456", "Test 1", DateTime.Now, DateTime.Now, "Joe Bloggs",
-            //        "joe@bloggs.com", "Joe Bloggs", new List<HelpdeskTicketMessage>()
-            //        {
-            //            new HelpdeskTicketMessage(DateTime.Now, "Joe Bloggs", "Hello\r\nLine 2"),
-            //        }),
-            //    new HelpdeskTicket(2,
-            //        GetTicketPriorities().Where(p => p.Id == 1).FirstOrDefault(),
-            //        GetTicketDepartments().Where(d => d.Id == 2).FirstOrDefault(),
-            //        GetTicketStatus().Where(s => s.Id == 3).FirstOrDefault(),
-            //        "DEF-987654", "Test 2", DateTime.Now, DateTime.Now, "Jane Doe",
-            //        "jane@doe.com", "Service Representative 1", new List<HelpdeskTicketMessage>()
-            //        {
-            //            new HelpdeskTicketMessage(DateTime.Now, "Jane Doe", "Hello\r\nLine 2"),
-            //            new HelpdeskTicketMessage(DateTime.Now, "Service Rep 1", "Hello\r\n\r\nTo you too!")
-            //        }),
-            //};
 
             //_faq = new List<KnowledgeBaseGroup>()
             //{
@@ -386,13 +366,29 @@ namespace PluginManager.DAL.TextFiles.Providers
 
         public List<KnowledgeBaseGroup> GetKnowledgebaseGroups(in long userId, in KnowledgeBaseGroup parent)
         {
-            //if (parent == null)
-            //    return _faq.Where(f => f.Parent == null).ToList();
+            string cacheName = $"{nameof(GetKnowledgebaseGroups)} {(parent == null ? String.Empty : parent.Id)}";
+            CacheItem cacheItem = _memoryCache.Get(cacheName);
 
-            //int parentId = parent.Id;
+            if (cacheItem == null)
+            {
+                List<KnowledgeBaseGroup> items = null;
 
-            //return _faq.Where(f => f.Parent != null && f.Parent.Id == parentId).ToList();
-            throw new NotImplementedException();
+                if (parent == null)
+                {
+                    items = ConvertFaqDataToKbGroupList(_faqDataRow.Select().Where(f => f.Parent == null), parent);
+                }
+                else
+                {
+                    long parentId = parent.Id;
+                    items = ConvertFaqDataToKbGroupList(_faqDataRow.Select().Where(f => f.Parent.Equals(parentId)), parent);
+                }
+
+                cacheItem = new CacheItem(cacheName, items);
+
+                _memoryCache.Add(cacheName, cacheItem);
+            }
+
+            return (List<KnowledgeBaseGroup>)cacheItem.Value;
         }
 
         public KnowledgeBaseGroup GetKnowledgebaseGroup(in long userId, in int id)
@@ -432,7 +428,7 @@ namespace PluginManager.DAL.TextFiles.Providers
             throw new NotImplementedException();
         }
 
-        public void KnowledbaseView(in KnowledgeBaseItem item)
+        public void KnowledgebaseView(in KnowledgeBaseItem item)
         {
             throw new NotImplementedException();
             //if (item == null)
@@ -444,6 +440,31 @@ namespace PluginManager.DAL.TextFiles.Providers
         #endregion Public FaQ Methods
 
         #region Private Methods
+
+        private List<KnowledgeBaseGroup> ConvertFaqDataToKbGroupList(IEnumerable<FAQDataRow> faqDataRow, KnowledgeBaseGroup parent)
+        {
+            List<KnowledgeBaseGroup> Result = new List<KnowledgeBaseGroup>();
+
+            foreach (FAQDataRow item in faqDataRow)
+            {
+                List<KnowledgeBaseItem> childItems = ConvertFaqItemDataToFaqItemList(item);
+                Result.Add(new KnowledgeBaseGroup(item.Id, item.Name, item.Description, item.Order, item.ViewCount, parent, childItems));
+            }
+
+            return Result;
+        }
+
+        private List<KnowledgeBaseItem> ConvertFaqItemDataToFaqItemList(FAQDataRow faqDataItem)
+        {
+            List<KnowledgeBaseItem> Result = new List<KnowledgeBaseItem>();
+
+            foreach (FAQItemDataRow item in _faqItemDataRow.Select().Where(i => i.ParentId.Equals(faqDataItem.Id)))
+            {
+                Result.Add(new KnowledgeBaseItem(item.Id, item.Description, item.ViewCount, item.Content));
+            }
+
+            return Result;
+        }
 
         private HelpdeskTicket ConvertTicketDataRow(TicketDataRow ticketDataRow, List<TicketMessageDataRow> messages)
         {

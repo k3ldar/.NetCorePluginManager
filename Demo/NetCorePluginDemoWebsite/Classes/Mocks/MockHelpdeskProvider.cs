@@ -248,7 +248,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
             if (parent == null)
                 return _faq.Where(f => f.Parent == null).ToList();
 
-            int parentId = parent.Id;
+            long parentId = parent.Id;
 
             return _faq.Where(f => f.Parent != null && f.Parent.Id == parentId).ToList();
         }
@@ -288,7 +288,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
             return false;
         }
 
-        public void KnowledbaseView(in KnowledgeBaseItem item)
+        public void KnowledgebaseView(in KnowledgeBaseItem item)
         {
             if (item == null)
                 throw new ArgumentNullException(nameof(item));

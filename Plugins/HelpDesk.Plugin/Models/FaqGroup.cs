@@ -33,7 +33,7 @@ namespace HelpdeskPlugin.Models
     {
         #region Constructors
 
-        public FaqGroup(in int id, in string name, in string description,
+        public FaqGroup(in long id, in string name, in string description,
             in List<FaqGroupItem> items, in int subGroupCount)
         {
             if (String.IsNullOrEmpty(name))
@@ -56,7 +56,7 @@ namespace HelpdeskPlugin.Models
 
         #region Properties
 
-        public int Id { get; private set; }
+        public long Id { get; private set; }
 
         public string Name { get; private set; }
 

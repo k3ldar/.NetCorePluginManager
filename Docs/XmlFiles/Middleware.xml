@@ -1523,7 +1523,7 @@
             Represents a knowledgebase group item.  Used with IHelpdeskProvider and HelpdeskPlugin module.
             </summary>
         </member>
-        <member name="M:Middleware.Helpdesk.KnowledgeBaseGroup.#ctor(System.Int32@,System.String@,System.String@,System.Int32@,System.Int32@,Middleware.Helpdesk.KnowledgeBaseGroup@,System.Collections.Generic.List{Middleware.Helpdesk.KnowledgeBaseItem}@)">
+        <member name="M:Middleware.Helpdesk.KnowledgeBaseGroup.#ctor(System.Int64@,System.String@,System.String@,System.Int32@,System.Int32@,Middleware.Helpdesk.KnowledgeBaseGroup@,System.Collections.Generic.List{Middleware.Helpdesk.KnowledgeBaseItem}@)">
             <summary>
             Constructor
             </summary>
@@ -1539,7 +1539,7 @@
             <summary>
             Unique id of the knowledgebase group.
             </summary>
-            <value>int</value>
+            <value>long</value>
         </member>
         <member name="P:Middleware.Helpdesk.KnowledgeBaseGroup.Name">
             <summary>
@@ -1582,7 +1582,7 @@
             Represents a knowledgebase item that is part of a KnowledgeBaseGroup and used by IHelpdeskProvider within the HelpdeskPlugin module.
             </summary>
         </member>
-        <member name="M:Middleware.Helpdesk.KnowledgeBaseItem.#ctor(System.Int32@,System.String@,System.Int32@,System.String@)">
+        <member name="M:Middleware.Helpdesk.KnowledgeBaseItem.#ctor(System.Int64@,System.String@,System.Int32@,System.String@)">
             <summary>
             Constructor
             </summary>
@@ -1725,7 +1725,7 @@
             <param name="parentGroup">KnowledgeBaseGroup item which is the parent group of the item being retrieved.</param>
             <returns>bool.  True if KnowledgeBaseItem is being returned.</returns>
         </member>
-        <member name="M:Middleware.Helpdesk.IHelpdeskProvider.KnowledbaseView(Middleware.Helpdesk.KnowledgeBaseItem@)">
+        <member name="M:Middleware.Helpdesk.IHelpdeskProvider.KnowledgebaseView(Middleware.Helpdesk.KnowledgeBaseItem@)">
             <summary>
             Indicates that a KnowledgeBaseItem has been viewed.
             </summary>

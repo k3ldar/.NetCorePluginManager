@@ -58,6 +58,7 @@ namespace PluginManager.DAL.TextFiles.Internal
         public const string TableNameTicketDepartments = "HelpdeskTicketDepartments";
         public const string TableNameTicketPriorities = "HelpdeskTicketPriorities";
         public const string TableNameTicketStatus = "HelpdeskTicketStatus";
-        public const string TableNameFAQ = "HelpdeskFAQ";
+        public const string TableNameFAQ = "FAQGroups";
+        public const string TableNameFAQItem = "FAQItems";
     }
 }
