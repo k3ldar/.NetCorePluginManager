@@ -1089,7 +1089,7 @@
             Available download categories including a list of DownloadItem's that are available for the category.
             </summary>
         </member>
-        <member name="M:Middleware.Downloads.DownloadCategory.#ctor(System.Int32@,System.String@,System.Collections.Generic.List{Middleware.Downloads.DownloadItem}@)">
+        <member name="M:Middleware.Downloads.DownloadCategory.#ctor(System.Int64@,System.String@,System.Collections.Generic.List{Middleware.Downloads.DownloadItem}@)">
             <summary>
             Constructor
             </summary>
@@ -1101,7 +1101,7 @@
             <summary>
             Unique id for category.
             </summary>
-            <value>int</value>
+            <value>long</value>
         </member>
         <member name="P:Middleware.Downloads.DownloadCategory.Name">
             <summary>
@@ -1125,7 +1125,7 @@
             Constructor
             </summary>
         </member>
-        <member name="M:Middleware.Downloads.DownloadItem.#ctor(System.Int32@,System.String@,System.String@,System.String@,System.String@)">
+        <member name="M:Middleware.Downloads.DownloadItem.#ctor(System.Int64@,System.String@,System.String@,System.String@,System.String@)">
             <summary>
             Constructor
             </summary>
@@ -1135,7 +1135,7 @@
             <param name="version">Current version of downloadable item.</param>
             <param name="filename">Name of the physical file for the downlaod item.</param>
         </member>
-        <member name="M:Middleware.Downloads.DownloadItem.#ctor(System.Int32@,System.String@,System.String@,System.String@,System.String@,System.String@,System.String@)">
+        <member name="M:Middleware.Downloads.DownloadItem.#ctor(System.Int64@,System.String@,System.String@,System.String@,System.String@,System.String@,System.String@)">
             <summary>
             Constructor
             </summary>
@@ -3143,14 +3143,14 @@
             </summary>
             <returns>List&lt;DownloadCategory&gt;</returns>
         </member>
-        <member name="M:Middleware.IDownloadProvider.GetDownloadItem(System.Int32@)">
+        <member name="M:Middleware.IDownloadProvider.GetDownloadItem(System.Int64@)">
             <summary>
             Retrieve File
             </summary>
             <param name="fileId">Unique id of the file being downloaded.</param>
             <returns>DownloadItem</returns>
         </member>
-        <member name="M:Middleware.IDownloadProvider.GetDownloadItem(System.Int64@,System.Int32@)">
+        <member name="M:Middleware.IDownloadProvider.GetDownloadItem(System.Int64@,System.Int64@)">
             <summary>
             Retrieve File
             </summary>
@@ -3158,14 +3158,14 @@
             <param name="fileId">Unique id of the file being downloaded.</param>
             <returns>DownloadItem</returns>
         </member>
-        <member name="M:Middleware.IDownloadProvider.ItemDownloaded(System.Int64@,System.Int32@)">
+        <member name="M:Middleware.IDownloadProvider.ItemDownloaded(System.Int64@,System.Int64@)">
             <summary>
             File download by a user
             </summary>
             <param name="userId">Id of the user requesting a download, if they are logged in.</param>
             <param name="fileId">Unique id of the file being downloaded.</param>
         </member>
-        <member name="M:Middleware.IDownloadProvider.ItemDownloaded(System.Int32@)">
+        <member name="M:Middleware.IDownloadProvider.ItemDownloaded(System.Int64@)">
             <summary>
             File download by anyone
             </summary>

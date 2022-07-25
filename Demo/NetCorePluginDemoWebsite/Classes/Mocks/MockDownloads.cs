@@ -45,7 +45,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
 
         #region IDownloads
 
-        public List<DownloadCategory> DownloadCategoriesGet(in Int64 userId)
+        public List<DownloadCategory> DownloadCategoriesGet(in long userId)
         {
             if (_userDownloads == null)
             {
@@ -97,7 +97,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
             return _publicDownloads;
         }
 
-        public DownloadItem GetDownloadItem(in int fileId)
+        public DownloadItem GetDownloadItem(in long fileId)
         {
             foreach (DownloadCategory category in DownloadCategoriesGet())
             {
@@ -111,7 +111,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
             return null;
         }
 
-        public DownloadItem GetDownloadItem(in long userId, in int fileId)
+        public DownloadItem GetDownloadItem(in long userId, in long fileId)
         {
             foreach (DownloadCategory category in DownloadCategoriesGet(userId))
             {
@@ -125,12 +125,12 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
             return null;
         }
 
-        public void ItemDownloaded(in long userId, in int fileId)
+        public void ItemDownloaded(in long userId, in long fileId)
         {
             // its a mock do nothing
         }
 
-        public void ItemDownloaded(in int fileId)
+        public void ItemDownloaded(in long fileId)
         {
             // its a mock do nothing
         }

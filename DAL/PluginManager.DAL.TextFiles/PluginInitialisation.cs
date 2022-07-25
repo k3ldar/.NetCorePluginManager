@@ -82,6 +82,9 @@ namespace PluginManager.DAL.TextFiles
 
             _ = app.ApplicationServices.GetService<ITextTableOperations<CountryDataRow>>();
 
+            _ = app.ApplicationServices.GetService<ITextTableOperations<DownloadCategoryDataRow>>();
+            _ = app.ApplicationServices.GetService<ITextTableOperations<DownloadItemsDataRow>>();
+
             _ = app.ApplicationServices.GetService<ITextTableOperations<ExternalUsersDataRow>>();
 
             _ = app.ApplicationServices.GetService<ITextTableOperations<FeedbackDataRow>>();
@@ -140,6 +143,9 @@ namespace PluginManager.DAL.TextFiles
 
             services.AddSingleton(typeof(TableRowDefinition), typeof(CountryDataRow));
 
+            services.AddSingleton(typeof(TableRowDefinition), typeof(DownloadCategoryDataRow));
+            services.AddSingleton(typeof(TableRowDefinition), typeof(DownloadItemsDataRow));
+
             services.AddSingleton(typeof(TableRowDefinition), typeof(ExternalUsersDataRow));
 
             services.AddSingleton(typeof(TableRowDefinition), typeof(FeedbackDataRow));
@@ -186,7 +192,7 @@ namespace PluginManager.DAL.TextFiles
             services.AddSingleton<IBlogProvider, BlogProvider>();
             services.AddSingleton<IClaimsProvider, ClaimsProvider>();
             services.AddSingleton<ICountryProvider, CountryProvider>();
-            //services.AddSingleton<IDownloadProvider, DownloadProvider>();
+            services.AddSingleton<IDownloadProvider, DownloadProvider>();
             //services.AddSingleton<IDynamicContentProvider, DynamicContentProvider>();
             services.AddSingleton<IHelpdeskProvider, HelpdeskProvider>();
             services.AddSingleton<ILicenceProvider, LicenceProvider>();

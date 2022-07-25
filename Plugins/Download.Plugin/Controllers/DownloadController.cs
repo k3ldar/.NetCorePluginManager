@@ -43,7 +43,7 @@ using Shared.Classes;
 
 using SharedPluginFeatures;
 
-#pragma warning disable CS1591
+#pragma warning disable CS1591, IDE0066
 
 namespace DownloadPlugin.Controllers
 {
@@ -227,4 +227,4 @@ namespace DownloadPlugin.Controllers
     }
 }
 
-#pragma warning restore CS1591
+#pragma warning restore CS1591, IDE0066

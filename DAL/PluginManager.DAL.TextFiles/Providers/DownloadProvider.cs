@@ -23,115 +23,150 @@
  *  25/05/2022  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using System;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-
 using Middleware;
 using Middleware.Downloads;
+
+using PluginManager.DAL.TextFiles.Tables;
+
+using Shared.Classes;
+
+using SharedPluginFeatures;
 
 namespace PluginManager.DAL.TextFiles.Providers
 {
     internal class DownloadProvider : IDownloadProvider
     {
-        #region Private Static Members
+        #region Private Members
 
-        private static List<DownloadCategory> _userDownloads;
+        private readonly IMemoryCache _memoryCache;
+        private readonly ITextTableOperations<DownloadItemsDataRow> _downloadItemData;
+        private readonly ITextTableOperations<DownloadCategoryDataRow> _downloadCategoryData;
 
-        private static List<DownloadCategory> _publicDownloads;
+        #endregion Private Members
 
-        #endregion Private Static Members
+        #region Constructors
+
+        public DownloadProvider(IMemoryCache memoryCache,
+            ITextTableOperations<DownloadItemsDataRow> downloadItemData,
+            ITextTableOperations<DownloadCategoryDataRow> downloadCategoryData)
+        {
+            _memoryCache = memoryCache ?? throw new ArgumentNullException(nameof(memoryCache));
+            _downloadItemData = downloadItemData ?? throw new ArgumentNullException(nameof(downloadItemData));
+            _downloadCategoryData = downloadCategoryData ?? throw new ArgumentNullException(nameof(downloadCategoryData));
+        }
+
+        #endregion Constructors
 
         #region IDownloads
 
-        public List<DownloadCategory> DownloadCategoriesGet(in Int64 userId)
+        public List<DownloadCategory> DownloadCategoriesGet(in long userId)
         {
-            if (_userDownloads == null)
+            string cacheName = $"{nameof(DownloadCategoriesGet)} {userId}";
+
+            CacheItem cacheItem = _memoryCache.GetExtendingCache().Get(cacheName);
+
+            if (cacheItem == null)
             {
-                _userDownloads = new List<DownloadCategory>()
+                List<DownloadCategory> result = new List<DownloadCategory>();
+
+                long user = userId;
+
+                IEnumerable<DownloadCategoryDataRow> categories = _downloadCategoryData.Select().Where(dc => dc.UserId.Equals(user) || dc.UserId.Equals(0));
+
+                foreach (DownloadCategoryDataRow category in categories)
                 {
-                    new DownloadCategory(1, "Brochures", new List<DownloadItem>()
+                    List<DownloadItem> downloads = new List<DownloadItem>();
+
+                    IEnumerable<DownloadItemsDataRow> items = _downloadItemData.Select().Where(di => di.CategoryId.Equals(category.Id) && (di.UserId.Equals(0) || di.UserId.Equals(user)));
+
+                    foreach (DownloadItemsDataRow download in items)
                     {
-                        new DownloadItem(1, "Summer 2018", "Summer 2018 Catalogue", null, "\\Files\\Catalogues\\summer2018.pdf"),
-                        new DownloadItem(2, "Autumn 2018", "Autumn 2018 Catalogue", null, "\\Files\\Catalogues\\autumn2018.pdf"),
-                        new DownloadItem(3, "Winter 2018", "Winter 2018 Catalogue", null, "\\Files\\Catalogues\\winter2018.pdf"),
-                        new DownloadItem(4, "Spring 2019", "Spring 2019 Catalogue", null, "\\Files\\Catalogues\\spring2019.pdf"),
-                    }),
-                    new DownloadCategory(2, "Applications", new List<DownloadItem>()
-                    {
-                        new DownloadItem(5, "FB Stored Proc Generator", "Firebird stored procedure generator",
-                            "2.2.0", "\\Files\\Install\\fbspgen_v2.2_setup.exe"),
-                        new DownloadItem(6, "FB Task Scheduler", "Firebird task scheduler",
-                            "1.2", "\\Files\\Install\\fbtaskscheduler_1.2_setup.exe"),
-                    })
-                };
+                        downloads.Add(new DownloadItem(download.Id, download.Name, download.Description, download.Version, download.Filename, download.Icon, download.Size));
+                    }
+
+                    result.Add(new DownloadCategory(category.Id, category.Name, downloads));
+                }
+
+                cacheItem = new CacheItem(cacheName, result);
+                _memoryCache.GetExtendingCache().Add(cacheName, cacheItem);
             }
 
-            return _userDownloads;
+            return (List<DownloadCategory>)cacheItem.Value;
         }
 
         public List<DownloadCategory> DownloadCategoriesGet()
         {
-            if (_publicDownloads == null)
+            string cacheName = $"{nameof(DownloadCategoriesGet)} All Users";
+
+            CacheItem cacheItem = _memoryCache.GetExtendingCache().Get(cacheName);
+
+            if (cacheItem == null)
             {
-                _publicDownloads = new List<DownloadCategory>()
+                List<DownloadCategory> result = new List<DownloadCategory>();
+
+                IEnumerable<DownloadCategoryDataRow> categories = _downloadCategoryData.Select().Where(dc => dc.UserId.Equals(0));
+
+                foreach (DownloadCategoryDataRow category in categories)
                 {
-                    new DownloadCategory(3, "Brochures", new List<DownloadItem>()
+                    List<DownloadItem> downloads = new List<DownloadItem>();
+
+                    IEnumerable<DownloadItemsDataRow> items = _downloadItemData.Select().Where(di => di.CategoryId.Equals(category.Id) && di.UserId.Equals(0));
+
+                    foreach (DownloadItemsDataRow download in items)
                     {
-                        new DownloadItem(7, "Summer 2018", "Summer 2018 Catalogue", null, "\\Files\\Catalogues\\summer2018.pdf"),
-                        new DownloadItem(8, "Autumn 2018", "Autumn 2018 Catalogue", null, "\\Files\\Catalogues\\autumn2018.pdf"),
-                        new DownloadItem(9, "Winter 2018", "Winter 2018 Catalogue", null, "\\Files\\Catalogues\\winter2018.pdf"),
-                        new DownloadItem(10, "Spring 2019", "Spring 2019 Catalogue", null, "\\Files\\Catalogues\\spring2019.pdf"),
-                    }),
-                    new DownloadCategory(4, "Applications", new List<DownloadItem>()
-                    {
-                        new DownloadItem(11, "FB Stored Proc Generator", "Firebird stored procedure generator",
-                            "2.2.0", "\\Files\\Install\\fbspgen_v2.2_setup.exe"),
-                        new DownloadItem(12, "FB Task Scheduler", "Firebird task scheduler",
-                            "1.2", "\\Files\\Install\\fbtaskscheduler_1.2_setup.exe"),
-                    })
-                };
-            }
+                        downloads.Add(new DownloadItem(download.Id, download.Name, download.Description, download.Version, download.Filename, download.Icon, download.Size));
+                    }
 
-            return _publicDownloads;
-        }
-
-        public DownloadItem GetDownloadItem(in int fileId)
-        {
-            foreach (DownloadCategory category in DownloadCategoriesGet())
-            {
-                foreach (DownloadItem downloadItem in category.Downloads)
-                {
-                    if (downloadItem.Id == fileId)
-                        return downloadItem;
+                    result.Add(new DownloadCategory(category.Id, category.Name, downloads));
                 }
+
+                cacheItem = new CacheItem(cacheName, result);
+                _memoryCache.GetExtendingCache().Add(cacheName, cacheItem);
             }
 
-            return null;
+            return (List<DownloadCategory>)cacheItem.Value;
         }
 
-        public DownloadItem GetDownloadItem(in long userId, in int fileId)
+        public DownloadItem GetDownloadItem(in long fileId)
         {
-            foreach (DownloadCategory category in DownloadCategoriesGet(userId))
-            {
-                foreach (DownloadItem downloadItem in category.Downloads)
-                {
-                    if (downloadItem.Id == fileId)
-                        return downloadItem;
-                }
-            }
+            DownloadItemsDataRow download = _downloadItemData.Select(fileId);
 
-            return null;
+            if (download == null)
+                return null;
+
+            return new DownloadItem(download.Id, download.Name, download.Description, download.Version, download.Filename, download.Icon, download.Size);
         }
 
-        public void ItemDownloaded(in long userId, in int fileId)
+        public DownloadItem GetDownloadItem(in long userId, in long fileId)
         {
-            // its a mock do nothing
+            DownloadItemsDataRow download = _downloadItemData.Select(fileId);
+
+            if (download == null || (download.UserId > 0 && !download.UserId.Equals(userId)))
+                return null;
+
+            return new DownloadItem(download.Id, download.Name, download.Description, download.Version, download.Filename, download.Icon, download.Size);
         }
 
-        public void ItemDownloaded(in int fileId)
+        public void ItemDownloaded(in long userId, in long fileId)
         {
-            // its a mock do nothing
+            DownloadItemsDataRow download = _downloadItemData.Select(fileId);
+
+            if (download == null || (download.UserId > 0 && !download.UserId.Equals(userId)))
+                return;
+
+            download.DownloadCount++;
+            _downloadItemData.Update(download);
+        }
+
+        public void ItemDownloaded(in long fileId)
+        {
+            DownloadItemsDataRow download = _downloadItemData.Select(fileId);
+
+            if (download == null)
+                return;
+
+            download.DownloadCount++;
+            _downloadItemData.Update(download);
         }
 
         #endregion IDownloads

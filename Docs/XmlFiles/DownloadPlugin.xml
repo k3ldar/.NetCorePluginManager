@@ -26,7 +26,7 @@
             Download category view mode.
             </summary>
         </member>
-        <member name="M:DownloadPlugin.Models.CategoriesModel.#ctor(System.Int32@,System.String@)">
+        <member name="M:DownloadPlugin.Models.CategoriesModel.#ctor(System.Int64@,System.String@)">
             <summary>
             Constructor
             </summary>
@@ -50,7 +50,7 @@
             Represents a downloadable item
             </summary>
         </member>
-        <member name="M:DownloadPlugin.Models.DownloadableItem.#ctor(System.Int32@,System.String@,System.String@,System.String@,System.String@,System.String@)">
+        <member name="M:DownloadPlugin.Models.DownloadableItem.#ctor(System.Int64@,System.String@,System.String@,System.String@,System.String@,System.String@)">
             <summary>
             Constructor
             </summary>
