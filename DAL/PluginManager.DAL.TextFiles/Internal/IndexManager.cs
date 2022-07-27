@@ -24,8 +24,6 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-using System.Linq;
-
 using Shared.Classes;
 
 using SharedPluginFeatures.Interfaces;

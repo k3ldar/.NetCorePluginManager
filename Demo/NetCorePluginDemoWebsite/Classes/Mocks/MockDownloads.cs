@@ -23,7 +23,6 @@
  *  05/01/2019  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 

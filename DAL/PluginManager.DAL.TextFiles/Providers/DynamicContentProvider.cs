@@ -23,13 +23,7 @@
  *  25/05/2022  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using System;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using System.Linq;
 using System.Reflection;
-using System.Reflection.PortableExecutable;
-using System.Xml;
 
 using DynamicContent.Plugin.Templates;
 

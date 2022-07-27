@@ -34,15 +34,9 @@ using AspNetCore.PluginManager.Tests.Shared;
 
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-
-using Middleware;
 using Middleware.Accounts;
-using Middleware.Accounts.Orders;
 
 using PluginManager.Abstractions;
-using PluginManager.DAL.TextFiles.Internal;
-using PluginManager.DAL.TextFiles.Providers;
-using PluginManager.DAL.TextFiles.Tables;
 
 using SharedPluginFeatures;
 

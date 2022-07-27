@@ -24,8 +24,6 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System.Runtime.CompilerServices;
-using System.Security.Policy;
-using System.Xml.Linq;
 
 using Middleware;
 using Middleware.Products;

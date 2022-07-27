@@ -23,8 +23,6 @@
  *  23/06/2022  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using System;
-
 using Middleware;
 
 using PluginManager.DAL.TextFiles.Tables;

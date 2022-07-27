@@ -27,20 +27,13 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 using AspNetCore.PluginManager.Tests.Shared;
 
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-using Middleware;
-using Middleware.Accounts;
-
 using PluginManager.Abstractions;
-using PluginManager.DAL.TextFiles.Internal;
 using PluginManager.DAL.TextFiles.Providers;
 using PluginManager.DAL.TextFiles.Tables;
 using PluginManager.DAL.TextFiles.Tests.Mocks;

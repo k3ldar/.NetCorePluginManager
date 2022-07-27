@@ -37,7 +37,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-using PluginManager.Abstractions;
 using PluginManager.Internal;
 
 namespace PluginManager.Tests.Mocks

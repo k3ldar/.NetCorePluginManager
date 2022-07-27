@@ -23,15 +23,8 @@
  *  31/05/2022  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using System;
 using System.Diagnostics.CodeAnalysis;
-
-using PluginManager.DAL.TextFiles;
-
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-
-using Middleware.DynamicContent;
 
 using PluginManager.Abstractions;
 

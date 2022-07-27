@@ -26,9 +26,6 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 using io = System.IO;
 
@@ -37,7 +34,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using PluginManager.DAL.TextFiles.Internal;
 using AspNetCore.PluginManager.Tests.Shared;
 using PluginManager.DAL.TextFiles.Tests.Mocks;
-using PluginManager.DAL.TextFiles.Tables;
 
 namespace PluginManager.DAL.TextFiles.Tests
 {

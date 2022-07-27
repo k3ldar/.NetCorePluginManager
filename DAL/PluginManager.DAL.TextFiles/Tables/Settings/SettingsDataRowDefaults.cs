@@ -24,8 +24,6 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-using PluginManager.DAL.TextFiles.Providers;
-
 namespace PluginManager.DAL.TextFiles.Tables
 {
     internal class SettingsDataRowDefaults : ITableDefaults<SettingsDataRow>

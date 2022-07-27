@@ -23,12 +23,6 @@
  *  09/06/2022  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 using SharedPluginFeatures.Interfaces;
 
 namespace PluginManager.DAL.TextFiles

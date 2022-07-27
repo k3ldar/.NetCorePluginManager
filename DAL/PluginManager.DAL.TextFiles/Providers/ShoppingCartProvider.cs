@@ -23,11 +23,6 @@
  *  25/05/2022  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using System;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using System.Linq;
-
 using Middleware;
 using Middleware.Accounts;
 using Middleware.Accounts.Orders;
@@ -39,7 +34,7 @@ using PluginManager.DAL.TextFiles.Tables;
 using Shared.Classes;
 
 using SharedPluginFeatures;
-using PluginManager.DAL.TextFiles.Internal;
+
 using System.Globalization;
 
 #pragma warning disable IDE1006

@@ -27,8 +27,6 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
-using System.Security.Claims;
-using System.Linq;
 
 using AspNetCore.PluginManager.Tests.Shared;
 
@@ -39,14 +37,11 @@ using Middleware;
 using Middleware.Blog;
 
 using PluginManager.Abstractions;
-using PluginManager.DAL.TextFiles.Internal;
 using PluginManager.DAL.TextFiles.Providers;
 using PluginManager.DAL.TextFiles.Tables;
 
 using SharedPluginFeatures;
 using PluginManager.DAL.TextFiles.Tests.Mocks;
-using Middleware.Accounts;
-using Middleware.Accounts.Orders;
 
 namespace PluginManager.DAL.TextFiles.Tests.Providers
 {

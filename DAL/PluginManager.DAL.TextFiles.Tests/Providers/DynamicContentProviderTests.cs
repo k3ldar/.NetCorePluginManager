@@ -30,14 +30,12 @@ using System.IO;
 
 using AspNetCore.PluginManager.Tests.Shared;
 
-using DynamicContent.Plugin.Internal;
 using DynamicContent.Plugin.Templates;
 
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using Middleware;
-using Middleware.Downloads;
 using Middleware.DynamicContent;
 
 using PluginManager.Abstractions;

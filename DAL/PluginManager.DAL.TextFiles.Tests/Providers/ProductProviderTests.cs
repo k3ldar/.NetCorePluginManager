@@ -38,7 +38,6 @@ using Middleware;
 using Middleware.Products;
 
 using PluginManager.Abstractions;
-using PluginManager.DAL.TextFiles.Internal;
 using PluginManager.DAL.TextFiles.Providers;
 using PluginManager.DAL.TextFiles.Tables;
 using PluginManager.DAL.TextFiles.Tables.Products;

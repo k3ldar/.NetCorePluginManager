@@ -25,7 +25,6 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.IO;
 
 using AspNetCore.PluginManager.Tests.Shared;
@@ -34,18 +33,12 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using Middleware;
-using Middleware.Accounts;
-using Middleware.Accounts.Invoices;
-using Middleware.Accounts.Orders;
 using Middleware.Helpdesk;
 
 using PluginManager.Abstractions;
-using PluginManager.DAL.TextFiles.Internal;
 using PluginManager.DAL.TextFiles.Providers;
 using PluginManager.DAL.TextFiles.Tables;
 using PluginManager.Tests.Mocks;
-
-using SharedPluginFeatures;
 
 namespace PluginManager.DAL.TextFiles.Tests.Providers
 {

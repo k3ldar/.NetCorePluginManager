@@ -29,7 +29,6 @@ using System.Text;
 using System.Text.Json;
 
 using PluginManager.Abstractions;
-using PluginManager.DAL.TextFiles.Tables;
 
 using Shared.Classes;
 

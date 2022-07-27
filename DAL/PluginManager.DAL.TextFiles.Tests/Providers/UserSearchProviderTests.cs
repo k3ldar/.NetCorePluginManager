@@ -38,7 +38,6 @@ using Middleware.Accounts;
 using Middleware.Users;
 
 using PluginManager.Abstractions;
-using PluginManager.DAL.TextFiles.Internal;
 using PluginManager.DAL.TextFiles.Providers;
 using PluginManager.DAL.TextFiles.Tables;
 

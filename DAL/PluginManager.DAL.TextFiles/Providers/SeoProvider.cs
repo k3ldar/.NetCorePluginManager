@@ -23,13 +23,9 @@
  *  25/05/2022  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-
 using SharedPluginFeatures;
 
 using PluginManager.DAL.TextFiles.Tables;
-using static Microsoft.Extensions.Logging.EventSource.LoggingEventSource;
 
 namespace PluginManager.DAL.TextFiles.Providers
 {
