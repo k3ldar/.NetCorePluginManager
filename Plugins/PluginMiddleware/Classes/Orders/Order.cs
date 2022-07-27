@@ -46,7 +46,7 @@ namespace Middleware.Accounts.Orders
         /// <param name="processStatus">Current process status for the order.</param>
         /// <param name="deliveryAddress">Delivery address where the order will be dispatched to.</param>
         /// <param name="orderItems">List of items within the order.</param>
-        public Order(in int id, in DateTime date, in decimal postage, in CultureInfo culture,
+        public Order(in long id, in DateTime date, in decimal postage, in CultureInfo culture,
             in ProcessStatus processStatus, DeliveryAddress deliveryAddress,
             List<OrderItem> orderItems)
         {
@@ -73,7 +73,7 @@ namespace Middleware.Accounts.Orders
         /// Unique id for the order.
         /// </summary>
         /// <value>int</value>
-        public int Id { get; private set; }
+        public long Id { get; private set; }
 
         /// <summary>
         /// Date and time the order was created.

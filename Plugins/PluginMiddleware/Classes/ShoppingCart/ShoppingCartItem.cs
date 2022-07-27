@@ -25,6 +25,8 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
 
+using SharedPluginFeatures;
+
 namespace Middleware.ShoppingCart
 {
     /// <summary>
@@ -43,6 +45,8 @@ namespace Middleware.ShoppingCart
             TaxRate = 0;
             CustomerReference = String.Empty;
             Size = String.Empty;
+            DiscountRate = 0;
+            DiscountType = DiscountType.None;
         }
 
         /// <summary>
@@ -50,6 +54,7 @@ namespace Middleware.ShoppingCart
         /// </summary>
         /// <param name="id">Unique id of shopping cart.</param>
         /// <param name="itemCount">Number of items in the cart.</param>
+        /// <param name="itemId"></param>
         /// <param name="itemCost">Cost of the items within shopping cart.</param>
         /// <param name="name">Name of the item within the shopping cart.</param>
         /// <param name="description">Description of item within the cart</param>
@@ -58,10 +63,12 @@ namespace Middleware.ShoppingCart
         /// <param name="isDownload">Indicates that the item is downloadable or not.</param>
         /// <param name="canBackOrder">Indicates that the item is on back order.</param>
         /// <param name="size">Size of item.</param>
+        /// <param name="discountType">Type of discount applied to the item</param>
+        /// <param name="discount">Discount amount</param>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1303:Do not pass literals as localized parameters", Justification = "Intended for developers not end users")]
-        public ShoppingCartItem(in int id, in decimal itemCount, in decimal itemCost, in string name,
+        public ShoppingCartItem(in int id, in decimal itemCount, in long itemId, in decimal itemCost, in string name,
             in string description, in string sku, in string[] images, in bool isDownload,
-            in bool canBackOrder, in string size)
+            in bool canBackOrder, in string size, in DiscountType discountType, in decimal discount)
             : this()
         {
             if (String.IsNullOrEmpty(name))
@@ -83,6 +90,7 @@ namespace Middleware.ShoppingCart
                 throw new ArgumentOutOfRangeException(nameof(itemCost));
 
             Id = id;
+            ItemId = itemId;
             ItemCount = itemCount;
             ItemCost = itemCost;
             Name = name;
@@ -92,12 +100,15 @@ namespace Middleware.ShoppingCart
             IsDownload = isDownload;
             CanBackOrder = canBackOrder;
             Size = size ?? String.Empty;
+            DiscountRate = discount;
+            DiscountType = discountType;
         }
 
         /// <summary>
         /// Constructor containing all detailed item information.
         /// </summary>
         /// <param name="id">Unique id of shopping cart.</param>
+        /// <param name="itemId">Id of the product item</param>
         /// <param name="itemCount">Number of items in the cart.</param>
         /// <param name="itemCost">Cost of the items within shopping cart.</param>
         /// <param name="taxRate">Tax rate applied to the item.</param>
@@ -110,10 +121,10 @@ namespace Middleware.ShoppingCart
         /// <param name="customerReference"></param>
         /// <param name="canBackOrder">Indicates that the item is on back order.</param>
         /// <param name="size">Size of item.</param>
-        public ShoppingCartItem(in int id, in decimal itemCount, in decimal itemCost, in decimal taxRate,
+        public ShoppingCartItem(in int id, in long itemId, in decimal itemCount, in decimal itemCost, in decimal taxRate,
             in string name, in string description, in string sku, in string[] images, in bool isDownload,
             in int weight, in string customerReference, in bool canBackOrder, in string size)
-            : this(id, itemCount, itemCost, name, description, sku, images, isDownload, canBackOrder, size)
+            : this(id, itemCount, itemId, itemCost, name, description, sku, images, isDownload, canBackOrder, size, DiscountType.None, 0)
         {
             if (taxRate < 0)
                 throw new ArgumentOutOfRangeException(nameof(taxRate));
@@ -163,6 +174,20 @@ namespace Middleware.ShoppingCart
             StockAvailability = stockavailability;
         }
 
+        public decimal CostWithDiscountApplied()
+        {
+            if (DiscountType == DiscountType.None || DiscountRate.Equals(0))
+                return ItemCost;
+
+            switch (DiscountType)
+            {
+                case DiscountType.Value:
+                    return ItemCost - DiscountRate;
+                default:
+                    throw new InvalidOperationException("Invalid discount type");
+            }
+        }
+
         #endregion Public Methods
 
         #region Properties
@@ -172,6 +197,12 @@ namespace Middleware.ShoppingCart
         /// </summary>
         /// <value>int</value>
         public int Id { get; private set; }
+
+        /// <summary>
+        /// Id of the product item
+        /// </summary>
+        /// <value>long</value>
+        public long ItemId { get; private set; }
 
         /// <summary>
         /// Number of items.
@@ -250,6 +281,21 @@ namespace Middleware.ShoppingCart
         /// Availability of stock for the item in the shopping cart.
         /// </summary>
         public uint StockAvailability { get; private set; }
+
+        /// <summary>
+        /// Discount amount for specific product item
+        /// </summary>
+        public decimal DiscountRate { get; private set; }
+
+        /// <summary>
+        /// Type of discount
+        /// </summary>
+        public DiscountType DiscountType { get; private set; }
+
+        public void UpdateDiscountCode(string voucherCode, DiscountType discountType, decimal discountRate, int discountProductCount)
+        {
+            throw new NotImplementedException();
+        }
 
         #endregion Properties
     }

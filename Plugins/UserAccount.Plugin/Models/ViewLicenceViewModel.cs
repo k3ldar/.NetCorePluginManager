@@ -29,7 +29,7 @@ using SharedPluginFeatures;
 
 namespace UserAccount.Plugin.Models
 {
-#pragma warning disable CS1591
+#pragma warning disable CS1591, IDE0060
 
     public class ViewLicenceViewModel : BaseModel
     {
@@ -41,7 +41,7 @@ namespace UserAccount.Plugin.Models
         }
 
         public ViewLicenceViewModel(in BaseModelData baseModelData,
-            in int id, in string domain, in string licenceType, in bool active,
+            in long id, in string domain, in string licenceType, in bool active,
             in bool trial, in DateTime expires, in byte updates, in string licence)
             : base(baseModelData)
         {
@@ -61,7 +61,7 @@ namespace UserAccount.Plugin.Models
 
         #region Properties
 
-        public int Id { get; set; }
+        public long Id { get; set; }
 
         public string Domain { get; set; }
 
@@ -88,5 +88,5 @@ namespace UserAccount.Plugin.Models
         #endregion Properties
     }
 
-#pragma warning restore CS1591
+#pragma warning restore CS1591, IDE0060
 }

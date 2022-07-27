@@ -153,7 +153,7 @@ namespace Middleware.Helpdesk
         /// Name of the person who last responded to the support ticket.
         /// </summary>
         /// <value>string</value>
-        public string LastReplier { get; private set; }
+        public string LastReplier { get; set; }
 
         /// <summary>
         /// List of all HelpdeskTicketMessage messages within the support ticket.

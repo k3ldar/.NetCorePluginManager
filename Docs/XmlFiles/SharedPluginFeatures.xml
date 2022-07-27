@@ -72,6 +72,11 @@
             </summary>
             <value>string</value>
         </member>
+        <member name="P:SharedPluginFeatures.DynamicContent.DynamicContentTemplate.Id">
+            <summary>
+            Unique id of control
+            </summary>
+        </member>
         <member name="P:SharedPluginFeatures.DynamicContent.DynamicContentTemplate.AssemblyQualifiedName">
             <summary>
             Gets the underlying assembly qualified name
@@ -1810,6 +1815,11 @@
             Rate at which discount has been applied to the shopping cart.
             </summary>
         </member>
+        <member name="P:SharedPluginFeatures.ShoppingCartSummary.DiscountType">
+            <summary>
+            Type of discount applied to the shopping cart
+            </summary>
+        </member>
         <member name="P:SharedPluginFeatures.ShoppingCartSummary.Discount">
             <summary>
             Total discount value applied to the shopping cart.
@@ -3326,6 +3336,31 @@
             The control fits the size of the internal data
             </summary>
         </member>
+        <member name="T:SharedPluginFeatures.DiscountType">
+            <summary>
+            Type of discount that has been applied to an Invoice/Order
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.DiscountType.None">
+            <summary>
+            Invoice/Order has no discount.
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.DiscountType.PercentageTotal">
+            <summary>
+            Invoice/Order has a percentage discount on the total.
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.DiscountType.PercentageSubTotal">
+            <summary>
+            Invoice/Order has a percentage discount on the sub total.
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.DiscountType.Value">
+            <summary>
+            Invoice/Order has a monetary value discount (i.e. GBP10)
+            </summary>
+        </member>
         <member name="T:SharedPluginFeatures.HtmlHelper">
             <summary>
             Html Helper class, contains extension methods and other methods for use within MVC application
@@ -3361,6 +3396,26 @@
             <param name="policyName">Name of the policy</param>
             <param name="responseCode">Response code</param>
             <returns>bool</returns>
+        </member>
+        <member name="T:SharedPluginFeatures.Interfaces.IBatchUpdate">
+            <summary>
+            Interface for batch updates
+            </summary>
+        </member>
+        <member name="M:SharedPluginFeatures.Interfaces.IBatchUpdate.BeginUpdate">
+            <summary>
+            Batch update is starting
+            </summary>
+        </member>
+        <member name="M:SharedPluginFeatures.Interfaces.IBatchUpdate.EndUpdate">
+            <summary>
+            Batch update is ended
+            </summary>
+        </member>
+        <member name="P:SharedPluginFeatures.Interfaces.IBatchUpdate.IsUpdating">
+            <summary>
+            Indicates whether it is in batch update
+            </summary>
         </member>
         <member name="T:SharedPluginFeatures.IBotTrap">
             <summary>

@@ -26,6 +26,8 @@
 using System;
 using System.IO;
 
+#pragma warning disable IDE0066
+
 namespace DownloadPlugin.Models
 {
     /// <summary>
@@ -44,7 +46,7 @@ namespace DownloadPlugin.Models
         /// <param name="version">Version of download item.</param>
         /// <param name="filename">Filename.</param>
         /// <param name="size">Size of file.</param>
-        public DownloadableItem(in int id, in string name, in string description, in string version,
+        public DownloadableItem(in long id, in string name, in string description, in string version,
             in string filename, in string size)
         {
             Id = id;
@@ -63,7 +65,7 @@ namespace DownloadPlugin.Models
         /// Unique id of downloadable item.
         /// </summary>
         /// <value>int</value>
-        public int Id { get; private set; }
+        public long Id { get; private set; }
 
         /// <summary>
         /// Name of downloadable item.
@@ -130,3 +132,5 @@ namespace DownloadPlugin.Models
         #endregion Properties
     }
 }
+
+#pragma warning restore IDE0066

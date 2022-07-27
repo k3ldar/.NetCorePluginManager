@@ -51,7 +51,7 @@ namespace Middleware.Downloads
         /// <param name="description">Description of downloadable item.</param>
         /// <param name="version">Current version of downloadable item.</param>
         /// <param name="filename">Name of the physical file for the downlaod item.</param>
-        public DownloadItem(in int id, in string name, in string description,
+        public DownloadItem(in long id, in string name, in string description,
             in string version, in string filename)
             : this()
         {
@@ -81,7 +81,7 @@ namespace Middleware.Downloads
         /// <param name="filename">Name of the physical file for the downlaod item.</param>
         /// <param name="icon">Icon used to represent the download item.</param>
         /// <param name="size">Size of the downloadable file.</param>
-        public DownloadItem(in int id, in string name, in string description,
+        public DownloadItem(in long id, in string name, in string description,
             in string version, in string filename, in string icon, in string size)
             : this(id, name, description, version, filename)
         {
@@ -97,7 +97,7 @@ namespace Middleware.Downloads
         /// Unique id of download item.
         /// </summary>
         /// <value>int</value>
-        public int Id { get; private set; }
+        public long Id { get; private set; }
 
         /// <summary>
         /// Name of downloadable item.

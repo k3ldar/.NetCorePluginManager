@@ -38,7 +38,7 @@ using UserAccount.Plugin.Models;
 
 namespace UserAccount.Plugin.Controllers
 {
-#pragma warning disable CS1591, IDE0017
+#pragma warning disable CS1591, IDE0017, IDE0066
 
     public partial class AccountController
     {
@@ -121,7 +121,7 @@ namespace UserAccount.Plugin.Controllers
 
         #region Private Methods
 
-        private string GetContentType(in string fileExtension)
+        private static string GetContentType(in string fileExtension)
         {
             switch (fileExtension.ToLower())
             {
@@ -168,5 +168,5 @@ namespace UserAccount.Plugin.Controllers
         #endregion Private Methods
     }
 
-#pragma warning restore CS1591, IDE0017
+#pragma warning restore CS1591, IDE0017, IDE0066
 }

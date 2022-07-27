@@ -40,7 +40,7 @@ namespace Middleware
         /// Unique page id
         /// </summary>
         /// <value>int</value>
-        int Id { get; set; }
+        long Id { get; set; }
 
         /// <summary>
         /// Name of dynamic page

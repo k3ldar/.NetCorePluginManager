@@ -171,7 +171,7 @@ namespace DynamicContent.Plugin.Controllers
         [Authorize(Policy = PolicyNameContentEditor)]
         public IActionResult NewPage()
         {
-            int newId = _dynamicContentProvider.CreateCustomPage();
+            long newId = _dynamicContentProvider.CreateCustomPage();
 
             return RedirectToAction(nameof(EditPage), new { id = newId });
         }
@@ -189,7 +189,7 @@ namespace DynamicContent.Plugin.Controllers
         [HttpGet]
         [Authorize(Policy = PolicyNameContentEditor)]
         [Breadcrumb(nameof(Languages.LanguageStrings.Edit))]
-        public IActionResult EditPage(int id)
+        public IActionResult EditPage(long id)
         {
             IDynamicContentPage dynamicContentPage = _dynamicContentProvider.GetCustomPage(id);
 

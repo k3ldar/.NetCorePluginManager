@@ -33,6 +33,8 @@ using Middleware.Accounts;
 using Middleware.Accounts.Invoices;
 using Middleware.Accounts.Orders;
 
+using SharedPluginFeatures;
+
 namespace AspNetCore.PluginManager.DemoWebsite.Classes
 {
     [ExcludeFromCodeCoverage(Justification = "Code coverage not required for mock classes")]
@@ -178,7 +180,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
 
         public Address GetBillingAddress(in long userId)
         {
-            return new Address(1, 0, String.Empty, "Mike St", String.Empty, String.Empty, "London", String.Empty, "L1 1AA", "GB");
+            return new Address(1, String.Empty, "Mike St", String.Empty, String.Empty, "London", String.Empty, "L1 1AA", "GB");
         }
 
         #endregion Billing Address
@@ -208,11 +210,11 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
             return true;
         }
 
-        public DeliveryAddress GetDeliveryAddress(in Int64 userId, in int deliveryAddressId)
+        public DeliveryAddress GetDeliveryAddress(in Int64 userId, in long deliveryAddressId)
         {
             foreach (DeliveryAddress address in GetDeliveryAddresses(userId))
             {
-                if (address.AddressId == deliveryAddressId)
+                if (address.Id == deliveryAddressId)
                     return address;
             }
 
@@ -221,7 +223,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
 
         public bool DeleteDeliveryAddress(in long userId, in DeliveryAddress deliveryAddress)
         {
-            if (deliveryAddress == null || deliveryAddress.AddressId == 1)
+            if (deliveryAddress == null || deliveryAddress.Id == 1)
                 return false;
 
             _deliveryAddresses.Remove(deliveryAddress);
@@ -303,7 +305,7 @@ namespace AspNetCore.PluginManager.DemoWebsite.Classes
                     item.Quantity, ItemStatus.Received, item.DiscountType, item.Discount));
             }
 
-            Invoice invoice = new Invoice(++InvoiceId, DateTime.Now, order.Postage, order.Culture,
+            _ = new Invoice(++InvoiceId, DateTime.Now, order.Postage, order.Culture,
                 ProcessStatus.PaymentCheck, paymentStatus, order.DeliveryAddress, items);
         }
 

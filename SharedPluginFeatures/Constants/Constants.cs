@@ -82,6 +82,12 @@ namespace SharedPluginFeatures
         /// </summary>
         public const int MaximumPasswordLength = 40;
 
+
+        public const int MinimumKeyLength = 20;
+
+
+        public const int MaximumKeyLength = 60;
+
         /// <summary>
         /// Name of UserSession that is injected into the request pipeline
         /// </summary>

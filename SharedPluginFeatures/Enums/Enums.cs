@@ -394,42 +394,68 @@ namespace SharedPluginFeatures
     /// <summary>
     /// Enum with width options for dynamic content templates
     /// </summary>
-    public enum DynamicContentWidthType
+    public enum DynamicContentWidthType : byte
     {
         /// <summary>
         /// Value is defined in terms of columns (for use in bootstrap etc)
         /// </summary>
-        Columns,
+        Columns = 0,
 
         /// <summary>
         /// Value is defined in terms of pixels
         /// </summary>
-        Pixels,
+        Pixels = 1,
 
         /// <summary>
         /// The value is defined as a percentage
         /// </summary>
-        Percentage
+        Percentage = 2
     }
 
     /// <summary>
     /// Enum with height options for dynamic content templates
     /// </summary>
-    public enum DynamicContentHeightType
+    public enum DynamicContentHeightType : byte
     {
         /// <summary>
         /// Value is defined in terms of pixels
         /// </summary>
-        Pixels,
+        Pixels = 0,
 
         /// <summary>
         /// The value is defined as a percentage
         /// </summary>
-        Percentage,
+        Percentage = 1,
 
         /// <summary>
         /// The control fits the size of the internal data
         /// </summary>
-        Automatic
+        Automatic = 2
+    }
+
+    /// <summary>
+    /// Type of discount that has been applied to an Invoice/Order
+    /// </summary>
+    public enum DiscountType
+    {
+        /// <summary>
+        /// Invoice/Order has no discount.
+        /// </summary>
+        None = 0,
+
+        /// <summary>
+        /// Invoice/Order has a percentage discount on the total.
+        /// </summary>
+        PercentageTotal = 1,
+
+        /// <summary>
+        /// Invoice/Order has a percentage discount on the sub total.
+        /// </summary>
+        PercentageSubTotal = 2,
+
+        /// <summary>
+        /// Invoice/Order has a monetary value discount (i.e. GBP10)
+        /// </summary>
+        Value = 3
     }
 }

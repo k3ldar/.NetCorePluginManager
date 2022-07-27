@@ -293,7 +293,7 @@ namespace Blog.Plugin.Controllers
 
             foreach (BlogComment comment in blogItem.Comments)
             {
-                Result.Comments.Add(new BlogCommentViewModel(comment.Id, comment.DateTime, comment.Username, comment.Comment));
+                Result.Comments.Add(new BlogCommentViewModel(Convert.ToInt32(comment.Id), comment.DateTime, comment.Username, comment.Comment));
             }
 
 

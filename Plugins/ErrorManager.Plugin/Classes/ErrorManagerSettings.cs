@@ -52,7 +52,7 @@ namespace ErrorManager.Plugin
         /// </summary>
         /// <value>string</value>
         [SettingDefault("asldfjanpsa]3;la9e4823[2oer09oecrlc")]
-        [SettingString(false, 20, 60)]
+        [SettingString(false, SharedPluginFeatures.Constants.MinimumKeyLength, SharedPluginFeatures.Constants.MaximumKeyLength)]
         public string EncryptionKey { get; set; }
 
         /// <summary>

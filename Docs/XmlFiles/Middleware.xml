@@ -14,12 +14,11 @@
             Default constructor
             </summary>
         </member>
-        <member name="M:Middleware.Address.#ctor(System.Int32@,System.Decimal@,System.String@,System.String@,System.String@,System.String@,System.String@,System.String@,System.String@,System.String@)">
+        <member name="M:Middleware.Address.#ctor(System.Int64@,System.String@,System.String@,System.String@,System.String@,System.String@,System.String@,System.String@,System.String@)">
             <summary>
             Constructor
             </summary>
             <param name="id">Shipping costs for the address.</param>
-            <param name="shipping">Shipping costs for the address.</param>
             <param name="businessName">Business name if applicable.</param>
             <param name="addressLine1">Address line 1.</param>
             <param name="addressLine2">Address line 2.</param>
@@ -34,12 +33,6 @@
             Unique id for the address.
             </summary>
             <value>int</value>
-        </member>
-        <member name="P:Middleware.Address.Shipping">
-            <summary>
-            Shipping costs for the address.
-            </summary>
-            <value>decimal</value>
         </member>
         <member name="P:Middleware.Address.BusinessName">
             <summary>
@@ -99,7 +92,7 @@
             Constructor
             </summary>
         </member>
-        <member name="M:Middleware.Accounts.DeliveryAddress.#ctor(System.Int32@,System.String@,System.String@,System.String@,System.String@,System.String@,System.String@,System.String@,System.String@,System.Decimal@)">
+        <member name="M:Middleware.Accounts.DeliveryAddress.#ctor(System.Int64@,System.String@,System.String@,System.String@,System.String@,System.String@,System.String@,System.String@,System.String@,System.Decimal@)">
             <summary>
             Constructor
             </summary>
@@ -113,12 +106,6 @@
             <param name="postcode">Postal or zip code.</param>
             <param name="country">Country name.</param>
             <param name="postageCost">Postage costs.</param>
-        </member>
-        <member name="P:Middleware.Accounts.DeliveryAddress.AddressId">
-            <summary>
-            Address id
-            </summary>
-            <value>int</value>
         </member>
         <member name="P:Middleware.Accounts.DeliveryAddress.PostageCost">
             <summary>
@@ -174,7 +161,7 @@
             Represents an invoice that is used for display within the website.  This is used by IAccountProvider and the UserAccount.Plugin module.
             </summary>
         </member>
-        <member name="M:Middleware.Accounts.Invoices.Invoice.#ctor(System.Int32@,System.DateTime@,System.Decimal@,System.Globalization.CultureInfo@,Middleware.ProcessStatus@,Middleware.PaymentStatus@,Middleware.Accounts.DeliveryAddress,System.Collections.Generic.List{Middleware.Accounts.Invoices.InvoiceItem})">
+        <member name="M:Middleware.Accounts.Invoices.Invoice.#ctor(System.Int64@,System.DateTime@,System.Decimal@,System.Globalization.CultureInfo@,Middleware.ProcessStatus@,Middleware.PaymentStatus@,Middleware.Accounts.DeliveryAddress,System.Collections.Generic.List{Middleware.Accounts.Invoices.InvoiceItem})">
             <summary>
             Constructor
             </summary>
@@ -270,7 +257,7 @@
             Represents an individual invoice item within an Invoice used by IAccountProvider and UserAccount.Plugin module.
             </summary>
         </member>
-        <member name="M:Middleware.Accounts.Invoices.InvoiceItem.#ctor(System.Int64@,System.String@,System.Decimal@,System.Int32@,System.Decimal@,Middleware.ItemStatus@,Middleware.DiscountType@,System.Decimal@)">
+        <member name="M:Middleware.Accounts.Invoices.InvoiceItem.#ctor(System.Int64@,System.String@,System.Decimal@,System.Decimal@,System.Decimal@,Middleware.ItemStatus@,SharedPluginFeatures.DiscountType@,System.Decimal@)">
             <summary>
             Constructor
             </summary>
@@ -366,7 +353,7 @@
             User licence.  Provides details on an individual user licence.
             </summary>
         </member>
-        <member name="M:Middleware.Accounts.Licences.Licence.#ctor(System.Int32@,System.Int64@,Middleware.Accounts.Licences.LicenceType@,System.DateTime@,System.DateTime@,System.Boolean@,System.Boolean@,System.Byte@,System.Int32@,System.String@,System.String@)">
+        <member name="M:Middleware.Accounts.Licences.Licence.#ctor(System.Int64@,System.Int64@,Middleware.Accounts.Licences.LicenceType@,System.DateTime@,System.DateTime@,System.Boolean@,System.Boolean@,System.Byte@,System.Int64@,System.String@,System.String@)">
             <summary>
             Constructor
             </summary>
@@ -453,7 +440,7 @@
             List item for type of licences available.
             </summary>
         </member>
-        <member name="M:Middleware.Accounts.Licences.LicenceType.#ctor(System.Int32@,System.String@)">
+        <member name="M:Middleware.Accounts.Licences.LicenceType.#ctor(System.Int64@,System.String@)">
             <summary>
             Constructor
             </summary>
@@ -477,7 +464,7 @@
             Represents a users order, primarily used by IAccountProvider within the UserAccount.Plugin module.
             </summary>
         </member>
-        <member name="M:Middleware.Accounts.Orders.Order.#ctor(System.Int32@,System.DateTime@,System.Decimal@,System.Globalization.CultureInfo@,Middleware.ProcessStatus@,Middleware.Accounts.DeliveryAddress,System.Collections.Generic.List{Middleware.Accounts.Orders.OrderItem})">
+        <member name="M:Middleware.Accounts.Orders.Order.#ctor(System.Int64@,System.DateTime@,System.Decimal@,System.Globalization.CultureInfo@,Middleware.ProcessStatus@,Middleware.Accounts.DeliveryAddress,System.Collections.Generic.List{Middleware.Accounts.Orders.OrderItem})">
             <summary>
             Constructor
             </summary>
@@ -566,7 +553,7 @@
             Represents an item within an Order created by a user.  This is primarily used by IAccountProvider and the UserAccount.Plugin module.
             </summary>
         </member>
-        <member name="M:Middleware.Accounts.Orders.OrderItem.#ctor(System.Int64@,System.String@,System.Decimal@,System.Int32@,System.Decimal@,Middleware.ItemStatus@,Middleware.DiscountType@,System.Decimal@)">
+        <member name="M:Middleware.Accounts.Orders.OrderItem.#ctor(System.Int64@,System.String@,System.Decimal@,System.Decimal@,System.Decimal@,Middleware.ItemStatus@,SharedPluginFeatures.DiscountType@,System.Decimal@)">
             <summary>
             Constructor
             </summary>
@@ -800,7 +787,7 @@
             <param name="userId">Unique user id.</param>
             <returns>List&lt;<see cref="T:Middleware.Accounts.DeliveryAddress"/>&gt;</returns>
         </member>
-        <member name="M:Middleware.Accounts.IAccountProvider.GetDeliveryAddress(System.Int64@,System.Int32@)">
+        <member name="M:Middleware.Accounts.IAccountProvider.GetDeliveryAddress(System.Int64@,System.Int64@)">
             <summary>
             Retrieves a specific delivery address for a user.
             </summary>
@@ -926,6 +913,11 @@
             Comment made by a user.
             </summary>
             <value>string</value>
+        </member>
+        <member name="P:Middleware.Blog.BlogComment.Comments">
+            <summary>
+            List of sub comments for the comment
+            </summary>
         </member>
         <member name="T:Middleware.Blog.BlogItem">
             <summary>
@@ -1097,7 +1089,7 @@
             Available download categories including a list of DownloadItem's that are available for the category.
             </summary>
         </member>
-        <member name="M:Middleware.Downloads.DownloadCategory.#ctor(System.Int32@,System.String@,System.Collections.Generic.List{Middleware.Downloads.DownloadItem}@)">
+        <member name="M:Middleware.Downloads.DownloadCategory.#ctor(System.Int64@,System.String@,System.Collections.Generic.List{Middleware.Downloads.DownloadItem}@)">
             <summary>
             Constructor
             </summary>
@@ -1109,7 +1101,7 @@
             <summary>
             Unique id for category.
             </summary>
-            <value>int</value>
+            <value>long</value>
         </member>
         <member name="P:Middleware.Downloads.DownloadCategory.Name">
             <summary>
@@ -1133,7 +1125,7 @@
             Constructor
             </summary>
         </member>
-        <member name="M:Middleware.Downloads.DownloadItem.#ctor(System.Int32@,System.String@,System.String@,System.String@,System.String@)">
+        <member name="M:Middleware.Downloads.DownloadItem.#ctor(System.Int64@,System.String@,System.String@,System.String@,System.String@)">
             <summary>
             Constructor
             </summary>
@@ -1143,7 +1135,7 @@
             <param name="version">Current version of downloadable item.</param>
             <param name="filename">Name of the physical file for the downlaod item.</param>
         </member>
-        <member name="M:Middleware.Downloads.DownloadItem.#ctor(System.Int32@,System.String@,System.String@,System.String@,System.String@,System.String@,System.String@)">
+        <member name="M:Middleware.Downloads.DownloadItem.#ctor(System.Int64@,System.String@,System.String@,System.String@,System.String@,System.String@,System.String@)">
             <summary>
             Constructor
             </summary>
@@ -1207,7 +1199,7 @@
             Default constructor
             </summary>
         </member>
-        <member name="M:Middleware.DynamicContent.DynamicContentPage.#ctor(System.Int32)">
+        <member name="M:Middleware.DynamicContent.DynamicContentPage.#ctor(System.Int64)">
             <summary>
             Constructor
             </summary>
@@ -1290,7 +1282,7 @@
             </summary>
             <returns>List&lt;IDynamicContentPage&gt;</returns>
         </member>
-        <member name="M:Middleware.DynamicContent.IDynamicContentProvider.GetCustomPage(System.Int32)">
+        <member name="M:Middleware.DynamicContent.IDynamicContentProvider.GetCustomPage(System.Int64)">
             <summary>
             Retrieves dynamic page content by id
             </summary>
@@ -1303,7 +1295,7 @@
             </summary>
             <returns>List&lt;DynamicContentTemplate&gt;</returns>
         </member>
-        <member name="M:Middleware.DynamicContent.IDynamicContentProvider.PageNameExists(System.Int32,System.String)">
+        <member name="M:Middleware.DynamicContent.IDynamicContentProvider.PageNameExists(System.Int64,System.String)">
             <summary>
             Determines whether the page name already exists
             </summary>
@@ -1311,7 +1303,7 @@
             <param name="pageName">Name of page to be validated.</param>
             <returns>bool</returns>
         </member>
-        <member name="M:Middleware.DynamicContent.IDynamicContentProvider.RouteNameExists(System.Int32,System.String)">
+        <member name="M:Middleware.DynamicContent.IDynamicContentProvider.RouteNameExists(System.Int64,System.String)">
             <summary>
             Determines whether a route name already exists
             </summary>
@@ -1332,6 +1324,36 @@
             </summary>
             <param name="data">Form data to be saved</param>
             <returns>bool</returns>
+        </member>
+        <member name="T:Middleware.Classes.DefaultEmailSenderSettings">
+            <summary>
+            Default email sender details
+            </summary>
+        </member>
+        <member name="P:Middleware.Classes.DefaultEmailSenderSettings.Host">
+            <summary>
+            Email host server
+            </summary>
+        </member>
+        <member name="P:Middleware.Classes.DefaultEmailSenderSettings.Password">
+            <summary>
+            Email server password
+            </summary>
+        </member>
+        <member name="P:Middleware.Classes.DefaultEmailSenderSettings.Port">
+            <summary>
+            Email server port
+            </summary>
+        </member>
+        <member name="P:Middleware.Classes.DefaultEmailSenderSettings.SSL">
+            <summary>
+            Email uses ssl for sending emails
+            </summary>
+        </member>
+        <member name="P:Middleware.Classes.DefaultEmailSenderSettings.UserName">
+            <summary>
+            Email account username
+            </summary>
         </member>
         <member name="T:Middleware.Helpdesk.Feedback">
             <summary>
@@ -1501,7 +1523,7 @@
             Represents a knowledgebase group item.  Used with IHelpdeskProvider and HelpdeskPlugin module.
             </summary>
         </member>
-        <member name="M:Middleware.Helpdesk.KnowledgeBaseGroup.#ctor(System.Int32@,System.String@,System.String@,System.Int32@,System.Int32@,Middleware.Helpdesk.KnowledgeBaseGroup@,System.Collections.Generic.List{Middleware.Helpdesk.KnowledgeBaseItem}@)">
+        <member name="M:Middleware.Helpdesk.KnowledgeBaseGroup.#ctor(System.Int64@,System.String@,System.String@,System.Int32@,System.Int32@,Middleware.Helpdesk.KnowledgeBaseGroup@,System.Collections.Generic.List{Middleware.Helpdesk.KnowledgeBaseItem}@)">
             <summary>
             Constructor
             </summary>
@@ -1517,7 +1539,7 @@
             <summary>
             Unique id of the knowledgebase group.
             </summary>
-            <value>int</value>
+            <value>long</value>
         </member>
         <member name="P:Middleware.Helpdesk.KnowledgeBaseGroup.Name">
             <summary>
@@ -1560,7 +1582,7 @@
             Represents a knowledgebase item that is part of a KnowledgeBaseGroup and used by IHelpdeskProvider within the HelpdeskPlugin module.
             </summary>
         </member>
-        <member name="M:Middleware.Helpdesk.KnowledgeBaseItem.#ctor(System.Int32@,System.String@,System.Int32@,System.String@)">
+        <member name="M:Middleware.Helpdesk.KnowledgeBaseItem.#ctor(System.Int64@,System.String@,System.Int32@,System.String@)">
             <summary>
             Constructor
             </summary>
@@ -1593,7 +1615,7 @@
             </summary>
             <value>string</value>
         </member>
-        <member name="M:Middleware.Helpdesk.KnowledgeBaseItem.IncreastViewCount">
+        <member name="M:Middleware.Helpdesk.KnowledgeBaseItem.IncreaseViewCount">
             <summary>
             Increases the view count the item by one.
             </summary>
@@ -1685,7 +1707,7 @@
             <param name="parent">Group parent if there is one, otherwise null for groups at the top of the heirerarchy.</param>
             <returns>List&lt;KnowledgeBaseGroup&gt;</returns>
         </member>
-        <member name="M:Middleware.Helpdesk.IHelpdeskProvider.GetKnowledgebaseGroup(System.Int64@,System.Int32@)">
+        <member name="M:Middleware.Helpdesk.IHelpdeskProvider.GetKnowledgebaseGroup(System.Int64@,System.Int64@)">
             <summary>
             Retrieves an individual KnowledgeBaseGroup item.
             </summary>
@@ -1693,7 +1715,7 @@
             <param name="id">Id of the KnowledgeBaseGroup being retrieved.</param>
             <returns>KnowledgeBaseGroup</returns>
         </member>
-        <member name="M:Middleware.Helpdesk.IHelpdeskProvider.GetKnowledgebaseItem(System.Int64@,System.Int32@,Middleware.Helpdesk.KnowledgeBaseItem@,Middleware.Helpdesk.KnowledgeBaseGroup@)">
+        <member name="M:Middleware.Helpdesk.IHelpdeskProvider.GetKnowledgebaseItem(System.Int64@,System.Int64@,Middleware.Helpdesk.KnowledgeBaseItem@,Middleware.Helpdesk.KnowledgeBaseGroup@)">
             <summary>
             Retrieves an individual KnowledgeBaseItem.
             </summary>
@@ -1703,7 +1725,7 @@
             <param name="parentGroup">KnowledgeBaseGroup item which is the parent group of the item being retrieved.</param>
             <returns>bool.  True if KnowledgeBaseItem is being returned.</returns>
         </member>
-        <member name="M:Middleware.Helpdesk.IHelpdeskProvider.KnowledbaseView(Middleware.Helpdesk.KnowledgeBaseItem@)">
+        <member name="M:Middleware.Helpdesk.IHelpdeskProvider.KnowledgebaseView(Middleware.Helpdesk.KnowledgeBaseItem@)">
             <summary>
             Indicates that a KnowledgeBaseItem has been viewed.
             </summary>
@@ -2418,7 +2440,7 @@
             Resets the total cost and item count of all items within the cart.
             </summary>
         </member>
-        <member name="M:Middleware.ShoppingCart.ShoppingCartDetail.SetDeliveryAddress(Middleware.Address@)">
+        <member name="M:Middleware.ShoppingCart.ShoppingCartDetail.SetDeliveryAddress(Middleware.Accounts.DeliveryAddress@)">
             <summary>
             Sets the delivery address for the shopping cart, this is typically completed during the checkout phase.
             </summary>
@@ -2434,12 +2456,13 @@
             Default constructor
             </summary>
         </member>
-        <member name="M:Middleware.ShoppingCart.ShoppingCartItem.#ctor(System.Int32@,System.Decimal@,System.Decimal@,System.String@,System.String@,System.String@,System.String[]@,System.Boolean@,System.Boolean@,System.String@)">
+        <member name="M:Middleware.ShoppingCart.ShoppingCartItem.#ctor(System.Int32@,System.Decimal@,System.Int64@,System.Decimal@,System.String@,System.String@,System.String@,System.String[]@,System.Boolean@,System.Boolean@,System.String@,SharedPluginFeatures.DiscountType@,System.Decimal@)">
             <summary>
             Constructor containing detailed items information.
             </summary>
             <param name="id">Unique id of shopping cart.</param>
             <param name="itemCount">Number of items in the cart.</param>
+            <param name="itemId"></param>
             <param name="itemCost">Cost of the items within shopping cart.</param>
             <param name="name">Name of the item within the shopping cart.</param>
             <param name="description">Description of item within the cart</param>
@@ -2448,12 +2471,15 @@
             <param name="isDownload">Indicates that the item is downloadable or not.</param>
             <param name="canBackOrder">Indicates that the item is on back order.</param>
             <param name="size">Size of item.</param>
+            <param name="discountType">Type of discount applied to the item</param>
+            <param name="discount">Discount amount</param>
         </member>
-        <member name="M:Middleware.ShoppingCart.ShoppingCartItem.#ctor(System.Int32@,System.Decimal@,System.Decimal@,System.Decimal@,System.String@,System.String@,System.String@,System.String[]@,System.Boolean@,System.Int32@,System.String@,System.Boolean@,System.String@)">
+        <member name="M:Middleware.ShoppingCart.ShoppingCartItem.#ctor(System.Int32@,System.Int64@,System.Decimal@,System.Decimal@,System.Decimal@,System.String@,System.String@,System.String@,System.String[]@,System.Boolean@,System.Int32@,System.String@,System.Boolean@,System.String@)">
             <summary>
             Constructor containing all detailed item information.
             </summary>
             <param name="id">Unique id of shopping cart.</param>
+            <param name="itemId">Id of the product item</param>
             <param name="itemCount">Number of items in the cart.</param>
             <param name="itemCost">Cost of the items within shopping cart.</param>
             <param name="taxRate">Tax rate applied to the item.</param>
@@ -2490,6 +2516,12 @@
             Unique id of the shopping cart item.
             </summary>
             <value>int</value>
+        </member>
+        <member name="P:Middleware.ShoppingCart.ShoppingCartItem.ItemId">
+            <summary>
+            Id of the product item
+            </summary>
+            <value>long</value>
         </member>
         <member name="P:Middleware.ShoppingCart.ShoppingCartItem.ItemCount">
             <summary>
@@ -2566,6 +2598,16 @@
         <member name="P:Middleware.ShoppingCart.ShoppingCartItem.StockAvailability">
             <summary>
             Availability of stock for the item in the shopping cart.
+            </summary>
+        </member>
+        <member name="P:Middleware.ShoppingCart.ShoppingCartItem.DiscountRate">
+            <summary>
+            Discount amount for specific product item
+            </summary>
+        </member>
+        <member name="P:Middleware.ShoppingCart.ShoppingCartItem.DiscountType">
+            <summary>
+            Type of discount
             </summary>
         </member>
         <member name="T:Middleware.Users.SearchUser">
@@ -2952,31 +2994,6 @@
             Invoice/order item has been cancelled.
             </summary>
         </member>
-        <member name="T:Middleware.DiscountType">
-            <summary>
-            Type of discount that has been applied to an Invoice/Order
-            </summary>
-        </member>
-        <member name="F:Middleware.DiscountType.None">
-            <summary>
-            Invoice/Order has no discount.
-            </summary>
-        </member>
-        <member name="F:Middleware.DiscountType.PercentageTotal">
-            <summary>
-            Invoice/Order has a percentage discount on the total.
-            </summary>
-        </member>
-        <member name="F:Middleware.DiscountType.PercentageSubTotal">
-            <summary>
-            Invoice/Order has a percentage discount on the sub total.
-            </summary>
-        </member>
-        <member name="F:Middleware.DiscountType.Value">
-            <summary>
-            Invoice/Order has a monetary value discount (i.e. GBP10)
-            </summary>
-        </member>
         <member name="T:Middleware.LicenceCreate">
             <summary>
             Licence creation results.
@@ -3126,14 +3143,14 @@
             </summary>
             <returns>List&lt;DownloadCategory&gt;</returns>
         </member>
-        <member name="M:Middleware.IDownloadProvider.GetDownloadItem(System.Int32@)">
+        <member name="M:Middleware.IDownloadProvider.GetDownloadItem(System.Int64@)">
             <summary>
             Retrieve File
             </summary>
             <param name="fileId">Unique id of the file being downloaded.</param>
             <returns>DownloadItem</returns>
         </member>
-        <member name="M:Middleware.IDownloadProvider.GetDownloadItem(System.Int64@,System.Int32@)">
+        <member name="M:Middleware.IDownloadProvider.GetDownloadItem(System.Int64@,System.Int64@)">
             <summary>
             Retrieve File
             </summary>
@@ -3141,14 +3158,14 @@
             <param name="fileId">Unique id of the file being downloaded.</param>
             <returns>DownloadItem</returns>
         </member>
-        <member name="M:Middleware.IDownloadProvider.ItemDownloaded(System.Int64@,System.Int32@)">
+        <member name="M:Middleware.IDownloadProvider.ItemDownloaded(System.Int64@,System.Int64@)">
             <summary>
             File download by a user
             </summary>
             <param name="userId">Id of the user requesting a download, if they are logged in.</param>
             <param name="fileId">Unique id of the file being downloaded.</param>
         </member>
-        <member name="M:Middleware.IDownloadProvider.ItemDownloaded(System.Int32@)">
+        <member name="M:Middleware.IDownloadProvider.ItemDownloaded(System.Int64@)">
             <summary>
             File download by anyone
             </summary>
@@ -3206,6 +3223,11 @@
             Dynamic content that will be displayed within the page
             </summary>
             <value>List&lt;DynamicContentTemplate&gt;</value>
+        </member>
+        <member name="T:Middleware.IEmailSender">
+            <summary>
+            Interface for sending emails
+            </summary>
         </member>
         <member name="T:Middleware.Interfaces.IImageProvider">
             <summary>

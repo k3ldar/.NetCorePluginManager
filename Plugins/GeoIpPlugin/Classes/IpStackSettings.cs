@@ -32,7 +32,7 @@ using PluginManager;
 
 using SharedPluginFeatures;
 
-#pragma warning disable CA1707
+#pragma warning disable CA1707, IDE1006
 
 namespace GeoIp.Plugin
 {
@@ -110,7 +110,6 @@ namespace GeoIp.Plugin
             finally
             {
                 client.Dispose();
-                client = null;
             }
         }
 
@@ -223,4 +222,4 @@ namespace GeoIp.Plugin
     }
 }
 
-#pragma warning disable CA1707
+#pragma warning restore CA1707, IDE1006

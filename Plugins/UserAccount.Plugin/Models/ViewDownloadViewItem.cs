@@ -39,7 +39,7 @@ namespace UserAccount.Plugin.Models
         }
 
         public ViewDownloadViewItem(in BaseModelData baseModelData,
-            in int id, in string name, in string description,
+            in long id, in string name, in string description,
             in string version, in string filename, in string icon, in string size)
             : base(baseModelData)
         {
@@ -56,7 +56,7 @@ namespace UserAccount.Plugin.Models
 
         #region Properties
 
-        public int Id { get; set; }
+        public long Id { get; set; }
 
         public string Name { get; set; }
 

@@ -81,7 +81,7 @@ namespace UserAccount.Plugin.Models
 
         #region Properties
 
-        public int InvoiceId { get; private set; }
+        public long InvoiceId { get; private set; }
 
         public CultureInfo Culture { get; private set; }
 

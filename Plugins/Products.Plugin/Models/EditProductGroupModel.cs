@@ -23,11 +23,7 @@
  *  09/05/2022  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-
-using Middleware;
 
 using SharedPluginFeatures;
 

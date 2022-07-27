@@ -53,25 +53,18 @@ namespace Middleware.Accounts
         /// <param name="postcode">Postal or zip code.</param>
         /// <param name="country">Country name.</param>
         /// <param name="postageCost">Postage costs.</param>
-        public DeliveryAddress(in int addressId, in string businessName, in string addressLine1,
+        public DeliveryAddress(in long addressId, in string businessName, in string addressLine1,
             in string addressLine2, in string addressLine3, in string city, in string county,
             in string postcode, in string country, in decimal postageCost)
-            : base(addressId, postageCost, businessName, addressLine1,
+            : base(addressId, businessName, addressLine1,
                   addressLine2, addressLine3, city, county, postcode, country)
         {
-            AddressId = addressId;
             PostageCost = postageCost;
         }
 
         #endregion Constructors
 
         #region Properties
-
-        /// <summary>
-        /// Address id
-        /// </summary>
-        /// <value>int</value>
-        public int AddressId { get; set; }
 
         /// <summary>
         /// Postage cost for the address.

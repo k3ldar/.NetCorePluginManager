@@ -198,7 +198,7 @@ namespace ShoppingCartPlugin.Controllers
             if (!cartDetail.RequiresShipping)
                 model.Breadcrumbs.RemoveAt(2);
 
-            Address shippingAddress = _accountProvider.GetDeliveryAddress(GetUserSession().UserID, shippingId.Value);
+            DeliveryAddress shippingAddress = _accountProvider.GetDeliveryAddress(GetUserSession().UserID, shippingId.Value);
 
 
             if (shippingAddress != null)
@@ -272,7 +272,7 @@ namespace ShoppingCartPlugin.Controllers
             foreach (DeliveryAddress address in deliveryAddresses)
             {
                 model.ShippingAddresses.Add(new ShippingAddressModel(GetModelData(),
-                    address.AddressId, address.BusinessName, address.AddressLine1, address.AddressLine2,
+                    address.Id, address.BusinessName, address.AddressLine1, address.AddressLine2,
                     address.AddressLine3, address.City, address.County, address.Postcode,
                     address.Country, address.PostageCost));
             }

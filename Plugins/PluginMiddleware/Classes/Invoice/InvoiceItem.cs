@@ -25,6 +25,8 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using System;
 
+using SharedPluginFeatures;
+
 using static Shared.Utilities;
 
 namespace Middleware.Accounts.Invoices
@@ -48,7 +50,7 @@ namespace Middleware.Accounts.Invoices
         /// <param name="discountType">Type of discount, if appliccable, for the item within the invoice.</param>
         /// <param name="discount">Discount applied to the item within the invoice.</param>
         public InvoiceItem(in long id, in string description, in decimal cost,
-            in int taxRate, in decimal quantity, in ItemStatus status, in DiscountType discountType,
+            in decimal taxRate, in decimal quantity, in ItemStatus status, in DiscountType discountType,
             in decimal discount)
         {
             if (String.IsNullOrEmpty(description))
@@ -108,7 +110,7 @@ namespace Middleware.Accounts.Invoices
         /// Tax rate applied to the invoiceable item.
         /// </summary>
         /// <value>int</value>
-        public int TaxRate { get; private set; }
+        public decimal TaxRate { get; private set; }
 
         /// <summary>
         /// Quantity of the item within the invoice.

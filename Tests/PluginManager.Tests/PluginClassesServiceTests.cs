@@ -31,7 +31,6 @@ using System.Reflection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using PluginManager.Abstractions;
-using PluginManager.Internal;
 using PluginManager.Tests.Mocks;
 
 namespace PluginManager.Tests
