@@ -1199,7 +1199,7 @@
             Default constructor
             </summary>
         </member>
-        <member name="M:Middleware.DynamicContent.DynamicContentPage.#ctor(System.Int32)">
+        <member name="M:Middleware.DynamicContent.DynamicContentPage.#ctor(System.Int64)">
             <summary>
             Constructor
             </summary>
@@ -1282,7 +1282,7 @@
             </summary>
             <returns>List&lt;IDynamicContentPage&gt;</returns>
         </member>
-        <member name="M:Middleware.DynamicContent.IDynamicContentProvider.GetCustomPage(System.Int32)">
+        <member name="M:Middleware.DynamicContent.IDynamicContentProvider.GetCustomPage(System.Int64)">
             <summary>
             Retrieves dynamic page content by id
             </summary>
@@ -1295,7 +1295,7 @@
             </summary>
             <returns>List&lt;DynamicContentTemplate&gt;</returns>
         </member>
-        <member name="M:Middleware.DynamicContent.IDynamicContentProvider.PageNameExists(System.Int32,System.String)">
+        <member name="M:Middleware.DynamicContent.IDynamicContentProvider.PageNameExists(System.Int64,System.String)">
             <summary>
             Determines whether the page name already exists
             </summary>
@@ -1303,7 +1303,7 @@
             <param name="pageName">Name of page to be validated.</param>
             <returns>bool</returns>
         </member>
-        <member name="M:Middleware.DynamicContent.IDynamicContentProvider.RouteNameExists(System.Int32,System.String)">
+        <member name="M:Middleware.DynamicContent.IDynamicContentProvider.RouteNameExists(System.Int64,System.String)">
             <summary>
             Determines whether a route name already exists
             </summary>

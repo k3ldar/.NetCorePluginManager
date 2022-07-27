@@ -72,6 +72,11 @@
             </summary>
             <value>string</value>
         </member>
+        <member name="P:SharedPluginFeatures.DynamicContent.DynamicContentTemplate.Id">
+            <summary>
+            Unique id of control
+            </summary>
+        </member>
         <member name="P:SharedPluginFeatures.DynamicContent.DynamicContentTemplate.AssemblyQualifiedName">
             <summary>
             Gets the underlying assembly qualified name

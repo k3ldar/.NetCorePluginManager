@@ -64,5 +64,9 @@ namespace PluginManager.DAL.TextFiles.Internal
         public const string DomainDownloads = "Downloads";
         public const string TableNameDownloadCategories = "DownloadCategories";
         public const string TableNameDownloadItems = "DownloadItems";
+
+        public const string DomainDynamicContent = "DynamicContent";
+        public const string TableNameContentPage = "Page";
+        public const string TableNameContentItem = "PageItems";
     }
 }

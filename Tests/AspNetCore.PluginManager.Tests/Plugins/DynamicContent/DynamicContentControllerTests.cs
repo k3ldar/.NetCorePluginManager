@@ -3132,7 +3132,7 @@ namespace AspNetCore.PluginManager.Tests.Plugins.DynamicContentTests
             Assert.AreEqual("EditPage", sut.ActionName);
             Assert.AreEqual(1, sut.RouteValues.Keys.Count);
             Assert.IsTrue(sut.RouteValues.Keys.Contains("id"));
-            Assert.AreEqual(50, sut.RouteValues["id"]);
+            Assert.AreEqual(50l, sut.RouteValues["id"]);
         }
 
 

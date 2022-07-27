@@ -64,7 +64,7 @@ namespace SharedPluginFeatures.DynamicContent
         /// </summary>
         public DynamicContentTemplate()
         {
-
+            Id = -1;
         }
 
         #endregion Constructors
@@ -151,6 +151,11 @@ namespace SharedPluginFeatures.DynamicContent
         /// </summary>
         /// <value>string</value>
         public string CssStyle { get; set; }
+
+        /// <summary>
+        /// Unique id of control
+        /// </summary>
+        public long Id { get; set; }
 
         #endregion Properties
 
@@ -284,7 +289,7 @@ namespace SharedPluginFeatures.DynamicContent
                     stringBuilder.AppendFormat(" style=\"{0}\"", GetHeight());
                 }
 
-                stringBuilder.Append(">");
+                stringBuilder.Append('>');
             }
             else if (WidthType == DynamicContentWidthType.Percentage)
             {

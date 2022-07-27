@@ -28,6 +28,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 using Middleware;
 using Middleware.Accounts;
+using Middleware.DynamicContent;
 using Middleware.Helpdesk;
 
 using PluginManager.Abstractions;
@@ -84,6 +85,9 @@ namespace PluginManager.DAL.TextFiles
 
             _ = app.ApplicationServices.GetService<ITextTableOperations<DownloadCategoryDataRow>>();
             _ = app.ApplicationServices.GetService<ITextTableOperations<DownloadItemsDataRow>>();
+
+            _ = app.ApplicationServices.GetService < ITextTableOperations < ContentPageDataRow>>();
+            _ = app.ApplicationServices.GetService<ITextTableOperations<ContentPageItemDataRow>>();
 
             _ = app.ApplicationServices.GetService<ITextTableOperations<ExternalUsersDataRow>>();
 
@@ -146,6 +150,9 @@ namespace PluginManager.DAL.TextFiles
             services.AddSingleton(typeof(TableRowDefinition), typeof(DownloadCategoryDataRow));
             services.AddSingleton(typeof(TableRowDefinition), typeof(DownloadItemsDataRow));
 
+            services.AddSingleton(typeof(TableRowDefinition), typeof(ContentPageDataRow));
+            services.AddSingleton(typeof(TableRowDefinition), typeof(ContentPageItemDataRow));
+
             services.AddSingleton(typeof(TableRowDefinition), typeof(ExternalUsersDataRow));
 
             services.AddSingleton(typeof(TableRowDefinition), typeof(FeedbackDataRow));
@@ -193,7 +200,7 @@ namespace PluginManager.DAL.TextFiles
             services.AddSingleton<IClaimsProvider, ClaimsProvider>();
             services.AddSingleton<ICountryProvider, CountryProvider>();
             services.AddSingleton<IDownloadProvider, DownloadProvider>();
-            //services.AddSingleton<IDynamicContentProvider, DynamicContentProvider>();
+            services.AddSingleton<IDynamicContentProvider, DynamicContentProvider>();
             services.AddSingleton<IHelpdeskProvider, HelpdeskProvider>();
             services.AddSingleton<ILicenceProvider, LicenceProvider>();
             services.AddSingleton<ILoginProvider, LoginProvider>();
