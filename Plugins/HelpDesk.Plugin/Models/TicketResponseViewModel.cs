@@ -26,6 +26,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 
+#pragma warning disable CS1591
 
 namespace HelpdeskPlugin.Models
 {
@@ -59,3 +60,5 @@ namespace HelpdeskPlugin.Models
         #endregion Properties
     }
 }
+
+#pragma warning restore CS1591

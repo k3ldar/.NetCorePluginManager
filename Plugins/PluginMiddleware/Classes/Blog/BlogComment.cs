@@ -35,6 +35,9 @@ namespace Middleware.Blog
     {
         #region Constructors
 
+		/// <summary>
+		/// Constructor
+		/// </summary>
         public BlogComment()
         {
 

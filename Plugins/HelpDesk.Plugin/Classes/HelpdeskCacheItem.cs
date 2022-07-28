@@ -24,6 +24,8 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+#pragma warning disable CS1591
+
 namespace HelpdeskPlugin.Classes
 {
     public sealed class HelpdeskCacheItem
@@ -38,3 +40,5 @@ namespace HelpdeskPlugin.Classes
         public uint Requests { get; set; }
     }
 }
+
+#pragma warning restore CS1591

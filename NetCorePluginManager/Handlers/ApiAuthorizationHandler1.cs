@@ -19,6 +19,12 @@ namespace AspNetCore.PluginManager.Handlers
 
         }
 
+		/// <summary>
+		/// Handle requirements async method
+		/// </summary>
+		/// <param name="context"></param>
+		/// <param name="requirement"></param>
+		/// <returns></returns>
         protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, ApiAuthorizationHandler1 requirement)
         {
             context.Succeed(requirement);

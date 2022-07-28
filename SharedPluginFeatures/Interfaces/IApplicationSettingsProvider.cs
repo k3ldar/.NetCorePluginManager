@@ -26,16 +26,46 @@
 
 namespace SharedPluginFeatures
 {
+	/// <summary>
+	/// Application settings provider interface
+	/// </summary>
     public interface IApplicationSettingsProvider
     {
-        void UpdateSetting<T>(string name, T value);
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <typeparam name="T">Type of setting value</typeparam>
+		/// <param name="name">Name of setting</param>
+		/// <param name="value">Setting value</param>
+		void UpdateSetting<T>(string name, T value);
 
-        T RetrieveSetting<T>(string name);
+		/// <summary>
+		/// Retrieves a setting value of type T
+		/// </summary>
+		/// <typeparam name="T">Type of setting</typeparam>
+		/// <param name="name">Name of setting</param>
+		/// <returns>T</returns>
+		T RetrieveSetting<T>(string name);
 
-        string RetrieveSetting(string name);
+		/// <summary>
+		/// Retrieves a setting value
+		/// </summary>
+		/// <param name="name">Name of setting</param>
+		/// <returns>string</returns>
+		string RetrieveSetting(string name);
 
-        string RetrieveSetting(string name, string defaultValue);
+		/// <summary>
+		/// Retrieves a setting
+		/// </summary>
+		/// <param name="name">Name of setting</param>
+		/// <param name="defaultValue">Default value if setting does not exist</param>
+		/// <returns>string</returns>
+		string RetrieveSetting(string name, string defaultValue);
 
+		/// <summary>
+		/// Deletes a setting if it exists
+		/// </summary>
+		/// <param name="name">Name of setting</param>
         void DeleteSetting(string name);
     }
 }

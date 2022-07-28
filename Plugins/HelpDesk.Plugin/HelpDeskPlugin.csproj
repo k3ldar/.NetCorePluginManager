@@ -44,6 +44,30 @@
 		<DocumentationFile>..\..\Docs\XmlFiles\HelpdeskPlugin.xml</DocumentationFile>
 	</PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net6.0|AnyCPU'">
+    <WarningsAsErrors>$(WarningsAsErrors);NU1605;1591</WarningsAsErrors>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net6.0|AnyCPU'">
+    <WarningsAsErrors>$(WarningsAsErrors);NU1605;1591</WarningsAsErrors>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net5.0|AnyCPU'">
+    <WarningsAsErrors>$(WarningsAsErrors);NU1605;1591</WarningsAsErrors>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net5.0|AnyCPU'">
+    <WarningsAsErrors>$(WarningsAsErrors);NU1605;1591</WarningsAsErrors>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netcoreapp3.1|AnyCPU'">
+    <WarningsAsErrors>$(WarningsAsErrors);NU1605;1591</WarningsAsErrors>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netcoreapp3.1|AnyCPU'">
+    <WarningsAsErrors>$(WarningsAsErrors);NU1605;1591</WarningsAsErrors>
+  </PropertyGroup>
+
 	<ItemGroup>
 		<Content Remove="Views\Helpdesk\FaQ.cshtml" />
 		<Content Remove="Views\Helpdesk\FaQItem.cshtml" />

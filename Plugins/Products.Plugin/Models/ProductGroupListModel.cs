@@ -29,6 +29,8 @@ using Middleware;
 
 using SharedPluginFeatures;
 
+#pragma warning disable CS1591
+
 namespace ProductPlugin.Models
 {
     /// <summary>
@@ -45,3 +47,5 @@ namespace ProductPlugin.Models
         public List<LookupListItem> Groups { get; }
     }
 }
+
+#pragma warning restore CS1591

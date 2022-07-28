@@ -39,6 +39,8 @@ using Shared.Classes;
 
 using SharedPluginFeatures;
 
+#pragma warning disable CS1591, CA1416
+
 namespace HelpdeskPlugin.Controllers
 {
     /// <summary>
@@ -124,7 +126,7 @@ namespace HelpdeskPlugin.Controllers
 
         #region Private Methods
 
-        private string FormatTextForDisplay(string message)
+        private static string FormatTextForDisplay(string message)
         {
             message = Shared.Utilities.RemoveHTMLElements(message);
 
@@ -159,3 +161,5 @@ namespace HelpdeskPlugin.Controllers
         #endregion Private Methods
     }
 }
+
+#pragma warning restore CS1591, CA1416

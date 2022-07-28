@@ -82,10 +82,14 @@ namespace SharedPluginFeatures
         /// </summary>
         public const int MaximumPasswordLength = 40;
 
-
+		/// <summary>
+		/// Minimum key length
+		/// </summary>
         public const int MinimumKeyLength = 20;
 
-
+		/// <summary>
+		/// Maximum key length
+		/// </summary>
         public const int MaximumKeyLength = 60;
 
         /// <summary>

@@ -122,7 +122,7 @@ namespace Middleware.ShoppingCart
             if (existingItem == null)
             {
                 Items.Add(new ShoppingCartItem(product.Id, count, product.Id, product.RetailPrice, product.Name,
-                    product.Description.Substring(0, Shared.Utilities.CheckMinMax(product.Description.Length, 0, 49)),
+                    product.Description[..Shared.Utilities.CheckMinMax(product.Description.Length, 0, 49)],
                     product.Sku, product.Images, product.IsDownload, product.AllowBackorder, String.Empty, DiscountType.None, 0));
             }
             else
@@ -179,6 +179,9 @@ namespace Middleware.ShoppingCart
             ResetTotalCost(Items.Sum(s => s.CostWithDiscountApplied() * s.ItemCount));
         }
 
+		/// <summary>
+		/// Clears any voucher data associated with the shopping cart
+		/// </summary>
         public void ClearVoucherData()
         {
             DiscountRate = 0;
@@ -199,6 +202,9 @@ namespace Middleware.ShoppingCart
             ResetShipping(address.PostageCost);
         }
 
+		/// <summary>
+		/// Clears and resets shopping cart
+		/// </summary>
         public void Clear()
         {
             Items.Clear();
@@ -206,6 +212,14 @@ namespace Middleware.ShoppingCart
             Reset();
         }
 
+		/// <summary>
+		/// Updates the discount for a shopping cart
+		/// </summary>
+		/// <param name="couponCode"></param>
+		/// <param name="discountType"></param>
+		/// <param name="discount"></param>
+		/// <exception cref="ArgumentNullException"></exception>
+		/// <exception cref="ArgumentOutOfRangeException"></exception>
         public void UpdateDiscount(string couponCode, DiscountType discountType, decimal discount)
         {
             if (String.IsNullOrEmpty(couponCode))

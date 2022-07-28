@@ -860,6 +860,11 @@
             Comment made by a user for a blog entry
             </summary>
         </member>
+        <member name="M:Middleware.Blog.BlogComment.#ctor">
+            <summary>
+            Constructor
+            </summary>
+        </member>
         <member name="M:Middleware.Blog.BlogComment.#ctor(System.Int32@,System.Nullable{System.Int32}@,System.DateTime@,System.Int64@,System.String@,System.Boolean@,System.String@)">
             <summary>
             Default constructor
@@ -2440,11 +2445,31 @@
             Resets the total cost and item count of all items within the cart.
             </summary>
         </member>
+        <member name="M:Middleware.ShoppingCart.ShoppingCartDetail.ClearVoucherData">
+            <summary>
+            Clears any voucher data associated with the shopping cart
+            </summary>
+        </member>
         <member name="M:Middleware.ShoppingCart.ShoppingCartDetail.SetDeliveryAddress(Middleware.Accounts.DeliveryAddress@)">
             <summary>
             Sets the delivery address for the shopping cart, this is typically completed during the checkout phase.
             </summary>
             <param name="address">Address the user wants the cart shipping to.</param>
+        </member>
+        <member name="M:Middleware.ShoppingCart.ShoppingCartDetail.Clear">
+            <summary>
+            Clears and resets shopping cart
+            </summary>
+        </member>
+        <member name="M:Middleware.ShoppingCart.ShoppingCartDetail.UpdateDiscount(System.String,SharedPluginFeatures.DiscountType,System.Decimal)">
+            <summary>
+            Updates the discount for a shopping cart
+            </summary>
+            <param name="couponCode"></param>
+            <param name="discountType"></param>
+            <param name="discount"></param>
+            <exception cref="T:System.ArgumentNullException"></exception>
+            <exception cref="T:System.ArgumentOutOfRangeException"></exception>
         </member>
         <member name="T:Middleware.ShoppingCart.ShoppingCartItem">
             <summary>
@@ -2510,6 +2535,13 @@
             Sets the stock availability for an item within the shopping cart.
             </summary>
             <param name="stockavailability">Current stock availability for the item.</param>
+        </member>
+        <member name="M:Middleware.ShoppingCart.ShoppingCartItem.CostWithDiscountApplied">
+            <summary>
+            Retrieves the cost with any discounts applied
+            </summary>
+            <returns></returns>
+            <exception cref="T:System.InvalidOperationException"></exception>
         </member>
         <member name="P:Middleware.ShoppingCart.ShoppingCartItem.Id">
             <summary>
@@ -2609,6 +2641,16 @@
             <summary>
             Type of discount
             </summary>
+        </member>
+        <member name="M:Middleware.ShoppingCart.ShoppingCartItem.UpdateDiscountCode(System.String,SharedPluginFeatures.DiscountType,System.Decimal,System.Int32)">
+            <summary>
+            Updates the shopping cart with a shopping cart, if it exists
+            </summary>
+            <param name="voucherCode"></param>
+            <param name="discountType"></param>
+            <param name="discountRate"></param>
+            <param name="discountProductCount"></param>
+            <exception cref="T:System.NotImplementedException"></exception>
         </member>
         <member name="T:Middleware.Users.SearchUser">
             <summary>

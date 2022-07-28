@@ -27,6 +27,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
+#pragma warning disable CS1591
+
 namespace HelpdeskPlugin.Models
 {
     public sealed class FaqGroup
@@ -89,3 +91,5 @@ namespace HelpdeskPlugin.Models
         #endregion Public Methods
     }
 }
+
+#pragma warning restore CS1591

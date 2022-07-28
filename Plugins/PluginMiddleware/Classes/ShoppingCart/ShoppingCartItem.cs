@@ -174,6 +174,11 @@ namespace Middleware.ShoppingCart
             StockAvailability = stockavailability;
         }
 
+		/// <summary>
+		/// Retrieves the cost with any discounts applied
+		/// </summary>
+		/// <returns></returns>
+		/// <exception cref="InvalidOperationException"></exception>
         public decimal CostWithDiscountApplied()
         {
             if (DiscountType == DiscountType.None || DiscountRate.Equals(0))
@@ -292,6 +297,14 @@ namespace Middleware.ShoppingCart
         /// </summary>
         public DiscountType DiscountType { get; private set; }
 
+		/// <summary>
+		/// Updates the shopping cart with a shopping cart, if it exists
+		/// </summary>
+		/// <param name="voucherCode"></param>
+		/// <param name="discountType"></param>
+		/// <param name="discountRate"></param>
+		/// <param name="discountProductCount"></param>
+		/// <exception cref="NotImplementedException"></exception>
         public void UpdateDiscountCode(string voucherCode, DiscountType discountType, decimal discountRate, int discountProductCount)
         {
             throw new NotImplementedException();

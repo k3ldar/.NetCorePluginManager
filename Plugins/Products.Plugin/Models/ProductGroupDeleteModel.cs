@@ -23,6 +23,9 @@
  *  09/05/2022  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+#pragma warning disable CS1591
+
 namespace ProductPlugin.Models
 {
     public class ProductGroupDeleteModel
@@ -42,3 +45,5 @@ namespace ProductPlugin.Models
         public int Id { get; set; }
     }
 }
+
+#pragma warning restore CS1591

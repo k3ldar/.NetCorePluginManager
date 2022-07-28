@@ -27,6 +27,8 @@ using System.ComponentModel.DataAnnotations;
 
 using SharedPluginFeatures;
 
+#pragma warning disable CS1591
+
 namespace HelpdeskPlugin.Models
 {
     public sealed class FindTicketViewModel : BaseModel
@@ -63,3 +65,5 @@ namespace HelpdeskPlugin.Models
         #endregion Properties
     }
 }
+
+#pragma warning restore CS1591

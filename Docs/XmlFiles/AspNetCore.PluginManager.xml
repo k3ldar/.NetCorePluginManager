@@ -186,6 +186,14 @@
             Constructor
             </summary>
         </member>
+        <member name="M:AspNetCore.PluginManager.Handlers.ApiAuthorizationHandler1.HandleRequirementAsync(Microsoft.AspNetCore.Authorization.AuthorizationHandlerContext,AspNetCore.PluginManager.Handlers.ApiAuthorizationHandler1)">
+            <summary>
+            Handle requirements async method
+            </summary>
+            <param name="context"></param>
+            <param name="requirement"></param>
+            <returns></returns>
+        </member>
         <member name="T:AspNetCore.PluginManager.RouteLoadTimeMiddlewareExtender">
             <summary>
             Static class for easyily adding route load times to the pipeline

@@ -35,6 +35,8 @@ using Middleware.Helpdesk;
 
 using SharedPluginFeatures;
 
+#pragma warning disable CS1591
+
 namespace HelpdeskPlugin.Controllers
 {
     public partial class HelpdeskController
@@ -171,3 +173,5 @@ namespace HelpdeskPlugin.Controllers
         #endregion Private Methods
     }
 }
+
+#pragma warning restore CS1591

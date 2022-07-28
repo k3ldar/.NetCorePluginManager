@@ -2329,6 +2329,16 @@
             Maximum password length, default to 40 characters
             </summary>
         </member>
+        <member name="F:SharedPluginFeatures.Constants.MinimumKeyLength">
+            <summary>
+            Minimum key length
+            </summary>
+        </member>
+        <member name="F:SharedPluginFeatures.Constants.MaximumKeyLength">
+            <summary>
+            Maximum key length
+            </summary>
+        </member>
         <member name="F:SharedPluginFeatures.Constants.UserSession">
             <summary>
             Name of UserSession that is injected into the request pipeline
@@ -3396,6 +3406,48 @@
             <param name="policyName">Name of the policy</param>
             <param name="responseCode">Response code</param>
             <returns>bool</returns>
+        </member>
+        <member name="T:SharedPluginFeatures.IApplicationSettingsProvider">
+            <summary>
+            Application settings provider interface
+            </summary>
+        </member>
+        <member name="M:SharedPluginFeatures.IApplicationSettingsProvider.UpdateSetting``1(System.String,``0)">
+            <summary>
+            
+            </summary>
+            <typeparam name="T">Type of setting value</typeparam>
+            <param name="name">Name of setting</param>
+            <param name="value">Setting value</param>
+        </member>
+        <member name="M:SharedPluginFeatures.IApplicationSettingsProvider.RetrieveSetting``1(System.String)">
+            <summary>
+            Retrieves a setting value of type T
+            </summary>
+            <typeparam name="T">Type of setting</typeparam>
+            <param name="name">Name of setting</param>
+            <returns>T</returns>
+        </member>
+        <member name="M:SharedPluginFeatures.IApplicationSettingsProvider.RetrieveSetting(System.String)">
+            <summary>
+            Retrieves a setting value
+            </summary>
+            <param name="name">Name of setting</param>
+            <returns>string</returns>
+        </member>
+        <member name="M:SharedPluginFeatures.IApplicationSettingsProvider.RetrieveSetting(System.String,System.String)">
+            <summary>
+            Retrieves a setting
+            </summary>
+            <param name="name">Name of setting</param>
+            <param name="defaultValue">Default value if setting does not exist</param>
+            <returns>string</returns>
+        </member>
+        <member name="M:SharedPluginFeatures.IApplicationSettingsProvider.DeleteSetting(System.String)">
+            <summary>
+            Deletes a setting if it exists
+            </summary>
+            <param name="name">Name of setting</param>
         </member>
         <member name="T:SharedPluginFeatures.Interfaces.IBatchUpdate">
             <summary>
