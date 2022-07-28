@@ -11,6 +11,10 @@
   </PropertyGroup>
 
   <PropertyGroup>
+    <IsPublishable>true</IsPublishable>
+  </PropertyGroup>
+
+  <PropertyGroup>
     <DefineConstants>$(DefineConstants)</DefineConstants>
     <CheckForOverflowUnderflow>$(CheckForOverflowUnderflow)</CheckForOverflowUnderflow>
     <DebugType>$(DebugType)</DebugType>

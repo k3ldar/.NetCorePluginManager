@@ -1,10 +1,14 @@
 <Project>
   <PropertyGroup>
     <RunAnalyzersDuringBuild>false</RunAnalyzersDuringBuild>
-	<NoWarn>CS1591</NoWarn>
+	  <NoWarn>CS1591</NoWarn>
     <SignAssembly>false</SignAssembly>
     <AssemblyOriginatorKeyFile>Shared.Key.pfx</AssemblyOriginatorKeyFile>
     <Description>Plugin Manager</Description>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <IsPublishable>false</IsPublishable>
   </PropertyGroup>
   
   <PropertyGroup>
