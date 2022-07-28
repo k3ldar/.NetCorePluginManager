@@ -38,9 +38,6 @@ steps:
   inputs:
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
-
-- task: VSTest@2
-  inputs:
     testSelector: 'testAssemblies'
     testAssemblyVer2: |
       **\*test*.dll
