@@ -1,7 +1,9 @@
 <Project>
+  
   <PropertyGroup>
     <RunAnalyzersDuringBuild>false</RunAnalyzersDuringBuild>
-	<NoWarn>CS1591</NoWarn>
+    <NoWarn>1701;1702;CS8032</NoWarn>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
     <SignAssembly>false</SignAssembly>
     <AssemblyOriginatorKeyFile>Shared.Key.pfx</AssemblyOriginatorKeyFile>
     <Description>Plugin Manager</Description>
@@ -82,8 +84,4 @@
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net5.0|AnyCPU'">
-    <NoWarn>1701;1702;</NoWarn>
-    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
-  </PropertyGroup>
 </Project>
