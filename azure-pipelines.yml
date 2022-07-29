@@ -16,12 +16,15 @@ variables:
 
 steps:
 - task: NuGetToolInstaller@1
+  displayName: Get nuget installer
 
 - task: NuGetCommand@2
+  displayName: Restore nuget packages
   inputs:
     restoreSolution: '$(solution)'
 
 - task: VSBuild@1
+  displayName: Build solution
   inputs:
     solution: '$(solution)'
     msbuildArgs: '/p:DeployOnBuild=false /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:DesktopBuildPackageLocation="$(build.artifactStagingDirectory)\WebApp.zip" /p:DeployIisAppPath="Default Web Site"'
@@ -30,11 +33,14 @@ steps:
 
     
 - task: VisualStudioTestPlatformInstaller@1
+  displayName: Install test platform
   inputs:
     packageFeedSelector: 'nugetOrg'
     versionSelector: 'latestPreRelease'
     
 - task: VSTest@2
+  displayName: Run unit tests
+  continueOnError: true
   inputs:
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
@@ -44,9 +50,13 @@ steps:
       !**\*TestAdapter.dll
       !**\obj\**
     searchFolder: '$(System.DefaultWorkingDirectory)'
-    
-    
+    runOnlyImpactedTests: false
+    runInParallel: true
+    codeCoverageEnabled: true
+    distributionBatchType: 'basedOnExecutionTime'
+
 - task: PublishTestResults@2
+  displayName: Publish test results
   inputs:
     testResultsFormat: 'VSTest'
     testResultsFiles: '**/TEST-*.xml'
@@ -54,6 +64,7 @@ steps:
     testRunTitle: 'Publish Unit Tests'
     
 - task: PublishBuildArtifacts@1
+  displayName: Publish artifacts
   inputs:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
     ArtifactName: 'drop'

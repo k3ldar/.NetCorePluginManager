@@ -1330,6 +1330,47 @@
             <param name="data">Form data to be saved</param>
             <returns>bool</returns>
         </member>
+        <member name="T:Middleware.Classes.DefaultEmailSender">
+            <summary>
+            Default email sender class
+            </summary>
+        </member>
+        <member name="M:Middleware.Classes.DefaultEmailSender.#ctor(PluginManager.Abstractions.ISettingsProvider,PluginManager.Abstractions.ILogger)">
+            <summary>
+            Default constructor
+            </summary>
+            <param name="settingsProvider"></param>
+            <param name="logger"></param>
+            <exception cref="T:System.ArgumentNullException"></exception>
+        </member>
+        <member name="P:Middleware.Classes.DefaultEmailSender.IsValid">
+            <summary>
+            Determines if the connection details are valid or not
+            </summary>
+        </member>
+        <member name="P:Middleware.Classes.DefaultEmailSender.QueueLength">
+            <summary>
+            Returns the length of the queue of emails to send
+            </summary>
+        </member>
+        <member name="M:Middleware.Classes.DefaultEmailSender.SendEmail(System.String,System.String,System.String,System.String,System.Boolean,System.String[])">
+            <summary>
+            Sends an email
+            </summary>
+            <param name="recipientName"></param>
+            <param name="recipientEmail"></param>
+            <param name="message"></param>
+            <param name="subject"></param>
+            <param name="isHtml"></param>
+            <param name="attachments"></param>
+        </member>
+        <member name="M:Middleware.Classes.DefaultEmailSender.Run(System.Object)">
+            <summary>
+            Thread method used to process emails being sent
+            </summary>
+            <param name="parameters"></param>
+            <returns></returns>
+        </member>
         <member name="T:Middleware.Classes.DefaultEmailSenderSettings">
             <summary>
             Default email sender details
@@ -3269,6 +3310,22 @@
         <member name="T:Middleware.IEmailSender">
             <summary>
             Interface for sending emails
+            </summary>
+        </member>
+        <member name="M:Middleware.IEmailSender.SendEmail(System.String,System.String,System.String,System.String,System.Boolean,System.String[])">
+            <summary>
+            Method for sending an email to a recipient
+            </summary>
+            <param name="recipientName"></param>
+            <param name="recipientEmail"></param>
+            <param name="message"></param>
+            <param name="subject"></param>
+            <param name="isHtml"></param>
+            <param name="attachments"></param>
+        </member>
+        <member name="P:Middleware.IEmailSender.QueueLength">
+            <summary>
+            Length of the queue
             </summary>
         </member>
         <member name="T:Middleware.Interfaces.IImageProvider">

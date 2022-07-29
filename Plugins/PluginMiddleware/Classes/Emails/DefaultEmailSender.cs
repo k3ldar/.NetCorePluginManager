@@ -33,6 +33,9 @@ using Shared.Communication;
 
 namespace Middleware.Classes
 {
+	/// <summary>
+	/// Default email sender class
+	/// </summary>
     public class DefaultEmailSender : ThreadManager, IEmailSender
     {
         #region Private Members
@@ -80,6 +83,12 @@ namespace Middleware.Classes
 
         #region Constructors
 
+		/// <summary>
+		/// Default constructor
+		/// </summary>
+		/// <param name="settingsProvider"></param>
+		/// <param name="logger"></param>
+		/// <exception cref="ArgumentNullException"></exception>
         public DefaultEmailSender(ISettingsProvider settingsProvider, ILogger logger)
             : base(null, new TimeSpan(0, 0, 1), null, 20000, 200, false, true)
         {
@@ -103,8 +112,14 @@ namespace Middleware.Classes
 
         #region Properties
 
+		/// <summary>
+		/// Determines if the connection details are valid or not
+		/// </summary>
         public bool IsValid => !String.IsNullOrEmpty(_host) && !String.IsNullOrEmpty(_password) && !String.IsNullOrEmpty(_userName) && _port > 0;
 
+		/// <summary>
+		/// Returns the length of the queue of emails to send
+		/// </summary>
         public int QueueLength
         {
             get
@@ -118,6 +133,15 @@ namespace Middleware.Classes
 
         #region IEmailSender Methods
 
+		/// <summary>
+		/// Sends an email
+		/// </summary>
+		/// <param name="recipientName"></param>
+		/// <param name="recipientEmail"></param>
+		/// <param name="message"></param>
+		/// <param name="subject"></param>
+		/// <param name="isHtml"></param>
+		/// <param name="attachments"></param>
         public void SendEmail(string recipientName, string recipientEmail, string message, string subject, bool isHtml, params string[] attachments)
         {
             using (TimedLock timedLock = TimedLock.Lock(_emailQueueLock))
@@ -130,6 +154,11 @@ namespace Middleware.Classes
 
         #region Overridden Methods
 
+		/// <summary>
+		/// Thread method used to process emails being sent
+		/// </summary>
+		/// <param name="parameters"></param>
+		/// <returns></returns>
         protected override bool Run(object parameters)
         {
             if (!IsValid)

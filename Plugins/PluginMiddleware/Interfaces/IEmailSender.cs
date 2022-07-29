@@ -31,8 +31,20 @@ namespace Middleware
     /// </summary>
     public interface IEmailSender
     {
+		/// <summary>
+		/// Method for sending an email to a recipient
+		/// </summary>
+		/// <param name="recipientName"></param>
+		/// <param name="recipientEmail"></param>
+		/// <param name="message"></param>
+		/// <param name="subject"></param>
+		/// <param name="isHtml"></param>
+		/// <param name="attachments"></param>
         void SendEmail(string recipientName, string recipientEmail, string message, string subject, bool isHtml, params string[] attachments);
 
+		/// <summary>
+		/// Length of the queue
+		/// </summary>
         int QueueLength { get; }
     }
 }
