@@ -31,7 +31,6 @@ steps:
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
 
-    
 - task: VisualStudioTestPlatformInstaller@1
   displayName: Install test platform
   inputs:
@@ -42,13 +41,11 @@ steps:
   displayName: Run unit tests
   continueOnError: true
   inputs:
+    vsTestVersion: 'toolsInstaller'
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
     testSelector: 'testAssemblies'
-    testAssemblyVer2: |
-      **\*test*.dll
-      !**\*TestAdapter.dll
-      !**\obj\**
+    testAssemblyVer2: '**/bin/$(buildConfiguration)/*.Tests.dll'
     searchFolder: '$(System.DefaultWorkingDirectory)'
     runOnlyImpactedTests: false
     runInParallel: true
