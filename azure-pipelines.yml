@@ -45,7 +45,7 @@ steps:
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
     testSelector: 'testAssemblies'
-    testAssemblyVer2: '**/bin/$(buildConfiguration)/*.Tests.dll'
+    testAssemblyVer2: '**/*.Tests.dll'
     searchFolder: '$(System.DefaultWorkingDirectory)'
     runOnlyImpactedTests: false
     runInParallel: true
