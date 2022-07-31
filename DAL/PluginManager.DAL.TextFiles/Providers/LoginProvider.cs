@@ -26,8 +26,8 @@
 using Middleware;
 
 using PluginManager.Abstractions;
-using PluginManager.DAL.TextFiles.Internal;
 using PluginManager.DAL.TextFiles.Tables;
+using PluginManager.SimpleDB;
 
 namespace PluginManager.DAL.TextFiles.Providers
 {

@@ -43,6 +43,7 @@ using PluginManager.Abstractions;
 using PluginManager.DAL.TextFiles.Providers;
 using PluginManager.DAL.TextFiles.Tables;
 using PluginManager.DAL.TextFiles.Tables.Products;
+using PluginManager.SimpleDB;
 
 using Shared.Classes;
 

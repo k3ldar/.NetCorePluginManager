@@ -27,6 +27,7 @@
 using System.Reflection;
 
 using PluginManager.DAL.TextFiles.Tables;
+using PluginManager.SimpleDB;
 
 using SharedPluginFeatures;
 

@@ -32,9 +32,9 @@ using Middleware.DynamicContent;
 using Middleware.Helpdesk;
 
 using PluginManager.Abstractions;
-using PluginManager.DAL.TextFiles.Internal;
 using PluginManager.DAL.TextFiles.Providers;
 using PluginManager.DAL.TextFiles.Tables;
+using PluginManager.SimpleDB;
 
 using SharedPluginFeatures;
 
@@ -136,9 +136,6 @@ namespace PluginManager.DAL.TextFiles
 
         public void BeforeConfigureServices(in IServiceCollection services)
         {
-            services.AddSingleton<IForeignKeyManager, ForeignKeyManager>();
-            services.AddSingleton<ITextTableInitializer, TextTableInitializer>();
-
             // register tables
             services.AddSingleton(typeof(TableRowDefinition), typeof(AddressDataRow));
 
@@ -190,9 +187,6 @@ namespace PluginManager.DAL.TextFiles
 
             services.AddSingleton(typeof(TableRowDefinition), typeof(UserClaimsDataRow));
             services.AddSingleton(typeof(TableRowDefinition), typeof(UserDataRow));
-
-
-            services.AddSingleton(typeof(ITextTableOperations<>), typeof(TextTableOperations<>));
 
             // register providers
             services.AddTransient<IAccountProvider, AccountProvider>();

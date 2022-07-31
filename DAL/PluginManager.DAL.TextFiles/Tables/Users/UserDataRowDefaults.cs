@@ -24,7 +24,8 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 using PluginManager.Abstractions;
-using PluginManager.DAL.TextFiles.Internal;
+
+using PluginManager.SimpleDB;
 
 namespace PluginManager.DAL.TextFiles.Tables
 {

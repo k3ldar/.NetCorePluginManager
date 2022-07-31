@@ -41,7 +41,8 @@ using PluginManager.DAL.TextFiles.Providers;
 using PluginManager.DAL.TextFiles.Tables;
 
 using SharedPluginFeatures;
-using PluginManager.DAL.TextFiles.Tests.Mocks;
+using PluginManager.SimpleDB.Tests.Mocks;
+using PluginManager.SimpleDB;
 
 namespace PluginManager.DAL.TextFiles.Tests.Providers
 {

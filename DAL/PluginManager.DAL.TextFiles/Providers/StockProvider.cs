@@ -28,6 +28,7 @@ using Middleware.Products;
 using Middleware.ShoppingCart;
 
 using PluginManager.DAL.TextFiles.Tables;
+using PluginManager.SimpleDB;
 
 namespace PluginManager.DAL.TextFiles.Providers
 {

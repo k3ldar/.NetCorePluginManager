@@ -24,14 +24,12 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-using PluginManager.DAL.TextFiles.Internal;
+using PluginManager.SimpleDB;
 
 namespace PluginManager.DAL.TextFiles.Tables
 {
-    internal class UserDataRowTriggers : ITableTriggers<UserDataRow>
+	internal class UserDataRowTriggers : ITableTriggers<UserDataRow>
     {
-        public string TableName => Constants.TableNameUsers;
-
         public int Position => 0;
 
         public TriggerType TriggerTypes => TriggerType.BeforeInsert;

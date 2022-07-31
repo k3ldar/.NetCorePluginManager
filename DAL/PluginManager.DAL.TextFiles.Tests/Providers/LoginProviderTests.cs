@@ -37,10 +37,11 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Middleware;
 
 using PluginManager.Abstractions;
-using PluginManager.DAL.TextFiles.Internal;
 using PluginManager.DAL.TextFiles.Providers;
 using PluginManager.DAL.TextFiles.Tables;
-using PluginManager.DAL.TextFiles.Tests.Mocks;
+using PluginManager.SimpleDB;
+using PluginManager.SimpleDB.Internal;
+using PluginManager.SimpleDB.Tests.Mocks;
 
 #pragma warning disable IDE0017
 

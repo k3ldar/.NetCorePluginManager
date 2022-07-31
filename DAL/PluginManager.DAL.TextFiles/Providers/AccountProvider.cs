@@ -31,8 +31,8 @@ using Middleware.Accounts.Invoices;
 using Middleware.Accounts.Orders;
 
 using PluginManager.Abstractions;
-using PluginManager.DAL.TextFiles.Internal;
 using PluginManager.DAL.TextFiles.Tables;
+using PluginManager.SimpleDB;
 
 using SharedPluginFeatures;
 

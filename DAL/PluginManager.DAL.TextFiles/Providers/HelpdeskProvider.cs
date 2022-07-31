@@ -30,6 +30,8 @@ using Middleware.Helpdesk;
 
 using PluginManager.DAL.TextFiles.Tables;
 
+using PluginManager.SimpleDB;
+
 using Shared.Classes;
 
 namespace PluginManager.DAL.TextFiles.Providers

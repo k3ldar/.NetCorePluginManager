@@ -29,6 +29,7 @@ using Middleware;
 using Middleware.Products;
 
 using PluginManager.DAL.TextFiles.Tables;
+using PluginManager.SimpleDB;
 
 using SharedPluginFeatures;
 

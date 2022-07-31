@@ -28,6 +28,7 @@ using Middleware;
 using Middleware.Users;
 
 using PluginManager.DAL.TextFiles.Tables;
+using PluginManager.SimpleDB;
 
 namespace PluginManager.DAL.TextFiles.Providers
 {

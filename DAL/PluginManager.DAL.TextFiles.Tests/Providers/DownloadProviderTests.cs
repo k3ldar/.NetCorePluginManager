@@ -39,6 +39,7 @@ using Middleware.Downloads;
 using PluginManager.Abstractions;
 using PluginManager.DAL.TextFiles.Providers;
 using PluginManager.DAL.TextFiles.Tables;
+using PluginManager.SimpleDB;
 using PluginManager.Tests.Mocks;
 
 using SharedPluginFeatures;

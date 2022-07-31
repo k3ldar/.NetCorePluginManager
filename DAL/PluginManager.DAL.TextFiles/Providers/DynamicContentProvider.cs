@@ -32,6 +32,7 @@ using Middleware.DynamicContent;
 
 using PluginManager.Abstractions;
 using PluginManager.DAL.TextFiles.Tables;
+using PluginManager.SimpleDB;
 
 using SharedPluginFeatures;
 using SharedPluginFeatures.DynamicContent;
