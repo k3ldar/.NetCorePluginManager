@@ -54,12 +54,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-
-                services.AddSingleton<IPluginClassesService, MockPluginClassesService>();
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
@@ -86,12 +81,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-
-                services.AddSingleton<IPluginClassesService, MockPluginClassesService>();
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
@@ -129,12 +119,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-
-                services.AddSingleton<IPluginClassesService, MockPluginClassesService>();
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
@@ -158,7 +143,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     Assert.AreEqual("Email", userClaims[0].Claims.ToList()[1].Type);
                     Assert.AreEqual("me@here.com", userClaims[0].Claims.ToList()[1].Value);
                     Assert.AreEqual("UserId", userClaims[0].Claims.ToList()[2].Type);
-                    Assert.AreEqual("0", userClaims[0].Claims.ToList()[2].Value);
+                    Assert.AreEqual(userId.ToString(), userClaims[0].Claims.ToList()[2].Value);
                 }
             }
             finally
@@ -175,12 +160,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-
-                services.AddSingleton<IPluginClassesService, MockPluginClassesService>();
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
@@ -216,7 +196,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     Assert.AreEqual("Email", userClaims[0].Claims.ToList()[1].Type);
                     Assert.AreEqual("me@here.com", userClaims[0].Claims.ToList()[1].Value);
                     Assert.AreEqual("UserId", userClaims[0].Claims.ToList()[2].Type);
-                    Assert.AreEqual("0", userClaims[0].Claims.ToList()[2].Value);
+                    Assert.AreEqual(userId.ToString(), userClaims[0].Claims.ToList()[2].Value);
 
                     Assert.AreEqual("Administrator", userClaims[1].Claims.ToList()[0].Type);
                     Assert.AreEqual("True", userClaims[1].Claims.ToList()[0].Value);
@@ -242,12 +222,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-
-                services.AddSingleton<IPluginClassesService, MockPluginClassesService>();
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {

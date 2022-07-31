@@ -36,7 +36,8 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using PluginManager.Abstractions;
 using PluginManager.DAL.TextFiles.Providers;
 using PluginManager.DAL.TextFiles.Tables;
-using PluginManager.DAL.TextFiles.Tests.Mocks;
+using SimpleDB;
+using SimpleDB.Tests.Mocks;
 
 using SharedPluginFeatures;
 
@@ -70,12 +71,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-                services.AddSingleton<IPluginClassesService>(new MockPluginClassesService());
-
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
@@ -100,12 +96,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-                services.AddSingleton<IPluginClassesService>(new MockPluginClassesService());
-
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
@@ -129,16 +120,11 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-                services.AddSingleton<IPluginClassesService>(new MockPluginClassesService());
-
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
-                    ITextTableOperations<SeoDataRow> seoTable = provider.GetRequiredService<ITextTableOperations<SeoDataRow>>();
+                    ISimpleDBOperations<SeoDataRow> seoTable = provider.GetRequiredService<ISimpleDBOperations<SeoDataRow>>();
                     Assert.IsNotNull(seoTable);
 
                     ISeoProvider sut = provider.GetRequiredService<ISeoProvider>();
@@ -170,16 +156,11 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-                services.AddSingleton<IPluginClassesService>(new MockPluginClassesService());
-
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
-                    ITextTableOperations<SeoDataRow> seoTable = provider.GetRequiredService<ITextTableOperations<SeoDataRow>>();
+                    ISimpleDBOperations<SeoDataRow> seoTable = provider.GetRequiredService<ISimpleDBOperations<SeoDataRow>>();
                     Assert.IsNotNull(seoTable);
 
                     ISeoProvider sut = provider.GetRequiredService<ISeoProvider>();
@@ -215,12 +196,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-                services.AddSingleton<IPluginClassesService>(new MockPluginClassesService());
-
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
@@ -244,12 +220,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-                services.AddSingleton<IPluginClassesService>(new MockPluginClassesService());
-
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
@@ -274,16 +245,11 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-                services.AddSingleton<IPluginClassesService>(new MockPluginClassesService());
-
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
-                    ITextTableOperations<SeoDataRow> seoTable = provider.GetRequiredService<ITextTableOperations<SeoDataRow>>();
+                    ISimpleDBOperations<SeoDataRow> seoTable = provider.GetRequiredService<ISimpleDBOperations<SeoDataRow>>();
                     Assert.IsNotNull(seoTable);
 
                     SeoDataRow newRecord = new SeoDataRow()
@@ -337,12 +303,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-                services.AddSingleton<IPluginClassesService>(new MockPluginClassesService());
-
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
@@ -373,16 +334,11 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-                services.AddSingleton<IPluginClassesService>(new MockPluginClassesService());
-
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
-                    ITextTableOperations<SeoDataRow> seoTable = provider.GetRequiredService<ITextTableOperations<SeoDataRow>>();
+                    ISimpleDBOperations<SeoDataRow> seoTable = provider.GetRequiredService<ISimpleDBOperations<SeoDataRow>>();
                     Assert.IsNotNull(seoTable);
 
                     SeoDataRow newRecord = new SeoDataRow()
@@ -435,12 +391,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-                services.AddSingleton<IPluginClassesService>(new MockPluginClassesService());
-
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
@@ -463,12 +414,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-                services.AddSingleton<IPluginClassesService>(new MockPluginClassesService());
-
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
@@ -493,12 +439,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-                services.AddSingleton<IPluginClassesService>(new MockPluginClassesService());
-
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
@@ -522,16 +463,11 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-                services.AddSingleton<IPluginClassesService>(new MockPluginClassesService());
-
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
-                    ITextTableOperations<SeoDataRow> seoTable = provider.GetRequiredService<ITextTableOperations<SeoDataRow>>();
+                    ISimpleDBOperations<SeoDataRow> seoTable = provider.GetRequiredService<ISimpleDBOperations<SeoDataRow>>();
                     Assert.IsNotNull(seoTable);
 
                     SeoDataRow newRecord = new SeoDataRow()
@@ -568,16 +504,11 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-                services.AddSingleton<IPluginClassesService>(new MockPluginClassesService());
-
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
-                    ITextTableOperations<SeoDataRow> seoTable = provider.GetRequiredService<ITextTableOperations<SeoDataRow>>();
+                    ISimpleDBOperations<SeoDataRow> seoTable = provider.GetRequiredService<ISimpleDBOperations<SeoDataRow>>();
                     Assert.IsNotNull(seoTable);
 
                     SeoDataRow newRecord = new SeoDataRow()
@@ -622,12 +553,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-                services.AddSingleton<IPluginClassesService>(new MockPluginClassesService());
-
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
@@ -651,12 +577,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-                services.AddSingleton<IPluginClassesService>(new MockPluginClassesService());
-
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
@@ -679,12 +600,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-                services.AddSingleton<IPluginClassesService>(new MockPluginClassesService());
-
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
@@ -708,16 +624,11 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-                services.AddSingleton<IPluginClassesService>(new MockPluginClassesService());
-
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
-                    ITextTableOperations<SeoDataRow> seoTable = provider.GetRequiredService<ITextTableOperations<SeoDataRow>>();
+                    ISimpleDBOperations<SeoDataRow> seoTable = provider.GetRequiredService<ISimpleDBOperations<SeoDataRow>>();
                     Assert.IsNotNull(seoTable);
 
                     SeoDataRow newRecord = new SeoDataRow()
@@ -767,12 +678,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-                services.AddSingleton<IPluginClassesService>(new MockPluginClassesService());
-
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
@@ -795,12 +701,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-                services.AddSingleton<IPluginClassesService>(new MockPluginClassesService());
-
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
@@ -825,12 +726,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-                services.AddSingleton<IPluginClassesService>(new MockPluginClassesService());
-
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
@@ -839,7 +735,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     bool result = sut.UpdateDescription("/route", "description");
                     Assert.IsTrue(result);
 
-                    ITextTableOperations<SeoDataRow> seoTable = provider.GetRequiredService<ITextTableOperations<SeoDataRow>>();
+                    ISimpleDBOperations<SeoDataRow> seoTable = provider.GetRequiredService<ISimpleDBOperations<SeoDataRow>>();
                     Assert.IsNotNull(seoTable);
 
                     SeoDataRow newRecord = seoTable.Select(0);
@@ -861,16 +757,11 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-                services.AddSingleton<IPluginClassesService>(new MockPluginClassesService());
-
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
-                    ITextTableOperations<SeoDataRow> seoTable = provider.GetRequiredService<ITextTableOperations<SeoDataRow>>();
+                    ISimpleDBOperations<SeoDataRow> seoTable = provider.GetRequiredService<ISimpleDBOperations<SeoDataRow>>();
                     Assert.IsNotNull(seoTable);
 
                     SeoDataRow newRecord = new SeoDataRow()
@@ -914,12 +805,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-                services.AddSingleton<IPluginClassesService>(new MockPluginClassesService());
-
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
@@ -942,12 +828,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-                services.AddSingleton<IPluginClassesService>(new MockPluginClassesService());
-
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
@@ -972,12 +853,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-                services.AddSingleton<IPluginClassesService>(new MockPluginClassesService());
-
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
@@ -986,7 +862,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     bool result = sut.UpdateTitle("/route", "title");
                     Assert.IsTrue(result);
 
-                    ITextTableOperations<SeoDataRow> seoTable = provider.GetRequiredService<ITextTableOperations<SeoDataRow>>();
+                    ISimpleDBOperations<SeoDataRow> seoTable = provider.GetRequiredService<ISimpleDBOperations<SeoDataRow>>();
                     Assert.IsNotNull(seoTable);
 
                     SeoDataRow newRecord = seoTable.Select(0);
@@ -1008,16 +884,11 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-                services.AddSingleton<IPluginClassesService>(new MockPluginClassesService());
-
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
-                    ITextTableOperations<SeoDataRow> seoTable = provider.GetRequiredService<ITextTableOperations<SeoDataRow>>();
+                    ISimpleDBOperations<SeoDataRow> seoTable = provider.GetRequiredService<ISimpleDBOperations<SeoDataRow>>();
                     Assert.IsNotNull(seoTable);
 
                     SeoDataRow newRecord = new SeoDataRow()
@@ -1061,12 +932,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-                services.AddSingleton<IPluginClassesService>(new MockPluginClassesService());
-
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
@@ -1089,12 +955,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-                services.AddSingleton<IPluginClassesService>(new MockPluginClassesService());
-
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
@@ -1119,12 +980,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-                services.AddSingleton<IPluginClassesService>(new MockPluginClassesService());
-
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
@@ -1133,7 +989,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     bool result = sut.UpdateAuthor("/route", "author");
                     Assert.IsTrue(result);
 
-                    ITextTableOperations<SeoDataRow> seoTable = provider.GetRequiredService<ITextTableOperations<SeoDataRow>>();
+                    ISimpleDBOperations<SeoDataRow> seoTable = provider.GetRequiredService<ISimpleDBOperations<SeoDataRow>>();
                     Assert.IsNotNull(seoTable);
 
                     SeoDataRow newRecord = seoTable.Select(0);
@@ -1155,16 +1011,11 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-                services.AddSingleton<IPluginClassesService>(new MockPluginClassesService());
-
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
-                    ITextTableOperations<SeoDataRow> seoTable = provider.GetRequiredService<ITextTableOperations<SeoDataRow>>();
+                    ISimpleDBOperations<SeoDataRow> seoTable = provider.GetRequiredService<ISimpleDBOperations<SeoDataRow>>();
                     Assert.IsNotNull(seoTable);
 
                     SeoDataRow newRecord = new SeoDataRow()

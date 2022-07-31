@@ -26,6 +26,7 @@
 using Middleware;
 
 using PluginManager.DAL.TextFiles.Tables;
+using SimpleDB;
 
 using Shared.Classes;
 
@@ -35,10 +36,10 @@ namespace PluginManager.DAL.TextFiles.Providers
 {
     internal class UserApiQueryProvider : IUserApiQueryProvider
     {
-        private readonly ITextTableOperations<UserApiDataRow> _userApiDataRow;
+        private readonly ISimpleDBOperations<UserApiDataRow> _userApiDataRow;
         private readonly CacheManager _memoryCacheManager;
 
-        public UserApiQueryProvider(ITextTableOperations<UserApiDataRow> userApiDataRow, IMemoryCache memoryCache)
+        public UserApiQueryProvider(ISimpleDBOperations<UserApiDataRow> userApiDataRow, IMemoryCache memoryCache)
         {
             _userApiDataRow = userApiDataRow ?? throw new ArgumentNullException(nameof(userApiDataRow));
 

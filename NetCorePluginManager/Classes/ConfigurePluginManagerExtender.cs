@@ -33,10 +33,10 @@ using SharedPluginFeatures;
 
 namespace AspNetCore.PluginManager
 {
-    /// <summary>
-    /// Plugin Manager IMvcBuilder extension class.
-    /// </summary>
-    public static class ConfigurePluginManagerExtender
+	/// <summary>
+	/// Plugin Manager IMvcBuilder extension class.
+	/// </summary>
+	public static class ConfigurePluginManagerExtender
     {
         #region Public Static Methods
 

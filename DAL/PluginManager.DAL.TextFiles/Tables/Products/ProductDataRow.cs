@@ -23,7 +23,7 @@
  *  26/06/2022  Simon Carter        Initially Created
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-using PluginManager.DAL.TextFiles.Internal;
+using SimpleDB;
 
 namespace PluginManager.DAL.TextFiles.Tables
 {

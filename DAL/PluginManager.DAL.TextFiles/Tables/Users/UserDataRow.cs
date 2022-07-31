@@ -24,7 +24,7 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-using PluginManager.DAL.TextFiles.Internal;
+using SimpleDB;
 
 namespace PluginManager.DAL.TextFiles.Tables
 {

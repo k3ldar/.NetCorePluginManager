@@ -29,6 +29,7 @@ using Middleware;
 using Middleware.Products;
 
 using PluginManager.DAL.TextFiles.Tables;
+using SimpleDB;
 
 using SharedPluginFeatures;
 
@@ -38,8 +39,8 @@ namespace PluginManager.DAL.TextFiles.Providers
     {
         #region Private Members
 
-        private readonly ITextTableOperations<ProductGroupDataRow> _productGroupsData;
-        private readonly ITextTableOperations<ProductDataRow> _productData;
+        private readonly ISimpleDBOperations<ProductGroupDataRow> _productGroupsData;
+        private readonly ISimpleDBOperations<ProductDataRow> _productData;
         private readonly IMemoryCache _memoryCache;
 
         #endregion Private Members
@@ -47,8 +48,8 @@ namespace PluginManager.DAL.TextFiles.Providers
         #region Constructors
 
         public ProductProvider(IMemoryCache memoryCache,
-            ITextTableOperations<ProductDataRow> productData,
-            ITextTableOperations<ProductGroupDataRow> productGroupData)
+            ISimpleDBOperations<ProductDataRow> productData,
+            ISimpleDBOperations<ProductGroupDataRow> productGroupData)
         {
             _memoryCache = memoryCache ?? throw new ArgumentNullException(nameof(memoryCache));
             _productData = productData ?? throw new ArgumentNullException(nameof(productData));

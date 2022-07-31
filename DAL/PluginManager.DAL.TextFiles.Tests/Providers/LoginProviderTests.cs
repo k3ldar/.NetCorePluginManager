@@ -37,10 +37,11 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Middleware;
 
 using PluginManager.Abstractions;
-using PluginManager.DAL.TextFiles.Internal;
 using PluginManager.DAL.TextFiles.Providers;
 using PluginManager.DAL.TextFiles.Tables;
-using PluginManager.DAL.TextFiles.Tests.Mocks;
+using SimpleDB;
+using SimpleDB.Internal;
+using SimpleDB.Tests.Mocks;
 
 #pragma warning disable IDE0017
 
@@ -54,20 +55,20 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
         [ExpectedException(typeof(ArgumentNullException))]
         public void Construct_InvalidInstance_TableUserNull_Throws_ArgumentNullException()
         {
-            new LoginProvider(null, new MockTextTableOperations<ExternalUsersDataRow>(), new MockSettingsProvider("{ \"TextFileSettings\":{ \"Path\": \"c:\\temp\"} }"));
+            new LoginProvider(null, new MockTextTableOperations<ExternalUsersDataRow>(), new MockSettingsProvider("{ \"SimpleDBSettings\":{ \"Path\": \"c:\\temp\"} }"));
         }
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
         public void Construct_InvalidInstance_TableExternalUsersNull_Throws_ArgumentNullException()
         {
-            new LoginProvider(new MockTextTableOperations<UserDataRow>(), null, new MockSettingsProvider("{ \"TextFileSettings\":{ \"Path\": \"c:\\temp\"} }"));
+            new LoginProvider(new MockTextTableOperations<UserDataRow>(), null, new MockSettingsProvider("{ \"SimpleDBSettings\":{ \"Path\": \"c:\\temp\"} }"));
         }
 
         [TestMethod]
         public void Construct_ValidInstance_Success()
         {
-            LoginProvider sut = new LoginProvider(new MockTextTableOperations<UserDataRow>(), new MockTextTableOperations<ExternalUsersDataRow>(), new MockSettingsProvider("{ \"TextFileSettings\":{ \"Path\": \"c:\\temp\"} }"));
+            LoginProvider sut = new LoginProvider(new MockTextTableOperations<UserDataRow>(), new MockTextTableOperations<ExternalUsersDataRow>(), new MockSettingsProvider("{ \"SimpleDBSettings\":{ \"Path\": \"c:\\temp\"} }"));
             Assert.IsNotNull(sut);
         }
 
@@ -79,20 +80,15 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-
-                services.AddSingleton<IPluginClassesService, MockPluginClassesService>();
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
                     IPluginClassesService pluginClassesService = new MockPluginClassesService(new List<object>() { new ExternalUsersDataRowDefaults() });
                     
-                    ITextTableInitializer initializer = new TextTableInitializer(directory);
+                    ISimpleDBInitializer initializer = new SimpleDBInitializer(directory);
                     IForeignKeyManager keyManager = new ForeignKeyManager();
-                    using (TextTableOperations<ExternalUsersDataRow> sut = new TextTableOperations<ExternalUsersDataRow>(initializer, keyManager, pluginClassesService))
+                    using (SimpleDBOperations<ExternalUsersDataRow> sut = new SimpleDBOperations<ExternalUsersDataRow>(initializer, keyManager, pluginClassesService))
                     {
                         Assert.IsNotNull(sut);
 
@@ -114,20 +110,15 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-
-                services.AddSingleton<IPluginClassesService, MockPluginClassesService>();
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
                     IPluginClassesService pluginClassesService = new MockPluginClassesService(new List<object>() { new ExternalUsersDataRowDefaults() });
 
-                    ITextTableInitializer initializer = new TextTableInitializer(directory);
+                    ISimpleDBInitializer initializer = new SimpleDBInitializer(directory);
                     IForeignKeyManager keyManager = new ForeignKeyManager();
-                    using (TextTableOperations<ExternalUsersDataRow> externalUserTable = new TextTableOperations<ExternalUsersDataRow>(initializer, keyManager, pluginClassesService))
+                    using (SimpleDBOperations<ExternalUsersDataRow> externalUserTable = new SimpleDBOperations<ExternalUsersDataRow>(initializer, keyManager, pluginClassesService))
                     {
                         Assert.IsNotNull(externalUserTable);
 
@@ -165,21 +156,16 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-
-                services.AddSingleton<IPluginClassesService, MockPluginClassesService>();
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
                     IPluginClassesService pluginClassesService = new MockPluginClassesService(new List<object>() { new ExternalUsersDataRowDefaults() });
 
-                    ITextTableInitializer initializer = new TextTableInitializer(directory);
+                    ISimpleDBInitializer initializer = new SimpleDBInitializer(directory);
                     IForeignKeyManager keyManager = new ForeignKeyManager();
                     long userId = -1;
-                    using (TextTableOperations<UserDataRow> userTable = new TextTableOperations<UserDataRow>(initializer, keyManager, pluginClassesService))
+                    using (SimpleDBOperations<UserDataRow> userTable = new SimpleDBOperations<UserDataRow>(initializer, keyManager, pluginClassesService))
                     {
                         Assert.IsNotNull(userTable);
 
@@ -218,21 +204,16 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-
-                services.AddSingleton<IPluginClassesService, MockPluginClassesService>();
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
                     IPluginClassesService pluginClassesService = new MockPluginClassesService(new List<object>() { new UserDataRowTriggers() });
 
-                    ITextTableInitializer initializer = new TextTableInitializer(directory);
+                    ISimpleDBInitializer initializer = new SimpleDBInitializer(directory);
                     IForeignKeyManager keyManager = new ForeignKeyManager();
                     long userId = -1;
-                    using (TextTableOperations<UserDataRow> userTable = new TextTableOperations<UserDataRow>(initializer, keyManager, pluginClassesService))
+                    using (SimpleDBOperations<UserDataRow> userTable = new SimpleDBOperations<UserDataRow>(initializer, keyManager, pluginClassesService))
                     {
                         Assert.IsNotNull(userTable);
 
@@ -271,21 +252,16 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-
-                services.AddSingleton<IPluginClassesService, MockPluginClassesService>();
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
                     IPluginClassesService pluginClassesService = new MockPluginClassesService(new List<object>() { new ExternalUsersDataRowDefaults() });
 
-                    ITextTableInitializer initializer = new TextTableInitializer(directory);
+                    ISimpleDBInitializer initializer = new SimpleDBInitializer(directory);
                     IForeignKeyManager keyManager = new ForeignKeyManager();
                     long userId = -1;
-                    using (TextTableOperations<UserDataRow> userTable = new TextTableOperations<UserDataRow>(initializer, keyManager, pluginClassesService))
+                    using (SimpleDBOperations<UserDataRow> userTable = new SimpleDBOperations<UserDataRow>(initializer, keyManager, pluginClassesService))
                     {
                         Assert.IsNotNull(userTable);
 
@@ -324,20 +300,11 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-
-                services.AddSingleton<IPluginClassesService>(new MockPluginClassesService(new List<object>() { new ExternalUsersDataRowDefaults() }));
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-                services.AddSingleton<ITextTableInitializer>(new TextTableInitializer(directory));
-
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
-                    long userId = -1;
-
-
-                    ITextTableOperations<UserDataRow> userTable = provider.GetRequiredService(typeof(ITextTableOperations<UserDataRow>)) as ITextTableOperations<UserDataRow>;
+                    ISimpleDBOperations<UserDataRow> userTable = provider.GetRequiredService(typeof(ISimpleDBOperations<UserDataRow>)) as ISimpleDBOperations<UserDataRow>;
 
                     Assert.IsNotNull(userTable);
 
@@ -348,7 +315,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     user.Password = Shared.Utilities.Encrypt("password", "DSFOIRTEWRasd/flkqw409r sdaedf2134A");
 
                     userTable.Insert(user);
-                    userId = user.Id;
+                    long userId = user.Id;
 
 
                     ILoginProvider sut = provider.GetRequiredService<ILoginProvider>();
@@ -358,7 +325,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     LoginResult result = sut.Login("TeSt@123.NEt", "password123", "10.10.10.1", 5, ref loginDetails);
                     Assert.AreEqual(LoginResult.AccountLocked, result);
 
-                    user = userTable.Select(0);
+                    user = userTable.Select(userId);
                     Assert.IsNotNull(user);
                     Assert.IsTrue(user.Locked);
 
@@ -380,20 +347,14 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-
-                services.AddSingleton<IPluginClassesService>(new MockPluginClassesService(new List<object>() { new ExternalUsersDataRowDefaults() }));
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-                services.AddSingleton<ITextTableInitializer>(new TextTableInitializer(directory));
-
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
                     long userId = -1;
 
 
-                    ITextTableOperations<UserDataRow> userTable = provider.GetRequiredService(typeof(ITextTableOperations<UserDataRow>)) as ITextTableOperations<UserDataRow>;
+                    ISimpleDBOperations<UserDataRow> userTable = provider.GetRequiredService(typeof(ISimpleDBOperations<UserDataRow>)) as ISimpleDBOperations<UserDataRow>;
 
                     Assert.IsNotNull(userTable);
 
@@ -435,20 +396,14 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-
-                services.AddSingleton<IPluginClassesService>(new MockPluginClassesService(new List<object>() { new ExternalUsersDataRowDefaults() }));
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-                services.AddSingleton<ITextTableInitializer>(new TextTableInitializer(directory));
-
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
                     long userId = -1;
 
 
-                    ITextTableOperations<UserDataRow> userTable = provider.GetRequiredService(typeof(ITextTableOperations<UserDataRow>)) as ITextTableOperations<UserDataRow>;
+                    ISimpleDBOperations<UserDataRow> userTable = provider.GetRequiredService(typeof(ISimpleDBOperations<UserDataRow>)) as ISimpleDBOperations<UserDataRow>;
 
                     Assert.IsNotNull(userTable);
 
@@ -489,20 +444,11 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-
-                services.AddSingleton<IPluginClassesService>(new MockPluginClassesService(new List<object>() { new ExternalUsersDataRowDefaults() }));
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-                services.AddSingleton<ITextTableInitializer>(new TextTableInitializer(directory));
-
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
-                    long userId = -1;
-
-
-                    ITextTableOperations<UserDataRow> userTable = provider.GetRequiredService(typeof(ITextTableOperations<UserDataRow>)) as ITextTableOperations<UserDataRow>;
+                    ISimpleDBOperations<UserDataRow> userTable = provider.GetRequiredService(typeof(ISimpleDBOperations<UserDataRow>)) as ISimpleDBOperations<UserDataRow>;
 
                     Assert.IsNotNull(userTable);
 
@@ -514,7 +460,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     user.Password = Shared.Utilities.Encrypt("password", "DSFOIRTEWRasd/flkqw409r sdaedf2134A");
 
                     userTable.Insert(user);
-                    userId = user.Id;
+                    long userId = user.Id;
 
 
                     ILoginProvider sut = provider.GetRequiredService<ILoginProvider>();
@@ -524,7 +470,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     bool result = sut.UnlockAccount("TeSt@123.NEt", "unlock code");
                     Assert.IsFalse(result);
 
-                    user = userTable.Select(0);
+                    user = userTable.Select(userId);
                     Assert.IsNotNull(user);
                     Assert.IsTrue(user.Locked);
                 }
@@ -543,20 +489,11 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-
-                services.AddSingleton<IPluginClassesService>(new MockPluginClassesService(new List<object>() { new ExternalUsersDataRowDefaults() }));
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-                services.AddSingleton<ITextTableInitializer>(new TextTableInitializer(directory));
-
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
-                    long userId = -1;
-
-
-                    ITextTableOperations<UserDataRow> userTable = provider.GetRequiredService(typeof(ITextTableOperations<UserDataRow>)) as ITextTableOperations<UserDataRow>;
+                    ISimpleDBOperations<UserDataRow> userTable = provider.GetRequiredService(typeof(ISimpleDBOperations<UserDataRow>)) as ISimpleDBOperations<UserDataRow>;
 
                     Assert.IsNotNull(userTable);
 
@@ -567,7 +504,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     user.Password = Shared.Utilities.Encrypt("password", "DSFOIRTEWRasd/flkqw409r sdaedf2134A");
 
                     userTable.Insert(user);
-                    userId = user.Id;
+					long userId = user.Id;
 
 
                     ILoginProvider sut = provider.GetRequiredService<ILoginProvider>();
@@ -577,7 +514,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     bool result = sut.UnlockAccount("TeSt@123.NEt", "unlock code");
                     Assert.IsFalse(result);
 
-                    user = userTable.Select(0);
+                    user = userTable.Select(userId);
                     Assert.IsNotNull(user);
                     Assert.IsFalse(user.Locked);
                 }
@@ -596,20 +533,11 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-
-                services.AddSingleton<IPluginClassesService>(new MockPluginClassesService(new List<object>() { new ExternalUsersDataRowDefaults() }));
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-                services.AddSingleton<ITextTableInitializer>(new TextTableInitializer(directory));
-
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
-                    long userId = -1;
-
-
-                    ITextTableOperations<UserDataRow> userTable = provider.GetRequiredService(typeof(ITextTableOperations<UserDataRow>)) as ITextTableOperations<UserDataRow>;
+                    ISimpleDBOperations<UserDataRow> userTable = provider.GetRequiredService(typeof(ISimpleDBOperations<UserDataRow>)) as ISimpleDBOperations<UserDataRow>;
 
                     Assert.IsNotNull(userTable);
 
@@ -621,7 +549,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     user.Password = Shared.Utilities.Encrypt("password", "DSFOIRTEWRasd/flkqw409r sdaedf2134A");
 
                     userTable.Insert(user);
-                    userId = user.Id;
+					long userId = user.Id;
 
 
                     ILoginProvider sut = provider.GetRequiredService<ILoginProvider>();
@@ -631,7 +559,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     bool result = sut.UnlockAccount("TeSt@123.NEt", "unlock code");
                     Assert.IsTrue(result);
 
-                    user = userTable.Select(0);
+                    user = userTable.Select(userId);
                     Assert.IsNotNull(user);
                     Assert.IsFalse(user.Locked);
                 }
@@ -651,20 +579,11 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-
-                services.AddSingleton<IPluginClassesService>(new MockPluginClassesService(new List<object>() { new ExternalUsersDataRowDefaults() }));
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-                services.AddSingleton<ITextTableInitializer>(new TextTableInitializer(directory));
-
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
-                    long userId = -1;
-
-
-                    ITextTableOperations<UserDataRow> userTable = provider.GetRequiredService(typeof(ITextTableOperations<UserDataRow>)) as ITextTableOperations<UserDataRow>;
+                    ISimpleDBOperations<UserDataRow> userTable = provider.GetRequiredService(typeof(ISimpleDBOperations<UserDataRow>)) as ISimpleDBOperations<UserDataRow>;
 
                     Assert.IsNotNull(userTable);
 
@@ -676,7 +595,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     user.Password = Shared.Utilities.Encrypt("password", "DSFOIRTEWRasd/flkqw409r sdaedf2134A");
 
                     userTable.Insert(user);
-                    userId = user.Id;
+                    long userId = user.Id;
 
 
                     ILoginProvider sut = provider.GetRequiredService<ILoginProvider>();
@@ -686,7 +605,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     bool result = sut.UnlockAccount(null, "unlock code");
                     Assert.IsFalse(result);
 
-                    user = userTable.Select(0);
+                    user = userTable.Select(userId);
                     Assert.IsNotNull(user);
                     Assert.IsTrue(user.Locked);
                 }
@@ -706,20 +625,11 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-
-                services.AddSingleton<IPluginClassesService>(new MockPluginClassesService(new List<object>() { new ExternalUsersDataRowDefaults() }));
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-                services.AddSingleton<ITextTableInitializer>(new TextTableInitializer(directory));
-
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
-                    long userId = -1;
-
-
-                    ITextTableOperations<UserDataRow> userTable = provider.GetRequiredService(typeof(ITextTableOperations<UserDataRow>)) as ITextTableOperations<UserDataRow>;
+                    ISimpleDBOperations<UserDataRow> userTable = provider.GetRequiredService(typeof(ISimpleDBOperations<UserDataRow>)) as ISimpleDBOperations<UserDataRow>;
 
                     Assert.IsNotNull(userTable);
 
@@ -731,7 +641,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     user.Password = Shared.Utilities.Encrypt("password", "DSFOIRTEWRasd/flkqw409r sdaedf2134A");
 
                     userTable.Insert(user);
-                    userId = user.Id;
+                    long userId = user.Id;
 
 
                     ILoginProvider sut = provider.GetRequiredService<ILoginProvider>();
@@ -756,20 +666,14 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-
-                services.AddSingleton<IPluginClassesService>(new MockPluginClassesService(new List<object>() { new ExternalUsersDataRowDefaults() }));
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-                services.AddSingleton<ITextTableInitializer>(new TextTableInitializer(directory));
-
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
                     long userId = -1;
 
 
-                    ITextTableOperations<UserDataRow> userTable = provider.GetRequiredService(typeof(ITextTableOperations<UserDataRow>)) as ITextTableOperations<UserDataRow>;
+                    ISimpleDBOperations<UserDataRow> userTable = provider.GetRequiredService(typeof(ISimpleDBOperations<UserDataRow>)) as ISimpleDBOperations<UserDataRow>;
 
                     Assert.IsNotNull(userTable);
 
@@ -807,20 +711,14 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-
-                services.AddSingleton<IPluginClassesService>(new MockPluginClassesService(new List<object>() { new ExternalUsersDataRowDefaults() }));
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-                services.AddSingleton<ITextTableInitializer>(new TextTableInitializer(directory));
-
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
                     long userId = -1;
 
 
-                    ITextTableOperations<UserDataRow> userTable = provider.GetRequiredService(typeof(ITextTableOperations<UserDataRow>)) as ITextTableOperations<UserDataRow>;
+                    ISimpleDBOperations<UserDataRow> userTable = provider.GetRequiredService(typeof(ISimpleDBOperations<UserDataRow>)) as ISimpleDBOperations<UserDataRow>;
 
                     Assert.IsNotNull(userTable);
 
@@ -858,17 +756,11 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-
-                services.AddSingleton<IPluginClassesService>(new MockPluginClassesService(new List<object>() { new ExternalUsersDataRowDefaults() }));
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-                services.AddSingleton<ITextTableInitializer>(new TextTableInitializer(directory));
-
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
-                    ITextTableOperations<ExternalUsersDataRow> externalUserTable = provider.GetRequiredService(typeof(ITextTableOperations<ExternalUsersDataRow>)) as ITextTableOperations<ExternalUsersDataRow>;
+                    ISimpleDBOperations<ExternalUsersDataRow> externalUserTable = provider.GetRequiredService(typeof(ISimpleDBOperations<ExternalUsersDataRow>)) as ISimpleDBOperations<ExternalUsersDataRow>;
 
                     Assert.IsNotNull(externalUserTable);
 
@@ -912,17 +804,11 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-
-                services.AddSingleton<IPluginClassesService>(new MockPluginClassesService(new List<object>() { new ExternalUsersDataRowDefaults() }));
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-                services.AddSingleton<ITextTableInitializer>(new TextTableInitializer(directory));
-
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
-                    ITextTableOperations<ExternalUsersDataRow> externalUserTable = provider.GetRequiredService(typeof(ITextTableOperations<ExternalUsersDataRow>)) as ITextTableOperations<ExternalUsersDataRow>;
+                    ISimpleDBOperations<ExternalUsersDataRow> externalUserTable = provider.GetRequiredService(typeof(ISimpleDBOperations<ExternalUsersDataRow>)) as ISimpleDBOperations<ExternalUsersDataRow>;
 
                     Assert.IsNotNull(externalUserTable);
 
@@ -955,17 +841,11 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-
-                services.AddSingleton<IPluginClassesService>(new MockPluginClassesService(new List<object>() { new ExternalUsersDataRowDefaults() }));
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-                services.AddSingleton<ITextTableInitializer>(new TextTableInitializer(directory));
-
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
-                    ITextTableOperations<ExternalUsersDataRow> externalUserTable = provider.GetRequiredService(typeof(ITextTableOperations<ExternalUsersDataRow>)) as ITextTableOperations<ExternalUsersDataRow>;
+                    ISimpleDBOperations<ExternalUsersDataRow> externalUserTable = provider.GetRequiredService(typeof(ISimpleDBOperations<ExternalUsersDataRow>)) as ISimpleDBOperations<ExternalUsersDataRow>;
 
                     Assert.IsNotNull(externalUserTable);
 
@@ -1010,13 +890,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-
-                services.AddSingleton<IPluginClassesService>(new MockPluginClassesService(new List<object>() { new ExternalUsersDataRowDefaults() }));
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-                services.AddSingleton<ITextTableInitializer>(new TextTableInitializer(directory));
-
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
@@ -1040,17 +914,11 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-
-                services.AddSingleton<IPluginClassesService>(new MockPluginClassesService(new List<object>() { new ExternalUsersDataRowDefaults() }));
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-                services.AddSingleton<ITextTableInitializer>(new TextTableInitializer(directory));
-
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
-                    ITextTableOperations<ExternalUsersDataRow> externalUserTable = provider.GetRequiredService(typeof(ITextTableOperations<ExternalUsersDataRow>)) as ITextTableOperations<ExternalUsersDataRow>;
+                    ISimpleDBOperations<ExternalUsersDataRow> externalUserTable = provider.GetRequiredService(typeof(ISimpleDBOperations<ExternalUsersDataRow>)) as ISimpleDBOperations<ExternalUsersDataRow>;
 
                     Assert.IsNotNull(externalUserTable);
 
@@ -1090,17 +958,11 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-
-                services.AddSingleton<IPluginClassesService>(new MockPluginClassesService(new List<object>() { new ExternalUsersDataRowDefaults() }));
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-                services.AddSingleton<ITextTableInitializer>(new TextTableInitializer(directory));
-
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
-                    ITextTableOperations<ExternalUsersDataRow> externalUserTable = provider.GetRequiredService(typeof(ITextTableOperations<ExternalUsersDataRow>)) as ITextTableOperations<ExternalUsersDataRow>;
+                    ISimpleDBOperations<ExternalUsersDataRow> externalUserTable = provider.GetRequiredService(typeof(ISimpleDBOperations<ExternalUsersDataRow>)) as ISimpleDBOperations<ExternalUsersDataRow>;
 
                     Assert.IsNotNull(externalUserTable);
 

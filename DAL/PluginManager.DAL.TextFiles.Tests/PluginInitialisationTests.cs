@@ -130,7 +130,7 @@ namespace PluginManager.DAL.TextFiles.Tests
         [TestCategory(GeneralTestsCategory)]
         public void BeforeConfigureServices_DoesNotThrowException()
         {
-            const int RegisteredService = 54;
+            const int RegisteredService = 51;
 
             PluginInitialisation sut = new PluginInitialisation();
             MockServiceCollection mockServiceCollection = new MockServiceCollection();

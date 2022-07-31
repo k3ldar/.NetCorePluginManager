@@ -26,23 +26,23 @@
 using Middleware;
 
 using PluginManager.Abstractions;
-using PluginManager.DAL.TextFiles.Internal;
 using PluginManager.DAL.TextFiles.Tables;
+using SimpleDB;
 
 namespace PluginManager.DAL.TextFiles.Providers
 {
     internal class LoginProvider : ILoginProvider
     {
-        private readonly ITextTableOperations<UserDataRow> _users;
-        private readonly ITextTableOperations<ExternalUsersDataRow> _externalUsers;
+        private readonly ISimpleDBOperations<UserDataRow> _users;
+        private readonly ISimpleDBOperations<ExternalUsersDataRow> _externalUsers;
         private readonly string _encryptionKey;
 
-        public LoginProvider(ITextTableOperations<UserDataRow> users, ITextTableOperations<ExternalUsersDataRow> externalUsers, ISettingsProvider settingsProvider)
+        public LoginProvider(ISimpleDBOperations<UserDataRow> users, ISimpleDBOperations<ExternalUsersDataRow> externalUsers, ISettingsProvider settingsProvider)
         {
             if (settingsProvider == null)
                 throw new ArgumentNullException(nameof(settingsProvider));
 
-            TextFileSettings settings = settingsProvider.GetSettings<TextFileSettings>(nameof(TextFileSettings));
+            SimpleDBSettings settings = settingsProvider.GetSettings<SimpleDBSettings>(nameof(SimpleDBSettings));
 
             if (settings == null)
                 throw new InvalidOperationException();

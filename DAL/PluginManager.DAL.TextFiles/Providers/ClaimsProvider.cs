@@ -29,6 +29,7 @@ using Microsoft.AspNetCore.Authentication;
 
 using PluginManager.Abstractions;
 using PluginManager.DAL.TextFiles.Tables;
+using SimpleDB;
 
 using SharedPluginFeatures;
 
@@ -39,16 +40,16 @@ namespace PluginManager.DAL.TextFiles.Providers
         #region Private Members
 
         private readonly IPluginClassesService _pluginClassesService;
-        private readonly ITextTableOperations<UserDataRow> _users;
-        private readonly ITextTableOperations<UserClaimsDataRow> _userClaims;
+        private readonly ISimpleDBOperations<UserDataRow> _users;
+        private readonly ISimpleDBOperations<UserClaimsDataRow> _userClaims;
 
         #endregion Private Members
 
         #region Constructors
 
         public ClaimsProvider(IPluginClassesService pluginClassesService,
-            ITextTableOperations<UserDataRow> users,
-            ITextTableOperations<UserClaimsDataRow> userClaims)
+            ISimpleDBOperations<UserDataRow> users,
+            ISimpleDBOperations<UserClaimsDataRow> userClaims)
         {
             _pluginClassesService = pluginClassesService ?? throw new ArgumentNullException(nameof(pluginClassesService));
             _users = users ?? throw new ArgumentNullException(nameof(users));
@@ -78,10 +79,10 @@ namespace PluginManager.DAL.TextFiles.Providers
                 return Result;
 
             List<Claim> userClaims = new List<Claim>();
-            userClaims.Add(new Claim(Constants.ClaimNameUsername, user.FullName));
-            userClaims.Add(new Claim(Constants.ClaimNameUserEmail, user.Email));
-            userClaims.Add(new Claim(Constants.ClaimNameUserId, userId.ToString()));
-            Result.Add(new ClaimsIdentity(userClaims, Constants.ClaimIdentityUser));
+            userClaims.Add(new Claim(SharedPluginFeatures.Constants.ClaimNameUsername, user.FullName));
+            userClaims.Add(new Claim(SharedPluginFeatures.Constants.ClaimNameUserEmail, user.Email));
+            userClaims.Add(new Claim(SharedPluginFeatures.Constants.ClaimNameUserId, userId.ToString()));
+            Result.Add(new ClaimsIdentity(userClaims, SharedPluginFeatures.Constants.ClaimIdentityUser));
 
             List<Claim> webClaims = new List<Claim>();
 
@@ -92,7 +93,7 @@ namespace PluginManager.DAL.TextFiles.Providers
 
             claims.Claims.ForEach(c => webClaims.Add(new Claim(c, true.ToString())));
 
-            Result.Add(new ClaimsIdentity(webClaims, Constants.ClaimIdentityWebsite));
+            Result.Add(new ClaimsIdentity(webClaims, SharedPluginFeatures.Constants.ClaimIdentityWebsite));
 
             return Result;
         }
@@ -112,6 +113,7 @@ namespace PluginManager.DAL.TextFiles.Providers
             {
                 userClaims = new UserClaimsDataRow();
                 userClaims.Claims.AddRange(claims);
+				userClaims.UserId = id;
                 _userClaims.Insert(userClaims);
             }
             else

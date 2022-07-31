@@ -43,6 +43,7 @@ using PluginManager.Abstractions;
 using PluginManager.DAL.TextFiles.Providers;
 using PluginManager.DAL.TextFiles.Tables;
 using PluginManager.DAL.TextFiles.Tables.Products;
+using SimpleDB;
 
 using Shared.Classes;
 
@@ -62,22 +63,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-                List<object> servicesList = new List<object>()
-                {
-                    new SettingsDataRowDefaults(),
-                    new ProductGroupDataRowDefaults(),
-                    new ProductGroupDataTriggers(),
-                    new ProductDataTriggers(),
-
-                };
-                MockPluginClassesService mockPluginClassesService = new MockPluginClassesService(servicesList);
-
-                services.AddSingleton<IPluginClassesService>(mockPluginClassesService);
-                services.AddSingleton<IMemoryCache, MockMemoryCache>();
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
@@ -99,23 +85,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-                List<object> servicesList = new List<object>()
-                {
-                    new SettingsDataRowDefaults(),
-                    new ProductGroupDataRowDefaults(),
-                    new ProductGroupDataTriggers(),
-                    new ProductDataTriggers(),
-                    new ShoppingCartDataRowDefaults(),
-
-                };
-                MockPluginClassesService mockPluginClassesService = new MockPluginClassesService(servicesList);
-
-                services.AddSingleton<IPluginClassesService>(mockPluginClassesService);
-                services.AddSingleton<IMemoryCache, MockMemoryCache>();
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 UserSession userSession = new UserSession();
                 ShoppingCartSummary shoppingCart = new ShoppingCartSummary(0, 0, 0, 0, 0, 20,
@@ -147,7 +117,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     Assert.AreEqual(2.99m, basket.Total);
                     Assert.AreEqual(1, basket.TotalItems);
 
-                    ITextTableOperations<ShoppingCartItemDataRow> shoppingCartItemData = provider.GetRequiredService<ITextTableOperations<ShoppingCartItemDataRow>>();
+                    ISimpleDBOperations<ShoppingCartItemDataRow> shoppingCartItemData = provider.GetRequiredService<ISimpleDBOperations<ShoppingCartItemDataRow>>();
                     Assert.IsNotNull(shoppingCartItemData);
                     Assert.AreEqual(1, shoppingCartItemData.RecordCount);
                     ShoppingCartItemDataRow shoppingCartItemDataRow = shoppingCartItemData.Select(0);
@@ -169,23 +139,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-                List<object> servicesList = new List<object>()
-                {
-                    new SettingsDataRowDefaults(),
-                    new ProductGroupDataRowDefaults(),
-                    new ProductGroupDataTriggers(),
-                    new ProductDataTriggers(),
-                    new ShoppingCartDataRowDefaults(),
-
-                };
-                MockPluginClassesService mockPluginClassesService = new MockPluginClassesService(servicesList);
-
-                services.AddSingleton<IPluginClassesService>(mockPluginClassesService);
-                services.AddSingleton<IMemoryCache, MockMemoryCache>();
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 UserSession userSession = new UserSession();
                 ShoppingCartSummary shoppingCart = new ShoppingCartSummary(0, 0, 0, 0, 0, 20,
@@ -205,11 +159,11 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
                     ShoppingCartProvider.ClearCache();
 
-                    ITextTableOperations<ShoppingCartItemDataRow> shoppingCartItemData = provider.GetRequiredService<ITextTableOperations<ShoppingCartItemDataRow>>();
+                    ISimpleDBOperations<ShoppingCartItemDataRow> shoppingCartItemData = provider.GetRequiredService<ISimpleDBOperations<ShoppingCartItemDataRow>>();
                     shoppingCartItemData.Truncate();
 
 
-                    ITextTableOperations<ShoppingCartDataRow> shoppingCartData = provider.GetRequiredService<ITextTableOperations<ShoppingCartDataRow>>();
+                    ISimpleDBOperations<ShoppingCartDataRow> shoppingCartData = provider.GetRequiredService<ISimpleDBOperations<ShoppingCartDataRow>>();
                     shoppingCartData.Truncate();
 
 
@@ -247,23 +201,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-                List<object> servicesList = new List<object>()
-                {
-                    new SettingsDataRowDefaults(),
-                    new ProductGroupDataRowDefaults(),
-                    new ProductGroupDataTriggers(),
-                    new ProductDataTriggers(),
-                    new ShoppingCartDataRowDefaults(),
-
-                };
-                MockPluginClassesService mockPluginClassesService = new MockPluginClassesService(servicesList);
-
-                services.AddSingleton<IPluginClassesService>(mockPluginClassesService);
-                services.AddSingleton<IMemoryCache, MockMemoryCache>();
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 UserSession userSession = new UserSession();
                 ShoppingCartSummary shoppingCart = new ShoppingCartSummary(0, 0, 0, 0, 0, 20,
@@ -310,23 +248,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-                List<object> servicesList = new List<object>()
-                {
-                    new SettingsDataRowDefaults(),
-                    new ProductGroupDataRowDefaults(),
-                    new ProductGroupDataTriggers(),
-                    new ProductDataTriggers(),
-                    new ShoppingCartDataRowDefaults(),
-
-                };
-                MockPluginClassesService mockPluginClassesService = new MockPluginClassesService(servicesList);
-
-                services.AddSingleton<IPluginClassesService>(mockPluginClassesService);
-                services.AddSingleton<IMemoryCache, MockMemoryCache>();
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 UserSession userSession = new UserSession();
                 ShoppingCartSummary shoppingCart = new ShoppingCartSummary(0, 0, 0, 0, 0, 20,
@@ -347,11 +269,11 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
                     ShoppingCartProvider.ClearCache();
 
-                    ITextTableOperations<ShoppingCartItemDataRow> shoppingCartItemData = provider.GetRequiredService<ITextTableOperations<ShoppingCartItemDataRow>>();
+                    ISimpleDBOperations<ShoppingCartItemDataRow> shoppingCartItemData = provider.GetRequiredService<ISimpleDBOperations<ShoppingCartItemDataRow>>();
                     shoppingCartItemData.Truncate();
 
 
-                    ITextTableOperations<ShoppingCartDataRow> shoppingCartData = provider.GetRequiredService<ITextTableOperations<ShoppingCartDataRow>>();
+                    ISimpleDBOperations<ShoppingCartDataRow> shoppingCartData = provider.GetRequiredService<ISimpleDBOperations<ShoppingCartDataRow>>();
                     shoppingCartData.Truncate();
 
 
@@ -387,24 +309,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-                List<object> servicesList = new List<object>()
-                {
-                    new SettingsDataRowDefaults(),
-                    new ProductGroupDataRowDefaults(),
-                    new ProductGroupDataTriggers(),
-                    new ProductDataTriggers(),
-                    new ShoppingCartDataRowDefaults(),
-                    new AddressDataRowDefaults(),
-
-                };
-                MockPluginClassesService mockPluginClassesService = new MockPluginClassesService(servicesList);
-
-                services.AddSingleton<IPluginClassesService>(mockPluginClassesService);
-                services.AddSingleton<IMemoryCache, MockMemoryCache>();
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 UserSession userSession = new UserSession();
                 ShoppingCartSummary shoppingCart = new ShoppingCartSummary(0, 0, 0, 0, 0, 20,
@@ -442,10 +347,10 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
                     ShoppingCartProvider.ClearCache();
 
-                    ITextTableOperations<ShoppingCartItemDataRow> shoppingCartItemData = provider.GetRequiredService<ITextTableOperations<ShoppingCartItemDataRow>>();
-                    ITextTableOperations<ShoppingCartDataRow> shoppingCartData = provider.GetRequiredService<ITextTableOperations<ShoppingCartDataRow>>();
-                    ITextTableOperations<OrderItemDataRow> orderItemData = provider.GetRequiredService<ITextTableOperations<OrderItemDataRow>>();
-                    ITextTableOperations<OrderDataRow> orderData = provider.GetRequiredService<ITextTableOperations<OrderDataRow>>();
+                    ISimpleDBOperations<ShoppingCartItemDataRow> shoppingCartItemData = provider.GetRequiredService<ISimpleDBOperations<ShoppingCartItemDataRow>>();
+                    ISimpleDBOperations<ShoppingCartDataRow> shoppingCartData = provider.GetRequiredService<ISimpleDBOperations<ShoppingCartDataRow>>();
+                    ISimpleDBOperations<OrderItemDataRow> orderItemData = provider.GetRequiredService<ISimpleDBOperations<OrderItemDataRow>>();
+                    ISimpleDBOperations<OrderDataRow> orderData = provider.GetRequiredService<ISimpleDBOperations<OrderDataRow>>();
 
                     Assert.AreEqual(0, orderItemData.RecordCount);
                     Assert.AreEqual(0, orderData.RecordCount);
@@ -530,24 +435,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-                List<object> servicesList = new List<object>()
-                {
-                    new SettingsDataRowDefaults(),
-                    new ProductGroupDataRowDefaults(),
-                    new ProductGroupDataTriggers(),
-                    new ProductDataTriggers(),
-                    new ShoppingCartDataRowDefaults(),
-                    new AddressDataRowDefaults(),
-
-                };
-                MockPluginClassesService mockPluginClassesService = new MockPluginClassesService(servicesList);
-
-                services.AddSingleton<IPluginClassesService>(mockPluginClassesService);
-                services.AddSingleton<IMemoryCache, MockMemoryCache>();
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 UserSession userSession = new UserSession();
                 ShoppingCartSummary shoppingCart = new ShoppingCartSummary(0, 0, 0, 0, 0, 20,
@@ -585,12 +473,12 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
                     ShoppingCartProvider.ClearCache();
 
-                    ITextTableOperations<ShoppingCartItemDataRow> shoppingCartItemData = provider.GetRequiredService<ITextTableOperations<ShoppingCartItemDataRow>>();
-                    ITextTableOperations<ShoppingCartDataRow> shoppingCartData = provider.GetRequiredService<ITextTableOperations<ShoppingCartDataRow>>();
-                    ITextTableOperations<OrderItemDataRow> orderItemData = provider.GetRequiredService<ITextTableOperations<OrderItemDataRow>>();
-                    ITextTableOperations<OrderDataRow> orderData = provider.GetRequiredService<ITextTableOperations<OrderDataRow>>();
-                    ITextTableOperations<LicenseDataRow> licenseData = provider.GetRequiredService<ITextTableOperations<LicenseDataRow>>();
-                    ITextTableOperations<LicenseTypeDataRow> licenseTypeData = provider.GetRequiredService<ITextTableOperations<LicenseTypeDataRow>>();
+                    ISimpleDBOperations<ShoppingCartItemDataRow> shoppingCartItemData = provider.GetRequiredService<ISimpleDBOperations<ShoppingCartItemDataRow>>();
+                    ISimpleDBOperations<ShoppingCartDataRow> shoppingCartData = provider.GetRequiredService<ISimpleDBOperations<ShoppingCartDataRow>>();
+                    ISimpleDBOperations<OrderItemDataRow> orderItemData = provider.GetRequiredService<ISimpleDBOperations<OrderItemDataRow>>();
+                    ISimpleDBOperations<OrderDataRow> orderData = provider.GetRequiredService<ISimpleDBOperations<OrderDataRow>>();
+                    ISimpleDBOperations<LicenseDataRow> licenseData = provider.GetRequiredService<ISimpleDBOperations<LicenseDataRow>>();
+                    ISimpleDBOperations<LicenseTypeDataRow> licenseTypeData = provider.GetRequiredService<ISimpleDBOperations<LicenseTypeDataRow>>();
 
                     Assert.AreEqual(0, orderItemData.RecordCount);
                     Assert.AreEqual(0, orderData.RecordCount);
@@ -676,23 +564,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-                List<object> servicesList = new List<object>()
-                {
-                    new SettingsDataRowDefaults(),
-                    new ProductGroupDataRowDefaults(),
-                    new ProductGroupDataTriggers(),
-                    new ProductDataTriggers(),
-                    new ShoppingCartDataRowDefaults(),
-                    new AddressDataRowDefaults(),
-                };
-                MockPluginClassesService mockPluginClassesService = new MockPluginClassesService(servicesList);
-
-                services.AddSingleton<IPluginClassesService>(mockPluginClassesService);
-                services.AddSingleton<IMemoryCache, MockMemoryCache>();
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 UserSession userSession = new UserSession();
                 ShoppingCartSummary shoppingCart = new ShoppingCartSummary(0, 0, 0, 0, 0, 20,
@@ -738,26 +610,9 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             string directory = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
             try
             {
-                Directory.CreateDirectory(directory);
+				Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-                List<object> servicesList = new List<object>()
-                {
-                    new SettingsDataRowDefaults(),
-                    new ProductGroupDataRowDefaults(),
-                    new ProductGroupDataTriggers(),
-                    new ProductDataTriggers(),
-                    new ShoppingCartDataRowDefaults(),
-                    new AddressDataRowDefaults(),
-                    new VoucherDataRowTriggers(),
-                };
-                MockPluginClassesService mockPluginClassesService = new MockPluginClassesService(servicesList);
-
-                services.AddSingleton<IPluginClassesService>(mockPluginClassesService);
-                services.AddSingleton<IMemoryCache, MockMemoryCache>();
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 UserSession userSession = new UserSession();
                 ShoppingCartSummary shoppingCart = new ShoppingCartSummary(0, 0, 0, 0, 0, 20,
@@ -771,7 +626,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     Assert.IsNotNull(sut);
                     ShoppingCartProvider.ClearCache();
 
-                    ITextTableOperations<VoucherDataRow> voucherTable = provider.GetService<ITextTableOperations<VoucherDataRow>>();
+                    ISimpleDBOperations<VoucherDataRow> voucherTable = provider.GetService<ISimpleDBOperations<VoucherDataRow>>();
                     Assert.IsNotNull(voucherTable);
 
                     voucherTable.Insert(new VoucherDataRow()

@@ -30,6 +30,8 @@ using Middleware.Helpdesk;
 
 using PluginManager.DAL.TextFiles.Tables;
 
+using SimpleDB;
+
 using Shared.Classes;
 
 namespace PluginManager.DAL.TextFiles.Providers
@@ -46,29 +48,29 @@ namespace PluginManager.DAL.TextFiles.Providers
 
         private static readonly CacheManager _memoryCache = new CacheManager("Helpdesk", new TimeSpan(0, 30, 0), true, true);
 
-        private readonly ITextTableOperations<UserDataRow> _userDataRow;
-        private readonly ITextTableOperations<FeedbackDataRow> _feedbackDataRow;
-        private readonly ITextTableOperations<FAQDataRow> _faqDataRow;
-        private readonly ITextTableOperations<FAQItemDataRow> _faqItemDataRow;
-        private readonly ITextTableOperations<TicketDataRow> _tickets;
-        private readonly ITextTableOperations<TicketMessageDataRow> _ticketMessages;
-        private readonly ITextTableOperations<TicketStatusDataRow> _ticketStatus;
-        private readonly ITextTableOperations<TicketPrioritiesDataRow> _ticketPriority;
-        private readonly ITextTableOperations<TicketDepartmentsDataRow> _ticketDepartments;
+        private readonly ISimpleDBOperations<UserDataRow> _userDataRow;
+        private readonly ISimpleDBOperations<FeedbackDataRow> _feedbackDataRow;
+        private readonly ISimpleDBOperations<FAQDataRow> _faqDataRow;
+        private readonly ISimpleDBOperations<FAQItemDataRow> _faqItemDataRow;
+        private readonly ISimpleDBOperations<TicketDataRow> _tickets;
+        private readonly ISimpleDBOperations<TicketMessageDataRow> _ticketMessages;
+        private readonly ISimpleDBOperations<TicketStatusDataRow> _ticketStatus;
+        private readonly ISimpleDBOperations<TicketPrioritiesDataRow> _ticketPriority;
+        private readonly ISimpleDBOperations<TicketDepartmentsDataRow> _ticketDepartments;
 
         #endregion Private Members
 
         #region Constructors
 
-        public HelpdeskProvider(ITextTableOperations<UserDataRow> userDataRow,
-            ITextTableOperations<FeedbackDataRow> feedbackDataRow, 
-            ITextTableOperations<FAQDataRow> faqDataRow,
-            ITextTableOperations<FAQItemDataRow> faqItemDataRow,
-            ITextTableOperations<TicketDataRow> tickets,
-            ITextTableOperations<TicketMessageDataRow> ticketMessages,
-            ITextTableOperations<TicketStatusDataRow> ticketStatus,
-            ITextTableOperations<TicketPrioritiesDataRow> ticketPriority,
-            ITextTableOperations<TicketDepartmentsDataRow> ticketDepartments)
+        public HelpdeskProvider(ISimpleDBOperations<UserDataRow> userDataRow,
+            ISimpleDBOperations<FeedbackDataRow> feedbackDataRow, 
+            ISimpleDBOperations<FAQDataRow> faqDataRow,
+            ISimpleDBOperations<FAQItemDataRow> faqItemDataRow,
+            ISimpleDBOperations<TicketDataRow> tickets,
+            ISimpleDBOperations<TicketMessageDataRow> ticketMessages,
+            ISimpleDBOperations<TicketStatusDataRow> ticketStatus,
+            ISimpleDBOperations<TicketPrioritiesDataRow> ticketPriority,
+            ISimpleDBOperations<TicketDepartmentsDataRow> ticketDepartments)
         {
             _userDataRow = userDataRow ?? throw new ArgumentNullException(nameof(userDataRow));
             _feedbackDataRow = feedbackDataRow ?? throw new ArgumentNullException(nameof(feedbackDataRow));

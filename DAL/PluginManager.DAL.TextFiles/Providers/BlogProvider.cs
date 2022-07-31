@@ -27,6 +27,7 @@ using Middleware;
 using Middleware.Blog;
 
 using PluginManager.DAL.TextFiles.Tables;
+using SimpleDB;
 
 using SharedPluginFeatures;
 
@@ -38,17 +39,17 @@ namespace PluginManager.DAL.TextFiles.Providers
 
         private const int MaxRecursionDepth = 20;
 
-        private readonly ITextTableOperations<UserDataRow> _users;
-        private readonly ITextTableOperations<BlogDataRow> _blogs;
-        private readonly ITextTableOperations<BlogCommentDataRow> _blogComments;
+        private readonly ISimpleDBOperations<UserDataRow> _users;
+        private readonly ISimpleDBOperations<BlogDataRow> _blogs;
+        private readonly ISimpleDBOperations<BlogCommentDataRow> _blogComments;
         private readonly IMemoryCache _memoryCache;
 
         #endregion Private Members
 
         #region Constructors
 
-        public BlogProvider(IMemoryCache memoryCache, ITextTableOperations<UserDataRow> users,
-            ITextTableOperations<BlogDataRow> blogs, ITextTableOperations<BlogCommentDataRow> blogComments)
+        public BlogProvider(IMemoryCache memoryCache, ISimpleDBOperations<UserDataRow> users,
+            ISimpleDBOperations<BlogDataRow> blogs, ISimpleDBOperations<BlogCommentDataRow> blogComments)
         {
             _memoryCache = memoryCache ?? throw new ArgumentNullException(nameof(memoryCache));
             _users = users ?? throw new ArgumentNullException(nameof(users));

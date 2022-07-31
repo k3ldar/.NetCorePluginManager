@@ -41,6 +41,7 @@ using Middleware.Accounts.Orders;
 using PluginManager.Abstractions;
 using PluginManager.DAL.TextFiles.Providers;
 using PluginManager.DAL.TextFiles.Tables;
+using SimpleDB;
 
 using SharedPluginFeatures;
 
@@ -65,12 +66,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-                services.AddSingleton<IPluginClassesService, MockPluginClassesService>();
-
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
@@ -94,13 +90,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-                MockPluginClassesService mockPluginClassesService = new MockPluginClassesService();
-
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-                services.AddSingleton<IPluginClassesService>(mockPluginClassesService);
-
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
@@ -114,7 +104,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     Assert.IsTrue(created);
                     Assert.AreEqual(2u, userId);
 
-                    ITextTableOperations<UserDataRow> userTable = (ITextTableOperations<UserDataRow>)provider.GetService(typeof(ITextTableOperations<UserDataRow>));
+                    ISimpleDBOperations<UserDataRow> userTable = (ISimpleDBOperations<UserDataRow>)provider.GetService(typeof(ISimpleDBOperations<UserDataRow>));
                     Assert.IsNotNull(userTable);
                     UserDataRow userRow = userTable.Select(userId);
                     sut.ConfirmEmailAddress(userId, userRow.EmailConfirmCode.ToString());
@@ -150,12 +140,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-                services.AddSingleton<IPluginClassesService, MockPluginClassesService>();
-
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
@@ -172,7 +157,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
                     Assert.IsTrue(changePassword);
 
-                    ITextTableOperations<UserDataRow> userTable = (ITextTableOperations<UserDataRow>)provider.GetService(typeof(ITextTableOperations<UserDataRow>));
+                    ISimpleDBOperations<UserDataRow> userTable = (ISimpleDBOperations<UserDataRow>)provider.GetService(typeof(ISimpleDBOperations<UserDataRow>));
                     Assert.IsNotNull(userTable);
                     UserDataRow userRow = userTable.Select(userId);
 
@@ -195,12 +180,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-                services.AddSingleton<IPluginClassesService, MockPluginClassesService>();
-
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
@@ -217,7 +197,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
                     Assert.IsTrue(setDetails);
 
-                    ITextTableOperations<UserDataRow> userTable = (ITextTableOperations<UserDataRow>)provider.GetService(typeof(ITextTableOperations<UserDataRow>));
+                    ISimpleDBOperations<UserDataRow> userTable = (ISimpleDBOperations<UserDataRow>)provider.GetService(typeof(ISimpleDBOperations<UserDataRow>));
                     Assert.IsNotNull(userTable);
                     UserDataRow userRow = userTable.Select(userId);
 
@@ -249,12 +229,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-                services.AddSingleton<IPluginClassesService, MockPluginClassesService>();
-
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
@@ -271,7 +246,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
                     Assert.IsTrue(deleteAccount);
 
-                    ITextTableOperations<UserDataRow> userTable = (ITextTableOperations<UserDataRow>)provider.GetService(typeof(ITextTableOperations<UserDataRow>));
+                    ISimpleDBOperations<UserDataRow> userTable = (ISimpleDBOperations<UserDataRow>)provider.GetService(typeof(ISimpleDBOperations<UserDataRow>));
                     Assert.IsNotNull(userTable);
                     UserDataRow userRow = userTable.Select(userId);
 
@@ -292,16 +267,11 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-                services.AddSingleton<IPluginClassesService, MockPluginClassesService>();
-
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
-                    ITextTableOperations<UserDataRow> userTable = (ITextTableOperations<UserDataRow>)provider.GetService(typeof(ITextTableOperations<UserDataRow>));
+                    ISimpleDBOperations<UserDataRow> userTable = (ISimpleDBOperations<UserDataRow>)provider.GetService(typeof(ISimpleDBOperations<UserDataRow>));
                     Assert.IsNotNull(userTable);
 
                     IAccountProvider sut = provider.GetService(typeof(IAccountProvider)) as IAccountProvider;
@@ -348,16 +318,11 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-                services.AddSingleton<IPluginClassesService, MockPluginClassesService>();
-
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
-                    ITextTableOperations<UserDataRow> userTable = (ITextTableOperations<UserDataRow>)provider.GetService(typeof(ITextTableOperations<UserDataRow>));
+                    ISimpleDBOperations<UserDataRow> userTable = (ISimpleDBOperations<UserDataRow>)provider.GetService(typeof(ISimpleDBOperations<UserDataRow>));
                     Assert.IsNotNull(userTable);
 
                     IAccountProvider sut = provider.GetService(typeof(IAccountProvider)) as IAccountProvider;
@@ -401,16 +366,11 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-                services.AddSingleton<IPluginClassesService>(new MockPluginClassesService(new List<object>() { new UserDataRowTriggers() }));
-
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
-                    ITextTableOperations<AddressDataRow> addressTable = (ITextTableOperations<AddressDataRow>)provider.GetService(typeof(ITextTableOperations<AddressDataRow>));
+                    ISimpleDBOperations<AddressDataRow> addressTable = (ISimpleDBOperations<AddressDataRow>)provider.GetService(typeof(ISimpleDBOperations<AddressDataRow>));
                     Assert.IsNotNull(addressTable);
 
                     IAccountProvider sut = provider.GetService(typeof(IAccountProvider)) as IAccountProvider;
@@ -424,10 +384,10 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     Address address = new Address(-1, "business", "add 1", "add 2", "add 3", "city", "county", "postcode", "NL");
                     bool setBillingAddress = sut.SetBillingAddress(userId, address);
 
-                    AddressDataRow addressRow = addressTable.Select(0);
+                    AddressDataRow addressRow = addressTable.Select(1);
                     Assert.IsNotNull(addressRow);
 
-                    Assert.AreEqual(0, addressRow.Id);
+                    Assert.AreEqual(1, addressRow.Id);
                     Assert.AreEqual(userId, addressRow.UserId);
                     Assert.AreEqual(0, addressRow.PostageCost);
                     Assert.AreEqual("business", addressRow.BusinessName);
@@ -444,10 +404,10 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     address = new Address(Convert.ToInt32(addressRow.Id), "", "add 1a", "add 2a", "add 3a", "citya", "countya", "postcodea", "FR");
                     setBillingAddress = sut.SetBillingAddress(userId, address);
 
-                    addressRow = addressTable.Select(0);
+                    addressRow = addressTable.Select(1);
                     Assert.IsNotNull(addressRow);
 
-                    Assert.AreEqual(0, addressRow.Id);
+                    Assert.AreEqual(1, addressRow.Id);
                     Assert.AreEqual(userId, addressRow.UserId);
                     Assert.AreEqual(0, addressRow.PostageCost);
                     Assert.AreEqual("", addressRow.BusinessName);
@@ -463,7 +423,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     address = sut.GetBillingAddress(userId);
                     Assert.IsNotNull(address);
 
-                    Assert.AreEqual(0, address.Id);
+                    Assert.AreEqual(1, address.Id);
                     Assert.AreEqual("", address.BusinessName);
                     Assert.AreEqual("add 1a", address.AddressLine1);
                     Assert.AreEqual("add 2a", address.AddressLine2);
@@ -488,16 +448,11 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-                services.AddSingleton<IPluginClassesService, MockPluginClassesService>();
-
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
-                    ITextTableOperations<UserDataRow> userTable = (ITextTableOperations<UserDataRow>)provider.GetService(typeof(ITextTableOperations<UserDataRow>));
+                    ISimpleDBOperations<UserDataRow> userTable = (ISimpleDBOperations<UserDataRow>)provider.GetService(typeof(ISimpleDBOperations<UserDataRow>));
                     Assert.IsNotNull(userTable);
 
                     IAccountProvider sut = provider.GetService(typeof(IAccountProvider)) as IAccountProvider;
@@ -524,23 +479,17 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-                services.AddSingleton<IPluginClassesService, MockPluginClassesService>();
-
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-                services.AddSingleton<IPluginClassesService>(new MockPluginClassesService(new List<object>() { new UserDataRowTriggers() }));
-
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
-                    ITextTableOperations<UserDataRow> userTable = provider.GetService<ITextTableOperations<UserDataRow>>();
+                    ISimpleDBOperations<UserDataRow> userTable = provider.GetService<ISimpleDBOperations<UserDataRow>>();
                     Assert.IsNotNull(userTable);
 
-                    ITextTableOperations<OrderDataRow> orderData = provider.GetService<ITextTableOperations<OrderDataRow>>();
+                    ISimpleDBOperations<OrderDataRow> orderData = provider.GetService<ISimpleDBOperations<OrderDataRow>>();
                     Assert.IsNotNull(orderData);
 
-                    ITextTableOperations<OrderItemDataRow> orderItemsData = provider.GetService<ITextTableOperations<OrderItemDataRow>>();
+                    ISimpleDBOperations<OrderItemDataRow> orderItemsData = provider.GetService<ISimpleDBOperations<OrderItemDataRow>>();
                     Assert.IsNotNull(orderItemsData);
 
 
@@ -569,7 +518,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     });
                     
 
-                    List<Order> orders = sut.OrdersGet(0);
+                    List<Order> orders = sut.OrdersGet(userId);
 
                     Assert.IsNotNull(orders);
                     Assert.AreEqual(2, orders.Count);
@@ -637,23 +586,17 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-                services.AddSingleton<IPluginClassesService, MockPluginClassesService>();
-
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-                services.AddSingleton<IPluginClassesService>(new MockPluginClassesService(new List<object>() { new UserDataRowTriggers() }));
-
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
-                    ITextTableOperations<UserDataRow> userTable = provider.GetService<ITextTableOperations<UserDataRow>>();
+                    ISimpleDBOperations<UserDataRow> userTable = provider.GetService<ISimpleDBOperations<UserDataRow>>();
                     Assert.IsNotNull(userTable);
 
-                    ITextTableOperations<OrderDataRow> orderData = provider.GetService<ITextTableOperations<OrderDataRow>>();
+                    ISimpleDBOperations<OrderDataRow> orderData = provider.GetService<ISimpleDBOperations<OrderDataRow>>();
                     Assert.IsNotNull(orderData);
 
-                    ITextTableOperations<OrderItemDataRow> orderItemsData = provider.GetService<ITextTableOperations<OrderItemDataRow>>();
+                    ISimpleDBOperations<OrderItemDataRow> orderItemsData = provider.GetService<ISimpleDBOperations<OrderItemDataRow>>();
                     Assert.IsNotNull(orderItemsData);
 
 
@@ -705,13 +648,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-                services.AddSingleton<IPluginClassesService, MockPluginClassesService>();
-
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-                services.AddSingleton<IPluginClassesService>(new MockPluginClassesService(new List<object>() { new UserDataRowTriggers() }));
-
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
@@ -737,13 +674,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-                services.AddSingleton<IPluginClassesService, MockPluginClassesService>();
-
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-                services.AddSingleton<IPluginClassesService>(new MockPluginClassesService(new List<object>() { new UserDataRowTriggers() }));
-
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
@@ -771,23 +702,17 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-                services.AddSingleton<IPluginClassesService, MockPluginClassesService>();
-
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-                services.AddSingleton<IPluginClassesService>(new MockPluginClassesService(new List<object>() { new UserDataRowTriggers() }));
-
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
-                    ITextTableOperations<UserDataRow> userTable = provider.GetService<ITextTableOperations<UserDataRow>>();
+                    ISimpleDBOperations<UserDataRow> userTable = provider.GetService<ISimpleDBOperations<UserDataRow>>();
                     Assert.IsNotNull(userTable);
 
-                    ITextTableOperations<OrderDataRow> orderData = provider.GetService<ITextTableOperations<OrderDataRow>>();
+                    ISimpleDBOperations<OrderDataRow> orderData = provider.GetService<ISimpleDBOperations<OrderDataRow>>();
                     Assert.IsNotNull(orderData);
 
-                    ITextTableOperations<OrderItemDataRow> orderItemsData = provider.GetService<ITextTableOperations<OrderItemDataRow>>();
+                    ISimpleDBOperations<OrderItemDataRow> orderItemsData = provider.GetService<ISimpleDBOperations<OrderItemDataRow>>();
                     Assert.IsNotNull(orderItemsData);
 
                     IAccountProvider sut = provider.GetService(typeof(IAccountProvider)) as IAccountProvider;
@@ -829,32 +754,26 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-                services.AddSingleton<IPluginClassesService, MockPluginClassesService>();
-
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-                services.AddSingleton<IPluginClassesService>(new MockPluginClassesService(new List<object>() { new UserDataRowTriggers() }));
-
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
-                    ITextTableOperations<UserDataRow> userTable = provider.GetService<ITextTableOperations<UserDataRow>>();
+                    ISimpleDBOperations<UserDataRow> userTable = provider.GetService<ISimpleDBOperations<UserDataRow>>();
                     Assert.IsNotNull(userTable);
 
-                    ITextTableOperations<OrderDataRow> orderData = provider.GetService<ITextTableOperations<OrderDataRow>>();
+                    ISimpleDBOperations<OrderDataRow> orderData = provider.GetService<ISimpleDBOperations<OrderDataRow>>();
                     Assert.IsNotNull(orderData);
                     Assert.AreEqual(0, orderData.RecordCount);
 
-                    ITextTableOperations<OrderItemDataRow> orderItemsData = provider.GetService<ITextTableOperations<OrderItemDataRow>>();
+                    ISimpleDBOperations<OrderItemDataRow> orderItemsData = provider.GetService<ISimpleDBOperations<OrderItemDataRow>>();
                     Assert.IsNotNull(orderItemsData);
                     Assert.AreEqual(0, orderItemsData.RecordCount);
 
-                    ITextTableOperations<InvoiceDataRow> invoiceData = provider.GetService<ITextTableOperations<InvoiceDataRow>>();
+                    ISimpleDBOperations<InvoiceDataRow> invoiceData = provider.GetService<ISimpleDBOperations<InvoiceDataRow>>();
                     Assert.IsNotNull(invoiceData);
                     Assert.AreEqual(0, invoiceData.RecordCount);
 
-                    ITextTableOperations<InvoiceItemDataRow> invoiceItemData = provider.GetService<ITextTableOperations<InvoiceItemDataRow>>();
+                    ISimpleDBOperations<InvoiceItemDataRow> invoiceItemData = provider.GetService<ISimpleDBOperations<InvoiceItemDataRow>>();
                     Assert.IsNotNull(invoiceItemData);
                     Assert.AreEqual(0, invoiceItemData.RecordCount);
 
@@ -955,13 +874,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-                services.AddSingleton<IPluginClassesService, MockPluginClassesService>();
-
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-                services.AddSingleton<IPluginClassesService>(new MockPluginClassesService(new List<object>() { new UserDataRowTriggers() }));
-
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
@@ -989,16 +902,11 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-                services.AddSingleton<IPluginClassesService>(new MockPluginClassesService(new List<object>() { new UserDataRowTriggers() }));
-
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
-                    ITextTableOperations<AddressDataRow> addressTable = (ITextTableOperations<AddressDataRow>)provider.GetService(typeof(ITextTableOperations<AddressDataRow>));
+                    ISimpleDBOperations<AddressDataRow> addressTable = (ISimpleDBOperations<AddressDataRow>)provider.GetService(typeof(ISimpleDBOperations<AddressDataRow>));
                     Assert.IsNotNull(addressTable);
 
                     IAccountProvider sut = provider.GetService(typeof(IAccountProvider)) as IAccountProvider;
@@ -1013,10 +921,10 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     bool addBillingAddress = sut.AddDeliveryAddress(userId, address);
                     Assert.IsTrue(addBillingAddress);
 
-                    AddressDataRow addressRow = addressTable.Select(0);
+                    AddressDataRow addressRow = addressTable.Select(1);
                     Assert.IsNotNull(addressRow);
 
-                    Assert.AreEqual(0, addressRow.Id);
+                    Assert.AreEqual(1, addressRow.Id);
                     Assert.AreEqual(userId, addressRow.UserId);
                     Assert.AreEqual(2.99m, addressRow.PostageCost);
                     Assert.AreEqual("business", addressRow.BusinessName);
@@ -1034,10 +942,10 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     addBillingAddress = sut.AddDeliveryAddress(userId, address);
                     Assert.IsTrue(addBillingAddress);
 
-                    addressRow = addressTable.Select(1);
+                    addressRow = addressTable.Select(2);
                     Assert.IsNotNull(addressRow);
 
-                    Assert.AreEqual(1, addressRow.Id);
+                    Assert.AreEqual(2, addressRow.Id);
                     Assert.AreEqual(userId, addressRow.UserId);
                     Assert.AreEqual(1.99m, addressRow.PostageCost);
                     Assert.AreEqual("", addressRow.BusinessName);
@@ -1050,7 +958,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     Assert.AreEqual("FR", addressRow.Country);
                     Assert.IsTrue(addressRow.IsDelivery);
 
-                    address = sut.GetDeliveryAddress(userId, 1);
+                    address = sut.GetDeliveryAddress(userId, 2);
                     address.PostageCost = 3.99m;
                     sut.SetDeliveryAddress(userId, address);
 
@@ -1059,7 +967,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     Assert.AreEqual(2, deliveryAddresses.Count);
 
                     address = deliveryAddresses[1];
-                    Assert.AreEqual(1, address.Id);
+                    Assert.AreEqual(2, address.Id);
                     Assert.AreEqual(3.99m, address.PostageCost);
                     Assert.AreEqual("", address.BusinessName);
                     Assert.AreEqual("add 1a", address.AddressLine1);

@@ -31,8 +31,8 @@ using Middleware.Accounts.Invoices;
 using Middleware.Accounts.Orders;
 
 using PluginManager.Abstractions;
-using PluginManager.DAL.TextFiles.Internal;
 using PluginManager.DAL.TextFiles.Tables;
+using SimpleDB;
 
 using SharedPluginFeatures;
 
@@ -42,12 +42,12 @@ namespace PluginManager.DAL.TextFiles.Providers
     {
         #region Private Members
 
-        private readonly ITextTableOperations<UserDataRow> _users;
-        private readonly ITextTableOperations<AddressDataRow> _addresses;
-        private readonly ITextTableOperations<OrderDataRow> _orders;
-        private readonly ITextTableOperations<OrderItemDataRow> _ordersItems;
-        private readonly ITextTableOperations<InvoiceDataRow> _invoices;
-        private readonly ITextTableOperations<InvoiceItemDataRow> _invoiceItems;
+        private readonly ISimpleDBOperations<UserDataRow> _users;
+        private readonly ISimpleDBOperations<AddressDataRow> _addresses;
+        private readonly ISimpleDBOperations<OrderDataRow> _orders;
+        private readonly ISimpleDBOperations<OrderItemDataRow> _ordersItems;
+        private readonly ISimpleDBOperations<InvoiceDataRow> _invoices;
+        private readonly ISimpleDBOperations<InvoiceItemDataRow> _invoiceItems;
         private readonly string _encryptionKey;
 
 
@@ -55,18 +55,18 @@ namespace PluginManager.DAL.TextFiles.Providers
 
         #region Constructors
 
-        public AccountProvider(ITextTableOperations<UserDataRow> users, 
-            ITextTableOperations<AddressDataRow> addresses, 
-            ITextTableOperations<OrderDataRow> orders,
-            ITextTableOperations<OrderItemDataRow> orderItems,
-            ITextTableOperations<InvoiceDataRow> invoices,
-            ITextTableOperations<InvoiceItemDataRow> invoiceItems,
+        public AccountProvider(ISimpleDBOperations<UserDataRow> users, 
+            ISimpleDBOperations<AddressDataRow> addresses, 
+            ISimpleDBOperations<OrderDataRow> orders,
+            ISimpleDBOperations<OrderItemDataRow> orderItems,
+            ISimpleDBOperations<InvoiceDataRow> invoices,
+            ISimpleDBOperations<InvoiceItemDataRow> invoiceItems,
             ISettingsProvider settingsProvider)
         {
             if (settingsProvider == null)
                 throw new ArgumentNullException(nameof(settingsProvider));
 
-            TextFileSettings settings = settingsProvider.GetSettings<TextFileSettings>(nameof(TextFileSettings));
+            SimpleDBSettings settings = settingsProvider.GetSettings<SimpleDBSettings>(nameof(SimpleDBSettings));
 
             if (settings == null)
                 throw new InvalidOperationException();

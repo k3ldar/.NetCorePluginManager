@@ -41,7 +41,9 @@ using PluginManager.DAL.TextFiles.Providers;
 using PluginManager.DAL.TextFiles.Tables;
 
 using SharedPluginFeatures;
-using PluginManager.DAL.TextFiles.Tests.Mocks;
+using SimpleDB.Tests.Mocks;
+using SimpleDB;
+using SimpleDB.Internal;
 
 namespace PluginManager.DAL.TextFiles.Tests.Providers
 {
@@ -94,22 +96,16 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-
-                services.AddSingleton<IMemoryCache, MockMemoryCache>();
-                services.AddSingleton<IPluginClassesService, MockPluginClassesService>();
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
-                    ITextTableOperations<UserDataRow> userTable = provider.GetRequiredService<ITextTableOperations<UserDataRow>>();
+                    ISimpleDBOperations<UserDataRow> userTable = provider.GetRequiredService<ISimpleDBOperations<UserDataRow>>();
                     Assert.IsNotNull(userTable);
 
                     userTable.Insert(new UserDataRow() { FirstName = "test", Surname = "user"});
 
-                    ITextTableOperations<BlogDataRow> blogTable = provider.GetRequiredService<ITextTableOperations<BlogDataRow>>();
+                    ISimpleDBOperations<BlogDataRow> blogTable = provider.GetRequiredService<ISimpleDBOperations<BlogDataRow>>();
                     Assert.IsNotNull(blogTable);
 
                     DateTime firstDate = new DateTime(2022, 06, 07, 18, 11, 12);
@@ -123,7 +119,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                             Published = i % 2 == 0,
                             Excerpt = $"Test blog {i}",
                             Username = "Test User",
-                            UserId = 0,
+                            UserId = 2,
                         });
 
                         firstDate.AddDays(1);
@@ -160,22 +156,16 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-
-                services.AddSingleton<IMemoryCache, MockMemoryCache>();
-                services.AddSingleton<IPluginClassesService, MockPluginClassesService>();
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
-                    ITextTableOperations<UserDataRow> userTable = provider.GetRequiredService<ITextTableOperations<UserDataRow>>();
+                    ISimpleDBOperations<UserDataRow> userTable = provider.GetRequiredService<ISimpleDBOperations<UserDataRow>>();
                     Assert.IsNotNull(userTable);
 
                     userTable.Insert(new UserDataRow() { FirstName = "test", Surname = "user" });
 
-                    ITextTableOperations<BlogDataRow> blogTable = provider.GetRequiredService<ITextTableOperations<BlogDataRow>>();
+                    ISimpleDBOperations<BlogDataRow> blogTable = provider.GetRequiredService<ISimpleDBOperations<BlogDataRow>>();
                     Assert.IsNotNull(blogTable);
 
                     DateTime firstDate = new DateTime(2022, 06, 07, 18, 11, 12);
@@ -189,7 +179,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                             Published = i % 2 == 0,
                             Excerpt = $"Test blog {i}",
                             Username = "Test User",
-                            UserId = 0,
+                            UserId = 2,
                         });
 
                         firstDate.AddDays(1);
@@ -229,22 +219,16 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-
-                services.AddSingleton<IMemoryCache, MockMemoryCache>();
-                services.AddSingleton<IPluginClassesService, MockPluginClassesService>();
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
-                    ITextTableOperations<UserDataRow> userTable = provider.GetRequiredService<ITextTableOperations<UserDataRow>>();
+                    ISimpleDBOperations<UserDataRow> userTable = provider.GetRequiredService<ISimpleDBOperations<UserDataRow>>();
                     Assert.IsNotNull(userTable);
 
                     userTable.Insert(new UserDataRow() { FirstName = "test", Surname = "user" });
 
-                    ITextTableOperations<BlogDataRow> blogTable = provider.GetRequiredService<ITextTableOperations<BlogDataRow>>();
+                    ISimpleDBOperations<BlogDataRow> blogTable = provider.GetRequiredService<ISimpleDBOperations<BlogDataRow>>();
                     Assert.IsNotNull(blogTable);
 
                     DateTime firstDate = new DateTime(2022, 06, 07, 18, 11, 12);
@@ -258,7 +242,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                             Published = i % 2 == 0,
                             Excerpt = $"Test blog {i}",
                             Username = "Test User",
-                            UserId = 0,
+                            UserId = 2,
                             Tags = new ObservableList<string>()
                             {
                                 "test",
@@ -291,22 +275,16 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-
-                services.AddSingleton<IMemoryCache, MockMemoryCache>();
-                services.AddSingleton<IPluginClassesService, MockPluginClassesService>();
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
-                    ITextTableOperations<UserDataRow> userTable = provider.GetRequiredService<ITextTableOperations<UserDataRow>>();
+                    ISimpleDBOperations<UserDataRow> userTable = provider.GetRequiredService<ISimpleDBOperations<UserDataRow>>();
                     Assert.IsNotNull(userTable);
 
                     userTable.Insert(new UserDataRow() { FirstName = "test", Surname = "user" });
 
-                    ITextTableOperations<BlogDataRow> blogTable = provider.GetRequiredService<ITextTableOperations<BlogDataRow>>();
+                    ISimpleDBOperations<BlogDataRow> blogTable = provider.GetRequiredService<ISimpleDBOperations<BlogDataRow>>();
                     Assert.IsNotNull(blogTable);
 
                     DateTime firstDate = new DateTime(2022, 06, 07, 18, 11, 12);
@@ -320,7 +298,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                             Published = i % 2 == 0,
                             Excerpt = $"Test blog {i}",
                             Username = "Test User",
-                            UserId = 0,
+                            UserId = 2,
                             Tags = new ObservableList<string>()
                             {
                                 "test",
@@ -353,22 +331,16 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-
-                services.AddSingleton<IMemoryCache, MockMemoryCache>();
-                services.AddSingleton<IPluginClassesService, MockPluginClassesService>();
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
-                    ITextTableOperations<UserDataRow> userTable = provider.GetRequiredService<ITextTableOperations<UserDataRow>>();
+                    ISimpleDBOperations<UserDataRow> userTable = provider.GetRequiredService<ISimpleDBOperations<UserDataRow>>();
                     Assert.IsNotNull(userTable);
 
                     userTable.Insert(new UserDataRow() { FirstName = "test", Surname = "user" });
 
-                    ITextTableOperations<BlogDataRow> blogTable = provider.GetRequiredService<ITextTableOperations<BlogDataRow>>();
+                    ISimpleDBOperations<BlogDataRow> blogTable = provider.GetRequiredService<ISimpleDBOperations<BlogDataRow>>();
                     Assert.IsNotNull(blogTable);
 
                     DateTime firstDate = new DateTime(2022, 06, 07, 18, 11, 12);
@@ -382,7 +354,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                             Published = i % 2 == 0,
                             Excerpt = $"Test blog {i}",
                             Username = "Test User",
-                            UserId = 0,
+                            UserId = 2,
                             Tags = new ObservableList<string>()
                             {
                                 "test",
@@ -415,22 +387,16 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-
-                services.AddSingleton<IMemoryCache, MockMemoryCache>();
-                services.AddSingleton<IPluginClassesService, MockPluginClassesService>();
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
-                    ITextTableOperations<UserDataRow> userTable = provider.GetRequiredService<ITextTableOperations<UserDataRow>>();
+                    ISimpleDBOperations<UserDataRow> userTable = provider.GetRequiredService<ISimpleDBOperations<UserDataRow>>();
                     Assert.IsNotNull(userTable);
 
                     userTable.Insert(new UserDataRow() { FirstName = "test", Surname = "user" });
 
-                    ITextTableOperations<BlogDataRow> blogTable = provider.GetRequiredService<ITextTableOperations<BlogDataRow>>();
+                    ISimpleDBOperations<BlogDataRow> blogTable = provider.GetRequiredService<ISimpleDBOperations<BlogDataRow>>();
                     Assert.IsNotNull(blogTable);
 
                     DateTime firstDate = new DateTime(2022, 06, 07, 18, 11, 12);
@@ -444,7 +410,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                             Published = i % 2 == 0,
                             Excerpt = $"Test blog {i}",
                             Username = "Test User",
-                            UserId = 0,
+                            UserId = 2,
                             Tags = new ObservableList<string>()
                             {
                                 "test",
@@ -477,22 +443,16 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-
-                services.AddSingleton<IMemoryCache, MockMemoryCache>();
-                services.AddSingleton<IPluginClassesService, MockPluginClassesService>();
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
-                    ITextTableOperations<UserDataRow> userTable = provider.GetRequiredService<ITextTableOperations<UserDataRow>>();
+                    ISimpleDBOperations<UserDataRow> userTable = provider.GetRequiredService<ISimpleDBOperations<UserDataRow>>();
                     Assert.IsNotNull(userTable);
 
                     userTable.Insert(new UserDataRow() { FirstName = "test", Surname = "user" });
 
-                    ITextTableOperations<BlogDataRow> blogTable = provider.GetRequiredService<ITextTableOperations<BlogDataRow>>();
+                    ISimpleDBOperations<BlogDataRow> blogTable = provider.GetRequiredService<ISimpleDBOperations<BlogDataRow>>();
                     Assert.IsNotNull(blogTable);
 
                     DateTime firstDate = new DateTime(2022, 06, 07, 18, 11, 12);
@@ -506,7 +466,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                             Published = i % 2 == 0,
                             Excerpt = $"Test blog {i}",
                             Username = "Test User",
-                            UserId = 0,
+                            UserId = 2,
                             Tags = new ObservableList<string>()
                             {
                                 "test",
@@ -541,23 +501,17 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-
-                services.AddSingleton<IMemoryCache, MockMemoryCache>();
-                services.AddSingleton<IPluginClassesService, MockPluginClassesService>();
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
-                    ITextTableOperations<UserDataRow> userTable = provider.GetRequiredService<ITextTableOperations<UserDataRow>>();
+                    ISimpleDBOperations<UserDataRow> userTable = provider.GetRequiredService<ISimpleDBOperations<UserDataRow>>();
                     Assert.IsNotNull(userTable);
 
                     userTable.Insert(new UserDataRow() { FirstName = "test", Surname = "user" });
                     userTable.Insert(new UserDataRow() { FirstName = "test", Surname = "user" });
 
-                    ITextTableOperations<BlogDataRow> blogTable = provider.GetRequiredService<ITextTableOperations<BlogDataRow>>();
+                    ISimpleDBOperations<BlogDataRow> blogTable = provider.GetRequiredService<ISimpleDBOperations<BlogDataRow>>();
                     Assert.IsNotNull(blogTable);
 
                     DateTime firstDate = new DateTime(2022, 06, 07, 18, 11, 12);
@@ -571,7 +525,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                             Published = i % 2 == 0,
                             Excerpt = $"Test blog {i}",
                             Username = "Test User",
-                            UserId = i % 2 == 0 ? 1 : 0,
+                            UserId = i % 2 == 0 ? 3 : 2,
                             Tags = new ObservableList<string>()
                             {
                                 "test",
@@ -583,7 +537,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     IBlogProvider sut = provider.GetRequiredService<IBlogProvider>();
                     Assert.IsNotNull(sut);
 
-                    List<BlogItem> blogs = sut.GetMyBlogs(1);
+                    List<BlogItem> blogs = sut.GetMyBlogs(2);
 
                     Assert.IsNotNull(blogs);
 
@@ -608,23 +562,17 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-
-                services.AddSingleton<IMemoryCache, MockMemoryCache>();
-                services.AddSingleton<IPluginClassesService, MockPluginClassesService>();
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
-                    ITextTableOperations<UserDataRow> userTable = provider.GetRequiredService<ITextTableOperations<UserDataRow>>();
+                    ISimpleDBOperations<UserDataRow> userTable = provider.GetRequiredService<ISimpleDBOperations<UserDataRow>>();
                     Assert.IsNotNull(userTable);
 
                     userTable.Insert(new UserDataRow() { FirstName = "test", Surname = "user" });
                     userTable.Insert(new UserDataRow() { FirstName = "test", Surname = "user" });
 
-                    ITextTableOperations<BlogDataRow> blogTable = provider.GetRequiredService<ITextTableOperations<BlogDataRow>>();
+                    ISimpleDBOperations<BlogDataRow> blogTable = provider.GetRequiredService<ISimpleDBOperations<BlogDataRow>>();
                     Assert.IsNotNull(blogTable);
 
                     List<string> tags = new List<string>()
@@ -666,23 +614,17 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-
-                services.AddSingleton<IMemoryCache, MockMemoryCache>();
-                services.AddSingleton<IPluginClassesService, MockPluginClassesService>();
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
-                    ITextTableOperations<UserDataRow> userTable = provider.GetRequiredService<ITextTableOperations<UserDataRow>>();
+                    ISimpleDBOperations<UserDataRow> userTable = provider.GetRequiredService<ISimpleDBOperations<UserDataRow>>();
                     Assert.IsNotNull(userTable);
 
                     userTable.Insert(new UserDataRow() { FirstName = "test", Surname = "user" });
                     userTable.Insert(new UserDataRow() { FirstName = "test", Surname = "user" });
 
-                    ITextTableOperations<BlogDataRow> blogTable = provider.GetRequiredService<ITextTableOperations<BlogDataRow>>();
+                    ISimpleDBOperations<BlogDataRow> blogTable = provider.GetRequiredService<ISimpleDBOperations<BlogDataRow>>();
                     Assert.IsNotNull(blogTable);
 
                     for (int i = 0; i < 10; i++)
@@ -694,7 +636,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                             Published = i % 2 == 0,
                             Excerpt = $"Test blog {i}",
                             Username = "Test User",
-                            UserId = 0,
+                            UserId = 2,
                             Tags = new ObservableList<string>()
                             {
                                 "test",
@@ -720,7 +662,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     sut.SaveBlog(existingBlog);
 
                     Assert.AreEqual(5, existingBlog.Id);
-                    Assert.AreEqual(0, existingBlog.UserId);
+                    Assert.AreEqual(2, existingBlog.UserId);
                     Assert.AreEqual("existing", existingBlog.Title);
                     Assert.AreEqual("Test blog 5", existingBlog.Excerpt);
                     Assert.AreEqual("Blog 5", existingBlog.BlogText);
@@ -744,23 +686,17 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-
-                services.AddSingleton<IMemoryCache, MockMemoryCache>();
-                services.AddSingleton<IPluginClassesService, MockPluginClassesService>();
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
-                    ITextTableOperations<UserDataRow> userTable = provider.GetRequiredService<ITextTableOperations<UserDataRow>>();
+                    ISimpleDBOperations<UserDataRow> userTable = provider.GetRequiredService<ISimpleDBOperations<UserDataRow>>();
                     Assert.IsNotNull(userTable);
 
                     userTable.Insert(new UserDataRow() { FirstName = "test", Surname = "user" });
                     userTable.Insert(new UserDataRow() { FirstName = "test", Surname = "user" });
 
-                    ITextTableOperations<BlogDataRow> blogTable = provider.GetRequiredService<ITextTableOperations<BlogDataRow>>();
+                    ISimpleDBOperations<BlogDataRow> blogTable = provider.GetRequiredService<ISimpleDBOperations<BlogDataRow>>();
                     Assert.IsNotNull(blogTable);
 
                     List<string> tags = new List<string>()
@@ -769,7 +705,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                         "blog"
                     };
 
-                    BlogItem newBlog = new BlogItem(-1, 1, "My Blog", "My blog...", "Just a blog", "Blog writer", false, DateTime.Now, DateTime.Now, DateTime.Now.AddDays(-10), tags, new List<BlogComment>());
+                    BlogItem newBlog = new BlogItem(-1, 2, "My Blog", "My blog...", "Just a blog", "Blog writer", false, DateTime.Now, DateTime.Now, DateTime.Now.AddDays(-10), tags, new List<BlogComment>());
                     IBlogProvider sut = provider.GetRequiredService<IBlogProvider>();
                     Assert.IsNotNull(sut);
 
@@ -778,14 +714,14 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     Assert.IsNotNull(savedBlog);
 
                     Assert.AreEqual(0, savedBlog.Id);
-                    Assert.AreEqual(1, savedBlog.UserId);
+                    Assert.AreEqual(2, savedBlog.UserId);
                     Assert.AreEqual("My Blog", savedBlog.Title);
                     Assert.AreEqual("My blog...", savedBlog.Excerpt);
                     Assert.AreEqual("Just a blog", savedBlog.BlogText);
                     Assert.AreEqual("Blog writer", savedBlog.Username);
                     Assert.IsFalse(savedBlog.Published);
 
-                    sut.AddComment(savedBlog, null, 0, "first user", "just a comment");
+                    sut.AddComment(savedBlog, null, 3, "first user", "just a comment");
 
                     savedBlog = sut.GetBlog(savedBlog.Id);
 
@@ -807,23 +743,17 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-
-                services.AddSingleton<IMemoryCache, MockMemoryCache>();
-                services.AddSingleton<IPluginClassesService, MockPluginClassesService>();
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
-                    ITextTableOperations<UserDataRow> userTable = provider.GetRequiredService<ITextTableOperations<UserDataRow>>();
+                    ISimpleDBOperations<UserDataRow> userTable = provider.GetRequiredService<ISimpleDBOperations<UserDataRow>>();
                     Assert.IsNotNull(userTable);
 
                     userTable.Insert(new UserDataRow() { FirstName = "test", Surname = "user" });
                     userTable.Insert(new UserDataRow() { FirstName = "test", Surname = "user" });
 
-                    ITextTableOperations<BlogDataRow> blogTable = provider.GetRequiredService<ITextTableOperations<BlogDataRow>>();
+                    ISimpleDBOperations<BlogDataRow> blogTable = provider.GetRequiredService<ISimpleDBOperations<BlogDataRow>>();
                     Assert.IsNotNull(blogTable);
 
                     List<string> tags = new List<string>()
@@ -832,7 +762,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                         "blog"
                     };
 
-                    BlogItem newBlog = new BlogItem(-1, 1, "My Blog", "My blog...", "Just a blog", "Blog writer", false, DateTime.Now, DateTime.Now, DateTime.Now.AddDays(-10), tags, new List<BlogComment>());
+                    BlogItem newBlog = new BlogItem(-1, 2, "My Blog", "My blog...", "Just a blog", "Blog writer", false, DateTime.Now, DateTime.Now, DateTime.Now.AddDays(-10), tags, new List<BlogComment>());
                     IBlogProvider sut = provider.GetRequiredService<IBlogProvider>();
                     Assert.IsNotNull(sut);
 
@@ -841,14 +771,14 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     Assert.IsNotNull(savedBlog);
 
                     Assert.AreEqual(0, savedBlog.Id);
-                    Assert.AreEqual(1, savedBlog.UserId);
+                    Assert.AreEqual(2, savedBlog.UserId);
                     Assert.AreEqual("My Blog", savedBlog.Title);
                     Assert.AreEqual("My blog...", savedBlog.Excerpt);
                     Assert.AreEqual("Just a blog", savedBlog.BlogText);
                     Assert.AreEqual("Blog writer", savedBlog.Username);
                     Assert.IsFalse(savedBlog.Published);
 
-                    sut.AddComment(savedBlog, null, 0, "first user", "just a comment");
+                    sut.AddComment(savedBlog, null, 3, "first user", "just a comment");
 
                     savedBlog = sut.GetBlog(savedBlog.Id);
 
@@ -856,9 +786,9 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     Assert.AreEqual(1, savedBlog.Comments.Count);
 
                     Assert.AreEqual("first user", savedBlog.Comments[0].Username);
-                    Assert.AreEqual(0, savedBlog.Comments[0].UserId);
+                    Assert.AreEqual(3, savedBlog.Comments[0].UserId);
                     Assert.AreEqual("just a comment", savedBlog.Comments[0].Comment);
-                    sut.AddComment(savedBlog, savedBlog.Comments[0], 0, "me", "another");
+                    sut.AddComment(savedBlog, savedBlog.Comments[0], 3, "me", "another");
 
                     savedBlog = sut.GetBlog(savedBlog.Id);
 
@@ -866,11 +796,11 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
                     Assert.AreEqual(1, savedBlog.Comments.Count);
 
                     Assert.AreEqual("first user", savedBlog.Comments[0].Username);
-                    Assert.AreEqual(0, savedBlog.Comments[0].UserId);
+                    Assert.AreEqual(3, savedBlog.Comments[0].UserId);
                     Assert.AreEqual("just a comment", savedBlog.Comments[0].Comment);
                     Assert.AreEqual(1, savedBlog.Comments[0].Comments.Count);
                     Assert.AreEqual("me", savedBlog.Comments[0].Comments[0].Username);
-                    Assert.AreEqual(0, savedBlog.Comments[0].Comments[0].UserId);
+                    Assert.AreEqual(3, savedBlog.Comments[0].Comments[0].UserId);
                     Assert.AreEqual("another", savedBlog.Comments[0].Comments[0].Comment);
                 }
             }

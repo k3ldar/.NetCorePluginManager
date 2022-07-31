@@ -14,9 +14,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Database\PluginManager.SimpleDB\SimpleDB.csproj" />
     <ProjectReference Include="..\..\Plugins\DynamicContent.Plugin\DynamicContent.Plugin.csproj" />
     <ProjectReference Include="..\..\Plugins\PluginMiddleware\PluginMiddleware.csproj" />
   </ItemGroup>
+  
   <ItemGroup>
     <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
       <_Parameter1>PluginManager.DAL.TextFiles.Tests</_Parameter1>

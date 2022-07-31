@@ -24,7 +24,7 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-namespace PluginManager.DAL.TextFiles.Internal
+namespace PluginManager.DAL.TextFiles
 {
     internal class Constants
     {

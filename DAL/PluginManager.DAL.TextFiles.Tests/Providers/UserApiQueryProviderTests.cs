@@ -36,10 +36,11 @@ using Middleware;
 using Middleware.Accounts;
 
 using PluginManager.Abstractions;
-using PluginManager.DAL.TextFiles.Internal;
 using PluginManager.DAL.TextFiles.Providers;
 using PluginManager.DAL.TextFiles.Tables;
-using PluginManager.DAL.TextFiles.Tests.Mocks;
+using SimpleDB;
+using SimpleDB.Internal;
+using SimpleDB.Tests.Mocks;
 
 using Shared.Classes;
 
@@ -72,19 +73,13 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-
-                services.AddSingleton<IPluginClassesService, MockPluginClassesService>();
-                services.AddSingleton<IMemoryCache, MockMemoryCache>();
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
                     IPluginClassesService pluginClassesService = new MockPluginClassesService(new List<object>() { new ExternalUsersDataRowDefaults() });
 
-                    ITextTableInitializer initializer = new TextTableInitializer(directory);
+                    ISimpleDBInitializer initializer = new SimpleDBInitializer(directory);
                     IForeignKeyManager keyManager = new ForeignKeyManager();
 
                     IUserApiQueryProvider sut = provider.GetService<IUserApiQueryProvider>();
@@ -109,19 +104,13 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-
-                services.AddSingleton<IPluginClassesService, MockPluginClassesService>();
-                services.AddSingleton<IMemoryCache, MockMemoryCache>();
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
                     IPluginClassesService pluginClassesService = new MockPluginClassesService(new List<object>() { new ExternalUsersDataRowDefaults() });
 
-                    ITextTableInitializer initializer = new TextTableInitializer(directory);
+                    ISimpleDBInitializer initializer = new SimpleDBInitializer(directory);
                     IForeignKeyManager keyManager = new ForeignKeyManager();
 
                     IUserApiQueryProvider sut = provider.GetService<IUserApiQueryProvider>();
@@ -146,19 +135,13 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-
-                services.AddSingleton<IPluginClassesService, MockPluginClassesService>();
-                services.AddSingleton<IMemoryCache, MockMemoryCache>();
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
                     IPluginClassesService pluginClassesService = new MockPluginClassesService(new List<object>() { new ExternalUsersDataRowDefaults() });
 
-                    ITextTableInitializer initializer = new TextTableInitializer(directory);
+                    ISimpleDBInitializer initializer = new SimpleDBInitializer(directory);
                     IForeignKeyManager keyManager = new ForeignKeyManager();
 
                     IMemoryCache memoryCache = provider.GetService<IMemoryCache>();
@@ -188,19 +171,13 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-
-                services.AddSingleton<IPluginClassesService, MockPluginClassesService>();
-                services.AddSingleton<IMemoryCache, MockMemoryCache>();
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
                     IPluginClassesService pluginClassesService = new MockPluginClassesService(new List<object>() { new ExternalUsersDataRowDefaults() });
 
-                    ITextTableInitializer initializer = new TextTableInitializer(directory);
+                    ISimpleDBInitializer initializer = new SimpleDBInitializer(directory);
                     IForeignKeyManager keyManager = new ForeignKeyManager();
 
                     IUserApiQueryProvider sut = provider.GetService<IUserApiQueryProvider>();
@@ -225,19 +202,13 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-
-                services.AddSingleton<IPluginClassesService, MockPluginClassesService>();
-                services.AddSingleton<IMemoryCache, MockMemoryCache>();
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
                     IPluginClassesService pluginClassesService = new MockPluginClassesService(new List<object>() { new ExternalUsersDataRowDefaults() });
 
-                    ITextTableInitializer initializer = new TextTableInitializer(directory);
+                    ISimpleDBInitializer initializer = new SimpleDBInitializer(directory);
 
                     IAccountProvider accountProvider = provider.GetService(typeof(IAccountProvider)) as IAccountProvider;
 
@@ -245,7 +216,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
                     bool created = accountProvider.CreateAccount("me@here.com", "Joe", "Bloggs", "password", "", "", "", "", "", "", "", "", "US", out long userId);
 
-                    using (TextTableOperations<UserApiDataRow> apiTable = new TextTableOperations<UserApiDataRow>(initializer, provider.GetService<IForeignKeyManager>(), pluginClassesService))
+                    using (SimpleDBOperations<UserApiDataRow> apiTable = new SimpleDBOperations<UserApiDataRow>(initializer, provider.GetService<IForeignKeyManager>(), pluginClassesService))
                     {
                         Assert.IsNotNull(apiTable);
 

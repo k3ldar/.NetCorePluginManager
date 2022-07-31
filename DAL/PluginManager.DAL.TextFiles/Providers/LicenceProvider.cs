@@ -27,6 +27,7 @@ using Middleware;
 using Middleware.Accounts.Licences;
 
 using PluginManager.DAL.TextFiles.Tables;
+using SimpleDB;
 
 namespace PluginManager.DAL.TextFiles.Providers
 {
@@ -34,18 +35,18 @@ namespace PluginManager.DAL.TextFiles.Providers
     {
         #region Private Members
 
-        private readonly ITextTableOperations<UserDataRow> _users;
-        private readonly ITextTableOperations<LicenseDataRow> _licenses;
-        private readonly ITextTableOperations<LicenseTypeDataRow> _licenseTypes;
+        private readonly ISimpleDBOperations<UserDataRow> _users;
+        private readonly ISimpleDBOperations<LicenseDataRow> _licenses;
+        private readonly ISimpleDBOperations<LicenseTypeDataRow> _licenseTypes;
 
         #endregion Private Members
 
         #region Constructors
 
-        public LicenceProvider(ITextTableOperations<UserDataRow> users,
+        public LicenceProvider(ISimpleDBOperations<UserDataRow> users,
            // ITextTableOperations<InvoiceDataRow> invoices,
-            ITextTableOperations<LicenseDataRow> addresses,
-            ITextTableOperations<LicenseTypeDataRow> orders)
+            ISimpleDBOperations<LicenseDataRow> addresses,
+            ISimpleDBOperations<LicenseTypeDataRow> orders)
         {
             _users = users ?? throw new ArgumentNullException(nameof(users));
             _licenses = addresses ?? throw new ArgumentNullException(nameof(addresses));

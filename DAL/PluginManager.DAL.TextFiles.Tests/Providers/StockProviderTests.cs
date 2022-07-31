@@ -41,6 +41,7 @@ using PluginManager.Abstractions;
 using PluginManager.DAL.TextFiles.Providers;
 using PluginManager.DAL.TextFiles.Tables;
 using PluginManager.DAL.TextFiles.Tables.Products;
+using SimpleDB;
 
 using Shared.Classes;
 
@@ -60,23 +61,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-                List<object> servicesList = new List<object>()
-                {
-                    new SettingsDataRowDefaults(),
-                    new ProductGroupDataRowDefaults(),
-                    new ProductGroupDataTriggers(),
-                    new ProductDataTriggers(),
-                    new ShoppingCartDataRowDefaults(),
-
-                };
-                MockPluginClassesService mockPluginClassesService = new MockPluginClassesService(servicesList);
-
-                services.AddSingleton<IPluginClassesService>(mockPluginClassesService);
-                services.AddSingleton<IMemoryCache, MockMemoryCache>();
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 UserSession userSession = new UserSession();
                 ShoppingCartSummary shoppingCart = new ShoppingCartSummary(0, 0, 0, 0, 0, 20,
@@ -84,7 +69,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
-                    ITextTableOperations<StockDataRow> stockTable = provider.GetRequiredService<ITextTableOperations<StockDataRow>>();
+                    ISimpleDBOperations<StockDataRow> stockTable = provider.GetRequiredService<ISimpleDBOperations<StockDataRow>>();
                     Assert.IsNotNull(stockTable);
 
                     IProductProvider productProvider = GetTestProductProvider(provider);
@@ -128,23 +113,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-                List<object> servicesList = new List<object>()
-                {
-                    new SettingsDataRowDefaults(),
-                    new ProductGroupDataRowDefaults(),
-                    new ProductGroupDataTriggers(),
-                    new ProductDataTriggers(),
-                    new ShoppingCartDataRowDefaults(),
-
-                };
-                MockPluginClassesService mockPluginClassesService = new MockPluginClassesService(servicesList);
-
-                services.AddSingleton<IPluginClassesService>(mockPluginClassesService);
-                services.AddSingleton<IMemoryCache, MockMemoryCache>();
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 UserSession userSession = new UserSession();
                 ShoppingCartSummary shoppingCart = new ShoppingCartSummary(0, 0, 0, 0, 0, 20,
@@ -152,7 +121,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
-                    ITextTableOperations<StockDataRow> stockTable = provider.GetRequiredService<ITextTableOperations<StockDataRow>>();
+                    ISimpleDBOperations<StockDataRow> stockTable = provider.GetRequiredService<ISimpleDBOperations<StockDataRow>>();
                     Assert.IsNotNull(stockTable);
 
                     IProductProvider productProvider = GetTestProductProvider(provider);
@@ -204,29 +173,13 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-                List<object> servicesList = new List<object>()
-                {
-                    new SettingsDataRowDefaults(),
-                    new ProductGroupDataRowDefaults(),
-                    new ProductGroupDataTriggers(),
-                    new ProductDataTriggers(),
-                    new ShoppingCartDataRowDefaults(),
-
-                };
-                MockPluginClassesService mockPluginClassesService = new MockPluginClassesService(servicesList);
-
-                services.AddSingleton<IPluginClassesService>(mockPluginClassesService);
-                services.AddSingleton<IMemoryCache, MockMemoryCache>();
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 UserSession userSession = new UserSession();
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
-                    ITextTableOperations<StockDataRow> stockTable = provider.GetRequiredService<ITextTableOperations<StockDataRow>>();
+                    ISimpleDBOperations<StockDataRow> stockTable = provider.GetRequiredService<ISimpleDBOperations<StockDataRow>>();
                     Assert.IsNotNull(stockTable);
 
                     IProductProvider productProvider = GetTestProductProvider(provider);
@@ -261,23 +214,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
             {
                 Directory.CreateDirectory(directory);
                 PluginInitialisation initialisation = new PluginInitialisation();
-                ServiceCollection services = new ServiceCollection();
-                List<object> servicesList = new List<object>()
-                {
-                    new SettingsDataRowDefaults(),
-                    new ProductGroupDataRowDefaults(),
-                    new ProductGroupDataTriggers(),
-                    new ProductDataTriggers(),
-                    new ShoppingCartDataRowDefaults(),
-
-                };
-                MockPluginClassesService mockPluginClassesService = new MockPluginClassesService(servicesList);
-
-                services.AddSingleton<IPluginClassesService>(mockPluginClassesService);
-                services.AddSingleton<IMemoryCache, MockMemoryCache>();
-                services.AddSingleton<ISettingsProvider>(new MockSettingsProvider(TestPathSettings.Replace("$$", directory.Replace("\\", "\\\\"))));
-
-                initialisation.BeforeConfigureServices(services);
+                ServiceCollection services = CreateDefaultServiceCollection(directory, out MockPluginClassesService mockPluginClassesService);
 
                 UserSession userSession = new UserSession();
                 ShoppingCartSummary shoppingCart = new ShoppingCartSummary(0, 0, 0, 0, 0, 20,
@@ -285,7 +222,7 @@ namespace PluginManager.DAL.TextFiles.Tests.Providers
 
                 using (ServiceProvider provider = services.BuildServiceProvider())
                 {
-                    ITextTableOperations<StockDataRow> stockTable = provider.GetRequiredService<ITextTableOperations<StockDataRow>>();
+                    ISimpleDBOperations<StockDataRow> stockTable = provider.GetRequiredService<ISimpleDBOperations<StockDataRow>>();
                     Assert.IsNotNull(stockTable);
 
                     IProductProvider productProvider = GetTestProductProvider(provider);
